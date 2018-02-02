@@ -187,10 +187,10 @@ define( [
 			var rels = this.get_relationships();
 
 			if ( rels.parent ) {
-				if ( rels.parent.reference ) {
-					return rels.parent.reference;
-				} else if ( this.collection && this.collection.parent ) {
+				if ( this.collection && this.collection.parent ) {
 					return this.collection.parent;
+				} else if ( rels.parent.reference ) {
+					return rels.parent.reference;
 				}
 			}
 

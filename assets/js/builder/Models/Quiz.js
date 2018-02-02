@@ -49,11 +49,15 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 				passing_percent: 65,
 				random_answers: 'no',
 				time_limit: 30,
+				show_correct_answer: 'no',
 
 				questions: [],
 
 				// calculated
 				_points: 0,
+
+				// display
+				_show_settings: false,
 
 			};
 

@@ -2,7 +2,7 @@
 /**
  * Builder quiz model view
  * @since   3.16.0
- * @version 3.16.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
@@ -33,6 +33,17 @@
 	<div class="clear"></div>
 
 	<section class="llms-quiz-settings<# if ( data.get( '_show_settings' ) ) { print( ' active' ); } #>">
+
+		<div class="llms-settings-row">
+
+			<div class="llms-editable-toggle-group">
+				<span class="llms-label"><?php _e( 'Description', 'lifterlms' ); ?></span>
+				<div class="llms-editable-editor">
+					<textarea data-attribute="content" id="quiz-desc--{{{ data.get( 'id' ) }}}">{{{ data.get( 'content' ) }}}</textarea>
+				</div>
+			</div>
+
+		</div>
 
 		<div class="llms-settings-row">
 
@@ -96,17 +107,6 @@
 			</div>
 
 		</div>
-
-
-
-
-
-<!-- 		<label class="llms-switch llms-quiz-enabled">
-			<span class="llms-label"><?php _e( 'Enabled', 'lifterlms' ); ?></span>
-			<input type="checkbox" name="parent.quiz_enabled"<# if ( 'yes' === data.get_parent().get( 'quiz_enabled' ) ) { print( ' checked' ) } #>>
-			<div class="llms-switch-slider"></div>
-		</label>
-	-->
 
 	</section>
 

@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v3.16.3 - 2018-02-02
+--------------------
+
++ Fix issue preventing lessons with no drip settings from being updated on the WP post editor
++ Fix issue causing 500 error on lesson settings metabox for lessons not attached to sections
++ Add a "Quiz Description" field to allow quiz post content to be edited on the quiz builder
++ Added a database migration script to ensure quizzes migrated from 3.16 and lower that had quiz post content to automatically have the optional quiz description to be enabled
+
+
 v3.16.2 - 2018-02-02
 --------------------
 

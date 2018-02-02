@@ -32,8 +32,13 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 		 */
 		initialize: function() {
 
-			// this.render();
-			this.listenTo( this.model, 'change', this.render );
+			var change_events = [
+				'change:_points',
+				'change:_show_settings',
+			];
+			_.each( change_events, function( event ) {
+				this.listenTo( this.model, event, this.render );
+			}, this );
 
 		},
 
@@ -46,6 +51,9 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 		render: function() {
 
 			this.$el.html( this.template( this.model ) );
+
+			this.init_editor( 'quiz-desc--' + this.model.get( 'id' ) );
+
 			return this;
 
 		},
