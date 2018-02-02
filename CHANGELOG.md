@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v3.16.2 - 2018-02-02
+--------------------
+
++ Add an update notice to 3.16.0 migration scripts to provide more information about the major update.
++ Removed quiz assignment fields on the lesson metabox to reduce confusion as quizzes are now managed exclusively on the quiz builder.
++ Ensure questions migrated during 3.16 updates retain their initial points value from the quiz.
+
+
 v3.16.1 - 2018-02-01
 --------------------
 
