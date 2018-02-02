@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Lesson Settings Metabox
  *
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
@@ -34,7 +34,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 *
 	 * @return array
 	 * @since   3.0.0
-	 * @version 3.16.0
+	 * @version [version]
 	 */
 	public function get_fields() {
 
@@ -158,30 +158,6 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 			array(
 				'title' 	=> __( 'Quiz', 'lifterlms' ),
 				'fields' 	=> array(
-					array(
-						'controller' => '#' . $this->prefix . 'free_lesson',
-						'controller_value' => 'yes',
-						'id' => 'free-lesson-quiz-error',
-						'label' => '',
-						'type' => 'custom-html',
-						'value' => __( 'Quizzes cannot be assigned to free lessons.', 'lifterlms' ),
-					),
-					array(
-						'class' 	=> 'llms-select2-post',
-						'controller' => '#' . $this->prefix . 'free_lesson',
-						'controller_value' => 'false',
-						'data_attributes' => array(
-							'allow-clear' => true,
-							'placeholder' => __( 'Select a Quiz', 'lifterlms' ),
-							'post-type' => 'llms_quiz',
-						),
-						'desc' 		=> __( 'Quiz will be required to complete lesson.', 'lifterlms' ),
-						'desc_class' => 'd-all',
-						'id' 		=> $this->prefix . 'quiz',
-						'label'		=> __( 'Assigned Quiz', 'lifterlms' ),
-						'type'		=> 'select',
-						'value' 	=> llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'assigned_quiz', true ) ) ),
-					),
 					array(
 						'controller' => '#' . $this->prefix . 'free_lesson',
 						'controller_value' => 'false',
