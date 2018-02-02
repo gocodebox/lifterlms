@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Lesson Settings Metabox
  *
  * @since    1.0.0
- * @version  3.16.2
+ * @version  [version]
  */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
@@ -34,7 +34,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 *
 	 * @return array
 	 * @since   3.0.0
-	 * @version 3.16.2
+	 * @version [version]
 	 */
 	public function get_fields() {
 
@@ -49,7 +49,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		$section = $lesson->get_section();
 
 		// if the lesson isn't first, add previous completion method
-		if ( 1 !== $lesson->get( 'order' ) || 1 !== $section->get( 'order' ) ) {
+		if ( 1 !== $lesson->get( 'order' ) || ( $section && 1 !== $section->get( 'order' ) ) ) {
 			$methods['prerequisite'] = __( 'After prerequisite completion', 'lifterlms' );
 		}
 
@@ -134,7 +134,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'label' => __( 'Delay (in days) ', 'lifterlms' ),
 						'type' => 'number',
 						'step' => 1,
-						'min' => 1,
+						'min' => 0,
 					),
 					array(
 						'controller' => '#' . $this->prefix . 'drip_method',
