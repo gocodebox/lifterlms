@@ -2,7 +2,7 @@
 /**
 * Template loader class
 * @since    1.0.0
-* @version  [version]
+* @version  3.16.1
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -291,7 +291,7 @@ class LLMS_Template_Loader {
 	 * @param    array     $info  array of restriction results from llms_page_restricted()
 	 * @return   void
 	 * @since    3.1.6
-	 * @version  [version]
+	 * @version  3.16.1
 	 */
 	public function restricted_by_quiz( $info ) {
 

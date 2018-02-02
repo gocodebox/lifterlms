@@ -538,7 +538,7 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
  * @return   bool|int          if the post is not restricted returns false
  *                             if the post is restricted, returns the quiz id
  * @since    3.1.6
- * @version  [version]
+ * @version  3.16.1
  */
 function llms_is_quiz_accessible( $post_id, $user_id = null ) {
 

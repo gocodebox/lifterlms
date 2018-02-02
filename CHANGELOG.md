@@ -1,9 +1,13 @@
 LifterLMS Changelog
 ===================
 
-v3.16.1 - 2018-02-??
+v3.16.1 - 2018-02-01
 --------------------
 
++ Ensure quizzes in draft mode are only accessible by those with edit access (instructors, admins, etc...)
++ Restore pre 3.16 actions and filters related to quiz start buttons
++ Remove legacy error message for quiz accessibility issues by site admins
++ Students who cannot access a quiz are redirected to the parent lesson if they attempt to access a quiz directly
 + Fix undefined index warning on wp-login.php related to LifterLMS js assets. Thanks [Mte90](https://github.com/Mte90)!
 + Update checkout error message to provide user with direction when they already have access to a course. Thanks [@andreasblumberg](https://github.com/andreasblumberg)!
 

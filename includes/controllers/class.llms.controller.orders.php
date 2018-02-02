@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version [version]
+ * @version 3.16.1
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -146,7 +146,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @return void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.1
 	 */
 	public function create_pending_order() {
 

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.1
  */
 class LLMS_AJAX {
 
@@ -118,7 +118,7 @@ class LLMS_AJAX {
 	/**
 	 * Register our AJAX JavaScript.
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.16.1
 	 */
 	public function register_script() {
 
