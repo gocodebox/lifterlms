@@ -2,7 +2,7 @@
 /**
  * Builder quiz model view
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.3
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
