@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.3
  */
 define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_Relationships' ], function( Questions, Lesson, Question, Relationships ) {
 
@@ -67,7 +67,7 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.3
 		 */
 		initialize: function() {
 
