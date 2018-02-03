@@ -1,7 +1,7 @@
 /**
  * Single Section View
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivable ) {
 
@@ -50,8 +50,8 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_sortStop : function( event, ui ) {
 

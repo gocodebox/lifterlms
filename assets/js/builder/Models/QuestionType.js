@@ -1,7 +1,7 @@
 /**
  * Quiz Question Type
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -10,8 +10,8 @@ define( [], function() {
 		/**
 		 * Get model default attributes
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -34,8 +34,8 @@ define( [], function() {
 		 * Retrieve an array of keywords for the question type
 		 * Used for filtering questions by search term in the quiz builder
 		 * @return   array
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_keywords: function() {
 
@@ -49,8 +49,8 @@ define( [], function() {
 		/**
 		 * Get marker array for the question choices
 		 * @return   array
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_choice_markers: function() {
 
@@ -61,8 +61,8 @@ define( [], function() {
 		/**
 		 * Determine if the question's choices are selectable
 		 * @return   bool
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_choice_selectable: function() {
 
@@ -73,8 +73,8 @@ define( [], function() {
 		/**
 		 * Get the choice type (text,image)
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_choice_type: function() {
 
@@ -85,8 +85,8 @@ define( [], function() {
 		/**
 		 * Retrieve defined min. choices
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_min_choices: function() {
 
@@ -97,8 +97,8 @@ define( [], function() {
 		/**
 		 * Get type-defined max choices
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_max_choices: function() {
 
@@ -109,8 +109,8 @@ define( [], function() {
 		/**
 		 * Determine if multi-choice selection is enabled
 		 * @return   bool
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_multi_choices: function() {
 
@@ -129,8 +129,8 @@ define( [], function() {
 		 * Allows quick handling of types with no choice definitions w/o additional checks
 		 * @param    string   option  name of the choice option to retrieve
 		 * @return   mixed
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_get_choice_option: function( option ) {
 

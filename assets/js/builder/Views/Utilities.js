@@ -1,7 +1,7 @@
 /**
  * Sidebar Utilities View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -33,8 +33,8 @@ define( [], function() {
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -45,8 +45,8 @@ define( [], function() {
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 			this.$el.html( this.template() );
@@ -56,8 +56,8 @@ define( [], function() {
 		/**
 		 * Collapse all sections
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		collapse_all: function( event ) {
 			event.preventDefault();
@@ -67,8 +67,8 @@ define( [], function() {
 		/**
 		 * Expand all sections
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		expand_all: function( event ) {
 			event.preventDefault();

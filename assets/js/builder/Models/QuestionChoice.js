@@ -1,7 +1,7 @@
 /**
  * Quiz Question Choice
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationships ) {
 
@@ -31,8 +31,8 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 		/**
 		 * Model defaults
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -51,8 +51,8 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 		 * @param    obj   data     object of model attributes
 		 * @param    obj   options  additional options
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function( data, options ) {
 
@@ -64,8 +64,8 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 		/**
 		 * Retrieve the choice's parent question
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_parent: function() {
 			return this.collection.parent;
@@ -75,8 +75,8 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 		 * Determine if "selection" is enabled for the question type
 		 * Choice type questions are selectable by reorder type questions are not but still use choices
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		is_selectable: function() {
 			return this.get_parent().get( 'question_type' ).get_choice_selectable();

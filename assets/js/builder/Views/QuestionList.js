@@ -1,7 +1,7 @@
 /**
  * Quiz question bank view
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Views/Question' ], function( QuestionView ) {
 
@@ -52,8 +52,8 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		 * Highlight drop areas when dragging starts
 		 * @param    obj   model  model being sorted
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		sortable_start: function( model ) {
 			var selector = 'group' === model.get( 'question_type' ).get( 'id' ) ? '.llms-editor-tab > .llms-quiz-questions' : '.llms-quiz-questions';
@@ -64,8 +64,8 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		 * Remove highlights when dragging stops
 		 * @param    obj   model  model being sorted
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		sortable_stop: function() {
 			$( '.llms-quiz-questions' ).removeClass( 'dragging' );
@@ -76,8 +76,8 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI Sortable ui object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_receive : function( event, ui ) {
 
@@ -106,8 +106,8 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		 * @param    {[type]}   event  [description]
 		 * @param    {[type]}   ui     [description]
 		 * @return   {[type]}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_sortStart : function( event, ui ) {
 
@@ -126,8 +126,8 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_sortStop : function( event, ui ) {
 

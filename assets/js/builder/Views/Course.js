@@ -1,7 +1,7 @@
 /**
  * Single Course View
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, Editable ) {
 
@@ -96,8 +96,8 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 		 * @param    array   current   array of selected models
 		 * @param    array   previous  array of previously selected models
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		active_section_change: function( current, previous ) {
 
@@ -115,8 +115,8 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 		 * "Selects" the new section when it's added to the course
 		 * @param    obj   model  Section model that's just been added
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_section_add: function( model ) {
 
@@ -129,8 +129,8 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 		 * if collapsing, unselect, if expanding, select
 		 * @param    obj   model  toggled section
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_section_toggle: function( model ) {
 

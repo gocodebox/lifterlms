@@ -1,7 +1,7 @@
 /**
  * Sidebar Elements View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -22,8 +22,8 @@ define( [], function() {
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function( data ) {
 
@@ -54,8 +54,8 @@ define( [], function() {
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 

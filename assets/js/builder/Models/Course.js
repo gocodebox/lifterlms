@@ -1,7 +1,7 @@
 /**
  * Course Model
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -21,7 +21,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 * New Course Defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version [version]
+		 * @version 3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -133,8 +133,8 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		/**
 		 * Retrieve the currently selected section in the course
 		 * @return   obj|undefined
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_selected_section: function() {
 

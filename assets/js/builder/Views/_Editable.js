@@ -3,8 +3,8 @@
  * Use with a Model's View
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -31,8 +31,8 @@ define( [], function() {
 		 * Retrieve a list of allowed tags for a given element
 		 * @param    obj   $el  jQuery selector for the element
 		 * @return   array
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_allowed_tags: function( $el ) {
 
@@ -44,8 +44,8 @@ define( [], function() {
 		 * Retrieve the content of an element
 		 * @param    obj   $el  jQuery object of the element
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_content: function( $el ) {
 
@@ -74,7 +74,7 @@ define( [], function() {
 		 * @param    {[obj]}   event  js event object
 		 * @return   {Boolean}        true when changes have been made, false otherwise
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		has_changed: function( event ) {
 			var $el = $( event.target );
@@ -85,8 +85,8 @@ define( [], function() {
 		 * Ensure that new content is at least 1 character long
 		 * @param    obj   event  js event object
 		 * @return   boolean
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		is_valid: function( event ) {
 
@@ -113,8 +113,8 @@ define( [], function() {
 		/**
 		 * Initialize elements that allow inline formatting
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		init_formatting_els: function() {
 
@@ -163,8 +163,8 @@ define( [], function() {
 		/**
 		 * Initialize editable select elements
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		init_selects: function() {
 
@@ -206,8 +206,8 @@ define( [], function() {
 		 * Change event for selectables
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_select: function( event ) {
 
@@ -236,7 +236,7 @@ define( [], function() {
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		on_keydown: function( event ) {
 
@@ -267,8 +267,8 @@ define( [], function() {
 		 * Open the WP media lib
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		open_media_lib: function( event ) {
 
@@ -324,8 +324,8 @@ define( [], function() {
 		 * Click event to remove an image
 		 * @param    obj   event  js event obj
 		 * @return   voids
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		remove_image: function( event ) {
 
@@ -344,7 +344,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		revert_edits: function( event ) {
 			var $el = $( event.target ),
@@ -357,7 +357,7 @@ define( [], function() {
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		save_edits: function( event ) {
 
@@ -371,8 +371,8 @@ define( [], function() {
 		 * Change event for a switch element
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		toggle_switch: function( event ) {
 
@@ -414,8 +414,8 @@ define( [], function() {
 		 * @param    string   id        CSS ID of the editor (don't include #)
 		 * @param    obj      settings  optional object of settings to pass to wp.editor.initialize()
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		init_editor: function( id, settings ) {
 
@@ -440,8 +440,8 @@ define( [], function() {
 		 * Binds a change event to ensure editor changes are saved to the model
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_editor_ready: function( editor ) {
 

@@ -27,8 +27,8 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -45,8 +45,8 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 

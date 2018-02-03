@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [
 		'Models/Quiz',
@@ -80,8 +80,8 @@ define( [
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function( data ) {
 
@@ -114,8 +114,8 @@ define( [
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 
@@ -175,8 +175,8 @@ define( [
 		 * Bulk expand / collapse question buttons
 		 * @param    obj   event  js event object
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		bulk_toggle: function( event ) {
 
@@ -191,8 +191,8 @@ define( [
 		/**
 		 * Adds a new quiz to a lesson which currently has no quiz associated with it
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		enable_quiz: function() {
 
@@ -227,8 +227,8 @@ define( [
 		 * "Add Question" button click event
 		 * Creates a popover with question type list interface
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		show_tools: function() {
 

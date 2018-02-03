@@ -1,7 +1,7 @@
 /**
  * Lessons Collection
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [
 		'Collections/loader',
@@ -21,8 +21,8 @@ define( [
 		 * @param    obj      data     object data to pass into the object's constructor
 		 * @param    obj      options  object options to pass into the constructor
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function get( type, name, data, options ) {
 

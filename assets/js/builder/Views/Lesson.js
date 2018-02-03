@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable ) {
 
@@ -82,7 +82,7 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		render: function() {
 
@@ -101,8 +101,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Remove lesson from course and delete it
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		detach: function( event ) {
 
@@ -124,8 +124,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Click event for lesson settings action icon
 		 * Opens sidebar to the lesson editor tab
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		open_lesson_editor: function() {
 
@@ -138,8 +138,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Click event for the quiz editor action icon
 		 * Opens sidebar to the quiz editor tab
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		open_quiz_editor: function() {
 
@@ -153,8 +153,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Allows views to re-render and reflect current state properly
 		 * @param    obj   model  lesson model that's been selected
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_select: function( model ) {
 
@@ -168,8 +168,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Remove lesson from course and delete it
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		trash: function( event ) {
 

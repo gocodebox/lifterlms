@@ -1,7 +1,7 @@
 /**
  * Single Question Choice View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Views/_Editable', ], function( Editable ) {
 
@@ -22,8 +22,8 @@ define( [ 'Views/_Editable', ], function( Editable ) {
 		/**
 		 * HTML element wrapper ID attribute
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		id: function() {
 			return 'llms-question-choice-' + this.model.id;
@@ -63,8 +63,8 @@ define( [ 'Views/_Editable', ], function( Editable ) {
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 			this.$el.html( this.template( this.model ) );
@@ -76,8 +76,8 @@ define( [ 'Views/_Editable', ], function( Editable ) {
 		 * Adds *after* the clicked choice
 		 * @param    obj   event  JS event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		add_choice: function( event ) {
 
@@ -95,8 +95,8 @@ define( [ 'Views/_Editable', ], function( Editable ) {
 		 * Delete the choice from the choice list & ensure there's at least one correct choice
 		 * @param    obj   event  js event obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		del_choice: function( event ) {
 
@@ -109,8 +109,8 @@ define( [ 'Views/_Editable', ], function( Editable ) {
 		/**
 		 * When the correct answer input changes sync status to model
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		toggle_correct: function() {
 

@@ -1,7 +1,7 @@
 /**
  * Sections Collection
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Models/Section' ], function( model ) {
 
@@ -16,8 +16,8 @@ define( [ 'Models/Section' ], function( model ) {
 		/**
 		 * Initialize
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -35,8 +35,8 @@ define( [ 'Models/Section' ], function( model ) {
 		/**
 		 * Update the order attr of each section in the list to reflect the order of the collection
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_order: function() {
 

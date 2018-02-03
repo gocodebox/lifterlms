@@ -1,7 +1,7 @@
 /**
  * Existing Lesson Popover content View
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -28,7 +28,7 @@ define( [], function() {
 		 * Select event, adds the existing lesson to the course
 		 * @param    obj   event  select2:select event object
 		 * @since    3.14.4
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		add_lesson: function( event ) {
 

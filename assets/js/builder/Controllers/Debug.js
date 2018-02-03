@@ -1,7 +1,7 @@
 /**
  * LifterLMS Builder Debugging suite
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -13,8 +13,8 @@ define( [], function() {
 		/**
 		 * Disable debugging
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
  		this.disable = function() {
 
@@ -26,8 +26,8 @@ define( [], function() {
 		/**
 		 * Enable debugging
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
  		this.enable = function() {
 
@@ -40,8 +40,8 @@ define( [], function() {
  		 * General logging function
  		 * Logs to the js console only if logging is enabled
  		 * @return   void
- 		 * @since    [version]
- 		 * @version  [version]
+ 		 * @since    3.16.0
+ 		 * @version  3.16.0
  		 */
  		this.log = function() {
 
@@ -58,8 +58,8 @@ define( [], function() {
  		/**
  		 * Toggles current state of the logger on or off
  		 * @return   void
- 		 * @since    [version]
- 		 * @version  [version]
+ 		 * @since    3.16.0
+ 		 * @version  3.16.0
  		 */
  		this.toggle = function() {
 

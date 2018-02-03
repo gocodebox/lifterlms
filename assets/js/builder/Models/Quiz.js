@@ -1,7 +1,7 @@
 /**
  * Quiz Model
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_Relationships' ], function( Questions, Lesson, Question, Relationships ) {
 
@@ -28,8 +28,8 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		/**
 		 * New lesson defaults
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -66,8 +66,8 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		/**
 		 * Initializer
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -85,8 +85,8 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		 * Add a new question to the quiz
 		 * @param    obj   data   question data
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		add_question: function( data ) {
 
@@ -101,8 +101,8 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		/**
 		 * Retrieve the quiz's total points
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_total_points: function() {
 
@@ -119,8 +119,8 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		/**
 		 * Update total number of points calculated property
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_points: function() {
 

@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ ], function() {
 
@@ -20,8 +20,8 @@ define( [ ], function() {
 		/**
 		 * HTML element wrapper ID attribute
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		id: function() {
 			return 'llms-question-type-' + this.model.id;
@@ -42,8 +42,8 @@ define( [ ], function() {
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -54,8 +54,8 @@ define( [ ], function() {
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 			this.$el.html( this.template( this.model ) );
@@ -64,8 +64,8 @@ define( [ ], function() {
 
 		/**
 		 * Add a question of the selected type to the current quiz
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		add_question: function() {
 

@@ -1,7 +1,7 @@
 /**
  * Sidebar Elements View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 

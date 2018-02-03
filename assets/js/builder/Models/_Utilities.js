@@ -5,8 +5,8 @@ define( [], function() {
 		/**
 		 * Retrieve the edit post link for the current model
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_edit_post_link: function() {
 
@@ -21,8 +21,8 @@ define( [], function() {
 		/**
 		 * Determine if the model has a temporary ID
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		has_temp_id: function() {
 

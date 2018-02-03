@@ -1,7 +1,7 @@
 /**
  * Quiz Question Type Collection
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Models/QuestionType' ], function( model ) {
 
@@ -16,8 +16,8 @@ define( [ 'Models/QuestionType' ], function( model ) {
 		/**
 		 * Initializer
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -30,8 +30,8 @@ define( [ 'Models/QuestionType' ], function( model ) {
 		 * Comparator (sorts collection)
 		 * @param    obj   model  QuestionType model
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		comparator: function( model ) {
 

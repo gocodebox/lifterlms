@@ -1,7 +1,7 @@
 /**
  * Quiz Question
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [
 		'Models/Image',
@@ -66,8 +66,8 @@ define( [
 		/**
 		 * Model defaults
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -96,8 +96,8 @@ define( [
 		 * @param    obj   data     object of data for the model
 		 * @param    obj   options  additional options
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function( data, options ) {
 
@@ -135,8 +135,8 @@ define( [
 		 * Add a new question choice
 		 * @param    obj   data     object of choice data
 		 * @param    obj   options  additional options
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		add_choice: function( data, options ) {
 
@@ -166,8 +166,8 @@ define( [
 		 * @param    string   sync_type  full or partial
 		 *                                 full indicates a force resync or that the model isn't persisted yet
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		before_save: function( atts, sync_type  ) {
 			if ( 'full' === sync_type ) {
@@ -179,8 +179,8 @@ define( [
 		/**
 		 * Retrieve the model's parent (if set)
 		 * @return   obj|false
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_parent: function() {
 
@@ -203,8 +203,8 @@ define( [
 		 * Question numbers skip content elements
 		 * & content elements skip questions
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_type_index: function() {
 
@@ -234,8 +234,8 @@ define( [
 		 * Gets iterator for the given type
 		 * Questions use numbers and content uses alphabet
 		 * @return   mixed
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_type_iterator: function() {
 
@@ -274,8 +274,8 @@ define( [
 		/**
 		 * Retrieve the parent question (if the question is in a question group)
 		 * @return   obj|false
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_parent_question: function() {
 
@@ -292,8 +292,8 @@ define( [
 		/**
 		 * Retrieve the parent quiz
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_parent_quiz: function() {
 			return this.get_parent();
@@ -303,8 +303,8 @@ define( [
 		 * Points getter
 		 * ensures that 0 is always returned if the question type doesn't support points
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_points: function() {
 
@@ -319,8 +319,8 @@ define( [
 		/**
 		 * Retrieve the questions percentage value within the quiz
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_points_percentage: function() {
 
@@ -338,8 +338,8 @@ define( [
 		/**
 		 * Deterine if the question belongs to a question group
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		is_in_group: function() {
 

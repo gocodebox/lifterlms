@@ -1,7 +1,7 @@
 /**
  * Single Question View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [
 		'Views/_Editable',
@@ -16,8 +16,8 @@ define( [
 		/**
 		 * Generate CSS classes for the question
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		className: function() {
 			return 'llms-question qtype--' + this.model.get( 'question_type' ).get( 'id' );
@@ -34,8 +34,8 @@ define( [
 		/**
 		 * HTML element wrapper ID attribute
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		id: function() {
 			return 'llms-question-' + this.model.id;
@@ -56,8 +56,8 @@ define( [
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -82,8 +82,8 @@ define( [
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 
@@ -140,8 +140,8 @@ define( [
 		/**
 		 * rerender points percentage when question points are updated
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render_points_percentage: function() {
 
@@ -153,8 +153,8 @@ define( [
 		 * Click event to duplicate a question within a quiz
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		clone: function( event ) {
 
@@ -168,8 +168,8 @@ define( [
 		 * Recursive clone function which will correctly clone children of a question
 		 * @param    obj   question  queston model
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_get_question_clone: function( question ) {
 
@@ -220,8 +220,8 @@ define( [
 		/**
 		 * Collapse a question and hide it's settings
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		collapse: function() {
 
@@ -233,8 +233,8 @@ define( [
 		 * Delete the question from a quiz / question group
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		delete: function( event ) {
 
@@ -252,8 +252,8 @@ define( [
 		/**
 		 * Click event to reveal a question's settings & choices
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		expand: function() {
 
@@ -265,8 +265,8 @@ define( [
 		 * When toggling multiple correct answers *off* remove all correct choices except the first correct choice in the list
 		 * @param    string   val  value of the question's `multi_choice` attr [yes|no]
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		multi_choices_toggle: function( val ) {
 
@@ -281,8 +281,8 @@ define( [
 		/**
 		 * Update the model's points when the value of the points input is updated
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_points: function() {
 

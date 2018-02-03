@@ -1,7 +1,7 @@
 /**
  * Questions Collection
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Models/Question' ], function( model ) {
 
@@ -16,8 +16,8 @@ define( [ 'Models/Question' ], function( model ) {
 		/**
 		 * Initialize
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -35,8 +35,8 @@ define( [ 'Models/Question' ], function( model ) {
 		/**
 		 * Update the order attr of each question in the list to reflect the order of the collection
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_order: function() {
 
@@ -55,8 +55,8 @@ define( [ 'Models/Question' ], function( model ) {
 		 * Will ensure that questions moved into and out of groups always have the corerct parent_id
 		 * @param    obj   model  instance of the question model
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_parent: function( model ) {
 

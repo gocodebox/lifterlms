@@ -1,7 +1,7 @@
 /**
  * Single Section View
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function( LessonListView, Editable, Shiftable ) {
 
@@ -67,7 +67,7 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -88,7 +88,7 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		render: function() {
 
@@ -127,8 +127,8 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 		 * @param    obj   event    js event object
 		 * @param    bool  update   if true, updates the model to reflect the new state
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		collapse: function( event, update ) {
 
@@ -154,8 +154,8 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 		 * @param    obj   event    js event object
 		 * @param    bool  update   if true, updates the model to reflect the new state
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		expand: function( event, update ) {
 
@@ -196,8 +196,8 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 		 * When a lesson is added to the section trigger a collection reorder & update the lesson's id
 		 * @param    obj   model  Lesson model
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_lesson_add: function( model ) {
 
@@ -240,8 +240,8 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 		 * @param    {[type]}   model  [description]
 		 * @param    {[type]}   value  [description]
 		 * @return   {[type]}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		toggle_expanded: function( model, value ) {
 
@@ -257,8 +257,8 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 		 * Remove section from course and delete it
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		trash: function( event ) {
 

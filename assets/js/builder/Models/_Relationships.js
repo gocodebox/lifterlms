@@ -1,7 +1,7 @@
 /**
  * Model relationships mixin
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -26,8 +26,8 @@ define( [], function() {
 		/**
 		 * Initialize all parent and child relationships
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		init_relationships: function( options ) {
 
@@ -82,8 +82,8 @@ define( [], function() {
 		/**
 		 * Retrieve the model's parent (if set)
 		 * @return   obj|false
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_parent: function() {
 
@@ -101,8 +101,8 @@ define( [], function() {
 		 * Retrieve relationships for the model
 		 * Extends with defaults
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_relationships: function() {
 
@@ -114,8 +114,8 @@ define( [], function() {
 		 * Set the parent reference for the given model
 		 * @param    obj   obj   parent model obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		set_parent: function( obj ) {
 			this.relationships.parent.reference = obj;
@@ -125,8 +125,8 @@ define( [], function() {
 		 * Set up the parent relationships for qualifying children during relationship initialization
 		 * @param    obj   model  child model
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_maybe_set_parent_reference: function( model ) {
 

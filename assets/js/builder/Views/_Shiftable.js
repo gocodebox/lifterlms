@@ -1,7 +1,7 @@
 /**
  * Shiftable view mixin function
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -10,8 +10,8 @@ define( [], function() {
 		/**
 		 * Conditionally hide action buttons based on section position in collection
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		maybe_hide_shiftable_buttons: function() {
 
@@ -34,8 +34,8 @@ define( [], function() {
 		 * @param    int   old_index  current (old) index within the collection
 		 * @param    int   new_index  desired (new) index within the collection
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		shift: function( old_index, new_index ) {
 
@@ -50,8 +50,8 @@ define( [], function() {
 		/**
 		 * Move an item down the tree one position
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		shift_down: function( e ) {
 
@@ -64,8 +64,8 @@ define( [], function() {
 		/**
 		 * Move an item up the tree one position
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		shift_up: function( e ) {
 

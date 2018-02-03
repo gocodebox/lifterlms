@@ -1,7 +1,7 @@
 /**
  * Lessons Collection
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Models/Lesson' ], function( model ) {
 
@@ -29,8 +29,8 @@ define( [ 'Models/Lesson' ], function( model ) {
 		/**
 		 * Update the order attr of each section in the list to reflect the order of the collection
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_order: function() {
 

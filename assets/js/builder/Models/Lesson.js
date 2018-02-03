@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], function( Quiz, Relationships, Utilities ) {
 
@@ -33,7 +33,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -66,8 +66,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		/**
 		 * Initializer
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 
@@ -79,8 +79,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		/**
 		 * Retrieve a reference to the parent course of the lesson
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_course: function() {
 			return this.get_parent().get_parent();
@@ -90,8 +90,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 * Add a new quiz to the lesson
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		add_quiz: function( data ) {
 

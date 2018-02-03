@@ -1,7 +1,7 @@
 /**
  * Section Model
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
@@ -24,8 +24,8 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		/**
 		 * New section defaults
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -44,8 +44,8 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		/**
 		 * Initialize
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function() {
 

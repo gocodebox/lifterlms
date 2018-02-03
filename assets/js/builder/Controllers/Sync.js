@@ -29,8 +29,8 @@ define( [], function() {
  		 * @param    obj            data  llms_builder data object from heartbeat-tick
  		 * @param    string|array   err   error messages array or string
  		 * @return   obj
- 		 * @since    [version]
- 		 * @version  [version]
+ 		 * @since    3.16.0
+ 		 * @version  3.16.0
  		 */
 		function add_error_msg( data, err ) {
 
@@ -51,8 +51,8 @@ define( [], function() {
 		/**
 		 * Publish sync status so other areas of the application can see what's happening here
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function check_for_changes() {
 
@@ -77,8 +77,8 @@ define( [], function() {
 		 *
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function get_changed_attributes( model ) {
 
@@ -141,8 +141,8 @@ define( [], function() {
 		 * @param    obj        object  instance of a Backbone.Model or Backbone.Collection
 		 * @return   obj|array	  		if object is a model, returns an object
 		 *                            	if object is a collection, returns an array of objects
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function get_changes_to_object( object ) {
 
@@ -192,8 +192,8 @@ define( [], function() {
 		 * Determines if a model has a temporary ID or a real persisted ID
 		 * @param    obj   model  instance of a model
 		 * @return   boolean
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function has_temp_id( model ) {
 
@@ -207,8 +207,8 @@ define( [], function() {
 		 * On error, appends error messages to the data object returned to UI for on-screen feedback
 		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		function process_removals( data ) {
 
@@ -369,8 +369,8 @@ define( [], function() {
 		/**
 		 * Retrieve all unsaved changes for the builder instance
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		this.get_unsaved_changes = function() {
 
@@ -399,8 +399,8 @@ define( [], function() {
 		 * @param    obj      changes    optionally pass in an object from the return of this.get_unsaved_changes()
 		 *                               save some resources by not running the check twice during heartbeats
 		 * @return   boolean
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		this.has_unsaved_changes = function( changes ) {
 
@@ -422,8 +422,8 @@ define( [], function() {
 		/**
 		 * Save changes right now.
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		this.save_now = function() {
 			wp.heartbeat.connectNow();
@@ -434,8 +434,8 @@ define( [], function() {
 		 * @param    int        ms   time (in milliseconds) to run the check on
 		 *                           pass 0 to disable the check
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		this.set_check_interval = function( ms ) {
 			check_interval_ms = ms;
@@ -460,8 +460,8 @@ define( [], function() {
 
 		/**
 		 * Listen for detached models and send them to the server for persistence
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		Backbone.pubSub.on( 'model-detached', function( model ) {
 
@@ -476,8 +476,8 @@ define( [], function() {
 
 		/**
 		 * Listen for trashed models and send them to the server for deletion
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		Backbone.pubSub.on( 'model-trashed', function( model ) {
 
@@ -503,8 +503,8 @@ define( [], function() {
 
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
 
@@ -532,8 +532,8 @@ define( [], function() {
 
 		/**
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		$( document ).on( 'heartbeat-tick', function( event, data ) {
 
@@ -554,8 +554,8 @@ define( [], function() {
 
 		/**
 		 * On heartbeat errors publish an error to the main builder application
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		$( document ).on( 'heartbeat-error', function( event, data ) {
 

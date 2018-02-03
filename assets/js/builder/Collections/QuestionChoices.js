@@ -1,7 +1,7 @@
 /**
  * Question Choice Collection
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Models/QuestionChoice' ], function( model ) {
 
@@ -34,8 +34,8 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 		/**
 		 * Retrieve the number of correct choices in the collection
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		count_correct: function() {
 
@@ -46,8 +46,8 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 		/**
 		 * Retrieve the collection reduced to only correct choices
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		get_correct: function() {
 			return this.filter( function( choice ) {
@@ -59,8 +59,8 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 		 * Ensure min/max correct choices exist in the collection based on the question's settings
 		 * @param    obj      choice  model of the choice that was toggled
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_correct: function( choice ) {
 
@@ -90,8 +90,8 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 		/**
 		 * Update the marker attr of each choice in the list to reflect the order of the collection
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		update_order: function() {
 

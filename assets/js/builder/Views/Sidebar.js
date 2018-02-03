@@ -1,7 +1,7 @@
 /**
  * Main sidebar view
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [
 		'Views/Editor',
@@ -75,8 +75,8 @@ define( [
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function( data ) {
 
@@ -100,8 +100,8 @@ define( [
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function( view_data ) {
 
@@ -129,8 +129,8 @@ define( [
 		/**
 		 * Adds error message element
 		 * @param    {[type]}   $err  [description]
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		add_error: function( $err ) {
 
@@ -141,8 +141,8 @@ define( [
 		/**
 		 * Clear any existing error message elements
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		clear_errors: function() {
 
@@ -155,8 +155,8 @@ define( [
 		 * runs on an interval to check status of course regularly for unsaved changes
 		 * @param    obj   sync  instance of the sync controller
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		changes_made: function( sync ) {
 
@@ -183,8 +183,8 @@ define( [
 		 * Triggered when a heartbeat send event starts containing builder information
 		 * @param    obj   sync  instance of the sync controller
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		heartbeat_send: function( sync ) {
 
@@ -203,8 +203,8 @@ define( [
 		 * @param    obj   sync  instance of the sync controller
 		 * @param    obj   data  updated data
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		heartbeat_tick: function( sync, data ) {
 
@@ -246,8 +246,8 @@ define( [
 		/**
 		 * Determine if the editor is the currently active state
 		 * @return   boolean
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		is_editor_active: function() {
 
@@ -258,8 +258,8 @@ define( [
 		/**
 		 * Triggered when the editor closes, updates state to be the course builder view
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_editor_close: function() {
 
@@ -271,8 +271,8 @@ define( [
 		 * When a lesson is selected, opens the sidebar to the editor view
 		 * @param    obj   lesson_model  instance of the lesson model which was selected
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		on_lesson_select: function( lesson_model, tab ) {
 
@@ -292,8 +292,8 @@ define( [
 		/**
 		 * Save button click event
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		save_now: function() {
 

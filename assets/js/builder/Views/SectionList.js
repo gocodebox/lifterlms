@@ -1,7 +1,7 @@
 /**
  * Single Section View
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.0
  */
 define( [ 'Views/Section', 'Views/_Receivable' ], function( SectionView, Receivable ) {
 

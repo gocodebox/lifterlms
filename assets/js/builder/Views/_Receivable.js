@@ -1,8 +1,8 @@
 /**
  * _receive override for Backbone.CollectionView core
  * enables connection with jQuery UI draggable buttons
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [], function() {
 
@@ -14,8 +14,8 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		_receive : function( event, ui ) {
 

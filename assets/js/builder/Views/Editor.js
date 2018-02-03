@@ -1,7 +1,7 @@
 /**
  * Sidebar Editor View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( LessonEditor, Quiz, Subview ) {
 
@@ -56,8 +56,8 @@ define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( Less
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function( data ) {
 
@@ -71,8 +71,8 @@ define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( Less
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function( view_data ) {
 
@@ -93,8 +93,8 @@ define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( Less
 		 * Sends event to main SidebarView to trigger editor closing events
 		 * @param    obj   event  js event obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		close_editor: function( event ) {
 
@@ -107,8 +107,8 @@ define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( Less
 		 * Click event for switching tabs in the editor navigation
 		 * @param    object  event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		switch_tab: function( event ) {
 

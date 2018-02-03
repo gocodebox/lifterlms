@@ -1,7 +1,7 @@
 /**
  * Sidebar Elements View
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/Popover', 'Views/LessonSearch' ], function( Section, SectionView, Lesson, LessonView, Popover, LessonSearch ) {
 
@@ -34,8 +34,8 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		initialize: function( data ) {
 
@@ -51,8 +51,8 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 
@@ -140,8 +140,8 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		/**
 		 * Disables lesson add buttons if no sections are available to add a lesson to
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		maybe_disable_buttons: function() {
 

@@ -1,7 +1,7 @@
 /**
  * Quiz question bank view
- * @since    [version]
- * @version  [version]
+ * @since    3.16.0
+ * @version  3.16.0
  */
 define( [ 'Views/QuestionChoice' ], function( ChoiceView ) {
 
