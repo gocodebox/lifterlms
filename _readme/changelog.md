@@ -1,6 +1,18 @@
 == Changelog ==
 
 
+= v3.16.3 - 2018-02-02 =
+------------------------
+
++ Declared the WordPress heartbeat API script as a dependency for the Course Builder JS. It seems that some servers and hosts dequeue the heartbeat when not explicitly required. This resolves a saving issue on those hosts.
++ Added a Quiz Description content editor under quiz settings. This is the "Editor" from pre 3.16.0 quizzes and any content saved in these fields is now available in this description field
++ Fixed issue causing points percentage calulation tooltip on quiz builder to show the incorrect percentage value
++ Fix issue preventing lessons with no drip settings from being updated on the WP post editor
++ Fix issue causing 500 error on lesson settings metabox for lessons not attached to sections
++ Add a "Quiz Description" field to allow quiz post content to be edited on the quiz builder
++ Added a database migration script to ensure quizzes migrated from 3.16 and lower that had quiz post content to automatically have the optional quiz description to be enabled
+
+
 = v3.16.2 - 2018-02-02 =
 ------------------------
 

@@ -95,7 +95,7 @@ msgstr ""
 msgid "The description the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:55, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58
+#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:55, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, includes/admin/views/builder/quiz-header.php:40
 msgid "Description"
 msgstr ""
 
@@ -3048,7 +3048,7 @@ msgstr ""
 msgid "Automatic Recurring Payments: <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:93, includes/admin/views/builder/quiz-header.php:105
+#: includes/admin/settings/class.llms.settings.general.php:93
 msgid "Enabled"
 msgstr ""
 
@@ -3324,35 +3324,35 @@ msgstr ""
 msgid "Quiz Settings"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:40
+#: includes/admin/views/builder/quiz-header.php:51
 msgid "Minimum percentage of total points required to pass the quiz"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:41
+#: includes/admin/views/builder/quiz-header.php:52
 msgid "Passing Percentage"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:49
+#: includes/admin/views/builder/quiz-header.php:60
 msgid "Limit the maximum number of times a student can take this quiz"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:49
+#: includes/admin/views/builder/quiz-header.php:60
 msgid "Limit Attempts"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:65
+#: includes/admin/views/builder/quiz-header.php:76
 msgid "Enforce a maximum number of minutes a student can spend on each attempt"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:65
+#: includes/admin/views/builder/quiz-header.php:76
 msgid "Time Limit"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:84
+#: includes/admin/views/builder/quiz-header.php:95
 msgid "Show Correct Answers"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:92
+#: includes/admin/views/builder/quiz-header.php:103
 msgid "Randomize Question Order"
 msgstr ""
 
