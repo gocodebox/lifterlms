@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_Relationships' ], function( Questions, Lesson, Question, Relationships ) {
 
@@ -67,7 +67,7 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		initialize: function() {
 
@@ -78,6 +78,13 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 			this.listenTo( this.get( 'questions' ), 'remove', this.update_points );
 
 			this.set( '_points', this.get_total_points() );
+
+			// when a quiz is published, ensure the parent lesson is marked as "Enabled" for quizzing
+			this.on( 'change:status', function() {
+				if ( 'publish' === this.get( 'status' ) ) {
+					this.get_parent().set( 'quiz_enabled', 'yes' );
+				}
+			} );
 
 		},
 
