@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -474,7 +474,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   obj|array           WP_Error on error or array containing html template of the first question
 	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public static function quiz_start( $request ) {
 
@@ -515,7 +515,7 @@ class LLMS_AJAX_Handler {
 		) );
 
 		$quiz = $attempt->get_quiz();
-		$limit = $quiz->has_attempt_limit() ? $quiz->get( 'time_limit' ) : false;
+		$limit = $quiz->has_time_limit() ? $quiz->get( 'time_limit' ) : false;
 
 		return array(
 			'attempt_key' => $attempt->get_key(),
