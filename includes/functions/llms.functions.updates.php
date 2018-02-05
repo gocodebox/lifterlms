@@ -1053,6 +1053,10 @@ function llms_update_3160_update_question_data() {
 
 				$question = llms_get_post( $raw_question['id'] );
 
+				if ( ! $question ) {
+					continue;
+				}
+
 				$question->set( 'parent_id', $data->quiz_id );
 				$question->set( 'question_type', 'choice' );
 				$question->set( 'points', $points );
