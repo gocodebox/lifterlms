@@ -1,19 +1,17 @@
 <?php
-/**
- * Make LifterLMS play nicely with other plugins & themems
- *
- * @since    3.1.3
- * @version  3.2.2
- */
-
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * Make LifterLMS play nicely with other plugins, themes, & webhosts
+ * @since    3.1.3
+ * @version  [version]
+ */
 class LLMS_PlayNice {
 
 	/**
 	 * Constructor
 	 * @since    3.1.3
-	 * @version  3.2.2
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -22,6 +20,9 @@ class LLMS_PlayNice {
 
 		// optimize press live editor initialization
 		add_action( 'op_liveeditor_init' , array( $this, 'wp_optimizepress_live_editor' ) );
+
+		// wpe heartbeat fix
+		add_filter( 'wpe_heartbeat_allowed_pages', array( $this, 'wpe_heartbeat_allowed_pages' ) );
 
 	}
 
@@ -83,6 +84,26 @@ class LLMS_PlayNice {
 		}
 
 		return $bool;
+
+	}
+
+	/**
+	 * WPE blocks the WordPress Heartbeat script from being loaded
+	 * Event when it's explicitly defined as a dependency
+	 * @param    array    $pages    list of pages that the heartbeat is allowed to load on
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function wpe_heartbeat_allowed_pages( $pages ) {
+
+		if ( is_admin() && isset( $_GET['page'] ) && 'llms-course-builder' === $_GET['page'] ) {
+
+			$pages[] = 'admin.php';
+
+		}
+
+		return $pages;
 
 	}
 
