@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], function( Quiz, Relationships, Utilities ) {
 
@@ -67,12 +67,18 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		initialize: function() {
 
 			this.startTracking();
 			this.init_relationships();
+
+			// if the lesson ID isn't set on a quiz, set it
+			var quiz = this.get( 'quiz' );
+			if ( ! _.isEmpty( quiz ) && ! quiz.get( 'lesson_id' ) ) {
+				quiz.set( 'lesson_id', this.get( 'id' ) );
+			}
 
 		},
 
