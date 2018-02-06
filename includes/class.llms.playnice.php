@@ -4,14 +4,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Make LifterLMS play nicely with other plugins, themes, & webhosts
  * @since    3.1.3
- * @version  [version]
+ * @version  3.16.4
  */
 class LLMS_PlayNice {
 
 	/**
 	 * Constructor
 	 * @since    3.1.3
-	 * @version  [version]
+	 * @version  3.16.4
 	 */
 	public function __construct() {
 
@@ -92,8 +92,8 @@ class LLMS_PlayNice {
 	 * Event when it's explicitly defined as a dependency
 	 * @param    array    $pages    list of pages that the heartbeat is allowed to load on
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.4
+	 * @version  3.16.4
 	 */
 	public function wpe_heartbeat_allowed_pages( $pages ) {
 

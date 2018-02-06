@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.4
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -474,7 +474,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @return   obj|array           WP_Error on error or array containing html template of the first question
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.16.4
 	 */
 	public static function quiz_start( $request ) {
 

@@ -1,6 +1,14 @@
 == Changelog ==
 
 
+= v3.16.4 - 2018-02-05 =
+------------------------
+
++ Fix issue causing newly created quizzes to not be properly related to their parent lesson
++ Fix issue preventing quiz time limits from starting unless an attempt limit is also set
++ Fixes a WP Engine issue that prevented the builder from loading due to a blocked dependency
+
+
 = v3.16.3 - 2018-02-02 =
 ------------------------
 
