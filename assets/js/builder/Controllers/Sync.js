@@ -1,3 +1,8 @@
+/**
+ * Sync builder data to the server
+ * @since    3.16.0
+ * @version  [version]
+ */
 define( [], function() {
 
  	return function( Course, settings ) {
@@ -570,8 +575,6 @@ define( [], function() {
 
 		} );
 
-
-
 		/*
 			 /$$           /$$   /$$
 			|__/          |__/  | $$
@@ -587,6 +590,15 @@ define( [], function() {
 		if ( check_interval_ms ) {
 			this.set_check_interval( check_interval_ms );
 		}
+
+		// warn when users attempt to leave the page
+		$( window ).on( 'beforeunload', function() {
+			if ( self.has_unsaved_changes() ) {
+				check_for_changes();
+				return 'Are you sure you want to abandon your changes?';
+			}
+
+		} );
 
 		return this;
 
