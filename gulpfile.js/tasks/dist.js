@@ -7,7 +7,6 @@
  *
  */
 
-var   gulp  = require( 'gulp' )
-;
+var   gulp  = require( 'gulp' );
 
-gulp.task( 'dist', [ 'versioner', 'rebuild', 'readme', 'pot' ] );
+gulp.task( 'dist', [ 'versioner', 'rebuild', 'readme', 'pot:js', 'pot' ] );

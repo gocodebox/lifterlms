@@ -457,7 +457,7 @@ msgstr ""
 msgid "Error deleting %1$s \"%s\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:543, includes/admin/views/builder/elements.php:21, includes/class.llms.l10n.php:123, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:380
+#: includes/admin/class.llms.admin.builder.php:543, includes/admin/views/builder/elements.php:21, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:380, languages/lifterlms-js-pot.php:239
 msgid "New Lesson"
 msgstr ""
 
@@ -2001,7 +2001,7 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:62, includes/class.llms.l10n.php:48, includes/class.llms.person.handler.php:378
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:62, includes/class.llms.person.handler.php:378, languages/lifterlms-js-pot.php:165
 msgid "Cancel"
 msgstr ""
 
@@ -2105,7 +2105,7 @@ msgstr ""
 msgid "Lesson Title"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/class.llms.post-types.php:177
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/class.llms.post-types.php:177, languages/lifterlms-js-pot.php:345
 msgid "Course"
 msgstr ""
 
@@ -2117,7 +2117,7 @@ msgstr ""
 msgid "Prerequisite"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:44, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:38, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order-transactions.php:18
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:44, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:38, languages/lifterlms-js-pot.php:121, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order-transactions.php:18
 msgid "Date"
 msgstr ""
 
@@ -2208,7 +2208,7 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:371, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:246, includes/admin/reporting/tables/llms.table.quizzes.php:275, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, templates/admin/post-types/order-transactions.php:17
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:371, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:246, includes/admin/reporting/tables/llms.table.quizzes.php:275, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, languages/lifterlms-js-pot.php:343, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
@@ -2693,17 +2693,17 @@ msgstr ""
 msgid "Select the minimum password strength allowed when students create a new password."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:207, includes/class.llms.l10n.php:65
+#: includes/admin/settings/class.llms.settings.accounts.php:207
 msgctxt "password strength meter"
 msgid "Weak"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:208, includes/class.llms.l10n.php:59
+#: includes/admin/settings/class.llms.settings.accounts.php:208
 msgctxt "password strength meter"
 msgid "Medium"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.accounts.php:209, includes/class.llms.l10n.php:61
+#: includes/admin/settings/class.llms.settings.accounts.php:209
 msgctxt "password strength meter"
 msgid "Strong"
 msgstr ""
@@ -3280,7 +3280,7 @@ msgstr ""
 msgid "Delete question"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:43
+#: includes/admin/views/builder/question.php:43, languages/lifterlms-js-pot.php:187
 msgid "points"
 msgstr ""
 
@@ -3668,133 +3668,6 @@ msgstr ""
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
-#: includes/class.llms.l10n.php:41
-msgid "There was an error loading the necessary resources. Please try again."
-msgstr ""
-
-#: includes/class.llms.l10n.php:49
-msgid "Copy this code and paste it into the desired area"
-msgstr ""
-
-#: includes/class.llms.l10n.php:50
-msgid "Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!"
-msgstr ""
-
-#: includes/class.llms.l10n.php:51, templates/admin/post-types/order-transactions.php:100
-msgid "Record a Manual Payment"
-msgstr ""
-
-#: includes/class.llms.l10n.php:52, templates/admin/post-types/order-transactions.php:76
-msgid "Refund"
-msgstr ""
-
-#: includes/class.llms.l10n.php:60
-msgctxt "password strength meter"
-msgid "Mismatch"
-msgstr ""
-
-#: includes/class.llms.l10n.php:62
-msgid "There is an issue with your chosen password."
-msgstr ""
-
-#: includes/class.llms.l10n.php:63
-msgctxt "password length validation"
-msgid "Too Short"
-msgstr ""
-
-#: includes/class.llms.l10n.php:64
-msgctxt "password strength meter"
-msgid "Very Weak"
-msgstr ""
-
-#: includes/class.llms.l10n.php:72
-msgid "Members Only Pricing"
-msgstr ""
-
-#: includes/class.llms.l10n.php:79
-msgid "Are you sure you want to cancel your subscription?"
-msgstr ""
-
-#: includes/class.llms.l10n.php:86, includes/functions/llms.functions.access.php:175
-msgid "You do not have permission to access to this content"
-msgstr ""
-
-#: includes/class.llms.l10n.php:93
-msgid "An unknown error occurred. Please try again."
-msgstr ""
-
-#: includes/class.llms.l10n.php:94
-msgid "Hide Summary"
-msgstr ""
-
-#: includes/class.llms.l10n.php:95
-msgid "Loading..."
-msgstr ""
-
-#: includes/class.llms.l10n.php:96
-msgid "Loading Question..."
-msgstr ""
-
-#: includes/class.llms.l10n.php:97
-msgid "Loading Quiz..."
-msgstr ""
-
-#: includes/class.llms.l10n.php:98
-msgid "Loading Quiz Results..."
-msgstr ""
-
-#: includes/class.llms.l10n.php:99
-msgid "View Summary"
-msgstr ""
-
-#: includes/class.llms.l10n.php:100
-msgid "You must enter an answer to continue."
-msgstr ""
-
-#: includes/class.llms.l10n.php:113
-msgid "An unknown error occurred, please try again."
-msgstr ""
-
-#: includes/class.llms.l10n.php:120
-msgid "Add an Existing Lesson"
-msgstr ""
-
-#: includes/class.llms.l10n.php:121, includes/class.llms.l10n.php:142
-msgid "Are you sure you want to permanently delete this lesson?"
-msgstr ""
-
-#: includes/class.llms.l10n.php:122, includes/class.llms.l10n.php:143
-msgid "If you leave now your changes may not be saved!"
-msgstr ""
-
-#: includes/class.llms.l10n.php:124
-msgid "Search for existing lessons..."
-msgstr ""
-
-#: includes/class.llms.l10n.php:125, includes/class.llms.l10n.php:144
-msgid "You must remove all lessons before deleting a section."
-msgstr ""
-
-#: includes/class.llms.l10n.php:132
-msgid "Error"
-msgstr ""
-
-#: includes/class.llms.l10n.php:133
-msgid "Filter by Student(s)"
-msgstr ""
-
-#: includes/class.llms.l10n.php:134
-msgid "Request timed out"
-msgstr ""
-
-#: includes/class.llms.l10n.php:135
-msgid "Retry"
-msgstr ""
-
-#: includes/class.llms.l10n.php:151
-msgid "Are you sure you want to delete this template? This cannot be undone."
-msgstr ""
-
 #: includes/class.llms.nav.menus.php:41
 msgid "LifterLMS"
 msgstr ""
@@ -4035,7 +3908,7 @@ msgstr ""
 msgid "Edit Section"
 msgstr ""
 
-#: includes/class.llms.post-types.php:221
+#: includes/class.llms.post-types.php:221, languages/lifterlms-js-pot.php:267
 msgid "New Section"
 msgstr ""
 
@@ -4126,7 +3999,7 @@ msgstr ""
 msgid "Edit Quiz"
 msgstr ""
 
-#: includes/class.llms.post-types.php:290
+#: includes/class.llms.post-types.php:290, languages/lifterlms-js-pot.php:253
 msgid "New Quiz"
 msgstr ""
 
@@ -5553,6 +5426,10 @@ msgstr ""
 
 #: includes/emails/class.llms.email.reset.password.php:27
 msgid "Reset Your Password"
+msgstr ""
+
+#: includes/functions/llms.functions.access.php:175, languages/lifterlms-js-pot.php:29
+msgid "You do not have permission to access to this content"
 msgstr ""
 
 #: includes/functions/llms.functions.access.php:183
@@ -8177,6 +8054,158 @@ msgstr ""
 
 #: includes/widgets/class.llms.widget.course.syllabus.php:54
 msgid "Display \"Open All\" and \"Close All\" toggles at the bottom of the outline."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:43
+msgid "There is an issue with your chosen password."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:45
+msgid "Too Short"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:47
+msgid "Very Weak"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:49
+msgid "Weak"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:51
+msgid "Medium"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:53
+msgid "Strong"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:55
+msgid "Mismatch"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:69
+msgid "Members Only Pricing"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:83
+msgid "Are you sure you want to cancel your subscription?"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:97
+msgid "Select an Image"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:99
+msgid "Select Image"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:113
+msgid "Filter by Student(s)"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:115
+msgid "Error"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:117
+msgid "Request timed out"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:119
+msgid "Retry"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:135
+msgid "There was an error loading the necessary resources. Please try again."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:149
+msgid "Please select a student to enroll"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:163
+msgid "membership_bulk_enrollment_warning"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:167, templates/admin/post-types/order-transactions.php:76
+msgid "Refund"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:169, templates/admin/post-types/order-transactions.php:100
+msgid "Record a Manual Payment"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:171
+msgid "Copy this code and paste it into the desired area"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:185
+msgid "Remarks to Student"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:201
+msgid "An unknown error occurred. Please try again."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:203
+msgid "Time Remaining"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:205
+msgid "Next Question"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:207
+msgid "Complete Quiz"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:209
+msgid "Prevous Question"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:211
+msgid "You must select an answer to continue."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:225
+msgid "Are you sure you want to delete this row? This cannot be undone."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:281
+msgid "Select an image"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:283
+msgid "Use this image"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:297
+msgid "Add Existing Lesson"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:311
+msgid "Are you sure you want to remove this lesson from the course?"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:313
+msgid "Are you sure you want to move this lesson to the trash?"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:327
+msgid "Lesson editing coming soon..."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:341
+msgid "Search for existing lessons..."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:359
+msgid "Are you sure you want to delete this question?"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:373
+msgid "Add a Question"
 msgstr ""
 
 #: templates/achievements/loop.php:30

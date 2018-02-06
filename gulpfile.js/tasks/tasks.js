@@ -203,8 +203,8 @@ gulp.task( 'process-scripts', function () {
  */
 gulp.task( 'watch', function () {
 
-	gulp.watch( 'assets/js/builder/**/*.js', [ 'js:builder' ] );
-	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts' ] );
+	gulp.watch( 'assets/js/builder/**/*.js', [ 'js:builder', 'pot:js' ] );
+	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts', 'pot:js' ] );
 	gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
 	gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
 	gulp.watch( '_private/**/*.scss', [ 'process-builder-styles' ] );
