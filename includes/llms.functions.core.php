@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 
 //include all other function files
@@ -829,6 +829,25 @@ function llms_maybe_define_constant( $name, $value ) {
  */
 function llms_parse_bool( $val ) {
 	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );
+}
+
+/**
+ * Wrapper for set_time_limit to ensure it's enabled before calling
+ * @param    int        $limit  script time limit
+ *                              0 = no time limit
+ * @return   void
+ * @source   thanks WooCommerce <3
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_set_time_limit( $limit = 0 ) {
+
+	if ( function_exists( 'set_time_limit' ) && false === strpos( ini_get( 'disable_functions' ), 'set_time_limit' ) && ! ini_get( 'safe_mode' ) ) {
+
+		@set_time_limit( $limit ); // @codingStandardsIgnoreLine
+
+	}
+
 }
 
 /**

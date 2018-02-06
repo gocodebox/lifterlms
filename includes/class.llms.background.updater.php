@@ -1,4 +1,6 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * LifterLMS Background Updater
  * Process db updates in the background
@@ -6,10 +8,8 @@
  * Replaces abstract updater and update classes from 3.4.2 and lower
  *
  * @since    3.4.3
- * @version  3.4.3
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
@@ -154,13 +154,14 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * @return   boolean               false removes item from the queue
 	 *                                 true leaves it in the queue for further processing
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  [version]
 	 */
 	protected function task( $callback ) {
 
 		include_once dirname( __FILE__ ) . '/functions/llms.functions.updates.php';
 
 		if ( is_callable( $callback ) ) {
+			llms_set_time_limit( 0 );
 			$this->log( sprintf( 'Running %s callback', $callback ) );
 			call_user_func( $callback );
 			$this->log( sprintf( 'Finished %s callback', $callback ) );

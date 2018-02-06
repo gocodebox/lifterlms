@@ -350,6 +350,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.16.5 - 2018-02-06 =
+------------------------
+
++ Admin builder JS now minified for increased performance
++ Made frontend quiz and quiz-builder strings output via Javascript translateable
+
+
 = v3.16.4 - 2018-02-05 =
 ------------------------
 
