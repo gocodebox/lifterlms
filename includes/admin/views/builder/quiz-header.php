@@ -2,7 +2,7 @@
 /**
  * Builder quiz model view
  * @since   3.16.0
- * @version 3.16.3
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
@@ -33,6 +33,19 @@
 	<div class="clear"></div>
 
 	<section class="llms-quiz-settings<# if ( data.get( '_show_settings' ) ) { print( ' active' ); } #>">
+
+		<# if ( data.get( 'permalink' ) ) { #>
+		<div class="llms-settings-row">
+			<div class="llms-editable-toggle-group">
+				<div class="llms-editable-toggle-group permalink">
+					<span class="llms-label"><?php _e( 'Permalink', 'lifterlms-advanced-quizzes' ); ?>:</span>
+						<a target="_blank" href="{{{ data.get( 'permalink' ) }}}">{{{ data.get( 'permalink' ) }}}</a>
+						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.get( 'name' ) }}}">
+						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>
+				</div>
+			</div>
+		</div>
+		<# } #>
 
 		<div class="llms-settings-row">
 

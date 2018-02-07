@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [], function() {
 
@@ -15,11 +15,12 @@ define( [], function() {
 		/**
 		 * DOM Events
 		 * @type  {Object}
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @since    3.16.0
+		 * @version  [version]
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
+			'click a[href="#llms-edit-slug"]': 'make_slug_editable',
 			'click a[href="#llms-remove-image"]': 'remove_image',
 			'change .llms-editable-select select': 'on_select',
 			'change .llms-switch input[type="checkbox"]': 'toggle_switch',
@@ -73,7 +74,7 @@ define( [], function() {
 		 * Determine if changes have been made to the element
 		 * @param    {[obj]}   event  js event object
 		 * @return   {Boolean}        true when changes have been made, false otherwise
-		 * @since    3.13.0
+		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		has_changed: function( event ) {
@@ -86,7 +87,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   boolean
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		is_valid: function( event ) {
 
@@ -103,6 +104,31 @@ define( [], function() {
 				if ( ! this._validate_url( this.get_content( $el ) ) ) {
 					return false;
 				}
+
+			} else if ( 'permalink' === type ) {
+
+				LLMS.Ajax.call( {
+					data: {
+						action: 'llms_builder',
+						action_type: 'get_permalink',
+						course_id: window.llms_builder.CourseModel.get( 'id' ),
+						id: self.model.get( 'id' ),
+						title: self.model.get( 'title' ),
+						slug: content,
+					},
+					beforeSend: function() {
+						LLMS.Spinner.start( $el.closest( '.llms-editable-toggle-group' ), 'small' );
+					},
+					success: function( r ) {
+
+						if ( r.permalink && r.slug ) {
+							self.model.set( 'permalink', r.permalink );
+							self.model.set( 'name', r.slug );
+							self.render();
+						}
+
+					}
+				} );
 
 			}
 
@@ -235,7 +261,7 @@ define( [], function() {
 		 * Blurs
 		 * @param    {obj}   event  js event object
 		 * @return   void
-		 * @since    3.13.0
+		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		on_keydown: function( event ) {
@@ -343,7 +369,7 @@ define( [], function() {
 		 * Bound to "escape" key via on_keydwon function
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    3.13.0
+		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		revert_edits: function( event ) {
@@ -356,7 +382,7 @@ define( [], function() {
 		 * Sync chages to the model and DB
 		 * @param    {obj}   event  js event object
 		 * @return   void
-		 * @since    3.13.0
+		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		save_edits: function( event ) {
@@ -431,6 +457,41 @@ define( [], function() {
 					setup: _.bind( this.on_editor_ready, this ),
 				}
 			}, settings ) );
+
+		},
+
+		/**
+		 * Setup a permalink editor to allow editing of a permalink
+		 * @param    obj   event  js event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		make_slug_editable: function( event ) {
+
+			var self = this,
+				$btn = $( event.currentTarget ),
+				$link = $btn.prevAll( 'a' ),
+				$input = $btn.prev( 'input.permalink' ),
+				full_url = $link.attr( 'href' ),
+				slug = $input.val(),
+				short_url = full_url.replace( slug, '' );
+
+			// hide the button
+			$btn.hide();
+
+			// make the link not clickable
+			$link.css( {
+				color: '#999',
+				'pointer-events': 'none',
+				'text-decoration': 'none',
+			} );
+
+			// remove the current slug & trailing slash from the URL
+			$link.text( short_url.substring( 0, short_url.length - 1 ) );
+
+			// focus in on the field
+			$input.show().focus();
 
 		},
 

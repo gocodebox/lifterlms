@@ -144,7 +144,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -154,6 +154,22 @@ class LLMS_Admin_Builder {
 		}
 
 		switch ( $request['action_type'] ) {
+
+			case 'get_permalink':
+
+				$id = isset( $request['id'] ) ? absint( $request['id'] ) : false;
+				if ( ! $id ) {
+					return array();
+				}
+				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
+				$slug = isset( $request['slug'] ) ? sanitize_title( $request['slug'] ) : null;
+				$link = get_sample_permalink( $id, $title, $slug );
+				wp_send_json( array(
+					'slug' => $link[1],
+					'permalink' => str_replace( '%pagename%', $link[1], $link[0] ),
+				) );
+
+			break;
 
 			case 'search':
 				$page = isset( $request['page'] ) ? $request['page'] : 1;
@@ -700,7 +716,7 @@ if ( ! empty( $active_post_lock ) ) {
 			$quiz = new LLMS_Quiz( 'new' );
 			$lesson->set( 'quiz', $quiz->get( 'id' ) );
 
-			// update existing quiz
+		// update existing quiz
 		} else {
 
 			$quiz = llms_get_post( $quiz_data['id'] );
@@ -735,6 +751,7 @@ if ( ! empty( $active_post_lock ) ) {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 
 			}
+
 		}
 
 		return $res;
