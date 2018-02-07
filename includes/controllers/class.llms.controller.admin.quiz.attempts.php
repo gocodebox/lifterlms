@@ -87,8 +87,16 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			}
 		}
 
+		// update the attempt with new questions
 		$attempt->set_questions( $questions, true );
+
+		// attempt to calculate the grade
 		$attempt->calculate_grade()->save();
+
+		// if all questions were graded the grade will have been calculated and we can trigger completion actions
+		if ( in_array( $attempt->get( 'status' ), array( 'fail', 'pass' ) ) ) {
+			$attempt->do_completion_actions();
+		}
 
 	}
 
