@@ -2,7 +2,7 @@
 /**
  * LifterLMS "Pot File" for JS l10n
  * @since    3.16.5
- * @version  3.16.5
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -96,8 +96,9 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-quiz.js
 	 * @since    1.0.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
+	'Are you sure you wish to quit this quiz attempt?' => esc_html__( 'Are you sure you wish to quit this quiz attempt?', 'lifterlms' ),
 	'An unknown error occurred. Please try again.' => esc_html__( 'An unknown error occurred. Please try again.', 'lifterlms' ),
 	'Time Remaining' => esc_html__( 'Time Remaining', 'lifterlms' ),
 	'Next Question' => esc_html__( 'Next Question', 'lifterlms' ),

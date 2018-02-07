@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -199,6 +199,27 @@ class LLMS_Question extends LLMS_Post_Model {
 		}
 
 		return $ret;
+
+	}
+
+	/**
+	 * Retrieve the question description (post_content)
+	 * Add's extra allowed tags to wp_kses_post allowed tags so that async audio shortcodes will work properly
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_description() {
+
+		global $allowedposttags;
+		$allowedposttags['source'] = array(
+			'src' => true,
+			'type' => true,
+		);
+		$desc = $this->get( 'content' );
+		unset( $allowedposttags['source'] );
+
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_description', $desc, $this );
 
 	}
 

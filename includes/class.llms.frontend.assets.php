@@ -174,7 +174,8 @@ class LLMS_Frontend_Assets {
 		}
 
 		if ( is_singular( 'llms_quiz' ) ) {
-			wp_enqueue_script( 'llms-quiz', plugins_url( '/assets/js/llms-quiz' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms' ), LLMS()->version, true );
+			wp_enqueue_style( 'wp-mediaelement' );
+			wp_enqueue_script( 'llms-quiz', plugins_url( '/assets/js/llms-quiz' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'llms', 'wp-mediaelement' ), LLMS()->version, true );
 		}
 
 		wp_register_script( 'llms-iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '1.5.1', true );

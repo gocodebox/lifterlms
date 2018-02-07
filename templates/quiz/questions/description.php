@@ -2,7 +2,7 @@
 /**
  * Single Question description template
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  * @arg  $question (obj)  LLMS_Question instance
@@ -14,4 +14,4 @@ if ( ! $question->has_description() ) {
 }
 ?>
 
-<div class="llms-question-description"><?php echo $question->get( 'content' ); ?></div>
+<div class="llms-question-description"><?php echo $question->get_description(); ?></div>

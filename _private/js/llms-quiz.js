@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 ;( function( $ ) {
 
@@ -29,9 +29,28 @@
 		 */
 		$ui: null,
 
+		/**
+		 * Attempt key for the current quiz
+		 * @type  {[type]}
+		 */
 		attempt_key: null,
+
+		/**
+		 * Question ID of the current question
+		 * @type  {Number}
+		 */
 		current_question: 0,
+
+		/**
+		 * Total number of questions in the current quiz
+		 * @type  {Number}
+		 */
 		total_questions: 0,
+
+		/**
+		 * Object of quiz question HTML
+		 * @type  {Object}
+		 */
 		questions: {},
 
 		/**
@@ -54,7 +73,7 @@
 		 * Bind DOM events
 		 * @return void
 		 * @since    1.0.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		bind: function() {
 
@@ -82,7 +101,7 @@
 			// warn when quiz is running and user tries to leave the page
 			$( window ).on( 'beforeunload', function() {
 				if ( self.status ) {
-					return 'Are you sure you wish to quit this quiz attempt?';
+					return LLMS.l10n.translate( 'Are you sure you wish to quit this quiz attempt?' );
 				}
 			} );
 
@@ -92,6 +111,8 @@
 					self.complete_quiz();
 				}
 			} );
+
+			$( document ).on( 'llms-post-append-question', self.post_append_question );
 
 			// register validators
 			this.register_validator( 'content', this.validate );
@@ -492,13 +513,14 @@
 		 * @param    string   html  string of html
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		load_question: function( html ) {
 
 			var $html = $( html ),
 				qid = $html.attr( 'data-id' );
 
+			// cache the question HTML for faster rewinds
 			if ( !this.questions[ 'q-' + qid ] ) {
 				this.questions[ 'q-' + qid ] = $html;
 			}
@@ -515,6 +537,12 @@
 
 		},
 
+		/**
+		 * Constructs the quiz UI & adds the elements into the DOM
+		 * @return   void
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		load_ui_elements: function() {
 
 			var $html = $( '<div class="llms-quiz-ui" id="llms-quiz-ui" />' ),
@@ -533,6 +561,24 @@
 				 .append( $footer );
 
 			$( '#llms-quiz-wrapper' ).after( $html );
+
+		},
+
+		/**
+		 * Perform actions on question HTML after it's been appended to the DOM
+		 * @param    obj      event  js event object
+		 * @param    obj      html   js HTML object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		post_append_question: function( event, html ) {
+
+			var $html = $( html );
+
+			if ( $html.find( 'audio' ).length ) {
+				wp.mediaelement.initialize();
+			}
 
 		},
 
