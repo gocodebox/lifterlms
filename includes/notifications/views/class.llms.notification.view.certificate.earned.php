@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Notification View: Certificate Earned
  * @since    3.8.0
- * @version  3.8.2
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notification_View {
 
 	/**
@@ -116,11 +115,11 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.2
+	 * @version  [version]
 	 */
 	protected function set_merge_data( $code ) {
 
-		$cert = new LLMS_User_Certificate( $this->post );
+		$cert = new LLMS_User_Certificate( $this->notification->post_id );
 
 		switch ( $code ) {
 
