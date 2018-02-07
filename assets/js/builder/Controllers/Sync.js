@@ -263,7 +263,17 @@ define( [], function() {
 			return data;
 		}
 
-
+		/**
+		 * Processes response data from heartbeat-tick related to creating / updating a single object
+		 * Handles both collections and models as a recursive function
+		 * @param    {[type]}   data       [description]
+		 * @param    {[type]}   type       [description]
+		 * @param    {[type]}   parent     [description]
+		 * @param    {[type]}   main_data  [description]
+		 * @return   {[type]}
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		function process_object_updates( data, type, parent, main_data ) {
 
 			if ( ! data[ type ] ) {
@@ -291,7 +301,6 @@ define( [], function() {
 
 					// check children
 					if ( model.get_relationships ) {
-
 
 						_.each( model.get_relationships().children, function( child_data, child_key ) {
 
@@ -342,6 +351,15 @@ define( [], function() {
 
 		};
 
+		/**
+		 * Processes response data from heartbeat-tick related to updating & creating new models
+		 * On success, removes from local removal collection
+		 * On error, appends error messages to the data object returned to UI for on-screen feedback
+		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
+		 * @return   obj
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		function process_updates( data ) {
 
 			// only mess with updates data
