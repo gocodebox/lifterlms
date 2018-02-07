@@ -2,7 +2,7 @@
 /**
  * LifterLMS "Pot File" for JS l10n
  * @since    3.16.5
- * @version  [version]
+ * @version  3.16.5
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
