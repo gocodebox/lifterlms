@@ -957,6 +957,9 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   float: left;
   width: 55%;
 }
+.wrap.lifterlms.llms-builder .llms-quiz-header .llms-quiz-title .llms-input {
+  width: calc( 100% - 65px );
+}
 .wrap.lifterlms.llms-builder .llms-quiz-header .llms-quiz-points {
   float: left;
   width: 20%;
