@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.16.3
+ * @version  [version]
  */
 define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_Relationships' ], function( Questions, Lesson, Question, Relationships ) {
 
@@ -29,11 +29,11 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		defaults: function() {
-			return {
 
+			return {
 				id: _.uniqueId( 'temp_' ),
 				title: LLMS.l10n.translate( 'New Quiz' ),
 				type: 'llms_quiz',
@@ -47,6 +47,7 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 				limit_attempts: 'no',
 				limit_time: 'no',
 				passing_percent: 65,
+				name: '',
 				random_answers: 'no',
 				time_limit: 30,
 				show_correct_answer: 'no',
@@ -57,8 +58,8 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 				_points: 0,
 
 				// display
+				permalink: '',
 				_show_settings: false,
-
 			};
 
 		},
