@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.5
  */
 
 //include all other function files
@@ -837,8 +837,8 @@ function llms_parse_bool( $val ) {
  *                              0 = no time limit
  * @return   void
  * @source   thanks WooCommerce <3
- * @since    [version]
- * @version  [version]
+ * @since    3.16.5
+ * @version  3.16.5
  */
 function llms_set_time_limit( $limit = 0 ) {
 

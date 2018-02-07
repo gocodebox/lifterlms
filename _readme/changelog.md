@@ -4,6 +4,7 @@
 = v3.16.5 - 2018-02-06 =
 ------------------------
 
++ Improved background updater to ensure scripts don't timeout during upgrades
 + Admin builder JS now minified for increased performance
 + Made frontend quiz and quiz-builder strings output via Javascript translateable
 

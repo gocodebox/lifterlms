@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Replaces abstract updater and update classes from 3.4.2 and lower
  *
  * @since    3.4.3
- * @version  [version]
+ * @version  3.16.5
  */
 
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
@@ -154,7 +154,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * @return   boolean               false removes item from the queue
 	 *                                 true leaves it in the queue for further processing
 	 * @since    3.4.3
-	 * @version  [version]
+	 * @version  3.16.5
 	 */
 	protected function task( $callback ) {
 
