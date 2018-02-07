@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Notification Controller: Quiz Passed
  * @since    3.8.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notification_Controller {
 
@@ -27,18 +27,21 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	protected $action_hooks = array( 'lifterlms_quiz_passed' );
 
 	/**
-	 * Callback function called when a quiz is passed by a student
+	 * Callback function called when a quiz is failed by a student
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
-	 * @param    array   $quiz_data   WP Post ID of a LifterLMS quiz
+	 * @param    array   $quiz_id     WP Post ID of a LifterLMS quiz
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
-	public function action_callback( $student_id = null, $quiz_data = null ) {
+	public function action_callback( $student_id = null, $quiz_id = null ) {
 
 		$this->user_id = $student_id;
-		$this->post_id = $quiz_data['id'];
-		$this->quiz = new LLMS_Quiz_Legacy( $quiz_data['id'] );
+		$this->post_id = $quiz_id;
+		$this->quiz = llms_get_post( $quiz_id );
+		if ( ! $this->quiz ) {
+			return;
+		}
 		$this->course = $this->quiz->get_course();
 
 		$this->send();
