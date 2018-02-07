@@ -397,23 +397,23 @@ msgstr ""
 msgid "Created by:"
 msgstr ""
 
-#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:79, dist/lifterlms-3165/includes/admin/class.llms.admin.settings.php:71, includes/admin/class.llms.admin.settings.php:71
+#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:79, dist/lifterlms-3165/includes/admin/class.llms.admin.settings.php:71, includes/admin/class.llms.admin.analytics.php:79, includes/admin/class.llms.admin.settings.php:71
 msgid "Whoa! something went wrong there!. Please refresh the page and retry."
 msgstr ""
 
-#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:86
+#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:86, includes/admin/class.llms.admin.analytics.php:86
 msgid "Your analytics have been saved."
 msgstr ""
 
-#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:182, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:251, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:333
+#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:182, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:251, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:333, includes/admin/class.llms.admin.analytics.php:182, includes/admin/class.llms.admin.analytics.php:251, includes/admin/class.llms.admin.analytics.php:333
 msgid "You must choose a product option."
 msgstr ""
 
-#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:185, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:254, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:336
+#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:185, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:254, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:336, includes/admin/class.llms.admin.analytics.php:185, includes/admin/class.llms.admin.analytics.php:254, includes/admin/class.llms.admin.analytics.php:336
 msgid "You must choose a date filter."
 msgstr ""
 
-#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:188, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:257, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:339
+#: dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:188, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:257, dist/lifterlms-3165/includes/admin/class.llms.admin.analytics.php:339, includes/admin/class.llms.admin.analytics.php:188, includes/admin/class.llms.admin.analytics.php:257, includes/admin/class.llms.admin.analytics.php:339
 msgid "You must enter a start and end date."
 msgstr ""
 
