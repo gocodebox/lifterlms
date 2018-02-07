@@ -1068,6 +1068,9 @@ body.admin_page_llms-course-builder {
 		.llms-quiz-title {
 			float: left;
 			width: 55%;
+			.llms-input {
+				width: calc( 100% - 65px );
+			}
 		}
 		.llms-quiz-points {
 			float: left;
