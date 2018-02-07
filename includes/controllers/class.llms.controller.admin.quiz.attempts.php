@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Grading, Deleting, Etc...
  *
  * @since   3.16.0
- * @version 3.16.0
+ * @version [version]
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -61,12 +61,12 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @param    obj     $attempt  LLMS_Quiz_Attempt instance
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private function save_grade( $attempt ) {
 
-		$remarks = isset( $_POST['remarks'] ) ? (array) $_POST['remarks'] : array();
-		$points = isset( $_POST['points'] ) ? (array) $_POST['points'] : array();
+		$remarks = isset( $_POST['remarks'] ) ? $_POST['remarks'] : array();
+		$points = isset( $_POST['points'] ) ? $_POST['points'] : array();
 
 		$questions = $attempt->get_questions();
 		foreach ( $questions as &$question ) {
@@ -75,10 +75,11 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				$question['remarks'] = wp_kses_post( nl2br( $remarks[ $question['id'] ] ) );
 			}
 
+
 			if ( isset( $points[ $question['id'] ] ) ) {
-				$points = absint( $points[ $question['id'] ] );
-				$question['earned'] = $points;
-				if ( ( $points / $question['points'] ) >= 0.5 ) {
+				$earned = absint( $points[ $question['id'] ] );
+				$question['earned'] = $earned;
+				if ( ( $earned / $question['points'] ) >= 0.5 ) {
 					$question['correct'] = 'yes';
 				} else {
 					$question['correct'] = 'no';

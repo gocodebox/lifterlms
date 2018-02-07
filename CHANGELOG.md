@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.16.5 - 2018-02-06
 --------------------
 
++ Fix issue preventing manually graded quiz review points from saving properly
 + Improved background updater to ensure scripts don't timeout during upgrades
 + Admin builder JS now minified for increased performance
 + Made frontend quiz and quiz-builder strings output via Javascript translateable
