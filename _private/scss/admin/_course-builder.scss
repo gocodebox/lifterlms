@@ -418,6 +418,9 @@ body.admin_page_llms-course-builder {
 				box-shadow: 0 0 0 2px $color-brand-blue;
 			}
 		}
+		&.permalink {
+			display: none;
+		}
 	}
 
 	.llms-label {
@@ -477,6 +480,7 @@ body.admin_page_llms-course-builder {
 	.llms-editable-toggle-group {
 		background: #f4f4f4;
 		padding: 10px;
+		position: relative;
 		margin: 0 1px;
 
 		.llms-switch {

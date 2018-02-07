@@ -451,6 +451,10 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-input-formatting .ql-editor.standard:focus {
   box-shadow: 0 0 0 2px #2295ff;
 }
+.wrap.lifterlms.llms-builder .llms-input.permalink,
+.wrap.lifterlms.llms-builder .llms-input-formatting .ql-editor.permalink {
+  display: none;
+}
 .wrap.lifterlms.llms-builder .llms-label {
   font-weight: 500;
 }
@@ -496,6 +500,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-editable-toggle-group {
   background: #f4f4f4;
   padding: 10px;
+  position: relative;
   margin: 0 1px;
 }
 .wrap.lifterlms.llms-builder .llms-editable-toggle-group .llms-switch {
