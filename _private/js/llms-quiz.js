@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.6
  */
 ;( function( $ ) {
 
@@ -73,7 +73,7 @@
 		 * Bind DOM events
 		 * @return void
 		 * @since    1.0.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		bind: function() {
 
@@ -151,7 +151,7 @@
 		 * @param    obj   $btn   jQuery object for the "Next Lesson" button
 		 * @return   void
 		 * @since    1.0.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		answer_question: function( $btn ) {
 
@@ -304,7 +304,7 @@
 		 * Return to the previous question
 		 * @return   void
 		 * @since    1.0.0
-	 	 * @version  [version]
+	 	 * @version  3.16.6
 		 */
 		previous_question: function() {
 
@@ -346,7 +346,7 @@
 		 * Start a Quiz via AJAX call
 		 * @return   void
 		 * @since    1.0.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		start_quiz: function () {
 
@@ -513,7 +513,7 @@
 		 * @param    string   html  string of html
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		load_question: function( html ) {
 
@@ -569,8 +569,8 @@
 		 * @param    obj      event  js event object
 		 * @param    obj      html   js HTML object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.6
+		 * @version  3.16.6
 		 */
 		post_append_question: function( event, html ) {
 
@@ -588,7 +588,7 @@
 		 * @param    string   msg      text to display when showing
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		toggle_loader: function( display, msg ) {
 

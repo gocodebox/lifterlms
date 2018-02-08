@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Grading, Deleting, Etc...
  *
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.6
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -61,7 +61,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @param    obj     $attempt  LLMS_Quiz_Attempt instance
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.6
 	 */
 	private function save_grade( $attempt ) {
 
@@ -74,7 +74,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			if ( isset( $remarks[ $question['id'] ] ) ) {
 				$question['remarks'] = wp_kses_post( nl2br( $remarks[ $question['id'] ] ) );
 			}
-
 
 			if ( isset( $points[ $question['id'] ] ) ) {
 				$earned = absint( $points[ $question['id'] ] );

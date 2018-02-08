@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.16.6 - 2018-02-07
+--------------------
+
++ Removed reliance on PHP Hashids Library in favor of a simpler solution with no PHP module dependencies
++ Added interfaces to allow customization of quiz url / slug
++ Fixed [audio] shortcodes added to quiz question descrpitions
++ Fixed untranslateable strings on frontend of quizzes
++ Fix issue causing certificate notifications to display as empty
++ Fix issue preventing quiz pass/fail notifications from triggering properly for manually graded quizzes
++ Fix undefined index warning on quiz pass/fail notifications
+
+
 v3.16.5 - 2018-02-06
 --------------------
 

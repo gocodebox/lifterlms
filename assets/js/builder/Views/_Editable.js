@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.6
  */
 define( [], function() {
 
@@ -16,7 +16,7 @@ define( [], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -87,7 +87,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   boolean
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		is_valid: function( event ) {
 
@@ -464,8 +464,8 @@ define( [], function() {
 		 * Setup a permalink editor to allow editing of a permalink
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.6
+		 * @version  3.16.6
 		 */
 		make_slug_editable: function( event ) {
 

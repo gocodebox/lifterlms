@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.6
  */
 define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_Relationships' ], function( Questions, Lesson, Question, Relationships ) {
 
@@ -29,7 +29,7 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		defaults: function() {
 

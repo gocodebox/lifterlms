@@ -144,7 +144,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.6
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -716,7 +716,7 @@ if ( ! empty( $active_post_lock ) ) {
 			$quiz = new LLMS_Quiz( 'new' );
 			$lesson->set( 'quiz', $quiz->get( 'id' ) );
 
-		// update existing quiz
+			// update existing quiz
 		} else {
 
 			$quiz = llms_get_post( $quiz_data['id'] );
@@ -751,7 +751,6 @@ if ( ! empty( $active_post_lock ) ) {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 
 			}
-
 		}
 
 		return $res;

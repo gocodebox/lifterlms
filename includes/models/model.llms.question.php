@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.6
  *
  * @property  $question_type  (string)  type of question
  */
@@ -206,8 +206,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Retrieve the question description (post_content)
 	 * Add's extra allowed tags to wp_kses_post allowed tags so that async audio shortcodes will work properly
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.6
+	 * @version  3.16.6
 	 */
 	public function get_description() {
 

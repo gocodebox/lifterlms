@@ -2,7 +2,7 @@
 /**
  * LifterLMS "Pot File" for JS l10n
  * @since    3.16.5
- * @version  [version]
+ * @version  3.16.6
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -96,14 +96,18 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-quiz.js
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.16.6
 	 */
 	'Are you sure you wish to quit this quiz attempt?' => esc_html__( 'Are you sure you wish to quit this quiz attempt?', 'lifterlms' ),
+	'Grading Quiz...' => esc_html__( 'Grading Quiz...', 'lifterlms' ),
+	'Loading Question...' => esc_html__( 'Loading Question...', 'lifterlms' ),
 	'An unknown error occurred. Please try again.' => esc_html__( 'An unknown error occurred. Please try again.', 'lifterlms' ),
+	'Loading Quiz...' => esc_html__( 'Loading Quiz...', 'lifterlms' ),
 	'Time Remaining' => esc_html__( 'Time Remaining', 'lifterlms' ),
 	'Next Question' => esc_html__( 'Next Question', 'lifterlms' ),
 	'Complete Quiz' => esc_html__( 'Complete Quiz', 'lifterlms' ),
 	'Prevous Question' => esc_html__( 'Prevous Question', 'lifterlms' ),
+	'Loading...' => esc_html__( 'Loading...', 'lifterlms' ),
 	'You must select an answer to continue.' => esc_html__( 'You must select an answer to continue.', 'lifterlms' ),
 
 	/**
@@ -123,7 +127,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Quiz.js
 	 * @since    3.16.0
-	 * @version  3.16.3
+	 * @version  3.16.6
 	 */
 	'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 
@@ -137,7 +141,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.16.6
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
