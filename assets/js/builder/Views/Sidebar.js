@@ -1,7 +1,7 @@
 /**
  * Main sidebar view
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [
 		'Views/Editor',
@@ -57,6 +57,7 @@ define( [
 		 */
 		events: {
 			'click #llms-save-button': 'save_now',
+			'click #llms-exit-button': 'exit_now',
 			'click .llms-builder-error': 'clear_errors',
 		},
 
@@ -176,6 +177,18 @@ define( [
 				this.$saveButton.attr( 'disabled', 'disabled' );
 
 			}
+
+		},
+
+		/**
+		 * Exit the builder and return to the WP Course Editor
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		exit_now: function() {
+
+			window.location.href = window.llms_builder.CourseModel.get_edit_post_link();
 
 		},
 

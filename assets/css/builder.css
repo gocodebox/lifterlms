@@ -878,6 +878,12 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   margin: 0;
   padding: 0;
 }
+.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-builder-save .llms-save {
+  width: 75%;
+}
+.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-builder-save .llms-exit {
+  width: 23%;
+}
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-builder-save button {
   position: relative;
 }
