@@ -183,7 +183,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.16.6
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -194,7 +194,7 @@ final class LifterLMS {
 
 		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
 
-		require_once 'includes/libraries/PseudoCrypt.php';
+		require_once 'includes/class.llms.hasher.php';
 
 		require_once 'includes/processors/class.llms.processors.php';
 		include_once 'includes/abstracts/abstract.llms.admin.table.php';

@@ -4,7 +4,7 @@
  * Rather than instatiating this class directly
  * use LLMS_Student->quizzes()
  * @since   3.9.0
- * @version 3.9.0
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -356,11 +356,11 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    string     $attempt_key  an encoded attempt key
 	 * @return   array|false
 	 * @since    3.9.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	private function parse_attempt_key( $attempt_key ) {
 
-		return PseudoCrypt::unhash( $attempt_key );
+		return LLMS_Hasher::unhash( $attempt_key );
 
 	}
 
