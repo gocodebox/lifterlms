@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version 3.16.0
+ * @version [version]
  */
 class LLMS_Admin_Menus {
 
@@ -54,7 +54,7 @@ class LLMS_Admin_Menus {
 	 * on the course builder page
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function builder_page_actions() {
 
@@ -73,6 +73,9 @@ class LLMS_Admin_Menus {
 			exit();
 
 		}
+
+		add_action( 'admin_bar_menu', array( 'LLMS_Admin_Builder', 'admin_bar_menu' ), 100, 1 );
+
 	}
 
 	/**

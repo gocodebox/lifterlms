@@ -11,6 +11,42 @@ class LLMS_Admin_Builder {
 	private static $search_term = '';
 
 	/**
+	 * Add menu items to the WP Admin Bar to allow quiz returns to the dashboad from the course builder
+	 * @param    obj     $wp_admin_bar  Instance of WP_Admin_Bar
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function admin_bar_menu( $wp_admin_bar ) {
+
+		// partially lifted from `wp_admin_bar_site_menu()` in wp-includes/admin-bar.php
+		if ( current_user_can( 'read' ) ) {
+
+			$wp_admin_bar->add_menu(
+				array(
+					'parent' => 'site-name',
+					'id'     => 'dashboard',
+					'title'  => __( 'Dashboard' ),
+					'href'   => admin_url(),
+				)
+			);
+
+			$wp_admin_bar->add_menu(
+				array(
+					'parent' => 'site-name',
+					'id'     => 'llms-courses',
+					'title'  => __( 'Courses', 'lifterlms' ),
+					'href'   => admin_url( 'edit.php?post_type=course' ),
+				)
+			);
+
+			wp_admin_bar_appearance_menu( $wp_admin_bar );
+
+		}
+
+	}
+
+	/**
 	 * Retrieve a list of lessons the current user is allowed to clone/attach
 	 * Used for ajax searching to add existing lessons
 	 * @param    int        $course_id    WP Post ID of the course
