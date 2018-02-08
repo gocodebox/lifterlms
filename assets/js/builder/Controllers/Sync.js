@@ -11,10 +11,44 @@ define( [], function() {
  		this.saving = false;
 
  		var self = this,
+ 			autosave = true,
  			check_interval = null,
  			check_interval_ms = settings.check_interval_ms || 10000,
  			detached = new Backbone.Collection(),
  			trashed = new Backbone.Collection();
+
+		/**
+		 * init
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+ 		function init() {
+
+ 			// determine if autosaving is possible
+ 			if ( 'undefined' === typeof wp.heartbeat ) {
+
+ 				window.llms_builder.debug.log( 'WordPress Heartbeat disabled. Autosaving is disabled!' );
+ 				autosave = false;
+
+ 			}
+
+			// setup the check interval
+			if ( check_interval_ms ) {
+				self.set_check_interval( check_interval_ms );
+			}
+
+			// warn when users attempt to leave the page
+			$( window ).on( 'beforeunload', function() {
+
+				if ( self.has_unsaved_changes() ) {
+					check_for_changes();
+					return 'Are you sure you want to abandon your changes?';
+				}
+
+			} );
+
+ 		};
 
  		/*
  			 /$$             /$$                                             /$$                           /$$
@@ -52,7 +86,7 @@ define( [], function() {
 
 			return data;
 
-		}
+		};
 
 		/**
 		 * Publish sync status so other areas of the application can see what's happening here
@@ -71,7 +105,79 @@ define( [], function() {
 
 			Backbone.pubSub.trigger( 'current-save-status', data );
 
-		}
+		};
+
+		/**
+		 * Manually Save data via Admin AJAX when the heartbeat API has been disabled
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		function do_ajax_save() {
+
+			// prevent simultaneous saves
+			if ( self.saving ) {
+				return;
+			}
+
+			var changes = self.get_unsaved_changes();
+
+			// only send data if we have data to send
+			if ( self.has_unsaved_changes( changes ) ) {
+
+				changes.id = Course.get( 'id' );
+
+				LLMS.Ajax.call( {
+					data: {
+						action: 'llms_builder',
+						action_type: 'ajax_save',
+						course_id: changes.id,
+						llms_builder: JSON.stringify( changes ),
+					},
+					beforeSend: function() {
+
+						window.llms_builder.debug.log( '==== start do_ajax_save before ====', changes, '==== finish do_ajax_save before ====' );
+
+						self.saving = true;
+
+						Backbone.pubSub.trigger( 'heartbeat-send', self );
+
+					},
+					error: function( xhr, status, error ) {
+
+						window.llms_builder.debug.log( '==== start do_ajax_save error ====', data, '==== finish do_ajax_save error ====' );
+
+						self.saving = false;
+
+						Backbone.pubSub.trigger( 'heartbeat-tick', self, {
+							status: 'error',
+							message: xhr.responseText + ' (' + error + ' ' + status +')',
+						} );
+
+					},
+					success: function( res ) {
+
+						if ( ! res.llms_builder ) {
+							return;
+						}
+
+						window.llms_builder.debug.log( '==== start do_ajax_save success ====', res, '==== finish do_ajax_save success ====' );
+
+						res.llms_builder = process_removals( res.llms_builder );
+						res.llms_builder = process_updates( res.llms_builder );
+
+						self.saving = false;
+
+						Backbone.pubSub.trigger( 'heartbeat-tick', self, res.llms_builder );
+
+					}
+
+				} );
+
+			}
+
+
+		};
 
 		/**
 		 * Retrieve all the attributes changed on a model since the last sync
@@ -136,7 +242,7 @@ define( [], function() {
 
 			return atts;
 
-		}
+		};
 
 		/**
 		 * Get all the changes to an object (either a Model or a Collection of models)
@@ -447,10 +553,14 @@ define( [], function() {
 		 * Save changes right now.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		this.save_now = function() {
-			wp.heartbeat.connectNow();
+			if ( autosave ) {
+				wp.heartbeat.connectNow();
+			} else {
+				do_ajax_save();
+			}
 		};
 
 		/**
@@ -604,20 +714,7 @@ define( [], function() {
 			| $$| $$  | $$| $$  |  $$$$/
 			|__/|__/  |__/|__/   \___/
 		*/
-
-		// setup the check interval
-		if ( check_interval_ms ) {
-			this.set_check_interval( check_interval_ms );
-		}
-
-		// warn when users attempt to leave the page
-		$( window ).on( 'beforeunload', function() {
-			if ( self.has_unsaved_changes() ) {
-				check_for_changes();
-				return 'Are you sure you want to abandon your changes?';
-			}
-
-		} );
+		init();
 
 		return this;
 

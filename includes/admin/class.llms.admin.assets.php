@@ -2,7 +2,7 @@
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.16.0
+* @version  [version]
 */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.16.3
+	 * @version  [version]
 	 */
 	public function admin_scripts() {
 
@@ -235,7 +235,10 @@ class LLMS_Admin_Assets {
 			wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
 			wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 
-			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill', 'heartbeat' ), LLMS()->version, true );
+			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
+				wp_enqueue_script( 'heartbeat' );
+			}
+			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
 
 		}
 

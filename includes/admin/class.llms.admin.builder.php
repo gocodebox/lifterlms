@@ -180,7 +180,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -190,6 +190,17 @@ class LLMS_Admin_Builder {
 		}
 
 		switch ( $request['action_type'] ) {
+
+			case 'ajax_save':
+
+				if ( isset( $request['llms_builder'] ) ) {
+
+					$request['llms_builder'] = stripslashes( $request['llms_builder'] );
+					wp_send_json( self::heartbeat_received( array(), $request ) );
+
+				}
+
+			break;
 
 			case 'get_permalink':
 
