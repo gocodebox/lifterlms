@@ -223,10 +223,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 			return false;
 		}
 
-		var_dump( $id );
-
-		// return $this->get_all( $parsed['quiz_id'], $parsed['lesson_id'] );
-
 	}
 
 	/**
@@ -360,24 +356,11 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    string     $attempt_key  an encoded attempt key
 	 * @return   array|false
 	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private function parse_attempt_key( $attempt_key ) {
 
-		$hashids = new Hashids\Hashids( 'OwxbRhk6uyGb08wggj7K648Tdmsd4FDW' );
-		return $hashids->decode( $attempt_key )[0];
-
-		// $parsed = explode( '|', base64_decode( $attempt_key ) );
-
-		// if ( 3 !== count( $parsed ) ) {
-		// 	return false;
-		// }
-
-		// return array(
-		// 	'attempt' => $parsed[2],
-		// 	'lesson_id' => $parsed[1],
-		// 	'quiz_id' => $parsed[0],
-		// );
+		return PseudoCrypt::unhash( $attempt_key );
 
 	}
 

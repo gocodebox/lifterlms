@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version 3.16.0
+ * @version [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 	/**
@@ -312,11 +311,11 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Get an encoded attempt key that can be passed in URLs and the like
 	 * @return   string
 	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @version  [version]
+	 * @note     Encountered 0 collisions with 100,000 hashes at a length of 4
 	 */
 	public function get_key() {
-		$hashids = new Hashids\Hashids( 'OwxbRhk6uyGb08wggj7K648Tdmsd4FDW' );
-		return $hashids->encode( $this->get_id() );
+		return PseudoCrypt::hash( $this->get( 'id' ), apply_filters( 'llms_quiz_attempt_key_length', 4 ) );
 	}
 
 	/**

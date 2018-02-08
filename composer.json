@@ -37,8 +37,7 @@
   ],
   "require": {
     "gocodebox/action-scheduler": "dev-master",
-    "ericmann/wp-session-manager": "dev-master",
-    "hashids/hashids": "^2.0"
+    "ericmann/wp-session-manager": "dev-master"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",

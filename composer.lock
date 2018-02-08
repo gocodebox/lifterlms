@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "1a7499fe958c119006f5a62c7ce9acf9",
+    "content-hash": "12614d184677a0c294d45efe310f9efd",
     "packages": [
         {
             "name": "ericmann/wp-session-manager",
@@ -69,72 +69,6 @@
                 "source": "https://github.com/gocodebox/action-scheduler/tree/master"
             },
             "time": "2017-03-10 23:45:17"
-        },
-        {
-            "name": "hashids/hashids",
-            "version": "2.0.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ivanakimov/hashids.php.git",
-                "reference": "7a945a5192d4a5c8888364970feece9bc26179df"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ivanakimov/hashids.php/zipball/7a945a5192d4a5c8888364970feece9bc26179df",
-                "reference": "7a945a5192d4a5c8888364970feece9bc26179df",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^5.6.4 || ^7.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^5.7 || ^6.3"
-            },
-            "suggest": {
-                "ext-bcmatch": "Required to use BC Math arbitrary precision mathematics (*).",
-                "ext-gmp": "Required to use GNU multiple precision mathematics (*)."
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.1-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Hashids\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Ivan Akimov",
-                    "email": "ivan@barreleye.com",
-                    "homepage": "https://twitter.com/IvanAkimov"
-                },
-                {
-                    "name": "Vincent Klaiber",
-                    "email": "hello@vinkla.com",
-                    "homepage": "https://vinkla.com"
-                }
-            ],
-            "description": "Generate short, unique, non-sequential ids (like YouTube and Bitly) from numbers",
-            "homepage": "http://hashids.org/php",
-            "keywords": [
-                "bitly",
-                "decode",
-                "encode",
-                "hash",
-                "hashid",
-                "hashids",
-                "ids",
-                "obfuscate",
-                "youtube"
-            ],
-            "time": "2017-10-28T11:24:20+00:00"
         }
     ],
     "packages-dev": [
