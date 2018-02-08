@@ -883,7 +883,7 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 			<div class="llms-progress">
 				<div class="progress__indicator">' . sprintf( __( '%s', 'lifterlms' ), $progress ) . '%</div>
 					<div class="llms-progress-bar">
-					<div class="progress-bar-complete" style="width:' . $progress . '%"></div>
+					<div class="progress-bar-complete" data-progress="' . $progress . '%"  style="width:' . $progress . '%"></div>
 				</div>
 			</div>';
 
