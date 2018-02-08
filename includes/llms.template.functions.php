@@ -1,6 +1,8 @@
 <?php
 /**
 * Front end template functions
+* @since    1.0.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -858,17 +860,15 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
 	}
 }// End if().
 
-
-
-
-
 /**
  * Outputs the html for a progress bar
- * @param  int / $progress / percent completion
- * @param  string / $link / permalink to link the button to, if false will output a span with no href
- * @param  bool / $button / output a button with the link
- * @param  bool / $echo / true will echo content, false will return it
- * @return null / html content
+ * @param    int     $progress  percent completion
+ * @param    string   $link     permalink to link the button to, if false will output a span with no href
+ * @param    bool     $button   output a button with the link
+ * @param    bool     $echo     true will echo content, false will return it
+ * @return   void|string
+ * @since    1.0.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 

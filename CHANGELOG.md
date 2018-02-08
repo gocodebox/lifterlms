@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.16.7 - 2018-02-??
+--------------------
+
++ Added data attribute to progress bars so JS (or CSS) can read the progress of a progress bar. Thanks [@dineshchouhan](https://github.com/dineshchouhan)!
+
+
 v3.16.6 - 2018-02-07
 --------------------
 
