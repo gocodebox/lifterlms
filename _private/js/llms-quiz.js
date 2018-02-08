@@ -151,7 +151,7 @@
 		 * @param    obj   $btn   jQuery object for the "Next Lesson" button
 		 * @return   void
 		 * @since    1.0.0
-		 * @version  3.14.9
+		 * @version  [version]
 		 */
 		answer_question: function( $btn ) {
 
@@ -182,7 +182,7 @@
 				},
 				beforeSend: function() {
 
-					var msg = $btn.hasClass( 'llms-button-quiz-complete' ) ? 'Grading Quiz...' : 'Loading Question...';
+					var msg = $btn.hasClass( 'llms-button-quiz-complete' ) ? LLMS.l10n.translate( 'Grading Quiz...' ) : LLMS.l10n.translate( 'Loading Question...' );
 					self.toggle_loader( 'show', msg );
 
 					self.update_progress_bar( 'increment' );
@@ -304,13 +304,13 @@
 		 * Return to the previous question
 		 * @return   void
 		 * @since    1.0.0
-	 	 * @version  3.16.0
+	 	 * @version  [version]
 		 */
 		previous_question: function() {
 
 			var self = this;
 
-			self.toggle_loader( 'show', 'Loading Question...' );
+			self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
 			self.update_progress_bar( 'decrement' );
 
 			var ids = Object.keys( self.questions ),
@@ -346,7 +346,7 @@
 		 * Start a Quiz via AJAX call
 		 * @return   void
 		 * @since    1.0.0
-		 * @version  3.9.0
+		 * @version  [version]
 		 */
 		start_quiz: function () {
 
@@ -381,7 +381,7 @@
 					self.status = true;
 					$( '#llms-quiz-wrapper, #quiz-start-button' ).remove();
 					$( 'html, body' ).stop().animate( {scrollTop: 0 }, 500 );
-					self.toggle_loader( 'show', 'Loading Quiz...' );
+					self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Quiz...' ) );
 
 				},
 				error: function( r, s, t ) {
@@ -588,13 +588,13 @@
 		 * @param    string   msg      text to display when showing
 		 * @return   void
 		 * @since    3.9.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		toggle_loader: function( display, msg ) {
 
 			if ( 'show' === display ) {
 
-				msg = msg || 'Loading...';
+				msg = msg || LLMS.l10n.translate( 'Loading...' );
 
 				this.$buttons.attr( 'disabled', 'disabled' );
 
