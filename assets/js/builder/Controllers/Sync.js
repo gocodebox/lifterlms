@@ -1,7 +1,8 @@
+
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  3.16.4
+ * @version  [version]
  */
 define( [], function() {
 
@@ -527,7 +528,7 @@ define( [], function() {
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
 
@@ -543,7 +544,7 @@ define( [], function() {
 
 				changes.id = Course.get( 'id' );
 				self.saving = true;
-				data.llms_builder = changes;
+				data.llms_builder = JSON.stringify( changes );
 
 			}
 

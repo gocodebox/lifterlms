@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Admin_Builder {
 
@@ -220,7 +220,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 *                            builder data will be in the "llms_builder" array
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
@@ -230,7 +230,7 @@ if ( ! empty( $active_post_lock ) ) {
 		}
 
 		// only mess with our data
-		$data = $data['llms_builder'];
+		$data = json_decode( $data['llms_builder'], true );
 
 		// setup our return
 		$ret = array(
