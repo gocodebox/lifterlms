@@ -100,10 +100,28 @@ body.admin_page_llms-course-builder {
 			transition: left 0.2s ease, opacity 0.2s ease;
 			vertical-align: middle;
 		}
-		.llms-builder-header:hover > .llms-action-icons {
+		.llms-builder-header:hover > .llms-action-icons,
+		.llms-builder-header .llms-action-icons.static {
 			left: 0;
 			opacity: 1;
 		}
+
+		/*
+
+
+			  /$$$$$$$  /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$  /$$$$$$
+			 /$$_____/ /$$__  $$| $$  | $$ /$$__  $$ /$$_____/ /$$__  $$
+			| $$      | $$  \ $$| $$  | $$| $$  \__/|  $$$$$$ | $$$$$$$$
+			| $$      | $$  | $$| $$  | $$| $$       \____  $$| $$_____/
+			|  $$$$$$$|  $$$$$$/|  $$$$$$/| $$       /$$$$$$$/|  $$$$$$$
+			 \_______/ \______/  \______/ |__/      |_______/  \_______/
+		 */
+
+		.llms-course-header {
+			position: relative;
+			z-index: 1;
+		}
+
 
 		/*
 			                                 /$$     /$$
