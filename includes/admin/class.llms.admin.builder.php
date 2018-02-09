@@ -749,7 +749,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.16.7
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -763,7 +763,7 @@ if ( ! empty( $active_post_lock ) ) {
 			$quiz = new LLMS_Quiz( 'new' );
 			$lesson->set( 'quiz', $quiz->get( 'id' ) );
 
-			// update existing quiz
+		// update existing quiz
 		} else {
 
 			$quiz = llms_get_post( $quiz_data['id'] );
@@ -779,6 +779,12 @@ if ( ! empty( $active_post_lock ) ) {
 
 			// return the real ID (important when creating a new quiz)
 			$res['id'] = $quiz->get( 'id' );
+
+			// if the parent lesson was just created the lesson will have a temp id
+			// replace it with the newly created lessons's real ID
+			if ( ! isset( $quiz_data['lesson_id'] ) || self::is_temp_id( $quiz_data['lesson_id'] ) ) {
+				$quiz_data['lesson_id'] = $lesson->get( 'id' );
+			}
 
 			$properties = array_merge( array_keys( $quiz->get_properties() ), array(
 				// 'content',

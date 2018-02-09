@@ -8,6 +8,7 @@
 + Added an "Exit" button to the builder sidebar to allow exiting the builder back to the WP Edit Post screen for the current course
 + Added dashboard links to the WP Admin Bar to allow existing the course builder to various areas of the dashboard
 + Added data attribute to progress bars so JS (or CSS) can read the progress of a progress bar. Thanks [@dineshchouhan](https://github.com/dineshchouhan)!
++ Fixed issue causing newly created lessons to lose their assigned quiz
 + Fixed php `max_input_vars` issue causing a 400 Bad Request error when trying to save large courses in the course builder
 + Removed reliance on PHP bcmath functions
 
