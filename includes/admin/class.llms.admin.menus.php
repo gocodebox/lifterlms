@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  *
  * Sets up admin menu items.
  * @since   1.0.0
- * @version [version]
+ * @version 3.16.7
  */
 class LLMS_Admin_Menus {
 
@@ -54,7 +54,7 @@ class LLMS_Admin_Menus {
 	 * on the course builder page
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.7
 	 */
 	public function builder_page_actions() {
 

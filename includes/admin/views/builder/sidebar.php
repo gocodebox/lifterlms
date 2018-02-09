@@ -2,7 +2,7 @@
 /**
  * Builder sidebar view template
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.7
  */
 ?>
 

@@ -6,8 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Reference/source: http://stackoverflow.com/a/1464155/933782
  * Modified from original source to remove reliance on bcmatch module
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.16.7
+ * @version  3.16.7
  */
 class LLMS_Hasher {
 
@@ -98,8 +98,8 @@ class LLMS_Hasher {
 	 * Base 62 encode a number
 	 * @param    int     $int  number to encode
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.7
+	 * @version  3.16.7
 	 */
 	public static function base62( $int ) {
 		$key = '';
@@ -115,8 +115,8 @@ class LLMS_Hasher {
 	 * Hash a number
 	 * @param    int     $num   number to hash
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.7
+	 * @version  3.16.7
 	 */
 	public static function hash( $num ) {
 
@@ -141,8 +141,8 @@ class LLMS_Hasher {
 	 * Decode a base62 encoded string to get the associated number
 	 * @param    string     $key   encoded character
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.7
+	 * @version  3.16.7
 	 */
 	public static function unbase62( $key ) {
 		$int = 0;
@@ -157,8 +157,8 @@ class LLMS_Hasher {
 	 * Decode a hashed string to get the original number
 	 * @param    [type]     $hash  encoded hash string
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.7
+	 * @version  3.16.7
 	 */
 	public static function unhash( $hash ) {
 		$len = strlen( $hash );

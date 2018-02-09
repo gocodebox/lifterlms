@@ -1,7 +1,7 @@
 /**
  * Main sidebar view
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.7
  */
 define( [
 		'Views/Editor',
@@ -183,8 +183,8 @@ define( [
 		/**
 		 * Exit the builder and return to the WP Course Editor
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.7
+		 * @version  3.16.7
 		 */
 		exit_now: function() {
 

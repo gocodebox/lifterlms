@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.7
  */
 class LLMS_Admin_Builder {
 
@@ -14,8 +14,8 @@ class LLMS_Admin_Builder {
 	 * Add menu items to the WP Admin Bar to allow quiz returns to the dashboad from the course builder
 	 * @param    obj     $wp_admin_bar  Instance of WP_Admin_Bar
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.7
+	 * @version  3.16.7
 	 */
 	public static function admin_bar_menu( $wp_admin_bar ) {
 
@@ -180,7 +180,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.7
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -267,7 +267,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 *                            builder data will be in the "llms_builder" array
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.7
 	 */
 	public static function heartbeat_received( $res, $data ) {
 

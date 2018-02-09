@@ -2,7 +2,7 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  [version]
+* @version  3.16.7
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -868,7 +868,7 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
  * @param    bool     $echo     true will echo content, false will return it
  * @return   void|string
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.7
  */
 if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 

@@ -4,7 +4,7 @@
  * Rather than instatiating this class directly
  * use LLMS_Student->quizzes()
  * @since   3.9.0
- * @version [version]
+ * @version 3.16.7
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -356,7 +356,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    string     $attempt_key  an encoded attempt key
 	 * @return   array|false
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.16.7
 	 */
 	private function parse_attempt_key( $attempt_key ) {
 

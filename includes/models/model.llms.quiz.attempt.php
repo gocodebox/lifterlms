@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version [version]
+ * @version 3.16.7
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -311,7 +311,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Get an encoded attempt key that can be passed in URLs and the like
 	 * @return   string
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.16.7
 	 */
 	public function get_key() {
 		return LLMS_Hasher::hash( $this->get( 'id' ) );

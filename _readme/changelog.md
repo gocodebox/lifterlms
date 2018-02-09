@@ -1,6 +1,17 @@
 == Changelog ==
 
 
+= v3.16.7 - 2018-02-08 =
+------------------------
+
++ Added manual saving methods for the course builder that passes data via standard ajax calls. Allows users (hosts) to disable the Heartbeat API but still save builder data.
++ Added an "Exit" button to the builder sidebar to allow exiting the builder back to the WP Edit Post screen for the current course
++ Added dashboard links to the WP Admin Bar to allow existing the course builder to various areas of the dashboard
++ Added data attribute to progress bars so JS (or CSS) can read the progress of a progress bar. Thanks [@dineshchouhan](https://github.com/dineshchouhan)!
++ Fixed php `max_input_vars` issue causing a 400 Bad Request error when trying to save large courses in the course builder
++ Removed reliance on PHP bcmath functions
+
+
 = v3.16.6 - 2018-02-07 =
 ------------------------
 

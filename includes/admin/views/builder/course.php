@@ -2,7 +2,7 @@
 /**
  * Builder main course view
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.7
  */
 ?>
 <script type="text/html" id="tmpl-llms-course-template">

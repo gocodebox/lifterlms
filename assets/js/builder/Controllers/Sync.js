@@ -2,7 +2,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.7
  */
 define( [], function() {
 
@@ -20,8 +20,8 @@ define( [], function() {
 		/**
 		 * init
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.7
+		 * @version  3.16.7
 		 */
  		function init() {
 
@@ -110,8 +110,8 @@ define( [], function() {
 		/**
 		 * Manually Save data via Admin AJAX when the heartbeat API has been disabled
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.7
+		 * @version  3.16.7
 		 */
 		function do_ajax_save() {
 
@@ -553,7 +553,7 @@ define( [], function() {
 		 * Save changes right now.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.7
 		 */
 		this.save_now = function() {
 			if ( autosave ) {
@@ -638,7 +638,7 @@ define( [], function() {
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.7
 		 */
 		$( document ).on( 'heartbeat-send', function( event, data ) {
 

@@ -209,7 +209,7 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/class.llms.admin.import.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:152, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:51, includes/admin/reporting/class.llms.admin.reporting.php:249, includes/admin/reporting/tables/llms.table.courses.php:157, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:83, includes/admin/settings/class.llms.settings.courses.php:19, includes/class.llms.post-types.php:176, includes/integrations/class.llms.integration.buddypress.php:52, includes/integrations/class.llms.integration.buddypress.php:65, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:72, templates/admin/reporting/tabs/courses/course.php:12
+#: includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/class.llms.admin.builder.php:38, includes/admin/class.llms.admin.import.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:152, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:51, includes/admin/reporting/class.llms.admin.reporting.php:249, includes/admin/reporting/tables/llms.table.courses.php:157, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:83, includes/admin/settings/class.llms.settings.courses.php:19, includes/class.llms.post-types.php:176, includes/integrations/class.llms.integration.buddypress.php:52, includes/integrations/class.llms.integration.buddypress.php:65, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:72, templates/admin/reporting/tabs/courses/course.php:12
 msgid "Courses"
 msgstr ""
 
@@ -417,67 +417,67 @@ msgstr ""
 msgid "You must enter a start and end date."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:28
+#: includes/admin/class.llms.admin.builder.php:64
 msgid "Attach Orphaned Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:32
+#: includes/admin/class.llms.admin.builder.php:68
 msgid "Clone Existing Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:238
+#: includes/admin/class.llms.admin.builder.php:285
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:245
+#: includes/admin/class.llms.admin.builder.php:292
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:250
+#: includes/admin/class.llms.admin.builder.php:297
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:327
+#: includes/admin/class.llms.admin.builder.php:374
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:336
+#: includes/admin/class.llms.admin.builder.php:383
 msgid "You cannot edit this course!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:410
+#: includes/admin/class.llms.admin.builder.php:457
 msgid "Unable to detach lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:451
+#: includes/admin/class.llms.admin.builder.php:498
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:493
+#: includes/admin/class.llms.admin.builder.php:540
 msgid "Error deleting %1$s \"%s\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:559, includes/admin/views/builder/elements.php:21, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:380, languages/lifterlms-js-pot.php:249
+#: includes/admin/class.llms.admin.builder.php:606, includes/admin/views/builder/elements.php:21, includes/class.llms.post-types.php:253, includes/models/model.llms.lesson.php:380, languages/lifterlms-js-pot.php:249
 msgid "New Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:575
+#: includes/admin/class.llms.admin.builder.php:622
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:649
+#: includes/admin/class.llms.admin.builder.php:696
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:676
+#: includes/admin/class.llms.admin.builder.php:723
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:729
+#: includes/admin/class.llms.admin.builder.php:776
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:789
+#: includes/admin/class.llms.admin.builder.php:836
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -549,55 +549,55 @@ msgstr ""
 msgid "Only valid JSON files can be imported."
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:87, includes/admin/class.llms.admin.menus.php:112, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:21
+#: includes/admin/class.llms.admin.menus.php:90, includes/admin/class.llms.admin.menus.php:115, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:21
 msgid "Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:104
+#: includes/admin/class.llms.admin.menus.php:107
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:104, lifterlms.php:452
+#: includes/admin/class.llms.admin.menus.php:107, lifterlms.php:452
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:106
+#: includes/admin/class.llms.admin.menus.php:109
 msgid "LifterLMS Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:106
+#: includes/admin/class.llms.admin.menus.php:109
 msgid "Reporting"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:108
+#: includes/admin/class.llms.admin.menus.php:111
 msgid "LifterLMS Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:108, templates/admin/import/import.php:26
+#: includes/admin/class.llms.admin.menus.php:111, templates/admin/import/import.php:26
 msgid "Import"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:110
+#: includes/admin/class.llms.admin.menus.php:113
 msgid "LifterLMS Status"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:110, includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.course.students.php:396, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/quizzes/attempt.php:75, templates/myaccount/view-order.php:36
+#: includes/admin/class.llms.admin.menus.php:113, includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.course.students.php:396, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/quizzes/attempt.php:75, templates/myaccount/view-order.php:36
 msgid "Status"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:112
+#: includes/admin/class.llms.admin.menus.php:115
 msgid "LifterLMS Course Builder"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:131
+#: includes/admin/class.llms.admin.menus.php:134
 msgid "LifterLMS Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:131
+#: includes/admin/class.llms.admin.menus.php:134
 msgid "Add-ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:205, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:86, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:67, templates/admin/reporting/tabs/students/courses.php:33
+#: includes/admin/class.llms.admin.menus.php:208, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.courses.php:86, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.quizzes.php:67, templates/admin/reporting/tabs/students/courses.php:33
 msgid "You do not have permission to access this content."
 msgstr ""
 
@@ -3148,6 +3148,14 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
+#: includes/admin/views/builder/course.php:18
+msgid "WordPress editor"
+msgstr ""
+
+#: includes/admin/views/builder/course.php:20
+msgid "View course"
+msgstr ""
+
 #: includes/admin/views/builder/editor.php:15, includes/class.llms.post-types.php:248
 msgid "Lesson"
 msgstr ""
@@ -3410,6 +3418,10 @@ msgstr ""
 
 #: includes/admin/views/builder/sidebar.php:23
 msgid "Error saving changes..."
+msgstr ""
+
+#: includes/admin/views/builder/sidebar.php:26
+msgid "Exit"
 msgstr ""
 
 #: includes/admin/views/html.admin.settings.php:36
@@ -7320,16 +7332,16 @@ msgstr ""
 msgid "Refunded"
 msgstr ""
 
-#: includes/llms.template.functions.php:37
+#: includes/llms.template.functions.php:39
 msgctxt "terms and conditions checkbox"
 msgid "I have read and agree to the <a href=\"%1$s\" target=\"_blank\">%2$s</a>."
 msgstr ""
 
-#: includes/llms.template.functions.php:827
+#: includes/llms.template.functions.php:829
 msgid "Search Results: &ldquo;%s&rdquo;"
 msgstr ""
 
-#: includes/llms.template.functions.php:830
+#: includes/llms.template.functions.php:832
 msgid "&nbsp;&ndash; Page %s"
 msgstr ""
 
@@ -7482,11 +7494,11 @@ msgstr ""
 msgid "Maximum retry attempts reached."
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:497
+#: includes/models/model.llms.quiz.attempt.php:496
 msgid "Quiz Attempt #%1$d by %2$s"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:515
+#: includes/models/model.llms.quiz.attempt.php:514
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
