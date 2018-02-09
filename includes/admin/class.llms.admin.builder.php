@@ -224,7 +224,7 @@ class LLMS_Admin_Builder {
 				wp_send_json( self::get_existing_lessons( absint( $request['course_id'] ), $term, $page ) );
 			break;
 
-		}
+		}// End switch().
 
 		return array();
 
