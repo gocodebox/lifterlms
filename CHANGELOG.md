@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.16.8 - 2018-02-??
 --------------------
 
++ Fix analytics widget undefined index warning during admin-ajax calls. Thanks [@Mte90](https://github.com/Mte90)!
 + Fix issue preventing text / html formatting from saving properly for access plan description fields
 + Fix html character encoding issue on reporting widgets causing currency symbols to display as a charcter code instead of the symbol glyph.
 

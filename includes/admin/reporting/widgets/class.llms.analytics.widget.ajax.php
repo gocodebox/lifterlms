@@ -1,27 +1,26 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
 * Register WordPress AJAX methods for Analytics Widgets
 *
 * @since  3.0.0
-* @version 3.5.0
+* @version [version]
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Analytics_Widget_Ajax {
 
+	/**
+	 * Constructor
+	 * @since  3.0.0
+	 * @version [version]
+	 */
 	public function __construct() {
 
-		// only proceed if we're doing ajax
-		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX ) {
-
-			return;
-
-		}
-		
-		if( ! isset( $_REQUEST['action'] ) ) {
+		// only proceed if we're doing ajaxg
+		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX || ! isset( $_REQUEST['action'] ) ) {
 			return;
 		}
+
 
 		$methods = array(
 
