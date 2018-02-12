@@ -52,7 +52,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-analytics.js
 	 * @since    3.0.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	'Filter by Student(s)' => esc_html__( 'Filter by Student(s)', 'lifterlms' ),
 	'Error' => esc_html__( 'Error', 'lifterlms' ),

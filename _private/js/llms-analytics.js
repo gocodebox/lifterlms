@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Reporting Widgets & Charts
  * @since    3.0.0
- * @version  3.2.0
+ * @version  [version]
  */
 ;( function( $, undefined ) {
 
@@ -188,7 +188,7 @@
 		 * @param    obj   $widget  jQuery selector of the widget element
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  [version]
 		 */
 		this.load_widget = function( $widget ) {
 
@@ -269,7 +269,7 @@
 					}
 
 					$widget.removeClass( 'is-loading' );
-					$content.text( content_text );
+					$content.html( content_text );
 
 					self.widget_finished( $widget );
 
