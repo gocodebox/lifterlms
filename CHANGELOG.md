@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.16.8 - 2018-02-??
+--------------------
+
++ Fix issue preventing text / html formatting from saving properly for access plan description fields
++ Fix html character encoding issue on reporting widgets causing currency symbols to display as a charcter code instead of the symbol glyph.
+
+
 v3.16.7 - 2018-02-08
 --------------------
 

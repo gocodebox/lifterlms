@@ -2,7 +2,7 @@
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.9.1
+ * @version  [version]
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -43,7 +43,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		'access_period' => 'string',
 		'availability' => 'string',
 		'availability_restrictions' => 'array',
-		'content' => 'string',
+		'content' => 'html',
 		'enroll_text' => 'string',
 		'frequency' => 'absint',
 		'is_free' => 'yesno',
