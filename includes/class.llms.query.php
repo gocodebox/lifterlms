@@ -4,7 +4,7 @@
 *
 * Handles queries and endpoints
 * @since   1.0.0
-* @version 3.14.0
+* @version [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -151,17 +151,17 @@ class LLMS_Query {
 	 * @param    obj    $query   Main WP_Query Object
 	 * @return   void
 	 * @since    1.4.4           moved from LLMS_Post_Types
-	 * @version  3.6.0
+	 * @version  [version]
 	 */
 	public function pre_get_posts( $query ) {
-		global $wp_query;
+
 		$modify_tax_query = false;
 
-		if ( isset( $wp_query ) && is_search() ) {
-			$modify_tax_query = true;
-		}
-
 		if ( ! is_admin() && $query->is_main_query() ) {
+
+			if ( is_search() ) {
+				$modify_tax_query = true;
+			}
 
 			if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 
