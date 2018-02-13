@@ -14,6 +14,7 @@ v3.16.8 - 2018-02-??
 + Fix issues causing conditionally gradeable question types (fill in the blank and scale) from displaying without a status icon or possible points when awaiting admin review / grading.
 + Fix issue preventing conditionally gradeable question types (fill in the blank and scale) from being reviewable on the admin panel when the question is configured as requiring manual grading.
 + Fix analytics widget undefined index warning during admin-ajax calls. Thanks [@Mte90](https://github.com/Mte90)!
++ Fix issue causing `is_search()` to be called incorrectly. Thanks [@Mte90](https://github.com/Mte90)!
 + Fix issue preventing text / html formatting from saving properly for access plan description fields
 + Fix html character encoding issue on reporting widgets causing currency symbols to display as a charcter code instead of the symbol glyph.
 
