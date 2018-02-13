@@ -1736,6 +1736,12 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
 .single-llms_quiz .llms-quiz-results .llms-donut.passing svg path {
   stroke: #83c373;
 }
+.single-llms_quiz .llms-quiz-results .llms-donut.pending {
+  color: #555;
+}
+.single-llms_quiz .llms-quiz-results .llms-donut.pending svg path {
+  stroke: #555;
+}
 .single-llms_quiz .llms-quiz-results .llms-donut.failing {
   color: #e5554e;
 }

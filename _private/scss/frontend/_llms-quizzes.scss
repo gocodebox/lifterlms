@@ -16,6 +16,12 @@
 					stroke: $color-success;
 				}
 			}
+			&.pending {
+				color: #555;
+				svg path {
+					stroke: #555;
+				}
+			}
 			&.failing {
 				color: $color-danger;
 				svg path {
