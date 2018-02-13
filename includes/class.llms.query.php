@@ -154,10 +154,10 @@ class LLMS_Query {
 	 * @version  3.6.0
 	 */
 	public function pre_get_posts( $query ) {
-
+		global $wp_query;
 		$modify_tax_query = false;
 
-		if ( is_search() ) {
+		if ( isset( $wp_query ) && is_search() ) {
 			$modify_tax_query = true;
 		}
 
