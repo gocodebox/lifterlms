@@ -2,7 +2,7 @@
 /**
  * List of attempt questions/answers for a single attempt
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 	<li class="llms-quiz-attempt-question type--<?php echo $quiz_question->get( 'question_type' ); ?> status--<?php echo $attempt_question->get_status(); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
 		data-question-id="<?php echo $quiz_question->get( 'id' ); ?>"
-		data-grading-manual="<?php echo $quiz_question->supports( 'grading', 'manual' ) ? 'yes' : 'no'; ?>"
+		data-grading-manual="<?php echo $attempt_question->can_be_manually_graded() ? 'yes' : 'no'; ?>"
 		data-points="<?php echo $attempt_question->get( 'points' ); ?>"
 		data-points-curr="<?php echo $attempt_question->get( 'earned' ); ?>">
 		<header class="llms-quiz-attempt-question-header">
