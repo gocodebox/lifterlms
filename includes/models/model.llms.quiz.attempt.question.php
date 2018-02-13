@@ -69,7 +69,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Retrieve anwser HTML for the question
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_answer() {
 
@@ -92,9 +92,10 @@ class LLMS_Quiz_Attempt_Question {
 				$ret = implode( ', ', array_map( 'wp_kses_post', $answers ) );
 
 			}
+
 		}
 
-		return $ret;
+		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
 
 	}
 

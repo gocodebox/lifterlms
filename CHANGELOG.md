@@ -4,9 +4,23 @@ LifterLMS Changelog
 v3.16.8 - 2018-02-??
 --------------------
 
+##### Updates
+
++ Quiz results "donut" chart had alternate styles for quizzes pending review (Dark grey text rather than red). You can target with the `.llms-donut.pending` CSS class to customize appearance.
++ Allow filtering when retrieving student answer for a quiz attempt question via `llms_quiz_attempt_question_get_answer` filter
+
+##### Bug Fixes
+
++ Fix issues causing conditionally gradeable question types (fill in the blank and scale) from displaying without a status icon or possible points when awaiting admin review / grading.
++ Fix issue preventing conditionally gradeable question types (fill in the blank and scale) from being reviewable on the admin panel when the question is configured as requiring manual grading.
 + Fix analytics widget undefined index warning during admin-ajax calls. Thanks [@Mte90](https://github.com/Mte90)!
 + Fix issue preventing text / html formatting from saving properly for access plan description fields
 + Fix html character encoding issue on reporting widgets causing currency symbols to display as a charcter code instead of the symbol glyph.
+
+##### Templates changed
+
++ templates/quiz/results-attempt-questions-list.php
++ templates/quiz/results-attempt.php
 
 
 v3.16.7 - 2018-02-08
