@@ -138,13 +138,13 @@
 
 							<?php if ( 'select' === $layout['type'] ) : ?>
 								<select name="<?php echo $layout['id']; ?>">
-									<?php foreach( $layout['options'] as $key => $name ) : ?>
+									<?php foreach ( $layout['options'] as $key => $name ) : ?>
 										<option value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout['id']; ?>' ) === '<?php echo $key; ?>' ) { print( ' selected="selected"' ); } #>><?php echo esc_html( $name ); ?></option>
 									<?php endforeach; ?>
 								</select>
 							<?php elseif ( 'image_select' === $layout['type'] ) : ?>
 								<div class="llms-editable-img-select">
-								<?php foreach( $layout['options'] as $key => $src ) : ?>
+								<?php foreach ( $layout['options'] as $key => $src ) : ?>
 									<label>
 										<input name="<?php echo $layout['id']; ?>" type="radio" value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout['id']; ?>' ) === '<?php echo $key; ?>' ) { print( ' checked="checked"' ); } #>>
 										<span><img src="<?php echo esc_attr( $src ); ?>"></span>

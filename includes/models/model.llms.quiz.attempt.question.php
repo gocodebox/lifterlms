@@ -92,7 +92,6 @@ class LLMS_Quiz_Attempt_Question {
 				$ret = implode( ', ', array_map( 'wp_kses_post', $answers ) );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );

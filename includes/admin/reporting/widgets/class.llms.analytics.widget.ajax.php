@@ -21,7 +21,6 @@ class LLMS_Analytics_Widget_Ajax {
 			return;
 		}
 
-
 		$methods = array(
 
 			// sales

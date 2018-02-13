@@ -763,7 +763,7 @@ if ( ! empty( $active_post_lock ) ) {
 			$quiz = new LLMS_Quiz( 'new' );
 			$lesson->set( 'quiz', $quiz->get( 'id' ) );
 
-		// update existing quiz
+			// update existing quiz
 		} else {
 
 			$quiz = llms_get_post( $quiz_data['id'] );
@@ -811,10 +811,8 @@ if ( ! empty( $active_post_lock ) ) {
 				if ( $layout && isset( $quiz_data[ $layout['id'] ] ) ) {
 					update_post_meta( $quiz->get( 'id' ), $layout['id'], sanitize_text_field( $quiz_data[ $layout['id'] ] ) );
 				}
-
 			}
-
-		}
+		}// End if().
 
 		return $res;
 
