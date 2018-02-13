@@ -151,6 +151,14 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			$arr['questions'][] = $question->toArray();
 		}
 
+		// if theme support quizzes, add theme metadata to the array
+		if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+			$layout = llms_get_quiz_theme_setting( 'layout' );
+			if ( $layout ) {
+				$arr[ $layout['id'] ] = get_post_meta( $this->get( 'id' ), $layout['id'], true );
+			}
+		}
+
 		return $arr;
 
 	}

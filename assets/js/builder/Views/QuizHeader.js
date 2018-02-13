@@ -54,6 +54,8 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 
 			this.init_editor( 'quiz-desc--' + this.model.get( 'id' ) );
 
+			this.init_selects();
+
 			return this;
 
 		},

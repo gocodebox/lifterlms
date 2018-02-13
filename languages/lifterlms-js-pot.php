@@ -127,7 +127,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Quiz.js
 	 * @since    3.16.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 
@@ -141,7 +141,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),

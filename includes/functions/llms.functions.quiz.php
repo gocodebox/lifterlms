@@ -6,7 +6,7 @@
  * @category  Core
  * @package   LifterLMS/Functions
  * @since     3.16.0
- * @version   3.16.0
+ * @version   [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -96,4 +96,31 @@ function llms_get_quiz_attempt_statuses() {
 		'fail' => __( 'Fail', 'lifterlms' ),
 		'pass' => __( 'Pass', 'lifterlms' ),
 	) );
+}
+
+/**
+ * Get quiz settings defined by supporting themes
+ * @param    string     $setting  name of setting, if ommitted returns all settings
+ * @param    string     $default  default fallback if setting not set
+ * @return   array
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
+
+	$settings = apply_filters( 'llms_get_quiz_theme_settings', array(
+		'layout' => array(
+			'id' => '',
+			'name' => __( 'Layout', 'lifterlms' ),
+			'options' => array(),
+			'type' => 'select', // select, image_select
+		),
+	) );
+
+	if ( $setting ) {
+		return isset( $settings[ $setting ] ) ? $settings[ $setting ] : $default;
+	}
+
+	return $settings;
+
 }

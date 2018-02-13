@@ -2,7 +2,7 @@
 /**
  * Builder quiz model view
  * @since   3.16.0
- * @version 3.16.6
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
@@ -33,6 +33,8 @@
 	<div class="clear"></div>
 
 	<section class="llms-quiz-settings<# if ( data.get( '_show_settings' ) ) { print( ' active' ); } #>">
+
+		<?php do_action( 'llms_builder_quiz_before_settings' ); ?>
 
 		<# if ( data.get( 'permalink' ) ) { #>
 		<div class="llms-settings-row">
@@ -120,6 +122,44 @@
 			</div>
 
 		</div>
+
+		<?php do_action( 'llms_builder_quiz_after_settings' ); ?>
+
+		<?php if ( get_theme_support( 'lifterlms-quizzes' ) ) :
+			$layout = llms_get_quiz_theme_setting( 'layout' );
+			if ( $layout ) : ?>
+				<div class="llms-settings-row">
+
+					<div class="llms-editable-toggle-group">
+
+						<div class="llms-editable-select">
+
+							<span class="llms-label"><?php echo $layout['name']; ?></span>
+
+							<?php if ( 'select' === $layout['type'] ) : ?>
+								<select name="<?php echo $layout['id']; ?>">
+									<?php foreach( $layout['options'] as $key => $name ) : ?>
+										<option value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout['id']; ?>' ) === '<?php echo $key; ?>' ) { print( ' selected="selected"' ); } #>><?php echo esc_html( $name ); ?></option>
+									<?php endforeach; ?>
+								</select>
+							<?php elseif ( 'image_select' === $layout['type'] ) : ?>
+								<div class="llms-editable-img-select">
+								<?php foreach( $layout['options'] as $key => $src ) : ?>
+									<label>
+										<input name="<?php echo $layout['id']; ?>" type="radio" value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout['id']; ?>' ) === '<?php echo $key; ?>' ) { print( ' checked="checked"' ); } #>>
+										<span><img src="<?php echo esc_attr( $src ); ?>"></span>
+									</label>
+								<?php endforeach; ?>
+								</div>
+							<?php endif; ?>
+
+						</div>
+
+					</div>
+
+				</div>
+			<?php endif; ?>
+		<?php endif; ?>
 
 	</section>
 

@@ -578,6 +578,18 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.llms-editable-img-select {
+		input { display: none; }
+		label > span {
+			display: inline-block;
+			padding: 3px;
+		}
+		img { display: block; }
+		input:checked + span {
+			background: $color-brand-blue;
+		}
+	}
+
 	/*
 		 /$$
 		|__/

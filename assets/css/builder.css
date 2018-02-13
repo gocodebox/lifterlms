@@ -591,6 +591,19 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-editable-select .select2-container--default.select2-container--focus .select2-selection--multiple {
   border-color: #aaa;
 }
+.wrap.lifterlms.llms-builder .llms-editable-img-select input {
+  display: none;
+}
+.wrap.lifterlms.llms-builder .llms-editable-img-select label > span {
+  display: inline-block;
+  padding: 3px;
+}
+.wrap.lifterlms.llms-builder .llms-editable-img-select img {
+  display: block;
+}
+.wrap.lifterlms.llms-builder .llms-editable-img-select input:checked + span {
+  background: #2295ff;
+}
 .wrap.lifterlms.llms-builder .llms-action-icon {
   color: #aaa;
   display: inline-block;

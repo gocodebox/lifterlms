@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.16.6
+ * @version  [version]
  */
 define( [], function() {
 
@@ -16,7 +16,7 @@ define( [], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  [version]
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -24,6 +24,7 @@ define( [], function() {
 			'click a[href="#llms-remove-image"]': 'remove_image',
 			'change .llms-editable-select select': 'on_select',
 			'change .llms-switch input[type="checkbox"]': 'toggle_switch',
+			'change .llms-editable-img-select input': 'on_img_select',
 			'focusout .llms-input': 'on_blur',
 			'keydown .llms-input': 'on_keydown',
 		},
@@ -251,6 +252,23 @@ define( [], function() {
 			} else {
 				val = $selected[0].value;
 			}
+
+			this.model.set( attr, val );
+
+		},
+
+		/**
+		 * Change event for image select groups
+		 * @param    obj   event  js event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		on_img_select: function( event ) {
+
+			var $el = $( event.target ),
+				attr = $el.attr( 'name' ),
+				val = $el.val();
 
 			this.model.set( attr, val );
 
