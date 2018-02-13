@@ -1,11 +1,12 @@
 LifterLMS Changelog
 ===================
 
-v3.16.8 - 2018-02-??
+v3.16.8 - 2018-02-13
 --------------------
 
 ##### Updates
 
++ Added theme compatibility API so theme developers can add layout options to the quiz settings on the course builder. For details on adding theme compatibility see: [https://lifterlms.com/docs/quiz-theme-compatibility-developers/](https://lifterlms.com/docs/quiz-theme-compatibility-developers/).
 + Quiz results "donut" chart had alternate styles for quizzes pending review (Dark grey text rather than red). You can target with the `.llms-donut.pending` CSS class to customize appearance.
 + Allow filtering when retrieving student answer for a quiz attempt question via `llms_quiz_attempt_question_get_answer` filter
 

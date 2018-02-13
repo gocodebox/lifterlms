@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.8
  */
 define( [], function() {
 
@@ -16,7 +16,7 @@ define( [], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.8
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -261,8 +261,8 @@ define( [], function() {
 		 * Change event for image select groups
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.8
+		 * @version  3.16.8
 		 */
 		on_img_select: function( event ) {
 

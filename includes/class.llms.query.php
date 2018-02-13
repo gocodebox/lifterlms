@@ -4,7 +4,7 @@
 *
 * Handles queries and endpoints
 * @since   1.0.0
-* @version [version]
+* @version 3.16.8
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -151,7 +151,7 @@ class LLMS_Query {
 	 * @param    obj    $query   Main WP_Query Object
 	 * @return   void
 	 * @since    1.4.4           moved from LLMS_Post_Types
-	 * @version  [version]
+	 * @version  3.16.8
 	 */
 	public function pre_get_posts( $query ) {
 

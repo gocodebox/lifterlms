@@ -6,7 +6,7 @@
  * @category  Core
  * @package   LifterLMS/Functions
  * @since     3.16.0
- * @version   [version]
+ * @version   3.16.8
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
@@ -103,8 +103,8 @@ function llms_get_quiz_attempt_statuses() {
  * @param    string     $setting  name of setting, if ommitted returns all settings
  * @param    string     $default  default fallback if setting not set
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.16.8
+ * @version  3.16.8
  */
 function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 

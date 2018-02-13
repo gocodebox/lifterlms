@@ -5,14 +5,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 * Register WordPress AJAX methods for Analytics Widgets
 *
 * @since  3.0.0
-* @version [version]
+* @version 3.16.8
 */
 class LLMS_Analytics_Widget_Ajax {
 
 	/**
 	 * Constructor
 	 * @since  3.0.0
-	 * @version [version]
+	 * @version 3.16.8
 	 */
 	public function __construct() {
 

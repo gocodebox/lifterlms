@@ -95,7 +95,7 @@ msgstr ""
 msgid "The description the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:55, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, includes/admin/views/builder/quiz-header.php:53
+#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:55, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, includes/admin/views/builder/quiz-header.php:55
 msgid "Description"
 msgstr ""
 
@@ -477,7 +477,7 @@ msgstr ""
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:842
+#: includes/admin/class.llms.admin.builder.php:852
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -1039,42 +1039,6 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.user.custom.fields.php:330
 msgid "Required field \"%s\" is missing."
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:110
-msgid "Website Title"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:111
-msgid "Website URL"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:112
-msgid "Student Email Address"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:113
-msgid "Student Username"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:114
-msgid "Student First Name"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:115
-msgid "Student Last Name"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:116
-msgid "Current Date"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:139
-msgid "Merge Codes"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:149
-msgid "No merge codes found."
 msgstr ""
 
 #: includes/admin/post-types/class.llms.meta.boxes.php:144
@@ -3332,35 +3296,35 @@ msgstr ""
 msgid "Quiz Settings"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:64
+#: includes/admin/views/builder/quiz-header.php:66
 msgid "Minimum percentage of total points required to pass the quiz"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:65
+#: includes/admin/views/builder/quiz-header.php:67
 msgid "Passing Percentage"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:73
+#: includes/admin/views/builder/quiz-header.php:75
 msgid "Limit the maximum number of times a student can take this quiz"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:73
+#: includes/admin/views/builder/quiz-header.php:75
 msgid "Limit Attempts"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:89
+#: includes/admin/views/builder/quiz-header.php:91
 msgid "Enforce a maximum number of minutes a student can spend on each attempt"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:89
+#: includes/admin/views/builder/quiz-header.php:91
 msgid "Time Limit"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:108
+#: includes/admin/views/builder/quiz-header.php:110
 msgid "Show Correct Answers"
 msgstr ""
 
-#: includes/admin/views/builder/quiz-header.php:116
+#: includes/admin/views/builder/quiz-header.php:118
 msgid "Randomize Question Order"
 msgstr ""
 
@@ -3557,7 +3521,7 @@ msgstr ""
 msgid "Voucher redeemed sucessfully!"
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:112
+#: includes/class.llms.frontend.password.php:26
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -5312,46 +5276,6 @@ msgstr ""
 msgid "You have already redeemed this voucher."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:37, includes/controllers/class.llms.controller.account.php:44
-msgid "Something went wrong. Please try again."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:48
-msgid "Cancelled by student from account page."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:67
-msgid "Please log in and try again."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:86
-msgid "Your account information has been saved."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:136
-msgid "Invalid username or e-mail address."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:146
-msgid "Password reset is not allowed for this user"
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:167
-msgid "Check your e-mail for the confirmation link."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:171
-msgid "Unable to reset password due to an unknown error. Please try again."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:202, includes/controllers/class.llms.controller.account.php:209
-msgid "Invalid Key"
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:218
-msgid "Your password has been updated. %1$sClick here to login%2$s"
-msgstr ""
-
 #: includes/controllers/class.llms.controller.orders.php:77, includes/controllers/class.llms.controller.orders.php:83, includes/shortcodes/class.llms.shortcode.checkout.php:171
 msgid "Could not locate an order to confirm."
 msgstr ""
@@ -7100,6 +7024,10 @@ msgstr ""
 msgid "Pass"
 msgstr ""
 
+#: includes/functions/llms.functions.quiz.php:114
+msgid "Layout"
+msgstr ""
+
 #: includes/functions/llms.functions.templates.dashboard.php:32
 msgid "You are not enrolled in any courses."
 msgstr ""
@@ -7502,15 +7430,15 @@ msgstr ""
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:105
+#: includes/models/model.llms.quiz.attempt.question.php:127
 msgid "Correct answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:108
+#: includes/models/model.llms.quiz.attempt.question.php:130
 msgid "Incorrect answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:113
+#: includes/models/model.llms.quiz.attempt.question.php:135
 msgid "Awaiting review"
 msgstr ""
 
@@ -8891,7 +8819,7 @@ msgstr ""
 msgid "Grade: %s"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:72, templates/quiz/results-attempt.php:23
+#: templates/admin/reporting/tabs/students/courses-course.php:72, templates/quiz/results-attempt.php:27
 msgid "Completed: %s"
 msgstr ""
 
@@ -9276,15 +9204,15 @@ msgstr ""
 msgid "Instructor remarks: "
 msgstr ""
 
-#: templates/quiz/results-attempt.php:17
+#: templates/quiz/results-attempt.php:21
 msgid "Attempt #%d Results"
 msgstr ""
 
-#: templates/quiz/results-attempt.php:22
+#: templates/quiz/results-attempt.php:26
 msgid "Correct Answers: %1$d / %2$d"
 msgstr ""
 
-#: templates/quiz/results-attempt.php:24
+#: templates/quiz/results-attempt.php:28
 msgid "Total time: %s"
 msgstr ""
 

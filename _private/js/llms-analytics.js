@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Reporting Widgets & Charts
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.8
  */
 ;( function( $, undefined ) {
 
@@ -188,7 +188,7 @@
 		 * @param    obj   $widget  jQuery selector of the widget element
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.16.8
 		 */
 		this.load_widget = function( $widget ) {
 

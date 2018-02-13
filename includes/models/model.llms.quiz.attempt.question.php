@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Answer Question
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.8
  */
 class LLMS_Quiz_Attempt_Question {
 
@@ -32,8 +32,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Determine if it's possible to manually grade the question
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.8
+	 * @version  3.16.8
 	 */
 	public function can_be_manually_graded() {
 
@@ -69,7 +69,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Retrieve anwser HTML for the question
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.8
 	 */
 	public function get_answer() {
 
@@ -149,7 +149,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Receive the graded status of the question
 	 * @return   string      [graded|waiting|none]
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.8
 	 */
 	public function get_status() {
 		$question = $this->get_question();
@@ -180,8 +180,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Detemrine if a question is correct
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.8
+	 * @version  3.16.8
 	 */
 	public function is_correct() {
 
