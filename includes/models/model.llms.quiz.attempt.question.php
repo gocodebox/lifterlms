@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Answer Question
  * @since   3.16.0
- * @version 3.16.0
+ * @version [version]
  */
 class LLMS_Quiz_Attempt_Question {
 
@@ -26,6 +26,27 @@ class LLMS_Quiz_Attempt_Question {
 			'answer' => null,
 			'correct' => null,
 		) );
+
+	}
+
+	/**
+	 * Determine if it's possible to manually grade the question
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function can_be_manually_graded() {
+
+		$question = $this->get_question();
+
+		// the question is auto-gradeable so it cannot be manually graded
+		if ( $question->get_auto_grade_type() ) {
+			return false;
+		} elseif ( $question->supports( 'grading', 'manual' ) || $question->supports( 'grading', 'conditional' ) ) {
+			return true;
+		}
+
+		return false;
 
 	}
 
@@ -127,13 +148,13 @@ class LLMS_Quiz_Attempt_Question {
 	 * Receive the graded status of the question
 	 * @return   string      [graded|waiting|none]
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_status() {
 		$question = $this->get_question();
 		if ( $question->get_auto_grade_type() ) {
 			return 'graded';
-		} elseif ( $question->supports( 'grading', 'manual' ) ) {
+		} elseif ( $question->supports( 'grading', 'manual' ) || $question->supports( 'grading', 'conditional' ) ) {
 			if ( ! $this->get( 'correct' ) ) {
 				return 'waiting';
 			} else {
@@ -155,6 +176,12 @@ class LLMS_Quiz_Attempt_Question {
 
 	}
 
+	/**
+	 * Detemrine if a question is correct
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function is_correct() {
 
 		if ( 'graded' === $this->get_status() ) {
