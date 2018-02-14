@@ -2,7 +2,7 @@
 /**
  * Single Quiz Tab: Single Attempt Subtab
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -122,11 +122,6 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 					<i class="fa fa-floppy-o" aria-hidden="true"></i>
 					<?php _e( 'Save Review', 'lifterlms' ); ?>
 				</span>
-			</button>
-
-			<button class="llms-button-secondary large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_recalc">
-				<i class="fa fa-refresh" aria-hidden="true"></i>
-				<?php _e( 'Recalculate Grade', 'lifterlms' ); ?>
 			</button>
 
 			<button class="llms-button-danger large" name="llms_quiz_attempt_action" type="submit" value="llms_attempt_delete">

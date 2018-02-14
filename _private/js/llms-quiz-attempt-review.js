@@ -1,9 +1,9 @@
 /**
  * Quiz attempt review / grading UI & UX
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
-( function( $ ) {
+;( function( $ ) {
 
 	var Grading = function() {
 
@@ -11,11 +11,11 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		function bind() {
 
-			$( 'button[name="llms_quiz_attempt_action"]' ).one( 'click', function( e ) {
+			$( 'button[name="llms_quiz_attempt_action"][value="llms_attempt_grade"]' ).one( 'click', function( e ) {
 
 				e.preventDefault();
 

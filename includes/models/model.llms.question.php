@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  3.16.6
+ * @version  [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -384,7 +384,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *                     no  = incorrect
 	 *                     null = not auto gradeable
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function grade( $answer ) {
 
@@ -396,21 +396,26 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		if ( is_null( $grade ) ) {
 
-			$grading_type = $this->get_auto_grade_type();
+			if ( $this->get( 'points' ) >= 1 ) {
 
-			if ( 'choices' === $grading_type ) {
+				$grading_type = $this->get_auto_grade_type();
 
-				sort( $answer );
-				$grade = ( $answer === $this->get_correct_choice() ) ? 'yes' : 'no';
+				if ( 'choices' === $grading_type ) {
 
-			} elseif ( 'conditional' === $grading_type ) {
+					sort( $answer );
+					$grade = ( $answer === $this->get_correct_choice() ) ? 'yes' : 'no';
 
-				$correct = explode( '|', $this->get( 'correct_value' ) );
-				$correct = array_map( 'trim', $correct );
+				} elseif ( 'conditional' === $grading_type ) {
 
-				$grade = ( $answer == $correct ) ? 'yes' : 'no';
+					$correct = explode( '|', $this->get( 'correct_value' ) );
+					$correct = array_map( 'trim', $correct );
+
+					$grade = ( $answer == $correct ) ? 'yes' : 'no';
+
+				}
 
 			}
+
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_grade', $grade, $answer, $this );

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Grading, Deleting, Etc...
  *
  * @since   3.16.0
- * @version 3.16.6
+ * @version [version]
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -20,7 +20,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * Run actions on form submission
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function maybe_run_actions() {
 
@@ -38,9 +38,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 				return;
 			}
 
-			if ( 'llms_attempt_recalc' === $action ) {
-				$attempt->calculate_grade()->save();
-			} elseif ( 'llms_attempt_delete' === $action ) {
+			if ( 'llms_attempt_delete' === $action ) {
 				$url = add_query_arg( array(
 					'page' => 'llms-reporting',
 					'tab' => 'quizzes',

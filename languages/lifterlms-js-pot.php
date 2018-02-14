@@ -52,7 +52,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-analytics.js
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.8
 	 */
 	'Filter by Student(s)' => esc_html__( 'Filter by Student(s)', 'lifterlms' ),
 	'Error' => esc_html__( 'Error', 'lifterlms' ),
@@ -88,7 +88,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-quiz-attempt-review.js
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	'Remarks to Student' => esc_html__( 'Remarks to Student', 'lifterlms' ),
 	'points' => esc_html__( 'points', 'lifterlms' ),
@@ -127,7 +127,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Quiz.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.8
 	 */
 	'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 
@@ -141,7 +141,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.8
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
