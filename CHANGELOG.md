@@ -8,6 +8,7 @@ v3.16.9 - 2018-02-??
   + Will no longer prevent quizzes from being automatically graded when a 0 point question is in an otherwise automatically gradeable quiz
   + Point value not editable during review
   + Visual display on results displays with grey background not as an orange "pending" question
++ Table schema uses default database charset. Fixes an issue with databases that don't support `utf8mb4` charsets.
 
 
 v3.16.8 - 2018-02-13

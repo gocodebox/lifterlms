@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.16.2
+ * @version [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Install {
 
 	public static $background_updater;
@@ -347,7 +346,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private static function get_schema() {
 
@@ -385,10 +384,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_quiz_attempts` (
   `start_date` datetime DEFAULT NULL,
   `update_date` datetime DEFAULT NULL,
   `end_date` datetime DEFAULT NULL,
-  `status` varchar(15) CHARACTER SET utf8mb4 DEFAULT '',
+  `status` varchar(15) DEFAULT '',
   `attempt` bigint(20) DEFAULT NULL,
   `grade` float DEFAULT NULL,
-  `questions` longtext CHARACTER SET utf8mb4,
+  `questions` longtext,
   PRIMARY KEY (`id`),
   KEY `student_id` (`student_id`),
   KEY `quiz_id` (`quiz_id`)
