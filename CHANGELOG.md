@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.16.9 - 2018-02-??
 --------------------
 
++ Fixed spelling error on frontend quiz interface
 + Fixed issues with 0 point questions:
   + Will no longer prevent quizzes from being automatically graded when a 0 point question is in an otherwise automatically gradeable quiz
   + Point value not editable during review

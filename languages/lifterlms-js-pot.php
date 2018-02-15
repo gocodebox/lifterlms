@@ -96,7 +96,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-quiz.js
 	 * @since    1.0.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	'Are you sure you wish to quit this quiz attempt?' => esc_html__( 'Are you sure you wish to quit this quiz attempt?', 'lifterlms' ),
 	'Grading Quiz...' => esc_html__( 'Grading Quiz...', 'lifterlms' ),
@@ -106,7 +106,7 @@ $strings = array(
 	'Time Remaining' => esc_html__( 'Time Remaining', 'lifterlms' ),
 	'Next Question' => esc_html__( 'Next Question', 'lifterlms' ),
 	'Complete Quiz' => esc_html__( 'Complete Quiz', 'lifterlms' ),
-	'Prevous Question' => esc_html__( 'Prevous Question', 'lifterlms' ),
+	'Previous Question' => esc_html__( 'Previous Question', 'lifterlms' ),
 	'Loading...' => esc_html__( 'Loading...', 'lifterlms' ),
 	'You must select an answer to continue.' => esc_html__( 'You must select an answer to continue.', 'lifterlms' ),
 

@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  3.16.6
+ * @version  [version]
  */
 ;( function( $ ) {
 
@@ -541,7 +541,7 @@
 		 * Constructs the quiz UI & adds the elements into the DOM
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		load_ui_elements: function() {
 
@@ -551,7 +551,7 @@
 
 			$footer.append( '<button class="button large llms-button-action" id="llms-next-question" name="llms_next_question" type="submit">' + LLMS.l10n.translate( 'Next Question' ) + '</button>' );
 			$footer.append( '<button class="button large llms-button-action llms-button-quiz-complete" id="llms-complete-quiz" name="llms_complete_quiz" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Complete Quiz' ) + '</button>' );
-			$footer.append( '<button class="button llms-button-secondary" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Prevous Question' ) + '</button>' );
+			$footer.append( '<button class="button llms-button-secondary" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Previous Question' ) + '</button>' );
 
 			$header.append( '<div class="llms-progress"><div class="progress-bar-complete"></div></div>' );
 			$footer.append( '<div class="llms-quiz-counter" id="llms-quiz-counter"><span class="llms-current"></span><span class="llms-sep">/</span><span class="llms-total"></span></div>')
