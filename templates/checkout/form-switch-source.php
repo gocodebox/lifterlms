@@ -5,12 +5,16 @@
  *
  * @package   LifterLMS/Templates
  * @since     3.10.0
- * @version   3.10.0
+ * @version   [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 $status = $order->get( 'status' );
 $gateway = LLMS()->payment_gateways()->get_gateway_by_id( $confirm );
+$plan = llms_get_post( $order->get( 'plan_id' ) );
+if ( ! $plan ) {
+	return;
+}
 ?>
 
 <form action="" class="llms-switch-payment-source llms-checkout-wrapper" id="llms-product-purchase-form" method="POST">
@@ -32,7 +36,7 @@ $gateway = LLMS()->payment_gateways()->get_gateway_by_id( $confirm );
 			<?php llms_get_template( 'checkout/form-gateways.php', array(
 				'gateways' => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
 				'selected_gateway' => $order->get( 'payment_gateway' ),
-				'plan' => llms_get_post( $order->get( 'plan_id' ) ),
+				'plan' => $plan,
 			) ); ?>
 
 			<?php if ( 'llms-active' !== $status ) : ?>
