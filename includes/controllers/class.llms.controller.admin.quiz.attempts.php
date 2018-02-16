@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Grading, Deleting, Etc...
  *
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.9
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -20,7 +20,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * Run actions on form submission
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	public function maybe_run_actions() {
 

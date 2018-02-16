@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Modified from original source to remove reliance on bcmatch module
  *
  * @since    3.16.7
- * @version  [version]
+ * @version  3.16.9
  */
 class LLMS_Hasher {
 
@@ -99,7 +99,7 @@ class LLMS_Hasher {
 	 * @param    int     $int  number to encode
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	public static function base62( $int ) {
 		$key = '';
@@ -116,7 +116,7 @@ class LLMS_Hasher {
 	 * @param    int     $num   number to hash
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	public static function hash( $num ) {
 
@@ -158,7 +158,7 @@ class LLMS_Hasher {
 	 * @param    [type]     $hash  encoded hash string
 	 * @return   int
 	 * @since    3.16.7
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	public static function unhash( $hash ) {
 		$len = strlen( $hash );

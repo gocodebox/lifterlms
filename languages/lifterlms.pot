@@ -95,7 +95,7 @@ msgstr ""
 msgid "The description the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:55, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, includes/admin/views/builder/quiz-header.php:55
+#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, includes/admin/views/builder/quiz-header.php:55
 msgid "Description"
 msgstr ""
 
@@ -993,18 +993,6 @@ msgstr ""
 msgid "There was an error saving your data, please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.system-report.php:47
-msgid "Support"
-msgstr ""
-
-#: includes/admin/class.llms.admin.system-report.php:52
-msgid "Copy for Support"
-msgstr ""
-
-#: includes/admin/class.llms.admin.system-report.php:53
-msgid "Get Help"
-msgstr ""
-
 #: includes/admin/class.llms.admin.user.custom.fields.php:93, includes/admin/reporting/tables/llms.table.students.php:454
 msgid "Billing Address 1"
 msgstr ""
@@ -1222,7 +1210,7 @@ msgstr ""
 msgid "The amount to be subtracted from the \"Trial Price\" of an applicable access plan. Do not include symbols such as %1$s."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:148, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:120, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:111
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:148, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:123, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:111
 msgid "Restrictions"
 msgstr ""
 
@@ -1278,219 +1266,219 @@ msgstr ""
 msgid "Section %1$d: %2$s"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:17
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:19
 msgid "Course Options"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:61
 msgid "If the \"Non-enrolled Student Description\" area below is left blank, this content will be displayed to all visitors, otherwise this content will only be displayed to enrolled students."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:60
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:63
 msgid "Enrolled Student Description"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:64
-msgid "This content will only be shown to vistors who are not enrolled in this course."
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:67
+msgid "This content will only be shown to visitors who are not enrolled in this course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:66
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:69
 msgid "Non-enrolled Student Description"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:72, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:44, includes/admin/settings/class.llms.settings.general.php:20
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:75, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:44, includes/admin/settings/class.llms.settings.general.php:20
 msgid "General"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:76
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:79
 msgid "Course Length"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:77
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:80
 msgid "Enter a description of the estimated length. IE: 3 days"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:87
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:90
 msgid "Choose a course difficulty level. New difficulties can be added via %1$sCourses -> Difficulties%2$s."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:90
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:93
 msgid "Course Difficulty Category"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:97
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:100
 msgid "Featured Video"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:98, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:62
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:101, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:62
 msgid "Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:103
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:106
 msgid "When enabled, the featured video will be displayed on the course tile in addition to the course page."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:106
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:109
 msgid "Display Featured Video on Course Tile"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:112
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:115
 msgid "Featured Audio"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:113, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:70
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:116, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:70
 msgid "Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:125
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:128
 msgid "You must enroll in this course to access course content."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:126
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:129
 msgid "This message will be displayed when non-enrolled visitors attempt to access course content directly without enrolling first"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:128
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:131
 msgid "Content Restricted Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:134
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:137
 msgid "Enable Enrollment Period"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:135
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:138
 msgid "Set registration start and end dates for this course"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:145
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:148
 msgid "Registration opens on this date."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:148
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:151
 msgid "Enrollment Start Date"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:155
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:158
 msgid "Registration closes on this date."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:158
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:161
 msgid "Enrollment End Date"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:165
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:168
 msgid "Enrollment in this course opens on [lifterlms_course_info id=\"%d\" key=\"enrollment_start_date\"]."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:166
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:169
 msgid "This message will be displayed to non-enrolled visitors before the Enrollment Start Date. You may use shortcodes like [lifterlms_course_info id=\"%d\" key=\"enrollment_start_date\"] in this message."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:168
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:171
 msgid "Enrollment Opens Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:175
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:178
 msgid "Enrollment in this course closed on [lifterlms_course_info id=\"%d\" key=\"enrollment_end_date\"]."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:176
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:179
 msgid "This message will be displayed to non-enrolled visitors once the Enrollment End Date has passed. You may use shortcodes like [lifterlms_course_info id=\"%d\" key=\"enrollment_end_date\"] in this message."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:178
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:181
 msgid "Enrollment Closed Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:184
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:187
 msgid "Enable Course Time Period"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:185
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:188
 msgid "Set start and end dates for this course. Content can only be viewed and completed within the selected range."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:197
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:200
 msgid "Course Start Date"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:206
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:209
 msgid "Course End Date"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:213, includes/functions/llms.functions.updates.php:458
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:216, includes/functions/llms.functions.updates.php:458
 msgid "This course opens on [lifterlms_course_info id=\"%d\" key=\"start_date\"]."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:214
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:217
 msgid "This message will be displayed to non-enrolled visitors before the Course Start Date. You may use shortcodes like [lifterlms_course_info id=\"%d\" key=\"start_date\"] in this message."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:216
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:219
 msgid "Course Opens Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:223, includes/functions/llms.functions.updates.php:459
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:226, includes/functions/llms.functions.updates.php:459
 msgid "This course closed on [lifterlms_course_info id=\"%d\" key=\"end_date\"]."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:224
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:227
 msgid "This message will be displayed to non-enrolled visitors once the Course End Date has passed. You may use shortcodes like [lifterlms_course_info id=\"%d\" key=\"end_date\"] in this message."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:226
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:229
 msgid "Course Closed Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:233, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:97
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:236, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:97
 msgid "Enable Prerequisite"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:234
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:237
 msgid "Enable to choose a prerequisite course or course track"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:246
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:249
 msgid "Select a course"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:249
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:252
 msgid "Select a prerequisite course. Students must have completed the selected course before they can view or complete content in this course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:252
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:255
 msgid "Choose Prerequisite Course"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:259
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:262
 msgid "Select the prerequisite course track. Students must have completed the select track before they can view or complete content in this course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:263
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:266
 msgid "Choose Prerequisite Course Track"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:270
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:273
 msgid "Enable Course Capacity"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:271
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:274
 msgid "Limit the number of users that can enroll in this course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:284
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:287
 msgid "Course Capacity"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:290, includes/functions/llms.functions.updates.php:472
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:293, includes/functions/llms.functions.updates.php:472
 msgid "Enrollment has closed because the maximum number of allowed students has been reached."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:291
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:294
 msgid "This message will be displayed to non-enrolled visitors once the Course Capacity has been reached. "
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:293
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:296
 msgid "Capacity Reached Message"
 msgstr ""
 
@@ -7872,7 +7860,7 @@ msgstr ""
 msgid "To reactivate your subscription you can login to your account and %1$spay now%2$s."
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.payment.retry.php:96, includes/notifications/views/class.llms.notification.view.payment.retry.php:109, templates/checkout/form-switch-source.php:22
+#: includes/notifications/views/class.llms.notification.view.payment.retry.php:96, includes/notifications/views/class.llms.notification.view.payment.retry.php:109, templates/checkout/form-switch-source.php:26
 msgid "Update Payment Method"
 msgstr ""
 
@@ -8951,7 +8939,7 @@ msgstr ""
 msgid "Enroll Now"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:58, templates/checkout/form-switch-source.php:50
+#: templates/checkout/form-confirm-payment.php:58, templates/checkout/form-switch-source.php:54
 msgid "Payment Method:"
 msgstr ""
 
@@ -9007,15 +8995,15 @@ msgstr ""
 msgid "Access"
 msgstr ""
 
-#: templates/checkout/form-switch-source.php:41
+#: templates/checkout/form-switch-source.php:45
 msgid "Due Now: %s"
 msgstr ""
 
-#: templates/checkout/form-switch-source.php:72
+#: templates/checkout/form-switch-source.php:76
 msgid "Save Payment Method"
 msgstr ""
 
-#: templates/checkout/form-switch-source.php:72
+#: templates/checkout/form-switch-source.php:76
 msgid "Save and Pay Now"
 msgstr ""
 

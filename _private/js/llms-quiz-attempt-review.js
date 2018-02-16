@@ -1,7 +1,7 @@
 /**
  * Quiz attempt review / grading UI & UX
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.9
  */
 ;( function( $ ) {
 
@@ -11,7 +11,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.9
 		 */
 		function bind() {
 

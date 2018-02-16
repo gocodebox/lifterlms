@@ -5,7 +5,7 @@
  *
  * @package   LifterLMS/Templates
  * @since     3.10.0
- * @version   [version]
+ * @version   3.16.9
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.9
  *
  * @property  $question_type  (string)  type of question
  */
@@ -384,7 +384,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *                     no  = incorrect
 	 *                     null = not auto gradeable
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	public function grade( $answer ) {
 
@@ -413,9 +413,7 @@ class LLMS_Question extends LLMS_Post_Model {
 					$grade = ( $answer == $correct ) ? 'yes' : 'no';
 
 				}
-
 			}
-
 		}
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_grade', $grade, $answer, $this );

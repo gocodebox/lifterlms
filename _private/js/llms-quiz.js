@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.9
  */
 ;( function( $ ) {
 
@@ -541,7 +541,7 @@
 		 * Constructs the quiz UI & adds the elements into the DOM
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.9
 		 */
 		load_ui_elements: function() {
 

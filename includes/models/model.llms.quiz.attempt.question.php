@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Answer Question
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.9
  */
 class LLMS_Quiz_Attempt_Question {
 
@@ -33,7 +33,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Determine if it's possible to manually grade the question
 	 * @return   boolean
 	 * @since    3.16.8
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	public function can_be_manually_graded() {
 
@@ -47,7 +47,6 @@ class LLMS_Quiz_Attempt_Question {
 			} elseif ( $question->supports( 'grading', 'manual' ) || $question->supports( 'grading', 'conditional' ) ) {
 				return true;
 			}
-
 		}
 
 		return false;
@@ -152,7 +151,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Receive the graded status of the question
 	 * @return   string      [graded|waiting|none]
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	public function get_status() {
 
@@ -171,9 +170,7 @@ class LLMS_Quiz_Attempt_Question {
 				} else {
 					return 'graded';
 				}
-
 			}
-
 		}
 
 		return 'none';

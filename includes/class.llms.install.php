@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Plugin installation
  * @since   1.0.0
- * @version [version]
+ * @version 3.16.9
  */
 class LLMS_Install {
 
@@ -346,7 +346,7 @@ class LLMS_Install {
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	private static function get_schema() {
 

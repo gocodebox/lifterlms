@@ -350,15 +350,18 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.16.9 - 2018-02-??
+= v3.16.9 - 2018-02-15 =
 ------------------------
 
++ Fix issue causing error on student dashboard when reviewing an order with an access plan that was deleted.
++ Fixed spelling error on course metabox
 + Fixed spelling error on frontend quiz interface
 + Fixed issues with 0 point questions:
   + Will no longer prevent quizzes from being automatically graded when a 0 point question is in an otherwise automatically gradeable quiz
   + Point value not editable during review
   + Visual display on results displays with grey background not as an orange "pending" question
 + Table schema uses default database charset. Fixes an issue with databases that don't support `utf8mb4` charsets.
++ Updated `LLMS_Hasher` class for better compatibility with older versions of PHP
 
 
 = v3.16.8 - 2018-02-13 =
