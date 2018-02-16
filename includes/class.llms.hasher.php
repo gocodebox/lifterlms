@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Modified from original source to remove reliance on bcmatch module
  *
  * @since    3.16.7
- * @version  3.16.7
+ * @version  [version]
  */
 class LLMS_Hasher {
 
@@ -99,12 +99,12 @@ class LLMS_Hasher {
 	 * @param    int     $int  number to encode
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  3.16.7
+	 * @version  [version]
 	 */
 	public static function base62( $int ) {
 		$key = '';
 		while ( $int > 0 ) {
-			$mod = ( $int % 62 );
+			$mod = fmod( $int, 62 );
 			$key .= chr( self::$chars62[ $mod ] );
 			$int = floor( $int / 62 );
 		}
@@ -116,7 +116,7 @@ class LLMS_Hasher {
 	 * @param    int     $num   number to hash
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  3.16.7
+	 * @version  [version]
 	 */
 	public static function hash( $num ) {
 
@@ -132,7 +132,7 @@ class LLMS_Hasher {
 		$ceil = pow( 62, $len );
 		$primes = array_keys( self::$golden_primes );
 		$prime = $primes[ $len ];
-		$dec = ( ( $num * $prime ) % $ceil );
+		$dec = fmod( ( $num * $prime ), $ceil );
 		$hash = self::base62( $dec );
 		return str_pad( $hash, $len, '0', STR_PAD_LEFT );
 	}
@@ -158,7 +158,7 @@ class LLMS_Hasher {
 	 * @param    [type]     $hash  encoded hash string
 	 * @return   int
 	 * @since    3.16.7
-	 * @version  3.16.7
+	 * @version  [version]
 	 */
 	public static function unhash( $hash ) {
 		$len = strlen( $hash );
@@ -166,7 +166,7 @@ class LLMS_Hasher {
 		$mmiprimes = array_values( self::$golden_primes );
 		$mmi = $mmiprimes[ $len ];
 		$num = self::unbase62( $hash );
-		$dec = ( ( $num * $mmi ) % $ceil );
+		$dec = fmod( ( $num * $mmi ), $ceil );
 		return $dec;
 	}
 
