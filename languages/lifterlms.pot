@@ -993,6 +993,18 @@ msgstr ""
 msgid "There was an error saving your data, please try again."
 msgstr ""
 
+#: includes/admin/class.llms.admin.system-report.php:47
+msgid "Support"
+msgstr ""
+
+#: includes/admin/class.llms.admin.system-report.php:52
+msgid "Copy for Support"
+msgstr ""
+
+#: includes/admin/class.llms.admin.system-report.php:53
+msgid "Get Help"
+msgstr ""
+
 #: includes/admin/class.llms.admin.user.custom.fields.php:93, includes/admin/reporting/tables/llms.table.students.php:454
 msgid "Billing Address 1"
 msgstr ""
@@ -7494,15 +7506,15 @@ msgstr ""
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:130
+#: includes/models/model.llms.quiz.attempt.question.php:129
 msgid "Correct answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:133
+#: includes/models/model.llms.quiz.attempt.question.php:132
 msgid "Incorrect answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:138
+#: includes/models/model.llms.quiz.attempt.question.php:137
 msgid "Awaiting review"
 msgstr ""
 

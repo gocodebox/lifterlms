@@ -88,7 +88,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-quiz-attempt-review.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	'Remarks to Student' => esc_html__( 'Remarks to Student', 'lifterlms' ),
 	'points' => esc_html__( 'points', 'lifterlms' ),
@@ -96,7 +96,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-quiz.js
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.16.9
 	 */
 	'Are you sure you wish to quit this quiz attempt?' => esc_html__( 'Are you sure you wish to quit this quiz attempt?', 'lifterlms' ),
 	'Grading Quiz...' => esc_html__( 'Grading Quiz...', 'lifterlms' ),
