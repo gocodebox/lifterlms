@@ -1,8 +1,10 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
 * Course Options
-* @version  3.0.0
+* @since    1.0.0
+* @version  [version]
 */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -23,7 +25,8 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	/**
 	 * Setup fields
 	 * @return array
-	 * @version  3.0.0
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -61,7 +64,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'type'		=> 'post-content',
 					),
 					array(
-						'desc' 		=> __( 'This content will only be shown to vistors who are not enrolled in this course.', 'lifterlms' ),
+						'desc' 		=> __( 'This content will only be shown to visitors who are not enrolled in this course.', 'lifterlms' ),
 						'id'        => '',
 						'label'		=> __( 'Non-enrolled Student Description', 'lifterlms' ),
 						'type'		=> 'post-excerpt',
