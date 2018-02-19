@@ -1,6 +1,9 @@
 <?php
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
+require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
+
 /**
  * LifterLMS Background Updater
  * Process db updates in the background
@@ -8,12 +11,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Replaces abstract updater and update classes from 3.4.2 and lower
  *
  * @since    3.4.3
- * @version  3.16.5
+ * @version  [version]
  */
-
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
-require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
-
 class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
@@ -78,13 +77,13 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * Retrieve appoximate progess of updates in the queue
 	 * @return   int
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  [version]
 	 */
 	public function get_progress() {
 
 		// if the queue is empty we've already finished
 		if ( $this->is_queue_empty() ) {
-			return 100;
+			return 0;
 		}
 
 		// get the progress
@@ -151,20 +150,23 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	/**
 	 * Processes an item in the queue
 	 * @param    string     $callback  name of the callback function to execute
-	 * @return   boolean               false removes item from the queue
-	 *                                 true leaves it in the queue for further processing
+	 * @return   mixed                 false removes item from the queue
+	 *                                 truthy (callback function name) leaves it in the queue for further processing
 	 * @since    3.4.3
-	 * @version  3.16.5
+	 * @version  [version]
 	 */
 	protected function task( $callback ) {
 
 		include_once dirname( __FILE__ ) . '/functions/llms.functions.updates.php';
 
 		if ( is_callable( $callback ) ) {
-			llms_set_time_limit( 0 );
 			$this->log( sprintf( 'Running %s callback', $callback ) );
-			call_user_func( $callback );
+			if ( call_user_func( $callback ) ) {
+				// $this->log( sprintf( '%s callback will rerun', $callback ) );
+				return $callback;
+			}
 			$this->log( sprintf( 'Finished %s callback', $callback ) );
+
 		} else {
 			$this->log( sprintf( 'Could not find %s callback', $callback ) );
 		}

@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v3.16.10 - 2018-02-19
+---------------------
+
++ Added new columns to the Quizzes reporting table to display Course and Lesson relationships
++ Improved the task handler of background updater to ensure upgrade functions that need to run multiple times can do so
++ Fixed JS Backup confirmation dialog on the background updater.
+
+##### 3.16.0 migration improvements
+
++ Accommodates questions imported by 3rd party Excel to LifterLMS Quiz plugin. Fixes an issue where choices would have no correct answer designated after migration.
++ All migration functions now run on a loop. This improves progress reporting of the migration and prevents timeouts on mature databases with lots of quizzes, questions, and/or attempts.
++ Fix an issue that caused duplicate quizzes or questions to be created when the "Taking too long?" link was clicked
+
+
 v3.16.9 - 2018-02-15
 --------------------
 
