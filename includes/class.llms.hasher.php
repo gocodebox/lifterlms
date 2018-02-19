@@ -2,12 +2,14 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
+ * LifterLMS hash ID encrypt/decrypt
+ *
  * Based on PseudoCrypt by KevBurns (http://blog.kevburnsjr.com/php-unique-hash)
  * Reference/source: http://stackoverflow.com/a/1464155/933782
- * Modified from original source to remove reliance on bcmatch module
+ * Modified from original source to remove reliance on bcmath functions
  *
  * @since    3.16.7
- * @version  3.16.9
+ * @version  [version]
  */
 class LLMS_Hasher {
 
@@ -95,16 +97,40 @@ class LLMS_Hasher {
 	);
 
 	/**
+	 * Modulo function
+	 * @todo  figure this out better...
+	 *        64 bit systems can use % without issue
+	 *        32 bit systems have problems with % and needs to use fmod
+	 * 				  however after 100001 unhash no longer works correctly when using fmod
+	 *
+	 * @param    int     $a  first int
+	 * @param    int     $b  second int
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function mod( $a, $b ) {
+
+		// 64 bit systems
+		if ( 8 === PHP_INT_SIZE ) {
+			return $a % $b;
+		}
+		// 32 bit systems?
+		return fmod( $a, $b );
+
+	}
+
+	/**
 	 * Base 62 encode a number
 	 * @param    int     $int  number to encode
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  3.16.9
+	 * @version  [version]
 	 */
 	public static function base62( $int ) {
 		$key = '';
 		while ( $int > 0 ) {
-			$mod = fmod( $int, 62 );
+			$mod = self::mod( $int, 62 );
 			$key .= chr( self::$chars62[ $mod ] );
 			$int = floor( $int / 62 );
 		}
@@ -116,7 +142,7 @@ class LLMS_Hasher {
 	 * @param    int     $num   number to hash
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  3.16.9
+	 * @version  [version]
 	 */
 	public static function hash( $num ) {
 
@@ -132,9 +158,10 @@ class LLMS_Hasher {
 		$ceil = pow( 62, $len );
 		$primes = array_keys( self::$golden_primes );
 		$prime = $primes[ $len ];
-		$dec = fmod( ( $num * $prime ), $ceil );
+		$dec = self::mod( ( $num * $prime ), $ceil );
 		$hash = self::base62( $dec );
 		return str_pad( $hash, $len, '0', STR_PAD_LEFT );
+
 	}
 
 	/**
@@ -158,16 +185,18 @@ class LLMS_Hasher {
 	 * @param    [type]     $hash  encoded hash string
 	 * @return   int
 	 * @since    3.16.7
-	 * @version  3.16.9
+	 * @version  [version]
 	 */
 	public static function unhash( $hash ) {
+
 		$len = strlen( $hash );
 		$ceil = pow( 62, $len );
 		$mmiprimes = array_values( self::$golden_primes );
 		$mmi = $mmiprimes[ $len ];
 		$num = self::unbase62( $hash );
-		$dec = fmod( ( $num * $mmi ), $ceil );
+		$dec = self::mod( ( $num * $mmi ), $ceil );
 		return $dec;
+
 	}
 
 }
