@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.16.5
+ * @version  [version]
  */
 
 //include all other function files
@@ -58,6 +58,19 @@ function llms_are_terms_and_conditions_required() {
 if ( ! function_exists( 'llms_current_time' ) ) {
 	function llms_current_time( $type, $gmt = 0 ) {
 		return current_time( $type, $gmt );
+	}
+}
+
+/**
+ * Do apply_filters( 'the_content', $content ) without actions adding their own content onto us...
+ * @param    string     $content  [description]
+ * @return   [type]
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'llms_content' ) ) {
+	function llms_content( $content = '' ) {
+		return do_shortcode( shortcode_unautop( wpautop( convert_chars( wptexturize( $content ) ) ) ) );
 	}
 }
 

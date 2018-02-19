@@ -2,11 +2,50 @@
 /**
  * Template functions for the student dashboard
  * @since    1.0.0
- * @version  3.14.0
+ * @version  [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+/**
+ * If content added to the course/membership catalog page, output it as the archive description before the loop
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_archive_description' ) ) {
+	function lifterlms_archive_description() {
+
+		$page_id = false;
+
+		if ( is_post_type_archive( 'course' ) || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
+
+			$page_id = llms_get_page_id( 'courses' );
+
+		} elseif ( is_post_type_archive( 'llms_membership' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
+
+			$page_id = llms_get_page_id( 'memberships' );
+
+		}
+
+		if ( $page_id ) {
+			$page = get_post( $page_id );
+			$content = $page->post_content;
+			if ( $content ) {
+				echo llms_content( $content );
+			}
+		}
+
+	}
+}
+
+/**
+ * Output a LifterLMS Loop
+ * @param    obj     $query  WP_Query, uses global $wp_query if not supplied
+ * @return   void
+ * @since    3.14.0
+ * @version  3.14.0
+ */
 function lifterlms_loop( $query = null ) {
 
 	global $wp_query;
