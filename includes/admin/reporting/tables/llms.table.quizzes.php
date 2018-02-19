@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Quizzes Reporting Table
  *
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -72,7 +72,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	protected function get_data( $key, $data ) {
 
@@ -115,8 +115,28 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 			break;
 
+			case 'course':
+				$value = '&mdash;';
+				$course = $quiz->get_course();
+				if ( $course ) {
+					$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+						'tab' => 'courses',
+						'course_id' => $course->get( 'id' ),
+					) );
+					$value = '<a href="' . esc_url( $url ) . '">' . $course->get( 'title' ) . '</a>';
+				}
+			break;
+
 			case 'id':
 				$value = $this->get_post_link( $quiz->get( 'id' ) );
+			break;
+
+			case 'lesson':
+				$value = '&mdash;';
+				$lesson = $quiz->get_lesson();
+				if ( $lesson ) {
+					$value = $lesson->get( 'title' );
+				}
 			break;
 
 			case 'title':
@@ -266,7 +286,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	protected function set_columns() {
 		return array(
@@ -280,25 +300,21 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				'title' => __( 'Title', 'lifterlms' ),
 				'sortable' => true,
 			),
+			'course' => array(
+				'exportable' => true,
+				'title' => __( 'Course', 'lifterlms' ),
+				'sortable' => false,
+			),
+			'lesson' => array(
+				'exportable' => true,
+				'title' => __( 'Lesson', 'lifterlms' ),
+				'sortable' => false,
+			),
 			'attempts' => array(
 				'exportable' => true,
 				'title' => __( 'Total Attempts', 'lifterlms' ),
 				'sortable' => false,
 			),
-			// 'instructors' => array(
-			// 	'exportable' => true,
-			// 	'filterable' => current_user_can( 'view_others_lifterlms_reports' ) ? $this->get_instructor_filters() : false,
-			// 	'title' => __( 'Instructors', 'lifterlms' ),
-			// ),
-			// 'students' => array(
-			// 	'exportable' => true,
-			// 	'title' => __( 'Students', 'lifterlms' ),
-			// ),
-			// 'progress' => array(
-			// 	'exportable' => true,
-			// 	'title' => __( 'Average Progress', 'lifterlms' ),
-			// 	'sortable' => true,
-			// ),
 			'average' => array(
 				'exportable' => true,
 				'title' => __( 'Average Grade', 'lifterlms' ),

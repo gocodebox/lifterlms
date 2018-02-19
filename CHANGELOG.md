@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.16.10 - 2018-02-19
+---------------------
+
++ Added new columns to the Quizzes reporting table to display Course and Lesson relationships
++
+
+
 v3.16.9 - 2018-02-15
 --------------------
 
