@@ -1470,7 +1470,7 @@ function llms_update_3160_update_question_data() {
 					// dev if you're reading this I love you but you caused me a pretty large headache
 					// trying to figure out where in our codebase we went wrong...
 					} elseif ( is_string( $val ) && '' !== $val ) {
-						return true;
+						$correct = true;
 					// cactch everything else and filter var it
 					} else {
 
