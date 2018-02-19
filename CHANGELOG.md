@@ -4,9 +4,11 @@ LifterLMS Changelog
 v3.16.10 - 2018-02-19
 ---------------------
 
++ Content added to the editor of course & membership catalog pages will now be output *above* the catalog loop
 + Added new columns to the Quizzes reporting table to display Course and Lesson relationships
 + Improved the task handler of background updater to ensure upgrade functions that need to run multiple times can do so
 + Fixed JS Backup confirmation dialog on the background updater.
++ Add support for 32-bit systems in the `LLMS_Hasher` class
 
 ##### 3.16.0 migration improvements
 

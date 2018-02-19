@@ -16,10 +16,11 @@ php:
   - 5.6
   - 7.0
   - 7.1
+  - 7.2
   # - hhvm
 
 env:
-  - WP_VERSION=latest WP_MULTISITE=0 PHP_LATEST_STABLE=7.1
+  - WP_VERSION=latest WP_MULTISITE=0 PHP_LATEST_STABLE=7.2
 
 before_script:
   - bash tests/bin/install.sh lifterlms_tests root '' localhost $WP_VERSION

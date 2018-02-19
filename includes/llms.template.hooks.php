@@ -2,7 +2,7 @@
 /**
 * LifterLMS Template Actions
 * @since    1.0.0
-* @version  3.16.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -58,6 +58,7 @@ add_action( 'lifterlms_single_lesson_after_summary', 'lifterlms_template_lesson_
  * Course & Membership Loops
  *
  ***********************************************************************/
+add_action( 'lifterlms_archive_description', 'lifterlms_archive_description', 10 );
 add_action( 'lifterlms_before_loop', 'lifterlms_loop_start', 10 );
 add_action( 'lifterlms_loop', 'lifterlms_loop', 10 );
 add_action( 'lifterlms_after_loop', 'lifterlms_loop_end', 10 );
