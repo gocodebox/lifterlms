@@ -5,6 +5,7 @@ v3.16.10 - 2018-02-19
 ---------------------
 
 + Content added to the editor of course & membership catalog pages will now be output *above* the catalog loop
++ Fix issue preventing iframes and some shortcodes from working when added to a Quiz question description
 + Added new columns to the Quizzes reporting table to display Course and Lesson relationships
 + Improved the task handler of background updater to ensure upgrade functions that need to run multiple times can do so
 + Fixed JS Backup confirmation dialog on the background updater.

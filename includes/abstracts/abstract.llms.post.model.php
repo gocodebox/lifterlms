@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.16.4
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
@@ -111,7 +110,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $key   key to retrieve
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function __get( $key ) {
 
@@ -175,7 +174,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// if we found a valid, apply default llms get get filter and return the value
 		if ( isset( $val ) ) {
 
-			$val = $this->scrub( $key, $val );
+			if ( 'content' !== $key ) {
+				$val = $this->scrub( $key, $val );
+			}
 			return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key, $val, $this );
 
 		}
