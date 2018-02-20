@@ -1469,7 +1469,7 @@ function llms_update_3160_update_question_data() {
 					// that doesn't save options in the expected format...
 					// dev if you're reading this I love you but you caused me a pretty large headache
 					// trying to figure out where in our codebase we went wrong...
-					} elseif ( is_string( $val ) && '' !== $val ) {
+					} elseif ( is_string( $option['correct_option'] ) && '' !== $option['correct_option'] ) {
 						$correct = true;
 					// cactch everything else and filter var it
 					} else {
