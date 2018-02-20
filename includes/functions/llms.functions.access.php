@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  3.12.2
+ * @version  [version]
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -38,14 +38,16 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	/**
 	 * Do checks to determine if the content should be restricted
 	 */
-
 	$sitewide_membership_id = llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id );
 	$membership_id = llms_is_post_restricted_by_membership( $post_id, $user_id );
 
+	if ( is_home() && $sitewide_membership_id ) {
+		$restriction_id = $sitewide_membership_id;
+		$reason = 'sitewide_membership';
 	// if it's a search page and the site isn't restricted to a membership bypass restrictions
-	if ( is_search() && ! get_option( 'lifterlms_membership_required', '' ) ) {
+	} elseif ( ( is_search() ) && ! get_option( 'lifterlms_membership_required', '' ) ) {
 		return apply_filters( 'llms_page_restricted', $results, $post_id );
-	} // End if().
+	} // content is restricted by sitewide membership
 	elseif ( is_singular() && $sitewide_membership_id ) {
 		$restriction_id = $sitewide_membership_id;
 		$reason = 'sitewide_membership';

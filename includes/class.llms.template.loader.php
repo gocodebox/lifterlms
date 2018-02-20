@@ -2,7 +2,7 @@
 /**
 * Template loader class
 * @since    1.0.0
-* @version  3.16.1
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -343,16 +343,24 @@ class LLMS_Template_Loader {
 	 * @param    string  $template
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.2.3
+	 * @version  [version]
 	 */
 	public function template_loader( $template ) {
 
 		$page_restricted = llms_page_restricted( get_the_ID() );
-
 		$post_type = get_post_type();
 
-		// blog should bypass checks
-		if ( is_home() ) {
+		// blog should bypass checks, except when sitewide restrictions are enabled
+		if ( is_home() && 'sitewide_membership' == $page_restricted['reason'] && $page_restricted['is_restricted'] ) {
+
+			// generic content restricted action
+			do_action( 'lifterlms_content_restricted', $page_restricted );
+
+			// specific content restriction action
+			do_action( 'llms_content_restricted_by_' . $page_restricted['reason'], $page_restricted );
+
+			// prints notices on the blog page when there's not redirects setup
+			add_action( 'loop_start', 'llms_print_notices', 5 );
 
 			return $template;
 
