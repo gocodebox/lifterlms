@@ -11,7 +11,7 @@ require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-b
  * Replaces abstract updater and update classes from 3.4.2 and lower
  *
  * @since    3.4.3
- * @version  [version]
+ * @version  3.16.10
  */
 class LLMS_Background_Updater extends WP_Background_Process {
 
@@ -77,7 +77,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * Retrieve appoximate progess of updates in the queue
 	 * @return   int
 	 * @since    3.4.3
-	 * @version  [version]
+	 * @version  3.16.10
 	 */
 	public function get_progress() {
 
@@ -153,7 +153,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	 * @return   mixed                 false removes item from the queue
 	 *                                 truthy (callback function name) leaves it in the queue for further processing
 	 * @since    3.4.3
-	 * @version  [version]
+	 * @version  3.16.10
 	 */
 	protected function task( $callback ) {
 

@@ -1,8 +1,8 @@
 <?php
 /**
  * Tests for LLMS_Site
- * @since    [version]
- * @version  [version]
+ * @since    3.16.10
+ * @version  3.16.10
  */
 class LLMS_Test_Hasher extends LLMS_UnitTestCase {
 
@@ -23,8 +23,8 @@ class LLMS_Test_Hasher extends LLMS_UnitTestCase {
 	/**
 	 * Test the hashing/unhashing functions
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.10
+	 * @version  3.16.10
 	 */
 	public function test_hash_unhash() {
 

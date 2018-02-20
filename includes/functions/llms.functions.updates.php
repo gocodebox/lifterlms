@@ -1015,7 +1015,7 @@ function llms_update_3130_update_db_version() {
  * Add yes/no vals for quiz new quiz settings
  * @return   void
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_update_quiz_settings() {
 
@@ -1041,7 +1041,7 @@ function llms_update_3160_update_quiz_settings() {
  * Rename meta keys for lesson -> quiz relationship
  * @return   [type]
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_lesson_to_quiz_relationships_migration() {
 
@@ -1062,7 +1062,7 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
  * Migrate attempt data from the former location on the wp_usermeta table
  * @return   void
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_attempt_migration() {
 
@@ -1188,7 +1188,7 @@ function llms_update_3160_attempt_migration() {
  * Create duplicate questions for each question attached to multiple quizzes
  * @return   [void]
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_ensure_no_dupe_question_rels() {
 
@@ -1288,7 +1288,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
  * Create duplicates for any quiz attached to multiple lessons
  * @return   void
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_ensure_no_lesson_dupe_rels() {
 
@@ -1393,7 +1393,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
  * Update question & choice data to new structure
  * @return   void
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_update_question_data() {
 
@@ -1514,7 +1514,7 @@ function llms_update_3160_update_question_data() {
  * Update question data to new formats & match question choice indexes to new choice IDs
  * @return   void
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_update_attempt_question_data() {
 
@@ -1569,7 +1569,7 @@ function llms_update_3160_update_attempt_question_data() {
  * Ensure quizzes backreference their parent lessons
  * @return   void
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 function llms_update_3160_update_quiz_to_lesson_rels() {
 

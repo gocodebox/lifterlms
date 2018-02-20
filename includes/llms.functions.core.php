@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.10
  */
 
 //include all other function files
@@ -65,8 +65,8 @@ if ( ! function_exists( 'llms_current_time' ) ) {
  * Do apply_filters( 'the_content', $content ) without actions adding their own content onto us...
  * @param    string     $content  [description]
  * @return   [type]
- * @since    [version]
- * @version  [version]
+ * @since    3.16.10
+ * @version  3.16.10
  */
 if ( ! function_exists( 'llms_content' ) ) {
 	function llms_content( $content = '' ) {

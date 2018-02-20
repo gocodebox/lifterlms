@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.9.4
-Stable tag: 3.16.9
+Stable tag: 3.16.10
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -348,6 +348,24 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.16.10 - 2018-02-19 =
+-------------------------
+
++ Content added to the editor of course & membership catalog pages will now be output *above* the catalog loop
++ Fix issue preventing iframes and some shortcodes from working when added to a Quiz question description
++ Added new columns to the Quizzes reporting table to display Course and Lesson relationships
++ Improved the task handler of background updater to ensure upgrade functions that need to run multiple times can do so
++ Fixed JS Backup confirmation dialog on the background updater.
++ Add support for 32-bit systems in the `LLMS_Hasher` class
++ Fix issue causing HTML template content to be added to lessons when duplicating an existing lesson within the course builder
+
+##### 3.16.0 migration improvements
+
++ Accommodates questions imported by 3rd party Excel to LifterLMS Quiz plugin. Fixes an issue where choices would have no correct answer designated after migration.
++ All migration functions now run on a loop. This improves progress reporting of the migration and prevents timeouts on mature databases with lots of quizzes, questions, and/or attempts.
++ Fix an issue that caused duplicate quizzes or questions to be created when the "Taking too long?" link was clicked
 
 
 = v3.16.9 - 2018-02-15 =

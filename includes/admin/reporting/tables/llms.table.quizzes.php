@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Quizzes Reporting Table
  *
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.10
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -72,7 +72,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.10
 	 */
 	protected function get_data( $key, $data ) {
 
@@ -286,7 +286,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.10
 	 */
 	protected function set_columns() {
 		return array(
