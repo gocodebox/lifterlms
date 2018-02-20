@@ -850,7 +850,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.16.4
+	 * @version  [version]
 	 */
 	public function toArray() {
 
@@ -858,7 +858,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'id' => $this->get( 'id' ),
 		);
 
-		$props = array_diff( array_keys( $this->get_properties() ), array( 'content', 'title' ) );
+		$props = array_diff( array_keys( $this->get_properties() ), array( 'content', 'excerpt', 'title' ) );
 		$props = apply_filters( 'llms_get_' . $this->model_post_type . '_to_array_properties', $props, $this );
 
 		foreach ( $props as $prop ) {
@@ -866,6 +866,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}
 
 		$arr['content'] = $this->post->post_content;
+		$arr['excerpt'] = $this->post->post_excerpt;
 		$arr['title'] = $this->post->post_title;
 
 		// add the featured image if the post type supports it

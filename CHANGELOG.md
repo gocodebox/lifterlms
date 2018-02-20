@@ -10,6 +10,7 @@ v3.16.10 - 2018-02-19
 + Improved the task handler of background updater to ensure upgrade functions that need to run multiple times can do so
 + Fixed JS Backup confirmation dialog on the background updater.
 + Add support for 32-bit systems in the `LLMS_Hasher` class
++ Fix issue causing HTML template content to be added to lessons when duplicating an existing lesson within the course builder
 
 ##### 3.16.0 migration improvements
 
