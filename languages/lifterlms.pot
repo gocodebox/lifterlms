@@ -3188,11 +3188,11 @@ msgstr ""
 msgid "View lesson"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:40
+#: includes/admin/views/builder/lesson.php:40, includes/admin/views/builder/section.php:33
 msgid "Shift up"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:44
+#: includes/admin/views/builder/lesson.php:44, includes/admin/views/builder/section.php:37
 msgid "Shift down"
 msgstr ""
 
@@ -3390,6 +3390,18 @@ msgstr ""
 
 #: includes/admin/views/builder/quiz.php:50
 msgid "Filter"
+msgstr ""
+
+#: includes/admin/views/builder/section.php:22
+msgid "Expand section"
+msgstr ""
+
+#: includes/admin/views/builder/section.php:28
+msgid "Collapse section"
+msgstr ""
+
+#: includes/admin/views/builder/section.php:42
+msgid "Delete Section"
 msgstr ""
 
 #: includes/admin/views/builder/sidebar.php:20
