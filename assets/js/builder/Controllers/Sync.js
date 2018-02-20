@@ -1,8 +1,7 @@
-
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  3.16.7
+ * @version  [version]
  */
 define( [], function() {
 
@@ -190,7 +189,7 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		function get_changed_attributes( model ) {
 
@@ -212,17 +211,7 @@ define( [], function() {
 
 			}
 
-			var exclude = [];
-			if ( model.get_relationships ) {
-				_.each( model.get_relationships().children, function( data, key ) {
-
-					if ( ! data.conditional || true === data.conditional( model ) ) {
-						exclude.push( key );
-					}
-
-				} )
-			}
-
+			var exclude = ( model.get_relationships ) ? model.get_child_props() : [];
 			atts = _.omit( atts, function( val, key ) {
 
 				// exclude keys that start with an underscore which are used by the
@@ -254,7 +243,7 @@ define( [], function() {
 		 * @return   obj|array	  		if object is a model, returns an object
 		 *                            	if object is a collection, returns an array of objects
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		function get_changes_to_object( object ) {
 
@@ -266,13 +255,11 @@ define( [], function() {
 
 				if ( object.get_relationships ) {
 
-					_.each( object.get_relationships().children, function( child_data, child_key ) {
+					_.each( object.get_child_props(), function( prop ) {
 
-						if ( ! child_data.conditional || true === child_data.conditional( object ) ) {
-							var children = get_changes_to_object( object.get( child_key ) );
-							if ( ! _.isEmpty( children ) ) {
-								changed_atts[ child_key ] = children;
-							}
+						var children = get_changes_to_object( object.get( prop ) );
+						if ( ! _.isEmpty( children ) ) {
+							changed_atts[ prop ] = children;
 						}
 
 					} );
@@ -310,6 +297,32 @@ define( [], function() {
 		function has_temp_id( model ) {
 
 			return ( ! _.isNumber( model.id ) && 0 === model.id.indexOf( 'temp_' ) );
+
+		};
+
+		/**
+		 * Compares changes synced to the server against current model and restarts
+		 * tracking on elements that haven't changed since the last sync
+		 * @param    obj   model  instance of a Backbone.Model
+		 * @param    obj   data   data set that was processed by the server
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		function maybe_restart_tracking( model, data ) {
+
+			var omit = [ 'id', 'orig_id' ];
+			if ( model.get_relationships ) {
+				omit.concat( model.get_child_props() );
+			}
+
+			_.each( _.omit( data, omit ), function( val, prop ) {
+
+				if ( _.isEqual( model.get( prop ), val ) ) {
+					delete model._unsavedChanges[ prop ];
+				}
+
+			} );
 
 		};
 
@@ -379,14 +392,13 @@ define( [], function() {
 		 * @param    {[type]}   main_data  [description]
 		 * @return   {[type]}
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		function process_object_updates( data, type, parent, main_data ) {
 
 			if ( ! data[ type ] ) {
 				return data;
 			}
-
 
 			if ( parent.get( type ) instanceof Backbone.Model ) {
 
@@ -403,16 +415,15 @@ define( [], function() {
 					// update temp ids with the real id
 					if ( info.id != info.orig_id ) {
 						model.set( 'id', info.id );
+						delete model._unsavedChanges.id;
 					}
-					model.restartTracking();
+					maybe_restart_tracking( model, info );
 
 					// check children
 					if ( model.get_relationships ) {
 
-						_.each( model.get_relationships().children, function( child_data, child_key ) {
-
+						_.each( model.get_child_props(), function( child_key ) {
 							_.extend( data[ type ], process_object_updates( data[ type ], child_key, model, main_data ) );
-
 						} );
 
 					}
@@ -434,16 +445,15 @@ define( [], function() {
 						// update temp ids with the real id
 						if ( info.id != info.orig_id ) {
 							model.set( 'id', info.id );
+							delete model._unsavedChanges.id;
 						}
-						model.restartTracking();
+						maybe_restart_tracking( model, info );
 
 						// check children
 						if ( model.get_relationships ) {
 
-							_.each( model.get_relationships().children, function( child_data, child_key ) {
-
+							_.each( model.get_child_props(), function( child_key ) {
 								_.extend( data[ type ], process_object_updates( data[ type ][ index ], child_key, model, main_data ) );
-
 							} );
 
 						}

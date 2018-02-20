@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.16.8
+ * @version  [version]
  */
 class LLMS_Admin_Builder {
 
@@ -363,7 +363,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public static function output() {
 
@@ -423,7 +423,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'admin_url' => admin_url(),
 				'course' => array_merge( $course->toArray() ),
 				'debug' => array(
-					'enabled' => ( ( defined( 'WP_DEBUG' ) && WP_DEBUG ) || ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ) ),
+					'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
 				),
 				'questions' => array_values( llms_get_question_types() ),
 				'sync' => apply_filters( 'llms_builder_sync_settings', array(
@@ -584,7 +584,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
@@ -596,9 +596,9 @@ if ( ! empty( $active_post_lock ) ) {
 				continue;
 			}
 
-			$res = array(
+			$res = array_merge( $lesson_data, array(
 				'orig_id' => $lesson_data['id'],
-			);
+			) );
 
 			// create a new section
 			if ( self::is_temp_id( $lesson_data['id'] ) ) {
@@ -664,7 +664,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $parent    instance of an LLMS_Quiz or LLMS_Question (group)
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private static function update_questions( $questions, $parent ) {
 
@@ -672,9 +672,9 @@ if ( ! empty( $active_post_lock ) ) {
 
 		foreach ( $questions as $q_data ) {
 
-			$ret = array(
+			$ret = array_merge( $q_data, array(
 				'orig_id' => $q_data['id'],
-			);
+			) );
 
 			// remove temp id if we have one so we'll create a new question
 			if ( self::is_temp_id( $q_data['id'] ) ) {
@@ -707,9 +707,9 @@ if ( ! empty( $active_post_lock ) ) {
 
 					foreach ( $choices as $c_data ) {
 
-						$choice_res = array(
+						$choice_res = array_merge( $c_data, array(
 							'orig_id' => $c_data['id'],
-						);
+						) );
 
 						unset( $c_data['question_id'] );
 
@@ -749,13 +749,13 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.8
+	 * @version  [version]
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
-		$res = array(
+		$res = array_merge( $quiz_data, array(
 			'orig_id' => $quiz_data['id'],
-		);
+		) );
 
 		// create a quiz
 		if ( self::is_temp_id( $quiz_data['id'] ) ) {
@@ -824,13 +824,13 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $course_id     instance of the parent LLMS_Course
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private static function update_section( $section_data, $course_id ) {
 
-		$res = array(
+		$res = array_merge( $section_data, array(
 			'orig_id' => $section_data['id'],
-		);
+		) );
 
 		// create a new section
 		if ( self::is_temp_id( $section_data['id'] ) ) {
@@ -869,6 +869,7 @@ if ( ! empty( $active_post_lock ) ) {
 				$res['lessons'] = self::update_lessons( $section_data['lessons'], $section );
 
 			}
+
 		}
 
 		return $res;
