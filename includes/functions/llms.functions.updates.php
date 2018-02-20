@@ -1209,7 +1209,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 		 WHERE post_type = 'llms_question'
 		 ORDER BY ID ASC
 		 LIMIT %d, 20;",
-		 $skip
+		$skip
 	) );
 
 	if ( ! $question_ids ) {
@@ -1414,7 +1414,7 @@ function llms_update_3160_update_question_data() {
 		 WHERE meta_key = '_llms_questions'
 		 ORDER BY post_id ASC
 		 LIMIT %d, 100;",
-		 $skip
+		$skip
 	) );
 
 	// finished
@@ -1464,14 +1464,14 @@ function llms_update_3160_update_question_data() {
 					// no correct_option set for the choice, set it to false
 					if ( ! isset( $option['correct_option'] ) ) {
 						$correct = false;
-					// handle bool strings like "on" "off" "yes" "no"
-					// and questions imported from a 3rd party Excel to LifterLMS plugin
-					// that doesn't save options in the expected format...
-					// dev if you're reading this I love you but you caused me a pretty large headache
-					// trying to figure out where in our codebase we went wrong...
+						// handle bool strings like "on" "off" "yes" "no"
+						// and questions imported from a 3rd party Excel to LifterLMS plugin
+						// that doesn't save options in the expected format...
+						// dev if you're reading this I love you but you caused me a pretty large headache
+						// trying to figure out where in our codebase we went wrong...
 					} elseif ( is_string( $option['correct_option'] ) && '' !== $option['correct_option'] ) {
 						$correct = true;
-					// cactch everything else and filter var it
+						// cactch everything else and filter var it
 					} else {
 
 						$correct = filter_var( $option['correct_option'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );
@@ -1480,7 +1480,6 @@ function llms_update_3160_update_question_data() {
 						if ( is_null( $correct ) ) {
 							$correct = true;
 						}
-
 					}
 
 					$question->create_choice( array(
@@ -1496,7 +1495,7 @@ function llms_update_3160_update_question_data() {
 							$clarify .= $option['option_description'] . '<br><br>';
 						}
 					}
-				}
+				}// End foreach().
 
 				if ( $clarify ) {
 					$question->set( 'clarifications', trim( rtrim( $clarify, '<br><br>' ) ) );
