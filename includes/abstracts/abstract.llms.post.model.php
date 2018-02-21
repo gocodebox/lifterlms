@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.16.10
+ * @version  [version]
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -850,7 +850,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.16.10
+	 * @version  [version]
 	 */
 	public function toArray() {
 
@@ -871,20 +871,31 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		// add the featured image if the post type supports it
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
-			$arr['featured_image'] = $this->get_image( 'full' );
+			$arr['featured_image'] = $this->get_image( 'full', 'thumbnail' );
 		}
 
+		// expand instructors if instructors are supported
+		if ( ! empty( $arr['instructors'] ) && method_exists( $this, 'instructors' ) ) {
+
+			foreach ( $arr['instructors'] as &$data ) {
+				$instructor = llms_get_instructor( $data['id'] );
+				if ( $instructor ) {
+					$data = array_merge( $data, $instructor->toArray() );
+				}
+			}
+
 		// expand author
-		if ( ! empty( $arr['author'] ) ) {
-			$user = new WP_User( $arr['author'] );
-			$arr['author'] = array(
-				'descrpition' => $user->description,
-				'email' => $user->user_email,
-				'first_name' => $user->first_name,
-				'id' => $user->ID,
-				'last_name' => $user->last_name,
-			);
+		} elseif ( ! empty( $arr['author'] ) ) {
+
+			$instructor = llms_get_instructor( $arr['author'] );
+			if ( $instructor ) {
+				$arr['author'] = $instructor->toArray();
+			}
+
 		}
+
+		// add custom fields
+		$arr = $this->toArrayCustom( $arr );
 
 		// allow extending classes to add properties easily without overridding the class
 		$arr = $this->toArrayAfter( $arr );
@@ -910,6 +921,30 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @version  3.3.0
 	 */
 	protected function toArrayAfter( $arr ) {
+		return $arr;
+	}
+
+	/**
+	 * Called by toArray to add custom fields via get_post_meta()
+	 * Removes all custom props registered to the $this->properties automatically
+	 * Also removes some fields used by the WordPress core that don't hold necessary data
+	 * Extending classes may override this class to exclude, extend, or modify the custom fields for a post type
+	 * @param    array     $arr  existing post array
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function toArrayCustom( $arr ) {
+
+		$props = array_keys( $this->get_properties() );
+		foreach ( $props as &$prop ) {
+			$prop = $this->meta_prefix . $prop;
+		}
+		$props[] = '_edit_lock';
+		$props[] = '_edit_last';
+
+		$arr['custom'] = array_diff_key( get_post_meta( $this->get( 'id' ) ), array_flip( $props ) );
+
 		return $arr;
 	}
 
