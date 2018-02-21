@@ -363,7 +363,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  * @return   int|false         false if the post is not restricted by course time period
  *                             WP Post ID of the course if it is
  * @since    3.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 
@@ -375,20 +375,14 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 		$lesson = new LLMS_Lesson( $post_id );
 		$course_id = $lesson->get_parent_course();
 
-	} // End if().
-	elseif ( 'llms_quiz' == $post_type ) {
-
-		$quiz = new LLMS_Quiz_Legacy( $post_id );
-		$lesson = llms_get_post( $quiz->get_assoc_lesson( $user_id ) );
-		if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
-			$quiz = new LLMS_Quiz( $post_id );
-			$lessons = $quiz->get_lessons( 'ids' );
-			if ( ! $lessons ) {
-				return false;
-			}
-			$lesson = llms_get_post( $lessons[0] );
+	} elseif ( 'llms_quiz' === $post_type ) {
+		$quiz = llms_get_post( $post_id );
+		$lesson_id = $quiz->get( 'lesson_id' );
+		if ( ! $lesson_id ) {
+			return false;
 		}
-		if ( ! $lesson ) {
+		$lesson = llms_get_post( $lesson_id );
+		if ( ! $lesson_id ) {
 			return false;
 		}
 		$course_id = $lesson->get_parent_course();
