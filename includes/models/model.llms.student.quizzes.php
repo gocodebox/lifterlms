@@ -1,14 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Student Quiz Data
  * Rather than instatiating this class directly
  * use LLMS_Student->quizzes()
  * @since   3.9.0
- * @version 3.16.7
+ * @version [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
@@ -32,93 +31,34 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Remove Student Quiz attempt(s)
-	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    int     $lesson_id  WP Post ID of a lesson
-	 * @param    int     $attempt    attempt number
-	 * @return   array               updated array quiz data for the student
+	 * Remove Student Quiz attempt by ID
+	 * @param    int     $attempt_id  Attempt ID
+	 * @return   boolean              true on success, false on error
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
-	public function delete_attempt( $quiz_id, $lesson_id, $attempt ) {
+	public function delete_attempt( $attempt_id ) {
 
-		$quizzes = $this->get_all();
-
-		$id = $this->get_attempt_index( $quiz_id, $lesson_id, $attempt );
-
-		if ( false !== $id ) {
-			unset( $quizzes[ $id ] );
-		}
-
-		// reindex
-		$quizzes = array_values( $quizzes );
-
-		// save
-		$this->save( $quizzes );
-
-		// return updated quiz data
-		return $quizzes;
+		$attempt = $this->get_attempt_by_id( $attempt_id );
+		return $attempt->delete();
 
 	}
 
 	/**
-	 * Retrieve quiz data for a student for a lesson / quiz combination
-	 * @param    int     $quiz    WP Post ID of a Quiz
-	 * @param    int     $lesson  WP Post ID of a lesson
-	 * @return   array
+	 * Retrieve quiz data for a student and optionally filter by quiz_id(s)
+	 * @param    mixed   $quiz    WP Post ID / Array of WP Post IDs
+	 * @return   object           Instance of LLMS_Query_Quiz_Attempt
 	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @version  [version]
 	 */
-	public function get_all( $quiz = null, $lesson = null ) {
+	public function get_all( $quiz = array() ) {
 
-		// get all quiz data
-		$quizzes = $this->get( 'quiz_data' );
+		$query = new LLMS_Query_Quiz_Attempt( array(
+			'quiz_id' => $quiz,
+			'per_page' => 5000,
+		) );
 
-		if ( ! is_array( $quizzes ) ) {
-			$quizzes = array();
-		}
-
-		// reduce the data to those matching the requested quiz & lesson
-		if ( $quizzes && ( $quiz || $lesson ) ) {
-
-			foreach ( $quizzes as $i => $data ) {
-
-				if ( $quiz && $quiz != $data['id'] ) {
-					unset( $quizzes[ $i ] );
-				}
-
-				if ( $lesson && $lesson != $data['assoc_lesson'] ) {
-					unset( $quizzes[ $i ] );
-				}
-			}
-
-			// reindex
-			$quizzes = array_values( $quizzes );
-
-		}
-
-		return apply_filters( 'llms_student_get_quiz_data', $quizzes, $quiz, $lesson );
-
-	}
-
-	/**
-	 * Retrieve the data for a single attempt by quiz, lesson, and attempt number
-	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    int     $lesson_id  WP Post ID of a lesson
-	 * @param    int     $attempt    attempt number
-	 * @return   false|obj
-	 * @since    3.9.0
-	 * @version  3.9.0
-	 */
-	public function get_attempt( $quiz, $lesson, $attempt ) {
-
-		$id = $this->get_attempt_index( $quiz, $lesson, $attempt );
-		if ( false !== $id ) {
-			$quizzes = $this->get_all();
-			return new LLMS_Quiz_Attempt( $quizzes[ $id ] );
-		}
-
-		return false;
+		return apply_filters( 'llms_student_get_quiz_data', $query->get_attempts(), $quiz );
 
 	}
 
@@ -226,37 +166,12 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve the index of a single attempt by quiz, lesson, and attempt number
-	 * The index is the the attempt in the raw array of quiz data without any filtering
-	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    int     $lesson_id  WP Post ID of a lesson
-	 * @param    int     $attempt    attempt number
-	 * @return   int|false
-	 * @since    3.9.0
-	 * @version  3.9.0
-	 */
-	private function get_attempt_index( $quiz, $lesson, $attempt ) {
-
-		// get all quiz data
-		$quizzes = $this->get_all();
-
-		foreach ( $quizzes as $i => $data ) {
-			if ( $quiz == $data['id'] && $lesson == $data['assoc_lesson'] && $attempt == $data['attempt'] ) {
-				return $i;
-			}
-		}
-
-		return false;
-
-	}
-
-	/**
 	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
 	 * @param    int     $quiz_id    WP Post ID of a Quiz
 	 * @param    null    $deprecated deprecated
 	 * @return   false|array
 	 * @since    3.9.0
-	 * @version 3.16.0
+	 * @version  3.16.0
 	 */
 	public function get_best_attempt( $quiz_id = null, $deprecated = null ) {
 
@@ -272,26 +187,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 		if ( $attempts ) {
 			return $attempts[0];
-		}
-
-		return false;
-
-	}
-
-	/**
-	 * Retrieve the currently initialized quiz attempt that hasn't been started yet
-	 * Replaces quiz data stored in the session
-	 * @param    int        $quiz    WP_Post ID of the quiz to retrieve the current attempt for
-	 * @return   false|obj
-	 * @since    3.9.0
-	 * @version  3.9.0
-	 */
-	public function get_current_attempt( $quiz ) {
-
-		foreach ( array_reverse( $this->get_all( $quiz ) ) as $attempt ) {
-			if ( isset( $attempt['current'] ) && true === $attempt['current'] ) {
-				return new LLMS_Quiz_Attempt( $attempt );
-			}
 		}
 
 		return false;
@@ -362,39 +257,6 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 		return LLMS_Hasher::unhash( $attempt_key );
 
-	}
-
-	/**
-	 * Save quiz data updates
-	 * If updating a single attempt the data MUST be merged back into the raw data array otherwise data will be lost
-	 * @param    array     $quizzes   quiz data array
-	 * @return   void
-	 * @since    3.9.0
-	 * @version  3.9.0
-	 */
-	private function save( $quizzes ) {
-		return apply_filters( 'llms_student_quizzes_save', $this->set( 'quiz_data', $quizzes ), $this );
-	}
-
-	/**
-	 * Save a single quiz attempt
-	 * Handles dupchecking
-	 * if the attempt already exists it will be handled as an update
-	 * if the attempt is new it will be appended to the list of quizzes
-	 * @param    array     $attempt_data   raw attempt data array
-	 * @return   void
-	 * @since    3.9.0
-	 * @version  3.9.0
-	 */
-	public function save_attempt( $attempt_data ) {
-		$quizzes = $this->get_all();
-		$id = $this->get_attempt_index( $attempt_data['id'], $attempt_data['assoc_lesson'], $attempt_data['attempt'] );
-		if ( false === $id ) {
-			$quizzes[] = $attempt_data;
-		} else {
-			$quizzes[ $id ] = $attempt_data;
-		}
-		return $this->save( $quizzes );
 	}
 
 }
