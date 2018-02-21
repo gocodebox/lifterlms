@@ -285,7 +285,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  *                             		id => int (object id)
  *                             )
  * @since    3.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
@@ -293,21 +293,11 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	if ( 'lesson' === $post_type ) {
 		$lesson_id = $post_id;
-	} elseif ( 'llms_quiz' == $post_type ) {
-		$quiz = new LLMS_Quiz_Legacy( $post_id );
-		$lesson_id = $quiz->get_assoc_lesson( $user_id );
+	} elseif ( 'llms_quiz' === $post_type ) {
+		$quiz = llms_get_post( $post_id );
+		$lesson_id = $quiz->get( 'lesson_id' );
 		if ( ! $lesson_id ) {
-			$session = LLMS()->session->get( 'llms_quiz' );
-			$lesson_id = ( $session && isset( $session->assoc_lesson ) ) ? $session->assoc_lesson : false;
-		}
-
-		if ( ! $lesson_id ) {
-			$quiz = new LLMS_Quiz( $post_id );
-			$lessons = $quiz->get_lessons( 'ids' );
-			if ( ! $lessons ) {
-				return false;
-			}
-			$lesson_id = $lessons[0];
+			return false;
 		}
 	} else {
 		return false;
