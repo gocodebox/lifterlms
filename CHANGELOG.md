@@ -4,8 +4,9 @@ LifterLMS Changelog
 v3.16.11 - 2018-02-??
 ---------------------
 
-+ Fixed builder issue causing data to lost during autosaves if data was edited during an autosave
++ Fixed builder issue causing data to be lost during autosaves if data was edited during an autosave
 + Fixed issue allowing blog archive to be viewed by non-members when sitewide membership is enabled
++ Fixed issue preventing lessons from moving between sections when clicking the "Prev" and "Next" section buttons
 
 
 v3.16.10 - 2018-02-19
