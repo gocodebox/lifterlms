@@ -4,7 +4,7 @@
  * @group     post_models
  * @group     lessons
  * @since     3.14.8
- * @version   3.16.0
+ * @version   [version]
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -25,24 +25,34 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
 	 * @since    3.14.8
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
 	protected function get_properties() {
 		return array(
-			'assigned_quiz' => 'absint',
-			'audio_embed' => 'text',
-			'date_available' => 'text',
-			'days_before_available' => 'absint',
-			'drip_method' => 'text',
-			'free_lesson' => 'yesno',
-			'has_prerequisite' => 'yesno',
+
 			'order' => 'absint',
+
+			// drippable
+			'days_before_available' => 'absint',
+			'date_available' => 'text',
+			'drip_method' => 'text',
+			'time_available' => 'text',
+
+			// parent element
 			'parent_course' => 'absint',
 			'parent_section' => 'absint',
+
+			'audio_embed' => 'text',
+			'free_lesson' => 'yesno',
+			'has_prerequisite' => 'yesno',
 			'prerequisite' => 'absint',
 			'require_passing_grade' => 'yesno',
-			'time_available' => 'text',
 			'video_embed' => 'text',
+
+			// quizzes
+			'quiz' => 'absint',
+			'quiz_enabled' => 'yesno',
+
 		);
 	}
 
@@ -51,11 +61,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters
 	 * @return   array
 	 * @since    3.14.8
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
 	protected function get_data() {
 		return array(
-			'assigned_quiz' => 123,
 			'audio_embed' => 'http://example.tld/audio_embed',
 			'date_available' => '11/21/2018',
 			'days_before_available' => '24',
@@ -66,6 +75,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			'parent_course' => 85,
 			'parent_section' => 32,
 			'prerequisite' => 344,
+			'quiz' => 123,
+			'quiz_enabled' => 'yes',
 			'require_passing_grade' => 'yes',
 			'time_available' => '12:34 PM',
 			'video_embed' => 'http://example.tld/video_embed',

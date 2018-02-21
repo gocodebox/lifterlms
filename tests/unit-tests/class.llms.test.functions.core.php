@@ -302,7 +302,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test llms_get_post()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.6.0
+	 * @version  [version]
 	 */
 	public function test_llms_get_post() {
 
@@ -328,7 +328,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 		}
 
-		$this->assertInstanceOf( 'WP_Post', llms_get_post( $this->factory->post->create() ) );
+		$this->assertInstanceOf( 'WP_Post', llms_get_post( $this->factory->post->create(), 'post' ) );
 		$this->assertNull( llms_get_post( 'fail' ) );
 		$this->assertNull( llms_get_post( 0 ) );
 
