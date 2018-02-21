@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
- * @since    3.13.0
- * @version  3.16.0
+ * @since    3.16.0
+ * @version  [version]
  */
 define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable ) {
 
@@ -10,8 +10,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		/**
 		 * Get default attributes for the html wrapper element
 		 * @return   obj
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		attributes: function() {
 			return {
@@ -34,6 +34,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 			'click .detach--lesson': 'detach',
 			'click .edit-lesson': 'open_lesson_editor',
 			'click .edit-quiz': 'open_quiz_editor',
+			'click .section-prev': 'section_prev',
+			'click .section-next': 'section_next',
 			'click .shift-up--lesson': 'shift_up',
 			'click .shift-down--lesson': 'shift_down',
 			'click .trash--lesson': 'trash',
@@ -42,8 +44,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		/**
 		 * HTML element wrapper ID attribute
 		 * @return   string
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		id: function() {
 			return 'llms-lesson-' + this.model.id;
@@ -81,7 +83,7 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    3.13.0
+		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		render: function() {
@@ -165,6 +167,30 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		},
 
 		/**
+		 * Click event for the "Next Section" button
+		 * @param    obj   event   js event obj
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		section_next: function( event ) {
+			event.preventDefault();
+			this._move_to_section( 'next' );
+		},
+
+		/**
+		 * Click event for the "Previous Section" button
+		 * @param    obj   event   js event obj
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		section_prev: function( event ) {
+			event.preventDefault();
+			this._move_to_section( 'prev' );
+		},
+
+		/**
 		 * Remove lesson from course and delete it
 		 * @param    obj   event  js event object
 		 * @return   void
@@ -184,6 +210,34 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 
 			}
 
+
+		},
+
+		/**
+		 * Move the lesson into a new section
+		 * @param    string   direction  direction [prev|next]
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		_move_to_section: function( direction ) {
+
+			var from_coll = this.model.collection,
+				to_section;
+
+			if ( 'next' === direction ) {
+				to_section = from_coll.parent.get_next();
+			} else if ( 'prev' === direction ) {
+				to_section = from_coll.parent.get_prev();
+			}
+
+			if ( to_section ) {
+
+				from_coll.remove( this.model );
+				to_section.add_lesson( this.model );
+				to_section.set( '_expanded', true );
+
+			}
 
 		},
 

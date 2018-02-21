@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.16.11 - 2018-02-??
+---------------------
+
++ Fixed builder issue causing data to lost during autosaves if data was edited during an autosave
++ Fixed issue allowing blog archive to be viewed by non-members when sitewide membership is enabled
+
+
 v3.16.10 - 2018-02-19
 ---------------------
 
