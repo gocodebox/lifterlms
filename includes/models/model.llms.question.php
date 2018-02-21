@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  3.16.9
+ * @version  [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -522,7 +522,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		unset( $arr['modified'] );
 		unset( $arr['status'] );
 
-		// $arr['options'] = $this->get_options();
 		$choices = array();
 		foreach ( $this->get_choices() as $choice ) {
 			$choices[] = $choice->get_data();
@@ -646,6 +645,17 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		return $query;
 
+	}
+
+	/**
+	 * Don't add custom fields during toArray()
+	 * @param    array     $arr  post model array
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function toArrayCustom( $arr ) {
+		return $arr;
 	}
 
 	/*
