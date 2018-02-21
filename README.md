@@ -84,3 +84,9 @@ To see all options:
 
 + `./vendor/bin/phpcbf` to run on all php files
 + `./vendor/bin/phpcbf path/to/file.php` to run on a specific file
+
+### Sponsors
+
+[BrowserStack](https://www.browserstack.com/) helps us ensure LifterLMS looks great and works on every imaginable browser and device.
+
+[![BrowserStack](https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png "BrowserStack")](https://www.browserstack.com/)
