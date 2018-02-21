@@ -3,7 +3,7 @@
  * LifterLMS Instructor class
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant
  * @since   3.13.0
- * @version 3.14.4
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -239,6 +239,22 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 		return apply_filters( 'llms_instructor_is_instructor', $ret, $post_id, $check_id, $this );
 
+	}
+
+	/**
+	 * Used by exporter / cloner to get instructor data
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function toArray() {
+		return array(
+			'descrpition' => $this->get( 'description' ),
+			'email' => $this->get( 'user_email' ),
+			'first_name' => $this->get( 'first_name' ),
+			'id' => $this->get_id(),
+			'last_name' => $this->get( 'last_name' ),
+		);
 	}
 
 }
