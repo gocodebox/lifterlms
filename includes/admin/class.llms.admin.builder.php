@@ -600,8 +600,9 @@ if ( ! empty( $active_post_lock ) ) {
 				'orig_id' => $lesson_data['id'],
 			) );
 
-			// create a new section
+			// create a new lesson
 			if ( self::is_temp_id( $lesson_data['id'] ) ) {
+
 				$lesson = new LLMS_Lesson( 'new', array(
 					'post_title' => isset( $lesson_data['title'] ) ? $lesson_data['title'] : __( 'New Lesson', 'lifterlms' ),
 				) );
@@ -611,9 +612,13 @@ if ( ! empty( $active_post_lock ) ) {
 				if ( ! isset( $lesson_data['parent_section'] ) || self::is_temp_id( $lesson_data['parent_section'] ) ) {
 					$lesson_data['parent_section'] = $section->get( 'id' );
 				}
+
+				$created = true;
+
 			} else {
 
 				$lesson = llms_get_post( $lesson_data['id'] );
+				$created = false;
 
 			}
 
@@ -638,15 +643,22 @@ if ( ! empty( $active_post_lock ) ) {
 					}
 				}
 
+				// during clone's we want to ensure custom field data comes with the lesson
+				if ( $created && isset( $lesson_data['custom'] ) ) {
+					foreach ( $lesson_data['custom'] as $custom_key => $custom_vals ) {
+						foreach ( $custom_vals as $val ) {
+							add_post_meta( $lesson->get( 'id' ), $custom_key, maybe_unserialize( $val ) );
+						}
+					}
+				}
+
 				// ensure slug gets updated when changing title from default "New Lesson"
 				if ( isset( $lesson_data['title'] ) && ! $lesson->has_modified_slug() ) {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
 
 				if ( isset( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
-
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
-
 				}
 			}
 
