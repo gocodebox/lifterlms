@@ -1,7 +1,7 @@
 /**
  * Course Model
- * @since    3.13.0
- * @version  3.16.0
+ * @since    3.16.0
+ * @version  [version]
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -20,8 +20,8 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		/**
 		 * New Course Defaults
 		 * @return   obj
-		 * @since    3.13.0
-		 * @version 3.16.0
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		defaults: function() {
 			return {
@@ -33,6 +33,12 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			}
 		},
 
+		/**
+		 * Init
+		 * @return   void
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		initialize: function() {
 
 			this.startTracking();
@@ -48,6 +54,14 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		},
 
+		/**
+		 * Add an existing lesson to the course
+		 * Duplicate a lesson from this or another course or attach an orphaned lesson
+		 * @param    obj   lesson  lesson data obj
+		 * @return   void
+		 * @since    3.16.0
+		 * @version  [version]
+		 */
 		add_existing_lesson: function( lesson ) {
 
 			var data = lesson.data;
@@ -55,6 +69,10 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			if ( 'clone' === lesson.action ) {
 
 				delete data.id;
+				if ( data.quiz ) {
+					delete data.quiz;
+					data.quiz_enabled = 'no';
+				}
 
 			} else {
 
@@ -68,23 +86,15 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 			this.add_lesson( data );
 
- 	   	 	// var added = this.add_lesson( data ),
- 	   	 	// 	temp = _.clone( added.attributes );
-
- 	   	 	// _.each( [ 'order', 'parent_course', 'parent_section' ], function( key ) {
-
- 	   	 	// 	console.log( key );
-
- 	   	 	// 	added.unset( key );
- 	   	 	// 	added.set( key, temp[key] );
-
- 	   	 	// } );
-
- 	   	 	// console.log( added );
-
-
 		},
 
+		/**
+		 * Add a new lesson to the course
+		 * @param    obj   data   lesson data
+		 * @return   obj          Backbone.Model of the lesson
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		add_lesson: function( data ) {
 
 			data = data || {};
@@ -114,6 +124,13 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		},
 
+		/**
+		 * Add a new section to the course
+		 * @param    obj   data   section data
+		 * @return   void
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		add_section: function( data ) {
 
 			data = data || {};
