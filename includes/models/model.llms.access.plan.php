@@ -1,8 +1,10 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.16.8
+ * @version  [version]
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -31,9 +33,6 @@
  * @property  $trial_period  (string)  Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day]
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	protected $properties = array(
@@ -626,6 +625,29 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function set_visibility( $visibility ) {
 		return $this->set_terms( array( $visibility ), 'llms_access_plan_visibility', false );
+	}
+
+	/**
+	 * Cleanup data to remove unnecssary defaults
+	 * @param    array     $arr   array of data to be serialized
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function toArrayAfter( $arr ) {
+		unset( $arr['author'] );
+		return $arr;
+	}
+
+	/**
+	 * Don't add custom fields during toArray()
+	 * @param    array     $arr  post model array
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function toArrayCustom( $arr ) {
+		return $arr;
 	}
 
 }
