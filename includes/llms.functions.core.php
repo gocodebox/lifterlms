@@ -674,7 +674,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  *                              falsy = false
  * @return   mixed
  * @since    3.3.0
- * @version  3.16.0
+ * @version  [version]
  */
 function llms_get_post( $post, $error = false ) {
 
@@ -692,7 +692,7 @@ function llms_get_post( $post, $error = false ) {
 	if ( class_exists( $class ) ) {
 		return new $class( $post );
 	} elseif ( 'post' === $error ) {
-		return 'post';
+		return $post;
 	}
 
 	return false;
