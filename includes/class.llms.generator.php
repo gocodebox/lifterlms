@@ -388,6 +388,8 @@ class LLMS_Generator {
 			}
 		}
 
+		do_action( 'llms_generator_new_course', $course );
+
 		return $course->get( 'id' );
 
 	}
@@ -463,6 +465,8 @@ class LLMS_Generator {
 		// add custom meta
 		$this->add_custom_values( $lesson->get( 'id' ), $raw );
 
+		do_action( 'llms_generator_new_lesson', $lesson );
+
 		return $lesson->get( 'id' );
 
 	}
@@ -516,6 +520,8 @@ class LLMS_Generator {
 		// add custom meta
 		$this->add_custom_values( $quiz->get( 'id' ), $raw );
 
+		do_action( 'llms_generator_new_quiz', $quiz );
+
 		return $quiz->get( 'id' );
 
 	}
@@ -559,6 +565,8 @@ class LLMS_Generator {
 			}
 		}
 
+		do_action( 'llms_generator_new_question', $question );
+
 		return $question->get( 'id' );
 
 	}
@@ -572,7 +580,7 @@ class LLMS_Generator {
 	 * @param    int        $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                             WP Post ID of the Section
 	 * @since    3.3.0
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	private function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
 
@@ -601,6 +609,8 @@ class LLMS_Generator {
 				$this->create_lesson( $lesson, $lesson_order + 1, $section->get( 'id' ), $course_id, $author_id );
 			}
 		}
+
+		do_action( 'llms_generator_new_section', $section );
 
 		return $section->get( 'id' );
 
