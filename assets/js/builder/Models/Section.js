@@ -70,6 +70,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 			if ( data instanceof Backbone.Model ) {
 				data.set( 'parent_section', this.get( 'id' ) );
+				data.set_parent( this );
 			} else {
 				data.parent_section = this.get( 'id' );
 			}
