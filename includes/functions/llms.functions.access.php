@@ -44,10 +44,10 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 	if ( is_home() && $sitewide_membership_id ) {
 		$restriction_id = $sitewide_membership_id;
 		$reason = 'sitewide_membership';
-	// if it's a search page and the site isn't restricted to a membership bypass restrictions
+		// if it's a search page and the site isn't restricted to a membership bypass restrictions
 	} elseif ( ( is_search() ) && ! get_option( 'lifterlms_membership_required', '' ) ) {
 		return apply_filters( 'llms_page_restricted', $results, $post_id );
-	} // content is restricted by sitewide membership
+	} // End if().
 	elseif ( is_singular() && $sitewide_membership_id ) {
 		$restriction_id = $sitewide_membership_id;
 		$reason = 'sitewide_membership';
@@ -387,7 +387,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 		}
 		$course_id = $lesson->get_parent_course();
 
-	} // course id is the post id
+	} // End if().
 	elseif ( 'course' == $post_type ) {
 
 		$course_id = $post_id;

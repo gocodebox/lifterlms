@@ -883,15 +883,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 					$data = array_merge( $data, $instructor->toArray() );
 				}
 			}
-
-		// expand author
 		} elseif ( ! empty( $arr['author'] ) ) {
 
 			$instructor = llms_get_instructor( $arr['author'] );
 			if ( $instructor ) {
 				$arr['author'] = $instructor->toArray();
 			}
-
 		}
 
 		// add custom fields
