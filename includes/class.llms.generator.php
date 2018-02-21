@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Generator {
 
@@ -136,6 +136,24 @@ class LLMS_Generator {
 			}
 		}
 
+	}
+
+	/**
+	 * Add custom data to a post based on the 'custom' array
+	 * @param    int     $post_id  WP Post ID
+	 * @param    array   $raw      raw data
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function add_custom_values( $post_id, $raw ) {
+		if ( isset( $raw['custom'] ) ) {
+			foreach ( $raw['custom'] as $custom_key => $custom_vals ) {
+				foreach ( $custom_vals as $val ) {
+					add_post_meta( $post_id, $custom_key, maybe_unserialize( $val ) );
+				}
+			}
+		}
 	}
 
 	/**
@@ -299,11 +317,14 @@ class LLMS_Generator {
 	 * @param    array     $raw  raw course data
 	 * @return   void|int
 	 * @since    3.3.0
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
 	private function create_course( $raw ) {
 
 		$author_id = $this->get_author_id_from_raw( $raw );
+		if ( isset( $raw['author'] ) ) {
+			unset( $raw['author'] );
+		}
 
 		// insert the course
 		$course = new LLMS_Course( 'new', array(
@@ -332,6 +353,9 @@ class LLMS_Generator {
 				$course->set( $key, $raw[ $key ] );
 			}
 		}
+
+		// add custom meta
+		$this->add_custom_values( $course->get( 'id' ), $raw );
 
 		// set featured image
 		if ( isset( $raw['featured_image'] ) ) {
@@ -377,11 +401,14 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   mixed                          lesson id or WP_Error
 	 * @since    3.3.0
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
+		if ( isset( $raw['author'] ) ) {
+			unset( $raw['author'] );
+		}
 
 		// insert the course
 		$lesson = new LLMS_lesson( 'new', array(
@@ -421,8 +448,9 @@ class LLMS_Generator {
 			unset( $raw['parent_section'] );
 		}
 
-		if ( ! empty( $raw['assigned_quiz'] ) ) {
-			$raw['assigned_quiz'] = $this->create_quiz( $raw['assigned_quiz'], $author_id );
+		if ( ! empty( $raw['quiz'] ) ) {
+			$raw['quiz']['lesson_id'] = $lesson->get( 'id' );
+			$raw['quiz'] = $this->create_quiz( $raw['quiz'], $author_id );
 		}
 
 		// set all metadata
@@ -431,6 +459,9 @@ class LLMS_Generator {
 				$lesson->set( $key, $raw[ $key ] );
 			}
 		}
+
+		// add custom meta
+		$this->add_custom_values( $lesson->get( 'id' ), $raw );
 
 		return $lesson->get( 'id' );
 
@@ -443,11 +474,14 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                            WP Post ID of the Quiz
 	 * @since    3.3.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
+		if ( isset( $raw['author'] ) ) {
+			unset( $raw['author'] );
+		}
 
 		// insert the course
 		$quiz = new LLMS_Quiz( 'new', array(
@@ -473,15 +507,14 @@ class LLMS_Generator {
 		}
 
 		if ( isset( $raw['questions'] ) ) {
-			$qarr = array();
-			foreach ( $raw['questions'] as $q ) {
-				$qarr[] = array(
-					'id' => $this->create_question( $q, $author_id ),
-					'points' => isset( $q['value'] ) ? $q['value'] : 1,
-				);
+			$manager = $quiz->questions();
+			foreach ( $raw['questions'] as $question ) {
+				$this->create_question( $question, $manager, $author_id );
 			}
-			update_post_meta( $quiz->get( 'id' ), '_llms_questions', $qarr );
 		}
+
+		// add custom meta
+		$this->add_custom_values( $quiz->get( 'id' ), $raw );
 
 		return $quiz->get( 'id' );
 
@@ -493,27 +526,37 @@ class LLMS_Generator {
 	 * @param    int        $author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                    WP Post ID of the question
 	 * @since    3.3.0
-	 * @version  3.7.3
+	 * @version  [version]
 	 */
-	private function create_question( $raw, $author_id ) {
+	private function create_question( $raw, $manager, $author_id ) {
 
-		$question = new LLMS_Question( 'new', array(
+		unset( $raw['parent_id'] );
+
+		$question_id = $manager->create_question( array_merge( array(
+			'post_status' => 'publish',
 			'post_author' => $author_id,
-			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
-			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-			'post_title' => $raw['title'],
-		) );
+		), $raw ) );
 
-		if ( ! $question->get( 'id' ) ) {
+		if ( ! $question_id ) {
 			return $this->error->add( 'question_creation', __( 'Error creating question', 'lifterlms' ) );
 		}
 
 		$this->increment( 'questions' );
 
-		if ( isset( $raw['options'] ) ) {
-			update_post_meta( $question->get( 'id' ), '_llms_question_options', $raw['options'] );
+		$question = llms_get_post( $question_id );
+
+		if ( isset( $raw['choices'] ) ) {
+			foreach ( $raw['choices'] as $choice ) {
+				unset( $choice['question_id'] );
+				$question->create_choice( $choice );
+			}
+		}
+
+		// set all metadata
+		foreach ( array_keys( $question->get_properties() ) as $key ) {
+			if ( isset( $raw[ $key ] ) ) {
+				$question->set( $key, $raw[ $key ] );
+			}
 		}
 
 		return $question->get( 'id' );
@@ -727,7 +770,7 @@ class LLMS_Generator {
 	}
 
 	/**
-	 * Retrieve the array of generated course ids
+	 * Retrieve the array of generated post ids
 	 * @return   array
 	 * @since    3.14.8
 	 * @version  3.14.8
@@ -891,10 +934,10 @@ class LLMS_Generator {
 	 * Determines if there was an error during the running of the generator
 	 * @return   boolean     true when there was an error, false otherwise
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function is_error() {
-		return ( $this->error->get_error_messages() );
+		return ( 0 !== count( $this->error->get_error_messages() ) );
 	}
 
 	/**
