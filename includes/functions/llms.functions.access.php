@@ -247,7 +247,7 @@ function llms_is_page_restricted( $post_id, $user_id ) {
  * @return   int|false         false if the lesson is available
  *                             WP Post ID of the lesson if it is not
  * @since    3.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 
@@ -258,8 +258,11 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 		$lesson_id = $post_id;
 	} // End if().
 	elseif ( 'llms_quiz' == $post_type ) {
-		$quiz = new LLMS_Quiz_Legacy( $post_id );
-		$lesson_id = $quiz->get_assoc_lesson( $user_id );
+		$quiz = llms_get_post( $post_id );
+		$lesson_id = $quiz->get( 'lesson_id' );
+		if ( ! $lesson_id ) {
+			return false;
+		}
 	} // dont pass other post types in here dumb dumb
 	else {
 		return false;
