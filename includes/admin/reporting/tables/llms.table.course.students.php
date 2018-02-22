@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Display students enrolled in a given course on the course students subtab
  * @since   3.15.0
- * @version [version]
+ * @version 3.16.11
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
@@ -78,7 +78,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function get_data( $key, $student ) {
 
@@ -366,7 +366,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function set_columns() {
 		$cols = array(

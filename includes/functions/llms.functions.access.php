@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    int    $post_id   WordPress Post ID of the
  * @return   array             restriction check result data
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.11
  */
 function llms_page_restricted( $post_id, $user_id = null ) {
 
@@ -247,7 +247,7 @@ function llms_is_page_restricted( $post_id, $user_id ) {
  * @return   int|false         false if the lesson is available
  *                             WP Post ID of the lesson if it is not
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.11
  */
 function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 
@@ -288,7 +288,7 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
  *                             		id => int (object id)
  *                             )
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.11
  */
 function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
@@ -366,7 +366,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
  * @return   int|false         false if the post is not restricted by course time period
  *                             WP Post ID of the course if it is
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.11
  */
 function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 

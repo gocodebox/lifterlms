@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.11
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -631,8 +631,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Cleanup data to remove unnecssary defaults
 	 * @param    array     $arr   array of data to be serialized
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.11
+	 * @version  3.16.11
 	 */
 	protected function toArrayAfter( $arr ) {
 		unset( $arr['author'] );
@@ -643,8 +643,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Don't add custom fields during toArray()
 	 * @param    array     $arr  post model array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.11
+	 * @version  3.16.11
 	 */
 	protected function toArrayCustom( $arr ) {
 		return $arr;

@@ -674,7 +674,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
  *                              falsy = false
  * @return   mixed
  * @since    3.3.0
- * @version  [version]
+ * @version  3.16.11
  */
 function llms_get_post( $post, $error = false ) {
 

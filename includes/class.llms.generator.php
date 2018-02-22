@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  [version]
+ * @version  3.16.11
  */
 class LLMS_Generator {
 
@@ -143,8 +143,8 @@ class LLMS_Generator {
 	 * @param    int     $post_id  WP Post ID
 	 * @param    array   $raw      raw data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.11
+	 * @version  3.16.11
 	 */
 	private function add_custom_values( $post_id, $raw ) {
 		if ( isset( $raw['custom'] ) ) {
@@ -317,7 +317,7 @@ class LLMS_Generator {
 	 * @param    array     $raw  raw course data
 	 * @return   void|int
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private function create_course( $raw ) {
 
@@ -403,7 +403,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   mixed                          lesson id or WP_Error
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
 
@@ -478,7 +478,7 @@ class LLMS_Generator {
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                            WP Post ID of the Quiz
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
 
@@ -532,7 +532,7 @@ class LLMS_Generator {
 	 * @param    int        $author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                    WP Post ID of the question
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private function create_question( $raw, $manager, $author_id ) {
 
@@ -580,7 +580,7 @@ class LLMS_Generator {
 	 * @param    int        $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                             WP Post ID of the Section
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
 
@@ -944,7 +944,7 @@ class LLMS_Generator {
 	 * Determines if there was an error during the running of the generator
 	 * @return   boolean     true when there was an error, false otherwise
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function is_error() {
 		return ( 0 !== count( $this->error->get_error_messages() ) );

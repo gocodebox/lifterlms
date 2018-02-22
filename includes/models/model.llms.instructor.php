@@ -3,7 +3,7 @@
  * LifterLMS Instructor class
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant
  * @since   3.13.0
- * @version [version]
+ * @version 3.16.11
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -244,8 +244,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	/**
 	 * Used by exporter / cloner to get instructor data
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.11
+	 * @version  3.16.11
 	 */
 	public function toArray() {
 		return array(

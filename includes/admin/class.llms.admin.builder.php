@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.11
  */
 class LLMS_Admin_Builder {
 
@@ -363,7 +363,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public static function output() {
 
@@ -584,7 +584,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
@@ -676,7 +676,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $parent    instance of an LLMS_Quiz or LLMS_Question (group)
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private static function update_questions( $questions, $parent ) {
 
@@ -761,7 +761,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -836,7 +836,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $course_id     instance of the parent LLMS_Course
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	private static function update_section( $section_data, $course_id ) {
 

@@ -2,7 +2,7 @@
 /**
 * Template loader class
 * @since    1.0.0
-* @version  [version]
+* @version  3.16.11
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -343,7 +343,7 @@ class LLMS_Template_Loader {
 	 * @param    string  $template
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function template_loader( $template ) {
 

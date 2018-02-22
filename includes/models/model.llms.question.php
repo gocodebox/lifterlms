@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.11
  *
  * @property  $question_type  (string)  type of question
  */
@@ -651,8 +651,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Don't add custom fields during toArray()
 	 * @param    array     $arr  post model array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.11
+	 * @version  3.16.11
 	 */
 	protected function toArrayCustom( $arr ) {
 		return $arr;

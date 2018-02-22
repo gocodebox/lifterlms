@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.16.11 - 2018-02-??
+v3.16.11 - 2018-02-22
 ---------------------
 
 + Course import/exports and lesson duplication now carry custom meta data from 3rd party plugins and themes

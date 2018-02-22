@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Rather than instatiating this class directly
  * use LLMS_Student->quizzes()
  * @since   3.9.0
- * @version [version]
+ * @version 3.16.11
  */
 class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
@@ -35,7 +35,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    int     $attempt_id  Attempt ID
 	 * @return   boolean              true on success, false on error
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function delete_attempt( $attempt_id ) {
 
@@ -49,7 +49,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 * @param    mixed   $quiz    WP Post ID / Array of WP Post IDs
 	 * @return   object           Instance of LLMS_Query_Quiz_Attempt
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function get_all( $quiz = array() ) {
 

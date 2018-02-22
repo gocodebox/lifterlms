@@ -61,7 +61,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 * @param    obj   options  has of options
 		 * @return   obj            Backbone.Model of the new/updated lesson
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.11
 		 */
 		add_lesson: function( data, options ) {
 
@@ -85,8 +85,8 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 *                               	if current is the last section, returns the first section
 		 *                               	if current is the first section, returns the last section
 		 * @return   obj|false
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		get_next: function( circular ) {
 			return this._get_sibling( 'next', circular );
@@ -98,8 +98,8 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 *                               	if current is the last section, returns the first section
 		 *                               	if current is the first section, returns the last section
 		 * @return   obj|false
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		get_prev: function( circular ) {
 			return this._get_sibling( 'prev', circular );
@@ -112,8 +112,8 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 *                               	if current is the last section, returns the first section
 		 *                               	if current is the first section, returns the last section
 		 * @return   obj|false
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		_get_sibling: function( direction, circular ) {
 

@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.11
  */
 define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable ) {
 
@@ -170,8 +170,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Click event for the "Next Section" button
 		 * @param    obj   event   js event obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		section_next: function( event ) {
 			event.preventDefault();
@@ -182,8 +182,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Click event for the "Previous Section" button
 		 * @param    obj   event   js event obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		section_prev: function( event ) {
 			event.preventDefault();
@@ -217,8 +217,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		 * Move the lesson into a new section
 		 * @param    string   direction  direction [prev|next]
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		_move_to_section: function( direction ) {
 

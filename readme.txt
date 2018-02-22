@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.9.4
-Stable tag: 3.16.10
+Stable tag: 3.16.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -348,6 +348,20 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.16.11 - 2018-02-22 =
+-------------------------
+
++ Course import/exports and lesson duplication now carry custom meta data from 3rd party plugins and themes
++ Added course completion date column to Course reporting students list
++ Restriction checks made against a quiz will now properly cascade to the quiz's parent lesson
++ Fixed issue preventing featured images from being exported with courses and lessons
++ Fixed duplicate lesson issue causing quizzes to be double assigned to the old and new lesson
++ Fixed issue allowing blog archive to be viewed by non-members when sitewide membership is enabled
++ Fixed builder issue causing data to be lost during autosaves if data was edited during an autosave
++ Fixed builder issue preventing lessons from moving between sections when clicking the "Prev" and "Next" section buttons
++ Added actions to `LLMS_Generator` to allow 3rd parties to extend core generator functionality
 
 
 = v3.16.10 - 2018-02-19 =

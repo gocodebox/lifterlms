@@ -4,7 +4,7 @@
  * @group     post_models
  * @group     lessons
  * @since     3.14.8
- * @version   [version]
+ * @version   3.16.11
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -25,7 +25,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
 	 * @since    3.14.8
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	protected function get_properties() {
 		return array(
@@ -61,7 +61,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters
 	 * @return   array
 	 * @since    3.14.8
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	protected function get_data() {
 		return array(

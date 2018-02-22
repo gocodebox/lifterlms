@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.11
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -850,7 +850,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function toArray() {
 
@@ -928,8 +928,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Extending classes may override this class to exclude, extend, or modify the custom fields for a post type
 	 * @param    array     $arr  existing post array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.11
+	 * @version  3.16.11
 	 */
 	protected function toArrayCustom( $arr ) {
 

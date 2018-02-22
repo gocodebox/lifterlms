@@ -15,7 +15,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 *                                   fractions will be rounded up
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	protected function complete_courses_for_student( $student_id = 0, $course_ids = array(), $perc = 100 ) {
 
@@ -107,7 +107,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * @param    int     $num_quizzes   number of quizzes for each section in the course
 	 * @return   array
 	 * @since    3.7.3
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	protected function get_mock_course_array( $iterator = 1, $num_sections = 3, $num_lessons = 5, $num_quizzes = 1, $num_questions = 5 ) {
 

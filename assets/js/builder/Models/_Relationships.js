@@ -1,7 +1,7 @@
 /**
  * Model relationships mixin
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.11
  */
 define( [], function() {
 
@@ -82,8 +82,8 @@ define( [], function() {
 		/**
 		 * Retrieve the property names for all children of the model
 		 * @return   array
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		get_child_props: function() {
 

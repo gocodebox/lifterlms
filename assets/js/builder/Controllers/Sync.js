@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.11
  */
 define( [], function() {
 
@@ -189,7 +189,7 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.11
 		 */
 		function get_changed_attributes( model ) {
 
@@ -243,7 +243,7 @@ define( [], function() {
 		 * @return   obj|array	  		if object is a model, returns an object
 		 *                            	if object is a collection, returns an array of objects
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.11
 		 */
 		function get_changes_to_object( object ) {
 
@@ -306,8 +306,8 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.11
+		 * @version  3.16.11
 		 */
 		function maybe_restart_tracking( model, data ) {
 
@@ -392,7 +392,7 @@ define( [], function() {
 		 * @param    {[type]}   main_data  [description]
 		 * @return   {[type]}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.11
 		 */
 		function process_object_updates( data, type, parent, main_data ) {
 

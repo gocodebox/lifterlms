@@ -302,7 +302,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test llms_get_post()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function test_llms_get_post() {
 

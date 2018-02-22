@@ -4,7 +4,7 @@
  * @group    quizzes
  * @group    LLMS_Student
  * @since    3.9.0
- * @version  [version]
+ * @version  3.16.11
  */
 class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 
@@ -22,7 +22,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	 * test delet_attempt method
 	 * @return   void
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	public function test_delete_attempt() {
 
