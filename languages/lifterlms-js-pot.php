@@ -156,7 +156,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Lesson.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.11
 	 */
 	'Are you sure you want to remove this lesson from the course?' => esc_html__( 'Are you sure you want to remove this lesson from the course?', 'lifterlms' ),
 	'Are you sure you want to move this lesson to the trash?' => esc_html__( 'Are you sure you want to move this lesson to the trash?', 'lifterlms' ),
