@@ -524,10 +524,15 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'checkbox':
-		case 'radio':
 			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
 			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
 			$r .= $label;
+
+		case 'radio':
+            $r .= $label;
+            foreach ( $field['options'] as $key => $val ) {
+				$r .= '<label class="llms-radio"><input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . checked( $key, $value_attr ) . ' value="' . $val . '">' . $val . '</label>';
+			}
 			break;
 
 		case 'html':
