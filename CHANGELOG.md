@@ -5,6 +5,7 @@ v3.16.11 - 2018-02-??
 ---------------------
 
 + Course import/exports and lesson duplication now carry custom meta data from 3rd party plugins and themes
++ Added course completion date column to Course reporting students list
 + Restriction checks made against a quiz will now properly cascade to the quiz's parent lesson
 + Fixed issue preventing featured images from being exported with courses and lessons
 + Fixed duplicate lesson issue causing quizzes to be double assigned to the old and new lesson
