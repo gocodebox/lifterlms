@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Display students enrolled in a given course on the course students subtab
  * @since   3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
@@ -78,13 +78,18 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function get_data( $key, $student ) {
 
 		$value = '';
 
 		switch ( $key ) {
+
+			case 'completed':
+				$date = $student->get_completion_date( $this->course_id );
+				$value = $date ? $date : '&mdash;';
+			break;
 
 			case 'enrolled':
 				$value = $student->get_enrollment_date( $this->course_id, 'updated' );
@@ -361,7 +366,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function set_columns() {
 		$cols = array(
@@ -399,6 +404,11 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable' => true,
 				'title' => __( 'Enrollment Updated', 'lifterlms' ),
+			),
+			'completed' => array(
+				'exportable' => true,
+				'sortable' => true,
+				'title' => __( 'Completed', 'lifterlms' ),
 			),
 			'progress' => array(
 				'exportable' => true,
