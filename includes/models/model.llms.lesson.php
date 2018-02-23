@@ -67,7 +67,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		if ( ! isset( $this->audio_embed ) ) {
 
-			return '';
+			$output = '';
 
 		} else {
 
@@ -79,10 +79,11 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 			}
 
-			return $r;
+			$output = $r;
 
 		}
 
+		return apply_filters( 'llms_lesson_get_audio', $output );
 	}
 
 	/**
@@ -337,7 +338,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 		if ( ! isset( $this->video_embed ) ) {
 
-			return '';
+			$output = '';
 
 		} else {
 
@@ -349,9 +350,11 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 			}
 
-			return $r;
+			$output = $r;
 
 		}
+
+		return apply_filters( 'llms_lesson_get_video', $output );
 
 	}
 
