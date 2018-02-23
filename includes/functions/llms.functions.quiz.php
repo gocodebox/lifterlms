@@ -142,11 +142,11 @@ function llms_shuffle_choices( $choices ) {
 	if ( $count <= 1 ) {
 		return $choices;
 
-	// reverse the array when we only have two
+		// reverse the array when we only have two
 	} elseif ( 2 === $count ) {
 		$shuffled = array_reverse( $choices );
 
-	// shuffle until the order has changed
+		// shuffle until the order has changed
 	} else {
 
 		$shuffled = $choices;
@@ -154,7 +154,6 @@ function llms_shuffle_choices( $choices ) {
 		while ( $shuffled === $choices ) {
 			shuffle( $shuffled );
 		}
-
 	}
 
 	return $shuffled;
