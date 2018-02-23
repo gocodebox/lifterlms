@@ -6,8 +6,9 @@
  * @category  Core
  * @package   LifterLMS/Functions
  * @since     3.16.0
- * @version   3.16.8
+ * @version   [version]
  */
+
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
@@ -122,5 +123,40 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 	}
 
 	return $settings;
+
+}
+
+/**
+ * Shuffles choices until the choice order has changed from the orignal
+ * The smaller the list of choices the greater the chance of shuffling not changing the array
+ * @param    array     $choices  choices from an LLMS_Question
+ * @return   array
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_shuffle_choices( $choices ) {
+
+	$count = count( $choices );
+
+	// if we only have one choice there's not much to shuffle with
+	if ( $count <= 1 ) {
+		return $choices;
+
+	// reverse the array when we only have two
+	} elseif ( 2 === $count ) {
+		$shuffled = array_reverse( $choices );
+
+	// shuffle until the order has changed
+	} else {
+
+		$shuffled = $choices;
+
+		while ( $shuffled === $choices ) {
+			shuffle( $shuffled );
+		}
+
+	}
+
+	return $shuffled;
 
 }

@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.16.12 - 2018-02-??
+---------------------
+
++ Improved question choice randomization to ensure randomized choices never display in their original order.
+
+
 v3.16.11 - 2018-02-22
 ---------------------
 

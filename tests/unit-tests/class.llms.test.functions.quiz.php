@@ -2,10 +2,16 @@
 /**
  * Tests for LifterLMS Core Functions
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Test_Functions_Quiz extends LLMS_UnitTestCase {
 
+	/**
+	 * Test picture choice columns
+	 * @return   void
+	 * @since    3.16.0
+	 * @version  3.16.0
+	 */
 	public function test_llms_get_picture_choice_question_cols() {
 
 		$combos = array(
@@ -46,6 +52,34 @@ class LLMS_Test_Functions_Quiz extends LLMS_UnitTestCase {
 			$this->assertEquals( $expected_cols, llms_get_picture_choice_question_cols( $choices ) );
 
 		}
+
+	}
+
+	/**
+	 * Test llms_shuffle_choices
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_llms_shuffle_choices() {
+
+		// 0 & 1 elements can't really be shuffled...
+		$choices = array();
+		$this->assertEquals( $choices, llms_shuffle_choices( $choices ) );
+
+		$choices = array( 1 );
+		$this->assertEquals( $choices, llms_shuffle_choices( $choices ) );
+
+		// 2 or more items will never match the original after shuffling
+		$i = 2;
+		while( $i <= 26 ) {
+
+			$choices = range( 0, $i );
+			$this->assertNotEquals( $choices, llms_shuffle_choices( $choices ) );
+			$i++;
+
+		}
+
 
 	}
 
