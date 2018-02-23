@@ -79,10 +79,8 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 			}
 
-			return $r;
-
+			return apply_filters( 'llms_lesson_get_audio', $r, $this );
 		}
-
 	}
 
 	/**
@@ -349,7 +347,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 			}
 
-			return $r;
+			return apply_filters( 'llms_lesson_get_video', $r, $this );
 
 		}
 
