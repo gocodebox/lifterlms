@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -61,26 +61,26 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 *
 	 * @return string
 	 * @since   1.0.0
-	 * @version 3.0.0 -- updated to utilize oEmbed and fallback to audio shortcode
+	 * @version [version]
 	 */
 	public function get_audio() {
 
-		if ( ! isset( $this->audio_embed ) ) {
+		$ret = '';
 
-			return '';
+		if ( isset( $this->audio_embed ) ) {
 
-		} else {
+			$ret = wp_oembed_get( $this->get( 'audio_embed' ) );
 
-			$r = wp_oembed_get( $this->get( 'audio_embed' ) );
+			if ( ! $ret ) {
 
-			if ( ! $r ) {
-
-				$r = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
+				$ret = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
 
 			}
 
-			return apply_filters( 'llms_lesson_get_audio', $r, $this );
 		}
+
+		return apply_filters( 'llms_lesson_get_audio', $ret, $this );
+
 	}
 
 	/**
@@ -327,29 +327,27 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Attempt to get oEmbed for a video provider
 	 * Falls back to the [video] shortcode if the oEmbed fails
 	 *
-	 * @return string
-	 * @since   1.0.0
-	 * @version 3.1.0
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function get_video() {
 
-		if ( ! isset( $this->video_embed ) ) {
+		$ret = '';
 
-			return '';
+		if ( isset( $this->video_embed ) ) {
 
-		} else {
+			$ret = wp_oembed_get( $this->get( 'video_embed' ) );
 
-			$r = wp_oembed_get( $this->get( 'video_embed' ) );
+			if ( ! $ret ) {
 
-			if ( ! $r ) {
-
-				$r = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
+				$ret = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
 
 			}
 
-			return apply_filters( 'llms_lesson_get_video', $r, $this );
-
 		}
+
+		return apply_filters( 'llms_lesson_get_video', $ret, $this );
 
 	}
 
