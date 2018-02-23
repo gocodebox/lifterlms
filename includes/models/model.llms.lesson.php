@@ -76,7 +76,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				$ret = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_lesson_get_audio', $ret, $this );
@@ -344,7 +343,6 @@ class LLMS_Lesson extends LLMS_Post_Model {
 				$ret = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_lesson_get_video', $ret, $this );
