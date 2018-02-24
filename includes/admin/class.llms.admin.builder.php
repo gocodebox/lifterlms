@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.16.11
+ * @version  [version]
  */
 class LLMS_Admin_Builder {
 
@@ -50,33 +50,26 @@ class LLMS_Admin_Builder {
 	 * Retrieve a list of lessons the current user is allowed to clone/attach
 	 * Used for ajax searching to add existing lessons
 	 * @param    int        $course_id    WP Post ID of the course
+	 * @param    string     $post_type    optionally search specific post type(s)
 	 * @param    string     $search_term  optional search term (searches post_title)
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
 	 * @since    3.14.8
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
-	private static function get_existing_lessons( $course_id, $search_term = '', $page = 1 ) {
-
-		$lessons = array(
-			'orphan' => array(
-				'children' => array(),
-				'text' => esc_attr__( 'Attach Orphaned Lesson', 'lifterlms' ),
-			),
-			'dupe' => array(
-				'children' => array(),
-				'text' => esc_attr__( 'Clone Existing Lesson', 'lifterlms' ),
-			),
-		);
+	private static function get_existing_posts( $course_id, $post_type = '', $search_term = '', $page = 1 ) {
 
 		$args = array(
 			'order' => 'ASC',
 			'orderby' => 'post_title',
 			'paged' => $page,
 			'post_status' => array( 'publish', 'draft', 'pending' ),
-			'post_type' => 'lesson',
 			'posts_per_page' => 10,
 		);
+
+		if ( $post_type ) {
+			$args['post_type'] = $post_type;
+		}
 
 		if ( ! current_user_can( 'manage_options' ) ) {
 
@@ -95,41 +88,63 @@ class LLMS_Admin_Builder {
 		}
 
 		self::$search_term = $search_term;
-		add_filter( 'posts_where', array( __CLASS__, 'get_existing_lessons_where' ), 10, 2 );
+		add_filter( 'posts_where', array( __CLASS__, 'get_existing_posts_where' ), 10, 2 );
 		$query = new WP_Query( $args );
-		remove_filter( 'posts_where', array( __CLASS__, 'get_existing_lessons_where' ), 10, 2 );
+		remove_filter( 'posts_where', array( __CLASS__, 'get_existing_posts_where' ), 10, 2 );
 
-		$lessons = array();
+		$posts = array();
 
 		if ( $query->have_posts() ) {
 
 			foreach ( $query->posts as $post ) {
 
-				$lesson = llms_get_post( $post );
+				$post = llms_get_post( $post );
 
-				if ( $lesson->is_orphan() ) {
+				$parents = array();
+
+				if ( method_exists( $post, 'is_orphan' ) && $post->is_orphan() ) {
+
 					$action = 'attach';
-					$parent = '';
-					// $text = sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID );
+
 				} else {
+
 					$action = 'clone';
-					$parent = get_the_title( $lesson->get( 'parent_course' ) );
-					// $text = sprintf( '[CLONE] %1$s (#%2$d)', $post->post_title, $post->ID );
+
+					$course_id = false;
+					$lesson_id = false;
+
+					if ( 'lesson' === $post->get( 'type' ) ) {
+						$course_id = $post->get( 'parent_course' );
+					} elseif ( 'llms_quiz' === $post->get( 'type' ) ) {
+						$lesson_id = $post->get( 'lesson_id' );
+						$course = $post->get_course();
+						if ( $course ) {
+							$course_id = $course->get( 'id' );
+						}
+					}
+
+					if ( $lesson_id ) {
+						$parents['lesson'] = sprintf( __( 'Lesson: %1$s (#%2$d)', 'lifterlms' ), '<em>' . get_the_title( $lesson_id ) . '</em>', $lesson_id );
+					}
+					if ( $course_id ) {
+						$parents['course'] = sprintf( __( 'Course: %1$s (#%2$d)', 'lifterlms' ), '<em>' . get_the_title( $course_id ) . '</em>', $course_id );
+					}
+
 				}
 
-				$lessons[] = array(
+				$posts[] = array(
 					'action' => $action,
-					'data' => $lesson,
-					'id' => $post->ID,
-					'course_title' => $parent,
-					'text' => sprintf( '%1$s (#%2$d)', $post->post_title, $post->ID ),
+					'data' => $post,
+					'id' => $post->get( 'id' ),
+					'parents' => $parents,
+					'text' => sprintf( '%1$s (#%2$d)', $post->get( 'title' ), $post->get( 'id' ) ),
 				);
 
 			}
 		}
 
 		$ret = array(
-			'results' => $lessons,
+			'results' => $posts,
 			'pagination' => array(
 				'more' => ( $page < $query->max_num_pages ),
 			),
@@ -145,9 +160,9 @@ class LLMS_Admin_Builder {
 	 * @param    obj        $wp_query   WP_Query
 	 * @return   string
 	 * @since    3.14.8
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
-	public function get_existing_lessons_where( $where, $wp_query ) {
+	public function get_existing_posts_where( $where, $wp_query ) {
 
 		if ( self::$search_term ) {
 			global $wpdb;
@@ -180,7 +195,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.16.7
+	 * @version  [version]
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -221,7 +236,15 @@ class LLMS_Admin_Builder {
 			case 'search':
 				$page = isset( $request['page'] ) ? $request['page'] : 1;
 				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
-				wp_send_json( self::get_existing_lessons( absint( $request['course_id'] ), $term, $page ) );
+				$post_type = '';
+				if ( isset( $request['post_type'] ) ) {
+					if ( is_array( $request['post_type'] ) ) {
+						$post_type = array_map( 'sanitize_text_field', $request['post_type'] );
+					} else {
+						$post_type = sanitize_text_field( $request['post_type'] );
+					}
+				}
+				wp_send_json( self::get_existing_posts( absint( $request['course_id'] ), $post_type, $term, $page ) );
 			break;
 
 		}// End switch().
