@@ -1,6 +1,6 @@
 /**
  * Single Quiz View
- * @since    3.13.0
+ * @since    3.16.0
  * @version  3.16.0
  */
 define( [], function() {
@@ -48,8 +48,8 @@ define( [], function() {
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    3.13.0
-		 * @version  3.13.0
+		 * @since    3.16.0
+		 * @version  3.16.0
 		 */
 		render: function() {
 
@@ -58,15 +58,29 @@ define( [], function() {
 
 		},
 
+		/**
+		 * Hide the popover
+		 * @return   self (for chaining)
+		 * @since    3.16.0
+		 * @version  [version]
+		 */
 		hide: function() {
 
 			this.$el.webuiPopover( 'hide' );
+			return this;
 
 		},
 
+		/**
+		 * Show the popover
+		 * @return   self (for chaining)
+		 * @since    3.16.0
+		 * @version  [version]
+		 */
 		show: function() {
 
 			this.$el.webuiPopover( 'show' );
+			return this;
 
 		},
 
