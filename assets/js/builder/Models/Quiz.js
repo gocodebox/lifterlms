@@ -1,9 +1,21 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.16.8
+ * @version  [version]
  */
-define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_Relationships' ], function( Questions, Lesson, Question, Relationships ) {
+define( [
+		'Collections/Questions',
+		'Models/Lesson',
+		'Models/Question',
+		'Models/_Relationships',
+		'Models/_Utilities'
+	], function(
+		Questions,
+		Lesson,
+		Question,
+		Relationships,
+		Utilities
+	) {
 
 	return Backbone.Model.extend( _.defaults( {
 
@@ -107,6 +119,22 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 		},
 
 		/**
+		 * Retrieve the translated post type name for the model's type
+		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_l10n_type: function( plural ) {
+
+			if ( plural ) {
+				return LLMS.l10n.translate( 'quizzes' );
+			}
+
+			return LLMS.l10n.translate( 'quiz' );
+		},
+
+		/**
 		 * Retrieve the quiz's total points
 		 * @return   int
 		 * @since    3.16.0
@@ -136,6 +164,6 @@ define( [ 'Collections/Questions', 'Models/Lesson', 'Models/Question', 'Models/_
 
 		},
 
-	}, Relationships ) );
+	}, Relationships, Utilities ) );
 
 } );

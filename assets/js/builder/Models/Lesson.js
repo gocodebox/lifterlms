@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.16.4
+ * @version  [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], function( Quiz, Relationships, Utilities ) {
 
@@ -93,11 +93,27 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		},
 
 		/**
+		 * Retrieve the translated post type name for the model's type
+		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_l10n_type: function( plural ) {
+
+			if ( plural ) {
+				return LLMS.l10n.translate( 'lessons' );
+			}
+
+			return LLMS.l10n.translate( 'lesson' );
+		},
+
+		/**
 		 * Add a new quiz to the lesson
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		add_quiz: function( data ) {
 
@@ -107,7 +123,9 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 
 			if ( ! data.title ) {
 
-				data.title = this.get( 'title' ) + ' Quiz';
+				data.title = LLMS.l10n.replace( '%1$s Quiz', {
+					'%1$s': this.get( 'title' ),
+				} );
 
 			}
 

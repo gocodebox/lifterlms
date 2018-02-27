@@ -1,7 +1,7 @@
 /**
  * Section Model
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, Relationships ) {
 
@@ -77,6 +77,22 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 			return this.get( 'lessons' ).add( data, options );
 
+		},
+
+		/**
+		 * Retrieve the translated post type name for the model's type
+		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_l10n_type: function( plural ) {
+
+			if ( plural ) {
+				return LLMS.l10n.translate( 'sections' );
+			}
+
+			return LLMS.l10n.translate( 'section' );
 		},
 
 		/**
