@@ -1,9 +1,9 @@
 /**
  * Sidebar Elements View
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
-define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/Popover', 'Views/LessonSearch' ], function( Section, SectionView, Lesson, LessonView, Popover, LessonSearch ) {
+define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/Popover', 'Views/PostSearch' ], function( Section, SectionView, Lesson, LessonView, Popover, LessonSearch ) {
 
 	return Backbone.View.extend( {
 
@@ -112,6 +112,13 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 			Backbone.pubSub.trigger( 'add-new-lesson' );
 		},
 
+		/**
+		 * Show the popover to add an existing lessons
+		 * @param    object   event  JS Event OBject
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		add_existing_lesson: function( event ) {
 
 			event.preventDefault();
@@ -126,13 +133,16 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 					placement: 'left',
 					width: 480,
 					title: LLMS.l10n.translate( 'Add Existing Lesson' ),
-					content: new LessonSearch().render().$el,
+					content: new LessonSearch( {
+						post_type: 'lesson',
+						searching_message: LLMS.l10n.translate( 'Search for existing lessons...' ),
+					} ).render().$el,
 				}
 			} );
 
 			pop.show();
 			Backbone.pubSub.on( 'lesson-search-select', function() {
-				pop.hide();
+				pop.hide()
 			} );
 
 		},
