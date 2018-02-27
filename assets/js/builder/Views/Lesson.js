@@ -4,10 +4,12 @@
  * @version  [version]
  */
 define( [
+		'Views/_Detachable',
 		'Views/_Editable',
 		'Views/_Shiftable',
 		'Views/_Trashable'
 	], function(
+		Detachable,
 		Editable,
 		Shiftable,
 		Trashable
@@ -41,14 +43,13 @@ define( [
 		 * @version  [version]
 		 */
 		events: _.defaults( {
-			'click .detach--lesson': 'detach',
 			'click .edit-lesson': 'open_lesson_editor',
 			'click .edit-quiz': 'open_quiz_editor',
 			'click .section-prev': 'section_prev',
 			'click .section-next': 'section_next',
 			'click .shift-up--lesson': 'shift_up',
 			'click .shift-down--lesson': 'shift_down',
-		}, Editable.events, Trashable.events ),
+		}, Detachable.events, Editable.events, Trashable.events ),
 
 		/**
 		 * HTML element wrapper ID attribute
@@ -105,28 +106,6 @@ define( [
 				this.$el.removeClass( 'selected' );
 			}
 			return this;
-
-		},
-
-		/**
-		 * Remove lesson from course and delete it
-		 * @param    obj   event  js event object
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		detach: function( event ) {
-
-			if ( event ) {
-				event.preventDefault();
-			}
-
-			if ( window.confirm( LLMS.l10n.translate( 'Are you sure you want to remove this lesson from the course?' ) ) ) {
-
-				this.model.collection.remove( this.model );
-				Backbone.pubSub.trigger( 'model-detached', this.model );
-
-			}
 
 		},
 
@@ -226,6 +205,6 @@ define( [
 
 		},
 
-	}, Editable, Shiftable, Trashable ) );
+	}, Detachable, Editable, Shiftable, Trashable ) );
 
 } );
