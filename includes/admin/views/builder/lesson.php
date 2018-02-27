@@ -54,7 +54,7 @@
 			</a>
 
 			<# if ( ! data.has_temp_id() ) { #>
-				<a class="llms-action-icon detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach">
+				<a class="llms-action-icon detach--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach Lesson', 'lifterlms' ); ?>" href="#llms-detach-model">
 					<span class="fa fa-chain-broken"></span>
 				</a>
 			<# } #>
