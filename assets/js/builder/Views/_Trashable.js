@@ -19,7 +19,7 @@ define( [], function() {
 		},
 
 		/**
-		 * Remove lesson from course and delete it
+		 * Remove a model from it's parent and delete it
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    [version]
