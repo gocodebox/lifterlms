@@ -1,8 +1,8 @@
 <?php
 /**
- * Builder quiz model view
+ * Builder quiz model header view
  * @since   3.16.0
- * @version 3.16.8
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
@@ -22,6 +22,18 @@
 	</label>
 
 	<div class="llms-action-icons">
+
+		<# if ( ! data.has_temp_id() ) { #>
+			<a class="llms-action-icon danger tip--bottom-left" data-tip="<?php esc_attr_e( 'Detach Quiz', 'lifterlms' ); ?>" href="#llms-detach-model">
+				<i class="fa fa-chain-broken" aria-hidden="true"></i>
+				<span class="screen-reader-text"><?php _e( 'Delete Quiz', 'lifterlms' ); ?></span>
+			</a>
+		<# } #>
+
+		<a class="llms-action-icon danger tip--bottom-left" data-tip="<?php _e( 'Delete Quiz', 'lifterlms' ); ?>" href="#llms-trash-model" tabindex="-1">
+			<i class="fa fa-trash" aria-hidden="true"></i>
+			<span class="screen-reader-text"><?php _e( 'Delete Quiz', 'lifterlms' ); ?></span>
+		</a>
 
 		<a class="llms-action-icon tip--bottom-left" data-tip="<?php _e( 'Quiz Settings', 'lifterlms' ); ?>" href="#llms-quiz-settings" tabindex="-1">
 			<i class="fa fa-cog" aria-hidden="true"></i>

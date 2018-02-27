@@ -10,11 +10,21 @@
 	<# if ( _.isEmpty( data ) ) { #>
 
 		<div class="llms-quiz-empty">
+
 			<p><?php _e( 'There\'s no quiz associated with this lesson.', 'lifterlms' ); ?></p>
-			<button class="llms-element-button" id="llms-enable-quiz" type="button">
-				<?php _e( 'Create a Quiz', 'lifterlms' ); ?>
-				<i class="fa fa-plus" aria-hidden="true"></i>
+
+			<button class="llms-element-button" id="llms-new-quiz" type="button">
+				<?php _e( 'Create New Quiz', 'lifterlms' ); ?>
+				<i class="fa fa-file" aria-hidden="true"></i>
 			</button>
+
+			<br>
+
+			<button class="llms-element-button" id="llms-existing-quiz" type="button">
+				<?php _e( 'Add Existing Quiz', 'lifterlms' ); ?>
+				<i class="fa fa-file-text" aria-hidden="true"></i>
+			</button>
+
 		</div>
 
 	<# } else { #>

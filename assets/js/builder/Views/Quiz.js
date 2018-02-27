@@ -1,24 +1,30 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [
 		'Models/Quiz',
 		'Views/Popover',
+		'Views/PostSearch',
 		'Views/QuizHeader',
 		'Views/QuestionBank',
 		'Views/QuestionList',
+		'Views/_Detachable',
 		'Views/_Editable',
-		'Views/_Subview'
+		'Views/_Subview',
+		'Views/_Trashable'
 	], function(
 		QuizModel,
 		Popover,
+		PostSearch,
 		QuizHeader,
 		QuestionBank,
 		QuestionList,
+		Detachable,
 		Editable,
-		Subview
+		Subview,
+		Trashable
 	) {
 
 	return Backbone.View.extend( _.defaults( {
@@ -58,12 +64,13 @@ define( [
 		 * @type  {Object}
 		 */
 		events: _.defaults( {
-			'click #llms-enable-quiz': 'enable_quiz',
+			'click #llms-existing-quiz': 'add_existing_quiz_click',
+			'click #llms-new-quiz': 'add_new_quiz',
 			'click #llms-show-question-bank': 'show_tools',
 			'click .bulk-toggle': 'bulk_toggle',
 			// 'keyup #llms-question-bank-filter': 'filter_question_types',
 			// 'search #llms-question-bank-filter': 'filter_question_types',
-		}, Editable.events ),
+		}, Detachable.events, Editable.events, Trashable.events ),
 
 		/**
 		 * Wrapper Tag name
@@ -107,6 +114,9 @@ define( [
 				 *        I'm confused and tired and going to miss release dates again because of it
 				 */
 				this.model.set_parent( this.lesson );
+
+				this.on( 'model-trashed', this.on_trashed );
+
 			}
 
 		},
@@ -189,12 +199,12 @@ define( [
 		},
 
 		/**
-		 * Adds a new quiz to a lesson which currently has no quiz associated with it
+		 * Adds a new quiz to a lesson which currently has no quiz associated wlith it
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
-		enable_quiz: function() {
+		add_new_quiz: function() {
 
 			var quiz = this.lesson.get( 'quiz' );
 			if ( _.isEmpty( quiz ) ) {
@@ -205,6 +215,85 @@ define( [
 
 			this.model = quiz;
 			this.render();
+
+		},
+
+		// come back to this and make sure cloning resets all the IDs
+		add_existing_quiz: function( event ) {
+
+			this.post_search_popover.hide();
+
+			var quiz = event.data;
+
+			if ( 'clone' === event.action ) {
+
+				delete quiz.id;
+
+				_.each( quiz.questions, function( question ) {
+
+					delete question.parent_id;
+					delete question.id;
+
+					if ( question.choices ) {
+
+						_.each( question.choices, function( choice ) {
+
+							delete choice.question_id;
+							delete choice.id;
+
+						} );
+
+					}
+
+				} );
+
+			} else {
+
+				quiz._forceSync = true;
+
+			}
+
+			delete quiz.lesson_id;
+
+			this.lesson.add_quiz( quiz );
+			this.model = this.lesson.get( 'quiz' );
+			this.render();
+
+		},
+
+		/**
+		 * Open add existing quiz popover
+		 * @param    obj   event  JS event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		add_existing_quiz_click: function( event ) {
+
+			event.preventDefault();
+
+			this.post_search_popover = new Popover( {
+				el: '#llms-existing-quiz',
+				args: {
+					backdrop: true,
+					closeable: true,
+					container: '.wrap.lifterlms.llms-builder',
+					dismissible: true,
+					placement: 'left',
+					width: 480,
+					title: LLMS.l10n.translate( 'Add Existing Quiz' ),
+					content: new PostSearch( {
+						post_type: 'llms_quiz',
+						searching_message: LLMS.l10n.translate( 'Search for existing quizzes...' ),
+					} ).render().$el,
+					onHide: function() {
+						Backbone.pubSub.off( 'quiz-search-select' );
+					},
+				}
+			} );
+
+			this.post_search_popover.show();
+			Backbone.pubSub.once( 'quiz-search-select', this.add_existing_quiz, this );
 
 		},
 
@@ -222,6 +311,17 @@ define( [
 
 
 		// }, 300 ),
+
+		on_trashed: function( quiz ) {
+
+			this.lesson.set( 'quiz_enabled', 'no' );
+			this.lesson.set( 'quiz', '' );
+
+			delete this.model;
+
+			this.render();
+
+		},
 
 		/**
 		 * "Add Question" button click event
@@ -261,6 +361,6 @@ define( [
 			return new QuestionList( options );
 		}
 
-	}, Editable, Subview ) );
+	}, Detachable, Editable, Subview, Trashable ) );
 
 } );
