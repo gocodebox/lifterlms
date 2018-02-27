@@ -1,9 +1,19 @@
 /**
  * Single Section View
  * @since    3.13.0
- * @version  3.16.0
+ * @version  [version]
  */
-define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function( LessonListView, Editable, Shiftable ) {
+define( [
+		'Views/LessonList',
+		'Views/_Editable',
+		'Views/_Shiftable',
+		'Views/_Trashable'
+	], function(
+		LessonListView,
+		Editable,
+		Shiftable,
+		Trashable
+	) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -27,19 +37,21 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 
 		/**
 		 * Events
-		 * @type  {Object}
+		 * @type     {Object}
+		 * @since    3.16.0
+		 * @version  [version]
 		 */
 		events: _.defaults( {
+
 			'click': 'select',
 			'click .expand': 'expand',
 			'click .collapse': 'collapse',
 			'click .shift-up--section': 'shift_up',
 			'click .shift-down--section': 'shift_down',
-			'click .trash--section': 'trash',
 
 			'mouseenter .llms-lessons': 'on_mouseenter',
-			// 'mouseleave': 'on_mouseleave',
-		}, Editable.events ),
+
+		}, Editable.events, Trashable.events ),
 
 		/**
 		 * HTML element wrapper ID attribute
@@ -219,22 +231,6 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 
 		},
 
-		// on_mouseleave: function( event ) {
-
-		// 	console.log( event );
-
-		// 	var $el = $( event.currentTarget ).find( '.llms-lessons' );
-
-		// 	clearTimeout( this.dragTimeout );
-
-		// 	if ( $el.hasClass( 'dragging' ) ) {
-
-		// 		$el.removeClass( 'drag-expanded' );
-
-		// 	}
-
-		// },
-
 		/**
 		 * Expand
 		 * @param    {[type]}   model  [description]
@@ -253,24 +249,6 @@ define( [ 'Views/LessonList', 'Views/_Editable', 'Views/_Shiftable' ], function(
 
 		},
 
-		/**
-		 * Remove section from course and delete it
-		 * @param    obj   event  js event object
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		trash: function( event ) {
-
-			if ( event ) {
-				event.preventDefault();
-			}
-
-			Backbone.pubSub.trigger( 'model-trashed', this.model );
-			this.model.collection.remove( this.model );
-
-		},
-
-	}, Editable, Shiftable ) );
+	}, Editable, Shiftable, Trashable ) );
 
 } );

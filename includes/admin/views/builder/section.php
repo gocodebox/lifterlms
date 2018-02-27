@@ -2,7 +2,7 @@
 /**
  * Builder section model
  * @since   3.16.0
- * @version 3.16.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-section-template">
@@ -39,7 +39,7 @@
 			</a>
 
 			<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-				<a class="llms-action-icon trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash">
+				<a class="llms-action-icon trash--section danger tip--top-right" data-tip="<?php esc_attr_e( 'Delete Section', 'lifterlms' ); ?>" href="#llms-trash-model">
 					<span class="fa fa-trash"></span>
 				</a>
 			<?php endif; ?>

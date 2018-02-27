@@ -2,7 +2,7 @@
 /**
  * Builder lesson model view
  * @since   3.16.0
- * @version 3.16.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">
@@ -60,7 +60,7 @@
 			<# } #>
 
 			<?php if ( current_user_can( 'delete_course', $course_id ) ) : ?>
-				<a class="llms-action-icon trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>" href="#llms-trash">
+				<a class="llms-action-icon trash--lesson danger tip--top-right" data-tip="<?php esc_attr_e( 'Trash Lesson', 'lifterlms' ); ?>" href="#llms-trash-model">
 					<span class="fa fa-trash"></span>
 				</a>
 			<?php endif; ?>

@@ -1,9 +1,17 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  3.16.11
+ * @version  [version]
  */
-define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable ) {
+define( [
+		'Views/_Editable',
+		'Views/_Shiftable',
+		'Views/_Trashable'
+	], function(
+		Editable,
+		Shiftable,
+		Trashable
+	) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -29,6 +37,8 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		/**
 		 * Events
 		 * @type  {Object}
+		 * @since    3.16.0
+		 * @version  [version]
 		 */
 		events: _.defaults( {
 			'click .detach--lesson': 'detach',
@@ -38,8 +48,7 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 			'click .section-next': 'section_next',
 			'click .shift-up--lesson': 'shift_up',
 			'click .shift-down--lesson': 'shift_down',
-			'click .trash--lesson': 'trash',
-		}, Editable.events ),
+		}, Editable.events, Trashable.events ),
 
 		/**
 		 * HTML element wrapper ID attribute
@@ -119,7 +128,6 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 
 			}
 
-
 		},
 
 		/**
@@ -191,29 +199,6 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 		},
 
 		/**
-		 * Remove lesson from course and delete it
-		 * @param    obj   event  js event object
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		trash: function( event ) {
-
-			if ( event ) {
-				event.preventDefault();
-			}
-
-			if ( window.confirm( LLMS.l10n.translate( 'Are you sure you want to move this lesson to the trash?' ) ) ) {
-
-				this.model.collection.remove( this.model );
-				Backbone.pubSub.trigger( 'model-trashed', this.model );
-
-			}
-
-
-		},
-
-		/**
 		 * Move the lesson into a new section
 		 * @param    string   direction  direction [prev|next]
 		 * @return   void
@@ -241,6 +226,6 @@ define( [ 'Views/_Editable', 'Views/_Shiftable' ], function( Editable, Shiftable
 
 		},
 
-	}, Editable, Shiftable ) );
+	}, Editable, Shiftable, Trashable ) );
 
 } );
