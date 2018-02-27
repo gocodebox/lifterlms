@@ -4,7 +4,12 @@ LifterLMS Changelog
 v3.16.12 - 2018-02-??
 ---------------------
 
++ Quizzes can now be detached (removed from a lesson) or deleted (deleted from the lesson and the database) via the Course Builder
 + Improved question choice randomization to ensure randomized choices never display in their original order.
++ When a lesson is deleted, any quiz attached to the lesson will become an orphan
++ When a lesson is deleted, any lesson with this lesson as a prerequisite will have it's prerequisite data removed
++ When a quiz is deleted, all questions attached to the quiz will also be deleted
++ When a quiz is deleted, the lesson associated with the quiz will have those associations removed
 
 
 v3.16.11 - 2018-02-22

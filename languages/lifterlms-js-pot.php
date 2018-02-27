@@ -120,23 +120,37 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Lesson.js
 	 * @since    3.13.0
-	 * @version  3.16.4
+	 * @version  [version]
 	 */
 	'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
+	'lessons' => esc_html__( 'lessons', 'lifterlms' ),
+	'lesson' => esc_html__( 'lesson', 'lifterlms' ),
+	'%1$s Quiz' => esc_html__( '%1$s Quiz', 'lifterlms' ),
 
 	/**
 	 * file: assets/js/builder/Models/Quiz.js
 	 * @since    3.16.0
-	 * @version  3.16.8
+	 * @version  [version]
 	 */
 	'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
+	'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
+	'quiz' => esc_html__( 'quiz', 'lifterlms' ),
 
 	/**
 	 * file: assets/js/builder/Models/Section.js
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	'New Section' => esc_html__( 'New Section', 'lifterlms' ),
+	'sections' => esc_html__( 'sections', 'lifterlms' ),
+	'section' => esc_html__( 'section', 'lifterlms' ),
+
+	/**
+	 * file: assets/js/builder/Views/_Detachable.js
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	'Are you sure you want to detach this %s?' => esc_html__( 'Are you sure you want to detach this %s?', 'lifterlms' ),
 
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
@@ -147,19 +161,19 @@ $strings = array(
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
 
 	/**
-	 * file: assets/js/builder/Views/Elements.js
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * file: assets/js/builder/Views/_Trashable.js
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	'Add Existing Lesson' => esc_html__( 'Add Existing Lesson', 'lifterlms' ),
+	'Are you sure you want to move this %s to the trash?' => esc_html__( 'Are you sure you want to move this %s to the trash?', 'lifterlms' ),
 
 	/**
-	 * file: assets/js/builder/Views/Lesson.js
+	 * file: assets/js/builder/Views/Elements.js
 	 * @since    3.16.0
 	 * @version  [version]
 	 */
-	'Are you sure you want to remove this lesson from the course?' => esc_html__( 'Are you sure you want to remove this lesson from the course?', 'lifterlms' ),
-	'Are you sure you want to move this lesson to the trash?' => esc_html__( 'Are you sure you want to move this lesson to the trash?', 'lifterlms' ),
+	'Add Existing Lesson' => esc_html__( 'Add Existing Lesson', 'lifterlms' ),
+	'Search for existing lessons...' => esc_html__( 'Search for existing lessons...', 'lifterlms' ),
 
 	/**
 	 * file: assets/js/builder/Views/LessonEditor.js
@@ -169,13 +183,14 @@ $strings = array(
 	'Lesson editing coming soon...' => esc_html__( 'Lesson editing coming soon...', 'lifterlms' ),
 
 	/**
-	 * file: assets/js/builder/Views/LessonSearch.js
-	 * @since    3.13.0
-	 * @version  3.16.0
+	 * file: assets/js/builder/Views/PostSearch.js
+	 * @since    3.16.0
+	 * @version  [version]
 	 */
-	'Search for existing lessons...' => esc_html__( 'Search for existing lessons...', 'lifterlms' ),
+	'Searching...' => esc_html__( 'Searching...', 'lifterlms' ),
+	'Attach' => esc_html__( 'Attach', 'lifterlms' ),
+	'Clone' => esc_html__( 'Clone', 'lifterlms' ),
 	'ID' => esc_html__( 'ID', 'lifterlms' ),
-	'Course' => esc_html__( 'Course', 'lifterlms' ),
 
 	/**
 	 * file: assets/js/builder/Views/Question.js
@@ -187,8 +202,10 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Quiz.js
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
+	'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
+	'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
 	'Add a Question' => esc_html__( 'Add a Question', 'lifterlms' ),
 );
 return $strings;

@@ -129,7 +129,6 @@ class LLMS_Admin_Builder {
 					if ( $course_id ) {
 						$parents['course'] = sprintf( __( 'Course: %1$s (#%2$d)', 'lifterlms' ), '<em>' . get_the_title( $course_id ) . '</em>', $course_id );
 					}
-
 				}
 
 				$posts[] = array(
@@ -140,8 +139,8 @@ class LLMS_Admin_Builder {
 					'text' => sprintf( '%1$s (#%2$d)', $post->get( 'title' ), $post->get( 'id' ) ),
 				);
 
-			}
-		}
+			}// End foreach().
+		}// End if().
 
 		$ret = array(
 			'results' => $posts,
@@ -509,7 +508,7 @@ if ( ! empty( $active_post_lock ) ) {
 			unset( $res['error'] );
 			array_push( $ret, $res );
 
-		}
+		}// End foreach().
 
 		return $ret;
 

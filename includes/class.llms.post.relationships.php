@@ -117,7 +117,6 @@ class LLMS_Post_Relationships {
 			$post_id
 		) );
 
-
 	}
 
 	/**
@@ -148,9 +147,7 @@ class LLMS_Post_Relationships {
 					$this->unset_relationships( $post, $data );
 
 				}
-
 			}
-
 		}
 
 	}
@@ -178,7 +175,6 @@ class LLMS_Post_Relationships {
 					delete_post_meta( $id, $key );
 				}
 			}
-
 		}
 
 	}
