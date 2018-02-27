@@ -1018,7 +1018,9 @@ body.admin_page_llms-course-builder {
 		                                                                  |__/                |__/
 	 */
 
-	// .select2-results__option select2-results__option--highlighted
+	 .select2-container {
+	 	z-index: 99999999;
+	 }
 
 	.select2-results__option {
 		padding: 0;
@@ -1108,22 +1110,29 @@ body.admin_page_llms-course-builder {
 
 		.llms-quiz-title {
 			float: left;
-			width: 55%;
+			margin-right: 10px;
+			width: calc( 100% - 310px );
 			.llms-input {
 				width: calc( 100% - 65px );
 			}
 		}
 		.llms-quiz-points {
 			float: left;
-			width: 20%;
+			margin-right: 10px;
+			width: 100px;
 		}
 		.llms-quiz-status.llms-switch {
 			float: left;
-			width: 20%;
+			margin-right: 10px;
+			position: relative;
+			top: -2px;
+			width: 100px;
 		}
 		.llms-action-icons {
 			float: left;
-			width: 5%;
+			position: relative;
+			width: 80px;
+			z-index: 1;
 		}
 
 		.llms-quiz-settings {
