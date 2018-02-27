@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  3.16.11
+ * @version  [version]
  */
 define( [], function() {
 
@@ -307,11 +307,12 @@ define( [], function() {
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
 		 * @since    3.16.11
-		 * @version  3.16.11
+		 * @version  [version]
 		 */
 		function maybe_restart_tracking( model, data ) {
 
 			var omit = [ 'id', 'orig_id' ];
+
 			if ( model.get_relationships ) {
 				omit.concat( model.get_child_props() );
 			}
@@ -323,6 +324,9 @@ define( [], function() {
 				}
 
 			} );
+
+			// if syncing was forced, allow tracking to move forward as normal moving forward
+			model.set( '_forceSync', false );
 
 		};
 
