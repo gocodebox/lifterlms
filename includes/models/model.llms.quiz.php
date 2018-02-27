@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
- * @version  3.16.0
+ * @version  [version]
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
@@ -50,10 +50,14 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Retrieve LLMS_Lesson for the quiz's parent lesson
 	 * @return   obj
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_lesson() {
-		return llms_get_post( $this->get( 'lesson_id' ) );
+		$id = $this->get( 'lesson_id' );
+		if ( ! $id ) {
+			return false;
+		}
+		return llms_get_post( $id );
 	}
 
 	/**
@@ -99,6 +103,23 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		return ( 'yes' === $this->get( 'limit_time' ) );
 	}
 
+	/**
+	 * Determine if the quiz is an orphan
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_orphan() {
+
+		$parent_id = $this->get( 'lesson_id' );
+
+		if ( ! $parent_id ) {
+			return true;
+		}
+
+		return false;
+
+	}
 
 	/**
 	 * Determine if a student can take the quiz
