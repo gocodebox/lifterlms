@@ -468,7 +468,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private static function process_detachments( $data ) {
 
@@ -477,23 +477,34 @@ if ( ! empty( $active_post_lock ) ) {
 		foreach ( $data['detach'] as $id ) {
 
 			$res = array(
-				'error' => sprintf( esc_html__( 'Unable to detach lesson "%s". Invalid lesson ID.', 'lifterlms' ), $id ),
+				'error' => sprintf( esc_html__( 'Unable to detach "%s". Invalid ID.', 'lifterlms' ), $id ),
 				'id' => $id,
 			);
 
-			if ( ! is_numeric( $id ) || 'lesson' !== get_post_type( $id ) ) {
+			$type = get_post_type( $id );
+
+			if ( ! is_numeric( $id ) || ! in_array( $type, array( 'lesson', 'llms_quiz' ) ) ) {
 				array_push( $ret, $res );
 				continue;
 			}
 
-			$lesson = llms_get_post( $id );
-			if ( ! is_a( $lesson, 'LLMS_Lesson' ) ) {
+			$post = llms_get_post( $id );
+			if ( ! is_a( $post, 'LLMS_Post_Model' ) ) {
 				array_push( $ret, $res );
 				continue;
 			}
 
-			$lesson->set( 'parent_course', '' );
-			$lesson->set( 'parent_section', '' );
+			if ( 'lesson' === $type ) {
+				$post->set( 'parent_course', '' );
+				$post->set( 'parent_section', '' );
+			} elseif ( 'llms_quiz' === $type ) {
+				$parent = $post->get_lesson();
+				if ( $parent ) {
+					$parent->set( 'quiz_enabled', 'no' );
+					$parent->set( 'quiz', '' );
+					$post->set( 'lesson_id', 0 );
+				}
+			}
 
 			unset( $res['error'] );
 			array_push( $ret, $res );
@@ -509,7 +520,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of ids to trash/delete
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	private static function process_trash( $data ) {
 
@@ -532,7 +543,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			}
 
-			if ( ! in_array( $type, array( 'lesson', 'llms_question', 'question_choice', 'section' ) ) ) {
+			if ( ! in_array( $type, array( 'lesson', 'llms_quiz', 'llms_question', 'question_choice', 'section' ) ) ) {
 				array_push( $ret, $res );
 				continue;
 			}
@@ -541,7 +552,7 @@ if ( ! empty( $active_post_lock ) ) {
 			if ( is_numeric( $id ) ) {
 
 				// delete sections
-				if ( in_array( $type, array( 'section', 'llms_question' ) ) ) {
+				if ( in_array( $type, array( 'section', 'llms_question', 'llms_quiz' ) ) ) {
 					$stat = wp_delete_post( $id, true );
 				} // End if().
 				else {
@@ -796,7 +807,6 @@ if ( ! empty( $active_post_lock ) ) {
 		if ( self::is_temp_id( $quiz_data['id'] ) ) {
 
 			$quiz = new LLMS_Quiz( 'new' );
-			$lesson->set( 'quiz', $quiz->get( 'id' ) );
 
 			// update existing quiz
 		} else {
@@ -804,6 +814,9 @@ if ( ! empty( $active_post_lock ) ) {
 			$quiz = llms_get_post( $quiz_data['id'] );
 
 		}
+
+		$lesson->set( 'quiz', $quiz->get( 'id' ) );
+		$lesson->set( 'quiz_enabled', 'yes' );
 
 		// we don't have a proper quiz to work with...
 		if ( empty( $quiz ) || ! is_a( $quiz, 'LLMS_Quiz' ) ) {
