@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.15.0
+ * @version  [version]
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -107,7 +107,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * @param    int     $num_quizzes   number of quizzes for each section in the course
 	 * @return   array
 	 * @since    3.7.3
-	 * @version  3.16.11
+	 * @version  [version]
 	 */
 	protected function get_mock_course_array( $iterator = 1, $num_sections = 3, $num_lessons = 5, $num_quizzes = 1, $num_questions = 5 ) {
 
@@ -135,6 +135,8 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 				);
 
 				if ( $lessons_i >= $quizzes_start_i ) {
+
+					$lesson['quiz_enabled'] = 'yes';
 
 					$lesson['quiz'] = array(
 						'title' => sprintf( 'mock quiz %d', $lessons_i ),
