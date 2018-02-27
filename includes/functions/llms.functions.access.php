@@ -170,11 +170,11 @@ function llms_page_restricted( $post_id, $user_id = null ) {
  * @param    array     $restriction  array of data from llms_page_restricted()
  * @return   string
  * @since    3.2.4
- * @version  3.7.3
+ * @version  [version]
  */
 function llms_get_restriction_message( $restriction ) {
 
-	$msg = __( 'You do not have permission to access to this content', 'lifterlms' );
+	$msg = __( 'You do not have permission to access this content', 'lifterlms' );
 
 	switch ( $restriction['reason'] ) {
 

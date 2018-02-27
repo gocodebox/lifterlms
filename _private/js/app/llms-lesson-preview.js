@@ -2,6 +2,8 @@
 
 /**
  * Handle Lesson Preview Elements
+ * @since    3.0.0
+ * @version  [version]
  */
 LLMS.LessonPreview = {
 
@@ -43,7 +45,7 @@ LLMS.LessonPreview = {
 	 * Bind DOM events
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.2.4 -- better tooltip message handling
+	 * @version  [version]
 	 */
 	bind: function() {
 
@@ -59,7 +61,7 @@ LLMS.LessonPreview = {
 			if ( !$tip.length ) {
 				var msg = $( this ).attr( 'data-tooltip-msg' );
 				if ( !msg ) {
-					msg = LLMS.l10n.translate( 'You do not have permission to access to this content' );
+					msg = LLMS.l10n.translate( 'You do not have permission to access this content' );
 				}
 				$tip = self.get_tooltip( msg );
 				$( this ).append( $tip );

@@ -10,9 +10,9 @@ $strings = array(
 	/**
 	 * file: _private/js/app/llms-lesson-preview.js
 	 * @since    3.0.0
-	 * @version  3.2.4 -- better tooltip message handling
+	 * @version  [version]
 	 */
-	'You do not have permission to access to this content' => esc_html__( 'You do not have permission to access to this content', 'lifterlms' ),
+	'You do not have permission to access this content' => esc_html__( 'You do not have permission to access this content', 'lifterlms' ),
 
 	/**
 	 * file: _private/js/app/llms-password-strength.js
