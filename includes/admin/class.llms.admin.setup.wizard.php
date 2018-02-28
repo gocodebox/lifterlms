@@ -2,7 +2,7 @@
 /**
  * Display a Setup Wizard
  * @since    3.0.0
- * @version  3.7.5
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -195,7 +195,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Output the HTML content of the setup page
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.7.5
+	 * @version  [version]
 	 */
 	public function output() {
 
@@ -224,7 +224,7 @@ class LLMS_Admin_Setup_Wizard {
 
 						<?php echo $this->output_step_html( $current ); ?>
 
-						<?php if ( count( $this->error ) ) : ?>
+						<?php if ( is_wp_error( $this->error ) ) : ?>
 							<p class="error"><?php echo $this->error->get_error_message(); ?></p>
 						<?php endif; ?>
 

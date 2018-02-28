@@ -4,7 +4,8 @@ LifterLMS Changelog
 v3.16.14 - 2018-02-??
 ---------------------
 
-+ Fix: Remove reliance PHP 7.2 deprecated function
++ Fix: Remove reliance PHP 7.2 deprecated function `create_function()`
++ Fix: PHP 7.2 warning found on setup wizard
 
 
 v3.16.13 - 2018-02-28
