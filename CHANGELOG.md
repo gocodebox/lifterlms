@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.16.12 - 2018-02-??
+v3.16.12 - 2018-02-27
 ---------------------
 
 + Quizzes can now be detached (removed from a lesson) or deleted (deleted from the lesson and the database) via the Course Builder
