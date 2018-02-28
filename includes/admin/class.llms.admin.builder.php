@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.16.12
+ * @version  [version]
  */
 class LLMS_Admin_Builder {
 
@@ -617,7 +617,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.11
+	 * @version  [version]
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
@@ -690,7 +690,7 @@ if ( ! empty( $active_post_lock ) ) {
 					$lesson->set( 'name', sanitize_title( $lesson_data['title'] ) );
 				}
 
-				if ( isset( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
+				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
 			}// End if().
