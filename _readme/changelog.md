@@ -1,6 +1,11 @@
 == Changelog ==
 
 
+= v3.16.13 - 2018-02-28 =
+-------------------------
+
++ Hotfix: Only create quizzes on the builder if quizzes exist on the lesson
+
 = v3.16.12 - 2018-02-27 =
 -------------------------
 
@@ -123,16 +128,3 @@
 + Fix issue causing newly created quizzes to not be properly related to their parent lesson
 + Fix issue preventing quiz time limits from starting unless an attempt limit is also set
 + Fixes a WP Engine issue that prevented the builder from loading due to a blocked dependency
-
-
-= v3.16.3 - 2018-02-02 =
-------------------------
-
-+ When switching a quiz to "Published" it will now update the parent lesson to ensure it's recorded as having an enabled quiz.
-+ Declared the WordPress heartbeat API script as a dependency for the Course Builder JS. It seems that some servers and hosts dequeue the heartbeat when not explicitly required. This resolves a saving issue on those hosts.
-+ Added a Quiz Description content editor under quiz settings. This is the "Editor" from pre 3.16.0 quizzes and any content saved in these fields is now available in this description field
-+ Fixed issue causing points percentage calulation tooltip on quiz builder to show the incorrect percentage value
-+ Fix issue preventing lessons with no drip settings from being updated on the WP post editor
-+ Fix issue causing 500 error on lesson settings metabox for lessons not attached to sections
-+ Add a "Quiz Description" field to allow quiz post content to be edited on the quiz builder
-+ Added a database migration script to ensure quizzes migrated from 3.16 and lower that had quiz post content to automatically have the optional quiz description to be enabled
