@@ -2,7 +2,7 @@
 /**
  * Builder question view
  * @since   3.16.0
- * @version 3.16.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-choice-template">
@@ -41,12 +41,12 @@
 
 	<div class="llms-action-icons">
 
-		<a class="llms-action-icon circle" data-bbtooltip="<?php _e( 'Add Choice', 'lifterlms' ); ?>" data-bbtooltip-trigger="hover" href="#llms-add-choice" tabindex="-1">
+		<a class="llms-action-icon circle tip--top-left" data-tip="<?php _e( 'Add Choice', 'lifterlms' ); ?>" href="#llms-add-choice" tabindex="-1">
 			<i class="fa fa-plus" aria-hidden="true"></i>
 			<span class="screen-reader-text"><?php _e( 'Add Choice', 'lifterlms' ); ?></span>
 		</a>
 
-		<a class="llms-action-icon circle danger" href="#llms-del-choice" tabindex="-1">
+		<a class="llms-action-icon circle danger tip--top-left" data-tip="<?php _e( 'Delete Choice', 'lifterlms' ); ?>" href="#llms-del-choice" tabindex="-1">
 			<i class="fa fa-minus" aria-hidden="true"></i>
 			<span class="screen-reader-text"><?php _e( 'Delete Choice', 'lifterlms' ); ?></span>
 		</a>
