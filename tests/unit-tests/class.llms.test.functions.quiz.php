@@ -2,7 +2,7 @@
 /**
  * Tests for LifterLMS Core Functions
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.12
  */
 class LLMS_Test_Functions_Quiz extends LLMS_UnitTestCase {
 
@@ -58,8 +58,8 @@ class LLMS_Test_Functions_Quiz extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_shuffle_choices
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	public function test_llms_shuffle_choices() {
 

@@ -1,8 +1,8 @@
 /**
  * Detachable model
  * @type     {Object}
- * @since    [version]
- * @version  [version]
+ * @since    3.16.12
+ * @version  3.16.12
  */
 define( [], function() {
 
@@ -11,8 +11,8 @@ define( [], function() {
 		/**
 		 * DOM Events
 		 * @type  {Object}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		events: {
 			'click a[href="#llms-detach-model"]': 'detach_model',
@@ -22,8 +22,8 @@ define( [], function() {
 		 * Detaches a model from it's parent (doesn't delete)
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		detach_model: function( event ) {
 

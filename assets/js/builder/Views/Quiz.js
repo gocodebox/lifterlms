@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.12
  */
 define( [
 		'Models/Quiz',
@@ -265,8 +265,8 @@ define( [
 		 * Open add existing quiz popover
 		 * @param    obj   event  JS event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		add_existing_quiz_click: function( event ) {
 

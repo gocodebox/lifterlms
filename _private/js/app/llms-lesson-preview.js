@@ -3,7 +3,7 @@
 /**
  * Handle Lesson Preview Elements
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.12
  */
 LLMS.LessonPreview = {
 
@@ -45,7 +45,7 @@ LLMS.LessonPreview = {
 	 * Bind DOM events
 	 * @return void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	bind: function() {
 

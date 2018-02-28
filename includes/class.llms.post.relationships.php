@@ -3,8 +3,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Hooks and actions related to post relationships
- * @since    [version]
- * @version  [version]
+ * @since    3.16.12
+ * @version  3.16.12
  */
 class LLMS_Post_Relationships {
 
@@ -55,8 +55,8 @@ class LLMS_Post_Relationships {
 	 * @param    obj       $post  WP Post that's been deleted
 	 * @param    array     $data  relationship data array
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	private function delete_relationships( $post, $data ) {
 
@@ -75,8 +75,8 @@ class LLMS_Post_Relationships {
 	/**
 	 * Get a list of post types with relationships that should be checked
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	private function get_post_types() {
 		return array_keys( $this->get_relationships() );
@@ -85,8 +85,8 @@ class LLMS_Post_Relationships {
 	/**
 	 * Retrieve filtered LifterLMS post relatinoships array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	private function get_relationships() {
 		return apply_filters( 'llms_get_post_relationships', $this->relationships );
@@ -98,8 +98,8 @@ class LLMS_Post_Relationships {
 	 * @param    string     $post_type  WP Post type of the related post(s)
 	 * @param    string     $meta_key   meta_key to check for relations by
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	private function get_related_posts( $post_id, $post_type, $meta_key ) {
 
@@ -124,8 +124,8 @@ class LLMS_Post_Relationships {
 	 * Called on `delete_post` hook (before a post is deleted)
 	 * @param    int     $post_id  WP Post ID of the deleted post
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	public function maybe_update_relationships( $post_id ) {
 
@@ -157,8 +157,8 @@ class LLMS_Post_Relationships {
 	 * @param    obj       $post  WP Post that's been deleted
 	 * @param    array     $data  relationship data array
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	private function unset_relationships( $post, $data ) {
 

@@ -1,7 +1,7 @@
 /**
  * Post Popover Serach content View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.12
  */
 define( [], function() {
 
@@ -27,8 +27,8 @@ define( [], function() {
 		 * Initializer
 		 * @param    obj   data  customize the search box with data
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		initialize: function( data ) {
 
@@ -41,7 +41,7 @@ define( [], function() {
 		 * Select event, adds the existing lesson to the course
 		 * @param    obj   event  select2:select event object
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		add_post: function( event ) {
 
@@ -64,7 +64,7 @@ define( [], function() {
 		 * Initalizes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		render: function() {
 			var self = this;
@@ -110,7 +110,7 @@ define( [], function() {
 		 * @param    object   res  result data
 		 * @return   string
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		render_result: function( res ) {
 

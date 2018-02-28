@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.12
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], function( Quiz, Relationships, Utilities ) {
 
@@ -96,8 +96,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 * Retrieve the translated post type name for the model's type
 		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		get_l10n_type: function( plural ) {
 
@@ -113,7 +113,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		add_quiz: function( data ) {
 

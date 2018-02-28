@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.12
  */
 define( [
 		'Views/_Detachable',
@@ -40,7 +40,7 @@ define( [
 		 * Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		events: _.defaults( {
 			'click .edit-lesson': 'open_lesson_editor',

@@ -2,7 +2,7 @@
 /**
  * Builder section model
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.12
  */
 ?>
 <script type="text/html" id="tmpl-llms-section-template">

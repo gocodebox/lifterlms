@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.12
  */
 define( [
 		'Collections/Questions',
@@ -122,8 +122,8 @@ define( [
 		 * Retrieve the translated post type name for the model's type
 		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		get_l10n_type: function( plural ) {
 

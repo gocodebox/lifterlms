@@ -1,7 +1,7 @@
 /**
  * Single Section View
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.12
  */
 define( [
 		'Views/LessonList',
@@ -39,7 +39,7 @@ define( [
 		 * Events
 		 * @type     {Object}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		events: _.defaults( {
 

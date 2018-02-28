@@ -2,8 +2,8 @@
 /**
  * Tests for LLMS_Post_Instructors model & functions
  * @group   post_relationships
- * @since   [version]
- * @version [version]
+ * @since   3.16.12
+ * @version 3.16.12
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
@@ -13,8 +13,8 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	 * 		   And the has_prereq metavalue should be unset returning "no"
 	 * 		B) Any quiz attached to this lesson should be detached (making it an orphan)
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	private function delete_lesson() {
 
@@ -65,8 +65,8 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	 * When a quiz is deleted, all the child questions should be deleted too
 	 * Lesson should switch quiz_enabled to "no"
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	private function delete_quiz() {
 
@@ -91,8 +91,8 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	/**
 	 * Test all relationships based on post types
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.12
+	 * @version  3.16.12
 	 */
 	public function test_maybe_update_relationships() {
 

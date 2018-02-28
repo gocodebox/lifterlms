@@ -1,7 +1,7 @@
 /**
  * Sidebar Elements View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.12
  */
 define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'Views/Popover', 'Views/PostSearch' ], function( Section, SectionView, Lesson, LessonView, Popover, LessonSearch ) {
 
@@ -116,8 +116,8 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 		 * Show the popover to add an existing lessons
 		 * @param    object   event  JS Event OBject
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		add_existing_lesson: function( event ) {
 

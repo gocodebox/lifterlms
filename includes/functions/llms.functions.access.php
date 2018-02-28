@@ -170,7 +170,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
  * @param    array     $restriction  array of data from llms_page_restricted()
  * @return   string
  * @since    3.2.4
- * @version  [version]
+ * @version  3.16.12
  */
 function llms_get_restriction_message( $restriction ) {
 

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.12
  *
  * @property  $question_type  (string)  type of question
  */
@@ -95,7 +95,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @param    array  $args   args of data to be passed to wp_insert_post
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	protected function get_creation_args( $args = null ) {
 
@@ -436,7 +436,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Determine if a description is enabled and not empty
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	public function has_description() {
 		$enabled = $this->get( 'description_enabled' );
@@ -464,7 +464,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Determine if a featured video is enabled & not empty
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	public function has_video() {
 		$enabled = $this->get( 'video_enabled' );

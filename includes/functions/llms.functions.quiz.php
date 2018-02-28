@@ -6,7 +6,7 @@
  * @category  Core
  * @package   LifterLMS/Functions
  * @since     3.16.0
- * @version   [version]
+ * @version   3.16.12
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -131,8 +131,8 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
  * The smaller the list of choices the greater the chance of shuffling not changing the array
  * @param    array     $choices  choices from an LLMS_Question
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.16.12
+ * @version  3.16.12
  */
 function llms_shuffle_choices( $choices ) {
 

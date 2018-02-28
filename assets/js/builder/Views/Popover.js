@@ -62,7 +62,7 @@ define( [], function() {
 		 * Hide the popover
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		hide: function() {
 
@@ -75,7 +75,7 @@ define( [], function() {
 		 * Show the popover
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.12
 		 */
 		show: function() {
 

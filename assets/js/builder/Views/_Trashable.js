@@ -1,8 +1,8 @@
 /**
  * Trashable model
  * @type     {Object}
- * @since    [version]
- * @version  [version]
+ * @since    3.16.12
+ * @version  3.16.12
  */
 define( [], function() {
 
@@ -11,8 +11,8 @@ define( [], function() {
 		/**
 		 * DOM Events
 		 * @type  {Object}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		events: {
 			'click a[href="#llms-trash-model"]': 'trash_model',
@@ -22,8 +22,8 @@ define( [], function() {
 		 * Remove a model from it's parent and delete it
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.12
+		 * @version  3.16.12
 		 */
 		trash_model: function( event ) {
 

@@ -350,6 +350,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+v3.16.12 - 2018-02-??
+-------------------------
+
++ Quizzes can now be detached (removed from a lesson) or deleted (deleted from the lesson and the database) via the Course Builder
++ Improved question choice randomization to ensure randomized choices never display in their original order.
++ When a lesson is deleted, any quiz attached to the lesson will become an orphan
++ When a lesson is deleted, any lesson with this lesson as a prerequisite will have it's prerequisite data removed
++ When a quiz is deleted, all questions attached to the quiz will also be deleted
++ When a quiz is deleted, the lesson associated with the quiz will have those associations removed
++ Fixed grammar issue on restricted lesson tooltips when no custom message is stored on the course.
++ Updated functions causing issues in PHP 5.4 to work on PHP 5.4. This has been done to reduce frustration for users still using PHP 5.4 and lower; [This does not mean we advocate using software past the end of its life or that we support PHP 5.4 and lower](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/).
+
+
 = v3.16.11 - 2018-02-22 =
 -------------------------
 

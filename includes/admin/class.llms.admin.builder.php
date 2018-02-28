@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.12
  */
 class LLMS_Admin_Builder {
 
@@ -55,7 +55,7 @@ class LLMS_Admin_Builder {
 	 * @param    integer    $page         page, used when paginating search results
 	 * @return   array
 	 * @since    3.14.8
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	private static function get_existing_posts( $course_id, $post_type = '', $search_term = '', $page = 1 ) {
 
@@ -159,7 +159,7 @@ class LLMS_Admin_Builder {
 	 * @param    obj        $wp_query   WP_Query
 	 * @return   string
 	 * @since    3.14.8
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	public function get_existing_posts_where( $where, $wp_query ) {
 
@@ -194,7 +194,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -467,7 +467,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	private static function process_detachments( $data ) {
 
@@ -519,7 +519,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of ids to trash/delete
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.12
 	 */
 	private static function process_trash( $data ) {
 
