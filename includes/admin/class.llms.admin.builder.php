@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.16.13
  */
 class LLMS_Admin_Builder {
 
@@ -617,7 +617,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.13
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
