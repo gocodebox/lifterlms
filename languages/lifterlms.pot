@@ -168,7 +168,7 @@ msgstr ""
 msgid "Additional Recipients"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.controller.php:419, includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:117, includes/notifications/controllers/class.llms.notification.controller.manual.payment.due.php:94, includes/notifications/controllers/class.llms.notification.controller.payment.retry.php:94
+#: includes/abstracts/llms.abstract.notification.controller.php:419, includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:117, includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:117, includes/notifications/controllers/class.llms.notification.controller.manual.payment.due.php:94, includes/notifications/controllers/class.llms.notification.controller.payment.retry.php:94
 msgid "Basic"
 msgstr ""
 
@@ -3692,6 +3692,27 @@ msgstr ""
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
+#: includes/class.llms.nav.menus.php:41
+msgid "LifterLMS"
+msgstr ""
+
+#: includes/class.llms.nav.menus.php:68
+msgid "Custom Link"
+msgstr ""
+
+#: includes/class.llms.nav.menus.php:87
+msgctxt "customizer menu section title"
+msgid "LifterLMS"
+msgstr ""
+
+#: includes/class.llms.nav.menus.php:158, includes/class.llms.nav.menus.php:159
+msgid "Sign In"
+msgstr ""
+
+#: includes/class.llms.nav.menus.php:163, includes/class.llms.nav.menus.php:164, includes/class.llms.student.dashboard.php:171
+msgid "Sign Out"
+msgstr ""
+
 #: includes/class.llms.person.handler.php:83
 msgid "Username"
 msgstr ""
@@ -5257,10 +5278,6 @@ msgstr ""
 
 #: includes/class.llms.student.dashboard.php:167
 msgid "Order History"
-msgstr ""
-
-#: includes/class.llms.student.dashboard.php:171
-msgid "Sign Out"
 msgstr ""
 
 #: includes/class.llms.student.dashboard.php:232
@@ -7611,6 +7628,10 @@ msgstr ""
 
 #: includes/models/model.llms.user.postmeta.php:116
 msgid "%1$s completed the %2$s"
+msgstr ""
+
+#: includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:81
+msgid "Achievement Earned"
 msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.certificate.earned.php:81
