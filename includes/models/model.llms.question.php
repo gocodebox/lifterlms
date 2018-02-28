@@ -439,8 +439,9 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @version  [version]
 	 */
 	public function has_description() {
+		$enabled = $this->get( 'description_enabled' );
 		$content = $this->get( 'content' );
-		return ( 'yes' === $this->get( 'description_enabled' ) && $content );
+		return ( 'yes' === $enabled && $content );
 	}
 
 	/**
@@ -466,8 +467,9 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @version  [version]
 	 */
 	public function has_video() {
+		$enabled = $this->get( 'video_enabled' );
 		$src = $this->get( 'video_src' );
-		return ( 'yes' === $this->get( 'video_enabled' ) && $src );
+		return ( 'yes' === $enabled && $src );
 	}
 
 	/**
