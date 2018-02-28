@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  3.16.11
+ * @version  [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -17,7 +17,6 @@ class LLMS_Question extends LLMS_Post_Model {
 		'clarifications' => 'html',
 		'clarifications_enabled' => 'yesno',
 		'description_enabled' => 'yesno',
-		'description' => 'html',
 		'image' => 'array',
 		'multi_choices' => 'yesno',
 		'parent_id' => 'absint',
@@ -36,7 +35,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
-	function create_choice( $data ) {
+	public function create_choice( $data ) {
 
 		$data = wp_parse_args( $data, array(
 			'choice' => '',
@@ -62,7 +61,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
-	function delete_choice( $id ) {
+	public function delete_choice( $id ) {
 
 		$choice = $this->get_choice( $id );
 		if ( ! $choice ) {
@@ -96,9 +95,21 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @param    array  $args   args of data to be passed to wp_insert_post
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
-	protected function get_creation_args( $args = array() ) {
+	protected function get_creation_args( $args = null ) {
+
+		// allow nothing to be passed in
+		if ( empty( $args ) ) {
+			$args = array();
+		}
+
+		// backwards compat to original 3.0.0 format when just a title was passed in
+		if ( is_string( $args ) ) {
+			$args = array(
+				'post_title' => $args,
+			);
+		}
 
 		if ( isset( $args['title'] ) ) {
 			$args['post_title'] = $args['title'];
@@ -122,6 +133,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 			}
 		}
+
 		$args['meta_input'] = wp_parse_args( $meta, $meta );
 
 		$args = wp_parse_args( $args, array(
@@ -148,7 +160,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
-	function get_choice( $id ) {
+	public function get_choice( $id ) {
 		$choice = new LLMS_Question_Choice( $this->get( 'id' ), $id );
 		if ( $choice->exists() && $this->get( 'id' ) == $choice->get_question_id() ) {
 			return $choice;
@@ -424,10 +436,11 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Determine if a description is enabled and not empty
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function has_description() {
-		return ( 'yes' === $this->get( 'description_enabled' ) && ! empty( $this->get( 'content' ) ) );
+		$content = $this->get( 'content' );
+		return ( 'yes' === $this->get( 'description_enabled' ) && $content );
 	}
 
 	/**
@@ -450,10 +463,11 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Determine if a featured video is enabled & not empty
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function has_video() {
-		return ( 'yes' === $this->get( 'video_enabled' ) && ! empty( $this->get( 'video_src' ) ) );
+		$src = $this->get( 'video_src' );
+		return ( 'yes' === $this->get( 'video_enabled' ) && $src );
 	}
 
 	/**
@@ -547,7 +561,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
-	function update_choice( $data ) {
+	public function update_choice( $data ) {
 
 		// if there's no ID, we'll add a new choice
 		if ( ! isset( $data['id'] ) ) {
