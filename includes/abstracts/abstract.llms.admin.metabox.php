@@ -2,7 +2,7 @@
 /**
 * Admin Metabox Class
 * @since    3.0.0
-* @version  3.14.1
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -243,8 +243,9 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Process fields to setup navigation and content with minimal PHP loops
 	 * called by $this->output before actually outputting html
-	 * @return void
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	private function process_fields() {
 
@@ -266,7 +267,12 @@ abstract class LLMS_Admin_Metabox {
 			$this->content .= '<div id="' . $this->id . '-tab-' . $i . '" class="tab-content' . $current . '"><ul>';
 
 			foreach ( $tab['fields'] as $field ) {
-				$field_class_name = str_replace( '{TOKEN}', ucfirst( strtr( preg_replace_callback( '/(\w+)/', create_function( '$m','return ucfirst($m[1]);' ), $field['type'] ),'-','_' ) ), 'LLMS_Metabox_{TOKEN}_Field' );
+
+				$name = ucfirst( strtr( preg_replace_callback( '/(\w+)/', function( $m ) {
+					return ucfirst( $m[1] );
+				}, $field['type'] ),'-','_' ) );
+
+				$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
 				$field_class = new $field_class_name($field);
 				ob_start();
 				$field_class->Output();

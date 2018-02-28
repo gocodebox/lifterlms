@@ -1,10 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v3.16.14 - 2018-02-??
+---------------------
+
++ Fix: Remove reliance PHP 7.2 deprecated function
+
+
 v3.16.13 - 2018-02-28
 ---------------------
 
 + Hotfix: Only create quizzes on the builder if quizzes exist on the lesson
+
 
 v3.16.12 - 2018-02-27
 ---------------------
