@@ -973,46 +973,58 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type       object type [course|course_track|section]
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
-	public function get_progress( $object_id, $type = 'course' ) {
+	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
-		$total = 0;
-		$completed = 0;
+		$ret = 0;
 
-		if ( 'course' === $type ) {
+		$cache_key = sprintf( '%1$s_%2$d_progress', $type, $object_id );
+		$cached = $use_cache ? $this->get( $cache_key ) : '';
 
-			$course = new LLMS_Course( $object_id );
-			$lessons = $course->get_lessons( 'ids' );
-			$total = count( $lessons );
-			foreach ( $lessons as $lesson ) {
-				if ( $this->is_complete( $lesson, 'lesson' ) ) {
-					$completed++;
+		if ( '' === $cached ) {
+
+			$total = 0;
+			$completed = 0;
+
+			if ( 'course' === $type ) {
+
+				$course = new LLMS_Course( $object_id );
+				$lessons = $course->get_lessons( 'ids' );
+				$total = count( $lessons );
+				foreach ( $lessons as $lesson ) {
+					if ( $this->is_complete( $lesson, 'lesson' ) ) {
+						$completed++;
+					}
+				}
+			} elseif ( 'course_track' === $type ) {
+
+				$track = new LLMS_Track( $object_id );
+				$courses = $track->get_courses();
+				$total = count( $courses );
+				foreach ( $courses as $course ) {
+					if ( $this->is_complete( $course->ID, 'course' ) ) {
+						$completed++;
+					}
+				}
+			} elseif ( 'section' === $type ) {
+
+				$section = new LLMS_Section( $object_id );
+				$lessons = $section->get_lessons( 'ids' );
+				$total = count( $lessons );
+				foreach ( $lessons as $lesson ) {
+					if ( $this->is_complete( $lesson, 'lesson' ) ) {
+						$completed++;
+					}
 				}
 			}
-		} elseif ( 'course_track' === $type ) {
 
-			$track = new LLMS_Track( $object_id );
-			$courses = $track->get_courses();
-			$total = count( $courses );
-			foreach ( $courses as $course ) {
-				if ( $this->is_complete( $course->ID, 'course' ) ) {
-					$completed++;
-				}
-			}
-		} elseif ( 'section' === $type ) {
+			$ret = ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
+			$this->set( $cache_key, $ret );
 
-			$section = new LLMS_Section( $object_id );
-			$lessons = $section->get_lessons( 'ids' );
-			$total = count( $lessons );
-			foreach ( $lessons as $lesson ) {
-				if ( $this->is_complete( $lesson, 'lesson' ) ) {
-					$completed++;
-				}
-			}
 		}
 
-		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
+		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type );
 
 	}
 
@@ -1096,37 +1108,29 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
-		switch ( $type ) {
+		// check tracks by progress
+		// this is done because tracks can have the same id as another object...
+		// @todo tracks should have a different table or format since the post_id col won't guarantee uniqueness...
+		if ( $type === 'course_track' ) {
 
-			case 'course':
-			case 'section':
-			case 'course_track':
-				$ret = ( 100 == $this->get_progress( $object_id, $type ) );
-			break;
+			$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 
-			case 'lesson':
-				global $wpdb;
-				$query = $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(*)
-					 FROM {$wpdb->prefix}lifterlms_user_postmeta
-					 WHERE user_id = %d
-					   AND post_id = %d
-					   AND meta_key = '_is_complete'
-					   AND meta_value = 'yes'
-					 ORDER BY updated_date ASC
-					 LIMIT 1
-					;",
-					array( $this->get_id(), $object_id )
-				) );
-				$ret = ( $query >= 1 );
-			break;
+		// everything else can be checked on the postmeta table
+		} else {
 
-			default:
-				$ret = false;
+			$query = new LLMS_Query_User_Postmeta( array(
+				'types' => 'completion',
+				'include_post_children' => false,
+				'user_id' => $this->get_id(),
+				'post_id' => $object_id,
+				'per_page' => 1,
+			) );
+
+			$ret = $query->has_results();
 
 		}
 
@@ -1363,82 +1367,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.3.1
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
-		do_action( 'before_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
-
-		// can only be marked compelete in the following post types
-		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
-			$object = llms_get_post( $object_id );
-		} // End if().
-		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id, 'course_track' );
-		} // i said no
-		else {
-			return false;
-		}
-
-		// parent(s) to cascade up and check for completion
-		// lessons -> section -> course -> track(s)
-		$parent_ids = array();
-		$parent_type = false;
-
-		// lessons are complete automatically
-		// other object types are only complete when all of their children are also complete
-		// so the other object types need to check if their complete before being marked as complete
-		$complete = ( 'lesson' === $object_type ) ? true : $this->is_complete( $object_id, $object_type );
-
-		// get the immediate parent so we can cascade up and maybe mark the parent as complete as well
-		switch ( $object_type ) {
-
-			case 'lesson':
-				$parent_ids = array( $object->get( 'parent_section' ) );
-				$parent_type = 'section';
-			break;
-
-			case 'section':
-				$parent_ids = array( $object->get( 'parent_course' ) );
-				$parent_type = 'course';
-			break;
-
-			case 'course':
-				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'course_track';
-			break;
-
-		}
-
-		// object is complete
-		if ( $complete ) {
-
-			// insert meta data
-			$this->insert_completion_postmeta( $object_id, $trigger );
-
-			// generic action hook
-			do_action( 'llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
-
-			// specific hook for each type, also backwards compatible for existing hooks
-			do_action( 'lifterlms_' . $object_type . '_completed', $this->get_id(), $object_id );
-
-			// cascade up
-			if ( $parent_ids && $parent_type ) {
-
-				foreach ( $parent_ids as $pid ) {
-
-					$this->mark_complete( $pid, $parent_type, $trigger );
-
-				}
-			}
-
-			do_action( 'after_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
-
-			return true;
-
-		}
-
-		return false;
+		return $this->update_completion_status( 'complete', $object_id, $object_type, $trigger );
 
 	}
 
@@ -1453,83 +1386,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.5.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
-		do_action( 'before_llms_mark_incomplete', $this->get_id(), $object_id, $object_type, $trigger );
-
-		// can only be marked incompelete in the following post types
-		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
-			$object = llms_get_post( $object_id );
-		} // End if().
-		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id, 'course_track' );
-		} // i said no
-		else {
-			return false;
-		}
-
-		// parent(s) to cascade up and check for incompletion
-		// lessons -> section -> course -> track(s)
-		$parent_ids = array();
-		$parent_type = false;
-
-		// lessons are incomplete automatically
-		// other object types are only incomplete when all of their children are also incomplete
-		// so the other object types need to check if their complete before being marked as complete
-		$complete = ( 'lesson' === $object_type ) ? false : $this->is_complete( $object_id, $object_type );
-
-		// get the immediate parent so we can cascade up and maybe mark the parent as incomplete as well
-		switch ( $object_type ) {
-
-			case 'lesson':
-				$parent_ids = array( $object->get( 'parent_section' ) );
-				$parent_type = 'section';
-			break;
-
-			case 'section':
-				$parent_ids = array( $object->get( 'parent_course' ) );
-				$parent_type = 'course';
-			break;
-
-			case 'course':
-				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'course_track';
-			break;
-
-		}
-
-		// object is incomplete
-		if ( $complete === false ) {
-
-			// insert meta data
-			$this->insert_incompletion_postmeta( $object_id, $trigger );
-
-			// generic action hook
-			do_action( 'llms_mark_incomplete', $this->get_id(), $object_id, $object_type, $trigger );
-
-			// specific hook for each type, also backwards compatible for existing hooks
-			do_action( 'lifterlms_' . $object_type . '_incompleted', $this->get_id(), $object_id );
-
-			// cascade up
-			if ( $parent_ids && $parent_type ) {
-
-				foreach ( $parent_ids as $pid ) {
-
-					$this->mark_incomplete( $pid, $parent_type, $trigger );
-
-				}
-			}
-
-			return true;
-
-		}
-
-		return false;
+		return $this->update_completion_status( 'incomplete', $object_id, $object_type, $trigger );
 
 	}
-
 	/**
 	 * Remove a student from a membership level
 	 * @param    int        $membership_id  WP Post ID of the membership
@@ -1645,6 +1508,131 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	}
 
+	/**
+	 * Update the completion status of a track, course, section, or lesson for the current student
+	 * Cascades up to parents and clears progress caches for parents
+	 * Triggers actions for completion/incompetion
+	 * Inserts / updates necessary user postmeta data
+	 * @param    string    $status       new status to update to [complete|incomplete]
+	 * @param    int       $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param    string    $object_type  object type [lesson|section|course|track]
+	 * @param    string    $trigger      String describing the reason for marking complete
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function update_completion_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
+
+		/**
+		 * Before hook
+		 * @action  before_llms_mark_complete
+		 * @action  before_llms_mark_incomplete
+		 */
+		do_action( 'before_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+
+		// can only be marked incompelete in the following post types
+		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
+			$object = llms_get_post( $object_id );
+		} elseif ( 'course_track' === $object_type ) {
+			$object = get_term( $object_id, 'course_track' );
+		} else {
+			return false;
+		}
+
+		// parent(s) to cascade up and check for incompletion
+		// lessons -> section -> course -> track(s)
+		$parent_ids = array();
+		$parent_type = false;
+
+		// lessons are complete / incomplete automatically
+		// other object types are dependent on their children's statuses
+		// so the other object types need to check progress manually (bypassing cache) to see if it's complete / incomplete
+		$complete = ( 'lesson' === $object_type ) ? ( 'complete' === $status ) : ( 100 == $this->get_progress( $object_id, $object_type, false ) );
+
+		// get the immediate parent so we can cascade up and maybe mark the parent as incomplete as well
+		switch ( $object_type ) {
+
+			case 'lesson':
+				$parent_ids = array( $object->get( 'parent_section' ) );
+				$parent_type = 'section';
+			break;
+
+			case 'section':
+				$parent_ids = array( $object->get( 'parent_course' ) );
+				$parent_type = 'course';
+			break;
+
+			case 'course':
+				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
+				$parent_type = 'course_track';
+			break;
+
+		}
+
+		// reset the cached progress for any objects with children
+		if ( 'lesson' !== $object_type ) {
+			$this->set( sprintf( '%1$s_%2$d_progress', $object_type, $object_id ), '' );
+		}
+
+		// reset cache for all parents
+		if ( $parent_ids && $parent_type ) {
+
+			foreach ( $parent_ids as $pid ) {
+
+				$this->set( sprintf( '%1$s_%2$d_progress', $parent_type, $pid ), '' );
+
+			}
+		}
+
+		// determine if an update should be made
+		$update = ( 'complete' === $status && $complete ) || ( 'incomplete' === $status && ! $complete );
+
+		if ( $update ) {
+
+			// insert meta data
+			if ( 'complete' === $status ) {
+				$this->insert_completion_postmeta( $object_id, $trigger );
+			} elseif ( 'incomplete' === $status ) {
+				$this->insert_incompletion_postmeta( $object_id, $trigger );
+			}
+
+			/**
+			 * Generic hook
+			 * @action  llms_mark_complete
+			 * @action  llms_mark_incomplete
+			 */
+			do_action( 'llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+
+			/**
+			 * Specific hook
+			 * Also backwards compatibile
+			 * @action  lifterlms_{$object_type}_completed
+			 * @action  lifterlms_{$object_type}_incompleted
+			 */
+			do_action( 'lifterlms_' . $object_type . '_' . $status . 'd', $this->get_id(), $object_id );
+
+			// cascade up for parents
+			if ( $parent_ids && $parent_type ) {
+
+				foreach ( $parent_ids as $pid ) {
+
+					$this->update_completion_status( $status, $pid, $parent_type, $trigger );
+
+				}
+			}
+
+			/**
+			 * Generic after hook
+			 * @action  after_llms_mark_complete
+			 * @action  after_llms_mark_incomplete
+			 */
+			do_action( 'after_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+
+		}
+
+		return $update;
+
+	}
 
 
 
