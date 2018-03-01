@@ -521,16 +521,20 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$product_id = $lesson->get_parent_course();
 
 		}
+		
+		$status = get_user_meta( $this->get_id(), '_status_' . $product_id, true );
+		if( empty( $status ) ) {
+			global $wpdb;
 
-		global $wpdb;
+			// get the most recent recorded status
+			$status = $wpdb->get_var( $wpdb->prepare(
+				"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+				array( $this->get_id(), $product_id )
+			) );
 
-		// get the most recent recorded status
-		$status = $wpdb->get_var( $wpdb->prepare(
-			"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
-
-		$status = ( $status ) ? $status : false;
+			$status = ( $status ) ? $status : false;
+			update_user_meta( $this->get_id(), '_status_' . $product_id, $status );
+		}
 
 		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
 
