@@ -1,13 +1,14 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Manage core admin notices
  *
  * @since    3.0.0
- * @version  3.14.8
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Notices_Core {
 
 	/**
@@ -129,13 +130,13 @@ class LLMS_Admin_Notices_Core {
 	 * Don't display notices on specific pages
 	 * @return   void
 	 * @since    3.14.8
-	 * @version  3.14.8
+	 * @version  [version]
 	 */
 	public static function maybe_hide_notices() {
 
 		$screen = get_current_screen();
 
-		if ( 'admin_page_llms-course-builder' === $screen->id ) {
+		if ( $screen && 'admin_page_llms-course-builder' === $screen->id ) {
 
 			remove_all_actions( 'admin_notices' ); // 3rd party notices
 			remove_action( 'admin_print_styles', array( 'LLMS_Admin_Notices', 'output_notices' ) ); // notices output by LifterLMS

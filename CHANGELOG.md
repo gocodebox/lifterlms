@@ -4,8 +4,11 @@ LifterLMS Changelog
 v3.16.14 - 2018-02-??
 ---------------------
 
-+ Fix: Remove reliance PHP 7.2 deprecated function `create_function()`
-+ Fix: PHP 7.2 warning found on setup wizard
++ Added tooltips to question choice add / delete icon buttons
++ Quiz results meta information elements now have unique CSS classes
++ Removed reliance PHP 7.2 deprecated function `create_function()`
++ Fixed invalid PHP 7.2 syntax creating a warning found on the setup wizard
++ Fixed undefined index error related to admin notices
 
 
 v3.16.13 - 2018-02-28
