@@ -10,6 +10,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @version 3.16.0
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
+	
+	private $enrollment_date = array();
+	private $enrollment_status = '';
+	private $is_complete = array();
 
 	/**
 	 * Retrieve an instance of the LLMS_Instructor model for the current user
@@ -487,13 +491,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$key = ( 'enrolled' == $date ) ? '_start_date' : '_status';
 
-		// get the oldest recorded Enrollment date
-		$q = $wpdb->get_var( $wpdb->prepare(
-			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
+		if( !isset( $this->enrollment_date[ $key ] ) ) {
+			// get the oldest recorded Enrollment date
+			$this->enrollment_date[ $key ] = $wpdb->get_var( $wpdb->prepare(
+				"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+				array( $this->get_id(), $product_id )
+			) );
+		}
 
-		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
+		return ( $this->enrollment_date[ $key ] ) ? date_i18n( $format, strtotime( $this->enrollment_date[ $key ] ) ) : false;
 
 	}
 
@@ -522,21 +528,19 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		}
 		
-		$status = get_user_meta( $this->get_id(), '_status_' . $product_id, true );
-		if( empty( $status ) ) {
+		if( empty( $this->enrollment_status ) ) {
 			global $wpdb;
 
 			// get the most recent recorded status
-			$status = $wpdb->get_var( $wpdb->prepare(
+			$this->enrollment_status = $wpdb->get_var( $wpdb->prepare(
 				"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
 				array( $this->get_id(), $product_id )
 			) );
 
-			$status = ( $status ) ? $status : false;
-			update_user_meta( $this->get_id(), '_status_' . $product_id, $status );
+			$this->enrollment_status = ( $this->enrollment_status ) ? $this->enrollment_status : false;
 		}
 
-		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
+		return apply_filters( 'llms_get_enrollment_status', $this->enrollment_status, $this->get_id(), $product_id );
 
 	}
 
@@ -1113,20 +1117,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			break;
 
 			case 'lesson':
-				global $wpdb;
-				$query = $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(*)
-					 FROM {$wpdb->prefix}lifterlms_user_postmeta
-					 WHERE user_id = %d
-					   AND post_id = %d
-					   AND meta_key = '_is_complete'
-					   AND meta_value = 'yes'
-					 ORDER BY updated_date ASC
-					 LIMIT 1
-					;",
-					array( $this->get_id(), $object_id )
-				) );
-				$ret = ( $query >= 1 );
+				if( !isset( $this->is_complete[ $object_id ][ $type ] ) ) {
+					global $wpdb;
+					$this->is_complete[ $object_id ][ $type ] = $wpdb->get_var( $wpdb->prepare(
+						"SELECT COUNT(*)
+						 FROM {$wpdb->prefix}lifterlms_user_postmeta
+						 WHERE user_id = %d
+						   AND post_id = %d
+						   AND meta_key = '_is_complete'
+						   AND meta_value = 'yes'
+						 ORDER BY updated_date ASC
+						 LIMIT 1
+						;",
+						array( $this->get_id(), $object_id )
+					) );
+				}
+				$ret = ( $this->is_complete[ $object_id ][ $type ] >= 1 );
 			break;
 
 			default:
