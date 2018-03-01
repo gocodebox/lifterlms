@@ -980,7 +980,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$total = 0;
 		$completed = 0;
 		
-		$saved_complete = get_user_meta( $this->get_id(), '_status_' . $type . '_' . $object_id );
+		$saved_complete = get_user_meta( $this->get_id(), '_status_' . $type . '_' . $object_id, true );
 		if( empty( $saved_complete ) ) {
 			if ( 'course' === $type ) {
 
