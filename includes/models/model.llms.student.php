@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Student extends LLMS_Abstract_User_Data {
 	
 	private $enrollment_date = array();
-	private $enrollment_status = '';
+	private $enrollment_status = array();
 	private $is_complete = array();
 
 	/**
@@ -528,19 +528,19 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		}
 		
-		if( empty( $this->enrollment_status ) ) {
+		if( !isset( $this->enrollment_status[ $product_id ] ) ) {
 			global $wpdb;
 
 			// get the most recent recorded status
-			$this->enrollment_status = $wpdb->get_var( $wpdb->prepare(
+			$this->enrollment_status[ $product_id ] = $wpdb->get_var( $wpdb->prepare(
 				"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
 				array( $this->get_id(), $product_id )
 			) );
 
-			$this->enrollment_status = ( $this->enrollment_status ) ? $this->enrollment_status : false;
+			$this->enrollment_status[ $product_id ] = ( $this->enrollment_status[ $product_id ] ) ? $this->enrollment_status[ $product_id ] : false;
 		}
 
-		return apply_filters( 'llms_get_enrollment_status', $this->enrollment_status, $this->get_id(), $product_id );
+		return apply_filters( 'llms_get_enrollment_status', $this->enrollment_status[ $product_id ], $this->get_id(), $product_id );
 
 	}
 
