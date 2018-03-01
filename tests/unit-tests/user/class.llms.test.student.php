@@ -3,123 +3,97 @@
  * Tests for LifterLMS Student Functions
  * @group    LLMS_Student
  * @since    3.5.0
- * @version  3.15.0
+ * @version  [version]
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 	/**
-	 * Test mark_complete() and mark_incomplete() on a lesson, section, course, and track
-	 *
-	 * This test creates a course with two sections.  The first section has two lessons and
-	 * the second section has one lesson.  mark_complete() is called on all three lessons
-	 * in order to test lesson, section, and course completion.
-	 *
-	 * When the whole course is complete, mark_incomplete() is called on the three lessons
-	 * in the opposite order to test 'incompletion' for a three post types
+	 * Test mark_complete() and mark_incomplete() on a tracks, courses, sections, and lessons
 	 *
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
-	public function test_completion() {
+	public function test_completion_incompletion() {
 
-		// Create new user
-		$user = $this->factory->user->create( array( 'role' => 'subscriber' ) );
+		$courses = $this->generate_mock_courses( 3, 3, 3, 0 );
+		$student = $this->factory->user->create( array( 'role' => 'student' ) );
+		$track = wp_insert_term( 'test track', 'course_track' );
 
-		// Create new course
-		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		// nothing completed
+		foreach ( $courses as $c_i => $cid ) {
 
-		// add it to a track
-		$term = wp_insert_term( 'test track', 'course_track' );
-		wp_set_object_terms( $course, array( $term['term_id'] ), 'course_track', false );
+			wp_set_object_terms( $cid, array( $track['term_id'] ), 'course_track', false );
 
-		// Create two sections assigned to course
-		$section1 = LLMS_POST_Handler::create_section( $course, 'test-section' );
-		$section2 = LLMS_POST_Handler::create_section( $course, 'test-section2' );
+			$this->assertFalse( llms_is_complete( $student, $cid, 'course' ) );
+			$this->assertFalse( llms_is_complete( $student, $track['term_id'], 'course_track' ) );
 
-		// Create two lessons assigned to section 1 so we can test if each type is complete
-		$lesson1_section1 = LLMS_POST_Handler::create_lesson( $course, $section1, 'test-lesson' );
-		$lesson2_section1 = LLMS_POST_Handler::create_lesson( $course, $section1, 'test-lesson' );
+			// check sections
+			$course = llms_get_post( $cid );
+			foreach ( $course->get_sections( 'ids' ) as $s_i => $sid ) {
 
-		// Create one lesson for section 2
-		$lesson1_section2 = LLMS_POST_Handler::create_lesson( $course, $section2, 'test-lesson' );
+				// no data recorded
+				$this->assertFalse( llms_is_complete( $student, $sid, 'section' ) );
 
-		// Course, Sections, and Lessons should all be incomplete
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section1, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+				// check lessons
+				$section = llms_get_post( $sid );
+				foreach ( $section->get_lessons( 'ids' ) as $l_i => $lid ) {
 
-		// Mark lesson 1 section 1 complete
-		llms_mark_complete( $user, $lesson1_section1, 'lesson', 'test-mark-complete' );
+					// no data recorded (incomplete)
+					$this->assertFalse( llms_is_complete( $student, $sid, 'lesson' ) );
 
-		// Only first lesson should be complete
-		$this->assertTrue(  llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section1, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+					// marked completed
+					llms_mark_complete( $student, $lid, 'lesson' );
+					$this->assertTrue( llms_is_complete( $student, $lid, 'lesson' ) );
 
-		// Mark lesson 2 section 1 complete
-		llms_mark_complete( $user, $lesson2_section1, 'lesson', 'test-mark-complete' );
+					// marked incompleted
+					llms_mark_incomplete( $student, $lid, 'lesson' );
+					$this->assertFalse( llms_is_complete( $student, $sid, 'lesson' ) );
 
-		// Section 1 now complete
-		$this->assertTrue(  llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
-		$this->assertTrue(  llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
-		$this->assertTrue(  llms_is_complete( $user, $section1, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+					// complete it again to check parents
+					llms_mark_complete( $student, $lid, 'lesson' );
+					$this->assertTrue( llms_is_complete( $student, $lid, 'lesson' ) );
 
-		// Mark lesson 1 section 2 complete
-		llms_mark_complete( $user, $lesson1_section2, 'lesson', 'test-mark-complete' );
+					// parent should still be incomplete
+					if ( $l_i <= 1 ) {
+						$this->assertFalse( llms_is_complete( $student, $sid, 'section' ) );
+					}
 
-		// Everthing should be complete now
-		$this->assertTrue( llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
-		$this->assertTrue( llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
-		$this->assertTrue( llms_is_complete( $user, $section1, 'section' ) );
-		$this->assertTrue( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
-		$this->assertTrue( llms_is_complete( $user, $section2, 'section' ) );
-		$this->assertTrue( llms_is_complete( $user, $course, 'course' ) );
+				}
 
-		// check the track
-		$this->assertTrue( llms_is_complete( $user, $term['term_id'], 'course_track' ) );
+				// all lessons complete
+				$this->assertTrue( llms_is_complete( $student, $sid, 'section' ) );
 
-		// Mark lesson 1 section 2 INcomplete
-		llms_mark_incomplete( $user, $lesson1_section2, 'lesson', 'test-mark-incomplete' );
+				// mark last lesson as incomplete
+				llms_mark_incomplete( $student, $lid, 'lesson' );
+				$this->assertFalse( llms_is_complete( $student, $sid, 'section' ) );
 
-		// Only section 1 now complete
-		$this->assertTrue(  llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
-		$this->assertTrue(  llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
-		$this->assertTrue(  llms_is_complete( $user, $section1, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+				// mark complete again for parent checks
+				llms_mark_complete( $student, $lid, 'lesson' );
+				$this->assertTrue( llms_is_complete( $student, $sid, 'section' ) );
 
-		// Mark lesson 2 section 1 INcomplete
-		llms_mark_incomplete( $user, $lesson2_section1, 'lesson', 'test-mark-incomplete' );
+				// parent should still be incomplete
+				if ( $s_i <= 1 ) {
+					$this->assertFalse( llms_is_complete( $student, $cid, 'course' ) );
+					$this->assertFalse( llms_is_complete( $student, $track['term_id'], 'course_track' ) );
+				}
 
-		// Only first lesson should be complete
-		$this->assertTrue(  llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section1, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+			}
 
-		// Mark lesson 1 section 1 INcomplete
-		llms_mark_incomplete( $user, $lesson1_section1, 'lesson', 'test-mark-incomplete' );
+			$this->assertTrue( llms_is_complete( $student, $cid, 'course' ) );
+			$this->assertTrue( llms_is_complete( $student, $track['term_id'], 'course_track' ) );
 
-		// Course, Sections, and Lessons should all be incomplete
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson2_section1, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section1, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $lesson1_section2, 'lesson' ) );
-		$this->assertFalse( llms_is_complete( $user, $section2, 'section' ) );
-		$this->assertFalse( llms_is_complete( $user, $course, 'course' ) );
+			// mark last lesson as incomplete
+			llms_mark_incomplete( $student, $lid, 'lesson' );
+			$this->assertFalse( llms_is_complete( $student, $cid, 'course' ) );
+			$this->assertFalse( llms_is_complete( $student, $track['term_id'], 'course_track' ) );
+
+			// mark complete again for parents
+			llms_mark_complete( $student, $lid, 'lesson' );
+			$this->assertTrue( llms_is_complete( $student, $cid, 'course' ) );
+			$this->assertTrue( llms_is_complete( $student, $track['term_id'], 'course_track' ) );
+
+		}
 
 	}
 
