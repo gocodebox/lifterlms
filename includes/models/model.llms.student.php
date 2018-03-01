@@ -1022,7 +1022,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$ret = ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
 			$this->set( $cache_key, $ret );
 
-		}
+		}// End if().
 
 		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type );
 
@@ -1119,7 +1119,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 
-		// everything else can be checked on the postmeta table
+			// everything else can be checked on the postmeta table
 		} else {
 
 			$query = new LLMS_Query_User_Postmeta( array(
@@ -1628,7 +1628,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			 */
 			do_action( 'after_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
 
-		}
+		}// End if().
 
 		return $update;
 
