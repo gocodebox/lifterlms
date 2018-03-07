@@ -26,7 +26,6 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 			wp_set_object_terms( $cid, array( $track['term_id'] ), 'course_track', false );
 
 			$this->assertFalse( llms_is_complete( $student, $cid, 'course' ) );
-			$this->assertFalse( llms_is_complete( $student, $track['term_id'], 'course_track' ) );
 
 			// check sections
 			$course = llms_get_post( $cid );
@@ -260,6 +259,38 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		) );
 		$student =  new LLMS_Student( $uid );
 		$this->assertEquals( 'Student McStudentFace', $student->get_name() );
+
+	}
+
+	/**
+	 * Test get_enrollment_status()
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_enrollment_status() {
+
+		$course_id = $this->generate_mock_courses( 1, 1, 1, 0 )[0];
+		$course = llms_get_post( $course_id );
+		$student = llms_get_student( $this->factory->user->create( array( 'role' => 'student' ) ) );
+
+		// no status
+		$this->assertFalse( $student->get_enrollment_status( $course_id ) );
+
+		// enrolled
+		$student->enroll( $course_id );
+		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course_id ) );
+		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course_id, false ) );
+		// check from a lesson
+		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course->get_lessons( 'ids' )[0] ) );
+		$this->assertEquals( 'enrolled', $student->get_enrollment_status( $course->get_lessons( 'ids' )[0] ), false );
+
+		sleep( 1 );
+
+		// expired
+		$student->unenroll( $course_id );
+		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id ) );
+		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id, false ) );
 
 	}
 

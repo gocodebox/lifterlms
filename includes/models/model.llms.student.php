@@ -70,7 +70,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_enroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    2.2.3
-	 * @version  3.0.0  added $trigger parameter
+	 * @version  [version]
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
@@ -79,33 +79,27 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// can only be enrolled in the following post types
 		$product_type = get_post_type( $product_id );
 		if ( ! in_array( $product_type, array( 'course', 'llms_membership' ) ) ) {
-
 			return false;
-
 		}
 
 		// check enrollemnt before enrolling
 		// this will prevent duplicate enrollments
 		if ( llms_is_user_enrolled( $this->get_id(), $product_id ) ) {
-
 			return false;
-
 		}
 
 		// if the student has been previously enrolled, simply update don't run a full enrollment
-		if ( $this->get_enrollment_status( $product_id ) ) {
-
+		if ( $this->get_enrollment_status( $product_id, false ) ) {
 			$insert = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
-
-		} // End if().
-		else {
-
+		}  else {
 			$insert = $this->insert_enrollment_postmeta( $product_id, $trigger );
-
 		}
 
 		// add the user postmeta for the enrollment
 		if ( ! empty( $insert ) ) {
+
+			// update the cache
+			$this->cache_set( 'enrollment_status', 'enrolled' );
 
 			// trigger additional actions based off post type
 			switch ( get_post_type( $product_id ) ) {
@@ -500,18 +494,21 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
-	 * @param    int $product_id WP Post ID of a Course, Lesson, or Membership
+	 * @param    int    $product_id  WP Post ID of a Course, Lesson, or Membership
+	 * @param    bool   $use_cache   If true, returns cached data if available, if false will run a db query
 	 * @return   false|string
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
-	public function get_enrollment_status( $product_id ) {
+	public function get_enrollment_status( $product_id, $use_cache = true ) {
+
+		$status = false;
 
 		$product_type = get_post_type( $product_id );
 
 		// only check the following post types
 		if ( ! in_array( $product_type, array( 'course', 'lesson', 'llms_membership' ) ) ) {
-			return false;
+			return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
 		}
 
 		// get course ID if we're looking at a lesson
@@ -522,13 +519,28 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		}
 
-		global $wpdb;
+		if ( $use_cache ) {
+			$status = $this->cache_get( 'enrollment_status' );
+		}
 
-		// get the most recent recorded status
-		$status = $wpdb->get_var( $wpdb->prepare(
-			"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
+		// status will be:
+		//    + false if there was nothing in the cache -- run a query!
+		//    + a string if there was a status          -- don't run query
+		//    + null if there's no status               -- don't run query
+		if ( ! is_null( $status ) ) {
+
+			global $wpdb;
+
+			// get the most recent recorded status
+			$status = $wpdb->get_var( $wpdb->prepare(
+				"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+				array( $this->get_id(), $product_id )
+			) );
+
+			// null will be stored if the student has no status
+			$this->cache_set( 'enrollment_status', $status );
+
+		}
 
 		$status = ( $status ) ? $status : false;
 
@@ -971,6 +983,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Get students progress through a course or track
 	 * @param    int        $object_id  course or track id
 	 * @param    string     $type       object type [course|course_track|section]
+	 * @param    boolean    $use_cache  if true, will use cached data from the usermeta table (if available)
+	 *                                  if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
 	 * @version  [version]
@@ -978,7 +992,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
 		$ret = 0;
-
 		$cache_key = sprintf( '%1$s_%2$d_progress', $type, $object_id );
 		$cached = $use_cache ? $this->get( $cache_key ) : '';
 
@@ -1022,7 +1035,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$ret = ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
 			$this->set( $cache_key, $ret );
 
-		}// End if().
+		} else {
+			$ret = $cached;
+		}
 
 		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type );
 
@@ -1441,7 +1456,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
-	 * @since  3.0.0
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
@@ -1482,6 +1498,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// update enrollment for the product
 			if ( $this->insert_status_postmeta( $product_id, $new_status ) ) {
 
+				// update the cache
+				$this->cache_set( 'enrollment_status', $new_status );
+
 				// trigger actions based on product type
 				switch ( get_post_type( $product_id ) ) {
 
@@ -1515,7 +1534,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Inserts / updates necessary user postmeta data
 	 * @param    string    $status       new status to update to [complete|incomplete]
 	 * @param    int       $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param    string    $object_type  object type [lesson|section|course|track]
+	 * @param    string    $object_type  object type [lesson|section|course|course_track]
 	 * @param    string    $trigger      String describing the reason for marking complete
 	 * @return   boolean
 	 * @since    [version]
