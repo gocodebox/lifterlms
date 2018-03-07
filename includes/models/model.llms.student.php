@@ -527,7 +527,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		//    + false if there was nothing in the cache -- run a query!
 		//    + a string if there was a status          -- don't run query
 		//    + null if there's no status               -- don't run query
-		if ( ! is_null( $status ) ) {
+		if ( false === $status ) {
 
 			global $wpdb;
 
