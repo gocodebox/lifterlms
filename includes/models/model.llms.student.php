@@ -99,7 +99,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		if ( ! empty( $insert ) ) {
 
 			// update the cache
-			$this->cache_set( 'enrollment_status', 'enrolled' );
+			$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), 'enrolled' );
+			$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
+			$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
 
 			// trigger additional actions based off post type
 			switch ( get_post_type( $product_id ) ) {
@@ -469,7 +471,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param   string $format      date format as accepted by php date(), if none supplied uses the WP core "date_format" option
 	 * @return  false|string        will return false if the user is not enrolled
 	 * @since   3.0.0
-	 * @version 3.14.0
+	 * @version [version]
 	 */
 	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = null ) {
 
@@ -477,17 +479,26 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$format = get_option( 'date_format', 'M d, Y' );
 		}
 
-		global $wpdb;
+		$cache_key = sprintf( 'date_%1$s_%2$s', $date, $product_id );
+		$res = $this->cache_get( $cache_key );
 
-		$key = ( 'enrolled' == $date ) ? '_start_date' : '_status';
+		if ( false === $res ) {
 
-		// get the oldest recorded Enrollment date
-		$q = $wpdb->get_var( $wpdb->prepare(
-			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
+			$key = ( 'enrolled' === $date ) ? '_start_date' : '_status';
 
-		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
+			global $wpdb;
+
+			// get the oldest recorded Enrollment date
+			$res = $wpdb->get_var( $wpdb->prepare(
+				"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+				array( $this->get_id(), $product_id )
+			) );
+
+			$this->cache_set( $cache_key, $res );
+
+		}
+
+		return ( $res ) ? date_i18n( $format, strtotime( $res ) ) : false;
 
 	}
 
@@ -520,7 +531,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		if ( $use_cache ) {
-			$status = $this->cache_get( 'enrollment_status' );
+			$status = $this->cache_get( sprintf( 'enrollment_status_%d', $product_id ) );
 		}
 
 		// status will be:
@@ -538,7 +549,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			) );
 
 			// null will be stored if the student has no status
-			$this->cache_set( 'enrollment_status', $status );
+			$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), $status );
 
 		}
 
@@ -1264,12 +1275,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add student postmeta data for enrollment into a course or membership
-	 * @param  int        $product_id   WP Post ID of the course or membership
-	 * @param  string     $trigger      String describing the reason for enrollment
-	 * @return boolean
-	 *
-	 * @since  2.2.3
-	 * @version  3.0.0  added $trigger parameter
+	 * @param    int        $product_id   WP Post ID of the course or membership
+	 * @param    string     $trigger      String describing the reason for enrollment
+	 * @return   boolean
+	 * @since    2.2.3
+	 * @version  [version]
 	 */
 	private function insert_enrollment_postmeta( $product_id, $trigger = 'unspecified' ) {
 
@@ -1290,7 +1300,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					'post_id'      => $product_id,
 					'meta_key'     => $key,
 					'meta_value'   => $value,
-					'updated_date' => current_time( 'mysql' ),
+					'updated_date' => llms_current_time( 'mysql' ),
 				),
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
@@ -1308,11 +1318,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add a new status record to the user postmeta table for a specific product
-	 * @param  int    $product_id   WP Post ID of the course or membership
-	 * @param  string $status       string describing the new status
-	 * @param  string     $trigger  String describing the reason for enrollment (optional)
-	 * @return boolean
-	 * @since  3.0.0
+	 * @param    int    $product_id   WP Post ID of the course or membership
+	 * @param    string $status       string describing the new status
+	 * @param    string     $trigger  String describing the reason for enrollment (optional)
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	private function insert_status_postmeta( $product_id, $status = '', $trigger = null ) {
 
@@ -1324,7 +1335,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				'post_id'      => $product_id,
 				'meta_key'     => '_status',
 				'meta_value'   => $status,
-				'updated_date' => current_time( 'mysql' ),
+				'updated_date' => llms_current_time( 'mysql' ),
 			),
 			array( '%d', '%d', '%s', '%s', '%s' )
 		);
@@ -1339,7 +1350,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 						'post_id'      => $product_id,
 						'meta_key'     => '_enrollment_trigger',
 						'meta_value'   => $trigger,
-						'updated_date' => current_time( 'mysql' ),
+						'updated_date' => llms_current_time( 'mysql' ),
 					),
 					array( '%d', '%d', '%s', '%s', '%s' )
 				);
@@ -1499,7 +1510,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			if ( $this->insert_status_postmeta( $product_id, $new_status ) ) {
 
 				// update the cache
-				$this->cache_set( 'enrollment_status', $new_status );
+				$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), $new_status );
+				$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
+				$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
 
 				// trigger actions based on product type
 				switch ( get_post_type( $product_id ) ) {

@@ -204,6 +204,46 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		llms_enroll_student( $student->get_id(), $course_id );
 		$this->assertTrue( $student->is_enrolled( $course_id ) );
 
+	}
+
+	/**
+	 * Test get_enrollment_date()
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_enrollment_date() {
+
+		$courses = $this->generate_mock_courses( 3, 0, 0, 0 );
+		$student = $this->get_mock_student();
+
+		$now = time();
+		$format = 'Y-m-d H:i:s';
+
+		// nothing completed
+		foreach ( $courses as $cid ) {
+
+			$ts = $now + ( DAY_IN_SECONDS * rand( 1, 50 ) );
+			$date = date( $format, $ts );
+
+			llms_mock_current_time( $date );
+
+			// enrollment date should match currently mocked date
+			$student->enroll( $cid );
+			$this->assertEquals( $date, $student->get_enrollment_date( $cid, 'enrolled', $format ) );
+
+			$ts += HOUR_IN_SECONDS;
+			$new_date = date( $format, $ts );
+			llms_mock_current_time( $new_date );
+
+			// updated date should be an hour later
+			$student->unenroll( $cid );
+			$this->assertEquals( $new_date, $student->get_enrollment_date( $cid, 'updated', $format ) );
+
+			// enrollment date should still be the original date
+			$this->assertEquals( $date, $student->get_enrollment_date( $cid, 'enrolled', $format ) );
+
+		}
 
 	}
 
