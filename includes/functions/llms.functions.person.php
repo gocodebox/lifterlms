@@ -444,15 +444,14 @@ add_filter( 'manage_users_columns', 'llms_add_user_table_columns' );
 
 /**
  * Add data user data for custom column added by llms_add_user_table_columns
- *
- * @param  string $val         value of the field
- * @param  string $column_name "id" or name of the column
- * @param  int $user_id        user_id for the row in the loop
- *
- * @return string              data to display on screen
+ * @param     string $val         value of the field
+ * @param     string $column_name "id" or name of the column
+ * @param     int $user_id        user_id for the row in the loop
+ * @return    string              data to display on screen
+ * @since     1.0.0
+ * @version   [version]
  */
 function llms_add_user_table_rows( $val, $column_name, $user_id ) {
-	// $user = get_userdata( $user_id );
 
 	switch ( $column_name ) {
 
@@ -505,7 +504,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 				}
 			} else {
 
-				return 'No memberships';
+				return __( 'No memberships', 'lifterlms' );
 
 			}
 
