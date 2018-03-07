@@ -36,6 +36,7 @@ class LLMS_Question_Types {
 				'max' => 26,
 				'min' => 2,
 				'multi' => true,
+				'pair_type' => false,
 				'type' => 'text',
 			),
 			'clarifications' => true,
@@ -240,6 +241,18 @@ class LLMS_Question_Types {
 				'id' => 'scale',
 				'name' => esc_html__( 'Scale', 'lifterlms' ),
 				'upgrade' => $upgrade_url . 'scale',
+			),
+
+			'match' => array(
+				'choices' => array(),
+				'group' => array(
+					'order' => 10,
+					'name' => __( 'Advanced Questions', 'lifterlms' ),
+				),
+				'icon' => 'puzzle-piece',
+				'id' => 'match',
+				'name' => esc_html__( 'Matching', 'lifterlms' ),
+				'upgrade' => $upgrade_url . 'match',
 			),
 
 		);
