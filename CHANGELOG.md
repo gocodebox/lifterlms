@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.16.14 - 2018-02-??
 ---------------------
 
++ Courses reporting table now includes courses with the "Private" status
 + Fixed issue causing some achievment notifications to be blank
 + Added tooltips to question choice add / delete icon buttons
 + Quiz results meta information elements now have unique CSS classes
