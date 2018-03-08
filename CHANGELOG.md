@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.16.14 - 2018-02-??
+v3.16.14 - 2018-03-07
 ---------------------
 
 + Courses reporting table now includes courses with the "Private" status
@@ -11,9 +11,9 @@ v3.16.14 - 2018-02-??
 + Removed reliance PHP 7.2 deprecated function `create_function()`
 + Fixed invalid PHP 7.2 syntax creating a warning found on the setup wizard
 + Fixed undefined index error related to admin notices
-+ Fix unstanslateable string on Users table ("No Memberships")
-+ Fix discrepancy between membership restrictions as presented to logged out users and loggend in users who cannot access membership
-+ Fix FireFox and Edge issue causing changes to number inputs made via HTML5 input arrows from properly triggering save events
++ Fixed unstanslateable string on Users table ("No Memberships")
++ Fixed discrepancy between membership restrictions as presented to logged out users and loggend in users who cannot access membership
++ Fixed FireFox and Edge issue causing changes to number inputs made via HTML5 input arrows from properly triggering save events
 
 
 v3.16.13 - 2018-02-28

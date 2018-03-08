@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.9.4
-Stable tag: 3.16.13
+Stable tag: 3.16.14
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -350,10 +350,26 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.16.14 - 2018-03-07 =
+-------------------------
+
++ Courses reporting table now includes courses with the "Private" status
++ Fixed issue causing some achievment notifications to be blank
++ Added tooltips to question choice add / delete icon buttons
++ Quiz results meta information elements now have unique CSS classes
++ Removed reliance PHP 7.2 deprecated function `create_function()`
++ Fixed invalid PHP 7.2 syntax creating a warning found on the setup wizard
++ Fixed undefined index error related to admin notices
++ Fixed unstanslateable string on Users table ("No Memberships")
++ Fixed discrepancy between membership restrictions as presented to logged out users and loggend in users who cannot access membership
++ Fixed FireFox and Edge issue causing changes to number inputs made via HTML5 input arrows from properly triggering save events
+
+
 = v3.16.13 - 2018-02-28 =
 -------------------------
 
 + Hotfix: Only create quizzes on the builder if quizzes exist on the lesson
+
 
 = v3.16.12 - 2018-02-27 =
 -------------------------
@@ -469,14 +485,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Improved background updater to ensure scripts don't timeout during upgrades
 + Admin builder JS now minified for increased performance
 + Made frontend quiz and quiz-builder strings output via Javascript translateable
-
-
-= v3.16.4 - 2018-02-05 =
-------------------------
-
-+ Fix issue causing newly created quizzes to not be properly related to their parent lesson
-+ Fix issue preventing quiz time limits from starting unless an attempt limit is also set
-+ Fixes a WP Engine issue that prevented the builder from loading due to a blocked dependency
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

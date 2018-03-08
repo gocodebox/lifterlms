@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Manage core admin notices
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.16.14
  */
 class LLMS_Admin_Notices_Core {
 
@@ -130,7 +130,7 @@ class LLMS_Admin_Notices_Core {
 	 * Don't display notices on specific pages
 	 * @return   void
 	 * @since    3.14.8
-	 * @version  [version]
+	 * @version  3.16.14
 	 */
 	public static function maybe_hide_notices() {
 

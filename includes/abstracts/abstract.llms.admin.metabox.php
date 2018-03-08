@@ -2,7 +2,7 @@
 /**
 * Admin Metabox Class
 * @since    3.0.0
-* @version  [version]
+* @version  3.16.14
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -245,7 +245,7 @@ abstract class LLMS_Admin_Metabox {
 	 * called by $this->output before actually outputting html
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.14
 	 */
 	private function process_fields() {
 

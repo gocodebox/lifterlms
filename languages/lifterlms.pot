@@ -601,23 +601,23 @@ msgstr ""
 msgid "You do not have permission to access this content."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:66, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:549, includes/class.llms.install.php:569
+#: includes/admin/class.llms.admin.notices.core.php:67, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:549, includes/class.llms.install.php:569
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:69, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:553, includes/class.llms.install.php:573
+#: includes/admin/class.llms.admin.notices.core.php:70, includes/admin/class.llms.admin.notices.php:198, includes/class.llms.install.php:553, includes/class.llms.install.php:573
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:113
+#: includes/admin/class.llms.admin.notices.core.php:114
 msgid "No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:114
+#: includes/admin/class.llms.admin.notices.core.php:115
 msgid "For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:162
+#: includes/admin/class.llms.admin.notices.core.php:163
 msgid "<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS."
 msgstr ""
 
@@ -3264,7 +3264,7 @@ msgstr ""
 msgid "Add Choice"
 msgstr ""
 
-#: includes/admin/views/builder/question-choice.php:51
+#: includes/admin/views/builder/question-choice.php:49, includes/admin/views/builder/question-choice.php:51
 msgid "Delete Choice"
 msgstr ""
 
@@ -7092,8 +7092,12 @@ msgstr ""
 msgid "Last Login"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:468
+#: includes/functions/llms.functions.person.php:467
 msgid "Never"
+msgstr ""
+
+#: includes/functions/llms.functions.person.php:507
+msgid "No memberships"
 msgstr ""
 
 #: includes/functions/llms.functions.quiz.php:95

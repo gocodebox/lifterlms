@@ -3,7 +3,7 @@
  * Courses Reporting Table
  *
  * @since    3.15.0
- * @version  [version]
+ * @version  3.16.14
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -150,7 +150,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.16.14
 	 */
 	public function get_results( $args = array() ) {
 

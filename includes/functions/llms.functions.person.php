@@ -449,7 +449,7 @@ add_filter( 'manage_users_columns', 'llms_add_user_table_columns' );
  * @param     int $user_id        user_id for the row in the loop
  * @return    string              data to display on screen
  * @since     1.0.0
- * @version   [version]
+ * @version   3.16.14
  */
 function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 
