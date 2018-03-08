@@ -474,14 +474,12 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 						break;
 					}
 				}
-
 			}
-
 		}
 
 		return absint( $restriction_id );
 
-	}
+	}// End if().
 
 	return false;
 
