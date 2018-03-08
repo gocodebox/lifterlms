@@ -11,7 +11,8 @@ v3.16.14 - 2018-02-??
 + Removed reliance PHP 7.2 deprecated function `create_function()`
 + Fixed invalid PHP 7.2 syntax creating a warning found on the setup wizard
 + Fixed undefined index error related to admin notices
-+ Fix unstanslated string on Users table ("No Memberships")
++ Fix unstanslateable string on Users table ("No Memberships")
++ Fix discrepancy between membership restrictions as presented to logged out users and loggend in users who cannot access membership
 
 
 v3.16.13 - 2018-02-28
