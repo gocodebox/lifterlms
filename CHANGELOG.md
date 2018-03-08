@@ -13,6 +13,7 @@ v3.16.14 - 2018-02-??
 + Fixed undefined index error related to admin notices
 + Fix unstanslateable string on Users table ("No Memberships")
 + Fix discrepancy between membership restrictions as presented to logged out users and loggend in users who cannot access membership
++ Fix FireFox and Edge issue causing changes to number inputs made via HTML5 input arrows from properly triggering save events
 
 
 v3.16.13 - 2018-02-28
