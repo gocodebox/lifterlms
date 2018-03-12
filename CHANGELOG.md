@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.16.15 - 2018-03-??
+---------------------
+
++ Added options for themes to add layout support to quizzes where the custom field utilizes an underscore at the beginning of the field key
+
+
 v3.16.14 - 2018-03-07
 ---------------------
 

@@ -2,7 +2,7 @@
 /**
  * Builder quiz model header view
  * @since   3.16.0
- * @version 3.16.12
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
@@ -139,7 +139,8 @@
 
 		<?php if ( get_theme_support( 'lifterlms-quizzes' ) ) :
 			$layout = llms_get_quiz_theme_setting( 'layout' );
-			if ( $layout ) : ?>
+			if ( $layout ) :
+				$layout_id = sprintf( '%1$s%2$s', isset( $layout['id_prefix'] ) ? $layout['id_prefix'] : '', $layout['id'] ); ?>
 				<div class="llms-settings-row">
 
 					<div class="llms-editable-toggle-group">
@@ -151,14 +152,14 @@
 							<?php if ( 'select' === $layout['type'] ) : ?>
 								<select name="<?php echo $layout['id']; ?>">
 									<?php foreach ( $layout['options'] as $key => $name ) : ?>
-										<option value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout['id']; ?>' ) === '<?php echo $key; ?>' ) { print( ' selected="selected"' ); } #>><?php echo esc_html( $name ); ?></option>
+										<option value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout_id; ?>' ) === '<?php echo $key; ?>' ) { print( ' selected="selected"' ); } #>><?php echo esc_html( $name ); ?></option>
 									<?php endforeach; ?>
 								</select>
 							<?php elseif ( 'image_select' === $layout['type'] ) : ?>
 								<div class="llms-editable-img-select">
 								<?php foreach ( $layout['options'] as $key => $src ) : ?>
 									<label>
-										<input name="<?php echo $layout['id']; ?>" type="radio" value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout['id']; ?>' ) === '<?php echo $key; ?>' ) { print( ' checked="checked"' ); } #>>
+										<input name="<?php echo $layout['id']; ?>" type="radio" value="<?php echo esc_attr( $key ); ?>"<# if ( data.get( '<?php echo $layout_id; ?>' ) === '<?php echo $key; ?>' ) { print( ' checked="checked"' ); } #>>
 										<span><img src="<?php echo esc_attr( $src ); ?>"></span>
 									</label>
 								<?php endforeach; ?>
