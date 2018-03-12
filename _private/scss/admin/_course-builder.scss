@@ -606,7 +606,8 @@ body.admin_page_llms-course-builder {
 		font-size: 16px;
 		padding: 0 5px;
 		text-decoration: none;
-		&:hover {
+		&:hover,
+		&.active {
 			color: $color-brand-blue;
 			&.danger { color: $color-danger; }
 		}
@@ -640,6 +641,9 @@ body.admin_page_llms-course-builder {
 			float: left;
 			&.active {
 				color: $color-brand-blue;
+			}
+			.llms-action-icon {
+				margin: -5px;
 			}
 		}
 

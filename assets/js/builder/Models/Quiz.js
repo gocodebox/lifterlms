@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.16.12
+ * @version  [version]
  */
 define( [
 		'Collections/Questions',
@@ -41,7 +41,7 @@ define( [
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  [version]
 		 */
 		defaults: function() {
 
@@ -62,6 +62,7 @@ define( [
 				name: '',
 				random_answers: 'no',
 				time_limit: 30,
+				quiz_type: 'quiz',
 				show_correct_answer: 'no',
 
 				questions: [],
