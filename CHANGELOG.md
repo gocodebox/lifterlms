@@ -7,6 +7,10 @@ v3.16.15 - 2018-03-??
 + Updated spacing and returns found in the email header and footer templates to prevent line breaks from occurring in undesireable places on previews of HTML emails in mobile email clients
 + Added options for themes to add layout support to quizzes where the custom field utilizes an underscore at the beginning of the field key
 + Fixed CSS issue causing blanks of fill in the blanks to not be visible on the course builder when using Chrome on Windows
++ Removed unnecessary `get_option()` call to unused option `lifterlms_permalinks`
++ Updated permissions required to see various LifterLMS post types to rely on `manage_lifterlms` capabilites as opposed to `manage_options`
+  + This will only affect the LMS Manager core role or any custom role which was provided with the `manage_options` capability. Manages will now be able to access all LMS content and custom roles would now not be able to access LMS content
+  + Affected content types are: Orders, Coupons, Vouchers, Engagements, Achievements, Certificates, and Emails
 + Several references to an option removed in LifterLMS 3.0 still existed in the codebase and have now been removed.
   + Option `lifterlms_course_display_banner` is no longer called or referenced
   + Template function `lifterlms_template_single_featured_image()` has been removed
