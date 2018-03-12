@@ -2,7 +2,7 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  3.16.7
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -247,18 +247,6 @@ function llms_template_redirect() {
 	}
 }
 add_action( 'template_redirect', 'llms_template_redirect' );
-
-/**
- * Featured Image Template Include
- * @return void
- */
-if ( ! function_exists( 'lifterlms_template_single_featured_image' ) ) {
-
-	function lifterlms_template_single_featured_image() {
-
-		llms_get_template( 'course/featured-image.php' );
-	}
-}
 
 /**
  * Title Template Include
@@ -1114,23 +1102,6 @@ if ( ! function_exists( 'lifterlms_get_featured_image' ) ) {
 
 			return llms_placeholder_img();
 		}
-	}
-}
-
-/**
- * Get Featured Image Banner
- * @param  int $post_id [ID of the post]
- * @return string [url of featured image full size]
- */
-if ( ! function_exists( 'lifterlms_get_featured_image_banner' ) ) {
-
-	function lifterlms_get_featured_image_banner( $post_id ) {
-		if ( get_option( 'lifterlms_course_display_banner' ) == 'yes' ) {
-			if ( has_post_thumbnail( $post_id ) ) {
-				return llms_featured_img( $post_id, 'full' );
-			}
-		}
-
 	}
 }
 

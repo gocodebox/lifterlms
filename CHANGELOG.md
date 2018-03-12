@@ -5,6 +5,12 @@ v3.16.15 - 2018-03-??
 ---------------------
 
 + Added options for themes to add layout support to quizzes where the custom field utilizes an underscore at the beginning of the field key
++ Several references to an option removed in LifterLMS 3.0 still existed in the codebase and have now been removed.
+  + Option `lifterlms_course_display_banner` is no longer called or referenced
+  + Template function `lifterlms_template_single_featured_image()` has been removed
+  + Actions referencing `lifterlms_template_single_featured_image()` have been removed
+  + Template function `lifterlms_get_featured_image_banner()` has been removed
+  + Template `templates/course/featured-image.php` has been removed
 
 
 v3.16.14 - 2018-03-07
