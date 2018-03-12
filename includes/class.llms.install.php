@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.16.9
+ * @version [version]
  */
 class LLMS_Install {
 
@@ -123,19 +123,11 @@ class LLMS_Install {
 	 * Create basic course difficulties on installation
 	 * @return   void
 	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @version  [version]
 	 */
 	public static function create_difficulties() {
 
-		foreach ( self::get_difficulties() as $name ) {
-
-			// only create if it doesn't already exist
-			if ( ! get_term_by( 'name', $name, 'course_difficulty' ) ) {
-
-				wp_insert_term( $name, 'course_difficulty' );
-
-			}
-		}
+		self::create_terms( self::get_difficulties(), 'course_difficulty' );
 
 	}
 
@@ -265,22 +257,35 @@ class LLMS_Install {
 	}
 
 	/**
+	 * Create taxonomy terms from an array of terms
+	 * Only created if the terms don't already exist
+	 * @param    array     $terms     list of terms to create
+	 * @param    string    $taxonomy  taxonomy name
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function create_terms( $terms, $taxonomy ) {
+
+		foreach ( $terms as $term ) {
+			if ( ! get_term_by( 'name', $term, $taxonomy ) ) {
+				wp_insert_term( $term, $taxonomy );
+			}
+		}
+
+	}
+
+	/**
 	 * Create default LifterLMS Product & Access Plan Visibility Options
 	 * @return   void
 	 * @since    3.6.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public static function create_visibilities() {
-		foreach ( array_keys( llms_get_access_plan_visibility_options() ) as $term ) {
-			if ( ! get_term_by( 'name', $term, 'llms_access_plan_visibility' ) ) {
-				wp_insert_term( $term, 'llms_access_plan_visibility' );
-			}
-		}
-		foreach ( array_keys( llms_get_product_visibility_options() ) as $term ) {
-			if ( ! get_term_by( 'name', $term, 'llms_product_visibility' ) ) {
-				wp_insert_term( $term, 'llms_product_visibility' );
-			}
-		}
+
+		self::create_terms( array_keys( llms_get_access_plan_visibility_options() ), 'llms_access_plan_visibility' );
+		self::create_terms( array_keys( llms_get_product_visibility_options() ), 'llms_product_visibility' );
+
 	}
 
 	/**
@@ -457,7 +462,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	 * Core install function
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.13.0
+	 * @version [version]
 	 */
 	public static function install() {
 
