@@ -276,7 +276,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			}
 
 			// always sort multi choices for easy auto comparison
-			if ( $multi ) {
+			if ( $multi && $this->supports( 'selectable' ) ) {
 				sort( $correct );
 			}
 
@@ -441,11 +441,11 @@ class LLMS_Question extends LLMS_Post_Model {
 					if ( false === apply_filters( 'llms_quiz_grading_case_sensitive', false, $answer, $correct, $this ) ) {
 
 						$answer = array_map( 'strtolower', $answer );
-						$correct = array_map( 'strtolower', $answer );
+						$correct = array_map( 'strtolower', $correct );
 
 					}
 
-					$grade = ( $answer == $correct ) ? 'yes' : 'no';
+					$grade = ( $answer === $correct ) ? 'yes' : 'no';
 
 				}
 			}
@@ -512,7 +512,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @param    mixed      $option   allow matching feauture options
 	 * @return   boolean
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function supports( $feature, $option = null ) {
 
@@ -528,6 +528,8 @@ class LLMS_Question extends LLMS_Post_Model {
 				$ret = $type['points'];
 			} elseif ( 'random_lock' === $feature ) {
 				$ret = $type['random_lock'];
+			} elseif ( 'selectable' === $feature ) {
+				$ret =  empty( $type['choices'] ) ? false : $type['choices']['selectable'];
 			}
 		}
 

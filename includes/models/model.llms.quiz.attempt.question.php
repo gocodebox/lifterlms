@@ -178,6 +178,7 @@ class LLMS_Quiz_Attempt_Question {
 
 		}
 
+
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
 
 	}
