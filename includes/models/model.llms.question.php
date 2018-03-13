@@ -279,7 +279,6 @@ class LLMS_Question extends LLMS_Post_Model {
 			if ( $multi && $this->supports( 'selectable' ) ) {
 				sort( $correct );
 			}
-
 		}
 
 		return $correct;
@@ -529,7 +528,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			} elseif ( 'random_lock' === $feature ) {
 				$ret = $type['random_lock'];
 			} elseif ( 'selectable' === $feature ) {
-				$ret =  empty( $type['choices'] ) ? false : $type['choices']['selectable'];
+				$ret = empty( $type['choices'] ) ? false : $type['choices']['selectable'];
 			}
 		}
 

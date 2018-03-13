@@ -91,7 +91,6 @@ class LLMS_Quiz_Attempt_Question {
 				$ret .= '</ul>';
 
 			}
-
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
@@ -120,13 +119,11 @@ class LLMS_Quiz_Attempt_Question {
 					$ret[] = $choice->get_choice();
 
 				}
-
 			} else {
 
 				$ret = $answers;
 
 			}
-
 		}
 
 		return apply_filters( 'llms_quiz_attempt_question_get_answer_array', $ret, $answers, $question, $this );
@@ -176,13 +173,11 @@ class LLMS_Quiz_Attempt_Question {
 				$choice = $question->get_choice( $aid );
 				$ret[] = $choice->get_choice();
 			}
-
 		} elseif ( 'conditional' === $type ) {
 
 			$ret = $question->get_conditional_correct_value();
 
 		}
-
 
 		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
 

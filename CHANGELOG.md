@@ -4,6 +4,20 @@ LifterLMS Changelog
 v3.16.15 - 2018-03-??
 ---------------------
 
+##### Quiz Results Improvements and fixes
+
++ Improved quiz result user and correct answer handling functions for more consistent HTML output
++ Result answers (correct and user) will display as lists
++ image question types will display without bullets and will "float" next to each other
++ Fixed issue causing quiz results with multiple answers from outputting all HTMLS with no spaces between them
+
+##### Quiz Grading
+
++ Fixed issue causing advanced reorder and reorder question types from being graded incorrectly in some scenarios
++ Advanced fill in the blank questions are now case insensitive. Case sensitivity can be enabled with a filter: `add_filter( 'llms_quiz_grading_case_sensitive', '__return_true' )`
+
+##### Fixes
+
 + Updated spacing and returns found in the email header and footer templates to prevent line breaks from occurring in undesireable places on previews of HTML emails in mobile email clients
 + Added options for themes to add layout support to quizzes where the custom field utilizes an underscore at the beginning of the field key
 + Fixed CSS issue causing blanks of fill in the blanks to not be visible on the course builder when using Chrome on Windows
@@ -17,6 +31,10 @@ v3.16.15 - 2018-03-??
   + Actions referencing `lifterlms_template_single_featured_image()` have been removed
   + Template function `lifterlms_get_featured_image_banner()` has been removed
   + Template `templates/course/featured-image.php` has been removed
+
+##### Templates updates
+
++ [quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
 
 
 v3.16.14 - 2018-03-07
