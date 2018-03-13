@@ -76,20 +76,25 @@ class LLMS_Quiz_Attempt_Question {
 	 */
 	public function get_answer() {
 
-		$ret = '';
+		$question = $this->get_question();
 		$answers = $this->get_answer_array();
+		$ret = apply_filters( 'llms_quiz_attempt_question_get_answer_pre', '', $answers, $question, $this );
 
-		if ( $answers ) {
+		if ( ! $ret ) {
 
-			$ret = '<ul class="llms-quiz-attempt-answers">';
-			foreach ( $answers as $answer ) {
-				$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
+			if ( $answers ) {
+
+				$ret = '<ul class="llms-quiz-attempt-answers">';
+				foreach ( $answers as $answer ) {
+					$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
+				}
+				$ret .= '</ul>';
+
 			}
-			$ret .= '</ul>';
 
 		}
 
-		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $this->get_question(), $this );
+		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
 
 	}
 
