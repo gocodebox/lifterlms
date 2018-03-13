@@ -1707,7 +1707,15 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   font-weight: 700;
   margin-bottom: 10px;
 }
+.single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question .llms-quiz-attempt-question-main ul.llms-quiz-attempt-answers {
+  margin-bottom: 0;
+}
+.single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question .llms-quiz-attempt-question-main ul.llms-quiz-attempt-answers li.llms-quiz-attempt-answer {
+  padding: 0;
+  margin: 0;
+}
 .single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question .llms-quiz-attempt-question-main img {
+  height: auto;
   max-width: 200px;
 }
 .single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question .llms-quiz-attempt-question-main .llms-quiz-attempt-answer-section {
@@ -1719,6 +1727,16 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   border-top: none;
   margin-top: 0;
   padding-top: 0;
+}
+.single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question.type--picture_choice ul.llms-quiz-attempt-answers, .single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question.type--picture_reorder ul.llms-quiz-attempt-answers {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question.type--picture_choice ul.llms-quiz-attempt-answers li.llms-quiz-attempt-answer, .single-llms_quiz .llms-quiz-attempt-results .llms-quiz-attempt-question.type--picture_reorder ul.llms-quiz-attempt-answers li.llms-quiz-attempt-answer {
+  display: inline-block;
+  list-style-type: none;
+  padding: 5px;
 }
 .single-llms_quiz .llms-return {
   margin-bottom: 10px;
