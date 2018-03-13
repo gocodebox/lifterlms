@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.16.15 - 2018-03-??
+v3.16.15 - 2018-03-13
 ---------------------
 
 ##### Quiz Results Improvements and fixes

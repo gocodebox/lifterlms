@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Tested up to: 4.9.4
-Stable tag: 3.16.14
+Stable tag: 3.16.15
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -350,6 +350,42 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.16.15 - 2018-03-13 =
+-------------------------
+
+##### Quiz Results Improvements and fixes
+
++ Improved quiz result user and correct answer handling functions for more consistent HTML output
++ Result answers (correct and user) will display as lists
++ image question types will display without bullets and will "float" next to each other
++ Fixed issue causing quiz results with multiple answers from outputting all HTMLS with no spaces between them
+
+##### Quiz Grading
+
++ Fixed issue causing advanced reorder and reorder question types from being graded incorrectly in some scenarios
++ Advanced fill in the blank questions are now case insensitive. Case sensitivity can be enabled with a filter: `add_filter( 'llms_quiz_grading_case_sensitive', '__return_true' )`
+
+##### Fixes
+
++ Updated spacing and returns found in the email header and footer templates to prevent line breaks from occurring in undesireable places on previews of HTML emails in mobile email clients
++ Added options for themes to add layout support to quizzes where the custom field utilizes an underscore at the beginning of the field key
++ Fixed CSS issue causing blanks of fill in the blanks to not be visible on the course builder when using Chrome on Windows
++ Removed unnecessary `get_option()` call to unused option `lifterlms_permalinks`
++ Updated permissions required to see various LifterLMS post types to rely on `manage_lifterlms` capabilites as opposed to `manage_options`
+  + This will only affect the LMS Manager core role or any custom role which was provided with the `manage_options` capability. Manages will now be able to access all LMS content and custom roles would now not be able to access LMS content
+  + Affected content types are: Orders, Coupons, Vouchers, Engagements, Achievements, Certificates, and Emails
++ Several references to an option removed in LifterLMS 3.0 still existed in the codebase and have now been removed.
+  + Option `lifterlms_course_display_banner` is no longer called or referenced
+  + Template function `lifterlms_template_single_featured_image()` has been removed
+  + Actions referencing `lifterlms_template_single_featured_image()` have been removed
+  + Template function `lifterlms_get_featured_image_banner()` has been removed
+  + Template `templates/course/featured-image.php` has been removed
+
+##### Templates updates
+
++ [quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
+
+
 = v3.16.14 - 2018-03-07 =
 -------------------------
 
@@ -476,15 +512,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fix issue causing certificate notifications to display as empty
 + Fix issue preventing quiz pass/fail notifications from triggering properly for manually graded quizzes
 + Fix undefined index warning on quiz pass/fail notifications
-
-
-= v3.16.5 - 2018-02-06 =
-------------------------
-
-+ Fix issue preventing manually graded quiz review points from saving properly
-+ Improved background updater to ensure scripts don't timeout during upgrades
-+ Admin builder JS now minified for increased performance
-+ Made frontend quiz and quiz-builder strings output via Javascript translateable
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

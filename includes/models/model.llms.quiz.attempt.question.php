@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Answer Question
  * @since   3.16.0
- * @version [version]
+ * @version 3.16.15
  */
 class LLMS_Quiz_Attempt_Question {
 
@@ -72,7 +72,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Retrieve anwser HTML for the question answers
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.15
 	 */
 	public function get_answer() {
 
@@ -100,8 +100,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Get answer(s) as an array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.15
+	 * @version  3.16.15
 	 */
 	public function get_answer_array() {
 
@@ -134,7 +134,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Retrieve anwser HTML for the question correct answers
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.16.15
 	 */
 	public function get_correct_answer() {
 
@@ -158,8 +158,8 @@ class LLMS_Quiz_Attempt_Question {
 	/**
 	 * Get correct answer(s) as an array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.16.15
+	 * @version  3.16.15
 	 */
 	public function get_correct_answer_array() {
 

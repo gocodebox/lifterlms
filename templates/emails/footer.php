@@ -2,7 +2,7 @@
 /**
  * LifterLMS Emails Footer Template
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.15
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
