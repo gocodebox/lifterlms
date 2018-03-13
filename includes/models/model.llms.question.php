@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  3.16.12
+ * @version  [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -236,6 +236,21 @@ class LLMS_Question extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the correct values for a conditionally graded question
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_conditional_correct_value() {
+
+		$correct = explode( '|', $this->get( 'correct_value' ) );
+		$correct = array_map( 'trim', $correct );
+
+		return $correct;
+
+	}
+
+	/**
 	 * Retrieve correct choices for a given question
 	 * @return   array
 	 * @since    3.16.0
@@ -264,6 +279,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			if ( $multi ) {
 				sort( $correct );
 			}
+
 		}
 
 		return $correct;
@@ -396,7 +412,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *                     no  = incorrect
 	 *                     null = not auto gradeable
 	 * @since    3.16.0
-	 * @version  3.16.9
+	 * @version  [version]
 	 */
 	public function grade( $answer ) {
 
@@ -419,8 +435,15 @@ class LLMS_Question extends LLMS_Post_Model {
 
 				} elseif ( 'conditional' === $grading_type ) {
 
-					$correct = explode( '|', $this->get( 'correct_value' ) );
-					$correct = array_map( 'trim', $correct );
+					$correct = $this->get_conditional_correct_value();
+
+					// allow case sensitivity to be enabled if required
+					if ( false === apply_filters( 'llms_quiz_grading_case_sensitive', false, $answer, $correct, $this ) ) {
+
+						$answer = array_map( 'strtolower', $answer );
+						$correct = array_map( 'strtolower', $answer );
+
+					}
 
 					$grade = ( $answer == $correct ) ? 'yes' : 'no';
 

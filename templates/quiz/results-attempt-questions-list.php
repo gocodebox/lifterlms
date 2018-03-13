@@ -2,7 +2,7 @@
 /**
  * List of attempt questions/answers for a single attempt
  * @since    3.16.0
- * @version  3.16.8
+ * @version  [version]
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
@@ -46,18 +46,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 			<?php if ( ! $attempt_question->is_correct() ) : ?>
 				<?php if ( llms_parse_bool( $quiz_question->get_quiz()->get( 'show_correct_answer' ) ) ) : ?>
-					<?php if ( 'choices' === $quiz_question->get_auto_grade_type() ) : ?>
+					<?php if ( in_array( $quiz_question->get_auto_grade_type(), array( 'choices', 'conditional' ) ) ) : ?>
 						<div class="llms-quiz-attempt-answer-section llms-correct-answer">
 							<p class="llms-quiz-results-label correct-answer"><?php _e( 'Correct answer: ', 'lifterlms' ); ?></p>
-							<?php foreach ( $quiz_question->get_correct_choice() as $aid ) :
-								$choice = $attempt_question->get_question()->get_choice( $aid ); ?>
-								<?php echo $choice->get_choice(); ?>
-							<?php endforeach; ?>
-						</div>
-					<?php elseif ( 'conditional' === $quiz_question->get_auto_grade_type() ) : ?>
-						<div class="llms-quiz-attempt-answer-section llms-correct-answer">
-							<p class="llms-quiz-results-label correct-answer"><?php _e( 'Correct answer: ', 'lifterlms' ); ?></p>
-							<?php echo $quiz_question->get( 'correct_value' ); ?>
+							<?php echo $attempt_question->get_correct_answer(); ?>
 						</div>
 					<?php endif; ?>
 				<?php endif; ?>
