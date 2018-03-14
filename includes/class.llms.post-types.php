@@ -2,7 +2,7 @@
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  3.16.0
+ * @version  3.16.15
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -160,14 +160,9 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types
 	 * @since    1.0.0
-	 * @version  3.16.0
+	 * @version  3.16.15
 	 */
 	public static function register_post_types() {
-
-		/**
-		 * @todo this doesn't exist or do anything (i think)
-		 */
-		$permalinks = get_option( 'lifterlms_permalinks' );
 
 		// Course
 		$catalog_id = llms_get_page_id( 'shop' );
@@ -417,7 +412,7 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where engagements are stored.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_engagements_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_engagements_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -458,7 +453,7 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where orders are managed', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'menu_icon'             => 'dashicons-cart',
@@ -543,7 +538,7 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where achievements are stored.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_achievements_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -561,8 +556,6 @@ class LLMS_Post_Types {
 		/**
 		 * Certificate Post type
 		 */
-		$certificate_permalink = empty( $permalinks['certificate_base'] ) ? _x( 'certificate', 'slug', 'lifterlms' ) : $permalinks['certificate_base'];
-
 		register_post_type( 'llms_certificate',
 			apply_filters( 'lifterlms_register_post_type_llms_certificate',
 				array(
@@ -584,17 +577,17 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where you can view all of the certificates.', 'lifterlms' ),
 					'public' 				=> true,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
-					'publicly_queryable' 	=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_options' ) ) ) ? true : false,
+					'publicly_queryable' 	=> ( current_user_can( apply_filters( 'lifterlms_admin_certificates_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> 'edit.php?post_type=llms_engagement',
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $certificate_permalink ? array(
-						'slug' => untrailingslashit( $certificate_permalink ),
+					'rewrite' 				=> array(
+						'slug' => untrailingslashit( _x( 'certificate', 'slug', 'lifterlms' ) ),
 						'with_front' => false,
 						'feeds' => true,
-					) : false,
+					),
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),
@@ -605,7 +598,6 @@ class LLMS_Post_Types {
 		/**
 		 * User specific certificate
 		 */
-		$my_certificate_permalink = empty( $permalinks['my_certificate_base'] ) ? _x( 'my_certificate', 'slug', 'lifterlms' ) : $permalinks['my_certificate_base'];
 		register_post_type( 'llms_my_certificate',
 			apply_filters( 'lifterlms_register_post_type_llms_my_certificate',
 				array(
@@ -633,11 +625,11 @@ class LLMS_Post_Types {
 					'exclude_from_search' 	=> true,
 					'show_in_menu' 			=> false,
 					'hierarchical' 			=> false,
-					'rewrite' 				=> $my_certificate_permalink ? array(
-						'slug' => untrailingslashit( $my_certificate_permalink ),
+					'rewrite' 				=> array(
+						'slug' => untrailingslashit( _x( 'my_certificate', 'slug', 'lifterlms' ) ),
 						'with_front' => false,
 						'feeds' => true,
-					) : false,
+					),
 					'show_in_nav_menus' 	=> false,
 					'query_var' 			=> true,
 					'supports' 				=> array( 'title', 'editor' ),
@@ -669,7 +661,7 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where emails are stored.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_emails_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_emails_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -708,7 +700,7 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where coupons are stored.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_coupons_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_coupons_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -747,7 +739,7 @@ class LLMS_Post_Types {
 					),
 					'description' 			=> __( 'This is where voucher are stored.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_vouchers_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_vouchers_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
@@ -786,7 +778,7 @@ class LLMS_Post_Types {
 						),
 					'description' 			=> __( 'This is where you can add new reviews.', 'lifterlms' ),
 					'public' 				=> false,
-					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_reviews_access', 'manage_options' ) ) ) ? true : false,
+					'show_ui' 				=> ( current_user_can( apply_filters( 'lifterlms_admin_reviews_access', 'manage_lifterlms' ) ) ) ? true : false,
 					'map_meta_cap'			=> true,
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,

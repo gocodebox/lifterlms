@@ -71,6 +71,33 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
 	}
 
+	public function test_llms_is_post_restricted_by_membership() {
+
+		$memberships = $this->factory->post->create_many( 2, array(
+			'post_type' => 'llms_membership',
+		) );
+		$post_id = $this->factory->post->create();
+		$student = $this->get_mock_student();
+		$uid = $student->get_id();
+
+
+		$this->assertFalse( llms_is_post_restricted_by_membership( $post_id ) );
+		$this->assertFalse( llms_is_post_restricted_by_membership( $post_id, $uid ) );
+
+		update_post_meta( $post_id, '_llms_restricted_levels', $memberships );
+		update_post_meta( $post_id, '_llms_is_restricted', 'yes' );
+
+		$this->assertEquals( $memberships[0], llms_is_post_restricted_by_membership( $post_id ) );
+		$this->assertEquals( $memberships[0], llms_is_post_restricted_by_membership( $post_id, $uid ) );
+
+		$out = llms_is_post_restricted_by_membership( $post_id );
+		$in = llms_is_post_restricted_by_membership( $post_id, $uid );
+
+		$student->enroll( $memberships[1] );
+		$this->assertEquals( $memberships[1], llms_is_post_restricted_by_membership( $post_id, $uid ) );
+
+	}
+
 	/**
 	 * Test the llms_is_post_restricted_by_prerequisite() function
 	 * @return   void
