@@ -91,7 +91,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// if the student has been previously enrolled, simply update don't run a full enrollment
 		if ( $this->get_enrollment_status( $product_id, false ) ) {
 			$insert = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
-		}  else {
+		} else {
 			$insert = $this->insert_enrollment_postmeta( $product_id, $trigger );
 		}
 
@@ -1048,7 +1048,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		} else {
 			$ret = $cached;
-		}
+		}// End if().
 
 		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type );
 
