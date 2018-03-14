@@ -7534,17 +7534,17 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:631
+#: includes/models/model.llms.student.php:654
 msgctxt "course grade when no quizzes taken or in course"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:652
+#: includes/models/model.llms.student.php:675
 msgctxt "lesson grade when lesson has no quiz"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:769
+#: includes/models/model.llms.student.php:792
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
