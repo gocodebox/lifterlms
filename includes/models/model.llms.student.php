@@ -979,38 +979,44 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		$total = 0;
 		$completed = 0;
+		
+		$saved_complete = get_user_meta( $this->get_id(), '_status_' . $type . '_' . $object_id, true );
+		if( empty( $saved_complete ) ) {
+			if ( 'course' === $type ) {
 
-		if ( 'course' === $type ) {
+				$course = new LLMS_Course( $object_id );
+				$lessons = $course->get_lessons( 'ids' );
+				$total = count( $lessons );
+				foreach ( $lessons as $lesson ) {
+					if ( $this->is_complete( $lesson, 'lesson' ) ) {
+						$completed++;
+					}
+				}
+			} elseif ( 'course_track' === $type ) {
 
-			$course = new LLMS_Course( $object_id );
-			$lessons = $course->get_lessons( 'ids' );
-			$total = count( $lessons );
-			foreach ( $lessons as $lesson ) {
-				if ( $this->is_complete( $lesson, 'lesson' ) ) {
-					$completed++;
+				$track = new LLMS_Track( $object_id );
+				$courses = $track->get_courses();
+				$total = count( $courses );
+				foreach ( $courses as $course ) {
+					if ( $this->is_complete( $course->ID, 'course' ) ) {
+						$completed++;
+					}
+				}
+			} elseif ( 'section' === $type ) {
+
+				$section = new LLMS_Section( $object_id );
+				$lessons = $section->get_lessons( 'ids' );
+				$total = count( $lessons );
+				foreach ( $lessons as $lesson ) {
+					if ( $this->is_complete( $lesson, 'lesson' ) ) {
+						$completed++;
+					}
 				}
 			}
-		} elseif ( 'course_track' === $type ) {
-
-			$track = new LLMS_Track( $object_id );
-			$courses = $track->get_courses();
-			$total = count( $courses );
-			foreach ( $courses as $course ) {
-				if ( $this->is_complete( $course->ID, 'course' ) ) {
-					$completed++;
-				}
-			}
-		} elseif ( 'section' === $type ) {
-
-			$section = new LLMS_Section( $object_id );
-			$lessons = $section->get_lessons( 'ids' );
-			$total = count( $lessons );
-			foreach ( $lessons as $lesson ) {
-				if ( $this->is_complete( $lesson, 'lesson' ) ) {
-					$completed++;
-				}
-			}
+			
+			update_user_meta( $this->get_id(), '_status_' . $type . '_' . $object_id, $completed );
 		}
+		
 
 		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
 
