@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.16.13
+ * @version  3.16.15
  */
 class LLMS_Admin_Builder {
 
@@ -794,7 +794,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.11
+	 * @version  3.16.15
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -847,16 +847,15 @@ if ( ! empty( $active_post_lock ) ) {
 			}
 
 			if ( isset( $quiz_data['questions'] ) && is_array( $quiz_data['questions'] ) ) {
-
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
-
 			}
 
 			if ( get_theme_support( 'lifterlms-quizzes' ) ) {
 
 				$layout = llms_get_quiz_theme_setting( 'layout' );
 				if ( $layout && isset( $quiz_data[ $layout['id'] ] ) ) {
-					update_post_meta( $quiz->get( 'id' ), $layout['id'], sanitize_text_field( $quiz_data[ $layout['id'] ] ) );
+					$prefix = isset( $layout['id_prefix'] ) ? $layout['id_prefix'] : '';
+					update_post_meta( $quiz->get( 'id' ), sprintf( '%1$s%2$s', $prefix, $layout['id'] ), sanitize_text_field( $quiz_data[ $layout['id'] ] ) );
 				}
 			}
 		}// End if().

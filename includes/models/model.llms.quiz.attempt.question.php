@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Answer Question
  * @since   3.16.0
- * @version 3.16.9
+ * @version 3.16.15
  */
 class LLMS_Quiz_Attempt_Question {
 
@@ -69,14 +69,43 @@ class LLMS_Quiz_Attempt_Question {
 	}
 
 	/**
-	 * Retrieve anwser HTML for the question
+	 * Retrieve anwser HTML for the question answers
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  3.16.8
+	 * @version  3.16.15
 	 */
 	public function get_answer() {
 
-		$ret = '';
+		$question = $this->get_question();
+		$answers = $this->get_answer_array();
+		$ret = apply_filters( 'llms_quiz_attempt_question_get_answer_pre', '', $answers, $question, $this );
+
+		if ( ! $ret ) {
+
+			if ( $answers ) {
+
+				$ret = '<ul class="llms-quiz-attempt-answers">';
+				foreach ( $answers as $answer ) {
+					$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
+				}
+				$ret .= '</ul>';
+
+			}
+		}
+
+		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
+
+	}
+
+	/**
+	 * Get answer(s) as an array
+	 * @return   array
+	 * @since    3.16.15
+	 * @version  3.16.15
+	 */
+	public function get_answer_array() {
+
+		$ret = array();
 		$question = $this->get_question();
 		$answers = $this->get( 'answer' );
 
@@ -87,17 +116,70 @@ class LLMS_Quiz_Attempt_Question {
 				foreach ( $answers as $aid ) {
 
 					$choice = $question->get_choice( $aid );
-					$ret .= $choice->get_choice();
+					$ret[] = $choice->get_choice();
 
 				}
 			} else {
 
-				$ret = implode( ', ', array_map( 'wp_kses_post', $answers ) );
+				$ret = $answers;
 
 			}
 		}
 
-		return apply_filters( 'llms_quiz_attempt_question_get_answer', $ret, $answers, $question, $this );
+		return apply_filters( 'llms_quiz_attempt_question_get_answer_array', $ret, $answers, $question, $this );
+
+	}
+
+	/**
+	 * Retrieve anwser HTML for the question correct answers
+	 * @return   string
+	 * @since    3.16.0
+	 * @version  3.16.15
+	 */
+	public function get_correct_answer() {
+
+		$ret = '';
+		$answers = $this->get_correct_answer_array();
+
+		if ( $answers ) {
+
+			$ret = '<ul class="llms-quiz-attempt-answers">';
+			foreach ( $answers as $answer ) {
+				$ret .= sprintf( '<li class="llms-quiz-attempt-answer">%s</li>', wp_kses_post( $answer ) );
+			}
+			$ret .= '</ul>';
+
+		}
+
+		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer', $ret, $answers, $this->get_question(), $this );
+
+	}
+
+	/**
+	 * Get correct answer(s) as an array
+	 * @return   array
+	 * @since    3.16.15
+	 * @version  3.16.15
+	 */
+	public function get_correct_answer_array() {
+
+		$ret = array();
+		$question = $this->get_question();
+		$type = $question->get_auto_grade_type();
+
+		if ( 'choices' === $type ) {
+
+			foreach ( $question->get_correct_choice() as $aid ) {
+				$choice = $question->get_choice( $aid );
+				$ret[] = $choice->get_choice();
+			}
+		} elseif ( 'conditional' === $type ) {
+
+			$ret = $question->get_conditional_correct_value();
+
+		}
+
+		return apply_filters( 'llms_quiz_attempt_question_get_correct_answer_array', $ret, $question, $this );
 
 	}
 

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  3.16.12
+ * @version  3.16.15
  *
  * @property  $question_type  (string)  type of question
  */
@@ -236,6 +236,21 @@ class LLMS_Question extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the correct values for a conditionally graded question
+	 * @return   array
+	 * @since    3.16.15
+	 * @version  3.16.15
+	 */
+	public function get_conditional_correct_value() {
+
+		$correct = explode( '|', $this->get( 'correct_value' ) );
+		$correct = array_map( 'trim', $correct );
+
+		return $correct;
+
+	}
+
+	/**
 	 * Retrieve correct choices for a given question
 	 * @return   array
 	 * @since    3.16.0
@@ -261,7 +276,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			}
 
 			// always sort multi choices for easy auto comparison
-			if ( $multi ) {
+			if ( $multi && $this->supports( 'selectable' ) ) {
 				sort( $correct );
 			}
 		}
@@ -396,7 +411,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *                     no  = incorrect
 	 *                     null = not auto gradeable
 	 * @since    3.16.0
-	 * @version  3.16.9
+	 * @version  3.16.15
 	 */
 	public function grade( $answer ) {
 
@@ -419,10 +434,17 @@ class LLMS_Question extends LLMS_Post_Model {
 
 				} elseif ( 'conditional' === $grading_type ) {
 
-					$correct = explode( '|', $this->get( 'correct_value' ) );
-					$correct = array_map( 'trim', $correct );
+					$correct = $this->get_conditional_correct_value();
 
-					$grade = ( $answer == $correct ) ? 'yes' : 'no';
+					// allow case sensitivity to be enabled if required
+					if ( false === apply_filters( 'llms_quiz_grading_case_sensitive', false, $answer, $correct, $this ) ) {
+
+						$answer = array_map( 'strtolower', $answer );
+						$correct = array_map( 'strtolower', $correct );
+
+					}
+
+					$grade = ( $answer === $correct ) ? 'yes' : 'no';
 
 				}
 			}
@@ -489,7 +511,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @param    mixed      $option   allow matching feauture options
 	 * @return   boolean
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.16.15
 	 */
 	public function supports( $feature, $option = null ) {
 
@@ -505,6 +527,8 @@ class LLMS_Question extends LLMS_Post_Model {
 				$ret = $type['points'];
 			} elseif ( 'random_lock' === $feature ) {
 				$ret = $type['random_lock'];
+			} elseif ( 'selectable' === $feature ) {
+				$ret = empty( $type['choices'] ) ? false : $type['choices']['selectable'];
 			}
 		}
 

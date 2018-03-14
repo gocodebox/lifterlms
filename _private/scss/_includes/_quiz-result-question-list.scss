@@ -73,7 +73,21 @@
 				margin-bottom: 10px;
 			}
 
+			ul.llms-quiz-attempt-answers {
+				margin: 0;
+				padding: 0;
+				li.llms-quiz-attempt-answer {
+					padding: 0;
+					margin: 0 0 0 30px;
+					&:only-child {
+						list-style-type: none;
+						margin-left: 0;
+					}
+				}
+			}
+
 			img {
+				height: auto;
 				max-width: 200px;
 			}
 
@@ -89,5 +103,22 @@
 			}
 
 		}
+
+		&.type--picture_choice,
+		&.type--picture_reorder {
+			ul.llms-quiz-attempt-answers {
+				list-style-type: none;
+				margin: 0;
+				padding: 0;
+
+				li.llms-quiz-attempt-answer {
+					display: inline-block;
+					list-style-type: none;
+					margin: 0;
+					padding: 5px;
+				}
+			}
+		}
+
 	}
 }

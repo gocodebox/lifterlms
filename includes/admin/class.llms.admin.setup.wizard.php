@@ -2,7 +2,7 @@
 /**
  * Display a Setup Wizard
  * @since    3.0.0
- * @version [version]
+ * @version 3.16.14
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -195,7 +195,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Output the HTML content of the setup page
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.14
 	 */
 	public function output() {
 

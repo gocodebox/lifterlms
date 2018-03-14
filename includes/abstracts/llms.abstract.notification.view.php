@@ -2,7 +2,7 @@
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  3.11.0
+ * @version  3.16.14
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -124,7 +124,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @param    mixed     $notification  notification id, instance of LLMS_Notification
 	 *                                    or an object containing at least an 'id'
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.16.14
 	 */
 	public function __construct( $notification ) {
 
@@ -141,7 +141,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		$this->subscriber = new LLMS_Student( $this->notification->get( 'subscriber' ) );
 		$this->user = new LLMS_Student( $this->notification->get( 'user_id' ) );
-		$this->post = llms_get_post( $this->notification->get( 'post_id' ) );
+		$this->post = llms_get_post( $this->notification->get( 'post_id' ), 'post' );
 
 	}
 
