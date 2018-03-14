@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.16.15
+ * @version  [version]
  */
 class LLMS_Admin_Builder {
 
@@ -385,7 +385,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.16.11
+	 * @version  [version]
 	 */
 	public static function output() {
 
@@ -424,6 +424,7 @@ if ( ! empty( $active_post_lock ) ) {
 					'editor',
 					'elements',
 					'lesson',
+					'lesson-settings',
 					'quiz',
 					'quiz-header',
 					'question',

@@ -29,7 +29,7 @@
 
 	<# } else { #>
 
-		<header class="llms-quiz-header" id="llms-quiz-header"></header>
+		<header class="llms-model-header" id="llms-quiz-header"></header>
 
 		<ul class="llms-quiz-questions" data-empty-msg="<?php esc_attr_e( 'Click "Add Question" below to start building your quiz!', 'lifterlms' ); ?>" id="llms-quiz-questions"></ul>
 

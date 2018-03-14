@@ -7,7 +7,7 @@
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
 
-	<h3 class="llms-headline llms-quiz-title">
+	<h3 class="llms-headline llms-model-title">
 		<?php _e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}">{{{ data.get( 'title' ) }}}</span>
 	</h3>
 
@@ -15,7 +15,7 @@
 		<?php _e( 'Total Points', 'lifterlms' ); ?>: <strong id="llms-quiz-total-points">{{{ data.get( '_points' ) }}}</strong>
 	</div>
 
-	<label class="llms-switch llms-quiz-status">
+	<label class="llms-switch llms-model-status">
 		<span class="llms-label"><?php _e( 'Published', 'lifterlms' ); ?></span>
 		<input data-off="draft" data-on="publish" name="status" type="checkbox"<# if ( 'publish' === data.get( 'status' ) ) { print( ' checked' ) } #>>
 		<div class="llms-switch-slider"></div>
@@ -35,7 +35,7 @@
 			<span class="screen-reader-text"><?php _e( 'Delete Quiz', 'lifterlms' ); ?></span>
 		</a>
 
-		<a class="llms-action-icon tip--bottom-left" data-tip="<?php _e( 'Quiz Settings', 'lifterlms' ); ?>" href="#llms-quiz-settings" tabindex="-1">
+		<a class="llms-action-icon tip--bottom-left" data-tip="<?php _e( 'Quiz Settings', 'lifterlms' ); ?>" href="#llms-model-settings" tabindex="-1">
 			<i class="fa fa-cog" aria-hidden="true"></i>
 			<span class="screen-reader-text"><?php _e( 'Quiz Settings', 'lifterlms' ); ?></span>
 		</a>
@@ -44,7 +44,7 @@
 
 	<div class="clear"></div>
 
-	<section class="llms-quiz-settings<# if ( data.get( '_show_settings' ) ) { print( ' active' ); } #>">
+	<section class="llms-model-settings<# if ( data.get( '_show_settings' ) ) { print( ' active' ); } #>">
 
 		<?php do_action( 'llms_builder_quiz_before_settings' ); ?>
 
@@ -52,7 +52,7 @@
 		<div class="llms-settings-row">
 			<div class="llms-editable-toggle-group">
 				<div class="llms-editable-toggle-group permalink">
-					<span class="llms-label"><?php _e( 'Permalink', 'lifterlms-advanced-quizzes' ); ?>:</span>
+					<span class="llms-label"><?php _e( 'Permalink', 'lifterlms' ); ?>:</span>
 						<a target="_blank" href="{{{ data.get( 'permalink' ) }}}">{{{ data.get( 'permalink' ) }}}</a>
 						<input class="llms-input permalink" data-attribute="name" data-original-content="{{{ data.get( 'name' ) }}}" data-type="permalink" name="name" type="text" value="{{{ data.get( 'name' ) }}}">
 						<a class="llms-action-icon" href="#llms-edit-slug"><i class="fa fa-pencil" aria-hidden="true"></i></a>

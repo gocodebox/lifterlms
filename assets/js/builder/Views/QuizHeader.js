@@ -6,10 +6,12 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 
 		/**
 		 * Events
-		 * @type  {Object}
+		 * @type     {Object}
+		 * @since    3.16.0
+		 * @version  [version]
 		 */
 		events: _.defaults( {
-			'click a[href="#llms-quiz-settings"]': 'toggle_settings',
+			'click a[href="#llms-model-settings"]': 'toggle_settings',
 		}, Editable.events ),
 
 		/**
