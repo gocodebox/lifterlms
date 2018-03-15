@@ -168,6 +168,15 @@ $strings = array(
 	'Are you sure you want to move this %s to the trash?' => esc_html__( 'Are you sure you want to move this %s to the trash?', 'lifterlms' ),
 
 	/**
+	 * file: assets/js/builder/Views/Assignment.js
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
+	'Search for existing assignments...' => esc_html__( 'Search for existing assignments...', 'lifterlms' ),
+	'Get LifterLMS Assignments' => esc_html__( 'Get LifterLMS Assignments', 'lifterlms' ),
+
+	/**
 	 * file: assets/js/builder/Views/Elements.js
 	 * @since    3.16.0
 	 * @version  3.16.12

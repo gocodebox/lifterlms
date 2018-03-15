@@ -1,9 +1,19 @@
 /**
  * Sidebar Editor View
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
-define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( LessonEditor, Quiz, Subview ) {
+define( [
+		'Views/LessonEditor',
+		'Views/Quiz',
+		'Views/Assignment',
+		'Views/_Subview'
+	], function(
+		LessonEditor,
+		Quiz,
+		Assignment,
+		Subview
+	) {
 
 	return Backbone.View.extend( _.defaults( {
 
@@ -22,6 +32,11 @@ define( [ 'Views/LessonEditor', 'Views/Quiz', 'Views/_Subview' ], function( Less
 				class: LessonEditor,
 				instance: null,
 				state: 'lesson',
+			},
+			assignment: {
+				class: Assignment,
+				instance: null,
+				state: 'assignment',
 			},
 			quiz: {
 				class: Quiz,
