@@ -33,7 +33,7 @@ define( [
 		 * Current view state
 		 * @type  {String}
 		 */
-		state: 'default', // [lesson|quiz]
+		state: 'default',
 
 		/**
 		 * Current Subviews
