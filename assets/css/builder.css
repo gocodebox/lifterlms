@@ -654,8 +654,12 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   padding: 10px;
   float: left;
 }
-.wrap.lifterlms.llms-builder ul.llms-info-list li.llms-info-item.active {
+.wrap.lifterlms.llms-builder ul.llms-info-list li.llms-info-item.active, .wrap.lifterlms.llms-builder ul.llms-info-list li.llms-info-item.active .llms-action-icon {
   color: #2295ff;
+}
+.wrap.lifterlms.llms-builder ul.llms-info-list li.llms-info-item .llms-action-icon {
+  margin: -10px;
+  padding: 10px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar {
   background: #e6e6e6;
@@ -856,7 +860,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active {
   display: block;
 }
-.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.tab--quiz {
+.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -865,13 +869,13 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
       -ms-flex-direction: column;
           flex-direction: column;
 }
-.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.tab--quiz .llms-quiz-questions {
+.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
   overflow: scroll;
 }
-.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.tab--quiz .llms-quiz-questions .llms-quiz-questions {
+.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions .llms-quiz-questions {
   overflow: visible;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-builder-save {
