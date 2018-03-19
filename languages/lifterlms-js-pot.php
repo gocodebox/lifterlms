@@ -120,7 +120,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Lesson.js
 	 * @since    3.13.0
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 	'lessons' => esc_html__( 'lessons', 'lifterlms' ),

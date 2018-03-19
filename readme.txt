@@ -350,6 +350,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+v3.16.16 - 2018-03-??
+-------------------------
+
++ Fix issue causing lesson prerequisites to not properly display on the course builder
+
+
 = v3.16.15 - 2018-03-13 =
 -------------------------
 
