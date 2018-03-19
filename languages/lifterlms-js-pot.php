@@ -155,7 +155,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  3.16.14
+	 * @version  [version]
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),

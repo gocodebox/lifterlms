@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.16.16 - 2018-03-??
 ---------------------
 
++ Fixed builder issue causing autosaves to interrupt typing and reset lesson and section titles
 + Fix JS console error related to JS dependency checkers
 
 

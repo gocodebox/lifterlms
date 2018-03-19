@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  3.16.12
+ * @version  [version]
  */
 define( [], function() {
 
@@ -189,12 +189,17 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.11
+		 * @version  [version]
 		 */
 		function get_changed_attributes( model ) {
 
 			var atts = {},
 				sync_type;
+
+			// don't save mid editing
+			if ( model.get( '_has_focus' ) ) {
+				return atts;
+			}
 
 			// model hasn't been persisted to the database to get a real ID yet
 			// send *all* of it's atts

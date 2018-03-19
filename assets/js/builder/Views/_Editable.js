@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.16.14
+ * @version  [version]
  */
 define( [], function() {
 
@@ -16,7 +16,7 @@ define( [], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  3.16.14
+		 * @version  [version]
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -25,6 +25,7 @@ define( [], function() {
 			'change .llms-editable-select select': 'on_select',
 			'change .llms-switch input[type="checkbox"]': 'toggle_switch',
 			'change .llms-editable-img-select input': 'on_img_select',
+			'focusin .llms-input': 'on_focus',
 			'focusout .llms-input': 'on_blur',
 			'keydown .llms-input': 'on_keydown',
 			'input .llms-input[type="number"]': 'on_blur',
@@ -207,12 +208,14 @@ define( [], function() {
 		 * Automatically saves changes if changes have been made
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    3.14.1
-		 * @version  3.14.1
+		 * @since    3.16.0
+		 * @version  [version]
 		 */
 		on_blur: function( event ) {
 
 			event.stopPropagation();
+
+			this.model.set( '_has_focus', false, { silent: true } );
 
 			var self = this,
 				$el = $( event.target ),
@@ -227,6 +230,20 @@ define( [], function() {
 				}
 
 			}
+
+		},
+
+		/**
+		 * Focus event for editable inputs
+		 * @param    obj   event  js event object
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		on_focus: function( event ) {
+
+			event.stopPropagation();
+			this.model.set( '_has_focus', true, { silent: true } );
 
 		},
 

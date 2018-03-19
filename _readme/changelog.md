@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+v3.16.16 - 2018-03-??
+-------------------------
+
++ Fix JS console error related to JS dependency checkers
+
+
 = v3.16.15 - 2018-03-13 =
 -------------------------
 
