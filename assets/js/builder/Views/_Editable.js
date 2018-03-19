@@ -330,7 +330,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		open_media_lib: function( event ) {
 
@@ -341,11 +341,9 @@ define( [], function() {
 
 			if ( self.media_lib ) {
 
-				self.media_lib.uploader.uploader.param( 'post_id', self.model.get( 'id' ) );
+				self.media_lib.uploader.uploader.param( 'post_id' );
 
 			} else {
-
-				wp.media.model.settings.post.id = self.model.get( 'id' );
 
 				self.media_lib = wp.media.frames.file_frame = wp.media( {
 					title: LLMS.l10n.translate( 'Select an image' ),
