@@ -806,7 +806,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Get the lesson drip days
 	 * @return      int [ID of the prerequisite post]
-	 * @deprecated  [version]
+	 * @deprecated  3.16.0
 	 */
 	public function get_drip_days() {
 

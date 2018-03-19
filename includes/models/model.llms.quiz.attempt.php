@@ -661,7 +661,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @return   string
 	 * @since      3.9.0
 	 * @version    3.16.0
-	 * @deprecated [version]
+	 * @deprecated 3.16.0
 	 */
 	public function get_status() {
 		llms_deprecated_function( 'LLMS_Quiz_Attempt::get_status()', '3.16.0', "LLMS_Quiz_Attempt::get( 'status' )" );

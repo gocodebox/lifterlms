@@ -717,7 +717,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @return     array
 	 * @since      1.0.0
 	 * @version    3.16.0
-	 * @deprecated [version]
+	 * @deprecated 3.16.0
 	 */
 	public function get_options() {
 
