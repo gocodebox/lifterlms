@@ -1118,34 +1118,60 @@ body.admin_page_llms-course-builder {
 		@include clearfix();
 	}
 
+	.llms-editor-tab.tab--quiz {
+		.llms-model-header {
+			.llms-model-title {
+				width: calc( 100% - 310px );
+			}
+			.llms-quiz-points {
+				float: left;
+				margin-right: 10px;
+				width: 100px;
+			}
+		}
+	}
+
+	.llms-editor-tab.tab--lesson {
+		.llms-model-settings .drip-group {
+			display: flex;
+			.drip-method {
+				flex: 2;
+			}
+			.drip-availability {
+				flex: 1;
+			}
+
+		}
+	}
+
 	.llms-model-header {
 		border-bottom: 5px solid #e6e6e6;
 
 		.llms-model-title {
 			float: left;
 			margin-right: 10px;
-			width: calc( 100% - 310px );
+			width: calc( 100% - 200px );
 			.llms-input {
 				width: calc( 100% - 65px );
 			}
-		}
-		.llms-quiz-points {
-			float: left;
-			margin-right: 10px;
-			width: 100px;
 		}
 		.llms-model-status.llms-switch {
 			float: left;
 			margin-right: 10px;
 			position: relative;
+			text-align: right;
 			top: -2px;
 			width: 100px;
 		}
 		.llms-action-icons {
 			float: left;
 			position: relative;
+			text-align: right;
 			width: 80px;
 			z-index: 1;
+			.fa {
+				max-width: 15px;
+			}
 		}
 
 		.llms-model-settings {
