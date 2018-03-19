@@ -202,7 +202,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Quiz.js
 	 * @since    3.16.0
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
 	'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
