@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.16.12
+ * @version  [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], function( Quiz, Relationships, Utilities ) {
 
@@ -13,7 +13,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 */
 		relationships: {
 			parents: {
-				model: 'lesson',
+				model: 'section',
 				type: 'model',
 			},
 			children: {
@@ -109,6 +109,24 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		},
 
 		/**
+		 * Override default get_parent to grab from collection if models parent isn't set
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_parent: function() {
+
+			var rels = this.get_relationships();
+			if ( rels.parent && rels.parent.reference ) {
+				return rels.parent.reference;
+			} else if ( this.collection && this.collection.parent ) {
+				return this.collection.parent;
+			}
+			return false;
+
+		},
+
+		/**
 		 * Add a new quiz to the lesson
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
@@ -136,6 +154,30 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 			this.set( 'quiz_enabled', 'yes' );
 
 			return quiz;
+
+		},
+
+		/**
+		 * Determine if this is the first lesson
+		 * @return   {Boolean}
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		is_first_in_course: function() {
+
+			// if it's not the first item in the section it cant be the first lesson
+			if ( this.collection.indexOf( this ) ) {
+				return false;
+			}
+
+			// if it's not the first section it cant' be first lesson
+			var section = this.get_parent();
+			if ( section.collection.indexOf( section ) ) {
+				return false;
+			}
+
+			// it's first lesson in first section
+			return true;
 
 		},
 
