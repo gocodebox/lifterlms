@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.16.14
+ * @version  [version]
  */
 define( [], function() {
 
@@ -135,6 +135,29 @@ define( [], function() {
 			}
 
 			return true;
+
+		},
+
+		/**
+		 * Initialize datepicker elements
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		init_datepickers: function() {
+
+			this.$el.find( '.llms-editable-date input' ).each( function() {
+
+				$( this ).datetimepicker( {
+					format: $( this ).attr( 'data-date-format' ) || 'Y-m-d h:i A',
+					datepicker: ( undefined === $( this ).attr( 'data-date-datepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-datepicker' ) ),
+					timepicker: ( undefined === $( this ).attr( 'data-date-timepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-timepicker' ) ),
+					onClose: function( current_time, $input ) {
+						$input.blur();
+					}
+				} );
+
+			} );
 
 		},
 
@@ -408,6 +431,7 @@ define( [], function() {
 
 			var $el = $( event.target ),
 				val = this.get_content( $el );
+
 			this.model.set( $el.attr( 'data-attribute' ), val );
 
 		},
