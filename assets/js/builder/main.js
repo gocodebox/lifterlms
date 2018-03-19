@@ -1,3 +1,8 @@
+/**
+ * LifterLMS JS Builder App Bootstrap
+ * @since    3.16.0
+ * @version  [version]
+ */
 require( [
 	'../vendor/backbone.collectionView',
 	'../vendor/backbone-forms',
@@ -24,6 +29,48 @@ require( [
 
 	window.llms_builder.debug = new Debug( window.llms_builder.debug );
 	window.llms_builder.construct = new Construct();
+
+	/**
+	 * Underscores templating utilities
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	_.mixin( {
+
+		/**
+		 * Determine if two values are equal and output checked attribute if they are
+		 * Useful for templating checkboxes & radio elements
+		 * Like WP Core PHP checked() but in JS
+		 * @param    mixed   expected  expected element value
+		 * @param    mixed   actual    actual element value
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		checked: function( expected, actual ) {
+			if ( expected == actual ) {
+				return ' checked="checked"';
+			}
+			return '';
+		},
+
+		/**
+		 * Determine if two values are equal and output seleted attribute if they are
+		 * Useful for templating select elements
+		 * Like WP Core PHP selected() but in JS
+		 * @param    mixed   expected  expected element value
+		 * @param    mixed   actual    actual element value
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		selected: function( expected, actual ) {
+			if ( expected == actual ) {
+				return ' selected="selected"';
+			}
+			return '';
+		},
+	} );
 
 	// register custom backbone forms editor
 	Backbone.Form.editors.Wysiwyg = WysiwygEditor;
