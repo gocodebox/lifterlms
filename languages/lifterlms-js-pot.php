@@ -185,13 +185,6 @@ $strings = array(
 	'Search for existing lessons...' => esc_html__( 'Search for existing lessons...', 'lifterlms' ),
 
 	/**
-	 * file: assets/js/builder/Views/LessonEditor.js
-	 * @since    3.16.0
-	 * @version  3.16.0
-	 */
-	'Lesson editing coming soon...' => esc_html__( 'Lesson editing coming soon...', 'lifterlms' ),
-
-	/**
 	 * file: assets/js/builder/Views/PostSearch.js
 	 * @since    3.16.0
 	 * @version  3.16.12

@@ -425,6 +425,7 @@ if ( ! empty( $active_post_lock ) ) {
 					'editor',
 					'elements',
 					'lesson',
+					'lesson-settings',
 					'quiz',
 					'quiz-header',
 					'question',

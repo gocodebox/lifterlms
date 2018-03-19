@@ -17,13 +17,13 @@
 
 		<div class="llms-action-icons">
 
-			<a class="llms-action-icon edit-lesson tip--top-right" data-tip="<?php esc_attr_e( 'Edit lesson', 'lifterlms' ); ?>" href="#llms-lesson-settings">
+			<a class="llms-action-icon edit-lesson tip--top-right" data-tip="<?php esc_attr_e( 'Edit settings', 'lifterlms' ); ?>" href="#llms-lesson-settings">
 				<span class="fa fa-cog"></span>
 			</a>
 
 			<# if ( data.get_edit_post_link() ) { #>
 				<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'Open WordPress editor', 'lifterlms' ); ?>" href="{{{ data.get_edit_post_link() }}}" target="_blank">
-					<span class="fa fa-pencil"></span>
+					<span class="fa fa-wordpress"></span>
 				</a>
 			<# } #>
 
@@ -71,31 +71,13 @@
 
 		$icons = array(
 
-			'free' => array(
-				'action' => false,
-				'active_condition' => "'yes' === data.get( 'has_prerequsite' )",
-				'tip' => esc_attr__( 'Enrolled students only', 'lifterlms' ),
-				'tip_active' => esc_attr__( 'Free Lesson', 'lifterlms' ),
-				'icon' => '<i class="fa fa-unlock"></i>',
-				'icon_active' => '<i class="fa fa-lock"></i>',
-			),
-
-			'prereq' => array(
-				'action' => false,
-				'active_condition' => "'yes' === data.get( 'free_lesson' )",
-				'tip' => esc_attr__( 'No prerequsite', 'lifterlms' ),
-				'tip_active' => esc_attr__( 'Prerequsite Enabled', 'lifterlms' ),
-				'icon' => '<i class="fa fa-link"></i>',
-				'icon_active' => '<i class="fa fa-link"></i>',
-			),
-
-			'drip_method' => array(
-				'action' => false,
-				'active_condition' => "data.get( 'drip_method' )",
-				'tip' => esc_attr__( 'Drip disabled', 'lifterlms' ),
-				'tip_active' => esc_attr__( 'Drip Enabled', 'lifterlms' ),
-				'icon' => '<i class="fa fa-calendar"></i>',
-				'icon_active' => '<i class="fa fa-calendar"></i>',
+			'settings' => array(
+				'action' => 'edit-lesson',
+				'active_condition' => "false",
+				'tip' => esc_attr__( 'Edit Lesson settings', 'lifterlms' ),
+				'tip_active' => '',
+				'icon' => '<i class="fa fa-cog"></i>',
+				'icon_active' => '',
 			),
 
 			'assignment' => array(
@@ -116,13 +98,49 @@
 				'icon_active' => '<i class="fa fa-question-circle"></i>',
 			),
 
-			'drip_method' => array(
+			'content' => array(
 				'action' => false,
 				'active_condition' => "data.get( 'content' )",
 				'tip' => esc_attr__( 'No content', 'lifterlms' ),
 				'tip_active' => esc_attr__( 'Has content', 'lifterlms' ),
 				'icon' => '<i class="fa fa-file-text-o"></i>',
 				'icon_active' => '<i class="fa fa-file-text-o"></i>',
+			),
+
+			'video' => array(
+				'action' => false,
+				'active_condition' => "data.get( 'video_embed' )",
+				'tip' => esc_attr__( 'No video', 'lifterlms' ),
+				'tip_active' => esc_attr__( 'Has video', 'lifterlms' ),
+				'icon' => '<i class="fa fa-play-circle"></i>',
+				'icon_active' => '<i class="fa fa-play-circle"></i>',
+			),
+
+			'free' => array(
+				'action' => false,
+				'active_condition' => "'yes' === data.get( 'free_lesson' )",
+				'tip' => esc_attr__( 'Enrolled students only', 'lifterlms' ),
+				'tip_active' => esc_attr__( 'Free Lesson', 'lifterlms' ),
+				'icon' => '<i class="fa fa-lock"></i>',
+				'icon_active' => '<i class="fa fa-unlock"></i>',
+			),
+
+			'prereq' => array(
+				'action' => false,
+				'active_condition' => "'yes' === data.get( 'has_prerequisite' )",
+				'tip' => esc_attr__( 'No prerequsite', 'lifterlms' ),
+				'tip_active' => esc_attr__( 'Prerequsite Enabled', 'lifterlms' ),
+				'icon' => '<i class="fa fa-chain-broken"></i>',
+				'icon_active' => '<i class="fa fa-link"></i>',
+			),
+
+			'drip_method' => array(
+				'action' => false,
+				'active_condition' => "data.get( 'drip_method' )",
+				'tip' => esc_attr__( 'Drip disabled', 'lifterlms' ),
+				'tip_active' => esc_attr__( 'Drip Enabled', 'lifterlms' ),
+				'icon' => '<i class="fa fa-calendar"></i>',
+				'icon_active' => '<i class="fa fa-calendar"></i>',
 			),
 
 		);
@@ -135,7 +153,7 @@
 				<?php if ( $icon['action'] ) : ?>
 					<?php printf( '<a class="llms-action-icon %1$s" href="#llms-action--%1$s">', $icon['action'] ); ?>
 				<?php endif; ?>
-				<# if ( 'yes' === data.get( 'free_lesson' ) ) { #>
+				<# if ( <?php echo $icon['active_condition']; ?> ) { #>
 					<?php echo $icon['icon_active']; ?>
 				<# } else { #>
 					<?php echo $icon['icon']; ?>
