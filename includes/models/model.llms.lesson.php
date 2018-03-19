@@ -10,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
  * @property  $days_before_available  (int)  The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
- * @property  $drip_method  (string) What sort of drip method to utilize [''(none)|date|enrollment|start]
+ * @property  $drip_method  (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
  * @property  $free_lesson  (yesno)  Yes if the lesson is free
  * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
  * @property  $order (int)  Lesson's order within its parent section
