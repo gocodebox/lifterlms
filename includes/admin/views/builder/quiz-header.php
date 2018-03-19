@@ -106,7 +106,7 @@
 				</label>
 
 				<# if ( 'yes' === data.get( 'limit_time' ) ) { #>
-					<div class="llms-editable-number"">
+					<div class="llms-editable-number">
 						<input class="llms-input standard" data-attribute="time_limit" data-original-content="{{{ data.get( 'time_limit' ) }}}" min="1" max="360" name="time_limit" type="number" value="{{{ data.get( 'time_limit' ) }}}">
 					</div>
 				<# } #>
