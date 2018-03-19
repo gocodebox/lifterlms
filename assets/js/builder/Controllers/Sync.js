@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.6
  */
 define( [], function() {
 
@@ -189,7 +189,7 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		function get_changed_attributes( model ) {
 
@@ -312,7 +312,7 @@ define( [], function() {
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
 		 * @since    3.16.11
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		function maybe_restart_tracking( model, data ) {
 

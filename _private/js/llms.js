@@ -39,7 +39,7 @@ var LLMS = window.LLMS || {};
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.16.6
 	 */
 	LLMS.wait_for_matchHeight = function( cb ) {
 		this.wait_for( function() {
@@ -52,7 +52,7 @@ var LLMS = window.LLMS || {};
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.9.1
-	 * @version  [version]
+	 * @version  3.16.6
 	 */
 	LLMS.wait_for_popover = function( cb ) {
 		this.wait_for( function() {

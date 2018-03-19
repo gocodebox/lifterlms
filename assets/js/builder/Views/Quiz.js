@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.16.6
  */
 define( [
 		'Models/Quiz',
@@ -88,7 +88,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.16.6
 		 */
 		initialize: function( data ) {
 
@@ -317,8 +317,8 @@ define( [
 		 * Callback function when the quiz has been deleted
 		 * @param    object   quiz  Quiz Model
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.16.6
+		 * @version  3.16.6
 		 */
 		on_trashed: function( quiz ) {
 

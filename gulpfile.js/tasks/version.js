@@ -28,6 +28,10 @@ gulp.task( 'versioner', function() {
 		.pipe( replace( /(\* @(since|version) +\[version\])/g, function( string ) {
 			return string.replace( '[version]', the_version );
 		} ) )
+		.pipe( replace( /(\* @(since|version) +\[version\])/g, function( string ) {
+			console.log( string );
+			return string.replace( '[version]', the_version );
+		} ) )
 		.pipe( gulp.dest( './' ) );
 
 } );
