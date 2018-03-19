@@ -11,6 +11,10 @@
 
 		<ul class="llms-editor-menu">
 
+<!-- 			<li class="llms-editor-menu-item<# if ( 'course' === data.state ) { print( ' active' ); } #>">
+				<a href="#llms-editor-course" data-view="course"><?php _e( 'Course', 'lifterlms' ); ?></a>
+			</li> -->
+
 			<li class="llms-editor-menu-item<# if ( 'lesson' === data.state ) { print( ' active' ); } #>">
 				<a href="#llms-editor-lesson" data-view="lesson"><?php _e( 'Lesson', 'lifterlms' ); ?></a>
 			</li>
