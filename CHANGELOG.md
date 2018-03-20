@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.16.17 - 2018-03-??
 ---------------------
 
++ Added PHP Requires plugin header (5.6 minimum)
 + Fix issue causing lesson prerequisites to not properly display on the course builder
 + Added HTTP User Agent data to the system report
 

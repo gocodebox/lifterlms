@@ -107,15 +107,17 @@ define( [
 
 			if ( this.is_addon_available() ) {
 
-				var assignment = this.lesson.get( 'assignment' );
-				if ( _.isEmpty( assignment ) ) {
-					// assignment = this.lesson.add_assignment();
-					assignment = {};
-				} else {
-					this.lesson.set( 'assignment_enabled', 'yes' );
-				}
+				this.model = window.llms_builder.assignments.get_assignment( {
+					/* translators: %1$s = associated lesson title */
+					title: LLMS.l10n.replace( '%1$s Assignment', {
+						'%1$s': this.lesson.get( 'title' ),
+					} ),
+					lesson_id: this.lesson.get( 'id' ),
+				} );
 
-				this.model = assignment;
+				this.lesson.set( 'assignment_enabled', 'yes' );
+				this.lesson.set( 'assignment', this.model );
+
 				this.render();
 
 			} else {
@@ -223,7 +225,7 @@ define( [
 		 */
 		is_addon_available: function() {
 
-			return ( window.llms_builder.advanced && window.llms_builder.advanced.Assignments_Builder );
+			return ( window.llms_builder.assignments );
 
 		},
 

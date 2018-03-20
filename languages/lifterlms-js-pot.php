@@ -172,6 +172,7 @@ $strings = array(
 	 * @since    [version]
 	 * @version  [version]
 	 */
+	'%1$s Assignment' => esc_html__( '%1$s Assignment', 'lifterlms' ),
 	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
 	'Search for existing assignments...' => esc_html__( 'Search for existing assignments...', 'lifterlms' ),
 	'Get Your Students Taking Action' => esc_html__( 'Get Your Students Taking Action', 'lifterlms' ),
