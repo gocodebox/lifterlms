@@ -1,12 +1,13 @@
 == Changelog ==
 
 
-<<<<<<< HEAD
-v3.16.16 - 2018-03-??
+v3.16.17 - 2018-03-??
 -------------------------
 
 + Fix issue causing lesson prerequisites to not properly display on the course builder
-=======
++ Added HTTP User Agent data to the system report
+
+
 = v3.16.16 - 2018-03-19 =
 -------------------------
 
@@ -15,7 +16,6 @@ v3.16.16 - 2018-03-??
 + Fixed builder issue preventing quizzes from being deleted before they were persisted to the database
 + Fixed builder issue causing autosaves to interrupt typing and reset lesson and section titles
 + Fixed JS console error related to LifterLMS JS dependency checks
->>>>>>> 77b9b6f681b06ca4395f9d07eb22a3caef86d78d
 
 
 = v3.16.15 - 2018-03-13 =

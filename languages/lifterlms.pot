@@ -1710,7 +1710,7 @@ msgstr ""
 msgid "Time Available"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:190, includes/admin/views/builder/editor.php:24, includes/class.llms.post-types.php:280
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:190, includes/admin/views/builder/editor.php:23, includes/class.llms.post-types.php:280
 msgid "Quiz"
 msgstr ""
 
@@ -2105,7 +2105,7 @@ msgstr ""
 msgid "Lesson Title"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/admin/reporting/tables/llms.table.quizzes.php:305, includes/admin/views/builder/editor.php:16, includes/class.llms.post-types.php:172
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/admin/reporting/tables/llms.table.quizzes.php:305, includes/admin/views/builder/editor.php:15, includes/class.llms.post-types.php:172
 msgid "Course"
 msgstr ""
 
@@ -2360,7 +2360,7 @@ msgstr ""
 msgid "Search quizzes..."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.quizzes.php:310, includes/admin/views/builder/editor.php:20, includes/class.llms.post-types.php:243
+#: includes/admin/reporting/tables/llms.table.quizzes.php:310, includes/admin/views/builder/editor.php:19, includes/class.llms.post-types.php:243
 msgid "Lesson"
 msgstr ""
 
@@ -3172,11 +3172,11 @@ msgstr ""
 msgid "View course"
 msgstr ""
 
-#: includes/admin/views/builder/editor.php:28
+#: includes/admin/views/builder/editor.php:27
 msgid "Assignment"
 msgstr ""
 
-#: includes/admin/views/builder/editor.php:33
+#: includes/admin/views/builder/editor.php:32
 msgid "Close"
 msgstr ""
 
@@ -7618,17 +7618,17 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:631
+#: includes/models/model.llms.student.php:654
 msgctxt "course grade when no quizzes taken or in course"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:652
+#: includes/models/model.llms.student.php:675
 msgctxt "lesson grade when lesson has no quiz"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:769
+#: includes/models/model.llms.student.php:792
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
