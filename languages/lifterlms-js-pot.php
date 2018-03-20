@@ -174,7 +174,9 @@ $strings = array(
 	 */
 	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
 	'Search for existing assignments...' => esc_html__( 'Search for existing assignments...', 'lifterlms' ),
-	'Get LifterLMS Assignments' => esc_html__( 'Get LifterLMS Assignments', 'lifterlms' ),
+	'Get Your Students Taking Action' => esc_html__( 'Get Your Students Taking Action', 'lifterlms' ),
+	'Get Assignments Now!' => esc_html__( 'Get Assignments Now!', 'lifterlms' ),
+	'Unlock LifterLMS Assignments' => esc_html__( 'Unlock LifterLMS Assignments', 'lifterlms' ),
 
 	/**
 	 * file: assets/js/builder/Views/Elements.js

@@ -254,6 +254,10 @@ define( [
 		 */
 		show_ad_popover: function( el ) {
 
+			var h3 = LLMS.l10n.translate( 'Get Your Students Taking Action' ),
+				p = 'Great learning content is only half of teaching online. When your learners fully engage, they will take your content and move into action. Remove barriers for your learners by telling them what to do to apply what they just learned. Create graded assignments or simply give them a checklist of action items to complete before moving on.',
+				btn = LLMS.l10n.translate( 'Get Assignments Now!' );
+
 			this.ad_popover = new Popover( {
 				el: el,
 				args: {
@@ -263,8 +267,8 @@ define( [
 					dismissible: true,
 					// placement: 'left',
 					width: 380,
-					title: LLMS.l10n.translate( 'Get LifterLMS Assignments' ),
-					content: '<h3>BUY TEH THING TO GET THE STUFF</h3><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quicquid porro animo cernimus, id omne oritur a sensibus; Hoc enim constituto in philosophia constituta sunt omnia. Videamus animi partes, quarum est conspectus illustrior; Si quidem, inquit, tollerem, sed relinquo. Dici enim nihil potest verius. At ille pellit, qui permulcet sensum voluptate. Commoda autem et incommoda in eo genere sunt, quae praeposita et reiecta diximus; Satisne igitur videor vim verborum tenere, an sum etiam nunc vel Graece loqui vel Latine docendus? Nulla erit controversia. Duo Reges: constructio interrete. Fortitudinis quaedam praecepta sunt ac paene leges, quae effeminari virum vetant in dolore. Cupit enim dícere nihil posse ad beatam vitam deesse sapienti.</p><br><p><a class="llms-button-primary" href="#">Learn More</a></p>'
+					title: LLMS.l10n.translate( 'Unlock LifterLMS Assignments' ),
+					content: '<h3>' + h3 + '</h3><p>' + p + '</p><br><p><a class="llms-button-primary" href="#">' + btn + '</a></p>'
 				}
 			} );
 
