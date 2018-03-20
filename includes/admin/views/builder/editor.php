@@ -19,12 +19,12 @@
 				<a href="#llms-editor-lesson" data-view="lesson"><?php _e( 'Lesson', 'lifterlms' ); ?></a>
 			</li>
 
-			<li class="llms-editor-menu-item<# if ( 'quiz' === data.state ) { print( ' active' ); } #>">
-				<a href="#llms-editor-quiz" data-view="quiz"><?php _e( 'Quiz', 'lifterlms' ); ?></a>
-			</li>
-
 			<li class="llms-editor-menu-item<# if ( 'assignment' === data.state ) { print( ' active' ); } #>">
 				<a href="#llms-editor-assignment" data-view="assignment"><?php _e( 'Assignment', 'lifterlms' ); ?></a>
+			</li>
+
+			<li class="llms-editor-menu-item<# if ( 'quiz' === data.state ) { print( ' active' ); } #>">
+				<a href="#llms-editor-quiz" data-view="quiz"><?php _e( 'Quiz', 'lifterlms' ); ?></a>
 			</li>
 
 			<li class="llms-editor-menu-item right">
