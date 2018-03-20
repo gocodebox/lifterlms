@@ -68,3 +68,31 @@
 	}
 
 }
+
+.llms-nav-text-wrapper {
+	.llms-nav-items {
+		.llms-nav-item {
+			display: inline-block;
+			&:after {
+				content: ' |';
+			}
+			&:last-child:after {
+				content: '';
+			}
+			&.llms-active .llms-nav-link {
+				color: $color-brand-dark-blue;
+				font-weight: bold;
+				&:hover {
+					color: $color-brand-dark-blue;
+				}
+			}
+			.llms-nav-link {
+				text-decoration: none;
+				color: $color-brand-blue;
+				&:hover {
+					color: $color-brand-blue-dark;
+				}
+			}
+		}
+	}
+}

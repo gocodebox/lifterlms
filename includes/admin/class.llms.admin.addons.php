@@ -1,13 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  * @since    3.5.0
- * @version  3.10.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_AddOns {
 
 	/**
@@ -78,74 +76,69 @@ class LLMS_Admin_AddOns {
 	 * @param    sring     $name  section name (untranslated key)
 	 * @return   string
 	 * @since    3.5.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	private function get_section_title( $name ) {
-		switch ( $name ) {
 
-			case 'advanced':
-				return __( 'Advanced', 'lifterlms' );
-			break;
+		$titles = array(
+			'advanced' => __( 'Advanced', 'lifterlms' ),
+			'affiliates' => __( 'Affiliates', 'lifterlms' ),
+			'all' => __( 'All', 'lifterlms' ),
+			'bundles' => __( 'Bundles', 'lifterlms' ),
+			'gateways' => __( 'Payment Gateways', 'lifterlms' ),
+			'marketing' => __( 'E-Mail & Marketing', 'lifterlms' ),
+			'themes' => __( 'Themes & Design', 'lifterlms' ),
+			'tools' => __( 'Tools & Utilities', 'lifterlms' ),
+			'resources' => __( 'Resources', 'lifterlms' ),
+			'services' => __( 'Services', 'lifterlms' ),
+			'my_addons' => __( 'My Add-ons', 'lifterlms' ),
+		);
 
-			case 'affiliates':
-				return __( 'Affiliates', 'lifterlms' );
-			break;
+		if ( isset( $titles[ $name ] ) ) {
+			return $titles[ $name ];
+		}
 
-			case 'all':
-				return __( 'All', 'lifterlms' );
-			break;
-
-			case 'bundles':
-				return __( 'Bundles', 'lifterlms' );
-			break;
-
-			case 'gateways':
-				return __( 'Payment Gateways', 'lifterlms' );
-			break;
-
-			case 'marketing':
-				return __( 'E-Mail & Marketing', 'lifterlms' );
-			break;
-
-			case 'themes':
-				return __( 'Themes & Design', 'lifterlms' );
-			break;
-
-			case 'tools':
-				return __( 'Tools & Utilities', 'lifterlms' );
-			break;
-
-			case 'resources':
-				return __( 'Resources', 'lifterlms' );
-			break;
-
-			case 'services':
-				return __( 'Services', 'lifterlms' );
-			break;
-		}// End switch().
 		return $name;
 	}
 
+	private function is_addon_installed() {
+
+		return false;
+
+	}
 
 	/**
 	 * Output HTML for the current screen
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  [version]
 	 */
 	public function output() {
 
 		if ( is_wp_error( $this->get_data() ) ) {
-
 			_e( 'There was an error retrieving add-ons. Please try again.', 'lifterlms' );
 			return;
-
 		}
+		$tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'browse';
 		?>
 		<div class="wrap lifterlms lifterlms-settings">
-			<h1><?php _e( 'LifterLMS Add-Ons, Services, and Resources', 'lifterlms' ); ?></h1>
-			<?php $this->output_navigation(); ?>
-			<?php $this->output_content(); ?>
+			<nav class="llms-nav-tab-wrapper">
+				<ul class="llms-nav-items">
+					<li class="llms-nav-item<?php echo 'browse' === $tab ? ' llms-active' : ''; ?>">
+						<a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&tab=browse' ) ); ?>">
+							<?php _e( 'Browse Add-ons', 'lifterlms' ); ?></a></li>
+					<li class="llms-nav-item<?php echo 'my' === $tab ? ' llms-active' : ''; ?>">
+						<a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&tab=my' ) ); ?>">
+							<?php _e( 'My Add-ons', 'lifterlms' ); ?></a></li>
+				</ul>
+			</nav>
+			<?php if ( 'browse' === $tab ) : ?>
+				<h1><?php _e( 'LifterLMS Add-Ons, Services, and Resources', 'lifterlms' ); ?></h1>
+				<?php $this->output_navigation(); ?>
+				<?php $this->output_content(); ?>
+			<?php else : ?>
+				<h1><?php _e( 'My Add-Ons', 'lifterlms' ); ?></h1>
+			<?php endif; ?>
 		</div>
 		<?php
 	}
@@ -203,7 +196,7 @@ class LLMS_Admin_AddOns {
 
 				$this->output_addon( $addon );
 
-} ?>
+			} ?>
 
 			<?php do_action( 'lifterlms_after_addons' ); ?>
 
@@ -234,11 +227,11 @@ class LLMS_Admin_AddOns {
 	 * Output the navigation bar
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.7.5
+	 * @version  [version]
 	 */
 	private function output_navigation() {
 		?>
-		<nav class="llms-nav-tab-wrapper">
+		<nav class="llms-nav-text-wrapper">
 			<ul class="llms-nav-items">
 			<?php do_action( 'lifterlms_before_addons_nav' ); ?>
 
