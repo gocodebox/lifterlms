@@ -68,7 +68,6 @@
 	<ul class="llms-info-list">
 
 		<?php
-
 		$icons = array(
 
 			'settings' => array(
@@ -84,7 +83,7 @@
 				'action' => 'edit-assignment',
 				'active_condition' => "'yes' === data.get( 'assignment_enabled' )",
 				'tip' => esc_attr__( 'Add an assignment', 'lifterlms' ),
-				'tip_active' => sprintf( esc_attr__( 'Edit Assignment: %s', 'lifterlms' ), "{{{ data.get( 'assignment' ) ? data.get( 'assignment' ).get( 'title' ) : '' }}}" ),
+				'tip_active' => sprintf( esc_attr__( 'Edit Assignment: %s', 'lifterlms' ), "{{{ _.isEmpty( data.get( 'assignment' ) ) ? '' : data.get( 'assignment' ).get( 'title' ) }}}" ),
 				'icon' => '<i class="fa fa-check-square-o"></i>',
 				'icon_active' => '<i class="fa fa-check-square-o"></i>',
 			),
