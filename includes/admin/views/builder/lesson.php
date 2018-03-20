@@ -116,6 +116,15 @@
 				'icon_active' => '<i class="fa fa-play-circle"></i>',
 			),
 
+			'audio' => array(
+				'action' => false,
+				'active_condition' => "data.get( 'audio_embed' )",
+				'tip' => esc_attr__( 'No audio', 'lifterlms' ),
+				'tip_active' => esc_attr__( 'Has audio', 'lifterlms' ),
+				'icon' => '<i class="fa fa-volume-off"></i>',
+				'icon_active' => '<i class="fa fa-volume-up"></i>',
+			),
+
 			'free' => array(
 				'action' => false,
 				'active_condition' => "'yes' === data.get( 'free_lesson' )",
