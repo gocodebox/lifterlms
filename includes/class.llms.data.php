@@ -1,12 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.11.2
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Data {
 
 	/**
@@ -15,7 +14,7 @@ class LLMS_Data {
 	 * @param    string     $format   data return format (unused for unrecalled reasons)
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.11.2
+	 * @version  [version]
 	 */
 	public static function get_data( $dataset, $format = 'array' ) {
 
@@ -40,6 +39,9 @@ class LLMS_Data {
 
 		// server info
 		$data['server'] = self::get_server_data();
+
+		// browser / os
+		$data['browser'] = self::get_browser_data();
 
 		// theme info
 		$data['theme'] = self::get_theme_data();
@@ -66,6 +68,22 @@ class LLMS_Data {
 		$data['integrations'] = self::get_integrations_data();
 
 		$data['template_overrides'] = self::get_templates_data();
+
+		return $data;
+
+	}
+
+	/**
+	 * add browser and os info to the system report
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function get_browser_data() {
+
+		$data = array(
+			'HTTP_USER_AGENT' => $_SERVER['HTTP_USER_AGENT'],
+		);
 
 		return $data;
 
