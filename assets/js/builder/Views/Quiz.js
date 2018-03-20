@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.16.12
+ * @version  3.16.6
  */
 define( [
 		'Models/Quiz',
@@ -88,7 +88,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.16.6
 		 */
 		initialize: function( data ) {
 
@@ -96,6 +96,7 @@ define( [
 
 			// initialize the model if the quiz is enabled or it's disabled but we still have data for a quiz
 			if ( 'yes' === this.lesson.get( 'quiz_enabled' ) || ! _.isEmpty( this.lesson.get( 'quiz' ) ) ) {
+
 				this.model = this.lesson.get( 'quiz' );
 
 				/**
@@ -115,9 +116,9 @@ define( [
 				 */
 				this.model.set_parent( this.lesson );
 
-				this.on( 'model-trashed', this.on_trashed );
-
 			}
+
+			this.on( 'model-trashed', this.on_trashed );
 
 		},
 
@@ -312,6 +313,13 @@ define( [
 
 		// }, 300 ),
 
+		/**
+		 * Callback function when the quiz has been deleted
+		 * @param    object   quiz  Quiz Model
+		 * @return   void
+		 * @since    3.16.6
+		 * @version  3.16.6
+		 */
 		on_trashed: function( quiz ) {
 
 			this.lesson.set( 'quiz_enabled', 'no' );

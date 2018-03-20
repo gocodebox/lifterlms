@@ -280,7 +280,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return     int
 	 * @since      1.0.0
 	 * @version    3.16.0
-	 * @deprecated [version]
+	 * @deprecated 3.16.0
 	 */
 	public function get_remaining_attempts_by_user( $user_id = null ) {
 
@@ -301,7 +301,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return      int
 	 * @since       1.0.0
 	 * @version     3.16.0
-	 * @deprecated  [version]
+	 * @deprecated  3.16.0
 	 */
 	public function get_time_limit() {
 		llms_deprecated_function( 'LLMS_Quiz::get_time_limit()', '3.16.0', 'LLMS_Quiz::get( "time_limit" )' );
@@ -313,7 +313,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return      int
 	 * @since       1.0.0
 	 * @version     3.16.0
-	 * @deprecated  [version]
+	 * @deprecated  3.16.0
 	 */
 	public function get_total_allowed_attempts() {
 		llms_deprecated_function( 'LLMS_Quiz::get_total_allowed_attempts()', '3.16.0', 'LLMS_Quiz::get( "allowed_attempts" )' );
@@ -326,7 +326,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return      int
 	 * @since       1.0.0
 	 * @version     3.16.0
-	 * @deprecated  [version]
+	 * @deprecated  3.16.0
 	 */
 	public function get_total_attempts_by_user( $user_id = null ) {
 

@@ -2,9 +2,21 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.16.12
+ * @version  [version]
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
+
+	/**
+	 * Setup tests
+	 * Automatically called before each test
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function setUp() {
+		parent::setUp();
+		llms_reset_current_time();
+	}
 
 	/**
 	 * Automatically complete a percentage of courses for a student

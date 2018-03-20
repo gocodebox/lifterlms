@@ -1,10 +1,21 @@
 LifterLMS Changelog
 ===================
 
-v3.16.16 - 2018-03-??
+v3.16.17 - 2018-03-??
 ---------------------
 
 + Fix issue causing lesson prerequisites to not properly display on the course builder
++ Added HTTP User Agent data to the system report
+
+
+v3.16.16 - 2018-03-19
+---------------------
+
++ Fixed builder issue causing multiple question choices to be incorrectly selected
++ Fixed builder issue with media library uploads causing an error message to prevent new uploads before the quiz or question has been persistend to the database
++ Fixed builder issue preventing quizzes from being deleted before they were persisted to the database
++ Fixed builder issue causing autosaves to interrupt typing and reset lesson and section titles
++ Fixed JS console error related to LifterLMS JS dependency checks
 
 
 v3.16.15 - 2018-03-13

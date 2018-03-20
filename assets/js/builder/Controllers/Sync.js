@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  3.16.12
+ * @version  3.16.6
  */
 define( [], function() {
 
@@ -189,12 +189,17 @@ define( [], function() {
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.11
+		 * @version  3.16.6
 		 */
 		function get_changed_attributes( model ) {
 
 			var atts = {},
 				sync_type;
+
+			// don't save mid editing
+			if ( model.get( '_has_focus' ) ) {
+				return atts;
+			}
 
 			// model hasn't been persisted to the database to get a real ID yet
 			// send *all* of it's atts
@@ -307,7 +312,7 @@ define( [], function() {
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
 		 * @since    3.16.11
-		 * @version  3.16.12
+		 * @version  3.16.6
 		 */
 		function maybe_restart_tracking( model, data ) {
 
@@ -321,12 +326,13 @@ define( [], function() {
 
 				if ( _.isEqual( model.get( prop ), val ) ) {
 					delete model._unsavedChanges[ prop ];
+					model._originalAttrs[ prop ] = val;
 				}
 
 			} );
 
 			// if syncing was forced, allow tracking to move forward as normal moving forward
-			model.set( '_forceSync', false );
+			model.unset( '_forceSync' );
 
 		};
 

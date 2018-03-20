@@ -6,12 +6,21 @@
  * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
  * @return int|string           Integer if $type is 'timestamp', string otherwise.
  * @since    3.4.0
- * @version  3.4.0
+ * @version  [version]
  */
 function llms_current_time( $type, $gmt = 0 ) {
 	global $llms_mock_time;
 	if ( ! empty( $llms_mock_time ) ) {
-		return $llms_mock_time;
+
+		switch ( $type ) {
+			case 'mysql':
+				return date( 'Y-m-d H:i:s', $llms_mock_time );
+			case 'timestamp':
+				return $llms_mock_time;
+			default:
+				return date( $type, $llms_mock_time );
+		}
+
 	}
 	return current_time( $type, $gmt );
 }

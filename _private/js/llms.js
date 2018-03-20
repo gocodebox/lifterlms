@@ -39,11 +39,11 @@ var LLMS = window.LLMS || {};
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.9.1
+	 * @version  3.16.6
 	 */
 	LLMS.wait_for_matchHeight = function( cb ) {
 		this.wait_for( function() {
-			return ( 'undefined' !== $.fn.matchHeight );
+			return ( undefined !== $.fn.matchHeight );
 		}, cb );
 	}
 
@@ -52,11 +52,11 @@ var LLMS = window.LLMS || {};
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.9.1
-	 * @version  3.9.1
+	 * @version  3.16.6
 	 */
 	LLMS.wait_for_popover = function( cb ) {
 		this.wait_for( function() {
-			return ( 'undefined' !== $.fn.webuiPopover );
+			return ( undefined !== $.fn.webuiPopover );
 		}, cb );
 	}
 

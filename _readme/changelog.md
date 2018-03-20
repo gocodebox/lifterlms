@@ -1,10 +1,21 @@
 == Changelog ==
 
 
+<<<<<<< HEAD
 v3.16.16 - 2018-03-??
 -------------------------
 
 + Fix issue causing lesson prerequisites to not properly display on the course builder
+=======
+= v3.16.16 - 2018-03-19 =
+-------------------------
+
++ Fixed builder issue causing multiple question choices to be incorrectly selected
++ Fixed builder issue with media library uploads causing an error message to prevent new uploads before the quiz or question has been persistend to the database
++ Fixed builder issue preventing quizzes from being deleted before they were persisted to the database
++ Fixed builder issue causing autosaves to interrupt typing and reset lesson and section titles
++ Fixed JS console error related to LifterLMS JS dependency checks
+>>>>>>> 77b9b6f681b06ca4395f9d07eb22a3caef86d78d
 
 
 = v3.16.15 - 2018-03-13 =
@@ -157,15 +168,3 @@ v3.16.16 - 2018-03-??
 + Fixed issue causing newly created lessons to lose their assigned quiz
 + Fixed php `max_input_vars` issue causing a 400 Bad Request error when trying to save large courses in the course builder
 + Removed reliance on PHP bcmath functions
-
-
-= v3.16.6 - 2018-02-07 =
-------------------------
-
-+ Removed reliance on PHP Hashids Library in favor of a simpler solution with no PHP module dependencies
-+ Added interfaces to allow customization of quiz url / slug
-+ Fixed [audio] shortcodes added to quiz question descrpitions
-+ Fixed untranslateable strings on frontend of quizzes
-+ Fix issue causing certificate notifications to display as empty
-+ Fix issue preventing quiz pass/fail notifications from triggering properly for manually graded quizzes
-+ Fix undefined index warning on quiz pass/fail notifications

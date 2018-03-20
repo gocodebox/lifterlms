@@ -70,7 +70,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_enroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    2.2.3
-	 * @version  3.0.0  added $trigger parameter
+	 * @version  [version]
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
@@ -79,33 +79,29 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// can only be enrolled in the following post types
 		$product_type = get_post_type( $product_id );
 		if ( ! in_array( $product_type, array( 'course', 'llms_membership' ) ) ) {
-
 			return false;
-
 		}
 
 		// check enrollemnt before enrolling
 		// this will prevent duplicate enrollments
 		if ( llms_is_user_enrolled( $this->get_id(), $product_id ) ) {
-
 			return false;
-
 		}
 
 		// if the student has been previously enrolled, simply update don't run a full enrollment
-		if ( $this->get_enrollment_status( $product_id ) ) {
-
+		if ( $this->get_enrollment_status( $product_id, false ) ) {
 			$insert = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
-
-		} // End if().
-		else {
-
+		} else {
 			$insert = $this->insert_enrollment_postmeta( $product_id, $trigger );
-
 		}
 
 		// add the user postmeta for the enrollment
 		if ( ! empty( $insert ) ) {
+
+			// update the cache
+			$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), 'enrolled' );
+			$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
+			$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
 
 			// trigger additional actions based off post type
 			switch ( get_post_type( $product_id ) ) {
@@ -475,7 +471,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param   string $format      date format as accepted by php date(), if none supplied uses the WP core "date_format" option
 	 * @return  false|string        will return false if the user is not enrolled
 	 * @since   3.0.0
-	 * @version 3.14.0
+	 * @version [version]
 	 */
 	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = null ) {
 
@@ -483,35 +479,47 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$format = get_option( 'date_format', 'M d, Y' );
 		}
 
-		global $wpdb;
+		$cache_key = sprintf( 'date_%1$s_%2$s', $date, $product_id );
+		$res = $this->cache_get( $cache_key );
 
-		$key = ( 'enrolled' == $date ) ? '_start_date' : '_status';
+		if ( false === $res ) {
 
-		// get the oldest recorded Enrollment date
-		$q = $wpdb->get_var( $wpdb->prepare(
-			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
+			$key = ( 'enrolled' === $date ) ? '_start_date' : '_status';
 
-		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
+			global $wpdb;
+
+			// get the oldest recorded Enrollment date
+			$res = $wpdb->get_var( $wpdb->prepare(
+				"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+				array( $this->get_id(), $product_id )
+			) );
+
+			$this->cache_set( $cache_key, $res );
+
+		}
+
+		return ( $res ) ? date_i18n( $format, strtotime( $res ) ) : false;
 
 	}
 
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
-	 * @param    int $product_id WP Post ID of a Course, Lesson, or Membership
+	 * @param    int    $product_id  WP Post ID of a Course, Lesson, or Membership
+	 * @param    bool   $use_cache   If true, returns cached data if available, if false will run a db query
 	 * @return   false|string
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
-	public function get_enrollment_status( $product_id ) {
+	public function get_enrollment_status( $product_id, $use_cache = true ) {
+
+		$status = false;
 
 		$product_type = get_post_type( $product_id );
 
 		// only check the following post types
 		if ( ! in_array( $product_type, array( 'course', 'lesson', 'llms_membership' ) ) ) {
-			return false;
+			return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
 		}
 
 		// get course ID if we're looking at a lesson
@@ -522,13 +530,28 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		}
 
-		global $wpdb;
+		if ( $use_cache ) {
+			$status = $this->cache_get( sprintf( 'enrollment_status_%d', $product_id ) );
+		}
 
-		// get the most recent recorded status
-		$status = $wpdb->get_var( $wpdb->prepare(
-			"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
+		// status will be:
+		//    + false if there was nothing in the cache -- run a query!
+		//    + a string if there was a status          -- don't run query
+		//    + null if there's no status               -- don't run query
+		if ( false === $status ) {
+
+			global $wpdb;
+
+			// get the most recent recorded status
+			$status = $wpdb->get_var( $wpdb->prepare(
+				"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+				array( $this->get_id(), $product_id )
+			) );
+
+			// null will be stored if the student has no status
+			$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), $status );
+
+		}
 
 		$status = ( $status ) ? $status : false;
 
@@ -971,48 +994,63 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Get students progress through a course or track
 	 * @param    int        $object_id  course or track id
 	 * @param    string     $type       object type [course|course_track|section]
+	 * @param    boolean    $use_cache  if true, will use cached data from the usermeta table (if available)
+	 *                                  if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
-	public function get_progress( $object_id, $type = 'course' ) {
+	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
-		$total = 0;
-		$completed = 0;
+		$ret = 0;
+		$cache_key = sprintf( '%1$s_%2$d_progress', $type, $object_id );
+		$cached = $use_cache ? $this->get( $cache_key ) : '';
 
-		if ( 'course' === $type ) {
+		if ( '' === $cached ) {
 
-			$course = new LLMS_Course( $object_id );
-			$lessons = $course->get_lessons( 'ids' );
-			$total = count( $lessons );
-			foreach ( $lessons as $lesson ) {
-				if ( $this->is_complete( $lesson, 'lesson' ) ) {
-					$completed++;
+			$total = 0;
+			$completed = 0;
+
+			if ( 'course' === $type ) {
+
+				$course = new LLMS_Course( $object_id );
+				$lessons = $course->get_lessons( 'ids' );
+				$total = count( $lessons );
+				foreach ( $lessons as $lesson ) {
+					if ( $this->is_complete( $lesson, 'lesson' ) ) {
+						$completed++;
+					}
+				}
+			} elseif ( 'course_track' === $type ) {
+
+				$track = new LLMS_Track( $object_id );
+				$courses = $track->get_courses();
+				$total = count( $courses );
+				foreach ( $courses as $course ) {
+					if ( $this->is_complete( $course->ID, 'course' ) ) {
+						$completed++;
+					}
+				}
+			} elseif ( 'section' === $type ) {
+
+				$section = new LLMS_Section( $object_id );
+				$lessons = $section->get_lessons( 'ids' );
+				$total = count( $lessons );
+				foreach ( $lessons as $lesson ) {
+					if ( $this->is_complete( $lesson, 'lesson' ) ) {
+						$completed++;
+					}
 				}
 			}
-		} elseif ( 'course_track' === $type ) {
 
-			$track = new LLMS_Track( $object_id );
-			$courses = $track->get_courses();
-			$total = count( $courses );
-			foreach ( $courses as $course ) {
-				if ( $this->is_complete( $course->ID, 'course' ) ) {
-					$completed++;
-				}
-			}
-		} elseif ( 'section' === $type ) {
+			$ret = ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
+			$this->set( $cache_key, $ret );
 
-			$section = new LLMS_Section( $object_id );
-			$lessons = $section->get_lessons( 'ids' );
-			$total = count( $lessons );
-			foreach ( $lessons as $lesson ) {
-				if ( $this->is_complete( $lesson, 'lesson' ) ) {
-					$completed++;
-				}
-			}
-		}
+		} else {
+			$ret = $cached;
+		}// End if().
 
-		return ( ! $completed || ! $total ) ? 0 : round( 100 / ( $total / $completed ), 2 );
+		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type );
 
 	}
 
@@ -1096,37 +1134,29 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
-		switch ( $type ) {
+		// check tracks by progress
+		// this is done because tracks can have the same id as another object...
+		// @todo tracks should have a different table or format since the post_id col won't guarantee uniqueness...
+		if ( $type === 'course_track' ) {
 
-			case 'course':
-			case 'section':
-			case 'course_track':
-				$ret = ( 100 == $this->get_progress( $object_id, $type ) );
-			break;
+			$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 
-			case 'lesson':
-				global $wpdb;
-				$query = $wpdb->get_var( $wpdb->prepare(
-					"SELECT COUNT(*)
-					 FROM {$wpdb->prefix}lifterlms_user_postmeta
-					 WHERE user_id = %d
-					   AND post_id = %d
-					   AND meta_key = '_is_complete'
-					   AND meta_value = 'yes'
-					 ORDER BY updated_date ASC
-					 LIMIT 1
-					;",
-					array( $this->get_id(), $object_id )
-				) );
-				$ret = ( $query >= 1 );
-			break;
+			// everything else can be checked on the postmeta table
+		} else {
 
-			default:
-				$ret = false;
+			$query = new LLMS_Query_User_Postmeta( array(
+				'types' => 'completion',
+				'include_post_children' => false,
+				'user_id' => $this->get_id(),
+				'post_id' => $object_id,
+				'per_page' => 1,
+			) );
+
+			$ret = $query->has_results();
 
 		}
 
@@ -1245,12 +1275,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add student postmeta data for enrollment into a course or membership
-	 * @param  int        $product_id   WP Post ID of the course or membership
-	 * @param  string     $trigger      String describing the reason for enrollment
-	 * @return boolean
-	 *
-	 * @since  2.2.3
-	 * @version  3.0.0  added $trigger parameter
+	 * @param    int        $product_id   WP Post ID of the course or membership
+	 * @param    string     $trigger      String describing the reason for enrollment
+	 * @return   boolean
+	 * @since    2.2.3
+	 * @version  [version]
 	 */
 	private function insert_enrollment_postmeta( $product_id, $trigger = 'unspecified' ) {
 
@@ -1271,7 +1300,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					'post_id'      => $product_id,
 					'meta_key'     => $key,
 					'meta_value'   => $value,
-					'updated_date' => current_time( 'mysql' ),
+					'updated_date' => llms_current_time( 'mysql' ),
 				),
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
@@ -1289,11 +1318,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add a new status record to the user postmeta table for a specific product
-	 * @param  int    $product_id   WP Post ID of the course or membership
-	 * @param  string $status       string describing the new status
-	 * @param  string     $trigger  String describing the reason for enrollment (optional)
-	 * @return boolean
-	 * @since  3.0.0
+	 * @param    int    $product_id   WP Post ID of the course or membership
+	 * @param    string $status       string describing the new status
+	 * @param    string     $trigger  String describing the reason for enrollment (optional)
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	private function insert_status_postmeta( $product_id, $status = '', $trigger = null ) {
 
@@ -1305,7 +1335,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				'post_id'      => $product_id,
 				'meta_key'     => '_status',
 				'meta_value'   => $status,
-				'updated_date' => current_time( 'mysql' ),
+				'updated_date' => llms_current_time( 'mysql' ),
 			),
 			array( '%d', '%d', '%s', '%s', '%s' )
 		);
@@ -1320,7 +1350,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 						'post_id'      => $product_id,
 						'meta_key'     => '_enrollment_trigger',
 						'meta_value'   => $trigger,
-						'updated_date' => current_time( 'mysql' ),
+						'updated_date' => llms_current_time( 'mysql' ),
 					),
 					array( '%d', '%d', '%s', '%s', '%s' )
 				);
@@ -1363,82 +1393,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.3.1
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
-		do_action( 'before_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
-
-		// can only be marked compelete in the following post types
-		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
-			$object = llms_get_post( $object_id );
-		} // End if().
-		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id, 'course_track' );
-		} // i said no
-		else {
-			return false;
-		}
-
-		// parent(s) to cascade up and check for completion
-		// lessons -> section -> course -> track(s)
-		$parent_ids = array();
-		$parent_type = false;
-
-		// lessons are complete automatically
-		// other object types are only complete when all of their children are also complete
-		// so the other object types need to check if their complete before being marked as complete
-		$complete = ( 'lesson' === $object_type ) ? true : $this->is_complete( $object_id, $object_type );
-
-		// get the immediate parent so we can cascade up and maybe mark the parent as complete as well
-		switch ( $object_type ) {
-
-			case 'lesson':
-				$parent_ids = array( $object->get( 'parent_section' ) );
-				$parent_type = 'section';
-			break;
-
-			case 'section':
-				$parent_ids = array( $object->get( 'parent_course' ) );
-				$parent_type = 'course';
-			break;
-
-			case 'course':
-				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'course_track';
-			break;
-
-		}
-
-		// object is complete
-		if ( $complete ) {
-
-			// insert meta data
-			$this->insert_completion_postmeta( $object_id, $trigger );
-
-			// generic action hook
-			do_action( 'llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
-
-			// specific hook for each type, also backwards compatible for existing hooks
-			do_action( 'lifterlms_' . $object_type . '_completed', $this->get_id(), $object_id );
-
-			// cascade up
-			if ( $parent_ids && $parent_type ) {
-
-				foreach ( $parent_ids as $pid ) {
-
-					$this->mark_complete( $pid, $parent_type, $trigger );
-
-				}
-			}
-
-			do_action( 'after_llms_mark_complete', $this->get_id(), $object_id, $object_type, $trigger );
-
-			return true;
-
-		}
-
-		return false;
+		return $this->update_completion_status( 'complete', $object_id, $object_type, $trigger );
 
 	}
 
@@ -1453,83 +1412,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.5.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
-		do_action( 'before_llms_mark_incomplete', $this->get_id(), $object_id, $object_type, $trigger );
-
-		// can only be marked incompelete in the following post types
-		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
-			$object = llms_get_post( $object_id );
-		} // End if().
-		elseif ( 'course_track' === $object_type ) {
-			$object = get_term( $object_id, 'course_track' );
-		} // i said no
-		else {
-			return false;
-		}
-
-		// parent(s) to cascade up and check for incompletion
-		// lessons -> section -> course -> track(s)
-		$parent_ids = array();
-		$parent_type = false;
-
-		// lessons are incomplete automatically
-		// other object types are only incomplete when all of their children are also incomplete
-		// so the other object types need to check if their complete before being marked as complete
-		$complete = ( 'lesson' === $object_type ) ? false : $this->is_complete( $object_id, $object_type );
-
-		// get the immediate parent so we can cascade up and maybe mark the parent as incomplete as well
-		switch ( $object_type ) {
-
-			case 'lesson':
-				$parent_ids = array( $object->get( 'parent_section' ) );
-				$parent_type = 'section';
-			break;
-
-			case 'section':
-				$parent_ids = array( $object->get( 'parent_course' ) );
-				$parent_type = 'course';
-			break;
-
-			case 'course':
-				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
-				$parent_type = 'course_track';
-			break;
-
-		}
-
-		// object is incomplete
-		if ( $complete === false ) {
-
-			// insert meta data
-			$this->insert_incompletion_postmeta( $object_id, $trigger );
-
-			// generic action hook
-			do_action( 'llms_mark_incomplete', $this->get_id(), $object_id, $object_type, $trigger );
-
-			// specific hook for each type, also backwards compatible for existing hooks
-			do_action( 'lifterlms_' . $object_type . '_incompleted', $this->get_id(), $object_id );
-
-			// cascade up
-			if ( $parent_ids && $parent_type ) {
-
-				foreach ( $parent_ids as $pid ) {
-
-					$this->mark_incomplete( $pid, $parent_type, $trigger );
-
-				}
-			}
-
-			return true;
-
-		}
-
-		return false;
+		return $this->update_completion_status( 'incomplete', $object_id, $object_type, $trigger );
 
 	}
-
 	/**
 	 * Remove a student from a membership level
 	 * @param    int        $membership_id  WP Post ID of the membership
@@ -1578,7 +1467,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
-	 * @since  3.0.0
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
@@ -1619,6 +1509,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// update enrollment for the product
 			if ( $this->insert_status_postmeta( $product_id, $new_status ) ) {
 
+				// update the cache
+				$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), $new_status );
+				$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
+				$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
+
 				// trigger actions based on product type
 				switch ( get_post_type( $product_id ) ) {
 
@@ -1645,6 +1540,131 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	}
 
+	/**
+	 * Update the completion status of a track, course, section, or lesson for the current student
+	 * Cascades up to parents and clears progress caches for parents
+	 * Triggers actions for completion/incompetion
+	 * Inserts / updates necessary user postmeta data
+	 * @param    string    $status       new status to update to [complete|incomplete]
+	 * @param    int       $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param    string    $object_type  object type [lesson|section|course|course_track]
+	 * @param    string    $trigger      String describing the reason for marking complete
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function update_completion_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
+
+		/**
+		 * Before hook
+		 * @action  before_llms_mark_complete
+		 * @action  before_llms_mark_incomplete
+		 */
+		do_action( 'before_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+
+		// can only be marked incompelete in the following post types
+		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
+			$object = llms_get_post( $object_id );
+		} elseif ( 'course_track' === $object_type ) {
+			$object = get_term( $object_id, 'course_track' );
+		} else {
+			return false;
+		}
+
+		// parent(s) to cascade up and check for incompletion
+		// lessons -> section -> course -> track(s)
+		$parent_ids = array();
+		$parent_type = false;
+
+		// lessons are complete / incomplete automatically
+		// other object types are dependent on their children's statuses
+		// so the other object types need to check progress manually (bypassing cache) to see if it's complete / incomplete
+		$complete = ( 'lesson' === $object_type ) ? ( 'complete' === $status ) : ( 100 == $this->get_progress( $object_id, $object_type, false ) );
+
+		// get the immediate parent so we can cascade up and maybe mark the parent as incomplete as well
+		switch ( $object_type ) {
+
+			case 'lesson':
+				$parent_ids = array( $object->get( 'parent_section' ) );
+				$parent_type = 'section';
+			break;
+
+			case 'section':
+				$parent_ids = array( $object->get( 'parent_course' ) );
+				$parent_type = 'course';
+			break;
+
+			case 'course':
+				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
+				$parent_type = 'course_track';
+			break;
+
+		}
+
+		// reset the cached progress for any objects with children
+		if ( 'lesson' !== $object_type ) {
+			$this->set( sprintf( '%1$s_%2$d_progress', $object_type, $object_id ), '' );
+		}
+
+		// reset cache for all parents
+		if ( $parent_ids && $parent_type ) {
+
+			foreach ( $parent_ids as $pid ) {
+
+				$this->set( sprintf( '%1$s_%2$d_progress', $parent_type, $pid ), '' );
+
+			}
+		}
+
+		// determine if an update should be made
+		$update = ( 'complete' === $status && $complete ) || ( 'incomplete' === $status && ! $complete );
+
+		if ( $update ) {
+
+			// insert meta data
+			if ( 'complete' === $status ) {
+				$this->insert_completion_postmeta( $object_id, $trigger );
+			} elseif ( 'incomplete' === $status ) {
+				$this->insert_incompletion_postmeta( $object_id, $trigger );
+			}
+
+			/**
+			 * Generic hook
+			 * @action  llms_mark_complete
+			 * @action  llms_mark_incomplete
+			 */
+			do_action( 'llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+
+			/**
+			 * Specific hook
+			 * Also backwards compatibile
+			 * @action  lifterlms_{$object_type}_completed
+			 * @action  lifterlms_{$object_type}_incompleted
+			 */
+			do_action( 'lifterlms_' . $object_type . '_' . $status . 'd', $this->get_id(), $object_id );
+
+			// cascade up for parents
+			if ( $parent_ids && $parent_type ) {
+
+				foreach ( $parent_ids as $pid ) {
+
+					$this->update_completion_status( $status, $pid, $parent_type, $trigger );
+
+				}
+			}
+
+			/**
+			 * Generic after hook
+			 * @action  after_llms_mark_complete
+			 * @action  after_llms_mark_incomplete
+			 */
+			do_action( 'after_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
+
+		}// End if().
+
+		return $update;
+
+	}
 
 
 
