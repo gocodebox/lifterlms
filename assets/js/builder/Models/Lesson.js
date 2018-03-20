@@ -33,7 +33,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		defaults: function() {
 			return {
@@ -55,6 +55,9 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 				free_lesson: '',
 
 				// other fields
+				assignment: {}, // assignment model/data
+				assignment_enabled: 'no',
+
 				quiz: {}, // quiz model/data
 				quiz_enabled: 'no',
 
@@ -67,7 +70,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.4
+		 * @version  [version]
 		 */
 		initialize: function() {
 
@@ -78,6 +81,11 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 			var quiz = this.get( 'quiz' );
 			if ( ! _.isEmpty( quiz ) && ! quiz.get( 'lesson_id' ) ) {
 				quiz.set( 'lesson_id', this.get( 'id' ) );
+			}
+
+			var assignment = this.get( 'assignment' );
+			if ( ! _.isEmpty( assignment ) ) {
+				this.set( 'assignment', {} );
 			}
 
 		},
