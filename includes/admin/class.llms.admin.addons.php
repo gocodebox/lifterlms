@@ -11,12 +11,51 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Url Where addon JSON information is pulled from
 	 */
-	const DATA_URL = 'http://d34dpc7391qduo.cloudfront.net/addons/addons.json';
+	// const DATA_URL = 'http://d34dpc7391qduo.cloudfront.net/addons/addons.json';
 
 	/**
 	 * This URL is good for development since it wont be cached as hard
 	 */
-	// const DATA_URL = 'https://s3-us-west-2.amazonaws.com/lifterlms/addons/addons.json';
+	const DATA_URL = 'https://s3-us-west-2.amazonaws.com/lifterlms/addons/addons.json';
+
+	private function get_addon_status( $file ) {
+
+		if ( is_plugin_active( $file ) ) {
+			return 'active';
+		} elseif ( is_plugin_inactive( $file ) ) {
+			return 'inactive';
+		}
+
+		return 'none';
+
+	}
+
+	private function get_addon_status_l10n( $status ) {
+
+		$statuses = array(
+			'activate' => __( 'Activate', 'lifterlms' ),
+			'active' => __( 'Active', 'lifterlms' ),
+			'deactivate' => __( 'Deactivate', 'lifterlms' ),
+			'inactive' => __( 'Inactive', 'lifterlms' ),
+			'install' => __( 'Install', 'lifterlms' ),
+			'none' => __( 'Not Installed', 'lifterlms' ),
+		);
+
+		return $statuses[ $status ];
+
+	}
+
+	private function get_addon_status_action( $status ) {
+
+		$actions = array(
+			'active' => 'deactivate',
+			'inactive' => 'activate',
+			'none' => 'install',
+		);
+
+		return $actions[ $status ];
+
+	}
 
 	/**
 	 * Get the current section from the query string
@@ -69,6 +108,8 @@ class LLMS_Admin_AddOns {
 
 		$this->data = json_decode( $get['body'], true );
 
+		// var_dump( $this->data );
+
 	}
 
 	/**
@@ -101,12 +142,6 @@ class LLMS_Admin_AddOns {
 		return $name;
 	}
 
-	private function is_addon_installed() {
-
-		return false;
-
-	}
-
 	/**
 	 * Output HTML for the current screen
 	 * @return   void
@@ -135,10 +170,10 @@ class LLMS_Admin_AddOns {
 			<?php if ( 'browse' === $tab ) : ?>
 				<h1><?php _e( 'LifterLMS Add-Ons, Services, and Resources', 'lifterlms' ); ?></h1>
 				<?php $this->output_navigation(); ?>
-				<?php $this->output_content(); ?>
 			<?php else : ?>
 				<h1><?php _e( 'My Add-Ons', 'lifterlms' ); ?></h1>
 			<?php endif; ?>
+			<?php $this->output_content(); ?>
 		</div>
 		<?php
 	}
@@ -152,24 +187,37 @@ class LLMS_Admin_AddOns {
 	 */
 	private function output_addon( $addon ) {
 		$featured = $addon['featured'] ? ' featured' : '';
+		$status = false;
+		if ( isset( $addon['file'] ) ) {
+			$status = $this->get_addon_status( $addon['file'] );
+			$action = $this->get_addon_status_action( $status );
+		}
 		?>
 		<li class="llms-add-on-item<?php echo $featured; ?>">
-			<a href="<?php echo esc_url( $addon['url'] ); ?>" class="llms-add-on">
-				<header>
-					<img alt="<?php echo $addon['title']; ?> Banner" src="<?php echo esc_url( $addon['image'] ); ?>">
-					<h4><?php echo $addon['title']; ?></h4>
-				</header>
-				<section>
-					<p><?php echo $addon['description']; ?></p>
-				</section>
-				<footer>
-					<span><?php _e( 'Created by:', 'lifterlms' ); ?></span>
-					<span><?php echo $addon['developer']; ?></span>
-					<?php if ( $addon['developer_image'] ) : ?>
-						<img alt="<?php echo $addon['developer']; ?> logo" src="<?php echo esc_url( $addon['developer_image'] ); ?>">
-					<?php endif; ?>
-				</footer>
-			</a>
+			<div class="llms-add-on">
+				<a href="<?php echo esc_url( $addon['url'] ); ?>" class="llms-add-on-link">
+					<header>
+						<img alt="<?php echo $addon['title']; ?> Banner" src="<?php echo esc_url( $addon['image'] ); ?>">
+						<h4><?php echo $addon['title']; ?></h4>
+					</header>
+					<section>
+						<p><?php echo $addon['description']; ?></p>
+					</section>
+					<footer>
+						<span><?php _e( 'Created by:', 'lifterlms' ); ?></span>
+						<span><?php echo $addon['developer']; ?></span>
+						<?php if ( $addon['developer_image'] ) : ?>
+							<img alt="<?php echo $addon['developer']; ?> logo" src="<?php echo esc_url( $addon['developer_image'] ); ?>">
+						<?php endif; ?>
+					</footer>
+				</a>
+				<?php if ( $status ) : ?>
+					<footer class="llms-status">
+						<span><?php printf( __( 'Status: %s', 'lifterlms' ), $this->get_addon_status_l10n( $status ) ); ?></span>
+						<button class="llms-add-on-button" name="llms-add-on-<?php echo $action; ?>"><?php echo $this->get_addon_status_l10n( $action ); ?></button>
+					</footer>
+				<?php endif; ?>
+			</div>
 		</li>
 		<?php
 	}
