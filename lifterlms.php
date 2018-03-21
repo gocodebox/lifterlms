@@ -105,14 +105,11 @@ final class LifterLMS {
 	 * @param    string  $class  class name being called
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function autoload( $class ) {
 
 		$class = strtolower( $class );
-		// if ( false === strpos( $class, 'llms' ) ) {
-		// 	return;
-		// }
 
 		$path = null;
 		$fileize = str_replace( '_', '.', $class );
@@ -126,6 +123,9 @@ final class LifterLMS {
 			$path = $this->plugin_path() . '/includes/integrations/';
 		} elseif ( strpos( $class, 'llms_controller_' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/controllers/';
+		} elseif ( 0 === strpos( $class, 'llms_trait' ) ) {
+			$path = $this->plugin_path() . '/includes/traits/';
+			$file = $fileize . '.php';
 		} elseif ( 0 === strpos( $class, 'llms_abstract' ) ) {
 			$path = $this->plugin_path() . '/includes/abstracts/';
 			$file = $fileize . '.php';
