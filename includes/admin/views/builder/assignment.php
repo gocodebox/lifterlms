@@ -30,7 +30,7 @@
 
 	<# } else { #>
 
-		yassss
+		<?php do_action( 'llms_builder_assignment_settings' ); ?>
 
 	<# } #>
 
