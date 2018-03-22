@@ -499,6 +499,7 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.llms-settings-field,
 	.llms-editable-toggle-group {
 		background: #f4f4f4;
 		padding: 10px;
@@ -554,11 +555,38 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.llms-settings-group-header {
+		@include clearfix();
+		.llms-settings-group-title {
+			display: inline-block;
+			font-size: 16px;
+			margin: 0 5px 5px;
+			padding: 0;
+		}
+		.llms-settings-group-toggle {
+			float: right;
+			font-size: 18px;
+			padding: 2px;
+			position: relative;
+			top: 2px;
+			.fa-caret-square-o-up { display: block; }
+			.fa-caret-square-o-down { display: none; }
+			&.hidden {
+				.fa-caret-square-o-up { display: none; }
+				.fa-caret-square-o-down { display: block; }
+			}
+		}
+	}
+	.llms-settings-group-body {
+		&.hidden { display: none; }
+	}
+
 	.llms-settings-row {
 		display: flex;
 		flex-wrap: wrap;
 		margin: 2px 0;
 
+		.llms-settings-field,
 		.llms-editable-toggle-group {
 			flex: 1;
 			&:first-child {
@@ -1128,19 +1156,6 @@ body.admin_page_llms-course-builder {
 				margin-right: 10px;
 				width: 100px;
 			}
-		}
-	}
-
-	.llms-editor-tab.tab--lesson {
-		.llms-model-settings .drip-group {
-			display: flex;
-			.drip-method {
-				flex: 2;
-			}
-			.drip-availability {
-				flex: 1;
-			}
-
 		}
 	}
 
