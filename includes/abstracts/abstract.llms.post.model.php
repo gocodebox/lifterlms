@@ -541,6 +541,35 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
+	 * Get media embeds
+	 * @param    string     $type  embed type [video|audio]
+	 * @param    string     $prop  postmeta property name, defaults to {$type}_embed
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_embed( $type = 'video', $prop = '' ) {
+
+		$ret = '';
+
+		$prop = $prop ? $prop : $type . '_embed';
+		if ( isset( $prop ) ) {
+
+			$url = $this->get( $prop );
+			$ret = wp_oembed_get( $url );
+
+			if ( ! $ret ) {
+
+				$ret = do_shortcode( sprintf( '[%1$s src="%2$s"]', $type, $url ) );
+
+			}
+		}
+
+		return apply_filters( sprintf( 'llms_%1$s_get_%2$s', $this->model_post_type, $type ), $ret, $this, $type, $prop );
+
+	}
+
+	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
 	 * @param   string $key  property key

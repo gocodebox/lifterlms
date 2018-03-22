@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.16.12
+ * @version  [version]
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -23,7 +23,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
  */
-class LLMS_Lesson extends LLMS_Post_Model {
+class LLMS_Lesson
+extends LLMS_Post_Model
+implements LLMS_Interface_Post_Audio
+		 , LLMS_Interface_Post_Video
+	{
 
 	protected $properties = array(
 
@@ -58,28 +62,12 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Attempt to get oEmbed for an audio provider
 	 * Falls back to the [audio] shortcode if the oEmbed fails
-	 *
-	 * @return string
-	 * @since   1.0.0
-	 * @version 3.16.12
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function get_audio() {
-
-		$ret = '';
-
-		if ( isset( $this->audio_embed ) ) {
-
-			$ret = wp_oembed_get( $this->get( 'audio_embed' ) );
-
-			if ( ! $ret ) {
-
-				$ret = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
-
-			}
-		}
-
-		return apply_filters( 'llms_lesson_get_audio', $ret, $this );
-
+		return $this->get_embed( 'audio' );
 	}
 
 	/**
@@ -325,28 +313,12 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Attempt to get oEmbed for a video provider
 	 * Falls back to the [video] shortcode if the oEmbed fails
-	 *
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	public function get_video() {
-
-		$ret = '';
-
-		if ( isset( $this->video_embed ) ) {
-
-			$ret = wp_oembed_get( $this->get( 'video_embed' ) );
-
-			if ( ! $ret ) {
-
-				$ret = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
-
-			}
-		}
-
-		return apply_filters( 'llms_lesson_get_video', $ret, $this );
-
+		return $this->get_embed( 'video' );
 	}
 
 	/**
