@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.16.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -34,9 +34,6 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
-
-	use LLMS_Trait_Post_Model_Audios,
-		LLMS_Trait_Post_Model_Videos;
 
 	protected $properties = array(
 
@@ -112,6 +109,35 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Attempt to get oEmbed for an audio provider
+	 * Falls back to the [audio] shortcode if the oEmbed fails
+	 *
+	 * @return string
+	 * @since   1.0.0
+	 * @version 3.4.0
+	 */
+	public function get_audio() {
+
+		$embed = $this->get( 'audio_embed' );
+
+		// exit early if no embed found
+		if ( ! $embed ) {
+			return '';
+		}
+
+		$r = wp_oembed_get( $embed );
+
+		if ( ! $r ) {
+
+			$r = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
+
+		}
+
+		return apply_filters( 'llms_course_get_audio', $r, $this );
 
 	}
 
@@ -346,6 +372,34 @@ class LLMS_Course extends LLMS_Post_Model implements LLMS_Interface_Post_Instruc
 	 */
 	public function get_product() {
 		return new LLMS_Product( $this->get( 'id' ) );
+	}
+
+	/**
+	 * Attempt to get oEmbed for a video provider
+	 * Falls back to the [video] shortcode if the oEmbed fails
+	 *
+	 * @return string
+	 * @since   1.0.0
+	 * @version 3.4.0
+	 */
+	public function get_video() {
+
+		$embed = $this->get( 'video_embed' );
+
+		if ( ! $embed ) {
+			return '';
+		}
+
+		$r = wp_oembed_get( $embed );
+
+		if ( ! $r ) {
+
+			$r = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
+
+		}
+
+		return apply_filters( 'llms_course_get_video', $r, $this );
+
 	}
 
 	/**

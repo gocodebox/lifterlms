@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.16.12
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -24,9 +24,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $video_embed  (string)  Video embed URL
  */
 class LLMS_Lesson extends LLMS_Post_Model {
-
-	use LLMS_Trait_Post_Model_Audios,
-		LLMS_Trait_Post_Model_Videos;
 
 	protected $properties = array(
 
@@ -57,6 +54,33 @@ class LLMS_Lesson extends LLMS_Post_Model {
 
 	protected $db_post_type = 'lesson';
 	protected $model_post_type = 'lesson';
+
+	/**
+	 * Attempt to get oEmbed for an audio provider
+	 * Falls back to the [audio] shortcode if the oEmbed fails
+	 *
+	 * @return string
+	 * @since   1.0.0
+	 * @version 3.16.12
+	 */
+	public function get_audio() {
+
+		$ret = '';
+
+		if ( isset( $this->audio_embed ) ) {
+
+			$ret = wp_oembed_get( $this->get( 'audio_embed' ) );
+
+			if ( ! $ret ) {
+
+				$ret = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
+
+			}
+		}
+
+		return apply_filters( 'llms_lesson_get_audio', $ret, $this );
+
+	}
 
 	/**
 	 * Get the date a course became or will become available according to element drip settings
@@ -296,6 +320,33 @@ class LLMS_Lesson extends LLMS_Post_Model {
 			}
 		}
 		return false;
+	}
+
+	/**
+	 * Attempt to get oEmbed for a video provider
+	 * Falls back to the [video] shortcode if the oEmbed fails
+	 *
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  3.16.12
+	 */
+	public function get_video() {
+
+		$ret = '';
+
+		if ( isset( $this->video_embed ) ) {
+
+			$ret = wp_oembed_get( $this->get( 'video_embed' ) );
+
+			if ( ! $ret ) {
+
+				$ret = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
+
+			}
+		}
+
+		return apply_filters( 'llms_lesson_get_video', $ret, $this );
+
 	}
 
 	/**
