@@ -79,7 +79,7 @@
 			<# } #>
 		</li>
 
-		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'has_prerequsite' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No prerequsite', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Prerequsite Enabled', 'lifterlms' ); ?>">
+		<li class="llms-info-item tip--top-right<# if ( 'yes' === data.get( 'has_prerequisite' ) ) { print( ' active') } #>" data-tip="<?php esc_attr_e( 'No prerequsite', 'lifterlms' ); ?>" data-tip-active="<?php esc_attr_e( 'Prerequsite Enabled', 'lifterlms' ); ?>">
 			<i class="fa fa-link"></i>
 		</li>
 
