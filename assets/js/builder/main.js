@@ -9,6 +9,7 @@ require( [
 	'../vendor/backbone.trackit',
 	'Controllers/Construct',
 	'Controllers/Debug',
+	'Controllers/Schemas',
 	'Controllers/Sync',
 	'Models/loader',
 	'Views/Editors/wysiwyg',
@@ -20,6 +21,7 @@ require( [
 	TrackIt,
 	Construct,
 	Debug,
+	Schemas,
 	Sync,
 	Models,
 	WysiwygEditor,
@@ -29,6 +31,7 @@ require( [
 
 	window.llms_builder.debug = new Debug( window.llms_builder.debug );
 	window.llms_builder.construct = new Construct();
+	window.llms_builder.schemas = new Schemas( window.llms_builder.schemas );
 
 	/**
 	 * Underscores templating utilities
@@ -70,6 +73,7 @@ require( [
 			}
 			return '';
 		},
+
 	} );
 
 	// register custom backbone forms editor
