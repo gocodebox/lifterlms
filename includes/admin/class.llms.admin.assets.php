@@ -234,6 +234,7 @@ class LLMS_Admin_Assets {
 			wp_enqueue_editor();
 
 			wp_enqueue_style( 'llms-builder-styles', plugins_url( '/assets/css/builder' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ), array( 'llms-quill-bubble' ), LLMS()->version, 'screen' );
+			wp_style_add_data( 'llms-builder-styles', 'rtl', 'replace' );
 			wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
 			wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 
