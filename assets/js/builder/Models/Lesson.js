@@ -3,7 +3,7 @@
  * @since    3.13.0
  * @version  [version]
  */
-define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], function( Quiz, Relationships, Utilities ) {
+define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
 	return Backbone.Model.extend( _.defaults( {
 
@@ -30,6 +30,12 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		},
 
 		/**
+		 * Lesson Settings Schema
+		 * @type  {Object}
+		 */
+		schema: LessonSchema,
+
+		/**
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
@@ -51,6 +57,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 				// editable fields
 				content: '',
 				audio_embed: '',
+				has_prerequisite: 'no',
 				video_embed: '',
 				free_lesson: '',
 
@@ -74,18 +81,15 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 		 */
 		initialize: function() {
 
+			this.init_custom_schema();
 			this.startTracking();
+			this.maybe_init_assignments();
 			this.init_relationships();
 
 			// if the lesson ID isn't set on a quiz, set it
 			var quiz = this.get( 'quiz' );
 			if ( ! _.isEmpty( quiz ) && ! quiz.get( 'lesson_id' ) ) {
 				quiz.set( 'lesson_id', this.get( 'id' ) );
-			}
-
-			var assignment = this.get( 'assignment' );
-			if ( ! _.isEmpty( assignment ) ) {
-				this.set( 'assignment', {} );
 			}
 
 		},
@@ -131,6 +135,50 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 				return this.collection.parent;
 			}
 			return false;
+
+		},
+
+		/**
+		 * Retrieve an array of prerequisite options available for the current lesson
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_available_prereq_options: function() {
+
+			var parent_section_index = this.get_parent().collection.indexOf( this.get_parent() ),
+				lesson_index_in_section = this.collection.indexOf( this ),
+				options = [];
+
+			this.get_course().get( 'sections' ).each( function( section, curr_sec_index ) {
+				if ( curr_sec_index <= parent_section_index ) {
+					var group = {
+							/* translators: %1$d = section order number, %2$s = section title */
+							label: LLMS.l10n.replace( 'Section %1$d: %2$s', {
+								'%1$d': section.get( 'order' ),
+								'%2$s': section.get( 'title' )
+							} ),
+							options: [],
+						};
+
+					section.get( 'lessons' ).each( function( lesson, curr_les_index ) {
+						if ( curr_sec_index !== parent_section_index || curr_les_index < lesson_index_in_section ) {
+							/* translators: %1$d = lesson order number, %2$s = lesson title */
+							group.options.push( {
+								key: lesson.get( 'id' ),
+								val: LLMS.l10n.replace( 'Lesson %1$d: %2$s', {
+									'%1$d': lesson.get( 'order' ),
+									'%2$s': lesson.get( 'title' )
+								} ),
+							} );
+						}
+					}, this );
+
+					options.push( group );
+				}
+			}, this );
+
+			return options;
 
 		},
 
@@ -186,6 +234,30 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities' ], functio
 
 			// it's first lesson in first section
 			return true;
+
+		},
+
+		/**
+		 * Initialize lesson assignments *if* the assignments addon is availalbe and enabled
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		maybe_init_assignments: function() {
+
+			if ( ! window.llms_builder.assignments ) {
+				return;
+			}
+
+			this.relationships.children.assignment = {
+				class: 'Assignment',
+				conditional: function( model ) {
+					// if assignment is enabled OR not enabled but we have some assignment data as an obj
+					return ( 'yes' === model.get( 'assignment_enabled' ) || ! _.isEmpty( model.get( 'assignment' ) ) );
+				},
+				model: 'llms_assignment',
+				type: 'model',
+			};
 
 		},
 
