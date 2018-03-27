@@ -698,7 +698,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.13
+	 * @version  [version]
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
