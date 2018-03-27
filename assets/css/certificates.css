@@ -1,0 +1,77 @@
+body {
+  background-color: #fff;
+  background-image: none;
+  margin: 0 auto;
+}
+
+.header {
+  display: none;
+}
+
+#content {
+  background: none;
+}
+
+.entry {
+  top: 120px;
+  width: 100%;
+  margin-bottom: 40px !important;
+  background: none;
+}
+
+.hentry,
+.llms_certificate.hentry,
+.llms_my_certificate.hentry {
+  margin-bottom: 40px !important;
+  padding: 50px 90px !important;
+  background: none;
+  border: none;
+}
+
+.site-header,
+.site-footer {
+  display: none;
+}
+
+.nav-primary {
+  display: none;
+}
+
+.llms-certificate-container {
+  position: relative;
+  padding: 20px;
+  margin: auto;
+  margin-bottom: 20px;
+  -webkit-print-color-adjust: exact;
+  overflow: hidden;
+}
+
+.llms-certificate-container h1:first-child {
+  text-align: center;
+}
+
+#llms-print-certificate {
+  text-align: center;
+}
+
+.llms-certificate-container .certificate-background {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  right: 0;
+}
+.llms-certificate-container .llms_certificate,
+.llms-certificate-container .llms_my_certificate {
+  position: relative;
+  z-index: 2;
+}
+
+@media print {
+  @page {
+    size: landscape;
+  }
+  .no-print, .no-print * {
+    display: none !important;
+  }
+}
