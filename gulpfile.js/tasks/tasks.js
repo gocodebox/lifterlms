@@ -178,6 +178,30 @@ gulp.task( 'process-builder-styles', function () {
 
 });
 
+/**
+ * Compile SASS to CSS Stylesheets
+ */
+gulp.task( 'compile-stylesheets', function(){
+
+	return sass(
+			[
+				'_private/scss/lifterlms.scss',
+				'_private/scss/frontend/certificates.scss',
+				'_private/scss/admin*.scss',
+				'_private/scss/builder.scss'
+			],
+			{
+			cacheLocation: '_private/scss/.sass-cache',
+			style: 'expanded'
+		})
+		.pipe( autoprefixer( 'last 2 version' ) )
+		.pipe( gulp.dest( 'assets/css/' ) )
+		.pipe(notify({
+            title: 'CSS Compilation',
+            message: 'Successfully Compiled SASS to CSS'
+        }));
+});
+
 
 gulp.task( 'process-rtl-styles', function() {
 
