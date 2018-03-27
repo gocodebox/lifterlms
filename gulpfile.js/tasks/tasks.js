@@ -92,7 +92,7 @@ gulp.task('build', ['jscs', 'lint'], function() {
 /**
  * Rebuild task to do everything in one fell swoop
  */
-gulp.task('rebuild',['process-scripts','process-frontend-styles','process-frontend-certificates-styles','process-admin-styles','process-builder-styles','process-rtl-styles'],function(){});
+gulp.task('rebuild',['process-scripts','process-frontend-styles','process-frontend-certificates-styles','process-admin-styles','process-builder-styles'],function(){});
 
 /**
  * Compile front end SASS files
