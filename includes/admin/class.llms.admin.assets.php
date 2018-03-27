@@ -66,6 +66,7 @@ class LLMS_Admin_Assets {
 		}
 
 		wp_enqueue_style( 'llms-admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+		wp_style_add_data( 'llms-admin-styles', 'rtl', 'replace' );
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'llms-select2-styles', plugins_url( '/assets/select2/css/select2' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
