@@ -202,18 +202,21 @@ gulp.task( 'compile-stylesheets', function(){
         }));
 });
 
-
-gulp.task( 'process-rtl-styles', function() {
+/**
+ * Create RTL Stylesheets
+ */
+gulp.task( 'generate-rtl-stylesheets', function() {
 
 	return gulp.src( ['assets/css/*.css'] )
 		.pipe( rtlcss() )
 		.pipe( rename( { suffix: '-rtl' } ) )
 		.pipe( gulp.dest( 'assets/css/' ) )
 		.pipe( notify({
-			title: 'RTL Styles',
-            message: 'Successfully Built RTL Styles'
+			title: 'RTL Support',
+            message: 'Successfully Built RTL Stylesheets'
 		}));
 });
+
 
 /**
  * Minify JS files
