@@ -17,12 +17,8 @@
 
 		<div class="llms-action-icons">
 
-			<a class="llms-action-icon edit-lesson tip--top-right" data-tip="<?php esc_attr_e( 'Edit settings', 'lifterlms' ); ?>" href="#llms-lesson-settings">
-				<span class="fa fa-cog"></span>
-			</a>
-
 			<# if ( data.get_edit_post_link() ) { #>
-				<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'Open WordPress editor', 'lifterlms' ); ?>" href="{{{ data.get_edit_post_link() }}}" target="_blank">
+				<a class="llms-action-icon tip--top-right" data-tip="<?php esc_attr_e( 'Open WordPress lesson editor', 'lifterlms' ); ?>" href="{{{ data.get_edit_post_link() }}}" target="_blank">
 					<span class="fa fa-wordpress"></span>
 				</a>
 			<# } #>
