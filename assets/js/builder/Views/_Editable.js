@@ -456,13 +456,14 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		toggle_switch: function( event ) {
 
 			event.stopPropagation();
 			var $el = $( event.target ),
 				attr = $el.attr( 'name' ),
+				rerender = $el.attr( 'data-rerender' ),
 				val;
 
 			if ( $el.is( ':checked' ) ) {
@@ -489,7 +490,13 @@ define( [], function() {
 			}
 
 			this.trigger( attr.replace( '.', '-' ) + '_toggle', val );
-			this.render();
+
+			if ( ! rerender || 'yes' === rerender ) {
+				var self = this;
+				setTimeout( function() {
+					self.render();
+				}, 100 );
+			}
 
 		},
 
