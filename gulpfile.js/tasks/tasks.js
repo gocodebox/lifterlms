@@ -92,7 +92,16 @@ gulp.task('build', ['jscs', 'lint'], function() {
 /**
  * Rebuild task to do everything in one fell swoop
  */
-gulp.task('rebuild',['process-scripts','process-frontend-styles','process-frontend-certificates-styles','process-admin-styles','process-builder-styles'],function(){});
+gulp.task(
+	'rebuild',
+	[
+		'process-scripts',
+		'compile-stylesheets',
+		'generate-rtl-stylesheets',
+		'minify-stylesheets'
+	],
+	function(){}
+);
 
 /**
  * Compile front end SASS files
@@ -261,13 +270,11 @@ gulp.task( 'watch', function () {
 
 	gulp.watch( 'assets/js/builder/**/*.js', [ 'js:builder', 'pot:js' ] );
 	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts', 'pot:js' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-builder-styles' ] );
+	//gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
+	//gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
+	//gulp.watch( '_private/**/*.scss', [ 'process-builder-styles' ] );
 
 
 });
-
-
 
 gulp.task('default', ['rebuild']);
