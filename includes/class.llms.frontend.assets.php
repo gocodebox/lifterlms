@@ -115,6 +115,7 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_style( 'lifterlms-styles', plugins_url( '/assets/css/lifterlms' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+		wp_style_add_data( 'lifterlms-styles', 'rtl', 'replace' );
 
 		if ( 'llms_my_certificate' == $post_type || 'llms_certificate' == $post_type ) {
 			wp_enqueue_style( 'certificates', plugins_url( '/assets/css/certificates' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
