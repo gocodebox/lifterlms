@@ -4,24 +4,42 @@
  * @version  [version]
  */
 define( [
-		// 'Models/Assignment',
 		'Views/Popover',
 		'Views/PostSearch',
 		'Views/_Detachable',
 		'Views/_Editable',
-		// 'Views/_Subview',
-		'Views/_Trashable'
+		'Views/_Trashable',
+		'Views/_Subview',
+		'Views/SettingsFields'
 	], function(
-		// AssignmentModel,
 		Popover,
 		PostSearch,
 		Detachable,
 		Editable,
-		// Subview,
-		Trashable
+		Trashable,
+		Subview,
+		SettingsFields
 	) {
 
 	return Backbone.View.extend( _.defaults( {
+
+		/**
+		 * Current view state
+		 * @type  {String}
+		 */
+		state: 'default',
+
+		/**
+		 * Current Subviews
+		 * @type  {Object}
+		 */
+		views: {
+			settings: {
+				class: SettingsFields,
+				instance: null,
+				state: 'default',
+			},
+		},
 
 		el: '#llms-editor-assignment',
 
@@ -56,30 +74,31 @@ define( [
 
 			this.lesson = data.lesson;
 
-			// initialize the model if the quiz is enabled or it's disabled but we still have data for a quiz
-			// if ( 'yes' === this.lesson.get( 'quiz_enabled' ) || ! _.isEmpty( this.lesson.get( 'quiz' ) ) ) {
-			// 	this.model = this.lesson.get( 'quiz' );
+			// initialize the model if the assignment is enabled or it's disabled but we still have data for a assignment
+			if ( 'yes' === this.lesson.get( 'assignment_enabled' ) || ! _.isEmpty( this.lesson.get( 'assignment' ) ) ) {
+
+				this.model = this.lesson.get( 'assignment' );
 
 				/**
 				 * @todo  this is a terrilbe terrible patch
 				 *        I've spent nearly 3 days trying to figure out how to not use this line of code
 				 *        ISSUE REPRODUCTION:
 				 *        Open course builder
-				 *        Open a lesson (A) and add a quiz
+				 *        Open a lesson (A) and add a assignment
 				 *        Switch to a new lesson (B)
-				 *        Add a new quiz
-				 *        Return to lesson A and the quizzes parent will be set to LESSON B
-				 *        This will happen for *every* quiz in the builder...
-				 *        Adding this set_parent on init guarantees that the quizzes correct parent is set
-				 *        after adding new quizzes to other lessons
+				 *        Add a new assignment
+				 *        Return to lesson A and the assignment's parent will be set to LESSON B
+				 *        This will happen for *every* assignment in the builder...
+				 *        Adding this set_parent on init guarantees that the assignment's correct parent is set
+				 *        after adding new assignment's to other lessons
 				 *        it's awful and it's gross...
 				 *        I'm confused and tired and going to miss release dates again because of it
 				 */
-				// this.model.set_parent( this.lesson );
+				this.model.set_parent( this.lesson );
 
-				// this.on( 'model-trashed', this.on_trashed );
+			}
 
-			// }
+			this.on( 'model-trashed', this.on_trashed );
 
 		},
 
@@ -92,6 +111,20 @@ define( [
 		render: function() {
 
 			this.$el.html( this.template( this.model ) );
+
+			if ( this.model && this.is_addon_available() ) {
+
+				this.remove_subview( 'settings' );
+
+				this.render_subview( 'settings', {
+					el: '#llms-assignment-settings-fields',
+					model: this.model,
+				} );
+
+				this.init_datepickers();
+				this.init_selects();
+
+			}
 
 			return this;
 
@@ -129,46 +162,38 @@ define( [
 
 		},
 
-		// come back to this and make sure cloning resets all the IDs
+		/**
+		 * When an assignment is selected from the post select popover
+		 * instantiate it and add it to the current lesson
+		 * @param    object   event  data from the select2 select event
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		add_existing_assignment: function( event ) {
 
-			// this.post_search_popover.hide();
+			this.post_search_popover.hide();
 
-			// var quiz = event.data;
+			var assignment = event.data;
 
-			// if ( 'clone' === event.action ) {
+			if ( 'clone' === event.action ) {
 
-			// 	delete quiz.id;
+				delete assignment.id;
 
-			// 	_.each( quiz.questions, function( question ) {
+			} else {
 
-			// 		delete question.parent_id;
-			// 		delete question.id;
+				assignment._forceSync = true;
 
-			// 		if ( question.choices ) {
+			}
 
-			// 			_.each( question.choices, function( choice ) {
+			assignment.lesson_id = this.lesson.get( 'id' )
 
-			// 				delete choice.question_id;
-			// 				delete choice.id;
+			assignment = window.llms_builder.construct.get_model( 'Assignment', assignment );
 
-			// 			} );
+			this.lesson.set( 'assignment_enabled', 'yes' );
+			this.lesson.set( 'assignment', assignment );
+			this.model = assignment;
 
-			// 		}
-
-			// 	} );
-
-			// } else {
-
-			// 	quiz._forceSync = true;
-
-			// }
-
-			// delete quiz.lesson_id;
-
-			// this.lesson.add_quiz( quiz );
-			// this.model = this.lesson.get( 'quiz' );
-			// this.render();
+			this.render();
 
 		},
 
@@ -278,6 +303,6 @@ define( [
 
 		},
 
-	}, Detachable, Editable, Trashable ) );
+	}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
 
 } );
