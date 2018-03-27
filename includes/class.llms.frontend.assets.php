@@ -119,6 +119,7 @@ class LLMS_Frontend_Assets {
 
 		if ( 'llms_my_certificate' == $post_type || 'llms_certificate' == $post_type ) {
 			wp_enqueue_style( 'certificates', plugins_url( '/assets/css/certificates' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+			wp_style_add_data( 'certificates', 'rtl', 'replace' );
 		}
 
 		if ( is_llms_account_page() ) {
