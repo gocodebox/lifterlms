@@ -555,11 +555,26 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.llms-model-settings {
+		.llms-settings-group-header {
+			.fa-caret-square-o-up { display: block; }
+			.fa-caret-square-o-down { display: none; }
+		}
+		&.hidden {
+			.llms-settings-group-header {
+				.fa-caret-square-o-up { display: none; }
+				.fa-caret-square-o-down { display: block; }
+			}
+			.llms-settings-group-body { display: none; }
+		}
+	}
+
 	.llms-settings-group-header {
 		@include clearfix();
 		.llms-settings-group-title {
 			display: inline-block;
 			font-size: 16px;
+			font-weight: 300;
 			margin: 0 5px 5px;
 			padding: 0;
 		}
@@ -567,18 +582,7 @@ body.admin_page_llms-course-builder {
 			float: right;
 			font-size: 18px;
 			padding: 2px;
-			position: relative;
-			top: 2px;
-			.fa-caret-square-o-up { display: block; }
-			.fa-caret-square-o-down { display: none; }
-			&.hidden {
-				.fa-caret-square-o-up { display: none; }
-				.fa-caret-square-o-down { display: block; }
-			}
 		}
-	}
-	.llms-settings-group-body {
-		&.hidden { display: none; }
 	}
 
 	.llms-settings-row {
@@ -944,6 +948,7 @@ body.admin_page_llms-course-builder {
 			.llms-editor-tab {
 				display: none;
 				height: calc( 100% - 90px );
+				overflow: scroll;
 				position: relative;
 				z-index: 1;
 				&.active {
