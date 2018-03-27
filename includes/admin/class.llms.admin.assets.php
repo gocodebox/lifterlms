@@ -75,6 +75,7 @@ class LLMS_Admin_Assets {
 		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-settings' === $screen->id ) {
 			wp_register_style( 'llms-admin-add-ons', plugins_url( '/assets/css/admin-add-ons.min.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
 			wp_enqueue_style( 'llms-admin-add-ons' );
+			wp_style_add_data( 'llms-admin-add-ons', 'rtl', 'replace' );
 		}
 
 	}
