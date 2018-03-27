@@ -37,8 +37,8 @@ class LLMS_Course
 extends LLMS_Post_Model
 implements LLMS_Interface_Post_Audio
 		 , LLMS_Interface_Post_Instructors
-		 , LLMS_Interface_Post_Video
-	{
+		 , LLMS_Interface_Post_Video {
+
 
 	protected $properties = array(
 

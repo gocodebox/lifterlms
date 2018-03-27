@@ -661,7 +661,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 				foreach ( $fields as $field ) {
 
-					$keys = array( $field[ 'attribute' ] );
+					$keys = array( $field['attribute'] );
 					if ( isset( $field['switch_attribute'] ) ) {
 						$keys[] = $field['switch_attribute'];
 					}
@@ -680,15 +680,10 @@ if ( ! empty( $active_post_lock ) ) {
 							update_post_meta( $post_data['id'], $attr, $val );
 
 						}
-
 					}
-
 				}
-
 			}
-
 		}
-
 
 	}
 
@@ -779,7 +774,6 @@ if ( ! empty( $active_post_lock ) ) {
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
-
 			}// End if().
 
 			// allow 3rd parties to update custom data

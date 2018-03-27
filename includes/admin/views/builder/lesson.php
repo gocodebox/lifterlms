@@ -68,7 +68,7 @@
 
 			'settings' => array(
 				'action' => 'edit-lesson',
-				'active_condition' => "false",
+				'active_condition' => 'false',
 				'tip' => esc_attr__( 'Edit Lesson settings', 'lifterlms' ),
 				'tip_active' => '',
 				'icon' => '<i class="fa fa-cog"></i>',
