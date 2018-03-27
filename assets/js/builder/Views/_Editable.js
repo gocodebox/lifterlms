@@ -567,22 +567,37 @@ define( [], function() {
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		on_editor_ready: function( editor ) {
+
+			console.log( editor );
 
 			var self = this,
 				$ed = $( '#' + editor.id ),
 				$parent = $ed.closest( '.llms-editable-editor' ),
-				$label = $parent.find( '.llms-label' );
+				$label = $parent.find( '.llms-label' ),
+				prop = $ed.attr( 'data-attribute' )
 
 			if ( $label.length ) {
 				$label.prependTo( $parent.find( '.wp-editor-tools' ) );
 			}
 
-			// save changes to the model
+			// save changes to the model via Visual ed
 			editor.on( 'change', function( event ) {
-				self.model.set( $( '#' + editor.id ).attr( 'data-attribute' ), wp.editor.getContent( editor.id ) );
+				self.model.set( prop, wp.editor.getContent( editor.id ) );
+			} );
+
+			// save changes via Text ed
+			$ed.on( 'input', function( event ) {
+				self.model.set( prop, $ed.val() );
+			} );
+
+			// trigger an input on the Text ed when quicktags buttons are clicked
+			$parent.on( 'click', '.quicktags-toolbar .ed_button', function() {
+				setTimeout( function() {
+					$ed.trigger( 'input' );
+				}, 10 );
 			} );
 
 		},

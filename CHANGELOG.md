@@ -1,13 +1,34 @@
 LifterLMS Changelog
 ===================
 
-v3.16.17 - 2018-03-??
+v3.17.0 - 2018-03-27
 ---------------------
 
-+ Added PHP Requires plugin header (5.6 minimum)
-+ Fix issue causing lesson prerequisites to not properly display on the course builder
-+ Added HTTP User Agent data to the system report
+##### Builder Updates
+
++ Moved action buttons for each lesson (for opening quiz and lesson editor) to be static below the lesson title as opposed to only being visible on hover
++ Added new audio and video status indicator icons for each lesson
++ Various status indicator icons will now have different icons in addition to different colors depending on their state
++ Replaced "pencil" icons that open the WordPress post editor with a small "WP" icon
++ Added several actions and filters to backend functions so that 3rd parties can hook into builder saves
++ Added lesson settings editing to the builder. Lesson settings can now be updated from settings metaboxes on the lesson post edit screen AND on the builder.
++ Added prerequisite validation for lessons to prevent accidental impossible prerequisite creating (eg: Lesson 5 can never be a prerequisite for Lesson 4)
++ Added functions and filters to allow 3rd parties to add custom fields to the builder. For more details see [an example](https://lifterlms.com/docs/course-builder-custom-fields-for-developers/).
++ Fixed issue causing changes made in "Text" mode on content editors wouldn't trigger save events
++ Fixed issue causing lesson prerequisites to not properly display on the course builder
++ Fixed CSS z-index issues related to builder field tooltip displays
++ Removed unused Javascript dependencies
+
+##### Bug Fixes
+
 + Fixed typo on filter on quiz question image getter function
+
+##### Updates
+
++ Performance improvements made to database queries and functions related to student enrollment status and student course progress queries. Thanks to [@mte90](https://github.com/Mte90) for raising issues and testing solutions related to these updates and changes!
++ Added PHP Requires plugin header (5.6 minimum)
++ Added HTTP User Agent data to the system report
++ [LifterLMS Assignments Beta](https://lifterlms.com/product/lifterlms-assignments?utm_source=LifterLMS%20Plugin&utm_medium=CHANGELOG&utm_campaign=assignments%20preorder) is imminent and this release adds functionality to the Builder which will be extended by Assignments upon when availability
 
 
 v3.16.16 - 2018-03-19
