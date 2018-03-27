@@ -217,6 +217,21 @@ gulp.task( 'generate-rtl-stylesheets', function() {
 		}));
 });
 
+/**
+ * Create RTL Stylesheets
+ */
+gulp.task( 'minify-stylesheets', function() {
+
+	return gulp.src( ['assets/css/*.css'] )
+		.pipe( rename( { suffix: '.min' } ) )
+		.pipe( minifycss() )
+		.pipe( gulp.dest( 'assets/css/' ) )
+		.pipe( notify({
+			title: 'CSS Minify',
+            message: 'Successfully Minified Stylesheets'
+		}));
+});
+
 
 /**
  * Minify JS files
