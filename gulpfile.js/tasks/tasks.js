@@ -5,6 +5,7 @@ var gulp = require( 'gulp' ),
 	sass = require( 'gulp-ruby-sass' ),
 	autoprefixer = require( 'gulp-autoprefixer' ),
 	minifycss = require( 'gulp-minify-css' ),
+	rtlcss  = require('gulp-rtlcss'),
 	rename = require( 'gulp-rename' ),
 	include = require( 'gulp-include' ),
 	uglify = require( 'gulp-uglify' ),
@@ -175,6 +176,19 @@ gulp.task( 'process-builder-styles', function () {
             message: 'Successfully Built Admin Styles'
         }));
 
+});
+
+
+gulp.task( 'process-rtl-styles', function() {
+
+	return gulp.src( ['assets/css/*.css'] )
+		.pipe( rtlcss() )
+		.pipe( rename( { suffix: '-rtl' } ) )
+		.pipe( gulp.dest( 'assets/css/' ) )
+		.pipe( notify({
+			title: 'RTL Styles',
+            message: 'Successfully Built RTL Styles'
+		}));
 });
 
 /**
