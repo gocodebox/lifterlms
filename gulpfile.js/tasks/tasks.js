@@ -92,100 +92,7 @@ gulp.task('build', ['jscs', 'lint'], function() {
 /**
  * Rebuild task to do everything in one fell swoop
  */
-gulp.task(
-	'rebuild',
-	[
-		'process-scripts',
-		'compile-stylesheets',
-		'generate-rtl-stylesheets',
-		'minify-stylesheets'
-	],
-	function(){}
-);
-
-/**
- * Compile front end SASS files
- */
-gulp.task( 'process-frontend-styles', function () {
-
-	return sass( '_private/scss/lifterlms.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
-		})
-		.pipe( autoprefixer( 'last 2 version' ) )
-		.pipe( gulp.dest( 'assets/css/' ) )
-		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') )
-		.pipe(notify({
-            title: 'Front End Styles',
-            message: 'Successfully Built Front End Styles'
-        }));
-
-});
-
-/**
- * Compile certificates SASS files
- */
-gulp.task( 'process-frontend-certificates-styles', function () {
-
-	return sass( '_private/scss/frontend/certificates.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
-	})
-			.pipe( autoprefixer( 'last 2 version' ) )
-			.pipe( gulp.dest( 'assets/css/' ) )
-			.pipe( rename( { suffix: '.min' } ) )
-			.pipe( minifycss() )
-			.pipe( gulp.dest( 'assets/css/') )
-			.pipe(notify({
-				title: 'Front End Certificates Styles',
-				message: 'Successfully Built Front End Certificates Styles'
-			}));
-
-});
-
-/**
- * Compile admin SASS files
- */
-gulp.task( 'process-admin-styles', function () {
-
-	return sass( '_private/scss/admin*.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
-		})
-		.pipe( autoprefixer( 'last 2 version' ) )
-		.pipe( gulp.dest( 'assets/css/' ) )
-		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') )
-		.pipe(notify({
-            title: 'Admin Styles',
-            message: 'Successfully Built Admin Styles'
-        }));
-
-});
-
-/**
- * Compile builder SCSS file
- */
-gulp.task( 'process-builder-styles', function () {
-
-	return sass( '_private/scss/builder.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
-		})
-		.pipe( autoprefixer( 'last 2 version' ) )
-		.pipe( gulp.dest( 'assets/css/' ) )
-		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') )
-		.pipe(notify({
-            title: 'Admin Styles',
-            message: 'Successfully Built Admin Styles'
-        }));
-
-});
+gulp.task( 'rebuild', [ 'process-scripts', 'process-stylesheets' ] );
 
 /**
  * Compile SASS to CSS Stylesheets
@@ -214,9 +121,9 @@ gulp.task( 'compile-stylesheets', function(){
 /**
  * Create RTL Stylesheets
  */
-gulp.task( 'generate-rtl-stylesheets', function() {
+gulp.task( 'generate-rtl-stylesheets', ['compile-stylesheets'], function() {
 
-	return gulp.src( ['assets/css/*.css'] )
+	return gulp.src( ['assets/css/*.css', '!assets/css/*.min.css', '!assets/css/*-rtl.css' ] )
 		.pipe( rtlcss() )
 		.pipe( rename( { suffix: '-rtl' } ) )
 		.pipe( gulp.dest( 'assets/css/' ) )
@@ -227,11 +134,12 @@ gulp.task( 'generate-rtl-stylesheets', function() {
 });
 
 /**
- * Create RTL Stylesheets
+ * Process Stylesheets and Minify them
  */
-gulp.task( 'minify-stylesheets', function() {
 
-	return gulp.src( ['assets/css/*.css'] )
+gulp.task( 'process-stylesheets', ['generate-rtl-stylesheets'], function() {
+
+	return gulp.src( ['assets/css/*.css', '!assets/css/*.min.css',] )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( minifycss() )
 		.pipe( gulp.dest( 'assets/css/' ) )
@@ -270,10 +178,7 @@ gulp.task( 'watch', function () {
 
 	gulp.watch( 'assets/js/builder/**/*.js', [ 'js:builder', 'pot:js' ] );
 	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts', 'pot:js' ] );
-	//gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
-	//gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
-	//gulp.watch( '_private/**/*.scss', [ 'process-builder-styles' ] );
-
+	gulp.watch( '_private/**/*.scss', [ 'process-stylesheets' ] );
 
 });
 
