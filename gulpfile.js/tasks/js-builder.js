@@ -6,6 +6,7 @@
  */
 
 var   gulp              = require( 'gulp' )
+	, notify            = require( 'gulp-notify' )
 	, requirejsOptimize = require( 'gulp-requirejs-optimize' )
 	, rename            = require( 'gulp-rename' )
 	, sourcemaps        = require( 'gulp-sourcemaps' )
@@ -27,7 +28,11 @@ gulp.task( 'js:builder', function() {
 				include: [ 'main' ],
 				preserveLicenseComments: false
 			};
-		} ) )
+		} ).on( 'error', notify.onError( {
+			message: '<%= error.message %>',
+			sound: 'Frog',
+			title: 'js:builder error'
+		} ) ) )
 		.pipe( rename( 'llms-builder.min.js' ) )
 		.pipe( sourcemaps.write('/') )
 		.pipe( gulp.dest( 'assets/js/' ) );

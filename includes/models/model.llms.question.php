@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  3.16.15
+ * @version  [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -341,7 +341,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			}
 		}
 
-		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_video', $url, $this );
+		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_image', $url, $this );
 
 	}
 
@@ -382,7 +382,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Retrieve video embed for question featured video
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_video() {
 

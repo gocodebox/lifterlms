@@ -111,6 +111,7 @@
 		opacity: 1;
 		transition: all 0.2s 0.6s ease;
 		visibility: visible;
+		z-index: 99999999;
 	}
 
 }

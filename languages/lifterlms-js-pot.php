@@ -120,11 +120,13 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Lesson.js
 	 * @since    3.13.0
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 	'lessons' => esc_html__( 'lessons', 'lifterlms' ),
 	'lesson' => esc_html__( 'lesson', 'lifterlms' ),
+	'Section %1$d: %2$s' => esc_html__( 'Section %1$d: %2$s', 'lifterlms' ),
+	'Lesson %1$d: %2$s' => esc_html__( 'Lesson %1$d: %2$s', 'lifterlms' ),
 	'%1$s Quiz' => esc_html__( '%1$s Quiz', 'lifterlms' ),
 
 	/**
@@ -146,6 +148,26 @@ $strings = array(
 	'section' => esc_html__( 'section', 'lifterlms' ),
 
 	/**
+	 * file: assets/js/builder/Schemas/Lesson.js
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
+	'Video Embed URL' => esc_html__( 'Video Embed URL', 'lifterlms' ),
+	'Audio Embed URL' => esc_html__( 'Audio Embed URL', 'lifterlms' ),
+	'Free Lesson' => esc_html__( 'Free Lesson', 'lifterlms' ),
+	'Prerequisite' => esc_html__( 'Prerequisite', 'lifterlms' ),
+	'Drip Method' => esc_html__( 'Drip Method', 'lifterlms' ),
+	'None' => esc_html__( 'None', 'lifterlms' ),
+	'On a specific date' => esc_html__( 'On a specific date', 'lifterlms' ),
+	'# of days after course enrollment' => esc_html__( '# of days after course enrollment', 'lifterlms' ),
+	'# of days after course start date' => esc_html__( '# of days after course start date', 'lifterlms' ),
+	'# of days after prerequisite lesson completion' => esc_html__( '# of days after prerequisite lesson completion', 'lifterlms' ),
+	'# of days' => esc_html__( '# of days', 'lifterlms' ),
+	'Date' => esc_html__( 'Date', 'lifterlms' ),
+	'Time' => esc_html__( 'Time', 'lifterlms' ),
+
+	/**
 	 * file: assets/js/builder/Views/_Detachable.js
 	 * @since    3.16.12
 	 * @version  3.16.12
@@ -155,7 +177,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
@@ -168,6 +190,18 @@ $strings = array(
 	'Are you sure you want to move this %s to the trash?' => esc_html__( 'Are you sure you want to move this %s to the trash?', 'lifterlms' ),
 
 	/**
+	 * file: assets/js/builder/Views/Assignment.js
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	'%1$s Assignment' => esc_html__( '%1$s Assignment', 'lifterlms' ),
+	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
+	'Search for existing assignments...' => esc_html__( 'Search for existing assignments...', 'lifterlms' ),
+	'Get Your Students Taking Action' => esc_html__( 'Get Your Students Taking Action', 'lifterlms' ),
+	'Get Assignments Now!' => esc_html__( 'Get Assignments Now!', 'lifterlms' ),
+	'Unlock LifterLMS Assignments' => esc_html__( 'Unlock LifterLMS Assignments', 'lifterlms' ),
+
+	/**
 	 * file: assets/js/builder/Views/Elements.js
 	 * @since    3.16.0
 	 * @version  3.16.12
@@ -176,16 +210,9 @@ $strings = array(
 	'Search for existing lessons...' => esc_html__( 'Search for existing lessons...', 'lifterlms' ),
 
 	/**
-	 * file: assets/js/builder/Views/LessonEditor.js
-	 * @since    3.16.0
-	 * @version  3.16.0
-	 */
-	'Lesson editing coming soon...' => esc_html__( 'Lesson editing coming soon...', 'lifterlms' ),
-
-	/**
 	 * file: assets/js/builder/Views/PostSearch.js
 	 * @since    3.16.0
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	'Searching...' => esc_html__( 'Searching...', 'lifterlms' ),
 	'Attach' => esc_html__( 'Attach', 'lifterlms' ),
@@ -207,5 +234,14 @@ $strings = array(
 	'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
 	'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
 	'Add a Question' => esc_html__( 'Add a Question', 'lifterlms' ),
+
+	/**
+	 * file: assets/js/builder/Views/SettingsFields.js
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
+	'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),
+	'Use YouTube, Vimeo, or Wistia video URLS.' => esc_html__( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ),
 );
 return $strings;

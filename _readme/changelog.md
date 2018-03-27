@@ -1,6 +1,13 @@
 == Changelog ==
 
 
+v3.16.17 - 2018-03-??
+-------------------------
+
++ Fix issue causing lesson prerequisites to not properly display on the course builder
++ Added HTTP User Agent data to the system report
+
+
 = v3.16.16 - 2018-03-19 =
 -------------------------
 

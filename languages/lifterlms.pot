@@ -87,7 +87,7 @@ msgstr ""
 msgid "The title the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/quiz-header.php:11, includes/notifications/views/class.llms.notification.view.enrollment.php:72
+#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/lesson-settings.php:13, includes/admin/views/builder/quiz-header.php:11, includes/notifications/views/class.llms.notification.view.enrollment.php:72
 msgid "Title"
 msgstr ""
 
@@ -445,39 +445,39 @@ msgstr ""
 msgid "You cannot edit this course!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:479
+#: includes/admin/class.llms.admin.builder.php:481
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:531
+#: includes/admin/class.llms.admin.builder.php:533
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:573
+#: includes/admin/class.llms.admin.builder.php:575
 msgid "Error deleting %1$s \"%s\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:640, includes/admin/views/builder/elements.php:21, includes/class.llms.post-types.php:248, includes/models/model.llms.lesson.php:374, languages/lifterlms-js-pot.php:249
+#: includes/admin/class.llms.admin.builder.php:642, includes/admin/views/builder/elements.php:21, includes/class.llms.post-types.php:248, includes/models/model.llms.lesson.php:374, languages/lifterlms-js-pot.php:249
 msgid "New Lesson"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:660
+#: includes/admin/class.llms.admin.builder.php:662
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:741
+#: includes/admin/class.llms.admin.builder.php:743
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:768
+#: includes/admin/class.llms.admin.builder.php:770
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:823
+#: includes/admin/class.llms.admin.builder.php:825
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:896
+#: includes/admin/class.llms.admin.builder.php:898
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -817,7 +817,7 @@ msgstr ""
 msgid "Select a page&hellip;"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:629
+#: includes/admin/class.llms.admin.settings.php:629, includes/admin/views/builder/lesson-settings.php:128
 msgid "None"
 msgstr ""
 
@@ -1081,7 +1081,7 @@ msgstr ""
 msgid "Export CSV"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:44, includes/class.llms.generator.php:208, languages/lifterlms-js-pot.php:383
+#: includes/admin/post-types/class.llms.post.tables.php:44, includes/class.llms.generator.php:208, languages/lifterlms-js-pot.php:387
 msgid "Clone"
 msgstr ""
 
@@ -1634,7 +1634,7 @@ msgstr ""
 msgid "Lesson Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:44
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:44, includes/admin/views/builder/lesson-settings.php:129
 msgid "On a specific date"
 msgstr ""
 
@@ -1662,7 +1662,7 @@ msgstr ""
 msgid "Checking this box will allow guests to view the content of this lesson without registering or signing up for the course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:82, includes/admin/views/builder/lesson.php:74
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:82, includes/admin/views/builder/lesson-settings.php:81, includes/admin/views/builder/lesson.php:123
 msgid "Free Lesson"
 msgstr ""
 
@@ -1710,7 +1710,7 @@ msgstr ""
 msgid "Time Available"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:190, includes/admin/views/builder/editor.php:19, includes/class.llms.post-types.php:280
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:190, includes/admin/views/builder/editor.php:23, includes/class.llms.post-types.php:280
 msgid "Quiz"
 msgstr ""
 
@@ -2105,7 +2105,7 @@ msgstr ""
 msgid "Lesson Title"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/admin/reporting/tables/llms.table.quizzes.php:305, includes/class.llms.post-types.php:172
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/admin/reporting/tables/llms.table.quizzes.php:305, includes/admin/views/builder/editor.php:15, includes/class.llms.post-types.php:172
 msgid "Course"
 msgstr ""
 
@@ -2113,11 +2113,11 @@ msgstr ""
 msgid "Section"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:42
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:42, includes/admin/views/builder/lesson-settings.php:93
 msgid "Prerequisite"
 msgstr ""
 
-#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:44, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:38, languages/lifterlms-js-pot.php:121, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order-transactions.php:18
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:44, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:49, includes/admin/views/builder/lesson-settings.php:147, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:38, languages/lifterlms-js-pot.php:121, templates/admin/post-types/order-transactions.php:19, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order-transactions.php:18
 msgid "Date"
 msgstr ""
 
@@ -2208,7 +2208,7 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:376, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:246, includes/admin/reporting/tables/llms.table.quizzes.php:295, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, languages/lifterlms-js-pot.php:385, templates/admin/post-types/order-transactions.php:17
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:342, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:376, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:246, includes/admin/reporting/tables/llms.table.quizzes.php:295, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, languages/lifterlms-js-pot.php:389, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
@@ -2360,7 +2360,7 @@ msgstr ""
 msgid "Search quizzes..."
 msgstr ""
 
-#: includes/admin/reporting/tables/llms.table.quizzes.php:310, includes/admin/views/builder/editor.php:15, includes/class.llms.post-types.php:243
+#: includes/admin/reporting/tables/llms.table.quizzes.php:310, includes/admin/views/builder/editor.php:19, includes/class.llms.post-types.php:243
 msgid "Lesson"
 msgstr ""
 
@@ -3152,6 +3152,18 @@ msgstr ""
 msgid "Configure"
 msgstr ""
 
+#: includes/admin/views/builder/assignment.php:15
+msgid "There's no assignment associated with this lesson."
+msgstr ""
+
+#: includes/admin/views/builder/assignment.php:18
+msgid "Create New Assignment"
+msgstr ""
+
+#: includes/admin/views/builder/assignment.php:25, languages/lifterlms-js-pot.php:349
+msgid "Add Existing Assignment"
+msgstr ""
+
 #: includes/admin/views/builder/course.php:18
 msgid "WordPress editor"
 msgstr ""
@@ -3160,7 +3172,11 @@ msgstr ""
 msgid "View course"
 msgstr ""
 
-#: includes/admin/views/builder/editor.php:24
+#: includes/admin/views/builder/editor.php:27
+msgid "Assignment"
+msgstr ""
+
+#: includes/admin/views/builder/editor.php:32
 msgid "Close"
 msgstr ""
 
@@ -3172,76 +3188,156 @@ msgstr ""
 msgid "Existing Lesson"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:20
-msgid "Edit lesson"
+#: includes/admin/views/builder/lesson-settings.php:17, includes/admin/views/builder/quiz-header.php:19
+msgid "Published"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:24
-msgid "Edit quiz"
+#: includes/admin/views/builder/lesson-settings.php:25, includes/admin/views/builder/lesson-settings.php:27
+msgid "Open WordPress Editor"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:29
-msgid "Open WordPress editor"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:35
-msgid "View lesson"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:40, includes/admin/views/builder/section.php:33
-msgid "Shift up"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:44, includes/admin/views/builder/section.php:37
-msgid "Shift down"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:48
-msgid "Move to previous section"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:52
-msgid "Move to next section"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:57
+#: includes/admin/views/builder/lesson-settings.php:30, includes/admin/views/builder/lesson-settings.php:32, includes/admin/views/builder/lesson.php:53
 msgid "Detach Lesson"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:63
+#: includes/admin/views/builder/lesson-settings.php:36, includes/admin/views/builder/lesson-settings.php:38
+msgid "Delete Lesson"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:51, includes/admin/views/builder/quiz-header.php:55
+msgid "Permalink"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:63
+msgid "Video Embed URL"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:64, includes/admin/views/builder/question.php:112
+msgid "Use YouTube, Vimeo, or Wistia video URLS."
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:65, includes/admin/views/builder/lesson-settings.php:72, includes/admin/views/builder/question.php:113
+msgid "https://"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:70
+msgid "Audio Embed URL"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:71
+msgid "Use SoundCloud or Spotify audio URLS."
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:126
+msgid "Drip Method"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:130
+msgid "# of days after course enrollment"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:132
+msgid "# of days after course start date"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:135
+msgid "# of days after prerequisite lesson completion"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:142
+msgid "# of days"
+msgstr ""
+
+#: includes/admin/views/builder/lesson-settings.php:151
+msgid "Time"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:20
+msgid "Edit settings"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:25
+msgid "Open WordPress editor"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:31
+msgid "View lesson"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:36, includes/admin/views/builder/section.php:33
+msgid "Shift up"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:40, includes/admin/views/builder/section.php:37
+msgid "Shift down"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:44
+msgid "Move to previous section"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:48
+msgid "Move to next section"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:59
 msgid "Trash Lesson"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:74
-msgid "Enrolled students only"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:82, includes/admin/views/builder/lesson.php:86
-msgid "No prerequsite"
-msgstr ""
-
-#: includes/admin/views/builder/lesson.php:82
-msgid "Prerequsite Enabled"
+#: includes/admin/views/builder/lesson.php:77
+msgid "Edit Lesson settings"
 msgstr ""
 
 #: includes/admin/views/builder/lesson.php:86
-msgid "Drip Enabled"
+msgid "Add an assignment"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:90
-msgid "No quiz"
+#: includes/admin/views/builder/lesson.php:87
+msgid "Edit Assignment: %s"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:90
-msgid "Quiz: %s"
+#: includes/admin/views/builder/lesson.php:95
+msgid "Add a quiz"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:94
+#: includes/admin/views/builder/lesson.php:96
+msgid "Edit Quiz: %s"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:104
 msgid "No content"
 msgstr ""
 
-#: includes/admin/views/builder/lesson.php:94
+#: includes/admin/views/builder/lesson.php:105
 msgid "Has content"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:113
+msgid "No video"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:114
+msgid "Has video"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:122
+msgid "Enrolled students only"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:131
+msgid "No prerequsite"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:132
+msgid "Prerequsite Enabled"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:140
+msgid "Drip disabled"
+msgstr ""
+
+#: includes/admin/views/builder/lesson.php:141
+msgid "Drip Enabled"
 msgstr ""
 
 #: includes/admin/views/builder/question-choice.php:22
@@ -3296,14 +3392,6 @@ msgstr ""
 msgid "Video"
 msgstr ""
 
-#: includes/admin/views/builder/question.php:112
-msgid "Use YouTube, Vimeo, or Wistia video URLS."
-msgstr ""
-
-#: includes/admin/views/builder/question.php:113
-msgid "https://"
-msgstr ""
-
 #: includes/admin/views/builder/question.php:129
 msgid "Choices"
 msgstr ""
@@ -3322,10 +3410,6 @@ msgstr ""
 
 #: includes/admin/views/builder/quiz-header.php:15
 msgid "Total Points"
-msgstr ""
-
-#: includes/admin/views/builder/quiz-header.php:19
-msgid "Published"
 msgstr ""
 
 #: includes/admin/views/builder/quiz-header.php:27
@@ -3380,7 +3464,7 @@ msgstr ""
 msgid "Create New Quiz"
 msgstr ""
 
-#: includes/admin/views/builder/quiz.php:24, languages/lifterlms-js-pot.php:413
+#: includes/admin/views/builder/quiz.php:24, languages/lifterlms-js-pot.php:417
 msgid "Add Existing Quiz"
 msgstr ""
 
@@ -7534,17 +7618,17 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:631
+#: includes/models/model.llms.student.php:654
 msgctxt "course grade when no quizzes taken or in course"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:652
+#: includes/models/model.llms.student.php:675
 msgctxt "lesson grade when lesson has no quiz"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:769
+#: includes/models/model.llms.student.php:792
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -8264,35 +8348,39 @@ msgstr ""
 msgid "Are you sure you want to move this %s to the trash?"
 msgstr ""
 
-#: languages/lifterlms-js-pot.php:349
+#: languages/lifterlms-js-pot.php:351
+msgid "Search for existing assignments..."
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:353
+msgid "Get LifterLMS Assignments"
+msgstr ""
+
+#: languages/lifterlms-js-pot.php:367
 msgid "Add Existing Lesson"
 msgstr ""
 
-#: languages/lifterlms-js-pot.php:351
+#: languages/lifterlms-js-pot.php:369
 msgid "Search for existing lessons..."
 msgstr ""
 
-#: languages/lifterlms-js-pot.php:365
-msgid "Lesson editing coming soon..."
-msgstr ""
-
-#: languages/lifterlms-js-pot.php:379
+#: languages/lifterlms-js-pot.php:383
 msgid "Searching..."
 msgstr ""
 
-#: languages/lifterlms-js-pot.php:381
+#: languages/lifterlms-js-pot.php:385
 msgid "Attach"
 msgstr ""
 
-#: languages/lifterlms-js-pot.php:399
+#: languages/lifterlms-js-pot.php:403
 msgid "Are you sure you want to delete this question?"
 msgstr ""
 
-#: languages/lifterlms-js-pot.php:415
+#: languages/lifterlms-js-pot.php:419
 msgid "Search for existing quizzes..."
 msgstr ""
 
-#: languages/lifterlms-js-pot.php:417
+#: languages/lifterlms-js-pot.php:421
 msgid "Add a Question"
 msgstr ""
 

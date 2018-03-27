@@ -214,4 +214,4 @@ gulp.task( 'watch', function () {
 
 
 
-gulp.task('default', ['rebuild']);
+gulp.task( 'default', ['dist'] );
