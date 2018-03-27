@@ -578,6 +578,21 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   color: #888;
   text-transform: uppercase;
 }
+.wrap.lifterlms.llms-builder .llms-model-settings .llms-settings-group-header .fa-caret-square-o-up {
+  display: block;
+}
+.wrap.lifterlms.llms-builder .llms-model-settings .llms-settings-group-header .fa-caret-square-o-down {
+  display: none;
+}
+.wrap.lifterlms.llms-builder .llms-model-settings.hidden .llms-settings-group-header .fa-caret-square-o-up {
+  display: none;
+}
+.wrap.lifterlms.llms-builder .llms-model-settings.hidden .llms-settings-group-header .fa-caret-square-o-down {
+  display: block;
+}
+.wrap.lifterlms.llms-builder .llms-model-settings.hidden .llms-settings-group-body {
+  display: none;
+}
 .wrap.lifterlms.llms-builder .llms-settings-group-header:before, .wrap.lifterlms.llms-builder .llms-settings-group-header:after {
   content: " ";
   display: table;
@@ -588,6 +603,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-settings-group-header .llms-settings-group-title {
   display: inline-block;
   font-size: 16px;
+  font-weight: 300;
   margin: 0 5px 5px;
   padding: 0;
 }
@@ -595,23 +611,6 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   float: right;
   font-size: 18px;
   padding: 2px;
-  position: relative;
-  top: 2px;
-}
-.wrap.lifterlms.llms-builder .llms-settings-group-header .llms-settings-group-toggle .fa-caret-square-o-up {
-  display: block;
-}
-.wrap.lifterlms.llms-builder .llms-settings-group-header .llms-settings-group-toggle .fa-caret-square-o-down {
-  display: none;
-}
-.wrap.lifterlms.llms-builder .llms-settings-group-header .llms-settings-group-toggle.hidden .fa-caret-square-o-up {
-  display: none;
-}
-.wrap.lifterlms.llms-builder .llms-settings-group-header .llms-settings-group-toggle.hidden .fa-caret-square-o-down {
-  display: block;
-}
-.wrap.lifterlms.llms-builder .llms-settings-group-body.hidden {
-  display: none;
 }
 .wrap.lifterlms.llms-builder .llms-settings-row {
   display: -webkit-box;
@@ -905,6 +904,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab {
   display: none;
   height: calc( 100% - 90px );
+  overflow: scroll;
   position: relative;
   z-index: 1;
 }
