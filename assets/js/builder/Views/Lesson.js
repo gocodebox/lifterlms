@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  3.16.12
+ * @version  [version]
  */
 define( [
 		'Views/_Detachable',
