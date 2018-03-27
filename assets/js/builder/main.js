@@ -5,18 +5,15 @@
  */
 require( [
 	'../vendor/backbone.collectionView',
-	'../vendor/backbone-forms',
 	'../vendor/backbone.trackit',
 	'Controllers/Construct',
 	'Controllers/Debug',
 	'Controllers/Schemas',
 	'Controllers/Sync',
 	'Models/loader',
-	'Views/Editors/wysiwyg',
 	'Views/Course',
 	'Views/Sidebar'
 ], function(
-	Forms,
 	CV,
 	TrackIt,
 	Construct,
@@ -24,7 +21,6 @@ require( [
 	Schemas,
 	Sync,
 	Models,
-	WysiwygEditor,
 	CourseView,
 	SidebarView
 ) {
@@ -75,9 +71,6 @@ require( [
 		},
 
 	} );
-
-	// register custom backbone forms editor
-	Backbone.Form.editors.Wysiwyg = WysiwygEditor;
 
 	Backbone.pubSub = _.extend( {}, Backbone.Events );
 
