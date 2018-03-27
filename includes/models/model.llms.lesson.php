@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.0
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -64,7 +64,7 @@ implements LLMS_Interface_Post_Audio
 	 * Falls back to the [audio] shortcode if the oEmbed fails
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function get_audio() {
 		return $this->get_embed( 'audio' );
@@ -315,7 +315,7 @@ implements LLMS_Interface_Post_Audio
 	 * Falls back to the [video] shortcode if the oEmbed fails
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function get_video() {
 		return $this->get_embed( 'video' );

@@ -1,7 +1,7 @@
 /**
  * Single Assignment View
- * @since    [version]
- * @version  [version]
+ * @since    3.17.0
+ * @version  3.17.0
  */
 define( [
 		'Views/Popover',
@@ -67,8 +67,8 @@ define( [
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		initialize: function( data ) {
 
@@ -105,8 +105,8 @@ define( [
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		render: function() {
 
@@ -133,8 +133,8 @@ define( [
 		/**
 		 * Adds a new assignment to a lesson which currently has no assignment associated wlith it
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		add_new_assignment: function() {
 
@@ -166,8 +166,8 @@ define( [
 		 * When an assignment is selected from the post select popover
 		 * instantiate it and add it to the current lesson
 		 * @param    object   event  data from the select2 select event
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		add_existing_assignment: function( event ) {
 
@@ -201,8 +201,8 @@ define( [
 		 * Open add existing assignment popover
 		 * @param    obj   event  JS event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		add_existing_assignment_click: function( event ) {
 
@@ -245,8 +245,8 @@ define( [
 		/**
 		 * Determine if Assignments addon is available to use
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		is_addon_available: function() {
 
@@ -258,8 +258,8 @@ define( [
 		 * Called when assignment is trashed
 		 * @param    obj   assignment  Assignment model
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		on_trashed: function( assignment ) {
 
@@ -276,8 +276,8 @@ define( [
 		 * Shows a dirty dirty ad popoever for advanced assignments
 		 * @param    string   el  jQuery selector string
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		show_ad_popover: function( el ) {
 

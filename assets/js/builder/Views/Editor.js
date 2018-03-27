@@ -1,7 +1,7 @@
 /**
  * Sidebar Editor View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.0
  */
 define( [
 		'Views/LessonEditor',

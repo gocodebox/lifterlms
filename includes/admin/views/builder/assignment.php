@@ -2,8 +2,8 @@
 /**
  * Assignment template
  * Please give us your money <3
- * @since   [version]
- * @version [version]
+ * @since   3.17.0
+ * @version 3.17.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-assignment-template">

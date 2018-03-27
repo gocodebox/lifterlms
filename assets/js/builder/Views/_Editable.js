@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.0
  */
 define( [], function() {
 
@@ -142,8 +142,8 @@ define( [], function() {
 		/**
 		 * Initialize datepicker elements
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		init_datepickers: function() {
 
@@ -456,7 +456,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.0
 		 */
 		toggle_switch: function( event ) {
 
@@ -567,7 +567,7 @@ define( [], function() {
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.0
 		 */
 		on_editor_ready: function( editor ) {
 

@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.0
  */
 class LLMS_Data {
 
@@ -14,7 +14,7 @@ class LLMS_Data {
 	 * @param    string     $format   data return format (unused for unrecalled reasons)
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public static function get_data( $dataset, $format = 'array' ) {
 
@@ -76,8 +76,8 @@ class LLMS_Data {
 	/**
 	 * add browser and os info to the system report
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	private static function get_browser_data() {
 

@@ -8,7 +8,7 @@ define( [ 'Views/_Editable' ], function( Editable ) {
 		 * Events
 		 * @type     {Object}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.0
 		 */
 		events: _.defaults( {
 			'click a[href="#llms-model-settings"]': 'toggle_settings',

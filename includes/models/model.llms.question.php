@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Quiz Question
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.0
  *
  * @property  $question_type  (string)  type of question
  */
@@ -382,7 +382,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Retrieve video embed for question featured video
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function get_video() {
 

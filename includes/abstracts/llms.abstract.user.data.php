@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS User Data Abstract
  *
  * @since   3.9.0
- * @version [version]
+ * @version 3.17.0
  */
 abstract class LLMS_Abstract_User_Data {
 
@@ -90,8 +90,8 @@ abstract class LLMS_Abstract_User_Data {
 	 * Retrieve an item from the cache
 	 * @param    string     $key   cache key
 	 * @return   false|mixed       false on failure
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	protected function cache_get( $key ) {
 		return wp_cache_get( $key, $this->get_cache_group() );
@@ -101,8 +101,8 @@ abstract class LLMS_Abstract_User_Data {
 	 * Delete an item from the cache
 	 * @param    string     $key  cache key
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	protected function cache_delete( $key ) {
 		return wp_cache_delete( $key, $this->get_cache_group() );
@@ -113,8 +113,8 @@ abstract class LLMS_Abstract_User_Data {
 	 * @param    string    $key  cache key
 	 * @param    mixed     $val  value to cache
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	protected function cache_set( $key, $val ) {
 		return wp_cache_set( $key, $val, $this->get_cache_group() );
@@ -144,8 +144,8 @@ abstract class LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the group name used by cache functions
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	protected function get_cache_group() {
 		return sprintf( 'llms_user_%d', $this->get( 'id' ) );

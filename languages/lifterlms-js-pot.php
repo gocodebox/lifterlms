@@ -120,7 +120,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Lesson.js
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 	'lessons' => esc_html__( 'lessons', 'lifterlms' ),
@@ -149,8 +149,8 @@ $strings = array(
 
 	/**
 	 * file: assets/js/builder/Schemas/Lesson.js
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 	'Video Embed URL' => esc_html__( 'Video Embed URL', 'lifterlms' ),
@@ -177,7 +177,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
@@ -191,8 +191,8 @@ $strings = array(
 
 	/**
 	 * file: assets/js/builder/Views/Assignment.js
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	'%1$s Assignment' => esc_html__( '%1$s Assignment', 'lifterlms' ),
 	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
@@ -212,7 +212,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/PostSearch.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	'Searching...' => esc_html__( 'Searching...', 'lifterlms' ),
 	'Attach' => esc_html__( 'Attach', 'lifterlms' ),
@@ -237,8 +237,8 @@ $strings = array(
 
 	/**
 	 * file: assets/js/builder/Views/SettingsFields.js
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 	'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),

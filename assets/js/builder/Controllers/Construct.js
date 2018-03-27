@@ -1,7 +1,7 @@
 /**
  * Lessons Collection
  * @since    3.13.0
- * @version  [version]
+ * @version  3.17.0
  */
 define( [
 		'Collections/loader',
@@ -41,8 +41,8 @@ define( [
 		 * @param    array    data     Array of model objects to pass to the constructor
 		 * @param    obj      options  Object of options to pass to the constructor
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		this.get_collection = function( name, data, options ) {
 
@@ -56,8 +56,8 @@ define( [
 		 * @param    obj      data     Object of model attributes to pass to the constructor
 		 * @param    obj      options  Object of options to pass to the constructor
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		this.get_model = function( name, data, options ) {
 
@@ -70,8 +70,8 @@ define( [
 		 * @param    string   name   model name
 		 * @param    obj      props  properties to extend the abstract model with
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		this.register_model = function( name, props ) {
 			Models[ name ] = Models['Abstract'].extend( props );

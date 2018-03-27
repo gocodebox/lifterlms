@@ -1,7 +1,7 @@
 /**
  * Lesson Editor (Sidebar) View
- * @since    [version]
- * @version  [version]
+ * @since    3.17.0
+ * @version  3.17.0
  */
 define( [
 		'Views/_Detachable',
@@ -55,8 +55,8 @@ define( [
 		 * Init
 		 * @param    obj   data  parent template data
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		initialize: function( data ) {
 
@@ -84,8 +84,8 @@ define( [
 		/**
 		 * Render the view
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		render: function() {
 

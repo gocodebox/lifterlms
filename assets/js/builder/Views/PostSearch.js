@@ -1,7 +1,7 @@
 /**
  * Post Popover Serach content View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.0
  */
 define( [], function() {
 
@@ -41,7 +41,7 @@ define( [], function() {
 		 * Select event, adds the existing lesson to the course
 		 * @param    obj   event  select2:select event object
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.0
 		 */
 		add_post: function( event ) {
 

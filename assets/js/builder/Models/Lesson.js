@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  [version]
+ * @version  3.17.0
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -39,7 +39,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.17.0
 		 */
 		defaults: function() {
 			return {
@@ -77,7 +77,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.0
 		 */
 		initialize: function() {
 
@@ -123,8 +123,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Override default get_parent to grab from collection if models parent isn't set
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		get_parent: function() {
 
@@ -141,8 +141,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Retrieve an array of prerequisite options available for the current lesson
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		get_available_prereq_options: function() {
 
@@ -216,8 +216,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Determine if this is the first lesson
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		is_first_in_course: function() {
 
@@ -240,8 +240,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Initialize lesson assignments *if* the assignments addon is availalbe and enabled
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		maybe_init_assignments: function() {
 

@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.0
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -122,7 +122,7 @@ implements LLMS_Interface_Post_Audio
 	 * Falls back to the [audio] shortcode if the oEmbed fails
 	 * @return string
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.17.0
 	 */
 	public function get_audio() {
 		return $this->get_embed( 'audio' );
@@ -366,7 +366,7 @@ implements LLMS_Interface_Post_Audio
 	 * Falls back to the [video] shortcode if the oEmbed fails
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function get_video() {
 		return $this->get_embed( 'video' );

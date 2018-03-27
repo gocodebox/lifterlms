@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.0
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -545,8 +545,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string     $type  embed type [video|audio]
 	 * @param    string     $prop  postmeta property name, defaults to {$type}_embed
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	protected function get_embed( $type = 'video', $prop = '' ) {
 
@@ -879,7 +879,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function toArray() {
 

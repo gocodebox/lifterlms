@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.0
 */
 class LLMS_Admin_Assets {
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function admin_scripts() {
 

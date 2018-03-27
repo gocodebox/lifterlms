@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.0
  */
 require( [
 	'../vendor/backbone.collectionView',
@@ -31,8 +31,8 @@ require( [
 
 	/**
 	 * Underscores templating utilities
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	_.mixin( {
 
@@ -43,8 +43,8 @@ require( [
 		 * @param    mixed   expected  expected element value
 		 * @param    mixed   actual    actual element value
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		checked: function( expected, actual ) {
 			if ( expected == actual ) {
@@ -60,8 +60,8 @@ require( [
 		 * @param    mixed   expected  expected element value
 		 * @param    mixed   actual    actual element value
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		selected: function( expected, actual ) {
 			if ( expected == actual ) {

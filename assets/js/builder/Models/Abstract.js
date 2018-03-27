@@ -1,7 +1,7 @@
 /**
  * Abstract LifterLMS Model
- * @since    [version]
- * @version  [version]
+ * @since    3.17.0
+ * @version  3.17.0
  */
 define( [ 'Models/_Relationships', 'Models/_Utilities' ], function( Relationships, Utilities ) {
 

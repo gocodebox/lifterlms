@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  [version]
+ * @version  3.17.0
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -10,8 +10,8 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * Setup tests
 	 * Automatically called before each test
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	public function setUp() {
 		parent::setUp();

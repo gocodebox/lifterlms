@@ -1,7 +1,7 @@
 /**
  * Lessons Collection
  * @since    3.13.0
- * @version  [version]
+ * @version  3.17.0
  */
 define( [ 'Models/Lesson' ], function( model ) {
 
@@ -17,7 +17,7 @@ define( [ 'Models/Lesson' ], function( model ) {
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.0
 		 */
 		initialize: function() {
 
@@ -37,8 +37,8 @@ define( [ 'Models/Lesson' ], function( model ) {
 		 * Validate prerequisite (if set) and unset it if it's no longer a valid prereq
 		 *
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		on_reorder: function() {
 			this.update_order();
@@ -49,7 +49,7 @@ define( [ 'Models/Lesson' ], function( model ) {
 		 * Update lesson order attribute of all lessons when lessons are reordered
 		 * @return      void
 		 * @since       3.16.0
-		 * @version     [version]
+		 * @version     3.17.0
 		 */
 		update_order: function() {
 
@@ -63,8 +63,8 @@ define( [ 'Models/Lesson' ], function( model ) {
 		/**
 		 * Validate prerequisite (if set) and unset it if it's no longer a valid prereq
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		validate_prereqs: function() {
 

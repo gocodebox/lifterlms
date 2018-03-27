@@ -1,8 +1,8 @@
 <?php
 /**
  * Builder lesson settings template
- * @since   [version]
- * @version [version]
+ * @since   3.17.0
+ * @version 3.17.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-settings-template">

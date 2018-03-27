@@ -2,7 +2,7 @@
 /**
  * Builder sidebar model editor view
  * @since   3.16.0
- * @version [version]
+ * @version 3.17.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-editor-template">

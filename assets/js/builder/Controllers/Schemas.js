@@ -1,7 +1,7 @@
 /**
  * Model schema functions
- * @since    [version]
- * @version  [version]
+ * @since    3.17.0
+ * @version  3.17.0
  */
 define( [], function() {
 
@@ -9,8 +9,8 @@ define( [], function() {
 	 * Main Schemas class
 	 * @param    obj   schemas  schemas definitions initialized via PHP filters
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	return function( schemas ) {
 
@@ -29,8 +29,8 @@ define( [], function() {
 		 * @param    string   model_type  the model type ('lesson', 'quiz', etc)
 		 * @param    obj      model       Instance of the Backbone.Model for the given model
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		this.get = function( schema, model_type, model ) {
 

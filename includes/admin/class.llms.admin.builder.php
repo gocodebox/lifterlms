@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.17.0
  */
 class LLMS_Admin_Builder {
 
@@ -49,8 +49,8 @@ class LLMS_Admin_Builder {
 	/**
 	 * Retrieve custom field schemas
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	private static function get_custom_schemas() {
 		return apply_filters( 'llms_builder_register_custom_fields', array(
@@ -368,7 +368,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    string     $id  an ID string
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public static function is_temp_id( $id ) {
 
@@ -398,7 +398,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public static function output() {
 
@@ -484,7 +484,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	private static function process_detachments( $data ) {
 
@@ -539,7 +539,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of ids to trash/delete
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	private static function process_trash( $data ) {
 
@@ -638,8 +638,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj        $post       LLMS_Post_Model object for the model being updated
 	 * @param    array      $post_data  assoc array of raw data to update the model with
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	private static function update_custom_schemas( $type, $post, $post_data ) {
 
@@ -693,7 +693,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	private static function update_lessons( $lessons, $section ) {
 

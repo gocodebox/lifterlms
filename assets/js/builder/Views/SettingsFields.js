@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
- * @since    [version]
- * @version  [version]
+ * @since    3.17.0
+ * @version  3.17.0
  */
 define( [], function() {
 
@@ -30,8 +30,8 @@ define( [], function() {
 		/**
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		initialize: function() {
 
@@ -42,8 +42,8 @@ define( [], function() {
 		/**
 		 * Get settings group data from a model
 		 * @return   {[type]}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		get_groups: function() {
 
@@ -55,8 +55,8 @@ define( [], function() {
 		 * Determine if a settings group is hidden in localStorage
 		 * @param    string   group_id  id of the group
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		is_group_hidden: function( group_id ) {
 
@@ -74,8 +74,8 @@ define( [], function() {
 		 * Get the switch attribute for a field with switches
 		 * @param    obj   field  field data obj
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		get_switch_attribute: function( field ) {
 
@@ -87,8 +87,8 @@ define( [], function() {
 		 * Determine if a field has a switch
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		has_switch: function( type ) {
 			return ( -1 !== type.indexOf( 'switch' ) );
@@ -98,8 +98,8 @@ define( [], function() {
 		 * Determine if a field is a default (text) field
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		is_default_field: function( type ) {
 
@@ -112,8 +112,8 @@ define( [], function() {
 		 * Determine if a switch is enabled for a field
 		 * @param    obj   field  field data object
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		is_switch_condition_met: function( field ) {
 
@@ -124,8 +124,8 @@ define( [], function() {
 		/**
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		render: function() {
 
@@ -140,8 +140,8 @@ define( [], function() {
 		 * @param    obj      options    flat or multi-dimensional options object
 		 * @param    string   attribute  name of the select field's attribute
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		render_select_options: function( options, attribute ) {
 
@@ -181,8 +181,8 @@ define( [], function() {
 		 * @param    obj   orig_field   original field as defined in the settings
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -254,8 +254,8 @@ define( [], function() {
 		 * Determine if toggling a switch select should rerender the view
 		 * @param    string   field_type  field type string
 		 * @return   boolean
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		should_rerender_on_toggle: function( field_type ) {
 
@@ -268,8 +268,8 @@ define( [], function() {
 		 * If localStorage is available, persist state
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.0
+		 * @version  3.17.0
 		 */
 		toggle_group: function( event ) {
 
