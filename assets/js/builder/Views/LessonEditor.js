@@ -6,14 +6,36 @@
 define( [
 		'Views/_Detachable',
 		'Views/_Editable',
-		'Views/_Trashable'
+		'Views/_Trashable',
+		'Views/_Subview',
+		'Views/SettingsFields'
 	], function(
 		Detachable,
 		Editable,
-		Trashable
+		Trashable,
+		Subview,
+		SettingsFields
 	) {
 
 	return Backbone.View.extend( _.defaults( {
+
+		/**
+		 * Current view state
+		 * @type  {String}
+		 */
+		state: 'default',
+
+		/**
+		 * Current Subviews
+		 * @type  {Object}
+		 */
+		views: {
+			settings: {
+				class: SettingsFields,
+				instance: null,
+				state: 'default',
+			},
+		},
 
 		el: '#llms-editor-lesson',
 
@@ -49,6 +71,14 @@ define( [
 				this.listenTo( this.model, event, this.render );
 			}, this );
 
+			// when the "has_prerequisite" attr is toggled ON
+			// trigger the prereq select object to set the default (first available) prereq for the lesson
+			this.listenTo( this.model, 'change:has_prerequisite', function( lesson, val ) {
+				if ( 'yes' === val ) {
+					this.$el.find( 'select[name="prerequisite"]' ).trigger( 'change' );
+				}
+			} );
+
 		},
 
 		/**
@@ -61,6 +91,13 @@ define( [
 
 			this.$el.html( this.template( this.model ) );
 
+			this.remove_subview( 'settings' );
+
+			this.render_subview( 'settings', {
+				el: '#llms-lesson-settings-fields',
+				model: this.model,
+			} );
+
 			this.init_datepickers();
 			this.init_selects();
 
@@ -68,6 +105,6 @@ define( [
 
 		},
 
-	}, Detachable, Editable, Trashable ) );
+	}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
 
 } );
