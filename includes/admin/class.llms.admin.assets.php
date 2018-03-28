@@ -23,7 +23,7 @@ class LLMS_Admin_Assets {
 
 		$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
 
-		self::$min = ( $debug ) ? '' : 'min';
+		self::$min = ( $debug ) ? '' : '.min';
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
