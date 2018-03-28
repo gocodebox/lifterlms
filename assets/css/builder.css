@@ -907,22 +907,14 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   display: block;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz {
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-direction: column;
       flex-direction: column;
 }
-<<<<<<< HEAD
-.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.tab--quiz .llms-quiz-questions {
+.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions {
   -ms-flex: 1;
       flex: 1;
-=======
-.wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
->>>>>>> ca8c21dea1383232fc340846ab11df4bac313385
   overflow: scroll;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions .llms-quiz-questions {
