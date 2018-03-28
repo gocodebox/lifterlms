@@ -23,7 +23,7 @@ class LLMS_Admin_Assets {
 
 		$debug = ( defined( 'SCRIPT_DEBUG') ) ? SCRIPT_DEBUG : false;
 
-		self::$min = ( $debug ) ? 'min' : '';
+		self::$min = ( $debug ) ? '' : 'min';
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
@@ -249,7 +249,7 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.css', LLMS_PLUGIN_FILE ) );
 			wp_style_add_data( 'webui-popover', 'suffix', LLMS_Admin_Assets::$min );
-			
+
 			wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 
 			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
