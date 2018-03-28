@@ -21,6 +21,10 @@ class LLMS_Admin_Assets {
 	 */
 	public function __construct() {
 
+		$debug = ( defined( 'SCRIPT_DEBUG') ) ? SCRIPT_DEBUG : false;
+
+		self::$min = ( $debug ) ? 'min' : '';
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
