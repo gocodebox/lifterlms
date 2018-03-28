@@ -21,7 +21,7 @@ class LLMS_Admin_Assets {
 	 */
 	public function __construct() {
 
-		$debug = ( defined( 'SCRIPT_DEBUG') ) ? SCRIPT_DEBUG : false;
+		$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
 
 		self::$min = ( $debug ) ? '' : 'min';
 
