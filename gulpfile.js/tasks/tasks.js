@@ -139,7 +139,7 @@ gulp.task( 'generate-rtl-stylesheets', ['compile-stylesheets'], function() {
 
 gulp.task( 'process-stylesheets', ['generate-rtl-stylesheets'], function() {
 
-	return gulp.src( ['assets/css/*.css', '!assets/css/*.min.css',] )
+	return gulp.src( ['assets/css/*.css', '!assets/css/*.min.css'] )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( minifycss() )
 		.pipe( gulp.dest( 'assets/css/' ) )
