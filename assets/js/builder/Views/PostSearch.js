@@ -1,7 +1,7 @@
 /**
  * Post Popover Serach content View
  * @since    3.16.0
- * @version  3.16.12
+ * @version  3.17.0
  */
 define( [], function() {
 
@@ -41,20 +41,13 @@ define( [], function() {
 		 * Select event, adds the existing lesson to the course
 		 * @param    obj   event  select2:select event object
 		 * @since    3.16.0
-		 * @version  3.16.12
+		 * @version  3.17.0
 		 */
 		add_post: function( event ) {
 
-			var type = this.$el.attr( 'data-post-type' ),
-				trigger;
+			var type = this.$el.attr( 'data-post-type' );
 
-			if ( 'lesson' === type ) {
-				trigger = 'lesson-search-select';
-			} else if ( 'llms_quiz' === type ) {
-				trigger = 'quiz-search-select';
-			}
-
-			Backbone.pubSub.trigger( trigger, event.params.data, event );
+			Backbone.pubSub.trigger( type.replace( 'llms_', '' ) + '-search-select', event.params.data, event );
 			this.$el.val( null ).trigger( 'change' );
 
 		},

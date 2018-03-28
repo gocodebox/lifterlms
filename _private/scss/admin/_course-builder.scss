@@ -499,6 +499,7 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.llms-settings-field,
 	.llms-editable-toggle-group {
 		background: #f4f4f4;
 		padding: 10px;
@@ -554,11 +555,42 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.llms-model-settings {
+		.llms-settings-group-header {
+			.fa-caret-square-o-up { display: block; }
+			.fa-caret-square-o-down { display: none; }
+		}
+		&.hidden {
+			.llms-settings-group-header {
+				.fa-caret-square-o-up { display: none; }
+				.fa-caret-square-o-down { display: block; }
+			}
+			.llms-settings-group-body { display: none; }
+		}
+	}
+
+	.llms-settings-group-header {
+		@include clearfix();
+		.llms-settings-group-title {
+			display: inline-block;
+			font-size: 16px;
+			font-weight: 300;
+			margin: 0 5px 5px;
+			padding: 0;
+		}
+		.llms-settings-group-toggle {
+			float: right;
+			font-size: 18px;
+			padding: 2px;
+		}
+	}
+
 	.llms-settings-row {
 		display: flex;
 		flex-wrap: wrap;
 		margin: 2px 0;
 
+		.llms-settings-field,
 		.llms-editable-toggle-group {
 			flex: 1;
 			&:first-child {
@@ -642,8 +674,13 @@ body.admin_page_llms-course-builder {
 			margin: 0;
 			padding: 10px;
 			float: left;
-			&.active {
+			&.active,
+			&.active .llms-action-icon {
 				color: $color-brand-blue;
+			}
+			.llms-action-icon {
+				margin: -10px;
+				padding: 10px;
 			}
 		}
 
@@ -911,27 +948,28 @@ body.admin_page_llms-course-builder {
 			.llms-editor-tab {
 				display: none;
 				height: calc( 100% - 90px );
+				overflow: scroll;
 				position: relative;
 				z-index: 1;
 				&.active {
 					display: block;
-				}
 
-				&.tab--quiz {
+					&.tab--quiz {
 
-					display: flex;
-					flex-direction: column;
+						display: flex;
+						flex-direction: column;
 
-					.llms-quiz-questions {
-						flex: 1;
-						overflow: scroll;
-
-						// groups
 						.llms-quiz-questions {
-							overflow: visible;
-						}
-					}
+							flex: 1;
+							overflow: scroll;
 
+							// groups
+							.llms-quiz-questions {
+								overflow: visible;
+							}
+						}
+
+					}
 				}
 
 			}
@@ -1106,49 +1144,74 @@ body.admin_page_llms-course-builder {
 	 }
 
 
-	.llms-quiz-header {
+	.llms-model-header,
+	.llms-model-settings {
 		background: #fff;
-		border-bottom: 5px solid #e6e6e6;
 		padding: 10px;
 		@include clearfix();
+	}
 
-		.llms-quiz-title {
+	.llms-editor-tab.tab--quiz {
+		.llms-model-header {
+			.llms-model-title {
+				width: calc( 100% - 310px );
+			}
+			.llms-quiz-points {
+				float: left;
+				margin-right: 10px;
+				width: 100px;
+			}
+		}
+	}
+
+	.llms-model-header {
+		border-bottom: 5px solid #e6e6e6;
+
+		.llms-model-title {
 			float: left;
 			margin-right: 10px;
-			width: calc( 100% - 310px );
+			width: calc( 100% - 200px );
 			.llms-input {
 				width: calc( 100% - 65px );
 			}
 		}
-		.llms-quiz-points {
-			float: left;
-			margin-right: 10px;
-			width: 100px;
-		}
-		.llms-quiz-status.llms-switch {
+		.llms-model-status.llms-switch {
 			float: left;
 			margin-right: 10px;
 			position: relative;
+			text-align: right;
 			top: -2px;
 			width: 100px;
 		}
 		.llms-action-icons {
 			float: left;
 			position: relative;
+			text-align: right;
 			width: 80px;
 			z-index: 1;
-		}
-
-		.llms-quiz-settings {
-			clear: both;
-			display: none;
-
-			&.active {
-				display: block;
-				margin-top: 10px;
+			.fa {
+				max-width: 15px;
 			}
 		}
 
+		.llms-model-settings {
+			padding: 0;
+		}
+
+	}
+
+	.llms-model-header + .llms-model-settings.active {
+		margin-top: -10px;
+	}
+
+	.llms-model-settings {
+		clear: both;
+		display: none;
+
+		&.active {
+			display: block;
+			margin-top: 10px;
+		}
 	}
 
 	.llms-quiz-footer {

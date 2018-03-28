@@ -1,11 +1,11 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.16.7
+* @version  3.17.0
 */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Assets {
 
 	/**
@@ -94,7 +94,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.16.7
+	 * @version  3.17.0
 	 */
 	public function admin_scripts() {
 
@@ -251,6 +251,8 @@ class LLMS_Admin_Assets {
 			wp_style_add_data( 'webui-popover', 'suffix', LLMS_Admin_Assets::$min );
 
 			wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
+			wp_enqueue_style( 'llms-datetimepicker', plugins_url( 'assets/vendor/datetimepicker/jquery.datetimepicker.min.css', LLMS_PLUGIN_FILE ) );
+			wp_enqueue_script( 'llms-datetimepicker', plugins_url( 'assets/vendor/datetimepicker/jquery.datetimepicker.full.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 
 			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
 				wp_enqueue_script( 'heartbeat' );

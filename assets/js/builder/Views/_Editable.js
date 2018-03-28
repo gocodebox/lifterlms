@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.16.6
+ * @version  3.17.0
  */
 define( [], function() {
 
@@ -136,6 +136,29 @@ define( [], function() {
 			}
 
 			return true;
+
+		},
+
+		/**
+		 * Initialize datepicker elements
+		 * @return   void
+		 * @since    3.17.0
+		 * @version  3.17.0
+		 */
+		init_datepickers: function() {
+
+			this.$el.find( '.llms-editable-date input' ).each( function() {
+
+				$( this ).datetimepicker( {
+					format: $( this ).attr( 'data-date-format' ) || 'Y-m-d h:i A',
+					datepicker: ( undefined === $( this ).attr( 'data-date-datepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-datepicker' ) ),
+					timepicker: ( undefined === $( this ).attr( 'data-date-timepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-timepicker' ) ),
+					onClose: function( current_time, $input ) {
+						$input.blur();
+					}
+				} );
+
+			} );
 
 		},
 
@@ -423,6 +446,7 @@ define( [], function() {
 
 			var $el = $( event.target ),
 				val = this.get_content( $el );
+
 			this.model.set( $el.attr( 'data-attribute' ), val );
 
 		},
@@ -432,13 +456,14 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.0
 		 */
 		toggle_switch: function( event ) {
 
 			event.stopPropagation();
 			var $el = $( event.target ),
 				attr = $el.attr( 'name' ),
+				rerender = $el.attr( 'data-rerender' ),
 				val;
 
 			if ( $el.is( ':checked' ) ) {
@@ -465,7 +490,13 @@ define( [], function() {
 			}
 
 			this.trigger( attr.replace( '.', '-' ) + '_toggle', val );
-			this.render();
+
+			if ( ! rerender || 'yes' === rerender ) {
+				var self = this;
+				setTimeout( function() {
+					self.render();
+				}, 100 );
+			}
 
 		},
 
@@ -536,22 +567,37 @@ define( [], function() {
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.0
 		 */
 		on_editor_ready: function( editor ) {
+
+			console.log( editor );
 
 			var self = this,
 				$ed = $( '#' + editor.id ),
 				$parent = $ed.closest( '.llms-editable-editor' ),
-				$label = $parent.find( '.llms-label' );
+				$label = $parent.find( '.llms-label' ),
+				prop = $ed.attr( 'data-attribute' )
 
 			if ( $label.length ) {
 				$label.prependTo( $parent.find( '.wp-editor-tools' ) );
 			}
 
-			// save changes to the model
+			// save changes to the model via Visual ed
 			editor.on( 'change', function( event ) {
-				self.model.set( $( '#' + editor.id ).attr( 'data-attribute' ), wp.editor.getContent( editor.id ) );
+				self.model.set( prop, wp.editor.getContent( editor.id ) );
+			} );
+
+			// save changes via Text ed
+			$ed.on( 'input', function( event ) {
+				self.model.set( prop, $ed.val() );
+			} );
+
+			// trigger an input on the Text ed when quicktags buttons are clicked
+			$parent.on( 'click', '.quicktags-toolbar .ed_button', function() {
+				setTimeout( function() {
+					$ed.trigger( 'input' );
+				}, 10 );
 			} );
 
 		},

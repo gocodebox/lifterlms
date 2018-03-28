@@ -24,4 +24,6 @@ ratings:
 exclude_paths:
   - tests/*
   - includes/updates/*
-  - assets/
+  - templates/*
+  - includes/admin/views/*
+  - assets/*
