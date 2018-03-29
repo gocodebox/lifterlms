@@ -143,7 +143,7 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'chosen-jquery', LLMS_PLUGIN_URL . 'assets/chosen/chosen.jquery' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 		wp_enqueue_script( 'collapse', LLMS_PLUGIN_URL . 'assets/js/vendor/collapse.js' );
 		wp_enqueue_script( 'transition', LLMS_PLUGIN_URL . 'assets/js/vendor/transition.js' );
-		wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover.min.js', array( 'jquery' ), '', true );
+		wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 
 		wp_register_script( 'llms-jquery-matchheight', LLMS_PLUGIN_URL . 'assets/js/vendor/jquery.matchHeight.js', array( 'jquery' ), '', true );
 		if ( is_llms_account_page() || is_course() || is_membership() || is_lesson() || is_memberships() || is_courses() || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
