@@ -178,6 +178,16 @@ final class LifterLMS {
 			define( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 		}
 
+		if ( ! defined( 'LLMS_PLUGIN_URL' ) ) {
+			/**
+			 * URL to the plugin directory for assets, etc
+			 *
+			 * @since 
+			 */
+			define( 'LLMS_PLUGIN_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+		}
+
+
 	}
 
 	/**
