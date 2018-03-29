@@ -122,7 +122,7 @@ class LLMS_Admin_Assets {
 			wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . '/assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 			wp_enqueue_script( 'llms-admin-scripts' );
 
-			wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/flick/jquery-ui.css' );
+			wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/flick/jquery-ui' . LLMS_ASSETS_SUFFIX . '.css' );
 			wp_enqueue_style( 'jquery-ui' );
 
 			wp_register_script( 'llms',  LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
