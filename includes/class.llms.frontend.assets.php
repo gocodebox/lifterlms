@@ -9,8 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Frontend_Assets {
 
-	public static $min = '.min';
-
 	/**
 	 * Inline script ids that have been enqueued
 	 * @var  array

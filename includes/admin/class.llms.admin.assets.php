@@ -9,12 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Admin_Assets {
 
 	/**
-	 * allows injecting "min" in file name suffix.
-	 * @var string
-	 */
-	public static $min = '.min'; //'.min';
-
-	/**
 	 * Constructor
 	 * @since    1.0.0
 	 * @version  1.0.0
