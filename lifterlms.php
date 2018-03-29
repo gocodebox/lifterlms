@@ -182,9 +182,9 @@ final class LifterLMS {
 			/**
 			 * URL to the plugin directory for assets, etc
 			 *
-			 * @since 
+			 * @since
 			 */
-			define( 'LLMS_PLUGIN_URL', trailingslashit( plugin_dir_url( __FILE__ ) ) );
+			define( 'LLMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 		}
 
 
