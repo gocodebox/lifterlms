@@ -293,9 +293,8 @@ class LLMS_Admin_Assets {
 	 */
 	public static function register_quill() {
 
-		$min = ( ! defined( 'WP_DEBUG' ) || WP_DEBUG == false ) ? '.min' : '';
-		wp_register_script( 'llms-quill',  LLMS_PLUGIN_URL . '/assets/vendor/quill/quill' . $min . '.js', array(), '1.3.5', true );
-		wp_register_style( 'llms-quill-bubble', LLMS_PLUGIN_URL . '/assets/vendor/quill/quill.bubble' . $min . '.css', array(), '1.3.5', 'screen' );
+		wp_register_script( 'llms-quill',  LLMS_PLUGIN_URL . '/assets/vendor/quill/quill' . LLMS_ASSETS_SUFFIX . '.js', array(), '1.3.5', true );
+		wp_register_style( 'llms-quill-bubble', LLMS_PLUGIN_URL . '/assets/vendor/quill/quill.bubble' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.3.5', 'screen' );
 
 	}
 
