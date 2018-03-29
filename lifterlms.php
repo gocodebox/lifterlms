@@ -208,9 +208,6 @@ final class LifterLMS {
 			define( 'LLMS_ASSETS_SUFFIX', $min );
 		}
 
-
-
-
 	}
 
 	/**
