@@ -54,7 +54,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @version  3.0.0
 	 */
 	public function enqueue() {
-		wp_register_style( 'llms-admin-setup', plugins_url( '/assets/css/admin-setup' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
+		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_Admin_Assets::$min . '.css', array(), LLMS()->version, 'all' );
 		wp_enqueue_style( 'llms-admin-setup' );
 		wp_style_add_data( 'llms-admin-setup', 'rtl', 'replace' );
 		wp_style_add_data( 'llms-admin-setup', 'suffix', LLMS_Admin_Assets::$min );
