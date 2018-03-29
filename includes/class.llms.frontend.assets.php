@@ -34,11 +34,6 @@ class LLMS_Frontend_Assets {
 	 * @version  3.13.0
 	 */
 	public static function init() {
-
-		$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
-
-		self::$min = ( $debug ) ? '' : '.min';
-
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );
