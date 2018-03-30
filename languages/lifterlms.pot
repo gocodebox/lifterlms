@@ -373,7 +373,7 @@ msgstr ""
 msgid "Themes & Design"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:115
+#: includes/admin/class.llms.admin.addons.php:115, includes/admin/class.llms.admin.page.status.php:128
 msgid "Tools & Utilities"
 msgstr ""
 
@@ -601,7 +601,7 @@ msgstr ""
 msgid "You do not have permission to access this content."
 msgstr ""
 
-#: includes/admin/class.llms.admin.notices.core.php:67, includes/admin/class.llms.admin.notices.php:195, includes/class.llms.install.php:549, includes/class.llms.install.php:569
+#: includes/admin/class.llms.admin.notices.core.php:67, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184, includes/class.llms.install.php:549, includes/class.llms.install.php:569
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
@@ -627,6 +627,86 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.notices.php:252
 msgid "Remind me later"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:127
+msgid "System Report"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:129
+msgid "Logs"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:237
+msgid "View Log"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:241
+msgid "Viewing: %s"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:244
+msgid "Delete Log"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:252
+msgid "There are currently no logs to view."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:268
+msgid "Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:269
+msgid "Automatic Payments"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:270
+msgid "Reset Automatic Payments"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:274
+msgid "Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:275
+msgid "User Sessions"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:276
+msgid "Clear All Session Data"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:280
+msgid "If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:281, includes/admin/class.llms.admin.page.status.php:282
+msgid "Reset Tracking Settings"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:286
+msgid "Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:287
+msgid "Student Progress Cache"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:288
+msgid "Clear cache"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:292
+msgid "If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below."
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:293
+msgid "Setup Wizard"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:294
+msgid "Return to Setup Wizard"
 msgstr ""
 
 #: includes/admin/class.llms.admin.post-types.php:79
