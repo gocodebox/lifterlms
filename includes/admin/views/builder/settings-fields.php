@@ -2,7 +2,7 @@
 /**
  * Model Field Settings Template
  * @since   3.17.0
- * @version 3.17.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-settings-fields-template">
@@ -66,32 +66,38 @@
 							<select name="{{{ field.attribute }}}">{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
 						</div>
 
+					<# } else if ( data.is_editor_field( field.type ) ) { #>
+
+						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
+							<div class="llms-editable-editor{{{ field.classes }}}">
+								<textarea data-attribute="{{{ field.attribute }}}" id="{{{ field.id }}}">{{{ data.model.get( field.attribute ) }}}</textarea>
+							</div>
+						<# } #>
+
 					<# } else if ( data.is_default_field( field.type ) ) { #>
 
 						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
-
-						<div
-							class="llms-editable-input{{{ field.classes }}}"
-							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
-						>
-							<input
-								class="llms-input standard"
-								data-attribute="{{{ field.attribute }}}"
-								data-original-content="{{{ data.model.get( field.attribute ) }}}"
-								<# if ( 'datepicker' === field.type ) { #>
-									<# if ( field.datepicker ) { #> data-date-datepicker="{{{ field.datepicker }}}" <# } #>
-									<# if ( field.timepicker ) { #> data-date-timepicker="{{{ field.timepicker }}}" <# } #>
-									<# if ( field.date_format ) { #> data-date-format="{{{ field.date_format }}}" <# } #>
-								<# } #>
-								<# if ( field.min ) { #> min="{{{ field.min }}}" <# } #>
-								<# if ( field.max ) { #> max="{{{ field.max }}}" <# } #>
-								name="{{{ field.attribute }}}"
-								<# if ( field.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
-								type="{{{ field.input_type }}}"
-								value="{{{ data.model.get( field.attribute ) }}}"
+							<div
+								class="llms-editable-input{{{ field.classes }}}"
+								<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
 							>
-						</div>
-
+								<input
+									class="llms-input standard"
+									data-attribute="{{{ field.attribute }}}"
+									data-original-content="{{{ data.model.get( field.attribute ) }}}"
+									<# if ( 'datepicker' === field.type ) { #>
+										<# if ( field.datepicker ) { #> data-date-datepicker="{{{ field.datepicker }}}" <# } #>
+										<# if ( field.timepicker ) { #> data-date-timepicker="{{{ field.timepicker }}}" <# } #>
+										<# if ( field.date_format ) { #> data-date-format="{{{ field.date_format }}}" <# } #>
+									<# } #>
+									<# if ( field.min ) { #> min="{{{ field.min }}}" <# } #>
+									<# if ( field.max ) { #> max="{{{ field.max }}}" <# } #>
+									name="{{{ field.attribute }}}"
+									<# if ( field.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
+									type="{{{ field.input_type }}}"
+									value="{{{ data.model.get( field.attribute ) }}}"
+								>
+							</div>
 						<# } #>
 
 					<# } #>
