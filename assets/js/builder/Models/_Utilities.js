@@ -1,7 +1,7 @@
 /**
  * Utility functions for Models
  * @since    3.16.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( [], function() {
 
@@ -29,12 +29,12 @@ define( [], function() {
 		 * Retrieve schema fields defined for the model
 		 * @return   object
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		get_settings_fields: function() {
 
 			var schema = this.schema || {};
-			return window.llms_builder.schemas.get( schema, this.get( 'type' ), this );
+			return window.llms_builder.schemas.get( schema, this.get( 'type' ).replace( 'llms_', '' ), this );
 
 		},
 
