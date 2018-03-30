@@ -1,7 +1,7 @@
 /**
  * Single Assignment View
  * @since    3.17.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( [
 		'Views/Popover',
@@ -44,13 +44,18 @@ define( [
 		el: '#llms-editor-assignment',
 
 		/**
-		 * Events
-		 * @type  {Object}
+		 * DOM Events
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
 		 */
-		events: _.defaults( {
-			'click #llms-existing-assignment': 'add_existing_assignment_click',
-			'click #llms-new-assignment': 'add_new_assignment',
-		}, Detachable.events, Editable.events, Trashable.events ),
+		events: function() {
+			var addon_events = this.is_addon_available() ? window.llms_builder.assignments.get_view_events() : {};
+			return _.defaults( {
+				'click #llms-existing-assignment': 'add_existing_assignment_click',
+				'click #llms-new-assignment': 'add_new_assignment',
+			}, Detachable.events, Editable.events, Trashable.events, addon_events );
+		},
 
 		/**
 		 * Wrapper Tag name
@@ -68,7 +73,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		initialize: function( data ) {
 
@@ -96,6 +101,8 @@ define( [
 				 */
 				this.model.set_parent( this.lesson );
 
+				this.listenTo( this.model, 'change:assignment_type', this.render );
+
 			}
 
 			this.on( 'model-trashed', this.on_trashed );
@@ -121,8 +128,10 @@ define( [
 					model: this.model,
 				} );
 
-				this.init_datepickers();
+				// this.init_datepickers();
 				this.init_selects();
+
+				window.llms_builder.assignments.render_editor( this );
 
 			}
 
