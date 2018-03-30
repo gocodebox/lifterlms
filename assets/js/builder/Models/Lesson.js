@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -39,7 +39,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		defaults: function() {
 			return {
@@ -58,6 +58,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				content: '',
 				audio_embed: '',
 				has_prerequisite: 'no',
+				require_passing_grade: 'yes',
+				require_assignment_passing_grade: 'yes',
 				video_embed: '',
 				free_lesson: '',
 
