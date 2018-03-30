@@ -1,7 +1,7 @@
 /**
  * Constructor functions for constructing models, views, and collections
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.1
  */
 define( [
 		'Collections/loader',
@@ -72,8 +72,8 @@ define( [
 		 * @param    {obj}     view     base object used for the view
 		 * @param... {string}  extends  any number of strings that should be mixed into the view
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.1
+		 * @version  3.17.1
 		 */
 		this.extend_view = function() {
 
@@ -105,8 +105,8 @@ define( [
 		 * @param    string   name   model name
 		 * @param    obj      props  properties to extend the collection with
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.1
+		 * @version  3.17.1
 		 */
 		this.register_collection = function( name, props ) {
 

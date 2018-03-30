@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.1
  */
 define( [], function() {
 
@@ -343,7 +343,7 @@ define( [], function() {
 		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.1
 		 */
 		function process_removals( data ) {
 
@@ -512,7 +512,7 @@ define( [], function() {
 		 * Retrieve all unsaved changes for the builder instance
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.1
 		 */
 		this.get_unsaved_changes = function() {
 
@@ -611,7 +611,7 @@ define( [], function() {
 		/**
 		 * Listen for trashed models and send them to the server for deletion
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.1
 		 */
 		Backbone.pubSub.on( 'model-trashed', function( model ) {
 

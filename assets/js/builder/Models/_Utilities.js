@@ -1,7 +1,7 @@
 /**
  * Utility functions for Models
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.1
  */
 define( [], function() {
 
@@ -29,7 +29,7 @@ define( [], function() {
 		 * Retrieve schema fields defined for the model
 		 * @return   object
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.1
 		 */
 		get_settings_fields: function() {
 

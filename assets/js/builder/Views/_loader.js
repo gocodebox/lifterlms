@@ -1,8 +1,8 @@
 /**
  * Load view mixins
  * @return   obj
- * @since    [version]
- * @version  [version]
+ * @since    3.17.1
+ * @version  3.17.1
  */
 define( [
 		'Views/_Detachable',

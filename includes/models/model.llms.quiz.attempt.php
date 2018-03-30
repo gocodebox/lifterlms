@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version [version]
+ * @version 3.17.1
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -146,7 +146,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Run actions designating quiz completion
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.1
 	 */
 	public function do_completion_actions() {
 

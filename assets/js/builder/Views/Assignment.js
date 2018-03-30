@@ -1,7 +1,7 @@
 /**
  * Single Assignment View
  * @since    3.17.0
- * @version  [version]
+ * @version  3.17.1
  */
 define( [
 		'Views/Popover',
@@ -46,8 +46,8 @@ define( [
 		/**
 		 * DOM Events
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.1
+		 * @version  3.17.1
 		 */
 		events: function() {
 			var addon_events = this.is_addon_available() ? window.llms_builder.assignments.get_view_events() : {};
@@ -73,7 +73,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.1
 		 */
 		initialize: function( data ) {
 

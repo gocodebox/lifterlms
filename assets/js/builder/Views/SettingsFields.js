@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  [version]
+ * @version  3.17.1
  */
 define( [], function() {
 
@@ -45,8 +45,8 @@ define( [], function() {
 		/**
 		 * Retrieve an array of all editor fields in all groups
 		 * @return   array
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.1
+		 * @version  3.17.1
 		 */
 		get_editor_fields: function() {
 			return _.filter( this.fields, function( field ) {
@@ -127,8 +127,8 @@ define( [], function() {
 		 * Determine if a field is a WYSIWYG editor field
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.1
+		 * @version  3.17.1
 		 */
 		is_editor_field: function( type ) {
 
@@ -154,7 +154,7 @@ define( [], function() {
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.1
 		 */
 		render: function() {
 
@@ -173,8 +173,8 @@ define( [], function() {
 		 * Renders an editor field
 		 * @param    obj   field  field data object
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.1
+		 * @version  3.17.1
 		 */
 		render_editor: function( field ) {
 
@@ -261,7 +261,7 @@ define( [], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.1
 		 */
 		setup_field: function( orig_field, field_index ) {
 

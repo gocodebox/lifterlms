@@ -39,7 +39,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * @param    string     $passing_required whether passing grade is required to complete the associated lesson
 	 * @return   [type]                       [description]
 	 * @since    3.9.2
-	 * @version  [version]
+	 * @version  3.17.1
 	 */
 	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15, $attempt = null, $rand = 'no', $passing_required = 'no' ) {
 
@@ -282,7 +282,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * pass/fail/complete actions
 	 * @return   void
 	 * @since    3.9.2
-	 * @version  [version]
+	 * @version  3.17.1
 	 */
 	public function test_take_some_quizzes( ) {
 

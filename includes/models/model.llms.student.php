@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version [version]
+ * @version 3.17.1
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1395,7 +1395,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.3.1
-	 * @version  [version]
+	 * @version  3.17.1
 	 */
 	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
 

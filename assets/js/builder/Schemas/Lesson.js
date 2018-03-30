@@ -1,7 +1,7 @@
 /**
  * Model relationships mixin
  * @since    3.17.0
- * @version  [version]
+ * @version  3.17.1
  */
 define( [], function() {
 

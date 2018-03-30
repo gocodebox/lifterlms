@@ -74,8 +74,8 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 		/**
 		 * Retrieve the ID used when trashing the model
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.1
+		 * @version  3.17.1
 		 */
 		get_trash_id: function() {
 			return this.get( 'question_id' ) + ':' + this.get( 'id' );

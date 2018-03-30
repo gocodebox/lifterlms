@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Class used managing front end facing forms.
  *
  * @since   1.0.0
- * @version [version]
+ * @version 3.17.1
  */
 class LLMS_Frontend_Forms {
 

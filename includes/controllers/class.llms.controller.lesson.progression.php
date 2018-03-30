@@ -5,15 +5,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Lesson Progression Actions
- * @since    [version]
- * @version  [version]
+ * @since    3.17.1
+ * @version  3.17.1
  */
 class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function __construct() {
 
@@ -34,8 +34,8 @@ class LLMS_Controller_Lesson_Progression {
 	 * @param    string     $trigger    Optional trigger description string
 	 * @param    array      $args       Optional arguments
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function mark_complete( $user_id, $lesson_id, $trigger = '', $args = array() ) {
 
@@ -53,8 +53,8 @@ class LLMS_Controller_Lesson_Progression {
 	 * Marks lesson as complete and returns completion message to user
 	 * Autoadvances to next lesson if completion is succesful
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function handle_complete_form() {
 
@@ -98,8 +98,8 @@ class LLMS_Controller_Lesson_Progression {
 	 * Incomplete Lesson form post
 	 * Marks lesson as incomplete and returns incompletion message to user
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function handle_incomplete_form() {
 
@@ -136,8 +136,8 @@ class LLMS_Controller_Lesson_Progression {
 	 * @param    int     $quiz_id     WP Post ID of the quiz
 	 * @param    obj     $attempt     Instance of the LLMS_Quiz_Attempt
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function quiz_complete( $student_id, $quiz_id, $attempt ) {
 
@@ -156,8 +156,8 @@ class LLMS_Controller_Lesson_Progression {
 	 * @param    string   $trigger           text string to record the reason why the lesson is being completed
 	 * @param    array    $args              optional additional arguements from the triggering function
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function quiz_maybe_prevent_lesson_completion( $allow_completion, $user_id, $lesson_id, $trigger, $args ) {
 

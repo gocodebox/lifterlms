@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.17.1
  */
 class LLMS_Admin_Builder {
 
@@ -539,7 +539,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of ids to trash/delete
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.1
 	 */
 	private static function process_trash( $data ) {
 
@@ -645,7 +645,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array      $post_data  assoc array of raw data to update the model with
 	 * @return   void
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.17.1
 	 */
 	public static function update_custom_schemas( $type, $post, $post_data ) {
 

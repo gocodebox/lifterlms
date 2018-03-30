@@ -3,8 +3,8 @@
  * Tests for LifterLMS Lesson Progression Forms & Functios
  * @group    controllers
  * @group    lessons
- * @since    [version]
- * @version  [version]
+ * @since    3.17.1
+ * @version  3.17.1
  */
 class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 
@@ -17,8 +17,8 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 * Setup Post data to mock post and request data
 	 * @param    array      $vars  mock post data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	private function setup_post( $vars = array() ) {
 		putenv( 'REQUEST_METHOD=POST' );
@@ -29,8 +29,8 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	/**
 	 * Test the submission of the mark lesson complete form
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function test_handle_complete_form() {
 
@@ -77,8 +77,8 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	/**
 	 * Test the submission of the mark lesson incomplete form
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function test_handle_inccomplete_form() {
 
@@ -125,8 +125,8 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	/**
 	 * Test the Mark Complete function as triggered by the `llms_trigger_lesson_completion` action
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.1
+	 * @version  3.17.1
 	 */
 	public function test_mark_complete() {
 
