@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version 3.16.7
+ * @version [version]
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -146,7 +146,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Run actions designating quiz completion
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function do_completion_actions() {
 
@@ -176,10 +176,13 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 		$lesson = llms_get_post( $this->get( 'lesson_id' ) );
 		$passing_required = ( 'yes' === $lesson->get( 'require_passing_grade' ) );
 		if ( ! $passing_required || ( $passing_required && $passed ) ) {
-			// mark associated lesson complete only if it hasn't been completed before
-			if ( ! llms_is_complete( $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'lesson' ) ) {
-				llms_mark_complete( $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'lesson', 'quiz_' . $this->get( 'quiz_id' ) );
-			}
+
+			do_action( 'llms_trigger_lesson_completion', $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'quiz_' . $this->get( 'quiz_id' ), array(
+				'attempt' => $this,
+				'passing_required' => $passing_required,
+				'passed' => $passed,
+			) );
+
 		}
 
 	}
