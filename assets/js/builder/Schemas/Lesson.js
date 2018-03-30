@@ -1,7 +1,7 @@
 /**
  * Model relationships mixin
  * @since    3.17.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( [], function() {
 
@@ -35,7 +35,28 @@ define( [], function() {
 						attribute: 'free_lesson',
 						id: 'free-lesson',
 						label: LLMS.l10n.translate( 'Free Lesson' ),
+						tip: LLMS.l10n.translate( "Free lessons can be accessed without enrollment." ),
 						type: 'switch',
+					},
+					{
+						attribute: 'require_passing_grade',
+						id: 'require-passing-grade',
+						label: LLMS.l10n.translate( 'Require Passing Grade on Quiz' ),
+						tip: LLMS.l10n.translate( "When enabled, students must pass this lesson's quiz before the lesson can be completed." ),
+						type: 'switch',
+						condition: function() {
+							return ( 'yes' === this.get( 'quiz_enabled' ) );
+						},
+					},
+					{
+						attribute: 'require_assignment_passing_grade',
+						id: 'require-assignment-passing-grade',
+						label: LLMS.l10n.translate( 'Require Passing Grade on Assignment' ),
+						tip: LLMS.l10n.translate( "When enabled, students must pass this lesson's assignment before the lesson can be completed." ),
+						type: 'switch',
+						condition: function() {
+							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
+						},
 					},
 				], [
 					{
