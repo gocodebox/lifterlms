@@ -120,7 +120,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Lesson.js
 	 * @since    3.13.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 	'lessons' => esc_html__( 'lessons', 'lifterlms' ),
@@ -150,12 +150,14 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Schemas/Lesson.js
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 	'Video Embed URL' => esc_html__( 'Video Embed URL', 'lifterlms' ),
 	'Audio Embed URL' => esc_html__( 'Audio Embed URL', 'lifterlms' ),
 	'Free Lesson' => esc_html__( 'Free Lesson', 'lifterlms' ),
+	'Require Passing Grade on Quiz' => esc_html__( 'Require Passing Grade on Quiz', 'lifterlms' ),
+	'Require Passing Grade on Assignment' => esc_html__( 'Require Passing Grade on Assignment', 'lifterlms' ),
 	'Prerequisite' => esc_html__( 'Prerequisite', 'lifterlms' ),
 	'Drip Method' => esc_html__( 'Drip Method', 'lifterlms' ),
 	'None' => esc_html__( 'None', 'lifterlms' ),
@@ -177,7 +179,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
@@ -192,7 +194,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Assignment.js
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	'%1$s Assignment' => esc_html__( '%1$s Assignment', 'lifterlms' ),
 	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
@@ -238,7 +240,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/SettingsFields.js
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 	'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),
