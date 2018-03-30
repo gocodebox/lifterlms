@@ -88,9 +88,7 @@ class LLMS_Controller_Lesson_Progression {
 					exit;
 
 				}
-
 			}
-
 		}
 
 	}
@@ -178,8 +176,6 @@ class LLMS_Controller_Lesson_Progression {
 			if ( $passing_required && ! $args['attempt']->is_passing() ) {
 				$allow_completion = false;
 			}
-
-		// if the lesson has a quiz
 		} elseif ( $lesson->is_quiz_enabled() ) {
 
 			$quiz_id = $lesson->get( 'quiz' );
@@ -191,11 +187,10 @@ class LLMS_Controller_Lesson_Progression {
 			if ( ! $passing_required && ! $attempt ) {
 				$allow_completion = false;
 
-			// passing is required and there's no attempts or the best attempt is not passing
+				// passing is required and there's no attempts or the best attempt is not passing
 			} elseif ( $passing_required && ( ! $attempt || ! $attempt->is_passing() ) ) {
 				$allow_completion = false;
 			}
-
 		}
 
 		return $allow_completion;

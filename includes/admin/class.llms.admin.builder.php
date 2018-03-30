@@ -863,7 +863,6 @@ if ( ! empty( $active_post_lock ) ) {
 						array_push( $ret['choices'], $choice_res );
 
 					}
-
 				} elseif ( $questions ) {
 
 					$ret['questions'] = self::update_questions( $questions, $question );
