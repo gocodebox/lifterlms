@@ -172,19 +172,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		}
 
-		// mark lesson complete
-		$lesson = llms_get_post( $this->get( 'lesson_id' ) );
-		$passing_required = ( 'yes' === $lesson->get( 'require_passing_grade' ) );
-		if ( ! $passing_required || ( $passing_required && $passed ) ) {
-
-			do_action( 'llms_trigger_lesson_completion', $this->get( 'student_id' ), $this->get( 'lesson_id' ), 'quiz_' . $this->get( 'quiz_id' ), array(
-				'attempt' => $this,
-				'passing_required' => $passing_required,
-				'passed' => $passed,
-			) );
-
-		}
-
 	}
 
 	/**
