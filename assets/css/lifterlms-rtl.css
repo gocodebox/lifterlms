@@ -1784,6 +1784,9 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   margin-top: 10px;
   text-align: right;
 }
+.single-llms_quiz .llms-quiz-buttons form {
+  display: inline-block;
+}
 
 .llms-quiz-question-wrapper {
   min-height: 140px;
