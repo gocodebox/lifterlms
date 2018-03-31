@@ -1,6 +1,21 @@
 LifterLMS Changelog
 ===================
 
+v3.17.1 - 2018-03-30
+---------------------
+
++ Refactored lesson completion methods to allow 3rd party customization of lesson completion behavior via filters and hooks.
++ Remove duplicate lesson completion notice implemented. Only popover notifications will display now instead of popovers and inline messages.
++ Object completion will now automatically prevent multiple records of completion from being recorded for a single object.
++ Lesson Mark Complete button and lessons completed by quiz now utilizes a generic trigger to mark lessons as complete: `llms_trigger_lesson_completion`.
++ Removed several unused functions from frontend forms class
++ Moved lesson completion form controllers to their own class
+
+##### Templates updates
+
++ [quiz/templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/templates/course/complete-lesson-link.php)
+
+
 v3.17.0 - 2018-03-27
 ---------------------
 

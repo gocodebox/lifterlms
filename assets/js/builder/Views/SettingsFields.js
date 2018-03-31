@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  3.17.0
+ * @version  3.17.1
  */
 define( [], function() {
 
@@ -14,6 +14,13 @@ define( [], function() {
 		events: {
 			'click .llms-settings-group-toggle': 'toggle_group',
 		},
+
+		/**
+		 * Processed fields data
+		 * Allows access by ID without traversing the schema
+		 * @type  {Object}
+		 */
+		fields: {},
 
 		/**
 		 * Wrapper Tag name
@@ -33,10 +40,18 @@ define( [], function() {
 		 * @since    3.17.0
 		 * @version  3.17.0
 		 */
-		initialize: function() {
+		// initialize: function() {},
 
-			// this.render();
-
+		/**
+		 * Retrieve an array of all editor fields in all groups
+		 * @return   array
+		 * @since    3.17.1
+		 * @version  3.17.1
+		 */
+		get_editor_fields: function() {
+			return _.filter( this.fields, function( field ) {
+				return this.is_editor_field( field.type );
+			}, this );
 		},
 
 		/**
@@ -109,6 +124,20 @@ define( [], function() {
 		},
 
 		/**
+		 * Determine if a field is a WYSIWYG editor field
+		 * @param    string   type  field type string
+		 * @return   {Boolean}
+		 * @since    3.17.1
+		 * @version  3.17.1
+		 */
+		is_editor_field: function( type ) {
+
+			var types = [ 'editor', 'switch-editor' ];
+			return ( -1 !== types.indexOf( type.replace( 'switch-', '' ) ) );
+
+		},
+
+		/**
 		 * Determine if a switch is enabled for a field
 		 * @param    obj   field  field data object
 		 * @return   {Boolean}
@@ -125,13 +154,63 @@ define( [], function() {
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  3.17.1
 		 */
 		render: function() {
 
 			this.$el.html( this.template( this ) );
 
+			// if editors exist, render them
+			_.each( this.get_editor_fields(), function( field ) {
+				this.render_editor( field );
+			}, this );
+
 			return this;
+
+		},
+
+		/**
+		 * Renders an editor field
+		 * @param    obj   field  field data object
+		 * @return   void
+		 * @since    3.17.1
+		 * @version  3.17.1
+		 */
+		render_editor: function( field ) {
+
+			var self = this;
+
+			wp.editor.remove( field.id );
+			field.settings.tinymce.setup = function( editor ) {
+
+				var $ed = $( '#' + editor.id ),
+					$parent = $ed.closest( '.llms-editable-editor' ),
+					$label = $parent.find( '.llms-label' ),
+					prop = $ed.attr( 'data-attribute' )
+
+				if ( $label.length ) {
+					$label.prependTo( $parent.find( '.wp-editor-tools' ) );
+				}
+
+				// save changes to the model via Visual ed
+				editor.on( 'change', function( event ) {
+					self.model.set( prop, wp.editor.getContent( editor.id ) );
+				} );
+
+				// save changes via Text ed
+				$ed.on( 'input', function( event ) {
+					self.model.set( prop, $ed.val() );
+				} );
+
+				// trigger an input on the Text ed when quicktags buttons are clicked
+				$parent.on( 'click', '.quicktags-toolbar .ed_button', function() {
+					setTimeout( function() {
+						$ed.trigger( 'input' );
+					}, 10 );
+				} );
+			};
+
+			wp.editor.initialize( field.id, field.settings );
 
 		},
 
@@ -182,7 +261,7 @@ define( [], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  3.17.1
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -195,6 +274,7 @@ define( [], function() {
 				placeholder: '',
 				tip: '',
 				tip_position: 'top-right',
+				settings: {},
 			};
 
 			// check the field condition if set
@@ -213,6 +293,18 @@ define( [], function() {
 
 				case 'datepicker':
 					defaults.classes.push( 'llms-editable-date' );
+				break;
+
+				case 'editor':
+				case 'switch-editor':
+					var orig_settings = orig_field.settings || {};
+					defaults.settings = $.extend( true, wp.editor.getDefaultSettings(), {
+						mediaButtons: true,
+						tinymce: {
+							toolbar1: 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,wp_adv',
+							toolbar2: 'formatselect,underline,alignjustify,forecolor,pastetext,removeformat,charmap,outdent,indent,undo,redo,wp_help',
+						}
+					}, orig_settings );
 				break;
 
 				case 'number':
@@ -245,6 +337,8 @@ define( [], function() {
 			if ( 'function' === typeof field.options ) {
 				field.options = _.bind( field.options, this.model )();
 			}
+
+			this.fields[ field.id ] = field;
 
 			return field;
 

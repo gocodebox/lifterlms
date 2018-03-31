@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.17.0
+ * @version  3.17.1
  */
 class LLMS_Admin_Builder {
 
@@ -539,7 +539,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of ids to trash/delete
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.17.0
+	 * @version  3.17.1
 	 */
 	private static function process_trash( $data ) {
 
@@ -551,6 +551,12 @@ if ( ! empty( $active_post_lock ) ) {
 				'error' => sprintf( esc_html__( 'Unable to delete "%s". Invalid ID.', 'lifterlms' ), $id ),
 				'id' => $id,
 			);
+
+			$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
+			if ( $custom ) {
+				array_push( $ret, $custom );
+				continue;
+			}
 
 			if ( is_numeric( $id ) ) {
 
@@ -639,9 +645,9 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array      $post_data  assoc array of raw data to update the model with
 	 * @return   void
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  3.17.1
 	 */
-	private static function update_custom_schemas( $type, $post, $post_data ) {
+	public static function update_custom_schemas( $type, $post, $post_data ) {
 
 		$schemas = self::get_custom_schemas();
 		if ( empty( $schemas[ $type ] ) ) {
@@ -653,7 +659,7 @@ if ( ! empty( $active_post_lock ) ) {
 		foreach ( $groups as $name => $group ) {
 
 			// allow 3rd parties to manage their own custom save methods
-			if ( apply_filters( 'llms_builder_update_custom_fields_group_' . $name, false, $post, $post_data, $rows ) ) {
+			if ( apply_filters( 'llms_builder_update_custom_fields_group_' . $name, false, $post, $post_data, $groups ) ) {
 				continue;
 			}
 

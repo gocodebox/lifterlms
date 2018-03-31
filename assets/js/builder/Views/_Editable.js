@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.17.0
+ * @version  3.17.1
  */
 define( [], function() {
 
@@ -567,11 +567,9 @@ define( [], function() {
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.17.0
+		 * @version  3.17.1
 		 */
 		on_editor_ready: function( editor ) {
-
-			console.log( editor );
 
 			var self = this,
 				$ed = $( '#' + editor.id ),

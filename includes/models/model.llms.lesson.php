@@ -28,7 +28,6 @@ extends LLMS_Post_Model
 implements LLMS_Interface_Post_Audio
 		 , LLMS_Interface_Post_Video {
 
-
 	protected $properties = array(
 
 		'order' => 'absint',

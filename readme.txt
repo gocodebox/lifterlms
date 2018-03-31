@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 4.9.4
-Stable tag: 3.17.0
+Stable tag: 3.17.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -351,6 +351,21 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.17.1 - 2018-03-30 =
+-------------------------
+
++ Refactored lesson completion methods to allow 3rd party customization of lesson completion behavior via filters and hooks.
++ Remove duplicate lesson completion notice implemented. Only popover notifications will display now instead of popovers and inline messages.
++ Object completion will now automatically prevent multiple records of completion from being recorded for a single object.
++ Lesson Mark Complete button and lessons completed by quiz now utilizes a generic trigger to mark lessons as complete: `llms_trigger_lesson_completion`.
++ Removed several unused functions from frontend forms class
++ Moved lesson completion form controllers to their own class
+
+##### Templates updates
+
++ [quiz/templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/templates/course/complete-lesson-link.php)
+
+
 = v3.17.0 - 2018-03-27 =
 -------------------------
 
@@ -505,30 +520,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
   + Visual display on results displays with grey background not as an orange "pending" question
 + Table schema uses default database charset. Fixes an issue with databases that don't support `utf8mb4` charsets.
 + Updated `LLMS_Hasher` class for better compatibility with older versions of PHP
-
-
-= v3.16.8 - 2018-02-13 =
-------------------------
-
-##### Updates
-
-+ Added theme compatibility API so theme developers can add layout options to the quiz settings on the course builder. For details on adding theme compatibility see: [https://lifterlms.com/docs/quiz-theme-compatibility-developers/](https://lifterlms.com/docs/quiz-theme-compatibility-developers/).
-+ Quiz results "donut" chart had alternate styles for quizzes pending review (Dark grey text rather than red). You can target with the `.llms-donut.pending` CSS class to customize appearance.
-+ Allow filtering when retrieving student answer for a quiz attempt question via `llms_quiz_attempt_question_get_answer` filter
-
-##### Bug Fixes
-
-+ Fix issues causing conditionally gradeable question types (fill in the blank and scale) from displaying without a status icon or possible points when awaiting admin review / grading.
-+ Fix issue preventing conditionally gradeable question types (fill in the blank and scale) from being reviewable on the admin panel when the question is configured as requiring manual grading.
-+ Fix analytics widget undefined index warning during admin-ajax calls. Thanks [@Mte90](https://github.com/Mte90)!
-+ Fix issue causing `is_search()` to be called incorrectly. Thanks [@Mte90](https://github.com/Mte90)!
-+ Fix issue preventing text / html formatting from saving properly for access plan description fields
-+ Fix html character encoding issue on reporting widgets causing currency symbols to display as a charcter code instead of the symbol glyph.
-
-##### Templates changed
-
-+ templates/quiz/results-attempt-questions-list.php
-+ templates/quiz/results-attempt.php
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
