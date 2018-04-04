@@ -2,13 +2,13 @@
 /**
  * Builder quiz model header view
  * @since   3.16.0
- * @version 3.16.15
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-header-template">
 
 	<h3 class="llms-headline llms-model-title">
-		<?php _e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}">{{{ data.get( 'title' ) }}}</span>
+		<?php _e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
 	</h3>
 
 	<div class="llms-headline llms-quiz-points">

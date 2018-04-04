@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.17.1
+ * @version  [version]
  */
 define( [], function() {
 
@@ -90,7 +90,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   boolean
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  [version]
 		 */
 		is_valid: function( event ) {
 
@@ -99,7 +99,7 @@ define( [], function() {
 				content = this.get_content( $el ),
 				type = $el.attr( 'data-type' );
 
-			if ( content.length < 1 ) {
+			if ( ( $el.attr( 'required' ) || $el.attr( 'data-required' ) ) && content.length < 1 ) {
 				return false;
 			}
 

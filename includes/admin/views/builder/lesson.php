@@ -2,7 +2,7 @@
 /**
  * Builder lesson model view
  * @since   3.16.0
- * @version 3.17.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">
@@ -12,7 +12,7 @@
 	<header class="llms-builder-header">
 		<h3 class="llms-headline">
 			<?php echo get_post_type_object( 'lesson' )->labels->singular_name; ?> {{{ data.get( 'order' ) }}}:
-			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" type="text">{{{ data.get( 'title' ) }}}</span>
+			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
 		</h3>
 
 		<div class="llms-action-icons">

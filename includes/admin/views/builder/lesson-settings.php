@@ -2,7 +2,7 @@
 /**
  * Builder lesson settings template
  * @since   3.17.0
- * @version 3.17.0
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-settings-template">
@@ -10,7 +10,7 @@
 	<header class="llms-model-header" id="llms-lesson-header">
 
 		<h3 class="llms-headline llms-model-title">
-			<?php _e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}">{{{ data.get( 'title' ) }}}</span>
+			<?php _e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
 		</h3>
 
 		<label class="llms-switch llms-model-status">

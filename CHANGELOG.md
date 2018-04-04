@@ -1,8 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v3.17.1 - 2018-04-??
+--------------------
+
++ Fixed issue preventing lesson video and audio embeds from being *removed* when using the course builder settings editor
+
+
+
 v3.17.1 - 2018-03-30
----------------------
+--------------------
 
 + Refactored lesson completion methods to allow 3rd party customization of lesson completion behavior via filters and hooks.
 + Remove duplicate lesson completion notice implemented. Only popover notifications will display now instead of popovers and inline messages.
@@ -17,7 +24,7 @@ v3.17.1 - 2018-03-30
 
 
 v3.17.0 - 2018-03-27
----------------------
+--------------------
 
 ##### Builder Updates
 
