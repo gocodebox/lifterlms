@@ -5,7 +5,7 @@ v3.17.1 - 2018-04-??
 --------------------
 
 + Fixed issue preventing lesson video and audio embeds from being *removed* when using the course builder settings editor
-
++ Updated student management table for courses and memberships to show the name (and a link to the user profile) of the site user who manually enrolled the student.
 
 
 v3.17.1 - 2018-03-30
