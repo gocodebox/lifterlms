@@ -1,7 +1,7 @@
 /**
  * Single Assignment View
  * @since    3.17.0
- * @version  3.17.1
+ * @version  [version]
  */
 define( [
 		'Views/Popover',
@@ -73,7 +73,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.1
+		 * @version  [version]
 		 */
 		initialize: function( data ) {
 
@@ -101,8 +101,6 @@ define( [
 				 */
 				this.model.set_parent( this.lesson );
 
-				this.listenTo( this.model, 'change:assignment_type', this.render );
-
 			}
 
 			this.on( 'model-trashed', this.on_trashed );
@@ -113,13 +111,15 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		render: function() {
 
 			this.$el.html( this.template( this.model ) );
 
 			if ( this.model && this.is_addon_available() ) {
+
+				this.stopListening( this.model, 'change:assignment_type', this.render );
 
 				this.remove_subview( 'settings' );
 
@@ -132,6 +132,8 @@ define( [
 				this.init_selects();
 
 				window.llms_builder.assignments.render_editor( this );
+
+				this.listenTo( this.model, 'change:assignment_type', this.render );
 
 			}
 
