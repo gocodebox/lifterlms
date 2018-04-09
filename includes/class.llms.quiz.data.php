@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Query data about a quiz
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.2
  */
 class LLMS_Quiz_Data extends LLMS_Course_Data {
 

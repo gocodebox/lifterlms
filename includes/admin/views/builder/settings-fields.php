@@ -2,7 +2,7 @@
 /**
  * Model Field Settings Template
  * @since   3.17.0
- * @version [version]
+ * @version 3.17.2
  */
 ?>
 <script type="text/html" id="tmpl-llms-settings-fields-template">

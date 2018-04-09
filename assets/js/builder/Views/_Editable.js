@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.2
  */
 define( [], function() {
 
@@ -90,7 +90,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   boolean
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.2
 		 */
 		is_valid: function( event ) {
 

@@ -584,7 +584,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    int  $product_id  WP Post ID of the course or membership
 	 * @return   int|false
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	public function get_enrollment_trigger_id( $product_id ) {
 

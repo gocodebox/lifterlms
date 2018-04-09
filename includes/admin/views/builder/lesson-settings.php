@@ -2,7 +2,7 @@
 /**
  * Builder lesson settings template
  * @since   3.17.0
- * @version [version]
+ * @version 3.17.2
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-settings-template">

@@ -3,7 +3,7 @@
  * Student Management table on Courses and Memberships
  *
  * @since   3.4.0
- * @version [version]
+ * @version 3.17.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -73,7 +73,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.4.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	public function get_data( $key, $student ) {
 

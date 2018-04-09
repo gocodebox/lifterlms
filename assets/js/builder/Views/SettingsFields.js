@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  [version]
+ * @version  3.17.2
  */
 define( [], function() {
 
@@ -220,7 +220,7 @@ define( [], function() {
 		 * @param    string   attribute  name of the select field's attribute
 		 * @return   string
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.2
 		 */
 		render_select_options: function( options, attribute ) {
 

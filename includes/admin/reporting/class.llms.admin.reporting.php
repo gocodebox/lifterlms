@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version [version]
+ * @version 3.17.2
  */
 class LLMS_Admin_Reporting {
 
@@ -187,7 +187,7 @@ class LLMS_Admin_Reporting {
 	 * used by self::output_widget_range_filter()
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	public static function get_period_filters() {
 		return array(

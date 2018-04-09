@@ -2,7 +2,7 @@
 /**
  * Builder lesson model view
  * @since   3.16.0
- * @version [version]
+ * @version 3.17.2
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">

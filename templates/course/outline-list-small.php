@@ -12,7 +12,7 @@
  * @property  $toggles          bool   whether or not open/close all toggles should display in the outline footer. Only works when $collapse is also true
  *
  * @since     1.0.0
- * @version   [version]
+ * @version   3.17.2
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -4,7 +4,7 @@
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
  * @since    3.4.0
- * @version  [version]
+ * @version  3.17.2
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -128,8 +128,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get percent complete from course
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.2
+	 * @version  3.17.2
 	 */
 	public function test_get_percent_complete() {
 

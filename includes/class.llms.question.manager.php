@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Don't instantiate this directly, instead use the wrapper functions
  * found in the LLMS_Quiz and LLMS_Question classes
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.2
  */
 class LLMS_Question_Manager {
 
@@ -182,7 +182,7 @@ class LLMS_Question_Manager {
 	 * @param    array      $data  array of question data
 	 * @return   false|question id
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	public function update_question( $data = array() ) {
 

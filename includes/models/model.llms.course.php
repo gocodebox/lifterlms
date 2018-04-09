@@ -3,7 +3,7 @@
 * LifterLMS Course Model
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.2
 *
 * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
 * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -342,7 +342,7 @@ implements LLMS_Interface_Post_Audio
 	 * Get a user's percentage completion through the course
 	 * @return  float
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.17.2
 	 */
 	public function get_percent_complete( $user_id = '' ) {
 

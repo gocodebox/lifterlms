@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 4.9.4
-Stable tag: 3.17.1
+Stable tag: 3.17.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -351,8 +351,26 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.17.2 - 2018-04-09 =
+------------------------
+
++ Fixed issue preventing lesson video and audio embeds from being *removed* when using the course builder settings editor
++ Fixed issue causing question images to lose the image source
++ Updated student management table for courses and memberships to show the name (and a link to the user profile) of the site user who manually enrolled the student.
++ Add "All Time" reporting to various reporting filters
++ Added API for builder fields to enable multiple select fields
++ Fix memory leak related to assignments rendering on course builder
++ Fix issue causing course progress and enrollment checks to incorrectly display progress data cached for other users
++ Lesson progression actions (Mark Complete & Take Quiz buttons) will now always display to users with edit capabilities regardless of enrollment status
+
+##### Template Updates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
+
+
 = v3.17.1 - 2018-03-30 =
--------------------------
+------------------------
 
 + Refactored lesson completion methods to allow 3rd party customization of lesson completion behavior via filters and hooks.
 + Remove duplicate lesson completion notice implemented. Only popover notifications will display now instead of popovers and inline messages.
@@ -363,11 +381,11 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 ##### Templates updates
 
-+ [quiz/templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/templates/course/complete-lesson-link.php)
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 
 
 = v3.17.0 - 2018-03-27 =
--------------------------
+------------------------
 
 ##### Builder Updates
 
@@ -506,20 +524,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Accommodates questions imported by 3rd party Excel to LifterLMS Quiz plugin. Fixes an issue where choices would have no correct answer designated after migration.
 + All migration functions now run on a loop. This improves progress reporting of the migration and prevents timeouts on mature databases with lots of quizzes, questions, and/or attempts.
 + Fix an issue that caused duplicate quizzes or questions to be created when the "Taking too long?" link was clicked
-
-
-= v3.16.9 - 2018-02-15 =
-------------------------
-
-+ Fix issue causing error on student dashboard when reviewing an order with an access plan that was deleted.
-+ Fixed spelling error on course metabox
-+ Fixed spelling error on frontend quiz interface
-+ Fixed issues with 0 point questions:
-  + Will no longer prevent quizzes from being automatically graded when a 0 point question is in an otherwise automatically gradeable quiz
-  + Point value not editable during review
-  + Visual display on results displays with grey background not as an orange "pending" question
-+ Table schema uses default database charset. Fixes an issue with databases that don't support `utf8mb4` charsets.
-+ Updated `LLMS_Hasher` class for better compatibility with older versions of PHP
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

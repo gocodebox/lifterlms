@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.17.2
  */
 abstract class LLMS_Admin_Table {
 
@@ -755,8 +755,8 @@ abstract class LLMS_Admin_Table {
 	 * @param    int        $post_id  WP User ID
 	 * @param    string     $text     Optional text to display within the anchor, if none supplied $user_id if used
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.2
+	 * @version  3.17.2
 	 */
 	public function get_user_link( $user_id, $text = '' ) {
 		if ( ! $text ) {

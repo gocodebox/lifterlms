@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.2
 */
 class LLMS_Admin_Assets {
 
@@ -285,7 +285,7 @@ class LLMS_Admin_Assets {
 	 * Register Quill CSS & JS
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	public static function register_quill( $modules = array() ) {
 

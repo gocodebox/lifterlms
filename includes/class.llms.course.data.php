@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Query data about a course
  * @since    3.15.0
- * @version  [version]
+ * @version  3.17.2
  */
 class LLMS_Course_Data {
 
@@ -72,7 +72,7 @@ class LLMS_Course_Data {
 	 * @param    string     $period  date range period
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	public function set_period( $period = 'today' ) {
 

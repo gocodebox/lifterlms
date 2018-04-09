@@ -35,8 +35,8 @@ require( [
 	 * @param    mixed   actual    actual value, probably a string (the return of model.get( 'something' ) )
 	 *                             				 but could be an array like a multiselect
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.2
+	 * @version  3.17.2
 	 */
 	function value_compare( expected, actual ) {
 		return ( ( _.isArray( actual ) && -1 !== actual.indexOf( expected ) ) || expected == actual );
@@ -57,7 +57,7 @@ require( [
 		 * @param    mixed   actual    actual element value
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.2
 		 */
 		checked: function( expected, actual ) {
 			if ( value_compare( expected, actual ) ) {
@@ -74,7 +74,7 @@ require( [
 		 * @param    mixed   actual    actual element value
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.2
 		 */
 		selected: function( expected, actual ) {
 			if ( value_compare( expected, actual ) ) {

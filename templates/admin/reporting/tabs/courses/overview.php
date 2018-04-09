@@ -2,7 +2,7 @@
 /**
  * Single Course Tab: Overview Subtab
  * @since    3.15.0
- * @version  [version]
+ * @version  3.17.2
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
