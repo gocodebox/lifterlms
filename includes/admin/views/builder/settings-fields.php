@@ -2,7 +2,7 @@
 /**
  * Model Field Settings Template
  * @since   3.17.0
- * @version 3.17.1
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-settings-fields-template">
@@ -63,7 +63,7 @@
 							class="llms-editable-select{{{ field.classes }}}"
 							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
 						>
-							<select name="{{{ field.attribute }}}">{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
+							<select name="{{{ field.attribute }}}"{{{ field.multiple ? ' multiple' : '' }}}>{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
 						</div>
 
 					<# } else if ( data.is_editor_field( field.type ) ) { #>
