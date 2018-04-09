@@ -1,12 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * LifterLMS Quiz Question Manager
  * Don't instantiate this directly, instead use the wrapper functions
  * found in the LLMS_Quiz and LLMS_Question classes
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Question_Manager {
 
@@ -180,7 +182,7 @@ class LLMS_Question_Manager {
 	 * @param    array      $data  array of question data
 	 * @return   false|question id
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function update_question( $data = array() ) {
 
@@ -197,6 +199,16 @@ class LLMS_Question_Manager {
 
 		// update all submitted data
 		foreach ( $data as $key => $val ) {
+
+			// merge image data into the array
+			if ( 'image' === $key ) {
+				$val = array_merge( array(
+					'enabled' => 'no',
+					'id' => '',
+					'src' => '',
+				), $question->get( $key ), $val );
+			}
+
 			$question->set( $key, $val );
 		}
 
