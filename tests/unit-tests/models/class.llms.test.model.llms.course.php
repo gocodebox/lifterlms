@@ -4,7 +4,7 @@
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
  * @since    3.4.0
- * @version  3.12.0
+ * @version  [version]
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -122,6 +122,43 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		$course->set( 'video_embed', 'http://lifterlms.com/not/embeddable' );
 		$this->assertEquals( 0, strpos( $audio_embed, '<a' ) );
 		$this->assertEquals( 0, strpos( $video_embed, '<a' ) );
+
+	}
+
+	/**
+	 * Test get percent complete from course
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_percent_complete() {
+
+		$course = llms_get_post( $this->generate_mock_courses( 1, 4, 4, 0, 0 )[0] );
+		$student = $this->get_mock_student();
+
+		$student->enroll( $course->get( 'id' ) );
+
+		// get student by ID
+		$this->assertEquals( 0, $course->get_percent_complete( $student->get( 'id' ) ) );
+
+		// get from current user
+		$this->assertEquals( 0, $course->get_percent_complete() );
+
+		// complete some courses
+		$this->complete_courses_for_student( $student->get_id(), $course->get( 'id' ), 75 );
+
+		// get by id
+		$this->assertEquals( 75, $course->get_percent_complete( $student->get( 'id' ) ) );
+
+		// get from current user
+		$this->assertEquals( 0, $course->get_percent_complete() );
+
+		// log the user in
+		wp_set_current_user( $student->get_id() );
+
+		// get from current user
+		$this->assertEquals( 75, $course->get_percent_complete() );
+
 
 	}
 
