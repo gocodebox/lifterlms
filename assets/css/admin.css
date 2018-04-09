@@ -3217,6 +3217,11 @@ a.llms-view-as {
           flex: 1;
   margin-left: 20px;
 }
+.llms-reporting-tab-content > .llms-table-wrap {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
 
 .llms-reporting-widgets:before, .llms-reporting-widgets:after {
   content: " ";
@@ -3290,16 +3295,19 @@ a.llms-view-as {
 .llms-reporting-event:after {
   clear: both;
 }
-.llms-reporting-event._enrollment_trigger, .llms-reporting-event._is_complete.yes {
+.llms-reporting-event.color--blue {
+  border-left-color: #2295ff;
+}
+.llms-reporting-event.color--green, .llms-reporting-event._enrollment_trigger, .llms-reporting-event._is_complete.yes {
   border-left-color: #83c373;
 }
-.llms-reporting-event._status.enrolled {
+.llms-reporting-event.color--purple, .llms-reporting-event._status.enrolled {
   border-left-color: #845ef7;
 }
-.llms-reporting-event._status.expired, .llms-reporting-event._status.cancelled {
+.llms-reporting-event.color--red, .llms-reporting-event._status.expired, .llms-reporting-event._status.cancelled {
   border-left-color: #e5554e;
 }
-.llms-reporting-event._achievement_earned, .llms-reporting-event._certificate_earned, .llms-reporting-event._email_sent {
+.llms-reporting-event.color--orange, .llms-reporting-event._achievement_earned, .llms-reporting-event._certificate_earned, .llms-reporting-event._email_sent {
   border-left-color: #ff922b;
 }
 .llms-reporting-event time {
