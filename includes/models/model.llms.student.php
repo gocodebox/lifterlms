@@ -581,8 +581,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the enrollment trigger id for a the student's enrollment in a course
-	 * @param  int  $product_id  WP Post ID of the course or membership
-	 * @return int|false
+	 * @param    int  $product_id  WP Post ID of the course or membership
+	 * @return   int|false
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function get_enrollment_trigger_id( $product_id ) {
 
@@ -595,6 +597,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			} elseif ( $trigger_obj instanceof WP_Post ) {
 				$id = $trigger_obj->ID;
 			}
+		} elseif ( $trigger && false !== strpos( $trigger, 'admin_' ) ) {
+			$id = absint( str_replace( 'admin_', '', $trigger ) );
 		}
 		return $id;
 
