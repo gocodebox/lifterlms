@@ -179,7 +179,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
@@ -194,7 +194,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Assignment.js
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	'%1$s Assignment' => esc_html__( '%1$s Assignment', 'lifterlms' ),
 	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
@@ -240,7 +240,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/SettingsFields.js
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.17.2
 	 */
 	'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 	'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),
