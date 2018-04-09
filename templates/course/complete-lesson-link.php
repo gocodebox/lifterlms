@@ -4,7 +4,7 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  * @since    1.0.0
- * @version  3.17.1
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -17,7 +17,7 @@ if ( ! $lesson ) {
 	return;
 }
 
-if ( ! llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) ) {
+if ( ! llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) && ! current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
 	return;
 }
 

@@ -1,15 +1,16 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * LifterLMS Course Outline Shortcode
  *
  * [lifterlms_course_outline]
  *
  * @since    3.5.1
- * @version  3.5.3
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
 	/**
@@ -88,12 +89,12 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 *
 	 * @return   string
 	 * @since    3.5.1
-	 * @version  3.6.1
+	 * @version  [version]
 	 */
 	protected function get_output() {
 
 		$course = new LLMS_Course( $this->get_attribute( 'course_id' ) );
-		$student = new LLMS_Student();
+		$student = llms_get_student();
 
 		$args = array(
 			'collapse' => $this->get_attribute( 'collapse' ),
@@ -108,18 +109,17 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 			return '';
 		}
 
-		$next_lesson = llms_get_post( $student->get_next_lesson( $course->get( 'id' ) ) );
+		$next_lesson = $student ? llms_get_post( $student->get_next_lesson( $course->get( 'id' ) ) ) : false;
 
 		// show only the current section
-		if ( 'current_section' === $this->get_attribute( 'outline_type' ) ) {
+		if ( $next_lesson && 'current_section' === $this->get_attribute( 'outline_type' ) ) {
 
 			$section = llms_get_post( $next_lesson->get( 'parent_section' ) );
 
 			$args['sections'][] = $section;
 			$args['current_section'] = $section->get( 'id' );
 
-		} // End if().
-		else {
+		}  else {
 
 			if ( 'lesson' === get_post_type() ) {
 				$lesson = llms_get_post( get_the_ID() );
