@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.17.1 - 2018-04-??
+v3.17.2 - 2018-04-09
 --------------------
 
 + Fixed issue preventing lesson video and audio embeds from being *removed* when using the course builder settings editor
@@ -9,6 +9,13 @@ v3.17.1 - 2018-04-??
 + Add "All Time" reporting to various reporting filters
 + Added API for builder fields to enable multiple select fields
 + Fix memory leak related to assignments rendering on course builder
++ Fix issue causing course progress and enrollment checks to incorrectly display progress data cached for other users
++ Lesson progression actions (Mark Complete & Take Quiz buttons) will now always display to users with edit capabilities regardless of enrollment status
+
+##### Template Updates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
 
 
 v3.17.1 - 2018-03-30
@@ -23,7 +30,7 @@ v3.17.1 - 2018-03-30
 
 ##### Templates updates
 
-+ [quiz/templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/templates/course/complete-lesson-link.php)
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 
 
 v3.17.0 - 2018-03-27
