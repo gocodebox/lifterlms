@@ -197,6 +197,11 @@
 		flex: 1;
 		margin-left: 20px;
 	}
+
+	> .llms-table-wrap {
+		flex: 1;
+	}
+
 }
 
 
@@ -266,17 +271,27 @@
 	padding: 10px;
 	@include clearfix;
 
+	&.color--blue {
+		border-left-color: $color-blue;
+	}
+
+	&.color--green,
 	&._enrollment_trigger,
 	&._is_complete.yes {
 		border-left-color: $color-green;
 	}
+
+	&.color--purple,
 	&._status.enrolled {
 		border-left-color: $color-purple;
 	}
+
+	&.color--red,
 	&._status.expired,
 	&._status.cancelled {
 		border-left-color: $color-red;
 	}
+	&.color--orange,
 	&._achievement_earned,
 	&._certificate_earned,
 	&._email_sent {
