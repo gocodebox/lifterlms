@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version 3.16.0
+ * @version [version]
  */
 class LLMS_Admin_Reporting {
 
@@ -187,7 +187,7 @@ class LLMS_Admin_Reporting {
 	 * used by self::output_widget_range_filter()
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public static function get_period_filters() {
 		return array(
@@ -199,6 +199,7 @@ class LLMS_Admin_Reporting {
 			'last_month' => esc_attr__( 'Last Month', 'lifterlms' ),
 			'year' => esc_attr__( 'This Year', 'lifterlms' ),
 			'last_year' => esc_attr__( 'Last Year', 'lifterlms' ),
+			'all_time' => esc_attr__( 'All Time', 'lifterlms' ),
 		);
 	}
 
