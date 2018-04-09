@@ -119,7 +119,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 			$args['sections'][] = $section;
 			$args['current_section'] = $section->get( 'id' );
 
-		}  else {
+		} else {
 
 			if ( 'lesson' === get_post_type() ) {
 				$lesson = llms_get_post( get_the_ID() );

@@ -305,7 +305,6 @@ class LLMS_Admin_Assets {
 
 		}
 
-
 	}
 
 }
