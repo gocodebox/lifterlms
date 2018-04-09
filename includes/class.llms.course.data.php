@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Query data about a course
  * @since    3.15.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Course_Data {
 
@@ -72,13 +72,21 @@ class LLMS_Course_Data {
 	 * @param    string     $period  date range period
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function set_period( $period = 'today' ) {
 
 		$now = current_time( 'timestamp' );
 
 		switch ( $period ) {
+
+			case 'all_time':
+				$curr_start = 0;
+				$curr_end = $now;
+
+				$prev_start = 0;
+				$prev_end = $now;
+			break;
 
 			case 'last_year':
 				$curr_start = strtotime( 'first day of january last year', $now );
