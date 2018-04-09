@@ -1,12 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
-include LLMS_PLUGIN_DIR . 'includes/class.llms.course.data.php';
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Query data about a quiz
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_Quiz_Data extends LLMS_Course_Data {
 
