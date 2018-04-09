@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.15.1
+ * @version [version]
  */
 abstract class LLMS_Admin_Table {
 
@@ -748,6 +748,21 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_title() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_table_title', $this->title );
+	}
+
+	/**
+	 * Get the HTML for a WP User Link
+	 * @param    int        $post_id  WP User ID
+	 * @param    string     $text     Optional text to display within the anchor, if none supplied $user_id if used
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_user_link( $user_id, $text = '' ) {
+		if ( ! $text ) {
+			$text = $user_id;
+		}
+		return '<a href="' . esc_url( get_edit_user_link( $user_id ) ) . '">' . $text . '</a>';
 	}
 
 	/**
