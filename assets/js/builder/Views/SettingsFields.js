@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  3.17.1
+ * @version  [version]
  */
 define( [], function() {
 
@@ -220,12 +220,12 @@ define( [], function() {
 		 * @param    string   attribute  name of the select field's attribute
 		 * @return   string
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		render_select_options: function( options, attribute ) {
 
 			var html = '',
-				selected = this.model.get( attribute )
+				selected = this.model.get( attribute );
 
 			function option_html( label, val ) {
 
