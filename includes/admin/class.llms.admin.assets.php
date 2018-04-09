@@ -4,7 +4,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.17.0
+* @version  [version]
 */
 class LLMS_Admin_Assets {
 
@@ -285,13 +285,26 @@ class LLMS_Admin_Assets {
 	 * Register Quill CSS & JS
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
-	public static function register_quill() {
+	public static function register_quill( $modules = array() ) {
 
 		$min = ( ! defined( 'WP_DEBUG' ) || WP_DEBUG == false ) ? '.min' : '';
-		wp_register_script( 'llms-quill',  plugins_url( '/assets/vendor/quill/quill' . $min . '.js', LLMS_PLUGIN_FILE ), array(), '1.3.5', true );
-		wp_register_style( 'llms-quill-bubble', plugins_url( '/assets/vendor/quill/quill.bubble' . $min . '.css', LLMS_PLUGIN_FILE ), array(), '1.3.5', 'screen' );
+
+		if ( ! wp_script_is( 'llms-quill', 'registered' ) ) {
+
+			wp_register_script( 'llms-quill',  plugins_url( '/assets/vendor/quill/quill' . $min . '.js', LLMS_PLUGIN_FILE ), array(), '1.3.5', true );
+			wp_register_style( 'llms-quill-bubble', plugins_url( '/assets/vendor/quill/quill.bubble' . $min . '.css', LLMS_PLUGIN_FILE ), array(), '1.3.5', 'screen' );
+
+		}
+
+		foreach ( $modules as $module ) {
+
+			$url = plugins_url( '/assets/vendor/quill/quill.module.' . $module . $min . '.js', LLMS_PLUGIN_FILE );
+			wp_register_script( 'llms-quill-' . $module, $url, array( 'llms-quill' ), LLMS()->version, true );
+
+		}
+
 
 	}
 
