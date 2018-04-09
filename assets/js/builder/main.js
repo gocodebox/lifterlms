@@ -30,6 +30,19 @@ require( [
 	window.llms_builder.schemas = new Schemas( window.llms_builder.schemas );
 
 	/**
+	 * Compare values, used by _.checked & _.selected mixins
+	 * @param    mixed   expected  expected value, probably a string (the value of a select option or checkbox element)
+	 * @param    mixed   actual    actual value, probably a string (the return of model.get( 'something' ) )
+	 *                             				 but could be an array like a multiselect
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	function value_compare( expected, actual ) {
+		return ( ( _.isArray( actual ) && -1 !== actual.indexOf( expected ) ) || expected == actual );
+	};
+
+	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
 	 * @version  3.17.0
@@ -44,10 +57,10 @@ require( [
 		 * @param    mixed   actual    actual element value
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		checked: function( expected, actual ) {
-			if ( expected == actual ) {
+			if ( value_compare( expected, actual ) ) {
 				return ' checked="checked"';
 			}
 			return '';
@@ -61,10 +74,10 @@ require( [
 		 * @param    mixed   actual    actual element value
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		selected: function( expected, actual ) {
-			if ( expected == actual ) {
+			if ( value_compare( expected, actual ) ) {
 				return ' selected="selected"';
 			}
 			return '';
