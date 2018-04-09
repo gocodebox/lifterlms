@@ -2,12 +2,10 @@
 /**
  * Single Course Tab: Overview Subtab
  * @since    3.15.0
- * @version  3.16.0
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 if ( ! is_admin() ) { exit; }
-
-include LLMS_PLUGIN_DIR . 'includes/class.llms.course.data.php';
 
 $data = new LLMS_Course_Data( $course->get( 'id' ) );
 $period = isset( $_GET['period'] ) ? $_GET['period'] : 'today';
