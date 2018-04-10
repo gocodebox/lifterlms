@@ -2,11 +2,12 @@
 /**
  * Single Quiz Tab: Single Attempt Subtab
  * @since    3.16.0
- * @version  3.16.9
- * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt
+ * @version  [version]
+  * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+if ( ! defined( 'ABSPATH' ) || ! is_admin() ) {
+	exit;
+}
 
 $student = $attempt->get_student();
 $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' ), array(
@@ -88,7 +89,7 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 			'cols' => 'd-1of3',
 			'icon' => 'sign-out',
 			'id' => 'llms-reporting-quiz-attempt-end-date',
-			'data' => $attempt->get_date( 'end' ),
+			'data' => ( 'incomplete' !== $attempt->get( 'status' ) ) ? $attempt->get_date( 'end' ) : '&ndash;',
 			'data_type' => 'date',
 			'text' => __( 'End Date', 'lifterlms' ),
 		) );
@@ -97,7 +98,7 @@ $siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' 
 			'cols' => 'd-1of3',
 			'icon' => 'clock-o',
 			'id' => 'llms-reporting-quiz-attempt-time',
-			'data' => $attempt->get_time(),
+			'data' => ( 'incomplete' !== $attempt->get( 'status' ) ) ? $attempt->get_time() : '&ndash;',
 			'text' => __( 'Time Elapsed', 'lifterlms' ),
 		) );
 
