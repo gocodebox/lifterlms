@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.17.3 - 2018-04-10
 --------------------
 
++ Fix errors resulting from quiz questions which have been deleted
 + Fix issue causing current date / time to display as the End Date for incomplete quiz attempts on quiz reporting screens
 
 

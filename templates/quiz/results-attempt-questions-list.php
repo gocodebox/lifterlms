@@ -2,8 +2,7 @@
 /**
  * List of attempt questions/answers for a single attempt
  * @since    3.16.0
- * @version  3.16.15
- *
+ * @version  [version]
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
 
@@ -12,7 +11,11 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 <ol class="llms-quiz-attempt-results">
 <?php foreach ( $attempt->get_question_objects() as $attempt_question ) :
-	$quiz_question = $attempt_question->get_question(); ?>
+	$quiz_question = $attempt_question->get_question();
+	if ( ! $quiz_question ) {
+		continue;
+	}
+	?>
 
 	<li class="llms-quiz-attempt-question type--<?php echo $quiz_question->get( 'question_type' ); ?> status--<?php echo $attempt_question->get_status(); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
 		data-question-id="<?php echo $quiz_question->get( 'id' ); ?>"
