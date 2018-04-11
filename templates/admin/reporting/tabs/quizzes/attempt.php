@@ -3,7 +3,7 @@
  * Single Quiz Tab: Single Attempt Subtab
  * @since    3.16.0
  * @version  [version]
-  * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
+	* @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
  */
 if ( ! defined( 'ABSPATH' ) || ! is_admin() ) {
 	exit;
