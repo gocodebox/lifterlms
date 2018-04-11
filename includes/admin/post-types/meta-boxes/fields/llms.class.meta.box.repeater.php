@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Metabox Repeater Field
  * @since    3.11.0
- * @version  3.11.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
@@ -111,6 +112,12 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 	}
 
+	/**
+	 * Get repeater sub field html output
+	 * @return   string
+	 * @since    3.11.0
+	 * @version  [version]
+	 */
 	private function get_sub_field( $field, $index ) {
 
 		$field['id'] .= '_' . $index;
@@ -119,8 +126,12 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 			$field['controller'] .= '_' . $index;
 		}
 
-		$field_class_name = str_replace( '{TOKEN}', ucfirst( strtr( preg_replace_callback( '/(\w+)/', create_function( '$m','return ucfirst($m[1]);' ), $field['type'] ),'-','_' ) ), 'LLMS_Metabox_{TOKEN}_Field' );
-		$field_class = new $field_class_name( $field );
+		$name = ucfirst( strtr( preg_replace_callback( '/(\w+)/', function( $m ) {
+			return ucfirst( $m[1] );
+		}, $field['type'] ),'-','_' ) );
+
+		$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
+		$field_class = new $field_class_name($field);
 		ob_start();
 		$field_class->output();
 		return ob_get_clean();
