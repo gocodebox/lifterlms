@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @since    3.11.0
- * @version  3.13.1
+ * @version  [version]
  */
 this.repeaters = {
 
@@ -21,7 +21,7 @@ this.repeaters = {
 	 * Init
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	init: function() {
 
@@ -37,6 +37,12 @@ this.repeaters = {
 			}, function() {
 				self.load();
 				self.bind();
+			} );
+
+			// on click of any post submit buttons add some data to the submit button
+			// so we can see which button to trigger after repeaters are finished
+			$( '#post input[type="submit"]' ).on( 'click', function() {
+				$( this ).attr( 'data-llms-clicked', 'yes' );
 			} );
 
 			// handle post submission
@@ -211,15 +217,19 @@ this.repeaters = {
 	 * @param    obj   e  JS event object
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.13.1
+	 * @version  [version]
 	 */
 	handle_submit: function( e ) {
 
 		e.preventDefault();
 
+		// get the button used to submit the form
+		var $btn = $( '#post [data-llms-clicked="yes"]' ),
+			$spinner = $btn.parent().find( '.spinner' );
+
 		// core UX to prevent multi-click/or the appearance of a delay
-		$( '#publish' ).addClass( 'disabled' );
-		$( '#publishing-action .spinner' ).addClass( 'is-active' );
+		$( '#post input[type="submit"]' ).addClass( 'disabled' );
+		$spinner.addClass( 'is-active' );
 
 		var self = window.llms.metaboxes.repeaters,
 			i = 0,
@@ -235,8 +245,8 @@ this.repeaters = {
 
 				clearInterval( wait );
 				$( '#post' ).off( 'submit', this.handle_submit );
-				$( '#publishing-action .spinner' ).removeClass( 'is-active' );
-				$( '#publish' ).removeClass( 'disabled' ).trigger( 'click' );
+				$spinner.removeClass( 'is-active' );
+				$btn.removeClass( 'disabled' ).trigger( 'click' );
 
 			} else {
 

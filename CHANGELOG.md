@@ -4,6 +4,8 @@ LifterLMS Changelog
 v3.17.3 - 2018-04-10
 --------------------
 
++ Fix issue causing drafted courses and memberships to be published when the "Update" button is clicked to save changes
++ Remove use of PHP 7.2 deprecated `create_function`
 + Fix errors resulting from quiz questions which have been deleted
 + Fix issue causing current date / time to display as the End Date for incomplete quiz attempts on quiz reporting screens
 
