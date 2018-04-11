@@ -313,9 +313,9 @@ abstract class LLMS_Admin_Table {
 	 * @version  [version]
 	 */
 	public function get_export_header() {
+
 		$cols = wp_list_pluck( $this->get_columns( 'export' ), 'title' );
 
-		llms_log( $cols );
 		/**
 		 * If the first column is "ID" force it to lowercase
 		 * to prevent Excel from attempting to interpret the .csv as SYLK
