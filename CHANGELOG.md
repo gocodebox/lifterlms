@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.17.3 - 2018-04-11
 --------------------
 
++ Added missing translation for "Select a Student" on admin panel student selection search fields
 + Fix issue causing reporting export CSVs to throw a SYLK interpretation error when opened in Excel
 + Fix issue causing drafted courses and memberships to be published when the "Update" button is clicked to save changes
 + Remove use of PHP 7.2 deprecated `create_function`

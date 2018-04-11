@@ -3,7 +3,7 @@
  * @param    obj   $  traditional jQuery reference
  * @return   void
  * @since    ??
- * @version  3.13.0
+ * @version  [version]
  */
 ;( function( $ ) {
 
@@ -58,7 +58,7 @@
 	 *                          each default option will pulled from the elements data-attributes
 	 * @return   void
 	 * @since    ??
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	$.fn.llmsStudentsSelect2 = function( options ) {
 
@@ -69,7 +69,7 @@
 				enrolled_in: '',
 				multiple: false,
 				not_enrolled_in: '',
-				placeholder: 'Select a student',
+				placeholder: LLMS.l10n.translate( 'Select a student' ),
 				roles: '',
 				width: '100%',
 			};
