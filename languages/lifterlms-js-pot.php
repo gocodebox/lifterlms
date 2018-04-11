@@ -50,6 +50,13 @@ $strings = array(
 	'Select Image' => esc_html__( 'Select Image', 'lifterlms' ),
 
 	/**
+	 * file: _private/js/llms-admin.js
+	 * @since    ??
+	 * @version  [version]
+	 */
+	'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
+
+	/**
 	 * file: _private/js/llms-analytics.js
 	 * @since    3.0.0
 	 * @version  3.16.8
