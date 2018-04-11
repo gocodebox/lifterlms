@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.17.2
+ * @version [version]
  */
 abstract class LLMS_Admin_Table {
 
@@ -308,10 +310,25 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the header row for generating an export file
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function get_export_header() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_header', wp_list_pluck( $this->get_columns( 'export' ), 'title' ) );
+		$cols = wp_list_pluck( $this->get_columns( 'export' ), 'title' );
+
+		llms_log( $cols );
+		/**
+		 * If the first column is "ID" force it to lowercase
+		 * to prevent Excel from attempting to interpret the .csv as SYLK
+		 * @see  https://github.com/gocodebox/lifterlms/issues/397
+		 */
+		foreach ( $cols as $key => &$title ) {
+			if ( 'id' === strtolower( $title ) ) {
+				$title = strtolower( $title );
+			}
+			break;
+		}
+
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_header', $cols );
 	}
 
 	/**
