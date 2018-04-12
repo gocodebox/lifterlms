@@ -3,7 +3,7 @@
  * @param    obj   $  traditional jQuery reference
  * @return   void
  * @since    ??
- * @version  [version]
+ * @version  3.17.3
  */
 ;( function( $ ) {
 
@@ -58,7 +58,7 @@
 	 *                          each default option will pulled from the elements data-attributes
 	 * @return   void
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.17.3
 	 */
 	$.fn.llmsStudentsSelect2 = function( options ) {
 

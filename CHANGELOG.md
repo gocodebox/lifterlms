@@ -12,6 +12,11 @@ v3.17.3 - 2018-04-11
 + Fix errors resulting from quiz questions which have been deleted
 + Fix issue causing current date / time to display as the End Date for incomplete quiz attempts on quiz reporting screens
 
+##### Template Updates
+
++ [templates/admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
+
 
 v3.17.2 - 2018-04-09
 --------------------

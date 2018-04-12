@@ -52,7 +52,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-admin.js
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.17.3
 	 */
 	'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
 
@@ -120,7 +120,7 @@ $strings = array(
 	/**
 	 * file: _private/js/partials/_metabox-field-repeater.js
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.17.3
 	 */
 	'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Metabox Repeater Field
  * @since    3.11.0
- * @version  [version]
+ * @version  3.17.3
  */
 class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
@@ -116,7 +116,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	 * Get repeater sub field html output
 	 * @return   string
 	 * @since    3.11.0
-	 * @version  [version]
+	 * @version  3.17.3
 	 */
 	private function get_sub_field( $field, $index ) {
 

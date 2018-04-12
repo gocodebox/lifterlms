@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.17.3
  */
 abstract class LLMS_Admin_Table {
 
@@ -310,7 +310,7 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the header row for generating an export file
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.17.3
 	 */
 	public function get_export_header() {
 

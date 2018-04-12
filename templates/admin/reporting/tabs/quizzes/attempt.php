@@ -2,7 +2,7 @@
 /**
  * Single Quiz Tab: Single Attempt Subtab
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.3
 	* @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
  */
 if ( ! defined( 'ABSPATH' ) || ! is_admin() ) {

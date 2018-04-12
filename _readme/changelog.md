@@ -1,6 +1,23 @@
 == Changelog ==
 
 
+= v3.17.3 - 2018-04-11 =
+------------------------
+
++ Course and Membership instructor metabox search field now correcty states "Select an Instructor" instead of previous "Select a Student"
++ Added missing translation for "Select a Student" on admin panel student selection search fields
++ Fix issue causing reporting export CSVs to throw a SYLK interpretation error when opened in Excel
++ Fix issue causing drafted courses and memberships to be published when the "Update" button is clicked to save changes
++ Remove use of PHP 7.2 deprecated `create_function`
++ Fix errors resulting from quiz questions which have been deleted
++ Fix issue causing current date / time to display as the End Date for incomplete quiz attempts on quiz reporting screens
+
+##### Template Updates
+
++ [templates/admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
+
+
 = v3.17.2 - 2018-04-09 =
 ------------------------
 
@@ -156,21 +173,3 @@
 + Fixed builder issue causing data to be lost during autosaves if data was edited during an autosave
 + Fixed builder issue preventing lessons from moving between sections when clicking the "Prev" and "Next" section buttons
 + Added actions to `LLMS_Generator` to allow 3rd parties to extend core generator functionality
-
-
-= v3.16.10 - 2018-02-19 =
--------------------------
-
-+ Content added to the editor of course & membership catalog pages will now be output *above* the catalog loop
-+ Fix issue preventing iframes and some shortcodes from working when added to a Quiz question description
-+ Added new columns to the Quizzes reporting table to display Course and Lesson relationships
-+ Improved the task handler of background updater to ensure upgrade functions that need to run multiple times can do so
-+ Fixed JS Backup confirmation dialog on the background updater.
-+ Add support for 32-bit systems in the `LLMS_Hasher` class
-+ Fix issue causing HTML template content to be added to lessons when duplicating an existing lesson within the course builder
-
-##### 3.16.0 migration improvements
-
-+ Accommodates questions imported by 3rd party Excel to LifterLMS Quiz plugin. Fixes an issue where choices would have no correct answer designated after migration.
-+ All migration functions now run on a loop. This improves progress reporting of the migration and prevents timeouts on mature databases with lots of quizzes, questions, and/or attempts.
-+ Fix an issue that caused duplicate quizzes or questions to be created when the "Taking too long?" link was clicked
