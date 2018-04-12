@@ -3560,7 +3560,7 @@ msgstr ""
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:814
+#: includes/class.llms.ajax.handler.php:814, includes/controllers/class.llms.controller.orders.php:198
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -5418,6 +5418,78 @@ msgstr ""
 
 #: includes/controllers/class.llms.controller.lesson.progression.php:126
 msgid "%s is now incomplete."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:77, includes/controllers/class.llms.controller.orders.php:83, includes/shortcodes/class.llms.shortcode.checkout.php:171
+msgid "Could not locate an order to confirm."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:88
+msgid "Only pending orders can be confirmed."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:176
+msgid "You must agree to the %s to continue."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:182
+msgid "Missing an Access Plan ID."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:186
+msgid "Invalid Access Plan ID."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:218
+msgid "No payment method selected."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:249
+msgid "An unknown error occurred when attempting to create an account, please try again."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:254
+msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%s\">here.</a>"
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:285
+msgid "There was an error creating your order, please try again."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:343
+msgid "Student unenrolled due to automatic access plan expiration"
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:406
+msgid "Missing order information."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:411, includes/controllers/class.llms.controller.orders.php:415, templates/myaccount/view-order.php:10
+msgid "Invalid Order."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:419
+msgid "Missing gateway information."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:530
+msgid "Order status changed from %1$s to %2$s"
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:561
+msgid "The selected payment gateway is not currently enabled."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:566
+msgid "%s does not support recurring payments and cannot process this transaction."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:571
+msgid "%s does not support single payments and cannot process this transaction."
+msgstr ""
+
+#: includes/controllers/class.llms.controller.orders.php:576
+msgid "An invalid payment method was selected."
 msgstr ""
 
 #: includes/controllers/class.llms.controller.quizzes.php:34
@@ -8020,10 +8092,6 @@ msgstr ""
 msgid "Invalid access plan."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.checkout.php:171
-msgid "Could not locate an order to confirm."
-msgstr ""
-
 #: includes/shortcodes/class.llms.shortcode.checkout.php:191
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
@@ -9290,10 +9358,6 @@ msgstr ""
 
 #: templates/myaccount/my-orders.php:43
 msgid "View"
-msgstr ""
-
-#: templates/myaccount/view-order.php:10
-msgid "Invalid Order."
 msgstr ""
 
 #: templates/myaccount/view-order.php:21
