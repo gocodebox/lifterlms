@@ -4,6 +4,8 @@ LifterLMS Changelog
 v3.17.4 - 2018-04-??
 --------------------
 
++ Added core RTL language support
+
 ##### Template Updates
 
 + [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
