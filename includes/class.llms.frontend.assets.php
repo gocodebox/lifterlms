@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.16.0
+* @version  [version]
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,9 +31,14 @@ class LLMS_Frontend_Assets {
 	 * Replaces non-static __construct() from 3.4.0 & lower
 	 * @return   void
 	 * @since    3.4.1
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public static function init() {
+
+		$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
+
+		self::$min = ( $debug ) ? '' : '.min';
+
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );
@@ -110,14 +115,20 @@ class LLMS_Frontend_Assets {
 
 		global $post_type;
 
-		wp_register_style( 'llms-iziModal', plugins_url( 'assets/vendor/izimodal/iziModal.min.css', LLMS_PLUGIN_FILE ) );
+		wp_register_style( 'llms-iziModal', plugins_url( 'assets/vendor/izimodal/iziModal' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
-		wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
+
+		wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+
 		wp_enqueue_style( 'lifterlms-styles', plugins_url( '/assets/css/lifterlms' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+		wp_style_add_data( 'lifterlms-styles', 'rtl', 'replace' );
+		wp_style_add_data( 'lifterlms-styles', 'suffix', LLMS_Frontend_Assets::$min );
 
 		if ( 'llms_my_certificate' == $post_type || 'llms_certificate' == $post_type ) {
 			wp_enqueue_style( 'certificates', plugins_url( '/assets/css/certificates' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+			wp_style_add_data( 'certificates', 'rtl', 'replace' );
+			wp_style_add_data( 'certificates', 'suffix', LLMS_Frontend_Assets::$min );
 		}
 
 		if ( is_llms_account_page() ) {

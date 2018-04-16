@@ -5,6 +5,7 @@ var gulp = require( 'gulp' ),
 	sass = require( 'gulp-ruby-sass' ),
 	autoprefixer = require( 'gulp-autoprefixer' ),
 	minifycss = require( 'gulp-minify-css' ),
+	rtlcss  = require('gulp-rtlcss'),
 	rename = require( 'gulp-rename' ),
 	include = require( 'gulp-include' ),
 	uglify = require( 'gulp-uglify' ),
@@ -91,91 +92,63 @@ gulp.task('build', ['jscs', 'lint'], function() {
 /**
  * Rebuild task to do everything in one fell swoop
  */
-gulp.task('rebuild',['process-scripts','process-frontend-styles','process-frontend-certificates-styles','process-admin-styles','process-builder-styles'],function(){});
+gulp.task( 'rebuild', [ 'process-scripts', 'process-stylesheets' ] );
 
 /**
- * Compile front end SASS files
+ * Compile SASS to CSS Stylesheets
  */
-gulp.task( 'process-frontend-styles', function () {
+gulp.task( 'compile-stylesheets', function(){
 
-	return sass( '_private/scss/lifterlms.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
+	return sass(
+			[
+				'_private/scss/lifterlms.scss',
+				'_private/scss/frontend/certificates.scss',
+				'_private/scss/admin*.scss',
+				'_private/scss/builder.scss'
+			],
+			{
+			cacheLocation: '_private/scss/.sass-cache',
+			style: 'expanded'
 		})
 		.pipe( autoprefixer( 'last 2 version' ) )
 		.pipe( gulp.dest( 'assets/css/' ) )
-		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') )
 		.pipe(notify({
-            title: 'Front End Styles',
-            message: 'Successfully Built Front End Styles'
+            title: 'CSS Compilation',
+            message: 'Successfully Compiled SASS to CSS'
         }));
-
 });
 
 /**
- * Compile certificates SASS files
+ * Create RTL Stylesheets
  */
-gulp.task( 'process-frontend-certificates-styles', function () {
+gulp.task( 'generate-rtl-stylesheets', ['compile-stylesheets'], function() {
 
-	return sass( '_private/scss/frontend/certificates.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
-	})
-			.pipe( autoprefixer( 'last 2 version' ) )
-			.pipe( gulp.dest( 'assets/css/' ) )
-			.pipe( rename( { suffix: '.min' } ) )
-			.pipe( minifycss() )
-			.pipe( gulp.dest( 'assets/css/') )
-			.pipe(notify({
-				title: 'Front End Certificates Styles',
-				message: 'Successfully Built Front End Certificates Styles'
-			}));
-
-});
-
-/**
- * Compile admin SASS files
- */
-gulp.task( 'process-admin-styles', function () {
-
-	return sass( '_private/scss/admin*.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
-		})
-		.pipe( autoprefixer( 'last 2 version' ) )
+	return gulp.src( ['assets/css/*.css', '!assets/css/*.min.css', '!assets/css/*-rtl.css' ] )
+		.pipe( rtlcss() )
+		.pipe( rename( { suffix: '-rtl' } ) )
 		.pipe( gulp.dest( 'assets/css/' ) )
-		.pipe( rename( { suffix: '.min' } ) )
-		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') )
-		.pipe(notify({
-            title: 'Admin Styles',
-            message: 'Successfully Built Admin Styles'
-        }));
-
+		.pipe( notify({
+			title: 'RTL Support',
+            message: 'Successfully Built RTL Stylesheets'
+		}));
 });
 
 /**
- * Compile builder SCSS file
+ * Process Stylesheets and Minify them
  */
-gulp.task( 'process-builder-styles', function () {
 
-	return sass( '_private/scss/builder.scss', {
-		cacheLocation: '_private/scss/.sass-cache',
-		style: 'expanded'
-		})
-		.pipe( autoprefixer( 'last 2 version' ) )
-		.pipe( gulp.dest( 'assets/css/' ) )
+gulp.task( 'process-stylesheets', ['generate-rtl-stylesheets'], function() {
+
+	return gulp.src( ['assets/css/*.css', '!assets/css/*.min.css'] )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( minifycss() )
-		.pipe( gulp.dest( 'assets/css/') )
-		.pipe(notify({
-            title: 'Admin Styles',
-            message: 'Successfully Built Admin Styles'
-        }));
-
+		.pipe( gulp.dest( 'assets/css/' ) )
+		.pipe( notify({
+			title: 'CSS Minify',
+            message: 'Successfully Minified Stylesheets'
+		}));
 });
+
 
 /**
  * Minify JS files
@@ -205,10 +178,7 @@ gulp.task( 'watch', function () {
 
 	gulp.watch( 'assets/js/builder/**/*.js', [ 'js:builder', 'pot:js' ] );
 	gulp.watch( '_private/js/**/*.js', [ 'build', 'process-scripts', 'pot:js' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-admin-styles' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-frontend-styles' ] );
-	gulp.watch( '_private/**/*.scss', [ 'process-builder-styles' ] );
-
+	gulp.watch( '_private/**/*.scss', [ 'process-stylesheets' ] );
 
 });
 

@@ -25,6 +25,7 @@
     "gulp-rename": "^1.2.0",
     "gulp-replace": "^0.5.4",
     "gulp-requirejs-optimize": "^1.2.0",
+    "gulp-rtlcss": "^1.2.0",
     "gulp-ruby-sass": "^2.1.0",
     "gulp-sort": "^2.0.0",
     "gulp-sourcemaps": "^2.6.1",

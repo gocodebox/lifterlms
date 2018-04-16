@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.17.2
+* @version  [version]
 */
 class LLMS_Admin_Assets {
 
@@ -17,9 +19,13 @@ class LLMS_Admin_Assets {
 	/**
 	 * Constructor
 	 * @since    1.0.0
-	 * @version  1.0.0
+	 * @version  [version]
 	 */
 	public function __construct() {
+
+		$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
+
+		self::$min = ( $debug ) ? '' : '.min';
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
@@ -57,7 +63,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  3.7.6
+	 * @version  [version]
 	 */
 	public function admin_styles() {
 
@@ -66,14 +72,20 @@ class LLMS_Admin_Assets {
 		}
 
 		wp_enqueue_style( 'llms-admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+		wp_style_add_data( 'llms-admin-styles', 'rtl', 'replace' );
+		wp_style_add_data( 'llms-admin-styles', 'suffix', LLMS_Admin_Assets::$min );
+
 		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+
 		wp_enqueue_style( 'llms-select2-styles', plugins_url( '/assets/select2/css/select2' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
 		$screen = get_current_screen();
 
 		if ( 'lifterlms_page_llms-add-ons' === $screen->id || 'lifterlms_page_llms-settings' === $screen->id ) {
-			wp_register_style( 'llms-admin-add-ons', plugins_url( '/assets/css/admin-add-ons.min.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
+			wp_register_style( 'llms-admin-add-ons', plugins_url( '/assets/css/admin-add-ons' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
 			wp_enqueue_style( 'llms-admin-add-ons' );
+			wp_style_add_data( 'llms-admin-add-ons', 'rtl', 'replace' );
+			wp_style_add_data( 'llms-admin-add-ons', 'suffix', LLMS_Admin_Assets::$min );
 		}
 
 	}
@@ -82,7 +94,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	public function admin_scripts() {
 
@@ -232,7 +244,12 @@ class LLMS_Admin_Assets {
 			wp_enqueue_editor();
 
 			wp_enqueue_style( 'llms-builder-styles', plugins_url( '/assets/css/builder' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ), array( 'llms-quill-bubble' ), LLMS()->version, 'screen' );
-			wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.css', LLMS_PLUGIN_FILE ) );
+			wp_style_add_data( 'llms-builder-styles', 'rtl', 'replace' );
+			wp_style_add_data( 'llms-builder-styles', 'suffix', LLMS_Admin_Assets::$min );
+
+			wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
+			wp_style_add_data( 'webui-popover', 'suffix', LLMS_Admin_Assets::$min );
+
 			wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 			wp_enqueue_style( 'llms-datetimepicker', plugins_url( 'assets/vendor/datetimepicker/jquery.datetimepicker.min.css', LLMS_PLUGIN_FILE ) );
 			wp_enqueue_script( 'llms-datetimepicker', plugins_url( 'assets/vendor/datetimepicker/jquery.datetimepicker.full.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );

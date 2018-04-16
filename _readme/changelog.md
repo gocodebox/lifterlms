@@ -1,6 +1,14 @@
 == Changelog ==
 
 
+v3.17.4 - 2018-04-??
+------------------------
+
+##### Template Updates
+
++ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
+
+
 = v3.17.3 - 2018-04-11 =
 ------------------------
 
