@@ -4,7 +4,7 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  * @since    1.0.0
- * @version  3.17.2
+ * @version  [version]
  */
 if ( ! defined( 'ABSPATH' ) ) {
 	exit;
@@ -37,7 +37,7 @@ $show_button = $quiz_id ? false : true;
 
 	<?php if ( $student->is_complete( $lesson->get( 'id' ), 'lesson' ) ) : ?>
 
-		<?php if ( ! $quiz_id ) : ?>
+		<?php if ( apply_filters( 'llms_show_mark_complete_button', $show_button, $lesson ) ) : ?>
 
 			<?php echo apply_filters( 'llms_lesson_complete_text', __( 'Lesson Complete', 'lifterlms' ) ); ?>
 			<?php do_action( 'llms_after_lesson_complete_text', $lesson ); ?>
