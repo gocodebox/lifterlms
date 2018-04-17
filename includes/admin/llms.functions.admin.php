@@ -136,9 +136,9 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 
 					$codes = array();
 
-			}
-		}
-	}
+			}// End switch().
+		}// End if().
+	}// End if().
 
 	$codes = apply_filters( 'llms_merge_codes_for_button', $codes, $screen, $target );
 

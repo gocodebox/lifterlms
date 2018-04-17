@@ -54,7 +54,6 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		 */
 		return apply_filters( 'llms_achievement_has_user_earned', ( $count >= 1 ), $this );
 
-
 	}
 
 	/**
