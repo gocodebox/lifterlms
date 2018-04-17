@@ -9,6 +9,9 @@ v3.17.4 - 2018-04-??
 + Added filter to allow 3rd parties to disable achievement dupchecking (`llms_achievement_has_user_earned`)
 + Added {student_id} merge code which can be utilized on certificates
 + Added merge code insert button to certificates editor
++ Added filter to allow 3rd parties to disable certificate dupchecking (`llms_certificate_has_user_earned`)
++ Added filter to allow 3rd parties to add custom merge codes to certificates (`llms_certificate_merge_codes`)
+
 
 ##### Template Updates
 

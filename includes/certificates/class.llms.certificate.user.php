@@ -1,11 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
 * Certificate Class
 * Child Class. Extends from LLMS_Certificate.
-*
 * Generates certificate post for user. Triggered from engagement.
+* @since    1.0.0
+* @version  [version]
 */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
@@ -26,7 +29,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * used to prevent duplicates
 	 * @return   boolean
 	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @version  [version]
 	 */
 	private function has_user_earned() {
 
@@ -46,7 +49,11 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 			array( $this->certificate_template_id, $this->userid, $this->lesson_id )
 		) );
 
-		return ( $count >= 1 );
+		/**
+		 * @filter llms_certificate_has_user_earned
+		 * Allow 3rd parties to override default dupcheck functionality for certificates
+		 */
+		return apply_filters( 'llms_certificate_has_user_earned', ( $count >= 1 ), $this );
 
 	}
 
@@ -118,29 +125,25 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 	/**
 	 * get_content_html function.
-	 *
-	 * @return string
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	function get_content_html() {
 
-		$this->find = array(
-			'{site_title}',
-			'{user_login}',
-			'{site_url}',
-			'{first_name}',
-			'{last_name}',
-			'{email_address}',
-			'{current_date}',
-		);
-		$this->replace = array(
-			$this->get_blogname(),
-			$this->user_login,
-			$this->account_link,
-			$this->user_firstname,
-			$this->user_lastname,
-			$this->user_email,
-			date_i18n( get_option( 'date_format' ), strtotime( current_time( 'mysql' ) ) ),
-		);
+		$codes = apply_filters( 'llms_certificate_merge_codes', array(
+			'{site_title}' => $this->get_blogname(),
+			'{user_login}' => $this->user_login,
+			'{site_url}' => $this->account_link,
+			'{first_name}' => $this->user_firstname,
+			'{last_name}' => $this->user_lastname,
+			'{email_address}' => $this->user_email,
+			'{student_id}' => $this->userid,
+			'{current_date}' => date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ),
+		), $this );
+
+		$this->find = array_keys( $codes );
+		$this->replace = array_values( $codes );
 
 		$content = $this->format_string( $this->content );
 
