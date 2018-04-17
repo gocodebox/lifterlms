@@ -11,11 +11,12 @@ v3.17.4 - 2018-04-??
 + Added merge code insert button to certificates editor
 + Added filter to allow 3rd parties to disable certificate dupchecking (`llms_certificate_has_user_earned`)
 + Added filter to allow 3rd parties to add custom merge codes to certificates (`llms_certificate_merge_codes`)
-
++ Fix restriction check issue for lessons with drip or prerequisites on course outline widget / shortcode
 
 ##### Template Updates
 
 + [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
 
 
 v3.17.3 - 2018-04-11
