@@ -100,9 +100,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test whether a user is_enrolled() in a course or membership
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.12.2
+	 * @version  [version]
 	 */
 	public function test_enrollment() {
+
+		llms_set_test_time_limit( 8000 );
 
 		// Create new user
 		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );

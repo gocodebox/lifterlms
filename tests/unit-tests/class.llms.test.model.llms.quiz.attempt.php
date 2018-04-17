@@ -3,7 +3,7 @@
  * Tests for the LLMS_Install Class
  * @group    quizzes
  * @since    3.9.0
- * @version  3.16.11
+ * @version  [version]
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -109,7 +109,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	public function test_get_count() {
 
 		$i = 1;
-		while ( $i <= 25 ) {
+		while ( $i <= 10 ) {
 
 			$attempt = $this->get_mock_attempt( $i );
 
@@ -130,7 +130,6 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 			$attempt->set_questions( $questions, true );
 
 			$this->assertEquals( $total_points, $attempt->get_count( 'available_points' ) );
-
 
 			$i++;
 
@@ -282,7 +281,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * pass/fail/complete actions
 	 * @return   void
 	 * @since    3.9.2
-	 * @version  3.17.1
+	 * @version  [version]
 	 */
 	public function test_take_some_quizzes( ) {
 
@@ -320,7 +319,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 			$num_tests++;
 
-			$i = $i + 5;
+			$i = $i + ( 5 * rand( 1, 20 ) );
 
 		}
 
