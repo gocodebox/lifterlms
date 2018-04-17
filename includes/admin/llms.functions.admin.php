@@ -91,7 +91,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
  *                               what is available for the post type
  * @return   void|string
  * @since    3.1.0
- * @version  [version]
+ * @version  3.17.4
  */
 function llms_merge_code_button( $target = 'content', $echo = true, $codes = array() ) {
 

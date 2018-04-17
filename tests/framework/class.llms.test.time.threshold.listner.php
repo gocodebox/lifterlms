@@ -2,8 +2,8 @@
 /**
  * Output warnings when tests take too long to run
  * @source    http://aaronsaray.com/2017/phpunit-listener-for-long-running-tests-update
- * @since     [version]
- * @version   [version]
+ * @since     3.17.4
+ * @version   3.17.4
  */
 class LLMS_Test_Time_Threshold_Listener extends PHPUnit_Framework_BaseTestListener {
 

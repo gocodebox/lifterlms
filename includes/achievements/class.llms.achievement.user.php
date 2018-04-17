@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 * User Achievemnet class, inherits methods from LLMS_Achievment
 * Generates achievements for users.
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.4
 */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
@@ -28,7 +28,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * used to prevent duplicates
 	 * @return   boolean
 	 * @since    3.4.1
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	private function has_user_earned() {
 

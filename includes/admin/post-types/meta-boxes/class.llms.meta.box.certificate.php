@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Certificates metabox
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.4
  */
 class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 
@@ -33,7 +33,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 *
 	 * @return array [md array of metabox fields]
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.17.4
 	 */
 	public function get_fields() {
 

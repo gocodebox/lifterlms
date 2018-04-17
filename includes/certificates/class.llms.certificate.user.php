@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 * Child Class. Extends from LLMS_Certificate.
 * Generates certificate post for user. Triggered from engagement.
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.4
 */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
@@ -29,7 +29,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * used to prevent duplicates
 	 * @return   boolean
 	 * @since    3.4.1
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	private function has_user_earned() {
 
@@ -127,7 +127,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * get_content_html function.
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	function get_content_html() {
 

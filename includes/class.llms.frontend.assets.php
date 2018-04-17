@@ -2,7 +2,7 @@
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.4
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -31,7 +31,7 @@ class LLMS_Frontend_Assets {
 	 * Replaces non-static __construct() from 3.4.0 & lower
 	 * @return   void
 	 * @since    3.4.1
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	public static function init() {
 

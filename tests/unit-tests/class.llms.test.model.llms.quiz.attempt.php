@@ -3,7 +3,7 @@
  * Tests for the LLMS_Install Class
  * @group    quizzes
  * @since    3.9.0
- * @version  [version]
+ * @version  3.17.4
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -281,7 +281,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * pass/fail/complete actions
 	 * @return   void
 	 * @since    3.9.2
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	public function test_take_some_quizzes( ) {
 
