@@ -3,7 +3,7 @@
  * Student Management table on Courses and Memberships
  *
  * @since   3.4.0
- * @version 3.17.2
+ * @version [version]
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -73,7 +73,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.4.0
-	 * @version  3.17.2
+	 * @version  [version]
 	 */
 	public function get_data( $key, $student ) {
 
@@ -160,7 +160,8 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 				} elseif ( $trigger && false !== strpos( $trigger, 'admin_' ) ) {
 					$tid = $student->get_enrollment_trigger_id( $this->post_id );
 					$admin = llms_get_student( $tid );
-					$value = $this->get_user_link( $tid, sprintf( __( 'Admin: %1$s (#%2$d)', 'lifterlms' ), $admin->get_name(), $tid ) );
+					$admin_name = $admin ? $admin->get_name() : __( '[Deleted]', 'lifterlms' );
+					$value = $this->get_user_link( $tid, sprintf( __( 'Admin: %1$s (#%2$d)', 'lifterlms' ), $admin_name, $tid ) );
 				} else {
 					$value = $trigger;
 				}
