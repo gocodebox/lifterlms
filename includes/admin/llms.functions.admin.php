@@ -82,7 +82,6 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 
 /**
  * Add a "merge code" button that to auto-add merge codes to email & etc...
- * @todo  utilize this on certificates
  * @param    string     $target  target to add the merge code to
  *                               accepts the ID of a tinymce editor
  *                               a DOM ID (#element-id)
@@ -92,7 +91,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
  *                               what is available for the post type
  * @return   void|string
  * @since    3.1.0
- * @version  3.8.0
+ * @version  [version]
  */
 function llms_merge_code_button( $target = 'content', $echo = true, $codes = array() ) {
 
@@ -103,6 +102,21 @@ function llms_merge_code_button( $target = 'content', $echo = true, $codes = arr
 		if ( isset( $screen->post_type ) ) {
 
 			switch ( $screen->post_type ) {
+
+				case 'llms_certificate':
+
+					$codes = array(
+						'{site_title}' => __( 'Site Title', 'lifterlms' ),
+						'{site_url}' => __( 'Site URL', 'lifterlms' ),
+						'{current_date}' => __( 'Earned Date', 'lifterlms' ),
+						'{first_name}' => __( 'Student First Name', 'lifterlms' ),
+						'{last_name}' => __( 'Student Last Name', 'lifterlms' ),
+						'{email_address}' => __( 'Student Email', 'lifterlms' ),
+						'{student_id}' => __( 'Student User ID', 'lifterlms' ),
+						'{user_login}' => __( 'Student Username', 'lifterlms' ),
+					);
+
+				break;
 
 				case 'llms_email':
 

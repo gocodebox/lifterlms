@@ -7,6 +7,8 @@ v3.17.4 - 2018-04-??
 + Added core RTL language support
 + Fixed fatal error on student management tables resulting from deleted admin users who manually enrolled students
 + Added filter to allow 3rd parties to disable achievement dupchecking (`llms_achievement_has_user_earned`)
++ Added {student_id} merge code which can be utilized on certificates
++ Added merge code insert button to certificates editor
 
 ##### Template Updates
 
