@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.17.4 - 2018-04-??
+v3.17.4 - 2018-04-17
 --------------------
 
 + Added core RTL language support
@@ -12,6 +12,7 @@ v3.17.4 - 2018-04-??
 + Added filter to allow 3rd parties to disable certificate dupchecking (`llms_certificate_has_user_earned`)
 + Added filter to allow 3rd parties to add custom merge codes to certificates (`llms_certificate_merge_codes`)
 + Fix restriction check issue for lessons with drip or prerequisites on course outline widget / shortcode
++ Bumped WP tested to version to 4.9.5
 
 ##### Template Updates
 
