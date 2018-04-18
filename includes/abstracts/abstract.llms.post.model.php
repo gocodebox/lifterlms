@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.17.0
+ * @version  [version]
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -546,16 +548,16 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string     $prop  postmeta property name, defaults to {$type}_embed
 	 * @return   string
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	protected function get_embed( $type = 'video', $prop = '' ) {
 
 		$ret = '';
 
 		$prop = $prop ? $prop : $type . '_embed';
-		if ( isset( $prop ) ) {
+		$url = $this->get( $prop );
+		if ( $url ) {
 
-			$url = $this->get( $prop );
 			$ret = wp_oembed_get( $url );
 
 			if ( ! $ret ) {
