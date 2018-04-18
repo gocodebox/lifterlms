@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Certificates metabox
  * @since    1.0.0
- * @version  3.0.0
+ * @version  3.17.4
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 
 	/**
@@ -31,8 +32,8 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 * Appropriate fields are generated based on type.
 	 *
 	 * @return array [md array of metabox fields]
-	 *
-	 * @version 3.0.0
+	 * @since   1.0.0
+	 * @version 3.17.4
 	 */
 	public function get_fields() {
 
@@ -61,25 +62,6 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 						'desc_class' => 'd-all',
 						'group' 	=> '',
 						'value' 	=> '',
-					),
-					array(
-						'label'  	=> '',
-						'desc'  	=> '',
-						'id'    	=> $this->prefix . 'help',
-						'type'  	=> 'custom-html',
-						'section' 	=> 'certificate_meta_box',
-						'class' 	=> 'code input-full',
-						'desc_class' => 'd-all',
-						'group' 	=> '',
-						'value' 	=> '<p>' . __( 'Use the text editor above to add content to your certificate. You can include any of the following merge fields.', 'lifterlms' ) . '
-										<br>{site_title}
-										<br>{user_login}
-										<br>{site_url}
-										<br>{first_name}
-										<br>{last_name}
-										<br>{email_address}
-										<br>{current_date}
-										</p>',
 					),
 				),
 			),

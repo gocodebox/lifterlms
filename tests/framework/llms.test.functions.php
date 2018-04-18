@@ -47,3 +47,15 @@ function llms_reset_current_time() {
 	global $llms_mock_time;
 	$llms_mock_time = null;
 }
+
+/**
+ * Set the time limit threshold
+ * @param    int        $limit   time limit in milliseconds
+ * @return   void
+ * @since    3.17.4
+ * @version  3.17.4
+ */
+function llms_set_test_time_limit( $limit = 4000 ) {
+	global $llms_test_time_limit;
+	$llms_test_time_limit = $limit;
+}

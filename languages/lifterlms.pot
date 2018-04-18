@@ -581,7 +581,7 @@ msgstr ""
 msgid "LifterLMS Status"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:113, includes/admin/post-types/tables/class.llms.table.student.management.php:355, includes/admin/reporting/tables/llms.table.course.students.php:391, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/quizzes/attempt.php:76, templates/myaccount/view-order.php:36
+#: includes/admin/class.llms.admin.menus.php:113, includes/admin/post-types/tables/class.llms.table.student.management.php:356, includes/admin/reporting/tables/llms.table.course.students.php:391, includes/admin/reporting/tables/llms.table.student.courses.php:203, includes/admin/reporting/tables/llms.table.student.memberships.php:110, templates/admin/post-types/order-transactions.php:18, templates/admin/reporting/tabs/quizzes/attempt.php:76, templates/myaccount/view-order.php:36
 msgid "Status"
 msgstr ""
 
@@ -1041,39 +1041,59 @@ msgstr ""
 msgid "Required field \"%s\" is missing."
 msgstr ""
 
+#: includes/admin/llms.functions.admin.php:109, includes/notifications/views/class.llms.notification.view.student.welcome.php:67
+msgid "Site Title"
+msgstr ""
+
 #: includes/admin/llms.functions.admin.php:110
-msgid "Website Title"
+msgid "Site URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:111
-msgid "Website URL"
+#: includes/admin/llms.functions.admin.php:111, includes/admin/reporting/tables/llms.table.achievements.php:117, includes/admin/reporting/tables/llms.table.certificates.php:111
+msgid "Earned Date"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:112
-msgid "Student Email Address"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:113
-msgid "Student Username"
-msgstr ""
-
-#: includes/admin/llms.functions.admin.php:114
+#: includes/admin/llms.functions.admin.php:112, includes/admin/llms.functions.admin.php:128
 msgid "Student First Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:115
+#: includes/admin/llms.functions.admin.php:113, includes/admin/llms.functions.admin.php:129
 msgid "Student Last Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:116
+#: includes/admin/llms.functions.admin.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:40
+msgid "Student Email"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:115
+msgid "Student User ID"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:116, includes/admin/llms.functions.admin.php:127
+msgid "Student Username"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:124
+msgid "Website Title"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:125
+msgid "Website URL"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:126
+msgid "Student Email Address"
+msgstr ""
+
+#: includes/admin/llms.functions.admin.php:130
 msgid "Current Date"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:139
+#: includes/admin/llms.functions.admin.php:153
 msgid "Merge Codes"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:149
+#: includes/admin/llms.functions.admin.php:163
 msgid "No merge codes found."
 msgstr ""
 
@@ -1134,7 +1154,7 @@ msgstr ""
 msgid "Enter any information you would like to display on the achievement."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.achievement.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:55
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.achievement.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:56
 msgid "Background Image"
 msgstr ""
 
@@ -1142,24 +1162,20 @@ msgstr ""
 msgid "Select an Image to use for the achievement."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:20
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:21
 msgid "Certificate Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:44, includes/admin/reporting/tables/llms.table.certificates.php:110, includes/notifications/views/class.llms.notification.view.certificate.earned.php:106
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:45, includes/admin/reporting/tables/llms.table.certificates.php:110, includes/notifications/views/class.llms.notification.view.certificate.earned.php:106
 msgid "Certificate Title"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:45
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:46
 msgid "Enter a title for your certificate. EG: Certificate of Completion"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:56
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:57
 msgid "Select an Image to use for the certificate."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.certificate.php:74
-msgid "Use the text editor above to add content to your certificate. You can include any of the following merge fields."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:20
@@ -1496,10 +1512,6 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:21, includes/admin/settings/class.llms.settings.engagements.php:44
 msgid "Email Settings"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:40
-msgid "Student Email"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:41
@@ -2204,43 +2216,47 @@ msgstr ""
 msgid "Order #%d"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:163
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:163, includes/models/model.llms.user.postmeta.php:70
+msgid "[Deleted]"
+msgstr ""
+
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:164
 msgid "Admin: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:219, includes/admin/reporting/tables/llms.table.course.students.php:238, includes/admin/reporting/tables/llms.table.students.php:247
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:220, includes/admin/reporting/tables/llms.table.course.students.php:238, includes/admin/reporting/tables/llms.table.students.php:247
 msgid "Search students by name or email..."
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:231
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:232
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:346, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:366, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:254, includes/admin/reporting/tables/llms.table.quizzes.php:295, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, languages/lifterlms-js-pot.php:457, templates/admin/post-types/order-transactions.php:17
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:347, includes/admin/reporting/tables/llms.table.achievements.php:114, includes/admin/reporting/tables/llms.table.certificates.php:109, includes/admin/reporting/tables/llms.table.course.students.php:366, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:254, includes/admin/reporting/tables/llms.table.quizzes.php:295, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395, languages/lifterlms-js-pot.php:457, templates/admin/post-types/order-transactions.php:17
 msgid "ID"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:350, includes/admin/reporting/tables/llms.table.course.students.php:370, includes/admin/reporting/tables/llms.table.student.courses.php:199, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:404
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.course.students.php:370, includes/admin/reporting/tables/llms.table.student.courses.php:199, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:404
 msgid "Name"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:359, includes/admin/reporting/tables/llms.table.course.students.php:396
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:360, includes/admin/reporting/tables/llms.table.course.students.php:396
 msgid "Enrollment Updated"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:363, includes/admin/reporting/tables/llms.table.course.students.php:406, includes/admin/reporting/tables/llms.table.student.courses.php:209, includes/admin/reporting/tables/llms.table.students.php:424, templates/admin/reporting/tabs/students/courses-course.php:33
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:364, includes/admin/reporting/tables/llms.table.course.students.php:406, includes/admin/reporting/tables/llms.table.student.courses.php:209, includes/admin/reporting/tables/llms.table.students.php:424, templates/admin/reporting/tabs/students/courses-course.php:33
 msgid "Progress"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:367, includes/admin/reporting/tables/llms.table.course.students.php:411, includes/admin/reporting/tables/llms.table.quiz.attempts.php:269, includes/admin/reporting/tables/llms.table.student.course.php:193, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, includes/notifications/views/class.llms.notification.view.quiz.failed.php:78, includes/notifications/views/class.llms.notification.view.quiz.passed.php:78, templates/admin/reporting/tabs/quizzes/attempt.php:34
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:368, includes/admin/reporting/tables/llms.table.course.students.php:411, includes/admin/reporting/tables/llms.table.quiz.attempts.php:269, includes/admin/reporting/tables/llms.table.student.course.php:193, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, includes/notifications/views/class.llms.notification.view.quiz.failed.php:78, includes/notifications/views/class.llms.notification.view.quiz.passed.php:78, templates/admin/reporting/tabs/quizzes/attempt.php:34
 msgid "Grade"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:371, includes/admin/reporting/tables/llms.table.course.students.php:415
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:372, includes/admin/reporting/tables/llms.table.course.students.php:415
 msgid "Last Lesson"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:375
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:376
 msgid "Enrollment Trigger"
 msgstr ""
 
@@ -2294,10 +2310,6 @@ msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.achievements.php:116, includes/admin/views/builder/question.php:78
 msgid "Image"
-msgstr ""
-
-#: includes/admin/reporting/tables/llms.table.achievements.php:117, includes/admin/reporting/tables/llms.table.certificates.php:111
-msgid "Earned Date"
 msgstr ""
 
 #: includes/admin/reporting/tables/llms.table.achievements.php:118, includes/admin/reporting/tables/llms.table.certificates.php:112
@@ -7654,10 +7666,6 @@ msgstr ""
 msgid "Trial"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:70
-msgid "[Deleted]"
-msgstr ""
-
 #: includes/models/model.llms.user.postmeta.php:73, languages/lifterlms-js-pot.php:291
 msgid "quiz"
 msgstr ""
@@ -8054,10 +8062,6 @@ msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.student.welcome.php:66
 msgid "Password Reset URL"
-msgstr ""
-
-#: includes/notifications/views/class.llms.notification.view.student.welcome.php:67
-msgid "Site Title"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.student.welcome.php:69
@@ -9255,11 +9259,11 @@ msgctxt "course meta info title"
 msgid "Course Information"
 msgstr ""
 
-#: templates/course/outline-list-small.php:98
+#: templates/course/outline-list-small.php:99
 msgid "Open All"
 msgstr ""
 
-#: templates/course/outline-list-small.php:100
+#: templates/course/outline-list-small.php:101
 msgid "Close All"
 msgstr ""
 

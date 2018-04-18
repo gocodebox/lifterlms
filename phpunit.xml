@@ -27,6 +27,12 @@
 			</exclude>
 		</whitelist>
 	</filter>
+	<listeners>
+		<listener
+			class="LLMS_Test_Time_Threshold_Listener"
+			file="tests/framework/class.llms.test.time.threshold.listner.php"
+		/>
+	</listeners>
 <!-- 	<logging>
 		<log type="coverage-clover" target="build/logs/clover.xml"/>
 	</logging> -->

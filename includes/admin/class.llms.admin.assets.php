@@ -6,14 +6,14 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.4
 */
 class LLMS_Admin_Assets {
 
 	/**
 	 * Constructor
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	public function __construct() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
@@ -52,7 +52,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	public function admin_styles() {
 
@@ -83,7 +83,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.4
 	 */
 	public function admin_scripts() {
 

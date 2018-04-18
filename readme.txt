@@ -4,8 +4,8 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.0
 Requires PHP: 5.6
-Tested up to: 4.9.4
-Stable tag: 3.17.3
+Tested up to: 4.9.5
+Stable tag: 3.17.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -351,12 +351,23 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.17.4 - 2018-04-??
+= v3.17.4 - 2018-04-17 =
 ------------------------
+
++ Added core RTL language support
++ Fixed fatal error on student management tables resulting from deleted admin users who manually enrolled students
++ Added filter to allow 3rd parties to disable achievement dupchecking (`llms_achievement_has_user_earned`)
++ Added {student_id} merge code which can be utilized on certificates
++ Added merge code insert button to certificates editor
++ Added filter to allow 3rd parties to disable certificate dupchecking (`llms_certificate_has_user_earned`)
++ Added filter to allow 3rd parties to add custom merge codes to certificates (`llms_certificate_merge_codes`)
++ Fix restriction check issue for lessons with drip or prerequisites on course outline widget / shortcode
++ Bumped WP tested to version to 4.9.5
 
 ##### Template Updates
 
 + [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
 
 
 = v3.17.3 - 2018-04-11 =
@@ -517,20 +528,6 @@ v3.17.4 - 2018-04-??
 + When a quiz is deleted, the lesson associated with the quiz will have those associations removed
 + Fixed grammar issue on restricted lesson tooltips when no custom message is stored on the course.
 + Updated functions causing issues in PHP 5.4 to work on PHP 5.4. This has been done to reduce frustration for users still using PHP 5.4 and lower; [This does not mean we advocate using software past the end of its life or that we support PHP 5.4 and lower](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/).
-
-
-= v3.16.11 - 2018-02-22 =
--------------------------
-
-+ Course import/exports and lesson duplication now carry custom meta data from 3rd party plugins and themes
-+ Added course completion date column to Course reporting students list
-+ Restriction checks made against a quiz will now properly cascade to the quiz's parent lesson
-+ Fixed issue preventing featured images from being exported with courses and lessons
-+ Fixed duplicate lesson issue causing quizzes to be double assigned to the old and new lesson
-+ Fixed issue allowing blog archive to be viewed by non-members when sitewide membership is enabled
-+ Fixed builder issue causing data to be lost during autosaves if data was edited during an autosave
-+ Fixed builder issue preventing lessons from moving between sections when clicking the "Prev" and "Next" section buttons
-+ Added actions to `LLMS_Generator` to allow 3rd parties to extend core generator functionality
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

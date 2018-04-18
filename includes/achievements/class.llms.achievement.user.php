@@ -1,11 +1,13 @@
 <?php
-
-if ( ! defined( 'ABSPATH' ) ) { exit; // Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
 }
+
 /**
 * User Achievemnet class, inherits methods from LLMS_Achievment
-*
 * Generates achievements for users.
+* @since    1.0.0
+* @version  3.17.4
 */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
@@ -26,7 +28,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * used to prevent duplicates
 	 * @return   boolean
 	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @version  3.17.4
 	 */
 	private function has_user_earned() {
 
@@ -46,7 +48,11 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 			array( $this->achievement_template_id, $this->userid, $this->lesson_id )
 		) );
 
-		return ( $count >= 1 );
+		/**
+		 * @filter llms_achievement_has_user_earned
+		 * Allow 3rd parties to override default dupcheck functionality for achievements
+		 */
+		return apply_filters( 'llms_achievement_has_user_earned', ( $count >= 1 ), $this );
 
 	}
 
@@ -114,6 +120,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		}
 
 		$this->create( $this->get_content() );
+
 	}
 
 	/**
