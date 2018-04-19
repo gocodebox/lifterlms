@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
 * Admin Settings Page, Accounts Tab
 * @since    1.0.0
-* @version  3.8.0
+* @version  [version]
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
@@ -35,7 +36,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return  array
 	 * @since   1.0.0
-	 * @version 3.8.0
+	 * @version [version]
 	 */
 	public function get_settings() {
 
@@ -64,7 +65,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc' 		=> '<br>' . __( 'Page where students can view and manage their current enrollments, earned certificates and acheivements, account information, and purchase history.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_page_id',
 				'default'	=> '',
-				'class'		=> 'chosen_select_nostd',
 				'desc_tip'	=> true,
 				'class'		=> 'llms-select2-post',
 				'type' 		=> 'select',
