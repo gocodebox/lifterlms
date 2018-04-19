@@ -1,9 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Admin Settings Page, Checkout Tab
+ * @since    3.0.0
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 	/**
@@ -35,7 +39,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 *
 	 * @return   array
 	 * @since    3.0.4
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function get_settings() {
 
@@ -65,12 +69,11 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Checkout Page', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Page used for displaying the checkout form.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'desc' 		=> '<br/>' . __( 'Page used for displaying the checkout form.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_checkout_page_id',
-				'type' 		=> 'single_select_page',
+				'type' 		=> 'select',
 				'default'	=> '',
-				'class'		=> 'llms-select2',
-				'desc_tip'	=> __( 'This sets the base page of the checkout page', 'lifterlms' ),
+				'class'		=> 'llms-select2-post',
 				'custom_attributes' => array(
 					'data-post-type' => 'page',
 				),
@@ -239,9 +242,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 	/**
 	 * save settings to the database
-	 *
 	 * @return LLMS_Admin_Settings::save_fields
-	 *
+	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function save() {
@@ -250,9 +252,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 	/**
 	 * get settings from the database
-	 *
 	 * @return array
-	 *
+	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function output() {
