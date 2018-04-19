@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.17.5 - 2018-04-??
+--------------------
+
++ Fix issue with audio & video embeds to prevent fallback to default post attachments
+
+
 v3.17.4 - 2018-04-17
 --------------------
 
