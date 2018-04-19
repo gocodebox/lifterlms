@@ -427,7 +427,8 @@ class LLMS_Admin_Settings {
 								<?php
 							}
 		                    ?>
-					   </select> <?php echo $description; ?>
+					   </select>
+					   <?php echo $description; ?>
 					</td>
 				</tr><?php
 			break;
@@ -584,18 +585,19 @@ class LLMS_Admin_Settings {
 			case 'single_select_page' :
 
 				$args = array(
-				'name'				=> $field['id'],
-							   'id'					=> $field['id'],
-							   'sort_column' 		=> 'menu_order',
-							   'sort_order'			=> 'ASC',
-							   'show_option_none' 	=> ' ',
-							   'class'				=> $field['class'],
-							   'echo' 				=> false,
-							   'selected'			=> absint( self::get_option( $field['id'] ) ),
-							   );
+					'name' => $field['id'],
+					'id' => $field['id'],
+					'sort_column' => 'menu_order',
+					'sort_order' => 'ASC',
+					'show_option_none' => ' ',
+					'class' => $field['class'],
+					'echo' => false,
+					'selected' => absint( self::get_option( $field['id'] ) ),
+				);
 
 				if ( isset( $field['args'] ) ) {
-					$args = wp_parse_args( $field['args'], $args ); }
+					$args = wp_parse_args( $field['args'], $args );
+				}
 
 				?><tr valign="top" class="single_select_page">
 					<th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
