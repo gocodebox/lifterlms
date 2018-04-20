@@ -1,13 +1,14 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
-* Admin Settings Class
-* Settings field Factory
-* @since    1.0.0
-* @version  3.8.0
-*/
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+ * Admin Settings Class
+ * Settings field Factory
+ * @since    1.0.0
+ * @version  [version]
+ */
 class LLMS_Admin_Settings {
 
 	/**
@@ -807,12 +808,11 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Save admin fields.
-	 *
 	 * Loops though the lifterlms options array and outputs each field.
-	 *
-	 * @param array $settings Opens array to output
-	 *
-	 * @return bool
+	 * @param    array $settings Opens array to output
+	 * @return   bool
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public static function save_fields( $settings ) {
 	    if ( empty( $_POST ) ) {
@@ -866,6 +866,7 @@ class LLMS_Admin_Settings {
 
 		    	break;
 
+		    	case 'password':
 		    	case 'text' :
 		    	case 'email':
 	            case 'number':
@@ -880,6 +881,10 @@ class LLMS_Admin_Settings {
 		            	$option_value = llms_clean( stripslashes( $_POST[ $value['id'] ] ) );
 		            } else {
 		                $option_value = '';
+		            }
+
+		            if ( isset( $value['sanitize'] ) && 'slug' === $value['sanitize'] ) {
+		            	$option_value = sanitize_title( $option_value );
 		            }
 
 		    	break;
