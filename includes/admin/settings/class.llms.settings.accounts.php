@@ -55,8 +55,8 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
-				'id' => 'account_page_options',
-				'title' => __( 'Account Dashboard', 'lifterlms' ),
+				'id' => 'account_page_options_start',
+				'title' => __( 'Student Dashboard', 'lifterlms' ),
 				'type' => 'title',
 			),
 
@@ -75,79 +75,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
-				'title' => __( 'View Courses', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'List of all the student\'s courses', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_courses_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'my-courses',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' => __( 'View Achievements', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'List of all the student\'s achievements', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_achievements_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'my-achievements',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' => __( 'Notifications', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'View Notifications and adjust notification settings', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_notifications_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'notifications',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' => __( 'Edit Account', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'Edit Account page', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_edit_account_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'edit-account',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' => __( 'Lost Password', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'Lost Password page', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_lost_password_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'lost-password',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' => __( 'Redeem Vouchers', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'Redeem vouchers page', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_redeem_vouchers_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'redeem-voucher',
-				'desc_tip'	=> true,
-			),
-
-			array(
-				'title' => __( 'Orders History', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'Students can review order history on this page', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_orders_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'orders',
-				'desc_tip'	=> true,
-			),
-
-			// @todo this doesn't do anything...
-			// array(
-			// 	'title' => __( 'Logout', 'lifterlms' ),
-			// 	'desc' 		=> __( 'Custom Link: yoursite.com/?person-logout=true', 'lifterlms' ),
-			// 	'id' 		=> 'lifterlms_logout_endpoint',
-			// 	'type' 		=> 'text',
-			// 	'default'	=> 'logout',
-			// 	'desc_tip'	=> true,
-			// ),
-
-			array(
 				'title' => __( 'Courses Sorting', 'lifterlms' ),
 				'default'	=> 'order,ASC',
 				'desc' 		=> '<br>' . __( 'Determines the order of the courses in-progress listed on the student dashboard.', 'lifterlms' ),
@@ -163,7 +90,88 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
-				'id' => 'course_account_options',
+				'id' => 'course_account_options_end',
+				'type' => 'sectionend',
+			),
+
+			array(
+				'class' => 'top',
+				'id' => 'course_account_endpoint_options_start',
+				'type' => 'sectionstart',
+			),
+
+			array(
+				'id' => 'account_page_endpoint_options_title',
+				'title' => __( 'Student Dashboard Endpoints', 'lifterlms' ),
+				'desc' => __( 'Each endpoint allows students to view more information or manage parts of their account. Each endpoint should be unique, URL-safe, and can be left blank to disable the endpoint completely.', 'lifterlms' ),
+				'type' => 'title',
+			),
+
+			array(
+				'title' => __( 'View Courses', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'List of all the student\'s courses', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_courses_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-courses',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'View Achievements', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'List of all the student\'s achievements', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_achievements_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-achievements',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'Notifications', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'View Notifications and adjust notification settings', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_notifications_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'notifications',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'Edit Account', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Edit Account page', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_edit_account_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'edit-account',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'Lost Password', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Lost Password page', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_lost_password_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'lost-password',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'Redeem Vouchers', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Redeem vouchers page', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_redeem_vouchers_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'redeem-voucher',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'Orders History', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Students can review order history on this page', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_orders_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'orders',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'id' => 'course_account_endpoint_options_end',
 				'type' => 'sectionend',
 			),
 
