@@ -130,11 +130,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Confirm Payment', 'lifterlms' ),
-				'desc' 		=> __( 'Payment Confirmation Page', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_confirm_payment_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'confirm-payment',
-				'desc_tip'	=> true,
+				'desc' => '<br>' . __( 'Payment confirmation endpont slug', 'lifterlms' ),
+				'id' => 'lifterlms_myaccount_confirm_payment_endpoint',
+				'type' => 'text',
+				'default' => 'confirm-payment',
+				'desc_tip' => true,
+				'sanitize' => 'slug',
 			),
 
 			array(
