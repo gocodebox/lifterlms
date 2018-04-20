@@ -5,6 +5,11 @@ v3.17.5 - 2018-04-??
 --------------------
 
 + Fix issue with audio & video embeds to prevent fallback to default post attachments
++ Added a "View" button next to any admin setting post/page selection field to allow quick viewing of the selected post
++ Purchase page setting field is now ajax powered like all other page selection settings
++ Improved admin settings page interface to allow for section navigation
++ Updated checkout setting pages to utilize a separate section (page) for each available payment gateway
++ Updated CSS on settings page to have more regular spacing between subtitles and settings fields
 
 
 v3.17.4 - 2018-04-17
