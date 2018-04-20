@@ -4,6 +4,10 @@ LifterLMS Changelog
 v3.17.5 - 2018-04-??
 --------------------
 
++ Dashboard endpoints can now be registered by setting the endpoint slug to be blank on account settings
++ All dashboard endpoints now automatically sanitized to be URL safe
++ Moved dashboard endpoints to a separate section on the accounts settings area
++ Renamed dashboard settings section titles to be more consistent with language in other areas of LifterLMS
 + Fix issue with audio & video embeds to prevent fallback to default post attachments
 + Added a "View" button next to any admin setting post/page selection field to allow quick viewing of the selected post
 + Purchase page setting field is now ajax powered like all other page selection settings
