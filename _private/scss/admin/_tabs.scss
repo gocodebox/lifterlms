@@ -29,6 +29,35 @@
 
 	}
 
+	&.llms-nav-text {
+		background: inherit;
+		.llms-nav-item {
+			background: inherit;
+			&:last-child:after {
+				display: none;
+			}
+			&:after {
+				content: '|';
+				display: inline-block;
+				margin: 0 3px 0 0;
+			}
+			.llms-nav-link:hover,
+			&.llms-active .llms-nav-link {
+				background: inherit;
+				color: $color-brand-blue;
+				text-decoration: underline;
+			}
+			.llms-nav-link {
+				color: $color-brand-dark-blue;
+				display: inline-block;
+				letter-spacing: 0;
+				margin: 0;
+				padding: 0;
+				text-transform: none;
+			}
+		}
+	}
+
 	.llms-nav-items {
 		@include clearfix;
 		margin: 0;

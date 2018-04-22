@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.13.0
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -700,7 +700,7 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.10.1
+		 * @version  [version]
 		 */
 		this.post_select = function( $el ) {
 
@@ -766,8 +766,22 @@
 					},
 				},
 				cache: true,
-				width: '100%',
+				width: '80%',
 			} );
+
+			// add a "View" button to see what the selected page looks like
+			var msg = LLMS.l10n.translate( 'View' ),
+				$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' +  msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
+			$el.next( '.select2' ).after( $btn );
+
+			$el.on( 'change', function() {
+				var id = $( this ).val();
+				if ( id ) {
+					$btn.attr( 'href', '/?p=' + id ).show();
+				} else {
+					$btn.hide();
+				}
+			} ).trigger( 'change' );
 
 		};
 

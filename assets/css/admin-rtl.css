@@ -1293,6 +1293,9 @@ body .chosen-container-multi .chosen-choices li.search-field input[type="text"] 
 .llms-widget.is-loading .spinner {
   visibility: visible;
 }
+.llms-widget td[colspan="2"] {
+  padding-right: 0;
+}
 
 .llms-widget-1-3,
 .llms-widget-1-4,
@@ -2977,6 +2980,33 @@ a.llms-view-as {
   font-size: 15px;
   height: 15px;
   width: 15px;
+}
+.llms-nav-tab-wrapper.llms-nav-text {
+  background: inherit;
+}
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item {
+  background: inherit;
+}
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item:last-child:after {
+  display: none;
+}
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item:after {
+  content: '|';
+  display: inline-block;
+  margin: 0 0 0 3px;
+}
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item .llms-nav-link:hover, .llms-nav-tab-wrapper.llms-nav-text .llms-nav-item.llms-active .llms-nav-link {
+  background: inherit;
+  color: #2295ff;
+  text-decoration: underline;
+}
+.llms-nav-tab-wrapper.llms-nav-text .llms-nav-item .llms-nav-link {
+  color: #243c56;
+  display: inline-block;
+  letter-spacing: 0;
+  margin: 0;
+  padding: 0;
+  text-transform: none;
 }
 .llms-nav-tab-wrapper .llms-nav-items {
   margin: 0;
