@@ -75,7 +75,7 @@ body {
 
 
 @media print {
-  @page { size: landscape; }
+  @page { size: auto; }
   .no-print, .no-print * {
     display: none !important;
   }
