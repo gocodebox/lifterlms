@@ -2636,6 +2636,10 @@ a.llms-view-as {
 .llms-table.text-left td, .llms-table.text-left th {
   text-align: left;
 }
+.llms-table.size-large td, .llms-table.size-large th {
+  font-size: 105%;
+  padding: 8px;
+}
 .llms-table .llms-action-icon {
   color: #777;
   text-decoration: none;
@@ -2670,6 +2674,16 @@ a.llms-view-as {
 .llms-table-progress .llms-table-progress-inner {
   background: #2295ff;
   height: 100%;
+}
+
+.llms-table.llms-gateway-table .status .fa {
+  color: #2295ff;
+  font-size: 22px;
+}
+.llms-table.llms-gateway-table .sort {
+  cursor: move;
+  text-align: center;
+  width: 10px;
 }
 
 .llms-order-note .llms-order-note-content {
