@@ -37,6 +37,59 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	}
 
 	/**
+	 * Get HTML for the payment gateways table
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_gateway_table_html() {
+
+		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
+
+		usort( $gateways, array( $this, 'sort_gateways' ) );
+
+		ob_start();
+		?>
+
+		<table class="llms-table zebra text-left size-large llms-gateway-table">
+			<thead>
+				<tr>
+					<th class="sort"></th>
+					<th><?php _e( 'Gateway', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Gateway ID', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Enabled', 'lifterlms' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach ( $gateways as $gateway ) : ?>
+				<tr>
+					<td class="sort">
+						<i class="fa fa-bars llms-action-icon" aria-hidden="true"></i>
+						<input type="hidden" name="<?php echo $gateway->get_option_name( 'display_order' ); ?>" value="<?php echo $gateway->get_display_order(); ?>">
+					</td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo $gateway->get_admin_title(); ?></a></td>
+					<td><?php echo $gateway->get_id(); ?></td>
+					<td class="status">
+						<?php if ( $gateway->is_enabled() ) : ?>
+							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
+								<span class="screen-reader-text"><?php _e( 'Enabled', 'lifterlms' ); ?></span>
+								<i class="fa fa-check-circle" aria-hidden="true"></i>
+							</span>
+						<?php else : ?>
+							&ndash;
+						<?php endif; ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+
+		<?php
+		return ob_get_clean();
+
+	}
+
+	/**
 	 * Get the page sections
 	 * @return   array
 	 * @since    [version]
@@ -249,6 +302,28 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'id' => 'general_options',
 			),
 
+			array(
+				'type' => 'sectionstart',
+				'id' => 'checkout_settings_gateways_list_start',
+			),
+
+			array(
+				'title' => __( 'Payment Gateways', 'lifterlms' ),
+				'type' => 'title',
+				// 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ),
+				'id' => 'checkout_settings_gateways_list_title',
+			),
+
+			array(
+				'value' => $this->get_gateway_table_html(),
+				'type' => 'custom-html',
+			),
+
+			array(
+				'type' => 'sectionend',
+				'id' => 'checkout_settings_gateways_list_end',
+			),
+
 		);
 
 	}
@@ -303,6 +378,47 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 		);
 
 		return $settings;
+
+	}
+
+	/**
+	 * Override default save method to save the display order of payment gateways
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function save() {
+
+		// save all custom fields
+		parent::save();
+
+		// save display order of gateways
+		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $id => $gateway ) {
+			$option = $gateway->get_option_name( 'display_order' );
+			if ( isset( $_POST[ $option ] ) ) {
+				update_option( $option, absint( $_POST[ $option ] ) );
+			}
+		}
+	}
+
+	/**
+	 * usort function used to ensure gateways are sorted by display order on the gateways table
+	 * @param    obj     $gateway_a  Payment Gateway instance
+	 * @param    obj     $gateway_b  Payment Gateway instance
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function sort_gateways( $gateway_a, $gateway_b ) {
+
+		$a_order = $gateway_a->get_display_order();
+		$b_order = $gateway_b->get_display_order();
+
+		if ( $a_order == $b_order ) {
+			return 0;
+		}
+
+		return $a_order < $b_order ? -1 : 1;
 
 	}
 
