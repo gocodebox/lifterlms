@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Admin Settings Page, Checkout Tab
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.5
  */
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
@@ -22,7 +22,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * Constructor
 	 * executes settings tab actions
 	 * @since    3.0.4
-	 * @version  [version]
+	 * @version  3.17.5
 	 */
 	public function __construct() {
 
@@ -39,8 +39,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	/**
 	 * Get HTML for the payment gateways table
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	public function get_gateway_table_html() {
 
@@ -92,8 +92,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	/**
 	 * Get the page sections
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	public function get_sections() {
 
@@ -119,7 +119,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return   array
 	 * @since    3.0.4
-	 * @version  [version]
+	 * @version  3.17.5
 	 */
 	public function get_settings() {
 
@@ -133,14 +133,13 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_gateway_settings_' . $curr_section, $this->get_settings_gateway( $curr_section ) );
 
-
 	}
 
 	/**
 	 * Retrieve the default checkout settings for the main section
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	private function get_settings_default() {
 
@@ -332,8 +331,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * Retrieve settings for a gateway section
 	 * @param    string     $curr_section  gateway ID string
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	private function get_settings_gateway( $curr_section ) {
 
@@ -384,8 +383,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	/**
 	 * Override default save method to save the display order of payment gateways
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	public function save() {
 
@@ -406,8 +405,8 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * @param    obj     $gateway_a  Payment Gateway instance
 	 * @param    obj     $gateway_b  Payment Gateway instance
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	public function sort_gateways( $gateway_a, $gateway_b ) {
 

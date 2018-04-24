@@ -1,7 +1,7 @@
 /**
  * LifterLMS Settings Pages UI / UX
  * @since    3.7.3
- * @version  [version]
+ * @version  3.17.5
  */
 ;( function( $, undefined ) {
 
@@ -11,7 +11,7 @@
 	 * Main settings class
 	 * @return   obj
 	 * @since    3.7.3
-	 * @version  [version]
+	 * @version  3.17.5
 	 */
 	window.llms.admin_settings = function() {
 
@@ -31,7 +31,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    3.7.3
-		 * @version  [version]
+		 * @version  3.17.5
 		 */
 		this.bind = function() {
 

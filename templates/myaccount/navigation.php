@@ -2,7 +2,7 @@
 /**
  * My Account Navigation Links
  * @since    2.?.?
- * @version  [version]
+ * @version  3.17.5
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

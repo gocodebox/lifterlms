@@ -6,7 +6,15 @@ LifterLMS Changelog
 + Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
 
 
-v3.17.5 - 2018-04-??
+
+v3.17.6 - 2018-04-??
+--------------------
+
++ Updated CSS for Certificates to be more generally compatible with theme styles when printed
++ Allow system print settings to control print layout for certificates by removing explicit landscape declarations
+
+
+v3.17.5 - 2018-04-23
 --------------------
 
 ##### Admin Settings Interface Improvements
