@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.17.4
+* @version  3.17.5
 */
 class LLMS_Admin_Assets {
 
@@ -19,13 +19,9 @@ class LLMS_Admin_Assets {
 	/**
 	 * Constructor
 	 * @since    1.0.0
-	 * @version  3.17.4
+	 * @version  3.17.5
 	 */
 	public function __construct() {
-
-		$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
-
-		self::$min = ( $debug ) ? '' : '.min';
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
@@ -94,7 +90,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.17.4
+	 * @version  3.17.5
 	 */
 	public function admin_scripts() {
 
@@ -235,7 +231,7 @@ class LLMS_Admin_Assets {
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
 
 			wp_enqueue_media();
-			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable' ), LLMS()->version, true );
 
 		} elseif ( 'admin_page_llms-course-builder' === $screen->id ) {
 
@@ -257,7 +253,7 @@ class LLMS_Admin_Assets {
 			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
 				wp_enqueue_script( 'heartbeat' );
 			}
-			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-builder', plugins_url( '/assets/js/llms-builder' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms', 'llms-quill' ), LLMS()->version, true );
 
 		}
 

@@ -1,21 +1,30 @@
 LifterLMS Changelog
 ===================
 
-v3.17.5 - 2018-04-??
+v3.17.5 - 2018-04-23
 --------------------
 
-+ Dashboard endpoints can now be registered by setting the endpoint slug to be blank on account settings
-+ All dashboard endpoints now automatically sanitized to be URL safe
-+ Moved dashboard endpoints to a separate section on the accounts settings area
-+ Renamed dashboard settings section titles to be more consistent with language in other areas of LifterLMS
-+ Fix issue with audio & video embeds to prexvent fallback to default post attachments
-+ Added a "View" button next to any admin setting post/page selection field to allow quick viewing of the selected post
-+ Purchase page setting field is now ajax powered like all other page selection settings
+##### Admin Settings Interface Improvements
+
 + Improved admin settings page interface to allow for section navigation
 + Updated checkout setting pages to utilize a separate section (page) for each available payment gateway
++ Added a table of payment gateways to see at a glance which gateways are enabled and allows drag and drop reordering of gateway display order
++ Moved dashboard endpoints to a separate section on the accounts settings area
 + Updated CSS on settings page to have more regular spacing between subtitles and settings fields
-+ Fix issue causing student selection boxes to malfunction due to missing dependencies when loaded over slow connections
++ Added a "View" button next to any admin setting post/page selection field to allow quick viewing of the selected post
++ Purchase page setting field is now ajax powered like all other page selection settings
++ Renamed dashboard settings section titles to be more consistent with language in other areas of LifterLMS
++ All dashboard endpoints now automatically sanitized to be URL safe
 
+##### Updates and Enhancements
+
++ Dashboard endpoints can now be deregistered by setting the endpoint slug to be blank on account settings
+
+##### Bug Fixes
+
++ Fix issue causing 404s for various script files when SCRIPT_DEBUG is enabled
++ Fix issue with audio & video embeds to prexvent fallback to default post attachments
++ Fix issue causing student selection boxes to malfunction due to missing dependencies when loaded over slow connections
 
 ##### Template Updates
 
