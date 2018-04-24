@@ -6,16 +6,17 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.17.4
+* @version  3.17.5
 */
 class LLMS_Admin_Assets {
 
 	/**
 	 * Constructor
 	 * @since    1.0.0
-	 * @version  3.17.4
+	 * @version  3.17.5
 	 */
 	public function __construct() {
+
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_styles' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
 		add_action( 'admin_print_scripts', array( $this, 'admin_print_scripts' ) );
@@ -83,7 +84,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.17.4
+	 * @version  3.17.5
 	 */
 	public function admin_scripts() {
 
@@ -224,7 +225,7 @@ class LLMS_Admin_Assets {
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
 
 			wp_enqueue_media();
-			wp_enqueue_script( 'llms-admin-settings', LLMS_PLUGIN_URL . '/assets/js/llms-admin-settings' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable' ), LLMS()->version, true );
 
 		} elseif ( 'admin_page_llms-course-builder' === $screen->id ) {
 
@@ -246,7 +247,8 @@ class LLMS_Admin_Assets {
 			if ( apply_filters( 'llms_builder_use_heartbeat', true ) ) {
 				wp_enqueue_script( 'heartbeat' );
 			}
-			wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . '/assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
+
+					wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . '/assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
 
 		}
 
@@ -294,8 +296,6 @@ class LLMS_Admin_Assets {
 	 * @version  3.17.2
 	 */
 	public static function register_quill( $modules = array() ) {
-
-		$min = ( ! defined( 'WP_DEBUG' ) || WP_DEBUG == false ) ? '.min' : '';
 
 		if ( ! wp_script_is( 'llms-quill', 'registered' ) ) {
 

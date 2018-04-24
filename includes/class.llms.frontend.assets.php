@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.17.4
+* @version  3.17.5
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Frontend_Assets {
 
 	/**
@@ -29,9 +30,10 @@ class LLMS_Frontend_Assets {
 	 * Replaces non-static __construct() from 3.4.0 & lower
 	 * @return   void
 	 * @since    3.4.1
-	 * @version  3.17.4
+	 * @version  3.17.5
 	 */
 	public static function init() {
+
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_styles' ) );
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );

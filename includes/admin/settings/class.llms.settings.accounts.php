@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Settings Page, Accounts Tab
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.5
 */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -36,7 +36,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return  array
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.17.5
 	 */
 	public function get_settings() {
 

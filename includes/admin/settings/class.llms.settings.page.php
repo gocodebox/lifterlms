@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Admin Settings Page Base Class
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.5
  */
 class LLMS_Settings_Page {
 
@@ -49,8 +49,8 @@ class LLMS_Settings_Page {
 	/**
 	 * Retrieve current section from URL var
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	protected function get_current_section() {
 
@@ -62,7 +62,7 @@ class LLMS_Settings_Page {
 	 * Get the page sections (stub)
 	 * @return   array
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.5
 	 */
 	public function get_sections() {
 
@@ -73,8 +73,8 @@ class LLMS_Settings_Page {
 	/**
 	 * Retrieve the page's settings (stub)
 	 * @return   [array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	public function get_settings() {
 
@@ -86,7 +86,7 @@ class LLMS_Settings_Page {
 	 * Output the settings fields
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.5
 	 */
 	public function output() {
 
@@ -97,8 +97,8 @@ class LLMS_Settings_Page {
 	/**
 	 * Output settings sections as tabs and set post href
 	 * @return array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	public function output_sections_nav() {
 
@@ -126,7 +126,7 @@ class LLMS_Settings_Page {
 	 * Save the settings field values
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.5
 	 */
 	public function save() {
 

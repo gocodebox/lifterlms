@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 4.9.5
-Stable tag: 3.17.4
+Stable tag: 3.17.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -351,6 +351,36 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.17.5 - 2018-04-23 =
+------------------------
+
+##### Admin Settings Interface Improvements
+
++ Improved admin settings page interface to allow for section navigation
++ Updated checkout setting pages to utilize a separate section (page) for each available payment gateway
++ Added a table of payment gateways to see at a glance which gateways are enabled and allows drag and drop reordering of gateway display order
++ Moved dashboard endpoints to a separate section on the accounts settings area
++ Updated CSS on settings page to have more regular spacing between subtitles and settings fields
++ Added a "View" button next to any admin setting post/page selection field to allow quick viewing of the selected post
++ Purchase page setting field is now ajax powered like all other page selection settings
++ Renamed dashboard settings section titles to be more consistent with language in other areas of LifterLMS
++ All dashboard endpoints now automatically sanitized to be URL safe
+
+##### Updates and Enhancements
+
++ Dashboard endpoints can now be deregistered by setting the endpoint slug to be blank on account settings
+
+##### Bug Fixes
+
++ Fix issue causing 404s for various script files when SCRIPT_DEBUG is enabled
++ Fix issue with audio & video embeds to prexvent fallback to default post attachments
++ Fix issue causing student selection boxes to malfunction due to missing dependencies when loaded over slow connections
+
+##### Template Updates
+
++ [templates/myaccount/navigation.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/navigation.php)
+
+
 = v3.17.4 - 2018-04-17 =
 ------------------------
 
@@ -515,19 +545,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 -------------------------
 
 + Hotfix: Only create quizzes on the builder if quizzes exist on the lesson
-
-
-= v3.16.12 - 2018-02-27 =
--------------------------
-
-+ Quizzes can now be detached (removed from a lesson) or deleted (deleted from the lesson and the database) via the Course Builder
-+ Improved question choice randomization to ensure randomized choices never display in their original order.
-+ When a lesson is deleted, any quiz attached to the lesson will become an orphan
-+ When a lesson is deleted, any lesson with this lesson as a prerequisite will have it's prerequisite data removed
-+ When a quiz is deleted, all questions attached to the quiz will also be deleted
-+ When a quiz is deleted, the lesson associated with the quiz will have those associations removed
-+ Fixed grammar issue on restricted lesson tooltips when no custom message is stored on the course.
-+ Updated functions causing issues in PHP 5.4 to work on PHP 5.4. This has been done to reduce frustration for users still using PHP 5.4 and lower; [This does not mean we advocate using software past the end of its life or that we support PHP 5.4 and lower](https://lifterlms.com/docs/minimum-system-requirements-lifterlms/).
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
