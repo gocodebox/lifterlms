@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin Settings Class
  * Settings field Factory
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.5
  */
 class LLMS_Admin_Settings {
 
@@ -812,7 +812,7 @@ class LLMS_Admin_Settings {
 	 * @param    array $settings Opens array to output
 	 * @return   bool
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.5
 	 */
 	public static function save_fields( $settings ) {
 	    if ( empty( $_POST ) ) {

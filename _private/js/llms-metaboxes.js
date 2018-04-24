@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.5
  */
 ( function( $ ) {
 
@@ -700,7 +700,7 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.17.5
 		 */
 		this.post_select = function( $el ) {
 
