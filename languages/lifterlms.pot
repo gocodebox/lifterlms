@@ -2565,6 +2565,10 @@ msgstr ""
 msgid "# of Courses Completed"
 msgstr ""
 
+#: includes/admin/reporting/widgets/class.llms.analytics.widget.enrollments.php:20
+msgid "# of Enrollments"
+msgstr ""
+
 #: includes/admin/reporting/widgets/class.llms.analytics.widget.lessoncompletions.php:19
 msgid "# of Lessons Completed"
 msgstr ""
