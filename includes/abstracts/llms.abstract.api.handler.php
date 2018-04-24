@@ -1,13 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
- * LifterLMS User Data Abstract
- *
+ * 3rd Party API request handler
  * @since   3.11.2
- * @version 3.11.2
+ * @version [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_API_Handler {
 
 	/**
@@ -15,6 +15,12 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @var  string
 	 */
 	protected $default_request_method = 'POST';
+
+	/**
+	 * Determine if the request should be made as JSON
+	 * @var  bool
+	 */
+	protected $is_json = true;
 
 	/**
 	 * Request timeout in seconds
@@ -49,19 +55,22 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
 	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @version  [version]
 	 */
 	private function call( $resource, $data, $method = null ) {
 
 		$method = is_null( $method ) ? $this->default_request_method : $method;
 
+		$body = $this->set_request_body( $data, $method, $resource );
+		$content_type = $this->is_json ?  'application/json; charset=utf-8' : 'application/x-www-form-urlencoded';
+
 		// attempt to call the API
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
 			array(
-				'body' => json_encode( $this->set_request_body( $data, $method, $resource ) ),
+				'body' => $this->is_json ? json_encode( $body ) : $body,
 				'headers' => $this->set_request_headers( array(
-					'content-type' => 'application/json; charset=utf-8',
+					'content-type' => $content_type,
 				), $resource, $method ),
 				'method' => $method,
 				'timeout' => $this->request_timeout,

@@ -2,7 +2,7 @@
  * LifterLMS Checkout Screen related events and interactions
  *
  * @since    3.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -10,16 +10,16 @@
 
 		/**
 		 * Array of validation functions to call on form submission
-		 * @type  array
-		 * @since 3.0.0
+		 * @type    array
+		 * @since   3.0.0
 		 * @version 3.0.0
 		 */
 		var before_submit = []; // array of functions to call before submitting the form
 
 		/**
 		 * Array of gateways to be automatically bound when needed
-		 * @type  array
-		 * @since 3.0.0
+		 * @type    array
+		 * @since   3.0.0
 		 * @version 3.0.0
 		 */
 		var gateways = [];
@@ -78,6 +78,30 @@
 
 			before_submit.push( obj );
 
+		};
+
+		this.add_error = function( message, data ) {
+
+			var id = 'llms-checkout-errors';
+				$err = $( '#' + id );
+
+			if ( ! $err.length ) {
+				$err = $( '<ul class="llms-notice llms-error" id="' + id + '" />' );
+				$( '.llms-checkout-wrapper' ).prepend( $err );
+			}
+
+			$err.append( '<li>' + errors[i] + '</li>' );
+
+		};
+
+		this.clear_errors = function() {
+			$( '#llms-checkout-errors' ).remove();
+		};
+
+		this.focus_errors = function() {
+			$( 'html, body' ).animate( {
+				scrollTop: $( '#llms-checkout-errors' ).offset().top - 50,
+			}, 200 );
 		};
 
 		/**
@@ -379,7 +403,7 @@
 		 * @param    obj   e  JS event object
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  [version]
 		 */
 		this.submit = function( e ) {
 
@@ -398,7 +422,7 @@
 			self.processing( 'start' );
 
 			// remove errors to prevent duplicates
-			$( '#llms-checkout-errors' ).remove();
+			self.clear_errors();
 
 			// start running all the events
 			for ( var i = 0; i < before_submit.length; i++ ) {
@@ -447,16 +471,11 @@
 						clear = true;
 						stop = true;
 
-						var $err = $( '<ul class="llms-notice llms-error" id="llms-checkout-errors" />')
-
 						for ( var i = 0; i < errors.length; i++ ) {
-							$err.append( '<li>' + errors[i] + '</li>' );
+							self.add_error( errors[ i ] );
 						}
 
-						$( '.llms-checkout-wrapper' ).prepend( $err );
-						$( 'html, body' ).animate( {
-							scrollTop: $err.offset().top - 50,
-						}, 200 );
+						self.focus_errors();
 
 					}
 

@@ -43,7 +43,7 @@ $strings = array(
 
 	/**
 	 * file: _private/js/llms-admin-settings.js
-	 * @since    [version]
+	 * @since    3.7.3
 	 * @version  [version]
 	 */
 	'Select an Image' => esc_html__( 'Select an Image', 'lifterlms' ),
@@ -52,7 +52,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-admin.js
 	 * @since    ??
-	 * @version  3.17.3
+	 * @version  [version]
 	 */
 	'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
 
@@ -84,13 +84,14 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-metaboxes.js
 	 * @since    3.0.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	'membership_bulk_enrollment_warning' => esc_html__( 'membership_bulk_enrollment_warning', 'lifterlms' ),
 	'Cancel' => esc_html__( 'Cancel', 'lifterlms' ),
 	'Refund' => esc_html__( 'Refund', 'lifterlms' ),
 	'Record a Manual Payment' => esc_html__( 'Record a Manual Payment', 'lifterlms' ),
 	'Copy this code and paste it into the desired area' => esc_html__( 'Copy this code and paste it into the desired area', 'lifterlms' ),
+	'View' => esc_html__( 'View', 'lifterlms' ),
 
 	/**
 	 * file: _private/js/llms-quiz-attempt-review.js
