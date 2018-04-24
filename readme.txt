@@ -351,6 +351,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+v3.17.6 - 2018-04-??
+------------------------
+
++ Updated CSS for Certificates to be more generally compatible with theme styles when printed
++
+
+
+
 = v3.17.5 - 2018-04-23 =
 ------------------------
 

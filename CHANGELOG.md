@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v3.17.6 - 2018-04-??
+--------------------
+
++ Updated CSS for Certificates to be more generally compatible with theme styles when printed
++ Allow system print settings to control print layout for certificates by removing explicit landscape declarations
+
+
+
 v3.17.5 - 2018-04-23
 --------------------
 

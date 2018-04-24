@@ -60,6 +60,7 @@ body {
   top: 0;
   left: 0;
   right: 0;
+  margin: 0 auto;
 }
 .llms-certificate-container .llms_certificate,
 .llms-certificate-container .llms_my_certificate {
@@ -69,9 +70,29 @@ body {
 
 @media print {
   @page {
-    size: landscape;
+    size: auto;
   }
-  .no-print, .no-print * {
-    display: none !important;
+  /* Make everything on the page invisible */
+  body * {
+    visibility: hidden;
+  }
+
+  /* remove all headers, menus and footers */
+  header, nav, footer {
+    display: none;
+  }
+
+  /* make only the certificate container and its children visible */
+  .llms-certificate-container, .llms-certificate-container * {
+    visibility: visible;
+  }
+
+  /* position certificate absolutely and center horizontally */
+  .llms-certificate-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 auto;
   }
 }

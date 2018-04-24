@@ -79,22 +79,22 @@ body {
 	@page { size: auto; }
 
 	/* Make everything on the page invisible */
-    body *{
+    body * {
         visibility: hidden;
     }
 
 	/* remove all headers, menus and footers */
-    header, nav, footer{
-        display:none;
+    header, nav, footer {
+        display: none;
     }
 
 	/* make only the certificate container and its children visible */
-    .llms-certificate-container, .llms-certificate-container *{
+    .llms-certificate-container, .llms-certificate-container * {
 		visibility: visible;
     }
 
     /* position certificate absolutely and center horizontally */
-    .llms-certificate-container{
+    .llms-certificate-container {
 		position: absolute;
 		top: 0;
 		left: 0;
