@@ -429,7 +429,7 @@ class LLMS_Admin_Settings {
 							}
 		                    ?>
 					   </select>
-					   <?php echo $description; ?>
+						<?php echo $description; ?>
 					</td>
 				</tr><?php
 			break;

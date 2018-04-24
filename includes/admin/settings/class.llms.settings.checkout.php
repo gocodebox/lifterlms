@@ -133,7 +133,6 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 		return apply_filters( 'lifterlms_gateway_settings_' . $curr_section, $this->get_settings_gateway( $curr_section ) );
 
-
 	}
 
 	/**

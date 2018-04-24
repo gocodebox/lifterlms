@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.17.5 - 2018-04-??
+v3.17.5 - 2018-04-23
 --------------------
 
 ##### Admin Settings Interface Improvements
