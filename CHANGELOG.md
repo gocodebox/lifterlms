@@ -1,6 +1,11 @@
 LifterLMS Changelog
 ===================
 
++ Updated checkout javascript to expose an error addition function
++ Removed display order field from payment gateway settings in favor of using the gateway table sortable list
++ Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
+
+
 v3.17.5 - 2018-04-??
 --------------------
 
