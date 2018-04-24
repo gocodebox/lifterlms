@@ -1,15 +1,38 @@
+/**
+ * LifterLMS Settings Pages UI / UX
+ * @since    3.7.3
+ * @version  [version]
+ */
 ;( function( $, undefined ) {
 
 	window.llms = window.llms || {};
 
+	/**
+	 * Main settings class
+	 * @return   obj
+	 * @since    3.7.3
+	 * @version  [version]
+	 */
 	window.llms.admin_settings = function() {
 
 		this.file_frame = null;
 
+		/**
+		 * Initialize
+		 * @return   void
+		 * @since    3.7.3
+		 * @version  3.7.3
+		 */
 		this.init = function() {
 			this.bind();
 		};
 
+		/**
+		 * Bind DOM events
+		 * @return   void
+		 * @since    3.7.3
+		 * @version  [version]
+		 */
 		this.bind = function() {
 
 			var self = this;
@@ -26,8 +49,38 @@
 				} );
 			}
 
+			if ( $( '.llms-gateway-table' ).length ) {
+				$( '.llms-gateway-table tbody' ).sortable( {
+					axis: 'y',
+					cursor: 'move',
+					items: 'tr',
+					// containtment: 'parent',
+					handle: 'td.sort',
+					helper: function( event, ui ) {
+						ui.children().each( function() {
+							$( this ).width( $( this ).width() );
+						} );
+						// ui.css( 'left', '0' );
+						return ui;
+					},
+					update: function( event, ui ) {
+						$( this ).find( 'td.sort input' ).each( function( i ) {
+							$( this ).val( i );
+						} );
+					}
+				} );
+			}
+
 		};
 
+		/**
+		 * Click event for image upload fields
+		 * @param    obj   $btn  jQuery object for clicked button
+		 * @param    obj   e     JS event object
+		 * @return   void
+		 * @since    3.7.3
+		 * @version  3.7.3
+		 */
 		this.image_upload_click = function( $btn, e ) {
 
 			var self = this,
@@ -58,6 +111,15 @@
 
 		};
 
+		/**
+		 * Update the DOM with a selected image
+		 * @param    obj      $btn  jQuery object of the clicked button
+		 * @param    int      id    WP Attachment ID of the image
+		 * @param    string   src   <img> src of the selected image
+		 * @return   void
+		 * @since    3.7.3
+		 * @version  3.7.3
+		 */
 		this.update_image = function( $btn, id, src ) {
 
 			var $input = $( '#' + $btn.attr( 'data-id' ) ),
