@@ -152,13 +152,13 @@ class LLMS_Controller_Orders {
 	 */
 	public function create_pending_order() {
 
-		// only run this if the correct action has been posted
-		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || ( 'create_pending_order' !== $_POST['action'] ) || empty( $_POST['_wpnonce'] ) ) {
+		if ( ! llms_verify_nonce( '_llms_checkout_nonce', 'create_pending_order', 'POST' ) ) {
 			return;
 		}
 
-		// nonce the post
-		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_pending_order' );
+		if ( empty( $_POST['action'] ) || 'create_pending_order' !== $_POST['action'] ) {
+			return;
+		}
 
 		// prevent timeout
 		@set_time_limit( 0 );
