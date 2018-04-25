@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.17.5
+* @version  [version]
 */
 class LLMS_Admin_Assets {
 
@@ -59,7 +59,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  3.17.4
+	 * @version  [version]
 	 */
 	public function admin_styles() {
 
@@ -70,8 +70,6 @@ class LLMS_Admin_Assets {
 		wp_enqueue_style( 'llms-admin-styles', plugins_url( '/assets/css/admin' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 		wp_style_add_data( 'llms-admin-styles', 'rtl', 'replace' );
 		wp_style_add_data( 'llms-admin-styles', 'suffix', LLMS_Admin_Assets::$min );
-
-		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
 		wp_enqueue_style( 'llms-select2-styles', plugins_url( '/assets/select2/css/select2' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
@@ -90,7 +88,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.17.5
+	 * @version  [version]
 	 */
 	public function admin_scripts() {
 
@@ -135,8 +133,6 @@ class LLMS_Admin_Assets {
 			wp_enqueue_style( 'jquery-ui' );
 
 			wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
-
-			wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 
 			wp_enqueue_script( 'llms-ajax', plugins_url( '/assets/js/llms-ajax' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), LLMS()->version, true );
 
