@@ -1,10 +1,10 @@
 LifterLMS Changelog
 ===================
 
-+ Updated checkout javascript to expose an error addition function
++ Updated checkout javascript to expose an error addition functions
 + Removed display order field from payment gateway settings in favor of using the gateway table sortable list
 + Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
-
++ Added function for checking if request is a REST request
 
 
 v3.17.6 - 2018-04-??

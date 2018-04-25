@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.16.10
+ * @version  [version]
  */
 
 //include all other function files
@@ -742,6 +744,16 @@ function llms_get_transaction_statuses() {
  */
 function llms_is_ajax() {
 	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+}
+
+/**
+ * Determine if request is a REST request
+ * @return   bool
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_is_rest() {
+	return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 }
 
 /**
