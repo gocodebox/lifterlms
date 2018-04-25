@@ -154,7 +154,7 @@ gulp.task( 'process-stylesheets', ['generate-rtl-stylesheets'], function() {
  */
 gulp.task( 'minify-vendor-scripts', function() {
 
-	return gulp.src( 'assets/js/vendor/*.js' )
+	return gulp.src( [ 'assets/js/vendor/*.js', '!assets/js/vendor/*.min.js' ] )
 		.pipe( include() )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( uglify().on('error',notify.onError({
