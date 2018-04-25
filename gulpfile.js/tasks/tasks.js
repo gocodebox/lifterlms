@@ -169,7 +169,7 @@ gulp.task( 'minify-vendor-scripts', function() {
 /**
  * Minify JS files
  */
-gulp.task( 'process-scripts', function () {
+gulp.task( 'process-scripts', ['minify-vendor-scripts'], function () {
 
 	return gulp.src( '_private/js/*.js' )
 		.pipe( include() )
