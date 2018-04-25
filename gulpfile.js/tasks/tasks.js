@@ -173,6 +173,7 @@ gulp.task( 'process-scripts', ['minify-vendor-scripts'], function () {
 
 	return gulp.src( '_private/js/*.js' )
 		.pipe( include() )
+		.pipe( gulp.dest( 'assets/js/' ) )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( uglify().on('error',notify.onError({
 			message: '<%= error.message %>',
