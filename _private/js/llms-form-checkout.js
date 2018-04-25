@@ -4,7 +4,7 @@
  * @since    3.0.0
  * @version  [version]
  */
-( function( $ ) {
+;( function( $ ) {
 
 	var llms_checkout = function() {
 
@@ -80,6 +80,14 @@
 
 		};
 
+		/**
+		 * Add an error message
+		 * @param    string     message  error message string
+		 * @param    mixed      data     optional error data to output on the console
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		this.add_error = function( message, data ) {
 
 			var id = 'llms-checkout-errors';
@@ -90,18 +98,12 @@
 				$( '.llms-checkout-wrapper' ).prepend( $err );
 			}
 
-			$err.append( '<li>' + errors[i] + '</li>' );
+			$err.append( '<li>' + message + '</li>' );
 
-		};
+			if ( data ) {
+				console.error( data );
+			}
 
-		this.clear_errors = function() {
-			$( '#llms-checkout-errors' ).remove();
-		};
-
-		this.focus_errors = function() {
-			$( 'html, body' ).animate( {
-				scrollTop: $( '#llms-checkout-errors' ).offset().top - 50,
-			}, 200 );
 		};
 
 		/**
@@ -235,6 +237,16 @@
 		};
 
 		/**
+		 * Clear error messages
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		this.clear_errors = function() {
+			$( '#llms-checkout-errors' ).remove();
+		};
+
+		/**
 		 * Triggered by clicking the "Apply Coupon" Button
 		 * Validates the coupon via JS and adds error / success messages
 		 * On success it will replace partials on the checkout screen with updated
@@ -346,6 +358,18 @@
 
 			} );
 
+		};
+
+		/**
+		 * Scroll error messages into view
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		this.focus_errors = function() {
+			$( 'html, body' ).animate( {
+				scrollTop: $( '#llms-checkout-errors' ).offset().top - 50,
+			}, 200 );
 		};
 
 		/**
