@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Reporting Widgets & Charts
  * @since    3.0.0
- * @version  3.16.8
+ * @version  [version]
  */
 ;( function( $, undefined ) {
 
@@ -97,7 +97,7 @@
 		 * Render the chart
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  [version]
 		 */
 		this.draw_chart = function() {
 
@@ -105,8 +105,14 @@
 				return;
 			}
 
+			var el = document.getElementById( 'llms-charts-wrapper' );
+
+			if ( ! el ) {
+				return;
+			}
+
 			var self = this,
-				chart = new google.visualization.ComboChart( document.getElementById( 'llms-charts-wrapper' ) ),
+				chart = new google.visualization.ComboChart( el ),
 				data = self.get_chart_data(),
 				options = {
 					chartArea: {

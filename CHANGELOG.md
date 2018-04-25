@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.17.6 - 2018-04-??
 --------------------
 
++ Fix issue causing JS error on admin settings pages
 + Updated CSS for Certificates to be more generally compatible with theme styles when printed
 + Allow system print settings to control print layout for certificates by removing explicit landscape declarations
 + Now passing additional data to filters used to create custom columns on reporting screens
