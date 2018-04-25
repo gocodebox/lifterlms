@@ -2,10 +2,11 @@
 /**
  * Checkout Form
  * @since    1.0.0
- * @version  3.4.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $free = $plan->has_free_checkout();
 ?>
@@ -104,7 +105,7 @@ $free = $plan->has_free_checkout();
 
 	</div>
 
-	<?php wp_nonce_field( 'create_pending_order' ); ?>
+	<?php wp_nonce_field( 'create_pending_order', '_llms_checkout_nonce' ); ?>
 	<input name="action" type="hidden" value="create_pending_order">
 	<input id="llms-plan-id" name="llms_plan_id" type="hidden" value="<?php echo $plan->get( 'id' ); ?>">
 	<input id="llms-order-key" name="llms_order_key" type="hidden" value="<?php echo $order_key; ?>">

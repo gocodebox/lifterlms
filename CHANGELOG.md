@@ -1,10 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.17.? - 2018-04-??
+--------------------
+
 + Updated checkout javascript to expose an error addition functions
 + Removed display order field from payment gateway settings in favor of using the gateway table sortable list
 + Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
 + Added function for checking if request is a REST request
++ Fix checkout nonce to have a unique ID & name
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 
 
 v3.17.6 - 2018-04-??
