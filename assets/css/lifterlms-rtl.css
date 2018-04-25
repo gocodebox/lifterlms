@@ -2653,6 +2653,13 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 .llms-student-dashboard .order-secondary form {
   margin-bottom: 0;
 }
+@media all and (min-width: 600px) {
+  .llms-student-dashboard .llms-view-order.llms-stack-cols .order-primary,
+  .llms-student-dashboard .llms-view-order.llms-stack-cols .order-secondary {
+    float: none;
+    width: 100%;
+  }
+}
 .llms-student-dashboard .llms-switch-payment-source .llms-notice,
 .llms-student-dashboard .llms-switch-payment-source .entry-content .llms-notice {
   margin-right: 10px;

@@ -11,6 +11,11 @@ v3.17.6 - 2018-04-??
 + Now passing additional data to filters used to create custom columns on reporting screens
 + Remove unused JS files & Chosen JS library
 
+##### Template Updates
+
++ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-orders.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
+
 
 v3.17.5 - 2018-04-23
 --------------------

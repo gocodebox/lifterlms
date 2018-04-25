@@ -17,7 +17,7 @@ $gateway = $order->get_gateway();
 llms_print_notices();
 ?>
 
-<div class="llms-sd-section llms-view-order">
+<div class="llms-sd-section llms-view-order<?php echo apply_filters( 'llms_sd_stacked_order_layout', false ) ? ' llms-stack-cols' : ''; ?>">
 
 	<?php if ( ! $order ) : ?>
 		<p><?php _e( 'Invalid Order', 'lifterlms' ); ?></p>
