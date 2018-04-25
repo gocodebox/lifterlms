@@ -1234,11 +1234,6 @@ a.llms-voucher-delete .icon.button-icon {
   overflow: auto;
 }
 
-body .chosen-container-multi .chosen-choices li.search-field input[type="text"] {
-  padding: 0 10px;
-  height: auto;
-}
-
 .llms-widget {
   background: #fefefe;
   box-sizing: border-box;
@@ -1493,22 +1488,22 @@ Metabox Tabs
   background: #fefefe;
   padding: 15px;
 }
-.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) {
+.llms-mb-container .tab-content ul:not(.select2-selection__rendered) {
   margin: 0;
 }
-.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li {
+.llms-mb-container .tab-content ul:not(.select2-selection__rendered) > li {
   padding: 20px 0;
   margin: 0;
   border-bottom: 1px solid #ccc;
 }
-.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li.select:not([class*="d-"]) {
+.llms-mb-container .tab-content ul:not(.select2-selection__rendered) > li.select:not([class*="d-"]) {
   width: 100%;
 }
-.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li:last-child {
+.llms-mb-container .tab-content ul:not(.select2-selection__rendered) > li:last-child {
   border: 0;
   padding-bottom: 0;
 }
-.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results) > li.top {
+.llms-mb-container .tab-content ul:not(.select2-selection__rendered) > li.top {
   border-bottom: 0;
   padding-bottom: 0;
 }
@@ -2429,10 +2424,6 @@ td.llms-table-select select, th.llms-table-select select {
   width: 100%;
 }
 
-.llms-table-select .chosen-container {
-  margin-top: 2px;
-}
-
 .llms-meta-select {
   width: 100%;
 }
@@ -2951,7 +2942,7 @@ a.llms-view-as {
   color: #e5554e;
 }
 
-.llms-mb-container .tab-content ul:not(.select2-selection__rendered):not(.chosen-choices):not(.chosen-results).llms-mb-repeater-fields > li.llms-mb-list {
+.llms-mb-container .tab-content ul:not(.select2-selection__rendered).llms-mb-repeater-fields > li.llms-mb-list {
   border-bottom: none;
   padding: 0 0 10px;
 }

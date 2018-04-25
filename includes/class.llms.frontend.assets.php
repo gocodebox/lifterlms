@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.17.5
+* @version  [version]
 */
 class LLMS_Frontend_Assets {
 
@@ -106,15 +106,13 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Styles
 	 * @since   1.0.0
-	 * @version 3.4.1
+	 * @version [version]
 	 */
 	public static function enqueue_styles() {
 
 		global $post_type;
 
 		wp_register_style( 'llms-iziModal', plugins_url( 'assets/vendor/izimodal/iziModal' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
-
-		wp_enqueue_style( 'chosen-styles', plugins_url( '/assets/chosen/chosen' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
 		wp_enqueue_style( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_Frontend_Assets::$min . '.css', LLMS_PLUGIN_FILE ) );
 
@@ -137,14 +135,13 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.16.0
+	 * @version [version]
 	 */
 	public static function enqueue_scripts() {
 
 		wp_enqueue_script( 'jquery-ui-tooltip' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-slider' );
-		wp_enqueue_script( 'chosen-jquery', plugins_url( 'assets/chosen/chosen.jquery' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
 		wp_enqueue_script( 'collapse', plugins_url( 'assets/js/vendor/collapse.js', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_script( 'transition', plugins_url( 'assets/js/vendor/transition.js', LLMS_PLUGIN_FILE ) );
 		wp_enqueue_script( 'webui-popover', plugins_url( 'assets/vendor/webui-popover/jquery.webui-popover.min.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
