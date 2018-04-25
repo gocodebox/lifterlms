@@ -351,8 +351,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-builder-main li.llms-lesson.ui-draggable-dragging {
   border: 1px solid #ccc;
   background: #fff;
-  -webkit-transform: rotate(-2deg);
-          transform: rotate(-2deg);
+  transform: rotate(-2deg);
   visibility: visible !important;
   z-index: 999;
 }
@@ -613,7 +612,6 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   padding: 2px;
 }
 .wrap.lifterlms.llms-builder .llms-settings-row {
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
@@ -622,9 +620,8 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 }
 .wrap.lifterlms.llms-builder .llms-settings-row .llms-settings-field,
 .wrap.lifterlms.llms-builder .llms-settings-row .llms-editable-toggle-group {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+      flex: 1;
 }
 .wrap.lifterlms.llms-builder .llms-settings-row .llms-settings-field:first-child,
 .wrap.lifterlms.llms-builder .llms-settings-row .llms-editable-toggle-group:first-child {
@@ -728,14 +725,12 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   padding: 0;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-utilities ul {
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-utilities ul li {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+      flex: 1;
   margin-left: 5px;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-utilities ul li:last-child {
@@ -912,18 +907,14 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   display: block;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz {
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-orient: vertical;
-  -webkit-box-direction: normal;
-      -ms-flex-direction: column;
-          flex-direction: column;
+  -ms-flex-direction: column;
+      flex-direction: column;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+      flex: 1;
   overflow: scroll;
 }
 .wrap.lifterlms.llms-builder .llms-builder-sidebar .llms-editor-tab.active.tab--quiz .llms-quiz-questions .llms-quiz-questions {
@@ -994,18 +985,15 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   color: #fff;
 }
 .wrap.lifterlms.llms-builder .llms-existing-lesson-result {
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-  display: -webkit-box;
+  -ms-flex-align: center;
+      align-items: center;
   display: -ms-flexbox;
   display: flex;
   padding: 5px 0 5px 5px;
 }
 .wrap.lifterlms.llms-builder .llms-existing-lesson-result .llms-existing-info {
-  -webkit-box-flex: 6;
-      -ms-flex: 6;
-          flex: 6;
+  -ms-flex: 6;
+      flex: 6;
 }
 .wrap.lifterlms.llms-builder .llms-existing-lesson-result .llms-existing-info h4, .wrap.lifterlms.llms-builder .llms-existing-lesson-result .llms-existing-info h5 {
   margin: 0;
@@ -1018,9 +1006,8 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 }
 .wrap.lifterlms.llms-builder .llms-existing-lesson-result .llms-existing-action {
   color: #2295ff;
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+      flex: 1;
   text-align: center;
 }
 .wrap.lifterlms.llms-builder .llms-existing-lesson-result .llms-existing-action .fa {
@@ -1108,14 +1095,12 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   margin-top: 10px;
 }
 .wrap.lifterlms.llms-builder .llms-quiz-footer {
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 .wrap.lifterlms.llms-builder .llms-quiz-footer button.llms-element-button {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+      flex: 1;
   margin: 0 5px;
 }
 .wrap.lifterlms.llms-builder .llms-quiz-footer button.llms-element-button:first-child {
@@ -1125,9 +1110,8 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   margin-left: 0;
 }
 .wrap.lifterlms.llms-builder .llms-quiz-footer button.llms-element-button.llms-show-question-bank {
-  -webkit-box-flex: 2;
-      -ms-flex: 2;
-          flex: 2;
+  -ms-flex: 2;
+      flex: 2;
 }
 .wrap.lifterlms.llms-builder .llms-quiz-tools {
   display: none;
@@ -1377,16 +1361,14 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   border: 1px solid #ccc;
   background: #fff;
   padding: 10px;
-  -webkit-transform: rotate(-2deg);
-          transform: rotate(-2deg);
+  transform: rotate(-2deg);
   z-index: 999;
 }
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions li.llms-question.ui-sortable-helper,
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions li.llms-question.ui-draggable-dragging {
   border: 1px solid #ccc;
   background: #fff;
-  -webkit-transform: rotate(-2deg);
-          transform: rotate(-2deg);
+  transform: rotate(-2deg);
   z-index: 999;
 }
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions li.llms-question.llms-sortable-placeholder {
@@ -1405,8 +1387,7 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   background: #83c373;
 }
 .wrap.lifterlms.llms-builder .llms-switch input[type="checkbox"]:checked + .llms-switch-slider:after {
-  -webkit-transform: translateX(-14px);
-          transform: translateX(-14px);
+  transform: translateX(-14px);
 }
 .wrap.lifterlms.llms-builder .llms-switch .llms-label {
   display: inline-block;
@@ -1430,7 +1411,6 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   height: 12px;
   right: 2px;
   position: relative;
-  transition: -webkit-transform 0.2s ease;
   transition: transform 0.2s ease;
   top: 2px;
   width: 12px;
