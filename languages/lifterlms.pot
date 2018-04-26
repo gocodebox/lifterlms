@@ -2188,6 +2188,22 @@ msgstr ""
 msgid "One-time"
 msgstr ""
 
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.pages.php:25
+msgid "LifterLMS Checkout"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.pages.php:26
+msgid "LifterLMS Course Catalog"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.pages.php:27
+msgid "LifterLMS Memberships Catalog"
+msgstr ""
+
+#: includes/admin/post-types/post-tables/class.llms.admin.post.table.pages.php:28
+msgid "LifterLMS Student Dashboard"
+msgstr ""
+
 #: includes/admin/post-types/tables/class.llms.table.student.management.php:88
 msgid "Visit the triggering order to manage this student's enrollment"
 msgstr ""
