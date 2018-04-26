@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  3.17.2
+ * @version  [version]
  */
 define( [], function() {
 
@@ -142,11 +142,11 @@ define( [], function() {
 		 * @param    obj   field  field data object
 		 * @return   {Boolean}
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		is_switch_condition_met: function( field ) {
 
-			return ( 'yes' === this.model.get( field.switch_attribute ) );
+			return ( field.switch_on === this.model.get( field.switch_attribute ) );
 
 		},
 
@@ -261,7 +261,7 @@ define( [], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  3.17.1
+		 * @version  [version]
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -315,6 +315,22 @@ define( [], function() {
 					defaults.label = LLMS.l10n.translate( 'Permalink' );
 				break;
 
+				case 'radio':
+				case 'switch-radio':
+					var has_images = false;
+					_.each( orig_field.options, function( val, key ) {
+						if ( -1 !== val.indexOf( '.png' ) || -1 !== val.indexOf( '.jpg' ) ) {
+							orig_field.options[key] = '<span><img src="' + val + '"></span>';
+							has_images = true;
+						}
+						return val;
+					} );
+					console.log( orig_field.options );
+					if ( has_images ) {
+						defaults.classes.push( 'has-images' );
+					}
+				break;
+
 				case 'video_embed':
 					defaults.classes.push( 'llms-editable-video' );
 					defaults.placeholder = 'https://';
@@ -322,6 +338,11 @@ define( [], function() {
 					defaults.input_type = 'url';
 				break;
 
+			}
+
+			if ( this.has_switch( orig_field.type ) ) {
+				defaults.switch_on = 'yes';
+				defaults.switch_off = 'no';
 			}
 
 			var field = _.defaults( _.clone( orig_field ), defaults );
