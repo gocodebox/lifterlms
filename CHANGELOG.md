@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.17.6 - 2018-04-??
+v3.17.6 - 2018-04-26
 --------------------
 
 + Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information

@@ -1,10 +1,12 @@
 == Changelog ==
 
 
-v3.17.6 - 2018-04-??
+= v3.17.6 - 2018-04-26 =
 ------------------------
 
 + Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information
++ Quiz editor on builder updated to be consistent visually and functionally to the lesson settings editor
++ Improved the builder field API to allow for radio element fields
 + Fix issue causing JS error on admin settings pages
 + Updated CSS for Certificates to be more generally compatible with theme styles when printed
 + Allow system print settings to control print layout for certificates by removing explicit landscape declarations
@@ -12,6 +14,9 @@ v3.17.6 - 2018-04-??
 + Remove unused JS files & Chosen JS library
 + Added filter to allow opting into alternate student dashboard order layout. Use `add_filter( 'llms_sd_stacked_order_layout', '__return_true' )` to stack the payment update sidebar below the main order information. This is disabled by default.
 + Achievement and Certificate basic notifications now auto-dismiss after 10 seconds like all other basic notifications
++ Deprecated Filter `llms_get_quiz_theme_settings` and added backwards compatible methods to transition themes using this filter to the new custom field api. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/
++ Increased default z-index on notifications to prevent notifications from being hidden behind floating / static navigation menus
+
 
 ##### Template Updates
 
@@ -207,9 +212,3 @@ v3.17.6 - 2018-04-??
 + Fixed unstanslateable string on Users table ("No Memberships")
 + Fixed discrepancy between membership restrictions as presented to logged out users and loggend in users who cannot access membership
 + Fixed FireFox and Edge issue causing changes to number inputs made via HTML5 input arrows from properly triggering save events
-
-
-= v3.16.13 - 2018-02-28 =
--------------------------
-
-+ Hotfix: Only create quizzes on the builder if quizzes exist on the lesson

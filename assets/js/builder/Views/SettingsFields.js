@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  [version]
+ * @version  3.17.6
  */
 define( [], function() {
 
@@ -142,7 +142,7 @@ define( [], function() {
 		 * @param    obj   field  field data object
 		 * @return   {Boolean}
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.6
 		 */
 		is_switch_condition_met: function( field ) {
 
@@ -261,7 +261,7 @@ define( [], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.6
 		 */
 		setup_field: function( orig_field, field_index ) {
 

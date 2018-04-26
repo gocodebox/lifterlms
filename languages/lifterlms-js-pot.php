@@ -59,7 +59,7 @@ $strings = array(
 	/**
 	 * file: _private/js/llms-analytics.js
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.6
 	 */
 	'Filter by Student(s)' => esc_html__( 'Filter by Student(s)', 'lifterlms' ),
 	'Error' => esc_html__( 'Error', 'lifterlms' ),
@@ -140,7 +140,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Quiz.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.6
 	 */
 	'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 	'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
@@ -179,8 +179,8 @@ $strings = array(
 
 	/**
 	 * file: assets/js/builder/Schemas/Quiz.js
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.6
+	 * @version  3.17.6
 	 */
 	'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 	'Description' => esc_html__( 'Description', 'lifterlms' ),
@@ -205,7 +205,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.6
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
@@ -257,7 +257,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Quiz.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.6
 	 */
 	'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
 	'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
@@ -266,7 +266,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/SettingsFields.js
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.17.6
 	 */
 	'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 	'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),

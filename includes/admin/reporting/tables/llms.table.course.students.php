@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Display students enrolled in a given course on the course students subtab
  * @since   3.15.0
- * @version [version]
+ * @version 3.17.6
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 

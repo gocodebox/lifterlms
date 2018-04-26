@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Notification View: Achievement Earned
  * @since    3.8.0
- * @version  [version]
+ * @version  3.17.6
  */
 class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notification_View {
 

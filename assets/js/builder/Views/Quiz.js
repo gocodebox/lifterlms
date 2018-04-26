@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.6
  */
 define( [
 		'Models/Quiz',
@@ -128,7 +128,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.6
 		 */
 		render: function() {
 
@@ -195,8 +195,8 @@ define( [
 		 * @param    obj   quiz    Instance of the quiz model
 		 * @param    int   points  Updated number of points
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.6
+		 * @version  3.17.6
 		 */
 		render_points: function( quiz, points ) {
 
