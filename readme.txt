@@ -354,9 +354,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 v3.17.6 - 2018-04-??
 ------------------------
 
++ Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information
++ Fix issue causing JS error on admin settings pages
 + Updated CSS for Certificates to be more generally compatible with theme styles when printed
-+
++ Allow system print settings to control print layout for certificates by removing explicit landscape declarations
++ Now passing additional data to filters used to create custom columns on reporting screens
++ Remove unused JS files & Chosen JS library
++ Added filter to allow opting into alternate student dashboard order layout. Use `add_filter( 'llms_sd_stacked_order_layout', '__return_true' )` to stack the payment update sidebar below the main order information. This is disabled by default.
++ Achievement and Certificate basic notifications now auto-dismiss after 10 seconds like all other basic notifications
 
+##### Template Updates
+
++ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-orders.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
 
 
 = v3.17.5 - 2018-04-23 =
