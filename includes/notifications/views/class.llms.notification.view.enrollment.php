@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Notification View: Course Enrollment
  * @since    3.8.0
  * @version  3.8.2
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_View_Enrollment extends LLMS_Abstract_Notification_View {
 
 	/**
