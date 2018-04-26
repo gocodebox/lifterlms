@@ -1,5 +1,5 @@
 /**
- * Model relationships mixin
+ * Lesson Schemas
  * @since    3.17.0
  * @version  3.17.1
  */
