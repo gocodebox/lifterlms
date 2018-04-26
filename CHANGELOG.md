@@ -5,6 +5,7 @@ v3.17.6 - 2018-04-??
 --------------------
 
 + Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information
++ Quiz editor on builder updated to be consistent visually and functionally to the lesson settings editor
 + Fix issue causing JS error on admin settings pages
 + Updated CSS for Certificates to be more generally compatible with theme styles when printed
 + Allow system print settings to control print layout for certificates by removing explicit landscape declarations
