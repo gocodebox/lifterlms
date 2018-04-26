@@ -15,6 +15,7 @@ v3.17.6 - 2018-04-??
 + Added filter to allow opting into alternate student dashboard order layout. Use `add_filter( 'llms_sd_stacked_order_layout', '__return_true' )` to stack the payment update sidebar below the main order information. This is disabled by default.
 + Achievement and Certificate basic notifications now auto-dismiss after 10 seconds like all other basic notifications
 + Deprecated Filter `llms_get_quiz_theme_settings` and added backwards compatible methods to transition themes using this filter to the new custom field api. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/
++ Increased default z-index on notifications to prevent notifications from being hidden behind floating / static navigation menus
 
 
 ##### Template Updates

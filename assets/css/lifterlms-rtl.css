@@ -1408,7 +1408,7 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   transition: opacity 0.4s ease-in-out, left 0.4s ease-in-out;
   visibility: none;
   width: auto;
-  z-index: 7777;
+  z-index: 9999999;
 }
 .llms-notification:before, .llms-notification:after {
   content: " ";
