@@ -140,7 +140,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Models/Quiz.js
 	 * @since    3.16.0
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 	'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
@@ -178,6 +178,24 @@ $strings = array(
 	'Time' => esc_html__( 'Time', 'lifterlms' ),
 
 	/**
+	 * file: assets/js/builder/Schemas/Quiz.js
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
+	'Description' => esc_html__( 'Description', 'lifterlms' ),
+	'Passing Percentage' => esc_html__( 'Passing Percentage', 'lifterlms' ),
+	'Minimum percentage of total points required to pass the quiz' => esc_html__( 'Minimum percentage of total points required to pass the quiz', 'lifterlms' ),
+	'Limit Attempts' => esc_html__( 'Limit Attempts', 'lifterlms' ),
+	'Limit the maximum number of times a student can take this quiz' => esc_html__( 'Limit the maximum number of times a student can take this quiz', 'lifterlms' ),
+	'Time Limit' => esc_html__( 'Time Limit', 'lifterlms' ),
+	'Enforce a maximum number of minutes a student can spend on each attempt' => esc_html__( 'Enforce a maximum number of minutes a student can spend on each attempt', 'lifterlms' ),
+	'Show Correct Answers' => esc_html__( 'Show Correct Answers', 'lifterlms' ),
+	'When enabled, students will be shown the correct answer to any question they answered incorrectly.' => esc_html__( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.', 'lifterlms' ),
+	'Randomize Question Order' => esc_html__( 'Randomize Question Order', 'lifterlms' ),
+	'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' => esc_html__( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.', 'lifterlms' ),
+
+	/**
 	 * file: assets/js/builder/Views/_Detachable.js
 	 * @since    3.16.12
 	 * @version  3.16.12
@@ -187,7 +205,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/_Editable.js
 	 * @since    3.16.0
-	 * @version  3.17.2
+	 * @version  [version]
 	 */
 	'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 	'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
@@ -239,7 +257,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Quiz.js
 	 * @since    3.16.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
 	'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
@@ -248,7 +266,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/SettingsFields.js
 	 * @since    3.17.0
-	 * @version  3.17.2
+	 * @version  [version]
 	 */
 	'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 	'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),
