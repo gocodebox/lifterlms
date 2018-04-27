@@ -58,6 +58,76 @@ msgstr ""
 msgid "No results were found."
 msgstr ""
 
+#: includes/abstracts/abstract.llms.payment.gateway.php:220
+msgid "Customer ID"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:225
+msgid "Source ID"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:230
+msgid "Subscription ID"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:259
+msgctxt "Payment gateway title"
+msgid "Enable %s"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:260
+msgid "Checking this box will allow users to use this payment gateway."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:262, includes/abstracts/llms.abstract.integration.php:108, includes/admin/settings/class.llms.settings.accounts.php:289
+msgid "Enable / Disable"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:268
+msgid "The title the user sees during checkout."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/lesson-settings.php:13, includes/admin/views/builder/quiz.php:35, includes/notifications/views/class.llms.notification.view.enrollment.php:73
+msgid "Title"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:276
+msgid "The description the user sees during checkout."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, languages/lifterlms-js-pot.php:371
+msgid "Description"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:284
+msgid "This determines the order gateways are displayed on the checkout page. Lowest number will display first."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:286
+msgid "Display Order"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:294
+msgctxt "Payment gateway test mode title"
+msgid "Enable %s"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:305
+msgid "Enable debug logging"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:306
+msgid "When enabled, debugging information will be logged to \"%s\""
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:307
+msgid "Debug Log"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:558
+msgid "The selected payment Gateway \"%s\" does not support payment method switching."
+msgstr ""
+
 #: includes/abstracts/abstract.llms.post.model.php:320
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
@@ -72,10 +142,6 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.integration.php:104
 msgid "Check to enable this integration."
-msgstr ""
-
-#: includes/abstracts/llms.abstract.integration.php:108, includes/admin/settings/class.llms.settings.accounts.php:289
-msgid "Enable / Disable"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:253, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:43, includes/models/model.llms.post.instructors.php:55
@@ -121,10 +187,6 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.php:319
 msgid "Heading"
-msgstr ""
-
-#: includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/lesson-settings.php:13, includes/admin/views/builder/quiz.php:35, includes/notifications/views/class.llms.notification.view.enrollment.php:73
-msgid "Title"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.php:331
@@ -1206,10 +1268,6 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:189
 msgid "The amount of times this coupon can be used. Leave empty or enter 0 for unlimited uses."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, languages/lifterlms-js-pot.php:371
-msgid "Description"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:205
