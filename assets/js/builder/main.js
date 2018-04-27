@@ -78,7 +78,7 @@ require( [
 			var clone = _.clone( obj );
 
 			_.each( clone, function( val, key ) {
-				if ( _.isObject( val ) ) {
+				if ( ! _.isFunction( val ) && _.isObject( val ) ) {
 					clone[ key ] = _.deepClone( val );
 				};
 			} );
