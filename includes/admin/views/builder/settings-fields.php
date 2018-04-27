@@ -43,7 +43,7 @@
 						>
 							<label class="llms-switch">
 								<span class="llms-label">{{{ field.label }}}</span>
-								<input data-on="{{{ field.switch_on }}} " data-off="{{{ field.switch_off }}} " data-rerender="{{{ data.should_rerender_on_toggle( field.type ) }}}" name="{{{ data.get_switch_attribute( field ) }}}" type="checkbox"{{{ _.checked( field.switch_on, data.model.get( data.get_switch_attribute( field ) ) ) }}}>
+								<input data-on="{{{ field.switch_on }}}" data-off="{{{ field.switch_off }}}" data-rerender="{{{ data.should_rerender_on_toggle( field.type ) }}}" name="{{{ data.get_switch_attribute( field ) }}}" type="checkbox"{{{ _.checked( field.switch_on, data.model.get( data.get_switch_attribute( field ) ) ) }}}>
 								<div class="llms-switch-slider"></div>
 							</label>
 						</div>
