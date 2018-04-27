@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.17.6
+ * @version  [version]
  */
 define( [
 		'Models/Quiz',
@@ -128,7 +128,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  3.17.6
+		 * @version  [version]
 		 */
 		render: function() {
 
@@ -136,8 +136,6 @@ define( [
 
 			// render the quiz builder
 			if ( this.model ) {
-
-				this.remove_subview( 'settings' );
 
 				this.render_subview( 'settings', {
 					el: '#llms-quiz-settings-fields',
