@@ -2,7 +2,7 @@
 /**
  * Model Field Settings Template
  * @since   3.17.0
- * @version 3.17.6
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-settings-fields-template">
@@ -72,7 +72,6 @@
 							class="llms-editable-radio{{{ field.classes }}}"
 							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
 						>
-							<# console.log( field.options ); #>
 							<# _.each( field.options, function( label, val ) { #>
 								<label for="{{{ field.id }}}_{{{ val }}}" class="llms-radio">
 									<input id="{{{ field.id }}}_{{{ val }}}" name="{{{ field.attribute }}}" type="radio" value="{{{ val }}}"{{{ _.checked( val, data.model.get( field.attribute ) ) }}}>
