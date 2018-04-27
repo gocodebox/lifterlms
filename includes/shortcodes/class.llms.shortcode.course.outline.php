@@ -41,13 +41,11 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 				if ( $parent ) {
 					$course_id = $parent->get( 'id' );
 				}
-
 			} else {
 
 				$course_id = $post_id;
 
 			}
-
 		}
 
 		return $course_id;
