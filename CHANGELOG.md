@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.17.7 - 2018-04-??
+--------------------
+
++ Fix with "Launch Builder" button causing it to extend outside the bounds of its container
+
+
 v3.17.6 - 2018-04-26
 --------------------
 
