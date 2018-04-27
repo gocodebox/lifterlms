@@ -332,7 +332,7 @@ define( [], function() {
 			var field = _.defaults( _.deepClone( orig_field ), defaults );
 
 			// if options is a function run it
-			if ( 'function' === typeof field.options ) {
+			if ( _.isFunction( field.options ) ) {
 				field.options = _.bind( field.options, this.model )();
 			}
 
