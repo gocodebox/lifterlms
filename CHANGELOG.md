@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.17.7 - 2018-04-??
 --------------------
 
++ Fix issue preventing assignments passing grade requirement from saving properly
 + Fix issue preventing builder toggle switches from properly saving some switch field data
 + Fix with "Launch Builder" button causing it to extend outside the bounds of its container
 + Fix issue with builder radio select fields during view rerenders
