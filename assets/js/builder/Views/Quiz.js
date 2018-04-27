@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.7
  */
 define( [
 		'Models/Quiz',
@@ -128,7 +128,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.7
 		 */
 		render: function() {
 

@@ -220,7 +220,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Assignment.js
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.17.7
 	 */
 	'%1$s Assignment' => esc_html__( '%1$s Assignment', 'lifterlms' ),
 	'Add Existing Assignment' => esc_html__( 'Add Existing Assignment', 'lifterlms' ),
@@ -257,7 +257,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/Quiz.js
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.7
 	 */
 	'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
 	'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
@@ -266,7 +266,7 @@ $strings = array(
 	/**
 	 * file: assets/js/builder/Views/SettingsFields.js
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.17.7
 	 */
 	'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 	'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),

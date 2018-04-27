@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.7
  */
 
 //include all other function files
@@ -706,7 +706,7 @@ function llms_get_post( $post, $error = false ) {
  * @param    mixed     $post  WP Post ID or insance of WP_Post
  * @return   obj|null         Instance of the LLMS_Course or null
  * @since    3.6.0
- * @version  [version]
+ * @version  3.17.7
  */
 function llms_get_post_parent_course( $post ) {
 

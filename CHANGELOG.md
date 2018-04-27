@@ -9,7 +9,7 @@ v3.17.7 - 2018-04-27
 + Fix with "Launch Builder" button causing it to extend outside the bounds of its container
 + Fix issue with builder radio select fields during view rerenders
 + Course Outline shortcode (and widget) now retrieve parent course of the current page more consistently with other shortcodes
-+ Added ability to define custom post types which can be children of a course (allows course shortcodes & widgets to be used in assignment sidebars of custom content areas)
++ Added ability to filter which custom post types which can be children of a course (allows course shortcodes & widgets to be used in assignment sidebars of custom content areas)
 
 
 v3.17.6 - 2018-04-26

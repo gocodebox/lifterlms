@@ -1,7 +1,7 @@
 /**
  * Single Assignment View
  * @since    3.17.0
- * @version  [version]
+ * @version  3.17.7
  */
 define( [
 		'Views/Popover',
@@ -111,7 +111,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.7
 		 */
 		render: function() {
 

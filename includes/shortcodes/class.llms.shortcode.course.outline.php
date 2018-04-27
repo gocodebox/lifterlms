@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * [lifterlms_course_outline]
  *
  * @since    3.5.1
- * @version  [version]
+ * @version  3.17.7
  */
 class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
@@ -23,7 +23,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 * Retrieve the default course id depending on the current post
 	 * @return   int|null
 	 * @since    3.5.1
-	 * @version  [version]
+	 * @version  3.17.7
 	 */
 	private function get_course_id() {
 

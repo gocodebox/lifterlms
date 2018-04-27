@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  [version]
+ * @version  3.17.7
  */
 define( [], function() {
 
@@ -261,7 +261,7 @@ define( [], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.17.7
 		 */
 		setup_field: function( orig_field, field_index ) {
 

@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 4.9.5
-Stable tag: 3.17.6
+Stable tag: 3.17.7
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -351,6 +351,17 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.17.7 - 2018-04-27 =
+------------------------
+
++ Fix issue preventing assignments passing grade requirement from saving properly
++ Fix issue preventing builder toggle switches from properly saving some switch field data
++ Fix with "Launch Builder" button causing it to extend outside the bounds of its container
++ Fix issue with builder radio select fields during view rerenders
++ Course Outline shortcode (and widget) now retrieve parent course of the current page more consistently with other shortcodes
++ Added ability to filter which custom post types which can be children of a course (allows course shortcodes & widgets to be used in assignment sidebars of custom content areas)
+
+
 = v3.17.6 - 2018-04-26 =
 ------------------------
 
@@ -547,21 +558,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ##### Templates updates
 
 + [quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
-
-
-= v3.16.14 - 2018-03-07 =
--------------------------
-
-+ Courses reporting table now includes courses with the "Private" status
-+ Fixed issue causing some achievment notifications to be blank
-+ Added tooltips to question choice add / delete icon buttons
-+ Quiz results meta information elements now have unique CSS classes
-+ Removed reliance PHP 7.2 deprecated function `create_function()`
-+ Fixed invalid PHP 7.2 syntax creating a warning found on the setup wizard
-+ Fixed undefined index error related to admin notices
-+ Fixed unstanslateable string on Users table ("No Memberships")
-+ Fixed discrepancy between membership restrictions as presented to logged out users and loggend in users who cannot access membership
-+ Fixed FireFox and Edge issue causing changes to number inputs made via HTML5 input arrows from properly triggering save events
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
