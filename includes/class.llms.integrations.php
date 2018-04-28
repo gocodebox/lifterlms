@@ -55,8 +55,7 @@ class LLMS_Integrations {
 		) );
 
 		$order_end = 999;
-		
-		if ( !empty( $load_integrations ) ) {
+		if ( ! empty( $load_integrations ) ) {
 			foreach ( $load_integrations as $integration ) :
 
 				$load_integration = new $integration();
