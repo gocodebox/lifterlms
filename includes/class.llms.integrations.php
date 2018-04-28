@@ -55,17 +55,19 @@ class LLMS_Integrations {
 		) );
 
 		$order_end = 999;
+		
+		if ( !empty( $load_integrations ) ) {
+			foreach ( $load_integrations as $integration ) :
 
-		foreach ( $load_integrations as $integration ) :
+				$load_integration = new $integration();
 
-			$load_integration = new $integration();
+				$this->integrations[ $order_end ] = $load_integration;
+				$order_end++;
 
-			$this->integrations[ $order_end ] = $load_integration;
-			$order_end++;
+			endforeach;
 
-		endforeach;
-
-		ksort( $this->integrations );
+			ksort( $this->integrations );
+		}
 	}
 
 	/**
