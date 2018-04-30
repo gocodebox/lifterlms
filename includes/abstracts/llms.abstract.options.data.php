@@ -60,9 +60,7 @@ abstract class LLMS_Abstract_Options_Data {
 	 * @version  [version]
 	 */
 	public function set_option( $name, $value ) {
-
 		return update_option( $this->get_option_name( $name ), $value );
-
 	}
 
 }
