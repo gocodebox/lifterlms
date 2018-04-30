@@ -4,9 +4,17 @@ LifterLMS Changelog
 v3.17.6 - 2018-04-??
 --------------------
 
++ Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information
++ Fix issue causing JS error on admin settings pages
 + Updated CSS for Certificates to be more generally compatible with theme styles when printed
 + Allow system print settings to control print layout for certificates by removing explicit landscape declarations
++ Now passing additional data to filters used to create custom columns on reporting screens
++ Remove unused JS files & Chosen JS library
 
+##### Template Updates
+
++ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-orders.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
 
 
 v3.17.5 - 2018-04-23

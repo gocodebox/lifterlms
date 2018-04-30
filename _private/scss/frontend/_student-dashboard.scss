@@ -164,6 +164,17 @@
 
 	}
 
+	// stack columns when alternate layout declared via filter
+	@media all and ( min-width: 600px ) {
+		.llms-view-order.llms-stack-cols {
+			.order-primary,
+			.order-secondary {
+				float: none;
+				width: 100%;
+			}
+		}
+	}
+
 	.llms-switch-payment-source {
 		.llms-notice,
 		.entry-content .llms-notice {

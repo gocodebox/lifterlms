@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.17.5
+* @version  [version]
 */
 class LLMS_Admin_Assets {
 
@@ -53,7 +53,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  3.17.4
+	 * @version  [version]
 	 */
 	public function admin_styles() {
 
@@ -64,8 +64,6 @@ class LLMS_Admin_Assets {
 		wp_enqueue_style( 'llms-admin-styles', LLMS_PLUGIN_URL . '/assets/css/admin' . LLMS_ASSETS_SUFFIX . '.css' );
 		wp_style_add_data( 'llms-admin-styles', 'rtl', 'replace' );
 		wp_style_add_data( 'llms-admin-styles', 'suffix', LLMS_ASSETS_SUFFIX );
-
-		wp_enqueue_style( 'chosen-styles', LLMS_PLUGIN_URL . '/assets/chosen/chosen' . LLMS_ASSETS_SUFFIX . '.css' );
 
 		wp_enqueue_style( 'llms-select2-styles', LLMS_PLUGIN_URL . '/assets/select2/css/select2' . LLMS_ASSETS_SUFFIX . '.css' );
 
@@ -84,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.17.5
+	 * @version  [version]
 	 */
 	public function admin_scripts() {
 
@@ -129,8 +127,6 @@ class LLMS_Admin_Assets {
 			wp_enqueue_style( 'jquery-ui' );
 
 			wp_register_script( 'llms',  LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-
-			wp_enqueue_script( 'chosen-jquery', LLMS_PLUGIN_URL . 'assets/chosen/chosen.jquery' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 
 			wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . '/assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 
@@ -225,7 +221,7 @@ class LLMS_Admin_Assets {
 		if ( 'lifterlms_page_llms-settings' == $screen->id ) {
 
 			wp_enqueue_media();
-			wp_enqueue_script( 'llms-admin-settings', plugins_url( '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery', 'jquery-ui-sortable' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-admin-settings', LLMS_PLUGIN_URL . '/assets/js/llms-admin-settings' . LLMS_Admin_Assets::$min . '.js', array( 'jquery', 'jquery-ui-sortable' ), LLMS()->version, true );
 
 		} elseif ( 'admin_page_llms-course-builder' === $screen->id ) {
 
@@ -299,14 +295,14 @@ class LLMS_Admin_Assets {
 
 		if ( ! wp_script_is( 'llms-quill', 'registered' ) ) {
 
-			wp_register_script( 'llms-quill',  plugins_url( '/assets/vendor/quill/quill' . LLMS_ASSETS_SUFFIX . '.js', LLMS_PLUGIN_FILE ), array(), '1.3.5', true );
-			wp_register_style( 'llms-quill-bubble', plugins_url( '/assets/vendor/quill/quill.bubble' . LLMS_ASSETS_SUFFIX . '.css', LLMS_PLUGIN_FILE ), array(), '1.3.5', 'screen' );
+			wp_register_script( 'llms-quill',  LLMS_PLUGIN_URL . '/assets/vendor/quill/quill' . LLMS_ASSETS_SUFFIX . '.js', array(), '1.3.5', true );
+			wp_register_style( 'llms-quill-bubble', LLMS_PLUGIN_URL . '/assets/vendor/quill/quill.bubble' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.3.5', 'screen' );
 
 		}
 
 		foreach ( $modules as $module ) {
 
-			$url = plugins_url( '/assets/vendor/quill/quill.module.' . $module . LLMS_ASSETS_SUFFIX . '.js', LLMS_PLUGIN_FILE );
+			$url = LLMS_PLUGIN_URL . '/assets/vendor/quill/quill.module.' . $module . LLMS_ASSETS_SUFFIX . '.js';
 			wp_register_script( 'llms-quill-' . $module, $url, array( 'llms-quill' ), LLMS()->version, true );
 
 		}

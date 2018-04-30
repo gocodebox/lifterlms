@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.17.3
+ * @version [version]
  */
 abstract class LLMS_Admin_Table {
 
@@ -188,10 +188,10 @@ abstract class LLMS_Admin_Table {
 	 * @param    string    $context   display context [display|export]
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	protected function filter_get_data( $value, $key, $data, $context = 'display' ) {
-		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context );
+		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context, $this );
 	}
 
 	/**
