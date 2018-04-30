@@ -1,6 +1,8 @@
 LifterLMS Changelog
 ===================
 
++ Resolve issue causing incorrect number of access plans to be returned on systems that have custom defaults set for `WP_Query` `post_per_page` parameter
+
 v3.17.7 - 2018-04-27
 --------------------
 
