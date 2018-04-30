@@ -153,15 +153,13 @@ class LLMS_Data {
 	 * Get data about llms payment gateways
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	private static function get_gateway_data() {
 
 		$data = array();
 
-		$g = LLMS()->payment_gateways();
-
-		foreach ( $g->get_payment_gateways() as $id => $obj ) {
+		foreach ( LLMS()->payment_gateways() as $obj ) {
 
 			$data[ $obj->get_admin_title() ] = $obj->is_enabled() ? 'Enabled' : 'Disabled';
 
@@ -191,7 +189,7 @@ class LLMS_Data {
 
 		$integrations = LLMS()->integrations();
 
-		foreach ( $integrations->integrations() as $id => $obj ) {
+		foreach ( $integrations->integrations() as $obj ) {
 
 			// @todo upgrade this when integration absrtact is finished
 			if ( method_exists( $obj, 'is_available' ) ) {
