@@ -1,6 +1,9 @@
 LifterLMS Changelog
 ===================
 
++ Updated `LLMS_Abstract_Options_Data` to have an option set method
+
+
 v3.17.7 - 2018-04-27
 --------------------
 
