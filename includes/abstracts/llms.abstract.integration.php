@@ -1,13 +1,14 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
 * LifterLMS Integration Abstract
 *
 * @since   3.0.0
-* @version 3.8.0
+* @version [version]
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
@@ -65,6 +66,14 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 */
 	abstract protected function configure();
 
+	/**
+	 * Merge the default abstract settings with the actual integration settings
+	 * Automatically called via filter upon construction
+	 * @param    array     $settings   existing settings from other integrations
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function add_settings( $settings ) {
 		return array_merge( $settings, $this->get_settings() );
 	}
@@ -130,10 +139,10 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * and the necessary plugin (if any) is installed and activated
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function is_available() {
-		return ( $this->is_enabled() && $this->is_installed() );
+		return ( $this->is_installed() && $this->is_enabled() );
 	}
 
 	/**
