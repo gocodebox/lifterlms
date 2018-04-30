@@ -1,24 +1,28 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
-* Integrations
-*
-* @author codeBOX
-*/
+ * LifterLMS Integrations
+ * @since  1.0.0
+ * @version  [version]
+ */
 class LLMS_Integrations {
+
 	protected static $_instance = null;
 
 	var $integrations;
 
 	/**
-	 * Instance Generator
-	 *
-	 * @return object
+	 * Instance Singleton Generator
+	 * @return   obj
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
 
+		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
 
@@ -27,8 +31,10 @@ class LLMS_Integrations {
 
 	/**
 	 * Constructor
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
-	public function __construct() {
+	private function __construct() {
 		$this->init();
 	}
 
@@ -46,9 +52,12 @@ class LLMS_Integrations {
 
 	/**
 	 * Initalize Integration Classes
-	 * @return null
+	 * @return   null
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function init() {
+
 		$load_integrations = apply_filters( 'lifterlms_integrations', array(
 			'LLMS_Integration_BBPress',
 			'LLMS_Integration_Buddypress',
@@ -56,23 +65,23 @@ class LLMS_Integrations {
 
 		$order_end = 999;
 
-		foreach ( $load_integrations as $integration ) :
+		foreach ( $load_integrations as $integration ) {
 
 			$load_integration = new $integration();
 
 			$this->integrations[ $order_end ] = $load_integration;
 			$order_end++;
 
-		endforeach;
+		}
 
 		ksort( $this->integrations );
 	}
 
 	/**
 	 * Get available integrations
-	 *
-	 * @access public
 	 * @return array
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public function get_available_integrations() {
 
@@ -92,8 +101,9 @@ class LLMS_Integrations {
 
 	/**
 	 * Get all available integrations
-	 *
-	 * @return array [array of all integrations]
+	 * @return array
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	function integrations() {
 
@@ -106,4 +116,5 @@ class LLMS_Integrations {
 
 		return $_available_integrations;
 	}
+
 }
