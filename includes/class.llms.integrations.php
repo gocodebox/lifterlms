@@ -80,7 +80,6 @@ class LLMS_Integrations {
 
 				ksort( $this->integrations );
 			}
-
 		}
 
 	}
@@ -101,7 +100,6 @@ class LLMS_Integrations {
 
 				$_available_integrations[ $integration->id ] = $integration;
 			}
-
 		}
 
 		return apply_filters( 'lifterlms_available_integrations', $_available_integrations );
