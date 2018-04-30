@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * LifterLMS Integrations
- * @since  1.0.0
+ * @since    1.0.0
  * @version  [version]
  */
 class LLMS_Integrations {
@@ -58,23 +58,27 @@ class LLMS_Integrations {
 	 */
 	public function init() {
 
-		$load_integrations = apply_filters( 'lifterlms_integrations', array(
+		$integrations = apply_filters( 'lifterlms_integrations', array(
 			'LLMS_Integration_BBPress',
 			'LLMS_Integration_Buddypress',
 		) );
 
 		$order_end = 999;
 
-		foreach ( $load_integrations as $integration ) {
+		if ( ! empty( $integrations ) ) {
 
-			$load_integration = new $integration();
+			foreach ( $integrations as $integration ) {
 
-			$this->integrations[ $order_end ] = $load_integration;
-			$order_end++;
+					$load_integration = new $integration();
+
+					$this->integrations[ $order_end ] = $load_integration;
+					$order_end++;
+
+				ksort( $this->integrations );
+			}
 
 		}
 
-		ksort( $this->integrations );
 	}
 
 	/**
