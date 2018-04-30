@@ -66,6 +66,14 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 */
 	abstract protected function configure();
 
+	/**
+	 * Merge the default abstract settings with the actual integration settings
+	 * Automatically called via filter upon construction
+	 * @param    array     $settings   existing settings from other integrations
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function add_settings( $settings ) {
 		return array_merge( $settings, $this->get_settings() );
 	}
