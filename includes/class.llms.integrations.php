@@ -12,7 +12,11 @@ class LLMS_Integrations {
 
 	protected static $_instance = null;
 
-	var $integrations;
+	/**
+	 * Array of integrations, regardless of availability
+	 * @var  array
+	 */
+	private $integrations = array();
 
 	/**
 	 * Instance Singleton Generator
@@ -69,10 +73,10 @@ class LLMS_Integrations {
 
 			foreach ( $integrations as $integration ) {
 
-					$load_integration = new $integration();
+				$load_integration = new $integration();
 
-					$this->integrations[ $order_end ] = $load_integration;
-					$order_end++;
+				$this->integrations[ $order_end ] = $load_integration;
+				$order_end++;
 
 				ksort( $this->integrations );
 			}
@@ -83,42 +87,36 @@ class LLMS_Integrations {
 
 	/**
 	 * Get available integrations
-	 * @return array
+	 * @return   array
 	 * @since    1.0.0
-	 * @version  1.0.0
+	 * @version  [version]
 	 */
 	public function get_available_integrations() {
 
 		$_available_integrations = array();
 
-		foreach ( $this->integrations as $integration ) :
+		foreach ( $this->integrations as $integration ) {
 
 			if ( $integration->is_available() ) {
 
-					$_available_integrations[ $integration->id ] = $integration;
+				$_available_integrations[ $integration->id ] = $integration;
 			}
 
-		endforeach;
+		}
 
 		return apply_filters( 'lifterlms_available_integrations', $_available_integrations );
 	}
 
 	/**
-	 * Get all available integrations
+	 * Get all integrations regardless of availability
 	 * @return array
 	 * @since    1.0.0
-	 * @version  1.0.0
+	 * @version  [version]
 	 */
-	function integrations() {
+	public function integrations() {
 
-		$_available_integrations = array();
+		return $this->integrations;
 
-		if ( sizeof( $this->integrations ) > 0 ) {
-			foreach ( $this->integrations as $integration ) {
-				$_available_integrations[ $integration->id ] = $integration; }
-		}
-
-		return $_available_integrations;
 	}
 
 }

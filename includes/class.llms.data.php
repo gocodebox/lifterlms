@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.17.0
+ * @version  [version]
  */
 class LLMS_Data {
 
@@ -180,16 +182,16 @@ class LLMS_Data {
 	 * Get data about existing llms integrations
 	 * @todo integration settings unique to the integration should be included here
 	 * @return   array
-	 * @since    3.0.0.
-	 * @version  3.0.0.
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	private static function get_integrations_data() {
 
 		$data = array();
 
-		$i = LLMS()->integrations();
+		$integrations = LLMS()->integrations();
 
-		foreach ( $i->integrations() as $id => $obj ) {
+		foreach ( $integrations->integrations() as $id => $obj ) {
 
 			// @todo upgrade this when integration absrtact is finished
 			if ( method_exists( $obj, 'is_available' ) ) {
