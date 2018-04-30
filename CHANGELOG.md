@@ -1,6 +1,8 @@
 LifterLMS Changelog
 ===================
 
+
++ Resolve issue causing incorrect number of access plans to be returned on systems that have custom defaults set for `WP_Query` `post_per_page` parameter
 + Reduce unnecessary DB queries for integrations by checking for dependencies and then calling querying the options table to see if the integration has been enabled.
 + Fix error occurring when all 3rd party integrations are disabled by filter, credit to [@Mte90](https://github.com/Mte90)!
 + Ensure `LLMS()->integrations()->integrations()` returns all integrations regardless of availability.
