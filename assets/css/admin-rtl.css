@@ -2946,6 +2946,10 @@ a.llms-view-as {
   color: #32373c;
 }
 
+.llms-builder-launcher .llms-button-primary {
+  box-sizing: border-box;
+}
+
 .llms-order-status-icon.llms-active, .llms-order-status-icon.llms-completed {
   color: green;
 }

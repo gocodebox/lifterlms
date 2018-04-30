@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.17.0
+ * @version  3.17.7
  */
 require( [
 	'../vendor/backbone.collectionView',
@@ -45,7 +45,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  3.17.7
 	 */
 	_.mixin( {
 
@@ -64,6 +64,27 @@ require( [
 				return ' checked="checked"';
 			}
 			return '';
+		},
+
+		/**
+		 * Recursively clone an object via _.clone()
+		 * @param    obj   obj  object to clone
+		 * @return   obj
+		 * @since    3.17.7
+		 * @version  3.17.7
+		 */
+		deepClone: function( obj ) {
+
+			var clone = _.clone( obj );
+
+			_.each( clone, function( val, key ) {
+				if ( ! _.isFunction( val ) && _.isObject( val ) ) {
+					clone[ key ] = _.deepClone( val );
+				};
+			} );
+
+			return clone;
+
 		},
 
 		/**

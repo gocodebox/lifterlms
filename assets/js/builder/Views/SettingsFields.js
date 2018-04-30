@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  3.17.2
+ * @version  3.17.7
  */
 define( [], function() {
 
@@ -142,11 +142,11 @@ define( [], function() {
 		 * @param    obj   field  field data object
 		 * @return   {Boolean}
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  3.17.6
 		 */
 		is_switch_condition_met: function( field ) {
 
-			return ( 'yes' === this.model.get( field.switch_attribute ) );
+			return ( field.switch_on === this.model.get( field.switch_attribute ) );
 
 		},
 
@@ -261,13 +261,13 @@ define( [], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  3.17.1
+		 * @version  3.17.7
 		 */
 		setup_field: function( orig_field, field_index ) {
 
 			var defaults = {
 				classes: [],
-				id: _.uniqueId( orig_field.attribute ),
+				id: _.uniqueId( orig_field.attribute + '_' ),
 				input_type: 'text',
 				label: '',
 				options: {},
@@ -324,18 +324,43 @@ define( [], function() {
 
 			}
 
-			var field = _.defaults( _.clone( orig_field ), defaults );
+			if ( this.has_switch( orig_field.type ) ) {
+				defaults.switch_on = 'yes';
+				defaults.switch_off = 'no';
+			}
 
+			var field = _.defaults( _.deepClone( orig_field ), defaults );
+
+			// if options is a function run it
+			if ( _.isFunction( field.options ) ) {
+				field.options = _.bind( field.options, this.model )();
+			}
+
+			// if it's a radio field options values can be submitted as images
+			// this will transform those images into <img> html
+			if ( -1 !== [ 'radio', 'switch-radio' ].indexOf( orig_field.type ) ) {
+
+				var has_images = false;
+				_.each( orig_field.options, function( val, key ) {
+					if ( -1 !== val.indexOf( '.png' ) || -1 !== val.indexOf( '.jpg' ) ) {
+						field.options[key] = '<span><img src="' + val + '"></span>';
+						has_images = true;
+					}
+				} );
+				if ( has_images ) {
+					field.classes.push( 'has-images' );
+				}
+
+			}
+
+			// add tooltip position classes
 			if ( field.tip ) {
 				field.classes.push( 'tip--' + field.tip_position );
 			}
 
+			// transform classes array to a css class string
 			if ( field.classes.length ) {
 				field.classes = ' ' + field.classes.join( ' ' );
-			}
-
-			if ( 'function' === typeof field.options ) {
-				field.options = _.bind( field.options, this.model )();
 			}
 
 			this.fields[ field.id ] = field;

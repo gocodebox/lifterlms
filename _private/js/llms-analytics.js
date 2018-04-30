@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Reporting Widgets & Charts
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.6
  */
 ;( function( $, undefined ) {
 
@@ -97,7 +97,7 @@
 		 * Render the chart
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.17.6
 		 */
 		this.draw_chart = function() {
 

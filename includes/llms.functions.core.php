@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.16.10
+ * @version  3.17.7
  */
 
 //include all other function files
@@ -704,12 +706,13 @@ function llms_get_post( $post, $error = false ) {
  * @param    mixed     $post  WP Post ID or insance of WP_Post
  * @return   obj|null         Instance of the LLMS_Course or null
  * @since    3.6.0
- * @version  3.16.0
+ * @version  3.17.7
  */
 function llms_get_post_parent_course( $post ) {
 
 	$post = llms_get_post( $post );
-	if ( ! $post || ! in_array( $post->get( 'type' ), array( 'section', 'lesson', 'llms_quiz' ) ) ) {
+	$post_types = apply_filters( 'llms_course_children_post_types', array( 'section', 'lesson', 'llms_quiz' ) );
+	if ( ! $post || ! in_array( $post->get( 'type' ), $post_types ) ) {
 		return null;
 	}
 

@@ -2,7 +2,7 @@
 /**
  * Builder quiz model view
  * @since   3.16.0
- * @version 3.16.0
+ * @version 3.17.6
  */
 ?>
 <script type="text/html" id="tmpl-llms-quiz-template">
@@ -29,7 +29,45 @@
 
 	<# } else { #>
 
-		<header class="llms-model-header" id="llms-quiz-header"></header>
+		<header class="llms-model-header" id="llms-lesson-header">
+
+			<h3 class="llms-headline llms-model-title">
+				<?php _e( 'Title', 'lifterlms' ); ?>: <span class="llms-input llms-editable-title" contenteditable="true" data-attribute="title" data-original-content="{{{ data.get( 'title' ) }}}" data-required="required">{{{ data.get( 'title' ) }}}</span>
+			</h3>
+
+			<div class="llms-headline llms-quiz-points">
+				<?php _e( 'Total Points', 'lifterlms' ); ?>: <strong id="llms-quiz-total-points">{{{ data.get( '_points' ) }}}</strong>
+			</div>
+
+			<label class="llms-switch llms-model-status">
+				<span class="llms-label"><?php _e( 'Published', 'lifterlms' ); ?></span>
+				<input data-off="draft" data-on="publish" name="status" type="checkbox"<# if ( 'publish' === data.get( 'status' ) ) { print( ' checked' ) } #>>
+				<div class="llms-switch-slider"></div>
+			</label>
+
+			<div class="llms-action-icons">
+
+				<# if ( ! data.has_temp_id() ) { #>
+					<a class="llms-action-icon danger tip--bottom-left" data-tip="<?php esc_attr_e( 'Detach Quiz', 'lifterlms' ); ?>" href="#llms-detach-model">
+						<i class="fa fa-chain-broken" aria-hidden="true"></i>
+						<span class="screen-reader-text"><?php _e( 'Detach Quiz', 'lifterlms' ); ?></span>
+					</a>
+				<# } #>
+
+				<a class="llms-action-icon danger tip--bottom-left" data-tip="<?php _e( 'Delete Quiz', 'lifterlms' ); ?>" href="#llms-trash-model" tabindex="-1">
+					<i class="fa fa-trash" aria-hidden="true"></i>
+					<span class="screen-reader-text"><?php _e( 'Delete Quiz', 'lifterlms' ); ?></span>
+				</a>
+
+			</div>
+
+		</header>
+
+		<?php do_action( 'llms_builder_quiz_before_settings' ); ?>
+
+		<div id="llms-quiz-settings-fields"></div>
+
+		<?php do_action( 'llms_builder_quiz_after_settings' ); ?>
 
 		<ul class="llms-quiz-questions" data-empty-msg="<?php esc_attr_e( 'Click "Add Question" below to start building your quiz!', 'lifterlms' ); ?>" id="llms-quiz-questions"></ul>
 

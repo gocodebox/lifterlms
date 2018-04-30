@@ -575,7 +575,7 @@ body.admin_page_llms-course-builder {
 			display: inline-block;
 			font-size: 16px;
 			font-weight: 300;
-			margin: 0 5px 5px;
+			margin: 0 5px;
 			padding: 0;
 		}
 		.llms-settings-group-toggle {
@@ -583,6 +583,10 @@ body.admin_page_llms-course-builder {
 			font-size: 18px;
 			padding: 2px;
 		}
+	}
+
+	.llms-settings-group-body {
+		margin-top: 5px;
 	}
 
 	.llms-settings-row {
@@ -614,15 +618,25 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
-	.llms-editable-img-select {
-		input { display: none; }
-		label > span {
-			display: inline-block;
-			padding: 3px;
+	.llms-editable-radio {
+		label {
+			display: block;
 		}
-		img { display: block; }
-		input:checked + span {
-			background: $color-brand-blue;
+		&.has-images {
+			input { display: none; }
+			label {
+				display: inline-block;
+				margin: 0 3px;
+			}
+			label > span {
+				transition: background 0.2s ease;
+				display: inline-block;
+				padding: 3px;
+			}
+			img { display: block; }
+			input:checked + span {
+				background: $color-brand-blue;
+			}
 		}
 	}
 
@@ -1334,8 +1348,8 @@ body.admin_page_llms-course-builder {
 	 */
 	ul.llms-quiz-questions {
 
-		margin: 0 -5px 10px;
-		padding: 25px 5px 5px;
+		margin: 10px 3px;
+		padding: 5px;
 		transition: box-shadow 0.6s ease;
 
 		&.dragging {
@@ -1343,11 +1357,13 @@ body.admin_page_llms-course-builder {
 		}
 
 		&:empty:before {
+			background: #fff;
 			content: attr(data-empty-msg);
 			display: block;
 			font-size: 18px;
+			margin: 0 auto;
+			padding: 100px 0;
 			text-align: center;
-			margin: 100px auto;
 		}
 
 		li.llms-question {
@@ -1603,7 +1619,7 @@ body.admin_page_llms-course-builder {
 
 		.llms-label {
 			display: inline-block;
-			vertical-align: middle;
+			vertical-align: top;
 		}
 
 		.llms-switch-slider {
@@ -1611,9 +1627,10 @@ body.admin_page_llms-course-builder {
 			border-radius: 8px;
 			display: inline-block;
 			height: 16px;
+			margin-top: 2px;
 			position: relative;
 			transition: background 0.2s ease;
-			vertical-align: middle;
+			vertical-align: top;
 			width: 30px;
 
 			&:after {

@@ -603,13 +603,16 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   display: inline-block;
   font-size: 16px;
   font-weight: 300;
-  margin: 0 5px 5px;
+  margin: 0 5px;
   padding: 0;
 }
 .wrap.lifterlms.llms-builder .llms-settings-group-header .llms-settings-group-toggle {
   float: left;
   font-size: 18px;
   padding: 2px;
+}
+.wrap.lifterlms.llms-builder .llms-settings-group-body {
+  margin-top: 5px;
 }
 .wrap.lifterlms.llms-builder .llms-settings-row {
   display: -ms-flexbox;
@@ -641,17 +644,25 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 .wrap.lifterlms.llms-builder .llms-editable-select .select2-container--default.select2-container--focus .select2-selection--multiple {
   border-color: #aaa;
 }
-.wrap.lifterlms.llms-builder .llms-editable-img-select input {
+.wrap.lifterlms.llms-builder .llms-editable-radio label {
+  display: block;
+}
+.wrap.lifterlms.llms-builder .llms-editable-radio.has-images input {
   display: none;
 }
-.wrap.lifterlms.llms-builder .llms-editable-img-select label > span {
+.wrap.lifterlms.llms-builder .llms-editable-radio.has-images label {
+  display: inline-block;
+  margin: 0 3px;
+}
+.wrap.lifterlms.llms-builder .llms-editable-radio.has-images label > span {
+  transition: background 0.2s ease;
   display: inline-block;
   padding: 3px;
 }
-.wrap.lifterlms.llms-builder .llms-editable-img-select img {
+.wrap.lifterlms.llms-builder .llms-editable-radio.has-images img {
   display: block;
 }
-.wrap.lifterlms.llms-builder .llms-editable-img-select input:checked + span {
+.wrap.lifterlms.llms-builder .llms-editable-radio.has-images input:checked + span {
   background: #2295ff;
 }
 .wrap.lifterlms.llms-builder .llms-action-icon {
@@ -1162,19 +1173,21 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
   pointer-events: none;
 }
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions {
-  margin: 0 -5px 10px;
-  padding: 25px 5px 5px;
+  margin: 10px 3px;
+  padding: 5px;
   transition: box-shadow 0.6s ease;
 }
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions.dragging {
   box-shadow: 0 0 0 3px #2295ff;
 }
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions:empty:before {
+  background: #fff;
   content: attr(data-empty-msg);
   display: block;
   font-size: 18px;
+  margin: 0 auto;
+  padding: 100px 0;
   text-align: center;
-  margin: 100px auto;
 }
 .wrap.lifterlms.llms-builder ul.llms-quiz-questions li.llms-question {
   background: #fff;
@@ -1391,16 +1404,17 @@ body.admin_page_llms-course-builder .webui-popover .select2-container--default .
 }
 .wrap.lifterlms.llms-builder .llms-switch .llms-label {
   display: inline-block;
-  vertical-align: middle;
+  vertical-align: top;
 }
 .wrap.lifterlms.llms-builder .llms-switch .llms-switch-slider {
   background: #e0e0e0;
   border-radius: 8px;
   display: inline-block;
   height: 16px;
+  margin-top: 2px;
   position: relative;
   transition: background 0.2s ease;
-  vertical-align: middle;
+  vertical-align: top;
   width: 30px;
 }
 .wrap.lifterlms.llms-builder .llms-switch .llms-switch-slider:after {

@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.17.0
+ * @version  3.17.7
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -20,6 +22,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $quiz  (int)  WP Post ID of the llms_quiz
  * @property  $quiz_enabled  (yesno)  Whether or not the attached quiz is enabled for students
  * @property  $require_passing_grade  (yesno)  Whether of not students have to pass the quiz to advance to the next lesson
+ * @property  $require_assignment_passing_grade  (yesno)  Whether of not students have to pass the assignment to advance to the next lesson
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
  */
@@ -47,6 +50,7 @@ implements LLMS_Interface_Post_Audio
 		'has_prerequisite' => 'yesno',
 		'prerequisite' => 'absint',
 		'require_passing_grade' => 'yesno',
+		'require_assignment_passing_grade' => 'yesno',
 		'video_embed' => 'text',
 
 		// quizzes

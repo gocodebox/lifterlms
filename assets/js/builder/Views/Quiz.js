@@ -1,15 +1,15 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.16.6
+ * @version  3.17.7
  */
 define( [
 		'Models/Quiz',
 		'Views/Popover',
 		'Views/PostSearch',
-		'Views/QuizHeader',
 		'Views/QuestionBank',
 		'Views/QuestionList',
+		'Views/SettingsFields',
 		'Views/_Detachable',
 		'Views/_Editable',
 		'Views/_Subview',
@@ -18,9 +18,9 @@ define( [
 		QuizModel,
 		Popover,
 		PostSearch,
-		QuizHeader,
 		QuestionBank,
 		QuestionList,
+		SettingsFields,
 		Detachable,
 		Editable,
 		Subview,
@@ -40,8 +40,8 @@ define( [
 		 * @type  {Object}
 		 */
 		views: {
-			header: {
-				class: QuizHeader,
+			settings: {
+				class: SettingsFields,
 				instance: null,
 				state: 'default',
 			},
@@ -116,6 +116,8 @@ define( [
 				 */
 				this.model.set_parent( this.lesson );
 
+				this.listenTo( this.model, 'change:_points', this.render_points );
+
 			}
 
 			this.on( 'model-trashed', this.on_trashed );
@@ -126,7 +128,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.7
 		 */
 		render: function() {
 
@@ -135,9 +137,13 @@ define( [
 			// render the quiz builder
 			if ( this.model ) {
 
-				this.render_subview( 'header', {
+				this.render_subview( 'settings', {
+					el: '#llms-quiz-settings-fields',
 					model: this.model,
 				} );
+
+				this.init_datepickers();
+				this.init_selects();
 
 				this.render_subview( 'bank', {
 					collection: window.llms_builder.questions,
@@ -179,6 +185,20 @@ define( [
 			}
 
 			return this;
+
+		},
+
+		/**
+		 * On quiz points update, update the value of the Total Points area in the header
+		 * @param    obj   quiz    Instance of the quiz model
+		 * @param    int   points  Updated number of points
+		 * @return   void
+		 * @since    3.17.6
+		 * @version  3.17.6
+		 */
+		render_points: function( quiz, points ) {
+
+			this.$el.find( '#llms-quiz-total-points' ).text( points );
 
 		},
 
@@ -369,6 +389,6 @@ define( [
 			return new QuestionList( options );
 		}
 
-	}, Detachable, Editable, Subview, Trashable ) );
+	}, Detachable, Editable, Subview, Trashable, SettingsFields ) );
 
 } );

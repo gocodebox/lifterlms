@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Notification View: Certificate Earned
  * @since    3.8.0
- * @version  3.16.6
+ * @version  3.17.6
  */
 class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notification_View {
 
@@ -17,7 +19,7 @@ class LLMS_Notification_View_Certificate_Earned extends LLMS_Abstract_Notificati
 		 * Time in milliseconds to show a notification
 		 * before automatically dismissing it
 		 */
-		'auto_dismiss' => 0,
+		'auto_dismiss' => 10000,
 		/**
 		 * Enables manual dismissal of notifications
 		 */

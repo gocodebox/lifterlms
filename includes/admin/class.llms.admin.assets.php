@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.6
 */
 class LLMS_Admin_Assets {
 
@@ -53,7 +53,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.6
 	 */
 	public function admin_styles() {
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.6
 	 */
 	public function admin_scripts() {
 

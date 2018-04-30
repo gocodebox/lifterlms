@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.17.1
+ * @version  3.17.6
  */
 class LLMS_Admin_Builder {
 
@@ -50,12 +52,48 @@ class LLMS_Admin_Builder {
 	 * Retrieve custom field schemas
 	 * @return   array
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  3.17.6
 	 */
 	private static function get_custom_schemas() {
+
+		$quiz_fields = array();
+
+		/**
+		 * Handle old quiz layout compatibility API
+		 * translate the old filter into the new one for quizzes
+		 */
+		if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+
+			llms_log( 'Filter `llms_get_quiz_theme_settings` deprecated since 3.17.6, for more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/' );
+
+			$theme = wp_get_theme();
+
+			$old = llms_get_quiz_theme_setting( 'layout' );
+
+			$field = array(
+				'attribute' => $old['id'],
+				'id' => $old['id'],
+				'label' => $old['name'],
+				'type' => ( 'select' === $old['type'] ) ? 'select' : 'radio',
+				'options' => $old['options'],
+			);
+
+			if ( isset( $old['id_prefix'] ) ) {
+				$field['attribute_prefix'] = $old['id_prefix'];
+			}
+
+			$quiz_fields[ sprintf( '%s_backwards_theme_group', $theme->get_stylesheet() ) ] = array(
+				'title' => sprintf( __( '%s Theme Settings', 'lifterlms' ), $theme->get( 'Name' ) ),
+				'toggleable' => true,
+				'fields' => array( array( $field ) ),
+			);
+
+		}
+		// end backwards compat
+
 		return apply_filters( 'llms_builder_register_custom_fields', array(
 			'lesson' => array(),
-			'quiz' => array(),
+			'quiz' => $quiz_fields,
 		) );
 	}
 
@@ -398,7 +436,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.17.0
+	 * @version  3.17.6
 	 */
 	public static function output() {
 
@@ -440,7 +478,6 @@ if ( ! empty( $active_post_lock ) ) {
 					'lesson',
 					'lesson-settings',
 					'quiz',
-					'quiz-header',
 					'question',
 					'question-choice',
 					'question-type',
@@ -884,7 +921,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.15
+	 * @version  3.17.6
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -940,14 +977,9 @@ if ( ! empty( $active_post_lock ) ) {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 			}
 
-			if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+			// update all custom fields
+			self::update_custom_schemas( 'quiz', $quiz, $quiz_data );
 
-				$layout = llms_get_quiz_theme_setting( 'layout' );
-				if ( $layout && isset( $quiz_data[ $layout['id'] ] ) ) {
-					$prefix = isset( $layout['id_prefix'] ) ? $layout['id_prefix'] : '';
-					update_post_meta( $quiz->get( 'id' ), sprintf( '%1$s%2$s', $prefix, $layout['id'] ), sanitize_text_field( $quiz_data[ $layout['id'] ] ) );
-				}
-			}
 		}// End if().
 
 		return $res;

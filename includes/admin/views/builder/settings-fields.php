@@ -2,7 +2,7 @@
 /**
  * Model Field Settings Template
  * @since   3.17.0
- * @version 3.17.2
+ * @version 3.17.7
  */
 ?>
 <script type="text/html" id="tmpl-llms-settings-fields-template">
@@ -43,7 +43,7 @@
 						>
 							<label class="llms-switch">
 								<span class="llms-label">{{{ field.label }}}</span>
-								<input data-rerender="{{{ data.should_rerender_on_toggle( field.type ) }}}" name="{{{ data.get_switch_attribute( field ) }}}" type="checkbox"{{{ _.checked( 'yes', data.model.get( data.get_switch_attribute( field ) ) ) }}}>
+								<input data-on="{{{ field.switch_on }}}" data-off="{{{ field.switch_off }}}" data-rerender="{{{ data.should_rerender_on_toggle( field.type ) }}}" name="{{{ data.get_switch_attribute( field ) }}}" type="checkbox"{{{ _.checked( field.switch_on, data.model.get( data.get_switch_attribute( field ) ) ) }}}>
 								<div class="llms-switch-slider"></div>
 							</label>
 						</div>
@@ -64,6 +64,20 @@
 							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
 						>
 							<select name="{{{ field.attribute }}}"{{{ field.multiple ? ' multiple' : '' }}}>{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
+						</div>
+
+					<# } else if ( 'radio' === field.type || ( 'switch-radio' === field.type && data.is_switch_condition_met( field ) ) ) { #>
+
+						<div
+							class="llms-editable-radio{{{ field.classes }}}"
+							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
+						>
+							<# _.each( field.options, function( label, val ) { #>
+								<label for="{{{ field.id }}}_{{{ val }}}" class="llms-radio">
+									<input id="{{{ field.id }}}_{{{ val }}}" name="{{{ field.attribute }}}" type="radio" value="{{{ val }}}"{{{ _.checked( val, data.model.get( field.attribute ) ) }}}>
+									{{{ label }}}
+								</label>
+							<# } ); #>
 						</div>
 
 					<# } else if ( data.is_editor_field( field.type ) ) { #>

@@ -1,15 +1,33 @@
 LifterLMS Changelog
 ===================
 
-v3.17.6 - 2018-04-??
+v3.17.7 - 2018-04-27
+--------------------
+
++ Fix issue preventing assignments passing grade requirement from saving properly
++ Fix issue preventing builder toggle switches from properly saving some switch field data
++ Fix with "Launch Builder" button causing it to extend outside the bounds of its container
++ Fix issue with builder radio select fields during view rerenders
++ Course Outline shortcode (and widget) now retrieve parent course of the current page more consistently with other shortcodes
++ Added ability to filter which custom post types which can be children of a course (allows course shortcodes & widgets to be used in assignment sidebars of custom content areas)
+
+
+v3.17.6 - 2018-04-26
 --------------------
 
 + Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information
++ Quiz editor on builder updated to be consistent visually and functionally to the lesson settings editor
++ Improved the builder field API to allow for radio element fields
 + Fix issue causing JS error on admin settings pages
 + Updated CSS for Certificates to be more generally compatible with theme styles when printed
 + Allow system print settings to control print layout for certificates by removing explicit landscape declarations
 + Now passing additional data to filters used to create custom columns on reporting screens
 + Remove unused JS files & Chosen JS library
++ Added filter to allow opting into alternate student dashboard order layout. Use `add_filter( 'llms_sd_stacked_order_layout', '__return_true' )` to stack the payment update sidebar below the main order information. This is disabled by default.
++ Achievement and Certificate basic notifications now auto-dismiss after 10 seconds like all other basic notifications
++ Deprecated Filter `llms_get_quiz_theme_settings` and added backwards compatible methods to transition themes using this filter to the new custom field api. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/
++ Increased default z-index on notifications to prevent notifications from being hidden behind floating / static navigation menus
+
 
 ##### Template Updates
 
