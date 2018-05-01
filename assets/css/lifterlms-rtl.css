@@ -251,22 +251,26 @@
   font-size: 48px;
 }
 .llms-donut .inside {
-  -ms-flex-align: center;
-      align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
   background: #fff;
   border-radius: 50%;
   box-sizing: border-box;
+  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -ms-flex-wrap: wrap;
       flex-wrap: wrap;
   height: 80%;
-  -ms-flex-pack: center;
-      justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   right: 50%;
   position: absolute;
   text-align: center;
-  transform: translate(50%, -50%);
+  -webkit-transform: translate(50%, -50%);
+          transform: translate(50%, -50%);
   width: 80%;
   top: 50%;
   z-index: 3;
@@ -859,6 +863,7 @@ svg .llms-animated-circle {
   top: 0;
   right: 50%;
   text-align: center;
+  -webkit-transform: translateX(50%) translateY(-100%);
   transform: translateX(50%) translateY(-100%);
 }
 
@@ -873,7 +878,8 @@ svg .llms-animated-circle {
   position: absolute;
   bottom: -8px;
   right: 50%;
-  transform: translateX(50%);
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
 }
 
 .llms-lesson-tooltip.active {
@@ -1114,10 +1120,13 @@ svg .llms-animated-circle {
 /* progress bar */
 .llms-progress {
   clear: both;
+  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -ms-flex-direction: row-reverse;
-      flex-direction: row-reverse;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: reverse;
+      -ms-flex-direction: row-reverse;
+          flex-direction: row-reverse;
   position: relative;
   height: 1em;
   width: 100%;
@@ -1410,6 +1419,7 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
 }
 .llms-notification.visible {
   opacity: 1;
+  transition: opacity 0.4s ease-in-out, left 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, -webkit-transform 0.2s ease-in-out;
   transition: opacity 0.4s ease-in-out, left 0.4s ease-in-out, top 0.1s ease-in-out, background 0.2s ease-in-out, transform 0.2s ease-in-out;
   visibility: visible;
 }
@@ -1417,18 +1427,22 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   opacity: 1;
 }
 .llms-notification .llms-notification-content {
-  -ms-flex-align: center;
-      align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
 .llms-notification .llms-notification-main {
   -ms-flex-item-align: start;
       align-self: flex-start;
-  -ms-flex: 4;
-      flex: 4;
-  -ms-flex-order: 2;
-      order: 2;
+  -webkit-box-flex: 4;
+      -ms-flex: 4;
+          flex: 4;
+  -webkit-box-ordinal-group: 3;
+      -ms-flex-order: 2;
+          order: 2;
 }
 .llms-notification .llms-notification-title {
   font-size: 18px;
@@ -1464,11 +1478,13 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
 .llms-notification .llms-notification-aside {
   -ms-flex-item-align: start;
       align-self: flex-start;
-  -ms-flex: 1;
-      flex: 1;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
   margin-left: 12px;
-  -ms-flex-order: 1;
-      order: 1;
+  -webkit-box-ordinal-group: 2;
+      -ms-flex-order: 1;
+          order: 1;
 }
 .llms-notification .llms-notification-icon {
   display: block;
@@ -1575,7 +1591,8 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   right: 50%;
   position: absolute;
   pointer-events: none;
-  transform: translateX(50%);
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
   transition: opacity .2s ease, top .2s ease;
   max-width: 320px;
 }
@@ -1592,7 +1609,8 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   height: 0;
   right: 50%;
   position: absolute;
-  transform: translateX(50%);
+  -webkit-transform: translateX(50%);
+          transform: translateX(50%);
   width: 0;
 }
 
@@ -1807,16 +1825,20 @@ ul.llms-certificates-loop li.llms-certificate-loop-item,
   position: relative;
 }
 .llms-quiz-ui .llms-quiz-header {
-  -ms-flex-align: center;
-      align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   margin: 0 0 30px;
 }
 .llms-quiz-ui .llms-progress {
   background-color: #f1f2f1;
-  -ms-flex-direction: row;
-      flex-direction: row;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
   height: 8px;
   margin: 0;
   overflow: hidden;
@@ -2798,42 +2820,62 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 
 .fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
   animation: fa-spin 2s infinite linear;
 }
 
 .fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
   animation: fa-spin 1s infinite steps(8);
 }
-@keyframes fa-spin {
+
+@-webkit-keyframes fa-spin {
   0% {
+    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   100% {
+    -webkit-transform: rotate(-359deg);
+    transform: rotate(-359deg);
+  }
+}
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+    transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(-359deg);
     transform: rotate(-359deg);
   }
 }
 .fa-rotate-90 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(-90deg);
   transform: rotate(-90deg);
 }
 
 .fa-rotate-180 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(-180deg);
   transform: rotate(-180deg);
 }
 
 .fa-rotate-270 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(-270deg);
   transform: rotate(-270deg);
 }
 
 .fa-flip-horizontal {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 .fa-flip-vertical {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
   transform: scale(1, -1);
 }
 
@@ -5720,7 +5762,8 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
 }
 
 .llms-spinner {
-  animation: llms-spinning 1.5s linear infinite;
+  -webkit-animation: llms-spinning 1.5s linear infinite;
+          animation: llms-spinning 1.5s linear infinite;
   box-sizing: border-box;
   border: 4px solid #313131;
   border-radius: 50%;
@@ -5740,14 +5783,30 @@ ul.llms-payment-gateways .llms-payment-gateway-error {
   width: 20px;
 }
 
-@keyframes llms-spinning {
+@-webkit-keyframes llms-spinning {
   0% {
-    transform: rotate(0deg);
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
   }
   50% {
     border-radius: 5%;
   }
   100% {
-    transform: rotate(-220deg);
+    -webkit-transform: rotate(-220deg);
+            transform: rotate(-220deg);
+  }
+}
+
+@keyframes llms-spinning {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  50% {
+    border-radius: 5%;
+  }
+  100% {
+    -webkit-transform: rotate(-220deg);
+            transform: rotate(-220deg);
   }
 }

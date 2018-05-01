@@ -145,7 +145,7 @@ final class LifterLMS {
 	/**
 	 * Define LifterLMS Constants
 	 * @since    1.0.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	private function define_constants() {
 
@@ -176,6 +176,38 @@ final class LifterLMS {
 
 		if ( ! defined( 'LLMS_TMP_DIR' ) ) {
 			define( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
+		}
+
+		if ( ! defined( 'LLMS_PLUGIN_URL' ) ) {
+
+			/**
+			 * URL to the plugin directory for assets, etc
+			 * @since   [version]
+			 * @version [version]
+			 */
+			define( 'LLMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+		}
+
+		// Constants used for loading assets
+
+		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
+
+			// if we're loading in debug mode
+			$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
+
+			/* if debugging, load the unminified version
+			 * on production, load the minified one
+			 */
+			$min = ( $debug ) ? '' : '.min';
+
+			/**
+			 * Assets suffix
+			 * Defines if minified versions of assets should be loaded
+			 * @since   [version]
+			 * @version [version]
+			 */
+			define( 'LLMS_ASSETS_SUFFIX', $min );
 		}
 
 	}
@@ -502,4 +534,3 @@ function LLMS() {
 }
 // @codingStandardsIgnoreEnd
 return LLMS();
-;

@@ -58,6 +58,76 @@ msgstr ""
 msgid "No results were found."
 msgstr ""
 
+#: includes/abstracts/abstract.llms.payment.gateway.php:220
+msgid "Customer ID"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:225
+msgid "Source ID"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:230
+msgid "Subscription ID"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:259
+msgctxt "Payment gateway title"
+msgid "Enable %s"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:260
+msgid "Checking this box will allow users to use this payment gateway."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:262, includes/abstracts/llms.abstract.integration.php:117, includes/admin/settings/class.llms.settings.accounts.php:289
+msgid "Enable / Disable"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:268
+msgid "The title the user sees during checkout."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/lesson-settings.php:13, includes/admin/views/builder/quiz.php:35, includes/notifications/views/class.llms.notification.view.enrollment.php:73
+msgid "Title"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:276
+msgid "The description the user sees during checkout."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:278, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, languages/lifterlms-js-pot.php:371
+msgid "Description"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:284
+msgid "This determines the order gateways are displayed on the checkout page. Lowest number will display first."
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:286
+msgid "Display Order"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:294
+msgctxt "Payment gateway test mode title"
+msgid "Enable %s"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:305
+msgid "Enable debug logging"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:306
+msgid "When enabled, debugging information will be logged to \"%s\""
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:307
+msgid "Debug Log"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.payment.gateway.php:558
+msgid "The selected payment Gateway \"%s\" does not support payment method switching."
+msgstr ""
+
 #: includes/abstracts/abstract.llms.post.model.php:320
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
@@ -70,12 +140,8 @@ msgstr ""
 msgid "This completion percentage is an estimate, please be patient and %sclick here%s for more information."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.integration.php:104
+#: includes/abstracts/llms.abstract.integration.php:113
 msgid "Check to enable this integration."
-msgstr ""
-
-#: includes/abstracts/llms.abstract.integration.php:108, includes/admin/settings/class.llms.settings.accounts.php:289
-msgid "Enable / Disable"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:253, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:43, includes/models/model.llms.post.instructors.php:55
@@ -121,10 +187,6 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.php:319
 msgid "Heading"
-msgstr ""
-
-#: includes/abstracts/llms.abstract.notification.view.php:319, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/lesson-settings.php:13, includes/admin/views/builder/quiz.php:35, includes/notifications/views/class.llms.notification.view.enrollment.php:73
-msgid "Title"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.view.php:331
@@ -499,7 +561,7 @@ msgstr ""
 msgid "LifterLMS Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.menus.php:107, lifterlms.php:454
+#: includes/admin/class.llms.admin.menus.php:107, lifterlms.php:486
 msgid "Settings"
 msgstr ""
 
@@ -1206,10 +1268,6 @@ msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:189
 msgid "The amount of times this coupon can be used. Leave empty or enter 0 for unlimited uses."
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58, languages/lifterlms-js-pot.php:371
-msgid "Description"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:205
@@ -3543,7 +3601,7 @@ msgstr ""
 msgid "Voucher redeemed sucessfully!"
 msgstr ""
 
-#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:112
+#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:115
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -5298,43 +5356,43 @@ msgstr ""
 msgid "You have already redeemed this voucher."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:37, includes/controllers/class.llms.controller.account.php:44
+#: includes/controllers/class.llms.controller.account.php:38, includes/controllers/class.llms.controller.account.php:45
 msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:48
+#: includes/controllers/class.llms.controller.account.php:49
 msgid "Cancelled by student from account page."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:67
+#: includes/controllers/class.llms.controller.account.php:70
 msgid "Please log in and try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:86
+#: includes/controllers/class.llms.controller.account.php:89
 msgid "Your account information has been saved."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:136
+#: includes/controllers/class.llms.controller.account.php:139
 msgid "Invalid username or e-mail address."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:146
+#: includes/controllers/class.llms.controller.account.php:149
 msgid "Password reset is not allowed for this user"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:167
+#: includes/controllers/class.llms.controller.account.php:170
 msgid "Check your e-mail for the confirmation link."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:171
+#: includes/controllers/class.llms.controller.account.php:174
 msgid "Unable to reset password due to an unknown error. Please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:202, includes/controllers/class.llms.controller.account.php:209
+#: includes/controllers/class.llms.controller.account.php:205, includes/controllers/class.llms.controller.account.php:212
 msgid "Invalid Key"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.account.php:218
+#: includes/controllers/class.llms.controller.account.php:221
 msgid "Your password has been updated. %1$sClick here to login%2$s"
 msgstr ""
 
@@ -7994,11 +8052,11 @@ msgstr ""
 msgid "Let's get started %s"
 msgstr ""
 
-#: includes/processors/class.llms.processor.table.to.csv.php:208
+#: includes/processors/class.llms.processor.table.to.csv.php:210
 msgid "Your %1$s export file from %2$s"
 msgstr ""
 
-#: includes/processors/class.llms.processor.table.to.csv.php:209
+#: includes/processors/class.llms.processor.table.to.csv.php:211
 msgid "Please find the attached CSV file."
 msgstr ""
 
