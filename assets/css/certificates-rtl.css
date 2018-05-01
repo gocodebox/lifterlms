@@ -75,6 +75,11 @@ body {
   /* Make everything on the page invisible */
   body * {
     visibility: hidden;
+    background: #fff none;
+  }
+
+  .site, .site-content {
+    overflow: visible;
   }
 
   /* remove all headers, menus and footers */
@@ -94,5 +99,6 @@ body {
     right: 0;
     left: 0;
     margin: 0 auto;
+    background: #fff none;
   }
 }

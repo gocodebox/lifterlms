@@ -852,39 +852,19 @@ h1.outline-title {
   visibility: visible;
   opacity: 1;
   transition: opacity 0.1s 0s, visibility 0s 0s;
-  -webkit-animation: cd-move-in 0.4s;
-          animation: cd-move-in 0.4s;
-  -webkit-animation-fill-mode: forwards;
-          animation-fill-mode: forwards;
-}
-
-@-webkit-keyframes cd-move-in {
-  0% {
-    -webkit-transform: translateY(2.5vh);
-            transform: translateY(2.5vh);
-  }
-  65% {
-    -webkit-transform: translateY(-1.5vh);
-            transform: translateY(-1.5vh);
-  }
-  100% {
-    -webkit-transform: translateY(0vh);
-            transform: translateY(0vh);
-  }
+  animation: cd-move-in 0.4s;
+  animation-fill-mode: forwards;
 }
 
 @keyframes cd-move-in {
   0% {
-    -webkit-transform: translateY(2.5vh);
-            transform: translateY(2.5vh);
+    transform: translateY(2.5vh);
   }
   65% {
-    -webkit-transform: translateY(-1.5vh);
-            transform: translateY(-1.5vh);
+    transform: translateY(-1.5vh);
   }
   100% {
-    -webkit-transform: translateY(0vh);
-            transform: translateY(0vh);
+    transform: translateY(0vh);
   }
 }
 #triangle {
@@ -1467,8 +1447,7 @@ svg.icon.detail-icon.off {
   color: #ccc;
 }
 svg.icon-ion-arrow-up {
-  -webkit-transform: rotate(90deg);
-          transform: rotate(90deg);
+  transform: rotate(90deg);
 }
 svg use {
   pointer-events: none;
@@ -3224,7 +3203,6 @@ a.llms-view-as {
 }
 
 .llms-reporting-tab-content {
-  display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
 }
@@ -3246,20 +3224,17 @@ a.llms-view-as {
   top: -3px;
 }
 .llms-reporting-tab-content .llms-reporting-tab-main {
-  -webkit-box-flex: 3;
-      -ms-flex: 3;
-          flex: 3;
+  -ms-flex: 3;
+      flex: 3;
 }
 .llms-reporting-tab-content .llms-reporting-tab-side {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+      flex: 1;
   margin-left: 20px;
 }
 .llms-reporting-tab-content > .llms-table-wrap {
-  -webkit-box-flex: 1;
-      -ms-flex: 1;
-          flex: 1;
+  -ms-flex: 1;
+      flex: 1;
 }
 
 .llms-reporting-widgets:before, .llms-reporting-widgets:after {
@@ -3771,62 +3746,42 @@ button[name="llms_quiz_attempt_action"].grading .save {
 }
 
 .fa-spin {
-  -webkit-animation: fa-spin 2s infinite linear;
   animation: fa-spin 2s infinite linear;
 }
 
 .fa-pulse {
-  -webkit-animation: fa-spin 1s infinite steps(8);
   animation: fa-spin 1s infinite steps(8);
-}
-
-@-webkit-keyframes fa-spin {
-  0% {
-    -webkit-transform: rotate(0deg);
-    transform: rotate(0deg);
-  }
-  100% {
-    -webkit-transform: rotate(359deg);
-    transform: rotate(359deg);
-  }
 }
 @keyframes fa-spin {
   0% {
-    -webkit-transform: rotate(0deg);
     transform: rotate(0deg);
   }
   100% {
-    -webkit-transform: rotate(359deg);
     transform: rotate(359deg);
   }
 }
 .fa-rotate-90 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
-  -webkit-transform: rotate(90deg);
   transform: rotate(90deg);
 }
 
 .fa-rotate-180 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
-  -webkit-transform: rotate(180deg);
   transform: rotate(180deg);
 }
 
 .fa-rotate-270 {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
-  -webkit-transform: rotate(270deg);
   transform: rotate(270deg);
 }
 
 .fa-flip-horizontal {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
-  -webkit-transform: scale(-1, 1);
   transform: scale(-1, 1);
 }
 
 .fa-flip-vertical {
   -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
-  -webkit-transform: scale(1, -1);
   transform: scale(1, -1);
 }
 
@@ -6713,8 +6668,7 @@ button[name="llms_quiz_attempt_action"].grading .save {
 }
 
 .llms-spinner {
-  -webkit-animation: llms-spinning 1.5s linear infinite;
-          animation: llms-spinning 1.5s linear infinite;
+  animation: llms-spinning 1.5s linear infinite;
   box-sizing: border-box;
   border: 4px solid #313131;
   border-radius: 50%;
@@ -6734,30 +6688,14 @@ button[name="llms_quiz_attempt_action"].grading .save {
   width: 20px;
 }
 
-@-webkit-keyframes llms-spinning {
-  0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
-  }
-  50% {
-    border-radius: 5%;
-  }
-  100% {
-    -webkit-transform: rotate(220deg);
-            transform: rotate(220deg);
-  }
-}
-
 @keyframes llms-spinning {
   0% {
-    -webkit-transform: rotate(0deg);
-            transform: rotate(0deg);
+    transform: rotate(0deg);
   }
   50% {
     border-radius: 5%;
   }
   100% {
-    -webkit-transform: rotate(220deg);
-            transform: rotate(220deg);
+    transform: rotate(220deg);
   }
 }
