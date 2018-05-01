@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
  * @since    3.7.0
- * @version  3.16.0
+ * @version  [version]
  */
 class LLMS_View_Manager {
 
@@ -20,6 +22,11 @@ class LLMS_View_Manager {
 
 	}
 
+	/**
+	 * Add actions & filters
+	 * @since    3.7.0
+	 * @version  3.7.0
+	 */
 	public function add_actions() {
 
 		// if user can't bypass restrictions don't do anything
@@ -273,7 +280,7 @@ class LLMS_View_Manager {
 	 * Enqueue Scripts
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	public function scripts() {
 

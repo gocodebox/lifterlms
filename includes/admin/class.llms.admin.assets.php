@@ -289,7 +289,7 @@ class LLMS_Admin_Assets {
 	 * Register Quill CSS & JS
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.17.2
+	 * @version  [version]
 	 */
 	public static function register_quill( $modules = array() ) {
 

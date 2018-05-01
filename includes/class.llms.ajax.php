@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * AJAX Event Handler
  * @since    1.0.0
- * @version  3.16.1
+ * @version  [version]
  */
 class LLMS_AJAX {
 
@@ -118,7 +120,7 @@ class LLMS_AJAX {
 	/**
 	 * Register our AJAX JavaScript.
 	 * @since    1.0.0
-	 * @version  3.16.1
+	 * @version  [version]
 	 */
 	public function register_script() {
 
