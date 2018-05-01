@@ -4,6 +4,8 @@ LifterLMS Changelog
 v3.17.8 - 2018-05-??
 --------------------
 
++ Ensure certificates print with a white brackground regardless of theme CSS
++ Fix issue causing themes with `overflow:hidden` on divs from cutting certificate background images
 + Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
 + Upon export completion unlock tables regardless of mail success / failure
 + Resolve issue causing incorrect number of access plans to be returned on systems that have custom defaults set for `WP_Query` `post_per_page` parameter
