@@ -189,8 +189,6 @@ final class LifterLMS {
 
 		}
 
-		// Constants used for loading assets
-
 		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
 
 			// if we're loading in debug mode

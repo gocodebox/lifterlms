@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:487, includes/admin/class.llms.admin.menus.php:107
+#: lifterlms.php:485, includes/admin/class.llms.admin.menus.php:107
 msgid "Settings"
 msgstr ""
 
