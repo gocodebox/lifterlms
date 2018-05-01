@@ -149,14 +149,31 @@ gulp.task( 'process-stylesheets', ['generate-rtl-stylesheets'], function() {
 		}));
 });
 
+/**
+ * Minify vendor scripts
+ */
+gulp.task( 'minify-vendor-scripts', function() {
+
+	return gulp.src( [ 'assets/js/vendor/*.js', '!assets/js/vendor/*.min.js' ] )
+		.pipe( include() )
+		.pipe( rename( { suffix: '.min' } ) )
+		.pipe( uglify().on('error',notify.onError({
+			message: '<%= error.message %>',
+			sound: 'Funk',
+			title: 'JS Uglify Error'
+        } ) ) )
+		.pipe( gulp.dest( 'assets/js/vendor/' ) );
+
+});
 
 /**
  * Minify JS files
  */
-gulp.task( 'process-scripts', function () {
+gulp.task( 'process-scripts', ['minify-vendor-scripts'], function () {
 
 	return gulp.src( '_private/js/*.js' )
 		.pipe( include() )
+		.pipe( gulp.dest( 'assets/js/' ) )
 		.pipe( rename( { suffix: '.min' } ) )
 		.pipe( uglify().on('error',notify.onError({
 			message: '<%= error.message %>',
