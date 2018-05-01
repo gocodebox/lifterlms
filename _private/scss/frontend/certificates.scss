@@ -81,7 +81,12 @@ body {
 	/* Make everything on the page invisible */
     body * {
         visibility: hidden;
+		background: #fff none;
     }
+
+	.site, .site-content{
+		overflow: visible;
+	}
 
 	/* remove all headers, menus and footers */
     header, nav, footer {
