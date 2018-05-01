@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.17.8 - 2018-05-??
 --------------------
 
++ Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
 + Upon export completion unlock tables regardless of mail success / failure
 + Resolve issue causing incorrect number of access plans to be returned on systems that have custom defaults set for `WP_Query` `post_per_page` parameter
 + Reduce unnecessary DB queries for integrations by checking for dependencies and then calling querying the options table to see if the integration has been enabled.
