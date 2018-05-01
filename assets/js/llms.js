@@ -1,3 +1,12 @@
+/****************************************************************
+ *
+ * Contributor's Notice
+ * 
+ * This is a compiled file and should not be edited directly!
+ * The uncompiled script is located in the "assets/private" directory
+ * 
+ ****************************************************************/
+
 /**
  * Main LLMS Namespace
  * @type {[type]}

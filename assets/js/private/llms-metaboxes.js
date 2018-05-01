@@ -36,7 +36,7 @@
 		/**
 		 * load all partials
 		 */
-		//= include /partials/*.js
+		//= include ../partials/*.js
 
 		/**
 		 * Initialize

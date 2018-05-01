@@ -1,3 +1,12 @@
+/****************************************************************
+ *
+ * Contributor's Notice
+ * 
+ * This is a compiled file and should not be edited directly!
+ * The uncompiled script is located in the "assets/private" directory
+ * 
+ ****************************************************************/
+
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
