@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.17.7
+ * @version  [version]
  */
 require( [
 	'vendor/backbone.collectionView',
@@ -45,7 +45,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.17.7
+	 * @version  [version]
 	 */
 	_.mixin( {
 
@@ -102,6 +102,32 @@ require( [
 				return ' selected="selected"';
 			}
 			return '';
+		},
+
+		/**
+		 * Generic function for stripping HTML tags from a string
+		 * @param    string   content       raw string
+		 * @param    array   allowed_tags  array of allowed HTML tags
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		stripFormatting: function( content, allowed_tags ) {
+
+			if ( ! allowed_tags ) {
+				allowed_tags = [ 'b', 'i', 'u', 'strong', 'em' ];
+			}
+
+			var $html = $( '<div>' + content + '</div>' );
+
+			$html.find( '*' ).not( allowed_tags.join( ',' ) ).each( function( ) {
+
+				$( this ).replaceWith( this.innerHTML );
+
+			} );
+
+			return $html.html();
+
 		},
 
 	} );
