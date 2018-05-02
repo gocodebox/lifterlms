@@ -4484,7 +4484,7 @@ define( 'Views/_Detachable',[], function() {
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.17.6
+ * @version  [version]
  */
 define( 'Views/_Editable',[], function() {
 
@@ -4509,6 +4509,7 @@ define( 'Views/_Editable',[], function() {
 			'focusout .llms-input': 'on_blur',
 			'keydown .llms-input': 'on_keydown',
 			'input .llms-input[type="number"]': 'on_blur',
+			'paste .llms-input[data-formatting]': 'on_paste',
 		},
 
 		/**
@@ -4516,9 +4517,15 @@ define( 'Views/_Editable',[], function() {
 		 * @param    obj   $el  jQuery selector for the element
 		 * @return   array
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		get_allowed_tags: function( $el ) {
+
+			if ( $el.attr( 'data-formatting' ) ) {
+				return _.map( $el.attr( 'data-formatting' ).split( ',' ), function( tag ) {
+					return tag.trim();
+				} );
+			}
 
 			return [ 'b', 'i', 'u', 'strong', 'em' ];
 
@@ -4529,7 +4536,7 @@ define( 'Views/_Editable',[], function() {
 		 * @param    obj   $el  jQuery object of the element
 		 * @return   string
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		get_content: function( $el ) {
 
@@ -4541,15 +4548,7 @@ define( 'Views/_Editable',[], function() {
 				return $el.text();
 			}
 
-			var $html = $( '<div>' + $el.html() + '</div>' );
-
-			$html.find( '*' ).not( this.get_allowed_tags( $el ).join( ',' ) ).each( function( ) {
-
-				$( this ).replaceWith( this.innerHTML );
-
-			} );
-
-			return $html.html();
+			return _.stripFormatting( $el.html(), this.get_allowed_tags( $el ) );
 
 		},
 
@@ -4751,6 +4750,24 @@ define( 'Views/_Editable',[], function() {
 		},
 
 		/**
+		 * Handle content pasted into contenteditable fields
+		 * This will ensure that HTML from RTF editors isn't pasted into the dom
+		 * @param    obj   event  js event obj
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		on_paste: function( event ) {
+
+			event.preventDefault();
+			event.stopPropagation();
+
+			var text = ( event.originalEvent || event ).clipboardData.getData( 'text/plain' );
+			window.document.execCommand( 'insertText', false, text );
+
+		},
+
+		/**
 		 * Change event for selectables
 		 * @param    obj   event  js event object
 		 * @return   void
@@ -4801,7 +4818,7 @@ define( 'Views/_Editable',[], function() {
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		on_keydown: function( event ) {
 
@@ -4809,13 +4826,17 @@ define( 'Views/_Editable',[], function() {
 
 			var self = this,
 				key = event.which || event.keyCode,
-				ctrl = event.metaKey || event.ctrlKey;
+				shift = event.shiftKey;
+				// ctrl = event.metaKey || event.ctrlKey;
 
 			switch ( key ) {
 
 				case 13: // enter
-					event.preventDefault();
-					event.target.blur();
+					// shift + enter should add a return
+					if ( ! shift ) {
+						event.preventDefault();
+						event.target.blur();
+					}
 				break;
 
 				case 27: // escape
@@ -10342,6 +10363,24 @@ require( [
 				return ' selected="selected"';
 			}
 			return '';
+		},
+
+		stripFormatting: function( content, allowed_tags ) {
+
+			if ( ! allowed_tags ) {
+				allowed_tags = [ 'b', 'i', 'u', 'strong', 'em' ];
+			}
+
+			var $html = $( '<div>' + content + '</div>' );
+
+			$html.find( '*' ).not( allowed_tags.join( ',' ) ).each( function( ) {
+
+				$( this ).replaceWith( this.innerHTML );
+
+			} );
+
+			return $html.html();
+
 		},
 
 	} );

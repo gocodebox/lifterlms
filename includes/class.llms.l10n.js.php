@@ -5,8 +5,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Localize JS strings
+ * This file should not be edited directly
+ * It is compiled automatically via the gulp task `js:pot`
+ * See the lifterlms-lib-tasks package for more information
  * @since    3.17.8
- * @version  3.17.7
+ * @version  [version]
  */
 class LLMS_L10n_JS {
 
@@ -24,12 +27,12 @@ class LLMS_L10n_JS {
 	 * @param    array  $strings  existing strings from core / 3rd parties
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.17.7
+	 * @version  [version]
 	 */
 	public function get_strings( $strings ) {
 
 		return array_merge( $strings, array(
-
+			
 			/**
 			 * file: assets/js/app/llms-l10n.js
 			 * @since    2.7.3
@@ -151,7 +154,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/builder/Views/_Editable.js
 			 * @since    3.16.0
-			 * @version  3.17.6
+			 * @version  [version]
 			 */
 			'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 			'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
