@@ -9,7 +9,7 @@
 		"jsClassname": "LLMS_L10n_JS",
 		"jsFilename": "class.llms.l10n.js.php",
 		"jsSince": "3.17.8",
-			"jsSrc": [ "assets/js/**/*.js", "!assets/js/**/*.min.js" ],
+			"jsSrc": [ "assets/js/**/*.js", "!assets/js/**/*.min.js", "!assets/js/**/*.js.map" ],
 		"lastTranslator": "Thomas Patrick Levy <help@lifterlms.com>",
 		"team": "LifterLMS <help@lifterlms.com>",
 		"package": "lifterlms"
@@ -18,11 +18,18 @@
 		"src": [
 			"assets/js/**/*.js",
 			"!assets/js/**/*.min.js",
+			"!assets/js/**/*.js.map",
 			"!assets/js/app/**/*.js",
 			"!assets/js/builder/**/*.js",
 			"!assets/js/partials/**/*.js",
 			"!assets/js/private/**/*.js"
 		],
 		"dest": "assets/js/"
+	},
+	"watch": {
+		"custom": [ {
+			"glob": [ "assets/js/builder/**/*.js" ],
+			"tasks": [ "js:builder" ]
+		} ]
 	}
 }
