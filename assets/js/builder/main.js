@@ -4,8 +4,8 @@
  * @version  3.17.7
  */
 require( [
-	'../vendor/backbone.collectionView',
-	'../vendor/backbone.trackit',
+	'vendor/backbone.collectionView',
+	'vendor/backbone.trackit',
 	'Controllers/Construct',
 	'Controllers/Debug',
 	'Controllers/Schemas',

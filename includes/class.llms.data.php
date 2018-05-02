@@ -159,7 +159,7 @@ class LLMS_Data {
 
 		$data = array();
 
-		foreach ( LLMS()->payment_gateways() as $obj ) {
+		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $obj ) {
 
 			$data[ $obj->get_admin_title() ] = $obj->is_enabled() ? 'Enabled' : 'Disabled';
 

@@ -8,7 +8,7 @@ var LLMS = window.LLMS || {};
 	/**
 	 * load all app modules
 	 */
-	//= include /app/*.js
+	//= include ../app/*.js
 
 	/**
 	 * Initializes all classes within the LLMS Namespace
