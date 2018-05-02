@@ -6103,23 +6103,23 @@ msgstr ""
 msgid "Time Limit: %s"
 msgstr ""
 
-#: templates/quiz/results-attempt-questions-list.php:32
+#: templates/quiz/results-attempt-questions-list.php:34
 msgid "%1$d / %2$d points"
 msgstr ""
 
-#: templates/quiz/results-attempt-questions-list.php:45
+#: templates/quiz/results-attempt-questions-list.php:53
 msgid "Selected answer: "
 msgstr ""
 
-#: templates/quiz/results-attempt-questions-list.php:54
+#: templates/quiz/results-attempt-questions-list.php:62
 msgid "Correct answer: "
 msgstr ""
 
-#: templates/quiz/results-attempt-questions-list.php:62
+#: templates/quiz/results-attempt-questions-list.php:70
 msgid "Clarification: "
 msgstr ""
 
-#: templates/quiz/results-attempt-questions-list.php:71
+#: templates/quiz/results-attempt-questions-list.php:79
 msgid "Instructor remarks: "
 msgstr ""
 
@@ -6147,6 +6147,7 @@ msgstr ""
 msgid "Select an Attempt"
 msgstr ""
 
+#. translators: 1: attempt number; 2: grade percentage; 3: pass/fail text
 #: templates/quiz/results.php:52
 msgid "Attempt #%1$d - %2$s (%3$s)"
 msgstr ""

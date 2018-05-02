@@ -4496,7 +4496,7 @@ define( 'Views/_Editable',[], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  3.17.6
+		 * @version  [version]
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -10262,7 +10262,7 @@ define( 'Views/Sidebar',[
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.17.7
+ * @version  [version]
  */
 require( [
 	'vendor/backbone.collectionView',
@@ -10306,7 +10306,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.17.7
+	 * @version  [version]
 	 */
 	_.mixin( {
 
@@ -10365,6 +10365,14 @@ require( [
 			return '';
 		},
 
+		/**
+		 * Generic function for stripping HTML tags from a string
+		 * @param    string   content       raw string
+		 * @param    array   allowed_tags  array of allowed HTML tags
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
 		stripFormatting: function( content, allowed_tags ) {
 
 			if ( ! allowed_tags ) {
