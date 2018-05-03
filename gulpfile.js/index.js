@@ -3,13 +3,12 @@
  *
  * Requires all task files
  */
-
-// var requireDir = require( 'require-dir' );
-
-// requireDir( './tasks' );
-
 var gulp = require('gulp');
+
+// all tasks from lib-tasks
 require( 'lifterlms-lib-tasks' )( gulp );
+
+// all custom tasks
 require( './tasks/js:additional' );
 require( './tasks/js:builder' );
 require( './tasks/readme' );
