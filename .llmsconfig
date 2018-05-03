@@ -2,6 +2,9 @@
 	"build": {
 		"custom": [ "js:additional", "js:builder", "readme", "versioner:readme" ]
 	},
+	"dist": {
+		"title": "LifterLMS"
+	},
 	"pot": {
 		"bugReport": "https://github.com/gocodebox/lifterlms/issues",
 		"domain": "lifterlms",
