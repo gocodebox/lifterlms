@@ -354,6 +354,9 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 v3.17.8 - 2018-05-??
 ------------------------
 
++ Quiz results will now display the question's description when reviewing results as a student and on the admin panel during grading
++ When pasting into question choice fields HTML from RTF documents will be automatically stripped
++ Shift + Enter when in a question choice field now adds a return as expected instead of exiting the field
 + Ensure certificates print with a white brackground regardless of theme CSS
 + Fix issue causing themes with `overflow:hidden` on divs from cutting certificate background images
 + Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
@@ -363,6 +366,10 @@ v3.17.8 - 2018-05-??
 + Fix error occurring when all 3rd party integrations are disabled by filter, credit to [@Mte90](https://github.com/Mte90)!
 + Ensure `LLMS()->integrations()->integrations()` returns all integrations regardless of availability.
 + Updated `LLMS_Abstract_Options_Data` to have an option set method
+
+##### Template Updates
+
++ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
 
 
 = v3.17.7 - 2018-04-27 =
