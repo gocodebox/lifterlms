@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.17.8 - 2018-05-??
+v3.17.8 - 2018-05-03
 --------------------
 
 + Quiz results will now display the question's description when reviewing results as a student and on the admin panel during grading
