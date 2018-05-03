@@ -1,6 +1,6 @@
 {
 	"build": {
-		"custom": [ "js:additional", "js:builder", "versioner:readme" ]
+		"custom": [ "js:additional", "js:builder", "readme", "versioner:readme" ]
 	},
 	"pot": {
 		"bugReport": "https://github.com/gocodebox/lifterlms/issues",
@@ -31,5 +31,11 @@
 			"glob": [ "assets/js/builder/**/*.js" ],
 			"tasks": [ "js:builder" ]
 		} ]
+	},
+	"zip": {
+		"composer": true,
+		"src": {
+			"custom": [ "!./**/CHANGELOG.md", "!./**/README.md", "!./_private/**", "!./_readme/**" ]
+		}
 	}
 }

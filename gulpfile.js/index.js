@@ -12,4 +12,5 @@ var gulp = require('gulp');
 require( 'lifterlms-lib-tasks' )( gulp );
 require( './tasks/js:additional' );
 require( './tasks/js:builder' );
+require( './tasks/readme' );
 require( './tasks/versioner:readme' );
