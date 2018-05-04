@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.17.8
 */
 class LLMS_Admin_Assets {
 
@@ -53,7 +53,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function admin_styles() {
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function admin_scripts() {
 
@@ -289,7 +289,7 @@ class LLMS_Admin_Assets {
 	 * Register Quill CSS & JS
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public static function register_quill( $modules = array() ) {
 

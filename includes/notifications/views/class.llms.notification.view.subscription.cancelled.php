@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification View: Purchase Receipt
- * @since    [version]
- * @version  [version]
+ * @since    3.17.8
+ * @version  3.17.8
  */
 class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notification_View {
 
@@ -19,8 +19,8 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	/**
 	 * Setup body content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_body() {
 
@@ -37,8 +37,8 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_footer() {
 		return '';
@@ -47,8 +47,8 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	/**
 	 * Setup notification icon for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_icon() {
 		return '';
@@ -57,8 +57,8 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -75,8 +75,8 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -126,8 +126,8 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	/**
 	 * Setup notification subject for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_subject() {
 		return esc_html__( 'Subscription Cancellation Notice', 'lifterlms' );
@@ -136,8 +136,8 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	/**
 	 * Setup notification title for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_title() {
 		return sprintf( esc_html__( '%1$s subscription cancellation', 'lifterlms' ), '{{PRODUCT_TYPE}}' );

@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Loads and allows interactions with notification views, controllers, and processors
  *
  * @since     3.8.0
- * @version   [version]
+ * @version   3.17.8
  */
 class LLMS_Notifications {
 
@@ -182,7 +182,7 @@ class LLMS_Notifications {
 	 * Load all notifications
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	private function load() {
 

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * LifterLMS Integrations
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.8
  */
 class LLMS_Integrations {
 
@@ -36,7 +36,7 @@ class LLMS_Integrations {
 	/**
 	 * Constructor
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	private function __construct() {
 		$this->init();
@@ -58,7 +58,7 @@ class LLMS_Integrations {
 	 * Initalize Integration Classes
 	 * @return   null
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function init() {
 
@@ -88,7 +88,7 @@ class LLMS_Integrations {
 	 * Get available integrations
 	 * @return   array
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function get_available_integrations() {
 
@@ -109,7 +109,7 @@ class LLMS_Integrations {
 	 * Get all integrations regardless of availability
 	 * @return array
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function integrations() {
 

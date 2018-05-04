@@ -2,7 +2,7 @@
 /**
  * List of attempt questions/answers for a single attempt
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.8
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
 

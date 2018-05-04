@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.8
  */
 class LLMS_Data {
 
@@ -153,7 +153,7 @@ class LLMS_Data {
 	 * Get data about llms payment gateways
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	private static function get_gateway_data() {
 
@@ -181,7 +181,7 @@ class LLMS_Data {
 	 * @todo integration settings unique to the integration should be included here
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	private static function get_integrations_data() {
 

@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Convert LifterLMS Tables to CSVs as a background process
  * @since    3.15.0
- * @version  [version]
+ * @version  3.17.8
  */
 class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
@@ -169,7 +169,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function task( $args ) {
 

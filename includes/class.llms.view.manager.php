@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
  * @since    3.7.0
- * @version  [version]
+ * @version  3.17.8
  */
 class LLMS_View_Manager {
 
@@ -280,7 +280,7 @@ class LLMS_View_Manager {
 	 * Enqueue Scripts
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function scripts() {
 

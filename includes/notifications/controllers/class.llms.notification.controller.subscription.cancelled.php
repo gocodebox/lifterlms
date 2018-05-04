@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification Controller: Subscription Cancelled (by Student)
- * @since    [version]
- * @version  [version]
+ * @since    3.17.8
+ * @version  3.17.8
  */
 class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_Notification_Controller {
 
@@ -33,8 +33,8 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 	 * @param    obj     $order       Instance of the LLMS_Order
 	 * @param    int     $student_id  WP User ID of the Student
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	public function action_callback( $order = null, $student_id = null ) {
 
@@ -49,8 +49,8 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 * @param    string     $subscriber  subscriber type string
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -81,8 +81,8 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 	 * Get the translateable title for the notification
 	 * used on settings screens
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	public function get_title() {
 		return __( 'Subscription Cancellation Notice', 'lifterlms' );
@@ -92,8 +92,8 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 	 * Setup the subscriber options for the notification
 	 * @param    string     $type  notification type id
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_subscriber_options( $type ) {
 
@@ -117,8 +117,8 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 	 * Extending classes can override this function in order to add or remove support
 	 * 3rd parties should add support via filter on $this->get_supported_types()
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	protected function set_supported_types() {
 		return array(

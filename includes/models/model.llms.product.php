@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Both Courses and Memberships are sellable and can be instantiated as a product
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.17.8
  */
 class LLMS_Product extends LLMS_Post_Model {
 
@@ -34,7 +34,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @param    boolean  $visible_only  excludes hidden access plans from results
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 

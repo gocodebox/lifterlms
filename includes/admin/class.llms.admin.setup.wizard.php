@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Display a Setup Wizard
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.8
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -52,7 +52,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Enqueue static assets for the setup wizard screens
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function enqueue() {
 		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version, 'all' );

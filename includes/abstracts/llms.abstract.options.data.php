@@ -5,7 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * LifterLMS Options Table Data Store Abstract
  *
  * @since   3.8.0
- * @version [version]
+ * @version 3.17.8
  */
 abstract class LLMS_Abstract_Options_Data {
 
@@ -56,8 +56,8 @@ abstract class LLMS_Abstract_Options_Data {
 	 * @param    mixed      $value  option value
 	 * @return   bool               true if option value has changed
 	 *                              false if no update or update failed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.8
+	 * @version  3.17.8
 	 */
 	public function set_option( $name, $value ) {
 		return update_option( $this->get_option_name( $name ), $value );

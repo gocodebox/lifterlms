@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.17.8
  */
 abstract class LLMS_Admin_Table {
 
@@ -509,7 +509,7 @@ abstract class LLMS_Admin_Table {
 	 * Get the HTML for the entire table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	public function get_table_html() {
 

@@ -3,7 +3,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.17.7
+ * Version: 3.17.8
  * Author: Thomas Patrick Levy, codeBOX LLC
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -34,7 +34,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.17.7';
+	public $version = '3.17.8';
 
 	protected static $_instance = null;
 
@@ -145,7 +145,7 @@ final class LifterLMS {
 	/**
 	 * Define LifterLMS Constants
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	private function define_constants() {
 
@@ -182,8 +182,8 @@ final class LifterLMS {
 
 			/**
 			 * URL to the plugin directory for assets, etc
-			 * @since   [version]
-			 * @version [version]
+			 * @since   3.17.8
+			 * @version 3.17.8
 			 */
 			define( 'LLMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
@@ -202,8 +202,8 @@ final class LifterLMS {
 			/**
 			 * Assets suffix
 			 * Defines if minified versions of assets should be loaded
-			 * @since   [version]
-			 * @version [version]
+			 * @since   3.17.8
+			 * @version 3.17.8
 			 */
 			define( 'LLMS_ASSETS_SUFFIX', $min );
 		}
@@ -213,7 +213,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.17.8
 	 */
 	private function includes() {
 
