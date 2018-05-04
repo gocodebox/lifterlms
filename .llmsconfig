@@ -1,6 +1,6 @@
 {
 	"build": {
-		"custom": [ "js:additional", "js:builder", "readme", "versioner:readme" ]
+		"custom": [ "js:additional", "js:builder", "readme" ]
 	},
 	"dist": {
 		"title": "LifterLMS"
@@ -8,7 +8,7 @@
 	"pot": {
 		"bugReport": "https://github.com/gocodebox/lifterlms/issues",
 		"domain": "lifterlms",
-			"dest": "languages/",
+		"dest": "languages/",
 		"jsClassname": "LLMS_L10n_JS",
 		"jsFilename": "class.llms.l10n.js.php",
 		"jsSince": "3.17.8",
@@ -28,6 +28,9 @@
 			"!assets/js/private/**/*.js"
 		],
 		"dest": "assets/js/"
+	},
+	"versioner": {
+		"custom": [ "versioner:readme" ],
 	},
 	"watch": {
 		"custom": [ {
