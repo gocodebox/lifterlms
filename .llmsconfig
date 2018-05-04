@@ -30,7 +30,7 @@
 		"dest": "assets/js/"
 	},
 	"versioner": {
-		"custom": [ "versioner:readme" ],
+		"custom": [ "versioner:readme" ]
 	},
 	"watch": {
 		"custom": [ {
