@@ -1,18 +1,24 @@
 LifterLMS Changelog
 ===================
 
-v3.17.8 - 2018-05-03
+v3.17.8 - 2018-05-04
 --------------------
 
+##### Updates and Enchancements
+
 + Quiz results will now display the question's description when reviewing results as a student and on the admin panel during grading
-+ When pasting into question choice fields HTML from RTF documents will be automatically stripped
++ Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
++ Reduce unnecessary DB queries for integrations by checking for dependencies and then calling querying the options table to see if the integration has been enabled.
+
+##### Bug Fixes
+
++ Fix admin scripts enqueue order. Fixes issue preventing manual student enrollment selection from functioning properly in certain scenarios.
 + Shift + Enter when in a question choice field now adds a return as expected instead of exiting the field
++ When pasting into question choice fields HTML from RTF documents will be automatically stripped
 + Ensure certificates print with a white brackground regardless of theme CSS
 + Fix issue causing themes with `overflow:hidden` on divs from cutting certificate background images
-+ Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
 + Upon export completion unlock tables regardless of mail success / failure
 + Resolve issue causing incorrect number of access plans to be returned on systems that have custom defaults set for `WP_Query` `post_per_page` parameter
-+ Reduce unnecessary DB queries for integrations by checking for dependencies and then calling querying the options table to see if the integration has been enabled.
 + Fix error occurring when all 3rd party integrations are disabled by filter, credit to [@Mte90](https://github.com/Mte90)!
 + Ensure `LLMS()->integrations()->integrations()` returns all integrations regardless of availability.
 + Updated `LLMS_Abstract_Options_Data` to have an option set method
