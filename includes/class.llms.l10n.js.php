@@ -32,7 +32,7 @@ class LLMS_L10n_JS {
 	public function get_strings( $strings ) {
 
 		return array_merge( $strings, array(
-			
+
 			/**
 			 * file: assets/js/app/llms-l10n.js
 			 * @since    2.7.3
