@@ -6,9 +6,11 @@ v3.17.8 - 2018-05-04
 
 ##### Updates and Enchancements
 
++ Added admin email notification when student cancels a subscription
 + Quiz results will now display the question's description when reviewing results as a student and on the admin panel during grading
 + Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
 + Reduce unnecessary DB queries for integrations by checking for dependencies and then calling querying the options table to see if the integration has been enabled.
++ Updated the notifications settings table to be more friendly to the human eye
 
 ##### Bug Fixes
 
