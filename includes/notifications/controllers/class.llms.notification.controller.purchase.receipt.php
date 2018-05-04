@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Notification Controller: Transaction Success
  * @since    3.8.0
  * @version  3.10.2
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notification_Controller {
 
 	/**

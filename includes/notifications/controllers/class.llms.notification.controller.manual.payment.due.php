@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Notification Controller: Manual Gateway Payment Due
  * @since    3.10.0
  * @version  3.10.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Notification_Controller {
 
 	/**
