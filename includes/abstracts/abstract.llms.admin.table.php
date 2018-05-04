@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.17.6
+ * @version [version]
  */
 abstract class LLMS_Admin_Table {
 
@@ -59,6 +59,12 @@ abstract class LLMS_Admin_Table {
 	 * @var  boolean
 	 */
 	protected $is_filterable = false;
+
+	/**
+	 * If true will be a table with a larger font size
+	 * @var  bool
+	 */
+	protected $is_large = false;
 
 	/**
 	 * Determine of the table is searchable
@@ -503,9 +509,24 @@ abstract class LLMS_Admin_Table {
 	 * Get the HTML for the entire table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function get_table_html() {
+
+		$classes = array(
+			'llms-table',
+			'llms-gb-table',
+			'llms-gb-table-' . $this->id,
+		);
+
+		if ( $this->is_zebra ) {
+			$classes[] = 'zebra';
+		}
+
+		if ( $this->is_large ) {
+			$classes[] = 'size-large';
+		}
+
 		ob_start();
 		?>
 		<div class="llms-table-wrap">
@@ -519,7 +540,7 @@ abstract class LLMS_Admin_Table {
 				<?php endif; ?>
 			</header>
 			<table
-				class="llms-table llms-gb-table llms-gb-table-<?php echo $this->id; ?><?php echo $this->is_zebra ? ' zebra' : ''; ?>"
+				class="<?php echo implode( $classes, ' ' ); ?>"
 				data-args='<?php echo json_encode( $this->get_args() ); ?>'
 				data-handler="<?php echo $this->get_handler(); ?>"
 				id="llms-gb-table-<?php echo $this->id; ?>"
