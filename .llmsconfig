@@ -2,9 +2,6 @@
 	"build": {
 		"custom": [ "js:additional", "js:builder", "readme" ]
 	},
-	"dist": {
-		"title": "LifterLMS"
-	},
 	"pot": {
 		"bugReport": "https://github.com/gocodebox/lifterlms/issues",
 		"domain": "lifterlms",
@@ -16,6 +13,12 @@
 		"lastTranslator": "Thomas Patrick Levy <help@lifterlms.com>",
 		"team": "LifterLMS <help@lifterlms.com>",
 		"package": "lifterlms"
+	},
+	"publish": {
+		"title": "LifterLMS",
+		"lifterlms": {
+			"pot": false
+		}
 	},
 	"scripts": {
 		"src": [
