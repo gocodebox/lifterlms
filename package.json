@@ -22,8 +22,7 @@
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^1.5.4",
-    "lifterlms-lib-tasks": "^1.10.0",
-    "markdown-html": "gocodebox/markdown-html",
+    "lifterlms-lib-tasks": "^2.0.0",
     "yargs": "^4.1.0"
   }
 }
