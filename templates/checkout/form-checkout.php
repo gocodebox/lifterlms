@@ -2,10 +2,12 @@
 /**
  * Checkout Form
  * @since    1.0.0
- * @version  3.4.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 $free = $plan->has_free_checkout();
 ?>
@@ -85,6 +87,7 @@ $free = $plan->has_free_checkout();
 
 				<footer class="llms-checkout-confirm llms-form-fields flush">
 
+					<?php llms_privacy_policy_form_field(); ?>
 					<?php llms_agree_to_terms_form_field(); ?>
 					<?php llms_form_field( array(
 						'columns' => 12,
