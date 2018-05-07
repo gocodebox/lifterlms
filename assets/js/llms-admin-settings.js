@@ -1,18 +1,11 @@
 /**
  * LifterLMS Settings Pages UI / UX
  * @since    3.7.3
- * @version  3.17.5
+ * @version  [version]
  */
 ;( function( $, undefined ) {
 
 	window.llms = window.llms || {};
-
-	/**
-	 * Main settings class
-	 * @return   obj
-	 * @since    3.7.3
-	 * @version  3.17.5
-	 */
 	window.llms.admin_settings = function() {
 
 		this.file_frame = null;
@@ -21,10 +14,11 @@
 		 * Initialize
 		 * @return   void
 		 * @since    3.7.3
-		 * @version  3.7.3
+		 * @version  [version]
 		 */
 		this.init = function() {
 			this.bind();
+			this.bind_conditionals();
 		};
 
 		/**
@@ -70,6 +64,39 @@
 					}
 				} );
 			}
+
+		};
+
+		/**
+		 * Allow checkboxes to conditionally display other settings
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		this.bind_conditionals = function() {
+
+			$( '.llms-conditional-controller' ).each( function() {
+
+				var $controls = $( $( this ).attr( 'data-controls' ) ).closest( 'tr' );
+
+				$( this ).on( 'change', function() {
+
+					var val;
+
+					if ( 'checkbox' === $( this ).attr( 'type' ) ) {
+						val = $( this ).is( ':checked' );
+					}
+
+					if ( val ) {
+						$controls.show();
+					} else {
+						$controls.hide();
+					}
+
+				} ).trigger( 'change' );
+
+			} );
+
 
 		};
 
