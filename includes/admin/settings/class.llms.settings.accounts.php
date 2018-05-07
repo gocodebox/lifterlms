@@ -217,17 +217,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'strong' => _x( 'Strong', 'password strength meter', 'lifterlms' ),
 				),
 			),
-
-			/*
-				 /$$$$$$$$        /$$$            /$$$$$$
-				|__  $$__/       /$$ $$          /$$__  $$
-				   | $$         |  $$$          | $$  \__/
-				   | $$          /$$ $$/$$      | $$
-				   | $$         | $$  $$_/      | $$
-				   | $$         | $$\  $$       | $$    $$
-				   | $$         |  $$$$/$$      |  $$$$$$/
-				   |__/          \____/\_/       \______/
-			*/
 			array(
 				'title' => __( 'Terms and Conditions', 'lifterlms' ),
 				'type' => 'subtitle',
@@ -268,20 +257,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type' => 'textarea',
 				'value' => llms_get_terms_notice(),
 			),
-
-			/*
-				                     /$$
-				                    |__/
-				  /$$$$$$   /$$$$$$  /$$ /$$    /$$ /$$$$$$   /$$$$$$$ /$$   /$$
-				 /$$__  $$ /$$__  $$| $$|  $$  /$$/|____  $$ /$$_____/| $$  | $$
-				| $$  \ $$| $$  \__/| $$ \  $$/$$/  /$$$$$$$| $$      | $$  | $$
-				| $$  | $$| $$      | $$  \  $$$/  /$$__  $$| $$      | $$  | $$
-				| $$$$$$$/| $$      | $$   \  $/  |  $$$$$$$|  $$$$$$$|  $$$$$$$
-				| $$____/ |__/      |__/    \_/    \_______/ \_______/ \____  $$
-				| $$                                                   /$$  | $$
-				| $$                                                  |  $$$$$$/
-				|__/                                                   \______/
-			*/
 			array(
 				'title' => __( 'Privacy Policy', 'lifterlms' ),
 				'type' => 'subtitle',

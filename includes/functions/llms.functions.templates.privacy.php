@@ -11,7 +11,6 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Get the HTML for the Terms field displayed on reg forms
- * @param    boolean    $echo  [description]
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
@@ -25,7 +24,6 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
 		if ( llms_are_terms_and_conditions_required() ) {
 
-			$page_id = get_option( 'lifterlms_terms_page_id', false );
 			$ret = llms_form_field( array(
 				'columns' => 12,
 				'description' => '',
@@ -52,9 +50,17 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 		return $ret;
 
 	}
-}// End if().
+}
 
 
+
+/**
+ * Get the HTML for the Privacy Policy section on checkout / registration forms
+ * @param    boolean    $echo   echo the data if true, return otherwise
+ * @return   void|string
+ * @since    3.0.0
+ * @version  [version]
+ */
 if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 
 	function llms_privacy_policy_form_field( $echo = true ) {
@@ -65,14 +71,9 @@ if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 		if ( $notice ) {
 			$ret = llms_form_field( array(
 				'columns' => 12,
-				// 'description' => '',
-				// 'default' => 'no',
-				// 'id' => 'llms_agree_to_terms',
 				'label' => $notice,
 				'last_column' => true,
-				// 'required' => true,
 				'type'  => 'html',
-				// 'value' => 'yes',
 			), false );
 		}
 
@@ -88,4 +89,4 @@ if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 		return $ret;
 
 	}
-}// End if().
+}
