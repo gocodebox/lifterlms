@@ -46,7 +46,7 @@ function llms_get_privacy_notice( $merge = false ) {
 		// only merge if we some text saved & a page set
 		if ( $text && get_option( 'wp_page_for_privacy_policy', false ) ) {
 			$ret = str_replace( '{{policy}}', llms_get_option_page_anchor( 'wp_page_for_privacy_policy' ), $ret );
-		// otherwise return empty string
+			// otherwise return empty string
 		} else {
 			$ret = '';
 		}
@@ -94,7 +94,7 @@ function llms_get_terms_notice( $merge = false ) {
 		// only merge if we have a page set
 		if ( get_option( 'lifterlms_terms_page_id', false ) ) {
 			$ret = str_replace( '{{terms}}', llms_get_option_page_anchor( 'lifterlms_terms_page_id' ), $ret );
-		// otherwise return empty string
+			// otherwise return empty string
 		} else {
 			$ret = '';
 		}

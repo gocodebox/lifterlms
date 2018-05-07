@@ -218,7 +218,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 			),
 
-
 			/*
 				 /$$$$$$$$        /$$$            /$$$$$$
 				|__  $$__/       /$$ $$          /$$__  $$
@@ -290,10 +289,10 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			array(
 				'autoload' => false,
 				'desc' => '<br>' . sprintf(
-						__( 'Select a page where your site\'s Privacy Policy is described. See %1$sWordPress Privacy Settings%2$s for more information', 'lifterlms' ),
-						'<a href="' . esc_url( admin_url( 'privacy.php' ) ) . '">',
-						'</a>'
-					),
+					__( 'Select a page where your site\'s Privacy Policy is described. See %1$sWordPress Privacy Settings%2$s for more information', 'lifterlms' ),
+					'<a href="' . esc_url( admin_url( 'privacy.php' ) ) . '">',
+					'</a>'
+				),
 				'id' => 'wp_page_for_privacy_policy',
 				'class' => 'llms-select2-post',
 				'title' => __( 'Privacy Policy Page', 'lifterlms' ),
@@ -312,7 +311,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title' => __( 'Privacy Policy Notice', 'lifterlms' ),
 				'type' => 'textarea',
 			),
-
 
 			array(
 				'desc' => __( 'Customize the user information fields available on the checkout screen.', 'lifterlms' ),
