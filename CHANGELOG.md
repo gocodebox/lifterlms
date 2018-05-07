@@ -1,6 +1,22 @@
 LifterLMS Changelog
 ===================
 
+v3.18.0 - 2018-05-??
+--------------------
+
+##### Updates and Enhancements
+
++ Added privacy policy notice on checkout, enrollment, and registration that integrates with the WP Core 4.9.6 Privacy Policy Page setting
++ Added settings to allow customization of the privacy policy and terms & conditions notices during checkout, enrollment, and registration
++ Expanded widths of admin settings page setting names to be a bit wider and more readable
++ Now conditionally hiding some settings when they are no longer relevant
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
+
+
 v3.17.8 - 2018-05-04
 --------------------
 
