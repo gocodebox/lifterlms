@@ -213,12 +213,13 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.17.8
+	 * @version [version]
 	 */
 	private function includes() {
 
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
+		require_once 'includes/class.llms.privacy.php';
 		require_once 'includes/class.llms.session.php';
 		require_once 'includes/class.llms.cache.helper.php';
 
