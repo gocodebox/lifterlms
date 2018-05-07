@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.17.7
+ * @version  [version]
  */
 
 //include all other function files
@@ -18,24 +18,9 @@ require_once 'functions/llms.functions.log.php';
 require_once 'functions/llms.functions.notice.php';
 require_once 'functions/llms.functions.page.php';
 require_once 'functions/llms.functions.person.php';
+require_once 'functions/llms.functions.privacy.php';
 require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
-
-/**
- * Determine if Terms & Conditions agreement is required during registration
- * according to global settings
- * @return   boolean
- * @since    3.0.0
- * @version  3.3.1
- */
-function llms_are_terms_and_conditions_required() {
-
-	$enabled = get_option( 'lifterlms_registration_require_agree_to_terms' );
-	$page_id = absint( get_option( 'lifterlms_terms_page_id', false ) );
-
-	return ( 'yes' === $enabled && $page_id );
-
-}
 
 /**
  * Retrieve the current time based on specified type.
@@ -311,6 +296,31 @@ function llms_get_engagement_types() {
 		'certificate' => __( 'Award a Certificate', 'lifterlms' ),
 		'email' => __( 'Send an Email' ),
 	) );
+}
+
+/**
+ * Retrieve an HTML anchor for an option page
+ * @param    [type]     $option_name  [description]
+ * @return   [type]
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_get_option_page_anchor( $option_name, $target = '_blank' ) {
+
+	$page_id = get_option( $option_name );
+
+	if ( ! $page_id ) {
+		return '';
+	}
+
+	$target = $target ? ' target="' . esc_attr( $target ) . '"' : '';
+
+	return sprintf( '<a href="%1$s"%2$s>%3$s</a>',
+		get_the_permalink( $page_id ),
+		$target,
+		get_the_title( $page_id )
+	);
+
 }
 
 /**
