@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.17.8
+* @version  [version]
 */
 class LLMS_Frontend_Assets {
 
@@ -104,7 +104,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Styles
 	 * @since   1.0.0
-	 * @version 3.17.8
+	 * @version [version]
 	 */
 	public static function enqueue_styles() {
 
@@ -114,12 +114,12 @@ class LLMS_Frontend_Assets {
 
 		wp_enqueue_style( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.css' );
 
-		wp_enqueue_style( 'lifterlms-styles', LLMS_PLUGIN_URL . '/assets/css/lifterlms' . LLMS_ASSETS_SUFFIX . '.css' );
+		wp_enqueue_style( 'lifterlms-styles', LLMS_PLUGIN_URL . 'assets/css/lifterlms' . LLMS_ASSETS_SUFFIX . '.css' );
 		wp_style_add_data( 'lifterlms-styles', 'rtl', 'replace' );
 		wp_style_add_data( 'lifterlms-styles', 'suffix', LLMS_ASSETS_SUFFIX );
 
 		if ( 'llms_my_certificate' == $post_type || 'llms_certificate' == $post_type ) {
-			wp_enqueue_style( 'certificates', LLMS_PLUGIN_URL . '/assets/css/certificates' . LLMS_ASSETS_SUFFIX . '.css' );
+			wp_enqueue_style( 'certificates', LLMS_PLUGIN_URL . 'assets/css/certificates' . LLMS_ASSETS_SUFFIX . '.css' );
 			wp_style_add_data( 'certificates', 'rtl', 'replace' );
 			wp_style_add_data( 'certificates', 'suffix', LLMS_ASSETS_SUFFIX );
 		}
@@ -133,7 +133,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.17.8
+	 * @version [version]
 	 */
 	public static function enqueue_scripts() {
 
@@ -153,10 +153,10 @@ class LLMS_Frontend_Assets {
 		 * @todo  this is currently being double registered and enqueued by LLMS_Ajax
 		 *        fix it ffs...
 		 */
-		wp_register_script( 'llms', LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
+		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 		wp_enqueue_script( 'llms' );
 
-		wp_register_script( 'llms-notifications', LLMS_PLUGIN_URL . '/assets/js/llms-notifications' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
+		wp_register_script( 'llms-notifications', LLMS_PLUGIN_URL . 'assets/js/llms-notifications' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 		if ( get_current_user_id() ) {
 			$notification_settings = apply_filters( 'llms_notifications_settings', array(
 				'heartbeat_interval' => 20000,
@@ -168,8 +168,8 @@ class LLMS_Frontend_Assets {
 			wp_enqueue_script( 'llms-notifications' );
 		}
 
-		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . '/assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
-		wp_enqueue_script( 'llms-form-checkout', LLMS_PLUGIN_URL . '/assets/js/llms-form-checkout' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
+		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
+		wp_enqueue_script( 'llms-form-checkout', LLMS_PLUGIN_URL . 'assets/js/llms-form-checkout' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 
 		if ( ( is_llms_account_page() || is_llms_checkout() ) && 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
 			wp_enqueue_script( 'password-strength-meter' );
@@ -178,7 +178,7 @@ class LLMS_Frontend_Assets {
 
 		if ( is_singular( 'llms_quiz' ) ) {
 			wp_enqueue_style( 'wp-mediaelement' );
-			wp_enqueue_script( 'llms-quiz', LLMS_PLUGIN_URL . '/assets/js/llms-quiz' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'wp-mediaelement' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-quiz', LLMS_PLUGIN_URL . 'assets/js/llms-quiz' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'wp-mediaelement' ), LLMS()->version, true );
 		}
 
 		wp_register_script( 'llms-iziModal', LLMS_PLUGIN_URL . 'assets/vendor/izimodal/iziModal' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.5.1', true );

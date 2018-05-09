@@ -33,11 +33,17 @@
     {
       "type": "vcs",
       "url": "https://github.com/ericmann/wp-session-manager"
+    },
+    {
+      "type": "vcs",
+      "url": "https://github.com/tecnickcom/tc-lib-pdf"
     }
   ],
   "require": {
     "gocodebox/action-scheduler": "dev-master",
-    "ericmann/wp-session-manager": "dev-master"
+    "ericmann/wp-session-manager": "dev-master",
+    "mpdf/mpdf": "^7.0",
+    "tecnickcom/tcpdf": "^6.2"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",

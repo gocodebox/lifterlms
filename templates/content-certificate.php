@@ -17,7 +17,7 @@ if ( $uid != $cert->get_user_id() && ! llms_can_user_bypass_restrictions( $uid )
 $image = llms_get_certificate_image();
 ?>
 <div class="llms-certificate-container" style="width:<?php echo $image['width']; ?>px; height:<?php echo $image['height']; ?>px;">
-	<img src="<?php echo $image['src']; ?>" alt="Cetrificate Background" class="certificate-background">
+	<img src="<?php echo $image['src']; ?>" style="margin-bottom:-<?php echo $image['height']; ?>px;" alt="Cetrificate Background" class="certificate-background">
 	<div id="certificate-<?php the_ID(); ?>" <?php post_class(); ?>>
 
 		<div class="llms-summary">
@@ -35,5 +35,10 @@ $image = llms_get_certificate_image();
 	</div>
 </div>
 <div id="llms-print-certificate" class="no-print">
-	<input type="button" class="llms-button-primary" onClick="window.print()" value="<?php echo _e( 'Print Certificate', 'lifterlms' ) ?>"/>
+	<input type="button" class="llms-button-primary" onClick="window.print()" value="<?php echo _e( 'Print', 'lifterlms' ) ?>"/>
+	<form action="" method="POST">
+		<input type="hidden" name="certificate_id" value="<?php echo get_the_ID(); ?>">
+		<?php wp_nonce_field( 'llms-generate-cert', '_llms_gen_cert_nonce' ); ?>
+		<input type="submit" class="llms-button-secondary" name="llms_generate_cert" value="<?php echo _e( 'Download', 'lifterlms' ) ?>"/>
+	</form>
 </div>
