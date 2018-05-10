@@ -109,6 +109,34 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 }
 
 /**
+ * Cron function to cleanup files in the LLMS_TMP_DIR
+ * Removes any files that are more than a day old
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_cleanup_tmp() {
+
+	$max_age = llms_current_time( 'timestamp' ) - apply_filters( 'llms_tmpfile_max_age', DAY_IN_SECONDS );
+
+	$exclude = array( '.htaccess', 'index.html' );
+
+	foreach ( glob( LLMS_TMP_DIR . '*' ) as $file ) {
+
+		// dont cleanup index and .htaccess
+		if ( in_array( basename( $file ), $exclude ) ) {
+			continue;
+		}
+
+		if ( filemtime( $file ) < $max_age ) {
+			wp_delete_file( $file );
+		}
+
+	}
+
+}
+
+/**
  * Get a list of available access plan visibility options
  * @return   array
  * @since    3.8.0

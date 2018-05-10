@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Plugin installation
  * @since   1.0.0
- * @version 3.16.9
+ * @version [version]
  */
 class LLMS_Install {
 
@@ -105,7 +105,7 @@ class LLMS_Install {
 	 * Create LifterLMS cron jobs
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.0.0
+	 * @version [version]
 	 */
 	public static function create_cron_jobs() {
 
@@ -113,9 +113,14 @@ class LLMS_Install {
 			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
 		}
 
+		if ( ! wp_next_scheduled( 'llms_cleanup_tmp' ) ) {
+			wp_schedule_event( time(), 'daily', 'llms_cleanup_tmp' );
+		}
+
 		if ( ! wp_next_scheduled( 'llms_send_tracking_data' ) ) {
 			wp_schedule_event( time(), apply_filters( 'llms_tracker_schedule_interval', 'daily' ), 'llms_send_tracking_data' );
 		}
+
 
 	}
 
