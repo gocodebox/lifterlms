@@ -2,21 +2,33 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * User Account Edit Forms
- *
- * @since   3.7.0
- * @version 3.17.8
+ * Certificate Forms
+ * @since   [version]
+ * @version [version]
  */
 class LLMS_Controller_Certificates {
 
+	/**
+	 * Constructor
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'maybe_generate_pdf' ) );
-		add_action( 'wp', array( $this, 'maybe_authenticate_pdf_generation' ) );
+		add_action( 'init', array( $this, 'maybe_generate_export' ) );
+		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
 
 	}
 
-	public function maybe_authenticate_pdf_generation() {
+	/**
+	 * Utilizes a nonce to display a certificate
+	 * cURL request is used to scrape the HTML and this will authenticate the scrape
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function maybe_authenticate_export_generation() {
 
 		if ( empty( $_REQUEST['_llms_cert_auth'] ) ) {
 			return;
@@ -36,63 +48,35 @@ class LLMS_Controller_Certificates {
 
 	}
 
-
-	public function maybe_generate_pdf() {
+	/**
+	 * Generates an HTML export of the certificate from the "Download" button
+	 * on the View Certificate front end & on reporting backend for admins
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function maybe_generate_export() {
 
 		if ( ! llms_verify_nonce( '_llms_gen_cert_nonce', 'llms-generate-cert' ) ) {
 			return;
 		}
-		$this->generate_pdf( $_POST['certificate_id'] );
 
-	}
-
-	public function replace_images( $html ) {
-
-	}
-
-	public function generate_pdf( $certificate_id ) {
-
-		$token = wp_generate_password( 32, false );
-		update_post_meta( $certificate_id, '_llms_auth_nonce', $token );
-
-		$url = add_query_arg( '_llms_cert_auth', $token, get_permalink( $certificate_id ) );
-		// llms_log( $url );
-		$req = wp_safe_remote_get( $url, array(
-			'sslverify' => false,
-		) );
-
-		delete_post_meta( $certificate_id, '_llms_auth_nonce', $token );
-
-		if ( is_wp_error( $req ) ) {
-			return false;
+		$filepath = LLMS()->certificates()->get_export( absint( $_POST['certificate_id'] ) );
+		if ( is_wp_error( $filepath ) ) {
+			// @todo need to handle errors differently on admin panel
+			return llms_add_notice( $filepath->get_error_message() );
 		}
 
-		$body = wp_remote_retrieve_body( $req );
+		header( 'Content-Description: File Transfer' );
+		header( 'Content-Type: application/octet-stream' );
+		header( 'Content-Disposition: attachment; filename="' . basename( $filepath ) . '"' );
 
-		$mpdf = new \Mpdf\Mpdf( array(
-			// 'debug' => true,
-			'format' => 'A4-L',
-		) );
+		readfile( $filepath );
 
-		$mpdf->SetBasePath( ABSPATH );
-
-		$body = str_replace( get_site_url(), '.', $body );
-
-		// llms_log( $body );
-
-		// preg_match_all( '/(?<=src=\")([^\"])+(png|jpg|jpeg|gif)/i', $body, $matches );
-		// $replace = array();
-		// $i = 1;
-		// foreach ( $matches[0] as $match ) {
-		// 	$id = 'img' . $i;
-		// 	$mpdf->imageVars[ $id ] = file_get_contents( str_replace( get_site_url(), '.', $match ), true );
-		// 	$body = str_replace( $match, 'var:' . $id, $body );
-		// 	$i++;
-		// }
-		$mpdf->showImageErrors = true;
-		$mpdf->WriteHTML( $body );
-		// $mpdf->Output( LLMS_TMP_DIR . 'cert.pdf', \Mpdf\Output\Destination::FILE );
-		$mpdf->Output( 'cert.pdf', \Mpdf\Output\Destination::DOWNLOAD );
+		// delete file after download
+		ignore_user_abort( true );
+		wp_delete_file( $filepath );
+		exit;
 
 	}
 
