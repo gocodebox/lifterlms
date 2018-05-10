@@ -17,9 +17,11 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	public function __construct() {
 
 		parent::__construct( __( 'LifterLMS', 'lifterlms' ) );
+
 		$this->add_exporter( 'lifterlms-student-data', __( 'Student Data', 'lifterlms' ), array( $this, 'exporter_student_data' ) );
 		$this->add_exporter( 'lifterlms-course-data', __( 'Course Data', 'lifterlms' ), array( $this, 'exporter_course_data' ) );
 		$this->add_exporter( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), array( $this, 'exporter_membership_data' ) );
+		$this->add_exporter( 'lifterlms-order-data', __( 'Order Data', 'lifterlms' ), array( $this, 'exporter_order_data' ) );
 		$this->add_exporter( 'lifterlms-certificate-data', __( 'Certificate Data', 'lifterlms' ), array( $this, 'exporter_certificate_data' ) );
 
 		add_action( 'wp_privacy_personal_data_export_file_created', array( $this, 'maybe_add_export_files' ), 100, 4 );
@@ -139,6 +141,51 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 */
 	public function exporter_membership_data( $email_address, $page ) {
 		return $this->exporter_enrollment_data( $email_address, $page, 'llms_membership' );
+	}
+
+	/**
+	 * Export student certificate data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function exporter_order_data( $email_address, $page ) {
+
+		$export = array();
+		$done = true;
+		$student = $this->get_student_by_email( $email_address );
+
+		if ( $student ) {
+
+			$orders = $student->get_orders( array(
+				'count' => 250,
+				'page' => $page,
+			) );
+			if ( $orders && $orders['pages'] ) {
+
+				$group_label = __( 'Order Data', 'lifterlms' );
+				foreach ( $orders['orders'] as $order ) {
+
+					$export[] = array(
+						'group_id' => 'lifterlms_orders',
+						'group_label' => $group_label,
+						'item_id' => sprintf( 'order-%d', $order->get( 'id' ) ),
+						'data' => $this->get_order_data( $order ),
+					);
+
+				}
+
+				$done = ( $page == $orders['pages'] );
+			}
+		}
+
+		return array(
+			'data' => $export,
+			'done' => $done,
+		);
+
 	}
 
 	/**
@@ -262,6 +309,64 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	}
 
+	/**
+	 * Retrieve export data for a single order
+	 * @param    obj     $order  LLMS_Order
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_order_data( $order ) {
+
+		$data = array();
+
+		$props = apply_filters( 'llms_privacy_export_order_data_props', array(
+			'id' => __( 'Order Number', 'lifterlms' ),
+			'date' => __( 'Order Date', 'lifterlms' ),
+			'product_title' => __( 'Product', 'lifterlms' ),
+			'plan_title' => __( 'Plan', 'lifterlms' ),
+			'billing_first_name' => __( 'Billing First Name', 'lifterlms' ),
+			'billing_last_name' => __( 'Billing Last Name', 'lifterlms' ),
+			'billing_email' => __( 'Billing Email', 'lifterlms' ),
+			'billing_address_1' => __( 'Billing Address 1', 'lifterlms' ),
+			'billing_address_2' => __( 'Billing Address 2', 'lifterlms' ),
+			'billing_city' => __( 'Billing City', 'lifterlms' ),
+			'billing_state' => __( 'Billing State', 'lifterlms' ),
+			'billing_zip' => __( 'Billing Zip Code', 'lifterlms' ),
+			'billing_country' => __( 'Billing Country', 'lifterlms' ),
+			'billing_phone' => __( 'Phone', 'lifterlms' ),
+			'user_ip_address' => __( 'IP Address', 'lifterlms' ),
+		) );
+
+		foreach ( $props as $prop => $name ) {
+
+			$value = apply_filters( 'llms_privacy_export_ordr_data_prop_value', $order->get( $prop ), $prop, $order );
+
+			if ( $value ) {
+				$data[] = array(
+					'name'  => $name,
+					'value' => $value,
+				);
+			}
+		}
+
+		$transactions = $order->get_transactions( array(
+			'per_page' => 500,
+		) );
+		if ( $transactions['transactions'] ) {
+			$txns = array();
+			foreach ( $transactions['transactions'] as $txn ) {
+				$txns[] = sprintf( '%1$s &mdash; %2$s (#%3$d)', $txn->get( 'date' ), $txn->get_price( 'amount' ), $txn->get( 'id' ) );
+			}
+			$data[] = array(
+				'name' => __( 'Transactions', 'lifterlms' ),
+				'value' => implode( '<br>', $txns ),
+			);
+		}
+
+		return apply_filters( 'llms_privacy_export_order_data', $data, $order );
+
+	}
 
 	/**
 	 * Retrive an instance of an LLMS_Student from email address
