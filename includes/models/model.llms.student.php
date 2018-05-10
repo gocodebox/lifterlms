@@ -239,7 +239,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string $order   ordering method for returned results (ASC or DESC)
 	 * @param    string $return  return type
 	 *                           	obj => array of objects from $wpdb->get_results
-	 *                           	certificates => array of LLMS_User_Achievement instances
+	 *                           	certificates => array of LLMS_User_Certificate instances
 	 * @return   array
 	 * @since    2.4.0
 	 * @version  3.14.1
