@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.17.5
+ * @version  [version]
  */
 class LLMS_Student_Dashboard {
 
@@ -118,7 +116,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.17.5
+	 * @version  [version]
 	 */
 	public static function get_tabs() {
 
@@ -141,6 +139,12 @@ class LLMS_Student_Dashboard {
 				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'My Achievements', 'lifterlms' ),
+			),
+			'view-certificates' => array(
+				'content' => 'lifterlms_template_student_dashboard_my_certificates',
+				'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint' ),
+				'nav_item' => true,
+				'title' => __( 'My Certificates', 'lifterlms' ),
 			),
 			'notifications' => array(
 				'content' => array( __CLASS__, 'output_notifications_content' ),

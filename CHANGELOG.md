@@ -6,6 +6,7 @@ v3.18.0 - 2018-05-??
 
 ##### Updates and Enhancements
 
++ Added a "My Certificates" tab to the Student Dashboard
 + Certificates can be downloaded as HTML files (available when viewing a certificate or from the certificate reporting screen on the admin panel)
 + Added privacy policy notice on checkout, enrollment, and registration that integrates with the WP Core 4.9.6 Privacy Policy Page setting
 + Added settings to allow customization of the privacy policy and terms & conditions notices during checkout, enrollment, and registration
@@ -15,6 +16,7 @@ v3.18.0 - 2018-05-??
 
 ##### Bug Fixes
 
++ Fixed issue causing "My Achievements" to display twice on the My Achievements student dashboard tab
 + Fix issue preventing lessons from being completed when a quiz in draft mode was attached to the lesson
 
 ##### Template Updates
