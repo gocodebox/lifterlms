@@ -1,7 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
 * Admin Settings Page, Accounts Tab
@@ -122,6 +120,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'id' 		=> 'lifterlms_myaccount_achievements_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'my-achievements',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'View Certificates', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'List of all the student\'s certificates', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_certificates_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-certificates',
 				'sanitize'  => 'slug',
 			),
 
