@@ -55,9 +55,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 					);
 
 				}
-
 			}
-
 		}
 
 		return array(
@@ -100,7 +98,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 			$enrollments = $student->get_enrollments( $post_type, array(
 				'limit' => $limit,
-				'skip' => ( $page - 1 ) * $limit
+				'skip' => ( $page - 1 ) * $limit,
 			) );
 			$done = ( ! $enrollments['more'] );
 
@@ -121,9 +119,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 					);
 
 				}
-
 			}
-
 		}
 
 		return array(
@@ -318,7 +314,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 					'value' => $value,
 				);
 			}
-
 		}
 
 		return apply_filters( 'llms_privacy_export_student_data', $data, $student );

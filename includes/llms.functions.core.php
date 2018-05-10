@@ -131,7 +131,6 @@ function llms_cleanup_tmp() {
 		if ( filemtime( $file ) < $max_age ) {
 			wp_delete_file( $file );
 		}
-
 	}
 
 }

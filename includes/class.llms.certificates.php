@@ -112,7 +112,6 @@ class LLMS_Certificates {
 			}
 		}
 
-
 		$cert = new LLMS_User_Certificate( $certificate_id );
 
 		/* translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity */
@@ -167,7 +166,7 @@ class LLMS_Certificates {
 		$dom = new DOMDocument;
 		if ( $dom->loadHTML( $html ) ) {
 
-			$header = $dom->getElementsByTagName('head')->item( 0 );
+			$header = $dom->getElementsByTagName( 'head' )->item( 0 );
 
 			// remove all <scripts>
 			$scripts = $dom->getElementsByTagName( 'script' );
@@ -231,7 +230,7 @@ class LLMS_Certificates {
 
 			$html = $dom->saveHTML();
 
-		}
+		}// End if().
 
 		// handle errors
 		libxml_clear_errors();
