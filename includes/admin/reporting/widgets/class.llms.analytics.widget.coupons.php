@@ -54,7 +54,7 @@ class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 
 		if ( ! $this->is_error() ) {
 
-			return intval( $this->get_results() );
+			return count( $this->get_results() );
 
 		}
 
