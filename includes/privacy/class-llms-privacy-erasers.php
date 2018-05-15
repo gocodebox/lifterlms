@@ -122,8 +122,12 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 			$student->get( 'id' ), $student->get( 'id' )
 		) );
 
-		/* Translators: %d = number of notifications */
-		$messages[] = sprintf( __( 'Removed %d notifications.', 'lifterlms' ), $deleted );
+		if ( $deleted ) {
+
+			/* Translators: %d = number of notifications */
+			$messages[] = sprintf( __( 'Removed %d notifications.', 'lifterlms' ), $deleted );
+
+		}
 
 		return apply_filters( 'llms_privacy_erase_notification_data', $messages, $student );
 
@@ -260,6 +264,48 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	}
 
 	/**
+	 * Erase student postmeta data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function postmeta_data( $email_address, $page ) {
+
+		$ret = self::get_return();
+
+		$student = parent::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return $ret;
+		}
+
+		$messages = array();
+		$enabled = llms_parse_bool( get_option( 'llms_erasure_request_removes_lms_data', 'no' ) );
+
+		if ( apply_filters( 'llms_privacy_erase_postmeta_data', $enabled, $attempt ) ) {
+
+			global $wpdb;
+			$deleted = $wpdb->query( $wpdb->prepare(
+				"DELETE FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d",
+				$student->get( 'id' )
+			) );
+
+			$ret['messages'][] = __( 'Removed all student course and membership enrollment and activity data.', 'lifterlms' );
+			$ret['items_removed'] = true;
+
+		} else {
+
+			$ret['messages'][] = __( 'Retained all student course and membership enrollment and activity data.', 'lifterlms' );
+			$ret['items_retained'] = true;
+
+		}
+
+		return $ret;
+
+	}
+
+	/**
 	 * Erase student quiz attempt data by email address
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
@@ -283,11 +329,11 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 			if ( apply_filters( 'llms_privacy_erase_quiz_data', $enabled, $attempt ) ) {
 
-				$attempt->delete();
-
 				/* Translators: %d quiz attempt id. */
 				$ret['messages'][] = sprintf( __( 'Quiz attempt #%d removed.', 'lifterlms' ), $attempt->get_id() );
 				$ret['items_removed'] = true;
+
+				$attempt->delete();
 
 			} else {
 
