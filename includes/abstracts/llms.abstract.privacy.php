@@ -46,9 +46,37 @@ abstract class LLMS_Abstract_Privacy {
 	 */
 	protected function add_hooks() {
 
+		add_action( 'admin_init', array( $this, 'add_privacy_message' ) );
+
 		add_filter( 'wp_privacy_personal_data_erasers', array( $this, 'register_erasers' ) );
 		add_filter( 'wp_privacy_personal_data_exporters', array( $this, 'register_exporters' ), 5 );
 
+	}
+
+	/**
+	 * Add privacy message sample content
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_privacy_message() {
+		if ( function_exists( 'wp_add_privacy_policy_content' ) ) {
+			$content = $this->get_privacy_message();
+			if ( $content ) {
+				wp_add_privacy_policy_content( $this->name, $this->get_privacy_message() );
+			}
+		}
+	}
+
+	/**
+	 * Get the privacy message sample content
+	 * This stub can be overloaded
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_privacy_message() {
+		return '';
 	}
 
 	/**

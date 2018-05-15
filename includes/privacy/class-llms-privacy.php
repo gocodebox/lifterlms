@@ -114,6 +114,60 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	}
 
 	/**
+	 * Get the privacy message sample content
+	 * This stub can be overloaded
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_privacy_message() {
+		$content = '
+			<div contenteditable="false">' .
+				'<p class="wp-policy-help">' .
+					__( 'This sample language includes the basics around what personal data your learning platform may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional add-ons are used, the specific information shared by your site will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy.', 'lifterlms' ) .
+				'</p>' .
+			'</div>' .
+			'<p>' . __( 'We collect information about you during the registration, enrollment, and checkout processes on our site.', 'lifterlms' ) . '</p>' .
+			'<h2>' . __( 'What we collect and store', 'lifterlms' ) . '</h2>' .
+			'<p>' . __( 'When you register an account with us, we’ll ask you to provide information including your name, billing address, email address, phone number, credit card/payment details and optional account information like username and password. We’ll use this information for purposes, such as, to:', 'lifterlms' ) . '</p>' .
+			'<ul>' .
+				'<li>' . __( 'Send you information about your account, orders, courses, and memberships', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Communicate with you about courses and memberships that you’re enrolled in', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Respond to your requests, including refunds and complaints', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Process payments and prevent fraud', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Set up your account for our site', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Comply with any legal obligations we have', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Improve our site’s offerings', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Send you marketing messages, if you choose to receive them', 'lifterlms' ) . '</li>' .
+			'</ul>' .
+			'<p>' . __( 'When you create an account, we will store your name, address, email and phone number, which will be used to populate the enrollment and checkout for future purchases and enrollments.', 'lifterlms' ) . '</p>' .
+			'<p>' . __( 'We generally store information about you for as long as we need the information for the purposes for which we collect and use it, and we are not legally required to continue to keep it. For example, we will store order information for XXX years for tax and accounting purposes. This includes your name, email address and billing address.', 'lifterlms' ) . '</p>' .
+			'<p>' . __( 'We will also store comments or reviews, if you chose to leave them.', 'lifterlms' ) . '</p>' .
+			'<h2>' . __( 'Who on our team has access', 'lifterlms' ) . '</h2>' .
+			'<p>' . __( 'Members of our team have access to the information you provide us. For example, both Administrators and Site Managers can access:', 'lifterlms' ) . '</p>' .
+			'<ul>' .
+				'<li>' . __( 'Order information like what was purchased, when it was purchased and where it should be sent, and', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Customer information like your name, email address, and billing information.', 'lifterlms' ) . '</li>' .
+			'</ul>' .
+			'<p>' . __( 'Course and membership instructors can access your course progress and activities including:', 'lifterlms' ) . '</p>' .
+			'<ul>' .
+				'<li>' . __( 'Enrollment dates for their courses and memberships', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Course progress and status information for their courses', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Quiz and assignments answers and grades for their courses', 'lifterlms' ) . '</li>' .
+				'<li>' . __( 'Comments and reviews made on their memberships and courses', 'lifterlms' ) . '</li>' .
+			'</ul>' .
+			'<p>' . __( 'Our team members have access to this information to help fulfill orders, process refunds, and support you.', 'lifterlms' ) . '</p>' .
+			'<h2>' . __( 'What we share with others', 'lifterlms' ) . '</h2>' .
+			'<div contenteditable="false">' .
+				'<p class="wp-policy-help">' . __( 'In this section you should list who you’re sharing data with, and for what purpose. This could include, but may not be limited to, analytics, marketing, payment gateways, and third party embeds.', 'lifterlms' ) . '</p>' .
+			'</div>' .
+			'<p>' . __( 'We share information with third parties who help us provide our orders and store services to you; for example --', 'lifterlms' ) . '</p>';
+
+		return apply_filters( 'llms_privacy_policy_content', $content );
+
+	}
+
+	/**
 	 * Retrive an instance of an LLMS_Student from email address
 	 * @param    string     $email  Email addres
 	 * @return   false|LLMS_Student
