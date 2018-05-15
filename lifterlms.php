@@ -219,7 +219,6 @@ final class LifterLMS {
 
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
-		require_once 'includes/class.llms.privacy.php';
 		require_once 'includes/class.llms.session.php';
 		require_once 'includes/class.llms.cache.helper.php';
 
@@ -231,6 +230,9 @@ final class LifterLMS {
 		include_once 'includes/abstracts/abstract.llms.admin.table.php';
 
 		include_once 'includes/admin/class.llms.admin.assets.php';
+
+		// privacy components
+		require_once 'includes/privacy/class-llms-privacy.php';
 
 		if ( is_admin() ) {
 
