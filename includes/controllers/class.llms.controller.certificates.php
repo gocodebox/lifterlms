@@ -16,7 +16,7 @@ class LLMS_Controller_Certificates {
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'maybe_generate_export' ) );
+		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
 
 	}
@@ -49,19 +49,55 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
+	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function maybe_handle_reporting_actions() {
+
+		if ( ! llms_verify_nonce( '_llms_cert_actions_nonce', 'llms-cert-actions' ) ) {
+			return;
+		}
+
+		$cert_id = absint( $_POST['certificate_id'] );
+
+		if ( isset( $_POST['llms_generate_cert'] ) ) {
+			$this->download( $cert_id );
+		} elseif ( isset( $_POST['llms_delete_cert'] ) ) {
+			$this->delete( $cert_id );
+		}
+
+	}
+
+	/**
+	 * Delete a cert
+	 * @param    int     $cert_id  WP Post ID of the llms_my_certificate
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function delete( $cert_id ) {
+
+		if ( ! is_admin() ) {
+			return;
+		}
+
+		$cert = new LLMS_User_Certificate( $cert_id );
+		$cert->delete();
+
+	}
+
+	/**
 	 * Generates an HTML export of the certificate from the "Download" button
 	 * on the View Certificate front end & on reporting backend for admins
 	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function maybe_generate_export() {
+	private function download( $cert_id ) {
 
-		if ( ! llms_verify_nonce( '_llms_gen_cert_nonce', 'llms-generate-cert' ) ) {
-			return;
-		}
-
-		$filepath = LLMS()->certificates()->get_export( absint( $_POST['certificate_id'] ) );
+		$filepath = LLMS()->certificates()->get_export( $cert_id );
 		if ( is_wp_error( $filepath ) ) {
 			// @todo need to handle errors differently on admin panel
 			return llms_add_notice( $filepath->get_error_message() );
@@ -77,7 +113,6 @@ class LLMS_Controller_Certificates {
 		ignore_user_abort( true );
 		wp_delete_file( $filepath );
 		exit;
-
 	}
 
 }
