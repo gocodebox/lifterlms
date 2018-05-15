@@ -264,6 +264,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'type' => 'textarea',
 				'value' => llms_get_terms_notice(),
 			),
+
 			array(
 				'title' => __( 'Privacy Policy', 'lifterlms' ),
 				'type' => 'subtitle',
@@ -292,6 +293,21 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'desc' => '<br>' . __( 'Optionally display a privacy policy notice during registration and checkout.', 'lifterlms' ),
 				'title' => __( 'Privacy Policy Notice', 'lifterlms' ),
 				'type' => 'textarea',
+			),
+
+			array(
+				'title' => __( 'Account Erasure Requests', 'lifterlms' ),
+				/* Translators: %$1s = opening anchor to account erasure screen; %2$s closing anchor */
+				'desc' => sprintf( __( 'Customize data retention during %1$saccount erasure requests%2$s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'tools.php?page=remove_personal_data' ) ) . '">', '</a>' ),
+				'type' => 'subtitle',
+			),
+			array(
+				'autoload' => false,
+				'default' => 'no',
+				'id' => 'llms_erasure_request_removes_order_data',
+				'desc' => __( 'When enabled orders will be anonymized during a presonal data erasure.', 'lifterlms' ),
+				'title' => __( 'Remove Order Data', 'lifterlms' ),
+				'type' => 'checkbox',
 			),
 
 			array(
