@@ -21,12 +21,14 @@ v3.18.0 - 2018-05-??
   + All personal information gathered from registration, checkout, and enrollment forms
   + Course and membership enrollments, progress, and grades
   + Earned achievements and certificates
-  + Al order data
+  + All order data
 
 + During a WordPress Personal Data Erasure request the following LifterLMS information will be erased
-  + Student personal information gathered from registration, checkout, and enrollment forms
-  + Student achievements and certificates
+  + All personal information gathered from registration, checkout, and enrollment forms
+  + Earned achievements and certificates
+  + All notifications for or about the user
   + If the "Remove Order Data" setting is enabled, the order will be anonymized by removing student personal information from the order and, if the order is a recurring order, it will be cancelled.
+  + If the "Remove Student LMS Data" setting is enabled, all student data related to course and membership activity will be removed
 
 ##### Bug Fixes
 
