@@ -531,7 +531,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$args = wp_parse_args( $args, array(
 			'comment_status' => 'closed',
 			'ping_status'	 => 'closed',
-			'post_author' 	 => 1,
+			'post_author' 	 => get_current_user_id(),
 			'post_content'   => '',
 			'post_excerpt'   => '',
 			'post_status' 	 => 'draft',
