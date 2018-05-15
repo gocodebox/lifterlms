@@ -40,8 +40,10 @@ v3.18.0 - 2018-05-??
 
 ##### Bug Fixes
 
++ Fixed issue causing coupon reports to always display "1" regardless of actual number of coupons used
++ Fixid issue causing new posts created via the Course Builder to always be created for user_id #1
 + Fixed issue causing "My Achievements" to display twice on the My Achievements student dashboard tab
-+ Fix issue preventing lessons from being completed when a quiz in draft mode was attached to the lesson
++ Fixed issue preventing lessons from being completed when a quiz in draft mode was attached to the lesson
 
 ##### Template Updates
 

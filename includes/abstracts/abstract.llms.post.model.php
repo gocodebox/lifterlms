@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.17.5
+ * @version  [version]
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -510,9 +508,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
 	 * This *should* be overridden by child classes
-	 * @param  array  $args   args of data to be passed to wp_insert_post
-	 * @return array
-	 * @since  3.0.0
+	 * @param    array  $args   args of data to be passed to wp_insert_post
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	protected function get_creation_args( $args = null ) {
 
@@ -530,13 +529,13 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$args = wp_parse_args( $args, array(
 			'comment_status' => 'closed',
-			'ping_status'	 => 'closed',
-			'post_author' 	 => get_current_user_id(),
-			'post_content'   => '',
-			'post_excerpt'   => '',
-			'post_status' 	 => 'draft',
-			'post_title'     => '',
-			'post_type' 	 => $this->get( 'db_post_type' ),
+			'ping_status' => 'closed',
+			'post_author' => get_current_user_id(),
+			'post_content' => '',
+			'post_excerpt' => '',
+			'post_status' => 'draft',
+			'post_title' => '',
+			'post_type' => $this->get( 'db_post_type' ),
 		) );
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );

@@ -12,6 +12,12 @@ class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
 
+	/**
+	 * Retrieve data for chart
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	protected function get_chart_data() {
 		return array(
 			'type' => 'count',
@@ -23,6 +29,12 @@ class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 		);
 	}
 
+	/**
+	 * Setup the query
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
+	 */
 	public function set_query() {
 
 		global $wpdb;
@@ -47,6 +59,12 @@ class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 
 	}
 
+	/**
+	 * Format the response
+	 * @return   int
+	 * @since    3.0.0
+	 * @version  [version]
+	 */
 	protected function format_response() {
 
 		if ( ! $this->is_error() ) {
