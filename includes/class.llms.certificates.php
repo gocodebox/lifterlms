@@ -242,8 +242,4 @@ class LLMS_Certificates {
 
 	}
 
-	public function unlink_export( $path ) {
-
-	}
-
 }
