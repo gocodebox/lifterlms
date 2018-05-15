@@ -43,6 +43,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		$this->add_eraser( 'lifterlms-order-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'order_data' ) );
 		$this->add_eraser( 'lifterlms-achievement-data', __( 'Achievement Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'achievement_data' ) );
 		$this->add_eraser( 'lifterlms-certificate-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'certificate_data' ) );
+		$this->add_eraser( 'lifterlms-notification-data', __( 'Notification Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'notification_data' ) );
 
 		/**
 		 * Hooks

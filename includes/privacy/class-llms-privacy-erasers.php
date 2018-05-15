@@ -107,6 +107,29 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	}
 
 	/**
+	 * Erase notifications for a student
+	 * @param    LLMS_Student  $student
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function erase_notification_data( $student ) {
+
+		$messages = array();
+		global $wpdb;
+		$deleted = $wpdb->query( $wpdb->prepare(
+			"DELETE FROM {$wpdb->prefix}lifterlms_notifications WHERE user_id = %d OR subscriber = %d",
+			$student->get( 'id' ), $student->get( 'id' )
+		) );
+
+		/* Translators: %d = number of notifications */
+		$messages[] = sprintf( __( 'Removed %d notifications.', 'lifterlms' ), $deleted );
+
+		return apply_filters( 'llms_privacy_erase_notification_data', $messages, $student );
+
+	}
+
+	/**
 	 * Erase and anonymize an order
 	 * @param    obj     $order  LLMS_Order
 	 * @return   void
@@ -135,7 +158,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	}
 
 	/**
-	 * Get student data to export for a user
+	 * Erase student data
 	 * @param    LLMS_Student  $student
 	 * @return   array
 	 * @since    [version]
@@ -166,6 +189,28 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		return apply_filters( 'llms_privacy_erase_student_data', $messages, $student );
+
+	}
+
+	/**
+	 * Erase student notification data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function notification_data( $email_address, $page ) {
+
+		$ret = self::get_return();
+
+		$student = parent::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return $ret;
+		}
+
+		$messages = self::erase_notification_data( $student );
+		return self::get_return( $messages, true, ( $messages ) );
 
 	}
 
@@ -208,7 +253,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 			}
 		}
 
-		$ret['done'] = $orders['done'];
+		$ret['done'] = isset( $orders['done'] ) ? $orders['done'] : true;
 
 		return $ret;
 
@@ -253,14 +298,14 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 			}
 		}
 
-		$ret['done'] = $query->is_last_page();
+		$ret['done'] = $query->has_results() ? $query->is_last_page() : true;
 
 		return $ret;
 
 	}
 
 	/**
-	 * Export student data by email address
+	 * Erase student data by email address
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   [type]
