@@ -157,7 +157,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 				$erased = true;
 			}
 
-			if ( apply_filters( 'llms_privacy_erase_student_data_prop', $erased, $prop, $customer ) ) {
+			if ( apply_filters( 'llms_privacy_erase_student_data_prop', $erased, $prop, $student ) ) {
 
 				/* Translators: %s Prop name. */
 				$messages[]    = sprintf( __( 'Removed student "%s"', 'lifterlms' ), $name );
@@ -169,6 +169,14 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	}
 
+	/**
+	 * Erase student order data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public static function order_data( $email_address, $page ) {
 
 		$ret = self::get_return();
@@ -201,6 +209,51 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		$ret['done'] = $orders['done'];
+
+		return $ret;
+
+	}
+
+	/**
+	 * Erase student quiz attempt data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function quiz_data( $email_address, $page ) {
+
+		$ret = self::get_return();
+
+		$student = parent::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return $ret;
+		}
+
+		$enabled = llms_parse_bool( get_option( 'llms_erasure_request_removes_lms_data', 'no' ) );
+		$query = self::get_student_quizzes( $student, $page );
+
+		foreach ( $query->get_attempts() as $attempt ) {
+
+			if ( apply_filters( 'llms_privacy_erase_quiz_data', $enabled, $attempt ) ) {
+
+				$attempt->delete();
+
+				/* Translators: %d quiz attempt id. */
+				$ret['messages'][] = sprintf( __( 'Quiz attempt #%d removed.', 'lifterlms' ), $attempt->get_id() );
+				$ret['items_removed'] = true;
+
+			} else {
+
+				/* Translators: %d quiz attempt id. */
+				$ret['messages'][] = sprintf( __( 'Quiz attempt #%d retained.', 'lifterlms' ), $attempt->get_id() );
+				$ret['items_retained'] = true;
+
+			}
+		}
+
+		$ret['done'] = $query->is_last_page();
 
 		return $ret;
 

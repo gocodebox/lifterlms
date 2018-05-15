@@ -309,6 +309,14 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title' => __( 'Remove Order Data', 'lifterlms' ),
 				'type' => 'checkbox',
 			),
+			array(
+				'autoload' => false,
+				'default' => 'no',
+				'id' => 'llms_erasure_request_removes_lms_data',
+				'desc' => __( 'When enabled all student data related to course and membership activities will be removed.', 'lifterlms' ),
+				'title' => __( 'Remove Student LMS Data', 'lifterlms' ),
+				'type' => 'checkbox',
+			),
 
 			array(
 				'desc' => __( 'Customize the user information fields available on the checkout screen.', 'lifterlms' ),

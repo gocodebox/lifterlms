@@ -28,7 +28,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$achievements = self::get_student_achievements( $student );
 		if ( $achievements ) {
 
-			$group_label = __( 'Achievement Data', 'lifterlms' );
+			$group_label = __( 'Achievements', 'lifterlms' );
 			foreach ( $achievements as $achievement ) {
 
 				$data[] = array(
@@ -65,7 +65,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$certs = self::get_student_certificates( $student );
 		if ( $certs ) {
 
-			$group_label = __( 'Certificate Data', 'lifterlms' );
+			$group_label = __( 'Certificates', 'lifterlms' );
 			foreach ( $certs as $cert ) {
 
 				$data[] = array(
@@ -254,6 +254,49 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	}
 
 	/**
+	 * Get export data for a single quiz attempt
+	 * @param    obj     $attempt  LLMS_Quiz_Attempt
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function get_quiz_attempt_data( $attempt ) {
+
+		$data = array();
+
+		$quiz = $attempt->get_quiz();
+		if ( $quiz ) {
+			$data[] = array(
+				'name' => __( 'Title', 'lifterlms' ),
+				'value' => $quiz->get( 'title' ),
+			);
+		}
+
+		$data[] = array(
+			'name' => __( 'Attempt ID', 'lifterlms' ),
+			'value' => $attempt->get_key(),
+		);
+
+		$data[] = array(
+			'name' => __( 'Attempt Number', 'lifterlms' ),
+			'value' => $attempt->get( 'attempt' ),
+		);
+
+		$data[] = array(
+			'name' => __( 'Status', 'lifterlms' ),
+			'value' => $attempt->l10n( 'status' ),
+		);
+
+		$grade = $attempt->get( 'grade' );
+		$data[] = array(
+			'name' => __( 'Grade', 'lifterlms' ),
+			'value' => is_numeric( $grade ) ? $grade . '%' : '&ndash;',
+		);
+
+		return $data;
+	}
+
+	/**
 	 * Return export data to an exporter
 	 * @param    array      $data  array of data
 	 * @return   array
@@ -330,15 +373,13 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		if ( $enrollments['results'] ) {
 
 			$post_type_obj = get_post_type_object( $post_type );
-			/* translators: %s = post type singular name label (Course or Membership) */
-			$group_label = sprintf( __( '%s Data', 'lifterlms' ), $post_type_obj->labels->singular_name );
 			$group_id = 'lifterlms_' . $post_type;
 
 			foreach ( $enrollments['results'] as $post_id ) {
 
 				$data[] = array(
 					'group_id' => $group_id,
-					'group_label' => $group_label,
+					'group_label' => $post_type_obj->labels->singular_name,
 					'item_id' => sprintf( '%1$s-%2$d', $post_type, $post_id ),
 					'data' => self::get_enrollment_data( $post_id, $student, $post_type_obj ),
 				);
@@ -347,80 +388,6 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		return self::get_return( $data, $enrollments['done'] );
-
-	}
-
-	/**
-	 * Export student membership data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
-	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public static function membership_data( $email_address, $page ) {
-		return self::enrollment_data( $email_address, $page, 'llms_membership' );
-	}
-
-	/**
-	 * Export student certificate data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
-	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public static function order_data( $email_address, $page ) {
-
-		$data = array();
-
-		$student = self::get_student_by_email( $email_address );
-		if ( ! $student ) {
-			return self::get_return( $data );
-		}
-
-		$orders = self::get_student_orders( $student, $page );
-		$group_label = __( 'Order Data', 'lifterlms' );
-		foreach ( $orders['orders'] as $order ) {
-
-			$data[] = array(
-				'group_id' => 'lifterlms_orders',
-				'group_label' => $group_label,
-				'item_id' => sprintf( 'order-%d', $order->get( 'id' ) ),
-				'data' => self::get_order_data( $order ),
-			);
-
-		}
-
-		return self::get_return( $data, $orders['done'] );
-
-	}
-
-	/**
-	 * Export student data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
-	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public static function student_data( $email_address, $page ) {
-
-		$data = array();
-
-		$student = self::get_student_by_email( $email_address );
-		if ( ! $student ) {
-			return self::get_return( $data );
-		}
-
-		$data[] = array(
-			'group_id' => 'lifterlms_student',
-			'group_label' => __( 'Student Data', 'lifterlms' ),
-			'item_id' => sprintf( 'student-%d', $student->get( 'id' ) ),
-			'data' => self::get_student_data( $student ),
-		);
-
-		return self::get_return( $data );
 
 	}
 
@@ -473,6 +440,115 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 			wp_delete_file( $path );
 			delete_post_meta( $id, '_llms_export_filepath' );
 		}
+
+	}
+
+	/**
+	 * Export student membership data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function membership_data( $email_address, $page ) {
+		return self::enrollment_data( $email_address, $page, 'llms_membership' );
+	}
+
+	/**
+	 * Export student certificate data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function order_data( $email_address, $page ) {
+
+		$data = array();
+
+		$student = self::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return self::get_return( $data );
+		}
+
+		$orders = self::get_student_orders( $student, $page );
+		$group_label = __( 'Orders', 'lifterlms' );
+		foreach ( $orders['orders'] as $order ) {
+
+			$data[] = array(
+				'group_id' => 'lifterlms_orders',
+				'group_label' => $group_label,
+				'item_id' => sprintf( 'order-%d', $order->get( 'id' ) ),
+				'data' => self::get_order_data( $order ),
+			);
+
+		}
+
+		return self::get_return( $data, $orders['done'] );
+
+	}
+
+	/**
+	 * Export student data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function student_data( $email_address, $page ) {
+
+		$data = array();
+
+		$student = self::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return self::get_return( $data );
+		}
+
+		$data[] = array(
+			'group_id' => 'lifterlms_student',
+			'group_label' => __( 'Personal Information', 'lifterlms' ),
+			'item_id' => sprintf( 'student-%d', $student->get( 'id' ) ),
+			'data' => self::get_student_data( $student ),
+		);
+
+		return self::get_return( $data );
+
+	}
+
+	/**
+	 * Export quiz attempt data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function quiz_data( $email_address, $page ) {
+
+		$data = array();
+
+		$student = self::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return self::get_return( $data );
+		}
+
+		$query = self::get_student_quizzes( $student, $page );
+
+		$group_label = __( 'Quiz Attempts', 'lifterlms' );
+		foreach ( $query->get_attempts() as $attempt ) {
+
+			$data[] = array(
+				'group_id' => 'lifterlms_quizzes',
+				'group_label' => $group_label,
+				'item_id' => sprintf( 'order-%d', $attempt->get( 'id' ) ),
+				'data' => self::get_quiz_attempt_data( $attempt ),
+			);
+
+		}
+
+		return self::get_return( $data, $query->is_last_page() );
 
 	}
 
