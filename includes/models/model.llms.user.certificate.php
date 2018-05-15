@@ -26,6 +26,8 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 	 */
 	public function delete() {
 
+		do_action( 'llms_before_delete_certificate', $this );
+
 		global $wpdb;
 		$id = $this->get( 'id' );
 		$wpdb->delete( "{$wpdb->prefix}lifterlms_user_postmeta", array(
@@ -34,6 +36,8 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 			'meta_value' => $id,
 		), array( '%d', '%s', '%d' ) );
 		wp_delete_post( $id, true );
+
+		do_action( 'llms_delete_certificate', $this );
 
 	}
 
