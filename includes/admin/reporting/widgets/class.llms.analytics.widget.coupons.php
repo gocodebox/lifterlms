@@ -1,16 +1,13 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
 * Coupons analytics widget
-*
 * Locates number of active / completed orders from a given date range
 * by a given group of students
-*
-* @since  3.0.0
-* @version 3.0.0
+* @since   3.0.0
+* @version [version]
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
