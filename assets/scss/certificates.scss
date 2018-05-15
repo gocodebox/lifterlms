@@ -48,8 +48,13 @@ body {
   text-align: center;
 }
 
-#llms-print-certificate {
-  text-align: center;
+.llms-print-certificate {
+	margin-top: 40px;
+	text-align: center;
+
+	form {
+		display: inline;
+	}
 }
 
 .llms-certificate-container {
