@@ -4,31 +4,39 @@ LifterLMS Changelog
 v3.18.0 - 2018-05-??
 --------------------
 
-##### Updates and Enhancements
+##### Privacy & GDPR Compliance Tools
 
-+ Added a "My Certificates" tab to the Student Dashboard
-+ Certificates can be downloaded as HTML files (available when viewing a certificate or from the certificate reporting screen on the admin panel)
-+ Admins can now delete certificates from reporting the certificate reporting table on the admin panel
 + Added privacy policy notice on checkout, enrollment, and registration that integrates with the WP Core 4.9.6 Privacy Policy Page setting
 + Added settings to allow customization of the privacy policy and terms & conditions notices during checkout, enrollment, and registration
-+ Expanded widths of admin settings page setting names to be a bit wider and more readable
-+ Now conditionally hiding some settings when they are no longer relevant
-+ Added daily cron automatically remove files from the `LLMS_TMP_DIR` which are more that 24 hours old
-
-##### Privacy Tools
++ Added suggested Privacy Policy language outlining information gathered by a default LifterLMS site
 
 + During a WordPress Personal Data Export request the following LifterLMS information will be added to the export
+
   + All personal information gathered from registration, checkout, and enrollment forms
   + Course and membership enrollments, progress, and grades
   + Earned achievements and certificates
   + All order data
 
 + During a WordPress Personal Data Erasure request the following LifterLMS information will be erased
+
   + All personal information gathered from registration, checkout, and enrollment forms
   + Earned achievements and certificates
   + All notifications for or about the user
   + If the "Remove Order Data" setting is enabled, the order will be anonymized by removing student personal information from the order and, if the order is a recurring order, it will be cancelled.
   + If the "Remove Student LMS Data" setting is enabled, all student data related to course and membership activity will be removed
+
++ All of the above relies on features available in WordPress core 4.9.6
+
+##### Updates and Enhancements
+
++ Added a "My Certificates" tab to the Student Dashboard
++ Certificates can be downloaded as HTML files (available when viewing a certificate or from the certificate reporting screen on the admin panel)
++ Admins can now delete certificates and achievements from reporting screens on the admin panel
++ Added additional information to certificate and achievement reporting tables
++ Expanded widths of admin settings page setting names to be a bit wider and more readable
++ Now conditionally hiding some settings when they are no longer relevant
++ Added daily cron automatically remove files from the `LLMS_TMP_DIR` which are more that 24 hours old
++ Tested up to WordPress 4.9.6
 
 ##### Bug Fixes
 
