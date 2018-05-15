@@ -1,14 +1,16 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  3.12.0
+ * @version  [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
  * @property   $access_length  (int)  Length of access from time of purchase, combine with $access_period. Only applicable when $access_expiration is "limited-period"
  * @property   $access_period  (string)  Time period of access from time of purchase, combine with $access_length. Only applicable when $access_expiration is "limited-period" [year|month|week|day]
- *
+ * @property   $anonymized  (string)  Determines if the order has been anonymized due to a personal information erasure request (yes|no)
  * @property   $billing_address_1  (string)  customer billing address line 1
  * @property   $billing_address_2  (string)  customer billing address line 2
  * @property   $billing_city  (string)  customer billing city
@@ -19,11 +21,9 @@
  * @property   $billing_phone  (string)  customer phone number
  * @property   $billing_state  (string)  customer billing state
  * @property   $billing_zip  (string)  customer billing zip/postal code
-
  * @property   $billing_frequency  (int)  Frequency of billing. 0 = a one-time payment [0-6]
  * @property   $billing_length  (int)  Number of intervals to run payment for, combine with $billing_period & $billing_frequency. 0 = forever / until cancelled. Only applicable if $billing_frequency is not 0.
  * @property   $billing_period  (string)  Interval period, combine with $length. Only applicable if $billing_frequency is not 0.  [year|month|week|day]
-
  * @property   $coupon_amount  (float)  Amount of the coupon (flat/percentage) in relation to the plan amount
  * @property   $coupon_amout_trial  (float)  Amount of the coupon (flat/percentage) in relation to the plan trial amount where applicable
  * @property   $coupon_code  (string)  Coupon Code Used
@@ -32,59 +32,41 @@
  * @property   $coupon_used  (string)  Whether or not a coupon was used for the order [yes|no]
  * @property   $coupon_value  (float)  When on sale, $sale_price - $total; when not on sale $original_total - $total
  * @property   $coupon_value_trial  (float)  $trial_original_total - $trial_total
- *
  * @property   $currency  (string)  Transaction's currency code
- *
  * @property   $date_billing_end  (string)  Date when billing should cease, only when $billing_length is greater than 0 [format (datetime) Y-m-d H:i:s]
  * @property   $date_next_payment  (string)  Date when the next recurring payment is due use function get_next_payment_due_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
  * @property   $date_trial_end  (string)  Date when the trial ends for orders with a trial, use function get_trial_end_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
- *
  * @property   $gateway_api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $gateway_customer_id  (string)  Gateway's unique ID for the customer who placed the order
  * @property   $gateway_source_id  (string)  Gateway's unique ID for the card or source to be used for recurring subscriptions (if recurring is supported)
  * @property   $gateway_subscription_id  (string)  Gateway's unique ID for the recurring subscription (if recurring is supported)
- *
  * @property   $id  (int)  WP Post ID of the order
- *
  * @property   $last_retry_rule  (int)  Rule number for current retry step for the order
- *
  * @property   $on_sale  (string)  Whether or not sale pricing was used for the plan [yes|no]
  * @property   $order_key  (string) A unique identifer for the order that can be passed safely in URLs
  * @property   $order_type  (string)  Single or recurring order [single|recurring]
  * @property   $original_total  (float)  Price of the order before applicable sale and coupon adjustments
- *
  * @property   $payment_gateway  (string)  LifterLMS Payment Gateway ID (eg "paypal" or "stripe")
- *
  * @property   $plan_id  (int)  WP Post ID of the purchased access plan
  * @property   $plan_sku   (string)  SKU of the purchased access plan
  * @property   $plan_title  (string)  Title / Name of the purchased access plan
  * @property   $product_id  (int)  WP Post ID of the purchased product
  * @property   $product_sku   (string)  SKU of the purchased product
- * @proptery   $product_title  (string)  Title / Name of the purchased product
+ * @property   $product_title  (string)  Title / Name of the purchased product
  * @property   $product_type  (string)  Type of product purchased (course or membership)
- *
  * @property   $sale_price  (float)  Sale price before coupon adjustments
  * @property   $sale_value  (float)  $original_total - $sale_price
- *
  * @property   $start_date  (string)  date when access was initially granted; this is used to determine when access expires
- *
  * @property   $title  (string)  Post Title
  * @property   $total  (float)  Actual price of the order, after applicable sale & coupon adjustments
- *
- *
  * @property   $trial_length  (int)  Length of the trial. Combined with $trial_period to determine the actual length of the trial.
  * @property   $trial_offer  (string)  Whether or not there was a trial offer applied to the order [yes|no]
  * @property   $trial_original_total  (float)  Total price of the trial before applicable coupon adjustments
  * @property   $trial_period  (string)  Period for the trial period. [year|month|week|day]
  * @property   $trial_total  (float)  Total price of the trial after applicable coupon adjustments
- *
  * @property   $user_id   (int)  customer WP User ID
  * @property   $user_ip_address  (string)  customer's IP address at time of purchase
  */
-
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Order extends LLMS_Post_Model {
 
 	protected $db_post_type = 'llms_order';
@@ -92,6 +74,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	protected $properties = array(
 
+		'anonymized' => 'yesno',
 		'coupon_amount' => 'float',
 		'coupon_amout_trial' => 'float',
 		'coupon_value' => 'float',
@@ -504,9 +487,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Retreive the customer's full name
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_customer_name() {
+		if ( 'yes' === $this->get( 'anonymized' ) ) {
+			return __( 'Anonymous', 'lifterlms' );
+		}
 		return trim( $this->get( 'billing_first_name' ) . ' ' . $this->get( 'billing_last_name' ) );
 	}
 
