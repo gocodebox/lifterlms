@@ -18,14 +18,14 @@ v3.18.0 - 2018-05-??
 ##### Privacy Tools
 
 + During a WordPress Personal Data Export request the following LifterLMS information will be added to the export
-  + Student personal information gathered from registration, checkout, and enrollment forms
-  + Student course and membership enrollments, progress, and grades
-  + Student certificates
-  + Student order data
+  + All personal information gathered from registration, checkout, and enrollment forms
+  + Course and membership enrollments, progress, and grades
+  + Earned achievements and certificates
+  + Al order data
 
-+ During a WordPress Personal Data Erasure requet the following LifterLMS information will be erased
++ During a WordPress Personal Data Erasure request the following LifterLMS information will be erased
   + Student personal information gathered from registration, checkout, and enrollment forms
-  + Student certificates
+  + Student achievements and certificates
   + If the "Remove Order Data" setting is enabled, the order will be anonymized by removing student personal information from the order and, if the order is a recurring order, it will be cancelled.
 
 ##### Bug Fixes

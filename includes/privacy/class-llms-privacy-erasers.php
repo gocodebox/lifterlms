@@ -9,6 +9,37 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
+	 * Erase student certificate data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function achievement_data( $email_address, $page ) {
+
+		$ret = self::get_return();
+
+		$student = parent::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return $ret;
+		}
+
+		$messages = array();
+		$achievements = self::get_student_achievements( $student );
+		if ( $achievements ) {
+
+			foreach ( $achievements as $achievement ) {
+				$messages[] = sprintf( 'Achievement %d deleted.', $achievement->get( 'id' ) );
+				$achievement->delete();
+			}
+		}
+
+		return self::get_return( $messages, true, ( $messages ) );
+
+	}
+
+	/**
 	 * Setup anonymous values for anonymized data
 	 * @param    string     $val   default anonymous value ('')
 	 * @param    string     $prop  key name of the property

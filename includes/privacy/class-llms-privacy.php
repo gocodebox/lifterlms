@@ -31,6 +31,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		$this->add_exporter( 'lifterlms-course-data', __( 'Course Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'course_data' ) );
 		$this->add_exporter( 'lifterlms-membership-data', __( 'Membership Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'membership_data' ) );
 		$this->add_exporter( 'lifterlms-order-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'order_data' ) );
+		$this->add_exporter( 'lifterlms-achievement-data', __( 'Achievement Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'achievement_data' ) );
 		$this->add_exporter( 'lifterlms-certificate-data', __( 'Certificate Data', 'lifterlms' ), array( 'LLMS_Privacy_Exporters', 'certificate_data' ) );
 
 		/**
@@ -38,6 +39,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		 */
 		$this->add_eraser( 'lifterlms-student-data', __( 'Student Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'student_data' ) );
 		$this->add_eraser( 'lifterlms-order-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'order_data' ) );
+		$this->add_eraser( 'lifterlms-achievement-data', __( 'Achievement Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'achievement_data' ) );
 		$this->add_eraser( 'lifterlms-certificate-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'certificate_data' ) );
 
 		/**
@@ -122,6 +124,17 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 		return false;
 
+	}
+
+	/**
+	 * Retrieve student certificates
+	 * @param    obj     $student  LLMS_Student
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected static function get_student_achievements( $student ) {
+		return $student->get_achievements( 'updated_date', 'DESC', 'achievements' );
 	}
 
 	/**

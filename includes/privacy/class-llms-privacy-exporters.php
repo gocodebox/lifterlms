@@ -9,6 +9,43 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
 	/**
+	 * Export student achievement data by email address
+	 * @param    string     $email_address  email address of the user to retrieve data for
+	 * @param    int        $page           process page number
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public static function achievement_data( $email_address, $page ) {
+
+		$data = array();
+
+		$student = self::get_student_by_email( $email_address );
+		if ( ! $student ) {
+			return self::get_return( $data );
+		}
+
+		$achievements = self::get_student_achievements( $student );
+		if ( $achievements ) {
+
+			$group_label = __( 'Achievement Data', 'lifterlms' );
+			foreach ( $achievements as $achievement ) {
+
+				$data[] = array(
+					'group_id' => 'lifterlms_achievements',
+					'group_label' => $group_label,
+					'item_id' => sprintf( 'achievement-%d', $achievement->get( 'id' ) ),
+					'data' => self::get_achievement_data( $achievement ),
+				);
+
+			}
+		}
+
+		return self::get_return( $data );
+
+	}
+
+	/**
 	 * Export student certificate data by email address
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
@@ -44,6 +81,43 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		return self::get_return( $data );
 
 	}
+
+	/**
+	 * Get data for a certificate
+	 * @param    obj     $achievement  LLMS_User_Certificate
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function get_achievement_data( $achievement ) {
+
+		$data = array();
+
+		$data[] = array(
+			'name' => __( 'Title', 'lifterlms' ),
+			'value' => $achievement->get( 'title' ),
+		);
+
+		$data[] = array(
+			'name' => __( 'Description', 'lifterlms' ),
+			'value' => $achievement->get( 'content' ),
+		);
+
+		$data[] = array(
+			'name' => __( 'Earned Date', 'lifterlms' ),
+			'value' => $achievement->get_earned_date( 'Y-m-d H:i:s' ),
+		);
+
+		$data[] = array(
+			'name' => __( 'Image', 'lifterlms' ),
+			'value' => $achievement->get_image(),
+		);
+
+		return $data;
+
+	}
+
+
 
 	/**
 	 * Get data for a certificate

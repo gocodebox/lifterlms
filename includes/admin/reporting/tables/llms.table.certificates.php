@@ -104,6 +104,8 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				$template = get_post_meta( $data->certificate_id, '_llms_certificate_template', true );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
+				} else {
+					$value = '&ndash;';
 				}
 			break;
 
