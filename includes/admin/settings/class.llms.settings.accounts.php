@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
 * Admin Settings Page, Accounts Tab
 * @since    1.0.0
-* @version  3.17.5
+* @version  [version]
 */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -36,7 +34,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return  array
 	 * @since   1.0.0
-	 * @version 3.17.5
+	 * @version [version]
 	 */
 	public function get_settings() {
 
@@ -122,6 +120,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'id' 		=> 'lifterlms_myaccount_achievements_endpoint',
 				'type' 		=> 'text',
 				'default'	=> 'my-achievements',
+				'sanitize'  => 'slug',
+			),
+
+			array(
+				'title' => __( 'View Certificates', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'List of all the student\'s certificates', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_certificates_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-certificates',
 				'sanitize'  => 'slug',
 			),
 
@@ -218,25 +225,97 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 			),
 			array(
-				'autoload'      => false,
-				'default'       => 'no',
-				'id'            => 'lifterlms_registration_require_agree_to_terms',
-				'desc'          => __( 'Add a required "I Agree to the Terms and Conditions" checkbox. When enabled, displays only on checkout and registration screens.', 'lifterlms' ),
-				'title'         => __( 'Terms and Conditions', 'lifterlms' ),
-				'type'          => 'checkbox',
+				'title' => __( 'Terms and Conditions', 'lifterlms' ),
+				'type' => 'subtitle',
 			),
 			array(
-				'desc' 		=> '<br>' . __( 'Select the page where your Terms and Conditions are described.', 'lifterlms' ),
-				'id' 		=> 'lifterlms_terms_page_id',
-				'default'	=> '',
-				'desc_tip'	=> true,
-				'class'		=> 'llms-select2-post',
-				'type' 		=> 'select',
+				'autoload' => false,
+				'default' => 'no',
+				'id' => 'lifterlms_registration_require_agree_to_terms',
+				'desc' => __( 'When enabled users must agree to your site\'s Terms and Conditions to register for an account.', 'lifterlms' ),
+				'title' => __( 'Enable / Disable', 'lifterlms' ),
+				'type' => 'checkbox',
+				'custom_attributes' => array(
+					'class' => 'llms-conditional-controller',
+					'data-controls' => '#lifterlms_terms_page_id,#llms_terms_notice',
+				),
+			),
+			array(
+				'autoload' => false,
+				'desc' => '<br>' . __( 'Select a page where your site\'s Terms and Conditions are described.', 'lifterlms' ),
+				'id' => 'lifterlms_terms_page_id',
+				'default' => '',
+				'desc_tip' => true,
+				'class' => 'llms-select2-post',
+				'title' => __( 'Terms and Conditions Page', 'lifterlms' ),
+				'type' => 'select',
 				'custom_attributes' => array(
 					'data-post-type' => 'page',
 					'data-placeholder' => __( 'Select a page', 'lifterlms' ),
 				),
 				'options' => llms_make_select2_post_array( get_option( 'lifterlms_terms_page_id', '' ) ),
+			),
+			array(
+				'autoload' => false,
+				'default' => llms_get_terms_notice(),
+				'id' => 'llms_terms_notice',
+				'desc' => '<br>' . __( 'Customize the text used to display the Terms and Conditions checkbox that students must accept.', 'lifterlms' ),
+				'title' => __( 'Terms and Conditions Notice', 'lifterlms' ),
+				'type' => 'textarea',
+				'value' => llms_get_terms_notice(),
+			),
+
+			array(
+				'title' => __( 'Privacy Policy', 'lifterlms' ),
+				'type' => 'subtitle',
+			),
+			array(
+				'autoload' => false,
+				'desc' => '<br>' . sprintf(
+					__( 'Select a page where your site\'s Privacy Policy is described. See %1$sWordPress Privacy Settings%2$s for more information', 'lifterlms' ),
+					'<a href="' . esc_url( admin_url( 'privacy.php' ) ) . '">',
+					'</a>'
+				),
+				'id' => 'wp_page_for_privacy_policy',
+				'class' => 'llms-select2-post',
+				'title' => __( 'Privacy Policy Page', 'lifterlms' ),
+				'type' => 'select',
+				'custom_attributes' => array(
+					'data-post-type' => 'page',
+					'data-placeholder' => __( 'Select a page', 'lifterlms' ),
+				),
+				'options' => llms_make_select2_post_array( get_option( 'wp_page_for_privacy_policy' ) ),
+			),
+			array(
+				'autoload' => false,
+				'default' => llms_get_privacy_notice(),
+				'id' => 'llms_privacy_notice',
+				'desc' => '<br>' . __( 'Optionally display a privacy policy notice during registration and checkout.', 'lifterlms' ),
+				'title' => __( 'Privacy Policy Notice', 'lifterlms' ),
+				'type' => 'textarea',
+			),
+
+			array(
+				'title' => __( 'Account Erasure Requests', 'lifterlms' ),
+				/* Translators: %$1s = opening anchor to account erasure screen; %2$s closing anchor */
+				'desc' => sprintf( __( 'Customize data retention during %1$saccount erasure requests%2$s.', 'lifterlms' ), '<a href="' . esc_url( admin_url( 'tools.php?page=remove_personal_data' ) ) . '">', '</a>' ),
+				'type' => 'subtitle',
+			),
+			array(
+				'autoload' => false,
+				'default' => 'no',
+				'id' => 'llms_erasure_request_removes_order_data',
+				'desc' => __( 'When enabled orders will be anonymized during a presonal data erasure.', 'lifterlms' ),
+				'title' => __( 'Remove Order Data', 'lifterlms' ),
+				'type' => 'checkbox',
+			),
+			array(
+				'autoload' => false,
+				'default' => 'no',
+				'id' => 'llms_erasure_request_removes_lms_data',
+				'desc' => __( 'When enabled all student data related to course and membership activities will be removed.', 'lifterlms' ),
+				'title' => __( 'Remove Student LMS Data', 'lifterlms' ),
+				'type' => 'checkbox',
 			),
 
 			array(

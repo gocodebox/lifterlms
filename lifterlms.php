@@ -213,7 +213,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.17.8
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -230,6 +230,9 @@ final class LifterLMS {
 		include_once 'includes/abstracts/abstract.llms.admin.table.php';
 
 		include_once 'includes/admin/class.llms.admin.assets.php';
+
+		// privacy components
+		require_once 'includes/privacy/class-llms-privacy.php';
 
 		if ( is_admin() ) {
 
@@ -330,6 +333,8 @@ final class LifterLMS {
 
 		// controllers
 		include_once 'includes/controllers/class.llms.controller.account.php';
+		include_once 'includes/controllers/class.llms.controller.achievements.php';
+		include_once 'includes/controllers/class.llms.controller.certificates.php';
 		include_once 'includes/controllers/class.llms.controller.lesson.progression.php';
 		include_once 'includes/controllers/class.llms.controller.orders.php';
 		include_once 'includes/controllers/class.llms.controller.quizzes.php';

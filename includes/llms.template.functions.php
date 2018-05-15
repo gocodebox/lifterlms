@@ -11,64 +11,8 @@ require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
 require 'functions/llms.functions.templates.dashboard.php';
 require 'functions/llms.functions.templates.loop.php';
+require 'functions/llms.functions.templates.privacy.php';
 require 'functions/llms.functions.templates.quizzes.php';
-
-/**
- * Get the HTML for the Terms field displayed on reg forms
- * @param    boolean    $echo  [description]
- * @param    boolean    $echo   echo the data if true, return otherwise
- * @return   void|string
- * @since    3.0.0
- * @version  3.0.0
- */
-if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
-
-	function llms_agree_to_terms_form_field( $echo = true ) {
-
-		$r = '';
-
-		if ( llms_are_terms_and_conditions_required() ) {
-
-			$page_id = get_option( 'lifterlms_terms_page_id', false );
-
-			$r = llms_form_field( array(
-				'columns' => 12,
-				'description' => '',
-				'default' => 'no',
-				'id' => 'llms_agree_to_terms',
-				'label' => wp_kses( sprintf( _x( 'I have read and agree to the <a href="%1$s" target="_blank">%2$s</a>.', 'terms and conditions checkbox', 'lifterlms' ), get_the_permalink( $page_id ), get_the_title( $page_id ) ), array(
-					'a' => array(
-						'href' => array(),
-						'target' => array(),
-					),
-					'b' => array(),
-					'em' => array(),
-					'i' => array(),
-					'strong' => array(),
-				) ),
-				'last_column' => true,
-				'required' => true,
-				'type'  => 'checkbox',
-				'value' => 'yes',
-			), false );
-
-		}
-
-		$r = apply_filters( 'llms_agree_to_terms_form_field', $r );
-
-		if ( $echo ) {
-
-			echo $r;
-			return;
-
-		} else {
-
-			return $r;
-
-		}
-
-	}
-}// End if().
 
 /**
  * Output email body content

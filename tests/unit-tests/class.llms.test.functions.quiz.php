@@ -1,6 +1,10 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
+ * @group    functions
+ * @group    functions_quiz
+ * @group    quizzes
+ * @group    quiz
  * @since    3.16.0
  * @version  3.16.12
  */
