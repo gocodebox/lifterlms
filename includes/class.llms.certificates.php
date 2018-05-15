@@ -219,7 +219,7 @@ class LLMS_Certificates {
 				if ( 0 !== strpos( $src, get_site_url() ) ) {
 					continue;
 				}
-				$imgpath = $stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
+				$imgpath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
 				$data = base64_encode( file_get_contents( $imgpath ) );
 				$img->setAttribute( 'src', 'data:' . mime_content_type( $imgpath ) . ';base64,' . $data );
 			}
