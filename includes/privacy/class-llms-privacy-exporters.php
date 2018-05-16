@@ -379,7 +379,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
 				$data[] = array(
 					'group_id' => $group_id,
-					'group_label' => $post_type_obj->labels->singular_name,
+					'group_label' => $post_type_obj->labels->name,
 					'item_id' => sprintf( '%1$s-%2$d', $post_type, $post_id ),
 					'data' => self::get_enrollment_data( $post_id, $student, $post_type_obj ),
 				);
@@ -473,6 +473,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		$orders = self::get_student_orders( $student, $page );
+
 		$group_label = __( 'Orders', 'lifterlms' );
 		foreach ( $orders['orders'] as $order ) {
 
@@ -535,20 +536,26 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		$query = self::get_student_quizzes( $student, $page );
+		$done = true;
+		if ( $query->has_results() ) {
 
-		$group_label = __( 'Quiz Attempts', 'lifterlms' );
-		foreach ( $query->get_attempts() as $attempt ) {
+			$group_label = __( 'Quiz Attempts', 'lifterlms' );
+			foreach ( $query->get_attempts() as $attempt ) {
 
-			$data[] = array(
-				'group_id' => 'lifterlms_quizzes',
-				'group_label' => $group_label,
-				'item_id' => sprintf( 'order-%d', $attempt->get( 'id' ) ),
-				'data' => self::get_quiz_attempt_data( $attempt ),
-			);
+				$data[] = array(
+					'group_id' => 'lifterlms_quizzes',
+					'group_label' => $group_label,
+					'item_id' => sprintf( 'order-%d', $attempt->get( 'id' ) ),
+					'data' => self::get_quiz_attempt_data( $attempt ),
+				);
+
+			}
+
+			$done = $query->is_last_page();
 
 		}
 
-		return self::get_return( $data, $query->is_last_page() );
+		return self::get_return( $data, $done );
 
 	}
 
