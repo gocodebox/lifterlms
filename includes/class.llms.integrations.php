@@ -65,7 +65,6 @@ class LLMS_Integrations {
 			'LLMS_Integration_Buddypress',
 		) );
 
-
 		$order_end = 999;
 
 		if ( ! empty( $integrations ) ) {

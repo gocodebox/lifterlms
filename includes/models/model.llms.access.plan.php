@@ -144,11 +144,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// if bypassing availability checks OR plan is available to user
 		if ( ! $check_availability || $available ) {
 
-			$ret = $url = llms_get_page_url( 'checkout', array(
+			$ret = llms_get_page_url( 'checkout', array(
 				'plan' => $this->get( 'id' ),
 			) );
 
-		// not available to user -- this is a member's only plan
+			// not available to user -- this is a member's only plan
 		} elseif ( ! $available ) {
 
 			$product = $this->get_product();
@@ -158,7 +158,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			if ( 1 === count( $memberships ) ) {
 				$ret = get_permalink( $memberships[0] );
 			}
-
 		}
 
 		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
