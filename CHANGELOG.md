@@ -29,6 +29,7 @@ v3.18.0 - 2018-05-??
 
 ##### Updates and Enhancements
 
++ Improved pricing table UX for members-only access plans. An access plan button for a plan belonging to only one membership will click directly to the membership as opposed to opening a popover. Plan's with access via multiple memberships will continue to open a popover listing all availability options.
 + Added a "My Certificates" tab to the Student Dashboard
 + Certificates can be downloaded as HTML files (available when viewing a certificate or from the certificate reporting screen on the admin panel)
 + Admins can now delete certificates and achievements from reporting screens on the admin panel
@@ -36,6 +37,7 @@ v3.18.0 - 2018-05-??
 + Expanded widths of admin settings page setting names to be a bit wider and more readable
 + Now conditionally hiding some settings when they are no longer relevant
 + Added daily cron automatically remove files from the `LLMS_TMP_DIR` which are more that 24 hours old
++ Removed unused template `content-llms_membership.php`
 + Tested up to WordPress 4.9.6
 
 ##### Bug Fixes
