@@ -168,24 +168,6 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	}
 
 	/**
-	 * Retrive an instance of an LLMS_Student from email address
-	 * @param    string     $email  Email addres
-	 * @return   false|LLMS_Student
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	protected static function get_student_by_email( $email ) {
-
-		$user = get_user_by( 'email', $email );
-		if ( is_a( $user, 'WP_User' ) ) {
-			return llms_get_student( $user );
-		}
-
-		return false;
-
-	}
-
-	/**
 	 * Retrieve student certificates
 	 * @param    obj     $student  LLMS_Student
 	 * @return   array
