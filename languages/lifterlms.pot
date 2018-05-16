@@ -2692,7 +2692,7 @@ msgstr ""
 msgid "Checking this box will allow users to use this payment gateway."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:262, includes/abstracts/llms.abstract.integration.php:118, includes/admin/settings/class.llms.settings.accounts.php:236, includes/admin/settings/class.llms.settings.accounts.php:368
+#: includes/abstracts/abstract.llms.payment.gateway.php:262, includes/abstracts/llms.abstract.integration.php:115, includes/admin/settings/class.llms.settings.accounts.php:236, includes/admin/settings/class.llms.settings.accounts.php:368
 msgid "Enable / Disable"
 msgstr ""
 
@@ -2749,7 +2749,7 @@ msgstr ""
 msgid "This completion percentage is an estimate, please be patient and %sclick here%s for more information."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.integration.php:114
+#: includes/abstracts/llms.abstract.integration.php:111
 msgid "Check to enable this integration."
 msgstr ""
 
@@ -5317,11 +5317,11 @@ msgstr ""
 msgid "My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:327
+#: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:326
 msgid "Enroll"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:331
+#: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:330
 msgid "Join"
 msgstr ""
 
@@ -5429,40 +5429,40 @@ msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:176, includes/models/model.llms.lesson.php:273
+#: includes/models/model.llms.access.plan.php:175, includes/models/model.llms.lesson.php:273
 msgid "FREE"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:335
+#: includes/models/model.llms.access.plan.php:334
 msgid "Buy"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:355
+#: includes/models/model.llms.access.plan.php:354
 msgctxt "Access expiration date"
 msgid "access until %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:361
+#: includes/models/model.llms.access.plan.php:360
 msgctxt "Access period description"
 msgid "%1$d %2$s of access"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:391
+#: includes/models/model.llms.access.plan.php:390
 msgctxt "subscription schedule"
 msgid "per %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:399
+#: includes/models/model.llms.access.plan.php:398
 msgctxt "subscription schedule"
 msgid "every %1$d %2$s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:408
+#: includes/models/model.llms.access.plan.php:407
 msgctxt "subscription # of payments"
 msgid "for %1$d %2$s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:431
+#: includes/models/model.llms.access.plan.php:430
 msgctxt "trial offer description"
 msgid "for %1$d %2$s"
 msgstr ""

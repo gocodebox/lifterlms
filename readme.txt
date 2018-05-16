@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.0
 Requires PHP: 5.6
 Tested up to: 4.9.6
-Stable tag: 3.17.8
+Stable tag: 3.18.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -351,7 +351,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.18.0 - 2018-05-??
+= v3.18.0 - 2018-05-16 =
 ------------------------
 
 ##### Privacy & GDPR Compliance Tools
@@ -379,6 +379,7 @@ v3.18.0 - 2018-05-??
 
 ##### Updates and Enhancements
 
++ Tested up to WordPress 4.9.6
 + Improved pricing table UX for members-only access plans. An access plan button for a plan belonging to only one membership will click directly to the membership as opposed to opening a popover. Plan's with access via multiple memberships will continue to open a popover listing all availability options.
 + Added a "My Certificates" tab to the Student Dashboard
 + Certificates can be downloaded as HTML files (available when viewing a certificate or from the certificate reporting screen on the admin panel)
@@ -388,7 +389,7 @@ v3.18.0 - 2018-05-??
 + Now conditionally hiding some settings when they are no longer relevant
 + Added daily cron automatically remove files from the `LLMS_TMP_DIR` which are more that 24 hours old
 + Removed unused template `content-llms_membership.php`
-+ Tested up to WordPress 4.9.6
++ Added initialization actions for use by integration classes
 
 ##### Bug Fixes
 
@@ -400,8 +401,11 @@ v3.18.0 - 2018-05-??
 
 ##### Template Updates
 
++ [templates/admin/post-types/order-details.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/order-details.php)
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [templates/content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
 + [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
 
 
 = v3.17.8 - 2018-05-04 =
@@ -594,16 +598,6 @@ v3.18.0 - 2018-05-??
 + Added PHP Requires plugin header (5.6 minimum)
 + Added HTTP User Agent data to the system report
 + [LifterLMS Assignments Beta](https://lifterlms.com/product/lifterlms-assignments?utm_source=LifterLMS%20Plugin&utm_medium=CHANGELOG&utm_campaign=assignments%20preorder) is imminent and this release adds functionality to the Builder which will be extended by Assignments upon when availability
-
-
-= v3.16.16 - 2018-03-19 =
--------------------------
-
-+ Fixed builder issue causing multiple question choices to be incorrectly selected
-+ Fixed builder issue with media library uploads causing an error message to prevent new uploads before the quiz or question has been persistend to the database
-+ Fixed builder issue preventing quizzes from being deleted before they were persisted to the database
-+ Fixed builder issue causing autosaves to interrupt typing and reset lesson and section titles
-+ Fixed JS console error related to LifterLMS JS dependency checks
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It is compiled automatically via the gulp task `js:pot`
  * See the lifterlms-lib-tasks package for more information
  * @since    3.17.8
- * @version  3.18.0
+ * @version  [version]
  */
 class LLMS_L10n_JS {
 
@@ -27,7 +27,7 @@ class LLMS_L10n_JS {
 	 * @param    array  $strings  existing strings from core / 3rd parties
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.18.0
+	 * @version  [version]
 	 */
 	public function get_strings( $strings ) {
 
@@ -154,7 +154,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/builder/Views/_Editable.js
 			 * @since    3.16.0
-			 * @version  3.18.0
+			 * @version  [version]
 			 */
 			'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 			'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
