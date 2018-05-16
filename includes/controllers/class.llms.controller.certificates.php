@@ -3,16 +3,16 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Certificate Forms
- * @since   [version]
- * @version [version]
+ * @since   3.18.0
+ * @version 3.18.0
  */
 class LLMS_Controller_Certificates {
 
 	/**
 	 * Constructor
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function __construct() {
 
@@ -25,8 +25,8 @@ class LLMS_Controller_Certificates {
 	 * Utilizes a nonce to display a certificate
 	 * cURL request is used to scrape the HTML and this will authenticate the scrape
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function maybe_authenticate_export_generation() {
 
@@ -51,8 +51,8 @@ class LLMS_Controller_Certificates {
 	/**
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function maybe_handle_reporting_actions() {
 
@@ -74,8 +74,8 @@ class LLMS_Controller_Certificates {
 	 * Delete a cert
 	 * @param    int     $cert_id  WP Post ID of the llms_my_certificate
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private function delete( $cert_id ) {
 
@@ -92,8 +92,8 @@ class LLMS_Controller_Certificates {
 	 * Generates an HTML export of the certificate from the "Download" button
 	 * on the View Certificate front end & on reporting backend for admins
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private function download( $cert_id ) {
 

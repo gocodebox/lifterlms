@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
  * Associated with a specific order
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.18.0
  */
 class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
@@ -41,7 +41,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * @param    object  $post  WP global post object
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	public function output() {
 
@@ -94,7 +94,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	public function save( $post_id ) {
 		if ( isset( $_POST['llms_update_enrollment_status'] ) && isset( $_POST['llms_student_old_enrollment_status'] ) && isset( $_POST['llms_student_new_enrollment_status'] ) ) {

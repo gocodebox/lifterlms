@@ -4,8 +4,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Privacy Export / Eraser Abstract
  * @thanks   WooCommerce <3
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 abstract class LLMS_Abstract_Privacy {
 
@@ -30,8 +30,8 @@ abstract class LLMS_Abstract_Privacy {
 	/**
 	 * Constructor
 	 * @param    string     $name  plugin name
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function __construct( $name = '' ) {
 		$this->name = $name;
@@ -41,8 +41,8 @@ abstract class LLMS_Abstract_Privacy {
 	/**
 	 * Add filters for the registered exporters & erasers
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected function add_hooks() {
 
@@ -56,8 +56,8 @@ abstract class LLMS_Abstract_Privacy {
 	/**
 	 * Add privacy message sample content
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function add_privacy_message() {
 		if ( function_exists( 'wp_add_privacy_policy_content' ) ) {
@@ -72,8 +72,8 @@ abstract class LLMS_Abstract_Privacy {
 	 * Get the privacy message sample content
 	 * This stub can be overloaded
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function get_privacy_message() {
 		return '';
@@ -83,8 +83,8 @@ abstract class LLMS_Abstract_Privacy {
 	 * Retrive an instance of an LLMS_Student from email address
 	 * @param    string     $email  Email addres
 	 * @return   false|LLMS_Student
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected static function get_student_by_email( $email ) {
 
@@ -102,8 +102,8 @@ abstract class LLMS_Abstract_Privacy {
 	 * @filter   wp_privacy_personal_data_erasers
 	 * @param    array      $erasers  existing erasers
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function register_erasers( $erasers = array() ) {
 		foreach ( $this->erasers as $id => $eraser ) {
@@ -117,8 +117,8 @@ abstract class LLMS_Abstract_Privacy {
 	 * @filter   wp_privacy_personal_data_exporters
 	 * @param    array      $exporters  existing exporters
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function register_exporters( $exporters = array() ) {
 		foreach ( $this->exporters as $id => $exporter ) {
@@ -133,8 +133,8 @@ abstract class LLMS_Abstract_Privacy {
 	 * @param    string    $name      Human-readable eraser name
 	 * @param    mixed     $callback  Callback function (callable)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function add_eraser( $id, $name, $callback ) {
 		$this->erasers[ $id ] = array(
@@ -150,8 +150,8 @@ abstract class LLMS_Abstract_Privacy {
 	 * @param    string    $name      Human-readable exporter name
 	 * @param    mixed     $callback  Callback function (callable)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function add_exporter( $id, $name, $callback ) {
 		$this->exporters[ $id ] = array(

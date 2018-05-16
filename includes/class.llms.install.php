@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Plugin installation
  * @since   1.0.0
- * @version [version]
+ * @version 3.18.0
  */
 class LLMS_Install {
 
@@ -105,7 +105,7 @@ class LLMS_Install {
 	 * Create LifterLMS cron jobs
 	 * @return  void
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.18.0
 	 */
 	public static function create_cron_jobs() {
 

@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Privacy related template functions
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 
 /**
@@ -14,7 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  [version]
+ * @version  3.18.0
  */
 if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
@@ -59,7 +59,7 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  [version]
+ * @version  3.18.0
  */
 if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 

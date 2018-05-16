@@ -1276,7 +1276,7 @@ msgstr ""
 msgid "This is where engagements are stored."
 msgstr ""
 
-#: includes/class.llms.post-types.php:439, includes/privacy/class-llms-privacy-exporters.php:476
+#: includes/class.llms.post-types.php:439, includes/privacy/class-llms-privacy-exporters.php:477
 msgid "Orders"
 msgstr ""
 
@@ -3389,31 +3389,31 @@ msgstr ""
 msgid "Get Help"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:93, includes/privacy/class-llms-privacy.php:102, includes/privacy/class-llms-privacy.php:219, includes/admin/reporting/tables/llms.table.students.php:454
+#: includes/admin/class.llms.admin.user.custom.fields.php:93, includes/privacy/class-llms-privacy.php:102, includes/privacy/class-llms-privacy.php:201, includes/admin/reporting/tables/llms.table.students.php:454
 msgid "Billing Address 1"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:101, includes/privacy/class-llms-privacy.php:103, includes/privacy/class-llms-privacy.php:220, includes/admin/reporting/tables/llms.table.students.php:459
+#: includes/admin/class.llms.admin.user.custom.fields.php:101, includes/privacy/class-llms-privacy.php:103, includes/privacy/class-llms-privacy.php:202, includes/admin/reporting/tables/llms.table.students.php:459
 msgid "Billing Address 2"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:109, includes/privacy/class-llms-privacy.php:104, includes/privacy/class-llms-privacy.php:221, includes/admin/reporting/tables/llms.table.students.php:464
+#: includes/admin/class.llms.admin.user.custom.fields.php:109, includes/privacy/class-llms-privacy.php:104, includes/privacy/class-llms-privacy.php:203, includes/admin/reporting/tables/llms.table.students.php:464
 msgid "Billing City"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:117, includes/privacy/class-llms-privacy.php:105, includes/privacy/class-llms-privacy.php:222, includes/admin/reporting/tables/llms.table.students.php:469
+#: includes/admin/class.llms.admin.user.custom.fields.php:117, includes/privacy/class-llms-privacy.php:105, includes/privacy/class-llms-privacy.php:204, includes/admin/reporting/tables/llms.table.students.php:469
 msgid "Billing State"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:125, includes/privacy/class-llms-privacy.php:106, includes/privacy/class-llms-privacy.php:223
+#: includes/admin/class.llms.admin.user.custom.fields.php:125, includes/privacy/class-llms-privacy.php:106, includes/privacy/class-llms-privacy.php:205
 msgid "Billing Zip Code"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:133, includes/privacy/class-llms-privacy.php:107, includes/privacy/class-llms-privacy.php:224, includes/admin/reporting/tables/llms.table.students.php:479
+#: includes/admin/class.llms.admin.user.custom.fields.php:133, includes/privacy/class-llms-privacy.php:107, includes/privacy/class-llms-privacy.php:206, includes/admin/reporting/tables/llms.table.students.php:479
 msgid "Billing Country"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:141, includes/privacy/class-llms-privacy.php:108, includes/privacy/class-llms-privacy.php:225, includes/admin/reporting/tables/llms.table.students.php:484
+#: includes/admin/class.llms.admin.user.custom.fields.php:141, includes/privacy/class-llms-privacy.php:108, includes/privacy/class-llms-privacy.php:207, includes/admin/reporting/tables/llms.table.students.php:484
 msgid "Phone"
 msgstr ""
 
@@ -5745,11 +5745,11 @@ msgstr ""
 msgid "Attempt Number"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy-exporters.php:511
+#: includes/privacy/class-llms-privacy-exporters.php:512
 msgid "Personal Information"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy-exporters.php:539, includes/admin/reporting/tables/llms.table.quiz.attempts.php:160
+#: includes/privacy/class-llms-privacy-exporters.php:542, includes/admin/reporting/tables/llms.table.quiz.attempts.php:160
 msgid "Quiz Attempts"
 msgstr ""
 
@@ -5821,7 +5821,7 @@ msgstr ""
 msgid "Billing Email"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy.php:109, includes/privacy/class-llms-privacy.php:226
+#: includes/privacy/class-llms-privacy.php:109, includes/privacy/class-llms-privacy.php:208
 msgid "IP Address"
 msgstr ""
 
@@ -5937,7 +5937,7 @@ msgstr ""
 msgid "We share information with third parties who help us provide our orders and store services to you; for example --"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy.php:227
+#: includes/privacy/class-llms-privacy.php:209
 msgid "Last Login Date"
 msgstr ""
 

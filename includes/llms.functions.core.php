@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.18.0
  */
 
 //include all other function files
@@ -112,8 +112,8 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
  * Cron function to cleanup files in the LLMS_TMP_DIR
  * Removes any files that are more than a day old
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 function llms_cleanup_tmp() {
 
@@ -329,8 +329,8 @@ function llms_get_engagement_types() {
  * Retrieve an HTML anchor for an option page
  * @param    [type]     $option_name  [description]
  * @return   [type]
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 function llms_get_option_page_anchor( $option_name, $target = '_blank' ) {
 

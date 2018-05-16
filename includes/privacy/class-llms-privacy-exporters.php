@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Privacy Exporter functions
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
@@ -13,8 +13,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function achievement_data( $email_address, $page ) {
 
@@ -50,8 +50,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function certificate_data( $email_address, $page ) {
 
@@ -86,8 +86,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Get data for a certificate
 	 * @param    obj     $achievement  LLMS_User_Certificate
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_achievement_data( $achievement ) {
 
@@ -123,8 +123,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Get data for a certificate
 	 * @param    obj     $cert  LLMS_User_Certificate
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_certificate_data( $cert ) {
 
@@ -157,8 +157,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    obj     $student           LLMS_Student
 	 * @param    obj     $post_type_object  WP post type object
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_enrollment_data( $post_id, $student, $post_type_object ) {
 
@@ -215,8 +215,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Retrieve export data for a single order
 	 * @param    obj     $order  LLMS_Order
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_order_data( $order ) {
 
@@ -257,8 +257,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Get export data for a single quiz attempt
 	 * @param    obj     $attempt  LLMS_Quiz_Attempt
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_quiz_attempt_data( $attempt ) {
 
@@ -300,8 +300,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Return export data to an exporter
 	 * @param    array      $data  array of data
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_return( $data = array(), $done = true ) {
 		return array(
@@ -314,8 +314,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Get student data to export for a user
 	 * @param    LLMS_Student  $student
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_student_data( $student ) {
 
@@ -344,8 +344,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function course_data( $email_address, $page ) {
 		return self::enrollment_data( $email_address, $page, 'course' );
@@ -357,8 +357,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    int        $page           process page number
 	 * @param    string     $post_type      name of the post type
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function enrollment_data( $email_address, $page, $post_type ) {
 
@@ -399,8 +399,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $html_report_pathname  full path to the .html file within the archive
 	 * @param    int        $request_id            WP Post ID of the export request
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function maybe_add_export_files( $archive_pathname, $archive_url, $html_report_pathname, $request_id ) {
 
@@ -448,8 +448,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function membership_data( $email_address, $page ) {
 		return self::enrollment_data( $email_address, $page, 'llms_membership' );
@@ -460,8 +460,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function order_data( $email_address, $page ) {
 
@@ -495,8 +495,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function student_data( $email_address, $page ) {
 
@@ -523,8 +523,8 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function quiz_data( $email_address, $page ) {
 

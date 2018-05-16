@@ -1,13 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
 * LifterLMS Integration Abstract
-*
 * @since   3.0.0
-* @version 3.17.8
+* @version [version]
 */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
@@ -48,7 +45,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Constructor
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	public function __construct() {
 

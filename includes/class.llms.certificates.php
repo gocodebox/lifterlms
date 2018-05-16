@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Certificates
  * @see      LLMS()->certificates()
  * @since    1.0.0
- * @version  [version]
+ * @version  3.18.0
  */
 class LLMS_Certificates {
 
@@ -69,8 +69,8 @@ class LLMS_Certificates {
 	 * @param    string  $filepath        full path for the created file
 	 * @param    int     $certificate_id  WP Post ID of the earned certificate
 	 * @return   mixed                    WP_Error or full path to the generated export
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private function generate_export( $filepath, $certificate_id ) {
 
@@ -100,8 +100,8 @@ class LLMS_Certificates {
 	 * @param    int     $certificate_id  WP Post ID of the earned certificate
 	 * @param    bool    $use_cache       if true will check for existence of a cached version of the file first
 	 * @return   mixed                    WP_Error or full path to the generated export
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function get_export( $certificate_id, $use_cache = false ) {
 
@@ -131,8 +131,8 @@ class LLMS_Certificates {
 	 * Retrieves the HTML of a certificate which can be used to create an exportable download
 	 * @param    int     $certificate_id  WP Post ID of the earned certificate
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private function get_export_html( $certificate_id ) {
 

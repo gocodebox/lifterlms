@@ -1,7 +1,7 @@
 /**
  * LifterLMS Settings Pages UI / UX
  * @since    3.7.3
- * @version  [version]
+ * @version  3.18.0
  */
 ;( function( $, undefined ) {
 
@@ -14,7 +14,7 @@
 		 * Initialize
 		 * @return   void
 		 * @since    3.7.3
-		 * @version  [version]
+		 * @version  3.18.0
 		 */
 		this.init = function() {
 			this.bind();
@@ -70,8 +70,8 @@
 		/**
 		 * Allow checkboxes to conditionally display other settings
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.18.0
+		 * @version  3.18.0
 		 */
 		this.bind_conditionals = function() {
 

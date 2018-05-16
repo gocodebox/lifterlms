@@ -5,8 +5,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Functions related to privacy policy and terms & conditions
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 
 
@@ -31,8 +31,8 @@ function llms_are_terms_and_conditions_required() {
  * @param    bool       $merge  if true, will merge {{policy}} to an HTML anchor
  *                              uses `wp_page_for_privacy_policy` for page ID & title
  * @return   string
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 function llms_get_privacy_notice( $merge = false ) {
 
@@ -73,8 +73,8 @@ function llms_get_privacy_notice( $merge = false ) {
  * @param    bool       $merge  if true, will merge {{terms}} to an HTML anchor
  *                              uses `lifterlms_terms_page_id` for page ID & title
  * @return   string
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 function llms_get_terms_notice( $merge = false ) {
 

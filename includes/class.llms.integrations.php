@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Integrations
  * @since    1.0.0
- * @version  3.17.8
+ * @version  3.18.0
  */
 class LLMS_Integrations {
 
@@ -58,7 +56,7 @@ class LLMS_Integrations {
 	 * Initalize Integration Classes
 	 * @return   null
 	 * @since    1.0.0
-	 * @version  3.17.8
+	 * @version  3.18.0
 	 */
 	public function init() {
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.18.0
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -134,7 +134,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel)
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	public function get_checkout_url( $check_availability = true ) {
 

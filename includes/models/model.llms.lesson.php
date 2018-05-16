@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.18.0
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -448,7 +448,7 @@ implements LLMS_Interface_Post_Audio
 	 * Lesson must have a quiz and the quiz must be enabled
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	public function is_quiz_enabled() {
 		return ( $this->has_quiz() && llms_parse_bool( $this->get( 'quiz_enabled' ) ) && 'publish' === get_post_status( $this->get( 'quiz' ) ) );

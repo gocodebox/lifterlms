@@ -4,15 +4,15 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Main Privacy Class
  * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function __construct() {
 
@@ -63,8 +63,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * @param    string     $prop  property name
 	 * @param    obj        $obj   associated object (if any)
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function get_anon_prop_value( $prop, $obj = null ) {
 		return apply_filters( 'llms_privacy_get_anon_prop_value', '', $prop, $obj );
@@ -74,8 +74,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * Retrieve an array of student data properties which should be exported & erased
 	 * @param    string   $type  request type [export|erasure]
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected static function get_order_data_props( $type ) {
 
@@ -117,8 +117,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * Get the privacy message sample content
 	 * This stub can be overloaded
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function get_privacy_message() {
 		$content = '
@@ -171,8 +171,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * Retrieve student certificates
 	 * @param    obj     $student  LLMS_Student
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected static function get_student_achievements( $student ) {
 		return $student->get_achievements( 'updated_date', 'DESC', 'achievements' );
@@ -182,8 +182,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * Retrieve student certificates
 	 * @param    obj     $student  LLMS_Student
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected static function get_student_certificates( $student ) {
 		return $student->get_certificates( 'updated_date', 'DESC', 'certificates' );
@@ -192,8 +192,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve an array of student data properties which should be exported & erased
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected static function get_student_data_props() {
 
@@ -217,8 +217,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * @param    int     $page       page number
 	 * @param    string  $post_type  WP Post type (course/membership)
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected static function get_student_enrollments( $student, $page, $post_type ) {
 
@@ -241,8 +241,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * @param    obj     $student    LLMS_Student
 	 * @param    int     $page       page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	protected static function get_student_orders( $student, $page ) {
 

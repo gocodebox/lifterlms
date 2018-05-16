@@ -3,16 +3,16 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Achievement Forms
- * @since   [version]
- * @version [version]
+ * @since   3.18.0
+ * @version 3.18.0
  */
 class LLMS_Controller_Achievements {
 
 	/**
 	 * Constructor
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function __construct() {
 
@@ -23,8 +23,8 @@ class LLMS_Controller_Achievements {
 	/**
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function maybe_handle_reporting_actions() {
 
@@ -44,8 +44,8 @@ class LLMS_Controller_Achievements {
 	 * Delete a cert
 	 * @param    int     $cert_id  WP Post ID of the llms_my_certificate
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private function delete( $cert_id ) {
 

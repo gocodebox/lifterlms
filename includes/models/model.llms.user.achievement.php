@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS User Achievement
  * @since    3.8.0
- * @version  [version]
+ * @version  3.18.0
  */
 class LLMS_User_Achievement extends LLMS_Post_Model {
 
@@ -21,8 +21,8 @@ class LLMS_User_Achievement extends LLMS_Post_Model {
 	/**
 	 * Delete the certificate
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public function delete() {
 

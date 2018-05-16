@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.18.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -487,7 +487,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Retreive the customer's full name
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	public function get_customer_name() {
 		if ( 'yes' === $this->get( 'anonymized' ) ) {

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Achievements Table
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.18.0
  */
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
@@ -25,8 +25,8 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * Get HTML for buttons in the actions cell of the table
 	 * @param    int     $certificate_id  WP Post ID of the llms_my_certificate
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private function get_actions_html( $certificate_id ) {
 		ob_start();
@@ -66,7 +66,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object of achievment data
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	public function get_data( $key, $data ) {
 		switch ( $key ) {
@@ -148,7 +148,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	protected function set_columns() {
 		return array(

@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Privacy Eraser functions
- * @since    [version]
- * @version  [version]
+ * @since    3.18.0
+ * @version  3.18.0
  */
 class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
@@ -13,8 +13,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function achievement_data( $email_address, $page ) {
 
@@ -45,8 +45,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $prop  key name of the property
 	 * @param    obj        $obj   related object
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function anonymize_prop( $val, $prop, $obj = null ) {
 
@@ -64,8 +64,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function certificate_data( $email_address, $page ) {
 
@@ -94,8 +94,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * Return export data to an exporter
 	 * @param    array      $messages  array of messages
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function get_return( $messages = array(), $done = true, $removed = false, $retained = false ) {
 		return array(
@@ -110,8 +110,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * Erase notifications for a student
 	 * @param    LLMS_Student  $student
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function erase_notification_data( $student ) {
 
@@ -137,8 +137,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * Erase and anonymize an order
 	 * @param    obj     $order  LLMS_Order
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function erase_order_data( $order ) {
 
@@ -165,8 +165,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * Erase student data
 	 * @param    LLMS_Student  $student
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	private static function erase_student_data( $student ) {
 
@@ -201,8 +201,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function notification_data( $email_address, $page ) {
 
@@ -223,8 +223,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function order_data( $email_address, $page ) {
 
@@ -268,8 +268,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function postmeta_data( $email_address, $page ) {
 
@@ -310,8 +310,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function quiz_data( $email_address, $page ) {
 
@@ -355,8 +355,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * @param    string     $email_address  email address of the user to retrieve data for
 	 * @param    int        $page           process page number
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.0
+	 * @version  3.18.0
 	 */
 	public static function student_data( $email_address, $page ) {
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.18.0
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -511,7 +511,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    array  $args   args of data to be passed to wp_insert_post
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	protected function get_creation_args( $args = null ) {
 

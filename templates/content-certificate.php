@@ -2,7 +2,7 @@
 /**
  * Certificate: Content
  * @since   1.0.0
- * @version [version]
+ * @version 3.18.0
  */
 
 defined( 'ABSPATH' ) || exit;

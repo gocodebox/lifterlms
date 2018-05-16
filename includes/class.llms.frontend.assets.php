@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  [version]
+* @version  3.18.0
 */
 class LLMS_Frontend_Assets {
 
@@ -104,7 +104,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Styles
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.18.0
 	 */
 	public static function enqueue_styles() {
 
@@ -133,7 +133,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.18.0
 	 */
 	public static function enqueue_scripts() {
 

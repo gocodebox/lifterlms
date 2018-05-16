@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * @param  integer $id WP Post ID of the cert (optional if used within a loop)
  * @return string
  * @since    2.2.0
- * @version  [version]
+ * @version  3.18.0
  */
 function llms_get_certificate_content( $id = 0 ) {
 

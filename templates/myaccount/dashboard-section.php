@@ -2,7 +2,7 @@
 /**
  * Section template for dashboard index
  * @since    3.14.0
- * @version  [version]
+ * @version  3.18.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

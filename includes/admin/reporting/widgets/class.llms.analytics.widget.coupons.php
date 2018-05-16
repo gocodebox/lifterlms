@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 * Locates number of active / completed orders from a given date range
 * by a given group of students
 * @since   3.0.0
-* @version [version]
+* @version 3.18.0
 */
 class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 
@@ -63,7 +63,7 @@ class LLMS_Analytics_Coupons_Widget extends LLMS_Analytics_Widget {
 	 * Format the response
 	 * @return   int
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.18.0
 	 */
 	protected function format_response() {
 
