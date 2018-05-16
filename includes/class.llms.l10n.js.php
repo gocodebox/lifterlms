@@ -224,7 +224,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/llms-admin-settings.js
 			 * @since    3.7.3
-			 * @version  3.17.5
+			 * @version  [version]
 			 */
 			'Select an Image' => esc_html__( 'Select an Image', 'lifterlms' ),
 			'Select Image' => esc_html__( 'Select Image', 'lifterlms' ),

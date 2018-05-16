@@ -54,6 +54,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 		$this->configure();
 		add_filter( 'lifterlms_integrations_settings', array( $this, 'add_settings' ), $this->priority, 1 );
+		do_action( 'llms_integration_' . $this->id . '_init', $this );
 
 	}
 

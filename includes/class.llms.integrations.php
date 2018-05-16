@@ -67,6 +67,7 @@ class LLMS_Integrations {
 			'LLMS_Integration_Buddypress',
 		) );
 
+
 		$order_end = 999;
 
 		if ( ! empty( $integrations ) ) {
@@ -81,6 +82,8 @@ class LLMS_Integrations {
 				ksort( $this->integrations );
 			}
 		}
+
+		do_action( 'llms_integrations_init', $this );
 
 	}
 
