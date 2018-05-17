@@ -17,6 +17,9 @@
 	"publish": {
 		"title": "LifterLMS",
 		"lifterlms": {
+			"make": {
+				"tags": [ 6 ]
+			},
 			"pot": false
 		}
 	},
