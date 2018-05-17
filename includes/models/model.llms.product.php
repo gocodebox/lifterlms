@@ -1,14 +1,15 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
-* LifterLMS Product Model
-*
-* Both Courses and Memberships are sellable and can be instantiated as a product
-*
-* @since    1.0.0
-* @version  3.8.0
-*/
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+ * LifterLMS Product Model
+ *
+ * Both Courses and Memberships are sellable and can be instantiated as a product
+ *
+ * @since    1.0.0
+ * @version  3.17.8
+ */
 class LLMS_Product extends LLMS_Post_Model {
 
 	protected $properties = array();
@@ -33,7 +34,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @param    boolean  $visible_only  excludes hidden access plans from results
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  3.17.8
 	 */
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
@@ -42,7 +43,7 @@ class LLMS_Product extends LLMS_Post_Model {
 			'meta_value' => $this->get( 'id' ),
 			'order' => 'ASC',
 			'orderby' => 'menu_order',
-			'post_per_page' => $this->get_access_plan_limit(),
+			'posts_per_page' => $this->get_access_plan_limit(),
 			'post_type' => 'llms_access_plan',
 			'status' => 'publish',
 		);

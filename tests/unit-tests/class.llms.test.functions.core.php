@@ -1,47 +1,12 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
+ * @group    functions
+ * @group    functions_core
  * @since    3.3.1
- * @version  3.6.0
+ * @version  [version]
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
-
-	/**
-	 * Test llms_are_terms_and_conditions_required()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
-	 */
-	public function test_llms_are_terms_and_conditions_required() {
-
-		// terms true & page id numeric
-		update_option( 'lifterlms_registration_require_agree_to_terms', 'yes' );
-		update_option( 'lifterlms_terms_page_id', '1' );
-		$this->assertTrue( llms_are_terms_and_conditions_required() );
-
-		// terms true & page id non-numeric
-		update_option( 'lifterlms_registration_require_agree_to_terms', 'yes' );
-		update_option( 'lifterlms_terms_page_id', 'brick' );
-		$this->assertFalse( llms_are_terms_and_conditions_required() );
-
-		// terms true & no page id
-		update_option( 'lifterlms_terms_page_id', '' );
-		$this->assertFalse( llms_are_terms_and_conditions_required() );
-
-		// terms true & page id 0
-		update_option( 'lifterlms_terms_page_id', '0' );
-		$this->assertFalse( llms_are_terms_and_conditions_required() );
-
-		// terms false and page id good
-		update_option( 'lifterlms_registration_require_agree_to_terms', 'no' );
-		update_option( 'lifterlms_terms_page_id', '1' );
-		$this->assertFalse( llms_are_terms_and_conditions_required() );
-
-		update_option( 'lifterlms_registration_require_agree_to_terms', 'no' );
-		update_option( 'lifterlms_terms_page_id', 'brick' );
-		$this->assertFalse( llms_are_terms_and_conditions_required() );
-
-	}
 
 	/**
 	 * Test llms_get_core_supported_themes()
@@ -100,6 +65,40 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	public function test_llms_get_engagement_types() {
 		$this->assertFalse( empty( llms_get_engagement_types() ) );
 		$this->assertTrue( is_array( llms_get_engagement_types() ) );
+	}
+
+	/**
+	 * Test the llms_get_option_page_anchor() function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_llms_get_option_page_anchor() {
+
+		$id = $this->factory->post->create( array(
+			'post_title' => 'The Page Title',
+			'post_type' => 'page',
+		) );
+
+		$option_name = 'llms_test_page_anchor';
+
+		// returns empty if option isn't set
+		$this->assertEmpty( llms_get_option_page_anchor( $option_name ) );
+
+		update_option( $option_name, $id );
+
+		// title found in string
+		$this->assertTrue( false !== strpos( llms_get_option_page_anchor( $option_name ), get_the_title( $id ) ) );
+
+		// URL found
+		$this->assertTrue( false !== strpos( llms_get_option_page_anchor( $option_name ), get_the_permalink( $id ) ) );
+
+		// target found
+		$this->assertTrue( false !== strpos( llms_get_option_page_anchor( $option_name ), 'target="_blank"' ) );
+
+		// no target found
+		$this->assertTrue( false === strpos( llms_get_option_page_anchor( $option_name, false ), 'target="_blank"' ) );
+
 	}
 
 	/**

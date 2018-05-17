@@ -1,16 +1,16 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.16.12
+ * @version  3.18.0
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
  * @property  $days_before_available  (int)  The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
- * @property  $drip_method  (string) What sort of drip method to utilize [''(none)|date|enrollment|start]
+ * @property  $drip_method  (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
  * @property  $free_lesson  (yesno)  Yes if the lesson is free
  * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
  * @property  $order (int)  Lesson's order within its parent section
@@ -20,10 +20,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $quiz  (int)  WP Post ID of the llms_quiz
  * @property  $quiz_enabled  (yesno)  Whether or not the attached quiz is enabled for students
  * @property  $require_passing_grade  (yesno)  Whether of not students have to pass the quiz to advance to the next lesson
+ * @property  $require_assignment_passing_grade  (yesno)  Whether of not students have to pass the assignment to advance to the next lesson
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
  */
-class LLMS_Lesson extends LLMS_Post_Model {
+class LLMS_Lesson
+extends LLMS_Post_Model
+implements LLMS_Interface_Post_Audio
+		 , LLMS_Interface_Post_Video {
 
 	protected $properties = array(
 
@@ -44,6 +48,7 @@ class LLMS_Lesson extends LLMS_Post_Model {
 		'has_prerequisite' => 'yesno',
 		'prerequisite' => 'absint',
 		'require_passing_grade' => 'yesno',
+		'require_assignment_passing_grade' => 'yesno',
 		'video_embed' => 'text',
 
 		// quizzes
@@ -58,28 +63,12 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Attempt to get oEmbed for an audio provider
 	 * Falls back to the [audio] shortcode if the oEmbed fails
-	 *
-	 * @return string
-	 * @since   1.0.0
-	 * @version 3.16.12
+	 * @return   string
+	 * @since    1.0.0
+	 * @version  3.17.0
 	 */
 	public function get_audio() {
-
-		$ret = '';
-
-		if ( isset( $this->audio_embed ) ) {
-
-			$ret = wp_oembed_get( $this->get( 'audio_embed' ) );
-
-			if ( ! $ret ) {
-
-				$ret = do_shortcode( '[audio src="' . $this->get( 'audio_embed' ) . '"]' );
-
-			}
-		}
-
-		return apply_filters( 'llms_lesson_get_audio', $ret, $this );
-
+		return $this->get_embed( 'audio' );
 	}
 
 	/**
@@ -325,28 +314,12 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	/**
 	 * Attempt to get oEmbed for a video provider
 	 * Falls back to the [video] shortcode if the oEmbed fails
-	 *
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.16.12
+	 * @version  3.17.0
 	 */
 	public function get_video() {
-
-		$ret = '';
-
-		if ( isset( $this->video_embed ) ) {
-
-			$ret = wp_oembed_get( $this->get( 'video_embed' ) );
-
-			if ( ! $ret ) {
-
-				$ret = do_shortcode( '[video src="' . $this->get( 'video_embed' ) . '"]' );
-
-			}
-		}
-
-		return apply_filters( 'llms_lesson_get_video', $ret, $this );
-
+		return $this->get_embed( 'video' );
 	}
 
 	/**
@@ -475,10 +448,10 @@ class LLMS_Lesson extends LLMS_Post_Model {
 	 * Lesson must have a quiz and the quiz must be enabled
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.18.0
 	 */
 	public function is_quiz_enabled() {
-		return ( $this->has_quiz() && ( 'yes' === $this->get( 'quiz_enabled' ) ) );
+		return ( $this->has_quiz() && llms_parse_bool( $this->get( 'quiz_enabled' ) ) && 'publish' === get_post_status( $this->get( 'quiz' ) ) );
 	}
 
 	/**

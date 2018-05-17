@@ -1,13 +1,14 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
-* Admin Settings Class
-* Settings field Factory
-* @since    1.0.0
-* @version  3.8.0
-*/
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+ * Admin Settings Class
+ * Settings field Factory
+ * @since    1.0.0
+ * @version  3.17.5
+ */
 class LLMS_Admin_Settings {
 
 	/**
@@ -427,7 +428,8 @@ class LLMS_Admin_Settings {
 								<?php
 							}
 		                    ?>
-					   </select> <?php echo $description; ?>
+					   </select>
+						<?php echo $description; ?>
 					</td>
 				</tr><?php
 			break;
@@ -584,18 +586,19 @@ class LLMS_Admin_Settings {
 			case 'single_select_page' :
 
 				$args = array(
-				'name'				=> $field['id'],
-							   'id'					=> $field['id'],
-							   'sort_column' 		=> 'menu_order',
-							   'sort_order'			=> 'ASC',
-							   'show_option_none' 	=> ' ',
-							   'class'				=> $field['class'],
-							   'echo' 				=> false,
-							   'selected'			=> absint( self::get_option( $field['id'] ) ),
-							   );
+					'name' => $field['id'],
+					'id' => $field['id'],
+					'sort_column' => 'menu_order',
+					'sort_order' => 'ASC',
+					'show_option_none' => ' ',
+					'class' => $field['class'],
+					'echo' => false,
+					'selected' => absint( self::get_option( $field['id'] ) ),
+				);
 
 				if ( isset( $field['args'] ) ) {
-					$args = wp_parse_args( $field['args'], $args ); }
+					$args = wp_parse_args( $field['args'], $args );
+				}
 
 				?><tr valign="top" class="single_select_page">
 					<th><?php echo esc_html( $field['title'] ) ?> <?php echo $tooltip; ?></th>
@@ -805,12 +808,11 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Save admin fields.
-	 *
 	 * Loops though the lifterlms options array and outputs each field.
-	 *
-	 * @param array $settings Opens array to output
-	 *
-	 * @return bool
+	 * @param    array $settings Opens array to output
+	 * @return   bool
+	 * @since    1.0.0
+	 * @version  3.17.5
 	 */
 	public static function save_fields( $settings ) {
 	    if ( empty( $_POST ) ) {
@@ -864,6 +866,7 @@ class LLMS_Admin_Settings {
 
 		    	break;
 
+		    	case 'password':
 		    	case 'text' :
 		    	case 'email':
 	            case 'number':
@@ -878,6 +881,10 @@ class LLMS_Admin_Settings {
 		            	$option_value = llms_clean( stripslashes( $_POST[ $value['id'] ] ) );
 		            } else {
 		                $option_value = '';
+		            }
+
+		            if ( isset( $value['sanitize'] ) && 'slug' === $value['sanitize'] ) {
+		            	$option_value = sanitize_title( $option_value );
 		            }
 
 		    	break;

@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Quizzes Reporting Table
  *
  * @since    3.16.0
- * @version  3.16.0
+ * @version  3.17.3
  */
 class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
@@ -72,7 +74,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @param    obj        $attempt  LLMS_Quiz_Attempt obj
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.17.3
 	 */
 	protected function get_data( $key, $attempt ) {
 
@@ -93,7 +95,13 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 			case 'start_date':
 			case 'end_date':
-				$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $attempt->get( $key ) ) );
+
+				$value = '&ndash;';
+				$date = $attempt->get( $key );
+				if ( $date ) {
+					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
+				}
+
 			break;
 
 			case 'id':

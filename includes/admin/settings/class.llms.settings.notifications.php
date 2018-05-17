@@ -1,10 +1,12 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 /**
  * Admin Settings: Notifications Tab
+ * @since    3.8.0
+ * @version  3.8.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	public function __construct() {

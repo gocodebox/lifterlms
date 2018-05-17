@@ -3,7 +3,7 @@
  * Tests for the LLMS_Install Class
  * @group    quizzes
  * @since    3.9.0
- * @version  3.16.11
+ * @version  3.17.4
  */
 class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
@@ -36,15 +36,18 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	 * @param    [type]     $passing_percent  required passing percentage
 	 * @param    integer    $num_questions    number of questions in the quiz
 	 * @param    string     $rand             whether to randomize question order
+	 * @param    string     $passing_required whether passing grade is required to complete the associated lesson
 	 * @return   [type]                       [description]
 	 * @since    3.9.2
-	 * @version  3.16.11
+	 * @version  3.17.1
 	 */
-	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15, $attempt = null, $rand = 'no' ) {
+	private function take_a_quiz( $desired_grade, $passing_percent, $num_questions = 15, $attempt = null, $rand = 'no', $passing_required = 'no' ) {
 
 		if ( ! $attempt ) {
 			$attempt = $this->get_mock_attempt( $num_questions );
 		}
+
+		update_post_meta( $attempt->get( 'lesson_id' ), '_llms_require_passing_grade', $passing_required );
 
 		update_post_meta( $attempt->get( 'quiz_id' ), '_llms_random_questions', $rand );
 		update_post_meta( $attempt->get( 'quiz_id' ), '_llms_passing_percent', $passing_percent );
@@ -106,7 +109,7 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 	public function test_get_count() {
 
 		$i = 1;
-		while ( $i <= 25 ) {
+		while ( $i <= 10 ) {
 
 			$attempt = $this->get_mock_attempt( $i );
 
@@ -127,7 +130,6 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 			$attempt->set_questions( $questions, true );
 
 			$this->assertEquals( $total_points, $attempt->get_count( 'available_points' ) );
-
 
 			$i++;
 
@@ -272,52 +274,55 @@ class LLMS_Test_Model_Quiz_Attempt extends LLMS_UnitTestCase {
 
 	// }
 
-	// /**
-	//  * Take a bunch of quizzes
-	//  * quiz taking / ending functions
-	//  * Tests grade / point calculations
-	//  * pass/fail/complete actions
-	//  * @return   [type]     [description]
-	//  * @since    3.9.2
-	//  * @version  3.12.0
-	//  */
-	// public function test_take_some_quizzes( ) {
+	/**
+	 * Take a bunch of quizzes
+	 * quiz taking / ending functions
+	 * Tests grade / point calculations
+	 * pass/fail/complete actions
+	 * @return   void
+	 * @since    3.9.2
+	 * @version  3.17.4
+	 */
+	public function test_take_some_quizzes( ) {
 
-	// 	$i = 0;
-	// 	$num_tests = 0;
-	// 	$num_pass = 0;
-	// 	$num_fail = 0;
-	// 	while ( $i <= 100 ) {
+		$i = 0;
+		$num_tests = 0;
+		$num_pass = 0;
+		$num_fail = 0;
+		while ( $i <= 100 ) {
 
-	// 		$rand = rand( 0, 1 ) ? 'yes' : 'no';
-	// 		$attempt = $this->take_a_quiz( $i, 65, 25, null, $rand );
+			$rand = rand( 0, 1 ) ? 'yes' : 'no';
+			$passing = $rand = rand( 0, 1 ) ? 'yes' : 'no';
+			$attempt = $this->take_a_quiz( $i, 65, 25, null, $rand, $passing );
 
-	// 		if ( 0 === $i ) {
-	// 			$grade = 0;
-	// 		} else {
-	// 			$weight = ( 100 / $attempt->get_count( 'available_points' ) );
-	// 			$grade = floor( $i / 100 * 25 ) * $weight;
-	// 		}
+			if ( 0 === $i ) {
+				$grade = 0;
+			} else {
+				$weight = ( 100 / $attempt->get_count( 'available_points' ) );
+				$grade = floor( $i / 100 * 25 ) * $weight;
+			}
 
-	// 		$this->assertEquals( $grade, $attempt->get( 'grade' ) );
-	// 		$this->assertTrue( ! is_null( $attempt->get( 'end_date' ) ) );
-	// 		$this->assertFalse( $attempt->get( 'current' ) );
+			$this->assertEquals( $grade, $attempt->get( 'grade' ) );
+			$this->assertTrue( ! is_null( $attempt->get( 'end_date' ) ) );
 
-	// 		if ( $grade < 65 ) {
-	// 			$num_fail++;
-	// 			$this->assertFalse( $attempt->get( 'passed' ) );
-	// 		} else {
-	// 			$num_pass++;
-	// 			$this->assertTrue( $attempt->get( 'passed' ) );
-	// 			$this->assertTrue( llms_is_complete( $attempt->get( 'user_id' ), $attempt->get( 'lesson_id' ), 'lesson' ) );
-	// 		}
+			if ( $grade < 65 ) {
+				$num_fail++;
+				$this->assertFalse( $attempt->is_passing() );
+				$is_complete = llms_parse_bool( $passing ) ? false : true;
+			} else {
+				$num_pass++;
+				$this->assertTrue( $attempt->is_passing() );
+				$is_complete = true;
+			}
 
-	// 		$num_tests++;
+			$this->assertEquals( $is_complete, llms_is_complete( $attempt->get( 'student_id' ), $attempt->get( 'lesson_id' ), 'lesson' ) );
 
-	// 		$i = $i + 5;
+			$num_tests++;
 
-	// 	}
+			$i = $i + ( 5 * rand( 1, 20 ) );
 
-	// }
+		}
+
+	}
 
 }

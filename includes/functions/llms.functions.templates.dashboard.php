@@ -2,10 +2,9 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.15.0
+ * @version  3.18.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Get course tiles for a student's courses
@@ -157,7 +156,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_header' ) ) {
  * Template for My Achievements on dashboard
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.18.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' ) ) {
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
@@ -183,7 +182,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_achievements',
 			'slug' => 'llms-my-achievements',
-			'title' => __( 'My Achievements', 'lifterlms' ),
+			'title' => $preview ? __( 'My Achievements', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
 			'more' => $more,
 		) );
@@ -195,7 +194,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
  * Template for My Certificates on dashboard
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.18.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' ) ) {
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
@@ -205,15 +204,23 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 			return;
 		}
 
+		$more = false;
+		if ( $preview ) {
+			$more = array(
+				'url' => llms_get_endpoint_url( 'view-certificates', '', llms_get_page_url( 'myaccount' ) ),
+				'text' => __( 'View All My Certificates', 'lifterlms' ),
+			);
+		}
+
 		ob_start();
 		lifterlms_template_certificates_loop( $student );
 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_certificates',
 			'slug' => 'llms-my-certificates',
-			'title' => __( 'My Certificates', 'lifterlms' ),
+			'title' => $preview ? __( 'My Certificates', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
-			'more' => false,
+			'more' => $more,
 		) );
 
 	}

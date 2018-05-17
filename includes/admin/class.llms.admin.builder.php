@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.16.15
+ * @version  3.17.6
  */
 class LLMS_Admin_Builder {
 
@@ -44,6 +46,55 @@ class LLMS_Admin_Builder {
 
 		}
 
+	}
+
+	/**
+	 * Retrieve custom field schemas
+	 * @return   array
+	 * @since    3.17.0
+	 * @version  3.17.6
+	 */
+	private static function get_custom_schemas() {
+
+		$quiz_fields = array();
+
+		/**
+		 * Handle old quiz layout compatibility API
+		 * translate the old filter into the new one for quizzes
+		 */
+		if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+
+			llms_log( 'Filter `llms_get_quiz_theme_settings` deprecated since 3.17.6, for more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/' );
+
+			$theme = wp_get_theme();
+
+			$old = llms_get_quiz_theme_setting( 'layout' );
+
+			$field = array(
+				'attribute' => $old['id'],
+				'id' => $old['id'],
+				'label' => $old['name'],
+				'type' => ( 'select' === $old['type'] ) ? 'select' : 'radio',
+				'options' => $old['options'],
+			);
+
+			if ( isset( $old['id_prefix'] ) ) {
+				$field['attribute_prefix'] = $old['id_prefix'];
+			}
+
+			$quiz_fields[ sprintf( '%s_backwards_theme_group', $theme->get_stylesheet() ) ] = array(
+				'title' => sprintf( __( '%s Theme Settings', 'lifterlms' ), $theme->get( 'Name' ) ),
+				'toggleable' => true,
+				'fields' => array( array( $field ) ),
+			);
+
+		}
+		// end backwards compat
+
+		return apply_filters( 'llms_builder_register_custom_fields', array(
+			'lesson' => array(),
+			'quiz' => $quiz_fields,
+		) );
 	}
 
 	/**
@@ -355,9 +406,9 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    string     $id  an ID string
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.17.0
 	 */
-	private static function is_temp_id( $id ) {
+	public static function is_temp_id( $id ) {
 
 		return ( ! is_numeric( $id ) && 0 === strpos( $id, 'temp_' ) );
 
@@ -385,7 +436,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.16.11
+	 * @version  3.17.6
 	 */
 	public static function output() {
 
@@ -420,16 +471,18 @@ if ( ! empty( $active_post_lock ) ) {
 
 			<?php
 				$templates = array(
+					'assignment',
 					'course',
 					'editor',
 					'elements',
 					'lesson',
+					'lesson-settings',
 					'quiz',
-					'quiz-header',
 					'question',
 					'question-choice',
 					'question-type',
 					'section',
+					'settings-fields',
 					'sidebar',
 					'utilities',
 				);
@@ -448,6 +501,7 @@ if ( ! empty( $active_post_lock ) ) {
 					'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
 				),
 				'questions' => array_values( llms_get_question_types() ),
+				'schemas' => self::get_custom_schemas(),
 				'sync' => apply_filters( 'llms_builder_sync_settings', array(
 					'check_interval_ms' => 10000,
 				) ),
@@ -467,7 +521,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.12
+	 * @version  3.17.0
 	 */
 	private static function process_detachments( $data ) {
 
@@ -482,7 +536,8 @@ if ( ! empty( $active_post_lock ) ) {
 
 			$type = get_post_type( $id );
 
-			if ( ! is_numeric( $id ) || ! in_array( $type, array( 'lesson', 'llms_quiz' ) ) ) {
+			$post_types = apply_filters( 'llms_builder_detachable_post_types', array( 'lesson', 'llms_quiz' ) );
+			if ( ! is_numeric( $id ) || ! in_array( $type, $post_types ) ) {
 				array_push( $ret, $res );
 				continue;
 			}
@@ -505,6 +560,8 @@ if ( ! empty( $active_post_lock ) ) {
 				}
 			}
 
+			do_action( 'llms_builder_detach_' . $type, $post );
+
 			unset( $res['error'] );
 			array_push( $ret, $res );
 
@@ -519,7 +576,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of ids to trash/delete
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.12
+	 * @version  3.17.1
 	 */
 	private static function process_trash( $data ) {
 
@@ -532,6 +589,12 @@ if ( ! empty( $active_post_lock ) ) {
 				'id' => $id,
 			);
 
+			$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
+			if ( $custom ) {
+				array_push( $ret, $custom );
+				continue;
+			}
+
 			if ( is_numeric( $id ) ) {
 
 				$type = get_post_type( $id );
@@ -542,7 +605,8 @@ if ( ! empty( $active_post_lock ) ) {
 
 			}
 
-			if ( ! in_array( $type, array( 'lesson', 'llms_quiz', 'llms_question', 'question_choice', 'section' ) ) ) {
+			$post_types = apply_filters( 'llms_builder_trashable_post_types', array( 'lesson', 'llms_quiz', 'llms_question', 'question_choice', 'section' ) );
+			if ( ! in_array( $type, $post_types ) ) {
 				array_push( $ret, $res );
 				continue;
 			}
@@ -612,12 +676,67 @@ if ( ! empty( $active_post_lock ) ) {
 	}
 
 	/**
+	 * Handle updating custom schema data
+	 * @param    string     $type       model type (lesson, quiz, etc...)
+	 * @param    obj        $post       LLMS_Post_Model object for the model being updated
+	 * @param    array      $post_data  assoc array of raw data to update the model with
+	 * @return   void
+	 * @since    3.17.0
+	 * @version  3.17.1
+	 */
+	public static function update_custom_schemas( $type, $post, $post_data ) {
+
+		$schemas = self::get_custom_schemas();
+		if ( empty( $schemas[ $type ] ) ) {
+			return;
+		}
+
+		$groups = $schemas[ $type ];
+
+		foreach ( $groups as $name => $group ) {
+
+			// allow 3rd parties to manage their own custom save methods
+			if ( apply_filters( 'llms_builder_update_custom_fields_group_' . $name, false, $post, $post_data, $groups ) ) {
+				continue;
+			}
+
+			foreach ( $group['fields'] as $fields ) {
+
+				foreach ( $fields as $field ) {
+
+					$keys = array( $field['attribute'] );
+					if ( isset( $field['switch_attribute'] ) ) {
+						$keys[] = $field['switch_attribute'];
+					}
+
+					foreach ( $keys as $attr ) {
+
+						if ( isset( $post_data[ $attr ] ) ) {
+
+							if ( isset( $field['sanitize_callback'] ) ) {
+								$val = call_user_func( $field['sanitize_callback'], $val );
+							} else {
+								$val = sanitize_text_field( $post_data[ $attr ] );
+							}
+
+							$attr = isset( $field['attribute_prefix'] ) ? $field['attribute_prefix'] . $attr : $attr;
+							update_post_meta( $post_data['id'], $attr, $val );
+
+						}
+					}
+				}
+			}
+		}
+
+	}
+
+	/**
 	 * Update lesson from heartbeat data
 	 * @param    array     $lessons  lesson data from heartbeat
 	 * @param    obj       $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.13
+	 * @version  3.17.0
 	 */
 	private static function update_lessons( $lessons, $section ) {
 
@@ -669,12 +788,17 @@ if ( ! empty( $active_post_lock ) ) {
 					'title',
 				) );
 
+				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
+
 				// update all updateable properties
 				foreach ( $properties as $prop ) {
-					if ( isset( $lesson_data[ $prop ] ) && 'quiz' !== $prop ) {
+					if ( isset( $lesson_data[ $prop ] ) && ! in_array( $prop, $skip_props ) ) {
 						$lesson->set( $prop, $lesson_data[ $prop ] );
 					}
 				}
+
+				// update all custom fields
+				self::update_custom_schemas( 'lesson', $lesson, $lesson_data );
 
 				// during clone's we want to ensure custom field data comes with the lesson
 				if ( $created && isset( $lesson_data['custom'] ) ) {
@@ -694,6 +818,9 @@ if ( ! empty( $active_post_lock ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
 			}// End if().
+
+			// allow 3rd parties to update custom data
+			$res = apply_filters( 'llms_builder_update_lesson', $res, $lesson_data, $lesson, $created );
 
 			array_push( $ret, $res );
 
@@ -794,7 +921,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.15
+	 * @version  3.17.6
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -850,14 +977,9 @@ if ( ! empty( $active_post_lock ) ) {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 			}
 
-			if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+			// update all custom fields
+			self::update_custom_schemas( 'quiz', $quiz, $quiz_data );
 
-				$layout = llms_get_quiz_theme_setting( 'layout' );
-				if ( $layout && isset( $quiz_data[ $layout['id'] ] ) ) {
-					$prefix = isset( $layout['id_prefix'] ) ? $layout['id_prefix'] : '';
-					update_post_meta( $quiz->get( 'id' ), sprintf( '%1$s%2$s', $prefix, $layout['id'] ), sanitize_text_field( $quiz_data[ $layout['id'] ] ) );
-				}
-			}
 		}// End if().
 
 		return $res;

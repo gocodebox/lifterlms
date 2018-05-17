@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.16.11
+ * @version  3.18.0
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -508,9 +508,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
 	 * This *should* be overridden by child classes
-	 * @param  array  $args   args of data to be passed to wp_insert_post
-	 * @return array
-	 * @since  3.0.0
+	 * @param    array  $args   args of data to be passed to wp_insert_post
+	 * @return   array
+	 * @since    3.0.0
+	 * @version  3.18.0
 	 */
 	protected function get_creation_args( $args = null ) {
 
@@ -528,16 +529,45 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$args = wp_parse_args( $args, array(
 			'comment_status' => 'closed',
-			'ping_status'	 => 'closed',
-			'post_author' 	 => 1,
-			'post_content'   => '',
-			'post_excerpt'   => '',
-			'post_status' 	 => 'draft',
-			'post_title'     => '',
-			'post_type' 	 => $this->get( 'db_post_type' ),
+			'ping_status' => 'closed',
+			'post_author' => get_current_user_id(),
+			'post_content' => '',
+			'post_excerpt' => '',
+			'post_status' => 'draft',
+			'post_title' => '',
+			'post_type' => $this->get( 'db_post_type' ),
 		) );
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+	}
+
+	/**
+	 * Get media embeds
+	 * @param    string     $type  embed type [video|audio]
+	 * @param    string     $prop  postmeta property name, defaults to {$type}_embed
+	 * @return   string
+	 * @since    3.17.0
+	 * @version  3.17.5
+	 */
+	protected function get_embed( $type = 'video', $prop = '' ) {
+
+		$ret = '';
+
+		$prop = $prop ? $prop : $type . '_embed';
+		$url = $this->get( $prop );
+		if ( $url ) {
+
+			$ret = wp_oembed_get( $url );
+
+			if ( ! $ret ) {
+
+				$ret = do_shortcode( sprintf( '[%1$s src="%2$s"]', $type, $url ) );
+
+			}
+		}
+
+		return apply_filters( sprintf( 'llms_%1$s_get_%2$s', $this->model_post_type, $type ), $ret, $this, $type, $prop );
+
 	}
 
 	/**
@@ -850,7 +880,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.16.11
+	 * @version  3.17.0
 	 */
 	public function toArray() {
 
@@ -904,7 +934,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		ksort( $arr ); // because i'm anal...
 
-		return apply_filters( 'llms_post_model_to_array', $arr, $this );
+		return apply_filters( 'llms_' . $this->model_post_type . '_to_array', $arr, $this );
 
 	}
 

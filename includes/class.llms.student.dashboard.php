@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.14.7
+ * @version  3.18.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Student_Dashboard {
 
 	/**
@@ -39,7 +38,6 @@ class LLMS_Student_Dashboard {
 	public function get_endpoints() {
 
 		$endpoints = array();
-
 		foreach ( self::get_tabs() as $var => $data ) {
 
 			if ( empty( $data['endpoint'] ) ) {
@@ -118,7 +116,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.14.7
+	 * @version  3.18.0
 	 */
 	public static function get_tabs() {
 
@@ -132,37 +130,43 @@ class LLMS_Student_Dashboard {
 			),
 			'view-courses' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_courses',
-				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'my-courses' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'My Courses', 'lifterlms' ),
 			),
 			'view-achievements' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_achievements',
-				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'my-achievements' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'My Achievements', 'lifterlms' ),
 			),
+			'view-certificates' => array(
+				'content' => 'lifterlms_template_student_dashboard_my_certificates',
+				'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint' ),
+				'nav_item' => true,
+				'title' => __( 'My Certificates', 'lifterlms' ),
+			),
 			'notifications' => array(
 				'content' => array( __CLASS__, 'output_notifications_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint', 'notifications' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'Notifications', 'lifterlms' ),
 			),
 			'edit-account' => array(
 				'content' => array( __CLASS__, 'output_edit_account_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_edit_account_endpoint', 'edit-account' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_edit_account_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'Edit Account', 'lifterlms' ),
 			),
 			'redeem-voucher' => array(
 				'content' => array( __CLASS__, 'output_redeem_voucher_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'Redeem a Voucher', 'lifterlms' ),
 			),
 			'orders' => array(
 				'content' => array( __CLASS__, 'output_orders_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'Order History', 'lifterlms' ),
 			),
@@ -173,6 +177,38 @@ class LLMS_Student_Dashboard {
 				'url' => wp_logout_url( llms_get_page_url( 'myaccount' ) ),
 			),
 		) );
+
+	}
+
+	/**
+	 * Retrieve dashboard tab data as required to display navigation links
+	 * Excludes any endpoint disabled by deleting the slug from account settings
+	 * @return   array
+	 * @since    3.17.5
+	 * @version  3.17.5
+	 */
+	public static function get_tabs_for_nav() {
+
+		$tabs = array();
+
+		foreach ( self::get_tabs() as $var => $data ) {
+
+			if ( isset( $data['url'] ) ) {
+				$url = $data['url'];
+			} elseif ( ! empty( $data['endpoint'] ) ) {
+				$url = llms_get_endpoint_url( $var, '', llms_get_page_url( 'myaccount' ) );
+			} else {
+				continue;
+			}
+
+			$tabs[ $var ] = array(
+				'url' => $url,
+				'title' => $data['title'],
+			);
+
+		}
+
+		return apply_filters( 'llms_get_student_dashboard_tabs_for_nav', $tabs );
 
 	}
 

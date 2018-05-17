@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Display students enrolled in a given course on the course students subtab
  * @since   3.15.0
- * @version 3.16.11
+ * @version 3.17.6
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
@@ -70,7 +72,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Post ID for the current table
 	 * @var  int
 	 */
-	protected $course_id = null;
+	public $course_id = null;
 
 	/**
 	 * Retrieve data for the columns
@@ -78,7 +80,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.15.0
-	 * @version  3.16.11
+	 * @version  3.17.2
 	 */
 	public function get_data( $key, $student ) {
 
@@ -148,16 +150,6 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 			case 'status':
 				$value = llms_get_enrollment_status_name( $student->get_enrollment_status( $this->course_id ) );
-			break;
-
-			case 'trigger':
-				$trigger = $student->get_enrollment_trigger( $this->course_id );
-				if ( $trigger && false !== strpos( $trigger, 'order_' ) ) {
-					$tid = $student->get_enrollment_trigger_id( $this->course_id );
-					$value = $this->get_post_link( $tid, sprintf( __( 'Order #%d', 'lifterlms' ), $tid ) );
-				} else {
-					$value = $trigger;
-				}
 			break;
 
 			default:

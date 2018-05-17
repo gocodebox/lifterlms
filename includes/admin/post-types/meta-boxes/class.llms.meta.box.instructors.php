@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
- * Automation Creation Interface
+ * Course / Membership Instructors Metabox
  * @since   3.13.0
- * @version 3.13.0
+ * @version 3.17.3
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 
 	/**
@@ -28,7 +29,7 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	 * Define metabox fields
 	 * @return  array
 	 * @since   3.13.0
-	 * @version 3.13.0
+	 * @version 3.17.3
 	 */
 	public function get_fields() {
 
@@ -54,6 +55,7 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 							array(
 								'allow_null' => false,
 								'data_attributes' => array(
+									'placeholder' => esc_attr__( 'Select an Instructor', 'lifterlms' ),
 									'roles' => 'administrator,lms_manager,instructor,instructors_assistant',
 								),
 								'class' => 'llms-select2-student',

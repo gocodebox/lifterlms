@@ -1,0 +1,221 @@
+.llms-student-dashboard {
+
+	.llms-sd-nav {}
+
+	.llms-sd-title {
+		margin: 25px 0;
+	}
+
+	.llms-sd-items { // ul
+		@extend %clearfix;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+		.llms-sd-item { // li
+			float: left;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+
+			&:last-child {
+				.llms-sep {
+					display: none;
+				}
+			}
+
+			.llms-sep {
+				color: #333;
+				margin: 0 5px;
+			}
+		}
+
+	.llms-sd-section {
+		margin-bottom: 25px;
+		.llms-sd-section-footer {
+			margin-top: 10px;
+		}
+	}
+
+	.orders-table {
+
+		border: 1px solid #f5f5f5;
+		width: 100%;
+
+		thead {
+			display: none;
+			th,td {
+				font-weight: 700;
+			}
+			@media all and ( min-width: 600px ) {
+				display: table-header-group;
+			}
+		}
+
+		tbody {
+			tr:nth-child( even ) {
+				td, th {
+					background: #f9f9f9;
+				}
+			}
+		}
+
+		tfoot {
+			th, td {
+				padding: 10px;
+				text-align: right;
+				&:last-child { border-bottom-width: 0; }
+			}
+		}
+
+		th {
+			font-weight: 700;
+		}
+
+		th, td {
+			border-color: #efefef;
+			border-style: solid;
+			border-width: 0;
+			display: block;
+			padding: 8px 12px;
+			text-align: center;
+
+			.llms-button-primary {
+				display: inline-block;
+			}
+
+			&:last-child {
+				border-bottom-width: 1px;
+			}
+
+			&:before {
+				content: attr( data-label );
+			}
+
+			@media all and ( min-width: 600px ) {
+				border-bottom-width: 1px;
+				display: table-cell;
+				text-align: left;
+				&:first-child { width: 220px; }
+				&:before { display: none; }
+			}
+
+		}
+
+		@media all and ( min-width: 600px ) {
+			&.transactions th:first-child  {width: auto; }
+		}
+
+	}
+
+	.llms-status {
+		color: #fff;
+		border-radius: 3px;
+		display: inline-block;
+		font-size: 80%;
+		padding: 3px 6px;
+		vertical-align: middle;
+
+		&.llms-active,
+		&.llms-completed,
+		&.llms-txn-succeeded {
+			background-color: $color-green;
+		}
+
+		&.llms-failed,
+		&.llms-expired,
+		&.llms-cancelled,
+		&.llms-txn-failed {
+			background-color: $color-red;
+		}
+
+		&.llms-on-hold,
+		&.llms-pending,
+		&.llms-refunded,
+		&.llms-txn-pending,
+		&.llms-txn-refunded {
+			background-color: orange;
+		}
+
+	}
+
+	.llms-person-form-wrapper {
+		.llms-change-password { display: none; }
+	}
+
+	.order-primary {
+
+		@media all and ( min-width: 600px ) {
+			float: left;
+			width: 68%;
+		}
+
+	}
+	.order-secondary {
+
+		@media all and ( min-width: 600px ) {
+			float: left;
+			width: 32%;
+		}
+
+		form {
+			margin-bottom: 0;
+		}
+
+	}
+
+	// stack columns when alternate layout declared via filter
+	@media all and ( min-width: 600px ) {
+		.llms-view-order.llms-stack-cols {
+			.order-primary,
+			.order-secondary {
+				float: none;
+				width: 100%;
+			}
+		}
+	}
+
+	.llms-switch-payment-source {
+		.llms-notice,
+		.entry-content .llms-notice {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
+
+	.llms-switch-payment-source-main {
+		border: none;
+		display: none;
+		margin: 0;
+		ul.llms-payment-gateways {
+			padding: 10px 15px 0;
+			margin: 0;
+		}
+		.llms-payment-method,
+		ul.llms-order-summary {
+			padding: 0 25px 10px;
+			margin: 0;
+			list-style-type: none;
+			li { list-style-type: none; }
+		}
+	}
+
+	/**
+	 * Dashboard Home
+	 */
+	.llms-loop-list {
+		margin: 0 -10px;
+	}
+
+}
+
+.llms-sd-pagination {
+	margin-top: 24px;
+	@include clearfix;
+	.llms-button-secondary {
+		display: inline-block;
+		&.prev { float: left; }
+		&.next { float: right; }
+	}
+}
+

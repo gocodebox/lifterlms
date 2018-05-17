@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.16.11
+ * @version  3.18.0
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -131,18 +131,37 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the full URL to the checkout screen for the plan
+	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel)
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.9.1
+	 * @version  3.18.0
 	 */
 	public function get_checkout_url( $check_availability = true ) {
-		if ( ! $check_availability || $this->is_available_to_user( get_current_user_id() ) ) {
-			return llms_get_page_url( 'checkout', array(
+
+		$ret = '#llms-plan-locked';
+		$available = $this->is_available_to_user( get_current_user_id() );
+
+		// if bypassing availability checks OR plan is available to user
+		if ( ! $check_availability || $available ) {
+
+			$ret = llms_get_page_url( 'checkout', array(
 				'plan' => $this->get( 'id' ),
 			) );
-		} else {
-			return '#llms-plan-locked';
+
+			// not available to user -- this is a member's only plan
+		} elseif ( ! $available ) {
+
+			$product = $this->get_product();
+			$memberships = $this->get_array( 'availability_restrictions' );
+
+			// if there's only 1 plan associated with the membership return that url
+			if ( 1 === count( $memberships ) ) {
+				$ret = get_permalink( $memberships[0] );
+			}
 		}
+
+		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
+
 	}
 
 	/**

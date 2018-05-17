@@ -3,7 +3,7 @@
  * Student Management table on Courses and Memberships
  *
  * @since   3.4.0
- * @version 3.13.0
+ * @version 3.17.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -73,7 +73,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.4.0
-	 * @version  3.13.0
+	 * @version  3.17.4
 	 */
 	public function get_data( $key, $student ) {
 
@@ -83,13 +83,13 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 			case 'actions':
 				if ( $student->is_enrolled( $this->post_id ) ) {
-					$tid = $student->get_enrollment_trigger_id( $this->post_id );
-					if ( ! $tid ) {
+					$trigger = $student->get_enrollment_trigger( $this->post_id );
+					if ( false !== strpos( $trigger, 'order_' ) ) {
+						$value = '<a class="llms-action-icon" href="' . get_edit_post_link( $student->get_enrollment_trigger_id( $this->post_id ) ) . '" target="_blank"><span class="tooltip" title="' . __( 'Visit the triggering order to manage this student\'s enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-external"></span></span></a>';
+					} else {
 						if ( current_user_can( 'unenroll' ) ) {
 							$value = '<a class="llms-action-icon llms-remove-student" data-id="' . $student->get_id() . '" href="#llms-student-remove"><span class="tooltip" title="' . __( 'Cancel Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-no"></span></span></a>';
 						}
-					} else {
-						$value = '<a class="llms-action-icon" href="' . get_edit_post_link( $tid ) . '" target="_blank"><span class="tooltip" title="' . __( 'Visit the triggering order to manage this student\'s enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-external"></span></span></a>';
 					}
 				} else {
 					if ( current_user_can( 'enroll' ) ) {
@@ -157,6 +157,11 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 				if ( $trigger && false !== strpos( $trigger, 'order_' ) ) {
 					$tid = $student->get_enrollment_trigger_id( $this->post_id );
 					$value = $this->get_post_link( $tid, sprintf( __( 'Order #%d', 'lifterlms' ), $tid ) );
+				} elseif ( $trigger && false !== strpos( $trigger, 'admin_' ) ) {
+					$tid = $student->get_enrollment_trigger_id( $this->post_id );
+					$admin = llms_get_student( $tid );
+					$admin_name = $admin ? $admin->get_name() : __( '[Deleted]', 'lifterlms' );
+					$value = $this->get_user_link( $tid, sprintf( __( 'Admin: %1$s (#%2$d)', 'lifterlms' ), $admin_name, $tid ) );
 				} else {
 					$value = $trigger;
 				}

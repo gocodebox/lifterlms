@@ -1,9 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Admin Settings Page, Checkout Tab
+ * @since    3.0.0
+ * @version  3.17.5
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 	/**
@@ -15,29 +19,129 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	protected $flush = true;
 
 	/**
-	* Constructor
-	*
-	* executes settings tab actions
-	*/
+	 * Constructor
+	 * executes settings tab actions
+	 * @since    3.0.4
+	 * @version  3.17.5
+	 */
 	public function __construct() {
 
 		$this->id    = 'checkout';
 		$this->label = __( 'Checkout', 'lifterlms' );
 
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
+		add_action( 'lifterlms_sections_' . $this->id, array( $this, 'output_sections_nav' ) );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
 
 	}
 
 	/**
+	 * Get HTML for the payment gateways table
+	 * @return   string
+	 * @since    3.17.5
+	 * @version  3.17.5
+	 */
+	public function get_gateway_table_html() {
+
+		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
+
+		usort( $gateways, array( $this, 'sort_gateways' ) );
+
+		ob_start();
+		?>
+
+		<table class="llms-table zebra text-left size-large llms-gateway-table">
+			<thead>
+				<tr>
+					<th class="sort"></th>
+					<th><?php _e( 'Gateway', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Gateway ID', 'lifterlms' ); ?></th>
+					<th><?php _e( 'Enabled', 'lifterlms' ); ?></th>
+				</tr>
+			</thead>
+			<tbody>
+			<?php foreach ( $gateways as $gateway ) : ?>
+				<tr>
+					<td class="sort">
+						<i class="fa fa-bars llms-action-icon" aria-hidden="true"></i>
+						<input type="hidden" name="<?php echo $gateway->get_option_name( 'display_order' ); ?>" value="<?php echo $gateway->get_display_order(); ?>">
+					</td>
+					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $gateway->get_id() ) ); ?>"><?php echo $gateway->get_admin_title(); ?></a></td>
+					<td><?php echo $gateway->get_id(); ?></td>
+					<td class="status">
+						<?php if ( $gateway->is_enabled() ) : ?>
+							<span class="tip--bottom-right" data-tip="<?php esc_attr_e( 'Enabled', 'lifterlms' ); ?>">
+								<span class="screen-reader-text"><?php _e( 'Enabled', 'lifterlms' ); ?></span>
+								<i class="fa fa-check-circle" aria-hidden="true"></i>
+							</span>
+						<?php else : ?>
+							&ndash;
+						<?php endif; ?>
+					</td>
+				</tr>
+			<?php endforeach; ?>
+			</tbody>
+		</table>
+
+		<?php
+		return ob_get_clean();
+
+	}
+
+	/**
+	 * Get the page sections
+	 * @return   array
+	 * @since    3.17.5
+	 * @version  3.17.5
+	 */
+	public function get_sections() {
+
+		$sections = array();
+
+		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
+
+		foreach ( $gateways as $id => $gateway ) {
+			$sections[ $id ] = $gateway->get_admin_title();
+		}
+
+		asort( $sections );
+
+		$sections = array_merge( array(
+			'main' => __( 'Checkout Settings', 'lifterlms' ),
+		), $sections );
+
+		return apply_filters( 'llms_checkout_settings_sections', $sections );
+
+	}
+
+	/**
 	 * Get settings array
-	 *
 	 * @return   array
 	 * @since    3.0.4
-	 * @version  3.10.0
+	 * @version  3.17.5
 	 */
 	public function get_settings() {
+
+		$curr_section = $this->get_current_section();
+
+		if ( 'main' === $curr_section ) {
+
+			return apply_filters( 'lifterlms_checkout_settings', $this->get_settings_default() );
+
+		}
+
+		return apply_filters( 'lifterlms_gateway_settings_' . $curr_section, $this->get_settings_gateway( $curr_section ) );
+
+	}
+
+	/**
+	 * Retrieve the default checkout settings for the main section
+	 * @return   array
+	 * @since    3.17.5
+	 * @version  3.17.5
+	 */
+	private function get_settings_default() {
 
 		$currency_code_options = get_lifterlms_currencies();
 		foreach ( $currency_code_options as $code => $name ) {
@@ -49,7 +153,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 			$country_options[ $code ] = $name . ' (' . $code . ')';
 		}
 
-		$settings = array(
+		return array(
 
 			array(
 				'class' => 'top',
@@ -65,12 +169,11 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Checkout Page', 'lifterlms' ),
-				'desc' 		=> '<br/>' . sprintf( __( 'Page used for displaying the checkout form.', 'lifterlms' ), admin_url( 'options-permalink.php' ) ),
+				'desc' 		=> '<br/>' . __( 'Page used for displaying the checkout form.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_checkout_page_id',
-				'type' 		=> 'single_select_page',
+				'type' 		=> 'select',
 				'default'	=> '',
-				'class'		=> 'llms-select2',
-				'desc_tip'	=> __( 'This sets the base page of the checkout page', 'lifterlms' ),
+				'class'		=> 'llms-select2-post',
 				'custom_attributes' => array(
 					'data-post-type' => 'page',
 				),
@@ -79,11 +182,12 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Confirm Payment', 'lifterlms' ),
-				'desc' 		=> __( 'Payment Confirmation Page', 'lifterlms' ),
-				'id' 		=> 'lifterlms_myaccount_confirm_payment_endpoint',
-				'type' 		=> 'text',
-				'default'	=> 'confirm-payment',
-				'desc_tip'	=> true,
+				'desc' => '<br>' . __( 'Payment confirmation endpont slug', 'lifterlms' ),
+				'id' => 'lifterlms_myaccount_confirm_payment_endpoint',
+				'type' => 'text',
+				'default' => 'confirm-payment',
+				'desc_tip' => true,
+				'sanitize' => 'slug',
 			),
 
 			array(
@@ -197,66 +301,124 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 				'id' => 'general_options',
 			),
 
+			array(
+				'type' => 'sectionstart',
+				'id' => 'checkout_settings_gateways_list_start',
+			),
+
+			array(
+				'title' => __( 'Payment Gateways', 'lifterlms' ),
+				'type' => 'title',
+				// 'desc' => __( 'The following options affect how prices are displayed on the frontend.', 'lifterlms' ),
+				'id' => 'checkout_settings_gateways_list_title',
+			),
+
+			array(
+				'value' => $this->get_gateway_table_html(),
+				'type' => 'custom-html',
+			),
+
+			array(
+				'type' => 'sectionend',
+				'id' => 'checkout_settings_gateways_list_end',
+			),
+
 		);
+
+	}
+
+	/**
+	 * Retrieve settings for a gateway section
+	 * @param    string     $curr_section  gateway ID string
+	 * @return   array
+	 * @since    3.17.5
+	 * @version  3.17.5
+	 */
+	private function get_settings_gateway( $curr_section ) {
+
+		$settings = array();
 
 		$settings[] = array(
 			'type' => 'sectionstart',
-			'id' => 'checkout_gateway_settings',
+			'id' => 'start_gateway_settings_' . $curr_section,
 			'class' => 'top',
 		);
 
-		$settings[] = array(
-			'title' => __( 'Payment Gateways', 'lifterlms' ),
-			'type' => 'title',
-			'id' => 'course_options',
-		);
+		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $curr_section );
+		if ( ! $gateway ) {
 
-		$gateways = LLMS()->payment_gateways()->get_payment_gateways();
-		$total = count( $gateways );
-		$i = 1;
-		foreach ( $gateways as $id => $g ) {
+			$settings[] = array(
+				'title' => __( 'Payment Gateway Settings', 'lifterlms' ),
+				'type' => 'title',
+				'id' => 'title_gateway_settings_' . $curr_section,
+			);
 
-			$settings = array_merge( $settings, $g->get_admin_settings_fields() );
+			$settings[] = array(
+				'title' => sprintf( __( 'Error: "%s" is not a valid payment gateway', 'lifterlms' ), $curr_section ),
+				'type' => 'subtitle',
+				'id' => 'title_gateway_settings_' . $curr_section,
+			);
 
-			// output a break after each gateway
-			if ( $i !== $total ) {
-				$settings[] = array(
-					'type'  => 'custom-html',
-					'value' => '<hr>',
-				);
-			} else {
-				$i++;
-			}
+		} else {
+
+			$settings[] = array(
+				'title' => sprintf( __( '%s Payment Gateway Settings', 'lifterlms' ), $gateway->get_admin_title() ),
+				'type' => 'title',
+				'id' => 'title_gateway_settings_' . $curr_section,
+			);
+
+			$settings = array_merge( $settings, $gateway->get_admin_settings_fields() );
+
 		}
 
 		$settings[] = array(
 			'type' => 'sectionend',
-			'id' => 'general_options',
+			'id' => 'end_gateway_settings_' . $curr_section,
 		);
 
-		return apply_filters( 'lifterlms_checkout_settings', $settings );
+		return $settings;
+
 	}
 
 	/**
-	 * save settings to the database
-	 *
-	 * @return LLMS_Admin_Settings::save_fields
-	 *
-	 * @version  3.0.0
+	 * Override default save method to save the display order of payment gateways
+	 * @return   void
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
 	public function save() {
-		LLMS_Admin_Settings::save_fields( $this->get_settings() );
+
+		// save all custom fields
+		parent::save();
+
+		// save display order of gateways
+		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $id => $gateway ) {
+			$option = $gateway->get_option_name( 'display_order' );
+			if ( isset( $_POST[ $option ] ) ) {
+				update_option( $option, absint( $_POST[ $option ] ) );
+			}
+		}
 	}
 
 	/**
-	 * get settings from the database
-	 *
-	 * @return array
-	 *
-	 * @version  3.0.0
+	 * usort function used to ensure gateways are sorted by display order on the gateways table
+	 * @param    obj     $gateway_a  Payment Gateway instance
+	 * @param    obj     $gateway_b  Payment Gateway instance
+	 * @return   int
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
-	public function output() {
-		LLMS_Admin_Settings::output_fields( $this->get_settings() );
+	public function sort_gateways( $gateway_a, $gateway_b ) {
+
+		$a_order = $gateway_a->get_display_order();
+		$b_order = $gateway_b->get_display_order();
+
+		if ( $a_order == $b_order ) {
+			return 0;
+		}
+
+		return $a_order < $b_order ? -1 : 1;
+
 	}
 
 }

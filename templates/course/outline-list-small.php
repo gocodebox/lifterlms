@@ -12,8 +12,12 @@
  * @property  $toggles          bool   whether or not open/close all toggles should display in the outline footer. Only works when $collapse is also true
  *
  * @since     1.0.0
- * @version   3.5.1
+ * @version   3.17.4
  */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 <div class="llms-widget-syllabus<?php echo ( $collapse ) ? ' llms-widget-syllabus--collapsible' : ''; ?>">
 
@@ -45,7 +49,8 @@
 				</div>
 
 				<?php foreach ( $section->get_lessons() as $lesson ) :
-					$is_complete = $student->is_complete( $lesson->get( 'id' ), 'lesson' ); ?>
+					$is_complete = $student ? $student->is_complete( $lesson->get( 'id' ), 'lesson' ) : false;
+					$restricted = llms_page_restricted( $lesson->get( 'id' ) ); ?>
 
 					<ul class="llms-lesson">
 
@@ -59,7 +64,7 @@
 
 							<span class="lesson-title <?php echo ( $is_complete ? 'done' : '' ); ?>">
 
-								<?php if ( $lesson->is_free() || $student->is_enrolled( $course->get( 'id' ) ) ) : ?>
+								<?php if ( $lesson->is_free() || ( $student && ! $restricted['is_restricted'] ) ) : ?>
 
 									<a href="<?php echo get_permalink( $lesson->get( 'id' ) ); ?>">
 										<?php echo apply_filters( 'llms_widget_syllabus_section_title', $lesson->get( 'title' ) ); ?>

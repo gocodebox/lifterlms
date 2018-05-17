@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  3.16.12
+ * @version  3.17.0
  */
 define( [
 		'Views/_Detachable',
@@ -45,6 +45,7 @@ define( [
 		events: _.defaults( {
 			'click .edit-lesson': 'open_lesson_editor',
 			'click .edit-quiz': 'open_quiz_editor',
+			'click .edit-assignment': 'open_assignment_editor',
 			'click .section-prev': 'section_prev',
 			'click .section-next': 'section_next',
 			'click .shift-up--lesson': 'shift_up',
@@ -106,6 +107,20 @@ define( [
 				this.$el.removeClass( 'selected' );
 			}
 			return this;
+
+		},
+
+		/**
+		 * Click event for the assignment editor action icon
+		 * Opens sidebar to the assignment editor tab
+		 * @return   void
+		 * @since    3.17.0
+		 * @version  3.17.0
+		 */
+		open_assignment_editor: function() {
+
+			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'assignment' );
+			this.model.set( '_selected', true );
 
 		},
 

@@ -1,20 +1,22 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.16.12
+ * @version  3.17.6
  */
 define( [
 		'Collections/Questions',
 		'Models/Lesson',
 		'Models/Question',
 		'Models/_Relationships',
-		'Models/_Utilities'
+		'Models/_Utilities',
+		'Schemas/Quiz',
 	], function(
 		Questions,
 		Lesson,
 		Question,
 		Relationships,
-		Utilities
+		Utilities,
+		QuizSchema
 	) {
 
 	return Backbone.Model.extend( _.defaults( {
@@ -36,6 +38,12 @@ define( [
 				},
 			}
 		},
+
+		/**
+		 * Lesson Settings Schema
+		 * @type  {Object}
+		 */
+		schema: QuizSchema,
 
 		/**
 		 * New lesson defaults
@@ -80,10 +88,11 @@ define( [
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.3
+		 * @version  3.17.6
 		 */
 		initialize: function() {
 
+			this.init_custom_schema();
 			this.startTracking();
 			this.init_relationships();
 

@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Notification Controller: Achievement Earned
  * @since    3.8.0
  * @version  3.8.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Notification_Controller {
 
 	/**

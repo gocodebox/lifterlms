@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  3.16.6
+ * @version  3.17.1
  */
 define( [], function() {
 
@@ -343,7 +343,7 @@ define( [], function() {
 		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.1
 		 */
 		function process_removals( data ) {
 
@@ -364,15 +364,7 @@ define( [], function() {
 						// succesfully detached, remove it from the detached collection
 						if ( ! info.error ) {
 
-							// regular ids for lessons, sections, questions
-							if ( $.isNumeric( info.id ) ) {
-								coll.remove( info.id );
-
-							// choices formatted as question_id:choice_id
-							} else {
-								var split = info.id.split( ':' );
-								coll.remove( split[1] );
-							}
+							coll.remove( info.id );
 
 						} else {
 
@@ -520,25 +512,13 @@ define( [], function() {
 		 * Retrieve all unsaved changes for the builder instance
 		 * @return   obj
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.1
 		 */
 		this.get_unsaved_changes = function() {
 
-			var trash_items = [];
-
-			trashed.each( function( data ) {
-
-				if ( 'choice' === data.get( 'type' ) ) {
-					trash_items.push( data.get( 'question_id' ) + ':' + data.get( 'id' ) );
-				} else {
-					trash_items.push( data.get( 'id' ) );
-				}
-
-			} );
-
 			return {
 				detach: detached.pluck( 'id' ),
-				trash: trash_items,
+				trash: trashed.pluck( 'id' ),
 				updates: get_changes_to_object( Course ),
 
 			}
@@ -631,7 +611,7 @@ define( [], function() {
 		/**
 		 * Listen for trashed models and send them to the server for deletion
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.1
 		 */
 		Backbone.pubSub.on( 'model-trashed', function( model ) {
 
@@ -640,7 +620,13 @@ define( [], function() {
 				return;
 			}
 
-			trashed.add( _.clone( model.attributes ) );
+			var data = _.clone( model.attributes );
+
+			if ( model.get_trash_id ) {
+				data.id = model.get_trash_id();
+			}
+
+			trashed.add( data );
 
 		} );
 

@@ -2,7 +2,7 @@
 /**
  * Builder section model
  * @since   3.16.0
- * @version 3.16.12
+ * @version 3.17.2
  */
 ?>
 <script type="text/html" id="tmpl-llms-section-template">
@@ -13,7 +13,7 @@
 
 		<h2 class="llms-headline">
 			<?php echo get_post_type_object( 'section' )->labels->singular_name; ?> {{{ data.order }}}:
-			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.title }}}" type="text">{{{ data.title }}}</span>
+			<span class="llms-input" contenteditable="true" data-attribute="title" data-original-content="{{{ data.title }}}" data-required="required">{{{ data.title }}}</span>
 		</h2>
 
 		<div class="llms-action-icons">

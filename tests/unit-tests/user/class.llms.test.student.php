@@ -3,7 +3,7 @@
  * Tests for LifterLMS Student Functions
  * @group    LLMS_Student
  * @since    3.5.0
- * @version  [version]
+ * @version  3.17.0
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -12,7 +12,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function test_completion_incompletion() {
 
@@ -100,9 +100,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test whether a user is_enrolled() in a course or membership
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.12.2
+	 * @version  3.17.4
 	 */
 	public function test_enrollment() {
+
+		llms_set_test_time_limit( 8000 );
 
 		// Create new user
 		$user_id = $this->factory->user->create( array( 'role' => 'subscriber' ) );
@@ -209,8 +211,8 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	/**
 	 * Test get_enrollment_date()
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	public function test_get_enrollment_date() {
 
@@ -305,8 +307,8 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	/**
 	 * Test get_enrollment_status()
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	public function test_get_enrollment_status() {
 

@@ -1,13 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Admin Achievements Table
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.18.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 	/**
@@ -23,15 +22,58 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	protected $student = null;
 
 	/**
+	 * Get HTML for buttons in the actions cell of the table
+	 * @param    int     $certificate_id  WP Post ID of the llms_my_certificate
+	 * @return   void
+	 * @since    3.18.0
+	 * @version  3.18.0
+	 */
+	private function get_actions_html( $certificate_id ) {
+		ob_start();
+		?>
+		<a class="llms-button-secondary small" href="<?php echo esc_url( get_permalink( $certificate_id ) ); ?>" target="_blank">
+			<?php _e( 'View', 'lifterlms' ); ?>
+			<i class="fa fa-external-link" aria-hidden="true"></i>
+		</a>
+
+		<form action="" method="POST" style="display:inline;">
+
+			<button type="submit" class="llms-button-secondary small" name="llms_generate_cert">
+				<?php _e( 'Download', 'lifterlms' ); ?>
+				<i class="fa fa-cloud-download" aria-hidden="true"></i>
+			</button>
+
+			<button type="submit" class="llms-button-danger small" id="llms_delete_cert" name="llms_delete_cert">
+				<?php _e( 'Delete', 'lifterlms' ); ?>
+				<i class="fa fa-trash" aria-hidden="true"></i>
+			</button>
+
+			<input type="hidden" name="certificate_id" value="<?php echo absint( $certificate_id ); ?>">
+			<?php wp_nonce_field( 'llms-cert-actions', '_llms_cert_actions_nonce' ); ?>
+
+		</form>
+
+		<script>document.getElementById( 'llms_delete_cert' ).onclick = function( e ) {
+			return window.confirm( '<?php esc_attr_e( 'Are you sure you want to delete this certificate? This action cannot be undone!', 'lifterlms' ); ?>' );
+		};</script>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key   the column id / key
 	 * @param    mixed      $data  object of achievment data
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.18.0
 	 */
 	public function get_data( $key, $data ) {
 		switch ( $key ) {
+
+			case 'actions':
+				$value = $this->get_actions_html( $data->certificate_id );
+			break;
 
 			case 'related':
 				if ( $data->post_id && 'llms_certificate' !== get_post_type( $data->post_id ) ) {
@@ -50,17 +92,21 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 			break;
 
 			case 'id':
-				// prior to 3.2 this data wasn't recorded
+				$value = $data->certificate_id;
+			break;
+
+			case 'name':
+				$value = get_post_meta( $data->certificate_id, '_llms_certificate_title', true );
+			break;
+
+			// prior to 3.2 this data wasn't recorded
+			case 'template_id':
 				$template = get_post_meta( $data->certificate_id, '_llms_certificate_template', true );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
 				} else {
-					$value = $data->certificate_id;
+					$value = '&ndash;';
 				}
-			break;
-
-			case 'name':
-				$value = '<a href="' . esc_url( get_permalink( $data->certificate_id ) ) . '">' . get_post_meta( $data->certificate_id, '_llms_certificate_title', true ) . '</a>';
 			break;
 
 			default:
@@ -102,14 +148,16 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.18.0
 	 */
 	protected function set_columns() {
 		return array(
 			'id' => __( 'ID', 'lifterlms' ),
+			'template_id' => __( 'Template ID', 'lifterlms' ),
 			'name' => __( 'Certificate Title', 'lifterlms' ),
 			'earned' => __( 'Earned Date', 'lifterlms' ),
 			'related' => __( 'Related Post', 'lifterlms' ),
+			'actions' => '',
 		);
 	}
 

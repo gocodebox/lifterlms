@@ -1,10 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
-* Admin Settings Page Base Class
-*/
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+ * Admin Settings Page Base Class
+ * @since    1.0.0
+ * @version  3.17.5
+ */
 class LLMS_Settings_Page {
 
 	/**
@@ -17,8 +20,9 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Add the settings page
-	 *
 	 * @return array
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public function add_settings_page( $pages ) {
 		$pages[ $this->id ] = $this->label;
@@ -43,21 +47,60 @@ class LLMS_Settings_Page {
 	}
 
 	/**
-	 * Get the page sections
-	 *
-	 * @return array
+	 * Retrieve current section from URL var
+	 * @return   string
+	 * @since    3.17.5
+	 * @version  3.17.5
+	 */
+	protected function get_current_section() {
+
+		return isset( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : 'main';
+
+	}
+
+	/**
+	 * Get the page sections (stub)
+	 * @return   array
+	 * @since    1.0.0
+	 * @version  3.17.5
 	 */
 	public function get_sections() {
+
 		return array();
+
+	}
+
+	/**
+	 * Retrieve the page's settings (stub)
+	 * @return   [array
+	 * @since    3.17.5
+	 * @version  3.17.5
+	 */
+	public function get_settings() {
+
+		return array();
+
+	}
+
+	/**
+	 * Output the settings fields
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.17.5
+	 */
+	public function output() {
+
+		LLMS_Admin_Settings::output_fields( $this->get_settings() );
+
 	}
 
 	/**
 	 * Output settings sections as tabs and set post href
-	 *
 	 * @return array
+	 * @since    3.17.5
+	 * @version  3.17.5
 	 */
-	public function output_sections() {
-		global $current_section;
+	public function output_sections_nav() {
 
 		$sections = $this->get_sections();
 
@@ -65,44 +108,29 @@ class LLMS_Settings_Page {
 			return;
 		}
 
-		echo '<ul>';
-
-		$array_keys = array_keys( $sections );
-
-		foreach ( $sections as $id => $label ) {
-			echo '<li><a href="' . admin_url( 'admin.php?page=' . $this->id . '&section=' . sanitize_title( $id ) )
-			. '"class="' . ($current_section == $id ? 'current' : '' ) . '">' . ( end( $array_keys ) == $id ? '' : '|' ) . '</li>';
-
-			echo '</ul><br class="clear" />';
-		}
-
-	}
-
-	/**
-	 * Output the settings fields
-	 *
-	 * @return LLMS_Admin_Settings::output_fields
-	 */
-	public function output() {
-		$settings = $this->get_settings();
-		LLMS_Admin_Settings::output_fields( $settings );
+		$curr = $this->get_current_section();
+		?>
+		<nav class="llms-nav-tab-wrapper llms-nav-text">
+			<ul class="llms-nav-items">
+				<?php foreach ( $sections as $key => $title ) : ?>
+					<li class="llms-nav-item<?php echo ( $key === $curr ) ? ' llms-active' : ''; ?>">
+						<a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $key ) ); ?>"><?php echo $title; ?></a>
+					</li>
+				<?php endforeach; ?>
+			</ul>
+		</nav>
+		<?php
 	}
 
 	/**
 	 * Save the settings field values
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.0.4
+	 * @version  3.17.5
 	 */
 	public function save() {
-		global $current_section;
 
-		$settings = $this->get_settings();
-		LLMS_Admin_Settings::save_fields( $settings );
-
-		if ( $current_section ) {
-	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section );
-	    }
+		LLMS_Admin_Settings::save_fields( $this->get_settings() );
 
 	    if ( $this->flush ) {
 

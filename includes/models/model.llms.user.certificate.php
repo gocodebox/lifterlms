@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LifterLMS User Certificate
  * @since    3.8.0
- * @version  3.14.0
+ * @version  3.18.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_User_Certificate extends LLMS_Post_Model {
 
 	protected $db_post_type = 'llms_my_certificate';
@@ -18,6 +17,29 @@ class LLMS_User_Certificate extends LLMS_Post_Model {
 		// 'certificate_content' => 'html', // use get( 'content' )
 		'certificate_template' => 'absint',
 	);
+
+	/**
+	 * Delete the certificate
+	 * @return   void
+	 * @since    3.18.0
+	 * @version  3.18.0
+	 */
+	public function delete() {
+
+		do_action( 'llms_before_delete_certificate', $this );
+
+		global $wpdb;
+		$id = $this->get( 'id' );
+		$wpdb->delete( "{$wpdb->prefix}lifterlms_user_postmeta", array(
+			'user_id' => $this->get_user_id(),
+			'meta_key' => '_certificate_earned',
+			'meta_value' => $id,
+		), array( '%d', '%s', '%d' ) );
+		wp_delete_post( $id, true );
+
+		do_action( 'llms_delete_certificate', $this );
+
+	}
 
 	/**
 	 * Retrieve the date the achievement was earned (created)

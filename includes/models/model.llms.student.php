@@ -1,5 +1,7 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Student Class
@@ -7,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Manages data and interactions with a LifterLMS Student
  *
  * @since   2.2.3
- * @version 3.16.0
+ * @version 3.17.1
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -70,7 +72,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_enroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    2.2.3
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
@@ -237,7 +239,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string $order   ordering method for returned results (ASC or DESC)
 	 * @param    string $return  return type
 	 *                           	obj => array of objects from $wpdb->get_results
-	 *                           	certificates => array of LLMS_User_Achievement instances
+	 *                           	certificates => array of LLMS_User_Certificate instances
 	 * @return   array
 	 * @since    2.4.0
 	 * @version  3.14.1
@@ -471,7 +473,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param   string $format      date format as accepted by php date(), if none supplied uses the WP core "date_format" option
 	 * @return  false|string        will return false if the user is not enrolled
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.17.0
 	 */
 	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = null ) {
 
@@ -509,7 +511,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    bool   $use_cache   If true, returns cached data if available, if false will run a db query
 	 * @return   false|string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function get_enrollment_status( $product_id, $use_cache = true ) {
 
@@ -579,8 +581,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the enrollment trigger id for a the student's enrollment in a course
-	 * @param  int  $product_id  WP Post ID of the course or membership
-	 * @return int|false
+	 * @param    int  $product_id  WP Post ID of the course or membership
+	 * @return   int|false
+	 * @since    3.0.0
+	 * @version  3.17.2
 	 */
 	public function get_enrollment_trigger_id( $product_id ) {
 
@@ -593,6 +597,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			} elseif ( $trigger_obj instanceof WP_Post ) {
 				$id = $trigger_obj->ID;
 			}
+		} elseif ( $trigger && false !== strpos( $trigger, 'admin_' ) ) {
+			$id = absint( str_replace( 'admin_', '', $trigger ) );
 		}
 		return $id;
 
@@ -998,7 +1004,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                                  if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
@@ -1134,7 +1140,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
@@ -1279,7 +1285,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger      String describing the reason for enrollment
 	 * @return   boolean
 	 * @since    2.2.3
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	private function insert_enrollment_postmeta( $product_id, $trigger = 'unspecified' ) {
 
@@ -1323,7 +1329,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger  String describing the reason for enrollment (optional)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	private function insert_status_postmeta( $product_id, $status = '', $trigger = null ) {
 
@@ -1393,9 +1399,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.3.1
-	 * @version  [version]
+	 * @version  3.17.1
 	 */
 	public function mark_complete( $object_id, $object_type, $trigger = 'unspecified' ) {
+
+		// short circuit if it's already completed
+		if ( $this->is_complete( $object_id, $object_type ) ) {
+			return true;
+		}
 
 		return $this->update_completion_status( 'complete', $object_id, $object_type, $trigger );
 
@@ -1412,7 +1423,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function mark_incomplete( $object_id, $object_type, $trigger = 'unspecified' ) {
 
@@ -1468,7 +1479,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
@@ -1550,8 +1561,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string    $object_type  object type [lesson|section|course|course_track]
 	 * @param    string    $trigger      String describing the reason for marking complete
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	private function update_completion_status( $status, $object_id, $object_type, $trigger = 'unspecified' ) {
 

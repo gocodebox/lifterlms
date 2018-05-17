@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Convert LifterLMS Tables to CSVs as a background process
  * @since    3.15.0
- * @version  3.15.0
+ * @version  3.17.8
  */
 class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 
@@ -167,7 +169,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  3.17.8
 	 */
 	public function task( $args ) {
 
@@ -212,9 +214,11 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 			if ( ! $mailer->send() ) {
 				$this->log( sprintf( 'error sending csv email for table %s', $args['_processor']['handler'] ) );
 			} else {
-				$this->_unlock_table( $table->get_export_lock_key() );
 				unlink( $args['_processor']['file'] );
 			}
+
+			$this->_unlock_table( $table->get_export_lock_key() );
+
 		}
 
 		return false;

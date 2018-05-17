@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * AJAX Event Handler
  * @since    1.0.0
- * @version  3.16.1
+ * @version  3.17.8
  */
 class LLMS_AJAX {
 
@@ -118,12 +120,12 @@ class LLMS_AJAX {
 	/**
 	 * Register our AJAX JavaScript.
 	 * @since    1.0.0
-	 * @version  3.16.1
+	 * @version  3.17.8
 	 */
 	public function register_script() {
 
 		// script will only register once
-		wp_register_script( 'llms',  plugins_url( '/assets/js/llms' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
+		wp_register_script( 'llms',  LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
 
 		// ensure this doesn't load on the wp-login.php screen

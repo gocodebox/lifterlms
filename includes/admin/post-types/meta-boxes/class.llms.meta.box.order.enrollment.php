@@ -1,14 +1,13 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Metaboxes for Student Enrollment Information
  * Associated with a specific order
  *
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.18.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 	/**
@@ -32,7 +31,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
 	 * @return array
-	 *
 	 * @since  3.0.0
 	 */
 	public function get_fields() {}
@@ -40,18 +38,29 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 *
-	 * @param object $post WP global post object
-	 * @return void
-	 *
-	 * @version  3.0.0
+	 * @param    object  $post  WP global post object
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.18.0
 	 */
 	public function output() {
 
-		$order = new LLMS_Order( $this->post );
-		$student = new LLMS_Student( $order->get( 'user_id' ) );
-		$current_status = $student->get_enrollment_status( $order->get( 'product_id' ) );
+		$order = llms_get_post( $this->post );
+
+		if ( llms_parse_bool( $order->get( 'anonymized' ) ) ) {
+			_e( 'Cannot manage enrollment status for anonymized orders.', 'lifterlms' );
+			return '';
+		}
+
+		if ( $order->get( 'user_id' ) ) {
+			$student = llms_get_student( $order->get( 'user_id' ) );
+			$current_status = $student->get_enrollment_status( $order->get( 'product_id' ) );
+		} else {
+			$current_status = '';
+		}
+
 		$select = '<select name="llms_student_new_enrollment_status">';
+		$select .= '<option value="">-- ' . esc_html__( 'Select', 'lifterlms' ) . ' --</option>';
 		foreach ( llms_get_enrollment_statuses() as $val => $name ) {
 			$select .= '<option value="' . $val . '"' . selected( $val, strtolower( $current_status ), false ) . '>' . $name . '</option>';
 		}
@@ -60,15 +69,18 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		echo '<p>';
 		printf( _x( 'Status: %s', 'enrollment status', 'lifterlms' ), $select );
 		echo '</p>';
-		echo '<p>';
-		printf( _x( 'Enrolled: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'enrolled', 'm/d/Y h:i:s A' ) );
-		echo '</p>';
-		echo '<p>';
-		printf( _x( 'Updated: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'updated', 'm/d/Y h:i:s A' ) );
-		echo '</p>';
-		echo '<p>';
-		printf( _x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_trigger( $order->get( 'product_id' ) ) );
-		echo '</p>';
+
+		if ( $student ) {
+			echo '<p>';
+			printf( _x( 'Enrolled: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'enrolled', 'm/d/Y h:i:s A' ) );
+			echo '</p>';
+			echo '<p>';
+			printf( _x( 'Updated: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_date( $order->get( 'product_id' ), 'updated', 'm/d/Y h:i:s A' ) );
+			echo '</p>';
+			echo '<p>';
+			printf( _x( 'Trigger: %s', 'enrollment trigger', 'lifterlms' ), $student->get_enrollment_trigger( $order->get( 'product_id' ) ) );
+			echo '</p>';
+		}
 
 		echo '<input name="llms_student_old_enrollment_status" type="hidden" value="' . $current_status . '">';
 
@@ -82,7 +94,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.18.0
 	 */
 	public function save( $post_id ) {
 		if ( isset( $_POST['llms_update_enrollment_status'] ) && isset( $_POST['llms_student_old_enrollment_status'] ) && isset( $_POST['llms_student_new_enrollment_status'] ) ) {
@@ -90,7 +102,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 			$old_status = $_POST['llms_student_old_enrollment_status'];
 			$new_status = $_POST['llms_student_new_enrollment_status'];
 
-			if ( $old_status !== $new_status ) {
+			if ( $new_status && $old_status !== $new_status ) {
 
 				$order = new LLMS_Order( $post_id );
 

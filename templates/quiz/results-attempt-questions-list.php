@@ -2,17 +2,22 @@
 /**
  * List of attempt questions/answers for a single attempt
  * @since    3.16.0
- * @version  3.16.15
- *
+ * @version  3.17.8
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 
 <ol class="llms-quiz-attempt-results">
 <?php foreach ( $attempt->get_question_objects() as $attempt_question ) :
-	$quiz_question = $attempt_question->get_question(); ?>
+	$quiz_question = $attempt_question->get_question();
+	if ( ! $quiz_question ) {
+		continue;
+	}
+	?>
 
 	<li class="llms-quiz-attempt-question type--<?php echo $quiz_question->get( 'question_type' ); ?> status--<?php echo $attempt_question->get_status(); ?> <?php echo $attempt_question->is_correct() ? 'correct' : 'incorrect'; ?>"
 		data-question-id="<?php echo $quiz_question->get( 'id' ); ?>"
@@ -36,6 +41,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		</header>
 
 		<section class="llms-quiz-attempt-question-main">
+
+			<?php if ( apply_filters( 'llms_quiz_show_question_description', true, $attempt, $attempt_question, $quiz_question ) && $quiz_question->has_description() ) : ?>
+				<div class="llms-quiz-attempt-answer-section llms-question-description">
+					<?php echo $quiz_question->get_description(); ?>
+				</div>
+			<?php endif; ?>
 
 			<?php if ( $attempt_question->get( 'answer' ) ) : ?>
 				<div class="llms-quiz-attempt-answer-section llms-student-answer">

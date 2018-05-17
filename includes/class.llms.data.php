@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.17.8
  */
 class LLMS_Data {
 
@@ -14,7 +16,7 @@ class LLMS_Data {
 	 * @param    string     $format   data return format (unused for unrecalled reasons)
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.17.0
 	 */
 	public static function get_data( $dataset, $format = 'array' ) {
 
@@ -76,8 +78,8 @@ class LLMS_Data {
 	/**
 	 * add browser and os info to the system report
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.17.0
+	 * @version  3.17.0
 	 */
 	private static function get_browser_data() {
 
@@ -151,15 +153,13 @@ class LLMS_Data {
 	 * Get data about llms payment gateways
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.17.8
 	 */
 	private static function get_gateway_data() {
 
 		$data = array();
 
-		$g = LLMS()->payment_gateways();
-
-		foreach ( $g->get_payment_gateways() as $id => $obj ) {
+		foreach ( LLMS()->payment_gateways()->get_payment_gateways() as $obj ) {
 
 			$data[ $obj->get_admin_title() ] = $obj->is_enabled() ? 'Enabled' : 'Disabled';
 
@@ -180,16 +180,16 @@ class LLMS_Data {
 	 * Get data about existing llms integrations
 	 * @todo integration settings unique to the integration should be included here
 	 * @return   array
-	 * @since    3.0.0.
-	 * @version  3.0.0.
+	 * @since    3.0.0
+	 * @version  3.17.8
 	 */
 	private static function get_integrations_data() {
 
 		$data = array();
 
-		$i = LLMS()->integrations();
+		$integrations = LLMS()->integrations();
 
-		foreach ( $i->integrations() as $id => $obj ) {
+		foreach ( $integrations->integrations() as $obj ) {
 
 			// @todo upgrade this when integration absrtact is finished
 			if ( method_exists( $obj, 'is_available' ) ) {

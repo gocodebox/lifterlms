@@ -4,9 +4,11 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  * @since    1.0.0
- * @version  3.16.1
+ * @version  3.17.4
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 global $post;
 
@@ -15,23 +17,27 @@ if ( ! $lesson ) {
 	return;
 }
 
-if ( ! llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) ) {
+if ( ! llms_is_user_enrolled( get_current_user_id(), $lesson->get( 'parent_course' ) ) && ! current_user_can( 'edit_post', $lesson->get( 'id' ) ) ) {
 	return;
 }
 
-$student = new LLMS_Student( get_current_user_id() );
+$student = llms_get_student( get_current_user_id() );
 $quiz_id = $lesson->get( 'quiz' );
 if ( 'publish' !== get_post_status( $quiz_id ) && ! current_user_can( 'edit_post', $quiz_id ) ) {
 	$quiz_id = false;
 }
+
+$show_button = $quiz_id ? false : true;
 ?>
 
 <div class="clear"></div>
 <div class="llms-lesson-button-wrapper">
 
+	<?php do_action( 'llms_before_lesson_buttons', $lesson, $student ); ?>
+
 	<?php if ( $student->is_complete( $lesson->get( 'id' ), 'lesson' ) ) : ?>
 
-		<?php if ( ! $quiz_id ) : ?>
+		<?php if ( apply_filters( 'llms_show_mark_complete_button', $show_button, $lesson ) ) : ?>
 
 			<?php echo apply_filters( 'llms_lesson_complete_text', __( 'Lesson Complete', 'lifterlms' ) ); ?>
 			<?php do_action( 'llms_after_lesson_complete_text', $lesson ); ?>
@@ -67,7 +73,7 @@ if ( 'publish' !== get_post_status( $quiz_id ) && ! current_user_can( 'edit_post
 
 	<?php else : ?>
 
-		<?php if ( ! $quiz_id ) : ?>
+		<?php if ( apply_filters( 'llms_show_mark_complete_button', $show_button, $lesson ) ) : ?>
 
 			<form action="" class="llms-complete-lesson-form" method="POST" name="mark_complete">
 
@@ -107,5 +113,7 @@ if ( 'publish' !== get_post_status( $quiz_id ) && ! current_user_can( 'edit_post
 		<?php do_action( 'llms_after_start_quiz_button' ); ?>
 
 	<?php endif; ?>
+
+	<?php do_action( 'llms_after_lesson_buttons', $lesson, $student ); ?>
 
 </div>

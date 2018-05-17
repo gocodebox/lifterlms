@@ -1,14 +1,15 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
  *
  * @since     3.8.0
- * @version   3.10.0
+ * @version   3.17.8
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notifications {
 
 	/**
@@ -181,7 +182,7 @@ class LLMS_Notifications {
 	 * Load all notifications
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.10.0
+	 * @version  3.17.8
 	 */
 	private function load() {
 
@@ -199,6 +200,7 @@ class LLMS_Notifications {
 			'quiz_passed',
 			'section_complete',
 			'student_welcome',
+			'subscription_cancelled',
 		);
 
 		foreach ( $triggers as $name ) {

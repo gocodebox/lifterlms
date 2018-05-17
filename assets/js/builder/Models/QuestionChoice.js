@@ -72,6 +72,16 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 		},
 
 		/**
+		 * Retrieve the ID used when trashing the model
+		 * @return   string
+		 * @since    3.17.1
+		 * @version  3.17.1
+		 */
+		get_trash_id: function() {
+			return this.get( 'question_id' ) + ':' + this.get( 'id' );
+		},
+
+		/**
 		 * Determine if "selection" is enabled for the question type
 		 * Choice type questions are selectable by reorder type questions are not but still use choices
 		 * @return   {Boolean}

@@ -3,7 +3,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.16.16
+ * Version: 3.18.0
  * Author: Thomas Patrick Levy, codeBOX LLC
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -11,7 +11,7 @@
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.0
- * Tested up to: 4.9.4
+ * Tested up to: 4.9.6
  *
  * @package     LifterLMS
  * @category 	Core
@@ -34,7 +34,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.16.16';
+	public $version = '3.18.0';
 
 	protected static $_instance = null;
 
@@ -145,7 +145,7 @@ final class LifterLMS {
 	/**
 	 * Define LifterLMS Constants
 	 * @since    1.0.0
-	 * @version  3.15.0
+	 * @version  3.17.8
 	 */
 	private function define_constants() {
 
@@ -178,12 +178,42 @@ final class LifterLMS {
 			define( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 		}
 
+		if ( ! defined( 'LLMS_PLUGIN_URL' ) ) {
+
+			/**
+			 * URL to the plugin directory for assets, etc
+			 * @since   3.17.8
+			 * @version 3.17.8
+			 */
+			define( 'LLMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+		}
+
+		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
+
+			// if we're loading in debug mode
+			$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
+
+			/* if debugging, load the unminified version
+			 * on production, load the minified one
+			 */
+			$min = ( $debug ) ? '' : '.min';
+
+			/**
+			 * Assets suffix
+			 * Defines if minified versions of assets should be loaded
+			 * @since   3.17.8
+			 * @version 3.17.8
+			 */
+			define( 'LLMS_ASSETS_SUFFIX', $min );
+		}
+
 	}
 
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.16.12
+	 * @version 3.18.0
 	 */
 	private function includes() {
 
@@ -200,6 +230,9 @@ final class LifterLMS {
 		include_once 'includes/abstracts/abstract.llms.admin.table.php';
 
 		include_once 'includes/admin/class.llms.admin.assets.php';
+
+		// privacy components
+		require_once 'includes/privacy/class-llms-privacy.php';
 
 		if ( is_admin() ) {
 
@@ -287,6 +320,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.student.dashboard.php' );
 		include_once( 'includes/class.llms.user.permissions.php' );
 		include_once( 'includes/class.llms.view.manager.php' );
+		include_once( 'includes/class.llms.l10n.js.php' );
 
 		//handler classes
 		require_once 'includes/class.llms.person.handler.php';
@@ -298,10 +332,13 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.query.php' );
 
 		// controllers
-		include_once( 'includes/controllers/class.llms.controller.orders.php' );
-		include_once( 'includes/controllers/class.llms.controller.account.php' );
-		include_once( 'includes/controllers/class.llms.controller.quizzes.php' );
-		include_once( 'includes/controllers/class.llms.controller.registration.php' );
+		include_once 'includes/controllers/class.llms.controller.account.php';
+		include_once 'includes/controllers/class.llms.controller.achievements.php';
+		include_once 'includes/controllers/class.llms.controller.certificates.php';
+		include_once 'includes/controllers/class.llms.controller.lesson.progression.php';
+		include_once 'includes/controllers/class.llms.controller.orders.php';
+		include_once 'includes/controllers/class.llms.controller.quizzes.php';
+		include_once 'includes/controllers/class.llms.controller.registration.php';
 
 		// comments
 		include_once( 'includes/class.llms.comments.php' );

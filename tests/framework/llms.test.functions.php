@@ -6,7 +6,7 @@
  * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
  * @return int|string           Integer if $type is 'timestamp', string otherwise.
  * @since    3.4.0
- * @version  [version]
+ * @version  3.17.0
  */
 function llms_current_time( $type, $gmt = 0 ) {
 	global $llms_mock_time;
@@ -46,4 +46,16 @@ function llms_mock_current_time( $time ) {
 function llms_reset_current_time() {
 	global $llms_mock_time;
 	$llms_mock_time = null;
+}
+
+/**
+ * Set the time limit threshold
+ * @param    int        $limit   time limit in milliseconds
+ * @return   void
+ * @since    3.17.4
+ * @version  3.17.4
+ */
+function llms_set_test_time_limit( $limit = 4000 ) {
+	global $llms_test_time_limit;
+	$llms_test_time_limit = $limit;
 }

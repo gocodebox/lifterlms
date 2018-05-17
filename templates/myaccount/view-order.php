@@ -2,9 +2,11 @@
 /**
  * View an Order
  * @since    3.0.0
- * @version  3.10.1
+ * @version  3.17.6
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 if ( ! $order ) {
 	return _e( 'Invalid Order.', 'lifterlms' );
@@ -15,7 +17,7 @@ $gateway = $order->get_gateway();
 llms_print_notices();
 ?>
 
-<div class="llms-sd-section llms-view-order">
+<div class="llms-sd-section llms-view-order<?php echo apply_filters( 'llms_sd_stacked_order_layout', false ) ? ' llms-stack-cols' : ''; ?>">
 
 	<?php if ( ! $order ) : ?>
 		<p><?php _e( 'Invalid Order', 'lifterlms' ); ?></p>
@@ -149,10 +151,12 @@ llms_print_notices();
 						</tr>
 					<?php endif; ?>
 
+					<?php if ( ! $order->is_recurring() || 'lifetime' !== $order->get( 'access_expiration' ) ) : ?>
 					<tr>
 						<th><?php _e( 'Expiration Date', 'lifterlms' ); ?></th>
 						<td><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
 					</tr>
+					<?php endif; ?>
 
 					<?php do_action( 'lifterlms_view_order_table_body' ); ?>
 				</tbody>

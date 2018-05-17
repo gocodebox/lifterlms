@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.16.6
+ * @version  [version]
  */
 define( [], function() {
 
@@ -16,7 +16,7 @@ define( [], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  [version]
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -24,11 +24,12 @@ define( [], function() {
 			'click a[href="#llms-remove-image"]': 'remove_image',
 			'change .llms-editable-select select': 'on_select',
 			'change .llms-switch input[type="checkbox"]': 'toggle_switch',
-			'change .llms-editable-img-select input': 'on_img_select',
+			'change .llms-editable-radio input': 'on_radio_select',
 			'focusin .llms-input': 'on_focus',
 			'focusout .llms-input': 'on_blur',
 			'keydown .llms-input': 'on_keydown',
 			'input .llms-input[type="number"]': 'on_blur',
+			'paste .llms-input[data-formatting]': 'on_paste',
 		},
 
 		/**
@@ -36,9 +37,15 @@ define( [], function() {
 		 * @param    obj   $el  jQuery selector for the element
 		 * @return   array
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		get_allowed_tags: function( $el ) {
+
+			if ( $el.attr( 'data-formatting' ) ) {
+				return _.map( $el.attr( 'data-formatting' ).split( ',' ), function( tag ) {
+					return tag.trim();
+				} );
+			}
 
 			return [ 'b', 'i', 'u', 'strong', 'em' ];
 
@@ -49,7 +56,7 @@ define( [], function() {
 		 * @param    obj   $el  jQuery object of the element
 		 * @return   string
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		get_content: function( $el ) {
 
@@ -61,15 +68,7 @@ define( [], function() {
 				return $el.text();
 			}
 
-			var $html = $( '<div>' + $el.html() + '</div>' );
-
-			$html.find( '*' ).not( this.get_allowed_tags( $el ).join( ',' ) ).each( function( ) {
-
-				$( this ).replaceWith( this.innerHTML );
-
-			} );
-
-			return $html.html();
+			return _.stripFormatting( $el.html(), this.get_allowed_tags( $el ) );
 
 		},
 
@@ -90,7 +89,7 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   boolean
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  3.17.2
 		 */
 		is_valid: function( event ) {
 
@@ -99,7 +98,7 @@ define( [], function() {
 				content = this.get_content( $el ),
 				type = $el.attr( 'data-type' );
 
-			if ( content.length < 1 ) {
+			if ( ( $el.attr( 'required' ) || $el.attr( 'data-required' ) ) && content.length < 1 ) {
 				return false;
 			}
 
@@ -136,6 +135,29 @@ define( [], function() {
 			}
 
 			return true;
+
+		},
+
+		/**
+		 * Initialize datepicker elements
+		 * @return   void
+		 * @since    3.17.0
+		 * @version  3.17.0
+		 */
+		init_datepickers: function() {
+
+			this.$el.find( '.llms-editable-date input' ).each( function() {
+
+				$( this ).datetimepicker( {
+					format: $( this ).attr( 'data-date-format' ) || 'Y-m-d h:i A',
+					datepicker: ( undefined === $( this ).attr( 'data-date-datepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-datepicker' ) ),
+					timepicker: ( undefined === $( this ).attr( 'data-date-timepicker' ) ) ? true : ( 'true' == $( this ).attr( 'data-date-timepicker' ) ),
+					onClose: function( current_time, $input ) {
+						$input.blur();
+					}
+				} );
+
+			} );
 
 		},
 
@@ -248,6 +270,24 @@ define( [], function() {
 		},
 
 		/**
+		 * Handle content pasted into contenteditable fields
+		 * This will ensure that HTML from RTF editors isn't pasted into the dom
+		 * @param    obj   event  js event obj
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		on_paste: function( event ) {
+
+			event.preventDefault();
+			event.stopPropagation();
+
+			var text = ( event.originalEvent || event ).clipboardData.getData( 'text/plain' );
+			window.document.execCommand( 'insertText', false, text );
+
+		},
+
+		/**
 		 * Change event for selectables
 		 * @param    obj   event  js event object
 		 * @return   void
@@ -276,13 +316,13 @@ define( [], function() {
 		},
 
 		/**
-		 * Change event for image select groups
+		 * Change event for radio element groups
 		 * @param    obj   event  js event object
 		 * @return   void
-		 * @since    3.16.8
-		 * @version  3.16.8
+		 * @since    3.17.6
+		 * @version  3.17.6
 		 */
-		on_img_select: function( event ) {
+		on_radio_select: function( event ) {
 
 			var $el = $( event.target ),
 				attr = $el.attr( 'name' ),
@@ -298,7 +338,7 @@ define( [], function() {
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		on_keydown: function( event ) {
 
@@ -306,13 +346,17 @@ define( [], function() {
 
 			var self = this,
 				key = event.which || event.keyCode,
-				ctrl = event.metaKey || event.ctrlKey;
+				shift = event.shiftKey;
+				// ctrl = event.metaKey || event.ctrlKey;
 
 			switch ( key ) {
 
 				case 13: // enter
-					event.preventDefault();
-					event.target.blur();
+					// shift + enter should add a return
+					if ( ! shift ) {
+						event.preventDefault();
+						event.target.blur();
+					}
 				break;
 
 				case 27: // escape
@@ -423,6 +467,7 @@ define( [], function() {
 
 			var $el = $( event.target ),
 				val = this.get_content( $el );
+
 			this.model.set( $el.attr( 'data-attribute' ), val );
 
 		},
@@ -432,13 +477,14 @@ define( [], function() {
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.0
 		 */
 		toggle_switch: function( event ) {
 
 			event.stopPropagation();
 			var $el = $( event.target ),
 				attr = $el.attr( 'name' ),
+				rerender = $el.attr( 'data-rerender' ),
 				val;
 
 			if ( $el.is( ':checked' ) ) {
@@ -465,7 +511,13 @@ define( [], function() {
 			}
 
 			this.trigger( attr.replace( '.', '-' ) + '_toggle', val );
-			this.render();
+
+			if ( ! rerender || 'yes' === rerender ) {
+				var self = this;
+				setTimeout( function() {
+					self.render();
+				}, 100 );
+			}
 
 		},
 
@@ -536,22 +588,35 @@ define( [], function() {
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.17.1
 		 */
 		on_editor_ready: function( editor ) {
 
 			var self = this,
 				$ed = $( '#' + editor.id ),
 				$parent = $ed.closest( '.llms-editable-editor' ),
-				$label = $parent.find( '.llms-label' );
+				$label = $parent.find( '.llms-label' ),
+				prop = $ed.attr( 'data-attribute' )
 
 			if ( $label.length ) {
 				$label.prependTo( $parent.find( '.wp-editor-tools' ) );
 			}
 
-			// save changes to the model
+			// save changes to the model via Visual ed
 			editor.on( 'change', function( event ) {
-				self.model.set( $( '#' + editor.id ).attr( 'data-attribute' ), wp.editor.getContent( editor.id ) );
+				self.model.set( prop, wp.editor.getContent( editor.id ) );
+			} );
+
+			// save changes via Text ed
+			$ed.on( 'input', function( event ) {
+				self.model.set( prop, $ed.val() );
+			} );
+
+			// trigger an input on the Text ed when quicktags buttons are clicked
+			$parent.on( 'click', '.quicktags-toolbar .ed_button', function() {
+				setTimeout( function() {
+					$ed.trigger( 'input' );
+				}, 10 );
 			} );
 
 		},

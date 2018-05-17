@@ -1,13 +1,14 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version 3.9.5
+ * @version 3.17.8
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Controller_Account {
 
 	public function __construct() {
@@ -23,7 +24,7 @@ class LLMS_Controller_Account {
 	 * Lets student cancel recurring access plan subscriptions from the student dashboard view order screen
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @version  3.17.8
 	 */
 	public function cancel_subscription() {
 
@@ -46,6 +47,8 @@ class LLMS_Controller_Account {
 
 		$order->set_status( 'cancelled' );
 		$order->add_note( __( 'Cancelled by student from account page.', 'lifterlms' ) );
+
+		do_action( 'llms_subscription_cancelled_by_student', $order, $uid );
 
 	}
 

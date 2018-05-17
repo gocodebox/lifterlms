@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.15.1
+ * @version 3.17.8
  */
 abstract class LLMS_Admin_Table {
 
@@ -57,6 +59,12 @@ abstract class LLMS_Admin_Table {
 	 * @var  boolean
 	 */
 	protected $is_filterable = false;
+
+	/**
+	 * If true will be a table with a larger font size
+	 * @var  bool
+	 */
+	protected $is_large = false;
 
 	/**
 	 * Determine of the table is searchable
@@ -186,10 +194,10 @@ abstract class LLMS_Admin_Table {
 	 * @param    string    $context   display context [display|export]
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  3.17.6
 	 */
 	protected function filter_get_data( $value, $key, $data, $context = 'display' ) {
-		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context );
+		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context, $this );
 	}
 
 	/**
@@ -308,10 +316,25 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the header row for generating an export file
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  3.17.3
 	 */
 	public function get_export_header() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_header', wp_list_pluck( $this->get_columns( 'export' ), 'title' ) );
+
+		$cols = wp_list_pluck( $this->get_columns( 'export' ), 'title' );
+
+		/**
+		 * If the first column is "ID" force it to lowercase
+		 * to prevent Excel from attempting to interpret the .csv as SYLK
+		 * @see  https://github.com/gocodebox/lifterlms/issues/397
+		 */
+		foreach ( $cols as $key => &$title ) {
+			if ( 'id' === strtolower( $title ) ) {
+				$title = strtolower( $title );
+			}
+			break;
+		}
+
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_header', $cols );
 	}
 
 	/**
@@ -486,9 +509,24 @@ abstract class LLMS_Admin_Table {
 	 * Get the HTML for the entire table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.17.8
 	 */
 	public function get_table_html() {
+
+		$classes = array(
+			'llms-table',
+			'llms-gb-table',
+			'llms-gb-table-' . $this->id,
+		);
+
+		if ( $this->is_zebra ) {
+			$classes[] = 'zebra';
+		}
+
+		if ( $this->is_large ) {
+			$classes[] = 'size-large';
+		}
+
 		ob_start();
 		?>
 		<div class="llms-table-wrap">
@@ -502,7 +540,7 @@ abstract class LLMS_Admin_Table {
 				<?php endif; ?>
 			</header>
 			<table
-				class="llms-table llms-gb-table llms-gb-table-<?php echo $this->id; ?><?php echo $this->is_zebra ? ' zebra' : ''; ?>"
+				class="<?php echo implode( $classes, ' ' ); ?>"
 				data-args='<?php echo json_encode( $this->get_args() ); ?>'
 				data-handler="<?php echo $this->get_handler(); ?>"
 				id="llms-gb-table-<?php echo $this->id; ?>"
@@ -748,6 +786,21 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_title() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_table_title', $this->title );
+	}
+
+	/**
+	 * Get the HTML for a WP User Link
+	 * @param    int        $post_id  WP User ID
+	 * @param    string     $text     Optional text to display within the anchor, if none supplied $user_id if used
+	 * @return   string
+	 * @since    3.17.2
+	 * @version  3.17.2
+	 */
+	public function get_user_link( $user_id, $text = '' ) {
+		if ( ! $text ) {
+			$text = $user_id;
+		}
+		return '<a href="' . esc_url( get_edit_user_link( $user_id ) ) . '">' . $text . '</a>';
 	}
 
 	/**

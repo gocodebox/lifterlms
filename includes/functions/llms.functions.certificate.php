@@ -1,24 +1,24 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LifterLMS Certificate Functions
- *
- * @author LifterLMS
- * @category  Core
- * @package  LifterLMS/Functions
- * @since  2.2.0
+ * @since    2.2.0
+ * @version  2.2.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
  * Retrieve the content of a certificate
  * @param  integer $id WP Post ID of the cert (optional if used within a loop)
  * @return string
+ * @since    2.2.0
+ * @version  3.18.0
  */
 function llms_get_certificate_content( $id = 0 ) {
 
 	$id = ( $id ) ? $id : get_the_ID();
 
-	$cert = new LLMS_Certificates();
+	$cert = LLMS()->certificates();
 
 	if ( 'llms_certificate' == get_post_type( $id ) ) {
 
@@ -45,6 +45,8 @@ function llms_get_certificate_content( $id = 0 ) {
  *
  * @param  integer $id  WP Certificate Post ID
  * @return array        associative array of certificate image details
+ * @since    2.2.0
+ * @version  2.2.0
  */
 function llms_get_certificate_image( $id = 0 ) {
 
@@ -84,6 +86,8 @@ function llms_get_certificate_image( $id = 0 ) {
  * Retrive the title of a certificate
  * @param  int    $id WP post id of the cert (optional if used within a loop)
  * @return string     title of the cert
+ * @since    2.2.0
+ * @version  2.2.0
  */
 function llms_get_certificate_title( $id = 0 ) {
 
@@ -97,6 +101,8 @@ function llms_get_certificate_title( $id = 0 ) {
 /**
  * Register the custom "print_certificate" image size
  * @return void
+ * @since    2.2.0
+ * @version  2.2.0
  */
 function llms_register_certificate_image_size() {
 

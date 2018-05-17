@@ -1,17 +1,17 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Front End Forms Class
  *
  * Class used managing front end facing forms.
  *
  * @since   1.0.0
- * @version 3.9.0
+ * @version 3.17.1
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Frontend_Forms {
-
 
 	/**
 	 * Constructor
@@ -21,49 +21,7 @@ class LLMS_Frontend_Forms {
 
 		add_action( 'init', array( $this, 'login' ) );
 		add_action( 'init', array( $this, 'voucher_check' ) );
-		add_action( 'init', array( $this, 'mark_complete' ) );
-		add_action( 'init', array( $this, 'mark_incomplete' ) );
 
-	}
-
-	/**
-	 * Get redirect url method
-	 * Safe redirect: If there is no referer then redirect user to myaccount
-	 *
-	 * @param  string $url [sting of url to redirect user to]
-	 *
-	 * @return string  $redirec [url to redirect user to]
-	 */
-	public static function llms_get_redirect( $url ) {
-
-		if ( ! empty( $url ) ) {
-
-			$redirect = esc_url( $url );
-
-		} elseif ( wp_get_referer() ) {
-
-			$redirect = esc_url( wp_get_referer() );
-
-		} else {
-
-			$redirect = esc_url( get_permalink( llms_get_page_id( 'myaccount' ) ) );
-
-		}
-
-		return $redirect;
-	}
-
-	/**
-	 * Alert message when course / lesson is restricted by start date.
-	 *
-	 * @param  string $date [Formatted date for display]
-	 *
-	 * @return void
-	 */
-	public function llms_restricted_by_start_date( $date ) {
-
-		llms_add_notice(sprintf(__( 'This content is not available until %s', 'lifterlms' ),
-		$date));
 	}
 
 	/**
@@ -93,97 +51,6 @@ class LLMS_Frontend_Forms {
 			wp_redirect( apply_filters( 'lifterlms_login_redirect', $redirect, $login ) );
 			exit;
 
-		}
-
-	}
-
-	/**
-	 * Mark Lesson as complete
-	 * Complete Lesson form post
-	 * Marks lesson as complete and returns completion message to user
-	 * Autoadvances to next lesson if completion is succesful
-	 * @return void
-	 * @since   1.0.0
-	 * @version 3.5.1
-	 */
-	public function mark_complete() {
-
-		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ( 'POST' !== $request_method ) {
-			return;
-		}
-
-		// verify nonce
-		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'mark_complete' ) ) {
-			return;
-		}
-
-		// required fields
-		if ( ! isset( $_POST['mark_complete'] ) || ! isset( $_POST['mark-complete'] ) ) {
-			return;
-		}
-
-		$lesson_id = absint( $_POST['mark-complete'] );
-		if ( ! $lesson_id || ! is_numeric( $lesson_id ) ) {
-			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
-		} else {
-
-			if ( llms_mark_complete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
-
-				llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $lesson_id ) ) );
-
-				if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
-					$lesson = new LLMS_Lesson( $lesson_id );
-					$next_lesson_id = $lesson->get_next_lesson();
-					if ( $next_lesson_id ) {
-						wp_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
-						exit;
-					}
-				}
-			}
-		}
-
-	}
-
-	/**
-	 * Mark Lesson as incomplete
-	 * Incomplete Lesson form post
-	 * Marks lesson as incomplete and returns incompletion message to user
-	 * @return void
-	 * @since   3.5.0
-	 * @version 3.5.0
-	 */
-	public function mark_incomplete() {
-
-		$request_method = strtoupper( getenv( 'REQUEST_METHOD' ) );
-		if ( 'POST' !== $request_method ) {
-			return;
-		}
-
-		// verify nonce
-		if ( empty( $_POST['_wpnonce'] ) || ! wp_verify_nonce( $_POST['_wpnonce'], 'mark_incomplete' ) ) {
-			return;
-		}
-
-		// required fields
-		if ( ! isset( $_POST['mark_incomplete'] ) || ! isset( $_POST['mark-incomplete'] ) ) {
-			return;
-		}
-
-		$lesson_id = absint( $_POST['mark-incomplete'] );
-		if ( ! $lesson_id || ! is_numeric( $lesson_id ) ) {
-			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
-		} else {
-
-			// mark incomplete
-			$incompleted = llms_mark_incomplete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id );
-
-			// if $incompleted is 'yes'
-			if ( strcmp( $incompleted, 'yes' ) === 0 ) {
-
-				llms_add_notice( sprintf( __( '%s is now incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
-
-			}
 		}
 
 	}
