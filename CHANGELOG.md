@@ -5,6 +5,12 @@ v3.18.1 - 2018-05-18
 --------------------
 
 + Attached `llms_privacy_policy_form_field()` and `llms_agree_to_terms_form_field()` to an action hook `llms_registration_privacy`
++ Define minimum WordPress version requirement as 4.8.
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
 
 
 v3.18.0 - 2018-05-16

@@ -6030,31 +6030,31 @@ msgstr ""
 msgid "You do not have any certificates yet."
 msgstr ""
 
-#: templates/checkout/form-checkout.php:25, templates/checkout/form-confirm-payment.php:19
+#: templates/checkout/form-checkout.php:22, templates/checkout/form-confirm-payment.php:19
 msgid "Billing Information"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:27, templates/admin/reporting/tabs/students/information.php:18
+#: templates/checkout/form-checkout.php:24, templates/admin/reporting/tabs/students/information.php:18
 msgid "Student Information"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:48, templates/checkout/form-confirm-payment.php:37
+#: templates/checkout/form-checkout.php:45, templates/checkout/form-confirm-payment.php:37
 msgid "Order Summary"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:72, templates/checkout/form-confirm-payment.php:53
+#: templates/checkout/form-checkout.php:69, templates/checkout/form-confirm-payment.php:53
 msgid "Payment Details"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:74
+#: templates/checkout/form-checkout.php:71
 msgid "Enrollment Confirmation"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:96
+#: templates/checkout/form-checkout.php:102
 msgid "Buy Now"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:96
+#: templates/checkout/form-checkout.php:102
 msgid "Enroll Now"
 msgstr ""
 
@@ -6246,7 +6246,7 @@ msgstr ""
 msgid "Trouble clicking? Copy and paste this URL into your browser:"
 msgstr ""
 
-#: templates/global/form-registration.php:25, templates/global/form-registration.php:54
+#: templates/global/form-registration.php:23, templates/global/form-registration.php:58
 msgid "Register"
 msgstr ""
 

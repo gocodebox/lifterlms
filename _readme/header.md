@@ -2,7 +2,7 @@
 Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
-Requires at least: 4.0
+Requires at least: 4.8
 Requires PHP: 5.6
 Tested up to: 4.9.6
 Stable tag: 3.18.0

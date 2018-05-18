@@ -2,7 +2,7 @@
 Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
-Requires at least: 4.0
+Requires at least: 4.8
 Requires PHP: 5.6
 Tested up to: 4.9.6
 Stable tag: 3.18.0
@@ -351,6 +351,18 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.18.1 - 2018-05-18 =
+------------------------
+
++ Attached `llms_privacy_policy_form_field()` and `llms_agree_to_terms_form_field()` to an action hook `llms_registration_privacy`
++ Define minimum WordPress version requirement as 4.8.
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
+
+
 = v3.18.0 - 2018-05-16 =
 ------------------------
 
@@ -568,36 +580,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ##### Templates updates
 
 + [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
-
-
-= v3.17.0 - 2018-03-27 =
-------------------------
-
-##### Builder Updates
-
-+ Moved action buttons for each lesson (for opening quiz and lesson editor) to be static below the lesson title as opposed to only being visible on hover
-+ Added new audio and video status indicator icons for each lesson
-+ Various status indicator icons will now have different icons in addition to different colors depending on their state
-+ Replaced "pencil" icons that open the WordPress post editor with a small "WP" icon
-+ Added several actions and filters to backend functions so that 3rd parties can hook into builder saves
-+ Added lesson settings editing to the builder. Lesson settings can now be updated from settings metaboxes on the lesson post edit screen AND on the builder.
-+ Added prerequisite validation for lessons to prevent accidental impossible prerequisite creating (eg: Lesson 5 can never be a prerequisite for Lesson 4)
-+ Added functions and filters to allow 3rd parties to add custom fields to the builder. For more details see [an example](https://lifterlms.com/docs/course-builder-custom-fields-for-developers/).
-+ Fixed issue causing changes made in "Text" mode on content editors wouldn't trigger save events
-+ Fixed issue causing lesson prerequisites to not properly display on the course builder
-+ Fixed CSS z-index issues related to builder field tooltip displays
-+ Removed unused Javascript dependencies
-
-##### Bug Fixes
-
-+ Fixed typo on filter on quiz question image getter function
-
-##### Updates
-
-+ Performance improvements made to database queries and functions related to student enrollment status and student course progress queries. Thanks to [@mte90](https://github.com/Mte90) for raising issues and testing solutions related to these updates and changes!
-+ Added PHP Requires plugin header (5.6 minimum)
-+ Added HTTP User Agent data to the system report
-+ [LifterLMS Assignments Beta](https://lifterlms.com/product/lifterlms-assignments?utm_source=LifterLMS%20Plugin&utm_medium=CHANGELOG&utm_campaign=assignments%20preorder) is imminent and this release adds functionality to the Builder which will be extended by Assignments upon when availability
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
