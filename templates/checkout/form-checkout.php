@@ -2,7 +2,7 @@
 /**
  * Checkout Form
  * @since    1.0.0
- * @version  [version]
+ * @version  3.18.1
  */
 defined( 'ABSPATH' ) || exit;
 
