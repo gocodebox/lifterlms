@@ -2,11 +2,9 @@
 /**
  * Registration Form
  * @since    3.0.0
- * @version  3.18.0
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 $field_data = isset( $_POST ) ? $_POST : array();
 
@@ -36,8 +34,14 @@ if ( get_current_user_id() ) {
 				<?php llms_form_field( $field ); ?>
 			<?php endforeach; ?>
 
-			<?php llms_privacy_policy_form_field(); ?>
-			<?php llms_agree_to_terms_form_field(); ?>
+			<?php
+				/**
+				 * llms_registration_privacy
+				 * @hooked llms_privacy_policy_form_field - 10
+				 * @hooked llms_agree_to_terms_form_field - 20
+				 */
+				do_action( 'llms_registration_privacy' );
+			?>
 
 			<?php do_action( 'lifterlms_after_registration_fields' ); ?>
 

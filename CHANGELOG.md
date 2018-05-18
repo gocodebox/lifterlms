@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.18.1 - 2018-05-18
+--------------------
+
++ Attached `llms_privacy_policy_form_field()` and `llms_agree_to_terms_form_field()` to an action hook `llms_registration_privacy`
+
+
 v3.18.0 - 2018-05-16
 --------------------
 

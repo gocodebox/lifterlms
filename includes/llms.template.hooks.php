@@ -94,6 +94,14 @@ add_action( 'lifterlms_email_footer', 'llms_email_footer', 10 );
 
 /***********************************************************************
  *
+ * Privacy
+ *
+ ***********************************************************************/
+add_action( 'llms_registration_privacy', 'llms_privacy_policy_form_field', 10 );
+add_action( 'llms_registration_privacy', 'llms_agree_to_terms_form_field', 20 );
+
+/***********************************************************************
+ *
  * Quizzes
  *
  ***********************************************************************/
