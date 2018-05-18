@@ -53,7 +53,7 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 		return $ret;
 
 	}
-}
+}// End if().
 
 
 
