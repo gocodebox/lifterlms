@@ -170,7 +170,8 @@
 }
 
 
-.llms-table.llms-gateway-table {
+.llms-table.llms-gateway-table,
+.llms-table.llms-integrations-table {
 	.status {
 		.fa {
 			color: $color-brand-blue;
@@ -181,6 +182,12 @@
 		cursor: move;
 		text-align: center;
 		width: 10px;
+	}
+	a {
+		color: $color-brand-blue;
+		&:hover {
+			color: $color-brand-blue-dark;
+		}
 	}
 }
 

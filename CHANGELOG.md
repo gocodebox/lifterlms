@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.18.? - 2018-05-??
+--------------------
+
++ Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
+
+
 v3.18.1 - 2018-05-18
 --------------------
 
