@@ -254,7 +254,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 			$msg = sprintf( __( 'This coupon expired on %s and can no longer be used.', 'lifterlms' ), $this->get_date( 'expiration_date', 'F d, Y' ) );
 
-		}  elseif ( ! $this->applies_to_product( $plan->get( 'product_id' ) ) ) {
+		} elseif ( ! $this->applies_to_product( $plan->get( 'product_id' ) ) ) {
 
 			$msg = sprintf( __( 'This coupon cannot be used to purchase "%s".', 'lifterlms' ), get_the_title( $plan->get( 'product_id' ) ) );
 
