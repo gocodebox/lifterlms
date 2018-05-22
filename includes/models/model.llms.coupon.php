@@ -216,7 +216,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 			return false;
 		} else {
 			$now = llms_current_time( 'timestamp' );
-			return ( (int)$expires + DAY_IN_SECONDS ) < $now;
+			return ( (int) $expires + DAY_IN_SECONDS ) < $now;
 		}
 	}
 
