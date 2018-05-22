@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.18.? - 2018-05-??
 --------------------
 
++ Fix coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
 + Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
 
 
