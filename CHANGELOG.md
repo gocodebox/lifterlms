@@ -1,14 +1,14 @@
 LifterLMS Changelog
 ===================
 
-v3.18.? - 2018-05-??
+v3.18.2 - 2018-05-24
 --------------------
 
-+ Fix issue causind subscription cancellation notifications to be sent to admins when new orders were created
-+ Fixed warning message displayed prior to membership bulk enrollment
 + Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
 + Allow programmatic access to notification content when notification views are accessed via filters
-
++ Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
++ Fixed warning message displayed prior to membership bulk enrollment
++ Fixed multibyte character encoding issue encountered during certificate exports
 
 
 v3.18.1 - 2018-05-18
