@@ -124,7 +124,11 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach ( $integrations as $integration ) : ?>
+			<?php foreach ( $integrations as $integration ) :
+				if ( ! is_subclass_of( $integration, 'LLMS_Abstract_Integration' ) ) {
+					continue;
+				}
+				?>
 				<tr>
 					<td><a href="<?php echo esc_url( admin_url( 'admin.php?page=llms-settings&tab=' . $this->id . '&section=' . $integration->id ) ); ?>"><?php echo $integration->title; ?></a></td>
 					<td><?php echo $integration->id; ?></td>
