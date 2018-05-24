@@ -16,21 +16,72 @@ class LLMS_Admin_AddOns {
 	/**
 	 * This URL is good for development since it wont be cached as hard
 	 */
-	const DATA_URL = 'https://s3-us-west-2.amazonaws.com/lifterlms/addons/addons.json';
+	// const DATA_URL = 'https://s3-us-west-2.amazonaws.com/lifterlms/addons/addons.json';
 
-	private function get_addon_status( $file ) {
+	const DATA_URL = 'https://dev.lifterlms.com/wp-json/llms/v3/products';
 
-		if ( is_plugin_active( $file ) ) {
-			return 'active';
-		} elseif ( is_plugin_inactive( $file ) ) {
-			return 'inactive';
-		}
+	public function activate( $key ) {
 
-		return 'none';
+		$data = array(
+			'activations' => array(
+				'key' => $key,
+				'product' => '',
+				'url' => get_site_url(),
+			),
+		);
+
+		// https://lifterlms.com/wp-json/llms-api/v2
+
 
 	}
 
-	private function get_addon_status_l10n( $status ) {
+	public function get_addon_status( $addon, $translate = false ) {
+
+		$type = $this->get_addon_type( $addon );
+		$installed = get_plugins();
+
+		$ret = 'none';
+		if ( 'plugin' === $type ) {
+
+			// not installed
+			if ( ! in_array( $addon['update_file'], array_keys( $installed ) ) ) {
+				$ret = 'none';
+			} elseif ( is_plugin_active( $file ) ) {
+				$ret = 'active';
+			}
+			$ret = 'inactive';
+
+		}
+
+		if ( $translate ) {
+			$ret = $this->get_l10n( $ret );
+		}
+
+		return $ret;
+
+	}
+
+	public function get_addon_type( $addon ) {
+
+		if ( llms_parse_bool( $addon['has_license'] ) ) {
+
+			$cats = array_keys( $addon['categories'] );
+			$type = 'plugin';
+			if ( in_array( 'bundles', $cats ) ) {
+				$type = 'bundle';
+			} elseif ( in_array( 'themes', $cats ) ) {
+				$type = 'theme';
+			}
+
+			return $type;
+
+		}
+
+		return false;
+
+	}
+
+	private function get_l10n( $status ) {
 
 		$statuses = array(
 			'activate' => __( 'Activate', 'lifterlms' ),
@@ -79,11 +130,7 @@ class LLMS_Admin_AddOns {
 		$sec = $this->get_current_section();
 
 		if ( 'all' === $sec ) {
-
-			$content = array();
-			foreach ( $this->data['sections'] as $section ) {
-				$content = array_merge( $content, $section );
-			}
+			$content = $this->data['items'];
 		} else {
 
 			$content = $this->data['sections'][ $sec ];
@@ -101,14 +148,17 @@ class LLMS_Admin_AddOns {
 	 */
 	private function get_data() {
 
-		$get = wp_remote_get( self::DATA_URL );
+		$get = wp_remote_get( self::DATA_URL, array(
+			'headers' => array(
+				'Authorization' => 'Basic ' . base64_encode( 'llms:B1ncrN2TMvMqgBHBjv0412mLOg5SCs8q' ),
+			),
+		) );
+
 		if ( is_wp_error( $get ) ) {
 			return $get;
 		}
 
 		$this->data = json_decode( $get['body'], true );
-
-		// var_dump( $this->data );
 
 	}
 
@@ -142,6 +192,20 @@ class LLMS_Admin_AddOns {
 		return $name;
 	}
 
+	public function handle_actions() {
+
+		if ( ! llms_verify_nonce( '_llms_activate_nonce', 'llms_activate_key' ) ) {
+			return;
+		}
+
+		if ( isset( $_POST['llms_key'] ) ) {
+
+			$status = $this->activate( sanitize_text_field( $_POST['llms_key'] ) );
+
+		}
+
+	}
+
 	/**
 	 * Output HTML for the current screen
 	 * @return   void
@@ -154,25 +218,20 @@ class LLMS_Admin_AddOns {
 			_e( 'There was an error retrieving add-ons. Please try again.', 'lifterlms' );
 			return;
 		}
-		$tab = isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'browse';
+
 		?>
-		<div class="wrap lifterlms lifterlms-settings">
-			<nav class="llms-nav-tab-wrapper">
-				<ul class="llms-nav-items">
-					<li class="llms-nav-item<?php echo 'browse' === $tab ? ' llms-active' : ''; ?>">
-						<a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&tab=browse' ) ); ?>">
-							<?php _e( 'Browse Add-ons', 'lifterlms' ); ?></a></li>
-					<li class="llms-nav-item<?php echo 'my' === $tab ? ' llms-active' : ''; ?>">
-						<a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&tab=my' ) ); ?>">
-							<?php _e( 'My Add-ons', 'lifterlms' ); ?></a></li>
-				</ul>
-			</nav>
-			<?php if ( 'browse' === $tab ) : ?>
-				<h1><?php _e( 'LifterLMS Add-Ons, Services, and Resources', 'lifterlms' ); ?></h1>
-				<?php $this->output_navigation(); ?>
-			<?php else : ?>
-				<h1><?php _e( 'My Add-Ons', 'lifterlms' ); ?></h1>
-			<?php endif; ?>
+		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
+			<h1><?php _e( 'LifterLMS Add-Ons', 'lifterlms' ); ?></h1>
+			<section class="llms-licenses">
+				<?php _e( 'Activate a License Key', 'lifterlms' ); ?>
+				<i class="fa fa-chevron-down" aria-hidden="true"></i>
+				<form action="" class="llms-key-field" method="POST">
+					<input name="llms_key" type="text">
+					<button class="llms-button-primary small" name="llms_activate_key" type="submit"><?php _e( 'Submit', 'lifterlms' ); ?></button>
+					<?php wp_nonce_field( 'llms_activate_key', '_llms_activate_nonce' ); ?>
+				</form>
+			</section>
+			<?php $this->output_navigation(); ?>
 			<?php $this->output_content(); ?>
 		</div>
 		<?php
@@ -186,40 +245,8 @@ class LLMS_Admin_AddOns {
 	 * @version  3.7.6
 	 */
 	private function output_addon( $addon ) {
-		$featured = $addon['featured'] ? ' featured' : '';
-		$status = false;
-		if ( isset( $addon['file'] ) ) {
-			$status = $this->get_addon_status( $addon['file'] );
-			$action = $this->get_addon_status_action( $status );
-		}
-		?>
-		<li class="llms-add-on-item<?php echo $featured; ?>">
-			<div class="llms-add-on">
-				<a href="<?php echo esc_url( $addon['url'] ); ?>" class="llms-add-on-link">
-					<header>
-						<img alt="<?php echo $addon['title']; ?> Banner" src="<?php echo esc_url( $addon['image'] ); ?>">
-						<h4><?php echo $addon['title']; ?></h4>
-					</header>
-					<section>
-						<p><?php echo $addon['description']; ?></p>
-					</section>
-					<footer>
-						<span><?php _e( 'Created by:', 'lifterlms' ); ?></span>
-						<span><?php echo $addon['developer']; ?></span>
-						<?php if ( $addon['developer_image'] ) : ?>
-							<img alt="<?php echo $addon['developer']; ?> logo" src="<?php echo esc_url( $addon['developer_image'] ); ?>">
-						<?php endif; ?>
-					</footer>
-				</a>
-				<?php if ( $status ) : ?>
-					<footer class="llms-status">
-						<span><?php printf( __( 'Status: %s', 'lifterlms' ), $this->get_addon_status_l10n( $status ) ); ?></span>
-						<button class="llms-add-on-button" name="llms-add-on-<?php echo $action; ?>"><?php echo $this->get_addon_status_l10n( $action ); ?></button>
-					</footer>
-				<?php endif; ?>
-			</div>
-		</li>
-		<?php
+		$AddOns = $this;
+		include 'views/addons/addon-item.php';
 	}
 
 	/**
@@ -279,15 +306,17 @@ class LLMS_Admin_AddOns {
 	 */
 	private function output_navigation() {
 		?>
-		<nav class="llms-nav-text-wrapper">
+		<nav class="llms-nav-tab-wrapper llms-nav-text">
 			<ul class="llms-nav-items">
 			<?php do_action( 'lifterlms_before_addons_nav' ); ?>
 
 				<?php $active = ( 'all' === $this->get_current_section() ) ? ' llms-active' : ''; ?>
-				<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php echo $this->get_section_title( 'all' ); ?></a></li>
-				<?php foreach ( array_keys( $this->data['sections'] ) as $name ) :
+				<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
+				<?php foreach ( $this->data['categories'] as $name => $title ) :
+					$name = sanitize_title( $name );
+					$title = sanitize_text_field( $title );
 					$active = ( $this->get_current_section() === $name ) ? ' llms-active' : ''; ?>
-					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $this->get_section_title( $name ); ?></a></li>
+					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
 
 			<?php do_action( 'lifterlms_after_addons_nav' ); ?>

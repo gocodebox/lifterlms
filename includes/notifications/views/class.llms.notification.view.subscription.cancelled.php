@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Notification View: Purchase Receipt
  * @since    3.17.8
- * @version  3.17.8
+ * @version  [version ]
  */
 class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notification_View {
 
@@ -14,7 +14,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 	 * Notification Trigger ID
 	 * @var  [type]
 	 */
-	public $trigger_id = 'purchase_receipt';
+	public $trigger_id = 'subscription_cancelled';
 
 	/**
 	 * Setup body content for output

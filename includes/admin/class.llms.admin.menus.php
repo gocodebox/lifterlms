@@ -143,6 +143,7 @@ class LLMS_Admin_Menus {
 	public function add_ons_page_init() {
 		require_once 'class.llms.admin.addons.php';
 		$view = new LLMS_Admin_AddOns();
+		$view->handle_actions();
 		$view->output();
 	}
 
