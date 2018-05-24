@@ -10,7 +10,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.18.2
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -868,7 +868,7 @@
 		 * Actions for memberships
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.18.2
+		 * @version  [version]
 		 */
 		this.bind_llms_membership = function() {
 

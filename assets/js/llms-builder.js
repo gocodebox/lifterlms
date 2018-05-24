@@ -4484,7 +4484,7 @@ define( 'Views/_Detachable',[], function() {
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.18.2
+ * @version  [version]
  */
 define( 'Views/_Editable',[], function() {
 
@@ -4496,7 +4496,7 @@ define( 'Views/_Editable',[], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  3.18.2
+		 * @version  [version]
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -4517,7 +4517,7 @@ define( 'Views/_Editable',[], function() {
 		 * @param    obj   $el  jQuery selector for the element
 		 * @return   array
 		 * @since    3.16.0
-		 * @version  3.18.2
+		 * @version  [version]
 		 */
 		get_allowed_tags: function( $el ) {
 
@@ -4536,7 +4536,7 @@ define( 'Views/_Editable',[], function() {
 		 * @param    obj   $el  jQuery object of the element
 		 * @return   string
 		 * @since    3.16.0
-		 * @version  3.18.2
+		 * @version  [version]
 		 */
 		get_content: function( $el ) {
 
@@ -4754,8 +4754,8 @@ define( 'Views/_Editable',[], function() {
 		 * This will ensure that HTML from RTF editors isn't pasted into the dom
 		 * @param    obj   event  js event obj
 		 * @return   void
-		 * @since    3.18.2
-		 * @version  3.18.2
+		 * @since    [version]
+		 * @version  [version]
 		 */
 		on_paste: function( event ) {
 
@@ -4818,7 +4818,7 @@ define( 'Views/_Editable',[], function() {
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.18.2
+		 * @version  [version]
 		 */
 		on_keydown: function( event ) {
 
@@ -10262,7 +10262,7 @@ define( 'Views/Sidebar',[
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.18.2
+ * @version  [version]
  */
 require( [
 	'vendor/backbone.collectionView',
@@ -10306,7 +10306,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.18.2
+	 * @version  [version]
 	 */
 	_.mixin( {
 
@@ -10370,8 +10370,8 @@ require( [
 		 * @param    string   content       raw string
 		 * @param    array   allowed_tags  array of allowed HTML tags
 		 * @return   string
-		 * @since    3.18.2
-		 * @version  3.18.2
+		 * @since    [version]
+		 * @version  [version]
 		 */
 		stripFormatting: function( content, allowed_tags ) {
 
