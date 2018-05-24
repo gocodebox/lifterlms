@@ -164,7 +164,8 @@ class LLMS_Certificates {
 		$libxml_state = libxml_use_internal_errors( true );
 
 		$dom = new DOMDocument;
-		if ( $dom->loadHTML( $html ) ) {
+
+		if ( $dom->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
 
 			$header = $dom->getElementsByTagName( 'head' )->item( 0 );
 
