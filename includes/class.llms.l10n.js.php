@@ -332,10 +332,10 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/llms-metaboxes.js
 			 * @since    3.0.0
-			 * @version  3.17.5
+			 * @version  [version]
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
-			'membership_bulk_enrollment_warning' => esc_html__( 'membership_bulk_enrollment_warning', 'lifterlms' ),
+			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
 			'Cancel' => esc_html__( 'Cancel', 'lifterlms' ),
 			'Refund' => esc_html__( 'Refund', 'lifterlms' ),
 			'Record a Manual Payment' => esc_html__( 'Record a Manual Payment', 'lifterlms' ),
@@ -394,9 +394,9 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/private/llms-metaboxes.js
 			 * @since    3.0.0
-			 * @version  3.17.5
+			 * @version  [version]
 			 */
-			'membership_bulk_enrollment_warning' => esc_html__( 'membership_bulk_enrollment_warning', 'lifterlms' ),
+			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
 			'Cancel' => esc_html__( 'Cancel', 'lifterlms' ),
 			'Refund' => esc_html__( 'Refund', 'lifterlms' ),
 			'Record a Manual Payment' => esc_html__( 'Record a Manual Payment', 'lifterlms' ),

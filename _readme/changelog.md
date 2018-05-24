@@ -1,6 +1,16 @@
 == Changelog ==
 
 
+= v3.18.2 - 2018-05-24 =
+------------------------
+
++ Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
++ Allow programmatic access to notification content when notification views are accessed via filters
++ Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
++ Fixed warning message displayed prior to membership bulk enrollment
++ Fixed multibyte character encoding issue encountered during certificate exports
+
+
 = v3.18.1 - 2018-05-18 =
 ------------------------
 
@@ -215,18 +225,3 @@
 
 + [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 + [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
-
-
-= v3.17.1 - 2018-03-30 =
-------------------------
-
-+ Refactored lesson completion methods to allow 3rd party customization of lesson completion behavior via filters and hooks.
-+ Remove duplicate lesson completion notice implemented. Only popover notifications will display now instead of popovers and inline messages.
-+ Object completion will now automatically prevent multiple records of completion from being recorded for a single object.
-+ Lesson Mark Complete button and lessons completed by quiz now utilizes a generic trigger to mark lessons as complete: `llms_trigger_lesson_completion`.
-+ Removed several unused functions from frontend forms class
-+ Moved lesson completion form controllers to their own class
-
-##### Templates updates
-
-+ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)

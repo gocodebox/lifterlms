@@ -25,6 +25,8 @@ https://www.youtube.com/watch?v=LugJPS7bhxI
 
 _Courses + Community + Coaching = Engagement_
 
++ [LifterLMS Advanced Quizzes][aq]
++ [LifterLMS Assignments][ass]
 + [LifterLMS Private Areas][pa]
 + [LifterLMS Social Learning][sl]
 
@@ -180,7 +182,7 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 #### **Get Support**
 
 + Technical support
-+ Live office hours
++ [Live office hours][oh]
 + Free training courses
 + Setup wizard
 + Detailed documentation
@@ -219,6 +221,8 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 [facebook]: https://www.facebook.com/groups/lifterlmsvip/
 
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -349,6 +353,16 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.18.2 - 2018-05-24 =
+------------------------
+
++ Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
++ Allow programmatic access to notification content when notification views are accessed via filters
++ Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
++ Fixed warning message displayed prior to membership bulk enrollment
++ Fixed multibyte character encoding issue encountered during certificate exports
 
 
 = v3.18.1 - 2018-05-18 =
@@ -565,21 +579,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 + [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 + [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
-
-
-= v3.17.1 - 2018-03-30 =
-------------------------
-
-+ Refactored lesson completion methods to allow 3rd party customization of lesson completion behavior via filters and hooks.
-+ Remove duplicate lesson completion notice implemented. Only popover notifications will display now instead of popovers and inline messages.
-+ Object completion will now automatically prevent multiple records of completion from being recorded for a single object.
-+ Lesson Mark Complete button and lessons completed by quiz now utilizes a generic trigger to mark lessons as complete: `llms_trigger_lesson_completion`.
-+ Removed several unused functions from frontend forms class
-+ Moved lesson completion form controllers to their own class
-
-##### Templates updates
-
-+ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

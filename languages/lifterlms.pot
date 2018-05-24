@@ -622,7 +622,7 @@ msgstr ""
 msgid "Are you sure you want to delete this row? This cannot be undone."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:338, includes/class.llms.l10n.js.php:399
+#: includes/class.llms.l10n.js.php:338
 msgid "membership_bulk_enrollment_warning"
 msgstr ""
 
@@ -696,6 +696,10 @@ msgstr ""
 
 #: includes/class.llms.l10n.js.php:368
 msgid "You must select an answer to continue."
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:399
+msgid "Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!"
 msgstr ""
 
 #: includes/class.llms.nav.menus.php:41, includes/privacy/class-llms-privacy.php:19
@@ -2700,7 +2704,7 @@ msgstr ""
 msgid "The title the user sees during checkout."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:319, includes/privacy/class-llms-privacy-exporters.php:97, includes/privacy/class-llms-privacy-exporters.php:141, includes/privacy/class-llms-privacy-exporters.php:270, includes/notifications/views/class.llms.notification.view.enrollment.php:73, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/lesson-settings.php:13, includes/admin/views/builder/quiz.php:35
+#: includes/abstracts/abstract.llms.payment.gateway.php:270, includes/abstracts/llms.abstract.notification.view.php:318, includes/privacy/class-llms-privacy-exporters.php:97, includes/privacy/class-llms-privacy-exporters.php:141, includes/privacy/class-llms-privacy-exporters.php:270, includes/notifications/views/class.llms.notification.view.enrollment.php:73, includes/admin/reporting/tables/llms.table.courses.php:276, includes/admin/reporting/tables/llms.table.quizzes.php:300, includes/admin/views/builder/lesson-settings.php:13, includes/admin/views/builder/quiz.php:35
 msgid "Title"
 msgstr ""
 
@@ -2777,36 +2781,36 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:254
+#: includes/abstracts/llms.abstract.notification.view.php:253
 msgctxt "relative date display"
 msgid "About %s ago"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:309
+#: includes/abstracts/llms.abstract.notification.view.php:308
 msgid "Subject"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:319
+#: includes/abstracts/llms.abstract.notification.view.php:318
 msgid "Heading"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:331
+#: includes/abstracts/llms.abstract.notification.view.php:330
 msgid "Body"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:341
+#: includes/abstracts/llms.abstract.notification.view.php:340
 msgid "Icon"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:347
+#: includes/abstracts/llms.abstract.notification.view.php:346
 msgid "When checked the icon will not be displayed when showing this notification."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:349
+#: includes/abstracts/llms.abstract.notification.view.php:348
 msgid "Disable Icon"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.php:469
+#: includes/abstracts/llms.abstract.notification.view.php:468
 msgid "Divider Line"
 msgstr ""
 
@@ -6948,7 +6952,7 @@ msgstr ""
 msgid "Gateway ID"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:60, includes/admin/settings/class.llms.settings.checkout.php:74, includes/admin/settings/class.llms.settings.checkout.php:75, includes/admin/settings/class.llms.settings.general.php:93
+#: includes/admin/settings/class.llms.settings.checkout.php:60, includes/admin/settings/class.llms.settings.checkout.php:74, includes/admin/settings/class.llms.settings.checkout.php:75, includes/admin/settings/class.llms.settings.general.php:93, includes/admin/settings/class.llms.settings.integrations.php:123, includes/admin/settings/class.llms.settings.integrations.php:147, includes/admin/settings/class.llms.settings.integrations.php:148
 msgid "Enabled"
 msgstr ""
 
@@ -7276,8 +7280,20 @@ msgstr ""
 msgid "View More &rarr;"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.integrations.php:21
+#: includes/admin/settings/class.llms.settings.integrations.php:20, includes/admin/settings/class.llms.settings.integrations.php:43, includes/admin/settings/class.llms.settings.integrations.php:78
 msgid "Integrations"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.integrations.php:120
+msgid "Integration"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.integrations.php:121
+msgid "Integration ID"
+msgstr ""
+
+#: includes/admin/settings/class.llms.settings.integrations.php:122, includes/admin/settings/class.llms.settings.integrations.php:137, includes/admin/settings/class.llms.settings.integrations.php:138
+msgid "Installed"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.memberships.php:45, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:22
@@ -7384,7 +7400,7 @@ msgstr ""
 msgid "Student Welcome"
 msgstr ""
 
-#: includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:88, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:133
+#: includes/notifications/controllers/class.llms.notification.controller.subscription.cancelled.php:88, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:131
 msgid "Subscription Cancellation Notice"
 msgstr ""
 
@@ -7533,7 +7549,7 @@ msgstr ""
 msgid "Customer Address"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:132, includes/notifications/views/class.llms.notification.view.payment.retry.php:132, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:91, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:65
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:132, includes/notifications/views/class.llms.notification.view.payment.retry.php:132, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:91, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:63
 msgid "Customer Name"
 msgstr ""
 
@@ -7541,7 +7557,7 @@ msgstr ""
 msgid "Customer Phone"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:135, includes/notifications/views/class.llms.notification.view.payment.retry.php:135, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:93, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:66
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:135, includes/notifications/views/class.llms.notification.view.payment.retry.php:135, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:93, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:64
 msgid "Order ID"
 msgstr ""
 
@@ -7553,23 +7569,23 @@ msgstr ""
 msgid "Payment Amount"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:138, includes/notifications/views/class.llms.notification.view.payment.retry.php:138, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:67, templates/admin/post-types/product-access-plan.php:61
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:138, includes/notifications/views/class.llms.notification.view.payment.retry.php:138, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:95, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:65, templates/admin/post-types/product-access-plan.php:61
 msgid "Plan Title"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:139, includes/notifications/views/class.llms.notification.view.payment.retry.php:139, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:96, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:68
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:139, includes/notifications/views/class.llms.notification.view.payment.retry.php:139, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:96, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:66
 msgid "Product Title"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:140, includes/notifications/views/class.llms.notification.view.payment.retry.php:140, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:97, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:69
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:140, includes/notifications/views/class.llms.notification.view.payment.retry.php:140, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:97, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:67
 msgid "Product Type"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:141, includes/notifications/views/class.llms.notification.view.payment.retry.php:141, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:98, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:70
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:141, includes/notifications/views/class.llms.notification.view.payment.retry.php:141, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:98, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:68
 msgid "Product Title (Link)"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:219, includes/notifications/views/class.llms.notification.view.payment.retry.php:219, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:175, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:116
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:219, includes/notifications/views/class.llms.notification.view.payment.retry.php:219, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:175, includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:114
 msgctxt "generic product type description"
 msgid "Item"
 msgstr ""
@@ -7710,11 +7726,11 @@ msgstr ""
 msgid "Let's get started %s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:28
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:26
 msgid "%1$s has cancelled their subscription (#%2$s) to the %3$s %4$s"
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:143
+#: includes/notifications/views/class.llms.notification.view.subscription.cancelled.php:141
 msgid "%1$s subscription cancellation"
 msgstr ""
 
