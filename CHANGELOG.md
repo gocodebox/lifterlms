@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.18.? - 2018-05-??
 --------------------
 
++ Fixed warning message displayed prior to membership bulk enrollment
 + Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
 
 
