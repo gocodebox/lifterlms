@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Admin Settings Page, Integrations Tab
 * @since    1.0.0
-* @version  [version]
+* @version  3.18.2
 */
 class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
@@ -12,7 +12,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	 * Constructor
 	 * executes settings tab actions
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.18.2
 	 */
 	public function __construct() {
 
@@ -29,8 +29,8 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	/**
 	 * Get default settings array for the main integrations tab
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.2
+	 * @version  3.18.2
 	 */
 	private function get_default_settings() {
 
@@ -61,8 +61,8 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	/**
 	 * Get the page sections
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.2
+	 * @version  3.18.2
 	 */
 	public function get_sections() {
 
@@ -86,7 +86,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return   array
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.18.2
 	 */
 	public function get_settings() {
 
@@ -105,8 +105,8 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 	/**
 	 * Get HTML for the integrations table
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.2
+	 * @version  3.18.2
 	 */
 	private function get_table_html() {
 

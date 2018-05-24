@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Integrations
  * @since    1.0.0
- * @version  [version]
+ * @version  3.18.2
  */
 class LLMS_Integrations {
 
@@ -108,8 +108,8 @@ class LLMS_Integrations {
 	/**
 	 * Get all integrations regardless of availability
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.2
+	 * @version  3.18.2
 	 */
 	public function get_integrations() {
 		return $this->integrations;

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  [version]
+ * @version  3.18.2
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
@@ -515,8 +515,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Access the protected notification object
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.18.2
+	 * @version  3.18.2
 	 */
 	public function get_notification() {
 		return $this->notification;

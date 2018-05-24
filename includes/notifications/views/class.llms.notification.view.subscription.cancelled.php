@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification View: Purchase Receipt
  * @since    3.17.8
- * @version  [version]
+ * @version  3.18.2
  */
 class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notification_View {
 
