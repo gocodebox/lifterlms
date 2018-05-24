@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  3.16.14
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
 	/**
@@ -511,6 +510,16 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		return apply_filters( $this->get_filter( 'get_merged_string' ), $this->sentence_case( $string ), $this );
 
+	}
+
+	/**
+	 * Access the protected notification object
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_notification() {
+		return $this->notification;
 	}
 
 	/**
