@@ -203,13 +203,8 @@ class LLMS_Certificates {
 
 				// add it to an inline tag
 				$tag = $dom->createElement( 'style', $raw );
-				$header->appendChild( $tag );
+				$header->replaceChild( $tag, $link );
 
-			}
-
-			// remove all the <links>
-			while ( $links && $links->length ) {
-				$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
 			}
 
 			// convert images to data uris
