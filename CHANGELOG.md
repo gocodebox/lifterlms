@@ -1,10 +1,16 @@
 LifterLMS Changelog
 ===================
 
-v3.18.2 - 2018-05-24
+v3.18.3 - 2018-05-??
 --------------------
 
 + Fix coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
+
+
+
+v3.18.2 - 2018-05-24
+--------------------
+
 + Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
 + Allow programmatic access to notification content when notification views are accessed via filters
 + Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
