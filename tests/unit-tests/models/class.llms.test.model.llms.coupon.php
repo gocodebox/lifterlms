@@ -1,8 +1,9 @@
 <?php
 /**
  * Tests for LifterLMS Coupon Model
+ * @group    coupons
  * @since    3.4.0
- * @version  3.4.0
+ * @version  [version]
  */
 class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 
@@ -74,6 +75,34 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 		   \___/   \_______/|_______/    \___/ |_______/
 	*/
 
+	/**
+	 * Test the get expiration time function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_expiration_time() {
+
+		$this->create();
+
+		// no expiration date
+		$this->obj->set( 'expiration_date', '' );
+		$this->assertFalse( $this->obj->get_expiration_time() );
+
+		$dates = array(
+			'02/28/2018',
+			'01/31/2015',
+			'12/31/2016',
+			'05/05/2015',
+		);
+
+		foreach ( $dates as $date ) {
+			$this->obj->set( 'expiration_date', $date );
+			$this->assertEquals( ( strtotime( $date ) + DAY_IN_SECONDS - 1 ), $this->obj->get_expiration_time() );
+		}
+
+
+	}
 
 	/**
 	 * Test get_products() function
@@ -116,7 +145,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	 * Test is_expired function
 	 * @return   void
 	 * @since    3.2.2
-	 * @version  3.2.2
+	 * @version  [version]
 	 */
 	public function test_is_expired() {
 
@@ -136,6 +165,11 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 
 		// should not be expired
 		llms_mock_current_time( '2015-01-01' );
+		$this->obj->set( 'expiration_date', '01/01/2016' );
+		$this->assertFalse( $this->obj->is_expired() );
+
+		// should expire end of day on expiration date
+		llms_mock_current_time( '2016-01-01 12:00pm' );
 		$this->obj->set( 'expiration_date', '01/01/2016' );
 		$this->assertFalse( $this->obj->is_expired() );
 
