@@ -38,4 +38,7 @@
 		<exclude name="WordPress.WP.I18n"/>
 
 	</rule>
+
+	<rule ref="FreshConsulting.WCAG20.Violations"/>
+
 </ruleset>

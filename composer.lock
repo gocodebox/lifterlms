@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "12614d184677a0c294d45efe310f9efd",
+    "content-hash": "63d180cf94ae72e97afa79bddb1d8c48",
     "packages": [
         {
             "name": "ericmann/wp-session-manager",
@@ -184,6 +184,30 @@
                 "instantiate"
             ],
             "time": "2015-06-14T21:17:01+00:00"
+        },
+        {
+            "name": "freshconsulting/wcag_linter",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/FreshConsulting-WCAG-Linter.git",
+                "reference": "9a802eef8caa3fa0ccf5e1362b8a58f47e151a6b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/FreshConsulting-WCAG-Linter/zipball/9a802eef8caa3fa0ccf5e1362b8a58f47e151a6b",
+                "reference": "9a802eef8caa3fa0ccf5e1362b8a58f47e151a6b",
+                "shasum": ""
+            },
+            "type": "library",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "description": "A PHP_CodeSniffer custom rule (sniff) to detect obvious WCAG 2.0 accessibility violations.",
+            "support": {
+                "source": "https://github.com/gocodebox/FreshConsulting-WCAG-Linter/tree/master"
+            },
+            "time": "2018-05-29T21:36:34+00:00"
         },
         {
             "name": "guzzle/guzzle",
@@ -2268,7 +2292,8 @@
         "gocodebox/action-scheduler": 20,
         "ericmann/wp-session-manager": 20,
         "codeclimate/php-test-reporter": 20,
-        "wp-coding-standards/wpcs": 20
+        "wp-coding-standards/wpcs": 20,
+        "freshconsulting/wcag_linter": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
