@@ -41,6 +41,15 @@
         "code",
         "design"
       ]
+    },
+    {
+      "login": "PSmolic",
+      "name": "Petar Smolic",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/4542049?v=4",
+      "profile": "http://psmolic.com",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
