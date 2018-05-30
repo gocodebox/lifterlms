@@ -1,5 +1,4 @@
 [![LifterLMS](https://3xwbw71rswfz42rmgp5qgl85-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/logo.png "LifterLMS")](https://lifterlms.com)
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/lifterlms.svg)]()
 [![WordPress](https://img.shields.io/wordpress/v/lifterlms.svg)]()
@@ -8,6 +7,7 @@
 [![Build Status](https://travis-ci.org/gocodebox/lifterlms.svg?branch=master)](https://travis-ci.org/gocodebox/lifterlms)
 [![Code Climate](https://codeclimate.com/github/gocodebox/lifterlms/badges/gpa.svg)](https://codeclimate.com/github/gocodebox/lifterlms)
 [![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [LifterLMS](https://lifterlms.com), the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
 
@@ -86,6 +86,20 @@ To see all options:
 + `./vendor/bin/phpcbf` to run on all php files
 + `./vendor/bin/phpcbf path/to/file.php` to run on a specific file
 
+
+### Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars0.githubusercontent.com/u/1290739?v=4" width="100px;"/><br /><sub><b>Thomas Patrick Levy</b></sub>](http://gocodebox.com)<br />[💬](#question-thomasplevy "Answering Questions") [📝](#blog-thomasplevy "Blogposts") [🐛](https://github.com/LifterLMS/LifterLMS/issues?q=author%3Athomasplevy "Bug reports") [💻](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Code") [🎨](#design-thomasplevy "Design") [📖](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Documentation") [💡](#example-thomasplevy "Examples") [🤔](#ideas-thomasplevy "Ideas, Planning, & Feedback") [🚇](#infra-thomasplevy "Infrastructure (Hosting, Build-Tools, etc)") [🔌](#plugin-thomasplevy "Plugin/utility libraries") [👀](#review-thomasplevy "Reviewed Pull Requests") [⚠️](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Tests") [🔧](#tool-thomasplevy "Tools") [✅](#tutorial-thomasplevy "Tutorials") [📹](#video-thomasplevy "Videos") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
+
+
 ### Partners
 
 <table>
@@ -98,26 +112,11 @@ To see all options:
     </td>
     <td>
 [<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/stagingpilot-logo.png" height="80" alt="StagingPilot">](https://stagingpilot.com/)
-  
+
 [StagingPilot](https://stagingpilot.com/) helps us automate acceptance testing to ensure LifterLMS remains compatible with popular WordPress themes and plugins.
-<<<<<<< HEAD
+
 
 [![StagingPilot](https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/stagingpilot-logo.png "StagingPilot")](https://stagingpilot.com/)
-
-
-## Contributors
-
-Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore -->
-| [<img src="https://avatars0.githubusercontent.com/u/1290739?v=4" width="100px;"/><br /><sub><b>Thomas Patrick Levy</b></sub>](http://gocodebox.com)<br />[💬](#question-thomasplevy "Answering Questions") [📝](#blog-thomasplevy "Blogposts") [🐛](https://github.com/LifterLMS/LifterLMS/issues?q=author%3Athomasplevy "Bug reports") [💻](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Code") [🎨](#design-thomasplevy "Design") [📖](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Documentation") [💡](#example-thomasplevy "Examples") [🤔](#ideas-thomasplevy "Ideas, Planning, & Feedback") [🚇](#infra-thomasplevy "Infrastructure (Hosting, Build-Tools, etc)") [🔌](#plugin-thomasplevy "Plugin/utility libraries") [👀](#review-thomasplevy "Reviewed Pull Requests") [⚠️](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Tests") [🔧](#tool-thomasplevy "Tools") [✅](#tutorial-thomasplevy "Tutorials") [📹](#video-thomasplevy "Videos") |
-| :---: |
-<!-- ALL-CONTRIBUTORS-LIST:END -->
-
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
-=======
     </td>
   </tr>
 </table>
->>>>>>> 82cdafca2811ff9551c1fbd61163dcb9545ae793
