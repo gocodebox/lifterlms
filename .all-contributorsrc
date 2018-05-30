@@ -190,6 +190,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "edent",
+      "name": "Terence Eden",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/837136?v=4",
+      "profile": "https://shkspr.mobi/blog/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
