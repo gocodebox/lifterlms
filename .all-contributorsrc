@@ -131,6 +131,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "AndreaBarghigiani",
+      "name": "Andrea Barghigiani",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/190159?v=4",
+      "profile": "https://skillsandmore.org",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
