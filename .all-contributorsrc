@@ -171,6 +171,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "yumashev",
+      "name": " Pavel Yumashev",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/37841388?v=4",
+      "profile": "https://github.com/yumashev",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
