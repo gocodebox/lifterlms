@@ -122,6 +122,15 @@
         "code",
         "ideas"
       ]
+    },
+    {
+      "login": "nikolapasic",
+      "name": "Nikola Pasic",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/10199798?v=4",
+      "profile": "http://nikola.pasic.rs",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
