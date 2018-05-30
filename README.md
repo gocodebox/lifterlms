@@ -85,8 +85,15 @@ To see all options:
 + `./vendor/bin/phpcbf` to run on all php files
 + `./vendor/bin/phpcbf path/to/file.php` to run on a specific file
 
-### Sponsors
+### Partners
 
 [BrowserStack](https://www.browserstack.com/) helps us ensure LifterLMS looks great and works on every imaginable browser and device.
 
 [![BrowserStack](https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png "BrowserStack")](https://www.browserstack.com/)
+
+
+
+[StagingPilot](https://stagingpilot.com/) helps us automate acceptance testing to ensure LifterLMS remains compatible with popular WordPress themes and plugins.
+
+[![StagingPilot](https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/stagingpilot-logo.png "StagingPilot")](https://stagingpilot.com/)
+
