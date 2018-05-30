@@ -150,6 +150,18 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "dineshchouhan",
+      "name": "Dinesh Chouhan",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/15683967?v=4",
+      "profile": "http://dineshchouhan.com",
+      "contributions": [
+        "bug",
+        "code",
+        "design",
+        "ideas"
+      ]
     }
   ]
 }
