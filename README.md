@@ -32,10 +32,6 @@ Before reporting a bug, [search existing issues](https://github.com/gocodebox/li
 
 Also check our [known issues and conflicts](https://lifterlms.com/doc-category/lifterlms/known-conflicts/) for possible resolutions.
 
-### Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](.github/CONTRIBUTING.md)
-
-Interested in contributing to LifterLMS? We'd love to have your contributions. Read our contributor's guidelines [here](.github/CONTRIBUTING.md).
-
 ### Installing for Production Usage
 
 If you clone or download this repo directly it will not run as a plugin inside WordPress! Installable production releases are available in on the [Releases tab](https://github.com/gocodebox/lifterlms/releases). You can get the latest stable release from [WordPress.org](https://downloads.wordpress.org/plugin/lifterlms.zip)
@@ -87,6 +83,11 @@ To see all options:
 + `./vendor/bin/phpcbf path/to/file.php` to run on a specific file
 
 
+### Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](.github/CONTRIBUTING.md)
+
+Interested in contributing to LifterLMS? We'd love to have your contributions. Read our contributor's guidelines [here](.github/CONTRIBUTING.md).
+
+
 ### Contributors
 
 Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
@@ -99,7 +100,7 @@ Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds
 | [<img src="https://avatars2.githubusercontent.com/u/9405480?v=4" width="100px;"/><br /><sub><b>hovpoghosyan</b></sub>](https://github.com/hovpoghosyan)<br />[💻](https://github.com/LifterLMS/LifterLMS/commits?author=hovpoghosyan "Code") | [<img src="https://avatars0.githubusercontent.com/u/37841388?v=4" width="100px;"/><br /><sub><b> Pavel Yumashev</b></sub>](https://github.com/yumashev)<br />[🐛](https://github.com/LifterLMS/LifterLMS/issues?q=author%3Ayumashev "Bug reports") [💻](https://github.com/LifterLMS/LifterLMS/commits?author=yumashev "Code") | [<img src="https://avatars2.githubusercontent.com/u/249506?v=4" width="100px;"/><br /><sub><b>Matt Halliday</b></sub>](http://matthalliday.ca)<br />[💻](https://github.com/LifterLMS/LifterLMS/commits?author=matthalliday "Code") | [<img src="https://avatars1.githubusercontent.com/u/837136?v=4" width="100px;"/><br /><sub><b>Terence Eden</b></sub>](https://shkspr.mobi/blog/)<br />[🐛](https://github.com/LifterLMS/LifterLMS/issues?q=author%3Aedent "Bug reports") [💻](https://github.com/LifterLMS/LifterLMS/commits?author=edent "Code") | [<img src="https://avatars2.githubusercontent.com/u/2222249?v=4" width="100px;"/><br /><sub><b>sujaypawar</b></sub>](https://github.com/sujaypawar)<br />[🐛](https://github.com/LifterLMS/LifterLMS/issues?q=author%3Asujaypawar "Bug reports") [💻](https://github.com/LifterLMS/LifterLMS/commits?author=sujaypawar "Code") [🎨](#design-sujaypawar "Design") [🤔](#ideas-sujaypawar "Ideas, Planning, & Feedback") |
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
-This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification.
 
 
 ### Partners
