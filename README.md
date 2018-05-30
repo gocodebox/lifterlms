@@ -87,13 +87,17 @@ To see all options:
 
 ### Partners
 
+<table>
+  <tr>
+    <td>
+[<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png" height="80" alt="BrowserStack">](https://www.browserstack.com/)
+
 [BrowserStack](https://www.browserstack.com/) helps us ensure LifterLMS looks great and works on every imaginable browser and device.
-
-[![BrowserStack](https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png "BrowserStack")](https://www.browserstack.com/)
-
-
-
+    </td>
+    <td>
+[<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/stagingpilot-logo.png" height="80" alt="StagingPilot">](https://stagingpilot.com/)
+  
 [StagingPilot](https://stagingpilot.com/) helps us automate acceptance testing to ensure LifterLMS remains compatible with popular WordPress themes and plugins.
-
-[![StagingPilot](https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/stagingpilot-logo.png "StagingPilot")](https://stagingpilot.com/)
-
+    </td>
+  </tr>
+</table>
