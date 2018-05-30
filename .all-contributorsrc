@@ -181,6 +181,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "matthalliday",
+      "name": "Matt Halliday",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/249506?v=4",
+      "profile": "http://matthalliday.ca",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
