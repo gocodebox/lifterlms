@@ -141,6 +141,15 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "tpkemme",
+      "name": "Tyler Kemme",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/3424234?v=4",
+      "profile": "https://tylerkemme.com",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
