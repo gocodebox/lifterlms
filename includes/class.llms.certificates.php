@@ -207,6 +207,11 @@ class LLMS_Certificates {
 
 			}
 
+			// remove all the <links>
+			while ( $links && $links->length ) {
+				$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
+			}
+
 			// convert images to data uris
 			$images = $dom->getElementsByTagName( 'img' );
 			foreach ( $images as $img ) {
