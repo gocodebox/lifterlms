@@ -31,6 +31,16 @@
         "tutorial",
         "video"
       ]
+    },
+    {
+      "login": "therealmarknelson",
+      "name": "Mark Nelson",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5050601?v=4",
+      "profile": "http://therealmarknelson.com",
+      "contributions": [
+        "code",
+        "design"
+      ]
     }
   ]
 }
