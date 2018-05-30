@@ -1,4 +1,5 @@
 [![LifterLMS](https://3xwbw71rswfz42rmgp5qgl85-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/logo.png "LifterLMS")](https://lifterlms.com)
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors)
 
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/lifterlms.svg)]()
 [![WordPress](https://img.shields.io/wordpress/v/lifterlms.svg)]()
@@ -97,3 +98,15 @@ To see all options:
 
 [![StagingPilot](https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/stagingpilot-logo.png "StagingPilot")](https://stagingpilot.com/)
 
+
+## Contributors
+
+Thanks goes to these wonderful people ([emoji key](https://github.com/kentcdodds/all-contributors#emoji-key)):
+
+<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
+<!-- prettier-ignore -->
+| [<img src="https://avatars0.githubusercontent.com/u/1290739?v=4" width="100px;"/><br /><sub><b>Thomas Patrick Levy</b></sub>](http://gocodebox.com)<br />[💬](#question-thomasplevy "Answering Questions") [📝](#blog-thomasplevy "Blogposts") [🐛](https://github.com/LifterLMS/LifterLMS/issues?q=author%3Athomasplevy "Bug reports") [💻](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Code") [🎨](#design-thomasplevy "Design") [📖](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Documentation") [💡](#example-thomasplevy "Examples") [🤔](#ideas-thomasplevy "Ideas, Planning, & Feedback") [🚇](#infra-thomasplevy "Infrastructure (Hosting, Build-Tools, etc)") [🔌](#plugin-thomasplevy "Plugin/utility libraries") [👀](#review-thomasplevy "Reviewed Pull Requests") [⚠️](https://github.com/LifterLMS/LifterLMS/commits?author=thomasplevy "Tests") [🔧](#tool-thomasplevy "Tools") [✅](#tutorial-thomasplevy "Tutorials") [📹](#video-thomasplevy "Videos") |
+| :---: |
+<!-- ALL-CONTRIBUTORS-LIST:END -->
+
+This project follows the [all-contributors](https://github.com/kentcdodds/all-contributors) specification. Contributions of any kind welcome!

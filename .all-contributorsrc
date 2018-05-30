@@ -1,0 +1,36 @@
+{
+  "projectName": "LifterLMS",
+  "projectOwner": "LifterLMS",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": true,
+  "contributors": [
+    {
+      "login": "thomasplevy",
+      "name": "Thomas Patrick Levy",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1290739?v=4",
+      "profile": "http://gocodebox.com",
+      "contributions": [
+        "question",
+        "blog",
+        "bug",
+        "code",
+        "design",
+        "doc",
+        "example",
+        "ideas",
+        "infra",
+        "plugin",
+        "review",
+        "test",
+        "tool",
+        "tutorial",
+        "video"
+      ]
+    }
+  ]
+}
