@@ -65,6 +65,15 @@
         "review",
         "test"
       ]
+    },
+    {
+      "login": "bmatt468",
+      "name": "Benjamin R. Matthews",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/8673706?v=4",
+      "profile": "https://bmatt468.com",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
