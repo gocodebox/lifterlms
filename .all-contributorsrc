@@ -50,6 +50,21 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "actual-saurabh",
+      "name": "Saurabh Shukla",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1739834?v=4",
+      "profile": "https://github.com/actual-saurabh",
+      "contributions": [
+        "question",
+        "bug",
+        "code",
+        "doc",
+        "ideas",
+        "review",
+        "test"
+      ]
     }
   ]
 }
