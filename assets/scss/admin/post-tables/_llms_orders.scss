@@ -1,18 +1,5 @@
-.llms-order-status-icon {
-	&.llms-active,
-	&.llms-completed {
-		color: green;
-	}
+@include order_status_badges();
 
-	&.llms-failed,
-	&.llms-expired,
-	&.llms-cancelled {
-		color: red;
-	}
-
-	&.llms-pending,
-	&.llms-refunded {
-		color: orange;
-	}
-
+#lifterlms-order-transactions .llms-table tfoot th {
+	text-align: right;
 }

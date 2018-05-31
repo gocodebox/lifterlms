@@ -108,36 +108,7 @@
 
 	}
 
-	.llms-status {
-		color: #fff;
-		border-radius: 3px;
-		display: inline-block;
-		font-size: 80%;
-		padding: 3px 6px;
-		vertical-align: middle;
-
-		&.llms-active,
-		&.llms-completed,
-		&.llms-txn-succeeded {
-			background-color: $color-green;
-		}
-
-		&.llms-failed,
-		&.llms-expired,
-		&.llms-cancelled,
-		&.llms-txn-failed {
-			background-color: $color-red;
-		}
-
-		&.llms-on-hold,
-		&.llms-pending,
-		&.llms-refunded,
-		&.llms-txn-pending,
-		&.llms-txn-refunded {
-			background-color: orange;
-		}
-
-	}
+	@include order_status_badges();
 
 	.llms-person-form-wrapper {
 		.llms-change-password { display: none; }
