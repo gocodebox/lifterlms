@@ -1,17 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Metaboxes for Orders
- *
- * @version  3.0.0
+ * @since    1.0.0
+ * @version  [version]
  */
 class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
-	 * @return void
-	 * @since  3.0.0
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.0.0
 	 */
 	public function configure() {
 
@@ -53,11 +54,10 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 *
 	 * @param object $post WP global post object
 	 * @return void
-	 *
-	 * @version  3.10.0
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public function output() {
 
@@ -91,7 +91,10 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 				<?php if ( $order->is_recurring() ) : ?>
 
-					<?php $next_time = $order->get_next_payment_due_date( 'U' ); ?>
+					<?php
+						$next_time = $order->get_next_payment_due_date( 'U' );
+						$expire_time = $order->get_access_expiration_date( 'U' );
+					?>
 
 					<?php if ( $order->has_trial() ) : ?>
 						<div class="llms-metabox-field">
@@ -109,6 +112,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 						</div>
 					<?php endif; ?>
 
+					<?php if ( $order->is_recurring() && 'llms-pending-cancel' !== $current_status ) : ?>
 					<div class="llms-metabox-field">
 						<label><?php _e( 'Next Payment Date', 'lifterlms' ) ?>:</label>
 						<?php if ( is_wp_error( $next_time ) ) : ?>
@@ -124,6 +128,25 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 							<a class="llms-editable" data-fields="#llms-editable-next-payment-date" href="#"><span class="dashicons dashicons-edit"></span></a>
 						<?php endif; ?>
 					</div>
+					<?php endif; ?>
+
+					<?php if ( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) ) : ?>
+						<div class="llms-metabox-field">
+							<label><?php _e( 'Access Expiration', 'lifterlms' ) ?>:</label>
+							<?php if ( ! is_numeric( $expire_time ) ) : ?>
+								<?php echo $expire_time; ?>
+							<?php else : ?>
+								<span
+									id="llms-editable-access-expires-date"
+									data-llms-editable="_llms_date_access_expires"
+									data-llms-editable-date-format="yy-mm-dd"
+									data-llms-editable-date-min="<?php echo current_time( 'Y-m-d' ); ?>"
+									data-llms-editable-type="datetime"
+									data-llms-editable-value='<?php echo $this->get_editable_date_json( $expire_time ); ?>'><?php echo date_i18n( $date_format, $expire_time ); ?></span>
+								<a class="llms-editable" data-fields="#llms-editable-access-expires-date" href="#"><span class="dashicons dashicons-edit"></span></a>
+							<?php endif; ?>
+						</div>
+					<?php endif; ?>
 
 				<?php endif; ?>
 
@@ -146,7 +169,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function save( $post_id ) {
 
@@ -171,6 +194,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 		$editable_dates = array(
 			'_llms_date_trial_end',
 			'_llms_date_next_payment',
+			'_llms_date_access_expires',
 		);
 
 		foreach ( $editable_dates as $id => $key ) {
