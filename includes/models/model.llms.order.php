@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  3.18.0
+ * @version  [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -33,6 +33,7 @@ defined( 'ABSPATH' ) || exit;
  * @property   $coupon_value  (float)  When on sale, $sale_price - $total; when not on sale $original_total - $total
  * @property   $coupon_value_trial  (float)  $trial_original_total - $trial_total
  * @property   $currency  (string)  Transaction's currency code
+ * @property   $date_access_expires  (string)  Date when access should expire [format (datetime) Y-m-d H:i:s]
  * @property   $date_billing_end  (string)  Date when billing should cease, only when $billing_length is greater than 0 [format (datetime) Y-m-d H:i:s]
  * @property   $date_next_payment  (string)  Date when the next recurring payment is due use function get_next_payment_due_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
  * @property   $date_trial_end  (string)  Date when the trial ends for orders with a trial, use function get_trial_end_date() instead of accessing directly! [format (datetime) Y-m-d H:i:s]
@@ -127,6 +128,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		'trial_period' => 'text',
 		'user_ip_address' => 'text',
 
+		'date_access_expires' => 'text',
 		'date_billing_end' => 'text',
 		'date_next_payment' => 'text',
 		'date_trial_end' => 'text',
@@ -373,35 +375,40 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                               "Lifetime Access" for plans with lifetime access
 	 *                               "To be Determined" for limited date when access hasn't started yet
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_access_expiration_date( $format = 'Y-m-d' ) {
 
 		$type = $this->get( 'access_expiration' );
 
-		switch ( $type ) {
-			case 'lifetime':
-				$r = __( 'Lifetime Access', 'lifterlms' );
-			break;
+		$ret = $this->get_date( 'date_access_expires', $format );
+		if ( ! $ret ) {
 
-			case 'limited-date':
-				$r = $this->get_date( 'access_expires', $format );
-			break;
+			switch ( $type ) {
+				case 'lifetime':
+					$ret = __( 'Lifetime Access', 'lifterlms' );
+				break;
 
-			case 'limited-period':
-				if ( $this->get( 'start_date' ) ) {
-					$r = date_i18n( $format, strtotime( '+' . $this->get( 'access_length' ) . ' ' . $this->get( 'access_period' ), $this->get_date( 'start_date', 'U' ) ) );
-				} else {
-					$r = __( 'To be Determined', 'lifterlms' );
-				}
-			break;
+				case 'limited-date':
+					$ret = date_i18n( $format, ( $this->get_date( 'access_expires', 'U' ) + ( DAY_IN_SECONDS - 1 ) ) );
+				break;
 
-			default:
-				$r = apply_filters( 'llms_order_' . $type . '_access_expiration_date', $type, $this, $format );
+				case 'limited-period':
+					if ( $this->get( 'start_date' ) ) {
+						$time = strtotime( '+' . $this->get( 'access_length' ) . ' ' . $this->get( 'access_period' ), $this->get_date( 'start_date', 'U' ) ) + ( DAY_IN_SECONDS - 1 );
+						$ret = date_i18n( $format, $time );
+					} else {
+						$ret = __( 'To be Determined', 'lifterlms' );
+					}
+				break;
 
+				default:
+					$ret = apply_filters( 'llms_order_' . $type . '_access_expiration_date', $type, $this, $format );
+
+			}
 		}
 
-		return apply_filters( 'llms_order_get_access_expiration_date', $r, $this, $format );
+		return apply_filters( 'llms_order_get_access_expiration_date', $ret, $this, $format );
 
 	}
 
@@ -412,13 +419,14 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                         'expired'  if access has expired according to $this->get_access_expiration_date()
 	 *                         'active'   otherwise
 	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function get_access_status() {
 
 		$statuses = apply_filters( 'llms_order_allow_access_stasuses', array(
 			'llms-active',
 			'llms-completed',
+			'llms-pending-cancel',
 			// recurring orders can expire but still grant access
 			// eg: 3monthly payments grants 1 year of access
 			// on the 4th month the order will be marked as expired
@@ -456,6 +464,18 @@ class LLMS_Order extends LLMS_Post_Model {
 		// we're active
 		return 'active';
 
+	}
+
+	/**
+	 * Retrieve arguments passed to order-related events processed by the action scheduler
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_action_args() {
+		return array(
+			'order_id' => $this->get( 'id' ),
+		);
 	}
 
 	/**
@@ -633,14 +653,14 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $format  date format to return the date in (see php date())
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
 
 		// single payments will never have a next payment date
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
-		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending' ) ) ) {
+		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ) ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
 
@@ -1155,6 +1175,26 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Schedule access expiration
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function maybe_schedule_expiration() {
+
+		// get epiration date based on setting
+		$expires = $this->get_access_expiration_date( 'U' );
+
+		// will return a timestamp or "Lifetime Access as a string"
+		if ( is_numeric( $expires ) ) {
+
+			$this->unschedule_expiration();
+			wc_schedule_single_action( $expires, 'llms_access_plan_expiration', $this->get_action_args() );
+
+		}
+	}
+
+	/**
 	 * Schedules the next payment due on a recurring order
 	 * Can be called witnout consequence on a single payment order
 	 * Will always unschedule the scheduled action (if one exists) before scheduling another
@@ -1309,23 +1349,42 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Date field setter for date fields that require things to be updated when their value changes
-	 * Mainly date_next_payment and date_trial_end which are editable from the admin panel
+	 * This is mainly used to allow updating dates which are editable from the admin panel which
+	 * should trigger additional actions when updated
+	 *
+	 * Settable dates: date_next_payment, date_trial_end, date_access_expires
+	 *
 	 * @param    string     $date_key  date field to set
-	 * @param    string     $date_val  value, should always be in the database format (Y-m-d H:i:s)
+	 * @param    string     $date_val  date string or a unix time stamp
 	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function set_date( $date_key, $date_val ) {
 
-		$this->set( 'date_' . $date_key, $date_val );
-
-		if ( 'trial_end' === $date_key ) {
-
-			$this->set_date( 'next_payment', $this->calculate_next_payment_date() );
-
+		// convert to timestamp if not already a timestamp
+		if ( ! is_numeric( $date_val ) ) {
+			$date_val = strtotime( $date_val );
 		}
 
-		$this->maybe_schedule_payment( false );
+		$this->set( 'date_' . $date_key, date( 'Y-m-d H:i:s', $date_val ) );
+
+		switch ( $date_key ) {
+
+			// reschedule access expiration
+			case 'access_expires':
+				$this->maybe_schedule_expiration();
+			break;
+
+			// additionally update the next payment date
+			// & don't break because we want to reschedule payments too
+			case 'trial_end':
+				$this->set_date( 'next_payment', $this->calculate_next_payment_date( 'U' ) );
+
+				// everything else reschedule's payments
+			default:
+				$this->maybe_schedule_payment( false );
+
+		}
 
 	}
 
@@ -1337,7 +1396,6 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @version  3.10.0
 	 */
 	public function set_status( $status ) {
-
 		if ( false === strpos( $status, 'llms-' ) ) {
 			$status = 'llms-' . $status;
 		}
@@ -1355,7 +1413,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * if expiration is required in the future
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function start_access() {
 
@@ -1364,18 +1422,31 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( ! $date ) {
 
 			// set the start date to now
-			$date = current_time( 'mysql' );
+			$date = llms_current_time( 'mysql' );
 			$this->set( 'start_date', $date );
 
-			// get epiration date based on setting
-			$expires = $this->get_access_expiration_date( 'U' );
+			if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ) ) ) {
 
-			// will return a timestamp or "Lifetime Access as a string"
-			if ( is_numeric( $expires ) ) {
-				wc_schedule_single_action( $expires, 'llms_access_plan_expiration', array(
-					'order_id' => $this->get( 'id' ),
-				) );
+				$date = $this->get_access_expiration_date( 'Y-m-d H:i:s' );
+				$this->set( 'date_access_expires', $date );
+				$this->maybe_schedule_expiration();
+
 			}
+		}
+
+	}
+
+	/**
+	 * Cancels a scheduled expiration action
+	 * does nothing if no expiration is scheduled
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function unschedule_expiration() {
+
+		if ( wc_next_scheduled_action( 'llms_access_plan_expiration', $this->get_action_args() ) ) {
+			wc_unschedule_action( 'llms_access_plan_expiration', $this->get_action_args() );
 		}
 
 	}
@@ -1385,16 +1456,14 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * does nothing if no payments are scheduled
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function unschedule_recurring_payment() {
-		if ( wc_next_scheduled_action( 'llms_charge_recurring_payment', array(
-			'order_id' => $this->get( 'id' ),
-		) ) ) {
-			wc_unschedule_action( 'llms_charge_recurring_payment', array(
-				'order_id' => $this->get( 'id' ),
-			) );
+
+		if ( wc_next_scheduled_action( 'llms_charge_recurring_payment', $this->get_action_args() ) ) {
+			wc_unschedule_action( 'llms_charge_recurring_payment', $this->get_action_args() );
 		}
+
 	}
 
 }
