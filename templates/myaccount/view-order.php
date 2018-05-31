@@ -2,11 +2,9 @@
 /**
  * View an Order
  * @since    3.0.0
- * @version  3.17.6
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 if ( ! $order ) {
 	return _e( 'Invalid Order.', 'lifterlms' );
@@ -139,19 +137,22 @@ llms_print_notices();
 							<th><?php _e( 'Last Payment Date', 'lifterlms' ); ?></th>
 							<td><?php echo $order->get_last_transaction_date( 'llms-txn-succeeded', 'any', 'F j, Y' ); ?></td>
 						</tr>
-						<tr>
-							<th><?php _e( 'Next Payment Date', 'lifterlms' ); ?></th>
-							<td>
-								<?php if ( $order->has_scheduled_payment() ) : ?>
-									<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
-								<?php else : ?>
-									&ndash;
-								<?php endif; ?>
-							</td>
-						</tr>
+
+						<?php if ( 'llms-pending-cancel' !== $order->get( 'status' ) ) : ?>
+							<tr>
+								<th><?php _e( 'Next Payment Date', 'lifterlms' ); ?></th>
+								<td>
+									<?php if ( $order->has_scheduled_payment() ) : ?>
+										<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
+									<?php else : ?>
+										&ndash;
+									<?php endif; ?>
+								</td>
+							</tr>
+						<?php endif; ?>
 					<?php endif; ?>
 
-					<?php if ( ! $order->is_recurring() || 'lifetime' !== $order->get( 'access_expiration' ) ) : ?>
+					<?php if ( ! $order->is_recurring() || 'lifetime' !== $order->get( 'access_expiration' ) || 'llms-pending-cancel' === $order->get( 'status' ) ) : ?>
 					<tr>
 						<th><?php _e( 'Expiration Date', 'lifterlms' ); ?></th>
 						<td><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
