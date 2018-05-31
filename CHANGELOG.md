@@ -5,7 +5,14 @@ v3.18.3 - 2018-05-??
 --------------------
 
 + Fix coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
++ Updated admin panel order status badges to match frontend order status badges
++ Added a new recurring order status "Pending Cancel." Orders in this state will allow students to access course / membership content until the next payment is due, on this date, instead of a recurring charge being made the order will move to "Cancelled" and the student's enrollment status will change to "Cancelled" removing their access to the course or membership.
++ When a student cancels an order from the student dashboard, the order will move to "Pending Cancel" instead of "Cancelled"
++ Added the ability to edit the access expiration date for orders with limited access settings and for orders in the "pending-cancel" state
 
+##### Template Updates
+
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
 
 
 v3.18.2 - 2018-05-24
