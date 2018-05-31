@@ -1,10 +1,11 @@
 <?php
 /**
  * Tests for LifterLMS Course Model
+ * @group    orders
  * @group    LLMS_Order
  * @group    LLMS_Post_Model
  * @since    3.10.0
- * @version  3.10.0
+ * @version  [version]
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -36,61 +37,13 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	private function get_plan( $price = 25.99, $frequency = 1, $expiration = 'lifetime', $on_sale = false, $trial = false ) {
 
-		$course = $this->generate_mock_courses( 1 );
-		$course_id = $course[0];
-
-		$plan = new LLMS_Access_Plan( 'new', 'Test Access Plan' );
-		$plan_data = array(
-			'access_expiration' => $expiration,
-			'access_expires' => ( 'limited-date' === $expiration ) ? date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) : '',
-			'access_length' => '1',
-			'access_period' => 'year',
-			'frequency' => $frequency,
-			'is_free' => 'no',
-			'length' => 0,
-			'on_sale' => $on_sale ? 'yes' : 'no',
-			'period' => 'day',
-			'price' => $price,
-			'product_id' => $course_id,
-			'sale_price' => round( $price - ( $price * .1 ), 2 ),
-			'sku' => 'accessplansku',
-			'trial_length' => 1,
-			'trial_offer' => $trial ? 'yes' : 'no',
-			'trial_period' => 'week',
-			'trial_price' => 1.00,
-		);
-
-		foreach ( $plan_data as $key => $val ) {
-			$plan->set( $key, $val );
-		}
-
-		return $plan;
+		return $this->get_mock_plan( $price, $frequency, $expiration, $on_sale, $trial );
 
 	}
 
 	private function get_order( $plan = null, $coupon = false ) {
 
-		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
-		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
-
-		if ( ! $plan ) {
-			$plan = $this->get_plan();
-		}
-
-		if ( $coupon ) {
-			$coupon = new LLMS_Coupon( 'new', 'couponcode' );
-			$coupon_data = array(
-				'coupon_amount' => 10,
-				'discount_type' => 'percent',
-				'plan_type' => 'any',
-			);
-			foreach ( $coupon_data as $key => $val ) {
-				$coupon->set( $key, $val );
-			}
-		}
-
-		$order = new LLMS_Order( 'new' );
-		return $order->init( $this->get_mock_student(), $plan, $gateway, $coupon );
+		return $this->get_mock_order( $plan, $coupon );
 
 	}
 
@@ -220,7 +173,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			'currency' => 'text',
 			'on_sale' => 'text',
 			'order_key' => 'text',
-			'order_type' => 'text',
+			'order_type' => 'single',
 			'payment_gateway' => 'text',
 			'plan_sku' => 'text',
 			'plan_title' => 'text',
@@ -313,9 +266,9 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the get_access_expiration_date() method
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function test_get_access_expiration_date() {
 
@@ -327,7 +280,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'access_expiration', 'limited-date' );
 		$this->obj->set( 'access_expires', '12/01/2020' ); // m/d/Y format (from datepicker)
 		$this->assertEquals( '2020-12-01', $this->obj->get_access_expiration_date() );
-
 
 		// expires after a period of time
 		$this->obj->set( 'access_expiration', 'limited-period' );
@@ -374,11 +326,26 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		}
 
+		// recurring pending cancel has access until the next payment due date
+		$this->obj->set( 'order_type', 'recurring' );
+		$this->obj->set( 'status', 'llms-pending-cancel' );
+		$this->assertEquals( $this->obj->get_next_payment_due_date( 'U' ), $this->obj->get_access_expiration_date( 'U' ) );
+
 	}
 
+	/**
+	 * Test get access status function
+	 * @return   void
+	 * @since    3.10.0
+	 * @version  [version]
+	 */
 	public function test_get_access_status() {
 
 		$this->assertEquals( 'inactive', $this->obj->get_access_status() );
+
+		$this->obj->set( 'order_type', 'single' );
+		$this->obj->set( 'status', 'llms-active' );
+		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
 		$this->obj->set( 'status', 'llms-completed' );
 		$this->obj->set( 'access_expiration', 'lifetime' );
@@ -391,7 +358,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		// future should still grant access
 		llms_mock_current_time( '2525-05-05' );
 		$this->assertEquals( 'active', $this->obj->get_access_status() );
-
 
 		// check limited access by date
 		$this->obj->set( 'access_expiration', 'limited-date' );
@@ -428,6 +394,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 				$this->assertFalse( $this->obj->has_access() );
 			}
 		}
+
+		$this->obj->set( 'order_type', 'recurring' );
+		$this->obj->set( 'status', 'llms-pending-cancel' );
+		$this->assertEquals( 'active', $this->obj->get_access_status() );
 
 	}
 
@@ -730,7 +700,60 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_maybe_schedule_payment() {}
+	/**
+	 * Test the schedule expiration function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_maybe_schedule_expiration() {
+
+		// recurring order with lifetime access won't schedule expiratin
+		$order = $this->get_mock_order();
+
+		$order->set_status( 'llms-active' );
+		$order->maybe_schedule_expiration();
+
+		$this->assertFalse( wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+			'order_id' => $order->get( 'id' ),
+		) ) );
+
+		// limited access will schedule expiration
+		$plan = $this->get_mock_plan( '25.99', 0, 'limited-date' );
+		$order = $this->get_mock_order( $plan );
+
+		$order->set_status( 'llms-active' );
+		$order->maybe_schedule_expiration();
+
+		$this->assertEquals( $order->get_access_expiration_date( 'U' ), wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+			'order_id' => $order->get( 'id' ),
+		) ) );
+
+	}
+
+	/**
+	 * Test recurring payment scheduling
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_maybe_schedule_payment() {
+
+		// does nothing for a one-time order
+		$plan = $this->get_mock_plan( '25.99', 0 );
+		$order = $this->get_mock_order( $plan );
+		$order->maybe_schedule_payment();
+		$this->assertEmpty( $order->get( 'date_next_payment' ) );
+
+		// schedules for recurring
+		$order = $this->get_mock_order();
+		$order->maybe_schedule_payment();
+		$this->assertTrue( ! empty( $order->get( 'date_next_payment' ) ) );
+
+		$this->assertEquals( $order->get_next_payment_due_date( 'U' ), wc_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $order->get( 'id' ) ) ) );
+
+	}
+
 	public function test_maybe_schedule_retry() {
 
 		$this->mock_gateway_support( 'recurring_retry' );
@@ -789,6 +812,36 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * test the set_date() method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_set_date() {
+
+		$dates = array(
+			'next_payment',
+			'trial_end',
+			'access_expires',
+		);
+
+		foreach ( $dates as $key ) {
+
+			// set via date string
+			$date = current_time( 'mysql' );
+			$this->obj->set_date( $key, $date );
+			$this->assertEquals( $date, $this->obj->get( 'date_' . $key ) );
+
+			// set via timestamp
+			$timestamp = current_time( 'timestamp' );
+			$this->obj->set_date( $key, $timestamp );
+			$this->assertEquals( date_i18n( 'Y-m-d H:i:s', $timestamp ), $this->obj->get( 'date_' . $key ) );
+
+		}
+
+	}
+
 	public function test_set_status() {
 
 		$this->obj->set_status( 'fakestatus' );
@@ -808,7 +861,37 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_start_access() {}
+	/**
+	 * Test the start access function
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_start_access() {
+
+		$plan = $this->get_mock_plan( '25.99', 0, 'limited-date' );
+		$order = $this->get_mock_order( $plan );
+
+		// freeze time
+		$time = current_time( 'mysql' );
+		llms_mock_current_time( $time );
+
+		// prior to starting access there should be no access start date
+		$this->assertEmpty( $order->get( 'start_date' ) );
+
+		// start the access
+		$order->start_access();
+
+		// time should be our mocked time
+		$this->assertEquals( $time, $order->get( 'start_date' ) );
+
+		// an expiration event should be scheduled to match the expiration date
+		$event_time = wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+			'order_id' => $order->get( 'id' ),
+		) );
+		$this->assertEquals( $order->get_access_expiration_date( 'U' ), $event_time );
+
+	}
 
 	// public function test_unschedule_recurring_payment() {}
 
