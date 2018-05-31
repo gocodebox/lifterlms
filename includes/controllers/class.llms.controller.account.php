@@ -1,16 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version 3.17.8
+ * @version [version]
  */
 class LLMS_Controller_Account {
 
+	/**
+	 * Constructor
+	 * @since    3.7.0
+	 * @version  3.10.0
+	 */
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'update' ) );
@@ -24,7 +27,7 @@ class LLMS_Controller_Account {
 	 * Lets student cancel recurring access plan subscriptions from the student dashboard view order screen
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  3.17.8
+	 * @version  [version]
 	 */
 	public function cancel_subscription() {
 
@@ -45,8 +48,8 @@ class LLMS_Controller_Account {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
 		}
 
-		$order->set_status( 'cancelled' );
-		$order->add_note( __( 'Cancelled by student from account page.', 'lifterlms' ) );
+		$order->set_status( 'pending-cancel' );
+		$order->add_note( __( 'Subscription cancelled by student from account page. Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' ) );
 
 		do_action( 'llms_subscription_cancelled_by_student', $order, $uid );
 
