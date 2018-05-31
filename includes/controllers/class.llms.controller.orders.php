@@ -1,12 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version 3.16.1
+ * @version [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Controller_Orders {
 
 	public function __construct() {
@@ -31,6 +31,9 @@ class LLMS_Controller_Orders {
 		// status changes for orders to enroll students and trigger completion actions
 		add_action( 'lifterlms_order_status_completed', array( $this, 'complete_order' ), 10, 1 );
 		add_action( 'lifterlms_order_status_active', array( $this, 'complete_order' ), 10, 1 );
+
+		// status changes to pending cancel
+		add_action( 'lifterlms_order_status_pending-cancel', array( $this, 'pending_cancel_order' ), 10, 1 );
 
 		// status changes for orders to unenroll students upon purchase
 		add_action( 'lifterlms_order_status_refunded', array( $this, 'error_order' ), 10, 1 );
@@ -330,19 +333,58 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Expires the enrollment associated with an order that has a limited access plan
+	 * Handle expiration & cancellation from a course / membership
+	 * Called via scheduled action set during order completion for plans with a limited access plan
+	 * Additionally called when an order is marked as "pending-cancel" to revoke access at the end of a pre-paid period
 	 * @param    int  $order_id  WP Post ID of the LLMS Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function expire_access( $order_id ) {
 
 		$order = new LLMS_Order( $order_id );
-		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), 'expired', 'order_' . $order->get( 'id' ) );
-		$order->add_note( sprintf( __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' ) ) );
+		$new_order_status = false;
+
+		// pending cancel moves to cancelled
+		if ( 'llms-pending-cancel' === $order->get( 'status' ) ) {
+
+			$status = 'cancelled';
+			$note = __( 'Student unenrolled at the end of access period due to subscription cancellation.', 'lifterlms' );
+			$new_order_status = 'cancelled';
+
+			// all others move to expired
+		} else {
+
+			$status = 'expired';
+			$note = __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' );
+
+		}
+
+		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
+		$order->add_note( $note );
 		$order->unschedule_recurring_payment();
-		// @todo allow engagements to hook into expiration
+
+		if ( $new_order_status ) {
+			$order->set_status( $new_order_status );
+		}
+
+	}
+
+	/**
+	 * Unschedule recurring payments and schedule access expiration
+	 * @param    [type]     $order  [description]
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function pending_cancel_order( $order ) {
+
+		$date = $order->get_next_payment_due_date( 'Y-m-d H:i:s' );
+		$order->set( 'date_access_expires', $date );
+
+		$order->unschedule_recurring_payment();
+		$order->maybe_schedule_expiration();
 
 	}
 
