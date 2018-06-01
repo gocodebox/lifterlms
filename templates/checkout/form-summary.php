@@ -13,7 +13,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 	<?php if ( $plan->has_trial() ) : ?>
 		<li>
 			<span class="llms-label"><?php _e( 'Trial', 'lifterlms' ); ?>:</span>
-			<span class="price-regular"><?php echo $plan->get_price( 'trial_price' ); ?></span>
+			<span class="price-regular price-trial"><?php echo $plan->get_price( 'trial_price' ); ?></span>
 			<?php if ( $coupon ) : ?>
 				<span class="price-coupon"><?php echo $plan->get_price_with_coupon( 'trial_price', $coupon ); ?></span>
 			<?php endif; ?>
