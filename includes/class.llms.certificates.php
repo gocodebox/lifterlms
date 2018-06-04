@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Certificates
  * @see      LLMS()->certificates()
  * @since    1.0.0
- * @version  3.18.2
+ * @version  [version]
  */
 class LLMS_Certificates {
 
@@ -132,7 +132,7 @@ class LLMS_Certificates {
 	 * @param    int     $certificate_id  WP Post ID of the earned certificate
 	 * @return   string
 	 * @since    3.18.0
-	 * @version  3.18.2
+	 * @version  [version]
 	 */
 	private function get_export_html( $certificate_id ) {
 
@@ -141,7 +141,7 @@ class LLMS_Certificates {
 		update_post_meta( $certificate_id, '_llms_auth_nonce', $token );
 
 		// scrape the html from a one-time use URL
-		$url = add_query_arg( '_llms_cert_auth', $token, get_permalink( $certificate_id ) );
+		$url = apply_filters( 'llms_get_certificate_export_html_url', add_query_arg( '_llms_cert_auth', $token, get_permalink( $certificate_id ) ), $certificate_id );
 		$req = wp_safe_remote_get( $url, array(
 			'sslverify' => false,
 		) );
