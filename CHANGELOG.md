@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.18.3 - 2018-05-??
 --------------------
 
++ Fix issue causing the trial price to be displayed with a strike-through during a sale
 + Added a filter to allow customization of the URL used to generate certificate downloads from
 + Fix coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
 
