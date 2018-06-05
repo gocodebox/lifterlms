@@ -72,6 +72,7 @@
 				&.on-sale,
 				&.has-coupon {
 					.price-regular { text-decoration: line-through; }
+					.price-regular.price-trial { text-decoration: none; }
 				}
 
 			}

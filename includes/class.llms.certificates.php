@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Certificates
  * @see      LLMS()->certificates()
  * @since    1.0.0
- * @version  3.18.2
+ * @version  [version]
  */
 class LLMS_Certificates {
 
@@ -132,7 +132,7 @@ class LLMS_Certificates {
 	 * @param    int     $certificate_id  WP Post ID of the earned certificate
 	 * @return   string
 	 * @since    3.18.0
-	 * @version  3.18.2
+	 * @version  [version]
 	 */
 	private function get_export_html( $certificate_id ) {
 
@@ -141,7 +141,7 @@ class LLMS_Certificates {
 		update_post_meta( $certificate_id, '_llms_auth_nonce', $token );
 
 		// scrape the html from a one-time use URL
-		$url = add_query_arg( '_llms_cert_auth', $token, get_permalink( $certificate_id ) );
+		$url = apply_filters( 'llms_get_certificate_export_html_url', add_query_arg( '_llms_cert_auth', $token, get_permalink( $certificate_id ) ), $certificate_id );
 		$req = wp_safe_remote_get( $url, array(
 			'sslverify' => false,
 		) );
@@ -157,7 +157,7 @@ class LLMS_Certificates {
 		$html = wp_remote_retrieve_body( $req );
 
 		if ( ! class_exists( 'DOMDocument' ) ) {
-			return $html;
+			return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
 		}
 
 		// don't throw or log warnings
@@ -177,6 +177,7 @@ class LLMS_Certificates {
 
 			// get all <links>
 			$links = $dom->getElementsByTagName( 'link' );
+			$to_replace = array();
 
 			// inline stylesheets
 			foreach ( $links as $link ) {
@@ -196,18 +197,26 @@ class LLMS_Certificates {
 					continue;
 				}
 
-				$stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $href ), '?' );
-
 				// get the actual CSS
+				$stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $href ), '?' );
 				$raw = file_get_contents( $stylepath );
 
-				// add it to an inline tag
+				// add it to be inlined late
 				$tag = $dom->createElement( 'style', $raw );
-				$header->appendChild( $tag );
+				$to_replace[] = array(
+					'old' => $link,
+					'new' => $tag,
+				);
 
 			}
 
-			// remove all the <links>
+			// do replacements, ensures cascade order is retained
+			foreach ( $to_replace as $replacement ) {
+				$header->replaceChild( $replacement['new'], $replacement['old'] );
+			}
+
+			// remove all remaining non sylesheet <links>
+			$links = $dom->getElementsByTagName( 'link' );
 			while ( $links && $links->length ) {
 				$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
 			}
@@ -239,7 +248,7 @@ class LLMS_Certificates {
 		libxml_use_internal_errors( $libxml_state );
 
 		// return the html
-		return $html;
+		return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
 
 	}
 
