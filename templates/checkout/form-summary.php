@@ -1,11 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Order Summary area of the checkout form
- *
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ * @since     2.4.2
+ * @version   [version]
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <ul class="llms-order-summary<?php echo $plan->is_on_sale() ? ' on-sale' : ''; ?><?php echo $coupon ? ' has-coupon' : ''; ?>">
 	<li><span class="llms-label"><?php echo $product->get_post_type_label( 'singular_name' ); ?>:</span> <?php echo $product->get( 'title' ); ?></li>
