@@ -203,7 +203,7 @@ class LLMS_Certificates {
 
 				// add it to an inline tag
 				$tag = $dom->createElement( 'style', $raw );
-				$header->appendChild( $tag );
+				$header->replaceChild( $tag, $link );
 
 			}
 
