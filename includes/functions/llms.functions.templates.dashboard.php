@@ -288,7 +288,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 			$title = __( 'My Memberships', 'lifterlms' );
 		}
 
-
 		ob_start();
 		lifterlms_template_my_memberships_loop( $student );
 
