@@ -34,10 +34,7 @@ class LLMS_Controller_Account {
 		// invalid nonce or the form wasn't submitted
 		if ( ! llms_verify_nonce( '_cancel_sub_nonce', 'llms_cancel_subscription', 'POST' ) ) {
 			return;
-		}
-
-		// verify required field
-		if ( empty( $_POST['order_id'] ) ) {
+		} elseif ( empty( $_POST['order_id'] ) ) {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
 		}
 
