@@ -98,8 +98,8 @@ class LLMS_Post_Types {
 				'label_count' => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 			'llms-pending-cancel' => array(
-				'label' => _x( 'Pending Cancel', 'Order status', 'lifterlms' ),
-				'label_count' => _n_noop( 'Pending Cancel <span class="count">(%s)</span>', 'Pending Cancel <span class="count">(%s)</span>', 'lifterlms' ),
+				'label' => _x( 'Pending Cancellation', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Pending Cancellation <span class="count">(%s)</span>', 'Pending Cancellation <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 
 			// shared
