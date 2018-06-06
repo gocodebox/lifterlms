@@ -76,88 +76,64 @@ class LLMS_Post_Types {
 	 */
 	public static function get_order_statuses() {
 
-		return apply_filters( 'lifterlms_register_order_post_statuses',
-			array(
-				// single payment only
-				'llms-completed' => array(
-					'label'                     => _x( 'Completed', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'lifterlms' ),
-				),
+		$statuses = array(
 
-				// recurring only
-				'llms-active' => array(
-					'label'                     => _x( 'Active', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-expired' => array(
-					'label'                     => _x( 'Expired', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-on-hold' => array(
-					'label'                     => _x( 'On Hold', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-pending-cancel' => array(
-					'label'                     => _x( 'Pending Cancel', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Pending Cancel <span class="count">(%s)</span>', 'Pending Cancel <span class="count">(%s)</span>', 'lifterlms' ),
-				),
+			// single payment only
+			'llms-completed' => array(
+				'label' => _x( 'Completed', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'lifterlms' ),
+			),
 
-				// shared
-				'llms-pending' => array(
-					'label'                     => _x( 'Pending Payment', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-cancelled' => array(
-					'label'                     => _x( 'Cancelled', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-refunded' => array(
-					'label'                     => _x( 'Refunded', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-failed' => array(
-					'label'                     => _x( 'Failed', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'lifterlms' ),
-				),
+			// recurring only
+			'llms-active' => array(
+				'label' => _x( 'Active', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-expired' => array(
+				'label' => _x( 'Expired', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-on-hold' => array(
+				'label' => _x( 'On Hold', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-pending-cancel' => array(
+				'label' => _x( 'Pending Cancel', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Pending Cancel <span class="count">(%s)</span>', 'Pending Cancel <span class="count">(%s)</span>', 'lifterlms' ),
+			),
 
-			)
+			// shared
+			'llms-pending' => array(
+				'label' => _x( 'Pending Payment', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-cancelled' => array(
+				'label' => _x( 'Cancelled', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-refunded' => array(
+				'label' => _x( 'Refunded', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-failed' => array(
+				'label' => _x( 'Failed', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+
 		);
+
+		$defaults = array(
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+		);
+
+		foreach ( $statuses as &$status ) {
+			$status = array_merge( $status, $defaults );
+		}
+
+		return apply_filters( 'lifterlms_register_order_post_statuses', $statuses );
 
 	}
 
