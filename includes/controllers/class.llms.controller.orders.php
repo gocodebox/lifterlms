@@ -9,6 +9,11 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Controller_Orders {
 
+	/**
+	 * Constructor
+	 * @since    3.0.0
+	 * @version  [version]
+	 */
 	public function __construct() {
 
 		// form actions
@@ -29,8 +34,8 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_transaction_status_succeeded', array( $this, 'transaction_succeeded' ), 10, 1 );
 
 		// status changes for orders to enroll students and trigger completion actions
-		add_action( 'lifterlms_order_status_completed', array( $this, 'complete_order' ), 10, 1 );
-		add_action( 'lifterlms_order_status_active', array( $this, 'complete_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_completed', array( $this, 'complete_order' ), 10, 2 );
+		add_action( 'lifterlms_order_status_active', array( $this, 'complete_order' ), 10, 2 );
 
 		// status changes to pending cancel
 		add_action( 'lifterlms_order_status_pending-cancel', array( $this, 'pending_cancel_order' ), 10, 1 );
@@ -101,13 +106,18 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Perform actions on a succesful order completion
-	 * @param  obj    $order  Instance of an LLMS_Order
-	 * @return void
-	 *
+	 * @param    obj    $order       Instance of an LLMS_Order
+	 * @param    string $old_status  Previous order status (eg: 'pending')
+	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
-	public function complete_order( $order ) {
+	public function complete_order( $order, $old_status ) {
+
+		// clear expiration date when moving from a pending-cancel order
+		if ( 'pending-cancel' === $old_status ) {
+			$order->set( 'date_access_expires', '' );
+		}
 
 		// record access start time & maybe schedule expiration
 		$order->start_access();
@@ -373,8 +383,8 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Unschedule recurring payments and schedule access expiration
-	 * @param    [type]     $order  [description]
-	 * @return   [type]
+	 * @param    obj        $order  LLMS_Order object
+	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
@@ -430,6 +440,7 @@ class LLMS_Controller_Orders {
 		}
 
 	}
+
 
 	/**
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
@@ -550,7 +561,7 @@ class LLMS_Controller_Orders {
 	 * @param    ojb        $post        WP_Post isntance
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function transition_status( $new_status, $old_status, $post ) {
 
@@ -576,8 +587,8 @@ class LLMS_Controller_Orders {
 		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
 		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
 
-		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj );
-		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj );
+		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj, $old_status, $new_status );
+		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj, $old_status, $new_status );
 
 	}
 

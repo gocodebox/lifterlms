@@ -1396,6 +1396,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @version  3.10.0
 	 */
 	public function set_status( $status ) {
+
 		if ( false === strpos( $status, 'llms-' ) ) {
 			$status = 'llms-' . $status;
 		}
@@ -1425,13 +1426,17 @@ class LLMS_Order extends LLMS_Post_Model {
 			$date = llms_current_time( 'mysql' );
 			$this->set( 'start_date', $date );
 
-			if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ) ) ) {
+		}
 
-				$date = $this->get_access_expiration_date( 'Y-m-d H:i:s' );
-				$this->set( 'date_access_expires', $date );
-				$this->maybe_schedule_expiration();
+		$this->unschedule_expiration();
 
-			}
+		// setup expiration
+		if ( in_array( $this->get( 'access_expiration' ), array( 'limited-date', 'limited-period' ) ) ) {
+
+			$expires_date = $this->get_access_expiration_date( 'Y-m-d H:i:s' );
+			$this->set( 'date_access_expires', $expires_date );
+			$this->maybe_schedule_expiration();
+
 		}
 
 	}

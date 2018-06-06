@@ -92,6 +92,30 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
 		$this->assertEquals( 3, did_action( 'lifterlms_access_plan_purchased' ) );
 
+
+		// cancel the order to test reactivation
+		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
+		$order->set( 'status', 'llms-pending-cancel' );
+		$order->set( 'status', 'llms-active' );
+		// should still have lifetime access after reactivation
+		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
+		// expiration event should be cleared
+		$this->assertFalse( wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+			'order_id' => $order->get( 'id' ),
+		) ) );
+
+
+		// test a limited date order for reactivation events
+		$plan = $this->get_mock_plan( '25.99', 1, 'limited-date' );
+		$order = $this->get_mock_order( $plan );
+		$order->set( 'status', 'llms-pending-cancel' );
+		$order->set( 'status', 'llms-active' );
+		$this->assertEquals( date( 'Y-m-d', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_access_expiration_date( 'Y-m-d' ) );
+		// expiration event should be reset
+		$this->assertEquals( $order->get_access_expiration_date( 'U' ), wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+			'order_id' => $order->get( 'id' ),
+		) ) );
+
 	}
 
 	public function test_error_order() {

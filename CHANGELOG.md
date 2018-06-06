@@ -12,6 +12,7 @@ v3.18.3 - 2018-05-??
 + Fixed issue causing the trial price to be displayed with a strike-through during a sale
 + Fixed coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
 + Fixed issue causing CSS rules to lose their declared order during exports causing export rendering issues with certain themes and plugin combinations
++ When `WP_DEBUG` is disabled the scheduled-actions posttype interface is now available via direct link. Useful for debugging but don't want to expose a menu-item link to clients. Access via wp-admin/edit.php?post_type=scheduled-action. Be warned: you shouldn't be modifying scheduled actions manually and that's why we're not exposing this directly, this should be used for debugging only!
 
 ##### Template Updates
 

@@ -326,6 +326,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		}
 
+
 		// recurring pending cancel has access until the next payment due date
 		$this->obj->set( 'order_type', 'recurring' );
 		$this->obj->set( 'status', 'llms-pending-cancel' );
