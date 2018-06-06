@@ -31,9 +31,9 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @param    int     $time  timestamp
 	 * @return   string
 	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
-	private function get_editable_date_json( $time ) {
+	public function get_editable_date_json( $time ) {
 
 		return json_encode( array(
 			'date' => date_i18n( 'Y-m-d', $time ),
