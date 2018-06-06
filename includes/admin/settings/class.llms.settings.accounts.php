@@ -115,6 +115,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			),
 
 			array(
+				'title' => __( 'View Memberships', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'List of all the student\'s memberships', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_memberships_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-memberships',
+				'sanitize'  => 'slug',
+			),
+
+			array(
 				'title' => __( 'View Achievements', 'lifterlms' ),
 				'desc' 		=> '<br>' . __( 'List of all the student\'s achievements', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_achievements_endpoint',
