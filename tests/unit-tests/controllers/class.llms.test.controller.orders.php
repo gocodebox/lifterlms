@@ -7,6 +7,9 @@
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
+	// consider dates equal within 60 seconds
+	private $date_delta = 60;
+
 	/**
 	 * Test order completion actions
 	 * @return   void
@@ -86,7 +89,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 
 		// no next payment date
-		$this->assertEquals( date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_next_payment_due_date( 'U' ) );
+		$this->assertEquals( date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_next_payment_due_date( 'U' ), '', $this->date_delta );
 
 		// actions were run
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
@@ -114,7 +117,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		// expiration event should be reset
 		$this->assertEquals( $order->get_access_expiration_date( 'U' ), wc_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
-		) ) );
+		) ), '', $this->date_delta );
 
 	}
 
