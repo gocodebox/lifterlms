@@ -1,19 +1,27 @@
 LifterLMS Changelog
 ===================
 
-v3.18.3 - 2018-05-??
+v3.19.0 - 2018-06-??
 --------------------
 
+##### Updates and enhancements
+
++ Added a "My Memberships" tab to the student dashboard
++ "My Memberships" preview area
 + Updated admin panel order status badges to match frontend order status badges
 + Added a new recurring order status "Pending Cancel." Orders in this state will allow students to access course / membership content until the next payment is due, on this date, instead of a recurring charge being made the order will move to "Cancelled" and the student's enrollment status will change to "Cancelled" removing their access to the course or membership.
 + When a student cancels an active recurring order from the student dashboard, the order will move to "Pending Cancellation" instead of "Cancelled"
 + Students can re-activate an order that's Pending Cancellation moving the expiration date to the next payment due date
 + Added the ability to edit the access expiration date for orders with limited access settings and for orders in the "pending-cancel" state
 + Added a filter to allow customization of the URL used to generate certificate downloads from
++ When `WP_DEBUG` is disabled the scheduled-actions posttype interface is now available via direct link. Useful for debugging but don't want to expose a menu-item link to clients. Access via wp-admin/edit.php?post_type=scheduled-action. Be warned: you shouldn't be modifying scheduled actions manually and that's why we're not exposing this directly, this should be used for debugging only!
+
+##### Bug fixes
+
++ Fixed issue causing "My Courses" title to be duplicated on the student dashboard when viewing the endpoint
 + Fixed issue causing the trial price to be displayed with a strike-through during a sale
 + Fixed coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
 + Fixed issue causing CSS rules to lose their declared order during exports causing export rendering issues with certain themes and plugin combinations
-+ When `WP_DEBUG` is disabled the scheduled-actions posttype interface is now available via direct link. Useful for debugging but don't want to expose a menu-item link to clients. Access via wp-admin/edit.php?post_type=scheduled-action. Be warned: you shouldn't be modifying scheduled actions manually and that's why we're not exposing this directly, this should be used for debugging only!
 
 ##### Template Updates
 
