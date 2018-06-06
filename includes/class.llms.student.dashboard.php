@@ -134,6 +134,12 @@ class LLMS_Student_Dashboard {
 				'nav_item' => true,
 				'title' => __( 'My Courses', 'lifterlms' ),
 			),
+			'view-memberships' => array(
+				'content' => 'lifterlms_template_student_dashboard_my_memberships',
+				'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint' ),
+				'nav_item' => true,
+				'title' => __( 'My Memberships', 'lifterlms' ),
+			),
 			'view-achievements' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_achievements',
 				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint' ),

@@ -241,11 +241,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		}
 
 		$more = false;
+		$title = false;
 		if ( $preview ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Courses', 'lifterlms' ),
 			);
+			$title = __( 'My Courses', 'lifterlms' );
 		}
 
 		ob_start();
@@ -254,7 +256,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_courses',
 			'slug' => 'llms-my-courses',
-			'title' => __( 'My Courses', 'lifterlms' ),
+			'title' => $title,
 			'content' => ob_get_clean(),
 			'more' => $more,
 		) );
@@ -269,11 +271,21 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
  * @version  3.14.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) ) {
-	function lifterlms_template_student_dashboard_my_memberships() {
+	function lifterlms_template_student_dashboard_my_memberships( $preview = false ) {
 
 		$student = llms_get_student();
 		if ( ! $student ) {
 			return;
+		}
+
+		$more = false;
+		$title = false;
+		if ( $preview ) {
+			$more = array(
+				'url' => llms_get_endpoint_url( 'view-memberships', '', llms_get_page_url( 'myaccount' ) ),
+				'text' => __( 'View All My Memberships', 'lifterlms' ),
+			);
+			$title = __( 'My Memberships', 'lifterlms' );
 		}
 
 		ob_start();
@@ -282,9 +294,9 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_memberships',
 			'slug' => 'llms-my-memberships',
-			'title' => __( 'My Memberships', 'lifterlms' ),
+			'title' => $title,
 			'content' => ob_get_clean(),
-			'more' => false,
+			'more' => $more,
 		) );
 
 	}
