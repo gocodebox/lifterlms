@@ -5,7 +5,6 @@
  * @since    3.0.0
  * @version  3.18.0
  */
-
 defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 

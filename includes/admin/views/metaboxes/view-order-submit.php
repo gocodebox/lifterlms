@@ -34,10 +34,7 @@ $statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'sin
 
 		<?php if ( $order->is_recurring() ) : ?>
 
-			<?php
-				$next_time = $order->get_next_payment_due_date( 'U' );
-				$expire_time = $order->get_access_expiration_date( 'U' );
-			?>
+			<?php $next_time = $order->get_next_payment_due_date( 'U' ); ?>
 
 			<?php if ( $order->has_trial() ) : ?>
 				<div class="llms-metabox-field">
@@ -73,24 +70,27 @@ $statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'sin
 			</div>
 			<?php endif; ?>
 
-			<?php if ( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) ) : ?>
-				<div class="llms-metabox-field">
-					<label><?php _e( 'Access Expiration', 'lifterlms' ); ?>:</label>
-					<?php if ( ! is_numeric( $expire_time ) ) : ?>
-						<?php echo $expire_time; ?>
-					<?php else : ?>
-						<span
-							id="llms-editable-access-expires-date"
-							data-llms-editable="_llms_date_access_expires"
-							data-llms-editable-date-format="yy-mm-dd"
-							data-llms-editable-date-min="<?php echo current_time( 'Y-m-d' ); ?>"
-							data-llms-editable-type="datetime"
-							data-llms-editable-value='<?php echo $this->get_editable_date_json( $expire_time ); ?>'><?php echo date_i18n( $date_format, $expire_time ); ?></span>
-						<a class="llms-editable" data-fields="#llms-editable-access-expires-date" href="#"><span class="dashicons dashicons-edit"></span></a>
-					<?php endif; ?>
-				</div>
-			<?php endif; ?>
+		<?php endif; ?>
 
+		<?php if ( llms_is_user_enrolled( $order->get( 'user_id' ), $order->get( 'product_id' ) ) ) : ?>
+
+			<?php $expire_time = $order->get_access_expiration_date( 'U' ); ?>
+
+			<div class="llms-metabox-field">
+				<label><?php _e( 'Access Expiration', 'lifterlms' ); ?>:</label>
+				<?php if ( ! is_numeric( $expire_time ) ) : ?>
+					<?php echo $expire_time; ?>
+				<?php else : ?>
+					<span
+						id="llms-editable-access-expires-date"
+						data-llms-editable="_llms_date_access_expires"
+						data-llms-editable-date-format="yy-mm-dd"
+						data-llms-editable-date-min="<?php echo current_time( 'Y-m-d' ); ?>"
+						data-llms-editable-type="datetime"
+						data-llms-editable-value='<?php echo $this->get_editable_date_json( $expire_time ); ?>'><?php echo date_i18n( $date_format, $expire_time ); ?></span>
+					<a class="llms-editable" data-fields="#llms-editable-access-expires-date" href="#"><span class="dashicons dashicons-edit"></span></a>
+				<?php endif; ?>
+			</div>
 		<?php endif; ?>
 
 		<div class="clear"></div>

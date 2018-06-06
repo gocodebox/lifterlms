@@ -6,7 +6,8 @@ v3.18.3 - 2018-05-??
 
 + Updated admin panel order status badges to match frontend order status badges
 + Added a new recurring order status "Pending Cancel." Orders in this state will allow students to access course / membership content until the next payment is due, on this date, instead of a recurring charge being made the order will move to "Cancelled" and the student's enrollment status will change to "Cancelled" removing their access to the course or membership.
-+ When a student cancels an order from the student dashboard, the order will move to "Pending Cancel" instead of "Cancelled"
++ When a student cancels an active recurring order from the student dashboard, the order will move to "Pending Cancellation" instead of "Cancelled"
++ Students can re-activate an order that's Pending Cancellation moving the expiration date to the next payment due date
 + Added the ability to edit the access expiration date for orders with limited access settings and for orders in the "pending-cancel" state
 + Added a filter to allow customization of the URL used to generate certificate downloads from
 + Fixed issue causing the trial price to be displayed with a strike-through during a sale
@@ -16,6 +17,7 @@ v3.18.3 - 2018-05-??
 
 ##### Template Updates
 
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-switch-source.php)
 + [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
 
 
