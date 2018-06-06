@@ -356,6 +356,31 @@ class LLMS_Order extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Determine if an order can be resubscribed to
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function can_resubscribe() {
+
+		$ret = false;
+
+		if ( $this->is_recurring() ) {
+
+			$allowed_statuses = apply_filters( 'llms_order_status_can_resubscribe_from', array(
+				'llms-on-hold',
+				'llms-pending',
+				'llms-pending-cancel'
+			) );
+			$ret = in_array( $this->get( 'status' ), $allowed_statuses );
+
+		}
+
+		return apply_filters( 'llms_order_can_resubscribe', $ret, $this );
+
+	}
+
+	/**
 	 * Generate an order key for the order
 	 * @return   string
 	 * @since    3.0.0

@@ -252,6 +252,39 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test the can_resubcribe() method
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_can_resubscribe() {
+
+		$statuses = array(
+			'llms-completed' => false,
+			'llms-active' => false,
+			'llms-expired' => false,
+			'llms-on-hold' => true,
+			'llms-pending-cancel' => true,
+			'llms-pending' => true,
+			'llms-cancelled' => false,
+			'llms-refunded' => false,
+			'llms-failed' => false,
+		);
+
+		foreach ( $statuses as $status => $expect ) {
+
+			$this->obj->set( 'order_type', 'single' );
+			$this->obj->set_status( $status );
+			$this->assertEquals( false, $this->obj->can_resubscribe() );
+
+			$this->obj->set( 'order_type', 'recurring' );
+			$this->obj->set_status( $status );
+			$this->assertEquals( $expect, $this->obj->can_resubscribe() );
+		}
+
+	}
+
+	/**
 	 * Test the generate_order_key() method
 	 * @return   [type]     [description]
 	 * @since    3.10.0

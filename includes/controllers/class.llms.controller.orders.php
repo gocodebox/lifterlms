@@ -446,7 +446,7 @@ class LLMS_Controller_Orders {
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @version  [version]
 	 */
 	public function switch_payment_source() {
 
@@ -482,6 +482,10 @@ class LLMS_Controller_Orders {
 
 		// handoff to the gateway
 		$gateway->handle_payment_source_switch( $order, $_POST );
+
+		if ( 'llms-pending-cancel' === $order->get( 'status' ) && ! llms_notice_count( 'error' ) ) {
+			$order->set_status( 'active' );
+		}
 
 	}
 
