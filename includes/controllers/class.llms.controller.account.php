@@ -52,7 +52,7 @@ class LLMS_Controller_Account {
 
 		// active subscriptions move to pending-cancel
 		// all other statuses are cancelled immediately
-		if ( 'llms-active' ===  $order->get( 'status' ) ) {
+		if ( 'llms-active' === $order->get( 'status' ) ) {
 			$new_status = 'pending-cancel';
 			$note .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
 		} else {

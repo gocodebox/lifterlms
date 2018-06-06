@@ -370,7 +370,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$allowed_statuses = apply_filters( 'llms_order_status_can_resubscribe_from', array(
 				'llms-on-hold',
 				'llms-pending',
-				'llms-pending-cancel'
+				'llms-pending-cancel',
 			) );
 			$ret = in_array( $this->get( 'status' ), $allowed_statuses );
 
