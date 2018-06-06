@@ -44,12 +44,23 @@ class LLMS_Controller_Account {
 		$order = llms_get_post( $_POST['order_id'] );
 		$uid = get_current_user_id();
 
-		if ( $uid != $order->get( 'user_id' ) ) {
+		if ( ! $order || $uid != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
 		}
 
-		$order->set_status( 'pending-cancel' );
-		$order->add_note( __( 'Subscription cancelled by student from account page. Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' ) );
+		$note = __( 'Subscription cancelled by student from account page.', 'lifterlms' );
+
+		// active subscriptions move to pending-cancel
+		// all other statuses are cancelled immediately
+		if ( 'llms-active' ===  $order->get( 'status' ) ) {
+			$new_status = 'pending-cancel';
+			$note .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
+		} else {
+			$new_status = 'cancelled';
+		}
+
+		$order->set_status( $new_status );
+		$order->add_note( $note );
 
 		do_action( 'llms_subscription_cancelled_by_student', $order, $uid );
 
