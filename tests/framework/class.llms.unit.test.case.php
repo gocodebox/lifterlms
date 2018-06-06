@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.17.2
+ * @version  [version]
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -16,6 +16,19 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	public function setUp() {
 		parent::setUp();
 		llms_reset_current_time();
+	}
+
+	/**
+	 * Setup Post data to mock post and request data
+	 * @param    array      $vars  mock post data
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function setup_post( $vars = array() ) {
+		putenv( 'REQUEST_METHOD=POST' );
+		$_POST = array_merge( $_POST, $vars );
+		$_REQUEST = array_merge( $_REQUEST, $vars );
 	}
 
 	/**
@@ -202,6 +215,71 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 		$mock['sections'] = $sections;
 
 		return $mock;
+
+	}
+
+	protected function get_mock_order( $plan = null, $coupon = false ) {
+
+		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		update_option( $gateway->get_option_name( 'enabled' ), 'yes' );
+
+		if ( ! $plan ) {
+			if ( ! $this->saved_mock_plan ) {
+				$plan = $this->get_mock_plan();
+				$this->saved_mock_plan = $plan;
+			} else {
+				$plan = $this->saved_mock_plan;
+			}
+		}
+
+		if ( $coupon ) {
+			$coupon = new LLMS_Coupon( 'new', 'couponcode' );
+			$coupon_data = array(
+				'coupon_amount' => 10,
+				'discount_type' => 'percent',
+				'plan_type' => 'any',
+			);
+			foreach ( $coupon_data as $key => $val ) {
+				$coupon->set( $key, $val );
+			}
+		}
+
+		$order = new LLMS_Order( 'new' );
+		return $order->init( $this->get_mock_student(), $plan, $gateway, $coupon );
+
+	}
+
+	protected function get_mock_plan( $price = 25.99, $frequency = 1, $expiration = 'lifetime', $on_sale = false, $trial = false ) {
+
+		$course = $this->generate_mock_courses( 1 );
+		$course_id = $course[0];
+
+		$plan = new LLMS_Access_Plan( 'new', 'Test Access Plan' );
+		$plan_data = array(
+			'access_expiration' => $expiration,
+			'access_expires' => ( 'limited-date' === $expiration ) ? date( 'm/d/Y', current_time( 'timestamp' ) + DAY_IN_SECONDS ) : '',
+			'access_length' => '1',
+			'access_period' => 'year',
+			'frequency' => $frequency,
+			'is_free' => 'no',
+			'length' => 0,
+			'on_sale' => $on_sale ? 'yes' : 'no',
+			'period' => 'day',
+			'price' => $price,
+			'product_id' => $course_id,
+			'sale_price' => round( $price - ( $price * .1 ), 2 ),
+			'sku' => 'accessplansku',
+			'trial_length' => 1,
+			'trial_offer' => $trial ? 'yes' : 'no',
+			'trial_period' => 'week',
+			'trial_price' => 1.00,
+		);
+
+		foreach ( $plan_data as $key => $val ) {
+			$plan->set( $key, $val );
+		}
+
+		return $plan;
 
 	}
 
