@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.18.0
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -156,7 +156,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_header' ) ) {
  * Template for My Achievements on dashboard
  * @return   void
  * @since    3.14.0
- * @version  3.18.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' ) ) {
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
@@ -167,7 +167,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 		}
 
 		$more = false;
-		if ( $preview ) {
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-achievements' ) ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-achievements', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Achievements', 'lifterlms' ),
@@ -194,7 +194,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
  * Template for My Certificates on dashboard
  * @return   void
  * @since    3.14.0
- * @version  3.18.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' ) ) {
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
@@ -205,7 +205,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 		}
 
 		$more = false;
-		if ( $preview ) {
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-certificates' ) ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-certificates', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Certificates', 'lifterlms' ),
@@ -230,7 +230,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
  * Template for My Courses section on dashboard index
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	function lifterlms_template_student_dashboard_my_courses( $preview = false ) {
@@ -241,13 +241,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		}
 
 		$more = false;
-		$title = false;
-		if ( $preview ) {
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-courses' ) ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Courses', 'lifterlms' ),
 			);
-			$title = __( 'My Courses', 'lifterlms' );
 		}
 
 		ob_start();
@@ -256,7 +254,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_courses',
 			'slug' => 'llms-my-courses',
-			'title' => $title,
+			'title' => $preview ? __( 'My Courses', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
 			'more' => $more,
 		) );
@@ -268,7 +266,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
  * Template for My Memberships section on dashboard index
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) ) {
 	function lifterlms_template_student_dashboard_my_memberships( $preview = false ) {
@@ -279,13 +277,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 		}
 
 		$more = false;
-		$title = false;
-		if ( $preview ) {
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-memberships' ) ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-memberships', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Memberships', 'lifterlms' ),
 			);
-			$title = __( 'My Memberships', 'lifterlms' );
 		}
 
 		ob_start();
@@ -294,7 +290,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_memberships',
 			'slug' => 'llms-my-memberships',
-			'title' => $title,
+			'title' => $preview ? __( 'My Memberships', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
 			'more' => $more,
 		) );
