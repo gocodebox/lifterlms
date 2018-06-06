@@ -453,22 +453,14 @@ class LLMS_Controller_Orders {
 		// invalid nonce or the form wasn't submitted
 		if ( ! llms_verify_nonce( '_switch_source_nonce', 'llms_switch_order_source', 'POST' ) ) {
 			return;
-		}
-
-		if ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
+		} elseif ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
 			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
 		}
 
 		$order = llms_get_post( $_POST['order_id'] );
-		if ( ! is_a( $order, 'LLMS_Order' ) ) {
+		if ( ! $order || get_current_user_id() != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
-		}
-
-		if ( get_current_user_id() != $order->get( 'user_id' ) ) {
-			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
-		}
-
-		if ( empty( $_POST['llms_payment_gateway'] ) ) {
+		} elseif ( empty( $_POST['llms_payment_gateway'] ) ) {
 			return llms_add_notice( __( 'Missing gateway information.', 'lifterlms' ), 'error' );
 		}
 
@@ -483,6 +475,7 @@ class LLMS_Controller_Orders {
 		// handoff to the gateway
 		$gateway->handle_payment_source_switch( $order, $_POST );
 
+		// if the order is pending cancel and there were no errors returned activate it
 		if ( 'llms-pending-cancel' === $order->get( 'status' ) && ! llms_notice_count( 'error' ) ) {
 			$order->set_status( 'active' );
 		}
