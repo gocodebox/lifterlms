@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "3.19.0",
+  "version": "3.19.1",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -23,7 +23,7 @@
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^1.5.4",
-    "lifterlms-lib-tasks": "^2.1.1",
+    "lifterlms-lib-tasks": "^2.1.2",
     "yargs": "^4.1.0"
   },
   "scripts": {

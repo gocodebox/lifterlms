@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.19.1 - 2018-06-07 =
+------------------------
+
++ Fixed CSS specificity issue on admin panel causing white text on white background on system status pages
+
+
 = v3.19.0 - 2018-06-07 =
 ------------------------
 
@@ -223,20 +229,3 @@
 
 + [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 + [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
-
-
-= v3.17.3 - 2018-04-11 =
-------------------------
-
-+ Course and Membership instructor metabox search field now correcty states "Select an Instructor" instead of previous "Select a Student"
-+ Added missing translation for "Select a Student" on admin panel student selection search fields
-+ Fix issue causing reporting export CSVs to throw a SYLK interpretation error when opened in Excel
-+ Fix issue causing drafted courses and memberships to be published when the "Update" button is clicked to save changes
-+ Remove use of PHP 7.2 deprecated `create_function`
-+ Fix errors resulting from quiz questions which have been deleted
-+ Fix issue causing current date / time to display as the End Date for incomplete quiz attempts on quiz reporting screens
-
-##### Template Updates
-
-+ [templates/admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
-+ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)

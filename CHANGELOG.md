@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.19.1 - 2018-06-07
+--------------------
+
++ Fixed CSS specificity issue on admin panel causing white text on white background on system status pages
+
+
 v3.19.0 - 2018-06-07
 --------------------
 
