@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -156,7 +156,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_header' ) ) {
  * Template for My Achievements on dashboard
  * @return   void
  * @since    3.14.0
- * @version  [version]
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' ) ) {
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
@@ -194,7 +194,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
  * Template for My Certificates on dashboard
  * @return   void
  * @since    3.14.0
- * @version  [version]
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' ) ) {
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
@@ -230,7 +230,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
  * Template for My Courses section on dashboard index
  * @return   void
  * @since    3.14.0
- * @version  [version]
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	function lifterlms_template_student_dashboard_my_courses( $preview = false ) {
@@ -266,7 +266,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
  * Template for My Memberships section on dashboard index
  * @return   void
  * @since    3.14.0
- * @version  [version]
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) ) {
 	function lifterlms_template_student_dashboard_my_memberships( $preview = false ) {

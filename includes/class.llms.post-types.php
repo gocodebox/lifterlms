@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_Post_Types {
 
@@ -71,8 +71,8 @@ class LLMS_Post_Types {
 	/**
 	 * Retrieve all registered order statuses
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public static function get_order_statuses() {
 
@@ -914,7 +914,7 @@ class LLMS_Post_Types {
 	 * Register post statuses
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public static function register_post_statuses() {
 

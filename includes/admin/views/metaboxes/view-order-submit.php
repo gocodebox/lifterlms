@@ -1,8 +1,8 @@
 <?php
 /**
  * View for the LLMS_Meta_Box_Order_Submit metabox
- * @since     [version]
- * @version   [version]
+ * @since     3.19.0
+ * @version   3.19.0
  *
  * @property  obj  $this   LLMS_Meta_Box_Order_Submit instance
  * @property  obj  $order  LLMS_Order instance

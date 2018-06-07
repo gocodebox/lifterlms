@@ -5,14 +5,14 @@ defined( 'ABSPATH' ) || exit;
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version [version]
+ * @version 3.19.0
  */
 class LLMS_Controller_Orders {
 
 	/**
 	 * Constructor
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function __construct() {
 
@@ -110,7 +110,7 @@ class LLMS_Controller_Orders {
 	 * @param    string $old_status  Previous order status (eg: 'pending')
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function complete_order( $order, $old_status ) {
 
@@ -349,7 +349,7 @@ class LLMS_Controller_Orders {
 	 * @param    int  $order_id  WP Post ID of the LLMS Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function expire_access( $order_id ) {
 
@@ -385,8 +385,8 @@ class LLMS_Controller_Orders {
 	 * Unschedule recurring payments and schedule access expiration
 	 * @param    obj        $order  LLMS_Order object
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function pending_cancel_order( $order ) {
 
@@ -446,7 +446,7 @@ class LLMS_Controller_Orders {
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function switch_payment_source() {
 
@@ -558,7 +558,7 @@ class LLMS_Controller_Orders {
 	 * @param    ojb        $post        WP_Post isntance
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function transition_status( $new_status, $old_status, $post ) {
 

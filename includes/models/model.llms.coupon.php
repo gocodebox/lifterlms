@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Coupon Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.0
  *
  * @property  $coupon_amount  (float)  Amount to subtract from the price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $coupon_courses  (array)  Array of Course IDs the coupon can be used against
@@ -87,8 +87,8 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * Transforms the expiration date to a timestamp and adds 23 hours 59 minutes and 59 seconds to the date
 	 * Coupons expire end of day on the expiration date (EG: 2015-12-01 @ 23:59:59)
 	 * @return   false|int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function get_expiration_time() {
 		$expires = $this->get_date( 'expiration_date', 'U' );
@@ -175,7 +175,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * Get the number of times the coupon has been used
 	 * @return   int
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function get_uses() {
 
@@ -221,7 +221,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * Determine if a coupon is expired
 	 * @return  boolean   true if expired, false otherwise
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.19.0
 	 */
 	public function is_expired() {
 		$expires = $this->get_expiration_time();
@@ -238,7 +238,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * @param    int            $plan_id  WP Post ID of an LLMS Access Plan
 	 * @return   WP_Error|true            If true, the coupon is valid, if WP_Error, there was an error
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function is_valid( $plan_id ) {
 

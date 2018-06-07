@@ -2,7 +2,7 @@
 /**
  * View an Order
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.0
  */
 defined( 'ABSPATH' ) || exit;
 

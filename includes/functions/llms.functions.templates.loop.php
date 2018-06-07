@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    1.0.0
- * @version  [version]
+ * @version  3.19.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
  * If content added to the course/membership catalog page, output it as the archive description before the loop
  * @return   void
  * @since    3.16.10
- * @version  [version]
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 	function lifterlms_archive_description() {

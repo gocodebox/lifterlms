@@ -4,14 +4,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Menu Items
  * @since   1.0.0
- * @version [version]
+ * @version 3.19.0
  */
 class LLMS_Admin_Menus {
 
 	/**
 	 * Constructor
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.19.0
 	 */
 	public function __construct() {
 
@@ -35,8 +35,8 @@ class LLMS_Admin_Menus {
 	 * EG: site.com/wp-admin/edit.php?post_type=scheduled-action
 	 * @param    array     $args  default custom post type arguments
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function action_scheduler_menu( $args ) {
 

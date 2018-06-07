@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.19.0 - 2018-06-??
+v3.19.0 - 2018-06-07
 --------------------
 
 ##### Updates and enhancements
@@ -28,6 +28,7 @@ v3.19.0 - 2018-06-??
 
 ##### Template Updates
 
++ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
 + [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-switch-source.php)
 + [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
 + [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)

@@ -2,7 +2,7 @@
 /**
  * Order Summary area of the checkout form
  * @since     2.4.2
- * @version   [version]
+ * @version   3.19.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

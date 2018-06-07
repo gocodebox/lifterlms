@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Order Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -358,8 +358,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if an order can be resubscribed to
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function can_resubscribe() {
 
@@ -400,7 +400,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                               "Lifetime Access" for plans with lifetime access
 	 *                               "To be Determined" for limited date when access hasn't started yet
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function get_access_expiration_date( $format = 'Y-m-d' ) {
 
@@ -444,7 +444,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *                         'expired'  if access has expired according to $this->get_access_expiration_date()
 	 *                         'active'   otherwise
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function get_access_status() {
 
@@ -494,8 +494,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve arguments passed to order-related events processed by the action scheduler
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	protected function get_action_args() {
 		return array(
@@ -678,7 +678,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $format  date format to return the date in (see php date())
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -1202,8 +1202,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Schedule access expiration
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function maybe_schedule_expiration() {
 
@@ -1382,7 +1382,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    string     $date_key  date field to set
 	 * @param    string     $date_val  date string or a unix time stamp
 	 * @since    3.10.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function set_date( $date_key, $date_val ) {
 
@@ -1439,7 +1439,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * if expiration is required in the future
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function start_access() {
 
@@ -1470,8 +1470,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Cancels a scheduled expiration action
 	 * does nothing if no expiration is scheduled
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function unschedule_expiration() {
 
@@ -1486,7 +1486,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * does nothing if no payments are scheduled
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function unschedule_recurring_payment() {
 

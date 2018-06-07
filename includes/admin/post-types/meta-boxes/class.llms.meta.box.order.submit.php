@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Metaboxes for Orders
  * @since    1.0.0
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
@@ -31,7 +31,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @param    int     $time  timestamp
 	 * @return   string
 	 * @since    3.10.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function get_editable_date_json( $time ) {
 
@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @param object $post WP global post object
 	 * @return void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function output() {
 
@@ -78,7 +78,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function save( $post_id ) {
 

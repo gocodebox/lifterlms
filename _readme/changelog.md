@@ -1,6 +1,39 @@
 == Changelog ==
 
 
+= v3.19.0 - 2018-06-07 =
+------------------------
+
+##### Updates and enhancements
+
++ Added a "My Memberships" tab to the student dashboard
++ "My Memberships" preview area
++ Updated admin panel order status badges to match frontend order status badges
++ Added a new recurring order status "Pending Cancel." Orders in this state will allow students to access course / membership content until the next payment is due, on this date, instead of a recurring charge being made the order will move to "Cancelled" and the student's enrollment status will change to "Cancelled" removing their access to the course or membership.
++ When a student cancels an active recurring order from the student dashboard, the order will move to "Pending Cancellation" instead of "Cancelled"
++ Students can re-activate an order that's Pending Cancellation moving the expiration date to the next payment due date
++ Added the ability to edit the access expiration date for orders with limited access settings and for orders in the "pending-cancel" state
++ Added a filter to allow customization of the URL used to generate certificate downloads from
++ When viewing taxonomy archives for any course or memberhip taxonomy (categories, tags, and tracks), if a term description exists, it will be used instead of the default catalog description content defined on the catalog page.
++ Added a filter (`llms_archive_description`) to allow filtering of the archive description
++ When `WP_DEBUG` is disabled the scheduled-actions posttype interface is now available via direct link. Useful for debugging but don't want to expose a menu-item link to clients. Access via wp-admin/edit.php?post_type=scheduled-action. Be warned: you shouldn't be modifying scheduled actions manually and that's why we're not exposing this directly, this should be used for debugging only!
++ Updated the function used to check if lessons have featured images to improve performance and resolve an incompatibility issue with WP Overlays plugin.
+
+##### Bug fixes
+
++ Fixed issue causing "My Courses" title to be duplicated on the student dashboard when viewing the endpoint
++ Fixed issue causing the trial price to be displayed with a strike-through during a sale
++ Fixed coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
++ Fixed issue causing CSS rules to lose their declared order during exports causing export rendering issues with certain themes and plugin combinations
+
+##### Template Updates
+
++ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-switch-source.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
+
+
 = v3.18.2 - 2018-05-24 =
 ------------------------
 
@@ -207,21 +240,3 @@
 
 + [templates/admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
 + [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
-
-
-= v3.17.2 - 2018-04-09 =
-------------------------
-
-+ Fixed issue preventing lesson video and audio embeds from being *removed* when using the course builder settings editor
-+ Fixed issue causing question images to lose the image source
-+ Updated student management table for courses and memberships to show the name (and a link to the user profile) of the site user who manually enrolled the student.
-+ Add "All Time" reporting to various reporting filters
-+ Added API for builder fields to enable multiple select fields
-+ Fix memory leak related to assignments rendering on course builder
-+ Fix issue causing course progress and enrollment checks to incorrectly display progress data cached for other users
-+ Lesson progression actions (Mark Complete & Take Quiz buttons) will now always display to users with edit capabilities regardless of enrollment status
-
-##### Template Updates
-
-+ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
-+ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version [version]
+ * @version 3.19.0
  */
 class LLMS_Controller_Account {
 
@@ -27,7 +27,7 @@ class LLMS_Controller_Account {
 	 * Lets student cancel recurring access plan subscriptions from the student dashboard view order screen
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function cancel_subscription() {
 

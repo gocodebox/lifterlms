@@ -3,7 +3,7 @@
  * Recurring Payment Source Switching
  * Included on single order view pages via Student Dashboard
  * @since     3.10.0
- * @version   [version]
+ * @version   3.19.0
  */
 defined( 'ABSPATH' ) || exit;
 
