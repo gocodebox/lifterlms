@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.8
  */
 require( [
 	'vendor/backbone.collectionView',
@@ -45,7 +45,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.17.8
 	 */
 	_.mixin( {
 
@@ -109,8 +109,8 @@ require( [
 		 * @param    string   content       raw string
 		 * @param    array   allowed_tags  array of allowed HTML tags
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.8
+		 * @version  3.17.8
 		 */
 		stripFormatting: function( content, allowed_tags ) {
 
