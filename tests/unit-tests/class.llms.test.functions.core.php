@@ -4,7 +4,7 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -70,8 +70,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_get_option_page_anchor() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_llms_get_option_page_anchor() {
 
@@ -256,43 +256,45 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * test llms_get_order_statuses()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.19.0
 	 */
 	public function test_llms_get_order_statuses() {
 
 		$this->assertTrue( is_array( llms_get_order_statuses() ) );
 		$this->assertFalse( empty( llms_get_order_statuses() ) );
 		$this->assertEquals( array(
-			'llms-active',
-			'llms-cancelled',
 			'llms-completed',
+			'llms-active',
 			'llms-expired',
-			'llms-failed',
 			'llms-on-hold',
+			'llms-pending-cancel',
 			'llms-pending',
+			'llms-cancelled',
 			'llms-refunded',
+			'llms-failed',
 		), array_keys( llms_get_order_statuses() ) );
 
 		$this->assertTrue( is_array( llms_get_order_statuses( 'recurring' ) ) );
 		$this->assertFalse( empty( llms_get_order_statuses( 'recurring' ) ) );
 		$this->assertEquals( array(
 			'llms-active',
-			'llms-cancelled',
 			'llms-expired',
-			'llms-failed',
 			'llms-on-hold',
+			'llms-pending-cancel',
 			'llms-pending',
+			'llms-cancelled',
 			'llms-refunded',
+			'llms-failed',
 		), array_keys( llms_get_order_statuses( 'recurring' ) ) );
 
 		$this->assertTrue( is_array( llms_get_order_statuses( 'single' ) ) );
 		$this->assertFalse( empty( llms_get_order_statuses( 'single' ) ) );
 		$this->assertEquals( array(
-			'llms-cancelled',
 			'llms-completed',
-			'llms-failed',
 			'llms-pending',
+			'llms-cancelled',
 			'llms-refunded',
+			'llms-failed',
 		), array_keys( llms_get_order_statuses( 'single' ) ) );
 
 	}
@@ -398,6 +400,29 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 		update_option( 'home', 'http://is.ssl' );
 		$this->assertFalse( llms_is_site_https() );
+	}
+
+	/**
+	 * Test the llms_parse_bool function
+	 * @return   void
+	 * @since    3.19.0
+	 * @version  3.19.0
+	 */
+	public function test_llms_parse_bool() {
+
+		$true = array( 'yes', 'on', true, 1, 'true', '1' );
+
+		foreach ( $true as $val ) {
+			$this->assertTrue( llms_parse_bool( $val ) );
+		}
+
+		$false = array( 'no', 'off', false, 0, 'false', 'something', '', null, '0', array(), array( 'ast' ), array( true ) );
+
+		foreach ( $false as $val ) {
+			$this->assertFalse( llms_parse_bool( $val ) );
+		}
+
+
 	}
 
 	/**

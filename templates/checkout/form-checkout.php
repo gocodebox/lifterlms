@@ -2,12 +2,9 @@
 /**
  * Checkout Form
  * @since    1.0.0
- * @version 3.18.0
+ * @version  3.18.1
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 $free = $plan->has_free_checkout();
 ?>
@@ -87,8 +84,17 @@ $free = $plan->has_free_checkout();
 
 				<footer class="llms-checkout-confirm llms-form-fields flush">
 
-					<?php llms_privacy_policy_form_field(); ?>
-					<?php llms_agree_to_terms_form_field(); ?>
+					<?php do_action( 'llms_checkout_footer_before' ); ?>
+
+					<?php
+						/**
+						 * llms_registration_privacy
+						 * @hooked llms_privacy_policy_form_field - 10
+						 * @hooked llms_agree_to_terms_form_field - 20
+						 */
+						do_action( 'llms_registration_privacy' );
+					?>
+
 					<?php llms_form_field( array(
 						'columns' => 12,
 						'classes' => 'llms-button-action',
@@ -98,6 +104,8 @@ $free = $plan->has_free_checkout();
 						'required' => false,
 						'type'  => 'submit',
 					) ); ?>
+
+					<?php do_action( 'llms_checkout_footer_after' ); ?>
 
 				</footer>
 

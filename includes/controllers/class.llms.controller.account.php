@@ -1,16 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version 3.17.8
+ * @version 3.19.0
  */
 class LLMS_Controller_Account {
 
+	/**
+	 * Constructor
+	 * @since    3.7.0
+	 * @version  3.10.0
+	 */
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'update' ) );
@@ -24,29 +27,37 @@ class LLMS_Controller_Account {
 	 * Lets student cancel recurring access plan subscriptions from the student dashboard view order screen
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  3.17.8
+	 * @version  3.19.0
 	 */
 	public function cancel_subscription() {
 
 		// invalid nonce or the form wasn't submitted
 		if ( ! llms_verify_nonce( '_cancel_sub_nonce', 'llms_cancel_subscription', 'POST' ) ) {
 			return;
-		}
-
-		// verify required field
-		if ( empty( $_POST['order_id'] ) ) {
+		} elseif ( empty( $_POST['order_id'] ) ) {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
 		}
 
 		$order = llms_get_post( $_POST['order_id'] );
 		$uid = get_current_user_id();
 
-		if ( $uid != $order->get( 'user_id' ) ) {
+		if ( ! $order || $uid != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
 		}
 
-		$order->set_status( 'cancelled' );
-		$order->add_note( __( 'Cancelled by student from account page.', 'lifterlms' ) );
+		$note = __( 'Subscription cancelled by student from account page.', 'lifterlms' );
+
+		// active subscriptions move to pending-cancel
+		// all other statuses are cancelled immediately
+		if ( 'llms-active' === $order->get( 'status' ) ) {
+			$new_status = 'pending-cancel';
+			$note .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
+		} else {
+			$new_status = 'cancelled';
+		}
+
+		$order->set_status( $new_status );
+		$order->add_note( $note );
 
 		do_action( 'llms_subscription_cancelled_by_student', $order, $uid );
 

@@ -1,24 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Privacy related template functions
  * @since    3.18.0
- * @version  3.18.0
+ * @version  3.18.1
  */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Get the HTML for the Terms field displayed on reg forms
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.18.0
+ * @version  3.18.1
  */
 if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
 	function llms_agree_to_terms_form_field( $echo = true ) {
+
+		// do_action passes empty string
+		if ( '' === $echo ) {
+			$echo = true;
+		}
 
 		$ret = '';
 
@@ -50,7 +53,7 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 		return $ret;
 
 	}
-}
+}// End if().
 
 
 
@@ -59,11 +62,16 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.18.0
+ * @version  3.18.1
  */
 if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 
 	function llms_privacy_policy_form_field( $echo = true ) {
+
+		// do_action passes empty string
+		if ( '' === $echo ) {
+			$echo = true;
+		}
 
 		$ret = '';
 

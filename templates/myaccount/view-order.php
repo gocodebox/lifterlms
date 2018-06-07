@@ -2,17 +2,16 @@
 /**
  * View an Order
  * @since    3.0.0
- * @version  3.17.6
+ * @version  3.19.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 if ( ! $order ) {
 	return _e( 'Invalid Order.', 'lifterlms' );
 }
 
 $gateway = $order->get_gateway();
+$order_status = $order->get( 'status' );
 
 llms_print_notices();
 ?>
@@ -25,7 +24,7 @@ llms_print_notices();
 
 		<h2 class="order-title">
 			<?php printf( __( 'Order #%d', 'lifterlms' ), $order->get( 'id' ) ); ?>
-			<span class="llms-status <?php echo $order->get( 'status' ); ?>"><?php echo $order->get_status_name(); ?></span>
+			<span class="llms-status <?php echo $order_status; ?>"><?php echo $order->get_status_name(); ?></span>
 		</h2>
 
 		<?php do_action( 'lifterlms_before_view_order_table' ); ?>
@@ -139,19 +138,22 @@ llms_print_notices();
 							<th><?php _e( 'Last Payment Date', 'lifterlms' ); ?></th>
 							<td><?php echo $order->get_last_transaction_date( 'llms-txn-succeeded', 'any', 'F j, Y' ); ?></td>
 						</tr>
-						<tr>
-							<th><?php _e( 'Next Payment Date', 'lifterlms' ); ?></th>
-							<td>
-								<?php if ( $order->has_scheduled_payment() ) : ?>
-									<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
-								<?php else : ?>
-									&ndash;
-								<?php endif; ?>
-							</td>
-						</tr>
+
+						<?php if ( 'llms-pending-cancel' !== $order_status ) : ?>
+							<tr>
+								<th><?php _e( 'Next Payment Date', 'lifterlms' ); ?></th>
+								<td>
+									<?php if ( $order->has_scheduled_payment() ) : ?>
+										<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>
+									<?php else : ?>
+										&ndash;
+									<?php endif; ?>
+								</td>
+							</tr>
+						<?php endif; ?>
 					<?php endif; ?>
 
-					<?php if ( ! $order->is_recurring() || 'lifetime' !== $order->get( 'access_expiration' ) ) : ?>
+					<?php if ( ! $order->is_recurring() || 'lifetime' !== $order->get( 'access_expiration' ) || 'llms-pending-cancel' === $order_status ) : ?>
 					<tr>
 						<th><?php _e( 'Expiration Date', 'lifterlms' ); ?></th>
 						<td><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
@@ -167,7 +169,7 @@ llms_print_notices();
 
 			<?php if ( $order->is_recurring() ) : ?>
 
-				<?php if ( isset( $_GET['confirm-switch'] ) || in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold', 'llms-pending' ) ) ) : ?>
+				<?php if ( isset( $_GET['confirm-switch'] ) || 'llms-active' === $order_status || $order->can_resubscribe() ) : ?>
 
 					<?php llms_get_template( 'checkout/form-switch-source.php', array(
 						'confirm' => isset( $_GET['confirm-switch'] ) ? sanitize_text_field( $_GET['confirm-switch'] ) : null,
@@ -176,7 +178,7 @@ llms_print_notices();
 
 				<?php endif; ?>
 
-				<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true ) && in_array( $order->get( 'status' ), array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
+				<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true ) && in_array( $order_status, array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
 
 					<form action="" id="llms-cancel-subscription-form" method="POST">
 

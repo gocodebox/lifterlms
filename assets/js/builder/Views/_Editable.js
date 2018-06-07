@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  [version]
+ * @version  3.17.8
  */
 define( [], function() {
 
@@ -16,7 +16,7 @@ define( [], function() {
 		 * DOM Events
 		 * @type  {Object}
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.8
 		 */
 		events: {
 			'click .llms-add-image': 'open_media_lib',
@@ -37,7 +37,7 @@ define( [], function() {
 		 * @param    obj   $el  jQuery selector for the element
 		 * @return   array
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.8
 		 */
 		get_allowed_tags: function( $el ) {
 
@@ -56,7 +56,7 @@ define( [], function() {
 		 * @param    obj   $el  jQuery object of the element
 		 * @return   string
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.8
 		 */
 		get_content: function( $el ) {
 
@@ -274,8 +274,8 @@ define( [], function() {
 		 * This will ensure that HTML from RTF editors isn't pasted into the dom
 		 * @param    obj   event  js event obj
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.17.8
+		 * @version  3.17.8
 		 */
 		on_paste: function( event ) {
 
@@ -338,7 +338,7 @@ define( [], function() {
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.17.8
 		 */
 		on_keydown: function( event ) {
 

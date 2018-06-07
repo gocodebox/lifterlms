@@ -1,14 +1,19 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version 3.16.1
+ * @version 3.19.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Controller_Orders {
 
+	/**
+	 * Constructor
+	 * @since    3.0.0
+	 * @version  3.19.0
+	 */
 	public function __construct() {
 
 		// form actions
@@ -29,8 +34,11 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_transaction_status_succeeded', array( $this, 'transaction_succeeded' ), 10, 1 );
 
 		// status changes for orders to enroll students and trigger completion actions
-		add_action( 'lifterlms_order_status_completed', array( $this, 'complete_order' ), 10, 1 );
-		add_action( 'lifterlms_order_status_active', array( $this, 'complete_order' ), 10, 1 );
+		add_action( 'lifterlms_order_status_completed', array( $this, 'complete_order' ), 10, 2 );
+		add_action( 'lifterlms_order_status_active', array( $this, 'complete_order' ), 10, 2 );
+
+		// status changes to pending cancel
+		add_action( 'lifterlms_order_status_pending-cancel', array( $this, 'pending_cancel_order' ), 10, 1 );
 
 		// status changes for orders to unenroll students upon purchase
 		add_action( 'lifterlms_order_status_refunded', array( $this, 'error_order' ), 10, 1 );
@@ -98,13 +106,18 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Perform actions on a succesful order completion
-	 * @param  obj    $order  Instance of an LLMS_Order
-	 * @return void
-	 *
+	 * @param    obj    $order       Instance of an LLMS_Order
+	 * @param    string $old_status  Previous order status (eg: 'pending')
+	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.11.0
+	 * @version  3.19.0
 	 */
-	public function complete_order( $order ) {
+	public function complete_order( $order, $old_status ) {
+
+		// clear expiration date when moving from a pending-cancel order
+		if ( 'pending-cancel' === $old_status ) {
+			$order->set( 'date_access_expires', '' );
+		}
 
 		// record access start time & maybe schedule expiration
 		$order->start_access();
@@ -330,19 +343,58 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Expires the enrollment associated with an order that has a limited access plan
+	 * Handle expiration & cancellation from a course / membership
+	 * Called via scheduled action set during order completion for plans with a limited access plan
+	 * Additionally called when an order is marked as "pending-cancel" to revoke access at the end of a pre-paid period
 	 * @param    int  $order_id  WP Post ID of the LLMS Order
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.19.0
 	 */
 	public function expire_access( $order_id ) {
 
 		$order = new LLMS_Order( $order_id );
-		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), 'expired', 'order_' . $order->get( 'id' ) );
-		$order->add_note( sprintf( __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' ) ) );
+		$new_order_status = false;
+
+		// pending cancel moves to cancelled
+		if ( 'llms-pending-cancel' === $order->get( 'status' ) ) {
+
+			$status = 'cancelled';
+			$note = __( 'Student unenrolled at the end of access period due to subscription cancellation.', 'lifterlms' );
+			$new_order_status = 'cancelled';
+
+			// all others move to expired
+		} else {
+
+			$status = 'expired';
+			$note = __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' );
+
+		}
+
+		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
+		$order->add_note( $note );
 		$order->unschedule_recurring_payment();
-		// @todo allow engagements to hook into expiration
+
+		if ( $new_order_status ) {
+			$order->set_status( $new_order_status );
+		}
+
+	}
+
+	/**
+	 * Unschedule recurring payments and schedule access expiration
+	 * @param    obj        $order  LLMS_Order object
+	 * @return   void
+	 * @since    3.19.0
+	 * @version  3.19.0
+	 */
+	public function pending_cancel_order( $order ) {
+
+		$date = $order->get_next_payment_due_date( 'Y-m-d H:i:s' );
+		$order->set( 'date_access_expires', $date );
+
+		$order->unschedule_recurring_payment();
+		$order->maybe_schedule_expiration();
 
 	}
 
@@ -389,33 +441,26 @@ class LLMS_Controller_Orders {
 
 	}
 
+
 	/**
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @version  3.19.0
 	 */
 	public function switch_payment_source() {
 
 		// invalid nonce or the form wasn't submitted
 		if ( ! llms_verify_nonce( '_switch_source_nonce', 'llms_switch_order_source', 'POST' ) ) {
 			return;
-		}
-
-		if ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
+		} elseif ( ! isset( $_POST['order_id'] ) && ! is_numeric( $_POST['order_id'] ) && 0 == $_POST['order_id'] ) {
 			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
 		}
 
 		$order = llms_get_post( $_POST['order_id'] );
-		if ( ! is_a( $order, 'LLMS_Order' ) ) {
+		if ( ! $order || get_current_user_id() != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
-		}
-
-		if ( get_current_user_id() != $order->get( 'user_id' ) ) {
-			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
-		}
-
-		if ( empty( $_POST['llms_payment_gateway'] ) ) {
+		} elseif ( empty( $_POST['llms_payment_gateway'] ) ) {
 			return llms_add_notice( __( 'Missing gateway information.', 'lifterlms' ), 'error' );
 		}
 
@@ -429,6 +474,11 @@ class LLMS_Controller_Orders {
 
 		// handoff to the gateway
 		$gateway->handle_payment_source_switch( $order, $_POST );
+
+		// if the order is pending cancel and there were no errors returned activate it
+		if ( 'llms-pending-cancel' === $order->get( 'status' ) && ! llms_notice_count( 'error' ) ) {
+			$order->set_status( 'active' );
+		}
 
 	}
 
@@ -508,7 +558,7 @@ class LLMS_Controller_Orders {
 	 * @param    ojb        $post        WP_Post isntance
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.19.0
 	 */
 	public function transition_status( $new_status, $old_status, $post ) {
 
@@ -534,8 +584,8 @@ class LLMS_Controller_Orders {
 		$new_status = str_replace( array( 'llms-', 'txn-' ), '', $new_status );
 		$old_status = str_replace( array( 'llms-', 'txn-' ), '', $old_status );
 
-		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj );
-		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj );
+		do_action( 'lifterlms_' . $post_type . '_status_' . $old_status . '_to_' . $new_status, $obj, $old_status, $new_status );
+		do_action( 'lifterlms_' . $post_type . '_status_' . $new_status, $obj, $old_status, $new_status );
 
 	}
 

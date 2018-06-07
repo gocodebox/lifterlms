@@ -3,16 +3,16 @@
  * Tests for the LLMS_Abstract_Integration class
  * @group    abstracts
  * @group    integrations
- * @since    [version]
- * @version  [version]
+ * @since    3.19.0
+ * @version  3.19.0
  */
 class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 
 	/**
 	 * Retrieve the abstract class mock stub
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	private function get_stub() {
 
@@ -30,8 +30,8 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * test add_settings() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_add_settings() {
 
@@ -51,8 +51,8 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test is_available() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_is_available() {
 
@@ -74,8 +74,8 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	/**
 	 * Test is_enabled() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_is_enabled() {
 
@@ -98,8 +98,8 @@ class LLMS_Test_Abstract_Integration extends LLMS_UnitTestCase {
 	 * test is_installed() method
 	 * by default this just returns true, extending classes override it
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_is_installed() {
 

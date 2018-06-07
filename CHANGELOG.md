@@ -1,6 +1,67 @@
 LifterLMS Changelog
 ===================
 
+v3.19.1 - 2018-06-07
+--------------------
+
++ Fixed CSS specificity issue on admin panel causing white text on white background on system status pages
+
+
+v3.19.0 - 2018-06-07
+--------------------
+
+##### Updates and enhancements
+
++ Added a "My Memberships" tab to the student dashboard
++ "My Memberships" preview area
++ Updated admin panel order status badges to match frontend order status badges
++ Added a new recurring order status "Pending Cancel." Orders in this state will allow students to access course / membership content until the next payment is due, on this date, instead of a recurring charge being made the order will move to "Cancelled" and the student's enrollment status will change to "Cancelled" removing their access to the course or membership.
++ When a student cancels an active recurring order from the student dashboard, the order will move to "Pending Cancellation" instead of "Cancelled"
++ Students can re-activate an order that's Pending Cancellation moving the expiration date to the next payment due date
++ Added the ability to edit the access expiration date for orders with limited access settings and for orders in the "pending-cancel" state
++ Added a filter to allow customization of the URL used to generate certificate downloads from
++ When viewing taxonomy archives for any course or memberhip taxonomy (categories, tags, and tracks), if a term description exists, it will be used instead of the default catalog description content defined on the catalog page.
++ Added a filter (`llms_archive_description`) to allow filtering of the archive description
++ When `WP_DEBUG` is disabled the scheduled-actions posttype interface is now available via direct link. Useful for debugging but don't want to expose a menu-item link to clients. Access via wp-admin/edit.php?post_type=scheduled-action. Be warned: you shouldn't be modifying scheduled actions manually and that's why we're not exposing this directly, this should be used for debugging only!
++ Updated the function used to check if lessons have featured images to improve performance and resolve an incompatibility issue with WP Overlays plugin.
+
+##### Bug fixes
+
++ Fixed issue causing "My Courses" title to be duplicated on the student dashboard when viewing the endpoint
++ Fixed issue causing the trial price to be displayed with a strike-through during a sale
++ Fixed coupon issue causing coupons to expire at the beginning of the day on the expiration date instead of at the end of the day
++ Fixed issue causing CSS rules to lose their declared order during exports causing export rendering issues with certain themes and plugin combinations
+
+##### Template Updates
+
++ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
++ [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-switch-source.php)
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
+
+
+v3.18.2 - 2018-05-24
+--------------------
+
++ Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
++ Allow programmatic access to notification content when notification views are accessed via filters
++ Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
++ Fixed warning message displayed prior to membership bulk enrollment
++ Fixed multibyte character encoding issue encountered during certificate exports
+
+
+v3.18.1 - 2018-05-18
+--------------------
+
++ Attached `llms_privacy_policy_form_field()` and `llms_agree_to_terms_form_field()` to an action hook `llms_registration_privacy`
++ Define minimum WordPress version requirement as 4.8.
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
+
+
 v3.18.0 - 2018-05-16
 --------------------
 

@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.17.5
+ * @version  3.18.2
  */
 ( function( $ ) {
 
@@ -413,7 +413,7 @@
 		 * Actions for memberships
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.4.0
+		 * @version  3.18.2
 		 */
 		this.bind_llms_membership = function() {
 
@@ -468,7 +468,7 @@
 					$row = $el.closest( 'tr' ),
 					$container = $el.closest( '.llms-mb-list' );
 
-				if ( ! window.confirm( LLMS.l10n.translate( 'membership_bulk_enrollment_warning' ) ) ) {
+				if ( ! window.confirm( LLMS.l10n.translate( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' ) ) ) {
 					return;
 				}
 
