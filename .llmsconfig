@@ -36,7 +36,22 @@
 		"dest": "assets/js/"
 	},
 	"versioner": {
-		"custom": [ "versioner:readme" ]
+		"custom": [ "versioner:readme" ],
+		"scripts": false,
+		"src": [
+			"./*.php",
+			"./inc/**/*.php",
+			"./includes/**/*.php",
+			"./templates/**/*.php",
+			"./tests/**/*.php",
+			"assets/js/**/*.js",
+			"!assets/js/**/*.min.js",
+			"!assets/js/**/*.js.map",
+			"assets/js/app/**/*.js",
+			"assets/js/builder/**/*.js",
+			"assets/js/partials/**/*.js",
+			"assets/js/private/**/*.js"
+		]
 	},
 	"watch": {
 		"custom": [ {
