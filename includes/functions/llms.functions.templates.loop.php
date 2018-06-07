@@ -26,7 +26,9 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 		} elseif ( is_post_type_archive( 'llms_membership' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
 
 			$page_id = llms_get_page_id( 'memberships' );
-		} elseif ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
+		}
+
+		if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 
 			$content = get_the_archive_description();
 		}
