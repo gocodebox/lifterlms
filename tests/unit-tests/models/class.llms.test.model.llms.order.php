@@ -5,7 +5,7 @@
  * @group    LLMS_Order
  * @group    LLMS_Post_Model
  * @since    3.10.0
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -254,8 +254,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the can_resubcribe() method
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_can_resubscribe() {
 
@@ -301,7 +301,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the get_access_expiration_date() method
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function test_get_access_expiration_date() {
 
@@ -371,7 +371,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test get access status function
 	 * @return   void
 	 * @since    3.10.0
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function test_get_access_status() {
 
@@ -737,8 +737,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the schedule expiration function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_maybe_schedule_expiration() {
 
@@ -768,8 +768,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test recurring payment scheduling
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_maybe_schedule_payment() {
 
@@ -849,8 +849,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * test the set_date() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_set_date() {
 
@@ -898,8 +898,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the start access function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_start_access() {
 

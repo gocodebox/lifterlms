@@ -4,7 +4,7 @@
  * @group    controllers
  * @group    lessons
  * @since    3.17.1
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 

@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -22,8 +22,8 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * Setup Post data to mock post and request data
 	 * @param    array      $vars  mock post data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	protected function setup_post( $vars = array() ) {
 		putenv( 'REQUEST_METHOD=POST' );

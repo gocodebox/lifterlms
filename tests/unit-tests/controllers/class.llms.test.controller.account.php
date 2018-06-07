@@ -2,8 +2,8 @@
 /**
  * Tests for the LLMS_Controller_Account class
  * @group    controllers
- * @since    [version]
- * @version  [version]
+ * @since    3.19.0
+ * @version  3.19.0
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -13,8 +13,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test order completion actions
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_cancel_subscription() {
 

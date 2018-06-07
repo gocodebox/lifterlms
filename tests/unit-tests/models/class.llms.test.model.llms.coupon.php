@@ -3,7 +3,7 @@
  * Tests for LifterLMS Coupon Model
  * @group    coupons
  * @since    3.4.0
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 
@@ -78,8 +78,8 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get expiration time function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_get_expiration_time() {
 
@@ -145,7 +145,7 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	 * Test is_expired function
 	 * @return   void
 	 * @since    3.2.2
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function test_is_expired() {
 

@@ -2,8 +2,8 @@
 /**
  * Tests for the LLMS_Controller_Orders class
  * @group    orders
- * @since    [version]
- * @version  [version]
+ * @since    3.19.0
+ * @version  3.19.0
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -13,8 +13,8 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test order completion actions
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_complete_order() {
 
@@ -162,8 +162,8 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test expire access function
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_expire_access() {
 

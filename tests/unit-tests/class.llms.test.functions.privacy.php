@@ -4,8 +4,8 @@
  * @group    functions
  * @group    functions_privacy
  * @group    privacy
- * @since    [version]
- * @version  [version]
+ * @since    3.19.0
+ * @version  3.19.0
  */
 class LLMS_Test_Functions_Privacy extends LLMS_UnitTestCase {
 
@@ -78,8 +78,8 @@ class LLMS_Test_Functions_Privacy extends LLMS_UnitTestCase {
 	/**
 	 * test llms_get_terms_notice()
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	function test_llms_get_terms_notice() {
 

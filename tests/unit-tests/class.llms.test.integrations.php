@@ -2,16 +2,16 @@
 /**
  * Tests for the LLMS_Integrations class
  * @group    integrations
- * @since    [version]
- * @version  [version]
+ * @since    3.19.0
+ * @version  3.19.0
  */
 class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 
 	/**
 	 * test instance() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_instance() {
 
@@ -24,8 +24,8 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * test init() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_init() {
 
@@ -37,8 +37,8 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Test get available integrations
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_get_available_integrations() {
 
@@ -60,8 +60,8 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Test integrations() method
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_integrations() {
 

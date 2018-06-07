@@ -154,7 +154,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/builder/Views/_Editable.js
 			 * @since    3.16.0
-			 * @version  3.19.0
+			 * @version  3.17.8
 			 */
 			'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 			'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
@@ -394,7 +394,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/private/llms-metaboxes.js
 			 * @since    3.0.0
-			 * @version  3.19.0
+			 * @version  3.18.2
 			 */
 			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
 			'Cancel' => esc_html__( 'Cancel', 'lifterlms' ),

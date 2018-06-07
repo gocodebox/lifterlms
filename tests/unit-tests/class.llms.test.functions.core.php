@@ -4,7 +4,7 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  [version]
+ * @version  3.19.0
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -70,8 +70,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_get_option_page_anchor() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_llms_get_option_page_anchor() {
 
@@ -256,7 +256,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * test llms_get_order_statuses()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  [version]
+	 * @version  3.19.0
 	 */
 	public function test_llms_get_order_statuses() {
 
@@ -405,8 +405,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_parse_bool function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.0
+	 * @version  3.19.0
 	 */
 	public function test_llms_parse_bool() {
 
