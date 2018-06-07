@@ -2,16 +2,15 @@
 /**
  * Template functions for the student dashboard
  * @since    1.0.0
- * @version  3.16.10
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * If content added to the course/membership catalog page, output it as the archive description before the loop
  * @return   void
  * @since    3.16.10
- * @version  3.16.10
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 	function lifterlms_archive_description() {
@@ -21,15 +20,12 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 		$content = '';
 
 		if ( is_post_type_archive( 'course' ) || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
-
 			$page_id = llms_get_page_id( 'courses' );
 		} elseif ( is_post_type_archive( 'llms_membership' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
-
 			$page_id = llms_get_page_id( 'memberships' );
 		}
 
 		if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
-
 			$content = get_the_archive_description();
 		}
 
@@ -39,7 +35,7 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 		}
 
 		if ( $content ) {
-			echo llms_content( $content );
+			echo llms_content( apply_filters( 'llms_archive_description', $content ) );
 		}
 
 	}
