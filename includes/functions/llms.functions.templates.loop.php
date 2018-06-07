@@ -18,22 +18,28 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 
 		$page_id = false;
 
+		$content = '';
+
 		if ( is_post_type_archive( 'course' ) || is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track' ) ) ) {
 
 			$page_id = llms_get_page_id( 'courses' );
-
 		} elseif ( is_post_type_archive( 'llms_membership' ) || is_tax( array( 'membership_tag', 'membership_cat' ) ) ) {
 
 			$page_id = llms_get_page_id( 'memberships' );
-
 		}
 
-		if ( $page_id ) {
+		if ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
+
+			$content = get_the_archive_description();
+		}
+
+		if ( empty( $content ) && $page_id ) {
 			$page = get_post( $page_id );
 			$content = $page->post_content;
-			if ( $content ) {
-				echo llms_content( $content );
-			}
+		}
+
+		if ( $content ) {
+			echo llms_content( $content );
 		}
 
 	}
