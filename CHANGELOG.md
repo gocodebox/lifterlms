@@ -14,7 +14,10 @@ v3.19.0 - 2018-06-??
 + Students can re-activate an order that's Pending Cancellation moving the expiration date to the next payment due date
 + Added the ability to edit the access expiration date for orders with limited access settings and for orders in the "pending-cancel" state
 + Added a filter to allow customization of the URL used to generate certificate downloads from
++ When viewing taxonomy archives for any course or memberhip taxonomy (categories, tags, and tracks), if a term description exists, it will be used instead of the default catalog description content defined on the catalog page.
++ Added a filter (`llms_archive_description`) to allow filtering of the archive description
 + When `WP_DEBUG` is disabled the scheduled-actions posttype interface is now available via direct link. Useful for debugging but don't want to expose a menu-item link to clients. Access via wp-admin/edit.php?post_type=scheduled-action. Be warned: you shouldn't be modifying scheduled actions manually and that's why we're not exposing this directly, this should be used for debugging only!
++ Updated the function used to check if lessons have featured images to improve performance and resolve an incompatibility issue with WP Overlays plugin.
 
 ##### Bug fixes
 
