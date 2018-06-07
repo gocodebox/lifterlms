@@ -33,7 +33,7 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 			$content = get_the_archive_description();
 		}
 
-		if ( empty($content) && $page_id ) {
+		if ( empty( $content ) && $page_id ) {
 			$page = get_post( $page_id );
 			$content = $page->post_content;
 		}
