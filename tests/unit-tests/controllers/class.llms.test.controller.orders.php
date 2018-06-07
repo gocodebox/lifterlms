@@ -89,7 +89,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 
 		// no next payment date
-		$this->assertEquals( date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_next_payment_due_date( 'U' ), '', $this->date_delta );
+		$this->assertEquals( (float) date( 'U', current_time( 'timestamp' ) + DAY_IN_SECONDS ), (float) $order->get_next_payment_due_date( 'U' ), '', $this->date_delta );
 
 		// actions were run
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
@@ -115,7 +115,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$order->set( 'status', 'llms-active' );
 		$this->assertEquals( date( 'Y-m-d', current_time( 'timestamp' ) + DAY_IN_SECONDS ), $order->get_access_expiration_date( 'Y-m-d' ) );
 		// expiration event should be reset
-		$this->assertEquals( $order->get_access_expiration_date( 'U' ), wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+		$this->assertEquals( (float) $order->get_access_expiration_date( 'U' ), (float) wc_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) ), '', $this->date_delta );
 
