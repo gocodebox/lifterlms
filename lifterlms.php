@@ -239,6 +239,8 @@ final class LifterLMS {
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';
 
+			include_once 'includes/admin/upgrader/class-llms-addon-upgrader.php';
+
 			include_once 'includes/controllers/class.llms.controller.admin.quiz.attempts.php';
 
 			include_once 'includes/admin/post-types/tables/class.llms.table.student.management.php';

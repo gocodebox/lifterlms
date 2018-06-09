@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
@@ -7,33 +8,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @version  [version]
  */
 class LLMS_Admin_AddOns {
-
-	/**
-	 * Url Where addon JSON information is pulled from
-	 */
-	// const DATA_URL = 'http://d34dpc7391qduo.cloudfront.net/addons/addons.json';
-
-	/**
-	 * This URL is good for development since it wont be cached as hard
-	 */
-	// const DATA_URL = 'https://s3-us-west-2.amazonaws.com/lifterlms/addons/addons.json';
-
-	const DATA_URL = 'https://dev.lifterlms.com/wp-json/llms/v3/products';
-
-	public function activate( $key ) {
-
-		$data = array(
-			'activations' => array(
-				'key' => $key,
-				'product' => '',
-				'url' => get_site_url(),
-			),
-		);
-
-		// https://lifterlms.com/wp-json/llms-api/v2
-
-
-	}
 
 	public function get_addon_status( $addon, $translate = false ) {
 
@@ -46,7 +20,7 @@ class LLMS_Admin_AddOns {
 			// not installed
 			if ( ! in_array( $addon['update_file'], array_keys( $installed ) ) ) {
 				$ret = 'none';
-			} elseif ( is_plugin_active( $file ) ) {
+			} elseif ( is_plugin_active( $addon['update_file'] ) ) {
 				$ret = 'active';
 			}
 			$ret = 'inactive';
@@ -113,17 +87,22 @@ class LLMS_Admin_AddOns {
 	 * defaults to "all"
 	 * @return   string
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  [version]
 	 */
 	private function get_current_section() {
-		return isset( $_GET['section'] ) ? $_GET['section'] : 'all';
+		if ( isset( $_GET['section'] ) ) {
+			return $_GET['section'];
+		} elseif ( count( $this->upgrader->get_available_products() ) ) {
+			return 'mine';
+		}
+		return 'all';
 	}
 
 	/**
 	 * Retrieve addon data for the current section (tab) based off query string variables
 	 * @return   array
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  [version]
 	 */
 	private function get_current_section_content() {
 
@@ -131,9 +110,24 @@ class LLMS_Admin_AddOns {
 
 		if ( 'all' === $sec ) {
 			$content = $this->data['items'];
+		} elseif ( 'mine' === $sec ) {
+			$mine = wp_list_pluck( $this->upgrader->get_available_products(), 'title' );
+			$content = array();
+			foreach ( $this->data['items'] as $item ) {
+				if ( in_array( $item['title'], $mine ) ) {
+					$content[] = $item;
+				}
+			}
 		} else {
 
-			$content = $this->data['sections'][ $sec ];
+			$content = array();
+			foreach ( $this->data['items'] as $item ) {
+
+				if ( in_array( $sec, array_keys( $item['categories'] ) ) ) {
+					$content[] = $item;
+				}
+
+			}
 
 		}
 
@@ -144,63 +138,53 @@ class LLMS_Admin_AddOns {
 	 * Retrieve remote json data
 	 * @return   null|WP_Error
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  [version]
 	 */
 	private function get_data() {
 
-		$get = wp_remote_get( self::DATA_URL, array(
-			'headers' => array(
-				'Authorization' => 'Basic ' . base64_encode( 'llms:B1ncrN2TMvMqgBHBjv0412mLOg5SCs8q' ),
-			),
-		) );
+		$this->data = $this->upgrader->get_products();
 
-		if ( is_wp_error( $get ) ) {
-			return $get;
-		}
-
-		$this->data = json_decode( $get['body'], true );
-
-	}
-
-	/**
-	 * Translate the title of the current section
-	 * @param    sring     $name  section name (untranslated key)
-	 * @return   string
-	 * @since    3.5.0
-	 * @version  [version]
-	 */
-	private function get_section_title( $name ) {
-
-		$titles = array(
-			'advanced' => __( 'Advanced', 'lifterlms' ),
-			'affiliates' => __( 'Affiliates', 'lifterlms' ),
-			'all' => __( 'All', 'lifterlms' ),
-			'bundles' => __( 'Bundles', 'lifterlms' ),
-			'gateways' => __( 'Payment Gateways', 'lifterlms' ),
-			'marketing' => __( 'E-Mail & Marketing', 'lifterlms' ),
-			'themes' => __( 'Themes & Design', 'lifterlms' ),
-			'tools' => __( 'Tools & Utilities', 'lifterlms' ),
-			'resources' => __( 'Resources', 'lifterlms' ),
-			'services' => __( 'Services', 'lifterlms' ),
-			'my_addons' => __( 'My Add-ons', 'lifterlms' ),
-		);
-
-		if ( isset( $titles[ $name ] ) ) {
-			return $titles[ $name ];
-		}
-
-		return $name;
 	}
 
 	public function handle_actions() {
+
+		$this->upgrader = new LLMS_AddOn_Upgrader();
 
 		if ( ! llms_verify_nonce( '_llms_activate_nonce', 'llms_activate_key' ) ) {
 			return;
 		}
 
-		if ( isset( $_POST['llms_key'] ) ) {
+		if ( isset( $_POST['llms_keys'] ) ) {
 
-			$status = $this->activate( sanitize_text_field( $_POST['llms_key'] ) );
+			$body = $this->upgrader->get_products_for_keys( $_POST['llms_keys'] );
+
+			$data = $body['data'];
+
+			if ( isset( $data['errors'] ) ) {
+
+				?>
+				<div class="notice notice-error is-dismissible">
+					<?php foreach ( $data['errors'] as $error ) : ?>
+						<p><?php echo make_clickable( $error ); ?></p>
+					<?php endforeach; ?>
+				</div>
+				<?php
+
+			}
+
+			if ( isset( $data['available_products'] ) ) {
+
+				$this->upgrader->set_available_products( $data['available_products'] );
+
+			}
+
+			if ( isset( $data['valid_keys'] ) ) {
+
+				$this->upgrader->set_keys( $data['valid_keys'] );
+
+			}
+
+			// var_dump( $body );
 
 		}
 
@@ -223,10 +207,12 @@ class LLMS_Admin_AddOns {
 		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
 			<h1><?php _e( 'LifterLMS Add-Ons', 'lifterlms' ); ?></h1>
 			<section class="llms-licenses">
-				<?php _e( 'Activate a License Key', 'lifterlms' ); ?>
-				<i class="fa fa-chevron-down" aria-hidden="true"></i>
-				<form action="" class="llms-key-field" method="POST">
-					<input name="llms_key" type="text">
+				<button class="llms-button-primary" id="llms-active-keys-toggle">
+					<?php _e( 'Activate Licenses', 'lifterlms' ); ?>
+					<i class="fa fa-chevron-down" aria-hidden="true"></i>
+				</button>
+				<form action="" class="llms-key-field" id="llms-key-field-form" method="POST">
+					<textarea name="llms_keys" placeholder="<?php esc_attr_e( 'Enter each license on a new line', 'lifterlms' ); ?>"></textarea>
 					<button class="llms-button-primary small" name="llms_activate_key" type="submit"><?php _e( 'Submit', 'lifterlms' ); ?></button>
 					<?php wp_nonce_field( 'llms_activate_key', '_llms_activate_nonce' ); ?>
 				</form>
@@ -234,6 +220,13 @@ class LLMS_Admin_AddOns {
 			<?php $this->output_navigation(); ?>
 			<?php $this->output_content(); ?>
 		</div>
+		<script>
+			( function( $ ) {
+				$( '#llms-active-keys-toggle' ).on( 'click', function() {
+					$( '#llms-key-field-form' ).toggle();
+				} );
+			} )( jQuery );
+		</script>
 		<?php
 	}
 
@@ -257,6 +250,11 @@ class LLMS_Admin_AddOns {
 	 * @version  3.7.6
 	 */
 	private function output_content( $featured = false ) {
+
+		// if ( 'mine' === $this->get_current_section() ) {
+		// 	var_dump( $this->upgrader->get_available_products() );
+		// }
+
 		$addons = $this->get_current_section_content();
 		?>
 		<ul class="llms-addons-wrap">
@@ -305,13 +303,17 @@ class LLMS_Admin_AddOns {
 	 * @version  [version]
 	 */
 	private function output_navigation() {
+
+		$mine = count( $this->upgrader->get_available_products() ) ? true : false;
 		?>
 		<nav class="llms-nav-tab-wrapper llms-nav-text">
 			<ul class="llms-nav-items">
 			<?php do_action( 'lifterlms_before_addons_nav' ); ?>
 
-				<?php $active = ( 'all' === $this->get_current_section() ) ? ' llms-active' : ''; ?>
-				<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
+				<?php if ( $mine ) : ?>
+					<li class="llms-nav-item<?php echo ( 'mine' === $this->get_current_section() ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=mine' ) ); ?>"><?php _e( 'My Add-Ons', 'lifterlms' ); ?></a></li>
+				<?php endif; ?>
+				<li class="llms-nav-item<?php echo ( 'all' === $this->get_current_section() ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
 				<?php foreach ( $this->data['categories'] as $name => $title ) :
 					$name = sanitize_title( $name );
 					$title = sanitize_text_field( $title );

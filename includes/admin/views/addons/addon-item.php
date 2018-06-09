@@ -7,7 +7,8 @@
  */
 defined( 'ABSPATH' ) || exit;
 
-$featured = $addon['featured'] ? ' featured' : '';
+$featured = ! empty( $addon['featured'] ) ? ' featured' : '';
+// $featured = $addon['featured'] ? ' featured' : '';
 // if ( isset( $addon['file'] ) ) {
 // 	$status = $this->get_addon_status( $addon['file'] );
 // 	$action = $this->get_addon_status_action( $status );
@@ -21,7 +22,7 @@ $featured = $addon['featured'] ? ' featured' : '';
 				<h4><?php echo $addon['title']; ?></h4>
 			</header>
 			<section>
-				<p><?php echo $addon['description']; ?></p>
+				<p><?php echo llms_trim_string( $addon['description'], 180 ); ?></p>
 			</section>
 			<?php if ( $addon['author']['name'] ) : ?>
 			<footer>
