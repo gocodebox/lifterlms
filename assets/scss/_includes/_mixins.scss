@@ -69,3 +69,49 @@
 @mixin relative($args: ()) {
 	@include position(relative, $args);
 }
+
+
+
+@mixin order_status_badges() {
+
+	.llms-status {
+		border-radius: 3px;
+		border-bottom: 1px solid #fff;
+		display: inline-block;
+		font-size: 80%;
+		padding: 3px 6px;
+		vertical-align: middle;
+
+		&.llms-size--large {
+			font-size: 105%;
+			padding: 6px 12px;
+		}
+
+		&.llms-active,
+		&.llms-completed,
+		&.llms-txn-succeeded {
+			color: darken( $color-green, 45 );
+			background-color: $color-green;
+		}
+
+		&.llms-failed,
+		&.llms-expired,
+		&.llms-cancelled,
+		&.llms-txn-failed {
+			color: darken( $color-red, 40 );
+			background-color: $color-red;
+		}
+
+		&.llms-on-hold,
+		&.llms-pending,
+		&.llms-pending-cancel,
+		&.llms-refunded,
+		&.llms-txn-pending,
+		&.llms-txn-refunded {
+			color: darken( orange, 30 );
+			background-color: orange;
+		}
+
+	}
+
+}

@@ -1,8 +1,10 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LifterLMS Coupon Model
  * @since    3.0.0
- * @version  3.4.0
+ * @version  3.19.0
  *
  * @property  $coupon_amount  (float)  Amount to subtract from the price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $coupon_courses  (array)  Array of Course IDs the coupon can be used against
@@ -16,9 +18,6 @@
  * @property  $trial_amount  (float)  Amount to subtract from the trial price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $usage_limit  (int)  Amount of times the coupon can be used
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Coupon extends LLMS_Post_Model {
 
 	protected $properties = array(
@@ -81,6 +80,22 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		else {
 			return in_array( $product_id, $products );
 		}
+	}
+
+	/**
+	 * Retrieve the timestamp of a coupon expiration date
+	 * Transforms the expiration date to a timestamp and adds 23 hours 59 minutes and 59 seconds to the date
+	 * Coupons expire end of day on the expiration date (EG: 2015-12-01 @ 23:59:59)
+	 * @return   false|int
+	 * @since    3.19.0
+	 * @version  3.19.0
+	 */
+	public function get_expiration_time() {
+		$expires = $this->get_date( 'expiration_date', 'U' );
+		if ( ! $expires ) {
+			return false;
+		}
+		return ( (int) $expires + DAY_IN_SECONDS - 1 );
 	}
 
 	/**
@@ -148,8 +163,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 			return _x( 'Unlimited', 'Remaining coupon uses', 'lifterlms' );
 
-		} // End if().
-		else {
+		} else {
 
 			return $limit - $this->get_uses();
 
@@ -159,13 +173,13 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Get the number of times the coupon has been used
-	 * @since    3.0.0
-	 * @version  3.1.0
 	 * @return   int
+	 * @since    3.0.0
+	 * @version  3.19.0
 	 */
 	public function get_uses() {
 
-		$q = new WP_Query( array(
+		$query = new WP_Query( array(
 			'meta_query' => array(
 				array(
 					'key' => $this->meta_prefix . 'coupon_code',
@@ -177,7 +191,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 			'posts_per_page' => -1,
 		) );
 
-		return $q->post_count;
+		return $query->post_count;
 
 	}
 
@@ -205,27 +219,26 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a coupon is expired
-	 * @return boolean   true if expired, false otherwise
+	 * @return  boolean   true if expired, false otherwise
 	 * @since   3.0.0
-	 * @version 3.4.0
+	 * @version 3.19.0
 	 */
 	public function is_expired() {
-		$expires = $this->get_date( 'expiration_date', 'U' );
+		$expires = $this->get_expiration_time();
 		// no expiration date, can't expire
 		if ( ! $expires ) {
 			return false;
 		} else {
-			$now = llms_current_time( 'timestamp' );
-			return $expires < $now;
+			return $expires < llms_current_time( 'timestamp' );
 		}
 	}
 
 	/**
 	 * Perform all available validations and return a success or error message
-	 * @since  3.0.0
-	 * @version  3.0.0
-	 * @param  int  $plan_id  WP Post ID of an LLMS Access Plan
-	 * @return WP_Error|true     If true, the coupon is valid, if WP_Error, there was an error
+	 * @param    int            $plan_id  WP Post ID of an LLMS Access Plan
+	 * @return   WP_Error|true            If true, the coupon is valid, if WP_Error, there was an error
+	 * @since    3.0.0
+	 * @version  3.19.0
 	 */
 	public function is_valid( $plan_id ) {
 
@@ -237,13 +250,11 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 			$msg = __( 'This coupon has reached its usage limit and can no longer be used.', 'lifterlms' );
 
-		} // End if().
-		elseif ( $this->is_expired() ) {
+		} elseif ( $this->is_expired() ) {
 
 			$msg = sprintf( __( 'This coupon expired on %s and can no longer be used.', 'lifterlms' ), $this->get_date( 'expiration_date', 'F d, Y' ) );
 
-		} // can be applied to the submitted product?
-		elseif ( ! $this->applies_to_product( $plan->get( 'product_id' ) ) ) {
+		} elseif ( ! $this->applies_to_product( $plan->get( 'product_id' ) ) ) {
 
 			$msg = sprintf( __( 'This coupon cannot be used to purchase "%s".', 'lifterlms' ), get_the_title( $plan->get( 'product_id' ) ) );
 
@@ -256,16 +267,16 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		// error encountered
 		if ( $msg ) {
 
-			$r = new WP_Error();
-			$r->add( 'error', apply_filters( 'lifterlms_coupon_validation_error_message', $msg, $this ) );
+			$ret = new WP_Error();
+			$ret->add( 'error', apply_filters( 'lifterlms_coupon_validation_error_message', $msg, $this ) );
 
 		} else {
 
-			$r = true;
+			$ret = true;
 
 		}
 
-		return $r;
+		return apply_filters( 'llms_coupon_is_valid', $ret, $plan, $this );
 
 	}
 

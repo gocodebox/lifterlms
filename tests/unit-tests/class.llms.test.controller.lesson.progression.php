@@ -4,26 +4,13 @@
  * @group    controllers
  * @group    lessons
  * @since    3.17.1
- * @version  3.17.1
+ * @version  3.19.0
  */
 class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 
 	public function setUp() {
 		llms_clear_notices();
 		parent::setUp();
-	}
-
-	/**
-	 * Setup Post data to mock post and request data
-	 * @param    array      $vars  mock post data
-	 * @return   void
-	 * @since    3.17.1
-	 * @version  3.17.1
-	 */
-	private function setup_post( $vars = array() ) {
-		putenv( 'REQUEST_METHOD=POST' );
-		$_POST = array_merge( $_POST, $vars );
-		$_REQUEST = array_merge( $_REQUEST, $vars );
 	}
 
 	/**

@@ -1,11 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Order Summary area of the checkout form
- *
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ * @since     2.4.2
+ * @version   3.19.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <ul class="llms-order-summary<?php echo $plan->is_on_sale() ? ' on-sale' : ''; ?><?php echo $coupon ? ' has-coupon' : ''; ?>">
 	<li><span class="llms-label"><?php echo $product->get_post_type_label( 'singular_name' ); ?>:</span> <?php echo $product->get( 'title' ); ?></li>
@@ -13,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 	<?php if ( $plan->has_trial() ) : ?>
 		<li>
 			<span class="llms-label"><?php _e( 'Trial', 'lifterlms' ); ?>:</span>
-			<span class="price-regular"><?php echo $plan->get_price( 'trial_price' ); ?></span>
+			<span class="price-regular price-trial"><?php echo $plan->get_price( 'trial_price' ); ?></span>
 			<?php if ( $coupon ) : ?>
 				<span class="price-coupon"><?php echo $plan->get_price_with_coupon( 'trial_price', $coupon ); ?></span>
 			<?php endif; ?>

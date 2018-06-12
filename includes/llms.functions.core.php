@@ -1,13 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.18.0
+ * @version  3.19.0
  */
+defined( 'ABSPATH' ) || exit;
 
 //include all other function files
 require_once 'functions/llms.functions.access.php';
@@ -674,20 +671,11 @@ function llms_get_order_status_name( $status ) {
  * @param    string  $order_type  filter stauses which are specific to the supplied order type, defaults to any statuses
  * @return   array
  * @since    3.0.0
- * @version  3.10.0
+ * @version  3.19.0
  */
 function llms_get_order_statuses( $order_type = 'any' ) {
 
-	$statuses = array(
-		'llms-active'    => __( 'Active', 'lifterlms' ),
-		'llms-cancelled' => __( 'Cancelled', 'lifterlms' ),
-		'llms-completed' => __( 'Completed', 'lifterlms' ),
-		'llms-expired'   => __( 'Expired', 'lifterlms' ),
-		'llms-failed'    => __( 'Failed', 'lifterlms' ),
-		'llms-on-hold'   => __( 'On Hold', 'lifterlms' ),
-		'llms-pending'   => __( 'Pending', 'lifterlms' ),
-		'llms-refunded'  => __( 'Refunded', 'lifterlms' ),
-	);
+	$statuses = wp_list_pluck( LLMS_Post_Types::get_order_statuses(), 'label' );
 
 	// remove types depending on order type
 	switch ( $order_type ) {
@@ -699,6 +687,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 			unset( $statuses['llms-active'] );
 			unset( $statuses['llms-expired'] );
 			unset( $statuses['llms-on-hold'] );
+			unset( $statuses['llms-pending-cancel'] );
 		break;
 	}
 

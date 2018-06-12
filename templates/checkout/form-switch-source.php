@@ -2,18 +2,23 @@
 /**
  * Recurring Payment Source Switching
  * Included on single order view pages via Student Dashboard
- *
- * @package   LifterLMS/Templates
  * @since     3.10.0
- * @version   3.16.9
+ * @version   3.19.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 $status = $order->get( 'status' );
 $gateway = LLMS()->payment_gateways()->get_gateway_by_id( $confirm );
 $plan = llms_get_post( $order->get( 'plan_id' ) );
 if ( ! $plan ) {
 	return;
+}
+if ( 'llms-active' === $status ) {
+	$submit_text = __( 'Save Payment Method', 'lifterlms' );
+} elseif ( 'llms-pending-cancel' === $status ) {
+	$submit_text = __( 'Reactivate Subscription', 'lifterlms' );
+} else {
+	$submit_text = __( 'Save and Pay Now', 'lifterlms' );
 }
 ?>
 
@@ -23,7 +28,7 @@ if ( ! $plan ) {
 		'columns' => 12,
 		'classes' => 'llms-button-secondary',
 		'id' => 'llms_update_payment_method',
-		'value' => __( 'Update Payment Method', 'lifterlms' ),
+		'value' => 'llms-pending-cancel' === $status ? __( 'Reactivate Subscription', 'lifterlms' ) : __( 'Update Payment Method', 'lifterlms' ),
 		'last_column' => true,
 		'required' => false,
 		'type'  => 'button',
@@ -39,7 +44,7 @@ if ( ! $plan ) {
 				'plan' => $plan,
 			) ); ?>
 
-			<?php if ( 'llms-active' !== $status ) : ?>
+			<?php if ( ! in_array( $status, array( 'llms-active', 'llms-pending-cancel' ) ) ) : ?>
 				<ul class="llms-order-summary">
 					<li>
 						<?php printf( __( 'Due Now: %s', 'lifterlms' ), '<span class="price-regular">' . $order->get_price( 'total' ) . '</span>' ); ?>
@@ -67,13 +72,13 @@ if ( ! $plan ) {
 
 		<?php wp_nonce_field( 'llms_switch_order_source', '_switch_source_nonce' ); ?>
 		<input name="order_id" type="hidden" value="<?php echo $order->get( 'id' ); ?>">
-		<input name="llms_switch_action" type="hidden" value="<?php echo ( 'llms-active' === $status ) ? 'switch': 'pay'; ?>">
+		<input name="llms_switch_action" type="hidden" value="<?php echo in_array( $status, array( 'llms-active', 'llms-pending-cancel' ) ) ? 'switch': 'pay'; ?>">
 
 		<?php llms_form_field( array(
 			'columns' => 12,
 			'classes' => 'llms-button-primary',
 			'id' => 'llms_save_payment_method',
-			'value' => ( 'llms-active' === $status ) ? __( 'Save Payment Method', 'lifterlms' ) : __( 'Save and Pay Now', 'lifterlms' ),
+			'value' => $submit_text,
 			'last_column' => true,
 			'required' => false,
 			'type'  => 'submit',

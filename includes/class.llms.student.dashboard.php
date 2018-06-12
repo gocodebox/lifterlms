@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.18.0
+ * @version  3.19.0
  */
 class LLMS_Student_Dashboard {
 
@@ -116,7 +116,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.18.0
+	 * @version  3.19.0
 	 */
 	public static function get_tabs() {
 
@@ -133,6 +133,12 @@ class LLMS_Student_Dashboard {
 				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint' ),
 				'nav_item' => true,
 				'title' => __( 'My Courses', 'lifterlms' ),
+			),
+			'view-memberships' => array(
+				'content' => 'lifterlms_template_student_dashboard_my_memberships',
+				'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint' ),
+				'nav_item' => true,
+				'title' => __( 'My Memberships', 'lifterlms' ),
 			),
 			'view-achievements' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_achievements',
@@ -209,6 +215,25 @@ class LLMS_Student_Dashboard {
 		}
 
 		return apply_filters( 'llms_get_student_dashboard_tabs_for_nav', $tabs );
+
+	}
+
+	/**
+	 * Determine if an endpoint is disabled
+	 * If the custom endpoint option is an empty string (blank) the settings define the endpoint as disabled
+	 * @param    string     $endpoint  endpoint slug (eg: my-courses)
+	 * @return   bool
+	 * @since    3.19.0
+	 * @version  3.19.0
+	 */
+	public static function is_endpoint_enabled( $endpoint ) {
+
+		$tabs = self::get_tabs();
+		if ( isset( $tabs[ $endpoint ] ) && ! empty( $tabs[ $endpoint ]['endpoint'] ) ) {
+			return true;
+		}
+
+		return false;
 
 	}
 
