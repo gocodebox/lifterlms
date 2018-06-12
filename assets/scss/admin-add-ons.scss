@@ -128,12 +128,48 @@
 			margin-top: 8px;
 			padding: 8px;
 			@include clearfix();
-			span { font-weight: 500; }
-			button {
-				font-size: 14px;
-				border: 1px solid #555;
-				background: none;
+			&.status--active {
+				span em,
+				.llms-button-secondary .fa {
+					color: darken( $color-green, 16 );
+				}
 			}
+			&.status--inactive {
+				span em,
+				.llms-button-secondary .fa {
+					color: $color-red;
+				}
+				.fa {
+					transform: rotate( 180deg );
+				}
+			}
+			&.status--none {
+				span em,
+				.llms-button-secondary .fa {
+					color: #777;
+				}
+			}
+			span {
+				font-weight: 500;
+				line-height: 2.5;
+				em {
+					font-style: normal;
+				}
+			}
+			.llms-button-secondary {
+				border: 1px solid #b7b7b7;
+				border-radius: 4px;
+				float: right;
+				&:hover {
+					background: #f0f0f0;
+				}
+			}
+			// button {
+			// 	float: right;
+			// 	font-size: 14px;
+			// 	border: 1px solid #333;
+			// 	background: none;
+			// }
 		}
 
 	}

@@ -34,10 +34,25 @@ $featured = ! empty( $addon['featured'] ) ? ' featured' : '';
 			</footer>
 			<?php endif; ?>
 		</a>
-		<footer class="llms-status">
-			<span><?php printf( __( 'Status: %s', 'lifterlms' ), $AddOns->get_addon_status( $addon, true ) ); ?></span>
-
-		</footer>
+		<?php if ( 'mine' === $AddOns->get_current_section() && in_array( $AddOns->get_addon_type( $addon ), array( 'plugin', 'theme' ) ) ) :
+			$status = $AddOns->get_addon_status( $addon );
+			?>
+			<footer class="llms-status status--<?php echo $status; ?>">
+				<span><?php printf( __( 'Status: %s', 'lifterlms' ), '<em>' . $AddOns->get_l10n( $status ) . '</em>' );?></span>
+				<button class="llms-button-secondary small">
+					<?php if ( 'none' === $status ) : ?>
+						<i class="fa fa-cloud-download" aria-hidden="true"></i>
+						<?php _e( 'Install', 'lifterlms' ); ?>
+					<?php elseif ( 'active' === $status ): ?>
+						<i class="fa fa-toggle-on" aria-hidden="true"></i>
+						<?php _e( 'Deactivate', 'lifterlms' ); ?>
+					<?php elseif ( 'inactive' === $status ): ?>
+						<i class="fa fa-toggle-on" aria-hidden="true"></i>
+						<?php _e( 'Activate', 'lifterlms' ); ?>
+					<?php endif; ?>
+				</button>
+			</footer>
+		<?php endif; ?>
 	</div>
 </li>
 <?php

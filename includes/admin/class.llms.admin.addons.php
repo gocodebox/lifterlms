@@ -17,13 +17,13 @@ class LLMS_Admin_AddOns {
 		$ret = 'none';
 		if ( 'plugin' === $type ) {
 
+			$ret = 'inactive';
 			// not installed
 			if ( ! in_array( $addon['update_file'], array_keys( $installed ) ) ) {
 				$ret = 'none';
 			} elseif ( is_plugin_active( $addon['update_file'] ) ) {
 				$ret = 'active';
 			}
-			$ret = 'inactive';
 
 		}
 
@@ -43,6 +43,8 @@ class LLMS_Admin_AddOns {
 			$type = 'plugin';
 			if ( in_array( 'bundles', $cats ) ) {
 				$type = 'bundle';
+			} elseif( in_array( 'third-party', $cats ) ) {
+				$type = 'external';
 			} elseif ( in_array( 'themes', $cats ) ) {
 				$type = 'theme';
 			}
@@ -55,7 +57,7 @@ class LLMS_Admin_AddOns {
 
 	}
 
-	private function get_l10n( $status ) {
+	public function get_l10n( $status ) {
 
 		$statuses = array(
 			'activate' => __( 'Activate', 'lifterlms' ),
@@ -208,7 +210,7 @@ class LLMS_Admin_AddOns {
 			<h1><?php _e( 'LifterLMS Add-Ons', 'lifterlms' ); ?></h1>
 			<section class="llms-licenses">
 				<button class="llms-button-primary" id="llms-active-keys-toggle">
-					<?php _e( 'Activate Licenses', 'lifterlms' ); ?>
+					<?php _e( 'Add Licenses', 'lifterlms' ); ?>
 					<i class="fa fa-chevron-down" aria-hidden="true"></i>
 				</button>
 				<form action="" class="llms-key-field" id="llms-key-field-form" method="POST">
