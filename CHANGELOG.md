@@ -5,6 +5,7 @@ v3.19.2 - 2018-06-??
 --------------------
 
 + Added the ability to filter quiz attempt reports by quiz status
++ Quiz results will now exclude questions with 0 points value when displaying the number of questions in the quiz.
 + Fixed error occurring when sorting was applied to quiz attempt reports which would cause quiz attempts from other quizzes to be included in the new sorted report
 
 
