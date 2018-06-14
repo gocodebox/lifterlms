@@ -13,6 +13,8 @@ v3.19.2 - 2018-06-??
 
 ##### Bug fixes
 
++ Fixed issue preventing oEmbed media from being used in quiz question descriptions
++ Fixed issue preventing `<iframes>` from being used in quiz question descriptions
 + Quiz results will now exclude questions with 0 points value when displaying the number of questions in the quiz.
 + Fixed error occurring when sorting was applied to quiz attempt reports which would cause quiz attempts from other quizzes to be included in the new sorted report
 + Fixed filter `lifterlms_reviews_section_title` which was unuseable due to the incorrect usage of `_e()` within the filter. Now using `__()` as expected.
