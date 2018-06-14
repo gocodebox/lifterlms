@@ -14,6 +14,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	protected $model_post_type = 'question';
 
 	protected $properties = array(
+		'content' => 'html',
 		'clarifications' => 'html',
 		'clarifications_enabled' => 'yesno',
 		'description_enabled' => 'yesno',
