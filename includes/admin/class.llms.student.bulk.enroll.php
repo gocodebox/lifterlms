@@ -214,7 +214,7 @@ class LLMS_Student_Bulk_Enroll {
 	private function enroll( $user, $trigger ) {
 
 		// enroll into LifterLMS product
-		$enrolled = llms_enroll_student( $user->id, $this->product_id, $trigger );
+		$enrolled = llms_enroll_student( $user->ID, $this->product_id, $trigger );
 
 		// figure out notice type based on enrollment success
 		$type = ( ! $enrolled) ? 'error' : 'success';
