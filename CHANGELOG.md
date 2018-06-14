@@ -6,6 +6,7 @@ v3.19.2 - 2018-06-??
 
 ##### Updates and enhancements
 
++ The course builder will now load quiz question data when the quiz is opened instead of loading all quizzes on builder page load. Improves builder load times and addresses an issue which could cause timeouts in certain environments when attempting to edit very large courses.
 + The currently viewed lesson will now be bold in the lesson outline widget.
 + Added a CSS class `.llms-widget-syllabus .llms-lesson.current-lesson` which can be used to customize the display of the current lesson in the widget.
 + Added the ability to filter quiz attempt reports by quiz status
