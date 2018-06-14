@@ -111,7 +111,7 @@ class LLMS_Student_Bulk_Enroll {
 		$this->user_ids = filter_input( INPUT_GET, 'users', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
 
 		if ( empty( $this->user_ids ) ) {
-			$message = sprintf( __( 'Please select users to enroll into %s.', 'lifterlms' ), $this->product_title );
+			$message = sprintf( __( 'Please select users to enroll into <em>%s</em>.', 'lifterlms' ), $this->product_title );
 			$this->generate_notice( 'error', $message );
 			return;
 		}
@@ -162,7 +162,7 @@ class LLMS_Student_Bulk_Enroll {
 
 		// bail if for some reason, no users are found (because they were deleted in the bg?)
 		if( empty($users) ){
-			$message = sprintf( __( 'No such users found enroll into %s.', 'lifterlms' ), $this->product_title );
+			$message = sprintf( __( 'No such users found. Cannot enroll into <em>%s</em>.', 'lifterlms' ), $this->product_title );
 			$this->generate_notice( 'error', $message );
 			return;
 		}
@@ -220,7 +220,7 @@ class LLMS_Student_Bulk_Enroll {
 		$type = ( ! $enrolled) ? 'error' : 'success';
 
 		// Figure out notice message string based on notice type
-		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll %1s into %2s', 'lifterlms' ) : __( 'Successfully enrolled %1s into %2s', 'lifterlms' );
+		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll <em>%1s</em> into <em>%2s</em>.', 'lifterlms' ) : __( 'Successfully enrolled <em>%1s</em> into <em>%2s</em>.', 'lifterlms' );
 
 		// get formatted message with username and product title
 		$message = sprintf( $success_fail_string, $user->display_name, $this->product_title );
