@@ -47,6 +47,8 @@ class LLMS_Student_Bulk_Enroll {
 		// hook into extra ui on users table to display product selection
 		add_action( 'manage_users_extra_tablenav', array( $this, 'display_product_selection_for_bulk_users' ) );
 
+		// display enrollment results as notices
+		add_action( 'user_admin_notices', array( $this, 'display_notices' ) );
 	}
 
 	/**
@@ -71,6 +73,37 @@ class LLMS_Student_Bulk_Enroll {
 			<input type="submit" name="<?php echo $submit; ?>" id="<?php echo $submit; ?>" class="button" value="<?php esc_attr_e( 'Enroll', 'lifterlms' ); ?>">
 		</div>
 		<?php
+	}
+
+	/**
+	 * Generates admin notice markup
+	 *
+	 * @param	string $type Type of notice 'error' or 'success'
+	 * @param	string $message Notice message
+	 * @since	[version]
+	 * @version	[version]
+	 */
+	public function generate_notice( $type, $message ) {
+		ob_start();
+		?>
+		<div class="notice notice-<?php echo $type; ?> is-dismissible">
+			<p><?php echo $message; ?></p>
+		</div>
+		<?php
+		$notice = ob_get_clean();
+		$this->admin_notices[] = $notice;
+	}
+
+	/**
+	 * Displays all generated notices
+	 *
+	 * @return type
+	 */
+	public function display_notices() {
+		if ( empty( $this->admin_notices ) ) {
+			return;
+		}
+		echo implode( "\n", $this->admin_notices );
 	}
 
 }
