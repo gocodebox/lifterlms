@@ -220,7 +220,7 @@ class LLMS_Student_Bulk_Enroll {
 		$type = ( ! $enrolled) ? 'error' : 'success';
 
 		// Figure out notice message string based on notice type
-		$success_fail_string = ( ! $type ) ? __( 'Failed to enroll %1s into %2s', 'lifterlms' ) : __( 'Successfully enrolled %1s into %2s', 'lifterlms' );
+		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll %1s into %2s', 'lifterlms' ) : __( 'Successfully enrolled %1s into %2s', 'lifterlms' );
 
 		// get formatted message with username and product title
 		$message = sprintf( $success_fail_string, $user->display_name, $this->product_title );
