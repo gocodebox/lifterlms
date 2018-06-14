@@ -10,6 +10,34 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Student_Bulk_Enroll {
 
 	/**
+	 * Admin notices
+	 *
+	 * @var array
+	 */
+	public $user_admin_notices = array();
+
+	/**
+	 * Product (Course/Membership) ID
+	 *
+	 * @var int
+	 */
+	public $product_id = 0;
+
+	/**
+	 * Product Post Title
+	 *
+	 * @var string
+	 */
+	public $product_title = '';
+
+	/**
+	 * User IDs
+	 *
+	 * @var int
+	 */
+	public $user_ids = array();
+
+	/**
 	 * Constructor
 	 *
 	 * @since	[version]
