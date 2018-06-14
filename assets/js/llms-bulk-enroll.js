@@ -61,7 +61,6 @@ $.fn.llms_product_select = function() {
 			},
 		},
 		cache: true,
-		width: '80%',
 	} );
 };
 
