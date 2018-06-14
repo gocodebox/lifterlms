@@ -172,10 +172,9 @@ class LLMS_Student_Bulk_Enroll {
 
 		foreach ( $users as $user ) {
 
-			$this->enroll( $user, $this->product_id, $this->product_title, $trigger );
+			$this->enroll( $user, $trigger );
 		}
 	}
-
 
 	/**
 	 * Get user details from user IDs
@@ -202,6 +201,32 @@ class LLMS_Student_Bulk_Enroll {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Enrolls a user into the selected product
+	 *
+	 * @param	WP_User $user User object
+	 * @param	string $trigger Enrollment trigger string
+	 * @since	[version]
+	 * @version	[version]
+	 */
+	private function enroll( $user, $trigger ) {
+
+		// enroll into LifterLMS product
+		$enrolled = llms_enroll_student( $user->id, $this->product_id, $trigger );
+
+		// figure out notice type based on enrollment success
+		$type = ( ! $enrolled) ? 'error' : 'success';
+
+		// Figure out notice message string based on notice type
+		$success_fail_string = ( ! $type ) ? __( 'Failed to enroll %1s into %2s', 'lifterlms' ) : __( 'Successfully enrolled %1s into %2s', 'lifterlms' );
+
+		// get formatted message with username and product title
+		$message = sprintf( $success_fail_string, $user->display_name, $this->product_title );
+
+		// generate a notice for display
+		$this->generate_notice( $type, $message );
 	}
 
 	/**
