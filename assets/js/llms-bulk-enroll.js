@@ -1,9 +1,9 @@
-$.fn.llms_product_select = function( $el ) {
+$.fn.llms_product_select = function() {
 
-	var post_type = $el.attr( 'data-post-type' ) || post,
-		allow_clear = $el.attr( 'data-post-type' ) || false;
+	var post_type = this.attr( 'data-post-type' ) || post,
+		allow_clear = this.attr( 'data-post-type' ) || false;
 
-	$el.llmsSelect2( {
+	this.llmsSelect2( {
 		allowClear: allow_clear,
 		ajax: {
 			dataType: 'JSON',
