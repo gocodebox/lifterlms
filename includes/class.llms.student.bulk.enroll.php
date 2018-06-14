@@ -47,6 +47,9 @@ class LLMS_Student_Bulk_Enroll {
 		// hook into extra ui on users table to display product selection
 		add_action( 'manage_users_extra_tablenav', array( $this, 'display_product_selection_for_bulk_users' ) );
 
+		// hook into users table screen to process bulk enrollment
+		add_action( 'admin_head-users.php', array( $this, 'maybe_enroll_users_in_product' ) );
+
 		// display enrollment results as notices
 		add_action( 'user_admin_notices', array( $this, 'display_notices' ) );
 	}
@@ -73,6 +76,75 @@ class LLMS_Student_Bulk_Enroll {
 			<input type="submit" name="<?php echo $submit; ?>" id="<?php echo $submit; ?>" class="button" value="<?php esc_attr_e( 'Enroll', 'lifterlms' ); ?>">
 		</div>
 		<?php
+	}
+
+	/**
+	 * Conditionally enrolls multiple users into a product
+	 *
+	 * @return	void
+	 * @since	[version]
+	 * @version	[version]
+	 */
+	public function maybe_enroll_users_in_product() {
+
+		// verify bulk enrollment request
+		$do_bulk_enroll = $this->_bottom_else_top( 'llms_bulk_enroll' );
+
+		// bail if this is not a bulk enrollment request
+		if ( empty( $do_bulk_enroll ) ) {
+			return;
+		}
+
+		// get the product (course/membership) to enroll users in
+		$this->product_id = $this->_bottom_else_top( '_llms_bulk_enroll_product', FILTER_VALIDATE_INT );
+
+		if ( empty( $this->product_id ) ) {
+			$message = __( 'Please select a Course or Membership to enroll users into!', 'lifterlms' );
+			$this->generate_notice( 'error', $message );
+			return;
+		}
+
+		// get the product title for notices
+		$this->product_title = get_the_title( $this->product_id );
+
+		// get all the user ids to enroll
+		$this->user_ids = filter_input( INPUT_GET, 'users', FILTER_DEFAULT, FILTER_REQUIRE_ARRAY );
+
+		if ( empty( $this->user_ids ) ) {
+			$message = sprintf( __( 'Please select users to enroll into %s.', 'lifterlms' ), $this->product_title );
+			$this->generate_notice( 'error', $message );
+			return;
+		}
+
+		$this->enroll_users_in_product();
+	}
+
+	/**
+	 * Retrieves submitted inputs
+	 *
+	 * @param	string $param The input key
+	 * @param	mixed $validation Validation filter constant
+	 * @return	mixed The submitted input value
+	 */
+	private function _bottom_else_top( $param, $validation = FILTER_DEFAULT ) {
+
+		$return_val = false;
+
+		// get the value of the input displayed at the bottom of users table
+		$bottom_value = filter_input( INPUT_GET, $param . '2', $validation );
+
+		// get the value of input displayed at the top of users table
+		$top_value = filter_input( INPUT_GET, $param, $validation );
+
+		// prefer top over bottom, just like WordPress does
+		if ( ! empty( $bottom_value ) ) {
+			$return_val = $bottom_value;
+		}
+		if ( ! empty( $top_value ) ) {
+			$return_val = $top_value;
+		}
+
+		return $return_val;
 	}
 
 	/**
