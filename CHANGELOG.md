@@ -10,6 +10,7 @@ v3.19.2 - 2018-06-??
 + The currently viewed lesson will now be bold in the lesson outline widget.
 + Added a CSS class `.llms-widget-syllabus .llms-lesson.current-lesson` which can be used to customize the display of the current lesson in the widget.
 + Added the ability to filter quiz attempt reports by quiz status
++ Updated language for access plans on with a limited number of payments to reflect the total number of payments due as opposed to the length (for example in years) that the plan will run.
 
 ##### Bug fixes
 
