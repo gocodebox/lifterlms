@@ -162,7 +162,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			return $this->$key;
 
-		}
+		}// End if().
 
 		// if we found a valid, apply default llms get get filter and return the value
 		if ( isset( $val ) ) {
