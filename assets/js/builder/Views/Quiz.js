@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.19.2
  */
 define( [
 		'Models/Quiz',
@@ -88,7 +88,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.19.2
 		 */
 		initialize: function( data ) {
 
@@ -128,7 +128,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.19.2
 		 */
 		render: function() {
 

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Quizzes Reporting Table
  *
  * @since    3.16.0
- * @version  [version]
+ * @version  3.19.2
  */
 class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
@@ -157,7 +157,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public function get_results( $args = array() ) {
 
@@ -224,7 +224,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * Define the structure of arguments used to pass to the get_results method
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public function set_args() {
 		return array(
@@ -237,7 +237,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	protected function set_columns() {
 

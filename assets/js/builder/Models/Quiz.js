@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.19.2
  */
 define( [
 		'Collections/Questions',
@@ -166,8 +166,8 @@ define( [
 		 * Lazy load questions via AJAX
 		 * @param    {Function}  cb  callback function
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.19.2
+		 * @version  3.19.2
 		 */
 		load_questions: function( cb ) {
 

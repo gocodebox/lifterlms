@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.19.2
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -50,7 +50,7 @@ if ( ! function_exists( 'llms_current_time' ) ) {
  * @param    string     $content  [description]
  * @return   [type]
  * @since    3.16.10
- * @version  [version]
+ * @version  3.19.2
  */
 if ( ! function_exists( 'llms_content' ) ) {
 	function llms_content( $content = '' ) {

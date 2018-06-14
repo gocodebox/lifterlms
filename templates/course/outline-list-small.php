@@ -10,7 +10,7 @@
  * @property  $student          obj    Instance of the LLMS_Student for the current user
  * @property  $toggles          bool   whether or not open/close all toggles should display in the outline footer. Only works when $collapse is also true
  * @since     1.0.0
- * @version   [version]
+ * @version   3.19.2
  */
 defined( 'ABSPATH' ) || exit;
 ?>

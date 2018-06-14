@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.2
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -110,7 +110,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $key   key to retrieve
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public function __get( $key ) {
 
@@ -215,8 +215,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Modify allowed post tags for wp_kses for this post
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.2
+	 * @version  3.19.2
 	 */
 	protected function allowed_post_tags_set() {
 		global $allowedposttags;
@@ -232,8 +232,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Remove modified allowed post tags for wp_kses for this post
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.2
+	 * @version  3.19.2
 	 */
 	protected function allowed_post_tags_unset() {
 		global $allowedposttags;
@@ -305,7 +305,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Clones the Post if the post is cloneable
 	 * @return   mixed         WP_Error or WP Post ID of the clone (new) post
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public function clone_post() {
 
@@ -337,7 +337,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Trigger an export download of the given post type
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public function export() {
 
@@ -740,7 +740,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $type  data type
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	protected function scrub_field( $val, $type ) {
 

@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  * [lifterlms_course_outline]
  *
  * @since    3.5.1
- * @version  [version]
+ * @version  3.19.2
  */
 class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
@@ -74,7 +74,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 *
 	 * @return   string
 	 * @since    3.5.1
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	protected function get_output() {
 

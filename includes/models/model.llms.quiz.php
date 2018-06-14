@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Quiz Model
  * @since    3.3.0
- * @version  [version]
+ * @version  3.19.2
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
@@ -163,7 +163,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @param    array     $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	protected function toArrayAfter( $arr ) {
 

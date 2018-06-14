@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.19.2
  */
 class LLMS_Admin_Builder {
 
@@ -243,7 +243,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -445,7 +445,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public static function output() {
 

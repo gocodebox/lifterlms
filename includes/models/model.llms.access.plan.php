@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.2
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -370,7 +370,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining the plan's payment schedule
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public function get_schedule_details() {
 

@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.19.2 - 2018-06-??
+v3.19.2 - 2018-06-14
 --------------------
 
 ##### Updates and enhancements
@@ -23,8 +23,9 @@ v3.19.2 - 2018-06-??
 
 ##### Template Updates
 
-+ templates/course/outline-list-small.php
-+ templates/quiz/results-attempt.php
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
++ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
++ [templates/quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
 
 
 v3.19.1 - 2018-06-07

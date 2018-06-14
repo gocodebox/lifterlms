@@ -3207,7 +3207,7 @@ define( 'Schemas/Quiz',[], function() {
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.19.2
  */
 define( 'Models/Quiz',[
 		'Collections/Questions',
@@ -3372,8 +3372,8 @@ define( 'Models/Quiz',[
 		 * Lazy load questions via AJAX
 		 * @param    {Function}  cb  callback function
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.19.2
+		 * @version  3.19.2
 		 */
 		load_questions: function( cb ) {
 
@@ -8882,7 +8882,7 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.19.2
  */
 define( 'Views/Quiz',[
 		'Models/Quiz',
@@ -8969,7 +8969,7 @@ define( 'Views/Quiz',[
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.19.2
 		 */
 		initialize: function( data ) {
 
@@ -9009,7 +9009,7 @@ define( 'Views/Quiz',[
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.19.2
 		 */
 		render: function() {
 

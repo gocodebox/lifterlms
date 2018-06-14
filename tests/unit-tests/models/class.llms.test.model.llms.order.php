@@ -5,7 +5,7 @@
  * @group    LLMS_Order
  * @group    LLMS_Post_Model
  * @since    3.10.0
- * @version  [version]
+ * @version  3.19.2
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 

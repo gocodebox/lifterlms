@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It is compiled automatically via the gulp task `js:pot`
  * See the lifterlms-lib-tasks package for more information
  * @since    3.17.8
- * @version  3.18.2
+ * @version  3.19.2
  */
 class LLMS_L10n_JS {
 
@@ -27,7 +27,7 @@ class LLMS_L10n_JS {
 	 * @param    array  $strings  existing strings from core / 3rd parties
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.18.2
+	 * @version  3.19.2
 	 */
 	public function get_strings( $strings ) {
 
@@ -89,7 +89,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/builder/Models/Quiz.js
 			 * @since    3.16.0
-			 * @version  3.17.6
+			 * @version  3.19.2
 			 */
 			'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 			'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
@@ -206,8 +206,9 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/builder/Views/Quiz.js
 			 * @since    3.16.0
-			 * @version  3.17.7
+			 * @version  3.19.2
 			 */
+			'An error occurred while trying to load the questions. Please refresh the page and try again.' => esc_html__( 'An error occurred while trying to load the questions. Please refresh the page and try again.', 'lifterlms' ),
 			'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
 			'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
 			'Add a Question' => esc_html__( 'Add a Question', 'lifterlms' ),
@@ -303,6 +304,7 @@ class LLMS_L10n_JS {
 			'Clone' => esc_html__( 'Clone', 'lifterlms' ),
 			'ID' => esc_html__( 'ID', 'lifterlms' ),
 			'Are you sure you want to delete this question?' => esc_html__( 'Are you sure you want to delete this question?', 'lifterlms' ),
+			'An error occurred while trying to load the questions. Please refresh the page and try again.' => esc_html__( 'An error occurred while trying to load the questions. Please refresh the page and try again.', 'lifterlms' ),
 			'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
 			'Search for existing quizzes...' => esc_html__( 'Search for existing quizzes...', 'lifterlms' ),
 			'Add a Question' => esc_html__( 'Add a Question', 'lifterlms' ),
