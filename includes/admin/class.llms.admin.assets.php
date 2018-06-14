@@ -43,6 +43,8 @@ class LLMS_Admin_Assets {
 			return true;
 		} elseif ( ! empty( $screen->post_type ) && post_type_supports( $screen->post_type, 'llms-membership-restrictions' ) ) {
 			return true;
+		} elseif ( in_array( $screen->id, array( 'users' ) ) ) {
+			return true;
 		}
 
 		return false;
