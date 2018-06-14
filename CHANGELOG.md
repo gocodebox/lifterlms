@@ -4,12 +4,18 @@ LifterLMS Changelog
 v3.19.2 - 2018-06-??
 --------------------
 
+##### Updates and enhancements
+
 + The currently viewed lesson will now be bold in the lesson outline widget.
 + Added a CSS class `.llms-widget-syllabus .llms-lesson.current-lesson` which can be used to customize the display of the current lesson in the widget.
 + Added the ability to filter quiz attempt reports by quiz status
+
+##### Bug fixes
+
 + Quiz results will now exclude questions with 0 points value when displaying the number of questions in the quiz.
 + Fixed error occurring when sorting was applied to quiz attempt reports which would cause quiz attempts from other quizzes to be included in the new sorted report
 + Fixed filter `lifterlms_reviews_section_title` which was unuseable due to the incorrect usage of `_e()` within the filter. Now using `__()` as expected.
++ Fixed issue causing course featured image to display in place of lesson feature images
 
 ##### Template Updates
 
