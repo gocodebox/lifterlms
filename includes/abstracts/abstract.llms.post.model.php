@@ -110,7 +110,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $key   key to retrieve
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.16.10
+	 * @version  [version]
 	 */
 	public function __get( $key ) {
 
@@ -131,11 +131,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			switch ( $key ) {
 
 				case 'content':
-					$val = wptexturize( $this->post->$post_key );
-					$val = convert_chars( $val );
-					$val = wpautop( $val );
-					$val = shortcode_unautop( $val );
-					$val = do_shortcode( $val );
+					$val = llms_content( $this->post->$post_key );
 				break;
 
 				case 'excerpt':
