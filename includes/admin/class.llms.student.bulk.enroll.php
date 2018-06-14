@@ -51,7 +51,7 @@ class LLMS_Student_Bulk_Enroll {
 		add_action( 'admin_head-users.php', array( $this, 'maybe_enroll_users_in_product' ) );
 
 		// display enrollment results as notices
-		add_action( 'user_admin_notices', array( $this, 'display_notices' ) );
+		add_action( 'admin_notices', array( $this, 'display_notices' ) );
 	}
 
 	/**
