@@ -260,7 +260,6 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
 			require 'includes/abstracts/abstract.llms.admin.metabox.php';
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
-			include_once( 'includes/admin/users/class.llms.wp.user.php' );
 			include_once( 'includes/admin/class.llms.student.bulk.enroll.php' );
 
 		}
