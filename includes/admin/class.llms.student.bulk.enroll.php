@@ -96,7 +96,7 @@ class LLMS_Student_Bulk_Enroll {
 		}
 
 		// get the product (course/membership) to enroll users in
-		$this->product_id = $this->_bottom_else_top( '_llms_bulk_enroll_product', FILTER_VALIDATE_INT );
+		$this->product_id = $this->_bottom_else_top( 'llms_bulk_enroll_product', FILTER_VALIDATE_INT );
 
 		if ( empty( $this->product_id ) ) {
 			$message = __( 'Please select a Course or Membership to enroll users into!', 'lifterlms' );
