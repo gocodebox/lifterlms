@@ -125,6 +125,8 @@ class LLMS_Student_Bulk_Enroll {
 	 * @param	string $param The input key
 	 * @param	mixed $validation Validation filter constant
 	 * @return	mixed The submitted input value
+	 * @since	[version]
+	 * @version	[version]
 	 */
 	private function _bottom_else_top( $param, $validation = FILTER_DEFAULT ) {
 
@@ -145,6 +147,61 @@ class LLMS_Student_Bulk_Enroll {
 		}
 
 		return $return_val;
+	}
+
+	/**
+	 * Enrolls multiple users into a product
+	 *
+	 * @since	[version]
+	 * @version	[version]
+	 */
+	private function enroll_users_in_product() {
+
+		// get user information from user ids
+		$users = $this->get_users( $this->user_ids );
+
+		// bail if for some reason, no users are found (because they were deleted in the bg?)
+		if( empty($users) ){
+			$message = sprintf( __( 'No such users found enroll into %s.', 'lifterlms' ), $this->product_title );
+			$this->generate_notice( 'error', $message );
+			return;
+		}
+
+		// create manual enrollment trigger
+		$trigger = 'admin_' . get_current_user_id();
+
+		foreach ( $users as $user ) {
+
+			$this->enroll( $user, $this->product_id, $this->product_title, $trigger );
+		}
+	}
+
+
+	/**
+	 * Get user details from user IDs
+	 *
+	 * @param	array $user_ids WP user IDs
+	 * @return	array User details
+	 * @since	[version]
+	 * @version	[version]
+	 */
+	private function get_users( $user_ids ) {
+
+		// prepare query arguments
+		$user_query_args = array(
+			'include' => $user_ids,
+			// we need display names for notices
+			'fields' => array( 'ID', 'display_name' ),
+		);
+
+		$users = array();
+		$user_query = new WP_User_Query( $user_query_args );
+
+		if ( ! empty( $user_query->get_results() ) ) {
+			return $user_query->get_results();
+		}
+
+		return false;
 	}
 
 	/**
@@ -169,7 +226,9 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Displays all generated notices
 	 *
-	 * @return type
+	 * @return	void
+	 * @since	[version]
+	 * @version	[version]
 	 */
 	public function display_notices() {
 		if ( empty( $this->admin_notices ) ) {
