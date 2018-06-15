@@ -252,7 +252,7 @@ class LLMS_Admin_Assets {
 
 		// in_array so that this script can also be loaded on 'user-new', 'user-edit', 'profile'
 		if ( in_array( $screen->id, array( 'users' ) ) ) {
-			wp_enqueue_script( 'llms-bulk-enroll', LLMS_PLUGIN_URL . '/assets/js/llms-bulk-enroll' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'select2', 'llms', 'llms-ajax' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-bulk-enroll', LLMS_PLUGIN_URL . '/assets/js/llms-bulk-enroll' . LLMS_ASSETS_SUFFIX . '.js', array( 'llms-select2', 'llms', 'jquery', 'llms-ajax' ), LLMS()->version, true );
 		}
 	}
 
