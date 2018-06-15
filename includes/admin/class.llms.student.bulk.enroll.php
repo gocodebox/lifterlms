@@ -193,7 +193,6 @@ class LLMS_Student_Bulk_Enroll {
 			'fields' => array( 'ID', 'display_name' ),
 		);
 
-		$users = array();
 		$user_query = new WP_User_Query( $user_query_args );
 
 		if ( ! empty( $user_query->get_results() ) ) {
