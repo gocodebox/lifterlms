@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 5.6
 Tested up to: 4.9.6
-Stable tag: 3.19.1
+Stable tag: 3.19.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,33 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.19.2 - 2018-06-14 =
+------------------------
+
+##### Updates and enhancements
+
++ The course builder will now load quiz question data when the quiz is opened instead of loading all quizzes on builder page load. Improves builder load times and addresses an issue which could cause timeouts in certain environments when attempting to edit very large courses.
++ The currently viewed lesson will now be bold in the lesson outline widget.
++ Added a CSS class `.llms-widget-syllabus .llms-lesson.current-lesson` which can be used to customize the display of the current lesson in the widget.
++ Added the ability to filter quiz attempt reports by quiz status
++ Updated language for access plans on with a limited number of payments to reflect the total number of payments due as opposed to the length (for example in years) that the plan will run.
+
+##### Bug fixes
+
++ Fixed issue preventing oEmbed media from being used in quiz question descriptions
++ Fixed issue preventing `<iframes>` from being used in quiz question descriptions
++ Quiz results will now exclude questions with 0 points value when displaying the number of questions in the quiz.
++ Fixed error occurring when sorting was applied to quiz attempt reports which would cause quiz attempts from other quizzes to be included in the new sorted report
++ Fixed filter `lifterlms_reviews_section_title` which was unuseable due to the incorrect usage of `_e()` within the filter. Now using `__()` as expected.
++ Fixed issue causing course featured image to display in place of lesson feature images
+
+##### Template Updates
+
++ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
++ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
++ [templates/quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
+
+
 = v3.19.1 - 2018-06-07 =
 ------------------------
 
@@ -564,25 +591,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ##### Template Updates
 
 + [templates/myaccount/navigation.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/navigation.php)
-
-
-= v3.17.4 - 2018-04-17 =
-------------------------
-
-+ Added core RTL language support
-+ Fixed fatal error on student management tables resulting from deleted admin users who manually enrolled students
-+ Added filter to allow 3rd parties to disable achievement dupchecking (`llms_achievement_has_user_earned`)
-+ Added {student_id} merge code which can be utilized on certificates
-+ Added merge code insert button to certificates editor
-+ Added filter to allow 3rd parties to disable certificate dupchecking (`llms_certificate_has_user_earned`)
-+ Added filter to allow 3rd parties to add custom merge codes to certificates (`llms_certificate_merge_codes`)
-+ Fix restriction check issue for lessons with drip or prerequisites on course outline widget / shortcode
-+ Bumped WP tested to version to 4.9.5
-
-##### Template Updates
-
-+ [templates/course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
-+ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

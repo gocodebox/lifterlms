@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version 3.17.1
+ * @version 3.19.2
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -205,7 +205,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @param    string     $key  data to count
 	 * @return   int
 	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @version  3.19.2
 	 */
 	public function get_count( $key ) {
 
@@ -217,6 +217,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			case 'available_points':
 			case 'correct_answers':
 			case 'earned':
+			case 'gradeable_questions': // like "questions" but excludes content questions
 			case 'points': // legacy version of earned
 				foreach ( $questions as $data ) {
 					// get the total number of correct answers
@@ -229,6 +230,10 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 						// get the total number of possible points
 					} elseif ( 'available_points' === $key ) {
 						$count += $data['points'];
+					} elseif ( 'gradeable_questions' === $key ) {
+						if ( $data['points'] ) {
+							$count++;
+						}
 					}
 				}
 			break;

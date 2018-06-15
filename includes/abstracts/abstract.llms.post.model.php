@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.18.0
+ * @version  3.19.2
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -110,7 +110,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $key   key to retrieve
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.16.10
+	 * @version  3.19.2
 	 */
 	public function __get( $key ) {
 
@@ -119,8 +119,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			return absint( $this->$key );
 
-		} // End if().
-		elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
+		} elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
 
 			$post_key = 'post_' . $key;
 
@@ -132,11 +131,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			switch ( $key ) {
 
 				case 'content':
-					$val = wptexturize( $this->post->$post_key );
-					$val = convert_chars( $val );
-					$val = wpautop( $val );
-					$val = shortcode_unautop( $val );
-					$val = do_shortcode( $val );
+					$val = llms_content( $this->post->$post_key );
 				break;
 
 				case 'excerpt':
@@ -159,17 +154,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			// return the original global
 			$post = $temp;
 
-		} // regular meta data
-		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
+		} elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
 
 			$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
 
-		} // invalid or unsettable, just return whatever we have (which might be null)
-		else {
+		} else {
 
 			return $this->$key;
 
-		}
+		}// End if().
 
 		// if we found a valid, apply default llms get get filter and return the value
 		if ( isset( $val ) ) {
@@ -217,6 +210,34 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$this->properties = array_merge( $this->properties, $props );
 
+	}
+
+	/**
+	 * Modify allowed post tags for wp_kses for this post
+	 * @return   void
+	 * @since    3.19.2
+	 * @version  3.19.2
+	 */
+	protected function allowed_post_tags_set() {
+		global $allowedposttags;
+		$allowedposttags['iframe'] = array(
+			'allowfullscreen' => true,
+			'frameborder' => true,
+			'height' => true,
+			'src' => true,
+			'width' => true,
+		);
+	}
+
+	/**
+	 * Remove modified allowed post tags for wp_kses for this post
+	 * @return   void
+	 * @since    3.19.2
+	 * @version  3.19.2
+	 */
+	protected function allowed_post_tags_unset() {
+		global $allowedposttags;
+		unset( $allowedposttags['iframe'] );
 	}
 
 	/**
@@ -284,7 +305,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Clones the Post if the post is cloneable
 	 * @return   mixed         WP_Error or WP Post ID of the clone (new) post
 	 * @since    3.3.0
-	 * @version  3.14.8
+	 * @version  3.19.2
 	 */
 	public function clone_post() {
 
@@ -293,14 +314,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			return;
 		}
 
-		global $allowedposttags;
-		$allowedposttags['iframe'] = array(
-			'allowfullscreen' => true,
-			'frameborder' => true,
-			'height' => true,
-			'src' => true,
-			'width' => true,
-		);
+		$this->allowed_post_tags_set();
 
 		$generator = new LLMS_Generator( $this->toArray() );
 		$generator->set_generator( 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Cloner' );
@@ -308,7 +322,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$generator->generate();
 		}
 
-		unset( $allowedposttags['iframe'] );
+		$this->allowed_post_tags_unset();
 
 		$generated = $generator->get_generated_posts();
 		if ( isset( $generated[ $this->db_post_type ] ) ) {
@@ -323,7 +337,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Trigger an export download of the given post type
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  3.14.6
+	 * @version  3.19.2
 	 */
 	public function export() {
 
@@ -342,14 +356,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		header( 'Pragma: no-cache' );
 		header( 'Expires: 0' );
 
-		global $allowedposttags;
-		$allowedposttags['iframe'] = array(
-			'allowfullscreen' => true,
-			'frameborder' => true,
-			'height' => true,
-			'src' => true,
-			'width' => true,
-		);
+		$this->allowed_post_tags_set();
 
 		$arr = $this->toArray();
 
@@ -361,7 +368,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		echo json_encode( $arr );
 
-		unset( $allowedposttags['iframe'] );
+		$this->allowed_post_tags_unset();
 
 		die();
 
@@ -733,7 +740,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $type  data type
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.12.0
+	 * @version  3.19.2
 	 */
 	protected function scrub_field( $val, $type ) {
 
@@ -764,7 +771,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			break;
 
 			case 'html':
+				$this->allowed_post_tags_set();
 				$val = wp_kses_post( $val );
+				$this->allowed_post_tags_unset();
 			break;
 
 			case 'int':

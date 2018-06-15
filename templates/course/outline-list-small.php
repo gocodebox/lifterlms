@@ -1,23 +1,18 @@
 <?php
 /**
  * Course Outline Small List
- *
  * Used for lifterlms_course_outline Shortcode & Course Syllabus Widget
- *
  * @property  $collapse         bool   whether or not sections are collapsible via user interaction
  * @property  $course           obj    instance of the LLMS_Course for the current course
  * @property  $current_section  int    WP Post ID of the current section, this determines which section is open when the outline is collapsible
+ * @property  $current_lesson   int    WP Post ID of the lesson being currently viewed, will be null if used outside of a lesson
  * @property  $sections         array  array of LLMS_Sections
  * @property  $student          obj    Instance of the LLMS_Student for the current user
  * @property  $toggles          bool   whether or not open/close all toggles should display in the outline footer. Only works when $collapse is also true
- *
  * @since     1.0.0
- * @version   3.17.4
+ * @version   3.19.2
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-widget-syllabus<?php echo ( $collapse ) ? ' llms-widget-syllabus--collapsible' : ''; ?>">
 
@@ -49,10 +44,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 				</div>
 
 				<?php foreach ( $section->get_lessons() as $lesson ) :
+					$current = ( $current_lesson == $lesson->get( 'id' ) );
 					$is_complete = $student ? $student->is_complete( $lesson->get( 'id' ), 'lesson' ) : false;
 					$restricted = llms_page_restricted( $lesson->get( 'id' ) ); ?>
 
-					<ul class="llms-lesson">
+					<ul class="llms-lesson<?php echo $current ? ' current-lesson' : ''; ?>">
 
 						<li>
 

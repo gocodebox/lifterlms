@@ -1,13 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Quizzes Reporting Table
  *
  * @since    3.16.0
- * @version  3.17.3
+ * @version  3.19.2
  */
 class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
@@ -28,7 +26,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * Field results are filtered by
 	 * @var  string
 	 */
-	protected $filterby = 'instructor';
+	protected $filterby = 'grade';
 
 	/**
 	 * Is the Table Exportable?
@@ -67,6 +65,12 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @var  string
 	 */
 	protected $orderby = 'id';
+
+	/**
+	 * WP Post ID of the displayed quiz
+	 * @var  null
+	 */
+	protected $quiz_id = null;
 
 	/**
 	 * Retrieve data for a cell
@@ -153,13 +157,15 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.19.2
 	 */
 	public function get_results( $args = array() ) {
 
 		$this->title = __( 'Quiz Attempts', 'lifterlms' );
 
 		$args = $this->clean_args( $args );
+
+		$this->quiz_id = $args['quiz_id'];
 
 		if ( isset( $args['page'] ) ) {
 			$this->current_page = absint( $args['page'] );
@@ -183,22 +189,9 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 			'student_id' => isset( $args['student_id'] ) ? $args['student_id'] : null,
 		);
 
-		// if ( 'any' !== $this->filter ) {
-
-		// 	$serialized_id = serialize( array(
-		// 		'id' => absint( $this->filter ),
-		// 	) );
-		// 	$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
-
-		// 	$query_args['meta_query'] = array(
-		// 		array(
-		// 			'compare' => 'LIKE',
-		// 			'key' => '_llms_instructors',
-		// 			'value' => $serialized_id,
-		// 		),
-		// 	);
-
-		// }
+		if ( 'any' !== $this->filter ) {
+			$query_args['status'] = $this->filter;
+		}
 
 		// if you can view others reports, make a regular query
 		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
@@ -231,11 +224,11 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * Define the structure of arguments used to pass to the get_results method
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.19.2
 	 */
 	public function set_args() {
 		return array(
-			'quiz_id' => 0,
+			'quiz_id' => ! empty( $this->quiz_id ) ? $this->quiz_id : absint( $_GET['quiz_id'] ),
 			'student_id' => 0,
 		);
 	}
@@ -244,7 +237,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.19.2
 	 */
 	protected function set_columns() {
 
@@ -265,6 +258,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 				'sortable' => false,
 			),
 			'grade' => array(
+				'filterable' => llms_get_quiz_attempt_statuses(),
 				'exportable' => true,
 				'title' => __( 'Grade', 'lifterlms' ),
 				'sortable' => true,

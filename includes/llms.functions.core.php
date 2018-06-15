@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.19.0
+ * @version  3.19.2
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -50,11 +50,16 @@ if ( ! function_exists( 'llms_current_time' ) ) {
  * @param    string     $content  [description]
  * @return   [type]
  * @since    3.16.10
- * @version  3.16.10
+ * @version  3.19.2
  */
 if ( ! function_exists( 'llms_content' ) ) {
 	function llms_content( $content = '' ) {
-		return do_shortcode( shortcode_unautop( wpautop( convert_chars( wptexturize( $content ) ) ) ) );
+		$content = do_shortcode( shortcode_unautop( wpautop( convert_chars( wptexturize( $content ) ) ) ) );
+		global $wp_embed;
+		if ( $wp_embed && method_exists( $wp_embed, 'autoembed' ) ) {
+			$content = $wp_embed->autoembed( $content );
+		}
+		return $content;
 	}
 }
 
