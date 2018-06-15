@@ -161,7 +161,7 @@ class LLMS_Student_Bulk_Enroll {
 		$users = $this->get_users( $this->user_ids );
 
 		// bail if for some reason, no users are found (because they were deleted in the bg?)
-		if( empty($users) ){
+		if ( empty( $users ) ) {
 			$message = sprintf( __( 'No such users found. Cannot enroll into <em>%s</em>.', 'lifterlms' ), $this->product_title );
 			$this->generate_notice( 'error', $message );
 			return;
