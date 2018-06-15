@@ -1,7 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Course Outline Shortcode
@@ -9,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * [lifterlms_course_outline]
  *
  * @since    3.5.1
- * @version  3.17.7
+ * @version  3.19.2
  */
 class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
@@ -76,7 +74,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 *
 	 * @return   string
 	 * @since    3.5.1
-	 * @version  3.17.2
+	 * @version  3.19.2
 	 */
 	protected function get_output() {
 
@@ -87,6 +85,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 			'collapse' => $this->get_attribute( 'collapse' ),
 			'course' => $course,
 			'current_section' => null,
+			'current_lesson' => null,
 			'sections' => array(),
 			'student' => $student,
 			'toggles' => $this->get_attribute( 'toggles' ),
@@ -97,6 +96,10 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 		}
 
 		$next_lesson = $student ? llms_get_post( $student->get_next_lesson( $course->get( 'id' ) ) ) : false;
+
+		if ( 'lesson' === get_post_type() ) {
+			$args['current_lesson'] = get_the_ID();
+		}
 
 		// show only the current section
 		if ( $next_lesson && 'current_section' === $this->get_attribute( 'outline_type' ) ) {

@@ -3207,7 +3207,7 @@ define( 'Schemas/Quiz',[], function() {
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.17.6
+ * @version  3.19.2
  */
 define( 'Models/Quiz',[
 		'Collections/Questions',
@@ -3286,6 +3286,7 @@ define( 'Models/Quiz',[
 				// display
 				permalink: '',
 				_show_settings: false,
+				_questions_loaded: false,
 			};
 
 		},
@@ -3364,6 +3365,56 @@ define( 'Models/Quiz',[
 			} );
 
 			return points;
+
+		},
+
+		/**
+		 * Lazy load questions via AJAX
+		 * @param    {Function}  cb  callback function
+		 * @return   void
+		 * @since    3.19.2
+		 * @version  3.19.2
+		 */
+		load_questions: function( cb ) {
+
+			if ( this.get( '_questions_loaded' ) ) {
+
+				cb();
+
+			} else {
+
+				var self = this;
+
+				LLMS.Ajax.call( {
+					data: {
+						action: 'llms_builder',
+						action_type: 'lazy_load',
+						course_id: window.llms_builder.CourseModel.get( 'id' ),
+						load_id: this.get( 'id' ),
+					},
+					error: function( xhr, status, error ) {
+
+						console.log( xhr, status, error );
+						window.llms_builder.debug.log( '==== start load_questions error ====', xhr, status, error, '==== finish load_questions error ====' );
+						cb( true );
+
+					},
+					success: function( res ) {
+						if ( res && res.questions ) {
+							self.set( '_questions_loaded', true );
+							if ( res.questions ) {
+								_.each( res.questions, self.add_question, self );
+							}
+							cb();
+						} else {
+							cb( true );
+						}
+					}
+
+				} );
+
+			}
+
 
 		},
 
@@ -8831,7 +8882,7 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.17.7
+ * @version  3.19.2
  */
 define( 'Views/Quiz',[
 		'Models/Quiz',
@@ -8918,7 +8969,7 @@ define( 'Views/Quiz',[
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  3.19.2
 		 */
 		initialize: function( data ) {
 
@@ -8958,7 +9009,7 @@ define( 'Views/Quiz',[
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  3.17.7
+		 * @version  3.19.2
 		 */
 		render: function() {
 
@@ -8966,6 +9017,9 @@ define( 'Views/Quiz',[
 
 			// render the quiz builder
 			if ( this.model ) {
+
+				// don't allow interaction until questions are lazy loaded
+				LLMS.Spinner.start( this.$el );
 
 				this.render_subview( 'settings', {
 					el: '#llms-quiz-settings-fields',
@@ -8995,17 +9049,27 @@ define( 'Views/Quiz',[
 
 				}, this );
 
-				this.render_subview( 'list', {
-					el: '#llms-quiz-questions',
-					collection: this.model.get( 'questions' ),
-				} );
-				var list = this.get_subview( 'list' ).instance;
-				list.quiz = this;
-				list.collection.on( 'add', function() {
-					list.collection.trigger( 'reorder' );
-				}, this );
-				list.on( 'sortStart', list.sortable_start );
-				list.on( 'sortStop', list.sortable_stop );
+				this.model.load_questions( _.bind( function( err ) {
+
+					if ( err ) {
+						alert( LLMS.l10n.translate( 'An error occurred while trying to load the questions. Please refresh the page and try again.' ) );
+						return this;
+					}
+
+					LLMS.Spinner.stop( this.$el );
+					this.render_subview( 'list', {
+						el: '#llms-quiz-questions',
+						collection: this.model.get( 'questions' ),
+					} );
+					var list = this.get_subview( 'list' ).instance;
+					list.quiz = this;
+					list.collection.on( 'add', function() {
+						list.collection.trigger( 'reorder' );
+					}, this );
+					list.on( 'sortStart', list.sortable_start );
+					list.on( 'sortStop', list.sortable_stop );
+
+				}, this ) );
 
 				this.model.on( 'new-question-added', function() {
 					var $questions = this.$el.find( '#llms-quiz-questions' );

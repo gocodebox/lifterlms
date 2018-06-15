@@ -5,7 +5,7 @@
  * @group    LLMS_Order
  * @group    LLMS_Post_Model
  * @since    3.10.0
- * @version  3.19.0
+ * @version  3.19.2
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -525,7 +525,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order = $this->get_order( $plan );
 		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
 
-
 		$original_time = current_time( 'Y-m-d H:i:s' );
 		// recurring
 		$plan = $this->get_plan();
@@ -584,6 +583,40 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 			}
 
 		}
+
+
+		llms_mock_current_time( $original_time );
+
+		// this should run 3 total payments over the course of 9 weeks
+		$plan = $this->get_plan();
+		$plan->set( 'frequency', 3 ); // every 3rd
+		$plan->set( 'period', 'week' ); // week
+		$plan->set( 'length', 3 ); // for 3 payments
+
+		// payment one is order date
+		$order = $this->get_order( $plan );
+
+		// payment two
+		$expect = strtotime( "+3 weeks", $order->get_date( 'date', 'U' ) );
+		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
+
+		// time travel
+		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
+		// reschedule next date
+		$order->maybe_schedule_payment( true );
+		$expect += WEEK_IN_SECONDS * 3;
+
+		// payment three
+		$this->assertEquals( $expect, $order->get_next_payment_due_date( 'U' ) );
+
+		// time travel
+		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
+		// reschedule next date
+		$order->maybe_schedule_payment( true );
+		$expect += WEEK_IN_SECONDS * 3;
+
+		// no more payments
+		$this->assertTrue( is_a( $order->get_next_payment_due_date( 'U' ), 'WP_Error' ) );
 
 	}
 

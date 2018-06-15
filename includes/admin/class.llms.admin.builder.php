@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.17.6
+ * @version  3.19.2
  */
 class LLMS_Admin_Builder {
 
@@ -245,7 +243,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.16.12
+	 * @version  3.19.2
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -280,6 +278,17 @@ class LLMS_Admin_Builder {
 					'slug' => $link[1],
 					'permalink' => str_replace( '%pagename%', $link[1], $link[0] ),
 				) );
+
+			break;
+
+			case 'lazy_load':
+
+				$ret = array();
+				if ( isset( $request['load_id'] ) ) {
+					$post = llms_get_post( absint( $request['load_id'] ) );
+					$ret = $post->toArray();
+				}
+				wp_send_json( $ret );
 
 			break;
 
@@ -436,7 +445,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.17.6
+	 * @version  3.19.2
 	 */
 	public static function output() {
 
@@ -459,6 +468,9 @@ if ( ! empty( $active_post_lock ) ) {
 
 		remove_all_actions( 'the_title' );
 		remove_all_actions( 'the_content' );
+
+		global $llms_builder_lazy_load;
+		$llms_builder_lazy_load = true;
 		?>
 
 		<div class="wrap lifterlms llms-builder">
@@ -492,11 +504,12 @@ if ( ! empty( $active_post_lock ) ) {
 					'course_id' => $course_id,
 				) );
 			}
+
 			?>
 
 			<script>window.llms_builder = <?php echo json_encode( array(
 				'admin_url' => admin_url(),
-				'course' => array_merge( $course->toArray() ),
+				'course' => $course->toArray(),
 				'debug' => array(
 					'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
 				),
@@ -512,6 +525,7 @@ if ( ! empty( $active_post_lock ) ) {
 		</div>
 
 		<?php
+		$llms_builder_lazy_load = false;
 		self::handle_post_locking( $course_id );
 
 	}

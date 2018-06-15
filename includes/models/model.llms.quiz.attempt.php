@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version [version]
+ * @version 3.19.2
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -205,7 +205,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * @param    string     $key  data to count
 	 * @return   int
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.19.2
 	 */
 	public function get_count( $key ) {
 

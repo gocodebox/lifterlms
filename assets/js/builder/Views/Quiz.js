@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.17.7
+ * @version  3.19.2
  */
 define( [
 		'Models/Quiz',
@@ -88,7 +88,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  3.19.2
 		 */
 		initialize: function( data ) {
 
@@ -128,7 +128,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  3.17.7
+		 * @version  3.19.2
 		 */
 		render: function() {
 
@@ -136,6 +136,9 @@ define( [
 
 			// render the quiz builder
 			if ( this.model ) {
+
+				// don't allow interaction until questions are lazy loaded
+				LLMS.Spinner.start( this.$el );
 
 				this.render_subview( 'settings', {
 					el: '#llms-quiz-settings-fields',
@@ -165,17 +168,27 @@ define( [
 
 				}, this );
 
-				this.render_subview( 'list', {
-					el: '#llms-quiz-questions',
-					collection: this.model.get( 'questions' ),
-				} );
-				var list = this.get_subview( 'list' ).instance;
-				list.quiz = this;
-				list.collection.on( 'add', function() {
-					list.collection.trigger( 'reorder' );
-				}, this );
-				list.on( 'sortStart', list.sortable_start );
-				list.on( 'sortStop', list.sortable_stop );
+				this.model.load_questions( _.bind( function( err ) {
+
+					if ( err ) {
+						alert( LLMS.l10n.translate( 'An error occurred while trying to load the questions. Please refresh the page and try again.' ) );
+						return this;
+					}
+
+					LLMS.Spinner.stop( this.$el );
+					this.render_subview( 'list', {
+						el: '#llms-quiz-questions',
+						collection: this.model.get( 'questions' ),
+					} );
+					var list = this.get_subview( 'list' ).instance;
+					list.quiz = this;
+					list.collection.on( 'add', function() {
+						list.collection.trigger( 'reorder' );
+					}, this );
+					list.on( 'sortStart', list.sortable_start );
+					list.on( 'sortStop', list.sortable_stop );
+
+				}, this ) );
 
 				this.model.on( 'new-question-added', function() {
 					var $questions = this.$el.find( '#llms-quiz-questions' );

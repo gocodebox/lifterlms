@@ -358,6 +358,9 @@ svg .llms-animated-circle {
 
 .llms-widget-syllabus {
 
+  .llms-lesson.current-lesson .lesson-title {
+  	font-weight: 700;
+  }
 
   .llms-lesson-complete, .lesson-complete-placeholder {
     font-size: 1.2em;

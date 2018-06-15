@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.18.0
+ * @version  3.19.2
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -368,13 +368,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get a sentence explaining the plan's payment schedule
-	 * @return string
-	 * @since 3.0.0
-	 * @version  3.5.3
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.19.2
 	 */
 	public function get_schedule_details() {
 
-		$r = '';
+		$ret = '';
 
 		$period = $this->get( 'period' );
 		$frequency = $this->get( 'frequency' );
@@ -387,7 +387,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			switch ( $frequency ) {
 
 				case 1:
-					$r = sprintf( _x( 'per %s', 'subscription schedule', 'lifterlms' ), $this->get_access_period_name( $period, $frequency ) );
+					$ret = sprintf( _x( 'per %s', 'subscription schedule', 'lifterlms' ), $this->get_access_period_name( $period, $frequency ) );
 				break;
 
 				case 2:
@@ -395,7 +395,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				case 4:
 				case 5:
 				case 6:
-					$r = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
+					$ret = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
 				break;
 
 			}
@@ -403,13 +403,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// add length sentence if applicable
 			if ( $length > 0 ) {
 
-				$r .= ' ';
-				$r .= sprintf( _x( 'for %1$d %2$s', 'subscription # of payments', 'lifterlms' ), $length, $this->get_access_period_name( $period, $length ) );
+				$ret .= ' ';
+				$ret .= sprintf( _x( 'for %1$d total payments', 'subscription # of payments', 'lifterlms' ), $length );
 
 			}
 		}
 
-		return apply_filters( 'llms_get_product_schedule_details', sprintf( $r, $this->get( 'period' ), $frequency, $length ), $this );
+		return apply_filters( 'llms_get_product_schedule_details', sprintf( $ret, $this->get( 'period' ), $frequency, $length ), $this );
 
 	}
 

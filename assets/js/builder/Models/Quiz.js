@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.17.6
+ * @version  3.19.2
  */
 define( [
 		'Collections/Questions',
@@ -80,6 +80,7 @@ define( [
 				// display
 				permalink: '',
 				_show_settings: false,
+				_questions_loaded: false,
 			};
 
 		},
@@ -158,6 +159,56 @@ define( [
 			} );
 
 			return points;
+
+		},
+
+		/**
+		 * Lazy load questions via AJAX
+		 * @param    {Function}  cb  callback function
+		 * @return   void
+		 * @since    3.19.2
+		 * @version  3.19.2
+		 */
+		load_questions: function( cb ) {
+
+			if ( this.get( '_questions_loaded' ) ) {
+
+				cb();
+
+			} else {
+
+				var self = this;
+
+				LLMS.Ajax.call( {
+					data: {
+						action: 'llms_builder',
+						action_type: 'lazy_load',
+						course_id: window.llms_builder.CourseModel.get( 'id' ),
+						load_id: this.get( 'id' ),
+					},
+					error: function( xhr, status, error ) {
+
+						console.log( xhr, status, error );
+						window.llms_builder.debug.log( '==== start load_questions error ====', xhr, status, error, '==== finish load_questions error ====' );
+						cb( true );
+
+					},
+					success: function( res ) {
+						if ( res && res.questions ) {
+							self.set( '_questions_loaded', true );
+							if ( res.questions ) {
+								_.each( res.questions, self.add_question, self );
+							}
+							cb();
+						} else {
+							cb( true );
+						}
+					}
+
+				} );
+
+			}
+
 
 		},
 
