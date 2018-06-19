@@ -1,13 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
- * LifterLMS User Data Abstract
- *
+ * LifterLMS API Request Handler Abstract
  * @since   3.11.2
- * @version 3.11.2
+ * @version [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_API_Handler {
 
 	/**
@@ -15,6 +13,12 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @var  string
 	 */
 	protected $default_request_method = 'POST';
+
+	/**
+	 * Send requests in JSON format
+	 * @var  bool
+	 */
+	protected $is_json = true;
 
 	/**
 	 * Request timeout in seconds
@@ -49,23 +53,33 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
 	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @version  [version]
 	 */
 	private function call( $resource, $data, $method = null ) {
 
 		$method = is_null( $method ) ? $this->default_request_method : $method;
 
+		// setup the body
+		$body = $this->set_request_body( $data, $method, $resource );
+		if ( $this->is_json ) {
+			$body = json_encode( $body );
+		}
+
+		// setup headers
+		$headers = array();
+		if ( $this->is_json ) {
+			$headers['content-type'] = 'application/json; charset=utf-8';
+		}
+
 		// attempt to call the API
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
 			array(
-				'body' => json_encode( $this->set_request_body( $data, $method, $resource ) ),
-				'headers' => $this->set_request_headers( array(
-					'content-type' => 'application/json; charset=utf-8',
-				), $resource, $method ),
+				'body' => $body,
+				'headers' => $this->set_request_headers( $headers, $resource, $method ),
 				'method' => $method,
 				'timeout' => $this->request_timeout,
-				'user-agent' => 'LifterLMS ' . LLMS_VERSION,
+				'user-agent' => $this->set_user_agent( 'LifterLMS ' . LLMS_VERSION, $resource, $method ),
 			)
 		);
 
@@ -219,5 +233,19 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @version  3.11.2
 	 */
 	abstract protected function set_request_url( $resource, $method );
+
+	/**
+	 * Set the request User Agent
+	 * Can be overridden by extending classes when necessary
+	 * @param    string     $user_agent  default user agent (LifterLMS {$version})
+	 * @param    string     $resource    requested resource
+	 * @param    string     $method      request method
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function set_user_agent( $user_agent, $resource, $method ) {
+		return $user_agent;
+	}
 
 }

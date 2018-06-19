@@ -236,6 +236,8 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
+			include_once 'includes/class.llms.dot.com.api.php';
+
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';
 

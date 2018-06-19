@@ -39,7 +39,7 @@ $featured = ! empty( $addon['featured'] ) ? ' featured' : '';
 			?>
 			<footer class="llms-status status--<?php echo $status; ?>">
 				<span><?php printf( __( 'Status: %s', 'lifterlms' ), '<em>' . $AddOns->get_l10n( $status ) . '</em>' );?></span>
-				<button class="llms-button-secondary small">
+				<button class="llms-button-secondary small llms-addon-action" name="llms_addon" type="submit" value="<?php echo $addon['id']; ?>">
 					<?php if ( 'none' === $status ) : ?>
 						<i class="fa fa-cloud-download" aria-hidden="true"></i>
 						<?php _e( 'Install', 'lifterlms' ); ?>
