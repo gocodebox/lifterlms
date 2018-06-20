@@ -3593,7 +3593,7 @@ define( 'Schemas/Lesson',[], function() {
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.17.1
+ * @version  3.19.3
  */
 define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -3781,13 +3781,14 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  3.16.12
+		 * @version  3.19.3
 		 */
 		add_quiz: function( data ) {
 
 			data = data || {};
 
 			data.lesson_id = this.id;
+			data._questions_loaded = true;
 
 			if ( ! data.title ) {
 

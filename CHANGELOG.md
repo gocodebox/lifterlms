@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.19.3 - 2018-06-14
+--------------------
+
++ Fix issue causing new quizzes to be unable to load questions list without reloading the builder
+
+
 v3.19.2 - 2018-06-14
 --------------------
 
