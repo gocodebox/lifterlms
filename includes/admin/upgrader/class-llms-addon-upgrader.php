@@ -49,7 +49,6 @@ class LLMS_AddOn_Upgrader {
 			if ( 'plugin' === $product['type'] && $product['update_file'] ) {
 				add_action( "in_plugin_update_message-{$product['update_file']}", array( $this, 'in_plugin_update_message' ), 10, 2 );
 			}
-
 		}
 
 	}
@@ -179,8 +178,7 @@ class LLMS_AddOn_Upgrader {
 
 				}
 			}
-
-		}
+		}// End if().
 
 	}
 
@@ -195,7 +193,6 @@ class LLMS_AddOn_Upgrader {
 
 		$keys = array_map( 'sanitize_text_field', $keys );
 		$keys = array_map( 'trim', $keys );
-
 
 		$data = array(
 			'keys' => array(),
@@ -303,7 +300,6 @@ class LLMS_AddOn_Upgrader {
 			if ( isset( $product[ $key ] ) && $product[ $key ] === $val ) {
 				return $product;
 			}
-
 		}
 
 		return false;
@@ -466,7 +462,6 @@ class LLMS_AddOn_Upgrader {
 			return $response;
 		}
 
-
 		if ( empty( $args->slug ) ) {
 			return $response;
 		}
@@ -516,7 +511,6 @@ class LLMS_AddOn_Upgrader {
 				unset( $value->response[ $file ] );
 
 			}
-
 		}
 
 		return $value;
@@ -608,7 +602,7 @@ class LLMS_AddOn_Upgrader {
 		if ( $include_sections ) {
 
 			$changelog = file_get_contents( $addon->get( 'changelog' ) );
-			preg_match('#<body[^>]*>(.*?)</body>#si', $changelog, $changelog );
+			preg_match( '#<body[^>]*>(.*?)</body>#si', $changelog, $changelog );
 			// css on h2 is intended for plugin title in header image but causes huge gap on changelog
 			$changelog = str_replace( array( '<h2 id="', '</h2>' ), array( '<h3 id="', '</h3>' ), $changelog[1] );
 

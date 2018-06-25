@@ -48,7 +48,6 @@ class LLMS_Admin_AddOns {
 					$content[] = $item;
 				}
 			}
-
 		} else {
 
 			$content = array();
@@ -57,9 +56,7 @@ class LLMS_Admin_AddOns {
 				if ( in_array( $sec, array_keys( $item['categories'] ) ) ) {
 					$content[] = $item;
 				}
-
 			}
-
 		}
 
 		return $content;
@@ -214,9 +211,7 @@ class LLMS_Admin_AddOns {
 				} else {
 					LLMS_Admin_Notices::flash_notice( $ret );
 				}
-
 			}
-
 		}
 
 	}
@@ -312,7 +307,7 @@ class LLMS_Admin_AddOns {
 				<?php foreach ( $addons as $addon ) {
 					$addon = new LLMS_Add_On( $addon );
 					$this->output_addon( $addon );
-				} ?>
+} ?>
 
 				<?php do_action( 'lifterlms_after_addons' ); ?>
 

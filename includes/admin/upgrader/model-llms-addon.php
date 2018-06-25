@@ -124,7 +124,6 @@ class LLMS_Add_On {
 			if ( $id === $data['product_id'] || in_array( $id, $data['addons'] ) ) {
 				return $data;
 			}
-
 		}
 
 		return false;
@@ -409,7 +408,6 @@ class LLMS_Add_On {
 				$theme = wp_get_theme();
 				return ( $file === $theme->get_stylesheet() );
 			}
-
 		}
 
 		return false;
