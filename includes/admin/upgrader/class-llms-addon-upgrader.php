@@ -40,8 +40,9 @@ class LLMS_AddOn_Upgrader {
 		// authenticate and get a real download link during add-on upgrade attempts
 		add_filter( 'upgrader_package_options', array( $this, 'upgrader_package_options' ) );
 
-		// add llms add-on info to list of available plugin updates
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_plugins' ) );
+		// add llms add-on info to list of available updates
+		add_filter( 'pre_set_site_transient_update_themes', array( $this, 'pre_set_site_transient_update_things' ) );
+		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_things' ) );
 
 		$products = $this->get_products();
 		foreach ( (array) $products['items'] as $product ) {
@@ -481,9 +482,18 @@ class LLMS_AddOn_Upgrader {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function pre_set_site_transient_update_plugins( $value ) {
+	public function pre_set_site_transient_update_things( $value ) {
 
 		if ( empty( $value ) ) {
+			return $value;
+		}
+
+		$which = current_filter();
+		if ( 'pre_set_site_transient_update_plugins' === $which ) {
+			$type = 'plugin';
+		} elseif ( 'pre_set_site_transient_update_themes' === $which ) {
+			$type = 'theme';
+		} else {
 			return $value;
 		}
 
@@ -497,17 +507,34 @@ class LLMS_AddOn_Upgrader {
 				continue;
 			}
 
+			if ( $type !== $addon->get_type() ) {
+				continue;
+			}
+
 			$file = $addon->get( 'update_file' );
-			$item = $this->set_plugins_api( $addon->get( 'id' ), false );
+
+			if ( 'plugin' === $type ) {
+
+				$item = (object) $this->set_plugins_api( $addon->get( 'id' ), false );
+
+			} elseif ( 'theme' === $type ) {
+
+				$item = array(
+					'theme' => $file,
+					'new_version' => $addon->get( 'version' ),
+					'url' => $addon->get_permalink(),
+					'package' => true,
+				);
+			}
 
 			if ( $addon->has_available_update() ) {
 
-				$value->response[ $file ] = (object) $item;
+				$value->response[ $file ] = $item;
 				unset( $value->no_update[ $file ] );
 
 			} else {
 
-				$value->no_update[ $file ] = (object) $item;
+				$value->no_update[ $file ] = $item;
 				unset( $value->response[ $file ] );
 
 			}
@@ -627,11 +654,21 @@ class LLMS_AddOn_Upgrader {
 	 */
 	public function upgrader_package_options( $options ) {
 
-		if ( ! isset( $options['hook_extra'] ) || ! isset( $options['hook_extra']['plugin'] ) ) {
+		llms_log( $options );
+
+		if ( ! isset( $options['hook_extra'] ) ) {
 			return $options;
 		}
 
-		$addon = $this->get_product_data_by( 'update_file', $options['hook_extra']['plugin'] );
+		if ( isset( $options['hook_extra']['plugin'] ) ) {
+			$file = $options['hook_extra']['plugin'];
+		} elseif ( isset( $options['hook_extra']['theme'] ) ) {
+			$file = $options['hook_extra']['theme'];
+		} else {
+			return $optiosn;
+		}
+
+		$addon = $this->get_product_data_by( 'update_file', $file );
 		if ( ! $addon ) {
 			return $options;
 		}
