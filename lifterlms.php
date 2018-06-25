@@ -213,7 +213,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.18.0
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -237,6 +237,7 @@ final class LifterLMS {
 		if ( is_admin() ) {
 
 			include_once 'includes/class.llms.dot.com.api.php';
+			include_once 'includes/admin/upgrader/model-llms-addon.php';
 
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';

@@ -9,83 +9,6 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Admin_AddOns {
 
-	public function get_addon_status( $addon, $translate = false ) {
-
-		$type = $this->get_addon_type( $addon );
-		$installed = get_plugins();
-
-		$ret = 'none';
-		if ( 'plugin' === $type ) {
-
-			$ret = 'inactive';
-			// not installed
-			if ( ! in_array( $addon['update_file'], array_keys( $installed ) ) ) {
-				$ret = 'none';
-			} elseif ( is_plugin_active( $addon['update_file'] ) ) {
-				$ret = 'active';
-			}
-
-		}
-
-		if ( $translate ) {
-			$ret = $this->get_l10n( $ret );
-		}
-
-		return $ret;
-
-	}
-
-	public function get_addon_type( $addon ) {
-
-		if ( llms_parse_bool( $addon['has_license'] ) ) {
-
-			$cats = array_keys( $addon['categories'] );
-			$type = 'plugin';
-			if ( in_array( 'bundles', $cats ) ) {
-				$type = 'bundle';
-			} elseif( in_array( 'third-party', $cats ) ) {
-				$type = 'external';
-			} elseif ( in_array( 'themes', $cats ) ) {
-				$type = 'theme';
-			}
-
-			return $type;
-
-		}
-
-		return false;
-
-	}
-
-	public function get_l10n( $status ) {
-
-		$statuses = array(
-			'activate' => __( 'Activate', 'lifterlms' ),
-			'active' => __( 'Active', 'lifterlms' ),
-			'deactivate' => __( 'Deactivate', 'lifterlms' ),
-			'inactive' => __( 'Inactive', 'lifterlms' ),
-			'install' => __( 'Install', 'lifterlms' ),
-			'none' => __( 'Not Installed', 'lifterlms' ),
-		);
-
-		return $statuses[ $status ];
-
-	}
-
-	private function get_addon_status_action( $addon ) {
-
-		$status = $this->get_addon_status( $addon );
-
-		$actions = array(
-			'active' => 'deactivate',
-			'inactive' => 'activate',
-			'none' => 'install',
-		);
-
-		return $actions[ $status ];
-
-	}
-
 	/**
 	 * Get the current section from the query string
 	 * defaults to "all"
@@ -121,7 +44,7 @@ class LLMS_Admin_AddOns {
 			$content = array();
 			$mine = $this->upgrader->get_available_products();
 			foreach ( $this->data['items'] as $item ) {
-				if ( in_array( $item['update_file'], $mine ) ) {
+				if ( in_array( $item['id'], $mine ) ) {
 					$content[] = $item;
 				}
 			}
@@ -164,22 +87,28 @@ class LLMS_Admin_AddOns {
 
 		$this->upgrader = LLMS_AddOn_Upgrader::instance();
 
-		if ( ! llms_verify_nonce( '_llms_manage_keys_nonce', 'llms_manage_keys' ) && ! llms_verify_nonce( '_llms_manage_addon_nonce', 'llms_manage_addon' ) ) {
-			return;
+		// manage addons
+		// activate & deactivate, install, update
+		if ( llms_verify_nonce( '_llms_manage_addon_nonce', 'llms_manage_addon' ) ) {
+
+			$this->handle_manage_addons();
+			LLMS_Admin_Notices::output_notices();
 		}
 
-		if ( isset( $_POST['llms_addon'] ) ) {
+		// license key addition & removal
+		if ( llms_verify_nonce( '_llms_manage_keys_nonce', 'llms_manage_keys' ) ) {
 
-			$this->handle_manage_addon( $_POST['llms_addon'] );
+			if ( isset( $_POST['llms_activate_keys'] ) && ! empty( $_POST['llms_add_keys'] ) ) {
 
-		} elseif ( isset( $_POST['llms_activate_keys'] ) && ! empty( $_POST['llms_add_keys'] ) ) {
+				$this->handle_activations();
 
-			$this->handle_activations();
-			LLMS_Admin_Notices::output_notices();
+			} elseif ( isset( $_POST['llms_deactivate_keys'] ) && ! empty( $_POST['llms_remove_keys'] ) ) {
 
-		} elseif ( isset( $_POST['llms_deactivate_keys'] ) && ! empty( $_POST['llms_remove_keys'] ) ) {
+				$this->handle_deactivations();
 
-			$this->handle_deactivations();
+			}
+
+			delete_site_transient( 'update_plugins' );
 			LLMS_Admin_Notices::output_notices();
 
 		}
@@ -211,7 +140,7 @@ class LLMS_Admin_AddOns {
 
 		if ( isset( $data['activations'] ) ) {
 			foreach ( $data['activations'] as $activation ) {
-				$this->upgrader->add_license_key( $activation['license_key'], $activation['update_key'], $activation['addons'] );
+				$this->upgrader->add_license_key( $activation );
 				LLMS_Admin_Notices::flash_notice( sprintf( '"%s" has been saved!', $activation['license_key'] ), 'success' );
 			}
 		}
@@ -248,29 +177,45 @@ class LLMS_Admin_AddOns {
 
 	}
 
-	private function handle_manage_addon( $addon_id ) {
+	/**
+	 * Handle activation, deactivation, and cloud installation of addons
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function handle_manage_addons() {
 
-		$addon = $this->upgrader->get_product_data_by( 'id', $addon_id );
-		$action = $this->get_addon_status_action( $addon );
-		if ( 'activate' === $action ) {
-			activate_plugins( $addon['update_file'] );
-		} elseif ( 'deactivate' === $action ) {
-			deactivate_plugins( $addon['update_file'] );
-		} elseif ( 'install' === $action ) {
+		$actions = array(
+			'update',
+			'install',
+			'activate',
+			'deactivate',
+		);
 
-			// if creds are required to access file system show an error
-			ob_start();
-			$creds = request_filesystem_credentials( '', '', false, false, null );
-			ob_get_clean();
-			if ( false === $creds ) {
-				LLMS_Admin_Notices::flash_notice( __( 'Unable to install plugin automatically. Please install the addon via FTP or via the Plugins installation screen.', 'lifterlms' ), 'error' );
-				return;
+		$errors = array();
+		$success = array();
+
+		foreach ( $actions as $action ) {
+
+			if ( empty( $_POST[ 'llms_' . $action ] ) ) {
+				continue;
 			}
 
-			// install the plugin
-			require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-			$installer = $installer = new Plugin_Upgrader();
-			$installer->install( $download_url );
+			foreach ( $_POST[ 'llms_' . $action ] as $id ) {
+
+				$addon = new LLMS_Add_On( $id );
+				if ( ! method_exists( $addon, $action ) ) {
+					continue;
+				}
+
+				$ret = call_user_func( array( $addon, $action ) );
+				if ( is_wp_error( $ret ) ) {
+					LLMS_Admin_Notices::flash_notice( $ret->get_error_message(), 'error' );
+				} else {
+					LLMS_Admin_Notices::flash_notice( $ret );
+				}
+
+			}
 
 		}
 
@@ -290,7 +235,11 @@ class LLMS_Admin_AddOns {
 		}
 
 		$my_keys = $this->upgrader->get_license_keys();
-
+		if ( $my_keys ) {
+			wp_enqueue_style( 'plugin-install' );
+			wp_enqueue_script( 'plugin-install' );
+			add_thickbox();
+		}
 		?>
 		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
 			<h1 style="display:none;"></h1><!-- error holder -->
@@ -330,13 +279,6 @@ class LLMS_Admin_AddOns {
 			<?php $this->output_navigation(); ?>
 			<?php $this->output_content(); ?>
 		</div>
-		<script>
-			( function( $ ) {
-				$( '#llms-active-keys-toggle' ).on( 'click', function() {
-					$( '#llms-key-field-form' ).toggle();
-				} );
-			} )( jQuery );
-		</script>
 		<?php
 	}
 
@@ -345,10 +287,10 @@ class LLMS_Admin_AddOns {
 	 * @param    array   $addon  associative array of add-on data
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.7.6
+	 * @version  [version]
 	 */
 	private function output_addon( $addon ) {
-		$AddOns = $this;
+		$current_tab = $this->get_current_section();
 		include 'views/addons/addon-item.php';
 	}
 
@@ -356,18 +298,19 @@ class LLMS_Admin_AddOns {
 	 * Output the addon list for the current section
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.7.6
+	 * @version  [version]
 	 */
 	private function output_content() {
 
 		$addons = $this->get_current_section_content();
 		?>
 		<form action="" method="POST">
-			<ul class="llms-addons-wrap">
+			<ul class="llms-addons-wrap section--<?php echo esc_attr( $this->get_current_section() ); ?>">
 
 				<?php do_action( 'lifterlms_before_addons' ); ?>
 
 				<?php foreach ( $addons as $addon ) {
+					$addon = new LLMS_Add_On( $addon );
 					$this->output_addon( $addon );
 				} ?>
 
@@ -375,6 +318,36 @@ class LLMS_Admin_AddOns {
 
 			</ul>
 			<?php wp_nonce_field( 'llms_manage_addon', '_llms_manage_addon_nonce' ); ?>
+
+			<div class="llms-addons-bulk-actions" id="llms-addons-bulk-actions">
+
+				<a class="llms-bulk-close" href="#">
+					<span class="screen-reader-text"><?php _e( 'Close', 'lifterlms' ); ?></span>
+					<i class="fa fa-times-circle" aria-hidden="true"></i>
+				</a>
+
+				<div class="llms-bulk-desc update">
+					<i class="fa fa-cloud-download" aria-hidden="true"></i>
+					<?php _e( 'Update', 'lifterlms' ); ?> <span></span>
+				</div>
+
+				<div class="llms-bulk-desc install">
+					<i class="fa fa-cloud-download" aria-hidden="true"></i>
+					<?php _e( 'Install', 'lifterlms' ); ?> <span></span>
+				</div>
+
+				<div class="llms-bulk-desc activate">
+					<i class="fa fa-plug" aria-hidden="true"></i>
+					<?php _e( 'Activate', 'lifterlms' ); ?> <span></span>
+				</div>
+
+				<div class="llms-bulk-desc deactivate">
+					<i class="fa fa-plug" aria-hidden="true"></i>
+					<?php _e( 'Deactivate', 'lifterlms' ); ?> <span></span>
+				</div>
+
+				<button class="llms-button-primary" name="llms_bulk_actions_submit" value="" type="submit"><?php _e( 'Apply', 'lifterlms' ); ?></button>
+			</div>
 		</form>
 		<?php
 	}

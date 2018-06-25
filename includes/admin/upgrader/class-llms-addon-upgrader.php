@@ -1,6 +1,11 @@
 <?php
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Actions and LifterLMS.com API interactions related to plugin and theme updates for LifterLMS premium add-ons
+ * @since    [version]
+ * @version  [version]
+ */
 class LLMS_AddOn_Upgrader {
 
 	protected static $_instance = null;
@@ -19,17 +24,79 @@ class LLMS_AddOn_Upgrader {
 		return self::$_instance;
 	}
 
+	/**
+	 * Constructor
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	private function __construct() {
 
-		require_once 'functions-llms-addon-upgrader-ajax.php';
-
+		// cron to check status of license keys
 		add_action( 'llms_check_license_keys', array( $this, 'check_keys' ) );
 
+		// setup a llms add-on plugin info
 		add_filter( 'plugins_api', array( $this, 'plugins_api' ), 10, 3 );
-		// add_filter( 'plugins_api_result', function( $res ) {
-		// 	llms_log( $res );
-		// } );
-		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'update_plugins_filter' ) );
+
+		// authenticate and get a real download link during add-on upgrade attempts
+		add_filter( 'upgrader_package_options', array( $this, 'upgrader_package_options' ) );
+
+		// add llms add-on info to list of available plugin updates
+		add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'pre_set_site_transient_update_plugins' ) );
+
+		$products = $this->get_products();
+		foreach ( (array) $products['items'] as $product ) {
+
+			if ( 'plugin' === $product['type'] && $product['update_file'] ) {
+				add_action( "in_plugin_update_message-{$product['update_file']}", array( $this, 'in_plugin_update_message' ), 10, 2 );
+			}
+
+		}
+
+	}
+
+	/**
+	 * Activate LifterLMS License Keys with the remote server
+	 * @param    string     $keys  white-space separated list of API keys
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function activate_keys( $keys ) {
+
+		// sanitize before sending
+		$keys = explode( ' ', sanitize_text_field( $keys ) );
+		$keys = array_map( 'trim', $keys );
+		$keys = array_unique( $keys );
+
+		$data = array(
+			'keys' => $keys,
+			'url' => get_site_url(),
+		);
+
+		$req = new LLMS_Dot_Com_API( '/license/activate', $data );
+		return $req->get_result();
+
+	}
+
+	/**
+	 * Add a single license key
+	 * @param    string    $activation_data   array of activation details from api call
+	 * @return   boolean                      True if option value has changed, false if not or if update failed.
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function add_license_key( $activation_data ) {
+
+		$keys = $this->get_license_keys();
+		$keys[ $activation_data['license_key'] ] = array(
+			'product_id' => $activation_data['id'],
+			'status' => 1,
+			'license_key' => $activation_data['license_key'],
+			'update_key' => $activation_data['update_key'],
+			'addons' => $activation_data['addons'],
+		);
+
+		return $this->set_license_keys( $keys );
 
 	}
 
@@ -118,76 +185,6 @@ class LLMS_AddOn_Upgrader {
 	}
 
 	/**
-	 * Retrieve all upgrader options array
-	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	protected function get_options() {
-		return get_option( 'llms_addon_upgrader', array() );
-	}
-
-	/**
-	 * Retrive a single option
-	 * @param    string     $key      option name
-	 * @param    mixed      $default  default option value if option isn't already set
-	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	protected function get_option( $key, $default = '' ) {
-
-		$options = $this->get_options();
-
-		if ( isset( $options[ $key ] ) ) {
-			return $options[ $key ];
-		}
-
-		return $default;
-
-	}
-
-	/**
-	 * Update the value of an option
-	 * @param    string     $key  option name
-	 * @param    mixed      $val  option value
-	 * @return   boolean          True if option value has changed, false if not or if update failed.
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	protected function set_option( $key, $val ) {
-
-		$options = $this->get_options();
-		$options[ $key ] = $val;
-		return update_option( 'llms_addon_upgrader', $options, false );
-
-	}
-
-	/**
-	 * Activate LifterLMS License Keys with the remote server
-	 * @param    string     $keys  white-space separated list of API keys
-	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function activate_keys( $keys ) {
-
-		// sanitize before sending
-		$keys = explode( ' ', sanitize_text_field( $keys ) );
-		$keys = array_map( 'trim', $keys );
-		$keys = array_unique( $keys );
-
-		$data = array(
-			'keys' => $keys,
-			'url' => get_site_url(),
-		);
-
-		$req = new LLMS_Dot_Com_API( '/license/activate', $data );
-		return $req->get_result();
-
-	}
-
-	/**
 	 * Deactivate LifterLMS API keys with remote server
 	 * @param    array     $keys  array of keys
 	 * @return   array
@@ -237,6 +234,83 @@ class LLMS_AddOn_Upgrader {
 	}
 
 	/**
+	 * Get info about addon channel subscriptions
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_channels() {
+		return $this->get_option( 'channels', array() );
+	}
+
+	/**
+	 * Retrieve saved license key data
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_license_keys() {
+		return $this->get_option( 'license_keys', array() );
+	}
+
+	/**
+	 * Retrive a single option
+	 * @param    string     $key      option name
+	 * @param    mixed      $default  default option value if option isn't already set
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_option( $key, $default = '' ) {
+
+		$options = $this->get_options();
+
+		if ( isset( $options[ $key ] ) ) {
+			return $options[ $key ];
+		}
+
+		return $default;
+
+	}
+
+	/**
+	 * Retrieve all upgrader options array
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_options() {
+		return get_option( 'llms_addon_upgrader', array() );
+	}
+
+	/**
+	 * Retrieve add-on data by add-on array key and value
+	 * @param    string     $key  key name
+	 * @param    string     $val  value
+	 * @return   array|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_product_data_by( $key, $val ) {
+
+		$products = $this->get_products();
+		if ( empty( $products['items'] ) ) {
+			return false;
+		}
+
+		foreach ( $products['items'] as $product ) {
+
+			if ( isset( $product[ $key ] ) && $product[ $key ] === $val ) {
+				return $product;
+			}
+
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Retrieve available products from the LifterLMS.com API
 	 * @return   array
 	 * @since    [version]
@@ -267,46 +341,185 @@ class LLMS_AddOn_Upgrader {
 	}
 
 	/**
-	 * Retrieve saved license key data
-	 * @return   array
+	 * Install an add-on from LifterLMS.com
+	 * @param    string|obj     $addon_or_id   ID for the add-on or an instance of the LLMS_Add_On
+	 * @return   WP_Error|true
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_license_keys() {
-		return $this->get_option( 'license_keys', array() );
+	public function install_addon( $addon_or_id, $action = 'install' ) {
+
+		// setup the addon
+		$addon = is_a( $addon_or_id, 'LLMS_Add_On' ) ? $addon_or_id : new LLMS_Add_On( $addon_or_id );
+		if ( ! $addon ) {
+			return new WP_Error( 'invalid_addon', __( 'Invalid add-on ID.', 'lifterlms' ) );
+		}
+
+		if ( ! in_array( $action, array( 'install', 'update' ) ) ) {
+			return new WP_Error( 'invalid_action', __( 'Invalid action.', 'lifterlms' ) );
+		}
+
+		if ( ! $addon->is_installable() ) {
+			return new WP_Error( 'not_installable', __( 'Add-on cannot be installable.', 'lifterlms' ) );
+		}
+
+		// make sure it's not already installed
+		if ( 'install' === $action && $addon->is_installed() ) {
+			/* Translators: %s = Add-on name */
+			return new WP_Error( 'installed', sprintf( __( '%s is already installed', 'lifterlms' ), $addon->get( 'title' ) ) );
+		}
+
+		// get download info via llms.com api
+		$dl_info = $addon->get_download_info();
+		if ( is_wp_error( $dl_info ) ) {
+			return $dl_info;
+		}
+		if ( ! isset( $dl_info['data']['url'] ) ) {
+			return new WP_Error( 'no_url', __( 'An error occured while attempting to retrieve add-on download information. Please try again.', 'lifterlms' ) );
+		}
+
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+		WP_Filesystem();
+
+		$skin = new Automatic_Upgrader_Skin();
+
+		if ( 'plugin' === $addon->get_type() ) {
+
+			$upgrader = new Plugin_Upgrader( $skin );
+
+		} elseif ( 'theme' === $addon->get_type() ) {
+
+			$upgrader = new Theme_Upgrader( $skin );
+
+		} else {
+
+			return new WP_Error( 'inconceivable', __( 'The requested action is not possible.', 'lifterlms' ) );
+
+		}
+
+		if ( 'install' === $action ) {
+			remove_filter( 'upgrader_package_options', array( $this, 'upgrader_package_options' ) );
+			$result = $upgrader->install( $dl_info['data']['url'] );
+			add_filter( 'upgrader_package_options', array( $this, 'upgrader_package_options' ) );
+		} elseif ( 'update' === $action ) {
+			$result = $upgrader->upgrade( $addon->get( 'update_file' ) );
+		}
+
+		if ( is_wp_error( $result ) ) {
+			return $result;
+		} elseif ( is_wp_error( $skin->result ) ) {
+			return $skin->result;
+		} elseif ( is_null( $result ) ) {
+			return new WP_Error( 'filesystem', __( 'Unable to connect to the filesystem. Please confirm your credentials.', 'lifterlms' ) );
+		}
+
+		return true;
+
 	}
 
 	/**
-	 * Update saved license key data
-	 * @param    array     $keys  key data to save
-	 * @return   boolean          True if option value has changed, false if not or if update failed.
+	 * Output additional information on plugins update screen when updates are available
+	 * for an unlicensed addon
+	 * @param    array     $plugin_data  array of plugin data
+	 * @param    array     $res          response data
+	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function set_license_keys( $keys ) {
-		return $this->set_option( 'license_keys', $keys );
+	public function in_plugin_update_message( $plugin_data, $res ) {
+
+		if ( empty( $plugin_data['package'] ) ) {
+
+			echo '<style>p.llms-msg:before { content: ""; }</style>';
+
+			echo '<p class="llms-msg"><strong>';
+			_e( 'Your LifterLMS add-on is currently unlicensed and cannot be updated!', 'lifterlms' );
+			echo '</strong></p>';
+
+			echo '<p class="llms-msg">';
+			/* Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag */
+			printf( __( 'If you already have a license, you can activate it on the %1$sadd-ons management screen%2$s.', 'lifterlms' ), '<a href="#">', '</a>' );
+			echo '</p>';
+
+			echo '<p class="llms-msg">';
+			/* Translators: %s = URI to licensing FAQ */
+			printf( __( 'Learn more about LifterLMS add-on licensing at %s.', 'lifterlms' ), make_clickable( 'https://lifterlms.com/#' ) );
+			echo '</p><p style="display:none;">';
+
+		}
+
 	}
 
 	/**
-	 * Add a single license key
-	 * @param    string     $key         license key
-	 * @param    string     $update_key  update key
-	 * @param    array      $addons      array of addon files
-	 * @return   boolean          True if option value has changed, false if not or if update failed.
+	 * Filter API calls to get plugin information and replace it with data from LifterLMS.com API for our addons
+	 * @param    bool       $response  false (denotes API call should be made to wp.org for plugin info)
+	 * @param    string     $action    name of the API action
+	 * @param    obj        $args      additional API call args
+	 * @return   false|obj
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function add_license_key( $key, $update_key, $addons ) {
+	public function plugins_api( $response, $action = '', $args = null ) {
 
-		$keys = $this->get_license_keys();
-		$keys[ $key ] = array(
-			'status' => 1,
-			'license_key' => $key,
-			'update_key' => $update_key,
-			'addons' => $addons,
-		);
+		if ( 'plugin_information' !== $action ) {
+			return $response;
+		}
 
-		return $this->set_license_keys( $keys );
+
+		if ( empty( $args->slug ) ) {
+			return $response;
+		}
+
+		if ( 0 !== strpos( $args->slug, 'lifterlms-com-' ) ) {
+			return $response;
+		}
+
+		return $this->set_plugins_api( $args->slug, true );
+
+	}
+
+	/**
+	 * Handle setting the site transient for plugin updates
+	 * @param    obj     $value  transient value
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function pre_set_site_transient_update_plugins( $value ) {
+
+		if ( empty( $value ) ) {
+			return $value;
+		}
+
+		$all_products = $this->get_products( false );
+
+		foreach ( $all_products['items'] as $addon_data ) {
+
+			$addon = new LLMS_Add_On( $addon_data );
+
+			if ( ! $addon->is_installable() || ! $addon->is_installed() ) {
+				continue;
+			}
+
+			$file = $addon->get( 'update_file' );
+			$item = $this->set_plugins_api( $addon->get( 'id' ), false );
+
+			if ( $addon->has_available_update() ) {
+
+				$value->response[ $file ] = (object) $item;
+				unset( $value->no_update[ $file ] );
+
+			} else {
+
+				$value->no_update[ $file ] = (object) $item;
+				unset( $value->response[ $file ] );
+
+			}
+
+		}
+
+		return $value;
 
 	}
 
@@ -325,121 +538,40 @@ class LLMS_AddOn_Upgrader {
 		return $this->set_license_keys( $keys );
 	}
 
-
-	public function get_product_data_by( $key, $val ) {
-
-		$products = $this->get_products();
-		if ( empty( $products['items'] ) ) {
-			return false;
-		}
-
-		foreach ( $products['items'] as $product ) {
-
-			if ( isset( $product[ $key ] ) && $product[ $key ] === $val ) {
-				return $product;
-			}
-
-		}
-
-		return false;
-
-	}
-
-
-
-
-
-
-	public function update_plugins_filter( $value ) {
-
-		if ( empty( $value ) ) {
-			return $value;
-		}
-
-		$all_products = $this->get_products( false );
-		$plugins = get_plugins();
-		$available = $this->get_available_products();
-
-		// var_dump( $value );
-		// var_dump( $plugins );
-
-		foreach ( $all_products['items'] as $addon_data ) {
-
-			// var_dump( $addon_data );
-			if ( ! $addon_data['update_file'] ) {
-				continue;
-			}
-
-			$file = $addon_data['update_file'];
-
-			$plugin_data = isset( $plugins[ $file ] ) ? $plugins[ $file ] : false;
-
-			// plugin is not installed
-			if ( ! $plugin_data ) {
-				continue;
-			}
-
-			$item = array(
-				'id' => $addon_data['id'],
-				'slug' => $addon_data['id'],
-				'plugin' => $file,
-				'new_version' => $addon_data['version'],
-				'url' => $addon_data['permalink'],
-				'package' => '',
-			);
-
-			if ( in_array( $file, $available ) ) {
-				$item['package'] = add_query_arg( array(
-					'license_key' => '',
-					'update_key' => '',
-					'slug' => $id[0],
-				), 'https://lifterlms.com/wp-json/llms/v3/download' );
-			}
-
-			// there is an avialable update
-			if ( version_compare( $plugin_data['Version'], $addon_data['version'], '<' ) ) {
-				$value->response[ $file ] = (object) $item;
-				unset( $value->no_update[ $file ] );
-			} else {
-				$value->no_update[ $file ] = (object) $item;
-				unset( $value->response[ $file ] );
-			}
-
-		}
-
-		// add_action( 'shutdown', function() {
-
-		// 	delete_option( '_site_transient_update_plugins' );
-
-		// } );
-
-		return $value;
-	}
-
 	/**
-	 * Filter API calls to get plugin information and replace it with data from LifterLMS.com API for our addons
-	 * @param    bool       $response  false (denotes API call should be made to wp.org for plugin info)
-	 * @param    string     $action    name of the API action
-	 * @param    obj        $args      additional API call args
-	 * @return   false|obj
+	 * Set info about addon channel subscriptions
+	 * @param    array     $channels  array of channel information
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function plugins_api( $response, $action = '', $args = null ) {
+	public function set_channels( $channels ) {
+		return $this->set_option( 'channels', $channels );
+	}
 
-		if ( 'plugin_information' !== $action ) {
-			return $response;
-		}
+	/**
+	 * Update saved license key data
+	 * @param    array     $keys  key data to save
+	 * @return   boolean          True if option value has changed, false if not or if update failed.
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function set_license_keys( $keys ) {
+		return $this->set_option( 'license_keys', $keys );
+	}
 
-		if ( empty( $args->slug ) ) {
-			return $response;
-		}
+	/**
+	 * Update the value of an option
+	 * @param    string     $key  option name
+	 * @param    mixed      $val  option value
+	 * @return   boolean          True if option value has changed, false if not or if update failed.
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function set_option( $key, $val ) {
 
-		if ( 0 !== strpos( $args->slug, 'lifterlms-com-' ) ) {
-			return $response;
-		}
-
-		return $this->set_plugins_api( $args->slug );
+		$options = $this->get_options();
+		$options[ $key ] = $val;
+		return update_option( 'llms_addon_upgrader', $options, false );
 
 	}
 
@@ -450,36 +582,79 @@ class LLMS_AddOn_Upgrader {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function set_plugins_api( $id ) {
+	private function set_plugins_api( $id, $include_sections = true ) {
 
-		$addon = $this->get_product_data_by( 'id', $id );
-
-		$changelog = file_get_contents( $addon['changelog'] );
-		preg_match('#<body[^>]*>(.*?)</body>#si', $changelog, $changelog );
-    	$changelog = $changelog[1];
+		$addon = new LLMS_Add_On( $id );
 
 		$item = array(
-			'name' => $addon['title'],
+			'name' => $addon->get( 'title' ),
 			'slug' => $id,
-			'version' => $addon['version'],
-			'author' => '<a href="https://lifterlms.com/">' . $addon['author']['name'] . '</a>',
-			'author_profile' => $addon['author']['link'],
-			// 'requires' => '',
-			// 'tested' => '',
-			// 'requires_php' => '',
-			// 'compatibility' => '',
-			'homepage' => $addon['permalink'],
-			'sections' => array(
-				'description' => $addon['description'],
-				'changelog' => $changelog,
-			),
-			// 'download_link' => '',
+			'version' => $addon->get( 'version' ),
+			'new_version' => $addon->get( 'version' ),
+			'author' => '<a href="https://lifterlms.com/">' . $addon->get( 'author' )['name'] . '</a>',
+			'author_profile' => $addon->get( 'author' )['link'],
+			'requires' => $addon->get( 'version_wp' ),
+			'tested' => '',
+			'requires_php' => $addon->get( 'version_php' ),
+			'compatibility' => '',
+			'homepage' => $addon->get( 'permalink' ),
+			'download_link' => '',
+			'package' => $addon->is_licensed() ? true : '',
 			'banners' => array(
-				'low' => $addon['image'],
+				'low' => $addon->get( 'image' ),
 			),
 		);
 
+		if ( $include_sections ) {
+
+			$changelog = file_get_contents( $addon->get( 'changelog' ) );
+			preg_match('#<body[^>]*>(.*?)</body>#si', $changelog, $changelog );
+			// css on h2 is intended for plugin title in header image but causes huge gap on changelog
+			$changelog = str_replace( array( '<h2 id="', '</h2>' ), array( '<h3 id="', '</h3>' ), $changelog[1] );
+
+			$item['sections'] = array(
+				'description' => $addon->get( 'description' ),
+				'changelog' => $changelog,
+			);
+
+		}
+
 		return (object) $item;
+
+	}
+
+	/**
+	 * Get a real package download url for a LifterLMS add-on
+	 * This is called immediately prior to package upgrades
+	 * @param    [type]     $options  [description]
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function upgrader_package_options( $options ) {
+
+		if ( ! isset( $options['hook_extra'] ) || ! isset( $options['hook_extra']['plugin'] ) ) {
+			return $options;
+		}
+
+		$addon = $this->get_product_data_by( 'update_file', $options['hook_extra']['plugin'] );
+		if ( ! $addon ) {
+			return $options;
+		}
+
+		$addon = new LLMS_Add_On( $addon );
+		if ( ! $addon->is_installable() || ! $addon->is_licensed() ) {
+			return $options;
+		}
+
+		$info = $addon->get_download_info();
+		if ( is_wp_error( $info ) || ! isset( $info['data'] ) || ! isset( $info['data']['url'] ) ) {
+			return $options;
+		}
+
+		$options['package'] = $info['data']['url'];
+
+		return $options;
 
 	}
 

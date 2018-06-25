@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:490, includes/admin/class.llms.admin.menus.php:131
+#: lifterlms.php:494, includes/admin/class.llms.admin.menus.php:131
 msgid "Settings"
 msgstr ""
 
@@ -251,46 +251,46 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:224, includes/admin/class.llms.admin.setup.wizard.php:322, includes/admin/settings/class.llms.settings.courses.php:84
+#: includes/class.llms.install.php:228, includes/admin/class.llms.admin.setup.wizard.php:322, includes/admin/settings/class.llms.settings.courses.php:84
 msgid "Course Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:230, includes/admin/class.llms.admin.setup.wizard.php:326
+#: includes/class.llms.install.php:234, includes/admin/class.llms.admin.setup.wizard.php:326
 msgid "Membership Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:236
+#: includes/class.llms.install.php:240
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:242, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:257
+#: includes/class.llms.install.php:246, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:257
 msgid "My Courses"
 msgstr ""
 
-#: includes/class.llms.install.php:343
+#: includes/class.llms.install.php:347
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:344
+#: includes/class.llms.install.php:348
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:345
+#: includes/class.llms.install.php:349
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:553, includes/class.llms.install.php:573, includes/admin/class.llms.admin.notices.core.php:67, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184
+#: includes/class.llms.install.php:557, includes/class.llms.install.php:577, includes/admin/class.llms.admin.notices.core.php:67, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:21, includes/admin/class.llms.admin.page.status.php:184
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/class.llms.install.php:557, includes/class.llms.install.php:577, includes/admin/class.llms.admin.notices.core.php:70, includes/admin/class.llms.admin.notices.php:198
+#: includes/class.llms.install.php:561, includes/class.llms.install.php:581, includes/admin/class.llms.admin.notices.core.php:70, includes/admin/class.llms.admin.notices.php:198
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/class.llms.install.php:629
+#: includes/class.llms.install.php:633
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -2805,88 +2805,77 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:87
+#: includes/admin/class.llms.admin.addons.php:63, includes/admin/views/addons/addon-item.php:51
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:88
+#: includes/admin/class.llms.admin.addons.php:64
 msgid "Active"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:89
+#: includes/admin/class.llms.admin.addons.php:65, includes/admin/views/addons/addon-item.php:48
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:90
+#: includes/admin/class.llms.admin.addons.php:66
 msgid "Inactive"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:91
+#: includes/admin/class.llms.admin.addons.php:67, includes/admin/views/addons/addon-item.php:45
 msgid "Install"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:92
+#: includes/admin/class.llms.admin.addons.php:68
 msgid "Not Installed"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:175
-msgid "Advanced"
+#. translators: %s = License Key
+#: includes/admin/class.llms.admin.addons.php:240
+msgid "License key \"%s\" was removed from this site."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:176
-msgid "Affiliates"
+#: includes/admin/class.llms.admin.addons.php:266
+msgid "Unable to install plugin automatically. Please install the addon via FTP or via the Plugins installation screen."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:177, includes/admin/class.llms.admin.addons.php:314
-msgid "All"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:178
-msgid "Bundles"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:179, includes/admin/settings/class.llms.settings.checkout.php:310
-msgid "Payment Gateways"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:180
-msgid "E-Mail & Marketing"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:181
-msgid "Themes & Design"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:182, includes/admin/class.llms.admin.page.status.php:128
-msgid "Tools & Utilities"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:183
-msgid "Resources"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:184
-msgid "Services"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:185
-msgid "My Add-ons"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:218, includes/admin/class.llms.admin.addons.php:293
+#: includes/admin/class.llms.admin.addons.php:288, includes/admin/class.llms.admin.addons.php:393
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:224
+#: includes/admin/class.llms.admin.addons.php:297
 msgid "LifterLMS Add-Ons"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:226
-msgid "Activate a License Key"
+#: includes/admin/class.llms.admin.addons.php:300
+msgid "My License Keys"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:230
-msgid "Submit"
+#: includes/admin/class.llms.admin.addons.php:306
+msgid "Manage Saved License Keys"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:318
+msgid "Remove Selected"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:322
+msgid "Add New License Keys"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:323
+msgid "Enter each license on a new line"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:325, includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.repeater.php:27
+msgid "Add New"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:416
+msgid "My Add-Ons"
+msgstr ""
+
+#: includes/admin/class.llms.admin.addons.php:418
+msgid "All"
 msgstr ""
 
 #: includes/admin/class.llms.admin.analytics.php:79, includes/admin/class.llms.admin.settings.php:72
@@ -3095,6 +3084,10 @@ msgstr ""
 
 #: includes/admin/class.llms.admin.page.status.php:127
 msgid "System Report"
+msgstr ""
+
+#: includes/admin/class.llms.admin.page.status.php:128
+msgid "Tools & Utilities"
 msgstr ""
 
 #: includes/admin/class.llms.admin.page.status.php:129
@@ -6293,7 +6286,7 @@ msgstr ""
 msgid "Enrolled: %s"
 msgstr ""
 
-#: templates/loop/enroll-status.php:18, includes/admin/views/addons/addon-item.php:37
+#: templates/loop/enroll-status.php:18, includes/admin/views/addons/addon-item.php:41
 msgid "Status: %s"
 msgstr ""
 
@@ -7099,6 +7092,10 @@ msgstr ""
 msgid "Automatically remove zero decimals from the end of displayed prices."
 msgstr ""
 
+#: includes/admin/settings/class.llms.settings.checkout.php:310
+msgid "Payment Gateways"
+msgstr ""
+
 #: includes/admin/settings/class.llms.settings.checkout.php:351
 msgid "Payment Gateway Settings"
 msgstr ""
@@ -7393,6 +7390,23 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.notifications.php:139
 msgid "Invalid notification"
+msgstr ""
+
+#. translators: %s = License Key
+#: includes/admin/upgrader/class-llms-addon-upgrader.php:86
+msgid "The license \"%s\" is no longer valid and was deactivated. Please visit your account dashboard at https://lifterlms.com/my-account for more information."
+msgstr ""
+
+#: includes/admin/upgrader/functions-llms-addon-upgrader-ajax.php:16
+msgid "You do not have the permissions required to perform this action."
+msgstr ""
+
+#: includes/admin/upgrader/functions-llms-addon-upgrader-ajax.php:24
+msgid "Invalid addon."
+msgstr ""
+
+#: includes/admin/upgrader/functions-llms-addon-upgrader-ajax.php:34
+msgid "Invalid action."
 msgstr ""
 
 #: includes/admin/views/html.admin.settings.php:36
@@ -9452,7 +9466,7 @@ msgid "Configure"
 msgstr ""
 
 #. translators: %s = Author Name
-#: includes/admin/views/addons/addon-item.php:29
+#: includes/admin/views/addons/addon-item.php:30
 msgid "Author: %s"
 msgstr ""
 
@@ -9738,10 +9752,6 @@ msgstr ""
 
 #: includes/admin/views/metaboxes/view-order-submit.php:99
 msgid "Update Order"
-msgstr ""
-
-#: includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.repeater.php:27
-msgid "Add New"
 msgstr ""
 
 #: templates/admin/reporting/tabs/courses/overview.php:27

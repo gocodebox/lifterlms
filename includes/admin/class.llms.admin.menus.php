@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Menu Items
  * @since   1.0.0
- * @version 3.19.0
+ * @version [version]
  */
 class LLMS_Admin_Menus {
 
@@ -162,7 +162,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Outupt the addons screen
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  [version]
 	 */
 	public function add_ons_page_init() {
 		require_once 'class.llms.admin.addons.php';
