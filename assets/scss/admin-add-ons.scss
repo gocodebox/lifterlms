@@ -73,7 +73,53 @@
 
 }
 
+.llms-addons-bulk-actions {
+	background: #fff;
+	box-shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 -1px 0 rgba(0,0,0,.1);
+	padding: 40px;
+	left: 50%;
+	margin-left: -100px;
+	position: fixed;
+	text-align: center;
+	transition: top 0.2s ease;
+	top: -100%;
+	width: 240px;
+	z-index: 1;
+	&.active {
+		top: 80px;
+	}
 
+	.llms-bulk-close {
+		background: #fff;
+		border-radius: 50%;
+		color: $color-red;
+		font-size: 25px;
+		height: 25px;
+		padding: 5px;
+		position: absolute;
+		right: -10px;
+		top: -10px;
+		width: 25px;
+	}
+
+	.llms-bulk-desc {
+		font-size: 18px;
+		margin-bottom: 20px;
+		.fa {
+			color: $color-blue;
+			display: block;
+			font-size: 30px;
+			margin-bottom: 10px;
+		}
+		&.deactivate .fa {
+			color: #777;
+		}
+	}
+
+	// .llms-button-primary {
+	// }
+
+}
 
 .llms-addons-wrap {
 
@@ -91,7 +137,13 @@
 			width: calc( 33.333% - 20px );
 
 			.llms-add-on {
-				min-height: 420px;
+				min-height: 440px;
+				footer.llms-actions {
+					bottom: 0;
+					left: 0;
+					position: absolute;
+					right: 0;
+				}
 			}
 		}
 
@@ -103,9 +155,6 @@
 		border: 1px solid #ddd;
 		box-shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 -1px 0 rgba(0,0,0,.1);
 		position: relative;
-		&:hover {
-			background-color: #fff;
-		}
 
 		.llms-add-on-link {
 			color: #444;
@@ -129,12 +178,12 @@
 		section {
 			padding: 8px;
 			p {
-				margin: 0;
+				margin: 0 0 8px;
 			}
-		}
-
-		footer {
-			padding: 0 8px 8px;
+			ul, li {
+				margin: 0;
+				padding: 0;
+			}
 			img {
 				border-radius: 50%;
 				display: inline-block;
@@ -143,44 +192,141 @@
 			}
 		}
 
-		footer.llms-status {
+		footer.llms-actions {
 			background: #e8e8e8;
 			border-top: 1px solid #ddd;
-			bottom: 0;
-			left: 0;
-			position: absolute;
-			right: 0;
+			padding: 16px 8px;
 			margin-top: 8px;
-			padding: 8px;
-			@include clearfix();
-			&.status--active {
-				span em,
-				.llms-button-secondary .fa {
-					color: darken( $color-green, 16 );
-				}
+
+			a.open-plugin-details-modal {
+				font-size: 18px;
+				padding: 5px;
+				vertical-align: middle;
 			}
-			&.status--inactive {
-				span em,
-				.llms-button-secondary .fa {
-					color: $color-red;
+
+			.llms-status-icon {
+
+				background: #ececec;
+				border: 1px solid #b7b7b7;
+				color: #444;
+				border-radius: 4px;
+				margin-right: 4px;
+				padding: 8px;
+				text-decoration: none;
+				vertical-align: middle;
+
+				&:hover {
+					background: #f0f0f0;
+					.fa.show-on-hover { display: inline; }
+					.fa.hide-on-hover { display: none; }
 				}
+
 				.fa {
-					transform: rotate( 180deg );
-				}
-			}
-			&.status--none {
-				span em,
-				.llms-button-secondary .fa {
 					color: #777;
+					font-size: 16px;
+					height: 16px;
+					text-align: center;
+					margin-right: 2px;
+					width: 16px;
 				}
-			}
-			span {
-				font-weight: 500;
-				line-height: 2.5;
-				em {
-					font-style: normal;
+
+				.fa.show-on-hover { display: none; }
+				.fa.hide-on-hover { display: inline; }
+
+				input,
+				input + .fa {
+					display: none;
+					color: $color-blue !important;
 				}
+
+				input:checked + .fa {
+					display: inline;
+					& + .fa {
+						display: none;
+					}
+				}
+
+				.llms-status-text {
+					font-weight: 400;
+					font-size: 14px;
+				}
+
+
+				&.status--installed,
+				&.status--license_active {
+					.fa {
+						color: darken( $color-green, 16 );
+					}
+				}
+
+				// &.status--uninstalled,
+				&.status--active,
+				&.status--license_inactive {
+					.fa {
+						color: $color-red;
+					}
+				}
+
+				&.external.status--none,
+				&.external.status--license_active, // fixes xapi
+				&.external.status--license_inactive { // fixes xapi
+					.fa {
+						color: $color-blue;
+					}
+				}
+
 			}
+
+			// .llms-action-row {
+			// 	@include clearfix();
+
+			// 	&:last-child {
+			// 		margin-bottom: 0;
+			// 	}
+
+			// 	&.channel--beta,
+			// 	&.status--active,
+			// 	&.status--license_active {
+			// 		span em {
+			// 			color: darken( $color-green, 16 );
+			// 		}
+			// 		.llms-button-secondary .fa {
+			// 			color: $color-red;
+			// 		}
+			// 	}
+
+			// 	&.channel--stable,
+			// 	&.status--inactive,
+			// 	&.status--license_inactive {
+			// 		span em {
+			// 			color: $color-red;
+			// 		}
+			// 		.llms-button-secondary .fa {
+			// 			color: darken( $color-green, 16 );
+			// 			transform: rotate( 180deg );
+			// 		}
+			// 	}
+			// 	&.status--none,
+			// 	&.status--uninstalled {
+			// 		span em,
+			// 		.llms-button-secondary .fa {
+			// 			color: #777;
+			// 		}
+			// 	}
+
+			// 	.llms-manage-addon-toggle.llms-button-secondary .fa-cog {
+			// 		color: inherit;
+			// 	}
+
+			// }
+
+			// span {
+			// 	font-weight: 500;
+			// 	line-height: 2.5;
+			// 	em {
+			// 		font-style: normal;
+			// 	}
+			// }
 			.llms-button-secondary {
 				border: 1px solid #b7b7b7;
 				border-radius: 4px;
@@ -189,15 +335,46 @@
 					background: #f0f0f0;
 				}
 			}
-			// button {
-			// 	float: right;
-			// 	font-size: 14px;
-			// 	border: 1px solid #333;
-			// 	background: none;
-			// }
+
+			.llms-addon-actions {
+				background: #f0f0f0;
+				border: 1px solid #b7b7b7;
+				box-shadow: inset 0 1px 0 rgba(255,255,255,.2), inset 0 -1px 0 rgba(0,0,0,.1);
+				display: none;
+				left: 16px;
+				margin: 0;
+				padding: 16px;
+				position: absolute;
+				right: 16px;
+				z-index: 1;
+				&:before, &:after {
+					content: '';
+					position: absolute;
+				}
+				&:before {
+					border: 10px solid transparent;
+					border-bottom-color: #b7b7b7;
+					position: absolute;
+					top: -20px;
+					right: 34px;
+				}
+				&:after {
+					border: 8px solid transparent;
+					border-bottom-color: #f0f0f0;
+					top: -16px;
+					right: 36px;
+				}
+
+				li {
+					margin-bottom: 8px;
+					&:last-child {
+						margin-bottom: 0;
+					}
+				}
+			}
+
 		}
 
 	}
 
 }
-

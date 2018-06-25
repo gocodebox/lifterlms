@@ -1,42 +1,95 @@
+/**
+ * UI & UX for the Admin add-ons management screen
+ * @since    [version]
+ * @version  [version]
+ */
 ;( function( $ ) {
 
-	// $( 'button.llms-addon-action' ).on( 'click', function() {
+	/**
+	 * tracks current # of each bulk action to be run upon form submission
+	 * @type  {Object}
+	 */
+	var actions = {
+		update: 0,
+		install: 0,
+		activate: 0,
+		deactivate: 0,
+	};
 
-	// 	var $btn = $( this ),
-	// 		$container = $btn.closest( '.llms-add-on-item' ),
-	// 		status;
+	/**
+	 * When the bulk action modal is closed, clear all existing staged actions
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	$( '.llms-bulk-close' ).on( 'click', function( e ) {
+		e.preventDefault();
+		$( 'input.llms-bulk-check' ).filter( ':checked' ).prop( 'checked', false ).trigger( 'change' );
+	} );
 
-	// 	switch ( $btn.attr( 'data-status' ) ) {
-	// 		case 'active':
-	// 			status = 'deactivate';
-	// 		break;
-	// 		case 'inactive':
-	// 			status = 'activate';
-	// 		break;
-	// 		case 'none':
-	// 			status = 'install';
-	// 		break;
-	// 	}
+	/**
+	 * Update the UI and counters when a checkbox action is changed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	$( 'input.llms-bulk-check' ).on( 'change', function() {
 
-	// 	if ( ! status ) {
-	// 		return;
-	// 	}
+		var action = $( this ).attr( 'data-action' );
 
-	// 	LLMS.Spinner.start( $container );
+		if ( $( this ).is( ':checked' ) ) {
+			actions[ action ]++;
+		} else {
+			actions[ action ]--;
+		}
 
-	// 	LLMS.Ajax.call( {
-	// 		data: {
-	// 			action: 'llms_addon_toggle_activation',
-	// 			addon: $btn.attr( 'data-addon' ),
-	// 			status: status
-	// 		},
-	// 		success: function( res ) {
-	// 			console.log( res );
-	// 			LLMS.Spinner.stop( $container );
-	// 		}
+		update_ui();
 
-	// 	} );
+	} );
 
-	// } );
+	/**
+	 * Updates the UI when bulk actions are changed
+	 * Shows # of each action to be applied & shows the form submission / cancel buttons
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	function update_ui() {
+
+		var $el = $( '#llms-addons-bulk-actions' );
+		if ( actions.update || actions.install || actions.activate || actions.deactivate ) {
+			$el.addClass( 'active' );
+		} else {
+			$el.removeClass( 'active' );
+		}
+
+		$.each( actions, function( key, count ) {
+
+			var html = '',
+				$desc = $el.find( '.llms-bulk-desc.' + key );
+
+			if ( actions[ key ] ) {
+				if ( actions[ key ] > 1 ) {
+					html = LLMS.l10n.replace( '%d add-ons', { '%d': actions[ key ] } );
+				} else {
+					html = LLMS.l10n.translate( '1 add-on' );
+				}
+				$desc.show();
+			} else {
+				$desc.hide();
+			}
+			$desc.find( 'span' ).html( html );
+
+		} );
+
+
+	}
+
+	/**
+	 * Show the keys management dropdown on click of the "My Licenese Keys" button
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	$( '#llms-active-keys-toggle' ).on( 'click', function() {
+		$( '#llms-key-field-form' ).toggle();
+	} );
 
 } )( jQuery );
