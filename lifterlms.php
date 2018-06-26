@@ -332,13 +332,15 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.query.php' );
 
 		// controllers
-		include_once 'includes/controllers/class.llms.controller.account.php';
 		include_once 'includes/controllers/class.llms.controller.achievements.php';
 		include_once 'includes/controllers/class.llms.controller.certificates.php';
 		include_once 'includes/controllers/class.llms.controller.lesson.progression.php';
 		include_once 'includes/controllers/class.llms.controller.orders.php';
 		include_once 'includes/controllers/class.llms.controller.quizzes.php';
-		include_once 'includes/controllers/class.llms.controller.registration.php';
+
+		// form controllers
+		include_once 'includes/forms/controllers/class.llms.controller.account.php';
+		include_once 'includes/forms/controllers/class.llms.controller.registration.php';
 
 		// comments
 		include_once( 'includes/class.llms.comments.php' );
@@ -358,8 +360,11 @@ final class LifterLMS {
 
 			include_once( 'includes/class.llms.template.loader.php' );
 			include_once( 'includes/class.llms.frontend.assets.php' );
-			include_once( 'includes/class.llms.frontend.forms.php' );
-			include_once( 'includes/class.llms.frontend.password.php' );
+
+			// form classes
+			include_once( 'includes/forms/frontend/class.llms.frontend.forms.php' );
+			include_once( 'includes/forms/frontend/class.llms.frontend.password.php' );
+
 			include_once( 'includes/class.llms.person.php' );
 
 		}
