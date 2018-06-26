@@ -32,9 +32,9 @@ class LLMS_Frontend_Forms {
 	 */
 	public function login() {
 
-		if ( ! empty( $_POST['action'] ) && 'llms_login_user' === $_POST['action'] && ! empty( $_POST['_wpnonce'] ) ) {
+		if ( ! empty( $_POST['action'] ) && 'llms_login_user' === $_POST['action'] && ! empty( $_POST['_llms_login_user_nonce'] ) ) {
 
-			wp_verify_nonce( $_POST['_wpnonce'], 'llms_login_user' );
+			wp_verify_nonce( $_POST['_llms_login_user_nonce'], 'llms_login_user' );
 
 			$login = LLMS_Person_Handler::login( $_POST );
 
