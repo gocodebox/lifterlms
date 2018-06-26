@@ -53,7 +53,9 @@ class LLMS_Controller_Registration {
 
 		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'llms_register_person' !== $_POST['action'] || empty( $_POST['_llms_register_person_nonce'] ) ) { return; }
 
-		wp_verify_nonce( $_POST['_llms_register_person_nonce'], 'llms_register_person' );
+		if ( ! llms_verify_nonce( $_POST['_llms_register_person_nonce'], 'llms_register_person' ) ){
+			return;
+		}
 
 		do_action( 'lifterlms_before_new_user_registration' );
 
