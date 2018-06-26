@@ -527,11 +527,12 @@ function llms_form_field( $field = array(), $echo = true ) {
 			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
 			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
 			$r .= $label;
+			break;
 
 		case 'radio':
-            $r .= $label;
-            foreach ( $field['options'] as $key => $val ) {
-				$r .= '<label class="llms-radio"><input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . checked( $key, $value_attr ) . ' value="' . $val . '">' . $val . '</label>';
+			$r .= $label;
+			foreach ( $field['options'] as $key => $val ) {
+				$r .= '<label class="llms-radio"><input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . checked( $key, $value_attr ) . ' value="' . $key . '">' . $val . '</label>';
 			}
 			break;
 
@@ -554,7 +555,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 		default:
 			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
 
-	}
+	} // End switch().
 
 	if ( 'hidden' !== $field['type'] ) {
 		$r .= $desc;

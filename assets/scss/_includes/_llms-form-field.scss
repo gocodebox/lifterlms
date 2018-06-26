@@ -53,11 +53,12 @@
 		&.type-radio,
 		&.type-checkbox {
 			input,
-			label {
+			label,
+			label.llms-radio {
 				display: inline;
 				width: auto;
 			}
-			input {
+			label.llms-radio, input {
 				margin-right: 5px;
 			}
 		}
@@ -70,7 +71,7 @@
 				visibility: none;
 			}
 
-			label:before {
+			label.llms-radio:before {
 				background: #fafafa;
 				background-position: -24px 0;
 				background-repeat: no-repeat;
