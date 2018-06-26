@@ -346,7 +346,7 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.comments.php' );
 
 		// shortcodes
-		require_once 'includes/class.llms.shortcodes.php';
+		require_once 'includes/shortcodes/class.llms.shortcodes.php';
 		require_once 'includes/shortcodes/class.llms.shortcode.my.account.php';
 		require_once 'includes/shortcodes/class.llms.shortcode.checkout.php';
 
