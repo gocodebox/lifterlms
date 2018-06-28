@@ -71,7 +71,7 @@ class LLMS_Student_Bulk_Enroll {
 			<label class="screen-reader-text" for="_llms_bulk_enroll_product">
 				<?php _e( 'Choose Course/Membership', 'lifterlms' ); ?>
 			</label>
-			<select id="<?php echo $id; ?>" class="llms-bulk-enroll-product" data-post-type="llms_membership,course" name="<?php echo $id; ?>" style="min-width:200px;max-width:auto;">
+			<select id="<?php echo $id; ?>" class="llms-posts-select2 llms-bulk-enroll-product" data-post-type="llms_membership,course" name="<?php echo $id; ?>" style="min-width:200px;max-width:auto;">
 			</select>
 			<input type="submit" name="<?php echo $submit; ?>" id="<?php echo $submit; ?>" class="button" value="<?php esc_attr_e( 'Enroll', 'lifterlms' ); ?>">
 		</div>
@@ -117,6 +117,7 @@ class LLMS_Student_Bulk_Enroll {
 		}
 
 		$this->enroll_users_in_product();
+
 	}
 
 	/**
@@ -216,7 +217,7 @@ class LLMS_Student_Bulk_Enroll {
 		$enrolled = llms_enroll_student( $user->ID, $this->product_id, $trigger );
 
 		// figure out notice type based on enrollment success
-		$type = ( ! $enrolled) ? 'error' : 'success';
+		$type = ( ! $enrolled ) ? 'error' : 'success';
 
 		// Figure out notice message string based on notice type
 		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll <em>%1s</em> into <em>%2s</em>.', 'lifterlms' ) : __( 'Successfully enrolled <em>%1s</em> into <em>%2s</em>.', 'lifterlms' );
