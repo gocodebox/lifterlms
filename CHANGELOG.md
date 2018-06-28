@@ -11,6 +11,7 @@ v3.19.4 - 2018-06-28
 
 ##### Bug fixes
 
++ Fixed issue preventing email addresses with the "'" character from being able to register, login, or update account information
 + Fixed typo in automatic username generation filter `lifterlms_generated_username` (previously was `lifterlms_gnerated_username`)
 + Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
 

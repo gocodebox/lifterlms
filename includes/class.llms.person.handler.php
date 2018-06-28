@@ -757,6 +757,25 @@ class LLMS_Person_Handler {
 
 	}
 
+	/**
+	 * Sanitize posted fields
+	 * @param    string     $val         unsanitized user data
+	 * @param    string     $field_type  field type, allows additional sanitization to run based on field type
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function sanitize_field( $val, $field_type = '' ) {
+
+		$val = trim( sanitize_text_field( $val ) );
+		if ( $field_type && 'email' === $field_type ) {
+			$val = wp_unslash( $val );
+		}
+
+		return $val;
+
+	}
+
 
 	/**
 	 * Perform validations according to $screen and update the user
@@ -855,7 +874,7 @@ class LLMS_Person_Handler {
 	 * @param    string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
 	 * @return   true|WP_Error
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
@@ -892,7 +911,8 @@ class LLMS_Person_Handler {
 			$name = isset( $field['name'] ) ? $field['name'] : $field['id'];
 			$label = isset( $field['label'] ) ? $field['label'] : $name;
 
-			$val = isset( $data[ $name ] ) ? trim( $data[ $name ] ) : '';
+			$field_type = isset( $field['type'] ) ? $field['type'] : '';
+			$val = isset( $data[ $name ] ) ? self::sanitize_field( $data[ $name ], $field_type ) : '';
 
 			// ensure required fields are submitted
 			if ( isset( $field['required'] ) && $field['required'] && empty( $val ) ) {
@@ -902,8 +922,6 @@ class LLMS_Person_Handler {
 
 			}
 
-			$val = sanitize_text_field( $val );
-
 			// check email field for uniqueness
 			if ( 'email_address' === $name ) {
 
@@ -912,7 +930,7 @@ class LLMS_Person_Handler {
 				// only run this check when we're trying to change the email address for an account update
 				if ( 'account' === $screen ) {
 					$user = wp_get_current_user();
-					if ( $data['email_address'] === $user->user_email ) {
+					if ( self::sanitize_field( $data['email_address'], 'email' ) === $user->user_email ) {
 						$skip_email = true;
 					}
 				}
@@ -995,8 +1013,7 @@ class LLMS_Person_Handler {
 			// match matchy fields
 			if ( ! empty( $field['match'] ) ) {
 
-				$match = isset( $data[ $field['match'] ] ) ? $data[ $field['match'] ] : false;
-
+				$match = isset( $data[ $field['match'] ] ) ? self::sanitize_field( $data[ $field['match'] ], $field_type ) : false;
 				if ( ! $match || $val !== $match ) {
 
 					$e->add( $field['id'], sprintf( __( '%1$s must match %2$s', 'lifterlms' ), $matched_values[ $field['id'] ], $label ), 'match' );
