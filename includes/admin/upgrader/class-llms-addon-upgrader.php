@@ -37,11 +37,6 @@ class LLMS_AddOn_Upgrader {
 		// setup a llms add-on plugin info
 		add_filter( 'plugins_api', array( $this, 'plugins_api' ), 10, 3 );
 
-		// add_filter( 'plugins_api_result', function( $res ) {
-		// 	llms_log( $res );
-		// 	return $res;
-		// } );
-
 		// authenticate and get a real download link during add-on upgrade attempts
 		add_filter( 'upgrader_package_options', array( $this, 'upgrader_package_options' ) );
 
@@ -730,7 +725,7 @@ class LLMS_AddOn_Upgrader {
 		} elseif ( isset( $options['hook_extra']['theme'] ) ) {
 			$file = $options['hook_extra']['theme'];
 		} else {
-			return $optiosn;
+			return $options;
 		}
 
 		$addon = $this->get_product_data_by( 'update_file', $file );
