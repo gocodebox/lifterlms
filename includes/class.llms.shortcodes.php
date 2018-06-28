@@ -195,7 +195,10 @@ class LLMS_Shortcodes {
 
 		ob_start();
 		llms_print_notices();
-		llms_get_login_form( null, $redirect, $layout );
+		llms_get_template( 'global/form-login.php', array(
+			'layout' => $layout,
+			'redirect' => $redirect,
+		) );
 		return ob_get_clean();
 
 	}

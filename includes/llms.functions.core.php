@@ -479,6 +479,8 @@ function llms_form_field( $field = array(), $echo = true ) {
 		$name_attr = ' name="' . $field['name'] . '"';
 	}
 
+	// duplicate label to placeholder if none is specified
+	$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
 
 	// add inline css if set

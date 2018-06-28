@@ -1392,18 +1392,11 @@ if ( ! function_exists( 'llms_get_image_size' ) ) {
 
 
 if ( ! function_exists( 'llms_get_login_form' ) ) {
-	/**
-	 * Displays Login Form
-	 *
-	 * @param string $message Messages to display before login form
-	 * @param string $redirect URL to redirect to after login
-	 * @param type   $layout Form layout [columns|stacked]
-	 */
-	function llms_get_login_form( $message = null, $redirect = null, $layout = null ) {
+
+	function llms_get_login_form( $message = null, $redirect = null ) {
 		llms_get_template( 'global/form-login.php', array(
 			'message' => $message,
 			'redirect' => $redirect,
-			'layout' => $layout,
 		) );
 	}
 }
