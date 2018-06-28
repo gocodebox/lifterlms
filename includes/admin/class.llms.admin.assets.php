@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  3.17.8
+* @version  [version]
 */
 class LLMS_Admin_Assets {
 
@@ -27,7 +25,7 @@ class LLMS_Admin_Assets {
 	 * Determine if the current screen should load LifterLMS assets
 	 * @return   boolean
 	 * @since    3.7.0
-	 * @version  3.7.2
+	 * @version  [version]
 	 */
 	public function is_llms_page() {
 
@@ -42,6 +40,8 @@ class LLMS_Admin_Assets {
 		} elseif ( in_array( $id, array( 'course', 'lesson' ) ) ) {
 			return true;
 		} elseif ( ! empty( $screen->post_type ) && post_type_supports( $screen->post_type, 'llms-membership-restrictions' ) ) {
+			return true;
+		} elseif ( in_array( $screen->id, array( 'users' ) ) ) {
 			return true;
 		}
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.17.8
+	 * @version  [version]
 	 */
 	public function admin_scripts() {
 
@@ -95,7 +95,7 @@ class LLMS_Admin_Assets {
 
 		}
 
-		wp_register_script( 'llms-metaboxes',  LLMS_PLUGIN_URL . '/assets/js/llms-metaboxes' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-datepicker' ), LLMS()->version, true );
+		wp_register_script( 'llms-metaboxes',  LLMS_PLUGIN_URL . '/assets/js/llms-metaboxes' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-datepicker', 'llms-admin-scripts' ), LLMS()->version, true );
 		wp_register_script( 'llms-select2', LLMS_PLUGIN_URL . '/assets/vendor/select2/js/select2' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 
 		if ( ( post_type_exists( $screen->id ) && post_type_supports( $screen->id, 'llms-membership-restrictions' ) ) || 'dashboard_page_llms-setup' === $screen->id ) {
@@ -122,7 +122,7 @@ class LLMS_Admin_Assets {
 
 			wp_register_script( 'llms',  LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 
-			wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . '/assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
+			wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . '/assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS()->version, true );
 			wp_enqueue_script( 'llms-admin-scripts' );
 
 			wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/flick/jquery-ui' . LLMS_ASSETS_SUFFIX . '.css' );
@@ -244,7 +244,7 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'heartbeat' );
 			}
 
-					wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . '/assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . '/assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
 
 		}
 

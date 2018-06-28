@@ -5844,7 +5844,7 @@ define( 'Controllers/Schemas',[], function() {
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  3.17.1
+ * @version  [version]
  */
 define( 'Controllers/Sync',[], function() {
 
@@ -6155,7 +6155,7 @@ define( 'Controllers/Sync',[], function() {
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
 		 * @since    3.16.11
-		 * @version  3.16.6
+		 * @version  [version]
 		 */
 		function maybe_restart_tracking( model, data ) {
 
