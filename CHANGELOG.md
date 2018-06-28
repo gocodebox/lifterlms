@@ -1,10 +1,17 @@
 LifterLMS Changelog
 ===================
 
-v3.19.4 - 2018-06-??
+v3.19.4 - 2018-06-28
 --------------------
 
-+ Add subscription event on builder to allow integrations to run custom code on heartbeat ticks
+##### Updates and enhancements
+
++ Bulk enroll multiple users into a course or membership from the Users table on your admin panel. See how at [https://lifterlms.com/docs/student-bulk-enrollment/](https://lifterlms.com/docs/student-bulk-enrollment/)
++ Added event on builder to allow integrations to run trigger events when course elements are saved
+
+##### Bug fixes
+
++ Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
 
 
 v3.19.3 - 2018-06-14
