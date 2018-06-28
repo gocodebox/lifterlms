@@ -43,6 +43,8 @@ class LLMS_Admin_Assets {
 			return true;
 		} elseif ( ! empty( $screen->post_type ) && post_type_supports( $screen->post_type, 'llms-membership-restrictions' ) ) {
 			return true;
+		} elseif ( in_array( $screen->id, array( 'users' ) ) ) {
+			return true;
 		}
 
 		return false;
@@ -244,10 +246,14 @@ class LLMS_Admin_Assets {
 				wp_enqueue_script( 'heartbeat' );
 			}
 
-					wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . '/assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
+			wp_enqueue_script( 'llms-builder', LLMS_PLUGIN_URL . '/assets/js/llms-builder' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-sortable', 'jquery-ui-draggable', 'backbone', 'underscore', 'post', 'llms-quill' ), LLMS()->version, true );
 
 		}
 
+		// in_array so that this script can also be loaded on 'user-new', 'user-edit', 'profile'
+		if ( in_array( $screen->id, array( 'users' ) ) ) {
+			wp_enqueue_script( 'llms-bulk-enroll', LLMS_PLUGIN_URL . '/assets/js/llms-bulk-enroll' . LLMS_ASSETS_SUFFIX . '.js', array( 'llms-select2', 'llms', 'jquery', 'llms-ajax' ), LLMS()->version, true );
+		}
 	}
 
 	/**
