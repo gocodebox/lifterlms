@@ -1,11 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * User Handling for login and registration (mostly)
  *
  * @since    3.0.0
- * @version  3.8.0
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Person_Handler {
 
 	/**
@@ -26,10 +27,10 @@ class LLMS_Person_Handler {
 
 	/**
 	 * Generate a unique login based on the user's email address
-	 * @param  string $email user's email address
-	 * @return string
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @param    string $email user's email address
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public static function generate_username( $email ) {
 
@@ -51,7 +52,7 @@ class LLMS_Person_Handler {
 
 		}
 
-		return apply_filters( 'lifterlms_gnerated_username', $username, $email );
+		return apply_filters( 'lifterlms_generated_username', $username, $email );
 
 	}
 
