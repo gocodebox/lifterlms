@@ -36,7 +36,7 @@ if ( is_user_logged_in() ) { return; }
 				<?php llms_form_field( $field ); ?>
 			<?php endforeach; ?>
 
-			<?php wp_nonce_field( 'llms_login_user' ); ?>
+			<?php wp_nonce_field( 'llms_login_user', '_llms_login_user_nonce' ); ?>
 			<input type="hidden" name="redirect" value="<?php echo esc_url( $redirect ) ?>" />
 			<input type="hidden" name="action" value="llms_login_user" />
 
