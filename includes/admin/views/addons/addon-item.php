@@ -35,10 +35,10 @@ defined( 'ABSPATH' ) || exit;
 
 					<?php if ( $addon->is_installable() ) : ?>
 						<?php // Translators: %s = Current Version Number ?>
-						<li><?php printf( __( 'Version: %s', 'lifterlms' ), $addon->is_installed() ? $addon->get_installed_version() : $addon->get( 'version' ) ); ?></li>
+						<li><?php printf( __( 'Version: %s', 'lifterlms' ), $addon->is_installed() ? $addon->get_installed_version() : $addon->get_latest_version() ); ?></li>
 						<?php if ( $addon->is_installed() && $addon->has_available_update() ) : ?>
 							<?php // Translators: %s = Available Version Number ?>
-							<li><strong><?php printf( __( 'Update Available: %s', 'lifterlms' ), $addon->get( 'version' ) ); ?></strong></li>
+							<li><strong><?php printf( __( 'Update Available: %s', 'lifterlms' ), $addon->get_latest_version() ); ?></strong></li>
 						<?php endif; ?>
 					<?php endif; ?>
 				</ul>
@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) || exit;
 
 		<footer class="llms-actions">
 
-			<?php if ( in_array( $addon->get_type(), array( 'external', 'support' ) ) || ( 'bundle' === $addon->get_type() && ! $addon->is_licensed() ) ) : ?>
+			<?php if ( in_array( $addon->get_type(), array( 'external', 'support' ) ) || ( 'bundle' === $addon->get_type() && ! $addon->is_licensed() ) || ( $addon->is_installable() && ! $addon->is_installed() ) ) : ?>
 				<a href="<?php echo esc_url( $addon->get_permalink() ); ?>" class="llms-status-icon external status--<?php echo esc_attr( $addon->get_license_status() ); ?>" target="_blank">
 					<i class="fa fa-info-circle hide-on-hover" aria-hidden="true"></i>
 					<i class="fa fa-external-link show-on-hover" aria-hidden="true"></i>
@@ -64,48 +64,52 @@ defined( 'ABSPATH' ) || exit;
 				</a>
 			<?php endif; ?>
 
-			<?php if ( $addon->is_installable() && ! $addon->is_installed() && $addon->is_licensed() ) : ?>
-				<label class="llms-status-icon status--<?php echo esc_attr( $addon->get_install_status() ); ?>" for="<?php echo esc_attr( sprintf( '%s-install', $addon->get( 'id' ) ) ); ?>">
-					<input class="llms-bulk-check" data-action="install" name="llms_install[]" id="<?php echo esc_attr( sprintf( '%s-install', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
-					<i class="fa fa-check-square-o" aria-hidden="true"></i>
-					<i class="fa fa-cloud-download" aria-hidden="true"></i>
-					<span class="llms-status-text"><?php _e( 'Install', 'lifterlms' ); ?></span>
-				</label>
-			<?php endif; ?>
+			<?php if ( 'featured' !== $current_tab ) : ?>
 
-			<?php if ( $addon->is_installable() && $addon->is_installed() ) : ?>
-				<?php if ( $addon->is_active() ) : ?>
-					<?php if ( 'theme' !== $addon->get_type() ) : ?>
-						<label class="llms-status-icon status--<?php echo esc_attr( $addon->get_status() ); ?>" for="<?php echo esc_attr( sprintf( '%s-deactivate', $addon->get( 'id' ) ) ); ?>">
-							<input class="llms-bulk-check" data-action="deactivate" name="llms_deactivate[]" id="<?php echo esc_attr( sprintf( '%s-deactivate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
-							<i class="fa fa-check-square-o" aria-hidden="true"></i>
-							<i class="fa fa-plug" aria-hidden="true"></i>
-							<span class="llms-status-text"><?php _e( 'Deactivate', 'lifterlms' ); ?>
-						</label>
-					<?php endif; ?>
-				<?php else : ?>
-					<label class="llms-status-icon status--<?php echo esc_attr( $addon->get_status() ); ?>" for="<?php echo esc_attr( sprintf( '%s-activate', $addon->get( 'id' ) ) ); ?>">
-						<input class="llms-bulk-check" data-action="activate" name="llms_activate[]" id="<?php echo esc_attr( sprintf( '%s-activate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
+				<?php if ( $addon->is_installable() && ! $addon->is_installed() && $addon->is_licensed() ) : ?>
+					<label class="llms-status-icon status--<?php echo esc_attr( $addon->get_install_status() ); ?>" for="<?php echo esc_attr( sprintf( '%s-install', $addon->get( 'id' ) ) ); ?>">
+						<input class="llms-bulk-check" data-action="install" name="llms_install[]" id="<?php echo esc_attr( sprintf( '%s-install', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
 						<i class="fa fa-check-square-o" aria-hidden="true"></i>
-						<i class="fa fa-plug" aria-hidden="true"></i>
-						<span class="llms-status-text"><?php _e( 'Activate', 'lifterlms' ); ?>
+						<i class="fa fa-cloud-download" aria-hidden="true"></i>
+						<span class="llms-status-text"><?php _e( 'Install', 'lifterlms' ); ?></span>
 					</label>
 				<?php endif; ?>
 
-				<?php if ( $addon->is_licensed() && $addon->has_available_update() ) : ?>
-					<label class="llms-status-icon status--update-available" for="<?php echo esc_attr( sprintf( '%s-update', $addon->get( 'id' ) ) ); ?>">
-						<input class="llms-bulk-check" data-action="update" name="llms_update[]" id="<?php echo esc_attr( sprintf( '%s-update', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
-						<i class="fa fa-check-square-o" aria-hidden="true"></i>
-						<i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
-						<span class="llms-status-text"><?php _e( 'Update', 'lifterlms' ); ?>
-					</label>
-					<a href="<?php echo admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $addon->get( 'id' ) . '&section=changelog&TB_iframe=true&width=600&height=800' ); ?>" class="thickbox open-plugin-details-modal tip--bottom-left" data-tip="<?php esc_attr_e( 'View update details', 'lifterlms' ); ?>">
-						<i class="fa fa-info-circle" aria-hidden="true"></i>
-					</span>
+				<?php if ( $addon->is_installable() && $addon->is_installed() ) : ?>
+					<?php if ( $addon->is_active() ) : ?>
+						<?php if ( 'theme' !== $addon->get_type() ) : ?>
+							<label class="llms-status-icon status--<?php echo esc_attr( $addon->get_status() ); ?>" for="<?php echo esc_attr( sprintf( '%s-deactivate', $addon->get( 'id' ) ) ); ?>">
+								<input class="llms-bulk-check" data-action="deactivate" name="llms_deactivate[]" id="<?php echo esc_attr( sprintf( '%s-deactivate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
+								<i class="fa fa-check-square-o" aria-hidden="true"></i>
+								<i class="fa fa-plug" aria-hidden="true"></i>
+								<span class="llms-status-text"><?php _e( 'Deactivate', 'lifterlms' ); ?>
+							</label>
+						<?php endif; ?>
+					<?php else : ?>
+						<label class="llms-status-icon status--<?php echo esc_attr( $addon->get_status() ); ?>" for="<?php echo esc_attr( sprintf( '%s-activate', $addon->get( 'id' ) ) ); ?>">
+							<input class="llms-bulk-check" data-action="activate" name="llms_activate[]" id="<?php echo esc_attr( sprintf( '%s-activate', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
+							<i class="fa fa-check-square-o" aria-hidden="true"></i>
+							<i class="fa fa-plug" aria-hidden="true"></i>
+							<span class="llms-status-text"><?php _e( 'Activate', 'lifterlms' ); ?>
+						</label>
+					<?php endif; ?>
+
+					<?php if ( $addon->is_licensed() && $addon->has_available_update() ) : ?>
+						<label class="llms-status-icon status--update-available" for="<?php echo esc_attr( sprintf( '%s-update', $addon->get( 'id' ) ) ); ?>">
+							<input class="llms-bulk-check" data-action="update" name="llms_update[]" id="<?php echo esc_attr( sprintf( '%s-update', $addon->get( 'id' ) ) ); ?>" type="checkbox" value="<?php echo esc_attr( $addon->get( 'id' ) ); ?>">
+							<i class="fa fa-check-square-o" aria-hidden="true"></i>
+							<i class="fa fa-arrow-circle-up" aria-hidden="true"></i>
+							<span class="llms-status-text"><?php _e( 'Update', 'lifterlms' ); ?>
+						</label>
+						<a href="<?php echo admin_url( 'plugin-install.php?tab=plugin-information&plugin=' . $addon->get( 'id' ) . '&section=changelog&TB_iframe=true&width=600&height=800' ); ?>" class="thickbox open-plugin-details-modal tip--bottom-left" data-tip="<?php esc_attr_e( 'View update details', 'lifterlms' ); ?>">
+							<i class="fa fa-info-circle" aria-hidden="true"></i>
+						</span>
+					<?php endif; ?>
 				<?php endif; ?>
 			<?php endif; ?>
 
 		</footer>
+
 
 	</div>
 </li>

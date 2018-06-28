@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Admin Status Pages
  * @since    3.11.2
- * @version  3.11.2
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Page_Status {
 
 	/**
@@ -71,6 +70,8 @@ class LLMS_Admin_Page_Status {
 			self::remove_log_file();
 		} elseif ( ! empty( $_REQUEST['llms_tool'] ) ) {
 			self::do_tool();
+		} elseif ( ! empty( $_REQUEST['llms_channel_subscriptions'] ) ) {
+			self::save_subscriptions();
 		}
 
 	}
@@ -119,13 +120,14 @@ class LLMS_Admin_Page_Status {
 	 * Output the system report
 	 * @return   void
 	 * @since    2.1.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public static function output() {
 
 		$tabs = array(
 			'report' => __( 'System Report', 'lifterlms' ),
 			'tools' => __( 'Tools & Utilities', 'lifterlms' ),
+			'beta' => __( 'Beta Testing', 'lifterlms' ),
 			'logs' => __( 'Logs', 'lifterlms' ),
 		);
 
@@ -149,6 +151,10 @@ class LLMS_Admin_Page_Status {
 			<?php do_action( 'llms_before_admin_page_status', $current_tab );
 
 			switch ( $current_tab ) {
+
+				case 'beta':
+					self::output_beta_content();
+				break;
 
 				case 'logs':
 					self::output_logs_content();
@@ -203,6 +209,34 @@ class LLMS_Admin_Page_Status {
 			}
 		}
 
+	}
+
+	private static function save_subscriptions() {
+
+		if ( ! llms_verify_nonce( '_llms_beta_sub_nonce', 'llms_save_channel_subscriptions' ) ) {
+			return;
+		}
+
+		foreach ( $_POST['llms_channel_subscriptions'] as $id => $channel ) {
+
+			$addon = new LLMS_Add_On( $id );
+			$addon->subscribe_to_channel( sanitize_text_field( $channel ) );
+
+		}
+
+	}
+
+	/**
+	 * Output content for the beta testing screen
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private static function output_beta_content() {
+		$upgrader = LLMS_AddOn_Upgrader::instance();
+		$addons = $upgrader->get_available_products();
+		array_unshift( $addons, 'lifterlms-com-lifterlms' );
+		include 'views/addons/beta-testing.php';
 	}
 
 	/**

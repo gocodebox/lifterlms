@@ -37,6 +37,11 @@ class LLMS_AddOn_Upgrader {
 		// setup a llms add-on plugin info
 		add_filter( 'plugins_api', array( $this, 'plugins_api' ), 10, 3 );
 
+		// add_filter( 'plugins_api_result', function( $res ) {
+		// 	llms_log( $res );
+		// 	return $res;
+		// } );
+
 		// authenticate and get a real download link during add-on upgrade attempts
 		add_filter( 'upgrader_package_options', array( $this, 'upgrader_package_options' ) );
 
@@ -214,20 +219,25 @@ class LLMS_AddOn_Upgrader {
 
 	/**
 	 * Retrieve an array of addons that are available via currently active License Keys
+	 * @param    bool     $installable_only   if true, only includes installable addons
+	 *                                        if false, includes non-installable addons (like bundles)
 	 * @return   array
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_available_products() {
+	public function get_available_products( $installable_only = true ) {
 
-		$files = array();
+		$ids = array();
 		foreach ( $this->get_license_keys() as $key ) {
 			if ( 1 == $key['status'] ) {
-				$files = array_merge( $files, $key['addons'] );
+				$ids = array_merge( $ids, $key['addons'] );
+			}
+			if ( false === $installable_only ) {
+				$ids[] = $key['product_id'];
 			}
 		}
 
-		return array_unique( $files );
+		return array_unique( $ids );
 
 	}
 
@@ -332,6 +342,8 @@ class LLMS_AddOn_Upgrader {
 			set_transient( 'llms_products_api_result', $data, DAY_IN_SECONDS );
 
 		}
+
+		// llms_log( $data );
 
 		return $data;
 
@@ -467,11 +479,25 @@ class LLMS_AddOn_Upgrader {
 			return $response;
 		}
 
+		$core = false;
+
+		if ( 'lifterlms' === $args->slug ) {
+			remove_filter( 'plugins_api', array( $this, 'plugins_api' ), 10, 3 );
+			$args->slug = 'lifterlms-com-lifterlms';
+			$core = true;
+		}
+
 		if ( 0 !== strpos( $args->slug, 'lifterlms-com-' ) ) {
 			return $response;
 		}
 
-		return $this->set_plugins_api( $args->slug, true );
+		$response = $this->set_plugins_api( $args->slug, true );
+
+		if ( $core ) {
+			add_filter( 'plugins_api', array( $this, 'plugins_api' ), 10, 3 );
+		}
+
+		return $response;
 
 	}
 
@@ -499,6 +525,8 @@ class LLMS_AddOn_Upgrader {
 
 		$all_products = $this->get_products( false );
 
+		// llms_log( $all_products );
+
 		foreach ( $all_products['items'] as $addon_data ) {
 
 			$addon = new LLMS_Add_On( $addon_data );
@@ -515,13 +543,19 @@ class LLMS_AddOn_Upgrader {
 
 			if ( 'plugin' === $type ) {
 
+				if ( 'lifterlms-com-lifterlms' === $addon->get( 'id' ) ) {
+					if ( 'stable' === $addon->get_channel_subscription() || ! $addon->get( 'version_beta' ) ) {
+						continue;
+					}
+				}
+
 				$item = (object) $this->set_plugins_api( $addon->get( 'id' ), false );
 
 			} elseif ( 'theme' === $type ) {
 
 				$item = array(
 					'theme' => $file,
-					'new_version' => $addon->get( 'version' ),
+					'new_version' => $addon->get_latest_version(),
 					'url' => $addon->get_permalink(),
 					'package' => true,
 				);
@@ -607,11 +641,33 @@ class LLMS_AddOn_Upgrader {
 
 		$addon = new LLMS_Add_On( $id );
 
+		if ( 'lifterlms-com-lifterlms' === $id && false !== strpos( $addon->get_latest_version(), 'beta' ) ) {
+
+			require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+			$item = plugins_api( 'plugin_information', array(
+				'slug' => 'lifterlms',
+				'fields' => array(
+					'banners' => true,
+					'icons' => true,
+				),
+			) );
+			$item->version = $addon->get_latest_version();
+			$item->new_version = $addon->get_latest_version();
+			$item->package = true;
+
+			unset( $item->versions );
+
+			$item->sections['changelog'] = $this->get_changelog_for_api( $addon );
+
+			return $item;
+
+		}
+
 		$item = array(
 			'name' => $addon->get( 'title' ),
 			'slug' => $id,
-			'version' => $addon->get( 'version' ),
-			'new_version' => $addon->get( 'version' ),
+			'version' => $addon->get_latest_version(),
+			'new_version' => $addon->get_latest_version(),
 			'author' => '<a href="https://lifterlms.com/">' . $addon->get( 'author' )['name'] . '</a>',
 			'author_profile' => $addon->get( 'author' )['link'],
 			'requires' => $addon->get( 'version_wp' ),
@@ -628,19 +684,30 @@ class LLMS_AddOn_Upgrader {
 
 		if ( $include_sections ) {
 
-			$changelog = file_get_contents( $addon->get( 'changelog' ) );
-			preg_match( '#<body[^>]*>(.*?)</body>#si', $changelog, $changelog );
-			// css on h2 is intended for plugin title in header image but causes huge gap on changelog
-			$changelog = str_replace( array( '<h2 id="', '</h2>' ), array( '<h3 id="', '</h3>' ), $changelog[1] );
-
 			$item['sections'] = array(
 				'description' => $addon->get( 'description' ),
-				'changelog' => $changelog,
+				'changelog' => $this->get_changelog_for_api( $addon ),
 			);
 
 		}
 
 		return (object) $item;
+
+	}
+
+	/**
+	 * Retrieve the changelog for an addon
+	 * @param    obj     $addon  LLMS_Add_On
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function get_changelog_for_api( $addon ) {
+
+		$changelog = file_get_contents( $addon->get( 'changelog' ) );
+		preg_match( '#<body[^>]*>(.*?)</body>#si', $changelog, $changelog );
+		// css on h2 is intended for plugin title in header image but causes huge gap on changelog
+		return str_replace( array( '<h2 id="', '</h2>' ), array( '<h3 id="', '</h3>' ), $changelog[1] );
 
 	}
 
@@ -653,8 +720,6 @@ class LLMS_AddOn_Upgrader {
 	 * @version  [version]
 	 */
 	public function upgrader_package_options( $options ) {
-
-		llms_log( $options );
 
 		if ( ! isset( $options['hook_extra'] ) ) {
 			return $options;

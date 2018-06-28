@@ -224,6 +224,19 @@ class LLMS_Add_On {
 	}
 
 	/**
+	 * Retrieve the latest available version for the current channel
+	 * @return   strin
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_latest_version() {
+		if ( 'beta' === $this->get_channel_subscription() && $this->get( 'version_beta' ) ) {
+			return $this->get( 'version_beta' );
+		}
+		return $this->get( 'version' );
+	}
+
+	/**
 	 * Translate strings
 	 * @param    string     $status  untranslated string / key
 	 * @return   string
@@ -344,24 +357,13 @@ class LLMS_Add_On {
 	}
 
 	/**
-	 * Retrieve the id of the add-ons update channel
-	 * @return   string     stable or beta
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function get_update_channel() {
-		$channels = $this->upgrader->get_channels();
-		return isset( $channels[ $this->get( 'id' ) ] ) ? $channels[ $this->get( 'id' ) ] : 'stable';
-	}
-
-	/**
 	 * Determine if there is an available update for the add-on
 	 * @return   bool
 	 * @since    [version]
 	 * @version  [version]
 	 */
 	public function has_available_update() {
-		return version_compare( $this->get_installed_version(), $this->get( 'version' ), '<' );
+		return version_compare( $this->get_installed_version(), $this->get_latest_version(), '<' );
 	}
 
 	/**

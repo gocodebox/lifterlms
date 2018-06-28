@@ -144,7 +144,7 @@ class LLMS_Admin_Menus {
 	 * Add items to the admin menu with a later priority
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function display_admin_menu_late() {
 
@@ -155,7 +155,7 @@ class LLMS_Admin_Menus {
 			return;
 		}
 
-		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons', 'lifterlms' ), __( 'Add-ons', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons, Courses, and Resources', 'lifterlms' ), __( 'Add-ons & more', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
 
 	}
 
