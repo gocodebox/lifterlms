@@ -6159,6 +6159,8 @@ define( 'Controllers/Sync',[], function() {
 		 */
 		function maybe_restart_tracking( model, data ) {
 
+			Backbone.pubSub.trigger( model.get( 'type' ) + '-maybe-restart-tracking', model, data );
+
 			var omit = [ 'id', 'orig_id' ];
 
 			if ( model.get_relationships ) {

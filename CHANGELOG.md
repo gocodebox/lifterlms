@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.19.4 - 2018-06-??
+--------------------
+
++ Add subscription event on builder to allow integrations to run custom code on heartbeat ticks
+
+
 v3.19.3 - 2018-06-14
 --------------------
 
