@@ -336,13 +336,19 @@ class LLMS_Admin_AddOns {
 		}
 		?>
 		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
-			<h1 style="display:none;"></h1><!-- error holder -->
-			<h1><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
-			<section class="llms-licenses">
+
+			<h2><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+
+			<?php do_action( 'llms_addons_page_after_title' ); ?>
+
+			<h1 class="screen-reader-text"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+
+<!-- 			<section class="llms-licenses">
 				<button class="llms-button-primary" id="llms-active-keys-toggle">
 					<?php _e( 'My License Keys', 'lifterlms' ); ?>
 					<i class="fa fa-chevron-down" aria-hidden="true"></i>
 				</button>
+
 				<form action="" class="llms-key-field" id="llms-key-field-form" method="POST">
 
 					<?php if ( $my_keys ) : ?>
@@ -368,7 +374,7 @@ class LLMS_Admin_AddOns {
 					<button class="llms-button-primary small" name="llms_activate_keys" type="submit"><?php _e( 'Add New', 'lifterlms' ); ?></button>
 					<?php wp_nonce_field( 'llms_manage_keys', '_llms_manage_keys_nonce' ); ?>
 				</form>
-			</section>
+			</section> -->
 
 			<?php $this->output_navigation(); ?>
 			<form action="" method="POST">

@@ -15,6 +15,29 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	protected $is_json = false;
 
 	/**
+	 * Determines if it's a request to the .com REST api
+	 * @var  bool
+	 */
+	protected $is_rest_request = true;
+
+	/**
+	 * Construct an API call, parameters are passed to private `call()` function
+	 * @param    stirng $resource  url endpoint or resource to make a request to
+	 * @param    array  $data      array of data to pass in the body of the request
+	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
+	 * @param    bool   $is_rest   if true adds wp-json rest to request url, otherwise requests to site base
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function __construct( $resource, $data, $method = null, $is_rest = true ) {
+
+		$this->is_rest_request = $is_rest;
+		parent::__construct( $resource, $data, $method );
+
+	}
+
+	/**
 	 * Parse the body of the response and set a success/error
 	 * @param    array     $response  response data
 	 * @return   array
@@ -28,7 +51,7 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 		if ( isset( $response['response'] ) && isset( $response['response']['code'] ) && ! in_array( $response['response']['code'], array( 200, 201 ) ) ) {
 
 			$msg = isset( $body['message'] ) ? $body['message'] : $response['response']['message'];
-			$this->set_error( $msg, $body['code'], $body );
+			$this->set_error( $msg, isset( $body['code'] ) ? $body['code'] : $response['response']['code'], $body );
 
 		} else {
 
@@ -73,7 +96,13 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @version  [version]
 	 */
 	protected function set_request_url( $resource, $method ) {
-		return apply_filters( 'llms_dot_com_api_request_url', 'https://lifterlms.com/wp-json/llms/v3' . $resource, $resource, $method );
+
+		$url = 'https://lifterlms.com/';
+		if ( $this->is_rest_request ) {
+			$url .= 'wp-json/llms/v3';
+		}
+
+		return apply_filters( 'llms_dot_com_api_request_url', $url . $resource, $resource, $method );
 	}
 
 	/**
