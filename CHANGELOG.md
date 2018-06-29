@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.19.4 - 2018-06-28
+v3.19.4 - 2018-06-??
 --------------------
 
 ##### Updates and enhancements
@@ -14,6 +14,7 @@ v3.19.4 - 2018-06-28
 + Fixed issue preventing email addresses with the "'" character from being able to register, login, or update account information
 + Fixed typo in automatic username generation filter `lifterlms_generated_username` (previously was `lifterlms_gnerated_username`)
 + Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
++ FIxed issue allowing users with `view_lifterlms_reports` capability (Instructors) to access sales & enrollment reporting screens. The `view_others_lifterlms_reports` capability (Admins & LMS Managers) is now required to view these reporting tabs.
 
 
 v3.19.3 - 2018-06-14
