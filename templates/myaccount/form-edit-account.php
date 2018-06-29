@@ -50,7 +50,7 @@ $field_data = ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) ) ? $_POST :
 
 			<?php do_action( 'lifterlms_after_update_button' ); ?>
 
-			<?php wp_nonce_field( 'llms_update_person' ); ?>
+			<?php wp_nonce_field( 'llms_update_person', 'llms_update_person_nonce' ); ?>
 
 			<input name="action" type="hidden" value="llms_update_person">
 
