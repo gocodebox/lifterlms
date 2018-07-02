@@ -4,7 +4,7 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  3.19.0
+ * @version  [version]
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -422,6 +422,47 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			$this->assertFalse( llms_parse_bool( $val ) );
 		}
 
+	}
+
+	/**
+	 * Test llms_redirect_and_exit() func with safe on
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_llms_redirect_and_exit_safe_on() {
+
+		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectExceptionMessage( 'https://lifterlms.com [302] YES' );
+		llms_redirect_and_exit( 'https://lifterlms.com' );
+
+	}
+
+	/**
+	 * Test llms_redirect_and_exit() func with safe on
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_llms_redirect_and_exit_safe_off() {
+
+		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectExceptionMessage( 'https://lifterlms.com [302] NO' );
+		llms_redirect_and_exit( 'https://lifterlms.com', array( 'safe' => false ) );
+
+	}
+
+	/**
+	 * Test llms_redirect_and_exit() func with safe custom status
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_llms_redirect_and_exit_safe_status() {
+
+		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectExceptionMessage( 'https://lifterlms.com [301] YES' );
+		llms_redirect_and_exit( 'https://lifterlms.com', array( 'status' => 301 ) );
 
 	}
 
