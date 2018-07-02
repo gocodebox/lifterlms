@@ -705,18 +705,18 @@ class LLMS_Person_Handler {
 	 *                        	'llms_billing_country' => '',
 	 *                        	'llms_phone' => '',
 	 *                        )
-	 * @param  string $screen  screen to perform validations for, accepts "registration" or "checkout"
-	 * @param  bool   $signon  if true, also signon the newly created user
-	 * @return int|WP_Error
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @param    string $screen  screen to perform validations for, accepts "registration" or "checkout"
+	 * @param    bool   $signon  if true, also signon the newly created user
+	 * @return   int|WP_Error
+	 * @since    3.0.0
+	 * @version  [version]
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
 
 		do_action( 'lifterlms_before_user_registration', $data, $screen );
 
 		// generate a username if we're supposed to generate a username
-		if ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) ) {
+		if ( llms_parse_bool( get_option( 'lifterlms_registration_generate_username' ) ) && ! empty( $data['email_address'] ) ) {
 			$data['user_login'] = self::generate_username( $data['email_address'] );
 		}
 
@@ -728,8 +728,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_registration_errors', $valid, $data, $screen );
 
-		} // End if().
-		else {
+		} else {
 
 			do_action( 'lifterlms_user_registration_after_validation', $data, $screen );
 
