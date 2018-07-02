@@ -3,16 +3,16 @@
  * Tests for LifterLMS Core Functions
  * @group    LLMS_Student
  * @group    LLMS_Person_Handler
- * @since    [version]
- * @version  [version]
+ * @since    3.19.4
+ * @version  3.19.4
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	/**
 	 * Teste username generation
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	public function test_generate_username() {
 

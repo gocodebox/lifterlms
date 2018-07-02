@@ -3,7 +3,7 @@
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.19.4
 */
 class LLMS_Shortcodes {
 
@@ -184,7 +184,7 @@ class LLMS_Shortcodes {
 	 * @param    array     $atts  shortcode attributes
 	 * @return   string
 	 * @since    3.0.4
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public static function login( $atts ) {
 

@@ -3,7 +3,7 @@
  * @param    obj   $  traditional jQuery reference
  * @return   void
  * @since    ??
- * @version  [version]
+ * @version  3.19.4
  */
 ;( function( $ ) {
 
@@ -57,8 +57,8 @@
 	 * @param    obj   options  options passed to Select2
 	 *                          each default option will pulled from the elements data-attributes
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	$.fn.llmsPostsSelect2 = function( options ) {
 

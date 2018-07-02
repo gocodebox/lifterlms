@@ -3,15 +3,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * User Login Form Controller
- * @since   [version]
- * @version [version]
+ * @since   3.19.4
+ * @version 3.19.4
  */
 class LLMS_Controller_Login {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	public function __construct() {
 
@@ -23,7 +23,7 @@ class LLMS_Controller_Login {
 	 * Handle Login Form Submission
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public function login() {
 

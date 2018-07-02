@@ -10,8 +10,8 @@
  * 				$code = int val of the status code (defaults to 302)
  * 				$safe = YES or NO for bool val on the safemode option
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.19.4
+ * @version  3.19.4
  */
 class LLMS_Testing_Exception_Redirect extends LLMS_Testing_Exception_Exit {
 

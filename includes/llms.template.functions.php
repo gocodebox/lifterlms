@@ -1397,7 +1397,7 @@ if ( ! function_exists( 'llms_get_image_size' ) ) {
  * @param    string  $redirect URL to redirect to after login
  * @param    type    $layout Form layout [columns|stacked]
  * @since    1.0.0
- * @version  [version]
+ * @version  3.19.4
  */
 if ( ! function_exists( 'llms_get_login_form' ) ) {
 	function llms_get_login_form( $message = null, $redirect = null, $layout = null ) {

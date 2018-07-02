@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.19.4 - 2018-06-??
+v3.19.4 - 2018-07-02
 --------------------
 
 ##### Updates and enhancements

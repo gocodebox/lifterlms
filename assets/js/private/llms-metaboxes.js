@@ -700,7 +700,7 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.19.4
 		 */
 		this.post_select = function( $el ) {
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version [version]
+ * @version 3.19.4
  */
 class LLMS_Admin_Reporting {
 
@@ -242,7 +242,7 @@ class LLMS_Admin_Reporting {
 	 * Get an array of tabs to output in the main reporting menu
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	private function get_tabs() {
 		$tabs = array(
@@ -266,8 +266,8 @@ class LLMS_Admin_Reporting {
 	 * Sales & Enrollments tab require 'view_others_lifterlms_reports' b/c they don't add any additional filters within the view
 	 * @param    string     $tab  id/slug of the tab
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	private function get_tab_cap( $tab = null ) {
 
@@ -323,7 +323,7 @@ class LLMS_Admin_Reporting {
 	 * Output the reporting screen html
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public function output() {
 

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Registration Forms (excludes checkout registration)
  *
  * @since   3.0.0
- * @version [version]
+ * @version 3.19.4
  */
 class LLMS_Controller_Registration {
 
@@ -29,7 +29,7 @@ class LLMS_Controller_Registration {
 	 * @param    string     $screen     screen user registered from [checkout|registration]
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public function voucher( $person_id, $data, $screen ) {
 
@@ -51,7 +51,7 @@ class LLMS_Controller_Registration {
 	 * Handle submission of user registrration forms
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public function register() {
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Admin Assets Class
 * @since    1.0.0
-* @version  [version]
+* @version  3.19.4
 */
 class LLMS_Admin_Assets {
 
@@ -25,7 +25,7 @@ class LLMS_Admin_Assets {
 	 * Determine if the current screen should load LifterLMS assets
 	 * @return   boolean
 	 * @since    3.7.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public function is_llms_page() {
 
@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public function admin_scripts() {
 

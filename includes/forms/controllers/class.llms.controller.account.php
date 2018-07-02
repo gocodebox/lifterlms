@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version [version]
+ * @version 3.19.4
  */
 class LLMS_Controller_Account {
 
@@ -67,7 +67,7 @@ class LLMS_Controller_Account {
 	 * Handle submission of user account edit form
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public function update() {
 

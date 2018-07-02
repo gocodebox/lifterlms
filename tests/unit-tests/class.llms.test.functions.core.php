@@ -4,7 +4,7 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  [version]
+ * @version  3.19.4
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -427,8 +427,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_redirect_and_exit() func with safe on
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	public function test_llms_redirect_and_exit_safe_on() {
 
@@ -441,8 +441,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_redirect_and_exit() func with safe on
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	public function test_llms_redirect_and_exit_safe_off() {
 
@@ -455,8 +455,8 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_redirect_and_exit() func with safe custom status
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	public function test_llms_redirect_and_exit_safe_status() {
 

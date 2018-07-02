@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Front End Forms Class
  * Class used managing front end facing forms.
  * @since   1.0.0
- * @version [version]
+ * @version 3.19.4
  */
 class LLMS_Frontend_Forms {
 

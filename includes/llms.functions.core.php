@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.19.4
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -433,7 +433,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.4
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -885,8 +885,8 @@ function llms_parse_bool( $val ) {
  *                                 $status  int   HTTP status code of the redirect [default: 302]
  *                                 $safe    bool  If true, use `wp_safe_redirect()` otherwise use `wp_redirect()` [default: true]
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.19.4
+ * @version  3.19.4
  */
 if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 	function llms_redirect_and_exit( $location, $options = array() ) {

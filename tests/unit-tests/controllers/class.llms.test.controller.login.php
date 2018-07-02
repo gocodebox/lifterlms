@@ -3,16 +3,16 @@
  * Tests for the LLMS_Controller_Registration class
  * @group    controllers
  * @group    registration
- * @since    [version]
- * @version  [version]
+ * @since    3.19.4
+ * @version  3.19.4
  */
 class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 
 	/**
 	 * Test order completion actions
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	public function test_login() {
 

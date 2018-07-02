@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Handling for login and registration (mostly)
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.4
  */
 class LLMS_Person_Handler {
 
@@ -30,7 +30,7 @@ class LLMS_Person_Handler {
 	 * @param    string $email user's email address
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public static function generate_username( $email ) {
 
@@ -709,7 +709,7 @@ class LLMS_Person_Handler {
 	 * @param    bool   $signon  if true, also signon the newly created user
 	 * @return   int|WP_Error
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
 
@@ -761,8 +761,8 @@ class LLMS_Person_Handler {
 	 * @param    string     $val         unsanitized user data
 	 * @param    string     $field_type  field type, allows additional sanitization to run based on field type
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	private static function sanitize_field( $val, $field_type = '' ) {
 
@@ -873,7 +873,7 @@ class LLMS_Person_Handler {
 	 * @param    string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
 	 * @return   true|WP_Error
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 

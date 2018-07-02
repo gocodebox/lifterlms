@@ -1,7 +1,7 @@
 /**
  * Sync builder data to the server
  * @since    3.16.0
- * @version  [version]
+ * @version  3.19.4
  */
 define( [], function() {
 
@@ -312,7 +312,7 @@ define( [], function() {
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
 		 * @since    3.16.11
-		 * @version  [version]
+		 * @version  3.19.4
 		 */
 		function maybe_restart_tracking( model, data ) {
 

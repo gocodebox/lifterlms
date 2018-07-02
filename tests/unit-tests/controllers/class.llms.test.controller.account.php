@@ -3,7 +3,7 @@
  * Tests for the LLMS_Controller_Account class
  * @group    controllers
  * @since    3.19.0
- * @version  [version]
+ * @version  3.19.4
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -80,8 +80,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test account update form submission handler
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	public function test_update() {
 

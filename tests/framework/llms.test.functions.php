@@ -58,8 +58,8 @@ function llms_reset_current_time() {
  *                                 $status  int   HTTP status code of the redirect [default: 302]
  *                                 $safe    bool  If true, use `wp_safe_redirect()` otherwise use `wp_redirect()` [default: true]
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.19.4
+ * @version  3.19.4
  */
 function llms_redirect_and_exit( $location, $options = array() ) {
 

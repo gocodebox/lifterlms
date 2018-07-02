@@ -2,7 +2,7 @@
 /**
  * LifterLMS Login Form
  * @since    3.0.0
- * @version  [version]
+ * @version  3.19.4
  */
 defined( 'ABSPATH' ) || exit;
 

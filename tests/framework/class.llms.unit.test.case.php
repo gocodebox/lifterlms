@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  [version]
+ * @version  3.19.4
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -23,7 +23,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * @param    array      $vars  mock get data
 	 * @return   void
 	 * @since    3.19.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	protected function setup_get( $vars = array() ) {
 		$this->setup_request( 'GET', $vars );
@@ -34,7 +34,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * @param    array      $vars  mock post data
 	 * @return   void
 	 * @since    3.19.0
-	 * @version  [version]
+	 * @version  3.19.4
 	 */
 	protected function setup_post( $vars = array() ) {
 		$this->setup_request( 'POST', $vars );
@@ -44,8 +44,8 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 * Setup reuqest data to mock post/get and request data
 	 * @param    array      $vars  mock request data
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.4
+	 * @version  3.19.4
 	 */
 	private function setup_request( $method, $vars = array() ) {
 		putenv( 'REQUEST_METHOD=' . $method );
