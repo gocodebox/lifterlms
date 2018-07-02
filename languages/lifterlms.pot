@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:490, includes/admin/class.llms.admin.menus.php:131
+#: lifterlms.php:497, includes/admin/class.llms.admin.menus.php:131
 msgid "Settings"
 msgstr ""
 
@@ -68,7 +68,7 @@ msgstr ""
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:738, includes/llms.functions.core.php:805, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54
+#: includes/class.llms.ajax.handler.php:738, includes/llms.functions.core.php:803, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54
 msgid "ID#"
 msgstr ""
 
@@ -139,42 +139,6 @@ msgstr ""
 msgid "minute"
 msgstr ""
 
-#: includes/class.llms.frontend.forms.php:100
-msgid "Please enter your password."
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:107
-msgid "Passwords do not match."
-msgstr ""
-
-#: includes/class.llms.frontend.forms.php:161
-msgid "Voucher redeemed sucessfully!"
-msgstr ""
-
-#: includes/class.llms.frontend.password.php:26, includes/controllers/class.llms.controller.account.php:126
-msgid "Enter a username or e-mail address."
-msgstr ""
-
-#: includes/class.llms.frontend.password.php:34
-msgid "The email address entered is not associated with an account."
-msgstr ""
-
-#: includes/class.llms.frontend.password.php:51
-msgid "Invalid username or e-mail."
-msgstr ""
-
-#: includes/class.llms.frontend.password.php:65
-msgid "Could not reset password."
-msgstr ""
-
-#: includes/class.llms.frontend.password.php:97
-msgid "Check your e-mail for the account confirmation link."
-msgstr ""
-
-#: includes/class.llms.frontend.password.php:113, includes/class.llms.frontend.password.php:120, includes/class.llms.frontend.password.php:129
-msgid "Invalid key"
-msgstr ""
-
 #: includes/class.llms.gateway.manual.php:20
 msgid "Collect manual or offline payments. Also handles any free orders during checkout."
 msgstr ""
@@ -207,7 +171,7 @@ msgstr ""
 msgid "No generator supplied."
 msgstr ""
 
-#: includes/class.llms.generator.php:208, includes/class.llms.l10n.js.php:196, includes/class.llms.l10n.js.php:304, includes/admin/post-types/class.llms.post.tables.php:44
+#: includes/class.llms.generator.php:208, includes/class.llms.l10n.js.php:196, includes/class.llms.l10n.js.php:305, includes/admin/post-types/class.llms.post.tables.php:44
 msgid "Clone"
 msgstr ""
 
@@ -294,295 +258,295 @@ msgstr ""
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:41, includes/class.llms.l10n.js.php:377
+#: includes/class.llms.l10n.js.php:41, includes/class.llms.l10n.js.php:378
 msgid "This is a %2$s %1$s String"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:48, includes/class.llms.l10n.js.php:378, includes/functions/llms.functions.access.php:177
+#: includes/class.llms.l10n.js.php:48, includes/class.llms.l10n.js.php:379, includes/functions/llms.functions.access.php:177
 msgid "You do not have permission to access this content"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:55, includes/class.llms.l10n.js.php:379
+#: includes/class.llms.l10n.js.php:55, includes/class.llms.l10n.js.php:380
 msgid "There is an issue with your chosen password."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:56, includes/class.llms.l10n.js.php:380
+#: includes/class.llms.l10n.js.php:56, includes/class.llms.l10n.js.php:381
 msgid "Too Short"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:57, includes/class.llms.l10n.js.php:381
+#: includes/class.llms.l10n.js.php:57, includes/class.llms.l10n.js.php:382
 msgid "Very Weak"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:58, includes/class.llms.l10n.js.php:382
+#: includes/class.llms.l10n.js.php:58, includes/class.llms.l10n.js.php:383
 msgid "Weak"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:59, includes/class.llms.l10n.js.php:383
+#: includes/class.llms.l10n.js.php:59, includes/class.llms.l10n.js.php:384
 msgid "Medium"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:60, includes/class.llms.l10n.js.php:384
+#: includes/class.llms.l10n.js.php:60, includes/class.llms.l10n.js.php:385
 msgid "Strong"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:61, includes/class.llms.l10n.js.php:385
+#: includes/class.llms.l10n.js.php:61, includes/class.llms.l10n.js.php:386
 msgid "Mismatch"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:68, includes/class.llms.l10n.js.php:386
+#: includes/class.llms.l10n.js.php:68, includes/class.llms.l10n.js.php:387
 msgid "Members Only Pricing"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:75, includes/class.llms.l10n.js.php:387
+#: includes/class.llms.l10n.js.php:75, includes/class.llms.l10n.js.php:388
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:82, includes/class.llms.l10n.js.php:286, includes/class.llms.post-types.php:316, includes/admin/class.llms.admin.builder.php:773, includes/models/model.llms.lesson.php:347, includes/admin/views/builder/elements.php:21
+#: includes/class.llms.l10n.js.php:82, includes/class.llms.l10n.js.php:287, includes/class.llms.post-types.php:316, includes/admin/class.llms.admin.builder.php:773, includes/models/model.llms.lesson.php:347, includes/admin/views/builder/elements.php:21
 msgid "New Lesson"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:83, includes/class.llms.l10n.js.php:287
+#: includes/class.llms.l10n.js.php:83, includes/class.llms.l10n.js.php:288
 msgid "lessons"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:84, includes/class.llms.l10n.js.php:288
+#: includes/class.llms.l10n.js.php:84, includes/class.llms.l10n.js.php:289
 msgid "lesson"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:85, includes/class.llms.l10n.js.php:289, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:140
+#: includes/class.llms.l10n.js.php:85, includes/class.llms.l10n.js.php:290, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:140
 msgid "Section %1$d: %2$s"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:86, includes/class.llms.l10n.js.php:290
+#: includes/class.llms.l10n.js.php:86, includes/class.llms.l10n.js.php:291
 msgid "Lesson %1$d: %2$s"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:87, includes/class.llms.l10n.js.php:291
+#: includes/class.llms.l10n.js.php:87, includes/class.llms.l10n.js.php:292
 msgid "%1$s Quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:268, includes/class.llms.post-types.php:353
+#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:269, includes/class.llms.post-types.php:353
 msgid "New Quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:95, includes/class.llms.l10n.js.php:269
+#: includes/class.llms.l10n.js.php:95, includes/class.llms.l10n.js.php:270
 msgid "quizzes"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:96, includes/class.llms.l10n.js.php:270, includes/models/model.llms.user.postmeta.php:73
+#: includes/class.llms.l10n.js.php:96, includes/class.llms.l10n.js.php:271, includes/models/model.llms.user.postmeta.php:73
 msgid "quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:103, includes/class.llms.l10n.js.php:292, includes/class.llms.post-types.php:284
+#: includes/class.llms.l10n.js.php:103, includes/class.llms.l10n.js.php:293, includes/class.llms.post-types.php:284
 msgid "New Section"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:104, includes/class.llms.l10n.js.php:293
+#: includes/class.llms.l10n.js.php:104, includes/class.llms.l10n.js.php:294
 msgid "sections"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:105, includes/class.llms.l10n.js.php:294
+#: includes/class.llms.l10n.js.php:105, includes/class.llms.l10n.js.php:295
 msgid "section"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:112, includes/class.llms.l10n.js.php:134, includes/class.llms.l10n.js.php:256, includes/admin/settings/class.llms.settings.general.php:109
+#: includes/class.llms.l10n.js.php:112, includes/class.llms.l10n.js.php:134, includes/class.llms.l10n.js.php:257, includes/admin/settings/class.llms.settings.general.php:109
 msgid "General Settings"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:113, includes/class.llms.l10n.js.php:271
+#: includes/class.llms.l10n.js.php:113, includes/class.llms.l10n.js.php:272
 msgid "Video Embed URL"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:114, includes/class.llms.l10n.js.php:272
+#: includes/class.llms.l10n.js.php:114, includes/class.llms.l10n.js.php:273
 msgid "Audio Embed URL"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:115, includes/class.llms.l10n.js.php:273, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:82, includes/admin/views/builder/lesson.php:127
+#: includes/class.llms.l10n.js.php:115, includes/class.llms.l10n.js.php:274, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:82, includes/admin/views/builder/lesson.php:127
 msgid "Free Lesson"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:116, includes/class.llms.l10n.js.php:274
+#: includes/class.llms.l10n.js.php:116, includes/class.llms.l10n.js.php:275
 msgid "Require Passing Grade on Quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:117, includes/class.llms.l10n.js.php:275
+#: includes/class.llms.l10n.js.php:117, includes/class.llms.l10n.js.php:276
 msgid "Require Passing Grade on Assignment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:118, includes/class.llms.l10n.js.php:276, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:42
+#: includes/class.llms.l10n.js.php:118, includes/class.llms.l10n.js.php:277, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:42
 msgid "Prerequisite"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:119, includes/class.llms.l10n.js.php:277
+#: includes/class.llms.l10n.js.php:119, includes/class.llms.l10n.js.php:278
 msgid "Drip Method"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:120, includes/class.llms.l10n.js.php:278, includes/admin/class.llms.admin.settings.php:632
+#: includes/class.llms.l10n.js.php:120, includes/class.llms.l10n.js.php:279, includes/admin/class.llms.admin.settings.php:632
 msgid "None"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:121, includes/class.llms.l10n.js.php:279, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:44
+#: includes/class.llms.l10n.js.php:121, includes/class.llms.l10n.js.php:280, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:44
 msgid "On a specific date"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:122, includes/class.llms.l10n.js.php:280
+#: includes/class.llms.l10n.js.php:122, includes/class.llms.l10n.js.php:281
 msgid "# of days after course enrollment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:123, includes/class.llms.l10n.js.php:281
+#: includes/class.llms.l10n.js.php:123, includes/class.llms.l10n.js.php:282
 msgid "# of days after course start date"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:124, includes/class.llms.l10n.js.php:282
+#: includes/class.llms.l10n.js.php:124, includes/class.llms.l10n.js.php:283
 msgid "# of days after prerequisite lesson completion"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:125, includes/class.llms.l10n.js.php:283
+#: includes/class.llms.l10n.js.php:125, includes/class.llms.l10n.js.php:284
 msgid "# of days"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:126, includes/class.llms.l10n.js.php:249, includes/class.llms.l10n.js.php:284, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order-transactions.php:18, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:39, templates/admin/post-types/order-transactions.php:19, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:44, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:47
+#: includes/class.llms.l10n.js.php:126, includes/class.llms.l10n.js.php:250, includes/class.llms.l10n.js.php:285, templates/myaccount/my-orders.php:20, templates/myaccount/my-orders.php:33, templates/myaccount/view-order-transactions.php:18, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:39, templates/admin/post-types/order-transactions.php:19, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:44, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:47
 msgid "Date"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:127, includes/class.llms.l10n.js.php:285
+#: includes/class.llms.l10n.js.php:127, includes/class.llms.l10n.js.php:286
 msgid "Time"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:135, includes/class.llms.l10n.js.php:257, includes/abstracts/abstract.llms.payment.gateway.php:278, includes/privacy/class-llms-privacy-exporters.php:102, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58
+#: includes/class.llms.l10n.js.php:135, includes/class.llms.l10n.js.php:258, includes/abstracts/abstract.llms.payment.gateway.php:278, includes/privacy/class-llms-privacy-exporters.php:102, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:58, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:85, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:58
 msgid "Description"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:136, includes/class.llms.l10n.js.php:258
+#: includes/class.llms.l10n.js.php:136, includes/class.llms.l10n.js.php:259
 msgid "Passing Percentage"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:137, includes/class.llms.l10n.js.php:259
+#: includes/class.llms.l10n.js.php:137, includes/class.llms.l10n.js.php:260
 msgid "Minimum percentage of total points required to pass the quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:138, includes/class.llms.l10n.js.php:260
+#: includes/class.llms.l10n.js.php:138, includes/class.llms.l10n.js.php:261
 msgid "Limit Attempts"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:139, includes/class.llms.l10n.js.php:261
+#: includes/class.llms.l10n.js.php:139, includes/class.llms.l10n.js.php:262
 msgid "Limit the maximum number of times a student can take this quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:140, includes/class.llms.l10n.js.php:262
+#: includes/class.llms.l10n.js.php:140, includes/class.llms.l10n.js.php:263
 msgid "Time Limit"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:141, includes/class.llms.l10n.js.php:263
+#: includes/class.llms.l10n.js.php:141, includes/class.llms.l10n.js.php:264
 msgid "Enforce a maximum number of minutes a student can spend on each attempt"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:142, includes/class.llms.l10n.js.php:264
+#: includes/class.llms.l10n.js.php:142, includes/class.llms.l10n.js.php:265
 msgid "Show Correct Answers"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:143, includes/class.llms.l10n.js.php:265
+#: includes/class.llms.l10n.js.php:143, includes/class.llms.l10n.js.php:266
 msgid "When enabled, students will be shown the correct answer to any question they answered incorrectly."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:144, includes/class.llms.l10n.js.php:266
+#: includes/class.llms.l10n.js.php:144, includes/class.llms.l10n.js.php:267
 msgid "Randomize Question Order"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:145, includes/class.llms.l10n.js.php:267
+#: includes/class.llms.l10n.js.php:145, includes/class.llms.l10n.js.php:268
 msgid "Display questions in a random order for each attempt. Content questions are locked into their defined positions."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:152, includes/class.llms.l10n.js.php:295
+#: includes/class.llms.l10n.js.php:152, includes/class.llms.l10n.js.php:296
 msgid "Are you sure you want to detach this %s?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:159, includes/class.llms.l10n.js.php:296
+#: includes/class.llms.l10n.js.php:159, includes/class.llms.l10n.js.php:297
 msgid "Select an image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:160, includes/class.llms.l10n.js.php:297
+#: includes/class.llms.l10n.js.php:160, includes/class.llms.l10n.js.php:298
 msgid "Use this image"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:167, includes/class.llms.l10n.js.php:298
+#: includes/class.llms.l10n.js.php:167, includes/class.llms.l10n.js.php:299
 msgid "Are you sure you want to move this %s to the trash?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:174, includes/class.llms.l10n.js.php:311
+#: includes/class.llms.l10n.js.php:174, includes/class.llms.l10n.js.php:312
 msgid "%1$s Assignment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:175, includes/class.llms.l10n.js.php:312, includes/admin/views/builder/assignment.php:25
+#: includes/class.llms.l10n.js.php:175, includes/class.llms.l10n.js.php:313, includes/admin/views/builder/assignment.php:25
 msgid "Add Existing Assignment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:176, includes/class.llms.l10n.js.php:313
+#: includes/class.llms.l10n.js.php:176, includes/class.llms.l10n.js.php:314
 msgid "Search for existing assignments..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:177, includes/class.llms.l10n.js.php:314
+#: includes/class.llms.l10n.js.php:177, includes/class.llms.l10n.js.php:315
 msgid "Get Your Students Taking Action"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:178, includes/class.llms.l10n.js.php:315
+#: includes/class.llms.l10n.js.php:178, includes/class.llms.l10n.js.php:316
 msgid "Get Assignments Now!"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:179, includes/class.llms.l10n.js.php:316
+#: includes/class.llms.l10n.js.php:179, includes/class.llms.l10n.js.php:317
 msgid "Unlock LifterLMS Assignments"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:186, includes/class.llms.l10n.js.php:317
+#: includes/class.llms.l10n.js.php:186, includes/class.llms.l10n.js.php:318
 msgid "Add Existing Lesson"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:187, includes/class.llms.l10n.js.php:318
+#: includes/class.llms.l10n.js.php:187, includes/class.llms.l10n.js.php:319
 msgid "Search for existing lessons..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:194, includes/class.llms.l10n.js.php:302
+#: includes/class.llms.l10n.js.php:194, includes/class.llms.l10n.js.php:303
 msgid "Searching..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:195, includes/class.llms.l10n.js.php:303
+#: includes/class.llms.l10n.js.php:195, includes/class.llms.l10n.js.php:304
 msgid "Attach"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:197, includes/class.llms.l10n.js.php:305, templates/admin/post-types/order-transactions.php:17, includes/admin/post-types/tables/class.llms.table.student.management.php:347, includes/admin/reporting/tables/llms.table.achievements.php:151, includes/admin/reporting/tables/llms.table.certificates.php:155, includes/admin/reporting/tables/llms.table.course.students.php:368, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:247, includes/admin/reporting/tables/llms.table.quizzes.php:295, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395
+#: includes/class.llms.l10n.js.php:197, includes/class.llms.l10n.js.php:306, templates/admin/post-types/order-transactions.php:17, includes/admin/post-types/tables/class.llms.table.student.management.php:347, includes/admin/reporting/tables/llms.table.achievements.php:151, includes/admin/reporting/tables/llms.table.certificates.php:155, includes/admin/reporting/tables/llms.table.course.students.php:368, includes/admin/reporting/tables/llms.table.courses.php:271, includes/admin/reporting/tables/llms.table.questions.php:89, includes/admin/reporting/tables/llms.table.quiz.attempts.php:247, includes/admin/reporting/tables/llms.table.quizzes.php:295, includes/admin/reporting/tables/llms.table.student.course.php:184, includes/admin/reporting/tables/llms.table.student.courses.php:196, includes/admin/reporting/tables/llms.table.student.memberships.php:104, includes/admin/reporting/tables/llms.table.students.php:395
 msgid "ID"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:204, includes/class.llms.l10n.js.php:306
+#: includes/class.llms.l10n.js.php:204, includes/class.llms.l10n.js.php:307
 msgid "Are you sure you want to delete this question?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:211, includes/class.llms.l10n.js.php:307
+#: includes/class.llms.l10n.js.php:211, includes/class.llms.l10n.js.php:308
 msgid "An error occurred while trying to load the questions. Please refresh the page and try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:212, includes/class.llms.l10n.js.php:308, includes/admin/views/builder/quiz.php:24
+#: includes/class.llms.l10n.js.php:212, includes/class.llms.l10n.js.php:309, includes/admin/views/builder/quiz.php:24
 msgid "Add Existing Quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:213, includes/class.llms.l10n.js.php:309
+#: includes/class.llms.l10n.js.php:213, includes/class.llms.l10n.js.php:310
 msgid "Search for existing quizzes..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:214, includes/class.llms.l10n.js.php:310
+#: includes/class.llms.l10n.js.php:214, includes/class.llms.l10n.js.php:311
 msgid "Add a Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:221, includes/class.llms.l10n.js.php:299
+#: includes/class.llms.l10n.js.php:221, includes/class.llms.l10n.js.php:300
 msgid "Use SoundCloud or Spotify audio URLS."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:222, includes/class.llms.l10n.js.php:300
+#: includes/class.llms.l10n.js.php:222, includes/class.llms.l10n.js.php:301
 msgid "Permalink"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:223, includes/class.llms.l10n.js.php:301, includes/admin/views/builder/question.php:112
+#: includes/class.llms.l10n.js.php:223, includes/class.llms.l10n.js.php:302, includes/admin/views/builder/question.php:112
 msgid "Use YouTube, Vimeo, or Wistia video URLS."
 msgstr ""
 
@@ -595,110 +559,114 @@ msgid "Select Image"
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:238
+msgid "Select a Course/Membership"
+msgstr ""
+
+#: includes/class.llms.l10n.js.php:239
 msgid "Select a student"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:245
+#: includes/class.llms.l10n.js.php:246
 msgid "Filter by Student(s)"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:246
+#: includes/class.llms.l10n.js.php:247
 msgid "Error"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:247
+#: includes/class.llms.l10n.js.php:248
 msgid "Request timed out"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:248
+#: includes/class.llms.l10n.js.php:249
 msgid "Retry"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:325
+#: includes/class.llms.l10n.js.php:326
 msgid "There was an error loading the necessary resources. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:332
+#: includes/class.llms.l10n.js.php:333
 msgid "Please select a student to enroll"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:339, includes/class.llms.l10n.js.php:394
+#: includes/class.llms.l10n.js.php:340, includes/class.llms.l10n.js.php:395
 msgid "Are you sure you want to delete this row? This cannot be undone."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:340, includes/class.llms.l10n.js.php:401
+#: includes/class.llms.l10n.js.php:341, includes/class.llms.l10n.js.php:402
 msgid "Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:341, includes/class.llms.l10n.js.php:402, includes/class.llms.person.handler.php:378, includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:62
+#: includes/class.llms.l10n.js.php:342, includes/class.llms.l10n.js.php:403, includes/class.llms.person.handler.php:379, includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:62
 msgid "Cancel"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:342, includes/class.llms.l10n.js.php:403, templates/admin/post-types/order-transactions.php:76
+#: includes/class.llms.l10n.js.php:343, includes/class.llms.l10n.js.php:404, templates/admin/post-types/order-transactions.php:76
 msgid "Refund"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:343, includes/class.llms.l10n.js.php:404, templates/admin/post-types/order-transactions.php:100
+#: includes/class.llms.l10n.js.php:344, includes/class.llms.l10n.js.php:405, templates/admin/post-types/order-transactions.php:100
 msgid "Record a Manual Payment"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:344, includes/class.llms.l10n.js.php:405
+#: includes/class.llms.l10n.js.php:345, includes/class.llms.l10n.js.php:406
 msgid "Copy this code and paste it into the desired area"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:345, includes/class.llms.l10n.js.php:406, templates/myaccount/my-orders.php:49, includes/admin/reporting/tables/llms.table.certificates.php:35
+#: includes/class.llms.l10n.js.php:346, includes/class.llms.l10n.js.php:407, templates/myaccount/my-orders.php:49, includes/admin/reporting/tables/llms.table.certificates.php:35
 msgid "View"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:352
+#: includes/class.llms.l10n.js.php:353
 msgid "Remarks to Student"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:353, includes/admin/views/builder/question.php:43
+#: includes/class.llms.l10n.js.php:354, includes/admin/views/builder/question.php:43
 msgid "points"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:360
+#: includes/class.llms.l10n.js.php:361
 msgid "Are you sure you wish to quit this quiz attempt?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:361
+#: includes/class.llms.l10n.js.php:362
 msgid "Grading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:362
+#: includes/class.llms.l10n.js.php:363
 msgid "Loading Question..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:363
+#: includes/class.llms.l10n.js.php:364
 msgid "An unknown error occurred. Please try again."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:364
+#: includes/class.llms.l10n.js.php:365
 msgid "Loading Quiz..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:365
+#: includes/class.llms.l10n.js.php:366
 msgid "Time Remaining"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:366
+#: includes/class.llms.l10n.js.php:367
 msgid "Next Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:367
+#: includes/class.llms.l10n.js.php:368
 msgid "Complete Quiz"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:368
+#: includes/class.llms.l10n.js.php:369
 msgid "Previous Question"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:369
+#: includes/class.llms.l10n.js.php:370
 msgid "Loading..."
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:370
+#: includes/class.llms.l10n.js.php:371
 msgid "You must select an answer to continue."
 msgstr ""
 
@@ -723,176 +691,176 @@ msgstr ""
 msgid "Sign Out"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:83
+#: includes/class.llms.person.handler.php:84
 msgid "Username"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:97, includes/class.llms.person.handler.php:264, includes/class.llms.person.handler.php:418
+#: includes/class.llms.person.handler.php:98, includes/class.llms.person.handler.php:265, includes/class.llms.person.handler.php:419
 msgid "Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:107
+#: includes/class.llms.person.handler.php:108
 msgid "Confirm Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:126, includes/admin/reporting/tables/llms.table.course.students.php:382, includes/admin/reporting/tables/llms.table.students.php:414
+#: includes/class.llms.person.handler.php:127, includes/admin/reporting/tables/llms.table.course.students.php:382, includes/admin/reporting/tables/llms.table.students.php:414
 msgid "First Name"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:134, includes/admin/reporting/tables/llms.table.course.students.php:377, includes/admin/reporting/tables/llms.table.students.php:409
+#: includes/class.llms.person.handler.php:135, includes/admin/reporting/tables/llms.table.course.students.php:377, includes/admin/reporting/tables/llms.table.students.php:409
 msgid "Last Name"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:147
+#: includes/class.llms.person.handler.php:148
 msgid "Street Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:157
+#: includes/class.llms.person.handler.php:158
 msgid "Apartment, suite, or unit"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:164
+#: includes/class.llms.person.handler.php:165
 msgid "City"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:172
+#: includes/class.llms.person.handler.php:173
 msgid "State"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:180
+#: includes/class.llms.person.handler.php:181
 msgid "Zip Code"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:189, includes/admin/settings/class.llms.settings.checkout.php:230
+#: includes/class.llms.person.handler.php:190, includes/admin/settings/class.llms.settings.checkout.php:230
 msgid "Country"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:202, includes/admin/settings/class.llms.settings.accounts.php:355, includes/admin/settings/class.llms.settings.accounts.php:400, includes/admin/settings/class.llms.settings.accounts.php:449
+#: includes/class.llms.person.handler.php:203, includes/admin/settings/class.llms.settings.accounts.php:355, includes/admin/settings/class.llms.settings.accounts.php:400, includes/admin/settings/class.llms.settings.accounts.php:449
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:204
+#: includes/class.llms.person.handler.php:205
 msgctxt "Phone Number Placeholder"
 msgid "(123) 456 - 7890"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:214
+#: includes/class.llms.person.handler.php:215
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:225, templates/myaccount/form-redeem-voucher.php:18, templates/myaccount/form-redeem-voucher.php:19
+#: includes/class.llms.person.handler.php:226, templates/myaccount/form-redeem-voucher.php:18, templates/myaccount/form-redeem-voucher.php:19
 msgid "Voucher Code"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:264, includes/class.llms.person.handler.php:418
+#: includes/class.llms.person.handler.php:265, includes/class.llms.person.handler.php:419
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:272, includes/class.llms.person.handler.php:335
+#: includes/class.llms.person.handler.php:273, includes/class.llms.person.handler.php:336
 msgid "Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:281, templates/global/form-login.php:29
+#: includes/class.llms.person.handler.php:282, templates/global/form-login.php:32
 msgid "Login"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:289
+#: includes/class.llms.person.handler.php:290
 msgid "Remember me"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:298
+#: includes/class.llms.person.handler.php:299
 msgid "Lost your password?"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:323
+#: includes/class.llms.person.handler.php:324
 msgid "Current Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:335
+#: includes/class.llms.person.handler.php:336
 msgid "New Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:346
+#: includes/class.llms.person.handler.php:347
 msgid "Confirm New Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:346
+#: includes/class.llms.person.handler.php:347
 msgid "Confirm Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:357
+#: includes/class.llms.person.handler.php:358
 msgid "A %s password is required."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:359
+#: includes/class.llms.person.handler.php:360
 msgid "A minimum password strength of %s is required."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:365
+#: includes/class.llms.person.handler.php:366
 msgid "The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:378
+#: includes/class.llms.person.handler.php:379
 msgid "Change Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:402
+#: includes/class.llms.person.handler.php:403
 msgid "Lost your password? Enter your email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:404
+#: includes/class.llms.person.handler.php:405
 msgid "Lost your password? Enter your username or email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:427, templates/emails/reset-password.php:14
+#: includes/class.llms.person.handler.php:428, templates/emails/reset-password.php:14
 msgid "Reset Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:442
+#: includes/class.llms.person.handler.php:443
 msgid "Update Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:648
+#: includes/class.llms.person.handler.php:649
 msgid "Could not find an account with the supplied email address and password combination."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:801
+#: includes/class.llms.person.handler.php:820
 msgid "No user ID specified."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:899
+#: includes/class.llms.person.handler.php:919
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:920
+#: includes/class.llms.person.handler.php:938
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:930
+#: includes/class.llms.person.handler.php:948
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:934
+#: includes/class.llms.person.handler.php:952
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:947
+#: includes/class.llms.person.handler.php:965
 msgid "The submitted %s was incorrect."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:960
+#: includes/class.llms.person.handler.php:978
 msgid "\"%1$s\" is an invalid option for %2$s"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:972
+#: includes/class.llms.person.handler.php:990
 msgid "%s must be numeric"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:980
+#: includes/class.llms.person.handler.php:998
 msgid "%s must be a valid email address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1001
+#: includes/class.llms.person.handler.php:1018
 msgid "%1$s must match %2$s"
 msgstr ""
 
@@ -2369,14 +2337,6 @@ msgstr ""
 msgid "Administrator"
 msgstr ""
 
-#: includes/class.llms.shortcodes.php:292, templates/loop/pagination.php:23
-msgid "Previous"
-msgstr ""
-
-#: includes/class.llms.shortcodes.php:293, includes/abstracts/abstract.llms.admin.table.php:667, templates/loop/pagination.php:24, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:67, templates/myaccount/view-order-transactions.php:52
-msgid "Next"
-msgstr ""
-
 #: includes/class.llms.sidebars.php:171
 msgid "Widgets in this area will be shown on LifterLMS courses."
 msgstr ""
@@ -2581,15 +2541,15 @@ msgstr ""
 msgid "Search only"
 msgstr ""
 
-#: includes/llms.functions.core.php:588
+#: includes/llms.functions.core.php:586
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:589, includes/admin/reporting/tables/llms.table.student.memberships.php:113
+#: includes/llms.functions.core.php:587, includes/admin/reporting/tables/llms.table.student.memberships.php:113
 msgid "Enrolled"
 msgstr ""
 
-#: includes/llms.functions.core.php:590
+#: includes/llms.functions.core.php:588
 msgid "Expired"
 msgstr ""
 
@@ -2625,7 +2585,7 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: templates/content-certificate.php:46, templates/myaccount/form-edit-account.php:45
+#: templates/content-certificate.php:46, templates/myaccount/form-edit-account.php:44
 msgid "Save"
 msgstr ""
 
@@ -2656,6 +2616,10 @@ msgstr ""
 
 #: includes/abstracts/abstract.llms.admin.table.php:664, templates/myaccount/my-notifications.php:37, templates/myaccount/my-orders.php:61, templates/myaccount/view-order-transactions.php:49
 msgid "Back"
+msgstr ""
+
+#: includes/abstracts/abstract.llms.admin.table.php:667, includes/shortcodes/class.llms.shortcodes.php:290, templates/loop/pagination.php:24, templates/myaccount/my-notifications.php:41, templates/myaccount/my-orders.php:67, templates/myaccount/view-order-transactions.php:52
+msgid "Next"
 msgstr ""
 
 #: includes/abstracts/abstract.llms.admin.table.php:669
@@ -3420,6 +3384,34 @@ msgstr ""
 msgid "Required field \"%s\" is missing."
 msgstr ""
 
+#: includes/admin/class.llms.student.bulk.enroll.php:72
+msgid "Choose Course/Membership"
+msgstr ""
+
+#: includes/admin/class.llms.student.bulk.enroll.php:76, includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:326
+msgid "Enroll"
+msgstr ""
+
+#: includes/admin/class.llms.student.bulk.enroll.php:102
+msgid "Please select a Course or Membership to enroll users into!"
+msgstr ""
+
+#: includes/admin/class.llms.student.bulk.enroll.php:114
+msgid "Please select users to enroll into <em>%s</em>."
+msgstr ""
+
+#: includes/admin/class.llms.student.bulk.enroll.php:166
+msgid "No such users found. Cannot enroll into <em>%s</em>."
+msgstr ""
+
+#: includes/admin/class.llms.student.bulk.enroll.php:223
+msgid "Failed to enroll <em>%1s</em> into <em>%2s</em>."
+msgstr ""
+
+#: includes/admin/class.llms.student.bulk.enroll.php:223
+msgid "Successfully enrolled <em>%1s</em> into <em>%2s</em>."
+msgstr ""
+
 #: includes/admin/llms.functions.admin.php:109, includes/notifications/views/class.llms.notification.view.student.welcome.php:68
 msgid "Site Title"
 msgstr ""
@@ -3474,50 +3466,6 @@ msgstr ""
 
 #: includes/admin/llms.functions.admin.php:163
 msgid "No merge codes found."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:38, includes/controllers/class.llms.controller.account.php:45
-msgid "Something went wrong. Please try again."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:48
-msgid "Subscription cancelled by student from account page."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:54
-msgid "Enrollment will be cancelled at the end of the prepaid period."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:81
-msgid "Please log in and try again."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:100
-msgid "Your account information has been saved."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:150
-msgid "Invalid username or e-mail address."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:160
-msgid "Password reset is not allowed for this user"
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:181
-msgid "Check your e-mail for the confirmation link."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:185
-msgid "Unable to reset password due to an unknown error. Please try again."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:216, includes/controllers/class.llms.controller.account.php:223
-msgid "Invalid Key"
-msgstr ""
-
-#: includes/controllers/class.llms.controller.account.php:232
-msgid "Your password has been updated. %1$sClick here to login%2$s"
 msgstr ""
 
 #: includes/controllers/class.llms.controller.lesson.progression.php:73, includes/controllers/class.llms.controller.lesson.progression.php:117
@@ -3606,10 +3554,6 @@ msgstr ""
 
 #: includes/controllers/class.llms.controller.quizzes.php:34
 msgid "Could not proceed to the quiz because required information was missing."
-msgstr ""
-
-#: includes/controllers/class.llms.controller.registration.php:63
-msgid "Already logged in! Please log out and try again."
 msgstr ""
 
 #: includes/emails/class.llms.email.reset.password.php:26
@@ -5320,10 +5264,6 @@ msgstr ""
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:326
-msgid "Enroll"
-msgstr ""
-
 #: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:330
 msgid "Join"
 msgstr ""
@@ -5970,6 +5910,10 @@ msgstr ""
 
 #: includes/shortcodes/class.llms.shortcode.courses.php:164
 msgid "You must be logged in to view this information. Click %1$shere%2$s to login."
+msgstr ""
+
+#: includes/shortcodes/class.llms.shortcodes.php:289, templates/loop/pagination.php:23
+msgid "Previous"
 msgstr ""
 
 #: includes/widgets/class.llms.bbp.widget.course.forums.list.php:22
@@ -6659,7 +6603,11 @@ msgstr ""
 msgid "Enrollments"
 msgstr ""
 
-#: includes/admin/reporting/class.llms.admin.reporting.php:402
+#: includes/admin/reporting/class.llms.admin.reporting.php:331
+msgid "You don't have permission to do that"
+msgstr ""
+
+#: includes/admin/reporting/class.llms.admin.reporting.php:434
 msgid "Previously %s"
 msgstr ""
 
@@ -7365,6 +7313,90 @@ msgstr ""
 
 #: includes/admin/views/html.admin.settings.php:36
 msgid "Save Changes"
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:38, includes/forms/controllers/class.llms.controller.account.php:45
+msgid "Something went wrong. Please try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:48
+msgid "Subscription cancelled by student from account page."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:54
+msgid "Enrollment will be cancelled at the end of the prepaid period."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:83
+msgid "Please log in and try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:101
+msgid "Your account information has been saved."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:126, includes/forms/frontend/class.llms.frontend.password.php:26
+msgid "Enter a username or e-mail address."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:150
+msgid "Invalid username or e-mail address."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:160
+msgid "Password reset is not allowed for this user"
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:181
+msgid "Check your e-mail for the confirmation link."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:185
+msgid "Unable to reset password due to an unknown error. Please try again."
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:216, includes/forms/controllers/class.llms.controller.account.php:223
+msgid "Invalid Key"
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.account.php:232
+msgid "Your password has been updated. %1$sClick here to login%2$s"
+msgstr ""
+
+#: includes/forms/controllers/class.llms.controller.registration.php:67
+msgid "Already logged in! Please log out and try again."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.forms.php:64
+msgid "Please enter your password."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.forms.php:71
+msgid "Passwords do not match."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.forms.php:125
+msgid "Voucher redeemed sucessfully!"
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.password.php:34
+msgid "The email address entered is not associated with an account."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.password.php:51
+msgid "Invalid username or e-mail."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.password.php:65
+msgid "Could not reset password."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.password.php:97
+msgid "Check your e-mail for the account confirmation link."
+msgstr ""
+
+#: includes/forms/frontend/class.llms.frontend.password.php:113, includes/forms/frontend/class.llms.frontend.password.php:120, includes/forms/frontend/class.llms.frontend.password.php:129
+msgid "Invalid key"
 msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:82

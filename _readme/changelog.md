@@ -1,6 +1,28 @@
 == Changelog ==
 
 
+= v3.19.4 - 2018-07-02 =
+------------------------
+
+##### Updates and enhancements
+
++ Bulk enroll multiple users into a course or membership from the Users table on your admin panel. See how at [https://lifterlms.com/docs/student-bulk-enrollment/](https://lifterlms.com/docs/student-bulk-enrollment/)
++ Added event on builder to allow integrations to run trigger events when course elements are saved
++ Added general redirect method `llms_redirect_and_exit()` which is a wrapper for `wp_redirect()` and `wp_safe_redirect()` which can be plugged (and tested via phpunit)
++ Added new action called before validation occurs for a user account update form submission: `llms_before_user_account_update_submit`
++ Removed placeholders from form fields. Fixes a UX issue causing registration forms to appear cluttered due to having both placeholders and labels.
+
+##### Bug fixes
+
++ Fixed issue allowing nonce checks to be bypassed on login and registration forms
++ Fixed issue causing a PHP notice if the registration form is submitted without an email address and automatic username generation is enabled
++ Fixed issue preventing email addresses with the "'" character from being able to register, login, or update account information
++ Fixed typo in automatic username generation filter `lifterlms_generated_username` (previously was `lifterlms_gnerated_username`)
++ Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
++ FIxed issue allowing users with `view_lifterlms_reports` capability (Instructors) to access sales & enrollment reporting screens. The `view_others_lifterlms_reports` capability (Admins & LMS Managers) is now required to view these reporting tabs.
++ Updated IDs of login and registration nonces to be unique. Fixes an issue causing Chrome to throw non-unique ID warnings in the developer console. Also, IDs are supposed to be unique _anyway_ but thanks for helping us out Google.
+
+
 = v3.19.3 - 2018-06-14 =
 ------------------------
 
@@ -190,26 +212,3 @@
 + Fix issue with builder radio select fields during view rerenders
 + Course Outline shortcode (and widget) now retrieve parent course of the current page more consistently with other shortcodes
 + Added ability to filter which custom post types which can be children of a course (allows course shortcodes & widgets to be used in assignment sidebars of custom content areas)
-
-
-= v3.17.6 - 2018-04-26 =
-------------------------
-
-+ Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information
-+ Quiz editor on builder updated to be consistent visually and functionally to the lesson settings editor
-+ Improved the builder field API to allow for radio element fields
-+ Fix issue causing JS error on admin settings pages
-+ Updated CSS for Certificates to be more generally compatible with theme styles when printed
-+ Allow system print settings to control print layout for certificates by removing explicit landscape declarations
-+ Now passing additional data to filters used to create custom columns on reporting screens
-+ Remove unused JS files & Chosen JS library
-+ Added filter to allow opting into alternate student dashboard order layout. Use `add_filter( 'llms_sd_stacked_order_layout', '__return_true' )` to stack the payment update sidebar below the main order information. This is disabled by default.
-+ Achievement and Certificate basic notifications now auto-dismiss after 10 seconds like all other basic notifications
-+ Deprecated Filter `llms_get_quiz_theme_settings` and added backwards compatible methods to transition themes using this filter to the new custom field api. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/
-+ Increased default z-index on notifications to prevent notifications from being hidden behind floating / static navigation menus
-
-
-##### Template Updates
-
-+ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-orders.php)
-+ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
