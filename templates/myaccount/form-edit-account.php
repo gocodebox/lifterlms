@@ -2,10 +2,9 @@
 /**
  * Account Edit Template / Form
  * @since    1.0.0
- * @version  3.8.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 $field_data = ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) ) ? $_POST : get_current_user_id();
 ?>

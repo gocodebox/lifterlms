@@ -433,7 +433,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.10.1
+ * @version  [version]
  */
 function llms_form_field( $field = array(), $echo = true ) {
 

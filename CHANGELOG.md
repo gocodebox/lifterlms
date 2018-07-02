@@ -9,7 +9,7 @@ v3.19.4 - 2018-06-??
 + Bulk enroll multiple users into a course or membership from the Users table on your admin panel. See how at [https://lifterlms.com/docs/student-bulk-enrollment/](https://lifterlms.com/docs/student-bulk-enrollment/)
 + Added event on builder to allow integrations to run trigger events when course elements are saved
 + Added general redirect method `llms_redirect_and_exit()` which is a wrapper for `wp_redirect()` and `wp_safe_redirect()` which can be plugged (and tested via phpunit)
-+
++ Added new action called before validation occurs for a user account update form submission: `llms_before_user_account_update_submit`
 
 ##### Bug fixes
 

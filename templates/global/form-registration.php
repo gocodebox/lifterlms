@@ -2,7 +2,7 @@
 /**
  * Registration Form
  * @since    3.0.0
- * @version  3.18.1
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
