@@ -8,9 +8,12 @@ v3.19.4 - 2018-06-??
 
 + Bulk enroll multiple users into a course or membership from the Users table on your admin panel. See how at [https://lifterlms.com/docs/student-bulk-enrollment/](https://lifterlms.com/docs/student-bulk-enrollment/)
 + Added event on builder to allow integrations to run trigger events when course elements are saved
++ Added general redirect method `llms_redirect_and_exit()` which is a wrapper for `wp_redirect()` and `wp_safe_redirect()` which can be plugged (and tested via phpunit)
++
 
 ##### Bug fixes
 
++ Fixed issue causing a PHP notice if the registration form is submitted without an email address and automatic username generation is enabled
 + Fixed issue preventing email addresses with the "'" character from being able to register, login, or update account information
 + Fixed typo in automatic username generation filter `lifterlms_generated_username` (previously was `lifterlms_gnerated_username`)
 + Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
