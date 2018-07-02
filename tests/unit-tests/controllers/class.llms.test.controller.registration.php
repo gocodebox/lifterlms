@@ -38,6 +38,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		$this->assertEquals( 1, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
+		llms_clear_notices();
 
 		// user already logged in
 		$uid = $this->factory->user->create();
@@ -50,6 +51,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		$this->assertEquals( 2, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
+		llms_clear_notices();
 
 		// log that user out
 		wp_set_current_user( null );
@@ -65,6 +67,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		$this->assertEquals( 3, did_action( 'lifterlms_before_new_user_registration' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_registered' ) );
+		llms_clear_notices();
 
 		// this should register a user
 		$this->setup_post( array(
@@ -94,6 +97,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		// and then we'll never get to these assertions!
 		add_action( 'lifterlms_before_new_user_registration', function() {
 			$this->assertEquals( 4, did_action( 'lifterlms_before_new_user_registration' ) );
+			$this->assertEquals( 0, llms_notice_count( 'error' ) );
 		} );
 		add_action( 'lifterlms_user_registered', function() {
 			$this->assertEquals( 1, did_action( 'lifterlms_user_registered' ) );
