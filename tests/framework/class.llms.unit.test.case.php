@@ -50,11 +50,11 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	private function setup_request( $method, $vars = array() ) {
 		putenv( 'REQUEST_METHOD=' . $method );
 		if ( 'POST' === $method ) {
-			$_POST = array_merge( $_POST, $vars );
+			$_POST = $vars;
 		} elseif ( 'GET' === $method ) {
-			$_GET = array_merge( $_GET, $vars );
+			$_GET = $vars;
 		}
-		$_REQUEST = array_merge( $_REQUEST, $vars );
+		$_REQUEST = $vars;
 	}
 
 	/**

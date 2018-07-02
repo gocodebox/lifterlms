@@ -76,6 +76,7 @@ class LLMS_Test_Controller_Login extends LLMS_UnitTestCase {
 		add_action( 'wp_login', function( $login, $user ) use ( $uid ) {
 			$this->assertEquals( $uid, $user->ID );
 			$this->assertEquals( 1, did_action( 'wp_login' ) );
+			wp_logout();
 		}, 10, 2 );
 
 		do_action( 'init' );
