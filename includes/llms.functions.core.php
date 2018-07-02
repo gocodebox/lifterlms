@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.19.2
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -875,6 +875,34 @@ function llms_maybe_define_constant( $name, $value ) {
 function llms_parse_bool( $val ) {
 	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 }
+
+/**
+ * Redirect and exit
+ * Wrapper for WP core redirects which automatically calls `exit();`
+ * and is pluggable (mainly for unit testing purposes)
+ * @param    string     $location  full URL to redirect to
+ * @param    array      $options   array of options
+ *                                 $status  int   HTTP status code of the redirect [default: 302]
+ *                                 $safe    bool  If true, use `wp_safe_redirect()` otherwise use `wp_redirect()` [default: true]
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
+	function llms_redirect_and_exit( $location, $options = array() ) {
+
+		$options = wp_parse_args( $options, array(
+			'status' => 302,
+			'safe' => true,
+		) );
+
+		$func = $options['safe'] ? 'wp_safe_redirect' : 'wp_redirect';
+		call_user_func( $func, $location, $options['status'] );
+		exit();
+
+	}
+}
+
 
 /**
  * Wrapper for set_time_limit to ensure it's enabled before calling
