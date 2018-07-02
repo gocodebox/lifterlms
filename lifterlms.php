@@ -341,6 +341,7 @@ final class LifterLMS {
 
 		// form controllers
 		include_once 'includes/forms/controllers/class.llms.controller.account.php';
+		include_once 'includes/forms/controllers/class.llms.controller.login.php';
 		include_once 'includes/forms/controllers/class.llms.controller.registration.php';
 
 		// comments
