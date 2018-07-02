@@ -71,9 +71,11 @@ class LLMS_Controller_Account {
 	 */
 	public function update() {
 
-		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'llms_update_person' !== $_POST['action'] || empty( $_POST['_wpnonce'] ) ) { return; }
+		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'llms_update_person' !== $_POST['action'] || empty( $_POST['_llms_update_person_nonce'] ) ) { return; }
 
-		wp_verify_nonce( $_POST['_wpnonce'], 'llms_update_person' );
+		if ( ! llms_verify_nonce( '_llms_update_person_nonce', 'llms_update_person' ) ) {
+			return;
+		}
 
 		// no user logged in, can't update!
 		// this shouldn't happen but let's check anyway
