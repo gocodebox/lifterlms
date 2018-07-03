@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v3.19.5 - 2018-07-??
+--------------------
+
++ Fixed duplicate action on dashboard section template
+
+##### Template Updates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
+
+
 v3.19.4 - 2018-07-02
 --------------------
 
