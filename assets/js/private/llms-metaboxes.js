@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.18.2
+ * @version  3.19.5
  */
 ( function( $ ) {
 
@@ -700,11 +700,19 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.19.4
+		 * @version  3.19.5
 		 */
 		this.post_select = function( $el ) {
 
-			$el.llmsPostsSelect2();
+			var multi = 'multiple' === $el.attr( 'multiple' );
+
+			$el.llmsPostsSelect2( {
+				width: multi ? '100%' : '65%',
+			} );
+
+			if ( multi ) {
+				return;
+			}
 
 			// add a "View" button to see what the selected page looks like
 			var msg = LLMS.l10n.translate( 'View' ),
