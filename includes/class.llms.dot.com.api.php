@@ -18,7 +18,7 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * Determines if it's a request to the .com REST api
 	 * @var  bool
 	 */
-	protected $is_rest_request = true;
+	protected $is_rest = true;
 
 	/**
 	 * Construct an API call, parameters are passed to private `call()` function
@@ -32,9 +32,19 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 */
 	public function __construct( $resource, $data, $method = null, $is_rest = true ) {
 
-		$this->is_rest_request = $is_rest;
+		$this->is_rest = $is_rest;
 		parent::__construct( $resource, $data, $method );
 
+	}
+
+	/**
+	 * Determine if the current request is a rest request
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_rest_request() {
+		return $this->is_rest;
 	}
 
 	/**
@@ -71,7 +81,7 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @version  [version]
 	 */
 	protected function set_request_body( $data, $method, $resource ) {
-		return apply_filters( 'llms_dot_com_api_request_body', $data );
+		return apply_filters( 'llms_dot_com_api_request_body', $data, $method, $resource, $this );
 	}
 
 	/**
@@ -84,7 +94,7 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @version  [version]
 	 */
 	protected function set_request_headers( $headers, $resource, $method ) {
-		return apply_filters( 'llms_dot_com_api_request_headers', $headers );
+		return apply_filters( 'llms_dot_com_api_request_headers', $headers, $resource, $method, $this );
 	}
 
 	/**
@@ -97,12 +107,12 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 */
 	protected function set_request_url( $resource, $method ) {
 
-		$url = 'https://lifterlms.com/';
-		if ( $this->is_rest_request ) {
-			$url .= 'wp-json/llms/v3';
+		$url = 'https://lifterlms.com';
+		if ( $this->is_rest_request() ) {
+			$url .= '/wp-json/llms/v3';
 		}
 
-		return apply_filters( 'llms_dot_com_api_request_url', $url . $resource, $resource, $method );
+		return apply_filters( 'llms_dot_com_api_request_url', $url . $resource, $resource, $method, $this );
 	}
 
 	/**
