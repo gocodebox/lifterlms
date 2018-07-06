@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.19.5 - 2018-07-05
+--------------------
+
++ Fixed bug causing `select2` multi-selects from functioning as multi-selects
++ Fixed visual issue with `select2` elements being set without a width causing them to be both too small and too large in various scenarios.
++ Fixed duplicate action on dashboard section template
+
+##### Template Updates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
+
+
 v3.19.4 - 2018-07-02
 --------------------
 

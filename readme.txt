@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 5.6
 Tested up to: 4.9.6
-Stable tag: 3.19.4
+Stable tag: 3.19.5
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,18 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.19.5 - 2018-07-05 =
+------------------------
+
++ Fixed bug causing `select2` multi-selects from functioning as multi-selects
++ Fixed visual issue with `select2` elements being set without a width causing them to be both too small and too large in various scenarios.
++ Fixed duplicate action on dashboard section template
+
+##### Template Updates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
+
+
 = v3.19.4 - 2018-07-02 =
 ------------------------
 
@@ -555,17 +567,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ##### Template Updates
 
 + [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
-
-
-= v3.17.7 - 2018-04-27 =
-------------------------
-
-+ Fix issue preventing assignments passing grade requirement from saving properly
-+ Fix issue preventing builder toggle switches from properly saving some switch field data
-+ Fix with "Launch Builder" button causing it to extend outside the bounds of its container
-+ Fix issue with builder radio select fields during view rerenders
-+ Course Outline shortcode (and widget) now retrieve parent course of the current page more consistently with other shortcodes
-+ Added ability to filter which custom post types which can be children of a course (allows course shortcodes & widgets to be used in assignment sidebars of custom content areas)
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

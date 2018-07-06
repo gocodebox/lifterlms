@@ -3,7 +3,7 @@
  * @param    obj   $  traditional jQuery reference
  * @return   void
  * @since    ??
- * @version  3.19.4
+ * @version  3.19.5
  */
 ;( function( $ ) {
 
@@ -58,7 +58,7 @@
 	 *                          each default option will pulled from the elements data-attributes
 	 * @return   void
 	 * @since    3.19.4
-	 * @version  3.19.4
+	 * @version  3.19.5
 	 */
 	$.fn.llmsPostsSelect2 = function( options ) {
 
@@ -69,6 +69,7 @@
 				placeholder: undefined !== LLMS.l10n ? LLMS.l10n.translate( 'Select a Course/Membership' ) : 'Select a Course/Membership',
 				post_type: self.attr( 'data-post-type' ) || 'post',
 				allow_clear: self.attr( 'data-post-type' ) || false,
+				width: null,
 			};
 
 		$.each( defaults, function( setting ) {
@@ -76,6 +77,10 @@
 				options[ setting ] = self.attr( 'data-' + setting );
 			}
 		} );
+
+		if ( 'multiple' === self.attr( 'multiple' ) ) {
+			options.multiple = true;
+		}
 
 		options = $.extend( defaults, options );
 
@@ -139,6 +144,7 @@
 			cache: true,
 			placeholder: options.placeholder,
 			multiple: options.multiple,
+			width: options.width,
 		} );
 
 	};

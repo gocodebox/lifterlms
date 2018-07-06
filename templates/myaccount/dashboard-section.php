@@ -2,7 +2,7 @@
 /**
  * Section template for dashboard index
  * @since    3.14.0
- * @version  3.18.0
+ * @version  3.19.5
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -25,6 +25,6 @@ defined( 'ABSPATH' ) || exit;
 		</footer>
 	<?php endif; ?>
 
-	<?php do_action( 'lifterlms_before_' . $action ); ?>
+	<?php do_action( 'lifterlms_after_' . $action ); ?>
 
 </section>
