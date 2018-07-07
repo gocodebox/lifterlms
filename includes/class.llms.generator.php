@@ -79,7 +79,8 @@ class LLMS_Generator {
 
 		if ( ! is_array( $raw ) ) {
 
-			$raw = json_decode( str_replace( '\\', '\\\\', $raw ), true );
+			$raw = json_decode( $raw, true );
+
 		}
 
 		$this->error = new WP_Error();
