@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Make LifterLMS play nicely with other plugins, themes, & webhosts
  * @since    3.1.3
- * @version  [version]
+ * @version  3.19.6
  */
 class LLMS_PlayNice {
 
@@ -36,7 +36,7 @@ class LLMS_PlayNice {
 	 *
 	 * @return void
 	 * @since    3.2.2
-	 * @version  [version]
+	 * @version  3.19.6
 	 */
 	public function wp_optimizepress_live_editor() {
 

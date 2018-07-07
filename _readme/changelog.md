@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.19.6 - 2018-07-06 =
+------------------------
+
++ Fix file load paths in OptimizePress plugin compatibility function
+
+
 = v3.19.5 - 2018-07-05 =
 ------------------------
 
@@ -184,32 +190,3 @@
 + [templates/content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
 + [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
 + [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
-
-
-= v3.17.8 - 2018-05-04 =
-------------------------
-
-##### Updates and Enchancements
-
-+ Added admin email notification when student cancels a subscription
-+ Quiz results will now display the question's description when reviewing results as a student and on the admin panel during grading
-+ Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
-+ Reduce unnecessary DB queries for integrations by checking for dependencies and then calling querying the options table to see if the integration has been enabled.
-+ Updated the notifications settings table to be more friendly to the human eye
-
-##### Bug Fixes
-
-+ Fix admin scripts enqueue order. Fixes issue preventing manual student enrollment selection from functioning properly in certain scenarios.
-+ Shift + Enter when in a question choice field now adds a return as expected instead of exiting the field
-+ When pasting into question choice fields HTML from RTF documents will be automatically stripped
-+ Ensure certificates print with a white brackground regardless of theme CSS
-+ Fix issue causing themes with `overflow:hidden` on divs from cutting certificate background images
-+ Upon export completion unlock tables regardless of mail success / failure
-+ Resolve issue causing incorrect number of access plans to be returned on systems that have custom defaults set for `WP_Query` `post_per_page` parameter
-+ Fix error occurring when all 3rd party integrations are disabled by filter, credit to [@Mte90](https://github.com/Mte90)!
-+ Ensure `LLMS()->integrations()->integrations()` returns all integrations regardless of availability.
-+ Updated `LLMS_Abstract_Options_Data` to have an option set method
-
-##### Template Updates
-
-+ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)

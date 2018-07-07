@@ -1,16 +1,16 @@
 <?php
 /**
  * Tests for the LLMS_PlayNice Class
- * @since    [version]
- * @version  [version]
+ * @since    3.19.6
+ * @version  3.19.6
  */
 class LLMS_Test_PlayNice extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for wp_optimizepress_live_editor()
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.19.6
+	 * @version  3.19.6
 	 */
 	public function test_wp_optimizepress_live_editor() {
 
