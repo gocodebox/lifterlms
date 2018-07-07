@@ -196,11 +196,9 @@ class LLMS_Student_Bulk_Enroll {
 
 		$user_query = new WP_User_Query( $user_query_args );
 
-		if ( ! empty( $user_query->get_results() ) ) {
-			return $user_query->get_results();
-		}
+		$results = $user_query->get_results();
 
-		return false;
+		return empty( $results ) ? false: $results;
 	}
 
 	/**
