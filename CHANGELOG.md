@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.19.6 - 2018-07-06
+--------------------
+
++ Fix file load paths in OptimizePress plugin compatibility function
+
+
 v3.19.5 - 2018-07-05
 --------------------
 

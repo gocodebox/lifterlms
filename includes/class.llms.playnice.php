@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Make LifterLMS play nicely with other plugins, themes, & webhosts
  * @since    3.1.3
- * @version  3.16.4
+ * @version  [version]
  */
 class LLMS_PlayNice {
 
@@ -36,7 +36,7 @@ class LLMS_PlayNice {
 	 *
 	 * @return void
 	 * @since    3.2.2
-	 * @version  3.2.2
+	 * @version  [version]
 	 */
 	public function wp_optimizepress_live_editor() {
 
