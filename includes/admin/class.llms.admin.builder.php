@@ -359,7 +359,7 @@ if ( ! empty( $active_post_lock ) ) {
 		}
 
 		// only mess with our data
-		$data = json_decode( $data['llms_builder'], true );
+		$data = json_decode( str_replace( '\\', '\\\\', $data['llms_builder'] ), true );
 
 		// setup our return
 		$ret = array(
