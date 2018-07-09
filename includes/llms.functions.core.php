@@ -555,7 +555,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 		default:
 			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
 
-	}
+	} // End switch().
 
 	if ( 'hidden' !== $field['type'] ) {
 		$r .= $desc;
