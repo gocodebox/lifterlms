@@ -11,7 +11,7 @@
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.8
- * Tested up to: 4.9.6
+ * Tested up to: 4.9.7
  *
  * @package     LifterLMS
  * @category 	Core

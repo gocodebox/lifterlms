@@ -366,6 +366,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
   + Show custom content (use a WYSIWYG editor to define content)
   + Redirect to a WordPress page (use custom templates and enhance page builder compatibility and capabilities)
   + Redirect to a custom URL (use a sales page hosted on another domain!)
++ Tested to WordPress 4.9.7
 
 = v3.19.6 - 2018-07-06 =
 ------------------------
