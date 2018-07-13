@@ -4,7 +4,7 @@
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
  * @since    3.4.0
- * @version  3.17.2
+ * @version  3.20.0
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -25,7 +25,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.20.0
 	 */
 	protected function get_properties() {
 		return array(
@@ -46,6 +46,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'length' => 'text',
 			'prerequisite' => 'absint',
 			'prerequisite_track' => 'absint',
+			'sales_page_content_page_id' => 'absint',
+			'sales_page_content_type' => 'string',
+			'sales_page_content_url' => 'string',
 			'tile_featured_video' => 'yesno',
 			'time_period' => 'yesno',
 			'start_date' => 'text',
@@ -58,7 +61,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters
 	 * @return   array
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.20.0
 	 */
 	protected function get_data() {
 		return array(
@@ -81,6 +84,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'prerequisite_track' => 0,
 			'tile_featured_video' => 'yes',
 			'time_period' => 'yes',
+			'sales_page_content_page_id' => 0,
+			'sales_page_content_type' => 'none',
+			'sales_page_content_url' => 'https://lifterlms.com',
 			'start_date' => '2017-05-01',
 			'video_embed' => 'http://example.tld/video_embed',
 		);
@@ -265,6 +271,35 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_sales_page_url method
+	 * @return   void
+	 * @since    3.20.0
+	 * @version  3.20.0
+	 */
+	public function test_get_sales_page_url() {
+
+		$course = new LLMS_Course( 'new', 'Course Name' );
+
+		$this->assertEquals( get_permalink( $course->get( 'id' ) ), $course->get_sales_page_url() );
+
+		$course->set( 'sales_page_content_type', 'none' );
+		$this->assertEquals( get_permalink( $course->get( 'id' ) ), $course->get_sales_page_url() );
+
+		$course->set( 'sales_page_content_type', 'content' );
+		$this->assertEquals( get_permalink( $course->get( 'id' ) ), $course->get_sales_page_url() );
+
+		$course->set( 'sales_page_content_type', 'url' );
+		$course->set( 'sales_page_content_url', 'https://lifterlms.com' );
+		$this->assertEquals( 'https://lifterlms.com', $course->get_sales_page_url() );
+
+		$course->set( 'sales_page_content_type', 'page' );
+		$page = $this->factory->post->create();
+		$course->set( 'sales_page_content_page_id', $page );
+		$this->assertEquals( get_permalink( $page ), $course->get_sales_page_url() );
+
+	}
+
+	/**
 	 * Test the get sections function
 	 * @return   void
 	 * @since    3.12.0
@@ -351,6 +386,32 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		// disable capacity
 		$this->obj->set( 'enable_capacity', 'no' );
 		$this->assertTrue( $this->obj->has_capacity() );
+
+	}
+
+	/**
+	 * Test the has_sales_page_redirect method
+	 * @return   void
+	 * @since    3.20.0
+	 * @version  3.20.0
+	 */
+	public function test_has_sales_page_redirect() {
+
+		$course = new LLMS_Course( 'new', 'Course Name' );
+
+		$this->assertEquals( false, $course->has_sales_page_redirect() );
+
+		$course->set( 'sales_page_content_type', 'none' );
+		$this->assertEquals( false, $course->has_sales_page_redirect() );
+
+		$course->set( 'sales_page_content_type', 'content' );
+		$this->assertEquals( false, $course->has_sales_page_redirect() );
+
+		$course->set( 'sales_page_content_type', 'url' );
+		$this->assertEquals( true, $course->has_sales_page_redirect() );
+
+		$course->set( 'sales_page_content_type', 'page' );
+		$this->assertEquals( true, $course->has_sales_page_redirect() );
 
 	}
 
