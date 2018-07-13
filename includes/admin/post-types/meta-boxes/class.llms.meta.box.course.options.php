@@ -53,7 +53,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			);
 		}
 
-
 		$sales_page_content_type = 'none';
 		if ( $post && 'auto-draft' !== $post->post_status && $post->post_excerpt ) {
 			$sales_page_content_type = 'content';

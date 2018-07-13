@@ -85,7 +85,7 @@ class LLMS_Template_Loader {
 		}
 
 		llms_redirect_and_exit( $post->get_sales_page_url(), array(
-			'safe' => false
+			'safe' => false,
 		) );
 
 	}

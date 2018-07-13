@@ -138,7 +138,6 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 					if ( $post->post_excerpt ) {
 						$content = llms_get_excerpt( $post->ID );
 					}
-
 				}
 				$template_before  = llms_get_template_part_contents( 'content', 'single-membership-before' );
 				$template_after  = llms_get_template_part_contents( 'content', 'single-membership-after' );
