@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Membership Settings Metabox
  * @since   1.0.0
- * @version [version]
+ * @version 3.20.0
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -64,7 +64,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 * @return array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.20.0
 	 */
 	public function get_fields() {
 
@@ -255,7 +255,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @param    int   $post_id   WP Post ID of the post being saved
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.20.0
 	 */
 	public function save( $post_id ) {
 

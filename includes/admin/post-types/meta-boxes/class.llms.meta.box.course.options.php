@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Course Options
  * @since    1.0.0
- * @version  [version]
+ * @version  3.20.0
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * Setup fields
 	 * @return array
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.20.0
 	 */
 	public function get_fields() {
 

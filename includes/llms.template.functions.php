@@ -2,7 +2,7 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  [version]
+* @version  3.20.0
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -63,7 +63,7 @@ if ( ! function_exists( 'llms_email_header' ) ) {
  * @param    string  $content  [WP post content]
  * @return   string  $content  [WP post content with lifterLMS content appended above and below]
  * @since    1.0.0
- * @version  [version]
+ * @version  3.20.0
  */
 if ( ! function_exists( 'llms_get_post_content' ) ) {
 

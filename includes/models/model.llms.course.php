@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Course Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.20.0
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
  * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -239,8 +239,8 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.20.0
+	 * @version  3.20.0
 	 */
 	public function get_sales_page_url() {
 
@@ -492,8 +492,8 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if sales page rediriction is enabled
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.20.0
+	 * @version  3.20.0
 	 */
 	public function has_sales_page_redirect() {
 		return apply_filters( 'llms_course_has_sales_page_redirect', in_array( $this->get( 'sales_page_content_type' ), array( 'page', 'url' ) ), $this );

@@ -4,14 +4,14 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Template loader class
 * @since    1.0.0
-* @version  [version]
+* @version  3.20.0
 */
 class LLMS_Template_Loader {
 
 	/**
 	 * Constructor
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.20.0
 	 */
 	public function __construct() {
 
@@ -63,8 +63,8 @@ class LLMS_Template_Loader {
 	/**
 	 * Handle sales page redirects for courses & memberships
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.20.0
+	 * @version  3.20.0
 	 */
 	public function maybe_redirect_to_sales_page() {
 

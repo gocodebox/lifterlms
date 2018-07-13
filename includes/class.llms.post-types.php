@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  [version]
+ * @version  3.20.0
  */
 class LLMS_Post_Types {
 
@@ -228,7 +228,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.20.0
 	 */
 	public static function register_post_types() {
 

@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 5.6
 Tested up to: 4.9.6
-Stable tag: 3.19.6
+Stable tag: 3.20.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,18 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.20.0 - 2018-07-12 =
+------------------------
+
++ Updated user interfaces on admin panel for courses and memberships with relation to "Enrolled" and "Non-Enrolled" student descriptions
++ "Enrolled Student Description" is now the default WordPress editor
++ "Non-Enrolled Student Description" is now the "Sales Page"
++ Additional options for sales pages (the content displayed to visitors and non-enrolled students) have been added:
+  + Do nothing (show course description)
+  + Show custom content (use a WYSIWYG editor to define content)
+  + Redirect to a WordPress page (use custom templates and enhance page builder compatibility and capabilities)
+  + Redirect to a custom URL (use a sales page hosted on another domain!)
+
 = v3.19.6 - 2018-07-06 =
 ------------------------
 
@@ -487,63 +499,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 + [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
-
-
-= v3.18.0 - 2018-05-16 =
-------------------------
-
-##### Privacy & GDPR Compliance Tools
-
-+ Added privacy policy notice on checkout, enrollment, and registration that integrates with the WP Core 4.9.6 Privacy Policy Page setting
-+ Added settings to allow customization of the privacy policy and terms & conditions notices during checkout, enrollment, and registration
-+ Added suggested Privacy Policy language outlining information gathered by a default LifterLMS site
-
-+ During a WordPress Personal Data Export request the following LifterLMS information will be added to the export
-
-  + All personal information gathered from registration, checkout, and enrollment forms
-  + Course and membership enrollments, progress, and grades
-  + Earned achievements and certificates
-  + All order data
-
-+ During a WordPress Personal Data Erasure request the following LifterLMS information will be erased
-
-  + All personal information gathered from registration, checkout, and enrollment forms
-  + Earned achievements and certificates
-  + All notifications for or about the user
-  + If the "Remove Order Data" setting is enabled, the order will be anonymized by removing student personal information from the order and, if the order is a recurring order, it will be cancelled.
-  + If the "Remove Student LMS Data" setting is enabled, all student data related to course and membership activity will be removed
-
-+ All of the above relies on features available in WordPress core 4.9.6
-
-##### Updates and Enhancements
-
-+ Tested up to WordPress 4.9.6
-+ Improved pricing table UX for members-only access plans. An access plan button for a plan belonging to only one membership will click directly to the membership as opposed to opening a popover. Plan's with access via multiple memberships will continue to open a popover listing all availability options.
-+ Added a "My Certificates" tab to the Student Dashboard
-+ Certificates can be downloaded as HTML files (available when viewing a certificate or from the certificate reporting screen on the admin panel)
-+ Admins can now delete certificates and achievements from reporting screens on the admin panel
-+ Added additional information to certificate and achievement reporting tables
-+ Expanded widths of admin settings page setting names to be a bit wider and more readable
-+ Now conditionally hiding some settings when they are no longer relevant
-+ Added daily cron automatically remove files from the `LLMS_TMP_DIR` which are more that 24 hours old
-+ Removed unused template `content-llms_membership.php`
-+ Added initialization actions for use by integration classes
-
-##### Bug Fixes
-
-+ Fixed issue causing coupon reports to always display "1" regardless of actual number of coupons used
-+ Fixid issue causing new posts created via the Course Builder to always be created for user_id #1
-+ Fixed issue causing "My Achievements" to display twice on the My Achievements student dashboard tab
-+ Fixed issue preventing lessons from being completed when a quiz in draft mode was attached to the lesson
-+ Fixed issue causing minified RTL stylesheets to 404
-
-##### Template Updates
-
-+ [templates/admin/post-types/order-details.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/order-details.php)
-+ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
-+ [templates/content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
-+ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
-+ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
