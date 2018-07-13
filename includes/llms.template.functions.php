@@ -2,10 +2,10 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  3.16.15
+* @version  [version]
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
@@ -60,8 +60,10 @@ if ( ! function_exists( 'llms_email_header' ) ) {
 /**
  * Post Template Include
  * Appends LLMS content above and below post content
- * @param  string $content [WP post content]
- * @return string $content [WP post content with lifterLMS content appended above and below]
+ * @param    string  $content  [WP post content]
+ * @return   string  $content  [WP post content with lifterLMS content appended above and below]
+ * @since    1.0.0
+ * @version  [version]
  */
 if ( ! function_exists( 'llms_get_post_content' ) ) {
 
@@ -81,7 +83,9 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 
 			case 'course':
 
-				if ( $page_restricted['is_restricted'] ) {
+				$sales_page = get_post_meta( get_the_ID(), '_llms_sales_page_content_type', true );
+
+				if ( $page_restricted['is_restricted'] && ( '' === $sales_page || 'content' === $sales_page ) ) {
 
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
 					if ( $post->post_excerpt ) {
@@ -125,11 +129,16 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			return do_shortcode( $output_before . $content . $output_after );
 
 			case 'llms_membership':
-				if ( $page_restricted['is_restricted'] ) {
+
+				$sales_page = get_post_meta( get_the_ID(), '_llms_sales_page_content_type', true );
+
+				if ( $page_restricted['is_restricted'] && ( '' === $sales_page || 'content' === $sales_page ) ) {
+
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
 					if ( $post->post_excerpt ) {
 						$content = llms_get_excerpt( $post->ID );
 					}
+
 				}
 				$template_before  = llms_get_template_part_contents( 'content', 'single-membership-before' );
 				$template_after  = llms_get_template_part_contents( 'content', 'single-membership-after' );

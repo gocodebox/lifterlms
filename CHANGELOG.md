@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.20.0 - 2018-07-12
+--------------------
+
++ Updated user interfaces on admin panel for courses and memberships with relation to "Enrolled" and "Non-Enrolled" student descriptions
++ "Enrolled Student Description" is now the default WordPress editor
++ "Non-Enrolled Student Description" is now the "Sales Page"
++ Additional options for sales pages (the content displayed to visitors and non-enrolled students) have been added:
+  + Do nothing (show course description)
+  + Show custom content (use a WYSIWYG editor to define content)
+  + Redirect to a WordPress page (use custom templates and enhance page builder compatibility and capabilities)
+  + Redirect to a custom URL (use a sales page hosted on another domain!)
+
 v3.19.6 - 2018-07-06
 --------------------
 
