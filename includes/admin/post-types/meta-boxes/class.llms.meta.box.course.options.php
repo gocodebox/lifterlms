@@ -98,7 +98,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'id' 		=> $this->prefix . 'sales_page_content_page_id',
 						'type'		=> 'select',
 						'label'		=> __( 'Select a Page', 'lifterlms' ),
-						'value'     => llms_make_select2_post_array( array( $course->get( 'sales_page_content_page_id' ) ) ),
+						'value'     => $course->get( 'sales_page_content_page_id' ) ? llms_make_select2_post_array( array( $course->get( 'sales_page_content_page_id' ) ) ) : array(),
 					),
 					array(
 						'controller' => '#' . $this->prefix . 'sales_page_content_type',

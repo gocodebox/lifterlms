@@ -126,7 +126,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'id' 		=> $this->prefix . 'sales_page_content_page_id',
 						'type'		=> 'select',
 						'label'		=> __( 'Select a Page', 'lifterlms' ),
-						'value'     => llms_make_select2_post_array( array( $membership->get( 'sales_page_content_page_id' ) ) ),
+						'value'     => $membership->get( 'sales_page_content_page_id' ) ? llms_make_select2_post_array( array( $membership->get( 'sales_page_content_page_id' ) ) ) : array(),
 					),
 					array(
 						'controller' => '#' . $this->prefix . 'sales_page_content_type',

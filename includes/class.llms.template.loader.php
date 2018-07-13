@@ -73,8 +73,10 @@ class LLMS_Template_Loader {
 			return;
 		}
 
-		// only proceed for non-enrolled students & visitors
-		if ( llms_is_user_enrolled( get_current_user_id(), get_the_ID() ) ) {
+		$page_restricted = llms_page_restricted( get_the_id() );
+
+		// only proceed if the page isn't restricted
+		if ( ! $page_restricted['is_restricted'] ) {
 			return;
 		}
 

@@ -133,7 +133,6 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 				$sales_page = get_post_meta( get_the_ID(), '_llms_sales_page_content_type', true );
 
 				if ( $page_restricted['is_restricted'] && ( '' === $sales_page || 'content' === $sales_page ) ) {
-
 					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
 					if ( $post->post_excerpt ) {
 						$content = llms_get_excerpt( $post->ID );
