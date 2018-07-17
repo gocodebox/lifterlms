@@ -2,12 +2,14 @@
 /**
  * Checkout Form
  * @since    1.0.0
- * @version  3.18.1
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
 $free = $plan->has_free_checkout();
 ?>
+
+<?php do_action( 'lifterlms_pre_checkout_form' ); ?>
 
 <form action="" class="llms-checkout llms-checkout-cols-<?php echo apply_filters( 'llms_checkout_columns', ! $free ? $cols : 1, $plan ); ?>" method="POST" id="llms-product-purchase-form">
 
@@ -123,3 +125,5 @@ $free = $plan->has_free_checkout();
 	<?php do_action( 'lifterlms_after_checkout_form' ); ?>
 
 </form>
+
+<?php do_action( 'lifterlms_post_checkout_form' ); ?>

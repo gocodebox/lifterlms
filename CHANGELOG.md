@@ -6,6 +6,7 @@ v3.20.1 - 2018-07-17
 
 + Fix plugin compatibility issue with Advanced Custom Fields
 + Settings API can now create disabled fields
++ Added new actions to the checkout form
 
 
 v3.20.0 - 2018-07-12
