@@ -1170,7 +1170,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// returns an array with errored keys or true on success
 		return is_array( $update ) ? false : true;
 
-
 	}
 
 	/**
