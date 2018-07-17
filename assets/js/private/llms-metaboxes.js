@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.19.5
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -700,7 +700,7 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.19.5
+		 * @version  [version]
 		 */
 		this.post_select = function( $el ) {
 
@@ -710,7 +710,7 @@
 				width: multi ? '100%' : '65%',
 			} );
 
-			if ( multi ) {
+			if ( multi || $el.attr( 'data-no-view-button' ) ) {
 				return;
 			}
 

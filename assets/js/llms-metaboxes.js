@@ -10,7 +10,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.19.5
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -48,7 +48,7 @@
 		/**
 		 * LifterLMS Admin Metabox Repeater Field
 		 * @since    3.11.0
-		 * @version  3.17.3
+		 * @version  [version]
 		 */
 		this.repeaters = {
 		
@@ -264,7 +264,7 @@
 			 * @param    obj   e  JS event object
 			 * @return   void
 			 * @since    3.11.0
-			 * @version  3.17.3
+			 * @version  [version]
 			 */
 			handle_submit: function( e ) {
 		
@@ -275,7 +275,7 @@
 					$spinner = $btn.parent().find( '.spinner' );
 		
 				// core UX to prevent multi-click/or the appearance of a delay
-				$( '#post input[type="submit"]' ).addClass( 'disabled' );
+				$( '#post input[type="submit"]' ).addClass( 'disabled' ).attr( 'disabled', 'disabled' );
 				$spinner.addClass( 'is-active' );
 		
 				var self = window.llms.metaboxes.repeaters,
@@ -293,7 +293,7 @@
 						clearInterval( wait );
 						$( '#post' ).off( 'submit', this.handle_submit );
 						$spinner.removeClass( 'is-active' );
-						$btn.removeClass( 'disabled' ).trigger( 'click' );
+						$btn.removeClass( 'disabled' ).removeAttr( 'disabled' ).trigger( 'click' );
 		
 					} else {
 		
@@ -486,7 +486,7 @@
 		
 				} );
 		
-			},
+			}
 		
 		};
 		this.repeaters.init();
@@ -1155,7 +1155,7 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.19.5
+		 * @version  [version]
 		 */
 		this.post_select = function( $el ) {
 
@@ -1165,7 +1165,7 @@
 				width: multi ? '100%' : '65%',
 			} );
 
-			if ( multi ) {
+			if ( multi || $el.attr( 'data-no-view-button' ) ) {
 				return;
 			}
 

@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.20.1 - 2018-07-17
+--------------------
+
++ Fix plugin compatibility issue with Advanced Custom Fields
+
+
+
 v3.20.0 - 2018-07-12
 --------------------
 
