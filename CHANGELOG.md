@@ -9,6 +9,7 @@ v3.20.1 - 2018-07-17
 + Added new actions to the checkout form
 + Added CRUD functions for interacting with data located in the `wp_lifterlms_user_postmeta` table
 + Replaced various database queries for CRUD user postmeta data with new CRUD functions
++ Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
 
 
 v3.20.0 - 2018-07-12
