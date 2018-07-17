@@ -122,4 +122,18 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
 	}
 
+	public function test_llms_bulk_update_user_postmeta() {
+
+		$data = array(
+			'bulk_key1' => 'bulk_val1',
+			'bulk_key2' => 'bulk_val2',
+		);
+
+		$this->assertTrue( llms_bulk_update_user_postmeta( $this->student_id, $this->course_id, $data ) );
+		foreach ( $data as $key => $val ) {
+			$this->assertEquals( $val, llms_get_user_postmeta( $this->student_id, $this->course_id, $key ) );
+		}
+
+	}
+
 }
