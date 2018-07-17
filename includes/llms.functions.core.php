@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.19.4
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -18,6 +18,7 @@ require_once 'functions/llms.functions.person.php';
 require_once 'functions/llms.functions.privacy.php';
 require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
+require_once 'functions/llms.functions.user.postmeta.php';
 
 /**
  * Retrieve the current time based on specified type.
