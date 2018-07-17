@@ -1,11 +1,13 @@
 <?php
 /**
  * CRUD LifterLMS User Postmeta Data
+ * All functions are pluggable
  * @since    [version]
  * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
+if ( ! function_exists( 'llms_delete_user_postmeta' ) ) :
 /**
  * Delete user postmeta data
  * @param    int        $user_id     WP User ID
@@ -33,7 +35,9 @@ function llms_delete_user_postmeta( $user_id, $post_id, $meta_key = null, $meta_
 	return $ret;
 
 }
+endif;
 
+if ( ! function_exists( 'llms_get_user_postmeta' ) ) :
 /**
  * Get user postmeta data or dates by user, post, and key
  * @param    int        $user_id   WP User ID
@@ -71,15 +75,18 @@ function llms_get_user_postmeta( $user_id, $post_id, $meta_key = null, $single =
 	return $res;
 
 }
+endif;
 
+if ( ! function_exists( 'llms_update_user_postmeta' ) ) :
 /**
- * Update user postmeta dat
+ * Update user postmeta data
  * @param    int        $user_id     WP User ID
  * @param    int        $post_id     WP Post ID
  * @param    string     $meta_key    meta key
  * @param    mixed      $meta_value  meta value (don't serialize serializable values)
- * @param    bool       $unique      [description]
- * @return   [type]
+ * @param    bool       $unique      if true, updates existing value (if it exists)
+ *                                   if false, will add a new record (allowing multiple records with the same key to exist)
+ * @return   bool
  * @since    [version]
  * @version  [version]
  */
@@ -109,13 +116,45 @@ function llms_update_user_postmeta( $user_id, $post_id, $meta_key, $meta_value, 
 	}
 
 	// setup the data we want to store
-	$updated_date = current_time( 'mysql' );
+	$updated_date = llms_current_time( 'mysql' );
 	$meta_value = maybe_serialize( $meta_value );
 	$item->setup( compact( 'user_id', 'post_id', 'meta_key', 'meta_value', 'updated_date' ) );
 	return $item->save();
 
 }
+endif;
 
+if ( ! function_exists( 'llms_bulk_update_user_postmeta' ) ) :
+/**
+ * Update bulk update user postmeta data
+ * @param    int        $user_id     WP User ID
+ * @param    int        $post_id     WP Post ID
+ * @param    array      $data        key=>val associative array of meta keys => meta values to update/add
+ * @param    bool       $unique      if true, updates existing value (if it exists)
+ *                                   if false, will add a new record (allowing multiple records with the same key to exist)
+ * @return   array|true              on error returns an associative array of the submitted keys, each item will be true for success or false for error
+ *                                   on success returns true
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_bulk_update_user_postmeta( $user_id, $post_id, $data = array(), $unique = true ) {
+
+	$res = array_fill_keys( array_keys( $data ), null );
+	$err = false;
+	foreach ( $data as $key => $val ) {
+		$update = llms_update_user_postmeta( $user_id, $post_id, $key, $val, $unique );
+		$res[ $key ] = $update;
+		if ( ! $update ) {
+			$err = true;
+		}
+	}
+
+	return $err ? $res : true;
+
+}
+endif;
+
+if ( ! function_exists( '_llms_query_user_postmeta' ) ) :
 /**
  * Query user postmeta data
  * This function is marked for internal use only.
@@ -144,5 +183,6 @@ function _llms_query_user_postmeta( $user_id, $post_id, $meta_key = null, $meta_
 	return $res;
 
 }
+endif;
 
 
