@@ -62,7 +62,7 @@ final class LifterLMS {
 	 * LifterLMS Constructor.
 	 * @return   LifterLMS
 	 * @since    1.0.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	private function __construct() {
 
@@ -74,6 +74,12 @@ final class LifterLMS {
 
 		// Define constants
 		$this->define_constants();
+
+		// localize as early as possible
+		// since 4.6 the "just_in_time" l10n will load the default (not custom) file first
+		// so we must localize before any l10n functions (like `__()`) are used
+		// so that our custom "safe" location will always load first
+		$this->localize();
 
 		//Include required files
 		$this->includes();
@@ -386,12 +392,13 @@ final class LifterLMS {
 
 	/**
 	 * Init LifterLMS when WordPress Initialises.
+	 * @return    void [<description>]
+	 * @since     1.0.0
+	 * @version   [version]
 	 */
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
-
-		$this->localize();
 
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();

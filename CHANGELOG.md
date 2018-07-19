@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.21.1 - 2018-07-19
+--------------------
+
++ Fixed issue causing `.mo` files stored in the `languages/lifterlms` safe directory from being loaded before files stored in the default location `languages/plugins`
+
+
 v3.21.0 - 2018-07-18
 --------------------
 
