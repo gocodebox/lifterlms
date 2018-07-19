@@ -21,6 +21,43 @@ require_once 'functions/llms.functions.template.php';
 require_once 'functions/llms.functions.user.postmeta.php';
 
 /**
+ * Insert elements into an associative array after a specific array key
+ * If the requested key doesn't exit, the new item will be added to the end of the array
+ * If you need to insert at the beginning of an array use array_merge( $new_item, $orig_item );
+ * @param    array      $array        original associative array
+ * @param    string     $after_key    key name in original array to insert new item after
+ * @param    string     $insert_key   key name of the item to be inserted
+ * @param    mixed      $insert_item  value to be inserted
+ * @return   array
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item ) {
+
+	$res = array();
+
+	$new_item = array(
+		$insert_key => $insert_item
+	);
+
+	$index = array_search( $after_key, array_keys( $array ) );
+	if ( false !== $index ) {
+		$index++;
+
+		$res = array_merge(
+			array_slice( $array, 0, $index, true ),
+			$new_item,
+			array_slice( $array, $index, count( $array ) - 1, true )
+		);
+	} else {
+		$res = array_merge( $array, $new_item );
+	}
+
+	return $res;
+
+}
+
+/**
  * Retrieve the current time based on specified type.
  *
  * This is a wrapper for the WP Core current_time which can be plugged

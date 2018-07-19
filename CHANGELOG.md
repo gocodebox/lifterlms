@@ -11,6 +11,7 @@ v3.21.0 - 2018-07-18
 + Replaced various database queries for CRUD user postmeta data with new CRUD functions
 + Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
 + Fixed incorrectly named filter causing section titles to not display on student course reporting screens
++ Added new utility function to allow splicing data into associative arrays
 
 
 v3.20.0 - 2018-07-12

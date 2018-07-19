@@ -4,9 +4,67 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  3.19.4
+ * @version  [version]
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
+
+	/**
+	 * test the llms_assoc_array_insert
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_llms_assoc_array_insert() {
+
+		// base array
+		$array = array(
+			'test' => 'asrt',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+
+		// after first item
+		$expect = array(
+			'test' => 'asrt',
+			'new_key' => 'item',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'test', 'new_key', 'item' ) );
+
+		// add in the middle
+		$expect = array(
+			'test' => 'asrt',
+			'tester' => 'asrtarst',
+			'new_key' => 'item',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'tester', 'new_key', 'item' ) );
+
+		// requested key doesn't exist so it'll be added to the end
+		$expect = array(
+			'test' => 'asrt',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+			'new_key' => 'item',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'noexist', 'new_key', 'item' ) );
+
+		// after last item
+		$expect = array(
+			'test' => 'asrt',
+			'new_key' => 'item',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'another', 'new_key', 'item' ) );
+
+	}
 
 	/**
 	 * Test llms_get_core_supported_themes()
