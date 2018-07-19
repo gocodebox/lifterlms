@@ -7,37 +7,40 @@
 defined( 'ABSPATH' ) || exit;
 
 $free = $plan->has_free_checkout();
+$fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 ?>
 
 <?php do_action( 'lifterlms_pre_checkout_form' ); ?>
 
-<form action="" class="llms-checkout llms-checkout-cols-<?php echo apply_filters( 'llms_checkout_columns', ! $free ? $cols : 1, $plan ); ?>" method="POST" id="llms-product-purchase-form">
+<form action="" class="llms-checkout llms-checkout-cols-<?php echo apply_filters( 'llms_checkout_columns', ( $free || ! $fields ) ? 1 : $cols, $plan ); ?>" method="POST" id="llms-product-purchase-form">
 
 	<?php do_action( 'lifterlms_before_checkout_form' ); ?>
 
-	<div class="llms-checkout-col llms-col-1">
+	<?php if ( $fields ) : ?>
+		<div class="llms-checkout-col llms-col-1">
 
-		<section class="llms-checkout-section billing-information">
+			<section class="llms-checkout-section billing-information">
 
-			<h4 class="llms-form-heading">
-				<?php if ( ! $free ) : ?>
-					<?php _e( 'Billing Information', 'lifterlms' ); ?>
-				<?php else : ?>
-					<?php _e( 'Student Information', 'lifterlms' ); ?>
-				<?php endif; ?>
-			</h4>
+				<h4 class="llms-form-heading">
+					<?php if ( ! $free ) : ?>
+						<?php _e( 'Billing Information', 'lifterlms' ); ?>
+					<?php else : ?>
+						<?php _e( 'Student Information', 'lifterlms' ); ?>
+					<?php endif; ?>
+				</h4>
 
-			<div class="llms-checkout-section-content llms-form-fields">
-				<?php do_action( 'lifterlms_checkout_before_billing_fields' ); ?>
-				<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $field_data ) as $field ) : ?>
-					<?php llms_form_field( $field ); ?>
-				<?php endforeach; ?>
-				<?php do_action( 'lifterlms_checkout_after_billing_fields' ); ?>
-			</div>
+				<div class="llms-checkout-section-content llms-form-fields">
+					<?php do_action( 'lifterlms_checkout_before_billing_fields' ); ?>
+					<?php foreach ( $fields as $field ) : ?>
+						<?php llms_form_field( $field ); ?>
+					<?php endforeach; ?>
+					<?php do_action( 'lifterlms_checkout_after_billing_fields' ); ?>
+				</div>
 
-		</section>
+			</section>
 
-	</div>
+		</div>
+	<?php endif; ?>
 
 	<div class="llms-checkout-col llms-col-2">
 

@@ -4,14 +4,21 @@ LifterLMS Changelog
 v3.21.0 - 2018-07-18
 --------------------
 
-+ Fix plugin compatibility issue with Advanced Custom Fields
+##### Updates and Enhancements
+
++ Added new actions before and after global login form HTML: `llms_before_person_login_form` & `llms_after_person_login_form`
 + Settings API can now create disabled fields
-+ Added new actions to the checkout form
++ Added new actions to the checkout form: `lifterlms_pre_checkout_form` && `lifterlms_post_checkout_form`
 + Added CRUD functions for interacting with data located in the `wp_lifterlms_user_postmeta` table
 + Replaced various database queries for CRUD user postmeta data with new CRUD functions
++ Added new utility function to allow splicing data into associative arrays
+
+##### Bug Fixes
+
++ If all user information fields are disabled, the "Student Information" are will now be hidden during checkout for logged in users instead of displaying an empty information box
++ Fixed plugin compatibility issue with Advanced Custom Fields
 + Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
 + Fixed incorrectly named filter causing section titles to not display on student course reporting screens
-+ Added new utility function to allow splicing data into associative arrays
 
 
 v3.20.0 - 2018-07-12
