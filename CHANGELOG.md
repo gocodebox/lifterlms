@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.20.1 - 2018-07-17
+v3.21.0 - 2018-07-18
 --------------------
 
 + Fix plugin compatibility issue with Advanced Custom Fields
@@ -10,6 +10,7 @@ v3.20.1 - 2018-07-17
 + Added CRUD functions for interacting with data located in the `wp_lifterlms_user_postmeta` table
 + Replaced various database queries for CRUD user postmeta data with new CRUD functions
 + Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
++ Fixed incorrectly named filter causing section titles to not display on student course reporting screens
 
 
 v3.20.0 - 2018-07-12
