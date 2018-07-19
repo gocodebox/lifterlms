@@ -26,9 +26,11 @@
 	th.name, td.name,
 	th.title, td.title { text-align: left; }
 
-	th.section-title {
+	td.section-title {
 		background: #eaeaea;
 		text-align: left;
+		font-weight: 700;
+		padding: 16px 4px;
 	}
 
 	td.questions-table {
