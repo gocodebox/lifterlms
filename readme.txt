@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 5.6
 Tested up to: 4.9.6
-Stable tag: 3.20.0
+Stable tag: 3.21.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,32 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.21.0 - 2018-07-18 =
+------------------------
+
+##### Updates and Enhancements
+
++ Added new actions before and after global login form HTML: `llms_before_person_login_form` & `llms_after_person_login_form`
++ Settings API can now create disabled fields
++ Added new actions to the checkout form: `lifterlms_pre_checkout_form` && `lifterlms_post_checkout_form`
++ Added CRUD functions for interacting with data located in the `wp_lifterlms_user_postmeta` table
++ Replaced various database queries for CRUD user postmeta data with new CRUD functions
++ Added new utility function to allow splicing data into associative arrays
+
+##### Bug Fixes
+
++ If all user information fields are disabled, the "Student Information" are will now be hidden during checkout for logged in users instead of displaying an empty information box
++ Fixed plugin compatibility issue with Advanced Custom Fields
++ Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
++ Fixed incorrectly named filter causing section titles to not display on student course reporting screens
++ We do not advocate using PHP 5.5 or lower but if you were using 5.5 or lower and encountered an error during bulk enrollment we've fixed that for. Please upgrade to 7.2 though. We all want faster more secure websites.
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [templates/global/form-login.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-login.php)
+
+
 = v3.20.0 - 2018-07-12 =
 ------------------------
 
@@ -488,18 +514,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
 + Fixed warning message displayed prior to membership bulk enrollment
 + Fixed multibyte character encoding issue encountered during certificate exports
-
-
-= v3.18.1 - 2018-05-18 =
-------------------------
-
-+ Attached `llms_privacy_policy_form_field()` and `llms_agree_to_terms_form_field()` to an action hook `llms_registration_privacy`
-+ Define minimum WordPress version requirement as 4.8.
-
-##### Template Updates
-
-+ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
-+ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

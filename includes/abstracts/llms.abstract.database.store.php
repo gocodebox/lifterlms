@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WPDB database interactions
  * @since    3.14.0
- * @version  [version]
+ * @version  3.21.0
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -48,7 +48,7 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Constructor
 	 * @since    3.14.0
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	public function __construct() {
 
@@ -136,7 +136,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    boolean    $save  if true, immediately persists to database
 	 * @return   self
 	 * @since    3.14.0
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	public function set( $key, $val, $save = false ) {
 

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.21.0
  */
 abstract class LLMS_Admin_Table {
 
@@ -715,7 +715,7 @@ abstract class LLMS_Admin_Table {
 	 * @param    mixed     $row  array/object of data describing a single row in the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();

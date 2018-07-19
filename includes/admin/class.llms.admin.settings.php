@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Class
  * Settings field Factory
  * @since    1.0.0
- * @version  [version]
+ * @version  3.21.0
  */
 class LLMS_Admin_Settings {
 
@@ -180,7 +180,7 @@ class LLMS_Admin_Settings {
 	 * @param  array $field array of field settings
 	 * @return void
 	 *
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	public static function output_field( $field ) {
 

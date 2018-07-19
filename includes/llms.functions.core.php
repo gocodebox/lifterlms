@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.21.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -29,8 +29,8 @@ require_once 'functions/llms.functions.user.postmeta.php';
  * @param    string     $insert_key   key name of the item to be inserted
  * @param    mixed      $insert_item  value to be inserted
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.21.0
+ * @version  3.21.0
  */
 function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item ) {
 

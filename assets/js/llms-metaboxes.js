@@ -10,7 +10,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.21.0
  */
 ( function( $ ) {
 
@@ -48,7 +48,7 @@
 		/**
 		 * LifterLMS Admin Metabox Repeater Field
 		 * @since    3.11.0
-		 * @version  [version]
+		 * @version  3.21.0
 		 */
 		this.repeaters = {
 		
@@ -264,7 +264,7 @@
 			 * @param    obj   e  JS event object
 			 * @return   void
 			 * @since    3.11.0
-			 * @version  [version]
+			 * @version  3.21.0
 			 */
 			handle_submit: function( e ) {
 		
@@ -1155,7 +1155,7 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.21.0
 		 */
 		this.post_select = function( $el ) {
 

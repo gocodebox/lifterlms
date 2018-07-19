@@ -2,8 +2,8 @@
 /**
  * CRUD LifterLMS User Postmeta Data
  * All functions are pluggable
- * @since    [version]
- * @version  [version]
+ * @since    3.21.0
+ * @version  3.21.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -15,8 +15,8 @@ if ( ! function_exists( 'llms_delete_user_postmeta' ) ) :
 	 * @param    string     $meta_key    optional meta key for lookup, if not supplied, all matching items will be removed
 	 * @param    mixed      $meta_value  optional meta value for lookup, if not supplied, all matching items will be removed
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.0
+	 * @version  3.21.0
 	 */
 	function llms_delete_user_postmeta( $user_id, $post_id, $meta_key = null, $meta_value = null ) {
 
@@ -46,8 +46,8 @@ if ( ! function_exists( 'llms_get_user_postmeta' ) ) :
 	 * @param    bool       $single    if true, returns only the data
 	 * @param    string     $return    determine if the meta value or updated date should be returned [meta_value,updated_date]
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.0
+	 * @version  3.21.0
 	 */
 	function llms_get_user_postmeta( $user_id, $post_id, $meta_key = null, $single = true, $return = 'meta_value' ) {
 
@@ -87,8 +87,8 @@ if ( ! function_exists( 'llms_update_user_postmeta' ) ) :
 	 * @param    bool       $unique      if true, updates existing value (if it exists)
 	 *                                   if false, will add a new record (allowing multiple records with the same key to exist)
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.0
+	 * @version  3.21.0
 	 */
 	function llms_update_user_postmeta( $user_id, $post_id, $meta_key, $meta_value, $unique = true ) {
 
@@ -132,8 +132,8 @@ if ( ! function_exists( 'llms_bulk_update_user_postmeta' ) ) :
 	 *                                   if false, will add a new record (allowing multiple records with the same key to exist)
 	 * @return   array|true              on error returns an associative array of the submitted keys, each item will be true for success or false for error
 	 *                                   on success returns true
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.0
+	 * @version  3.21.0
 	 */
 	function llms_bulk_update_user_postmeta( $user_id, $post_id, $data = array(), $unique = true ) {
 
@@ -162,8 +162,8 @@ if ( ! function_exists( '_llms_query_user_postmeta' ) ) :
 	 * @param    string     $meta_key    optional meta key
 	 * @param    string     $meta_value  optional meta value
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.0
+	 * @version  3.21.0
 	 */
 	function _llms_query_user_postmeta( $user_id, $post_id, $meta_key = null, $meta_value = null ) {
 

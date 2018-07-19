@@ -42,7 +42,7 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	 * @param    mixed      $item     meta_id of a user postmeta item or an object with at least an "id"
 	 * @param    bool       $hydrate  if true, hydrates the object on instantiation (if an ID was found via $item)
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	public function __construct( $item = null, $hydrate = true ) {
 

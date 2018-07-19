@@ -4,8 +4,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Bulk Enrollment Class
  *
- * @since	3.20.0
- * @version	[version]
+ * @since   3.20.0
+ * @version 3.21.0
  */
 class LLMS_Student_Bulk_Enroll {
 
@@ -40,8 +40,8 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Constructor
 	 *
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	public function __construct() {
 		// hook into extra ui on users table to display product selection
@@ -57,9 +57,9 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Displays ui for selecting product to bulk enroll users into
 	 *
-	 * @param	string $which
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @param   string $which
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	public function display_product_selection_for_bulk_users( $which ) {
 
@@ -81,9 +81,9 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Conditionally enrolls multiple users into a product
 	 *
-	 * @return	void
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @return  void
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	public function maybe_enroll_users_in_product() {
 
@@ -123,11 +123,11 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Retrieves submitted inputs
 	 *
-	 * @param	string $param The input key
-	 * @param	mixed $validation Validation filter constant
-	 * @return	mixed The submitted input value
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @param   string $param The input key
+	 * @param   mixed $validation Validation filter constant
+	 * @return  mixed The submitted input value
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	private function _bottom_else_top( $param, $validation = FILTER_DEFAULT ) {
 
@@ -153,8 +153,8 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Enrolls multiple users into a product
 	 *
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	private function enroll_users_in_product() {
 
@@ -180,10 +180,10 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Get user details from user IDs
 
-	 * @param	array $user_ids WP user IDs
-	 * @return	array User details
-	 * @since	3.20.0
-	 * @version	[version]
+	 * @param   array $user_ids WP user IDs
+	 * @return  array User details
+	 * @since   3.20.0
+	 * @version 3.21.0
 	 */
 	private function get_users( $user_ids ) {
 
@@ -204,10 +204,10 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Enrolls a user into the selected product
 	 *
-	 * @param	WP_User $user User object
-	 * @param	string $trigger Enrollment trigger string
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @param   WP_User $user User object
+	 * @param   string $trigger Enrollment trigger string
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	private function enroll( $user, $trigger ) {
 
@@ -230,10 +230,10 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Generates admin notice markup
 	 *
-	 * @param	string $type Type of notice 'error' or 'success'
-	 * @param	string $message Notice message
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @param   string $type Type of notice 'error' or 'success'
+	 * @param   string $message Notice message
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	public function generate_notice( $type, $message ) {
 		ob_start();
@@ -249,9 +249,9 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Displays all generated notices
 	 *
-	 * @return	void
-	 * @since	3.20.0
-	 * @version	3.20.0
+	 * @return  void
+	 * @since   3.20.0
+	 * @version 3.20.0
 	 */
 	public function display_notices() {
 		if ( empty( $this->admin_notices ) ) {

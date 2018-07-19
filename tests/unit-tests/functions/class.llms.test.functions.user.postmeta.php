@@ -3,8 +3,8 @@
  * Tests for LifterLMS User Postmeta functions
  * @group    functions
  * @group    user_postmeta
- * @since    [version]
- * @version  [version]
+ * @since    3.21.0
+ * @version  3.21.0
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 

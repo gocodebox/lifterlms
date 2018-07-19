@@ -566,7 +566,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    int           $product_id   WP Post ID of the course or membership
 	 * @return   string|false
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	public function get_enrollment_trigger( $product_id ) {
 
@@ -1155,7 +1155,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param  string     $trigger      String describing the reason for mark completion
 	 * @return boolean
 	 * @since    3.3.1
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	private function insert_completion_postmeta( $object_id, $trigger = 'unspecified' ) {
 
@@ -1232,7 +1232,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger      String describing the reason for enrollment
 	 * @return   boolean
 	 * @since    2.2.3
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	private function insert_enrollment_postmeta( $product_id, $trigger = 'unspecified' ) {
 
@@ -1257,7 +1257,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger  String describing the reason for enrollment (optional)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	private function insert_status_postmeta( $product_id, $status = '', $trigger = null ) {
 

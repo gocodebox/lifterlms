@@ -346,7 +346,7 @@
 		 * Start a Quiz via AJAX call
 		 * @return   void
 		 * @since    1.0.0
-		 * @version  [version]
+		 * @version  3.21.0
 		 */
 		start_quiz: function () {
 

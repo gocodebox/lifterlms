@@ -4,15 +4,15 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  [version]
+ * @version  3.21.0
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * test the llms_assoc_array_insert
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.0
+	 * @version  3.21.0
 	 */
 	public function test_llms_assoc_array_insert() {
 

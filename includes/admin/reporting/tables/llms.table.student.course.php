@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Individual Student's Courses Table
  * @since   3.2.0
- * @version [version]
+ * @version 3.21.0
  */
 class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
@@ -131,7 +131,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param    obj     $lesson  the current lesson instance
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	public function output_section_row_html( $lesson ) {
 
@@ -151,7 +151,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * Allow custom hooks to be registered for use within the class
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.21.0
 	 */
 	protected function register_hooks() {
 		add_action( 'llms_table_before_tr', array( $this, 'output_section_row_html' ), 10, 1 );
