@@ -489,10 +489,9 @@ class LLMS_Admin_Settings {
 				if ( $field['show_if_checked'] == 'option' ) {
 					$visbility_class[] = 'show_options_if_checked';
 				}
-
 				if ( ! isset( $field['checkboxgroup'] ) || 'start' == $field['checkboxgroup'] ) {
 					?>
-	            		<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?>">
+	            		<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?> <?php echo $disabled_class; ?>">
 							<th><?php echo esc_html( $field['title'] ) ?></th>
 							<td class="forminp forminp-checkbox">
 								<fieldset>
