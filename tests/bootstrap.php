@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Testing Bootstrap
  * @since    3.3.1
- * @version  3.19.4
+ * @version  [version]
  * @thanks   WooCommerce <3
  */
 class LLMS_Unit_Tests_Bootstrap {
@@ -100,9 +100,9 @@ class LLMS_Unit_Tests_Bootstrap {
 
 	/**
 	 * Install LifterLMS
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	public function install_llms() {
 
@@ -112,6 +112,17 @@ class LLMS_Unit_Tests_Bootstrap {
 		define( 'WP_UNINSTALL_PLUGIN', true );
 		define( 'LLMS_REMOVE_ALL_DATA', true );
 		include( $this->plugin_dir . '/uninstall.php' );
+
+		// setup translation files to ensure localization loads in the correct order during plugin initialization
+		if ( file_exists( WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo' ) ) {
+			unlink( WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo' );
+		}
+		copy( LLMS_TESTS_DIR . '/assets/custom-lifterlms-en_US.mo', WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo' );
+
+		if ( file_exists( WP_LANG_DIR . '/plugins/lifterlms-en_US.mo' ) ) {
+			unlink( WP_LANG_DIR . '/plugins/lifterlms-en_US.mo' );
+		}
+		copy( LLMS_TESTS_DIR . '/assets/lifterlms-en_US.mo', WP_LANG_DIR . '/plugins/lifterlms-en_US.mo' );
 
 		// install LLMS
 		LLMS_Install::install();
