@@ -37,7 +37,7 @@ function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item 
 	$res = array();
 
 	$new_item = array(
-		$insert_key => $insert_item
+		$insert_key => $insert_item,
 	);
 
 	$index = array_search( $after_key, array_keys( $array ) );
