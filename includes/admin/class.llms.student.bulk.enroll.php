@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Bulk Enrollment Class
  *
- * @since	[version]
+ * @since	3.20.0
  * @version	[version]
  */
 class LLMS_Student_Bulk_Enroll {
@@ -40,8 +40,8 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Constructor
 	 *
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	public function __construct() {
 		// hook into extra ui on users table to display product selection
@@ -58,8 +58,8 @@ class LLMS_Student_Bulk_Enroll {
 	 * Displays ui for selecting product to bulk enroll users into
 	 *
 	 * @param	string $which
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	public function display_product_selection_for_bulk_users( $which ) {
 
@@ -82,8 +82,8 @@ class LLMS_Student_Bulk_Enroll {
 	 * Conditionally enrolls multiple users into a product
 	 *
 	 * @return	void
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	public function maybe_enroll_users_in_product() {
 
@@ -126,8 +126,8 @@ class LLMS_Student_Bulk_Enroll {
 	 * @param	string $param The input key
 	 * @param	mixed $validation Validation filter constant
 	 * @return	mixed The submitted input value
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	private function _bottom_else_top( $param, $validation = FILTER_DEFAULT ) {
 
@@ -153,8 +153,8 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Enrolls multiple users into a product
 	 *
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	private function enroll_users_in_product() {
 
@@ -179,10 +179,10 @@ class LLMS_Student_Bulk_Enroll {
 
 	/**
 	 * Get user details from user IDs
-	 *
+
 	 * @param	array $user_ids WP user IDs
 	 * @return	array User details
-	 * @since	[version]
+	 * @since	3.20.0
 	 * @version	[version]
 	 */
 	private function get_users( $user_ids ) {
@@ -206,8 +206,8 @@ class LLMS_Student_Bulk_Enroll {
 	 *
 	 * @param	WP_User $user User object
 	 * @param	string $trigger Enrollment trigger string
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	private function enroll( $user, $trigger ) {
 
@@ -232,8 +232,8 @@ class LLMS_Student_Bulk_Enroll {
 	 *
 	 * @param	string $type Type of notice 'error' or 'success'
 	 * @param	string $message Notice message
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	public function generate_notice( $type, $message ) {
 		ob_start();
@@ -250,8 +250,8 @@ class LLMS_Student_Bulk_Enroll {
 	 * Displays all generated notices
 	 *
 	 * @return	void
-	 * @since	[version]
-	 * @version	[version]
+	 * @since	3.20.0
+	 * @version	3.20.0
 	 */
 	public function display_notices() {
 		if ( empty( $this->admin_notices ) ) {

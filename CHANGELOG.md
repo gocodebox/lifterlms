@@ -19,6 +19,11 @@ v3.21.0 - 2018-07-18
 + Fixed plugin compatibility issue with Advanced Custom Fields
 + Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
 + Fixed incorrectly named filter causing section titles to not display on student course reporting screens
++ We do not advocate using PHP 5.5 or lower but if you were using 5.5 or lower and encountered an error during bulk enrollment we've fixed that for. Please upgrade to 7.2 though. We all want faster more secure websites.
+
+##### Template Updates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
 
 
 v3.20.0 - 2018-07-12
