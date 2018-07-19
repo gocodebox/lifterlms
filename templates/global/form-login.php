@@ -2,7 +2,7 @@
 /**
  * LifterLMS Login Form
  * @since    3.0.0
- * @version  3.19.4
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -24,6 +24,8 @@ if ( ! empty( $message ) ) {
 ?>
 
 <?php llms_print_notices(); ?>
+
+<?php do_action( 'llms_before_person_login_form' ); ?>
 
 <div class="col-1 llms-person-login-form-wrapper">
 
@@ -50,3 +52,5 @@ if ( ! empty( $message ) ) {
 	</form>
 
 </div>
+
+<?php do_action( 'llms_after_person_login_form' ); ?>
