@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Testing Bootstrap
  * @since    3.3.1
- * @version  [version]
+ * @version  3.21.1
  * @thanks   WooCommerce <3
  */
 class LLMS_Unit_Tests_Bootstrap {
@@ -102,7 +102,7 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * Install LifterLMS
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  [version]
+	 * @version  3.21.1
 	 */
 	public function install_llms() {
 

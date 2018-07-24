@@ -120,8 +120,8 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	/**
 	 * test the has_main_discount() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.1
+	 * @version  3.21.1
 	 */
 	public function test_has_main_discount() {
 

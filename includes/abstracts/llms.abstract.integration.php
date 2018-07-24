@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * LifterLMS Integration Abstract
 * @since   3.0.0
-* @version [version]
+* @version 3.21.1
 */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
@@ -101,7 +101,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Retrieve an array of integration related settings
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.21.1
 	 */
 	protected function get_settings() {
 

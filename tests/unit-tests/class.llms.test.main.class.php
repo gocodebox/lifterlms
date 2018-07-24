@@ -2,7 +2,7 @@
 /**
  * Tests for LifterLMS Main Class
  * @since   3.3.1
- * @version [version]
+ * @version 3.21.1
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
@@ -65,8 +65,8 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	/**
 	 * Test plugin localization
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.21.1
+	 * @version  3.21.1
 	 */
 	public function test_localize() {
 
