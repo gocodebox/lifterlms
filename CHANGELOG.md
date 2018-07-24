@@ -7,6 +7,7 @@ v3.21.1 - 2018-07-24
 + Fixed issue causing visual issues on checkout summary when using coupons which apply discounts to a plan trial
 + Fixed issue causing `.mo` files stored in the `languages/lifterlms` safe directory from being loaded before files stored in the default location `languages/plugins`
 + Added methods to integration abstract to allow integration developers to automatically describe missing integration dependencies
++ Tested to WordPress 4.9.8
 
 ##### Template Updates
 
