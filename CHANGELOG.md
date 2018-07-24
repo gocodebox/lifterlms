@@ -1,10 +1,17 @@
 LifterLMS Changelog
 ===================
 
-v3.21.1 - 2018-07-19
+v3.21.1 - 2018-07-24
 --------------------
 
++ Fixed issue causing visual issues on checkout summary when using coupons which apply discounts to a plan trial
 + Fixed issue causing `.mo` files stored in the `languages/lifterlms` safe directory from being loaded before files stored in the default location `languages/plugins`
+
+
+##### Template Updates
+
++ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
+
 
 
 v3.21.0 - 2018-07-18
