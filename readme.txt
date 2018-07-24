@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 5.6
-Tested up to: 4.9.6
+Tested up to: 4.9.8
 Stable tag: 3.21.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -355,6 +355,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.21.1 - 2018-07-24 =
+------------------------
+
++ Fixed issue causing visual issues on checkout summary when using coupons which apply discounts to a plan trial
++ Fixed issue causing `.mo` files stored in the `languages/lifterlms` safe directory from being loaded before files stored in the default location `languages/plugins`
++ Added methods to integration abstract to allow integration developers to automatically describe missing integration dependencies
++ Tested to WordPress 4.9.8
+
+##### Template Updates
+
++ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
+
+
 = v3.21.0 - 2018-07-18 =
 ------------------------
 
@@ -504,16 +517,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-switch-source.php)
 + [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
 + [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
-
-
-= v3.18.2 - 2018-05-24 =
-------------------------
-
-+ Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
-+ Allow programmatic access to notification content when notification views are accessed via filters
-+ Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
-+ Fixed warning message displayed prior to membership bulk enrollment
-+ Fixed multibyte character encoding issue encountered during certificate exports
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:497, includes/admin/class.llms.admin.menus.php:131
+#: lifterlms.php:504, includes/admin/class.llms.admin.menus.php:131, tests/unit-tests/class.llms.test.main.class.php:103
 msgid "Settings"
 msgstr ""
 
@@ -670,7 +670,7 @@ msgstr ""
 msgid "You must select an answer to continue."
 msgstr ""
 
-#: includes/class.llms.nav.menus.php:41, includes/privacy/class-llms-privacy.php:19
+#: includes/class.llms.nav.menus.php:41, includes/privacy/class-llms-privacy.php:19, tests/unit-tests/class.llms.test.main.class.php:97
 msgid "LifterLMS"
 msgstr ""
 
@@ -967,7 +967,7 @@ msgstr[1] ""
 msgid "Courses"
 msgstr ""
 
-#: includes/class.llms.post-types.php:240, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/admin/reporting/tables/llms.table.quizzes.php:305, includes/admin/views/builder/editor.php:15
+#: includes/class.llms.post-types.php:240, tests/unit-tests/class.llms.test.main.class.php:100, includes/admin/post-types/post-tables/class.llms.admin.post.table.lessons.php:40, includes/admin/reporting/tables/llms.table.quizzes.php:305, includes/admin/views/builder/editor.php:15
 msgid "Course"
 msgstr ""
 
@@ -1078,7 +1078,7 @@ msgstr ""
 msgid "Lessons"
 msgstr ""
 
-#: includes/class.llms.post-types.php:311, includes/admin/reporting/tables/llms.table.quizzes.php:310, includes/admin/views/builder/editor.php:19
+#: includes/class.llms.post-types.php:311, tests/unit-tests/class.llms.test.main.class.php:106, includes/admin/reporting/tables/llms.table.quizzes.php:310, includes/admin/views/builder/editor.php:19
 msgid "Lesson"
 msgstr ""
 
@@ -2651,7 +2651,7 @@ msgstr ""
 msgid "Checking this box will allow users to use this payment gateway."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:262, includes/abstracts/llms.abstract.integration.php:115, includes/admin/settings/class.llms.settings.accounts.php:245, includes/admin/settings/class.llms.settings.accounts.php:377
+#: includes/abstracts/abstract.llms.payment.gateway.php:262, includes/abstracts/llms.abstract.integration.php:124, includes/admin/settings/class.llms.settings.accounts.php:245, includes/admin/settings/class.llms.settings.accounts.php:377
 msgid "Enable / Disable"
 msgstr ""
 
@@ -2708,7 +2708,7 @@ msgstr ""
 msgid "This completion percentage is an estimate, please be patient and %sclick here%s for more information."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.integration.php:111
+#: includes/abstracts/llms.abstract.integration.php:120
 msgid "Check to enable this integration."
 msgstr ""
 
@@ -5419,15 +5419,15 @@ msgctxt "Remaining coupon uses"
 msgid "Unlimited"
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:251
+#: includes/models/model.llms.coupon.php:261
 msgid "This coupon has reached its usage limit and can no longer be used."
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:255
+#: includes/models/model.llms.coupon.php:265
 msgid "This coupon expired on %s and can no longer be used."
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:259, includes/models/model.llms.coupon.php:263
+#: includes/models/model.llms.coupon.php:269, includes/models/model.llms.coupon.php:273
 msgid "This coupon cannot be used to purchase \"%s\"."
 msgstr ""
 
@@ -6413,6 +6413,10 @@ msgstr ""
 
 #: templates/quiz/start-button.php:37, templates/quiz/start-button.php:47
 msgid "You are not able take this quiz"
+msgstr ""
+
+#: tests/unit-tests/class.llms.test.main.class.php:109
+msgid "arstienarstyularst"
 msgstr ""
 
 #: includes/admin/analytics/class.llms.analytics.courses.php:39

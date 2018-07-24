@@ -14,7 +14,6 @@ v3.21.1 - 2018-07-24
 + [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
 
 
-
 v3.21.0 - 2018-07-18
 --------------------
 
