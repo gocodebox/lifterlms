@@ -113,16 +113,35 @@ class LLMS_Unit_Tests_Bootstrap {
 		define( 'LLMS_REMOVE_ALL_DATA', true );
 		include( $this->plugin_dir . '/uninstall.php' );
 
-		// setup translation files to ensure localization loads in the correct order during plugin initialization
-		if ( file_exists( WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo' ) ) {
-			unlink( WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo' );
-		}
-		copy( LLMS_TESTS_DIR . '/assets/custom-lifterlms-en_US.mo', WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo' );
+		$files = array(
+			array(
+				'orig' => $this->tests_dir . '/assets/custom-lifterlms-en_US.mo',
+				'dest' => WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo',
+			),
+			array(
+				'orig' => $this->tests_dir . '/assets/lifterlms-en_US.mo',
+				'dest' => WP_LANG_DIR . '/plugins/lifterlms-en_US.mo',
+			),
+		);
 
-		if ( file_exists( WP_LANG_DIR . '/plugins/lifterlms-en_US.mo' ) ) {
-			unlink( WP_LANG_DIR . '/plugins/lifterlms-en_US.mo' );
+		foreach ( $files as $file ) {
+
+			// remove the destination file to replace it each time we run a test
+			// copy fails if the dest file already exists
+			if ( file_exists( $file['dest'] ) ) {
+				unlink( $file['dest'] );
+			}
+
+			// make sure the destination dir exists
+			$path = pathinfo( $file['dest'] );
+		    if ( ! file_exists( $path['dirname'] ) ) {
+		        mkdir( $path['dirname'], 0777, true );
+		    }
+
+		    // copy the original to the destination
+		    copy( $file['orig'], $file['dest'] );
+
 		}
-		copy( LLMS_TESTS_DIR . '/assets/lifterlms-en_US.mo', WP_LANG_DIR . '/plugins/lifterlms-en_US.mo' );
 
 		// install LLMS
 		LLMS_Install::install();
