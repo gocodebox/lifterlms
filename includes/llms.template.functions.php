@@ -2,9 +2,8 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  3.20.0
+* @version  [version]
 */
-
 defined( 'ABSPATH' ) || exit;
 
 require 'functions/llms.functions.templates.achievements.php';
@@ -1194,6 +1193,18 @@ if ( ! function_exists( 'is_course_taxonomy' ) ) {
 
 	function is_course_taxonomy() {
 		return is_tax( get_object_taxonomies( 'course' ) );
+	}
+}
+
+/**
+ * Is Membership Tax
+ * @return   bool
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'is_membership_taxonomy' ) ) {
+	function is_membership_taxonomy() {
+		return is_tax( get_object_taxonomies( 'llms_membership' ) );
 	}
 }
 

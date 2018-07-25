@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.21.2 - 2018-07-??
+-------------------
+
++ Course and membership catalogs items in navigation menus will now have expected CSS classes to identify current item and current item parents
+
+
 v3.21.1 - 2018-07-24
 --------------------
 
