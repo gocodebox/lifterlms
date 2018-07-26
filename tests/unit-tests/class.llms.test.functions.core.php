@@ -4,9 +4,67 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  3.19.0
+ * @version  3.21.0
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
+
+	/**
+	 * test the llms_assoc_array_insert
+	 * @return   void
+	 * @since    3.21.0
+	 * @version  3.21.0
+	 */
+	public function test_llms_assoc_array_insert() {
+
+		// base array
+		$array = array(
+			'test' => 'asrt',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+
+		// after first item
+		$expect = array(
+			'test' => 'asrt',
+			'new_key' => 'item',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'test', 'new_key', 'item' ) );
+
+		// add in the middle
+		$expect = array(
+			'test' => 'asrt',
+			'tester' => 'asrtarst',
+			'new_key' => 'item',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'tester', 'new_key', 'item' ) );
+
+		// requested key doesn't exist so it'll be added to the end
+		$expect = array(
+			'test' => 'asrt',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+			'new_key' => 'item',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'noexist', 'new_key', 'item' ) );
+
+		// after last item
+		$expect = array(
+			'test' => 'asrt',
+			'new_key' => 'item',
+			'tester' => 'asrtarst',
+			'moretest_key' => 'arst',
+			'another' => 'arst',
+		);
+		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'another', 'new_key', 'item' ) );
+
+	}
 
 	/**
 	 * Test llms_get_core_supported_themes()
@@ -422,6 +480,47 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			$this->assertFalse( llms_parse_bool( $val ) );
 		}
 
+	}
+
+	/**
+	 * Test llms_redirect_and_exit() func with safe on
+	 * @return   void
+	 * @since    3.19.4
+	 * @version  3.19.4
+	 */
+	public function test_llms_redirect_and_exit_safe_on() {
+
+		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectExceptionMessage( 'https://lifterlms.com [302] YES' );
+		llms_redirect_and_exit( 'https://lifterlms.com' );
+
+	}
+
+	/**
+	 * Test llms_redirect_and_exit() func with safe on
+	 * @return   void
+	 * @since    3.19.4
+	 * @version  3.19.4
+	 */
+	public function test_llms_redirect_and_exit_safe_off() {
+
+		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectExceptionMessage( 'https://lifterlms.com [302] NO' );
+		llms_redirect_and_exit( 'https://lifterlms.com', array( 'safe' => false ) );
+
+	}
+
+	/**
+	 * Test llms_redirect_and_exit() func with safe custom status
+	 * @return   void
+	 * @since    3.19.4
+	 * @version  3.19.4
+	 */
+	public function test_llms_redirect_and_exit_safe_status() {
+
+		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectExceptionMessage( 'https://lifterlms.com [301] YES' );
+		llms_redirect_and_exit( 'https://lifterlms.com', array( 'status' => 301 ) );
 
 	}
 

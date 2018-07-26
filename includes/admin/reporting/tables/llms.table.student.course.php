@@ -1,13 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Individual Student's Courses Table
- *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.21.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
@@ -48,7 +46,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * Instance of LLMS_Student
 	 * @var  null
 	 */
-	protected $student = null;
+	public $student = null;
 
 	/**
 	 * Retrieve data for the columns
@@ -133,7 +131,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param    obj     $lesson  the current lesson instance
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.21.0
 	 */
 	public function output_section_row_html( $lesson ) {
 
@@ -142,7 +140,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			$sid = $lesson->get_parent_section();
 
 			if ( $this->current_section != $sid ) {
-				echo '<tr><th class="section-title"></th><th class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</th></tr>';
+				echo '<tr><td>' . $sid . '</td><td class="section-title" colspan="' . ( $this->get_columns_count() - 1 ) . '">' . sprintf( _x( 'Section: %s', 'section title', 'lifterlms' ), get_the_title( $sid ) ) . '</td></tr>';
 				$this->current_section = $sid;
 			}
 		}
@@ -153,10 +151,10 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * Allow custom hooks to be registered for use within the class
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.21.0
 	 */
 	protected function register_hooks() {
-		add_action( 'llms_gradebook_table_before_tr', array( $this, 'output_section_row_html' ), 10, 1 );
+		add_action( 'llms_table_before_tr', array( $this, 'output_section_row_html' ), 10, 1 );
 	}
 
 	/**
@@ -184,7 +182,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 				'title' => __( 'ID', 'lifterlms' ),
 			),
 			'name' => array(
-				'title' => __( 'Lesson Name', 'lifterlms' ),
+				'title' => __( 'Name', 'lifterlms' ),
 			),
 			'quiz' => array(
 				'title' => __( 'Quiz', 'lifterlms' ),

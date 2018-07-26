@@ -118,6 +118,39 @@ class LLMS_Test_LLMS_Coupon extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * test the has_main_discount() method
+	 * @return   void
+	 * @since    3.21.1
+	 * @version  3.21.1
+	 */
+	public function test_has_main_discount() {
+
+		$this->create();
+
+		// not set
+		$this->assertFalse( $this->obj->has_main_discount() );
+
+		// set to various positive numbers
+		$amounts = array(
+			'1', 1, '1.00', 1.00, 200, 2934234, 234.32, 0.50, '0.99'
+		);
+		foreach ( $amounts as $amount ) {
+			$this->obj->set( 'coupon_amount', $amount );
+			$this->assertTrue( $this->obj->has_main_discount() );
+		}
+
+		// 0 amounts
+		$amounts = array(
+			0, false, '', '0', '0.00', null, 0.00, '.00', 'no', 'arst',
+		);
+		foreach ( $amounts as $amount ) {
+			$this->obj->set( 'coupon_amount', $amount );
+			$this->assertFalse( $this->obj->has_main_discount() );
+		}
+
+	}
+
+	/**
 	 * Test has_trial_discount() function
 	 * @return   void
 	 * @since    3.4.0

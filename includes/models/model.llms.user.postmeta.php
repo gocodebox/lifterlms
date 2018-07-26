@@ -37,21 +37,30 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 	 */
 	protected $table = 'user_postmeta';
 
-	public function __construct( $item = null ) {
+	/**
+	 * Constructor
+	 * @param    mixed      $item     meta_id of a user postmeta item or an object with at least an "id"
+	 * @param    bool       $hydrate  if true, hydrates the object on instantiation (if an ID was found via $item)
+	 * @since    3.15.0
+	 * @version  3.21.0
+	 */
+	public function __construct( $item = null, $hydrate = true ) {
 
 		if ( is_numeric( $item ) ) {
 
 			$this->id = $item;
-			$this->hydrate();
 
 		} elseif ( is_object( $item ) && isset( $item->id ) ) {
 
 			$this->id = $item->id;
-			$this->hydrate();
 
 		}
 
 		parent::__construct();
+
+		if ( $this->id && $hydrate ) {
+			$this->hydrate();
+		}
 
 	}
 

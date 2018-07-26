@@ -10,7 +10,7 @@
 /**
  * LifterLMS Admin Panel Metabox Functions
  * @since    3.0.0
- * @version  3.18.2
+ * @version  3.21.0
  */
 ( function( $ ) {
 
@@ -48,7 +48,7 @@
 		/**
 		 * LifterLMS Admin Metabox Repeater Field
 		 * @since    3.11.0
-		 * @version  3.17.3
+		 * @version  3.21.0
 		 */
 		this.repeaters = {
 		
@@ -264,7 +264,7 @@
 			 * @param    obj   e  JS event object
 			 * @return   void
 			 * @since    3.11.0
-			 * @version  3.17.3
+			 * @version  3.21.0
 			 */
 			handle_submit: function( e ) {
 		
@@ -275,7 +275,7 @@
 					$spinner = $btn.parent().find( '.spinner' );
 		
 				// core UX to prevent multi-click/or the appearance of a delay
-				$( '#post input[type="submit"]' ).addClass( 'disabled' );
+				$( '#post input[type="submit"]' ).addClass( 'disabled' ).attr( 'disabled', 'disabled' );
 				$spinner.addClass( 'is-active' );
 		
 				var self = window.llms.metaboxes.repeaters,
@@ -293,7 +293,7 @@
 						clearInterval( wait );
 						$( '#post' ).off( 'submit', this.handle_submit );
 						$spinner.removeClass( 'is-active' );
-						$btn.removeClass( 'disabled' ).trigger( 'click' );
+						$btn.removeClass( 'disabled' ).removeAttr( 'disabled' ).trigger( 'click' );
 		
 					} else {
 		
@@ -486,7 +486,7 @@
 		
 				} );
 		
-			},
+			}
 		
 		};
 		this.repeaters.init();
@@ -1155,74 +1155,19 @@
 		 * Enable WP Post Table searches for applicable select2 boxes
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.17.5
+		 * @version  3.21.0
 		 */
 		this.post_select = function( $el ) {
 
-			var post_type = $el.attr( 'data-post-type' ) || post,
-				allow_clear = $el.attr( 'data-post-type' ) || false;
+			var multi = 'multiple' === $el.attr( 'multiple' );
 
-			$el.llmsSelect2( {
-				allowClear: allow_clear,
-				ajax: {
-					dataType: 'JSON',
-					delay: 250,
-					method: 'POST',
-					url: window.ajaxurl,
-					data: function( params ) {
-						return {
-							action: 'select2_query_posts',
-							page: ( params.page ) ? params.page - 1 : 0, // 0 index the pages to make it simpler for the database query
-							post_type: post_type,
-							term: params.term,
-							_ajax_nonce: wp_ajax_data.nonce,
-							// post_id: llms.post.id,
-						};
-					},
-					processResults: function( data, params ) {
-
-						// recursive function for creating
-						function map_data( items ) {
-
-							// this is a flat array of results
-							// used when only one post type is selected
-							// and to format children when using optgroups with multiple post types
-							if ( Array.isArray( items ) ) {
-								return $.map( items, function( item ) {
-									return format_item( item );
-								} );
-
-							// this sets up the top level optgroups when using multiple post types
-							} else {
-								return $.map( items, function( item ) {
-									return {
-										text: item.label,
-										children: map_data( item.items ),
-									}
-								} );
-							}
-						}
-
-						// format a single result (option)
-						function format_item( item ) {
-							return {
-								text: item.name,
-								id: item.id,
-							};
-						}
-
-						return {
-							results: map_data( data.items ),
-							pagination: {
-								more: data.more
-							}
-						};
-
-					},
-				},
-				cache: true,
-				width: '80%',
+			$el.llmsPostsSelect2( {
+				width: multi ? '100%' : '65%',
 			} );
+
+			if ( multi || $el.attr( 'data-no-view-button' ) ) {
+				return;
+			}
 
 			// add a "View" button to see what the selected page looks like
 			var msg = LLMS.l10n.translate( 'View' ),

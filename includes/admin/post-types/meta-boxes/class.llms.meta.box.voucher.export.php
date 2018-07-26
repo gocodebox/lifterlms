@@ -1,8 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Meta Box Voucher Export
+ * @since    ??
+ * @version  [version]
  */
 class LLMS_Meta_Box_Voucher_Export {
 
@@ -14,9 +16,10 @@ class LLMS_Meta_Box_Voucher_Export {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 *
 	 * @param object $post WP global post object
 	 * @return void
+	 * @since    ??
+	 * @version  [version]
 	 */
 	public static function output( $post ) {
 
@@ -52,6 +55,7 @@ class LLMS_Meta_Box_Voucher_Export {
 
 			<button type="submit" name="llms_generate_export" value="generate" class="button-primary"><?php _e( 'Generate Export', 'lifterlms' ); ?></button>
 			<?php wp_nonce_field( 'lifterlms_csv_export_data', 'lifterlms_export_nonce' ); ?>
+			<div class="clear"></div>
 		</div>
 		<?php
 

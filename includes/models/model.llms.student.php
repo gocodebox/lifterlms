@@ -563,19 +563,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the enrollment trigger for a the student's enrollment in a course
-	 * @param  int $product_id WP Post ID of the course or membership
-	 * @return string|false
+	 * @param    int           $product_id   WP Post ID of the course or membership
+	 * @return   string|false
+	 * @since    ??
+	 * @version  3.21.0
 	 */
 	public function get_enrollment_trigger( $product_id ) {
 
-		global $wpdb;
-
-		$q = $wpdb->get_var( $wpdb->prepare(
-			"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_enrollment_trigger' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
-
-		return ( $q ) ? $q : false;
+		$trigger = llms_get_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', true );
+		return $trigger ? $trigger : false;
 
 	}
 
@@ -1078,33 +1074,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Determine if a student has access to a product's content
-	 * @param      int     $product_id    WP Post ID of a course or membership
-	 * @return     boolean
-	 * @since      3.0.0
-	 * @version    3.12.2
-	 * @deprecated 3.12.2   This function previously differed from $this->is_enrolled() by
-	 *                      checking the status of an order and only returning true when
-	 *                      the order status and enrollment status were both true
-	 *                      this causes issues when a student is expired from a limited-access product
-	 *                      and is then manually re-enrolled by an admin
-	 *                      there is no way to change the access expiration information
-	 *                      and the enrollment status says "Enrolled" but the student still cannot
-	 *                      access the content
-	 *
-	 * 						Additionally redundant due to the fact that access is expired automatically
-	 * 						via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
-	 * 						This action changes the enrollment status thereby rendering this additional
-	 * 						access check redundant, confusing, unnecessary
-	 */
-	public function has_access( $product_id ) {
-
-		llms_deprecated_function( 'LLMS_Student::has_access()', '3.12.2', 'LLMS_Student::is_enrolled()' );
-		return $this->is_enrolled( $product_id );
-
-	}
-
-	/**
 	 * Determine if the student is active in at least one course or membership
 	 * @return   boolean
 	 * @since    3.14.0
@@ -1131,7 +1100,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		return false;
 
 	}
-
 
 	/**
 	 * Determine if the student has completed a course, track, or lesson
@@ -1186,13 +1154,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
 	 * @param  string     $trigger      String describing the reason for mark completion
 	 * @return boolean
-	 *
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.21.0
 	 */
 	private function insert_completion_postmeta( $object_id, $trigger = 'unspecified' ) {
-
-		global $wpdb;
 
 		// add info to the user postmeta table
 		$user_metadatas = array(
@@ -1200,27 +1165,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'_completion_trigger' => $trigger,
 		);
 
-		foreach ( $user_metadatas as $key => $value ) {
+		$update = llms_bulk_update_user_postmeta( $this->get_id(), $object_id, $user_metadatas, false );
 
-			$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-				array(
-					'user_id'      => $this->get_id(),
-					'post_id'      => $object_id,
-					'meta_key'     => $key,
-					'meta_value'   => $value,
-					'updated_date' => current_time( 'mysql' ),
-				),
-				array( '%d', '%d', '%s', '%s', '%s' )
-			);
-
-			if ( ! $update ) {
-
-				return false;
-
-			}
-		}
-
-		return true;
+		// returns an array with errored keys or true on success
+		return is_array( $update ) ? false : true;
 
 	}
 
@@ -1230,7 +1178,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
 	 * @param  string     $trigger      String describing the reason for mark incompletion
 	 * @return boolean
-	 *
 	 * @since    3.5.0
 	 * @version  3.5.0
 	 */
@@ -1285,11 +1232,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger      String describing the reason for enrollment
 	 * @return   boolean
 	 * @since    2.2.3
-	 * @version  3.17.0
+	 * @version  3.21.0
 	 */
 	private function insert_enrollment_postmeta( $product_id, $trigger = 'unspecified' ) {
-
-		global $wpdb;
 
 		// add info to the user postmeta table
 		$user_metadatas = array(
@@ -1298,27 +1243,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'_status'             => 'enrolled',
 		);
 
-		foreach ( $user_metadatas as $key => $value ) {
+		$update = llms_bulk_update_user_postmeta( $this->get_id(), $product_id, $user_metadatas, false );
 
-			$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-				array(
-					'user_id'      => $this->get_id(),
-					'post_id'      => $product_id,
-					'meta_key'     => $key,
-					'meta_value'   => $value,
-					'updated_date' => llms_current_time( 'mysql' ),
-				),
-				array( '%d', '%d', '%s', '%s', '%s' )
-			);
-
-			if ( ! $update ) {
-
-				return false;
-
-			}
-		}
-
-		return true;
+		// returns an array with errored keys or true on success
+		return is_array( $update ) ? false : true;
 
 	}
 
@@ -1329,50 +1257,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger  String describing the reason for enrollment (optional)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  3.21.0
 	 */
 	private function insert_status_postmeta( $product_id, $status = '', $trigger = null ) {
 
-		global $wpdb;
+		$update = llms_update_user_postmeta( $this->get_id(), $product_id, '_status', $status, false );
 
-		$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-			array(
-				'user_id'      => $this->get_id(),
-				'post_id'      => $product_id,
-				'meta_key'     => '_status',
-				'meta_value'   => $status,
-				'updated_date' => llms_current_time( 'mysql' ),
-			),
-			array( '%d', '%d', '%s', '%s', '%s' )
-		);
-
-		if ( $update ) {
-
-			if ( $trigger ) {
-
-				$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-					array(
-						'user_id'      => $this->get_id(),
-						'post_id'      => $product_id,
-						'meta_key'     => '_enrollment_trigger',
-						'meta_value'   => $trigger,
-						'updated_date' => llms_current_time( 'mysql' ),
-					),
-					array( '%d', '%d', '%s', '%s', '%s' )
-				);
-
-			}
+		if ( $update && $trigger ) {
+			$update = llms_update_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', $trigger, false );
 		}
 
-		if ( ! $update ) {
-
-			return false;
-
-		} else {
-
-			return true;
-
-		}
+		return $update;
 
 	}
 
@@ -1732,6 +1627,33 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_quiz_data( $quiz = null, $lesson = null ) {
 		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '[version]', 'LLMS_Student->quizzes()->get_all()' );
 		return $this->quizzes()->get_all( $quiz, $lesson );
+	}
+
+	/**
+	 * Determine if a student has access to a product's content
+	 * @param      int     $product_id    WP Post ID of a course or membership
+	 * @return     boolean
+	 * @since      3.0.0
+	 * @version    3.12.2
+	 * @deprecated 3.12.2   This function previously differed from $this->is_enrolled() by
+	 *                      checking the status of an order and only returning true when
+	 *                      the order status and enrollment status were both true
+	 *                      this causes issues when a student is expired from a limited-access product
+	 *                      and is then manually re-enrolled by an admin
+	 *                      there is no way to change the access expiration information
+	 *                      and the enrollment status says "Enrolled" but the student still cannot
+	 *                      access the content
+	 *
+	 * 						Additionally redundant due to the fact that access is expired automatically
+	 * 						via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
+	 * 						This action changes the enrollment status thereby rendering this additional
+	 * 						access check redundant, confusing, unnecessary
+	 */
+	public function has_access( $product_id ) {
+
+		llms_deprecated_function( 'LLMS_Student::has_access()', '3.12.2', 'LLMS_Student::is_enrolled()' );
+		return $this->is_enrolled( $product_id );
+
 	}
 
 }

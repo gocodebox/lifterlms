@@ -1,13 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * WPDB database interactions
  * @since    3.14.0
- * @version  3.16.0
+ * @version  3.21.0
  */
-
-// Restrict direct access
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Database_Store {
 
 	protected $id = null;
@@ -50,7 +48,7 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Constructor
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.21.0
 	 */
 	public function __construct() {
 
@@ -58,11 +56,11 @@ abstract class LLMS_Abstract_Database_Store {
 
 			// if created dates supported, add current time to the data on construction
 			if ( $this->date_created ) {
-				$this->set( $this->date_created, current_time( 'mysql' ), false );
+				$this->set( $this->date_created, llms_current_time( 'mysql' ), false );
 			}
 
 			if ( $this->date_updated ) {
-				$this->set( $this->date_updated, current_time( 'mysql' ), false );
+				$this->set( $this->date_updated, llms_current_time( 'mysql' ), false );
 			}
 		}
 
@@ -138,7 +136,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    boolean    $save  if true, immediately persists to database
 	 * @return   self
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.21.0
 	 */
 	public function set( $key, $val, $save = false ) {
 
@@ -149,7 +147,7 @@ abstract class LLMS_Abstract_Database_Store {
 			);
 			// if update date supported, add an updated date
 			if ( $this->date_updated ) {
-				$update[ $this->date_updated ] = current_time( 'mysql' );
+				$update[ $this->date_updated ] = llms_current_time( 'mysql' );
 			}
 			$this->update( $update );
 		}

@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Membership Settings Metabox
  * @since   1.0.0
- * @version 3.4.0
+ * @version 3.20.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 	/**
@@ -65,9 +64,11 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 * @return array
 	 * @since    3.0.0
-	 * @version  3.4.0
+	 * @version  3.20.0
 	 */
 	public function get_fields() {
+
+		global $post;
 
 		$membership = new LLMS_Membership( $this->post );
 
@@ -80,30 +81,65 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			);
 		}
 
+		$sales_page_content_type = 'none';
+		if ( $post && 'auto-draft' !== $post->post_status && $post->post_excerpt ) {
+			$sales_page_content_type = 'content';
+		}
+
 		return array(
 			array(
-				'title' 	=> __( 'Description', 'lifterlms' ),
+				'title' 	=> __( 'Sales Page', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
-						'type'		=> 'post-content',
-						'label'		=> __( 'Members Description', 'lifterlms' ),
-						'desc' 		=> __( 'If the Non-Members area below is left blank, this content will be displayed to all visitors, otherwise this content will only be displayed to active members.', 'lifterlms' ),
-						'id' 		=> '',
-						'class' 	=> '',
-						'value' 	=> '',
-						'desc_class' => '',
-						'group' 	=> '',
+						'allow_null' => false,
+						'class' 	=> 'llms-select2',
+						'desc' 		    => __( 'Customize the content displayed to visitors and students who are not enrolled in the membership.', 'lifterlms' ),
+						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
+						'default'       => $sales_page_content_type,
+						'id'            => $this->prefix . 'sales_page_content_type',
+						'is_controller' => true,
+						'label'		    => __( 'Sales Page Content', 'lifterlms' ),
+						'type'		=> 'select',
+						'value' 	=> array(
+							'none' => __( 'Display default membership content', 'lifterlms' ),
+							'content' => __( 'Show custom content', 'lifterlms' ),
+							'page' => __( 'Redirect to WordPress Page', 'lifterlms' ),
+							'url' => __( 'Redirect to custom URL', 'lifterlms' ),
+						),
 					),
 					array(
+						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller_value' => 'content',
+						'desc' 		=> __( 'This content will only be shown to visitors who are not enrolled in this membership.', 'lifterlms' ),
+						'id'        => '',
+						'label'		=> __( 'Sales Page Custom Content', 'lifterlms' ),
 						'type'		=> 'post-excerpt',
-						'label'		=> __( 'Non-Members Description', 'lifterlms' ),
-						'desc' 		=> __( 'This content will only be shown to vistors who do not have access to this membership.', 'lifterlms' ),
-						'id' 		=> '',
-						'class' 	=> '',
-						'value' 	=> '',
-						'desc_class' => '',
-						'group' 	=> '',
 					),
+					array(
+						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller_value' => 'page',
+						'data_attributes' => array(
+							'post-type' => 'page',
+							'placeholder' => __( 'Select a page', 'lifterlms' ),
+						),
+						'class' 	=> 'llms-select2-post',
+						'id' 		=> $this->prefix . 'sales_page_content_page_id',
+						'type'		=> 'select',
+						'label'		=> __( 'Select a Page', 'lifterlms' ),
+						'value'     => $membership->get( 'sales_page_content_page_id' ) ? llms_make_select2_post_array( array( $membership->get( 'sales_page_content_page_id' ) ) ) : array(),
+					),
+					array(
+						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller_value' => 'url',
+						'type'		=> 'text',
+						'label'		=> __( 'Sales Page Redirect URL', 'lifterlms' ),
+						'id' 		=> $this->prefix . 'sales_page_content_url',
+						'class' 	=> 'input-full',
+						'value' 	=> '',
+						'desc_class' => 'd-all',
+						'group' 	=> 'top',
+					),
+
 				),
 			),
 
@@ -216,9 +252,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	/**
 	 * Save field data
 	 * Called by $this->save_actions()
-	 * @param  int   $post_id   WP Post ID of the post being saved
-	 * @return void
-	 * @since  3.0.0
+	 * @param    int   $post_id   WP Post ID of the post being saved
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.20.0
 	 */
 	public function save( $post_id ) {
 
@@ -235,6 +272,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			'redirect_custom_url',
 			'restriction_add_notice',
 			'restriction_notice',
+			'sales_page_content_page_id',
+			'sales_page_content_type',
+			'sales_page_content_url',
 		);
 		foreach ( $fields as $field ) {
 

@@ -2,7 +2,7 @@
 /**
  * Order Summary area of the checkout form
  * @since     2.4.2
- * @version   3.19.0
+ * @version   3.21.1
  */
 defined( 'ABSPATH' ) || exit;
 ?>
@@ -10,19 +10,19 @@ defined( 'ABSPATH' ) || exit;
 	<li><span class="llms-label"><?php echo $product->get_post_type_label( 'singular_name' ); ?>:</span> <?php echo $product->get( 'title' ); ?></li>
 	<li><span class="llms-label"><?php _e( 'Access Plan', 'lifterlms' ); ?>:</span> <?php echo $plan->get( 'title' ); ?></li>
 	<?php if ( $plan->has_trial() ) : ?>
-		<li>
+		<li class="llms-pricing llms-pricing-trial<?php echo ( $coupon && $coupon->has_trial_discount() ) ? ' has-coupon' : ''; ?>">
 			<span class="llms-label"><?php _e( 'Trial', 'lifterlms' ); ?>:</span>
 			<span class="price-regular price-trial"><?php echo $plan->get_price( 'trial_price' ); ?></span>
-			<?php if ( $coupon ) : ?>
+			<?php if ( $coupon && $coupon->has_trial_discount() ) : ?>
 				<span class="price-coupon"><?php echo $plan->get_price_with_coupon( 'trial_price', $coupon ); ?></span>
 			<?php endif; ?>
 			<?php echo $plan->get_trial_details(); ?>
 		</li>
 	<?php endif; ?>
-	<li>
+	<li class="llms-pricing llms-pricing-main<?php echo $plan->is_on_sale() ? ' on-sale' : ''; ?><?php echo ( $coupon && $coupon->has_main_discount() ) ? ' has-coupon' : ''; ?>">
 		<span class="llms-label"><?php _e( 'Terms', 'lifterlms' ); ?>:</span>
 		<span class="price-regular"><?php echo $plan->get_price( 'price' ); ?></span>
-		<?php if ( $coupon ) : ?>
+		<?php if ( $coupon && $coupon->has_main_discount() ) : ?>
 			<span class="price-coupon"><?php echo $plan->get_price_with_coupon( $plan->is_on_sale() ? 'sale_price' : 'price', $coupon ); ?></span>
 		<?php else : ?>
 			<?php if ( $plan->is_on_sale() ) : ?>

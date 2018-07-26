@@ -4,8 +4,8 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 5.6
-Tested up to: 4.9.6
-Stable tag: 3.19.3
+Tested up to: 4.9.8
+Stable tag: 3.21.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,104 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+v3.21.2 - 2018-07-??
+-----------------------
+
++ Course and membership catalogs items in navigation menus will now have expected CSS classes to identify current item and current item parents
+
+
+= v3.21.1 - 2018-07-24 =
+------------------------
+
++ Fixed issue causing visual issues on checkout summary when using coupons which apply discounts to a plan trial
++ Fixed issue causing `.mo` files stored in the `languages/lifterlms` safe directory from being loaded before files stored in the default location `languages/plugins`
++ Added methods to integration abstract to allow integration developers to automatically describe missing integration dependencies
++ Tested to WordPress 4.9.8
+
+##### Template Updates
+
++ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
+
+
+= v3.21.0 - 2018-07-18 =
+------------------------
+
+##### Updates and Enhancements
+
++ Added new actions before and after global login form HTML: `llms_before_person_login_form` & `llms_after_person_login_form`
++ Settings API can now create disabled fields
++ Added new actions to the checkout form: `lifterlms_pre_checkout_form` && `lifterlms_post_checkout_form`
++ Added CRUD functions for interacting with data located in the `wp_lifterlms_user_postmeta` table
++ Replaced various database queries for CRUD user postmeta data with new CRUD functions
++ Added new utility function to allow splicing data into associative arrays
+
+##### Bug Fixes
+
++ If all user information fields are disabled, the "Student Information" are will now be hidden during checkout for logged in users instead of displaying an empty information box
++ Fixed plugin compatibility issue with Advanced Custom Fields
++ Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
++ Fixed incorrectly named filter causing section titles to not display on student course reporting screens
++ We do not advocate using PHP 5.5 or lower but if you were using 5.5 or lower and encountered an error during bulk enrollment we've fixed that for. Please upgrade to 7.2 though. We all want faster more secure websites.
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [templates/global/form-login.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-login.php)
+
+
+= v3.20.0 - 2018-07-12 =
+------------------------
+
++ Updated user interfaces on admin panel for courses and memberships with relation to "Enrolled" and "Non-Enrolled" student descriptions
++ "Enrolled Student Description" is now the default WordPress editor
++ "Non-Enrolled Student Description" is now the "Sales Page"
++ Additional options for sales pages (the content displayed to visitors and non-enrolled students) have been added:
+  + Do nothing (show course description)
+  + Show custom content (use a WYSIWYG editor to define content)
+  + Redirect to a WordPress page (use custom templates and enhance page builder compatibility and capabilities)
+  + Redirect to a custom URL (use a sales page hosted on another domain!)
++ Tested to WordPress 4.9.7
+
+= v3.19.6 - 2018-07-06 =
+------------------------
+
++ Fix file load paths in OptimizePress plugin compatibility function
+
+
+= v3.19.5 - 2018-07-05 =
+------------------------
+
++ Fixed bug causing `select2` multi-selects from functioning as multi-selects
++ Fixed visual issue with `select2` elements being set without a width causing them to be both too small and too large in various scenarios.
++ Fixed duplicate action on dashboard section template
+
+##### Template Updates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
+
+
+= v3.19.4 - 2018-07-02 =
+------------------------
+
+##### Updates and enhancements
+
++ Bulk enroll multiple users into a course or membership from the Users table on your admin panel. See how at [https://lifterlms.com/docs/student-bulk-enrollment/](https://lifterlms.com/docs/student-bulk-enrollment/)
++ Added event on builder to allow integrations to run trigger events when course elements are saved
++ Added general redirect method `llms_redirect_and_exit()` which is a wrapper for `wp_redirect()` and `wp_safe_redirect()` which can be plugged (and tested via phpunit)
++ Added new action called before validation occurs for a user account update form submission: `llms_before_user_account_update_submit`
++ Removed placeholders from form fields. Fixes a UX issue causing registration forms to appear cluttered due to having both placeholders and labels.
+
+##### Bug fixes
+
++ Fixed issue allowing nonce checks to be bypassed on login and registration forms
++ Fixed issue causing a PHP notice if the registration form is submitted without an email address and automatic username generation is enabled
++ Fixed issue preventing email addresses with the "'" character from being able to register, login, or update account information
++ Fixed typo in automatic username generation filter `lifterlms_generated_username` (previously was `lifterlms_gnerated_username`)
++ Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
++ FIxed issue allowing users with `view_lifterlms_reports` capability (Instructors) to access sales & enrollment reporting screens. The `view_others_lifterlms_reports` capability (Admins & LMS Managers) is now required to view these reporting tabs.
++ Updated IDs of login and registration nonces to be unique. Fixes an issue causing Chrome to throw non-unique ID warnings in the developer console. Also, IDs are supposed to be unique _anyway_ but thanks for helping us out Google.
+
+
 = v3.19.3 - 2018-06-14 =
 ------------------------
 
@@ -424,148 +522,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
 + [templates/checkout/form-switch-source.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-switch-source.php)
 + [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
-+ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
-
-
-= v3.18.2 - 2018-05-24 =
-------------------------
-
-+ Improved integrations settings screen to allow each integration to have it's own settings tab (page) with only its own settings
-+ Allow programmatic access to notification content when notification views are accessed via filters
-+ Fixed issue causind subscription cancellation notifications to be sent to admins when new orders were created
-+ Fixed warning message displayed prior to membership bulk enrollment
-+ Fixed multibyte character encoding issue encountered during certificate exports
-
-
-= v3.18.1 - 2018-05-18 =
-------------------------
-
-+ Attached `llms_privacy_policy_form_field()` and `llms_agree_to_terms_form_field()` to an action hook `llms_registration_privacy`
-+ Define minimum WordPress version requirement as 4.8.
-
-##### Template Updates
-
-+ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
-+ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
-
-
-= v3.18.0 - 2018-05-16 =
-------------------------
-
-##### Privacy & GDPR Compliance Tools
-
-+ Added privacy policy notice on checkout, enrollment, and registration that integrates with the WP Core 4.9.6 Privacy Policy Page setting
-+ Added settings to allow customization of the privacy policy and terms & conditions notices during checkout, enrollment, and registration
-+ Added suggested Privacy Policy language outlining information gathered by a default LifterLMS site
-
-+ During a WordPress Personal Data Export request the following LifterLMS information will be added to the export
-
-  + All personal information gathered from registration, checkout, and enrollment forms
-  + Course and membership enrollments, progress, and grades
-  + Earned achievements and certificates
-  + All order data
-
-+ During a WordPress Personal Data Erasure request the following LifterLMS information will be erased
-
-  + All personal information gathered from registration, checkout, and enrollment forms
-  + Earned achievements and certificates
-  + All notifications for or about the user
-  + If the "Remove Order Data" setting is enabled, the order will be anonymized by removing student personal information from the order and, if the order is a recurring order, it will be cancelled.
-  + If the "Remove Student LMS Data" setting is enabled, all student data related to course and membership activity will be removed
-
-+ All of the above relies on features available in WordPress core 4.9.6
-
-##### Updates and Enhancements
-
-+ Tested up to WordPress 4.9.6
-+ Improved pricing table UX for members-only access plans. An access plan button for a plan belonging to only one membership will click directly to the membership as opposed to opening a popover. Plan's with access via multiple memberships will continue to open a popover listing all availability options.
-+ Added a "My Certificates" tab to the Student Dashboard
-+ Certificates can be downloaded as HTML files (available when viewing a certificate or from the certificate reporting screen on the admin panel)
-+ Admins can now delete certificates and achievements from reporting screens on the admin panel
-+ Added additional information to certificate and achievement reporting tables
-+ Expanded widths of admin settings page setting names to be a bit wider and more readable
-+ Now conditionally hiding some settings when they are no longer relevant
-+ Added daily cron automatically remove files from the `LLMS_TMP_DIR` which are more that 24 hours old
-+ Removed unused template `content-llms_membership.php`
-+ Added initialization actions for use by integration classes
-
-##### Bug Fixes
-
-+ Fixed issue causing coupon reports to always display "1" regardless of actual number of coupons used
-+ Fixid issue causing new posts created via the Course Builder to always be created for user_id #1
-+ Fixed issue causing "My Achievements" to display twice on the My Achievements student dashboard tab
-+ Fixed issue preventing lessons from being completed when a quiz in draft mode was attached to the lesson
-+ Fixed issue causing minified RTL stylesheets to 404
-
-##### Template Updates
-
-+ [templates/admin/post-types/order-details.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/order-details.php)
-+ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
-+ [templates/content-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/content-certificate.php)
-+ [templates/global/form-registration.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-registration.php)
-+ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
-
-
-= v3.17.8 - 2018-05-04 =
-------------------------
-
-##### Updates and Enchancements
-
-+ Added admin email notification when student cancels a subscription
-+ Quiz results will now display the question's description when reviewing results as a student and on the admin panel during grading
-+ Add action hook fired when a student cancels a subscription (`llms_subscription_cancelled_by_student`)
-+ Reduce unnecessary DB queries for integrations by checking for dependencies and then calling querying the options table to see if the integration has been enabled.
-+ Updated the notifications settings table to be more friendly to the human eye
-
-##### Bug Fixes
-
-+ Fix admin scripts enqueue order. Fixes issue preventing manual student enrollment selection from functioning properly in certain scenarios.
-+ Shift + Enter when in a question choice field now adds a return as expected instead of exiting the field
-+ When pasting into question choice fields HTML from RTF documents will be automatically stripped
-+ Ensure certificates print with a white brackground regardless of theme CSS
-+ Fix issue causing themes with `overflow:hidden` on divs from cutting certificate background images
-+ Upon export completion unlock tables regardless of mail success / failure
-+ Resolve issue causing incorrect number of access plans to be returned on systems that have custom defaults set for `WP_Query` `post_per_page` parameter
-+ Fix error occurring when all 3rd party integrations are disabled by filter, credit to [@Mte90](https://github.com/Mte90)!
-+ Ensure `LLMS()->integrations()->integrations()` returns all integrations regardless of availability.
-+ Updated `LLMS_Abstract_Options_Data` to have an option set method
-
-##### Template Updates
-
-+ [templates/quiz/results-attempt-questions-list.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt-questions-list.php)
-
-
-= v3.17.7 - 2018-04-27 =
-------------------------
-
-+ Fix issue preventing assignments passing grade requirement from saving properly
-+ Fix issue preventing builder toggle switches from properly saving some switch field data
-+ Fix with "Launch Builder" button causing it to extend outside the bounds of its container
-+ Fix issue with builder radio select fields during view rerenders
-+ Course Outline shortcode (and widget) now retrieve parent course of the current page more consistently with other shortcodes
-+ Added ability to filter which custom post types which can be children of a course (allows course shortcodes & widgets to be used in assignment sidebars of custom content areas)
-
-
-= v3.17.6 - 2018-04-26 =
-------------------------
-
-+ Updated language on recurring orders with no expiration settings. Orders no longer say "Lifetime Access" and instead output no expiration information
-+ Quiz editor on builder updated to be consistent visually and functionally to the lesson settings editor
-+ Improved the builder field API to allow for radio element fields
-+ Fix issue causing JS error on admin settings pages
-+ Updated CSS for Certificates to be more generally compatible with theme styles when printed
-+ Allow system print settings to control print layout for certificates by removing explicit landscape declarations
-+ Now passing additional data to filters used to create custom columns on reporting screens
-+ Remove unused JS files & Chosen JS library
-+ Added filter to allow opting into alternate student dashboard order layout. Use `add_filter( 'llms_sd_stacked_order_layout', '__return_true' )` to stack the payment update sidebar below the main order information. This is disabled by default.
-+ Achievement and Certificate basic notifications now auto-dismiss after 10 seconds like all other basic notifications
-+ Deprecated Filter `llms_get_quiz_theme_settings` and added backwards compatible methods to transition themes using this filter to the new custom field api. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/
-+ Increased default z-index on notifications to prevent notifications from being hidden behind floating / static navigation menus
-
-
-##### Template Updates
-
-+ [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-orders.php)
 + [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
 
 

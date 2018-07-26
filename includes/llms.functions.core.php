@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.19.2
+ * @version  3.21.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -18,6 +18,44 @@ require_once 'functions/llms.functions.person.php';
 require_once 'functions/llms.functions.privacy.php';
 require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
+require_once 'functions/llms.functions.user.postmeta.php';
+
+/**
+ * Insert elements into an associative array after a specific array key
+ * If the requested key doesn't exit, the new item will be added to the end of the array
+ * If you need to insert at the beginning of an array use array_merge( $new_item, $orig_item );
+ * @param    array      $array        original associative array
+ * @param    string     $after_key    key name in original array to insert new item after
+ * @param    string     $insert_key   key name of the item to be inserted
+ * @param    mixed      $insert_item  value to be inserted
+ * @return   array
+ * @since    3.21.0
+ * @version  3.21.0
+ */
+function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item ) {
+
+	$res = array();
+
+	$new_item = array(
+		$insert_key => $insert_item,
+	);
+
+	$index = array_search( $after_key, array_keys( $array ) );
+	if ( false !== $index ) {
+		$index++;
+
+		$res = array_merge(
+			array_slice( $array, 0, $index, true ),
+			$new_item,
+			array_slice( $array, $index, count( $array ) - 1, true )
+		);
+	} else {
+		$res = array_merge( $array, $new_item );
+	}
+
+	return $res;
+
+}
 
 /**
  * Retrieve the current time based on specified type.
@@ -433,7 +471,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.10.1
+ * @version  3.19.4
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -479,8 +517,6 @@ function llms_form_field( $field = array(), $echo = true ) {
 		$name_attr = ' name="' . $field['name'] . '"';
 	}
 
-	// duplicate label to placeholder if none is specified
-	$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
 
 	// add inline css if set
@@ -877,6 +913,34 @@ function llms_maybe_define_constant( $name, $value ) {
 function llms_parse_bool( $val ) {
 	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 }
+
+/**
+ * Redirect and exit
+ * Wrapper for WP core redirects which automatically calls `exit();`
+ * and is pluggable (mainly for unit testing purposes)
+ * @param    string     $location  full URL to redirect to
+ * @param    array      $options   array of options
+ *                                 $status  int   HTTP status code of the redirect [default: 302]
+ *                                 $safe    bool  If true, use `wp_safe_redirect()` otherwise use `wp_redirect()` [default: true]
+ * @return   void
+ * @since    3.19.4
+ * @version  3.19.4
+ */
+if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
+	function llms_redirect_and_exit( $location, $options = array() ) {
+
+		$options = wp_parse_args( $options, array(
+			'status' => 302,
+			'safe' => true,
+		) );
+
+		$func = $options['safe'] ? 'wp_safe_redirect' : 'wp_redirect';
+		call_user_func( $func, $location, $options['status'] );
+		exit();
+
+	}
+}
+
 
 /**
  * Wrapper for set_time_limit to ensure it's enabled before calling

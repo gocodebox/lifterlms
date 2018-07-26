@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Testing Bootstrap
  * @since    3.3.1
- * @version  3.8.0
+ * @version  3.21.1
  * @thanks   WooCommerce <3
  */
 class LLMS_Unit_Tests_Bootstrap {
@@ -100,9 +100,9 @@ class LLMS_Unit_Tests_Bootstrap {
 
 	/**
 	 * Install LifterLMS
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.21.1
 	 */
 	public function install_llms() {
 
@@ -112,6 +112,36 @@ class LLMS_Unit_Tests_Bootstrap {
 		define( 'WP_UNINSTALL_PLUGIN', true );
 		define( 'LLMS_REMOVE_ALL_DATA', true );
 		include( $this->plugin_dir . '/uninstall.php' );
+
+		$files = array(
+			array(
+				'orig' => $this->tests_dir . '/assets/custom-lifterlms-en_US.mo',
+				'dest' => WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo',
+			),
+			array(
+				'orig' => $this->tests_dir . '/assets/lifterlms-en_US.mo',
+				'dest' => WP_LANG_DIR . '/plugins/lifterlms-en_US.mo',
+			),
+		);
+
+		foreach ( $files as $file ) {
+
+			// remove the destination file to replace it each time we run a test
+			// copy fails if the dest file already exists
+			if ( file_exists( $file['dest'] ) ) {
+				unlink( $file['dest'] );
+			}
+
+			// make sure the destination dir exists
+			$path = pathinfo( $file['dest'] );
+		    if ( ! file_exists( $path['dirname'] ) ) {
+		        mkdir( $path['dirname'], 0777, true );
+		    }
+
+		    // copy the original to the destination
+		    copy( $file['orig'], $file['dest'] );
+
+		}
 
 		// install LLMS
 		LLMS_Install::install();
@@ -131,13 +161,16 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * Load LifterLMS Tests & Related
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.8.0
+	 * @version  3.19.4
 	 */
 	public function includes() {
 
 		require 'tests/framework/class.llms.unit.test.case.php';
 		require 'tests/framework/class.llms.notification.test.case.php';
 		require 'tests/framework/class.llms.post.model.unit.test.case.php';
+
+		require 'tests/framework/exceptions/class-llms-testing-exception-exit.php';
+		require 'tests/framework/exceptions/class-llms-testing-exception-redirect.php';
 
 	}
 

@@ -76,8 +76,6 @@ class LLMS_Controller_Lesson_Progression {
 
 			do_action( 'llms_trigger_lesson_completion', get_current_user_id(), $lesson_id, 'lesson_' . $lesson_id );
 
-			// llms_add_notice( sprintf( __( 'Congratulations! You have completed %s', 'lifterlms' ), get_the_title( $lesson_id ) ) );
-
 			if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
 
 				$lesson = new LLMS_Lesson( $lesson_id );

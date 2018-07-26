@@ -2,7 +2,7 @@
 /**
  * Registration Form
  * @since    3.0.0
- * @version  3.18.1
+ * @version  3.19.4
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -62,7 +62,7 @@ if ( get_current_user_id() ) {
 			) ); ?>
 
 			<?php do_action( 'lifterlms_after_registration_button' ); ?>
-			<?php wp_nonce_field( 'llms_register_person' ); ?>
+			<?php wp_nonce_field( 'llms_register_person', '_llms_register_person_nonce' ); ?>
 			<input name="action" type="hidden" value="llms_register_person">
 
 		</footer>

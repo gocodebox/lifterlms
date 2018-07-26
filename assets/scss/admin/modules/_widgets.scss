@@ -94,6 +94,11 @@
 		padding-left: 0;
 	}
 
+	tr.llms-disabled-field {
+		opacity: 0.5;
+		pointer-events: none;
+	}
+
 }
 
 .llms-widget-1-3,

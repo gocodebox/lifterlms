@@ -1,13 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.17.8
+ * @version 3.21.0
  */
 abstract class LLMS_Admin_Table {
 
@@ -717,11 +715,11 @@ abstract class LLMS_Admin_Table {
 	 * @param    mixed     $row  array/object of data describing a single row in the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  3.21.0
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
-		do_action( 'llms_table_table_before_tr', $row, $this );
+		do_action( 'llms_table_before_tr', $row, $this );
 		?>
 		<tr>
 		<?php foreach ( $this->get_columns() as $id => $title ) : ?>
@@ -729,7 +727,7 @@ abstract class LLMS_Admin_Table {
 		<?php endforeach; ?>
 		</tr>
 		<?php
-		do_action( 'llms_table_table_after_tr', $row, $this );
+		do_action( 'llms_table_after_tr', $row, $this );
 		return ob_get_clean();
 	}
 

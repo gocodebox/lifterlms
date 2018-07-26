@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Make LifterLMS play nicely with other plugins, themes, & webhosts
  * @since    3.1.3
- * @version  3.16.4
+ * @version  3.19.6
  */
 class LLMS_PlayNice {
 
@@ -36,7 +36,7 @@ class LLMS_PlayNice {
 	 *
 	 * @return void
 	 * @since    3.2.2
-	 * @version  3.2.2
+	 * @version  3.19.6
 	 */
 	public function wp_optimizepress_live_editor() {
 
@@ -50,10 +50,10 @@ class LLMS_PlayNice {
 
 		include_once( 'class.llms.template.loader.php' );
 		include_once( 'class.llms.frontend.assets.php' );
-		include_once( 'class.llms.frontend.forms.php' );
-		include_once( 'class.llms.frontend.password.php' );
+		include_once( 'forms/frontend/class.llms.frontend.forms.php' );
+		include_once( 'forms/frontend/class.llms.frontend.password.php' );
 		include_once( 'class.llms.person.php' );
-		include_once( 'class.llms.shortcodes.php' );
+		include_once( 'shortcodes/class.llms.shortcodes.php' );
 
 		include_once( 'shortcodes/class.llms.shortcode.my.account.php' );
 		include_once( 'shortcodes/class.llms.shortcode.checkout.php' );

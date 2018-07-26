@@ -5,7 +5,7 @@
  * @group    LLMS_Order
  * @group    LLMS_Post_Model
  * @since    3.10.0
- * @version  3.19.2
+ * @version  3.20.0
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -507,8 +507,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	public function test_get_product() {
 
-		$course = new LLMS_Course( 'new' );
-
+		$course = new LLMS_Course( 'new', 'test' );
 		$this->obj->set( 'product_id', $course->get( 'id' ) );
 		$this->assertTrue( is_a( $this->obj->get_product(), 'LLMS_Course' ) );
 

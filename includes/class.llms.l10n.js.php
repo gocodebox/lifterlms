@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It is compiled automatically via the gulp task `js:pot`
  * See the lifterlms-lib-tasks package for more information
  * @since    3.17.8
- * @version  3.19.3
+ * @version  [version]
  */
 class LLMS_L10n_JS {
 
@@ -27,7 +27,7 @@ class LLMS_L10n_JS {
 	 * @param    array  $strings  existing strings from core / 3rd parties
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.19.3
+	 * @version  [version]
 	 */
 	public function get_strings( $strings ) {
 
@@ -223,6 +223,14 @@ class LLMS_L10n_JS {
 			'Use YouTube, Vimeo, or Wistia video URLS.' => esc_html__( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ),
 
 			/**
+			 * file: assets/js/llms-admin-addons.js
+			 * @since    [version]
+			 * @version  [version]
+			 */
+			'%d add-ons' => esc_html__( '%d add-ons', 'lifterlms' ),
+			'1 add-on' => esc_html__( '1 add-on', 'lifterlms' ),
+
+			/**
 			 * file: assets/js/llms-admin-settings.js
 			 * @since    3.7.3
 			 * @version  3.18.0
@@ -233,8 +241,9 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/llms-admin.js
 			 * @since    ??
-			 * @version  3.17.5
+			 * @version  3.19.5
 			 */
+			'Select a Course/Membership' => esc_html__( 'Select a Course/Membership', 'lifterlms' ),
 			'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
 
 			/**
@@ -334,7 +343,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/llms-metaboxes.js
 			 * @since    3.0.0
-			 * @version  3.18.2
+			 * @version  3.21.0
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
@@ -389,14 +398,14 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/partials/_metabox-field-repeater.js
 			 * @since    3.11.0
-			 * @version  3.17.3
+			 * @version  3.21.0
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 
 			/**
 			 * file: assets/js/private/llms-metaboxes.js
 			 * @since    3.0.0
-			 * @version  3.18.2
+			 * @version  3.21.0
 			 */
 			'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' => esc_html__( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!', 'lifterlms' ),
 			'Cancel' => esc_html__( 'Cancel', 'lifterlms' ),

@@ -1,15 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Front End Forms Class
- *
  * Class used managing front end facing forms.
- *
  * @since   1.0.0
- * @version 3.17.1
+ * @version 3.19.4
  */
 class LLMS_Frontend_Forms {
 
@@ -19,39 +15,7 @@ class LLMS_Frontend_Forms {
 	 */
 	public function __construct() {
 
-		add_action( 'init', array( $this, 'login' ) );
 		add_action( 'init', array( $this, 'voucher_check' ) );
-
-	}
-
-	/**
-	 * Handle Login Form Submissipn
-	 *
-	 * @return void
-	 * @version  3.0.0
-	 */
-	public function login() {
-
-		if ( ! empty( $_POST['action'] ) && 'llms_login_user' === $_POST['action'] && ! empty( $_POST['_wpnonce'] ) ) {
-
-			wp_verify_nonce( $_POST['_wpnonce'], 'llms_login_user' );
-
-			$login = LLMS_Person_Handler::login( $_POST );
-
-			// validation or registration issues
-			if ( is_wp_error( $login ) ) {
-				foreach ( $login->get_error_messages() as $msg ) {
-					llms_add_notice( $msg, 'error' );
-				}
-				return;
-			}
-
-			$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : get_permalink( llms_get_page_id( 'myaccount' ) );
-
-			wp_redirect( apply_filters( 'lifterlms_login_redirect', $redirect, $login ) );
-			exit;
-
-		}
 
 	}
 

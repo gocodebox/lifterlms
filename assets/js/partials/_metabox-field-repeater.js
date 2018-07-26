@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @since    3.11.0
- * @version  3.17.3
+ * @version  3.21.0
  */
 this.repeaters = {
 
@@ -217,7 +217,7 @@ this.repeaters = {
 	 * @param    obj   e  JS event object
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.17.3
+	 * @version  3.21.0
 	 */
 	handle_submit: function( e ) {
 
@@ -228,7 +228,7 @@ this.repeaters = {
 			$spinner = $btn.parent().find( '.spinner' );
 
 		// core UX to prevent multi-click/or the appearance of a delay
-		$( '#post input[type="submit"]' ).addClass( 'disabled' );
+		$( '#post input[type="submit"]' ).addClass( 'disabled' ).attr( 'disabled', 'disabled' );
 		$spinner.addClass( 'is-active' );
 
 		var self = window.llms.metaboxes.repeaters,
@@ -246,7 +246,7 @@ this.repeaters = {
 				clearInterval( wait );
 				$( '#post' ).off( 'submit', this.handle_submit );
 				$spinner.removeClass( 'is-active' );
-				$btn.removeClass( 'disabled' ).trigger( 'click' );
+				$btn.removeClass( 'disabled' ).removeAttr( 'disabled' ).trigger( 'click' );
 
 			} else {
 
@@ -439,7 +439,7 @@ this.repeaters = {
 
 		} );
 
-	},
+	}
 
 };
 this.repeaters.init();

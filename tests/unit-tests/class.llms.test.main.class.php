@@ -2,7 +2,7 @@
 /**
  * Tests for LifterLMS Main Class
  * @since   3.3.1
- * @version 3.3.1
+ * @version 3.21.1
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
@@ -59,6 +59,54 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 		$this->assertInstanceOf( 'LLMS_Engagements', $this->llms->engagements() );
 		$this->assertInstanceOf( 'LLMS_Certificates', $this->llms->certificates() );
 		$this->assertInstanceOf( 'LLMS_Achievements', $this->llms->achievements() );
+
+	}
+
+	/**
+	 * Test plugin localization
+	 * @return   void
+	 * @since    3.21.1
+	 * @version  3.21.1
+	 */
+	public function test_localize() {
+
+		/**
+		 * custom-lifterlms-en_US.po/mo
+		 * Original  | Translation
+		 * -----------------------
+		 * LifterLMS | BetterLMS
+		 * Course    | Module
+		 */
+
+		/**
+		 * lifterlms-en_US.po/mo
+		 * Original  | Translation
+		 * -----------------------
+		 * LifterLMS | MyLMS
+		 * Settings  | Options
+		 */
+
+
+		/**
+		 * Default order during initialization
+		 * Custom safe location
+		 * Default location (from community)
+		 */
+
+		// this is translated in both but should use the translation from the custom file
+		$this->assertEquals( 'BetterLMS', __( 'LifterLMS', 'lifterlms' ) );
+
+		// translated in only the custom file
+		$this->assertEquals( 'Module', __( 'Course', 'lifterlms' ) );
+
+		// translated only in the default file
+		$this->assertEquals( 'Options', __( 'Settings', 'lifterlms' ) );
+
+		// not translated in either
+		$this->assertEquals( 'Lesson', __( 'Lesson', 'lifterlms' ) );
+
+		// fake string
+		$this->assertEquals( 'arstienarstyularst', __( 'arstienarstyularst', 'lifterlms' ) );
 
 	}
 

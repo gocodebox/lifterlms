@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.19.0
+ * @version  3.21.0
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -19,16 +19,42 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	}
 
 	/**
+	 * Setup Get data to mock post and request data
+	 * @param    array      $vars  mock get data
+	 * @return   void
+	 * @since    3.19.0
+	 * @version  3.19.4
+	 */
+	protected function setup_get( $vars = array() ) {
+		$this->setup_request( 'GET', $vars );
+	}
+
+	/**
 	 * Setup Post data to mock post and request data
 	 * @param    array      $vars  mock post data
 	 * @return   void
 	 * @since    3.19.0
-	 * @version  3.19.0
+	 * @version  3.19.4
 	 */
 	protected function setup_post( $vars = array() ) {
-		putenv( 'REQUEST_METHOD=POST' );
-		$_POST = array_merge( $_POST, $vars );
-		$_REQUEST = array_merge( $_REQUEST, $vars );
+		$this->setup_request( 'POST', $vars );
+	}
+
+	/**
+	 * Setup reuqest data to mock post/get and request data
+	 * @param    array      $vars  mock request data
+	 * @return   void
+	 * @since    3.19.4
+	 * @version  3.19.4
+	 */
+	private function setup_request( $method, $vars = array() ) {
+		putenv( 'REQUEST_METHOD=' . $method );
+		if ( 'POST' === $method ) {
+			$_POST = $vars;
+		} elseif ( 'GET' === $method ) {
+			$_GET = $vars;
+		}
+		$_REQUEST = $vars;
 	}
 
 	/**
@@ -40,11 +66,15 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 *                                   fractions will be rounded up
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  3.17.2
+	 * @version  3.21.0
 	 */
 	protected function complete_courses_for_student( $student_id = 0, $course_ids = array(), $perc = 100 ) {
 
-		$student = new LLMS_Student( $student_id );
+		if ( ! $student_id ) {
+			$student = $this->get_mock_student();
+		} else {
+			$student = llms_get_student( $student_id );
+		}
 
 		if ( ! is_array( $course_ids ) ) {
 			$course_ids = array( $course_ids );

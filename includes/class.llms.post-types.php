@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Register Post Types, Taxonomies, Statuses
  * @since    1.0.0
- * @version  3.19.0
+ * @version  3.20.0
  */
 class LLMS_Post_Types {
 
@@ -228,7 +228,7 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types
 	 * @since    1.0.0
-	 * @version  3.16.15
+	 * @version  3.20.0
 	 */
 	public static function register_post_types() {
 
@@ -266,7 +266,7 @@ class LLMS_Post_Types {
 				'feeds' => true,
 			),
 			'query_var' 			=> true,
-			'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
+			'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
 			'has_archive' 			=> ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : 'courses',
 			'show_in_nav_menus' 	=> true,
 			'menu_position'         => 52,
@@ -450,7 +450,7 @@ class LLMS_Post_Types {
 				'feeds' => true,
 			),
 			'query_var' => true,
-			'supports' => array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+			'supports' => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
 			'has_archive' => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : 'memberships',
 			'show_in_nav_menus' => true,
 			'menu_position' => 52,
