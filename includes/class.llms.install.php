@@ -121,10 +121,6 @@ class LLMS_Install {
 			wp_schedule_event( time(), apply_filters( 'llms_tracker_schedule_interval', 'daily' ), 'llms_send_tracking_data' );
 		}
 
-		if ( ! wp_next_scheduled( 'llms_check_license_keys' ) ) {
-			wp_schedule_event( time(), 'daily', 'llms_check_license_keys' );
-		}
-
 	}
 
 	/**

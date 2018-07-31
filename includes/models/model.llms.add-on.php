@@ -21,24 +21,29 @@ class LLMS_Add_On {
 	private $data = array();
 
 	/**
-	 * Holds a reference to LLMS_AddOn_Upgrader::instance()
-	 * @var  null
-	 */
-	private $upgrader = null;
-
-	/**
 	 * Constructor
-	 * @param    array      $addon   array of addon data
+	 * @param    array     $addon       array of addon data
+	 * @param    string    $lookup_key  if $addon is a string, this determines how to lookup the addon from the available list of addons
 	 * @return   void
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function __construct( $addon = array() ) {
-
-		$this->upgrader = LLMS_AddOn_Upgrader::instance();
+	public function __construct( $addon = array(), $lookup_key = 'id' ) {
 
 		if ( is_string( $addon ) ) {
-			$addon = $this->upgrader->get_product_data_by( 'id', $addon );
+
+			$lookup_val = $addon;
+			$addons = llms_get_add_ons();
+			if ( ! empty( $addons['items'] ) ) {
+				foreach ( $addons['items'] as $addon ) {
+
+					if ( isset( $addon[ $lookup_key ] ) && $addon[ $lookup_key ] == $lookup_val ) {
+						$this->data = $addon;
+						break;
+					}
+				}
+			}
+
 		}
 
 		$this->data = $addon;
@@ -109,27 +114,6 @@ class LLMS_Add_On {
 
 	}
 
-
-	/**
-	 * Find a license key for the add-on
-	 * @return   string|false
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function find_license() {
-
-		foreach ( $this->upgrader->get_license_keys() as $data ) {
-
-			$id = $this->get( 'id' );
-			if ( $id === $data['product_id'] || in_array( $id, $data['addons'] ) ) {
-				return $data;
-			}
-		}
-
-		return false;
-
-	}
-
 	/**
 	 * Get add-on properties
 	 * @param    string     $key  property key
@@ -148,41 +132,8 @@ class LLMS_Add_On {
 	 * @version  [version]
 	 */
 	public function get_channel_subscription() {
-		$channels = $this->upgrader->get_channels();
-		return isset( $channels[ $this->get( 'id' ) ] ) ? $channels[ $this->get( 'id' ) ] : 'stable';
+		return 'stable';
 	}
-
-	/**
-	 * Retrieve download information for a licensed add-on
-	 * @return   WP_Error|array
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function get_download_info() {
-
-		$key = $this->find_license();
-
-		if ( ! $key ) {
-			return new WP_Error( 'no_license', __( 'Unable to locate a license key for the selected add-on.', 'lifterlms' ) );
-		}
-
-		$req = new LLMS_Dot_Com_API( '/license/download', array(
-			'url' => get_site_url(),
-			'license_key' => $key['license_key'],
-			'update_key' => $key['update_key'],
-			'add_on_slug' => $this->get( 'slug' ),
-			'channel' => $this->get_channel_subscription(),
-		) );
-		$data = $req->get_result();
-
-		if ( $req->is_error() ) {
-			return $data;
-		}
-
-		return $data;
-
-	}
-
 
 	/**
 	 * Determine the status of an addon's license
@@ -287,6 +238,12 @@ class LLMS_Add_On {
 
 	}
 
+	/**
+	 * Retrieve a utm'd link to the add-on
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function get_permalink() {
 
 		$url = add_query_arg(
@@ -367,32 +324,6 @@ class LLMS_Add_On {
 	}
 
 	/**
-	 * Install the add-on via LifterLMS.com
-	 * @return   string|WP_Error
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function install() {
-
-		$ret = $this->upgrader->install_addon( $this );
-
-		if ( true === $ret ) {
-
-			/* Translators: %s = Add-on name */
-			return sprintf( __( '%s was successfully installed.', 'lifterlms' ), $this->get( 'title' ) );
-
-		} elseif ( is_wp_error( $ret ) ) {
-
-			return $ret;
-
-		}
-
-		/* Translators: %s = Add-on name */
-		return new WP_Error( 'activation', sprintf( __( 'Could not install %s.', 'lifterlms' ), $this->get( 'title' ) ) );
-
-	}
-
-	/**
 	 * Determine if an installable addon is active
 	 * @return   bool
 	 * @since    [version]
@@ -457,48 +388,7 @@ class LLMS_Add_On {
 	 * @version  [version]
 	 */
 	public function is_licensed() {
-		return ( false !== $this->find_license() );
-	}
-
-	/**
-	 * Update the addons update channel subscription
-	 * @param    string     $channel  channel name [stable|beta]
-	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function subscribe_to_channel( $channel = 'stable' ) {
-
-		$channels = $this->upgrader->get_channels();
-		$channels[ $this->get( 'id' ) ] = $channel;
-		return $this->upgrader->set_channels( $channels );
-
-	}
-
-	/**
-	 * Install the add-on via LifterLMS.com
-	 * @return   string|WP_Error
-	 * @since    [version]
-	 * @version  [version]
-	 */
-	public function update() {
-
-		$ret = $this->upgrader->install_addon( $this, 'update' );
-
-		if ( true === $ret ) {
-
-			/* Translators: %s = Add-on name */
-			return sprintf( __( '%s was successfully updated.', 'lifterlms' ), $this->get( 'title' ) );
-
-		} elseif ( is_wp_error( $ret ) ) {
-
-			return $ret;
-
-		}
-
-		/* Translators: %s = Add-on name */
-		return new WP_Error( 'activation', sprintf( __( 'Could not update %s.', 'lifterlms' ), $this->get( 'title' ) ) );
-
+		return false;
 	}
 
 }

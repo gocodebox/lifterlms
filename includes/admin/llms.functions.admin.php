@@ -1,7 +1,10 @@
 <?php
 /**
  * Core functions used exlusively on the admin panel
+ * @since    3.0.0
+ * @version  [version]
  */
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Create a Page & save it's id as an option
@@ -78,6 +81,51 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 
 	return $page_id;
 
+}
+
+/**
+ * Retrieve available products from the LifterLMS.com API
+ * @return   array
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_get_add_ons( $use_cache = true ) {
+
+	$data = false;
+	if ( $use_cache ) {
+		$data = get_transient( 'llms_products_api_result' );
+	}
+
+	if ( false === $data ) {
+
+		$req = new LLMS_Dot_Com_API( '/products', array(), 'GET' );
+		$data = $req->get_result();
+
+		if ( $req->is_error() ) {
+			return $data;
+		}
+
+		set_transient( 'llms_products_api_result', $data, DAY_IN_SECONDS );
+
+	}
+
+	return $data;
+
+}
+
+/**
+ * Instantiate a new LLMS_Add_On
+ * @param    array     $addon       add-on data
+ * @param    string    $lookup_key  if $addon is a string, this determines how to lookup the addon from the available list of addons
+ * @return   obj
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
+	if ( class_exists( 'LLMS_Helper_Add_On' ) ) {
+		return new LLMS_Helper_Add_On( $addon, $lookup_key );
+	}
+	return new LLMS_Add_On( $addon, $lookup_key );
 }
 
 /**

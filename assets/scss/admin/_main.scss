@@ -447,34 +447,3 @@ a.llms-view-as {
 		}
 	}
 }
-
-.llms-status--beta {
-
-	@media only screen and ( min-width: 800px ) {
-
-		.llms-beta-main {
-			display: flex;
-		}
-		.llms-beta-table {
-			flex: 2;
-		}
-		.llms-beta-aside {
-			flex: 1;
-			margin-right: 20px;
-		}
-
-	}
-
-	.llms-beta-aside {
-		background: lighten( $color-red, 38 );
-		border: 1px solid $color-red;
-		padding: 20px;
-
-		h1 {
-			padding-top: 0;
-		}
-	}
-
-}
-
-

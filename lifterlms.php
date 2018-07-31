@@ -243,12 +243,9 @@ final class LifterLMS {
 		if ( is_admin() ) {
 
 			include_once 'includes/class.llms.dot.com.api.php';
-			include_once 'includes/admin/upgrader/model-llms-addon.php';
 
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';
-
-			include_once 'includes/admin/upgrader/class-llms-addon-upgrader.php';
 
 			include_once 'includes/controllers/class.llms.controller.admin.quiz.attempts.php';
 
