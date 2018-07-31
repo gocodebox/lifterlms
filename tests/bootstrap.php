@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Testing Bootstrap
  * @since    3.3.1
- * @version  3.21.1
+ * @version  [version]
  * @thanks   WooCommerce <3
  */
 class LLMS_Unit_Tests_Bootstrap {
@@ -87,31 +87,9 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * Load LifterLMS
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	public function load_llms() {
-
-		// override this constant otherwise a bunch of includes will fail when running tests
-		define( 'LLMS_PLUGIN_DIR', trailingslashit( $this->plugin_dir ) );
-
-		require_once( $this->plugin_dir . '/lifterlms.php' );
-
-	}
-
-	/**
-	 * Install LifterLMS
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.21.1
-	 */
-	public function install_llms() {
-
-		echo 'Installing LifterLMS...' . PHP_EOL;
-
-		// Clean existing install first.
-		define( 'WP_UNINSTALL_PLUGIN', true );
-		define( 'LLMS_REMOVE_ALL_DATA', true );
-		include( $this->plugin_dir . '/uninstall.php' );
 
 		$files = array(
 			array(
@@ -142,6 +120,28 @@ class LLMS_Unit_Tests_Bootstrap {
 		    copy( $file['orig'], $file['dest'] );
 
 		}
+
+		// override this constant otherwise a bunch of includes will fail when running tests
+		define( 'LLMS_PLUGIN_DIR', trailingslashit( $this->plugin_dir ) );
+
+		require_once( $this->plugin_dir . '/lifterlms.php' );
+
+	}
+
+	/**
+	 * Install LifterLMS
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  [version]
+	 */
+	public function install_llms() {
+
+		echo 'Installing LifterLMS...' . PHP_EOL;
+
+		// Clean existing install first.
+		define( 'WP_UNINSTALL_PLUGIN', true );
+		define( 'LLMS_REMOVE_ALL_DATA', true );
+		include( $this->plugin_dir . '/uninstall.php' );
 
 		// install LLMS
 		LLMS_Install::install();
