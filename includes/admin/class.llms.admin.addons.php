@@ -51,7 +51,6 @@ class LLMS_Admin_AddOns {
 			} else {
 				$content = $this->get_products_for_cat( $sec );
 			}
-
 		}
 
 		return apply_filters( 'llms_admin_add_ons_get_current_section_content', $content, $sec );
@@ -133,7 +132,6 @@ class LLMS_Admin_AddOns {
 			if ( ! in_array( $addon['id'], $excludes ) ) {
 				return $addon;
 			}
-
 		}
 
 		return false;

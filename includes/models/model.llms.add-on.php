@@ -43,7 +43,6 @@ class LLMS_Add_On {
 					}
 				}
 			}
-
 		}
 
 		$this->data = $addon;

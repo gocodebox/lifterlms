@@ -200,15 +200,13 @@ class LLMS_Nav_Menus {
 						unset( $classes[ array_search( $class, $classes ) ] );
 					}
 				}
-
-			// set active links for catalog pages
 			} elseif ( 'page' === $item->object && ( ( is_courses() && $courses_id == $item->object_id ) || ( is_memberships() && $memberships_id == $item->object_id ) ) ) {
 
 				$menu_items[ $key ]->current = true;
 				$classes[] = 'current-menu-item';
 				$classes[] = 'current_page_item';
 
-			// set parent links for courses & memberships
+				// set parent links for courses & memberships
 			} elseif ( ( $courses_id == $item->object_id && ( is_singular( 'course' ) || is_course_taxonomy() ) ) || ( $memberships_id == $item->object_id && ( is_singular( 'llms_membership' ) || is_membership_taxonomy() ) ) ) {
 
 				$classes[] = 'current_page_parent';
