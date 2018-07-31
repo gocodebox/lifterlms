@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Menu Items
  * @since   1.0.0
- * @version 3.19.0
+ * @version 3.22.0-beta.1
  */
 class LLMS_Admin_Menus {
 
@@ -144,7 +144,7 @@ class LLMS_Admin_Menus {
 	 * Add items to the admin menu with a later priority
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.13.0
+	 * @version  3.22.0-beta.1
 	 */
 	public function display_admin_menu_late() {
 
@@ -155,18 +155,19 @@ class LLMS_Admin_Menus {
 			return;
 		}
 
-		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons', 'lifterlms' ), __( 'Add-ons', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons, Courses, and Resources', 'lifterlms' ), __( 'Add-ons & more', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
 
 	}
 
 	/**
 	 * Outupt the addons screen
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.22.0-beta.1
 	 */
 	public function add_ons_page_init() {
 		require_once 'class.llms.admin.addons.php';
 		$view = new LLMS_Admin_AddOns();
+		$view->handle_actions();
 		$view->output();
 	}
 

@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.18.0
+* @version  3.22.0-beta.1
 */
 class LLMS_Frontend_Assets {
 
@@ -133,7 +131,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.18.0
+	 * @version 3.22.0-beta.1
 	 */
 	public static function enqueue_scripts() {
 
@@ -158,13 +156,6 @@ class LLMS_Frontend_Assets {
 
 		wp_register_script( 'llms-notifications', LLMS_PLUGIN_URL . 'assets/js/llms-notifications' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 		if ( get_current_user_id() ) {
-			$notification_settings = apply_filters( 'llms_notifications_settings', array(
-				'heartbeat_interval' => 20000,
-			) );
-			self::enqueue_inline_script(
-				'llms-notifications-settings',
-				'window.llms = window.llms || {};window.llms.notification_settings = ' . json_encode( $notification_settings ) . ';'
-			);
 			wp_enqueue_script( 'llms-notifications' );
 		}
 
