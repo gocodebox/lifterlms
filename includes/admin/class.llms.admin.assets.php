@@ -82,7 +82,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue scripts
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	public function admin_scripts() {
 

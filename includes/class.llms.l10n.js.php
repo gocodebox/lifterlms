@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It is compiled automatically via the gulp task `js:pot`
  * See the lifterlms-lib-tasks package for more information
  * @since    3.17.8
- * @version  [version]
+ * @version  3.22.0-beta.1
  */
 class LLMS_L10n_JS {
 
@@ -27,7 +27,7 @@ class LLMS_L10n_JS {
 	 * @param    array  $strings  existing strings from core / 3rd parties
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	public function get_strings( $strings ) {
 
@@ -224,8 +224,8 @@ class LLMS_L10n_JS {
 
 			/**
 			 * file: assets/js/llms-admin-addons.js
-			 * @since    [version]
-			 * @version  [version]
+			 * @since    3.22.0-beta.1
+			 * @version  3.22.0-beta.1
 			 */
 			'%d add-ons' => esc_html__( '%d add-ons', 'lifterlms' ),
 			'1 add-on' => esc_html__( '1 add-on', 'lifterlms' ),

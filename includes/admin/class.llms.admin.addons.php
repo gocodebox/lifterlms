@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  * @since    3.5.0
- * @version  [version]
+ * @version  3.22.0-beta.1
  */
 class LLMS_Admin_AddOns {
 
@@ -14,7 +14,7 @@ class LLMS_Admin_AddOns {
 	 * defaults to "all"
 	 * @return   string
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	private function get_current_section() {
 
@@ -34,7 +34,7 @@ class LLMS_Admin_AddOns {
 	 * Retrieve addon data for the current section (tab) based off query string variables
 	 * @return   array
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	private function get_current_section_content() {
 
@@ -60,7 +60,7 @@ class LLMS_Admin_AddOns {
 	 * Retrieve remote json data
 	 * @return   null|WP_Error
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	private function get_data() {
 
@@ -77,8 +77,8 @@ class LLMS_Admin_AddOns {
 	 * Retrieve a list of 'featured' addons for use on the general settings screen
 	 * Excludes already available products from current site's activations
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
 	 */
 	private function get_features() {
 
@@ -116,8 +116,8 @@ class LLMS_Admin_AddOns {
 	 * @param    string     $cat       category slug
 	 * @param    array      $excludes  list of product ids to exclude
 	 * @return   array|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
 	 */
 	public function get_product_from_cat( $cat, $excludes ) {
 
@@ -143,8 +143,8 @@ class LLMS_Admin_AddOns {
 	 * Retrieve products for a specific category
 	 * @param    string     $cat  category slug
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
 	 */
 	private function get_products_for_cat( $cat, $include_bundles = true ) {
 
@@ -171,8 +171,8 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Handle form submissions for managing license keys
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
 	 */
 	public function handle_actions() {
 
@@ -188,8 +188,8 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Handle activation, deactivation, and cloud installation of addons
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
 	 */
 	private function handle_manage_addons() {
 
@@ -229,7 +229,7 @@ class LLMS_Admin_AddOns {
 	 * Output HTML for the current screen
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	public function output() {
 
@@ -291,7 +291,7 @@ class LLMS_Admin_AddOns {
 	 * @param    array   $addon  associative array of add-on data
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	private function output_addon( $addon ) {
 		$current_tab = $this->get_current_section();
@@ -302,7 +302,7 @@ class LLMS_Admin_AddOns {
 	 * Output the addon list for the current section
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	private function output_content() {
 		?>
@@ -346,7 +346,7 @@ class LLMS_Admin_AddOns {
 	 * Output the navigation bar
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	private function output_navigation() {
 		$curr_section = $this->get_current_section();

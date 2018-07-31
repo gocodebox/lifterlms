@@ -2,8 +2,8 @@
 /**
  * Single Add-on Item View
  * Used on Add-Ons browser screen
- * @since    [version]
- * @version  [version]
+ * @since    3.22.0-beta.1
+ * @version  3.22.0-beta.1
  */
 defined( 'ABSPATH' ) || exit;
 

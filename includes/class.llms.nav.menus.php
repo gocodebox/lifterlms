@@ -4,14 +4,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Navigation Menus
  * @since    3.14.7
- * @version  [version]
+ * @version  3.22.0-beta.1
  */
 class LLMS_Nav_Menus {
 
 	/**
 	 * Constructor
 	 * @since    3.14.7
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	public function __construct() {
 
@@ -174,8 +174,8 @@ class LLMS_Nav_Menus {
 	 * Add "active" classes to menu items for LLMS catalog pages
 	 * @param    array     $menu_items  menu items
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
 	 */
 	public function menu_item_classes( $menu_items ) {
 

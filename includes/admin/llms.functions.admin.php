@@ -2,7 +2,7 @@
 /**
  * Core functions used exlusively on the admin panel
  * @since    3.0.0
- * @version  [version]
+ * @version  3.22.0-beta.1
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -86,8 +86,8 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 /**
  * Retrieve available products from the LifterLMS.com API
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.22.0-beta.1
+ * @version  3.22.0-beta.1
  */
 function llms_get_add_ons( $use_cache = true ) {
 
@@ -118,8 +118,8 @@ function llms_get_add_ons( $use_cache = true ) {
  * @param    array     $addon       add-on data
  * @param    string    $lookup_key  if $addon is a string, this determines how to lookup the addon from the available list of addons
  * @return   obj
- * @since    [version]
- * @version  [version]
+ * @since    3.22.0-beta.1
+ * @version  3.22.0-beta.1
  */
 function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
 	if ( class_exists( 'LLMS_Helper_Add_On' ) ) {

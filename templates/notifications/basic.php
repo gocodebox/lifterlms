@@ -2,7 +2,7 @@
 /**
  * Basic Notification Template
  * @since    3.8.0
- * @version  [version]
+ * @version  3.22.0-beta.1
  */
 ?>
 <div class="<?php echo $classes; ?>"<?php echo $atts; ?> id="llms-notification-<?php echo $id; ?>">

@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:509, includes/admin/class.llms.admin.menus.php:131, tests/unit-tests/class.llms.test.main.class.php:103
+#: lifterlms.php:506, includes/admin/class.llms.admin.menus.php:131, tests/unit-tests/class.llms.test.main.class.php:103
 msgid "Settings"
 msgstr ""
 
@@ -215,46 +215,46 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:228, includes/admin/class.llms.admin.setup.wizard.php:322, includes/admin/settings/class.llms.settings.courses.php:84
+#: includes/class.llms.install.php:224, includes/admin/class.llms.admin.setup.wizard.php:322, includes/admin/settings/class.llms.settings.courses.php:84
 msgid "Course Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:234, includes/admin/class.llms.admin.setup.wizard.php:326
+#: includes/class.llms.install.php:230, includes/admin/class.llms.admin.setup.wizard.php:326
 msgid "Membership Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:240
+#: includes/class.llms.install.php:236
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:246, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:257
+#: includes/class.llms.install.php:242, includes/class.llms.student.dashboard.php:135, includes/functions/llms.functions.templates.dashboard.php:257
 msgid "My Courses"
 msgstr ""
 
-#: includes/class.llms.install.php:347
+#: includes/class.llms.install.php:343
 msgctxt "course difficulty name"
 msgid "Beginner"
 msgstr ""
 
-#: includes/class.llms.install.php:348
+#: includes/class.llms.install.php:344
 msgctxt "course difficulty name"
 msgid "Intermediate"
 msgstr ""
 
-#: includes/class.llms.install.php:349
+#: includes/class.llms.install.php:345
 msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:557, includes/class.llms.install.php:577, includes/admin/class.llms.admin.notices.core.php:67, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:20, includes/admin/class.llms.admin.page.status.php:190
+#: includes/class.llms.install.php:553, includes/class.llms.install.php:573, includes/admin/class.llms.admin.notices.core.php:67, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:20, includes/admin/class.llms.admin.page.status.php:183
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/class.llms.install.php:561, includes/class.llms.install.php:581, includes/admin/class.llms.admin.notices.core.php:70, includes/admin/class.llms.admin.notices.php:198
+#: includes/class.llms.install.php:557, includes/class.llms.install.php:577, includes/admin/class.llms.admin.notices.core.php:70, includes/admin/class.llms.admin.notices.php:198
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
-#: includes/class.llms.install.php:633
+#: includes/class.llms.install.php:629
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -2777,72 +2777,39 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#. translators: %s = License Key
-#: includes/admin/class.llms.admin.addons.php:265
-msgid "License key \"%s\" was removed from this site."
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:327, includes/admin/class.llms.admin.addons.php:469
+#: includes/admin/class.llms.admin.addons.php:237, includes/admin/class.llms.admin.addons.php:337
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:340, includes/admin/class.llms.admin.addons.php:344
+#: includes/admin/class.llms.admin.addons.php:243, includes/admin/class.llms.admin.addons.php:245
 msgid "LifterLMS Add-Ons, Courses, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:348
-msgid "My License Keys"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:355
-msgid "Manage Saved License Keys"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:367
-msgid "Remove Selected"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:371
-msgid "Add New License Keys"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:372
-msgid "Enter each license on a new line"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:374, includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.repeater.php:27
-msgid "Add New"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:389, includes/admin/views/builder/editor.php:32
+#: includes/admin/class.llms.admin.addons.php:257, includes/admin/views/builder/editor.php:32
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:395, includes/admin/views/addons/addon-item.php:102
+#: includes/admin/class.llms.admin.addons.php:263
 msgid "Update"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:400, includes/admin/upgrader/model-llms-addon.php:258, includes/admin/views/addons/addon-item.php:74
+#: includes/admin/class.llms.admin.addons.php:268, includes/models/model.llms.add-on.php:208
 msgid "Install"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:405, includes/admin/upgrader/model-llms-addon.php:256, includes/admin/views/addons/addon-item.php:93
+#: includes/admin/class.llms.admin.addons.php:273, includes/models/model.llms.add-on.php:206, includes/admin/views/addons/addon-item.php:95
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:410, includes/admin/upgrader/model-llms-addon.php:257, includes/admin/views/addons/addon-item.php:85
+#: includes/admin/class.llms.admin.addons.php:278, includes/models/model.llms.add-on.php:207, includes/admin/views/addons/addon-item.php:87
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:413
+#: includes/admin/class.llms.admin.addons.php:281
 msgid "Apply"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:492
-msgid "My Add-Ons"
-msgstr ""
-
-#: includes/admin/class.llms.admin.addons.php:494
+#: includes/admin/class.llms.admin.addons.php:357
 msgid "All"
 msgstr ""
 
@@ -3050,91 +3017,87 @@ msgstr ""
 msgid "Remind me later"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:128
+#: includes/admin/class.llms.admin.page.status.php:126
 msgid "System Report"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:129
+#: includes/admin/class.llms.admin.page.status.php:127
 msgid "Tools & Utilities"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:130
-msgid "Beta Testing"
-msgstr ""
-
-#: includes/admin/class.llms.admin.page.status.php:131
+#: includes/admin/class.llms.admin.page.status.php:128
 msgid "Logs"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:271
+#: includes/admin/class.llms.admin.page.status.php:236
 msgid "View Log"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:275
+#: includes/admin/class.llms.admin.page.status.php:240
 msgid "Viewing: %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:278
+#: includes/admin/class.llms.admin.page.status.php:243
 msgid "Delete Log"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:286
+#: includes/admin/class.llms.admin.page.status.php:251
 msgid "There are currently no logs to view."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:302
+#: includes/admin/class.llms.admin.page.status.php:267
 msgid "Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:303
+#: includes/admin/class.llms.admin.page.status.php:268
 msgid "Automatic Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:304
+#: includes/admin/class.llms.admin.page.status.php:269
 msgid "Reset Automatic Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:308
+#: includes/admin/class.llms.admin.page.status.php:273
 msgid "Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:309
+#: includes/admin/class.llms.admin.page.status.php:274
 msgid "User Sessions"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:310
+#: includes/admin/class.llms.admin.page.status.php:275
 msgid "Clear All Session Data"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:314
+#: includes/admin/class.llms.admin.page.status.php:279
 msgid "If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:315, includes/admin/class.llms.admin.page.status.php:316
+#: includes/admin/class.llms.admin.page.status.php:280, includes/admin/class.llms.admin.page.status.php:281
 msgid "Reset Tracking Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:320
+#: includes/admin/class.llms.admin.page.status.php:285
 msgid "Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:321
+#: includes/admin/class.llms.admin.page.status.php:286
 msgid "Student Progress Cache"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:322
+#: includes/admin/class.llms.admin.page.status.php:287
 msgid "Clear cache"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:326
+#: includes/admin/class.llms.admin.page.status.php:291
 msgid "If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:327
+#: includes/admin/class.llms.admin.page.status.php:292
 msgid "Setup Wizard"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:328
+#: includes/admin/class.llms.admin.page.status.php:293
 msgid "Return to Setup Wizard"
 msgstr ""
 
@@ -3445,59 +3408,59 @@ msgstr ""
 msgid "Successfully enrolled <em>%1s</em> into <em>%2s</em>."
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:109, includes/notifications/views/class.llms.notification.view.student.welcome.php:68
+#: includes/admin/llms.functions.admin.php:157, includes/notifications/views/class.llms.notification.view.student.welcome.php:68
 msgid "Site Title"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:110
+#: includes/admin/llms.functions.admin.php:158
 msgid "Site URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:111, includes/privacy/class-llms-privacy-exporters.php:107, includes/privacy/class-llms-privacy-exporters.php:146, includes/admin/reporting/tables/llms.table.achievements.php:155, includes/admin/reporting/tables/llms.table.certificates.php:158
+#: includes/admin/llms.functions.admin.php:159, includes/privacy/class-llms-privacy-exporters.php:107, includes/privacy/class-llms-privacy-exporters.php:146, includes/admin/reporting/tables/llms.table.achievements.php:155, includes/admin/reporting/tables/llms.table.certificates.php:158
 msgid "Earned Date"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:112, includes/admin/llms.functions.admin.php:128
+#: includes/admin/llms.functions.admin.php:160, includes/admin/llms.functions.admin.php:176
 msgid "Student First Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:113, includes/admin/llms.functions.admin.php:129
+#: includes/admin/llms.functions.admin.php:161, includes/admin/llms.functions.admin.php:177
 msgid "Student Last Name"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:114, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:40
+#: includes/admin/llms.functions.admin.php:162, includes/admin/post-types/meta-boxes/class.llms.meta.box.email.settings.php:40
 msgid "Student Email"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:115
+#: includes/admin/llms.functions.admin.php:163
 msgid "Student User ID"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:116, includes/admin/llms.functions.admin.php:127
+#: includes/admin/llms.functions.admin.php:164, includes/admin/llms.functions.admin.php:175
 msgid "Student Username"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:124
+#: includes/admin/llms.functions.admin.php:172
 msgid "Website Title"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:125
+#: includes/admin/llms.functions.admin.php:173
 msgid "Website URL"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:126
+#: includes/admin/llms.functions.admin.php:174
 msgid "Student Email Address"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:130
+#: includes/admin/llms.functions.admin.php:178
 msgid "Current Date"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:153
+#: includes/admin/llms.functions.admin.php:201
 msgid "Merge Codes"
 msgstr ""
 
-#: includes/admin/llms.functions.admin.php:163
+#: includes/admin/llms.functions.admin.php:211
 msgid "No merge codes found."
 msgstr ""
 
@@ -5443,6 +5406,54 @@ msgctxt "trial offer description"
 msgid "for %1$d %2$s"
 msgstr ""
 
+#. translators: %s = Add-on name
+#: includes/models/model.llms.add-on.php:86
+msgid "%s was successfully activated."
+msgstr ""
+
+#. translators: %s = Add-on name
+#: includes/models/model.llms.add-on.php:90
+msgid "Could not activate %s."
+msgstr ""
+
+#. translators: %s = Add-on name
+#: includes/models/model.llms.add-on.php:107
+msgid "%s was successfully deactivated."
+msgstr ""
+
+#. translators: %s = Add-on name
+#: includes/models/model.llms.add-on.php:112
+msgid "Could not deactivate %s."
+msgstr ""
+
+#: includes/models/model.llms.add-on.php:200
+msgid "Active"
+msgstr ""
+
+#: includes/models/model.llms.add-on.php:201
+msgid "Inactive"
+msgstr ""
+
+#: includes/models/model.llms.add-on.php:203, includes/admin/settings/class.llms.settings.integrations.php:122, includes/admin/settings/class.llms.settings.integrations.php:137, includes/admin/settings/class.llms.settings.integrations.php:138
+msgid "Installed"
+msgstr ""
+
+#: includes/models/model.llms.add-on.php:204
+msgid "Not Installed"
+msgstr ""
+
+#: includes/models/model.llms.add-on.php:210
+msgid "N/A"
+msgstr ""
+
+#: includes/models/model.llms.add-on.php:212
+msgid "Licensed"
+msgstr ""
+
+#: includes/models/model.llms.add-on.php:213
+msgid "Unlicensed"
+msgstr ""
+
 #: includes/models/model.llms.coupon.php:111, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:82
 msgid "Percentage Discount"
 msgstr ""
@@ -7197,7 +7208,7 @@ msgid "Quick Links"
 msgstr ""
 
 #. translators: %s = Current Version Number
-#: includes/admin/settings/class.llms.settings.general.php:63, includes/admin/views/addons/addon-item.php:38
+#: includes/admin/settings/class.llms.settings.general.php:63, includes/admin/views/addons/addon-item.php:42
 msgid "Version: %s"
 msgstr ""
 
@@ -7293,10 +7304,6 @@ msgstr ""
 msgid "Integration ID"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.integrations.php:122, includes/admin/settings/class.llms.settings.integrations.php:137, includes/admin/settings/class.llms.settings.integrations.php:138, includes/admin/upgrader/model-llms-addon.php:253
-msgid "Installed"
-msgstr ""
-
 #: includes/admin/settings/class.llms.settings.memberships.php:45, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:21
 msgid "Membership Settings"
 msgstr ""
@@ -7351,122 +7358,6 @@ msgstr ""
 
 #: includes/admin/settings/class.llms.settings.notifications.php:139
 msgid "Invalid notification"
-msgstr ""
-
-#. translators: %s = License Key
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:153
-msgid "The license \"%s\" is no longer valid and was deactivated. Please visit your account dashboard at https://lifterlms.com/my-account for more information."
-msgstr ""
-
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:359
-msgid "Invalid add-on ID."
-msgstr ""
-
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:363
-msgid "Invalid action."
-msgstr ""
-
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:367
-msgid "Add-on cannot be installable."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:373
-msgid "%s is already installed"
-msgstr ""
-
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:382
-msgid "An error occured while attempting to retrieve add-on download information. Please try again."
-msgstr ""
-
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:401
-msgid "The requested action is not possible."
-msgstr ""
-
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:418
-msgid "Unable to connect to the filesystem. Please confirm your credentials."
-msgstr ""
-
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:441
-msgid "Your LifterLMS add-on is currently unlicensed and cannot be updated!"
-msgstr ""
-
-#. translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:446
-msgid "If you already have a license, you can activate it on the %1$sadd-ons management screen%2$s."
-msgstr ""
-
-#. translators: %s = URI to licensing FAQ
-#: includes/admin/upgrader/class-llms-addon-upgrader.php:451
-msgid "Learn more about LifterLMS add-on licensing at %s."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:82
-msgid "%s was successfully activated."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:86
-msgid "Could not activate %s."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:103
-msgid "%s was successfully deactivated."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:108
-msgid "Could not deactivate %s."
-msgstr ""
-
-#: includes/admin/upgrader/model-llms-addon.php:166
-msgid "Unable to locate a license key for the selected add-on."
-msgstr ""
-
-#: includes/admin/upgrader/model-llms-addon.php:250
-msgid "Active"
-msgstr ""
-
-#: includes/admin/upgrader/model-llms-addon.php:251
-msgid "Inactive"
-msgstr ""
-
-#: includes/admin/upgrader/model-llms-addon.php:254
-msgid "Not Installed"
-msgstr ""
-
-#: includes/admin/upgrader/model-llms-addon.php:260, includes/admin/views/addons/beta-testing.php:54
-msgid "N/A"
-msgstr ""
-
-#: includes/admin/upgrader/model-llms-addon.php:262
-msgid "Licensed"
-msgstr ""
-
-#: includes/admin/upgrader/model-llms-addon.php:263
-msgid "Unlicensed"
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:382
-msgid "%s was successfully installed."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:391
-msgid "Could not install %s."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:491
-msgid "%s was successfully updated."
-msgstr ""
-
-#. translators: %s = Add-on name
-#: includes/admin/upgrader/model-llms-addon.php:500
-msgid "Could not update %s."
 msgstr ""
 
 #: includes/admin/views/html.admin.settings.php:36
@@ -9404,7 +9295,7 @@ msgstr ""
 msgid "Manage Existing Enrollments"
 msgstr ""
 
-#: includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.course.students.php:372, includes/admin/reporting/tables/llms.table.student.course.php:185, includes/admin/reporting/tables/llms.table.student.courses.php:199, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:404, includes/admin/views/addons/beta-testing.php:36
+#: includes/admin/post-types/tables/class.llms.table.student.management.php:351, includes/admin/reporting/tables/llms.table.course.students.php:372, includes/admin/reporting/tables/llms.table.student.course.php:185, includes/admin/reporting/tables/llms.table.student.courses.php:199, includes/admin/reporting/tables/llms.table.student.memberships.php:107, includes/admin/reporting/tables/llms.table.students.php:404
 msgid "Name"
 msgstr ""
 
@@ -9630,97 +9521,17 @@ msgid "Configure"
 msgstr ""
 
 #. translators: %s = Author Name
-#: includes/admin/views/addons/addon-item.php:29
+#: includes/admin/views/addons/addon-item.php:31
 msgid "Author: %s"
 msgstr ""
 
 #. translators: %s = Available Version Number
-#: includes/admin/views/addons/addon-item.php:41
+#: includes/admin/views/addons/addon-item.php:47
 msgid "Update Available: %s"
 msgstr ""
 
-#: includes/admin/views/addons/addon-item.php:56
+#: includes/admin/views/addons/addon-item.php:65
 msgid "Learn more"
-msgstr ""
-
-#: includes/admin/views/addons/addon-item.php:104
-msgid "View update details"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:14
-msgid "Beta Testing Warnings and FAQs"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:16
-msgid "Always test with caution!"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:17
-msgid "Beta releases may not be stable. We will not be able to fix issues caused by using a beta release. We urge you to only use beta versions in testing environments!"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:18
-msgid "Subscribing to the <em>beta channel</em> for LifterLMS or any available add-ons will allow you to automatically update to the latest beta release for the given plugin or theme."
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:19
-msgid "When no beta versions are available, automatic updates will be to the latest stable version of the plugin or theme."
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:21
-msgid "Rolling back and restoring data"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:22
-msgid "You can switch back to the latest stable version by unsubscribing from the <em>beta channel</em>. <strong>Doing so will not restore your database</strong>. If you require a database restoration you must do so manually after the stable codebase is reinstalled."
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:24
-msgid "Reporting bugs and contributing"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:25
-msgid "We welcome contributions of all kinds, review our contribution guidelines on %1$sGitHub%2$s to get started."
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:26
-msgid "If you encounter a bug while beta testing, please report it at %s."
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:28
-msgid "Still have questions?"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:29
-msgid "Check out our Guide to Beta Testing at %s."
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:37
-msgid "Channel"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:38
-msgid "Installed Version"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:39
-msgid "Beta Version"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:49
-msgid "Stable"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:50
-msgid "Beta"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:60
-msgid "Save & Update"
-msgstr ""
-
-#: includes/admin/views/addons/beta-testing.php:67
-msgid "Are you sure you want to enable or disable beta testing for these plugins and themes?"
 msgstr ""
 
 #: includes/admin/views/builder/assignment.php:15
@@ -10001,6 +9812,10 @@ msgstr ""
 
 #: includes/admin/views/metaboxes/view-order-submit.php:99
 msgid "Update Order"
+msgstr ""
+
+#: includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.repeater.php:27
+msgid "Add New"
 msgstr ""
 
 #: templates/admin/reporting/tabs/courses/overview.php:27
