@@ -84,8 +84,9 @@ class LLMS_Admin_AddOns {
 
 		$features = array();
 
-		// exclude products already installed
-		$exclude = $this->upgrader->get_available_products( false );
+		// addons to exclude
+		// helper will filter this based on existing activations
+		$exclude = apply_filters( 'llms_admin_addon_features_exclude_ids', array() );
 
 		$cats = array(
 			'e-commerce',

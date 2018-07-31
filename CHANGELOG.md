@@ -1,10 +1,14 @@
 LifterLMS Changelog
 ===================
 
-v3.21.2 - 2018-07-??
--------------------
+v3.22.0-beta.1 - 2018-07-31
+---------------------------
 
++ Frontend notifications are no longer powered by AJAX requests. This change will significantly reduce the number of requests made but will remove the ability for students to receive asynchronouos notifications. This means that notifications will only be displayed on page load as notification polling will no longer occur while a student is on a page (while reading the content a lesson, for example).
 + Course and membership catalogs items in navigation menus will now have expected CSS classes to identify current item and current item parents
++ The admin panel add-ons screen has been reworked to be powered by the lifterlms.com REST api
++ Some visual changes have been made to the add-ons screen
++ The colors on the voucher screen on the admin panel have been updated to match the rest of the interfaces in LifterLMS
 
 
 v3.21.1 - 2018-07-24
