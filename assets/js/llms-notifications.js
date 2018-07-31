@@ -1,18 +1,14 @@
 /**
  * LifterLMS Basic Notifications Displayer
  * @since    3.8.0
- * @version  3.9.5
+ * @version  [version]
  */
 ;( function( $ ) {
 
 	var llms_notifications = function() {
 
 		var self = this,
-			settings = ( window.llms && window.llms.notification_settings ) ? window.llms.notification_settings : {},
-			heartbeat_interval = settings.heartbeat_interval ? settings.heartbeat_interval : 20000,
-			notifications = [],
-			dismissals = [],
-			heartbeat;
+			notifications = [];
 
 		/**
 		 * Bind dom events
@@ -27,128 +23,10 @@
 		};
 
 		/**
-		 * Add a dismissal to the array of dismissals to be pushed to the server
-		 * during the next heartbeat
-		 * @param    int   id  notification ID
-		 * @since    3.8.0
-		 * @version  3.8.0
-		 */
-		function add_dismissal( id ) {
-			if ( -1 === dismissals.indexOf( id ) ) {
-				dismissals.push( id );
-			}
-		};
-
-		/**
-		 * Clear the currently running heartbeat
-		 * @return   void
-		 * @since    3.8.0
-		 * @version  3.8.0
-		 */
-		function clear_heartbeat() {
-			clearInterval( heartbeat );
-		};
-
-		/**
-		 * Heartbeat callback function
-		 * @param    {[type]}   trigger  [description]
-		 * @return   {[type]}            [description]
-		 * @since    3.8.0
-		 * @version  3.8.0
-		 */
-		function do_heartbeat( trigger ) {
-
-			pump( function() {
-
-				if ( ( trigger && 'unload' === trigger ) || ! self.has_notifications ) {
-					return;
-				}
-				self.show_all();
-
-			} );
-
-		};
-
-		/**
-		 * Heartbeat function
-		 * @param    {Function}  cb  callbace
-		 * @return   void
-		 * @since    3.8.0
-		 * @version  3.8.0
-		 */
-		pump = function( cb ) {
-
-			var clear_dismissals = dismissals.length ? true : false;
-
-			LLMS.Ajax.call( {
-				data: {
-					action: 'notifications_heartbeart',
-					dismissals: dismissals,
-				},
-				beforeSend: function() {
-
-					if ( self.block_ajax ) {
-						self.restart_heartbeat = true;
-						clear_heartbeat();
-						cb();
-						return false;
-					}
-
-					self.block_ajax = true;
-
-				},
-				complete: function() {
-
-					if ( self.restart_heartbeat ) {
-						self.restart_heartbeat = false;
-						start_heartbeat();
-					}
-
-					self.block_ajax = false;
-
-				},
-				success: function( r ) {
-
-					dismissals = clear_dismissals ? [] : dismissals;
-
-					if ( r.success && r.data ) {
-						self.queue( r.data.new );
-					}
-
-					cb();
-
-				}
-			} );
-
-		};
-
-		/**
-		 * Start the heartbeat
-		 * @return   void
-		 * @since    3.8.0
-		 * @version  3.8.0
-		 */
-		function start_heartbeat() {
-			heartbeat = setInterval( do_heartbeat, heartbeat_interval );
-		};
-
-		/**
-		 * Prevent multiple simultaneous ajax calls from being made
-		 * @type  {Boolean}
-		 */
-		this.block_ajax = false;
-
-		/**
-		 * If a heartbeat request is blocked, this will be used to restart it
-		 * @type  {Boolean}
-		 */
-		this.restart_heartbeat = false;
-
-		/**
 		 * Initialize
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.init = function() {
 
@@ -158,14 +36,12 @@
 				return;
 			}
 
-			window.onbeforeunload = function() {
-				do_heartbeat( 'unload' );
-			};
+			if ( window.llms.queued_notifications ) {
+				self.queue( window.llms.queued_notifications );
+				self.show_all();
+			}
 
 			bind_events();
-
-			do_heartbeat();
-			start_heartbeat();
 
 		};
 
@@ -202,12 +78,11 @@
 		 * @param    obj   $el  notification dom element
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.dismiss = function( $el ) {
 			var self = this;
 			$el.removeClass( 'visible' );
-			add_dismissal( $el.attr( 'data-id' ) );
 			setTimeout( function() {
 				self.reposition( $el.next( '.llms-notification.visible' ) );
 			}, 10 );
@@ -351,7 +226,7 @@
 		 * @param    object   n  notification object data
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.8.0
+		 * @version  [version]
 		 */
 		this.show_one = function( n ) {
 
@@ -361,7 +236,6 @@
 			$html.find( 'a' ).on( 'click', function( e ) {
 				e.preventDefault();
 				var $this = $( this );
-				add_dismissal( $html.attr( 'data-id' ) );
 				window.location = $this.attr( 'href' );
 			} );
 
@@ -374,11 +248,6 @@
 
 			// if it's auto dismissing, set up a dismissal
 			if ( $html.attr( 'data-auto-dismiss' ) ) {
-				// automatically schedule automatic dismissals
-				// to prevent the notification from displaying again
-				// if the auto-dismiss timeout isn't reached
-				// before the page unloads
-				add_dismissal( $html.attr( 'data-id' ) );
 				setTimeout( function() {
 					self.dismiss( $html );
 				}, $html.attr( 'data-auto-dismiss' ) );
