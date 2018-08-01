@@ -4,14 +4,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Navigation Menus
  * @since    3.14.7
- * @version  [version]
+ * @version  3.22.0-beta.1
  */
 class LLMS_Nav_Menus {
 
 	/**
 	 * Constructor
 	 * @since    3.14.7
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	public function __construct() {
 
@@ -174,8 +174,8 @@ class LLMS_Nav_Menus {
 	 * Add "active" classes to menu items for LLMS catalog pages
 	 * @param    array     $menu_items  menu items
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
 	 */
 	public function menu_item_classes( $menu_items ) {
 
@@ -200,15 +200,13 @@ class LLMS_Nav_Menus {
 						unset( $classes[ array_search( $class, $classes ) ] );
 					}
 				}
-
-			// set active links for catalog pages
 			} elseif ( 'page' === $item->object && ( ( is_courses() && $courses_id == $item->object_id ) || ( is_memberships() && $memberships_id == $item->object_id ) ) ) {
 
 				$menu_items[ $key ]->current = true;
 				$classes[] = 'current-menu-item';
 				$classes[] = 'current_page_item';
 
-			// set parent links for courses & memberships
+				// set parent links for courses & memberships
 			} elseif ( ( $courses_id == $item->object_id && ( is_singular( 'course' ) || is_course_taxonomy() ) ) || ( $memberships_id == $item->object_id && ( is_singular( 'llms_membership' ) || is_membership_taxonomy() ) ) ) {
 
 				$classes[] = 'current_page_parent';

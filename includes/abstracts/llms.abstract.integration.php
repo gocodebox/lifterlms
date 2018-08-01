@@ -126,7 +126,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		if ( ! $this->is_installed() && ! empty( $this->description_missing ) ) {
 			$settings[] = array(
 				'type' => 'custom-html',
-				'value' => '<em>' .  $this->description_missing . '</em>',
+				'value' => '<em>' . $this->description_missing . '</em>',
 			);
 		}
 		$settings = array_merge( $settings, $this->get_integration_settings() );

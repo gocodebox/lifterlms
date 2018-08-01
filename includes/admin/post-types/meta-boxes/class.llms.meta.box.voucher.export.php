@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Meta Box Voucher Export
  * @since    ??
- * @version  [version]
+ * @version  3.22.0-beta.1
  */
 class LLMS_Meta_Box_Voucher_Export {
 
@@ -19,7 +19,7 @@ class LLMS_Meta_Box_Voucher_Export {
 	 * @param object $post WP global post object
 	 * @return void
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.22.0-beta.1
 	 */
 	public static function output( $post ) {
 

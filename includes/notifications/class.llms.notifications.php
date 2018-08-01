@@ -1,14 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
- *
  * @since     3.8.0
- * @version   3.17.8
+ * @version   3.22.0-beta.1
  */
 class LLMS_Notifications {
 
@@ -58,11 +55,12 @@ class LLMS_Notifications {
 	/**
 	 * Constructor
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.22.0-beta.1
 	 */
 	private function __construct() {
 
 		$this->load();
+		add_action( 'wp', array( $this, 'enqueue_basic' ) );
 		add_action( 'shutdown', array( $this, 'dispatch_processors' ) );
 
 	}
@@ -82,6 +80,44 @@ class LLMS_Notifications {
 			if ( $processor ) {
 				unset( $this->processors_to_dispatch[ $key ] );
 				$processor->save()->dispatch();
+			}
+		}
+
+	}
+
+	/**
+	 * Enqueue basic notifications for onscreen display
+	 * @return   void
+	 * @since    3.22.0-beta.1
+	 * @version  3.22.0-beta.1
+	 */
+	public function enqueue_basic() {
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return;
+		}
+
+		// get 5 most recent new notifications for the current user
+		$query = new LLMS_Notifications_Query( array(
+			'per_page' => 5,
+			'statuses' => 'new',
+			'types' => 'basic',
+			'subscriber' => $user_id,
+		) );
+
+		$notifications = $query->get_notifications();
+
+		// push to JS
+		LLMS_Frontend_Assets::enqueue_inline_script(
+			'llms-queued-notifications',
+			'window.llms = window.llms || {};window.llms.queued_notifications = ' . json_encode( $notifications ) . ';'
+		);
+
+		// record as read
+		if ( $query->has_results() ) {
+			foreach ( $notifications as $notification ) {
+				$notification->set( 'status', 'read' );
 			}
 		}
 

@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It is compiled automatically via the gulp task `js:pot`
  * See the lifterlms-lib-tasks package for more information
  * @since    3.17.8
- * @version  3.21.0
+ * @version  3.22.0-beta.1
  */
 class LLMS_L10n_JS {
 
@@ -27,7 +27,7 @@ class LLMS_L10n_JS {
 	 * @param    array  $strings  existing strings from core / 3rd parties
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.21.0
+	 * @version  3.22.0-beta.1
 	 */
 	public function get_strings( $strings ) {
 
@@ -221,6 +221,14 @@ class LLMS_L10n_JS {
 			'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 			'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),
 			'Use YouTube, Vimeo, or Wistia video URLS.' => esc_html__( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ),
+
+			/**
+			 * file: assets/js/llms-admin-addons.js
+			 * @since    3.22.0-beta.1
+			 * @version  3.22.0-beta.1
+			 */
+			'%d add-ons' => esc_html__( '%d add-ons', 'lifterlms' ),
+			'1 add-on' => esc_html__( '1 add-on', 'lifterlms' ),
 
 			/**
 			 * file: assets/js/llms-admin-settings.js
