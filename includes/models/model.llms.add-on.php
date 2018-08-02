@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Add-On Model
- * @since    3.22.0-beta.1
- * @version  3.22.0-beta.1
+ * @since    3.22.0
+ * @version  3.22.0
  */
 class LLMS_Add_On {
 
@@ -25,8 +25,8 @@ class LLMS_Add_On {
 	 * @param    array     $addon       array of addon data
 	 * @param    string    $lookup_key  if $addon is a string, this determines how to lookup the addon from the available list of addons
 	 * @return   void
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function __construct( $addon = array(), $lookup_key = 'id' ) {
 
@@ -54,8 +54,8 @@ class LLMS_Add_On {
 	 * Magic getter to retrieve add-on props from private $data array
 	 * @param    string     $key  property key
 	 * @return   mixed
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function __get( $key ) {
 		return isset( $this->data[ $key ] ) ? $this->data[ $key ] : '';
@@ -64,8 +64,8 @@ class LLMS_Add_On {
 	/**
 	 * Activate an add-on
 	 * @return   string|WP_Error
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function activate() {
 
@@ -94,8 +94,8 @@ class LLMS_Add_On {
 	/**
 	 * Deactivate the addon
 	 * @return   string|WP_Error
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function deactivate() {
 
@@ -117,8 +117,8 @@ class LLMS_Add_On {
 	 * Get add-on properties
 	 * @param    string     $key  property key
 	 * @return   mixed
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get( $key ) {
 		return $this->$key;
@@ -127,8 +127,8 @@ class LLMS_Add_On {
 	/**
 	 * Retrieve the update channel for the addon
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_channel_subscription() {
 		return 'stable';
@@ -138,8 +138,8 @@ class LLMS_Add_On {
 	 * Determine the status of an addon's license
 	 * @param    bool       $translate   if true, returns the translated string for on-screen display
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_install_status( $translate = false ) {
 
@@ -156,8 +156,8 @@ class LLMS_Add_On {
 	/**
 	 * Get the currently installed version of an addon
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_installed_version() {
 		if ( $this->is_installable() && $this->is_installed() ) {
@@ -176,8 +176,8 @@ class LLMS_Add_On {
 	/**
 	 * Retrieve the latest available version for the current channel
 	 * @return   strin
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_latest_version() {
 		if ( 'beta' === $this->get_channel_subscription() && $this->get( 'version_beta' ) ) {
@@ -190,8 +190,8 @@ class LLMS_Add_On {
 	 * Translate strings
 	 * @param    string     $status  untranslated string / key
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_l10n( $string ) {
 
@@ -222,8 +222,8 @@ class LLMS_Add_On {
 	 * Determine the status of an addon's license
 	 * @param    bool       $translate   if true, returns the translated string for on-screen display
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_license_status( $translate = false ) {
 
@@ -240,8 +240,8 @@ class LLMS_Add_On {
 	/**
 	 * Retrieve a utm'd link to the add-on
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_permalink() {
 
@@ -262,8 +262,8 @@ class LLMS_Add_On {
 	/**
 	 * Get the type of addon
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_type() {
 
@@ -291,8 +291,8 @@ class LLMS_Add_On {
 	 * Get the addon's status
 	 * @param    bool       $translate  if true, translates the status for on-screen display
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function get_status( $translate = false ) {
 
@@ -315,8 +315,8 @@ class LLMS_Add_On {
 	/**
 	 * Determine if there is an available update for the add-on
 	 * @return   bool
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function has_available_update() {
 		return version_compare( $this->get_installed_version(), $this->get_latest_version(), '<' );
@@ -325,8 +325,8 @@ class LLMS_Add_On {
 	/**
 	 * Determine if an installable addon is active
 	 * @return   bool
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function is_active() {
 
@@ -349,8 +349,8 @@ class LLMS_Add_On {
 	/**
 	 * Determines if the add-on is installable
 	 * @return   bool
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function is_installable() {
 		return in_array( $this->get_type(), array( 'plugin', 'theme' ) );
@@ -359,8 +359,8 @@ class LLMS_Add_On {
 	/**
 	 * Determine if the add-on is currently installed
 	 * @return   bool
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function is_installed() {
 
@@ -383,8 +383,8 @@ class LLMS_Add_On {
 	/**
 	 * Determines if the add-on is licensed
 	 * @return   bool
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function is_licensed() {
 		return false;

@@ -2,7 +2,7 @@
 /**
 * Page functions
 * @since    1.0.0
-* @version  3.22.0-beta.1
+* @version  3.22.0
 */
 defined( 'ABSPATH' ) || exit;
 

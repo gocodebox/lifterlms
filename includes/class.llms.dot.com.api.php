@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Interact with the LifterLMS.com API
- * @since    3.22.0-beta.1
- * @version  3.22.0-beta.1
+ * @since    3.22.0
+ * @version  3.22.0
  */
 class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
@@ -27,8 +27,8 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @param    bool   $is_rest   if true adds wp-json rest to request url, otherwise requests to site base
 	 * @return   void
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function __construct( $resource, $data, $method = null, $is_rest = true ) {
 
@@ -40,8 +40,8 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	/**
 	 * Determine if the current request is a rest request
 	 * @return   bool
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function is_rest_request() {
 		return $this->is_rest;
@@ -51,8 +51,8 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * Parse the body of the response and set a success/error
 	 * @param    array     $response  response data
 	 * @return   array
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	protected function parse_response( $response ) {
 
@@ -77,8 +77,8 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @param    string     $method    request method
 	 * @param    string     $resource  requested resource
 	 * @return   array
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	protected function set_request_body( $data, $method, $resource ) {
 		return apply_filters( 'llms_dot_com_api_request_body', $data, $method, $resource, $this );
@@ -90,8 +90,8 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @param    string     $resource  request resource
 	 * @param    string     $method    request method
 	 * @return   array
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	protected function set_request_headers( $headers, $resource, $method ) {
 		return apply_filters( 'llms_dot_com_api_request_headers', $headers, $resource, $method, $this );
@@ -102,8 +102,8 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @param    string     $resource  requested resource
 	 * @param    string     $method    request method
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	protected function set_request_url( $resource, $method ) {
 
@@ -122,8 +122,8 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * @param    string     $resource    requested resource
 	 * @param    string     $method      request method
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	protected function set_user_agent( $user_agent, $resource, $method ) {
 		return sprintf( 'LifterLMS/%1$s (%2$s)', LLMS_VERSION, get_site_url() );

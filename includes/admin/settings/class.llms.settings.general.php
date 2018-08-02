@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Settings Page, General Tab
  * @since    1.0.0
- * @version  3.22.0-beta.1
+ * @version  3.22.0
  */
 class LLMS_Settings_General extends LLMS_Settings_Page {
 
@@ -205,7 +205,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * Get advert banner html
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.22.0-beta.1
+	 * @version  3.22.0
 	 */
 	public static function get_small_banners() {
 

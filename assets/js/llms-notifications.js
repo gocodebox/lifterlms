@@ -1,7 +1,7 @@
 /**
  * LifterLMS Basic Notifications Displayer
  * @since    3.8.0
- * @version  3.22.0-beta.1
+ * @version  3.22.0
  */
 ;( function( $ ) {
 
@@ -26,7 +26,7 @@
 		 * Initialize
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.22.0-beta.1
+		 * @version  3.22.0
 		 */
 		this.init = function() {
 
@@ -78,7 +78,7 @@
 		 * @param    obj   $el  notification dom element
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.22.0-beta.1
+		 * @version  3.22.0
 		 */
 		this.dismiss = function( $el ) {
 			var self = this;
@@ -226,7 +226,7 @@
 		 * @param    object   n  notification object data
 		 * @return   void
 		 * @since    3.8.0
-		 * @version  3.22.0-beta.1
+		 * @version  3.22.0
 		 */
 		this.show_one = function( n ) {
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Frontend scripts class
 * @since    1.0.0
-* @version  3.22.0-beta.1
+* @version  3.22.0
 */
 class LLMS_Frontend_Assets {
 
@@ -131,7 +131,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Enqueue Scripts
 	 * @since   1.0.0
-	 * @version 3.22.0-beta.1
+	 * @version 3.22.0
 	 */
 	public static function enqueue_scripts() {
 

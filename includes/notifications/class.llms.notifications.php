@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
  * @since     3.8.0
- * @version   3.22.0-beta.1
+ * @version   3.22.0
  */
 class LLMS_Notifications {
 
@@ -55,7 +55,7 @@ class LLMS_Notifications {
 	/**
 	 * Constructor
 	 * @since    3.8.0
-	 * @version  3.22.0-beta.1
+	 * @version  3.22.0
 	 */
 	private function __construct() {
 
@@ -88,8 +88,8 @@ class LLMS_Notifications {
 	/**
 	 * Enqueue basic notifications for onscreen display
 	 * @return   void
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	public function enqueue_basic() {
 

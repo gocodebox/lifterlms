@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS API Request Handler Abstract
  * @since   3.11.2
- * @version 3.22.0-beta.1
+ * @version 3.22.0
  */
 abstract class LLMS_Abstract_API_Handler {
 
@@ -53,7 +53,7 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
 	 * @since    3.11.2
-	 * @version  3.22.0-beta.1
+	 * @version  3.22.0
 	 */
 	private function call( $resource, $data, $method = null ) {
 
@@ -241,8 +241,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string     $resource    requested resource
 	 * @param    string     $method      request method
 	 * @return   string
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	protected function set_user_agent( $user_agent, $resource, $method ) {
 		return $user_agent;

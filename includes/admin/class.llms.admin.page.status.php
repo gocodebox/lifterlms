@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Status Pages
  * @since    3.11.2
- * @version  3.22.0-beta.1
+ * @version  3.22.0
  */
 class LLMS_Admin_Page_Status {
 
@@ -118,7 +118,7 @@ class LLMS_Admin_Page_Status {
 	 * Output the system report
 	 * @return   void
 	 * @since    2.1.0
-	 * @version  3.22.0-beta.1
+	 * @version  3.22.0
 	 */
 	public static function output() {
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Menu Items
  * @since   1.0.0
- * @version 3.22.0-beta.1
+ * @version 3.22.0
  */
 class LLMS_Admin_Menus {
 
@@ -144,7 +144,7 @@ class LLMS_Admin_Menus {
 	 * Add items to the admin menu with a later priority
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.22.0-beta.1
+	 * @version  3.22.0
 	 */
 	public function display_admin_menu_late() {
 
@@ -162,7 +162,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Outupt the addons screen
 	 * @since    3.5.0
-	 * @version  3.22.0-beta.1
+	 * @version  3.22.0
 	 */
 	public function add_ons_page_init() {
 		require_once 'class.llms.admin.addons.php';

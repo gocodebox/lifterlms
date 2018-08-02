@@ -1,7 +1,7 @@
 /**
  * UI & UX for the Admin add-ons management screen
- * @since    3.22.0-beta.1
- * @version  3.22.0-beta.1
+ * @since    3.22.0
+ * @version  3.22.0
  */
 ;( function( $ ) {
 
@@ -18,8 +18,8 @@
 
 	/**
 	 * When the bulk action modal is closed, clear all existing staged actions
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	$( '.llms-bulk-close' ).on( 'click', function( e ) {
 		e.preventDefault();
@@ -28,8 +28,8 @@
 
 	/**
 	 * Update the UI and counters when a checkbox action is changed
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	$( 'input.llms-bulk-check' ).on( 'change', function() {
 
@@ -49,8 +49,8 @@
 	 * Updates the UI when bulk actions are changed
 	 * Shows # of each action to be applied & shows the form submission / cancel buttons
 	 * @return   void
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	function update_ui() {
 
@@ -85,8 +85,8 @@
 
 	/**
 	 * Show the keys management dropdown on click of the "My Licenese Keys" button
-	 * @since    3.22.0-beta.1
-	 * @version  3.22.0-beta.1
+	 * @since    3.22.0
+	 * @version  3.22.0
 	 */
 	$( '#llms-active-keys-toggle' ).on( 'click', function() {
 		$( '#llms-key-field-form' ).toggle();

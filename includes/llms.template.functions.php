@@ -2,7 +2,7 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  3.22.0-beta.1
+* @version  3.22.0
 */
 defined( 'ABSPATH' ) || exit;
 
@@ -1199,8 +1199,8 @@ if ( ! function_exists( 'is_course_taxonomy' ) ) {
 /**
  * Is Membership Tax
  * @return   bool
- * @since    3.22.0-beta.1
- * @version  3.22.0-beta.1
+ * @since    3.22.0
+ * @version  3.22.0
  */
 if ( ! function_exists( 'is_membership_taxonomy' ) ) {
 	function is_membership_taxonomy() {
