@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add-On Model
  * @since    3.22.0
- * @version  3.22.0
+ * @version  [version]
  */
 class LLMS_Add_On {
 
@@ -350,10 +350,10 @@ class LLMS_Add_On {
 	 * Determines if the add-on is installable
 	 * @return   bool
 	 * @since    3.22.0
-	 * @version  3.22.0
+	 * @version  [version]
 	 */
 	public function is_installable() {
-		return in_array( $this->get_type(), array( 'plugin', 'theme' ) );
+		return ( $this->get( 'update_file' ) && in_array( $this->get_type(), array( 'plugin', 'theme' ) ) );
 	}
 
 	/**
