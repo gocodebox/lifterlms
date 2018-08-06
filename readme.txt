@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 5.6
 Tested up to: 4.9.8
-Stable tag: 3.22.0
+Stable tag: 3.22.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,8 +355,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.22.1 - 2018-08-06 =
+------------------------
+
++ Fix issue causing themes to appear as requiring updates when using the LifterLMS Helper
+
+
 = v3.22.0 - 2018-07-31 =
--------------------------------
+------------------------
 
 + Frontend notifications are no longer powered by AJAX requests. This change will significantly reduce the number of requests made but will remove the ability for students to receive asynchronouos notifications. This means that notifications will only be displayed on page load as notification polling will no longer occur while a student is on a page (while reading the content a lesson, for example).
 + Course and membership catalogs items in navigation menus will now have expected CSS classes to identify current item and current item parents
@@ -488,12 +494,6 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
 + [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
 + [templates/quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
-
-
-= v3.19.1 - 2018-06-07 =
-------------------------
-
-+ Fixed CSS specificity issue on admin panel causing white text on white background on system status pages
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

@@ -1,8 +1,14 @@
 == Changelog ==
 
 
+= v3.22.1 - 2018-08-06 =
+------------------------
+
++ Fix issue causing themes to appear as requiring updates when using the LifterLMS Helper
+
+
 = v3.22.0 - 2018-07-31 =
--------------------------------
+------------------------
 
 + Frontend notifications are no longer powered by AJAX requests. This change will significantly reduce the number of requests made but will remove the ability for students to receive asynchronouos notifications. This means that notifications will only be displayed on page load as notification polling will no longer occur while a student is on a page (while reading the content a lesson, for example).
 + Course and membership catalogs items in navigation menus will now have expected CSS classes to identify current item and current item parents
@@ -134,9 +140,3 @@
 + [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
 + [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
 + [templates/quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
-
-
-= v3.19.1 - 2018-06-07 =
-------------------------
-
-+ Fixed CSS specificity issue on admin panel causing white text on white background on system status pages
