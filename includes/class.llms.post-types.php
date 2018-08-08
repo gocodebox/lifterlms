@@ -265,11 +265,20 @@ class LLMS_Post_Types {
 				'with_front' => false,
 				'feeds' => true,
 			),
-			'query_var' 			=> true,
-			'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
-			'has_archive' 			=> ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : 'courses',
-			'show_in_nav_menus' 	=> true,
-			'menu_position'         => 52,
+			'query_var'         => true,
+			'supports'          => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
+			'has_archive'       => ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : 'courses',
+			'show_in_nav_menus' => true,
+			'menu_position'     => 52,
+			'show_in_rest'      => true,
+			'template' => array(
+				array( 'core/image', array(
+					'align' => 'center',
+				) ),
+				array( 'core/paragraph', array(
+					'placeholder' => 'Add a course description...',
+				) ),
+			),
 		) );
 
 		// Section
