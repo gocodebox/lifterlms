@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  * @since    3.5.0
- * @version  3.22.0
+ * @version  [version]
  */
 class LLMS_Admin_AddOns {
 
@@ -60,16 +60,23 @@ class LLMS_Admin_AddOns {
 	 * Retrieve remote json data
 	 * @return   null|WP_Error
 	 * @since    3.5.0
-	 * @version  3.22.0
+	 * @version  [version]
 	 */
 	private function get_data() {
 
 		$this->data = llms_get_add_ons();
-		foreach ( $this->data['items'] as $key => $addon ) {
-			if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ) ) ) {
-				unset( $this->data['items'][ $key ] );
+
+		if ( ! is_wp_error( $this->data ) ) {
+
+			foreach ( $this->data['items'] as $key => $addon ) {
+				if ( in_array( $addon['id'], array( 'lifterlms-com-lifterlms', 'lifterlms-com-lifterlms-helper' ) ) ) {
+					unset( $this->data['items'][ $key ] );
+				}
 			}
+
 		}
+
+		return $this->data;
 
 	}
 

@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.22.2 - 2018-08-09
+--------------------
+
++ Fixed issue causing banners on general settings screen to cause a fatal error when api connection errors occurred
+
+
 v3.22.1 - 2018-08-06
 --------------------
 
