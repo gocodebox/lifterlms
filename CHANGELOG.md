@@ -5,6 +5,7 @@ v3.22.2 - 2018-08-09
 --------------------
 
 + Fixed issue causing banners on general settings screen to cause a fatal error when api connection errors occurred
++ Improved CSS on setup wizard
 
 
 v3.22.1 - 2018-08-06

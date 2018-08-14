@@ -97,7 +97,7 @@ a.dashboard-return {
 }
 
 .llms-setup-progress {
-	font-size: 0;
+	display: flex;
 	margin: 20px 0;
 
 	li {
@@ -108,7 +108,7 @@ a.dashboard-return {
 		padding-bottom: 10px;
 		position: relative;
 		text-align: center;
-		width: 20%;
+		flex: 1;
 
 		&:after {
 			background: $color-brand-blue;
