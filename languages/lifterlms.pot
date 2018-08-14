@@ -2777,39 +2777,39 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:237, includes/admin/class.llms.admin.addons.php:337
+#: includes/admin/class.llms.admin.addons.php:243, includes/admin/class.llms.admin.addons.php:343
 msgid "There was an error retrieving add-ons. Please try again."
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:243, includes/admin/class.llms.admin.addons.php:245
+#: includes/admin/class.llms.admin.addons.php:249, includes/admin/class.llms.admin.addons.php:251
 msgid "LifterLMS Add-Ons, Courses, and Resources"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:257, includes/admin/views/builder/editor.php:32
+#: includes/admin/class.llms.admin.addons.php:263, includes/admin/views/builder/editor.php:32
 msgid "Close"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:263
+#: includes/admin/class.llms.admin.addons.php:269
 msgid "Update"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:268, includes/models/model.llms.add-on.php:208
+#: includes/admin/class.llms.admin.addons.php:274, includes/models/model.llms.add-on.php:208
 msgid "Install"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:273, includes/models/model.llms.add-on.php:206, includes/admin/views/addons/addon-item.php:95
+#: includes/admin/class.llms.admin.addons.php:279, includes/models/model.llms.add-on.php:206, includes/admin/views/addons/addon-item.php:95
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:278, includes/models/model.llms.add-on.php:207, includes/admin/views/addons/addon-item.php:87
+#: includes/admin/class.llms.admin.addons.php:284, includes/models/model.llms.add-on.php:207, includes/admin/views/addons/addon-item.php:87
 msgid "Deactivate"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:281
+#: includes/admin/class.llms.admin.addons.php:287
 msgid "Apply"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:357
+#: includes/admin/class.llms.admin.addons.php:363
 msgid "All"
 msgstr ""
 

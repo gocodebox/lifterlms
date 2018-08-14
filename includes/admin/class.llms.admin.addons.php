@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  * @since    3.5.0
- * @version  [version]
+ * @version  3.22.2
  */
 class LLMS_Admin_AddOns {
 
@@ -60,7 +60,7 @@ class LLMS_Admin_AddOns {
 	 * Retrieve remote json data
 	 * @return   null|WP_Error
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.22.2
 	 */
 	private function get_data() {
 

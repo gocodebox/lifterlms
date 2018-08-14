@@ -1,6 +1,13 @@
 == Changelog ==
 
 
+= v3.22.2 - 2018-08-13 =
+------------------------
+
++ Fixed issue causing banners on general settings screen to cause a fatal error when api connection errors occurred
++ Improved CSS on setup wizard
+
+
 = v3.22.1 - 2018-08-06 =
 ------------------------
 
@@ -113,30 +120,3 @@
 ------------------------
 
 + Fix issue causing new quizzes to be unable to load questions list without reloading the builder
-
-
-= v3.19.2 - 2018-06-14 =
-------------------------
-
-##### Updates and enhancements
-
-+ The course builder will now load quiz question data when the quiz is opened instead of loading all quizzes on builder page load. Improves builder load times and addresses an issue which could cause timeouts in certain environments when attempting to edit very large courses.
-+ The currently viewed lesson will now be bold in the lesson outline widget.
-+ Added a CSS class `.llms-widget-syllabus .llms-lesson.current-lesson` which can be used to customize the display of the current lesson in the widget.
-+ Added the ability to filter quiz attempt reports by quiz status
-+ Updated language for access plans on with a limited number of payments to reflect the total number of payments due as opposed to the length (for example in years) that the plan will run.
-
-##### Bug fixes
-
-+ Fixed issue preventing oEmbed media from being used in quiz question descriptions
-+ Fixed issue preventing `<iframes>` from being used in quiz question descriptions
-+ Quiz results will now exclude questions with 0 points value when displaying the number of questions in the quiz.
-+ Fixed error occurring when sorting was applied to quiz attempt reports which would cause quiz attempts from other quizzes to be included in the new sorted report
-+ Fixed filter `lifterlms_reviews_section_title` which was unuseable due to the incorrect usage of `_e()` within the filter. Now using `__()` as expected.
-+ Fixed issue causing course featured image to display in place of lesson feature images
-
-##### Template Updates
-
-+ [templates/course/lesson-preview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/lesson-preview.php)
-+ [templates/course/outline-list-small.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/outline-list-small.php)
-+ [templates/quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
