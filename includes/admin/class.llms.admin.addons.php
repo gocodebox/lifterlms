@@ -73,7 +73,6 @@ class LLMS_Admin_AddOns {
 					unset( $this->data['items'][ $key ] );
 				}
 			}
-
 		}
 
 		return $this->data;
