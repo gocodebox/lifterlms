@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v3.22.3 - 2018-08-15
+--------------------
+
++ Minor improvements made to `LLMS_Access_Plan` model
++ Fixed an issue which would cause access plans to never be available to users. *This bug didn't affect any existing installations except if you wrote custom code that called the `LLMS_Access_Plan::is_available_to_user()` method.*
++ Added filters to the returns of many of the functions in the `LLMS_Acces_Plan` model.
+
+
 v3.22.2 - 2018-08-13
 --------------------
 
