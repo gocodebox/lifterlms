@@ -331,7 +331,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				break;
 
 			}
-
 		}
 
 		return apply_filters( 'llms_plan_get_enroll_text', $text, $this );
@@ -387,7 +386,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$ret .= ' ' . sprintf( _x( 'for %1$d total payments', 'subscription # of payments', 'lifterlms' ), $length );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_get_product_schedule_details', sprintf( $ret, $this->get( 'period' ), $frequency, $length ), $this );
@@ -542,23 +540,22 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 				$ret = true;
 
-			// start and end
+				// start and end
 			} elseif ( $start && $end ) {
 
 				$ret = ( $now < $end && $now > $start );
 
-			// only start
+				// only start
 			} elseif ( $start && ! $end ) {
 
 				$ret = ( $now > $start );
 
-			// only end
+				// only end
 			} elseif ( ! $start && $end ) {
 
 				$ret = ( $now < $end );
 
 			}
-
 		}
 
 		return apply_filters( 'llms_plan_is_on_sale', $ret, $this );

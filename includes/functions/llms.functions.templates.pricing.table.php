@@ -180,5 +180,4 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 		);
 
 	}
-
 }
