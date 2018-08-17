@@ -281,7 +281,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 
 	protected function get_mock_plan( $price = 25.99, $frequency = 1, $expiration = 'lifetime', $on_sale = false, $trial = false ) {
 
-		$course = $this->generate_mock_courses( 1 );
+		$course = $this->generate_mock_courses( 1, 0 );
 		$course_id = $course[0];
 
 		$plan = new LLMS_Access_Plan( 'new', 'Test Access Plan' );
