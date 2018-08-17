@@ -2,7 +2,7 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  3.22.0
+* @version  [version]
 */
 defined( 'ABSPATH' ) || exit;
 
@@ -10,6 +10,7 @@ require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
 require 'functions/llms.functions.templates.dashboard.php';
 require 'functions/llms.functions.templates.loop.php';
+require 'functions/llms.functions.templates.pricing.table.php';
 require 'functions/llms.functions.templates.privacy.php';
 require 'functions/llms.functions.templates.quizzes.php';
 
@@ -278,27 +279,7 @@ if ( ! function_exists( 'lifterlms_template_single_course_progress' ) ) {
 }
 
 
-/**
- * Include pricing table for a LifterLMS Product (course or membership)
- * @param int $post_id  WP Post ID of the product
- * @return void
- * @since  3.0.0
- */
-if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
-	function lifterlms_template_pricing_table( $post_id = null ) {
 
-		if ( ! $post_id ) {
-			global $post;
-		} else {
-			$post = get_post( $post_id );
-		}
-
-		llms_get_template( 'product/pricing-table.php', array(
-			'product' => new LLMS_Product( $post->ID ),
-		) );
-
-	}
-}
 /**
  * Open the course meta information wrapper
  * @since   3.0.0
