@@ -1,13 +1,12 @@
 <?php
 /**
- * The Template for displaying all single courses.
- *
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
- *
+ * Single Course After
+ * @author 	 LifterLMS
+ * @package  LifterLMS/Templates
+ * @since    1.0.0
+ * @version  3.0.3
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * @hooked - lifterlms_template_single_meta_wrapper_start - 5
@@ -24,4 +23,3 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @hooked - lifterlms_template_single_syllabus - 90
  */
 do_action( 'lifterlms_single_course_after_summary' );
-
