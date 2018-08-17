@@ -526,7 +526,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$ret = false;
 
-		if ( 'yes' === $this->get( 'on_sale' ) ) {
+		if ( llms_parse_bool( $this->get( 'on_sale' ) ) ) {
 
 			$now = llms_current_time( 'timestamp' );
 
