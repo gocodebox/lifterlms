@@ -1,9 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  3.19.4
+* @version  [version]
 */
 class LLMS_Shortcodes {
 
@@ -505,7 +507,7 @@ class LLMS_Shortcodes {
 	 * @param    array     $atts  array of shortcode attributes
 	 * @return   string
 	 * @since    3.2.5
-	 * @version  3.4.1
+	 * @version  [version]
 	 */
 	public static function pricing_table( $atts ) {
 
@@ -529,9 +531,7 @@ class LLMS_Shortcodes {
 			self::enqueue_script( 'llms-jquery-matchheight' );
 
 			ob_start();
-			llms_get_template( 'product/pricing-table.php', array(
-				'product' => new LLMS_Product( $atts['product'] ),
-			) );
+			lifterlms_template_pricing_table( $atts['product'] );
 			$ret = ob_get_clean();
 		}
 
