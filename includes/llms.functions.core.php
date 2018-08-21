@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.21.0
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -868,7 +868,7 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
  *                                 %2$s = student email
  * @return   array
  * @since    3.10.1
- * @version  3.10.1
+ * @version  [version]
  */
 function llms_make_select2_student_array( $user_ids = array(), $template = '' ) {
 	if ( ! $template ) {
@@ -880,6 +880,9 @@ function llms_make_select2_student_array( $user_ids = array(), $template = '' ) 
 	$ret = array();
 	foreach ( $user_ids as $id ) {
 		$student = llms_get_student( $id );
+		if ( ! $student ) {
+			continue;
+		}
 		$ret[] = array(
 			'key' => $id,
 			'title' => sprintf( $template, $student->get_name(), $student->get( 'user_email' ) ),

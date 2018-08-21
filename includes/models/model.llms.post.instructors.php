@@ -1,4 +1,6 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LLMS Post Instructors
  *
@@ -9,11 +11,8 @@
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
  * @since    3.13.0
- * @version  3.13.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Post_Instructors {
 
 	/**
@@ -63,7 +62,7 @@ class LLMS_Post_Instructors {
 	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -94,7 +93,7 @@ class LLMS_Post_Instructors {
 	 * Save instructor information
 	 * @param    array      $instructors  array of course instructor information
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function set_instructors( $instructors = array() ) {
 
@@ -109,9 +108,14 @@ class LLMS_Post_Instructors {
 		}
 
 		// allow partial arrays to be passed & we'll fill em up with defaults
-		foreach ( $instructors as &$instructor ) {
+		foreach ( $instructors as $i => &$instructor ) {
 			$instructor = wp_parse_args( $instructor, $this->get_defaults() );
 			$instructor['id'] = absint( $instructor['id'] );
+
+			// remove instructors without an ID
+			if ( empty( $instructor['id'] ) ) {
+				unset( $instructors[ $i ] );
+			}
 		}
 
 		// set the post_author to be the first author in the array

@@ -16,9 +16,12 @@ v3.23.0 - 2018-08-??
 
 + Added filters to the returns of many of the functions in the `LLMS_Acces_Plan` model.
 + Minor improvements made to `LLMS_Access_Plan` model
++ Improved handling of empty blank / empty data when adding instructors to courses and memberships
 
 ##### Bug Fixes
 
++ Fixed issue causing PHP errors when viewing courses / memberships on the admin panel when an instructor user was deleted
++ Fixed issue causing PHP notices when viewing course / membership post lists on the admin panel when an instructor user was deleted
 + Fixed issue causing PHP warnings to be generated when viewing the user add / edit screen on the admin panel
 + Fixed an issue which would cause access plans to never be available to users. *This bug didn't affect any existing installations except if you wrote custom code that called the `LLMS_Access_Plan::is_available_to_user()` method.*
 
