@@ -1,12 +1,30 @@
 LifterLMS Changelog
 ===================
 
-v3.22.3 - 2018-08-15
+v3.23.0 - 2018-08-??
 --------------------
 
-+ Minor improvements made to `LLMS_Access_Plan` model
-+ Fixed an issue which would cause access plans to never be available to users. *This bug didn't affect any existing installations except if you wrote custom code that called the `LLMS_Access_Plan::is_available_to_user()` method.*
+##### Updates and Enhancements
+
++ The pricing table template has been split into multiple templates which are now rendered via action hooks. No visual changes have been made but if you've customized the template using a template override you'll want to review the template changes before updating!
++ New action hooks are available to modify the rendering of access plans in course / membership pricing tables.
+
+  + `llms_access_plan`: Main hook for outputting an entire access plan within the pricing table
+  + `llms_before_access_plan`: Called before main content of access plan. Outputs the "Featured" area of plans
+  + `llms_acces_plan_content`: Main access plan content. Outputs title, pricing info, restrictions, and description
+  + `llms_acces_plan_footer`: Called after main content. Outputs trial info and the checkout / enrollment button
+
 + Added filters to the returns of many of the functions in the `LLMS_Acces_Plan` model.
++ Minor improvements made to `LLMS_Access_Plan` model
+
+##### Bug Fixes
+
++ Fixed issue causing PHP warnings to be generated when viewing the user add / edit screen on the admin panel
++ Fixed an issue which would cause access plans to never be available to users. *This bug didn't affect any existing installations except if you wrote custom code that called the `LLMS_Access_Plan::is_available_to_user()` method.*
+
+##### Template Updates
+
++ [templates/product/pricing-table.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/pricing-table.php)
 
 
 v3.22.2 - 2018-08-13
