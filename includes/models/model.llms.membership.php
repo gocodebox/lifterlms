@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Membership Model
  * @since    3.0.0
- * @version  3.20.0
+ * @version  [version]
  *
  * @property  $auto_enroll  (array)  Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
  * @property  $instructors  (array)  Course instructor user information
@@ -116,7 +116,8 @@ implements LLMS_Interface_Post_Instructors
 	 */
 	public function get_sales_page_url() {
 
-		switch ( $this->get( 'sales_page_content_type' ) ) {
+		$type = $this->get( 'sales_page_content_type' );
+		switch ( $type ) {
 
 			case 'page':
 				$url = get_permalink( $this->get( 'sales_page_content_page_id' ) );
@@ -131,7 +132,7 @@ implements LLMS_Interface_Post_Instructors
 
 		}
 
-		return apply_filters( 'llms_membership_get_sales_page_url', $url, $this );
+		return apply_filters( 'llms_membership_get_sales_page_url', $url, $this, $type );
 	}
 
 	/**
@@ -154,10 +155,11 @@ implements LLMS_Interface_Post_Instructors
 	 * Determine if sales page rediriction is enabled
 	 * @return   string
 	 * @since    3.20.0
-	 * @version  3.20.0
+	 * @version  [version]
 	 */
 	public function has_sales_page_redirect() {
-		return apply_filters( 'llms_membership_has_sales_page_redirect', in_array( $this->get( 'sales_page_content_type' ), array( 'page', 'url' ) ), $this );
+		$type = $this->get( 'sales_page_content_type' );
+		return apply_filters( 'llms_membership_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ) ), $this, $type );
 	}
 
 	/**

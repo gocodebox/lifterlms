@@ -17,7 +17,7 @@ v3.23.0 - 2018-08-??
 + Added filters to the returns of many of the functions in the `LLMS_Acces_Plan` model.
 + Minor improvements made to `LLMS_Access_Plan` model
 + Improved handling of empty blank / empty data when adding instructors to courses and memberships
-+ Added filters to the "Sales Page Content" type options for courses and memberships to allow 3rd parties to define their own type of sales page functionality
++ Added filters to the "Sales Page Content" type options & functions for courses and memberships to allow 3rd parties to define their own type of sales page functionality
 
 ##### Bug Fixes
 
