@@ -163,8 +163,6 @@ class LLMS_Admin_Post_Table_Instructors {
 					if ( $instructor ) {
 						$htmls[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $instructor->get( 'display_name' ) );
 					}
-
-
 				}
 				echo implode( ', ', $htmls );
 			break;
