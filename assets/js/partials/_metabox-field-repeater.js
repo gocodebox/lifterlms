@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Metabox Repeater Field
  * @since    3.11.0
- * @version  3.21.0
+ * @version  [version]
  */
 this.repeaters = {
 
@@ -21,7 +21,7 @@ this.repeaters = {
 	 * Init
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.17.3
+	 * @version  [version]
 	 */
 	init: function() {
 
@@ -41,7 +41,7 @@ this.repeaters = {
 
 			// on click of any post submit buttons add some data to the submit button
 			// so we can see which button to trigger after repeaters are finished
-			$( '#post input[type="submit"]' ).on( 'click', function() {
+			$( '#post input[type="submit"], #post-preview' ).on( 'click', function() {
 				$( this ).attr( 'data-llms-clicked', 'yes' );
 			} );
 
@@ -217,15 +217,20 @@ this.repeaters = {
 	 * @param    obj   e  JS event object
 	 * @return   void
 	 * @since    3.11.0
-	 * @version  3.21.0
+	 * @version  [version]
 	 */
 	handle_submit: function( e ) {
-
-		e.preventDefault();
 
 		// get the button used to submit the form
 		var $btn = $( '#post [data-llms-clicked="yes"]' ),
 			$spinner = $btn.parent().find( '.spinner' );
+
+		if ( $btn.is( '#post-preview' ) ) {
+			$btn.removeAttr( 'data-llms-clicked' );
+			return;
+		}
+
+		e.preventDefault();
 
 		// core UX to prevent multi-click/or the appearance of a delay
 		$( '#post input[type="submit"]' ).addClass( 'disabled' ).attr( 'disabled', 'disabled' );

@@ -20,6 +20,7 @@ v3.23.0 - 2018-08-??
 
 ##### Bug Fixes
 
++ Fixes issue causing the "Preview Changes" button on courses to lock the "Update" publishing button which prevents changes from being properly saved.gi
 + Fixed issue causing PHP errors when viewing courses / memberships on the admin panel when an instructor user was deleted
 + Fixed issue causing PHP notices when viewing course / membership post lists on the admin panel when an instructor user was deleted
 + Fixed issue causing PHP warnings to be generated when viewing the user add / edit screen on the admin panel
