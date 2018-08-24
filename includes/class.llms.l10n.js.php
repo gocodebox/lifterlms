@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * It is compiled automatically via the gulp task `js:pot`
  * See the lifterlms-lib-tasks package for more information
  * @since    3.17.8
- * @version  3.22.0
+ * @version  [version]
  */
 class LLMS_L10n_JS {
 
@@ -27,7 +27,7 @@ class LLMS_L10n_JS {
 	 * @param    array  $strings  existing strings from core / 3rd parties
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.22.0
+	 * @version  [version]
 	 */
 	public function get_strings( $strings ) {
 
@@ -329,7 +329,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/llms-metabox-product.js
 			 * @since    3.0.0
-			 * @version  3.6.0
+			 * @version  [version]
 			 */
 			'There was an error loading the necessary resources. Please try again.' => esc_html__( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
 
@@ -398,7 +398,7 @@ class LLMS_L10n_JS {
 			/**
 			 * file: assets/js/partials/_metabox-field-repeater.js
 			 * @since    3.11.0
-			 * @version  3.21.0
+			 * @version  [version]
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 
