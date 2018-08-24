@@ -46,4 +46,12 @@ defined( 'ABSPATH' ) || exit;
 
 	</div>
 
+
+	<?php
+		/**
+		 * llms_after_access_plan
+		 */
+		do_action( 'llms_after_access_plan', $plan );
+	?>
+
 </div>
