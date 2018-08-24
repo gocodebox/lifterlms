@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Course Options
  * @since    1.0.0
- * @version  3.20.0
+ * @version  [version]
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * Setup fields
 	 * @return array
 	 * @since    1.0.0
-	 * @version  3.20.0
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -72,12 +72,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'is_controller' => true,
 						'label'		    => __( 'Sales Page Content', 'lifterlms' ),
 						'type'		=> 'select',
-						'value' 	=> array(
-							'none' => __( 'Display default course content', 'lifterlms' ),
-							'content' => __( 'Show custom content', 'lifterlms' ),
-							'page' => __( 'Redirect to WordPress Page', 'lifterlms' ),
-							'url' => __( 'Redirect to custom URL', 'lifterlms' ),
-						),
+						'value' 	=> llms_get_sales_page_types(),
 					),
 					array(
 						'controller' => '#' . $this->prefix . 'sales_page_content_type',

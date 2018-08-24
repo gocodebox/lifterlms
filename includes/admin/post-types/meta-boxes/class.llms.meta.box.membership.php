@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Membership Settings Metabox
  * @since   1.0.0
- * @version 3.20.0
+ * @version [version]
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -64,7 +64,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 * @return array
 	 * @since    3.0.0
-	 * @version  3.20.0
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -100,12 +100,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'is_controller' => true,
 						'label'		    => __( 'Sales Page Content', 'lifterlms' ),
 						'type'		=> 'select',
-						'value' 	=> array(
-							'none' => __( 'Display default membership content', 'lifterlms' ),
-							'content' => __( 'Show custom content', 'lifterlms' ),
-							'page' => __( 'Redirect to WordPress Page', 'lifterlms' ),
-							'url' => __( 'Redirect to custom URL', 'lifterlms' ),
-						),
+						'value' 	=> llms_get_sales_page_types(),
 					),
 					array(
 						'controller' => '#' . $this->prefix . 'sales_page_content_type',

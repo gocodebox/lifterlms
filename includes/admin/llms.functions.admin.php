@@ -2,7 +2,7 @@
 /**
  * Core functions used exlusively on the admin panel
  * @since    3.0.0
- * @version  3.22.0
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -126,6 +126,21 @@ function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
 		return new LLMS_Helper_Add_On( $addon, $lookup_key );
 	}
 	return new LLMS_Add_On( $addon, $lookup_key );
+}
+
+/**
+ * Get an array of available course/membership sales page options
+ * @return   array
+ * @since    [version]
+ * @version  [version]
+ */
+function llms_get_sales_page_types() {
+	return apply_filters( 'llms_sales_page_types', array(
+		'none' => __( 'Display default course content', 'lifterlms' ),
+		'content' => __( 'Show custom content', 'lifterlms' ),
+		'page' => __( 'Redirect to WordPress Page', 'lifterlms' ),
+		'url' => __( 'Redirect to custom URL', 'lifterlms' ),
+	) );
 }
 
 /**
