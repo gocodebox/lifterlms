@@ -1,4 +1,4 @@
-[![LifterLMS](https://3xwbw71rswfz42rmgp5qgl85-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/logo.png "LifterLMS")](https://lifterlms.com)
+[![LifterLMS](https://lifterlms.com/wp-content/uploads/2015/03/logo.png "LifterLMS")](https://lifterlms.com)
 
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/lifterlms.svg)]()
 [![WordPress](https://img.shields.io/wordpress/v/lifterlms.svg)]()
