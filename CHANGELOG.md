@@ -4,7 +4,7 @@ LifterLMS Changelog
 v3.23.0 - 2018-08-??
 --------------------
 
-##### Updates and Enhancements
+##### Access Plan & Pricing Table Template Improvements
 
 + The pricing table template has been split into multiple templates which are now rendered via action hooks. No visual changes have been made but if you've customized the template using a template override you'll want to review the template changes before updating!
 + New action hooks are available to modify the rendering of access plans in course / membership pricing tables.
@@ -16,8 +16,12 @@ v3.23.0 - 2018-08-??
 
 + Added filters to the returns of many of the functions in the `LLMS_Acces_Plan` model.
 + Minor improvements made to `LLMS_Access_Plan` model
+
+##### Updates and Enhancements
+
 + Improved handling of empty blank / empty data when adding instructors to courses and memberships
 + Added filters to the "Sales Page Content" type options & functions for courses and memberships to allow 3rd parties to define their own type of sales page functionality
++ Added filters to the saving of access plan data
 
 ##### Bug Fixes
 
