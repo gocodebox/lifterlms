@@ -1,9 +1,8 @@
 /**
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
- *
  * @since    3.0.0
- * @version  3.6.0
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -371,9 +370,9 @@
 
 		/**
 		 * Initalizes a new plan and adds it to the list of plans in the DOM
-		 *
-		 * @return void
-		 * @since 3.0.0
+		 * @return   void
+		 * @since    3.0.0
+		 * @version  [version]
 		 */
 		this.init_plan = function() {
 
@@ -420,6 +419,7 @@
 			window.llms.metaboxes.post_select( $clone.find( '.llms-availability-restrictions' ) );
 
 			$clone.find( '[data-controller-id]' ).trigger( 'change' );
+			$( document ).trigger( 'llms-plan-init', $clone );
 
 		};
 
