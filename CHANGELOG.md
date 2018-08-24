@@ -22,6 +22,7 @@ v3.23.0 - 2018-08-??
 + Improved handling of empty blank / empty data when adding instructors to courses and memberships
 + Added filters to the "Sales Page Content" type options & functions for courses and memberships to allow 3rd parties to define their own type of sales page functionality
 + Added filters to the saving of access plan data
++ Improved the HTML and added CSS classes to the access plan admin panel html view
 
 ##### Bug Fixes
 
@@ -33,6 +34,7 @@ v3.23.0 - 2018-08-??
 
 ##### Template Updates
 
++ [templates/admin/post-types/product-access-plan.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/post-types/product-access-plan.php)
 + [templates/product/pricing-table.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/pricing-table.php)
 
 
