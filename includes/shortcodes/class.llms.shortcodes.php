@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 * LifterLMS Shortcodes
 *
 * @since    1.0.0
-* @version  [version]
+* @version  3.23.0
 */
 class LLMS_Shortcodes {
 
@@ -507,7 +507,7 @@ class LLMS_Shortcodes {
 	 * @param    array     $atts  array of shortcode attributes
 	 * @return   string
 	 * @since    3.2.5
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public static function pricing_table( $atts ) {
 

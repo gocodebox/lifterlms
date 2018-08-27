@@ -1,8 +1,8 @@
 <?php
 /**
  * Template functions for pricing tables
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -10,8 +10,8 @@ defined( 'ABSPATH' ) || exit;
  * Retrive a list of CSS classes for a single access plan element
  * @param    obj     $plan  Instance of an LLMS_Access_Plan
  * @return   string
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 function llms_get_access_plan_classes( $plan ) {
 	$classes = array(
@@ -31,8 +31,8 @@ function llms_get_access_plan_classes( $plan ) {
  * Include single access plan template within the pricing table
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan' ) ) {
 	function llms_template_access_plan( $plan ) {
@@ -47,8 +47,8 @@ if ( ! function_exists( 'llms_template_access_plan' ) ) {
  * Include Single Access Plan Button Template
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan_button' ) ) {
 	function llms_template_access_plan_button( $plan ) {
@@ -63,8 +63,8 @@ if ( ! function_exists( 'llms_template_access_plan_button' ) ) {
  * Include Single Access Plan Description Template
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan_description' ) ) {
 	function llms_template_access_plan_description( $plan ) {
@@ -79,8 +79,8 @@ if ( ! function_exists( 'llms_template_access_plan_description' ) ) {
  * Include Single Access Plan Featured Template
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan_feature' ) ) {
 	function llms_template_access_plan_feature( $plan ) {
@@ -95,8 +95,8 @@ if ( ! function_exists( 'llms_template_access_plan_feature' ) ) {
  * Include Single Access Plan pricing Template
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan_pricing' ) ) {
 	function llms_template_access_plan_pricing( $plan ) {
@@ -111,8 +111,8 @@ if ( ! function_exists( 'llms_template_access_plan_pricing' ) ) {
  * Include Single Access Plan restrictions Template
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan_restrictions' ) ) {
 	function llms_template_access_plan_restrictions( $plan ) {
@@ -127,8 +127,8 @@ if ( ! function_exists( 'llms_template_access_plan_restrictions' ) ) {
  * Include Single Access Plan title Template
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan_title' ) ) {
 	function llms_template_access_plan_title( $plan ) {
@@ -143,8 +143,8 @@ if ( ! function_exists( 'llms_template_access_plan_title' ) ) {
  * Include Single Access Plan trial Template
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 if ( ! function_exists( 'llms_template_access_plan_trial' ) ) {
 	function llms_template_access_plan_trial( $plan ) {

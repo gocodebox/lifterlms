@@ -2,7 +2,7 @@
 /**
  * Core functions used exlusively on the admin panel
  * @since    3.0.0
- * @version  [version]
+ * @version  3.23.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -131,8 +131,8 @@ function llms_get_add_on( $addon = array(), $lookup_key = 'id' ) {
 /**
  * Get an array of available course/membership sales page options
  * @return   array
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 function llms_get_sales_page_types() {
 	return apply_filters( 'llms_sales_page_types', array(

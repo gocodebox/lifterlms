@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.23.0
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -82,7 +82,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    int        $length  (optional) access length (for plurailzation), if not supplied uses stored value for the plan
 	 * @return   string
 	 * @since    3.4.6
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
 
@@ -134,7 +134,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel)
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function get_checkout_url( $check_availability = true ) {
 
@@ -189,7 +189,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    string $format      optional format conversion method [html|raw|float]
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -311,7 +311,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Uses optional user submitted text and falls back to LifterLMS defaults if none is supplied
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function get_enroll_text() {
 
@@ -340,7 +340,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining plan expiration details
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function get_expiration_details() {
 
@@ -361,7 +361,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining the plan's payment schedule
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function get_schedule_details() {
 
@@ -452,7 +452,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * One-time payments can't have a trial, so the plan must have a frequency greater than 0
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function has_trial() {
 		$ret = false;
@@ -467,7 +467,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    int     $user_id  (optional) WP User ID, if not supplied get_current_user_id() will be used
 	 * @return   boolean
 	 * @since    3.4.4
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function is_available_to_user( $user_id = null ) {
 
@@ -508,7 +508,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * be used to check if payment is required (when using a coupon for example)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function is_free() {
 		return llms_parse_bool( $this->get( 'is_free' ) );
@@ -518,7 +518,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Determine if a plan is *currently* on sale
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function is_on_sale() {
 
@@ -589,7 +589,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    int     $coupon_id  WP_Post ID of an LLMS_Coupon
 	 * @return   boolean             true if payment required, false otherwise
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function requires_payment( $coupon_id = null ) {
 

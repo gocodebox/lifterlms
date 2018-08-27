@@ -4,8 +4,8 @@
  * @group    functions
  * @group    admin_functions
  * @group    admin
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 
@@ -18,8 +18,8 @@ class LLMS_Test_Functions_Admin extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_get_sales_page_types function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_get_sales_page_types() {
 

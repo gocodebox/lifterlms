@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
  * @since    3.13.0
- * @version  [version]
+ * @version  3.23.0
  */
 class LLMS_Post_Instructors {
 
@@ -62,7 +62,7 @@ class LLMS_Post_Instructors {
 	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -93,7 +93,7 @@ class LLMS_Post_Instructors {
 	 * Save instructor information
 	 * @param    array      $instructors  array of course instructor information
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function set_instructors( $instructors = array() ) {
 

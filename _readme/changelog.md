@@ -1,7 +1,7 @@
 == Changelog ==
 
 
-v3.23.0 - 2018-08-??
+= v3.23.0 - 2018-08-27 =
 ------------------------
 
 ##### Access Plan & Pricing Table Template Improvements
@@ -151,9 +151,3 @@ v3.23.0 - 2018-08-??
 + Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
 + FIxed issue allowing users with `view_lifterlms_reports` capability (Instructors) to access sales & enrollment reporting screens. The `view_others_lifterlms_reports` capability (Admins & LMS Managers) is now required to view these reporting tabs.
 + Updated IDs of login and registration nonces to be unique. Fixes an issue causing Chrome to throw non-unique ID warnings in the developer console. Also, IDs are supposed to be unique _anyway_ but thanks for helping us out Google.
-
-
-= v3.19.3 - 2018-06-14 =
-------------------------
-
-+ Fix issue causing new quizzes to be unable to load questions list without reloading the builder

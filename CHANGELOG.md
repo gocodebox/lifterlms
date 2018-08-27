@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.23.0 - 2018-08-??
+v3.23.0 - 2018-08-27
 --------------------
 
 ##### Access Plan & Pricing Table Template Improvements

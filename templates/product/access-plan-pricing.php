@@ -4,8 +4,8 @@
  * @property  obj  $plan  Instance of the LLMS_Access_Plan
  * @author    LifterLMS
  * @package   LifterLMS/Templates
- * @since     [version]
- * @version   [version]
+ * @since     3.23.0
+ * @version   3.23.0
  */
 $schedule = $plan->get_schedule_details();
 $expires = $plan->get_expiration_details();

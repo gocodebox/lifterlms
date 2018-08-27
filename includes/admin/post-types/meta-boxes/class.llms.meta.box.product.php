@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Meta Box Product info
 * @since    1.0.0
-* @version  [version]
+* @version  3.23.0
 */
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
@@ -109,7 +109,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  ID of the post
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function save( $post_id ) {
 

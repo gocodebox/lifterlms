@@ -2,8 +2,8 @@
 /**
  * Tests for LifterLMS Coupon Model
  * @group    access_plan
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
@@ -23,8 +23,8 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	protected function get_properties() {
 		return array(
@@ -59,8 +59,8 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	protected function get_data() {
 		return array(

@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 4.9.8
-Stable tag: 3.22.2
+Stable tag: 3.23.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,7 +355,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.23.0 - 2018-08-??
+= v3.23.0 - 2018-08-27 =
 ------------------------
 
 ##### Access Plan & Pricing Table Template Improvements
@@ -505,12 +505,6 @@ v3.23.0 - 2018-08-??
 + Fixed issue causing admin panel static assets to have a double slash (//) in the assest URI path
 + FIxed issue allowing users with `view_lifterlms_reports` capability (Instructors) to access sales & enrollment reporting screens. The `view_others_lifterlms_reports` capability (Admins & LMS Managers) is now required to view these reporting tabs.
 + Updated IDs of login and registration nonces to be unique. Fixes an issue causing Chrome to throw non-unique ID warnings in the developer console. Also, IDs are supposed to be unique _anyway_ but thanks for helping us out Google.
-
-
-= v3.19.3 - 2018-06-14 =
-------------------------
-
-+ Fix issue causing new quizzes to be unable to load questions list without reloading the builder
 
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

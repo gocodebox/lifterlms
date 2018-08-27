@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Membership Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.23.0
  *
  * @property  $auto_enroll  (array)  Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
  * @property  $instructors  (array)  Course instructor user information
@@ -155,7 +155,7 @@ implements LLMS_Interface_Post_Instructors
 	 * Determine if sales page rediriction is enabled
 	 * @return   string
 	 * @since    3.20.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function has_sales_page_redirect() {
 		$type = $this->get( 'sales_page_content_type' );

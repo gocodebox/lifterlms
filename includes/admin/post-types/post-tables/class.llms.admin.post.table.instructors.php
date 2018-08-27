@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
  * which replaces "Author"
  *
  * @since    3.13.0
- * @version  [version]
+ * @version  3.23.0
  */
 class LLMS_Admin_Post_Table_Instructors {
 
@@ -140,7 +140,7 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * @param    int     $post_id  WP Post ID of the coupon for the row
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.23.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 

@@ -8,7 +8,7 @@
  * @author    LifterLMS
  * @package   LifterLMS/Templates
  * @since     3.0.0
- * @version   [version]
+ * @version   3.23.0
  */
 defined( 'ABSPATH' ) || exit;
 $free_only = ( $has_free && ! $purchaseable );

@@ -4,8 +4,8 @@
  * @group    functions
  * @group    template_functinos
  * @group    pricing_tables
- * @since    [version]
- * @version  [version]
+ * @since    3.23.0
+ * @version  3.23.0
  */
 class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 
@@ -15,8 +15,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	 * @param    array      $plan_args  plan arguments, passed to $this->get_mock_plan()
 	 * @param    obj        $plan       optionally pass a plan (ignores $plan_args)
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	private function get_ob( $func, $plan_args = array(), $plan = null ) {
 
@@ -36,8 +36,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_get_access_plan_classes metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_get_access_plan_classes() {
 
@@ -65,8 +65,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan() {
 
@@ -84,8 +84,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan_button metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_button() {
 
@@ -108,8 +108,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan_description metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_description() {
 
@@ -126,8 +126,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan_feature metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_feature() {
 
@@ -147,8 +147,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan_pricing metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_pricing() {
 
@@ -177,8 +177,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan_restrictions metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_restrictions() {
 
@@ -201,8 +201,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan_title metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_title() {
 
@@ -214,8 +214,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_template_access_plan_trial metho
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_llms_template_access_plan_trial() {
 
@@ -234,8 +234,8 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	 * test test_lifterlms_template_pricing_table method
 	 * @todo     add tests to test logic in template
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.23.0
+	 * @version  3.23.0
 	 */
 	public function test_lifterlms_template_pricing_table() {
 

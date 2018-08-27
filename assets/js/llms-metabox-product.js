@@ -2,7 +2,7 @@
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.23.0
  */
 ( function( $ ) {
 
@@ -372,7 +372,7 @@
 		 * Initalizes a new plan and adds it to the list of plans in the DOM
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.23.0
 		 */
 		this.init_plan = function() {
 

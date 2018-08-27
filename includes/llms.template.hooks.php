@@ -2,7 +2,7 @@
 /**
 * LifterLMS Template Actions
 * @since    1.0.0
-* @version  [version]
+* @version  3.23.0
 */
 defined( 'ABSPATH' ) || exit;
 
