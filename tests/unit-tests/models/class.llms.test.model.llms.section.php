@@ -48,6 +48,12 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 		);
 	}
 
+	/**
+	 * the the count_elements() method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_count_elements() {
 
 		$section = llms_get_post( $this->factory->post->create( array( 'post_type' => 'section' ) ) );
@@ -59,6 +65,12 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * the the get_course() method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_course() {
 
 		$section = llms_get_post( $this->factory->post->create( array( 'post_type' => 'section' ) ) );
@@ -78,6 +90,12 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 
 	// }
 
+	/**
+	 * the the get_percent_complete() method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_percent_complete() {
 
 		$section = llms_get_post( $this->factory->post->create( array( 'post_type' => 'section' ) ) );
@@ -117,6 +135,12 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_previous() {}
 
+	/**
+	 * the the get_lessons() method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_lessons() {
 
 		$section = llms_get_post( $this->factory->post->create( array( 'post_type' => 'section' ) ) );
@@ -149,6 +173,12 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * the the get_children_lessons() method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function test_get_children_lessons() {
 
 		$section = llms_get_post( $this->factory->post->create( array( 'post_type' => 'section' ) ) );
