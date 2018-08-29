@@ -7,6 +7,7 @@
  * @since     3.23.0
  * @version   3.23.0
  */
+defined( 'ABSPATH' ) || exit;
 $schedule = $plan->get_schedule_details();
 $expires = $plan->get_expiration_details();
 ?>

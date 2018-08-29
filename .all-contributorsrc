@@ -193,6 +193,16 @@
         "design",
         "ideas"
       ]
+    },
+    {
+      "login": "eri-trabiccolo",
+      "name": "Rocco Aliberti (@d4z_c0nf on wp.org, @eri_trabiccolo on slack)",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7689242?v=4",
+      "profile": "https://github.com/eri-trabiccolo",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }

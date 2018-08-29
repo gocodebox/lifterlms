@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Course Model
  *
  * @since    1.0.0
- * @version  3.23.0
+ * @version  [version]
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
  * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -195,26 +195,23 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string     $return  type of return [ids|posts|lessons]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
 		$lessons = array();
 		foreach ( $this->get_sections( 'sections' ) as $section ) {
-			$lessons = array_merge( $lessons, $section->get_children_lessons() );
+			$lessons = array_merge( $lessons, $section->get_lessons( 'posts' ) );
 		}
 
 		if ( $return === 'ids' ) {
-			$r = wp_list_pluck( $lessons, 'ID' );
+			$ret = wp_list_pluck( $lessons, 'ID' );
 		} elseif ( $return === 'posts' ) {
-			$r = $lessons;
+			$ret = $lessons;
 		} else {
-			$r = array();
-			foreach ( $lessons as $p ) {
-				$r[] = new LLMS_Lesson( $p );
-			}
+			$ret = array_map( 'llms_get_post', $lessons );
 		}
-		return $r;
+		return $ret;
 
 	}
 

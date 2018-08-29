@@ -7,5 +7,6 @@
  * @since     3.23.0
  * @version   3.23.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <h4 class="llms-access-plan-title"><?php echo $plan->get( 'title' ); ?></h4>

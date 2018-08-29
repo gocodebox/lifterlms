@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  3.18.0
+ * @version  [version]
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -579,8 +579,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get Next lesson
 	 * Finds and returns next lesson id
-	 *
-	 * @return int [ID of next lesson]
+	 * @return   int [ID of next lesson]
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function get_next_lesson() {
 
@@ -643,7 +644,7 @@ implements LLMS_Interface_Post_Audio
 
 			if ( $sections ) {
 				$newsection = new LLMS_Section( $sections[0]->ID );
-				$lessons = $newsection->get_children_lessons();
+				$lessons = $newsection->get_lessons( 'posts' );
 				if ( $lessons ) {
 					return $lessons[0]->ID;
 				} else {
@@ -657,7 +658,9 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get previous lesson id
-	 * @return int [ID of previous lesson]
+	 * @return   int [ID of previous lesson]
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function get_previous_lesson() {
 
@@ -727,7 +730,7 @@ implements LLMS_Interface_Post_Audio
 
 				if ( $sections ) {
 					$newsection = new LLMS_Section( $sections[0]->ID );
-					$lessons = $newsection->get_children_lessons();
+					$lessons = $newsection->get_lessons( 'posts' );
 					if ( ! $lessons ) {
 						return false;
 					}

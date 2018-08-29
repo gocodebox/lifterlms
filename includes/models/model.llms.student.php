@@ -1,15 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Student Class
- *
  * Manages data and interactions with a LifterLMS Student
- *
  * @since   2.2.3
- * @version 3.17.1
+ * @version [version]
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1000,7 +996,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                                  if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
@@ -1052,7 +1048,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$ret = $cached;
 		}// End if().
 
-		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type );
+		/**
+		 * @filter llms_student_get_progress
+		 * Filters the return of get_progress method
+		 * @param    float   $ret        student's progress
+		 * @param    int     $object_id  WP_Post ID of the object
+		 * @param    string  $type       object post type [course|course_track|section]
+		 * @param    int     $user_id    WP_User ID of the student
+		 * @since    unknown
+		 * @version  [version]
+		 */
+		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type, $this->get_id() );
 
 	}
 
@@ -1599,7 +1605,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.9.0
 	 */
 	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
-		llms_deprecated_function( 'LLMS_Student->delete_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->delete_attempt()' );
+		llms_deprecated_function( 'LLMS_Student->delete_quiz_attempt()', '3.9.0', 'LLMS_Student->quizzes()->delete_attempt()' );
 		return $this->quizzes()->delete_attempt( $quiz_id, $lesson_id, $attempt );
 	}
 
@@ -1612,7 +1618,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.9.0
 	 */
 	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
-		llms_deprecated_function( 'LLMS_Student->get_best_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->get_best_attempt()' );
+		llms_deprecated_function( 'LLMS_Student->get_best_quiz_attempt()', '3.9.0', 'LLMS_Student->quizzes()->get_best_attempt()' );
 		return $this->quizzes()->get_best_attempt( $quiz, $lesson );
 	}
 
@@ -1625,7 +1631,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.9.0
 	 */
 	public function get_quiz_data( $quiz = null, $lesson = null ) {
-		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '[version]', 'LLMS_Student->quizzes()->get_all()' );
+		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '3.9.0', 'LLMS_Student->quizzes()->get_all()' );
 		return $this->quizzes()->get_all( $quiz, $lesson );
 	}
 

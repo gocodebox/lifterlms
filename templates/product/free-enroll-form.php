@@ -7,11 +7,8 @@
  * @since    3.4.0
  * @version  3.7.5
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
-
+defined( 'ABSPATH' ) || exit;
 $uid = get_current_user_id();
-
 if ( ! $uid || empty( $plan ) || ! $plan->has_free_checkout() ) {
 	return;
 }
