@@ -7,6 +7,7 @@
  * @since     3.23.0
  * @version   3.23.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <div class="llms-access-plan-featured">
 	<?php if ( $plan->is_featured() ) : ?>

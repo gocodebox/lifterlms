@@ -7,6 +7,7 @@
  * @since     3.23.0
  * @version   3.23.0
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <?php if ( $plan->has_availability_restrictions() ) : ?>
 	<div class="llms-access-plan-restrictions">
