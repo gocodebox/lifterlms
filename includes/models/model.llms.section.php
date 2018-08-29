@@ -405,7 +405,7 @@ class LLMS_Section extends LLMS_Post_Model {
 			}
 		}
 
-		$percent_complete = ($total_lessons != 0) ? round( 100 / ( ( $total_lessons / $total_completed_lessons ) ), 0 ) : 0;
+		$percent_complete = ( 0 !== $total_completed_lessons && 0 !== $total_lessons ) ? round( 100 / ( ( $total_lessons / $total_completed_lessons ) ), 0 ) : 0;
 
 		return $percent_complete;
 	}
