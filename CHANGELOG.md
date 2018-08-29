@@ -5,12 +5,13 @@ v3.23.1 - 2018-08-??
 --------------------
 
 + Added `student_id` as a parameter passed to the `llms_student_get_progress` filter
-+ Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models
++ Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models as well as in the `course/syllabus.php` template
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method
 + Updated all access plan templates added in 3.23.0 to ensure `ABSPATH` is defined to prevent direct template access
 
 ##### Template Updates
 
++ [course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/syllabus.php)
 + [product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-button.php)
 + [product/access-plan-description.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-description.php)
 + [product/access-plan-feature.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-feature.php)
