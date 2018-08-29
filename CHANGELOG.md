@@ -8,6 +8,11 @@ v3.23.1 - 2018-08-??
 + Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models as well as in the `course/syllabus.php` template
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method
 + Updated all access plan templates added in 3.23.0 to ensure `ABSPATH` is defined to prevent direct template access
++ Refactored the `LLMS_Section->get_percent_complete()` method to utilize methods from the `LLMS_Student` model
+
+##### Deprecated Functions & Methods
+
++ Deprecated `LLMS_Section->get_children_lessons()`, use `LLMS_Section->get_lessons( 'posts' )` instead
 
 ##### Template Updates
 

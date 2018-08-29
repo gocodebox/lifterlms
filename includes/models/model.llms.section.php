@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LLMS Section Model
  * @since    1.0.0
- * @version  3.13.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Section extends LLMS_Post_Model {
 
 	protected $properties = array(
@@ -96,6 +95,26 @@ class LLMS_Section extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve section completion percentage
+	 * @uses     LLMS_Student::get_progress()
+	 * @param    string     $user_id    WP_User ID, if none supplied users current user (if exists)
+	 * @param    bool       $use_cache  when true, uses results from from the wp object cache (if available)
+	 * @return   float
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_percent_complete( $user_id = '', $use_cache = true ) {
+
+		$student = llms_get_student( $user_id );
+		if ( ! $student ) {
+			/** This filter is documented in includes/models/model.llms.student.php */
+			return apply_filters( 'llms_student_get_progress', 0, $this->get( 'id' ), 'section', $user_id );
+		}
+		return $student->get_progress( $this->get( 'id' ), 'section', $use_cache );
+
+	}
+
+	/**
 	 * Retrieve the previous section
 	 * @return   obj|false
 	 * @since    3.13.0
@@ -121,11 +140,11 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @param    string  $return  type of return [ids|posts|lessons]
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
-		$q = new WP_Query( array(
+		$query = new WP_Query( array(
 			'meta_key' => '_llms_order',
 			'meta_query' => array(
 				array(
@@ -140,17 +159,14 @@ class LLMS_Section extends LLMS_Post_Model {
 		) );
 
 		if ( $return === 'ids' ) {
-			$r = wp_list_pluck( $q->posts, 'ID' );
+			$ret = wp_list_pluck( $query->posts, 'ID' );
 		} elseif ( $return === 'posts' ) {
-			$r = $q->posts;
+			$ret = $query->posts;
 		} else {
-			$r = array();
-			foreach ( $q->posts as $p ) {
-				$r[] = new LLMS_Lesson( $p );
-			}
+			$ret = array_map( 'llms_get_post', $query->posts );
 		}
 
-		return $r;
+		return $ret;
 
 	}
 
@@ -172,27 +188,40 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function toArrayAfter( $arr ) {
 
 		$arr['lessons'] = array();
 
-		foreach ( $this->get_lessons() as $s ) {
-			$arr['lessons'][] = $s->toArray();
+		foreach ( $this->get_lessons() as $lesson ) {
+			$arr['lessons'][] = $lesson->toArray();
 		}
 
 		return $arr;
 
 	}
 
-
-
+	/*
+		 /$$
+		| $$
+		| $$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$ /$$   /$$
+		| $$ /$$__  $$ /$$__  $$ |____  $$ /$$_____/| $$  | $$
+		| $$| $$$$$$$$| $$  \ $$  /$$$$$$$| $$      | $$  | $$
+		| $$| $$_____/| $$  | $$ /$$__  $$| $$      | $$  | $$
+		| $$|  $$$$$$$|  $$$$$$$|  $$$$$$$|  $$$$$$$|  $$$$$$$
+		|__/ \_______/ \____  $$ \_______/ \_______/ \____  $$
+		               /$$  \ $$                     /$$  | $$
+		              |  $$$$$$/                    |  $$$$$$/
+		               \______/                      \______/
+     *
+	 * Legacy functions below here will be deprecated in future versions
+	 * Currently not being used by the LifterLMS core and are scheduled for cleanup and removal
+	 * @todo    cleanup
+	 */
 
 	/**
 	 * Retrieve the order of the section within the course
-	 * @note     developers should not use these functions, instead use generic "get"
-	 *           this function will be deprecated in the future
 	 * @todo     deprecate
 	 * @return   int
 	 * @since    1.0.0
@@ -204,8 +233,6 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the post ID of the section's parent course
-	 * @note     developers should not use these functions, instead use generic "get"
-	 *           this function will be deprecated in the future
 	 * @todo     deprecate
 	 * @return   int
 	 * @since    1.0.0
@@ -215,20 +242,9 @@ class LLMS_Section extends LLMS_Post_Model {
 		return $this->get( 'parent_course' );
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	/**
+	 * @todo     deprecate
+	 */
 	public function update( $data ) {
 
 		$updated_values = array();
@@ -253,6 +269,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @param [int] $meta [id section post]
 	 * @return [mixed] $meta [if mta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if section id is already parent
+	 * @todo     deprecate
 	 */
 	public function set_order( $order ) {
 
@@ -269,6 +286,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Remove all associated lessons and delete section
 	 * @return [type] [description]
+	 * @todo     deprecate
 	 */
 	public function delete() {
 
@@ -283,6 +301,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Remove ALL child lessons
 	 * @return [type] [description]
+	 * @todo     deprecate
 	 */
 	public function remove_all_child_lessons() {
 
@@ -305,6 +324,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Remove individual child lesson
 	 * @param  [int] $lesson_id  [lesson post id]
 	 * @return [bool]            [if lesson was deleted]
+	 * @todo     deprecate
 	 */
 	public function remove_child_lesson( $lesson_id ) {
 
@@ -320,34 +340,12 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	}
 
-	/**
-	 * Get All child lessons
-	 * @return [array] [array of post objects of all child lessons]
-	 */
-	public function get_children_lessons() {
 
-		$args = array(
-			'post_type' 		=> 'lesson',
-			'posts_per_page'	=> 500,
-			'meta_key'			=> '_llms_order',
-			'order'				=> 'ASC',
-			'orderby'			=> 'meta_value_num',
-			'meta_query' 		=> array(
-				array(
-					'key' 		=> '_llms_parent_section',
-	      			'value' 	=> $this->id,
-	      			'compare' 	=> '=',
-	  			),
-		  	),
-		);
-
-		$lessons = get_posts( $args );
-		return $lessons;
-	}
 
 	/**
 	 * Count child lessons
 	 * @return [int] [number of child lessons in section]
+	 * @todo     deprecate
 	 */
 	public function count_children_lessons() {
 
@@ -358,6 +356,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Get the next lesson order for assigning a lesson to a section
 	 * @return [int] [number of child lesson plus 1]
+	 * @todo     deprecate
 	 */
 	public function get_next_available_lesson_order() {
 
@@ -373,41 +372,41 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @param [int] $meta [id course post]
 	 * @return [mixed] $meta [if meta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if course id is already parent
+	 * @todo     deprecate
 	 */
 	public function set_parent_course( $course_id ) {
 
 		$meta = update_post_meta( $this->id, '_llms_parent_course', $course_id );
-
 		return $meta;
 
 	}
 
+	/*
+		       /$$                                                               /$$                     /$$
+		      | $$                                                              | $$                    | $$
+		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
+		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
+		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
+		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
+		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
+		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
+		                    | $$
+		                    | $$
+		                    |__/
+	*/
+
 	/**
-	 * Get percent complete
-	 * Counts all lessons in section and determines percentage of completed lessons for current user.
-	 * @return [int] [percent complete as whole number]
+	 * Get All child lessons
+	 * @return      [array] [array of post objects of all child lessons]
+	 * @since       1.0.0
+	 * @version     [version]
+	 * @deprecated  [version]
 	 */
-	public function get_percent_complete() {
-		$lessons = $this->get_children_lessons();
-		$total_lessons = $this->count_children_lessons();
+	public function get_children_lessons() {
 
-		$total_completed_lessons = 0;
+		llms_deprecated_function( 'LLMS_Section->get_children_lessons()', '[version]', 'LLMS_Section->get_lessons( "posts" )' );
+		return $this->get_lessons( 'posts' );
 
-		foreach ( $lessons as $lesson ) {
-
-			$user = new LLMS_Person;
-			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->ID );
-			if ( ! empty( $user_postmetas['_is_complete'] ) ) {
-				if ( $user_postmetas['_is_complete']->meta_value === 'yes' ) {
-					$total_completed_lessons++;
-
-				}
-			}
-		}
-
-		$percent_complete = ( 0 !== $total_completed_lessons && 0 !== $total_lessons ) ? round( 100 / ( ( $total_lessons / $total_completed_lessons ) ), 0 ) : 0;
-
-		return $percent_complete;
 	}
 
-} //end LLMS_Section
+}
