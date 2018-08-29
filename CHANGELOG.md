@@ -4,7 +4,7 @@ LifterLMS Changelog
 v3.23.1 - 2018-08-??
 --------------------
 
-+ Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` model
++ Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method
 + Updated all access plan templates added in 3.23.0 to ensure `ABSPATH` is defined to prevent direct template access
 
