@@ -532,8 +532,8 @@ function llms_form_field( $field = array(), $echo = true ) {
 		case 'radio':
 			$r .= $label;
 			if ( empty( $field['options'] ) ) {
-				$field['options'] = array( 
-					$field['id'] => $field['description'] 
+				$field['options'] = array(
+					$field['id'] => $field['description'],
 				);
 			}
 
