@@ -532,7 +532,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 		case 'radio':
 			$r .= $label;
 			foreach ( $field['options'] as $key => $val ) {
-				$r .= '<label class="llms-radio"><input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . checked( $key, $value_attr ) . ' value="' . $key . '">' . $val . '</label>';
+				$r .= '<label class="llms-radio" for="' . $key . '"><input class="llms-field-input' . $field['classes'] . '" id="' . $key . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . checked( $key, $value_attr ) . ' value="' . $key . '">' . $val . '</label>';
 			}
 			break;
 
