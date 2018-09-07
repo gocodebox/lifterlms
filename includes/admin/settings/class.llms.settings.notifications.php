@@ -1,14 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Admin Settings: Notifications Tab
  * @since    3.8.0
- * @version  3.8.0
+ * @version  [version]
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
+	/**
+	 * Constructor
+	 * @since    3.8.0
+	 * @version  [version]
+	 */
 	public function __construct() {
 
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/settings/tables/class.llms.table.notification.settings.php';
@@ -19,6 +23,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+		add_filter( 'llms_settings_' . $this->id . '_has_save_button', array( $this, 'maybe_disable_save' ) );
 
 	}
 
@@ -156,6 +161,19 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		);
 
 		return apply_filters( 'lifterlms_notifications_settings', $settings );
+
+	}
+
+	/**
+	 * Disable save button on the main notification tab (list)
+	 * @param    bool      $bool  default display value (true)
+	 * @return   boolean
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function maybe_disable_save( $bool ) {
+
+		return ( isset( $_GET['notification'] ) );
 
 	}
 
