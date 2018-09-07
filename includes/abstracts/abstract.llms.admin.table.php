@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.21.0
+ * @version [version]
  */
 abstract class LLMS_Admin_Table {
 
@@ -711,6 +711,17 @@ abstract class LLMS_Admin_Table {
 	}
 
 	/**
+	 * Get a CSS class list (as a string) for each TR
+	 * @param    mixed      $data  object / array of data that the function can use to extract the data
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_tr_classes( $row ) {
+		return apply_filters( 'llms_table_get_' . $this->id . '_tr_classes', 'llms-table-tr', $row );
+	}
+
+	/**
 	 * Get the HTML for a single row in the body of the table
 	 * @param    mixed     $row  array/object of data describing a single row in the table
 	 * @return   string
@@ -721,7 +732,7 @@ abstract class LLMS_Admin_Table {
 		ob_start();
 		do_action( 'llms_table_before_tr', $row, $this );
 		?>
-		<tr>
+		<tr class="<?php echo esc_attr( $this->get_tr_classes( $row ) ); ?>">
 		<?php foreach ( $this->get_columns() as $id => $title ) : ?>
 			<td class="<?php echo $id; ?>"><?php echo $this->get_data( $id, $row ); ?></td>
 		<?php endforeach; ?>

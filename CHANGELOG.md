@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.23.1 - 2018-08-??
+v3.23.1 - 2018-09-??
 --------------------
 
 + Added `student_id` as a parameter passed to the `llms_student_get_progress` filter
@@ -9,6 +9,7 @@ v3.23.1 - 2018-08-??
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method
 + Updated all access plan templates added in 3.23.0 to ensure `ABSPATH` is defined to prevent direct template access
 + Refactored the `LLMS_Section->get_percent_complete()` method to utilize methods from the `LLMS_Student` model
++ Added the ability for admin table classes to define `<tr>` element CSS classes
 
 ##### Deprecated Functions & Methods
 
