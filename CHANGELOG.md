@@ -11,6 +11,7 @@ v3.23.1 - 2018-09-??
 + Refactored the `LLMS_Section->get_percent_complete()` method to utilize methods from the `LLMS_Student` model
 + Added the ability for admin table classes to define `<tr>` element CSS classes
 + Admin settings pages with no settings to save (like the Notifications list) no longer display a "Save" button
++ Added actions when creating, updating, and deleting records managed by `LLMS_Abstract_Database_Store` classes
 
 ##### Deprecated Functions & Methods
 
