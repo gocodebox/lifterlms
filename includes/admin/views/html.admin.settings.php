@@ -1,3 +1,11 @@
+<?php
+/**
+ * Admin Settings Page HTML
+ * @since    1.0.0
+ * @version  [version]
+ */
+defined( 'ABSPATH' ) || exit;
+?>
 <div class="wrap lifterlms lifterlms-settings">
 
 	<form action="" method="POST" id="mainform" enctype="multipart/form-data">
@@ -29,17 +37,21 @@
 			do_action( 'lifterlms_settings_tabs_' . $current_tab );
 		?>
 
-		<div id="llms-form-wrapper">
+		<?php if ( apply_filters( 'llms_settings_' . $current_tab . '_has_save_button', true ) ) : ?>
 
-			<?php do_action( 'llms_before_admin_settings_save_button' ); ?>
+			<div id="llms-form-wrapper">
 
-			<input name="save" class="llms-button-primary" type="submit" value="<?php echo apply_filters( 'llms_admin_settings_submit_button_text', __( 'Save Changes', 'lifterlms' ), $current_tab ); ?>" />
+				<?php do_action( 'llms_before_admin_settings_save_button' ); ?>
 
-			<?php wp_nonce_field( 'lifterlms-settings' ); ?>
+				<input name="save" class="llms-button-primary" type="submit" value="<?php echo apply_filters( 'llms_admin_settings_submit_button_text', __( 'Save Changes', 'lifterlms' ), $current_tab ); ?>" />
 
-			<?php do_action( 'llms_after_admin_settings_save_button' ); ?>
+				<?php wp_nonce_field( 'lifterlms-settings' ); ?>
 
-		</div>
+				<?php do_action( 'llms_after_admin_settings_save_button' ); ?>
+
+			</div>
+
+		<?php endif; ?>
 
 	</form>
 </div>
