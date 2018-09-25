@@ -27,7 +27,7 @@ Also check our [known issues and conflicts](https://lifterlms.com/doc-category/l
 + Fork the repository on GitHub.
 + Create a new branch from the 'master' branch.
 + Make the changes to your forked repository.
-+ Ensure you stick to the WordPress Coding Standards and have properly documented any new functions, actions and filters following the documentation standards.
++ Ensure you stick to the [coding standards](https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.MD) and have properly documented any new functions, actions and filters following the documentation standards.
 + When committing, reference your issue (if present) and include a note about the fix.
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
 + Push the changes to your fork
