@@ -62,7 +62,13 @@
 	"zip": {
 		"composer": true,
 		"src": {
-			"custom": [ "!./**/CHANGELOG.md", "!./**/README.md", "!./_private/**", "!./_readme/**" ]
+			"custom": [
+				"!./**/CHANGELOG.md",
+				"!./**/README.md",
+				"!./_private/**",
+				"!./_readme/**",
+				"!./docs/**"
+			]
 		}
 	}
 }
