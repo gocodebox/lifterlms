@@ -49,5 +49,6 @@ We're always seeking Translation Editors who can manage and approve translations
 A number of resources are available for first time contributors:
 
 + Join our [LifterLMS Community Slack Channel](https://lifterlms.com/slack) and hop into the `#developers` channel. Our core contributors and maintainers are there to help out and answer questions.
++ Check out the [LifterLMS Contributor's Events Calendar](https://make.lifterlms.com/calendar/events/) for opportunities to interact with other contributors.
 + Check out [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) on how to submit pull requests on GitHub.
 + Grab an issue marked tagged as a [`good first issue`](https://github.com/gocodebox/lifterlms/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)
