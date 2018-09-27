@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Testing Bootstrap
  * @since    3.3.1
- * @version  3.22.0
+ * @version  [version]
  * @thanks   WooCommerce <3
  */
 class LLMS_Unit_Tests_Bootstrap {
@@ -47,7 +47,7 @@ class LLMS_Unit_Tests_Bootstrap {
 	/**
 	 * Constructor
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -68,7 +68,7 @@ class LLMS_Unit_Tests_Bootstrap {
 		// load test function so tests_add_filter() is available
 		require_once $this->wp_tests_dir . '/includes/functions.php';
 
-		require_once 'tests/framework/llms.test.functions.php';
+		require_once 'tests/framework/functions-llms-tests.php';
 
 		// load LLMS
 		tests_add_filter( 'muplugins_loaded', array( $this, 'load_llms' ) );
@@ -161,13 +161,13 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * Load LifterLMS Tests & Related
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.19.4
+	 * @version  [version]
 	 */
 	public function includes() {
 
-		require 'tests/framework/class.llms.unit.test.case.php';
-		require 'tests/framework/class.llms.notification.test.case.php';
-		require 'tests/framework/class.llms.post.model.unit.test.case.php';
+		require 'tests/framework/class-llms-unit-test-case.php';
+		require 'tests/framework/class-llms-notification-test-case.php';
+		require 'tests/framework/class-llms-post-model-unit-test-case.php';
 
 		require 'tests/framework/exceptions/class-llms-testing-exception-exit.php';
 		require 'tests/framework/exceptions/class-llms-testing-exception-redirect.php';
