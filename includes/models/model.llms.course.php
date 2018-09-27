@@ -92,6 +92,20 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
+	 * Retrieve the total points available for the course
+	 * @return   int
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_available_points() {
+		$points = 0;
+		foreach ( $this->get_sections() as $section ) {
+			$points += $section->get_available_points();
+		}
+		return apply_filters( 'llms_course_get_available_points', $points, $this );
+	}
+
+	/**
 	 * Get course's prerequisite id based on the type of prerequsite
 	 * @param    string     $type  Type of prereq to retrieve id for [course|track]
 	 * @return   int|false         Post ID of a course, taxonomy ID of a track, or false if none found

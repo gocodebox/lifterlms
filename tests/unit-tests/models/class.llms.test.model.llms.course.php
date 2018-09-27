@@ -4,7 +4,7 @@
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
  * @since    3.4.0
- * @version  3.20.0
+ * @version  [version]
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -90,6 +90,30 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 			'start_date' => '2017-05-01',
 			'video_embed' => 'http://example.tld/video_embed',
 		);
+	}
+
+	/**
+	 * Test the get_available_points() method
+	 * @return   [type]
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_available_points() {
+
+		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 5, 0, 0 )[0] );
+
+		// default setup is 1 point per lesson
+		$this->assertEquals( 10, $course->get_available_points() );
+
+		// change them all up
+		$points = 0;
+		foreach ( $course->get_lessons() as $lesson ) {
+			$lesson_points = rand( 0, 3 );
+			$lesson->set( 'points', $lesson_points );
+			$points += $lesson_points;
+		}
+		$this->assertEquals( $points, $course->get_available_points() );
+
 	}
 
 	/**
