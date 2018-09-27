@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  3.21.0
+ * @version  [version]
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -66,7 +66,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 *                                   fractions will be rounded up
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  3.21.0
+	 * @version  [version]
 	 */
 	protected function complete_courses_for_student( $student_id = 0, $course_ids = array(), $perc = 100 ) {
 
@@ -103,17 +103,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 				$lesson = llms_get_post( $lid );
 				if ( $lesson->has_quiz() ) {
 
-					$attempt = LLMS_Quiz_Attempt::init( $lesson->get( 'quiz' ), $lid, $student->get_id() )->start();
-					while ( $attempt->get_next_question() ) {
-
-						$question_id = $attempt->get_next_question();
-						$question = llms_get_post( $question_id );
-						$options = $question->get_choices();
-						$attempt->answer_question( $question_id, array( rand( 0, ( count( $options ) - 1 ) ) ) );
-
-					}
-
-					$attempt->end();
+					$this->take_quiz( $lesson->get( 'quiz' ), $student->get_id() );
 
 				} else {
 
@@ -124,6 +114,68 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Take a quiz for a student and get a desired grade
+	 * @param    int        $quiz_id     WP Post ID of the Quiz
+	 * @param    int        $student_id  WP Used ID of the student
+	 * @param    int        $grade       desired grade
+	 *                                   do the math in the test, this can't make the grade happen if it's not possible
+	 *                                   EG: a quiz with 5 questions CANNOT get a 75%!
+	 *
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function take_quiz( $quiz_id, $student_id, $grade = 100 ) {
+
+		$quiz = llms_get_post( $quiz_id );
+		$student = llms_get_student( $student_id );
+
+		$attempt = LLMS_Quiz_Attempt::init( $quiz_id, $quiz->get( 'lesson_id' ), $student_id )->start();
+
+		$questions_count = $attempt->get_count( 'gradeable_questions' );
+		$points_per_question = ( 100 / $questions_count );
+		$to_be_correct = $grade / $points_per_question;
+
+		$i = 1;
+		while ( $attempt->get_next_question() ) {
+
+			$question_id = $attempt->get_next_question();
+
+			$question = llms_get_post( $question_id );
+			$correct = $question->get_correct_choice();
+			// select the correct answer
+			if ( $i <= $to_be_correct ) {
+
+				$selected = $correct;
+
+			// select a random incorrect answer
+			} else {
+
+				// filter all correct choices out of the array of choices
+				$options = array_filter( $question->get_choices(), function( $choice ) {
+					return ( ! $choice->is_correct() );
+				} );
+
+				// rekey
+				$options = array_values( $options );
+
+				// select a random incorrect answer
+				$selected = array( $options[ rand( 0, count( $options ) - 1 ) ]->get( 'id' ) );
+
+			}
+
+			$attempt->answer_question( $question_id, $selected );
+
+			$i++;
+
+		}
+
+		$attempt->end();
+
 	}
 
 	/**
