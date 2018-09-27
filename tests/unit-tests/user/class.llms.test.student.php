@@ -3,7 +3,7 @@
  * Tests for LifterLMS Student Functions
  * @group    LLMS_Student
  * @since    3.5.0
- * @version  3.17.0
+ * @version  [version]
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -333,6 +333,56 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$student->unenroll( $course_id );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id ) );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id, false ) );
+
+	}
+
+	/**
+	 * Test get_grade() method
+	 * @return   void
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function test_get_grade() {
+
+		$student = $this->get_mock_student();
+		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 5, 5, 10 )[0] );
+
+		$student->enroll( $course->get( 'id' ) );
+
+		// no grade yet
+		$this->assertEquals( 'N/A', $student->get_grade( $course->get( 'id' ) ) );
+
+		$possible_grades = array( 0, 10, 20, 30, 40, 50, 60, 70, 80, 90, 100 );
+		$lesson_grades = array();
+
+		foreach ( $course->get_lessons() as $i => $lesson ) {
+
+			// calculate the ongoing grade as quizzes are completed
+			if ( 0 !== $i ) {
+				$this->assertEquals( round( array_sum( $lesson_grades ) / count( $lesson_grades ), 2 ), $student->get_grade( $course->get( 'id' ), false ) );
+			}
+
+			// no grade on the lesson yet
+			$this->assertEquals( 'N/A', $student->get_grade( $lesson->get( 'id' ) ) );
+
+			$quiz_id = $lesson->get( 'quiz' );
+			if ( ! $quiz_id ) {
+				continue;
+			}
+
+			$grade = $possible_grades[ rand( 0, count( $possible_grades ) - 1 ) ];
+			$this->take_quiz( $quiz_id, $student->get( 'id' ), $grade );
+			$this->assertEquals( 'N/A', $student->get_grade( $lesson->get( 'id' ) ) ); // with cache
+			$this->assertEquals( $grade, $student->get_grade( $lesson->get( 'id' ), false ) ); // no cache
+			$this->assertEquals( $grade, $student->get_grade( $lesson->get( 'id' ) ) ); // with  cache
+			$lesson_grades[] = $grade;
+
+		}
+
+
+		// checkout overall course grade once completed
+		$this->assertEquals( round( array_sum( $lesson_grades ) / count( $lesson_grades ), 2 ), $student->get_grade( $course->get( 'id' ), false ) ); // no cache
+		$this->assertEquals( round( array_sum( $lesson_grades ) / count( $lesson_grades ), 2 ), $student->get_grade( $course->get( 'id' ) ) ); // with cache
 
 	}
 
