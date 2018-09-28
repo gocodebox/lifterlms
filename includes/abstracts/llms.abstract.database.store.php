@@ -256,7 +256,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    array     $data  data to update as key=>val
 	 * @return   bool
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  [version]
 	 */
 	private function update( $data ) {
 
