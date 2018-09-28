@@ -619,79 +619,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Get the students grade for a lesson / course
 	 * All grades are based on quizzes assigned to lessons
 	 * @param    int     $object_id  WP Post ID of a course or lesson
+	 * @param    bool    $use_cache  If true, uses cached results
 	 * @return   mixed
 	 * @since    ??
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
-	public function get_grade( $object_id ) {
-
-		$type = get_post_type( $object_id );
-
-		switch ( $type ) {
-
-			case 'course':
-
-				$course = new LLMS_Course( $object_id );
-				$lessons = $course->get_lessons( 'ids' );
-
-				$grades = array();
-
-				foreach ( $lessons as $lid ) {
-
-					$grade = $this->get_grade( $lid );
-
-					if ( is_numeric( $grade ) ) {
-						array_push( $grades, $grade );
-					}
-				}
-
-				$taken = count( $grades );
-
-				if ( ! $taken ) {
-
-					$grade = _x( 'N/A', 'course grade when no quizzes taken or in course', 'lifterlms' );
-
-				} else {
-
-					$total = array_sum( $grades );
-
-					// prevent division by zero
-					if ( 0 === $total ) {
-						$grade = 0;
-					} else {
-						$grade = $total / $taken;
-					}
-				}
-
-			break;
-
-			case 'lesson':
-
-				$lesson = new LLMS_Lesson( $object_id );
-				$quiz_id = $lesson->get( 'quiz' );
-
-				$grade = _x( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
-
-				if ( $quiz_id ) {
-
-					$attempt = $this->quizzes()->get_best_attempt( $quiz_id );
-					if ( $attempt ) {
-						$grade = $attempt->get( 'grade' );
-					}
-				}
-
-			break;
-
-		}// End switch().
-
-		if ( is_numeric( $grade ) ) {
-
-			$grade = round( $grade, 2 );
-
+	public function get_grade( $object_id, $use_cache = true ) {
+		$grade = LLMS()->grades()->get_grade( $object_id, $this, $use_cache );
+		if ( is_null( $grade ) ) {
+			$grade = _x( 'N/A', 'Grade to display when no quizzes taken or available', 'lifterlms' );
 		}
-
-		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, $type );
-
+		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, get_post_type( $object_id ) );
 	}
 
 	/**

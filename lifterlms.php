@@ -371,6 +371,7 @@ final class LifterLMS {
 
 		}
 
+		include_once 'includes/class-llms-grades.php';
 		require_once 'includes/class.llms.playnice.php';
 
 	}
@@ -406,16 +407,6 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Retrieve an instance of the notifications class
-	 * @return   obj
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function notifications() {
-		return LLMS_Notifications::instance();
-	}
-
-	/**
 	 * Get the plugin url.
 	 *
 	 * @return string
@@ -442,9 +433,51 @@ final class LifterLMS {
 		return apply_filters( 'llms_template_path', 'lifterlms/' );
 	}
 
+	public function mailer() {
+		return LLMS_Emails::instance();
+	}
+
+	public function achievements() {
+		return LLMS_Achievements::instance();
+	}
+	public function certificates() {
+		return LLMS_Certificates::instance();
+	}
+
+	public function engagements() {
+		return LLMS_Engagements::instance();
+	}
+
+	/**
+	 * Grading instance
+	 * @return   obj
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function grades() {
+		return LLMS_Grades::instance();
+	}
+
+	/**
+	 * get integrations
+	 * @return object instance
+	 */
+	public function integrations() {
+		return LLMS_Integrations::instance();
+	}
+
+	/**
+	 * Retrieve an instance of the notifications class
+	 * @return   obj
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function notifications() {
+		return LLMS_Notifications::instance();
+	}
+
 	/**
 	 * get payment gateways.
-	 *
 	 * @return array
 	 */
 	public function payment_gateways() {
@@ -460,30 +493,6 @@ final class LifterLMS {
 	 */
 	public function processors() {
 		return LLMS_Processors::instance();
-	}
-
-	public function mailer() {
-		return LLMS_Emails::instance();
-	}
-
-	/**
-	 * get integrations
-	 * @return object instance
-	 */
-	public function integrations() {
-		return LLMS_Integrations::instance();
-	}
-
-	public function engagements() {
-		return LLMS_Engagements::instance();
-	}
-
-	public function certificates() {
-		return LLMS_Certificates::instance();
-	}
-
-	public function achievements() {
-		return LLMS_Achievements::instance();
 	}
 
 	/**

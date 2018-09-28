@@ -379,7 +379,6 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 		}
 
-
 		// checkout overall course grade once completed
 		$this->assertEquals( round( array_sum( $lesson_grades ) / count( $lesson_grades ), 2 ), $student->get_grade( $course->get( 'id' ), false ) ); // no cache
 		$this->assertEquals( round( array_sum( $lesson_grades ) / count( $lesson_grades ), 2 ), $student->get_grade( $course->get( 'id' ) ) ); // with cache
