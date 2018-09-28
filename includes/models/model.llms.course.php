@@ -99,8 +99,8 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function get_available_points() {
 		$points = 0;
-		foreach ( $this->get_sections() as $section ) {
-			$points += $section->get_available_points();
+		foreach ( $this->get_lessons() as $lesson ) {
+			$points += $lesson->get( 'points' );
 		}
 		return apply_filters( 'llms_course_get_available_points', $points, $this );
 	}
