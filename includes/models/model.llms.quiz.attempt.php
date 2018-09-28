@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version 3.19.2
+ * @version [version]
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -107,7 +107,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Calculate and the grade for a completed quiz
 	 * @return   $this      for chaining
 	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function calculate_grade() {
 
@@ -115,7 +115,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		if ( $this->is_auto_gradeable() ) {
 
-			$grade = round( $this->get_count( 'earned' ) * $this->calculate_point_weight(), 2 );
+			$grade = LLMS()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
 
 			$quiz = $this->get_quiz();
 			$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
