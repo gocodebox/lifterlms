@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  3.19.2
+ * @version  [version]
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -55,6 +55,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @version 3.3.0
 	 */
 	protected $properties = array();
+
+	/**
+	 * Array of default property values
+	 * key => default value
+	 * @var  array
+	 * @since   [version]
+	 * @version [version]
+	 */
+	protected $property_defaults = array();
 
 	/**
 	 * Constructor
@@ -110,7 +119,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $key   key to retrieve
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  3.19.2
+	 * @version  [version]
 	 */
 	public function __get( $key ) {
 
@@ -156,7 +165,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		} elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
 
-			$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
+			if ( metadata_exists( 'post',  $this->id, $this->meta_prefix . $key ) ) {
+				$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
+			} else {
+				$val = $this->get_default_value( $key );
+			}
 
 		} else {
 
@@ -429,6 +442,19 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
+	 * Get the default value of a property
+	 * If defaults don't exist returns an empty string in accordance with the return of get_post_meta() when no metadata exists
+	 * @param    string     $key  property key/name
+	 * @return   mixed
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_default_value( $key ) {
+		$defaults = $this->get_property_defaults();
+		return isset( $defaults[ $key ] ) ? $defaults[ $key ] : '';
+	}
+
+	/**
 	 * Retrieve URL for an image associated with the post
 	 * Currently only retrieves the featured image if the post type supports it
 	 * in the future this will allow retrieval of custom post images as well
@@ -509,6 +535,16 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_price', $price, $key, $price_args, $format, $this );
 
+	}
+
+	/**
+	 * Retrieve the default values for properties
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_property_defaults() {
+		return apply_filters( 'llms_get_' . $this->model_post_type . '_property_defaults', $this->property_defaults, $this );
 	}
 
 	/**
