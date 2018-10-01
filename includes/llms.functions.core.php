@@ -287,7 +287,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 		}
 		// Add value and interval if value is bigger than 0
 		if ( $value > 0 ) {
-			if ( $value != 1 ) {
+			if ( 1 != $value) {
 				$text = $l18n_plural[ $interval ];
 			} else {
 				$text = $l18n_singular[ $interval ];

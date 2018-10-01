@@ -326,7 +326,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$more = false;
 
 		// if we hit our limit we have too many results, pop the last one
-		if ( $args['limit'] === count( $ids ) ) {
+		if ( count( $ids ) === $args['limit']) {
 			array_pop( $ids );
 			$more = true;
 		}
@@ -1059,7 +1059,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// check tracks by progress
 		// this is done because tracks can have the same id as another object...
 		// @todo tracks should have a different table or format since the post_id col won't guarantee uniqueness...
-		if ( $type === 'course_track' ) {
+		if ( 'course_track' === $type) {
 
 			$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 
@@ -1159,7 +1159,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
 
-			if ( $update === false ) {
+			if ( false === $update) {
 
 				return false;
 

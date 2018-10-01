@@ -81,8 +81,8 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->userid           		= $person_id;
 		$this->user             		= get_user_meta( $person_id );
 		$this->user_data				= get_userdata( $person_id );
-		$this->user_firstname			= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
-		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
+		$this->user_firstname			= ('' != $this->user['first_name'][0] ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
+		$this->user_lastname			= ('' != $this->user['last_name'][0] ?  $this->user['last_name'][0] : '');
 		$this->user_email				= $this->user_data->data->user_email;
 		$this->template_html 	= 'certificates/template.php';
 		$this->email_content	= $email_content->post_content;

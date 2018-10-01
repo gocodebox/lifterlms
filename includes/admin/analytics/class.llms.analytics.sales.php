@@ -94,7 +94,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		$html .= '<select id="llms-product-select" name="llms_product_select" class="chosen-select-width">';
 
 		//all products option
-		$html .= '<option value="all_products" ' . ( $product_id == 'all_products' ? 'selected' : '' ) . '>' . __( 'All Products', 'lifterlms' ) . '</option>';
+		$html .= '<option value="all_products" ' . ( 'all_products' == $product_id ? 'selected' : '' ) . '>' . __( 'All Products', 'lifterlms' ) . '</option>';
 		//$html .= '<option value="all_courses" ' . ( $product_id == 'all_courses' ? 'selected' : '' ) . '>' . __( 'All Courses', 'lifterlms' ) . '</option>';
 		//$html .= '<option value="all_memberships" ' . ( $product_id == 'all_memberships' ? 'selected' : '' ) . '>' . __( 'All Memberships', 'lifterlms' ) . '</option>';
 
@@ -102,7 +102,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		if ( $products ) {
 			$html .= '<optgroup label="' . __( 'Courses', 'lifterlms' ) . '">';
 			foreach ( $products as $key => $product ) {
-				if ( $product->post_type === 'course' ) {
+				if ( 'course' === $product->post_type) {
 						$html .= '<option value="' . $product->ID . '"
 						' . ( $product_id == $product->ID  ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';
@@ -113,7 +113,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 			$html .= '</optgroup>';
 			$html .= '<optgroup label="' . __( 'Memberships', 'lifterlms' ) . '">';
 			foreach ( $products as $key => $product ) {
-				if ( $product->post_type === 'llms_membership' ) {
+				if ( 'llms_membership' === $product->post_type) {
 					$html .= '<option value="' . $product->ID . '" 
 						' . ( $product_id == $product->ID ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';

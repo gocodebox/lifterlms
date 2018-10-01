@@ -31,7 +31,7 @@ class LLMS_Achievement {
 	 * @return bool [is achievement enabled]
 	 */
 	function is_enabled() {
-		$enabled = $this->enabled == 'yes' ? true : false;
+		$enabled = 'yes' == $this->enabled ? true : false;
 		return true;
 	}
 

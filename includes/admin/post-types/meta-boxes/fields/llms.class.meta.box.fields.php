@@ -84,7 +84,7 @@ abstract class LLMS_Metabox_Field {
 	 */
 	public static function get_post_meta( $post_id, $field_id ) {
 
-		if ( $field_id === '_post_course_difficulty' ) {
+		if ( '_post_course_difficulty' === $field_id) {
 			$difficulties = wp_get_object_terms( $post_id, 'course_difficulty' );
 
 			if ( $difficulties ) {
