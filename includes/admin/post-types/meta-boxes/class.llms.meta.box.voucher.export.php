@@ -16,10 +16,10 @@ class LLMS_Meta_Box_Voucher_Export {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * @param object $post WP global post object
-	 * @return void
+	 * @param    object  $post  WP global post object
+	 * @return   void
 	 * @since    ??
-	 * @version  3.22.0
+	 * @version  [version]
 	 */
 	public static function output( $post ) {
 

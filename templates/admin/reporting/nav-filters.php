@@ -1,10 +1,11 @@
 <?php
 /**
  * Additional Filters used by various reporting screens
+ * @since    ??
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) { exit; }
-
 ?>
 
 <nav class="llms-nav-tab-wrapper llms-nav-secondary" id="llms-date-quick-filters">

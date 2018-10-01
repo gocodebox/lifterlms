@@ -2,7 +2,7 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  3.23.0
+* @version  [version]
 */
 defined( 'ABSPATH' ) || exit;
 

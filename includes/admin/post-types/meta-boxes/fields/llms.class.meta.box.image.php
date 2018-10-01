@@ -2,8 +2,10 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
-*
-*/
+ * Image metabox field
+ * @since    ??
+ * @version  [version]
+ */
 class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
@@ -18,6 +20,8 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 	/**
 	 * outputs the Html for the given field
 	 * @return HTML
+	 * @since    ??
+	 * @version  [version]
 	 */
 	public function output() {
 

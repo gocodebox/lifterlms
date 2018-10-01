@@ -1,14 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Base Achievement Class
-*
-* Handles generating Achievement
-*
-* @author codeBOX
-* @project lifterLMS
-*/
+ * Base Achievement Class
+ * Handles generating Achievement
+ * @since    ??
+ * @version  [version]
+ */
 class LLMS_Achievement {
 
 	// is the achievement enabled
@@ -27,8 +25,10 @@ class LLMS_Achievement {
 
 	/**
 	 * Checks if achievement is enabled
-	 * REFACTOR: returning true always. Need to build setting to disable / enable
-	 * @return bool [is achievement enabled]
+	 * @return   bool
+	 * @since    ??
+	 * @version  [version]
+	 * @todo     returning true always. Need to build setting to disable / enable
 	 */
 	function is_enabled() {
 		$enabled = 'yes' == $this->enabled ? true : false;

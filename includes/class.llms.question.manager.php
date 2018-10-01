@@ -1,14 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Quiz Question Manager
  * Don't instantiate this directly, instead use the wrapper functions
  * found in the LLMS_Quiz and LLMS_Question classes
  * @since    3.16.0
- * @version  3.17.2
+ * @version  [version]
  */
 class LLMS_Question_Manager {
 
@@ -142,7 +140,7 @@ class LLMS_Question_Manager {
 	 * @param    string  $return  type of return [ids|posts|questions]
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_questions( $return = 'questions' ) {
 

@@ -1,5 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
+/**
+ * Membership price template
+ * @since    ??
+ * @version  [version]
+ */
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 

@@ -1,22 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Meta Box Video
-*
-* diplays text input for oembed video
-*/
+ * Meta Box Video
+ * diplays text input for oembed video
+ * @since    ??
+ * @version  [version]
+ */
 class LLMS_Meta_Box_Video {
 
 	/**
 	 * Static output class.
-	 *
 	 * Displays MetaBox
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
-	 *
 	 * @param  object $post [WP post object]
-	 *
 	 * @return void
 	 */
 	public static function output( $post ) {
@@ -72,13 +70,12 @@ class LLMS_Meta_Box_Video {
 
 	/**
 	 * Static save method
-	 *
 	 * cleans variables and saves using update_post_meta
-	 *
-	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
-	 *
-	 * @return void
+	 * @param    int 		$post_id  id of post object
+	 * @param    object 	$post     WP post object
+	 * @return   void
+	 * @since    ??
+	 * @version  [version]
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;

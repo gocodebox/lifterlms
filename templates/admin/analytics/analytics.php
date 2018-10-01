@@ -1,10 +1,10 @@
 <?php
 /**
- *
- *
- * @since  3.0.0
+ * Analytics
+ * @since    3.0.0
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) { exit; }
 ?>
 

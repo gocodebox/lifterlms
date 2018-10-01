@@ -1,5 +1,5 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS hash ID encrypt/decrypt
@@ -9,7 +9,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Modified from original source to remove reliance on bcmath functions
  *
  * @since    3.16.7
- * @version  3.16.10
+ * @version  [version]
  */
 class LLMS_Hasher {
 
@@ -142,7 +142,7 @@ class LLMS_Hasher {
 	 * @param    int     $num   number to hash
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  3.16.10
+	 * @version  [version]
 	 */
 	public static function hash( $num ) {
 

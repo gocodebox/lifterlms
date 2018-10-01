@@ -1,19 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Dates Class
-*
-* Manages formatting dates for I/O and display
-*/
+ * Dates Class
+ * Manages formatting dates for I/O and display
+ * @since    ??
+ * @version  [version]
+ */
 class LLMS_Date {
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-
-	}
 
 	/**
 	 * Set date to dd/mm/yyyy

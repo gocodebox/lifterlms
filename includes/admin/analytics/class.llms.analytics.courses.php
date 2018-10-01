@@ -119,7 +119,7 @@ if ( ! class_exists( 'LLMS_Analytics_Courses' ) ) :
 			$html .= '<select id="llms-date-filter-select" name="llms_date_filter" class="chosen-select-width">';
 
 			foreach ( $date_filters as $key => $value ) {
-				$html .= '<option value="' . $key . '" 
+				$html .= '<option value="' . $key . '"
 				' . ( $date_filter == $key ? 'selected' : '' ) . '>
 				' . $value . '</option>';
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Certificate Forms
  * @since   3.18.0
- * @version 3.18.0
+ * @version [version]
  */
 class LLMS_Controller_Certificates {
 
@@ -26,7 +26,7 @@ class LLMS_Controller_Certificates {
 	 * cURL request is used to scrape the HTML and this will authenticate the scrape
 	 * @return   void
 	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @version  [version]
 	 */
 	public function maybe_authenticate_export_generation() {
 

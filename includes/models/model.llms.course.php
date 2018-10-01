@@ -166,13 +166,13 @@ implements LLMS_Interface_Post_Audio
 	 *                            term_id, name, slug, and more
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.0.4
+	 * @version  [version]
 	 */
 	public function get_difficulty( $field = 'name' ) {
 
 		$terms = get_the_terms( $this->get( 'id' ), 'course_difficulty' );
 
-		if ( false === $terms) {
+		if ( false === $terms ) {
 
 			return '';
 
@@ -218,9 +218,9 @@ implements LLMS_Interface_Post_Audio
 			$lessons = array_merge( $lessons, $section->get_lessons( 'posts' ) );
 		}
 
-		if ( 'ids' === $return) {
+		if ( 'ids' === $return ) {
 			$ret = wp_list_pluck( $lessons, 'ID' );
-		} elseif ( 'posts' === $return) {
+		} elseif ( 'posts' === $return ) {
 			$ret = $lessons;
 		} else {
 			$ret = array_map( 'llms_get_post', $lessons );
@@ -279,7 +279,7 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string  $return  type of return [ids|posts|sections]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_sections( $return = 'sections' ) {
 
@@ -297,9 +297,9 @@ implements LLMS_Interface_Post_Audio
 			'posts_per_page' => 500,
 		) );
 
-		if ( 'ids' === $return) {
+		if ( 'ids' === $return ) {
 			$r = wp_list_pluck( $q->posts, 'ID' );
-		} elseif ( 'posts' === $return) {
+		} elseif ( 'posts' === $return ) {
 			$r = $q->posts;
 		} else {
 			$r = array();

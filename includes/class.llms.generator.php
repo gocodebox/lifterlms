@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  3.16.11
+ * @version  [version]
  */
 class LLMS_Generator {
 
@@ -862,7 +862,7 @@ class LLMS_Generator {
 	 *
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	private function handle_prerequisites() {
 

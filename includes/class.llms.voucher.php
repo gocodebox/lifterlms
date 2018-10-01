@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Voucher Class
  * @since    2.0.0
- * @version  3.6.2
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Voucher {
 
 
@@ -395,7 +394,7 @@ class LLMS_Voucher {
 	 * @param  string   $post_type  allows filtering of products by post type
 	 * @return array
 	 * @since   2.0.0
-	 * @version 3.0.0
+	 * @version [version]
 	 */
 	public function get_products( $post_type = 'any' ) {
 

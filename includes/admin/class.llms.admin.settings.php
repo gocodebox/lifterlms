@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Class
  * Settings field Factory
  * @since    1.0.0
- * @version  3.21.0
+ * @version  [version]
  */
 class LLMS_Admin_Settings {
 
@@ -177,10 +177,9 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Output fields
-	 * @param  array $field array of field settings
-	 * @return void
-	 *
-	 * @version  3.21.0
+	 * @param    array  $field  array of field settings
+	 * @return   void
+	 * @version  [version]
 	 */
 	public static function output_field( $field ) {
 
@@ -686,11 +685,10 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Setup a field's tooltip and description based on supplied values
-	 * @param  array $field associative array of field data
-	 * @return array       associatve array containing field description and tooltip HTML
-	 *
-	 * @since  1.4.5
-	 * @version  3.7.5
+	 * @param    array  $field  associative array of field data
+	 * @return   array          associatve array containing field description and tooltip HTML
+	 * @since    1.4.5
+	 * @version  [version]
 	 */
 	public static function set_field_descriptions( $field = array() ) {
 

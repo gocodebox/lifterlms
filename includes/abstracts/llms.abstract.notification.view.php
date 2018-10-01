@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  3.18.2
+ * @version  [version]
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
@@ -607,7 +607,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @param    string     $string  a string
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	private function sentence_case( $string ) {
 

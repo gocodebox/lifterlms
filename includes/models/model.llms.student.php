@@ -288,7 +288,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
 	 * @since   ??
-	 * @version ??
+	 * @version [version]
 	 */
 	public function get_completed_courses( $args = array() ) {
 
@@ -326,7 +326,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$more = false;
 
 		// if we hit our limit we have too many results, pop the last one
-		if ( count( $ids ) === $args['limit']) {
+		if ( count( $ids ) === $args['limit'] ) {
 			array_pop( $ids );
 			$more = true;
 		}
@@ -1052,7 +1052,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
@@ -1119,11 +1119,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Add student postmeta data for incompletion of a lesson, section, course or track
 	 * An "_is_complete" value of "no" is inserted into postmeta
-	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
-	 * @param  string     $trigger      String describing the reason for mark incompletion
-	 * @return boolean
+	 * @param    int        $object_id    WP Post ID of the lesson, section, course or track
+	 * @param    string     $trigger      String describing the reason for mark incompletion
+	 * @return   boolean
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  [version]
 	 */
 	private function insert_incompletion_postmeta( $object_id, $trigger = 'unspecified' ) {
 
@@ -1159,7 +1159,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
 
-			if ( false === $update) {
+			if ( false === $update ) {
 
 				return false;
 

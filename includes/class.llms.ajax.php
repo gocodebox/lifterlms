@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * AJAX Event Handler
  * @since    1.0.0
- * @version  3.17.8
+ * @version  [version]
  */
 class LLMS_AJAX {
 
@@ -817,7 +815,7 @@ class LLMS_AJAX {
 	 * Updates course syllabus JSON object
 	 * @return      array
 	 * @since       ??
-	 * @version     3.13.0
+	 * @version     [version]
 	 * @deprecated  3.13.0
 	 */
 	public function update_syllabus() {

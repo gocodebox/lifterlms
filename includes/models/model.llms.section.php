@@ -77,7 +77,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Retrieve the previous section
 	 * @return   obj|false
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function get_next() {
 
@@ -158,9 +158,9 @@ class LLMS_Section extends LLMS_Post_Model {
 			'posts_per_page' => 500,
 		) );
 
-		if ( 'ids' === $return) {
+		if ( 'ids' === $return ) {
 			$ret = wp_list_pluck( $query->posts, 'ID' );
-		} elseif ( 'posts' === $return) {
+		} elseif ( 'posts' === $return ) {
 			$ret = $query->posts;
 		} else {
 			$ret = array_map( 'llms_get_post', $query->posts );
