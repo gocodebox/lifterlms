@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.23.1 - 2018-09-??
 --------------------
 
++ Added the ability to send test emails for email notifications
 + Added `student_id` as a parameter passed to the `llms_student_get_progress` filter
 + Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models as well as in the `course/syllabus.php` template
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method

@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Notification Controller Abstract
  * @since    3.8.0
- * @version  3.11.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 
 	/**
@@ -56,6 +55,15 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @var  array
 	 */
 	protected $supported_types = array();
+
+	/**
+	 * Determines if test notifications can be sent
+	 * @var  bool
+	 */
+	protected $testable = array(
+		'basic' => false,
+		'email' => false,
+	);
 
 	/**
 	 * WP User ID associated with the triggering action
@@ -309,6 +317,17 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
+	 * Get an array of LifterLMS Admin Page settings to send test notifications
+	 * @param    string     $type  notification type [basic|email]
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_test_settings( $type ) {
+		return array();
+	}
+
+	/**
 	 * Determine if the notification is a potential duplicate
 	 * @param    string     $type        notification type id
 	 * @param    mixed      $subscriber  WP User ID for the subscriber, email address, phone number, etc...
@@ -327,6 +346,23 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 		) );
 
 		return $query->found_results ? true : false;
+
+	}
+
+	/**
+	 * Determine if the notification type support tests
+	 * @param    string     $type  notification type [email|basic]
+	 * @return   bool
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function is_testable( $type ) {
+
+		if ( empty( $this->testable[ $type ] ) ) {
+			return false;
+		}
+
+		return true;
 
 	}
 
@@ -367,9 +403,9 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 *                                   only applies to controllers that flag $this->auto_dupcheck to true
 	 * @return   int|false
 	 * @since    3.8.0
-	 * @version  3.11.0
+	 * @version  [version]
 	 */
-	private function send_one( $type, $subscriber, $force = false ) {
+	protected function send_one( $type, $subscriber, $force = false ) {
 
 		// if autodupcheck is set
 		// and the send function doesn't override the dupcheck
@@ -404,6 +440,18 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 		return $id;
 
+	}
+
+	/**
+	 * Send a test notification to the currently logged in users
+	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
+	 * @param    string   $type  notification type [basic|email]
+	 * @return   int|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function send_test( $type ) {
+		return $this->send_one( $type, get_current_user_id(), true );
 	}
 
 	/**
