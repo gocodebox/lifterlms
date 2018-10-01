@@ -905,7 +905,7 @@ class LLMS_Generator {
 						$obj->set( 'prerequisite', $ids[ $old_prereq ] );
 
 					} // End if().
-					elseif ( ! isset( $raw['_source'] ) || get_site_url() !== $raw['_source']) {
+					elseif ( ! isset( $raw['_source'] ) || get_site_url() !== $raw['_source'] ) {
 
 						$obj->set( 'has_prerequisite', 'no' );
 						$obj->set( 'prerequisite', 0 );

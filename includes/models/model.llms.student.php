@@ -1059,7 +1059,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// check tracks by progress
 		// this is done because tracks can have the same id as another object...
 		// @todo tracks should have a different table or format since the post_id col won't guarantee uniqueness...
-		if ( 'course_track' === $type) {
+		if ( 'course_track' === $type ) {
 
 			$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 

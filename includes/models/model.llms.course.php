@@ -974,7 +974,7 @@ implements LLMS_Interface_Post_Audio
 			$user_post_data = self::get_user_post_data( $this->id, $user_id );
 
 			foreach ( $user_post_data as $upd ) {
-				if ( 'Enrolled' === $upd->meta_value) {
+				if ( 'Enrolled' === $upd->meta_value ) {
 					$enrolled_date = $upd->updated_date;
 				}
 			}
@@ -1060,7 +1060,7 @@ implements LLMS_Interface_Post_Audio
 		if ( $user_post_data ) {
 
 			foreach ( $user_post_data as $upd ) {
-				if ( '_status' === $upd->meta_key && 'Enrolled' === $upd->meta_value) {
+				if ( '_status' === $upd->meta_key && 'Enrolled' === $upd->meta_value ) {
 					$enrolled = true;
 				}
 			}
@@ -1093,16 +1093,16 @@ implements LLMS_Interface_Post_Audio
 			//loop through returned rows and save data to object
 			foreach ( $enrollment as $row ) {
 
-				if ( '_start_date' === $row->meta_key) {
+				if ( '_start_date' === $row->meta_key ) {
 
 					$obj->start_date = $row->updated_date;
 
-				} elseif ( '_is_complete' === $row->meta_key) {
+				} elseif ( '_is_complete' === $row->meta_key ) {
 
 					$obj->is_complete = true;
 					$obj->completed_date = $row->updated_date;
 
-				} elseif ( 'status' === $row->meta_key) {
+				} elseif ( 'status' === $row->meta_key ) {
 
 					$obj->status = $row->meta_value;
 
@@ -1138,7 +1138,7 @@ implements LLMS_Interface_Post_Audio
 				//loop through returned rows and save data to object
 				foreach ( $section_user_data as $row ) {
 
-					if ( '_is_complete' === $row->meta_key) {
+					if ( '_is_complete' === $row->meta_key ) {
 
 						$section['is_complete'] = true;
 						$section['completed_date'] = $row->updated_date;
@@ -1170,7 +1170,7 @@ implements LLMS_Interface_Post_Audio
 
 						foreach ( $lesson_user_data as $row ) {
 
-							if ( '_is_complete' === $row->meta_key) {
+							if ( '_is_complete' === $row->meta_key ) {
 								$lesson['is_complete'] = true;
 								$lesson['completed_date'] = $row->updated_date;
 							}

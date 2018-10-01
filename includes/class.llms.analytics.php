@@ -158,7 +158,7 @@ class LLMS_Analytics {
 
 							if ( $value->post_id == $course->ID && LLMS_Date::db_date( $value->enrolled_date ) <= $date ) {
 
-								if ( 'Enrolled' === $value->status) {
+								if ( 'Enrolled' === $value->status ) {
 									$daily_total++;
 								}
 							}
@@ -178,7 +178,7 @@ class LLMS_Analytics {
 
 							if ( $value->post_id == $membership->ID && LLMS_Date::db_date( $value->enrolled_date ) <= $date ) {
 
-								if ( 'Enrolled' === $value->status) {
+								if ( 'Enrolled' === $value->status ) {
 									$daily_total++;
 								}
 							}
@@ -435,7 +435,7 @@ class LLMS_Analytics {
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 		$users_table = $wpdb->prefix . 'users';
 
-		if ( 'all_products' === $post_id) {
+		if ( 'all_products' === $post_id ) {
 
 			// query user_postmeta table
 			$results = $wpdb->get_results(
@@ -476,7 +476,7 @@ class LLMS_Analytics {
 			foreach ( $results as $key => $student ) {
 
 				// if include expired students is false then remove expired students from array
-				if ( ! $include_expired && 'Expired' === $student->meta_value) {
+				if ( ! $include_expired && 'Expired' === $student->meta_value ) {
 
 					unset( $results[ $key ] );
 
@@ -551,7 +551,7 @@ class LLMS_Analytics {
 		if ( $students ) {
 
 			foreach ( $students as $student ) {
-				if ( 'Enrolled' === $student->status) {
+				if ( 'Enrolled' === $student->status ) {
 					$units++;
 				}
 			}
@@ -572,7 +572,7 @@ class LLMS_Analytics {
 		if ( $students ) {
 
 			foreach ( $students as $student ) {
-				if ( 'Expired' === $student->status) {
+				if ( 'Expired' === $student->status ) {
 					$units++;
 				}
 			}
@@ -594,7 +594,7 @@ class LLMS_Analytics {
 				}
 			}
 
-			if ( 0 == $total_students) {
+			if ( 0 == $total_students ) {
 				return 0;
 			} else {
 				return $total_done / $total_students;
@@ -611,12 +611,12 @@ class LLMS_Analytics {
 
 			foreach ( $members as $member ) {
 
-				if ( 'Enrolled' === $member->status) {
+				if ( 'Enrolled' === $member->status ) {
 					$current_members++;
 				}
 			}
 
-			if ( 0 == $total_members) {
+			if ( 0 == $total_members ) {
 				return 0;
 			} else {
 				return ( $current_members / $total_members );
@@ -629,7 +629,7 @@ class LLMS_Analytics {
 
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
-		if ( 'all_courses' === $product_id) {
+		if ( 'all_courses' === $product_id ) {
 			$results = $wpdb->get_results(
 				'SELECT *
 					from ' . $table_name . '
@@ -848,7 +848,7 @@ class LLMS_Analytics {
 				} // End if().
 
 				//calculate % complete
-				if ( 0 == $all_lesson_count) {
+				if ( 0 == $all_lesson_count ) {
 					$completion_percent = '0%';
 				} else {
 					$completion_percent = ( LLMS_Number::whole_number( $completed_lesson_count / $all_lesson_count ) . '%' );

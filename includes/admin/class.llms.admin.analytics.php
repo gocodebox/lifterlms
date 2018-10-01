@@ -193,7 +193,7 @@ class LLMS_Admin_Analytics {
 	 		//$search->exclude_coupons = ( isset( $_POST[ 'llms_exclude_coupons' ] ) ? $_POST[ 'llms_exclude_coupons' ] : false );
 
 	 		//get start and end date for date filter
-	 		if ( 'none' !== $search->date_filter) {
+	 		if ( 'none' !== $search->date_filter ) {
 
 	 			$date_range = LLMS_Date::get_date_range_by_filter( $search->date_filter );
 	 			$search->date_range = $date_range;
@@ -223,7 +223,7 @@ class LLMS_Admin_Analytics {
 			);
 
 			// if product id is not "all" then add product id to values
-			if ( 'all_products' !== $search->product_id) {
+			if ( 'all_products' !== $search->product_id ) {
 
 				$product_value = array(
 				 	'key' => '_llms_order_product_id',
@@ -262,7 +262,7 @@ class LLMS_Admin_Analytics {
 	 		//$search->exclude_coupons = ( isset( $_POST[ 'llms_exclude_coupons' ] ) ? $_POST[ 'llms_exclude_coupons' ] : false );
 
 	 		//get start and end date for date filter
-	 		if ( 'none' !== $search->date_filter) {
+	 		if ( 'none' !== $search->date_filter ) {
 
 	 			$date_range = LLMS_Date::get_date_range_by_filter( $search->date_filter );
 	 			$search->date_range = $date_range;
@@ -277,7 +277,7 @@ class LLMS_Admin_Analytics {
 	 		}
 
 			// if product id is not "all" then add product id to values
-			if ( 'all_courses' === $search->product_id) {
+			if ( 'all_courses' === $search->product_id ) {
 
 				$courses = LLMS_Analytics::get_posts( 'course' );
 
@@ -344,7 +344,7 @@ class LLMS_Admin_Analytics {
 	 		//$search->exclude_coupons = ( isset( $_POST[ 'llms_exclude_coupons' ] ) ? $_POST[ 'llms_exclude_coupons' ] : false );
 
 	 		//get start and end date for date filter
-	 		if ( 'none' !== $search->date_filter) {
+	 		if ( 'none' !== $search->date_filter ) {
 
 	 			$date_range = LLMS_Date::get_date_range_by_filter( $search->date_filter );
 	 			$search->date_range = $date_range;
@@ -359,7 +359,7 @@ class LLMS_Admin_Analytics {
 	 		}
 
 			// if product id is not "all" then add product id to values
-			if ( 'all_memberships' === $search->product_id) {
+			if ( 'all_memberships' === $search->product_id ) {
 
 				$memberships = LLMS_Analytics::get_posts( 'llms_membership' );
 

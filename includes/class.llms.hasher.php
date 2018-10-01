@@ -149,7 +149,7 @@ class LLMS_Hasher {
 		$numlen = strlen( $num );
 		if ( $numlen <= 3 ) {
 			$len = 3;
-		} elseif ( 4 === $numlen || 5 === $numlen) {
+		} elseif ( 4 === $numlen || 5 === $numlen ) {
 			$len = 4;
 		} else {
 			$len = 5;

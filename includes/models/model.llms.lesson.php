@@ -682,7 +682,7 @@ implements LLMS_Interface_Post_Audio
 
 		$previous_position = $current_position - 1;
 
-		if ( 0 != $previous_position) {
+		if ( 0 != $previous_position ) {
 
 			$args = array(
 				'posts_per_page' 	=> 1,
@@ -718,7 +718,7 @@ implements LLMS_Interface_Post_Audio
 			$current_position = $cursection->get_order();
 			$previous_position = $current_position - 1;
 
-			if ( 0 != $previous_position) {
+			if ( 0 != $previous_position ) {
 				$args = array(
 					'post_type' 		=> 'section',
 					'posts_per_page'	=> 500,

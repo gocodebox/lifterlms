@@ -208,11 +208,11 @@ class LLMS_Post_Handler {
 	public static function get_prerequisite( $post_id ) {
 		$post_type = get_post_type( $post_id );
 
-		if ( 'course' === $post_type) {
+		if ( 'course' === $post_type ) {
 			$course = new LLMS_Course( $post_id );
 			return $course->get_prerequisite();
 
-		} elseif ( 'lesson' === $post_type) {
+		} elseif ( 'lesson' === $post_type ) {
 			$lesson = new LLMS_Lesson( $post_id );
 			return $lesson->get_prerequisite();
 		}
