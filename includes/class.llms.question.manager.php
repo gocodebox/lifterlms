@@ -160,9 +160,9 @@ class LLMS_Question_Manager {
 			'posts_per_page' => 500,
 		) );
 
-		if ( $return === 'ids' ) {
+		if ( 'ids' === $return) {
 			$ret = wp_list_pluck( $query->posts, 'ID' );
-		} elseif ( $return === 'posts' ) {
+		} elseif ( 'posts' === $return) {
 			$ret = $query->posts;
 		} else {
 			$ret = array();

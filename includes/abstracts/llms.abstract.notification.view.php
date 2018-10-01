@@ -614,7 +614,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$sentences = preg_split( '/(\.|\?|\!)(\s|$)+/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
 		$new_string = '';
 		foreach ( $sentences as $sentence ) {
-			$new_string .= 1 === strlen( $sentence ) ? $sentence . ' ' : ucfirst( trim( $sentence ) );
+			$new_string .= strlen( $sentence ) === 1 ? $sentence . ' ' : ucfirst( trim( $sentence ) );
 		}
 
 		return trim( $new_string );

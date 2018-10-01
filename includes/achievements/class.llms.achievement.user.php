@@ -80,8 +80,8 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		$this->userid           		= $person_id;
 		$this->user             		= get_user_meta( $person_id );
 		$this->user_data				= get_userdata( $person_id );
-		$this->user_firstname			= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
-		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
+		$this->user_firstname			= ('' != $this->user['first_name'][0] ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
+		$this->user_lastname			= ('' != $this->user['last_name'][0] ?  $this->user['last_name'][0] : '');
 		$this->user_email				= $this->user_data->data->user_email;
 		$this->template_html 			= 'achievements/template.php';
 		$this->account_link 			= get_permalink( llms_get_page_id( 'myaccount' ) );
