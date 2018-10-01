@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @property  $free_lesson  (yesno)  Yes if the lesson is free
  * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
  * @property  $order (int)  Lesson's order within its parent section
+ * @property  $points  (absint)  Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
  * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prequisite is 'yes'
  * @property  $parent_course (int)  WP Post ID of the course the lesson belongs to
  * @property  $parent_section (int)  WP Post ID of the section the lesson belongs to
@@ -50,11 +51,23 @@ implements LLMS_Interface_Post_Audio
 		'require_passing_grade' => 'yesno',
 		'require_assignment_passing_grade' => 'yesno',
 		'video_embed' => 'text',
+		'points' => 'absint',
 
 		// quizzes
 		'quiz' => 'absint',
 		'quiz_enabled' => 'yesno',
 
+	);
+
+	/**
+	 * Array of default property values
+	 * key => default value
+	 * @var  array
+	 * @since   [version]
+	 * @version [version]
+	 */
+	protected $property_defaults = array(
+		'points' => 1,
 	);
 
 	protected $db_post_type = 'lesson';
