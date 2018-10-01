@@ -1,7 +1,7 @@
 /**
  * Course Model
  * @since    3.16.0
- * @version  3.16.11
+ * @version  [version]
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -158,6 +158,30 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			return this.get( 'sections' ).find( function( model ) {
 				return model.get( '_selected' );
 			} );
+
+		},
+
+		/**
+		 * Retrieve the total number of points in the course
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_total_points: function() {
+
+			var points = 0;
+
+			this.get( 'sections' ).each( function( section ) {
+				section.get( 'lessons' ).each( function( lesson ) {
+					var lesson_points = lesson.get( 'points' );
+					if ( ! _.isNumber( lesson_points ) ) {
+						lesson_points = 0;
+					}
+					points += lesson_points * 1;
+				} );
+			} );
+
+			return points;
 
 		},
 

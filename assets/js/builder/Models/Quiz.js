@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.19.2
+ * @version  [version]
  */
 define( [
 		'Collections/Questions',
@@ -89,7 +89,7 @@ define( [
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.17.6
+		 * @version  [version]
 		 */
 		initialize: function() {
 
@@ -108,6 +108,8 @@ define( [
 					this.get_parent().set( 'quiz_enabled', 'yes' );
 				}
 			} );
+
+			window.llms.hooks.doAction( 'llms_quiz_model_init', this );
 
 		},
 

@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.19.3
+ * @version  [version]
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -39,7 +39,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.17.1
+		 * @version  [version]
 		 */
 		defaults: function() {
 			return {
@@ -62,6 +62,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				require_assignment_passing_grade: 'yes',
 				video_embed: '',
 				free_lesson: '',
+				points: 1,
 
 				// other fields
 				assignment: {}, // assignment model/data
@@ -93,6 +94,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			if ( ! _.isEmpty( quiz ) && ! quiz.get( 'lesson_id' ) ) {
 				quiz.set( 'lesson_id', this.get( 'id' ) );
 			}
+
+			window.llms.hooks.doAction( 'llms_lesson_model_init', this );
 
 		},
 
@@ -137,6 +140,29 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 				return this.collection.parent;
 			}
 			return false;
+
+		},
+
+		/**
+		 * Retrieve the questions percentage value within the quiz
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_points_percentage: function() {
+
+			var total = this.get_course().get_total_points(),
+				points = this.get( 'points' ) * 1;
+
+			if ( ! _.isNumber( points ) ) {
+				points = 0;
+			}
+
+			if ( 0 === total ) {
+				return '0%';
+			}
+
+			return ( ( points / total ) * 100 ).toFixed( 2 ) + '%';
 
 		},
 
@@ -189,7 +215,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  3.19.3
+		 * @version  [version]
 		 */
 		add_quiz: function( data ) {
 
@@ -211,6 +237,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 			var quiz = this.get( 'quiz' );
 			this.set( 'quiz_enabled', 'yes' );
+
+			window.llms.hooks.doAction( 'llms_lesson_add_quiz', quiz, this );
 
 			return quiz;
 
