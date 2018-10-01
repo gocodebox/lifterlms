@@ -1,7 +1,7 @@
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  3.17.7
+ * @version  [version]
  */
 define( [], function() {
 
@@ -261,7 +261,7 @@ define( [], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  3.17.7
+		 * @version  [version]
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -351,11 +351,6 @@ define( [], function() {
 					field.classes.push( 'has-images' );
 				}
 
-			}
-
-			// add tooltip position classes
-			if ( field.tip ) {
-				field.classes.push( 'tip--' + field.tip_position );
 			}
 
 			// transform classes array to a css class string
