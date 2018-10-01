@@ -59,7 +59,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 			//sales volumn line chart
 			$html .= self::full_width_widget( $this->sales_chart( $search ) );
 
-			if ( 'all_memberships' !== $search->product_id) {
+			if ( 'all_memberships' !== $search->product_id ) {
 				//$html .= self::full_width_widget( $this->lesson_completion_chart( $search ) );
 				$html .= self::full_width_widget( $this->membership_member_table( $search ) );
 			}
@@ -99,7 +99,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 		//loop through posts
 		if ( $products ) {
 			foreach ( $products as $key => $product ) {
-				if ( 'llms_membership' === $product->post_type) {
+				if ( 'llms_membership' === $product->post_type ) {
 						$html .= '<option value="' . $product->ID . '"
 						' . ( $product_id == $product->ID  ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';

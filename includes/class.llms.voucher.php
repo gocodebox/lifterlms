@@ -410,7 +410,7 @@ class LLMS_Voucher {
 			// filter any products that don't match the supplied post type
 			if ( 'any' !== $post_type ) {
 				foreach ( $products as $i => $id ) {
-					if ( get_post_type( $id ) !== $post_type) {
+					if ( get_post_type( $id ) !== $post_type ) {
 						unset( $products[ $i ] );
 					}
 				}

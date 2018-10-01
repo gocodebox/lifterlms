@@ -452,7 +452,7 @@ class LLMS_Quiz_Legacy {
 							$count++;
 						}
 					}
-				} elseif ( $value['id'] == $this->id && '' == $wpnonce) {
+				} elseif ( $value['id'] == $this->id && '' == $wpnonce ) {
 					$count = 0;
 					foreach ( $value['questions'] as $k => $v ) {
 						if ( $v['correct'] ) {

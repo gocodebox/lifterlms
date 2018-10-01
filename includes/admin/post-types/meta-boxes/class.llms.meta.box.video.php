@@ -85,11 +85,11 @@ class LLMS_Meta_Box_Video {
 
 		if ( isset( $_POST['_video_embed'] ) ) {
 			$video = ( llms_clean( $_POST['_video_embed'] ) );
-			update_post_meta( $post_id, '_video_embed', ( '' === $video) ? '' : $video );
+			update_post_meta( $post_id, '_video_embed', ( '' === $video ) ? '' : $video );
 		}
 		if ( isset( $_POST['_audio_embed'] ) ) {
 			$audio = ( llms_clean( $_POST['_audio_embed'] ) );
-			update_post_meta( $post_id, '_audio_embed', ( '' === $audio) ? '' : $audio );
+			update_post_meta( $post_id, '_audio_embed', ( '' === $audio ) ? '' : $audio );
 		}
 	}
 

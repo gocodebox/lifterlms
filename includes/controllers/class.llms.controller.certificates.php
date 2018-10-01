@@ -39,7 +39,7 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		if ( get_post_meta( $post_id, '_llms_auth_nonce', true ) !== $_REQUEST['_llms_cert_auth']) {
+		if ( get_post_meta( $post_id, '_llms_auth_nonce', true ) !== $_REQUEST['_llms_cert_auth'] ) {
 			return;
 		}
 

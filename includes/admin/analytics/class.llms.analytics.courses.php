@@ -61,7 +61,7 @@ if ( ! class_exists( 'LLMS_Analytics_Courses' ) ) :
 				//sales volumn line chart
 				$html .= self::full_width_widget( $this->sales_chart( $search ) );
 
-				if ( 'all_courses' !== $search->product_id) {
+				if ( 'all_courses' !== $search->product_id ) {
 					$html .= self::full_width_widget( $this->lesson_completion_chart( $search ) );
 					$html .= self::full_width_widget( $this->lesson_student_table( $search ) );
 				}
@@ -101,7 +101,7 @@ if ( ! class_exists( 'LLMS_Analytics_Courses' ) ) :
 			//loop through posts
 			if ( $products ) {
 				foreach ( $products as $key => $product ) {
-					if ( 'course' === $product->post_type) {
+					if ( 'course' === $product->post_type ) {
 						$html .= '<option value="' . $product->ID . '"
 						' . ( $product_id == $product->ID  ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';

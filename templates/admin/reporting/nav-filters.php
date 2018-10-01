@@ -11,24 +11,24 @@ if ( ! is_admin() ) { exit; }
 
 	<ul class="llms-nav-items">
 
-		<li class="llms-nav-item<?php echo ( 'this-year' == $current_range) ? ' llms-active' : ''; ?>">
+		<li class="llms-nav-item<?php echo ( 'this-year' == $current_range ) ? ' llms-active' : ''; ?>">
 			<a class="llms-nav-link" data-range="this-year" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $current_tab . '&range=this-year' ); ?>"><?php _e( 'This Year', 'lifterlms' ); ?></a>
 		</li>
 
-		<li class="llms-nav-item<?php echo ( 'last-month' == $current_range) ? ' llms-active' : ''; ?>">
+		<li class="llms-nav-item<?php echo ( 'last-month' == $current_range ) ? ' llms-active' : ''; ?>">
 			<a class="llms-nav-link" data-range="last-month" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $current_tab . '&range=last-month' ); ?>"><?php _e( 'Last Month', 'lifterlms' ); ?></a>
 		</li>
 
-		<li class="llms-nav-item<?php echo ( 'this-month' == $current_range) ? ' llms-active' : ''; ?>">
+		<li class="llms-nav-item<?php echo ( 'this-month' == $current_range ) ? ' llms-active' : ''; ?>">
 			<a class="llms-nav-link" data-range="this-month" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $current_tab . '&range=this-month' ); ?>"><?php _e( 'This Month', 'lifterlms' ); ?></a>
 		</li>
 
-		<li class="llms-nav-item<?php echo ( 'last-7-days' == $current_range) ? ' llms-active' : ''; ?>">
+		<li class="llms-nav-item<?php echo ( 'last-7-days' == $current_range ) ? ' llms-active' : ''; ?>">
 			<a class="llms-nav-link" data-range="last-7-days" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $current_tab . '&range=last-7-days' ); ?>"><?php _e( 'Last 7 Days', 'lifterlms' ); ?></a>
 		</li>
 
 
-		<li class="llms-nav-item llms-analytics-form<?php echo ( 'custom' == $current_range) ? ' llms-active' : ''; ?>">
+		<li class="llms-nav-item llms-analytics-form<?php echo ( 'custom' == $current_range ) ? ' llms-active' : ''; ?>">
 
 			<label><?php _e( 'Custom', 'lifterlms' ); ?></label>
 			<input type="text" name="date_start" class="llms-datepicker" placeholder="yyyy-mm-dd" value="<?php echo $date_start; ?>"> -

@@ -63,7 +63,7 @@ class LLMS_Admin_Post_Table_Courses {
 	public function handle_bulk_actions( $redirect_to, $doaction, $post_ids ) {
 
 		// ensure it's our custom action
-		if ( 'llms_export' !== $doaction) {
+		if ( 'llms_export' !== $doaction ) {
 			return $redirect_to;
 		}
 

@@ -833,7 +833,7 @@ class LLMS_AJAX {
 		    foreach ( $new_sections_array as $key => $value ) {
 				if ( is_array( $value ) ) {
 					foreach ( $value as $keys => $values ) {
-						if ( 'section_id' === $keys) {
+						if ( 'section_id' === $keys ) {
 							array_push( $array, $values );
 						}
 					}
@@ -849,7 +849,7 @@ class LLMS_AJAX {
 
 		    foreach ( $current_sections_array[0] as $key => $value ) {
 		    	foreach ( $value as $keys => $values ) {
-		    		if ( 'section_id' == $keys) {
+		    		if ( 'section_id' == $keys ) {
 						array_push( $array, $values );
 		    		}
 		    	}
@@ -899,7 +899,7 @@ class LLMS_AJAX {
 			if ( array_has_dupes( $new_array ) ) {
 				$success = 'no';
 			} else {
-				update_post_meta( $_REQUEST['post_id'], '_sections', ( '' === $_REQUEST['sections']) ? '' : $_REQUEST['sections'] );
+				update_post_meta( $_REQUEST['post_id'], '_sections', ( '' === $_REQUEST['sections'] ) ? '' : $_REQUEST['sections'] );
 				$success = 'yes';
 
 				//Manage Section _parent_course

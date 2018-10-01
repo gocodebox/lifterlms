@@ -102,7 +102,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		if ( $products ) {
 			$html .= '<optgroup label="' . __( 'Courses', 'lifterlms' ) . '">';
 			foreach ( $products as $key => $product ) {
-				if ( 'course' === $product->post_type) {
+				if ( 'course' === $product->post_type ) {
 						$html .= '<option value="' . $product->ID . '"
 						' . ( $product_id == $product->ID  ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';
@@ -113,7 +113,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 			$html .= '</optgroup>';
 			$html .= '<optgroup label="' . __( 'Memberships', 'lifterlms' ) . '">';
 			foreach ( $products as $key => $product ) {
-				if ( 'llms_membership' === $product->post_type) {
+				if ( 'llms_membership' === $product->post_type ) {
 					$html .= '<option value="' . $product->ID . '" 
 						' . ( $product_id == $product->ID ? 'selected' : '' ) . '>
 						' . $product->post_title . '</option>';
