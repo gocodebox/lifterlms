@@ -170,7 +170,6 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			} else {
 				$val = $this->get_default_value( $key );
 			}
-
 		} else {
 
 			return $this->$key;

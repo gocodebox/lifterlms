@@ -204,7 +204,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function before_save()	 {
+	public function before_save() {
 
 		if ( isset( $_POST['llms_notification_test_data'] ) ) {
 
@@ -231,9 +231,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 				$controller->send_test( sanitize_text_field( $_GET['type'] ), $_POST['llms_notification_test_data_temp'] );
 
 			}
-
 		}
-
 
 	}
 

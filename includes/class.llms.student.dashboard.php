@@ -269,7 +269,6 @@ class LLMS_Student_Dashboard {
 				$title = str_replace( $data['title'], $new_title, $title );
 
 			}
-
 		}
 
 		return $title;

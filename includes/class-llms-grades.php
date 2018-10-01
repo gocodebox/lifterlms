@@ -99,9 +99,7 @@ class LLMS_Grades {
 					// grade multiplied by available points over total points
 					$grade += $data['grade'] * ( $data['points'] / $total_points );
 				}
-
 			}
-
 		}
 
 		return $grade;
