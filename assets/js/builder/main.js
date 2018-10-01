@@ -1,9 +1,10 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.17.8
+ * @version  [version]
  */
 require( [
+	'vendor/wp-hooks',
 	'vendor/backbone.collectionView',
 	'vendor/backbone.trackit',
 	'Controllers/Construct',
@@ -14,6 +15,7 @@ require( [
 	'Views/Course',
 	'Views/Sidebar'
 ], function(
+	Hooks,
 	CV,
 	TrackIt,
 	Construct,
