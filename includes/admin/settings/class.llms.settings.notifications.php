@@ -225,11 +225,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_GET['notification'] ) && isset( $_GET['type'] ) && isset( $_POST['llms_notification_test_data_temp'] ) ) {
 
-			if ( ! empty( $_POST['llms_notification_test_data_temp']['submission_id'] ) ) {
+			if ( ! empty( $_POST['llms_notification_test_data_temp'] ) ) {
 
-				$submission = llms_get_assignment_submission( $_POST['llms_notification_test_data_temp']['submission_id'] );
 				$controller = LLMS()->notifications()->get_controller( $_GET['notification'] );
-				$controller->send_test( sanitize_text_field( $_GET['type'] ), $submission );
+				$controller->send_test( sanitize_text_field( $_GET['type'] ), $_POST['llms_notification_test_data_temp'] );
 
 			}
 

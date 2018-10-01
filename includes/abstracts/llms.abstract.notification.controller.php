@@ -446,11 +446,12 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Send a test notification to the currently logged in users
 	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
 	 * @param    string   $type  notification type [basic|email]
+	 * @param    array    $data  array of test notification data as specified by $this->get_test_data()
 	 * @return   int|false
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function send_test( $type ) {
+	public function send_test( $type, $data = array() ) {
 		return $this->send_one( $type, get_current_user_id(), true );
 	}
 
