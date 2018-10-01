@@ -787,7 +787,7 @@ if ( ! function_exists( 'lifterlms_page_title' ) ) {
  * @param    bool     $echo     true will echo content, false will return it
  * @return   void|string
  * @since    1.0.0
- * @version  3.16.7
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 
@@ -798,24 +798,32 @@ if ( ! function_exists( 'lifterlms_course_progress_bar' ) ) {
 		$tag = ($link) ? 'a' : 'span';
 		$href = ($link) ? ' href=" ' . $link . ' "' : '';
 
-		$r = '
-			<div class="llms-progress">
-				<div class="progress__indicator">' . sprintf( __( '%s', 'lifterlms' ), $progress ) . '%</div>
-					<div class="llms-progress-bar">
-					<div class="progress-bar-complete" data-progress="' . $progress . '%"  style="width:' . $progress . '%"></div>
-				</div>
-			</div>';
+		$html = llms_get_progress_bar_html( $progress );
 
 		if ( $button ) {
-			$r .= '<' . $tag . ' class="llms-button-primary llms-purchase-button"' . $href . '>' . __( 'Continue', 'lifterlms' ) . '(' . $progress . '%)</' . $tag . '>';
+			$html .= '<' . $tag . ' class="llms-button-primary llms-purchase-button"' . $href . '>' . __( 'Continue', 'lifterlms' ) . '(' . $progress . '%)</' . $tag . '>';
 		}
 
 		if ( $echo ) {
-			echo $r;
+			echo $html;
 		} else {
-			return $r;
+			return $html;
 		}
 	}
+}
+
+function llms_get_progress_bar_html( $percentage ) {
+
+	$percentage = sprintf( '%s%%', $percentage );
+
+	$html = '<div class="llms-progress">
+		<div class="progress__indicator">' . $percentage . '</div>
+		<div class="llms-progress-bar">
+			<div class="progress-bar-complete" data-progress="' . $percentage . '"  style="width:' . $percentage . '"></div>
+		</div></div>';
+
+	return $html;
+
 }
 
 

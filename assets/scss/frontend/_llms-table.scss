@@ -1,0 +1,37 @@
+.llms-table {
+	border: 1px solid #efefef;
+	width: 100%;
+
+	thead {
+		th,td {
+			font-weight: 700;
+		}
+	}
+
+	tbody {
+		tr:nth-child( odd ) {
+			td, th {
+				background: #f9f9f9;
+			}
+		}
+		tr:last-child {
+			border-bottom-width: 0;
+		}
+	}
+
+	th {
+		font-weight: 700;
+	}
+
+	th, td {
+		border-bottom: 1px solid #efefef;
+		padding: 8px 12px;
+
+		// launchpad compat...
+		&:first-child {
+			padding-left: 12px;
+		}
+
+	}
+
+}

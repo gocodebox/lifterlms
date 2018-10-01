@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.19.0
+ * @version  [version]
  */
 class LLMS_Student_Dashboard {
 
@@ -14,7 +14,10 @@ class LLMS_Student_Dashboard {
 	 * @version  3.0.0
 	 */
 	public function __construct() {
+
 		add_filter( 'llms_get_endpoints', array( $this, 'add_endpoints' ) );
+		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
+
 	}
 
 	/**
@@ -116,7 +119,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @version  [version]
 	 */
 	public static function get_tabs() {
 
@@ -130,37 +133,43 @@ class LLMS_Student_Dashboard {
 			),
 			'view-courses' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_courses',
-				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'view-courses' ),
 				'nav_item' => true,
 				'title' => __( 'My Courses', 'lifterlms' ),
 			),
+			'my-grades' => array(
+				'content' => 'lifterlms_template_student_dashboard_my_grades',
+				'endpoint' => get_option( 'lifterlms_myaccount_grades_endpoint', 'my-grades' ),
+				'nav_item' => true,
+				'title' => __( 'My Grades', 'lifterlms' ),
+			),
 			'view-memberships' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_memberships',
-				'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_memberships_endpoint', 'view-memberships' ),
 				'nav_item' => true,
 				'title' => __( 'My Memberships', 'lifterlms' ),
 			),
 			'view-achievements' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_achievements',
-				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_achievements_endpoint', 'view-achievements' ),
 				'nav_item' => true,
 				'title' => __( 'My Achievements', 'lifterlms' ),
 			),
 			'view-certificates' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_certificates',
-				'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_certificates_endpoint', 'view-certificates' ),
 				'nav_item' => true,
 				'title' => __( 'My Certificates', 'lifterlms' ),
 			),
 			'notifications' => array(
 				'content' => array( __CLASS__, 'output_notifications_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint', 'notifications' ),
 				'nav_item' => true,
 				'title' => __( 'Notifications', 'lifterlms' ),
 			),
 			'edit-account' => array(
 				'content' => array( __CLASS__, 'output_edit_account_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_edit_account_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_edit_account_endpoint', 'edit-account' ),
 				'nav_item' => true,
 				'title' => __( 'Edit Account', 'lifterlms' ),
 			),
@@ -172,7 +181,7 @@ class LLMS_Student_Dashboard {
 			),
 			'orders' => array(
 				'content' => array( __CLASS__, 'output_orders_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'redeem-voucher' ),
 				'nav_item' => true,
 				'title' => __( 'Order History', 'lifterlms' ),
 			),
@@ -234,6 +243,36 @@ class LLMS_Student_Dashboard {
 		}
 
 		return false;
+
+	}
+
+	public function modify_dashboard_title( $title ) {
+
+		global $wp_query;
+		$tab = LLMS_Student_Dashboard::get_current_tab( 'tab' );
+
+		if ( 'my-grades' === $tab && ! empty( $wp_query->query['my-grades'] ) ) {
+
+			$course = get_posts( array(
+				'name' => $wp_query->query['my-grades'],
+				'post_type' => 'course',
+			) );
+
+			$course = array_shift( $course );
+			if ( $course ) {
+
+				$data = LLMS_Student_Dashboard::get_current_tab();
+
+				$new_title = '<a href="' . esc_url( llms_get_endpoint_url( 'my-grades' ) ) . '">' . $data['title'] . '</a>';
+				$new_title .= sprintf( ' %1$s <a href="%2$s">%3$s</a>', apply_filters( 'llms_student_dashboard_title_separator', '<small>&gt;</small>' ), get_permalink( $course->ID ), get_the_title( $course->ID ) );
+
+				$title = str_replace( $data['title'], $new_title, $title );
+
+			}
+
+		}
+
+		return $title;
 
 	}
 

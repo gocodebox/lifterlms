@@ -22,11 +22,25 @@
 		stroke: $color-brand-pink;
 	}
 
+	&.mini {
+		height: 36px;
+		width: 36px;
+		.percentage {
+			font-size: 10px;
+		}
+	}
 	&.small {
 		height: 100px;
 		width: 100px;
 		.percentage {
 			font-size: 18px;
+		}
+	}
+	&.medium {
+		height: 150px;
+		width: 150px;
+		.percentage {
+			font-size: 28px;
 		}
 	}
 	&.large {

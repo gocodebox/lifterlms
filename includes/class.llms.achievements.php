@@ -1,14 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Achievements Base Class
-*
-* base class for managing achievements
-*
-* @author codeBOX
-* @project lifterLMS
-*/
+ * Achievements Base Class
+ * @since    1.0.0
+ * @version  [version]
+ */
 class LLMS_Achievements {
 
 	public $achievements;
@@ -31,8 +28,10 @@ class LLMS_Achievements {
 
 	/**
 	 * Constructor
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
-	public function __construct() {
+	private function __construct() {
 
 		$this->init();
 
@@ -41,24 +40,25 @@ class LLMS_Achievements {
 	/**
 	 * Includes achivement class
 	 * @return void
+	 * @since    1.0.0
+	 * @version  ??
 	 */
 	public function init() {
-		include_once( 'class.llms.achievement.php' );
 
+		include_once( 'class.llms.achievement.php' );
 		$this->achievements['LLMS_Achievement_User']  = include_once( 'achievements/class.llms.achievement.user.php' );
 
 	}
 
-
 	/**
 	 * Award an achievement to a user
 	 * Calls trigger method passing arguments
-	 *
 	 * @param  int $person_id        [ID of the current user]
 	 * @param  int $achievement      [Achivement template post ID]
 	 * @param  int $related_post_id  Post ID of the related engagment (eg lesson id)
-	 *
 	 * @return void
+	 * @since    ??
+	 * @version  ??
 	 */
 	public function trigger_engagement( $person_id, $achievement_id, $related_post_id ) {
 		$achievement = $this->achievements['LLMS_Achievement_User'];
@@ -66,6 +66,3 @@ class LLMS_Achievements {
 	}
 
 }
-
-
-

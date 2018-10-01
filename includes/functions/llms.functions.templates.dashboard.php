@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.19.0
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -263,6 +263,54 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 }
 
 /**
+ * Output the "My Grades" template screen on the student dashboard
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
+	function lifterlms_template_student_dashboard_my_grades() {
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			return;
+		}
+
+		global $wp_query;
+		// list courses
+		if ( empty( $wp_query->query['my-grades'] ) ) {
+
+			$courses = $student->get_courses();
+
+			llms_get_template( 'myaccount/my-grades.php', array(
+				'courses' => array_map( 'llms_get_post', $courses['results'] ),
+				'student' => $student,
+			) );
+
+		// show single
+		} else {
+
+			$course = get_posts( array(
+				'name' => $wp_query->query['my-grades'],
+				'post_type' => 'course',
+			) );
+
+			$course = array_shift( $course );
+			if ( $course ) {
+				$course = llms_get_post( $course );
+			}
+
+			llms_get_template( 'myaccount/my-grades-single.php', array(
+				'course' => $course,
+				'student' => $student,
+			) );
+
+		}
+
+	}
+}
+
+/**
  * Template for My Memberships section on dashboard index
  * @return   void
  * @since    3.14.0
@@ -320,7 +368,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
 	function lifterlms_template_student_dashboard_title() {
 		$data = LLMS_Student_Dashboard::get_current_tab();
 		$title = isset( $data['title'] ) ? $data['title'] : '';
-		echo apply_filters( 'lifterlms_student_dashboard_title', '<h2 class="llms-sd-title">' . $title . '</h2>' );
+		echo apply_filters( 'lifterlms_student_dashboard_title', '<h2 class="llms-sd-title">' . $title . '</h2>', $data );
 	}
 }
 

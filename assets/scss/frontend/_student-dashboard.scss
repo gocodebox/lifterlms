@@ -180,6 +180,57 @@
 
 }
 
+.llms-sd-grades {
+	.llms-table {
+		.llms-progress {
+			display: block;
+			margin: 0;
+			.llms-progress-bar {
+				top: 0;
+				height: 1.4em;
+			}
+			.progress__indicator {
+				font-size: 1em;
+				position: relative;
+				right: 0.4em;
+				top: 0.2em;
+				z-index: 1;
+			}
+		}
+	}
+}
+
+.llms-sd-widgets {
+	display: flex;
+
+	.llms-sd-widget {
+		background: #f9f9f9;
+		border-top: 6px solid $color-brand-pink;
+		flex: 1;
+		margin: 15px 15px 30px;
+		padding: 30px;
+		&:first-child {
+			margin-left: 0;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+
+		.llms-sd-widget-title {
+			margin: -30px -30px 15px;
+			padding: 15px;
+			font-size: 18px;
+		}
+
+		.llms-donut {
+			margin: 0 auto;
+		}
+
+	}
+
+}
+
+
 .llms-sd-pagination {
 	margin-top: 24px;
 	@include clearfix;

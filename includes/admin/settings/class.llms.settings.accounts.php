@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Admin Settings Page, Accounts Tab
 * @since    1.0.0
-* @version  3.18.0
+* @version  [version]
 */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -34,7 +34,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return  array
 	 * @since   1.0.0
-	 * @version 3.18.0
+	 * @version [version]
 	 */
 	public function get_settings() {
 
@@ -103,6 +103,15 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'title' => __( 'Student Dashboard Endpoints', 'lifterlms' ),
 				'desc' => __( 'Each endpoint allows students to view more information or manage parts of their account. Each endpoint should be unique, URL-safe, and can be left blank to disable the endpoint completely.', 'lifterlms' ),
 				'type' => 'title',
+			),
+
+			array(
+				'title' => __( 'View Grades', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Student grade and progress reporting', 'lifterlms' ),
+				'id' 		=> 'lifterlms_myaccount_grades_endpoint',
+				'type' 		=> 'text',
+				'default'	=> 'my-grades',
+				'sanitize'  => 'slug',
 			),
 
 			array(

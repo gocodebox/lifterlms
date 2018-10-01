@@ -306,20 +306,22 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * Note that this must be used in conjunction with some JS to initialize the chart!
  * @param    [type]     $percentage  percentage to display
  * @param    string     $text        optional text/caption to display (short)
- * @param    string     $size        size of the chart (small, default, large)
+ * @param    string     $size        size of the chart (mini, small, default, large)
  * @param    array      $classes     additional custom css classes to add to the chart element
  * @return   string
  * @since    3.9.0
- * @version  3.9.0
+ * @version  [version]
  */
 function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
+	$percentage = is_numeric( $percentage ) ? $percentage : 0;
 	$classes = array_merge( array( 'llms-donut', $size ), $classes );
 	$classes = implode( ' ', $classes );
+	$percentage = 'mini' === $size ? round( $percentage, 0 ) : LLMS()->grades()->round( $percentage );
 	return '
 		<div class="' . $classes . '" data-perc="' . $percentage . '">
 			<div class="inside">
 				<div class="percentage">
-					' . round( $percentage, 2 ) . '<small>%</small>
+					' . $percentage . '<small>%</small>
 					<div class="caption">' . $text . '</div>
 				</div>
 			</div>

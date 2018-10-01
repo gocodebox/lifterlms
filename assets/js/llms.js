@@ -1313,6 +1313,7 @@ var LLMS = window.LLMS || {};
 		init: function() {
 	
 			if ( $( '.llms-student-dashboard' ).length ) {
+	
 				this.meter_exists = $( '.llms-password-strength-meter' ).length;
 				this.bind();
 	
@@ -1376,6 +1377,10 @@ var LLMS = window.LLMS || {};
 				self.password_toggle( 'hide' );
 	
 			}
+	
+			$( '.llms-donut' ).each( function() {
+				LLMS.Donut( $( this ) );
+			} );
 	
 		},
 	
