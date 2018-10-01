@@ -2,8 +2,9 @@
 /**
  * Model Field Settings Template
  * @since   3.17.0
- * @version 3.17.7
+ * @version [version]
  */
+defined( 'ABSPATH' ) || exit;
 ?>
 <script type="text/html" id="tmpl-llms-settings-fields-template">
 
@@ -33,22 +34,28 @@
 					if ( ! field ) { return; }
 				#>
 
-				<div class="llms-settings-field settings-field--{{{ field.type }}}" id="llms-model-settings-field--{{{ field.id }}}">
+				<div class="llms-settings-field settings-field--{{{ field.type }}}<# if ( field.label_after ) { #> has-label-after<# } #>" id="llms-model-settings-field--{{{ field.id }}}">
 
 					<# if ( data.has_switch( field.type ) ) { #>
-						<div
-							class="llms-editable-select{{{ field.classes }}}"
-							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
-							<# if ( 'switch' === field.type && field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
-						>
+						<div class="llms-editable-select{{{ field.classes }}}" >
 							<label class="llms-switch">
-								<span class="llms-label">{{{ field.label }}}</span>
+								<span class="llms-label">
+									{{{ field.label }}}
+									<# if ( field.tip ) { #>
+										<span class="tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle"></i></span>
+									<# } #>
+								</span>
 								<input data-on="{{{ field.switch_on }}}" data-off="{{{ field.switch_off }}}" data-rerender="{{{ data.should_rerender_on_toggle( field.type ) }}}" name="{{{ data.get_switch_attribute( field ) }}}" type="checkbox"{{{ _.checked( field.switch_on, data.model.get( data.get_switch_attribute( field ) ) ) }}}>
 								<div class="llms-switch-slider"></div>
 							</label>
 						</div>
 					<# } else if ( field.label ) { #>
-						<span class="llms-label">{{{ field.label }}}</span>
+						<span class="llms-label">
+							{{{ field.label }}}
+							<# if ( field.tip ) { #>
+								<span class="tip--{{{ field.tip_position }}}" data-tip="{{{ field.tip }}}"><i class="fa fa-question-circle"></i></span>
+							<# } #>
+						</span>
 					<# } #>
 
 					<# if ( 'permalink' === field.type ) { #>
@@ -59,19 +66,13 @@
 
 					<# } else if ( 'select' === field.type || ( 'switch-select' === field.type && data.is_switch_condition_met( field ) ) ) { #>
 
-						<div
-							class="llms-editable-select{{{ field.classes }}}"
-							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
-						>
+						<div class="llms-editable-select{{{ field.classes }}}" >
 							<select name="{{{ field.attribute }}}"{{{ field.multiple ? ' multiple' : '' }}}>{{{ data.render_select_options( field.options, field.attribute ) }}}</select>
 						</div>
 
 					<# } else if ( 'radio' === field.type || ( 'switch-radio' === field.type && data.is_switch_condition_met( field ) ) ) { #>
 
-						<div
-							class="llms-editable-radio{{{ field.classes }}}"
-							<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
-						>
+						<div class="llms-editable-radio{{{ field.classes }}}">
 							<# _.each( field.options, function( label, val ) { #>
 								<label for="{{{ field.id }}}_{{{ val }}}" class="llms-radio">
 									<input id="{{{ field.id }}}_{{{ val }}}" name="{{{ field.attribute }}}" type="radio" value="{{{ val }}}"{{{ _.checked( val, data.model.get( field.attribute ) ) }}}>
@@ -91,10 +92,7 @@
 					<# } else if ( data.is_default_field( field.type ) ) { #>
 
 						<# if ( -1 === field.type.indexOf( 'switch-' ) || ( -1 !== field.type.indexOf( 'switch-' ) && data.is_switch_condition_met( field ) ) ) { #>
-							<div
-								class="llms-editable-input{{{ field.classes }}}"
-								<# if ( field.tip ) { #> data-tip="{{{ field.tip }}}" <# } #>
-							>
+							<div class="llms-editable-input{{{ field.classes }}}">
 								<input
 									class="llms-input standard"
 									data-attribute="{{{ field.attribute }}}"
@@ -104,8 +102,8 @@
 										<# if ( field.timepicker ) { #> data-date-timepicker="{{{ field.timepicker }}}" <# } #>
 										<# if ( field.date_format ) { #> data-date-format="{{{ field.date_format }}}" <# } #>
 									<# } #>
-									<# if ( field.min ) { #> min="{{{ field.min }}}" <# } #>
-									<# if ( field.max ) { #> max="{{{ field.max }}}" <# } #>
+									<# if ( field.hasOwnProperty( 'min' ) ) { #> min="{{{ field.min }}}" <# } #>
+									<# if ( field.hasOwnProperty( 'max' ) ) { #> max="{{{ field.max }}}" <# } #>
 									name="{{{ field.attribute }}}"
 									<# if ( field.placeholder ) { #> placeholder="{{{ field.placeholder }}}" <# } #>
 									type="{{{ field.input_type }}}"
@@ -114,6 +112,10 @@
 							</div>
 						<# } #>
 
+					<# } #>
+
+					<# if ( field.label_after ) { #>
+						<span class="llms-label llms-label--after">{{{ field.label_after }}}</span>
 					<# } #>
 
 				</div>
