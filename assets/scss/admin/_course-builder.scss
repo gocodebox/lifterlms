@@ -447,6 +447,10 @@ body.admin_page_llms-course-builder {
 
 	.llms-label {
 		font-weight: 500;
+		.fa {
+			color: #aaa;
+			padding-left: 6px;
+		}
 	}
 
 	// .llms-editable-image,
@@ -505,6 +509,25 @@ body.admin_page_llms-course-builder {
 		padding: 10px;
 		position: relative;
 		margin: 0 1px;
+
+		&.has-label-after {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+
+			.llms-label {
+				min-width: 100%;
+			}
+			.llms-editable-input {
+				flex: 2;
+			}
+			.llms-label--after {
+				color: #888;
+				min-width: auto;
+				font-size: 85%;
+				padding-left: 10px;
+			}
+		}
 
 		.llms-switch {
 			display: block;
