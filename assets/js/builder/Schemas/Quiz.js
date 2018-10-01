@@ -1,11 +1,11 @@
 /**
  * Quiz Schema
  * @since    3.17.6
- * @version  3.17.6
+ * @version  [version]
  */
 define( [], function() {
 
-	return {
+	return window.llms.hooks.applyFilters( 'llms_define_quiz_schema', {
 
 		default: {
 			title: LLMS.l10n.translate( 'General Settings' ),
@@ -72,6 +72,6 @@ define( [], function() {
 			],
 		},
 
-	};
+	} );
 
 } );
