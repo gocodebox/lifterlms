@@ -939,7 +939,7 @@ class LLMS_Analytics {
 		foreach ( $user->courses as $course ) {
 			$c = new LLMS_Course( $course->post_id );
 			$comp = $c->get_percent_complete( $user->id );
-			$status = ('100' == $comp) ? 'Completed' : 'Enrolled';
+			$status = ( '100' == $comp ) ? 'Completed' : 'Enrolled';
 			$link = get_edit_post_link( $course->post_id );
 			$title = ( $link ) ? '<a href="' . $link . '">' . $course->post_title . '</a>' : $course->post_title;
 			$course_array = array( $title, LLMS_Date::db_date( $course->updated_date ), $status, $comp . '%' );

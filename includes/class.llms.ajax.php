@@ -897,7 +897,7 @@ class LLMS_AJAX {
 			if ( array_has_dupes( $new_array ) ) {
 				$success = 'no';
 			} else {
-				update_post_meta( $_REQUEST['post_id'], '_sections', ( '' === $_REQUEST['sections']) ? '' : $_REQUEST['sections'] );
+				update_post_meta( $_REQUEST['post_id'], '_sections', ( '' === $_REQUEST['sections'] ) ? '' : $_REQUEST['sections'] );
 				$success = 'yes';
 
 				//Manage Section _parent_course

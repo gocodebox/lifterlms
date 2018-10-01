@@ -1041,7 +1041,7 @@ implements LLMS_Interface_Post_Audio
 
 			if ( $results ) {
 				foreach ( $results as $result ) {
-					if ( '_status' === $result->meta_key && ( 'Enrolled' === $result->meta_value || 'Expired' === $result->meta_value) ) {
+					if ( '_status' === $result->meta_key && ( 'Enrolled' === $result->meta_value || 'Expired' === $result->meta_value ) ) {
 						$enrolled = $results;
 					}
 				}
