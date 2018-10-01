@@ -1,22 +1,19 @@
 <?php
 /**
  * Currency and Price related functions for LifterLMS Products
- * @version 3.0.0
+ * @version [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Format Number as decimal
- *
- * @param  int  $number     [price value]
- * @param  boolean $dp         [decimal points]
- * @param  boolean $trim_zeros [trim zeros?]
- *
- * @return string [formatted number]
- *
- * @todo  maybe deprecate
+ * @param    int      $number      price value
+ * @param    boolean  $dp          decimal points
+ * @param    boolean  $trim_zeros  trim zeros
+ * @return   string
+ * @since    ??
+ * @version  [version]
+ * @todo     maybe deprecate
  */
 function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 	  // Remove locale from string
@@ -27,7 +24,7 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 	}
 
 	  // DP is false - don't use number format, just return a string in our format
-	if ( $dp !== false ) {
+	if ( false !== $dp ) {
 		  $dp = 2;     //= intval( $dp == "" ? get_option( 'lifterlms_price_num_decimals' ) : $dp );
 		  $number = number_format( floatval( $number ), $dp, '.', ',' );
 	}

@@ -1,5 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
+/**
+ * Membership price template
+ * @since    ??
+ * @version  [version]
+ */
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 
@@ -16,7 +21,7 @@ $llms_product = new LLMS_Product( $post->ID );
 
 				<h4 class="llms-price"><span><?php echo apply_filters( 'lifterlms_single_payment_text', $llms_product->get_single_price_html(), $llms_product ); ?></span></h4>
 
-			<?php elseif ( $option == 'recurring' ) : ?>
+			<?php elseif ( 'recurring' == $option ) : ?>
 
 				<?php foreach ( $llms_product->get_subscriptions() as $id => $sub ) : ?>
 

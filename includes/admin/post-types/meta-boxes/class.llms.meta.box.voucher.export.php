@@ -16,15 +16,15 @@ class LLMS_Meta_Box_Voucher_Export {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * @param object $post WP global post object
-	 * @return void
+	 * @param    object  $post  WP global post object
+	 * @return   void
 	 * @since    ??
-	 * @version  3.22.0
+	 * @version  [version]
 	 */
 	public static function output( $post ) {
 
 		global $post;
-		if ( $post->post_status !== 'publish' ) {
+		if ( 'publish' !== $post->post_status ) {
 			_e( 'You need to publish this post before you can generate a CSV.', 'lifterlms' );
 			return;
 		}
@@ -71,7 +71,7 @@ class LLMS_Meta_Box_Voucher_Export {
 		$type = ( isset( $_POST['llms_voucher_export_type'] ) ) ? $_POST['llms_voucher_export_type'] : false;
 		if ( isset( $type ) && ! empty( $type ) ) {
 
-			if ( $type === 'vouchers' || $type === 'redeemed' ) {
+			if ( 'vouchers' === $type || 'redeemed' === $type ) {
 
 				// export CSV
 
@@ -141,7 +141,7 @@ class LLMS_Meta_Box_Voucher_Export {
 
 				$send_email = isset( $_POST['llms_voucher_export_send_email'] ) ? $_POST['llms_voucher_export_send_email'] : false;
 
-				if ( isset( $send_email ) && ! empty( $send_email ) && $send_email == true ) {
+				if ( isset( $send_email ) && ! empty( $send_email ) && true == $send_email ) {
 
 					// send email
 					$email_text = trim( $_POST['llms_voucher_export_email'] );

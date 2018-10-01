@@ -1,13 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
 * User Achievemnet class, inherits methods from LLMS_Achievment
 * Generates achievements for users.
 * @since    1.0.0
-* @version  3.17.4
+* @version  [version]
 */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
@@ -58,12 +56,12 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 	/**
 	 * Initializes all of the variables needed to create the achievement post.
-	 *
-	 * @param  int $id [id of post]
-	 * @param  int $person_id [id of user]
-	 * @param  int $lesson_id [id of associated lesson]
-	 *
-	 * @return void
+	 * @param    int  $id         id of post
+	 * @param    int  $person_id  id of user
+	 * @param    int  $lesson_id  id of associated lesson
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public function init( $id, $person_id, $lesson_id ) {
 		global $wpdb;
@@ -80,8 +78,8 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		$this->userid           		= $person_id;
 		$this->user             		= get_user_meta( $person_id );
 		$this->user_data				= get_userdata( $person_id );
-		$this->user_firstname			= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
-		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
+		$this->user_firstname			= ( '' != $this->user['first_name'][0] ? $this->user['first_name'][0] : $this->user['nickname'][0] );
+		$this->user_lastname			= ( '' != $this->user['last_name'][0] ? $this->user['last_name'][0] : '' );
 		$this->user_email				= $this->user_data->data->user_email;
 		$this->template_html 			= 'achievements/template.php';
 		$this->account_link 			= get_permalink( llms_get_page_id( 'myaccount' ) );

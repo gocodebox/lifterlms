@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Certificate Forms
  * @since   3.18.0
- * @version 3.18.0
+ * @version [version]
  */
 class LLMS_Controller_Certificates {
 
@@ -26,7 +26,7 @@ class LLMS_Controller_Certificates {
 	 * cURL request is used to scrape the HTML and this will authenticate the scrape
 	 * @return   void
 	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @version  [version]
 	 */
 	public function maybe_authenticate_export_generation() {
 
@@ -39,7 +39,7 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		if ( $_REQUEST['_llms_cert_auth'] !== get_post_meta( $post_id, '_llms_auth_nonce', true ) ) {
+		if ( get_post_meta( $post_id, '_llms_auth_nonce', true ) !== $_REQUEST['_llms_cert_auth'] ) {
 			return;
 		}
 

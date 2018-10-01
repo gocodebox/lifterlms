@@ -1,13 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Add, Customize, and Manage LifterLMS Course
- *
  * @since    3.3.0
- * @version  3.13.1
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Post_Table_Courses {
 
 	/**
@@ -58,12 +56,12 @@ class LLMS_Admin_Post_Table_Courses {
 	 * @param    array      $post_ids     selected post ids
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @version  [version]
 	 */
 	public function handle_bulk_actions( $redirect_to, $doaction, $post_ids ) {
 
 		// ensure it's our custom action
-		if ( $doaction !== 'llms_export' ) {
+		if ( 'llms_export' !== $doaction ) {
 			return $redirect_to;
 		}
 

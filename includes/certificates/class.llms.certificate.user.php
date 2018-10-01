@@ -1,15 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Certificate Class
-* Child Class. Extends from LLMS_Certificate.
-* Generates certificate post for user. Triggered from engagement.
-* @since    1.0.0
-* @version  3.17.4
-*/
+ * Certificate Class
+ * Child Class. Extends from LLMS_Certificate.
+ * Generates certificate post for user. Triggered from engagement.
+ * @since    1.0.0
+ * @version  [version]
+ */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
 	var $user_login;
@@ -59,12 +57,12 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 
 	/**
 	 * Sets up data needed to generate certificate.
-	 *
-	 * @param  int $email_id  [ID of Certificate]
-	 * @param  int $person_id [ID of the user recieving the certificate]
-	 * @param  int $lesson_id [ID of associated lesson]
-	 *
-	 * @return void
+	 * @param    int   $email_id   ID of Certificate
+	 * @param    int   $person_id  ID of the user recieving the certificate
+	 * @param    int   $lesson_id  ID of associated lesson
+	 * @return   void
+	 * @since    ??
+	 * @version  [version]
 	 */
 	public function init( $email_id, $person_id, $lesson_id ) {
 		global $wpdb;
@@ -81,8 +79,8 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 		$this->userid           		= $person_id;
 		$this->user             		= get_user_meta( $person_id );
 		$this->user_data				= get_userdata( $person_id );
-		$this->user_firstname			= ($this->user['first_name'][0] != '' ?  $this->user['first_name'][0] : $this->user['nickname'][0]);
-		$this->user_lastname			= ($this->user['last_name'][0] != '' ?  $this->user['last_name'][0] : '');
+		$this->user_firstname			= ( '' != $this->user['first_name'][0] ? $this->user['first_name'][0] : $this->user['nickname'][0] );
+		$this->user_lastname			= ( '' != $this->user['last_name'][0] ? $this->user['last_name'][0] : '' );
 		$this->user_email				= $this->user_data->data->user_email;
 		$this->template_html 	= 'certificates/template.php';
 		$this->email_content	= $email_content->post_content;

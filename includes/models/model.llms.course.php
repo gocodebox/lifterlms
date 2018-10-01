@@ -166,13 +166,13 @@ implements LLMS_Interface_Post_Audio
 	 *                            term_id, name, slug, and more
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.0.4
+	 * @version  [version]
 	 */
 	public function get_difficulty( $field = 'name' ) {
 
 		$terms = get_the_terms( $this->get( 'id' ), 'course_difficulty' );
 
-		if ( $terms === false ) {
+		if ( false === $terms ) {
 
 			return '';
 
@@ -218,9 +218,9 @@ implements LLMS_Interface_Post_Audio
 			$lessons = array_merge( $lessons, $section->get_lessons( 'posts' ) );
 		}
 
-		if ( $return === 'ids' ) {
+		if ( 'ids' === $return ) {
 			$ret = wp_list_pluck( $lessons, 'ID' );
-		} elseif ( $return === 'posts' ) {
+		} elseif ( 'posts' === $return ) {
 			$ret = $lessons;
 		} else {
 			$ret = array_map( 'llms_get_post', $lessons );
@@ -279,7 +279,7 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string  $return  type of return [ids|posts|sections]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_sections( $return = 'sections' ) {
 
@@ -297,9 +297,9 @@ implements LLMS_Interface_Post_Audio
 			'posts_per_page' => 500,
 		) );
 
-		if ( $return === 'ids' ) {
+		if ( 'ids' === $return ) {
 			$r = wp_list_pluck( $q->posts, 'ID' );
-		} elseif ( $return === 'posts' ) {
+		} elseif ( 'posts' === $return ) {
 			$r = $q->posts;
 		} else {
 			$r = array();
@@ -974,7 +974,7 @@ implements LLMS_Interface_Post_Audio
 			$user_post_data = self::get_user_post_data( $this->id, $user_id );
 
 			foreach ( $user_post_data as $upd ) {
-				if ( $upd->meta_value === 'Enrolled' ) {
+				if ( 'Enrolled' === $upd->meta_value ) {
 					$enrolled_date = $upd->updated_date;
 				}
 			}
@@ -1041,7 +1041,7 @@ implements LLMS_Interface_Post_Audio
 
 			if ( $results ) {
 				foreach ( $results as $result ) {
-					if ( $result->meta_key === '_status' && ( $result->meta_value === 'Enrolled' || $result->meta_value === 'Expired' ) ) {
+					if ( '_status' === $result->meta_key && ( 'Enrolled' === $result->meta_value || 'Expired' === $result->meta_value) ) {
 						$enrolled = $results;
 					}
 				}
@@ -1060,7 +1060,7 @@ implements LLMS_Interface_Post_Audio
 		if ( $user_post_data ) {
 
 			foreach ( $user_post_data as $upd ) {
-				if ( $upd->meta_key === '_status' && $upd->meta_value === 'Enrolled' ) {
+				if ( '_status' === $upd->meta_key && 'Enrolled' === $upd->meta_value ) {
 					$enrolled = true;
 				}
 			}
@@ -1093,16 +1093,16 @@ implements LLMS_Interface_Post_Audio
 			//loop through returned rows and save data to object
 			foreach ( $enrollment as $row ) {
 
-				if ( $row->meta_key === '_start_date' ) {
+				if ( '_start_date' === $row->meta_key ) {
 
 					$obj->start_date = $row->updated_date;
 
-				} elseif ( $row->meta_key === '_is_complete' ) {
+				} elseif ( '_is_complete' === $row->meta_key ) {
 
 					$obj->is_complete = true;
 					$obj->completed_date = $row->updated_date;
 
-				} elseif ( $row->meta_key === 'status' ) {
+				} elseif ( 'status' === $row->meta_key ) {
 
 					$obj->status = $row->meta_value;
 
@@ -1138,7 +1138,7 @@ implements LLMS_Interface_Post_Audio
 				//loop through returned rows and save data to object
 				foreach ( $section_user_data as $row ) {
 
-					if ( $row->meta_key === '_is_complete' ) {
+					if ( '_is_complete' === $row->meta_key ) {
 
 						$section['is_complete'] = true;
 						$section['completed_date'] = $row->updated_date;
@@ -1170,7 +1170,7 @@ implements LLMS_Interface_Post_Audio
 
 						foreach ( $lesson_user_data as $row ) {
 
-							if ( $row->meta_key === '_is_complete' ) {
+							if ( '_is_complete' === $row->meta_key ) {
 								$lesson['is_complete'] = true;
 								$lesson['completed_date'] = $row->updated_date;
 							}

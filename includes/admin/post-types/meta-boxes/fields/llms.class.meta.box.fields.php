@@ -1,12 +1,12 @@
 <?php
-/**
-* Metabox_Field Parent Class
-* Contains base code for each of the Metabox Fields
-* @since    ??
-* @version  3.11.0
-*/
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Metabox_Field Parent Class
+ * Contains base code for each of the Metabox Fields
+ * @since    ??
+ * @version  [version]
+ */
 abstract class LLMS_Metabox_Field {
 
 	/**
@@ -75,16 +75,16 @@ abstract class LLMS_Metabox_Field {
 	}
 
 	/**
-	 * TBH I'm not sure exactly what this does... But removing it makes everything break.
-	 * Your best bet is to ask Mark...
-	 *
-	 * @param  [type]
-	 * @param  [type]
-	 * @return [type]
+	 * Set the default meta value of a field
+	 * @param    int     $post_id   WP Post ID
+	 * @param    string  $field_id  ID/name of the field
+	 * @return   mixed
+	 * @since    1.0.0
+	 * @version  [version]
 	 */
 	public static function get_post_meta( $post_id, $field_id ) {
 
-		if ( $field_id === '_post_course_difficulty' ) {
+		if ( '_post_course_difficulty' === $field_id ) {
 			$difficulties = wp_get_object_terms( $post_id, 'course_difficulty' );
 
 			if ( $difficulties ) {

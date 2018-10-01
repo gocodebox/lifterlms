@@ -152,7 +152,7 @@ class LLMS_Quiz_Legacy {
 				$points += $value['points'];
 			}
 		}
-		return ( $points != 0 ? $points : 0 );
+		return ( 0 != $points ? $points : 0 );
 	}
 
 	/**
@@ -452,7 +452,7 @@ class LLMS_Quiz_Legacy {
 							$count++;
 						}
 					}
-				} elseif ( $value['id'] == $this->id && $wpnonce == '' ) {
+				} elseif ( $value['id'] == $this->id && '' == $wpnonce ) {
 					$count = 0;
 					foreach ( $value['questions'] as $k => $v ) {
 						if ( $v['correct'] ) {

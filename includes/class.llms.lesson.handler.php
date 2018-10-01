@@ -52,7 +52,7 @@ class LLMS_Lesson_Handler {
 		$parent_section = get_post_meta( $lesson_id, '_llms_parent_section', true );
 
 		//parent course exists, lets dupe this baby!
-		if ( $parent_course && $duplicate == true ) {
+		if ( $parent_course && true == $duplicate ) {
 			$lesson_id = self::duplicate_lesson( $course_id, $section_id, $lesson_id );
 		} else {
 			//add parent section and course to new lesson
@@ -99,7 +99,7 @@ class LLMS_Lesson_Handler {
 
 		$post_obj = get_post( $post_id );
 		//last check...
-		if ( ! isset( $post_obj ) || $post_obj == null ) {
+		if ( ! isset( $post_obj ) || null == $post_obj ) {
 			return false;
 		}
 
@@ -158,16 +158,16 @@ class LLMS_Lesson_Handler {
 			foreach ( $post_meta_infos as $meta_info ) {
 
 				//do not copy the following meta values
-				if ( $meta_info->meta_key === '_llms_parent_section' ) {
+				if ( '_llms_parent_section' === $meta_info->meta_key ) {
 					$meta_info->meta_value = '';
 				}
-				if ( $meta_info->meta_key === '_llms_parent_course' ) {
+				if ( '_llms_parent_course' === $meta_info->meta_key ) {
 					$meta_info->meta_value = '';
 				}
-				if ( $meta_info->meta_key === '_prerequisite' ) {
+				if ( '_prerequisite' === $meta_info->meta_key ) {
 					$meta_info->meta_value = '';
 				}
-				if ( $meta_info->meta_key === '_has_prerequisite' ) {
+				if ( '_has_prerequisite' === $meta_info->meta_key ) {
 					$meta_info->meta_value = '';
 				}
 

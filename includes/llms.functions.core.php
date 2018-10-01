@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.23.0
+ * @version  [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -229,7 +229,7 @@ function llms_get_core_supported_themes() {
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
  * @since    ??
- * @version  3.8.0
+ * @version  [version]
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps
@@ -287,7 +287,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 		}
 		// Add value and interval if value is bigger than 0
 		if ( $value > 0 ) {
-			if ( $value != 1 ) {
+			if ( 1 != $value ) {
 				$text = $l18n_plural[ $interval ];
 			} else {
 				$text = $l18n_singular[ $interval ];

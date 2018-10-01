@@ -77,7 +77,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Retrieve the previous section
 	 * @return   obj|false
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function get_next() {
 
@@ -86,7 +86,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 		// $index will be false if the current section isn't found (don't know why that would happen....)
 		// $index will equal the length of the array if it's the last one (and there is no next)
-		if ( false === $index || $index === count( $siblings ) - 1 ) {
+		if ( false === $index || count( $siblings ) - 1 === $index ) {
 			return false;
 		}
 
@@ -158,9 +158,9 @@ class LLMS_Section extends LLMS_Post_Model {
 			'posts_per_page' => 500,
 		) );
 
-		if ( $return === 'ids' ) {
+		if ( 'ids' === $return ) {
 			$ret = wp_list_pluck( $query->posts, 'ID' );
-		} elseif ( $return === 'posts' ) {
+		} elseif ( 'posts' === $return ) {
 			$ret = $query->posts;
 		} else {
 			$ret = array_map( 'llms_get_post', $query->posts );
