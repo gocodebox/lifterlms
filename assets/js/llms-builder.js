@@ -437,6 +437,21 @@ var requirejs, require, define;
 define("vendor/almond", function(){});
 
 /**
+ * This is a slightly modified and forward compatible version of the @wordpress/hooks package
+ * as included in the Gutenberg feature plugin version 3.8.0
+ */
+window.llms=window.llms||{};
+// use the core hooks if available
+if ( 'undefined' !== typeof window.wp && 'undefined' !== typeof window.wp.hooks ) {
+	window.llms.hooks = window.wp.hooks;
+// otherwise load our own
+} else {
+	window.llms.hooks=function(n){var r={};function e(t){if(r[t])return r[t].exports;var o=r[t]={i:t,l:!1,exports:{}};return n[t].call(o.exports,o,o.exports,e),o.l=!0,o.exports}return e.m=n,e.c=r,e.d=function(n,r,t){e.o(n,r)||Object.defineProperty(n,r,{configurable:!1,enumerable:!0,get:t})},e.r=function(n){Object.defineProperty(n,"__esModule",{value:!0})},e.n=function(n){var r=n&&n.__esModule?function(){return n.default}:function(){return n};return e.d(r,"a",r),r},e.o=function(n,r){return Object.prototype.hasOwnProperty.call(n,r)},e.p="",e(e.s=209)}({209:function(n,r,e){"use strict";e.r(r);var t=function(n){return"string"!=typeof n||""===n?(console.error("The namespace must be a non-empty string."),!1):!!/^[a-zA-Z][a-zA-Z0-9_.\-\/]*$/.test(n)||(console.error("The namespace can only contain numbers, letters, dashes, periods, underscores and slashes."),!1)};var o=function(n){return"string"!=typeof n||""===n?(console.error("The hook name must be a non-empty string."),!1):/^__/.test(n)?(console.error("The hook name cannot begin with `__`."),!1):!!/^[a-zA-Z][a-zA-Z0-9_.-]*$/.test(n)||(console.error("The hook name can only contain numbers, letters, dashes, periods and underscores."),!1)};var i=function(n){return function(r,e,i){var u=arguments.length>3&&void 0!==arguments[3]?arguments[3]:10;if(o(r)&&t(e))if("function"==typeof i)if("number"==typeof u){var c={callback:i,priority:u,namespace:e};if(n[r]){for(var a=n[r].handlers,l=0;l<a.length&&!(a[l].priority>u);)l++;a.splice(l,0,c),(n.__current||[]).forEach(function(n){n.name===r&&n.currentIndex>=l&&n.currentIndex++})}else n[r]={handlers:[c],runs:0};"hookAdded"!==r&&b("hookAdded",r,e,i,u)}else console.error("If specified, the hook priority must be a number.");else console.error("The hook callback must be a function.")}};var u=function(n,r){return function(e,i){if(o(e)&&(r||t(i))){if(!n[e])return 0;var u=0;if(r)u=n[e].handlers.length,n[e]={runs:n[e].runs,handlers:[]};else for(var c=n[e].handlers,a=function(r){c[r].namespace===i&&(c.splice(r,1),u++,(n.__current||[]).forEach(function(n){n.name===e&&n.currentIndex>=r&&n.currentIndex--}))},l=c.length-1;l>=0;l--)a(l);return"hookRemoved"!==e&&b("hookRemoved",e,i),u}}};var c=function(n){return function(r){return r in n}};var a=function(n,r){return function(e){n[e]||(n[e]={handlers:[],runs:0}),n[e].runs++;for(var t=n[e].handlers,o=arguments.length,i=new Array(o>1?o-1:0),u=1;u<o;u++)i[u-1]=arguments[u];if(!t||!t.length)return r?i[0]:void 0;var c={name:e,currentIndex:0};for(n.__current.push(c),n[e]||(n[e]={runs:0,handlers:[]});c.currentIndex<t.length;){var a=t[c.currentIndex].callback.apply(null,i);r&&(i[0]=a),c.currentIndex++}return n.__current.pop(),r?i[0]:void 0}};var l=function(n){return function(){return n.__current&&n.__current.length?n.__current[n.__current.length-1].name:null}};var s=function(n){return function(r){return void 0===r?void 0!==n.__current[0]:!!n.__current[0]&&r===n.__current[0].name}};var d=function(n){return function(r){if(o(r))return n[r]&&n[r].runs?n[r].runs:0}};var f=function(){var n=Object.create(null),r=Object.create(null);return n.__current=[],r.__current=[],{addAction:i(n),addFilter:i(r),removeAction:u(n),removeFilter:u(r),hasAction:c(n),hasFilter:c(r),removeAllActions:u(n,!0),removeAllFilters:u(r,!0),doAction:a(n),applyFilters:a(r,!0),currentAction:l(n),currentFilter:l(r),doingAction:s(n),doingFilter:s(r),didAction:d(n),didFilter:d(r),actions:n,filters:r}};e.d(r,"addAction",function(){return p}),e.d(r,"addFilter",function(){return v}),e.d(r,"removeAction",function(){return m}),e.d(r,"removeFilter",function(){return A}),e.d(r,"hasAction",function(){return _}),e.d(r,"hasFilter",function(){return F}),e.d(r,"removeAllActions",function(){return g}),e.d(r,"removeAllFilters",function(){return y}),e.d(r,"doAction",function(){return b}),e.d(r,"applyFilters",function(){return k}),e.d(r,"currentAction",function(){return x}),e.d(r,"currentFilter",function(){return I}),e.d(r,"doingAction",function(){return w}),e.d(r,"doingFilter",function(){return O}),e.d(r,"didAction",function(){return T}),e.d(r,"didFilter",function(){return j}),e.d(r,"actions",function(){return z}),e.d(r,"filters",function(){return Z}),e.d(r,"createHooks",function(){return f});var h=f(),p=h.addAction,v=h.addFilter,m=h.removeAction,A=h.removeFilter,_=h.hasAction,F=h.hasFilter,g=h.removeAllActions,y=h.removeAllFilters,b=h.doAction,k=h.applyFilters,x=h.currentAction,I=h.currentFilter,w=h.doingAction,O=h.doingFilter,T=h.didAction,j=h.didFilter,z=h.actions,Z=h.filters}});
+}
+;
+define("vendor/wp-hooks", function(){});
+
+/**
  * Returns the WordPress-loaded version of Underscore for use with things that need it and use Require.
  * @return   obj
  * @since    3.16.0
@@ -3133,7 +3148,7 @@ define( 'Models/_Utilities',[], function() {
  */
 define( 'Schemas/Quiz',[], function() {
 
-	return {
+	return window.llms.hooks.applyFilters( 'llms_define_quiz_schema', {
 
 		default: {
 			title: LLMS.l10n.translate( 'General Settings' ),
@@ -3200,7 +3215,7 @@ define( 'Schemas/Quiz',[], function() {
 			],
 		},
 
-	};
+	} );
 
 } );
 
@@ -3314,6 +3329,8 @@ define( 'Models/Quiz',[
 					this.get_parent().set( 'quiz_enabled', 'yes' );
 				}
 			} );
+
+			window.llms.hooks.doAction( 'llms_quiz_model_init', this );
 
 		},
 
@@ -3437,11 +3454,11 @@ define( 'Models/Quiz',[
 /**
  * Lesson Schemas
  * @since    3.17.0
- * @version  3.17.1
+ * @version  [version]
  */
 define( 'Schemas/Lesson',[], function() {
 
-	return {
+	return window.llms.hooks.applyFilters( 'llms_define_lesson_schema', {
 
 		default: {
 			title: LLMS.l10n.translate( 'General Settings' ),
@@ -3492,6 +3509,20 @@ define( 'Schemas/Lesson',[], function() {
 						type: 'switch',
 						condition: function() {
 							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
+						},
+					},
+					{
+						attribute: 'points',
+						id: 'points',
+						label: LLMS.l10n.translate( 'Lesson Weight' ),
+						label_after: LLMS.l10n.translate( 'POINTS' ),
+						min: 0,
+						max: 99,
+						tip: LLMS.l10n.translate( 'Determines the weight of the lesson when calculating the overall grade of the course.' ),
+						tip_position: 'top-left',
+						type: 'number',
+						condition: function() {
+							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
 						},
 					},
 				], [
@@ -3586,14 +3617,14 @@ define( 'Schemas/Lesson',[], function() {
 			],
 		},
 
-	};
+	} );
 
 } );
 
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.19.3
+ * @version  [version]
  */
 define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -3631,7 +3662,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  3.17.1
+		 * @version  [version]
 		 */
 		defaults: function() {
 			return {
@@ -3654,6 +3685,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 				require_assignment_passing_grade: 'yes',
 				video_embed: '',
 				free_lesson: '',
+				points: 1,
 
 				// other fields
 				assignment: {}, // assignment model/data
@@ -3685,6 +3717,8 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 			if ( ! _.isEmpty( quiz ) && ! quiz.get( 'lesson_id' ) ) {
 				quiz.set( 'lesson_id', this.get( 'id' ) );
 			}
+
+			window.llms.hooks.doAction( 'llms_lesson_model_init', this );
 
 		},
 
@@ -3729,6 +3763,29 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 				return this.collection.parent;
 			}
 			return false;
+
+		},
+
+		/**
+		 * Retrieve the questions percentage value within the quiz
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_points_percentage: function() {
+
+			var total = this.get_course().get_total_points(),
+				points = this.get( 'points' ) * 1;
+
+			if ( ! _.isNumber( points ) ) {
+				points = 0;
+			}
+
+			if ( 0 === total ) {
+				return '0%';
+			}
+
+			return ( ( points / total ) * 100 ).toFixed( 2 ) + '%';
 
 		},
 
@@ -3803,6 +3860,8 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 			var quiz = this.get( 'quiz' );
 			this.set( 'quiz_enabled', 'yes' );
+
+			window.llms.hooks.doAction( 'llms_lesson_add_quiz', quiz, this );
 
 			return quiz;
 
@@ -4265,7 +4324,7 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
 /**
  * Course Model
  * @since    3.16.0
- * @version  3.16.11
+ * @version  [version]
  */
 define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -4422,6 +4481,30 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 			return this.get( 'sections' ).find( function( model ) {
 				return model.get( '_selected' );
 			} );
+
+		},
+
+		/**
+		 * Retrieve the total number of points in the course
+		 * @return   int
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_total_points: function() {
+
+			var points = 0;
+
+			this.get( 'sections' ).each( function( section ) {
+				section.get( 'lessons' ).each( function( lesson ) {
+					var lesson_points = lesson.get( 'points' );
+					if ( ! _.isNumber( lesson_points ) ) {
+						lesson_points = 0;
+					}
+					points += lesson_points * 1;
+				} );
+			} );
+
+			return points;
 
 		},
 
@@ -7701,11 +7784,6 @@ define( 'Views/SettingsFields',[], function() {
 
 			}
 
-			// add tooltip position classes
-			if ( field.tip ) {
-				field.classes.push( 'tip--' + field.tip_position );
-			}
-
 			// transform classes array to a css class string
 			if ( field.classes.length ) {
 				field.classes = ' ' + field.classes.join( ' ' );
@@ -7767,7 +7845,7 @@ define( 'Views/SettingsFields',[], function() {
 /**
  * Lesson Editor (Sidebar) View
  * @since    3.17.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( 'Views/LessonEditor',[
 		'Views/_Detachable',
@@ -7822,7 +7900,7 @@ define( 'Views/LessonEditor',[
 		 * @param    obj   data  parent template data
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		initialize: function( data ) {
 
@@ -7836,6 +7914,9 @@ define( 'Views/LessonEditor',[
 			_.each( change_events, function( event ) {
 				this.listenTo( this.model, event, this.render );
 			}, this );
+
+			// render only the tooltip for points percentage when points change
+			this.listenTo( this.model, 'change:points', this.render_points_percentage );
 
 			// when the "has_prerequisite" attr is toggled ON
 			// trigger the prereq select object to set the default (first available) prereq for the lesson
@@ -7851,7 +7932,7 @@ define( 'Views/LessonEditor',[
 		 * Render the view
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
 		render: function() {
 
@@ -7867,9 +7948,23 @@ define( 'Views/LessonEditor',[
 			this.init_datepickers();
 			this.init_selects();
 
+			this.render_points_percentage();
+
 			return this;
 
 		},
+
+		/**
+		 * Render the portion of the template which displays the points percentage
+		 * @return   void
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		render_points_percentage: function() {
+			this.$el.find( '#llms-model-settings-field--points .llms-editable-input' )
+				.addClass( 'tip--top-left' )
+				.attr( 'data-tip', this.model.get_points_percentage() );
+		}
 
 	}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
 
@@ -10332,6 +10427,7 @@ define( 'Views/Sidebar',[
  * @version  3.17.8
  */
 require( [
+	'vendor/wp-hooks',
 	'vendor/backbone.collectionView',
 	'vendor/backbone.trackit',
 	'Controllers/Construct',
@@ -10342,6 +10438,7 @@ require( [
 	'Views/Course',
 	'Views/Sidebar'
 ], function(
+	Hooks,
 	CV,
 	TrackIt,
 	Construct,
