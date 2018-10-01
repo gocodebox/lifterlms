@@ -61,7 +61,7 @@ llms_print_notices();
 						$url = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
 						?>
 						<a href="<?php echo $url; ?>"><?php _e( 'View', 'lifterlms' ); ?></a>
-					<?php else: ?>
+					<?php else : ?>
 						&ndash;
 					<?php endif; ?>
 				</td>
