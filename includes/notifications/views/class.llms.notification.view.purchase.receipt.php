@@ -156,7 +156,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 			break;
 
 			case '{{PRODUCT_TITLE}}':
-				$code = wp_specialchars_decode( $order->get( 'product_title' ) );
+				$code = $order->get( 'product_title' );
 			break;
 
 			case '{{PRODUCT_TITLE_LINK}}':
