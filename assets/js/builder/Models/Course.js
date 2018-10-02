@@ -60,7 +60,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 * @param    obj   lesson  lesson data obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.11
+		 * @version  [version]
 		 */
 		add_existing_lesson: function( lesson ) {
 
@@ -69,9 +69,11 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			if ( 'clone' === lesson.action ) {
 
 				delete data.id;
+
+				// if a quiz is attached, duplicate the quiz also
 				if ( data.quiz ) {
-					delete data.quiz;
-					data.quiz_enabled = 'no';
+					data.quiz = _.prepareQuizObjectForCloning( data.quiz );
+					data.quiz._questions_loaded = true;
 				}
 
 			} else {

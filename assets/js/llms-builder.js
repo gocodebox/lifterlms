@@ -3144,7 +3144,7 @@ define( 'Models/_Utilities',[], function() {
 /**
  * Quiz Schema
  * @since    3.17.6
- * @version  3.17.6
+ * @version  [version]
  */
 define( 'Schemas/Quiz',[], function() {
 
@@ -3222,7 +3222,7 @@ define( 'Schemas/Quiz',[], function() {
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  3.19.2
+ * @version  [version]
  */
 define( 'Models/Quiz',[
 		'Collections/Questions',
@@ -3310,7 +3310,7 @@ define( 'Models/Quiz',[
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.17.6
+		 * @version  [version]
 		 */
 		initialize: function() {
 
@@ -3838,7 +3838,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  3.19.3
+		 * @version  [version]
 		 */
 		add_quiz: function( data ) {
 
@@ -4383,7 +4383,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 * @param    obj   lesson  lesson data obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.11
+		 * @version  [version]
 		 */
 		add_existing_lesson: function( lesson ) {
 
@@ -4392,9 +4392,11 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 			if ( 'clone' === lesson.action ) {
 
 				delete data.id;
+
+				// if a quiz is attached, duplicate the quiz also
 				if ( data.quiz ) {
-					delete data.quiz;
-					data.quiz_enabled = 'no';
+					data.quiz = _.prepareQuizObjectForCloning( data.quiz );
+					data.quiz._questions_loaded = true;
 				}
 
 			} else {
@@ -7432,7 +7434,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  3.17.7
+ * @version  [version]
  */
 define( 'Views/SettingsFields',[], function() {
 
@@ -7692,7 +7694,7 @@ define( 'Views/SettingsFields',[], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  3.17.7
+		 * @version  [version]
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -8980,7 +8982,7 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.19.2
+ * @version  [version]
  */
 define( 'Views/Quiz',[
 		'Models/Quiz',
@@ -9231,7 +9233,13 @@ define( 'Views/Quiz',[
 
 		},
 
-		// come back to this and make sure cloning resets all the IDs
+
+		/**
+		 * Add an existing quiz to a lesson
+		 * @param    obj  event  js event object
+		 * @since    3.16.0
+		 * @version  [version]
+		 */
 		add_existing_quiz: function( event ) {
 
 			this.post_search_popover.hide();
@@ -9240,25 +9248,7 @@ define( 'Views/Quiz',[
 
 			if ( 'clone' === event.action ) {
 
-				delete quiz.id;
-
-				_.each( quiz.questions, function( question ) {
-
-					delete question.parent_id;
-					delete question.id;
-
-					if ( question.choices ) {
-
-						_.each( question.choices, function( choice ) {
-
-							delete choice.question_id;
-							delete choice.id;
-
-						} );
-
-					}
-
-				} );
+				quiz = _.prepareQuizObjectForCloning( quiz );
 
 			} else {
 
@@ -10424,7 +10414,7 @@ define( 'Views/Sidebar',[
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.17.8
+ * @version  [version]
  */
 require( [
 	'vendor/wp-hooks',
@@ -10470,7 +10460,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.17.8
+	 * @version  [version]
 	 */
 	_.mixin( {
 
@@ -10509,6 +10499,40 @@ require( [
 			} );
 
 			return clone;
+
+		},
+
+		/**
+		 * Strips IDs & Parent References from quizzes and all quiz questions
+		 * @param    obj   quiz   raw quiz object (not a model)
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		prepareQuizObjectForCloning: function( quiz ) {
+
+			delete quiz.lesson_id;
+			delete quiz.id;
+
+			_.each( quiz.questions, function( question ) {
+
+				delete question.parent_id;
+				delete question.id;
+
+				if ( question.choices ) {
+
+					_.each( question.choices, function( choice ) {
+
+						delete choice.question_id;
+						delete choice.id;
+
+					} );
+
+				}
+
+			} );
+
+			return quiz;
 
 		},
 

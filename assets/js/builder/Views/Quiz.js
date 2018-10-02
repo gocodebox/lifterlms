@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.19.2
+ * @version  [version]
  */
 define( [
 		'Models/Quiz',
@@ -252,7 +252,13 @@ define( [
 
 		},
 
-		// come back to this and make sure cloning resets all the IDs
+
+		/**
+		 * Add an existing quiz to a lesson
+		 * @param    obj  event  js event object
+		 * @since    3.16.0
+		 * @version  [version]
+		 */
 		add_existing_quiz: function( event ) {
 
 			this.post_search_popover.hide();
@@ -261,25 +267,7 @@ define( [
 
 			if ( 'clone' === event.action ) {
 
-				delete quiz.id;
-
-				_.each( quiz.questions, function( question ) {
-
-					delete question.parent_id;
-					delete question.id;
-
-					if ( question.choices ) {
-
-						_.each( question.choices, function( choice ) {
-
-							delete choice.question_id;
-							delete choice.id;
-
-						} );
-
-					}
-
-				} );
+				quiz = _.prepareQuizObjectForCloning( quiz );
 
 			} else {
 

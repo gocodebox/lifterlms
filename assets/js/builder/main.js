@@ -47,7 +47,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.17.8
+	 * @version  [version]
 	 */
 	_.mixin( {
 
@@ -86,6 +86,40 @@ require( [
 			} );
 
 			return clone;
+
+		},
+
+		/**
+		 * Strips IDs & Parent References from quizzes and all quiz questions
+		 * @param    obj   quiz   raw quiz object (not a model)
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		prepareQuizObjectForCloning: function( quiz ) {
+
+			delete quiz.lesson_id;
+			delete quiz.id;
+
+			_.each( quiz.questions, function( question ) {
+
+				delete question.parent_id;
+				delete question.id;
+
+				if ( question.choices ) {
+
+					_.each( question.choices, function( choice ) {
+
+						delete choice.question_id;
+						delete choice.id;
+
+					} );
+
+				}
+
+			} );
+
+			return quiz;
 
 		},
 
