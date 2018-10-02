@@ -1,3 +1,10 @@
+---
+name: Bug report
+about: Report a bug or issue
+
+---
+
+
 ### 1. Reproduction Steps
 
 + Include clear and detailed step by step instructions on how the issue can be reliably reproduced
