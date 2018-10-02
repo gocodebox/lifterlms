@@ -3859,6 +3859,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 			this.init_relationships();
 
 			var quiz = this.get( 'quiz' );
+			console.log( quiz );
 			this.set( 'quiz_enabled', 'yes' );
 
 			window.llms.hooks.doAction( 'llms_lesson_add_quiz', quiz, this );
@@ -10518,6 +10519,9 @@ require( [
 
 				delete question.parent_id;
 				delete question.id;
+				if ( question.image && _.isObject( question.image ) ) {
+					question.image._forceSync = true;
+				}
 
 				if ( question.choices ) {
 
@@ -10525,6 +10529,9 @@ require( [
 
 						delete choice.question_id;
 						delete choice.id;
+						if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
+							choice.choice._forceSync = true;
+						}
 
 					} );
 

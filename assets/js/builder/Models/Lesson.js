@@ -236,6 +236,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 			this.init_relationships();
 
 			var quiz = this.get( 'quiz' );
+			console.log( quiz );
 			this.set( 'quiz_enabled', 'yes' );
 
 			window.llms.hooks.doAction( 'llms_lesson_add_quiz', quiz, this );

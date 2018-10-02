@@ -105,6 +105,9 @@ require( [
 
 				delete question.parent_id;
 				delete question.id;
+				if ( question.image && _.isObject( question.image ) ) {
+					question.image._forceSync = true;
+				}
 
 				if ( question.choices ) {
 
@@ -112,6 +115,9 @@ require( [
 
 						delete choice.question_id;
 						delete choice.id;
+						if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
+							choice.choice._forceSync = true;
+						}
 
 					} );
 

@@ -1,9 +1,10 @@
 LifterLMS Changelog
 ===================
 
-v3.23.1 - 2018-09-??
+v3.24.0 - 2018-09-??
 --------------------
 
++ In the course builder when a lesson is duplicated, the attached quiz will be duplicated as well
 + Added the ability to send test emails for email notifications
 + Added `student_id` as a parameter passed to the `llms_student_get_progress` filter
 + Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models as well as in the `course/syllabus.php` template
@@ -13,6 +14,11 @@ v3.23.1 - 2018-09-??
 + Added the ability for admin table classes to define `<tr>` element CSS classes
 + Admin settings pages with no settings to save (like the Notifications list) no longer display a "Save" button
 + Added actions when creating, updating, and deleting records managed by `LLMS_Abstract_Database_Store` classes
+
+##### Bug fixes
+
++ Fixed an issue causing duplicated quizzes to initially show images for question images & image choices (reorder pictures & picture choice) but the image data would not be properly saved so when returning to the builder or viewing a quiz on the frontend the images would be lost
+
 
 ##### Deprecated Functions & Methods
 
