@@ -323,7 +323,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				'autoload' => false,
 				'default' => 'no',
 				'id' => 'llms_erasure_request_removes_order_data',
-				'desc' => __( 'When enabled orders will be anonymized during a presonal data erasure.', 'lifterlms' ),
+				'desc' => __( 'When enabled orders will be anonymized during a personal data erasure.', 'lifterlms' ),
 				'title' => __( 'Remove Order Data', 'lifterlms' ),
 				'type' => 'checkbox',
 			),
