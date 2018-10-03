@@ -228,6 +228,18 @@
 
 	}
 
+	.llms-sd-date {
+		text-align: center;
+		font-size: 26px;
+		line-height: 1;
+		span {
+			display: block;
+			&.day {
+				font-size: 52px;
+			}
+		}
+	}
+
 }
 
 

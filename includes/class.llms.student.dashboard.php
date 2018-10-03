@@ -11,7 +11,7 @@ class LLMS_Student_Dashboard {
 	/**
 	 * Constructor
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -246,6 +246,13 @@ class LLMS_Student_Dashboard {
 
 	}
 
+	/**
+	 * Handle modification of the default dashboard title for certain pages and sub pages
+	 * @param    string     $title  default title HTML
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
 	public function modify_dashboard_title( $title ) {
 
 		global $wp_query;

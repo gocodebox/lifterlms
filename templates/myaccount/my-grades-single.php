@@ -10,7 +10,11 @@ llms_print_notices();
 
 <?php if ( $course ) : ?>
 
+	<?php do_action( 'llms_before_my_grades_content', $course, $student ); ?>
+
 	<section class="llms-sd-widgets">
+
+		<?php do_action( 'llms_before_my_grades_widgets', $course, $student ); ?>
 
 		<div class="llms-sd-widget">
 			<h4 class="llms-sd-widget-title"><?php _e( 'Progress', 'lifterlms' ); ?></h4>
@@ -23,59 +27,28 @@ llms_print_notices();
 		</div>
 
 		<div class="llms-sd-widget">
-			<h4 class="llms-sd-widget-title"><?php _e( 'Latest Achievement', 'lifterlms' ); ?></h4>
-
+			<h4 class="llms-sd-widget-title"><?php _e( 'Enrollment Date', 'lifterlms' ); ?></h4>
+			<div class="llms-sd-date">
+				<span class="month"><?php echo $student->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'F' ); ?></span>
+				<span class="day"><?php echo $student->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'j' ); ?></span>
+				<span class="year"><?php echo $student->get_enrollment_date( $course->get( 'id' ), 'enrolled', 'Y' ); ?></span>
+			</div>
 		</div>
 
 		<div class="llms-sd-widget">
-			<h4 class="llms-sd-widget-title"><?php _e( 'Next Achievement', 'lifterlms' ); ?></h4>
+			<h4 class="llms-sd-widget-title"></h4>
 
 		</div>
 
+		<?php do_action( 'llms_after_my_grades_widgets', $course, $student ); ?>
+
 	</section>
 
-	<table class="llms-table">
-	<?php foreach ( $course->get_sections() as $section ) : ?>
+	<?php do_action( 'llms_before_my_grades_before_table', $course, $student ); ?>
 
-		<tr class="llms-section">
-			<th colspan="2">
-				<?php printf( __( 'Section %1$d: %2$s', 'lifterlms' ), $section->get( 'order' ), $section->get( 'title' ) ); ?>
-			</th>
-			<th><?php _e( 'Completion Date', 'lifterlms' ); ?></th>
-			<th><?php _e( 'Quiz', 'lifterlms' ); ?></th>
-			<th><?php _e( 'Grade', 'lifterlms' ); ?></th>
-		</tr>
+	<?php lifterlms_template_student_dashboard_my_grades_table( $course, $student ); ?>
 
-		<?php foreach ( $section->get_lessons() as $lesson ) : ?>
-			<tr>
-				<td class="llms-spacer"></td>
-				<td>
-					<?php printf( __( 'Lesson %1$d: %2$s', 'lifterlms' ), $lesson->get( 'order' ), $lesson->get( 'title' ) ); ?>
-				</td>
-				<td>
-					<?php echo $student->get_completion_date( $lesson->get( 'id' ), get_option( 'date_format' ) ); ?>
-				</td>
-				<td>
-					<?php if ( $lesson->has_quiz() ) :
-						$attempt = $student->quizzes()->get_best_attempt( $lesson->get( 'quiz' ) );
-						$url = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
-						?>
-						<a href="<?php echo $url; ?>"><?php _e( 'View', 'lifterlms' ); ?></a>
-					<?php else : ?>
-						&ndash;
-					<?php endif; ?>
-				</td>
-				<td>
-					<?php
-						$grade = $student->get_grade( $lesson->get( 'id' ) );
-						echo is_numeric( $grade ) ? llms_get_donut( $grade, '', 'mini' ) : '&ndash;';
-					?>
-				</td>
-			</tr>
-		<?php endforeach; ?>
-
-	<?php endforeach; ?>
-	</table>
+	<?php do_action( 'llms_after_my_grades_content', $course, $student ); ?>
 
 <?php else : ?>
 
