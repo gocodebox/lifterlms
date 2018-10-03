@@ -292,7 +292,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				'student' => $student,
 			) );
 
-		// show single
+			// show single
 		} else {
 
 			$course = get_posts( array(
