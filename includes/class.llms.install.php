@@ -238,8 +238,8 @@ class LLMS_Install {
 			array(
 				'content' => '[lifterlms_my_account]',
 				'option' => 'lifterlms_myaccount_page_id',
-				'slug' => 'dashboard',
-				'title' => __( 'Dashboard', 'lifterlms' ),
+				'slug' => 'my-courses',
+				'title' => __( 'My Courses', 'lifterlms' ),
 			),
 		) );
 		foreach ( $pages as $page ) {
