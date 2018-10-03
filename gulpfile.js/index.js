@@ -6,10 +6,12 @@
 var gulp = require('gulp');
 
 // all tasks from lib-tasks
-require( 'lifterlms-lib-tasks' )( gulp );
+var  ab=require( 'lifterlms-lib-tasks' )( gulp );
 
 // all custom tasks
-require( './tasks/js:additional' );
-require( './tasks/js:builder' );
-require( './tasks/readme' );
-require( './tasks/versioner:readme' );
+var  a=require( './tasks/js:additional' );
+var  b=require( './tasks/js:builder' );
+var  c=require( './tasks/readme' );
+var  d=require( './tasks/versioner:readme' );
+ 
+  
