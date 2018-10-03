@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Hooks and actions related to post relationships
  * @since    3.16.12
- * @version  3.16.12
+ * @version  [version]
  */
 class LLMS_Post_Relationships {
 
@@ -25,6 +25,14 @@ class LLMS_Post_Relationships {
 				'action' => 'unset',
 				'meta_key' => '_llms_lesson_id',
 				'post_type' => 'llms_quiz',
+			),
+		),
+
+		'llms_order' => array(
+			array(
+				'action' => 'delete',
+				'meta_key' => '_llms_order_id',
+				'post_type' => 'llms_transaction',
 			),
 		),
 
