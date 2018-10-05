@@ -421,9 +421,9 @@
 
 			// this fixes an issue on iOS devices where the label requires a double click
 			// due to the presence of a hover event & the regular label click
-			this.$ui.on( 'touchstart', 'li.llms-choice label', function( event ) {
-				$( this ).click();
-			} );
+			// this.$ui.on( 'touchstart', 'li.llms-choice label', function( event ) {
+				// $( this ).click();
+			// } );
 
 		},
 

@@ -17,6 +17,7 @@ v3.24.0 - 2018-09-??
 
 ##### Bug fixes
 
++ Removed 3.21.0 fixes for iOS touch issues that are now causing iOS touch issues on quizzes.
 + When an order is deleted, all order transactions will also be deleted. This does not happen until the order is deleted (transactions will remain while the order is in the trash)
 + Fixed an issue causing duplicated quizzes to initially show images for question images & image choices (reorder pictures & picture choice) but the image data would not be properly saved so when returning to the builder or viewing a quiz on the frontend the images would be lost
 
