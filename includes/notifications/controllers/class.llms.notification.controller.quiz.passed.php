@@ -72,7 +72,7 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 
 		$query = new LLMS_Query_Quiz_Attempt( array(
 			'per_page'	=> 25,
-			'attempt'	=> true,
+			'status'	=> 'pass',
 		) );
 
 		$options = array(
