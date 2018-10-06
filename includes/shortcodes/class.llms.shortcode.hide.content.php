@@ -27,10 +27,10 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	 */
 	protected function get_default_attributes() {
 		return array(
-			'membership'=> '', // backwards compat, use ID moving forward
-			'message'   => '',
-			'id'        => get_the_ID(),
-			'relation'  => 'all'
+			'membership' => '', // backwards compat, use ID moving forward
+			'message' => '',
+			'id' => get_the_ID(),
+			'relation' => 'all',
 		);
 	}
 
@@ -51,7 +51,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	protected function get_output() {
 
 		// backwards compatibility, get membership if set and fallback to the id
-		$ids = $this->get_attribute( 'membership' ) ?  $this->get_attribute( 'membership' ) : $this->get_attribute( 'id' );
+		$ids = $this->get_attribute( 'membership' ) ? $this->get_attribute( 'membership' ) : $this->get_attribute( 'id' );
 		// Explode, trim whitespace and remove empty values
 		$ids = (array) array_map( 'trim', array_filter( explode( ',', $ids ) ) );
 
@@ -68,14 +68,14 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 		}
 
 		if ( 'all' === $this->get_attribute( 'relation' ) && ! empty( $ids ) ) {
-			$i = 0;
+			$inc = 0;
 			foreach ( $ids as $id ) {
 				if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
-					$i++;
+					$inc++;
 				}
 			}
 
-			if ( $i === count( $ids ) ) {
+			if ( count( $ids ) === $inc ) {
 				$hidden = false;
 			}
 		}
