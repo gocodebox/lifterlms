@@ -30,7 +30,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 			'membership' => '', // backwards compat, use ID moving forward
 			'message' => '',
 			'id' => get_the_ID(),
-			'relation' => 'all',
+			'relation'   => 'all',
 		);
 	}
 
