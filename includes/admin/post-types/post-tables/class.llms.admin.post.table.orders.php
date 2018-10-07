@@ -245,9 +245,10 @@ class LLMS_Admin_Post_Table_Orders {
 
 
 	/**
-	 * Modify the search query for varios post types before retriving posts
-	 * @param  obj    $query  WP_Query obj
-	 * @return obj
+	 * Modify the search query for various post types before retrieving posts
+	 *
+	 * @param  $query WP_Query
+	 * @return WP_Query
 	 *
 	 * @since  2.5.0  moved from a non-classed function
 	 * @version  3.4.8
@@ -258,47 +259,69 @@ class LLMS_Admin_Post_Table_Orders {
 		// allow searching of custom fields
 		if ( is_admin() && ! empty( $query->query_vars['s'] ) && isset( $query->query_vars['post_type'] ) && 'llms_order' === $query->query_vars['post_type'] ) {
 
-			$s = $query->query_vars['s'];
+			// Limit the number of users for which to show orders
+			$limit = apply_filters( 'lifterlms_search_orders_customer_limit', 10 );
 
-			// if the term is an email, find orders for the user
-			if ( is_email( $s ) ) {
+			// What we are searching for
+			$term = $query->query_vars['s'];
 
-				// get the user obj
-				$user = get_user_by( 'email', $s );
+			// Search wp_users
+			$user_query = new WP_User_Query( array(
+				'search' => '*' . esc_attr( $term ) . '*',
+				'search_columns' => array( 'user_login', 'user_url', 'user_email', 'user_nicename', 'display_name' ),
+				'fields' => 'ID',
+				'number' => $limit,
+			) );
 
-				if ( $user ) {
+			// Search wp_usermeta for First and Last names
+			$user_query2 = new WP_User_Query( array(
+				'fields' => 'ID',
+				'number' => $limit,
+				'meta_query' => array(
+					'relation' => 'OR',
+					array(
+						'key' => 'first_name',
+						'value' => $term,
+						'compare' => 'LIKE',
+					),
+					array(
+						'key' => 'last_name',
+						'value' => $term,
+						'compare' => 'LIKE',
+					),
+				),
+			) );
 
-					// add metaquery for the user id
-					$metaquery = array(
-						'relation' => 'OR',
-						array(
-							'key' => '_llms_user_id',
-							'value' => $user->ID,
-							'compare' => '=',
-						)
-					);
+			$results = wp_parse_id_list( array_merge( (array) $user_query->get_results(), (array) $user_query2->get_results() ) );
 
-					// we have to kill this value so that the query actually works
-					$query->query_vars['s'] = '';
+			if ( $limit && count( $results ) > $limit ) {
+				$results = array_slice( $results, 0, $limit );
+			}
 
-					// set the query
-					$query->set( 'meta_query', $metaquery );
+			// add metaquery for the user id
+			$meta_query = array(
+				'relation' => 'OR',
+				array(
+					'key' => '_llms_user_id',
+					'value' => $results,
+					'compare' => 'IN',
+				)
+			);
 
-					// add a filter back in so we don't have 'Search results for ""' on the top of the screen
-					// @note we're not super proud of this incredible piece of duct tape
-					add_filter( 'get_search_query', function( $q ) {
+			// we have to kill this value so that the query actually works
+			$query->query_vars['s'] = '';
 
-						if ( '' === $q ) {
+			// set the query
+			$query->set( 'meta_query', $meta_query );
 
-							return $_GET['s'];
-
-						}
-
-					} );
-
+			// add a filter back in so we don't have 'Search results for ""' on the top of the screen
+			// @note we're not super proud of this incredible piece of duct tape
+			add_filter( 'get_search_query', function( $q ) {
+				if ( '' === $q ) {
+					return $_GET['s'];
 				}
-			}// End if().
-		}// End if().
+			} );
+		} // End if().
 
 		return $query;
 
