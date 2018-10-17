@@ -323,7 +323,7 @@ class LLMS_Student_Dashboard {
 	 */
 	public static function output_notifications_content() {
 
-		$url = llms_get_endpoint_url( 'notifications', '', llms_get_page_url( 'myaccount' ) );
+		$url = apply_filters( 'llms_notifications_endpoint_url', llms_get_endpoint_url( 'notifications', '', llms_get_page_url( 'myaccount' ) ) );
 
 		$sections = array(
 			array(

@@ -41,7 +41,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Add LLMS navigation items to the BuddyPress User Profile
-	 * @return  null
+	 * @return  void
 	 * @since   1.0.0
 	 * @version 1.0.0
 	 */
@@ -66,7 +66,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			'slug'            => 'courses',
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'courses_screen' ),
+			'screen_function' => array( $this, 'courses_screen' ),
 			'user_has_access' => $is_my_profile,
 		));
 
@@ -75,7 +75,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			'slug'            => 'memberships',
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'memberships_screen' ),
+			'screen_function' => array( $this, 'memberships_screen' ),
 			'user_has_access' => $is_my_profile,
 		));
 
@@ -84,7 +84,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			'slug'            => 'achievements',
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'achievements_screen' ),
+			'screen_function' => array( $this, 'achievements_screen' ),
 			'user_has_access' => $is_my_profile,
 		));
 
@@ -93,7 +93,16 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 			'slug'            => 'certificates',
 			'parent_slug'     => 'courses',
 			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'certificates_screen' ),
+			'screen_function' => array( $this, 'certificates_screen' ),
+			'user_has_access' => $is_my_profile,
+		));
+
+		bp_core_new_subnav_item(array(
+			'name'            => __( 'Notifications', 'lifterlms' ),
+			'slug'            => 'notifications',
+			'parent_slug'     => 'courses',
+			'parent_url'      => $parent_url,
+			'screen_function' => array( $this, 'notifications_screen' ),
 			'user_has_access' => $is_my_profile,
 		));
 	}
@@ -110,7 +119,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "Achievements" profile screen
-	 * @return null
+	 * @return void
 	 * @since   1.0.0
 	 * @version 3.14.4
 	 */
@@ -121,7 +130,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "Certificates" profile screen
-	 * @return null
+	 * @return void
 	 * @since   1.0.0
 	 * @version 3.14.4
 	 */
@@ -132,7 +141,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "Courses" profile screen
-	 * @return null
+	 * @return void
 	 * @since   1.0.0
 	 * @version 3.14.4
 	 */
@@ -143,13 +152,31 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "memberships" profile screen
-	 * @return null
+	 * @return void
 	 * @since   1.0.0
 	 * @version 3.14.4
 	 */
 	public function memberships_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );
 		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+	}
+
+	/**
+	 * Callback for "notification" profile screen
+	 * @return void
+	 */
+	public function notifications_screen() {
+		add_filter( 'llms_notifications_endpoint_url', array( $this, 'override_notifications_endpoint_url' ), -1, 1 );
+		add_action( 'bp_template_content', 'LLMS_Student_Dashboard::output_notifications_content' );
+		bp_core_load_template( apply_filters( 'bp_core_template_plugin', 'members/single/plugins' ) );
+		remove_filter( 'llms_notifications_endpoint_url', array( $this, 'override_notifications_endpoint_url' ), -1 );
+	}
+
+	public function override_notifications_endpoint_url( $url ) {
+
+		global $bp;
+		return $bp->loggedin_user->domain . 'courses/notifications/';
+
 	}
 
 	/**
