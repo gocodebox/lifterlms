@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
  * @since     3.8.0
- * @version   3.22.0
+ * @version   [version]
  */
 class LLMS_Notifications {
 
@@ -186,14 +186,15 @@ class LLMS_Notifications {
 	 * @param    obj       $notification  instance of an LLMS_Notification
 	 * @return   obj|false
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function get_view( $notification ) {
 
 		$trigger = $notification->get( 'trigger_id' );
 
 		if ( in_array( $trigger, $this->views ) ) {
-			$class = $this->get_view_classname( $trigger );
+			$views = array_flip( $this->views );
+			$class = $views[ $trigger ];
 			$view = new $class( $notification );
 			return $view;
 		}
@@ -204,14 +205,17 @@ class LLMS_Notifications {
 
 	/**
 	 * Get the classname for the view of a given notification based off it's trigger
-	 * @param    string     $trigger  trigger id (eg: lesson_complete)
+	 * @param    string     $trigger  trigger id (eg: lesson_complete).
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
-	private function get_view_classname( $trigger ) {
+	private function get_view_classname( $trigger, $prefix = null ) {
+
+		$prefix = $prefix ? $prefix : 'LLMS';
 		$name = str_replace( ' ', '_', ucwords( str_replace( '_', ' ', $trigger ) ) );
-		return 'LLMS_Notification_View_' . $name;
+		return sprintf( '%1$s_Notification_View_%2$s', $prefix, $name );
+
 	}
 
 	/**
@@ -320,9 +324,9 @@ class LLMS_Notifications {
 	 * @param    string     $path     full path to the view file, allows third parties to load external views
 	 * @return   boolean              true if the view is added and loaded, false otherwise
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
-	public function load_view( $trigger, $path = null ) {
+	public function load_view( $trigger, $path = null, $prefix = null ) {
 
 		// default path for core views
 		if ( ! $path ) {
@@ -332,7 +336,7 @@ class LLMS_Notifications {
 		if ( file_exists( $path ) ) {
 
 			require_once $path;
-			$this->views[] = $trigger;
+			$this->views[ $this->get_view_classname( $trigger, $prefix ) ] = $trigger;
 			return true;
 
 		}
