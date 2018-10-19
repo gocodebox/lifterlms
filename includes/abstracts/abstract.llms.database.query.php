@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Abstract Database Query
  * @since    3.8.0
- * @version  3.16.0
+ * @version  [version]
  */
 abstract class LLMS_Database_Query {
 
@@ -252,15 +252,17 @@ abstract class LLMS_Database_Query {
 	 * @param    mixed     $ids  String/Int or array of strings/ints
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
-	protected function sanitize_id_array( $ids ) {
+	protected function sanitize_id_array( $ids = array() ) {
+
+		if ( empty( $ids ) ) {
+			$ids = array();
+		}
 
 		// allow numeric strings & ints to be passed instead of an array
 		if ( ! is_array( $ids ) && is_numeric( $ids ) && $ids > 0 ) {
 			$ids = array( $ids );
-		} else {
-			$ids = array();
 		}
 
 		foreach ( $ids as $key => &$id ) {
