@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add, Customize, and Manage LifterLMS Lesson posts table Columns
  * @since    3.2.3
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Admin_Post_Table_Lessons {
 
@@ -71,7 +71,7 @@ class LLMS_Admin_Post_Table_Lessons {
 	 * @param    int    $post_id  WP Post ID of the lesson for the row
 	 * @return   void
 	 * @since    3.2.3
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 

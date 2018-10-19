@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Classes/Achievements
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,7 +36,7 @@ class LLMS_Achievements {
 	/**
 	 * Constructor
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function __construct() {
 
@@ -63,8 +63,8 @@ class LLMS_Achievements {
 	 * @param   array|int  $post_ids         Post IDs or single post ID to look for achievements by.
 	 * @param   bool       $include_children If true, will include course children (sections, lessons, and quizzes).
 	 * @return  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	public function get_achievements_by_post( $post_ids, $include_children = true ) {
 

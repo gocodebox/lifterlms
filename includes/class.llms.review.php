@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * This class handles the front end of the reviews. It is responsible
  * for outputting the HTML on the course page (if reviews are activated)
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Reviews {
 	/**
@@ -29,7 +29,7 @@ class LLMS_Reviews {
 	 * if not, nothing will happen. This function also checks to
 	 * see if a user is allowed to review more than once.
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public static function output() {
 

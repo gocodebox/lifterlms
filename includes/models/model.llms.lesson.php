@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Lesson Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -63,8 +63,8 @@ implements LLMS_Interface_Post_Audio
 	 * Array of default property values
 	 * key => default value
 	 * @var  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	protected $property_defaults = array(
 		'points' => 1,
@@ -594,7 +594,7 @@ implements LLMS_Interface_Post_Audio
 	 * Finds and returns next lesson id
 	 * @return   int [ID of next lesson]
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_next_lesson() {
 
@@ -673,7 +673,7 @@ implements LLMS_Interface_Post_Audio
 	 * Get previous lesson id
 	 * @return   int [ID of previous lesson]
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_previous_lesson() {
 

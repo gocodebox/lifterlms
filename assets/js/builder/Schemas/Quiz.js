@@ -1,7 +1,7 @@
 /**
  * Quiz Schema
  * @since    3.17.6
- * @version  [version]
+ * @version  3.24.0
  */
 define( [], function() {
 

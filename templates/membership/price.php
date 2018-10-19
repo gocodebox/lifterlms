@@ -2,7 +2,7 @@
 /**
  * Membership price template
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 defined( 'ABSPATH' ) || exit;
 

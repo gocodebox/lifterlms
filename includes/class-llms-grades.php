@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Get & Set grades for gradeable post types
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 class LLMS_Grades {
 
@@ -23,8 +23,8 @@ class LLMS_Grades {
 	/**
 	 * Get Main Singleton Instance
 	 * @return   LLMS_Grades
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -35,8 +35,8 @@ class LLMS_Grades {
 
 	/**
 	 * Private constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	private function __construct() {
 
@@ -49,8 +49,8 @@ class LLMS_Grades {
 	 * @param    array      $children  list of child objects
 	 * @param    obj        $student   LLMS_Student
 	 * @return   float|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	private function calculate_grade_from_children( $children, $student ) {
 
@@ -111,8 +111,8 @@ class LLMS_Grades {
 	 * @param    obj        $course   LLMS_Course
 	 * @param    obj        $student  LLMS_Student
 	 * @return   float|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	private function calculate_course_grade( $course, $student ) {
 
@@ -133,8 +133,8 @@ class LLMS_Grades {
 	 * @param    obj     $post     LLMS_Post_Model
 	 * @param    obj     $student  LLMS_Student
 	 * @return   float|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function calculate_grade( $post, $student ) {
 
@@ -179,8 +179,8 @@ class LLMS_Grades {
 	 * @param    obj        $lesson   LLMS_Lesson
 	 * @param    obj        $student  LLMS_Student
 	 * @return   float|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	private function calculate_lesson_grade( $lesson, $student ) {
 
@@ -203,8 +203,8 @@ class LLMS_Grades {
 	 * @param    obj        $student    LLMS_Student
 	 * @param    bool       $use_cache  when true, retrieves from cache if available
 	 * @return   float|null
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_grade( $post, $student, $use_cache = true ) {
 
@@ -238,8 +238,8 @@ class LLMS_Grades {
 	 * @return   mixed             grade as a float
 	 *                             null if there's no grade for the post
 	 *                             false if the grade wasn't found in the cache
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	private function get_grade_from_cache( $post, $student ) {
 
@@ -254,8 +254,8 @@ class LLMS_Grades {
 	 * Round grades according to filterable rounding options set during construction
 	 * @param    float     $grade  Grade to round
 	 * @return   float
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function round( $grade ) {
 

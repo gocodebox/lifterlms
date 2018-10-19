@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  [version]
+ * @version  3.24.0
  */
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
@@ -270,8 +270,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 /**
  * Output the "My Grades" template screen on the student dashboard
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	function lifterlms_template_student_dashboard_my_grades() {
@@ -362,8 +362,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' )
 	 * @param   obj    $course  LLMS_Course.
 	 * @param   obj    $student LLMS_Student.
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	function lifterlms_template_student_dashboard_my_grades_table( $course, $student ) {
 
@@ -473,8 +473,8 @@ endif;
  * Modify the pagination links displayed on endpoints using the default LLMS loop
  * @param    [type]     $link  [description]
  * @return   [type]
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 function llms_modify_dashboard_pagination_links( $link ) {
 
@@ -503,8 +503,8 @@ function llms_modify_dashboard_pagination_links( $link ) {
  * @param   obj       $student      LLMS_Student.
  * @param   array     $restrictions restriction data from `llms_page_restricted()`.
  * @return  void
- * @since   [version]
- * @version [version]
+ * @since   3.24.0
+ * @version 3.24.0
  */
 function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions ) {
 

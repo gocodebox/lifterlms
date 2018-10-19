@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Quiz Attempt Model
  * @since   3.9.0
- * @version [version]
+ * @version 3.24.0
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -107,7 +107,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Calculate and the grade for a completed quiz
 	 * @return   $this      for chaining
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function calculate_grade() {
 

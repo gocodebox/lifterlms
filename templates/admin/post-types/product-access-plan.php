@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Individual Access Plan on Admin Panel
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 if ( ! is_admin() ) {
 	exit;

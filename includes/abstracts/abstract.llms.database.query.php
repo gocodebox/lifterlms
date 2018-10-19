@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Abstract Database Query
  * @since    3.8.0
- * @version  [version]
+ * @version  3.24.0
  */
 abstract class LLMS_Database_Query {
 
@@ -252,7 +252,7 @@ abstract class LLMS_Database_Query {
 	 * @param    mixed     $ids  String/Int or array of strings/ints
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	protected function sanitize_id_array( $ids = array() ) {
 

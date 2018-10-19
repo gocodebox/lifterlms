@@ -1,6 +1,60 @@
 == Changelog ==
 
 
+v3.24.0-beta.1 - 2018-10-19
+-------------------------------
+
+##### "My Grades" Student Dashboard Endpoint
+
++ A new student dashboard endpoint, "My Grades", has been added
++ The main screen displays a paginated and sortable list of all courses a student is enrolled in and outputs their progress and grade in the courses
++ Students can drill into individual reporting screens for each course where specific details for each course are available for review
+
+
+##### Grading Enhancements
+
++ Each lesson can now be assigned an individual "points" value
++ When a course is graded the points assigned to each lesson will be used to calculate the value of the lesson's grade within the overall course grade
++ Lessons can also be assigned a value of "0" to allow a lesson to not count towards the overall grade of the course.
+
+##### Updates and Enhancements
+
++ In the course builder when a lesson is duplicated, the attached quiz will be duplicated as well
++ Minor increase to performance in the `LLMS_Course->get_lessons()` method
++ Added the ability to send test emails for email notifications
++ Added `student_id` as a parameter passed to the `llms_student_get_progress` filter
++ Updated all access plan templates added in 3.23.0 to ensure `ABSPATH` is defined to prevent direct template access
++ Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models as well as in the `course/syllabus.php` template
++ Refactored the `LLMS_Section->get_percent_complete()` method to utilize methods from the `LLMS_Student` model
++ Added the ability for admin table classes to define `<tr>` element CSS classes
++ Admin settings pages with no settings to save (like the Notifications list) no longer display a "Save" button
++ Added actions when creating, updating, and deleting records managed by `LLMS_Abstract_Database_Store` classes
+
+##### Bug fixes
+
++ Fixed issue causing post cleanup functions to run queries against unsupported post types.
++ Fixed typos in a handful of i18n functions so that the proper textdomain is now being used
++ Removed 3.21.0 fixes for iOS touch issues that are now causing iOS touch issues on quizzes.
++ When an order is deleted, all order transactions will also be deleted. This does not happen until the order is deleted (transactions will remain while the order is in the trash)
++ Fixed an issue causing duplicated quizzes to initially show images for question images & image choices (reorder pictures & picture choice) but the image data would not be properly saved so when returning to the builder or viewing a quiz on the frontend the images would be lost
+
+##### Deprecated Functions & Methods
+
++ Deprecated `LLMS_Section->get_children_lessons()`, use `LLMS_Section->get_lessons( 'posts' )` instead
+
+##### Template Updates
+
++ [course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/syllabus.php)
++ [product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-button.php)
++ [product/access-plan-description.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-description.php)
++ [product/access-plan-feature.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-feature.php)
++ [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
++ [product/access-plan-restrictions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-restrictions.php)
++ [product/access-plan-title.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-title.php)
++ [product/access-plan-trial.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-trial.php)
++ [product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
+
+
 = v3.23.0 - 2018-08-27 =
 ------------------------
 

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Base Achievement Class
  * Handles generating Achievement
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Achievement {
 
@@ -27,7 +27,7 @@ class LLMS_Achievement {
 	 * Checks if achievement is enabled
 	 * @return   bool
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.24.0
 	 * @todo     returning true always. Need to build setting to disable / enable
 	 */
 	function is_enabled() {

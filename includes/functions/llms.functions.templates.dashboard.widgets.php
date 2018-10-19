@@ -1,8 +1,8 @@
 <?php
 /**
  * Template functions for displaying stat widgets on the student dashboard
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * @param    string     $content     Content (HTML) of the widget body.
  * @param    string     $empty_text  Content (text) to display if $content is empty.
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 function llms_sd_dashboard_widget( $title, $content, $empty_text = '' ) {
 	?>
@@ -37,8 +37,8 @@ function llms_sd_dashboard_widget( $title, $content, $empty_text = '' ) {
  * @param   int       $timestamp  Timestamp used to display the date.
  * @param   string    $empty_text Content (text) to display if $content is empty.
  * @return  void
- * @since   [version]
- * @version [version]
+ * @since   3.24.0
+ * @version 3.24.0
  */
 function llms_sd_dashboard_date_widget( $title, $timestamp, $empty_text = '' ) {
 
@@ -68,8 +68,8 @@ function llms_sd_dashboard_date_widget( $title, $timestamp, $empty_text = '' ) {
  * @param    string     $text   Text to display within the donut.
  * @param    string     $size   Size of the chart.
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 function llms_sd_dashboard_donut_widget( $title, $perc, $text = '', $size = 'medium' ) {
 

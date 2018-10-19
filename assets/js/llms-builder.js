@@ -3144,7 +3144,7 @@ define( 'Models/_Utilities',[], function() {
 /**
  * Quiz Schema
  * @since    3.17.6
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Schemas/Quiz',[], function() {
 
@@ -3222,7 +3222,7 @@ define( 'Schemas/Quiz',[], function() {
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Models/Quiz',[
 		'Collections/Questions',
@@ -3310,7 +3310,7 @@ define( 'Models/Quiz',[
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		initialize: function() {
 
@@ -3454,7 +3454,7 @@ define( 'Models/Quiz',[
 /**
  * Lesson Schemas
  * @since    3.17.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Schemas/Lesson',[], function() {
 
@@ -3624,7 +3624,7 @@ define( 'Schemas/Lesson',[], function() {
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -3662,7 +3662,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		defaults: function() {
 			return {
@@ -3769,8 +3769,8 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		/**
 		 * Retrieve the questions percentage value within the quiz
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		get_points_percentage: function() {
 
@@ -3838,7 +3838,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		add_quiz: function( data ) {
 
@@ -4325,7 +4325,7 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
 /**
  * Course Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -4384,7 +4384,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 * @param    obj   lesson  lesson data obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		add_existing_lesson: function( lesson ) {
 
@@ -4490,8 +4490,8 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * Retrieve the total number of points in the course
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		get_total_points: function() {
 
@@ -7435,7 +7435,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 /**
  * Model settings fields view
  * @since    3.17.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Views/SettingsFields',[], function() {
 
@@ -7695,7 +7695,7 @@ define( 'Views/SettingsFields',[], function() {
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -7848,7 +7848,7 @@ define( 'Views/SettingsFields',[], function() {
 /**
  * Lesson Editor (Sidebar) View
  * @since    3.17.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Views/LessonEditor',[
 		'Views/_Detachable',
@@ -7903,7 +7903,7 @@ define( 'Views/LessonEditor',[
 		 * @param    obj   data  parent template data
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		initialize: function( data ) {
 
@@ -7935,7 +7935,7 @@ define( 'Views/LessonEditor',[
 		 * Render the view
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		render: function() {
 
@@ -7960,8 +7960,8 @@ define( 'Views/LessonEditor',[
 		/**
 		 * Render the portion of the template which displays the points percentage
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		render_points_percentage: function() {
 			this.$el.find( '#llms-model-settings-field--points .llms-editable-input' )
@@ -8983,7 +8983,7 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( 'Views/Quiz',[
 		'Models/Quiz',
@@ -9239,7 +9239,7 @@ define( 'Views/Quiz',[
 		 * Add an existing quiz to a lesson
 		 * @param    obj  event  js event object
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		add_existing_quiz: function( event ) {
 
@@ -10415,7 +10415,7 @@ define( 'Views/Sidebar',[
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -10461,7 +10461,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	_.mixin( {
 
@@ -10507,8 +10507,8 @@ require( [
 		 * Strips IDs & Parent References from quizzes and all quiz questions
 		 * @param    obj   quiz   raw quiz object (not a model)
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		prepareQuizObjectForCloning: function( quiz ) {
 

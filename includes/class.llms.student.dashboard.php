@@ -4,14 +4,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Student_Dashboard {
 
 	/**
 	 * Constructor
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function __construct() {
 
@@ -119,7 +119,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public static function get_tabs() {
 
@@ -250,8 +250,8 @@ class LLMS_Student_Dashboard {
 	 * Handle modification of the default dashboard title for certain pages and sub pages
 	 * @param    string     $title  default title HTML
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function modify_dashboard_title( $title ) {
 

@@ -3,7 +3,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.23.0
+ * Version: 3.24.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -26,7 +26,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.23.0';
+	public $version = '3.24.0';
 
 	protected static $_instance = null;
 
@@ -451,8 +451,8 @@ final class LifterLMS {
 	/**
 	 * Grading instance
 	 * @return   obj
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function grades() {
 		return LLMS_Grades::instance();

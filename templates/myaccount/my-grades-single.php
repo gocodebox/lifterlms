@@ -1,8 +1,8 @@
 <?php
 /**
  * My Grades Single Course Template
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 defined( 'ABSPATH' ) || exit;
 llms_print_notices();

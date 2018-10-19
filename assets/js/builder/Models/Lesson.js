@@ -1,7 +1,7 @@
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -39,7 +39,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * New lesson defaults
 		 * @return   obj
 		 * @since    3.13.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		defaults: function() {
 			return {
@@ -146,8 +146,8 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		/**
 		 * Retrieve the questions percentage value within the quiz
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		get_points_percentage: function() {
 
@@ -215,7 +215,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		add_quiz: function( data ) {
 

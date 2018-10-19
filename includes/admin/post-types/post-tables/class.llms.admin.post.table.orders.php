@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns
  * Some functions were migrated from non-classed functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Admin_Post_Table_Orders {
 
@@ -31,7 +31,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @param   array $columns array of columns]
 	 * @return  array
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.24.0
 	 */
 	public function add_columns( $columns ) {
 

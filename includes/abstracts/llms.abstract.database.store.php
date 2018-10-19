@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WPDB database interactions
  * @since    3.14.0
- * @version  [version]
+ * @version  3.24.0
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -187,7 +187,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Create the item in the database
 	 * @return   int|false
 	 * @since    3.14.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function create() {
 
@@ -211,7 +211,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Delete the object from the database
 	 * @return   boolean     true on success, false otherwise
 	 * @since    3.14.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function delete() {
 
@@ -256,7 +256,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    array     $data  data to update as key=>val
 	 * @return   bool
 	 * @since    3.14.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function update( $data ) {
 
@@ -296,7 +296,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Creates is it doesn't already exist, updates if it does
 	 * @return   boolean
 	 * @since    3.14.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function save() {
 

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Course Model
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
  * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -94,8 +94,8 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve the total points available for the course
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_available_points() {
 		$points = 0;
@@ -166,7 +166,7 @@ implements LLMS_Interface_Post_Audio
 	 *                            term_id, name, slug, and more
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_difficulty( $field = 'name' ) {
 
@@ -209,7 +209,7 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string     $return  type of return [ids|posts|lessons]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
@@ -279,7 +279,7 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string  $return  type of return [ids|posts|sections]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_sections( $return = 'sections' ) {
 

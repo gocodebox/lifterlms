@@ -1,7 +1,7 @@
 /**
  * Course Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -60,7 +60,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 * @param    obj   lesson  lesson data obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		add_existing_lesson: function( lesson ) {
 
@@ -166,8 +166,8 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		/**
 		 * Retrieve the total number of points in the course
 		 * @return   int
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		get_total_points: function() {
 

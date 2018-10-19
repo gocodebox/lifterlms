@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Registration Forms (excludes checkout registration)
  *
  * @since   3.0.0
- * @version [version]
+ * @version 3.24.0
  */
 class LLMS_Controller_Registration {
 
@@ -51,7 +51,7 @@ class LLMS_Controller_Registration {
 	 * Handle submission of user registrration forms
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function register() {
 

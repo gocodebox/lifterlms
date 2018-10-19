@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Classes/bbPress
  * @since    3.12.0
- * @version  [version]
+ * @version  3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -72,7 +72,7 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 	 * @param    array     $instance  instance data
 	 * @return   void
 	 * @since    3.12.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function form( $instance ) {
 

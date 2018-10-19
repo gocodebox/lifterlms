@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Coupon Metabox
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
@@ -31,7 +31,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 *
 	 * @return  array
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.24.0
 	 */
 	public function get_fields() {
 

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Student Class
  * Manages data and interactions with a LifterLMS Student
  * @since   2.2.3
- * @version [version]
+ * @version 3.24.0
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -288,7 +288,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
 	 * @since   ??
-	 * @version [version]
+	 * @version 3.24.0
 	 */
 	public function get_completed_courses( $args = array() ) {
 
@@ -622,7 +622,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    bool    $use_cache  If true, uses cached results
 	 * @return   mixed
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_grade( $object_id, $use_cache = true ) {
 		$grade = LLMS()->grades()->get_grade( $object_id, $this, $use_cache );
@@ -934,7 +934,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                                  if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
@@ -994,7 +994,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param    string  $type       object post type [course|course_track|section]
 		 * @param    int     $user_id    WP_User ID of the student
 		 * @since    unknown
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type, $this->get_id() );
 
@@ -1052,7 +1052,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
@@ -1123,7 +1123,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger      String describing the reason for mark incompletion
 	 * @return   boolean
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function insert_incompletion_postmeta( $object_id, $trigger = 'unspecified' ) {
 

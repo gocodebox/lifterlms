@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.24.0
  */
 abstract class LLMS_Admin_Table {
 
@@ -230,7 +230,7 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the array of columns defined by set_columns
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_columns( $context = 'display' ) {
 
@@ -715,8 +715,8 @@ abstract class LLMS_Admin_Table {
 	 * Get a CSS class list (as a string) for each TR
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function get_tr_classes( $row ) {
 		return apply_filters( 'llms_table_get_' . $this->id . '_tr_classes', 'llms-table-tr', $row );

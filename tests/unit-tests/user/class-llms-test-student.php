@@ -3,7 +3,7 @@
  * Tests for LifterLMS Student Functions
  * @group    LLMS_Student
  * @since    3.5.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -339,8 +339,8 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	/**
 	 * Test get_grade() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_get_grade() {
 

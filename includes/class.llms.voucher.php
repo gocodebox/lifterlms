@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Voucher Class
  * @since    2.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Voucher {
 
@@ -394,7 +394,7 @@ class LLMS_Voucher {
 	 * @param  string   $post_type  allows filtering of products by post type
 	 * @return array
 	 * @since   2.0.0
-	 * @version [version]
+	 * @version 3.24.0
 	 */
 	public function get_products( $post_type = 'any' ) {
 

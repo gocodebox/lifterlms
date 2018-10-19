@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Hooks and actions related to post relationships
  * @since    3.16.12
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Post_Relationships {
 
@@ -133,7 +133,7 @@ class LLMS_Post_Relationships {
 	 * @param    int     $post_id  WP Post ID of the deleted post
 	 * @return   void
 	 * @since    3.16.12
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function maybe_update_relationships( $post_id ) {
 
@@ -170,7 +170,7 @@ class LLMS_Post_Relationships {
 	 * @param    array     $data  relationship data array
 	 * @return   void
 	 * @since    3.16.12
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function unset_relationships( $post, $data ) {
 

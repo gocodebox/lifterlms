@@ -1,20 +1,25 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Localize JS strings
  * This file should not be edited directly
  * It is compiled automatically via the gulp task `js:pot`
  * See the lifterlms-lib-tasks package for more information
+ *
+ * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.23.0
+ * @version  3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Localize JS strings
  */
 class LLMS_L10n_JS {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.17.8
 	 * @version  3.17.8
 	 */
@@ -24,31 +29,35 @@ class LLMS_L10n_JS {
 
 	/**
 	 * Get strings to be passed to LifterLMS l10n class
-	 * @param    array  $strings  existing strings from core / 3rd parties
+	 *
+	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.23.0
+	 * @version  3.24.0
 	 */
 	public function get_strings( $strings ) {
-
+		// phpcs:disable
 		return array_merge( $strings, array(
 
 			/**
-			 * file: assets/js/app/llms-l10n.js
+			 * File: assets/js/app/llms-l10n.js.
+			 *
 			 * @since    2.7.3
 			 * @version  3.16.0
 			 */
 			'This is a %2$s %1$s String' => esc_html__( 'This is a %2$s %1$s String', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/app/llms-lesson-preview.js
+			 * File: assets/js/app/llms-lesson-preview.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.16.12
 			 */
 			'You do not have permission to access this content' => esc_html__( 'You do not have permission to access this content', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/app/llms-password-strength.js
+			 * File: assets/js/app/llms-password-strength.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.7.0
 			 */
@@ -61,23 +70,26 @@ class LLMS_L10n_JS {
 			'Mismatch' => esc_html__( 'Mismatch', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/app/llms-pricing-tables.js
+			 * File: assets/js/app/llms-pricing-tables.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.9.1
 			 */
 			'Members Only Pricing' => esc_html__( 'Members Only Pricing', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/app/llms-student-dashboard.js
+			 * File: assets/js/app/llms-student-dashboard.js.
+			 *
 			 * @since    3.7.0
 			 * @version  3.10.0
 			 */
 			'Are you sure you want to cancel your subscription?' => esc_html__( 'Are you sure you want to cancel your subscription?', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Models/Lesson.js
+			 * File: assets/js/builder/Models/Lesson.js.
+			 *
 			 * @since    3.13.0
-			 * @version  3.19.3
+			 * @version  3.24.0
 			 */
 			'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 			'lessons' => esc_html__( 'lessons', 'lifterlms' ),
@@ -87,16 +99,18 @@ class LLMS_L10n_JS {
 			'%1$s Quiz' => esc_html__( '%1$s Quiz', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Models/Quiz.js
+			 * File: assets/js/builder/Models/Quiz.js.
+			 *
 			 * @since    3.16.0
-			 * @version  3.19.2
+			 * @version  3.24.0
 			 */
 			'New Quiz' => esc_html__( 'New Quiz', 'lifterlms' ),
 			'quizzes' => esc_html__( 'quizzes', 'lifterlms' ),
 			'quiz' => esc_html__( 'quiz', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Models/Section.js
+			 * File: assets/js/builder/Models/Section.js.
+			 *
 			 * @since    3.16.0
 			 * @version  3.16.12
 			 */
@@ -105,9 +119,10 @@ class LLMS_L10n_JS {
 			'section' => esc_html__( 'section', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Schemas/Lesson.js
+			 * File: assets/js/builder/Schemas/Lesson.js.
+			 *
 			 * @since    3.17.0
-			 * @version  3.17.1
+			 * @version  3.24.0
 			 */
 			'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 			'Video Embed URL' => esc_html__( 'Video Embed URL', 'lifterlms' ),
@@ -115,6 +130,9 @@ class LLMS_L10n_JS {
 			'Free Lesson' => esc_html__( 'Free Lesson', 'lifterlms' ),
 			'Require Passing Grade on Quiz' => esc_html__( 'Require Passing Grade on Quiz', 'lifterlms' ),
 			'Require Passing Grade on Assignment' => esc_html__( 'Require Passing Grade on Assignment', 'lifterlms' ),
+			'Lesson Weight' => esc_html__( 'Lesson Weight', 'lifterlms' ),
+			'POINTS' => esc_html__( 'POINTS', 'lifterlms' ),
+			'Determines the weight of the lesson when calculating the overall grade of the course.' => esc_html__( 'Determines the weight of the lesson when calculating the overall grade of the course.', 'lifterlms' ),
 			'Prerequisite' => esc_html__( 'Prerequisite', 'lifterlms' ),
 			'Drip Method' => esc_html__( 'Drip Method', 'lifterlms' ),
 			'None' => esc_html__( 'None', 'lifterlms' ),
@@ -127,9 +145,10 @@ class LLMS_L10n_JS {
 			'Time' => esc_html__( 'Time', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Schemas/Quiz.js
+			 * File: assets/js/builder/Schemas/Quiz.js.
+			 *
 			 * @since    3.17.6
-			 * @version  3.17.6
+			 * @version  3.24.0
 			 */
 			'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 			'Description' => esc_html__( 'Description', 'lifterlms' ),
@@ -145,14 +164,16 @@ class LLMS_L10n_JS {
 			'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' => esc_html__( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/_Detachable.js
+			 * File: assets/js/builder/Views/_Detachable.js.
+			 *
 			 * @since    3.16.12
 			 * @version  3.16.12
 			 */
 			'Are you sure you want to detach this %s?' => esc_html__( 'Are you sure you want to detach this %s?', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/_Editable.js
+			 * File: assets/js/builder/Views/_Editable.js.
+			 *
 			 * @since    3.16.0
 			 * @version  3.17.8
 			 */
@@ -160,14 +181,16 @@ class LLMS_L10n_JS {
 			'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/_Trashable.js
+			 * File: assets/js/builder/Views/_Trashable.js.
+			 *
 			 * @since    3.16.12
 			 * @version  3.16.12
 			 */
 			'Are you sure you want to move this %s to the trash?' => esc_html__( 'Are you sure you want to move this %s to the trash?', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/Assignment.js
+			 * File: assets/js/builder/Views/Assignment.js.
+			 *
 			 * @since    3.17.0
 			 * @version  3.17.7
 			 */
@@ -179,7 +202,8 @@ class LLMS_L10n_JS {
 			'Unlock LifterLMS Assignments' => esc_html__( 'Unlock LifterLMS Assignments', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/Elements.js
+			 * File: assets/js/builder/Views/Elements.js.
+			 *
 			 * @since    3.16.0
 			 * @version  3.16.12
 			 */
@@ -187,7 +211,8 @@ class LLMS_L10n_JS {
 			'Search for existing lessons...' => esc_html__( 'Search for existing lessons...', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/PostSearch.js
+			 * File: assets/js/builder/Views/PostSearch.js.
+			 *
 			 * @since    3.16.0
 			 * @version  3.17.0
 			 */
@@ -197,16 +222,18 @@ class LLMS_L10n_JS {
 			'ID' => esc_html__( 'ID', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/Question.js
+			 * File: assets/js/builder/Views/Question.js.
+			 *
 			 * @since    3.16.0
 			 * @version  3.16.0
 			 */
 			'Are you sure you want to delete this question?' => esc_html__( 'Are you sure you want to delete this question?', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/Quiz.js
+			 * File: assets/js/builder/Views/Quiz.js.
+			 *
 			 * @since    3.16.0
-			 * @version  3.19.2
+			 * @version  3.24.0
 			 */
 			'An error occurred while trying to load the questions. Please refresh the page and try again.' => esc_html__( 'An error occurred while trying to load the questions. Please refresh the page and try again.', 'lifterlms' ),
 			'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),
@@ -214,16 +241,18 @@ class LLMS_L10n_JS {
 			'Add a Question' => esc_html__( 'Add a Question', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/builder/Views/SettingsFields.js
+			 * File: assets/js/builder/Views/SettingsFields.js.
+			 *
 			 * @since    3.17.0
-			 * @version  3.17.7
+			 * @version  3.24.0
 			 */
 			'Use SoundCloud or Spotify audio URLS.' => esc_html__( 'Use SoundCloud or Spotify audio URLS.', 'lifterlms' ),
 			'Permalink' => esc_html__( 'Permalink', 'lifterlms' ),
 			'Use YouTube, Vimeo, or Wistia video URLS.' => esc_html__( 'Use YouTube, Vimeo, or Wistia video URLS.', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-admin-addons.js
+			 * File: assets/js/llms-admin-addons.js.
+			 *
 			 * @since    3.22.0
 			 * @version  3.22.0
 			 */
@@ -231,7 +260,8 @@ class LLMS_L10n_JS {
 			'1 add-on' => esc_html__( '1 add-on', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-admin-settings.js
+			 * File: assets/js/llms-admin-settings.js.
+			 *
 			 * @since    3.7.3
 			 * @version  3.18.0
 			 */
@@ -239,7 +269,8 @@ class LLMS_L10n_JS {
 			'Select Image' => esc_html__( 'Select Image', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-admin.js
+			 * File: assets/js/llms-admin.js.
+			 *
 			 * @since    ??
 			 * @version  3.19.5
 			 */
@@ -247,7 +278,8 @@ class LLMS_L10n_JS {
 			'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-analytics.js
+			 * File: assets/js/llms-analytics.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.17.6
 			 */
@@ -258,7 +290,8 @@ class LLMS_L10n_JS {
 			'Date' => esc_html__( 'Date', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-builder.js
+			 * File: assets/js/llms-builder.js.
+			 *
 			 * @since    3.16.0
 			 * @version  3.16.0
 			 */
@@ -282,6 +315,9 @@ class LLMS_L10n_JS {
 			'Free Lesson' => esc_html__( 'Free Lesson', 'lifterlms' ),
 			'Require Passing Grade on Quiz' => esc_html__( 'Require Passing Grade on Quiz', 'lifterlms' ),
 			'Require Passing Grade on Assignment' => esc_html__( 'Require Passing Grade on Assignment', 'lifterlms' ),
+			'Lesson Weight' => esc_html__( 'Lesson Weight', 'lifterlms' ),
+			'POINTS' => esc_html__( 'POINTS', 'lifterlms' ),
+			'Determines the weight of the lesson when calculating the overall grade of the course.' => esc_html__( 'Determines the weight of the lesson when calculating the overall grade of the course.', 'lifterlms' ),
 			'Prerequisite' => esc_html__( 'Prerequisite', 'lifterlms' ),
 			'Drip Method' => esc_html__( 'Drip Method', 'lifterlms' ),
 			'None' => esc_html__( 'None', 'lifterlms' ),
@@ -327,21 +363,24 @@ class LLMS_L10n_JS {
 			'Search for existing lessons...' => esc_html__( 'Search for existing lessons...', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-metabox-product.js
+			 * File: assets/js/llms-metabox-product.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.23.0
 			 */
 			'There was an error loading the necessary resources. Please try again.' => esc_html__( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-metabox-students.js
+			 * File: assets/js/llms-metabox-students.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.0.0
 			 */
 			'Please select a student to enroll' => esc_html__( 'Please select a student to enroll', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-metaboxes.js
+			 * File: assets/js/llms-metaboxes.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.21.0
 			 */
@@ -354,7 +393,8 @@ class LLMS_L10n_JS {
 			'View' => esc_html__( 'View', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-quiz-attempt-review.js
+			 * File: assets/js/llms-quiz-attempt-review.js.
+			 *
 			 * @since    3.16.0
 			 * @version  3.16.9
 			 */
@@ -362,7 +402,8 @@ class LLMS_L10n_JS {
 			'points' => esc_html__( 'points', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms-quiz.js
+			 * File: assets/js/llms-quiz.js.
+			 *
 			 * @since    1.0.0
 			 * @version  3.16.9
 			 */
@@ -379,7 +420,8 @@ class LLMS_L10n_JS {
 			'You must select an answer to continue.' => esc_html__( 'You must select an answer to continue.', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/llms.js
+			 * File: assets/js/llms.js.
+			 *
 			 * @since    3.14.0
 			 * @version  3.14.0
 			 */
@@ -396,14 +438,16 @@ class LLMS_L10n_JS {
 			'Are you sure you want to cancel your subscription?' => esc_html__( 'Are you sure you want to cancel your subscription?', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/partials/_metabox-field-repeater.js
+			 * File: assets/js/partials/_metabox-field-repeater.js.
+			 *
 			 * @since    3.11.0
 			 * @version  3.23.0
 			 */
 			'Are you sure you want to delete this row? This cannot be undone.' => esc_html__( 'Are you sure you want to delete this row? This cannot be undone.', 'lifterlms' ),
 
 			/**
-			 * file: assets/js/private/llms-metaboxes.js
+			 * File: assets/js/private/llms-metaboxes.js.
+			 *
 			 * @since    3.0.0
 			 * @version  3.21.0
 			 */
@@ -415,7 +459,7 @@ class LLMS_L10n_JS {
 			'View' => esc_html__( 'View', 'lifterlms' ),
 
 		) );
-
+		// phpcs:enable
 	}
 
 }

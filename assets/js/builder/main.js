@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -47,7 +47,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	_.mixin( {
 
@@ -93,8 +93,8 @@ require( [
 		 * Strips IDs & Parent References from quizzes and all quiz questions
 		 * @param    obj   quiz   raw quiz object (not a model)
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		prepareQuizObjectForCloning: function( quiz ) {
 

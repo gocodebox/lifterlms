@@ -4,7 +4,7 @@
  * @group    LLMS_Course
  * @group    LLMS_Post_Model
  * @since    3.4.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
@@ -95,8 +95,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_available_points() method
 	 * @return   [type]
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_get_available_points() {
 

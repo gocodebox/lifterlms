@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification Controller: Transaction Success
  * @since    3.8.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notification_Controller {
 
@@ -110,8 +110,8 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 * @param    string     $type  notification type [basic|email]
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_test_settings( $type ) {
 
@@ -168,8 +168,8 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 * @param    string   $type  notification type [basic|email]
 	 * @param    array    $data  array of test notification data as specified by $this->get_test_data()
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function send_test( $type, $data = array() ) {
 

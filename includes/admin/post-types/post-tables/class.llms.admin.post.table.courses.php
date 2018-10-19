@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add, Customize, and Manage LifterLMS Course
  * @since    3.3.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Admin_Post_Table_Courses {
 
@@ -56,7 +56,7 @@ class LLMS_Admin_Post_Table_Courses {
 	 * @param    array      $post_ids     selected post ids
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function handle_bulk_actions( $redirect_to, $doaction, $post_ids ) {
 

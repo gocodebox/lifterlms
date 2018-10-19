@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
  * Child Class. Extends from LLMS_Certificate.
  * Generates certificate post for user. Triggered from engagement.
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
@@ -62,7 +62,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @param    int   $lesson_id  ID of associated lesson
 	 * @return   void
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function init( $email_id, $person_id, $lesson_id ) {
 		global $wpdb;

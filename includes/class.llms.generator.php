@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Generate LMS Content from export files or raw arrays of data
  * @since    3.3.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Generator {
 
@@ -862,7 +862,7 @@ class LLMS_Generator {
 	 *
 	 * @return   void
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function handle_prerequisites() {
 

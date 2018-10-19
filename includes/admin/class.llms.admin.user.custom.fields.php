@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Add Custom User Fields to user admin panel screens
  * Applies to edit-user.php, user-new.php, & profile.php
  * @since    2.7.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Admin_User_Custom_Fields {
 
@@ -183,7 +183,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @param    mixed  $user   Instance of WP_User or WP User ID
 	 * @return   void
 	 * @since    2.7.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function output_custom_fields( $user ) {
 

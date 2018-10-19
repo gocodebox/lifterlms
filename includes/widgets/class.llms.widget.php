@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Base LifterLMS Widget Class
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Widget extends WP_Widget {
 
@@ -47,7 +47,7 @@ class LLMS_Widget extends WP_Widget {
 	 * @param array $instance Previously saved values from database.
 	 * @return  void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 *
 	 */
 	public function form( $instance ) {

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Navigation Menus
  * @since    3.14.7
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Nav_Menus {
 
@@ -224,7 +224,7 @@ class LLMS_Nav_Menus {
 	 * Output the metabox
 	 * @return   void
 	 * @since    3.14.7
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function output() {
 

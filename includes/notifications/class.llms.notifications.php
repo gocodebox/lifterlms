@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
  * @since     3.8.0
- * @version   [version]
+ * @version   3.24.0
  */
 class LLMS_Notifications {
 
@@ -186,7 +186,7 @@ class LLMS_Notifications {
 	 * @param    obj       $notification  instance of an LLMS_Notification
 	 * @return   obj|false
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_view( $notification ) {
 
@@ -208,7 +208,7 @@ class LLMS_Notifications {
 	 * @param    string     $trigger  trigger id (eg: lesson_complete).
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function get_view_classname( $trigger, $prefix = null ) {
 
@@ -324,7 +324,7 @@ class LLMS_Notifications {
 	 * @param    string     $path     full path to the view file, allows third parties to load external views
 	 * @return   boolean              true if the view is added and loaded, false otherwise
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function load_view( $trigger, $path = null, $prefix = null ) {
 

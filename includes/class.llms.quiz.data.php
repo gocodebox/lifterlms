@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Query data about a quiz
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Quiz_Data extends LLMS_Course_Data {
 
@@ -76,8 +76,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * @param    string     $status  status name
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_count_by_status( $status, $period = 'current' ) {
 
@@ -103,7 +103,7 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_fail_count( $period = 'current' ) {
 		return $this->get_count_by_status( 'fail', $period );

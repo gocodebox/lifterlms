@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Quizzes Reporting Table
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -71,7 +71,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	protected function get_data( $key, $data ) {
 

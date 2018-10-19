@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
  * which replaces "Author"
  *
  * @since    3.13.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Admin_Post_Table_Instructors {
 
@@ -73,7 +73,7 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * @param    array     $views  array of view link HTML string
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_views( $views ) {
 

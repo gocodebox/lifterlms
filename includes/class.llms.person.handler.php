@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Handling for login and registration (mostly)
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Person_Handler {
 
@@ -520,7 +520,7 @@ class LLMS_Person_Handler {
 	 * @param    string     $action  either registration or update
 	 * @return   WP_Error|int        WP_Error on error or the WP User ID
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private static function insert_data( $data = array(), $action = 'registration' ) {
 

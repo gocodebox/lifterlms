@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS Section Model
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Section extends LLMS_Post_Model {
 
@@ -77,7 +77,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Retrieve the previous section
 	 * @return   obj|false
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_next() {
 
@@ -100,8 +100,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @param    string     $user_id    WP_User ID, if none supplied users current user (if exists)
 	 * @param    bool       $use_cache  when true, uses results from from the wp object cache (if available)
 	 * @return   float
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_percent_complete( $user_id = '', $use_cache = true ) {
 
@@ -140,7 +140,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @param    string  $return  type of return [ids|posts|lessons]
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
@@ -188,7 +188,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function toArrayAfter( $arr ) {
 
@@ -399,8 +399,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Get All child lessons
 	 * @return      [array] [array of post objects of all child lessons]
 	 * @since       1.0.0
-	 * @version     [version]
-	 * @deprecated  [version]
+	 * @version     3.24.0
+	 * @deprecated  3.24.0
 	 */
 	public function get_children_lessons() {
 

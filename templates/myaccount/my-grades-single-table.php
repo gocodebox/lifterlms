@@ -2,8 +2,8 @@
 /**
  * My Grades Single Course Table Template
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;

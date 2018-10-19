@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -229,7 +229,7 @@ function llms_get_core_supported_themes() {
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps
@@ -310,7 +310,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * @param    array      $classes     additional custom css classes to add to the chart element
  * @return   string
  * @since    3.9.0
- * @version  [version]
+ * @version  3.24.0
  */
 function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
 	$percentage = is_numeric( $percentage ) ? $percentage : 0;
@@ -357,7 +357,7 @@ function llms_get_engagement_triggers() {
  * Get a list of registered engagement types
  * @return   array
  * @since    3.1.0
- * @version  [version]
+ * @version  3.24.0
  */
 function llms_get_engagement_types() {
 	return apply_filters( 'lifterlms_engagement_types', array(

@@ -2,7 +2,7 @@
 /**
  * LifterLMS Unit Test Case Base clase
  * @since    3.3.1
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_UnitTestCase extends WP_UnitTestCase {
 
@@ -66,7 +66,7 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 *                                   fractions will be rounded up
 	 * @return   void
 	 * @since    3.7.3
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	protected function complete_courses_for_student( $student_id = 0, $course_ids = array(), $perc = 100 ) {
 
@@ -126,8 +126,8 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 	 *                                   EG: a quiz with 5 questions CANNOT get a 75%!
 	 *
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function take_quiz( $quiz_id, $student_id, $grade = 100 ) {
 

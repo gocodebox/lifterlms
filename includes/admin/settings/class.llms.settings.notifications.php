@@ -4,14 +4,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Admin Settings: Notifications Tab
  * @since    3.8.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Constructor
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function __construct() {
 
@@ -49,7 +49,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * @param    obj     $controller  instance of an LLMS_Notification_Controller
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function get_notification_settings( $controller ) {
 
@@ -177,8 +177,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * Disable save button on the main notification tab (list)
 	 * @param    bool      $bool  default display value (true)
 	 * @return   boolean
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function maybe_disable_save( $bool ) {
 
@@ -201,8 +201,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Remove test data from $_POST so that it wont be saved to the DB
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function before_save() {
 
@@ -218,8 +218,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Send a test notification after notification data is saved
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function after_save() {
 

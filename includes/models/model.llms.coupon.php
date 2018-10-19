@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Coupon Model
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  *
  * @property  $coupon_amount  (float)  Amount to subtract from the price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $coupon_courses  (array)  Array of Course IDs the coupon can be used against
@@ -102,7 +102,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * Get the discount type for human reading and allow translation
 	 *
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.24.0
 	 * @return  string
 	 */
 	public function get_formatted_discount_type() {
