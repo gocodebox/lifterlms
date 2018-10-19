@@ -89,11 +89,13 @@
 
 		&.llms-active,
 		&.llms-completed,
+		&.llms-pass, // quiz
 		&.llms-txn-succeeded {
 			color: darken( $color-green, 45 );
 			background-color: $color-green;
 		}
 
+		&.llms-fail, // quiz
 		&.llms-failed,
 		&.llms-expired,
 		&.llms-cancelled,
@@ -102,6 +104,7 @@
 			background-color: $color-red;
 		}
 
+		&.llms-incomplete, // assignment
 		&.llms-on-hold,
 		&.llms-pending,
 		&.llms-pending-cancel,
