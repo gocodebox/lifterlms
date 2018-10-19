@@ -12,7 +12,7 @@ var   gulp              = require( 'gulp' )
 	, sourcemaps        = require( 'gulp-sourcemaps' )
 ;
 
-gulp.task( 'js:builder', function() {
+gulp.task( 'js:builder', function( cb ) {
 
 	gulp.src( 'assets/js/builder/main.js' )
 		// unminified
@@ -60,4 +60,7 @@ gulp.task( 'js:builder', function() {
 		.pipe( rename( 'llms-builder.min.js' ) )
 		.pipe( sourcemaps.write('/') )
 		.pipe( gulp.dest( 'assets/js/' ) );
+
+	cb();
+
 });
