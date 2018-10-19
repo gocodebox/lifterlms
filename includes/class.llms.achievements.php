@@ -85,7 +85,6 @@ class LLMS_Achievements {
 					);
 				}
 			}
-
 		}
 
 		$query = new WP_Query( array(
@@ -98,8 +97,8 @@ class LLMS_Achievements {
 				array(
 					'compare' => 'IN',
 					'key' => '_llms_engagement_trigger_post',
-					'value' => $post_ids
-				)
+					'value' => $post_ids,
+				),
 			),
 		) );
 

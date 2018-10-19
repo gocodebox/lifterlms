@@ -350,7 +350,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				'last_activity' => $last_activity ? strtotime( $last_activity[0]->get( 'updated_date' ) ) : false,
 			) );
 
-		}
+		}// End if().
 
 	}
 }// End if().
@@ -481,7 +481,7 @@ function llms_modify_dashboard_pagination_links( $link ) {
 	$query = parse_url( $link, PHP_URL_QUERY );
 
 	if ( $query ) {
-		$link = str_replace( '?'.$query, '', $link );
+		$link = str_replace( '?' . $query, '', $link );
 	}
 
 	$parts = explode( '/', untrailingslashit( $link ) );
