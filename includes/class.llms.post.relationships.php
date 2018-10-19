@@ -133,7 +133,7 @@ class LLMS_Post_Relationships {
 	 * @param    int     $post_id  WP Post ID of the deleted post
 	 * @return   void
 	 * @since    3.16.12
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	public function maybe_update_relationships( $post_id ) {
 
@@ -143,6 +143,10 @@ class LLMS_Post_Relationships {
 		}
 
 		foreach ( $this->get_relationships() as $post_type => $relationships ) {
+
+			if ( $post->post_type !== $post_type ) {
+				continue;
+			}
 
 			foreach ( $relationships as $data ) {
 
@@ -166,13 +170,11 @@ class LLMS_Post_Relationships {
 	 * @param    array     $data  relationship data array
 	 * @return   void
 	 * @since    3.16.12
-	 * @version  3.16.12
+	 * @version  [version]
 	 */
 	private function unset_relationships( $post, $data ) {
 
 		$relationships = $this->get_related_posts( $post->ID, $data['post_type'], $data['meta_key'] );
-
-		global $wpdb;
 
 		foreach ( $relationships as $id ) {
 
