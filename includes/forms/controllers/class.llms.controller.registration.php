@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Registration Forms (excludes checkout registration)
  *
  * @since   3.0.0
- * @version 3.19.4
+ * @version [version]
  */
 class LLMS_Controller_Registration {
 
@@ -51,7 +51,7 @@ class LLMS_Controller_Registration {
 	 * Handle submission of user registrration forms
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.19.4
+	 * @version  [version]
 	 */
 	public function register() {
 
@@ -80,7 +80,7 @@ class LLMS_Controller_Registration {
 		} elseif ( ! is_numeric( $person_id ) ) {
 
 			// catch unexpected returns from llms_register_user()
-			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lirterlms' ), 'error' );
+			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
 
 		} else {
 

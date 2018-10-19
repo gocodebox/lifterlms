@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Navigation Menus
  * @since    3.14.7
- * @version  3.22.0
+ * @version  [version]
  */
 class LLMS_Nav_Menus {
 
@@ -224,7 +224,7 @@ class LLMS_Nav_Menus {
 	 * Output the metabox
 	 * @return   void
 	 * @since    3.14.7
-	 * @version  3.14.7
+	 * @version  [version]
 	 */
 	public function output() {
 
@@ -253,10 +253,10 @@ class LLMS_Nav_Menus {
 			</div>
 			<p class="button-controls">
 				<span class="list-controls">
-					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-llms-nav-items' ); ?>" class="select-all"><?php _e( 'Select all', 'woocommerce' ); ?></a>
+					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-llms-nav-items' ); ?>" class="select-all"><?php _e( 'Select all', 'lifterlms' ); ?></a>
 				</span>
 				<span class="add-to-menu">
-					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'woocommerce' ); ?>" name="add-post-type-menu-item" id="submit-posttype-llms-nav-items">
+					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'lifterlms' ); ?>" name="add-post-type-menu-item" id="submit-posttype-llms-nav-items">
 					<span class="spinner"></span>
 				</span>
 			</p>

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Account Edit Forms
  *
  * @since   3.7.0
- * @version 3.19.4
+ * @version [version]
  */
 class LLMS_Controller_Account {
 
@@ -67,7 +67,7 @@ class LLMS_Controller_Account {
 	 * Handle submission of user account edit form
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.19.4
+	 * @version  [version]
 	 */
 	public function update() {
 
@@ -94,7 +94,7 @@ class LLMS_Controller_Account {
 
 		} elseif ( ! is_numeric( $person_id ) ) {
 
-			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lirterlms' ), 'error' );
+			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
 
 		} else {
 
