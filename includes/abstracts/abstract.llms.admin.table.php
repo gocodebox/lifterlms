@@ -230,11 +230,12 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the array of columns defined by set_columns
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function get_columns( $context = 'display' ) {
 
-		$cols = $this->set_columns();
+		$cols = apply_filters( 'llms_table_get_' . $this->id . '_columns', $this->set_columns(), $context );
+
 		if ( $this->is_exportable ) {
 
 			foreach ( $cols as $id => $data ) {
@@ -245,7 +246,7 @@ abstract class LLMS_Admin_Table {
 			}
 		}
 
-		return apply_filters( 'llms_table_get_' . $this->id . '_columns', $cols, $context );
+		return $cols;
 
 	}
 
