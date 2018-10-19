@@ -4,11 +4,13 @@
 * @since    1.0.0
 * @version  [version]
 */
+
 defined( 'ABSPATH' ) || exit;
 
 require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
 require 'functions/llms.functions.templates.dashboard.php';
+require 'functions/llms.functions.templates.dashboard.widgets.php';
 require 'functions/llms.functions.templates.loop.php';
 require 'functions/llms.functions.templates.pricing.table.php';
 require 'functions/llms.functions.templates.privacy.php';

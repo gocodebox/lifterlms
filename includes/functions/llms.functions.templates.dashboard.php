@@ -4,6 +4,7 @@
  * @since    3.0.0
  * @version  [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -281,22 +282,44 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 		}
 
 		global $wp_query;
+		$slug = $wp_query->query['my-grades'];
 
 		// list courses
-		if ( empty( $wp_query->query['my-grades'] ) ) {
+		if ( '' === $slug || is_numeric( $slug ) ) {
 
-			$courses = $student->get_courses();
+			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
+			$page = $slug ? $slug : 1;
 
+			$sort = filter_input( INPUT_GET, 'sort', FILTER_SANITIZE_STRING );
+			if ( ! $sort ) {
+				$sort = 'date_desc';
+			}
+			$parts = explode( '_', $sort );
+
+			$courses = $student->get_courses( array(
+				'limit' => $per_page,
+				'skip' => $per_page * ( $page - 1 ),
+				'orderby' => $parts[0],
+				'order' => strtoupper( $parts[1] ),
+			) );
+
+			add_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 			llms_get_template( 'myaccount/my-grades.php', array(
 				'courses' => array_map( 'llms_get_post', $courses['results'] ),
 				'student' => $student,
+				'sort' => $sort,
+				'pagination' => array(
+					'current' => absint( $page ),
+					'max' => absint( ceil( $courses['found'] / $per_page ) ),
+				),
 			) );
+			remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 
 			// show single
 		} else {
 
 			$course = get_posts( array(
-				'name' => $wp_query->query['my-grades'],
+				'name' => $slug,
 				'post_type' => 'course',
 			) );
 
@@ -305,9 +328,26 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
+			// get the latest achievement for the course
+			$achievements = LLMS()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
+			$latest_achievement = false;
+			foreach ( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) as $achievement ) {
+				if ( in_array( $achievement->get( 'achievement_template' ), $achievements ) ) {
+					$latest_achievement = $achievement;
+					break;
+				}
+			}
+
+			$last_activity = $student->get_events( array(
+				'per_page' => 1,
+				'post_id' => $course->get( 'id' ),
+			) );
+
 			llms_get_template( 'myaccount/my-grades-single.php', array(
 				'course' => $course,
 				'student' => $student,
+				'latest_achievement' => $latest_achievement,
+				'last_activity' => $last_activity ? strtotime( $last_activity[0]->get( 'updated_date' ) ) : false,
 			) );
 
 		}
@@ -316,6 +356,15 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 }// End if().
 
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' ) ) {
+	/**
+	 * Output the template for a single grades table on the student dashboard
+	 *
+	 * @param   obj    $course  LLMS_Course.
+	 * @param   obj    $student LLMS_Student.
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
 	function lifterlms_template_student_dashboard_my_grades_table( $course, $student ) {
 
 		$section_headings = apply_filters( 'llms_student_dashboard_my_grades_table_headings', array(
@@ -332,37 +381,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' )
 
 	}
 }
-
-function llms_sd_my_grades_table_content( $id, $lesson, $student ) {
-
-	switch ( $id ) {
-
-		case 'completion_date':
-			echo $student->get_completion_date( $lesson->get( 'id' ), get_option( 'date_format' ) );
-		break;
-
-		case 'associated_quiz':
-			if ( $lesson->has_quiz() ) {
-				$attempt = $student->quizzes()->get_best_attempt( $lesson->get( 'quiz' ) );
-				$url = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
-				echo '<a href="' . $url . '">' . __( 'View', 'lifterlms' ) . '</a>';
-			} else {
-				echo '&ndash;';
-			}
-		break;
-
-		case 'overall_grade':
-			$grade = $student->get_grade( $lesson->get( 'id' ) );
-			echo is_numeric( $grade ) ? llms_get_donut( $grade, '', 'mini' ) : '&ndash;';
-		break;
-
-	}
-
-	do_action( 'llms_sd_my_grades_table_content_' . $id, $lesson, $student );
-
-}
-
-
 
 /**
  * Template for My Memberships section on dashboard index
@@ -459,7 +477,72 @@ endif;
  * @version  [version]
  */
 function llms_modify_dashboard_pagination_links( $link ) {
+
+	$query = parse_url( $link, PHP_URL_QUERY );
+
+	if ( $query ) {
+		$link = str_replace( '?'.$query, '', $link );
+	}
+
 	$parts = explode( '/', untrailingslashit( $link ) );
 	$page = end( $parts );
-	return llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $page . '/', llms_get_page_url( 'myaccount' ) );
+	$link = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $page . '/', llms_get_page_url( 'myaccount' ) );
+	if ( $query ) {
+		$link .= '?' . $query;
+	}
+
+	return $link;
+
+}
+
+/**
+ * Output content for a single cell on the student single course grades table
+ *
+ * @param   string    $id           key of the table cell.
+ * @param   obj       $lesson       LLMS_Lesson.
+ * @param   obj       $student      LLMS_Student.
+ * @param   array     $restrictions restriction data from `llms_page_restricted()`.
+ * @return  void
+ * @since   [version]
+ * @version [version]
+ */
+function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions ) {
+
+	do_action( 'llms_sd_my_grades_table_content_' . $id . '_before', $lesson, $student, $restrictions );
+
+	switch ( $id ) {
+
+		case 'completion_date':
+			if ( $student->is_complete( $lesson->get( 'id' ) ) ) {
+				echo $student->get_completion_date( $lesson->get( 'id' ), get_option( 'date_format' ) );
+			} else {
+				echo '&ndash;';
+			}
+		break;
+
+		case 'associated_quiz':
+			if ( $lesson->has_quiz() && $restrictions['is_restricted'] ) {
+				echo '<i class="fa fa-lock" aria-hidden="true"></i>';
+			} elseif ( $lesson->has_quiz() ) {
+				$attempt = $student->quizzes()->get_last_attempt( $lesson->get( 'quiz' ) );
+				$url = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
+				$text = $attempt ? __( 'Review', 'lifterlms' ) : __( 'Start', 'lifterlms' );
+				if ( $attempt ) {
+					echo '<span class="llms-status llms-' . esc_attr( $attempt->get( 'status' ) ) . '">' . $attempt->l10n( 'status' ) . '</span>';
+				}
+				echo '<a href="' . $url . '">' . $text . '</a>';
+			} else {
+				echo '&ndash;';
+			}
+		break;
+
+		case 'overall_grade':
+			$grade = $student->get_grade( $lesson->get( 'id' ) );
+			echo is_numeric( $grade ) ? llms_get_donut( $grade, '', 'mini' ) : '&ndash;';
+		break;
+
+	}
+
+	do_action( 'llms_sd_my_grades_table_content_' . $id, $lesson, $student, $restrictions );
+
 }
