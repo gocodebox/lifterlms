@@ -35,10 +35,10 @@ llms_print_notices();
 		<?php endforeach; ?>
 		</tbody>
 
-		<?php if ( 1 !== $pagination['current'] || $pagination['max'] !== $pagination['current'] ) : ?>
 		<tfoot>
 			<tr>
 				<td class="llms-table-navigation" colspan="2">
+					<?php if ( 1 !== $pagination['current'] || $pagination['max'] !== $pagination['current'] ) : ?>
 					<nav class="llms-pagination">
 					<?php echo paginate_links( array(
 						'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
@@ -51,9 +51,10 @@ llms_print_notices();
 						'type'         => 'list',
 					) ); ?>
 					</nav>
+					<?php endif; ?>
 				</td>
 				<td class="llms-table-sort" colspan="2">
-					<form action="<?php echo llms_get_endpoint_url( 'my-grades' ); ?>" method="GET">
+					<form action="<?php echo esc_url( llms_get_endpoint_url( 'my-grades' ) ); ?>" method="GET">
 						<label for="llms-sd-table-sort"><?php _e( 'Sort: ', 'lifterlms' ); ?></label>
 						<select name="sort" id="llms-sd-table-sort">
 							<option value="date_desc" <?php selected( 'date_desc', $sort ); ?>><?php esc_attr_e( 'Enrollment Date (Most Recent)', 'lifterlms' ); ?></option>
@@ -65,7 +66,6 @@ llms_print_notices();
 					</form>
 				</td>
 		</tfoot>
-		<?php endif; ?>
 
 	</table>
 
