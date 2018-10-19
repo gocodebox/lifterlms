@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.19.2
+ * @version  [version]
  */
 class LLMS_Admin_Builder {
 
@@ -15,7 +15,7 @@ class LLMS_Admin_Builder {
 	 * @param    obj     $wp_admin_bar  Instance of WP_Admin_Bar
 	 * @return   void
 	 * @since    3.16.7
-	 * @version  3.16.7
+	 * @version  [version]
 	 */
 	public static function admin_bar_menu( $wp_admin_bar ) {
 
@@ -26,7 +26,7 @@ class LLMS_Admin_Builder {
 				array(
 					'parent' => 'site-name',
 					'id'     => 'dashboard',
-					'title'  => __( 'Dashboard' ),
+					'title'  => __( 'Dashboard', 'lifterlms' ),
 					'href'   => admin_url(),
 				)
 			);

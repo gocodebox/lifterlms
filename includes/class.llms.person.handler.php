@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * User Handling for login and registration (mostly)
  *
  * @since    3.0.0
- * @version  3.19.4
+ * @version  [version]
  */
 class LLMS_Person_Handler {
 
@@ -520,7 +520,7 @@ class LLMS_Person_Handler {
 	 * @param    string     $action  either registration or update
 	 * @return   WP_Error|int        WP_Error on error or the WP User ID
 	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @version  [version]
 	 */
 	private static function insert_data( $data = array(), $action = 'registration' ) {
 
@@ -567,7 +567,7 @@ class LLMS_Person_Handler {
 
 		} else {
 
-			return new WP_Error( 'invalid', __( 'Invalid action' ) );
+			return new WP_Error( 'invalid', __( 'Invalid action', 'lifterlms' ) );
 
 		}// End if().
 

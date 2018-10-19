@@ -1,13 +1,17 @@
 <?php
 /**
- * LifterLMS Private Areas: Private Area Information Widget
+ * LifterLMS * LifterLMS bbPress forms list widget
+ *
+ * @package  LifterLMS/Classes/bbPress
  * @since    3.12.0
- * @version  3.12.0
+ * @version  [version]
  */
 
-// Restrict direct access
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LifterLMS bbPress forms list widget
+ */
 class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 
 	/**
@@ -68,14 +72,14 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 	 * @param    array     $instance  instance data
 	 * @return   void
 	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @version  [version]
 	 */
 	public function form( $instance ) {
 
 		$title = isset( $instance['title'] ) ? $instance['title'] : __( 'Course Forums', 'lifterlms' );
 		?>
 		<p>
-			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:' ); ?></label>
+			<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php esc_html_e( 'Title:', 'lifterlms' ); ?></label>
 			<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<?php

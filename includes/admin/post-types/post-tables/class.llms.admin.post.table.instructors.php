@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
  * which replaces "Author"
  *
  * @since    3.13.0
- * @version  3.23.0
+ * @version  [version]
  */
 class LLMS_Admin_Post_Table_Instructors {
 
@@ -73,7 +73,7 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * @param    array     $views  array of view link HTML string
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function get_views( $views ) {
 
@@ -102,7 +102,8 @@ class LLMS_Admin_Post_Table_Instructors {
 				'Mine <span class="count">(%s)</span>',
 				'Mine <span class="count">(%s)</span>',
 				$count,
-				'posts'
+				'posts',
+				'lifterlms'
 			),
 			number_format_i18n( $count )
 		);

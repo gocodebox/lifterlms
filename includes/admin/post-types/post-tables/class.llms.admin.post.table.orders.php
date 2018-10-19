@@ -5,10 +5,9 @@ defined( 'ABSPATH' ) || exit;
  * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns
  * Some functions were migrated from non-classed functions
  * @since    3.0.0
- * @version  3.19.0
+ * @version  [version]
  */
 class LLMS_Admin_Post_Table_Orders {
-
 
 	/**
 	 * Constructor
@@ -29,10 +28,10 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post. Appends custom columns to post grid
 	 *
-	 * @param  array $columns [array of columns]
-	 *
-	 * @return array $columns.
-	 * @since  3.0.0
+	 * @param   array $columns array of columns]
+	 * @return  array
+	 * @since   3.0.0
+	 * @version [version]
 	 */
 	public function add_columns( $columns ) {
 
@@ -43,7 +42,7 @@ class LLMS_Admin_Post_Table_Orders {
 			'access_status' => __( 'Access Status', 'lifterlms' ),
 			'product' => __( 'Product', 'lifterlms' ),
 			'revenue' => __( 'Revenue', 'lifterlms' ),
-			'type' => __( 'Order Type' ),
+			'type' => __( 'Order Type', 'lifterlms' ),
 			'order_date' => __( 'Date', 'lifterlms' ),
 		);
 

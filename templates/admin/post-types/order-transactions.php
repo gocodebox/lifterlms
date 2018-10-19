@@ -2,9 +2,10 @@
 /**
  * Transactions Table Metabox for Orders
  * @since    3.5.0
- * @version  3.8.0
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) { exit; }
 
 // create a "step" attribute for price fields according to LLMS settings
@@ -121,7 +122,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 			</div>
 
 			<div class="llms-metabox-field">
-				<button class="button button-primary tooltip" data-gateway="manual" name="llms_process_refund" title="<?php _e( 'The refund will be recorded and you will need to manually issue a refund', 'lifterlms' ); ?>" value="manual"><?php _e( 'Refund Manually' ); ?></button>
+				<button class="button button-primary tooltip" data-gateway="manual" name="llms_process_refund" title="<?php _e( 'The refund will be recorded and you will need to manually issue a refund', 'lifterlms' ); ?>" value="manual"><?php _e( 'Refund Manually', 'lifterlms' ); ?></button>
 				<button class="button button-primary gateway-btn" data-gateway="0" name="llms_process_refund" style="display:none;" value="gateway"><?php printf( _x( 'Refund via %s', 'refund via payment gateway', 'lifterlms' ), '<span class="llms-gateway-title"></span>' ); ?></button>
 			</div>
 
@@ -163,7 +164,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 			</div>
 
 			<div class="llms-metabox-field">
-				<button class="button button-primary" name="llms_record_txn" value="llms_record_txn"><?php _e( 'Record Payment' ); ?></button>
+				<button class="button button-primary" name="llms_record_txn" value="llms_record_txn"><?php _e( 'Record Payment', 'lifterlms' ); ?></button>
 			</div>
 
 			<div class="clear"></div>

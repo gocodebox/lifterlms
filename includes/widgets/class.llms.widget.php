@@ -1,10 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
-* Base LifterLMS Widget Class
-*
-* @author codeBOX
-* @project LifterLMS
-*/
+ * Base LifterLMS Widget Class
+ * @since    1.0.0
+ * @version  [version]
+ */
 class LLMS_Widget extends WP_Widget {
 
 	/**
@@ -42,16 +43,18 @@ class LLMS_Widget extends WP_Widget {
 
 	/**
 	 * Back-end widget form.
-	 *
 	 * @see WP_Widget::form()
-	 *
 	 * @param array $instance Previously saved values from database.
+	 * @return  void
+	 * @since    1.0.0
+	 * @version  [version]
+	 *
 	 */
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
 		?>
 		<p>
-		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:' ); ?></label>
+		<label for="<?php echo $this->get_field_id( 'title' ); ?>"><?php _e( 'Title:', 'lifterlms' ); ?></label>
 		<input class="widefat" id="<?php echo $this->get_field_id( 'title' ); ?>" name="<?php echo $this->get_field_name( 'title' ); ?>" type="text" value="<?php echo esc_attr( $title ); ?>">
 		</p>
 		<?php
