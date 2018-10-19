@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Query data about a quiz
  * @since    3.16.0
- * @version  3.17.2
+ * @version  [version]
  */
 class LLMS_Quiz_Data extends LLMS_Course_Data {
 
@@ -74,13 +72,14 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	}
 
 	/**
-	 * Retrieve # of quiz fails within the period
+	 * Retrieve the number assignments with a given status
+	 * @param    string     $status  status name
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	public function get_fail_count( $period = 'current' ) {
+	public function get_count_by_status( $status, $period = 'current' ) {
 
 		global $wpdb;
 
@@ -88,14 +87,26 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 			SELECT COUNT( id )
 			FROM {$wpdb->prefix}lifterlms_quiz_attempts
 			WHERE quiz_id = %d
-			  AND status = 'fail'
+			  AND status = %s
 			  AND update_date BETWEEN %s AND %s
 			",
 			$this->quiz_id,
+			$status,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
 
+	}
+
+	/**
+	 * Retrieve # of quiz fails within the period
+	 * @param    string     $period  date period [current|previous]
+	 * @return   int
+	 * @since    3.16.0
+	 * @version  [version]
+	 */
+	public function get_fail_count( $period = 'current' ) {
+		return $this->get_count_by_status( 'fail', $period );
 	}
 
 	/**
@@ -106,23 +117,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * @version  3.16.0
 	 */
 	public function get_pass_count( $period = 'current' ) {
-
-		global $wpdb;
-
-		return $wpdb->get_var( $wpdb->prepare( "
-			SELECT COUNT( id )
-			FROM {$wpdb->prefix}lifterlms_quiz_attempts
-			WHERE quiz_id = %d
-			  AND status = 'pass'
-			  AND update_date BETWEEN %s AND %s
-			",
-			$this->quiz_id,
-			$this->get_date( $period, 'start' ),
-			$this->get_date( $period, 'end' )
-		) );
-
+		return $this->get_count_by_status( 'pass', $period );
 	}
-
 
 	/**
 	 * Retrieve recent LLMS_User_Postmeta for the quiz
