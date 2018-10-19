@@ -1,11 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Quizzes Reporting Table
- *
  * @since    3.16.0
- * @version  3.16.10
+ * @version  [version]
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -72,7 +71,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  3.16.10
+	 * @version  [version]
 	 */
 	protected function get_data( $key, $data ) {
 
@@ -87,7 +86,12 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 					'per_page' => 1,
 				) );
 
-				$value = $query->found_results;
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+					'tab' => 'quizzes',
+					'stab' => 'attempts',
+					'quiz_id' => $quiz->get( 'id' ),
+				) );
+				$value = '<a href="' . $url . '">' . $query->found_results . '</a>';
 
 			break;
 
@@ -153,7 +157,8 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 		}// End switch().
 
-		return $value;
+		return $this->filter_get_data( $value, $key, $data );
+
 	}
 
 	/**
