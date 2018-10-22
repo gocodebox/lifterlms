@@ -361,7 +361,7 @@ class LLMS_Email {
 	 * @version  3.8.0
 	 */
 	public function set_subject( $subject = '' ) {
-		$this->subject = $subject;
+		$this->subject = html_entity_decode( $subject, ENT_QUOTES );
 		return $this;
 	}
 
