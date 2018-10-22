@@ -166,7 +166,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
 			break;
 
-		}
+		}// End switch().
 
 		return $code;
 

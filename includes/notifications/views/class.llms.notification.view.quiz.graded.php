@@ -113,7 +113,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 			return '';
 		}
 
-		return '<a href="'. esc_url( $attempt->get_permalink() ) . '">' . __( 'View the attempt', 'lifterlms' ) . '</a>';
+		return '<a href="' . esc_url( $attempt->get_permalink() ) . '">' . __( 'View the attempt', 'lifterlms' ) . '</a>';
 	}
 
 	/**
@@ -187,7 +187,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 				$code = $this->user->get_name();
 			break;
 
-		}
+		}// End switch().
 
 		return $code;
 
