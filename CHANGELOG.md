@@ -32,6 +32,7 @@ v3.24.0-beta.1 - 2018-10-19
 
 ##### Bug fixes
 
++ Fixed issue causing HTML entity codes to display in email subject lines. Thanks [@philwp](https://github.com/philwp)!
 + Fixed issue causing post cleanup functions to run queries against unsupported post types.
 + Fixed typos in a handful of i18n functions so that the proper textdomain is now being used
 + Removed 3.21.0 fixes for iOS touch issues that are now causing iOS touch issues on quizzes.
