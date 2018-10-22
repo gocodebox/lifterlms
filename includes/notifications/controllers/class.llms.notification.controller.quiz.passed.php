@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Quiz Passed
  * @since    3.8.0
- * @version  3.16.6
+ * @version  [version]
  */
 class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notification_Controller {
 
@@ -87,10 +85,10 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function get_title() {
-		return __( 'Quiz Passed', 'lifterlms' );
+		return __( 'Quizzes: Quiz Passed', 'lifterlms' );
 	}
 
 	/**

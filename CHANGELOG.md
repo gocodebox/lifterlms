@@ -19,6 +19,7 @@ v3.24.0 - 2018-10-??
 
 ##### Updates and Enhancements
 
++ Quiz Passed & Quiz Failed notifications have new names on the admin panel ("Quizzes: Quiz Passed" & "Quizzes: Quiz Failed")
 + Change the page title of the Student Dashboard page installed via the Setup Wizard to be "Dashboard" instead of "My Courses." Thanks [@philwp](https://github.com/philwp)!
 + In the course builder when a lesson is duplicated, the attached quiz will be duplicated as well
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method
