@@ -1,11 +1,16 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Email Base Class
  *
+ * @package  LifterLMS/Email
  * @since    1.0.0
- * @version  3.15.0
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Email Base Class
  */
 class LLMS_Email {
 
@@ -358,10 +363,10 @@ class LLMS_Email {
 	 * @param    string     $content_type    text string to use for the email subject
 	 * @return   $this
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	public function set_subject( $subject = '' ) {
-		$this->subject = $subject;
+		$this->subject = html_entity_decode( $subject, ENT_QUOTES );
 		return $this;
 	}
 
