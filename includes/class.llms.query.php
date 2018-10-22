@@ -1,14 +1,13 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
-* Query base class.
+* Query base class
+* Handles queries and endpoints.
 *
-* Handles queries and endpoints
 * @since   1.0.0
-* @version 3.16.8
+* @version [version]
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Query {
 
 	/**
@@ -118,7 +117,6 @@ class LLMS_Query {
 		$this->query_vars = array(
 			'confirm-payment' => get_option( 'lifterlms_myaccount_confirm_payment_endpoint', 'confirm-payment' ),
 			'lost-password' => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
-			'person-logout' => get_option( 'lifterlms_logout_endpoint', 'person-logout' ),
 		);
 
 	}
