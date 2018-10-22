@@ -29,7 +29,7 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	protected $action_hooks = array( 'lifterlms_quiz_passed' );
 
 	/**
-	 * Callback function called when a quiz is failed by a student
+	 * Callback function called when a quiz is passed by a student
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
 	 * @param    array   $quiz_id     WP Post ID of a LifterLMS quiz
 	 * @return   void
