@@ -24,6 +24,12 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		'dismissible' => true,
 	);
 
+	/**
+	 * Setup body for email notification
+	 * @return  string
+	 * @since   [version]
+	 * @version [version]
+	 */
 	protected function set_body_email() {
 
 		$mailer = LLMS()->mailer();
@@ -68,8 +74,8 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since    [version]
+	 * @version  [version]
 	 */
 	protected function set_footer() {
 		return '';
@@ -78,7 +84,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    3.8.0
+	 * @since    [version]
 	 * @version  [version]
 	 */
 	protected function set_merge_codes() {
@@ -98,7 +104,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    3.8.0
+	 * @since    [version]
 	 * @version  [version]
 	 */
 	protected function set_merge_data( $code ) {
