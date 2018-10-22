@@ -63,7 +63,6 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 			</tr>
 		<?php endforeach; ?>
 		</table>
-		{{DIVIDER}}
 		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the quiz attempt and leave remarks', 'lifterlms-assignments' ); ?></a></p>
 		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms-assignments' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
@@ -95,6 +94,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 			'{{GRADE_BAR}}' => __( 'Grade Bar', 'lifterlms' ),
 			'{{LESSON_TITLE}}' => __( 'Lesson Title', 'lifterlms' ),
 			'{{QUIZ_TITLE}}' => __( 'Quiz Title', 'lifterlms' ),
+			'{{REVIEW_URL}}' => __( 'Review URL', 'lifterlms' ),
 			'{{STATUS}}' => __( 'Quiz Status', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 		);
@@ -144,6 +144,18 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 
 			case '{{QUIZ_TITLE}}':
 				$code = get_the_title( $quiz->get_id() );
+			break;
+
+			case '{{REVIEW_URL}}':
+				$code = add_query_arg(
+					array(
+						'tab'        => 'quizzes',
+						'stab'       => 'attempts',
+						'quiz_id'    => $attempt->get( 'quiz_id' ),
+						'attempt_id' => $attempt->get( 'id' ),
+					),
+					admin_url( 'admin.php?page=llms-reporting' )
+				);
 			break;
 
 			case '{{STATUS}}':
