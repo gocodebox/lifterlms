@@ -1,8 +1,8 @@
 LifterLMS Changelog
 ===================
 
-v3.24.0-beta.1 - 2018-10-19
----------------------------
+v3.24.0 - 2018-10-??
+--------------------
 
 ##### "My Grades" Student Dashboard Endpoint
 
@@ -19,6 +19,7 @@ v3.24.0-beta.1 - 2018-10-19
 
 ##### Updates and Enhancements
 
++ Change the page title of the Student Dashboard page installed via the Setup Wizard to be "Dashboard" instead of "My Courses." Thanks [@philwp](https://github.com/philwp)!
 + In the course builder when a lesson is duplicated, the attached quiz will be duplicated as well
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method
 + Added the ability to send test emails for email notifications
@@ -35,6 +36,7 @@ v3.24.0-beta.1 - 2018-10-19
 + Fixed issue causing HTML entity codes to display in email subject lines. Thanks [@philwp](https://github.com/philwp)!
 + Fixed issue causing post cleanup functions to run queries against unsupported post types.
 + Fixed typos in a handful of i18n functions so that the proper textdomain is now being used
++ Removed `get_option()` call to unused option `lifterlms_logout_endpoint` which ran on WordPress initialization unnecessarily.
 + Removed 3.21.0 fixes for iOS touch issues that are now causing iOS touch issues on quizzes.
 + When an order is deleted, all order transactions will also be deleted. This does not happen until the order is deleted (transactions will remain while the order is in the trash)
 + Fixed an issue causing duplicated quizzes to initially show images for question images & image choices (reorder pictures & picture choice) but the image data would not be properly saved so when returning to the builder or viewing a quiz on the frontend the images would be lost
