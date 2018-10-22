@@ -10,7 +10,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 
 	/**
 	 * Trigger Identifier
-	 * @var  [type]
+	 * @var   string
 	 */
 	public $id = 'quiz_failed';
 
@@ -28,7 +28,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 
 	/**
 	 * Determines if test notifications can be sent
-	 * @var  bool
+	 * @var  array
 	 */
 	protected $testable = array(
 		'basic'	=> false,
@@ -65,28 +65,27 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	 * @version  [version]
 	 */
 	public function get_test_settings( $type ) {
-		if ( 'email' != $type ) {
+
+		if ( 'email' !== $type ) {
 			return;
 		}
+
 		$query = new LLMS_Query_Quiz_Attempt( array(
 			'per_page'	=> 25,
 			'status'	=> 'fail',
-		));
+		) );
 		$options = array(
 		   '' => '',
 		);
 		$attempts = array();
 		$results = $query->results;
-		if ( $results ) {
-			foreach ( $results as $result ) {
-				$attempts[] = new LLMS_Quiz_Attempt( $result->id );
-			}
-		}
-		foreach ( $attempts as $attempt ) {
-			$quiz = llms_get_post( $attempt->get( 'quiz_id' ) );
-			$student = llms_get_student( $attempt->get( 'user_id' ) );
-			if ( $attempt && $student ) {
-				$options[ $attempt->get( 'id' ) ] = esc_attr( sprintf( __( 'Attempt #%1$d for Quiz "%2$s" by %3$s', 'lifterlms' ), $attempt->get( 'id' ), $quiz->get( 'title' ), $student->get_name() ) );
+		if ( $query->has_results() ) {
+			foreach ( $query->get_attempts() as $attempt ) {
+				$quiz = llms_get_post( $attempt->get( 'quiz_id' ) );
+				$student = llms_get_student( $attempt->get( 'student_id' ) );
+				if ( $attempt && $student ) {
+					$options[ $attempt->get( 'id' ) ] = esc_attr( sprintf( __( 'Attempt #%1$d for Quiz "%2$s" by %3$s', 'lifterlms' ), $attempt->get( 'id' ), $quiz->get( 'title' ), $student->get_name() ) );
+				}
 			}
 		}
 		return array(
@@ -160,7 +159,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	 * @version  [version]
 	 */
 	public function send_test( $type, $data = array() ) {
-		if ( ! isset( $data['attempt_id'] ) ) {
+		if ( empty( $data['attempt_id'] ) ) {
 			return;
 		}
 		$attempt = new LLMS_Quiz_Attempt( $data['attempt_id'] );
