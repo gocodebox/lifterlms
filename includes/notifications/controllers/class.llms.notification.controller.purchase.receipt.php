@@ -173,7 +173,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 */
 	public function send_test( $type, $data = array() ) {
 
-		if ( ! isset( $data['transaction_id'] ) ) {
+		if ( empty( $data['transaction_id'] ) ) {
 			return;
 		}
 
