@@ -27,7 +27,16 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	protected $action_hooks = array( 'lifterlms_quiz_passed' );
 
 	/**
-	 * Callback function called when a quiz is passed by a student
+	 * Determines if test notifications can be sent
+	 * @var  bool
+	 */
+	protected $testable = array(
+		'basic' => false,
+		'email' => true,
+	);
+
+	/**
+	 * Callback function called when a quiz is failed by a student
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
 	 * @param    array   $quiz_id     WP Post ID of a LifterLMS quiz
 	 * @return   void
@@ -47,6 +56,58 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 		$this->send();
 
 	}
+
+	/**
+	 * Get an array of LifterLMS Admin Page settings to send test notifications
+	 * @param    string     $type  notification type [basic|email]
+	 * @return   array
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_test_settings( $type ) {
+
+		if ( 'email' !== $type ) {
+			return;
+		}
+
+		$query = new LLMS_Query_Quiz_Attempt( array(
+			'per_page'	=> 25,
+			'status'	=> 'pass',
+		) );
+
+		$options = array(
+		   '' => '',
+		);
+
+		$attempts = array();
+
+		if ( $query->has_results() ) {
+			foreach ( $query->get_attempts() as $attempt ) {
+				$quiz = llms_get_post( $attempt->get( 'quiz_id' ) );
+				$student = llms_get_student( $attempt->get( 'student_id' ) );
+				if ( $attempt && $student && $quiz ) {
+					$options[ $attempt->get( 'id' ) ] = esc_attr( sprintf( __( 'Attempt #%1$d for Quiz "%2$s" by %3$s', 'lifterlms' ), $attempt->get( 'id' ), $quiz->get( 'title' ), $student->get_name() ) );
+				}
+			}
+		}
+
+		return array(
+		   array(
+			   'class' => 'llms-select2',
+			   'custom_attributes' => array(
+				   'data-allow-clear' => true,
+				   'data-placeholder' => __( 'Select a passed quiz', 'lifterlms' ),
+			   ),
+			   'default'	=> '',
+			   'id' => 'attempt_id',
+			   'desc' => '<br/>' . __( 'Send yourself a test notification using information from the selected quiz.', 'lifterlms' ),
+			   'options' => $options,
+			   'title' => __( 'Send a Test', 'lifterlms' ),
+			   'type' => 'select',
+		   ),
+		);
+	}
+
 
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
@@ -89,6 +150,30 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	 */
 	public function get_title() {
 		return __( 'Quizzes: Quiz Passed', 'lifterlms' );
+	}
+
+	/**
+	 * Send a test notification to the currently logged in users
+	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
+	 * @param    string   $type  notification type [basic|email]
+	 * @param    array    $data  array of test notification data as specified by $this->get_test_data()
+	 * @return   int|false
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function send_test( $type, $data = array() ) {
+
+		if ( empty( $data['attempt_id'] ) ) {
+			return;
+		}
+
+		$attempt = new LLMS_Quiz_Attempt( $data['attempt_id'] );
+		$this->user_id = $attempt->get( 'student_id' );
+		$this->post_id = $attempt->get( 'quiz_id' );
+		$this->quiz = llms_get_post( $attempt->get( 'quiz_id' ) );
+		$this->course = $this->quiz->get_course();
+		return parent::send_test( $type );
+
 	}
 
 	/**
