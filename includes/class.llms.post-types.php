@@ -534,7 +534,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array(
-						'create_posts' => false,
+						'create_posts' => 'do_not_allow',
 					),
 				)
 			)
@@ -576,7 +576,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( '' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array(
-						'create_posts' => false,
+						'create_posts' => 'do_not_allow',
 					),
 				)
 			)
