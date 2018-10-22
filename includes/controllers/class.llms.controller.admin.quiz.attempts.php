@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Grading, Deleting, Etc...
  *
  * @since   3.16.0
- * @version 3.16.9
+ * @version [version]
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -59,7 +59,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @param    obj     $attempt  LLMS_Quiz_Attempt instance
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.6
+	 * @version  [version]
 	 */
 	private function save_grade( $attempt ) {
 
@@ -94,6 +94,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		if ( in_array( $attempt->get( 'status' ), array( 'fail', 'pass' ) ) ) {
 			$attempt->do_completion_actions();
 		}
+
+		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
 
 	}
 

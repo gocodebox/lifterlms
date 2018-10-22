@@ -10,20 +10,29 @@ v3.24.0 - 2018-10-??
 + The main screen displays a paginated and sortable list of all courses a student is enrolled in and outputs their progress and grade in the courses
 + Students can drill into individual reporting screens for each course where specific details for each course are available for review
 
-
 ##### Grading Enhancements
 
 + Each lesson can now be assigned an individual "points" value
 + When a course is graded the points assigned to each lesson will be used to calculate the value of the lesson's grade within the overall course grade
 + Lessons can also be assigned a value of "0" to allow a lesson to not count towards the overall grade of the course.
++ Email notifications are now sent to a student when an instructor reviews, grades, or leaves remarks on a quiz attempt.
+
+##### Test Email Notifications
+
++ An interface and API for sending test email notifications has been added, the following notifications can now be tested:
+
+  + Purchase Receipt
+  + Quizzes: Failed (Thanks [@philwp](https://github.com/philwp)!)
+  + Quizzes: Graded
+  + Quizzes: Passed (Thanks [@philwp](https://github.com/philwp)!)
 
 ##### Updates and Enhancements
 
 + Quiz Passed & Quiz Failed notifications have new names on the admin panel ("Quizzes: Quiz Passed" & "Quizzes: Quiz Failed")
++ The default content for Quiz Passed and Quiz Failed notifications have been enhanced. If you've modified these you can delete your modified content to have your notifications "restored" to the improved defaults.
 + Change the page title of the Student Dashboard page installed via the Setup Wizard to be "Dashboard" instead of "My Courses." Thanks [@philwp](https://github.com/philwp)!
 + In the course builder when a lesson is duplicated, the attached quiz will be duplicated as well
 + Minor increase to performance in the `LLMS_Course->get_lessons()` method
-+ Added the ability to send test emails for email notifications
 + Added `student_id` as a parameter passed to the `llms_student_get_progress` filter
 + Updated all access plan templates added in 3.23.0 to ensure `ABSPATH` is defined to prevent direct template access
 + Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models as well as in the `course/syllabus.php` template

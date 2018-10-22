@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
  * @since     3.8.0
- * @version   3.24.0
+ * @version   [version]
  */
 class LLMS_Notifications {
 
@@ -222,7 +222,7 @@ class LLMS_Notifications {
 	 * Load all notifications
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.17.8
+	 * @version  [version]
 	 */
 	private function load() {
 
@@ -237,6 +237,7 @@ class LLMS_Notifications {
 			'payment_retry',
 			'purchase_receipt',
 			'quiz_failed',
+			'quiz_graded',
 			'quiz_passed',
 			'section_complete',
 			'student_welcome',
