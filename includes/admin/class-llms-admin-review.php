@@ -110,7 +110,7 @@ class LLMS_Admin_Review {
 		} else {
 
 			// Review has not been dismissed and LifterLMS has been installed at least a week.
-			if ( ( isset( $review['dismissed'] ) && ! $review['dismissed'] ) && isset( $review['time'] ) && ( $review['time'] <= $time ) ) {
+			if ( ( isset( $review['dismissed'] ) && ! $review['dismissed'] ) && isset( $review['time'] ) && ( $review['time'] + WEEK_IN_SECONDS <= $time ) ) {
 
 				// Show if there are more than 50 enrollments in the db.
 				global $wpdb;
