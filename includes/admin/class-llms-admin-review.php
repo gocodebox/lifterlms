@@ -117,7 +117,6 @@ class LLMS_Admin_Review {
 				$enrollments = $wpdb->get_var( "SELECT COUNT(*) FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND meta_value = 'enrolled'" );
 
 			}
-
 		}
 
 		// Only load if we have 50 or more enrollments
