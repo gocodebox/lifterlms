@@ -37,7 +37,7 @@ implements LLMS_Interface_Post_Audio
 
 		// drippable
 		'days_before_available' => 'absint',
-		'drip_multiplier' => 'absint',
+		'drip_multiplier'                  => 'absint',
 		'date_available' => 'text',
 		'drip_method' => 'text',
 		'time_available' => 'text',
@@ -69,7 +69,7 @@ implements LLMS_Interface_Post_Audio
 	 * @version 3.24.0
 	 */
 	protected $property_defaults = array(
-		'points' => 1,
+		'points'          => 1,
 		'drip_multiplier' => '86400',
 	);
 
