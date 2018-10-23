@@ -134,9 +134,38 @@ define( [], function() {
 							return ( -1 !== [ 'enrollment', 'start', 'prerequisite' ].indexOf( this.get( 'drip_method' ) ) );
 						},
 						id: 'days-before-available',
-						label: LLMS.l10n.translate( '# of days' ),
+						label: LLMS.l10n.translate( 'Delay' ),
 						min: 0,
 						type: 'number',
+					},
+					{
+						attribute: 'drip_multiplier',
+						condition: function() {
+							return ( -1 !== [ 'enrollment', 'start', 'prerequisite' ].indexOf( this.get( 'drip_method' ) ) );
+						},
+						id: 'drip-multiplier',
+						label: '&nbsp;',
+						type: 'select',
+						options: function() {
+							return [
+								{
+									key: '86400',
+									val: LLMS.l10n.translate( 'days' ),
+								},
+								{
+									key: '3600',
+									val: LLMS.l10n.translate( 'hours' ),
+								},
+								{
+									key: '60',
+									val: LLMS.l10n.translate( 'minutes' ),
+								},
+								{
+									key: '1',
+									val: LLMS.l10n.translate( 'seconds' ),
+								},
+							];
+						}
 					},
 					{
 						attribute: 'date_available',

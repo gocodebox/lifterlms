@@ -9,7 +9,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
- * @property  $days_before_available  (int)  The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
+ * @property  $days_before_available  (int)  The number of time units (days by default) before the lesson is available, applies when $drip_method is "enrollment" or "start"
+ * @property  $drip_multiplier (int) The number of seconds to delay for each time unit: 1=seconds, 60=minutes, 3600=hours, 86400=days; defaults to 86400
  * @property  $drip_method  (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
  * @property  $free_lesson  (yesno)  Yes if the lesson is free
  * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
@@ -36,6 +37,7 @@ implements LLMS_Interface_Post_Audio
 
 		// drippable
 		'days_before_available' => 'absint',
+		'drip_multiplier' => 'absint',
 		'date_available' => 'text',
 		'drip_method' => 'text',
 		'time_available' => 'text',
@@ -68,6 +70,7 @@ implements LLMS_Interface_Post_Audio
 	 */
 	protected $property_defaults = array(
 		'points' => 1,
+		'drip_multiplier' => '86400',
 	);
 
 	protected $db_post_type = 'lesson';
@@ -101,7 +104,7 @@ implements LLMS_Interface_Post_Audio
 
 		$drip_method = $this->get( 'drip_method' );
 
-		$days = $this->get( 'days_before_available' ) * DAY_IN_SECONDS;
+		$days = $this->get( 'days_before_available' ) * $this->get( 'drip_multiplier' );
 
 		// default availability is the element's post date
 		$available = $this->get_date( 'date', 'U' );
