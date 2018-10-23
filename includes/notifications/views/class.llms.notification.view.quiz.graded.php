@@ -67,11 +67,11 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
 		$rows = array(
-			'QUIZ_TITLE'   => __( 'Quiz', 'lifterlms-assignments' ),
-			'LESSON_TITLE' => __( 'Lesson', 'lifterlms-assignments' ),
-			'COURSE_TITLE' => __( 'Course', 'lifterlms-assignments' ),
-			'GRADE'        => __( 'Grade', 'lifterlms-assignments' ),
-			'STATUS'       => __( 'Status', 'lifterlms-assignments' ),
+			'QUIZ_TITLE'   => __( 'Quiz', 'lifterlms' ),
+			'LESSON_TITLE' => __( 'Lesson', 'lifterlms' ),
+			'COURSE_TITLE' => __( 'Course', 'lifterlms' ),
+			'GRADE'        => __( 'Grade', 'lifterlms' ),
+			'STATUS'       => __( 'Status', 'lifterlms' ),
 		);
 
 		ob_start();
@@ -83,8 +83,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 			</tr>
 		<?php endforeach; ?>
 		</table>
-		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the whole attempt', 'lifterlms-assignments' ); ?></a></p>
-		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms-assignments' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
+		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the whole attempt', 'lifterlms' ); ?></a></p>
+		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
 		return ob_get_clean();
 

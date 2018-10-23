@@ -46,12 +46,12 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
 		$rows = array(
-			'STUDENT_NAME' => __( 'Student', 'lifterlms-assignments' ),
-			'QUIZ_TITLE'   => __( 'Quiz', 'lifterlms-assignments' ),
-			'LESSON_TITLE' => __( 'Lesson', 'lifterlms-assignments' ),
-			'COURSE_TITLE' => __( 'Course', 'lifterlms-assignments' ),
-			'GRADE'        => __( 'Grade', 'lifterlms-assignments' ),
-			'STATUS'       => __( 'Status', 'lifterlms-assignments' ),
+			'STUDENT_NAME' => __( 'Student', 'lifterlms' ),
+			'QUIZ_TITLE'   => __( 'Quiz', 'lifterlms' ),
+			'LESSON_TITLE' => __( 'Lesson', 'lifterlms' ),
+			'COURSE_TITLE' => __( 'Course', 'lifterlms' ),
+			'GRADE'        => __( 'Grade', 'lifterlms' ),
+			'STATUS'       => __( 'Status', 'lifterlms' ),
 		);
 
 		ob_start();
@@ -63,8 +63,8 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 			</tr>
 		<?php endforeach; ?>
 		</table>
-		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the quiz attempt and leave remarks', 'lifterlms-assignments' ); ?></a></p>
-		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms-assignments' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
+		<p><a href="{{REVIEW_URL}}" style="<?php echo $btn_style; ?>"><?php _e( 'View the quiz attempt and leave remarks', 'lifterlms' ); ?></a></p>
+		<p><small><?php _e( 'Trouble clicking? Copy and paste this URL into your browser:', 'lifterlms' ); ?><br><a href="{{REVIEW_URL}}">{{REVIEW_URL}}</a></small></p>
 		<?php
 		return ob_get_clean();
 
