@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * Grading, Deleting, Etc...
  *
  * @since   3.16.0
- * @version [version]
+ * @version 3.24.0
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -59,7 +59,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * @param    obj     $attempt  LLMS_Quiz_Attempt instance
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function save_grade( $attempt ) {
 

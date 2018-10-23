@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Quiz Graded
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notification_Controller {
 
@@ -41,8 +41,8 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	 * @param    array   $quiz_id     WP Post ID of a LifterLMS quiz
 	 * @param    obj     $attempt     LLMS_Quiz_Attempt
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function action_callback( $student_id = null, $quiz_id = null, $attempt = null ) {
 
@@ -57,8 +57,8 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 * @param    string     $type  notification type [basic|email]
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_test_settings( $type ) {
 
@@ -108,8 +108,8 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 * @param    string     $subscriber  subscriber type string
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -132,8 +132,8 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	 * Get the translateable title for the notification
 	 * used on settings screens
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_title() {
 		return __( 'Quizzes: Quiz Graded', 'lifterlms' );
@@ -145,8 +145,8 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	 * @param    string   $type  notification type [basic|email]
 	 * @param    array    $data  array of test notification data as specified by $this->get_test_data()
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function send_test( $type, $data = array() ) {
 
@@ -165,8 +165,8 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	 * Setup the subscriber options for the notification
 	 * @param    string     $type  notification type id
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_subscriber_options( $type ) {
 

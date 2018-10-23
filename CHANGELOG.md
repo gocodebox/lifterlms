@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.24.0 - 2018-10-??
+v3.24.0 - 2018-10-23
 --------------------
 
 ##### "My Grades" Student Dashboard Endpoint

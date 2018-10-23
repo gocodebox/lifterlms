@@ -4,8 +4,8 @@
  * We're needy. Please tell us you like us, it means a lot.
  *
  * @package LifterLMS/Admin/Views
- * @since   [version]
- * @version [version]
+ * @since   3.24.0
+ * @version 3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;

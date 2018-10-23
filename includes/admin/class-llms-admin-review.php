@@ -3,15 +3,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Please say nice things about us
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 class LLMS_Admin_Review {
 
 	/**
 	 * Constructor
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function __construct() {
 
@@ -27,8 +27,8 @@ class LLMS_Admin_Review {
 	 *
 	 * @param   string    $text default footer text
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	public function admin_footer( $text ) {
 
@@ -63,8 +63,8 @@ class LLMS_Admin_Review {
 	/**
 	 * AJAX callback for dismissing the notice
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	public function dismiss() {
 
@@ -83,8 +83,8 @@ class LLMS_Admin_Review {
 	/**
 	 * Determine if the notice should be displayed and display it
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	public function maybe_show_notice() {
 
@@ -134,8 +134,8 @@ class LLMS_Admin_Review {
 	 * Round a number down to a big-ish round number
 	 * @param   int    $number input number
 	 * @return  int
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	public static function round_down( $number ) {
 

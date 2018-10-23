@@ -2,8 +2,8 @@
 /**
  * Tests for LLMS_Admin_Review class
  * @group    admin
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 class LLMS_Test_Admin_Review extends LLMS_UnitTestCase {
 

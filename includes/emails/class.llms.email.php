@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Email
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -363,7 +363,7 @@ class LLMS_Email {
 	 * @param    string     $content_type    text string to use for the email subject
 	 * @return   $this
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function set_subject( $subject = '' ) {
 		$this->subject = html_entity_decode( $subject, ENT_QUOTES );

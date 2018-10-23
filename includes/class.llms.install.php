@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Plugin installation
  * @since   1.0.0
- * @version [version]
+ * @version 3.24.0
  */
 class LLMS_Install {
 
@@ -213,7 +213,7 @@ class LLMS_Install {
 	 * Create essential starter pages
 	 * @return   boolean    false on error, true on success
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public static function create_pages() {
 		$pages = apply_filters( 'llms_install_create_pages', array(

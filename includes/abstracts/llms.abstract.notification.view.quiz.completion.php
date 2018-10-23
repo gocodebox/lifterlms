@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Shared Notification View for quiz completions
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abstract_Notification_View {
 
@@ -27,8 +27,8 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup body for email notification
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	protected function set_body_email() {
 
@@ -73,8 +73,8 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_footer() {
 		return '';
@@ -83,8 +83,8 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -104,8 +104,8 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_merge_data( $code ) {
 

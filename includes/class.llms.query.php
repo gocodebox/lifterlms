@@ -6,7 +6,7 @@ defined( 'ABSPATH' ) || exit;
 * Handles queries and endpoints.
 *
 * @since   1.0.0
-* @version [version]
+* @version 3.24.0
 */
 class LLMS_Query {
 

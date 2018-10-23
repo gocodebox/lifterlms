@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification View: Quiz Passed
  * @since    3.8.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View_Quiz_Completion {
 
@@ -18,7 +18,7 @@ class LLMS_Notification_View_Quiz_Passed extends LLMS_Abstract_Notification_View
 	 * Setup body content for output
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {

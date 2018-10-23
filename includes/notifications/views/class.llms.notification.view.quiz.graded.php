@@ -3,8 +3,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Shared Notification View for quiz completions
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View {
 
@@ -33,8 +33,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup body content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_body() {
 		if ( 'email' === $this->notification->get( 'type' ) ) {
@@ -48,8 +48,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup body for email notification
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	protected function set_body_email() {
 
@@ -93,8 +93,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup notification icon for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_icon() {
 		return $this->get_icon_default( 'warning' );
@@ -103,8 +103,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup footer content for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_footer() {
 
@@ -119,8 +119,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup merge codes that can be used with the notification
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -138,8 +138,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	 * Replace merge codes with actual values
 	 * @param    string   $code  the merge code to ge merged data for
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_merge_data( $code ) {
 
@@ -196,8 +196,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup notification subject for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_subject() {
 		// Translators %s = Quiz Title.
@@ -207,8 +207,8 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	/**
 	 * Setup notification title for output
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function set_title() {
 		return __( 'Quiz Review Details', 'lifterlms' );

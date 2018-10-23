@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Data {
 
@@ -205,7 +205,7 @@ class LLMS_Data {
 	 * Get LifterLMS settings
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private static function get_llms_settings() {
 
@@ -514,7 +514,7 @@ class LLMS_Data {
 	 * Get some WP core settings and info
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private static function get_wp_data() {
 

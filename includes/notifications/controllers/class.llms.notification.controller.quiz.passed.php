@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification Controller: Quiz Passed
  * @since    3.8.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notification_Controller {
 
@@ -61,8 +61,8 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 * @param    string     $type  notification type [basic|email]
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_test_settings( $type ) {
 
@@ -146,7 +146,7 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_title() {
 		return __( 'Quizzes: Quiz Passed', 'lifterlms' );
@@ -158,8 +158,8 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	 * @param    string   $type  notification type [basic|email]
 	 * @param    array    $data  array of test notification data as specified by $this->get_test_data()
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function send_test( $type, $data = array() ) {
 
