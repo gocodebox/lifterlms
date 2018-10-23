@@ -25,7 +25,11 @@ gulp.task( 'versioner:readme', function() {
 	}
 
 	return gulp.src( [ './_readme/header.md'  ], { base: './' } )
-		.pipe( replace( /Stable tag: (\d+\.\d+\.\d+)/g, function( match, p1, offset, string ) {
+		.pipe( replace( /Stable tag: (\d+\.\d+\.\d+)(\-\D+\.\d+)?/g, function( match, p1, p2, string ) {
+	        // if there's a prerelease suffix (eg -beta.1) remove it entirely
+	        if ( p2 ) {
+	          match = match.replace( p2, '' );
+	        }
 			return match.replace( p1, the_version );
 		} ) )
 		.pipe( gulp.dest( './' ) );
