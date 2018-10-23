@@ -40,6 +40,12 @@ v3.24.0 - 2018-10-??
 + Added the ability for admin table classes to define `<tr>` element CSS classes
 + Admin settings pages with no settings to save (like the Notifications list) no longer display a "Save" button
 + Added actions when creating, updating, and deleting records managed by `LLMS_Abstract_Database_Store` classes
++ Updated system report to include URLs to settings with URLs, adds a small speed boost to support request turn around time.
+
+##### Please Rate & Review LifterLMS on WordPress.org
+
++ Added a WordPress.org review request link to the footer of LifterLMS admin pages.
++ Added a WordPress.org review request notice which displays a week after installation if the site has 50+ active students.
 
 ##### Bug fixes
 

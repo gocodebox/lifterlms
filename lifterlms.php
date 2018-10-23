@@ -262,6 +262,8 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
 			include_once( 'includes/admin/class.llms.student.bulk.enroll.php' );
 
+			require_once 'includes/admin/class-llms-admin-review.php';
+
 		}
 
 		// legacy
@@ -371,7 +373,7 @@ final class LifterLMS {
 
 		}
 
-		include_once 'includes/class-llms-grades.php';
+		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class.llms.playnice.php';
 
 	}
