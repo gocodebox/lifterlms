@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v3.24.1 - 2018-10-25
+--------------------
+
++ Added processing handlers to payment confirmation form. Fixes an issue which would allow multiple payment confirmation requests to be made (if the form was submitted multiple times before the page reloaded) resulting in duplicate charges.
+
+##### Templates Changed
+
++  templates/checkout/form-confirm-payment.php
+
+
 v3.24.0 - 2018-10-23
 --------------------
 

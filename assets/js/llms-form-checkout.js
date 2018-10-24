@@ -2,7 +2,7 @@
  * LifterLMS Checkout Screen related events and interactions
  *
  * @since    3.0.0
- * @version  3.0.0
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -10,32 +10,39 @@
 
 		/**
 		 * Array of validation functions to call on form submission
-		 * @type  array
-		 * @since 3.0.0
+		 * @type    array
+		 * @since   3.0.0
 		 * @version 3.0.0
 		 */
 		var before_submit = []; // array of functions to call before submitting the form
 
 		/**
 		 * Array of gateways to be automatically bound when needed
-		 * @type  array
-		 * @since 3.0.0
+		 * @type    array
+		 * @since   3.0.0
 		 * @version 3.0.0
 		 */
 		var gateways = [];
 
 		this.$checkout_form = $( '#llms-product-purchase-form' );
-		this.$checkout_sections = this.$checkout_form.find( '.llms-checkout-section' );
+		this.$confirm_form = $( '#llms-product-purchase-confirm-form' );
+		this.$form_sections = false;
+		this.form_action = false;
 
 		/**
 		 * Initalize checkout JS & bind if on the checkout screen
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  [version]
 		 */
 		this.init = function() {
 
+			var self = this;
+
 			if ( this.$checkout_form.length ) {
+
+				this.form_action = 'checkout';
+				this.$form_sections = this.$checkout_form.find( '.llms-checkout-section' );
 
 				this.$checkout_form.on( 'submit', this, this.submit );
 
@@ -52,6 +59,15 @@
 				this.bind_coupon();
 
 				this.bind_gateways();
+
+			} else if ( this.$confirm_form.length ) {
+
+				this.form_action = 'confirm';
+				this.$form_sections = this.$confirm_form.find( '.llms-checkout-section' );
+
+				this.$confirm_form.on( 'submit', function() {
+					self.processing( 'start' );
+				} );
 
 			}
 
@@ -347,11 +363,11 @@
 		 * @param    string   action  whether to start or stop processing [start|stop]
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  [version]
 		 */
 		this.processing = function( action ) {
 
-			var func;
+			var func, $form;
 
 			switch ( action ) {
 
@@ -366,8 +382,14 @@
 
 			}
 
-			this.$checkout_form[ func ]( 'llms-is-processing' );
-			LLMS.Spinner[ action ]( this.$checkout_sections );
+			if ( 'checkout' === this.form_action ) {
+				$form = this.$checkout_form;
+			} else if ( 'confirm' === this.form_action ) {
+				$form = this.$confirm_form;
+			}
+
+			$form[ func ]( 'llms-is-processing' );
+			LLMS.Spinner[ action ]( this.$form_sections );
 
 		};
 
