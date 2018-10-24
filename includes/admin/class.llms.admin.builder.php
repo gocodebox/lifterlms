@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.24.0
+ * @version  [version]
  */
 class LLMS_Admin_Builder {
 
@@ -349,7 +349,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 *                            builder data will be in the "llms_builder" array
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.7
+	 * @version  [version]
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
@@ -358,8 +358,11 @@ if ( ! empty( $active_post_lock ) ) {
 			return $res;
 		}
 
-		// only mess with our data
-		$data = json_decode( str_replace( '\\', '\\\\', $data['llms_builder'] ), true );
+		// Isolate builder data & ensure slashes aren't removed.
+		$data = $data['llms_builder'];
+
+		// Escape slashes.
+		$data = json_decode( str_replace( '\\', '\\\\', $data ), true );
 
 		// setup our return
 		$ret = array(
@@ -402,7 +405,11 @@ if ( ! empty( $active_post_lock ) ) {
 			}
 		}
 
-		// add our return data
+		// Unescape slashes after saved.
+		// This ensures that updates are recognized as successful during Sync comparisons.
+		$ret = json_decode( str_replace( '\\\\', '\\', json_encode( $ret ) ), true );
+
+		// Return our data.
 		$res['llms_builder'] = $ret;
 
 		return $res;
