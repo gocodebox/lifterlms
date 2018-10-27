@@ -34,7 +34,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 			// drippable
 			'days_before_available' => 'absint',
-			'drip_multiplier' => 'absint',
+			'drip_unit_multiplier' => 'absint',
 			'date_available' => 'text',
 			'drip_method' => 'text',
 			'time_available' => 'text',
@@ -69,7 +69,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 			'audio_embed' => 'http://example.tld/audio_embed',
 			'date_available' => '11/21/2018',
 			'days_before_available' => '24',
-			'drip_multiplier' => 3600,
+			'drip_unit_multiplier' => 3600,
 			'drip_method' => 'date',
 			'free_lesson' => 'no',
 			'has_prerequisite' => 'yes',
@@ -125,7 +125,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$lesson->set( 'drip_method', 'start' );
 		$start = current_time( 'm/d/Y' );
 		$course->set( 'start_date', $start );
-		$lesson->set( 'drip_multiplier', '3600' );
+		$lesson->set( 'drip_unit_multiplier', HOUR_IN_SECONDS );
 		$this->assertEquals( strtotime( $start ) + ( HOUR_IN_SECONDS * 3 ), $lesson->get_available_date( 'U' ) );
 
 		$prereq_id = $lesson_id;
@@ -290,7 +290,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 		$lesson->set( 'drip_method', 'prerequisite' );
 		$lesson->set( 'days_before_available', '3' );
-		$lesson->set( 'drip_multiplier', '3600' );
+		$lesson->set( 'drip_unit_multiplier', HOUR_IN_SECONDS );
 
 		$this->assertFalse( $lesson->is_available() );
 

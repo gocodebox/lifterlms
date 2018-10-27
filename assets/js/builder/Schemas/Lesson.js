@@ -139,29 +139,29 @@ define( [], function() {
 						type: 'number',
 					},
 					{
-						attribute: 'drip_multiplier',
+						attribute: 'drip_unit_multiplier',
 						condition: function() {
 							return ( -1 !== [ 'enrollment', 'start', 'prerequisite' ].indexOf( this.get( 'drip_method' ) ) );
 						},
-						id: 'drip-multiplier',
+						id: 'drip-unit-multiplier',
 						label: '&nbsp;',
 						type: 'select',
 						options: function() {
 							return [
 								{
-									key: '86400',
+									key: '86400', // DAY_IN_SECONDS
 									val: LLMS.l10n.translate( 'days' ),
 								},
 								{
-									key: '3600',
+									key: '3600', // HOUR_IN_SECONDS
 									val: LLMS.l10n.translate( 'hours' ),
 								},
 								{
-									key: '60',
+									key: '60', // MINUTE_IN_SECONDS
 									val: LLMS.l10n.translate( 'minutes' ),
 								},
 								{
-									key: '1',
+									key: '1', // (seconds in seconds)
 									val: LLMS.l10n.translate( 'seconds' ),
 								},
 							];
