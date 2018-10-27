@@ -187,6 +187,9 @@ if ( ! function_exists( 'lifterlms_template_quiz_wrapper_start' ) ) {
  */
 if ( ! function_exists( 'lifterlms_template_start_button' ) ) {
 	function lifterlms_template_start_button() {
+		if (!is_user_logged_in()) {
+			return;
+		}
 		llms_get_template( 'quiz/start-button.php' );
 	}
 }

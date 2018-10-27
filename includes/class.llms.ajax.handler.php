@@ -487,7 +487,7 @@ class LLMS_AJAX_Handler {
 		$err = new WP_Error();
 
 		$student = llms_get_student();
-		if ( ! $student ) {
+		if ( ! is_wp_error( $student ) ) {
 			$err->add( 400, __( 'You must be logged in to take quizzes.', 'lifterlms' ) );
 			return $err;
 		}

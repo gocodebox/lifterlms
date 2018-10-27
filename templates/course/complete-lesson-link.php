@@ -102,7 +102,7 @@ $show_button = $quiz_id ? false : true;
 
 	<?php endif; ?>
 
-	<?php if ( $quiz_id ) : ?>
+	<?php if ( $quiz_id && is_user_logged_in() ) : ?>
 
 		<?php do_action( 'llms_before_start_quiz_button' ); ?>
 
