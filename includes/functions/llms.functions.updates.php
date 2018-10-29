@@ -5,10 +5,10 @@
  * Functions here are used by the background updater during db updates
  *
  * @since    3.4.3
- * @version  3.16.2
+ * @version  [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Duplicate a WP Post & all relate metadata
@@ -1062,12 +1062,12 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
  * Migrate attempt data from the former location on the wp_usermeta table
  * @return   void
  * @since    3.16.0
- * @version  3.16.10
+ * @version  [version]
  */
 function llms_update_3160_attempt_migration() {
 
 	global $wpdb;
-	$query = $wpdb->get_col( "SELECT meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'llms_quiz_data' LIMIT 100;" );
+	$query = $wpdb->get_results( "SELECT user_id, meta_value FROM {$wpdb->usermeta} WHERE meta_key = 'llms_quiz_data' LIMIT 100;" );
 
 	// finished
 	if ( ! $query ) {
@@ -1077,105 +1077,105 @@ function llms_update_3160_attempt_migration() {
 
 	foreach ( $query as $record ) {
 
-		if ( empty( $record ) ) {
-			continue;
-		}
+		if ( ! empty( $record->meta_value ) ) {
 
-		foreach ( unserialize( $record ) as $attempt ) {
+			foreach ( unserialize( $record->meta_value ) as $attempt ) {
 
-			if ( ! is_array( $attempt ) ) {
-				continue;
-			}
-
-			$to_insert = array();
-			$format = array();
-
-			$start = $attempt['start_date'];
-			$end = $attempt['end_date'];
-
-			if ( $end ) {
-				$to_insert['update_date'] = $end;
-				$format[] = '%s';
-			} elseif ( $start ) {
-				$to_insert['update_date'] = $start;
-				$format[] = '%s';
-			} else {
-				continue;
-			}
-
-			foreach ( $attempt as $key => $val ) {
-
-				$insert_key = $key;
-				$insert_val = $val;
-
-				if ( 'assoc_lesson' === $key ) {
-					$insert_key = 'lesson_id';
-				} elseif ( 'id' === $key ) {
-					$insert_key = 'quiz_id';
-				} elseif ( 'user_id' === $key ) {
-					$insert_key = 'student_id';
-				} elseif ( 'wpnonce' === $key ) {
+				if ( ! is_array( $attempt ) ) {
 					continue;
-				} elseif ( 'current' === $key ) {
-					continue;
-				} elseif ( 'questions' === $key ) {
-					$insert_val = serialize( $val );
-				} elseif ( 'passed' === $key ) {
-					$insert_key = 'status';
-					if ( $val ) {
-						$insert_val = 'pass';
-					} else {
-						// quiz has been initialized but hasn't been started yet
-						// we don't need to migrate these
-						if ( ! $start && ! $end ) {
-							// $insert_val = 'new';
-							continue;
-						} elseif ( $start && ! $end ) {
-							// still taking the quiz
-							if ( isset( $attempt['current'] ) && $attempt['current'] ) {
-								$insert_val = 'current';
-							}
-							// quiz was abandoned
-							$insert_val = 'incomplete';
-							// actual failure
-						} else {
-							$insert_val = 'fail';
-						}
-					}
-				}// End if().
-
-				switch ( $insert_key ) {
-
-					case 'lesson_id':
-					case 'quiz_id':
-					case 'student_id':
-					case 'attempt':
-						$insert_format = '%d';
-					break;
-
-					case 'grade':
-						$insert_format = '%f';
-					break;
-
-					default:
-						$insert_format = '%s';
-
 				}
 
-				$to_insert[ $insert_key ] = $insert_val;
-				$format[] = $insert_format;
+				$to_insert = array();
+				$format = array();
 
-			}// End foreach().
+				$start = $attempt['start_date'];
+				$end = $attempt['end_date'];
 
-			$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format );
+				if ( $end ) {
+					$to_insert['update_date'] = $end;
+					$format[] = '%s';
+				} elseif ( $start ) {
+					$to_insert['update_date'] = $start;
+					$format[] = '%s';
+				} else {
+					continue;
+				}
 
-		}// End foreach().
+				foreach ( $attempt as $key => $val ) {
+
+					$insert_key = $key;
+					$insert_val = $val;
+
+					if ( 'assoc_lesson' === $key ) {
+						$insert_key = 'lesson_id';
+					} elseif ( 'id' === $key ) {
+						$insert_key = 'quiz_id';
+					} elseif ( 'user_id' === $key ) {
+						$insert_key = 'student_id';
+					} elseif ( 'wpnonce' === $key ) {
+						continue;
+					} elseif ( 'current' === $key ) {
+						continue;
+					} elseif ( 'questions' === $key ) {
+						$insert_val = serialize( $val );
+					} elseif ( 'passed' === $key ) {
+						$insert_key = 'status';
+						if ( $val ) {
+							$insert_val = 'pass';
+						} else {
+							// quiz has been initialized but hasn't been started yet
+							// we don't need to migrate these
+							if ( ! $start && ! $end ) {
+								// $insert_val = 'new';
+								continue;
+							} elseif ( $start && ! $end ) {
+								// still taking the quiz
+								if ( isset( $attempt['current'] ) && $attempt['current'] ) {
+									$insert_val = 'current';
+								}
+								// quiz was abandoned
+								$insert_val = 'incomplete';
+								// actual failure
+							} else {
+								$insert_val = 'fail';
+							}
+						}
+					}// End if().
+
+					switch ( $insert_key ) {
+
+						case 'lesson_id':
+						case 'quiz_id':
+						case 'student_id':
+						case 'attempt':
+							$insert_format = '%d';
+						break;
+
+						case 'grade':
+							$insert_format = '%f';
+						break;
+
+						default:
+							$insert_format = '%s';
+
+					}
+
+					$to_insert[ $insert_key ] = $insert_val;
+					$format[] = $insert_format;
+
+				}// End foreach().
+
+				$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format );
+
+
+			} // End foreach().
+		}
 
 		// backup original
-		update_user_meta( $attempt['user_id'], 'llms_legacy_quiz_data', $record );
+		update_user_meta( $record->user_id, 'llms_legacy_quiz_data', $record->meta_value );
 
 		// delete the original so it's not there on the next run
-		delete_user_meta( $attempt['user_id'], 'llms_quiz_data' );
+		delete_user_meta( $record->user_id, 'llms_quiz_data' );
 
 	}// End foreach().
 

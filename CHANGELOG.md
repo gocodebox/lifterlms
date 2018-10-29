@@ -4,6 +4,9 @@ LifterLMS Changelog
 v3.24.1 - 2018-10-25
 --------------------
 
+##### Bug Fixes
+
++ Fixed an issue in the 3.16.0 database migration script that would cause migrations to get stuck as a result of malformed data saved in an invalid format
 + Added processing handlers to payment confirmation form. Fixes an issue which would allow multiple payment confirmation requests to be made (if the form was submitted multiple times before the page reloaded) resulting in duplicate charges.
 
 ##### Templates Changed
