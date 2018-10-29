@@ -4,6 +4,10 @@ LifterLMS Changelog
 v3.24.1 - 2018-10-25
 --------------------
 
+##### Updates
+
++ The action `llms_voucher_used`, called when a voucher code is used, will now pass the voucher code as a 3rd parameter. Thanks [@yojance](https://github.com/yojance)!
+
 ##### Bug Fixes
 
 + Fixed issue causing backslash characters (`\`) to be removed from course elements (sections, lessons, quizzes, and assignments) constructed in the course builder.
