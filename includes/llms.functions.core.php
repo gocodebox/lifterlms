@@ -2,8 +2,9 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.24.0
+ * @version  [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 //include all other function files
@@ -332,7 +333,7 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
  * Get a list of registered engagement triggers
  * @return   array
  * @since    3.1.0
- * @version  3.11.0
+ * @version  [version]
  */
 function llms_get_engagement_triggers() {
 	return apply_filters( 'lifterlms_engagement_triggers', array(
