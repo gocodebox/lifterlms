@@ -1,15 +1,16 @@
 <?php
 /**
  * Test LifterLMS Shortcodes
+ * @since    3.4.3
+ * @version  [version]
  */
-
 class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
 	/**
 	 * Generic tests and a few tests on the abstract
 	 * @return   void
 	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @version  [version]
 	 */
 	public function test_shortcodes() {
 
@@ -21,7 +22,6 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 			'LLMS_Shortcode_Course_Prerequisites',
 			'LLMS_Shortcode_Course_Reviews',
 			'LLMS_Shortcode_Course_Syllabus',
-			'LLMS_Shortcode_Hide_Content',
 			'LLMS_Shortcode_Membership_Link',
 			'LLMS_Shortcode_Registration',
 		);

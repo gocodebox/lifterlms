@@ -1,9 +1,9 @@
 <?php
 /**
  * LifterLMS Unit Testing Bootstrap
- * @since    3.3.1
- * @version  3.24.0
  * @thanks   WooCommerce <3
+ * @since    3.3.1
+ * @version  [version]
  */
 class LLMS_Unit_Tests_Bootstrap {
 
@@ -161,13 +161,14 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * Load LifterLMS Tests & Related
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.24.0
+	 * @version  [version]
 	 */
 	public function includes() {
 
 		require 'tests/framework/class-llms-unit-test-case.php';
 		require 'tests/framework/class-llms-notification-test-case.php';
 		require 'tests/framework/class-llms-post-model-unit-test-case.php';
+		require 'tests/framework/class-llms-shortcode-test-case.php';
 
 		require 'tests/framework/exceptions/class-llms-testing-exception-exit.php';
 		require 'tests/framework/exceptions/class-llms-testing-exception-redirect.php';

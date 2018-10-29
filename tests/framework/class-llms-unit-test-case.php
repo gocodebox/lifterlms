@@ -365,8 +365,11 @@ class LLMS_UnitTestCase extends WP_UnitTestCase {
 
 	}
 
-	protected function get_mock_student() {
+	protected function get_mock_student( $login = false ) {
 		$student_id = $this->factory->user->create( array( 'role' => 'student' ) );
+		if ( $login ) {
+			wp_set_current_user( $student_id );
+		}
 		return llms_get_student( $student_id );
 	}
 
