@@ -5,7 +5,7 @@
  * Functions here are used by the background updater during db updates
  *
  * @since    3.4.3
- * @version  [version]
+ * @version  3.24.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1062,7 +1062,7 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
  * Migrate attempt data from the former location on the wp_usermeta table
  * @return   void
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.1
  */
 function llms_update_3160_attempt_migration() {
 

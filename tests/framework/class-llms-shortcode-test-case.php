@@ -25,8 +25,8 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Test shortcode registration
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.1
+	 * @version 3.24.1
 	 */
 	public function test_registration() {
 

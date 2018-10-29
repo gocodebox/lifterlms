@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Templates
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.1
  */
 
 $order_key = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );

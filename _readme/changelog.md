@@ -1,6 +1,26 @@
 == Changelog ==
 
 
+= v3.24.1 - 2018-10-29 =
+------------------------
+
+##### Updates
+
++ The shortcode `[lifterlms_hide_content]` now accepts multiple IDs and can specify whether the user must belong to either *all* or *any one* of the specified memberships. Thanks [@yojance](https://github.com/yojance)!
++ The action `llms_voucher_used`, called when a voucher code is used, will now pass the voucher code as a 3rd parameter. Thanks [@yojance](https://github.com/yojance)!
+
+##### Bug Fixes
+
++ Fixed a typo in engagement drop creation dropdown. Thanks [README1ST](https://github.com/README1ST)!
++ Fixed issue causing backslash characters (`\`) to be removed from course elements (sections, lessons, quizzes, and assignments) constructed in the course builder.
++ Fixed an issue in the 3.16.0 database migration script that would cause migrations to get stuck as a result of malformed data saved in an invalid format.
++ Added processing handlers to payment confirmation form. Fixes an issue which would allow multiple payment confirmation requests to be made (if the form was submitted multiple times before the page reloaded) resulting in duplicate charges.
+
+##### Templates Changed
+
++  templates/checkout/form-confirm-payment.php
+
+
 = v3.24.0 - 2018-10-23 =
 ------------------------
 
@@ -190,15 +210,3 @@
 ------------------------
 
 + Fix file load paths in OptimizePress plugin compatibility function
-
-
-= v3.19.5 - 2018-07-05 =
-------------------------
-
-+ Fixed bug causing `select2` multi-selects from functioning as multi-selects
-+ Fixed visual issue with `select2` elements being set without a width causing them to be both too small and too large in various scenarios.
-+ Fixed duplicate action on dashboard section template
-
-##### Template Updates
-
-+ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)

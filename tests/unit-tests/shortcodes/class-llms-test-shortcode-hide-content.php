@@ -2,8 +2,8 @@
 /**
  * Test the [lifterlms_hide_content] Shortcode
  * @group    shortcodes
- * @since    [version]
- * @version  [version]
+ * @since    3.24.1
+ * @version  3.24.1
  */
 class LLMS_Test_Shortcode_Hide_Content extends LLMS_ShortcodeTestCase {
 

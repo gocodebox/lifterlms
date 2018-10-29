@@ -2,7 +2,7 @@
  * LifterLMS Checkout Screen related events and interactions
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.1
  */
 ( function( $ ) {
 
@@ -33,7 +33,7 @@
 		 * Initalize checkout JS & bind if on the checkout screen
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.24.1
 		 */
 		this.init = function() {
 
@@ -363,7 +363,7 @@
 		 * @param    string   action  whether to start or stop processing [start|stop]
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.24.1
 		 */
 		this.processing = function( action ) {
 

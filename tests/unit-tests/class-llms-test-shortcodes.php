@@ -2,7 +2,7 @@
 /**
  * Test LifterLMS Shortcodes
  * @since    3.4.3
- * @version  [version]
+ * @version  3.24.1
  */
 class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
@@ -10,7 +10,7 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 	 * Generic tests and a few tests on the abstract
 	 * @return   void
 	 * @since    3.4.3
-	 * @version  [version]
+	 * @version  3.24.1
 	 */
 	public function test_shortcodes() {
 

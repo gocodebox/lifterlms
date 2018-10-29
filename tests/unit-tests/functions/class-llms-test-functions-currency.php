@@ -3,16 +3,16 @@
  * Tests for LifterLMS Currency functions
  * @group	functions
  * @group	currency
- * @since   [version]
- * @version [version]
+ * @since   3.24.1
+ * @version 3.24.1
  */
 class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
 	/**
 	 * test the llms_format_decimal() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_llms_format_decimal() {
 
@@ -34,8 +34,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_countries() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_countries() {
 
@@ -65,8 +65,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_country() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_country() {
 
@@ -87,8 +87,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_currency() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_currency() {
 
@@ -109,8 +109,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_currency() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_currency_name() {
 
@@ -130,8 +130,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_currencies() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_currencies() {
 
@@ -161,8 +161,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_currency_symbol() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_currency_symbol() {
 
@@ -182,8 +182,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_currency_symbol() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_decimals() {
 
@@ -204,8 +204,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_decimal_separator() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_decimal_separator() {
 
@@ -226,8 +226,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_trim_zero_decimals() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_trim_zero_decimals() {
 
@@ -248,8 +248,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_price_format() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_price_format() {
 
@@ -278,8 +278,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the get_lifterlms_thousand_separator() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_get_lifterlms_thousand_separator() {
 
@@ -300,8 +300,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_get_country_name() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_llms_get_country_name() {
 
@@ -315,8 +315,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_price() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_llms_price() {
 
@@ -384,8 +384,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_price_raw() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_llms_price_raw() {
 
@@ -407,8 +407,8 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	/**
 	 * test the llms_trim_zeros() function
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.1
+	 * @version  3.24.1
 	 */
 	public function test_llms_trim_zeros() {
 

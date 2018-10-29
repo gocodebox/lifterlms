@@ -68,7 +68,7 @@ msgstr ""
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:738, includes/llms.functions.core.php:843, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54
+#: includes/class.llms.ajax.handler.php:738, includes/llms.functions.core.php:844, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54
 msgid "ID#"
 msgstr ""
 
@@ -111,11 +111,11 @@ msgctxt "Localized Order DateTime"
 msgid "%1$b %2$d, %3$Y @ %4$I:%5$M %6$p"
 msgstr ""
 
-#: includes/class.llms.date.php:172, includes/llms.functions.core.php:260
+#: includes/class.llms.date.php:172, includes/llms.functions.core.php:261
 msgid "hours"
 msgstr ""
 
-#: includes/class.llms.date.php:174, includes/llms.functions.core.php:252
+#: includes/class.llms.date.php:174, includes/llms.functions.core.php:253
 msgid "hour"
 msgstr ""
 
@@ -123,19 +123,19 @@ msgstr ""
 msgid "%1$d %2$s "
 msgstr ""
 
-#: includes/class.llms.date.php:181, includes/llms.functions.core.php:262
+#: includes/class.llms.date.php:181, includes/llms.functions.core.php:263
 msgid "seconds"
 msgstr ""
 
-#: includes/class.llms.date.php:183, includes/llms.functions.core.php:254
+#: includes/class.llms.date.php:183, includes/llms.functions.core.php:255
 msgid "second"
 msgstr ""
 
-#: includes/class.llms.date.php:194, includes/llms.functions.core.php:261
+#: includes/class.llms.date.php:194, includes/llms.functions.core.php:262
 msgid "minutes"
 msgstr ""
 
-#: includes/class.llms.date.php:196, includes/llms.functions.core.php:253
+#: includes/class.llms.date.php:196, includes/llms.functions.core.php:254
 msgid "minute"
 msgstr ""
 
@@ -302,7 +302,7 @@ msgstr ""
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:331, includes/class.llms.post-types.php:316, includes/admin/class.llms.admin.builder.php:773, includes/models/model.llms.lesson.php:360, includes/admin/views/builder/elements.php:21
+#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:331, includes/class.llms.post-types.php:316, includes/admin/class.llms.admin.builder.php:780, includes/models/model.llms.lesson.php:360, includes/admin/views/builder/elements.php:21
 msgid "New Lesson"
 msgstr ""
 
@@ -2461,135 +2461,135 @@ msgstr ""
 msgid "You have already redeemed this voucher."
 msgstr ""
 
-#: includes/llms.functions.core.php:126
+#: includes/llms.functions.core.php:127
 msgid "%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead."
 msgstr ""
 
-#: includes/llms.functions.core.php:128
+#: includes/llms.functions.core.php:129
 msgid "%1$s is <strong>deprecated</strong> since version %2$s!"
 msgstr ""
 
-#: includes/llms.functions.core.php:186, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:84
+#: includes/llms.functions.core.php:187, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:84
 msgid "Visible"
 msgstr ""
 
-#: includes/llms.functions.core.php:187, includes/llms.functions.core.php:406, includes/admin/settings/class.llms.settings.accounts.php:44, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:85
+#: includes/llms.functions.core.php:188, includes/llms.functions.core.php:407, includes/admin/settings/class.llms.settings.accounts.php:44, includes/admin/post-types/meta-boxes/class.llms.meta.box.instructors.php:85
 msgid "Hidden"
 msgstr ""
 
-#: includes/llms.functions.core.php:188
+#: includes/llms.functions.core.php:189
 msgid "Featured"
 msgstr ""
 
-#: includes/llms.functions.core.php:249, templates/admin/post-types/product-access-plan.php:128
+#: includes/llms.functions.core.php:250, templates/admin/post-types/product-access-plan.php:128
 msgid "year"
 msgstr ""
 
-#: includes/llms.functions.core.php:250, templates/admin/post-types/product-access-plan.php:129
+#: includes/llms.functions.core.php:251, templates/admin/post-types/product-access-plan.php:129
 msgid "month"
 msgstr ""
 
-#: includes/llms.functions.core.php:251, templates/admin/post-types/product-access-plan.php:131
+#: includes/llms.functions.core.php:252, templates/admin/post-types/product-access-plan.php:131
 msgid "day"
 msgstr ""
 
-#: includes/llms.functions.core.php:257
+#: includes/llms.functions.core.php:258
 msgid "years"
 msgstr ""
 
-#: includes/llms.functions.core.php:258
+#: includes/llms.functions.core.php:259
 msgid "months"
 msgstr ""
 
-#: includes/llms.functions.core.php:259
+#: includes/llms.functions.core.php:260
 msgid "days"
 msgstr ""
 
-#: includes/llms.functions.core.php:339
+#: includes/llms.functions.core.php:340
 msgid "Student creates a new account"
 msgstr ""
 
-#: includes/llms.functions.core.php:340
+#: includes/llms.functions.core.php:341
 msgid "Student Purchases an Access Plan"
 msgstr ""
 
-#: includes/llms.functions.core.php:341
+#: includes/llms.functions.core.php:342
 msgid "Student enrolls in a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:342
+#: includes/llms.functions.core.php:343
 msgid "Student purchases a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:343
+#: includes/llms.functions.core.php:344
 msgid "Student completes a course"
 msgstr ""
 
-#: includes/llms.functions.core.php:345
+#: includes/llms.functions.core.php:346
 msgid "Student completes a lesson"
 msgstr ""
 
-#: includes/llms.functions.core.php:346
+#: includes/llms.functions.core.php:347
 msgid "Student completes a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:347
+#: includes/llms.functions.core.php:348
 msgid "Student passes a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:348
+#: includes/llms.functions.core.php:349
 msgid "Student fails a quiz"
 msgstr ""
 
-#: includes/llms.functions.core.php:349
+#: includes/llms.functions.core.php:350
 msgid "Student completes a section"
 msgstr ""
 
-#: includes/llms.functions.core.php:350
-msgid "Student comepletes a course track"
-msgstr ""
-
 #: includes/llms.functions.core.php:351
-msgid "Student enrolls in a membership"
+msgid "Student completes a course track"
 msgstr ""
 
 #: includes/llms.functions.core.php:352
+msgid "Student enrolls in a membership"
+msgstr ""
+
+#: includes/llms.functions.core.php:353
 msgid "Student purchases a membership"
 msgstr ""
 
-#: includes/llms.functions.core.php:364
+#: includes/llms.functions.core.php:365
 msgid "Award an Achievement"
 msgstr ""
 
-#: includes/llms.functions.core.php:365
+#: includes/llms.functions.core.php:366
 msgid "Award a Certificate"
 msgstr ""
 
-#: includes/llms.functions.core.php:366
+#: includes/llms.functions.core.php:367
 msgid "Send an Email"
 msgstr ""
 
-#: includes/llms.functions.core.php:403
+#: includes/llms.functions.core.php:404
 msgid "Catalog &amp; Search"
 msgstr ""
 
-#: includes/llms.functions.core.php:404
+#: includes/llms.functions.core.php:405
 msgid "Catalog only"
 msgstr ""
 
-#: includes/llms.functions.core.php:405
+#: includes/llms.functions.core.php:406
 msgid "Search only"
 msgstr ""
 
-#: includes/llms.functions.core.php:626
+#: includes/llms.functions.core.php:627
 msgid "Cancelled"
 msgstr ""
 
-#: includes/llms.functions.core.php:627, includes/admin/reporting/tables/llms.table.student.memberships.php:113
+#: includes/llms.functions.core.php:628, includes/admin/reporting/tables/llms.table.student.memberships.php:113
 msgid "Enrolled"
 msgstr ""
 
-#: includes/llms.functions.core.php:628
+#: includes/llms.functions.core.php:629
 msgid "Expired"
 msgstr ""
 
@@ -2938,55 +2938,55 @@ msgstr ""
 msgid "Course: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:367
+#: includes/admin/class.llms.admin.builder.php:370
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:374
+#: includes/admin/class.llms.admin.builder.php:377
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:379
+#: includes/admin/class.llms.admin.builder.php:382
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:456
+#: includes/admin/class.llms.admin.builder.php:463
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:465
+#: includes/admin/class.llms.admin.builder.php:472
 msgid "You cannot edit this course!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:547
+#: includes/admin/class.llms.admin.builder.php:554
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:602
+#: includes/admin/class.llms.admin.builder.php:609
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:651
+#: includes/admin/class.llms.admin.builder.php:658
 msgid "Error deleting %1$s \"%s\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:793
+#: includes/admin/class.llms.admin.builder.php:800
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:882
+#: includes/admin/class.llms.admin.builder.php:889
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:909
+#: includes/admin/class.llms.admin.builder.php:916
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:964
+#: includes/admin/class.llms.admin.builder.php:971
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:1032
+#: includes/admin/class.llms.admin.builder.php:1039
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -5417,7 +5417,7 @@ msgstr ""
 msgid "Welcome to LifterLMS 3.13.0! We've packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s."
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:1613
+#: includes/functions/llms.functions.updates.php:1612
 msgid "Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under \"Courses\" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s."
 msgstr ""
 
@@ -6143,7 +6143,7 @@ msgstr ""
 msgid "You do not have any certificates yet."
 msgstr ""
 
-#: templates/checkout/form-checkout.php:26, templates/checkout/form-confirm-payment.php:19
+#: templates/checkout/form-checkout.php:26, templates/checkout/form-confirm-payment.php:35
 msgid "Billing Information"
 msgstr ""
 
@@ -6151,11 +6151,11 @@ msgstr ""
 msgid "Student Information"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:50, templates/checkout/form-confirm-payment.php:37
+#: templates/checkout/form-checkout.php:50, templates/checkout/form-confirm-payment.php:53
 msgid "Order Summary"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:74, templates/checkout/form-confirm-payment.php:53
+#: templates/checkout/form-checkout.php:74, templates/checkout/form-confirm-payment.php:69
 msgid "Payment Details"
 msgstr ""
 
@@ -6171,32 +6171,16 @@ msgstr ""
 msgid "Enroll Now"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:58, templates/checkout/form-switch-source.php:59
+#: templates/checkout/form-confirm-payment.php:20
+msgid "Only pending orders can be confirmed. View your %1$sorder history%2$s for more information"
+msgstr ""
+
+#: templates/checkout/form-confirm-payment.php:74, templates/checkout/form-switch-source.php:59
 msgid "Payment Method:"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:74, includes/admin/settings/class.llms.settings.checkout.php:184
+#: templates/checkout/form-confirm-payment.php:90, includes/admin/settings/class.llms.settings.checkout.php:184
 msgid "Confirm Payment"
-msgstr ""
-
-#: templates/checkout/form-confirm-payment.php:131
-msgid "The order for this transaction could not be located."
-msgstr ""
-
-#: templates/checkout/form-confirm-payment.php:144, templates/checkout/form-confirm-payment.php:187
-msgid "Confirm Purchase"
-msgstr ""
-
-#: templates/checkout/form-confirm-payment.php:159
-msgid "Payment Terms:"
-msgstr ""
-
-#: templates/checkout/form-confirm-payment.php:164
-msgid "Price:"
-msgstr ""
-
-#: templates/checkout/form-confirm-payment.php:177, templates/myaccount/view-order.php:121, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:43
-msgid "Payment Method"
 msgstr ""
 
 #: templates/checkout/form-coupon.php:19
@@ -6502,6 +6486,10 @@ msgstr[1] ""
 
 #: templates/myaccount/view-order.php:115, templates/admin/post-types/order-details.php:149, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:142
 msgid "One-time"
+msgstr ""
+
+#: templates/myaccount/view-order.php:121, includes/notifications/views/class.llms.notification.view.purchase.receipt.php:43
+msgid "Payment Method"
 msgstr ""
 
 #: templates/myaccount/view-order.php:133, includes/admin/reporting/tables/llms.table.quiz.attempts.php:268, templates/admin/reporting/tabs/quizzes/attempt.php:85

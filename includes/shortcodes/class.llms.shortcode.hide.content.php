@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *   	[hide_content id="1,2,3,4" relation="all"] allows only users with access 1,2,3 AND 4 to access
  *
  * @since    3.5.1
- * @version  [version]
+ * @version  3.24.1
  */
 class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 
@@ -27,7 +27,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	 * with the user submitted attributes and passed to $this->get_output()
 	 * @return   array
 	 * @since    3.5.1
-	 * @version  [version]
+	 * @version  3.24.1
 	 */
 	protected function get_default_attributes() {
 		return array(
@@ -46,7 +46,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	 *
 	 * @return   string
 	 * @since    3.5.1
-	 * @version  [version]
+	 * @version  3.24.1
 	 */
 	protected function get_output() {
 

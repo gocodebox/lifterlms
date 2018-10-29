@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.24.1
  */
 class LLMS_Admin_Builder {
 
@@ -349,7 +349,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 *                            builder data will be in the "llms_builder" array
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.24.1
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
