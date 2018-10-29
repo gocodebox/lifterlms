@@ -222,6 +222,16 @@
         "bug",
         "code"
       ]
+    },
+    {
+      "login": "yojance",
+      "name": "Yojance Rabelo",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1916064?v=4",
+      "profile": "https://www.wpsuperstar.com/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
