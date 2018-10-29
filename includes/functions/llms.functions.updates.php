@@ -1167,9 +1167,8 @@ function llms_update_3160_attempt_migration() {
 
 				$wpdb->insert( $wpdb->prefix . 'lifterlms_quiz_attempts', $to_insert, $format );
 
-
 			} // End foreach().
-		}
+		}// End if().
 
 		// backup original
 		update_user_meta( $record->user_id, 'llms_legacy_quiz_data', $record->meta_value );

@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
 		),
 	'error' ); ?>
 
-<?php else: ?>
+<?php else : ?>
 
 	<form action="" class="llms-checkout llms-confirm llms-checkout-cols-<?php echo $cols; ?>" method="POST" id="llms-product-purchase-confirm-form">
 
@@ -109,4 +109,3 @@ defined( 'ABSPATH' ) || exit;
 
 	</form>
 <?php endif; ?>
-
