@@ -27,9 +27,10 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	 */
 	protected function get_default_attributes() {
 		return array(
-			'membership' => '', // backwards compat, use ID moving forwad
+			'membership' => '', // backwards compat, use ID moving forward
 			'message' => '',
 			'id' => get_the_ID(),
+			'relation'   => 'all',
 		);
 	}
 
@@ -39,6 +40,10 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
+	 * Examples:
+	 * [hide_content id="1,2,3,4" relation="any"] allows member with access to 1,2,3, OR 4 to access content
+	 * [hide_content id="1,2,3,4" relation="all"] allows only members with access 1,2,3 AND 4 to access
+	 *
 	 * @return   string
 	 * @since    3.5.1
 	 * @version  3.5.1
@@ -46,13 +51,36 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	protected function get_output() {
 
 		// backwards compatibility, get membership if set and fallback to the id
-		$id = $this->get_attribute( 'membership' ) ?  $this->get_attribute( 'membership' ) : $this->get_attribute( 'id' );
+		$ids = $this->get_attribute( 'membership' ) ? $this->get_attribute( 'membership' ) : $this->get_attribute( 'id' );
+		// Explode, trim whitespace and remove empty values
+		$ids = (array) array_map( 'trim', array_filter( explode( ',', $ids ) ) );
 
-		if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
-			return do_shortcode( $this->get_content() );
+		// Assume content is hidden
+		$hidden = true;
+
+		if ( 'any' === $this->get_attribute( 'relation' ) && ! empty( $ids ) ) {
+			foreach ( $ids as $id ) {
+				if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
+					$hidden = false;
+					break;
+				}
+			}
 		}
 
-		return $this->get_attribute( 'message' );
+		if ( 'all' === $this->get_attribute( 'relation' ) && ! empty( $ids ) ) {
+			$inc = 0;
+			foreach ( $ids as $id ) {
+				if ( llms_is_user_enrolled( get_current_user_id(), $id ) ) {
+					$inc++;
+				}
+			}
+
+			if ( count( $ids ) === $inc ) {
+				$hidden = false;
+			}
+		}
+
+		return ! $hidden ? do_shortcode( $this->get_content() ) : $this->get_attribute( 'message' );
 
 	}
 
