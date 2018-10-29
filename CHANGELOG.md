@@ -6,6 +6,7 @@ v3.24.1 - 2018-10-25
 
 ##### Updates
 
++ The shortcode `[lifterlms_hide_content]` now accepts multiple IDs and can specify whether the user must belong to either *all* or *any one* of the specified memberships. Thanks [@yojance](https://github.com/yojance)!
 + The action `llms_voucher_used`, called when a voucher code is used, will now pass the voucher code as a 3rd parameter. Thanks [@yojance](https://github.com/yojance)!
 
 ##### Bug Fixes
