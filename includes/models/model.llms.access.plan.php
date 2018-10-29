@@ -533,7 +533,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			// add times if the values exist (start of day & end of day)
 			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
-			$end = ( $end ) ? strtotime( $end . ' 23:23:59' ) : $end;
+			$end = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
 
 			// no dates, the product is indefinitely on sale
 			if ( ! $start && ! $end ) {
