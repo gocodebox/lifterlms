@@ -347,7 +347,7 @@ function llms_get_engagement_triggers() {
 		'quiz_passed' => __( 'Student passes a quiz', 'lifterlms' ),
 		'quiz_failed' => __( 'Student fails a quiz', 'lifterlms' ),
 		'section_completed' => __( 'Student completes a section', 'lifterlms' ),
-		'course_track_completed' => __( 'Student comepletes a course track', 'lifterlms' ),
+		'course_track_completed' => __( 'Student completes a course track', 'lifterlms' ),
 		'membership_enrollment' => __( 'Student enrolls in a membership', 'lifterlms' ),
 		'membership_purchased' => __( 'Student purchases a membership', 'lifterlms' ),
 	) );
