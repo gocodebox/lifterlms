@@ -302,7 +302,7 @@ msgstr ""
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:331, includes/class.llms.post-types.php:316, includes/admin/class.llms.admin.builder.php:780, includes/models/model.llms.lesson.php:360, includes/admin/views/builder/elements.php:21
+#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:331, includes/class.llms.post-types.php:316, includes/admin/class.llms.admin.builder.php:781, includes/models/model.llms.lesson.php:360, includes/admin/views/builder/elements.php:21
 msgid "New Lesson"
 msgstr ""
 
@@ -2938,55 +2938,55 @@ msgstr ""
 msgid "Course: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:370
+#: includes/admin/class.llms.admin.builder.php:371
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:377
+#: includes/admin/class.llms.admin.builder.php:378
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:382
+#: includes/admin/class.llms.admin.builder.php:383
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:463
+#: includes/admin/class.llms.admin.builder.php:464
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:472
+#: includes/admin/class.llms.admin.builder.php:473
 msgid "You cannot edit this course!"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:554
+#: includes/admin/class.llms.admin.builder.php:555
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:609
+#: includes/admin/class.llms.admin.builder.php:610
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:658
+#: includes/admin/class.llms.admin.builder.php:659
 msgid "Error deleting %1$s \"%s\"."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:800
+#: includes/admin/class.llms.admin.builder.php:801
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:889
+#: includes/admin/class.llms.admin.builder.php:890
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:916
+#: includes/admin/class.llms.admin.builder.php:917
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:971
+#: includes/admin/class.llms.admin.builder.php:972
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:1039
+#: includes/admin/class.llms.admin.builder.php:1040
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 

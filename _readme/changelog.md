@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.24.2 - 2018-10-30 =
+------------------------
+
++ Fix issue causing newline characters to be malformed on course builder description fields, resulting in `n` characters being output in strange places.
+
+
 = v3.24.1 - 2018-10-29 =
 ------------------------
 
@@ -204,9 +210,4 @@
   + Show custom content (use a WYSIWYG editor to define content)
   + Redirect to a WordPress page (use custom templates and enhance page builder compatibility and capabilities)
   + Redirect to a custom URL (use a sales page hosted on another domain!)
-+ Tested to WordPress 4.9.7
-
-= v3.19.6 - 2018-07-06 =
-------------------------
-
-+ Fix file load paths in OptimizePress plugin compatibility function
++ Tested to WordPress 4.9.

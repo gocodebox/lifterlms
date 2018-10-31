@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.24.2 - 2018-10-30
+--------------------
+
++ Fix issue causing newline characters to be malformed on course builder description fields, resulting in `n` characters being output in strange places.
+
+
 v3.24.1 - 2018-10-29
 --------------------
 
