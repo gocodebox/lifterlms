@@ -248,7 +248,9 @@ class LLMS_Certificates {
 			// Remove the admin bar (if found).
 			$admin_bar = $dom->getElementById( 'wpadminbar' );
 			if ( $admin_bar ) {
+				// @codingStandardsIgnoreStart WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
 				$admin_bar->parentNode->removeChild( $admin_bar );
+				// @codingStandardsIgnoreEnd
 			}
 
 			$html = $dom->saveHTML();
