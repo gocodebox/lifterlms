@@ -1,6 +1,9 @@
 LifterLMS Changelog
 ===================
 
++ Fixes issue on iOS Safari causing multiple choice quiz questions to require a "long press" to be properly selected
+
+
 v3.24.2 - 2018-10-30
 --------------------
 
