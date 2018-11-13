@@ -2,7 +2,7 @@
 /**
  * Unit Test Case with tests and utilities specific to testing LifterLMS Shortcodes
  * @since    3.24.1
- * @version  [version]
+ * @version  3.24.3
  */
 class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 
@@ -26,7 +26,7 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	 * Test shortcode registration
 	 * @return  void
 	 * @since   3.24.1
-	 * @version [version]
+	 * @version 3.24.3
 	 */
 	public function test_registration() {
 

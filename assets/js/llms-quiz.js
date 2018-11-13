@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.3
  */
 ;( function( $ ) {
 
@@ -346,7 +346,7 @@
 		 * Start a Quiz via AJAX call
 		 * @return   void
 		 * @since    1.0.0
-		 * @version  [version]
+		 * @version  3.24.3
 		 */
 		start_quiz: function () {
 

@@ -4,7 +4,7 @@
  *
  * @see      LLMS()->certificates()
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -137,7 +137,7 @@ class LLMS_Certificates {
 	 * @param    int     $certificate_id  WP Post ID of the earned certificate
 	 * @return   string
 	 * @since    3.18.0
-	 * @version  [version]
+	 * @version  3.24.3
 	 */
 	private function get_export_html( $certificate_id ) {
 

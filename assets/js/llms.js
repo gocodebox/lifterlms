@@ -12,7 +12,7 @@
  *
  * @type     {Object}
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.3
  */
 var LLMS = window.LLMS || {};
 (function($){
@@ -1581,8 +1581,8 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @see     https://stackoverflow.com/a/4819886/400568 [2018 Update]
 	 * @return  {Boolean}
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.3
+	 * @version 3.24.3
 	 */
 	LLMS.is_touch_device = function() {
 

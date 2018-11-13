@@ -19,7 +19,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 *
 	 * @return  void
 	 * @since   3.0.0
-	 * @since   [version]
+	 * @since   3.24.3
 	 */
 	public function __construct() {
 
@@ -256,7 +256,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 * @param    obj  $query  WP_Query
 	 * @return   obj
 	 * @since    2.5.0
-	 * @version  [version]
+	 * @version  3.24.3
 	 */
 	public function modify_admin_search( $query ) {
 
