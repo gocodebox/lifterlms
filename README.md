@@ -9,7 +9,7 @@
 [![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
 [![All Contributors](https://img.shields.io/badge/all_contributors-24-orange.svg?style=flat-square)](#contributors)
 
-[LifterLMS](https://lifterlms.com), the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+[LifterLMS](https://lifterlms.com), a WordPress LMS Solution: Easily create, sell, and protect engaging online courses.
 
 
 ### [Changelog](./CHANGELOG.md)
