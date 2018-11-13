@@ -2,6 +2,7 @@ LifterLMS Changelog
 ===================
 
 + Fixes issue on iOS Safari causing multiple choice quiz questions to require a "long press" to be properly selected
++ Fixes issue causing access plan sales to end 36m and 1s prior to end of the day on the desired sale end date. Thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
 
 
 v3.24.2 - 2018-10-30
