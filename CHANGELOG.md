@@ -4,10 +4,13 @@ LifterLMS Changelog
 v3.24.3 - 2018-11-13
 --------------------
 
++ Fixed issue causing fatal errors encountered during certificate downloading caused by CSS `<link>` tags existing outside of the `<head>` element.
++ Certificates downloaded by users who can see the WP Admin Bar will no longer show the admin bar on the downloaded certificate
 + Fixes issue on iOS Safari causing multiple choice quiz questions to require a "long press" to be properly selected
 + Fixes issue causing access plan sales to end 36m and 1s prior to end of the day on the desired sale end date. Thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
 + Adds the ability to orders by the customer's email, login, url, nicename, display name, first name, and last name. Thanks Thanks [@yojance](https://github.com/yojance)!
 + Ensure that fallback url slugs for course & membership archives are translateable.
+
 
 v3.24.2 - 2018-10-30
 --------------------
