@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.24.3 - 2018-11-13
+--------------------
+
++ Adds the ability to orders by the customer's email, login, url, nicename, display name, first name, and last name. Thanks Thanks [@yojance](https://github.com/yojance)!
+
+
 v3.24.2 - 2018-10-30
 --------------------
 

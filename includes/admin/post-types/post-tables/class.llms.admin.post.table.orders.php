@@ -1,18 +1,25 @@
 <?php
+/**
+ * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns.
+ *
+ * @package  LifterLMS\Admin\Classes
+ * @since    3.0.0
+ * @version  3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns
- * Some functions were migrated from non-classed functions
- * @since    3.0.0
- * @version  3.24.0
+ * LLMS_Admin_Post_Table_Orders class
  */
 class LLMS_Admin_Post_Table_Orders {
 
 	/**
-	 * Constructor
-	 * @return  voide
-	 * @since  3.0.0
+	 * Constructor.
+	 *
+	 * @return  void
+	 * @since   3.0.0
+	 * @since   [version]
 	 */
 	public function __construct() {
 
@@ -26,9 +33,9 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Order post. Appends custom columns to post grid
+	 * Order post. Appends custom columns to post grid/
 	 *
-	 * @param   array $columns array of columns]
+	 * @param   array  $columns  array of columns
 	 * @return  array
 	 * @since   3.0.0
 	 * @version 3.24.0
@@ -50,12 +57,13 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Order post: Queries data based on column name
-	 * @param  string $column  [custom column name]
-	 * @param  int $post_id [ID of the individual post]
+	 * Order post: Queries data based on column name.
+	 *
+	 * @param    string $column  custom column name
+	 * @param    int $post_id    ID of the individual post
 	 * @return   void
 	 * @since    3.0.0
-	 * @version 3.19.0
+	 * @version  3.19.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 		global $post;
@@ -156,8 +164,7 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Creates array of columns that will be sortable.
 	 *
-	 * @param  array $columns [Sortable columns]
-	 *
+	 * @param  array $columns  array of sortable columns
 	 * @return array $columns
 	 * @since  3.0.0
 	 */
@@ -183,9 +190,8 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Applies custom query variables for sorting custom columns.
 	 *
-	 * @param  array $vars [Post Query Arguments]
-	 *
-	 * @return array $vars
+	 * @param  array $vars  post query args
+	 * @return array
 	 * @since  3.0.0
 	 */
 	public function llms_sort_orders( $vars ) {
@@ -223,7 +229,8 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Modify the actions for the orders
+	 * Modify the actions for the orders.
+	 *
 	 * @param    array     $actions   existing actions
 	 * @param    obj       $post      WP_Post Object
 	 * @return   void
@@ -244,22 +251,18 @@ class LLMS_Admin_Post_Table_Orders {
 
 
 	/**
-	 * Modify the search query for various post types before retrieving posts
+	 * Modify the search query for various post types before retrieving posts.
 	 *
-	 * @param  $query WP_Query
-	 * @return WP_Query
-	 *
-	 * @since  2.5.0  moved from a non-classed function
-	 * @version  3.4.8
+	 * @param    obj  $query  WP_Query
+	 * @return   obj
+	 * @since    2.5.0
+	 * @version  [version]
 	 */
 	public function modify_admin_search( $query ) {
 
 		// on the admin posts order table
 		// allow searching of custom fields
 		if ( is_admin() && ! empty( $query->query_vars['s'] ) && isset( $query->query_vars['post_type'] ) && 'llms_order' === $query->query_vars['post_type'] ) {
-
-			// Limit the number of users for which to show orders
-			$limit = apply_filters( 'lifterlms_search_orders_customer_limit', 10 );
 
 			// What we are searching for
 			$term = $query->query_vars['s'];
@@ -269,13 +272,11 @@ class LLMS_Admin_Post_Table_Orders {
 				'search' => '*' . esc_attr( $term ) . '*',
 				'search_columns' => array( 'user_login', 'user_url', 'user_email', 'user_nicename', 'display_name' ),
 				'fields' => 'ID',
-				'number' => $limit,
 			) );
 
 			// Search wp_usermeta for First and Last names
 			$user_query2 = new WP_User_Query( array(
 				'fields' => 'ID',
-				'number' => $limit,
 				'meta_query' => array(
 					'relation' => 'OR',
 					array(
@@ -292,10 +293,6 @@ class LLMS_Admin_Post_Table_Orders {
 			) );
 
 			$results = wp_parse_id_list( array_merge( (array) $user_query->get_results(), (array) $user_query2->get_results() ) );
-
-			if ( $limit && count( $results ) > $limit ) {
-				$results = array_slice( $results, 0, $limit );
-			}
 
 			// add metaquery for the user id
 			$meta_query = array(
@@ -320,6 +317,7 @@ class LLMS_Admin_Post_Table_Orders {
 					return $_GET['s'];
 				}
 			} );
+
 		} // End if().
 
 		return $query;
