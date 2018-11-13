@@ -1,6 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v3.25.0-beta.1 - 2018-11-??
+---------------------------
+
++ Course settings metabox conditionally loads settings based on the presence of gutenberg
++ Added filter to the headline size in the `course/meta-wrapper-start.php` template. Allows customization of headline via the "Course Information" block settings.
+
+##### Templates Changed
+
++  templates/course/meta-wrapper-start.php
+
+
 v3.24.2 - 2018-10-30
 --------------------
 
