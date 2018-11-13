@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Plug llms_crrent_time() to allow mocking of the current time via the $llms_mock_time global
+ * Plug llms_current_time() to allow mocking of the current time via the $llms_mock_time global
  * @param  string       $type   Type of time to retrieve. Accepts 'mysql', 'timestamp', or PHP date format string (e.g. 'Y-m-d').
  * @param  int|bool     $gmt    Optional. Whether to use GMT timezone. Default false.
  * @return int|string           Integer if $type is 'timestamp', string otherwise.
