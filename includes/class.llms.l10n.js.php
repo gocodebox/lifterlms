@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.24.0
+ * @version  3.24.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.24.0
+	 * @version  3.24.3
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -405,7 +405,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-quiz.js.
 			 *
 			 * @since    1.0.0
-			 * @version  3.16.9
+			 * @version  3.24.3
 			 */
 			'Are you sure you wish to quit this quiz attempt?' => esc_html__( 'Are you sure you wish to quit this quiz attempt?', 'lifterlms' ),
 			'Grading Quiz...' => esc_html__( 'Grading Quiz...', 'lifterlms' ),
@@ -422,8 +422,8 @@ class LLMS_L10n_JS {
 			/**
 			 * File: assets/js/llms.js.
 			 *
-			 * @since    3.14.0
-			 * @version  3.14.0
+			 * @since    1.0.0
+			 * @version  3.24.3
 			 */
 			'This is a %2$s %1$s String' => esc_html__( 'This is a %2$s %1$s String', 'lifterlms' ),
 			'You do not have permission to access this content' => esc_html__( 'You do not have permission to access this content', 'lifterlms' ),

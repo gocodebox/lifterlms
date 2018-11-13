@@ -1,6 +1,22 @@
 == Changelog ==
 
 
+= v3.24.3 - 2018-11-13 =
+------------------------
+
+##### Updates
+
++ Added user email, login, url, nicename, display name, first name, and last name as fields searched when searching orders. Thanks Thanks [@yojance](https://github.com/yojance)!
+
+##### Bug Fixes
+
++ Fixed issue causing fatal errors encountered during certificate downloading caused by CSS `<link>` tags existing outside of the `<head>` element.
++ Certificates downloaded by users who can see the WP Admin Bar will no longer show the admin bar on the downloaded certificate
++ Fixed issue on iOS Safari causing multiple choice quiz questions to require a "long press" to be properly selected
++ Fixed issue causing access plan sales to end 36m and 1s prior to end of the day on the desired sale end date. Thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ Ensure that fallback url slugs for course & membership archives are translateable.
+
+
 = v3.24.2 - 2018-10-30 =
 ------------------------
 
@@ -197,17 +213,3 @@
 
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 + [templates/global/form-login.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-login.php)
-
-
-= v3.20.0 - 2018-07-12 =
-------------------------
-
-+ Updated user interfaces on admin panel for courses and memberships with relation to "Enrolled" and "Non-Enrolled" student descriptions
-+ "Enrolled Student Description" is now the default WordPress editor
-+ "Non-Enrolled Student Description" is now the "Sales Page"
-+ Additional options for sales pages (the content displayed to visitors and non-enrolled students) have been added:
-  + Do nothing (show course description)
-  + Show custom content (use a WYSIWYG editor to define content)
-  + Redirect to a WordPress page (use custom templates and enhance page builder compatibility and capabilities)
-  + Redirect to a custom URL (use a sales page hosted on another domain!)
-+ Tested to WordPress 4.9.
