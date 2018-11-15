@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Access Plan Model
  * @since    3.0.0
- * @version  3.23.0
+ * @version  3.24.3
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -518,7 +518,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Determine if a plan is *currently* on sale
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.23.0
+	 * @version  3.24.3
 	 */
 	public function is_on_sale() {
 
@@ -533,7 +533,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			// add times if the values exist (start of day & end of day)
 			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
-			$end = ( $end ) ? strtotime( $end . ' 23:23:59' ) : $end;
+			$end = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
 
 			// no dates, the product is indefinitely on sale
 			if ( ! $start && ! $end ) {

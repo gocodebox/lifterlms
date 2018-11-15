@@ -437,6 +437,19 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'sale_end', $past );
 		$this->assertFalse( $this->obj->is_on_sale() );
 
+		// test on sale end at 00:00 of $future day plus 1
+		$this->obj->set( 'on_sale', 'yes' );
+		$this->obj->set( 'sale_end', $future );
+
+		global $llms_mock_time;
+		// set current current time as last second of $future day
+		$llms_mock_time = strtotime( $future . ' 23:59:59' );
+		$this->assertTrue( $this->obj->is_on_sale() );
+
+		// set current current time as first second of $future day plus 1
+		$llms_mock_time = strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) );
+		$this->assertFalse( $this->obj->is_on_sale() );
+
 	}
 
 	public function test_is_recurring() {

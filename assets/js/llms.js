@@ -9,11 +9,16 @@
 
 /**
  * Main LLMS Namespace
- * @type {[type]}
+ *
+ * @type     {Object}
+ * @since    1.0.0
+ * @version  3.24.3
  */
 var LLMS = window.LLMS || {};
 (function($){
+
 	'use strict';
+
 	/**
 	 * load all app modules
 	 */
@@ -1568,6 +1573,32 @@ var LLMS = window.LLMS || {};
 			}
 
 		}
+
+	};
+
+	/**
+	 * Determine if the current device is touch-enabled
+	 *
+	 * @see     https://stackoverflow.com/a/4819886/400568 [2018 Update]
+	 * @return  {Boolean}
+	 * @since   3.24.3
+	 * @version 3.24.3
+	 */
+	LLMS.is_touch_device = function() {
+
+		var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
+		var mq = function( query ) {
+			return window.matchMedia( query ).matches;
+		}
+
+		if ( ( 'ontouchstart' in window ) || window.DocumentTouch && document instanceof DocumentTouch ) {
+			return true;
+		}
+
+		// include the 'heartz' as a way to have a non matching MQ to help terminate the join
+		// https://git.io/vznFH
+		var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+		return mq( query );
 
 	};
 

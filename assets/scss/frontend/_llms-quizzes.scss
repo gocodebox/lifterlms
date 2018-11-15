@@ -208,7 +208,8 @@
 				margin: 0;
 				padding: 10px 20px;
 				position: relative;
-				&:hover {
+				// &:hover {
+				&.hovered {
 					.llms-marker:not(.type--lister) {
 						.iterator {
 							display: none;

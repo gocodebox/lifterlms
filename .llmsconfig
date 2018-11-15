@@ -55,7 +55,7 @@
 	},
 	"watch": {
 		"custom": [ {
-			"glob": [ "assets/js/builder/**/*.js" ],
+			"glob": [ "assets/js/builder/**/*.js", "assets/js/private/**/*.js" ],
 			"tasks": [ "js:additional", "js:builder" ]
 		} ]
 	},

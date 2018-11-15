@@ -1,18 +1,25 @@
 <?php
+/**
+ * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns.
+ *
+ * @package  LifterLMS\Admin\Classes
+ * @since    3.0.0
+ * @version  3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Add, Customize, and Manage LifterLMS Order Post Type Post Table Columns
- * Some functions were migrated from non-classed functions
- * @since    3.0.0
- * @version  3.24.0
+ * LLMS_Admin_Post_Table_Orders class
  */
 class LLMS_Admin_Post_Table_Orders {
 
 	/**
-	 * Constructor
-	 * @return  voide
-	 * @since  3.0.0
+	 * Constructor.
+	 *
+	 * @return  void
+	 * @since   3.0.0
+	 * @since   3.24.3
 	 */
 	public function __construct() {
 
@@ -26,9 +33,9 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Order post. Appends custom columns to post grid
+	 * Order post. Appends custom columns to post grid/
 	 *
-	 * @param   array $columns array of columns]
+	 * @param   array  $columns  array of columns
 	 * @return  array
 	 * @since   3.0.0
 	 * @version 3.24.0
@@ -50,12 +57,13 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Order post: Queries data based on column name
-	 * @param  string $column  [custom column name]
-	 * @param  int $post_id [ID of the individual post]
+	 * Order post: Queries data based on column name.
+	 *
+	 * @param    string $column  custom column name
+	 * @param    int $post_id    ID of the individual post
 	 * @return   void
 	 * @since    3.0.0
-	 * @version 3.19.0
+	 * @version  3.19.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 		global $post;
@@ -156,8 +164,7 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Creates array of columns that will be sortable.
 	 *
-	 * @param  array $columns [Sortable columns]
-	 *
+	 * @param  array $columns  array of sortable columns
 	 * @return array $columns
 	 * @since  3.0.0
 	 */
@@ -183,9 +190,8 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post: Applies custom query variables for sorting custom columns.
 	 *
-	 * @param  array $vars [Post Query Arguments]
-	 *
-	 * @return array $vars
+	 * @param  array $vars  post query args
+	 * @return array
 	 * @since  3.0.0
 	 */
 	public function llms_sort_orders( $vars ) {
@@ -223,7 +229,8 @@ class LLMS_Admin_Post_Table_Orders {
 	}
 
 	/**
-	 * Modify the actions for the orders
+	 * Modify the actions for the orders.
+	 *
 	 * @param    array     $actions   existing actions
 	 * @param    obj       $post      WP_Post Object
 	 * @return   void
@@ -244,12 +251,12 @@ class LLMS_Admin_Post_Table_Orders {
 
 
 	/**
-	 * Modify the search query for varios post types before retriving posts
-	 * @param  obj    $query  WP_Query obj
-	 * @return obj
+	 * Modify the search query for various post types before retrieving posts.
 	 *
-	 * @since  2.5.0  moved from a non-classed function
-	 * @version  3.4.8
+	 * @param    obj  $query  WP_Query
+	 * @return   obj
+	 * @since    2.5.0
+	 * @version  3.24.3
 	 */
 	public function modify_admin_search( $query ) {
 
@@ -257,47 +264,61 @@ class LLMS_Admin_Post_Table_Orders {
 		// allow searching of custom fields
 		if ( is_admin() && ! empty( $query->query_vars['s'] ) && isset( $query->query_vars['post_type'] ) && 'llms_order' === $query->query_vars['post_type'] ) {
 
-			$s = $query->query_vars['s'];
+			// What we are searching for
+			$term = $query->query_vars['s'];
 
-			// if the term is an email, find orders for the user
-			if ( is_email( $s ) ) {
+			// Search wp_users
+			$user_query = new WP_User_Query( array(
+				'search' => '*' . esc_attr( $term ) . '*',
+				'search_columns' => array( 'user_login', 'user_url', 'user_email', 'user_nicename', 'display_name' ),
+				'fields' => 'ID',
+			) );
 
-				// get the user obj
-				$user = get_user_by( 'email', $s );
+			// Search wp_usermeta for First and Last names
+			$user_query2 = new WP_User_Query( array(
+				'fields' => 'ID',
+				'meta_query' => array(
+					'relation' => 'OR',
+					array(
+						'key' => 'first_name',
+						'value' => $term,
+						'compare' => 'LIKE',
+					),
+					array(
+						'key' => 'last_name',
+						'value' => $term,
+						'compare' => 'LIKE',
+					),
+				),
+			) );
 
-				if ( $user ) {
+			$results = wp_parse_id_list( array_merge( (array) $user_query->get_results(), (array) $user_query2->get_results() ) );
 
-					// add metaquery for the user id
-					$metaquery = array(
-						'relation' => 'OR',
-						array(
-							'key' => '_llms_user_id',
-							'value' => $user->ID,
-							'compare' => '=',
-						)
-					);
+			// add metaquery for the user id
+			$meta_query = array(
+				'relation' => 'OR',
+				array(
+					'key' => '_llms_user_id',
+					'value' => $results,
+					'compare' => 'IN',
+				)
+			);
 
-					// we have to kill this value so that the query actually works
-					$query->query_vars['s'] = '';
+			// we have to kill this value so that the query actually works
+			$query->query_vars['s'] = '';
 
-					// set the query
-					$query->set( 'meta_query', $metaquery );
+			// set the query
+			$query->set( 'meta_query', $meta_query );
 
-					// add a filter back in so we don't have 'Search results for ""' on the top of the screen
-					// @note we're not super proud of this incredible piece of duct tape
-					add_filter( 'get_search_query', function( $q ) {
-
-						if ( '' === $q ) {
-
-							return $_GET['s'];
-
-						}
-
-					} );
-
+			// add a filter back in so we don't have 'Search results for ""' on the top of the screen
+			// @note we're not super proud of this incredible piece of duct tape
+			add_filter( 'get_search_query', function( $q ) {
+				if ( '' === $q ) {
+					return $_GET['s'];
 				}
-			}// End if().
-		}// End if().
+			} );
+
+		} // End if().
 
 		return $query;
 

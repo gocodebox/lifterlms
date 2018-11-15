@@ -1,8 +1,8 @@
 <?php
 /**
- * Unit Test Case with tests and utilities specific to testing LifterLMS Notification Classes
- * @since    3.8.0
- * @version  3.8.0
+ * Unit Test Case with tests and utilities specific to testing LifterLMS Shortcodes
+ * @since    3.24.1
+ * @version  3.24.3
  */
 class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 
@@ -26,11 +26,11 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	 * Test shortcode registration
 	 * @return  void
 	 * @since   3.24.1
-	 * @version 3.24.1
+	 * @version 3.24.3
 	 */
 	public function test_registration() {
 
-		$obj = $this->class_name::instance();
+		$obj = call_user_func( array( $this->class_name, 'instance' ) );
 		$this->assertTrue( shortcode_exists( $obj->tag ) );
 		$this->assertTrue( is_a( $obj, 'LLMS_Shortcode' ) );
 		$this->assertTrue( ! empty( $obj->tag ) );
