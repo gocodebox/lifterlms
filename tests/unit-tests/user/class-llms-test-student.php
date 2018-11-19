@@ -3,7 +3,7 @@
  * Tests for LifterLMS Student Functions
  * @group    LLMS_Student
  * @since    3.5.0
- * @version  3.24.0
+ * @version  [version]
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -439,6 +439,70 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Test is_enrolled() method
+	 * @return  [type]
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public function test_is_enrolled() {
+
+		$courses = $this->generate_mock_courses( 3, 1, 1, 0 );
+
+		$course = llms_get_post( $courses[0] );
+		$student = llms_get_student( $this->factory->user->create( array( 'role' => 'student' ) ) );
+
+		// no status
+		$this->assertFalse( $student->is_enrolled( $courses[0] ) );
+		$this->assertFalse( $student->is_enrolled( array( $courses[0] ) ) );
+
+		// enrolled
+		$student->enroll( $courses[0] );
+		$this->assertTrue( $student->is_enrolled( $courses[0] ) );
+		$this->assertTrue( $student->is_enrolled( array( $courses[0] ) ) );
+		// check from a lesson
+		$this->assertTrue( $student->is_enrolled( $course->get_lessons( 'ids' )[0] ) );
+		$this->assertTrue( $student->is_enrolled( array( $course->get_lessons( 'ids' )[0] ) ) );
+
+		// Enrolled in only one of the specified.
+		$this->assertFalse( $student->is_enrolled( $courses, 'all' ) );
+		$this->assertTrue( $student->is_enrolled( $courses, 'any' ) );
+
+		// Enrolled in 2 of the 3.
+		$student->enroll( $courses[1] );
+		$this->assertFalse( $student->is_enrolled( $courses, 'all' ) );
+		$this->assertTrue( $student->is_enrolled( $courses, 'any' ) );
+
+		// Enrolled in all courses.
+		$student->enroll( $courses[2] );
+		$this->assertTrue( $student->is_enrolled( $courses, 'all' ) );
+		$this->assertTrue( $student->is_enrolled( $courses, 'any' ) );
+
+		$this->assertTrue( $student->is_enrolled( array( $courses[0], $courses[2] ) ) );
+		$this->assertTrue( $student->is_enrolled( $courses[1], 'any' ) );
+
+		sleep( 1 );
+
+		// expired
+		$student->unenroll( $courses[0] );
+		$this->assertFalse( $student->is_enrolled( $courses[0] ) );
+		$this->assertFalse( $student->is_enrolled( array( $courses[0] ) ) );
+
+		$this->assertFalse( $student->is_enrolled( $courses ) ); // default
+		$this->assertFalse( $student->is_enrolled( $courses, 'all' ) );
+		$this->assertTrue( $student->is_enrolled( $courses, 'any' ) );
+
+		$student->unenroll( $courses[2] );
+		$this->assertFalse( $student->is_enrolled( $courses, 'all' ) );
+		$this->assertTrue( $student->is_enrolled( $courses, 'any' ) );
+		$this->assertTrue( $student->is_enrolled( $courses, 'any' ) );
+
+		$student->unenroll( $courses[1] );
+		$this->assertFalse( $student->is_enrolled( $courses, 'any' ) );
+		$this->assertFalse( $student->is_enrolled( $courses, 'all' ) );
 
 	}
 
