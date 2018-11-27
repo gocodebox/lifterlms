@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Quizzes Reporting Table
  *
  * @since    3.16.0
- * @version  3.19.2
+ * @version  [version]
  */
 class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
@@ -157,7 +157,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.19.2
+	 * @version  [version]
 	 */
 	public function get_results( $args = array() ) {
 
@@ -193,19 +193,9 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 			$query_args['status'] = $this->filter;
 		}
 
-		// if you can view others reports, make a regular query
-		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
+		if ( current_user_can( 'view_others_lifterlms_reports' ) || ( current_user_can( 'view_lifterlms_reports' ) && current_user_can( 'edit_post', $args['quiz_id'] ) ) ) {
 
 			$query = new LLMS_Query_Quiz_Attempt( $query_args );
-
-			// user can only see their own reports, get a list of their students
-		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
-
-			$instructor = llms_get_instructor();
-			if ( ! $instructor ) {
-				return;
-			}
-			$query = $instructor->get_courses( $query_args, 'query' );
 
 		} else {
 

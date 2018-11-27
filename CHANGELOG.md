@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.24.4 - 2018-11-??
+--------------------
+
++ Fix issue causing quiz reporting screens to be blank for users without `view_others_lifterlms_reports` capabilities.
+
+
 v3.24.3 - 2018-11-13
 --------------------
 
