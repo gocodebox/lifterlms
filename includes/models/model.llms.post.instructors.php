@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
  * @since    3.13.0
- * @version  3.23.0
+ * @version  [version]
  */
 class LLMS_Post_Instructors {
 
@@ -62,7 +62,7 @@ class LLMS_Post_Instructors {
 	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.23.0
+	 * @version  [version]
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -77,12 +77,12 @@ class LLMS_Post_Instructors {
 			);
 		}
 
-		if ( $exclude_hidden ) {
-			foreach ( $instructors as $key => $instructor ) {
-				if ( 'hidden' === $instructor['visibility'] ) {
-					unset( $instructors[ $key ] );
-				}
+		foreach ( $instructors as $key => $instructor ) {
+			if ( $exclude_hidden && 'hidden' === $instructor['visibility'] ) {
+				unset( $instructors[ $key ] );
 			}
+			$student = llms_get_student( $instructor['id'] );
+			$instructors[ $key ]['name'] = $student ? $student->get_name() : '';
 		}
 
 		return $instructors;
