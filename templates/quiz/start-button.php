@@ -1,11 +1,12 @@
 <?php
 /**
  * Quiz Start & Next lesson buttons
+ *
  * @since    1.0.0
- * @version  3.16.0
+ * @version  [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 $quiz = llms_get_post( $post );
@@ -34,7 +35,7 @@ $lesson = $quiz->get_lesson();
 				</button>
 
 			<?php else : ?>
-				<p><?php _e( 'You are not able take this quiz', 'lifterlms' ); ?></p>
+				<p><?php _e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
 			<?php endif; ?>
 
 			<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
@@ -44,7 +45,7 @@ $lesson = $quiz->get_lesson();
 
 	<?php else : ?>
 
-		<p><?php _e( 'You are not able take this quiz', 'lifterlms' ); ?></p>
+		<p><?php _e( 'You are not able to take this quiz', 'lifterlms' ); ?></p>
 
 	<?php endif; ?>
 

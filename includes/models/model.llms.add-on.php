@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add-On Model
  * @since    3.22.0
- * @version  3.22.1
+ * @version  [version]
  */
 class LLMS_Add_On {
 
@@ -65,7 +65,7 @@ class LLMS_Add_On {
 	 * Activate an add-on
 	 * @return   string|WP_Error
 	 * @since    3.22.0
-	 * @version  3.22.0
+	 * @version  [version]
 	 */
 	public function activate() {
 
@@ -77,7 +77,7 @@ class LLMS_Add_On {
 		} elseif ( 'theme' === $this->get( 'type' ) ) {
 
 			$ret = true;
-			switch_theme( $addon->get( 'update_file' ) );
+			switch_theme( $this->get( 'update_file' ) );
 
 		}
 

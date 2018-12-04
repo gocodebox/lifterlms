@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Quizzes Reporting Table
  * @since    3.16.0
- * @version  3.24.0
+ * @version  [version]
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -187,7 +187,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_results( $args = array() ) {
 
@@ -216,23 +216,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			'posts_per_page' => $per,
 		);
 
-		// if ( 'any' !== $this->filter ) {
-
-		// 	$serialized_id = serialize( array(
-		// 		'id' => absint( $this->filter ),
-		// 	) );
-		// 	$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
-
-		// 	$query_args['meta_query'] = array(
-		// 		array(
-		// 			'compare' => 'LIKE',
-		// 			'key' => '_llms_instructors',
-		// 			'value' => $serialized_id,
-		// 		),
-		// 	);
-
-		// }
-
 		if ( isset( $args['search'] ) ) {
 			$query_args['s'] = sanitize_text_field( $args['search'] );
 		}
@@ -249,7 +232,23 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			if ( ! $instructor ) {
 				return;
 			}
-			$query = $instructor->get_courses( $query_args, 'query' );
+
+			$lessons = array();
+			$courses = $instructor->get_courses( array(
+				'posts_per_page' => -1
+			) );
+			foreach ( $courses as $course ) {
+				$lessons = array_merge( $lessons, $course->get_lessons( 'ids' ) );
+			}
+			$query_args['meta_query'] = array(
+				array(
+					'compare' => 'IN',
+					'key' => '_llms_lesson_id',
+					'value' => $lessons,
+				),
+			);
+			$query = new WP_Query( $query_args );
+
 
 		} else {
 

@@ -7,9 +7,16 @@ v3.25.0-beta.1 - 2018-11-??
 + Course settings metabox conditionally loads settings based on the presence of gutenberg
 + Added filter to the headline size in the `course/meta-wrapper-start.php` template. Allows customization of headline via the "Course Information" block settings.
 
+##### Bug Fixes
+
++ Fixed typo in `quiz/start-button.php` template.
++ Fixed error occurring during activation of LaunchPad via the Add-Ons & More screen.
++ Fixed issue causing quiz reporting screens to be blank for users without `view_others_lifterlms_reports` capabilities.
+
 ##### Templates Changed
 
-+  templates/course/meta-wrapper-start.php
++ [course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
++ [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)
 
 
 v3.24.3 - 2018-11-13
