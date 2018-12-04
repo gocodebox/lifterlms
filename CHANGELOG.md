@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.24.4 - 2018-11-??
 --------------------
 
++ Fix error occurring during activation of LaunchPad via the Add-Ons & More screen.
 + Fix issue causing quiz reporting screens to be blank for users without `view_others_lifterlms_reports` capabilities.
 
 
