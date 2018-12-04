@@ -4,8 +4,16 @@ LifterLMS Changelog
 v3.24.4 - 2018-11-??
 --------------------
 
-+ Fix error occurring during activation of LaunchPad via the Add-Ons & More screen.
-+ Fix issue causing quiz reporting screens to be blank for users without `view_others_lifterlms_reports` capabilities.
+##### Bug Fixes
+
++ Fixed typo in `quiz/start-button.php` template.
++ Fixed error occurring during activation of LaunchPad via the Add-Ons & More screen.
++ Fixed issue causing quiz reporting screens to be blank for users without `view_others_lifterlms_reports` capabilities.
+
+
+##### Templates Changed
+
++ [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)
 
 
 v3.24.3 - 2018-11-13
