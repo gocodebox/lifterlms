@@ -1,12 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Course / Membership Instructors Metabox
  * @since   3.13.0
- * @version 3.17.3
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Metabox_Instructors class
  */
 class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 
@@ -29,12 +31,12 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	 * Define metabox fields
 	 * @return  array
 	 * @since   3.13.0
-	 * @version 3.17.3
+	 * @version [version]
 	 */
 	public function get_fields() {
 
 		$post = llms_get_post( $this->post );
-		$defaults = $post->instructors()->get_defaults();
+		$defaults = llms_get_instructors_defaults();
 
 		return array(
 			array(
