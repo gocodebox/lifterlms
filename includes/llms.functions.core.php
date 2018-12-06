@@ -439,6 +439,21 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 }
 
 /**
+ * Retrieve default instructor data structure.
+ *
+ * @return  array
+ * @since   [version]
+ * @version [version]
+ */
+function llms_get_instructors_defaults() {
+	return apply_filters( 'llms_post_instructors_get_defaults', array(
+		'label' => __( 'Author', 'lifterlms' ),
+		'visibility' => 'visible',
+		'id' => '',
+	) );
+}
+
+/**
  * Get the most recently created coupon ID for a given code
  * @param   string $code        the coupon's code (title)
  * @param   int    $dupcheck_id an optional coupon id that can be passed which will be excluded during the query
