@@ -143,7 +143,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $, wp_ajax_data */
+		/* global LLMS, $, wp_ajax_data */
 	/* jshint strict: false */
 	
 	/**
@@ -263,7 +263,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS */
+		/* global LLMS */
 	/* jshint strict: false */
 	
 	/**
@@ -329,7 +329,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $ */
+		/* global LLMS, $ */
 	/* jshint strict: false */
 	/**
 	 * Instructors List
@@ -370,7 +370,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS */
+		/* global LLMS */
 	
 	/**
 	 * Localization functions for LifterLMS Javascript
@@ -436,7 +436,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $ */
+		/* global LLMS, $ */
 	
 	/**
 	 * Handle Lesson Preview Elements
@@ -546,7 +546,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $ */
+		/* global LLMS, $ */
 	
 	/**
 	 * LifterLMS Loops JS
@@ -591,7 +591,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $ */
+		/* global LLMS, $ */
 	
 	/**
 	 * Handle the Collpasible Syllabus Widget / Shortcode
@@ -731,7 +731,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $, wp */
+		/* global LLMS, $, wp */
 	/* jshint strict: false */
 	
 	/**
@@ -1037,7 +1037,7 @@ var LLMS = window.LLMS || {};
 	
 	} );
 	
-	/* global LLMS, $ */
+		/* global LLMS, $ */
 	/* jshint strict: false */
 	/**
 	 * Pricing Table UI
@@ -1117,7 +1117,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $, jQuery */
+		/* global LLMS, $, jQuery */
 	/* jshint strict: false */
 	/*jshint -W020 */
 	
@@ -1199,7 +1199,7 @@ var LLMS = window.LLMS || {};
 		},
 	};
 	
-	/* global LLMS, $ */
+		/* global LLMS, $ */
 	
 	/**
 	 * Add Spinners for AJAX events
@@ -1285,7 +1285,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/* global LLMS, $ */
+		/* global LLMS, $ */
 	
 	/**
 	 * Student Dashboard related JS
@@ -1483,7 +1483,7 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-	/*global LLMS */
+		/*global LLMS */
 	/* jshint strict: false */
 	
 	/**
@@ -1550,7 +1550,6 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-
 
 	/**
 	 * Initializes all classes within the LLMS Namespace

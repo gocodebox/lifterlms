@@ -497,7 +497,6 @@
 		this.repeaters.init();
 		
 
-
 		/**
 		 * Initialize
 		 * @return   void

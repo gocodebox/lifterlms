@@ -1,6 +1,35 @@
 == Changelog ==
 
 
+= v3.25.0 - 2018-12-05 =
+------------------------
+
+##### WordPress 5.0 Ready!
+
++ **Tested with WordPress core 5.0 (Gutenberg)!**
++ Editor Blocks: Course and Lesson layouts are now (preferrably) powered by various editor blocks.
++ When a block is added to a course or lesson, the template hook that automatically outputs that element is removed automatically (preventing duplicates).
++ If you use the LifterLMS Labs: Action Manager you may no longer need it!
++ Course & Membership instructors are now managed through an editor "plugin". Check out the rocket icon near the "Publish/Update" button.
++ Instructor metabox will load conditionally based on presence of the block editor
++ New courses and lessons will automatically have a preloaded block editor template
++ Courses and lessons will automatically be "migrated" to these templates when edited on the admin panel
++ Various course settings conditionally load based on the presence of the block editor
++ Added filter to the headline size in the `course/meta-wrapper-start.php` template. Allows customization of headline via the "Course Information" block settings.
+
+##### Bug Fixes
+
++ Fixed typo in `quiz/start-button.php` template.
++ Fixed error occurring during activation of LaunchPad via the Add-Ons & More screen.
++ Fixed issue causing quiz reporting screens to be blank for users without `view_others_lifterlms_reports` capabilities.
+
+##### Templates Changed
+
++ [templates/course/author.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/author.php)
++ [course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
++ [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)
+
+
 = v3.24.3 - 2018-11-13 =
 ------------------------
 
@@ -187,29 +216,3 @@
 ##### Template Updates
 
 + [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
-
-
-= v3.21.0 - 2018-07-18 =
-------------------------
-
-##### Updates and Enhancements
-
-+ Added new actions before and after global login form HTML: `llms_before_person_login_form` & `llms_after_person_login_form`
-+ Settings API can now create disabled fields
-+ Added new actions to the checkout form: `lifterlms_pre_checkout_form` && `lifterlms_post_checkout_form`
-+ Added CRUD functions for interacting with data located in the `wp_lifterlms_user_postmeta` table
-+ Replaced various database queries for CRUD user postmeta data with new CRUD functions
-+ Added new utility function to allow splicing data into associative arrays
-
-##### Bug Fixes
-
-+ If all user information fields are disabled, the "Student Information" are will now be hidden during checkout for logged in users instead of displaying an empty information box
-+ Fixed plugin compatibility issue with Advanced Custom Fields
-+ Fixed issue causing multiple choice quiz questions to require a double tap on some iOS devices
-+ Fixed incorrectly named filter causing section titles to not display on student course reporting screens
-+ We do not advocate using PHP 5.5 or lower but if you were using 5.5 or lower and encountered an error during bulk enrollment we've fixed that for. Please upgrade to 7.2 though. We all want faster more secure websites.
-
-##### Template Updates
-
-+ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
-+ [templates/global/form-login.php](https://github.com/gocodebox/lifterlms/blob/master/templates/global/form-login.php)
