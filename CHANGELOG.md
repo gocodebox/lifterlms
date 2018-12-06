@@ -1,10 +1,20 @@
 LifterLMS Changelog
 ===================
 
-v3.25.0-beta.1 - 2018-11-??
----------------------------
+v3.25.0 - 2018-12-05
+--------------------
 
-+ Course settings metabox conditionally loads settings based on the presence of gutenberg
+##### WordPress 5.0 Ready!
+
++ **Tested with WordPress core 5.0 (Gutenberg)!**
++ Editor Blocks: Course and Lesson layouts are now (preferrably) powered by various editor blocks.
++ When a block is added to a course or lesson, the template hook that automatically outputs that element is removed automatically (preventing duplicates).
++ If you use the LifterLMS Labs: Action Manager you may no longer need it!
++ Course & Membership instructors are now managed through an editor "plugin". Check out the rocket icon near the "Publish/Update" button.
++ Instructor metabox will load conditionally based on presence of the block editor
++ New courses and lessons will automatically have a preloaded block editor template
++ Courses and lessons will automatically be "migrated" to these templates when edited on the admin panel
++ Various course settings conditionally load based on the presence of the block editor
 + Added filter to the headline size in the `course/meta-wrapper-start.php` template. Allows customization of headline via the "Course Information" block settings.
 
 ##### Bug Fixes
