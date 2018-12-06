@@ -15,6 +15,7 @@ v3.25.0-beta.1 - 2018-11-??
 
 ##### Templates Changed
 
++ [templates/course/author.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/author.php)
 + [course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
 + [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)
 
