@@ -235,7 +235,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 			$lessons = array();
 			$courses = $instructor->get_courses( array(
-				'posts_per_page' => -1
+				'posts_per_page' => -1,
 			) );
 			foreach ( $courses as $course ) {
 				$lessons = array_merge( $lessons, $course->get_lessons( 'ids' ) );
@@ -248,7 +248,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				),
 			);
 			$query = new WP_Query( $query_args );
-
 
 		} else {
 

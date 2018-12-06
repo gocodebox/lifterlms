@@ -121,7 +121,6 @@ class LLMS_Post_Instructors {
 			if ( empty( $instructor['id'] ) ) {
 				unset( $instructors[ $i ] );
 			}
-
 		}
 
 		return array_values( $instructors );

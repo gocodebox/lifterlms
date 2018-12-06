@@ -1248,7 +1248,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$ret = false;
 				break;
 
-			// If user must be enrolled in any
+				// If user must be enrolled in any
 			} elseif ( 'any' === $relation ) {
 
 				// If we find an enrollment: return true and quit the loop.
@@ -1256,13 +1256,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					$ret = true;
 					break;
 
-				// If not switch return to false but keep looking.
+					// If not switch return to false but keep looking.
 				} else {
 					$ret = false;
 				}
-
 			}
-
 		}
 
 		return apply_filters( 'llms_is_user_enrolled', $ret, $this, $product_ids, $relation, $use_cache );
