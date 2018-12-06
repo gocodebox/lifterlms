@@ -370,6 +370,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Courses and lessons will automatically be "migrated" to these templates when edited on the admin panel
 + Various course settings conditionally load based on the presence of the block editor
 + Added filter to the headline size in the `course/meta-wrapper-start.php` template. Allows customization of headline via the "Course Information" block settings.
++ If you're not ready for WordPress 5.0 you can still upgrade LifterLMS. This release is fully functional without the block editor.
 
 ##### Bug Fixes
 
