@@ -2,7 +2,7 @@
 /**
  * Course / Membership Instructors Metabox
  * @since   3.13.0
- * @version [version]
+ * @version 3.25.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -31,7 +31,7 @@ class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 	 * Define metabox fields
 	 * @return  array
 	 * @since   3.13.0
-	 * @version [version]
+	 * @version 3.25.0
 	 */
 	public function get_fields() {
 

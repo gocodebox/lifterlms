@@ -442,8 +442,8 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
  * Retrieve default instructor data structure.
  *
  * @return  array
- * @since   [version]
- * @version [version]
+ * @since   3.25.0
+ * @version 3.25.0
  */
 function llms_get_instructors_defaults() {
 	return apply_filters( 'llms_post_instructors_get_defaults', array(

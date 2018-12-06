@@ -1229,7 +1229,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @return  boolean
 	 *
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.25.0
 	 */
 	public function is_enrolled( $product_ids = null, $relation = 'all', $use_cache = true ) {
 

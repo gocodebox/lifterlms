@@ -3,7 +3,7 @@
  * Quiz Start & Next lesson buttons
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.25.0
  */
 
 defined( 'ABSPATH' ) || exit;

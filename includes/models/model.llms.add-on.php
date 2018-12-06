@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Add-On Model
  * @since    3.22.0
- * @version  [version]
+ * @version  3.25.0
  */
 class LLMS_Add_On {
 
@@ -65,7 +65,7 @@ class LLMS_Add_On {
 	 * Activate an add-on
 	 * @return   string|WP_Error
 	 * @since    3.22.0
-	 * @version  [version]
+	 * @version  3.25.0
 	 */
 	public function activate() {
 

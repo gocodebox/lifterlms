@@ -250,7 +250,7 @@ function llms_get_student( $user = null ) {
  * @return  boolean
  *
  * @since   unknown
- * @version [version]
+ * @version 3.25.0
  */
 function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_cache = true ) {
 	$student = new LLMS_Student( $user_id );

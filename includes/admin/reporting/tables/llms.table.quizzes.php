@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Quizzes Reporting Table
  * @since    3.16.0
- * @version  [version]
+ * @version  3.25.0
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -187,7 +187,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.25.0
 	 */
 	public function get_results( $args = array() ) {
 

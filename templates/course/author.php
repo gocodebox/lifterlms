@@ -2,7 +2,7 @@
 /**
  * LifterLMS Course Author Info
  * @since   3.0.0
- * @version [version]
+ * @version 3.25.0
  */
 
 defined( 'ABSPATH' ) || exit;

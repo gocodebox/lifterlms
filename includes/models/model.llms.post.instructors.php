@@ -9,7 +9,7 @@
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
  * @since    3.13.0
- * @version  [version]
+ * @version  3.25.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -50,8 +50,8 @@ class LLMS_Post_Instructors {
 	 * Retrieve the default attributes for a new post instructor
 	 * @return     array
 	 * @since      3.13.0
-	 * @version    [version]
-	 * @deprecated [version]
+	 * @version    3.25.0
+	 * @deprecated 3.25.0
 	 */
 	public function get_defaults() {
 		llms_log( debug_backtrace() );
@@ -96,8 +96,8 @@ class LLMS_Post_Instructors {
 	 *
 	 * @param   array     $instructors  array of full (or partial) instructor data
 	 * @return  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.25.0
+	 * @version 3.25.0
 	 */
 	public function pre_set_instructors( $instructors = array() ) {
 
@@ -131,7 +131,7 @@ class LLMS_Post_Instructors {
 	 * Save instructor information
 	 * @param    array      $instructors  array of course instructor information
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.25.0
 	 */
 	public function set_instructors( $instructors = array() ) {
 
