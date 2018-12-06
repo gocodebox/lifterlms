@@ -211,9 +211,13 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.22.0
+	 * @version [version]
 	 */
 	private function includes() {
+
+		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
+			require_once 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
+		}
 
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';

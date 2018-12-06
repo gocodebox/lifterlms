@@ -1,10 +1,10 @@
 {
     "_readme": [
         "This file locks the dependencies of your project to a known state",
-        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "12614d184677a0c294d45efe310f9efd",
+    "content-hash": "f3b2d6cc37d97b7a44d758c6b9205a88",
     "packages": [
         {
             "name": "ericmann/wp-session-manager",
@@ -41,7 +41,7 @@
                 "source": "https://github.com/ericmann/wp-session-manager/tree/1.2.2",
                 "issues": "https://github.com/ericmann/wp-session-manager/issues"
             },
-            "time": "2017-04-26 13:27:37"
+            "time": "2017-04-26T13:27:37+00:00"
         },
         {
             "name": "gocodebox/action-scheduler",
@@ -68,7 +68,41 @@
             "support": {
                 "source": "https://github.com/gocodebox/action-scheduler/tree/master"
             },
-            "time": "2017-03-10 23:45:17"
+            "time": "2017-03-10T23:45:17+00:00"
+        },
+        {
+            "name": "lifterlms/lifterlms-blocks",
+            "version": "1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-blocks.git",
+                "reference": "8ec6eac61de7ff88218a05e91e1e13ba2448a384"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/8ec6eac61de7ff88218a05e91e1e13ba2448a384",
+                "reference": "8ec6eac61de7ff88218a05e91e1e13ba2448a384",
+                "shasum": ""
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-master",
+                "lifterlms/lifterlms-tests": "dev-master",
+                "phpcompatibility/php-compatibility": "^9.0",
+                "roave/security-advisories": "dev-master"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
+            "time": "2018-12-06T06:10:25+00:00"
         }
     ],
     "packages-dev": [
@@ -129,7 +163,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2017-04-24 15:47:41"
+            "time": "2017-04-24T15:47:41+00:00"
         },
         {
             "name": "doctrine/instantiator",
@@ -1134,6 +1168,7 @@
                 "github",
                 "test"
             ],
+            "abandoned": "php-coveralls/php-coveralls",
             "time": "2016-01-20T17:35:46+00:00"
         },
         {
@@ -2259,7 +2294,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2017-03-20 23:17:58"
+            "time": "2017-03-20T23:17:58+00:00"
         }
     ],
     "aliases": [],
