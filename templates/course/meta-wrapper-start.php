@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 
 $title_tag = apply_filters( 'llms_course_meta_info_title_size', 'h3' );
 if ( ! in_array( $title_tag, array( 'h1', 'h2', 'h3', 'h4', 'h5', 'h6' ) ) ) {
-	$tite_tag = 'h3';
+	$title_tag = 'h3';
 }
 ?>
 
