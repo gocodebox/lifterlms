@@ -1,17 +1,24 @@
 <?php
+/**
+ * Make LifterLMS play nicely with other plugins, themes, & webhosts
+ *
+ * @package  LifterLMS/Classes
+ * @since    3.1.3
+ * @version  [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Make LifterLMS play nicely with other plugins, themes, & webhosts
- * @since    3.1.3
- * @version  3.19.6
+ * LLMS_PlayNice class.
  */
 class LLMS_PlayNice {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.1.3
-	 * @version  3.16.4
+	 * @version  [version]
 	 */
 	public function __construct() {
 
@@ -30,11 +37,11 @@ class LLMS_PlayNice {
 	 * OptimizePress LiveEditor fix
 	 *
 	 * The live editor for OptimizePress does not work because it is trying to load a frontend environment
-	 * in the admin area and needs access lifterlms frontend files
+	 * in the admin area and needs access lifterlms frontend files.
 	 *
-	 * This function loads all frontend files when the optimizepress live editor is initalized
+	 * This function loads all frontend files when the optimizepress live editor is initalized.
 	 *
-	 * @return void
+	 * @return   void
 	 * @since    3.2.2
 	 * @version  3.19.6
 	 */
@@ -63,16 +70,14 @@ class LLMS_PlayNice {
 	/**
 	 * WP Seo Premium Redirect Manager Conflict
 	 *
-	 * the redirect manager bugs out and creates broken redirects from a course/membership to the homepage
-	 * when an access plan is updated
+	 * The redirect manager bugs out and creates broken redirects from a course/membership to the homepage
+	 * when an access plan is updated. This prevents that.
 	 *
-	 * this prevents that
-	 *
-	 * @param    bool     $bool    default is always false, which means a redirect will be created
-	 * @param    integer  $post_id the post id of the post being saved
+	 * @param    bool     $bool    default is always false, which means a redirect will be created.
+	 * @param    integer  $post_id the post id of the post being saved.
 	 * @return   boolean
 	 * @since    3.1.3
-	 * @version  3.1.3
+	 * @version  [version]
 	 */
 	public function wp_seo_premium_redirects( $bool, $post_id = null ) {
 
