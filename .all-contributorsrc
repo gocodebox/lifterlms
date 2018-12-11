@@ -241,6 +241,15 @@
       "contributions": [
         "test"
       ]
+    },
+    {
+      "login": "tnorthcutt",
+      "name": "Travis Northcutt",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/796639?v=4",
+      "profile": "http://memberup.co/",
+      "contributions": [
+        "code"
+      ]
     }
   ]
 }
