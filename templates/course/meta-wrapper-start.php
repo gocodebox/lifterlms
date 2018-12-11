@@ -3,8 +3,8 @@
  * LifterLMS Course Meta Information Wrapper Start.
  *
  * @package  LifterLMS/Templates
- * @since    [<description>]
- * @version  [<description>]
+ * @since    3.0.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
