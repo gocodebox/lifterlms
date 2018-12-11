@@ -16,7 +16,7 @@ class LLMS_PlayNice {
 	public function __construct() {
 
 		// Yoast Premium redirect manager slug change filter
-		add_filter( 'wpseo_premium_post_redirect_slug_change', array( $this, 'wp_seo_premium_redirects' ) );
+		add_filter( 'wpseo_premium_post_redirect_slug_change', array( $this, 'wp_seo_premium_redirects' ), 10, 2 );
 
 		// optimize press live editor initialization
 		add_action( 'op_liveeditor_init' , array( $this, 'wp_optimizepress_live_editor' ) );
@@ -68,22 +68,28 @@ class LLMS_PlayNice {
 	 *
 	 * this prevents that
 	 *
-	 * @param    bool     $bool  default is always false, which means a redirect will be created
+	 * @param    bool     $bool    default is always false, which means a redirect will be created
+	 * @param    integer  $post_id the post id of the post being saved
 	 * @return   boolean
 	 * @since    3.1.3
 	 * @version  3.1.3
 	 */
-	public function wp_seo_premium_redirects( $bool ) {
+	public function wp_seo_premium_redirects( $bool, $post_id = null ) {
 
-		$screen = get_current_screen();
-
-		if ( ! empty( $screen->post_type ) && in_array( $screen->post_type, array( 'course', 'llms_membership' ) ) ) {
-
-			$bool = true;
-
+		if ( ! empty( $post_id ) ) {
+			$post_type = get_post_type( $post_id );
 		}
 
-		return $bool;
+		if ( empty( $post_type ) ) {
+			$screen    = get_current_screen();
+			$post_type = $screen->post_type;
+		}
+
+		if ( empty( $post_type ) ) {
+			return $bool;
+		}
+
+		return in_array( $post_type, array( 'course', 'llms_membership' ), true );
 
 	}
 
