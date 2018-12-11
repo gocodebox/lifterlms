@@ -6,6 +6,7 @@ v3.25.1 - 2018-12-??
 
 ##### Bug fixes
 
++ Fixed compatibility issue with Yoast SEO Premium redirect manager settings, thanks [@moorscode](https://github.com/moorscode)!
 + Fixed typo preventing tag size options (or filters) of course information block from functioning properly. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
 
 
