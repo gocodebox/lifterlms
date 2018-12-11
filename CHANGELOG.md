@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v3.25.1 - 2018-12-??
+--------------------
+
+##### Bug fixes
+
++ Fixed typo preventing tag size options (or filters) of course information block from functioning properly. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
+
+
 v3.25.0 - 2018-12-05
 --------------------
 
