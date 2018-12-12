@@ -7,6 +7,87 @@
 
 defined( 'ABSPATH' ) || exit;
 
+if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
+
+	function lifterlms_student_dashboard( $options = array() ) {
+
+		$options = wp_parse_args( $options, array(
+			'login_redirect' => '',
+		) );
+
+		/**
+		 * @hooked lifterlms_template_student_dashboard_wrapper_open - 10
+		 */
+		do_action( 'lifterlms_before_student_dashboard' );
+
+		// If user is not logged in
+		if ( ! is_user_logged_in() ) {
+
+			$message = apply_filters( 'lifterlms_my_account_message', '' );
+			if ( ! empty( $message ) ) {
+				llms_add_notice( $message );
+			}
+
+			global $wp;
+			if ( isset( $wp->query_vars['lost-password'] ) ) {
+
+				$args = array();
+
+				if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+					$args['form'] = 'reset_password';
+					$args['fields'] = LLMS_Person_Handler::get_password_reset_fields( trim( sanitize_text_field( $_GET['key'] ) ), trim( sanitize_text_field( $_GET['login'] ) ) );
+				} else {
+					$args['form'] = 'lost_password';
+					$args['fields'] = LLMS_Person_Handler::get_lost_password_fields();
+				}
+
+				llms_get_template( 'myaccount/form-lost-password.php', $args );
+
+			} else {
+
+				llms_print_notices();
+
+				llms_get_login_form(
+					null,
+					apply_filters( 'llms_student_dashboard_login_redirect', $options['login_redirect'] )
+				);
+
+				// can be enabled / disabled on options page.
+				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
+
+					llms_get_template( 'global/form-registration.php' );
+
+				}
+			}
+
+		// User is logged in.
+		} else {
+
+			$tabs = LLMS_Student_Dashboard::get_tabs();
+
+			$current_tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
+
+			/**
+			 * @hooked lifterlms_template_student_dashboard_header - 10
+			 */
+			do_action( 'lifterlms_before_student_dashboard_content' );
+
+			if ( isset( $tabs[ $current_tab ] ) && isset( $tabs[ $current_tab ]['content'] ) && is_callable( $tabs[ $current_tab ]['content'] ) ) {
+
+				call_user_func( $tabs[ $current_tab ]['content'] );
+
+			}
+		}
+
+		/**
+		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
+		 */
+		do_action( 'lifterlms_after_student_dashboard' );
+
+	}
+
+}
+
 /**
  * Get course tiles for a student's courses
  * @param    obj        $student  LLMS_Student (current student if none supplied)

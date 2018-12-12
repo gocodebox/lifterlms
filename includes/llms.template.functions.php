@@ -2,10 +2,12 @@
 /**
 * Front end template functions
 * @since    1.0.0
-* @version  3.24.0
+* @version  [version]
 */
 
 defined( 'ABSPATH' ) || exit;
+
+require 'functions/llms-functions-content.php';
 
 require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
@@ -58,128 +60,6 @@ if ( ! function_exists( 'llms_email_header' ) ) {
 		) );
 	}
 }
-
-/**
- * Post Template Include
- * Appends LLMS content above and below post content
- * @param    string  $content  [WP post content]
- * @return   string  $content  [WP post content with lifterLMS content appended above and below]
- * @since    1.0.0
- * @version  3.20.0
- */
-if ( ! function_exists( 'llms_get_post_content' ) ) {
-
-	function llms_get_post_content( $content ) {
-
-		global $post;
-
-		if ( ! $post instanceof WP_Post ) {
-
-			return $content;
-
-		}
-
-		$page_restricted = llms_page_restricted( get_the_id() );
-
-		switch ( $post->post_type ) {
-
-			case 'course':
-
-				$sales_page = get_post_meta( get_the_ID(), '_llms_sales_page_content_type', true );
-
-				if ( $page_restricted['is_restricted'] && ( '' === $sales_page || 'content' === $sales_page ) ) {
-
-					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
-					if ( $post->post_excerpt ) {
-						$content = llms_get_excerpt( $post->ID );
-					}
-				}
-
-				$template_before  = llms_get_template_part_contents( 'content', 'single-course-before' );
-				$template_after  = llms_get_template_part_contents( 'content', 'single-course-after' );
-
-				ob_start();
-				load_template( $template_before, false );
-				$output_before = ob_get_clean();
-
-				ob_start();
-				load_template( $template_after, false );
-				$output_after = ob_get_clean();
-
-				return do_shortcode( $output_before . $content . $output_after );
-
-			break;
-
-			case 'lesson':
-				if ( $page_restricted['is_restricted'] ) {
-					$content = '';
-					$template_before  = llms_get_template_part_contents( 'content', 'no-access-before' );
-					$template_after  = llms_get_template_part_contents( 'content', 'no-access-after' );
-				} else {
-					$template_before  = llms_get_template_part_contents( 'content', 'single-lesson-before' );
-					$template_after  = llms_get_template_part_contents( 'content', 'single-lesson-after' );
-				}
-
-				ob_start();
-				load_template( $template_before, false );
-				$output_before = ob_get_clean();
-
-				ob_start();
-				load_template( $template_after, false );
-				$output_after = ob_get_clean();
-
-			return do_shortcode( $output_before . $content . $output_after );
-
-			case 'llms_membership':
-
-				$sales_page = get_post_meta( get_the_ID(), '_llms_sales_page_content_type', true );
-
-				if ( $page_restricted['is_restricted'] && ( '' === $sales_page || 'content' === $sales_page ) ) {
-					add_filter( 'the_excerpt', array( $GLOBALS['wp_embed'], 'autoembed' ), 9 );
-					if ( $post->post_excerpt ) {
-						$content = llms_get_excerpt( $post->ID );
-					}
-				}
-				$template_before  = llms_get_template_part_contents( 'content', 'single-membership-before' );
-				$template_after  = llms_get_template_part_contents( 'content', 'single-membership-after' );
-
-				ob_start();
-				load_template( $template_before, false );
-				$output_before = ob_get_clean();
-
-				ob_start();
-				load_template( $template_after, false );
-				$output_after = ob_get_clean();
-
-			return do_shortcode( $output_before . $content . $output_after );
-
-			case 'llms_quiz':
-				$template_before  = llms_get_template_part_contents( 'content', 'single-quiz-before' );
-				$template_after  = llms_get_template_part_contents( 'content', 'single-quiz-after' );
-
-				ob_start();
-				load_template( $template_before, false );
-				$output_before = ob_get_clean();
-
-				ob_start();
-				load_template( $template_after, false );
-				$output_after = ob_get_clean();
-
-			return do_shortcode( $output_before . $content . $output_after );
-
-			default:
-				return apply_filters( 'llms_get_post_content', $content );
-		}// End switch().
-		if ( $page_restricted['is_restricted'] ) {
-
-			$content = apply_filters( 'llms_get_restricted_post_content',  llms_get_notices(), $page_restricted );
-
-		}
-
-		return $content;
-	}
-}// End if().
-add_filter( 'the_content', 'llms_get_post_content' );
 
 /**
  * Template Redirect

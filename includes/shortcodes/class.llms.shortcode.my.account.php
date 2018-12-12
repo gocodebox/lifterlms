@@ -2,11 +2,14 @@
 /**
 * My Account Shortcode [lifterlms_my_account]
 * @since    1.0.0
-* @version  3.2.2
+* @version  [version]
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_My_Account class.
+ */
 class LLMS_Shortcode_My_Account {
 
 	/**
@@ -23,11 +26,14 @@ class LLMS_Shortcode_My_Account {
 
 	/**
 	* Lost password template
-	* @return   void
-	* @since    1.0.0
-	* @version  3.8.0
+	* @return     void
+	* @since      1.0.0
+	* @version    [version]
+	* @deprecated [version]
 	*/
 	public static function lost_password() {
+
+		llms_deprecated_function( 'LLMS_Shortcode_My_Account::lost_password()', '3.25.1' );
 
 		$args = array();
 
@@ -45,79 +51,19 @@ class LLMS_Shortcode_My_Account {
 
 	/**
 	* Determines what content to output to user based on status
-	* @param    array  $atts  array of user submitted shortcode attributes
+	*
+	* @param    array  $atts  array of user submitted shortcode attributes.
 	* @return   void
 	* @since    1.0.0
-	* @version  3.2.2
+	* @version  [version]
 	*/
 	public static function output( $atts ) {
 
 		$atts = shortcode_atts( array(
-
 			'login_redirect' => null,
-
 		), $atts, 'lifterlms_my_account' );
 
-		global $wp;
-
-		/**
-		 * @hooked lifterlms_template_student_dashboard_wrapper_open - 10
-		 */
-		do_action( 'lifterlms_before_student_dashboard' );
-
-		// If user is not logged in
-		if ( ! is_user_logged_in() ) {
-
-			$message = apply_filters( 'lifterlms_my_account_message', '' );
-
-			if ( ! empty( $message ) ) {
-
-				llms_add_notice( $message );
-			}
-
-			if ( isset( $wp->query_vars['lost-password'] ) ) {
-
-				self::lost_password();
-
-			} else {
-
-				llms_print_notices();
-
-				llms_get_login_form(
-					null,
-					apply_filters( 'llms_student_dashboard_login_redirect', $atts['login_redirect'] )
-				);
-
-				// can be enabled / disabled on options page.
-				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
-
-					llms_get_template( 'global/form-registration.php' );
-
-				}
-			}
-		} // End if().
-		else {
-
-			$tabs = LLMS_Student_Dashboard::get_tabs();
-
-			$current_tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
-
-			/**
-			 * @hooked lifterlms_template_student_dashboard_header - 10
-			 */
-			do_action( 'lifterlms_before_student_dashboard_content' );
-
-			if ( isset( $tabs[ $current_tab ] ) && isset( $tabs[ $current_tab ]['content'] ) && is_callable( $tabs[ $current_tab ]['content'] ) ) {
-
-				call_user_func( $tabs[ $current_tab ]['content'] );
-
-			}
-		}
-
-		/**
-		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
-		 */
-		do_action( 'lifterlms_after_student_dashboard' );
+		lifterlms_student_dashboard( $atts );
 
 	}
 
