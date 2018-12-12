@@ -59,8 +59,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 
 				}
 			}
-
-		// User is logged in.
 		} else {
 
 			$tabs = LLMS_Student_Dashboard::get_tabs();
@@ -77,7 +75,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 				call_user_func( $tabs[ $current_tab ]['content'] );
 
 			}
-		}
+		}// End if().
 
 		/**
 		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
@@ -85,8 +83,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		do_action( 'lifterlms_after_student_dashboard' );
 
 	}
-
-}
+}// End if().
 
 /**
  * Get course tiles for a student's courses

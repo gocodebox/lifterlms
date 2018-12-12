@@ -44,7 +44,6 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 				if ( $post->post_excerpt ) {
 					$content = llms_get_excerpt( $post->ID );
 				}
-
 			}
 
 			$template_name   = str_replace( 'llms_', '', $post->post_type );
@@ -61,13 +60,12 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 				$template_before = llms_get_template_part_contents( 'content', 'single-lesson-before' );
 				$template_after  = llms_get_template_part_contents( 'content', 'single-lesson-after' );
 			}
-
 		} elseif ( 'llms_quiz' === $post->post_type ) {
 
 			$template_before = llms_get_template_part_contents( 'content', 'single-quiz-before' );
 			$template_after  = llms_get_template_part_contents( 'content', 'single-quiz-after' );
 
-		} elseif ( 'page' === $post->post_type && $post->ID === llms_get_page_id( 'myaccount' ) ) {
+		} elseif ( 'page' === $post->post_type && llms_get_page_id( 'myaccount' ) === $post->ID ) {
 
 			// Grab the dashboard content.
 			ob_start();
@@ -77,7 +75,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			// If the shortcode exists, replace the shortcode with the dashboard.
 			$content = str_replace( '[lifterlms_my_account]', '', $content );
 
-		}
+		}// End if().
 
 		if ( $template_before ) {
 			ob_start();
@@ -94,6 +92,5 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 		return apply_filters( 'llms_get_post_content', do_shortcode( $before . $content . $after ), $post, $page_restricted );
 
 	}
-
-}
+}// End if().
 add_filter( 'the_content', 'llms_get_post_content' );
