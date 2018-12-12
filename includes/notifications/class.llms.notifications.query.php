@@ -178,7 +178,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @since    3.8.0
 	 * @version  3.9.4
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 

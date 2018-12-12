@@ -185,7 +185,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 

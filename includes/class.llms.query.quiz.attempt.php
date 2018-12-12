@@ -119,7 +119,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
-	protected function preprare_query() {
+	protected function prepare_query() {
 
 		global $wpdb;
 

@@ -223,7 +223,7 @@ abstract class LLMS_Database_Query {
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
-	abstract protected function preprare_query();
+	abstract protected function prepare_query();
 
 	/**
 	 * Execute a query
@@ -235,7 +235,7 @@ abstract class LLMS_Database_Query {
 
 		global $wpdb;
 
-		$this->sql = $this->preprare_query();
+		$this->sql = $this->prepare_query();
 		if ( ! $this->get( 'suppress_filters' ) ) {
 			$this->sql = apply_filters( $this->get_filter( 'prepare_query' ), $this->sql, $this );
 		}
