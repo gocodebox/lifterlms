@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.25.2 - 2018-12-??
+--------------------
+
++ Added new filters to the `LLMS_Product` model.
+
+
 v3.25.1 - 2018-12-12
 --------------------
 
