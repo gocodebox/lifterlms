@@ -10055,6 +10055,31 @@ msgstr ""
 msgid "I already did"
 msgstr ""
 
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-abstract-block.php:105
+msgid "No HTML was returned."
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:90
+msgid "Sorry, you are not allowed to edit the object instructors."
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:124
+msgid "Instructor fields."
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-types.php:72
+msgid "Add a short description of your course visible to all visitors..."
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-types.php:101
+msgid "Add your lesson content..."
+msgstr ""
+
+#. translators: %1$s = LifterLMS.
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:58
+msgid "%1$s Blocks"
+msgstr ""
+
 #: includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.repeater.php:27
 msgid "Add New"
 msgstr ""
@@ -10201,4 +10226,16 @@ msgstr ""
 
 #: templates/admin/reporting/tabs/students/information.php:64
 msgid "Certificates earned"
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/blocks/class-llms-blocks-course-information-block.php:47
+msgid "Course Information"
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/blocks/class-llms-blocks-instructors-block.php:76
+msgid "No visibile instructors were found."
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/blocks/class-llms-blocks-pricing-table-block.php:83
+msgid "No access plans found."
 msgstr ""
