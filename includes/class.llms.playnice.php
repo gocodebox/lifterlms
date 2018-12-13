@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Classes
  * @since    3.1.3
- * @version  [version]
+ * @version  3.25.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ class LLMS_PlayNice {
 	 * Constructor
 	 *
 	 * @since    3.1.3
-	 * @version  [version]
+	 * @version  3.25.1
 	 */
 	public function __construct() {
 
@@ -77,7 +77,7 @@ class LLMS_PlayNice {
 	 * @param    integer  $post_id the post id of the post being saved.
 	 * @return   boolean
 	 * @since    3.1.3
-	 * @version  [version]
+	 * @version  3.25.1
 	 */
 	public function wp_seo_premium_redirects( $bool, $post_id = null ) {
 

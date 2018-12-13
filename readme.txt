@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0
-Stable tag: 3.25.0
+Stable tag: 3.25.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,26 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.25.1 - 2018-12-12 =
+------------------------
+
+##### Updates
+
++ Editor blocks now display a lock icon when hovering/selecting a block which corresponds to the enrollment visibility settings of the block.
++ Removal of core actions is now handled by a general migrator function instead of by individual blocks.
+
+##### Bug fixes
+
++ Fixed issue preventing strings from the lifterlms-blocks package from being translateable.
++ Fix issue causing block visibility options to not be properly set when enrollment visibility is first enabled for a block.
++ Fixed compatibility issue with Yoast SEO Premium redirect manager settings, thanks [@moorscode](https://github.com/moorscode)!
++ Fixed typo preventing tag size options (or filters) of course information block from functioning properly. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
+
+##### Templates Changed
+
++ [templates/course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
+
+
 = v3.25.0 - 2018-12-05 =
 ------------------------
 
@@ -558,18 +578,5 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + The admin panel add-ons screen has been reworked to be powered by the lifterlms.com REST api
 + Some visual changes have been made to the add-ons screen
 + The colors on the voucher screen on the admin panel have been updated to match the rest of the interfaces in LifterLMS
-
-
-= v3.21.1 - 2018-07-24 =
-------------------------
-
-+ Fixed issue causing visual issues on checkout summary when using coupons which apply discounts to a plan trial
-+ Fixed issue causing `.mo` files stored in the `languages/lifterlms` safe directory from being loaded before files stored in the default location `languages/plugins`
-+ Added methods to integration abstract to allow integration developers to automatically describe missing integration dependencies
-+ Tested to WordPress 4.9.8
-
-##### Template Updates
-
-+ [templates/checkout/form-summary.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-summary.php)
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

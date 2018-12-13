@@ -2,7 +2,7 @@
 /**
 * My Account Shortcode [lifterlms_my_account]
 * @since    1.0.0
-* @version  [version]
+* @version  3.25.1
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,8 +28,8 @@ class LLMS_Shortcode_My_Account {
 	* Lost password template
 	* @return     void
 	* @since      1.0.0
-	* @version    [version]
-	* @deprecated [version]
+	* @version    3.25.1
+	* @deprecated 3.25.1
 	*/
 	public static function lost_password() {
 
@@ -55,7 +55,7 @@ class LLMS_Shortcode_My_Account {
 	* @param    array  $atts  array of user submitted shortcode attributes.
 	* @return   void
 	* @since    1.0.0
-	* @version  [version]
+	* @version  3.25.1
 	*/
 	public static function output( $atts ) {
 

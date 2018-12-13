@@ -16,6 +16,10 @@ v3.25.1 - 2018-12-12
 + Fixed compatibility issue with Yoast SEO Premium redirect manager settings, thanks [@moorscode](https://github.com/moorscode)!
 + Fixed typo preventing tag size options (or filters) of course information block from functioning properly. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
 
+##### Templates Changed
+
++ [templates/course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
+
 
 v3.25.0 - 2018-12-05
 --------------------

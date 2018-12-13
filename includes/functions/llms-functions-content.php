@@ -3,8 +3,8 @@
  * (Post) Content functions
  *
  * @package   LifterLMS/Functions/Content
- * @since     [version]
- * @version   [version]
+ * @since     3.25.1
+ * @version   3.25.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	 * @param    string  $content  WP_Post post_content.
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.25.1
 	 */
 	function llms_get_post_content( $content ) {
 

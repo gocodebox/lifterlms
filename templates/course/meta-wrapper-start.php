@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Templates
  * @since    3.0.0
- * @version  [version]
+ * @version  3.25.1
  */
 
 defined( 'ABSPATH' ) || exit;
