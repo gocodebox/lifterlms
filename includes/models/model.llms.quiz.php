@@ -1,8 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Quiz Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.3.0
  * @version  3.19.2
  *
@@ -15,6 +15,12 @@ defined( 'ABSPATH' ) || exit;
  * @property  $show_options_description_wrong_answer  (yesno)  If yes, displays the question description when the student chooses the wrong answer
  * @property  $show_results  (yesno)  If yes, results will be shown to the student at the conclusion of the quiz
  * @property  $time_limit  (int)  Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Quiz model.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 

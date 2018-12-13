@@ -1,9 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Course Model
  *
+ * @package  LifterLMS/Models
  * @since    1.0.0
  * @version  3.24.0
  *
@@ -34,6 +33,12 @@ defined( 'ABSPATH' ) || exit;
  * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
  * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
  * @property $video_embed  (string)  URL to an oEmbed enable video URL
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Course model.
  */
 class LLMS_Course
 extends LLMS_Post_Model

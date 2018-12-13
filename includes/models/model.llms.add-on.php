@@ -1,10 +1,16 @@
 <?php
+/**
+ * LifterLMS Add-On Model
+ *
+ * @package  LifterLMS/Models
+ * @since    3.22.0
+ * @version  3.25.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Add-On Model
- * @since    3.22.0
- * @version  3.25.0
+ * LLMS_Add_On model.
  */
 class LLMS_Add_On {
 

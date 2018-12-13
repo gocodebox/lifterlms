@@ -1,14 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
 /**
  * LifterLMS Product Model
+ * Both Courses and Memberships are sellable and can be instantiated as a product.
  *
- * Both Courses and Memberships are sellable and can be instantiated as a product
- *
+ * @package  LifterLMS/Models
  * @since    1.0.0
  * @version  3.17.8
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Product model.
  */
 class LLMS_Product extends LLMS_Post_Model {
 

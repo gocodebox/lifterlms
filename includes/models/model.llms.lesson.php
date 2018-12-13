@@ -1,9 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Lesson Model
  *
+ * @package  LifterLMS/Models
  * @since    1.0.0
  * @version  3.24.0
  *
@@ -24,6 +23,12 @@ defined( 'ABSPATH' ) || exit;
  * @property  $require_assignment_passing_grade  (yesno)  Whether of not students have to pass the assignment to advance to the next lesson
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Lesson model.
  */
 class LLMS_Lesson
 extends LLMS_Post_Model

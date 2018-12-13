@@ -1,8 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Coupon Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
  * @version  3.24.0
  *
@@ -17,6 +17,12 @@ defined( 'ABSPATH' ) || exit;
  * @property  $title  (string)  Coupon Code / Post Title
  * @property  $trial_amount  (float)  Amount to subtract from the trial price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $usage_limit  (int)  Amount of times the coupon can be used
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Coupon model.
  */
 class LLMS_Coupon extends LLMS_Post_Model {
 

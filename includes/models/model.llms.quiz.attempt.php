@@ -1,10 +1,16 @@
 <?php
+/**
+ * Quiz Attempt Model
+ *
+ * @package  LifterLMS/Models
+ * @since   3.9.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Quiz Attempt Model
- * @since   3.9.0
- * @version 3.24.0
+ * LLMS_Quiz_Attempt model.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 

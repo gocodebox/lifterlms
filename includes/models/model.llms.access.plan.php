@@ -1,8 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Access Plan Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
  * @version  3.24.3
  *
@@ -32,6 +32,12 @@ defined( 'ABSPATH' ) || exit;
  * @property  $trial_offer  (string)  Enable or disable a plan trial perid. [yes|no]
  * @property  $trial_period  (string)  Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day]
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Access_Plan Model.
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 

@@ -1,8 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Order Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
  * @version  3.24.0
  *
@@ -67,6 +67,12 @@ defined( 'ABSPATH' ) || exit;
  * @property   $trial_total  (float)  Total price of the trial after applicable coupon adjustments
  * @property   $user_id   (int)  customer WP User ID
  * @property   $user_ip_address  (string)  customer's IP address at time of purchase
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Order model.
  */
 class LLMS_Order extends LLMS_Post_Model {
 

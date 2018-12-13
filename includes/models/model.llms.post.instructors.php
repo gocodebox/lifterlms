@@ -8,6 +8,7 @@
  * Rather than instantiating this class directly
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
+ * @package  LifterLMS/Models
  * @since    3.13.0
  * @version  3.25.0
  */

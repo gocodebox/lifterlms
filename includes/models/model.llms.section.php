@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LLMS Section Model
  * @since    1.0.0
  * @version  3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Section model.
  */
 class LLMS_Section extends LLMS_Post_Model {
 

@@ -1,10 +1,16 @@
 <?php
+/**
+ * LifterLMS User Certificate
+ *
+ * @package  LifterLMS/Models
+ * @since    3.8.0
+ * @version  3.18.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS User Certificate
- * @since    3.8.0
- * @version  3.18.0
+ * LLMS_User_Certificate model.
  */
 class LLMS_User_Certificate extends LLMS_Post_Model {
 

@@ -1,11 +1,17 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Student Class
  * Manages data and interactions with a LifterLMS Student
+ *
+ * @package  LifterLMS/Models
  * @since   2.2.3
  * @version 3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Student model.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
