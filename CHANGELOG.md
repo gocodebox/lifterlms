@@ -1,11 +1,17 @@
 LifterLMS Changelog
 ===================
 
-v3.25.1 - 2018-12-??
+v3.25.1 - 2018-12-12
 --------------------
+
+##### Updates
+
++ Editor blocks now display a lock icon when hovering/selecting a block which corresponds to the enrollment visibility settings of the block.
++ Removal of core actions is now handled by a general migrator function instead of by individual blocks.
 
 ##### Bug fixes
 
++ Fix issue causing block visibility options to not be properly set when enrollment visibility is first enabled for a block.
 + Fixed compatibility issue with Yoast SEO Premium redirect manager settings, thanks [@moorscode](https://github.com/moorscode)!
 + Fixed typo preventing tag size options (or filters) of course information block from functioning properly. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
 
