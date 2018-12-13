@@ -133,15 +133,20 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 				$per_page = apply_filters( 'llms_dashboard_recent_courses_count', llms_get_loop_columns() );
 			}
 
-			$query = new WP_Query( array(
-				'paged' => get_query_var( 'view-courses' ),
-				'orderby' => $orderby,
-				'order' => $order,
-				'post__in' => $courses['results'],
-				'post_status' => 'publish',
-				'post_type' => 'course',
-				'posts_per_page' => $per_page,
-			) );
+			$query_args = apply_filters(
+				'llms_dashboard_courses_wp_query_args',
+				array(
+					'paged' => get_query_var( 'view-courses' ),
+					'orderby' => $orderby,
+					'order' => $order,
+					'post__in' => $courses['results'],
+					'post_status' => 'publish',
+					'post_type' => 'course',
+					'posts_per_page' => $per_page,
+				)
+			);
+
+			$query = new WP_Query( $query_args );
 
 			// prevent pagination on the preview
 			if ( $preview ) {
