@@ -11,6 +11,7 @@ v3.25.1 - 2018-12-12
 
 ##### Bug fixes
 
++ Fixed issue preventing strings from the lifterlms-blocks package from being translateable.
 + Fix issue causing block visibility options to not be properly set when enrollment visibility is first enabled for a block.
 + Fixed compatibility issue with Yoast SEO Premium redirect manager settings, thanks [@moorscode](https://github.com/moorscode)!
 + Fixed typo preventing tag size options (or filters) of course information block from functioning properly. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
