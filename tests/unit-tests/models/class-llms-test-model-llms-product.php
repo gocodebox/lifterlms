@@ -164,6 +164,9 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_is_purchasable() {
 
+		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		update_option( $manual->get_option_name( 'enabled' ), 'no' );
+
 		$product = $this->get_product();
 		$course = llms_get_post( $product->get( 'id' ) );
 
@@ -194,7 +197,6 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 		$this->assertFalse( $product->is_purchasable() );
 
 		// Has a plan and a gateway.
-		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
 		update_option( $manual->get_option_name( 'enabled' ), 'yes' );
 		$this->assertTrue( $product->is_purchasable() );
 
