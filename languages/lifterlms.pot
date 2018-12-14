@@ -302,7 +302,7 @@ msgstr ""
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:331, includes/class.llms.post-types.php:323, includes/admin/class.llms.admin.builder.php:781, includes/models/model.llms.lesson.php:360, includes/admin/views/builder/elements.php:21
+#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:331, includes/class.llms.post-types.php:323, includes/admin/class.llms.admin.builder.php:781, includes/models/model.llms.lesson.php:365, includes/admin/views/builder/elements.php:21
 msgid "New Lesson"
 msgstr ""
 
@@ -334,7 +334,7 @@ msgstr ""
 msgid "quizzes"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:109, includes/class.llms.l10n.js.php:312, includes/models/model.llms.user.postmeta.php:82
+#: includes/class.llms.l10n.js.php:109, includes/class.llms.l10n.js.php:312, includes/models/model.llms.user.postmeta.php:86
 msgid "quiz"
 msgstr ""
 
@@ -1169,7 +1169,7 @@ msgstr ""
 msgid "Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:355, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:50, includes/functions/llms.functions.templates.dashboard.php:450, includes/notifications/views/class.llms.notification.view.quiz.graded.php:70, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:188, includes/admin/views/builder/editor.php:27
+#: includes/class.llms.post-types.php:355, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:50, includes/functions/llms.functions.templates.dashboard.php:458, includes/notifications/views/class.llms.notification.view.quiz.graded.php:70, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:188, includes/admin/views/builder/editor.php:27
 msgid "Quiz"
 msgstr ""
 
@@ -1601,7 +1601,7 @@ msgctxt "slug"
 msgid "certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:680, includes/class.llms.student.dashboard.php:162, includes/functions/llms.functions.templates.dashboard.php:304
+#: includes/class.llms.post-types.php:680, includes/class.llms.student.dashboard.php:162, includes/functions/llms.functions.templates.dashboard.php:312
 msgid "My Certificates"
 msgstr ""
 
@@ -1818,7 +1818,7 @@ msgstr ""
 msgid "Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:840, includes/functions/llms.functions.templates.dashboard.php:607
+#: includes/class.llms.post-types.php:840, includes/functions/llms.functions.templates.dashboard.php:615
 msgid "Review"
 msgstr ""
 
@@ -2318,7 +2318,7 @@ msgstr ""
 msgid "Scale"
 msgstr ""
 
-#: includes/class.llms.quiz.legacy.php:411, includes/models/model.llms.student.quizzes.php:129
+#: includes/class.llms.quiz.legacy.php:411, includes/models/model.llms.student.quizzes.php:133
 msgctxt "quiz attempts remaining"
 msgid "Unlimited"
 msgstr ""
@@ -2395,7 +2395,7 @@ msgstr ""
 msgid "Lesson Sidebar"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:138, includes/functions/llms.functions.templates.dashboard.php:340
+#: includes/class.llms.student.dashboard.php:138, includes/functions/llms.functions.templates.dashboard.php:348
 msgid "My Courses"
 msgstr ""
 
@@ -2403,11 +2403,11 @@ msgstr ""
 msgid "My Grades"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:150, includes/functions/llms.functions.templates.dashboard.php:491
+#: includes/class.llms.student.dashboard.php:150, includes/functions/llms.functions.templates.dashboard.php:499
 msgid "My Memberships"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:156, includes/functions/llms.functions.templates.dashboard.php:268
+#: includes/class.llms.student.dashboard.php:156, includes/functions/llms.functions.templates.dashboard.php:276
 msgid "My Achievements"
 msgstr ""
 
@@ -2823,7 +2823,7 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:53, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:93, includes/functions/llms.functions.templates.dashboard.php:451, includes/privacy/class-llms-privacy-exporters.php:204, includes/privacy/class-llms-privacy-exporters.php:292, templates/myaccount/my-grades-single.php:26, templates/myaccount/my-grades.php:21, includes/notifications/views/class.llms.notification.view.quiz.graded.php:73, includes/notifications/views/class.llms.notification.view.quiz.graded.php:128, includes/admin/post-types/tables/class.llms.table.student.management.php:368, includes/admin/reporting/tables/llms.table.course.students.php:413, includes/admin/reporting/tables/llms.table.quiz.attempts.php:253, includes/admin/reporting/tables/llms.table.student.course.php:191, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, templates/admin/reporting/tabs/quizzes/attempt.php:34
+#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:53, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:93, includes/functions/llms.functions.templates.dashboard.php:459, includes/privacy/class-llms-privacy-exporters.php:204, includes/privacy/class-llms-privacy-exporters.php:292, templates/myaccount/my-grades-single.php:26, templates/myaccount/my-grades.php:21, includes/notifications/views/class.llms.notification.view.quiz.graded.php:73, includes/notifications/views/class.llms.notification.view.quiz.graded.php:128, includes/admin/post-types/tables/class.llms.table.student.management.php:368, includes/admin/reporting/tables/llms.table.course.students.php:413, includes/admin/reporting/tables/llms.table.quiz.attempts.php:253, includes/admin/reporting/tables/llms.table.student.course.php:191, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, templates/admin/reporting/tabs/quizzes/attempt.php:34
 msgid "Grade"
 msgstr ""
 
@@ -2896,15 +2896,15 @@ msgstr ""
 msgid "Update"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:274, includes/models/model.llms.add-on.php:208
+#: includes/admin/class.llms.admin.addons.php:274, includes/models/model.llms.add-on.php:214
 msgid "Install"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:279, includes/models/model.llms.add-on.php:206, includes/admin/views/addons/addon-item.php:95
+#: includes/admin/class.llms.admin.addons.php:279, includes/models/model.llms.add-on.php:212, includes/admin/views/addons/addon-item.php:95
 msgid "Activate"
 msgstr ""
 
-#: includes/admin/class.llms.admin.addons.php:284, includes/models/model.llms.add-on.php:207, includes/admin/views/addons/addon-item.php:87
+#: includes/admin/class.llms.admin.addons.php:284, includes/models/model.llms.add-on.php:213, includes/admin/views/addons/addon-item.php:87
 msgid "Deactivate"
 msgstr ""
 
@@ -3487,7 +3487,7 @@ msgstr ""
 msgid "Choose Course/Membership"
 msgstr ""
 
-#: includes/admin/class.llms.student.bulk.enroll.php:76, includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:326
+#: includes/admin/class.llms.student.bulk.enroll.php:76, includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:332
 msgid "Enroll"
 msgstr ""
 
@@ -5355,35 +5355,35 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:110
+#: includes/functions/llms.functions.templates.dashboard.php:118
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:185
+#: includes/functions/llms.functions.templates.dashboard.php:193
 msgid "You are not enrolled in any memberships."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:256
+#: includes/functions/llms.functions.templates.dashboard.php:264
 msgid "View All My Achievements"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:294
+#: includes/functions/llms.functions.templates.dashboard.php:302
 msgid "View All My Certificates"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:330
+#: includes/functions/llms.functions.templates.dashboard.php:338
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:449, templates/admin/reporting/tabs/students/courses-course.php:56
+#: includes/functions/llms.functions.templates.dashboard.php:457, templates/admin/reporting/tabs/students/courses-course.php:56
 msgid "Completion Date"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:481
+#: includes/functions/llms.functions.templates.dashboard.php:489
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:607
+#: includes/functions/llms.functions.templates.dashboard.php:615
 msgid "Start"
 msgstr ""
 
@@ -5391,7 +5391,7 @@ msgstr ""
 msgid "%s ago"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:330
+#: includes/functions/llms.functions.updates.php:110, includes/models/model.llms.access.plan.php:336
 msgid "Join"
 msgstr ""
 
@@ -5471,313 +5471,313 @@ msgstr ""
 msgid "Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s."
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:95
+#: includes/models/model.llms.access.plan.php:101
 msgctxt "Access plan period"
 msgid "year"
 msgid_plural "years"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:99
+#: includes/models/model.llms.access.plan.php:105
 msgctxt "Access plan period"
 msgid "month"
 msgid_plural "months"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:103
+#: includes/models/model.llms.access.plan.php:109
 msgctxt "Access plan period"
 msgid "week"
 msgid_plural "weeks"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:107
+#: includes/models/model.llms.access.plan.php:113
 msgctxt "Access plan period"
 msgid "day"
 msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:174, includes/models/model.llms.lesson.php:286
+#: includes/models/model.llms.access.plan.php:180, includes/models/model.llms.lesson.php:291
 msgid "FREE"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:351
+#: includes/models/model.llms.access.plan.php:357
 msgctxt "Access expiration date"
 msgid "access until %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:353
+#: includes/models/model.llms.access.plan.php:359
 msgctxt "Access period description"
 msgid "%1$d %2$s of access"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:378
+#: includes/models/model.llms.access.plan.php:384
 msgctxt "subscription schedule"
 msgid "per %s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:380
+#: includes/models/model.llms.access.plan.php:386
 msgctxt "subscription schedule"
 msgid "every %1$d %2$s"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:386
+#: includes/models/model.llms.access.plan.php:392
 msgctxt "subscription # of payments"
 msgid "for %1$d total payments"
 msgstr ""
 
-#: includes/models/model.llms.access.plan.php:409
+#: includes/models/model.llms.access.plan.php:415
 msgctxt "trial offer description"
 msgid "for %1$d %2$s"
 msgstr ""
 
 #. translators: %s = Add-on name
-#: includes/models/model.llms.add-on.php:86
+#: includes/models/model.llms.add-on.php:92
 msgid "%s was successfully activated."
 msgstr ""
 
 #. translators: %s = Add-on name
-#: includes/models/model.llms.add-on.php:90
+#: includes/models/model.llms.add-on.php:96
 msgid "Could not activate %s."
 msgstr ""
 
 #. translators: %s = Add-on name
-#: includes/models/model.llms.add-on.php:107
+#: includes/models/model.llms.add-on.php:113
 msgid "%s was successfully deactivated."
 msgstr ""
 
 #. translators: %s = Add-on name
-#: includes/models/model.llms.add-on.php:112
+#: includes/models/model.llms.add-on.php:118
 msgid "Could not deactivate %s."
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:200
+#: includes/models/model.llms.add-on.php:206
 msgid "Active"
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:201
+#: includes/models/model.llms.add-on.php:207
 msgid "Inactive"
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:203, includes/admin/settings/class.llms.settings.integrations.php:122, includes/admin/settings/class.llms.settings.integrations.php:137, includes/admin/settings/class.llms.settings.integrations.php:138
+#: includes/models/model.llms.add-on.php:209, includes/admin/settings/class.llms.settings.integrations.php:122, includes/admin/settings/class.llms.settings.integrations.php:137, includes/admin/settings/class.llms.settings.integrations.php:138
 msgid "Installed"
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:204
+#: includes/models/model.llms.add-on.php:210
 msgid "Not Installed"
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:210
+#: includes/models/model.llms.add-on.php:216
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:212
+#: includes/models/model.llms.add-on.php:218
 msgid "Licensed"
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:213
+#: includes/models/model.llms.add-on.php:219
 msgid "Unlicensed"
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:111, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:82
+#: includes/models/model.llms.coupon.php:117, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:82
 msgid "Percentage Discount"
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:114
+#: includes/models/model.llms.coupon.php:120
 msgctxt "flat rate coupon discount"
 msgid "%s Discount"
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:164
+#: includes/models/model.llms.coupon.php:170
 msgctxt "Remaining coupon uses"
 msgid "Unlimited"
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:261
+#: includes/models/model.llms.coupon.php:267
 msgid "This coupon has reached its usage limit and can no longer be used."
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:265
+#: includes/models/model.llms.coupon.php:271
 msgid "This coupon expired on %s and can no longer be used."
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:269, includes/models/model.llms.coupon.php:273
+#: includes/models/model.llms.coupon.php:275, includes/models/model.llms.coupon.php:279
 msgid "This coupon cannot be used to purchase \"%s\"."
 msgstr ""
 
-#: includes/models/model.llms.order.php:165
+#: includes/models/model.llms.order.php:171
 msgctxt "default order note author"
 msgid "LifterLMS"
 msgstr ""
 
-#: includes/models/model.llms.order.php:166
+#: includes/models/model.llms.order.php:172
 msgctxt "default order note author"
 msgid "LifterLms"
 msgstr ""
 
-#: includes/models/model.llms.order.php:414, templates/admin/post-types/product-access-plan.php:184
+#: includes/models/model.llms.order.php:420, templates/admin/post-types/product-access-plan.php:184
 msgid "Lifetime Access"
 msgstr ""
 
-#: includes/models/model.llms.order.php:426
+#: includes/models/model.llms.order.php:432
 msgid "To be Determined"
 msgstr ""
 
-#: includes/models/model.llms.order.php:539
+#: includes/models/model.llms.order.php:545
 msgid "Anonymous"
 msgstr ""
 
-#: includes/models/model.llms.order.php:555
+#: includes/models/model.llms.order.php:561
 msgid "Order &ndash; %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:555
+#: includes/models/model.llms.order.php:561
 msgctxt "Order date parsed by strftime"
 msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/models/model.llms.order.php:583, includes/models/model.llms.transaction.php:121
+#: includes/models/model.llms.order.php:589, includes/models/model.llms.transaction.php:126
 msgid "Payment gateway %s could not be located or is no longer enabled"
 msgstr ""
 
-#: includes/models/model.llms.order.php:687
+#: includes/models/model.llms.order.php:693
 msgid "Order is not recurring"
 msgstr ""
 
-#: includes/models/model.llms.order.php:689
+#: includes/models/model.llms.order.php:695
 msgid "Invalid order status"
 msgstr ""
 
-#: includes/models/model.llms.order.php:699
+#: includes/models/model.llms.order.php:705
 msgid "No more payments due"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1264
+#: includes/models/model.llms.order.php:1270
 msgid "Order payment plan completed."
 msgstr ""
 
-#: includes/models/model.llms.order.php:1311
+#: includes/models/model.llms.order.php:1317
 msgid "Automatic retry attempt scheduled for %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1322
+#: includes/models/model.llms.order.php:1328
 msgid "Maximum retry attempts reached."
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:491
+#: includes/models/model.llms.quiz.attempt.php:497
 msgid "Quiz Attempt #%1$d by %2$s"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.php:509
+#: includes/models/model.llms.quiz.attempt.php:515
 msgid "You must be logged in to take a quiz!"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:211
+#: includes/models/model.llms.quiz.attempt.question.php:217
 msgid "Correct answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:214
+#: includes/models/model.llms.quiz.attempt.question.php:220
 msgid "Incorrect answer"
 msgstr ""
 
-#: includes/models/model.llms.quiz.attempt.question.php:219
+#: includes/models/model.llms.quiz.attempt.question.php:225
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:630
+#: includes/models/model.llms.student.php:636
 msgctxt "Grade to display when no quizzes taken or available"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:728
+#: includes/models/model.llms.student.php:734
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:71
+#: includes/models/model.llms.transaction.php:76
 msgid "Transaction for Order #%1$d &ndash; %2$s"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:71
+#: includes/models/model.llms.transaction.php:76
 msgctxt "Transaction date parsed by strftime"
 msgid "%1$b %2$d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:184
+#: includes/models/model.llms.transaction.php:189
 msgid "The selected transaction is not eligible for a refund."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:192
+#: includes/models/model.llms.transaction.php:197
 msgid "Requested refund amount was %1$s, the maximum possible refund for this transaction is %2$s."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:201
+#: includes/models/model.llms.transaction.php:206
 msgid "manual refund"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:209
+#: includes/models/model.llms.transaction.php:214
 msgid "Selected gateway \"%s\" is inactive or invalid."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:212
+#: includes/models/model.llms.transaction.php:217
 msgid "Selected gateway \"%s\" does not support refunds."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:243
+#: includes/models/model.llms.transaction.php:248
 msgid "Refunded %1$s for transaction #%2$d via %3$s [Refund ID: %4$s]"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:247
+#: includes/models/model.llms.transaction.php:252
 msgid "Refund Notes: "
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:277
+#: includes/models/model.llms.transaction.php:282
 msgid "An unknown error occurred during refund processing"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:298
+#: includes/models/model.llms.transaction.php:303
 msgid "Single"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:300, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:148
+#: includes/models/model.llms.transaction.php:305, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:148
 msgid "Recurring"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:302, templates/checkout/form-summary.php:14
+#: includes/models/model.llms.transaction.php:307, templates/checkout/form-summary.php:14
 msgid "Trial"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:79, includes/admin/post-types/tables/class.llms.table.student.management.php:163
+#: includes/models/model.llms.user.postmeta.php:83, includes/admin/post-types/tables/class.llms.table.student.management.php:163
 msgid "[Deleted]"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:91
+#: includes/models/model.llms.user.postmeta.php:95
 msgid "%1$s earned the achievement \"%2$s\""
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:97
+#: includes/models/model.llms.user.postmeta.php:101
 msgid "%1$s earned the certificate \"%2$s\""
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:103
+#: includes/models/model.llms.user.postmeta.php:107
 msgid "Email \"%1$s\" was sent to %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:109
+#: includes/models/model.llms.user.postmeta.php:113
 msgid "%1$s purchased the %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:116
+#: includes/models/model.llms.user.postmeta.php:120
 msgid "%1$s enrolled into the %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:118
+#: includes/models/model.llms.user.postmeta.php:122
 msgid "%1$s unenrolled from the %2$s"
 msgstr ""
 
-#: includes/models/model.llms.user.postmeta.php:125
+#: includes/models/model.llms.user.postmeta.php:129
 msgid "%1$s completed the %2$s"
 msgstr ""
 

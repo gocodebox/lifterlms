@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  [version]
+ * @version  3.25.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 * @param   array     $options  array of options.
 	 * @return  [type]
 	 * @since   3.25.1
-	 * @version [version]
+	 * @version 3.25.2
 	 */
 	function lifterlms_student_dashboard( $options = array() ) {
 

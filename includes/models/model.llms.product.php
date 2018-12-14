@@ -5,7 +5,7 @@
  *
  * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  [version]
+ * @version  3.25.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -37,7 +37,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @param    boolean  $visible_only  excludes hidden access plans from results
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.25.2
 	 */
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
@@ -158,7 +158,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * Determine if the product has at least one free access plan
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.25.2
 	 */
 	public function has_free_access_plan() {
 		return apply_filters( 'llms_product_has_free_access_plan', ( 0 !== count( $this->get_access_plans( true ) ) ) );
@@ -170,7 +170,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity
 	 * @return  boolean
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.25.2
 	 */
 	public function is_purchasable() {
 

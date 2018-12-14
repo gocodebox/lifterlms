@@ -3,8 +3,8 @@
  * Tests for LifterLMS Product Model
  * @group    LLMS_Product
  * @group    LLMS_Post_Model
- * @since    [version]
- * @version  [version]
+ * @since    3.25.2
+ * @version  3.25.2
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
@@ -84,8 +84,8 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * test get_access_plan_limit() method
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.25.2
+	 * @version 3.25.2
 	 */
 	public function test_get_access_plan_limit() {
 
@@ -137,8 +137,8 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * test has_free_access_plan() method
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.25.2
+	 * @version 3.25.2
 	 */
 	public function test_has_free_access_plan() {
 
@@ -159,8 +159,8 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the is_purchaseable() method
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.25.2
+	 * @version 3.25.2
 	 */
 	public function test_is_purchasable() {
 

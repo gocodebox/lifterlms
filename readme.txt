@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0
-Stable tag: 3.25.1
+Stable tag: 3.25.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.25.2 - 2018-12-13 =
+------------------------
+
++ Added new filters to the `LLMS_Product` model.
++ Fix issue with student dashboard login redirect causing a white screen on initial login.
+
+
 = v3.25.1 - 2018-12-12 =
 ------------------------
 
@@ -568,15 +575,5 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ------------------------
 
 + Fix issue causing themes to appear as requiring updates when using the LifterLMS Helper
-
-
-= v3.22.0 - 2018-07-31 =
-------------------------
-
-+ Frontend notifications are no longer powered by AJAX requests. This change will significantly reduce the number of requests made but will remove the ability for students to receive asynchronouos notifications. This means that notifications will only be displayed on page load as notification polling will no longer occur while a student is on a page (while reading the content a lesson, for example).
-+ Course and membership catalogs items in navigation menus will now have expected CSS classes to identify current item and current item parents
-+ The admin panel add-ons screen has been reworked to be powered by the lifterlms.com REST api
-+ Some visual changes have been made to the add-ons screen
-+ The colors on the voucher screen on the admin panel have been updated to match the rest of the interfaces in LifterLMS
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
