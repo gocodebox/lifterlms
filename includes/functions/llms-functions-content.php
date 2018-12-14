@@ -4,7 +4,7 @@
  *
  * @package   LifterLMS/Functions/Content
  * @since     3.25.1
- * @version   3.25.1
+ * @version   [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	 * @param    string  $content  WP_Post post_content.
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.25.1
+	 * @version  [version]
 	 */
 	function llms_get_post_content( $content ) {
 
@@ -65,17 +65,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 			$template_before = llms_get_template_part_contents( 'content', 'single-quiz-before' );
 			$template_after  = llms_get_template_part_contents( 'content', 'single-quiz-after' );
 
-		} elseif ( 'page' === $post->post_type && llms_get_page_id( 'myaccount' ) === $post->ID ) {
-
-			// Grab the dashboard content.
-			ob_start();
-			lifterlms_student_dashboard();
-			$content = ob_get_clean();
-
-			// If the shortcode exists, replace the shortcode with the dashboard.
-			$content = str_replace( '[lifterlms_my_account]', '', $content );
-
-		}// End if().
+		}
 
 		if ( $template_before ) {
 			ob_start();

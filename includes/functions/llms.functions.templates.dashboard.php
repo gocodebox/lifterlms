@@ -2,17 +2,25 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.24.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 
+	/**
+	 * Output the LifterLMS Student Dashboard
+	 *
+	 * @param   array     $options  array of options.
+	 * @return  [type]
+	 * @since   3.25.1
+	 * @version [version]
+	 */
 	function lifterlms_student_dashboard( $options = array() ) {
 
 		$options = wp_parse_args( $options, array(
-			'login_redirect' => '',
+			'login_redirect' => get_permalink( llms_get_page_id( 'myaccount' ) ),
 		) );
 
 		/**

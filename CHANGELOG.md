@@ -5,6 +5,7 @@ v3.25.2 - 2018-12-??
 --------------------
 
 + Added new filters to the `LLMS_Product` model.
++ Fix issue with student dashboard login redirect causing a white screen on initial login.
 
 
 v3.25.1 - 2018-12-12
