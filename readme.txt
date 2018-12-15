@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0
-Stable tag: 3.25.2
+Stable tag: 3.25.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.25.3 - 2018-12-14 =
+------------------------
+
++ Fixed compatibility issue with the Classic Editor plugin when it was added after a post was migrated to the new editor structure.
+
+
 = v3.25.2 - 2018-12-13 =
 ------------------------
 
@@ -569,11 +575,5 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 + Fixed issue causing banners on general settings screen to cause a fatal error when api connection errors occurred
 + Improved CSS on setup wizard
-
-
-= v3.22.1 - 2018-08-06 =
-------------------------
-
-+ Fix issue causing themes to appear as requiring updates when using the LifterLMS Helper
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

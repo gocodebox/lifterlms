@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.25.3 - 2018-12-14 =
+------------------------
+
++ Fixed compatibility issue with the Classic Editor plugin when it was added after a post was migrated to the new editor structure.
+
+
 = v3.25.2 - 2018-12-13 =
 ------------------------
 
@@ -215,9 +221,3 @@
 
 + Fixed issue causing banners on general settings screen to cause a fatal error when api connection errors occurred
 + Improved CSS on setup wizard
-
-
-= v3.22.1 - 2018-08-06 =
-------------------------
-
-+ Fix issue causing themes to appear as requiring updates when using the LifterLMS Helper
