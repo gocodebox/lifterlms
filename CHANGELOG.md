@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.25.3 - 2018-12-14
+--------------------
+
++ Fixed compatibility issue with the Classic Editor plugin when it was added after a post was migrated to the new editor structure.
+
+
 v3.25.2 - 2018-12-13
 --------------------
 
