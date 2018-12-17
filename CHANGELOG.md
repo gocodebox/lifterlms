@@ -4,7 +4,8 @@ LifterLMS Changelog
 v3.25.4 - 2018-12-17
 --------------------
 
-+ Fixed on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
++ Fixed issue on course builder causing prerequisites to not be saved when the first lesson in a course was selected as the prereq.
++ Fixed issue on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
 
 
 v3.25.3 - 2018-12-14
