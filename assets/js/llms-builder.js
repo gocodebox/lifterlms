@@ -3454,7 +3454,7 @@ define( 'Models/Quiz',[
 /**
  * Lesson Schemas
  * @since    3.17.0
- * @version  3.24.0
+ * @version  [version]
  */
 define( 'Schemas/Lesson',[], function() {
 
@@ -3563,7 +3563,7 @@ define( 'Schemas/Lesson',[], function() {
 								},
 							];
 
-							if ( this.get_course().get( 'start_date' ) ) {
+							if ( this.get_course() && this.get_course().get( 'start_date' ) ) {
 								options.push( {
 									key: 'start',
 									val: LLMS.l10n.translate( '# of days after course start date' ),
@@ -4622,7 +4622,7 @@ define( 'Views/_Detachable',[], function() {
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  3.17.8
+ * @version  [version]
  */
 define( 'Views/_Editable',[], function() {
 
@@ -4833,13 +4833,13 @@ define( 'Views/_Editable',[], function() {
 		 * Initialize editable select elements
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		init_selects: function() {
 
 			this.$el.find( '.llms-editable-select select' ).llmsSelect2( {
 				width: '100%',
-			} );
+			} ).trigger( 'change' );
 
 		},
 
