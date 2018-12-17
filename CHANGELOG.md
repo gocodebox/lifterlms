@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.25.4 - 2018-12-17
+--------------------
+
++ Fixed on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
+
+
 v3.25.3 - 2018-12-14
 --------------------
 

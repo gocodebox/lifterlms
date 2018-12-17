@@ -1,7 +1,7 @@
 /**
  * Lesson Schemas
  * @since    3.17.0
- * @version  3.24.0
+ * @version  [version]
  */
 define( [], function() {
 
@@ -110,7 +110,7 @@ define( [], function() {
 								},
 							];
 
-							if ( this.get_course().get( 'start_date' ) ) {
+							if ( this.get_course() && this.get_course().get( 'start_date' ) ) {
 								options.push( {
 									key: 'start',
 									val: LLMS.l10n.translate( '# of days after course start date' ),
