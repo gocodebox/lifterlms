@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.25.4 - 2018-12-17
 --------------------
 
++ Added a filter (`llms_dashboard_courses_wp_query_args`) to the WP_Query used to display courses on the student dashboard.
 + Fixed issue on course builder causing prerequisites to not be saved when the first lesson in a course was selected as the prereq.
 + Fixed issue on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
 
