@@ -1,7 +1,7 @@
 /**
  * Lesson Schemas
  * @since    3.17.0
- * @version  [version]
+ * @version  3.25.4
  */
 define( [], function() {
 

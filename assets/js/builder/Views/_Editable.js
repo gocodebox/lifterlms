@@ -4,7 +4,7 @@
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  [version]
+ * @version  3.25.4
  */
 define( [], function() {
 
@@ -215,7 +215,7 @@ define( [], function() {
 		 * Initialize editable select elements
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.25.4
 		 */
 		init_selects: function() {
 

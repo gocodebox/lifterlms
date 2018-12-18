@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.24.3
+ * @version  3.25.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.24.3
+	 * @version  3.25.4
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -122,7 +122,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Schemas/Lesson.js.
 			 *
 			 * @since    3.17.0
-			 * @version  3.24.0
+			 * @version  3.25.4
 			 */
 			'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 			'Video Embed URL' => esc_html__( 'Video Embed URL', 'lifterlms' ),
@@ -175,7 +175,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Views/_Editable.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.17.8
+			 * @version  3.25.4
 			 */
 			'Select an image' => esc_html__( 'Select an image', 'lifterlms' ),
 			'Use this image' => esc_html__( 'Use this image', 'lifterlms' ),

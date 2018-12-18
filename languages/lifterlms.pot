@@ -1169,7 +1169,7 @@ msgstr ""
 msgid "Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:355, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:50, includes/functions/llms.functions.templates.dashboard.php:458, includes/notifications/views/class.llms.notification.view.quiz.graded.php:70, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:188, includes/admin/views/builder/editor.php:27
+#: includes/class.llms.post-types.php:355, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:50, includes/functions/llms.functions.templates.dashboard.php:463, includes/notifications/views/class.llms.notification.view.quiz.graded.php:70, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159, includes/admin/reporting/tables/llms.table.student.course.php:188, includes/admin/views/builder/editor.php:27
 msgid "Quiz"
 msgstr ""
 
@@ -1601,7 +1601,7 @@ msgctxt "slug"
 msgid "certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:680, includes/class.llms.student.dashboard.php:162, includes/functions/llms.functions.templates.dashboard.php:312
+#: includes/class.llms.post-types.php:680, includes/class.llms.student.dashboard.php:162, includes/functions/llms.functions.templates.dashboard.php:317
 msgid "My Certificates"
 msgstr ""
 
@@ -1818,7 +1818,7 @@ msgstr ""
 msgid "Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:840, includes/functions/llms.functions.templates.dashboard.php:615
+#: includes/class.llms.post-types.php:840, includes/functions/llms.functions.templates.dashboard.php:620
 msgid "Review"
 msgstr ""
 
@@ -2395,7 +2395,7 @@ msgstr ""
 msgid "Lesson Sidebar"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:138, includes/functions/llms.functions.templates.dashboard.php:348
+#: includes/class.llms.student.dashboard.php:138, includes/functions/llms.functions.templates.dashboard.php:353
 msgid "My Courses"
 msgstr ""
 
@@ -2403,11 +2403,11 @@ msgstr ""
 msgid "My Grades"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:150, includes/functions/llms.functions.templates.dashboard.php:499
+#: includes/class.llms.student.dashboard.php:150, includes/functions/llms.functions.templates.dashboard.php:504
 msgid "My Memberships"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:156, includes/functions/llms.functions.templates.dashboard.php:276
+#: includes/class.llms.student.dashboard.php:156, includes/functions/llms.functions.templates.dashboard.php:281
 msgid "My Achievements"
 msgstr ""
 
@@ -2823,7 +2823,7 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:53, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:93, includes/functions/llms.functions.templates.dashboard.php:459, includes/privacy/class-llms-privacy-exporters.php:204, includes/privacy/class-llms-privacy-exporters.php:292, templates/myaccount/my-grades-single.php:26, templates/myaccount/my-grades.php:21, includes/notifications/views/class.llms.notification.view.quiz.graded.php:73, includes/notifications/views/class.llms.notification.view.quiz.graded.php:128, includes/admin/post-types/tables/class.llms.table.student.management.php:368, includes/admin/reporting/tables/llms.table.course.students.php:413, includes/admin/reporting/tables/llms.table.quiz.attempts.php:253, includes/admin/reporting/tables/llms.table.student.course.php:191, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, templates/admin/reporting/tabs/quizzes/attempt.php:34
+#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:53, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:93, includes/functions/llms.functions.templates.dashboard.php:464, includes/privacy/class-llms-privacy-exporters.php:204, includes/privacy/class-llms-privacy-exporters.php:292, templates/myaccount/my-grades-single.php:26, templates/myaccount/my-grades.php:21, includes/notifications/views/class.llms.notification.view.quiz.graded.php:73, includes/notifications/views/class.llms.notification.view.quiz.graded.php:128, includes/admin/post-types/tables/class.llms.table.student.management.php:368, includes/admin/reporting/tables/llms.table.course.students.php:413, includes/admin/reporting/tables/llms.table.quiz.attempts.php:253, includes/admin/reporting/tables/llms.table.student.course.php:191, includes/admin/reporting/tables/llms.table.student.courses.php:206, includes/admin/reporting/tables/llms.table.students.php:429, templates/admin/reporting/tabs/quizzes/attempt.php:34
 msgid "Grade"
 msgstr ""
 
@@ -5359,31 +5359,31 @@ msgstr ""
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:193
+#: includes/functions/llms.functions.templates.dashboard.php:198
 msgid "You are not enrolled in any memberships."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:264
+#: includes/functions/llms.functions.templates.dashboard.php:269
 msgid "View All My Achievements"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:302
+#: includes/functions/llms.functions.templates.dashboard.php:307
 msgid "View All My Certificates"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:338
+#: includes/functions/llms.functions.templates.dashboard.php:343
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:457, templates/admin/reporting/tabs/students/courses-course.php:56
+#: includes/functions/llms.functions.templates.dashboard.php:462, templates/admin/reporting/tabs/students/courses-course.php:56
 msgid "Completion Date"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:489
+#: includes/functions/llms.functions.templates.dashboard.php:494
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:615
+#: includes/functions/llms.functions.templates.dashboard.php:620
 msgid "Start"
 msgstr ""
 

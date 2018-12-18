@@ -3454,7 +3454,7 @@ define( 'Models/Quiz',[
 /**
  * Lesson Schemas
  * @since    3.17.0
- * @version  [version]
+ * @version  3.25.4
  */
 define( 'Schemas/Lesson',[], function() {
 
@@ -4622,7 +4622,7 @@ define( 'Views/_Detachable',[], function() {
  * Allows editing model.title field via .llms-editable-title elements
  * @type     {Object}
  * @since    3.16.0
- * @version  [version]
+ * @version  3.25.4
  */
 define( 'Views/_Editable',[], function() {
 
@@ -4833,7 +4833,7 @@ define( 'Views/_Editable',[], function() {
 		 * Initialize editable select elements
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.25.4
 		 */
 		init_selects: function() {
 
