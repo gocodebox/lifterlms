@@ -38,7 +38,7 @@
   "require": {
     "gocodebox/action-scheduler": "dev-master",
     "ericmann/wp-session-manager": "dev-master",
-    "lifterlms/lifterlms-blocks": "^1.0"
+    "lifterlms/lifterlms-blocks": "^1.1"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",

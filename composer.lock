@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f3b2d6cc37d97b7a44d758c6b9205a88",
+    "content-hash": "65eb93afffb342eacb3c04504b7a8ac7",
     "packages": [
         {
             "name": "ericmann/wp-session-manager",
@@ -72,16 +72,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.1.1",
+            "version": "1.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "f90c263d348e23601dee63a15d0f6927c516683c"
+                "reference": "edb529fec6103f25b462a2e9c3a3fc585e21d65c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/f90c263d348e23601dee63a15d0f6927c516683c",
-                "reference": "f90c263d348e23601dee63a15d0f6927c516683c",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/edb529fec6103f25b462a2e9c3a3fc585e21d65c",
+                "reference": "edb529fec6103f25b462a2e9c3a3fc585e21d65c",
                 "shasum": ""
             },
             "require-dev": {
@@ -102,7 +102,7 @@
                 }
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
-            "time": "2018-12-15T00:51:32+00:00"
+            "time": "2018-12-18T00:02:32+00:00"
         }
     ],
     "packages-dev": [
