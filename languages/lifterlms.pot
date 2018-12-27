@@ -1277,7 +1277,11 @@ msgctxt "quiz question url slug"
 msgid "llms_question"
 msgstr ""
 
-#: includes/class.llms.post-types.php:429, includes/class.llms.post-types.php:430, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:165, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:63
+#: includes/class.llms.post-types.php:429, includes/functions/llms.functions.person.php:446, includes/integrations/class.llms.integration.buddypress.php:74, includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/settings/class.llms.settings.memberships.php:19, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:225, templates/admin/reporting/nav-filters.php:85, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:449, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:84
+msgid "Memberships"
+msgstr ""
+
+#: includes/class.llms.post-types.php:430, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:165, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:63
 msgid "Membership"
 msgstr ""
 
@@ -5315,10 +5319,6 @@ msgstr ""
 msgid "Last Login"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:446, includes/integrations/class.llms.integration.buddypress.php:74, includes/admin/analytics/class.llms.analytics.memberships.php:19, includes/admin/analytics/class.llms.analytics.sales.php:114, includes/admin/settings/class.llms.settings.memberships.php:19, templates/admin/analytics/analytics.php:102, templates/admin/post-types/product-access-plan.php:225, templates/admin/reporting/nav-filters.php:85, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:67, includes/admin/reporting/tables/llms.table.students.php:449, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:84
-msgid "Memberships"
-msgstr ""
-
 #: includes/functions/llms.functions.person.php:473
 msgid "Never"
 msgstr ""
@@ -7620,7 +7620,7 @@ msgstr ""
 msgid "Invalid key"
 msgstr ""
 
-#: includes/libraries/wp-background-processing/wp-background-process.php:427
+#: includes/libraries/wp-background-processing/wp-background-process.php:358
 msgid "Every %d Minutes"
 msgstr ""
 
@@ -10076,7 +10076,7 @@ msgid "Add your lesson content..."
 msgstr ""
 
 #. translators: %1$s = LifterLMS.
-#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:58
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:46
 msgid "%1$s Blocks"
 msgstr ""
 

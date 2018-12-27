@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS\Classes
  * @since    1.0.0
- * @version  [version]
+ * @version  3.26.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -235,7 +235,7 @@ class LLMS_Post_Types {
 	 * Register Post Types.
 	 *
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.26.0
 	 */
 	public static function register_post_types() {
 
