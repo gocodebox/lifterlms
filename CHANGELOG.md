@@ -1,9 +1,11 @@
 LifterLMS Changelog
 ===================
 
-v3.25.5 - 2018-12-27
+v3.26.0 - 2018-12-27
 --------------------
 
++ Adds conditional support for page builders: Beaver Builder, Divi Builder, and Elementor.
++ Fixed issue causing LifterLMS core sales pages from outputting automatic content (like pricing tables) on migrated posts.
 + Student unenrollment calls always bypass cache during enrollment precheck.
 + Membership post type "name" label is now plural (as it is supposed to be).
 
