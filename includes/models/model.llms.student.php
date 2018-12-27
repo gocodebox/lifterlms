@@ -3,9 +3,9 @@
  * Student Class
  * Manages data and interactions with a LifterLMS Student
  *
- * @package  LifterLMS/Models
+ * @package LifterLMS/Models
  * @since   2.2.3
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1363,12 +1363,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  [version]
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
 		// can only unenroll those are a currently enrolled
-		if ( ! $this->is_enrolled( $product_id ) ) {
+		if ( ! $this->is_enrolled( $product_id, 'all', false ) ) {
 			return false;
 		}
 

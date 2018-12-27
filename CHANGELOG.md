@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.25.5 - 2018-12-27
 --------------------
 
++ Student unenrollment calls always bypass cache during enrollment precheck.
 + Membership post type "name" label is now plural (as it is supposed to be).
 
 
