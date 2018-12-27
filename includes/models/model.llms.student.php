@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since   2.2.3
- * @version [version]
+ * @version 3.26.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1363,7 +1363,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.26.0
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
