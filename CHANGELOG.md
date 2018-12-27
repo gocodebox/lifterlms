@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.25.5 - 2018-12-27
+--------------------
+
++ Membership post type "name" label is now plural (as it is supposed to be).
+
+
 v3.25.4 - 2018-12-17
 --------------------
 

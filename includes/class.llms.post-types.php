@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS\Classes
  * @since    1.0.0
- * @version  3.25.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -235,7 +235,7 @@ class LLMS_Post_Types {
 	 * Register Post Types.
 	 *
 	 * @since    1.0.0
-	 * @version  3.25.0
+	 * @version  [version]
 	 */
 	public static function register_post_types() {
 
@@ -426,7 +426,7 @@ class LLMS_Post_Types {
 		$membership_page_id = llms_get_page_id( 'memberships' );
 		self::register_post_type( 'llms_membership', array(
 			'labels' => array(
-				'name' => __( 'Membership', 'lifterlms' ),
+				'name' => __( 'Memberships', 'lifterlms' ),
 				'singular_name' => __( 'Membership', 'lifterlms' ),
 				'menu_name' => _x( 'Memberships', 'Admin menu name', 'lifterlms' ),
 				'add_new' => __( 'Add Membership', 'lifterlms' ),
