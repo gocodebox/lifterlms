@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.26.1 - 2018-12-??
+--------------------
+
++ Fix issue preventing course difficulty and course length from being edited when using the classic editor plugin.
+
+
 v3.26.0 - 2018-12-27
 --------------------
 

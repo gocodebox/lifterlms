@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Course Options
  * @since    1.0.0
- * @version  3.25.0
+ * @version  [version]
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * Setup fields
 	 * @return array
 	 * @since    1.0.0
-	 * @version  3.25.0
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -339,8 +339,10 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 		);
 
 		if ( function_exists( 'register_block_type' ) ) {
-			unset( $fields[1]['fields'][0] ); // length
-			unset( $fields[1]['fields'][1] ); // difficulty
+			if ( ! class_exists( 'Classic_Editor' ) || ( class_exists( 'Classic_Editor' ) && 'classic-editor' !== get_post_meta( $this->post->ID, 'classic-editor-remember', true ) ) ) {
+				unset( $fields[1]['fields'][0] ); // length
+				unset( $fields[1]['fields'][1] ); // difficulty
+			}
 		}
 
 		return $fields;
