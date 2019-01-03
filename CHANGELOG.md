@@ -1,10 +1,11 @@
 LifterLMS Changelog
 ===================
 
-v3.26.1 - 2018-12-??
+v3.26.1 - 2019-01-??
 --------------------
 
 + Fix issue preventing course difficulty and course length from being edited when using the classic editor plugin.
++ Fixed a very convoluted conflict between LifterLMS, WooCommerce, and Elementor explained at https://github.com/gocodebox/lifterlms/issues/730.
 
 
 v3.26.0 - 2018-12-27
