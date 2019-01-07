@@ -1,24 +1,30 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Integrations
-*
-* @author codeBOX
-*/
+ * LifterLMS Integrations
+ * @since    1.0.0
+ * @version  3.18.2
+ */
 class LLMS_Integrations {
+
 	protected static $_instance = null;
 
-	var $integrations;
+	/**
+	 * Array of integrations, regardless of availability
+	 * @var  array
+	 */
+	private $integrations = array();
 
 	/**
-	 * Instance Generator
-	 *
-	 * @return object
+	 * Instance Singleton Generator
+	 * @return   obj
+	 * @since    1.0.0
+	 * @version  1.0.0
 	 */
 	public static function instance() {
-		if ( is_null( self::$_instance ) ) {
 
+		if ( is_null( self::$_instance ) ) {
 			self::$_instance = new self();
 		}
 
@@ -27,8 +33,10 @@ class LLMS_Integrations {
 
 	/**
 	 * Constructor
+	 * @since    1.0.0
+	 * @version  3.17.8
 	 */
-	public function __construct() {
+	private function __construct() {
 		$this->init();
 	}
 
@@ -46,64 +54,77 @@ class LLMS_Integrations {
 
 	/**
 	 * Initalize Integration Classes
-	 * @return null
+	 * @return   null
+	 * @since    1.0.0
+	 * @version  3.18.0
 	 */
 	public function init() {
-		$load_integrations = apply_filters( 'lifterlms_integrations', array(
+
+		$integrations = apply_filters( 'lifterlms_integrations', array(
 			'LLMS_Integration_BBPress',
 			'LLMS_Integration_Buddypress',
 		) );
 
 		$order_end = 999;
 
-		foreach ( $load_integrations as $integration ) :
+		if ( ! empty( $integrations ) ) {
 
-			$load_integration = new $integration();
+			foreach ( $integrations as $integration ) {
 
-			$this->integrations[ $order_end ] = $load_integration;
-			$order_end++;
+				$load_integration = new $integration();
 
-		endforeach;
+				$this->integrations[ $order_end ] = $load_integration;
+				$order_end++;
 
-		ksort( $this->integrations );
+				ksort( $this->integrations );
+			}
+		}
+
+		do_action( 'llms_integrations_init', $this );
+
 	}
 
 	/**
 	 * Get available integrations
-	 *
-	 * @access public
-	 * @return array
+	 * @return   array
+	 * @since    1.0.0
+	 * @version  3.17.8
 	 */
 	public function get_available_integrations() {
 
 		$_available_integrations = array();
 
-		foreach ( $this->integrations as $integration ) :
+		foreach ( $this->integrations as $integration ) {
 
 			if ( $integration->is_available() ) {
 
-					$_available_integrations[ $integration->id ] = $integration;
+				$_available_integrations[ $integration->id ] = $integration;
 			}
-
-		endforeach;
+		}
 
 		return apply_filters( 'lifterlms_available_integrations', $_available_integrations );
 	}
 
 	/**
-	 * Get all available integrations
-	 *
-	 * @return array [array of all integrations]
+	 * Get all integrations regardless of availability
+	 * @return   array
+	 * @since    3.18.2
+	 * @version  3.18.2
 	 */
-	function integrations() {
-
-		$_available_integrations = array();
-
-		if ( sizeof( $this->integrations ) > 0 ) {
-			foreach ( $this->integrations as $integration ) {
-				$_available_integrations[ $integration->id ] = $integration; }
-		}
-
-		return $_available_integrations;
+	public function get_integrations() {
+		return $this->integrations;
 	}
+
+	/**
+	 * Get all integrations regardless of availability
+	 * @return array
+	 * @since    1.0.0
+	 * @version  3.17.8
+	 * @todo     deprecate
+	 */
+	public function integrations() {
+		return $this->get_integrations();
+
+	}
+
 }

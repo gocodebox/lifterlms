@@ -1,15 +1,15 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  3.16.6
+ * @version  3.24.0
  */
 define( [
 		'Models/Quiz',
 		'Views/Popover',
 		'Views/PostSearch',
-		'Views/QuizHeader',
 		'Views/QuestionBank',
 		'Views/QuestionList',
+		'Views/SettingsFields',
 		'Views/_Detachable',
 		'Views/_Editable',
 		'Views/_Subview',
@@ -18,9 +18,9 @@ define( [
 		QuizModel,
 		Popover,
 		PostSearch,
-		QuizHeader,
 		QuestionBank,
 		QuestionList,
+		SettingsFields,
 		Detachable,
 		Editable,
 		Subview,
@@ -40,8 +40,8 @@ define( [
 		 * @type  {Object}
 		 */
 		views: {
-			header: {
-				class: QuizHeader,
+			settings: {
+				class: SettingsFields,
 				instance: null,
 				state: 'default',
 			},
@@ -88,7 +88,7 @@ define( [
 		 * Initialization callback func (renders the element on screen)
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.6
+		 * @version  3.19.2
 		 */
 		initialize: function( data ) {
 
@@ -116,6 +116,8 @@ define( [
 				 */
 				this.model.set_parent( this.lesson );
 
+				this.listenTo( this.model, 'change:_points', this.render_points );
+
 			}
 
 			this.on( 'model-trashed', this.on_trashed );
@@ -126,7 +128,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  3.19.2
 		 */
 		render: function() {
 
@@ -135,9 +137,16 @@ define( [
 			// render the quiz builder
 			if ( this.model ) {
 
-				this.render_subview( 'header', {
+				// don't allow interaction until questions are lazy loaded
+				LLMS.Spinner.start( this.$el );
+
+				this.render_subview( 'settings', {
+					el: '#llms-quiz-settings-fields',
 					model: this.model,
 				} );
+
+				this.init_datepickers();
+				this.init_selects();
 
 				this.render_subview( 'bank', {
 					collection: window.llms_builder.questions,
@@ -159,17 +168,27 @@ define( [
 
 				}, this );
 
-				this.render_subview( 'list', {
-					el: '#llms-quiz-questions',
-					collection: this.model.get( 'questions' ),
-				} );
-				var list = this.get_subview( 'list' ).instance;
-				list.quiz = this;
-				list.collection.on( 'add', function() {
-					list.collection.trigger( 'reorder' );
-				}, this );
-				list.on( 'sortStart', list.sortable_start );
-				list.on( 'sortStop', list.sortable_stop );
+				this.model.load_questions( _.bind( function( err ) {
+
+					if ( err ) {
+						alert( LLMS.l10n.translate( 'An error occurred while trying to load the questions. Please refresh the page and try again.' ) );
+						return this;
+					}
+
+					LLMS.Spinner.stop( this.$el );
+					this.render_subview( 'list', {
+						el: '#llms-quiz-questions',
+						collection: this.model.get( 'questions' ),
+					} );
+					var list = this.get_subview( 'list' ).instance;
+					list.quiz = this;
+					list.collection.on( 'add', function() {
+						list.collection.trigger( 'reorder' );
+					}, this );
+					list.on( 'sortStart', list.sortable_start );
+					list.on( 'sortStop', list.sortable_stop );
+
+				}, this ) );
 
 				this.model.on( 'new-question-added', function() {
 					var $questions = this.$el.find( '#llms-quiz-questions' );
@@ -179,6 +198,20 @@ define( [
 			}
 
 			return this;
+
+		},
+
+		/**
+		 * On quiz points update, update the value of the Total Points area in the header
+		 * @param    obj   quiz    Instance of the quiz model
+		 * @param    int   points  Updated number of points
+		 * @return   void
+		 * @since    3.17.6
+		 * @version  3.17.6
+		 */
+		render_points: function( quiz, points ) {
+
+			this.$el.find( '#llms-quiz-total-points' ).text( points );
 
 		},
 
@@ -219,7 +252,13 @@ define( [
 
 		},
 
-		// come back to this and make sure cloning resets all the IDs
+
+		/**
+		 * Add an existing quiz to a lesson
+		 * @param    obj  event  js event object
+		 * @since    3.16.0
+		 * @version  3.24.0
+		 */
 		add_existing_quiz: function( event ) {
 
 			this.post_search_popover.hide();
@@ -228,25 +267,7 @@ define( [
 
 			if ( 'clone' === event.action ) {
 
-				delete quiz.id;
-
-				_.each( quiz.questions, function( question ) {
-
-					delete question.parent_id;
-					delete question.id;
-
-					if ( question.choices ) {
-
-						_.each( question.choices, function( choice ) {
-
-							delete choice.question_id;
-							delete choice.id;
-
-						} );
-
-					}
-
-				} );
+				quiz = _.prepareQuizObjectForCloning( quiz );
 
 			} else {
 
@@ -369,6 +390,6 @@ define( [
 			return new QuestionList( options );
 		}
 
-	}, Detachable, Editable, Subview, Trashable ) );
+	}, Detachable, Editable, Subview, Trashable, SettingsFields ) );
 
 } );

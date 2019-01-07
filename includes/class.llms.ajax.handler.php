@@ -213,7 +213,13 @@ class LLMS_AJAX_Handler {
 
 	}
 
-
+	/**
+	 * Handle notification display & dismissal
+	 * @param    array     $request  $_POST
+	 * @return   array
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
 	public static function notifications_heartbeart( $request ) {
 
 		$ret = array(

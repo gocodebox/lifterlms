@@ -2,7 +2,7 @@
 /**
  * LifterLMS Uninstall
  * @since    1.0.0
- * @version  [version]
+ * @version  3.14.9
  */
 
 // If uninstall not called from WordPress exit

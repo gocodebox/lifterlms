@@ -1,20 +1,18 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
 * Template loader class
 * @since    1.0.0
-* @version  3.16.11
+* @version  3.20.0
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Template_Loader {
 
 	/**
-	* Constructor
-	*
-	* @since    1.0.0
-	* @version  3.7.3
-	*/
+	 * Constructor
+	 * @since    1.0.0
+	 * @version  3.20.0
+	 */
 	public function __construct() {
 
 		// do template loading
@@ -37,6 +35,8 @@ class LLMS_Template_Loader {
 			add_action( 'llms_content_restricted_by_' . $reason, array( $this, 'restricted_by_' . $reason ), 10, 1 );
 		}
 
+		add_action( 'wp', array( $this, 'maybe_redirect_to_sales_page' ) );
+
 	}
 
 	/**
@@ -57,6 +57,38 @@ class LLMS_Template_Loader {
 			wp_redirect( $redirect );
 			exit;
 		}
+
+	}
+
+	/**
+	 * Handle sales page redirects for courses & memberships
+	 * @return   void
+	 * @since    3.20.0
+	 * @version  3.20.0
+	 */
+	public function maybe_redirect_to_sales_page() {
+
+		// only proceed for courses and memberships
+		if ( ! in_array( get_post_type(), array( 'course', 'llms_membership' ) ) ) {
+			return;
+		}
+
+		$page_restricted = llms_page_restricted( get_the_id() );
+
+		// only proceed if the page isn't restricted
+		if ( ! $page_restricted['is_restricted'] ) {
+			return;
+		}
+
+		$post = llms_get_post( get_the_ID() );
+
+		if ( ! $post->has_sales_page_redirect() ) {
+			return;
+		}
+
+		llms_redirect_and_exit( $post->get_sales_page_url(), array(
+			'safe' => false,
+		) );
 
 	}
 

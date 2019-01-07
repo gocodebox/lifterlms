@@ -1,7 +1,7 @@
 /**
  * Course Model
  * @since    3.16.0
- * @version  3.16.11
+ * @version  3.24.0
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -60,7 +60,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 * @param    obj   lesson  lesson data obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.11
+		 * @version  3.24.0
 		 */
 		add_existing_lesson: function( lesson ) {
 
@@ -69,9 +69,11 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			if ( 'clone' === lesson.action ) {
 
 				delete data.id;
+
+				// if a quiz is attached, duplicate the quiz also
 				if ( data.quiz ) {
-					delete data.quiz;
-					data.quiz_enabled = 'no';
+					data.quiz = _.prepareQuizObjectForCloning( data.quiz );
+					data.quiz._questions_loaded = true;
 				}
 
 			} else {
@@ -158,6 +160,30 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			return this.get( 'sections' ).find( function( model ) {
 				return model.get( '_selected' );
 			} );
+
+		},
+
+		/**
+		 * Retrieve the total number of points in the course
+		 * @return   int
+		 * @since    3.24.0
+		 * @version  3.24.0
+		 */
+		get_total_points: function() {
+
+			var points = 0;
+
+			this.get( 'sections' ).each( function( section ) {
+				section.get( 'lessons' ).each( function( lesson ) {
+					var lesson_points = lesson.get( 'points' );
+					if ( ! _.isNumber( lesson_points ) ) {
+						lesson_points = 0;
+					}
+					points += lesson_points * 1;
+				} );
+			} );
+
+			return points;
 
 		},
 

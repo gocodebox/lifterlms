@@ -1,15 +1,17 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * WPDB database interactions
  * @since    3.14.0
- * @version  3.16.0
+ * @version  3.24.0
  */
-
-// Restrict direct access
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Database_Store {
 
+	/**
+	 * The Database ID of the record
+	 * @var  null
+	 */
 	protected $id = null;
 
 	/**
@@ -48,9 +50,17 @@ abstract class LLMS_Abstract_Database_Store {
 	protected $table_prefix = 'lifterlms_';
 
 	/**
+	 * The record type
+	 * Used for filters/actions
+	 * Should be defined by extending classes
+	 * @var  string
+	 */
+	protected $type = '';
+
+	/**
 	 * Constructor
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.21.0
 	 */
 	public function __construct() {
 
@@ -58,11 +68,11 @@ abstract class LLMS_Abstract_Database_Store {
 
 			// if created dates supported, add current time to the data on construction
 			if ( $this->date_created ) {
-				$this->set( $this->date_created, current_time( 'mysql' ), false );
+				$this->set( $this->date_created, llms_current_time( 'mysql' ), false );
 			}
 
 			if ( $this->date_updated ) {
-				$this->set( $this->date_updated, current_time( 'mysql' ), false );
+				$this->set( $this->date_updated, llms_current_time( 'mysql' ), false );
 			}
 		}
 
@@ -138,7 +148,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    boolean    $save  if true, immediately persists to database
 	 * @return   self
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.21.0
 	 */
 	public function set( $key, $val, $save = false ) {
 
@@ -149,7 +159,7 @@ abstract class LLMS_Abstract_Database_Store {
 			);
 			// if update date supported, add an updated date
 			if ( $this->date_updated ) {
-				$update[ $this->date_updated ] = current_time( 'mysql' );
+				$update[ $this->date_updated ] = llms_current_time( 'mysql' );
 			}
 			$this->update( $update );
 		}
@@ -177,7 +187,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Create the item in the database
 	 * @return   int|false
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.24.0
 	 */
 	private function create() {
 
@@ -189,6 +199,8 @@ abstract class LLMS_Abstract_Database_Store {
 		$format = array_map( array( $this, 'get_column_format' ), array_keys( $this->data ) );
 		$res = $wpdb->insert( $this->get_table(), $this->data, $format );
 		if ( 1 === $res ) {
+			$this->id = $wpdb->insert_id;
+			do_action( 'llms_' . $this->type . '_created', $this->id, $this );
 			return $wpdb->insert_id;
 		}
 		return false;
@@ -199,7 +211,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Delete the object from the database
 	 * @return   boolean     true on success, false otherwise
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.24.0
 	 */
 	public function delete() {
 
@@ -207,12 +219,14 @@ abstract class LLMS_Abstract_Database_Store {
 			return false;
 		}
 
+		$id = $this->id;
 		global $wpdb;
 		$where = array_combine( array_keys( $this->primary_key ), array( $this->id ) );
 		$res = $wpdb->delete( $this->get_table(), $where, array_values( $this->primary_key ) );
 		if ( $res ) {
 			$this->id = null;
 			$this->data = array();
+			do_action( 'llms_' . $this->type . '_deleted', $id, $this );
 			return true;
 		}
 		return false;
@@ -242,7 +256,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * @param    array     $data  data to update as key=>val
 	 * @return   bool
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.24.0
 	 */
 	private function update( $data ) {
 
@@ -250,7 +264,11 @@ abstract class LLMS_Abstract_Database_Store {
 		$format = array_map( array( $this, 'get_column_format' ), array_keys( $data ) );
 		$where = array_combine( array_keys( $this->primary_key ), array( $this->id ) );
 		$res = $wpdb->update( $this->get_table(), $data, $where, $format, array_values( $this->primary_key ) );
-		return $res ? true : false;
+		if ( $res ) {
+			do_action( 'llms_' . $this->type . '_updated', $this->id, $this );
+			return true;
+		}
+		return false;
 
 	}
 
@@ -278,7 +296,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Creates is it doesn't already exist, updates if it does
 	 * @return   boolean
 	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @version  3.24.0
 	 */
 	public function save() {
 
@@ -286,7 +304,6 @@ abstract class LLMS_Abstract_Database_Store {
 
 			$id = $this->create();
 			if ( $id ) {
-				$this->id = $id;
 				return true;
 			}
 			return false;

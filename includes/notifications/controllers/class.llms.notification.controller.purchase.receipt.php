@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Notification Controller: Transaction Success
  * @since    3.8.0
- * @version  3.10.2
+ * @version  3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notification_Controller {
 
 	/**
@@ -28,6 +27,15 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	protected $action_hooks = array(
 		'lifterlms_resend_transaction_receipt',
 		'lifterlms_transaction_status_succeeded',
+	);
+
+	/**
+	 * Determines if test notifications can be sent
+	 * @var  bool
+	 */
+	protected $testable = array(
+		'basic' => false,
+		'email' => true,
 	);
 
 	/**
@@ -99,6 +107,51 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	}
 
 	/**
+	 * Get an array of LifterLMS Admin Page settings to send test notifications
+	 * @param    string     $type  notification type [basic|email]
+	 * @return   array
+	 * @since    3.24.0
+	 * @version  3.24.0
+	 */
+	public function get_test_settings( $type ) {
+
+		$query = new WP_Query( array(
+			'post_type' => 'llms_transaction',
+			'posts_per_page' => 25,
+		) );
+
+		$options = array(
+			'' => '',
+		);
+		foreach ( $query->posts as $post ) {
+			$transaction = llms_get_post( $post );
+			$order = $transaction->get_order();
+			$student = llms_get_student( $order->get( 'user_id' ) );
+			if ( $transaction && $student ) {
+				$options[ $transaction->get( 'id' ) ] = esc_attr( sprintf( __( 'Order #%1$d from %2$s for "%3$s"', 'lifterlms' ), $order->get( 'id' ), $student->get_name(), $order->get( 'product_title' ) ) );
+			}
+		}
+
+		return array(
+			array(
+				'class' => 'llms-select2',
+				'custom_attributes' => array(
+					'data-allow-clear' => true,
+					'data-placeholder' => __( 'Select a transaction', 'lifterlms' ),
+				),
+				'default'	=> '',
+				'id' => 'transaction_id',
+				'desc' => '<br/>' . __( 'Send yourself a test notification using information from the selected transaction.', 'lifterlms' ),
+				'options' => $options,
+				'title' => __( 'Send a Test', 'lifterlms' ),
+				'type' => 'select',
+				// 'selected' => false,
+			),
+		);
+
+	}
+
+	/**
 	 * Get the translateable title for the notification
 	 * used on settings screens
 	 * @return   string
@@ -107,6 +160,30 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	 */
 	public function get_title() {
 		return __( 'Purchase Receipt', 'lifterlms' );
+	}
+
+	/**
+	 * Send a test notification to the currently logged in users
+	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
+	 * @param    string   $type  notification type [basic|email]
+	 * @param    array    $data  array of test notification data as specified by $this->get_test_data()
+	 * @return   int|false
+	 * @since    3.24.0
+	 * @version  3.24.0
+	 */
+	public function send_test( $type, $data = array() ) {
+
+		if ( empty( $data['transaction_id'] ) ) {
+			return;
+		}
+
+		$transaction = llms_get_post( $data['transaction_id'] );
+		$order = $transaction->get_order();
+		$this->user_id = $order->get( 'user_id' );
+		$this->post_id = $transaction->get( 'id' );
+
+		return parent::send_test( $type );
+
 	}
 
 	/**

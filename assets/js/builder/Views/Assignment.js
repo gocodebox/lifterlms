@@ -1,7 +1,7 @@
 /**
  * Single Assignment View
  * @since    3.17.0
- * @version  3.17.2
+ * @version  3.17.7
  */
 define( [
 		'Views/Popover',
@@ -111,7 +111,7 @@ define( [
 		 * Compiles the template and renders the view
 		 * @return   self (for chaining)
 		 * @since    3.17.0
-		 * @version  3.17.2
+		 * @version  3.17.7
 		 */
 		render: function() {
 
@@ -120,8 +120,6 @@ define( [
 			if ( this.model && this.is_addon_available() ) {
 
 				this.stopListening( this.model, 'change:assignment_type', this.render );
-
-				this.remove_subview( 'settings' );
 
 				this.render_subview( 'settings', {
 					el: '#llms-assignment-settings-fields',

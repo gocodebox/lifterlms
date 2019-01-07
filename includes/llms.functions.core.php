@@ -1,15 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
  * @version  [version]
  */
 
-//include all other function files
+defined( 'ABSPATH' ) || exit;
+
+// include all other function files.
 require_once 'functions/llms.functions.access.php';
 require_once 'functions/llms.functions.certificate.php';
 require_once 'functions/llms.functions.course.php';
@@ -19,22 +17,45 @@ require_once 'functions/llms.functions.notice.php';
 require_once 'functions/llms.functions.order.php';
 require_once 'functions/llms.functions.page.php';
 require_once 'functions/llms.functions.person.php';
+require_once 'functions/llms.functions.privacy.php';
 require_once 'functions/llms.functions.quiz.php';
 require_once 'functions/llms.functions.template.php';
+require_once 'functions/llms.functions.user.postmeta.php';
 
 /**
- * Determine if Terms & Conditions agreement is required during registration
- * according to global settings
- * @return   boolean
- * @since    3.0.0
- * @version  3.3.1
+ * Insert elements into an associative array after a specific array key
+ * If the requested key doesn't exit, the new item will be added to the end of the array
+ * If you need to insert at the beginning of an array use array_merge( $new_item, $orig_item );
+ * @param    array      $array        original associative array
+ * @param    string     $after_key    key name in original array to insert new item after
+ * @param    string     $insert_key   key name of the item to be inserted
+ * @param    mixed      $insert_item  value to be inserted
+ * @return   array
+ * @since    3.21.0
+ * @version  3.21.0
  */
-function llms_are_terms_and_conditions_required() {
+function llms_assoc_array_insert( $array, $after_key, $insert_key, $insert_item ) {
 
-	$enabled = get_option( 'lifterlms_registration_require_agree_to_terms' );
-	$page_id = absint( get_option( 'lifterlms_terms_page_id', false ) );
+	$res = array();
 
-	return ( 'yes' === $enabled && $page_id );
+	$new_item = array(
+		$insert_key => $insert_item,
+	);
+
+	$index = array_search( $after_key, array_keys( $array ) );
+	if ( false !== $index ) {
+		$index++;
+
+		$res = array_merge(
+			array_slice( $array, 0, $index, true ),
+			$new_item,
+			array_slice( $array, $index, count( $array ) - 1, true )
+		);
+	} else {
+		$res = array_merge( $array, $new_item );
+	}
+
+	return $res;
 
 }
 
@@ -69,11 +90,16 @@ if ( ! function_exists( 'llms_current_time' ) ) {
  * @param    string     $content  [description]
  * @return   [type]
  * @since    3.16.10
- * @version  3.16.10
+ * @version  3.19.2
  */
 if ( ! function_exists( 'llms_content' ) ) {
 	function llms_content( $content = '' ) {
-		return do_shortcode( shortcode_unautop( wpautop( convert_chars( wptexturize( $content ) ) ) ) );
+		$content = do_shortcode( shortcode_unautop( wpautop( convert_chars( wptexturize( $content ) ) ) ) );
+		global $wp_embed;
+		if ( $wp_embed && method_exists( $wp_embed, 'autoembed' ) ) {
+			$content = $wp_embed->autoembed( $content );
+		}
+		return $content;
 	}
 }
 
@@ -120,6 +146,33 @@ function llms_deprecated_function( $function, $version, $replacement = null ) {
 	// log to the error logger
 	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 		llms_log( $string );
+	}
+
+}
+
+/**
+ * Cron function to cleanup files in the LLMS_TMP_DIR
+ * Removes any files that are more than a day old
+ * @return   void
+ * @since    3.18.0
+ * @version  3.18.0
+ */
+function llms_cleanup_tmp() {
+
+	$max_age = llms_current_time( 'timestamp' ) - apply_filters( 'llms_tmpfile_max_age', DAY_IN_SECONDS );
+
+	$exclude = array( '.htaccess', 'index.html' );
+
+	foreach ( glob( LLMS_TMP_DIR . '*' ) as $file ) {
+
+		// dont cleanup index and .htaccess
+		if ( in_array( basename( $file ), $exclude ) ) {
+			continue;
+		}
+
+		if ( filemtime( $file ) < $max_age ) {
+			wp_delete_file( $file );
+		}
 	}
 
 }
@@ -178,7 +231,7 @@ function llms_get_core_supported_themes() {
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
  * @since    ??
- * @version  3.8.0
+ * @version  3.24.0
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps
@@ -236,7 +289,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 		}
 		// Add value and interval if value is bigger than 0
 		if ( $value > 0 ) {
-			if ( $value != 1 ) {
+			if ( 1 != $value ) {
 				$text = $l18n_plural[ $interval ];
 			} else {
 				$text = $l18n_singular[ $interval ];
@@ -255,20 +308,22 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * Note that this must be used in conjunction with some JS to initialize the chart!
  * @param    [type]     $percentage  percentage to display
  * @param    string     $text        optional text/caption to display (short)
- * @param    string     $size        size of the chart (small, default, large)
+ * @param    string     $size        size of the chart (mini, small, default, large)
  * @param    array      $classes     additional custom css classes to add to the chart element
  * @return   string
  * @since    3.9.0
- * @version  3.9.0
+ * @version  3.24.0
  */
 function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
+	$percentage = is_numeric( $percentage ) ? $percentage : 0;
 	$classes = array_merge( array( 'llms-donut', $size ), $classes );
 	$classes = implode( ' ', $classes );
+	$percentage = 'mini' === $size ? round( $percentage, 0 ) : LLMS()->grades()->round( $percentage );
 	return '
 		<div class="' . $classes . '" data-perc="' . $percentage . '">
 			<div class="inside">
 				<div class="percentage">
-					' . round( $percentage, 2 ) . '<small>%</small>
+					' . $percentage . '<small>%</small>
 					<div class="caption">' . $text . '</div>
 				</div>
 			</div>
@@ -279,7 +334,7 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
  * Get a list of registered engagement triggers
  * @return   array
  * @since    3.1.0
- * @version  3.11.0
+ * @version  3.24.1
  */
 function llms_get_engagement_triggers() {
 	return apply_filters( 'lifterlms_engagement_triggers', array(
@@ -294,7 +349,7 @@ function llms_get_engagement_triggers() {
 		'quiz_passed' => __( 'Student passes a quiz', 'lifterlms' ),
 		'quiz_failed' => __( 'Student fails a quiz', 'lifterlms' ),
 		'section_completed' => __( 'Student completes a section', 'lifterlms' ),
-		'course_track_completed' => __( 'Student comepletes a course track', 'lifterlms' ),
+		'course_track_completed' => __( 'Student completes a course track', 'lifterlms' ),
 		'membership_enrollment' => __( 'Student enrolls in a membership', 'lifterlms' ),
 		'membership_purchased' => __( 'Student purchases a membership', 'lifterlms' ),
 	) );
@@ -304,14 +359,39 @@ function llms_get_engagement_triggers() {
  * Get a list of registered engagement types
  * @return   array
  * @since    3.1.0
- * @version  3.1.0
+ * @version  3.24.0
  */
 function llms_get_engagement_types() {
 	return apply_filters( 'lifterlms_engagement_types', array(
 		'achievement' => __( 'Award an Achievement', 'lifterlms' ),
 		'certificate' => __( 'Award a Certificate', 'lifterlms' ),
-		'email' => __( 'Send an Email' ),
+		'email' => __( 'Send an Email', 'lifterlms' ),
 	) );
+}
+
+/**
+ * Retrieve an HTML anchor for an option page
+ * @param    [type]     $option_name  [description]
+ * @return   [type]
+ * @since    3.18.0
+ * @version  3.18.0
+ */
+function llms_get_option_page_anchor( $option_name, $target = '_blank' ) {
+
+	$page_id = get_option( $option_name );
+
+	if ( ! $page_id ) {
+		return '';
+	}
+
+	$target = $target ? ' target="' . esc_attr( $target ) . '"' : '';
+
+	return sprintf( '<a href="%1$s"%2$s>%3$s</a>',
+		get_the_permalink( $page_id ),
+		$target,
+		get_the_title( $page_id )
+	);
+
 }
 
 /**
@@ -360,6 +440,21 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 }
 
 /**
+ * Retrieve default instructor data structure.
+ *
+ * @return  array
+ * @since   3.25.0
+ * @version 3.25.0
+ */
+function llms_get_instructors_defaults() {
+	return apply_filters( 'llms_post_instructors_get_defaults', array(
+		'label' => __( 'Author', 'lifterlms' ),
+		'visibility' => 'visible',
+		'id' => '',
+	) );
+}
+
+/**
  * Get the most recently created coupon ID for a given code
  * @param   string $code        the coupon's code (title)
  * @param   int    $dupcheck_id an optional coupon id that can be passed which will be excluded during the query
@@ -395,7 +490,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
- * @version  3.10.1
+ * @version  3.19.4
  */
 function llms_form_field( $field = array(), $echo = true ) {
 
@@ -441,8 +536,6 @@ function llms_form_field( $field = array(), $echo = true ) {
 		$name_attr = ' name="' . $field['name'] . '"';
 	}
 
-	// duplicate label to placeholder if none is specified
-	$field['placeholder'] = ! $field['placeholder'] ? $field['label'] : $field['placeholder'];
 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
 
 	// add inline css if set
@@ -638,20 +731,11 @@ function llms_get_order_status_name( $status ) {
  * @param    string  $order_type  filter stauses which are specific to the supplied order type, defaults to any statuses
  * @return   array
  * @since    3.0.0
- * @version  3.10.0
+ * @version  3.19.0
  */
 function llms_get_order_statuses( $order_type = 'any' ) {
 
-	$statuses = array(
-		'llms-active'    => __( 'Active', 'lifterlms' ),
-		'llms-cancelled' => __( 'Cancelled', 'lifterlms' ),
-		'llms-completed' => __( 'Completed', 'lifterlms' ),
-		'llms-expired'   => __( 'Expired', 'lifterlms' ),
-		'llms-failed'    => __( 'Failed', 'lifterlms' ),
-		'llms-on-hold'   => __( 'On Hold', 'lifterlms' ),
-		'llms-pending'   => __( 'Pending', 'lifterlms' ),
-		'llms-refunded'  => __( 'Refunded', 'lifterlms' ),
-	);
+	$statuses = wp_list_pluck( LLMS_Post_Types::get_order_statuses(), 'label' );
 
 	// remove types depending on order type
 	switch ( $order_type ) {
@@ -663,6 +747,7 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 			unset( $statuses['llms-active'] );
 			unset( $statuses['llms-expired'] );
 			unset( $statuses['llms-on-hold'] );
+			unset( $statuses['llms-pending-cancel'] );
 		break;
 	}
 
@@ -707,12 +792,13 @@ function llms_get_post( $post, $error = false ) {
  * @param    mixed     $post  WP Post ID or insance of WP_Post
  * @return   obj|null         Instance of the LLMS_Course or null
  * @since    3.6.0
- * @version  3.16.0
+ * @version  3.17.7
  */
 function llms_get_post_parent_course( $post ) {
 
 	$post = llms_get_post( $post );
-	if ( ! $post || ! in_array( $post->get( 'type' ), array( 'section', 'lesson', 'llms_quiz' ) ) ) {
+	$post_types = apply_filters( 'llms_course_children_post_types', array( 'section', 'lesson', 'llms_quiz' ) );
+	if ( ! $post || ! in_array( $post->get( 'type' ), $post_types ) ) {
 		return null;
 	}
 
@@ -811,7 +897,7 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
  *                                 %2$s = student email
  * @return   array
  * @since    3.10.1
- * @version  3.10.1
+ * @version  3.23.0
  */
 function llms_make_select2_student_array( $user_ids = array(), $template = '' ) {
 	if ( ! $template ) {
@@ -823,6 +909,9 @@ function llms_make_select2_student_array( $user_ids = array(), $template = '' ) 
 	$ret = array();
 	foreach ( $user_ids as $id ) {
 		$student = llms_get_student( $id );
+		if ( ! $student ) {
+			continue;
+		}
 		$ret[] = array(
 			'key' => $id,
 			'title' => sprintf( $template, $student->get_name(), $student->get( 'user_email' ) ),
@@ -856,6 +945,34 @@ function llms_maybe_define_constant( $name, $value ) {
 function llms_parse_bool( $val ) {
 	return filter_var( $val, FILTER_VALIDATE_BOOLEAN );
 }
+
+/**
+ * Redirect and exit
+ * Wrapper for WP core redirects which automatically calls `exit();`
+ * and is pluggable (mainly for unit testing purposes)
+ * @param    string     $location  full URL to redirect to
+ * @param    array      $options   array of options
+ *                                 $status  int   HTTP status code of the redirect [default: 302]
+ *                                 $safe    bool  If true, use `wp_safe_redirect()` otherwise use `wp_redirect()` [default: true]
+ * @return   void
+ * @since    3.19.4
+ * @version  3.19.4
+ */
+if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
+	function llms_redirect_and_exit( $location, $options = array() ) {
+
+		$options = wp_parse_args( $options, array(
+			'status' => 302,
+			'safe' => true,
+		) );
+
+		$func = $options['safe'] ? 'wp_safe_redirect' : 'wp_redirect';
+		call_user_func( $func, $location, $options['status'] );
+		exit();
+
+	}
+}
+
 
 /**
  * Wrapper for set_time_limit to ensure it's enabled before calling

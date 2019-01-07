@@ -1,10 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Display students enrolled in a given course on the course students subtab
  * @since   3.15.0
- * @version 3.17.2
+ * @version 3.17.6
  */
 class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
@@ -70,7 +72,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Post ID for the current table
 	 * @var  int
 	 */
-	protected $course_id = null;
+	public $course_id = null;
 
 	/**
 	 * Retrieve data for the columns

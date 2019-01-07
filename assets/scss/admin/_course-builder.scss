@@ -1,0 +1,1727 @@
+body.admin_page_llms-course-builder {
+	background: #fff;
+
+	#adminmenumain { display: none; }
+	#wpbody-content { padding-bottom: 0; }
+	#wpfooter { display: none; }
+
+	#wpcontent, #wpfooter {
+		margin-left: 0;
+	}
+
+	// &.folded {
+	// 	.llms-course-builder {
+	// 		left: 56px;
+	// 	}
+	// }
+
+	.webui-popover {
+		.select2-container--default {
+			.select2-results__group {
+				font-size: 16px;
+			}
+			.select2-results__option .select2-results__option {
+				padding-left: 2em;
+			}
+		}
+
+	}
+}
+
+
+
+
+// @media (max-width: 960px) {
+// 	body.admin_page_llms-course-builder.auto-fold {
+// 		.llms-course-builder {
+// 			left: 56px;
+// 		}
+// 	}
+// }
+
+.wrap.lifterlms.llms-builder {
+	margin: 0;
+	padding: 0;
+	position: relative;
+
+
+	&.editor-active {
+		.llms-builder-sidebar {
+			padding: 10px;
+			width: calc( 100% - 200px );
+			z-index: 3;
+		}
+		@media only screen and ( min-width: 1200px ) {
+			.llms-builder-main {
+				width: 400px;
+			}
+			.llms-builder-sidebar {
+				width: calc( 100% - 640px );
+			}
+		}
+		@media only screen and ( min-width: 1440px ) {
+			.llms-builder-main {
+				width: calc( 100% - 780px );
+			}
+			.llms-builder-sidebar {
+				width: 720px;
+			}
+		}
+		@media only screen and ( min-width: 1680px ) {
+			.llms-builder-main {
+				width: calc( 100% - 1000px );
+			}
+			.llms-builder-sidebar {
+				width: 940px;
+			}
+		}
+	}
+
+	.llms-headline {
+		display: inline-block;
+		font-weight: 300;
+		margin: 0;
+		padding: 0;
+		transition: width 0.3s ease-in-out;
+		vertical-align: middle;
+	}
+
+	.llms-builder-main {
+		padding: 20px 20px 20px 0;
+		position: relative;
+		width: calc( 100% - 340px );
+		z-index: 2;
+
+		.llms-action-icons {
+			display: inline-block;
+			left: -20px;
+			opacity: 0;
+			position: relative;
+			transition: left 0.2s ease, opacity 0.2s ease;
+			vertical-align: middle;
+		}
+		.llms-builder-header:hover > .llms-action-icons,
+		.llms-builder-header .llms-action-icons.static {
+			left: 0;
+			opacity: 1;
+		}
+
+		/*
+
+
+			  /$$$$$$$  /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$  /$$$$$$
+			 /$$_____/ /$$__  $$| $$  | $$ /$$__  $$ /$$_____/ /$$__  $$
+			| $$      | $$  \ $$| $$  | $$| $$  \__/|  $$$$$$ | $$$$$$$$
+			| $$      | $$  | $$| $$  | $$| $$       \____  $$| $$_____/
+			|  $$$$$$$|  $$$$$$/|  $$$$$$/| $$       /$$$$$$$/|  $$$$$$$
+			 \_______/ \______/  \______/ |__/      |_______/  \_______/
+		 */
+
+		.llms-course-header {
+			position: relative;
+			z-index: 1;
+		}
+
+
+		/*
+			                                 /$$     /$$
+			                                | $$    |__/
+			  /$$$$$$$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$   /$$$$$$$
+			 /$$_____/ /$$__  $$ /$$_____/|_  $$_/  | $$ /$$__  $$| $$__  $$ /$$_____/
+			|  $$$$$$ | $$$$$$$$| $$        | $$    | $$| $$  \ $$| $$  \ $$|  $$$$$$
+			 \____  $$| $$_____/| $$        | $$ /$$| $$| $$  | $$| $$  | $$ \____  $$
+			 /$$$$$$$/|  $$$$$$$|  $$$$$$$  |  $$$$/| $$|  $$$$$$/| $$  | $$ /$$$$$$$/
+			|_______/  \_______/ \_______/   \___/  |__/ \______/ |__/  |__/|_______/
+		 */
+		ul.llms-sections {
+			box-shadow: 0 0 0 3px transparent;
+			min-height: 60px;
+			padding: 10px 0;
+			transition: box-shadow 0.6s ease, min-height 0.2s ease;
+			&.dragging {
+				box-shadow: 0 0 0 3px $color-brand-blue;
+			}
+		}
+
+			li.llms-section {
+				background: #fff;
+				margin: 0;
+				padding: 20px 20px 20px 40px;
+
+				&.expanded {
+					.llms-lessons { overflow: visible; }
+				}
+				&.selected {
+					.llms-drag-utility.drag-section {
+						border-color: $color-brand-blue;
+					}
+					> .llms-builder-header .llms-headline {
+						font-weight: 400;
+						color: $color-brand-blue;
+					}
+				}
+
+			}
+
+			// tree line
+			li.llms-section:before {
+				background: #ccc;
+				bottom: 0;
+				content: '';
+				left: 19px;
+				position: absolute;
+				top: 0;
+				width: 2px;
+			}
+
+			li.llms-section:first-child:before {
+				top: 30px;
+			}
+
+			li.llms-section:last-child:before {
+				bottom: 55px;
+			}
+
+			li.llms-section.expanded:last-child:before {
+				bottom: 86px;
+			}
+
+		/*
+			 /$$
+			| $$
+			| $$  /$$$$$$   /$$$$$$$ /$$$$$$$  /$$$$$$  /$$$$$$$   /$$$$$$$
+			| $$ /$$__  $$ /$$_____//$$_____/ /$$__  $$| $$__  $$ /$$_____/
+			| $$| $$$$$$$$|  $$$$$$|  $$$$$$ | $$  \ $$| $$  \ $$|  $$$$$$
+			| $$| $$_____/ \____  $$\____  $$| $$  | $$| $$  | $$ \____  $$
+			| $$|  $$$$$$$ /$$$$$$$//$$$$$$$/|  $$$$$$/| $$  | $$ /$$$$$$$/
+			|__/ \_______/|_______/|_______/  \______/ |__/  |__/|_______/
+		 */
+		ul.llms-lessons {
+			box-shadow: 0 0 0 3px transparent;
+			height: 0;
+			margin: 10px 0 0;
+			overflow: hidden;
+			padding: 10px 0;
+			transition: box-shadow 0.6s ease, min-height 0.2s ease;
+			&.dragging {
+				box-shadow: 0 0 0 3px $color-brand-blue;
+				min-height: 60px;
+			}
+			&.expanded, // added via backbone view events
+			&.drag-expanded { // added only during dragover events and ignores model attrs
+				height: auto;
+				li.llms-lesson {
+					pointer-events: auto;
+					visibility: visible;
+				}
+			}
+
+		}
+
+			li.llms-lesson {
+				background: #fff;
+				margin: 0;
+				padding: 10px 20px 10px 30px;
+				position: relative;
+				pointer-events: none;
+				visibility: hidden;
+
+				&.selected {
+					.llms-drag-utility.drag-lesson {
+						border-color: $color-brand-blue;
+					}
+					> .llms-builder-header .llms-headline {
+						font-weight: 400;
+						color: $color-brand-blue;
+					}
+				}
+
+			}
+
+			// line on left of each lesson
+			li.llms-lesson:before {
+				background: #ccc;
+				content: '';
+				height: 2px;
+				left: -20px;
+				position: absolute;
+				top: 20px;
+				width: 30px;
+			}
+
+
+		/*
+			       /$$                                    /$$                                 /$$ /$$
+			      | $$                                   | $$                                | $$| $$
+			  /$$$$$$$  /$$$$$$  /$$$$$$   /$$$$$$       | $$$$$$$   /$$$$$$  /$$$$$$$   /$$$$$$$| $$  /$$$$$$   /$$$$$$$
+			 /$$__  $$ /$$__  $$|____  $$ /$$__  $$      | $$__  $$ |____  $$| $$__  $$ /$$__  $$| $$ /$$__  $$ /$$_____/
+			| $$  | $$| $$  \__/ /$$$$$$$| $$  \ $$      | $$  \ $$  /$$$$$$$| $$  \ $$| $$  | $$| $$| $$$$$$$$|  $$$$$$
+			| $$  | $$| $$      /$$__  $$| $$  | $$      | $$  | $$ /$$__  $$| $$  | $$| $$  | $$| $$| $$_____/ \____  $$
+			|  $$$$$$$| $$     |  $$$$$$$|  $$$$$$$      | $$  | $$|  $$$$$$$| $$  | $$|  $$$$$$$| $$|  $$$$$$$ /$$$$$$$/
+			 \_______/|__/      \_______/ \____  $$      |__/  |__/ \_______/|__/  |__/ \_______/|__/ \_______/|_______/
+			                              /$$  \ $$
+			                             |  $$$$$$/
+			                              \______/
+		 */
+		li.llms-section .llms-drag-utility {
+			background: #fff;
+			border: 2px solid #ccc;
+			border-radius: 50%;
+			height: 10px;
+			left: 13px;
+			position: absolute;
+			top: 24px;
+			width: 10px;
+		}
+
+		li.llms-lesson .llms-drag-utility {
+			height: 6px;
+			left: 5px;
+			top: 16px !important;
+			width: 6px;
+		}
+
+		.llms-section:hover > .llms-drag-utility,
+		.llms-lesson:hover > .llms-drag-utility {
+			border-color: #fff;
+			cursor: move;
+			&:hover:after {
+				color: $color-brand-blue;
+			}
+			&:after {
+				background: #fff;
+				content: '\00b7\00b7\A\00b7\00b7\A\00b7\00b7';
+				color: #ccc;
+				display: block;
+				font-size: 36px;
+				height: 29px;
+				letter-spacing: -1px;
+				line-height: 8px;
+				left: -7px;
+				position: absolute;
+				text-align: center;
+				top: -12px;
+				width: 23px;
+			}
+		}
+
+		/*
+			                                 /$$               /$$       /$$
+			                                | $$              | $$      | $$
+			  /$$$$$$$  /$$$$$$   /$$$$$$  /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$
+			 /$$_____/ /$$__  $$ /$$__  $$|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$
+			|  $$$$$$ | $$  \ $$| $$  \__/  | $$      /$$$$$$$| $$  \ $$| $$| $$$$$$$$
+			 \____  $$| $$  | $$| $$        | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/
+			 /$$$$$$$/|  $$$$$$/| $$        |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$
+			|_______/  \______/ |__/         \___/   \_______/|_______/ |__/ \_______/
+		 */
+		li.llms-section,
+		li.llms-lesson {
+			&.ui-sortable-helper,
+			&.ui-draggable-dragging {
+				border: 1px solid #ccc;
+				background: #fff;
+				transform: rotate( 2deg );
+				visibility: visible !important;
+				z-index: 999;
+
+				// hide tree line on the helper
+				&:before { display: none; }
+
+				// prevent action icon hover display
+				.llms-action-icons,
+				.llms-builder-header:hover > .llms-action-icons {
+					display: none;
+				}
+			}
+
+			&.llms-sortable-placeholder {
+				border: 3px dashed $color-brand-blue;
+				background: rgba( $color-brand-blue, 0.3 );
+				margin: 0 10px;
+				padding: 5px;
+				&:before { display: none; }
+			}
+		}
+
+		ul.llms-sections > li.llms-lesson.ui-draggable-dragging .llms-drag-utility {
+			position: relative;
+			&:after {
+				left: -35px;
+				top: -28px;
+			}
+		}
+
+	}
+
+	/*
+		                 /$$ /$$   /$$               /$$       /$$
+		                | $$|__/  | $$              | $$      | $$
+		  /$$$$$$   /$$$$$$$ /$$ /$$$$$$    /$$$$$$ | $$$$$$$ | $$  /$$$$$$
+		 /$$__  $$ /$$__  $$| $$|_  $$_/   |____  $$| $$__  $$| $$ /$$__  $$
+		| $$$$$$$$| $$  | $$| $$  | $$      /$$$$$$$| $$  \ $$| $$| $$$$$$$$
+		| $$_____/| $$  | $$| $$  | $$ /$$ /$$__  $$| $$  | $$| $$| $$_____/
+		|  $$$$$$$|  $$$$$$$| $$  |  $$$$/|  $$$$$$$| $$$$$$$/| $$|  $$$$$$$
+		 \_______/ \_______/|__/   \___/   \_______/|_______/ |__/ \_______/
+	 */
+
+	.llms-input-wrapper {
+		position: relative;
+	}
+
+	.llms-input-formatting.ql-container {
+		font-size: inherit;
+		font-family: inherit;
+		.ql-editor.ql-blank::before {
+			color: #a0a0a0;
+			left: 8px;
+			right: 8px;
+		}
+		.ql-editor {
+			p {
+				font-size: inherit;
+				line-height: 1;
+			}
+		}
+		.ql-tooltip {
+			z-index: 1;
+		}
+	}
+
+	.llms-input,
+	.llms-input-formatting .ql-editor {
+		border: none;
+		border-bottom: 2px dotted transparent;
+		box-shadow: none;
+		cursor: text;
+		display: inline-block;
+		font-size: inherit;
+		font-weight: 500;
+		height: auto;
+		line-height: 1;
+		margin: 0 8px;
+		min-width: 60px;
+		padding: 0;
+		transition: border 0.2s ease, box-shadow 0.2s ease;
+		&:empty:before {
+			color: #a0a0a0;
+			content: attr( data-placeholder );
+		}
+		&:hover {
+			border-bottom-color: $color-brand-blue;
+		}
+		&[disabled] {
+			cursor: not-allowed;
+			&:hover {
+				border-bottom-color: transparent;
+			}
+		}
+		&:focus {
+			background: #fff;
+			box-shadow: 0 0 0 4px #fff, 0 0 0 6px $color-brand-blue;
+			border-bottom: none;
+			outline: none;
+		}
+		b, strong {
+			font-weight: 700;
+		}
+		&.standard {
+			border: 1px solid #e6e6e6;
+			margin: 2px;
+			padding: 5px 3px;
+			&:hover {
+				border-color: #d6d6d6;
+			}
+			&:focus {
+				box-shadow: 0 0 0 2px $color-brand-blue;
+			}
+		}
+		&.permalink {
+			display: none;
+		}
+	}
+
+	.llms-input-formatting .ql-editor {
+		padding: 0 1px;
+	}
+
+	.llms-label {
+		font-weight: 500;
+		.fa {
+			color: #aaa;
+			padding-left: 6px;
+		}
+	}
+
+	// .llms-editable-image,
+	// .llms-editable-video,
+	// .llms-editable-editor {
+	// }
+
+	.llms-editable-editor {
+		.llms-label {
+			float: left;
+			margin-right: 10px;
+			position: relative;
+			top: 10px;
+		}
+		textarea {
+			border: none;
+			padding: 10px;
+			display: block;
+			width: 100%;
+		}
+	}
+
+	.llms-editable-image {
+		button.llms-add-image {
+			width: 130px;
+		}
+		.llms-image {
+			display: inline-block;
+			position: relative;
+			&:hover .llms-action-icon {
+				opacity: 1;
+			}
+			.llms-action-icon {
+				color: #fff;
+				font-size: 24px;
+				opacity: 0;
+				padding: 0;
+				position: absolute;
+				transition: opacity 0.2s ease;
+				right: 3px;
+				top: 1px;
+				z-index: 1;
+			}
+			img {
+				display: block;
+				height: 100px;
+				max-width: 100%;
+				width: auto;
+			}
+		}
+	}
+
+	.llms-settings-field,
+	.llms-editable-toggle-group {
+		background: #f4f4f4;
+		padding: 10px;
+		position: relative;
+		margin: 0 1px;
+
+		&.has-label-after {
+			align-items: center;
+			display: flex;
+			flex-wrap: wrap;
+
+			.llms-label {
+				min-width: 100%;
+			}
+			.llms-editable-input {
+				flex: 2;
+			}
+			.llms-label--after {
+				color: #888;
+				min-width: auto;
+				font-size: 85%;
+				padding-left: 10px;
+			}
+		}
+
+		.llms-switch {
+			display: block;
+			width: 100%;
+			@include clearfix;
+
+			.llms-label {
+				width: calc( 100% - 34px );
+			}
+		}
+
+		.llms-editable-image,
+		.llms-editable-video,
+		.llms-editable-editor {
+			margin-top: 2px;
+		}
+
+		.llms-input.standard {
+			display: block;
+			width: 100%;
+			&.two-digits,
+			&.three-digits,
+			&.four-digits {
+				display: inline-block;
+			}
+		}
+
+	}
+
+	.llms-editable-number {
+		.llms-input {
+			color: #888;
+			min-width: 30px;
+			text-align: right;
+			&.two-digits {
+				width: 30px;
+			}
+			&.three-digits {
+				width: 40px;
+			}
+			&.four-digits {
+				width: 60px;
+			}
+		}
+		small {
+			color: #888;
+			text-transform: uppercase;
+		}
+	}
+
+	.llms-model-settings {
+		.llms-settings-group-header {
+			.fa-caret-square-o-up { display: block; }
+			.fa-caret-square-o-down { display: none; }
+		}
+		&.hidden {
+			.llms-settings-group-header {
+				.fa-caret-square-o-up { display: none; }
+				.fa-caret-square-o-down { display: block; }
+			}
+			.llms-settings-group-body { display: none; }
+		}
+	}
+
+	.llms-settings-group-header {
+		@include clearfix();
+		.llms-settings-group-title {
+			display: inline-block;
+			font-size: 16px;
+			font-weight: 300;
+			margin: 0 5px;
+			padding: 0;
+		}
+		.llms-settings-group-toggle {
+			float: right;
+			font-size: 18px;
+			padding: 2px;
+		}
+	}
+
+	.llms-settings-group-body {
+		margin-top: 5px;
+	}
+
+	.llms-settings-row {
+		display: flex;
+		flex-wrap: wrap;
+		margin: 2px 0;
+
+		.llms-settings-field,
+		.llms-editable-toggle-group {
+			flex: 1;
+			&:first-child {
+				margin-left: 0;
+			}
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+
+		.llms-breaker {
+			margin: 2px 0;
+			width: 100%;
+		}
+	}
+
+	.llms-editable-select {
+		margin: 2px 0;
+		.select2-container--default.select2-container--focus .select2-selection--multiple {
+			border-color: #aaa;
+		}
+	}
+
+	.llms-editable-radio {
+		label {
+			display: block;
+		}
+		&.has-images {
+			input { display: none; }
+			label {
+				display: inline-block;
+				margin: 0 3px;
+			}
+			label > span {
+				transition: background 0.2s ease;
+				display: inline-block;
+				padding: 3px;
+			}
+			img { display: block; }
+			input:checked + span {
+				background: $color-brand-blue;
+			}
+		}
+	}
+
+	/*
+		 /$$
+		|__/
+		 /$$  /$$$$$$$  /$$$$$$  /$$$$$$$   /$$$$$$$
+		| $$ /$$_____/ /$$__  $$| $$__  $$ /$$_____/
+		| $$| $$      | $$  \ $$| $$  \ $$|  $$$$$$
+		| $$| $$      | $$  | $$| $$  | $$ \____  $$
+		| $$|  $$$$$$$|  $$$$$$/| $$  | $$ /$$$$$$$/
+		|__/ \_______/ \______/ |__/  |__/|_______/
+	 */
+	.llms-action-icon {
+		color: #aaa;
+		display: inline-block;
+		font-size: 16px;
+		padding: 0 5px;
+		text-decoration: none;
+		&:hover {
+			color: $color-brand-blue;
+			&.danger { color: $color-danger; }
+		}
+		&.circle {
+			border: 2px solid #aaa;
+			border-radius: 50%;
+			font-size: 9px;
+			height: 8px;
+			line-height: 1;
+			padding: 5px;
+			text-align: center;
+			width: 8px;
+			&:hover {
+				border-color: $color-brand-blue;
+				&.danger {
+					border-color: $color-danger;
+				}
+			}
+		}
+	}
+
+	ul.llms-info-list {
+		@include clearfix();
+		margin: 0;
+		padding: 0;
+		li.llms-info-item {
+			color: #aaa;
+			font-size: 16px;
+			margin: 0;
+			padding: 10px;
+			float: left;
+			&.active,
+			&.active .llms-action-icon {
+				color: $color-brand-blue;
+			}
+			.llms-action-icon {
+				margin: -10px;
+				padding: 10px;
+			}
+		}
+
+	}
+
+	/*
+		           /$$       /$$           /$$
+		          |__/      | $$          | $$
+		  /$$$$$$$ /$$  /$$$$$$$  /$$$$$$ | $$$$$$$   /$$$$$$   /$$$$$$
+		 /$$_____/| $$ /$$__  $$ /$$__  $$| $$__  $$ |____  $$ /$$__  $$
+		|  $$$$$$ | $$| $$  | $$| $$$$$$$$| $$  \ $$  /$$$$$$$| $$  \__/
+		 \____  $$| $$| $$  | $$| $$_____/| $$  | $$ /$$__  $$| $$
+		 /$$$$$$$/| $$|  $$$$$$$|  $$$$$$$| $$$$$$$/|  $$$$$$$| $$
+		|_______/ |__/ \_______/ \_______/|_______/  \_______/|__/
+	 */
+	.llms-builder-sidebar {
+		background: #e6e6e6;
+		bottom: 0;
+		overflow: hidden;
+		padding: 20px;
+		position: fixed;
+		transition: width 0.3s ease-in-out;
+		top: 32px;
+		right: 0;
+		width: 280px;
+		z-index: 1;
+
+		.llms-utilities {
+
+			ul, li {
+				margin: 0;
+				padding: 0;
+			}
+
+			ul {
+				display: flex;
+				li {
+					flex: 1;
+					margin-right: 5px;
+					&:last-child {
+						margin-right: 0;
+					}
+				}
+			}
+
+
+			a.llms-utility {
+				background: #efefef;
+				border-radius: 4px;
+				display: block;
+				overflow: hidden;
+				padding: 4px;
+				position: relative;
+				text-align: center;
+
+				&:hover {
+					background: #fefefe;
+				}
+
+				.fa {
+					background: #848484;
+					position: absolute;
+					left: 0;
+					top: 0;
+					padding: 7px;
+					color: #fff;
+				}
+			}
+
+		}
+
+		.llms-sidebar-headline {
+			margin: 0 0 10px;
+			font-size: 22px;
+			font-weight: 300;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+		}
+
+		.llms-elements-list {
+			margin-bottom: 40px;
+			li {
+				margin-bottom: 10px;
+			}
+		}
+
+		.llms-utility {
+			color: #444;
+			text-decoration: none;
+		}
+
+		.llms-element-button {
+
+			background: $color-brand-blue;
+			border-radius: 4px;
+			border: none;
+			color: #fff;
+			cursor: pointer;
+			display: block;
+			margin: 0;
+			overflow: hidden;
+			padding: 17px 20px;
+			position: relative;
+			transition: background 0.2s ease, color 0.2s ease;
+			text-align: center;
+			width: 100%;
+
+			&:hover {
+				background: $color-brand-blue-dark;
+			}
+
+			&.secondary {
+				background: #efefef;
+				color: #444;
+				&:hover {
+					background: #fefefe;
+				}
+				.fa {
+					background: #848484;
+				}
+			}
+
+			.fa {
+				background: $color-brand-dark-blue;
+				border-radius: 4px 0 0 4px;
+				color: #fff;
+				display: block;
+				font-size: 20px;
+				padding: 15px 20px;
+				position: absolute;
+				top: 0;
+				left: 0;
+			}
+
+			&[disabled="disabled"] {
+				opacity: 0.4;
+			}
+
+			&.small {
+
+				padding: 8px 10px 8px 46px;
+				.fa {
+					font-size: 15px;
+					padding: 9px 10px;
+					width: 20px;
+				}
+
+			}
+
+			&.right {
+
+				&.small {
+					padding-left: 10px;
+					padding-right: 46px;
+				}
+
+				.fa {
+					border-radius: 0 4px 4px 0;
+					left: auto;
+					right: 0;
+				}
+
+			}
+
+		}
+
+
+
+		.llms-editor {
+			height: 100%;
+			min-height: 100%;
+			position: relative;
+		}
+
+			// .llms-builder-close-editor {
+			// 	background: $color-brand-blue;
+			// 	border: none;
+			// 	border-radius: 50%;
+			// 	color: #fff;
+			// 	cursor: pointer;
+			// 	display: inline-block;
+			// 	font-size: 18px;
+			// 	height: 30px;
+			// 	margin: 0;
+			// 	position: absolute;
+			// 	right: 0;
+			// 	text-align: center;
+			// 	top: 3px;
+			// 	width: 30px;
+			// 	z-index: 3;
+			// }
+
+			.llms-editor-nav {
+				background: #b0b0b0;
+				font-size: 0;
+				margin: -10px -10px 10px -10px;
+				position: relative;
+				z-index: 2;
+
+				.llms-editor-menu {
+					list-style-type: none;
+					margin: 0;
+					padding: 0;
+					position: relative;
+
+					.llms-editor-menu-item {
+						display: inline-block;
+						margin: 0;
+						padding: 0;
+
+						&.right {
+							float: right;
+						}
+
+						> .llms-editor-menu {
+							display: none;
+							&:before {
+								border: 8px solid transparent;
+								border-left-color: #cacaca;
+								content: '';
+								position: absolute;
+								top: 11px;
+								left: 0;
+							}
+
+							.llms-editor-menu-item:hover > a,
+							.llms-editor-menu-item.active > a {
+								background: #dfdfdf;
+							}
+
+						}
+
+						&:hover > a,
+						&.active > a {
+							background: #cacaca;
+						}
+
+						&.active > a {
+							box-shadow: inset 0 -3px 0 $color-brand-blue;
+							&:focus {
+								box-shadow: inset 0 -3px 0 $color-brand-blue;
+							}
+						}
+
+						&.active > .llms-editor-menu {
+							display: inline-block;
+						}
+
+						a {
+							color: #444;
+							display: inline-block;
+							padding: 13px 20px;
+							text-decoration: none;
+							transition: background 0.2s ease;
+							font-size: 14px;
+							&:focus {
+								box-shadow: inset 0 0 0 2px $color-brand-blue;
+							}
+						}
+
+					}
+				}
+			}
+
+			.llms-editor-tab {
+				display: none;
+				height: calc( 100% - 90px );
+				overflow: scroll;
+				position: relative;
+				z-index: 1;
+				&.active {
+					display: block;
+
+					&.tab--quiz {
+
+						display: flex;
+						flex-direction: column;
+
+						.llms-quiz-questions {
+							flex: 1;
+							overflow: scroll;
+
+							// groups
+							.llms-quiz-questions {
+								overflow: visible;
+							}
+						}
+
+					}
+				}
+
+			}
+
+
+			// .llms-builder-editor {
+
+			// 	opacity: 0;
+			// 	margin: 10px 0;
+			// 	transition: opacity 0.2s linear;
+
+			// 	&.ready {
+			// 		opacity: 1;
+			// 	}
+
+			// 	textarea {
+			// 		border: none;
+			// 		display: block;
+			// 		width: 100%;
+			// 	}
+			// }
+
+		.llms-builder-save {
+
+			bottom: 10px;
+			left: 10px;
+			position: absolute;
+			right: 10px;
+			z-index: 1;
+
+			.llms-builder-error {
+				background: $color-danger;
+				border-radius: 4px;
+				color: #fff;
+				display: inline-block;
+				font-style: italic;
+				padding: 5px 15px 7px 25px;
+				margin: 0 0 10px;
+
+				li {
+					margin: 0;
+					padding: 0;
+				}
+
+			}
+
+			.llms-save {
+				width: 75%;
+			}
+			.llms-exit {
+				width: 23%;
+			}
+
+			button {
+				position: relative;
+				i {
+					position: absolute;
+					left: 10px;
+					top: 10px;
+
+					.llms-spinner {
+						border-color: #fff;
+					}
+				}
+			}
+			button[data-status] .llms-status-indicator { display: none; }
+			button[data-status="saved"] .status--saved { display: block; }
+			button[data-status="unsaved"] .status--unsaved { display: block; }
+			button[data-status="saving"] .status--saving { display: block; }
+			button[data-status="error"] .status--error { display: block; }
+
+		}
+
+	}
+
+
+	/*
+		                                                   /$$
+		                                                  | $$
+		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$| $$$$$$$         /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$  /$$    /$$ /$$$$$$   /$$$$$$
+		 /$$_____/ /$$__  $$ |____  $$ /$$__  $$ /$$_____/| $$__  $$       /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$|  $$  /$$//$$__  $$ /$$__  $$
+		|  $$$$$$ | $$$$$$$$  /$$$$$$$| $$  \__/| $$      | $$  \ $$      | $$  \ $$| $$  \ $$| $$  \ $$| $$  \ $$ \  $$/$$/| $$$$$$$$| $$  \__/
+		 \____  $$| $$_____/ /$$__  $$| $$      | $$      | $$  | $$      | $$  | $$| $$  | $$| $$  | $$| $$  | $$  \  $$$/ | $$_____/| $$
+		 /$$$$$$$/|  $$$$$$$|  $$$$$$$| $$      |  $$$$$$$| $$  | $$      | $$$$$$$/|  $$$$$$/| $$$$$$$/|  $$$$$$/   \  $/  |  $$$$$$$| $$
+		|_______/  \_______/ \_______/|__/       \_______/|__/  |__/      | $$____/  \______/ | $$____/  \______/     \_/    \_______/|__/
+		                                                                  | $$                | $$
+		                                                                  | $$                | $$
+		                                                                  |__/                |__/
+	 */
+
+	 .select2-container {
+	 	z-index: 99999999;
+	 }
+
+	.select2-results__option {
+		padding: 0;
+	}
+
+	.select2-container--default .select2-results__option--highlighted[aria-selected] {
+		background: $color-brand-blue;
+		.llms-existing-action {
+			color: #fff;
+		}
+	}
+
+	.llms-existing-lesson-result {
+
+		align-items: center;
+		display: flex;
+		padding: 5px 5px 5px 0;
+
+		.llms-existing-info {
+			flex: 6;
+
+			h4, h5 {
+				margin: 0;
+			}
+
+			h4 {
+				font-weight: 400;
+			}
+
+			h5 {
+				font-weight: 300;
+			}
+		}
+
+		.llms-existing-action {
+			color: $color-brand-blue;
+			flex: 1;
+			text-align: center;
+
+			.fa {
+				display: block;
+				font-size: 30px;
+			}
+
+			small {
+				text-transform: uppercase;
+			}
+
+		}
+
+
+	}
+
+
+	/*
+		                     /$$
+		                    |__/
+		  /$$$$$$  /$$   /$$ /$$ /$$$$$$$$
+		 /$$__  $$| $$  | $$| $$|____ /$$/
+		| $$  \ $$| $$  | $$| $$   /$$$$/
+		| $$  | $$| $$  | $$| $$  /$$__/
+		|  $$$$$$$|  $$$$$$/| $$ /$$$$$$$$
+		 \____  $$ \______/ |__/|________/
+		      | $$
+		      | $$
+		      |__/
+	 */
+
+	 .llms-quiz-empty {
+    	margin: 100px auto;
+    	text-align: center;
+
+    	p { font-size: 18px; }
+    	button.llms-element-button {
+    		max-width: 320px;
+    		margin: 0 auto;
+    	}
+
+	 }
+
+
+	.llms-model-header,
+	.llms-model-settings {
+		background: #fff;
+		padding: 10px;
+		@include clearfix();
+	}
+
+	.llms-editor-tab.tab--quiz {
+		.llms-model-header {
+			.llms-model-title {
+				width: calc( 100% - 310px );
+			}
+			.llms-quiz-points {
+				float: left;
+				margin-right: 10px;
+				width: 100px;
+			}
+		}
+	}
+
+	.llms-model-header {
+		border-bottom: 5px solid #e6e6e6;
+
+		.llms-model-title {
+			float: left;
+			margin-right: 10px;
+			width: calc( 100% - 200px );
+			.llms-input {
+				width: calc( 100% - 65px );
+			}
+		}
+		.llms-model-status.llms-switch {
+			float: left;
+			margin-right: 10px;
+			position: relative;
+			text-align: right;
+			top: -2px;
+			width: 100px;
+		}
+		.llms-action-icons {
+			float: left;
+			position: relative;
+			text-align: right;
+			width: 80px;
+			z-index: 1;
+			.fa {
+				max-width: 15px;
+			}
+		}
+
+		.llms-model-settings {
+			padding: 0;
+		}
+
+	}
+
+	.llms-model-header + .llms-model-settings.active {
+		margin-top: -10px;
+	}
+
+	.llms-model-settings {
+		clear: both;
+		display: none;
+
+		&.active {
+			display: block;
+			margin-top: 10px;
+		}
+	}
+
+	.llms-quiz-footer {
+		display: flex;
+		button.llms-element-button {
+			flex: 1;
+			margin: 0 5px;
+			&:first-child { margin-left: 0; }
+			&:last-child { margin-right: 0; }
+			&.llms-show-question-bank {
+				flex: 2;
+			}
+		}
+	}
+
+	/*
+		                                           /$$     /$$                           /$$                           /$$
+		                                          | $$    |__/                          | $$                          | $$
+		  /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$       | $$$$$$$   /$$$$$$  /$$$$$$$ | $$   /$$
+		 /$$__  $$| $$  | $$ /$$__  $$ /$$_____/|_  $$_/  | $$ /$$__  $$| $$__  $$      | $$__  $$ |____  $$| $$__  $$| $$  /$$/
+		| $$  \ $$| $$  | $$| $$$$$$$$|  $$$$$$   | $$    | $$| $$  \ $$| $$  \ $$      | $$  \ $$  /$$$$$$$| $$  \ $$| $$$$$$/
+		| $$  | $$| $$  | $$| $$_____/ \____  $$  | $$ /$$| $$| $$  | $$| $$  | $$      | $$  | $$ /$$__  $$| $$  | $$| $$_  $$
+		|  $$$$$$$|  $$$$$$/|  $$$$$$$ /$$$$$$$/  |  $$$$/| $$|  $$$$$$/| $$  | $$      | $$$$$$$/|  $$$$$$$| $$  | $$| $$ \  $$
+		 \____  $$ \______/  \_______/|_______/    \___/  |__/ \______/ |__/  |__/      |_______/  \_______/|__/  |__/|__/  \__/
+		      | $$
+		      | $$
+		      |__/
+	 */
+
+	.llms-quiz-tools {
+		display: none;
+		width: 100%;
+		position: relative;
+
+		// .llms-quiz-tools-search {
+		// 	padding: 0 10px;
+		// 	margin-bottom: 15px;
+
+		// 	.fa {
+		// 		color: #888;
+		// 		font-size: 16px;
+		// 	}
+
+		// 	input[type="search"] {
+		// 		background: inherit;
+		// 		border: none;
+		// 		border-bottom: 1px solid #bbb;
+		// 		box-shadow: none;
+		// 		font-size: 16px;
+		// 		margin: 8px 0 0;
+		// 		padding: 2px 5px;
+		// 		width: calc( 100% - 200px );
+
+		// 		&:focus {
+		// 			border-bottom-color: $color-brand-blue;
+		// 		}
+		// 	}
+
+		// }
+
+	}
+
+	ul.llms-question-bank {
+
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+		@include clearfix;
+
+		li.llms-question-bank-header {
+			clear: both;
+			padding-top: 20px;
+			&:first-child {
+				padding-top: 0;
+			}
+			h4 {
+				font-size: 20px;
+				margin: 10px 5px;
+			}
+		}
+
+		li.llms-question-type {
+			box-sizing: border-box;
+			float: left;
+			margin: 0;
+			padding: 3px;
+			width: 33.3333%;
+			transition: opacity 0.3s ease-in-out;
+
+			&.filtered {
+				opacity: 0.3;
+			}
+
+			.llms-type-unavailable {
+				display: block;
+				position: relative;
+				text-decoration: none;
+				.llms-element-button {
+					opacity: 0.5;
+					pointer-events: none;
+				}
+			}
+
+		}
+
+	}
+
+	/*
+		                     /$$                                                           /$$     /$$
+		                    |__/                                                          | $$    |__/
+		  /$$$$$$  /$$   /$$ /$$ /$$$$$$$$        /$$$$$$  /$$   /$$  /$$$$$$   /$$$$$$$ /$$$$$$   /$$  /$$$$$$  /$$$$$$$   /$$$$$$$
+		 /$$__  $$| $$  | $$| $$|____ /$$/       /$$__  $$| $$  | $$ /$$__  $$ /$$_____/|_  $$_/  | $$ /$$__  $$| $$__  $$ /$$_____/
+		| $$  \ $$| $$  | $$| $$   /$$$$/       | $$  \ $$| $$  | $$| $$$$$$$$|  $$$$$$   | $$    | $$| $$  \ $$| $$  \ $$|  $$$$$$
+		| $$  | $$| $$  | $$| $$  /$$__/        | $$  | $$| $$  | $$| $$_____/ \____  $$  | $$ /$$| $$| $$  | $$| $$  | $$ \____  $$
+		|  $$$$$$$|  $$$$$$/| $$ /$$$$$$$$      |  $$$$$$$|  $$$$$$/|  $$$$$$$ /$$$$$$$/  |  $$$$/| $$|  $$$$$$/| $$  | $$ /$$$$$$$/
+		 \____  $$ \______/ |__/|________/       \____  $$ \______/  \_______/|_______/    \___/  |__/ \______/ |__/  |__/|_______/
+		      | $$                                    | $$
+		      | $$                                    | $$
+		      |__/                                    |__/
+	 */
+	ul.llms-quiz-questions {
+
+		margin: 10px 3px;
+		padding: 5px;
+		transition: box-shadow 0.6s ease;
+
+		&.dragging {
+			box-shadow: 0 0 0 3px $color-brand-blue;
+		}
+
+		&:empty:before {
+			background: #fff;
+			content: attr(data-empty-msg);
+			display: block;
+			font-size: 18px;
+			margin: 0 auto;
+			padding: 100px 0;
+			text-align: center;
+		}
+
+		li.llms-question {
+
+			background: #fff;
+			margin: 0 0 3px;
+			padding: 15px 12px 10px;
+
+			&:hover {
+				> .llms-builder-header .llms-action-icons {
+					opacity: 1;
+					pointer-events: auto;
+				}
+			}
+
+			// groups
+			ul.llms-quiz-questions {
+				margin-left: 12px;
+				.llms-question {
+					border-bottom: 2px solid #e6e6e6;
+				}
+				&:empty:before {
+					content: attr(data-empty-msg);
+					display: block;
+					font-size: 18px;
+					text-align: center;
+					margin: 20px auto;
+				}
+				li.llms-question.llms-sortable-placeholder.qtype--group {
+					display: none !important;
+				}
+			}
+
+			.llms-builder-header {
+				@include clearfix;
+				> * {
+					float: left;
+				}
+			}
+
+			.llms-question-body {
+				display: none;
+				&.active {
+					display: block;
+				}
+			}
+
+			.llms-data-stamp {
+				background: $color-brand-blue;
+				border-radius: 4px;
+				color: #fff;
+				cursor: move;
+				font-size: 90%;
+				margin-top: -5px;
+				padding: 4px 10px 6px;
+
+				small, .fa {
+					line-height: 1.2;
+					vertical-align: middle;
+				}
+
+				.fa {
+					margin-right: 4px;
+				}
+
+			}
+
+			.llms-headline {
+				width: calc( 100% - 90px - 80px - 55px );
+				.ql-editor {
+					width: calc( 100% - 16px );
+				}
+			}
+
+			.llms-action-icons {
+				width: 80px;
+				opacity: 0;
+				pointer-events: none;
+			}
+
+			.llms-question-points {
+				width: 90px;
+			}
+
+			.llms-question-features {
+				margin: 10px 0 0;
+				&:last-child {
+					margin: 0;
+				}
+				.llms-switch {
+					margin-right: 15px;
+				}
+			}
+
+			.llms-editable-video {
+				position: relative;
+				z-index: 1;
+			}
+
+		}
+
+			.llms-question-choices-wrapper {
+				background: #f4f4f4;
+				margin: 2px 1px;
+				padding: 10px;
+			}
+
+				.llms-question-choices-list-header {
+					@include clearfix;
+					margin-bottom: 10px;
+
+					.llms-switch {
+						float: right;
+						text-align: right;
+						width: 260px;
+					}
+				}
+
+			ul.llms-question-choices {
+				border: 3px solid #f4f4f4;
+				margin: -3px;
+				padding: 0;
+				transition: box-shadow 0.6s ease;
+
+				&.dragging {
+					box-shadow: 0 0 0 3px $color-brand-blue;
+				}
+
+				&.multi-choices li.llms-question-choice .llms-choice-id span {
+					border-radius: 4px;
+				}
+
+			}
+
+				li.llms-question-choice {
+					margin: 0 0 5px;
+					padding: 0;
+					&:last-child { margin-bottom: 0; }
+
+					.llms-choice-id {
+
+						input[type="checkbox"] {
+							display: none;
+						}
+
+						input[type="checkbox"]:checked + .llms-marker {
+							background: $color-green;
+						}
+
+						.llms-marker {
+							border-radius: 50%;
+							background: #d0d0d0;
+							box-shadow: inset 0 0 1px #848484;
+							color: #444;
+							display: inline-block;
+							font-size: 16px;
+							height: 20px;
+							line-height: 20px;
+							padding: 5px;
+							position: relative;
+							text-align: center;
+							transition: background 0.1s ease;
+							width: 20px;
+
+							.fa {
+								left: 7px;
+								opacity: 0;
+								position: absolute;
+								top: 7px;
+							}
+							&.selectable:hover {
+								b { opacity: 0 }
+								.fa { opacity: 1; }
+							}
+
+						}
+
+					}
+
+					.llms-input-wrapper,
+					.llms-editable-image {
+						display: inline-block;
+						// action icons width, label width, ul margins
+						width: calc( 100% - 55px - 35px - 5px );
+					}
+
+						.llms-input {
+							width: calc( 100% - 16px );
+						}
+
+					.llms-editable-image .llms-image {
+						vertical-align: middle;
+						img {
+							height: 50px;
+						}
+					}
+
+					.llms-action-icons {
+						display: inline-block;
+						opacity: 1;
+						pointer-events: auto;
+						text-align: right;
+						width: 55px;
+					}
+
+				}
+
+				li.llms-question-choice.llms-sortable-placeholder {
+					border: 3px dashed $color-brand-blue !important;
+					background: rgba( $color-brand-blue, 0.3 );
+				}
+
+				li.llms-question-choice.ui-sortable-helper {
+					border: 1px solid #ccc;
+					background: #fff;
+					padding: 10px;
+					transform: rotate( 2deg );
+					z-index: 999;
+				}
+
+		li.llms-question.ui-sortable-helper,
+		li.llms-question.ui-draggable-dragging {
+			border: 1px solid #ccc;
+			background: #fff;
+			transform: rotate( 2deg );
+			z-index: 999;
+		}
+
+		li.llms-question.llms-sortable-placeholder {
+			border: 3px dashed $color-brand-blue !important;
+			background: rgba( $color-brand-blue, 0.3 );
+		}
+
+	}
+
+
+	.llms-switch {
+		display: inline-block;
+		float: none;
+		width: auto;
+
+		input[type="checkbox"] {
+			display: none;
+		}
+
+		input[type="checkbox"]:checked + .llms-switch-slider {
+			background: $color-green;
+		}
+
+		input[type="checkbox"]:checked + .llms-switch-slider:after {
+			transform: translateX( 14px );
+		}
+
+		.llms-label {
+			display: inline-block;
+			vertical-align: top;
+		}
+
+		.llms-switch-slider {
+			background: #e0e0e0;
+			border-radius: 8px;
+			display: inline-block;
+			height: 16px;
+			margin-top: 2px;
+			position: relative;
+			transition: background 0.2s ease;
+			vertical-align: top;
+			width: 30px;
+
+			&:after {
+				background: #fff;
+				border-radius: 8px;
+				content: '';
+				display: block;
+				height: 12px;
+				left: 2px;
+				position: relative;
+				transition: transform 0.2s ease;
+				top: 2px;
+				width: 12px;
+			}
+
+		}
+
+	}
+
+}
+
+
+
+// .llms-builder-tools {
+// 	background: #cecece;
+// 	flex: 1;
+// 	position: relative;
+// 	padding: 40px 20px 80px;
+
+
+// 	footer {
+
+// 		bottom: 0;
+// 		left: 0;
+// 		padding: 20px;
+// 		position: absolute;
+// 		right: 0;
+
+// 		.save-status {
+// 			font-style: italic;
+// 			line-height: 20px;
+// 			margin: 0;
+// 			z-index: 1;
+// 			.unsaved, .saving {
+// 				display: none;
+// 			}
+// 			&[data-status="saving"] {
+// 				.saving {
+// 					display: block;
+// 				}
+// 			}
+// 		}
+
+// 		#llms-spinner-el {
+// 			display: inline-block;
+// 			margin-right: 5px;
+// 			height: 20px;
+// 			position: relative;
+// 			vertical-align: middle;
+// 			width: 20px;
+// 			.llms-spinning {
+// 				background: transparent;
+// 			}
+// 		}
+
+// 	}
+
+// }
+
+
+

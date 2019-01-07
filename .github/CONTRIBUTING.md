@@ -15,7 +15,7 @@ We welcome and encourage contributions from the community. If you'd like to cont
 
 ### Reporting a Bug or Issue
 
-Bugs and issues can be reported at [https://github.com/gocodebox/lifterlms/issues/new](https://github.com/gocodebox/lifterlms/issues/new).
+Bugs and issues can be reported at [https://github.com/gocodebox/lifterlms/issues/new/choose](https://github.com/gocodebox/lifterlms/issues/new).
 
 Before reporting a bug, [search existing issues](https://github.com/gocodebox/lifterlms/issues) and ensure you're not creating a duplicate. If the issue already exists you can add your information to the existing report.
 
@@ -27,7 +27,7 @@ Also check our [known issues and conflicts](https://lifterlms.com/doc-category/l
 + Fork the repository on GitHub.
 + Create a new branch from the 'master' branch.
 + Make the changes to your forked repository.
-+ Ensure you stick to the WordPress Coding Standards and have properly documented any new functions, actions and filters following the documentation standards.
++ Ensure you stick to the [coding standards](https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md) and have properly documented any new functions, actions and filters following the documentation standards.
 + When committing, reference your issue (if present) and include a note about the fix.
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
 + Push the changes to your fork
@@ -42,3 +42,13 @@ All translations to LifterLMS can be made via our GlotPress project at [translat
 Anyone can contribute translations. All you need is to login to your wordpress.org account. If you have questions about how to submit translations please refer to the [Translator's Handbook](https://make.wordpress.org/polyglots/handbook/).
 
 We're always seeking Translation Editors who can manage and approve translations for their locale. If you're interested in becoming a translation editor for your locale please submit an application at [translate.lifterlms.com](https://translate.lifterlms.com/become-a-translator/).
+
+
+### Need Help Getting Started as a Contributor?
+
+A number of resources are available for first time contributors:
+
++ Join our [LifterLMS Community Slack Channel](https://lifterlms.com/slack) and hop into the `#developers` channel. Our core contributors and maintainers are there to help out and answer questions.
++ Check out the [LifterLMS Contributor's Events Calendar](https://make.lifterlms.com/calendar/events/) for opportunities to interact with other contributors.
++ Check out [this tutorial](https://www.digitalocean.com/community/tutorials/how-to-create-a-pull-request-on-github) on how to submit pull requests on GitHub.
++ Grab an issue marked tagged as a [`good first issue`](https://github.com/gocodebox/lifterlms/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22)

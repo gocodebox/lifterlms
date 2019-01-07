@@ -1,11 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Course Options
-* @since    1.0.0
-* @version  3.16.9
-*/
+ * Course Options
+ * @since    1.0.0
+ * @version  [version]
+ */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
 	/**
@@ -26,7 +26,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * Setup fields
 	 * @return array
 	 * @since    1.0.0
-	 * @version  3.16.9
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -53,22 +53,60 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			);
 		}
 
+		$sales_page_content_type = 'none';
+		if ( $post && 'auto-draft' !== $post->post_status && $post->post_excerpt ) {
+			$sales_page_content_type = 'content';
+		}
+
 		$fields = array(
 			array(
-				'title' 	=> __( 'Description', 'lifterlms' ),
+				'title' 	=> __( 'Sales Page', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
-						'desc'   	=> __( 'If the "Non-enrolled Student Description" area below is left blank, this content will be displayed to all visitors, otherwise this content will only be displayed to enrolled students.', 'lifterlms' ),
-						'id'        => '',
-						'label'		=> __( 'Enrolled Student Description', 'lifterlms' ),
-						'type'		=> 'post-content',
+						'allow_null' => false,
+						'class' 	=> 'llms-select2',
+						'desc' 		    => __( 'Customize the content displayed to visitors and students who are not enrolled in the course.', 'lifterlms' ),
+						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
+						'default'       => $sales_page_content_type,
+						'id'            => $this->prefix . 'sales_page_content_type',
+						'is_controller' => true,
+						'label'		    => __( 'Sales Page Content', 'lifterlms' ),
+						'type'		=> 'select',
+						'value' 	=> llms_get_sales_page_types(),
 					),
 					array(
+						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller_value' => 'content',
 						'desc' 		=> __( 'This content will only be shown to visitors who are not enrolled in this course.', 'lifterlms' ),
 						'id'        => '',
-						'label'		=> __( 'Non-enrolled Student Description', 'lifterlms' ),
+						'label'		=> __( 'Sales Page Custom Content', 'lifterlms' ),
 						'type'		=> 'post-excerpt',
 					),
+					array(
+						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller_value' => 'page',
+						'data_attributes' => array(
+							'post-type' => 'page',
+							'placeholder' => __( 'Select a page', 'lifterlms' ),
+						),
+						'class' 	=> 'llms-select2-post',
+						'id' 		=> $this->prefix . 'sales_page_content_page_id',
+						'type'		=> 'select',
+						'label'		=> __( 'Select a Page', 'lifterlms' ),
+						'value'     => $course->get( 'sales_page_content_page_id' ) ? llms_make_select2_post_array( array( $course->get( 'sales_page_content_page_id' ) ) ) : array(),
+					),
+					array(
+						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller_value' => 'url',
+						'type'		=> 'text',
+						'label'		=> __( 'Sales Page Redirect URL', 'lifterlms' ),
+						'id' 		=> $this->prefix . 'sales_page_content_url',
+						'class' 	=> 'input-full',
+						'value' 	=> '',
+						'desc_class' => 'd-all',
+						'group' 	=> 'top',
+					),
+
 				),
 			),
 			array(
@@ -300,6 +338,13 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
+		if ( function_exists( 'register_block_type' ) ) {
+			if ( ! class_exists( 'Classic_Editor' ) || ( class_exists( 'Classic_Editor' ) && 'classic-editor' !== get_post_meta( $this->post->ID, 'classic-editor-remember', true ) ) ) {
+				unset( $fields[1]['fields'][0] ); // length
+				unset( $fields[1]['fields'][1] ); // difficulty
+			}
+		}
+
 		return $fields;
 
 	}
@@ -309,19 +354,23 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the course
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.4 - changed from after save to before save
+	 * @version  3.25.0
 	 */
 	protected function save_before( $post_id ) {
 
-		if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
-			$difficulty = '';
-		} else {
-			$difficulty = $_POST['_llms_post_course_difficulty'];
+		if ( ! function_exists( 'register_block_type' ) ) {
+
+			if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
+				$difficulty = '';
+			} else {
+				$difficulty = $_POST['_llms_post_course_difficulty'];
+			}
+
+			wp_set_object_terms( $post_id, $difficulty, 'course_difficulty', false );
+
+			unset( $_POST['_llms_post_course_difficulty'] ); // don't save this to the postmeta table
+
 		}
-
-		wp_set_object_terms( $post_id, $difficulty, 'course_difficulty', false );
-
-		unset( $_POST['_llms_post_course_difficulty'] ); // don't save this to the postmeta table
 
 	}
 

@@ -2,11 +2,13 @@
 /**
  * List of attempt questions/answers for a single attempt
  * @since    3.16.0
- * @version  3.17.3
+ * @version  3.17.8
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 ?>
 
 <ol class="llms-quiz-attempt-results">
@@ -39,6 +41,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		</header>
 
 		<section class="llms-quiz-attempt-question-main">
+
+			<?php if ( apply_filters( 'llms_quiz_show_question_description', true, $attempt, $attempt_question, $quiz_question ) && $quiz_question->has_description() ) : ?>
+				<div class="llms-quiz-attempt-answer-section llms-question-description">
+					<?php echo $quiz_question->get_description(); ?>
+				</div>
+			<?php endif; ?>
 
 			<?php if ( $attempt_question->get( 'answer' ) ) : ?>
 				<div class="llms-quiz-attempt-answer-section llms-student-answer">

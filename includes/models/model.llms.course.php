@@ -1,42 +1,50 @@
 <?php
 /**
-* LifterLMS Course Model
-*
-* @since    1.0.0
-* @version  3.17.2
-*
-* @property $audio_embed  (string)  URL to an oEmbed enable audio URL
-* @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
-* @property $average_progress  (float)  Calulated value of the overall average progress of all *enrolled* students in the course.
-* @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
-* @property $capacity_message  (string)  Message displayed when capacity has been reached
-* @property $content_restricted_message  (string)  Message displayed when non-enrolled visitors try to access lessons/quizzes directly
-* @property $course_closed_message  (string)  Message displayed to visitors when the course is accessed after the Course End Date has passed. Only applicable when $time_period is 'yes'
-* @property $course_opens_message  (string)  Message displayed to visitors when the course is accessed before the Course Start Date has passed. Only applicable when $time_period is 'yes'
-* @property $enable_capacity  (string)  Whether capacity restrictions are enabled [yes|no]
-* @property $enrollment_closed_message  (string)  Message displayed to non-enrolled visitors when the course is accessed after the Enrollment End Date has passed. Only applicable when $enrollment_period is 'yes'
-* @property $enrollment_end_date   (string)  After this date, registration closes
-* @property $enrollment_opens_message  (string)  Message displayed to non-enrolled visitorswhen the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'
-* @property $enrollment_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
-* @property $enrollment_start_date  (string)  Before this date, registration is closed
-* @property $end_date   (string)  Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date.
-* @property $has_prerequisite   (string)  Determine if prerequisites are enabled [yes|no]
-* @property $instructors  (array)  Course instructor user information
-* @property $prerequisite   (int)  WP Post ID of a the prerequisite course
-* @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
-* @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
-* @property $length  (string)  User defined coure length
-* @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
-* @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
-* @property $video_embed  (string)  URL to an oEmbed enable video URL
-*/
+ * LifterLMS Course Model
+ *
+ * @package  LifterLMS/Models
+ * @since    1.0.0
+ * @version  3.24.0
+ *
+ * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
+ * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
+ * @property $average_progress  (float)  Calulated value of the overall average progress of all *enrolled* students in the course.
+ * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
+ * @property $capacity_message  (string)  Message displayed when capacity has been reached
+ * @property $content_restricted_message  (string)  Message displayed when non-enrolled visitors try to access lessons/quizzes directly
+ * @property $course_closed_message  (string)  Message displayed to visitors when the course is accessed after the Course End Date has passed. Only applicable when $time_period is 'yes'
+ * @property $course_opens_message  (string)  Message displayed to visitors when the course is accessed before the Course Start Date has passed. Only applicable when $time_period is 'yes'
+ * @property $enable_capacity  (string)  Whether capacity restrictions are enabled [yes|no]
+ * @property $enrollment_closed_message  (string)  Message displayed to non-enrolled visitors when the course is accessed after the Enrollment End Date has passed. Only applicable when $enrollment_period is 'yes'
+ * @property $enrollment_end_date   (string)  After this date, registration closes
+ * @property $enrollment_opens_message  (string)  Message displayed to non-enrolled visitorswhen the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'
+ * @property $enrollment_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
+ * @property $enrollment_start_date  (string)  Before this date, registration is closed
+ * @property $end_date   (string)  Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date.
+ * @property $has_prerequisite   (string)  Determine if prerequisites are enabled [yes|no]
+ * @property $instructors  (array)  Course instructor user information
+ * @property $prerequisite   (int)  WP Post ID of a the prerequisite course
+ * @property $prerequisite_track   (int)  WP Tax ID of a the prerequisite track
+ * @property sales_page_content_page_id  (int)  WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'
+ * @property sales_page_content_type  (string)  Sales page behavior [none,content,page,url]
+ * @property sales_page_content_url  (string)  Redirect URL for a sales page, when $sales_page_content_type is 'url'
+ * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
+ * @property $length  (string)  User defined coure length
+ * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
+ * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
+ * @property $video_embed  (string)  URL to an oEmbed enable video URL
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Course model.
+ */
 class LLMS_Course
 extends LLMS_Post_Model
 implements LLMS_Interface_Post_Audio
 		 , LLMS_Interface_Post_Instructors
+		 , LLMS_Interface_Post_Sales_Page
 		 , LLMS_Interface_Post_Video {
 
 
@@ -63,6 +71,9 @@ implements LLMS_Interface_Post_Audio
 		'length' => 'text',
 		'prerequisite' => 'absint',
 		'prerequisite_track' => 'absint',
+		'sales_page_content_page_id' => 'absint',
+		'sales_page_content_type' => 'string',
+		'sales_page_content_url' => 'string',
 		'tile_featured_video' => 'yesno',
 		'time_period' => 'yesno',
 		'start_date' => 'text',
@@ -83,6 +94,20 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function instructors() {
 		return new LLMS_Post_Instructors( $this );
+	}
+
+	/**
+	 * Retrieve the total points available for the course
+	 * @return   int
+	 * @since    3.24.0
+	 * @version  3.24.0
+	 */
+	public function get_available_points() {
+		$points = 0;
+		foreach ( $this->get_lessons() as $lesson ) {
+			$points += $lesson->get( 'points' );
+		}
+		return apply_filters( 'llms_course_get_available_points', $points, $this );
 	}
 
 	/**
@@ -146,13 +171,13 @@ implements LLMS_Interface_Post_Audio
 	 *                            term_id, name, slug, and more
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.0.4
+	 * @version  3.24.0
 	 */
 	public function get_difficulty( $field = 'name' ) {
 
 		$terms = get_the_terms( $this->get( 'id' ), 'course_difficulty' );
 
-		if ( $terms === false ) {
+		if ( false === $terms ) {
 
 			return '';
 
@@ -189,26 +214,23 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string     $return  type of return [ids|posts|lessons]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.24.0
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
 		$lessons = array();
 		foreach ( $this->get_sections( 'sections' ) as $section ) {
-			$lessons = array_merge( $lessons, $section->get_children_lessons() );
+			$lessons = array_merge( $lessons, $section->get_lessons( 'posts' ) );
 		}
 
-		if ( $return === 'ids' ) {
-			$r = wp_list_pluck( $lessons, 'ID' );
-		} elseif ( $return === 'posts' ) {
-			$r = $lessons;
+		if ( 'ids' === $return ) {
+			$ret = wp_list_pluck( $lessons, 'ID' );
+		} elseif ( 'posts' === $return ) {
+			$ret = $lessons;
 		} else {
-			$r = array();
-			foreach ( $lessons as $p ) {
-				$r[] = new LLMS_Lesson( $p );
-			}
+			$ret = array_map( 'llms_get_post', $lessons );
 		}
-		return $r;
+		return $ret;
 
 	}
 
@@ -231,11 +253,38 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
+	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
+	 * @return   string
+	 * @since    3.20.0
+	 * @version  3.23.0
+	 */
+	public function get_sales_page_url() {
+
+		$type = $this->get( 'sales_page_content_type' );
+		switch ( $type ) {
+
+			case 'page':
+				$url = get_permalink( $this->get( 'sales_page_content_page_id' ) );
+			break;
+
+			case 'url':
+				$url = $this->get( 'sales_page_content_url' );
+			break;
+
+			default:
+				$url = get_permalink( $this->get( 'id' ) );
+
+		}
+
+		return apply_filters( 'llms_course_get_sales_page_url', $url, $this, $type );
+	}
+
+	/**
 	 * Get course sections
 	 * @param    string  $return  type of return [ids|posts|sections]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.24.0
 	 */
 	public function get_sections( $return = 'sections' ) {
 
@@ -253,9 +302,9 @@ implements LLMS_Interface_Post_Audio
 			'posts_per_page' => 500,
 		) );
 
-		if ( $return === 'ids' ) {
+		if ( 'ids' === $return ) {
 			$r = wp_list_pluck( $q->posts, 'ID' );
-		} elseif ( $return === 'posts' ) {
+		} elseif ( 'posts' === $return ) {
 			$r = $q->posts;
 		} else {
 			$r = array();
@@ -455,6 +504,17 @@ implements LLMS_Interface_Post_Audio
 
 		return false;
 
+	}
+
+	/**
+	 * Determine if sales page rediriction is enabled
+	 * @return   string
+	 * @since    3.20.0
+	 * @version  3.23.0
+	 */
+	public function has_sales_page_redirect() {
+		$type = $this->get( 'sales_page_content_type' );
+		return apply_filters( 'llms_course_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ) ), $this, $type );
 	}
 
 	/**
@@ -919,7 +979,7 @@ implements LLMS_Interface_Post_Audio
 			$user_post_data = self::get_user_post_data( $this->id, $user_id );
 
 			foreach ( $user_post_data as $upd ) {
-				if ( $upd->meta_value === 'Enrolled' ) {
+				if ( 'Enrolled' === $upd->meta_value ) {
 					$enrolled_date = $upd->updated_date;
 				}
 			}
@@ -986,7 +1046,7 @@ implements LLMS_Interface_Post_Audio
 
 			if ( $results ) {
 				foreach ( $results as $result ) {
-					if ( $result->meta_key === '_status' && ( $result->meta_value === 'Enrolled' || $result->meta_value === 'Expired' ) ) {
+					if ( '_status' === $result->meta_key && ( 'Enrolled' === $result->meta_value || 'Expired' === $result->meta_value ) ) {
 						$enrolled = $results;
 					}
 				}
@@ -1005,7 +1065,7 @@ implements LLMS_Interface_Post_Audio
 		if ( $user_post_data ) {
 
 			foreach ( $user_post_data as $upd ) {
-				if ( $upd->meta_key === '_status' && $upd->meta_value === 'Enrolled' ) {
+				if ( '_status' === $upd->meta_key && 'Enrolled' === $upd->meta_value ) {
 					$enrolled = true;
 				}
 			}
@@ -1038,16 +1098,16 @@ implements LLMS_Interface_Post_Audio
 			//loop through returned rows and save data to object
 			foreach ( $enrollment as $row ) {
 
-				if ( $row->meta_key === '_start_date' ) {
+				if ( '_start_date' === $row->meta_key ) {
 
 					$obj->start_date = $row->updated_date;
 
-				} elseif ( $row->meta_key === '_is_complete' ) {
+				} elseif ( '_is_complete' === $row->meta_key ) {
 
 					$obj->is_complete = true;
 					$obj->completed_date = $row->updated_date;
 
-				} elseif ( $row->meta_key === 'status' ) {
+				} elseif ( 'status' === $row->meta_key ) {
 
 					$obj->status = $row->meta_value;
 
@@ -1083,7 +1143,7 @@ implements LLMS_Interface_Post_Audio
 				//loop through returned rows and save data to object
 				foreach ( $section_user_data as $row ) {
 
-					if ( $row->meta_key === '_is_complete' ) {
+					if ( '_is_complete' === $row->meta_key ) {
 
 						$section['is_complete'] = true;
 						$section['completed_date'] = $row->updated_date;
@@ -1115,7 +1175,7 @@ implements LLMS_Interface_Post_Audio
 
 						foreach ( $lesson_user_data as $row ) {
 
-							if ( $row->meta_key === '_is_complete' ) {
+							if ( '_is_complete' === $row->meta_key ) {
 								$lesson['is_complete'] = true;
 								$lesson['completed_date'] = $row->updated_date;
 							}

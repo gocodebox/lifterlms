@@ -2,8 +2,10 @@
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
-*
-*/
+ * Image metabox field
+ * @since    ??
+ * @version  3.24.0
+ */
 class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
@@ -18,6 +20,8 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 	/**
 	 * outputs the Html for the given field
 	 * @return HTML
+	 * @since    ??
+	 * @version  3.24.0
 	 */
 	public function output() {
 
@@ -27,7 +31,7 @@ class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Fi
 
 		parent::output();
 
-		if ( $this->field['section'] === 'achievement_meta_box' ) {
+		if ( 'achievement_meta_box' === $this->field['section'] ) {
 			$image = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' ); ?>
 			<img id="<?php echo $this->field['id']; ?>" class="llms_achievement_default_image" style="display:none" src="<?php echo $image; ?>">
 			<?php

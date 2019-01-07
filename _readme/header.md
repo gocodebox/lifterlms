@@ -1,11 +1,11 @@
 === LifterLMS ===
-Contributors: thomasplevy, chrisbadgett, kathy11, lifterlms, codeboxllc
+Contributors: thomasplevy, chrisbadgett, saurabhshukla, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
-Requires at least: 4.0
-Requires PHP: 5.6
-Tested up to: 4.9.5
-Stable tag: 3.17.5
+Requires at least: 4.8
+Requires PHP: 7.2
+Tested up to: 5.0.2
+Stable tag: 3.26.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

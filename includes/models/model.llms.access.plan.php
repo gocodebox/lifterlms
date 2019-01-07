@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Access Plan Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  3.16.11
+ * @version  3.24.3
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -32,6 +32,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $trial_offer  (string)  Enable or disable a plan trial perid. [yes|no]
  * @property  $trial_period  (string)  Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day]
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Access_Plan Model.
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
@@ -82,7 +88,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    int        $length  (optional) access length (for plurailzation), if not supplied uses stored value for the plan
 	 * @return   string
 	 * @since    3.4.6
-	 * @version  3.4.8
+	 * @version  3.23.0
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
 
@@ -109,7 +115,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		}
 
-		return $period;
+		return apply_filters( 'llms_plan_get_access_period_name', $period, $length, $this );
 
 	}
 
@@ -131,25 +137,43 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the full URL to the checkout screen for the plan
+	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel)
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.9.1
+	 * @version  3.23.0
 	 */
 	public function get_checkout_url( $check_availability = true ) {
-		if ( ! $check_availability || $this->is_available_to_user( get_current_user_id() ) ) {
-			return llms_get_page_url( 'checkout', array(
+
+		$ret = '#llms-plan-locked';
+		$available = $this->is_available_to_user( get_current_user_id() );
+
+		// if bypassing availability checks OR plan is available to user
+		if ( ! $check_availability || $available ) {
+
+			$ret = llms_get_page_url( 'checkout', array(
 				'plan' => $this->get( 'id' ),
 			) );
-		} else {
-			return '#llms-plan-locked';
+
+			// not available to user -- this is a member's only plan
+		} elseif ( ! $available ) {
+
+			$memberships = $this->get_array( 'availability_restrictions' );
+
+			// if there's only 1 plan associated with the membership return that url
+			if ( 1 === count( $memberships ) ) {
+				$ret = get_permalink( $memberships[0] );
+			}
 		}
+
+		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
+
 	}
 
 	/**
 	 * Get a string to use for 0 dollar amount prices rather than 0
 	 * @param   string $format format to display the price in
 	 * @return  string
-	 * @since 3.0.0
+	 * @since   3.0.0
 	 * @version 3.0.0
 	 */
 	public function get_free_pricing_text( $format = 'html' ) {
@@ -166,12 +190,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Getter for price strings with optional formatting options
-	 * @param  string $key         property key
-	 * @param  array  $price_args  optional array of arguments that can be passed to llms_price()
-	 * @param  string $format      optional format conversion method [html|raw|float]
-	 * @return mixed
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @param    string $key         property key
+	 * @param    array  $price_args  optional array of arguments that can be passed to llms_price()
+	 * @param    string $format      optional format conversion method [html|raw|float]
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.23.0
 	 */
 	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
@@ -179,15 +203,15 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		if ( $price <= 0 ) {
 
-			$r = $this->get_free_pricing_text( $format );
+			$ret = $this->get_free_pricing_text( $format );
 
 		} else {
 
-			$r = parent::get_price( $key, $price_args, $format );
+			$ret = parent::get_price( $key, $price_args, $format );
 
 		}
 
-		return $r;
+		return apply_filters( 'llms_plan_get_price', $ret, $key, $price_args, $format, $this );
 	}
 
 	/**
@@ -269,8 +293,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an instance of the associated LLMS_Product
-	 * @return obj
-	 * @since  3.0.0
+	 * @return   obj
+	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_product() {
@@ -279,8 +303,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the product type (course or membership) for the associated product
-	 * @return string
-	 * @since  3.0.0
+	 * @return   string
+	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_product_type() {
@@ -291,18 +315,19 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Retrieve the text displayed on "Buy" buttons
 	 * Uses optional user submitted text and falls back to LifterLMS defaults if none is supplied
-	 * @return string
-	 * @since 3.0.0
-	 * @version  3.0.0
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.23.0
 	 */
 	public function get_enroll_text() {
 
-		// user submitted text
+		// user custom text option
 		$text = $this->get( 'enroll_text' );
 
 		if ( ! $text ) {
 
 			switch ( $this->get_product_type() ) {
+
 				case 'course':
 					$text = apply_filters( 'llms_course_enroll_button_text', __( 'Enroll', 'lifterlms' ), $this );
 				break;
@@ -311,51 +336,42 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 					$text = apply_filters( 'llms_membership_enroll_button_text', __( 'Join', 'lifterlms' ), $this );
 				break;
 
-				default:
-					$text = apply_filters( 'llms_default_enroll_button_text', __( 'Buy', 'lifterlms' ), $this );
 			}
 		}
-		return $text;
+
+		return apply_filters( 'llms_plan_get_enroll_text', $text, $this );
 	}
 
 	/**
 	 * Get a sentence explaining plan expiration details
-	 * @return string
-	 * @since  3.0.0
-	 * @version  3.4.6
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.23.0
 	 */
 	public function get_expiration_details() {
 
-		$r = '';
+		$ret = '';
 
-		switch ( $this->get( 'access_expiration' ) ) {
-
-			case 'limited-date':
-
-				$r = sprintf( _x( 'access until %s', 'Access expiration date', 'lifterlms' ), $this->get_date( 'access_expires', 'n/j/y' ) );
-
-			break;
-
-			case 'limited-period':
-
-				$r = sprintf( _x( '%1$d %2$s of access', 'Access period description', 'lifterlms' ), $this->get( 'access_length' ), $this->get_access_period_name() );
-
-			break;
-
+		$expiration = $this->get( 'access_expiration' );
+		if ( 'limited-date' === $expiration ) {
+			$ret = sprintf( _x( 'access until %s', 'Access expiration date', 'lifterlms' ), $this->get_date( 'access_expires', 'n/j/y' ) );
+		} elseif ( 'limited-period' === $expiration ) {
+			$ret = sprintf( _x( '%1$d %2$s of access', 'Access period description', 'lifterlms' ), $this->get( 'access_length' ), $this->get_access_period_name() );
 		}
 
-		return apply_filters( 'llms_get_product_expiration_details', $r, $this );
+		return apply_filters( 'llms_get_product_expiration_details', $ret, $this );
+
 	}
 
 	/**
 	 * Get a sentence explaining the plan's payment schedule
-	 * @return string
-	 * @since 3.0.0
-	 * @version  3.5.3
+	 * @return   string
+	 * @since    3.0.0
+	 * @version  3.23.0
 	 */
 	public function get_schedule_details() {
 
-		$r = '';
+		$ret = '';
 
 		$period = $this->get( 'period' );
 		$frequency = $this->get( 'frequency' );
@@ -364,33 +380,21 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// one-time payments don't display anything here unless filtered
 		if ( $frequency > 0 ) {
 
-			// setup billing frequency sentence
-			switch ( $frequency ) {
-
-				case 1:
-					$r = sprintf( _x( 'per %s', 'subscription schedule', 'lifterlms' ), $this->get_access_period_name( $period, $frequency ) );
-				break;
-
-				case 2:
-				case 3:
-				case 4:
-				case 5:
-				case 6:
-					$r = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
-				break;
-
+			if ( 1 === $frequency ) {
+				$ret = sprintf( _x( 'per %s', 'subscription schedule', 'lifterlms' ), $this->get_access_period_name( $period, $frequency ) );
+			} else {
+				$ret = sprintf( _x( 'every %1$d %2$s', 'subscription schedule', 'lifterlms' ), $frequency, $this->get_access_period_name( $period, $frequency ) );
 			}
 
 			// add length sentence if applicable
 			if ( $length > 0 ) {
 
-				$r .= ' ';
-				$r .= sprintf( _x( 'for %1$d %2$s', 'subscription # of payments', 'lifterlms' ), $length, $this->get_access_period_name( $period, $length ) );
+				$ret .= ' ' . sprintf( _x( 'for %1$d total payments', 'subscription # of payments', 'lifterlms' ), $length );
 
 			}
 		}
 
-		return apply_filters( 'llms_get_product_schedule_details', sprintf( $r, $this->get( 'period' ), $frequency, $length ), $this );
+		return apply_filters( 'llms_get_product_schedule_details', sprintf( $ret, $this->get( 'period' ), $frequency, $length ), $this );
 
 	}
 
@@ -431,8 +435,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Determine if the plan has availability restrictions
 	 * Related product must be a COURSE
 	 * Availability must be set to "members" and at least one membership must be selected
-	 * @return boolean
-	 * @since 3.0.0
+	 * @return   boolean
+	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function has_availability_restrictions() {
@@ -452,15 +456,16 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Determine if the plan has a trial offer
 	 * One-time payments can't have a trial, so the plan must have a frequency greater than 0
-	 * @return boolean
-	 * @since 3.0.0
-	 * @version  3.0.0
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.23.0
 	 */
 	public function has_trial() {
+		$ret = false;
 		if ( $this->get( 'frequency' ) > 0 ) {
-			return 'yes' === $this->get( 'trial_offer' ) ? true : false;
+			$ret = llms_parse_bool( $this->get( 'trial_offer' ) );
 		}
-		return false;
+		return apply_filters( 'llms_plan_has_trial', $ret, $this );
 	}
 
 	/**
@@ -468,11 +473,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    int     $user_id  (optional) WP User ID, if not supplied get_current_user_id() will be used
 	 * @return   boolean
 	 * @since    3.4.4
-	 * @version  3.4.4
+	 * @version  3.23.0
 	 */
 	public function is_available_to_user( $user_id = null ) {
 
-		$user_id = empty( $user_id ) ? $user_id : get_current_user_id();
+		$user_id = empty( $user_id ) ? get_current_user_id() : $user_id;
 
 		$access = true;
 
@@ -489,14 +494,14 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			}
 		}
 
-		return $access;
+		return apply_filters( 'llms_plan_is_available_to_user', $access, $user_id, $this );
 
 	}
 
 	/**
 	 * Determine if the plan is marked as "featured"
-	 * @return boolean
-	 * @since 3.0.0
+	 * @return   boolean
+	 * @since    3.0.0
 	 * @version  3.8.0
 	 */
 	public function is_featured() {
@@ -509,54 +514,57 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * be used to check if payment is required (when using a coupon for example)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.23.0
 	 */
 	public function is_free() {
-		return ( 'yes' === $this->get( 'is_free' ) );
+		return llms_parse_bool( $this->get( 'is_free' ) );
 	}
 
 	/**
 	 * Determine if a plan is *currently* on sale
-	 * @return boolean
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @return   boolean
+	 * @since    3.0.0
+	 * @version  3.24.3
 	 */
 	public function is_on_sale() {
 
-		if ( 'yes' === $this->get( 'on_sale' ) ) {
+		$ret = false;
 
-			$now = current_time( 'timestamp' );
+		if ( llms_parse_bool( $this->get( 'on_sale' ) ) ) {
+
+			$now = llms_current_time( 'timestamp' );
 
 			$start = $this->get( 'sale_start' );
 			$end = $this->get( 'sale_end' );
 
+			// add times if the values exist (start of day & end of day)
+			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
+			$end = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
+
 			// no dates, the product is indefinitely on sale
 			if ( ! $start && ! $end ) {
-				return true;
-			}
 
-			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
-			$end = ( $end ) ? strtotime( $end . ' 23:23:59' ) : $end;
+				$ret = true;
 
-			// start and end
-			if ( $start && $end ) {
+				// start and end
+			} elseif ( $start && $end ) {
 
-				return ( $now < $end && $now > $start );
+				$ret = ( $now < $end && $now > $start );
 
-			} // End if().
-			elseif ( $start && ! $end ) {
+				// only start
+			} elseif ( $start && ! $end ) {
 
-				return ( $now > $start );
+				$ret = ( $now > $start );
 
-			} // only end
-			elseif ( ! $start && $end ) {
+				// only end
+			} elseif ( ! $start && $end ) {
 
-				return ( $now < $end );
+				$ret = ( $now < $end );
 
 			}
 		}
 
-		return false;
+		return apply_filters( 'llms_plan_is_on_sale', $ret, $this );
 
 	}
 
@@ -587,33 +595,45 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param    int     $coupon_id  WP_Post ID of an LLMS_Coupon
 	 * @return   boolean             true if payment required, false otherwise
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.23.0
 	 */
 	public function requires_payment( $coupon_id = null ) {
 
+		$ret = true;
+
+		// if it's free it's easy
 		if ( $this->is_free() ) {
-			return false;
-		}
 
-		if ( $coupon_id ) {
+			$ret = false;
 
-			if ( $this->has_trial() && $this->get_price_with_coupon( 'trial_price', $coupon_id, array(), 'float' ) > 0 ) {
-				return true;
-			} elseif ( $this->is_on_sale() && $this->get_price_with_coupon( 'sale_price', $coupon_id, array(), 'float' ) > 0 ) {
-				return true;
-			} elseif ( $this->get_price_with_coupon( 'price', $coupon_id, array(), 'float' ) ) {
-				return true;
-			}
 		} else {
 
-			if ( $this->has_trial() && $this->get_price( 'trial_price', array(), 'float' ) > 0 ) {
-				return true;
-			} elseif ( $this->is_on_sale() && $this->get_price( 'sale_price', array(), 'float' ) > 0 ) {
-				return true;
-			} elseif ( $this->get_price( 'price', array(), 'float' ) > 0 ) {
-				return true;
+			// pricing function to use based on presence of coupon
+			$func = $coupon_id ? 'get_price_with_coupon' : 'get_price';
+
+			// build args to pass to the function
+			$args = array( array(), 'float' );
+
+			// coupons have an extra arg (coupon id)
+			if ( $coupon_id ) {
+				array_unshift( $args, $coupon_id );
 			}
+
+			// setup the price key name based on the presence of a trial or sale
+			if ( $this->has_trial() ) {
+				array_unshift( $args, 'trial_price' );
+			} elseif ( $this->is_on_sale() ) {
+				array_unshift( $args, 'sale_price' );
+			} else {
+				array_unshift( $args, 'price' );
+			}
+
+			// if the price is greater than zero, payment is required
+			$ret = ( call_user_func_array( array( $this, $func ), $args ) > 0 );
+
 		}
+
+		return apply_filters( 'llms_plan_requires_payment', $ret, $coupon_id, $this );
 
 	}
 

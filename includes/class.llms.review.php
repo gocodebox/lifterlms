@@ -1,11 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * This class handles the front end of the reviews. It is responsible
  * for outputting the HTML on the course page (if reviews are activated)
+ * @since    ??
+ * @version  3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Reviews {
 	/**
 	 * This is the constructor for this class. It takes care of attaching
@@ -27,6 +28,8 @@ class LLMS_Reviews {
 	 * If the option is enabled, the review form will be output,
 	 * if not, nothing will happen. This function also checks to
 	 * see if a user is allowed to review more than once.
+	 * @since    ??
+	 * @version  3.24.0
 	 */
 	public static function output() {
 
@@ -36,7 +39,7 @@ class LLMS_Reviews {
 		if ( get_post_meta( get_the_ID(),'_llms_display_reviews',true ) ) {
 		?>
 			<div id="old_reviews">
-			<h3><?php echo apply_filters( 'lifterlms_reviews_section_title', _e( 'What Others Have Said', 'lifterlms' ) ); ?></h3>
+			<h3><?php echo apply_filters( 'lifterlms_reviews_section_title', __( 'What Others Have Said', 'lifterlms' ) ); ?></h3>
 			<?php
 			$args = array(
 				'posts_per_page'   => get_post_meta( get_the_ID(),'_llms_num_reviews',true ),
@@ -64,7 +67,7 @@ class LLMS_Reviews {
 				?>
 				<div class="llms_review" style="margin:20px 0px; background-color:<?php echo $styles['background-color']; ?>; padding:10px">
 					<h5 style="font-size:17px; color:<?php echo $styles['title-color']; ?>;" style="margin:3px 0px"><strong><?php echo get_the_title( $post->ID );?></strong></h5>
-					<h6 style="font-size:13px; color:<?php echo $styles['text-color']; ?>;"><?php echo sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ); ?></h5>
+					<h6 style="font-size:13px; color:<?php echo $styles['text-color']; ?>;"><?php echo sprintf( __( 'By: %s', 'lifterlms' ), get_the_author_meta( 'display_name', get_post_field( 'post_author', $post->ID ) ) ); ?></h6>
 					<p style="font-size:15px; color:<?php echo $styles['text-color']; ?>;"><?php echo get_post_field( 'post_content', $post->ID );?></p>
 				</div>
 				<?php

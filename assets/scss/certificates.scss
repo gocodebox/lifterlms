@@ -1,0 +1,129 @@
+body {
+  background-color: #fff;
+  background-image: none;
+  margin: 0 auto;
+}
+
+// .header {
+//   display: none;
+// }
+
+// #content {
+//   background: none;
+// }
+
+// .entry {
+//   top: 120px;
+//   width: 100%;
+//   margin-bottom: 40px !important;
+//   background: none;
+// }
+
+// .hentry,
+// .llms_certificate.hentry,
+// .llms_my_certificate.hentry {
+//   margin-bottom: 40px !important;
+//   padding: 50px 90px !important;
+//   background: none;
+//   border: none;
+// }
+
+.header, .footer,
+.wrap-header, .wrap-footer,
+.site-header, .site-footer,
+.nav-primary, .primary-nav {
+  display: none;
+}
+
+// .llms-certificate-container {
+//   position: relative;
+//   padding: 20px;
+//   margin: auto;
+//   margin-bottom: 20px;
+//   -webkit-print-color-adjust: exact;
+//   overflow: hidden;
+// }
+
+.llms-certificate-container h1:first-child {
+  text-align: center;
+}
+
+.llms-print-certificate {
+	margin-top: 40px;
+	text-align: center;
+
+	form {
+		display: inline;
+	}
+}
+
+.llms-certificate-container {
+
+	margin: 0 auto;
+	padding: 0;
+	overflow: hidden;
+
+	.certificate-background {
+		position: relative;
+		z-index: 1;
+		width: 100%;
+		// position: absolute;
+		// z-index: 1;
+		// top: 0;
+		// left: 0;
+		// right: 0;
+		// margin: 0 auto;
+	}
+
+	.llms_certificate,
+	.llms_my_certificate {
+		margin: 80px;
+		position: relative;
+		// top: -100%;
+		// width: 100%;
+		z-index: 2;
+	}
+
+}
+
+
+
+@media print {
+
+	@page { size: auto; }
+
+	.no-print {
+		display: none;
+	}
+
+	/* Make everything on the page invisible */
+    body * {
+        visibility: hidden !important;
+		background: #fff none;
+    }
+
+	.site, .site-content {
+		overflow: visible;
+	}
+
+	/* remove all headers, menus and footers */
+    header, aside, nav, footer {
+        display: none !important;
+    }
+
+	/* make only the certificate container and its children visible */
+    .llms-certificate-container, .llms-certificate-container * {
+		visibility: visible !important;
+    }
+
+    /* position certificate absolutely and center horizontally */
+    .llms-certificate-container {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		margin: 0 auto;
+		background: #fff none;
+	}
+
+}

@@ -1,19 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Assets Class
- *
- * Sets up admin menu items.
+ * Admin Menu Items
  * @since   1.0.0
- * @version 3.16.7
+ * @version 3.22.0
  */
 class LLMS_Admin_Menus {
 
 	/**
 	 * Constructor
 	 * @since   1.0.0
-	 * @version 3.14.9
+	 * @version 3.19.0
 	 */
 	public function __construct() {
 
@@ -27,6 +25,32 @@ class LLMS_Admin_Menus {
 
 		// shame shame shame
 		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
+
+		add_filter( 'action_scheduler_post_type_args', array( $this, 'action_scheduler_menu' ) );
+
+	}
+
+	/**
+	 * If WP_DEBUG is not enabled, expose the schedule-action post type management via direct link
+	 * EG: site.com/wp-admin/edit.php?post_type=scheduled-action
+	 * @param    array     $args  default custom post type arguments
+	 * @return   array
+	 * @since    3.19.0
+	 * @version  3.19.0
+	 */
+	public function action_scheduler_menu( $args ) {
+
+		// if WP_DEBUG is enabled the menu item will already be displayed under "tools.php"
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			return $args;
+		}
+
+		// otherwise we'll add a hidden menu accessible via direct link only
+		return array_merge( $args, array(
+			'show_ui' => true,
+			'show_in_menu' => '',
+			'show_in_admin_bar' => false,
+		) );
 
 	}
 
@@ -120,7 +144,7 @@ class LLMS_Admin_Menus {
 	 * Add items to the admin menu with a later priority
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.13.0
+	 * @version  3.22.0
 	 */
 	public function display_admin_menu_late() {
 
@@ -131,18 +155,19 @@ class LLMS_Admin_Menus {
 			return;
 		}
 
-		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons', 'lifterlms' ), __( 'Add-ons', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
+		add_submenu_page( 'lifterlms', __( 'LifterLMS Add-ons, Courses, and Resources', 'lifterlms' ), __( 'Add-ons & more', 'lifterlms' ), 'manage_lifterlms', 'llms-add-ons', array( $this, 'add_ons_page_init' ) );
 
 	}
 
 	/**
 	 * Outupt the addons screen
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.22.0
 	 */
 	public function add_ons_page_init() {
 		require_once 'class.llms.admin.addons.php';
 		$view = new LLMS_Admin_AddOns();
+		$view->handle_actions();
 		$view->output();
 	}
 

@@ -1,14 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
- *
  * @since     3.8.0
- * @version   3.10.0
+ * @version   3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notifications {
 
 	/**
@@ -57,11 +55,12 @@ class LLMS_Notifications {
 	/**
 	 * Constructor
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.22.0
 	 */
 	private function __construct() {
 
 		$this->load();
+		add_action( 'wp', array( $this, 'enqueue_basic' ) );
 		add_action( 'shutdown', array( $this, 'dispatch_processors' ) );
 
 	}
@@ -81,6 +80,44 @@ class LLMS_Notifications {
 			if ( $processor ) {
 				unset( $this->processors_to_dispatch[ $key ] );
 				$processor->save()->dispatch();
+			}
+		}
+
+	}
+
+	/**
+	 * Enqueue basic notifications for onscreen display
+	 * @return   void
+	 * @since    3.22.0
+	 * @version  3.22.0
+	 */
+	public function enqueue_basic() {
+
+		$user_id = get_current_user_id();
+		if ( ! $user_id ) {
+			return;
+		}
+
+		// get 5 most recent new notifications for the current user
+		$query = new LLMS_Notifications_Query( array(
+			'per_page' => 5,
+			'statuses' => 'new',
+			'types' => 'basic',
+			'subscriber' => $user_id,
+		) );
+
+		$notifications = $query->get_notifications();
+
+		// push to JS
+		LLMS_Frontend_Assets::enqueue_inline_script(
+			'llms-queued-notifications',
+			'window.llms = window.llms || {};window.llms.queued_notifications = ' . json_encode( $notifications ) . ';'
+		);
+
+		// record as read
+		if ( $query->has_results() ) {
+			foreach ( $notifications as $notification ) {
+				$notification->set( 'status', 'read' );
 			}
 		}
 
@@ -149,14 +186,15 @@ class LLMS_Notifications {
 	 * @param    obj       $notification  instance of an LLMS_Notification
 	 * @return   obj|false
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.24.0
 	 */
 	public function get_view( $notification ) {
 
 		$trigger = $notification->get( 'trigger_id' );
 
 		if ( in_array( $trigger, $this->views ) ) {
-			$class = $this->get_view_classname( $trigger );
+			$views = array_flip( $this->views );
+			$class = $views[ $trigger ];
 			$view = new $class( $notification );
 			return $view;
 		}
@@ -167,21 +205,24 @@ class LLMS_Notifications {
 
 	/**
 	 * Get the classname for the view of a given notification based off it's trigger
-	 * @param    string     $trigger  trigger id (eg: lesson_complete)
+	 * @param    string     $trigger  trigger id (eg: lesson_complete).
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.24.0
 	 */
-	private function get_view_classname( $trigger ) {
+	private function get_view_classname( $trigger, $prefix = null ) {
+
+		$prefix = $prefix ? $prefix : 'LLMS';
 		$name = str_replace( ' ', '_', ucwords( str_replace( '_', ' ', $trigger ) ) );
-		return 'LLMS_Notification_View_' . $name;
+		return sprintf( '%1$s_Notification_View_%2$s', $prefix, $name );
+
 	}
 
 	/**
 	 * Load all notifications
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.10.0
+	 * @version  3.24.0
 	 */
 	private function load() {
 
@@ -196,9 +237,11 @@ class LLMS_Notifications {
 			'payment_retry',
 			'purchase_receipt',
 			'quiz_failed',
+			'quiz_graded',
 			'quiz_passed',
 			'section_complete',
 			'student_welcome',
+			'subscription_cancelled',
 		);
 
 		foreach ( $triggers as $name ) {
@@ -282,9 +325,9 @@ class LLMS_Notifications {
 	 * @param    string     $path     full path to the view file, allows third parties to load external views
 	 * @return   boolean              true if the view is added and loaded, false otherwise
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.24.0
 	 */
-	public function load_view( $trigger, $path = null ) {
+	public function load_view( $trigger, $path = null, $prefix = null ) {
 
 		// default path for core views
 		if ( ! $path ) {
@@ -294,7 +337,7 @@ class LLMS_Notifications {
 		if ( file_exists( $path ) ) {
 
 			require_once $path;
-			$this->views[] = $trigger;
+			$this->views[ $this->get_view_classname( $trigger, $prefix ) ] = $trigger;
 			return true;
 
 		}

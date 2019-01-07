@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Notification View: Purchase Receipt
  * @since    3.10.0
  * @version  3.10.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_View {
 
 	/**

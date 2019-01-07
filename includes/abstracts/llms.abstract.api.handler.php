@@ -1,12 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * 3rd Party API request handler
  * @since   3.11.2
  * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Abstract_API_Handler Abstract.
  */
 abstract class LLMS_Abstract_API_Handler {
 
@@ -49,7 +51,8 @@ abstract class LLMS_Abstract_API_Handler {
 	}
 
 	/**
-	 * Make an API call to stripe
+	 * Execute an API request.
+	 *
 	 * @param    stirng $resource  url endpoint or resource to make a request to
 	 * @param    array  $data      array of data to pass in the body of the request
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
@@ -61,34 +64,38 @@ abstract class LLMS_Abstract_API_Handler {
 
 		$method = is_null( $method ) ? $this->default_request_method : $method;
 
-		$body = $this->set_request_body( $data, $method, $resource );
+		// setup headers.
 		$content_type = $this->is_json ?  'application/json; charset=utf-8' : 'application/x-www-form-urlencoded';
+		$headers = $this->set_request_headers( array(
+			'content-type' => $content_type,
+		), $resource, $method );
+
+		// setup body.
+		$body = $this->set_request_body( $data, $method, $resource );
 
 		// attempt to call the API
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
 			array(
 				'body' => $this->is_json ? json_encode( $body ) : $body,
-				'headers' => $this->set_request_headers( array(
-					'content-type' => $content_type,
-				), $resource, $method ),
+				'headers' => $headers,
 				'method' => $method,
 				'timeout' => $this->request_timeout,
-				'user-agent' => 'LifterLMS ' . LLMS_VERSION,
+				'user-agent' => $this->set_user_agent( 'LifterLMS ' . LLMS_VERSION, $resource, $method ),
 			)
 		);
 
 		// connection error
 		if ( is_wp_error( $response ) ) {
 
-			return $this->set_error( __( 'There was a problem connecting to the payment gateway.', 'lifterlms-stripe' ), 'gateway_connection', $response );
+			return $this->set_error( __( 'There was a problem connecting to the payment gateway.', 'lifterlms' ), 'api_connection', $response );
 
 		}
 
 		// empty body
 		if ( empty( $response['body'] ) ) {
 
-			return $this->set_error( __( 'Empty Response.', 'lifterlms-stripe' ), 'empty_response', $response );
+			return $this->set_error( __( 'Empty Response.', 'lifterlms' ), 'empty_response', $response );
 
 		}
 
@@ -228,5 +235,19 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @version  3.11.2
 	 */
 	abstract protected function set_request_url( $resource, $method );
+
+	/**
+	 * Set the request User Agent
+	 * Can be overridden by extending classes when necessary
+	 * @param    string     $user_agent  default user agent (LifterLMS {$version})
+	 * @param    string     $resource    requested resource
+	 * @param    string     $method      request method
+	 * @return   string
+	 * @since    3.22.0
+	 * @version  3.22.0
+	 */
+	protected function set_user_agent( $user_agent, $resource, $method ) {
+		return $user_agent;
+	}
 
 }

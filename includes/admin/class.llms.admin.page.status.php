@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Admin Status Pages
  * @since    3.11.2
- * @version  3.11.2
+ * @version  3.22.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Page_Status {
 
 	/**
@@ -119,15 +118,15 @@ class LLMS_Admin_Page_Status {
 	 * Output the system report
 	 * @return   void
 	 * @since    2.1.0
-	 * @version  3.0.0
+	 * @version  3.22.0
 	 */
 	public static function output() {
 
-		$tabs = array(
+		$tabs = apply_filters( 'llms_admin_page_status_tabs', array(
 			'report' => __( 'System Report', 'lifterlms' ),
 			'tools' => __( 'Tools & Utilities', 'lifterlms' ),
 			'logs' => __( 'Logs', 'lifterlms' ),
-		);
+		) );
 
 		$current_tab = ! isset( $_GET['tab'] ) ? 'report' : sanitize_text_field( $_GET['tab'] );
 

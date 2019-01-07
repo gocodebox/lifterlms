@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Reporting Base Class
  * @since   3.2.0
- * @version 3.17.2
+ * @version 3.19.4
  */
 class LLMS_Admin_Reporting {
 
@@ -242,16 +242,44 @@ class LLMS_Admin_Reporting {
 	 * Get an array of tabs to output in the main reporting menu
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.16.0
+	 * @version  3.19.4
 	 */
 	private function get_tabs() {
-		return apply_filters( 'lifterlms_reporting_tabs', array(
+		$tabs = array(
 			'students' => __( 'Students', 'lifterlms' ),
 			'courses' => __( 'Courses', 'lifterlms' ),
 			'quizzes' => __( 'Quizzes', 'lifterlms' ),
 			'sales' => __( 'Sales', 'lifterlms' ),
 			'enrollments' => __( 'Enrollments', 'lifterlms' ),
-		) );
+		);
+		foreach ( $tabs as $slug => $tab ) {
+			if ( ! current_user_can( $this->get_tab_cap( $slug ) ) ) {
+				unset( $tabs[ $slug ] );
+			}
+		}
+		return apply_filters( 'lifterlms_reporting_tabs', $tabs );
+	}
+
+	/**
+	 * Get the WP capability required to access a reporting tab
+	 * Defaults to 'view_lifterlms_reports' -- most reports implement additional permissions within the view
+	 * Sales & Enrollments tab require 'view_others_lifterlms_reports' b/c they don't add any additional filters within the view
+	 * @param    string     $tab  id/slug of the tab
+	 * @return   string
+	 * @since    3.19.4
+	 * @version  3.19.4
+	 */
+	private function get_tab_cap( $tab = null ) {
+
+		$tab = is_null( $tab ) ? self::get_current_tab() : $tab;
+
+		$cap = 'view_lifterlms_reports';
+		if ( in_array( $tab, array( 'sales', 'enrollments' ) ) ) {
+			$cap = 'view_others_lifterlms_reports';
+		}
+
+		return apply_filters( 'lifterlms_reporting_tab_cap', $cap );
+
 	}
 
 	/**
@@ -295,9 +323,13 @@ class LLMS_Admin_Reporting {
 	 * Output the reporting screen html
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.19.4
 	 */
 	public function output() {
+
+		if ( ! current_user_can( $this->get_tab_cap() ) ) {
+			wp_die( __( 'You don\'t have permission to do that', 'lifterlms' ) );
+		}
 
 		llms_get_template( 'admin/reporting/reporting.php', $this->get_template_data() );
 

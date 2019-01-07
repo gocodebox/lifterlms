@@ -1,11 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Quizzes Reporting Table
- *
  * @since    3.16.0
- * @version  3.16.10
+ * @version  3.25.0
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -72,7 +71,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  3.16.10
+	 * @version  3.24.0
 	 */
 	protected function get_data( $key, $data ) {
 
@@ -87,7 +86,12 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 					'per_page' => 1,
 				) );
 
-				$value = $query->found_results;
+				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
+					'tab' => 'quizzes',
+					'stab' => 'attempts',
+					'quiz_id' => $quiz->get( 'id' ),
+				) );
+				$value = '<a href="' . $url . '">' . $query->found_results . '</a>';
 
 			break;
 
@@ -153,7 +157,8 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 		}// End switch().
 
-		return $value;
+		return $this->filter_get_data( $value, $key, $data );
+
 	}
 
 	/**
@@ -182,7 +187,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.25.0
 	 */
 	public function get_results( $args = array() ) {
 
@@ -211,23 +216,6 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			'posts_per_page' => $per,
 		);
 
-		// if ( 'any' !== $this->filter ) {
-
-		// 	$serialized_id = serialize( array(
-		// 		'id' => absint( $this->filter ),
-		// 	) );
-		// 	$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
-
-		// 	$query_args['meta_query'] = array(
-		// 		array(
-		// 			'compare' => 'LIKE',
-		// 			'key' => '_llms_instructors',
-		// 			'value' => $serialized_id,
-		// 		),
-		// 	);
-
-		// }
-
 		if ( isset( $args['search'] ) ) {
 			$query_args['s'] = sanitize_text_field( $args['search'] );
 		}
@@ -244,7 +232,22 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			if ( ! $instructor ) {
 				return;
 			}
-			$query = $instructor->get_courses( $query_args, 'query' );
+
+			$lessons = array();
+			$courses = $instructor->get_courses( array(
+				'posts_per_page' => -1,
+			) );
+			foreach ( $courses as $course ) {
+				$lessons = array_merge( $lessons, $course->get_lessons( 'ids' ) );
+			}
+			$query_args['meta_query'] = array(
+				array(
+					'compare' => 'IN',
+					'key' => '_llms_lesson_id',
+					'value' => $lessons,
+				),
+			);
+			$query = new WP_Query( $query_args );
 
 		} else {
 

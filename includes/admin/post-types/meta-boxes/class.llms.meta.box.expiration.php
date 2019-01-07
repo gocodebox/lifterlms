@@ -1,11 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Meta Box Expiration
-*
-* Displays expiration fields for membership post. Displays only on membership post.
-*/
+ * Meta Box Expiration
+ * Displays expiration fields for membership post. Displays only on membership post.
+ * @since    ??
+ * @version  3.24.0
+ */
 class LLMS_Meta_Box_Expiration {
 
 	public $prefix = '_llms_';
@@ -16,9 +17,7 @@ class LLMS_Meta_Box_Expiration {
 	 * Displays MetaBox
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
-	 *
 	 * @param  object $post [WP post object]
-	 *
 	 * @return void
 	 */
 	public static function output( $post ) {
@@ -41,24 +40,24 @@ class LLMS_Meta_Box_Expiration {
 					<?php switch ( $field['type'] ) {
 						// text
 						case 'text':?>
-						
+
 							<input type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo $meta; ?>" size="30" />
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-								
+
 						<?php break;
 						// textarea
 						case 'textarea': ?>
-						
+
 							<textarea name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" cols="60" rows="4"><?php echo $meta; ?></textarea>
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-								
+
 						<?php break;
 						// textarea
 						case 'textarea_w_tags': ?>
-						
+
 							<textarea name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" cols="60" rows="4"><?php echo $meta; ?></textarea>
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-						
+
 						<?php break;
 						//dropdown
 						case 'dropdown': ?>
@@ -74,7 +73,7 @@ class LLMS_Meta_Box_Expiration {
 							<?php endforeach; ?>
 							</select>
 							<br /><span class="description"><?php echo $field['desc']; ?></span>
-						
+
 						<?php break;
 						// image
 						case 'image':
@@ -87,11 +86,11 @@ class LLMS_Meta_Box_Expiration {
 								$image = $image[0];
 							} ?>
 									<img src="<?php echo $image; ?>" id="<?php echo $field['id']; ?>" class="llms_achievement_image" /><br />
-									<input name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" type="hidden" class="upload_achievement_image" type="text" size="36" name="ad_image" value="<?php echo $meta; ?>" /> 
+									<input name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" type="hidden" class="upload_achievement_image" type="text" size="36" name="ad_image" value="<?php echo $meta; ?>" />
 									<input id="<?php echo $field['id']; ?>" class="achievement_image_button" type="button" value="Upload Image" />
 									<small> <a href="#" id="<?php echo $field['id']; ?>" class="llms_achievement_clear_image_button">Remove Image</a></small>
 									<br /><span class="description"><?php echo $field['desc']; ?></span>
-									
+
 						<?php break;
 						// color
 						case 'color': ?>
@@ -102,7 +101,7 @@ class LLMS_Meta_Box_Expiration {
 							?>
 							<input class="color-picker" type="text" name="<?php echo $field['id']; ?>" id="<?php echo $field['id']; ?>" value="<?php echo $meta; ?>" data-default-color="<?php echo $field['value']; ?>"/>
 								<br /><span class="description"><?php echo $field['desc']; ?></span>
-						
+
 					<?php break;
 
 } // End switch().
@@ -114,7 +113,7 @@ class LLMS_Meta_Box_Expiration {
 
 } // End foreach().
 ?>
-			</table>	
+			</table>
 	<?php
 	echo ob_get_clean();
 	}
@@ -160,13 +159,12 @@ class LLMS_Meta_Box_Expiration {
 
 	/**
 	 * Static save method
-	 *
 	 * cleans variables and saves using update_post_meta
-	 *
-	 * @param  int 		$post_id [id of post object]
-	 * @param  object 	$post [WP post object]
-	 *
-	 * @return void
+	 * @param    int 		$post_id  id of post object
+	 * @param    object 	$post     WP post object
+	 * @return   void
+	 * @since    ??
+	 * @version  3.24.0
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;
@@ -179,13 +177,13 @@ class LLMS_Meta_Box_Expiration {
 		//upate interval textbox
 		if ( isset( $_POST[ $interval ] ) ) {
 			$update_interval = llms_clean( $_POST[ $interval ] );
-			update_post_meta( $post_id, $interval, ( $update_interval === '' ) ? '' : $update_interval );
+			update_post_meta( $post_id, $interval, ( '' === $update_interval ) ? '' : $update_interval );
 		}
 
 		//update period select
 		if ( isset( $_POST[ $period ] ) ) {
 			$update_period = llms_clean( $_POST[ $period ] );
-			update_post_meta( $post_id, $period, ( $update_period === '' ) ? '' : $update_period );
+			update_post_meta( $post_id, $period, ( '' === $update_period ) ? '' : $update_period );
 		}
 	}
 

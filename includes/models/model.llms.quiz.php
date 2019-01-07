@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Quiz Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.3.0
- * @version  3.16.12
+ * @version  3.19.2
  *
  * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
  * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
@@ -15,6 +15,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $show_options_description_wrong_answer  (yesno)  If yes, displays the question description when the student chooses the wrong answer
  * @property  $show_results  (yesno)  If yes, results will be shown to the student at the conclusion of the quiz
  * @property  $time_limit  (int)  Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Quiz model.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -163,13 +169,18 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @param    array     $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.3.0
-	 * @version  3.16.0
+	 * @version  3.19.2
 	 */
 	protected function toArrayAfter( $arr ) {
 
 		$arr['questions'] = array();
-		foreach ( $this->get_questions() as $question ) {
-			$arr['questions'][] = $question->toArray();
+
+		// builder lazy loads questions via ajax
+		global $llms_builder_lazy_load;
+		if ( ! $llms_builder_lazy_load ) {
+			foreach ( $this->get_questions() as $question ) {
+				$arr['questions'][] = $question->toArray();
+			}
 		}
 
 		// if theme support quizzes, add theme metadata to the array

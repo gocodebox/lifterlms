@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Display a Setup Wizard
  * @since    3.0.0
- * @version  3.17.4
+ * @version  3.17.8
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Setup_Wizard {
 
 	/**
@@ -51,13 +52,13 @@ class LLMS_Admin_Setup_Wizard {
 	 * Enqueue static assets for the setup wizard screens
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.17.4
+	 * @version  3.17.8
 	 */
 	public function enqueue() {
-		wp_register_style( 'llms-admin-setup', plugins_url( '/assets/css/admin-setup' . LLMS_Admin_Assets::$min . '.css', LLMS_PLUGIN_FILE ), array(), LLMS()->version, 'all' );
+		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version, 'all' );
 		wp_enqueue_style( 'llms-admin-setup' );
 		wp_style_add_data( 'llms-admin-setup', 'rtl', 'replace' );
-		wp_style_add_data( 'llms-admin-setup', 'suffix', LLMS_Admin_Assets::$min );
+		wp_style_add_data( 'llms-admin-setup', 'suffix', LLMS_ASSETS_SUFFIX );
 	}
 
 	/**

@@ -2,16 +2,14 @@
 /**
  * Basic Notification Template
  * @since    3.8.0
- * @version  3.8.0
+ * @version  3.22.0
  */
 ?>
 <div class="<?php echo $classes; ?>"<?php echo $atts; ?> id="llms-notification-<?php echo $id; ?>">
 
 	<?php do_action( 'llms_before_basic_notification', $id ); ?>
 
-	<?php if ( $dismissible && 'new' === $status ) : ?>
-		<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
-	<?php endif; ?>
+	<i class="llms-notification-dismiss fa fa-times-circle" aria-hidden="true"></i>
 
 	<section class="llms-notification-content">
 		<div class="llms-notification-main">

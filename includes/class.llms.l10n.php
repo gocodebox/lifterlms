@@ -5,7 +5,7 @@
  * More robust features will be added in the future
  *
  * @since   2.7.3
- * @version 3.16.5
+ * @version 3.17.8
  */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }
@@ -24,16 +24,16 @@ class LLMS_L10n {
 	 * @return string|array
 	 *
 	 * @since   2.7.3
-	 * @version 3.16.5
+	 * @version 3.17.8
 	 */
 	public static function get_js_strings( $json = true ) {
 
-		$strings = include_once LLMS()->plugin_path() . '/languages/lifterlms-js-pot.php';
+		$strings = array();
 
 		// add strings that should only be translated on the admin panel
 		if ( is_admin() ) {
 
-			$strings = array_merge( $strings, apply_filters( 'lifterlms_js_l10n_admin', array() ) );
+			$strings = apply_filters( 'lifterlms_js_l10n_admin', $strings );
 
 		}
 

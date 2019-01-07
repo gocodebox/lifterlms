@@ -1,18 +1,17 @@
 <?php
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Navigation Menus
  * @since    3.14.7
- * @version  3.14.7
+ * @version  3.24.0
  */
 class LLMS_Nav_Menus {
 
 	/**
 	 * Constructor
 	 * @since    3.14.7
-	 * @version  3.14.7
+	 * @version  3.22.0
 	 */
 	public function __construct() {
 
@@ -27,6 +26,9 @@ class LLMS_Nav_Menus {
 
 		// add LifterLMS menu items links to the customizer
 		add_filter( 'customize_nav_menu_available_items', array( $this, 'customize_add_items' ), 10, 4 );
+
+		// add active classes for nav items for catalog pages
+		add_filter( 'wp_nav_menu_objects', array( $this, 'menu_item_classes' ) );
 
 	}
 
@@ -169,10 +171,60 @@ class LLMS_Nav_Menus {
 	}
 
 	/**
+	 * Add "active" classes to menu items for LLMS catalog pages
+	 * @param    array     $menu_items  menu items
+	 * @return   array
+	 * @since    3.22.0
+	 * @version  3.22.0
+	 */
+	public function menu_item_classes( $menu_items ) {
+
+		if ( ! is_lifterlms() ) {
+			return $menu_items;
+		}
+
+		$courses_id = llms_get_page_id( 'courses' );
+		$memberships_id = llms_get_page_id( 'memberships' );
+		$blog_id = get_option( 'page_for_posts' );
+
+		foreach ( $menu_items as $key => $item ) {
+
+			$classes = $item->classes;
+
+			// remove active class from blog archive
+			if ( $blog_id == $item->object_id ) {
+
+				$menu_items[ $key ]->current = false;
+				foreach ( array( 'current_page_parent', 'current-menu-item' ) as $class ) {
+					if ( in_array( $class, $classes ) ) {
+						unset( $classes[ array_search( $class, $classes ) ] );
+					}
+				}
+			} elseif ( 'page' === $item->object && ( ( is_courses() && $courses_id == $item->object_id ) || ( is_memberships() && $memberships_id == $item->object_id ) ) ) {
+
+				$menu_items[ $key ]->current = true;
+				$classes[] = 'current-menu-item';
+				$classes[] = 'current_page_item';
+
+				// set parent links for courses & memberships
+			} elseif ( ( $courses_id == $item->object_id && ( is_singular( 'course' ) || is_course_taxonomy() ) ) || ( $memberships_id == $item->object_id && ( is_singular( 'llms_membership' ) || is_membership_taxonomy() ) ) ) {
+
+				$classes[] = 'current_page_parent';
+
+			}
+
+			$menu_items[ $key ]->classes = array_unique( $classes );
+
+		}
+
+		return $menu_items;
+	}
+
+	/**
 	 * Output the metabox
 	 * @return   void
 	 * @since    3.14.7
-	 * @version  3.14.7
+	 * @version  3.24.0
 	 */
 	public function output() {
 
@@ -201,10 +253,10 @@ class LLMS_Nav_Menus {
 			</div>
 			<p class="button-controls">
 				<span class="list-controls">
-					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-llms-nav-items' ); ?>" class="select-all"><?php _e( 'Select all', 'woocommerce' ); ?></a>
+					<a href="<?php echo admin_url( 'nav-menus.php?page-tab=all&selectall=1#posttype-llms-nav-items' ); ?>" class="select-all"><?php _e( 'Select all', 'lifterlms' ); ?></a>
 				</span>
 				<span class="add-to-menu">
-					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'woocommerce' ); ?>" name="add-post-type-menu-item" id="submit-posttype-llms-nav-items">
+					<input type="submit" class="button-secondary submit-add-to-menu right" value="<?php esc_attr_e( 'Add to menu', 'lifterlms' ); ?>" name="add-post-type-menu-item" id="submit-posttype-llms-nav-items">
 					<span class="spinner"></span>
 				</span>
 			</p>

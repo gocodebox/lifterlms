@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Admin Settings Page, General Tab
  * @since    1.0.0
- * @version  3.13.0
-*/
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+ * @version  3.22.0
+ */
 class LLMS_Settings_General extends LLMS_Settings_Page {
 
 	/**
@@ -206,7 +205,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	 * Get advert banner html
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  3.7.6
+	 * @version  3.22.0
 	 */
 	public static function get_small_banners() {
 
@@ -216,7 +215,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 
 		ob_start();
 		echo '<br>';
-		echo '<h3 style="display:inline;">' . __( 'Most Popular Add-ons, Services, and Resources', 'lifterlms' ) . '</h3>';
+		echo '<h3 style="display:inline;">' . __( 'Most Popular Add-ons, Courses, and Resources', 'lifterlms' ) . '</h3>';
 		echo '&nbsp;&nbsp;&nbsp;<a class="llms-button-primary small" href="' . $url . '">' . __( 'View More &rarr;', 'lifterlms' ) . '</a><br>';
 		$view->output_for_settings();
 		return ob_get_clean();

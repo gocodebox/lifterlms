@@ -1,13 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Add Custom User Fields to user admin panel screens
  * Applies to edit-user.php, user-new.php, & profile.php
  * @since    2.7.0
- * @version  3.13.0
+ * @version  3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_User_Custom_Fields {
 
 	private $fields = array();
@@ -184,7 +183,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @param    mixed  $user   Instance of WP_User or WP User ID
 	 * @return   void
 	 * @since    2.7.0
-	 * @version  3.13.0
+	 * @version  3.24.0
 	 */
 	public function output_custom_fields( $user ) {
 
@@ -195,7 +194,7 @@ class LLMS_Admin_User_Custom_Fields {
 		}
 
 		llms_get_template( 'admin/user-edit.php', array(
-			'section_title' => __( 'LifterLMS Profile' ),
+			'section_title' => __( 'LifterLMS Profile', 'lifterlms' ),
 			'fields' => $this->fields,
 		) );
 
@@ -206,13 +205,16 @@ class LLMS_Admin_User_Custom_Fields {
 	 * @param    mixed  $user   Instance of WP_User or WP User ID
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  3.23.0
 	 */
 	public function output_instructors_assistant_fields( $user ) {
 
 		if ( is_numeric( $user ) || is_a( $user, 'WP_User' ) ) {
 			$instructor = llms_get_instructor( $user );
 			$selected = $instructor->get( 'parent_instructors' );
+			if ( empty( $selected ) && ! is_array( $selected ) ) {
+				$selected = array();
+			}
 		} else {
 			$selected = array( get_current_user_id() );
 		}

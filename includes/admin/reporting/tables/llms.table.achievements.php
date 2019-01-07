@@ -1,13 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Admin Achievements Table
  *
  * @since   3.2.0
- * @version 3.2.0
+ * @version 3.18.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
 	/**
@@ -23,16 +22,50 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	protected $student = null;
 
 	/**
+	 * Get HTML for buttons in the actions cell of the table
+	 * @param    int     $certificate_id  WP Post ID of the llms_my_certificate
+	 * @return   void
+	 * @since    3.18.0
+	 * @version  3.18.0
+	 */
+	private function get_actions_html( $achievement_id ) {
+		ob_start();
+		?>
+		<form action="" method="POST" style="display:inline;">
+
+			<button type="submit" class="llms-button-danger small" id="llms_delete_achievement" name="llms_delete_achievement">
+				<?php _e( 'Delete', 'lifterlms' ); ?>
+				<i class="fa fa-trash" aria-hidden="true"></i>
+			</button>
+
+			<input type="hidden" name="achievement_id" value="<?php echo absint( $achievement_id ); ?>">
+			<?php wp_nonce_field( 'llms-achievement-actions', '_llms_achievement_actions_nonce' ); ?>
+
+		</form>
+
+		<script>document.getElementById( 'llms_delete_achievement' ).onclick = function( e ) {
+			return window.confirm( '<?php esc_attr_e( 'Are you sure you want to delete this achievement? This action cannot be undone!', 'lifterlms' ); ?>' );
+		};</script>
+		<?php
+		return ob_get_clean();
+	}
+
+
+	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key   the column id / key
 	 * @param    mixed      $data  object of achievment data
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.18.0
 	 */
 	public function get_data( $key, $data ) {
 
 		switch ( $key ) {
+
+			case 'actions':
+				$value = $this->get_actions_html( $data->achievement_id );
+			break;
 
 			case 'related':
 				if ( $data->post_id && 'llms_achievement' !== get_post_type( $data->post_id ) ) {
@@ -51,17 +84,21 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 			break;
 
 			case 'id':
+				$value = $data->achievement_id;
+			break;
+
+			case 'image':
+				$value = wp_get_attachment_image( get_post_meta( $data->achievement_id, '_llms_achievement_image', true ), array( 64, 64 ) );
+			break;
+
+			case 'template_id':
 				// prior to 3.2 this data wasn't recorded
 				$template = get_post_meta( $data->achievement_id, '_llms_achievement_template', true );
 				if ( $template ) {
 					$value = $this->get_post_link( $template );
 				} else {
-					$value = $data->achievement_id;
+					$value = '&ndash;';
 				}
-			break;
-
-			case 'image':
-				$value = wp_get_attachment_image( get_post_meta( $data->achievement_id, '_llms_achievement_image', true ), array( 64, 64 ) );
 			break;
 
 			case 'name':
@@ -107,15 +144,17 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.18.0
 	 */
 	protected function set_columns() {
 		return array(
 			'id' => __( 'ID', 'lifterlms' ),
+			'template_id' => __( 'Template ID', 'lifterlms' ),
 			'name' => __( 'Achievement Title', 'lifterlms' ),
 			'image' => __( 'Image', 'lifterlms' ),
 			'earned' => __( 'Earned Date', 'lifterlms' ),
 			'related' => __( 'Related Post', 'lifterlms' ),
+			'actions' => '',
 		);
 	}
 

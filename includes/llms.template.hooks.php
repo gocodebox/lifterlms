@@ -2,10 +2,10 @@
 /**
 * LifterLMS Template Actions
 * @since    1.0.0
-* @version  3.16.15
+* @version  3.24.0
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /***********************************************************************
  *
@@ -21,22 +21,22 @@ add_action( 'lifterlms_after_main_content', 'lifterlms_output_content_wrapper_en
  * Single Course
  *
  ***********************************************************************/
-add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_video',          20 );
-add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_audio',          30 );
+add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_video', 20 );
+add_action( 'lifterlms_single_course_before_summary', 'lifterlms_template_single_audio', 30 );
 
 add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_start', 5 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length',             10 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_difficulty',         20 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tracks',      25 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_categories',  30 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags',        35 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_author',             40 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end',   50 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_prerequisites',      55 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table',             60 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_progress',    60 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus',           90 );
-add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews',            100 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_length', 10 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_difficulty', 20 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tracks', 25 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_categories', 30 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_tags', 35 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_course_author', 40 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_meta_wrapper_end', 50 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_prerequisites', 55 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_pricing_table', 60 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_course_progress', 60 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_syllabus', 90 );
+add_action( 'lifterlms_single_course_after_summary', 'lifterlms_template_single_reviews', 100 );
 
 
 /***********************************************************************
@@ -91,6 +91,31 @@ add_action( 'lifterlms_email_header', 'llms_email_header', 10, 1 );
 add_action( 'lifterlms_email_body',   'llms_email_body',   10, 1 );
 add_action( 'lifterlms_email_footer', 'llms_email_footer', 10 );
 
+/***********************************************************************
+ *
+ * Pricing Tables
+ *
+ ***********************************************************************/
+add_action( 'llms_access_plan', 'llms_template_access_plan', 10 );
+
+	add_action( 'llms_before_access_plan', 'llms_template_access_plan_feature', 10 );
+
+	add_action( 'llms_acces_plan_content', 'llms_template_access_plan_title', 10 );
+	add_action( 'llms_acces_plan_content', 'llms_template_access_plan_pricing', 20 );
+	add_action( 'llms_acces_plan_content', 'llms_template_access_plan_restrictions', 30 );
+	add_action( 'llms_acces_plan_content', 'llms_template_access_plan_description', 40 );
+
+	add_action( 'llms_acces_plan_footer', 'llms_template_access_plan_trial', 10 );
+	add_action( 'llms_acces_plan_footer', 'llms_template_access_plan_button', 20 );
+
+
+/***********************************************************************
+ *
+ * Privacy
+ *
+ ***********************************************************************/
+add_action( 'llms_registration_privacy', 'llms_privacy_policy_form_field', 10 );
+add_action( 'llms_registration_privacy', 'llms_agree_to_terms_form_field', 20 );
 
 /***********************************************************************
  *
@@ -142,6 +167,8 @@ add_action( 'lifterlms_before_student_dashboard_content', 'lifterlms_template_st
 		add_action( 'llms_achievement_content', 'llms_the_achievement', 10 );
 		add_action( 'llms_certificate_preview', 'llms_the_certificate_preview', 10 );
 		add_action( 'lifterlms_student_dashboard_index', 'lifterlms_template_student_dashboard_my_memberships', 40 );
+
+add_action( 'llms_my_grades_course_table', 'lifterlms_template_student_dashboard_my_grades_table', 10, 2 );
 
 add_action( 'lifterlms_after_student_dashboard', 'lifterlms_template_student_dashboard_wrapper_close', 10 );
 

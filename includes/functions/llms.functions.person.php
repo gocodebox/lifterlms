@@ -1,11 +1,13 @@
 <?php
 /**
 * Person Functions
-*
-* Functions for managing users in the LifterLMS system
+* Functions for managing users in the LifterLMS system.
+* @package  LifterLMS\Functions
+* @since    1.0.0
+* @version  1.0.0
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Creates new user
@@ -237,18 +239,22 @@ function llms_get_student( $user = null ) {
 /**
  * Checks if user is currently enrolled in course
  *
- * @param  int $user_id    WP User ID of the user
- * @param  int $product_id WP Post ID of a Course, Lesson, or Membership
+ * @see     LLMS_Student->is_enrolled()
+ * @param   int        $user_id     WP_User ID.
+ * @param   int|array  $product_id  WP Post ID of a Course, Lesson, or Membership or array of multiple IDs.
+ * @param   string     $relation    Comparator for enrollment check.
+ *                                 		All = user must be enrolled in all $product_ids.
+ *                                 		Any = user must be enrolled in at least one of the $product_ids.
+ * @param   bool       $use_cache  If true, returns cached data if available, if false will run a db query.
  *
- * @see  LLMS_Student->is_enrolled()
+ * @return  boolean
  *
- * @return bool    true if enrolled, false otherwise
- *
- * @version  3.0.0  updated to use LLMS_Studnet->is_enrolled()
+ * @since   unknown
+ * @version 3.25.0
  */
-function llms_is_user_enrolled( $user_id, $product_id ) {
-	$s = new LLMS_Student( $user_id );
-	return $s->is_enrolled( $product_id );
+function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_cache = true ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->is_enrolled( $product_id, $relation, $use_cache );
 }
 
 /**

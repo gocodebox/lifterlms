@@ -1,14 +1,13 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Post table stuff for courses and memberships who have custom "instructor" stuff
  * which replaces "Author"
  *
  * @since    3.13.0
- * @version  3.13.0
+ * @version  3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Post_Table_Instructors {
 
 	private $post_types = array(
@@ -74,7 +73,7 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * @param    array     $views  array of view link HTML string
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  3.24.0
 	 */
 	public function get_views( $views ) {
 
@@ -103,7 +102,8 @@ class LLMS_Admin_Post_Table_Instructors {
 				'Mine <span class="count">(%s)</span>',
 				'Mine <span class="count">(%s)</span>',
 				$count,
-				'posts'
+				'posts',
+				'lifterlms'
 			),
 			number_format_i18n( $count )
 		);
@@ -141,7 +141,7 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * @param    int     $post_id  WP Post ID of the coupon for the row
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  3.23.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -161,8 +161,9 @@ class LLMS_Admin_Post_Table_Instructors {
 
 					$instructor = llms_get_instructor( $user['id'] );
 
-					$htmls[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $instructor->display_name );
-
+					if ( $instructor ) {
+						$htmls[] = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $instructor->get( 'display_name' ) );
+					}
 				}
 				echo implode( ', ', $htmls );
 			break;

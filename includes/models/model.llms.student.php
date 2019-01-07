@@ -1,15 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Student Class
- *
  * Manages data and interactions with a LifterLMS Student
  *
+ * @package LifterLMS/Models
  * @since   2.2.3
- * @version 3.17.1
+ * @version 3.26.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Student model.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -239,7 +241,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string $order   ordering method for returned results (ASC or DESC)
 	 * @param    string $return  return type
 	 *                           	obj => array of objects from $wpdb->get_results
-	 *                           	certificates => array of LLMS_User_Achievement instances
+	 *                           	certificates => array of LLMS_User_Certificate instances
 	 * @return   array
 	 * @since    2.4.0
 	 * @version  3.14.1
@@ -292,7 +294,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
 	 * @since   ??
-	 * @version ??
+	 * @version 3.24.0
 	 */
 	public function get_completed_courses( $args = array() ) {
 
@@ -330,7 +332,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$more = false;
 
 		// if we hit our limit we have too many results, pop the last one
-		if ( $args['limit'] === count( $ids ) ) {
+		if ( count( $ids ) === $args['limit'] ) {
 			array_pop( $ids );
 			$more = true;
 		}
@@ -563,19 +565,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the enrollment trigger for a the student's enrollment in a course
-	 * @param  int $product_id WP Post ID of the course or membership
-	 * @return string|false
+	 * @param    int           $product_id   WP Post ID of the course or membership
+	 * @return   string|false
+	 * @since    ??
+	 * @version  3.21.0
 	 */
 	public function get_enrollment_trigger( $product_id ) {
 
-		global $wpdb;
-
-		$q = $wpdb->get_var( $wpdb->prepare(
-			"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_enrollment_trigger' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $product_id )
-		) );
-
-		return ( $q ) ? $q : false;
+		$trigger = llms_get_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', true );
+		return $trigger ? $trigger : false;
 
 	}
 
@@ -627,79 +625,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Get the students grade for a lesson / course
 	 * All grades are based on quizzes assigned to lessons
 	 * @param    int     $object_id  WP Post ID of a course or lesson
+	 * @param    bool    $use_cache  If true, uses cached results
 	 * @return   mixed
 	 * @since    ??
-	 * @version  3.16.0
+	 * @version  3.24.0
 	 */
-	public function get_grade( $object_id ) {
-
-		$type = get_post_type( $object_id );
-
-		switch ( $type ) {
-
-			case 'course':
-
-				$course = new LLMS_Course( $object_id );
-				$lessons = $course->get_lessons( 'ids' );
-
-				$grades = array();
-
-				foreach ( $lessons as $lid ) {
-
-					$grade = $this->get_grade( $lid );
-
-					if ( is_numeric( $grade ) ) {
-						array_push( $grades, $grade );
-					}
-				}
-
-				$taken = count( $grades );
-
-				if ( ! $taken ) {
-
-					$grade = _x( 'N/A', 'course grade when no quizzes taken or in course', 'lifterlms' );
-
-				} else {
-
-					$total = array_sum( $grades );
-
-					// prevent division by zero
-					if ( 0 === $total ) {
-						$grade = 0;
-					} else {
-						$grade = $total / $taken;
-					}
-				}
-
-			break;
-
-			case 'lesson':
-
-				$lesson = new LLMS_Lesson( $object_id );
-				$quiz_id = $lesson->get( 'quiz' );
-
-				$grade = _x( 'N/A', 'lesson grade when lesson has no quiz', 'lifterlms' );
-
-				if ( $quiz_id ) {
-
-					$attempt = $this->quizzes()->get_best_attempt( $quiz_id );
-					if ( $attempt ) {
-						$grade = $attempt->get( 'grade' );
-					}
-				}
-
-			break;
-
-		}// End switch().
-
-		if ( is_numeric( $grade ) ) {
-
-			$grade = round( $grade, 2 );
-
+	public function get_grade( $object_id, $use_cache = true ) {
+		$grade = LLMS()->grades()->get_grade( $object_id, $this, $use_cache );
+		if ( is_null( $grade ) ) {
+			$grade = _x( 'N/A', 'Grade to display when no quizzes taken or available', 'lifterlms' );
 		}
-
-		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, $type );
-
+		return apply_filters( 'llms_student_get_grade', $grade, $this, $object_id, get_post_type( $object_id ) );
 	}
 
 	/**
@@ -1004,7 +940,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                                  if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  3.24.0
 	 */
 	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
@@ -1056,7 +992,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$ret = $cached;
 		}// End if().
 
-		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type );
+		/**
+		 * @filter llms_student_get_progress
+		 * Filters the return of get_progress method
+		 * @param    float   $ret        student's progress
+		 * @param    int     $object_id  WP_Post ID of the object
+		 * @param    string  $type       object post type [course|course_track|section]
+		 * @param    int     $user_id    WP_User ID of the student
+		 * @since    unknown
+		 * @version  3.24.0
+		 */
+		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type, $this->get_id() );
 
 	}
 
@@ -1074,33 +1020,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return date_i18n( $format, strtotime( $this->get( 'user_registered' ) ) );
-
-	}
-
-	/**
-	 * Determine if a student has access to a product's content
-	 * @param      int     $product_id    WP Post ID of a course or membership
-	 * @return     boolean
-	 * @since      3.0.0
-	 * @version    3.12.2
-	 * @deprecated 3.12.2   This function previously differed from $this->is_enrolled() by
-	 *                      checking the status of an order and only returning true when
-	 *                      the order status and enrollment status were both true
-	 *                      this causes issues when a student is expired from a limited-access product
-	 *                      and is then manually re-enrolled by an admin
-	 *                      there is no way to change the access expiration information
-	 *                      and the enrollment status says "Enrolled" but the student still cannot
-	 *                      access the content
-	 *
-	 * 						Additionally redundant due to the fact that access is expired automatically
-	 * 						via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
-	 * 						This action changes the enrollment status thereby rendering this additional
-	 * 						access check redundant, confusing, unnecessary
-	 */
-	public function has_access( $product_id ) {
-
-		llms_deprecated_function( 'LLMS_Student::has_access()', '3.12.2', 'LLMS_Student::is_enrolled()' );
-		return $this->is_enrolled( $product_id );
 
 	}
 
@@ -1132,7 +1051,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	}
 
-
 	/**
 	 * Determine if the student has completed a course, track, or lesson
 	 *
@@ -1140,14 +1058,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  3.24.0
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
 		// check tracks by progress
 		// this is done because tracks can have the same id as another object...
 		// @todo tracks should have a different table or format since the post_id col won't guarantee uniqueness...
-		if ( $type === 'course_track' ) {
+		if ( 'course_track' === $type ) {
 
 			$ret = ( 100 == $this->get_progress( $object_id, $type ) );
 
@@ -1186,13 +1104,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
 	 * @param  string     $trigger      String describing the reason for mark completion
 	 * @return boolean
-	 *
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.21.0
 	 */
 	private function insert_completion_postmeta( $object_id, $trigger = 'unspecified' ) {
-
-		global $wpdb;
 
 		// add info to the user postmeta table
 		$user_metadatas = array(
@@ -1200,39 +1115,21 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'_completion_trigger' => $trigger,
 		);
 
-		foreach ( $user_metadatas as $key => $value ) {
+		$update = llms_bulk_update_user_postmeta( $this->get_id(), $object_id, $user_metadatas, false );
 
-			$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-				array(
-					'user_id'      => $this->get_id(),
-					'post_id'      => $object_id,
-					'meta_key'     => $key,
-					'meta_value'   => $value,
-					'updated_date' => current_time( 'mysql' ),
-				),
-				array( '%d', '%d', '%s', '%s', '%s' )
-			);
-
-			if ( ! $update ) {
-
-				return false;
-
-			}
-		}
-
-		return true;
+		// returns an array with errored keys or true on success
+		return is_array( $update ) ? false : true;
 
 	}
 
 	/**
 	 * Add student postmeta data for incompletion of a lesson, section, course or track
 	 * An "_is_complete" value of "no" is inserted into postmeta
-	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
-	 * @param  string     $trigger      String describing the reason for mark incompletion
-	 * @return boolean
-	 *
+	 * @param    int        $object_id    WP Post ID of the lesson, section, course or track
+	 * @param    string     $trigger      String describing the reason for mark incompletion
+	 * @return   boolean
 	 * @since    3.5.0
-	 * @version  3.5.0
+	 * @version  3.24.0
 	 */
 	private function insert_incompletion_postmeta( $object_id, $trigger = 'unspecified' ) {
 
@@ -1268,7 +1165,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
 
-			if ( $update === false ) {
+			if ( false === $update ) {
 
 				return false;
 
@@ -1285,11 +1182,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger      String describing the reason for enrollment
 	 * @return   boolean
 	 * @since    2.2.3
-	 * @version  3.17.0
+	 * @version  3.21.0
 	 */
 	private function insert_enrollment_postmeta( $product_id, $trigger = 'unspecified' ) {
-
-		global $wpdb;
 
 		// add info to the user postmeta table
 		$user_metadatas = array(
@@ -1298,27 +1193,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'_status'             => 'enrolled',
 		);
 
-		foreach ( $user_metadatas as $key => $value ) {
+		$update = llms_bulk_update_user_postmeta( $this->get_id(), $product_id, $user_metadatas, false );
 
-			$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-				array(
-					'user_id'      => $this->get_id(),
-					'post_id'      => $product_id,
-					'meta_key'     => $key,
-					'meta_value'   => $value,
-					'updated_date' => llms_current_time( 'mysql' ),
-				),
-				array( '%d', '%d', '%s', '%s', '%s' )
-			);
-
-			if ( ! $update ) {
-
-				return false;
-
-			}
-		}
-
-		return true;
+		// returns an array with errored keys or true on success
+		return is_array( $update ) ? false : true;
 
 	}
 
@@ -1329,63 +1207,69 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger  String describing the reason for enrollment (optional)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  3.21.0
 	 */
 	private function insert_status_postmeta( $product_id, $status = '', $trigger = null ) {
 
-		global $wpdb;
+		$update = llms_update_user_postmeta( $this->get_id(), $product_id, '_status', $status, false );
 
-		$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-			array(
-				'user_id'      => $this->get_id(),
-				'post_id'      => $product_id,
-				'meta_key'     => '_status',
-				'meta_value'   => $status,
-				'updated_date' => llms_current_time( 'mysql' ),
-			),
-			array( '%d', '%d', '%s', '%s', '%s' )
-		);
-
-		if ( $update ) {
-
-			if ( $trigger ) {
-
-				$update = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
-					array(
-						'user_id'      => $this->get_id(),
-						'post_id'      => $product_id,
-						'meta_key'     => '_enrollment_trigger',
-						'meta_value'   => $trigger,
-						'updated_date' => llms_current_time( 'mysql' ),
-					),
-					array( '%d', '%d', '%s', '%s', '%s' )
-				);
-
-			}
+		if ( $update && $trigger ) {
+			$update = llms_update_user_postmeta( $this->get_id(), $product_id, '_enrollment_trigger', $trigger, false );
 		}
 
-		if ( ! $update ) {
-
-			return false;
-
-		} else {
-
-			return true;
-
-		}
+		return $update;
 
 	}
 
 	/**
-	 * Determine if a student is enrolled in a LifterLMS course, lesson, or membership
-	 * @param  int $product_id WP Post ID of a Course, Lesson, or Membership
-	 * @return boolean
-	 * @since  3.0.0
+	 * Determine if a student is enrolled in a Course or Membership.
+	 *
+	 * @see     llms_is_user_enrolled()
+	 *
+	 * @param   int|array  $product_id  WP Post ID of a Course, Lesson, or Membership or array of multiple IDs.
+	 * @param   string     $relation    Comparator for enrollment check.
+	 *                                 		All = user must be enrolled in all $product_ids.
+	 *                                 		Any = user must be enrolled in at least one of the $product_ids.
+	 * @param   bool       $use_cache  If true, returns cached data if available, if false will run a db query.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.0.0
+	 * @version 3.25.0
 	 */
-	public function is_enrolled( $product_id ) {
+	public function is_enrolled( $product_ids = null, $relation = 'all', $use_cache = true ) {
 
-		$status = $this->get_enrollment_status( $product_id );
-		return ( 'enrolled' === strtolower( $status ) ) ? true : false;
+		// Assume enrollment unless we find otherwise.
+		$ret = true;
+
+		// Allow a single product ID to be submitted (backwards compat)
+		$product_ids = ! is_array( $product_ids ) ? array( $product_ids ) : $product_ids;
+
+		foreach ( $product_ids as $id ) {
+
+			$enrolled = ( 'enrolled' === strtolower( $this->get_enrollment_status( $id, $use_cache ) ) );
+
+			// If use must be enrolled in all products and one is not enrolled: quit the loop & return false.
+			if ( 'all' === $relation && ! $enrolled ) {
+				$ret = false;
+				break;
+
+				// If user must be enrolled in any
+			} elseif ( 'any' === $relation ) {
+
+				// If we find an enrollment: return true and quit the loop.
+				if ( $enrolled ) {
+					$ret = true;
+					break;
+
+					// If not switch return to false but keep looking.
+				} else {
+					$ret = false;
+				}
+			}
+		}
+
+		return apply_filters( 'llms_is_user_enrolled', $ret, $this, $product_ids, $relation, $use_cache );
 
 	}
 
@@ -1479,12 +1363,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  3.26.0
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
 		// can only unenroll those are a currently enrolled
-		if ( ! $this->is_enrolled( $product_id ) ) {
+		if ( ! $this->is_enrolled( $product_id, 'all', false ) ) {
 			return false;
 		}
 
@@ -1704,7 +1588,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.9.0
 	 */
 	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
-		llms_deprecated_function( 'LLMS_Student->delete_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->delete_attempt()' );
+		llms_deprecated_function( 'LLMS_Student->delete_quiz_attempt()', '3.9.0', 'LLMS_Student->quizzes()->delete_attempt()' );
 		return $this->quizzes()->delete_attempt( $quiz_id, $lesson_id, $attempt );
 	}
 
@@ -1717,7 +1601,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.9.0
 	 */
 	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
-		llms_deprecated_function( 'LLMS_Student->get_best_quiz_attempt()', '[version]', 'LLMS_Student->quizzes()->get_best_attempt()' );
+		llms_deprecated_function( 'LLMS_Student->get_best_quiz_attempt()', '3.9.0', 'LLMS_Student->quizzes()->get_best_attempt()' );
 		return $this->quizzes()->get_best_attempt( $quiz, $lesson );
 	}
 
@@ -1730,8 +1614,35 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @version  3.9.0
 	 */
 	public function get_quiz_data( $quiz = null, $lesson = null ) {
-		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '[version]', 'LLMS_Student->quizzes()->get_all()' );
+		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '3.9.0', 'LLMS_Student->quizzes()->get_all()' );
 		return $this->quizzes()->get_all( $quiz, $lesson );
+	}
+
+	/**
+	 * Determine if a student has access to a product's content
+	 * @param      int     $product_id    WP Post ID of a course or membership
+	 * @return     boolean
+	 * @since      3.0.0
+	 * @version    3.12.2
+	 * @deprecated 3.12.2   This function previously differed from $this->is_enrolled() by
+	 *                      checking the status of an order and only returning true when
+	 *                      the order status and enrollment status were both true
+	 *                      this causes issues when a student is expired from a limited-access product
+	 *                      and is then manually re-enrolled by an admin
+	 *                      there is no way to change the access expiration information
+	 *                      and the enrollment status says "Enrolled" but the student still cannot
+	 *                      access the content
+	 *
+	 * 						Additionally redundant due to the fact that access is expired automatically
+	 * 						via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
+	 * 						This action changes the enrollment status thereby rendering this additional
+	 * 						access check redundant, confusing, unnecessary
+	 */
+	public function has_access( $product_id ) {
+
+		llms_deprecated_function( 'LLMS_Student::has_access()', '3.12.2', 'LLMS_Student::is_enrolled()' );
+		return $this->is_enrolled( $product_id );
+
 	}
 
 }

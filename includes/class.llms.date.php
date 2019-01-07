@@ -1,19 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Dates Class
-*
-* Manages formatting dates for I/O and display
-*/
+ * Dates Class
+ * Manages formatting dates for I/O and display
+ * @since    ??
+ * @version  3.24.0
+ */
 class LLMS_Date {
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-
-	}
 
 	/**
 	 * Set date to dd/mm/yyyy
@@ -25,7 +19,7 @@ class LLMS_Date {
 	 */
 	public static function pretty_date( $date, $type = '' ) {
 
-		if ( $type === 'au' ) {
+		if ( 'au' === $type ) {
 			return date( 'd/m/Y', strtotime( $date ) );
 		} else {
 			return date( 'm/d/Y', strtotime( $date ) );
@@ -60,7 +54,7 @@ class LLMS_Date {
 	 */
 	public static function db_date( $date, $type = '' ) {
 
-		if ( $type === 'au' ) {
+		if ( 'au' === $type ) {
 			list($d, $m, $y) = preg_split( '/\//', $date );
 			$date = sprintf( '%4d-%02d-%02d', $y, $m, $d );
 		} else {
@@ -84,17 +78,17 @@ class LLMS_Date {
 		$current_month = date( 'm', strtotime( $today ) );
 		$current_year = date( 'Y', strtotime( $today ) );
 
-		if ( $filter === 'week' ) {
+		if ( 'week' === $filter ) {
 
 			$start_date = self::db_date( $today . '- 7 days' );
 			$end_date = self::db_date( $today );
 
-		} elseif ( $filter === 'month' ) {
+		} elseif ( 'month' === $filter ) {
 
 			$start_date = date( 'Y-m-01', strtotime( $today ) );
 			$end_date = date( 'Y-m-t', strtotime( $today ) );
 
-		} elseif ( $filter === 'quarter' ) {
+		} elseif ( 'quarter' === $filter ) {
 
 			if ( $current_month >= 1 && $current_month <= 3 ) {
 				$start_date = $current_year . '-01-01';
@@ -109,7 +103,7 @@ class LLMS_Date {
 				$start_date = $current_year . '-10-01';
 				$end_date = ($current_year + 1) . '-01-01';
 			}
-		} elseif ( $filter === 'year' ) {
+		} elseif ( 'year' === $filter ) {
 
 			$start_date = $current_year . '-01-01';
 			$end_date = ($current_year + 1) . '-01-01';

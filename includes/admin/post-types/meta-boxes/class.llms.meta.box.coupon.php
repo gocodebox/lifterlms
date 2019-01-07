@@ -1,12 +1,12 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Coupon Metabox
  *
- * @version  3.0.0
+ * @since    1.0.0
+ * @version  3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
 	/**
@@ -29,9 +29,9 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 * This function is where extending classes can configure all the fields within the metabox
 	 * The function must return an array which can be consumed by the "output" function
 	 *
-	 * @return array
-	 *
-	 * @since  3.0.0
+	 * @return  array
+	 * @since   3.0.0
+	 * @version 3.24.0
 	 */
 	public function get_fields() {
 
@@ -124,7 +124,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					),
 					array(
 						'type'		=> 'checkbox',
-						'label'		=> __( 'Enable Trial Pricing Discount' ),
+						'label'		=> __( 'Enable Trial Pricing Discount', 'lifterlms' ),
 						'desc' 		=> 'When checked, the coupon can apply a discount to an access plan\'s "Trial Price"',
 						'id' 		=> $this->prefix . 'enable_trial_discount',
 						'value' 	=> 'yes',
@@ -133,7 +133,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					),
 					array(
 						'type'  	=> 'number',
-						'label'  	=> __( 'Trial Discount Amount', 'lifterlms' ),
+						'label'  	=> __( 'Trial Discount Amount', 'lifterlms', 'lifterlms' ),
 						'desc'  	=> sprintf( __( 'The amount to be subtracted from the "Trial Price" of an applicable access plan. Do not include symbols such as %1$s.', 'lifterlms' ), get_lifterlms_currency_symbol() ),
 						'id'    	=> $this->prefix . 'trial_amount',
 						'class' 	=> 'code input-full',
@@ -175,7 +175,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					),
 					array(
 						'type'		=> 'date',
-						'label'		=> __( 'Coupon Expiration Date' ),
+						'label'		=> __( 'Coupon Expiration Date', 'lifterlms' ),
 						'desc' 		=> __( 'Coupon will no longer be usable after this date. Leave blank for no expiration.', 'lifterlms' ),
 						'id' 		=> $this->prefix . 'expiration_date',
 						'class' 	=> 'llms-datepicker input-full',

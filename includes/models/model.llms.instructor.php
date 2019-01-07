@@ -1,13 +1,18 @@
 <?php
 /**
  * LifterLMS Instructor class
- * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant
+ * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant.
+ *
+ * @package  LifterLMS/Models
  * @since   3.13.0
  * @version 3.16.11
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Instructor model.
+ */
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**

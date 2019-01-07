@@ -1,12 +1,17 @@
 <?php
 /**
  * Register Post Types, Taxonomies, Statuses
+ *
+ * @package  LifterLMS\Classes
  * @since    1.0.0
- * @version  3.16.15
+ * @version  3.26.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Post_Types class
+ */
 class LLMS_Post_Types {
 
 	/**
@@ -66,6 +71,75 @@ class LLMS_Post_Types {
 		}
 
 		add_image_size( 'llms_notification_icon', 64, 64, true );
+
+	}
+
+	/**
+	 * Retrieve all registered order statuses
+	 * @return   array
+	 * @since    3.19.0
+	 * @version  3.19.0
+	 */
+	public static function get_order_statuses() {
+
+		$statuses = array(
+
+			// single payment only
+			'llms-completed' => array(
+				'label' => _x( 'Completed', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+
+			// recurring only
+			'llms-active' => array(
+				'label' => _x( 'Active', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-expired' => array(
+				'label' => _x( 'Expired', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-on-hold' => array(
+				'label' => _x( 'On Hold', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-pending-cancel' => array(
+				'label' => _x( 'Pending Cancellation', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Pending Cancellation <span class="count">(%s)</span>', 'Pending Cancellation <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+
+			// shared
+			'llms-pending' => array(
+				'label' => _x( 'Pending Payment', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-cancelled' => array(
+				'label' => _x( 'Cancelled', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-refunded' => array(
+				'label' => _x( 'Refunded', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+			'llms-failed' => array(
+				'label' => _x( 'Failed', 'Order status', 'lifterlms' ),
+				'label_count' => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'lifterlms' ),
+			),
+
+		);
+
+		$defaults = array(
+			'public' => true,
+			'exclude_from_search' => false,
+			'show_in_admin_all_list' => true,
+			'show_in_admin_status_list' => true,
+		);
+
+		foreach ( $statuses as &$status ) {
+			$status = array_merge( $status, $defaults );
+		}
+
+		return apply_filters( 'lifterlms_register_order_post_statuses', $statuses );
 
 	}
 
@@ -158,9 +232,10 @@ class LLMS_Post_Types {
 	}
 
 	/**
-	 * Register Post Types
+	 * Register Post Types.
+	 *
 	 * @since    1.0.0
-	 * @version  3.16.15
+	 * @version  3.26.0
 	 */
 	public static function register_post_types() {
 
@@ -198,8 +273,8 @@ class LLMS_Post_Types {
 				'feeds' => true,
 			),
 			'query_var' 			=> true,
-			'supports' 				=> array( 'title', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
-			'has_archive' 			=> ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : 'courses',
+			'supports' 				=> array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
+			'has_archive' 			=> ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
 			'show_in_nav_menus' 	=> true,
 			'menu_position'         => 52,
 		) );
@@ -351,7 +426,7 @@ class LLMS_Post_Types {
 		$membership_page_id = llms_get_page_id( 'memberships' );
 		self::register_post_type( 'llms_membership', array(
 			'labels' => array(
-				'name' => __( 'Membership', 'lifterlms' ),
+				'name' => __( 'Memberships', 'lifterlms' ),
 				'singular_name' => __( 'Membership', 'lifterlms' ),
 				'menu_name' => _x( 'Memberships', 'Admin menu name', 'lifterlms' ),
 				'add_new' => __( 'Add Membership', 'lifterlms' ),
@@ -377,13 +452,13 @@ class LLMS_Post_Types {
 			'show_in_menu' => true,
 			'hierarchical' => false,
 			'rewrite' => array(
-				'slug' => _x( 'membership', 'slug', 'lifterlms' ),
+				'slug' => _x( 'membership', 'membership url slug', 'lifterlms' ),
 				'with_front' => false,
 				'feeds' => true,
 			),
 			'query_var' => true,
-			'supports' => array( 'title', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
-			'has_archive' => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : 'memberships',
+			'supports' => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+			'has_archive' => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
 			'show_in_nav_menus' => true,
 			'menu_position' => 52,
 		) );
@@ -466,7 +541,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array(
-						'create_posts' => false,
+						'create_posts' => 'do_not_allow',
 					),
 				)
 			)
@@ -508,7 +583,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( '' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array(
-						'create_posts' => false,
+						'create_posts' => 'do_not_allow',
 					),
 				)
 			)
@@ -846,83 +921,11 @@ class LLMS_Post_Types {
 	 * Register post statuses
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @version  3.19.0
 	 */
 	public static function register_post_statuses() {
 
-		$order_statuses = apply_filters( 'lifterlms_register_order_post_statuses',
-			array(
-				// single payment only
-				'llms-completed'  => array(
-					'label'                     => _x( 'Completed', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-
-				// recurring only
-				'llms-active'  => array(
-					'label'                     => _x( 'Active', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-expired'  => array(
-					'label'                     => _x( 'Expired', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Expired <span class="count">(%s)</span>', 'Expired <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-on-hold'  => array(
-					'label'                     => _x( 'On Hold', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'On Hold <span class="count">(%s)</span>', 'On Hold <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-
-				// shared
-				'llms-pending'    => array(
-					'label'                     => _x( 'Pending Payment', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-cancelled'  => array(
-					'label'                     => _x( 'Cancelled', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Cancelled <span class="count">(%s)</span>', 'Cancelled <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-refunded'   => array(
-					'label'                     => _x( 'Refunded', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Refunded <span class="count">(%s)</span>', 'Refunded <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-				'llms-failed'     => array(
-					'label'                     => _x( 'Failed', 'Order status', 'lifterlms' ),
-					'public'                    => true,
-					'exclude_from_search'       => false,
-					'show_in_admin_all_list'    => true,
-					'show_in_admin_status_list' => true,
-					'label_count'               => _n_noop( 'Failed <span class="count">(%s)</span>', 'Failed <span class="count">(%s)</span>', 'lifterlms' ),
-				),
-			)
-		);
+		$order_statuses = self::get_order_statuses();
 
 		$txn_statuses = apply_filters( 'lifterlms_register_transaction_post_statuses',
 			array(

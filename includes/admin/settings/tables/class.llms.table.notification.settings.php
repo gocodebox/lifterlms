@@ -17,6 +17,12 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	protected $id = 'notifications';
 
 	/**
+	 * If true will be a table with a larger font size
+	 * @var  bool
+	 */
+	protected $is_large = true;
+
+	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key        the column id / key
 	 * @param    int        $user_id    WP User ID

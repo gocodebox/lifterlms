@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
 * Page functions
-*
-* @author codeBOX
-* @project lifterLMS
+* @since    1.0.0
+* @version  3.22.0
 */
-
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Get url for when user cancels payment
@@ -114,4 +112,3 @@ function llms_lostpassword_url() {
 	return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 }
 add_filter( 'lostpassword_url',  'llms_lostpassword_url', 10, 0 );
-

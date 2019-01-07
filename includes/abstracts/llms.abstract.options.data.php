@@ -1,13 +1,12 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 /**
  * LifterLMS Options Table Data Store Abstract
  *
  * @since   3.8.0
- * @version 3.8.0
+ * @version 3.17.8
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Options_Data {
 
 	protected $option_prefix = 'llms_';
@@ -49,6 +48,19 @@ abstract class LLMS_Abstract_Options_Data {
 	 */
 	public function get_option_name( $name ) {
 		return $this->get_option_prefix() . $name;
+	}
+
+	/**
+	 * Set the value of an option
+	 * @param    string     $name   option name (unprefixed)
+	 * @param    mixed      $value  option value
+	 * @return   bool               true if option value has changed
+	 *                              false if no update or update failed
+	 * @since    3.17.8
+	 * @version  3.17.8
+	 */
+	public function set_option( $name, $value ) {
+		return update_option( $this->get_option_name( $name ), $value );
 	}
 
 }

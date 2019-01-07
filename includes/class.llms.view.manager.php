@@ -1,11 +1,13 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
 
 /**
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
  * @since    3.7.0
- * @version  3.16.0
+ * @version  3.17.8
  */
 class LLMS_View_Manager {
 
@@ -20,6 +22,11 @@ class LLMS_View_Manager {
 
 	}
 
+	/**
+	 * Add actions & filters
+	 * @since    3.7.0
+	 * @version  3.7.0
+	 */
 	public function add_actions() {
 
 		// if user can't bypass restrictions don't do anything
@@ -273,7 +280,7 @@ class LLMS_View_Manager {
 	 * Enqueue Scripts
 	 * @return   void
 	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @version  3.17.8
 	 */
 	public function scripts() {
 
@@ -282,7 +289,7 @@ class LLMS_View_Manager {
 			return;
 		}
 
-		wp_enqueue_script( 'llms-view-manager', plugins_url( '/assets/js/llms-view-manager' . LLMS_Frontend_Assets::$min . '.js', LLMS_PLUGIN_FILE ), array( 'jquery' ), '', true );
+		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
 		wp_add_inline_script( 'llms-view-manager', $this->get_inline_script(), 'after' );
 
 	}

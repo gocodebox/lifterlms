@@ -1,13 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Settings Class
  * Settings field Factory
  * @since    1.0.0
- * @version  3.17.5
+ * @version  3.24.0
  */
 class LLMS_Admin_Settings {
 
@@ -179,10 +177,9 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Output fields
-	 * @param  array $field array of field settings
-	 * @return void
-	 *
-	 * @version  3.8.0
+	 * @param    array  $field  array of field settings
+	 * @return   void
+	 * @version  3.24.0
 	 */
 	public static function output_field( $field ) {
 
@@ -204,6 +201,8 @@ class LLMS_Admin_Settings {
 			// get the option value
 			$option_value = self::get_option( $field['id'], $field['default'] );
 		}
+
+		$disabled_class = ( isset( $field['disabled'] ) && true === $field['disabled'] ) ? 'llms-disabled-field' : '';
 
 		// Switch based on type
 		switch ( $field['type'] ) {
@@ -232,7 +231,7 @@ class LLMS_Admin_Settings {
 			break;
 
 			case 'table':
-				echo '<tr valign="top"><td>';
+				echo '<tr valign="top" class="' . $disabled_class . '"><td>';
 
 					$field['table']->get_results();
 					echo $field['table']->get_table_html();
@@ -242,7 +241,7 @@ class LLMS_Admin_Settings {
 
 			case 'subtitle':
 				if ( ! empty( $field['title'] ) ) {
-				    echo '<tr valign="top"><td colspan="2">
+				    echo '<tr valign="top" class="' . $disabled_class . '"><td colspan="2">
 				    	<h3 class="llms-subtitle">' . $field['title'] . '</h3>';
 				    if ( ! empty( $field['desc'] ) ) {
 				    	echo '<p>' . $field['desc'] . '</p>';
@@ -260,7 +259,7 @@ class LLMS_Admin_Settings {
 
 			case 'custom-html':
 				if ( ! empty( $field['value'] ) ) {
-				    echo '<tr valign="top"><td colspan="2">' . $field['value'] . '</tr></td>';
+				    echo '<tr valign="top" class="' . $disabled_class . '"><td colspan="2">' . $field['value'] . '</tr></td>';
 				}
 			break;
 
@@ -305,7 +304,7 @@ class LLMS_Admin_Settings {
 
 				$name = isset( $field['name'] ) ? $field['name'] : 'save';
 
-				echo '<tr valign="top"><th>
+				echo '<tr valign="top" class="' . $disabled_class . '"><th>
             		<label for="' . esc_attr( $field['id'] ) . '">' . esc_html( $field['title'] ) . '</label>
 						' . $tooltip . '
             	</th>';
@@ -335,7 +334,7 @@ class LLMS_Admin_Settings {
 				$type 			= $field['type'];
 				$class 			= '';
 
-				?><tr valign="top">
+				?><tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
@@ -357,7 +356,7 @@ class LLMS_Admin_Settings {
 			// Textarea
 			case 'textarea':
 
-				?><tr valign="top">
+				?><tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
@@ -377,7 +376,7 @@ class LLMS_Admin_Settings {
 
 			case 'wpeditor':
 				$editor_settings = isset( $field['editor_settings'] ) ? $field['editor_settings'] : array();
-				?><tr valign="top">
+				?><tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
@@ -392,19 +391,19 @@ class LLMS_Admin_Settings {
 			// Select boxes
 			case 'select' :
 			case 'multiselect' :
-				?><tr valign="top">
+				?><tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
 					</th>
 					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
 						<select
-							name="<?php echo esc_attr( $field['id'] ); ?><?php if ( $field['type'] == 'multiselect' ) { echo '[]'; } ?>"
+							name="<?php echo esc_attr( $field['id'] ); ?><?php if ( 'multiselect' == $field['type'] ) { echo '[]'; } ?>"
 							id="<?php echo esc_attr( $field['id'] ); ?>"
 							style="<?php echo esc_attr( $field['css'] ); ?>"
 							class="<?php echo esc_attr( $field['class'] ); ?>"
 							<?php echo implode( ' ', $custom_attributes ); ?>
-							<?php if ( $field['type'] == 'multiselect' ) { echo 'multiple="multiple"'; } ?>
+							<?php if ( 'multiselect' == $field['type'] ) { echo 'multiple="multiple"'; } ?>
 							>
 	                    	<?php
 							foreach ( $field['options'] as $key => $val ) {
@@ -437,7 +436,7 @@ class LLMS_Admin_Settings {
 			// Radio inputs
 			case 'radio' :
 
-				?><tr valign="top">
+				?><tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
@@ -480,19 +479,18 @@ class LLMS_Admin_Settings {
 				if ( ! isset( $field['show_if_checked'] ) ) {
 					$field['show_if_checked'] = false;
 				}
-				if ( $field['hide_if_checked'] == 'yes' || $field['show_if_checked'] == 'yes' ) {
+				if ( 'yes' == $field['hide_if_checked'] || 'yes' == $field['show_if_checked'] ) {
 					$visbility_class[] = 'hidden_option';
 				}
-				if ( $field['hide_if_checked'] == 'option' ) {
+				if ( 'option' == $field['hide_if_checked'] ) {
 					$visbility_class[] = 'hide_options_if_checked';
 				}
-				if ( $field['show_if_checked'] == 'option' ) {
+				if ( 'option' == $field['show_if_checked'] ) {
 					$visbility_class[] = 'show_options_if_checked';
 				}
-
 				if ( ! isset( $field['checkboxgroup'] ) || 'start' == $field['checkboxgroup'] ) {
 					?>
-	            		<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?>">
+	            		<tr valign="top" class="<?php echo esc_attr( implode( ' ', $visbility_class ) ); ?> <?php echo $disabled_class; ?>">
 							<th><?php echo esc_html( $field['title'] ) ?></th>
 							<td class="forminp forminp-checkbox">
 								<fieldset>
@@ -554,7 +552,7 @@ class LLMS_Admin_Settings {
 					$src = '';
 				}
 
-				?><tr valign="top">
+				?><tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
 						<?php echo $tooltip; ?>
@@ -687,15 +685,14 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Setup a field's tooltip and description based on supplied values
-	 * @param  array $field associative array of field data
-	 * @return array       associatve array containing field description and tooltip HTML
-	 *
-	 * @since  1.4.5
-	 * @version  3.7.5
+	 * @param    array  $field  associative array of field data
+	 * @return   array          associatve array containing field description and tooltip HTML
+	 * @since    1.4.5
+	 * @version  3.24.0
 	 */
 	public static function set_field_descriptions( $field = array() ) {
 
-		if ( $field['desc_tooltip'] === true ) {
+		if ( true === $field['desc_tooltip'] ) {
 
 			$description = '';
 			$tooltip = $field['desc'];
@@ -802,7 +799,7 @@ class LLMS_Admin_Settings {
 			$option_value = stripslashes( $option_value );
 		}
 
-		return $option_value === null ? $default : $option_value;
+		return null === $option_value ? $default : $option_value;
 
 	}
 

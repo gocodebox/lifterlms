@@ -1,0 +1,204 @@
+.llms-table-wrap {
+	position: relative;
+}
+
+.llms-table-header {
+	padding: 0 10px;
+	margin-bottom: 10px;
+
+	@include clearfix();
+
+	h2 {
+		padding: 0;
+		display: inline-block;
+		line-height: 1;
+		margin: 0;
+		vertical-align: middle;
+	}
+
+	.llms-table-search,
+	.llms-table-filters {
+		float: right;
+		padding-left: 10px;
+	}
+
+	.llms-table-search input {
+		margin: 0;
+		padding: 5px;
+	}
+
+}
+
+.llms-table {
+
+	border: 1px solid #cecece;
+	border-collapse: collapse;
+	width: 100%;
+
+	td, th {
+		border-bottom: 1px solid #cecece;
+		font-size: 95%;
+		padding: 4px;
+		text-align: center;
+
+		&.expandable.closed {
+			display: none;
+		}
+
+		.llms-button-primary,
+		.llms-button-secondary,
+		.llms-button-action,
+		.llms-button-danger {
+			display: inline-block;
+		}
+
+	}
+
+	tr.llms-quiz-pending {
+		td {
+			font-weight: 700;
+		}
+	}
+
+	thead th,
+	tfoot th {
+		background-color: #eaeaea;
+		font-weight: 500;
+
+		a.llms-sortable {
+			// display: block;
+			padding-right: 16px;
+			position: relative;
+			text-decoration: none;
+			width: 100%;
+			&.active {
+				// show the current sorted when a sort is active
+				&[data-order="DESC"] .asc { opacity: 1; }
+				&[data-order="ASC"] .desc { opacity: 1; }
+			}
+			// show the opposite on hover
+			&:hover {
+				&[data-order="DESC"] {
+					.asc { opacity: 0; }
+					.desc { opacity: 1; }
+				}
+				&[data-order="ASC"] {
+					.asc { opacity: 1; }
+					.desc { opacity: 0; }
+				}
+			}
+			.dashicons {
+				color: #444;
+				font-size: 16px;
+				height: 16px;
+				opacity: 0;
+				position: absolute;
+				width: 16px;
+			}
+		}
+	}
+
+	tfoot th {
+		border-bottom: none;
+
+		.llms-table-export {
+			float: left;
+		}
+
+		.llms-table-pagination {
+			float: right;
+		}
+
+	}
+
+	&.zebra tbody tr:nth-child( even ) {
+		th, td { background-color: #fafafa; }
+	}
+
+	&.zebra tbody tr:nth-child( odd ) {
+		th, td { background-color: #fff; }
+	}
+
+	&.text-left {
+		td, th {
+			text-align: left;
+		}
+	}
+
+	&.size-large {
+		td, th {
+			font-size: 105%;
+			padding: 8px;
+		}
+	}
+
+	.llms-action-icon {
+		color: #777;
+		text-decoration: none;
+
+		.tooltip {
+			cursor: pointer;
+		}
+
+		&:hover {
+			color: $color-blue;
+		}
+
+		&.danger:hover {
+			color: $color-danger;
+		}
+	}
+
+	.llms-table-page-count {
+		font-size: 11px;
+		font-weight: 300;
+		padding: 0 5px;
+	}
+
+}
+
+// progress bars within the tables
+.llms-table-progress {
+	background: #eee;
+	height: 16px;
+	position: relative;
+	.llms-table-progress-text {
+		font-size: 11px;
+		line-height: 16px;
+		position: absolute;
+		right: 4px;
+		top: 0;
+	}
+	.llms-table-progress-inner {
+		background: $color-brand-blue;
+		height: 100%;
+	}
+}
+
+
+.llms-table.llms-gateway-table,
+.llms-table.llms-integrations-table {
+	.status {
+		.fa {
+			color: $color-brand-blue;
+			font-size: 22px;
+		}
+	}
+	.sort {
+		cursor: move;
+		text-align: center;
+		width: 10px;
+	}
+	a {
+		color: $color-brand-blue;
+		&:hover {
+			color: $color-brand-blue-dark;
+		}
+	}
+}
+
+.llms-gb-table-notifications {
+	th, td {
+		text-align: left;
+	}
+}

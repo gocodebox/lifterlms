@@ -62,12 +62,15 @@ function changelog( cb ) {
 
 }
 
-gulp.task( 'readme', function() {
+gulp.task( 'readme', function( cb ) {
+
 	changelog( function() {
 
-		return gulp.src( '_readme/readme.txt' )
+		gulp.src( '_readme/readme.txt' )
 			.pipe( include() )
 			.pipe( gulp.dest( './' ) );
+
+		cb();
 
 	} );
 

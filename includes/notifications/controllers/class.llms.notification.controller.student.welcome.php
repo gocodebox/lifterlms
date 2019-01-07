@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * Notification Controller: Student Welcome
  * @since    3.8.0
  * @version  3.8.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notification_Controller {
 
 	/**

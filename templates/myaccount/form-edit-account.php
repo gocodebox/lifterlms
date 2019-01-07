@@ -2,10 +2,9 @@
 /**
  * Account Edit Template / Form
  * @since    1.0.0
- * @version  3.8.0
+ * @version  3.19.4
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 $field_data = ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) ) ? $_POST : get_current_user_id();
 ?>
@@ -50,7 +49,7 @@ $field_data = ( 'post' === strtolower( $_SERVER['REQUEST_METHOD'] ) ) ? $_POST :
 
 			<?php do_action( 'lifterlms_after_update_button' ); ?>
 
-			<?php wp_nonce_field( 'llms_update_person' ); ?>
+			<?php wp_nonce_field( 'llms_update_person', '_llms_update_person_nonce' ); ?>
 
 			<input name="action" type="hidden" value="llms_update_person">
 

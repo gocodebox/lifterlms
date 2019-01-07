@@ -2,10 +2,96 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.15.0
+ * @version  3.25.4
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
+if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
+
+	/**
+	 * Output the LifterLMS Student Dashboard
+	 *
+	 * @param   array     $options  array of options.
+	 * @return  [type]
+	 * @since   3.25.1
+	 * @version 3.25.2
+	 */
+	function lifterlms_student_dashboard( $options = array() ) {
+
+		$options = wp_parse_args( $options, array(
+			'login_redirect' => get_permalink( llms_get_page_id( 'myaccount' ) ),
+		) );
+
+		/**
+		 * @hooked lifterlms_template_student_dashboard_wrapper_open - 10
+		 */
+		do_action( 'lifterlms_before_student_dashboard' );
+
+		// If user is not logged in
+		if ( ! is_user_logged_in() ) {
+
+			$message = apply_filters( 'lifterlms_my_account_message', '' );
+			if ( ! empty( $message ) ) {
+				llms_add_notice( $message );
+			}
+
+			global $wp;
+			if ( isset( $wp->query_vars['lost-password'] ) ) {
+
+				$args = array();
+
+				if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+					$args['form'] = 'reset_password';
+					$args['fields'] = LLMS_Person_Handler::get_password_reset_fields( trim( sanitize_text_field( $_GET['key'] ) ), trim( sanitize_text_field( $_GET['login'] ) ) );
+				} else {
+					$args['form'] = 'lost_password';
+					$args['fields'] = LLMS_Person_Handler::get_lost_password_fields();
+				}
+
+				llms_get_template( 'myaccount/form-lost-password.php', $args );
+
+			} else {
+
+				llms_print_notices();
+
+				llms_get_login_form(
+					null,
+					apply_filters( 'llms_student_dashboard_login_redirect', $options['login_redirect'] )
+				);
+
+				// can be enabled / disabled on options page.
+				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
+
+					llms_get_template( 'global/form-registration.php' );
+
+				}
+			}
+		} else {
+
+			$tabs = LLMS_Student_Dashboard::get_tabs();
+
+			$current_tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
+
+			/**
+			 * @hooked lifterlms_template_student_dashboard_header - 10
+			 */
+			do_action( 'lifterlms_before_student_dashboard_content' );
+
+			if ( isset( $tabs[ $current_tab ] ) && isset( $tabs[ $current_tab ]['content'] ) && is_callable( $tabs[ $current_tab ]['content'] ) ) {
+
+				call_user_func( $tabs[ $current_tab ]['content'] );
+
+			}
+		}// End if().
+
+		/**
+		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
+		 */
+		do_action( 'lifterlms_after_student_dashboard' );
+
+	}
+}// End if().
 
 /**
  * Get course tiles for a student's courses
@@ -13,7 +99,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  3.15.0
+ * @version  3.25.4
  */
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
@@ -55,22 +141,31 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 				$per_page = apply_filters( 'llms_dashboard_recent_courses_count', llms_get_loop_columns() );
 			}
 
-			$query = new WP_Query( array(
-				'paged' => get_query_var( 'paged' ),
-				'orderby' => $orderby,
-				'order' => $order,
-				'post__in' => $courses['results'],
-				'post_status' => 'publish',
-				'post_type' => 'course',
-				'posts_per_page' => $per_page,
-			) );
+			$query_args = apply_filters(
+				'llms_dashboard_courses_wp_query_args',
+				array(
+					'paged' => get_query_var( 'view-courses' ),
+					'orderby' => $orderby,
+					'order' => $order,
+					'post__in' => $courses['results'],
+					'post_status' => 'publish',
+					'post_type' => 'course',
+					'posts_per_page' => $per_page,
+				)
+			);
+
+			$query = new WP_Query( $query_args );
 
 			// prevent pagination on the preview
 			if ( $preview ) {
 				$query->max_num_pages = 1;
 			}
 
+			add_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+
 			lifterlms_loop( $query );
+
+			remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
@@ -157,7 +252,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_header' ) ) {
  * Template for My Achievements on dashboard
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' ) ) {
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
@@ -168,7 +263,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 		}
 
 		$more = false;
-		if ( $preview ) {
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-achievements' ) ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-achievements', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Achievements', 'lifterlms' ),
@@ -183,7 +278,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_achievements',
 			'slug' => 'llms-my-achievements',
-			'title' => __( 'My Achievements', 'lifterlms' ),
+			'title' => $preview ? __( 'My Achievements', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
 			'more' => $more,
 		) );
@@ -195,7 +290,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
  * Template for My Certificates on dashboard
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' ) ) {
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
@@ -205,15 +300,23 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 			return;
 		}
 
+		$more = false;
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-certificates' ) ) {
+			$more = array(
+				'url' => llms_get_endpoint_url( 'view-certificates', '', llms_get_page_url( 'myaccount' ) ),
+				'text' => __( 'View All My Certificates', 'lifterlms' ),
+			);
+		}
+
 		ob_start();
 		lifterlms_template_certificates_loop( $student );
 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_certificates',
 			'slug' => 'llms-my-certificates',
-			'title' => __( 'My Certificates', 'lifterlms' ),
+			'title' => $preview ? __( 'My Certificates', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
-			'more' => false,
+			'more' => $more,
 		) );
 
 	}
@@ -223,7 +326,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
  * Template for My Courses section on dashboard index
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	function lifterlms_template_student_dashboard_my_courses( $preview = false ) {
@@ -234,7 +337,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		}
 
 		$more = false;
-		if ( $preview ) {
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-courses' ) ) {
 			$more = array(
 				'url' => llms_get_endpoint_url( 'view-courses', '', llms_get_page_url( 'myaccount' ) ),
 				'text' => __( 'View All My Courses', 'lifterlms' ),
@@ -247,9 +350,124 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_courses',
 			'slug' => 'llms-my-courses',
-			'title' => __( 'My Courses', 'lifterlms' ),
+			'title' => $preview ? __( 'My Courses', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
 			'more' => $more,
+		) );
+
+	}
+}
+
+/**
+ * Output the "My Grades" template screen on the student dashboard
+ * @return   void
+ * @since    3.24.0
+ * @version  3.24.0
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
+	function lifterlms_template_student_dashboard_my_grades() {
+
+		$student = llms_get_student();
+		if ( ! $student ) {
+			return;
+		}
+
+		global $wp_query;
+		$slug = $wp_query->query['my-grades'];
+
+		// list courses
+		if ( '' === $slug || is_numeric( $slug ) ) {
+
+			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
+			$page = $slug ? $slug : 1;
+
+			$sort = filter_input( INPUT_GET, 'sort', FILTER_SANITIZE_STRING );
+			if ( ! $sort ) {
+				$sort = 'date_desc';
+			}
+			$parts = explode( '_', $sort );
+
+			$courses = $student->get_courses( array(
+				'limit' => $per_page,
+				'skip' => $per_page * ( $page - 1 ),
+				'orderby' => $parts[0],
+				'order' => strtoupper( $parts[1] ),
+			) );
+
+			add_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+			llms_get_template( 'myaccount/my-grades.php', array(
+				'courses' => array_map( 'llms_get_post', $courses['results'] ),
+				'student' => $student,
+				'sort' => $sort,
+				'pagination' => array(
+					'current' => absint( $page ),
+					'max' => absint( ceil( $courses['found'] / $per_page ) ),
+				),
+			) );
+			remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+
+			// show single
+		} else {
+
+			$course = get_posts( array(
+				'name' => $slug,
+				'post_type' => 'course',
+			) );
+
+			$course = array_shift( $course );
+			if ( $course ) {
+				$course = llms_get_post( $course );
+			}
+
+			// get the latest achievement for the course
+			$achievements = LLMS()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
+			$latest_achievement = false;
+			foreach ( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) as $achievement ) {
+				if ( in_array( $achievement->get( 'achievement_template' ), $achievements ) ) {
+					$latest_achievement = $achievement;
+					break;
+				}
+			}
+
+			$last_activity = $student->get_events( array(
+				'per_page' => 1,
+				'post_id' => $course->get( 'id' ),
+			) );
+
+			llms_get_template( 'myaccount/my-grades-single.php', array(
+				'course' => $course,
+				'student' => $student,
+				'latest_achievement' => $latest_achievement,
+				'last_activity' => $last_activity ? strtotime( $last_activity[0]->get( 'updated_date' ) ) : false,
+			) );
+
+		}// End if().
+
+	}
+}// End if().
+
+if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' ) ) {
+	/**
+	 * Output the template for a single grades table on the student dashboard
+	 *
+	 * @param   obj    $course  LLMS_Course.
+	 * @param   obj    $student LLMS_Student.
+	 * @return  void
+	 * @since   3.24.0
+	 * @version 3.24.0
+	 */
+	function lifterlms_template_student_dashboard_my_grades_table( $course, $student ) {
+
+		$section_headings = apply_filters( 'llms_student_dashboard_my_grades_table_headings', array(
+			'completion_date' => __( 'Completion Date', 'lifterlms' ),
+			'associated_quiz' => __( 'Quiz', 'lifterlms' ),
+			'overall_grade' => __( 'Grade', 'lifterlms' ),
+		) );
+
+		llms_get_template( 'myaccount/my-grades-single-table.php', array(
+			'course' => $course,
+			'student' => $student,
+			'section_headings' => $section_headings,
 		) );
 
 	}
@@ -259,14 +477,22 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
  * Template for My Memberships section on dashboard index
  * @return   void
  * @since    3.14.0
- * @version  3.14.0
+ * @version  3.19.0
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) ) {
-	function lifterlms_template_student_dashboard_my_memberships() {
+	function lifterlms_template_student_dashboard_my_memberships( $preview = false ) {
 
 		$student = llms_get_student();
 		if ( ! $student ) {
 			return;
+		}
+
+		$more = false;
+		if ( $preview && LLMS_Student_Dashboard::is_endpoint_enabled( 'view-memberships' ) ) {
+			$more = array(
+				'url' => llms_get_endpoint_url( 'view-memberships', '', llms_get_page_url( 'myaccount' ) ),
+				'text' => __( 'View All My Memberships', 'lifterlms' ),
+			);
 		}
 
 		ob_start();
@@ -275,9 +501,9 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 		llms_get_template( 'myaccount/dashboard-section.php', array(
 			'action' => 'my_memberships',
 			'slug' => 'llms-my-memberships',
-			'title' => __( 'My Memberships', 'lifterlms' ),
+			'title' => $preview ? __( 'My Memberships', 'lifterlms' ) : '',
 			'content' => ob_get_clean(),
-			'more' => false,
+			'more' => $more,
 		) );
 
 	}
@@ -305,7 +531,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
 	function lifterlms_template_student_dashboard_title() {
 		$data = LLMS_Student_Dashboard::get_current_tab();
 		$title = isset( $data['title'] ) ? $data['title'] : '';
-		echo apply_filters( 'lifterlms_student_dashboard_title', '<h2 class="llms-sd-title">' . $title . '</h2>' );
+		echo apply_filters( 'lifterlms_student_dashboard_title', '<h2 class="llms-sd-title">' . $title . '</h2>', $data );
 	}
 }
 
@@ -333,3 +559,81 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) 
 		echo '<div class="llms-student-dashboard ' . $current . '" data-current="' . $current . '">';
 	}
 endif;
+
+/**
+ * Modify the pagination links displayed on endpoints using the default LLMS loop
+ * @param    [type]     $link  [description]
+ * @return   [type]
+ * @since    3.24.0
+ * @version  3.24.0
+ */
+function llms_modify_dashboard_pagination_links( $link ) {
+
+	$query = parse_url( $link, PHP_URL_QUERY );
+
+	if ( $query ) {
+		$link = str_replace( '?' . $query, '', $link );
+	}
+
+	$parts = explode( '/', untrailingslashit( $link ) );
+	$page = end( $parts );
+	$link = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $page . '/', llms_get_page_url( 'myaccount' ) );
+	if ( $query ) {
+		$link .= '?' . $query;
+	}
+
+	return $link;
+
+}
+
+/**
+ * Output content for a single cell on the student single course grades table
+ *
+ * @param   string    $id           key of the table cell.
+ * @param   obj       $lesson       LLMS_Lesson.
+ * @param   obj       $student      LLMS_Student.
+ * @param   array     $restrictions restriction data from `llms_page_restricted()`.
+ * @return  void
+ * @since   3.24.0
+ * @version 3.24.0
+ */
+function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions ) {
+
+	do_action( 'llms_sd_my_grades_table_content_' . $id . '_before', $lesson, $student, $restrictions );
+
+	switch ( $id ) {
+
+		case 'completion_date':
+			if ( $student->is_complete( $lesson->get( 'id' ) ) ) {
+				echo $student->get_completion_date( $lesson->get( 'id' ), get_option( 'date_format' ) );
+			} else {
+				echo '&ndash;';
+			}
+		break;
+
+		case 'associated_quiz':
+			if ( $lesson->has_quiz() && $restrictions['is_restricted'] ) {
+				echo '<i class="fa fa-lock" aria-hidden="true"></i>';
+			} elseif ( $lesson->has_quiz() ) {
+				$attempt = $student->quizzes()->get_last_attempt( $lesson->get( 'quiz' ) );
+				$url = $attempt ? $attempt->get_permalink() : get_permalink( $lesson->get( 'quiz' ) );
+				$text = $attempt ? __( 'Review', 'lifterlms' ) : __( 'Start', 'lifterlms' );
+				if ( $attempt ) {
+					echo '<span class="llms-status llms-' . esc_attr( $attempt->get( 'status' ) ) . '">' . $attempt->l10n( 'status' ) . '</span>';
+				}
+				echo '<a href="' . $url . '">' . $text . '</a>';
+			} else {
+				echo '&ndash;';
+			}
+		break;
+
+		case 'overall_grade':
+			$grade = $student->get_grade( $lesson->get( 'id' ) );
+			echo is_numeric( $grade ) ? llms_get_donut( $grade, '', 'mini' ) : '&ndash;';
+		break;
+
+	}
+
+	do_action( 'llms_sd_my_grades_table_content_' . $id, $lesson, $student, $restrictions );
+
+}

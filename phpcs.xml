@@ -22,11 +22,6 @@
 		<exclude name="WordPress.Files.FileName" />
 
 		<!--
-		@todo definetly fix this, there's just soo many non yodas...
-		-->
-		<exclude name="WordPress.PHP.YodaConditions"/>
-
-		<!--
 		@todo fix this before too long...
 		-->
 		<exclude name="WordPress.Functions.DontExtract"/>

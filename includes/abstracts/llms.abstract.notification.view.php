@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  3.16.14
+ * @version  3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
 	/**
@@ -514,6 +513,16 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
+	 * Access the protected notification object
+	 * @return   obj
+	 * @since    3.18.2
+	 * @version  3.18.2
+	 */
+	public function get_notification() {
+		return $this->notification;
+	}
+
+	/**
 	 * Retrieve a prefix for options related to the notification
 	 * This overrides the LLMS_Abstract_Options_Data method
 	 * @return   string
@@ -598,14 +607,14 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * @param    string     $string  a string
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.24.0
 	 */
 	private function sentence_case( $string ) {
 
 		$sentences = preg_split( '/(\.|\?|\!)(\s|$)+/', $string, -1, PREG_SPLIT_NO_EMPTY | PREG_SPLIT_DELIM_CAPTURE );
 		$new_string = '';
 		foreach ( $sentences as $sentence ) {
-			$new_string .= 1 === strlen( $sentence ) ? $sentence . ' ' : ucfirst( trim( $sentence ) );
+			$new_string .= strlen( $sentence ) === 1 ? $sentence . ' ' : ucfirst( trim( $sentence ) );
 		}
 
 		return trim( $new_string );

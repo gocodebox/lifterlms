@@ -1,11 +1,11 @@
 /**
- * Model relationships mixin
+ * Lesson Schemas
  * @since    3.17.0
- * @version  3.17.1
+ * @version  3.25.4
  */
 define( [], function() {
 
-	return {
+	return window.llms.hooks.applyFilters( 'llms_define_lesson_schema', {
 
 		default: {
 			title: LLMS.l10n.translate( 'General Settings' ),
@@ -58,6 +58,20 @@ define( [], function() {
 							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
 						},
 					},
+					{
+						attribute: 'points',
+						id: 'points',
+						label: LLMS.l10n.translate( 'Lesson Weight' ),
+						label_after: LLMS.l10n.translate( 'POINTS' ),
+						min: 0,
+						max: 99,
+						tip: LLMS.l10n.translate( 'Determines the weight of the lesson when calculating the overall grade of the course.' ),
+						tip_position: 'top-left',
+						type: 'number',
+						condition: function() {
+							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
+						},
+					},
 				], [
 					{
 						attribute: 'prerequisite',
@@ -96,7 +110,7 @@ define( [], function() {
 								},
 							];
 
-							if ( this.get_course().get( 'start_date' ) ) {
+							if ( this.get_course() && this.get_course().get( 'start_date' ) ) {
 								options.push( {
 									key: 'start',
 									val: LLMS.l10n.translate( '# of days after course start date' ),
@@ -150,6 +164,6 @@ define( [], function() {
 			],
 		},
 
-	};
+	} );
 
 } );

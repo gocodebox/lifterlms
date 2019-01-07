@@ -1,10 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.17.1
+ * @version  3.24.2
  */
 class LLMS_Admin_Builder {
 
@@ -15,7 +15,7 @@ class LLMS_Admin_Builder {
 	 * @param    obj     $wp_admin_bar  Instance of WP_Admin_Bar
 	 * @return   void
 	 * @since    3.16.7
-	 * @version  3.16.7
+	 * @version  3.24.0
 	 */
 	public static function admin_bar_menu( $wp_admin_bar ) {
 
@@ -26,7 +26,7 @@ class LLMS_Admin_Builder {
 				array(
 					'parent' => 'site-name',
 					'id'     => 'dashboard',
-					'title'  => __( 'Dashboard' ),
+					'title'  => __( 'Dashboard', 'lifterlms' ),
 					'href'   => admin_url(),
 				)
 			);
@@ -50,12 +50,48 @@ class LLMS_Admin_Builder {
 	 * Retrieve custom field schemas
 	 * @return   array
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  3.17.6
 	 */
 	private static function get_custom_schemas() {
+
+		$quiz_fields = array();
+
+		/**
+		 * Handle old quiz layout compatibility API
+		 * translate the old filter into the new one for quizzes
+		 */
+		if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+
+			llms_log( 'Filter `llms_get_quiz_theme_settings` deprecated since 3.17.6, for more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/' );
+
+			$theme = wp_get_theme();
+
+			$old = llms_get_quiz_theme_setting( 'layout' );
+
+			$field = array(
+				'attribute' => $old['id'],
+				'id' => $old['id'],
+				'label' => $old['name'],
+				'type' => ( 'select' === $old['type'] ) ? 'select' : 'radio',
+				'options' => $old['options'],
+			);
+
+			if ( isset( $old['id_prefix'] ) ) {
+				$field['attribute_prefix'] = $old['id_prefix'];
+			}
+
+			$quiz_fields[ sprintf( '%s_backwards_theme_group', $theme->get_stylesheet() ) ] = array(
+				'title' => sprintf( __( '%s Theme Settings', 'lifterlms' ), $theme->get( 'Name' ) ),
+				'toggleable' => true,
+				'fields' => array( array( $field ) ),
+			);
+
+		}
+		// end backwards compat
+
 		return apply_filters( 'llms_builder_register_custom_fields', array(
 			'lesson' => array(),
-			'quiz' => array(),
+			'quiz' => $quiz_fields,
 		) );
 	}
 
@@ -207,7 +243,7 @@ class LLMS_Admin_Builder {
 	 * @param    array     $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
-	 * @version  3.16.12
+	 * @version  3.19.2
 	 */
 	public static function handle_ajax( $request ) {
 
@@ -242,6 +278,17 @@ class LLMS_Admin_Builder {
 					'slug' => $link[1],
 					'permalink' => str_replace( '%pagename%', $link[1], $link[0] ),
 				) );
+
+			break;
+
+			case 'lazy_load':
+
+				$ret = array();
+				if ( isset( $request['load_id'] ) ) {
+					$post = llms_get_post( absint( $request['load_id'] ) );
+					$ret = $post->toArray();
+				}
+				wp_send_json( $ret );
 
 			break;
 
@@ -302,7 +349,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 *                            builder data will be in the "llms_builder" array
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.7
+	 * @version  3.24.2
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
@@ -311,8 +358,12 @@ if ( ! empty( $active_post_lock ) ) {
 			return $res;
 		}
 
-		// only mess with our data
-		$data = json_decode( $data['llms_builder'], true );
+		// Isolate builder data & ensure slashes aren't removed.
+		$data = $data['llms_builder'];
+
+		// Escape slashes.
+		// $data = json_decode( str_replace( '\\', '\\\\', $data ), true );
+		$data = json_decode( $data, true );
 
 		// setup our return
 		$ret = array(
@@ -355,7 +406,11 @@ if ( ! empty( $active_post_lock ) ) {
 			}
 		}
 
-		// add our return data
+		// Unescape slashes after saved.
+		// This ensures that updates are recognized as successful during Sync comparisons.
+		// $ret = json_decode( str_replace( '\\\\', '\\', json_encode( $ret ) ), true );
+
+		// Return our data.
 		$res['llms_builder'] = $ret;
 
 		return $res;
@@ -398,7 +453,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Output the page content
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.17.0
+	 * @version  3.19.2
 	 */
 	public static function output() {
 
@@ -421,6 +476,9 @@ if ( ! empty( $active_post_lock ) ) {
 
 		remove_all_actions( 'the_title' );
 		remove_all_actions( 'the_content' );
+
+		global $llms_builder_lazy_load;
+		$llms_builder_lazy_load = true;
 		?>
 
 		<div class="wrap lifterlms llms-builder">
@@ -440,7 +498,6 @@ if ( ! empty( $active_post_lock ) ) {
 					'lesson',
 					'lesson-settings',
 					'quiz',
-					'quiz-header',
 					'question',
 					'question-choice',
 					'question-type',
@@ -455,11 +512,12 @@ if ( ! empty( $active_post_lock ) ) {
 					'course_id' => $course_id,
 				) );
 			}
+
 			?>
 
 			<script>window.llms_builder = <?php echo json_encode( array(
 				'admin_url' => admin_url(),
-				'course' => array_merge( $course->toArray() ),
+				'course' => $course->toArray(),
 				'debug' => array(
 					'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
 				),
@@ -475,6 +533,7 @@ if ( ! empty( $active_post_lock ) ) {
 		</div>
 
 		<?php
+		$llms_builder_lazy_load = false;
 		self::handle_post_locking( $course_id );
 
 	}
@@ -884,7 +943,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.15
+	 * @version  3.17.6
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
@@ -940,14 +999,9 @@ if ( ! empty( $active_post_lock ) ) {
 				$res['questions'] = self::update_questions( $quiz_data['questions'], $quiz );
 			}
 
-			if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+			// update all custom fields
+			self::update_custom_schemas( 'quiz', $quiz, $quiz_data );
 
-				$layout = llms_get_quiz_theme_setting( 'layout' );
-				if ( $layout && isset( $quiz_data[ $layout['id'] ] ) ) {
-					$prefix = isset( $layout['id_prefix'] ) ? $layout['id_prefix'] : '';
-					update_post_meta( $quiz->get( 'id' ), sprintf( '%1$s%2$s', $prefix, $layout['id'] ), sanitize_text_field( $quiz_data[ $layout['id'] ] ) );
-				}
-			}
 		}// End if().
 
 		return $res;

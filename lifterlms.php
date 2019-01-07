@@ -3,25 +3,17 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.17.5
- * Author: Thomas Patrick Levy, codeBOX LLC
+ * Version: 3.26.0
+ * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
  * Domain Path: /languages
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
- * Requires at least: 4.0
- * Tested up to: 4.9.5
- *
- * @package     LifterLMS
- * @category 	Core
- * @author 		codeBOX
+ * Requires at least: 4.8
+ * Tested up to: 5.0.2
  */
-
-/**
- * Restrict direct access
- */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Autoloader
@@ -34,7 +26,7 @@ require_once 'vendor/autoload.php';
  */
 final class LifterLMS {
 
-	public $version = '3.17.5';
+	public $version = '3.26.0';
 
 	protected static $_instance = null;
 
@@ -62,7 +54,7 @@ final class LifterLMS {
 	 * LifterLMS Constructor.
 	 * @return   LifterLMS
 	 * @since    1.0.0
-	 * @version  3.15.0
+	 * @version  3.21.1
 	 */
 	private function __construct() {
 
@@ -74,6 +66,12 @@ final class LifterLMS {
 
 		// Define constants
 		$this->define_constants();
+
+		// localize as early as possible
+		// since 4.6 the "just_in_time" l10n will load the default (not custom) file first
+		// so we must localize before any l10n functions (like `__()`) are used
+		// so that our custom "safe" location will always load first
+		$this->localize();
 
 		//Include required files
 		$this->includes();
@@ -145,7 +143,7 @@ final class LifterLMS {
 	/**
 	 * Define LifterLMS Constants
 	 * @since    1.0.0
-	 * @version  3.15.0
+	 * @version  3.17.8
 	 */
 	private function define_constants() {
 
@@ -178,14 +176,48 @@ final class LifterLMS {
 			define( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 		}
 
+		if ( ! defined( 'LLMS_PLUGIN_URL' ) ) {
+
+			/**
+			 * URL to the plugin directory for assets, etc
+			 * @since   3.17.8
+			 * @version 3.17.8
+			 */
+			define( 'LLMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
+
+		}
+
+		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
+
+			// if we're loading in debug mode
+			$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
+
+			/* if debugging, load the unminified version
+			 * on production, load the minified one
+			 */
+			$min = ( $debug ) ? '' : '.min';
+
+			/**
+			 * Assets suffix
+			 * Defines if minified versions of assets should be loaded
+			 * @since   3.17.8
+			 * @version 3.17.8
+			 */
+			define( 'LLMS_ASSETS_SUFFIX', $min );
+		}
+
 	}
 
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.25.0
 	 */
 	private function includes() {
+
+		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
+			require_once 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
+		}
 
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
@@ -201,7 +233,12 @@ final class LifterLMS {
 
 		include_once 'includes/admin/class.llms.admin.assets.php';
 
+		// privacy components
+		require_once 'includes/privacy/class-llms-privacy.php';
+
 		if ( is_admin() ) {
+
+			include_once 'includes/class.llms.dot.com.api.php';
 
 			include_once 'includes/class.llms.generator.php';
 			include_once 'includes/admin/class.llms.admin.import.php';
@@ -227,6 +264,9 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.admin.reviews.php' );
 			require 'includes/abstracts/abstract.llms.admin.metabox.php';
 			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
+			include_once( 'includes/admin/class.llms.student.bulk.enroll.php' );
+
+			require_once 'includes/admin/class-llms-admin-review.php';
 
 		}
 
@@ -287,28 +327,34 @@ final class LifterLMS {
 		include_once( 'includes/class.llms.student.dashboard.php' );
 		include_once( 'includes/class.llms.user.permissions.php' );
 		include_once( 'includes/class.llms.view.manager.php' );
+		include_once( 'includes/class.llms.l10n.js.php' );
 
 		//handler classes
 		require_once 'includes/class.llms.person.handler.php';
 		require_once 'includes/class.llms.post.handler.php';
 
-		include_once( 'includes/class.llms.widgets.php' );
-		include_once( 'includes/class.llms.widget.php' );
+		include_once( 'includes/widgets/class.llms.widgets.php' );
+		include_once( 'includes/widgets/class.llms.widget.php' );
 
 		include_once( 'includes/class.llms.query.php' );
 
 		// controllers
-		include_once 'includes/controllers/class.llms.controller.account.php';
+		include_once 'includes/controllers/class.llms.controller.achievements.php';
+		include_once 'includes/controllers/class.llms.controller.certificates.php';
 		include_once 'includes/controllers/class.llms.controller.lesson.progression.php';
 		include_once 'includes/controllers/class.llms.controller.orders.php';
 		include_once 'includes/controllers/class.llms.controller.quizzes.php';
-		include_once 'includes/controllers/class.llms.controller.registration.php';
+
+		// form controllers
+		include_once 'includes/forms/controllers/class.llms.controller.account.php';
+		include_once 'includes/forms/controllers/class.llms.controller.login.php';
+		include_once 'includes/forms/controllers/class.llms.controller.registration.php';
 
 		// comments
 		include_once( 'includes/class.llms.comments.php' );
 
 		// shortcodes
-		require_once 'includes/class.llms.shortcodes.php';
+		require_once 'includes/shortcodes/class.llms.shortcodes.php';
 		require_once 'includes/shortcodes/class.llms.shortcode.my.account.php';
 		require_once 'includes/shortcodes/class.llms.shortcode.checkout.php';
 
@@ -322,12 +368,16 @@ final class LifterLMS {
 
 			include_once( 'includes/class.llms.template.loader.php' );
 			include_once( 'includes/class.llms.frontend.assets.php' );
-			include_once( 'includes/class.llms.frontend.forms.php' );
-			include_once( 'includes/class.llms.frontend.password.php' );
+
+			// form classes
+			include_once( 'includes/forms/frontend/class.llms.frontend.forms.php' );
+			include_once( 'includes/forms/frontend/class.llms.frontend.password.php' );
+
 			include_once( 'includes/class.llms.person.php' );
 
 		}
 
+		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class.llms.playnice.php';
 
 	}
@@ -343,12 +393,13 @@ final class LifterLMS {
 
 	/**
 	 * Init LifterLMS when WordPress Initialises.
+	 * @return    void [<description>]
+	 * @since     1.0.0
+	 * @version   3.21.1
 	 */
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
-
-		$this->localize();
 
 		if ( ! is_admin() ) {
 			$this->person = new LLMS_Person();
@@ -359,16 +410,6 @@ final class LifterLMS {
 
 		do_action( 'lifterlms_init' );
 
-	}
-
-	/**
-	 * Retrieve an instance of the notifications class
-	 * @return   obj
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public function notifications() {
-		return LLMS_Notifications::instance();
 	}
 
 	/**
@@ -398,9 +439,51 @@ final class LifterLMS {
 		return apply_filters( 'llms_template_path', 'lifterlms/' );
 	}
 
+	public function mailer() {
+		return LLMS_Emails::instance();
+	}
+
+	public function achievements() {
+		return LLMS_Achievements::instance();
+	}
+	public function certificates() {
+		return LLMS_Certificates::instance();
+	}
+
+	public function engagements() {
+		return LLMS_Engagements::instance();
+	}
+
+	/**
+	 * Grading instance
+	 * @return   obj
+	 * @since    3.24.0
+	 * @version  3.24.0
+	 */
+	public function grades() {
+		return LLMS_Grades::instance();
+	}
+
+	/**
+	 * get integrations
+	 * @return object instance
+	 */
+	public function integrations() {
+		return LLMS_Integrations::instance();
+	}
+
+	/**
+	 * Retrieve an instance of the notifications class
+	 * @return   obj
+	 * @since    3.8.0
+	 * @version  3.8.0
+	 */
+	public function notifications() {
+		return LLMS_Notifications::instance();
+	}
+
 	/**
 	 * get payment gateways.
-	 *
 	 * @return array
 	 */
 	public function payment_gateways() {
@@ -416,30 +499,6 @@ final class LifterLMS {
 	 */
 	public function processors() {
 		return LLMS_Processors::instance();
-	}
-
-	public function mailer() {
-		return LLMS_Emails::instance();
-	}
-
-	/**
-	 * get integrations
-	 * @return object instance
-	 */
-	public function integrations() {
-		return LLMS_Integrations::instance();
-	}
-
-	public function engagements() {
-		return LLMS_Engagements::instance();
-	}
-
-	public function certificates() {
-		return LLMS_Certificates::instance();
-	}
-
-	public function achievements() {
-		return LLMS_Achievements::instance();
 	}
 
 	/**
@@ -502,4 +561,3 @@ function LLMS() {
 }
 // @codingStandardsIgnoreEnd
 return LLMS();
-;

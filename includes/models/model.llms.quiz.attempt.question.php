@@ -1,10 +1,16 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Quiz Attempt Answer Question
+ *
+ * @package  LifterLMS/Models
  * @since   3.16.0
  * @version 3.16.15
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Quiz_Attempt_Question model.
  */
 class LLMS_Quiz_Attempt_Question {
 

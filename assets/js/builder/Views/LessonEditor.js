@@ -1,7 +1,7 @@
 /**
  * Lesson Editor (Sidebar) View
  * @since    3.17.0
- * @version  3.17.0
+ * @version  3.24.0
  */
 define( [
 		'Views/_Detachable',
@@ -56,7 +56,7 @@ define( [
 		 * @param    obj   data  parent template data
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  3.24.0
 		 */
 		initialize: function( data ) {
 
@@ -70,6 +70,9 @@ define( [
 			_.each( change_events, function( event ) {
 				this.listenTo( this.model, event, this.render );
 			}, this );
+
+			// render only the tooltip for points percentage when points change
+			this.listenTo( this.model, 'change:points', this.render_points_percentage );
 
 			// when the "has_prerequisite" attr is toggled ON
 			// trigger the prereq select object to set the default (first available) prereq for the lesson
@@ -85,7 +88,7 @@ define( [
 		 * Render the view
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  3.24.0
 		 */
 		render: function() {
 
@@ -101,9 +104,23 @@ define( [
 			this.init_datepickers();
 			this.init_selects();
 
+			this.render_points_percentage();
+
 			return this;
 
 		},
+
+		/**
+		 * Render the portion of the template which displays the points percentage
+		 * @return   void
+		 * @since    3.24.0
+		 * @version  3.24.0
+		 */
+		render_points_percentage: function() {
+			this.$el.find( '#llms-model-settings-field--points .llms-editable-input' )
+				.addClass( 'tip--top-left' )
+				.attr( 'data-tip', this.model.get_points_percentage() );
+		}
 
 	}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
 

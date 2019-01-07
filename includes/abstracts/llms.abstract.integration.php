@@ -1,13 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
 * LifterLMS Integration Abstract
-*
 * @since   3.0.0
-* @version 3.8.0
+* @version 3.21.1
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
@@ -32,6 +30,15 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	public $description = '';
 
 	/**
+	 * Integration Missing Dependencies Description
+	 * Should be defined by extending class in configure() function (so it can be i18n)
+	 * Displays on the settings screen when $this->is_installed() is false
+	 * to help users identify what requirements are missing
+	 * @var  string
+	 */
+	public $description_missing = '';
+
+	/**
 	 * Integration Priority
 	 * Detemines the order of the settings on the Integrations settings table
 	 * Don't be arrogant developers, your integration may not be the most important to the user
@@ -47,12 +54,13 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Constructor
 	 * @return   void
 	 * @since    3.8.0
-	 * @version  3.12.0
+	 * @version  3.18.2
 	 */
 	public function __construct() {
 
 		$this->configure();
-		add_filter( 'lifterlms_integrations_settings', array( $this, 'add_settings' ), $this->priority, 1 );
+		add_filter( 'lifterlms_integrations_settings_' . $this->id, array( $this, 'add_settings' ), $this->priority, 1 );
+		do_action( 'llms_integration_' . $this->id . '_init', $this );
 
 	}
 
@@ -65,6 +73,14 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 */
 	abstract protected function configure();
 
+	/**
+	 * Merge the default abstract settings with the actual integration settings
+	 * Automatically called via filter upon construction
+	 * @param    array     $settings   existing settings from other integrations
+	 * @return   array
+	 * @since    3.17.8
+	 * @version  3.17.8
+	 */
 	public function add_settings( $settings ) {
 		return array_merge( $settings, $this->get_settings() );
 	}
@@ -85,7 +101,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Retrieve an array of integration related settings
 	 * @return   array
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.21.1
 	 */
 	protected function get_settings() {
 
@@ -107,6 +123,12 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 			'type' 		=> 'checkbox',
 			'title'     => __( 'Enable / Disable', 'lifterlms' ),
 		);
+		if ( ! $this->is_installed() && ! empty( $this->description_missing ) ) {
+			$settings[] = array(
+				'type' => 'custom-html',
+				'value' => '<em>' . $this->description_missing . '</em>',
+			);
+		}
 		$settings = array_merge( $settings, $this->get_integration_settings() );
 		$settings[] = array(
 			'type' => 'sectionend',
@@ -130,10 +152,10 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * and the necessary plugin (if any) is installed and activated
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @version  3.17.8
 	 */
 	public function is_available() {
-		return ( $this->is_enabled() && $this->is_installed() );
+		return ( $this->is_installed() && $this->is_enabled() );
 	}
 
 	/**

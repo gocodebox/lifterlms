@@ -1,8 +1,10 @@
 <?php
 /**
  * LifterLMS Membership Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  3.13.0
+ * @version  3.23.0
  *
  * @property  $auto_enroll  (array)  Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
  * @property  $instructors  (array)  Course instructor user information
@@ -11,11 +13,20 @@
  * @property  $redirect_custom_url  (string)  Arbitrary URL to redirect users to when $restriction_redirect_type is 'custom'
  * @property  $restriction_add_notice  (string)  Whether or not to add an on screen message when content is restricted by this membership [yes|no]
  * @property  $restriction_notice  (string)  Notice to display when $restriction_add_notice is 'yes'
+ * @property  $sales_page_content_page_id  (int)  WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'
+ * @property  $sales_page_content_type  (string)  Sales page behavior [none,content,page,url]
+ * @property  $sales_page_content_url  (string)  Redirect URL for a sales page, when $sales_page_content_type is 'url'
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
-class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Instructors {
+/**
+ * LLMS_Membership model.
+ */
+class LLMS_Membership
+extends LLMS_Post_Model
+implements LLMS_Interface_Post_Instructors
+		 , LLMS_Interface_Post_Sales_Page {
 
 	protected $properties = array(
 		'auto_enroll' => 'array',
@@ -25,6 +36,9 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 		'restriction_notice' => 'html',
 		'restriction_redirect_type' => 'text',
 		'redirect_custom_url' => 'text',
+		'sales_page_content_page_id' => 'absint',
+		'sales_page_content_type' => 'string',
+		'sales_page_content_url' => 'string',
 	);
 
 	protected $db_post_type = 'llms_membership'; // maybe fix this
@@ -101,6 +115,33 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 	}
 
 	/**
+	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
+	 * @return   string
+	 * @since    3.20.0
+	 * @version  3.20.0
+	 */
+	public function get_sales_page_url() {
+
+		$type = $this->get( 'sales_page_content_type' );
+		switch ( $type ) {
+
+			case 'page':
+				$url = get_permalink( $this->get( 'sales_page_content_page_id' ) );
+			break;
+
+			case 'url':
+				$url = $this->get( 'sales_page_content_url' );
+			break;
+
+			default:
+				$url = get_permalink( $this->get( 'id' ) );
+
+		}
+
+		return apply_filters( 'llms_membership_get_sales_page_url', $url, $this, $type );
+	}
+
+	/**
 	 * Get an array of student IDs based on enrollment status in the membership
 	 * @param    string|array  $statuses  list of enrollment statuses to query by
 	 *                                    status query is an OR relationship
@@ -114,6 +155,17 @@ class LLMS_Membership extends LLMS_Post_Model implements LLMS_Interface_Post_Ins
 
 		return llms_get_enrolled_students( $this->get( 'id' ), $statuses, $limit, $skip );
 
+	}
+
+	/**
+	 * Determine if sales page rediriction is enabled
+	 * @return   string
+	 * @since    3.20.0
+	 * @version  3.23.0
+	 */
+	public function has_sales_page_redirect() {
+		$type = $this->get( 'sales_page_content_type' );
+		return apply_filters( 'llms_membership_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ) ), $this, $type );
 	}
 
 	/**

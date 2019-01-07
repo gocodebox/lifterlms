@@ -1,9 +1,9 @@
 <?php
 /**
  * LifterLMS Unit Testing Bootstrap
- * @since    3.3.1
- * @version  3.8.0
  * @thanks   WooCommerce <3
+ * @since    3.3.1
+ * @version  3.24.1
  */
 class LLMS_Unit_Tests_Bootstrap {
 
@@ -47,7 +47,7 @@ class LLMS_Unit_Tests_Bootstrap {
 	/**
 	 * Constructor
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.24.0
 	 */
 	public function __construct() {
 
@@ -68,7 +68,7 @@ class LLMS_Unit_Tests_Bootstrap {
 		// load test function so tests_add_filter() is available
 		require_once $this->wp_tests_dir . '/includes/functions.php';
 
-		require_once 'tests/framework/llms.test.functions.php';
+		require_once 'tests/framework/functions-llms-tests.php';
 
 		// load LLMS
 		tests_add_filter( 'muplugins_loaded', array( $this, 'load_llms' ) );
@@ -87,9 +87,39 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * Load LifterLMS
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.22.0
 	 */
 	public function load_llms() {
+
+		$files = array(
+			array(
+				'orig' => $this->tests_dir . '/assets/custom-lifterlms-en_US.mo',
+				'dest' => WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo',
+			),
+			array(
+				'orig' => $this->tests_dir . '/assets/lifterlms-en_US.mo',
+				'dest' => WP_LANG_DIR . '/plugins/lifterlms-en_US.mo',
+			),
+		);
+
+		foreach ( $files as $file ) {
+
+			// remove the destination file to replace it each time we run a test
+			// copy fails if the dest file already exists
+			if ( file_exists( $file['dest'] ) ) {
+				unlink( $file['dest'] );
+			}
+
+			// make sure the destination dir exists
+			$path = pathinfo( $file['dest'] );
+		    if ( ! file_exists( $path['dirname'] ) ) {
+		        mkdir( $path['dirname'], 0777, true );
+		    }
+
+		    // copy the original to the destination
+		    copy( $file['orig'], $file['dest'] );
+
+		}
 
 		// override this constant otherwise a bunch of includes will fail when running tests
 		define( 'LLMS_PLUGIN_DIR', trailingslashit( $this->plugin_dir ) );
@@ -100,9 +130,9 @@ class LLMS_Unit_Tests_Bootstrap {
 
 	/**
 	 * Install LifterLMS
-	 * @return   [type]     [description]
+	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  3.22.0
 	 */
 	public function install_llms() {
 
@@ -131,13 +161,17 @@ class LLMS_Unit_Tests_Bootstrap {
 	 * Load LifterLMS Tests & Related
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.8.0
+	 * @version  3.24.1
 	 */
 	public function includes() {
 
-		require 'tests/framework/class.llms.unit.test.case.php';
-		require 'tests/framework/class.llms.notification.test.case.php';
-		require 'tests/framework/class.llms.post.model.unit.test.case.php';
+		require 'tests/framework/class-llms-unit-test-case.php';
+		require 'tests/framework/class-llms-notification-test-case.php';
+		require 'tests/framework/class-llms-post-model-unit-test-case.php';
+		require 'tests/framework/class-llms-shortcode-test-case.php';
+
+		require 'tests/framework/exceptions/class-llms-testing-exception-exit.php';
+		require 'tests/framework/exceptions/class-llms-testing-exception-redirect.php';
 
 	}
 

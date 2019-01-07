@@ -1,11 +1,14 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Individual Access Plan on Admin Panel
  * @since    3.0.0
- * @version  3.8.0
+ * @version  3.24.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+if ( ! is_admin() ) {
+	exit;
+}
 
 // create a "step" attribute for price fields according to LLMS settings
 $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() );
@@ -57,45 +60,49 @@ if ( ! isset( $plan ) ) {
 
 		<?php do_action( 'llms_access_plan_mb_before_body', $plan, $id, $order ); ?>
 
-		<div class="llms-metabox-field d-1of3">
-			<label><?php _e( 'Plan Title', 'lifterlms' ) ?></label>
-			<input class="llms-plan-title" name="_llms_plans[<?php echo $order; ?>][title]" required="required" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'title' ) . '"' : ' disabled="disabled"'; ?>>
-		</div>
+		<div class="llms-plan-row-1">
 
-		<div class="llms-metabox-field d-1of6">
-			<label><?php _e( 'Plan SKU', 'lifterlms' ) ?></label>
-			<input name="_llms_plans[<?php echo $order; ?>][sku]" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'sku' ) . '"' : ' disabled="disabled"'; ?>>
-		</div>
+			<div class="llms-metabox-field d-1of3">
+				<label><?php _e( 'Plan Title', 'lifterlms' ) ?></label>
+				<input class="llms-plan-title" name="_llms_plans[<?php echo $order; ?>][title]" required="required" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'title' ) . '"' : ' disabled="disabled"'; ?>>
+			</div>
 
-		<div class="llms-metabox-field d-1of6">
-			<label><?php _e( 'Enroll Text', 'lifterlms' ) ?></label>
-			<input name="_llms_plans[<?php echo $order; ?>][enroll_text]" placeholder="<?php _e( 'Enroll, Join, Buy...' ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'enroll_text' ) . '"' : ' disabled="disabled"'; ?>>
-		</div>
+			<div class="llms-metabox-field d-1of6">
+				<label><?php _e( 'Plan SKU', 'lifterlms' ) ?></label>
+				<input name="_llms_plans[<?php echo $order; ?>][sku]" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'sku' ) . '"' : ' disabled="disabled"'; ?>>
+			</div>
 
-		<div class="llms-metabox-field d-1of6">
-			<label><?php _e( 'Visibility', 'lifterlms' ) ?></label>
-			<select name="_llms_plans[<?php echo $order; ?>][visibility]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-				<?php foreach ( llms_get_access_plan_visibility_options() as $val => $name ) : ?>
-					<option value="<?php echo esc_attr( $val ); ?>"<?php selected( $val, ( $plan ) ? $visibility : null ); ?>><?php echo esc_attr( $name ); ?></option>
-				<?php endforeach; ?>
-			</select>
-		</div>
+			<div class="llms-metabox-field d-1of6">
+				<label><?php _e( 'Enroll Text', 'lifterlms' ) ?></label>
+				<input name="_llms_plans[<?php echo $order; ?>][enroll_text]" placeholder="<?php _e( 'Enroll, Join, Buy...', 'lifterlms' ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'enroll_text' ) . '"' : ' disabled="disabled"'; ?>>
+			</div>
 
-		<div class="llms-metabox-field d-1of6">
-			<label><?php _e( 'Is Free', 'lifterlms' ) ?></label>
-			<input data-controller-id="llms-plan-is-free" name="_llms_plans[<?php echo $order; ?>][is_free]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'is_free' ) : 'no' ); ?>>
-			<em><?php _e( 'No payment required', 'lifterlms' ); ?></em>
+			<div class="llms-metabox-field d-1of6">
+				<label><?php _e( 'Visibility', 'lifterlms' ) ?></label>
+				<select name="_llms_plans[<?php echo $order; ?>][visibility]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+					<?php foreach ( llms_get_access_plan_visibility_options() as $val => $name ) : ?>
+						<option value="<?php echo esc_attr( $val ); ?>"<?php selected( $val, ( $plan ) ? $visibility : null ); ?>><?php echo esc_attr( $name ); ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+
+			<div class="llms-metabox-field d-1of6">
+				<label><?php _e( 'Is Free', 'lifterlms' ) ?></label>
+				<input data-controller-id="llms-plan-is-free" name="_llms_plans[<?php echo $order; ?>][is_free]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'is_free' ) : 'no' ); ?>>
+				<em><?php _e( 'No payment required', 'lifterlms' ); ?></em>
+			</div>
+
 		</div>
 
 		<div class="clear"></div>
 
 		<?php do_action( 'llms_access_plan_mb_after_row_one', $plan, $id, $order ); ?>
 
-		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
+		<div class="llms-plan-row-2" data-controller="llms-plan-is-free" data-value-is-not="yes">
 
 			<div class="llms-metabox-field d-1of4">
 				<label><?php _e( 'Price', 'lifterlms' ) ?></label>
-				<input name="_llms_plans[<?php echo $order; ?>][price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
+				<input class="llms-plan-price" name="_llms_plans[<?php echo $order; ?>][price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of4">
@@ -168,71 +175,73 @@ endwhile; ?>
 
 		<?php do_action( 'llms_access_plan_mb_after_row_two', $plan, $id, $order ); ?>
 
-		<div class="d-1of2">
-
-			<div class="llms-metabox-field d-1of2">
-				<label><?php _e( 'Access Expiration', 'lifterlms' ) ?></label>
-				<select data-controller-id="llms-access-expiration" name="_llms_plans[<?php echo $order; ?>][access_expiration]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="lifetime"<?php selected( 'lifetime', $plan ? $access_expiration : '' ); ?>><?php _e( 'Lifetime Access', 'lifterlms' ); ?></option>
-					<option value="limited-period"<?php selected( 'limited-period', $plan ? $access_expiration : '' ); ?>><?php _e( 'Expires after', 'lifterlms' ); ?></option>
-					<option value="limited-date"<?php selected( 'limited-date', $plan ? $access_expiration : '' ); ?>><?php _e( 'Expires on', 'lifterlms' ); ?></option>
-				</select>
-			</div>
-
-			<div class="llms-metabox-field d-1of4" data-controller="llms-access-expiration" data-value-is="limited-date">
-				<label>&nbsp;</label>
-				<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][access_expires]" placeholder="MM/DD/YYYY" required="required" type="text"<?php echo ( $plan && 'limited-date' === $access_expiration ) ? ' value="' . $plan->get_date( 'access_expires', 'm/d/Y' ) . '"' : ' value="' . date_i18n( 'm/d/y', current_time( 'timestamp' ) ) . '" disabled="disabled"'; ?>>
-			</div>
-
-			<div class="llms-metabox-field d-1of6" data-controller="llms-access-expiration" data-value-is="limited-period">
-				<label>&nbsp;</label>
-				<input name="_llms_plans[<?php echo $order; ?>][access_length]" min="1" placeholder="1" required="required" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'access_length' ) . '"' : ' value="1" disabled="disabled"'; ?>>
-			</div>
-
-			<div class="llms-metabox-field d-1of4" data-controller="llms-access-expiration" data-value-is="limited-period">
-				<label>&nbsp;</label>
-				<select name="_llms_plans[<?php echo $order; ?>][access_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<option value="year"<?php selected( 'year', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'year(s)', 'lifterlms' ); ?></option>
-					<option value="month"<?php selected( 'month', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'month(s)', 'lifterlms' ); ?></option>
-					<option value="week"<?php selected( 'week', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'week(s)', 'lifterlms' ); ?></option>
-					<option value="day"<?php selected( 'day', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'day(s)', 'lifterlms' ); ?></option>
-				</select>
-			</div>
-
-		</div>
-
-		<?php if ( $course ) : ?>
-
+		<div class="llms-plan-row-3">
 			<div class="d-1of2">
 
-				<div class="llms-metabox-field d-1of3">
-					<label><?php _e( 'Plan Availability', 'lifterlms' ) ?></label>
-					<select data-controller-id="llms-availability" name="_llms_plans[<?php echo $order; ?>][availability]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-						<option value="open"<?php selected( 'open', $plan ? $availability : '' ); ?>><?php _e( 'Anyone', 'lifterlms' ); ?></option>
-						<option value="members"<?php selected( 'members', $plan ? $availability : '' ); ?>><?php _e( 'Members only', 'lifterlms' ); ?></option>
+				<div class="llms-metabox-field d-1of2">
+					<label><?php _e( 'Access Expiration', 'lifterlms' ) ?></label>
+					<select data-controller-id="llms-access-expiration" name="_llms_plans[<?php echo $order; ?>][access_expiration]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<option value="lifetime"<?php selected( 'lifetime', $plan ? $access_expiration : '' ); ?>><?php _e( 'Lifetime Access', 'lifterlms' ); ?></option>
+						<option value="limited-period"<?php selected( 'limited-period', $plan ? $access_expiration : '' ); ?>><?php _e( 'Expires after', 'lifterlms' ); ?></option>
+						<option value="limited-date"<?php selected( 'limited-date', $plan ? $access_expiration : '' ); ?>><?php _e( 'Expires on', 'lifterlms' ); ?></option>
 					</select>
 				</div>
 
-				<div class="llms-metabox-field d-2of3" data-controller="llms-availability" data-value-is="members">
-					<label><?php _e( 'Memberships', 'lifterlms' ) ?></label>
-					<select class="llms-availability-restrictions" data-post-type="llms_membership" multiple="multiple" name="_llms_plans[<?php echo $order; ?>][availability_restrictions][]" required="required" style="width:100%; height: 25px;" <?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-						<?php if ( $plan ) : ?>
-							<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $membership_id ) : ?>
-								<option value="<?php echo $membership_id; ?>" selected="selected"><?php echo get_the_title( $membership_id ); ?> (<?php printf( __( 'ID# %d', 'lifterlms' ), $membership_id ); ?>)</option>
-							<?php endforeach; ?>
-						<?php endif; ?>
+				<div class="llms-metabox-field d-1of4" data-controller="llms-access-expiration" data-value-is="limited-date">
+					<label>&nbsp;</label>
+					<input class="llms-access-plan-datepicker" name="_llms_plans[<?php echo $order; ?>][access_expires]" placeholder="MM/DD/YYYY" required="required" type="text"<?php echo ( $plan && 'limited-date' === $access_expiration ) ? ' value="' . $plan->get_date( 'access_expires', 'm/d/Y' ) . '"' : ' value="' . date_i18n( 'm/d/y', current_time( 'timestamp' ) ) . '" disabled="disabled"'; ?>>
+				</div>
+
+				<div class="llms-metabox-field d-1of6" data-controller="llms-access-expiration" data-value-is="limited-period">
+					<label>&nbsp;</label>
+					<input name="_llms_plans[<?php echo $order; ?>][access_length]" min="1" placeholder="1" required="required" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'access_length' ) . '"' : ' value="1" disabled="disabled"'; ?>>
+				</div>
+
+				<div class="llms-metabox-field d-1of4" data-controller="llms-access-expiration" data-value-is="limited-period">
+					<label>&nbsp;</label>
+					<select name="_llms_plans[<?php echo $order; ?>][access_period]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+						<option value="year"<?php selected( 'year', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'year(s)', 'lifterlms' ); ?></option>
+						<option value="month"<?php selected( 'month', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'month(s)', 'lifterlms' ); ?></option>
+						<option value="week"<?php selected( 'week', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'week(s)', 'lifterlms' ); ?></option>
+						<option value="day"<?php selected( 'day', ( $plan && 'limited-period' === $access_expiration ) ? $access_period : '' ); ?>><?php _e( 'day(s)', 'lifterlms' ); ?></option>
 					</select>
 				</div>
 
 			</div>
 
-		<?php endif; ?>
+			<?php if ( $course ) : ?>
+
+				<div class="d-1of2">
+
+					<div class="llms-metabox-field d-1of3">
+						<label><?php _e( 'Plan Availability', 'lifterlms' ) ?></label>
+						<select data-controller-id="llms-availability" name="_llms_plans[<?php echo $order; ?>][availability]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+							<option value="open"<?php selected( 'open', $plan ? $availability : '' ); ?>><?php _e( 'Anyone', 'lifterlms' ); ?></option>
+							<option value="members"<?php selected( 'members', $plan ? $availability : '' ); ?>><?php _e( 'Members only', 'lifterlms' ); ?></option>
+						</select>
+					</div>
+
+					<div class="llms-metabox-field d-2of3" data-controller="llms-availability" data-value-is="members">
+						<label><?php _e( 'Memberships', 'lifterlms' ) ?></label>
+						<select class="llms-availability-restrictions" data-post-type="llms_membership" multiple="multiple" name="_llms_plans[<?php echo $order; ?>][availability_restrictions][]" required="required" style="width:100%; height: 25px;" <?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+							<?php if ( $plan ) : ?>
+								<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $membership_id ) : ?>
+									<option value="<?php echo $membership_id; ?>" selected="selected"><?php echo get_the_title( $membership_id ); ?> (<?php printf( __( 'ID# %d', 'lifterlms' ), $membership_id ); ?>)</option>
+								<?php endforeach; ?>
+							<?php endif; ?>
+						</select>
+					</div>
+
+				</div>
+
+			<?php endif; ?>
+		</div>
 
 		<div class="clear"></div>
 
 		<?php do_action( 'llms_access_plan_mb_after_row_three', $plan, $id, $order ); ?>
 
-		<div data-controller="llms-plan-frequency" data-value-is-not="0">
+		<div class="llms-plan-row-4" data-controller="llms-plan-frequency" data-value-is-not="0">
 			<div class="llms-metabox-field d-1of5">
 				<label><?php _e( 'Trial Offer', 'lifterlms' ) ?></label>
 				<select data-controller-id="llms-trial-offer" name="_llms_plans[<?php echo $order; ?>][trial_offer]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
@@ -266,7 +275,7 @@ endwhile; ?>
 
 		<?php do_action( 'llms_access_plan_mb_after_row_four', $plan, $id, $order ); ?>
 
-		<div data-controller="llms-plan-is-free" data-value-is-not="yes">
+		<div class="llms-plan-row-5" data-controller="llms-plan-is-free" data-value-is-not="yes">
 			<div class="llms-metabox-field d-1of5">
 				<label><?php _e( 'Sale Pricing', 'lifterlms' ) ?></label>
 				<select data-controller-id="llms-on-sale" name="_llms_plans[<?php echo $order; ?>][on_sale]"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
@@ -295,7 +304,7 @@ endwhile; ?>
 
 		<?php do_action( 'llms_access_plan_mb_after_row_five', $plan, $id, $order ); ?>
 
-		<div class="llms-metabox-field d-all">
+		<div class="llms-plan-row-6 llms-metabox-field d-all">
 			<label><?php _e( 'Plan Description', 'lifterlms' ) ?></label>
 			<?php wp_editor( htmlspecialchars_decode( $plan ? $plan->get( 'content' ) : '' ), '_llms_plans_content_' . $id, apply_filters( 'llms_access_plan_editor_settings', array(
 				'drag_drop_upload' => true,

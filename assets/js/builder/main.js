@@ -1,11 +1,12 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.17.0
+ * @version  3.24.0
  */
 require( [
-	'../vendor/backbone.collectionView',
-	'../vendor/backbone.trackit',
+	'vendor/wp-hooks',
+	'vendor/backbone.collectionView',
+	'vendor/backbone.trackit',
 	'Controllers/Construct',
 	'Controllers/Debug',
 	'Controllers/Schemas',
@@ -14,6 +15,7 @@ require( [
 	'Views/Course',
 	'Views/Sidebar'
 ], function(
+	Hooks,
 	CV,
 	TrackIt,
 	Construct,
@@ -45,7 +47,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @version  3.24.0
 	 */
 	_.mixin( {
 
@@ -67,6 +69,67 @@ require( [
 		},
 
 		/**
+		 * Recursively clone an object via _.clone()
+		 * @param    obj   obj  object to clone
+		 * @return   obj
+		 * @since    3.17.7
+		 * @version  3.17.7
+		 */
+		deepClone: function( obj ) {
+
+			var clone = _.clone( obj );
+
+			_.each( clone, function( val, key ) {
+				if ( ! _.isFunction( val ) && _.isObject( val ) ) {
+					clone[ key ] = _.deepClone( val );
+				};
+			} );
+
+			return clone;
+
+		},
+
+		/**
+		 * Strips IDs & Parent References from quizzes and all quiz questions
+		 * @param    obj   quiz   raw quiz object (not a model)
+		 * @return   obj
+		 * @since    3.24.0
+		 * @version  3.24.0
+		 */
+		prepareQuizObjectForCloning: function( quiz ) {
+
+			delete quiz.lesson_id;
+			delete quiz.id;
+
+			_.each( quiz.questions, function( question ) {
+
+				delete question.parent_id;
+				delete question.id;
+				if ( question.image && _.isObject( question.image ) ) {
+					question.image._forceSync = true;
+				}
+
+				if ( question.choices ) {
+
+					_.each( question.choices, function( choice ) {
+
+						delete choice.question_id;
+						delete choice.id;
+						if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
+							choice.choice._forceSync = true;
+						}
+
+					} );
+
+				}
+
+			} );
+
+			return quiz;
+
+		},
+
+		/**
 		 * Determine if two values are equal and output seleted attribute if they are
 		 * Useful for templating select elements
 		 * Like WP Core PHP selected() but in JS
@@ -81,6 +144,32 @@ require( [
 				return ' selected="selected"';
 			}
 			return '';
+		},
+
+		/**
+		 * Generic function for stripping HTML tags from a string
+		 * @param    string   content       raw string
+		 * @param    array   allowed_tags  array of allowed HTML tags
+		 * @return   string
+		 * @since    3.17.8
+		 * @version  3.17.8
+		 */
+		stripFormatting: function( content, allowed_tags ) {
+
+			if ( ! allowed_tags ) {
+				allowed_tags = [ 'b', 'i', 'u', 'strong', 'em' ];
+			}
+
+			var $html = $( '<div>' + content + '</div>' );
+
+			$html.find( '*' ).not( allowed_tags.join( ',' ) ).each( function( ) {
+
+				$( this ).replaceWith( this.innerHTML );
+
+			} );
+
+			return $html.html();
+
 		},
 
 	} );

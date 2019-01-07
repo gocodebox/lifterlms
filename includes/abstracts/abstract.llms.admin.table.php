@@ -1,13 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.17.3
+ * @version 3.24.0
  */
 abstract class LLMS_Admin_Table {
 
@@ -59,6 +57,12 @@ abstract class LLMS_Admin_Table {
 	 * @var  boolean
 	 */
 	protected $is_filterable = false;
+
+	/**
+	 * If true will be a table with a larger font size
+	 * @var  bool
+	 */
+	protected $is_large = false;
 
 	/**
 	 * Determine of the table is searchable
@@ -188,10 +192,10 @@ abstract class LLMS_Admin_Table {
 	 * @param    string    $context   display context [display|export]
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  3.17.6
 	 */
 	protected function filter_get_data( $value, $key, $data, $context = 'display' ) {
-		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context );
+		return apply_filters( 'llms_table_get_data_' . $this->id, $value, $key, $data, $context, $this );
 	}
 
 	/**
@@ -226,11 +230,12 @@ abstract class LLMS_Admin_Table {
 	 * Retrieve the array of columns defined by set_columns
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  3.24.0
 	 */
 	public function get_columns( $context = 'display' ) {
 
-		$cols = $this->set_columns();
+		$cols = apply_filters( 'llms_table_get_' . $this->id . '_columns', $this->set_columns(), $context );
+
 		if ( $this->is_exportable ) {
 
 			foreach ( $cols as $id => $data ) {
@@ -241,7 +246,7 @@ abstract class LLMS_Admin_Table {
 			}
 		}
 
-		return apply_filters( 'llms_table_get_' . $this->id . '_columns', $cols, $context );
+		return $cols;
 
 	}
 
@@ -503,9 +508,24 @@ abstract class LLMS_Admin_Table {
 	 * Get the HTML for the entire table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.17.8
 	 */
 	public function get_table_html() {
+
+		$classes = array(
+			'llms-table',
+			'llms-gb-table',
+			'llms-gb-table-' . $this->id,
+		);
+
+		if ( $this->is_zebra ) {
+			$classes[] = 'zebra';
+		}
+
+		if ( $this->is_large ) {
+			$classes[] = 'size-large';
+		}
+
 		ob_start();
 		?>
 		<div class="llms-table-wrap">
@@ -519,7 +539,7 @@ abstract class LLMS_Admin_Table {
 				<?php endif; ?>
 			</header>
 			<table
-				class="llms-table llms-gb-table llms-gb-table-<?php echo $this->id; ?><?php echo $this->is_zebra ? ' zebra' : ''; ?>"
+				class="<?php echo implode( $classes, ' ' ); ?>"
 				data-args='<?php echo json_encode( $this->get_args() ); ?>'
 				data-handler="<?php echo $this->get_handler(); ?>"
 				id="llms-gb-table-<?php echo $this->id; ?>"
@@ -692,23 +712,34 @@ abstract class LLMS_Admin_Table {
 	}
 
 	/**
+	 * Get a CSS class list (as a string) for each TR
+	 * @param    mixed      $data  object / array of data that the function can use to extract the data
+	 * @return   string
+	 * @since    3.24.0
+	 * @version  3.24.0
+	 */
+	protected function get_tr_classes( $row ) {
+		return apply_filters( 'llms_table_get_' . $this->id . '_tr_classes', 'llms-table-tr', $row );
+	}
+
+	/**
 	 * Get the HTML for a single row in the body of the table
 	 * @param    mixed     $row  array/object of data describing a single row in the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  3.21.0
 	 */
 	public function get_tr_html( $row ) {
 		ob_start();
-		do_action( 'llms_table_table_before_tr', $row, $this );
+		do_action( 'llms_table_before_tr', $row, $this );
 		?>
-		<tr>
+		<tr class="<?php echo esc_attr( $this->get_tr_classes( $row ) ); ?>">
 		<?php foreach ( $this->get_columns() as $id => $title ) : ?>
 			<td class="<?php echo $id; ?>"><?php echo $this->get_data( $id, $row ); ?></td>
 		<?php endforeach; ?>
 		</tr>
 		<?php
-		do_action( 'llms_table_table_after_tr', $row, $this );
+		do_action( 'llms_table_after_tr', $row, $this );
 		return ob_get_clean();
 	}
 

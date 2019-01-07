@@ -3,11 +3,10 @@
  * Order Details metabox for Order on Admin Panel
  *
  * @since    3.0.0
- * @version  3.12.0
+ * @version  3.18.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+defined( 'ABSPATH' ) || exit;
+is_admin() || exit;
 
 // used to allow admins to switch payment gateways
 $gateway_feature = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
@@ -163,7 +162,11 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 		<div class="llms-metabox-field">
 			<label><?php _e( 'Buyer Name:', 'lifterlms' ) ?></label>
-			<a href="<?php echo get_edit_user_link( $order->get( 'user_id' ) ); ?>"><?php echo $order->get_customer_name(); ?></a>
+			<?php if ( llms_parse_bool( $order->get( 'anonymized' ) ) ) : ?>
+				<?php echo $order->get_customer_name(); ?>
+			<?php else : ?>
+				<a href="<?php echo get_edit_user_link( $order->get( 'user_id' ) ); ?>"><?php echo $order->get_customer_name(); ?></a>
+			<?php endif; ?>
 		</div>
 
 		<div class="llms-metabox-field">

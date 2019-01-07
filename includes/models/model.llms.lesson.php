@@ -1,11 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Lesson Model
  *
+ * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  3.17.0
+ * @version  3.24.0
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -14,14 +13,22 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property  $free_lesson  (yesno)  Yes if the lesson is free
  * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
  * @property  $order (int)  Lesson's order within its parent section
+ * @property  $points  (absint)  Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
  * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prequisite is 'yes'
  * @property  $parent_course (int)  WP Post ID of the course the lesson belongs to
  * @property  $parent_section (int)  WP Post ID of the section the lesson belongs to
  * @property  $quiz  (int)  WP Post ID of the llms_quiz
  * @property  $quiz_enabled  (yesno)  Whether or not the attached quiz is enabled for students
  * @property  $require_passing_grade  (yesno)  Whether of not students have to pass the quiz to advance to the next lesson
+ * @property  $require_assignment_passing_grade  (yesno)  Whether of not students have to pass the assignment to advance to the next lesson
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Lesson model.
  */
 class LLMS_Lesson
 extends LLMS_Post_Model
@@ -47,12 +54,25 @@ implements LLMS_Interface_Post_Audio
 		'has_prerequisite' => 'yesno',
 		'prerequisite' => 'absint',
 		'require_passing_grade' => 'yesno',
+		'require_assignment_passing_grade' => 'yesno',
 		'video_embed' => 'text',
+		'points' => 'absint',
 
 		// quizzes
 		'quiz' => 'absint',
 		'quiz_enabled' => 'yesno',
 
+	);
+
+	/**
+	 * Array of default property values
+	 * key => default value
+	 * @var  array
+	 * @since   3.24.0
+	 * @version 3.24.0
+	 */
+	protected $property_defaults = array(
+		'points' => 1,
 	);
 
 	protected $db_post_type = 'lesson';
@@ -446,10 +466,10 @@ implements LLMS_Interface_Post_Audio
 	 * Lesson must have a quiz and the quiz must be enabled
 	 * @return   bool
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.18.0
 	 */
 	public function is_quiz_enabled() {
-		return ( $this->has_quiz() && ( 'yes' === $this->get( 'quiz_enabled' ) ) );
+		return ( $this->has_quiz() && llms_parse_bool( $this->get( 'quiz_enabled' ) ) && 'publish' === get_post_status( $this->get( 'quiz' ) ) );
 	}
 
 	/**
@@ -577,8 +597,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get Next lesson
 	 * Finds and returns next lesson id
-	 *
-	 * @return int [ID of next lesson]
+	 * @return   int [ID of next lesson]
+	 * @since    1.0.0
+	 * @version  3.24.0
 	 */
 	public function get_next_lesson() {
 
@@ -641,7 +662,7 @@ implements LLMS_Interface_Post_Audio
 
 			if ( $sections ) {
 				$newsection = new LLMS_Section( $sections[0]->ID );
-				$lessons = $newsection->get_children_lessons();
+				$lessons = $newsection->get_lessons( 'posts' );
 				if ( $lessons ) {
 					return $lessons[0]->ID;
 				} else {
@@ -655,7 +676,9 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get previous lesson id
-	 * @return int [ID of previous lesson]
+	 * @return   int [ID of previous lesson]
+	 * @since    1.0.0
+	 * @version  3.24.0
 	 */
 	public function get_previous_lesson() {
 
@@ -664,7 +687,7 @@ implements LLMS_Interface_Post_Audio
 
 		$previous_position = $current_position - 1;
 
-		if ( $previous_position != 0 ) {
+		if ( 0 != $previous_position ) {
 
 			$args = array(
 				'posts_per_page' 	=> 1,
@@ -700,7 +723,7 @@ implements LLMS_Interface_Post_Audio
 			$current_position = $cursection->get_order();
 			$previous_position = $current_position - 1;
 
-			if ( $previous_position != 0 ) {
+			if ( 0 != $previous_position ) {
 				$args = array(
 					'post_type' 		=> 'section',
 					'posts_per_page'	=> 500,
@@ -725,7 +748,7 @@ implements LLMS_Interface_Post_Audio
 
 				if ( $sections ) {
 					$newsection = new LLMS_Section( $sections[0]->ID );
-					$lessons = $newsection->get_children_lessons();
+					$lessons = $newsection->get_lessons( 'posts' );
 					if ( ! $lessons ) {
 						return false;
 					}

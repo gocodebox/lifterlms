@@ -1,0 +1,336 @@
+.llms-student-dashboard {
+
+	.llms-sd-nav {}
+
+	.llms-sd-title {
+		margin: 25px 0;
+	}
+
+	.llms-sd-items { // ul
+		@extend %clearfix;
+		list-style-type: none;
+		margin: 0;
+		padding: 0;
+	}
+		.llms-sd-item { // li
+			float: left;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+
+			&:last-child {
+				.llms-sep {
+					display: none;
+				}
+			}
+
+			.llms-sep {
+				color: #333;
+				margin: 0 5px;
+			}
+		}
+
+	.llms-sd-section {
+		margin-bottom: 25px;
+		.llms-sd-section-footer {
+			margin-top: 10px;
+		}
+	}
+
+	.orders-table {
+
+		border: 1px solid #f5f5f5;
+		width: 100%;
+
+		thead {
+			display: none;
+			th,td {
+				font-weight: 700;
+			}
+			@media all and ( min-width: 600px ) {
+				display: table-header-group;
+			}
+		}
+
+		tbody {
+			tr:nth-child( even ) {
+				td, th {
+					background: #f9f9f9;
+				}
+			}
+		}
+
+		tfoot {
+			th, td {
+				padding: 10px;
+				text-align: right;
+				&:last-child { border-bottom-width: 0; }
+			}
+		}
+
+		th {
+			font-weight: 700;
+		}
+
+		th, td {
+			border-color: #efefef;
+			border-style: solid;
+			border-width: 0;
+			display: block;
+			padding: 8px 12px;
+			text-align: center;
+
+			.llms-button-primary {
+				display: inline-block;
+			}
+
+			&:last-child {
+				border-bottom-width: 1px;
+			}
+
+			&:before {
+				content: attr( data-label );
+			}
+
+			@media all and ( min-width: 600px ) {
+				border-bottom-width: 1px;
+				display: table-cell;
+				text-align: left;
+				&:first-child { width: 220px; }
+				&:before { display: none; }
+			}
+
+		}
+
+		@media all and ( min-width: 600px ) {
+			&.transactions th:first-child  {width: auto; }
+		}
+
+	}
+
+	@include order_status_badges();
+
+	.llms-person-form-wrapper {
+		.llms-change-password { display: none; }
+	}
+
+	.order-primary {
+
+		@media all and ( min-width: 600px ) {
+			float: left;
+			width: 68%;
+		}
+
+	}
+	.order-secondary {
+
+		@media all and ( min-width: 600px ) {
+			float: left;
+			width: 32%;
+		}
+
+		form {
+			margin-bottom: 0;
+		}
+
+	}
+
+	// stack columns when alternate layout declared via filter
+	@media all and ( min-width: 600px ) {
+		.llms-view-order.llms-stack-cols {
+			.order-primary,
+			.order-secondary {
+				float: none;
+				width: 100%;
+			}
+		}
+	}
+
+	.llms-switch-payment-source {
+		.llms-notice,
+		.entry-content .llms-notice {
+			margin-left: 10px;
+			margin-right: 10px;
+		}
+	}
+
+	.llms-switch-payment-source-main {
+		border: none;
+		display: none;
+		margin: 0;
+		ul.llms-payment-gateways {
+			padding: 10px 15px 0;
+			margin: 0;
+		}
+		.llms-payment-method,
+		ul.llms-order-summary {
+			padding: 0 25px 10px;
+			margin: 0;
+			list-style-type: none;
+			li { list-style-type: none; }
+		}
+	}
+
+	/**
+	 * Dashboard Home
+	 */
+	.llms-loop-list {
+		margin: 0 -10px;
+	}
+
+}
+
+// My Grades course list
+.llms-sd-grades {
+	.llms-table {
+		.llms-progress {
+			display: block;
+			margin: 0;
+			.llms-progress-bar {
+				top: 0;
+				height: 1.4em;
+			}
+			.progress__indicator {
+				font-size: 1em;
+				position: relative;
+				right: 0.4em;
+				top: 0.2em;
+				z-index: 1;
+			}
+		}
+	}
+}
+
+// grades table for a single course
+.llms-table.llms-single-course-grades {
+
+	th {
+		font-weight: 400;
+	}
+
+	td {
+		.llms-donut {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.llms-status {
+			margin-right: 4px;
+		}
+		.llms-donut + .llms-status {
+			margin-left: 4px;
+		}
+	}
+
+	th.llms-section_title {
+		font-size: 110%;
+		font-weight: 700;
+	}
+
+	td.llms-lesson_title {
+		padding-left: 36px;
+		max-width: 40%;
+	}
+	td.llms-associated_quiz {
+		.llms-donut {
+			display: inline-block;
+			margin-right: 5px;
+			vertical-align: middle;
+		}
+	}
+	td.llms-lesson_title {
+		a[href="#"] {
+			pointer-events: none;
+		}
+		a[href^="#"] {
+			color: inherit;
+			position: relative;
+			.llms-tooltip {
+				max-width: 380px;
+				width: 380px;
+				&.show {
+					top: -54px;
+				}
+			}
+		}
+	}
+}
+
+.llms-sd-widgets {
+	display: flex;
+
+	.llms-sd-widget {
+		background: #f9f9f9;
+		flex: 1;
+		margin: 10px 10px 20px;
+		padding: 0 0 20px;
+		&:first-child {
+			margin-left: 0;
+		}
+		&:last-child {
+			margin-right: 0;
+		}
+
+		.llms-sd-widget-title {
+			background: $color-brand-blue;
+			color: #fff;
+			font-size: 18px;
+			line-height: 1;
+			margin: 0 0 20px;
+			padding: 10px;
+		}
+
+		.llms-sd-widget-empty {
+			font-size: 14px;
+			font-style: italic;
+			opacity: 0.5;
+			text-align: center;
+		}
+
+		.llms-donut {
+			margin: 0 auto;
+		}
+
+		.llms-sd-date {
+			opacity: 0.8;
+			text-align: center;
+			font-size: 22px;
+			line-height: 1.1;
+			span {
+				display: block;
+				&.day {
+					font-size: 52px;
+				}
+				&.diff {
+					font-size: 12px;
+					font-style: italic;
+					margin-top: 8px;
+					opacity: 0.75;
+				}
+			}
+		}
+
+		.llms-achievement {
+			background: transparent;
+			margin: 0 auto;
+			max-width: 120px;
+			.llms-achievement-title {
+				display: none;
+			}
+		}
+
+	}
+
+
+}
+
+
+.llms-sd-pagination {
+	margin-top: 24px;
+	@include clearfix;
+	.llms-button-secondary {
+		display: inline-block;
+		&.prev { float: left; }
+		&.next { float: right; }
+	}
+}
+

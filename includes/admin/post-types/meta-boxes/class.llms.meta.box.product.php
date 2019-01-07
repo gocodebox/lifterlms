@@ -1,13 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
 * Meta Box Product info
-*
 * @since    1.0.0
-* @version  3.8.0
+* @version  3.23.0
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	/**
@@ -111,7 +109,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  ID of the post
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  3.8.0
+	 * @version  3.23.0
 	 */
 	public function save( $post_id ) {
 
@@ -128,6 +126,8 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 		}
 
 		foreach ( $plans as $data ) {
+
+			$data = apply_filters( 'llms_access_before_save_plan', $data, $this );
 
 			// required fields
 			if ( empty( $data['title'] ) ) {

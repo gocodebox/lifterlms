@@ -2,7 +2,7 @@
 /**
  * Order History List
  * @since    3.0.0
- * @version  3.0.0
+ * @version  3.17.6
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 ?>
@@ -31,7 +31,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 						<span class="llms-status <?php echo $order->get( 'status' ); ?>"><?php echo $order->get_status_name(); ?></span>
 					</td>
 					<td data-label="<?php _e( 'Date', 'lifterlms' ); ?>: "><?php echo $order->get_date( 'date', 'F j, Y' ); ?></td>
-					<td data-label="<?php _e( 'Expires', 'lifterlms' ); ?>: "><?php echo $order->get_access_expiration_date( 'F j, Y' ); ?></td>
+					<td data-label="<?php _e( 'Expires', 'lifterlms' ); ?>: ">
+						<?php if ( $order->is_recurring() && 'lifetime' === $order->get( 'access_expiration' ) ) : ?>
+							&ndash;
+						<?php else : ?>
+							<?php echo $order->get_access_expiration_date( 'F j, Y' ); ?>
+						<?php endif; ?>
+					</td>
 					<td data-label="<?php _e( 'Next Payment', 'lifterlms' ); ?>: ">
 						<?php if ( $order->has_scheduled_payment() ) : ?>
 							<?php echo $order->get_next_payment_due_date( 'F j, Y' ); ?>

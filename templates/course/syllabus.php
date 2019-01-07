@@ -1,21 +1,15 @@
 <?php
 /**
  * Template for the Course Syllabus Displayed on individual course pages
- *
  * @author 		LifterLMS
  * @package 	LifterLMS/Templates
  * @since       1.0.0
- * @version     3.0.0 - refactored for sanity's sake
+ * @version     3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+defined( 'ABSPATH' ) || exit;
 global $post;
-
 $course = new LLMS_Course( $post );
-
-// retrieve sections to use in the template
-$sections = $course->get_sections( 'posts' );
+$sections = $course->get_sections();
 ?>
 
 <div class="clear"></div>
@@ -28,20 +22,19 @@ $sections = $course->get_sections( 'posts' );
 
 	<?php else : ?>
 
-		<?php foreach ( $sections as $s ) :
-			$section = new LLMS_Section( $s->ID ); ?>
+		<?php foreach ( $sections as $section ) : ?>
 
 			<?php if ( apply_filters( 'llms_display_outline_section_titles', true ) ) : ?>
-				<h3 class="llms-h3 llms-section-title"><?php echo get_the_title( $s->ID ); ?></h3>
+				<h3 class="llms-h3 llms-section-title"><?php echo get_the_title( $section->get( 'id' ) ); ?></h3>
 			<?php endif; ?>
 
-			<?php $lessons = $section->get_children_lessons();
-			if ( $lessons ) : ?>
+			<?php $lessons = $section->get_lessons(); ?>
+			<?php if ( $lessons ) : ?>
 
-				<?php foreach ( $lessons as $l ) : ?>
+				<?php foreach ( $lessons as $lesson ) : ?>
 
 					<?php llms_get_template( 'course/lesson-preview.php', array(
-						'lesson' => new LLMS_Lesson( $l->ID ),
+						'lesson' => $lesson,
 						'total_lessons' => count( $lessons ),
 					) ); ?>
 
@@ -58,4 +51,5 @@ $sections = $course->get_sections( 'posts' );
 	<?php endif; ?>
 
 	<div class="clear"></div>
+
 </div>

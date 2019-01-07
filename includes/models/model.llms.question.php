@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Quiz Question
+ *
+ * @package  LifterLMS/Models
  * @since    1.0.0
  * @version  3.17.0
  *
  * @property  $question_type  (string)  type of question
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Question model.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -14,6 +20,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	protected $model_post_type = 'question';
 
 	protected $properties = array(
+		'content' => 'html',
 		'clarifications' => 'html',
 		'clarifications_enabled' => 'yesno',
 		'description_enabled' => 'yesno',

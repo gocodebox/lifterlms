@@ -2,7 +2,7 @@
 /**
  * Builder question view
  * @since   3.16.0
- * @version 3.16.14
+ * @version 3.17.8
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-choice-template">
@@ -19,7 +19,7 @@
 
 	<# if ( 'text' === data.get( 'choice_type' ) ) { #>
 		<div class="llms-input-wrapper">
-			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="choice" data-formatting="b,i,u" data-original-content="{{{ data.get( 'choice' ) }}}" data-placeholder="<?php esc_attr_e( 'Enter a choice...', 'lifterlms' ); ?>">{{{ data.get( 'choice' ) }}}</span>
+			<span class="llms-input llms-editable-title" contenteditable="true" data-attribute="choice" data-formatting="b,i,u,em,strong" data-original-content="{{{ data.get( 'choice' ) }}}" data-placeholder="<?php esc_attr_e( 'Enter a choice...', 'lifterlms' ); ?>">{{{ data.get( 'choice' ) }}}</span>
 		</div>
 	<# } else if ( 'image' === data.get( 'choice_type' ) ) { #>
 		<div class="llms-editable-image">

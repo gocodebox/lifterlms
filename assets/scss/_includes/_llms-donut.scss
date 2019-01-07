@@ -1,0 +1,81 @@
+.llms-donut {
+
+	@include clearfix;
+
+	background-color: #f1f1f1;
+	background-image: none;
+	border-radius: 50%;
+	color: $color-brand-pink;
+	height: 200px;
+	overflow: hidden;
+	position: relative;
+	width: 200px;
+
+	svg {
+		overflow: visible !important;
+		pointer-events: none;
+	}
+
+	svg path {
+		fill: none;
+		stroke-width: 35px;
+		stroke: $color-brand-pink;
+	}
+
+	&.mini {
+		height: 36px;
+		width: 36px;
+		.percentage {
+			font-size: 10px;
+		}
+	}
+	&.small {
+		height: 100px;
+		width: 100px;
+		.percentage {
+			font-size: 18px;
+		}
+	}
+	&.medium {
+		height: 130px;
+		width: 130px;
+		.percentage {
+			font-size: 26px;
+		}
+	}
+	&.large {
+		height: 260px;
+		width: 260px;
+		.percentage {
+			font-size: 48px;
+		}
+	}
+
+	.inside {
+		align-items: center;
+		background: #fff;
+		border-radius: 50%;
+		box-sizing: border-box;
+		display: flex;
+		flex-wrap: wrap;
+		height: 80%;
+		justify-content: center;
+		left: 50%;
+		position: absolute;
+		text-align: center;
+		transform: translate(-50%, -50%);
+		width: 80%;
+		top: 50%;
+		z-index: 3;
+	}
+
+	.percentage {
+		line-height: 1.2;
+		font-size: 34px;
+	}
+
+	.caption {
+		font-size: 50%;
+	}
+
+}
