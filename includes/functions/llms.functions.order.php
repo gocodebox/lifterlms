@@ -1,15 +1,11 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Functions for LifterLMS Orders
  * @since    [version]
  * @version  [version]
  */
 
-
+defined( 'ABSPATH' ) || exit;
 
 /**
  * [llms_validate_order_data description]
