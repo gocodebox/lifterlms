@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.26.1 - 2019-01-??
 --------------------
 
++ Fix issue causing errors when reviewing orders on the admin panel which were placed via a payment gateway which is no longer active.
 + Fix issue preventing course difficulty and course length from being edited when using the classic editor plugin.
 + Fixed a very convoluted conflict between LifterLMS, WooCommerce, and Elementor explained at https://github.com/gocodebox/lifterlms/issues/730.
 
