@@ -84,7 +84,7 @@ msgstr ""
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:820, includes/functions/llms.functions.order.php:72
+#: includes/class.llms.ajax.handler.php:820, includes/functions/llms.functions.order.php:68
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -3623,19 +3623,19 @@ msgstr ""
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:573, includes/functions/llms.functions.order.php:157
+#: includes/controllers/class.llms.controller.orders.php:573, includes/functions/llms.functions.order.php:153
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:578, includes/functions/llms.functions.order.php:163
+#: includes/controllers/class.llms.controller.orders.php:578, includes/functions/llms.functions.order.php:159
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:583, includes/functions/llms.functions.order.php:169
+#: includes/controllers/class.llms.controller.orders.php:583, includes/functions/llms.functions.order.php:165
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:588, includes/functions/llms.functions.order.php:177
+#: includes/controllers/class.llms.controller.orders.php:588, includes/functions/llms.functions.order.php:173
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -5267,31 +5267,31 @@ msgstr ""
 msgid "Zambian kwacha"
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:43
+#: includes/functions/llms.functions.order.php:39
 msgid "You must agree to the %s to continue."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:50
+#: includes/functions/llms.functions.order.php:46
 msgid "Missing an Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:57
+#: includes/functions/llms.functions.order.php:53
 msgid "Invalid Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:89
+#: includes/functions/llms.functions.order.php:85
 msgid "No payment method selected."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:100
+#: includes/functions/llms.functions.order.php:96
 msgid "Missing customer information."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:119, includes/forms/controllers/class.llms.controller.account.php:97, includes/forms/controllers/class.llms.controller.registration.php:83
+#: includes/functions/llms.functions.order.php:115, includes/forms/controllers/class.llms.controller.account.php:97, includes/forms/controllers/class.llms.controller.registration.php:83
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:129
+#: includes/functions/llms.functions.order.php:125
 msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%s\">here.</a>"
 msgstr ""
 
