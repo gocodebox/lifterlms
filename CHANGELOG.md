@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.26.2 - 2019-01-09
+--------------------
+
++ Fast follow to fix incorrect version number pushed to the readme files for 3.26.1 which prevents upgrading to 3.26.1
+
+
 v3.26.1 - 2019-01-09
 --------------------
 
