@@ -899,7 +899,6 @@ class LLMS_Person_Handler {
 					}
 				}
 			}
-
 		}
 
 		$e = new WP_Error();
