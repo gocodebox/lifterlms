@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.26.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -161,7 +161,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.26.1
 	 */
 	public function get_export_data( $key, $student ) {
 

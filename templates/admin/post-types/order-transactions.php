@@ -2,7 +2,7 @@
 /**
  * Transactions Table Metabox for Orders
  * @since    3.5.0
- * @version  [version]
+ * @version  3.26.1
  */
 
 defined( 'ABSPATH' ) || exit;

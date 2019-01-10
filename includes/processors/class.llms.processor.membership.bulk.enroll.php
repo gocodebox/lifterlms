@@ -9,7 +9,7 @@
  * 		students unenroll
  * 		sutendts complete lessons
  * @since    3.15.0
- * @version  [version]
+ * @version  3.26.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -131,7 +131,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.26.1
 	 */
 	public function task( $item ) {
 

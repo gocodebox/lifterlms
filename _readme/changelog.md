@@ -1,6 +1,25 @@
 == Changelog ==
 
 
+= v3.26.1 - 2019-01-09 =
+------------------------
+
+##### Updates
+
++ Tested to WordPress 5.0.3
++ Student CSV reports will now bypass cached data during report generation.
++ Add course and membership catalog visibility settings into the block editor.
++ Includes LifterLMS Blocks 1.3.0.
+
+##### Bug Fixes
+
++ Fixed issue preventing the course instructors metabox from displaying when using the classic editor plugin.
++ Fixed an issue causing membership background enrollment from processing when the course background processor is disabled via filters.
++ Fixed an issue causing errors when reviewing orders on the admin panel which were placed via a payment gateway which is no longer active.
++ Fixed an issue preventing course difficulty and course length from being edited when using the classic editor plugin.
++ Fixed a very convoluted conflict between LifterLMS, WooCommerce, and Elementor explained at https://github.com/gocodebox/lifterlms/issues/730.
+
+
 = v3.26.0 - 2018-12-27 =
 ------------------------
 
@@ -122,76 +141,3 @@
 ##### Templates Changed
 
 +  templates/checkout/form-confirm-payment.php
-
-
-= v3.24.0 - 2018-10-23 =
-------------------------
-
-##### "My Grades" Student Dashboard Endpoint
-
-+ A new student dashboard endpoint, "My Grades", has been added
-+ The main screen displays a paginated and sortable list of all courses a student is enrolled in and outputs their progress and grade in the courses
-+ Students can drill into individual reporting screens for each course where specific details for each course are available for review
-
-##### Grading Enhancements
-
-+ Each lesson can now be assigned an individual "points" value
-+ When a course is graded the points assigned to each lesson will be used to calculate the value of the lesson's grade within the overall course grade
-+ Lessons can also be assigned a value of "0" to allow a lesson to not count towards the overall grade of the course.
-+ Email notifications are now sent to a student when an instructor reviews, grades, or leaves remarks on a quiz attempt.
-
-##### Test Email Notifications
-
-+ An interface and API for sending test email notifications has been added, the following notifications can now be tested:
-
-  + Purchase Receipt
-  + Quizzes: Failed (Thanks [@philwp](https://github.com/philwp)!)
-  + Quizzes: Graded
-  + Quizzes: Passed (Thanks [@philwp](https://github.com/philwp)!)
-
-##### Updates and Enhancements
-
-+ Quiz Passed & Quiz Failed notifications have new names on the admin panel ("Quizzes: Quiz Passed" & "Quizzes: Quiz Failed")
-+ The default content for Quiz Passed and Quiz Failed notifications have been enhanced. If you've modified these you can delete your modified content to have your notifications "restored" to the improved defaults.
-+ Change the page title of the Student Dashboard page installed via the Setup Wizard to be "Dashboard" instead of "My Courses." Thanks [@philwp](https://github.com/philwp)!
-+ In the course builder when a lesson is duplicated, the attached quiz will be duplicated as well
-+ Minor increase to performance in the `LLMS_Course->get_lessons()` method
-+ Added `student_id` as a parameter passed to the `llms_student_get_progress` filter
-+ Updated all access plan templates added in 3.23.0 to ensure `ABSPATH` is defined to prevent direct template access
-+ Remove use of deprecated `LLMS_Lesson->get_children_lessons()` in the `LLMS_Course` and `LLMS_Lesson` models as well as in the `course/syllabus.php` template
-+ Refactored the `LLMS_Section->get_percent_complete()` method to utilize methods from the `LLMS_Student` model
-+ Added the ability for admin table classes to define `<tr>` element CSS classes
-+ Admin settings pages with no settings to save (like the Notifications list) no longer display a "Save" button
-+ Added actions when creating, updating, and deleting records managed by `LLMS_Abstract_Database_Store` classes
-+ Updated system report to include URLs to settings with URLs, adds a small speed boost to support request turn around time.
-
-##### Please Rate & Review LifterLMS on WordPress.org
-
-+ Added a WordPress.org review request link to the footer of LifterLMS admin pages.
-+ Added a WordPress.org review request notice which displays a week after installation if the site has 50+ active students.
-
-##### Bug fixes
-
-+ Fixed issue causing HTML entity codes to display in email subject lines. Thanks [@philwp](https://github.com/philwp)!
-+ Fixed issue causing post cleanup functions to run queries against unsupported post types.
-+ Fixed typos in a handful of i18n functions so that the proper textdomain is now being used
-+ Removed `get_option()` call to unused option `lifterlms_logout_endpoint` which ran on WordPress initialization unnecessarily.
-+ Removed 3.21.0 fixes for iOS touch issues that are now causing iOS touch issues on quizzes.
-+ When an order is deleted, all order transactions will also be deleted. This does not happen until the order is deleted (transactions will remain while the order is in the trash)
-+ Fixed an issue causing duplicated quizzes to initially show images for question images & image choices (reorder pictures & picture choice) but the image data would not be properly saved so when returning to the builder or viewing a quiz on the frontend the images would be lost
-
-##### Deprecated Functions & Methods
-
-+ Deprecated `LLMS_Section->get_children_lessons()`, use `LLMS_Section->get_lessons( 'posts' )` instead
-
-##### Template Updates
-
-+ [course/syllabus.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/syllabus.php)
-+ [product/access-plan-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-button.php)
-+ [product/access-plan-description.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-description.php)
-+ [product/access-plan-feature.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-feature.php)
-+ [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
-+ [product/access-plan-restrictions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-restrictions.php)
-+ [product/access-plan-title.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-title.php)
-+ [product/access-plan-trial.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-trial.php)
-+ [product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)

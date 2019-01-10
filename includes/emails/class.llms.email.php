@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Email
  * @since    1.0.0
- * @version  [version]
+ * @version  3.26.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -227,7 +227,7 @@ class LLMS_Email {
 	 * Get the HTML email content
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.26.1
 	 */
 	public function get_content_html() {
 

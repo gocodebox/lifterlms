@@ -80,8 +80,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * @todo    this is an incomplete test
 	 * @return  [type]
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.26.1
+	 * @version 3.26.1
 	 */
 	public function test_update() {
 
