@@ -1,11 +1,19 @@
 LifterLMS Changelog
 ===================
 
-v3.26.1 - 2019-01-??
+v3.26.1 - 2019-01-09
 --------------------
+
+##### Updates
 
 + Tested to WordPress 5.0.3
 + Student CSV reports will now bypass cached data during report generation.
++ Add course and membership catalog visibility settings into the block editor.
++ Includes LifterLMS Blocks 1.3.0.
+
+##### Bug Fixes
+
++ Fixed issue preventing the course instructors metabox from displaying when using the classic editor plugin.
 + Fixed an issue causing membership background enrollment from processing when the course background processor is disabled via filters.
 + Fixed an issue causing errors when reviewing orders on the admin panel which were placed via a payment gateway which is no longer active.
 + Fixed an issue preventing course difficulty and course length from being edited when using the classic editor plugin.
