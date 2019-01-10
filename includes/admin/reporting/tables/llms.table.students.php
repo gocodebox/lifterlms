@@ -3,11 +3,14 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.15.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Table_Students class.
+ */
 class LLMS_Table_Students extends LLMS_Admin_Table {
 
 	/**
@@ -158,7 +161,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function get_export_data( $key, $student ) {
 
@@ -214,8 +217,15 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				$value = $student->get( 'last_name' );
 			break;
 
+			case 'overall_grade':
+				$value = $student->get_overall_grade( false );
+				if ( is_numeric( $value ) ) {
+					$value .= '%';
+				}
+			break;
+
 			case 'overall_progress':
-				$value = $student->get_overall_progress( true ) . '%';
+				$value = $student->get_overall_progress( false ) . '%';
 			break;
 
 			case 'billing_address_1':

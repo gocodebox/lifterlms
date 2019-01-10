@@ -5,6 +5,7 @@ v3.26.1 - 2019-01-??
 --------------------
 
 + Tested to WordPress 5.0.3
++ Student CSV reports will now bypass cached data during report generation.
 + Fixed an issue causing membership background enrollment from processing when the course background processor is disabled via filters.
 + Fixed an issue causing errors when reviewing orders on the admin panel which were placed via a payment gateway which is no longer active.
 + Fixed an issue preventing course difficulty and course length from being edited when using the classic editor plugin.
