@@ -1,6 +1,21 @@
 LifterLMS Changelog
 ===================
 
+v3.26.3 - 2019-01-11
+--------------------
+
++ Improved pagination methods on Student Dashboard Endpoints
++ "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
+
+##### Deprecated Functions
+
++ `LLMS_Student_Dashboard::output_notifications_content()` replaced with `lifterlms_template_student_dashboard_my_notifications()`
+
+##### Templates Changed
+
++ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
+
+
 v3.26.2 - 2019-01-09
 --------------------
 

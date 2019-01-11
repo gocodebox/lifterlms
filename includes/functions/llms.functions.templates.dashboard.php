@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  3.25.4
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -99,7 +99,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  3.25.4
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
@@ -144,7 +144,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			$query_args = apply_filters(
 				'llms_dashboard_courses_wp_query_args',
 				array(
-					'paged' => get_query_var( 'view-courses' ),
+					'paged' => get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1,
 					'orderby' => $orderby,
 					'order' => $order,
 					'post__in' => $courses['results'],
@@ -362,7 +362,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
  * Output the "My Grades" template screen on the student dashboard
  * @return   void
  * @since    3.24.0
- * @version  3.24.0
+ * @version  [version]
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	function lifterlms_template_student_dashboard_my_grades() {
@@ -372,14 +372,14 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			return;
 		}
 
-		global $wp_query;
+		global $wp_query, $wp_rewrite;
 		$slug = $wp_query->query['my-grades'];
 
 		// list courses
-		if ( '' === $slug || is_numeric( $slug ) ) {
+		if ( empty( $slug ) || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
 
 			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
-			$page = $slug ? $slug : 1;
+			$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 
 			$sort = filter_input( INPUT_GET, 'sort', FILTER_SANITIZE_STRING );
 			if ( ! $sort ) {
@@ -510,6 +510,102 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 }
 
 /**
+ * Template for My Notifications student dashboard endpoint
+ *
+ * @return   void
+ * @since    [version]
+ * @version  [version]
+ */
+if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' ) ) {
+
+	function lifterlms_template_student_dashboard_my_notifications() {
+
+		$url = llms_get_endpoint_url( 'notifications', '', llms_get_page_url( 'myaccount' ) );
+
+		$sections = array(
+			array(
+				'url' => $url,
+				'name' => __( 'View Notifications', 'lifterlms' ),
+			),
+			array(
+				'url' => add_query_arg( 'sdview', 'prefs', $url ),
+				'name' => __( 'Manage Preferences', 'lifterlms' ),
+			),
+		);
+
+		$view = isset( $_GET['sdview'] ) ? $_GET['sdview'] : 'view';
+
+		if ( 'view' === $view ) {
+
+			$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
+
+			$notifications = new LLMS_Notifications_Query( array(
+				'page' => $page,
+				'per_page' => apply_filters( 'llms_sd_my_notifications_per_page', 25 ),
+				'subscriber' => get_current_user_id(),
+				'sort' => array(
+					'created' => 'DESC',
+					'id' => 'DESC',
+				),
+				'types' => 'basic',
+			) );
+
+			$pagination = array(
+				'max' => $notifications->max_pages,
+				'current' => $page,
+			);
+
+			$args = array(
+				'notifications' => $notifications->get_notifications(),
+				'pagination' => $pagination,
+				'sections' => $sections,
+			);
+
+		} else {
+
+			$types = apply_filters( 'llms_notification_subscriber_manageable_types', array( 'email' ) );
+
+			$settings = array();
+			$student = new LLMS_Student( get_current_user_id() );
+
+			foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
+
+				foreach ( $types as $type ) {
+
+					$configs = $controller->get_subscribers_settings( $type );
+					if ( in_array( 'student', array_keys( $configs ) ) && 'yes' === $configs['student'] ) {
+
+						if ( ! isset( $settings[ $type ] ) ) {
+							$settings[ $type ] = array();
+						}
+
+						$settings[ $type ][ $controller->id ] = array(
+							'name' => $controller->get_title(),
+							'value' => $student->get_notification_subscription( $type, $controller->id, 'yes' ),
+						);
+					}
+				}
+			}
+
+			$args = array(
+				'sections' => $sections,
+				'settings' => $settings,
+			);
+
+		}// End if().
+
+		add_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+
+		llms_get_template( 'myaccount/my-notifications.php', $args );
+
+		remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
+
+	}
+
+}
+
+
+/**
  * Dashboard Navigation template
  * @return void
  * @since    3.0.0
@@ -562,12 +658,22 @@ endif;
 
 /**
  * Modify the pagination links displayed on endpoints using the default LLMS loop
- * @param    [type]     $link  [description]
- * @return   [type]
+ * @param    string     $link  default link.
+ * @return   string
  * @since    3.24.0
- * @version  3.24.0
+ * @version  [version]
  */
 function llms_modify_dashboard_pagination_links( $link ) {
+
+	/**
+	 * Allow 3rd parties to disable dashboard pagination link rewriting.
+	 * Resolves compatibility issues with LifterLMS WooCommerce.
+	 */
+	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', false, $link ) ) {
+		return $link;
+	}
+
+	global $wp_rewrite;
 
 	$query = parse_url( $link, PHP_URL_QUERY );
 
@@ -577,7 +683,7 @@ function llms_modify_dashboard_pagination_links( $link ) {
 
 	$parts = explode( '/', untrailingslashit( $link ) );
 	$page = end( $parts );
-	$link = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $page . '/', llms_get_page_url( 'myaccount' ) );
+	$link = llms_get_endpoint_url( LLMS_Student_Dashboard::get_current_tab( 'slug' ), $wp_rewrite->pagination_base . '/' . $page . '/', llms_get_page_url( 'myaccount' ) );
 	if ( $query ) {
 		$link .= '?' . $query;
 	}

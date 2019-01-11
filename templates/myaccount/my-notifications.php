@@ -1,10 +1,13 @@
 <?php
 /**
  * Notifications Center
+ *
  * @since    3.8.0
- * @version  3.9.0
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
+
 $sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;' );
 ?>
 
@@ -33,13 +36,18 @@ $sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;'
 		<?php endif; ?>
 
 		<footer class="llms-sd-pagination llms-my-notifications-pagination">
-			<?php if ( $pagination['prev'] ) : ?>
-				<a class="llms-button-secondary small prev" href="<?php echo esc_url( $pagination['prev'] ); ?>">&lt; <?php _e( 'Back', 'lifterlms' ); ?></a>
-			<?php endif; ?>
-
-			<?php if ( $pagination['next'] ) : ?>
-				<a class="llms-button-secondary small next" href="<?php echo esc_url( $pagination['next'] ); ?>"><?php _e( 'Next', 'lifterlms' ); ?> &gt;</a>
-			<?php endif; ?>
+			<nav class="llms-pagination">
+			<?php echo paginate_links( array(
+				'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+				'format'       => '?page=%#%',
+				'total'        => $pagination['max'],
+				'current'      => $pagination['current'],
+				'prev_next'    => true,
+				'prev_text'    => '« ' . __( 'Previous', 'lifterlms' ),
+				'next_text'    => __( 'Next', 'lifterlms' ) . ' »',
+				'type'         => 'list',
+			) ); ?>
+			</nav>
 		</footer>
 
 	<?php elseif ( isset( $settings ) ) : ?>
