@@ -601,8 +601,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 		remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 
 	}
-
-}
+}// End if().
 
 
 /**
