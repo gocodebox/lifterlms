@@ -1,11 +1,16 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Quizzes Reporting Table
  *
+ * @package  LifterLMS/Admin/Reporting/Tables/Classes
  * @since    3.16.0
- * @version  3.25.0
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Table_Quiz_Attempts class.
  */
 class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
@@ -78,14 +83,18 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @param    obj        $attempt  LLMS_Quiz_Attempt obj
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  3.17.3
+	 * @version  [version]
 	 */
 	protected function get_data( $key, $attempt ) {
 
 		switch ( $key ) {
 
 			case 'student':
-				$value = $attempt->get_student()->get_name();
+				$value = '&ndash;';
+				$student = $attempt->get_student();
+				if ( $student ) {
+					$value = $student->get_name();
+				}
 			break;
 
 			case 'attempt':

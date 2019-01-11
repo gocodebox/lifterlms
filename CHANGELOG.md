@@ -4,8 +4,14 @@ LifterLMS Changelog
 v3.26.3 - 2019-01-11
 --------------------
 
+##### Updates
+
 + Improved pagination methods on Student Dashboard Endpoints
 + "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
+
+##### Bug Fixes
+
++ Fixed issues causing errors on quiz reporting screens for quiz attempts made by deleted users.
 
 ##### Deprecated Functions
 
@@ -13,7 +19,8 @@ v3.26.3 - 2019-01-11
 
 ##### Templates Changed
 
-+ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
++ [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
++ [admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
 
 
 v3.26.2 - 2019-01-09
