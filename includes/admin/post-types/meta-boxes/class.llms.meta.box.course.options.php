@@ -360,7 +360,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 */
 	protected function save_before( $post_id ) {
 
-		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID )) {
+		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID ) ) {
 
 			if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
 				$difficulty = '';
