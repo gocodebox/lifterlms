@@ -58,6 +58,19 @@
       "@tests-teardown",
       "tests/bin/install.sh lifterlms_tests root password localhost latest"
     ],
-    "tests-teardown": "tests/bin/teardown.sh lifterlms_tests root password localhost latest"
+    "tests-teardown": "tests/bin/teardown.sh lifterlms_tests root password localhost latest",
+
+    "check-cs": [
+      "\"vendor/bin/phpcs\" --colors"
+    ],
+    "check-cs-errors": [
+      "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6"
+    ],
+    "fix-cs": [
+      "\"vendor/bin/phpcbf\""
+    ],
+    "tests-run": [
+      "vendor/bin/phpunit"
+    ]
   }
 }
