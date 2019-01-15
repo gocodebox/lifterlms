@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Admin/Reporting/Tables/Classes
  * @since    3.16.0
- * @version  [version]
+ * @version  3.26.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -83,7 +83,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * @param    obj        $attempt  LLMS_Quiz_Attempt obj
 	 * @return   mixed
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.26.3
 	 */
 	protected function get_data( $key, $attempt ) {
 

@@ -1,6 +1,30 @@
 == Changelog ==
 
 
+= v3.26.3 - 2019-01-15 =
+------------------------
+
+##### Updates
+
++ Improved pagination methods on Student Dashboard Endpoints
++ "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
++ Update to [LifterLMS Blocks 1.3.1](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/).
+
+##### Bug Fixes
+
++ Fixed an issue preventing course difficulty and course length from being edited when using various page builders.
++ Fixed issues causing errors on quiz reporting screens for quiz attempts made by deleted users.
+
+##### Deprecated Functions
+
++ `LLMS_Student_Dashboard::output_notifications_content()` replaced with `lifterlms_template_student_dashboard_my_notifications()`
+
+##### Templates Changed
+
++ [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
++ [admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
+
+
 = v3.26.2 - 2019-01-09 =
 ------------------------
 
@@ -121,9 +145,3 @@
 + Fixed issue on iOS Safari causing multiple choice quiz questions to require a "long press" to be properly selected
 + Fixed issue causing access plan sales to end 36m and 1s prior to end of the day on the desired sale end date. Thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
 + Ensure that fallback url slugs for course & membership archives are translateable.
-
-
-= v3.24.2 - 2018-10-30 =
-------------------------
-
-+ Fix issue causing newline characters to be malformed on course builder description fields, resulting in `n` characters being output in strange places.

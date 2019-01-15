@@ -2,7 +2,7 @@
 /**
 * Page functions
 * @since    1.0.0
-* @version  [version]
+* @version  3.26.3
 */
 defined( 'ABSPATH' ) || exit;
 
@@ -40,7 +40,7 @@ function llms_confirm_payment_url( $order_key = null ) {
  * @param    string     $permalink  base URL to append the endoint to
  * @return   string
  * @since    1.0.0
- * @version  [version]
+ * @version  3.26.3
  */
 function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 	if ( ! $permalink ) {

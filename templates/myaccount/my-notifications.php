@@ -3,7 +3,7 @@
  * Notifications Center
  *
  * @since    3.8.0
- * @version  [version]
+ * @version  3.26.3
  */
 
 defined( 'ABSPATH' ) || exit;

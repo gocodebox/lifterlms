@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  * @since    3.0.0
- * @version  [version]
+ * @version  3.26.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -99,7 +99,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
  * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
  * @return   void
  * @since    3.14.0
- * @version  [version]
+ * @version  3.26.3
  */
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
@@ -362,7 +362,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
  * Output the "My Grades" template screen on the student dashboard
  * @return   void
  * @since    3.24.0
- * @version  [version]
+ * @version  3.26.3
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 	function lifterlms_template_student_dashboard_my_grades() {
@@ -513,8 +513,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
  * Template for My Notifications student dashboard endpoint
  *
  * @return   void
- * @since    [version]
- * @version  [version]
+ * @since    3.26.3
+ * @version  3.26.3
  */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' ) ) {
 
@@ -660,7 +660,7 @@ endif;
  * @param    string     $link  default link.
  * @return   string
  * @since    3.24.0
- * @version  [version]
+ * @version  3.26.3
  */
 function llms_modify_dashboard_pagination_links( $link ) {
 

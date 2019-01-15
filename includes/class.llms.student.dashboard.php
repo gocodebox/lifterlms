@@ -3,7 +3,7 @@
  * Retrieve data sets used by various other classes and functions
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.26.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -124,7 +124,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.26.3
 	 */
 	public static function get_tabs() {
 
@@ -404,8 +404,8 @@ class LLMS_Student_Dashboard {
 	 * Callback to oupput the notifications content
 	 * @return     void
 	 * @since      3.8.0
-	 * @version    [version]
-	 * @deprecated [version]
+	 * @version    3.26.3
+	 * @deprecated 3.26.3
 	 */
 	public static function output_notifications_content() {
 		llms_deprecated_function( 'LLMS_Student_Dashboard::output_notifications_content()', '3.26.3', 'lifterlms_template_student_dashboard_my_notifications()' );

@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Models
  * @since   3.9.0
- * @version [version]
+ * @version 3.26.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -491,7 +491,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Retrieve a title-like string
 	 * @return   string
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.26.3
 	 */
 	public function get_title() {
 		$student = $this->get_student();
