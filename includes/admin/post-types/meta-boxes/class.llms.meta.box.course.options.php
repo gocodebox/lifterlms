@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Course Options
  * @since    1.0.0
- * @version  3.26.1
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Meta_Box_Course_Options class.
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -26,7 +30,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * Setup fields
 	 * @return array
 	 * @since    1.0.0
-	 * @version  3.26.1
+	 * @version  [version]
 	 */
 	public function get_fields() {
 
@@ -338,11 +342,9 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
-		if ( function_exists( 'register_block_type' ) ) {
-			if ( ! class_exists( 'Classic_Editor' ) || ( class_exists( 'Classic_Editor' ) && 'classic-editor' !== get_post_meta( $this->post->ID, 'classic-editor-remember', true ) ) ) {
-				unset( $fields[1]['fields'][0] ); // length
-				unset( $fields[1]['fields'][1] ); // difficulty
-			}
+		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
+			unset( $fields[1]['fields'][0] ); // length
+			unset( $fields[1]['fields'][1] ); // difficulty
 		}
 
 		return $fields;
@@ -354,11 +356,11 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the course
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.25.0
+	 * @version  [version]
 	 */
 	protected function save_before( $post_id ) {
 
-		if ( ! function_exists( 'register_block_type' ) ) {
+		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID )) {
 
 			if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
 				$difficulty = '';

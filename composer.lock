@@ -72,16 +72,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.3.0",
+            "version": "1.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "ec5dedb56f689a226e25d26b85a2864c75ba7b8d"
+                "reference": "be1609aa10c446495323123f6d40440441a61562"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/ec5dedb56f689a226e25d26b85a2864c75ba7b8d",
-                "reference": "ec5dedb56f689a226e25d26b85a2864c75ba7b8d",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/be1609aa10c446495323123f6d40440441a61562",
+                "reference": "be1609aa10c446495323123f6d40440441a61562",
                 "shasum": ""
             },
             "require-dev": {
@@ -102,7 +102,7 @@
                 }
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
-            "time": "2019-01-10T01:17:01+00:00"
+            "time": "2019-01-15T21:13:41+00:00"
         }
     ],
     "packages-dev": [

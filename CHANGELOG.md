@@ -1,16 +1,18 @@
 LifterLMS Changelog
 ===================
 
-v3.26.3 - 2019-01-11
+v3.26.3 - 2019-01-15
 --------------------
 
 ##### Updates
 
 + Improved pagination methods on Student Dashboard Endpoints
 + "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
++ Update to [LifterLMS Blocks 1.3.1](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/).
 
 ##### Bug Fixes
 
++ Fixed an issue preventing course difficulty and course length from being edited when using various page builders.
 + Fixed issues causing errors on quiz reporting screens for quiz attempts made by deleted users.
 
 ##### Deprecated Functions
