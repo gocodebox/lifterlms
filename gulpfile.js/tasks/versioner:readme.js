@@ -13,16 +13,17 @@ var   gulp    = require( 'gulp' )
 	, replace = require( 'gulp-replace' )
 	, argv    = require( 'yargs' ).argv
 	, gutil   = require( 'gulp-util' )
+	, getVersion = require( process.cwd() + '/node_modules/lifterlms-lib-tasks/lib/getVersion' )
+	, pkg = require( process.cwd() + '/package.json' )
 ;
 
 gulp.task( 'versioner:readme', function() {
 
-	var the_version = argv.V;
+    let the_version = argv.V;
 
-	if ( ! the_version ) {
-		gutil.log( gutil.colors.red( 'Missing version number. Try `gulp versioner -V 9.9.9`' ) );
-		return;
-	}
+    the_version = getVersion( the_version, pkg.version );
+
+    gutil.log( gutil.colors.blue( 'Updating extra file versions to `' + the_version + '`' ) );
 
 	return gulp.src( [ './_readme/header.md'  ], { base: './' } )
 		.pipe( replace( /Stable tag: (\d+\.\d+\.\d+)(\-\D+\.\d+)?/g, function( match, p1, p2, string ) {
@@ -33,5 +34,6 @@ gulp.task( 'versioner:readme', function() {
 			return match.replace( p1, the_version );
 		} ) )
 		.pipe( gulp.dest( './' ) );
+
 
 } );
