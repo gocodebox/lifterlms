@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.26.4 - 2019-01-16
+--------------------
+
++ Update to [LifterLMS Blocks 1.3.2](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/), fixing an issue preventing template actions from being removed from migrated courses & lessons.
+
+
 v3.26.3 - 2019-01-15
 --------------------
 
