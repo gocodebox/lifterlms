@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.26.4 - 2019-01-16 =
+------------------------
+
++ Update to [LifterLMS Blocks 1.3.2](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/), fixing an issue preventing template actions from being removed from migrated courses & lessons.
+
+
 = v3.26.3 - 2019-01-15 =
 ------------------------
 
@@ -129,19 +135,3 @@
 + [templates/course/author.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/author.php)
 + [course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
 + [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)
-
-
-= v3.24.3 - 2018-11-13 =
-------------------------
-
-##### Updates
-
-+ Added user email, login, url, nicename, display name, first name, and last name as fields searched when searching orders. Thanks Thanks [@yojance](https://github.com/yojance)!
-
-##### Bug Fixes
-
-+ Fixed issue causing fatal errors encountered during certificate downloading caused by CSS `<link>` tags existing outside of the `<head>` element.
-+ Certificates downloaded by users who can see the WP Admin Bar will no longer show the admin bar on the downloaded certificate
-+ Fixed issue on iOS Safari causing multiple choice quiz questions to require a "long press" to be properly selected
-+ Fixed issue causing access plan sales to end 36m and 1s prior to end of the day on the desired sale end date. Thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ Ensure that fallback url slugs for course & membership archives are translateable.
