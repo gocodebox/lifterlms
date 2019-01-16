@@ -1,8 +1,10 @@
 LifterLMS Changelog
 ===================
 
-v3.26.1 - 2019-01-??
+v3.27.0 - 2019-01-??
 --------------------
+
+##### Updates
 
 + Updated checkout javascript to expose an error addition functions
 + Removed display order field from payment gateway settings in favor of using the gateway table sortable list
@@ -15,10 +17,53 @@ v3.26.1 - 2019-01-??
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 
 
-v3.26.1 - 2019-01-??
+v3.26.3 - 2019-01-15
 --------------------
 
+##### Updates
+
 + Fix issue preventing course difficulty and course length from being edited when using the classic editor plugin.
++ Improved pagination methods on Student Dashboard Endpoints
++ "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
++ Update to [LifterLMS Blocks 1.3.1](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/).
+
+##### Bug Fixes
+
++ Fixed an issue preventing course difficulty and course length from being edited when using various page builders.
++ Fixed issues causing errors on quiz reporting screens for quiz attempts made by deleted users.
+
+##### Deprecated Functions
+
++ `LLMS_Student_Dashboard::output_notifications_content()` replaced with `lifterlms_template_student_dashboard_my_notifications()`
+
+##### Templates Changed
+
++ [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
++ [admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
+
+
+v3.26.2 - 2019-01-09
+--------------------
+
++ Fast follow to fix incorrect version number pushed to the readme files for 3.26.1 which prevents upgrading to 3.26.1
+
+
+v3.26.1 - 2019-01-09
+--------------------
+
+##### Updates
+
++ Tested to WordPress 5.0.3
++ Student CSV reports will now bypass cached data during report generation.
++ Add course and membership catalog visibility settings into the block editor.
++ Includes LifterLMS Blocks 1.3.0.
+
+##### Bug Fixes
+
++ Fixed issue preventing the course instructors metabox from displaying when using the classic editor plugin.
++ Fixed an issue causing membership background enrollment from processing when the course background processor is disabled via filters.
++ Fixed an issue causing errors when reviewing orders on the admin panel which were placed via a payment gateway which is no longer active.
++ Fixed an issue preventing course difficulty and course length from being edited when using the classic editor plugin.
 + Fixed a very convoluted conflict between LifterLMS, WooCommerce, and Elementor explained at https://github.com/gocodebox/lifterlms/issues/730.
 
 

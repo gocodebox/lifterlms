@@ -800,7 +800,7 @@ class LLMS_Person_Handler {
 	 *                        	'llms_billing_country' => '',
 	 *                        	'llms_phone' => '',
 	 *                        )
-	 * @param    string $screen  screen to perform validations for, accepts "update" or "checkout"
+	 * @param    string $screen  screen to perform validations for, accepts "account", update" or "checkout"
 	 * @return   int|WP_Error
 	 * @since    3.0.0
 	 * @version  3.7.0
@@ -870,7 +870,7 @@ class LLMS_Person_Handler {
 	 *                        	'llms_billing_country' => '',
 	 *                        	'llms_phone' => '',
 	 *                        )
-	 * @param    string $screen screen to validate fields against, accepts "checkout", "registration", or "update"
+	 * @param    string $screen screen to validate fields against, accepts "account", "checkout", "registration", or "update"
 	 * @return   true|WP_Error
 	 * @since    3.0.0
 	 * @version  3.19.4

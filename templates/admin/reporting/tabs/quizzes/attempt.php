@@ -3,16 +3,19 @@
  * Single Quiz Tab: Single Attempt Subtab
  * @since    3.16.0
  * @version  3.17.3
-	* @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
+ * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
  */
 if ( ! defined( 'ABSPATH' ) || ! is_admin() ) {
 	exit;
 }
 
 $student = $attempt->get_student();
-$siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' ), array(
-	'per_page' => 10,
-) );
+$siblings = array();
+if ( $student ) {
+	$siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' ), array(
+		'per_page' => 10,
+	) );
+}
 ?>
 
 <div class="llms-reporting-tab-content">
