@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.26.? - 2019-01-??
+--------------------
+
++ Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
+
+
 v3.26.4 - 2019-01-16
 --------------------
 
