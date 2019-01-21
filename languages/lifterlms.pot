@@ -2451,19 +2451,19 @@ msgstr ""
 msgid "Visitor"
 msgstr ""
 
-#: includes/class.llms.voucher.php:259
+#: includes/class.llms.voucher.php:262
 msgid "Voucher code \"%s\" could not be found."
 msgstr ""
 
-#: includes/class.llms.voucher.php:263
+#: includes/class.llms.voucher.php:266
 msgid "Voucher code \"%s\" has already been redeemed the maximum number of times."
 msgstr ""
 
-#: includes/class.llms.voucher.php:267
+#: includes/class.llms.voucher.php:270
 msgid "Voucher code \"%s\" is no longer valid."
 msgstr ""
 
-#: includes/class.llms.voucher.php:295
+#: includes/class.llms.voucher.php:298
 msgid "You have already redeemed this voucher."
 msgstr ""
 
@@ -3627,7 +3627,7 @@ msgstr ""
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:588, includes/functions/llms.functions.order.php:173
+#: includes/controllers/class.llms.controller.orders.php:588, includes/functions/llms.functions.order.php:171
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -5672,6 +5672,11 @@ msgstr ""
 
 #: includes/models/model.llms.quiz.attempt.php:517
 msgid "You must be logged in to take a quiz!"
+msgstr ""
+
+#: includes/models/model.llms.quiz.attempt.question.php:125
+msgctxt "Selected quiz choice has been deleted."
+msgid "[Deleted]"
 msgstr ""
 
 #: includes/models/model.llms.quiz.attempt.question.php:217
