@@ -1,10 +1,14 @@
 <?php
+/**
+ * 3rd Party API request handler
+ * @since   3.11.2
+ * @version 3.27.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS API Request Handler Abstract
- * @since   3.11.2
- * @version 3.24.0
+ * LLMS_Abstract_API_Handler Abstract.
  */
 abstract class LLMS_Abstract_API_Handler {
 
@@ -15,7 +19,7 @@ abstract class LLMS_Abstract_API_Handler {
 	protected $default_request_method = 'POST';
 
 	/**
-	 * Send requests in JSON format
+	 * Determine if the request should be made as JSON
 	 * @var  bool
 	 */
 	protected $is_json = true;
@@ -47,36 +51,34 @@ abstract class LLMS_Abstract_API_Handler {
 	}
 
 	/**
-	 * Make an API call to stripe
+	 * Execute an API request.
+	 *
 	 * @param    stirng $resource  url endpoint or resource to make a request to
 	 * @param    array  $data      array of data to pass in the body of the request
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
 	 * @since    3.11.2
-	 * @version  3.24.0
+	 * @version  3.27.0
 	 */
 	private function call( $resource, $data, $method = null ) {
 
 		$method = is_null( $method ) ? $this->default_request_method : $method;
 
-		// setup the body
-		$body = $this->set_request_body( $data, $method, $resource );
-		if ( $this->is_json ) {
-			$body = json_encode( $body );
-		}
+		// setup headers.
+		$content_type = $this->is_json ?  'application/json; charset=utf-8' : 'application/x-www-form-urlencoded';
+		$headers = $this->set_request_headers( array(
+			'content-type' => $content_type,
+		), $resource, $method );
 
-		// setup headers
-		$headers = array();
-		if ( $this->is_json ) {
-			$headers['content-type'] = 'application/json; charset=utf-8';
-		}
+		// setup body.
+		$body = $this->set_request_body( $data, $method, $resource );
 
 		// attempt to call the API
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
 			array(
-				'body' => $body,
-				'headers' => $this->set_request_headers( $headers, $resource, $method ),
+				'body' => $this->is_json ? json_encode( $body ) : $body,
+				'headers' => $headers,
 				'method' => $method,
 				'timeout' => $this->request_timeout,
 				'user-agent' => $this->set_user_agent( 'LifterLMS ' . LLMS_VERSION, $resource, $method ),

@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0.3
-Stable tag: 3.26.4
+Stable tag: 3.27.0-alpha.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,29 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+v3.27.0-alpha.1 - 2019-01-21
+--------------------------------
+
+##### Updates
+
++ Updated checkout javascript to expose an error addition functions
++ Removed display order field from payment gateway settings in favor of using the gateway table sortable list
++ Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
++ Added function for checking if request is a REST request
++ Fix checkout nonce to have a unique ID & name
+
+##### Template Updates
+
++ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
+
+
+v3.26.? - 2019-01-??
+------------------------
+
++ Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
++ Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
+
+
 = v3.26.4 - 2019-01-16 =
 ------------------------
 
@@ -366,6 +389,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 ##### Updates
 
++ Fix issue preventing course difficulty and course length from being edited when using the classic editor plugin.
 + Improved pagination methods on Student Dashboard Endpoints
 + "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
 + Update to [LifterLMS Blocks 1.3.1](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/).

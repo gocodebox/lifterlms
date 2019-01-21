@@ -2,9 +2,9 @@
  * LifterLMS Checkout Screen related events and interactions
  *
  * @since    3.0.0
- * @version  3.24.1
+ * @version  3.27.0
  */
-( function( $ ) {
+;( function( $ ) {
 
 	var llms_checkout = function() {
 
@@ -14,7 +14,7 @@
 		 * @since   3.0.0
 		 * @version 3.0.0
 		 */
-		var before_submit = []; // array of functions to call before submitting the form
+		var before_submit = [];
 
 		/**
 		 * Array of gateways to be automatically bound when needed
@@ -93,6 +93,32 @@
 			}
 
 			before_submit.push( obj );
+
+		};
+
+		/**
+		 * Add an error message
+		 * @param    string     message  error message string
+		 * @param    mixed      data     optional error data to output on the console
+		 * @return   void
+		 * @since    3.27.0
+		 * @version  3.27.0
+		 */
+		this.add_error = function( message, data ) {
+
+			var id = 'llms-checkout-errors';
+				$err = $( '#' + id );
+
+			if ( ! $err.length ) {
+				$err = $( '<ul class="llms-notice llms-error" id="' + id + '" />' );
+				$( '.llms-checkout-wrapper' ).prepend( $err );
+			}
+
+			$err.append( '<li>' + message + '</li>' );
+
+			if ( data ) {
+				console.error( data );
+			}
 
 		};
 
@@ -227,6 +253,16 @@
 		};
 
 		/**
+		 * Clear error messages
+		 * @return   void
+		 * @since    3.27.0
+		 * @version  3.27.0
+		 */
+		this.clear_errors = function() {
+			$( '#llms-checkout-errors' ).remove();
+		};
+
+		/**
 		 * Triggered by clicking the "Apply Coupon" Button
 		 * Validates the coupon via JS and adds error / success messages
 		 * On success it will replace partials on the checkout screen with updated
@@ -341,6 +377,18 @@
 		};
 
 		/**
+		 * Scroll error messages into view
+		 * @return   void
+		 * @since    3.27.0
+		 * @version  3.27.0
+		 */
+		this.focus_errors = function() {
+			$( 'html, body' ).animate( {
+				scrollTop: $( '#llms-checkout-errors' ).offset().top - 50,
+			}, 200 );
+		};
+
+		/**
 		 * Bind external gateway JS
 		 * @return   void
 		 * @since    3.0.0
@@ -401,7 +449,7 @@
 		 * @param    obj   e  JS event object
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @version  3.27.0
 		 */
 		this.submit = function( e ) {
 
@@ -420,7 +468,7 @@
 			self.processing( 'start' );
 
 			// remove errors to prevent duplicates
-			$( '#llms-checkout-errors' ).remove();
+			self.clear_errors();
 
 			// start running all the events
 			for ( var i = 0; i < before_submit.length; i++ ) {
@@ -469,16 +517,11 @@
 						clear = true;
 						stop = true;
 
-						var $err = $( '<ul class="llms-notice llms-error" id="llms-checkout-errors" />')
-
 						for ( var i = 0; i < errors.length; i++ ) {
-							$err.append( '<li>' + errors[i] + '</li>' );
+							self.add_error( errors[ i ] );
 						}
 
-						$( '.llms-checkout-wrapper' ).prepend( $err );
-						$( 'html, body' ).animate( {
-							scrollTop: $err.offset().top - 50,
-						}, 200 );
+						self.focus_errors();
 
 					}
 

@@ -190,10 +190,4 @@ class LLMS_Payment_Gateways {
 
 	}
 
-
-	public function supports( $feature ) {
-
-	}
-
-
 }

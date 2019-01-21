@@ -1,0 +1,106 @@
+[
+    {
+        "name": "ericmann/wp-session-manager",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ericmann/wp-session-manager.git",
+            "reference": "8a4aacd25e4a89429e93a85df70a068052853cae"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ericmann/wp-session-manager/zipball/8a4aacd25e4a89429e93a85df70a068052853cae",
+            "reference": "8a4aacd25e4a89429e93a85df70a068052853cae",
+            "shasum": ""
+        },
+        "time": "2017-04-26T13:27:37+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "source",
+        "license": [
+            "GPLv2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Eric Mann",
+                "email": "eric@eamann.com",
+                "homepage": "https://eamann.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Prototype session management for WordPress.",
+        "homepage": "https://github.com/ericmann/wp-session-manager",
+        "keywords": [
+            "session"
+        ],
+        "support": {
+            "source": "https://github.com/ericmann/wp-session-manager/tree/1.2.2",
+            "issues": "https://github.com/ericmann/wp-session-manager/issues"
+        }
+    },
+    {
+        "name": "gocodebox/action-scheduler",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/action-scheduler.git",
+            "reference": "d7b66cbf2d423bec4d4129a45f9969261ec1d2af"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/action-scheduler/zipball/d7b66cbf2d423bec4d4129a45f9969261ec1d2af",
+            "reference": "d7b66cbf2d423bec4d4129a45f9969261ec1d2af",
+            "shasum": ""
+        },
+        "time": "2017-03-10T23:45:17+00:00",
+        "type": "library",
+        "installation-source": "source",
+        "authors": [
+            {
+                "name": "Thomas Patrick Levy",
+                "email": "thomasplevy@gmail.com"
+            }
+        ],
+        "description": "Fork of https://github.com/Prospress/action-scheduler",
+        "support": {
+            "source": "https://github.com/gocodebox/action-scheduler/tree/master"
+        }
+    },
+    {
+        "name": "lifterlms/lifterlms-blocks",
+        "version": "1.3.2",
+        "version_normalized": "1.3.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/lifterlms-blocks.git",
+            "reference": "de3f681a4b68bd713bd7e465c6ab4051c65f4a51"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/de3f681a4b68bd713bd7e465c6ab4051c65f4a51",
+            "reference": "de3f681a4b68bd713bd7e465c6ab4051c65f4a51",
+            "shasum": ""
+        },
+        "require-dev": {
+            "lifterlms/lifterlms-cs": "dev-master",
+            "lifterlms/lifterlms-tests": "dev-master",
+            "phpcompatibility/php-compatibility": "^9.0",
+            "roave/security-advisories": "dev-master"
+        },
+        "time": "2019-01-16T23:26:13+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Team LifterLMS",
+                "email": "team@lifterlms.com"
+            }
+        ],
+        "description": "WordPress Editor (Gutenberg) blocks for LifterLMS."
+    }
+]

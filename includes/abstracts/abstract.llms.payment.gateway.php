@@ -1,12 +1,13 @@
 <?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  3.10.0
+ * @version  3.27.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Payment_Gateway {
 
 	/**
@@ -239,7 +240,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Get default dageway admin settinds fields
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.27.0
 	 */
 	public function get_admin_settings_fields() {
 
@@ -279,13 +280,13 @@ abstract class LLMS_Payment_Gateway {
 			'type' 		=> 'text',
 		);
 
-		$fields[] = array(
-			'id' 		=> $this->get_option_name( 'display_order' ),
-			'desc' 		=> '<br>' . __( 'This determines the order gateways are displayed on the checkout page. Lowest number will display first.', 'lifterlms' ),
-			'default'	=> $this->get_display_order(),
-			'title'     => __( 'Display Order', 'lifterlms' ),
-			'type' 		=> 'number',
-		);
+		// $fields[] = array(
+		// 	'id' 		=> $this->get_option_name( 'display_order' ),
+		// 	'desc' 		=> '<br>' . __( 'This determines the order gateways are displayed on the checkout page. Lowest number will display first.', 'lifterlms' ),
+		// 	'default'	=> $this->get_display_order(),
+		// 	'title'     => __( 'Display Order', 'lifterlms' ),
+		// 	'type' 		=> 'number',
+		// );
 
 		if ( $this->supports( 'test_mode' ) ) {
 

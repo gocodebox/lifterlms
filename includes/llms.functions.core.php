@@ -2,18 +2,19 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.24.1
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-//include all other function files
+// include all other function files.
 require_once 'functions/llms.functions.access.php';
 require_once 'functions/llms.functions.certificate.php';
 require_once 'functions/llms.functions.course.php';
 require_once 'functions/llms.functions.currency.php';
 require_once 'functions/llms.functions.log.php';
 require_once 'functions/llms.functions.notice.php';
+require_once 'functions/llms.functions.order.php';
 require_once 'functions/llms.functions.page.php';
 require_once 'functions/llms.functions.person.php';
 require_once 'functions/llms.functions.privacy.php';
@@ -829,6 +830,16 @@ function llms_get_transaction_statuses() {
  */
 function llms_is_ajax() {
 	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+}
+
+/**
+ * Determine if request is a REST request
+ * @return   bool
+ * @since    3.27.0
+ * @version  3.27.0
+ */
+function llms_is_rest() {
+	return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 }
 
 /**
