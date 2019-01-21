@@ -1,8 +1,8 @@
 <?php
 /**
  * Functions for LifterLMS Orders
- * @since    [version]
- * @version  [version]
+ * @since    3.27.0
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
  * 							   Optional:
  *                             		coupon_code (string) Coupon Code to be applied to the order
  * @return   [type]
- * @since    [version]
- * @version  [version]
+ * @since    3.27.0
+ * @version  3.27.0
  */
 function llms_setup_pending_order( $data = array() ) {
 

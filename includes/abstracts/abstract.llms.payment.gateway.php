@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  [version]
+ * @version  3.27.0
  */
 abstract class LLMS_Payment_Gateway {
 
@@ -240,7 +240,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Get default dageway admin settinds fields
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	public function get_admin_settings_fields() {
 

@@ -2,7 +2,7 @@
  * LifterLMS Checkout Screen related events and interactions
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.27.0
  */
 ;( function( $ ) {
 
@@ -101,8 +101,8 @@
 		 * @param    string     message  error message string
 		 * @param    mixed      data     optional error data to output on the console
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.27.0
+		 * @version  3.27.0
 		 */
 		this.add_error = function( message, data ) {
 
@@ -255,8 +255,8 @@
 		/**
 		 * Clear error messages
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.27.0
+		 * @version  3.27.0
 		 */
 		this.clear_errors = function() {
 			$( '#llms-checkout-errors' ).remove();
@@ -379,8 +379,8 @@
 		/**
 		 * Scroll error messages into view
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.27.0
+		 * @version  3.27.0
 		 */
 		this.focus_errors = function() {
 			$( 'html, body' ).animate( {
@@ -449,7 +449,7 @@
 		 * @param    obj   e  JS event object
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		this.submit = function( e ) {
 

@@ -2,8 +2,8 @@
 /**
  * Test Order Functions
  * @group    orders
- * @since    [version]
- * @version  [version]
+ * @since    3.27.0
+ * @version  3.27.0
  *
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {

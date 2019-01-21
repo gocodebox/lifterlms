@@ -2,7 +2,7 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -835,8 +835,8 @@ function llms_is_ajax() {
 /**
  * Determine if request is a REST request
  * @return   bool
- * @since    [version]
- * @version  [version]
+ * @since    3.27.0
+ * @version  3.27.0
  */
 function llms_is_rest() {
 	return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
