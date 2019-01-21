@@ -125,7 +125,6 @@ class LLMS_Quiz_Attempt_Question {
 					$ret[] = $choice ? $choice->get_choice() : _x( '[Deleted]', 'Selected quiz choice has been deleted.', 'lifterlms' );
 
 				}
-
 			} else {
 
 				$ret = $answers;

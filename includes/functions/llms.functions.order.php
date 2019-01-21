@@ -153,21 +153,19 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 			$err->add( 'gateway-error', __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ) );
 			return $err;
 
-		// it's a recurring plan and the gateway doesn't support recurring
+			// it's a recurring plan and the gateway doesn't support recurring
 		} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
 
 			$err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
 			return $err;
 
-		// not recurring and the gateway doesn't support single payments
+			// not recurring and the gateway doesn't support single payments
 		} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
 
 			$err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
 			return $err;
 
 		}
-
-	// not a valid gateway
 	} else {
 
 		$err->add( 'invalid-gateway', __( 'An invalid payment method was selected.', 'lifterlms' ) );
