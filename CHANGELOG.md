@@ -17,6 +17,19 @@ v3.27.0 - 2019-01-??
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 
 
+v3.26.? - 2019-01-??
+--------------------
+
++ Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
++ Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
+
+
+v3.26.4 - 2019-01-16
+--------------------
+
++ Update to [LifterLMS Blocks 1.3.2](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/), fixing an issue preventing template actions from being removed from migrated courses & lessons.
+
+
 v3.26.3 - 2019-01-15
 --------------------
 
