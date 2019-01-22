@@ -8,12 +8,17 @@ v3.27.0 - 2019-01-??
 
 + Added the ability to add existing questions to a quiz in the course builder. This allows cloning of existing questions as well as attaching "orphaned" questions currently attached to no quizzes.
 + Added the ability to detach questions from quizzes. Coupled with adding existing questions, questions can now be easily moved between quizzes.
-+ Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...)
++ Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...).
++ Quizzes with 0 possible points will no longer show a Pass/Fail chart with a 0% (failing) grade on quiz results screens.
 
 ##### Bug Fixes
 
 + Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
 + Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
+
+##### Templates Changed
+
++ [quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
 
 
 v3.26.4 - 2019-01-16
