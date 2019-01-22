@@ -2,7 +2,7 @@
 /**
  * Voucher Class
  * @since    2.0.0
- * @version  [version]
+ * @version  3.27.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -280,7 +280,7 @@ class LLMS_Voucher {
 	 * @param  int     $user_id  user id of the redeeming user
 	 * @return bool|WP_Error     true on success or WP_Error on failure
 	 * @since    2.0.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	public function use_voucher( $code, $user_id ) {
 

@@ -1,7 +1,7 @@
 /**
  * Sidebar Editor View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( [
 		'Views/LessonEditor',
@@ -109,7 +109,7 @@ define( [
 		 * @param    obj   event  js event obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		close_editor: function( event ) {
 
@@ -124,7 +124,7 @@ define( [
 		 * @param    object  event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		switch_tab: function( event ) {
 
@@ -145,8 +145,8 @@ define( [
 		 * Adds a hash for deeplinking to a specific lesson tab
 		 * @param  string  subtab subtab [quiz|assignment]
 		 * @return void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		set_hash: function( subtab ) {
 

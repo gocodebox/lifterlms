@@ -107,7 +107,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Get answer(s) as an array
 	 * @return   array
 	 * @since    3.16.15
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	public function get_answer_array() {
 

@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.25.4
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.25.4
+	 * @version  3.27.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -89,7 +89,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Models/Lesson.js.
 			 *
 			 * @since    3.13.0
-			 * @version  3.24.0
+			 * @version  3.27.0
 			 */
 			'New Lesson' => esc_html__( 'New Lesson', 'lifterlms' ),
 			'lessons' => esc_html__( 'lessons', 'lifterlms' ),
@@ -97,6 +97,15 @@ class LLMS_L10n_JS {
 			'Section %1$d: %2$s' => esc_html__( 'Section %1$d: %2$s', 'lifterlms' ),
 			'Lesson %1$d: %2$s' => esc_html__( 'Lesson %1$d: %2$s', 'lifterlms' ),
 			'%1$s Quiz' => esc_html__( '%1$s Quiz', 'lifterlms' ),
+
+			/**
+			 * File: assets/js/builder/Models/Question.js.
+			 *
+			 * @since    3.16.0
+			 * @version  3.27.0
+			 */
+			'questions' => esc_html__( 'questions', 'lifterlms' ),
+			'question' => esc_html__( 'question', 'lifterlms' ),
 
 			/**
 			 * File: assets/js/builder/Models/Quiz.js.
@@ -225,9 +234,18 @@ class LLMS_L10n_JS {
 			 * File: assets/js/builder/Views/Question.js.
 			 *
 			 * @since    3.16.0
-			 * @version  3.16.0
+			 * @version  3.27.0
 			 */
 			'Are you sure you want to delete this question?' => esc_html__( 'Are you sure you want to delete this question?', 'lifterlms' ),
+
+			/**
+			 * File: assets/js/builder/Views/QuestionType.js.
+			 *
+			 * @since    3.16.0
+			 * @version  3.27.0
+			 */
+			'Add Existing Question' => esc_html__( 'Add Existing Question', 'lifterlms' ),
+			'Search for existing questions...' => esc_html__( 'Search for existing questions...', 'lifterlms' ),
 
 			/**
 			 * File: assets/js/builder/Views/Quiz.js.
@@ -295,6 +313,8 @@ class LLMS_L10n_JS {
 			 * @since    3.16.0
 			 * @version  3.16.0
 			 */
+			'questions' => esc_html__( 'questions', 'lifterlms' ),
+			'question' => esc_html__( 'question', 'lifterlms' ),
 			'General Settings' => esc_html__( 'General Settings', 'lifterlms' ),
 			'Description' => esc_html__( 'Description', 'lifterlms' ),
 			'Passing Percentage' => esc_html__( 'Passing Percentage', 'lifterlms' ),
@@ -348,6 +368,8 @@ class LLMS_L10n_JS {
 			'Attach' => esc_html__( 'Attach', 'lifterlms' ),
 			'Clone' => esc_html__( 'Clone', 'lifterlms' ),
 			'ID' => esc_html__( 'ID', 'lifterlms' ),
+			'Add Existing Question' => esc_html__( 'Add Existing Question', 'lifterlms' ),
+			'Search for existing questions...' => esc_html__( 'Search for existing questions...', 'lifterlms' ),
 			'Are you sure you want to delete this question?' => esc_html__( 'Are you sure you want to delete this question?', 'lifterlms' ),
 			'An error occurred while trying to load the questions. Please refresh the page and try again.' => esc_html__( 'An error occurred while trying to load the questions. Please refresh the page and try again.', 'lifterlms' ),
 			'Add Existing Quiz' => esc_html__( 'Add Existing Quiz', 'lifterlms' ),

@@ -2,7 +2,7 @@
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  [version]
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -547,7 +547,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	private static function process_detachments( $data ) {
 

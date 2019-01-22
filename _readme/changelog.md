@@ -1,6 +1,29 @@
 == Changelog ==
 
 
+= v3.27.0 - 2019-01-22 =
+------------------------
+
+###### Updates
+
++ Added the ability to add existing questions to a quiz in the course builder. This allows cloning of existing questions as well as attaching "orphaned" questions currently attached to no quizzes.
++ Added the ability to detach questions from quizzes. Coupled with adding existing questions, questions can now be easily moved between quizzes.
++ Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...).
++ Quizzes with 0 possible points will no longer show a Pass/Fail chart with a 0% (failing) grade on quiz results screens.
++ Replaced option `lifterlms_lock_down` which cannot be set via any setting with a filter to reduce database calls. This will have no effect on anyone unless you manually set this option to "no" via a database query. Having done this would allow the admin bar to be shown to students.
+
+##### Bug Fixes
+
++ Fixed an issue causing the default "Redeem Voucher" and "My Orders" student dashboard endpoint slugs from not having the correct default values. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
++ Fixed an issue causing quotation marks in quiz question answers to show escaping slashes on results screens.
++ Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
++ Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
+
+##### Templates Changed
+
++ [quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
+
+
 = v3.26.4 - 2019-01-16 =
 ------------------------
 
@@ -105,33 +128,3 @@
 ##### Templates Changed
 
 + [templates/course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
-
-
-= v3.25.0 - 2018-12-05 =
-------------------------
-
-##### WordPress 5.0 Ready!
-
-+ **Tested with WordPress core 5.0 (Gutenberg)!**
-+ Editor Blocks: Course and Lesson layouts are now (preferrably) powered by various editor blocks.
-+ When a block is added to a course or lesson, the template hook that automatically outputs that element is removed automatically (preventing duplicates).
-+ If you use the LifterLMS Labs: Action Manager you may no longer need it!
-+ Course & Membership instructors are now managed through an editor "plugin". Check out the rocket icon near the "Publish/Update" button.
-+ Instructor metabox will load conditionally based on presence of the block editor
-+ New courses and lessons will automatically have a preloaded block editor template
-+ Courses and lessons will automatically be "migrated" to these templates when edited on the admin panel
-+ Various course settings conditionally load based on the presence of the block editor
-+ Added filter to the headline size in the `course/meta-wrapper-start.php` template. Allows customization of headline via the "Course Information" block settings.
-+ If you're not ready for WordPress 5.0 you can still upgrade LifterLMS. This release is fully functional without the block editor.
-
-##### Bug Fixes
-
-+ Fixed typo in `quiz/start-button.php` template.
-+ Fixed error occurring during activation of LaunchPad via the Add-Ons & More screen.
-+ Fixed issue causing quiz reporting screens to be blank for users without `view_others_lifterlms_reports` capabilities.
-
-##### Templates Changed
-
-+ [templates/course/author.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/author.php)
-+ [course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
-+ [quiz/start-button.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/start-button.php)

@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -47,7 +47,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	_.mixin( {
 
@@ -94,7 +94,7 @@ require( [
 		 * @param    obj   quiz   raw quiz object (not a model)
 		 * @return   obj
 		 * @since    3.24.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		prepareQuizObjectForCloning: function( quiz ) {
 
@@ -115,8 +115,8 @@ require( [
 		 * Strips IDs & Parent References from a question
 		 * @param    obj   question   raw question object (not a model).
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.27.0
+		 * @version  3.27.0
 		 */
 		prepareQuestionObjectForCloning: function( question ) {
 
@@ -218,8 +218,8 @@ require( [
 	 * Do deeplinking to Lesson / Quiz / Assignments
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.27.0
+	 * @version 3.27.0
 	 */
 	if ( window.location.hash ) {
 		var hash = window.location.hash;

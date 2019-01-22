@@ -4,7 +4,7 @@
  * Don't instantiate this directly, instead use the wrapper functions
  * found in the LLMS_Quiz and LLMS_Question classes
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -113,7 +113,7 @@ class LLMS_Question_Manager {
 	 * @param    int     $id  WP Post ID of the question
 	 * @return   boolean
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	public function get_question( $id ) {
 

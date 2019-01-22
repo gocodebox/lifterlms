@@ -2712,7 +2712,7 @@ define( 'Models/_Utilities',[], function() {
 /**
  * Quiz Question
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( 'Models/Question',[
 		'Models/Image',
@@ -2915,8 +2915,8 @@ define( 'Models/Question',[
 		 * Retrieve the translated post type name for the model's type
 		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
 		 * @return   string
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.27.0
+		 * @version  3.27.0
 		 */
 		get_l10n_type: function( plural ) {
 
@@ -3642,7 +3642,7 @@ define( 'Schemas/Lesson',[], function() {
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -3856,7 +3856,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		add_quiz: function( data ) {
 
@@ -6679,7 +6679,7 @@ define( 'Controllers/Sync',[], function() {
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( 'Views/Lesson',[
 		'Views/_Detachable',
@@ -6794,7 +6794,7 @@ define( 'Views/Lesson',[
 		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		open_assignment_editor: function( event ) {
 
@@ -6814,7 +6814,7 @@ define( 'Views/Lesson',[
 		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		open_lesson_editor: function( event ) {
 
@@ -6834,7 +6834,7 @@ define( 'Views/Lesson',[
 		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		open_quiz_editor: function( event ) {
 
@@ -6892,8 +6892,8 @@ define( 'Views/Lesson',[
 		 * Adds a hash for deeplinking to a specific lesson tab
 		 * @param  string  subtab subtab [quiz|assignment]
 		 * @return void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		set_hash: function( subtab ) {
 
@@ -8257,7 +8257,7 @@ define( 'Views/PostSearch',[], function() {
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
@@ -8322,7 +8322,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		 * Add a question of the selected type to the current quiz
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		add_question: function() {
 
@@ -8337,8 +8337,8 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		/**
 		 * Add a new question to the quiz
 		 * @return  void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		add_existing_question_click: function() {
 
@@ -8389,8 +8389,8 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 		/**
 		 * Add a new question to the quiz
 		 * @return  void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		add_new_question: function() {
 
@@ -8652,7 +8652,7 @@ define( 'Views/QuestionChoiceList',[ 'Views/QuestionChoice' ], function( ChoiceV
 /**
  * Single Question View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( 'Views/Question',[
 		'Views/_Detachable',
@@ -8875,7 +8875,7 @@ define( 'Views/Question',[
 		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		collapse: function( event ) {
 
@@ -8912,7 +8912,7 @@ define( 'Views/Question',[
 		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		expand: function( event ) {
 
@@ -9833,7 +9833,7 @@ define( 'Views/Assignment',[
 /**
  * Sidebar Editor View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( 'Views/Editor',[
 		'Views/LessonEditor',
@@ -9941,7 +9941,7 @@ define( 'Views/Editor',[
 		 * @param    obj   event  js event obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		close_editor: function( event ) {
 
@@ -9956,7 +9956,7 @@ define( 'Views/Editor',[
 		 * @param    object  event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		switch_tab: function( event ) {
 
@@ -9977,8 +9977,8 @@ define( 'Views/Editor',[
 		 * Adds a hash for deeplinking to a specific lesson tab
 		 * @param  string  subtab subtab [quiz|assignment]
 		 * @return void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		set_hash: function( subtab ) {
 
@@ -10571,7 +10571,7 @@ define( 'Views/Sidebar',[
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -10617,7 +10617,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	_.mixin( {
 
@@ -10664,7 +10664,7 @@ require( [
 		 * @param    obj   quiz   raw quiz object (not a model)
 		 * @return   obj
 		 * @since    3.24.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		prepareQuizObjectForCloning: function( quiz ) {
 
@@ -10685,8 +10685,8 @@ require( [
 		 * Strips IDs & Parent References from a question
 		 * @param    obj   question   raw question object (not a model).
 		 * @return   obj
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.27.0
+		 * @version  3.27.0
 		 */
 		prepareQuestionObjectForCloning: function( question ) {
 
@@ -10788,8 +10788,8 @@ require( [
 	 * Do deeplinking to Lesson / Quiz / Assignments
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.27.0
+	 * @version 3.27.0
 	 */
 	if ( window.location.hash ) {
 		var hash = window.location.hash;

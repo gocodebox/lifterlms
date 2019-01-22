@@ -2,7 +2,7 @@
 /**
  * Builder question view
  * @since   3.16.0
- * @version [version]
+ * @version 3.27.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-template">

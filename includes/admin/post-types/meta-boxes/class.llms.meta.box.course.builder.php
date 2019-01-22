@@ -2,7 +2,7 @@
 /**
  * Course Builder Metabox
  * @since    3.13.0
- * @version  [version]
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -36,8 +36,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param   int    $course_id WP Post ID of a course.
 	 * @param   string $hash      Hash of the lesson & tab info (lesson:{$lesson_id}:tab).
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.27.0
+	 * @version 3.27.0
 	 */
 	public function get_builder_url( $course_id, $hash = null ) {
 
@@ -70,7 +70,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    boolean    $url    url to link to
 	 * @return   string
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	public function get_title_html( $title, $url = false ) {
 
@@ -86,7 +86,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * Override the output method to output a button
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	public function output() {
 
@@ -134,7 +134,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    string     $which    positioning [current|previous|next]
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	private function output_section( $section, $which ) {
 

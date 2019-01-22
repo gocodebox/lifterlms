@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  [version]
+ * @version  3.27.0
  *
  * @property  $question_type  (string)  type of question
  */
@@ -504,8 +504,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Determine if the question is an orphan
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.27.0
+	 * @version  3.27.0
 	 */
 	public function is_orphan() {
 
