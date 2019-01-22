@@ -2619,22 +2619,115 @@ define( 'Models/QuestionType',[], function() {
 } );
 
 /**
+ * Utility functions for Models
+ * @since    3.16.0
+ * @version  3.17.1
+ */
+define( 'Models/_Utilities',[], function() {
+
+	return {
+
+		fields: [],
+
+		/**
+		 * Retrieve the edit post link for the current model
+		 * @return   string
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
+		get_edit_post_link: function() {
+
+			if ( this.has_temp_id() ) {
+				return '';
+			}
+
+			return window.llms_builder.admin_url + 'post.php?post=' + this.get( 'id' ) + '&action=edit';
+
+		},
+
+		/**
+		 * Retrieve schema fields defined for the model
+		 * @return   object
+		 * @since    3.17.0
+		 * @version  3.17.1
+		 */
+		get_settings_fields: function() {
+
+			var schema = this.schema || {};
+			return window.llms_builder.schemas.get( schema, this.get( 'type' ).replace( 'llms_', '' ), this );
+
+		},
+
+		/**
+		 * Determine if the model has a temporary ID
+		 * @return   {Boolean}
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
+		has_temp_id: function() {
+
+			return ( ! _.isNumber( this.get( 'id' ) ) && 0 === this.get( 'id' ).indexOf( 'temp_' ) );
+
+		},
+
+		/**
+		 * Initializes 3rd party custom schema (field) data for a model
+		 * @return   void
+		 * @since    3.17.0
+		 * @version  3.17.0
+		 */
+		init_custom_schema: function() {
+
+			var groups = _.filter( this.get_settings_fields(), function( group ) {
+				return ( group.custom );
+			} );
+
+			_.each( groups, function( group ) {
+				_.each( _.flatten(  group.fields ), function( field ) {
+
+
+					var keys = [ field.attribute ],
+						customs = this.get( 'custom' );
+
+					if ( field.switch_attribute ) {
+						keys.push( field.switch_attribute );
+					}
+
+					_.each( keys, function( key ) {
+						var attr = field.attribute_prefix ? field.attribute_prefix + key : key;
+						if ( customs && customs[ attr ] ) {
+							this.set( key, customs[ attr ][0] );
+						}
+					}, this );
+
+				}, this );
+			}, this );
+
+		},
+
+	};
+
+} );
+
+/**
  * Quiz Question
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( 'Models/Question',[
 		'Models/Image',
 		'Collections/Questions',
 		'Collections/QuestionChoices',
 		'Models/QuestionType',
-		'Models/_Relationships'
+		'Models/_Relationships',
+		'Models/_Utilities'
 	], function(
 		Image,
 		Questions,
 		QuestionChoices,
 		QuestionType,
-		Relationships
+		Relationships,
+		Utilities
 	) {
 
 	return Backbone.Model.extend( _.defaults( {
@@ -2819,6 +2912,22 @@ define( 'Models/Question',[
 		},
 
 		/**
+		 * Retrieve the translated post type name for the model's type
+		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_l10n_type: function( plural ) {
+
+			if ( plural ) {
+				return LLMS.l10n.translate( 'questions' );
+			}
+
+			return LLMS.l10n.translate( 'question' );
+		},
+
+		/**
 		 * Gets the index of the question within it's parent
 		 * Question numbers skip content elements
 		 * & content elements skip questions
@@ -2976,7 +3085,7 @@ define( 'Models/Question',[
 
 		},
 
-	}, Relationships ) );
+	}, Relationships, Utilities ) );
 
 } );
 
@@ -3047,97 +3156,6 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
 		},
 
 	} );
-
-} );
-
-/**
- * Utility functions for Models
- * @since    3.16.0
- * @version  3.17.1
- */
-define( 'Models/_Utilities',[], function() {
-
-	return {
-
-		fields: [],
-
-		/**
-		 * Retrieve the edit post link for the current model
-		 * @return   string
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_edit_post_link: function() {
-
-			if ( this.has_temp_id() ) {
-				return '';
-			}
-
-			return window.llms_builder.admin_url + 'post.php?post=' + this.get( 'id' ) + '&action=edit';
-
-		},
-
-		/**
-		 * Retrieve schema fields defined for the model
-		 * @return   object
-		 * @since    3.17.0
-		 * @version  3.17.1
-		 */
-		get_settings_fields: function() {
-
-			var schema = this.schema || {};
-			return window.llms_builder.schemas.get( schema, this.get( 'type' ).replace( 'llms_', '' ), this );
-
-		},
-
-		/**
-		 * Determine if the model has a temporary ID
-		 * @return   {Boolean}
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		has_temp_id: function() {
-
-			return ( ! _.isNumber( this.get( 'id' ) ) && 0 === this.get( 'id' ).indexOf( 'temp_' ) );
-
-		},
-
-		/**
-		 * Initializes 3rd party custom schema (field) data for a model
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		init_custom_schema: function() {
-
-			var groups = _.filter( this.get_settings_fields(), function( group ) {
-				return ( group.custom );
-			} );
-
-			_.each( groups, function( group ) {
-				_.each( _.flatten(  group.fields ), function( field ) {
-
-
-					var keys = [ field.attribute ],
-						customs = this.get( 'custom' );
-
-					if ( field.switch_attribute ) {
-						keys.push( field.switch_attribute );
-					}
-
-					_.each( keys, function( key ) {
-						var attr = field.attribute_prefix ? field.attribute_prefix + key : key;
-						if ( customs && customs[ attr ] ) {
-							this.set( key, customs[ attr ][0] );
-						}
-					}, this );
-
-				}, this );
-			}, this );
-
-		},
-
-	};
 
 } );
 
@@ -3624,7 +3642,7 @@ define( 'Schemas/Lesson',[], function() {
 /**
  * Lesson Model
  * @since    3.13.0
- * @version  3.24.0
+ * @version  [version]
  */
 define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/Lesson' ], function( Quiz, Relationships, Utilities, LessonSchema ) {
 
@@ -3838,7 +3856,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
-		 * @version  3.24.0
+		 * @version  [version]
 		 */
 		add_quiz: function( data ) {
 
@@ -3859,7 +3877,6 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 			this.init_relationships();
 
 			var quiz = this.get( 'quiz' );
-			console.log( quiz );
 			this.set( 'quiz_enabled', 'yes' );
 
 			window.llms.hooks.doAction( 'llms_lesson_add_quiz', quiz, this );
@@ -6662,7 +6679,7 @@ define( 'Controllers/Sync',[], function() {
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( 'Views/Lesson',[
 		'Views/_Detachable',
@@ -6774,42 +6791,60 @@ define( 'Views/Lesson',[
 		/**
 		 * Click event for the assignment editor action icon
 		 * Opens sidebar to the assignment editor tab
+		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
-		open_assignment_editor: function() {
+		open_assignment_editor: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'assignment' );
 			this.model.set( '_selected', true );
+			this.set_hash( 'assignment' );
 
 		},
 
 		/**
 		 * Click event for lesson settings action icon
 		 * Opens sidebar to the lesson editor tab
+		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		open_lesson_editor: function() {
+		open_lesson_editor: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'lesson' );
 			this.model.set( '_selected', true );
+			this.set_hash( false );
 
 		},
 
 		/**
 		 * Click event for the quiz editor action icon
 		 * Opens sidebar to the quiz editor tab
+		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		open_quiz_editor: function() {
+		open_quiz_editor: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'quiz' );
 			this.model.set( '_selected', true );
+			this.set_hash( 'quiz' );
 
 		},
 
@@ -6851,6 +6886,25 @@ define( 'Views/Lesson',[
 		section_prev: function( event ) {
 			event.preventDefault();
 			this._move_to_section( 'prev' );
+		},
+
+		/**
+		 * Adds a hash for deeplinking to a specific lesson tab
+		 * @param  string  subtab subtab [quiz|assignment]
+		 * @return void
+		 * @since   [version]
+		 * @version [version]
+		 */
+		set_hash: function( subtab ) {
+
+			var hash = 'lesson:' + this.model.get( 'id' );
+
+			if ( subtab ) {
+				hash += ':' + subtab;
+			}
+
+			window.location.hash = hash;
+
 		},
 
 		/**
@@ -8203,9 +8257,9 @@ define( 'Views/PostSearch',[], function() {
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
-define( 'Views/QuestionType',[ ], function() {
+define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
 	return Backbone.View.extend( {
 
@@ -8266,10 +8320,79 @@ define( 'Views/QuestionType',[ ], function() {
 
 		/**
 		 * Add a question of the selected type to the current quiz
+		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		add_question: function() {
+
+			if ( 'existing' === this.model.get( 'id' ) ) {
+				this.add_existing_question_click();
+			} else {
+				this.add_new_question();
+			}
+
+		},
+
+		/**
+		 * Add a new question to the quiz
+		 * @return  void
+		 * @since   [version]
+		 * @version [version]
+		 */
+		add_existing_question_click: function() {
+
+			var pop = new Popover( {
+				el: '#llms-add-question--existing',
+				args: {
+					backdrop: true,
+					closeable: true,
+					container: '#llms-builder-sidebar',
+					dismissible: true,
+					placement: 'top-left',
+					width: 'calc( 100% - 40px )',
+					offsetLeft: 250,
+					offsetTop: 60,
+					title: LLMS.l10n.translate( 'Add Existing Question' ),
+					content: new QuestionSearch( {
+						post_type: 'llms_question',
+						searching_message: LLMS.l10n.translate( 'Search for existing questions...' ),
+					} ).render().$el,
+				}
+			} );
+
+			pop.show();
+			Backbone.pubSub.on( 'question-search-select', function( event ) {
+				pop.hide();
+				this.add_existing_question( event );
+			}, this );
+
+		},
+
+		add_existing_question: function( event ) {
+
+			var question = event.data;
+
+			if ( 'clone' === event.action ) {
+				question = _.prepareQuestionObjectForCloning( question );
+			} else {
+				question._forceSync = true;
+			}
+
+			question._expanded = true;
+			this.quiz.add_question( question );
+
+			this.quiz.trigger( 'new-question-added' );
+
+		},
+
+		/**
+		 * Add a new question to the quiz
+		 * @return  void
+		 * @since   [version]
+		 * @version [version]
+		 */
+		add_new_question: function() {
 
 			this.quiz.add_question( {
 				_expanded: true,
@@ -8529,12 +8652,14 @@ define( 'Views/QuestionChoiceList',[ 'Views/QuestionChoice' ], function( ChoiceV
 /**
  * Single Question View
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( 'Views/Question',[
+		'Views/_Detachable',
 		'Views/_Editable',
 		'Views/QuestionChoiceList'
 	], function(
+		Detachable,
 		Editable,
 		ChoiceListView
 	) {
@@ -8557,7 +8682,7 @@ define( 'Views/Question',[
 			'click .expand--question': 'expand',
 			'click .collapse--question': 'collapse',
 			'change input[name="question_points"]': 'update_points',
-		}, Editable.events ),
+		}, Detachable.events, Editable.events ),
 
 		/**
 		 * HTML element wrapper ID attribute
@@ -8747,11 +8872,16 @@ define( 'Views/Question',[
 
 		/**
 		 * Collapse a question and hide it's settings
+		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		collapse: function() {
+		collapse: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			this.model.set( '_expanded', false );
 
@@ -8779,11 +8909,16 @@ define( 'Views/Question',[
 
 		/**
 		 * Click event to reveal a question's settings & choices
+		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		expand: function() {
+		expand: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			this.model.set( '_expanded', true );
 
@@ -8818,7 +8953,7 @@ define( 'Views/Question',[
 
 		}
 
-	}, Editable ) );
+	}, Detachable, Editable ) );
 
 } );
 
@@ -9698,7 +9833,7 @@ define( 'Views/Assignment',[
 /**
  * Sidebar Editor View
  * @since    3.16.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( 'Views/Editor',[
 		'Views/LessonEditor',
@@ -9806,12 +9941,13 @@ define( 'Views/Editor',[
 		 * @param    obj   event  js event obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		close_editor: function( event ) {
 
 			event.preventDefault();
 			Backbone.pubSub.trigger( 'sidebar-editor-close' );
+			window.location.hash = '';
 
 		},
 
@@ -9820,7 +9956,7 @@ define( 'Views/Editor',[
 		 * @param    object  event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		switch_tab: function( event ) {
 
@@ -9831,8 +9967,28 @@ define( 'Views/Editor',[
 				$tab = this.$el.find( $btn.attr( 'href' ) );
 
 			this.set_state( view ).render();
+			this.set_hash( view );
 
 			// Backbone.pubSub.trigger( 'editor-tab-activated', $btn.attr( 'href' ).substring( 1 ) );
+
+		},
+
+		/**
+		 * Adds a hash for deeplinking to a specific lesson tab
+		 * @param  string  subtab subtab [quiz|assignment]
+		 * @return void
+		 * @since   [version]
+		 * @version [version]
+		 */
+		set_hash: function( subtab ) {
+
+			var hash = 'lesson:' + this.model.get( 'id' );
+
+			if ( 'lesson' !== subtab ) {
+				hash += ':' + subtab;
+			}
+
+			window.location.hash = hash;
 
 		},
 
@@ -10415,7 +10571,7 @@ define( 'Views/Sidebar',[
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.24.0
+ * @version  [version]
  */
 require( [
 	'vendor/wp-hooks',
@@ -10461,7 +10617,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.24.0
+	 * @version  [version]
 	 */
 	_.mixin( {
 
@@ -10508,38 +10664,54 @@ require( [
 		 * @param    obj   quiz   raw quiz object (not a model)
 		 * @return   obj
 		 * @since    3.24.0
-		 * @version  3.24.0
+		 * @version  [version]
 		 */
 		prepareQuizObjectForCloning: function( quiz ) {
 
-			delete quiz.lesson_id;
 			delete quiz.id;
+			delete quiz.lesson_id;
 
 			_.each( quiz.questions, function( question ) {
 
-				delete question.parent_id;
-				delete question.id;
-				if ( question.image && _.isObject( question.image ) ) {
-					question.image._forceSync = true;
-				}
-
-				if ( question.choices ) {
-
-					_.each( question.choices, function( choice ) {
-
-						delete choice.question_id;
-						delete choice.id;
-						if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
-							choice.choice._forceSync = true;
-						}
-
-					} );
-
-				}
+				question = _.prepareQuestionObjectForCloning( question );
 
 			} );
 
 			return quiz;
+
+		},
+
+		/**
+		 * Strips IDs & Parent References from a question
+		 * @param    obj   question   raw question object (not a model).
+		 * @return   obj
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		prepareQuestionObjectForCloning: function( question ) {
+
+			delete question.id;
+			delete question.parent_id;
+
+			if ( question.image && _.isObject( question.image ) ) {
+				question.image._forceSync = true;
+			}
+
+			if ( question.choices ) {
+
+				_.each( question.choices, function( choice ) {
+
+					delete choice.question_id;
+					delete choice.id;
+					if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
+						choice.choice._forceSync = true;
+					}
+
+				} );
+
+			}
+
+			return question;
 
 		},
 
@@ -10611,6 +10783,29 @@ require( [
 		course: Course,
 		sidebar: Sidebar,
 	} );
+
+	/**
+	 * Do deeplinking to Lesson / Quiz / Assignments
+	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
+	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
+	 * @since   [version]
+	 * @version [version]
+	 */
+	if ( window.location.hash ) {
+		var hash = window.location.hash;
+		if ( -1 === hash.indexOf( '#lesson:' ) ) {
+			return;
+		}
+		var parts = hash.replace( '#lesson:', '' ).split( ':' ),
+			$lesson = $( '#llms-lesson-' + parts[0] );
+
+		if ( $lesson.length ) {
+			$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
+			var subtab = parts[1] ? parts[1] : 'lesson';
+			$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
+		}
+
+	}
 
 } );
 
