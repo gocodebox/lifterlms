@@ -1,8 +1,15 @@
 LifterLMS Changelog
 ===================
 
-v3.26.? - 2019-01-??
+v3.27.0 - 2019-01-??
 --------------------
+
+###### Updates
+
++ Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...)
+
+
+##### Bug Fixes
 
 + Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
 + Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.

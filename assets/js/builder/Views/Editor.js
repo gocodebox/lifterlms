@@ -1,7 +1,7 @@
 /**
  * Sidebar Editor View
  * @since    3.16.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( [
 		'Views/LessonEditor',
@@ -109,12 +109,13 @@ define( [
 		 * @param    obj   event  js event obj
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		close_editor: function( event ) {
 
 			event.preventDefault();
 			Backbone.pubSub.trigger( 'sidebar-editor-close' );
+			window.location.hash = '';
 
 		},
 
@@ -123,7 +124,7 @@ define( [
 		 * @param    object  event  js event object
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
 		switch_tab: function( event ) {
 
@@ -134,8 +135,28 @@ define( [
 				$tab = this.$el.find( $btn.attr( 'href' ) );
 
 			this.set_state( view ).render();
+			this.set_hash( view );
 
 			// Backbone.pubSub.trigger( 'editor-tab-activated', $btn.attr( 'href' ).substring( 1 ) );
+
+		},
+
+		/**
+		 * Adds a hash for deeplinking to a specific lesson tab
+		 * @param  string  subtab subtab [quiz|assignment]
+		 * @return void
+		 * @since   [version]
+		 * @version [version]
+		 */
+		set_hash: function( subtab ) {
+
+			var hash = 'lesson:' + this.model.get( 'id' );
+
+			if ( 'lesson' !== subtab ) {
+				hash += ':' + subtab;
+			}
+
+			window.location.hash = hash;
 
 		},
 

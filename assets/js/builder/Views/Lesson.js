@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  3.17.0
+ * @version  [version]
  */
 define( [
 		'Views/_Detachable',
@@ -113,42 +113,60 @@ define( [
 		/**
 		 * Click event for the assignment editor action icon
 		 * Opens sidebar to the assignment editor tab
+		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  3.17.0
+		 * @version  [version]
 		 */
-		open_assignment_editor: function() {
+		open_assignment_editor: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'assignment' );
 			this.model.set( '_selected', true );
+			this.set_hash( 'assignment' );
 
 		},
 
 		/**
 		 * Click event for lesson settings action icon
 		 * Opens sidebar to the lesson editor tab
+		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		open_lesson_editor: function() {
+		open_lesson_editor: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'lesson' );
 			this.model.set( '_selected', true );
+			this.set_hash( false );
 
 		},
 
 		/**
 		 * Click event for the quiz editor action icon
 		 * Opens sidebar to the quiz editor tab
+		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		open_quiz_editor: function() {
+		open_quiz_editor: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			Backbone.pubSub.trigger( 'lesson-selected', this.model, 'quiz' );
 			this.model.set( '_selected', true );
+			this.set_hash( 'quiz' );
 
 		},
 
@@ -190,6 +208,25 @@ define( [
 		section_prev: function( event ) {
 			event.preventDefault();
 			this._move_to_section( 'prev' );
+		},
+
+		/**
+		 * Adds a hash for deeplinking to a specific lesson tab
+		 * @param  string  subtab subtab [quiz|assignment]
+		 * @return void
+		 * @since   [version]
+		 * @version [version]
+		 */
+		set_hash: function( subtab ) {
+
+			var hash = 'lesson:' + this.model.get( 'id' );
+
+			if ( subtab ) {
+				hash += ':' + subtab;
+			}
+
+			window.location.hash = hash;
+
 		},
 
 		/**

@@ -2,11 +2,14 @@
 /**
  * Course Builder Metabox
  * @since    3.13.0
- * @version  3.13.0
+ * @version  [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Metabox_Course_Builder class.
+ */
 class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 	/**
@@ -29,6 +32,29 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	}
 
 	/**
+	 * Get a URL to the course builder with an optional hash to a lesson/quiz/assignment
+	 * @param   int    $course_id WP Post ID of a course.
+	 * @param   string $hash      Hash of the lesson & tab info (lesson:{$lesson_id}:tab).
+	 * @return  string
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public function get_builder_url( $course_id, $hash = null ) {
+
+		$url = add_query_arg( array(
+			'page' => 'llms-course-builder',
+			'course_id' => $course_id,
+		), admin_url( 'admin.php' ) );
+
+		if ( $hash ) {
+			$url = $url . '#' . $hash;
+		}
+
+		return $url;
+
+	}
+
+	/**
 	 * This metabox has no options
 	 * @return   array
 	 * @since    3.13.0
@@ -44,9 +70,9 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    boolean    $url    url to link to
 	 * @return   string
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
-	private function get_title_html( $title, $url = false ) {
+	public function get_title_html( $title, $url = false ) {
 
 		if ( $url ) {
 			$title = sprintf( '<a href="%1$s">%2$s</a>', esc_url( $url ), $title );
@@ -60,7 +86,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * Override the output method to output a button
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	public function output() {
 
@@ -80,11 +106,6 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 		} else {
 			$course = llms_get_post( $post_id );
 		}
-
-		$url = add_query_arg( array(
-			'page' => 'llms-course-builder',
-			'course_id' => $course->get( 'id' ),
-		), admin_url( 'admin.php' ) );
 		?>
 		<div class="llms-builder-launcher">
 
@@ -100,7 +121,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 			<?php endif; ?>
 
-			<a class="llms-button-primary full" href="<?php echo esc_url( $url ); ?>"><?php _e( 'Launch Course Builder', 'lifterlms' ); ?></a>
+			<a class="llms-button-primary full" href="<?php echo esc_url( $this->get_builder_url( $course->get( 'id' ) ) ); ?>"><?php _e( 'Launch Course Builder', 'lifterlms' ); ?></a>
 
 		</div>
 		<?php
@@ -113,7 +134,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    string     $which    positioning [current|previous|next]
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @version  [version]
 	 */
 	private function output_section( $section, $which ) {
 
@@ -141,13 +162,21 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 		<?php if ( 'current' === $which ) : ?>
 			<ol>
-			<?php foreach ( $section->get_lessons() as $lesson ) : ?>
+			<?php foreach ( $section->get_lessons() as $lesson ) :
+				$hash = 'lesson:' . $lesson->get( 'id' ); ?>
 				<li>
 					<?php if ( $this->post->ID != $lesson->get( 'id' ) ) : ?>
 						<?php echo $this->get_title_html( $lesson->get( 'title' ), get_edit_post_link( $lesson->get( 'id' ) ) ); ?>
 					<?php else : ?>
 						<?php echo $lesson->get( 'title' ); ?>
 					<?php endif; ?>
+					<a class="tip--top-left" href="<?php echo esc_url( $this->get_builder_url( $lesson->get( 'parent_course' ), $hash ) ); ?>" data-tip="<?php esc_attr_e( 'Edit lesson in builder', 'lifterlms' ); ?>"><i class="fa fa-cog"></i></a>
+					<?php if ( $lesson->has_quiz() ) :
+						$quiz = $lesson->get_quiz(); ?>
+						<br>
+						<?php printf( __( 'Quiz: %s', 'lifterlms' ), $this->get_title_html( $quiz->get( 'title' ), $this->get_builder_url( $lesson->get( 'parent_course' ), $hash . ':quiz' ) ) ); ?>
+					<?php endif; ?>
+					<?php do_action( 'llms_builder_mb_after_lesson', $lesson, $this ); ?>
 				</li>
 			<?php endforeach; ?>
 			</ol>
