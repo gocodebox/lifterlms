@@ -1,12 +1,16 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Quiz Question Manager
  * Don't instantiate this directly, instead use the wrapper functions
  * found in the LLMS_Quiz and LLMS_Question classes
  * @since    3.16.0
- * @version  3.24.0
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Question_Manager class.
  */
 class LLMS_Question_Manager {
 
@@ -109,7 +113,7 @@ class LLMS_Question_Manager {
 	 * @param    int     $id  WP Post ID of the question
 	 * @return   boolean
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_question( $id ) {
 
@@ -120,8 +124,10 @@ class LLMS_Question_Manager {
 			return false;
 		}
 
-		// only retrieve questions attached to this parent
-		if ( $question->get( 'parent_id' ) !== $this->get_parent()->get( 'id' ) ) {
+		$parent_id = $question->get( 'parent_id' );
+
+		// when parent id is set, only retrieve questions attached to this parent
+		if ( $parent_id && $parent_id !== $this->get_parent()->get( 'id' ) ) {
 
 			if ( 'llms_question' === $this->get_parent_type() && $this->get_quiz()->get( 'id' ) === $question->get_quiz()->get( 'id' ) ) {
 				return $question;

@@ -1,12 +1,14 @@
 /**
  * Single Question View
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [
+		'Views/_Detachable',
 		'Views/_Editable',
 		'Views/QuestionChoiceList'
 	], function(
+		Detachable,
 		Editable,
 		ChoiceListView
 	) {
@@ -29,7 +31,7 @@ define( [
 			'click .expand--question': 'expand',
 			'click .collapse--question': 'collapse',
 			'change input[name="question_points"]': 'update_points',
-		}, Editable.events ),
+		}, Detachable.events, Editable.events ),
 
 		/**
 		 * HTML element wrapper ID attribute
@@ -219,11 +221,16 @@ define( [
 
 		/**
 		 * Collapse a question and hide it's settings
+		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		collapse: function() {
+		collapse: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			this.model.set( '_expanded', false );
 
@@ -251,11 +258,16 @@ define( [
 
 		/**
 		 * Click event to reveal a question's settings & choices
+		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @version  [version]
 		 */
-		expand: function() {
+		expand: function( event ) {
+
+			if ( event ) {
+				event.preventDefault();
+			}
 
 			this.model.set( '_expanded', true );
 
@@ -290,6 +302,6 @@ define( [
 
 		}
 
-	}, Editable ) );
+	}, Detachable, Editable ) );
 
 } );

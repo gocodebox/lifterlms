@@ -1,20 +1,22 @@
 /**
  * Quiz Question
  * @since    3.16.0
- * @version  3.16.0
+ * @version  [version]
  */
 define( [
 		'Models/Image',
 		'Collections/Questions',
 		'Collections/QuestionChoices',
 		'Models/QuestionType',
-		'Models/_Relationships'
+		'Models/_Relationships',
+		'Models/_Utilities'
 	], function(
 		Image,
 		Questions,
 		QuestionChoices,
 		QuestionType,
-		Relationships
+		Relationships,
+		Utilities
 	) {
 
 	return Backbone.Model.extend( _.defaults( {
@@ -199,6 +201,22 @@ define( [
 		},
 
 		/**
+		 * Retrieve the translated post type name for the model's type
+		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
+		 * @return   string
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		get_l10n_type: function( plural ) {
+
+			if ( plural ) {
+				return LLMS.l10n.translate( 'questions' );
+			}
+
+			return LLMS.l10n.translate( 'question' );
+		},
+
+		/**
 		 * Gets the index of the question within it's parent
 		 * Question numbers skip content elements
 		 * & content elements skip questions
@@ -356,6 +374,6 @@ define( [
 
 		},
 
-	}, Relationships ) );
+	}, Relationships, Utilities ) );
 
 } );
