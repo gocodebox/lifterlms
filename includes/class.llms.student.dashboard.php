@@ -180,13 +180,13 @@ class LLMS_Student_Dashboard {
 			),
 			'redeem-voucher' => array(
 				'content' => array( __CLASS__, 'output_redeem_voucher_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
 				'nav_item' => true,
 				'title' => __( 'Redeem a Voucher', 'lifterlms' ),
 			),
 			'orders' => array(
 				'content' => array( __CLASS__, 'output_orders_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'redeem-voucher' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
 				'nav_item' => true,
 				'title' => __( 'Order History', 'lifterlms' ),
 			),
