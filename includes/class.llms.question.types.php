@@ -69,7 +69,7 @@ class LLMS_Question_Types {
 	 *
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  [version]
+	 * @version  3.27.0
 	 */
 	private static function get_types() {
 

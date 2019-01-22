@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( [
 		'Views/_Detachable',
@@ -116,7 +116,7 @@ define( [
 		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		open_assignment_editor: function( event ) {
 
@@ -136,7 +136,7 @@ define( [
 		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		open_lesson_editor: function( event ) {
 
@@ -156,7 +156,7 @@ define( [
 		 * @param    obj event JS Event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		open_quiz_editor: function( event ) {
 
@@ -214,8 +214,8 @@ define( [
 		 * Adds a hash for deeplinking to a specific lesson tab
 		 * @param  string  subtab subtab [quiz|assignment]
 		 * @return void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		set_hash: function( subtab ) {
 

@@ -1,7 +1,7 @@
 /**
  * Single Question View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( [
 		'Views/_Detachable',
@@ -224,7 +224,7 @@ define( [
 		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		collapse: function( event ) {
 
@@ -261,7 +261,7 @@ define( [
 		 * @param obj event js event obj.
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		expand: function( event ) {
 

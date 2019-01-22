@@ -3,7 +3,7 @@
  * Retrieve data sets used by various other classes and functions
  *
  * @since    3.0.0
- * @version  3.26.3
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -124,7 +124,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.26.3
+	 * @version  3.27.0
 	 */
 	public static function get_tabs() {
 

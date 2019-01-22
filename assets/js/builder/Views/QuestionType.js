@@ -1,7 +1,7 @@
 /**
  * Single Lesson View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.27.0
  */
 define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
@@ -66,7 +66,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		 * Add a question of the selected type to the current quiz
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.27.0
 		 */
 		add_question: function() {
 
@@ -81,8 +81,8 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		/**
 		 * Add a new question to the quiz
 		 * @return  void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		add_existing_question_click: function() {
 
@@ -133,8 +133,8 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		/**
 		 * Add a new question to the quiz
 		 * @return  void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.27.0
+		 * @version 3.27.0
 		 */
 		add_new_question: function() {
 

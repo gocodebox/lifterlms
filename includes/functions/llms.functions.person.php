@@ -145,7 +145,7 @@ function llms_can_user_bypass_restrictions( $user = null ) {
  * @param  bool $show_admin_bar default value (true).
  * @return bool
  * @since  1.0.0
- * @version [version]
+ * @version 3.27.0
  */
 function llms_disable_admin_bar( $show_admin_bar ) {
 	if ( apply_filters( 'lifterlms_disable_admin_bar', true ) && ! ( current_user_can( 'edit_posts' ) || current_user_can( 'manage_lifterlms' ) ) ) {
