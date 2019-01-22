@@ -6,6 +6,7 @@ v3.27.0 - 2019-01-??
 
 ###### Updates
 
++ Added the ability to add existing questions to a quiz in the course builder. This allows cloning of existing questions as well as attaching "orphaned" questions currently attached to no quizzes.
 + Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...)
 
 
