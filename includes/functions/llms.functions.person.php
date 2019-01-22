@@ -142,17 +142,18 @@ function llms_can_user_bypass_restrictions( $user = null ) {
 /**
  * Disables admin bar on front end
  *
- * @param  bool $show_admin_bar [show = true]
- *
- * @return bool $show_admin_bar [Display admin bar on front end for user?]
+ * @param  bool $show_admin_bar default value (true).
+ * @return bool
+ * @since  1.0.0
+ * @version [version]
  */
 function llms_disable_admin_bar( $show_admin_bar ) {
-	if ( apply_filters( 'lifterlms_disable_admin_bar', get_option( 'lifterlms_lock_down_admin', 'yes' ) === 'yes' ) && ! ( current_user_can( 'edit_posts' ) || current_user_can( 'manage_lifterlms' ) ) ) {
+	if ( apply_filters( 'lifterlms_disable_admin_bar', true ) && ! ( current_user_can( 'edit_posts' ) || current_user_can( 'manage_lifterlms' ) ) ) {
 		$show_admin_bar = false;
 	}
 	return $show_admin_bar;
 }
-add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10, 1 );
+add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10 );
 
 
 /**

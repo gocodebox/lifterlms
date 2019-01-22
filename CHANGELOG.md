@@ -10,6 +10,7 @@ v3.27.0 - 2019-01-??
 + Added the ability to detach questions from quizzes. Coupled with adding existing questions, questions can now be easily moved between quizzes.
 + Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...).
 + Quizzes with 0 possible points will no longer show a Pass/Fail chart with a 0% (failing) grade on quiz results screens.
++ Replaced option `lifterlms_lock_down` which cannot be set via any setting with a filter to reduce database calls. This will have no effect on anyone unless you manually set this option to "no" via a database query. Having done this would allow the admin bar to be shown to students.
 
 ##### Bug Fixes
 
