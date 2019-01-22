@@ -2,10 +2,14 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.16.4
+ * @version  [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_AJAX_Handler class
+ */
 class LLMS_AJAX_Handler {
 
 	/**
@@ -534,11 +538,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * [quiz_answer_question description]
+	 * AJAX Quiz answer question
 	 * @param    [type]     $request  [description]
 	 * @return   [type]               [description]
 	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public static function quiz_answer_question( $request ) {
 
@@ -561,7 +565,7 @@ class LLMS_AJAX_Handler {
 		// $quiz_id = absint( $request['quiz_id'] );
 		$attempt_key = sanitize_text_field( $request['attempt_key'] );
 		$question_id = absint( $request['question_id'] );
-		$answer = isset( $request['answer'] ) ? $request['answer'] : array();
+		$answer = array_map( 'stripslashes_deep', isset( $request['answer'] ) ? $request['answer'] : array() );
 
 		$attempt = $student->quizzes()->get_attempt_by_key( $attempt_key );
 		if ( ! $attempt ) {

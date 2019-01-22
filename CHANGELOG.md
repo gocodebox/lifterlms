@@ -13,6 +13,7 @@ v3.27.0 - 2019-01-??
 
 ##### Bug Fixes
 
++ Fixed an issue causing quotation marks in quiz question answers to show escaping slashes on results screens.
 + Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
 + Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
 
