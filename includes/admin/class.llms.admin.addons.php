@@ -246,7 +246,7 @@ class LLMS_Admin_AddOns {
 		?>
 		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
 
-			<h2><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+			<h1><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
 			<?php do_action( 'llms_addons_page_after_title' ); ?>
 			<h1 class="screen-reader-text"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
 
