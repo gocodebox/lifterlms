@@ -1,11 +1,16 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Admin Settings Class
  * Settings field Factory
+ * @package  LifterLMS/Admin/Classes
  * @since    1.0.0
- * @version  3.24.0
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_Settings class.
  */
 class LLMS_Admin_Settings {
 
@@ -179,7 +184,7 @@ class LLMS_Admin_Settings {
 	 * Output fields
 	 * @param    array  $field  array of field settings
 	 * @return   void
-	 * @version  3.24.0
+	 * @version  [version]
 	 */
 	public static function output_field( $field ) {
 
@@ -334,6 +339,9 @@ class LLMS_Admin_Settings {
 				$type 			= $field['type'];
 				$class 			= '';
 
+				$secure_val = isset( $field['secure_option'] ) ? llms_get_secure_option( $field['secure_option'], false ) : false;
+				$option_value = ( false !== $secure_val ) ? str_repeat( '*', strlen( $secure_val ) ) : $option_value;
+
 				?><tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
 						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
@@ -347,6 +355,7 @@ class LLMS_Admin_Settings {
 							style="<?php echo esc_attr( $field['css'] ); ?>"
 							value="<?php echo esc_attr( $option_value ); ?>"
 							class="<?php echo esc_attr( $field['class'] ); ?>"
+							<?php echo $secure_val ? 'disabled="disabled"' : ''; ?>
 							<?php echo implode( ' ', $custom_attributes ); ?>
 							/> <?php echo $description; ?> <?php echo isset( $field['after_html'] ) ? $field['after_html'] : ''; ?>
 					</td>
@@ -809,7 +818,7 @@ class LLMS_Admin_Settings {
 	 * @param    array $settings Opens array to output
 	 * @return   bool
 	 * @since    1.0.0
-	 * @version  3.17.5
+	 * @version  [version]
 	 */
 	public static function save_fields( $settings ) {
 	    if ( empty( $_POST ) ) {
@@ -825,6 +834,12 @@ class LLMS_Admin_Settings {
 	    		continue; }
 
 	    	$type = isset( $value['type'] ) ? sanitize_title( $value['type'] ) : '';
+
+	    	// Remove secure options from the database.
+	    	if ( isset( $value['secure_option'] ) && llms_get_secure_option( $value['secure_option'] ) ) {
+	    		delete_option( $value['id'] );
+	    		continue;
+	    	}
 
 	    	// Get the option name
 	    	$option_value = null;

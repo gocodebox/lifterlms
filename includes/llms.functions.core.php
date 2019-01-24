@@ -2,12 +2,14 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  3.27.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 // include all other function files.
+require_once 'functions/llms-functions-options.php';
+
 require_once 'functions/llms.functions.access.php';
 require_once 'functions/llms.functions.certificate.php';
 require_once 'functions/llms.functions.course.php';
