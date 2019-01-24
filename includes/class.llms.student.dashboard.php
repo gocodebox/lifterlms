@@ -3,7 +3,7 @@
  * Retrieve data sets used by various other classes and functions
  *
  * @since    3.0.0
- * @version  3.26.3
+ * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -124,7 +124,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.26.3
+	 * @version  3.27.0
 	 */
 	public static function get_tabs() {
 
@@ -180,13 +180,13 @@ class LLMS_Student_Dashboard {
 			),
 			'redeem-voucher' => array(
 				'content' => array( __CLASS__, 'output_redeem_voucher_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
 				'nav_item' => true,
 				'title' => __( 'Redeem a Voucher', 'lifterlms' ),
 			),
 			'orders' => array(
 				'content' => array( __CLASS__, 'output_orders_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'redeem-voucher' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
 				'nav_item' => true,
 				'title' => __( 'Order History', 'lifterlms' ),
 			),

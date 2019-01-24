@@ -5,7 +5,11 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0.3
+<<<<<<< HEAD
 Stable tag: 3.27.0-alpha.1
+=======
+Stable tag: 3.27.0
+>>>>>>> 3e8cdd923f301149ac6ac3fdb3a7699cb4fb15a8
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 

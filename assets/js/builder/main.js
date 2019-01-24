@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since    3.16.0
- * @version  3.24.0
+ * @version  3.27.0
  */
 require( [
 	'vendor/wp-hooks',
@@ -47,7 +47,7 @@ require( [
 	/**
 	 * Underscores templating utilities
 	 * @since    3.17.0
-	 * @version  3.24.0
+	 * @version  3.27.0
 	 */
 	_.mixin( {
 
@@ -94,38 +94,54 @@ require( [
 		 * @param    obj   quiz   raw quiz object (not a model)
 		 * @return   obj
 		 * @since    3.24.0
-		 * @version  3.24.0
+		 * @version  3.27.0
 		 */
 		prepareQuizObjectForCloning: function( quiz ) {
 
-			delete quiz.lesson_id;
 			delete quiz.id;
+			delete quiz.lesson_id;
 
 			_.each( quiz.questions, function( question ) {
 
-				delete question.parent_id;
-				delete question.id;
-				if ( question.image && _.isObject( question.image ) ) {
-					question.image._forceSync = true;
-				}
-
-				if ( question.choices ) {
-
-					_.each( question.choices, function( choice ) {
-
-						delete choice.question_id;
-						delete choice.id;
-						if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
-							choice.choice._forceSync = true;
-						}
-
-					} );
-
-				}
+				question = _.prepareQuestionObjectForCloning( question );
 
 			} );
 
 			return quiz;
+
+		},
+
+		/**
+		 * Strips IDs & Parent References from a question
+		 * @param    obj   question   raw question object (not a model).
+		 * @return   obj
+		 * @since    3.27.0
+		 * @version  3.27.0
+		 */
+		prepareQuestionObjectForCloning: function( question ) {
+
+			delete question.id;
+			delete question.parent_id;
+
+			if ( question.image && _.isObject( question.image ) ) {
+				question.image._forceSync = true;
+			}
+
+			if ( question.choices ) {
+
+				_.each( question.choices, function( choice ) {
+
+					delete choice.question_id;
+					delete choice.id;
+					if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
+						choice.choice._forceSync = true;
+					}
+
+				} );
+
+			}
+
+			return question;
 
 		},
 
@@ -197,5 +213,28 @@ require( [
 		course: Course,
 		sidebar: Sidebar,
 	} );
+
+	/**
+	 * Do deeplinking to Lesson / Quiz / Assignments
+	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
+	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
+	 * @since   3.27.0
+	 * @version 3.27.0
+	 */
+	if ( window.location.hash ) {
+		var hash = window.location.hash;
+		if ( -1 === hash.indexOf( '#lesson:' ) ) {
+			return;
+		}
+		var parts = hash.replace( '#lesson:', '' ).split( ':' ),
+			$lesson = $( '#llms-lesson-' + parts[0] );
+
+		if ( $lesson.length ) {
+			$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
+			var subtab = parts[1] ? parts[1] : 'lesson';
+			$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
+		}
+
+	}
 
 } );

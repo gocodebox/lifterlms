@@ -2,7 +2,7 @@
 /**
  * Builder question view
  * @since   3.16.0
- * @version 3.16.0
+ * @version 3.27.0
  */
 ?>
 <script type="text/html" id="tmpl-llms-question-template">
@@ -33,6 +33,13 @@
 			<a class="llms-action-icon clone--question tip--top-right" data-tip="<?php esc_attr_e( 'Clone question', 'lifterlms' ); ?>" href="#llms-clone" tabindex="-1">
 				<i class="fa fa-clone" aria-hidden="true"></i>
 			</a>
+
+			<# if ( ! data.has_temp_id() ) { #>
+				<a class="llms-action-icon detach--question danger tip--top-right" data-tip="<?php esc_attr_e( 'Detach question', 'lifterlms' ); ?>" href="#llms-detach-model">
+					<span class="fa fa-chain-broken"></span>
+				</a>
+			<# } #>
+
 			<a class="llms-action-icon danger delete--question tip--top-right" data-tip="<?php esc_attr_e( 'Delete question', 'lifterlms' ); ?>" href="#llms-trash" tabindex="-1">
 				<i class="fa fa-trash" aria-hidden="true"></i>
 			</a>

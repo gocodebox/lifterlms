@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.24.2
+ * @version  3.27.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_Builder class.
  */
 class LLMS_Admin_Builder {
 
@@ -543,7 +547,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.17.0
+	 * @version  3.27.0
 	 */
 	private static function process_detachments( $data ) {
 
@@ -558,7 +562,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			$type = get_post_type( $id );
 
-			$post_types = apply_filters( 'llms_builder_detachable_post_types', array( 'lesson', 'llms_quiz' ) );
+			$post_types = apply_filters( 'llms_builder_detachable_post_types', array( 'lesson', 'llms_question', 'llms_quiz' ) );
 			if ( ! is_numeric( $id ) || ! in_array( $type, $post_types ) ) {
 				array_push( $ret, $res );
 				continue;
@@ -573,6 +577,8 @@ if ( ! empty( $active_post_lock ) ) {
 			if ( 'lesson' === $type ) {
 				$post->set( 'parent_course', '' );
 				$post->set( 'parent_section', '' );
+			} elseif ( 'llms_question' === $type ) {
+				$post->set( 'parent_id', '' );
 			} elseif ( 'llms_quiz' === $type ) {
 				$parent = $post->get_lesson();
 				if ( $parent ) {

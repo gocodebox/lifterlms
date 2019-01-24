@@ -1,16 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Question Types
  *
  * @since    3.16.0
  * @version  3.16.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Question_Types class.
+ */
 class LLMS_Question_Types {
 
 	/**
 	 * Initializer
+	 *
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -23,6 +28,7 @@ class LLMS_Question_Types {
 
 	/**
 	 * Retrieve question type model defaults
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -60,9 +66,10 @@ class LLMS_Question_Types {
 
 	/**
 	 * Retrieve all the default question types loaded by the LifterLMS core
-	 * @return   [type]
+	 *
+	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @version  3.27.0
 	 */
 	private static function get_types() {
 
@@ -128,6 +135,18 @@ class LLMS_Question_Types {
 				'grading' => false,
 				'name' => esc_html__( 'Content', 'lifterlms' ),
 				'placeholder' => esc_attr__( 'Enter your content title...', 'lifterlms' ),
+				'points' => false,
+				'random_lock' => true,
+			),
+
+			'existing' => array(
+				'choices' => false,
+				'clarifications' => false,
+				'icon' => 'file-text-o',
+				'id' => 'existing',
+				'grading' => false,
+				'name' => esc_html__( 'Add Existing Question', 'lifterlms' ),
+				'placeholder' => '',
 				'points' => false,
 				'random_lock' => true,
 			),
@@ -248,8 +267,9 @@ class LLMS_Question_Types {
 
 	/**
 	 * Load core question types
-	 * @param    array     $questions  array of question types (probably empty)
-	 * @return   [type]
+	 *
+	 * @param    array     $questions  array of question types (probably empty).
+	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */

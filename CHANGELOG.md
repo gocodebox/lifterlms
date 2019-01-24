@@ -1,6 +1,7 @@
 LifterLMS Changelog
 ===================
 
+<<<<<<< HEAD
 v3.27.0-alpha.1 - 2019-01-21
 ----------------------------
 
@@ -18,10 +19,29 @@ v3.27.0-alpha.1 - 2019-01-21
 
 
 v3.26.? - 2019-01-??
+=======
+v3.27.0 - 2019-01-22
+>>>>>>> 3e8cdd923f301149ac6ac3fdb3a7699cb4fb15a8
 --------------------
 
+###### Updates
+
++ Added the ability to add existing questions to a quiz in the course builder. This allows cloning of existing questions as well as attaching "orphaned" questions currently attached to no quizzes.
++ Added the ability to detach questions from quizzes. Coupled with adding existing questions, questions can now be easily moved between quizzes.
++ Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...).
++ Quizzes with 0 possible points will no longer show a Pass/Fail chart with a 0% (failing) grade on quiz results screens.
++ Replaced option `lifterlms_lock_down` which cannot be set via any setting with a filter to reduce database calls. This will have no effect on anyone unless you manually set this option to "no" via a database query. Having done this would allow the admin bar to be shown to students.
+
+##### Bug Fixes
+
++ Fixed an issue causing the default "Redeem Voucher" and "My Orders" student dashboard endpoint slugs from not having the correct default values. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
++ Fixed an issue causing quotation marks in quiz question answers to show escaping slashes on results screens.
 + Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
 + Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
+
+##### Templates Changed
+
++ [quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
 
 
 v3.26.4 - 2019-01-16
