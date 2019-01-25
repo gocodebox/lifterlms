@@ -441,13 +441,12 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'on_sale', 'yes' );
 		$this->obj->set( 'sale_end', $future );
 
-		global $llms_mock_time;
 		// set current current time as last second of $future day
-		$llms_mock_time = strtotime( $future . ' 23:59:59' );
+		llms_tests_mock_current_time( strtotime( $future . ' 23:59:59' ) );
 		$this->assertTrue( $this->obj->is_on_sale() );
 
 		// set current current time as first second of $future day plus 1
-		$llms_mock_time = strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) );
+		llms_tests_mock_current_time( strtotime( '+1 day', strtotime( $future . ' 00:00:00' ) ) );
 		$this->assertFalse( $this->obj->is_on_sale() );
 
 	}
