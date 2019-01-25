@@ -1,8 +1,8 @@
 <?php
 /**
  * Functions for LifterLMS Orders
- * @since    3.27.0
- * @version  3.27.0
+ * @since    [version]
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,8 +21,8 @@ defined( 'ABSPATH' ) || exit;
  * 							   Optional:
  *                             		coupon_code (string) Coupon Code to be applied to the order
  * @return   [type]
- * @since    3.27.0
- * @version  3.27.0
+ * @since    [version]
+ * @version  [version]
  */
 function llms_setup_pending_order( $data = array() ) {
 
@@ -30,6 +30,18 @@ function llms_setup_pending_order( $data = array() ) {
 	 * @filter llms_before_setup_pending_order
 	 */
 	$data = apply_filters( 'llms_before_setup_pending_order', $data );
+
+	// Request keys that can be submitted with or without the `llms_` prefix.
+	$keys = array(
+		'llms_agree_to_terms',
+		'llms_coupon_code',
+		'llms_plan_id',
+	);
+	foreach ( $keys as $key ) {
+		if ( isset( $data[ $key ] ) ) {
+			$data[ str_replace( 'llms_', '', $key ) ] = $data[ $key ];
+		}
+	}
 
 	$err = new WP_Error();
 
