@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.27.1 - 2019-01-25
+--------------------
+
++ Fix an issue preventing manual updating of customer and source information on orders resulting from unfocusable hidden form fields.
+
+
 v3.27.0 - 2019-01-22
 --------------------
 

@@ -737,7 +737,7 @@
 		 * Bind llms-editable metabox fields and related dom interactions
 		 * @return   void
 		 * @since    3.10.0
-		 * @version  3.10.0
+		 * @version  [version]
 		 */
 		this.bind_editables = function() {
 
@@ -790,6 +790,11 @@
 				}
 
 				$field.empty().append( $label ).append( $input );
+				if ( 'select' === type ) {
+					setTimeout( function() {
+						$input.trigger( 'change' );
+					}, 100 );
+				}
 
 			};
 
@@ -805,7 +810,6 @@
 				} else {
 					$fields = $btn.closest( '.llms-metabox-section' ).find( '[data-llms-editable]' );
 				}
-
 
 				$btn.remove();
 
@@ -965,7 +969,7 @@
 		 * Actions for ORDERS
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  3.10.0
+		 * @version  [version]
 		 */
 		this.bind_llms_order = function() {
 
@@ -1055,16 +1059,14 @@
 					var $field = $( 'input[name="' + gateway_data[ field ].name + '"]' ),
 						$wrap = $field.closest( '.llms-metabox-field' );
 
-					// always clear the value when switching
-					// ensures that outdated data is removed from the DB
-					$field.attr( 'value', '' );
-
 					// if the field is enabled show it the field and, if we're switching back to the originally selected
 					// gateway, reload the value from the dom
 					if ( gateway_data[ field ].enabled ) {
 
 						$wrap.show();
 						$field.attr( 'required', 'required' );
+						$field.removeAttr( 'disabled' );
+
 						if ( gateway === $select.attr( 'data-original-value') ) {
 							$field.val( $wrap.attr( 'data-llms-editable-value' ) );
 						}
@@ -1073,7 +1075,12 @@
 					// this will ensure it gets updated in the database
 					} else {
 
+						// always clear the value when switching
+						// ensures that outdated data is removed from the DB
+						$field.attr( 'value', '' );
+
 						$field.removeAttr( 'required' );
+						// $field.attr( 'disabled', 'disabled' );
 						$wrap.hide();
 
 					}
