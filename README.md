@@ -5,7 +5,7 @@
 [![WordPress rating](https://img.shields.io/wordpress/plugin/r/lifterlms.svg)](https://wordpress.org/support/plugin/lifterlms/reviews/)
 [![WordPress](https://img.shields.io/wordpress/plugin/dt/lifterlms.svg)](https://wordpress.org/plugins/lifterlms/advanced/)
 [![Wordpress Plugin Active Installs](https://img.shields.io/wordpress/plugin/installs/lifterlms.svg)](https://wordpress.org/plugins/lifterlms/)
-[![Build Status](https://travis-ci.org/gocodebox/lifterlms.svg?branch=master)](https://travis-ci.org/gocodebox/lifterlms)
+[![CircleCI](https://circleci.com/gh/gocodebox/lifterlms/tree/master.svg?style=svg)](https://circleci.com/gh/gocodebox/lifterlms/tree/master)
 [![Code Climate](https://codeclimate.com/github/gocodebox/lifterlms/badges/gpa.svg)](https://codeclimate.com/github/gocodebox/lifterlms)
 [![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
 [![All Contributors](https://img.shields.io/badge/all_contributors-26-orange.svg?style=flat-square)](#contributors)
