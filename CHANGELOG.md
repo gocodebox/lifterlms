@@ -6,7 +6,8 @@ v3.27.1 - 2019-01-25
 
 + Fixed an issue causing notifications on the student dashboard to appear on top of static headers or the WP Admin Bar when scrolling.
 + Fixed an issue preventing manual updating of customer and source information on orders resulting from unfocusable hidden form fields.
-
++ Fixed mismatched HTML tags on the Admin Add-Ons screen
++ Added an orange highlight to the admin "Add-Ons & More" menu item
 
 v3.27.0 - 2019-01-22
 --------------------

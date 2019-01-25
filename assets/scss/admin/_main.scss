@@ -447,3 +447,15 @@ a.llms-view-as {
 		}
 	}
 }
+
+
+#adminmenu .toplevel_page_lifterlms,
+#adminmenu .opensub .wp-submenu li.current,
+#adminmenu .wp-submenu li.current,
+#adminmenu .wp-submenu li.current,
+#adminmenu .wp-submenu li.current,
+#adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current {
+	a[href*="page=llms-add-ons"] {
+		color: $color-orange;
+	}
+}
