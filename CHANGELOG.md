@@ -9,6 +9,7 @@ v3.27.1 - 2019-01-25
 + Fixed mismatched HTML tags on the Admin Add-Ons screen
 + Added an orange highlight to the admin "Add-Ons & More" menu item
 
+
 v3.27.0 - 2019-01-22
 --------------------
 
