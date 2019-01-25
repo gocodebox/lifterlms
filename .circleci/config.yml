@@ -10,7 +10,6 @@ references:
     environment:
       - MYSQL_ROOT_HOST: "%"
       - MYSQL_ROOT_PASSWORD: password
-      - CC_TEST_REPORTER_ID: cbf0f6580f8f00b7e96668781f49de6abbbbc813be5c23e40fc2eda317883cdc
 
   common: &common
     working_directory: ~/repo
