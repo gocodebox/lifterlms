@@ -3,10 +3,29 @@
  * Tests for LifterLMS Custom Post Types
  * @group    LLMS_Roles
  * @since   3.13.0
- * @version 3.14.0
+ * @version [version]
  */
 class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
+	/**
+	 * Tear down
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public function tearDown() {
+		parent::tearDown();
+		$wp_roles = wp_roles();
+		LLMS_Roles::install();
+	}
+
+	/**
+	 * test get_all_core_caps() method
+	 *
+	 * @return  void
+	 * @since   3.13.0
+	 * @version 3.13.0
+	 */
 	public function test_get_all_core_caps() {
 
 		$this->assertTrue( is_array( LLMS_Roles::get_all_core_caps() ) );
@@ -14,6 +33,13 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get_roles() method.
+	 *
+	 * @return  void
+	 * @since   3.13.0
+	 * @version 3.13.0
+	 */
 	public function test_get_roles() {
 
 		$expect = array(
@@ -26,6 +52,13 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test install_roles() method.
+	 *
+	 * @return  void
+	 * @since   3.13.0
+	 * @version 3.13.0
+	 */
 	public function test_install() {
 
 		$wp_roles = wp_roles();
@@ -60,12 +93,16 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test remove_roles() method.
+	 *
+	 * @return  void
+	 * @since   3.13.0
+	 * @version [version]
+	 */
 	public function test_remove_roles() {
 
 		$wp_roles = wp_roles();
-
-		// ensure roles are installed
-		LLMS_Roles::install();
 
 		// remove them
 		LLMS_Roles::remove_roles();
