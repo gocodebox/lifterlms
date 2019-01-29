@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.27.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,7 +84,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  post data ($_REQUST)
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public static function export_admin_table( $request ) {
 
@@ -96,9 +96,8 @@ class LLMS_AJAX_Handler {
 		if ( class_exists( $handler ) ) {
 
 			$table = new $handler();
-			$table->queue_export( $request );
-			$user = wp_get_current_user();
-			return sprintf( __( 'The export is being generated and will be emailed to %s when complete.', 'lifterlms' ), $user->user_email );
+			$file = isset( $request['file_path'] ) ? $request['file_path'] : null;
+			return $table->generate_export_file( $request, $file );
 
 		} else {
 
