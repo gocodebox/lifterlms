@@ -204,9 +204,12 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * Queues an export for the table to be generated
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
+	 * @deprecated [version]
 	 */
 	public function queue_export( $args = array() ) {
+
+		llms_deprecated_function( 'LLMS_Admin_Table::queue_export()', '3.28.0' );
 
 		$args = $this->clean_args( $args );
 
