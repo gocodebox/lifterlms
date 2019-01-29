@@ -10,7 +10,7 @@
  *
  * @package  LifterLMS/Models
  * @since    3.13.0
- * @version  3.25.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -51,11 +51,10 @@ class LLMS_Post_Instructors {
 	 * Retrieve the default attributes for a new post instructor
 	 * @return     array
 	 * @since      3.13.0
-	 * @version    3.25.0
+	 * @version    [version]
 	 * @deprecated 3.25.0
 	 */
 	public function get_defaults() {
-		llms_log( debug_backtrace() );
 		llms_deprecated_function( 'LLMS_Post_Instructors::get_defaults()', '3.25.0', 'llms_get_instructors_defaults()' );
 		return llms_get_instructors_defaults();
 	}
