@@ -44,15 +44,15 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		$option_name = 'llms_gen_export_' . basename( $file_path, '.' . $type );
 		$args = get_option( $option_name, $args );
 
-		$fh = @fopen( $file_path, 'a+' );
-		if ( ! $fh ) {
+		$handle = @fopen( $file_path, 'a+' );
+		if ( ! $handle ) {
 			return new WP_Error( 'file_error', __( 'Unable to generate export file, could not open file for writing.', 'lifterlms' ) );
 		}
 
 		$delim = apply_filters( 'llms_table_generate_export_file_delimiter', ',', $this, $args );
 
 		foreach ( $this->get_export( $args ) as $row ) {
-			fputcsv( $fh, $row, $delim );
+			fputcsv( $handle, $row, $delim );
 		}
 
 		if ( ! $this->is_last_page() ) {
@@ -144,7 +144,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		 * to prevent Excel from attempting to interpret the .csv as SYLK
 		 * @see  https://github.com/gocodebox/lifterlms/issues/397
 		 */
-		foreach ( $cols as $key => &$title ) {
+		foreach ( $cols as &$title ) {
 			if ( 'id' === strtolower( $title ) ) {
 				$title = strtolower( $title );
 			}
@@ -183,10 +183,10 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @param    array    $args   optional arguements passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function get_export_title( $args = array() ) {
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title() );
+		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title(), $args );
 	}
 
 	/**

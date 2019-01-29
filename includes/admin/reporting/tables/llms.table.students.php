@@ -412,9 +412,6 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			$this->current_page = absint( $args['page'] );
 		}
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
-		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
-
 		$this->order = isset( $args['order'] ) ? $args['order'] : $this->get_order();
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
 

@@ -79,18 +79,6 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 				'change' => 2,
 			),
 			array(
-				'key' => 'filter',
-				'func' => 'get_filter',
-				'default' => '',
-				'change' => '',
-			),
-			array(
-				'key' => 'filterby',
-				'func' => 'get_filterby',
-				'default' => '',
-				'change' => '',
-			),
-			array(
 				'key' => 'order',
 				'func' => 'get_order',
 				'default' => 'ASC',
