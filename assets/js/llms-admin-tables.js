@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  3.15.0
+ * @version  [version]
  */
 ;( function( $, undefined ) {
 
@@ -32,7 +32,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    2.3.0
-		 * @version  3.15.0
+		 * @version  [version]
 		 */
 		this.bind = function() {
 
@@ -58,7 +58,6 @@
 				} );
 
 				$table.parent().find( '.llms-table-filters' ).on( 'change', 'select.llms-table-filter', function( e ) {
-					console.log( e );
 					self.change_filter( $table, $( this ) );
 				} );
 
@@ -136,28 +135,65 @@
 		 * @param    obj   $btn    jQuery object for the clicked button
 		 * @return   void
 		 * @since    3.15.0
-		 * @version  3.15.0
+		 * @version  [version]
 		 */
-		this.export = function( $table, $btn ) {
+		this.export = function( $table, $btn, file_path ) {
+
+			var self = this;
+
+			function activate_button() {
+				LLMS.Spinner.stop( $btn, 'small' );
+				$btn.removeAttr( 'disabled' );
+			}
 
 			LLMS.Ajax.call( {
 				data: $.extend( {
 					action: 'export_admin_table',
 					handler: $table.attr( 'data-handler' ),
+					file_path: file_path,
 				}, JSON.parse( $table.attr( 'data-args' ) ) ),
 				beforeSend: function() {
 
-					LLMS.Spinner.start( $table.closest( '.llms-table-wrap' ) );
-					$btn.attr( 'disabled', 'disabled' );
+					if ( ! $btn.attr( 'disabled' ) ) {
+						$btn.attr( 'disabled', 'disabled' );
+						LLMS.Spinner.start( $btn, 'small' );
+					}
 
 				},
-				success: function( r ) {
+				success: function( res ) {
 
-					LLMS.Spinner.stop( $table.closest( '.llms-table-wrap' ) )
+					var $msg = $table.find( '.llms-table-export .llms-table-export-msg' ),
+						$progress = $table.find( '.llms-table-export .llms-table-progress' );
 
-					if ( r.success ) {
+					if ( ! res.success && res.message ) {
 
-						$table.find( '.llms-table-export' ).append( '<em><small>' + r.data + '</small></em>' );
+						activate_button();
+						$msg.html( '<span class="llms-error">' + res.message + '</span>' );
+
+					} else if ( res.success && res.data && res.data.progress ) {
+
+						$msg.html( '' );
+
+						// only show a progress bar if it's going to take more than one request.
+						if ( ! $progress.is( 'visible' ) && res.data.progress !== 100 ) {
+							$progress.css( 'display', 'inline-block' );
+						}
+
+						$progress.find( '.llms-table-progress-text' ).text( res.data.progress + '%' );
+						$progress.find( '.llms-table-progress-inner' ).css( 'width', res.data.progress + '%' );
+
+						// if we're not finished, make another request.
+						if ( 100 !== res.data.progress ) {
+							self.export( $table, $btn, res.data.path );
+
+						// finished, download the file and cleanup the interface.
+						} else {
+							window.location = res.data.url;
+							setTimeout( function() {
+								activate_button();
+								$progress.hide();
+							}, 1500 );
+						}
 
 					}
 
