@@ -365,6 +365,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Added an orange highlight to the admin "Add-Ons & More" menu item
 + Removed unused cron event.
 
+##### LifterLMS Blocks
+
++ Updated LifterLMS Blocks to 1.3.4
++ Adds support for handling courses & lessons in "Classic Editor" mode as defined by the Divi page builder
++ Skips course and lesson migration when "Classic" mode is enabled.
++ Adds conditions to identify "Classic" mode when the Classic Editor plugin settings are configured to enforce classic (or block) mode for *all* posts.
+
 ##### Database Updates
 
 + Unschedules the aforementioned unused cron event.
