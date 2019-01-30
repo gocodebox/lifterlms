@@ -6,8 +6,9 @@ v3.28.0 - 2019-01-29
 
 ##### Updates
 
-+ Added an orange highlight to the admin "Add-Ons & More" menu item
++ Updated lesson metabox to use icons for attached quizzes
 + Updated reporting table export functions to provide immediate download prompts of the files. Exports are generated in real time and you *must* remain on the page while it generates. The good news is if your site had issues with email or cronjobs it'll no longer be an issue for you.
++ Added an orange highlight to the admin "Add-Ons & More" menu item
 
 ##### Bug fixes
 
