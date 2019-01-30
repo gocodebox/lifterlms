@@ -322,12 +322,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "d0695807c3feb8eaa3632c831315d59daf965ea3"
+                "reference": "db238f2040bb40ee48000f56980852ce849c835b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/d0695807c3feb8eaa3632c831315d59daf965ea3",
-                "reference": "d0695807c3feb8eaa3632c831315d59daf965ea3",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/db238f2040bb40ee48000f56980852ce849c835b",
+                "reference": "db238f2040bb40ee48000f56980852ce849c835b",
                 "shasum": ""
             },
             "require": {
@@ -349,7 +349,7 @@
                 }
             ],
             "description": "Testing framework for LifterLMS projects",
-            "time": "2019-01-25T21:17:56+00:00"
+            "time": "2019-01-29T21:32:27+00:00"
         },
         {
             "name": "myclabs/deep-copy",

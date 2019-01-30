@@ -2,7 +2,7 @@
 /**
  * Course Builder Metabox
  * @since    3.13.0
- * @version  3.27.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -134,7 +134,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    string     $which    positioning [current|previous|next]
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  3.27.0
+	 * @version  [version]
 	 */
 	private function output_section( $section, $which ) {
 
@@ -174,7 +174,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 					<?php if ( $lesson->has_quiz() ) :
 						$quiz = $lesson->get_quiz(); ?>
 						<br>
-						<?php printf( __( 'Quiz: %s', 'lifterlms' ), $this->get_title_html( $quiz->get( 'title' ), $this->get_builder_url( $lesson->get( 'parent_course' ), $hash . ':quiz' ) ) ); ?>
+						<?php printf( '<span class="tip--top-right" data-tip="%1$s"><i class="fa fa-question-circle"></i></span> %2$s', __( 'Quiz', 'lifterlms' ), $this->get_title_html( $quiz->get( 'title' ), $this->get_builder_url( $lesson->get( 'parent_course' ), $hash . ':quiz' ) ) ); ?>
 					<?php endif; ?>
 					<?php do_action( 'llms_builder_mb_after_lesson', $lesson, $this ); ?>
 				</li>

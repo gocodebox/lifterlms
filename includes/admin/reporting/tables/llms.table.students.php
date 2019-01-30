@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version 3.26.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -50,6 +50,13 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @var  string
 	 */
 	protected $orderby = 'name';
+
+	/**
+	 * Number of records to display per page
+	 *
+	 * @var int
+	 */
+	protected $per_page = 25;
 
 	/**
 	 * Retrieve data for the columns
@@ -258,34 +265,86 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Retrieve an array of query arguments to pass to the LLMS_Student_Query
+	 *
+	 * @return  array
+	 * @since   [version]
+	 * @version [version]
+	 */
+	private function get_query_args() {
+
+		$query_args = array(
+			'page' => $this->get_current_page(),
+			'post_id' => array(),
+			'per_page' => $this->get_per_page(),
+			'sort' => $this->get_sort(),
+		);
+
+		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
+
+			$query_args['statuses'] = array( $this->get_filter() );
+
+		}
+
+		if ( $this->get_search() ) {
+			$query_args['search'] = $this->get_search();
+		}
+
+		return $query_args;
+
+	}
+
+	/**
 	 * Execute a query to retrieve results from the table
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function get_results( $args = array() ) {
 
-		$this->title = __( 'Students', 'lifterlms' );
-
-		if ( ! $args ) {
-			$args = $this->get_args();
+		// Current user can't access this report.
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'view_lifterlms_reports' ) ) {
+			return;
 		}
 
-		$args = $this->clean_args( $args );
+		$this->parse_args( $args );
 
-		if ( isset( $args['page'] ) ) {
-			$this->current_page = absint( $args['page'] );
+		$query_args = $this->get_query_args();
+
+		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
+
+			$query = new LLMS_Student_Query( $query_args );
+
+		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
+
+			$instructor = llms_get_instructor();
+			if ( ! $instructor ) {
+				return;
+			}
+			$query = $instructor->get_students( $query_args );
+
 		}
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
-		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
+		$this->max_pages = $query->max_pages;
+		$this->is_last_page = $query->is_last_page();
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : $this->get_order();
-		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
+		$this->tbody_data = $query->get_students();
+
+	}
+
+	/**
+	 * Setup the array of sort arguments to pass to the LLMS_Student_Query for the table
+	 *
+	 * @return  array
+	 * @since   [version]
+	 * @version [version]
+	 */
+	private function get_sort() {
 
 		$sort = array();
 		switch ( $this->get_orderby() ) {
+
 			case 'id':
 				$sort = array(
 					'id' => $this->get_order(),
@@ -326,68 +385,54 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 					'id' => 'ASC',
 				);
 			break;
+
 		}// End switch().
 
-		$query_args = array(
-			'page' => $this->get_current_page(),
-			'post_id' => array(),
-			'per_page' => $args['per_page'],
-			'sort' => $sort,
-		);
-
-		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
-
-			$query_args['statuses'] = array( $this->get_filter() );
-
-		}
-
-		if ( isset( $args['search'] ) ) {
-
-			$this->search = $args['search'];
-			$query_args['search'] = $this->get_search();
-
-		}
-
-		$query = null;
-
-		// if you can view others reports, make a regular query
-		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
-
-			$query = new LLMS_Student_Query( $query_args );
-
-			// user can only see their own reports, get a list of their students
-		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
-
-			$instructor = llms_get_instructor();
-			if ( ! $instructor ) {
-				return;
-			}
-			$query = $instructor->get_students();
-
-		}
-
-		if ( ! $query ) {
-			return;
-		}
-
-		$this->max_pages = $query->max_pages;
-		$this->is_last_page = $query->is_last_page();
-
-		$this->tbody_data = $query->get_students();
+		return $sort;
 
 	}
 
+	/**
+	 * Parse arguments passed to get_results() method & setup table class variables.
+	 *
+	 * @param   array     $args array of arguments.
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
+	protected function parse_args( $args = array() ) {
+
+		if ( ! $args ) {
+			$args = $this->get_args();
+		}
+
+		$args = $this->clean_args( $args );
+
+		if ( isset( $args['page'] ) ) {
+			$this->current_page = absint( $args['page'] );
+		}
+
+		$this->order = isset( $args['order'] ) ? $args['order'] : $this->get_order();
+		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
+
+		$this->per_page = isset( $args['per_page'] ) ? $args['per_page'] : $this->get_per_page();
+
+		if ( isset( $args['search'] ) ) {
+			$this->search = $args['search'];
+		}
+
+	}
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
 	 * @return   array
 	 * @since    2.3.0
-	 * @version  3.15.0
+	 * @version  [version]
 	 */
 	public function set_args() {
-		$deprecated = apply_filters( 'llms_table_' . $this->id . '_per_page', 25 );
 		return array(
-			'per_page' => apply_filters( 'llms_table_' . $this->id . '_per_page', $deprecated ),
+			'per_page' => apply_filters( 'llms_table_' . $this->id . '_per_page', $this->per_page ),
 		);
 	}
 
@@ -524,6 +569,17 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				'title' => __( 'Memberships (Expired)', 'lifterlms' ),
 			),
 		);
+	}
+
+	/**
+	 * Set the table's title.
+	 *
+	 * @return  string
+	 * @since   [version]
+	 * @version [version]
+	 */
+	protected function set_title() {
+		return __( 'Students', 'lifterlms' );
 	}
 
 }

@@ -2,7 +2,7 @@
 /**
  * Tests for the LLMS_Install Class
  * @since    3.3.1
- * @version  3.6.0
+ * @version  [version]
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -32,16 +32,16 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 * Tests for create_cron_jobs()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @version  [version]
 	 */
 	public function test_create_cron_jobs() {
 
 		// clear crons
-		wp_clear_scheduled_hook( 'lifterlms_cleanup_sessions' );
+		wp_clear_scheduled_hook( 'llms_cleanup_tmp' );
 		wp_clear_scheduled_hook( 'llms_send_tracking_data' );
 
 		LLMS_Install::create_cron_jobs();
-		$this->assertTrue( is_numeric( wp_next_scheduled( 'lifterlms_cleanup_sessions' ) ) );
+		$this->assertTrue( is_numeric( wp_next_scheduled( 'llms_cleanup_tmp' ) ) );
 		$this->assertTrue( is_numeric( wp_next_scheduled( 'llms_send_tracking_data' ) ) );
 
 	}
