@@ -139,7 +139,9 @@
 		 */
 		this.export = function( $table, $btn, file_path ) {
 
-			var self = this;
+			var self = this,
+				$msg = $table.find( '.llms-table-export .llms-table-export-msg' ),
+				$progress = $table.find( '.llms-table-export .llms-table-progress' );
 
 			function activate_button() {
 				LLMS.Spinner.stop( $btn, 'small' );
@@ -160,14 +162,21 @@
 					}
 
 				},
-				success: function( res ) {
+				error: function( jqXHR, status, error ) {
 
-					var $msg = $table.find( '.llms-table-export .llms-table-export-msg' ),
-						$progress = $table.find( '.llms-table-export .llms-table-progress' );
+					var msg = LLMS.l10n.translate( 'An error was encountered generating the export' );
+					activate_button();
+					$progress.hide();
+					$msg.html( '<span class="llms-error">' + msg + ': ' + error + '</span>' );
+					console.error( jqXHR );
+
+				},
+				success: function( res ) {
 
 					if ( ! res.success && res.message ) {
 
 						activate_button();
+						$progress.hide();
 						$msg.html( '<span class="llms-error">' + res.message + '</span>' );
 
 					} else if ( res.success && res.data && res.data.progress ) {
