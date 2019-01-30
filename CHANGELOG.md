@@ -9,9 +9,16 @@ v3.28.0 - 2019-01-29
 + Updated lesson metabox to use icons for attached quizzes
 + Updated reporting table export functions to provide immediate download prompts of the files. Exports are generated in real time and you *must* remain on the page while it generates. The good news is if your site had issues with email or cronjobs it'll no longer be an issue for you.
 + Added an orange highlight to the admin "Add-Ons & More" menu item
++ Removed unused cron event.
+
+##### Database Updates
+
++ Unschedules the aforementioned unused cron event.
 
 ##### Bug fixes
 
++ Fixed an issue preventing the temp directory old file cleanup cron from firing on schedule.
++ During plugin uninstallation the tmp cleanup cron will now be properly unscheduled.
 + Fixed an issue causing notifications on the student dashboard to appear on top of static headers or the WP Admin Bar when scrolling.
 + Fixed an issue preventing manual updating of customer and source information on orders resulting from unfocusable hidden form fields.
 + Fixed mismatched HTML tags on the Admin Add-Ons screen

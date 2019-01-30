@@ -175,6 +175,7 @@ function llms_cleanup_tmp() {
 	}
 
 }
+add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
 
 /**
  * Get a list of available access plan visibility options
