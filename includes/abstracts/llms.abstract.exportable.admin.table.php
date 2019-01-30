@@ -2,8 +2,8 @@
 /**
  * Admin Table Export Functions
  *
- * @since   [version]
- * @version [version]
+ * @since   3.28.0
+ * @version 3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,8 +26,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @param   string    $file_path full path to a file, if omitted creates a new file, if passed, will continue adding to existing file.
 	 * @param   string    $type      export file type for forward compatibility. Currently only accepts 'csv'.
 	 * @return  WP_Error|array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function generate_export_file( $args = array(), $file_path = null, $type = 'csv' ) {
 
@@ -121,8 +121,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * Retrieve the download URL to an export file
 	 * @param   string    $file_path full path to a download file.
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	protected function get_export_file_url( $file_path ) {
 		$uploads = wp_upload_dir();
@@ -159,7 +159,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @param    array    $args   optional arguements passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function get_export_file_name( $args = array() ) {
 
@@ -183,7 +183,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @param    array    $args   optional arguements passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function get_export_title( $args = array() ) {
 		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title(), $args );
@@ -193,8 +193,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * Determine if the table is currently locked due to export generation.
 	 *
 	 * @return  bool
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function is_export_locked() {
 		return LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() );
@@ -204,8 +204,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * Queues an export for the table to be generated
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  [version]
-	 * @deprecated [version]
+	 * @version  3.28.0
+	 * @deprecated 3.28.0
 	 */
 	public function queue_export( $args = array() ) {
 

@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0.3
-Stable tag: 3.27.0
+Stable tag: 3.28.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,34 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.28.0 - 2019-01-29 =
+------------------------
+
+##### Updates
+
++ Updated reporting table export functions to provide immediate download prompts of the files. Exports are generated in real time and you *must* remain on the page while it generates. The good news is if your site had issues with email or cronjobs it'll no longer be an issue for you.
++ Updated lesson metabox to use icons for attached quizzes
++ Added an orange highlight to the admin "Add-Ons & More" menu item
++ Removed unused cron event.
+
+##### Database Updates
+
++ Unschedules the aforementioned unused cron event.
+
+##### Bug fixes
+
++ Fixed an issue preventing the temp directory old file cleanup cron from firing on schedule.
++ During plugin uninstallation the tmp cleanup cron will now be properly unscheduled.
++ Fixed an issue causing notifications on the student dashboard to appear on top of static headers or the WP Admin Bar when scrolling.
++ Fixed an issue preventing manual updating of customer and source information on orders resulting from unfocusable hidden form fields.
++ Fixed mismatched HTML tags on the Admin Add-Ons screen
+
+##### Deprecations
+
++ Class method: `LLMS_Admin_Table::queue_export()`
++ Class: `LLMS_Processor_Table_To_Csv`
+
+
 = v3.27.0 - 2019-01-22 =
 ------------------------
 
@@ -462,25 +490,5 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 + Added new filters to the `LLMS_Product` model.
 + Fix issue with student dashboard login redirect causing a white screen on initial login.
-
-
-= v3.25.1 - 2018-12-12 =
-------------------------
-
-##### Updates
-
-+ Editor blocks now display a lock icon when hovering/selecting a block which corresponds to the enrollment visibility settings of the block.
-+ Removal of core actions is now handled by a general migrator function instead of by individual blocks.
-
-##### Bug fixes
-
-+ Fixed issue preventing strings from the lifterlms-blocks package from being translateable.
-+ Fix issue causing block visibility options to not be properly set when enrollment visibility is first enabled for a block.
-+ Fixed compatibility issue with Yoast SEO Premium redirect manager settings, thanks [@moorscode](https://github.com/moorscode)!
-+ Fixed typo preventing tag size options (or filters) of course information block from functioning properly. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
-
-##### Templates Changed
-
-+ [templates/course/meta-wrapper-start.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/meta-wrapper-start.php)
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

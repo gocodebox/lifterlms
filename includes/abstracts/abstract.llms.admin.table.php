@@ -3,7 +3,7 @@
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -165,7 +165,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Constructor
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function __construct() {
 		$this->title = $this->set_title();
@@ -363,8 +363,8 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Get the current number of results to display per page
 	 *
 	 * @return  int
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function get_per_page() {
 		return $this->per_page;
@@ -553,7 +553,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Get a tfoot element for the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -799,8 +799,8 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * Stub used to set the title during table construction.
 	 *
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	protected function set_title() {
 		return '';

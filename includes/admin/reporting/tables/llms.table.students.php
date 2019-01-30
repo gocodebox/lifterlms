@@ -3,7 +3,7 @@
  * Individual Student's Courses Table
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -268,8 +268,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Retrieve an array of query arguments to pass to the LLMS_Student_Query
 	 *
 	 * @return  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	private function get_query_args() {
 
@@ -299,7 +299,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @param    array      $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function get_results( $args = array() ) {
 
@@ -337,8 +337,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Setup the array of sort arguments to pass to the LLMS_Student_Query for the table
 	 *
 	 * @return  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	private function get_sort() {
 
@@ -397,8 +397,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 *
 	 * @param   array     $args array of arguments.
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	protected function parse_args( $args = array() ) {
 
@@ -428,7 +428,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 *
 	 * @return   array
 	 * @since    2.3.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function set_args() {
 		return array(
@@ -575,8 +575,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Set the table's title.
 	 *
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	protected function set_title() {
 		return __( 'Students', 'lifterlms' );

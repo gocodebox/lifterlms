@@ -3,15 +3,15 @@
  * Tests for LifterLMS Custom Post Types
  * @group    LLMS_Roles
  * @since   3.13.0
- * @version [version]
+ * @version 3.28.0
  */
 class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 	/**
 	 * Tear down
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -98,7 +98,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	 *
 	 * @return  void
 	 * @since   3.13.0
-	 * @version [version]
+	 * @version 3.28.0
 	 */
 	public function test_remove_roles() {
 

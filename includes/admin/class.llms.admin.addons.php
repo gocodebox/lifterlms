@@ -4,7 +4,7 @@
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  *
  * @since    3.5.0
- * @version  [version]
+ * @version  3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -240,7 +240,7 @@ class LLMS_Admin_AddOns {
 	 * Output HTML for the current screen
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function output() {
 

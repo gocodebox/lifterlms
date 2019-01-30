@@ -3,7 +3,7 @@
  * Plugin installation
  *
  * @since   1.0.0
- * @version [version]
+ * @version 3.28.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -113,7 +113,7 @@ class LLMS_Install {
 	 * Create LifterLMS cron jobs
 	 * @return  void
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.28.0
 	 */
 	public static function create_cron_jobs() {
 

@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Tests
  * @since   3.3.1
- * @version [version]
+ * @version 3.28.0
  */
 
 require_once './vendor/lifterlms/lifterlms-tests/bootstrap.php';
@@ -43,8 +43,8 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	 * Install the plugin
 	 *
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.28.0
+	 * @version  3.28.0
 	 */
 	public function install() {
 
@@ -68,8 +68,8 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	 * Load the plugin
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function load() {
 
@@ -114,8 +114,8 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	 * Uninstall the plugin.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function uninstall() {
 

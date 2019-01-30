@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  [version]
+ * @version  3.28.0
  */
 ;( function( $, undefined ) {
 
@@ -32,7 +32,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    2.3.0
-		 * @version  [version]
+		 * @version  3.28.0
 		 */
 		this.bind = function() {
 
@@ -135,7 +135,7 @@
 		 * @param    obj   $btn    jQuery object for the clicked button
 		 * @return   void
 		 * @since    3.15.0
-		 * @version  [version]
+		 * @version  3.28.0
 		 */
 		this.export = function( $table, $btn, file_path ) {
 

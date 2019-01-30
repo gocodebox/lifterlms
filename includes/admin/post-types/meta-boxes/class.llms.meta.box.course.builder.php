@@ -2,7 +2,7 @@
 /**
  * Course Builder Metabox
  * @since    3.13.0
- * @version  [version]
+ * @version  3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -134,7 +134,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * @param    string     $which    positioning [current|previous|next]
 	 * @return   void
 	 * @since    3.13.0
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	private function output_section( $section, $which ) {
 

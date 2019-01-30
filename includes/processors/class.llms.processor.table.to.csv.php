@@ -3,7 +3,7 @@
  * Convert LifterLMS Tables to CSVs as a background process
  * @since    3.15.0
  * @version  3.17.8
- * @deprecated  [version]
+ * @deprecated  3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;

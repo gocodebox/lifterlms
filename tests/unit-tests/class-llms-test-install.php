@@ -2,7 +2,7 @@
 /**
  * Tests for the LLMS_Install Class
  * @since    3.3.1
- * @version  [version]
+ * @version  3.28.0
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -32,7 +32,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 * Tests for create_cron_jobs()
 	 * @return   void
 	 * @since    3.3.1
-	 * @version  [version]
+	 * @version  3.28.0
 	 */
 	public function test_create_cron_jobs() {
 

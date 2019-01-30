@@ -737,7 +737,7 @@
 		 * Bind llms-editable metabox fields and related dom interactions
 		 * @return   void
 		 * @since    3.10.0
-		 * @version  [version]
+		 * @version  3.28.0
 		 */
 		this.bind_editables = function() {
 
@@ -969,7 +969,7 @@
 		 * Actions for ORDERS
 		 * @return   void
 		 * @since    3.0.0
-		 * @version  [version]
+		 * @version  3.28.0
 		 */
 		this.bind_llms_order = function() {
 

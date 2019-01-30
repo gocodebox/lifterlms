@@ -5,7 +5,7 @@
  * Functions here are used by the background updater during db updates
  *
  * @since    3.4.3
- * @version  [version]
+ * @version  3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1651,8 +1651,8 @@ function llms_update_3160_update_db_version() {
  * Clear the unused cron `lifterlms_cleanup_sessions`
  *
  * @return  void
- * @since   [version]
- * @version [version]
+ * @since   3.28.0
+ * @version 3.28.0
  */
 function llms_update_3280_clear_session_cleanup_cron() {
 	wp_clear_scheduled_hook( 'lifterlms_cleanup_sessions' );
@@ -1661,8 +1661,8 @@ function llms_update_3280_clear_session_cleanup_cron() {
 /**
  * Update db version at conclusion of 3.28.0 updates
  * @return void
- * @since    [version]
- * @version  [version]
+ * @since    3.28.0
+ * @version  3.28.0
  */
 function llms_update_3280_update_db_version() {
 	LLMS_Install::update_db_version( '3.28.0' );

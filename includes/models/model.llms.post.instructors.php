@@ -10,7 +10,7 @@
  *
  * @package  LifterLMS/Models
  * @since    3.13.0
- * @version  [version]
+ * @version  3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -51,7 +51,7 @@ class LLMS_Post_Instructors {
 	 * Retrieve the default attributes for a new post instructor
 	 * @return     array
 	 * @since      3.13.0
-	 * @version    [version]
+	 * @version    3.28.0
 	 * @deprecated 3.25.0
 	 */
 	public function get_defaults() {

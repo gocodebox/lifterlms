@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Tests/Tables
  * @group    reporting_tables
- * @since    [version]
- * @version  [version]
+ * @since    3.28.0
+ * @version  3.28.0
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
@@ -66,8 +66,8 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	 * test the get_results() method.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function test_get_results() {
 
@@ -156,8 +156,8 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	 * Test the set_args() method.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function test_set_args() {
 
@@ -168,8 +168,8 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test the set_columns() method
 	 * @return  [type]
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function test_set_columns() {
 
@@ -211,8 +211,8 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	 * Test that variables are setup correctly during construction.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
 	public function test_variables() {
 
