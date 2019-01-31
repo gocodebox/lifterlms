@@ -1,9 +1,8 @@
 LifterLMS Changelog
 ===================
 
-<<<<<<< HEAD
-v3.27.0-alpha.1 - 2019-01-21
-----------------------------
+v3.29.0 - 2019-01-31
+--------------------
 
 ##### Updates
 
@@ -18,10 +17,42 @@ v3.27.0-alpha.1 - 2019-01-21
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 
 
-v3.26.? - 2019-01-??
-=======
+v3.28.0 - 2019-01-29
+--------------------
+
+##### Updates
+
++ Updated reporting table export functions to provide immediate download prompts of the files. Exports are generated in real time and you *must* remain on the page while it generates. The good news is if your site had issues with email or cronjobs it'll no longer be an issue for you.
++ Updated lesson metabox to use icons for attached quizzes
++ Added an orange highlight to the admin "Add-Ons & More" menu item
++ Removed unused cron event.
+
+##### LifterLMS Blocks
+
++ Updated LifterLMS Blocks to 1.3.4
++ Adds support for handling courses & lessons in "Classic Editor" mode as defined by the Divi page builder
++ Skips course and lesson migration when "Classic" mode is enabled.
++ Adds conditions to identify "Classic" mode when the Classic Editor plugin settings are configured to enforce classic (or block) mode for *all* posts.
+
+##### Database Updates
+
++ Unschedules the aforementioned unused cron event.
+
+##### Bug fixes
+
++ Fixed an issue preventing the temp directory old file cleanup cron from firing on schedule.
++ During plugin uninstallation the tmp cleanup cron will now be properly unscheduled.
++ Fixed an issue causing notifications on the student dashboard to appear on top of static headers or the WP Admin Bar when scrolling.
++ Fixed an issue preventing manual updating of customer and source information on orders resulting from unfocusable hidden form fields.
++ Fixed mismatched HTML tags on the Admin Add-Ons screen
+
+##### Deprecations
+
++ Class method: `LLMS_Admin_Table::queue_export()`
++ Class: `LLMS_Processor_Table_To_Csv`
+
+
 v3.27.0 - 2019-01-22
->>>>>>> 3e8cdd923f301149ac6ac3fdb3a7699cb4fb15a8
 --------------------
 
 ###### Updates

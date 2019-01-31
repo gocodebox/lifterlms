@@ -2,16 +2,16 @@
 /**
  * LifterLMS Uninstall
  * @since    1.0.0
- * @version  3.14.9
+ * @version  3.28.0
  */
 
-// If uninstall not called from WordPress exit
+// If uninstall not called from WordPress exit.
 if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 	exit();
 }
 
 wp_clear_scheduled_hook( 'llms_check_for_expired_memberships' );
-wp_clear_scheduled_hook( 'lifterlms_cleanup_sessions' );
+wp_clear_scheduled_hook( 'lifterlms_cleanup_tmp' );
 wp_clear_scheduled_hook( 'llms_send_tracking_data' );
 wp_clear_scheduled_hook( 'lifterlms_engagement_award_achievement' );
 wp_clear_scheduled_hook( 'lifterlms_engagement_award_certificate' );

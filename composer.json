@@ -6,7 +6,7 @@
     "LMS"
   ],
   "homepage": "https://lifterlms.com",
-  "license": "GPL-2.0+",
+  "license": "GPL-3.0+",
   "authors": [
     {
       "name": "LifterLMS",
@@ -25,6 +25,7 @@
       "LLMS\\": "includes"
     }
   },
+  "minimum-stability": "dev",
   "repositories": [
     {
       "type": "vcs",
@@ -44,7 +45,7 @@
     "codeclimate/php-test-reporter": "dev-master",
     "squizlabs/php_codesniffer": "2.*",
     "wp-coding-standards/wpcs": "dev-master",
-    "phpunit/phpunit": "^5.6"
+    "lifterlms/lifterlms-tests": "dev-master"
   },
   "scripts": {
     "post-install-cmd": [
@@ -52,22 +53,9 @@
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
     "phpcs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/",
-    "phpunit": "./vendor/bin/phpunit",
     "tests-install": [
-      "mysql.server start",
-      "@tests-teardown",
-      "tests/bin/install.sh lifterlms_tests root password localhost latest"
-    ],
-    "tests-teardown": "tests/bin/teardown.sh lifterlms_tests root password localhost latest",
-
-    "check-cs": [
-      "\"vendor/bin/phpcs\" --colors"
-    ],
-    "check-cs-errors": [
-      "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6"
-    ],
-    "fix-cs": [
-      "\"vendor/bin/phpcbf\""
+      "vendor/bin/llms-tests teardown llms_tests root password 127.0.0.1",
+      "vendor/bin/llms-tests install llms_tests root password 127.0.0.1"
     ],
     "tests-run": [
       "vendor/bin/phpunit"

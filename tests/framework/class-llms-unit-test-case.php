@@ -4,7 +4,7 @@
  * @since    3.3.1
  * @version  3.24.0
  */
-class LLMS_UnitTestCase extends WP_UnitTestCase {
+class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup tests

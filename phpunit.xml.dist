@@ -1,24 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
 <phpunit
-	bootstrap="tests/bootstrap.php"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/|version|/phpunit.xsd"
 	backupGlobals="false"
+	bootstrap="tests/bootstrap.php"
 	colors="true"
 	convertErrorsToExceptions="true"
 	convertNoticesToExceptions="true"
 	convertWarningsToExceptions="true"
-	verbose="true"
-	syntaxCheck="true"
-	>
+	timeoutForSmallTests="1"
+	timeoutForMediumTests="10"
+	timeoutForLargeTests="60"
+	verbose="true">
+
 	<testsuites>
 		<testsuite name="LifterLMS Test Suite">
 			<directory suffix=".php">tests/unit-tests</directory>
 		</testsuite>
 	</testsuites>
+
 	<filter>
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">.</directory>
 			<exclude>
-				<directory suffix=".php">./templates/</directory>
 				<directory>./tests/</directory>
+				<directory suffix=".php">./templates/</directory>
 				<directory suffix=".php">./tmp/</directory>
 				<directory suffix=".php">./deploy/</directory>
 				<directory suffix=".php">./dist/</directory>
@@ -27,13 +33,5 @@
 			</exclude>
 		</whitelist>
 	</filter>
-	<listeners>
-		<listener
-			class="LLMS_Test_Time_Threshold_Listener"
-			file="tests/framework/class-llms-test-time-threshold-listener.php"
-		/>
-	</listeners>
-<!-- 	<logging>
-		<log type="coverage-clover" target="build/logs/clover.xml"/>
-	</logging> -->
+
 </phpunit>

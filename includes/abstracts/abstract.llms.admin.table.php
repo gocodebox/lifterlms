@@ -1,13 +1,17 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.24.0
+ * @version 3.28.0
  */
-abstract class LLMS_Admin_Table {
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_Table abstract.
+ */
+abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
@@ -97,6 +101,13 @@ abstract class LLMS_Admin_Table {
 	protected $orderby = '';
 
 	/**
+	 * Number of records to display per page
+	 *
+	 * @var int
+	 */
+	protected $per_page = -1;
+
+	/**
 	 * The search query submitted for a searchable table
 	 * @var  string
 	 */
@@ -154,9 +165,10 @@ abstract class LLMS_Admin_Table {
 	/**
 	 * Constructor
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  3.28.0
 	 */
 	public function __construct() {
+		$this->title = $this->set_title();
 		$this->register_hooks();
 	}
 
@@ -271,107 +283,6 @@ abstract class LLMS_Admin_Table {
 	}
 
 	/**
-	 * Gets data prepared for an export
-	 * @param    array     $args  query arguements to be passed to get_results()
-	 * @return   array
-	 * @since    3.15.0
-	 * @version  3.15.1
-	 */
-	public function get_export( $args = array() ) {
-
-		$this->get_results( $args );
-
-		$export = array();
-		if ( 1 === $this->current_page ) {
-			$export[] = $this->get_export_header();
-		}
-
-		foreach ( $this->get_tbody_data() as $row ) {
-			$row_data = array();
-			foreach ( array_keys( $this->get_columns( 'export' ) ) as $row_key ) {
-				$row_data[ $row_key ] = html_entity_decode( $this->get_export_data( $row_key, $row ) );
-			}
-			$export[] = $row_data;
-		}
-
-		return $export;
-
-	}
-
-	/**
-	 * Retrieve data for a cell in an export file
-	 * Should be overriden in extending classes
-	 * @param    string     $key   the column id / key
-	 * @param    mixed      $data  object / array of data that the function can use to extract the data
-	 * @return   mixed
-	 * @since    3.15.0
-	 * @version  3.15.0
-	 */
-	public function get_export_data( $key, $data ) {
-		return trim( strip_tags( $this->get_data( $key, $data ) ) );
-	}
-
-	/**
-	 * Retrieve the header row for generating an export file
-	 * @return   array
-	 * @since    3.15.0
-	 * @version  3.17.3
-	 */
-	public function get_export_header() {
-
-		$cols = wp_list_pluck( $this->get_columns( 'export' ), 'title' );
-
-		/**
-		 * If the first column is "ID" force it to lowercase
-		 * to prevent Excel from attempting to interpret the .csv as SYLK
-		 * @see  https://github.com/gocodebox/lifterlms/issues/397
-		 */
-		foreach ( $cols as $key => &$title ) {
-			if ( 'id' === strtolower( $title ) ) {
-				$title = strtolower( $title );
-			}
-			break;
-		}
-
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_header', $cols );
-	}
-
-	/**
-	 * Get the file name for an export file
-	 * @param    array    $args   optional arguements passed from table to csv processor
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
-	 */
-	public function get_export_file_name( $args = array() ) {
-
-		$title = sprintf( '%1$s_export_%2$s', sanitize_title( $this->get_export_title( $args ), 'llms-' . $this->id ), current_time( 'Y-m-d' ) );
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_file_name', $title );
-
-	}
-
-	/**
-	 * Get a lock key unique to the table & user for locking the table during export generation
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
-	 */
-	public function get_export_lock_key() {
-		return sprintf( '%1$s:%2$d', $this->id, get_current_user_id() );
-	}
-
-	/**
-	 * Allow customization of the title for export files
-	 * @param    array    $args   optional arguements passed from table to csv processor
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.15.0
-	 */
-	public function get_export_title( $args = array() ) {
-		return apply_filters( 'llms_table_get_' . $this->id . '_export_title', $this->get_title() );
-	}
-
-	/**
 	 * Get the text for the default/placeholder for a filterable column
 	 * @param    string     $column_id  id of the column
 	 * @return   string
@@ -446,6 +357,17 @@ abstract class LLMS_Admin_Table {
 	 */
 	public function get_orderby() {
 		return $this->orderby;
+	}
+
+	/**
+	 * Get the current number of results to display per page
+	 *
+	 * @return  int
+	 * @since   3.28.0
+	 * @version 3.28.0
+	 */
+	public function get_per_page() {
+		return $this->per_page;
 	}
 
 	/**
@@ -631,7 +553,7 @@ abstract class LLMS_Admin_Table {
 	 * Get a tfoot element for the table
 	 * @return   string
 	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @version  3.28.0
 	 */
 	public function get_tfoot_html() {
 		ob_start();
@@ -640,14 +562,12 @@ abstract class LLMS_Admin_Table {
 			<tr>
 				<th colspan="<?php echo $this->get_columns_count(); ?>">
 					<?php if ( $this->is_exportable ) : ?>
-						<?php $locked = LLMS()->processors()->get( 'table_to_csv' )->is_table_locked( $this->get_export_lock_key() ); ?>
 						<div class="llms-table-export">
-							<button class="llms-button-primary small" name="llms-table-export"<?php echo $locked ? ' disabled="disabled"' : ''; ?>>
+							<button class="llms-button-primary small" name="llms-table-export">
 								<span class="dashicons dashicons-download"></span> <?php _e( 'Export', 'lifterlms' ); ?>
 							</button>
-							<?php if ( $locked ) : ?>
-								<em><small>The export is being generated.</small></em>
-							<?php endif; ?>
+							<?php echo $this->get_progress_bar_html( 0 ); ?>
+							<em><small class="llms-table-export-msg"></small></em>
 						</div>
 					<?php endif; ?>
 
@@ -847,24 +767,6 @@ abstract class LLMS_Admin_Table {
 	}
 
 	/**
-	 * Queues an export for the table to be generated
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
-	 */
-	public function queue_export( $args = array() ) {
-
-		$args = $this->clean_args( $args );
-
-		foreach ( $args as $key => $val ) {
-			$this->$key = $val;
-		}
-
-		do_action( 'llms_table_generate_csv', $this );
-
-	}
-
-	/**
 	 * Allow custom hooks to be registered for use within the class
 	 * @return   void
 	 * @since    3.2.0
@@ -891,6 +793,17 @@ abstract class LLMS_Admin_Table {
 	 */
 	protected function set_empty_message() {
 		return apply_filters( 'llms_table_default_empty_message', __( 'No results were found.', 'lifterlms' ) );
+	}
+
+	/**
+	 * Stub used to set the title during table construction.
+	 *
+	 * @return  string
+	 * @since   3.28.0
+	 * @version 3.28.0
+	 */
+	protected function set_title() {
+		return '';
 	}
 
 }
