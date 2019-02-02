@@ -37,7 +37,7 @@ class LLMS_Admin_Export_Download {
 		}
 
 		// Only allow people who can view reports view exports.
-		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'view_lifterlms_reports') ) {
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && ! current_user_can( 'view_lifterlms_reports' ) ) {
 			wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 		}
 
@@ -57,7 +57,7 @@ class LLMS_Admin_Export_Download {
 		$file = file_get_contents( $path );
 		unlink( $path );
 		echo $file;
-        exit;
+		exit;
 
 	}
 
