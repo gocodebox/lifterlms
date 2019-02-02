@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0.3
-Stable tag: 3.28.0
+Stable tag: 3.28.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.28.1 - 2019-02-01 =
+------------------------
+
++ Fixed an issues preventing exports to be accessible on Apache servers.
++ Fixed an issue causing servers with certain nginx rules to open CSV exports directly instead of downloading them.
+
+
 = v3.28.0 - 2019-01-29 =
 ------------------------
 
@@ -490,12 +497,5 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ------------------------
 
 + Fixed compatibility issue with the Classic Editor plugin when it was added after a post was migrated to the new editor structure.
-
-
-= v3.25.2 - 2018-12-13 =
-------------------------
-
-+ Added new filters to the `LLMS_Product` model.
-+ Fix issue with student dashboard login redirect causing a white screen on initial login.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

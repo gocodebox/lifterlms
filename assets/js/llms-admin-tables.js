@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  [version]
+ * @version  3.28.1
  */
 ;( function( $, undefined ) {
 
@@ -136,7 +136,7 @@
 		 * @param    string filename  filename of the export in progress.
 		 * @return   void
 		 * @since    3.15.0
-		 * @version  [version]
+		 * @version  3.28.1
 		 */
 		this.export = function( $table, $btn, filename ) {
 

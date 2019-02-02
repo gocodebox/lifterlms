@@ -2,8 +2,8 @@
 /**
  * Serves Export CSVs on the admin panel
  *
- * @since   [version]
- * @version [version]
+ * @since   3.28.1
+ * @version 3.28.1
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -14,8 +14,8 @@ class LLMS_Admin_Export_Download {
 
 	/**
 	 * Constructor.
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.1
+	 * @version 3.28.1
 	 */
 	public function __construct() {
 
@@ -26,8 +26,8 @@ class LLMS_Admin_Export_Download {
 	/**
 	 * Serve an export file as a download
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.28.1
+	 * @version 3.28.1
 	 */
 	public function maybe_serve_export() {
 

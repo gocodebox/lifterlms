@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.28.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,7 +84,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  post data ($_REQUST)
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  [version]
+	 * @version  3.28.1
 	 */
 	public static function export_admin_table( $request ) {
 

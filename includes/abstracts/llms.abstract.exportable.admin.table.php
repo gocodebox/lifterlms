@@ -3,7 +3,7 @@
  * Admin Table Export Functions
  *
  * @since   3.28.0
- * @version [version]
+ * @version 3.28.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +27,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @param   string    $type      export file type for forward compatibility. Currently only accepts 'csv'.
 	 * @return  WP_Error|array
 	 * @since   3.28.0
-	 * @version [version]
+	 * @version 3.28.1
 	 */
 	public function generate_export_file( $args = array(), $filename = null, $type = 'csv' ) {
 
@@ -123,7 +123,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @param   string    $file_path full path to a download file.
 	 * @return  string
 	 * @since   3.28.0
-	 * @version [version]
+	 * @version 3.28.1
 	 */
 	protected function get_export_file_url( $file_path ) {
 		return add_query_arg( array(

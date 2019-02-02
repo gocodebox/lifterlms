@@ -1,6 +1,13 @@
 == Changelog ==
 
 
+= v3.28.1 - 2019-02-01 =
+------------------------
+
++ Fixed an issues preventing exports to be accessible on Apache servers.
++ Fixed an issue causing servers with certain nginx rules to open CSV exports directly instead of downloading them.
+
+
 = v3.28.0 - 2019-01-29 =
 ------------------------
 
@@ -136,10 +143,3 @@
 ------------------------
 
 + Fixed compatibility issue with the Classic Editor plugin when it was added after a post was migrated to the new editor structure.
-
-
-= v3.25.2 - 2018-12-13 =
-------------------------
-
-+ Added new filters to the `LLMS_Product` model.
-+ Fix issue with student dashboard login redirect causing a white screen on initial login.

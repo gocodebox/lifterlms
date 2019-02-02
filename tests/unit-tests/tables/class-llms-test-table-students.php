@@ -5,7 +5,7 @@
  * @package  LifterLMS/Tests/Tables
  * @group    reporting_tables
  * @since    3.28.0
- * @version  [version]
+ * @version  3.28.1
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
@@ -51,7 +51,7 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	 *
 	 * @return  void
 	 * @since   3.28.0
-	 * @version [version]
+	 * @version 3.28.1
 	 */
 	public function test_generate_export_file() {
 

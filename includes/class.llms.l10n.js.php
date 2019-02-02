@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.28.0
+ * @version  3.28.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.28.0
+	 * @version  3.28.1
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -290,7 +290,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-admin-tables.js.
 			 *
 			 * @since    3.2.0
-			 * @version  3.28.0
+			 * @version  3.28.1
 			 */
 			'An error was encountered generating the export' => esc_html__( 'An error was encountered generating the export', 'lifterlms' ),
 
