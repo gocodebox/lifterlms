@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.28.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -84,7 +84,7 @@ class LLMS_AJAX_Handler {
 	 * @param    array     $request  post data ($_REQUST)
 	 * @return   array
 	 * @since    3.15.0
-	 * @version  3.28.0
+	 * @version  [version]
 	 */
 	public static function export_admin_table( $request ) {
 
@@ -96,7 +96,7 @@ class LLMS_AJAX_Handler {
 		if ( class_exists( $handler ) ) {
 
 			$table = new $handler();
-			$file = isset( $request['file_path'] ) ? $request['file_path'] : null;
+			$file = isset( $request['filename'] ) ? $request['filename'] : null;
 			return $table->generate_export_file( $request, $file );
 
 		} else {

@@ -211,7 +211,7 @@ final class LifterLMS {
 	/**
 	 * Include required core classes
 	 * @since   1.0.0
-	 * @version 3.25.0
+	 * @version [version]
 	 */
 	private function includes() {
 
@@ -267,6 +267,7 @@ final class LifterLMS {
 			include_once( 'includes/admin/class.llms.student.bulk.enroll.php' );
 
 			require_once 'includes/admin/class-llms-admin-review.php';
+			require_once 'includes/admin/class-llms-admin-export-download.php';
 
 		}
 

@@ -3,7 +3,7 @@
  * Admin Table Export Functions
  *
  * @since   3.28.0
- * @version 3.28.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,13 +23,13 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * Generate an export file for the current table.
 	 *
 	 * @param   array     $args      arguments to pass get_results().
-	 * @param   string    $file_path full path to a file, if omitted creates a new file, if passed, will continue adding to existing file.
+	 * @param   string    $filename  filename of the existing file, if omitted creates a new file, if passed, will continue adding to existing file.
 	 * @param   string    $type      export file type for forward compatibility. Currently only accepts 'csv'.
 	 * @return  WP_Error|array
 	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @version [version]
 	 */
-	public function generate_export_file( $args = array(), $file_path = null, $type = 'csv' ) {
+	public function generate_export_file( $args = array(), $filename = null, $type = 'csv' ) {
 
 		if ( 'csv' !== $type ) {
 			return false;
@@ -40,8 +40,9 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		// Boost records / page to speed up generation.
 		$args['per_page'] = apply_filters( 'llms_table_generate_export_file_per_page_boost', 250 );
 
-		$file_path = $file_path ? $file_path : LLMS_TMP_DIR . $this->get_export_file_name() . '.' . $type;
-		$option_name = 'llms_gen_export_' . basename( $file_path, '.' . $type );
+		$filename = $filename ? $filename : $this->get_export_file_name() . '.' . $type;
+		$file_path = LLMS_TMP_DIR . $filename;
+		$option_name = 'llms_gen_export_' . basename( $filename, '.' . $type );
 		$args = get_option( $option_name, $args );
 
 		$handle = @fopen( $file_path, 'a+' );
@@ -69,7 +70,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		}
 
 		return array(
-			'path' => $file_path,
+			'filename' => $filename,
 			'progress' => $progress,
 			'url' => $this->get_export_file_url( $file_path ),
 		);
@@ -122,11 +123,12 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 * @param   string    $file_path full path to a download file.
 	 * @return  string
 	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @version [version]
 	 */
 	protected function get_export_file_url( $file_path ) {
-		$uploads = wp_upload_dir();
-		return trailingslashit( $uploads['baseurl'] ) . 'llms-tmp/' . basename( $file_path );
+		return add_query_arg( array(
+			'llms-dl-export' => basename( $file_path ),
+		), admin_url( 'admin.php' ) );
 	}
 
 	/**

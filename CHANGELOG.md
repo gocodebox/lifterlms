@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.28.1 - 2019-02-01
+--------------------
+
++ Fixed an issues preventing exports to be accessible on Apache servers.
++ Fixed an issue causing servers with certain nginx rules to open CSV exports directly instead of downloading them.
+
+
 v3.28.0 - 2019-01-29
 --------------------
 
