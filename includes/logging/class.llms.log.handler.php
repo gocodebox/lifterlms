@@ -19,10 +19,10 @@ class LLMS_Log_Handler {
 	 *
 	 * @see @link {https://tools.ietf.org/html/rfc5424}
 	 */
-	const ERROR     = 'error';
-	const WARNING   = 'warning';
-	const NOTICE    = 'notice';
-	const INFO      = 'info';
+	const ERROR   = 'error';
+	const WARNING = 'warning';
+	const NOTICE  = 'notice';
+	const INFO    = 'info';
 
 	/**
 	 * Level strings mapped to integer severity.
@@ -30,10 +30,10 @@ class LLMS_Log_Handler {
 	 * @var array
 	 */
 	protected static $level_to_severity = array(
-		self::ERROR     => 500,
-		self::WARNING   => 400,
-		self::NOTICE    => 300,
-		self::INFO      => 200
+		self::ERROR   => 500,
+		self::WARNING => 400,
+		self::NOTICE  => 300,
+		self::INFO    => 200,
 	);
 
 	/**
@@ -47,7 +47,7 @@ class LLMS_Log_Handler {
 		500 => self::ERROR,
 		400 => self::WARNING,
 		300 => self::NOTICE,
-		200 => self::INFO
+		200 => self::INFO,
 	);
 
 	/**
@@ -68,7 +68,7 @@ class LLMS_Log_Handler {
 
 	public function init() {
 
-		add_action( 'admin_menu', array($this, 'register_logger_subpage'));
+		add_action( 'admin_menu', array( $this, 'register_logger_subpage' ) );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 
 		$this->create_update_table();
@@ -81,16 +81,17 @@ class LLMS_Log_Handler {
 	 * @access public
 	 * @return void
 	 */
- 
+
 	public function register_logger_subpage() {
 
-	    add_submenu_page( 
-	        'lifterlms',
-	        'LifterLMS Logs',
-	        'Logs',
-	        'manage_options',
-	        'llms-settings-logs',
-	        array( $this, 'show_logs_section') );
+		add_submenu_page(
+			'lifterlms',
+			'LifterLMS Logs',
+			'Logs',
+			'manage_options',
+			'llms-settings-logs',
+			array( $this, 'show_logs_section' )
+		);
 
 	}
 
@@ -105,11 +106,11 @@ class LLMS_Log_Handler {
 
 		$screen = get_current_screen();
 
-		if($screen->id != 'settings_page_llms-settings-logs')
+		if ( $screen->id != 'settings_page_llms-settings-logs' ) {
 			return;
+		}
 
 		// Enqueue styles here if you want
-
 
 	}
 
@@ -125,7 +126,7 @@ class LLMS_Log_Handler {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'llms_logging';
 
-		if( $wpdb->get_var("show tables like '$table_name'") != $table_name) {
+		if ( $wpdb->get_var( "show tables like '$table_name'" ) != $table_name ) {
 
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
@@ -135,7 +136,7 @@ class LLMS_Log_Handler {
 				$collate = $wpdb->get_charset_collate();
 			}
 
-			$sql = "CREATE TABLE " . $table_name . " (
+			$sql = 'CREATE TABLE ' . $table_name . " (
 				log_id BIGINT UNSIGNED NOT NULL AUTO_INCREMENT,
 				timestamp datetime NOT NULL,
 				level smallint(4) NOT NULL,
@@ -178,7 +179,7 @@ class LLMS_Log_Handler {
 		$log_table_list->prepare_items(); ?>
 
 		<div class="wrap">
-	        <h1><?php _e( 'LifterLMS Logs', 'lifterlms' ); ?></h1>
+			<h1><?php _e( 'LifterLMS Logs', 'lifterlms' ); ?></h1>
 
 			<form method="post" id="mainform" action="">
 
@@ -292,10 +293,10 @@ class LLMS_Log_Handler {
 
 		$insert = array(
 			'timestamp' => date( 'Y-m-d H:i:s', $timestamp ),
-			'level' => self::get_level_severity( $level ),
-			'user'	=> $user,
-			'message' => $message,
-			'source' => $source,
+			'level'     => self::get_level_severity( $level ),
+			'user'      => $user,
+			'message'   => $message,
+			'source'    => $source,
 		);
 
 		$format = array(
