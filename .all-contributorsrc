@@ -196,11 +196,67 @@
     },
     {
       "login": "eri-trabiccolo",
-      "name": "Rocco Aliberti (@d4z_c0nf on wp.org, @eri_trabiccolo on slack)",
+      "name": "Rocco Aliberti",
       "avatar_url": "https://avatars3.githubusercontent.com/u/7689242?v=4",
       "profile": "https://github.com/eri-trabiccolo",
       "contributions": [
         "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "philwp",
+      "name": "Phil Webster",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/5949352?v=4",
+      "profile": "https://github.com/philwp",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "README1ST",
+      "name": "Adam Williams",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/30046495?v=4",
+      "profile": "https://github.com/README1ST",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "yojance",
+      "name": "Yojance Rabelo",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1916064?v=4",
+      "profile": "https://www.wpsuperstar.com/",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "unt01d",
+      "name": "Chris Ballard",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/11303423?v=4",
+      "profile": "https://github.com/unt01d",
+      "contributions": [
+        "test"
+      ]
+    },
+    {
+      "login": "tnorthcutt",
+      "name": "Travis Northcutt",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/796639?v=4",
+      "profile": "http://memberup.co/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "moorscode",
+      "name": "Jip",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2005352?v=4",
+      "profile": "http://twitter.com/moorscode",
+      "contributions": [
         "code"
       ]
     }

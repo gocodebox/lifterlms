@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Quiz Question
+ *
+ * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  3.17.0
+ * @version  3.27.0
  *
  * @property  $question_type  (string)  type of question
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Question model.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -493,6 +499,27 @@ class LLMS_Question extends LLMS_Post_Model {
 		$enabled = $this->get( 'video_enabled' );
 		$src = $this->get( 'video_src' );
 		return ( 'yes' === $enabled && $src );
+	}
+
+	/**
+	 * Determine if the question is an orphan
+	 * @return   bool
+	 * @since    3.27.0
+	 * @version  3.27.0
+	 */
+	public function is_orphan() {
+
+		$statuses = array( 'publish', 'draft' );
+		$parent_id = $this->get( 'parent_id' );
+
+		if ( ! $parent_id ) {
+			return true;
+		} elseif ( ! in_array( get_post_status( $parent_id ), $statuses, true ) ) {
+			return true;
+		}
+
+		return false;
+
 	}
 
 	/**

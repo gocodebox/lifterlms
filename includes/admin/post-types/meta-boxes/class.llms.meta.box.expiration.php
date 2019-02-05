@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Meta Box Expiration
  * Displays expiration fields for membership post. Displays only on membership post.
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Meta_Box_Expiration {
 
@@ -164,7 +164,7 @@ class LLMS_Meta_Box_Expiration {
 	 * @param    object 	$post     WP post object
 	 * @return   void
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public static function save( $post_id, $post ) {
 		global $wpdb;

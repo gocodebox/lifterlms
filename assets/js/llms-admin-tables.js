@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  3.15.0
+ * @version  3.28.1
  */
 ;( function( $, undefined ) {
 
@@ -32,7 +32,7 @@
 		 * Bind DOM events
 		 * @return   void
 		 * @since    2.3.0
-		 * @version  3.15.0
+		 * @version  3.28.0
 		 */
 		this.bind = function() {
 
@@ -58,7 +58,6 @@
 				} );
 
 				$table.parent().find( '.llms-table-filters' ).on( 'change', 'select.llms-table-filter', function( e ) {
-					console.log( e );
 					self.change_filter( $table, $( this ) );
 				} );
 
@@ -132,32 +131,87 @@
 
 		/**
 		 * Handle
-		 * @param    obj   $table  jQuery object for the table
-		 * @param    obj   $btn    jQuery object for the clicked button
+		 * @param    obj    $table    jQuery object for the table
+		 * @param    obj    $btn      jQuery object for the clicked button
+		 * @param    string filename  filename of the export in progress.
 		 * @return   void
 		 * @since    3.15.0
-		 * @version  3.15.0
+		 * @version  3.28.1
 		 */
-		this.export = function( $table, $btn ) {
+		this.export = function( $table, $btn, filename ) {
+
+			var self = this,
+				$msg = $table.find( '.llms-table-export .llms-table-export-msg' ),
+				$progress = $table.find( '.llms-table-export .llms-table-progress' );
+
+			function activate_button() {
+				LLMS.Spinner.stop( $btn, 'small' );
+				$btn.removeAttr( 'disabled' );
+			}
 
 			LLMS.Ajax.call( {
 				data: $.extend( {
 					action: 'export_admin_table',
 					handler: $table.attr( 'data-handler' ),
+					filename: filename,
 				}, JSON.parse( $table.attr( 'data-args' ) ) ),
 				beforeSend: function() {
 
-					LLMS.Spinner.start( $table.closest( '.llms-table-wrap' ) );
-					$btn.attr( 'disabled', 'disabled' );
+					if ( ! $btn.attr( 'disabled' ) ) {
+						$btn.attr( 'disabled', 'disabled' );
+						LLMS.Spinner.start( $btn, 'small' );
+					}
 
 				},
-				success: function( r ) {
+				error: function( jqXHR, status, error ) {
 
-					LLMS.Spinner.stop( $table.closest( '.llms-table-wrap' ) )
+					var msg = LLMS.l10n.translate( 'An error was encountered generating the export' );
+					activate_button();
+					$progress.hide();
+					$msg.html( '<span class="llms-error">' + msg + ': ' + error + '</span>' );
+					console.error( jqXHR );
 
-					if ( r.success ) {
+				},
+				success: function( res ) {
 
-						$table.find( '.llms-table-export' ).append( '<em><small>' + r.data + '</small></em>' );
+					if ( ! res.success && res.message ) {
+
+						activate_button();
+						$progress.hide();
+						$msg.html( '<span class="llms-error">' + res.message + '</span>' );
+
+					} else if ( res.success && res.data && res.data.progress ) {
+
+						$msg.html( '' );
+
+						// only show a progress bar if it's going to take more than one request.
+						if ( ! $progress.is( 'visible' ) && res.data.progress !== 100 ) {
+							$progress.css( 'display', 'inline-block' );
+						}
+
+						$progress.find( '.llms-table-progress-text' ).text( res.data.progress + '%' );
+						$progress.find( '.llms-table-progress-inner' ).css( 'width', res.data.progress + '%' );
+
+						// if we're not finished, make another request.
+						if ( 100 !== res.data.progress ) {
+							self.export( $table, $btn, res.data.filename );
+
+						// finished, download the file and cleanup the interface.
+						} else {
+							setTimeout( function() {
+								var id = 'llms-dl-export';
+								$( '#' + id ).remove();
+								$( '<a />', {
+									id: id,
+									href: res.data.url,
+									style: 'display: hidden;',
+									download: '',
+								} ).appendTo( 'body' );
+								$( '#' + id )[0].click();
+								activate_button();
+								$progress.hide();
+							}, 1000 );
+						}
 
 					}
 

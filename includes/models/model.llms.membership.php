@@ -1,8 +1,8 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Membership Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
  * @version  3.23.0
  *
@@ -16,6 +16,12 @@ defined( 'ABSPATH' ) || exit;
  * @property  $sales_page_content_page_id  (int)  WP Post ID of the WP page to redirect to when $sales_page_content_type is 'page'
  * @property  $sales_page_content_type  (string)  Sales page behavior [none,content,page,url]
  * @property  $sales_page_content_url  (string)  Redirect URL for a sales page, when $sales_page_content_type is 'url'
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Membership model.
  */
 class LLMS_Membership
 extends LLMS_Post_Model

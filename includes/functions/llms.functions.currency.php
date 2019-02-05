@@ -1,7 +1,7 @@
 <?php
 /**
  * Currency and Price related functions for LifterLMS Products
- * @version [version]
+ * @version 3.24.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * @param    boolean  $trim_zeros  trim zeros
  * @return   string
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  * @todo     maybe deprecate
  */
 function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {

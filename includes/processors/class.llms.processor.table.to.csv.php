@@ -1,12 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Convert LifterLMS Tables to CSVs as a background process
  * @since    3.15.0
  * @version  3.17.8
+ * @deprecated  3.28.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Processor_Table_To_Csv class.
  */
 class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 

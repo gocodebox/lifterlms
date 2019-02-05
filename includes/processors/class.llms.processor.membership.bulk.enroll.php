@@ -1,6 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Handle background processing of average progress & average grade for LifterLMS Courses
  * This triggers a bg process which gets the current progress
@@ -11,7 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * 		students unenroll
  * 		sutendts complete lessons
  * @since    3.15.0
- * @version  3.15.0
+ * @version  3.26.1
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Processor_Membership_Bulk_Enroll class
  */
 class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
@@ -127,7 +131,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @version  3.26.1
 	 */
 	public function task( $item ) {
 
@@ -141,7 +145,9 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 		// turn the course data processor off
 		$course_data_processor = LLMS()->processors()->get( 'course_data' );
-		$course_data_processor->disable();
+		if ( $course_data_processor ) {
+			$course_data_processor->disable();
+		}
 
 		$query = new LLMS_Student_Query( $item['query_args'] );
 
@@ -156,7 +162,9 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 			$this->log( sprintf( 'membership bulk enrollment completed for membership %1$d into course %2$d', $item['query_args']['post_id'], $item['course_id'] ) );
 
 			// turn the course data processor back on
-			$course_data_processor->add_actions();
+			if ( $course_data_processor ) {
+				$course_data_processor->add_actions();
+			}
 
 			// process the course data
 			do_action( 'llms_course_calculate_data', $item['course_id'] );

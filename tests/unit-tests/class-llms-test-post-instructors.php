@@ -5,7 +5,7 @@
  * @group   LLMS_Course
  * @group   LLMS_Membership
  * @since   3.13.0
- * @version 3.13.0
+ * @version 3.25.2
  */
 class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 
@@ -44,7 +44,7 @@ class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {
 
 			$post = llms_get_post( $post_id );
 
-			$defaults = $post->instructors()->get_defaults();
+			$defaults = llms_get_instructors_defaults();
 
 			$this->assertTrue( is_array( $post->get_instructors() ) );
 

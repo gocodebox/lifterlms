@@ -1,10 +1,16 @@
 <?php
+/**
+ * LifterLMS User Achievement
+ *
+ * @package  LifterLMS/Models
+ * @since    3.8.0
+ * @version  3.18.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS User Achievement
- * @since    3.8.0
- * @version  3.18.0
+ * LLMS_User_Achievement model.
  */
 class LLMS_User_Achievement extends LLMS_Post_Model {
 

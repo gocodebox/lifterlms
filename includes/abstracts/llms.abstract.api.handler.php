@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS API Request Handler Abstract
  * @since   3.11.2
- * @version 3.22.0
+ * @version 3.24.0
  */
 abstract class LLMS_Abstract_API_Handler {
 
@@ -53,7 +53,7 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
 	 * @since    3.11.2
-	 * @version  3.22.0
+	 * @version  3.24.0
 	 */
 	private function call( $resource, $data, $method = null ) {
 
@@ -86,14 +86,14 @@ abstract class LLMS_Abstract_API_Handler {
 		// connection error
 		if ( is_wp_error( $response ) ) {
 
-			return $this->set_error( __( 'There was a problem connecting to the payment gateway.', 'lifterlms-stripe' ), 'gateway_connection', $response );
+			return $this->set_error( __( 'There was a problem connecting to the payment gateway.', 'lifterlms' ), 'api_connection', $response );
 
 		}
 
 		// empty body
 		if ( empty( $response['body'] ) ) {
 
-			return $this->set_error( __( 'Empty Response.', 'lifterlms-stripe' ), 'empty_response', $response );
+			return $this->set_error( __( 'Empty Response.', 'lifterlms' ), 'empty_response', $response );
 
 		}
 

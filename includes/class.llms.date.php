@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Dates Class
  * Manages formatting dates for I/O and display
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Date {
 

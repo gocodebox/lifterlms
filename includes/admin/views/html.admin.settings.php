@@ -2,7 +2,7 @@
 /**
  * Admin Settings Page HTML
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 defined( 'ABSPATH' ) || exit;
 ?>

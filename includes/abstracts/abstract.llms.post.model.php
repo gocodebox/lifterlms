@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -60,8 +60,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Array of default property values
 	 * key => default value
 	 * @var  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	protected $property_defaults = array();
 
@@ -119,7 +119,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @param    string $key   key to retrieve
 	 * @return   mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function __get( $key ) {
 
@@ -445,8 +445,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * If defaults don't exist returns an empty string in accordance with the return of get_post_meta() when no metadata exists
 	 * @param    string     $key  property key/name
 	 * @return   mixed
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_default_value( $key ) {
 		$defaults = $this->get_property_defaults();
@@ -539,8 +539,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Retrieve the default values for properties
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_property_defaults() {
 		return apply_filters( 'llms_get_' . $this->model_post_type . '_property_defaults', $this->property_defaults, $this );

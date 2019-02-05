@@ -1,12 +1,16 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Student Quiz Data
- * Rather than instatiating this class directly
- * use LLMS_Student->quizzes()
+ * Rather than instatiating this class directly use LLMS_Student->quizzes().
+ * @package  LifterLMS/Models
  * @since   3.9.0
  * @version 3.16.11
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Student_Quizzes model.
  */
 class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 

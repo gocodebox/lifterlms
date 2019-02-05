@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Course Options
  * @since    1.0.0
- * @version  3.23.0
+ * @version  3.26.3
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Meta_Box_Course_Options class.
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -26,7 +30,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * Setup fields
 	 * @return array
 	 * @since    1.0.0
-	 * @version  3.23.0
+	 * @version  3.26.3
 	 */
 	public function get_fields() {
 
@@ -338,6 +342,11 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 			),
 		);
 
+		if ( function_exists( 'register_block_type' ) && llms_blocks_is_post_migrated( $this->post->ID ) ) {
+			unset( $fields[1]['fields'][0] ); // length
+			unset( $fields[1]['fields'][1] ); // difficulty
+		}
+
 		return $fields;
 
 	}
@@ -347,19 +356,23 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 * @param    int     $post_id  WP Post ID of the course
 	 * @return   void
 	 * @since    3.0.0
-	 * @version  3.0.4 - changed from after save to before save
+	 * @version  3.26.3
 	 */
 	protected function save_before( $post_id ) {
 
-		if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
-			$difficulty = '';
-		} else {
-			$difficulty = $_POST['_llms_post_course_difficulty'];
+		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID ) ) {
+
+			if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
+				$difficulty = '';
+			} else {
+				$difficulty = $_POST['_llms_post_course_difficulty'];
+			}
+
+			wp_set_object_terms( $post_id, $difficulty, 'course_difficulty', false );
+
+			unset( $_POST['_llms_post_course_difficulty'] ); // don't save this to the postmeta table
+
 		}
-
-		wp_set_object_terms( $post_id, $difficulty, 'course_difficulty', false );
-
-		unset( $_POST['_llms_post_course_difficulty'] ); // don't save this to the postmeta table
 
 	}
 

@@ -19,7 +19,7 @@ class LLMS_Meta_Box_Voucher_Export {
 	 * @param    object  $post  WP global post object
 	 * @return   void
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public static function output( $post ) {
 

@@ -1,10 +1,14 @@
 <?php
+/**
+ * Plugin installation
+ *
+ * @since   1.0.0
+ * @version 3.28.0
+ */
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Plugin installation
- * @since   1.0.0
- * @version 3.22.0
+ * LLMS_Install.
  */
 class LLMS_Install {
 
@@ -66,6 +70,10 @@ class LLMS_Install {
 			'llms_update_3160_builder_notice',
 			'llms_update_3160_update_db_version',
 		),
+		'3.28.0' => array(
+			'llms_update_3280_clear_session_cleanup_cron',
+			'llms_update_3280_update_db_version',
+		),
 	);
 
 	/**
@@ -105,13 +113,9 @@ class LLMS_Install {
 	 * Create LifterLMS cron jobs
 	 * @return  void
 	 * @since   1.0.0
-	 * @version 3.22.0
+	 * @version 3.28.0
 	 */
 	public static function create_cron_jobs() {
-
-		if ( ! wp_next_scheduled( 'lifterlms_cleanup_sessions' ) ) {
-			wp_schedule_event( time(), 'twicedaily', 'lifterlms_cleanup_sessions' );
-		}
 
 		if ( ! wp_next_scheduled( 'llms_cleanup_tmp' ) ) {
 			wp_schedule_event( time(), 'daily', 'llms_cleanup_tmp' );
@@ -213,7 +217,7 @@ class LLMS_Install {
 	 * Create essential starter pages
 	 * @return   boolean    false on error, true on success
 	 * @since    1.0.0
-	 * @version  3.0.0
+	 * @version  3.24.0
 	 */
 	public static function create_pages() {
 		$pages = apply_filters( 'llms_install_create_pages', array(
@@ -238,8 +242,8 @@ class LLMS_Install {
 			array(
 				'content' => '[lifterlms_my_account]',
 				'option' => 'lifterlms_myaccount_page_id',
-				'slug' => 'my-courses',
-				'title' => __( 'My Courses', 'lifterlms' ),
+				'slug' => 'dashboard',
+				'title' => __( 'Dashboard', 'lifterlms' ),
 			),
 		) );
 		foreach ( $pages as $page ) {

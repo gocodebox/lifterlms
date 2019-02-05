@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
 * User Achievemnet class, inherits methods from LLMS_Achievment
 * Generates achievements for users.
 * @since    1.0.0
-* @version  [version]
+* @version  3.24.0
 */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
@@ -61,7 +61,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * @param    int  $lesson_id  id of associated lesson
 	 * @return   void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function init( $id, $person_id, $lesson_id ) {
 		global $wpdb;

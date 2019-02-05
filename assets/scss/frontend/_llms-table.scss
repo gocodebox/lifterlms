@@ -19,6 +19,21 @@
 		}
 	}
 
+	tfoot {
+		tr {
+			background: #f9f9f9;
+			.llms-pagination .page-numbers {
+				margin: 0;
+			}
+			.llms-table-sort {
+				text-align: right;
+				form, select, input, button {
+					margin: 0;
+				}
+			}
+		}
+	}
+
 	th {
 		font-weight: 700;
 	}
@@ -28,10 +43,17 @@
 		padding: 8px 12px;
 
 		// launchpad compat...
-		&:first-child {
-			padding-left: 12px;
-		}
+		&:first-child { padding-left: 12px; }
+		&:last-child { padding-right: 12px; }
 
 	}
 
+}
+
+// launchpad compat...
+#page .llms-table tfoot label {
+	display: inline;
+}
+#page .llms-table tfoot select {
+	height: auto;
 }

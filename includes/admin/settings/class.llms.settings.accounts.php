@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
 * Admin Settings Page, Accounts Tab
 * @since    1.0.0
-* @version  [version]
+* @version  3.24.0
 */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -34,7 +34,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * Get settings array
 	 * @return  array
 	 * @since   1.0.0
-	 * @version [version]
+	 * @version 3.24.0
 	 */
 	public function get_settings() {
 

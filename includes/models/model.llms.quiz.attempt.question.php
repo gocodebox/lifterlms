@@ -1,10 +1,16 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Quiz Attempt Answer Question
+ *
+ * @package  LifterLMS/Models
  * @since   3.16.0
  * @version 3.16.15
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Quiz_Attempt_Question model.
  */
 class LLMS_Quiz_Attempt_Question {
 
@@ -101,7 +107,7 @@ class LLMS_Quiz_Attempt_Question {
 	 * Get answer(s) as an array
 	 * @return   array
 	 * @since    3.16.15
-	 * @version  3.16.15
+	 * @version  3.27.0
 	 */
 	public function get_answer_array() {
 
@@ -116,7 +122,7 @@ class LLMS_Quiz_Attempt_Question {
 				foreach ( $answers as $aid ) {
 
 					$choice = $question->get_choice( $aid );
-					$ret[] = $choice->get_choice();
+					$ret[] = $choice ? $choice->get_choice() : _x( '[Deleted]', 'Selected quiz choice has been deleted.', 'lifterlms' );
 
 				}
 			} else {

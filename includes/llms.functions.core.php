@@ -2,8 +2,9 @@
 /**
  * Core LifterLMS functions file
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.1
  */
+
 defined( 'ABSPATH' ) || exit;
 
 //include all other function files
@@ -174,6 +175,7 @@ function llms_cleanup_tmp() {
 	}
 
 }
+add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
 
 /**
  * Get a list of available access plan visibility options
@@ -229,7 +231,7 @@ function llms_get_core_supported_themes() {
  * @source http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
  *
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	// If not numeric then convert timestamps
@@ -310,7 +312,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
  * @param    array      $classes     additional custom css classes to add to the chart element
  * @return   string
  * @since    3.9.0
- * @version  [version]
+ * @version  3.24.0
  */
 function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = array() ) {
 	$percentage = is_numeric( $percentage ) ? $percentage : 0;
@@ -332,7 +334,7 @@ function llms_get_donut( $percentage, $text = '', $size = 'default', $classes = 
  * Get a list of registered engagement triggers
  * @return   array
  * @since    3.1.0
- * @version  3.11.0
+ * @version  3.24.1
  */
 function llms_get_engagement_triggers() {
 	return apply_filters( 'lifterlms_engagement_triggers', array(
@@ -347,7 +349,7 @@ function llms_get_engagement_triggers() {
 		'quiz_passed' => __( 'Student passes a quiz', 'lifterlms' ),
 		'quiz_failed' => __( 'Student fails a quiz', 'lifterlms' ),
 		'section_completed' => __( 'Student completes a section', 'lifterlms' ),
-		'course_track_completed' => __( 'Student comepletes a course track', 'lifterlms' ),
+		'course_track_completed' => __( 'Student completes a course track', 'lifterlms' ),
 		'membership_enrollment' => __( 'Student enrolls in a membership', 'lifterlms' ),
 		'membership_purchased' => __( 'Student purchases a membership', 'lifterlms' ),
 	) );
@@ -357,13 +359,13 @@ function llms_get_engagement_triggers() {
  * Get a list of registered engagement types
  * @return   array
  * @since    3.1.0
- * @version  3.1.0
+ * @version  3.24.0
  */
 function llms_get_engagement_types() {
 	return apply_filters( 'lifterlms_engagement_types', array(
 		'achievement' => __( 'Award an Achievement', 'lifterlms' ),
 		'certificate' => __( 'Award a Certificate', 'lifterlms' ),
-		'email' => __( 'Send an Email' ),
+		'email' => __( 'Send an Email', 'lifterlms' ),
 	) );
 }
 
@@ -435,6 +437,21 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 	}
 
 	return array();
+}
+
+/**
+ * Retrieve default instructor data structure.
+ *
+ * @return  array
+ * @since   3.25.0
+ * @version 3.25.0
+ */
+function llms_get_instructors_defaults() {
+	return apply_filters( 'llms_post_instructors_get_defaults', array(
+		'label' => __( 'Author', 'lifterlms' ),
+		'visibility' => 'visible',
+		'id' => '',
+	) );
 }
 
 /**

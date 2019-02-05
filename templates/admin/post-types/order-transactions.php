@@ -2,9 +2,10 @@
 /**
  * Transactions Table Metabox for Orders
  * @since    3.5.0
- * @version  3.8.0
+ * @version  3.26.1
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) { exit; }
 
 // create a "step" attribute for price fields according to LLMS settings
@@ -47,12 +48,12 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					</td>
 					<td><?php echo llms_price( $refund_amount * -1 ); ?></td>
 					<td class="expandable closed"><?php echo $txn->translate( 'payment_type' ); ?></td>
-					<td class="expandable closed"><?php echo $gateway->get_admin_title(); ?></td>
+					<td class="expandable closed"><?php echo $gateway ? $gateway->get_admin_title() : $txn->get( 'payment_gateway' ); ?></td>
 					<td class="expandable closed">
 						<?php echo $txn->get( 'gateway_source_description' ); ?>
 						<?php $source_id = $txn->get( 'gateway_source_id' );
 						if ( $source_id ) : ?>
-							<?php $source = $gateway->get_source_url( $source_id ); ?>
+							<?php $source = $gateway ? $gateway->get_source_url( $source_id ) : false; ?>
 							<?php if ( false === filter_var( $source, FILTER_VALIDATE_URL ) ) : ?>
 								(<?php echo $source; ?>)
 							<?php else : ?>
@@ -63,7 +64,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					<td class="expandable closed">
 						<?php $txn_id = $txn->get( 'gateway_transaction_id' );
 						if ( $txn_id ) : ?>
-							<?php $txn_url = $gateway->get_transaction_url( $txn_id, $txn->get( 'api_mode' ) ); ?>
+							<?php $txn_url = $gateway ? $gateway->get_transaction_url( $txn_id, $txn->get( 'api_mode' ) ) : false; ?>
 							<?php if ( false === filter_var( $txn_url, FILTER_VALIDATE_URL ) ) : ?>
 								<?php echo $txn_id; ?>
 							<?php else : ?>
@@ -73,7 +74,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					</td>
 					<td class="expandable">
 						<?php if ( $txn->can_be_refunded() ) : ?>
-							<button class="button" data-gateway="<?php echo $gateway->get_admin_title(); ?>" data-gateway-supports="<?php echo ( $gateway->supports( 'refunds' ) ); ?>" data-refundable="<?php echo $txn->get_refundable_amount(); ?>" name="llms-refund-toggle" type="button"><?php _e( 'Refund', 'lifterlms' ); ?></button>
+							<button class="button" data-gateway="<?php echo $gateway ? $gateway->get_admin_title() : ''; ?>" data-gateway-supports="<?php echo ( $gateway && $gateway->supports( 'refunds' ) ); ?>" data-refundable="<?php echo $txn->get_refundable_amount(); ?>" name="llms-refund-toggle" type="button"><?php _e( 'Refund', 'lifterlms' ); ?></button>
 						<?php endif; ?>
 						<button class="button" name="llms_resend_receipt" type="submit" value="<?php echo $txn->get( 'id' ); ?>"><?php _e( 'Resend Receipt', 'lifterlms' ); ?></button>
 					</td>
@@ -121,7 +122,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 			</div>
 
 			<div class="llms-metabox-field">
-				<button class="button button-primary tooltip" data-gateway="manual" name="llms_process_refund" title="<?php _e( 'The refund will be recorded and you will need to manually issue a refund', 'lifterlms' ); ?>" value="manual"><?php _e( 'Refund Manually' ); ?></button>
+				<button class="button button-primary tooltip" data-gateway="manual" name="llms_process_refund" title="<?php _e( 'The refund will be recorded and you will need to manually issue a refund', 'lifterlms' ); ?>" value="manual"><?php _e( 'Refund Manually', 'lifterlms' ); ?></button>
 				<button class="button button-primary gateway-btn" data-gateway="0" name="llms_process_refund" style="display:none;" value="gateway"><?php printf( _x( 'Refund via %s', 'refund via payment gateway', 'lifterlms' ), '<span class="llms-gateway-title"></span>' ); ?></button>
 			</div>
 
@@ -163,7 +164,7 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 			</div>
 
 			<div class="llms-metabox-field">
-				<button class="button button-primary" name="llms_record_txn" value="llms_record_txn"><?php _e( 'Record Payment' ); ?></button>
+				<button class="button button-primary" name="llms_record_txn" value="llms_record_txn"><?php _e( 'Record Payment', 'lifterlms' ); ?></button>
 			</div>
 
 			<div class="clear"></div>

@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
  * Modified from original source to remove reliance on bcmath functions
  *
  * @since    3.16.7
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_Hasher {
 
@@ -142,7 +142,7 @@ class LLMS_Hasher {
 	 * @param    int     $num   number to hash
 	 * @return   string
 	 * @since    3.16.7
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public static function hash( $num ) {
 

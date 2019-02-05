@@ -1,5 +1,4 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * LifterLMS Order Model
  * @since  3.0.0
@@ -21,6 +20,12 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * @property   $refund_amount  (float)  Amount refunded, will always be 0 until a refund is actually recorded
  * @property   $refund_data  (array)  Array of arrays. Contains refund data for each refund recorded for this transaction.
  * @property   $title  (string)  Post Title
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Transaction model.
  */
 class LLMS_Transaction extends LLMS_Post_Model {
 

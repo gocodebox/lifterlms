@@ -54,6 +54,12 @@
 
 	}
 
+	tr.llms-quiz-pending {
+		td {
+			font-weight: 700;
+		}
+	}
+
 	thead th,
 	tfoot th {
 		background-color: #eaeaea;
@@ -97,6 +103,13 @@
 
 		.llms-table-export {
 			float: left;
+			.llms-table-progress {
+				background: #fafafa;
+				display: none;
+				margin-left: 8px;
+				vertical-align: middle;
+				width: 100px;
+			}
 		}
 
 		.llms-table-pagination {
@@ -166,6 +179,7 @@
 	.llms-table-progress-inner {
 		background: $color-brand-blue;
 		height: 100%;
+		transition: width 0.2s ease;
 	}
 }
 
