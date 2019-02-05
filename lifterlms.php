@@ -34,6 +34,7 @@ final class LifterLMS {
 	public $person = null;
 	public $query = null;
 	public $session = null;
+	public $logger = null;
 
 	/**
 	 * Main Instance of LifterLMS
@@ -333,6 +334,7 @@ final class LifterLMS {
 		//handler classes
 		require_once 'includes/class.llms.person.handler.php';
 		require_once 'includes/class.llms.post.handler.php';
+		require_once 'includes/logging/class.llms.log.handler.php';
 
 		include_once( 'includes/widgets/class.llms.widgets.php' );
 		include_once( 'includes/widgets/class.llms.widget.php' );
@@ -362,6 +364,8 @@ final class LifterLMS {
 		$this->query = new LLMS_Query();
 
 		$this->course_factory = new LLMS_Course_Factory();
+
+		$this->logger = new LLMS_Log_Handler();
 
 		if ( ! is_admin() ) {
 
