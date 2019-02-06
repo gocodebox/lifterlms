@@ -1,7 +1,7 @@
 /**
  * LifterLMS Admin Tables
  * @since    3.2.0
- * @version  3.28.0
+ * @version  3.28.1
  */
 ;( function( $, undefined ) {
 
@@ -131,13 +131,14 @@
 
 		/**
 		 * Handle
-		 * @param    obj   $table  jQuery object for the table
-		 * @param    obj   $btn    jQuery object for the clicked button
+		 * @param    obj    $table    jQuery object for the table
+		 * @param    obj    $btn      jQuery object for the clicked button
+		 * @param    string filename  filename of the export in progress.
 		 * @return   void
 		 * @since    3.15.0
-		 * @version  3.28.0
+		 * @version  3.28.1
 		 */
-		this.export = function( $table, $btn, file_path ) {
+		this.export = function( $table, $btn, filename ) {
 
 			var self = this,
 				$msg = $table.find( '.llms-table-export .llms-table-export-msg' ),
@@ -152,7 +153,7 @@
 				data: $.extend( {
 					action: 'export_admin_table',
 					handler: $table.attr( 'data-handler' ),
-					file_path: file_path,
+					filename: filename,
 				}, JSON.parse( $table.attr( 'data-args' ) ) ),
 				beforeSend: function() {
 
@@ -193,15 +194,23 @@
 
 						// if we're not finished, make another request.
 						if ( 100 !== res.data.progress ) {
-							self.export( $table, $btn, res.data.path );
+							self.export( $table, $btn, res.data.filename );
 
 						// finished, download the file and cleanup the interface.
 						} else {
-							window.location = res.data.url;
 							setTimeout( function() {
+								var id = 'llms-dl-export';
+								$( '#' + id ).remove();
+								$( '<a />', {
+									id: id,
+									href: res.data.url,
+									style: 'display: hidden;',
+									download: '',
+								} ).appendTo( 'body' );
+								$( '#' + id )[0].click();
 								activate_button();
 								$progress.hide();
-							}, 1500 );
+							}, 1000 );
 						}
 
 					}

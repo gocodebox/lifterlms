@@ -16,6 +16,24 @@ v3.29.0 - 2019-01-31
 
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 
+v3.28.2 - 2019-02-01
+--------------------
+
+##### Bug fixes
+
++ Fixed an issue causing 404s on paginated dashboard endpoints when the permalink structure is set to anything other than `%postname%`.
+
+##### Deprecations
+
++ `LLMS_Query->set_dashboard_pagination()`
+
+
+v3.28.1 - 2019-02-01
+--------------------
+
++ Fixed an issues preventing exports to be accessible on Apache servers.
++ Fixed an issue causing servers with certain nginx rules to open CSV exports directly instead of downloading them.
+
 
 v3.28.0 - 2019-01-29
 --------------------

@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:513, includes/admin/class.llms.admin.menus.php:131, tests/unit-tests/class-llms-test-main-class.php:103
+#: lifterlms.php:514, includes/admin/class.llms.admin.menus.php:131, tests/unit-tests/class-llms-test-main-class.php:103
 msgid "Settings"
 msgstr ""
 
@@ -254,7 +254,7 @@ msgstr ""
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/class.llms.install.php:561, includes/class.llms.install.php:581, includes/admin/class.llms.admin.notices.core.php:70, includes/admin/class.llms.admin.notices.php:198
+#: includes/class.llms.install.php:561, includes/class.llms.install.php:581, includes/admin/class-llms-admin-export-download.php:41, includes/admin/class-llms-admin-export-download.php:46, includes/admin/class-llms-admin-export-download.php:51, includes/admin/class.llms.admin.notices.core.php:70, includes/admin/class.llms.admin.notices.php:198
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -2782,7 +2782,7 @@ msgstr ""
 msgid "Empty Response."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.exportable.admin.table.php:49
+#: includes/abstracts/llms.abstract.exportable.admin.table.php:50
 msgid "Unable to generate export file, could not open file for writing."
 msgstr ""
 

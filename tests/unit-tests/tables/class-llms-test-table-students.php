@@ -5,10 +5,15 @@
  * @package  LifterLMS/Tests/Tables
  * @group    reporting_tables
  * @since    3.28.0
- * @version  3.28.0
+ * @version  3.28.1
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
+	/**
+	 * Setup test
+	 * @since   3.28.0
+	 * @version 3.28.0
+	 */
 	public function setUp() {
 
 		parent::setUp();
@@ -17,6 +22,14 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
 	}
 
+
+	/**
+	 * test the get_export() method.
+	 *
+	 * @return  void
+	 * @since   3.28.0
+	 * @version 3.28.0
+	 */
 	public function test_get_export() {
 
 		// Enroll a bunch of students.
@@ -33,6 +46,13 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * test the generate_export_file() method.
+	 *
+	 * @return  void
+	 * @since   3.28.0
+	 * @version 3.28.1
+	 */
 	public function test_generate_export_file() {
 
 		// Create a course.
@@ -54,10 +74,10 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 		$table = new LLMS_Table_Students();
 		$file = $table->generate_export_file();
 
-		$this->assertTrue( file_exists( $file['path'] ) );
+		$this->assertTrue( file_exists( LLMS_TMP_DIR . $file['filename'] ) );
 		$this->assertEquals( 50, $file['progress'] );
 
-		$file = $table->generate_export_file( array(), $file['path'] );
+		$file = $table->generate_export_file( array(), $file['filename'] );
 		$this->assertEquals( 100, $file['progress'] );
 
 	}

@@ -3,7 +3,7 @@
  * Retrieve data sets used by various other classes and functions
  *
  * @since    3.0.0
- * @version  3.27.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,6 +22,7 @@ class LLMS_Student_Dashboard {
 
 		add_filter( 'llms_get_endpoints', array( $this, 'add_endpoints' ) );
 		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
+		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
 
 	}
 
@@ -124,7 +125,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.27.0
+	 * @version  [version]
 	 */
 	public static function get_tabs() {
 
@@ -139,12 +140,14 @@ class LLMS_Student_Dashboard {
 			'view-courses' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_courses',
 				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'view-courses' ),
+				'paginate' => true,
 				'nav_item' => true,
 				'title' => __( 'My Courses', 'lifterlms' ),
 			),
 			'my-grades' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_grades',
 				'endpoint' => get_option( 'lifterlms_myaccount_grades_endpoint', 'my-grades' ),
+				'paginate' => true,
 				'nav_item' => true,
 				'title' => __( 'My Grades', 'lifterlms' ),
 			),
@@ -169,6 +172,7 @@ class LLMS_Student_Dashboard {
 			'notifications' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_notifications',
 				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint', 'notifications' ),
+				'paginate' => true,
 				'nav_item' => true,
 				'title' => __( 'Notifications', 'lifterlms' ),
 			),
@@ -284,6 +288,14 @@ class LLMS_Student_Dashboard {
 		}
 
 		return $title;
+
+	}
+
+	public function modify_rewrite_rules_order( $rules ) {
+
+		// var_dump( $rules );
+
+		return $rules;
 
 	}
 

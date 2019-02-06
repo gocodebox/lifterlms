@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0.3
-Stable tag: 3.28.0
+Stable tag: 3.28.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -370,6 +370,24 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 
+= v3.28.2 - 2019-02-01 =
+------------------------
+
+##### Bug fixes
+
++ Fixed an issue causing 404s on paginated dashboard endpoints when the permalink structure is set to anything other than `%postname%`.
+
+##### Deprecations
+
++ `LLMS_Query->set_dashboard_pagination()`
+
+
+= v3.28.1 - 2019-02-01 =
+------------------------
+
++ Fixed an issues preventing exports to be accessible on Apache servers.
++ Fixed an issue causing servers with certain nginx rules to open CSV exports directly instead of downloading them.
+
 
 = v3.28.0 - 2019-01-29 =
 ------------------------
@@ -492,20 +510,5 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fixed issue causing LifterLMS core sales pages from outputting automatic content (like pricing tables) on migrated posts.
 + Student unenrollment calls always bypass cache during enrollment precheck.
 + Membership post type "name" label is now plural (as it is supposed to be).
-
-
-= v3.25.4 - 2018-12-17 =
-------------------------
-
-+ Adds a filter (`llms_blocks_is_post_migrated`) to allow determining if a course or lesson has been migrated to the WP 5.0 block editor.
-+ Added a filter (`llms_dashboard_courses_wp_query_args`) to the WP_Query used to display courses on the student dashboard.
-+ Fixed issue on course builder causing prerequisites to not be saved when the first lesson in a course was selected as the prereq.
-+ Fixed issue on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
-
-
-= v3.25.3 - 2018-12-14 =
-------------------------
-
-+ Fixed compatibility issue with the Classic Editor plugin when it was added after a post was migrated to the new editor structure.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
