@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.28.2 - 2019-02-01
+--------------------
+
+##### Bug fixes
+
++ Fixed an issue causing 404s on paginated dashboard endpoints when the permalink structure is set to anything other than `%postname%`.
+
+##### Deprecations
+
++ `LLMS_Query->set_dashboard_pagination()`
+
+
 v3.28.1 - 2019-02-01
 --------------------
 
