@@ -1,6 +1,24 @@
 == Changelog ==
 
 
+= v3.28.2 - 2019-02-11 =
+------------------------
+
+##### Updates
+
++ Updated default country list to remove non-existant countries and resolve capitilization issues, thanks [nrherron92](https://github.com/nrherron92)!
+
+##### Bug fixes
+
++ Fixed an issue causing the email notification content getter to use the same filter as popover notifications.
++ Fixed an issue preventing default blog date & time settings from being used when displaying an access plan's access expiration date on course and membership pricing tables.
++ Fixed an issue causing 404s on paginated dashboard endpoints when the permalink structure is set to anything other than `%postname%`.
+
+##### Deprecations
+
++ `LLMS_Query->set_dashboard_pagination()`
+
+
 = v3.28.1 - 2019-02-01 =
 ------------------------
 
@@ -137,9 +155,3 @@
 + Added a filter (`llms_dashboard_courses_wp_query_args`) to the WP_Query used to display courses on the student dashboard.
 + Fixed issue on course builder causing prerequisites to not be saved when the first lesson in a course was selected as the prereq.
 + Fixed issue on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
-
-
-= v3.25.3 - 2018-12-14 =
-------------------------
-
-+ Fixed compatibility issue with the Classic Editor plugin when it was added after a post was migrated to the new editor structure.

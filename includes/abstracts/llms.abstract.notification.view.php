@@ -2,7 +2,7 @@
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  [version]
+ * @version  3.28.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -277,7 +277,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Get the html for an email notification
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.28.2
 	 */
 	private function get_email_html() {
 		return apply_filters( $this->get_filter( 'get_email_html' ), $this->get_body(), $this );
