@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Notification View Abstract
  * @since    3.8.0
- * @version  3.24.0
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Abstract_Notification_View abstract.
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
@@ -273,10 +277,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Get the html for an email notification
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  [version]
 	 */
 	private function get_email_html() {
-		return apply_filters( $this->get_filter( 'get_basic_html' ), $this->get_body(), $this );
+		return apply_filters( $this->get_filter( 'get_email_html' ), $this->get_body(), $this );
 	}
 
 	/**
