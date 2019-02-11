@@ -4,7 +4,7 @@
  * @group	functions
  * @group	currency
  * @since   3.24.1
- * @version 3.24.1
+ * @version [version]
  */
 class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
@@ -301,7 +301,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	 * test the llms_get_country_name() function
 	 * @return   void
 	 * @since    3.24.1
-	 * @version  3.24.1
+	 * @version  [version]
 	 */
 	public function test_llms_get_country_name() {
 

@@ -1,8 +1,10 @@
 <?php
 /**
  * Currency and Price related functions for LifterLMS Products
- * @version 3.24.0
+ * @since 1.0.0
+ * @version [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -38,7 +40,10 @@ function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
 
 /**
  * Get Countries array for Select list
+ *
  * @return array
+ * @since 1.0.0
+ * @version [version]
  */
 function get_lifterlms_countries() {
 	return array_unique( apply_filters( 'lifterlms_countries', array(
