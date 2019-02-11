@@ -306,7 +306,7 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	public function test_llms_get_country_name() {
 
 		// test existing country definition
-		$this->assertEquals( 'United States', llms_get_country_name( 'US' ) );
+		$this->assertEquals( 'United States (US)', llms_get_country_name( 'US' ) );
 
 		// test non-existing country definition
 		$this->assertEquals( 'XX', llms_get_country_name( 'XX' ) );
