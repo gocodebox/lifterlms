@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.29.0 - 2019-01-31
+v3.??.? - 2019-??-??
 --------------------
 
 ##### Updates
@@ -12,9 +12,14 @@ v3.29.0 - 2019-01-31
 + Added function for checking if request is a REST request
 + Fix checkout nonce to have a unique ID & name
 
+##### Bug Fixes
+
++ Fix an issue causing `GET` requests with no query string variables from causing issues via incorrect JSON encoding via the API Handler abstract.
+
 ##### Template Updates
 
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
+
 
 v3.28.2 - 2019-02-01
 --------------------

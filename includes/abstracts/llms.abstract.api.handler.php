@@ -2,7 +2,7 @@
 /**
  * 3rd Party API request handler
  * @since   3.11.2
- * @version 3.27.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -58,7 +58,7 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
 	 * @since    3.11.2
-	 * @version  3.27.0
+	 * @version  [version]
 	 */
 	private function call( $resource, $data, $method = null ) {
 
@@ -77,7 +77,7 @@ abstract class LLMS_Abstract_API_Handler {
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
 			array(
-				'body' => $this->is_json ? json_encode( $body ) : $body,
+				'body' => $this->is_json && $body ? json_encode( $body ) : $body,
 				'headers' => $headers,
 				'method' => $method,
 				'timeout' => $this->request_timeout,
