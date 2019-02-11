@@ -8,6 +8,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // include all other function files.
+require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-options.php';
 
 require_once 'functions/llms.functions.access.php';
@@ -179,20 +180,6 @@ function llms_cleanup_tmp() {
 
 }
 add_action( 'llms_cleanup_tmp', 'llms_cleanup_tmp' );
-
-/**
- * Get a list of available access plan visibility options
- * @return   array
- * @since    3.8.0
- * @version  3.8.0
- */
-function llms_get_access_plan_visibility_options() {
-	return apply_filters( 'lifterlms_access_plan_visibility_options', array(
-		'visible' => __( 'Visible', 'lifterlms' ),
-		'hidden' => __( 'Hidden', 'lifterlms' ),
-		'featured' => __( 'Featured', 'lifterlms' ),
-	) );
-}
 
 /**
  * Get themes natively supported by LifterLMS
