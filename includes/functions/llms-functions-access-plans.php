@@ -9,18 +9,67 @@
 
 defined( 'ABSPATH' ) || exit;
 
-function llms_create_access_plan( $props = array() ) {
+/**
+ * Create or update an access plan
+ *
+ * If $props has an "ID" parameter, that plan will be updated, otherwise a new plan will be created.
+ *
+ * @param   array $props {
+ * 		An array of of properties that make up the plan to create or update
+ *
+ *		int     $product_id                (Required) WP Post ID of the related LifterLMS Product (course or membership).
+ *
+ *		int     $id                        WP Post ID of the Access Plan, if omitted a new plan is created, if supplied, that plan is updated.
+ *
+ *		string  $access_expiration         Expiration type [lifetime|limited-period|limited-date].
+ *		string  $access_expires            Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date".
+ *		int     $access_length             Length of access from time of purchase, combine with $access_period. Only applicable when $access_expiration is "limited-period".
+ *		string  $access_period             Time period of access from time of purchase, combine with $access_length. Only applicable when $access_expiration is "limited-period" [year|month|week|day].
+ *		string  $availability              Determine if this access plan is available to anyone or to members only. Use with $availability_restrictions to determine if the member can use the access plan. [open|members].
+ *	 	array   $availability_restrictions Indexed array of LifterLMS Membership IDs a user must belong to to use the access plan. Only applicable if $availability is "members".
+ *		string  $content                   Plan description (post_content).
+ *		string  $enroll_text               Text to display on buy buttons.
+ *		int     $frequency                 Frequency of billing. 0 = a one-time payment [0-6].
+ *		string  $is_free                   Whether or not the plan requires payment [yes|no].
+ *		int     $length                    Number of intervals to run payment for, combine with $period & $frequency. 0 = forever / until cancelled. Only applicable if $frequency is not 0.
+ *		int     $menu_order                Order to display access plans in when listing them. Displayed in ascending order.
+ *		string  $on_sale                   Enable or disable plan sale pricing [yes|no].
+ *		string  $period                    Interval period, combine with $length. Only applicable if $frequency is not 0.  [year|month|week|day].
+ *		float   $price                     Price per charge/
+ *		string  $sale_end                  Date when the sale pricing ends.
+ *		string  $sale_start                Date when the sale pricing begins.
+ *		float   $sale_price                Sale price.
+ *		string  $sku                       Short user-created plan identifier.
+ *		string  $title                     Plan title.
+ *		int     $trial_length              length of the trial period. Only applicable if $trial_offer is "yes".
+ *		string  $trial_offer               Enable or disable a plan trial perid. [yes|no].
+ *		string  $trial_period              Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day].
+ *		float   $trial_price               Price for the trial period. Can be 0 for a free trial period.
+ * }
+ *
+ * @return  obj LLMS_Access_Plan on success, WP_Error on failure.
+ * @since   [version]
+ * @version [version]
+ */
+function llms_insert_access_plan( $props = array() ) {
 
-	$props = apply_filters( 'llms_access_plan_before_create', $props );
+	$action = 'create';
 
-	// Cannot create an access plan without a product.
-	if ( empty( $props['product_id'] ) || ! is_numeric( $props['product_id'] ) ) {
-		// Translators: %s = property key ('product_id').
-		return new WP_Error( 'missing-product-id', sprintf( __( 'Missing required property: "%s".', 'lifterlms' ), 'product_id' ) );
+	if ( isset( $props['id'] ) ) {
+
+		$action = 'update';
+		$plan = llms_get_post( $props['id'] );
+		if ( ! $plan || ! is_a( $plan, 'LLMS_Access_Plan' ) ) {
+			// Translators: %s = The invalid access plan ID.
+			return new WP_Error( 'invalid-plan', sprintf( __( 'Access Plan ID "%s" is not valid.', 'lifterlms' ), $props['id'] ) );
+		}
+		unset( $props['id'] );
+		$props = wp_parse_args( $props, $plan->toArray() );
+
 	}
 
-	// Merge in default property settings.
-	$props = wp_parse_args( $props, apply_filters( 'llms_create_access_plan_default_props', array(
+	// Merge in default properties.
+	$props = wp_parse_args( $props, apply_filters( 'llms_access_plan_default_properties', array(
 		'access_expiration' => 'lifetime',
 		'access_length' => 1,
 		'access_period' => 'year',
@@ -32,13 +81,35 @@ function llms_create_access_plan( $props = array() ) {
 		'period' => 'year',
 		'price' => 0,
 		'sale_price' => 0,
-		'title' => sprintf( __( 'Access Plan for %s', 'lifterlms' ), get_the_title( $props['product_id'] ) ),
+		'title' => __( 'Access Plan', 'lifterlms' ),
 		'trial_length' => 1,
 		'trial_offer' => 'no',
 		'trial_period' => 'year',
 		'trial_price' => 0,
 		'visibility' => 'visible',
 	) ) );
+
+	/**
+	 * Filter: llms_access_plan_before_{$action}
+	 *         llms_access_plan_before_create
+	 *         llms_access_plan_before_update
+	 *
+	 * Modify the properties passed into `llms_insert_access_plan`
+	 *
+	 * @since    [version]
+	 * @version  [version]
+	 *
+	 * @example  todo
+	 *
+	 * @param  array $props Properties used to create/update the access plan.
+	 */
+	$props = apply_filters( 'llms_access_plan_before_' . $action, $props );
+
+	// Cannot create an access plan without a product.
+	if ( empty( $props['product_id'] ) || ! is_numeric( $props['product_id'] ) ) {
+		// Translators: %s = property key ('product_id').
+		return new WP_Error( 'missing-product-id', sprintf( __( 'Missing required property: "%s".', 'lifterlms' ), 'product_id' ) );
+	}
 
 	// Paid plan.
 	if ( $props['price'] > 0 ) {
@@ -77,12 +148,12 @@ function llms_create_access_plan( $props = array() ) {
 	}
 
 	// Unset expiration props based on expiration settings.
-	if ( 'liftetime' === $props['access_expiration'] ) {
-		unset( $props['acces_expires'], $props['access_length'], $props['access_period'] );
+	if ( 'lifetime' === $props['access_expiration'] ) {
+		unset( $props['access_expires'], $props['access_length'], $props['access_period'] );
 	} elseif ( 'limited-date' === $props['access_expiration'] ) {
 		unset( $props['access_length'], $props['access_period'] );
 	} elseif ( 'limited-period' === $props['access_expiration'] ) {
-		unset( $props['acces_expires'] );
+		unset( $props['access_expires'] );
 	}
 
 	// Ensure visibility setting is valid.
@@ -100,7 +171,12 @@ function llms_create_access_plan( $props = array() ) {
 		}
 	}
 
-	$plan = new LLMS_Access_Plan( 'new' );
+	if ( 'create' === $action ) {
+		$plan = new LLMS_Access_Plan( 'new' );
+		if ( ! $plan ) {
+			return new WP_Error( 'plan-creation', __( 'An error was encounterd while creating the access plan', 'lifterlms' ) );
+		}
+	}
 
 	// Set visibility.
 	$plan->set_visibility( $props['visibility'] );
@@ -113,7 +189,22 @@ function llms_create_access_plan( $props = array() ) {
 		}
 	}
 
-	do_action( 'llms_access_plan_created', $plan, $props );
+	/**
+	 * Action: llms_access_plan_after_{$action}
+	 *         llms_access_plan_after_create
+	 *         llms_access_plan_after_update
+	 *
+	 * Do something with an access plan immediately after the access plan is created/updated.
+	 *
+	 * @since    [version]
+	 * @version  [version]
+	 *
+	 * @example  todo
+	 *
+	 * @param  obj $props LLMS_Access_Plan.
+	 * @param  array $props Properties used to create/update the access plan.
+	 */
+	do_action( 'llms_access_plan_after_' . $action, $plan, $props );
 
 	return $plan;
 
