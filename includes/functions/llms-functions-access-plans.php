@@ -120,8 +120,6 @@ function llms_insert_access_plan( $props = array() ) {
 		if ( 0 === $props['frequency'] ) {
 			$props['trial_offer'] = 'no';
 		}
-
-	// Free plan (no frequency, no sale, no trial).
 	} else {
 
 		$props['is_free'] = 'yes';
