@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.0.3
-Stable tag: 3.28.1
+Stable tag: 3.28.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,7 +355,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-= v3.29.0 - 2019-01-31 =
+v3.??.? - 2019-??-??
 ------------------------
 
 ##### Updates
@@ -366,15 +366,26 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Added function for checking if request is a REST request
 + Fix checkout nonce to have a unique ID & name
 
+##### Bug Fixes
+
++ Fix an issue causing `GET` requests with no query string variables from causing issues via incorrect JSON encoding via the API Handler abstract.
+
 ##### Template Updates
 
 + [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 
-= v3.28.2 - 2019-02-01 =
+
+= v3.28.2 - 2019-02-11 =
 ------------------------
+
+##### Updates
+
++ Updated default country list to remove non-existant countries and resolve capitilization issues, thanks [nrherron92](https://github.com/nrherron92)!
 
 ##### Bug fixes
 
++ Fixed an issue causing the email notification content getter to use the same filter as popover notifications.
++ Fixed an issue preventing default blog date & time settings from being used when displaying an access plan's access expiration date on course and membership pricing tables.
 + Fixed an issue causing 404s on paginated dashboard endpoints when the permalink structure is set to anything other than `%postname%`.
 
 ##### Deprecations
@@ -510,5 +521,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 + Fixed issue causing LifterLMS core sales pages from outputting automatic content (like pricing tables) on migrated posts.
 + Student unenrollment calls always bypass cache during enrollment precheck.
 + Membership post type "name" label is now plural (as it is supposed to be).
+
+
+= v3.25.4 - 2018-12-17 =
+------------------------
+
++ Adds a filter (`llms_blocks_is_post_migrated`) to allow determining if a course or lesson has been migrated to the WP 5.0 block editor.
++ Added a filter (`llms_dashboard_courses_wp_query_args`) to the WP_Query used to display courses on the student dashboard.
++ Fixed issue on course builder causing prerequisites to not be saved when the first lesson in a course was selected as the prereq.
++ Fixed issue on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

@@ -4,7 +4,7 @@
  * @group	functions
  * @group	currency
  * @since   3.24.1
- * @version 3.24.1
+ * @version 3.28.2
  */
 class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 
@@ -301,12 +301,12 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	 * test the llms_get_country_name() function
 	 * @return   void
 	 * @since    3.24.1
-	 * @version  3.24.1
+	 * @version  3.28.2
 	 */
 	public function test_llms_get_country_name() {
 
 		// test existing country definition
-		$this->assertEquals( 'United States', llms_get_country_name( 'US' ) );
+		$this->assertEquals( 'United States (US)', llms_get_country_name( 'US' ) );
 
 		// test non-existing country definition
 		$this->assertEquals( 'XX', llms_get_country_name( 'XX' ) );

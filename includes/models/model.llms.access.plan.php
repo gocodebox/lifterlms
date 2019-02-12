@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  3.24.3
+ * @version  3.28.2
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -346,7 +346,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining plan expiration details
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.23.0
+	 * @version  3.28.2
 	 */
 	public function get_expiration_details() {
 
@@ -354,7 +354,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$expiration = $this->get( 'access_expiration' );
 		if ( 'limited-date' === $expiration ) {
-			$ret = sprintf( _x( 'access until %s', 'Access expiration date', 'lifterlms' ), $this->get_date( 'access_expires', 'n/j/y' ) );
+			$ret = sprintf( _x( 'access until %s', 'Access expiration date', 'lifterlms' ), $this->get_date( 'access_expires' ) );
 		} elseif ( 'limited-period' === $expiration ) {
 			$ret = sprintf( _x( '%1$d %2$s of access', 'Access period description', 'lifterlms' ), $this->get( 'access_length' ), $this->get_access_period_name() );
 		}
