@@ -309,7 +309,6 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	/**
 	 * Test updating existing llms_insert_access_plan() function.
 	 *
-	 * @runInSeparateProcess
 	 * @return  void
 	 * @since   [version]
 	 * @version [version]
@@ -413,7 +412,6 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	/**
 	 * Test product related conditions for llms_insert_access_plan() function.
 	 *
-	 * @runInSeparateProcess
 	 * @return  void
 	 * @since   [version]
 	 * @version [version]
