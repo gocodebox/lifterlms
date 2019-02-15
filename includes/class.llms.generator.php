@@ -3,7 +3,7 @@
  * Generate LMS Content from export files or raw arrays of data
  *
  * @since    3.3.0
- * @version  [version]
+ * @version  3.28.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -149,7 +149,7 @@ class LLMS_Generator {
 	 * @param    array   $raw      raw data
 	 * @return   void
 	 * @since    3.16.11
-	 * @version  [version]
+	 * @version  3.28.3
 	 */
 	private function add_custom_values( $post_id, $raw ) {
 		if ( isset( $raw['custom'] ) ) {

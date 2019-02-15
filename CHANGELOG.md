@@ -5,6 +5,7 @@ v3.28.3 - 2019-02-14
 --------------------
 
 + ❤❤❤ Happy Valentines Day or whatever ❤❤❤
++ Tested to WordPress 5.1
 + Fixed an issue causing JSON data saved by 3rd party plugins in course or lesson postmeta fields to be not duplicate properly during course duplications and imports.
 
 
