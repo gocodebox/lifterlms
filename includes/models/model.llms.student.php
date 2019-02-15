@@ -1,11 +1,17 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Student Class
  * Manages data and interactions with a LifterLMS Student
+ *
+ * @package LifterLMS/Models
  * @since   2.2.3
- * @version [version]
+ * @version 3.26.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Student model.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -288,7 +294,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @return array        "courses" will contain an array of course ids
 	 *                      "more" will contain a boolean determining whether or not more courses are available beyond supplied limit/skip criteria
 	 * @since   ??
-	 * @version [version]
+	 * @version 3.24.0
 	 */
 	public function get_completed_courses( $args = array() ) {
 
@@ -622,7 +628,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    bool    $use_cache  If true, uses cached results
 	 * @return   mixed
 	 * @since    ??
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_grade( $object_id, $use_cache = true ) {
 		$grade = LLMS()->grades()->get_grade( $object_id, $this, $use_cache );
@@ -934,7 +940,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                                  if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
@@ -994,7 +1000,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * @param    string  $type       object post type [course|course_track|section]
 		 * @param    int     $user_id    WP_User ID of the student
 		 * @since    unknown
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		return apply_filters( 'llms_student_get_progress', $ret, $object_id, $type, $this->get_id() );
 
@@ -1052,7 +1058,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
@@ -1123,7 +1129,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @param    string     $trigger      String describing the reason for mark incompletion
 	 * @return   boolean
 	 * @since    3.5.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	private function insert_incompletion_postmeta( $object_id, $trigger = 'unspecified' ) {
 
@@ -1216,15 +1222,54 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Determine if a student is enrolled in a LifterLMS course, lesson, or membership
-	 * @param  int $product_id WP Post ID of a Course, Lesson, or Membership
-	 * @return boolean
-	 * @since  3.0.0
+	 * Determine if a student is enrolled in a Course or Membership.
+	 *
+	 * @see     llms_is_user_enrolled()
+	 *
+	 * @param   int|array  $product_id  WP Post ID of a Course, Lesson, or Membership or array of multiple IDs.
+	 * @param   string     $relation    Comparator for enrollment check.
+	 *                                 		All = user must be enrolled in all $product_ids.
+	 *                                 		Any = user must be enrolled in at least one of the $product_ids.
+	 * @param   bool       $use_cache  If true, returns cached data if available, if false will run a db query.
+	 *
+	 * @return  boolean
+	 *
+	 * @since   3.0.0
+	 * @version 3.25.0
 	 */
-	public function is_enrolled( $product_id ) {
+	public function is_enrolled( $product_ids = null, $relation = 'all', $use_cache = true ) {
 
-		$status = $this->get_enrollment_status( $product_id );
-		return ( 'enrolled' === strtolower( $status ) ) ? true : false;
+		// Assume enrollment unless we find otherwise.
+		$ret = true;
+
+		// Allow a single product ID to be submitted (backwards compat)
+		$product_ids = ! is_array( $product_ids ) ? array( $product_ids ) : $product_ids;
+
+		foreach ( $product_ids as $id ) {
+
+			$enrolled = ( 'enrolled' === strtolower( $this->get_enrollment_status( $id, $use_cache ) ) );
+
+			// If use must be enrolled in all products and one is not enrolled: quit the loop & return false.
+			if ( 'all' === $relation && ! $enrolled ) {
+				$ret = false;
+				break;
+
+				// If user must be enrolled in any
+			} elseif ( 'any' === $relation ) {
+
+				// If we find an enrollment: return true and quit the loop.
+				if ( $enrolled ) {
+					$ret = true;
+					break;
+
+					// If not switch return to false but keep looking.
+				} else {
+					$ret = false;
+				}
+			}
+		}
+
+		return apply_filters( 'llms_is_user_enrolled', $ret, $this, $product_ids, $relation, $use_cache );
 
 	}
 
@@ -1318,12 +1363,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
 	 *
 	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @version  3.26.0
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
 		// can only unenroll those are a currently enrolled
-		if ( ! $this->is_enrolled( $product_id ) ) {
+		if ( ! $this->is_enrolled( $product_id, 'all', false ) ) {
 			return false;
 		}
 

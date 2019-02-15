@@ -3,8 +3,8 @@
  * Tests for LifterLMS Course Model
  * @group    LLMS_Section
  * @group    LLMS_Post_Model
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 
@@ -24,8 +24,8 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function get_properties() {
 		return array(
@@ -38,8 +38,8 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	protected function get_data() {
 		return array(
@@ -51,8 +51,8 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 	/**
 	 * the the count_elements() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_count_elements() {
 
@@ -68,8 +68,8 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 	/**
 	 * the the get_course() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_get_course() {
 
@@ -93,8 +93,8 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 	/**
 	 * the the get_percent_complete() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_get_percent_complete() {
 
@@ -138,8 +138,8 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 	/**
 	 * the the get_lessons() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_get_lessons() {
 
@@ -176,8 +176,8 @@ class LLMS_Test_LLMS_Section extends LLMS_PostModelUnitTestCase {
 	/**
 	 * the the get_children_lessons() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_get_children_lessons() {
 

@@ -2,7 +2,7 @@
 /**
  * Analytics
  * @since    3.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 defined( 'ABSPATH' ) || exit;
 if ( ! is_admin() ) { exit; }

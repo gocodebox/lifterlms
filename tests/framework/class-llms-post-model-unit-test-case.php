@@ -3,8 +3,11 @@
  * Unit Test Case with tests and utilities specific to testing classes
  * which extend the LLMS_Post_Model
  * @since    3.4.0
- * @version  3.4.0
+ * @version  3.28.0
  */
+
+require_once 'class-llms-unit-test-case.php';
+
 class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 
 	/**
@@ -107,13 +110,17 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	 * Test getters and setters
 	 * @return   void
 	 * @since    3.4.0
-	 * @version  3.4.0
+	 * @version  3.28.0
 	 */
 	public function test_getters_setters() {
 
 		$this->create( 'test title' );
 		$props = $this->get_properties();
 		$data = $this->get_data();
+
+		if ( ! $data ) {
+			$this->markTestSkipped( 'No properties to test.' );
+		}
 
 		foreach ( $props as $prop => $type ) {
 

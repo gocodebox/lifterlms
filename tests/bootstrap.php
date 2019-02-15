@@ -1,95 +1,77 @@
 <?php
 /**
- * LifterLMS Unit Testing Bootstrap
- * @since    3.3.1
- * @version  [version]
- * @thanks   WooCommerce <3
+ * LifterLMS Add-On Testing Bootstrap
+ *
+ * @package LifterLMS/Tests
+ * @since   3.3.1
+ * @version 3.28.0
  */
-class LLMS_Unit_Tests_Bootstrap {
+
+require_once './vendor/lifterlms/lifterlms-tests/bootstrap.php';
+
+class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 
 	/**
-	 * Singleton Instance of LLMS_Unit_Tests_Bootstrap
-	 * @var  obj
+	 * __FILE__ reference, should be defined in the extending class
+	 *
+	 * @var [type]
 	 */
-	protected static $instance = null;
+	public $file = __FILE__;
 
 	/**
-	 * WP Tests Directory Path
-	 * @var  string
+	 * Name of the testing suite
+	 *
+	 * @var string
 	 */
-	public $wp_tests_dir;
+	public $suite_name = 'LifterLMS';
 
 	/**
-	 * Tests Directory Path
-	 * @var  string
+	 * Main PHP File for the plugin
+	 *
+	 * @var string
 	 */
-	public $tests_dir;
+	public $plugin_main = 'lifterlms.php';
 
 	/**
-	 * Plugin Directory Path
-	 * @var  string
+	 * Determines if the LifterLMS core should be loaded
+	 *
+	 * @var bool
 	 */
-	public $plugin_dir;
+	public $use_core = false;
 
 	/**
-	 * Get Singleton Class Instance
-	 * @return   LLMS_Unit_Tests_Bootstrap
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Install the plugin
+	 *
+	 * @return   void
+	 * @since    3.28.0
+	 * @version  3.28.0
 	 */
-	public static function instance() {
-		if ( is_null( self::$instance ) ) {
-			self::$instance = new self();
-		}
-		return self::$instance;
-	}
+	public function install() {
 
-	/**
-	 * Constructor
-	 * @since    3.3.1
-	 * @version  [version]
-	 */
-	public function __construct() {
-
-		echo 'Welcome to the LifterLMS Test Suite' . PHP_EOL . PHP_EOL . PHP_EOL;
-
-		ini_set( 'display_errors','on' );
-		error_reporting( E_ALL );
-
-		// Ensure server variable is set for WP email functions.
-		if ( ! isset( $_SERVER['SERVER_NAME'] ) ) {
-			$_SERVER['SERVER_NAME'] = 'localhost';
-		}
-
-		$this->tests_dir    = dirname( __FILE__ );
-		$this->plugin_dir   = dirname( $this->tests_dir );
-		$this->wp_tests_dir = getenv( 'WP_TESTS_DIR' ) ? getenv( 'WP_TESTS_DIR' ) : '/tmp/wordpress-tests-lib';
-
-		// load test function so tests_add_filter() is available
-		require_once $this->wp_tests_dir . '/includes/functions.php';
-
-		require_once 'tests/framework/functions-llms-tests.php';
-
-		// load LLMS
-		tests_add_filter( 'muplugins_loaded', array( $this, 'load_llms' ) );
+		parent::install();
 
 		// install LLMS
-		tests_add_filter( 'setup_theme', array( $this, 'install_llms' ) );
+		LLMS_Install::install();
 
-		// load the WP testing environment
-		require_once( $this->wp_tests_dir . '/includes/bootstrap.php' );
+		// Reload capabilities after install, see https://core.trac.wordpress.org/ticket/28374
+		if ( version_compare( $GLOBALS['wp_version'], '4.7', '<' ) ) {
+			$GLOBALS['wp_roles']->reinit();
+		} else {
+			$GLOBALS['wp_roles'] = null;
+			wp_roles();
+		}
 
-		// load LLMS testing framework
-		$this->includes();
 	}
 
+
 	/**
-	 * Load LifterLMS
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.22.0
+	 * Load the plugin
+	 *
+	 * @return  void
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
-	public function load_llms() {
+	public function load() {
 
 		$files = array(
 			array(
@@ -124,56 +106,27 @@ class LLMS_Unit_Tests_Bootstrap {
 		// override this constant otherwise a bunch of includes will fail when running tests
 		define( 'LLMS_PLUGIN_DIR', trailingslashit( $this->plugin_dir ) );
 
-		require_once( $this->plugin_dir . '/lifterlms.php' );
+		parent::load();
 
 	}
 
 	/**
-	 * Install LifterLMS
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.22.0
+	 * Uninstall the plugin.
+	 *
+	 * @return  void
+	 * @since   3.28.0
+	 * @version 3.28.0
 	 */
-	public function install_llms() {
+	public function uninstall() {
 
-		echo 'Installing LifterLMS...' . PHP_EOL;
+		parent::uninstall();
 
 		// Clean existing install first.
-		define( 'WP_UNINSTALL_PLUGIN', true );
 		define( 'LLMS_REMOVE_ALL_DATA', true );
 		include( $this->plugin_dir . '/uninstall.php' );
 
-		// install LLMS
-		LLMS_Install::install();
-
-		// Reload capabilities after install, see https://core.trac.wordpress.org/ticket/28374
-		if ( version_compare( $GLOBALS['wp_version'], '4.7', '<' ) ) {
-			$GLOBALS['wp_roles']->reinit();
-		} else {
-			$GLOBALS['wp_roles'] = null;
-			wp_roles();
-		}
-
-
 	}
-
-	/**
-	 * Load LifterLMS Tests & Related
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  [version]
-	 */
-	public function includes() {
-
-		require 'tests/framework/class-llms-unit-test-case.php';
-		require 'tests/framework/class-llms-notification-test-case.php';
-		require 'tests/framework/class-llms-post-model-unit-test-case.php';
-
-		require 'tests/framework/exceptions/class-llms-testing-exception-exit.php';
-		require 'tests/framework/exceptions/class-llms-testing-exception-redirect.php';
-
-	}
-
 
 }
-LLMS_Unit_Tests_Bootstrap::instance();
+
+return new LLMS_Unit_Tests_Bootstrap();

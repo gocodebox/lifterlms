@@ -1,10 +1,16 @@
 <?php
+/**
+ * Register Post Types, Taxonomies, Statuses
+ *
+ * @package  LifterLMS\Classes
+ * @since    1.0.0
+ * @version  3.26.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Register Post Types, Taxonomies, Statuses
- * @since    1.0.0
- * @version  3.20.0
+ * LLMS_Post_Types class
  */
 class LLMS_Post_Types {
 
@@ -226,9 +232,10 @@ class LLMS_Post_Types {
 	}
 
 	/**
-	 * Register Post Types
+	 * Register Post Types.
+	 *
 	 * @since    1.0.0
-	 * @version  3.20.0
+	 * @version  3.26.0
 	 */
 	public static function register_post_types() {
 
@@ -266,8 +273,8 @@ class LLMS_Post_Types {
 				'feeds' => true,
 			),
 			'query_var' 			=> true,
-			'supports' 				=> array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
-			'has_archive' 			=> ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : 'courses',
+			'supports' 				=> array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
+			'has_archive' 			=> ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
 			'show_in_nav_menus' 	=> true,
 			'menu_position'         => 52,
 		) );
@@ -419,7 +426,7 @@ class LLMS_Post_Types {
 		$membership_page_id = llms_get_page_id( 'memberships' );
 		self::register_post_type( 'llms_membership', array(
 			'labels' => array(
-				'name' => __( 'Membership', 'lifterlms' ),
+				'name' => __( 'Memberships', 'lifterlms' ),
 				'singular_name' => __( 'Membership', 'lifterlms' ),
 				'menu_name' => _x( 'Memberships', 'Admin menu name', 'lifterlms' ),
 				'add_new' => __( 'Add Membership', 'lifterlms' ),
@@ -445,13 +452,13 @@ class LLMS_Post_Types {
 			'show_in_menu' => true,
 			'hierarchical' => false,
 			'rewrite' => array(
-				'slug' => _x( 'membership', 'slug', 'lifterlms' ),
+				'slug' => _x( 'membership', 'membership url slug', 'lifterlms' ),
 				'with_front' => false,
 				'feeds' => true,
 			),
 			'query_var' => true,
 			'supports' => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
-			'has_archive' => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : 'memberships',
+			'has_archive' => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
 			'show_in_nav_menus' => true,
 			'menu_position' => 52,
 		) );
@@ -534,7 +541,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( 'title', 'comments', 'custom-fields' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array(
-						'create_posts' => false,
+						'create_posts' => 'do_not_allow',
 					),
 				)
 			)
@@ -576,7 +583,7 @@ class LLMS_Post_Types {
 					'supports' 				=> array( '' ),
 					'has_archive' 			=> false,
 					'capabilities'  	    => array(
-						'create_posts' => false,
+						'create_posts' => 'do_not_allow',
 					),
 				)
 			)

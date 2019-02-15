@@ -1,12 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieve data sets used by various other classes and functions
  * @since    3.0.0
- * @version  3.17.8
+ * @version  3.24.0
  */
 class LLMS_Data {
 
@@ -207,7 +205,7 @@ class LLMS_Data {
 	 * Get LifterLMS settings
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.3.0
+	 * @version  3.24.0
 	 */
 	private static function get_llms_settings() {
 
@@ -217,16 +215,18 @@ class LLMS_Data {
 		$data['db_version'] = get_option( 'lifterlms_db_version' );
 
 		$data['course_catalog'] = self::get_page_data( 'lifterlms_shop_page_id' );
+		$data['membership_catalog'] = self::get_page_data( 'lifterlms_memberships_page_id' );
+		$data['student_dashboard'] = self::get_page_data( 'lifterlms_myaccount_page_id' );
+		$data['checkout_page'] = self::get_page_data( 'lifterlms_checkout_page_id' );
+
 		$data['course_catalog_per_page'] = get_option( 'lifterlms_shop_courses_per_page' );
 		$data['course_catalog_sorting'] = get_option( 'lifterlms_shop_ordering' );
 
-		$data['membership_catalog'] = self::get_page_data( 'lifterlms_memberships_page_id' );
 		$data['membership_catalog_per_page'] = get_option( 'lifterlms_memberships_per_page' );
 		$data['membership_catalog_sorting'] = get_option( 'lifterlms_memberships_ordering' );
 
 		$data['site_membership'] = self::get_page_data( 'lifterlms_membership_required' );
 
-		$data['student_dashboard'] = self::get_page_data( 'lifterlms_myaccount_page_id' );
 		$data['courses_endpoint'] = get_option( 'lifterlms_myaccount_courses_endpoint' );
 		$data['edit_endpoint'] = get_option( 'lifterlms_myaccount_edit_account_endpoint' );
 		$data['lost_password_endpoint'] = get_option( 'lifterlms_myaccount_lost_password_endpoint' );
@@ -257,7 +257,6 @@ class LLMS_Data {
 		$data['account_phone'] = get_option( 'lifterlms_user_info_field_phone_account_visibility' );
 		$data['account_email_confirmation'] = get_option( 'lifterlms_user_info_field_email_confirmation_account_visibility', 'no' );
 
-		$data['checkout_page'] = self::get_page_data( 'lifterlms_checkout_page_id' );
 		$data['confirmation_endpoint'] = get_option( 'lifterlms_myaccount_confirm_payment_endpoint' );
 		$data['force_ssl_checkout'] = get_option( 'lifterlms_checkout_force_ssl' );
 		$data['country'] = get_lifterlms_country();
@@ -315,7 +314,7 @@ class LLMS_Data {
 	private static function get_page_data( $option ) {
 		$id = get_option( $option );
 		if ( absint( $id ) ) {
-			return sprintf( '%s (#%d)', get_the_title( $id ), $id );
+			return sprintf( '%1$s (#%2$d) [%3$s]', get_the_title( $id ), $id, get_permalink( $id ) );
 		}
 		return 'Not Set'; // don't translate this or you won't be able to read it smartypants...
 	}
@@ -515,7 +514,7 @@ class LLMS_Data {
 	 * Get some WP core settings and info
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.24.0
 	 */
 	private static function get_wp_data() {
 
@@ -523,8 +522,11 @@ class LLMS_Data {
 
 		$data['home_url'] = get_home_url();
 		$data['site_url'] = get_site_url();
+		$data['login_url'] = wp_login_url();
 		$data['version'] = get_bloginfo( 'version' );
 		$data['debug_mode'] = ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ? 'Yes' : 'No';
+		$data['debug_log'] = ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) ? 'Yes' : 'No';
+		$data['debug_display'] = ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) ? 'Yes' : 'No';
 		$data['locale'] = get_locale();
 		$data['multisite'] = is_multisite() ? 'Yes' : 'No';
 		$data['page_for_posts'] = self::get_page_data( 'page_for_posts' );

@@ -1,11 +1,16 @@
 <?php
+/**
+ * Certificates
+ *
+ * @see      LLMS()->certificates()
+ * @since    1.0.0
+ * @version  3.24.3
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificates
- * @see      LLMS()->certificates()
- * @since    1.0.0
- * @version  3.19.0
+ * LLMS_Certificates class
  */
 class LLMS_Certificates {
 
@@ -132,7 +137,7 @@ class LLMS_Certificates {
 	 * @param    int     $certificate_id  WP Post ID of the earned certificate
 	 * @return   string
 	 * @since    3.18.0
-	 * @version  3.19.0
+	 * @version  3.24.3
 	 */
 	private function get_export_html( $certificate_id ) {
 
@@ -212,7 +217,9 @@ class LLMS_Certificates {
 
 			// do replacements, ensures cascade order is retained
 			foreach ( $to_replace as $replacement ) {
-				$header->replaceChild( $replacement['new'], $replacement['old'] );
+				// var_dump( $replacement['old'] );
+				$replacement['old']->parentNode->replaceChild( $replacement['new'], $replacement['old'] );
+				// $header->replaceChild( $replacement['new'], $replacement['old'] );
 			}
 
 			// remove all remaining non sylesheet <links>
@@ -237,6 +244,14 @@ class LLMS_Certificates {
 			// hide print stuff
 			// this is faster than traversing the dom to remove the element
 			$header->appendChild( $dom->createELement( 'style', '.no-print { display: none !important; }' ) );
+
+			// Remove the admin bar (if found).
+			$admin_bar = $dom->getElementById( 'wpadminbar' );
+			if ( $admin_bar ) {
+				// @codingStandardsIgnoreStart WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar
+				$admin_bar->parentNode->removeChild( $admin_bar );
+				// @codingStandardsIgnoreEnd
+			}
 
 			$html = $dom->saveHTML();
 

@@ -1,7 +1,7 @@
 /**
  * Quiz Model
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( [
 		'Collections/Questions',
@@ -89,7 +89,7 @@ define( [
 		 * Initializer
 		 * @return   void
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		initialize: function() {
 

@@ -1,11 +1,10 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Lesson Model
  *
+ * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -24,6 +23,12 @@ defined( 'ABSPATH' ) || exit;
  * @property  $require_assignment_passing_grade  (yesno)  Whether of not students have to pass the assignment to advance to the next lesson
  * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
  * @property  $video_embed  (string)  Video embed URL
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Lesson model.
  */
 class LLMS_Lesson
 extends LLMS_Post_Model
@@ -63,8 +68,8 @@ implements LLMS_Interface_Post_Audio
 	 * Array of default property values
 	 * key => default value
 	 * @var  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.24.0
+	 * @version 3.24.0
 	 */
 	protected $property_defaults = array(
 		'points' => 1,
@@ -594,7 +599,7 @@ implements LLMS_Interface_Post_Audio
 	 * Finds and returns next lesson id
 	 * @return   int [ID of next lesson]
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_next_lesson() {
 
@@ -673,7 +678,7 @@ implements LLMS_Interface_Post_Audio
 	 * Get previous lesson id
 	 * @return   int [ID of previous lesson]
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_previous_lesson() {
 

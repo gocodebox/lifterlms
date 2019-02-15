@@ -2,14 +2,18 @@
 /**
  * LifterLMS Course Author Info
  * @since   3.0.0
- * @version 3.13.0
+ * @version 3.25.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
+
+defined( 'ABSPATH' ) || exit;
 
 $course = llms_get_post( get_the_ID() );
+if ( ! $course ) {
+	return '';
+}
 $instructors = $course->get_instructors( true );
 if ( ! $instructors ) {
-	return;
+	return '';
 }
 $count = count( $instructors );
 ?>

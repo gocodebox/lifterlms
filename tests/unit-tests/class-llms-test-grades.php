@@ -2,16 +2,16 @@
 /**
  * Tests for Grading methods
  * @group    grades
- * @since    [version]
- * @version  [version]
+ * @since    3.24.0
+ * @version  3.24.0
  */
 class LLMS_Test_Grades extends LLMS_UnitTestCase {
 
 	/**
 	 * test instance() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_instance() {
 
@@ -23,8 +23,8 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	/**
 	 * test calculate_grade() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_calculate_grade() {
 
@@ -91,8 +91,8 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	/**
 	 * test get_grade() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_get_grade() {
 
@@ -164,8 +164,8 @@ class LLMS_Test_Grades extends LLMS_UnitTestCase {
 	/**
 	 * test round() method
 	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function test_round() {
 

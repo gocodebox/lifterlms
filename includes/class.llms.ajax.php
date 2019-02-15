@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  */
 class LLMS_AJAX {
 
@@ -815,7 +815,7 @@ class LLMS_AJAX {
 	 * Updates course syllabus JSON object
 	 * @return      array
 	 * @since       ??
-	 * @version     [version]
+	 * @version     3.24.0
 	 * @deprecated  3.13.0
 	 */
 	public function update_syllabus() {

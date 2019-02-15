@@ -1,11 +1,16 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
+ *
  * @since    3.5.0
- * @version  3.22.2
+ * @version  3.28.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_AddOns class.
  */
 class LLMS_Admin_AddOns {
 
@@ -235,7 +240,7 @@ class LLMS_Admin_AddOns {
 	 * Output HTML for the current screen
 	 * @return   void
 	 * @since    3.5.0
-	 * @version  3.22.0
+	 * @version  3.28.0
 	 */
 	public function output() {
 
@@ -246,7 +251,7 @@ class LLMS_Admin_AddOns {
 		?>
 		<div class="wrap lifterlms lifterlms-settings lifterlms-addons">
 
-			<h2><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
+			<h1 class="wp-heading-inline"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
 			<?php do_action( 'llms_addons_page_after_title' ); ?>
 			<h1 class="screen-reader-text"><?php _e( 'LifterLMS Add-Ons, Courses, and Resources', 'lifterlms' ); ?></h1>
 

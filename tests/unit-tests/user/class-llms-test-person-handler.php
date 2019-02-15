@@ -77,7 +77,38 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	// public function test_register() {}
 
 
-	// public function test_update() {}
+	/**
+	 * @todo    this is an incomplete test
+	 * @return  [type]
+	 * @since   3.26.1
+	 * @version 3.26.1
+	 */
+	public function test_update() {
+
+		$data = array();
+
+		// No user Id supplied.
+		$update = LLMS_Person_Handler::update( $data, 'account' );
+		$this->assertTrue( is_wp_error( $update ) );
+		$this->assertEquals( 'user_id', $update->get_error_code() );
+
+		$uid = $this->factory->user->create( array( 'role' => 'student' ) );
+		$user = new WP_User( $uid );
+
+		// user Id Interpreted from current logged in user.
+		wp_set_current_user( $uid );
+		$update = LLMS_Person_Handler::update( $data, 'account' );
+		$this->assertTrue( is_wp_error( $update ) );
+		$this->assertFalse( in_array( 'user_id', $update->get_error_codes(), true ) );
+		wp_set_current_user( null );
+
+		// Used ID explicitly passed.
+		$data['user_id'] = $uid;
+		$update = LLMS_Person_Handler::update( $data, 'account' );
+		$this->assertTrue( is_wp_error( $update ) );
+		$this->assertFalse( in_array( 'user_id', $update->get_error_codes(), true ) );
+
+	}
 
 	private function get_mock_registration_data( $data = array() ) {
 

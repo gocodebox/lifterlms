@@ -1,22 +1,28 @@
 <?php
+/**
+ * Retrieve data sets used by various other classes and functions
+ *
+ * @since    3.0.0
+ * @version  3.28.2
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrieve data sets used by various other classes and functions
- * @since    3.0.0
- * @version  [version]
+ * LLMS_Student_Dashboard class.
  */
 class LLMS_Student_Dashboard {
 
 	/**
 	 * Constructor
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function __construct() {
 
 		add_filter( 'llms_get_endpoints', array( $this, 'add_endpoints' ) );
 		add_filter( 'lifterlms_student_dashboard_title', array( $this, 'modify_dashboard_title' ), 5 );
+		add_filter( 'rewrite_rules_array', array( $this, 'modify_rewrite_rules_order' ) );
 
 	}
 
@@ -119,7 +125,7 @@ class LLMS_Student_Dashboard {
 	 * Retrieve all dashboard tabs and related data
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.28.2
 	 */
 	public static function get_tabs() {
 
@@ -134,12 +140,14 @@ class LLMS_Student_Dashboard {
 			'view-courses' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_courses',
 				'endpoint' => get_option( 'lifterlms_myaccount_courses_endpoint', 'view-courses' ),
+				'paginate' => true,
 				'nav_item' => true,
 				'title' => __( 'My Courses', 'lifterlms' ),
 			),
 			'my-grades' => array(
 				'content' => 'lifterlms_template_student_dashboard_my_grades',
 				'endpoint' => get_option( 'lifterlms_myaccount_grades_endpoint', 'my-grades' ),
+				'paginate' => true,
 				'nav_item' => true,
 				'title' => __( 'My Grades', 'lifterlms' ),
 			),
@@ -162,8 +170,9 @@ class LLMS_Student_Dashboard {
 				'title' => __( 'My Certificates', 'lifterlms' ),
 			),
 			'notifications' => array(
-				'content' => array( __CLASS__, 'output_notifications_content' ),
+				'content' => 'lifterlms_template_student_dashboard_my_notifications',
 				'endpoint' => get_option( 'lifterlms_myaccount_notifications_endpoint', 'notifications' ),
+				'paginate' => true,
 				'nav_item' => true,
 				'title' => __( 'Notifications', 'lifterlms' ),
 			),
@@ -175,13 +184,13 @@ class LLMS_Student_Dashboard {
 			),
 			'redeem-voucher' => array(
 				'content' => array( __CLASS__, 'output_redeem_voucher_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_redeem_vouchers_endpoint', 'redeem-voucher' ),
 				'nav_item' => true,
 				'title' => __( 'Redeem a Voucher', 'lifterlms' ),
 			),
 			'orders' => array(
 				'content' => array( __CLASS__, 'output_orders_content' ),
-				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'redeem-voucher' ),
+				'endpoint' => get_option( 'lifterlms_myaccount_orders_endpoint', 'orders' ),
 				'nav_item' => true,
 				'title' => __( 'Order History', 'lifterlms' ),
 			),
@@ -250,8 +259,8 @@ class LLMS_Student_Dashboard {
 	 * Handle modification of the default dashboard title for certain pages and sub pages
 	 * @param    string     $title  default title HTML
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function modify_dashboard_title( $title ) {
 
@@ -282,31 +291,11 @@ class LLMS_Student_Dashboard {
 
 	}
 
-	/**
-	 * Callback to output View Courses endpoint content
-	 * @return      void
-	 * @since       3.0.0
-	 * @version     3.14.0
-	 * @deprecated  3.14.0
-	 */
-	public static function output_courses_content() {
+	public function modify_rewrite_rules_order( $rules ) {
 
-		llms_deprecated_function( 'LLMS_Student_Dashboard::output_courses_content()', '3.14.0', 'lifterlms_template_student_dashboard_my_courses( false )' );
-		lifterlms_template_student_dashboard_my_courses( false );
+		// var_dump( $rules );
 
-	}
-
-	/**
-	 * Callback to output main dashboard content
-	 * @return      void
-	 * @since       3.0.0
-	 * @version     3.14.0
-	 * @deprecated  3.14.0
-	 */
-	public static function output_dashboard_content() {
-
-		llms_deprecated_function( 'LLMS_Student_Dashboard::output_dashboard_content()', '3.14.0', 'lifterlms_template_student_dashboard_home()' );
-		lifterlms_template_student_dashboard_home();
+		return $rules;
 
 	}
 
@@ -320,92 +309,6 @@ class LLMS_Student_Dashboard {
 		llms_get_template( 'myaccount/form-edit-account.php', array(
 			'user' => get_user_by( 'id', get_current_user_id() ),
 		) );
-	}
-
-	/**
-	 * Callback to oupput the notifications content
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.9.0
-	 */
-	public static function output_notifications_content() {
-
-		$url = llms_get_endpoint_url( 'notifications', '', llms_get_page_url( 'myaccount' ) );
-
-		$sections = array(
-			array(
-				'url' => $url,
-				'name' => __( 'View Notifications', 'lifterlms' ),
-			),
-			array(
-				'url' => add_query_arg( 'sdview', 'prefs', $url ),
-				'name' => __( 'Manage Preferences', 'lifterlms' ),
-			),
-		);
-
-		$view = isset( $_GET['sdview'] ) ? $_GET['sdview'] : 'view';
-
-		if ( 'view' === $view ) {
-
-			$page = isset( $_GET['sdpage'] ) ? absint( $_GET['sdpage'] ) : 1;
-
-			$notifications = new LLMS_Notifications_Query( array(
-				'page' => $page,
-				'per_page' => 25,
-				'subscriber' => get_current_user_id(),
-				'sort' => array(
-					'created' => 'DESC',
-					'id' => 'DESC',
-				),
-				'types' => 'basic',
-			) );
-
-			$pagination = array(
-				'next' => $notifications->is_last_page() || ! $notifications->found_results ? '' : add_query_arg( 'sdpage', $page + 1, $url ),
-				'prev' => $notifications->is_first_page() ? '' : add_query_arg( 'sdpage', $page - 1, $url ),
-			);
-
-			$args = array(
-				'notifications' => $notifications->get_notifications(),
-				'pagination' => $pagination,
-				'sections' => $sections,
-			);
-
-		} else {
-
-			$types = apply_filters( 'llms_notification_subscriber_manageable_types', array( 'email' ) );
-
-			$settings = array();
-			$student = new LLMS_Student( get_current_user_id() );
-
-			foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
-
-				foreach ( $types as $type ) {
-
-					$configs = $controller->get_subscribers_settings( $type );
-					if ( in_array( 'student', array_keys( $configs ) ) && 'yes' === $configs['student'] ) {
-
-						if ( ! isset( $settings[ $type ] ) ) {
-							$settings[ $type ] = array();
-						}
-
-						$settings[ $type ][ $controller->id ] = array(
-							'name' => $controller->get_title(),
-							'value' => $student->get_notification_subscription( $type, $controller->id, 'yes' ),
-						);
-					}
-				}
-			}
-
-			$args = array(
-				'sections' => $sections,
-				'settings' => $settings,
-			);
-
-		}// End if().
-
-		llms_get_template( 'myaccount/my-notifications.php', $args );
-
 	}
 
 	/**
@@ -465,6 +368,60 @@ class LLMS_Student_Dashboard {
 			'user' => get_user_by( 'id', get_current_user_id() ),
 		) );
 
+	}
+
+	/*
+		       /$$                                                               /$$                     /$$
+		      | $$                                                              | $$                    | $$
+		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
+		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
+		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
+		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
+		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
+		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
+		                    | $$
+		                    | $$
+		                    |__/
+	*/
+
+	/**
+	 * Callback to output View Courses endpoint content
+	 * @return      void
+	 * @since       3.0.0
+	 * @version     3.14.0
+	 * @deprecated  3.14.0
+	 */
+	public static function output_courses_content() {
+
+		llms_deprecated_function( 'LLMS_Student_Dashboard::output_courses_content()', '3.14.0', 'lifterlms_template_student_dashboard_my_courses( false )' );
+		lifterlms_template_student_dashboard_my_courses( false );
+
+	}
+
+	/**
+	 * Callback to output main dashboard content
+	 * @return      void
+	 * @since       3.0.0
+	 * @version     3.14.0
+	 * @deprecated  3.14.0
+	 */
+	public static function output_dashboard_content() {
+
+		llms_deprecated_function( 'LLMS_Student_Dashboard::output_dashboard_content()', '3.14.0', 'lifterlms_template_student_dashboard_home()' );
+		lifterlms_template_student_dashboard_home();
+
+	}
+
+	/**
+	 * Callback to oupput the notifications content
+	 * @return     void
+	 * @since      3.8.0
+	 * @version    3.26.3
+	 * @deprecated 3.26.3
+	 */
+	public static function output_notifications_content() {
+		llms_deprecated_function( 'LLMS_Student_Dashboard::output_notifications_content()', '3.26.3', 'lifterlms_template_student_dashboard_my_notifications()' );
+		lifterlms_template_student_dashboard_my_notifications();
 	}
 
 }

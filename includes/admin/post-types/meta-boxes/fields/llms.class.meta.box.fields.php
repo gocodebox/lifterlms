@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * Metabox_Field Parent Class
  * Contains base code for each of the Metabox Fields
  * @since    ??
- * @version  [version]
+ * @version  3.24.0
  */
 abstract class LLMS_Metabox_Field {
 
@@ -80,7 +80,7 @@ abstract class LLMS_Metabox_Field {
 	 * @param    string  $field_id  ID/name of the field
 	 * @return   mixed
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public static function get_post_meta( $post_id, $field_id ) {
 

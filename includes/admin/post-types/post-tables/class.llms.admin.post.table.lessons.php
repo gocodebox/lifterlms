@@ -1,12 +1,11 @@
 <?php
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Add, Customize, and Manage LifterLMS Lesson posts table Columns
  * @since    3.2.3
- * @version  3.12.0
+ * @version  3.24.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 class LLMS_Admin_Post_Table_Lessons {
 
 	/**
@@ -68,11 +67,11 @@ class LLMS_Admin_Post_Table_Lessons {
 
 	/**
 	 * Manage content of custom lesson columns
-	 * @param  string $column   column key/name
-	 * @param  int    $post_id  WP Post ID of the lesson for the row
-	 * @return void
+	 * @param    string $column   column key/name
+	 * @param    int    $post_id  WP Post ID of the lesson for the row
+	 * @return   void
 	 * @since    3.2.3
-	 * @version  3.12.0
+	 * @version  3.24.0
 	 */
 	public function manage_columns( $column, $post_id ) {
 
@@ -89,7 +88,7 @@ class LLMS_Admin_Post_Table_Lessons {
 				$edit_link = get_edit_post_link( $course );
 
 				if ( ! empty( $course ) ) {
-					printf( __( '<a href="%1$s">%2$s</a>' ), $edit_link , get_the_title( $course ) );
+					printf( '<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
 				}
 
 			break;
@@ -112,7 +111,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 					if ( $prereq ) {
 
-						printf( __( '<a href="%1$s">%2$s</a>' ), $edit_link, get_the_title( $prereq ) );
+						printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $prereq ) );
 
 					} else {
 

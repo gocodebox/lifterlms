@@ -1,14 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
 /**
  * LifterLMS Product Model
+ * Both Courses and Memberships are sellable and can be instantiated as a product.
  *
- * Both Courses and Memberships are sellable and can be instantiated as a product
- *
+ * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  3.17.8
+ * @version  3.25.2
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Product model.
  */
 class LLMS_Product extends LLMS_Post_Model {
 
@@ -34,7 +37,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @param    boolean  $visible_only  excludes hidden access plans from results
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.17.8
+	 * @version  3.25.2
 	 */
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
@@ -82,7 +85,7 @@ class LLMS_Product extends LLMS_Post_Model {
 			}
 		}
 
-		return $plans;
+		return apply_filters( 'llms_get_product_access_plans', $plans, $this, $free_only, $visible_only );
 
 	}
 
@@ -155,10 +158,10 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * Determine if the product has at least one free access plan
 	 * @return   boolean
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.25.2
 	 */
 	public function has_free_access_plan() {
-		return ( $this->get_access_plans( true ) );
+		return apply_filters( 'llms_product_has_free_access_plan', ( 0 !== count( $this->get_access_plans( true ) ) ) );
 	}
 
 	/**
@@ -167,23 +170,28 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity
 	 * @return  boolean
 	 * @since   3.0.0
-	 * @version 3.8.0
+	 * @version 3.25.2
 	 */
 	public function is_purchasable() {
-		$gateways = LLMS()->payment_gateways();
 
+		// Default to true.
+		$ret = true;
+
+		// Courses must have open enrollment & available capacity.
 		if ( 'course' === $this->get( 'type' ) ) {
 
 			$course = new LLMS_Course( $this->get( 'id' ) );
-			if ( ! $course->is_enrollment_open() ) {
-				return false;
-			}
-			if ( ! $course->has_capacity() ) {
-				return false;
-			}
+			$ret    = ( $course->is_enrollment_open() && $course->has_capacity() );
+
 		}
 
-		return ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
+		// if we're still true, make sure we have a purchaseable plan & active gateways.
+		if ( $ret ) {
+			$gateways = LLMS()->payment_gateways();
+			$ret      = ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
+		}
+
+		return apply_filters( 'llms_product_is_purchasable', $ret, $this );
 
 	}
 

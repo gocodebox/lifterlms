@@ -5,7 +5,7 @@
  * Front End Quiz Class
  * @type     {Object}
  * @since    1.0.0
- * @version  3.16.9
+ * @version  3.24.3
  */
 ;( function( $ ) {
 
@@ -346,7 +346,7 @@
 		 * Start a Quiz via AJAX call
 		 * @return   void
 		 * @since    1.0.0
-		 * @version  3.21.0
+		 * @version  3.24.3
 		 */
 		start_quiz: function () {
 
@@ -419,11 +419,20 @@
 
 			} );
 
-			// this fixes an issue on iOS devices where the label requires a double click
-			// due to the presence of a hover event & the regular label click
-			// this.$ui.on( 'touchstart', 'li.llms-choice label', function( event ) {
-				// $( this ).click();
-			// } );
+			/**
+			 * Use JS mouse events instead of CSS :hover because iOS is really smart
+			 * @see: https://css-tricks.com/annoying-mobile-double-tap-link-issue/
+			 */
+			if ( ! LLMS.is_touch_device() ) {
+
+				this.$ui.on( 'mouseenter', 'li.llms-choice label', function() {
+					$( this ).addClass( 'hovered' );
+				} );
+				this.$ui.on( 'mouseleave', 'li.llms-choice label', function() {
+					$( this ).removeClass( 'hovered' );
+				} );
+
+			}
 
 		},
 

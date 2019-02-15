@@ -1,27 +1,30 @@
 <?php
 /**
-* Query base class.
+* Query base class
+* Handles queries and endpoints.
 *
-* Handles queries and endpoints
 * @since   1.0.0
-* @version 3.16.8
+* @version 3.28.2
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Query class
+ */
 class LLMS_Query {
 
 	/**
 	* Query var
-	* @access public
 	* @var array
 	*/
 	public $query_vars = array();
 
 	/**
 	 * Constructor
+	 *
 	 * @since    1.0.0
-	 * @version  3.6.0
+	 * @version  3.28.2
 	 */
 	public function __construct() {
 
@@ -31,7 +34,6 @@ class LLMS_Query {
 
 			add_filter( 'query_vars', array( $this, 'set_query_vars' ), 0 );
 			add_action( 'parse_request', array( $this, 'parse_request' ), 0 );
-			add_action( 'wp', array( $this, 'set_dashboard_pagination' ), 10 );
 
 		}
 
@@ -43,10 +45,22 @@ class LLMS_Query {
 
 	/**
 	 * Add Query Endpoints
+	 *
+	 * @since 1.0.0
+	 * @version 3.28.2
 	 */
 	public function add_endpoints() {
 		foreach ( $this->get_query_vars() as $key => $var ) {
-			add_rewrite_endpoint( $var, EP_PAGES ); }
+			add_rewrite_endpoint( $var, EP_PAGES );
+		}
+		global $wp_rewrite;
+		foreach ( LLMS_Student_Dashboard::get_tabs() as $id => $tab ) {
+			if ( ! empty( $tab['paginate'] ) ) {
+				$regex = sprintf( '(.?.+?)/%1$s/%2$s/?([0-9]{1,})/?$', $tab['endpoint'], $wp_rewrite->pagination_base );
+				$redirect = sprintf( 'index.php?pagename=$matches[1]&%s=$matches[3]&paged=$matches[2]', $tab['endpoint'] );
+				add_rewrite_rule( $regex, $redirect, 'top' );
+			}
+		}
 	}
 
 	/**
@@ -55,7 +69,8 @@ class LLMS_Query {
 	 */
 	public function add_query_vars( $vars ) {
 		foreach ( $this->get_query_vars() as $key => $var ) {
-			$vars[] = $key; }
+			$vars[] = $key;
+		}
 
 		return $vars;
 	}
@@ -118,7 +133,6 @@ class LLMS_Query {
 		$this->query_vars = array(
 			'confirm-payment' => get_option( 'lifterlms_myaccount_confirm_payment_endpoint', 'confirm-payment' ),
 			'lost-password' => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
-			'person-logout' => get_option( 'lifterlms_logout_endpoint', 'person-logout' ),
 		);
 
 	}
@@ -216,12 +230,15 @@ class LLMS_Query {
 	/**
 	 * Handles setting the "paged" variable on Student Dashboard endpoints
 	 * which utilize page/{n} style pagination
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 *
+	 * @return void
+	 * @since 3.14.0
+	 * @version 3.14.0
+	 * @deprecated 3.28.2 $paged automatically set via add_rewrite_rule() in $this->add_endpoints() method.
 	 */
 	public function set_dashboard_pagination() {
 
+		llms_deprecated_function( 'LLMS_Query::set_dashboard_pagination()', '3.28.2' );
 		$tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 		$var = get_query_var( $tab );
 		if ( $var ) {

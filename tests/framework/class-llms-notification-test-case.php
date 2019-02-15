@@ -4,6 +4,9 @@
  * @since    3.8.0
  * @version  3.8.0
  */
+
+require_once 'class-llms-unit-test-case.php';
+
 class LLMS_NotificationTestCase extends LLMS_UnitTestCase {
 
 	public function test_is_registered() {

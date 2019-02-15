@@ -2,6 +2,9 @@
 	"build": {
 		"custom": [ "js:additional", "js:builder", "readme" ]
 	},
+	"docs": {
+		"package": "LifterLMS"
+	},
 	"pot": {
 		"bugReport": "https://github.com/gocodebox/lifterlms/issues",
 		"domain": "lifterlms",
@@ -12,7 +15,12 @@
 		"jsSrc": [ "assets/js/**/*.js", "!assets/js/**/*.min.js", "!assets/js/**/*.js.map" ],
 		"lastTranslator": "Thomas Patrick Levy <help@lifterlms.com>",
 		"team": "LifterLMS <help@lifterlms.com>",
-		"package": "lifterlms"
+		"package": "lifterlms",
+		"phpSrc": [
+			"./*.php", "./**/*.php",
+			"!vendor/*", "!vendor/**/*.php",
+			"./vendor/lifterlms/lifterlms-blocks/*.php", "./vendor/lifterlms/lifterlms-blocks/**/*.php"
+		]
 	},
 	"publish": {
 		"title": "LifterLMS",
@@ -55,7 +63,7 @@
 	},
 	"watch": {
 		"custom": [ {
-			"glob": [ "assets/js/builder/**/*.js" ],
+			"glob": [ "assets/js/builder/**/*.js", "assets/js/private/**/*.js" ],
 			"tasks": [ "js:additional", "js:builder" ]
 		} ]
 	},

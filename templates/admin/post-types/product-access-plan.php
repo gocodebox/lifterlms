@@ -1,9 +1,10 @@
 <?php
 defined( 'ABSPATH' ) || exit;
+
 /**
  * Individual Access Plan on Admin Panel
  * @since    3.0.0
- * @version  3.23.0
+ * @version  3.24.0
  */
 if ( ! is_admin() ) {
 	exit;
@@ -73,7 +74,7 @@ if ( ! isset( $plan ) ) {
 
 			<div class="llms-metabox-field d-1of6">
 				<label><?php _e( 'Enroll Text', 'lifterlms' ) ?></label>
-				<input name="_llms_plans[<?php echo $order; ?>][enroll_text]" placeholder="<?php _e( 'Enroll, Join, Buy...' ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'enroll_text' ) . '"' : ' disabled="disabled"'; ?>>
+				<input name="_llms_plans[<?php echo $order; ?>][enroll_text]" placeholder="<?php _e( 'Enroll, Join, Buy...', 'lifterlms' ); ?>" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'enroll_text' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of6">

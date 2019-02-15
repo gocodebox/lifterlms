@@ -1,7 +1,7 @@
 /**
  * Single Quiz View
  * @since    3.16.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( [
 		'Models/Quiz',
@@ -257,7 +257,7 @@ define( [
 		 * Add an existing quiz to a lesson
 		 * @param    obj  event  js event object
 		 * @since    3.16.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		add_existing_quiz: function( event ) {
 

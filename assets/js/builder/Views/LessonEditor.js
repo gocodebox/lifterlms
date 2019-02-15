@@ -1,7 +1,7 @@
 /**
  * Lesson Editor (Sidebar) View
  * @since    3.17.0
- * @version  [version]
+ * @version  3.24.0
  */
 define( [
 		'Views/_Detachable',
@@ -56,7 +56,7 @@ define( [
 		 * @param    obj   data  parent template data
 		 * @return   void
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		initialize: function( data ) {
 
@@ -88,7 +88,7 @@ define( [
 		 * Render the view
 		 * @return   obj
 		 * @since    3.17.0
-		 * @version  [version]
+		 * @version  3.24.0
 		 */
 		render: function() {
 
@@ -113,8 +113,8 @@ define( [
 		/**
 		 * Render the portion of the template which displays the points percentage
 		 * @return   void
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.24.0
+		 * @version  3.24.0
 		 */
 		render_points_percentage: function() {
 			this.$el.find( '#llms-model-settings-field--points .llms-editable-input' )

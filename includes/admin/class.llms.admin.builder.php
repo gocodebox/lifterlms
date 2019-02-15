@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Admin Course Builder
  * @since    3.13.0
- * @version  3.19.2
+ * @version  3.27.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_Builder class.
  */
 class LLMS_Admin_Builder {
 
@@ -15,7 +19,7 @@ class LLMS_Admin_Builder {
 	 * @param    obj     $wp_admin_bar  Instance of WP_Admin_Bar
 	 * @return   void
 	 * @since    3.16.7
-	 * @version  3.16.7
+	 * @version  3.24.0
 	 */
 	public static function admin_bar_menu( $wp_admin_bar ) {
 
@@ -26,7 +30,7 @@ class LLMS_Admin_Builder {
 				array(
 					'parent' => 'site-name',
 					'id'     => 'dashboard',
-					'title'  => __( 'Dashboard' ),
+					'title'  => __( 'Dashboard', 'lifterlms' ),
 					'href'   => admin_url(),
 				)
 			);
@@ -349,7 +353,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 *                            builder data will be in the "llms_builder" array
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.16.7
+	 * @version  3.24.2
 	 */
 	public static function heartbeat_received( $res, $data ) {
 
@@ -358,8 +362,12 @@ if ( ! empty( $active_post_lock ) ) {
 			return $res;
 		}
 
-		// only mess with our data
-		$data = json_decode( $data['llms_builder'], true );
+		// Isolate builder data & ensure slashes aren't removed.
+		$data = $data['llms_builder'];
+
+		// Escape slashes.
+		// $data = json_decode( str_replace( '\\', '\\\\', $data ), true );
+		$data = json_decode( $data, true );
 
 		// setup our return
 		$ret = array(
@@ -402,7 +410,11 @@ if ( ! empty( $active_post_lock ) ) {
 			}
 		}
 
-		// add our return data
+		// Unescape slashes after saved.
+		// This ensures that updates are recognized as successful during Sync comparisons.
+		// $ret = json_decode( str_replace( '\\\\', '\\', json_encode( $ret ) ), true );
+
+		// Return our data.
 		$res['llms_builder'] = $ret;
 
 		return $res;
@@ -535,7 +547,7 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @param    array     $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
-	 * @version  3.17.0
+	 * @version  3.27.0
 	 */
 	private static function process_detachments( $data ) {
 
@@ -550,7 +562,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			$type = get_post_type( $id );
 
-			$post_types = apply_filters( 'llms_builder_detachable_post_types', array( 'lesson', 'llms_quiz' ) );
+			$post_types = apply_filters( 'llms_builder_detachable_post_types', array( 'lesson', 'llms_question', 'llms_quiz' ) );
 			if ( ! is_numeric( $id ) || ! in_array( $type, $post_types ) ) {
 				array_push( $ret, $res );
 				continue;
@@ -565,6 +577,8 @@ if ( ! empty( $active_post_lock ) ) {
 			if ( 'lesson' === $type ) {
 				$post->set( 'parent_course', '' );
 				$post->set( 'parent_section', '' );
+			} elseif ( 'llms_question' === $type ) {
+				$post->set( 'parent_id', '' );
 			} elseif ( 'llms_quiz' === $type ) {
 				$parent = $post->get_lesson();
 				if ( $parent ) {

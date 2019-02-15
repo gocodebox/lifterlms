@@ -1,10 +1,10 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Order Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  3.19.0
+ * @version  3.24.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -67,6 +67,12 @@ defined( 'ABSPATH' ) || exit;
  * @property   $trial_total  (float)  Total price of the trial after applicable coupon adjustments
  * @property   $user_id   (int)  customer WP User ID
  * @property   $user_ip_address  (string)  customer's IP address at time of purchase
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Order model.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -143,7 +149,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @param    boolean    $added_by_user  if this is an admin-submitted note adds user info to note meta
 	 * @return   null|int                   null on error or WP_Comment ID of the note
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.24.0
 	 */
 	public function add_note( $note, $added_by_user = false ) {
 
@@ -163,7 +169,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			$user_id = 0;
 			$author = _x( 'LifterLMS', 'default order note author', 'lifterlms' );
-			$author_email = strtolower( _x( 'LifterLms', 'default order note author', 'woocommerce' ) ) . '@';
+			$author_email = strtolower( _x( 'LifterLms', 'default order note author', 'lifterlms' ) ) . '@';
 			$author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www.', '', $_SERVER['HTTP_HOST'] ) : 'noreply.com';
 			$author_email = sanitize_email( $author_email );
 

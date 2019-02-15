@@ -19,7 +19,7 @@ class LLMS_Test_Integrations extends LLMS_UnitTestCase {
 
 	}
 
-	public function test_get_integration() {}
+	// public function test_get_integration() {}
 
 	/**
 	 * test init() method

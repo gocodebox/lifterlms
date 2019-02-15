@@ -180,6 +180,7 @@
 
 }
 
+// My Grades course list
 .llms-sd-grades {
 	.llms-table {
 		.llms-progress {
@@ -200,15 +201,68 @@
 	}
 }
 
+// grades table for a single course
+.llms-table.llms-single-course-grades {
+
+	th {
+		font-weight: 400;
+	}
+
+	td {
+		.llms-donut {
+			display: inline-block;
+			vertical-align: middle;
+		}
+		.llms-status {
+			margin-right: 4px;
+		}
+		.llms-donut + .llms-status {
+			margin-left: 4px;
+		}
+	}
+
+	th.llms-section_title {
+		font-size: 110%;
+		font-weight: 700;
+	}
+
+	td.llms-lesson_title {
+		padding-left: 36px;
+		max-width: 40%;
+	}
+	td.llms-associated_quiz {
+		.llms-donut {
+			display: inline-block;
+			margin-right: 5px;
+			vertical-align: middle;
+		}
+	}
+	td.llms-lesson_title {
+		a[href="#"] {
+			pointer-events: none;
+		}
+		a[href^="#"] {
+			color: inherit;
+			position: relative;
+			.llms-tooltip {
+				max-width: 380px;
+				width: 380px;
+				&.show {
+					top: -54px;
+				}
+			}
+		}
+	}
+}
+
 .llms-sd-widgets {
 	display: flex;
 
 	.llms-sd-widget {
 		background: #f9f9f9;
-		border-top: 6px solid $color-brand-pink;
 		flex: 1;
-		margin: 15px 15px 30px;
-		padding: 30px;
+		margin: 10px 10px 20px;
+		padding: 0 0 20px;
 		&:first-child {
 			margin-left: 0;
 		}
@@ -217,28 +271,55 @@
 		}
 
 		.llms-sd-widget-title {
-			margin: -30px -30px 15px;
-			padding: 15px;
+			background: $color-brand-blue;
+			color: #fff;
 			font-size: 18px;
+			line-height: 1;
+			margin: 0 0 20px;
+			padding: 10px;
+		}
+
+		.llms-sd-widget-empty {
+			font-size: 14px;
+			font-style: italic;
+			opacity: 0.5;
+			text-align: center;
 		}
 
 		.llms-donut {
 			margin: 0 auto;
 		}
 
-	}
-
-	.llms-sd-date {
-		text-align: center;
-		font-size: 26px;
-		line-height: 1;
-		span {
-			display: block;
-			&.day {
-				font-size: 52px;
+		.llms-sd-date {
+			opacity: 0.8;
+			text-align: center;
+			font-size: 22px;
+			line-height: 1.1;
+			span {
+				display: block;
+				&.day {
+					font-size: 52px;
+				}
+				&.diff {
+					font-size: 12px;
+					font-style: italic;
+					margin-top: 8px;
+					opacity: 0.75;
+				}
 			}
 		}
+
+		.llms-achievement {
+			background: transparent;
+			margin: 0 auto;
+			max-width: 120px;
+			.llms-achievement-title {
+				display: none;
+			}
+		}
+
 	}
+
 
 }
 
@@ -253,3 +334,9 @@
 	}
 }
 
+
+.llms-sd-notification-center {
+	.llms-notification {
+		z-index: 1;
+	}
+}

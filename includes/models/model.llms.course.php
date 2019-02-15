@@ -1,11 +1,10 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Course Model
  *
+ * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  [version]
+ * @version  3.24.0
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
  * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
@@ -34,6 +33,12 @@ defined( 'ABSPATH' ) || exit;
  * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
  * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
  * @property $video_embed  (string)  URL to an oEmbed enable video URL
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Course model.
  */
 class LLMS_Course
 extends LLMS_Post_Model
@@ -94,8 +99,8 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve the total points available for the course
 	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_available_points() {
 		$points = 0;
@@ -166,7 +171,7 @@ implements LLMS_Interface_Post_Audio
 	 *                            term_id, name, slug, and more
 	 * @return   string
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_difficulty( $field = 'name' ) {
 
@@ -209,7 +214,7 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string     $return  type of return [ids|posts|lessons]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_lessons( $return = 'lessons' ) {
 
@@ -279,7 +284,7 @@ implements LLMS_Interface_Post_Audio
 	 * @param    string  $return  type of return [ids|posts|sections]
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	public function get_sections( $return = 'sections' ) {
 

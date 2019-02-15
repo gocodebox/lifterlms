@@ -1,10 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS Quiz Question Model
  * @since    3.16.0
  * @version  3.16.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Question_Choice model.
  */
 class LLMS_Question_Choice {
 

@@ -4,7 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Notification Controller Abstract
  * @since    3.8.0
- * @version  [version]
+ * @version  3.24.0
  */
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 
@@ -320,8 +320,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 * @param    string     $type  notification type [basic|email]
 	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function get_test_settings( $type ) {
 		return array();
@@ -353,8 +353,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Determine if the notification type support tests
 	 * @param    string     $type  notification type [email|basic]
 	 * @return   bool
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function is_testable( $type ) {
 
@@ -403,7 +403,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 *                                   only applies to controllers that flag $this->auto_dupcheck to true
 	 * @return   int|false
 	 * @since    3.8.0
-	 * @version  [version]
+	 * @version  3.24.0
 	 */
 	protected function send_one( $type, $subscriber, $force = false ) {
 
@@ -448,8 +448,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @param    string   $type  notification type [basic|email]
 	 * @param    array    $data  array of test notification data as specified by $this->get_test_data()
 	 * @return   int|false
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.24.0
+	 * @version  3.24.0
 	 */
 	public function send_test( $type, $data = array() ) {
 		return $this->send_one( $type, get_current_user_id(), true );

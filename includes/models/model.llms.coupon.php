@@ -1,10 +1,10 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Coupon Model
+ *
+ * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  3.21.1
+ * @version  3.24.0
  *
  * @property  $coupon_amount  (float)  Amount to subtract from the price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $coupon_courses  (array)  Array of Course IDs the coupon can be used against
@@ -17,6 +17,12 @@ defined( 'ABSPATH' ) || exit;
  * @property  $title  (string)  Coupon Code / Post Title
  * @property  $trial_amount  (float)  Amount to subtract from the trial price when using the coupon. Used with $discount_type to determine the type of discount
  * @property  $usage_limit  (int)  Amount of times the coupon can be used
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Coupon model.
  */
 class LLMS_Coupon extends LLMS_Post_Model {
 
@@ -99,11 +105,11 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the discount type for human reading
-	 * and allow translation
-	 * @since  3.0.0
-	 * @version  3.0.0
-	 * @return string
+	 * Get the discount type for human reading and allow translation
+	 *
+	 * @since   3.0.0
+	 * @version 3.24.0
+	 * @return  string
 	 */
 	public function get_formatted_discount_type() {
 		switch ( $this->get_discount_type() ) {
@@ -111,7 +117,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 				return __( 'Percentage Discount', 'lifterlms' );
 			break;
 			case 'dollar':
-				return sprintf( _x( '%s Discount', 'flat rate coupon discount', 'lifterlm' ), get_lifterlms_currency_symbol() );
+				return sprintf( _x( '%s Discount', 'flat rate coupon discount', 'lifterlms' ), get_lifterlms_currency_symbol() );
 			break;
 		}
 	}

@@ -1,11 +1,16 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Email Base Class
  *
+ * @package  LifterLMS/Email
  * @since    1.0.0
- * @version  3.15.0
+ * @version  3.26.1
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Email Base Class
  */
 class LLMS_Email {
 
@@ -222,16 +227,34 @@ class LLMS_Email {
 	 * Get the HTML email content
 	 * @return   string
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.26.1
 	 */
 	public function get_content_html() {
+
+		global $post;
+		$temp = null;
+
+		// Override the $post global with the email post content (if it exists).
+		// This fixes Elementor / WC conflict outlined at https://github.com/gocodebox/lifterlms/issues/730.
+		if ( isset( $this->email_post ) ) {
+			$temp = $post;
+			$post = $this->email_post;
+		}
 
 		ob_start();
 		llms_get_template( $this->template_html, array(
 			'email_heading' => $this->get_heading(),
 			'email_message' => $this->get_body(),
 		) );
-		return apply_filters( 'llms_email_content_get_content_html', ob_get_clean(), $this );
+
+		$html = apply_filters( 'llms_email_content_get_content_html', ob_get_clean(), $this );
+
+		// Restore the default $post global.
+		if ( $temp ) {
+			$post = $temp;
+		}
+
+		return $html;
 
 	}
 
@@ -355,13 +378,13 @@ class LLMS_Email {
 
 	/**
 	 * set the subject for the email
-	 * @param    string     $content_type    text string to use for the email subject
+	 * @param    string $content_type text string to use for the email subject.
 	 * @return   $this
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @version  3.24.0
 	 */
 	public function set_subject( $subject = '' ) {
-		$this->subject = $subject;
+		$this->subject = html_entity_decode( $subject, ENT_QUOTES );
 		return $this;
 	}
 
