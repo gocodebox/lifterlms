@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:514, includes/admin/class.llms.admin.menus.php:131, tests/unit-tests/class-llms-test-main-class.php:103
+#: lifterlms.php:515, includes/admin/class.llms.admin.menus.php:131, tests/unit-tests/class-llms-test-main-class.php:103
 msgid "Settings"
 msgstr ""
 
@@ -163,51 +163,51 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: includes/class.llms.generator.php:192
+#: includes/class.llms.generator.php:201
 msgid "No generator supplied."
 msgstr ""
 
-#: includes/class.llms.generator.php:208, includes/class.llms.l10n.js.php:230, includes/class.llms.l10n.js.php:377, includes/admin/post-types/class.llms.post.tables.php:44
+#: includes/class.llms.generator.php:217, includes/class.llms.l10n.js.php:230, includes/class.llms.l10n.js.php:377, includes/admin/post-types/class.llms.post.tables.php:44
 msgid "Clone"
 msgstr ""
 
-#: includes/class.llms.generator.php:250
+#: includes/class.llms.generator.php:259
 msgid "Missing required \"courses\" array"
 msgstr ""
 
-#: includes/class.llms.generator.php:252
+#: includes/class.llms.generator.php:261
 msgid "\"courses\" must be an array"
 msgstr ""
 
-#: includes/class.llms.generator.php:341
+#: includes/class.llms.generator.php:350
 msgid "Error creating course"
 msgstr ""
 
-#: includes/class.llms.generator.php:427
+#: includes/class.llms.generator.php:436
 msgid "Error creating lesson"
 msgstr ""
 
-#: includes/class.llms.generator.php:501
+#: includes/class.llms.generator.php:510
 msgid "Error creating quiz"
 msgstr ""
 
-#: includes/class.llms.generator.php:547
+#: includes/class.llms.generator.php:556
 msgid "Error creating question"
 msgstr ""
 
-#: includes/class.llms.generator.php:599
+#: includes/class.llms.generator.php:608
 msgid "Error creating section"
 msgstr ""
 
-#: includes/class.llms.generator.php:844
+#: includes/class.llms.generator.php:853
 msgid "Error creating new term \"%s\""
 msgstr ""
 
-#: includes/class.llms.generator.php:1029
+#: includes/class.llms.generator.php:1038
 msgid "The supplied file cannot be processed by the importer."
 msgstr ""
 
-#: includes/class.llms.generator.php:1042
+#: includes/class.llms.generator.php:1051
 msgid "Invalid generator supplied"
 msgstr ""
 

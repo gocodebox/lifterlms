@@ -1,6 +1,14 @@
 == Changelog ==
 
 
+= v3.28.3 - 2019-02-14 =
+------------------------
+
++ ❤❤❤ Happy Valentines Day or whatever ❤❤❤
++ Tested to WordPress 5.1
++ Fixed an issue causing JSON data saved by 3rd party plugins in course or lesson postmeta fields to be not duplicate properly during course duplications and imports.
+
+
 = v3.28.2 - 2019-02-11 =
 ------------------------
 
@@ -146,12 +154,3 @@
 + Fixed issue causing LifterLMS core sales pages from outputting automatic content (like pricing tables) on migrated posts.
 + Student unenrollment calls always bypass cache during enrollment precheck.
 + Membership post type "name" label is now plural (as it is supposed to be).
-
-
-= v3.25.4 - 2018-12-17 =
-------------------------
-
-+ Adds a filter (`llms_blocks_is_post_migrated`) to allow determining if a course or lesson has been migrated to the WP 5.0 block editor.
-+ Added a filter (`llms_dashboard_courses_wp_query_args`) to the WP_Query used to display courses on the student dashboard.
-+ Fixed issue on course builder causing prerequisites to not be saved when the first lesson in a course was selected as the prereq.
-+ Fixed issue on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
