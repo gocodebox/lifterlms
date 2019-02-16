@@ -1,4 +1,4 @@
-<p align="center"><img src=".github/lifterlms-logo.png" alt="LifterLMS" width="300"></p>
+<img src=".github/lifterlms-logo.png" alt="LifterLMS" width="300">
 
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/lifterlms.svg)](https://wordpress.org/plugins/lifterlms/)
 [![WordPress](https://img.shields.io/wordpress/v/lifterlms.svg)](https://wordpress.org/plugins/lifterlms/)
