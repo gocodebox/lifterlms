@@ -1,6 +1,5 @@
 <p align="center"><img src=".github/lifterlms-logo.png" alt="LifterLMS" width="300"></p>
 
-<p align="center">
 [![WordPress plugin](https://img.shields.io/wordpress/plugin/v/lifterlms.svg)](https://wordpress.org/plugins/lifterlms/)
 [![WordPress](https://img.shields.io/wordpress/v/lifterlms.svg)](https://wordpress.org/plugins/lifterlms/)
 [![WordPress rating](https://img.shields.io/wordpress/plugin/r/lifterlms.svg)](https://wordpress.org/support/plugin/lifterlms/reviews/)
@@ -10,7 +9,6 @@
 [![Code Climate](https://codeclimate.com/github/gocodebox/lifterlms/badges/gpa.svg)](https://codeclimate.com/github/gocodebox/lifterlms)
 [![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
 [![All Contributors](https://img.shields.io/badge/all_contributors-26-orange.svg?style=flat-square)](#contributors)
- </p>
 
 [LifterLMS](https://lifterlms.com), a WordPress LMS Solution: Easily create, sell, and protect engaging online courses.
 
