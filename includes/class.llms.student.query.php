@@ -284,6 +284,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		// all the possilbe fields
 		$fields = array(
 			'date' => "( {$this->sql_subquery( 'updated_date' )} ) AS `date`",
+			'completed' => "( {$this->sql_subquery( 'updated_date', ' AND meta_value = "yes"', '_is_complete' )} ) AS `completed`",
 			'last_name' => 'm_last.meta_value AS last_name',
 			'first_name' => 'm_last.meta_value AS first_name',
 			'email' => 'u.user_email AS email',
@@ -335,27 +336,27 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Generate an SQL subquery for the dynamic status or date values in the main query
 	 * @param    string     $column  column name
+	 * @param    string     $and  and clause to add to the query
+	 * @param    string     $meta_key_value  meta key value to search
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
-	private function sql_subquery( $column ) {
-
-		$and = '';
+	private function sql_subquery( $column, $and = '', $meta_key_value = '_status' ) {
 
 		$post_ids = $this->get( 'post_id' );
 		if ( $post_ids ) {
 			$post_ids = implode( ',', $post_ids );
-			$and = "AND post_id IN ( {$post_ids} )";
+			$and .= "AND post_id IN ( {$post_ids} )";
 		} else {
-			$and = "AND {$this->sql_status_in( 'meta_value' )}";
+			$and .= "AND {$this->sql_status_in( 'meta_value' )}";
 		}
 
 		global $wpdb;
 
 		return "SELECT {$column}
 				FROM {$wpdb->prefix}lifterlms_user_postmeta
-				WHERE meta_key = '_status'
+				WHERE meta_key = '{$meta_key_value}'
 		  		  AND user_id = id
 		  		  {$and}
 				ORDER BY updated_date DESC

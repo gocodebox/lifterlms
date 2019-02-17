@@ -304,7 +304,13 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				);
 			break;
 
-		}
+			case 'completed':
+				$sort = array(
+					'completed' => $this->get_order(),
+				);
+			break;
+
+		}// End switch().
 
 		$query_args = array(
 			'page' => $this->get_current_page(),
