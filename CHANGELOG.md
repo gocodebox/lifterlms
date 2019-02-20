@@ -1,6 +1,23 @@
 LifterLMS Changelog
 ===================
 
+v3.29.0 - 2019-02-??
+--------------------
+
+##### Updates
+
++ Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
++ Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
+
+##### Bug fixes
+
++ `LLMS_Lesson::has_quiz()` will now properly return a boolean instead of the ID of the associated quiz (or 0 when none found)
+
+##### Templates Changed
+
++ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
+
+
 v3.28.3 - 2019-02-14
 --------------------
 

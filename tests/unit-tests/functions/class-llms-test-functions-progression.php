@@ -35,6 +35,13 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test the llms_show_mark_complete_button() method.
+	 *
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
 	public function test_llms_show_mark_complete_button() {
 
 		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 3, 'quizzes' => 2 ) );
@@ -50,6 +57,12 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test the llms_show_take_quiz_button()
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
 	public function test_llms_show_take_quiz_button() {
 
 		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 3, 'quizzes' => 2 ) );

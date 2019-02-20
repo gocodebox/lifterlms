@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Individual Student's Courses Table
  * @since   3.2.0
  * @version 3.21.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Table_Student_Course class.
  */
 class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
@@ -26,7 +30,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * If true, tfoot will add ajax pagination links
 	 * @var  boolean
 	 */
-	protected $is_paginated = true;
+	protected $is_paginated = false;
 
 	/**
 	 * Results sort order
@@ -49,16 +53,59 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	public $student = null;
 
 	/**
+	 * Get the HTML for the actions column on the table
+	 *
+	 * @param   obj    $lesson LLMS_Lesson..
+	 * @return  string
+	 * @since   [version]
+	 * @version [version]
+	 */
+	private function get_actions_html( $lesson ) {
+
+		$html = '';
+
+		if ( llms_show_mark_complete_button( $lesson ) ) {
+
+			if ( $this->student->is_complete( $lesson->get( 'id' ) ) ) {
+				$action = 'incomplete';
+				$icon = 'exclamation-triangle';
+				$text = __( 'Mark Incomplete', 'lifterlms' );
+			} else {
+				$action = 'complete';
+				$icon = 'check';
+				$text = __( 'Mark Complete', 'lifterlms' );
+			}
+			$html = '
+				<form action="" method="POST">
+					<input name="student_id" type="hidden" value="' . $this->student->get( 'id' ) . '">
+					<input name="lesson_id" type="hidden" value="' . $lesson->get( 'id' ) . '">
+					<button class="llms-button-secondary square small tip--bottom-left" data-tip="' . esc_attr( $text ) . '" name="llms-lesson-action" type="submit" value="' . $action . '">
+						<i class="fa fa-' . $icon . '" aria-hidden="true"></i>
+					</button>
+					' . wp_nonce_field( 'llms-admin-lesson-progression', 'llms-admin-progression-nonce', false, false ) . '
+				</form>
+			';
+
+		}
+		return $html;
+
+	}
+
+	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key        the column id / key
 	 * @param    int        $lesson     Instance of an LLMS_Lesson
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function get_data( $key, $lesson ) {
 
 		switch ( $key ) {
+
+			case 'actions':
+				$value = $this->get_actions_html( $lesson );
+			break;
 
 			case 'completed':
 				$date = $this->student->get_completion_date( $lesson->get( 'id' ) );
@@ -174,7 +221,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @version  [version]
 	 */
 	public function set_columns() {
 		return array(
@@ -192,6 +239,10 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 			),
 			'completed' => array(
 				'title' => __( 'Completed', 'lifterlms' ),
+			),
+			'actions' => array(
+				'exportable' => false,
+				'title' => __( 'Actions', 'lifterlms' ),
 			),
 		);
 	}
