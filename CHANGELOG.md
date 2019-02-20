@@ -12,11 +12,13 @@ v3.29.0 - 2019-02-??
 
 ##### Bug fixes
 
++ Fix an issue causing access plan sale end dates from using the default WordPress date format settings.
 + `LLMS_Lesson::has_quiz()` will now properly return a boolean instead of the ID of the associated quiz (or 0 when none found)
 
 ##### Templates Changed
 
 + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [/product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates//product/access-plan-pricing.php)
 
 
 v3.28.3 - 2019-02-14

@@ -5,9 +5,11 @@
  * @author    LifterLMS
  * @package   LifterLMS/Templates
  * @since     3.23.0
- * @version   3.23.0
+ * @version   [version]
  */
+
 defined( 'ABSPATH' ) || exit;
+
 $schedule = $plan->get_schedule_details();
 $expires = $plan->get_expiration_details();
 ?>
