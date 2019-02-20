@@ -1,0 +1,19 @@
+//
+// LifterLMS Brand Colors
+// Currently overrides brand colors on the admin panel
+//
+
+$color-brand-blue: #466dd8;
+$color-brand-blue-dark: darken( $color-brand-blue, 8 );
+$color-brand-dark-blue: darken( $color-brand-blue, 24 );
+$color-brand-blue-light: lighten( $color-brand-blue, 8 );
+
+$color-brand-orange: #f8954f;
+$color-brand-orange-dark: #f67d28;
+$color-brand-orange-light: lighten( $color-brand-orange, 8 );
+
+$color-brand-aqua: #17bebb;
+
+$color-brand-pink: #ef476f;
+
+$color-blue: $color-brand-blue;
