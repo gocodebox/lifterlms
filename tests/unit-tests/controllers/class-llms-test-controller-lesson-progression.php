@@ -63,11 +63,12 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the submission of the mark lesson incomplete form
+	 *
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  3.17.1
+	 * @version  [version]
 	 */
-	public function test_handle_inccomplete_form() {
+	public function test_handle_incomplete_form() {
 
 		// form not submitted
 		$this->setup_post( array() );
