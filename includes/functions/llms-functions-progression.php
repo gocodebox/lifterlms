@@ -69,7 +69,6 @@ function llms_show_take_quiz_button( $lesson ) {
 		if ( 'publish' !== get_post_status( $quiz_id ) && ! current_user_can( 'edit_post', $quiz_id ) ) {
 			$show = false;
 		}
-
 	}
 
 	// allow 3rd parties to modify default behavior.

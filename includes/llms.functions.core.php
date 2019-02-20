@@ -200,7 +200,6 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 	function llms_filter_input( $type, $variable_name, $filter = FILTER_DEFAULT, $options = array() ) {
 		return filter_input( $type, $variable_name, $filter, $options );
 	}
-
 }
 
 /**
