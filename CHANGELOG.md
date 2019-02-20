@@ -8,6 +8,7 @@ v3.29.0 - 2019-02-??
 
 + Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
 + Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
++ Replaced LifterLMS logos and icons on the admin panel with our new logo assets.
 
 ##### Bug fixes
 
