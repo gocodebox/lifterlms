@@ -4,7 +4,7 @@
  * @group     post_models
  * @group     lessons
  * @since     3.14.8
- * @version   3.16.11
+ * @version   [version]
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -228,6 +228,23 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$lesson->set( 'name', 'modified-slug' );
 
 		$this->assertTrue( $lesson->has_modified_slug() );
+
+	}
+
+	/**
+	 * Test the has_quiz() method
+	 *
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public function test_has_quiz() {
+
+		$lesson = new LLMS_Lesson( 'new', 'New Lesson' );
+
+		$this->assertFalse( $lesson->has_quiz() );
+		$lesson->set( 'quiz', 123 );
+		$this->assertTrue( $lesson->has_quiz() );
 
 	}
 

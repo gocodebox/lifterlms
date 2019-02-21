@@ -69,7 +69,7 @@ references:
       - run:
           name: Install Test Reporter
           command: |
-            if [ "test-php-73" == "${CIRCLE_JOB}" ]; then
+            if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73" == "${CIRCLE_JOB}" ]; then
               curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
               chmod +x ./cc-test-reporter
               sudo -E docker-php-ext-enable xdebug
@@ -93,7 +93,7 @@ references:
       - run:
           name: Run PHP Unit Tests
           command: |
-            if [ "test-php-73" == "${CIRCLE_JOB}" ]; then
+            if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73" == "${CIRCLE_JOB}" ]; then
                 ./cc-test-reporter before-build
                 export COMPOSER_PROCESS_TIMEOUT=1200
                 composer run-script tests-run -- --coverage-clover clover.xml

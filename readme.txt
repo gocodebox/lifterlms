@@ -4,8 +4,8 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 7.2
-Tested up to: 5.0.3
-Stable tag: 3.28.2
+Tested up to: 5.1
+Stable tag: 3.28.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -356,10 +356,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 v3.??.? - 2019-??-??
-------------------------
 
 ##### Updates
 
++ Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
++ Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
++ Replaced LifterLMS logos and icons on the admin panel with our new logo assets.
 + Updated checkout javascript to expose an error addition functions
 + Removed display order field from payment gateway settings in favor of using the gateway table sortable list
 + Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
@@ -369,10 +371,22 @@ v3.??.? - 2019-??-??
 ##### Bug Fixes
 
 + Fix an issue causing `GET` requests with no query string variables from causing issues via incorrect JSON encoding via the API Handler abstract.
++ Fix an issue causing access plan sale end dates from using the default WordPress date format settings.
++ `LLMS_Lesson::has_quiz()` will now properly return a boolean instead of the ID of the associated quiz (or 0 when none found)
 
 ##### Template Updates
 
-+ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
+
+
+= v3.28.3 - 2019-02-14 =
+------------------------
+
++ ❤❤❤ Happy Valentines Day or whatever ❤❤❤
++ Tested to WordPress 5.1
++ Fixed an issue causing JSON data saved by 3rd party plugins in course or lesson postmeta fields to be not duplicate properly during course duplications and imports.
 
 
 = v3.28.2 - 2019-02-11 =
@@ -521,14 +535,5 @@ v3.??.? - 2019-??-??
 + Fixed issue causing LifterLMS core sales pages from outputting automatic content (like pricing tables) on migrated posts.
 + Student unenrollment calls always bypass cache during enrollment precheck.
 + Membership post type "name" label is now plural (as it is supposed to be).
-
-
-= v3.25.4 - 2018-12-17 =
-------------------------
-
-+ Adds a filter (`llms_blocks_is_post_migrated`) to allow determining if a course or lesson has been migrated to the WP 5.0 block editor.
-+ Added a filter (`llms_dashboard_courses_wp_query_args`) to the WP_Query used to display courses on the student dashboard.
-+ Fixed issue on course builder causing prerequisites to not be saved when the first lesson in a course was selected as the prereq.
-+ Fixed issue on course builder causing lesson settings to be inaccessible without first saving the lesson to the database.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

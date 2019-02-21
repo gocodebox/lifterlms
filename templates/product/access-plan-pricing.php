@@ -5,9 +5,11 @@
  * @author    LifterLMS
  * @package   LifterLMS/Templates
  * @since     3.23.0
- * @version   3.23.0
+ * @version   [version]
  */
+
 defined( 'ABSPATH' ) || exit;
+
 $schedule = $plan->get_schedule_details();
 $expires = $plan->get_expiration_details();
 ?>
@@ -36,7 +38,7 @@ $expires = $plan->get_expiration_details();
 	<?php endif; ?>
 
 	<?php if ( $plan->is_on_sale() && $plan->get( 'sale_end' ) ) : ?>
-		<div class="llms-access-plan-sale-end"><?php printf( __( 'sale ends %s', 'lifterlms' ), $plan->get_date( 'sale_end', 'n/j/y' ) ); ?></div>
+		<div class="llms-access-plan-sale-end"><?php printf( __( 'sale ends %s', 'lifterlms' ), $plan->get_date( 'sale_end', get_option( 'date_format' ) ) ); ?></div>
 	<?php endif; ?>
 
 </div>

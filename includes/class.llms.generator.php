@@ -1,10 +1,15 @@
 <?php
+/**
+ * Generate LMS Content from export files or raw arrays of data
+ *
+ * @since    3.3.0
+ * @version  3.28.3
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Generate LMS Content from export files or raw arrays of data
- * @since    3.3.0
- * @version  3.24.0
+ * LLMS_Generator class.
  */
 class LLMS_Generator {
 
@@ -144,12 +149,16 @@ class LLMS_Generator {
 	 * @param    array   $raw      raw data
 	 * @return   void
 	 * @since    3.16.11
-	 * @version  3.16.11
+	 * @version  3.28.3
 	 */
 	private function add_custom_values( $post_id, $raw ) {
 		if ( isset( $raw['custom'] ) ) {
 			foreach ( $raw['custom'] as $custom_key => $custom_vals ) {
 				foreach ( $custom_vals as $val ) {
+					// if $val is a JSON string, add slashes before saving.
+					if ( null !== json_decode( $val, true ) ) {
+						$val = wp_slash( $val );
+					}
 					add_post_meta( $post_id, $custom_key, maybe_unserialize( $val ) );
 				}
 			}

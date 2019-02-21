@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Models
  * @since    1.0.0
- * @version  3.24.0
+ * @version  [version]
  *
  * @property  $audio_embed  (string)  Audio embed URL
  * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
@@ -371,10 +371,10 @@ implements LLMS_Interface_Post_Audio
 	 * Determine if a quiz is assigned to this lesson
 	 * @return   boolean
 	 * @since    3.3.0
-	 * @version  3.16.0
+	 * @version  [version]
 	 */
 	public function has_quiz() {
-		return ( $this->get( 'quiz' ) );
+		return $this->get( 'quiz' ) ? true : false;
 	}
 
 	/**

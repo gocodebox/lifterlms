@@ -1,11 +1,15 @@
 <?php
+/**
+ * Admin Assets Class
+ *
+ * @since    1.0.0
+ * @version  [version]
+ */
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Admin Assets Class
-* @since    1.0.0
-* @version  3.19.4
-*/
+ * LLMS_Admin_Assets class.
+ */
 class LLMS_Admin_Assets {
 
 	/**
@@ -53,17 +57,17 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  3.17.8
+	 * @version  [version]
 	 */
 	public function admin_styles() {
-
-		if ( ! $this->is_llms_page() ) {
-			return;
-		}
 
 		wp_enqueue_style( 'llms-admin-styles', LLMS_PLUGIN_URL . 'assets/css/admin' . LLMS_ASSETS_SUFFIX . '.css' );
 		wp_style_add_data( 'llms-admin-styles', 'rtl', 'replace' );
 		wp_style_add_data( 'llms-admin-styles', 'suffix', LLMS_ASSETS_SUFFIX );
+
+		if ( ! $this->is_llms_page() ) {
+			return;
+		}
 
 		wp_enqueue_style( 'llms-select2-styles', LLMS_PLUGIN_URL . 'assets/vendor/select2/css/select2' . LLMS_ASSETS_SUFFIX . '.css' );
 

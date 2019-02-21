@@ -1,21 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Lesson Progression Actions
- * @since    3.17.1
- * @version  3.17.1
+ *
+ * @package LifterLMS/Controllers
+ * @since 3.17.1
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Controller_Lesson_Progression class.
  */
 class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Constructor
 	 * @since    3.17.1
-	 * @version  3.17.1
+	 * @version  [version]
 	 */
 	public function __construct() {
+
+		add_action( 'admin_init', array( $this, 'handle_admin_managment_forms' ) );
 
 		add_action( 'init', array( $this, 'handle_complete_form' ) );
 		add_action( 'init', array( $this, 'handle_incomplete_form' ) );
@@ -28,21 +34,69 @@ class LLMS_Controller_Lesson_Progression {
 	}
 
 	/**
-	 * Handle completion of lesson via `llms_trigger_lesson_completion` action
-	 * @param    int        $user_id    User ID
-	 * @param    int        $lesson_id  Lesson ID
-	 * @param    string     $trigger    Optional trigger description string
-	 * @param    array      $args       Optional arguments
-	 * @return   void
-	 * @since    3.17.1
-	 * @version  3.17.1
+	 * Retrieve a lesson ID from form data for the mark complete / incomplete forms
+	 *
+	 * @param   string $action form action, either "complete" or "incomplete".
+	 * @return  int|null  NULL when either required post fields are missing or if the lesson_id is non-numeric, int (lesson id) on success
+	 * @since   [version]
+	 * @version [version]
 	 */
-	public function mark_complete( $user_id, $lesson_id, $trigger = '', $args = array() ) {
+	private function get_lesson_id_from_form_data( $action ) {
 
-		if ( apply_filters( 'llms_allow_lesson_completion', true, $user_id, $lesson_id, $trigger, $args ) ) {
+		if ( ! llms_verify_nonce( '_wpnonce', 'mark_' . $action, 'POST' ) ) {
+			return null;
+		}
 
-			llms_mark_complete( $user_id, $lesson_id, 'lesson', $trigger );
+		$submitted = llms_filter_input( INPUT_POST, 'mark_' . $action );
+		$lesson_id = llms_filter_input( INPUT_POST, 'mark-' . $action );
 
+		// required fields.
+		if ( is_null( $submitted ) || is_null( $lesson_id ) ) {
+			return null;
+		}
+
+		$lesson_id = absint( $lesson_id );
+
+		// Invalid lesson ID.
+		if ( ! $lesson_id || ! is_numeric( $lesson_id ) ) {
+
+			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
+			return null;
+
+		}
+
+		return $lesson_id;
+
+	}
+
+	/**
+	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle competion of lessons for a student.
+	 *
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public function handle_admin_managment_forms() {
+
+		if ( ! llms_verify_nonce( 'llms-admin-progression-nonce', 'llms-admin-lesson-progression', 'POST' ) ) {
+			return;
+		}
+
+		$action = llms_filter_input( INPUT_POST, 'llms-lesson-action', FILTER_SANITIZE_STRING );
+		$lesson_id = absint( llms_filter_input( INPUT_POST, 'lesson_id' ) );
+		$student_id = absint( llms_filter_input( INPUT_POST, 'student_id' ) );
+
+		// Missing required data.
+		if ( empty( $action ) || empty( $lesson_id ) || empty( $student_id ) ) {
+			return;
+		}
+
+		$trigger = 'admin_' . get_current_user_id();
+
+		if ( 'complete' === $action ) {
+			$this->mark_complete( $student_id, $lesson_id, $trigger );
+		} elseif ( 'incomplete' === $action ) {
+			llms_mark_incomplete( $student_id, $lesson_id, 'lesson', $trigger );
 		}
 
 	}
@@ -54,38 +108,27 @@ class LLMS_Controller_Lesson_Progression {
 	 * Autoadvances to next lesson if completion is succesful
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  3.17.1
+	 * @version  [version]
 	 */
 	public function handle_complete_form() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'mark_complete', 'POST' ) ) {
+		$lesson_id = $this->get_lesson_id_from_form_data( 'complete' );
+
+		if ( is_null( $lesson_id ) ) {
 			return;
 		}
 
-		// required fields
-		if ( ! isset( $_POST['mark_complete'] ) || ! isset( $_POST['mark-complete'] ) ) {
-			return;
-		}
+		do_action( 'llms_trigger_lesson_completion', get_current_user_id(), $lesson_id, 'lesson_' . $lesson_id );
 
-		$lesson_id = absint( $_POST['mark-complete'] );
-		if ( ! $lesson_id || ! is_numeric( $lesson_id ) ) {
+		if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
 
-			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
+			$lesson = new LLMS_Lesson( $lesson_id );
+			$next_lesson_id = $lesson->get_next_lesson();
+			if ( $next_lesson_id ) {
 
-		} else {
+				wp_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
+				exit;
 
-			do_action( 'llms_trigger_lesson_completion', get_current_user_id(), $lesson_id, 'lesson_' . $lesson_id );
-
-			if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
-
-				$lesson = new LLMS_Lesson( $lesson_id );
-				$next_lesson_id = $lesson->get_next_lesson();
-				if ( $next_lesson_id ) {
-
-					wp_redirect( apply_filters( 'llms_lesson_complete_redirect', get_permalink( $next_lesson_id ) ) );
-					exit;
-
-				}
 			}
 		}
 
@@ -97,33 +140,40 @@ class LLMS_Controller_Lesson_Progression {
 	 * Marks lesson as incomplete and returns incompletion message to user
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  3.17.1
+	 * @version  [version]
 	 */
 	public function handle_incomplete_form() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'mark_incomplete', 'POST' ) ) {
+		$lesson_id = $this->get_lesson_id_from_form_data( 'incomplete' );
+
+		if ( is_null( $lesson_id ) ) {
 			return;
 		}
 
-		// required fields
-		if ( ! isset( $_POST['mark_incomplete'] ) || ! isset( $_POST['mark-incomplete'] ) ) {
-			return;
+		// Mark incomplete and add a notice on success.
+		if ( llms_mark_incomplete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id ) ) {
+			// Translators: %s is the title of the lesson.
+			llms_add_notice( sprintf( __( 'The lesson %s is now marked as incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
 		}
 
-		$lesson_id = absint( $_POST['mark-incomplete'] );
-		if ( ! $lesson_id || ! is_numeric( $lesson_id ) ) {
-			llms_add_notice( __( 'An error occurred, please try again.', 'lifterlms' ), 'error' );
-		} else {
+	}
 
-			// mark incomplete
-			$incompleted = llms_mark_incomplete( get_current_user_id(), $lesson_id, 'lesson', 'lesson_' . $lesson_id );
+	/**
+	 * Handle completion of lesson via `llms_trigger_lesson_completion` action
+	 * @param    int        $user_id    User ID
+	 * @param    int        $lesson_id  Lesson ID
+	 * @param    string     $trigger    Optional trigger description string
+	 * @param    array      $args       Optional arguments
+	 * @return   void
+	 * @since    3.17.1
+	 * @version  [version]
+	 */
+	public function mark_complete( $user_id, $lesson_id, $trigger = '', $args = array() ) {
 
-			// if $incompleted is 'yes'
-			if ( strcmp( $incompleted, 'yes' ) === 0 ) {
+		if ( llms_allow_lesson_completion( $user_id, $lesson_id, $trigger, $args ) ) {
 
-				llms_add_notice( sprintf( __( '%s is now incomplete.', 'lifterlms' ), get_the_title( $lesson_id ) ) );
+			llms_mark_complete( $user_id, $lesson_id, 'lesson', $trigger );
 
-			}
 		}
 
 	}

@@ -2,10 +2,12 @@ LifterLMS Changelog
 ===================
 
 v3.??.? - 2019-??-??
---------------------
 
 ##### Updates
 
++ Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
++ Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
++ Replaced LifterLMS logos and icons on the admin panel with our new logo assets.
 + Updated checkout javascript to expose an error addition functions
 + Removed display order field from payment gateway settings in favor of using the gateway table sortable list
 + Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
@@ -15,10 +17,22 @@ v3.??.? - 2019-??-??
 ##### Bug Fixes
 
 + Fix an issue causing `GET` requests with no query string variables from causing issues via incorrect JSON encoding via the API Handler abstract.
++ Fix an issue causing access plan sale end dates from using the default WordPress date format settings.
++ `LLMS_Lesson::has_quiz()` will now properly return a boolean instead of the ID of the associated quiz (or 0 when none found)
 
 ##### Template Updates
 
-+ [templates/checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
+
+
+v3.28.3 - 2019-02-14
+--------------------
+
++ ❤❤❤ Happy Valentines Day or whatever ❤❤❤
++ Tested to WordPress 5.1
++ Fixed an issue causing JSON data saved by 3rd party plugins in course or lesson postmeta fields to be not duplicate properly during course duplications and imports.
 
 
 v3.28.2 - 2019-02-11
