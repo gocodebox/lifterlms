@@ -18,7 +18,7 @@ v3.29.0 - 2019-02-??
 ##### Templates Changed
 
 + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
-+ [/product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates//product/access-plan-pricing.php)
++ [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
 
 
 v3.28.3 - 2019-02-14
