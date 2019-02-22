@@ -14,6 +14,13 @@
  */
 ( function( $ ) {
 
+	/**
+	 * jQuery plugin to allow "collapsible" sections
+	 *
+	 * @return  jQuery object
+	 * @since   3.0.0
+	 * @version [version]
+	 */
 	$.fn.llmsCollapsible = function() {
 
 		var $group = this;
@@ -23,7 +30,7 @@
 			var $parent = $( this ).closest( '.llms-collapsible' ),
 				$siblings = $parent.siblings( '.llms-collapsible' );
 
-			$parent.toggleClass( 'opened' );
+			$parent.toggleClass( 'opened' ).trigger( 'llms-collapsible-toggled' );
 
 			$parent.find( '.llms-collapsible-body' ).slideToggle( 400 );
 
