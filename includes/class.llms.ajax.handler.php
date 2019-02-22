@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.28.1
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1059,6 +1059,49 @@ class LLMS_AJAX_Handler {
 
 		require_once 'admin/class.llms.admin.builder.php';
 		return LLMS_Admin_Builder::handle_ajax( $request );
+
+	}
+
+	/**
+	 * AJAX handler for creating and updating access plans via the metabox on courses & memberships
+	 *
+	 * @param   array $request $_POST data.
+	 * @return  array
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public static function llms_update_access_plans( $request ) {
+
+		if ( empty( $request['plans'] ) || ! is_array( $request['plans'] ) || empty( $request['post_id'] ) ) {
+			return new WP_Error( 'error', __( 'Missing Required Parameters.', 'lifterlms' ) );
+		}
+
+		$metabox = new LLMS_Meta_Box_Product();
+		$post_id = absint( $request['post_id'] );
+		$metabox->post = get_post( $post_id );
+
+		$errors = array();
+
+		foreach ( $request['plans'] as $raw_plan_data ) {
+
+			$raw_plan_data['product_id'] = $post_id;
+
+			// retained filter for backwards compat.
+			$raw_plan_data = apply_filters( 'llms_access_before_save_plan', $raw_plan_data, $metabox );
+
+			$plan = llms_insert_access_plan( $raw_plan_data );
+			if ( is_wp_error( $plan ) ) {
+				$errors[ $raw_plan_data['menu_order'] ] = $plan;
+			} else {
+				// retained hook for backwards compat.
+				do_action( 'llms_access_plan_saved', $plan, $raw_plan_data, $metabox );
+			}
+		}
+
+		return array(
+			'errors' => $errors,
+			'html' => $metabox->get_html(),
+		);
 
 	}
 
