@@ -327,11 +327,6 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 		$this->assertEquals( 1, did_action( 'llms_access_plan_after_create' ) );
 		$this->assertEquals( 1, $plan->get( 'price' ) );
 
-		// Attempt update with set but empty ID.
-		$props['id'] = '';
-		$this->assertIsWPError( llms_insert_access_plan( $props ) );
-		$this->assertWPErrorCodeEquals( 'invalid-plan', llms_insert_access_plan( $props ) );
-
 		// Update with a a fake ID.
 		$props['id'] = 'fake';
 		$this->assertIsWPError( llms_insert_access_plan( $props ) );
