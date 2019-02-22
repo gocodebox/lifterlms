@@ -9,6 +9,7 @@ v3.29.0-beta.1 - 2019-02-21
 + Updated the Access Plan metabox on courses and lessons with improved data validation.
 + Added a set of methods for creating access plans programmatically.
 + When using the block editor, the "Pricing Table" block will automatically update when access plan changes are saved to the database (from LifterLMS Blocks 1.3.5).
++ Removed code related to an incompatibility between Yoast SEO Premium and LifterLMS resulting from former access plan save methods.
 + Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
 + Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
 + Replaced LifterLMS logos and icons on the admin panel with our new logo assets.
