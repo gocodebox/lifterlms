@@ -69,11 +69,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Constructor
 	 * Setup ID and related post property
 	 *
-	 * @param     int|LLMS_Post_Model|WP_Post $model WP post id, instance of an extending class, instance of WP_Post
-	 * @param     array                       $args  args to create the post, only applies when $model is 'new'
-	 * @return    void
-	 * @since     3.0.0
-	 * @version   3.13.0
+	 * @param   string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post
+	 * @param   array                              $args  args to create the post, only applies when $model is 'new'
+	 * @return  void
+	 * @since   3.0.0
+	 * @version 3.13.0
 	 */
 	public function __construct( $model, $args = array() ) {
 
