@@ -899,11 +899,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Update terms for the post for a given taxonomy
-	 * 
+	 *
 	 * @param    array      $terms   array of terms (name or ids)
 	 * @param    string     $tax     the name of the tax
 	 * @param    boolean    $append  if true, will append the terms, false will replace existing terms
-	 * 
+	 *
 	 * @return bool
 	 * @since    3.8.0
 	 * @version  3.8.0
