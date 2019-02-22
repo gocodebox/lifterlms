@@ -55,7 +55,7 @@ function llms_insert_access_plan( $props = array() ) {
 
 	$action = 'create';
 
-	if ( isset( $props['id'] ) ) {
+	if ( ! empty( $props['id'] ) ) {
 
 		$action = 'update';
 		$plan = llms_get_post( $props['id'] );
