@@ -205,7 +205,7 @@ var LLMS = window.LLMS || {};
 			}
 	
 			//set object defaults if values are not supplied
-			obj.url			= this.url;
+			obj.url			= 'url'         in obj ? obj.url        : this.url;
 			obj.type 		= 'type' 		in obj ? obj.type 		: this.type;
 			obj.data 		= 'data' 		in obj ? obj.data 		: this.data;
 			obj.cache 		= 'cache' 		in obj ? obj.cache 		: this.cache;
