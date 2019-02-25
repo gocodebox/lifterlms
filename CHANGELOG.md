@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.29.0-beta.1 - 2019-02-25
+---------------------------
+
++ Tweak access plan admin keyup event validation to only validate fields which have already been focused. Prevents the plan's entire box from changing to "invalid" after editing the title due to no price being present.
+
+
 v3.29.0-beta.1 - 2019-02-21
 ---------------------------
 

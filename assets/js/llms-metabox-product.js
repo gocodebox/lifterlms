@@ -17,6 +17,12 @@
 		this.$plans = null;
 
 		/**
+		 * jQuery obj for the main $( '#llms-save-access-plans' ) save button element.
+		 * @type obj
+		 */
+		this.$save = null;
+
+		/**
 		 * A randomly generated temporary ID used for the tinyMCE editor's id
 		 * when a new plan is added
 		 * @type int
@@ -42,6 +48,7 @@
 			var self = this;
 
 			self.$plans = $( '#llms-access-plans' );
+			self.$save = $( '#llms-save-access-plans' );
 
 			self.bind_visibility();
 
@@ -102,12 +109,18 @@
 
 			var self = this;
 
-			if ( self.has_plan_limit_been_reached() ) {
-				self.toggle_create_button();
+			setTimeout( function() {
+				if ( self.has_plan_limit_been_reached() ) {
+					self.toggle_create_button( 'disable' );
+				}
+			}, 500 );
+
+			if ( 0 === self.get_current_plan_count() ) {
+				self.toggle_save_button( 'disable' );
 			}
 
 			// save access plans button.
-			$( '#llms-save-access-plans' ).on( 'click', function( e ) {
+			self.$save.on( 'click', function( e ) {
 				e.preventDefault();
 				self.save_plans();
 			} );
@@ -126,12 +139,12 @@
 
 			// add a new empty plan interface on new plan button click.
 			$( '#llms-new-access-plan' ).on( 'click', function() {
-				var $el = $( this );
 				self.init_plan();
-				$el.attr( 'disabled', 'disabled' );
+				self.toggle_create_button( 'disable' );
+				self.toggle_save_button( 'enable' );
 				setTimeout( function() {
 					if ( ! self.has_plan_limit_been_reached() ) {
-						$el.removeAttr( 'disabled' );
+						self.toggle_create_button( 'enable' );
 					}
 				}, 500 );
 			} );
@@ -161,8 +174,13 @@
 
 			} );
 
+			// Record that a field has been focused so we can tweak validation to only validate "edited" fields.
+			self.$plans.on( 'focusin', 'input', function( e, data ) {
+				$( this ).addClass( 'llms-has-been-focused' );
+			} );
+
 			// Validate a single input field
-			self.$plans.on( 'keyup llms-validate-plan-field', 'input', function( e, data ) {
+			self.$plans.on( 'keyup focusout llms-validate-plan-field', 'input', function( e, data ) {
 
 				var $input = $( this );
 
@@ -176,17 +194,21 @@
 				}
 
 				if ( ! data || data.cascade ) {
-					$input.closest( '.llms-access-plan' ).trigger( 'llms-validate-plan' );
+					$input.closest( '.llms-access-plan' ).trigger( 'llms-validate-plan', { original_event: e.type } );
 				}
 
 
 			} );
 
-			self.$plans.on( 'llms-validate-plan', '.llms-access-plan', function() {
+			self.$plans.on( 'llms-validate-plan', '.llms-access-plan', function( e, data ) {
 
-				var $plan = $( this );
+				data = data || {};
 
-				$plan.find( 'input' ).each( function() {
+				var $plan = $( this ),
+					// only validate "edited" fields during cascading validation from input validations.
+					selector = data.original_event ? 'input.llms-has-been-focused' : 'input';
+
+				$plan.find( selector ).each( function() {
 					$( this ).trigger( 'llms-validate-plan-field', { cascade: false } );
 				} );
 
@@ -225,6 +247,20 @@
 			// can't figure out how to do this during initialization
 			$( '#_llms_plans_content_llms-new-access-plan-model' ).attr( 'disabled', 'disabled' );
 			tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, '_llms_plans_content_llms-new-access-plan-model' );
+
+			// Classic Editor
+			if ( ! wp.data ) {
+
+				// Ensure data is saved when the Classic Editor post form is submitted.
+				var wp_post_form = $( 'form#post' );
+				wp_post_form.on( 'submit', function( e ) {
+					if ( self.get_current_plan_count() ) {
+						e.preventDefault();
+						self.$save.trigger( 'click' );
+					}
+				} );
+
+			}
 
 		};
 
@@ -385,6 +421,16 @@
 		};
 
 		/**
+		 * Retrieve the current number of access plans for the course / membership (saved or unsaved)
+		 * @return  int
+		 * @since   [version]
+		 * @version [version]
+		 */
+		this.get_current_plan_count = function() {
+			return this.$plans.find( '.llms-access-plan' ).length;
+		}
+
+		/**
 		 * Retrieve access plan data as an array of JSON built from the dom element field values.
 		 *
 		 * @return  array
@@ -438,15 +484,14 @@
 		/**
 		 * Determine if the access plan limit has been reached
 		 *
-		 * @return Boolean     true if it's been reached, false otherwise
+		 * @return Boolean
 		 * @since  3.0.0
+		 * @version  [version]
 		 */
 		this.has_plan_limit_been_reached = function() {
 
-			var limit = window.llms.product.access_plan_limit,
-				curr = $( '#llms-access-plans .llms-access-plan' ).length;
-
-			return curr >= limit;
+			var limit = window.llms.product.access_plan_limit;
+			return this.get_current_plan_count() >= limit;
 
 		};
 
@@ -522,10 +567,12 @@
 
 			if ( self.$plans.find( '.' + self.validation_class ).length ) {
 				self.$plans.find( '.llms-access-plan.' + self.validation_class ).not( '.opened' ).first().find( '.llms-collapsible-header' ).trigger( 'click' );
+				$( document ).trigger( 'llms-access-plan-validation-errors' );
 				return;
 			}
 
 			LLMS.Spinner.start( self.$plans );
+			self.$save.attr( 'disabled', 'disabled' );
 			window.LLMS.Ajax.call( {
 				data: {
 					action: 'llms_update_access_plans',
@@ -533,6 +580,7 @@
 				},
 				complete: function() {
 					LLMS.Spinner.stop( self.$plans );
+					self.$save.removeAttr( 'disabled' );
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
 					console.error( 'llms access plan save error encounterd:', jqXHR );
@@ -563,17 +611,14 @@
 		};
 
 		/**
-		 * Control the status of the "New Access Plan" Button
-		 * Enables / Disables the button and shows / hides the associated message
-		 *
-		 * @param  string status    enable or disable
-		 * @return void
-		 * @since  3.0.0
-		 * @since  [version]
+		 * Toggle the status of a button
+		 * @param   Object  $btn   jQuery selector of a button element
+		 * @param  string status enable or disable
+		 * @return  void
+		 * @since   [version]
+		 * @version [version]
 		 */
-		this.toggle_create_button = function( status ) {
-
-			var $btn = $( '#llms-new-access-plan' );
+		this.toggle_button = function( $btn, status ) {
 
 			if ( 'disable' === status ) {
 				$btn.attr( 'disabled', 'disabled' );
@@ -584,6 +629,30 @@
 		};
 
 		/**
+		 * Control the status of the "New Access Plan" Button
+		 *
+		 * @param  string status enable or disable
+		 * @return void
+		 * @since  3.0.0
+		 * @since  [version]
+		 */
+		this.toggle_create_button = function( status ) {
+			this.toggle_button( $( '#llms-new-access-plan' ), status );
+		};
+
+		/**
+		 * Control the status of the "Save Access Plans" Button
+		 *
+		 * @param  string status enable or disable
+		 * @return void
+		 * @since  3.0.0
+		 * @since  [version]
+		 */
+		this.toggle_save_button = function( status ) {
+			this.toggle_button( this.$save, status );
+		}
+
+		/**
 		 * Visually hide and then physically remove a plan element from the DOM
 		 * Additionally determines if the New Plan Button should be re-enabled
 		 * after deletion
@@ -591,6 +660,7 @@
 		 * @param  obj   $plan jQuery selector of the plan element
 		 * @return void
 		 * @since 3.0.0
+		 * @version [version]
 		 */
 		this.remove_plan_el = function( $plan ) {
 
@@ -608,6 +678,11 @@
 				if ( ! self.has_plan_limit_been_reached() ) {
 					self.toggle_create_button( 'enable' );
 				}
+
+				if ( 0 === self.get_current_plan_count() ) {
+					self.toggle_save_button( 'disable' );
+				}
+
 			}, 450 );
 
 		};
