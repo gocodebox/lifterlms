@@ -1,6 +1,11 @@
 LifterLMS Changelog
 ===================
 
+v3.29.0-rc.2 - 2019-02-26
+-------------------------
+
++ Fixed an issue with deleted quizzes causing quiz notification's to throw fatal errors.
+
 v3.29.0-rc.1 - 2019-02-25
 -------------------------
 
