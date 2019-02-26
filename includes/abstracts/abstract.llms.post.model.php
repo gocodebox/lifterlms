@@ -43,7 +43,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Instance of WP_Post
-	 * @var obj
+	 * @var WP_Post
 	 * @since 3.0.0
 	 */
 	protected $post;
@@ -69,11 +69,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Constructor
 	 * Setup ID and related post property
 	 *
-	 * @param     int|obj    $model   WP post id, instance of an extending class, instance of WP_Post
-	 * @param     array     $args    args to create the post, only applies when $model is 'new'
-	 * @return    void
-	 * @since     3.0.0
-	 * @version   3.13.0
+	 * @param   string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post
+	 * @param   array                              $args  args to create the post, only applies when $model is 'new'
+	 * @return  void
+	 * @since   3.0.0
+	 * @version 3.13.0
 	 */
 	public function __construct( $model, $args = array() ) {
 
@@ -283,7 +283,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Wrapper for the $this->translate() that echos the result rather than returning it
 	 * @param    string     $key  key to retrieve
-	 * @return   string
+	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -481,7 +481,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve the Post's post type data object
-	 * @return obj
+	 * @return WP_Post_Type|null
 	 * @since  3.0.0
 	 */
 	public function get_post_type_data() {
@@ -707,7 +707,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * If a child class adds any properties which should not be settable
 	 * the class should override this property and add their custom
 	 * properties to the array
-	 * @var array
+	 * @return array
 	 * @since 3.0.0
 	 */
 	protected function get_unsettable_properties() {
@@ -899,9 +899,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Update terms for the post for a given taxonomy
+	 *
 	 * @param    array      $terms   array of terms (name or ids)
 	 * @param    string     $tax     the name of the tax
 	 * @param    boolean    $append  if true, will append the terms, false will replace existing terms
+	 *
+	 * @return bool
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
