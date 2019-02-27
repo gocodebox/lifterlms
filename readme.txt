@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 3.28.3
+Stable tag: 3.29.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,27 +355,43 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.29.0-beta.1 - 2019-02-21
--------------------------------
+= v3.29.0 - 2019-02-27 =
+------------------------
 
-##### Updates
+##### Improved Access Plan Management
 
-+ Updated the Access Plan metabox on courses and lessons with improved data validation.
 + Added a set of methods for creating access plans programmatically.
++ Updated the Access Plan metabox on courses and lessons with improved data validation.
 + When using the block editor, the "Pricing Table" block will automatically update when access plan changes are saved to the database (from LifterLMS Blocks 1.3.5).
-+ Removed code related to an incompatibility between Yoast SEO Premium and LifterLMS resulting from former access plan save methods.
++ Access plans are now created and updated via AJAX requests, resolves a 5.0 editor issue causing duplicated access plans to be created.
+
+##### Student Management Improvements
+
 + Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
-+ Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
-+ Replaced LifterLMS logos and icons on the admin panel with our new logo assets.
+
+##### Admin Panel Settings and Reporting Design Changes
+
++ Replaced LifterLMS logos and icons on the admin panel with our new logo LifterLMS Logo and Icons.
++ Revamped the design and layout of settings and reporting screens.
+
+##### Checkout Improvements
+
 + Updated checkout javascript to expose an error addition functions
-+ Removed display order field from payment gateway settings in favor of using the gateway table sortable list
 + Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
++ Removed display order field from payment gateway settings in favor of using the gateway table sortable list
+
+##### Other Updates
+
++ Removed code related to an incompatibility between Yoast SEO Premium and LifterLMS resulting from former access plan save methods.
++ Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
 + Added function for checking if request is a REST request
-+ Fix checkout nonce to have a unique ID & name
++ Updated LifterLMS Blocks to version 1.3.6
 
 ##### Bug Fixes
 
-+ Access plans are now created and updated via AJAX requests, resolves a 5.0 editor issue causing duplicated access plans to be created.
++ Fixed the checkout nonce to have a unique ID & name
++ Fixed an issue with deleted quizzes causing quiz notification's to throw fatal errors.
++ Fixed an issue preventing notification timestamps from displaying on the notifications dashboard page.
 + Fix an issue causing `GET` requests with no query string variables from causing issues via incorrect JSON encoding via the API Handler abstract.
 + Fix an issue causing access plan sale end dates from using the default WordPress date format settings.
 + `LLMS_Lesson::has_quiz()` will now properly return a boolean instead of the ID of the associated quiz (or 0 when none found)
@@ -385,6 +401,7 @@ v3.29.0-beta.1 - 2019-02-21
 + [checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
 + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 + [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
++ [notifications/basic.php](https://github.com/gocodebox/lifterlms/blob/master/templates/notifications/basic.php)
 
 ##### Templates Removed
 
@@ -539,14 +556,5 @@ Admin panel templates replaced with view files which cannot be overridden from a
 + Fixed an issue causing errors when reviewing orders on the admin panel which were placed via a payment gateway which is no longer active.
 + Fixed an issue preventing course difficulty and course length from being edited when using the classic editor plugin.
 + Fixed a very convoluted conflict between LifterLMS, WooCommerce, and Elementor explained at https://github.com/gocodebox/lifterlms/issues/730.
-
-
-= v3.26.0 - 2018-12-27 =
-------------------------
-
-+ Adds conditional support for page builders: Beaver Builder, Divi Builder, and Elementor.
-+ Fixed issue causing LifterLMS core sales pages from outputting automatic content (like pricing tables) on migrated posts.
-+ Student unenrollment calls always bypass cache during enrollment precheck.
-+ Membership post type "name" label is now plural (as it is supposed to be).
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
