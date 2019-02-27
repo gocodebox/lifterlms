@@ -31,10 +31,11 @@ v3.29.0 - 2019-02-27
 + Removed code related to an incompatibility between Yoast SEO Premium and LifterLMS resulting from former access plan save methods.
 + Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
 + Added function for checking if request is a REST request
-+ Updated LifterLMS Blocks to version 1.3.6
++ Updated LifterLMS Blocks to version 1.3.7
 
 ##### Bug Fixes
 
++ Fixed an issue preventing "Pricing Table" blocks from displaying on the admin panel when the current user was enrolled in the course or no payment gateways were enabled on the site.
 + Fixed the checkout nonce to have a unique ID & name
 + Fixed an issue with deleted quizzes causing quiz notification's to throw fatal errors.
 + Fixed an issue preventing notification timestamps from displaying on the notifications dashboard page.
