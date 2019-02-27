@@ -2,8 +2,8 @@
 /**
  * Option/Settings related functions
  *
- * @since    [version]
- * @version  [version]
+ * @since    3.29.0
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @param   string    $name Name of the variable.
  * @return  mixed
- * @since   [version]
- * @version [version]
+ * @since   3.29.0
+ * @version 3.29.0
  */
 function llms_get_secure_option( $secure_name, $default = false, $db_name = '' ) {
 

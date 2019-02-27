@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Models
  * @since   3.9.0
- * @version [version]
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -416,7 +416,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * Retrieve a permalink for the attempt
 	 * @return   string
 	 * @since    3.9.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function get_permalink() {
 		if ( ! $this->get_quiz() ) {

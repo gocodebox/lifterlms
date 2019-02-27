@@ -3,7 +3,7 @@
  * Admin Assets Class
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.29.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -57,7 +57,7 @@ class LLMS_Admin_Assets {
 	 * Enqueue stylesheets
 	 * @return void
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function admin_styles() {
 

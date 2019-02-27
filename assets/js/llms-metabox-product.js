@@ -2,7 +2,7 @@
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.29.0
  */
 ( function( $ ) {
 
@@ -41,7 +41,7 @@
 		 * @param   bool skip_dep_checks if true, skips dependency checks.
 		 * @return  void
 		 * @since   3.0.0
-		 * @version [version]
+		 * @version 3.29.0
 		 */
 		this.init = function( skip_dep_checks ) {
 
@@ -103,7 +103,7 @@
 		 *
 		 * @return void
 		 * @since  3.0.0
-		 * @version [version]
+		 * @version 3.29.0
 		 */
 		this.bind = function() {
 
@@ -308,7 +308,7 @@
 		 * @param  obj $btn jQuery selector of the "X" button clicked to initiate deletion
 		 * @return void
 		 * @since  3.0.0
-		 * @version  [version]
+		 * @version  3.29.0
 		 */
 		this.delete_plan = function( $btn ) {
 
@@ -423,8 +423,8 @@
 		/**
 		 * Retrieve the current number of access plans for the course / membership (saved or unsaved)
 		 * @return  int
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.29.0
+		 * @version 3.29.0
 		 */
 		this.get_current_plan_count = function() {
 			return this.$plans.find( '.llms-access-plan' ).length;
@@ -434,8 +434,8 @@
 		 * Retrieve access plan data as an array of JSON built from the dom element field values.
 		 *
 		 * @return  array
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.29.0
+		 * @version 3.29.0
 		 */
 		this.get_plans_array = function() {
 
@@ -486,7 +486,7 @@
 		 *
 		 * @return Boolean
 		 * @since  3.0.0
-		 * @version  [version]
+		 * @version  3.29.0
 		 */
 		this.has_plan_limit_been_reached = function() {
 
@@ -554,8 +554,8 @@
 		 * Persist access plans to the DB if they pass validation
 		 *
 		 * @return  {[type]}
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.29.0
+		 * @version 3.29.0
 		 */
 		this.save_plans = function() {
 
@@ -615,8 +615,8 @@
 		 * @param   Object  $btn   jQuery selector of a button element
 		 * @param  string status enable or disable
 		 * @return  void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.29.0
+		 * @version 3.29.0
 		 */
 		this.toggle_button = function( $btn, status ) {
 
@@ -634,7 +634,7 @@
 		 * @param  string status enable or disable
 		 * @return void
 		 * @since  3.0.0
-		 * @since  [version]
+		 * @since  3.29.0
 		 */
 		this.toggle_create_button = function( status ) {
 			this.toggle_button( $( '#llms-new-access-plan' ), status );
@@ -646,7 +646,7 @@
 		 * @param  string status enable or disable
 		 * @return void
 		 * @since  3.0.0
-		 * @since  [version]
+		 * @since  3.29.0
 		 */
 		this.toggle_save_button = function( status ) {
 			this.toggle_button( this.$save, status );
@@ -660,7 +660,7 @@
 		 * @param  obj   $plan jQuery selector of the plan element
 		 * @return void
 		 * @since 3.0.0
-		 * @version [version]
+		 * @version 3.29.0
 		 */
 		this.remove_plan_el = function( $plan ) {
 
@@ -691,8 +691,8 @@
 		 * Trigger WP Block Editor hook so the pricing table block can be re-rendered with new plan information.
 		 *
 		 * @return  void
-		 * @since   [version]
-		 * @version [version]
+		 * @since   3.29.0
+		 * @version 3.29.0
 		 */
 		this.trigger_update_hook = function() {
 

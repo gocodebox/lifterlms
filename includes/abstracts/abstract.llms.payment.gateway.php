@@ -2,7 +2,7 @@
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  [version]
+ * @version  3.29.0
  */
 abstract class LLMS_Payment_Gateway {
 
@@ -236,7 +236,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Get default dageway admin settinds fields
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function get_admin_settings_fields() {
 
@@ -627,7 +627,7 @@ abstract class LLMS_Payment_Gateway {
 	 * @param  string $secure_key Secure option key, ie "TITLE".
 	 * @return mixed
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function get_option( $key, $secure_key = false ) {
 

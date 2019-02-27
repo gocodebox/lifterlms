@@ -4,7 +4,7 @@
  * @group    controllers
  * @group    lessons
  * @since    3.17.1
- * @version  [version]
+ * @version  3.29.0
  */
 class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 
@@ -23,8 +23,8 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 * Test the handle_admin_managment_forms() method.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_handle_admin_managment_forms() {
 
@@ -86,7 +86,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 * Test the submission of the mark lesson complete form
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function test_handle_complete_form() {
 
@@ -135,7 +135,7 @@ class LLMS_Test_Controller_Lesson_Progression extends LLMS_UnitTestCase {
 	 *
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function test_handle_incomplete_form() {
 

@@ -3,7 +3,7 @@
  * Access Plan metabox
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -95,7 +95,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 *
 	 * @return void
 	 * @since  3.0.0
-	 * @version [version]
+	 * @version 3.29.0
 	 */
 	public function output() {
 		echo $this->get_html();
@@ -105,8 +105,8 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 * Retrieve the HTML for the metabox
 	 *
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function get_html() {
 

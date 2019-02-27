@@ -2,7 +2,7 @@
 /**
  * 3rd Party API request handler
  * @since   3.11.2
- * @version [version]
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -65,7 +65,7 @@ abstract class LLMS_Abstract_API_Handler {
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
 	 * @return   void
 	 * @since    3.11.2
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	private function call( $resource, $data, $method = null ) {
 

@@ -3,8 +3,8 @@
  * Test Order Functions
  *
  * @group    LLMS_Access_Plan
- * @since    [version]
- * @version  [version]
+ * @since    3.29.0
+ * @version  3.29.0
  *
  */
 class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
@@ -13,8 +13,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test the llms_get_access_plan_period_options() method
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_get_access_plan_period_options() {
 
@@ -27,8 +27,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test the llms_get_access_plan_visibility_options() method
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_get_access_plan_visibility_options() {
 
@@ -41,8 +41,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test default props for llms_insert_access_plan() function.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_default() {
 
@@ -76,8 +76,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test the default paramaters that will be automatically "fixed" or overridden for the llms_insert_access_plan() function.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_free_default_overrides() {
 
@@ -107,8 +107,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test recurring payment props for llms_insert_access_plan() funcion.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_payment_recurring() {
 
@@ -137,8 +137,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test one-time payment props for llms_insert_access_plan() funcion.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_payment_single() {
 
@@ -167,8 +167,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test sale-related props on the llms_insert_access_plan() function
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_props_sale() {
 
@@ -210,8 +210,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test expiration-related props on the llms_insert_access_plan() function
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_props_expiration() {
 
@@ -264,8 +264,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test trial-related props on the llms_insert_access_plan() function
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_props_trial() {
 
@@ -310,8 +310,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test updating existing llms_insert_access_plan() function.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_update() {
 
@@ -364,8 +364,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test period field validators for the llms_insert_access_plan_validation() function.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_validation_period() {
 
@@ -408,8 +408,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test product related conditions for llms_insert_access_plan() function.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_validation_product() {
 
@@ -440,8 +440,8 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test plan visibility validation for the llms_insert_access_plan() function
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_insert_access_plan_validation_visibility() {
 

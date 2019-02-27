@@ -4,7 +4,7 @@
  * Settings field Factory
  * @package  LifterLMS/Admin/Classes
  * @since    1.0.0
- * @version  [version]
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -131,7 +131,7 @@ class LLMS_Admin_Settings {
 	 *
 	 * @return void
 	 * @since  1.0.0
-	 * @since  [version]
+	 * @since  3.29.0
 	 */
 	public static function output() {
 
@@ -189,7 +189,7 @@ class LLMS_Admin_Settings {
 	 * Output fields
 	 * @param    array  $field  array of field settings
 	 * @return   void
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public static function output_field( $field ) {
 
@@ -821,7 +821,7 @@ class LLMS_Admin_Settings {
 	 * @param    array $settings Opens array to output
 	 * @return   bool
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public static function save_fields( $settings ) {
 	    if ( empty( $_POST ) ) {

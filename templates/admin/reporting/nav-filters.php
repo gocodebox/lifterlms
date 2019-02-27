@@ -3,7 +3,7 @@
  * Additional Filters used by various reporting screens
  *
  * @since    ??
- * @version  [version]
+ * @version  3.29.0
  */
 defined( 'ABSPATH' ) || exit;
 is_admin() || exit;

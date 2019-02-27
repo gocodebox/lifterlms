@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  [version]
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1067,8 +1067,8 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @param   array $request $_POST data.
 	 * @return  array
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public static function llms_update_access_plans( $request ) {
 

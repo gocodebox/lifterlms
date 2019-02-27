@@ -3,8 +3,8 @@
  * Test admin quiz management forms.
  *
  * @package  LifterLMS/Tests/Controllers
- * @since    [version]
- * @version  [version]
+ * @since    3.29.0
+ * @version  3.29.0
  */
 class LLMS_Test_Controller_Admin_Quiz_Attempts extends LLMS_UnitTestCase {
 

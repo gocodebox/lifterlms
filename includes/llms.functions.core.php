@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Functions
  * @since 1.0.0
- * @version [version]
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -197,8 +197,8 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 	 * @param   int    $filter         The ID of the filter to apply.
 	 * @param   mixed  $options        Associative array of options or bitwise disjunction of flags. If filter accepts options, flags can be provided in "flags" field of array.
 	 * @return  Value of the requested variable on success, FALSE if the filter fails, or NULL if the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used, it returns FALSE if the variable is not set and NULL if the filter fails.
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	function llms_filter_input( $type, $variable_name, $filter = FILTER_DEFAULT, $options = array() ) {
 		return filter_input( $type, $variable_name, $filter, $options );

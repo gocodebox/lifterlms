@@ -3,7 +3,7 @@
  * Basic Notification Template
  *
  * @since    3.8.0
- * @version  [version]
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;

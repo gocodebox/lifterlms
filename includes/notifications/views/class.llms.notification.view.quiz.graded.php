@@ -2,7 +2,7 @@
 /**
  * Shared Notification View for quiz completions
  * @since    3.24.0
- * @version  [version]
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -108,7 +108,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	 * Setup footer content for output
 	 * @return   string
 	 * @since    3.24.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	protected function set_footer() {
 

@@ -3,8 +3,8 @@
  * Functions for LifterLMS Access Plans
  *
  * @package   LifterLMS/Functions/Access_Plans
- * @since    [version]
- * @version  [version]
+ * @since    3.29.0
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,8 +48,8 @@ defined( 'ABSPATH' ) || exit;
  * }
  *
  * @return  obj LLMS_Access_Plan on success, WP_Error on failure.
- * @since   [version]
- * @version [version]
+ * @since   3.29.0
+ * @version 3.29.0
  */
 function llms_insert_access_plan( $props = array() ) {
 
@@ -96,8 +96,8 @@ function llms_insert_access_plan( $props = array() ) {
 	 *
 	 * Modify the properties passed into `llms_insert_access_plan`
 	 *
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.29.0
+	 * @version  3.29.0
 	 *
 	 * @example  todo
 	 *
@@ -194,8 +194,8 @@ function llms_insert_access_plan( $props = array() ) {
 	 *
 	 * Do something with an access plan immediately after the access plan is created/updated.
 	 *
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.29.0
+	 * @version  3.29.0
 	 *
 	 * @example  todo
 	 *
@@ -212,8 +212,8 @@ function llms_insert_access_plan( $props = array() ) {
  * Retrieve available options for access plan periods
  *
  * @return  array
- * @since   [version]
- * @version [version]
+ * @since   3.29.0
+ * @version 3.29.0
  */
 function llms_get_access_plan_period_options() {
 	return apply_filters( 'llms_get_access_plan_period_options', array(

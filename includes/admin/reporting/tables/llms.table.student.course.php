@@ -57,8 +57,8 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 *
 	 * @param   obj    $lesson LLMS_Lesson..
 	 * @return  string
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	private function get_actions_html( $lesson ) {
 
@@ -97,7 +97,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * @param    int        $lesson     Instance of an LLMS_Lesson
 	 * @return   mixed
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function get_data( $key, $lesson ) {
 
@@ -221,7 +221,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * Define the structure of the table
 	 * @return   array
 	 * @since    3.2.0
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function set_columns() {
 		return array(

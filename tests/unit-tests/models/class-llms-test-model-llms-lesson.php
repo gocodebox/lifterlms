@@ -4,7 +4,7 @@
  * @group     post_models
  * @group     lessons
  * @since     3.14.8
- * @version   [version]
+ * @version   3.29.0
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -235,8 +235,8 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Test the has_quiz() method
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_has_quiz() {
 

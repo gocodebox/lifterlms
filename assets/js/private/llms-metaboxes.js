@@ -10,7 +10,7 @@
 	 *
 	 * @return  jQuery object
 	 * @since   3.0.0
-	 * @version [version]
+	 * @version 3.29.0
 	 */
 	$.fn.llmsCollapsible = function() {
 

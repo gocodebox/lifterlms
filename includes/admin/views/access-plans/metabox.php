@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Admin/Views
  * @since    3.0.0
- * @version  [version]
+ * @version  3.29.0
  *
  * @var obj $course LLMS_Course.
  * @var obj $product LLMS_Product.

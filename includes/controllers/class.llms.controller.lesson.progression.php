@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Controllers
  * @since 3.17.1
- * @version  [version]
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ class LLMS_Controller_Lesson_Progression {
 	/**
 	 * Constructor
 	 * @since    3.17.1
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function __construct() {
 
@@ -38,8 +38,8 @@ class LLMS_Controller_Lesson_Progression {
 	 *
 	 * @param   string $action form action, either "complete" or "incomplete".
 	 * @return  int|null  NULL when either required post fields are missing or if the lesson_id is non-numeric, int (lesson id) on success
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	private function get_lesson_id_from_form_data( $action ) {
 
@@ -73,8 +73,8 @@ class LLMS_Controller_Lesson_Progression {
 	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle competion of lessons for a student.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function handle_admin_managment_forms() {
 
@@ -108,7 +108,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * Autoadvances to next lesson if completion is succesful
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function handle_complete_form() {
 
@@ -140,7 +140,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * Marks lesson as incomplete and returns incompletion message to user
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function handle_incomplete_form() {
 
@@ -166,7 +166,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * @param    array      $args       Optional arguments
 	 * @return   void
 	 * @since    3.17.1
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function mark_complete( $user_id, $lesson_id, $trigger = '', $args = array() ) {
 

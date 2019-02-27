@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Classes
  * @since    3.1.3
- * @version  [version]
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ class LLMS_PlayNice {
 	 * Constructor
 	 *
 	 * @since    3.1.3
-	 * @version  [version]
+	 * @version  3.29.0
 	 */
 	public function __construct() {
 

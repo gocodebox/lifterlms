@@ -3,8 +3,8 @@
  * Course / Lesson progression functions
  *
  * @param  LifterLMS/Functions/Progression
- * @since  [version]
- * @version  [version]
+ * @since  3.29.0
+ * @version  3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,8 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @param   string     $trigger    Optional trigger description string.
  * @param   array      $args       Optional arguments.
  * @return  boolean
- * @since   [version]
- * @version [version]
+ * @since   3.29.0
+ * @version 3.29.0
  */
 function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $args = array() ) {
 	/**
@@ -32,8 +32,8 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
  * Determines whether or not a "Mark Complete" button should be displayed for a given lesson
  * @param   obj    $lesson LLMS_Lesson.
  * @return  boolean
- * @since   [version]
- * @version [version]
+ * @since   3.29.0
+ * @version 3.29.0
  */
 function llms_show_mark_complete_button( $lesson ) {
 
@@ -52,8 +52,8 @@ function llms_show_mark_complete_button( $lesson ) {
  *
  * @param   obj    $lesson LLMS_Lesson.
  * @return  boolean
- * @since   [version]
- * @version [version]
+ * @since   3.29.0
+ * @version 3.29.0
  */
 function llms_show_take_quiz_button( $lesson ) {
 

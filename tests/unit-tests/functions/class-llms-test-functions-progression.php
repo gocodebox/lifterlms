@@ -5,8 +5,8 @@
  * @group functions
  * @group progression_functions
  * @package  LifterLMS/Tests/Functions
- * @since    [version]
- * @version  [version]
+ * @since    3.29.0
+ * @version  3.29.0
  */
 class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 
@@ -14,8 +14,8 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	 * Test the llms_allow_lesson_completion() method.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_allow_lesson_completion() {
 
@@ -39,8 +39,8 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	 * Test the llms_show_mark_complete_button() method.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_show_mark_complete_button() {
 
@@ -60,8 +60,8 @@ class LLMS_Test_Functions_Progression extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the llms_show_take_quiz_button()
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.0
+	 * @version 3.29.0
 	 */
 	public function test_llms_show_take_quiz_button() {
 
