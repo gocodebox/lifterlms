@@ -13,6 +13,13 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Abstract_API_Handler {
 
 	/**
+	 * Determines if an empty response body should be interpreted as an error
+	 *
+	 * @var bool
+	 */
+	protected $allow_empty_response = false;
+
+	/**
 	 * Default request method
 	 * @var  string
 	 */
@@ -93,7 +100,7 @@ abstract class LLMS_Abstract_API_Handler {
 		}
 
 		// empty body
-		if ( empty( $response['body'] ) ) {
+		if ( ! $this->allow_empty_response && empty( $response['body'] ) ) {
 
 			return $this->set_error( __( 'Empty Response.', 'lifterlms' ), 'empty_response', $response );
 
