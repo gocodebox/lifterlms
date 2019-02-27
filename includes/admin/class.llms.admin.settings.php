@@ -127,10 +127,12 @@ class LLMS_Admin_Settings {
 	}
 
 	/**
-	* Settings Page output tabs
-	*
-	* @return void
-	*/
+	 * Settings Page output tabs
+	 *
+	 * @return void
+	 * @since  1.0.0
+	 * @since  [version]
+	 */
 	public static function output() {
 
 		global $current_tab;
@@ -142,19 +144,22 @@ class LLMS_Admin_Settings {
 		$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
 
 		if ( ! empty( $_POST ) ) {
-			self::save(); }
+			self::save();
+		}
 
 		if ( ! empty( $_GET['llms_error'] ) ) {
-			self::set_error( stripslashes( $_GET['llms_error'] ) ); }
+			self::set_error( stripslashes( $_GET['llms_error'] ) );
+		}
 
 		if ( ! empty( $_GET['llms_message'] ) ) {
-			self::set_message( stripslashes( $_GET['llms_message'] ) ); }
+			self::set_message( stripslashes( $_GET['llms_message'] ) );
+		}
 
 		self::display_messages_html();
 
 		$tabs = apply_filters( 'lifterlms_settings_tabs_array', array() );
 
-		include 'views/html.admin.settings.php';
+		include 'views/settings.php';
 
 	}
 
@@ -279,8 +284,7 @@ class LLMS_Admin_Settings {
 
 					do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) . '_before' );
 
-					echo '<div class="llms-widget-full ' . $field['class'] . '">';
-					echo '<div class="llms-widget">';
+					echo '<div class="llms-setting-group ' . $field['class'] . '">';
 
 					do_action( 'lifterlms_settings_' . sanitize_title( $field['id'] ) . '_start' );
 
@@ -295,7 +299,6 @@ class LLMS_Admin_Settings {
 				}
 
 				echo '</table>';
-				echo '</div>';
 				echo '</div>';
 
 				if ( ! empty( $field['id'] ) ) {

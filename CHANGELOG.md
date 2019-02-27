@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.29.0-rc.3 - 2019-02-??
+-------------------------
+
++ Revamped LifterLMS settings page design and layout
+
+
 v3.29.0-rc.2 - 2019-02-26
 -------------------------
 
