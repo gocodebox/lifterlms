@@ -151,41 +151,10 @@
 
 }
 
-
-.llms-user-profile {
-	padding: 0 20px;
-}
-
-.llms-banner-image {
-	padding-top: 20px;
-	img { display: block; }
-	// padding: 5px;
-}
-
 .llms-widget-row {
 	@include clearfix();
 }
 
 .llms-widget-row .no-padding {
 	padding: 0 !important;
-}
-
-.optin-form-wrapper {
-	vertical-align: top;
-
-	.optin-form {
-		height: 335px;
-		padding-top: 50px;
-		box-sizing: border-box;
-		background: #fff;
-		margin: 5px;
-
-		._label {
-			font-weight: bold;
-		}
-
-		input {
-			margin-bottom: 10px;
-		}
-	}
 }

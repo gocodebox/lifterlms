@@ -1,6 +1,45 @@
 == Changelog ==
 
 
+v3.29.0-beta.1 - 2019-02-21
+-------------------------------
+
+##### Updates
+
++ Updated the Access Plan metabox on courses and lessons with improved data validation.
++ Added a set of methods for creating access plans programmatically.
++ When using the block editor, the "Pricing Table" block will automatically update when access plan changes are saved to the database (from LifterLMS Blocks 1.3.5).
++ Removed code related to an incompatibility between Yoast SEO Premium and LifterLMS resulting from former access plan save methods.
++ Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
++ Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
++ Replaced LifterLMS logos and icons on the admin panel with our new logo assets.
++ Updated checkout javascript to expose an error addition functions
++ Removed display order field from payment gateway settings in favor of using the gateway table sortable list
++ Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
++ Added function for checking if request is a REST request
++ Fix checkout nonce to have a unique ID & name
+
+##### Bug Fixes
+
++ Access plans are now created and updated via AJAX requests, resolves a 5.0 editor issue causing duplicated access plans to be created.
++ Fix an issue causing `GET` requests with no query string variables from causing issues via incorrect JSON encoding via the API Handler abstract.
++ Fix an issue causing access plan sale end dates from using the default WordPress date format settings.
++ `LLMS_Lesson::has_quiz()` will now properly return a boolean instead of the ID of the associated quiz (or 0 when none found)
+
+##### Template Updates
+
++ [checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
++ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
+
+##### Templates Removed
+
+Admin panel templates replaced with view files which cannot be overridden from a theme or custom plugin.
+
++ `admin/post-types/product-access-plan.php`
++ `admin/post-types/product.php`
+
+
 = v3.28.3 - 2019-02-14 =
 ------------------------
 
@@ -103,6 +142,7 @@
 
 ##### Updates
 
++ Fix issue preventing course difficulty and course length from being edited when using the classic editor plugin.
 + Improved pagination methods on Student Dashboard Endpoints
 + "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
 + Update to [LifterLMS Blocks 1.3.1](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/).

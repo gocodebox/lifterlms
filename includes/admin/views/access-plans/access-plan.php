@@ -1,14 +1,16 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
- * Individual Access Plan on Admin Panel
+ * Individual Access Plan as displayed within the "Product Options" metabox.
+ *
+ * @package  LifterLMS/Admin/Views
  * @since    3.0.0
- * @version  3.24.0
+ * @version  [version]
+ *
+ * @var obj $course LLMS_Course.
+ * @var obj $plan LLMS_Access_Plan.
  */
-if ( ! is_admin() ) {
-	exit;
-}
+
+defined( 'ABSPATH' ) || exit;
 
 // create a "step" attribute for price fields according to LLMS settings
 $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() );
@@ -49,6 +51,9 @@ if ( ! isset( $plan ) ) {
 			<?php endif; ?>
 		</h3>
 		<div class="d-1of2 d-right">
+			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Errors were found during access plan validation', 'lifterlms' ); ?>">
+				<span class="dashicons dashicons-warning"></span>
+			</span>
 			<span class="dashicons dashicons-arrow-down"></span>
 			<span class="dashicons dashicons-arrow-up"></span>
 			<span class="dashicons dashicons-menu llms-drag-handle"></span>
@@ -63,7 +68,7 @@ if ( ! isset( $plan ) ) {
 		<div class="llms-plan-row-1">
 
 			<div class="llms-metabox-field d-1of3">
-				<label><?php _e( 'Plan Title', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Plan Title', 'lifterlms' ) ?><span class="llms-required">*</span></label>
 				<input class="llms-plan-title" name="_llms_plans[<?php echo $order; ?>][title]" required="required" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'title' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
@@ -101,8 +106,8 @@ if ( ! isset( $plan ) ) {
 		<div class="llms-plan-row-2" data-controller="llms-plan-is-free" data-value-is-not="yes">
 
 			<div class="llms-metabox-field d-1of4">
-				<label><?php _e( 'Price', 'lifterlms' ) ?></label>
-				<input class="llms-plan-price" name="_llms_plans[<?php echo $order; ?>][price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
+				<label><?php _e( 'Price', 'lifterlms' ) ?><span class="llms-required">*</span></label>
+				<input class="llms-plan-price" name="_llms_plans[<?php echo $order; ?>][price]" min="<?php echo $price_step; ?>" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of4">

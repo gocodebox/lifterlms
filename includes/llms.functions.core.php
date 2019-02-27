@@ -9,8 +9,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-require_once 'functions/llms-functions-progression.php';
+require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
+require_once 'functions/llms-functions-options.php';
+require_once 'functions/llms-functions-progression.php';
 
 require_once 'functions/llms.functions.access.php';
 require_once 'functions/llms.functions.certificate.php';
@@ -18,6 +20,7 @@ require_once 'functions/llms.functions.course.php';
 require_once 'functions/llms.functions.currency.php';
 require_once 'functions/llms.functions.log.php';
 require_once 'functions/llms.functions.notice.php';
+require_once 'functions/llms.functions.order.php';
 require_once 'functions/llms.functions.page.php';
 require_once 'functions/llms.functions.person.php';
 require_once 'functions/llms.functions.privacy.php';
@@ -200,20 +203,6 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 	function llms_filter_input( $type, $variable_name, $filter = FILTER_DEFAULT, $options = array() ) {
 		return filter_input( $type, $variable_name, $filter, $options );
 	}
-}
-
-/**
- * Get a list of available access plan visibility options
- * @return   array
- * @since    3.8.0
- * @version  3.8.0
- */
-function llms_get_access_plan_visibility_options() {
-	return apply_filters( 'lifterlms_access_plan_visibility_options', array(
-		'visible' => __( 'Visible', 'lifterlms' ),
-		'hidden' => __( 'Hidden', 'lifterlms' ),
-		'featured' => __( 'Featured', 'lifterlms' ),
-	) );
 }
 
 /**
@@ -855,6 +844,16 @@ function llms_get_transaction_statuses() {
  */
 function llms_is_ajax() {
 	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+}
+
+/**
+ * Determine if request is a REST request
+ * @return   bool
+ * @since    3.27.0
+ * @version  3.27.0
+ */
+function llms_is_rest() {
+	return ( defined( 'REST_REQUEST' ) && REST_REQUEST );
 }
 
 /**

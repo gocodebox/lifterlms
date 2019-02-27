@@ -2,11 +2,8 @@
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  3.10.0
+ * @version  [version]
  */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Payment_Gateway {
 
 	/**
@@ -239,7 +236,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Get default dageway admin settinds fields
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
 	public function get_admin_settings_fields() {
 
@@ -277,14 +274,6 @@ abstract class LLMS_Payment_Gateway {
 			'default'	=> $this->get_description(),
 			'title'     => __( 'Description', 'lifterlms' ),
 			'type' 		=> 'text',
-		);
-
-		$fields[] = array(
-			'id' 		=> $this->get_option_name( 'display_order' ),
-			'desc' 		=> '<br>' . __( 'This determines the order gateways are displayed on the checkout page. Lowest number will display first.', 'lifterlms' ),
-			'default'	=> $this->get_display_order(),
-			'title'     => __( 'Display Order', 'lifterlms' ),
-			'type' 		=> 'number',
 		);
 
 		if ( $this->supports( 'test_mode' ) ) {
@@ -632,12 +621,22 @@ abstract class LLMS_Payment_Gateway {
 
 	/**
 	 * Get the value of an option from the database & fallback to default value if none found
-	 * @param  string $key option key, ie "title"
+	 * Optionally attempts to retrieve a secure key first, if secure key is provided.
+	 *
+	 * @param  string $key option key, ie "title".
+	 * @param  string $secure_key Secure option key, ie "TITLE".
 	 * @return mixed
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  [version]
 	 */
-	public function get_option( $key ) {
+	public function get_option( $key, $secure_key = false ) {
+
+		if ( $secure_key ) {
+			$secure_val = llms_get_secure_option( $secure_key );
+			if ( false !== $secure_val ) {
+				return $secure_val; // intentionally not filtered here.
+			}
+		}
 
 		$name = $this->get_option_name( $key );
 		$val = get_option( $name, $this->$key );
