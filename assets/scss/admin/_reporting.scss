@@ -1,14 +1,18 @@
 .llms-reporting.wrap {
 
 	.llms-options-page-contents {
-		background: $color-white;
+		background: #fff;
+		box-shadow: 0 1px 3px rgba( 0, 0, 0, .13 );
+		margin: 0 0 20px;
 		padding: 20px;
-	}
-
-	.llms-reporting-nav {
-		margin: 20px 0;
-		.llms-nav-tab-wrapper {
-			margin: 0;
+		.llms-nav-tab-wrapper.llms-nav-secondary {
+			background: #fafafa;
+			box-shadow: none;
+			margin: 0 -20px 40px;
+			padding: 0 20px;
+			.llms-nav-link {
+				padding: 8px 14px;
+			}
 		}
 	}
 
@@ -56,8 +60,14 @@
 	&.tab--enrollments,
 	&.tab--sales {
 
+		.llms-nav-tab-wrapper.llms-nav-secondary {
+			margin-bottom: 0;
+		}
+
 		.llms-options-page-contents {
+			box-shadow: none;
 			background: none;
+			margin-top: 20px;
 			padding: 0;
 		}
 
@@ -130,6 +140,10 @@
 
 	.llms-reporting-header {
 
+		background: #fafafa;
+		padding: 20px;
+		margin: 0 -20px;
+
 		.llms-reporting-header-img {
 			border-radius: 50%;
 			display: inline-block;
@@ -154,7 +168,9 @@
 }
 
 .llms-reporting-breadcrumbs {
-	margin-bottom: 15px;
+	background: #fafafa;
+	margin: -20px -20px 0;
+	padding: 20px 20px 10px;
 	a {
 		color: $color-brand-blue;
 		text-decoration: none;
