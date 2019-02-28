@@ -1068,7 +1068,7 @@ class LLMS_AJAX_Handler {
 	 * @param   array $request $_POST data.
 	 * @return  array
 	 * @since   3.29.0
-	 * @version 3.29.0
+	 * @version 3.29.1
 	 */
 	public static function llms_update_access_plans( $request ) {
 
@@ -1083,6 +1083,10 @@ class LLMS_AJAX_Handler {
 		$errors = array();
 
 		foreach ( $request['plans'] as $raw_plan_data ) {
+
+			if ( empty( $raw_plan_data ) ) {
+				continue;
+			}
 
 			$raw_plan_data['product_id'] = $post_id;
 

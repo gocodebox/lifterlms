@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.29.1 - 2019-02-27
+--------------------
+
++ Automatically reorder access plans when a plan is deleted.
++ Skip (don't create) empty plans passed to the access plan save method as a result of deleted access plans.
+
+
 v3.29.0 - 2019-02-27
 --------------------
 

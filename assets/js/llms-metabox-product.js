@@ -2,7 +2,7 @@
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
  * @since    3.0.0
- * @version  3.29.0
+ * @version  3.29.1
  */
 ( function( $ ) {
 
@@ -308,7 +308,7 @@
 		 * @param  obj $btn jQuery selector of the "X" button clicked to initiate deletion
 		 * @return void
 		 * @since  3.0.0
-		 * @version  3.29.0
+		 * @version 3.29.1
 		 */
 		this.delete_plan = function( $btn ) {
 
@@ -332,10 +332,15 @@
 						plan_id: plan_id,
 					},
 					success: function( r ) {
-						LLMS.Spinner.stop( $plan );
+						setTimeout( function() {
+							LLMS.Spinner.stop( $plan );
+						}, 550 );
 						if ( r.success ) {
 							self.remove_plan_el( $plan );
 							self.trigger_update_hook();
+							setTimeout( function() {
+								self.update_plan_orders();
+							}, 500 );
 						} else if ( r.message ) {
 							alert( r.message );
 						}
