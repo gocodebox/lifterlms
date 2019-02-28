@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 3.29.1
+Stable tag: 3.29.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.29.2 - 2019-02-28 =
+------------------------
+
++ Fix issue causing blank "period" values on access plans from being updated.
+
+
 = v3.29.1 - 2019-02-27 =
 ------------------------
 
@@ -539,11 +545,5 @@ Admin panel templates replaced with view files which cannot be overridden from a
 
 + [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
 + [admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
-
-
-= v3.26.2 - 2019-01-09 =
-------------------------
-
-+ Fast follow to fix incorrect version number pushed to the readme files for 3.26.1 which prevents upgrading to 3.26.1
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
