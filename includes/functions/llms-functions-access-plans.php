@@ -2,9 +2,9 @@
 /**
  * Functions for LifterLMS Access Plans
  *
- * @package   LifterLMS/Functions/Access_Plans
+ * @package  LifterLMS/Functions/Access_Plans
  * @since    3.29.0
- * @version  3.29.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return  obj LLMS_Access_Plan on success, WP_Error on failure.
  * @since   3.29.0
- * @version 3.29.0
+ * @version [version]
  */
 function llms_insert_access_plan( $props = array() ) {
 
@@ -163,7 +163,7 @@ function llms_insert_access_plan( $props = array() ) {
 	// Ensure all periods are valid.
 	$valid_periods = array_keys( llms_get_access_plan_period_options() );
 	foreach ( array( 'period', 'access_period', 'trial_period' ) as $key ) {
-		if ( isset( $props[ $key ] ) && ! in_array( $props[ $key ], $valid_periods, true ) ) {
+		if ( ! empty( $props[ $key ] ) && ! in_array( $props[ $key ], $valid_periods, true ) ) {
 			// Translators: %1$s = plan period key name; %2$s = the invalid period.
 			return new WP_Error( 'invalid-' . $key, sprintf( __( 'Invalid access plan %1$s: "%2$s"', 'lifterlms' ), $key, $props[ $key ] ) );
 		}
