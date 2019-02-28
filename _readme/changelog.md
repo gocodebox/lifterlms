@@ -1,6 +1,13 @@
 == Changelog ==
 
 
+= v3.29.1 - 2019-02-27 =
+------------------------
+
++ Automatically reorder access plans when a plan is deleted.
++ Skip (don't create) empty plans passed to the access plan save method as a result of deleted access plans.
+
+
 = v3.29.0 - 2019-02-27 =
 ------------------------
 
@@ -184,22 +191,3 @@ Admin panel templates replaced with view files which cannot be overridden from a
 ------------------------
 
 + Fast follow to fix incorrect version number pushed to the readme files for 3.26.1 which prevents upgrading to 3.26.1
-
-
-= v3.26.1 - 2019-01-09 =
-------------------------
-
-##### Updates
-
-+ Tested to WordPress 5.0.3
-+ Student CSV reports will now bypass cached data during report generation.
-+ Add course and membership catalog visibility settings into the block editor.
-+ Includes LifterLMS Blocks 1.3.0.
-
-##### Bug Fixes
-
-+ Fixed issue preventing the course instructors metabox from displaying when using the classic editor plugin.
-+ Fixed an issue causing membership background enrollment from processing when the course background processor is disabled via filters.
-+ Fixed an issue causing errors when reviewing orders on the admin panel which were placed via a payment gateway which is no longer active.
-+ Fixed an issue preventing course difficulty and course length from being edited when using the classic editor plugin.
-+ Fixed a very convoluted conflict between LifterLMS, WooCommerce, and Elementor explained at https://github.com/gocodebox/lifterlms/issues/730.
