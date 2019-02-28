@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Functions/Access_Plans
  * @since    3.29.0
- * @version  [version]
+ * @version  3.29.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -49,7 +49,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return  obj LLMS_Access_Plan on success, WP_Error on failure.
  * @since   3.29.0
- * @version [version]
+ * @version 3.29.2
  */
 function llms_insert_access_plan( $props = array() ) {
 
