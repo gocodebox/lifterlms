@@ -359,6 +359,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ------------------------
 
 + Fix issue causing blank "period" values on access plans from being updated.
++ Fix an issue preventing paid access plans from being switched to "Free".
 
 
 = v3.29.1 - 2019-02-27 =
