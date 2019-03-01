@@ -2,7 +2,7 @@
 /**
  * LifterLMS AJAX Event Handler
  * @since    1.0.0
- * @version  3.29.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1068,7 +1068,7 @@ class LLMS_AJAX_Handler {
 	 * @param   array $request $_POST data.
 	 * @return  array
 	 * @since   3.29.0
-	 * @version 3.29.1
+	 * @version [version]
 	 */
 	public static function llms_update_access_plans( $request ) {
 
@@ -1086,6 +1086,11 @@ class LLMS_AJAX_Handler {
 
 			if ( empty( $raw_plan_data ) ) {
 				continue;
+			}
+
+			// Ensure we can switch plans that used to be paid to free.
+			if ( isset( $raw_plan_data['is_free'] ) && llms_parse_bool( $raw_plan_data['is_free'] ) && ! isset( $raw_plan_data['price'] ) ) {
+				$raw_plan_data['price'] = 0;
 			}
 
 			$raw_plan_data['product_id'] = $post_id;

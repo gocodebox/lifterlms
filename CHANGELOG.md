@@ -5,6 +5,7 @@ v3.29.2 - 2019-02-28
 --------------------
 
 + Fix issue causing blank "period" values on access plans from being updated.
++ Fix an issue preventing paid access plans from being switched to "Free".
 
 
 v3.29.1 - 2019-02-27
