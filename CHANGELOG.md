@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.29.3 - 2019-03-01
+--------------------
+
+##### Bug Fixes
+
++ Fix issue causing 1-click free-enrollment for logged in users to refresh the screen without actually performing an enrollment.
+
+##### Template Updates
+
++ [product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
+
+
 v3.29.2 - 2019-02-28
 --------------------
 
