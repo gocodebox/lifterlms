@@ -6,6 +6,7 @@ v3.29.3 - 2019-03-01
 
 ##### Bug Fixes
 
++ Removed attempts to validate & save access plan data when the Classic Editor "post" form is submitted.
 + Fix issue causing 1-click free-enrollment for logged in users to refresh the screen without actually performing an enrollment.
 
 ##### Template Updates

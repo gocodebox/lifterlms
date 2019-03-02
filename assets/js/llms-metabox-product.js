@@ -2,7 +2,7 @@
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
  * @since    3.0.0
- * @version  3.29.1
+ * @version  3.29.3
  */
 ( function( $ ) {
 
@@ -41,7 +41,7 @@
 		 * @param   bool skip_dep_checks if true, skips dependency checks.
 		 * @return  void
 		 * @since   3.0.0
-		 * @version 3.29.0
+		 * @version 3.29.3
 		 */
 		this.init = function( skip_dep_checks ) {
 
@@ -247,20 +247,6 @@
 			// can't figure out how to do this during initialization
 			$( '#_llms_plans_content_llms-new-access-plan-model' ).attr( 'disabled', 'disabled' );
 			tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, '_llms_plans_content_llms-new-access-plan-model' );
-
-			// Classic Editor
-			if ( ! wp.data ) {
-
-				// Ensure data is saved when the Classic Editor post form is submitted.
-				var wp_post_form = $( 'form#post' );
-				wp_post_form.on( 'submit', function( e ) {
-					if ( self.get_current_plan_count() ) {
-						e.preventDefault();
-						self.$save.trigger( 'click' );
-					}
-				} );
-
-			}
 
 		};
 

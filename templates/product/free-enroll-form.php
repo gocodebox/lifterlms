@@ -5,7 +5,7 @@
  * if free checkout is not disabled via filter
  *
  * @since    3.4.0
- * @version  [version]
+ * @version  3.29.3
  */
 
 defined( 'ABSPATH' ) || exit;

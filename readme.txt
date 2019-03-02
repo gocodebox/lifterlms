@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 3.29.2
+Stable tag: 3.29.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,19 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.29.3 - 2019-03-01 =
+------------------------
+
+##### Bug Fixes
+
++ Removed attempts to validate & save access plan data when the Classic Editor "post" form is submitted.
++ Fix issue causing 1-click free-enrollment for logged in users to refresh the screen without actually performing an enrollment.
+
+##### Template Updates
+
++ [product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
+
+
 = v3.29.2 - 2019-02-28 =
 ------------------------
 
@@ -521,30 +534,5 @@ Admin panel templates replaced with view files which cannot be overridden from a
 ------------------------
 
 + Update to [LifterLMS Blocks 1.3.2](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/), fixing an issue preventing template actions from being removed from migrated courses & lessons.
-
-
-= v3.26.3 - 2019-01-15 =
-------------------------
-
-##### Updates
-
-+ Fix issue preventing course difficulty and course length from being edited when using the classic editor plugin.
-+ Improved pagination methods on Student Dashboard Endpoints
-+ "My Notifications" dashboard tab now consistently paginated like other dashboard endpoints
-+ Update to [LifterLMS Blocks 1.3.1](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/).
-
-##### Bug Fixes
-
-+ Fixed an issue preventing course difficulty and course length from being edited when using various page builders.
-+ Fixed issues causing errors on quiz reporting screens for quiz attempts made by deleted users.
-
-##### Deprecated Functions
-
-+ `LLMS_Student_Dashboard::output_notifications_content()` replaced with `lifterlms_template_student_dashboard_my_notifications()`
-
-##### Templates Changed
-
-+ [myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
-+ [admin/reporting/tabs/quizzes/attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempt.php)
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
