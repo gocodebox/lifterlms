@@ -4,7 +4,7 @@
  * @group    LLMS_Student
  * @group    LLMS_Person_Handler
  * @since    3.19.4
- * @version  3.19.4
+ * @version  [version]
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -63,16 +63,141 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	// public function test_get_password_reset_fields() {}
 
+	/**
+	 * Test logging in with a username.
+	 *
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public function test_login_with_username() {
 
-	// public function test_login() {
+		// Test with username.
+		update_option( 'lifterlms_registration_generate_username', 'no' );
 
-		// LLMS_Person_Handler::login( array(
-		// 	'llms_login' => 'arstarst',
-		// 	'llms_password' => 'arstarst',
-		// ) );
+		// Missing login.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_password' => 'faker',
+		) );
 
-	// }
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'llms_login', $login );
 
+		// Missing Password
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => 'faker',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'llms_password', $login );
+
+		// Totally Invalid creds.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => '3OGgpZZ146cH3vw775aMg1R7qQIrF4ph',
+			'llms_password' => 'Ip439RKmf0am5MWRjD38ov6M45OEYs79',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'login-error', $login );
+
+		// Test against a real user with bad creds.
+		$uid = $this->factory->user->create( array( 'user_login' => 'test_user_login', 'user_pass' => '1234' ) );
+
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => 'test_user_login',
+			'llms_password' => '1',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'login-error', $login );
+
+		// Success.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => 'test_user_login',
+			'llms_password' => '1234',
+		) );
+
+		$this->assertEquals( $uid, $login );
+		wp_logout();
+
+	}
+
+	/**
+	 * Test logging in with a username.
+	 *
+	 * @return  void
+	 * @since   [version]
+	 * @version [version]
+	 */
+	public function test_login_with_email() {
+
+		// Set autousername option.
+		update_option( 'lifterlms_registration_generate_username', 'yes' );
+
+		// Missing login.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_password' => 'faker',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'llms_login', $login );
+
+		// Invalid email address.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => 'faker',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'llms_login', $login );
+
+		// Missing password.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => 'faker@fake.tld',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'llms_password', $login );
+
+		// Totally Invalid creds.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => '3OGgpZZ146cH3vw775aMg1R7qQIrF4ph@fake.tld',
+			'llms_password' => 'Ip439RKmf0am5MWRjD38ov6M45OEYs79',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'login-error', $login );
+
+		// Test against a real user with bad creds.
+		$user = $this->factory->user->create_and_get( array( 'user_pass' => '1234' ) );
+
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => $user->user_email,
+			'llms_password' => '1',
+		) );
+
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'login-error', $login );
+
+		// Success.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => $user->user_email,
+			'llms_password' => '1234',
+		) );
+
+		$this->assertEquals( $user->ID, $login );
+		wp_logout();
+
+		// Make sure that email addresses with an apostrophe in them can login without issue.
+		$user = $this->factory->user->create_and_get( array( 'user_email' => "mock'mock@what.org", 'user_pass' => '1234' ) );
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => wp_slash( $user->user_email ), // add slashes like the $_POST data.
+			'llms_password' => '1234',
+		) );
+
+		$this->assertEquals( $user->ID, $login );
+		wp_logout();
+
+	}
 
 	// public function test_register() {}
 
