@@ -3,7 +3,7 @@
  * User Handling for login and registration (mostly)
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.29.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -633,7 +633,7 @@ class LLMS_Person_Handler {
 	 * @param    array $data array of login data.
 	 * @return   WP_Error|int WP_Error on error or the WP_User ID.
 	 * @since    3.0.0
-	 * @version  [version]
+	 * @version  3.29.4
 	 */
 	public static function login( $data ) {
 

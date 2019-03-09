@@ -4,7 +4,7 @@
  * @group    LLMS_Student
  * @group    LLMS_Person_Handler
  * @since    3.19.4
- * @version  [version]
+ * @version  3.29.4
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -67,8 +67,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test logging in with a username.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.4
+	 * @version 3.29.4
 	 */
 	public function test_login_with_username() {
 
@@ -126,8 +126,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	 * Test logging in with a username.
 	 *
 	 * @return  void
-	 * @since   [version]
-	 * @version [version]
+	 * @since   3.29.4
+	 * @version 3.29.4
 	 */
 	public function test_login_with_email() {
 
