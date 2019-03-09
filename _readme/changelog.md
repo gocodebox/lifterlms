@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+v3.29.4 - 2019-03-??
+------------------------
+
++ Fixed an issue preventing users with email addresses containing an apostrophe from being able to login.
+
+
 = v3.29.3 - 2019-03-01 =
 ------------------------
 

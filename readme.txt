@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 3.29.3
+Stable tag: 3.29.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -353,6 +353,12 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+v3.29.4 - 2019-03-??
+------------------------
+
++ Fixed an issue preventing users with email addresses containing an apostrophe from being able to login.
 
 
 = v3.29.3 - 2019-03-01 =

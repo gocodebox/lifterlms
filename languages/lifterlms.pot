@@ -646,7 +646,7 @@ msgstr ""
 msgid "Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:421, includes/class.llms.l10n.js.php:487, includes/class.llms.person.handler.php:379, includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:62
+#: includes/class.llms.l10n.js.php:421, includes/class.llms.l10n.js.php:487, includes/class.llms.person.handler.php:383, includes/admin/post-types/meta-boxes/class.llms.meta.box.visibility.php:62
 msgid "Cancel"
 msgstr ""
 
@@ -747,180 +747,180 @@ msgstr ""
 msgid "Add to menu"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:84
+#: includes/class.llms.person.handler.php:88
 msgid "Username"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:98, includes/class.llms.person.handler.php:265, includes/class.llms.person.handler.php:419
+#: includes/class.llms.person.handler.php:102, includes/class.llms.person.handler.php:269, includes/class.llms.person.handler.php:423
 msgid "Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:108
+#: includes/class.llms.person.handler.php:112
 msgid "Confirm Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:127, includes/admin/reporting/tables/llms.table.course.students.php:382, includes/admin/reporting/tables/llms.table.students.php:469
+#: includes/class.llms.person.handler.php:131, includes/admin/reporting/tables/llms.table.course.students.php:382, includes/admin/reporting/tables/llms.table.students.php:469
 msgid "First Name"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:135, includes/admin/reporting/tables/llms.table.course.students.php:377, includes/admin/reporting/tables/llms.table.students.php:464
+#: includes/class.llms.person.handler.php:139, includes/admin/reporting/tables/llms.table.course.students.php:377, includes/admin/reporting/tables/llms.table.students.php:464
 msgid "Last Name"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:148
+#: includes/class.llms.person.handler.php:152
 msgid "Street Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:158
+#: includes/class.llms.person.handler.php:162
 msgid "Apartment, suite, or unit"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:165
+#: includes/class.llms.person.handler.php:169
 msgid "City"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:173
+#: includes/class.llms.person.handler.php:177
 msgid "State"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:181
+#: includes/class.llms.person.handler.php:185
 msgid "Zip Code"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:190, includes/admin/settings/class.llms.settings.checkout.php:230
+#: includes/class.llms.person.handler.php:194, includes/admin/settings/class.llms.settings.checkout.php:230
 msgid "Country"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:203, includes/admin/settings/class.llms.settings.accounts.php:364, includes/admin/settings/class.llms.settings.accounts.php:409, includes/admin/settings/class.llms.settings.accounts.php:458
+#: includes/class.llms.person.handler.php:207, includes/admin/settings/class.llms.settings.accounts.php:364, includes/admin/settings/class.llms.settings.accounts.php:409, includes/admin/settings/class.llms.settings.accounts.php:458
 msgid "Phone Number"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:205
+#: includes/class.llms.person.handler.php:209
 msgctxt "Phone Number Placeholder"
 msgid "(123) 456 - 7890"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:215
+#: includes/class.llms.person.handler.php:219
 msgid "Have a voucher?"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:226, templates/myaccount/form-redeem-voucher.php:18, templates/myaccount/form-redeem-voucher.php:19
+#: includes/class.llms.person.handler.php:230, templates/myaccount/form-redeem-voucher.php:18, templates/myaccount/form-redeem-voucher.php:19
 msgid "Voucher Code"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:265, includes/class.llms.person.handler.php:419
+#: includes/class.llms.person.handler.php:269, includes/class.llms.person.handler.php:423
 msgid "Username or Email Address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:273, includes/class.llms.person.handler.php:336
+#: includes/class.llms.person.handler.php:277, includes/class.llms.person.handler.php:340
 msgid "Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:282, templates/global/form-login.php:34
+#: includes/class.llms.person.handler.php:286, templates/global/form-login.php:34
 msgid "Login"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:290
+#: includes/class.llms.person.handler.php:294
 msgid "Remember me"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:299
+#: includes/class.llms.person.handler.php:303
 msgid "Lost your password?"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:324
+#: includes/class.llms.person.handler.php:328
 msgid "Current Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:336
+#: includes/class.llms.person.handler.php:340
 msgid "New Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:347
+#: includes/class.llms.person.handler.php:351
 msgid "Confirm New Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:347
+#: includes/class.llms.person.handler.php:351
 msgid "Confirm Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:358
+#: includes/class.llms.person.handler.php:362
 msgid "A %s password is required."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:360
+#: includes/class.llms.person.handler.php:364
 msgid "A minimum password strength of %s is required."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:366
+#: includes/class.llms.person.handler.php:370
 msgid "The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:379
+#: includes/class.llms.person.handler.php:383
 msgid "Change Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:403
+#: includes/class.llms.person.handler.php:407
 msgid "Lost your password? Enter your email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:405
+#: includes/class.llms.person.handler.php:409
 msgid "Lost your password? Enter your username or email address and we will send you a link to reset it."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:428, templates/emails/reset-password.php:14
+#: includes/class.llms.person.handler.php:432, templates/emails/reset-password.php:14
 msgid "Reset Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:443
+#: includes/class.llms.person.handler.php:447
 msgid "Update Password"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:570
+#: includes/class.llms.person.handler.php:574
 msgid "Invalid action"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:649
+#: includes/class.llms.person.handler.php:653
 msgid "Could not find an account with the supplied email address and password combination."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:820
+#: includes/class.llms.person.handler.php:815
 msgid "No user ID specified."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:919
+#: includes/class.llms.person.handler.php:914
 msgid "%s is a required field"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:938
+#: includes/class.llms.person.handler.php:933
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:948
+#: includes/class.llms.person.handler.php:943
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:952
+#: includes/class.llms.person.handler.php:947
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:965
+#: includes/class.llms.person.handler.php:960
 msgid "The submitted %s was incorrect."
 msgstr ""
 
-#: includes/class.llms.person.handler.php:978
+#: includes/class.llms.person.handler.php:973
 msgid "\"%1$s\" is an invalid option for %2$s"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:990
+#: includes/class.llms.person.handler.php:985
 msgid "%s must be numeric"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:998
+#: includes/class.llms.person.handler.php:993
 msgid "%s must be a valid email address"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:1018
+#: includes/class.llms.person.handler.php:1013
 msgid "%1$s must match %2$s"
 msgstr ""
 
@@ -10324,4 +10324,44 @@ msgstr ""
 
 #: vendor/lifterlms/lifterlms-blocks/includes/blocks/class-llms-blocks-pricing-table-block.php:83
 msgid "No access plans found."
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/template-top-level-post-types.php:3, tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/template-top-level.php:3
+msgid "Top Level"
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates-child/template-top-level-post-types-child.php:3
+msgid "Top Level In A Child Theme"
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/38766/no-trailing-period-post-types.php:3
+msgid "No Trailing Period"
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/38766/tilde-post-types.php:3
+msgid "Tilde in Post Type."
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/38766/trailing-comma-post-types.php:3
+msgid "Trailing Comma,"
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/38766/trailing-period-post-types.php:3
+msgid "Trailing Period."
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/38766/trailing-period-whitespace-post-types.php:3
+msgid "Trailing Period, White Space."
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/38766/trailing-whitespace-period-post-types.php:3
+msgid "Trailing White Space, Period."
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/subdir/template-sub-dir-post-types.php:3, tmp/tests/wordpress-tests-lib/data/themedir1/page-templates/subdir/template-sub-dir.php:3
+msgid "Sub Dir"
+msgstr ""
+
+#: tmp/tests/wordpress-tests-lib/data/themedir1/page-templates-child/subdir/template-sub-dir-post-types-child.php:3
+msgid "Sub Dir In A Child Theme"
 msgstr ""
