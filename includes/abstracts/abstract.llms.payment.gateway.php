@@ -135,18 +135,28 @@ abstract class LLMS_Payment_Gateway {
 
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
 
-		// redirect to the product's permalink
-		$redirect = get_permalink( $order->get( 'product_id' ) );
+		// get the redirect parameter.
+		$redirect = filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
-		// fallback to the account page if we don't have a url for some reason
-		if ( ! $redirect ) {
-			$redirect = get_permalink( llms_get_page_id( 'myaccount' ) );
-		}
+		// redirect to the product's permalink, if no parameter was set.
+		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );
 
+		// fallback to the account page if we don't have a url for some reason.
+		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( llms_get_page_id( 'myaccount' ) );
+
+		// add order key to the url.
 		$redirect = add_query_arg( array(
 			'order-complete' => $order->get( 'order_key' ),
 		), $redirect );
 
+		/**
+ 		* Filters the redirect on order completion.
+ 		*
+ 		* @since 3.8.0
+ 		*
+ 		* @param string  $redirect The URL to redirect user to.
+ 		* @param LLMS_Order  $order The order object.
+ 		*/
 		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
 
 		// deprecated msg if supplied, will be removed in a future release
