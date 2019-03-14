@@ -49,6 +49,9 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		'availability' => 'string',
 		'availability_restrictions' => 'array',
 		'content' => 'html',
+		'checkout_redirect_type' => 'string',
+		'checkout_redirect_page' => 'absint',
+		'checkout_redirect_url' => 'string',
 		'enroll_text' => 'string',
 		'frequency' => 'absint',
 		'is_free' => 'yesno',
@@ -136,6 +139,69 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Retrieve the full URL to redirect to after successful checkout
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	public function get_redirection_url(){
+
+		// what type of redirection is set up by user?
+		$redirect_type = $this->get( 'checkout_redirect_type' );
+
+		// by default, no special redirection is needed.
+		$redirection = '';
+
+		$available = $this->is_available_to_user( get_current_user_id() );
+
+		$query_redirection = filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
+
+		// force redirect querystring parameter over all else.
+		if( ! empty( $query_redirection ) ){
+			$redirection = $query_redirection;
+
+		} else {
+
+			switch( $redirect_type ){
+
+				// redirect to itself
+				case 'self':
+					/* Only set up when it is a member's only access plan.
+					* This will ensure that on a regular access plan, no special parameter is added to querystring.
+					* At the same time, if it is a members' only access plan,
+					* after membership checkout we'd like to force redirect to course
+					*/
+					if( ! $available ){
+						$redirection = get_permalink( $this->get( 'product_id' ) );
+					}
+					break;
+				case 'page':
+					$redirection = get_permalink( $this->get( 'checkout_redirect_page' ) );
+					break;
+				case 'url':
+					$redirection = $this->get( 'checkout_redirect_url' );
+					break;
+				// in case of memberships and by default, no special redirect parameter needs to be added to checkout URL.
+				case 'membership':
+				default:
+					break;
+			}
+		}
+
+		/**
+		 * Filter the checkout redirection parameter
+		 *
+		 * @param    string               $redirection The calculated url to redirect to.
+		 * @param    string               $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
+		 * @param    LLMS_Acccess_Plan    $this Current Access Plan object.
+		 * @since    [version]
+		 * @version  [version]
+		 */
+		return apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirection_type, $this );
+
+	}
+
+	/**
 	 * Retrieve the full URL to the checkout screen for the plan
 	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel)
 	 * @return   string
@@ -147,12 +213,20 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		$ret = '#llms-plan-locked';
 		$available = $this->is_available_to_user( get_current_user_id() );
 
+		$redirection = $this->get_redirection_url();
+
 		// if bypassing availability checks OR plan is available to user
 		if ( ! $check_availability || $available ) {
 
-			$ret = llms_get_page_url( 'checkout', array(
+			$ret_params = array(
 				'plan' => $this->get( 'id' ),
-			) );
+			);
+
+			if( ! empty( $redirection ) ){
+				$ret_params['redirect'] = $redirection;
+			}
+
+			$ret = llms_get_page_url( 'checkout', $ret_params );
 
 			// not available to user -- this is a member's only plan
 		} elseif ( ! $available ) {
@@ -162,7 +236,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// if there's only 1 plan associated with the membership return that url
 			if ( 1 === count( $memberships ) ) {
 				$ret = get_permalink( $memberships[0] );
+				if( ! empty( $redirection ) ){
+					$ret = add_query_arg( array(
+						'redirect' => $redirection,
+					), $ret );
+				}
 			}
+
 		}
 
 		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
