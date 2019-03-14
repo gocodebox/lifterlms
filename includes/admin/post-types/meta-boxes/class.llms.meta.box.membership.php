@@ -41,9 +41,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 			$course = new LLMS_Course( $course_id );
 
-			$title = $course->get( 'title' );
-
-			$data[ $title ] = array(
+			$data[ $course_id ] = array(
 
 				'<a href="' . get_edit_post_link( $course->get( 'id' ) ) . '">' . $title . ' (ID#' . $course_id . ')</a>',
 				'<a class="llms-button-danger small" data-id="' . $course_id . '" href="#llms-course-remove" style="float:right;">' . __( 'Remove from Auto-enrollment', 'lifterlms' ) . '</a>
