@@ -12,6 +12,15 @@
 
 defined( 'ABSPATH' ) || exit;
 ?>
+
+<?php
+// get available checkout redirection types.
+$checkout_redirection_types = llms_get_checkout_redirection_types();
+
+// the 'membership' type is not applicable for memberships, only for members-only course access plans.
+if( ! $course ) unset( $checkout_redirection_types[ 'membership' ] );
+
+?>
 <div class="llms-metabox" id="llms-product-options-access-plans">
 
 	<section class="llms-collapsible-group llms-access-plans" id="llms-access-plans">
