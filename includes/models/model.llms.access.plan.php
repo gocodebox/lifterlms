@@ -149,7 +149,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_redirection_url () {
+	public function get_redirection_url() {
 
 		// what type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
