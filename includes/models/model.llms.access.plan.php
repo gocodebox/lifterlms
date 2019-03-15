@@ -205,7 +205,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @since    [version]
 		 * @version  [version]
 		 */
-		return urlencode( apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirection_type, $this ) );
+		return urlencode( apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this ) );
 
 	}
 
