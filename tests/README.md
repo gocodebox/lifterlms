@@ -34,6 +34,6 @@ Code coverage is available on [Code Climate](https://codeclimate.com/github/goco
 + Use coverage reports to examine which lines your tests are covering and aim for 100% coverage
 + In addition to covering each line of a method/function, make sure to test common input and edge cases.
 + Remember that only methods prefixed with test will be run so use helper methods liberally to keep test methods small and reduce code duplication.
-+ If there is a common helper method used in multiple test files, consider adding it to the WC_Unit_Test_Case class so it can be shared by all test cases
-Filters persist between test cases so be sure to remove them in your test method or in the tearDown() method.
-Use data providers where possible. Be sure that their name is like data_provider_function_to_test (i.e. the data provider for test_is_postcode would be data_provider_test_is_postcode). Read more about data providers here.
++ If there is a common helper method used in multiple test files, consider adding it to the `LLMS_UnitTestCase` class so it can be shared by all test cases.
++ The test suite uses the `lifterlms-tests` library which is aimed to provide shared utilities for testing the LifterLMS core, as well as LifterLMS add-ons. Many methods and utilites are available and documented in the libraries GitHub repo: https://github.com/gocodebox/lifterlms-tests
++ Filters, options, and actions persist between test cases so be sure to remove or reset them in your test method or in the `tearDown()` method.
