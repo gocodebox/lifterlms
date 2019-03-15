@@ -8,8 +8,6 @@
  *
  * @var obj $course LLMS_Course.
  * @var obj $plan LLMS_Access_Plan.
- *
- * @todo Fix input layouts for redirection
  */
 
 defined( 'ABSPATH' ) || exit;
