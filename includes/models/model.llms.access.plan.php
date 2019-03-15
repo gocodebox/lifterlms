@@ -167,6 +167,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		} else {
 
+			if( ! $available && 'no' === $this->get( 'checkout_redirect_forced' ) ){
+				$redirect_type = 'membership';
+			}
+
 			switch( $redirect_type ){
 
 				// redirect to itself
@@ -186,6 +190,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				case 'url':
 					$redirection = $this->get( 'checkout_redirect_url' );
 					break;
+				case 'membership':
 				default:
 					break;
 			}
@@ -200,7 +205,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @since    [version]
 		 * @version  [version]
 		 */
-		return apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirection_type, $this );
+		return urlencode( apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirection_type, $this ) );
 
 	}
 
