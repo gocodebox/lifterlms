@@ -149,6 +149,11 @@ abstract class LLMS_Payment_Gateway {
 			'order-complete' => $order->get( 'order_key' ),
 		), esc_url( $redirect ) );
 
+		// redirection url on free checkout form
+		if ( get_current_user_id() && isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] && isset( $_POST['free_checkout_redirect'] ) ) {
+			$redirect = urldecode( $_POST['free_checkout_redirect'] );
+		}
+
 		/**
  		* Filters the redirect on order completion.
  		*
@@ -157,7 +162,7 @@ abstract class LLMS_Payment_Gateway {
  		* @param string  $redirect The URL to redirect user to.
  		* @param LLMS_Order  $order The order object.
  		*/
-		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
+		$redirect = esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
 
 		// deprecated msg if supplied, will be removed in a future release
 		if ( $deprecated ) {
