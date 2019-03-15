@@ -144,6 +144,46 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
+	 * Calculate redirection url from settings
+	 *
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	private function calculate_redirection_url() {
+
+		$available = $this->is_available_to_user( get_current_user_id() );
+
+		if ( ! $available && 'no' === $this->get( 'checkout_redirect_forced' ) ) {
+			$redirect_type = 'membership';
+		}
+
+		switch ( $redirect_type ) {
+
+			// redirect to itself
+			case 'self':
+				/* Only set up when it is a member's only access plan with forced redirection to course.
+				* This will ensure that on a regular access plan, no special parameter is added to querystring.
+				* At the same time, if it is a members' only access plan,
+				* after membership checkout we'd like to force redirect to course
+				*/
+				if ( ! $available && 'yes' === $this->get( 'checkout_redirect_forced' ) ) {
+					$redirection = get_permalink( $this->get( 'product_id' ) );
+				}
+				break;
+			case 'page':
+				$redirection = get_permalink( $this->get( 'checkout_redirect_page' ) );
+				break;
+			case 'url':
+				$redirection = $this->get( 'checkout_redirect_url' );
+				break;
+			case 'membership':
+				break;
+		}
+		return $redirection;
+	}
+
+	/**
 	 * Retrieve the full URL to redirect to after successful checkout
 	 * @return   string
 	 * @since    [version]
@@ -157,43 +197,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		// by default, no special redirection is needed.
 		$redirection = '';
 
-		$available = $this->is_available_to_user( get_current_user_id() );
-
 		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
 		// force redirect querystring parameter over all else.
-		if ( ! empty( $query_redirection ) ) {
-			$redirection = $query_redirection;
-
-		} else {
-
-			if ( ! $available && 'no' === $this->get( 'checkout_redirect_forced' ) ) {
-				$redirect_type = 'membership';
-			}
-
-			switch ( $redirect_type ) {
-
-				// redirect to itself
-				case 'self':
-					/* Only set up when it is a member's only access plan with forced redirection to course.
-					* This will ensure that on a regular access plan, no special parameter is added to querystring.
-					* At the same time, if it is a members' only access plan,
-					* after membership checkout we'd like to force redirect to course
-					*/
-					if ( ! $available && 'yes' === $this->get( 'checkout_redirect_forced' ) ) {
-						$redirection = get_permalink( $this->get( 'product_id' ) );
-					}
-					break;
-				case 'page':
-					$redirection = get_permalink( $this->get( 'checkout_redirect_page' ) );
-					break;
-				case 'url':
-					$redirection = $this->get( 'checkout_redirect_url' );
-					break;
-				case 'membership':
-					break;
-			}
-		}
+		$redirection = ! empty( $query_redirection ) ? $query_redirection : $this->calculate_redirection_url();
 
 		/**
 		 * Filter the checkout redirection parameter
