@@ -133,7 +133,7 @@ abstract class LLMS_Payment_Gateway {
 	protected function get_complete_transaction_redirect_url( $order ) {
 
 		// get the redirect parameter.
-		$redirect = urldecode( filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
+		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
 
 		// redirect to the product's permalink, if no parameter was set.
 		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );
@@ -147,8 +147,12 @@ abstract class LLMS_Payment_Gateway {
 		), esc_url( $redirect ) );
 
 		// redirection url on free checkout form
-		if ( get_current_user_id() && isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] && isset( $_POST['free_checkout_redirect'] ) ) {
-			$redirect = urldecode( $_POST['free_checkout_redirect'] );
+		$quick_enroll_form = llms_filter_input( INPUT_POST, 'form' );
+
+		$free_checkout_redirect = llms_filter_input( INPUT_POST, 'free_checkout_redirect' );
+
+		if ( get_current_user_id() && ( 'free_enroll' === $quick_enroll_form ) && ! empty( $free_checkout_redirect ) ) {
+			$redirect = urldecode( $free_checkout_redirect );
 		}
 
 		/**
