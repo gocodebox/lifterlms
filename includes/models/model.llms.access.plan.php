@@ -159,6 +159,9 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$redirect_type = 'membership';
 		}
 
+		// by default, no special redirection is needed.
+		$redirection = '';
+
 		switch ( $redirect_type ) {
 
 			// redirect to itself
@@ -194,9 +197,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		// what type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
-
-		// by default, no special redirection is needed.
-		$redirection = '';
 
 		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
