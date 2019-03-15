@@ -329,33 +329,45 @@ endwhile; ?>
 
 		<?php do_action( 'llms_access_plan_mb_after_row_six', $plan, $id, $order ); ?>
 
-		<div class="llms-plan-row-6 llms-metabox-field d-all">
-			<label><?php _e( 'Redirect after checkout to', 'lifterlms' ) ?></label>
-			<?php
-			// a select for redirection type, add/remove membership type when Members-only is toggled
-			?>
-			<select class="llms-checkout-redirect-type" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_type]" required="required" style="width:100%; height: 25px;">
-				<?php foreach ( $checkout_redirection_types as $checkout_redirection_type=>$checkout_redirection_label ) : ?>
-					<option value="<?php echo $checkout_redirection_type; ?>"<?php echo ($checkout_redirection_type != 'membership') ? '' : ' disabled="disabled'; ?>><?php echo $checkout_redirection_label; ?></option>
-				<?php endforeach; ?>
-			</select>
-			<?php
-			// input for selecting a page
+		<div class="llms-plan-row-7">
+			<div class="llms-metabox-field d-all" data-controller="llms-availability" data-value-is="members">
+				<label><?php _e( 'Force redirect back to course after Membership checkout', 'lifterlms' ) ?></label>
+				<input name="_llms_plans[<?php echo $order; ?>][checkout_redirect_forced]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'checkout_redirect_forced' ) : 'no' ); ?>>
+				<em><?php _e( 'This will override any redirection setup on the membership and bring the user back to this course.', 'lifterlms' ); ?></em>
+			</div>
 
-			?>
-			<label><?php _e( 'Select a page', 'lifterlms' ) ?></label>
-			<select class="llms-checkout-redirect-page" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_page]" required="required" style="width:100%; height: 25px;">
-				<?php if( $plan ): ?>
-					<?php $llms_checkout_redirect_page = $plan->get( 'llms_checkout_redirect_page' ); ?>
-					<option value="<?php echo $llms_checkout_redirect_page; ?>" selected="selected"><?php echo get_the_title( $llms_checkout_redirect_page ); ?> ( #<?php echo $llms_checkout_redirect_page; ?>)</option>
-				<?php endif; ?>
-			<select>
-			<?php
-			// input for entering a custom url
-			?>
-			<label><?php _e( 'Enter a URL', 'lifterlms' ) ?></label>
-			<input type="text" class="llms-checkout-redirect-url" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_url]" />
+			<div class="llms-metabox-field d-1of2">
+				<label><?php _e( 'Redirect after checkout to', 'lifterlms' ) ?></label>
+				<select class="llms-checkout-redirect-type" data-controller-id="llms-checkout-redirect-type" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_type]" required="required" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+					<?php $saved_checkout_redirect_type = 'self'; ?>
+					<?php if( $plan ): ?>
+					<?php
+					$saved_checkout_redirect_type = ! empty( $plan->get('checkout_redirect_type') ) ? $plan->get('checkout_redirect_type'): 'self' ;
+					?>
+					<?php endif; ?>
+					<?php foreach ( $checkout_redirection_types as $checkout_redirection_type=>$checkout_redirection_label ) : ?>
+						<option value="<?php echo $checkout_redirection_type; ?>"<?php selected( $checkout_redirection_type, $saved_checkout_redirect_type ); ?>><?php echo $checkout_redirection_label; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<div class="llms-metabox-field d-1of2" data-controller="llms-checkout-redirect-type" data-value-is="page">
+				<label><?php _e( 'Select a page', 'lifterlms' ) ?></label>
+				<select class="llms-checkout-redirect-page" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_page]" data-post-type="page" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+					<?php if( $plan ): ?>
+						<?php $llms_checkout_redirect_page = $plan->get( 'checkout_redirect_page' ); ?>
+						<?php if( ! empty( $llms_checkout_redirect_page ) ): ?>
+							<option value="<?php echo $llms_checkout_redirect_page; ?>" selected="selected"><?php echo get_the_title( $llms_checkout_redirect_page ); ?> ( #<?php echo $llms_checkout_redirect_page; ?>)</option>
+						<?php endif; ?>
+					<?php endif; ?>
+				<select>
+			</div>
+			<div class="llms-metabox-field d-1of2" data-controller="llms-checkout-redirect-type" data-value-is="url">
+				<label><?php _e( 'Enter a URL', 'lifterlms' ) ?></label>
+				<input type="text" class="llms-checkout-redirect-url" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_url]"<?php echo ($plan) ? ' value="' . $plan->get( 'checkout_redirect_url' ) . '"' : ' disabled="disabled"'; ?> value="<?php echo ($plan) ? $plan->get( 'checkout_redirect_url' ): ''; ?>" />
+			</div>
 		</div>
+
+		<div class="clear"></div>
 
 		<input class="plan-order" name="_llms_plans[<?php echo $order; ?>][menu_order]" type="hidden" value="<?php echo ( $plan ) ? $plan->get( 'menu_order' ) : $order; ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 		<input name="_llms_plans[<?php echo $order; ?>][id]" type="hidden"<?php echo ( $plan ) ? ' value="' . $plan->get( 'id' ) . '"' : ' disabled="disabled"'; ?>>
