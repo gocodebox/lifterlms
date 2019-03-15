@@ -159,7 +159,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$available = $this->is_available_to_user( get_current_user_id() );
 
-		$query_redirection = filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
+		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
 		// force redirect querystring parameter over all else.
 		if ( ! empty( $query_redirection ) ) {
@@ -191,7 +191,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 					$redirection = $this->get( 'checkout_redirect_url' );
 					break;
 				case 'membership':
-				default:
 					break;
 			}
 		}
