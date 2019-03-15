@@ -128,7 +128,28 @@
 			// bind change events to form element that controls another form element
 			self.$plans.on( 'change', '[data-controller-id]', function() {
 				self.controller_change( $( this ) );
-			} )
+			} );
+
+			// @todo Replace this with multiple data-controller functionality in llms-metaboxes.js
+			self.$plans.on( 'change', 'select[name$="[availability]"]', function() {
+				var plan_container = $( this ).closest( '.llms-access-plan' );
+				var plan_redirect_forced = plan_container.find( 'input[name$="[checkout_redirect_forced]"]' );
+				var plan_redirect_settings = plan_container.find( '.llms-checkout-redirect-settings' );
+				if( $ (this ).val() === 'members' ){
+					if( ! plan_redirect_forced.prop( 'checked' ) ){
+						plan_redirect_settings.hide();
+					}else{
+						plan_redirect_settings.show();
+					}
+
+					plan_redirect_forced.on( 'change', function(){
+						plan_redirect_settings.toggle();
+					} );
+				}else{
+					plan_redirect_forced.off( 'change' );
+					plan_redirect_settings.show();
+				}
+			} );
 
 			$( '#llms-access-plans .llms-access-plan-datepicker' ).datepicker( {
 				dateFormat: "mm/dd/yy"
