@@ -150,7 +150,7 @@ function llms_get_sales_page_types() {
  * @version  [version]
  */
 function llms_get_checkout_redirection_types() {
-	return apply_filters( 'llms_sales_page_types', array(
+	return apply_filters( 'llms_checkout_redirection_types', array(
 		'self' => __( '(Default) Return to %s', 'lifterlms' ),
 		'page' => __( 'Redirect to a WordPress Page', 'lifterlms' ),
 		'url' => __( 'Redirect to a custom URL', 'lifterlms' ),
