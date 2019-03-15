@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.29.4 - 2019-03-??
+v3.29.4 - 2019-03-08
 --------------------
 
 + Fixed an issue preventing users with email addresses containing an apostrophe from being able to login.
