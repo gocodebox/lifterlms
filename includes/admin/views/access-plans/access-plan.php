@@ -333,7 +333,7 @@ endwhile; ?>
 				<input name="_llms_plans[<?php echo $order; ?>][checkout_redirect_forced]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'checkout_redirect_forced' ) : 'no' ); ?>>
 				<em><?php _e( 'Any redirection set up on the Membership Access Plans will be overridden by the following settings.', 'lifterlms' ); ?></em>
 			</div>
-
+			<div class="llms-metabox-field d-all llms-checkout-redirect-settings">
 			<div class="llms-metabox-field d-1of2">
 				<label><?php _e( 'Redirect after checkout to', 'lifterlms' ) ?></label>
 				<select class="llms-checkout-redirect-type" data-controller-id="llms-checkout-redirect-type" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_type]" required="required" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
@@ -362,6 +362,7 @@ endwhile; ?>
 			<div class="llms-metabox-field d-1of2" data-controller="llms-checkout-redirect-type" data-value-is="url">
 				<label><?php _e( 'Enter a URL', 'lifterlms' ) ?></label>
 				<input type="text" class="llms-checkout-redirect-url" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_url]"<?php echo ($plan) ? ' value="' . $plan->get( 'checkout_redirect_url' ) . '"' : ' disabled="disabled"'; ?> value="<?php echo ($plan) ? $plan->get( 'checkout_redirect_url' ): ''; ?>" />
+			</div>
 			</div>
 		</div>
 
