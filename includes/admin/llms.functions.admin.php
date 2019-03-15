@@ -145,13 +145,18 @@ function llms_get_sales_page_types() {
 
 /**
  * Get an array of available course/membership checkout redirection options
+ *
+ * @param    string    $product_type The product type, Course or Membership
  * @return   array
  * @since    [version]
  * @version  [version]
  */
-function llms_get_checkout_redirection_types() {
+function llms_get_checkout_redirection_types( $product_type ) {
+
+	$product_type = empty( $product_type ) ? __( 'Course/Membership' , 'lifterlms') : $product_type;
+
 	return apply_filters( 'llms_checkout_redirection_types', array(
-		'self' => __( '(Default) Return to %s', 'lifterlms' ),
+		'self' => sprintf( __( '(Default) Return to %s', 'lifterlms' ), $product_type ),
 		'page' => __( 'Redirect to a WordPress Page', 'lifterlms' ),
 		'url' => __( 'Redirect to a custom URL', 'lifterlms' ),
 	) );

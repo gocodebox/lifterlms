@@ -14,10 +14,11 @@ defined( 'ABSPATH' ) || exit;
 ?>
 
 <?php
-// get available checkout redirection types.
-$checkout_redirection_types = llms_get_checkout_redirection_types();
+// prepare product type string
+$product_type =  ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' );
 
-$checkout_redirection_types['self'] = sprintf( $checkout_redirection_types['self'], ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' ) );
+// get available checkout redirection types.
+$checkout_redirection_types = llms_get_checkout_redirection_types( $product_type );
 
 ?>
 <div class="llms-metabox" id="llms-product-options-access-plans">
