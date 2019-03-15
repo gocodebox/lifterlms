@@ -177,17 +177,14 @@ function llms_insert_access_plan( $props = array() ) {
 		// Translators: %s = supplied checkout redirect type.
 		return new WP_Error( 'invalid-checkout-redirect-type', sprintf( __( 'Invalid checkout redirect type: "%s"', 'lifterlms' ), $checkout_redirect_type ) );
 		// Ensure that the correct checkout redirection value is set if the type is page.
-	} elseif ( 'page' === $checkout_redirect_type ) {
-		if ( empty( get_post( $props['checkout_redirect_page'] ) ) ) {
-			// Translators: %d = supplied checkout redirect page ID.
-			return new WP_Error( 'invalid-checkout-redirect-page', sprintf( __( 'Invalid checkout redirect page ID: "%d"', 'lifterlms' ), $props['checkout_redirect_page'] ) );
-		}
+	} elseif ( 'page' === $checkout_redirect_type && empty( get_post( $props['checkout_redirect_page'] ) ) ) {
+		// Translators: %d = supplied checkout redirect page ID.
+		return new WP_Error( 'invalid-checkout-redirect-page', sprintf( __( 'Invalid checkout redirect page ID: "%d"', 'lifterlms' ), $props['checkout_redirect_page'] ) );
 		// Ensure that the correct checkout redirection value is set if the type is url.
-	} elseif ( 'url' === $checkout_redirect_type ) {
-		if ( ! filter_var( $props['checkout_redirect_url'], FILTER_VALIDATE_URL ) ) {
-			// Translators: %s = supplied checkout redirect page URL.
-			return new WP_Error( 'invalid-checkout-redirect-url', sprintf( __( 'Invalid checkout redirect URL: "%s"', 'lifterlms' ), $props['checkout_redirect_url'] ) );
-		}
+	} elseif ( 'url' === $checkout_redirect_type && ! filter_var( $props['checkout_redirect_url'], FILTER_VALIDATE_URL ) ) {
+		// Translators: %s = supplied checkout redirect page URL.
+		return new WP_Error( 'invalid-checkout-redirect-url', sprintf( __( 'Invalid checkout redirect URL: "%s"', 'lifterlms' ), $props['checkout_redirect_url'] ) );
+
 	}
 
 	if ( 'create' === $action ) {
