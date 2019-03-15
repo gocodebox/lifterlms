@@ -338,12 +338,12 @@ endwhile; ?>
 				<label><?php _e( 'Redirect after checkout to', 'lifterlms' ) ?></label>
 				<select class="llms-checkout-redirect-type" data-controller-id="llms-checkout-redirect-type" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_type]" required="required" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<?php $saved_checkout_redirect_type = 'self'; ?>
-					<?php if( $plan ): ?>
+					<?php if ( $plan ) : ?>
 					<?php
-					$saved_checkout_redirect_type = ! empty( $plan->get('checkout_redirect_type') ) ? $plan->get('checkout_redirect_type'): 'self' ;
+					$saved_checkout_redirect_type = ! empty( $plan->get( 'checkout_redirect_type' ) ) ? $plan->get( 'checkout_redirect_type' ): 'self';
 					?>
 					<?php endif; ?>
-					<?php foreach ( $checkout_redirection_types as $checkout_redirection_type=>$checkout_redirection_label ) : ?>
+					<?php foreach ( $checkout_redirection_types as $checkout_redirection_type => $checkout_redirection_label ) : ?>
 						<option value="<?php echo $checkout_redirection_type; ?>"<?php selected( $checkout_redirection_type, $saved_checkout_redirect_type ); ?>><?php echo $checkout_redirection_label; ?></option>
 					<?php endforeach; ?>
 				</select>
@@ -351,9 +351,9 @@ endwhile; ?>
 			<div class="llms-metabox-field d-1of2" data-controller="llms-checkout-redirect-type" data-value-is="page">
 				<label><?php _e( 'Select a page', 'lifterlms' ) ?></label>
 				<select class="llms-checkout-redirect-page" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_page]" data-post-type="page" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
-					<?php if( $plan ): ?>
+					<?php if ( $plan ) : ?>
 						<?php $llms_checkout_redirect_page = $plan->get( 'checkout_redirect_page' ); ?>
-						<?php if( ! empty( $llms_checkout_redirect_page ) ): ?>
+						<?php if ( ! empty( $llms_checkout_redirect_page ) ) : ?>
 							<option value="<?php echo $llms_checkout_redirect_page; ?>" selected="selected"><?php echo get_the_title( $llms_checkout_redirect_page ); ?> ( #<?php echo $llms_checkout_redirect_page; ?>)</option>
 						<?php endif; ?>
 					<?php endif; ?>

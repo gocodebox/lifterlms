@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
 			<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $mid ) : ?>
 				<?php
 				$membership_link = get_permalink( $mid );
-				if( ! empty( $redirection ) ){
+				if ( ! empty( $redirection ) ) {
 					$membership_link = add_query_arg( array(
 						'redirect' => $redirection,
 					), $membership_link );

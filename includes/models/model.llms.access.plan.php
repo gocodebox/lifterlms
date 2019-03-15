@@ -149,7 +149,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_redirection_url(){
+	public function get_redirection_url () {
 
 		// what type of redirection is set up by user?
 		$redirect_type = $this->get( 'checkout_redirect_type' );
@@ -162,16 +162,16 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		$query_redirection = filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
 		// force redirect querystring parameter over all else.
-		if( ! empty( $query_redirection ) ){
+		if ( ! empty( $query_redirection ) ) {
 			$redirection = $query_redirection;
 
 		} else {
 
-			if( ! $available && 'no' === $this->get( 'checkout_redirect_forced' ) ){
+			if ( ! $available && 'no' === $this->get( 'checkout_redirect_forced' ) ) {
 				$redirect_type = 'membership';
 			}
 
-			switch( $redirect_type ){
+			switch ( $redirect_type ) {
 
 				// redirect to itself
 				case 'self':
@@ -180,7 +180,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 					* At the same time, if it is a members' only access plan,
 					* after membership checkout we'd like to force redirect to course
 					*/
-					if( ! $available && 'yes' === $this->get( 'checkout_redirect_forced' ) ){
+					if ( ! $available && 'yes' === $this->get( 'checkout_redirect_forced' ) ) {
 						$redirection = get_permalink( $this->get( 'product_id' ) );
 					}
 					break;
@@ -230,7 +230,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				'plan' => $this->get( 'id' ),
 			);
 
-			if( ! empty( $redirection ) ){
+			if ( ! empty( $redirection ) ) {
 				$ret_params['redirect'] = $redirection;
 			}
 
@@ -244,13 +244,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// if there's only 1 plan associated with the membership return that url
 			if ( 1 === count( $memberships ) ) {
 				$ret = get_permalink( $memberships[0] );
-				if( ! empty( $redirection ) ){
+				if ( ! empty( $redirection ) ) {
 					$ret = add_query_arg( array(
 						'redirect' => $redirection,
 					), $ret );
 				}
 			}
-
 		}
 
 		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
