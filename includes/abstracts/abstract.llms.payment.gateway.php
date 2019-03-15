@@ -123,17 +123,14 @@ abstract class LLMS_Payment_Gateway {
 	public $title = '';
 
 	/**
-	 * This should be called by the gateway after verifying the transaction was completed successfully
+	 * Calculates the url to redirect to on transaction completion
 	 *
-	 * @param    obj        $order       Instance of an LLMS_Order object
-	 * @param    string     $deprecated  (deprecated) optional message to display on the redirect screen
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @param    LLMS_Order $order The order object
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
 	 */
-	public function complete_transaction( $order, $deprecated = '' ) {
-
-		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
+	protected function get_complete_transaction_redirect_url( $order ) {
 
 		// get the redirect parameter.
 		$redirect = urldecode( filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
@@ -161,7 +158,23 @@ abstract class LLMS_Payment_Gateway {
 		 * @param string  $redirect The URL to redirect user to.
 		 * @param LLMS_Order  $order The order object.
 		 */
-		$redirect = esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
+		return esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
+	}
+
+	/**
+	 * This should be called by the gateway after verifying the transaction was completed successfully
+	 *
+	 * @param    obj        $order       Instance of an LLMS_Order object
+	 * @param    string     $deprecated  (deprecated) optional message to display on the redirect screen
+	 * @return   void
+	 * @since    3.0.0
+	 * @version  3.8.0
+	 */
+	public function complete_transaction( $order, $deprecated = '' ) {
+
+		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
+
+		$redirect = $this->get_complete_transaction_redirect_url( $order );
 
 		// deprecated msg if supplied, will be removed in a future release
 		if ( $deprecated ) {
