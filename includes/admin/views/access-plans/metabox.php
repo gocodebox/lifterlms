@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 
 <?php
 // prepare product type string
-$product_type =  ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' );
+$product_type = ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' );
 
 // get available checkout redirection types.
 $checkout_redirection_types = llms_get_checkout_redirection_types( $product_type );
