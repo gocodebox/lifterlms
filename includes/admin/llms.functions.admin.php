@@ -151,7 +151,6 @@ function llms_get_sales_page_types() {
  */
 function llms_get_checkout_redirection_types() {
 	return apply_filters( 'llms_sales_page_types', array(
-		'membership' => __( 'Redirect to the Membership', 'lifterlms' ), // only for membership-only access plans
 		'self' => __( 'Redirect back to itself', 'lifterlms' ),
 		'page' => __( 'Redirect to a WordPress Page', 'lifterlms' ),
 		'url' => __( 'Redirect to a custom URL', 'lifterlms' ),
