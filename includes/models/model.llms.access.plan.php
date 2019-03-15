@@ -13,6 +13,10 @@
  * @property  $availability  (string)  Determine if this access plan is available to anyone or to members only. Use with $availability_restrictions to determine if the member can use the access plan. [open|members]
  * @property  $availability_restrictions (array)  Indexed array of LifterLMS Membership IDs a user must belong to to use the access plan. Only applicable if $availability is "members".
  * @property  $content  (string)  Plan description (post_content)
+ * @property  $checkout_redirect_forced (string) On a members' only access plan, whether to force redirect users back to course after checking out the membership.
+ * @property  $checkout_redirect_type (string) Type of checkout redirection [self|page|url]
+ * @property  $checkout_redirect_page (int) Page to redirect to after checkout
+ * @property  $checkout_redirect_url (string) URL to redirect to after checkout
  * @property  $enroll_text  (string)  Text to display on buy buttons
  * @property  $frequency  (int)  Frequency of billing. 0 = a one-time payment [0-6]
  * @property  $id  (int)  Post ID
@@ -49,6 +53,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		'availability' => 'string',
 		'availability_restrictions' => 'array',
 		'content' => 'html',
+		'checkout_redirect_forced' => 'yesno',
 		'checkout_redirect_type' => 'string',
 		'checkout_redirect_page' => 'absint',
 		'checkout_redirect_url' => 'string',
@@ -166,12 +171,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 				// redirect to itself
 				case 'self':
-					/* Only set up when it is a member's only access plan.
+					/* Only set up when it is a member's only access plan with forced redirection to course.
 					* This will ensure that on a regular access plan, no special parameter is added to querystring.
 					* At the same time, if it is a members' only access plan,
 					* after membership checkout we'd like to force redirect to course
 					*/
-					if( ! $available ){
+					if( ! $available && 'yes' === $this->get( 'checkout_redirect_forced' ) ){
 						$redirection = get_permalink( $this->get( 'product_id' ) );
 					}
 					break;
@@ -181,8 +186,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				case 'url':
 					$redirection = $this->get( 'checkout_redirect_url' );
 					break;
-				// in case of memberships and by default, no special redirect parameter needs to be added to checkout URL.
-				case 'membership':
 				default:
 					break;
 			}
