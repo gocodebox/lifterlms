@@ -5,17 +5,12 @@
  * @author    LifterLMS
  * @package   LifterLMS/Templates
  * @since     3.23.0
- * @version   3.23.0
+ * @version   [version]
  */
 defined( 'ABSPATH' ) || exit;
 ?>
 <?php if ( $plan->has_availability_restrictions() ) : ?>
-	<?php
-	$redirection = $plan->get_redirection_url();
-	if( ! empty( $redirection ) ){
-
-	}
-	?>
+	<?php $redirection = $plan->get_redirection_url(); ?>
 	<div class="llms-access-plan-restrictions">
 		<em class="stamp"><?php _e( 'MEMBER PRICING', 'lifterlms' ); ?></em>
 		<ul>
