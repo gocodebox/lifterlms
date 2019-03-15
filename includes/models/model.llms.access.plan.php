@@ -146,11 +146,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Calculate redirection url from settings
 	 *
+	 * @param    string The redirection type, self, page or url
 	 * @return   string
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function calculate_redirection_url() {
+	private function calculate_redirection_url( $redirect_type ) {
 
 		$available = $this->is_available_to_user( get_current_user_id() );
 
@@ -200,7 +201,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
 
 		// force redirect querystring parameter over all else.
-		$redirection = ! empty( $query_redirection ) ? $query_redirection : $this->calculate_redirection_url();
+		$redirection = ! empty( $query_redirection ) ? $query_redirection : $this->calculate_redirection_url( $redirect_type );
 
 		/**
 		 * Filter the checkout redirection parameter
