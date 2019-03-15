@@ -14,6 +14,8 @@ $uid = get_current_user_id();
 if ( ! $uid || empty( $plan ) || ! $plan->has_free_checkout() ) {
 	return;
 }
+
+$redirection = $plan->get_redirection_url();
 ?>
 
 <form action="" class="llms-free-enroll-form" method="POST">
@@ -25,6 +27,7 @@ if ( ! $uid || empty( $plan ) || ! $plan->has_free_checkout() ) {
 	<input name="action" type="hidden" value="create_pending_order">
 	<input name="form" type="hidden" value="free_enroll">
 	<input name="llms_agree_to_terms" type="hidden" value="yes">
+	<input name="free_checkout_redirect" type="hidden" value="<?php echo $redirection; ?>">
 	<input id="llms-plan-id" name="llms_plan_id" type="hidden" value="<?php echo $plan->get( 'id' ); ?>">
 	<button class="llms-button-action button" type="submit"><?php echo $plan->get_enroll_text(); ?></button>
 </form>
