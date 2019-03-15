@@ -28,11 +28,12 @@ Also check our [known issues and conflicts](https://lifterlms.com/doc-category/l
 + Create a new branch from the 'master' branch.
 + Make the changes to your forked repository.
 + Ensure you stick to the [coding standards](https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md) and have properly documented any new functions, actions and filters following the documentation standards.
-+ When committing, reference your issue (if present) and include a note about the fix.
 + Run PHPCS and ensure the output has no errors. We **will** reject pull requests if they fail codesniffing.
++ Ensure new code doesn't break existing tests and add new code should aim to have 100% code coverage. See the [testing guide](https://github.com/gocodebox/lifterlms/blob/master/tests/README.md) to get started with testing and let us know if you want help writing tests, we're happy to help!
++ When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
 + Push the changes to your fork
 + Submit a pull request to the 'master' branch of the LifterLMS repo.
-+ At this point you're waiting on us to merge your pull request. We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
++  We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
 
 
 ### Contribute Translations
