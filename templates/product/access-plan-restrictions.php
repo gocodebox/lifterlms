@@ -28,7 +28,7 @@ defined( 'ABSPATH' ) || exit;
 					), $membership_link );
 				}
 				?>
-				<li><a href="<?php echo get_permalink( $mid ); ?>"><?php echo get_the_title( $mid ); ?></a></li>
+				<li><a href="<?php echo $membership_link; ?>"><?php echo get_the_title( $mid ); ?></a></li>
 			<?php endforeach; ?>
 		</ul>
 	</div>
