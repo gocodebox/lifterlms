@@ -329,9 +329,9 @@ endwhile; ?>
 
 		<div class="llms-plan-row-7">
 			<div class="llms-metabox-field d-all" data-controller="llms-availability" data-value-is="members">
-				<label><?php _e( 'Force redirect back to course after Membership checkout', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Override Membership Redirects', 'lifterlms' ) ?></label>
 				<input name="_llms_plans[<?php echo $order; ?>][checkout_redirect_forced]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'checkout_redirect_forced' ) : 'no' ); ?>>
-				<em><?php _e( 'This will override any redirection setup on the membership and bring the user back to this course.', 'lifterlms' ); ?></em>
+				<em><?php _e( 'Any redirection set up on the Membership Access Plans will be overridden by the following settings.', 'lifterlms' ); ?></em>
 			</div>
 
 			<div class="llms-metabox-field d-1of2">
