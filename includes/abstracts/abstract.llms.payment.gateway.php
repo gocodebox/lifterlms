@@ -155,13 +155,13 @@ abstract class LLMS_Payment_Gateway {
 		}
 
 		/**
- 		* Filters the redirect on order completion.
- 		*
- 		* @since 3.8.0
- 		*
- 		* @param string  $redirect The URL to redirect user to.
- 		* @param LLMS_Order  $order The order object.
- 		*/
+ 		 * Filters the redirect on order completion.
+ 		 *
+ 		 * @since 3.8.0
+ 		 *
+ 		 * @param string  $redirect The URL to redirect user to.
+ 		 * @param LLMS_Order  $order The order object.
+ 		 */
 		$redirect = esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
 
 		// deprecated msg if supplied, will be removed in a future release
