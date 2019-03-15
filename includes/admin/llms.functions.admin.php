@@ -153,7 +153,7 @@ function llms_get_sales_page_types() {
  */
 function llms_get_checkout_redirection_types( $product_type = '' ) {
 
-	$product_type = empty( $product_type ) ? __( 'Course/Membership' , 'lifterlms' ) : $product_type;
+	$product_type = empty( $product_type ) ? __( 'Course/Membership', 'lifterlms' ) : $product_type;
 
 	return apply_filters( 'llms_checkout_redirection_types', array(
 		'self' => sprintf( __( '(Default) Return to %s', 'lifterlms' ), $product_type ),
