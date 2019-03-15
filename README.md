@@ -49,16 +49,6 @@ If you clone or download this repo directly it will not run as a plugin inside W
   + `npm install --global gulp`
   + `npm install`
 
-
-### Coding Standards
-
-For standards we're working off a modified version of the [WordPress Coding Standards](https://make.wordpress.org/core/handbook/best-practices/coding-standards/php/).
-
-We're utilizing (a currently slightly modified version of) the [WordPress Coding Standards Core Ruleset](https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards) for PHPCS (php codesniffing).
-
-Our javascript and SCSS are a mess. We're tackling that next.
-
-
 ### Running phpcs
 
 Use the shorthand composer script to run phpcs against all PHP files.
