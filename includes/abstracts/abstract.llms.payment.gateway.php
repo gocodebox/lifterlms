@@ -136,7 +136,7 @@ abstract class LLMS_Payment_Gateway {
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
 
 		// get the redirect parameter.
-		$redirect = filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
+		$redirect = urldecode( filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
 
 		// redirect to the product's permalink, if no parameter was set.
 		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );
@@ -147,7 +147,7 @@ abstract class LLMS_Payment_Gateway {
 		// add order key to the url.
 		$redirect = add_query_arg( array(
 			'order-complete' => $order->get( 'order_key' ),
-		), $redirect );
+		), esc_url( $redirect ) );
 
 		/**
  		* Filters the redirect on order completion.
