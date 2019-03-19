@@ -3,11 +3,13 @@
  * Product Options Admin Metabox HTML
  *
  * @package  LifterLMS/Admin/Views
- * @since    3.0.0
- * @version  3.29.0
  *
- * @var obj $course LLMS_Course.
- * @var obj $product LLMS_Product.
+ * @since 3.0.0
+ * @version 3.29.0
+ *
+ * @var LLMS_Course $course
+ * @var array $checkout_redirection_types checkout redirect setting options.
+ * @var LLMS_Product $product
  */
 
 defined( 'ABSPATH' ) || exit;
