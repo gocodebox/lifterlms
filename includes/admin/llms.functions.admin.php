@@ -2,8 +2,9 @@
 /**
  * Core functions used exlusively on the admin panel
  * @since    3.0.0
- * @version  3.23.0
+ * @version  [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -146,10 +147,11 @@ function llms_get_sales_page_types() {
 /**
  * Get an array of available course/membership checkout redirection options
  *
- * @param    string    $product_type The product type, Course or Membership
- * @return   array
  * @since    [version]
  * @version  [version]
+ *
+ * @param    string    $product_type The product type, Course or Membership
+ * @return   array
  */
 function llms_get_checkout_redirection_types( $product_type = '' ) {
 
