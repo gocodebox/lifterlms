@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.30.0-beta.1 - 2019-03-19
+---------------------------
+
++ Added options to customize the checkout redirect behavior for each access plan
++ Updated LifterLMS Blocks to 1.3.8. Fixes an issue causing some installations to be unable to use certain blocks due to jQuery dependencies being declared improperly.
+
+
 v3.29.4 - 2019-03-08
 --------------------
 

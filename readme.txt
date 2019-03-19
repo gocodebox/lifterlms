@@ -355,7 +355,14 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.29.4 - 2019-03-??
+v3.30.0-beta.1 - 2019-03-19
+-------------------------------
+
++ Added options to customize the checkout redirect behavior for each access plan
++ Updated LifterLMS Blocks to 1.3.8. Fixes an issue causing some installations to be unable to use certain blocks due to jQuery dependencies being declared improperly.
+
+
+= v3.29.4 - 2019-03-08 =
 ------------------------
 
 + Fixed an issue preventing users with email addresses containing an apostrophe from being able to login.
@@ -534,11 +541,5 @@ Admin panel templates replaced with view files which cannot be overridden from a
 ##### Templates Changed
 
 + [quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
-
-
-= v3.26.4 - 2019-01-16 =
-------------------------
-
-+ Update to [LifterLMS Blocks 1.3.2](https://make.lifterlms.com/2019/01/15/lifterlms-blocks-version-1-3-1/), fixing an issue preventing template actions from being removed from migrated courses & lessons.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
