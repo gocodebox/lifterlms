@@ -1,22 +1,26 @@
 <?php
 /**
  * Single Access Plan Restrictions
- * @property  obj  $plan  Instance of the LLMS_Access_Plan
+ *
  * @author    LifterLMS
  * @package   LifterLMS/Templates
+ *
+ * @property  LLMS_Access_Plan $plan Instance of the plan object.
+ *
  * @since     3.23.0
+ * @since     [version] Added redirect parameter to `$membership_link`
  * @version   [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 ?>
 <?php if ( $plan->has_availability_restrictions() ) : ?>
-	<?php $redirection = $plan->get_redirection_url(); ?>
 	<div class="llms-access-plan-restrictions">
 		<em class="stamp"><?php _e( 'MEMBER PRICING', 'lifterlms' ); ?></em>
 		<ul>
-			<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $mid ) : ?>
-				<?php
+			<?php foreach ( $plan->get_array( 'availability_restrictions' ) as $mid ) :
 				$membership_link = get_permalink( $mid );
+				$redirection = $plan->get_redirection_url();
 				if ( ! empty( $redirection ) ) {
 					$membership_link = add_query_arg( array(
 						'redirect' => $redirection,

@@ -1,11 +1,16 @@
 <?php
 /**
  * Template for the free enrollment form
- * Displays to logged in users on pricing tables for free access plans
- * if free checkout is not disabled via filter
+ * Displays to logged in users on pricing tables for free access plans if free checkout is not disabled via filter
+ *
+ * @author    LifterLMS
+ * @package   LifterLMS/Templates
+ *
+ * @property  LLMS_Access_Plan $plan Instance of the plan object.
  *
  * @since    3.4.0
- * @version  3.29.3
+ * @since    [version] Added redirect field
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
