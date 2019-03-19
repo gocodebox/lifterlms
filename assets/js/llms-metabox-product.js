@@ -2,7 +2,7 @@
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
  * @since    3.0.0
- * @version  3.29.3
+ * @version  [version]
  */
 ( function( $ ) {
 
@@ -101,9 +101,11 @@
 		/**
 		 * Bind DOM Events
 		 *
-		 * @return void
 		 * @since  3.0.0
-		 * @version 3.29.0
+		 * @since  [version] Add checkout redirect fields events.
+		 * @version [version]
+		 *
+		 * @return void
 		 */
 		this.bind = function() {
 
@@ -132,23 +134,26 @@
 
 			// @todo Replace this with multiple data-controller functionality in llms-metaboxes.js
 			self.$plans.on( 'change', 'select[name$="[availability]"]', function() {
-				var plan_container = $( this ).closest( '.llms-access-plan' );
-				var plan_redirect_forced = plan_container.find( 'input[name$="[checkout_redirect_forced]"]' );
-				var plan_redirect_settings = plan_container.find( '.llms-checkout-redirect-settings' );
-				if( $ (this ).val() === 'members' ){
-					if( ! plan_redirect_forced.prop( 'checked' ) ){
-						plan_redirect_settings.hide();
-					}else{
-						plan_redirect_settings.show();
+				var $plan_container = $( this ).closest( '.llms-access-plan' ),
+					$plan_redirect_forced = $plan_container.find( 'input[name$="[checkout_redirect_forced]"]' ),
+					$plan_redirect_settings = $plan_container.find( '.llms-checkout-redirect-settings' );
+
+				if ( 'members' === $( this ).val() ) {
+					if ( ! $plan_redirect_forced.prop( 'checked' ) ) {
+						$plan_redirect_settings.hide();
+					} else {
+						$plan_redirect_settings.show();
 					}
 
-					plan_redirect_forced.on( 'change', function(){
-						plan_redirect_settings.toggle();
+					$plan_redirect_forced.on( 'change', function() {
+						$plan_redirect_settings.toggle();
 					} );
-				}else{
-					plan_redirect_forced.off( 'change' );
-					plan_redirect_settings.show();
+
+				} else {
+					$plan_redirect_forced.off( 'change' );
+					$plan_redirect_settings.show();
 				}
+
 			} );
 
 			$( '#llms-access-plans .llms-access-plan-datepicker' ).datepicker( {
@@ -512,9 +517,12 @@
 
 		/**
 		 * Initalizes a new plan and adds it to the list of plans in the DOM
+		 *
+		 * @since 3.0.0
+		 * @since [version] Initialize select2 on checkout redirect fields.
+		 * @version [version]
+		 *
 		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.23.0
 		 */
 		this.init_plan = function() {
 
@@ -562,7 +570,6 @@
 
 			// select2ify redirection page fields
 			window.llms.metaboxes.post_select( $clone.find( '.llms-checkout-redirect-page' ) );
-
 
 			$clone.find( '[data-controller-id]' ).trigger( 'change' );
 			$( document ).trigger( 'llms-plan-init', $clone );
