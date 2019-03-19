@@ -100,3 +100,26 @@ When actions are set to run before and after items (templates, as an example) it
 
 There are a number of legacy hooks which use the prefix `lifterlms_` instead of `llms_`. These are retained for backwards compatibility but should not be used as an example of an acceptable naming convention for new code.
 
+### CSS Clases and IDs
+
+Classnames and IDs should be lowercase and prefixed with `llms-`.
+
+Words should be separated with hyphens (AKA "kebab case").
+
+```html
+<div class="llms-element-name" id="llms-elemend-id"></div>
+```
+
+### Form Element `name` attributes
+
+The `name` attribute of HTML form elements should be prefixed with `llms_`.
+
+Lowercase letters should be used and words should be separated by underscores.
+
+```html
+<form>
+   <input name="llms_text_field" type="text">
+</form>
+```
+
+
