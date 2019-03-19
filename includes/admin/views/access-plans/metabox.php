@@ -3,23 +3,16 @@
  * Product Options Admin Metabox HTML
  *
  * @package  LifterLMS/Admin/Views
- * @since    3.0.0
- * @version  3.29.0
  *
- * @var obj $course LLMS_Course.
- * @var obj $product LLMS_Product.
+ * @since 3.0.0
+ * @version 3.29.0
+ *
+ * @var LLMS_Course $course
+ * @var array $checkout_redirection_types checkout redirect setting options.
+ * @var LLMS_Product $product
  */
 
 defined( 'ABSPATH' ) || exit;
-?>
-
-<?php
-// prepare product type string
-$product_type = ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' );
-
-// get available checkout redirection types.
-$checkout_redirection_types = llms_get_checkout_redirection_types( $product_type );
-
 ?>
 <div class="llms-metabox" id="llms-product-options-access-plans">
 

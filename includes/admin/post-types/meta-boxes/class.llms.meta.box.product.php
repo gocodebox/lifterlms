@@ -3,21 +3,25 @@
  * Access Plan metabox
  *
  * @since    1.0.0
- * @version  3.29.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Meta_Box_Product class.
+ *
+ * @since    1.0.0
+ * @since  [version] Added checkout redirect settings
+ * @version  [version]
  */
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
 	 * @return void
-	 * @since  3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @version 3.0.0
 	 */
 	public function configure() {
 
@@ -106,7 +110,8 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 *
 	 * @return  string
 	 * @since   3.29.0
-	 * @version 3.29.0
+	 * @since   [version] Added checkout redirect settings.
+	 * @version [version]
 	 */
 	public function get_html() {
 
@@ -114,6 +119,11 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 		$product = new LLMS_Product( $this->post );
 		add_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
 		$course = ( 'course' === $product->get( 'type' ) ) ? new LLMS_Course( $product->post ) : false;
+
+		// get available checkout redirection types.
+		$product_type = ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' );
+		$checkout_redirection_types = llms_get_checkout_redirection_types( $product_type );
+
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/access-plans/metabox.php';
 		remove_filter( 'teeny_mce_buttons', array( $this, 'mce_buttons' ), 10, 2 );
 		return apply_filters( 'llms_metabox_product_output', ob_get_clean(), $this );

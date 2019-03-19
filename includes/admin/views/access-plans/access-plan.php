@@ -4,9 +4,11 @@
  *
  * @package  LifterLMS/Admin/Views
  * @since    3.0.0
- * @version  3.29.0
+ * @since    [version] Added checkout redirect settings.
+ * @version  [version]
  *
  * @var obj $course LLMS_Course.
+ * @var array $checkout_redirection_types checkout redirect setting options.
  * @var obj $plan LLMS_Access_Plan.
  */
 
@@ -335,7 +337,7 @@ endwhile; ?>
 			</div>
 			<div class="llms-metabox-field d-all llms-checkout-redirect-settings">
 			<div class="llms-metabox-field d-1of2">
-				<label><?php _e( 'Redirect after checkout to', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Checkout redirect', 'lifterlms' ) ?></label>
 				<select class="llms-checkout-redirect-type" data-controller-id="llms-checkout-redirect-type" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_type]" required="required" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 					<?php $saved_checkout_redirect_type = 'self'; ?>
 					<?php if ( $plan ) : ?>
