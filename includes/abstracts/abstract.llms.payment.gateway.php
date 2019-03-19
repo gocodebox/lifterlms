@@ -123,6 +123,49 @@ abstract class LLMS_Payment_Gateway {
 	public $title = '';
 
 	/**
+	 * Calculates the url to redirect to on transaction completion
+	 *
+	 * @param    LLMS_Order $order The order object
+	 * @return   string
+	 * @since    [version]
+	 * @version  [version]
+	 */
+	protected function get_complete_transaction_redirect_url( $order ) {
+
+		// get the redirect parameter.
+		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
+
+		// redirect to the product's permalink, if no parameter was set.
+		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );
+
+		// fallback to the account page if we don't have a url for some reason.
+		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( llms_get_page_id( 'myaccount' ) );
+
+		// add order key to the url.
+		$redirect = add_query_arg( array(
+			'order-complete' => $order->get( 'order_key' ),
+		), esc_url( $redirect ) );
+
+		// redirection url on free checkout form
+		$quick_enroll_form = llms_filter_input( INPUT_POST, 'form' );
+
+		$free_checkout_redirect = llms_filter_input( INPUT_POST, 'free_checkout_redirect' );
+
+		if ( get_current_user_id() && ( 'free_enroll' === $quick_enroll_form ) && ! empty( $free_checkout_redirect ) ) {
+			$redirect = urldecode( $free_checkout_redirect );
+		}
+
+		/**
+		 * Filters the redirect on order completion.
+		 *
+		 * @since 3.8.0
+		 * @param string  $redirect The URL to redirect user to.
+		 * @param LLMS_Order  $order The order object.
+		 */
+		return esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
+	}
+
+	/**
 	 * This should be called by the gateway after verifying the transaction was completed successfully
 	 *
 	 * @param    obj        $order       Instance of an LLMS_Order object
@@ -135,19 +178,7 @@ abstract class LLMS_Payment_Gateway {
 
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
 
-		// redirect to the product's permalink
-		$redirect = get_permalink( $order->get( 'product_id' ) );
-
-		// fallback to the account page if we don't have a url for some reason
-		if ( ! $redirect ) {
-			$redirect = get_permalink( llms_get_page_id( 'myaccount' ) );
-		}
-
-		$redirect = add_query_arg( array(
-			'order-complete' => $order->get( 'order_key' ),
-		), $redirect );
-
-		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
+		$redirect = $this->get_complete_transaction_redirect_url( $order );
 
 		// deprecated msg if supplied, will be removed in a future release
 		if ( $deprecated ) {
