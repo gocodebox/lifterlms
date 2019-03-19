@@ -96,10 +96,11 @@ A link in the form of a URL, such as related GitHub issue or other documentation
 
 Use `@since`, `@version`, and `@deprecated` to create a changelog for the element.
 
-
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
 All descriptions for any of these tags should be a full sentence ending with a full stop (a period, for example).
+
+#### Recording the Version Number
 
 Versions should be expressed in the 3-digit `x.x.x` style.
 
@@ -114,6 +115,8 @@ When any change has been made to the element, the `@version` tag should be updat
  * @since 3.5.0 Added optional 3rd argument.
  * @version 3.5.0
 ```
+
+#### Deprecations
 
 When an element is marked for deprecation this should be recorded at the end of the changelog with an `@deprecated` tag.
 
@@ -130,10 +133,31 @@ A short description may be added to provide additional information about the dep
 
 When adding documentation on an existing element which does not yet have a changelog (common in code added prior to the creation and enforcement of these standards) if it is impossible to determine when the element was added the version may be expressed with `Unknown` instead of the `x.x.x` version number.
 
+#### Using Placeholders
+
+When contributing code we recommend using the placeholder `[version]` in favor of trying to guess what version the element will be released with.
+
+Our release workflow automatically replaces with `@since`, `@version`, and `@deprecated` followed by `[version]` with the actual version of the release being packaged.
+
+For a new element:
+
+```
+ * @since [version]
+ * @version [verson]
+```
+
+When updating an existing element:
+
+```
+ * @since 3.5.0
+ * @since [version] Updated element.
+ * @version [verson]
+```
+
 
 ### Additional Tags
 
-**1. Parameters and Returns**
+#### 1. Parameters and Returns
 
 Functions and methods should define all paramter arguments and returns with the `@param` and `@return` tags.
 
@@ -172,7 +196,7 @@ A full array parameter would look like this:
 ```
 
 
-**2. Types**
+#### 2. Types
 
 Variables, constants, and class members should use the `@var` tag to describe the member's type.
 
@@ -182,7 +206,7 @@ Variables, constants, and class members should use the `@var` tag to describe th
 public $var = 'text';
 ```
 
-**3. Relations and References**
+#### 3. Relations and References
 
 Use `@see` to perform automatic links to other areas of the codebase. For example `{@see 'is_lifterlms'}` to link to the filter `is_lifterlms`.
 
