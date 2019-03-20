@@ -1,10 +1,19 @@
 <?php
+/**
+ * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
+ *
+ * @since 3.0.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
- * @since    3.0.0
- * @version  3.24.0
+ * LLMS_Post_Model abstract
+ *
+ * @since 3.0.0
+ * @since [version] Improve handling of custom field data to `toArrayCustom()`
+ * @version [version]
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -1003,13 +1012,17 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Removes all custom props registered to the $this->properties automatically
 	 * Also removes some fields used by the WordPress core that don't hold necessary data
 	 * Extending classes may override this class to exclude, extend, or modify the custom fields for a post type
+	 *
+	 * @since 3.16.11
+	 * @since [version] Use `maybe_unserialize()` to ensure array data is accessible as an array.
+	 * @version  [version]
+	 *
 	 * @param    array     $arr  existing post array
 	 * @return   array
-	 * @since    3.16.11
-	 * @version  3.16.11
 	 */
 	protected function toArrayCustom( $arr ) {
 
+		// Build an array of keys that are registered or can be excluded as a custom field.
 		$props = array_keys( $this->get_properties() );
 		foreach ( $props as &$prop ) {
 			$prop = $this->meta_prefix . $prop;
@@ -1017,7 +1030,22 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$props[] = '_edit_lock';
 		$props[] = '_edit_last';
 
-		$arr['custom'] = array_diff_key( get_post_meta( $this->get( 'id' ) ), array_flip( $props ) );
+		// Get all meta data.
+		$custom = array();
+		foreach ( get_post_meta( $this->get( 'id' ) ) as $key => $vals ) {
+
+			// Skip registered fields.
+			if ( in_array( $key, $props, true ) ) {
+				continue;
+			}
+
+			// add it.
+			$custom[ $key ] = array_map( 'maybe_unserialize', $vals );
+
+		}
+
+		// add the compiled custom array.
+		$arr['custom'] = $custom;
 
 		return $arr;
 	}
