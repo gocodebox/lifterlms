@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.30.0-beta.2 - 2019-03-20
+---------------------------
+
++ Fixed an issue preventing builder custom fields from being able to specify a custom sanitization callback.
++ Fixed an issue preventing builder custom fields from being able to properly save and render multi-select data.
+
+
 v3.30.0-beta.1 - 2019-03-19
 ---------------------------
 
