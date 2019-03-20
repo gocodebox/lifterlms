@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Builder class.
  *
  * @since 3.13.0
- * @since [version] Fixed an issue preventing custom fields specifying a `sanitize_callback` function from working properly.
+ * @since [version] Fixed issues related to custom field sanitization.
  * @version [version]
  */
 class LLMS_Admin_Builder {
@@ -712,7 +712,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Handle updating custom schema data
 	 *
 	 * @since 3.17.0
-	 * @since [version] Fixed typo preventing custom fields specifying a custom callback from working.
+	 * @since [version] Fixed typo preventing fields specifying a custom callback from working.
+	 * @since [version] Array fields will run field values through `sanitize_text_field()` instead of requiring a custom sanitization callback.
 	 * @version [version]
 	 *
 	 * @param string $type Model type (lesson, quiz, etc...).
@@ -752,7 +753,11 @@ if ( ! empty( $active_post_lock ) ) {
 							if ( isset( $field['sanitize_callback'] ) ) {
 								$val = call_user_func( $field['sanitize_callback'], $post_data[ $attr ] );
 							} else {
-								$val = sanitize_text_field( $post_data[ $attr ] );
+								if ( is_array( $post_data[ $attr ] ) ) {
+									$val = array_map( 'sanitize_text_field', $post_data[ $attr ] );
+								} else {
+									$val = sanitize_text_field( $post_data[ $attr ] );
+								}
 							}
 
 							$attr = isset( $field['attribute_prefix'] ) ? $field['attribute_prefix'] . $attr : $attr;
