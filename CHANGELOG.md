@@ -21,6 +21,11 @@ v3.30.0 - 2019-03-21
 + Fixed an issue preventing builder custom fields from being able to specify a custom sanitization callback.
 + Fixed an issue preventing builder custom fields from being able to properly save and render multi-select data.
 
+##### Template Updates
+
++ [templates/product/access-plan-restrictions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-restrictions.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
+
 
 v3.29.4 - 2019-03-08
 --------------------
