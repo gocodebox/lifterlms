@@ -3,7 +3,7 @@
  * LifterLMS Admin Course Builder
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Builder class.
  *
  * @since 3.13.0
- * @since [version] Fixed issues related to custom field sanitization.
- * @version [version]
+ * @since 3.30.0 Fixed issues related to custom field sanitization.
+ * @version 3.30.0
  */
 class LLMS_Admin_Builder {
 
@@ -712,9 +712,9 @@ if ( ! empty( $active_post_lock ) ) {
 	 * Handle updating custom schema data
 	 *
 	 * @since 3.17.0
-	 * @since [version] Fixed typo preventing fields specifying a custom callback from working.
-	 * @since [version] Array fields will run field values through `sanitize_text_field()` instead of requiring a custom sanitization callback.
-	 * @version [version]
+	 * @since 3.30.0 Fixed typo preventing fields specifying a custom callback from working.
+	 * @since 3.30.0 Array fields will run field values through `sanitize_text_field()` instead of requiring a custom sanitization callback.
+	 * @version 3.30.0
 	 *
 	 * @param string $type Model type (lesson, quiz, etc...).
 	 * @param obj $post LLMS_Post_Model object for the model being updated.

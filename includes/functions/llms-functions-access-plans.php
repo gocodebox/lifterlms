@@ -17,8 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * @see LLMS_Access_Plan
  *
  * @since   3.29.0
- * @since   [version] Added checkout redirect options.
- * @version [version]
+ * @since   3.30.0 Added checkout redirect options.
+ * @version 3.30.0
  *
  * @param array $props {
  *     An array of of properties that make up the plan to create or update.

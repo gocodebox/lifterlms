@@ -30,7 +30,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * Get array of data to pass to the auto enrollment courses table
 	 *
 	 * @since 3.0.0
-	 * @since [version] Removed sorting by title.
+	 * @since 3.30.0 Removed sorting by title.
 	 * @version 3.4.0
 	 *
 	 * @param obj $membership instance of LLMS_Membership for the current post.
@@ -71,8 +71,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 *
 	 * @since 3.0.0
-	 * @since [version] Removed empty field settings. Modified settings to accommodate sortable autoenrollment table.
-	 * @version [version]
+	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable autoenrollment table.
+	 * @version 3.30.0
 	 *
 	 * @return array
 	 */
@@ -254,8 +254,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * Save field data
 	 *
 	 * @since 3.0.0
-	 * @since [version] Autoenroll courses saved via AJAX and removed from this method.
-	 * @version [version]
+	 * @since 3.30.0 Autoenroll courses saved via AJAX and removed from this method.
+	 * @version 3.30.0
 	 *
 	 * @see LLMS_Admin_Metabox::save_actions()
 	 *

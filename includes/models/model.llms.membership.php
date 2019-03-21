@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  [version]
+ * @version  3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Membership model.
  *
  * @since 3.0.0
- * @since [version] Added optional argument to `add_auto_enroll_courses()` method.
- * @version [version]
+ * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
+ * @version 3.30.0
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -62,8 +62,8 @@ implements LLMS_Interface_Post_Instructors
 	 * Add courses to autoenrollment by id
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added optional `$replace` argument.
-	 * @version [version]
+	 * @since 3.30.0 Added optional `$replace` argument.
+	 * @version 3.30.0
 	 *
 	 * @param array|int $course_ids Array of course id or course id as int.
 	 * @param bool $replace Optional. Default `false`. When `true`, replaces all existing courses with `$course_ids`, when false merges `$course_ids` with existing courses.

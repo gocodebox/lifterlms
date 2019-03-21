@@ -9,8 +9,8 @@
  * @property  LLMS_Access_Plan $plan Instance of the plan object.
  *
  * @since    3.4.0
- * @since    [version] Added redirect field
- * @version  [version]
+ * @since    3.30.0 Added redirect field
+ * @version  3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;

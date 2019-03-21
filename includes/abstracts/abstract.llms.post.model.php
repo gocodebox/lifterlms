@@ -3,7 +3,7 @@
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Post_Model abstract
  *
  * @since 3.0.0
- * @since [version] Improve handling of custom field data to `toArrayCustom()`
- * @version [version]
+ * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`
+ * @version 3.30.0
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -1014,8 +1014,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Extending classes may override this class to exclude, extend, or modify the custom fields for a post type
 	 *
 	 * @since 3.16.11
-	 * @since [version] Use `maybe_unserialize()` to ensure array data is accessible as an array.
-	 * @version  [version]
+	 * @since 3.30.0 Use `maybe_unserialize()` to ensure array data is accessible as an array.
+	 * @version  3.30.0
 	 *
 	 * @param    array     $arr  existing post array
 	 * @return   array

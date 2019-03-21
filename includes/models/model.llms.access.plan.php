@@ -6,7 +6,7 @@
  * @package  LifterLMS/Models
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,8 +46,8 @@ defined( 'ABSPATH' ) || exit;
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
  *
  * @since    3.0.0
- * @since    [version] Added checkout redirect properties and methods
- * @version  [version]
+ * @since    3.30.0 Added checkout redirect properties and methods
+ * @version  3.30.0
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
@@ -118,8 +118,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * @param    string The redirection type: self, page or url.
 	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.30.0
+	 * @version  3.30.0
 	 */
 	private function calculate_redirection_url( $redirect_type ) {
 
@@ -231,8 +231,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Retrieve the full URL to redirect to after successful checkout
 	 *
-	 * @since    [version]
-	 * @version  [version]
+	 * @since    3.30.0
+	 * @version  3.30.0
 	 *
 	 * @return   string
 	 */
@@ -249,8 +249,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		/**
 		 * Filter the checkout redirection parameter
 		 *
-		 * @since    [version]
-		 * @version  [version]
+		 * @since    3.30.0
+		 * @version  3.30.0
 		 *
 		 * @param    string               $redirection The calculated url to redirect to.
 		 * @param    string               $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
@@ -264,8 +264,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Retrieve the full URL to the checkout screen for the plan
 	 *
 	 * @since    3.0.0
-	 * @since    [version] Added access plan redirection settings.
-	 * @version  [version]
+	 * @since    3.30.0 Added access plan redirection settings.
+	 * @version  3.30.0
 	 *
 	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
 	 * @return   string
@@ -310,7 +310,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * Filter the checkout URL for an access plan.
 		 *
 		 * @since Unknown
-		 * @version [version]
+		 * @version 3.30.0
 		 *
 		 * @param string $ret The checkout URL.
 		 * @param LLMS_Access_Plan $this Access plan object.

@@ -8,8 +8,8 @@
  * @property  LLMS_Access_Plan $plan Instance of the plan object.
  *
  * @since     3.23.0
- * @since     [version] Added redirect parameter to `$membership_link`
- * @version   [version]
+ * @since     3.30.0 Added redirect parameter to `$membership_link`
+ * @version   3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;

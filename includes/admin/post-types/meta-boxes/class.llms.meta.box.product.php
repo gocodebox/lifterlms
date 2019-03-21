@@ -3,7 +3,7 @@
  * Access Plan metabox
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Meta_Box_Product class.
  *
  * @since    1.0.0
- * @since  [version] Added checkout redirect settings
- * @version  [version]
+ * @since  3.30.0 Added checkout redirect settings
+ * @version  3.30.0
  */
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
@@ -110,8 +110,8 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 *
 	 * @return  string
 	 * @since   3.29.0
-	 * @since   [version] Added checkout redirect settings.
-	 * @version [version]
+	 * @since   3.30.0 Added checkout redirect settings.
+	 * @version 3.30.0
 	 */
 	public function get_html() {
 

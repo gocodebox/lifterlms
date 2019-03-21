@@ -2,8 +2,8 @@
  * LifterLMS Admin Panel Metabox Functions
  *
  * @since 3.0.0
- * @since [version] Made autoenroll table sortable, added AJAX save for adding new courses.
- * @version [version]
+ * @since 3.30.0 Made autoenroll table sortable, added AJAX save for adding new courses.
+ * @version 3.30.0
  */
 ( function( $ ) {
 
@@ -426,8 +426,8 @@
 		 * Actions for memberships
 		 *
 		 * @since 3.0.0
-		 * @since [version] Made autoenroll table sortable, added AJAX save for adding new courses.
-		 * @version [version]
+		 * @since 3.30.0 Made autoenroll table sortable, added AJAX save for adding new courses.
+		 * @version 3.30.0
 		 *
 		 * @return   void
 		 */
@@ -438,8 +438,8 @@
 			/**
 			 * Hide/Show empty message header row depending on the number of rows in the tbody
 			 *
-			 * @since [version]
-			 * @version [version]
+			 * @since 3.30.0
+			 * @version 3.30.0
 			 *
 			 * @return void
 			 */
@@ -456,8 +456,8 @@
 			/**
 			 * Retrieve an array of course IDs in the table.
 			 *
-			 * @since [version]
-			 * @version [version]
+			 * @since 3.30.0
+			 * @version 3.30.0
 			 *
 			 * @return array
 			 */

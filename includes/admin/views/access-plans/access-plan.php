@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Admin/Views
  * @since    3.0.0
- * @since    [version] Added checkout redirect settings.
- * @version  [version]
+ * @since    3.30.0 Added checkout redirect settings.
+ * @version  3.30.0
  *
  * @var obj $course LLMS_Course.
  * @var array $checkout_redirection_types checkout redirect setting options.

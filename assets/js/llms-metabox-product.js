@@ -2,7 +2,7 @@
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
  * @since    3.0.0
- * @version  [version]
+ * @version  3.30.0
  */
 ( function( $ ) {
 
@@ -102,8 +102,8 @@
 		 * Bind DOM Events
 		 *
 		 * @since  3.0.0
-		 * @since  [version] Add checkout redirect fields events.
-		 * @version [version]
+		 * @since  3.30.0 Add checkout redirect fields events.
+		 * @version 3.30.0
 		 *
 		 * @return void
 		 */
@@ -519,8 +519,8 @@
 		 * Initalizes a new plan and adds it to the list of plans in the DOM
 		 *
 		 * @since 3.0.0
-		 * @since [version] Initialize select2 on checkout redirect fields.
-		 * @version [version]
+		 * @since 3.30.0 Initialize select2 on checkout redirect fields.
+		 * @version 3.30.0
 		 *
 		 * @return   void
 		 */

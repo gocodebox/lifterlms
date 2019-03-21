@@ -1,11 +1,30 @@
 == Changelog ==
 
 
-v3.30.0-beta.1 - 2019-03-19
--------------------------------
+= v3.30.0 - 2019-03-21 =
+------------------------
 
-+ Added options to customize the checkout redirect behavior for each access plan
-+ Updated LifterLMS Blocks to 1.3.8. Fixes an issue causing some installations to be unable to use certain blocks due to jQuery dependencies being declared improperly.
+##### Updates
+
++ **Create custom thank you pages with new access plan checkout redirect options.**
++ Added the ability to sort items on the membership auto enrollment table (drag and drop to sort and reorder).
++ Improved the interface and interactions with the membership auto enrollment table settings.
+
+##### LifterLMS Blocks
+
++ Updated LifterLMS Blocks to 1.3.8.
++ Fixed an issue causing some installations to be unable to use certain blocks due to jQuery dependencies being declared improperly.
+
+##### Bug Fixes
+
++ Fixed issue preventing courses with the same title from properly displayed on the membership automatic enrollment courses table on the admin panel.
++ Fixed an issue preventing builder custom fields from being able to specify a custom sanitization callback.
++ Fixed an issue preventing builder custom fields from being able to properly save and render multi-select data.
+
+##### Template Updates
+
++ [templates/product/access-plan-restrictions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-restrictions.php)
++ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
 
 
 = v3.29.4 - 2019-03-08 =
@@ -164,26 +183,3 @@ Admin panel templates replaced with view files which cannot be overridden from a
 
 + Class method: `LLMS_Admin_Table::queue_export()`
 + Class: `LLMS_Processor_Table_To_Csv`
-
-
-= v3.27.0 - 2019-01-22 =
-------------------------
-
-###### Updates
-
-+ Added the ability to add existing questions to a quiz in the course builder. This allows cloning of existing questions as well as attaching "orphaned" questions currently attached to no quizzes.
-+ Added the ability to detach questions from quizzes. Coupled with adding existing questions, questions can now be easily moved between quizzes.
-+ Added permalink capabilities to the builder to allow linking to specific items within the builder (a lesson, quiz, etc...).
-+ Quizzes with 0 possible points will no longer show a Pass/Fail chart with a 0% (failing) grade on quiz results screens.
-+ Replaced option `lifterlms_lock_down` which cannot be set via any setting with a filter to reduce database calls. This will have no effect on anyone unless you manually set this option to "no" via a database query. Having done this would allow the admin bar to be shown to students.
-
-##### Bug Fixes
-
-+ Fixed an issue causing the default "Redeem Voucher" and "My Orders" student dashboard endpoint slugs from not having the correct default values. Thanks [@tnorthcutt](https://github.com/tnorthcutt)!
-+ Fixed an issue causing quotation marks in quiz question answers to show escaping slashes on results screens.
-+ Fixed a bug preventing viewing quiz results for quizzes with questions that have been deleted.
-+ Fixed a bug causing a PHP Notice to be output when registering a new user with a valid voucher.
-
-##### Templates Changed
-
-+ [quiz/results-attempt.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results-attempt.php)
