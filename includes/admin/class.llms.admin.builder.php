@@ -767,7 +767,7 @@ if ( ! empty( $active_post_lock ) ) {
 					}
 				}
 			}
-		}
+		}// End foreach().
 
 	}
 
