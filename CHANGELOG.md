@@ -1,18 +1,25 @@
 LifterLMS Changelog
 ===================
 
-v3.30.0-beta.2 - 2019-03-20
----------------------------
+v3.30.0 - 2019-03-21
+--------------------
 
+##### Updates
+
++ **Create custom thank you pages with new access plan checkout redirect options.**
++ Added the ability to sort items on the membership auto enrollment table (drag and drop to sort and reorder).
++ Improved the interface and interactions with the membership auto enrollment table settings.
+
+##### LifterLMS Blocks
+
++ Updated LifterLMS Blocks to 1.3.8.
++ Fixed an issue causing some installations to be unable to use certain blocks due to jQuery dependencies being declared improperly.
+
+##### Bug Fixes
+
++ Fixed issue preventing courses with the same title from properly displayed on the membership automatic enrollment courses table on the admin panel.
 + Fixed an issue preventing builder custom fields from being able to specify a custom sanitization callback.
 + Fixed an issue preventing builder custom fields from being able to properly save and render multi-select data.
-
-
-v3.30.0-beta.1 - 2019-03-19
----------------------------
-
-+ Added options to customize the checkout redirect behavior for each access plan
-+ Updated LifterLMS Blocks to 1.3.8. Fixes an issue causing some installations to be unable to use certain blocks due to jQuery dependencies being declared improperly.
 
 
 v3.29.4 - 2019-03-08
