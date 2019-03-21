@@ -1,14 +1,20 @@
 <?php
 /**
  * LifterLMS AJAX Event Handler
- * @since    1.0.0
- * @version  3.29.2
+ *
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_AJAX_Handler class
+ *
+ * @since 1.0.0
+ * @since [version] Added `llms_save_membership_autoenroll_courses` method.
+ * @version [version]
+ *
  */
 class LLMS_AJAX_Handler {
 
@@ -1059,6 +1065,35 @@ class LLMS_AJAX_Handler {
 
 		require_once 'admin/class.llms.admin.builder.php';
 		return LLMS_Admin_Builder::handle_ajax( $request );
+
+	}
+
+	/**
+	 * Save autoenroll courses list for a Membership
+	 *
+	 * @since [version]
+	 * @version [version]
+	 *
+	 * @param array $request $_POST data.
+	 * @return null|true
+	 */
+	public static function llms_save_membership_autoenroll_courses( $request ) {
+
+		// Missing required fields.
+		if ( empty( $request['post_id'] ) || ! isset( $request['courses'] ) ) {
+			return;
+		}
+
+		// Not a membership.
+		$membership = llms_get_post( $request['post_id'] );
+		if ( ! $membership || ! is_a( $membership, 'LLMS_Membership' ) ) {
+			return;
+		}
+
+		$courses = array_map( 'absint', (array) $request['courses'] );
+		$membership->add_auto_enroll_courses( $courses, true );
+
+		return true;
 
 	}
 
