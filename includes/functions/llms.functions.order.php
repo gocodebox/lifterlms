@@ -48,7 +48,6 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 			return $err;
 
 		}
-
 	} else {
 
 		$err->add( 'invalid-gateway', __( 'An invalid payment method was selected.', 'lifterlms' ) );
@@ -309,12 +308,12 @@ function llms_setup_pending_order( $data = array() ) {
 	 * @version [version]
 	 *
 	 * @param $setup {
- 	 *     Data used to create the pending order.
- 	 *
- 	 *     @type LLMS_Student $person Student object.
- 	 *     @type LLMS_Access_Plan $plan Access plan object.
- 	 *     @type LLMS_Payment_Gateway $gateway Instance of the selected gateway.
- 	 *     @type LLMS_Coupon|false $coupon Coupon object or false if none used.
+		 *     Data used to create the pending order.
+		 *
+		 *     @type LLMS_Student $person Student object.
+		 *     @type LLMS_Access_Plan $plan Access plan object.
+		 *     @type LLMS_Payment_Gateway $gateway Instance of the selected gateway.
+		 *     @type LLMS_Coupon|false $coupon Coupon object or false if none used.
 	 * }
 	 * @param array $data Array of input data from a checkout form.
 	 */

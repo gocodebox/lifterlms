@@ -182,7 +182,7 @@ class LLMS_Shortcode_Checkout {
 				if ( isset( $_POST['llms_order_key'] ) ) {
 					$atts['order_key'] = sanitize_text_field( $_POST['llms_order_key'] );
 
-				// Attempt to located a pending order.
+					// Attempt to located a pending order.
 				} elseif ( self::$uid ) {
 					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $_GET['plan'] );
 					if ( $pending_order ) {
@@ -200,7 +200,7 @@ class LLMS_Shortcode_Checkout {
 
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
 
-			}
+			}// End if().
 		} elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
