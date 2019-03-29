@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.30.1 - 2019-03-??
+--------------------
+
++ Added handler to automatically resume pending (incomplete or abandoned) orders.
+
+
 v3.30.0 - 2019-03-21
 --------------------
 

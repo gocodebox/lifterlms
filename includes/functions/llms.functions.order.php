@@ -1,28 +1,187 @@
 <?php
 /**
  * Functions for LifterLMS Orders
- * @since    3.29.0
- * @version  3.29.0
+ *
+ * @package LifterLMS/Functions/Orders
+ *
+ * @since 3.29.0
+ * @since [version] Moved order related functions from core file.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * [llms_validate_order_data description]
- * @param    array      $data  [description]
- *                             Required:
- *                             		plan_id (int) WP Post ID of the Access plan being purchased
- *                                  customer (array)  Array of customer information
+ * Determine if a gateway can be used for a give LLMS_Access_Plan.
  *
- *                             Conditionally Required:
- *                             		agree_to_terms (string) [yes|no] If terms & conditions are required this should be "yes" for agreement
- *                               	payment_gateway (string)  ID of the payment gateway to process payments through
+ * @since 3.29.0
+ * @version 3.29.0
  *
- * 							   Optional:
- *                             		coupon_code (string) Coupon Code to be applied to the order
- * @return   [type]
- * @since    3.29.0
- * @version  3.29.0
+ * @param string $gateway_id LLMS_Payment_Gateway ID.
+ * @param LLMS_Access_Plan $plan The access plan.
+ * @return WP_Error|bool WP_Error on error, true on success
+ */
+function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
+
+	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
+	$err = new WP_Error();
+
+	// valid gateway
+	if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
+
+		// gateway not enabled
+		if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
+
+			$err->add( 'gateway-error', __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ) );
+			return $err;
+
+			// it's a recurring plan and the gateway doesn't support recurring
+		} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
+
+			$err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
+			return $err;
+
+			// not recurring and the gateway doesn't support single payments
+		} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
+
+			$err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
+			return $err;
+
+		}
+
+	} else {
+
+		$err->add( 'invalid-gateway', __( 'An invalid payment method was selected.', 'lifterlms' ) );
+		return $err;
+
+	}
+
+	return apply_filters( 'llms_can_gateway_be_used_for_plan', true, $gateway_id, $plan );
+
+}
+
+/**
+ * Retrive an LLMS Order ID by the associated order_key
+ *
+ * @since 3.0.0
+ * @since [version] Return `null` instead of `false` when requesting an `LLMS_Order` return and no order could be found.
+ * @version [version]
+ *
+ * @param string $key the order key.
+ * @param string $return type of return, "order" for an instance of the LLMS_Order or "id" to return only the order ID.
+ * @return mixed `null` when no order found, LLMS_Order when `$return` = 'order', or the WP_Post ID as an `int`.
+ */
+function llms_get_order_by_key( $key, $return = 'order' ) {
+
+	global $wpdb;
+
+	$id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = '_llms_order_key' AND meta_value = %s", $key ) );
+
+	if ( $id && 'order' === $return ) {
+		return new LLMS_Order( $id );
+	}
+
+	return $id;
+
+}
+
+/**
+ * Get the human readable status for a LifterLMS status
+ *
+ * @since 3.0.0
+ * @version 3.6.0
+ *
+ * @param string $status LifterLMS Order Status.
+ * @return string
+ */
+function llms_get_order_status_name( $status ) {
+	$statuses = llms_get_order_statuses();
+	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
+		$status = $statuses[ $status ];
+	}
+	return apply_filters( 'lifterlms_get_order_status_name', $status );
+}
+
+/**
+ * Retrieve an array of registered and available LifterLMS Order Post Statuses
+ *
+ * @since 3.0.0
+ * @version 3.19.0
+ *
+ * @param string $order_type filter stauses which are specific to the supplied order type, defaults to any statuses.
+ * @return array
+ */
+function llms_get_order_statuses( $order_type = 'any' ) {
+
+	$statuses = wp_list_pluck( LLMS_Post_Types::get_order_statuses(), 'label' );
+
+	// remove types depending on order type
+	switch ( $order_type ) {
+		case 'recurring':
+			unset( $statuses['llms-completed'] );
+		break;
+
+		case 'single':
+			unset( $statuses['llms-active'] );
+			unset( $statuses['llms-expired'] );
+			unset( $statuses['llms-on-hold'] );
+			unset( $statuses['llms-pending-cancel'] );
+		break;
+	}
+
+	return apply_filters( 'llms_get_order_statuses', $statuses, $order_type );
+
+}
+
+/**
+ * Find an existing order for a given plan by a given user.
+ *
+ * @since [version]
+ * @version [version]
+ *
+ * @param int $user_id
+ * @param int $plan_id
+ * @return mixed null if no order found, WP_Post ID as an int if found
+ */
+function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
+
+	global $wpdb;
+
+	// Query.
+	$id = $wpdb->get_var(
+		$wpdb->prepare(
+			"SELECT ID FROM {$wpdb->prefix}posts AS p
+			 JOIN {$wpdb->prefix}postmeta AS pm_user ON pm_user.post_id = p.ID AND pm_user.meta_key = '_llms_user_id'
+			 JOIN {$wpdb->prefix}postmeta AS pm_plan ON pm_plan.post_id = p.ID AND pm_plan.meta_key = '_llms_plan_id'
+			 WHERE p.post_type = 'llms_order'
+			   AND pm_user.meta_value = %d
+			   AND pm_plan.meta_value = %d
+			;",
+			$user_id, $plan_id
+		)
+	);
+
+	// Return an int not a numeric string.
+	return $id ? absint( $id ) : $id;
+
+}
+
+/**
+ * Setup a pending order which can be passed to an LLMS_Payment_Gateway for processing.
+ *
+ * @since 3.29.0
+ * @version 3.29.0
+ *
+ * @param array $data {
+ *     Data used to create a pending order.
+ *
+ *     @type int plan_id (Required) LLMS_Access_Plan ID.
+ *     @type array customer (Required). Array of customer information formatted to be passed to `LLMS_Person_Handler::update()` or `llms_register_user()`
+ *     @type string agree_to_terms (Required if `llms_are_terms_and_conditions_required()` are required) If terms & conditions are required this should be "yes" for agreement.
+ *     @type string payment_gateway (Optional) ID of a registered LLMS_Payment_Gateway which will be used to process the order.
+ *     @type string coupon_code (Optional) Coupon code to be applied to the order.
+ * }
+ * @return array
  */
 function llms_setup_pending_order( $data = array() ) {
 
@@ -144,47 +303,21 @@ function llms_setup_pending_order( $data = array() ) {
 	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
 
 	/**
-	 * @filter llms_after_setup_pending_order
+	 * Filter the return of pending order setup data.
+	 *
+	 * @since [version]
+	 * @version [version]
+	 *
+	 * @param $setup {
+ 	 *     Data used to create the pending order.
+ 	 *
+ 	 *     @type LLMS_Student $person Student object.
+ 	 *     @type LLMS_Access_Plan $plan Access plan object.
+ 	 *     @type LLMS_Payment_Gateway $gateway Instance of the selected gateway.
+ 	 *     @type LLMS_Coupon|false $coupon Coupon object or false if none used.
+	 * }
+	 * @param array $data Array of input data from a checkout form.
 	 */
 	return apply_filters( 'llms_after_setup_pending_order', compact( 'person', 'plan', 'gateway', 'coupon' ), $data );
-
-}
-
-
-function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
-
-	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
-	$err = new WP_Error();
-
-	// valid gateway
-	if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
-
-		// gateway not enabled
-		if ( 'manual' !== $gateway->get_id() && ! $gateway->is_enabled() ) {
-
-			$err->add( 'gateway-error', __( 'The selected payment gateway is not currently enabled.', 'lifterlms' ) );
-			return $err;
-
-			// it's a recurring plan and the gateway doesn't support recurring
-		} elseif ( $plan->is_recurring() && ! $gateway->supports( 'recurring_payments' ) ) {
-
-			$err->add( 'gateway-error', sprintf( __( '%s does not support recurring payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
-			return $err;
-
-			// not recurring and the gateway doesn't support single payments
-		} elseif ( ! $plan->is_recurring() && ! $gateway->supports( 'single_payments' ) ) {
-
-			$err->add( 'gateway-error', sprintf( __( '%s does not support single payments and cannot process this transaction.', 'lifterlms' ), $gateway->get_title() ) );
-			return $err;
-
-		}
-	} else {
-
-		$err->add( 'invalid-gateway', __( 'An invalid payment method was selected.', 'lifterlms' ) );
-		return $err;
-
-	}
-
-	return true;
 
 }
