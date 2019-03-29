@@ -3,11 +3,151 @@
  * Test Order Functions
  * @group    orders
  * @since    3.27.0
- * @version  3.27.0
+ * @version  [version]
  *
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
+	/**
+	 * Test the llms_get_order_by_key() method.
+	 *
+	 * @since [version]
+	 * @version [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_order_by_key() {
+
+		// Errors.
+		$this->assertTrue( is_null( llms_get_order_by_key( 'arst' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( 'arst', 'order' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( 'arst', 'id' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( 'arst', 'fake' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '1' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '1', 'order' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '1', 'id' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '1', 'fake' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( 12345 ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( 12345, 'order' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( 12345, 'id' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( 12345, 'fake' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '', 'order' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '', 'id' ) ) );
+		$this->assertTrue( is_null( llms_get_order_by_key( '', 'fake' ) ) );
+
+		// Success.
+		$order = new LLMS_Order( 'new' );
+		$this->assertEquals( $order, llms_get_order_by_key( $order->get( 'order_key' ) ) ); // Default.
+		$this->assertEquals( $order, llms_get_order_by_key( $order->get( 'order_key' ), 'order' ) ); // Explict.
+		$this->assertEquals( $order->get( 'id' ), llms_get_order_by_key( $order->get( 'order_key' ), 'id' ) ); // Id.
+		$this->assertEquals( $order->get( 'id' ), llms_get_order_by_key( $order->get( 'order_key' ), 'somethingelse' ) ); // Fake.
+
+	}
+
+	/**
+	 * Test llms_get_order_status_name()
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.3.1
+	 */
+	public function test_llms_get_order_status_name() {
+		$this->assertNotEmpty( llms_get_order_status_name( 'llms-active' ) );
+		$this->assertEquals( 'Active', llms_get_order_status_name( 'llms-active' ) );
+		$this->assertEquals( 'wut', llms_get_order_status_name( 'wut' ) );
+	}
+
+	/**
+	 * test llms_get_order_statuses()
+	 * @return   void
+	 * @since    3.3.1
+	 * @version  3.19.0
+	 */
+	public function test_llms_get_order_statuses() {
+
+		$this->assertTrue( is_array( llms_get_order_statuses() ) );
+		$this->assertFalse( empty( llms_get_order_statuses() ) );
+		$this->assertEquals( array(
+			'llms-completed',
+			'llms-active',
+			'llms-expired',
+			'llms-on-hold',
+			'llms-pending-cancel',
+			'llms-pending',
+			'llms-cancelled',
+			'llms-refunded',
+			'llms-failed',
+		), array_keys( llms_get_order_statuses() ) );
+
+		$this->assertTrue( is_array( llms_get_order_statuses( 'recurring' ) ) );
+		$this->assertFalse( empty( llms_get_order_statuses( 'recurring' ) ) );
+		$this->assertEquals( array(
+			'llms-active',
+			'llms-expired',
+			'llms-on-hold',
+			'llms-pending-cancel',
+			'llms-pending',
+			'llms-cancelled',
+			'llms-refunded',
+			'llms-failed',
+		), array_keys( llms_get_order_statuses( 'recurring' ) ) );
+
+		$this->assertTrue( is_array( llms_get_order_statuses( 'single' ) ) );
+		$this->assertFalse( empty( llms_get_order_statuses( 'single' ) ) );
+		$this->assertEquals( array(
+			'llms-completed',
+			'llms-pending',
+			'llms-cancelled',
+			'llms-refunded',
+			'llms-failed',
+		), array_keys( llms_get_order_statuses( 'single' ) ) );
+
+	}
+
+	/**
+	 * Test llms_locate_order_for_user_and_plan() method
+	 *
+	 * @since [version]
+	 * @version [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_locate_order_for_user_and_plan() {
+
+		$order = new LLMS_Order( 'new' );
+
+		$uid = $this->factory->student->create();
+		$pid = $this->factory->post->create( array(
+			'post_type' => 'llms_access_plan',
+		) );
+
+		// fake student & fake plan
+		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid + 1, $pid + 1 ) ) );
+
+		// real student & fake plan
+		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid, $pid + 1 ) ) );
+
+		// fake student & real plan
+		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid + 1, $pid ) ) );
+
+		// real student & real plan & no order exists.
+		$this->assertTrue( is_null( llms_locate_order_for_user_and_plan( $uid + 1, $pid ) ) );
+
+		// real student & real plan & order exists.
+		$order->set( 'user_id', $uid );
+		$order->set( 'plan_id', $pid );
+		$this->assertSame( $order->get( 'id' ), llms_locate_order_for_user_and_plan( $uid, $pid ) );
+
+	}
+
+	/**
+	 * Test llms_setup_pending_order()
+	 *
+	 * @since 3.27.0
+	 * @version 3.27.0
+	 *
+	 * @return void
+	 */
 	public function test_llms_setup_pending_order() {
 
 		// enable t&c
@@ -110,7 +250,14 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
 	}
 
-
+	/**
+	 * Test llms_setup_pending_order() failure
+	 *
+	 * @since 3.27.0
+	 * @version 3.27.0
+	 *
+	 * @return void
+	 */
 	private function setup_pending_order_fail( $order_data = array(), $expected_code ) {
 
 		$setup = llms_setup_pending_order( $order_data );
