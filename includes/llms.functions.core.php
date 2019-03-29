@@ -3,7 +3,9 @@
  * Core LifterLMS functions file
  *
  * @package LifterLMS/Functions
+ *
  * @since 1.0.0
+ * @since [version] Moved order-related functios to order functions file.
  * @version 3.29.0
  */
 
@@ -699,73 +701,6 @@ function llms_get_ip_address() {
 	}
 	return '';
 
-}
-
-/**
- * Retrive an LLMS Order ID by the associated order_key
- * @param    string    $key     the order key
- * @param    string    $return  type of return, "order" for an instance of the LLMS_Order or "id" to return only the order ID
- * @return   null|int           null if none found, order id if found
- * @since    3.0.0
- * @version  3.0.0
- */
-function llms_get_order_by_key( $key, $return = 'order' ) {
-
-	global $wpdb;
-
-	$key = sanitize_text_field( $key );
-
-	$id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->prefix}postmeta WHERE meta_key = '_llms_order_key' AND meta_value = %s", $key ) );
-
-	if ( 'order' === $return ) {
-		return new LLMS_Order( $id );
-	}
-
-	return $id;
-
-}
-
-/**
- * Get the human readable status for a LifterLMS status
- * @param    string $status LifterLMS Order Status
- * @return   string
- * @since    3.0.0
- * @version  3.6.0
- */
-function llms_get_order_status_name( $status ) {
-	$statuses = llms_get_order_statuses();
-	if ( is_array( $statuses ) && isset( $statuses[ $status ] ) ) {
-		$status = $statuses[ $status ];
-	}
-	return apply_filters( 'lifterlms_get_order_status_name', $status );
-}
-
-/**
- * Retrieve an array of registered and available LifterLMS Order Post Statuses
- * @param    string  $order_type  filter stauses which are specific to the supplied order type, defaults to any statuses
- * @return   array
- * @since    3.0.0
- * @version  3.19.0
- */
-function llms_get_order_statuses( $order_type = 'any' ) {
-
-	$statuses = wp_list_pluck( LLMS_Post_Types::get_order_statuses(), 'label' );
-
-	// remove types depending on order type
-	switch ( $order_type ) {
-		case 'recurring':
-			unset( $statuses['llms-completed'] );
-		break;
-
-		case 'single':
-			unset( $statuses['llms-active'] );
-			unset( $statuses['llms-expired'] );
-			unset( $statuses['llms-on-hold'] );
-			unset( $statuses['llms-pending-cancel'] );
-		break;
-	}
-
-	return apply_filters( 'llms_get_order_statuses', $statuses, $order_type );
 }
 
 /**
