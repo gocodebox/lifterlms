@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.30.1 - 2019-03-??
 --------------------
 
++ Fixed a bug preventing course imports as a result of action priority ordering issues.
 + Added handler to automatically resume pending (incomplete or abandoned) orders.
 
 
