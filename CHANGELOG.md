@@ -6,7 +6,8 @@ v3.30.1 - 2019-03-??
 
 + Fixed a bug preventing course imports as a result of action priority ordering issues.
 + Added handler to automatically resume pending (incomplete or abandoned) orders.
-
++ Function `llms_get_order_by_key()` correctly returns `null` instead of false when no order is found and will return an `int` instead of a numeric string when an order is found.
++ Classes extending the `LLMS_Abstract_API_Handler` can now prevent a request body from being sent.
 
 v3.30.0 - 2019-03-21
 --------------------

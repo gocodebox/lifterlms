@@ -64,6 +64,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
  *
  * @since 3.0.0
  * @since [version] Return `null` instead of `false` when requesting an `LLMS_Order` return and no order could be found.
+ * @since [version] Return a real `int` (instead of a numeric string).
  * @version [version]
  *
  * @param string $key the order key.
@@ -80,7 +81,8 @@ function llms_get_order_by_key( $key, $return = 'order' ) {
 		return new LLMS_Order( $id );
 	}
 
-	return $id;
+	// Return an int not a numeric string.
+	return $id ? absint( $id ) : $id;
 
 }
 
