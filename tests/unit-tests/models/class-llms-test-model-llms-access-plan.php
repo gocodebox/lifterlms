@@ -1,9 +1,9 @@
 <?php
 /**
  * Tests for LifterLMS Coupon Model
- * @group    access_plan
- * @since    3.23.0
- * @version  3.23.0
+ * @group access_plan
+ * @since 3.23.0
+ * @since [version] Add tests for get_initial_price() method.
  */
 class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
@@ -167,6 +167,103 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $text, $this->obj->get_free_pricing_text() );
 		$this->assertEquals( $text, $this->obj->get_free_pricing_text( 'html' ) );
 		$this->assertEquals( 0.00, $this->obj->get_free_pricing_text( 'float' ) );
+
+	}
+
+	/**
+	 * Test the get_initial_price() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_initial_price() {
+
+		// trial w/ no price
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+		$this->assertSame( 0.00, $this->obj->get_initial_price() );
+
+		// free trial.
+		$this->obj->set( 'trial_price', 0 );
+		$this->assertSame( 0.00, $this->obj->get_initial_price() );
+
+		// paid trial.
+		$this->obj->set( 'trial_price', 1 );
+		$this->assertSame( 1.00, $this->obj->get_initial_price() );
+
+
+		// disable the trial.
+		$this->obj->set( 'trial_offer', 'no' );
+
+
+		// No sale price set.
+		$this->obj->set( 'on_sale', 'yes' );
+		$this->assertSame( 0.00, $this->obj->get_initial_price() );
+
+		// on sale for free.
+		$this->obj->set( 'sale_price', 0 );
+		$this->assertSame( 0.00, $this->obj->get_initial_price() );
+
+		// paid sale.
+		$this->obj->set( 'sale_price', 1 );
+		$this->assertSame( 1.00, $this->obj->get_initial_price() );
+
+
+		// disable the sale.
+		$this->obj->set( 'on_sale', 'no' );
+
+
+		// free.
+		$this->obj->set( 'price', 0 );
+		$this->assertSame( 0.00, $this->obj->get_initial_price() );
+
+		$this->obj->set( 'price', 2 );
+		$this->assertSame( 2.00, $this->obj->get_initial_price() );
+
+	}
+
+	/**
+	 * Test the get_initial_price() method when using coupons.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_initial_price_with_coupon() {
+
+		$coupon_id = $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) );
+		$coupon = llms_get_post( $coupon_id );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'enable_trial_discount', 'yes' );
+		$coupon->set( 'trial_amount', 100 );
+
+
+		// Trial 100% discount.
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+		$this->obj->set( 'trial_price', 1 );
+		$this->assertSame( 0.00, $this->obj->get_initial_price( array(), $coupon_id ) );
+
+		// Trial 50% discount.
+		$coupon->set( 'trial_amount', 50 );
+		$this->assertSame( 0.50, $this->obj->get_initial_price( array(), $coupon_id ) );
+
+		// No trial offer.
+		$this->obj->set( 'trial_offer', 'no' );
+
+		// Free with coupon.
+		$this->obj->set( 'price', 10 );
+		$this->assertSame( 0.00, $this->obj->get_initial_price( array(), $coupon_id ) );
+
+		// 50% off coupon.
+		$coupon->set( 'coupon_amount', 50 );
+		$this->assertSame( 5.00, $this->obj->get_initial_price( array(), $coupon_id ) );
+
+		// free with coupon.
+		$this->obj->set( 'is_free', 'yes' );
+		$this->assertSame( 0.00, $this->obj->get_initial_price( array(), $coupon_id) );
 
 	}
 
