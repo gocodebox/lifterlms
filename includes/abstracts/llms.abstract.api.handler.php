@@ -1,14 +1,19 @@
 <?php
 /**
- * 3rd Party API request handler
- * @since   3.11.2
- * @version 3.29.0
+ * 3rd Party API request handler abstract.
+ *
+ * @since 3.11.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Abstract_API_Handler Abstract.
+ * 3rd Party API request handler abstract.
+ *
+ * @since 3.11.2
+ * @since [version] self::set_request_body() may respond with `null` in order to send a request with no `body`
+ * @version 3.29.0
  */
 abstract class LLMS_Abstract_API_Handler {
 
@@ -60,12 +65,14 @@ abstract class LLMS_Abstract_API_Handler {
 	/**
 	 * Execute an API request.
 	 *
-	 * @param    stirng $resource  url endpoint or resource to make a request to
-	 * @param    array  $data      array of data to pass in the body of the request
-	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
+	 * @since 3.11.2
+	 * @since [version] self::set_request_body() may respond with `null` in order to send a request with no `body`
+	 * @version [version]
+	 *
+	 * @param    string $resource  url endpoint or resource to make a request to.
+	 * @param    array  $data      array of data to pass in the body of the request.
+	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...).
 	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.29.0
 	 */
 	private function call( $resource, $data, $method = null ) {
 
@@ -77,19 +84,25 @@ abstract class LLMS_Abstract_API_Handler {
 			'content-type' => $content_type,
 		), $resource, $method );
 
+		$args = array(
+			'headers' => $headers,
+			'method' => $method,
+			'timeout' => $this->request_timeout,
+			'user-agent' => $this->set_user_agent( 'LifterLMS ' . LLMS_VERSION, $resource, $method ),
+		);
+
 		// setup body.
 		$body = $this->set_request_body( $data, $method, $resource );
+
+		// if "null" if passed to body, don't send a body at all.
+		if ( ! is_null( $body ) ) {
+			$args['body'] = $this->is_json && $body ? json_encode( $body ) : $body;
+		}
 
 		// attempt to call the API
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
-			array(
-				'body' => $this->is_json && $body ? json_encode( $body ) : $body,
-				'headers' => $headers,
-				'method' => $method,
-				'timeout' => $this->request_timeout,
-				'user-agent' => $this->set_user_agent( 'LifterLMS ' . LLMS_VERSION, $resource, $method ),
-			)
+			$args
 		);
 
 		// connection error
