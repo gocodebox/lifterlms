@@ -6,7 +6,7 @@
  * @package  LifterLMS/Models
  *
  * @since    3.0.0
- * @version  3.30.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -45,9 +45,9 @@ defined( 'ABSPATH' ) || exit;
  * @property  $trial_period  (string)  Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day]
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
  *
- * @since    3.0.0
- * @since    3.30.0 Added checkout redirect properties and methods
- * @version  3.30.0
+ * @since 3.0.0
+ * @since 3.30.0 Added checkout redirect properties and methods
+ * @since [version] Added method to get the initial price due on checkout.
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
@@ -316,6 +316,68 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @param LLMS_Access_Plan $this Access plan object.
 		 */
 		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
+
+	}
+
+	/**
+	 * Get the initial price due on checkout.
+	 *
+	 * Automatically accounts for Trials, sales, and coupon discounts.
+	 *
+	 * @since [version]
+	 * @version [version]
+	 *
+	 * @param array $price_args Arguments passed to the price getter function to generate the price.
+	 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
+	 * @param string $format Format the price to be returned. Options: html, raw, float (default).
+	 * @return mixed
+	 */
+	public function get_initial_price( $price_args = array(), $coupon_id = null, $format = 'float' ) {
+
+		// If it's free it's a bit simpler.
+		if ( $this->is_free() ) {
+
+			$ret = $this->get_free_pricing_text( $format );
+
+		} else {
+
+			// pricing function to use based on presence of coupon
+			$func = $coupon_id ? 'get_price_with_coupon' : 'get_price';
+
+			// build args to pass to the function
+			$args = array( $price_args, $format );
+
+			// coupons have an extra arg (coupon id)
+			if ( $coupon_id ) {
+				array_unshift( $args, $coupon_id );
+			}
+
+			// setup the price key name based on the presence of a trial or sale
+			if ( $this->has_trial() ) {
+				array_unshift( $args, 'trial_price' );
+			} elseif ( $this->is_on_sale() ) {
+				array_unshift( $args, 'sale_price' );
+			} else {
+				array_unshift( $args, 'price' );
+			}
+
+			// retrieve the price.
+			$ret = call_user_func_array( array( $this, $func ), $args );
+
+		}
+
+		/**
+		 * Filter an access plan's initial price due on checkout.
+		 *
+		 * @since [version]
+		 *
+		 * @param mixed $ret Price due on checkout.
+		 * @param array $price_args Arguments passed to the price getter function to generate the price.
+		 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
+		 * @param string $format Format the price to be returned. Options: html, raw, float (default).
+		 * @param LLMS_Access_Plan $this Access Plan object.
+		 */
+		return apply_filters( 'llms_access_plan_get_initial_price', $ret, $price_args, $coupon_id, $format, $this );
 
 	}
 
@@ -749,48 +811,19 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if the access plan requires payment
-	 * accounts for coupons and whether the plan is marked as free
-	 * @param    int     $coupon_id  WP_Post ID of an LLMS_Coupon
-	 * @return   boolean             true if payment required, false otherwise
-	 * @since    3.0.0
-	 * @version  3.23.0
+	 * Determine if the access plan requires payment.
+	 *
+	 * Automatically accounts for coupons, sales, trials, and whether the plan is marked as free.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Uses self::get_initial_price().
+	 *
+	 * @param int $coupon_id LLMS_Coupon ID.
+	 * @return bool true if payment required, false otherwise
 	 */
 	public function requires_payment( $coupon_id = null ) {
 
-		$ret = true;
-
-		// if it's free it's easy
-		if ( $this->is_free() ) {
-
-			$ret = false;
-
-		} else {
-
-			// pricing function to use based on presence of coupon
-			$func = $coupon_id ? 'get_price_with_coupon' : 'get_price';
-
-			// build args to pass to the function
-			$args = array( array(), 'float' );
-
-			// coupons have an extra arg (coupon id)
-			if ( $coupon_id ) {
-				array_unshift( $args, $coupon_id );
-			}
-
-			// setup the price key name based on the presence of a trial or sale
-			if ( $this->has_trial() ) {
-				array_unshift( $args, 'trial_price' );
-			} elseif ( $this->is_on_sale() ) {
-				array_unshift( $args, 'sale_price' );
-			} else {
-				array_unshift( $args, 'price' );
-			}
-
-			// if the price is greater than zero, payment is required
-			$ret = ( call_user_func_array( array( $this, $func ), $args ) > 0 );
-
-		}
+		$ret = ( $this->get_initial_price( array(), $coupon_id, 'float' ) > 0 );
 
 		return apply_filters( 'llms_plan_requires_payment', $ret, $coupon_id, $this );
 
