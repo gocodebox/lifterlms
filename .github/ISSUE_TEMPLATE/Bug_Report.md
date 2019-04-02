@@ -35,9 +35,11 @@ about: Report a bug or issue
 
 <details>
 <summary>System Report</summary>
+  
 ```
 <!-- Paste your System Report here -->
 ```
+
 </details>
 
 ### Browser, Device, and Operating System Information
