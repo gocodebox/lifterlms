@@ -21,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
 
 	<?php if ( $more ) : ?>
 		<footer class="llms-sd-section-footer">
+			<?php $more = apply_filters( 'llms_' . $action . '_more', $more ); ?>
 			<a class="llms-button-secondary" href="<?php echo esc_url( $more['url'] ); ?>"><?php echo $more['text']; ?></a>
 		</footer>
 	<?php endif; ?>
