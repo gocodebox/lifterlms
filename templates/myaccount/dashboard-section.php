@@ -5,6 +5,7 @@
  * @version  3.19.5
  */
 defined( 'ABSPATH' ) || exit;
+$more = apply_filters( 'llms_' . $action . '_more', $more );
 ?>
 
 <section class="llms-sd-section <?php echo $slug; ?>">
