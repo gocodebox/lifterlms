@@ -9,6 +9,7 @@ v3.30.1 - 2019-03-??
 + Function `llms_get_order_by_key()` correctly returns `null` instead of false when no order is found and will return an `int` instead of a numeric string when an order is found.
 + Classes extending the `LLMS_Abstract_API_Handler` can now prevent a request body from being sent.
 + Added dynamic filter `'llms_' . $action . '_more'` to allow customization of the "More" button text and url for student dashboard sections. Thanks @[pondermatic](https://github.com/pondermatic).
++ Changed the method used to sort question choices to accommodate numeric choice markers. This fixes an issue in the Advanced Quizzes add-on causing reorder questions with 10+ choices to sort display in the incorrect order.
 
 
 v3.30.0 - 2019-03-21

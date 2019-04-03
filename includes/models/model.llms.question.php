@@ -1,10 +1,11 @@
 <?php
 /**
- * LifterLMS Quiz Question
+ * LifterLMS Quiz Question Model.
  *
- * @package  LifterLMS/Models
- * @since    1.0.0
- * @version  3.27.0
+ * @package LifterLMS/Models
+ *
+ * @since 1.0.0
+ * @version [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -12,7 +13,10 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Question model.
+ * LLMS Quiz Question Model.
+ *
+ * @since 1.0.0
+ * @since [version] Fixed choice sorting issues.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -177,43 +181,35 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the question's choices
-	 * @param    string     $return  return type [choices|ids]
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 *
+	 * @since 3.16.0
+	 * @since [version] Improve choice sorting to accommodate numeric markers.
+	 *
+	 * @param string $return Optional. Determine how to return the choice data.
+	 *                       'choices' (default) returns an array of LLMS_Question_Choice objects.
+	 *                       'ids' returns an array of LLMS_Question_Choice ids.
+	 * @return array
 	 */
 	public function get_choices( $return = 'choices' ) {
 
-		// $query = wp_cache_get( $this->get_choice_cache_key(), 'llms' );
+		global $wpdb;
+		$results = $wpdb->get_results( $wpdb->prepare(
+			"SELECT meta_key AS id
+				  , meta_value AS data
+			 FROM {$wpdb->postmeta}
+			 WHERE post_id = %d
+			   AND meta_key LIKE '_llms_choice_%'
+			;", $this->get( 'id' )
+		) );
 
-		// if ( false === $query ) {
-
-			global $wpdb;
-			$query = $wpdb->get_results( $wpdb->prepare(
-				"SELECT meta_key AS id
-					  , meta_value AS data
-				 FROM {$wpdb->postmeta}
-				 WHERE post_id = %d
-				   AND meta_key LIKE '_llms_choice_%'
-				;", $this->get( 'id' )
-			) );
-
-			usort( $query, function( $a, $b ) {
-				$adata = unserialize( $a->data );
-				$bdata = unserialize( $b->data );
-				return strcmp( $adata['marker'], $bdata['marker'] );
-			} );
-
-			// wp_cache_set( $this->get_choice_cache_key(), $query, 'llms' );
-
-		// }
+		usort( $results, array( $this, 'sort_choices' ) );
 
 		if ( 'ids' === $return ) {
-			return wp_list_pluck( $query, 'id' );
+			return wp_list_pluck( $results, 'id' );
 		}
 
 		$ret = array();
-		foreach ( $query as $result ) {
+		foreach ( $results as $result ) {
 			$ret[] = new LLMS_Question_Choice( $this->get( 'id' ), unserialize( $result->data ) );
 		}
 
@@ -354,12 +350,14 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the next marker for question choices
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 *
+	 * @since 3.16.0
+	 * @since [version] Fixed bug which caused the next marker to be 1 index too high.
+	 *
+	 * @return string
 	 */
 	protected function get_next_choice_marker() {
-		$next_index = count( $this->get_choices( 'ids', false ) ) + 1;
+		$next_index = count( $this->get_choices( 'ids', false ) );
 		$type = $this->get_question_type();
 		$markers = $type['choices']['markers'];
 		return $next_index > count( $markers ) ? false : $markers[ $next_index ];
@@ -531,6 +529,22 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	public function questions() {
 		return new LLMS_Question_Manager( $this );
+	}
+
+	/**
+	 * Sort choices by marker.
+	 *
+	 * @since [version]
+	 * @version [version]
+	 *
+	 * @param string $choice_a Serialized choice data.
+	 * @param string $choice_b Serialized choice data.
+	 * @return int
+	 */
+	private function sort_choices( $choice_a, $choice_b ) {
+		$a_data = unserialize( $choice_a->data );
+		$b_data = unserialize( $choice_b->data );
+		return strnatcmp( $a_data['marker'], $b_data['marker'] );
 	}
 
 	/**
@@ -753,6 +767,5 @@ class LLMS_Question extends LLMS_Post_Model {
 		return $this->get_choices();
 
 	}
-
 
 }
