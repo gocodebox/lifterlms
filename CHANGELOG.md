@@ -8,6 +8,8 @@ v3.30.1 - 2019-03-??
 + Added handler to automatically resume pending (incomplete or abandoned) orders.
 + Function `llms_get_order_by_key()` correctly returns `null` instead of false when no order is found and will return an `int` instead of a numeric string when an order is found.
 + Classes extending the `LLMS_Abstract_API_Handler` can now prevent a request body from being sent.
++ Added dynamic filter `'llms_' . $action . '_more'` to allow customization of the "More" button text and url for student dashboard sections. Thanks @[pondermatic](https://github.com/pondermatic).
+
 
 v3.30.0 - 2019-03-21
 --------------------
