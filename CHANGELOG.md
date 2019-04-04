@@ -11,6 +11,9 @@ v3.30.1 - 2019-03-??
 + Added dynamic filter `'llms_' . $action . '_more'` to allow customization of the "More" button text and url for student dashboard sections. Thanks @[pondermatic](https://github.com/pondermatic).
 + Changed the method used to sort question choices to accommodate numeric choice markers. This fixes an issue in the Advanced Quizzes add-on causing reorder questions with 10+ choices to sort display in the incorrect order.
 + Increased the specificity of LifterLMS element tooltip hovers. Resolves a conflict causing issues on the WooCommerce tax rate management screen.
++ Remove unused CSS code on the admin panel.
++ Fix an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
++ Fix builder deep links to quizzes freezing due to dependencies not being available during initialization.
 
 
 v3.30.0 - 2019-03-21
