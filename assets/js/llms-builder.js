@@ -8255,9 +8255,11 @@ define( 'Views/PostSearch',[], function() {
 } );
 
 /**
- * Single Lesson View
- * @since    3.16.0
- * @version  3.27.0
+ * Question Type View
+ *
+ * @since 3.16.0
+ * @since [version] Fixed issue causing multiple binds for add_existing_question events.
+ * @version 3.27.0
  */
 define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
@@ -8336,9 +8338,11 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		/**
 		 * Add a new question to the quiz
+		 *
+		 * @since 3.27.0
+		 * @since [version] Fixed issue causing multiple binds.
+		 *
 		 * @return  void
-		 * @since   3.27.0
-		 * @version 3.27.0
 		 */
 		add_existing_question_click: function() {
 
@@ -8362,13 +8366,22 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 			} );
 
 			pop.show();
+			Backbone.pubSub.on( 'question-search-select', this.add_existing_question, this );
 			Backbone.pubSub.on( 'question-search-select', function( event ) {
 				pop.hide();
-				this.add_existing_question( event );
+				Backbone.pubSub.off( 'question-search-select', this.add_existing_question, this );
 			}, this );
 
 		},
 
+		/**
+		 * Callback event fired when a question is selected from the Add Existing Question popover interface.
+		 *
+		 * @since 3.27.0
+		 * @version 3.27.0
+		 *
+		 * @return  void
+		 */
 		add_existing_question: function( event ) {
 
 			var question = event.data;
@@ -10570,8 +10583,8 @@ define( 'Views/Sidebar',[
 
 /**
  * LifterLMS JS Builder App Bootstrap
- * @since    3.16.0
- * @version  3.27.0
+ * @since 3.16.0
+ * @version [version]
  */
 require( [
 	'vendor/wp-hooks',
@@ -10760,6 +10773,7 @@ require( [
 
 	} );
 
+
 	Backbone.pubSub = _.extend( {}, Backbone.Events );
 
 	$( document ).trigger( 'llms-builder-pre-init' );
@@ -10788,10 +10802,11 @@ require( [
 	 * Do deeplinking to Lesson / Quiz / Assignments
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
-	 * @since   3.27.0
-	 * @version 3.27.0
+	 * @since 3.27.0
+	 * @since [version] Wait for wp.editor & window.tinymce to load before opening deep link tabs.
 	 */
 	if ( window.location.hash ) {
+
 		var hash = window.location.hash;
 		if ( -1 === hash.indexOf( '#lesson:' ) ) {
 			return;
@@ -10800,9 +10815,15 @@ require( [
 			$lesson = $( '#llms-lesson-' + parts[0] );
 
 		if ( $lesson.length ) {
-			$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
-			var subtab = parts[1] ? parts[1] : 'lesson';
-			$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
+
+			LLMS.wait_for( function() {
+				return ( undefined !== wp.editor && undefined !== window.tinymce );
+			}, function() {
+				$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
+				var subtab = parts[1] ? parts[1] : 'lesson';
+				$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
+			} );
+
 		}
 
 	}
