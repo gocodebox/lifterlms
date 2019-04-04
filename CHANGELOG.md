@@ -14,6 +14,7 @@ v3.30.1 - 2019-03-??
 + Remove unused CSS code on the admin panel.
 + Fix an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
 + Fix builder deep links to quizzes freezing due to dependencies not being available during initialization.
++ Fix builder issue causing duplicate copies of questions to be added when adding existing questions multiple times.
 
 
 v3.30.0 - 2019-03-21

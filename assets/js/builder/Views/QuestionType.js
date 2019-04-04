@@ -1,7 +1,9 @@
 /**
- * Single Lesson View
- * @since    3.16.0
- * @version  3.27.0
+ * Question Type View
+ *
+ * @since 3.16.0
+ * @since [version] Fixed issue causing multiple binds for add_existing_question events.
+ * @version 3.27.0
  */
 define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
 
@@ -80,9 +82,11 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		/**
 		 * Add a new question to the quiz
+		 *
+		 * @since 3.27.0
+		 * @since [version] Fixed issue causing multiple binds.
+		 *
 		 * @return  void
-		 * @since   3.27.0
-		 * @version 3.27.0
 		 */
 		add_existing_question_click: function() {
 
@@ -106,13 +110,22 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 			} );
 
 			pop.show();
+			Backbone.pubSub.on( 'question-search-select', this.add_existing_question, this );
 			Backbone.pubSub.on( 'question-search-select', function( event ) {
 				pop.hide();
-				this.add_existing_question( event );
+				Backbone.pubSub.off( 'question-search-select', this.add_existing_question, this );
 			}, this );
 
 		},
 
+		/**
+		 * Callback event fired when a question is selected from the Add Existing Question popover interface.
+		 *
+		 * @since 3.27.0
+		 * @version 3.27.0
+		 *
+		 * @return  void
+		 */
 		add_existing_question: function( event ) {
 
 			var question = event.data;
