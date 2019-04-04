@@ -2,10 +2,8 @@
 // Main Admin CSS File
 //
 
-
 @import "_includes/vars";
 @import "_includes/vars-brand-colors";
-
 
 @import "_includes/extends";
 @import "_includes/buttons";
@@ -21,9 +19,6 @@
 
 // forms
 @import "admin/modules/forms";
-
-// course outline widget
-@import "admin/modules/course-outline";
 
 // voucher
 @import "admin/modules/voucher";
