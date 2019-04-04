@@ -220,7 +220,7 @@ require( [
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
 	 * @since 3.27.0
-	 * @since [version] Wait for wp.editor to load before opening deep link tabs.
+	 * @since [version] Wait for wp.editor & window.tinymce to load before opening deep link tabs.
 	 */
 	if ( window.location.hash ) {
 
@@ -234,7 +234,7 @@ require( [
 		if ( $lesson.length ) {
 
 			LLMS.wait_for( function() {
-				return ( undefined !== wp.editor );
+				return ( undefined !== wp.editor && undefined !== window.tinymce );
 			}, function() {
 				$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
 				var subtab = parts[1] ? parts[1] : 'lesson';
