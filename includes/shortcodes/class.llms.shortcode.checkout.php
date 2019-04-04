@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,8 +20,8 @@ defined( 'ABSPATH' ) || exit;
  * @package LifterLMS/Shortcodes
  *
  * @since 1.0.0
- * @since [version] Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
- * @version [version]
+ * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
+ * @version 3.30.1
  */
 class LLMS_Shortcode_Checkout {
 
@@ -120,8 +120,8 @@ class LLMS_Shortcode_Checkout {
 	 * Gather a bunch of information and output the actual content for the shortcode
 	 *
 	 * @since 1.0.0
-	 * @since [version] Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
-	 * @version [version]
+	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
+	 * @version 3.30.1
 	 *
 	 * @param array $atts shortcode atts from originating shortcode
 	 * @return void

@@ -5,8 +5,8 @@
  * @package LifterLMS/Functions/Orders
  *
  * @since 3.29.0
- * @since [version] Moved order related functions from core file.
- * @version [version]
+ * @since 3.30.1 Moved order related functions from core file.
+ * @version 3.30.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -63,9 +63,9 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
  * Retrive an LLMS Order ID by the associated order_key
  *
  * @since 3.0.0
- * @since [version] Return `null` instead of `false` when requesting an `LLMS_Order` return and no order could be found.
- * @since [version] Return a real `int` (instead of a numeric string).
- * @version [version]
+ * @since 3.30.1 Return `null` instead of `false` when requesting an `LLMS_Order` return and no order could be found.
+ * @since 3.30.1 Return a real `int` (instead of a numeric string).
+ * @version 3.30.1
  *
  * @param string $key the order key.
  * @param string $return type of return, "order" for an instance of the LLMS_Order or "id" to return only the order ID.
@@ -137,8 +137,8 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 /**
  * Find an existing order for a given plan by a given user.
  *
- * @since [version]
- * @version [version]
+ * @since 3.30.1
+ * @version 3.30.1
  *
  * @param int $user_id
  * @param int $plan_id
@@ -306,8 +306,8 @@ function llms_setup_pending_order( $data = array() ) {
 	/**
 	 * Filter the return of pending order setup data.
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 3.30.1
+	 * @version 3.30.1
 	 *
 	 * @param $setup {
 		 *     Data used to create the pending order.

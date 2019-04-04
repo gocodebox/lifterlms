@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Metaboxes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.30.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Metabox for the "Course Builder" launcher/browser
  *
  * @since 3.13.0
- * @since [version] Add `llms-mb-container` CSS class to container element in the `output()` method.
+ * @since 3.30.1 Add `llms-mb-container` CSS class to container element in the `output()` method.
  */
 class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
@@ -92,7 +92,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 * Override the output method to output a button
 	 *
 	 * @since 3.13.0
-	 * @since [version] Add `llms-mb-container` CSS class to container element.
+	 * @since 3.30.1 Add `llms-mb-container` CSS class to container element.
 	 *
 	 * @return   void
 	 */

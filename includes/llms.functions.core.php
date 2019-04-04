@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @since [version] Moved order-related functios to order functions file.
+ * @since 3.30.1 Moved order-related functios to order functions file.
  * @version 3.29.0
  */
 

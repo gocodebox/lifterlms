@@ -4,7 +4,7 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  [version]
+ * @version  3.30.1
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 

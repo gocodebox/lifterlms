@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 3.30.0
+Stable tag: 3.30.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -16,7 +16,7 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
-https://www.youtube.com/watch?v=LugJPS7bhxI
+https://www.youtube.com/watch?v=jDVvkipF_pg
 
 
 # **Extend and Enhance LifterLMS with Add-ons**
@@ -355,6 +355,27 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.30.1 - 2019-04-04 =
+------------------------
+
+##### Updates
+
++ Added handler to automatically resume pending (incomplete or abandoned) orders.
++ Classes extending the `LLMS_Abstract_API_Handler` can now prevent a request body from being sent.
++ Added dynamic filter `'llms_' . $action . '_more'` to allow customization of the "More" button text and url for student dashboard sections. Thanks @[pondermatic](https://github.com/pondermatic).
++ Remove unused CSS code on the admin panel.
+
+##### Bug Fixes
+
++ Fixed a bug preventing course imports as a result of action priority ordering issues.
++ Function `llms_get_order_by_key()` correctly returns `null` instead of false when no order is found and will return an `int` instead of a numeric string when an order is found.
++ Changed the method used to sort question choices to accommodate numeric choice markers. This fixes an issue in the Advanced Quizzes add-on causing reorder questions with 10+ choices to sort display in the incorrect order.
++ Increased the specificity of LifterLMS element tooltip hovers. Resolves a conflict causing issues on the WooCommerce tax rate management screen.
++ Fixed an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
++ Fixed builder deep links to quizzes freezing due to dependencies not being available during initialization.
++ Fixed builder issue causing duplicate copies of questions to be added when adding existing questions multiple times.
+
+
 = v3.30.0 - 2019-03-21 =
 ------------------------
 
@@ -502,40 +523,5 @@ Admin panel templates replaced with view files which cannot be overridden from a
 
 + Fixed an issues preventing exports to be accessible on Apache servers.
 + Fixed an issue causing servers with certain nginx rules to open CSV exports directly instead of downloading them.
-
-
-= v3.28.0 - 2019-01-29 =
-------------------------
-
-##### Updates
-
-+ Updated reporting table export functions to provide immediate download prompts of the files. Exports are generated in real time and you *must* remain on the page while it generates. The good news is if your site had issues with email or cronjobs it'll no longer be an issue for you.
-+ Updated lesson metabox to use icons for attached quizzes
-+ Added an orange highlight to the admin "Add-Ons & More" menu item
-+ Removed unused cron event.
-
-##### LifterLMS Blocks
-
-+ Updated LifterLMS Blocks to 1.3.4
-+ Adds support for handling courses & lessons in "Classic Editor" mode as defined by the Divi page builder
-+ Skips course and lesson migration when "Classic" mode is enabled.
-+ Adds conditions to identify "Classic" mode when the Classic Editor plugin settings are configured to enforce classic (or block) mode for *all* posts.
-
-##### Database Updates
-
-+ Unschedules the aforementioned unused cron event.
-
-##### Bug fixes
-
-+ Fixed an issue preventing the temp directory old file cleanup cron from firing on schedule.
-+ During plugin uninstallation the tmp cleanup cron will now be properly unscheduled.
-+ Fixed an issue causing notifications on the student dashboard to appear on top of static headers or the WP Admin Bar when scrolling.
-+ Fixed an issue preventing manual updating of customer and source information on orders resulting from unfocusable hidden form fields.
-+ Fixed mismatched HTML tags on the Admin Add-Ons screen
-
-##### Deprecations
-
-+ Class method: `LLMS_Admin_Table::queue_export()`
-+ Class: `LLMS_Processor_Table_To_Csv`
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

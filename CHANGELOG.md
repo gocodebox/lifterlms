@@ -1,20 +1,25 @@
 LifterLMS Changelog
 ===================
 
-v3.30.1 - 2019-03-??
+v3.30.1 - 2019-04-04
 --------------------
 
-+ Fixed a bug preventing course imports as a result of action priority ordering issues.
+##### Updates
+
 + Added handler to automatically resume pending (incomplete or abandoned) orders.
-+ Function `llms_get_order_by_key()` correctly returns `null` instead of false when no order is found and will return an `int` instead of a numeric string when an order is found.
 + Classes extending the `LLMS_Abstract_API_Handler` can now prevent a request body from being sent.
 + Added dynamic filter `'llms_' . $action . '_more'` to allow customization of the "More" button text and url for student dashboard sections. Thanks @[pondermatic](https://github.com/pondermatic).
++ Remove unused CSS code on the admin panel.
+
+##### Bug Fixes
+
++ Fixed a bug preventing course imports as a result of action priority ordering issues.
++ Function `llms_get_order_by_key()` correctly returns `null` instead of false when no order is found and will return an `int` instead of a numeric string when an order is found.
 + Changed the method used to sort question choices to accommodate numeric choice markers. This fixes an issue in the Advanced Quizzes add-on causing reorder questions with 10+ choices to sort display in the incorrect order.
 + Increased the specificity of LifterLMS element tooltip hovers. Resolves a conflict causing issues on the WooCommerce tax rate management screen.
-+ Remove unused CSS code on the admin panel.
-+ Fix an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
-+ Fix builder deep links to quizzes freezing due to dependencies not being available during initialization.
-+ Fix builder issue causing duplicate copies of questions to be added when adding existing questions multiple times.
++ Fixed an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
++ Fixed builder deep links to quizzes freezing due to dependencies not being available during initialization.
++ Fixed builder issue causing duplicate copies of questions to be added when adding existing questions multiple times.
 
 
 v3.30.0 - 2019-03-21

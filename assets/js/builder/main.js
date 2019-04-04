@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
  * @since 3.16.0
- * @version [version]
+ * @version 3.30.1
  */
 require( [
 	'vendor/wp-hooks',
@@ -220,7 +220,7 @@ require( [
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
 	 * @since 3.27.0
-	 * @since [version] Wait for wp.editor & window.tinymce to load before opening deep link tabs.
+	 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
 	 */
 	if ( window.location.hash ) {
 

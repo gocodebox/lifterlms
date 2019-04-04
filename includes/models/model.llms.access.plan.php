@@ -6,7 +6,7 @@
  * @package  LifterLMS/Models
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.30.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.0 Added checkout redirect properties and methods
- * @since [version] Added method to get the initial price due on checkout.
+ * @since 3.30.1 Added method to get the initial price due on checkout.
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
@@ -324,8 +324,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * Automatically accounts for Trials, sales, and coupon discounts.
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 3.30.1
+	 * @version 3.30.1
 	 *
 	 * @param array $price_args Arguments passed to the price getter function to generate the price.
 	 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
@@ -369,7 +369,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		/**
 		 * Filter an access plan's initial price due on checkout.
 		 *
-		 * @since [version]
+		 * @since 3.30.1
 		 *
 		 * @param mixed $ret Price due on checkout.
 		 * @param array $price_args Arguments passed to the price getter function to generate the price.
@@ -816,7 +816,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Automatically accounts for coupons, sales, trials, and whether the plan is marked as free.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Uses self::get_initial_price().
+	 * @since 3.30.1 Uses self::get_initial_price().
 	 *
 	 * @param int $coupon_id LLMS_Coupon ID.
 	 * @return bool true if payment required, false otherwise

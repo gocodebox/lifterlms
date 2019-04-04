@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.1
  *
  * @property  $question_type  (string)  type of question
  */
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS Quiz Question Model.
  *
  * @since 1.0.0
- * @since [version] Fixed choice sorting issues.
+ * @since 3.30.1 Fixed choice sorting issues.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -183,7 +183,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Retrieve the question's choices
 	 *
 	 * @since 3.16.0
-	 * @since [version] Improve choice sorting to accommodate numeric markers.
+	 * @since 3.30.1 Improve choice sorting to accommodate numeric markers.
 	 *
 	 * @param string $return Optional. Determine how to return the choice data.
 	 *                       'choices' (default) returns an array of LLMS_Question_Choice objects.
@@ -352,7 +352,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Retrieve the next marker for question choices
 	 *
 	 * @since 3.16.0
-	 * @since [version] Fixed bug which caused the next marker to be 1 index too high.
+	 * @since 3.30.1 Fixed bug which caused the next marker to be 1 index too high.
 	 *
 	 * @return string
 	 */
@@ -534,8 +534,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Sort choices by marker.
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 3.30.1
+	 * @version 3.30.1
 	 *
 	 * @param string $choice_a Serialized choice data.
 	 * @param string $choice_b Serialized choice data.

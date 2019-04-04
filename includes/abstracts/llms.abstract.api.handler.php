@@ -3,7 +3,7 @@
  * 3rd Party API request handler abstract.
  *
  * @since 3.11.2
- * @version [version]
+ * @version 3.30.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * 3rd Party API request handler abstract.
  *
  * @since 3.11.2
- * @since [version] self::set_request_body() may respond with `null` in order to send a request with no `body`
+ * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
  * @version 3.29.0
  */
 abstract class LLMS_Abstract_API_Handler {
@@ -66,8 +66,8 @@ abstract class LLMS_Abstract_API_Handler {
 	 * Execute an API request.
 	 *
 	 * @since 3.11.2
-	 * @since [version] self::set_request_body() may respond with `null` in order to send a request with no `body`
-	 * @version [version]
+	 * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
+	 * @version 3.30.1
 	 *
 	 * @param    string $resource  url endpoint or resource to make a request to.
 	 * @param    array  $data      array of data to pass in the body of the request.

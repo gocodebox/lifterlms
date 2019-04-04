@@ -3,7 +3,7 @@
  * Tests for LifterLMS Coupon Model
  * @group access_plan
  * @since 3.23.0
- * @since [version] Add tests for get_initial_price() method.
+ * @since 3.30.1 Add tests for get_initial_price() method.
  */
 class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
@@ -173,7 +173,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_initial_price() method.
 	 *
-	 * @since [version]
+	 * @since 3.30.1
 	 *
 	 * @return void
 	 */
@@ -226,7 +226,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_initial_price() method when using coupons.
 	 *
-	 * @since [version]
+	 * @since 3.30.1
 	 *
 	 * @return void
 	 */

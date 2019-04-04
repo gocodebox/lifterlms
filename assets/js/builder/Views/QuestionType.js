@@ -2,7 +2,7 @@
  * Question Type View
  *
  * @since 3.16.0
- * @since [version] Fixed issue causing multiple binds for add_existing_question events.
+ * @since 3.30.1 Fixed issue causing multiple binds for add_existing_question events.
  * @version 3.27.0
  */
 define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSearch ) {
@@ -84,7 +84,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 		 * Add a new question to the quiz
 		 *
 		 * @since 3.27.0
-		 * @since [version] Fixed issue causing multiple binds.
+		 * @since 3.30.1 Fixed issue causing multiple binds.
 		 *
 		 * @return  void
 		 */

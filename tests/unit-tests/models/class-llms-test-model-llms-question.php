@@ -118,8 +118,8 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_next_choice_marker() method.
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 3.30.1
+	 * @version 3.30.1
 	 *
 	 * @return void
 	 */
@@ -138,8 +138,8 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_questions() method.
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 3.30.1
+	 * @version 3.30.1
 	 *
 	 * @return void
 	 */

@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Import Screen and form submission handling
  *
  * @since 3.3.0
- * @since [version] Explicity include template functions during imports.
+ * @since 3.30.1 Explicity include template functions during imports.
  * @version 3.3.0
  */
 class LLMS_Admin_Import {
@@ -45,8 +45,8 @@ class LLMS_Admin_Import {
 	 * Handle form submission
 	 *
 	 * @since 3.3.0
-	 * @since [version] Explicity include template functions.
-	 * @version [version]
+	 * @since 3.30.1 Explicity include template functions.
+	 * @version 3.30.1
 	 *
 	 * @return void
 	 */

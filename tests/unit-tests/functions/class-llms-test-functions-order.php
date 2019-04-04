@@ -3,7 +3,7 @@
  * Test Order Functions
  * @group    orders
  * @since    3.27.0
- * @version  [version]
+ * @version  3.30.1
  *
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
@@ -11,8 +11,8 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_get_order_by_key() method.
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 3.30.1
+	 * @version 3.30.1
 	 *
 	 * @return void
 	 */
@@ -107,8 +107,8 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_locate_order_for_user_and_plan() method
 	 *
-	 * @since [version]
-	 * @version [version]
+	 * @since 3.30.1
+	 * @version 3.30.1
 	 *
 	 * @return void
 	 */
