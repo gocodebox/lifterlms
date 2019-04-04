@@ -1,3 +1,19 @@
+
+// This is a "legacy" rule that may be removeable
+.llms-mb-list {
+
+	label {
+		font-weight: bold;
+		width: 100%;
+		display: block;
+	}
+
+	.input-full {
+		width: 100%;
+	}
+}
+
+
 #poststuff .llms-metabox {
 
 	@extend %cf;
