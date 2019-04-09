@@ -1,9 +1,9 @@
 <?php
 /**
  * Tests for template functions
- * @group    LLMS_Functions_Templates
- * @since    3.15.0
- * @version  3.15.0
+ * @group LLMS_Functions_Templates
+ * @since 3.15.0
+ * @version [version]
  */
 class LLMS_Functions_Templates extends LLMS_UnitTestCase {
 
