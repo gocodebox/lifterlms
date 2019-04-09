@@ -1,23 +1,45 @@
 <?php
 /**
- * Checkout Shortcode
- * Sets functionality associated with shortcode [llms_checkout]
- * @since    1.0.0
- * @version  3.7.7
+ * LifterLMS Checkout Page Shortcode
+ *
+ * Controls functionality associated with shortcode [llms_checkout].
+ *
+ * @package LifterLMS/Shortcodes
+ *
+ * @since 1.0.0
+ * @version 3.30.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LifterLMS Checkout Page Shortcode
+ *
+ * Controls functionality associated with shortcode [llms_checkout].
+ *
+ * @package LifterLMS/Shortcodes
+ *
+ * @since 1.0.0
+ * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
+ * @version 3.30.1
+ */
 class LLMS_Shortcode_Checkout {
 
+	/**
+	 * Current User ID.
+	 *
+	 * @var int
+	 */
 	public static $uid;
 
 	/**
 	 * Renders the checkout template
-	 * @param    array    $atts  shortocde attributes
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.0.0
+	 *
+	 * @since 1.0.0
+	 * @version 3.0.0
+	 *
+	 * @param array $atts Shortcode attributes array.
+	 * @return void
 	 */
 	private static function checkout( $atts ) {
 
@@ -52,10 +74,12 @@ class LLMS_Shortcode_Checkout {
 
 	/**
 	 * Renders the confirm payment checkout template
-	 * @param    array    $atts  shortocde attributes
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.0.0
+	 *
+	 * @since 1.0.0
+	 * @version 3.0.0
+	 *
+	 * @param array $atts shortocde attributes.
+	 * @return void
 	 */
 	private static function confirm_payment( $atts ) {
 
@@ -65,10 +89,11 @@ class LLMS_Shortcode_Checkout {
 
 	/**
 	 * Output error messages when they're encountered
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 *
+	 * @since 3.0.0
+	 * @version 3.0.0
+	 *
+	 * @return   void
 	 */
 	private static function error( $message ) {
 
@@ -78,10 +103,12 @@ class LLMS_Shortcode_Checkout {
 
 	/**
 	 * Retrieve the shortcode content
-	 * @param    array     $atts  array of shortcode attributes
-	 * @return   string
-	 * @since    1.0.0
-	 * @version  1.0.0
+	 *
+	 * @since 1.0.0
+	 * @version 1.0.0
+	 *
+	 * @param array $atts shortcode attributes.
+	 * @return string
 	 */
 	public static function get( $atts ) {
 
@@ -91,10 +118,13 @@ class LLMS_Shortcode_Checkout {
 
 	/**
 	 * Gather a bunch of information and output the actual content for the shortcode
-	 * @param    array   $atts  shortcode atts from originating shortcode
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.7.7
+	 *
+	 * @since 1.0.0
+	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
+	 * @version 3.30.1
+	 *
+	 * @param array $atts shortcode atts from originating shortcode
+	 * @return void
 	 */
 	public static function output( $atts ) {
 
@@ -148,8 +178,17 @@ class LLMS_Shortcode_Checkout {
 					$atts['coupon'] = false;
 				}
 
+				// Use posted order key to resume a pending order.
 				if ( isset( $_POST['llms_order_key'] ) ) {
 					$atts['order_key'] = sanitize_text_field( $_POST['llms_order_key'] );
+
+					// Attempt to located a pending order.
+				} elseif ( self::$uid ) {
+					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $_GET['plan'] );
+					if ( $pending_order ) {
+						$order = llms_get_post( $pending_order );
+						$atts['order_key'] = ( 'llms-pending' === $order->get( 'status' ) ) ? $order->get( 'order_key' ) : '';
+					}
 				}
 
 				$atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
@@ -161,7 +200,7 @@ class LLMS_Shortcode_Checkout {
 
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
 
-			}
+			}// End if().
 		} elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
 
 			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
@@ -182,9 +221,9 @@ class LLMS_Shortcode_Checkout {
 				$atts['coupon'] = false;
 			}
 
-					$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
+			$atts['selected_gateway'] = LLMS()->payment_gateways()->get_gateway_by_id( $order->get( 'payment_gateway' ) );
 
-					self::confirm_payment( $atts );
+			self::confirm_payment( $atts );
 
 		} else {
 

@@ -52,7 +52,9 @@
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
-    "phpcs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/",
+    "phpcs": "composer run-script check-cs",
+    "check-cs": "./vendor/bin/phpcs --colors --extensions=php -n lifterlms.php includes/ templates/",
+    "fix-cs": "./vendor/bin/phpcbf --extensions=php -n lifterlms.php includes/ templates/",
     "tests-install": [
       "vendor/bin/llms-tests teardown llms_tests root password 127.0.0.1",
       "vendor/bin/llms-tests install llms_tests root password 127.0.0.1"

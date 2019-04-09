@@ -2,7 +2,7 @@
 
 LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
 
-https://www.youtube.com/watch?v=LugJPS7bhxI
+https://www.youtube.com/watch?v=jDVvkipF_pg
 
 
 # **Extend and Enhance LifterLMS with Add-ons**

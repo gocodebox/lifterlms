@@ -2,11 +2,18 @@
 /**
  * LifterLMS Payment Gateways Abstract
  * @since    3.0.0
- * @version  3.10.0
+ * @version  3.30.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LifterLMS Payment Gateways Abstract
+ *
+ * @since    3.0.0
+ * @since    3.30.0 Added access plan and query string checkout redirect settings.
+ * @version  3.30.0
+ */
 abstract class LLMS_Payment_Gateway {
 
 	/**
@@ -128,42 +135,31 @@ abstract class LLMS_Payment_Gateway {
 	/**
 	 * This should be called by the gateway after verifying the transaction was completed successfully
 	 *
+	 * @since    3.0.0
+	 * @since    3.30.0
+	 * @version  3.8.0
+	 *
 	 * @param    obj        $order       Instance of an LLMS_Order object
 	 * @param    string     $deprecated  (deprecated) optional message to display on the redirect screen
 	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.8.0
 	 */
 	public function complete_transaction( $order, $deprecated = '' ) {
 
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
 
-		// redirect to the product's permalink
-		$redirect = get_permalink( $order->get( 'product_id' ) );
-
-		// fallback to the account page if we don't have a url for some reason
-		if ( ! $redirect ) {
-			$redirect = get_permalink( llms_get_page_id( 'myaccount' ) );
-		}
-
-		$redirect = add_query_arg( array(
-			'order-complete' => $order->get( 'order_key' ),
-		), $redirect );
-
-		$redirect = apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order );
+		$redirect = $this->get_complete_transaction_redirect_url( $order );
 
 		// deprecated msg if supplied, will be removed in a future release
 		if ( $deprecated ) {
 
 			llms_deprecated_function( 'LLMS_Payment_Gateway::complete_transaction() with message', '3.8.0', 'LifterLMS enrollment notices' );
-			$deprecated = apply_filters( 'lifterlms_completed_transaction_message', $deprecated, $order );
-			llms_add_notice( $deprecated, 'success' );
+			llms_add_notice( apply_filters( 'lifterlms_completed_transaction_message', $deprecated, $order ), 'success' );
 
 		}
 
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` finished', $redirect, $order );
 
-		// ensure notification processors get dispatched since shutdown wont be called
+		// ensure notification processors get dispatched since shutdown wont be called.
 		do_action( 'llms_dispatch_notification_processors' );
 
 		// execute a redirect
@@ -239,7 +235,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Get default dageway admin settinds fields
 	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.29.0
 	 */
 	public function get_admin_settings_fields() {
 
@@ -277,14 +273,6 @@ abstract class LLMS_Payment_Gateway {
 			'default'	=> $this->get_description(),
 			'title'     => __( 'Description', 'lifterlms' ),
 			'type' 		=> 'text',
-		);
-
-		$fields[] = array(
-			'id' 		=> $this->get_option_name( 'display_order' ),
-			'desc' 		=> '<br>' . __( 'This determines the order gateways are displayed on the checkout page. Lowest number will display first.', 'lifterlms' ),
-			'default'	=> $this->get_display_order(),
-			'title'     => __( 'Display Order', 'lifterlms' ),
-			'type' 		=> 'number',
 		);
 
 		if ( $this->supports( 'test_mode' ) ) {
@@ -325,6 +313,52 @@ abstract class LLMS_Payment_Gateway {
 			return 'test';
 		}
 		return 'live';
+	}
+
+	/**
+	 * Calculates the url to redirect to on transaction completion
+	 *
+	 * @since    3.30.0
+	 * @version  3.30.0
+	 *
+	 * @param    LLMS_Order $order The order object
+	 * @return   string
+	 */
+	protected function get_complete_transaction_redirect_url( $order ) {
+
+		// get the redirect parameter.
+		$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
+
+		// redirect to the product's permalink, if no parameter was set.
+		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( $order->get( 'product_id' ) );
+
+		// fallback to the account page if we don't have a url for some reason.
+		$redirect = ! empty( $redirect ) ? $redirect : get_permalink( llms_get_page_id( 'myaccount' ) );
+
+		// add order key to the url.
+		$redirect = add_query_arg( array(
+			'order-complete' => $order->get( 'order_key' ),
+		), esc_url( $redirect ) );
+
+		// redirection url on free checkout form
+		$quick_enroll_form = llms_filter_input( INPUT_POST, 'form' );
+
+		$free_checkout_redirect = llms_filter_input( INPUT_POST, 'free_checkout_redirect' );
+
+		if ( get_current_user_id() && ( 'free_enroll' === $quick_enroll_form ) && ! empty( $free_checkout_redirect ) ) {
+			$redirect = urldecode( $free_checkout_redirect );
+		}
+
+		/**
+		 * Filters the redirect on order completion.
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param string  $redirect The URL to redirect user to.
+		 * @param LLMS_Order  $order The order object.
+		 */
+		return esc_url( apply_filters( 'lifterlms_completed_transaction_redirect', $redirect, $order ) );
+
 	}
 
 	/**
@@ -632,12 +666,22 @@ abstract class LLMS_Payment_Gateway {
 
 	/**
 	 * Get the value of an option from the database & fallback to default value if none found
-	 * @param  string $key option key, ie "title"
+	 * Optionally attempts to retrieve a secure key first, if secure key is provided.
+	 *
+	 * @param  string $key option key, ie "title".
+	 * @param  string $secure_key Secure option key, ie "TITLE".
 	 * @return mixed
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @version  3.29.0
 	 */
-	public function get_option( $key ) {
+	public function get_option( $key, $secure_key = false ) {
+
+		if ( $secure_key ) {
+			$secure_val = llms_get_secure_option( $secure_key );
+			if ( false !== $secure_val ) {
+				return $secure_val; // intentionally not filtered here.
+			}
+		}
 
 		$name = $this->get_option_name( $key );
 		$val = get_option( $name, $this->$key );

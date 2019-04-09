@@ -1,10 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Shared Notification View for quiz completions
  * @since    3.24.0
- * @version  3.24.0
+ * @version  3.29.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Notification_View_Quiz_Graded class.
  */
 class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View {
 
@@ -104,7 +108,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	 * Setup footer content for output
 	 * @return   string
 	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @version  3.29.0
 	 */
 	protected function set_footer() {
 
@@ -113,7 +117,12 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 			return '';
 		}
 
-		return '<a href="' . esc_url( $attempt->get_permalink() ) . '">' . __( 'View the attempt', 'lifterlms' ) . '</a>';
+		$permalink = $attempt->get_permalink();
+		if ( ! $permalink ) {
+			return '';
+		}
+
+		return '<a href="' . esc_url( $permalink ) . '">' . __( 'View the attempt', 'lifterlms' ) . '</a>';
 	}
 
 	/**

@@ -1,11 +1,15 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Order processing and related actions controller
  *
  * @since   3.0.0
- * @version 3.19.0
+ * @version 3.27.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Controller_Orders class.
  */
 class LLMS_Controller_Orders {
 
@@ -159,17 +163,17 @@ class LLMS_Controller_Orders {
 	 *
 	 * @return void
 	 * @since    3.0.0
-	 * @version  3.16.1
+	 * @version  3.27.0
 	 */
 	public function create_pending_order() {
 
-		// only run this if the correct action has been posted
-		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || ( 'create_pending_order' !== $_POST['action'] ) || empty( $_POST['_wpnonce'] ) ) {
+		if ( ! llms_verify_nonce( '_llms_checkout_nonce', 'create_pending_order', 'POST' ) ) {
 			return;
 		}
 
-		// nonce the post
-		wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms_create_pending_order' );
+		if ( empty( $_POST['action'] ) || 'create_pending_order' !== $_POST['action'] ) {
+			return;
+		}
 
 		// prevent timeout
 		@set_time_limit( 0 );
@@ -183,91 +187,49 @@ class LLMS_Controller_Orders {
 			return;
 		}
 
-		// check t & c if configured
-		if ( llms_are_terms_and_conditions_required() ) {
-			if ( ! isset( $_POST['llms_agree_to_terms'] ) || 'yes' !== $_POST['llms_agree_to_terms'] ) {
-				return llms_add_notice( sprintf( __( 'You must agree to the %s to continue.', 'lifterlms' ), get_the_title( get_option( 'lifterlms_terms_page_id' ) ) ), 'error' );
+		// setup data to pass to the pending order creation function
+		$data = array();
+		$keys = array(
+			'llms_plan_id',
+			'llms_agree_to_terms',
+			'llms_payment_gateway',
+			'llms_coupon_code',
+		);
+
+		foreach ( $keys as $key ) {
+			if ( isset( $_POST[ $key ] ) ) {
+				$data[ str_replace( 'llms_', '', $key ) ] = $_POST[ $key ];
 			}
 		}
 
-		// we must have a plan_id to proceed
-		if ( empty( $_POST['llms_plan_id'] ) ) {
-			return llms_add_notice( __( 'Missing an Access Plan ID.', 'lifterlms' ), 'error' );
-		} else {
-			$plan = new LLMS_Access_Plan( $_POST['llms_plan_id'] );
-			if ( ! $plan->get( 'id' ) ) {
-				return llms_add_notice( __( 'Invalid Access Plan ID.', 'lifterlms' ), 'error' );
-			} else {
-				$product = $plan->get_product();
-			}
-		}
-
-		// if coupon code submitted, validate it
-		if ( ! empty( $_POST['llms_coupon_code'] ) ) {
-
-			$coupon_id = llms_find_coupon( $_POST['llms_coupon_code'] );
-
-			if ( ! $coupon_id ) {
-				return llms_add_notice( sprintf( __( 'Coupon code "%s" not found.', 'lifterlms' ), $_POST['llms_coupon_code'] ), 'error' );
-			}
-
-			$coupon = new LLMS_Coupon( $coupon_id );
-			$valid = $coupon->is_valid( $_POST['llms_plan_id'] );
-
-			// if the coupon has a validation error, return an error message
-			if ( is_wp_error( $valid ) ) {
-
-				return llms_add_notice( $valid->get_error_message(), 'error' );
-
-			}
-		} // End if().
-		else {
-			$coupon_id = null;
-			$coupon = false;
-		}
-
-		// if payment is required, verify we have a gateway & it's valid & enabled
-		if ( $plan->requires_payment( $coupon_id ) && empty( $_POST['llms_payment_gateway'] ) ) {
-			return llms_add_notice( __( 'No payment method selected.', 'lifterlms' ), 'error' );
-		} else {
-			$gid = empty( $_POST['llms_payment_gateway'] ) ? 'manual' : $_POST['llms_payment_gateway'];
-			$gateway = $this->validate_selected_gateway( $gid, $plan );
-			if ( is_wp_error( $gateway ) ) {
-				return llms_add_notice( $gateway->get_error_message(), 'error' );
-			}
-		}
-
-		// attempt to update the user (performs validations)
+		$data['customer'] = array();
 		if ( get_current_user_id() ) {
-			$person_id = LLMS_Person_Handler::update( $_POST, 'checkout' );
-		} // End if().
-		else {
-			$person_id = llms_register_user( $_POST, 'checkout', true );
+			$data['customer']['user_id'] = get_current_user_id();
+		}
+		foreach ( LLMS_Person_Handler::get_available_fields( 'checkout' ) as $cust_field ) {
+			$cust_key = $cust_field['id'];
+			if ( isset( $_POST[ $cust_key ] ) ) {
+				$data['customer'][ $cust_key ] = $_POST[ $cust_key ];
+			}
 		}
 
-		// validation or registration issues
-		if ( is_wp_error( $person_id ) ) {
+		$setup = llms_setup_pending_order( $data );
+
+		if ( is_wp_error( $setup ) ) {
+
+			foreach ( $setup->get_error_messages() as $msg ) {
+				llms_add_notice( $msg, 'error' );
+			}
+
 			// existing user fails validation from the free checkout form
-			if ( isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] ) {
+			if ( get_current_user_id() && isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] && isset( $_POST['llms_plan_id'] ) ) {
+				$plan = llms_get_post( $_POST['llms_plan_id'] );
 				wp_redirect( $plan->get_checkout_url() );
 				exit;
 			}
-			foreach ( $person_id->get_error_messages() as $msg ) {
-				llms_add_notice( $msg, 'error' );
-			}
+
 			return;
-		} // End if().
-		elseif ( ! is_numeric( $person_id ) ) {
 
-			return llms_add_notice( __( 'An unknown error occurred when attempting to create an account, please try again.', 'lifterlms' ), 'error' );
-
-		} // make sure the user isn't already enrolled in the course or membership
-		elseif ( llms_is_user_enrolled( $person_id, $product->get( 'id' ) ) ) {
-
-			return llms_add_notice( sprintf( __( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ), llms_get_page_url( 'myaccount' ), $product->get_post_type_label() ) , 'error' );
-
-		} else {
-			$person = new LLMS_Student( $person_id );
 		}
 
 		/**
@@ -301,10 +263,10 @@ class LLMS_Controller_Orders {
 		// add order key to globals so the order can be retried if processing errors occur
 		$_POST['llms_order_key'] = $order->get( 'order_key' );
 
-		$order->init( $person, $plan, $gateway, $coupon );
+		$order->init( $setup['person'], $setup['plan'], $setup['gateway'], $setup['coupon'] );
 
 		// pass to the gateway to start processing
-		$gateway->handle_pending_order( $order, $plan, $person, $coupon );
+		$setup['gateway']->handle_pending_order( $order, $setup['plan'], $setup['person'], $setup['coupon'] );
 
 	}
 

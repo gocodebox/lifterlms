@@ -1,14 +1,20 @@
 <?php
 /**
  * LifterLMS AJAX Event Handler
- * @since    1.0.0
- * @version  3.28.1
+ *
+ * @since 1.0.0
+ * @version 3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_AJAX_Handler class
+ *
+ * @since 1.0.0
+ * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
+ * @version 3.30.0
+ *
  */
 class LLMS_AJAX_Handler {
 
@@ -1059,6 +1065,87 @@ class LLMS_AJAX_Handler {
 
 		require_once 'admin/class.llms.admin.builder.php';
 		return LLMS_Admin_Builder::handle_ajax( $request );
+
+	}
+
+	/**
+	 * Save autoenroll courses list for a Membership
+	 *
+	 * @since 3.30.0
+	 * @version 3.30.0
+	 *
+	 * @param array $request $_POST data.
+	 * @return null|true
+	 */
+	public static function llms_save_membership_autoenroll_courses( $request ) {
+
+		// Missing required fields.
+		if ( empty( $request['post_id'] ) || ! isset( $request['courses'] ) ) {
+			return;
+		}
+
+		// Not a membership.
+		$membership = llms_get_post( $request['post_id'] );
+		if ( ! $membership || ! is_a( $membership, 'LLMS_Membership' ) ) {
+			return;
+		}
+
+		$courses = array_map( 'absint', (array) $request['courses'] );
+		$membership->add_auto_enroll_courses( $courses, true );
+
+		return true;
+
+	}
+
+	/**
+	 * AJAX handler for creating and updating access plans via the metabox on courses & memberships
+	 *
+	 * @param   array $request $_POST data.
+	 * @return  array
+	 * @since   3.29.0
+	 * @version 3.29.2
+	 */
+	public static function llms_update_access_plans( $request ) {
+
+		if ( empty( $request['plans'] ) || ! is_array( $request['plans'] ) || empty( $request['post_id'] ) ) {
+			return new WP_Error( 'error', __( 'Missing Required Parameters.', 'lifterlms' ) );
+		}
+
+		$metabox = new LLMS_Meta_Box_Product();
+		$post_id = absint( $request['post_id'] );
+		$metabox->post = get_post( $post_id );
+
+		$errors = array();
+
+		foreach ( $request['plans'] as $raw_plan_data ) {
+
+			if ( empty( $raw_plan_data ) ) {
+				continue;
+			}
+
+			// Ensure we can switch plans that used to be paid to free.
+			if ( isset( $raw_plan_data['is_free'] ) && llms_parse_bool( $raw_plan_data['is_free'] ) && ! isset( $raw_plan_data['price'] ) ) {
+				$raw_plan_data['price'] = 0;
+			}
+
+			$raw_plan_data['product_id'] = $post_id;
+
+			// retained filter for backwards compat.
+			$raw_plan_data = apply_filters( 'llms_access_before_save_plan', $raw_plan_data, $metabox );
+
+			$plan = llms_insert_access_plan( $raw_plan_data );
+			if ( is_wp_error( $plan ) ) {
+				$errors[ $raw_plan_data['menu_order'] ] = $plan;
+			} else {
+				// retained hook for backwards compat.
+				do_action( 'llms_access_plan_saved', $plan, $raw_plan_data, $metabox );
+			}
+		}
+
+		return array(
+			'errors' => $errors,
+			'html' => $metabox->get_html(),
+		);
 
 	}
 

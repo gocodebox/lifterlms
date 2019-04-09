@@ -1,18 +1,29 @@
 <?php
 /**
  * Admin Import Screen and form submission handling
- * @since   3.3.0
+ *
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 3.3.0
  * @version 3.3.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Admin Import Screen and form submission handling
+ *
+ * @since 3.3.0
+ * @since 3.30.1 Explicity include template functions during imports.
+ * @version 3.3.0
+ */
 class LLMS_Admin_Import {
 
 	/**
 	 * Constructor
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @version 3.3.0
 	 */
 	public function __construct() {
 		add_action( 'init', array( $this, 'upload_import' ) );
@@ -20,9 +31,11 @@ class LLMS_Admin_Import {
 
 	/**
 	 * Handle HTML output on the screen
+	 *
+	 * @since 3.3.0
+	 * @version 3.3.0
+	 *
 	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.3.0
 	 */
 	public static function output() {
 		llms_get_template( 'admin/import/import.php' );
@@ -30,15 +43,21 @@ class LLMS_Admin_Import {
 
 	/**
 	 * Handle form submission
-	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @since 3.30.1 Explicity include template functions.
+	 * @version 3.30.1
+	 *
+	 * @return void
 	 */
 	public function upload_import() {
 
 		if ( ! isset( $_FILES['llms_import'] ) || ! $_FILES['llms_import'] ) {
 			return;
 		}
+
+		// Fixes an issue where hooks are loaded out of order causing template functions required to parse an import aren't available?
+		LLMS()->include_template_functions();
 
 		$validate = $this->validate_upload( $_FILES['llms_import'] );
 
@@ -114,10 +133,12 @@ class LLMS_Admin_Import {
 
 	/**
 	 * Validate the uploaded file
-	 * @param    arry     $file  array of file data
-	 * @return   WP_Error|true
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @version 3.3.0
+	 *
+	 * @param array $file  array of file data.
+	 * @return WP_Error|true
 	 */
 	private function validate_upload( $file ) {
 

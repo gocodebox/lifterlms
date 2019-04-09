@@ -153,10 +153,6 @@ table.dad-list tr td:nth-child(2) {
 	width: 100%;
 	font-weight: bold;
 }
-.toplevel_page_lifterlms img {
-  height: 18px;
-  width: 18px;
-}
 .llms-lesson-list {
 	margin: 0;
 	ul {
@@ -445,18 +441,6 @@ a.llms-view-as {
 		p {
 			margin: 0 0 10px;
 		}
-	}
-}
-
-
-#adminmenu .toplevel_page_lifterlms,
-#adminmenu .opensub .wp-submenu li.current,
-#adminmenu .wp-submenu li.current,
-#adminmenu .wp-submenu li.current,
-#adminmenu .wp-submenu li.current,
-#adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current {
-	a[href*="page=llms-add-ons"] {
-		color: $color-orange;
 	}
 }
 

@@ -46,3 +46,5 @@ deploy/*
 # build dir
 build/
 build/*
+
+.svn

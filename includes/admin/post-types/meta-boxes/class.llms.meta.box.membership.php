@@ -28,14 +28,22 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 	/**
 	 * Get array of data to pass to the auto enrollment courses table
-	 * @param    obj     $membership  instance of LLMS_Membership for the current post
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.4.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.0 Removed sorting by title.
+	 * @version 3.4.0
+	 *
+	 * @param obj $membership instance of LLMS_Membership for the current post.
+	 * @return array
 	 */
 	private function get_content_table( $membership ) {
 
 		$data = array();
+		$data[] = array(
+			'',
+			'<br>' . __( 'No automatic enrollment couses found. Add a course below.', 'lifterlms' ) . '<br><br>',
+			'',
+		);
 
 		foreach ( $membership->get_auto_enroll_courses() as $course_id ) {
 
@@ -43,17 +51,16 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 			$title = $course->get( 'title' );
 
-			$data[ $title ] = array(
+			$data[] = array(
 
+				'<span class="llms-drag-handle" style="color:#999;"><i class="fa fa-ellipsis-v" aria-hidden="true" style="margin-right:2px;"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span>',
 				'<a href="' . get_edit_post_link( $course->get( 'id' ) ) . '">' . $title . ' (ID#' . $course_id . ')</a>',
-				'<a class="llms-button-danger small" data-id="' . $course_id . '" href="#llms-course-remove" style="float:right;">' . __( 'Remove from Auto-enrollment', 'lifterlms' ) . '</a>
+				'<a class="llms-button-danger small" data-id="' . $course_id . '" href="#llms-course-remove" style="float:right;">' . __( 'Remove course', 'lifterlms' ) . '</a>
 				 <a class="llms-button-secondary small" data-id="' . $course_id . '" href="#llms-course-bulk-enroll" style="float:right;">' . __( 'Enroll All Members', 'lifterlms' ) . '</a>',
 
 			);
 
 		}
-
-		ksort( $data );
 
 		return apply_filters( 'llms_membership_get_content_table_data', $data, $membership );
 
@@ -62,9 +69,12 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	/**
 	 * This function is where extending classes can configure all the fields within the metabox
 	 * The function must return an array which can be consumed by the "output" function
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable autoenrollment table.
+	 * @version 3.30.0
+	 *
 	 * @return array
-	 * @since    3.0.0
-	 * @version  3.23.0
 	 */
 	public function get_fields() {
 
@@ -216,26 +226,22 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 				'title' 	=> __( 'Auto Enrollment', 'lifterlms' ),
 				'fields' 	=> array(
 					array(
-						'label' 	=> __( 'Auto Enrollment', 'lifterlms' ),
+						'label' 	=> __( 'Automatic Enrollment', 'lifterlms' ),
 						'desc' 		=> sprintf( __( 'When a student joins this membership they will be automatically enrolled in these courses. Click %1$shere%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/membership-auto-enrollment/" target="_blank">', '</a>' ),
 						'id' 		=> $this->prefix . 'content_table',
-						'titles'	=> array( __( 'Course Name', 'lifterlms' ), '' ),
-						'empty_message' => __( 'No auto-enrollment couses found.', 'lifterlms' ),
+						'titles'	=> array( '', __( 'Course Name', 'lifterlms' ), '' ),
 						'type'  	=> 'table',
 						'table_data' => $this->get_content_table( $membership ),
-						'group' 	=> '',
-						'class' 	=> '',
 					),
 					array(
 						'class'     => 'llms-select2-post',
 						'data_attributes' => array(
 							'placeholder' => __( 'Select course(s)', 'lifterlms' ),
 							'post-type' => 'course',
+							'no-view-button' => true,
 						),
-						'desc' 		=> __( 'When a member is enrolled in this membership they will be automatically enrolled into any courses in the auto-enrollment list', 'lifterlms' ),
 						'id' 		=> $this->prefix . 'auto_enroll',
-						'label'		=> __( 'Add Auto-enrollment Course(s)', 'lifterlms' ),
-						'multi'  => true,
+						'label'		=> __( 'Add Course(s)', 'lifterlms' ),
 						'type'		=> 'select',
 						'value'     => array(),
 					),
@@ -246,11 +252,15 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 	/**
 	 * Save field data
-	 * Called by $this->save_actions()
-	 * @param    int   $post_id   WP Post ID of the post being saved
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.20.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.0 Autoenroll courses saved via AJAX and removed from this method.
+	 * @version 3.30.0
+	 *
+	 * @see LLMS_Admin_Metabox::save_actions()
+	 *
+	 * @param int $post_id WP_Post ID of the post being saved.
+	 * @return void
 	 */
 	public function save( $post_id ) {
 
@@ -278,13 +288,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 				$membership->set( $field, $_POST[ $this->prefix . $field ] );
 
 			}
-		}
-
-		// add new autoenroll courses
-		if ( isset( $_POST[ $this->prefix . 'auto_enroll' ] ) && is_array( $_POST[ $this->prefix . 'auto_enroll' ] ) ) {
-
-			$membership->add_auto_enroll_courses( $_POST[ $this->prefix . 'auto_enroll' ] );
-
 		}
 
 	}

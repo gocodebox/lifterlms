@@ -4,7 +4,7 @@
  * @group    functions
  * @group    functions_core
  * @since    3.3.1
- * @version  3.21.0
+ * @version  3.30.1
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -295,65 +295,6 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 		$_SERVER['X-Real-IP'] = '127.0.0.1';
 		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
-
-	}
-
-	/**
-	 * Test llms_get_order_status_name()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
-	 */
-	public function test_llms_get_order_status_name() {
-		$this->assertNotEmpty( llms_get_order_status_name( 'llms-active' ) );
-		$this->assertEquals( 'Active', llms_get_order_status_name( 'llms-active' ) );
-		$this->assertEquals( 'wut', llms_get_order_status_name( 'wut' ) );
-	}
-
-	/**
-	 * test llms_get_order_statuses()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.19.0
-	 */
-	public function test_llms_get_order_statuses() {
-
-		$this->assertTrue( is_array( llms_get_order_statuses() ) );
-		$this->assertFalse( empty( llms_get_order_statuses() ) );
-		$this->assertEquals( array(
-			'llms-completed',
-			'llms-active',
-			'llms-expired',
-			'llms-on-hold',
-			'llms-pending-cancel',
-			'llms-pending',
-			'llms-cancelled',
-			'llms-refunded',
-			'llms-failed',
-		), array_keys( llms_get_order_statuses() ) );
-
-		$this->assertTrue( is_array( llms_get_order_statuses( 'recurring' ) ) );
-		$this->assertFalse( empty( llms_get_order_statuses( 'recurring' ) ) );
-		$this->assertEquals( array(
-			'llms-active',
-			'llms-expired',
-			'llms-on-hold',
-			'llms-pending-cancel',
-			'llms-pending',
-			'llms-cancelled',
-			'llms-refunded',
-			'llms-failed',
-		), array_keys( llms_get_order_statuses( 'recurring' ) ) );
-
-		$this->assertTrue( is_array( llms_get_order_statuses( 'single' ) ) );
-		$this->assertFalse( empty( llms_get_order_statuses( 'single' ) ) );
-		$this->assertEquals( array(
-			'llms-completed',
-			'llms-pending',
-			'llms-cancelled',
-			'llms-refunded',
-			'llms-failed',
-		), array_keys( llms_get_order_statuses( 'single' ) ) );
 
 	}
 

@@ -1,33 +1,51 @@
 ---
-name: Bug report
+name: Bug Report
 about: Report a bug or issue
 
 ---
 
 
-### 1. Reproduction Steps
+### Reproduction Steps
 
+<!--
 + Include clear and detailed step by step instructions on how the issue can be reliably reproduced
 + Include screenshots where applicable
 + Record a video if possible
+-->
 
-### 2. Expected Behavior
+### Expected Behavior
 
+<!--
 + Include a concise description of what you expected to happen (but didn't)
+-->
 
-### 3. Actual Behavior
+### Actual Behavior
 
+<!--
 + Include a concise description of what actually happens (but isn't supposed to)
+-->
 
-### 4. Error Messages / Logs
+### Error Messages / Logs
 
+<!--
 + Include any relevant error messages or log files
+-->
 
-### 5. System Report
+### System Information
 
-Many issues are the result of theme or plugin conflicts. Including information about your WordPress version, your plugins (and their versions), and your theme (and its version) will help us resolve conflicts.
-We've created the [LifterLMS System Report](https://lifterlms.com/docs/how-to-use-the-lifterlms-system-report/) to help with this
+<details>
+<summary>System Report</summary>
+  
+```
+<!-- Paste your System Report here -->
+```
 
-### 6. Browser, Device, and Operating System
+</details>
 
-+ If the bug occurs in a specific browser, it is very useful in helping us track down the specifics using this information (as well as version numbers).
+### Browser, Device, and Operating System Information
+
+<!--
++ Browser name and version
++ Operating System name and version
++ Device name and version (if applicable)
+-->

@@ -1,3 +1,22 @@
+a.llms-voucher-delete {
+	display: block;
+	padding: 5px;
+	background: #e26049;
+	float: right;
+	color: $color-white !important;
+	transition: ease .3s all;
+
+	&:hover {
+		background: #af3a26;
+	}
+
+	.icon.button-icon {
+		fill: $color-white;
+	}
+}
+
+
+
 .llms-voucher-codes-wrapper,
 .llms-voucher-redemption-wrapper {
 

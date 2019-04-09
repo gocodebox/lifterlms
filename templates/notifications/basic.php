@@ -1,9 +1,12 @@
 <?php
 /**
  * Basic Notification Template
+ *
  * @since    3.8.0
- * @version  3.22.0
+ * @version  3.29.0
  */
+
+defined( 'ABSPATH' ) || exit;
 ?>
 <div class="<?php echo $classes; ?>"<?php echo $atts; ?> id="llms-notification-<?php echo $id; ?>">
 
@@ -24,7 +27,7 @@
 		<?php endif; ?>
 	</section>
 
-	<?php if ( $footer ) : ?>
+	<?php if ( is_string( $footer ) ) : ?>
 		<footer class="llms-notification-footer">
 			<?php echo $footer; ?>
 			<?php if ( 'new' !== $status ) : ?>

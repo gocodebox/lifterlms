@@ -2,9 +2,17 @@
 /**
  * LifterLMS Access Plan Model
  *
+ * @author   LifterLMS
  * @package  LifterLMS/Models
+ *
  * @since    3.0.0
- * @version  3.24.3
+ * @version  3.30.1
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Access_Plan Model.
  *
  * @property  $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property  $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -13,6 +21,10 @@
  * @property  $availability  (string)  Determine if this access plan is available to anyone or to members only. Use with $availability_restrictions to determine if the member can use the access plan. [open|members]
  * @property  $availability_restrictions (array)  Indexed array of LifterLMS Membership IDs a user must belong to to use the access plan. Only applicable if $availability is "members".
  * @property  $content  (string)  Plan description (post_content)
+ * @property  $checkout_redirect_forced (string) On a members' only access plan, whether to force redirect users back to course after checking out the membership.
+ * @property  $checkout_redirect_type (string) Type of checkout redirection [self|page|url]
+ * @property  $checkout_redirect_page (int) Page to redirect to after checkout
+ * @property  $checkout_redirect_url (string) URL to redirect to after checkout
  * @property  $enroll_text  (string)  Text to display on buy buttons
  * @property  $frequency  (int)  Frequency of billing. 0 = a one-time payment [0-6]
  * @property  $id  (int)  Post ID
@@ -32,48 +44,67 @@
  * @property  $trial_offer  (string)  Enable or disable a plan trial perid. [yes|no]
  * @property  $trial_period  (string)  Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day]
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
- */
-
-defined( 'ABSPATH' ) || exit;
-
-/**
- * LLMS_Access_Plan Model.
+ *
+ * @since 3.0.0
+ * @since 3.30.0 Added checkout redirect properties and methods
+ * @since 3.30.1 Added method to get the initial price due on checkout.
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
+	/**
+	 * Map of meta properties => type.
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
-		'access_expiration' => 'string',
-		'access_expires' => 'string',
-		'access_length' => 'absint',
-		'access_period' => 'string',
-		'availability' => 'string',
+		'access_expiration'         => 'string',
+		'access_expires'            => 'string',
+		'access_length'             => 'absint',
+		'access_period'             => 'string',
+		'availability'              => 'string',
 		'availability_restrictions' => 'array',
-		'content' => 'html',
-		'enroll_text' => 'string',
-		'frequency' => 'absint',
-		'is_free' => 'yesno',
-		'length' => 'absint',
-		'menu_order' => 'absint',
-		'on_sale' => 'yesno',
-		'period' => 'string',
-		'price' => 'float',
-		'product_id' => 'absint',
-		'sale_end' => 'string',
-		'sale_start' => 'string',
-		'sale_price' => 'float',
-		'sku' => 'string',
-		'title' => 'string',
-		'trial_length' => 'absint',
-		'trial_offer' => 'yesno',
-		'trial_period' => 'string',
-		'trial_price' => 'float',
+		'content'                   => 'html',
+		'checkout_redirect_forced'  => 'yesno',
+		'checkout_redirect_type'    => 'string',
+		'checkout_redirect_page'    => 'absint',
+		'checkout_redirect_url'     => 'string',
+		'enroll_text'               => 'string',
+		'frequency'                 => 'absint',
+		'is_free'                   => 'yesno',
+		'length'                    => 'absint',
+		'menu_order'                => 'absint',
+		'on_sale'                   => 'yesno',
+		'period'                    => 'string',
+		'price'                     => 'float',
+		'product_id'                => 'absint',
+		'sale_end'                  => 'string',
+		'sale_start'                => 'string',
+		'sale_price'                => 'float',
+		'sku'                       => 'string',
+		'title'                     => 'string',
+		'trial_length'              => 'absint',
+		'trial_offer'               => 'yesno',
+		'trial_period'              => 'string',
+		'trial_price'               => 'float',
 	);
 
+	/**
+	 * Post Type name
+	 *
+	 * @var string
+	 */
 	protected $db_post_type = 'llms_access_plan';
+
+	/**
+	 * Name of the model.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'access_plan';
 
 	/**
 	 * Determine if the access plan has expiration settings
+	 *
 	 * @since   3.0.0
 	 * @version 3.0.0
 	 * @return  boolean     true if it can expire, false if it's for lifetime access
@@ -83,12 +114,62 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the translated and pluralized name of the plan's access period
-	 * @param    string     $period  (optional) untranslated access period, if not supplied uses stored value for the plan
-	 * @param    int        $length  (optional) access length (for plurailzation), if not supplied uses stored value for the plan
+	 * Calculate redirection url from settings
+	 *
+	 * @param    string The redirection type: self, page or url.
 	 * @return   string
+	 * @since    3.30.0
+	 * @version  3.30.0
+	 */
+	private function calculate_redirection_url( $redirect_type ) {
+
+		$available = $this->is_available_to_user( get_current_user_id() );
+
+		if ( ! $available && 'no' === $this->get( 'checkout_redirect_forced' ) ) {
+			$redirect_type = 'membership';
+		}
+
+		// by default, no special redirection is needed.
+		$redirection = '';
+
+		switch ( $redirect_type ) {
+
+			// redirect to itself.
+			case 'self':
+				/**
+				 * Only set up when it is a member's only access plan with forced redirection to course.
+				 * This will ensure that on a regular access plan, no special parameter is added to querystring.
+				 * At the same time, if it is a members' only access plan,
+				 * after membership checkout we'd like to force redirect to course
+				 */
+				if ( ! $available && llms_parse_bool( $this->get( 'checkout_redirect_forced' ) ) ) {
+					$redirection = get_permalink( $this->get( 'product_id' ) );
+				}
+				break;
+
+			case 'page':
+				$redirection = get_permalink( $this->get( 'checkout_redirect_page' ) );
+				break;
+
+			case 'url':
+				$redirection = $this->get( 'checkout_redirect_url' );
+				break;
+
+		}
+
+		return $redirection;
+
+	}
+
+	/**
+	 * Get the translated and pluralized name of the plan's access period
+	 *
 	 * @since    3.4.6
 	 * @version  3.23.0
+	 *
+	 * @param    string     $period  (optional) untranslated access period, if not supplied uses stored value for the plan.
+	 * @param    int        $length  (optional) access length (for plurailzation), if not supplied uses stored value for the plan.
+	 * @return   string
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
 
@@ -99,22 +180,32 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 			case 'year':
 				$period = _nx( 'year', 'years', $length, 'Access plan period', 'lifterlms' );
-			break;
+				break;
 
 			case 'month':
 				$period = _nx( 'month', 'months', $length, 'Access plan period', 'lifterlms' );
-			break;
+				break;
 
 			case 'week':
 				$period = _nx( 'week', 'weeks', $length, 'Access plan period', 'lifterlms' );
-			break;
+				break;
 
 			case 'day':
 				$period = _nx( 'day', 'days', $length, 'Access plan period', 'lifterlms' );
-			break;
+				break;
 
 		}
 
+		/**
+		 * Filter the translated name of an access plan's billing period.
+		 *
+	     * @since 3.4.6
+	     * @version 3.4.6
+	     *
+	     * @param string $period Translated period name.
+	     * @param int $length Access length, used for pluralization.
+	     * @param LLMS_Access_Plan $this Access plan instance.
+		 */
 		return apply_filters( 'llms_plan_get_access_period_name', $period, $length, $this );
 
 	}
@@ -122,10 +213,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Default arguments for creating a new post
-	 * @param  string  $title   Title to create the post with
-	 * @return array
+	 *
 	 * @since  3.0.0
 	 * @version  3.0.0
+	 *
+	 * @param  string  $title   Title to create the post with
+	 * @return array
 	 */
 	protected function get_creation_args( $title = '' ) {
 
@@ -136,36 +229,155 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the full URL to the checkout screen for the plan
-	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel)
+	 * Retrieve the full URL to redirect to after successful checkout
+	 *
+	 * @since    3.30.0
+	 * @version  3.30.0
+	 *
 	 * @return   string
+	 */
+	public function get_redirection_url() {
+
+		// what type of redirection is set up by user?
+		$redirect_type = $this->get( 'checkout_redirect_type' );
+
+		$query_redirection = llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL );
+
+		// force redirect querystring parameter over all else.
+		$redirection = ! empty( $query_redirection ) ? $query_redirection : $this->calculate_redirection_url( $redirect_type );
+
+		/**
+		 * Filter the checkout redirection parameter
+		 *
+		 * @since    3.30.0
+		 * @version  3.30.0
+		 *
+		 * @param    string               $redirection The calculated url to redirect to.
+		 * @param    string               $redirection_type Available redirection types 'self', 'membership', 'page', 'url' or a custom type.
+		 * @param    LLMS_Acccess_Plan    $this Current Access Plan object.
+		 */
+		return urlencode( apply_filters( 'llms_plan_get_checkout_redirection', $redirection, $redirect_type, $this ) );
+
+	}
+
+	/**
+	 * Retrieve the full URL to the checkout screen for the plan
+	 *
 	 * @since    3.0.0
-	 * @version  3.23.0
+	 * @since    3.30.0 Added access plan redirection settings.
+	 * @version  3.30.0
+	 *
+	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
+	 * @return   string
 	 */
 	public function get_checkout_url( $check_availability = true ) {
 
 		$ret = '#llms-plan-locked';
 		$available = $this->is_available_to_user( get_current_user_id() );
 
-		// if bypassing availability checks OR plan is available to user
+		$redirection = $this->get_redirection_url();
+
+		// if bypassing availability checks OR plan is available to user.
 		if ( ! $check_availability || $available ) {
 
-			$ret = llms_get_page_url( 'checkout', array(
+			$ret_params = array(
 				'plan' => $this->get( 'id' ),
-			) );
+			);
 
-			// not available to user -- this is a member's only plan
+			if ( ! empty( $redirection ) ) {
+				$ret_params['redirect'] = $redirection;
+			}
+
+			$ret = llms_get_page_url( 'checkout', $ret_params );
+
+			// not available to user -- this is a member's only plan.
 		} elseif ( ! $available ) {
 
 			$memberships = $this->get_array( 'availability_restrictions' );
 
-			// if there's only 1 plan associated with the membership return that url
+			// if there's only 1 plan associated with the membership return that url.
 			if ( 1 === count( $memberships ) ) {
 				$ret = get_permalink( $memberships[0] );
+				if ( ! empty( $redirection ) ) {
+					$ret = add_query_arg( array(
+						'redirect' => $redirection,
+					), $ret );
+				}
 			}
 		}
 
+		/**
+		 * Filter the checkout URL for an access plan.
+		 *
+		 * @since Unknown
+		 * @version 3.30.0
+		 *
+		 * @param string $ret The checkout URL.
+		 * @param LLMS_Access_Plan $this Access plan object.
+		 */
 		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
+
+	}
+
+	/**
+	 * Get the initial price due on checkout.
+	 *
+	 * Automatically accounts for Trials, sales, and coupon discounts.
+	 *
+	 * @since 3.30.1
+	 * @version 3.30.1
+	 *
+	 * @param array $price_args Arguments passed to the price getter function to generate the price.
+	 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
+	 * @param string $format Format the price to be returned. Options: html, raw, float (default).
+	 * @return mixed
+	 */
+	public function get_initial_price( $price_args = array(), $coupon_id = null, $format = 'float' ) {
+
+		// If it's free it's a bit simpler.
+		if ( $this->is_free() ) {
+
+			$ret = $this->get_free_pricing_text( $format );
+
+		} else {
+
+			// pricing function to use based on presence of coupon
+			$func = $coupon_id ? 'get_price_with_coupon' : 'get_price';
+
+			// build args to pass to the function
+			$args = array( $price_args, $format );
+
+			// coupons have an extra arg (coupon id)
+			if ( $coupon_id ) {
+				array_unshift( $args, $coupon_id );
+			}
+
+			// setup the price key name based on the presence of a trial or sale
+			if ( $this->has_trial() ) {
+				array_unshift( $args, 'trial_price' );
+			} elseif ( $this->is_on_sale() ) {
+				array_unshift( $args, 'sale_price' );
+			} else {
+				array_unshift( $args, 'price' );
+			}
+
+			// retrieve the price.
+			$ret = call_user_func_array( array( $this, $func ), $args );
+
+		}
+
+		/**
+		 * Filter an access plan's initial price due on checkout.
+		 *
+		 * @since 3.30.1
+		 *
+		 * @param mixed $ret Price due on checkout.
+		 * @param array $price_args Arguments passed to the price getter function to generate the price.
+		 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
+		 * @param string $format Format the price to be returned. Options: html, raw, float (default).
+		 * @param LLMS_Access_Plan $this Access Plan object.
+		 */
+		return apply_filters( 'llms_access_plan_get_initial_price', $ret, $price_args, $coupon_id, $format, $this );
 
 	}
 
@@ -185,6 +397,15 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$text = 0.00;
 		}
 
+		/**
+		 * Filter the text displayed when a plan has no price.
+		 *
+		 * @since   3.0.0
+		 * @version 3.0.0
+		 *
+		 * @param string $text Displayed text.
+		 * @param LLMS_Access_Plan $this The acces plan instance.
+		 */
 		return apply_filters( 'llms_get_free_' . $this->model_post_type . '_pricing_text', $text, $this );
 	}
 
@@ -346,7 +567,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Get a sentence explaining plan expiration details
 	 * @return   string
 	 * @since    3.0.0
-	 * @version  3.23.0
+	 * @version  3.28.2
 	 */
 	public function get_expiration_details() {
 
@@ -354,7 +575,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$expiration = $this->get( 'access_expiration' );
 		if ( 'limited-date' === $expiration ) {
-			$ret = sprintf( _x( 'access until %s', 'Access expiration date', 'lifterlms' ), $this->get_date( 'access_expires', 'n/j/y' ) );
+			$ret = sprintf( _x( 'access until %s', 'Access expiration date', 'lifterlms' ), $this->get_date( 'access_expires' ) );
 		} elseif ( 'limited-period' === $expiration ) {
 			$ret = sprintf( _x( '%1$d %2$s of access', 'Access period description', 'lifterlms' ), $this->get( 'access_length' ), $this->get_access_period_name() );
 		}
@@ -590,48 +811,19 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if the access plan requires payment
-	 * accounts for coupons and whether the plan is marked as free
-	 * @param    int     $coupon_id  WP_Post ID of an LLMS_Coupon
-	 * @return   boolean             true if payment required, false otherwise
-	 * @since    3.0.0
-	 * @version  3.23.0
+	 * Determine if the access plan requires payment.
+	 *
+	 * Automatically accounts for coupons, sales, trials, and whether the plan is marked as free.
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.1 Uses self::get_initial_price().
+	 *
+	 * @param int $coupon_id LLMS_Coupon ID.
+	 * @return bool true if payment required, false otherwise
 	 */
 	public function requires_payment( $coupon_id = null ) {
 
-		$ret = true;
-
-		// if it's free it's easy
-		if ( $this->is_free() ) {
-
-			$ret = false;
-
-		} else {
-
-			// pricing function to use based on presence of coupon
-			$func = $coupon_id ? 'get_price_with_coupon' : 'get_price';
-
-			// build args to pass to the function
-			$args = array( array(), 'float' );
-
-			// coupons have an extra arg (coupon id)
-			if ( $coupon_id ) {
-				array_unshift( $args, $coupon_id );
-			}
-
-			// setup the price key name based on the presence of a trial or sale
-			if ( $this->has_trial() ) {
-				array_unshift( $args, 'trial_price' );
-			} elseif ( $this->is_on_sale() ) {
-				array_unshift( $args, 'sale_price' );
-			} else {
-				array_unshift( $args, 'price' );
-			}
-
-			// if the price is greater than zero, payment is required
-			$ret = ( call_user_func_array( array( $this, $func ), $args ) > 0 );
-
-		}
+		$ret = ( $this->get_initial_price( array(), $coupon_id, 'float' ) > 0 );
 
 		return apply_filters( 'llms_plan_requires_payment', $ret, $coupon_id, $this );
 

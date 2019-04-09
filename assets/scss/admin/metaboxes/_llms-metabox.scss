@@ -1,7 +1,22 @@
+
+// This is a "legacy" rule that may be removeable
+.llms-mb-list {
+
+	label {
+		font-weight: bold;
+		width: 100%;
+		display: block;
+	}
+
+	.input-full {
+		width: 100%;
+	}
+}
+
+
 #poststuff .llms-metabox {
 
 	@extend %cf;
-	padding: 5px;
 
 	h2, h3, h6 {
 		font-weight: 300;
@@ -151,9 +166,10 @@
 			cursor: pointer;
 			transition: color .4s ease;
 			&:hover {
-				color: #069cb5;
+				color: $color-blue;
 			}
 
+			&.dashicons-warning,&.dashicons-warning:hover,
 			&.dashicons-trash:hover,
 			&.dashicons-no:hover {
 				color: $color-danger;

@@ -2,8 +2,9 @@
 /**
  * Core functions used exlusively on the admin panel
  * @since    3.0.0
- * @version  3.23.0
+ * @version  3.30.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -140,6 +141,26 @@ function llms_get_sales_page_types() {
 		'content' => __( 'Show custom content', 'lifterlms' ),
 		'page' => __( 'Redirect to WordPress Page', 'lifterlms' ),
 		'url' => __( 'Redirect to custom URL', 'lifterlms' ),
+	) );
+}
+
+/**
+ * Get an array of available course/membership checkout redirection options
+ *
+ * @since    3.30.0
+ * @version  3.30.0
+ *
+ * @param    string    $product_type The product type, Course or Membership
+ * @return   array
+ */
+function llms_get_checkout_redirection_types( $product_type = '' ) {
+
+	$product_type = empty( $product_type ) ? __( 'Course/Membership', 'lifterlms' ) : $product_type;
+
+	return apply_filters( 'llms_checkout_redirection_types', array(
+		'self' => sprintf( __( '(Default) Return to %s', 'lifterlms' ), $product_type ),
+		'page' => __( 'Redirect to a WordPress Page', 'lifterlms' ),
+		'url' => __( 'Redirect to a custom URL', 'lifterlms' ),
 	) );
 }
 

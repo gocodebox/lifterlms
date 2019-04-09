@@ -1,25 +1,35 @@
 <?php
 /**
- * Grade Book
+ * Reporting Screen Main Template
+ *
+ * @since  ??
+ * @version 3.29.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+defined( 'ABSPATH' ) || exit;
+is_admin() || exit;
 ?>
-
 <div class="wrap lifterlms llms-reporting tab--<?php echo $current_tab; ?>">
+
+	<header class="llms-header">
+		<div class="llms-inside-wrap">
+			<img class="lifterlms-logo" src="<?php echo LLMS()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="<?php esc_attr_e( 'LifterLMS Logo', 'lifterlms' ); ?>">
+		</div>
+	</header>
 
 	<form action="<?php echo admin_url( 'admin.php' ); ?>" class="llms-reporting-nav" method="GET">
 
-		<nav class="llms-nav-tab-wrapper">
+		<nav class="llms-nav-tab-wrapper llms-nav-secondary">
 
-			<ul class="llms-nav-items">
-			<?php foreach ( $tabs as $name => $label ) : ?>
+			<div class="llms-inside-wrap">
+				<ul class="llms-nav-items">
+				<?php foreach ( $tabs as $name => $label ) : ?>
 
-				<?php $current_tab_class = ( $current_tab == $name ) ? ' llms-active' : ''; ?>
-				<li class="llms-nav-item<?php echo $current_tab_class; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $name ); ?>"><?php echo $label; ?></a>
+					<?php $current_tab_class = ( $current_tab == $name ) ? ' llms-active' : ''; ?>
+					<li class="llms-nav-item<?php echo $current_tab_class; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-reporting&tab=' . $name ); ?>"><?php echo $label; ?></a>
 
-			<?php endforeach; ?>
-			</ul>
+				<?php endforeach; ?>
+				</ul>
+			</div>
 
 		</nav>
 

@@ -4,7 +4,7 @@
 * Handles queries and endpoints.
 *
 * @since   1.0.0
-* @version [version]
+* @version 3.28.2
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ class LLMS_Query {
 	 * Constructor
 	 *
 	 * @since    1.0.0
-	 * @version  [version]
+	 * @version  3.28.2
 	 */
 	public function __construct() {
 
@@ -47,7 +47,7 @@ class LLMS_Query {
 	 * Add Query Endpoints
 	 *
 	 * @since 1.0.0
-	 * @version [version]
+	 * @version 3.28.2
 	 */
 	public function add_endpoints() {
 		foreach ( $this->get_query_vars() as $key => $var ) {
@@ -234,7 +234,7 @@ class LLMS_Query {
 	 * @return void
 	 * @since 3.14.0
 	 * @version 3.14.0
-	 * @deprecated [version] $paged automatically set via add_rewrite_rule() in $this->add_endpoints() method.
+	 * @deprecated 3.28.2 $paged automatically set via add_rewrite_rule() in $this->add_endpoints() method.
 	 */
 	public function set_dashboard_pagination() {
 

@@ -1,12 +1,28 @@
 <?php
+/**
+ * 3rd Party API request handler abstract.
+ *
+ * @since 3.11.2
+ * @version 3.30.1
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS API Request Handler Abstract
- * @since   3.11.2
- * @version 3.24.0
+ * 3rd Party API request handler abstract.
+ *
+ * @since 3.11.2
+ * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
+ * @version 3.29.0
  */
 abstract class LLMS_Abstract_API_Handler {
+
+	/**
+	 * Determines if an empty response body should be interpreted as an error
+	 *
+	 * @var bool
+	 */
+	protected $allow_empty_response = false;
 
 	/**
 	 * Default request method
@@ -15,7 +31,7 @@ abstract class LLMS_Abstract_API_Handler {
 	protected $default_request_method = 'POST';
 
 	/**
-	 * Send requests in JSON format
+	 * Determine if the request should be made as JSON
 	 * @var  bool
 	 */
 	protected $is_json = true;
@@ -47,40 +63,46 @@ abstract class LLMS_Abstract_API_Handler {
 	}
 
 	/**
-	 * Make an API call to stripe
-	 * @param    stirng $resource  url endpoint or resource to make a request to
-	 * @param    array  $data      array of data to pass in the body of the request
-	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
+	 * Execute an API request.
+	 *
+	 * @since 3.11.2
+	 * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
+	 * @version 3.30.1
+	 *
+	 * @param    string $resource  url endpoint or resource to make a request to.
+	 * @param    array  $data      array of data to pass in the body of the request.
+	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...).
 	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.24.0
 	 */
 	private function call( $resource, $data, $method = null ) {
 
 		$method = is_null( $method ) ? $this->default_request_method : $method;
 
-		// setup the body
-		$body = $this->set_request_body( $data, $method, $resource );
-		if ( $this->is_json ) {
-			$body = json_encode( $body );
-		}
+		// setup headers.
+		$content_type = $this->is_json ?  'application/json; charset=utf-8' : 'application/x-www-form-urlencoded';
+		$headers = $this->set_request_headers( array(
+			'content-type' => $content_type,
+		), $resource, $method );
 
-		// setup headers
-		$headers = array();
-		if ( $this->is_json ) {
-			$headers['content-type'] = 'application/json; charset=utf-8';
+		$args = array(
+			'headers' => $headers,
+			'method' => $method,
+			'timeout' => $this->request_timeout,
+			'user-agent' => $this->set_user_agent( 'LifterLMS ' . LLMS_VERSION, $resource, $method ),
+		);
+
+		// setup body.
+		$body = $this->set_request_body( $data, $method, $resource );
+
+		// if "null" if passed to body, don't send a body at all.
+		if ( ! is_null( $body ) ) {
+			$args['body'] = $this->is_json && $body ? json_encode( $body ) : $body;
 		}
 
 		// attempt to call the API
 		$response = wp_safe_remote_request(
 			$this->set_request_url( $resource, $method ),
-			array(
-				'body' => $body,
-				'headers' => $this->set_request_headers( $headers, $resource, $method ),
-				'method' => $method,
-				'timeout' => $this->request_timeout,
-				'user-agent' => $this->set_user_agent( 'LifterLMS ' . LLMS_VERSION, $resource, $method ),
-			)
+			$args
 		);
 
 		// connection error
@@ -91,7 +113,7 @@ abstract class LLMS_Abstract_API_Handler {
 		}
 
 		// empty body
-		if ( empty( $response['body'] ) ) {
+		if ( ! $this->allow_empty_response && empty( $response['body'] ) ) {
 
 			return $this->set_error( __( 'Empty Response.', 'lifterlms' ), 'empty_response', $response );
 

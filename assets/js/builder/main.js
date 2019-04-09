@@ -1,7 +1,7 @@
 /**
  * LifterLMS JS Builder App Bootstrap
- * @since    3.16.0
- * @version  3.27.0
+ * @since 3.16.0
+ * @version 3.30.1
  */
 require( [
 	'vendor/wp-hooks',
@@ -190,6 +190,7 @@ require( [
 
 	} );
 
+
 	Backbone.pubSub = _.extend( {}, Backbone.Events );
 
 	$( document ).trigger( 'llms-builder-pre-init' );
@@ -218,10 +219,11 @@ require( [
 	 * Do deeplinking to Lesson / Quiz / Assignments
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
-	 * @since   3.27.0
-	 * @version 3.27.0
+	 * @since 3.27.0
+	 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
 	 */
 	if ( window.location.hash ) {
+
 		var hash = window.location.hash;
 		if ( -1 === hash.indexOf( '#lesson:' ) ) {
 			return;
@@ -230,9 +232,15 @@ require( [
 			$lesson = $( '#llms-lesson-' + parts[0] );
 
 		if ( $lesson.length ) {
-			$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
-			var subtab = parts[1] ? parts[1] : 'lesson';
-			$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
+
+			LLMS.wait_for( function() {
+				return ( undefined !== wp.editor && undefined !== window.tinymce );
+			}, function() {
+				$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
+				var subtab = parts[1] ? parts[1] : 'lesson';
+				$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
+			} );
+
 		}
 
 	}

@@ -145,6 +145,7 @@ body.admin_page_llms-course-builder {
 
 			li.llms-section {
 				background: #fff;
+				position: relative;
 				margin: 0;
 				padding: 20px 20px 20px 40px;
 
@@ -1674,54 +1675,3 @@ body.admin_page_llms-course-builder {
 	}
 
 }
-
-
-
-// .llms-builder-tools {
-// 	background: #cecece;
-// 	flex: 1;
-// 	position: relative;
-// 	padding: 40px 20px 80px;
-
-
-// 	footer {
-
-// 		bottom: 0;
-// 		left: 0;
-// 		padding: 20px;
-// 		position: absolute;
-// 		right: 0;
-
-// 		.save-status {
-// 			font-style: italic;
-// 			line-height: 20px;
-// 			margin: 0;
-// 			z-index: 1;
-// 			.unsaved, .saving {
-// 				display: none;
-// 			}
-// 			&[data-status="saving"] {
-// 				.saving {
-// 					display: block;
-// 				}
-// 			}
-// 		}
-
-// 		#llms-spinner-el {
-// 			display: inline-block;
-// 			margin-right: 5px;
-// 			height: 20px;
-// 			position: relative;
-// 			vertical-align: middle;
-// 			width: 20px;
-// 			.llms-spinning {
-// 				background: transparent;
-// 			}
-// 		}
-
-// 	}
-
-// }
-
-
-

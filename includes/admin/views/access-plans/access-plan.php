@@ -1,14 +1,18 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
- * Individual Access Plan on Admin Panel
+ * Individual Access Plan as displayed within the "Product Options" metabox.
+ *
+ * @package  LifterLMS/Admin/Views
  * @since    3.0.0
- * @version  3.24.0
+ * @since    3.30.0 Added checkout redirect settings.
+ * @version  3.30.0
+ *
+ * @var obj $course LLMS_Course.
+ * @var array $checkout_redirection_types checkout redirect setting options.
+ * @var obj $plan LLMS_Access_Plan.
  */
-if ( ! is_admin() ) {
-	exit;
-}
+
+defined( 'ABSPATH' ) || exit;
 
 // create a "step" attribute for price fields according to LLMS settings
 $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() );
@@ -31,7 +35,7 @@ if ( ! isset( $plan ) ) {
 	$trial_offer = $plan->get( 'trial_offer' );
 	$on_sale = $plan->get( 'on_sale' );
 	$availability = $plan->get( 'availability' );
-
+	$checkout_redirect_url = $plan->get( 'checkout_redirect_url' );
 }
 ?>
 
@@ -49,6 +53,9 @@ if ( ! isset( $plan ) ) {
 			<?php endif; ?>
 		</h3>
 		<div class="d-1of2 d-right">
+			<span class="tip--top-left" data-tip="<?php esc_attr_e( 'Errors were found during access plan validation', 'lifterlms' ); ?>">
+				<span class="dashicons dashicons-warning"></span>
+			</span>
 			<span class="dashicons dashicons-arrow-down"></span>
 			<span class="dashicons dashicons-arrow-up"></span>
 			<span class="dashicons dashicons-menu llms-drag-handle"></span>
@@ -63,7 +70,7 @@ if ( ! isset( $plan ) ) {
 		<div class="llms-plan-row-1">
 
 			<div class="llms-metabox-field d-1of3">
-				<label><?php _e( 'Plan Title', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Plan Title', 'lifterlms' ) ?><span class="llms-required">*</span></label>
 				<input class="llms-plan-title" name="_llms_plans[<?php echo $order; ?>][title]" required="required" type="text"<?php echo ( $plan ) ? ' value="' . $plan->get( 'title' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
@@ -101,8 +108,8 @@ if ( ! isset( $plan ) ) {
 		<div class="llms-plan-row-2" data-controller="llms-plan-is-free" data-value-is-not="yes">
 
 			<div class="llms-metabox-field d-1of4">
-				<label><?php _e( 'Price', 'lifterlms' ) ?></label>
-				<input class="llms-plan-price" name="_llms_plans[<?php echo $order; ?>][price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
+				<label><?php _e( 'Price', 'lifterlms' ) ?><span class="llms-required">*</span></label>
+				<input class="llms-plan-price" name="_llms_plans[<?php echo $order; ?>][price]" min="<?php echo $price_step; ?>" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan ) ? ' value="' . $plan->get( 'price' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of4">
@@ -317,6 +324,51 @@ endwhile; ?>
 				),
 			) ) ); ?>
 		</div>
+
+		<div class="clear"></div>
+
+		<?php do_action( 'llms_access_plan_mb_after_row_six', $plan, $id, $order ); ?>
+
+		<div class="llms-plan-row-7">
+			<div class="llms-metabox-field d-all" data-controller="llms-availability" data-value-is="members">
+				<label><?php _e( 'Override Membership Redirects', 'lifterlms' ) ?></label>
+				<input name="_llms_plans[<?php echo $order; ?>][checkout_redirect_forced]" type="checkbox" value="yes"<?php checked( 'yes', $plan ? $plan->get( 'checkout_redirect_forced' ) : 'no' ); ?>>
+				<em><?php _e( 'Any redirection set up on the Membership Access Plans will be overridden by the following settings.', 'lifterlms' ); ?></em>
+			</div>
+			<div class="llms-metabox-field d-all llms-checkout-redirect-settings">
+			<div class="llms-metabox-field d-1of2">
+				<label><?php _e( 'Checkout redirect', 'lifterlms' ) ?></label>
+				<select class="llms-checkout-redirect-type" data-controller-id="llms-checkout-redirect-type" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_type]" required="required" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+					<?php $saved_checkout_redirect_type = 'self'; ?>
+					<?php if ( $plan ) : ?>
+					<?php
+					$saved_checkout_redirect_type = ! empty( $plan->get( 'checkout_redirect_type' ) ) ? $plan->get( 'checkout_redirect_type' ): 'self';
+					?>
+					<?php endif; ?>
+					<?php foreach ( $checkout_redirection_types as $checkout_redirection_type => $checkout_redirection_label ) : ?>
+						<option value="<?php echo $checkout_redirection_type; ?>"<?php selected( $checkout_redirection_type, $saved_checkout_redirect_type ); ?>><?php echo $checkout_redirection_label; ?></option>
+					<?php endforeach; ?>
+				</select>
+			</div>
+			<div class="llms-metabox-field d-1of2" data-controller="llms-checkout-redirect-type" data-value-is="page">
+				<label><?php _e( 'Select a page', 'lifterlms' ) ?></label>
+				<select class="llms-checkout-redirect-page" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_page]" data-post-type="page" style="width:100%; height: 25px;"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
+					<?php if ( $plan ) : ?>
+						<?php $llms_checkout_redirect_page = $plan->get( 'checkout_redirect_page' ); ?>
+						<?php if ( ! empty( $llms_checkout_redirect_page ) ) : ?>
+							<option value="<?php echo $llms_checkout_redirect_page; ?>" selected="selected"><?php echo get_the_title( $llms_checkout_redirect_page ); ?> ( #<?php echo $llms_checkout_redirect_page; ?>)</option>
+						<?php endif; ?>
+					<?php endif; ?>
+				<select>
+			</div>
+			<div class="llms-metabox-field d-1of2" data-controller="llms-checkout-redirect-type" data-value-is="url">
+				<label><?php _e( 'Enter a URL', 'lifterlms' ) ?></label>
+				<input type="text" class="llms-checkout-redirect-url" name="_llms_plans[<?php echo $order; ?>][checkout_redirect_url]"<?php echo ($plan) ? ' value="' . $plan->get( 'checkout_redirect_url' ) . '"' : ' disabled="disabled"'; ?> value="<?php echo ($plan) ? $plan->get( 'checkout_redirect_url' ): ''; ?>" />
+			</div>
+			</div>
+		</div>
+
+		<div class="clear"></div>
 
 		<input class="plan-order" name="_llms_plans[<?php echo $order; ?>][menu_order]" type="hidden" value="<?php echo ( $plan ) ? $plan->get( 'menu_order' ) : $order; ?>"<?php echo ( $plan ) ? '' : ' disabled="disabled"'; ?>>
 		<input name="_llms_plans[<?php echo $order; ?>][id]" type="hidden"<?php echo ( $plan ) ? ' value="' . $plan->get( 'id' ) . '"' : ' disabled="disabled"'; ?>>

@@ -1,10 +1,19 @@
 <?php
+/**
+ * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
+ *
+ * @since 3.0.0
+ * @version 3.30.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
- * @since    3.0.0
- * @version  3.24.0
+ * LLMS_Post_Model abstract
+ *
+ * @since 3.0.0
+ * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`
+ * @version 3.30.0
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -43,7 +52,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Instance of WP_Post
-	 * @var obj
+	 * @var WP_Post
 	 * @since 3.0.0
 	 */
 	protected $post;
@@ -69,11 +78,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Constructor
 	 * Setup ID and related post property
 	 *
-	 * @param     int|obj    $model   WP post id, instance of an extending class, instance of WP_Post
-	 * @param     array     $args    args to create the post, only applies when $model is 'new'
-	 * @return    void
-	 * @since     3.0.0
-	 * @version   3.13.0
+	 * @param   string|int|LLMS_Post_Model|WP_Post $model 'new', WP post id, instance of an extending class, instance of WP_Post
+	 * @param   array                              $args  args to create the post, only applies when $model is 'new'
+	 * @return  void
+	 * @since   3.0.0
+	 * @version 3.13.0
 	 */
 	public function __construct( $model, $args = array() ) {
 
@@ -283,7 +292,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Wrapper for the $this->translate() that echos the result rather than returning it
 	 * @param    string     $key  key to retrieve
-	 * @return   string
+	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -481,7 +490,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve the Post's post type data object
-	 * @return obj
+	 * @return WP_Post_Type|null
 	 * @since  3.0.0
 	 */
 	public function get_post_type_data() {
@@ -707,7 +716,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * If a child class adds any properties which should not be settable
 	 * the class should override this property and add their custom
 	 * properties to the array
-	 * @var array
+	 * @return array
 	 * @since 3.0.0
 	 */
 	protected function get_unsettable_properties() {
@@ -899,9 +908,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Update terms for the post for a given taxonomy
+	 *
 	 * @param    array      $terms   array of terms (name or ids)
 	 * @param    string     $tax     the name of the tax
 	 * @param    boolean    $append  if true, will append the terms, false will replace existing terms
+	 *
+	 * @return bool
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -1000,13 +1012,17 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Removes all custom props registered to the $this->properties automatically
 	 * Also removes some fields used by the WordPress core that don't hold necessary data
 	 * Extending classes may override this class to exclude, extend, or modify the custom fields for a post type
+	 *
+	 * @since 3.16.11
+	 * @since 3.30.0 Use `maybe_unserialize()` to ensure array data is accessible as an array.
+	 * @version  3.30.0
+	 *
 	 * @param    array     $arr  existing post array
 	 * @return   array
-	 * @since    3.16.11
-	 * @version  3.16.11
 	 */
 	protected function toArrayCustom( $arr ) {
 
+		// Build an array of keys that are registered or can be excluded as a custom field.
 		$props = array_keys( $this->get_properties() );
 		foreach ( $props as &$prop ) {
 			$prop = $this->meta_prefix . $prop;
@@ -1014,7 +1030,22 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$props[] = '_edit_lock';
 		$props[] = '_edit_last';
 
-		$arr['custom'] = array_diff_key( get_post_meta( $this->get( 'id' ) ), array_flip( $props ) );
+		// Get all meta data.
+		$custom = array();
+		foreach ( get_post_meta( $this->get( 'id' ) ) as $key => $vals ) {
+
+			// Skip registered fields.
+			if ( in_array( $key, $props, true ) ) {
+				continue;
+			}
+
+			// add it.
+			$custom[ $key ] = array_map( 'maybe_unserialize', $vals );
+
+		}
+
+		// add the compiled custom array.
+		$arr['custom'] = $custom;
 
 		return $arr;
 	}

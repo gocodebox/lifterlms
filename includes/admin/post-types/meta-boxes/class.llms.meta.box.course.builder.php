@@ -1,14 +1,20 @@
 <?php
 /**
  * Course Builder Metabox
- * @since    3.13.0
- * @version  3.28.0
+ *
+ * @package LifterLMS/Admin/Metaboxes
+ *
+ * @since 3.13.0
+ * @version 3.30.1
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Course_Builder class.
+ * Metabox for the "Course Builder" launcher/browser
+ *
+ * @since 3.13.0
+ * @since 3.30.1 Add `llms-mb-container` CSS class to container element in the `output()` method.
  */
 class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
@@ -84,9 +90,11 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 	/**
 	 * Override the output method to output a button
+	 *
+	 * @since 3.13.0
+	 * @since 3.30.1 Add `llms-mb-container` CSS class to container element.
+	 *
 	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.27.0
 	 */
 	public function output() {
 
@@ -107,7 +115,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 			$course = llms_get_post( $post_id );
 		}
 		?>
-		<div class="llms-builder-launcher">
+		<div class="llms-builder-launcher llms-mb-container">
 
 			<?php if ( $lesson && $section ) : ?>
 
