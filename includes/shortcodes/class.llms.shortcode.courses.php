@@ -65,7 +65,6 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 			$ids = $ids ? array_intersect( $ids, $courses['results'] ) : $courses['results'];
 
-
 		}
 
 		return $ids;
@@ -130,7 +129,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 		$post_in = $this->get_post__in();
 
-		if( empty( $post_in ) ) {
+		if ( empty( $post_in ) ) {
 			return false;
 		}
 
@@ -144,7 +143,6 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 			'order' => $this->get_attribute( 'order' ),
 			'orderby' => $this->get_attribute( 'orderby' ),
 		);
-
 
 		return new WP_Query( $args );
 
@@ -175,13 +173,11 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 			);
 		} else {
 
-			if( $this->get_wp_query() == false ) {
-				printf ( '<p>%s</p>', __( 'You have no courses that meet this criteria.', 'lifterlms' ) );
+			if ( $this->get_wp_query() == false ) {
+				printf( '<p>%s</p>', __( 'You have no courses that meet this criteria.', 'lifterlms' ) );
 			} else {
 				lifterlms_loop( $this->get_wp_query() );
 			}
-
-			
 		}
 
 		return ob_get_clean();
