@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.30.? - 2019-04-??
+--------------------
+
++ Added new filter to allow 3rd parties to determine if a `LLMS_Post_Model` field should be added to the `custom` array when converting the post to an array.
+
+
 v3.30.1 - 2019-04-04
 --------------------
 

@@ -2,8 +2,10 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  *
+ * @package LifterLMS/Abstracts
+ *
  * @since 3.0.0
- * @version 3.30.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Post_Model abstract
  *
  * @since 3.0.0
- * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`
- * @version 3.30.0
+ * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
+ * @since [version] Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -1015,7 +1017,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.16.11
 	 * @since 3.30.0 Use `maybe_unserialize()` to ensure array data is accessible as an array.
-	 * @version  3.30.0
+	 * @since [version] Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
 	 *
 	 * @param    array     $arr  existing post array
 	 * @return   array
@@ -1034,8 +1036,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$custom = array();
 		foreach ( get_post_meta( $this->get( 'id' ) ) as $key => $vals ) {
 
-			// Skip registered fields.
-			if ( in_array( $key, $props, true ) ) {
+			// Skip registered fields or fields 3rd parties want to skip.
+			if ( in_array( $key, $props, true ) || apply_filters( 'llms_' . $this->model_post_type . '_skip_custom_field', false, $key, $this ) ) {
 				continue;
 			}
 
