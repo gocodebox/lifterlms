@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Generator class.
  *
  * @since 3.3.0
- * @since [version] Added hooks and made numerous private functions public to expand extendabiity.
+ * @since 3.30.2 Added hooks and made numerous private functions public to expand extendabiity.
  */
 class LLMS_Generator {
 
@@ -153,7 +153,7 @@ class LLMS_Generator {
 	 *
 	 * @since 3.16.11
 	 * @since 3.28.3 Add extra slashes around JSON strings.
-	 * @since [version] Skip JSON evaluation for non-string values; make publicly accessible.
+	 * @since 3.30.2 Skip JSON evaluation for non-string values; make publicly accessible.
 	 *
 	 * @param int $post_id WP Post ID.
 	 * @param array $raw raw data.
@@ -177,7 +177,7 @@ class LLMS_Generator {
 	 * When called, generates raw content based on the defined generator
 	 *
 	 * @since 3.3.0
-	 * @since [version] Add before and after generation hooks.
+	 * @since 3.30.2 Add before and after generation hooks.
 	 *
 	 * @return void
 	 */
@@ -339,7 +339,7 @@ class LLMS_Generator {
 	 * Create a new course
 	 *
 	 * @since 3.3.0
-	 * @since [version] Added hooks.
+	 * @since 3.30.2 Added hooks.
 	 *
 	 * @param    array     $raw  raw course data
 	 * @return   void|int
@@ -425,7 +425,7 @@ class LLMS_Generator {
 	 * Create a new lesson
 	 *
 	 * @since 3.3.0
-	 * @since [version] Added hooks.
+	 * @since 3.30.2 Added hooks.
 	 *
 	 * @param    array     $raw                 raw lesson data
 	 * @param    int       $order               lesson order within the section (starts at 1)
@@ -507,7 +507,7 @@ class LLMS_Generator {
 	 * Creates all questions within the quiz as well
 	 *
 	 * @since 3.3.0
-	 * @since [version] Added hooks.
+	 * @since 3.30.2 Added hooks.
 	 *
 	 * @param    array     $raw                 raw quiz data
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
@@ -565,7 +565,7 @@ class LLMS_Generator {
 	 * Creates a new question
 	 *
 	 * @since 3.3.0
-	 * @since [version] Added hooks.
+	 * @since 3.30.2 Added hooks.
 	 *
 	 * @param    array      $raw        raw question data
 	 * @param    int        $author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
@@ -615,7 +615,7 @@ class LLMS_Generator {
 	 * Creates all lessons within the section data
 	 *
 	 * @since 3.3.0
-	 * @since [version] Added hooks.
+	 * @since 3.30.2 Added hooks.
 	 *
 	 * @param    array      $raw                 raw section data
 	 * @param    int        $order               order within the course (starts at 1)
@@ -664,7 +664,7 @@ class LLMS_Generator {
 	 * falls back to current date if no date is supplied
 	 *
 	 * @since 3.3.0
-	 * @since [version] Made publicly accessible.
+	 * @since 3.30.2 Made publicly accessible.
 	 *
 	 * @param string $raw_date Raw date from raw object.
 	 * @return string
@@ -781,7 +781,7 @@ class LLMS_Generator {
 	 * falls back to current user id
 	 *
 	 * @since 3.3.0
-	 * @since [version] Made publicly accessible.
+	 * @since 3.30.2 Made publicly accessible.
 	 *
 	 * @param array $raw raw data
 	 * @param int $fallback_author_id WP User ID
@@ -807,7 +807,7 @@ class LLMS_Generator {
 	 * Retrieve the default post status for the generated set of posts
 	 *
 	 * @since 3.7.3
-	 * @since [version] Made publicly accessible.
+	 * @since 3.30.2 Made publicly accessible.
 	 *
 	 * @return string
 	 */
@@ -980,7 +980,7 @@ class LLMS_Generator {
 	 * Increments a stat in the stats object
 	 *
 	 * @since 3.3.0
-	 * @since [version] Made publicly accessible; change to automatically add new items to the stats if they aren't set.
+	 * @since 3.30.2 Made publicly accessible; change to automatically add new items to the stats if they aren't set.
 	 *
 	 * @param string $type key of the stat to increment.
 	 * @return void

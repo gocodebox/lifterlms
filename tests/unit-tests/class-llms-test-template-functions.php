@@ -3,7 +3,7 @@
  * Tests for template functions
  * @group LLMS_Functions_Templates
  * @since 3.15.0
- * @version [version]
+ * @version 3.30.2
  */
 class LLMS_Functions_Templates extends LLMS_UnitTestCase {
 

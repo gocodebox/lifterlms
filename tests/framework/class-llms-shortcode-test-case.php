@@ -2,7 +2,7 @@
 /**
  * Unit Test Case with tests and utilities specific to testing LifterLMS Shortcodes
  * @since    3.24.1
- * @version  [version]
+ * @version  3.30.2
  */
 
 require_once 'class-llms-unit-test-case.php';

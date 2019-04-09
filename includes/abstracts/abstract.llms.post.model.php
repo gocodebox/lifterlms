@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
- * @since [version] Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
+ * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -1017,7 +1017,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.16.11
 	 * @since 3.30.0 Use `maybe_unserialize()` to ensure array data is accessible as an array.
-	 * @since [version] Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
+	 * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
 	 *
 	 * @param    array     $arr  existing post array
 	 * @return   array

@@ -5,7 +5,7 @@
  * [lifterlms_courses]
  *
  * @since 3.14.0
- * @version [version]
+ * @version 3.30.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Courses Shortcode class.
  *
  * @since 3.14.0
- * @since [version] Output a message instead of the entire course catalog when "mine" is used and and current student is not enrolled in any courses.
+ * @since 3.30.2 Output a message instead of the entire course catalog when "mine" is used and and current student is not enrolled in any courses.
  */
 class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
@@ -155,7 +155,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
 	 * @since 3.14.0
-	 * @since [version] Output a message instead of the entire course catalog when "mine" is used and and current student is not enrolled in any courses.
+	 * @since 3.30.2 Output a message instead of the entire course catalog when "mine" is used and and current student is not enrolled in any courses.
 	 *
 	 * @return string
 	 */
