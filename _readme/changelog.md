@@ -1,6 +1,15 @@
 == Changelog ==
 
 
+= v3.30.2 - 2019-04-09 =
+------------------------
+
++ Added new filter to allow 3rd parties to determine if a `LLMS_Post_Model` field should be added to the `custom` array when converting the post to an array.
++ Added hooks and filters to the `LLMS_Generator` class to allow 3rd parties to easily generate content during course clone and import operations.
++ Fixed an issue causing all available courses to display when the [lifterlms_courses] shortcode is used with the "mine" parameter and the current user viewing the shortcode is not enrolled in any courses.
++ Fixed a PHP undefined variable warning present on the payment confirmation screen.
+
+
 = v3.30.1 - 2019-04-04 =
 ------------------------
 
@@ -162,10 +171,3 @@ Admin panel templates replaced with view files which cannot be overridden from a
 ##### Deprecations
 
 + `LLMS_Query->set_dashboard_pagination()`
-
-
-= v3.28.1 - 2019-02-01 =
-------------------------
-
-+ Fixed an issues preventing exports to be accessible on Apache servers.
-+ Fixed an issue causing servers with certain nginx rules to open CSV exports directly instead of downloading them.

@@ -167,51 +167,51 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: includes/class.llms.generator.php:201
+#: includes/class.llms.generator.php:215
 msgid "No generator supplied."
 msgstr ""
 
-#: includes/class.llms.generator.php:217, includes/class.llms.l10n.js.php:230, includes/class.llms.l10n.js.php:377, includes/admin/post-types/class.llms.post.tables.php:44
+#: includes/class.llms.generator.php:231, includes/class.llms.l10n.js.php:230, includes/class.llms.l10n.js.php:377, includes/admin/post-types/class.llms.post.tables.php:44
 msgid "Clone"
 msgstr ""
 
-#: includes/class.llms.generator.php:259
+#: includes/class.llms.generator.php:273
 msgid "Missing required \"courses\" array"
 msgstr ""
 
-#: includes/class.llms.generator.php:261
+#: includes/class.llms.generator.php:275
 msgid "\"courses\" must be an array"
 msgstr ""
 
-#: includes/class.llms.generator.php:350
+#: includes/class.llms.generator.php:368
 msgid "Error creating course"
 msgstr ""
 
-#: includes/class.llms.generator.php:436
+#: includes/class.llms.generator.php:458
 msgid "Error creating lesson"
 msgstr ""
 
-#: includes/class.llms.generator.php:510
+#: includes/class.llms.generator.php:536
 msgid "Error creating quiz"
 msgstr ""
 
-#: includes/class.llms.generator.php:556
+#: includes/class.llms.generator.php:586
 msgid "Error creating question"
 msgstr ""
 
-#: includes/class.llms.generator.php:608
+#: includes/class.llms.generator.php:642
 msgid "Error creating section"
 msgstr ""
 
-#: includes/class.llms.generator.php:853
+#: includes/class.llms.generator.php:893
 msgid "Error creating new term \"%s\""
 msgstr ""
 
-#: includes/class.llms.generator.php:1038
+#: includes/class.llms.generator.php:1081
 msgid "The supplied file cannot be processed by the importer."
 msgstr ""
 
-#: includes/class.llms.generator.php:1051
+#: includes/class.llms.generator.php:1094
 msgid "Invalid generator supplied"
 msgstr ""
 
@@ -2766,7 +2766,7 @@ msgstr ""
 msgid "The selected payment Gateway \"%s\" does not support payment method switching."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:353
+#: includes/abstracts/abstract.llms.post.model.php:355
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
 
@@ -6237,8 +6237,12 @@ msgstr ""
 msgid "Your cart is currently empty. Click <a href=\"%s\">here</a> to get started."
 msgstr ""
 
-#: includes/shortcodes/class.llms.shortcode.courses.php:164
+#: includes/shortcodes/class.llms.shortcode.courses.php:172
 msgid "You must be logged in to view this information. Click %1$shere%2$s to login."
+msgstr ""
+
+#: includes/shortcodes/class.llms.shortcode.courses.php:181
+msgid "No courses found."
 msgstr ""
 
 #: includes/shortcodes/class.llms.shortcodes.php:291, templates/loop/pagination.php:23, templates/myaccount/my-grades.php:49, templates/myaccount/my-notifications.php:46
@@ -6310,7 +6314,7 @@ msgstr ""
 msgid "You do not have any certificates yet."
 msgstr ""
 
-#: templates/checkout/form-checkout.php:27, templates/checkout/form-confirm-payment.php:35
+#: templates/checkout/form-checkout.php:27, templates/checkout/form-confirm-payment.php:36
 msgid "Billing Information"
 msgstr ""
 
@@ -6318,11 +6322,11 @@ msgstr ""
 msgid "Student Information"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:51, templates/checkout/form-confirm-payment.php:53
+#: templates/checkout/form-checkout.php:51, templates/checkout/form-confirm-payment.php:54
 msgid "Order Summary"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:75, templates/checkout/form-confirm-payment.php:69
+#: templates/checkout/form-checkout.php:75, templates/checkout/form-confirm-payment.php:70
 msgid "Payment Details"
 msgstr ""
 
@@ -6338,15 +6342,15 @@ msgstr ""
 msgid "Enroll Now"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:20
+#: templates/checkout/form-confirm-payment.php:21
 msgid "Only pending orders can be confirmed. View your %1$sorder history%2$s for more information"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:74, templates/checkout/form-switch-source.php:59
+#: templates/checkout/form-confirm-payment.php:75, templates/checkout/form-switch-source.php:59
 msgid "Payment Method:"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:90, includes/admin/settings/class.llms.settings.checkout.php:184
+#: templates/checkout/form-confirm-payment.php:91, includes/admin/settings/class.llms.settings.checkout.php:184
 msgid "Confirm Payment"
 msgstr ""
 
