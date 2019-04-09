@@ -185,7 +185,6 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 				lifterlms_loop( $this->get_wp_query() );
 
 			}
-
 		}
 
 		return ob_get_clean();
