@@ -5,7 +5,7 @@ v3.30.? - 2019-04-??
 --------------------
 
 + Added new filter to allow 3rd parties to determine if a `LLMS_Post_Model` field should be added to the `custom` array when converting the post to an array.
-
++ Added hooks and filters to the `LLMS_Generator` class to allow 3rd parties to easily generate content during course clone and import operations.
 
 v3.30.1 - 2019-04-04
 --------------------

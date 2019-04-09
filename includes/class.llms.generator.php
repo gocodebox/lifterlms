@@ -2,14 +2,19 @@
 /**
  * Generate LMS Content from export files or raw arrays of data
  *
- * @since    3.3.0
- * @version  3.28.3
+ * @package LifterLMS/Classes
+ *
+ * @since 3.3.0
+ * @version 3.28.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Generator class.
+ *
+ * @since 3.3.0
+ * @since [version] Added hooks and made numerous private functions public to expand extendabiity.
  */
 class LLMS_Generator {
 
@@ -145,18 +150,21 @@ class LLMS_Generator {
 
 	/**
 	 * Add custom data to a post based on the 'custom' array
-	 * @param    int     $post_id  WP Post ID
-	 * @param    array   $raw      raw data
-	 * @return   void
-	 * @since    3.16.11
-	 * @version  3.28.3
+	 *
+	 * @since 3.16.11
+	 * @since 3.28.3 Add extra slashes around JSON strings.
+	 * @since [version] Skip JSON evaluation for non-string values; make publicly accessible.
+	 *
+	 * @param int $post_id WP Post ID.
+	 * @param array $raw raw data.
+	 * @return void
 	 */
-	private function add_custom_values( $post_id, $raw ) {
+	public function add_custom_values( $post_id, $raw ) {
 		if ( isset( $raw['custom'] ) ) {
 			foreach ( $raw['custom'] as $custom_key => $custom_vals ) {
 				foreach ( $custom_vals as $val ) {
 					// if $val is a JSON string, add slashes before saving.
-					if ( null !== json_decode( $val, true ) ) {
+					if ( is_string( $val ) && null !== json_decode( $val, true ) ) {
 						$val = wp_slash( $val );
 					}
 					add_post_meta( $post_id, $custom_key, maybe_unserialize( $val ) );
@@ -167,9 +175,11 @@ class LLMS_Generator {
 
 	/**
 	 * When called, generates raw content based on the defined generator
-	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @since [version] Add before and after generation hooks.
+	 *
+	 * @return void
 	 */
 	public function generate() {
 
@@ -181,6 +191,8 @@ class LLMS_Generator {
 
 			$wpdb->query( 'START TRANSACTION' );
 
+			do_action( 'llms_generator_before_generate', $this );
+
 			try {
 
 				call_user_func( $this->generator );
@@ -190,6 +202,8 @@ class LLMS_Generator {
 				$this->error->add( 'exception', $e->getMessage() );
 
 			}
+
+			do_action( 'llms_generator_after_generate', $this );
 
 			if ( $this->is_error() ) {
 				$wpdb->query( 'ROLLBACK' );
@@ -323,12 +337,16 @@ class LLMS_Generator {
 
 	/**
 	 * Create a new course
+	 *
+	 * @since 3.3.0
+     * @since [version] Added hooks.
+	 *
 	 * @param    array     $raw  raw course data
 	 * @return   void|int
-	 * @since    3.3.0
-	 * @version  3.16.11
 	 */
 	private function create_course( $raw ) {
+
+		$raw = apply_filters( 'llms_generator_before_new_course', $raw, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw );
 		if ( isset( $raw['author'] ) ) {
@@ -397,7 +415,7 @@ class LLMS_Generator {
 			}
 		}
 
-		do_action( 'llms_generator_new_course', $course );
+		do_action( 'llms_generator_new_course', $course, $raw, $this );
 
 		return $course->get( 'id' );
 
@@ -405,16 +423,20 @@ class LLMS_Generator {
 
 	/**
 	 * Create a new lesson
+	 *
+	 * @since 3.3.0
+	 * @since [version] Added hooks.
+	 *
 	 * @param    array     $raw                 raw lesson data
 	 * @param    int       $order               lesson order within the section (starts at 1)
 	 * @param    int       $section_id          WP Post ID of the lesson's parent section
 	 * @param    int       $course_id           WP Post ID of the lesson's parent course
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   mixed                          lesson id or WP_Error
-	 * @since    3.3.0
-	 * @version  3.16.11
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
+
+		$raw = apply_filters( 'llms_generator_before_new_lesson', $raw, $order, $section_id, $course_id, $fallback_author_id, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
 		if ( isset( $raw['author'] ) ) {
@@ -474,7 +496,7 @@ class LLMS_Generator {
 		// add custom meta
 		$this->add_custom_values( $lesson->get( 'id' ), $raw );
 
-		do_action( 'llms_generator_new_lesson', $lesson );
+		do_action( 'llms_generator_new_lesson', $lesson, $raw, $this );
 
 		return $lesson->get( 'id' );
 
@@ -483,13 +505,17 @@ class LLMS_Generator {
 	/**
 	 * Creates a new quiz
 	 * Creates all questions within the quiz as well
+	 *
+	 * @since 3.3.0
+	 * @since [version] Added hooks.
+	 *
 	 * @param    array     $raw                 raw quiz data
 	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                            WP Post ID of the Quiz
-	 * @since    3.3.0
-	 * @version  3.16.11
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
+
+		$raw = apply_filters( 'llms_generator_before_new_quiz', $raw, $fallback_author_id, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
 		if ( isset( $raw['author'] ) ) {
@@ -529,21 +555,25 @@ class LLMS_Generator {
 		// add custom meta
 		$this->add_custom_values( $quiz->get( 'id' ), $raw );
 
-		do_action( 'llms_generator_new_quiz', $quiz );
+		do_action( 'llms_generator_new_quiz', $quiz, $raw, $this );
 
 		return $quiz->get( 'id' );
 
 	}
 
 	/**
-	 * Creates a new questino
+	 * Creates a new question
+	 *
+	 * @since 3.3.0
+	 * @since [version] Added hooks.
+	 *
 	 * @param    array      $raw        raw question data
 	 * @param    int        $author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                    WP Post ID of the question
-	 * @since    3.3.0
-	 * @version  3.16.11
 	 */
 	private function create_question( $raw, $manager, $author_id ) {
+
+		$raw = apply_filters( 'llms_generator_before_new_question', $raw, $manager, $author_id, $this );
 
 		unset( $raw['parent_id'] );
 
@@ -574,7 +604,7 @@ class LLMS_Generator {
 			}
 		}
 
-		do_action( 'llms_generator_new_question', $question );
+		do_action( 'llms_generator_new_question', $question, $raw, $manager, $this );
 
 		return $question->get( 'id' );
 
@@ -583,15 +613,19 @@ class LLMS_Generator {
 	/**
 	 * Creates a new section
 	 * Creates all lessons within the section data
+	 *
+	 * @since 3.3.0
+	 * @since [version] Added hooks.
+	 *
 	 * @param    array      $raw                 raw section data
 	 * @param    int        $order               order within the course (starts at 1)
 	 * @param    int        $course_id           WP Post ID of the parent course
 	 * @param    int        $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                             WP Post ID of the Section
-	 * @since    3.3.0
-	 * @version  3.16.11
 	 */
 	private function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
+
+		$raw = apply_filters( 'llms_generator_before_new_section', $raw, $order, $course_id, $fallback_author_id, $this );
 
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
 
@@ -619,7 +653,7 @@ class LLMS_Generator {
 			}
 		}
 
-		do_action( 'llms_generator_new_section', $section );
+		do_action( 'llms_generator_new_section', $section, $raw, $this );
 
 		return $section->get( 'id' );
 
@@ -628,12 +662,14 @@ class LLMS_Generator {
 	/**
 	 * Ensure raw dates are correctly formatted to create a post date
 	 * falls back to current date if no date is supplied
-	 * @param    string     $raw_date  raw date from raw object
-	 * @return   string
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @since [version] Made publicly accessible.
+	 *
+	 * @param string $raw_date Raw date from raw object.
+	 * @return string
 	 */
-	private function format_date( $raw_date = null ) {
+	public function format_date( $raw_date = null ) {
 
 		if ( ! $raw_date ) {
 			return current_time( 'mysql' );
@@ -743,13 +779,15 @@ class LLMS_Generator {
 	 * Recieves a raw array of course, plan, section, lesson, etc data and gets an author id
 	 * falls back to optionally supplied fallback id
 	 * falls back to current user id
-	 * @param    array     $raw                 raw data
-	 * @param    int       $fallback_author_id  WP User ID
-	 * @return   int|WP_Error
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @since [version] Made publicly accessible.
+	 *
+	 * @param array $raw raw data
+	 * @param int $fallback_author_id WP User ID
+	 * @return int|WP_Error
 	 */
-	private function get_author_id_from_raw( $raw, $fallback_author_id = null ) {
+	public function get_author_id_from_raw( $raw, $fallback_author_id = null ) {
 
 		// if author is set, get the author id
 		if ( isset( $raw['author'] ) ) {
@@ -767,11 +805,13 @@ class LLMS_Generator {
 
 	/**
 	 * Retrieve the default post status for the generated set of posts
-	 * @return   string
-	 * @since    3.7.3
-	 * @version  3.7.3
+	 *
+	 * @since 3.7.3
+	 * @since [version] Made publicly accessible.
+	 *
+	 * @return string
 	 */
-	private function get_default_post_status() {
+	public function get_default_post_status() {
 		return apply_filters( 'llms_generator_default_post_status', $this->default_post_status, $this );
 	}
 
@@ -938,15 +978,18 @@ class LLMS_Generator {
 
 	/**
 	 * Increments a stat in the stats object
-	 * @param    string     $type  key of the stat to increment
-	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @since [version] Made publicly accessible; change to automatically add new items to the stats if they aren't set.
+	 *
+	 * @param string $type key of the stat to increment.
+	 * @return void
 	 */
-	private function increment( $type ) {
-		if ( isset( $this->stats[ $type ] ) ) {
-			$this->stats[ $type ]++;
+	public function increment( $type ) {
+		if ( ! isset( $this->stats[ $type ] ) ) {
+			$this->stats[ $type ] = 0;
 		}
+		$this->stats[ $type ]++;
 	}
 
 	/**
