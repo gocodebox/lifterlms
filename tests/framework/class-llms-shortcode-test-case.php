@@ -15,7 +15,7 @@ class LLMS_ShortcodeTestCase extends LLMS_UnitTestCase {
 	 */
 	public $class_name = '';
 
-	protected function assertOutputEquals( $expect, $shortcode ) {
+	public function assertOutputEquals( $expect, $shortcode ) {
 
 		ob_start();
 		echo do_shortcode( $shortcode );

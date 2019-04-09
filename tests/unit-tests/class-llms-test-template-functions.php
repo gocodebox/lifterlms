@@ -7,7 +7,7 @@
  */
 class LLMS_Functions_Templates extends LLMS_UnitTestCase {
 
-	private function get_output( $func, $params = array() ) {
+	public function get_output( $func, $params = array() ) {
 
 		ob_start();
 		call_user_func_array( $func, $params );
