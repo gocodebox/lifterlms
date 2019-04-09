@@ -16,5 +16,5 @@
 
 ## Checklist:
 - [ ] My code has been tested.
-- [ ] My code passes all existing automated tests. <!-- Check code: `composer run-script phpunit` -->
+- [ ] My code passes all existing automated tests. <!-- Check code: `composer run-script tests-run`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/tests/README.md -->
 - [ ] My code follows the LifterLMS Coding Standards. <!-- Check code: `composer run-script phpcs`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md -->
