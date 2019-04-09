@@ -339,7 +339,7 @@ class LLMS_Generator {
 	 * Create a new course
 	 *
 	 * @since 3.3.0
-     * @since [version] Added hooks.
+	 * @since [version] Added hooks.
 	 *
 	 * @param    array     $raw  raw course data
 	 * @return   void|int
