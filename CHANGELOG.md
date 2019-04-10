@@ -9,6 +9,10 @@ v3.30.2 - 2019-04-09
 + Fixed an issue causing all available courses to display when the [lifterlms_courses] shortcode is used with the "mine" parameter and the current user viewing the shortcode is not enrolled in any courses.
 + Fixed a PHP undefined variable warning present on the payment confirmation screen.
 
+##### Template Updates
+
++ [templates/checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
+
 
 v3.30.1 - 2019-04-04
 --------------------
@@ -29,6 +33,10 @@ v3.30.1 - 2019-04-04
 + Fixed an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
 + Fixed builder deep links to quizzes freezing due to dependencies not being available during initialization.
 + Fixed builder issue causing duplicate copies of questions to be added when adding existing questions multiple times.
+
+##### Template Updates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
 
 
 v3.30.0 - 2019-03-21
