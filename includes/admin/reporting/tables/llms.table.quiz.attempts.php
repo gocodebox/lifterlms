@@ -227,7 +227,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 */
 	public function set_args() {
 		return array(
-			'quiz_id' => ! empty( $this->quiz_id ) ? $this->quiz_id : absint( $_GET['quiz_id'] ),
+			'quiz_id' => ! empty( $this->quiz_id ) ? $this->quiz_id : ( isset( $_GET['quiz_id'] ) ? absint( $_GET['quiz_id'] ) : null ),
 			'student_id' => 0,
 		);
 	}
