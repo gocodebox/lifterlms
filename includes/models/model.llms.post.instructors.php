@@ -25,13 +25,13 @@ class LLMS_Post_Instructors {
 	 * @var int
 	 * @since 3.13.0
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var LLMS_Post_Model
 	 * @since 3.13.0
 	 */
-	protected $post;
+	public $post;
 
 	/**
 	 * Constructor

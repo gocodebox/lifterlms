@@ -32,7 +32,7 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 	 * @var LLMS_Track
 	 * @since 3.8.0
 	 */
-	protected $track;
+	public $track;
 
 	/**
 	 * Callback function called when a course track is completed by a student

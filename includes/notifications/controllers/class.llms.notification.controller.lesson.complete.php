@@ -32,7 +32,7 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	 * @var LLMS_Lesson
 	 * @since 3.8.0
 	 */
-	protected $lesson;
+	public $lesson;
 
 	/**
 	 * Callback function called when a lesson is completed by a student

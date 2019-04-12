@@ -16,7 +16,7 @@ class LLMS_Course_Basic extends LLMS_Course {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $course_type;
+	public $course_type;
 
 	/**
 	 * post id

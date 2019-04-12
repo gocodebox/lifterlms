@@ -90,13 +90,13 @@ implements LLMS_Interface_Post_Audio
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected $sections;
+	public $sections;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $sku;
+	public $sku;
 
 	/**
 	 * Retrieve an instance of the Post Instructors model

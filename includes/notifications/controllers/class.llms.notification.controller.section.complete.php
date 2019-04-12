@@ -32,7 +32,7 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 	 * @var LLMS_Section
 	 * @since 3.8.0
 	 */
-	protected $section;
+	public $section;
 
 	/**
 	 * Callback function called when a section is completed by a student

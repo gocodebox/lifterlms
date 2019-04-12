@@ -18,7 +18,7 @@ class LLMS_Question_Manager {
 	 * @var LLMS_Question|LLMS_Quiz
 	 * @since 3.16.0
 	 */
-	protected $parent;
+	public $parent;
 
 	/**
 	 * Constructor

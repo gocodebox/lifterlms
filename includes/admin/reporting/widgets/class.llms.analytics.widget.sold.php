@@ -20,14 +20,14 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 	 * @var array
 	 * @since 3.0.0
 	 */
-	protected $temp = array();
+	public $temp = array();
 
 	/**
 	 * temporary query
 	 * @since 3.0.0
 	 * @var array
 	 */
-	protected $temp_q = array();
+	public $temp_q = array();
 
 	protected function get_chart_data() {
 		return array(

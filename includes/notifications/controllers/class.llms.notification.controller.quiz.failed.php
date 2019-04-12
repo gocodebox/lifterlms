@@ -30,7 +30,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	 * @var LLMS_Quiz
 	 * @since 3.8.0
 	 */
-	protected $quiz;
+	public $quiz;
 
 	/**
 	 * Determines if test notifications can be sent

@@ -8,7 +8,7 @@ class User
 	 * @var string
 	 * @since 1.3.0
 	 */
-	protected $first_name;
+	public $first_name;
 
 	/**
 	 * @var int
@@ -20,7 +20,7 @@ class User
 	 * @var string
 	 * @since 1.3.0
 	 */
-	protected $last_name;
+	public $last_name;
 
 	/**
 	 * @var array

@@ -30,7 +30,7 @@ class LLMS_Settings_Page {
 	 * @var      string
 	 * @since    1.0.0
 	 */
-	protected $label;
+	public $label;
 
 	/**
 	 * Add the settings page

@@ -13,13 +13,13 @@ class LLMS_Analytics_Page {
 	 * @var      string
 	 * @since    1.0.0
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * @var      string
 	 * @since    1.0.0
 	 */
-	protected $label;
+	public $label;
 
 	/**
 	 * Add the analytics page

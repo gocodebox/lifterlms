@@ -18,7 +18,7 @@ class LLMS_Admin_AddOns {
 	 * @var array
 	 * @since 3.5.0
 	 */
-	protected $data = array();
+	public $data = array();
 
 	/**
 	 * Get the current section from the query string

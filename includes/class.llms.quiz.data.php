@@ -12,14 +12,14 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 * @var LLMS_Quiz
 	 * @since 3.16.0
 	 */
-	protected $quiz;
+	public $quiz;
 
 	/**
 	 * WP Post ID of the quiz
 	 * @var int
 	 * @since 3.16.0
 	 */
-	protected $quiz_id;
+	public $quiz_id;
 
 	/**
 	 * Constructor

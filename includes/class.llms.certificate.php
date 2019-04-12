@@ -12,26 +12,26 @@ class LLMS_Certificate {
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $certificate_template_id;
+	public $certificate_template_id;
 
 	/**
 	 * post title
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $certificate_title;
+	public $certificate_title;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $content;
+	public $content;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $email_type;
+	public $email_type;
 
 	/**
 	 * Certificate Enabled
@@ -39,63 +39,63 @@ class LLMS_Certificate {
 	 * @since 1.0.0
 	 * @deprecated 2.2.0
 	 */
-	var $enabled;
+	public $enabled;
 
 	/**
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected $find = array();
+	public $find = array();
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * image id
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $image;
+	public $image;
 
 	/**
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $lesson_id;
+	public $lesson_id;
 
 	/**
 	 * @var WP_User
 	 * @since 1.0.0
 	 */
-	protected $object;
+	public $object;
 
 	/**
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected $replace = array();
+	public $replace = array();
 
 	/**
 	 * @var bool
 	 * @since 1.0.0
 	 */
-	protected $sending;
+	public $sending;
 
 	/**
 	 * post title
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $title;
+	public $title;
 
 	/**
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $userid;
+	public $userid;
 
 	/**
 	 * Constructor

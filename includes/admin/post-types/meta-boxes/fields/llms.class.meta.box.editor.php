@@ -12,7 +12,7 @@ class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements Meta_Box_F
 	 * @var array
 	 * @since 3.11.0
 	 */
-	protected $settings;
+	public $settings;
 
 	/**
 	 * Class constructor

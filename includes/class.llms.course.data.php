@@ -12,13 +12,13 @@ class LLMS_Course_Data {
 	 * @var LLMS_Course
 	 * @since 3.15.0
 	 */
-	protected $course;
+	public $course;
 
 	/**
 	 * @var int
 	 * @since 3.15.0
 	 */
-	protected $course_id;
+	public $course_id;
 
 	/**
 	 * @var array

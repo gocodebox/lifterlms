@@ -13,76 +13,76 @@ class LLMS_Achievement {
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $achievement_template_id;
+	public $achievement_template_id;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $achievement_title;
+	public $achievement_title;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $content;
+	public $content;
 
 	/**
 	 * is the achievement enabled
 	 * @var bool
 	 * @since 1.0.0
 	 */
-	protected $enabled;
+	public $enabled;
 
 	/**
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected $find = array();
+	public $find = array();
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * image id
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $image;
+	public $image;
 
 	/**
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $lesson_id;
+	public $lesson_id;
 
 	/**
 	 * @var WP_User
 	 * @since 1.0.0
 	 */
-	protected $object;
+	public $object;
 
 	/**
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected $replace = array();
+	public $replace = array();
 
 	/**
 	 * post title
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $title;
+	public $title;
 
 	/**
 	 * @var int
 	 * @since 1.0.0
 	 */
-	protected $userid;
+	public $userid;
 
 	function __construct() {
 

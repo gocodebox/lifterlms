@@ -20,7 +20,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 	 * @var WP_User
 	 * @since 3.8.0
 	 */
-	protected $student;
+	public $student;
 
 	/**
 	 * Initialize all variables

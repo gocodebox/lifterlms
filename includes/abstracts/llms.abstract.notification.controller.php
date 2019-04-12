@@ -42,7 +42,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @var LLMS_Course
 	 * @since 3.8.0
 	 */
-	protected $course;
+	public $course;
 
 	/**
 	 * WP Post ID associated with the triggering action
@@ -55,7 +55,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @var int
 	 * @since 3.8.0
 	 */
-	protected $related_post_id;
+	public $related_post_id;
 
 	/**
 	 * Array of subscriptions for the notification

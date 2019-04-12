@@ -14,7 +14,7 @@ abstract class LLMS_Analytics_Widget {
 	 * @var array
 	 * @since 3.0.0
 	 */
-	protected $chart_data;
+	public $chart_data;
 
 	/**
 	 * @var bool

@@ -20,7 +20,7 @@ class LLMS_Lesson_Basic extends LLMS_Lesson {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $lesson_type;
+	public $lesson_type;
 
 	/**
 	 * post object

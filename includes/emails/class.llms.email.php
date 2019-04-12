@@ -36,7 +36,7 @@ class LLMS_Email {
 	 * @var WP_Post
 	 * @since 3.26.1
 	 */
-	protected $email_post;
+	public $email_post;
 
 	/**
 	 * @var array

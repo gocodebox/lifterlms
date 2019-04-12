@@ -13,63 +13,63 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * @var string|false
 	 * @since 1.0.0
 	 */
-	protected $account_link;
+	public $account_link;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $recipient;
+	public $recipient;
 
 	/**
 	 * partial path and file name of HTML template
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $template_html;
+	public $template_html;
 
 	/**
 	 * user meta fields
 	 * @var array
 	 * @since 1.0.0
 	 */
-	protected $user = array();
+	public $user = array();
 
 	/**
 	 * @var WP_User|false
 	 * @since 1.0.0
 	 */
-	protected $user_data;
+	public $user_data;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $user_email;
+	public $user_email;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $user_firstname;
+	public $user_firstname;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $user_lastname;
+	public $user_lastname;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $user_login;
+	public $user_login;
 
 	/**
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $user_pass;
+	public $user_pass;
 
 	/**
 	 * Constructor
