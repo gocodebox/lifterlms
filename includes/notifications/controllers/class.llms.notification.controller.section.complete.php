@@ -29,12 +29,6 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 	protected $action_hooks = array( 'lifterlms_section_completed' );
 
 	/**
-	 * @var LLMS_Section
-	 * @since 3.8.0
-	 */
-	protected $section;
-
-	/**
 	 * Callback function called when a section is completed by a student
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
 	 * @param    int     $section_id   WP Post ID of a LifterLMS Section

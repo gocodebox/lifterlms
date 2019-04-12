@@ -29,12 +29,6 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	);
 
 	/**
-	 * @var string
-	 * @since 3.8.0
-	 */
-	protected $id;
-
-	/**
 	 * Instance of the LLMS_Post_Model for the triggering post
 	 * @var  [type]
 	 */

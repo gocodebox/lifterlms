@@ -12,10 +12,9 @@ class LLMS_Student_Bulk_Enroll {
 	/**
 	 * Admin notices
 	 *
-	 * @var string[]
-	 * @since 3.19.4
+	 * @var array
 	 */
-	public $admin_notices = array();
+	public $user_admin_notices = array();
 
 	/**
 	 * Product (Course/Membership) ID

@@ -15,12 +15,6 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Question_Manager {
 
 	/**
-	 * @var LLMS_Question|LLMS_Quiz
-	 * @since 3.16.0
-	 */
-	protected $parent;
-
-	/**
 	 * Constructor
 	 * @param    obj     $parent  instance of the parent LLMS_Quiz or LLMS_Question
 	 * @since    3.16.0

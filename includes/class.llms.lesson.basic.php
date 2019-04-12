@@ -17,12 +17,6 @@ class LLMS_Lesson_Basic extends LLMS_Lesson {
 	public $id;
 
 	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	protected $lesson_type;
-
-	/**
 	 * post object
 	 * @var object
 	 */
