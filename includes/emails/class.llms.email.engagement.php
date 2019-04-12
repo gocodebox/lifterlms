@@ -10,7 +10,17 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Email_Engagement extends LLMS_Email {
 
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
 	protected $id = 'engagement';
+
+	/**
+	 * @var WP_User
+	 * @since 3.8.0
+	 */
+	protected $student;
 
 	/**
 	 * Initialize all variables

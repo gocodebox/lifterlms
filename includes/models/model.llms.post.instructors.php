@@ -21,6 +21,19 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Post_Instructors {
 
 	/**
+	 * WP Post ID
+	 * @var int
+	 * @since 3.13.0
+	 */
+	protected $id;
+
+	/**
+	 * @var LLMS_Post_Model
+	 * @since 3.13.0
+	 */
+	protected $post;
+
+	/**
 	 * Constructor
 	 * @param    mixed     $post  (obj) LLMS_Post_Model
 	 *                            (obj) WP_Post

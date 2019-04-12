@@ -10,9 +10,72 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
-	var $user_login;
-	var $user_email;
-	var $user_pass;
+	/**
+	 * @var string|false
+	 * @since 1.0.0
+	 */
+	protected $account_link;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $email_content;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $recipient;
+
+	/**
+	 * partial path and file name of HTML template
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $template_html;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected $user = array();
+
+	/**
+	 * @var WP_User|false
+	 * @since 1.0.0
+	 */
+	protected $user_data;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $user_email;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $user_firstname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $user_lastname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $user_login;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $user_pass;
 
 	/**
 	 * Constructor

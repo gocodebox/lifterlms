@@ -10,6 +10,18 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Analytics_Page {
 
 	/**
+	 * @var      string
+	 * @since    1.0.0
+	 */
+	protected $id;
+
+	/**
+	 * @var      string
+	 * @since    1.0.0
+	 */
+	protected $label;
+
+	/**
 	 * Add the analytics page
 	 *
 	 * @return array

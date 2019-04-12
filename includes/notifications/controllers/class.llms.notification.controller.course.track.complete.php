@@ -29,6 +29,12 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 	protected $action_hooks = array( 'lifterlms_course_track_completed' );
 
 	/**
+	 * @var LLMS_Track
+	 * @since 3.8.0
+	 */
+	protected $track;
+
+	/**
 	 * Callback function called when a course track is completed by a student
 	 * @param    int     $student_id  WP User ID of a LifterLMS Student
 	 * @param    int     $course_track_id   WP Post ID of a LifterLMS Course

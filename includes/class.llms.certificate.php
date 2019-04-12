@@ -9,10 +9,93 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Certificate {
 
 	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $certificate_template_id;
+
+	/**
+	 * post title
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $certificate_title;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $content;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $email_type;
+
+	/**
 	 * Certificate Enabled
 	 * @var bool
+	 * @since 1.0.0
+	 * @deprecated 2.2.0
 	 */
 	var $enabled;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected $find = array();
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $id;
+
+	/**
+	 * image id
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $image;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $lesson_id;
+
+	/**
+	 * @var WP_User
+	 * @since 1.0.0
+	 */
+	protected $object;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected $replace = array();
+
+	/**
+	 * @var bool
+	 * @since 1.0.0
+	 */
+	protected $sending;
+
+	/**
+	 * post title
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $title;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $userid;
 
 	/**
 	 * Constructor
