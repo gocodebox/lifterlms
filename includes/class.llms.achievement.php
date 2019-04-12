@@ -43,13 +43,6 @@ class LLMS_Achievement {
 	/**
 	 * @var string
 	 * @since 1.0.0
-	 * @deprecated 1.1.1
-	 */
-	public $heading;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
 	 */
 	public $id;
 
