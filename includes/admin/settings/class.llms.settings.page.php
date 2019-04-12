@@ -23,7 +23,7 @@ class LLMS_Settings_Page {
 	 * @var      string
 	 * @since    1.0.0
 	 */
-	protected $id;
+	public $id;
 
 	/**
 	 * Settings page link label
