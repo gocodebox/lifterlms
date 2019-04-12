@@ -136,7 +136,9 @@ class LLMS_Achievement {
 	/**
 	 * Get the content of the Achievement
 	 *
-	 * @return array $achievement_content [data needed to generate achievement]
+	 * @return  string data needed to generate achievement
+	 * @since   1.0.0
+	 * @version 1.4.1
 	 */
 	function get_content() {
 
