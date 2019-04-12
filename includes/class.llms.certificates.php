@@ -15,6 +15,12 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Certificates {
 
 	/**
+	 * @var LLMS_Certificate_User[]
+	 * @since 1.1.1
+	 */
+	protected $certs = array();
+
+	/**
 	 * Instance
 	 * @var  null
 	 */

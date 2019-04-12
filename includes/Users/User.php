@@ -4,7 +4,29 @@ namespace LLMS\Users;
 
 class User
 {
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	protected $first_name;
+
+	/**
+	 * @var int
+	 * @since 1.3.0
+	 */
 	private $id;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	protected $last_name;
+
+	/**
+	 * @var array
+	 * @since 1.3.0
+	 */
+	protected $quiz_data;
 
 	/**
 	 * Constructor

@@ -9,10 +9,80 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Achievement {
 
-	// is the achievement enabled
-	var $enabled;
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $achievement_template_id;
 
-	var $heading;
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $achievement_title;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $content;
+
+	/**
+	 * is the achievement enabled
+	 * @var bool
+	 * @since 1.0.0
+	 */
+	protected $enabled;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected $find = array();
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $id;
+
+	/**
+	 * image id
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $image;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $lesson_id;
+
+	/**
+	 * @var WP_User
+	 * @since 1.0.0
+	 */
+	protected $object;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected $replace = array();
+
+	/**
+	 * post title
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $title;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	protected $userid;
 
 	function __construct() {
 
@@ -66,7 +136,9 @@ class LLMS_Achievement {
 	/**
 	 * Get the content of the Achievement
 	 *
-	 * @return array $achievement_content [data needed to generate achievement]
+	 * @return  string data needed to generate achievement
+	 * @since   1.0.0
+	 * @version 1.4.1
 	 */
 	function get_content() {
 

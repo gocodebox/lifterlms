@@ -39,10 +39,23 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	protected $auto_dupcheck = false;
 
 	/**
+	 * @var LLMS_Course
+	 * @since 3.8.0
+	 */
+	protected $course;
+
+	/**
 	 * WP Post ID associated with the triggering action
 	 * @var  null
 	 */
 	protected $post_id = null;
+
+	/**
+	 * WP Post ID of the post which triggered the achievement to be awarded
+	 * @var int
+	 * @since 3.8.0
+	 */
+	protected $related_post_id;
 
 	/**
 	 * Array of subscriptions for the notification

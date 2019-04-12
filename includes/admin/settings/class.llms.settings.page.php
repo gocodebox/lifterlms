@@ -19,6 +19,20 @@ class LLMS_Settings_Page {
 	protected $flush = false;
 
 	/**
+	 * Settings identifier
+	 * @var      string
+	 * @since    1.0.0
+	 */
+	public $id;
+
+	/**
+	 * Settings page link label
+	 * @var      string
+	 * @since    1.0.0
+	 */
+	protected $label;
+
+	/**
 	 * Add the settings page
 	 * @return array
 	 * @since    1.0.0
