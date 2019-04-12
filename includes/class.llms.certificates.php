@@ -21,6 +21,12 @@ class LLMS_Certificates {
 	protected static $_instance = null;
 
 	/**
+	 * @var LLMS_Certificate_User[]
+	 * @since 1.1.1
+	 */
+	public $certs = array();
+
+	/**
 	 * Instance singleton
 	 * @return   void
 	 * @since    1.0.0
