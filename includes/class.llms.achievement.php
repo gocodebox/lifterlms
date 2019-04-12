@@ -10,20 +10,6 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Achievement {
 
 	/**
-	 * is the achievement enabled
-	 * @var bool
-	 * @since 1.0.0
-	 */
-	public $enabled;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 * @deprecated 1.1.1
-	 */
-	public $heading;
-
-	/**
 	 * @var int
 	 * @since 1.0.0
 	 */
@@ -42,10 +28,24 @@ class LLMS_Achievement {
 	public $content;
 
 	/**
+	 * is the achievement enabled
+	 * @var bool
+	 * @since 1.0.0
+	 */
+	public $enabled;
+
+	/**
 	 * @var array
 	 * @since 1.0.0
 	 */
 	public $find = array();
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 * @deprecated 1.1.1
+	 */
+	public $heading;
 
 	/**
 	 * @var string

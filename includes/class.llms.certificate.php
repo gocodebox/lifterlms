@@ -9,14 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Certificate {
 
 	/**
-	 * Certificate Enabled
-	 * @var bool
-	 * @since 1.0.0
-	 * @deprecated 2.2.0
-	 */
-	public $enabled;
-
-	/**
 	 * @var int
 	 * @since 1.0.0
 	 */
@@ -40,6 +32,14 @@ class LLMS_Certificate {
 	 * @since 1.0.0
 	 */
 	public $email_type;
+
+	/**
+	 * Certificate Enabled
+	 * @var bool
+	 * @since 1.0.0
+	 * @deprecated 2.2.0
+	 */
+	public $enabled;
 
 	/**
 	 * @var array

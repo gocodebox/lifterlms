@@ -23,31 +23,6 @@ abstract class LLMS_Analytics_Widget {
 	public $charts = false;
 
 	/**
-	 * @var bool
-	 * @since 3.0.0
-	 */
-	public $success = false;
-
-	/**
-	 * @var string
-	 * @since 3.0.0
-	 */
-	public $message = '';
-
-	/**
-	 * @var int
-	 * @since 3.0.0
-	 */
-	public $response;
-
-	/**
-	 * @var string
-	 * @since 3.0.0
-	 * @deprecated 3.0.0
-	 */
-	protected $date_start;
-
-	/**
 	 * @var string
 	 * @since 3.0.0
 	 * @deprecated 3.0.0
@@ -59,25 +34,20 @@ abstract class LLMS_Analytics_Widget {
 	 * @since 3.0.0
 	 * @deprecated 3.0.0
 	 */
+	protected $date_start;
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	public $message = '';
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 * @deprecated 3.0.0
+	 */
 	protected $output;
-
-	/**
-	 * @var string
-	 * @since 3.0.0
-	 */
-	protected $query;
-
-	/**
-	 * @var array
-	 * @since 1.0.0
-	 */
-	protected $query_vars;
-
-	/**
-	 * @var string
-	 * @since 3.0.0
-	 */
-	protected $query_function;
 
 	/**
 	 * One of the wpdb constants: OBJECT, OBJECT_K, ARRAY_A, or ARRAY_N
@@ -91,12 +61,41 @@ abstract class LLMS_Analytics_Widget {
 	 * @since 3.0.0
 	 */
 	protected $prepared_query;
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	protected $query;
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	protected $query_function;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected $query_vars;
+
+	/**
+	 * @var int
+	 * @since 3.0.0
+	 */
+	public $response;
 
 	/**
 	 * @var array
 	 * @since 1.0.0
 	 */
 	public $results = array();
+
+	/**
+	 * @var bool
+	 * @since 3.0.0
+	 */
+	public $success = false;
 
 	abstract protected function format_response();
 	abstract protected function set_query();

@@ -11,24 +11,6 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Certificate_User extends LLMS_Certificate {
 
 	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	public $user_login;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	public $user_email;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	public $user_pass;
-
-	/**
 	 * @var string|false
 	 * @since 1.0.0
 	 */
@@ -69,6 +51,12 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @var string
 	 * @since 1.0.0
 	 */
+	public $user_email;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
 	public $user_firstname;
 
 	/**
@@ -76,6 +64,18 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @since 1.0.0
 	 */
 	public $user_lastname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_login;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_pass;
 
 	/**
 	 * Constructor

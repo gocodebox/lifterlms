@@ -15,10 +15,16 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Email {
 
 	/**
-	 * @var string
-	 * @since 1.0.0
+	 * @var array
+	 * @since 3.15.0
 	 */
-	protected $id = 'generic';
+	private $attachments = array();
+
+	/**
+	 * @var string
+	 * @since 3.8.0
+	 */
+	protected $body = '';
 
 	/**
 	 * @var string
@@ -27,10 +33,22 @@ class LLMS_Email {
 	protected $content_type = 'text/html';
 
 	/**
-	 * @var string
+	 * @var WP_Post
+	 * @since 3.26.1
+	 */
+	public $email_post;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	private $find = array();
+
+	/**
+	 * @var array
 	 * @since 3.8.0
 	 */
-	protected $body = '';
+	private $headers = array();
 
 	/**
 	 * @var string
@@ -42,25 +60,7 @@ class LLMS_Email {
 	 * @var string
 	 * @since 1.0.0
 	 */
-	protected $subject = '';
-
-	/**
-	 * @var array
-	 * @since 3.15.0
-	 */
-	private $attachments = array();
-
-	/**
-	 * @var array
-	 * @since 3.8.0
-	 */
-	private $headers = array();
-
-	/**
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private $find = array();
+	protected $id = 'generic';
 
 	/**
 	 * @var array
@@ -76,15 +76,15 @@ class LLMS_Email {
 
 	/**
 	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $subject = '';
+
+	/**
+	 * @var string
 	 * @since 3.8.0
 	 */
 	protected $template_html = 'emails/template.php';
-
-	/**
-	 * @var WP_Post
-	 * @since 3.26.1
-	 */
-	public $email_post;
 
 	/**
 	 * Initializer

@@ -10,24 +10,6 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Achievement_User extends LLMS_Achievement {
 
 	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	public $user_login;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	public $user_email;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	public $user_pass;
-
-	/**
 	 * @var string|false
 	 * @since 1.0.0
 	 */
@@ -63,6 +45,12 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * @var string
 	 * @since 1.0.0
 	 */
+	public $user_email;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
 	public $user_firstname;
 
 	/**
@@ -70,6 +58,18 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 * @since 1.0.0
 	 */
 	public $user_lastname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_login;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_pass;
 
 	/**
 	 * Constructor
