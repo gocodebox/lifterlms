@@ -87,18 +87,6 @@ implements LLMS_Interface_Post_Audio
 	protected $model_post_type = 'course';
 
 	/**
-	 * @var array
-	 * @since 1.0.0
-	 */
-	protected $sections;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	protected $sku;
-
-	/**
 	 * Retrieve an instance of the Post Instructors model
 	 * @return   obj
 	 * @since    3.13.0

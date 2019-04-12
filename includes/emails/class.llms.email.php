@@ -14,76 +14,20 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Email {
 
-	/**
-	 * @var array
-	 * @since 3.15.0
-	 */
-	private $attachments = array();
-
-	/**
-	 * @var string
-	 * @since 3.8.0
-	 */
-	protected $body = '';
-
-	/**
-	 * @var string
-	 * @since 3.8.0
-	 */
-	protected $content_type = 'text/html';
-
-	/**
-	 * @var WP_Post
-	 * @since 3.26.1
-	 */
-	protected $email_post;
-
-	/**
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private $find = array();
-
-	/**
-	 * @var array
-	 * @since 3.8.0
-	 */
-	private $headers = array();
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	protected $heading = '';
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
 	protected $id = 'generic';
 
-	/**
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private $recipient = array();
+	protected $content_type = 'text/html';
 
-	/**
-	 * @var array
-	 * @since 1.0.0
-	 */
-	private $replace = array();
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
+	protected $body = '';
+	protected $heading = '';
 	protected $subject = '';
 
-	/**
-	 * @var string
-	 * @since 3.8.0
-	 */
+	private $attachments = array();
+	private $headers = array();
+	private $find = array();
+	private $recipient = array();
+	private $replace = array();
+
 	protected $template_html = 'emails/template.php';
 
 	/**

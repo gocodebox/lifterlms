@@ -17,60 +17,6 @@ class LLMS_Quiz_Legacy {
 	public $id;
 
 	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	protected $llms_allowed_attempts;
-
-	/**
-	 * @var string
-	 * @since 1.0.0
-	 */
-	protected $llms_passing_percent;
-
-	/**
-	 * @var LLMS_Question[]
-	 * @since
-	 */
-	protected $llms_questions;
-
-	/**
-	 * @var string
-	 * @since 1.4.0
-	 */
-	protected $llms_random_answers;
-
-	/**
-	 * @var string
-	 * @since 1.3.0
-	 */
-	protected $llms_show_correct_answer;
-
-	/**
-	 * @var string
-	 * @since 1.3.0
-	 */
-	protected $llms_show_options_description_right_answer;
-
-	/**
-	 * @var string
-	 * @since 1.3.0
-	 */
-	protected $llms_show_options_description_wrong_answer;
-
-	/**
-	 * @var string
-	 * @since 1.3.0
-	 */
-	protected $llms_show_results;
-
-	/**
-	 * @var string
-	 * @since 1.2.2
-	 */
-	protected $llms_time_limit;
-
-	/**
 	* Post Object
 	* @access public
 	* @var array

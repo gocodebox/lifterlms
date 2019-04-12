@@ -27,12 +27,6 @@ class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notificatio
 	protected $action_hooks = array( 'lifterlms_quiz_passed' );
 
 	/**
-	 * @var LLMS_Quiz
-	 * @since 3.8.0
-	 */
-	protected $quiz;
-
-	/**
 	 * Determines if test notifications can be sent
 	 * @var  bool
 	 */

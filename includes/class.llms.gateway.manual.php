@@ -9,12 +9,6 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**
-	 * @var string
-	 * @since 3.0.0
-	 */
-	protected $payment_instructions;
-
-	/**
 	 * Constructor
 	 * @return  void
 	 * @since   3.0.0

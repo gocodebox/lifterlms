@@ -12,12 +12,6 @@ class LLMS_Track {
 	public $taxonomy = 'course_track';
 
 	/**
-	 * @var WP_Term
-	 * @since 3.0.0
-	 */
-	public $term;
-
-	/**
 	 * Constructor
 	 *
 	 * @param    int|string|obj     $term   term_id, term_slug, or instance of a WP_Term
