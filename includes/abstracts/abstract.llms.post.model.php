@@ -321,7 +321,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @version  3.14.6
 	 */
 	private function create( $title = '' ) {
-		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ), true );
+		return wp_insert_post( wp_slash( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) ), true );
 	}
 
 	/**
