@@ -15,7 +15,7 @@ class LLMS_Student_Bulk_Enroll {
 	 * @var string[]
 	 * @since 3.19.4
 	 */
-	public $user_admin_notices = array();
+	public $admin_notices = array();
 
 	/**
 	 * Product (Course/Membership) ID
