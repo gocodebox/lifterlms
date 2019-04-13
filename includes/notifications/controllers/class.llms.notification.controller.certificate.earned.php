@@ -29,13 +29,6 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	protected $action_hooks = array( 'llms_user_earned_certificate' );
 
 	/**
-	 * WP Post ID of the post which triggered the certificate to be awarded
-	 * @var int
-	 * @since 3.8.0
-	 */
-	public $related_post_id;
-
-	/**
 	 * Callback function, callud upon certificate post generation
 	 * @param    int     $user_id          WP User ID of the user who earned the certificate
 	 * @param    int     $certificate_id   WP Post ID of the new achivement post
