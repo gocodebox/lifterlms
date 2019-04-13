@@ -29,6 +29,13 @@ class LLMS_Notification_Controller_Achievement_Earned extends LLMS_Abstract_Noti
 	protected $action_hooks = array( 'llms_user_earned_achievement' );
 
 	/**
+	 * WP Post ID of the post which triggered the achievement to be awarded
+	 * @var int
+	 * @since 3.8.0
+	 */
+	public $related_post_id;
+
+	/**
 	 * Callback function, callud upon achievement post generation
 	 * @param    int     $user_id          WP User ID of the user who earned the achievement
 	 * @param    int     $achievement_id   WP Post ID of the new achivement post
