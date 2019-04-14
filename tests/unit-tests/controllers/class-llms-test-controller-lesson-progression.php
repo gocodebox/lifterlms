@@ -1,6 +1,6 @@
 <?php
 /**
- * Tests for LifterLMS Lesson Progression Forms & Functios
+ * Tests for LifterLMS Lesson Progression Forms & Functions
  * @group    controllers
  * @group    lessons
  * @since    3.17.1

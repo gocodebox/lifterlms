@@ -1,6 +1,6 @@
 <?php
 /**
- * Acheivements Metabox
+ * Achievements Metabox
  *
  * Generates main metabox and builds forms
  *
@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 						'group' 	=> '',
 						'value' 	=> '',
 					),
-					//Achievment content textarea
+					//Achievement content textarea
 					array(
 						'label' 	=> __( 'Achievement Content', 'lifterlms' ),
 						'desc' 		=> __( 'Enter any information you would like to display on the achievement.', 'lifterlms' ),

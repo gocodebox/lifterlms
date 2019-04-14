@@ -135,7 +135,7 @@ class LLMS_AJAX {
 
 	/**
 	 * Get the AJAX data
-	 * Currently only retrieves the nonce until we can figuare out how to get the post id too
+	 * Currently only retrieves the nonce until we can figure out how to get the post id too
 	 *
 	 * @return array
 	 */
@@ -267,7 +267,7 @@ class LLMS_AJAX {
 	*/
 
 	/**
-	 * Return array of achivements (id => name)
+	 * Return array of achievements (id => name)
 	 * @return      array
 	 * @since       ??
 	 * @version     3.13.0

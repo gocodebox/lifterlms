@@ -86,7 +86,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			return false;
 		}
 
-		// check enrollemnt before enrolling
+		// check enrollment before enrolling
 		// this will prevent duplicate enrollments
 		if ( llms_is_user_enrolled( $this->get_id(), $product_id ) ) {
 			return false;
@@ -175,7 +175,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 
 	/**
-	 * Retrieve the order which enrolled a studnet in a given course or membership
+	 * Retrieve the order which enrolled a student in a given course or membership
 	 * Retrieves the most recently updated order for the given product
 	 *
 	 * @param    int        $product_id  WP Post ID of the LifterLMS Product (course, lesson, or membership)
@@ -652,9 +652,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve a user's notification subsription preferences for a given type & trigger
+	 * Retrieve a user's notification subscription preferences for a given type & trigger
 	 * @param    string   $type     notification type: email, basic, etc...
-	 * @param    string   $trigger  notification trigger: eg purchase_reciept, lesson_complete, etc...
+	 * @param    string   $trigger  notification trigger: eg purchase_receipt, lesson_complete, etc...
 	 * @param    string   $default  value to return if no setting is saved in the db
 	 * @return   string             yes or no
 	 * @since    3.10.0
@@ -745,9 +745,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve a student's overall progess
+	 * Retrieve a student's overall progress
 	 * Overall progress is the total percentage completed based on all courses the student is enrolled in
-	 * Cached data is cleared everytime the student completes a lesson
+	 * Cached data is cleared every time the student completes a lesson
 	 *
 	 * @param    boolean    $use_cache  if false, calculates the progress, otherwise utilizes cached data (if available)
 	 * @return   float
@@ -826,7 +826,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrive an array of Membership Levels for a user
+	 * Retrieve an array of Membership Levels for a user
 	 * @return array
 	 * @since   2.2.3
 	 * @version 2.2.3
@@ -1297,7 +1297,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Mark a lesson, section, course, or track INcomplete for the given user
+	 * Mark a lesson, section, course, or track incomplete for the given user
 	 * Gives an "_is_complete" value of "no" for the given object
 	 * @param  int     $object_id    WP Post ID of the lesson, section, course, or track
 	 * @param  string  $object_type  object type [lesson|section|course|track]
@@ -1430,7 +1430,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			}
 		}
 
-		// return false if we didn't updat
+		// return false if we didn't update
 		return false;
 
 	}
@@ -1438,7 +1438,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Update the completion status of a track, course, section, or lesson for the current student
 	 * Cascades up to parents and clears progress caches for parents
-	 * Triggers actions for completion/incompetion
+	 * Triggers actions for completion/incompletion
 	 * Inserts / updates necessary user postmeta data
 	 * @param    string    $status       new status to update to [complete|incomplete]
 	 * @param    int       $object_id    WP Post ID of the lesson, section, course, or track
@@ -1457,7 +1457,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 */
 		do_action( 'before_llms_mark_' . $status, $this->get_id(), $object_id, $object_type, $trigger );
 
-		// can only be marked incompelete in the following post types
+		// can only be marked incomplete in the following post types
 		if ( in_array( $object_type, apply_filters( 'llms_completable_post_types', array( 'course', 'lesson', 'section' ) ) ) ) {
 			$object = llms_get_post( $object_id );
 		} elseif ( 'course_track' === $object_type ) {
@@ -1532,7 +1532,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			/**
 			 * Specific hook
-			 * Also backwards compatibile
+			 * Also backwards compatible
 			 * @action  lifterlms_{$object_type}_completed
 			 * @action  lifterlms_{$object_type}_incompleted
 			 */
@@ -1582,7 +1582,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Remove Student Quiz attempts
 	 * @param    int     $quiz_id    WP Post ID of a Quiz
 	 * @param    int     $lesson_id  WP Post ID of a lesson
-	 * @param    int     $attempt    optional attempt number, if ommitted all attempts for quiz & lesson will be deleted
+	 * @param    int     $attempt    optional attempt number, if omitted all attempts for quiz & lesson will be deleted
 	 * @return   array               updated array quiz data for the student
 	 * @since    3.4.4
 	 * @version  3.9.0

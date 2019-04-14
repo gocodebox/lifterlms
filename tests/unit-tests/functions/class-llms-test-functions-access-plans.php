@@ -73,7 +73,7 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test the default paramaters that will be automatically "fixed" or overridden for the llms_insert_access_plan() function.
+	 * Test the default parameters that will be automatically "fixed" or overridden for the llms_insert_access_plan() function.
 	 *
 	 * @return  void
 	 * @since   3.29.0
@@ -104,7 +104,7 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test recurring payment props for llms_insert_access_plan() funcion.
+	 * Test recurring payment props for llms_insert_access_plan() function.
 	 *
 	 * @return  void
 	 * @since   3.29.0
@@ -134,7 +134,7 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test one-time payment props for llms_insert_access_plan() funcion.
+	 * Test one-time payment props for llms_insert_access_plan() function.
 	 *
 	 * @return  void
 	 * @since   3.29.0
@@ -187,7 +187,7 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 		$this->assertEquals( 'yes', $plan->get( 'on_sale' ) );
 		$this->assertEquals( 0, $plan->get( 'sale_price' ) );
 
-		// Othe props.
+		// Other props.
 		$props['sale_price'] = 25;
 		$props['on_sale'] = 'yes';
 		$props['sale_end'] = '2019-05-05';

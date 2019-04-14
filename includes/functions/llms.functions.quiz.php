@@ -101,7 +101,7 @@ function llms_get_quiz_attempt_statuses() {
 
 /**
  * Get quiz settings defined by supporting themes
- * @param    string     $setting  name of setting, if ommitted returns all settings
+ * @param    string     $setting  name of setting, if omitted returns all settings
  * @param    string     $default  default fallback if setting not set
  * @return   array
  * @since    3.16.8
@@ -127,7 +127,7 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 }
 
 /**
- * Shuffles choices until the choice order has changed from the orignal
+ * Shuffles choices until the choice order has changed from the original
  * The smaller the list of choices the greater the chance of shuffling not changing the array
  * @param    array     $choices  choices from an LLMS_Question
  * @return   array

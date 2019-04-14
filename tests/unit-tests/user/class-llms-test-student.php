@@ -45,7 +45,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 					llms_mark_complete( $student, $lid, 'lesson' );
 					$this->assertTrue( llms_is_complete( $student, $lid, 'lesson' ) );
 
-					// marked incompleted
+					// marked incomplete
 					llms_mark_incomplete( $student, $lid, 'lesson' );
 					$this->assertFalse( llms_is_complete( $student, $sid, 'lesson' ) );
 
@@ -138,7 +138,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertFalse( llms_is_user_enrolled( $user_id, $memb_id ) );
 
 
-		// these were tests against now deprectaed has_access
+		// these were tests against now deprecated has_access
 		sleep( 1 );
 
 		$student = $this->get_mock_student();
@@ -200,7 +200,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 		sleep( 1 );
 
-		// manually re-enroll the student, admin enrollment should take precendence here even though they no longer have access
+		// manually re-enroll the student, admin enrollment should take precedence here even though they no longer have access
 		llms_enroll_student( $student->get_id(), $course_id );
 		$this->assertTrue( $student->is_enrolled( $course_id ) );
 

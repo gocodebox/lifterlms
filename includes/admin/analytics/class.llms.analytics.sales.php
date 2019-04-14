@@ -57,7 +57,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 
 			$html .= '</div>'; //end widget row
 
-			//sales volumn line chart
+			//sales volume line chart
 			$html .= self::full_width_widget( $this->sales_chart( $search ) );
 
 		}
@@ -156,7 +156,7 @@ class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 		$html .= '</div>';
 		$html .= '</div>'; //end date filters
 
-		// Removing this option as it isnt needed right now
+		// Removing this option as it isn't needed right now
 		// // filter checkboxes
 		// $html .= '<div class="llms-filter-options">';
 

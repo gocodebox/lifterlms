@@ -94,7 +94,7 @@ class LLMS_Template_Loader {
 
 	/**
 	 * Handle redirects and messages when a user attempts to access an item
-	 * retricted by a course track prerequisite
+	 * restricted by a course track prerequisite
 	 *
 	 * redirect to parent course and display message
 	 * if course do nothing
@@ -123,7 +123,7 @@ class LLMS_Template_Loader {
 
 	/**
 	 * Handle redirects and messages when a user attempts to access an item
-	 * retricted by a course prerequisite
+	 * restricted by a course prerequisite
 	 *
 	 * redirect to parent course and display message
 	 * if course do nothing
@@ -279,7 +279,7 @@ class LLMS_Template_Loader {
 		// do nothing if we don't have a membership id
 		if ( ! empty( $membership_id ) && is_numeric( $membership_id ) ) {
 
-			// instatiate the membership
+			// instantiate the membership
 			$membership = new LLMS_Membership( $membership_id );
 
 			$msg = '';

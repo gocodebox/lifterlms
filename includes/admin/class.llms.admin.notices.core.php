@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class LLMS_Admin_Notices_Core {
 
 	/**
-	 * Costructor
+	 * Constructor
 	 * @since    3.0.0
 	 * @version  3.14.8
 	 */

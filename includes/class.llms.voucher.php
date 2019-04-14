@@ -247,7 +247,7 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * Determie if a voucher is valid
+	 * Determine if a voucher is valid
 	 * @param    string       $code  voucher code
 	 * @return   WP_Error|object     WP_Error if invalid or not redeemable OR a voucher data object
 	 * @since    2.0.0
@@ -276,7 +276,7 @@ class LLMS_Voucher {
 
 	/**
 	 * Attempt to redeem a voucher for a user with a code
-	 * @param  string  $code     voucher code of the voucher being redeemd
+	 * @param  string  $code     voucher code of the voucher being redeemed
 	 * @param  int     $user_id  user id of the redeeming user
 	 * @return bool|WP_Error     true on success or WP_Error on failure
 	 * @since    2.0.0

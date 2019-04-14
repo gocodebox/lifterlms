@@ -16,7 +16,7 @@ abstract class LLMS_Metabox_Field {
 	public $field;
 
 	/**
-	 * Global varaible to contain meta information about $field
+	 * Global variable to contain meta information about $field
 	 * @var object
 	 */
 	public $meta;

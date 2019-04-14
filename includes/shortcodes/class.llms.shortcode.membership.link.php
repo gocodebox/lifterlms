@@ -2,7 +2,7 @@
 /**
  * LifterLMS Membership Link Shortcode
  *
- * Output an achor link for a membership
+ * Output an anchor link for a membership
  *
  * [lifterlms_membership_link]
  *

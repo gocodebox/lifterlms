@@ -649,7 +649,7 @@ define( 'jquery',[],function() {
 			}
 		},
 
-		setOption : function( optionName, optionValue ) { // now is mearly a wrapper around backbone.viewOptions' setOptions()
+		setOption : function( optionName, optionValue ) { // now is merely a wrapper around backbone.viewOptions' setOptions()
 			var optionHash = {};
 			optionHash[ optionName ] = optionValue;
 			this.setOptions( optionHash );
@@ -2112,7 +2112,7 @@ define( 'Models/_Relationships',[], function() {
 
 		/**
 		 * Relationship settings object
-		 * Should be overriden in the model
+		 * Should be overridden in the model
 		 * @type  {Object}
 		 */
 		relationships: {},
@@ -2127,7 +2127,7 @@ define( 'Models/_Relationships',[], function() {
 
 			var rels = this.get_relationships();
 
-			// initialize parent relaxtionships
+			// initialize parent relationships
 			// useful when adding a model to ensure parent is initialized
 			if ( rels.parent && options && options.parent ) {
 				this.set_parent( options.parent );
@@ -2438,7 +2438,7 @@ define( 'Collections/QuestionChoices',[ 'Models/QuestionChoice' ], function( mod
 				} );
 			}
 
-			// if we don't have a single corret answer & the question has points, set one
+			// if we don't have a single correct answer & the question has points, set one
 			// allows users to create quizzes / questions with no points and therefore no correct answers are allowed
 			if ( 0 === this.count_correct() && question.get( 'points' ) > 0 ) {
 				var models = 1 === this.size() ? this.models : siblings;
@@ -2825,7 +2825,7 @@ define( 'Models/Question',[
 
 				// when a choice is removed, maybe add back some defaults so we always have the minimum
 				this.listenTo( this.get( 'choices' ), 'remove', function() {
-					// new itmes are added at index 0 when there's only 1 item in the collection, not sure why exactly...
+					// new items are added at index 0 when there's only 1 item in the collection, not sure why exactly...
 					setTimeout( function() {
 						self._ensure_min_choices();
 					}, 0 );
@@ -3065,7 +3065,7 @@ define( 'Models/Question',[
 		},
 
 		/**
-		 * Deterine if the question belongs to a question group
+		 * Determine if the question belongs to a question group
 		 * @return   {Boolean}
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -3143,7 +3143,7 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
 
 		/**
 		 * When adding a question to a question list, update the question's parent
-		 * Will ensure that questions moved into and out of groups always have the corerct parent_id
+		 * Will ensure that questions moved into and out of groups always have the correct parent_id
 		 * @param    obj   model  instance of the question model
 		 * @return   void
 		 * @since    3.16.0
@@ -3910,7 +3910,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 		},
 
 		/**
-		 * Initialize lesson assignments *if* the assignments addon is availalbe and enabled
+		 * Initialize lesson assignments *if* the assignments addon is available and enabled
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -5079,7 +5079,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Helper to undo changes
-		 * Bound to "escape" key via on_keydwon function
+		 * Bound to "escape" key via on_keydown function
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -5092,7 +5092,7 @@ define( 'Views/_Editable',[], function() {
 		},
 
 		/**
-		 * Sync chages to the model and DB
+		 * Sync changes to the model and DB
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -5280,7 +5280,7 @@ define( 'Views/_Receivable',[], function() {
 
 		/**
 		 * Overloads the function from Backbone.CollectionView core because it doesn't properly handle
-		 * receieves from a jQuery UI draggable object
+		 * receives from a jQuery UI draggable object
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
@@ -6309,7 +6309,7 @@ define( 'Controllers/Sync',[], function() {
 
 					_.each( data[ key ] , function( info ) {
 
-						// succesfully detached, remove it from the detached collection
+						// successfully detached, remove it from the detached collection
 						if ( ! info.error ) {
 
 							coll.remove( info.id );
@@ -6889,7 +6889,7 @@ define( 'Views/Lesson',[
 		},
 
 		/**
-		 * Adds a hash for deeplinking to a specific lesson tab
+		 * Adds a hash for deep linking to a specific lesson tab
 		 * @param  string  subtab subtab [quiz|assignment]
 		 * @return void
 		 * @since   3.27.0
@@ -7051,7 +7051,7 @@ define( 'Views/Section',[
 		},
 
 		/**
-		 * Element classnames
+		 * Element class names
 		 * @type  {String}
 		 */
 		className: 'llms-builder-item llms-section',
@@ -7118,7 +7118,7 @@ define( 'Views/Section',[
 
 		/**
 		 * Render the section
-		 * Initalizes a new collection and views for all lessons in the section
+		 * Initializes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.13.0
 		 * @version  3.16.0
@@ -8118,7 +8118,7 @@ define( 'Views/Popover',[], function() {
 } );
 
 /**
- * Post Popover Serach content View
+ * Post Popover Search content View
  * @since    3.16.0
  * @version  3.17.0
  */
@@ -8173,7 +8173,7 @@ define( 'Views/PostSearch',[], function() {
 
 		/**
 		 * Render the section
-		 * Initalizes a new collection and views for all lessons in the section
+		 * Initializes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.12
@@ -8832,7 +8832,7 @@ define( 'Views/Question',[
 
 		/**
 		 * Recursive clone function which will correctly clone children of a question
-		 * @param    obj   question  queston model
+		 * @param    obj   question  question model
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -8850,7 +8850,7 @@ define( 'Views/Question',[
 			// set the question type ID
 			clone.question_type = question.get( 'question_type' ).get( 'id' );
 
-			// clone the image attributes seperately
+			// clone the image attributes separately
 			clone.image = _.clone( question.get( 'image' ).attributes );
 
 			// if it has choices clone all the choices
@@ -9044,7 +9044,7 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
 		},
 
 		/**
-		 * Overrides receive to ensure that question groups can't be moved into queston groups
+		 * Overrides receive to ensure that question groups can't be moved into question groups
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI Sortable ui object
 		 * @return   void
@@ -9074,7 +9074,7 @@ define( 'Views/QuestionList',[ 'Views/Question' ], function( QuestionView ) {
 		},
 
 		/**
-		 * Override to allow manipulatino of placeholder element
+		 * Override to allow manipulation of placeholder element
 		 * @param    {[type]}   event  [description]
 		 * @param    {[type]}   ui     [description]
 		 * @return   {[type]}
@@ -9230,7 +9230,7 @@ define( 'Views/Quiz',[
 				this.model = this.lesson.get( 'quiz' );
 
 				/**
-				 * @todo  this is a terrilbe terrible patch
+				 * @todo  this is a terrible terrible patch
 				 *        I've spent nearly 3 days trying to figure out how to not use this line of code
 				 *        ISSUE REPRODUCTION:
 				 *        Open course builder
@@ -9363,7 +9363,7 @@ define( 'Views/Quiz',[
 		},
 
 		/**
-		 * Adds a new quiz to a lesson which currently has no quiz associated wlith it
+		 * Adds a new quiz to a lesson which currently has no quiz associated with it
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -9611,7 +9611,7 @@ define( 'Views/Assignment',[
 				this.model = this.lesson.get( 'assignment' );
 
 				/**
-				 * @todo  this is a terrilbe terrible patch
+				 * @todo  this is a terrible terrible patch
 				 *        I've spent nearly 3 days trying to figure out how to not use this line of code
 				 *        ISSUE REPRODUCTION:
 				 *        Open course builder
@@ -9666,7 +9666,7 @@ define( 'Views/Assignment',[
 		},
 
 		/**
-		 * Adds a new assignment to a lesson which currently has no assignment associated wlith it
+		 * Adds a new assignment to a lesson which currently has no assignment associated with it
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -9808,7 +9808,7 @@ define( 'Views/Assignment',[
 		},
 
 		/**
-		 * Shows a dirty dirty ad popoever for advanced assignments
+		 * Shows a dirty dirty ad popover for advanced assignments
 		 * @param    string   el  jQuery selector string
 		 * @return   void
 		 * @since    3.17.0
@@ -9987,7 +9987,7 @@ define( 'Views/Editor',[
 		},
 
 		/**
-		 * Adds a hash for deeplinking to a specific lesson tab
+		 * Adds a hash for deep linking to a specific lesson tab
 		 * @param  string  subtab subtab [quiz|assignment]
 		 * @return void
 		 * @since   3.27.0
@@ -10125,7 +10125,7 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 		/**
 		 * Show the popover to add an existing lessons
-		 * @param    object   event  JS Event OBject
+		 * @param    object   event  JS Event Object
 		 * @return   void
 		 * @since    3.16.12
 		 * @version  3.16.12
@@ -10729,7 +10729,7 @@ require( [
 		},
 
 		/**
-		 * Determine if two values are equal and output seleted attribute if they are
+		 * Determine if two values are equal and output selected attribute if they are
 		 * Useful for templating select elements
 		 * Like WP Core PHP selected() but in JS
 		 * @param    mixed   expected  expected element value
@@ -10799,7 +10799,7 @@ require( [
 	} );
 
 	/**
-	 * Do deeplinking to Lesson / Quiz / Assignments
+	 * Do deep linking to Lesson / Quiz / Assignments
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
 	 * @since 3.27.0

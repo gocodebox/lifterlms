@@ -157,7 +157,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the is_purchaseable() method
+	 * Test the is_purchasable() method
 	 * @return  void
 	 * @since   3.25.2
 	 * @version 3.25.2

@@ -51,7 +51,7 @@ class LLMS_Admin_Post_Table_Courses {
 
 	/**
 	 * Exports courses from the Bulk Actions menu on the courses post table
-	 * @param    string     $redirect_to  url to redirect to upon export comletion (not used)
+	 * @param    string     $redirect_to  url to redirect to upon export completion (not used)
 	 * @param    string     $doaction     action name called
 	 * @param    array      $post_ids     selected post ids
 	 * @return   void

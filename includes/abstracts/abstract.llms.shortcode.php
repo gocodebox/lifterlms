@@ -139,8 +139,8 @@ abstract class LLMS_Shortcode {
 	}
 
 	/**
-	 * Retrive a string that can be used for apply_filters()
-	 * Ensures that all shortcode related filters follow the same naving convention
+	 * Retrieve a string that can be used for apply_filters()
+	 * Ensures that all shortcode related filters follow the same naming convention
 	 * @param    string     $filter  filter name / suffix
 	 * @return   string
 	 * @since    3.4.3
@@ -153,7 +153,7 @@ abstract class LLMS_Shortcode {
 	/**
 	 * Output the actual content of the shortcode
 	 * This is the callback function used by add_shortcode
-	 * and can also be used programattically, used in some widgets
+	 * and can also be used programmatically, used in some widgets
 	 *
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter

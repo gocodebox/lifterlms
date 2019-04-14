@@ -14,7 +14,7 @@ LLMS.LessonPreview = {
 	$els: null,
 
 	/**
-	 * Initilize
+	 * Initialize
 	 * @return void
 	 */
 	init: function() {

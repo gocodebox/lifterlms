@@ -1,7 +1,7 @@
 /* global LLMS, $ */
 
 /**
- * Handle the Collpasible Syllabus Widget / Shortcode
+ * Handle the Collapsible Syllabus Widget / Shortcode
  */
 LLMS.OutlineCollapse = {
 
@@ -12,7 +12,7 @@ LLMS.OutlineCollapse = {
 	$outlines: null,
 
 	/**
-	 * Initilize
+	 * Initialize
 	 * @return void
 	 */
 	init: function() {

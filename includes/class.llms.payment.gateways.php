@@ -114,7 +114,7 @@ class LLMS_Payment_Gateways {
 	}
 
 	/**
-	 * Retrive a payment gateway object by the payment gateway ID
+	 * Retrieve a payment gateway object by the payment gateway ID
 	 *
 	 * @param  string $id  id of the gateway (paypal, stripe, etc...)
 	 * @return mixed       instance of the gateway object OR false

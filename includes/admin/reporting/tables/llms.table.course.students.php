@@ -163,7 +163,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve data for a cell in an export file
-	 * Should be overriden in extending classes
+	 * Should be overridden in extending classes
 	 * @param    string     $key        the column id / key
 	 * @param    obj        $student    Instance of the LLMS_Student
 	 * @return   mixed
@@ -217,7 +217,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Allow customization of the title for export files
-	 * @param    array    $args   optional arguements passed from table to csv processor
+	 * @param    array    $args   optional arguments passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.15.0

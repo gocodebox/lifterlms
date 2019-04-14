@@ -29,10 +29,10 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	protected $action_hooks = array( 'llms_user_earned_certificate' );
 
 	/**
-	 * Callback function, callud upon certificate post generation
+	 * Callback function, called upon certificate post generation
 	 * @param    int     $user_id          WP User ID of the user who earned the certificate
-	 * @param    int     $certificate_id   WP Post ID of the new achivement post
-	 * @param    int     $related_post_id  WP Post ID of the post which triggered the certificate to be awardes
+	 * @param    int     $certificate_id   WP Post ID of the new achievement post
+	 * @param    int     $related_post_id  WP Post ID of the post which triggered the certificate to be awarded
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -72,7 +72,7 @@ class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Noti
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0

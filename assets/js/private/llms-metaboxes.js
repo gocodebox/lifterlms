@@ -65,7 +65,7 @@
 
 			this.bind_tabs();
 
-			// bind everything better and less repetatively...
+			// bind everything better and less repetitively...
 			var bindings = [
 				{
 					selector: $( '.llms-datepicker' ),
@@ -147,7 +147,7 @@
 
 		/**
 		 * Bind checkboxes that control the display of other elements
-		 * @param    obj   $controllerss  jQuery selctor for checkboxes to be bound as checkbox controllers
+		 * @param    obj   $controllers  jQuery selector for checkboxes to be bound as checkbox controllers
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.11.0
@@ -183,7 +183,7 @@
 
 		/**
 		 * Bind elements that control the display of other elements
-		 * @param    obj   $controllerss  jQuery selctor for elements to be bound as checkbox controllers
+		 * @param    obj   $controllers  jQuery selector for elements to be bound as checkbox controllers
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.11.0
@@ -388,7 +388,7 @@
 
 			} );
 
-			// custom trigger when called when the engagement type changs
+			// custom trigger when called when the engagement type changes
 			$( '#_llms_engagement' ).on( 'llms-engagement-type-change', function( e, engagement_type ) {
 
 				var $select = $( this );
@@ -704,7 +704,7 @@
 			} );
 
 			// cache the original value when focusing on a payment gateway select
-			// used below so the original field related data can be restored when switching back to the orignially selected gateway
+			// used below so the original field related data can be restored when switching back to the originally selected gateway
 			$( '.llms-metabox' ).one( 'focus', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
 
 				if ( ! $( this ).attr( 'data-original-value' ) ) {
@@ -904,7 +904,7 @@
 
 	};
 
-	// initalize the object
+	// initialize the object
 	window.llms.metaboxes = new Metaboxes();
 
 } )( jQuery );

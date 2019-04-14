@@ -152,7 +152,7 @@
 
 	};
 
-	// initalize the object
+	// initialize the object
 	window.llms.MetaboxStudents = new MetaboxStudents();
 
 } )( jQuery );

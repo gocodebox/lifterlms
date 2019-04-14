@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS Notificaiton Model
+ * LifterLMS Notification Model
  * Used for notification CRUD and Display
  *
  * @package  LifterLMS/Models
@@ -166,7 +166,7 @@ class LLMS_Notification implements JsonSerializable {
 	}
 
 	/**
-	 * Determine if the triggering user is the subsriber
+	 * Determine if the triggering user is the subscriber
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -215,7 +215,7 @@ class LLMS_Notification implements JsonSerializable {
 	}
 
 	/**
-	 * Get the tablename for notification data
+	 * Get the table name for notification data
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0

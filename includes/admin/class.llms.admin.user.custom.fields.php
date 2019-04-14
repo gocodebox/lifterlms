@@ -44,7 +44,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Creation is saved during a different action
 	 * @param    obj    &$errors  Instance of WP_Error
 	 * @param    bool   $update   true if updating a profile, false if a new user
-	 * @param    obj    $user     Instace of WP_User for the user being updated
+	 * @param    obj    $user     Instance of WP_User for the user being updated
 	 * @return   void
 	 * @since    2.7.0
 	 * @version  3.13.0
@@ -152,7 +152,7 @@ class LLMS_Admin_User_Custom_Fields {
 	}
 
 	/**
-	 * Load usermeta data into the array of fields retreived from $this->get_fields
+	 * Load usermeta data into the array of fields retrieved from $this->get_fields
 	 * meta data is added to the array under the key "value" for each field
 	 * if no data is found for a particular field the value is still added as an empty string
 	 * @param    mixed  $user   Instance of WP_User or WP User ID

@@ -124,7 +124,7 @@ abstract class LLMS_Abstract_API_Handler {
 	}
 
 	/**
-	 * Retrive the private "error_message" variable
+	 * Retrieve the private "error_message" variable
 	 * @return   string
 	 * @since    3.11.2
 	 * @version  3.11.2
@@ -148,7 +148,7 @@ abstract class LLMS_Abstract_API_Handler {
 	}
 
 	/**
-	 * Retrive the private "error_type" variable
+	 * Retrieve the private "error_type" variable
 	 * @return   string
 	 * @since    3.11.2
 	 * @version  3.11.2
@@ -160,7 +160,7 @@ abstract class LLMS_Abstract_API_Handler {
 	}
 
 	/**
-	 * Retrive the private "result" variable
+	 * Retrieve the private "result" variable
 	 * @return   mixed
 	 * @since    3.11.2
 	 * @version  3.11.2

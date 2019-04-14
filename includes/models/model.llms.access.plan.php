@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit;
  * @property  $sku  (string)  Short user-created plan identifier
  * @property  $title  (string)  Plan title
  * @property  $trial_length  (int)  length of the trial period. Only applicable if $trial_offer is "yes"
- * @property  $trial_offer  (string)  Enable or disable a plan trial perid. [yes|no]
+ * @property  $trial_offer  (string)  Enable or disable a plan trial period. [yes|no]
  * @property  $trial_period  (string)  Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day]
  * @property  $trial_price  (float)  Price for the trial period. Can be 0 for a free trial period
  *
@@ -168,7 +168,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @version  3.23.0
 	 *
 	 * @param    string     $period  (optional) untranslated access period, if not supplied uses stored value for the plan.
-	 * @param    int        $length  (optional) access length (for plurailzation), if not supplied uses stored value for the plan.
+	 * @param    int        $length  (optional) access length (for pluralization), if not supplied uses stored value for the plan.
 	 * @return   string
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
@@ -404,7 +404,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * @version 3.0.0
 		 *
 		 * @param string $text Displayed text.
-		 * @param LLMS_Access_Plan $this The acces plan instance.
+		 * @param LLMS_Access_Plan $this The access plan instance.
 		 */
 		return apply_filters( 'llms_get_free_' . $this->model_post_type . '_pricing_text', $text, $this );
 	}
@@ -440,7 +440,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @param   string $key        price to retrieve, "price", "sale_price", or "trial_price"
 	 * @param   int    $coupon_id  LifterLMS Coupon Post ID
 	 * @param   array  $price_args optional arguments to be passed to llms_price()
-	 * @param   string $format     optionl return format as passed to llms_price()
+	 * @param   string $format     optional return format as passed to llms_price()
 	 * @return  mixed
 	 * @since   3.0.0
 	 * @version 3.7.0
@@ -702,7 +702,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$access = true;
 
-		// if theres membership restrictions, check the user is in at least one membership
+		// if there are membership restrictions, check the user is in at least one membership
 		if ( $this->has_availability_restrictions() ) {
 			$access = false;
 			foreach ( $this->get_array( 'availability_restrictions' ) as $mid ) {
@@ -840,7 +840,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Cleanup data to remove unnecssary defaults
+	 * Cleanup data to remove unnecessary defaults
 	 * @param    array     $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.16.11

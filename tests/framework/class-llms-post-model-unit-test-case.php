@@ -56,7 +56,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	*/
 
 	/**
-	 * Will hold an intance of the model being tested by the class
+	 * Will hold an instance of the model being tested by the class
 	 * @var  obj
 	 */
 	protected $obj = null;
@@ -145,7 +145,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 					// negative should return positive
 					$this->obj->set( $prop, -45 );
 					$this->assertEquals( 45, $this->obj->get( $prop ) );
-					// numeric strind should return int
+					// numeric string should return int
 					$this->obj->set( $prop, '6' );
 					$this->assertEquals( '6', $this->obj->get( $prop ) );
 				break;

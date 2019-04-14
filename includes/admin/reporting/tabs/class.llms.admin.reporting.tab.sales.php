@@ -99,7 +99,7 @@ class LLMS_Admin_Reporting_Tab_Sales {
 	}
 
 	/**
-	 * Outupt the template for the sales tab
+	 * Output the template for the sales tab
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -114,7 +114,7 @@ class LLMS_Admin_Reporting_Tab_Sales {
 	}
 
 	/**
-	 * Outupt filters navigation
+	 * Output filters navigation
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0

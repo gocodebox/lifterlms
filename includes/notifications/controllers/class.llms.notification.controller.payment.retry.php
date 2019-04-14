@@ -98,7 +98,7 @@ class LLMS_Notification_Controller_Payment_Retry extends LLMS_Abstract_Notificat
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.10.0

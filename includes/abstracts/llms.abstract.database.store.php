@@ -369,7 +369,7 @@ abstract class LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Retrive object as an array
+	 * Retrieve object as an array
 	 * @return   array
 	 * @since    3.14.0
 	 * @version  3.14.0

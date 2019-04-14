@@ -15,7 +15,7 @@ class LLMS_Install {
 	public static $background_updater;
 
 	/**
-	 * Array of databse updates versions
+	 * Array of database updates versions
 	 * and an array of callback functions for the update
 	 * @var  array
 	 */
@@ -501,7 +501,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 		}
 
-		// show the update notice since theres db updates to run
+		// show the update notice since there are db updates to run
 		$versions = array_keys( self::$db_updates );
 		if ( ! is_null( $db_version ) && version_compare( $db_version, end( $versions ), '<' ) ) {
 
@@ -561,7 +561,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 			}
 
-			// prevent page refreshes from trigerring a second queue / batch
+			// prevent page refreshes from triggering a second queue / batch
 			if ( ! self::$background_updater->is_updating() ) {
 				self::db_updates();
 			}

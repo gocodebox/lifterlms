@@ -11,7 +11,7 @@ class LLMS_Processors {
 
 	/**
 	 * Processor classes that should be loaded
-	 * this should match the classname of a proccessor
+	 * this should match the classname of a processor
 	 * @var  array
 	 */
 	private $classes = array(
@@ -60,7 +60,7 @@ class LLMS_Processors {
 	/**
 	 * Access a single loaded processor instance
 	 * @param    string     $name  name of the processor
-	 * @return   obj|false         instance of the proccesor if found, otherwise false
+	 * @return   obj|false         instance of the processor if found, otherwise false
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
@@ -74,7 +74,7 @@ class LLMS_Processors {
 	}
 
 	/**
-	 * Include classes required by proccessors
+	 * Include classes required by processors
 	 * @return   [type]     [description]
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -113,7 +113,7 @@ class LLMS_Processors {
 	/**
 	 * Load a single processor
 	 * @param    string     $name  name of the processor
-	 * @return   obj|false         instance of the proccesor if found, otherwise false
+	 * @return   obj|false         instance of the processor if found, otherwise false
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */

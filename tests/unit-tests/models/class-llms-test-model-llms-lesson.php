@@ -219,7 +219,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		// default unmodified slug
 		$this->assertFalse( $lesson->has_modified_slug() );
 
-		// default unmodifed slug with a unique int at the end
+		// default unmodified slug with a unique int at the end
 		$lesson->set( 'name', 'new-lesson-123' );
 
 		$this->assertFalse( $lesson->has_modified_slug() );

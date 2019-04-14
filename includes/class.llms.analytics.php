@@ -563,7 +563,7 @@ class LLMS_Analytics {
 	/**
 	* Get number of students enrolled in course with status of expired
 	* @param  [array] $students [array of student objects]
-	* @return [int] [total number of xpired users]
+	* @return [int] [total number of expired users]
 	*/
 	public static function get_total_current_expired_users( $students ) {
 

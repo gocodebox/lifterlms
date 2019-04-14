@@ -1,7 +1,7 @@
 <?php
 /**
 * Meta Box Certificate Options
-* displays email settings metabox. only dislays on email post
+* displays email settings metabox. only displays on email post
 * @since  1.0.0
 * @version  3.1.0
 */

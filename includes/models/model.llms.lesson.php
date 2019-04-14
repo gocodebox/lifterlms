@@ -14,7 +14,7 @@
  * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
  * @property  $order (int)  Lesson's order within its parent section
  * @property  $points  (absint)  Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
- * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prequisite is 'yes'
+ * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'
  * @property  $parent_course (int)  WP Post ID of the course the lesson belongs to
  * @property  $parent_section (int)  WP Post ID of the section the lesson belongs to
  * @property  $quiz  (int)  WP Post ID of the llms_quiz
@@ -314,7 +314,7 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Retrieve an object for the assignd quiz (if a quiz is assigned )
+	 * Retrieve an object for the assigned quiz (if a quiz is assigned )
 	 * @return   obj|false
 	 * @since    3.3.0
 	 * @version  3.16.0
@@ -474,7 +474,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Add data to the course model when converted to array
-	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * Called before data is sorted and returned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0

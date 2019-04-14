@@ -188,7 +188,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Add data to the course model when converted to array
-	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * Called before data is sorted and returned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0

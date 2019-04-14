@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Get & Set grades for gradeable post types
+ * Get & Set grades for gradable post types
  * @since    3.24.0
  * @version  3.24.0
  */
@@ -63,7 +63,7 @@ class LLMS_Grades {
 			$child = llms_get_post( $child_id );
 			$grade = $this->get_grade( $child_id, $student, false );
 
-			// non numeric grade (null) hasn't been taken yet or no gradeable elements exist on the child
+			// non numeric grade (null) hasn't been taken yet or no gradable elements exist on the child
 			if ( ! is_numeric( $grade ) ) {
 				continue;
 			}
@@ -127,7 +127,7 @@ class LLMS_Grades {
 
 	/**
 	 * Main grade calculation function
-	 * Calculates the grade for a gradeable post model
+	 * Calculates the grade for a gradable post model
 	 * DOES NOT CACHE RESULTS!
 	 * See get_grade() for a function which uses caching
 	 * @param    obj     $post     LLMS_Post_Model

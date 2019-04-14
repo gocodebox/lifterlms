@@ -174,7 +174,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Ensure that a valid array of data is passed to a query
-	 * Used by AJAX methods to clean unnecssarry parameters before passing the request data
+	 * Used by AJAX methods to clean unnecessary parameters before passing the request data
 	 * to the get_results function
 	 * @param    array      $args  array of arguments
 	 * @return   array
@@ -379,7 +379,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	protected function get_new_order( $orderby = '' ) {
 
-		// current order matches submitted order, return oppossite
+		// current order matches submitted order, return opposite
 		if ( $this->orderby === $orderby ) {
 			return ( 'ASC' === $this->order ) ? 'DESC' : 'ASC';
 		} // End if().

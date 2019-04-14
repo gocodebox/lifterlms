@@ -10,7 +10,7 @@ define( [], function() {
 
 		/**
 		 * Overloads the function from Backbone.CollectionView core because it doesn't properly handle
-		 * receieves from a jQuery UI draggable object
+		 * receives from a jQuery UI draggable object
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void

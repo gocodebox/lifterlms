@@ -12,7 +12,7 @@
 	var quiz = {
 
 		/**
-		 * Selector of all the available button elemens
+		 * Selector of all the available button elements
 		 * @type  obj
 		 */
 		$buttons: null,
@@ -55,7 +55,7 @@
 
 		/**
 		 * Validator functions for question types
-		 * Third party custom question types can register validators for use when answering questiosn
+		 * Third party custom question types can register validators for use when answering questions
 		 * @type  {Object}
 		 */
 		validators: {},
@@ -286,7 +286,7 @@
 		},
 
 		/**
-		 * Redirect on quiz comlpetion / timeout
+		 * Redirect on quiz completion / timeout
 		 * @param    string   url  redirect url
 		 * @return   void
 		 * @since    3.9.0
@@ -357,7 +357,7 @@
 			this.$buttons = $( '#llms-quiz-nav button' );
 			this.$container = $( '#llms-quiz-question-wrapper' );
 
-			// bind sumbission event for answering questions
+			// bind submission event for answering questions
 			$( '#llms-next-question, #llms-complete-quiz' ).on( 'click', function( e ) {
 				e.preventDefault();
 				self.answer_question( $( this ) );
@@ -598,7 +598,7 @@
 		},
 
 		/**
-		 * Show or hide the "loading" spinnr with an option message
+		 * Show or hide the "loading" spinner with an option message
 		 * @param    string   display  show|hide
 		 * @param    string   msg      text to display when showing
 		 * @return   void
@@ -628,7 +628,7 @@
 		},
 
 		/**
-		 * Update the progress bar and toggle button avalability based on question the question being shown
+		 * Update the progress bar and toggle button availability based on question the question being shown
 		 * @param    {[type]}   qid  [description]
 		 * @return   {[type]}
 		 * @since    3.16.0
@@ -669,7 +669,7 @@
 		},
 
 		/**
-		 * Increase progress bar ui elment
+		 * Increase progress bar ui element
 		 * @param    string   dir  update direction [increment|decrement]
 		 * @return   void
 		 * @since    3.16.0
@@ -752,7 +752,7 @@
 		},
 
 		/**
-		 * Basic validation method which performs no validation and returns a valiation object
+		 * Basic validation method which performs no validation and returns a validation object
 		 * in the format required by the application
 		 * @param    obj   $question  jQuery selector of the question
 		 * @return   obj

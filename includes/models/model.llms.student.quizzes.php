@@ -1,7 +1,7 @@
 <?php
 /**
  * Student Quiz Data
- * Rather than instatiating this class directly use LLMS_Student->quizzes().
+ * Rather than instantiating this class directly use LLMS_Student->quizzes().
  * @package  LifterLMS/Models
  * @since   3.9.0
  * @version 3.16.11
@@ -144,7 +144,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 			$remaining = ( $allowed - $used );
 
-			// don't show negative attmepts
+			// don't show negative attempts
 			$ret = max( 0, $remaining );
 
 		}

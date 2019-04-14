@@ -184,7 +184,7 @@ abstract class LLMS_Payment_Gateway {
 	public function confirm_pending_order( $order ) {}
 
 	/**
-	 * Get admin desrcription for the gateway
+	 * Get admin description for the gateway
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -232,7 +232,7 @@ abstract class LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Get default dageway admin settinds fields
+	 * Get default gateway admin settings fields
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.29.0
@@ -303,7 +303,7 @@ abstract class LLMS_Payment_Gateway {
 
 	/**
 	 * Get API mode
-	 * if test is not surropted will return "live"
+	 * if test is not supported will return "live"
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -365,7 +365,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Gateways can override this to return a URL to a customer permalink on the gateway's website
 	 * If this is not defined, it will just return the supplied ID
 	 * @param    string     $customer_id  Gateway's customer ID
-	 * @param    string     $api_mode     Link to either the live or test site for the gateway, where applicabale
+	 * @param    string     $api_mode     Link to either the live or test site for the gateway, where applicable
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -375,7 +375,7 @@ abstract class LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Get the frontend desrcription setting
+	 * Get the frontend description setting
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -406,7 +406,7 @@ abstract class LLMS_Payment_Gateway {
 
 	/**
 	 * Get fields displayed on the checkout form
-	 * Gateways rhould define this function if the gateway supports fields
+	 * Gateways should define this function if the gateway supports fields
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -488,7 +488,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Gateways can override this to return a URL to a source permalink on the gateway's website
 	 * If this is not defined, it will just return the supplied ID
 	 * @param    string     $source_id   Gateway's source ID
-	 * @param    string     $api_mode    Link to either the live or test site for the gateway, where applicabale
+	 * @param    string     $api_mode    Link to either the live or test site for the gateway, where applicable
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -501,7 +501,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Gateways can override this to return a URL to a subscription permalink on the gateway's website
 	 * If this is not defined, it will just return the supplied ID
 	 * @param    string     $subscription_id  Gateway's subscription ID
-	 * @param    string     $api_mode         Link to either the live or test site for the gateway, where applicabale
+	 * @param    string     $api_mode         Link to either the live or test site for the gateway, where applicable
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -521,7 +521,7 @@ abstract class LLMS_Payment_Gateway {
 	}
 
 	/**
-	 * Get the desrcription of test mode displayed on the admin panel
+	 * Get the description of test mode displayed on the admin panel
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -564,7 +564,7 @@ abstract class LLMS_Payment_Gateway {
 	 * Gateways can override this to return a URL to a transaction permalink on the gateway's website
 	 * If this is not defined, it will just return the supplied ID
 	 * @param    string     $transaction_id  Gateway's transaction ID
-	 * @param    string     $api_mode        Link to either the live or test site for the gateway, where applicabale
+	 * @param    string     $api_mode        Link to either the live or test site for the gateway, where applicable
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0

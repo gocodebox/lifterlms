@@ -17,7 +17,7 @@ class LLMS_Tracker {
 	}
 
 	/**
-	 * Retrieve a timestamp of the last time the trackes sent data home
+	 * Retrieve a timestamp of the last time the tracks sent data home
 	 * @return   int 		a timestamp
 	 * @since    3.0.0
 	 * @version  3.0.0

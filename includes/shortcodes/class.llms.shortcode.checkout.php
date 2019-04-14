@@ -43,7 +43,7 @@ class LLMS_Shortcode_Checkout {
 	 */
 	private static function checkout( $atts ) {
 
-		// if theres membership restrictions, check the user is in at least one membership
+		// if there are membership restrictions, check the user is in at least one membership
 		// this is to combat CHEATERS
 		if ( $atts['plan']->has_availability_restrictions() ) {
 			$access = false;
@@ -78,7 +78,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 1.0.0
 	 * @version 3.0.0
 	 *
-	 * @param array $atts shortocde attributes.
+	 * @param array $atts shortcode attributes.
 	 * @return void
 	 */
 	private static function confirm_payment( $atts ) {

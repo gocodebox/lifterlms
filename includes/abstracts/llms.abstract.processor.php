@@ -93,8 +93,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Disable a processor
-	 * Useful when bulk enrolling into a membership (for examlpe)
-	 * so we don't trigger course data calculations a few hundred tiems
+	 * Useful when bulk enrolling into a membership (for example)
+	 * so we don't trigger course data calculations a few hundred times
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -116,7 +116,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	}
 
 	/**
-	 * Retrieve a filtered array of actions to be added by $this->add_acitons
+	 * Retrieve a filtered array of actions to be added by $this->add_actions
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -130,7 +130,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Retrieve data for the current processor that can be used
 	 * in future processes
-	 * @param    string     $key      if set, return a specific peice of data rather than the whole array
+	 * @param    string     $key      if set, return a specific piece of data rather than the whole array
 	 * @param    string     $default  when returning a specific piece of data, allows a default value to be passed
 	 * @return   array|mixed
 	 * @since    3.15.0
@@ -208,7 +208,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Delete a piece of data from the database by key
-	 * @param    string     $key  keyname to remove
+	 * @param    string     $key  key name to remove
 	 * @return   [type]
 	 * @since    3.15.0
 	 * @version  3.15.0

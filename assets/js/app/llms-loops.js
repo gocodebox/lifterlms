@@ -3,12 +3,12 @@
 /**
  * LifterLMS Loops JS
  * @since    3.0.0
- * @version  [versino]
+ * @version  3.14.0
  */
 LLMS.Loops = {
 
 	/**
-	 * Initilize
+	 * Initialize
 	 * @return void
 	 */
 	init: function() {

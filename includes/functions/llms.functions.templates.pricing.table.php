@@ -7,7 +7,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Retrive a list of CSS classes for a single access plan element
+ * Retrieve a list of CSS classes for a single access plan element
  * @param    obj     $plan  Instance of an LLMS_Access_Plan
  * @return   string
  * @since    3.23.0

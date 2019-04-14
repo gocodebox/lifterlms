@@ -337,7 +337,7 @@ abstract class LLMS_Admin_Metabox {
 			return;
 		}
 
-		// loop thorugh the fields
+		// loop through the fields
 		foreach ( $fields as $group => $data ) {
 
 			// find the fields in each tab

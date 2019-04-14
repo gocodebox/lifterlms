@@ -36,7 +36,7 @@ function llms_get_template_part( $slug, $name = '' ) {
  * @param  string $slug [url slug]
  * @param  string $name [name of template]
  *
- * @return string [naem of file]
+ * @return string [name of file]
  */
 function llms_get_template_part_contents( $slug, $name = '' ) {
 	  $template = '';

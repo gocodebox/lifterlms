@@ -315,7 +315,7 @@
 
 		/**
 		 * Handle physical deletion of a plan element
-		 * If the plan hasn't be persisted to the databse it's removed from the dom
+		 * If the plan hasn't be persisted to the database it's removed from the dom
 		 * if it already exists in the database a confirm modal is displayed
 		 * upon confirmation AJAX call will be made to move the plan to the trash
 		 * and upon success the element will be removed from the dom
@@ -368,7 +368,7 @@
 		};
 
 		/**
-		 * Handle hiding & showing varios pieces of an access plan form
+		 * Handle hiding & showing various pieces of an access plan form
 		 * This is bound to any form element with a "data-controller-id" property
 		 *
 		 * @param  obj  $el   jQuery selector for the changed form element
@@ -516,7 +516,7 @@
 		};
 
 		/**
-		 * Initalizes a new plan and adds it to the list of plans in the DOM
+		 * Initializes a new plan and adds it to the list of plans in the DOM
 		 *
 		 * @since 3.0.0
 		 * @since 3.30.0 Initialize select2 on checkout redirect fields.

@@ -56,7 +56,7 @@ class LLMS_Analytics_Memberships extends LLMS_Analytics_Page {
 
 			$html .= '</div>'; //end widget row
 
-			//sales volumn line chart
+			//sales volume line chart
 			$html .= self::full_width_widget( $this->sales_chart( $search ) );
 
 			if ( 'all_memberships' !== $search->product_id ) {

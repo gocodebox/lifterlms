@@ -73,7 +73,7 @@ class LLMS_Admin_Setup_Wizard {
 	}
 
 	/**
-	 * Retrieve the current step and derfault to the intro
+	 * Retrieve the current step and default to the intro
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0

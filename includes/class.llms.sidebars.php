@@ -140,7 +140,7 @@ class LLMS_Sidebars {
 	}
 
 	/**
-	 * Register LifteLMS Sidebars using genesis methods
+	 * Register LifterLMS Sidebars using genesis methods
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0

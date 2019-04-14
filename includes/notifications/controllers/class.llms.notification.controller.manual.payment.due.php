@@ -98,7 +98,7 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.10.0

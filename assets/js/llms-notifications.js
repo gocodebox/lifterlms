@@ -114,8 +114,8 @@
 		};
 
 		/**
-		 * Get the vertiacl offset (on screen) relative to an element
-		 * used for notification positiioning
+		 * Get the vertical offset (on screen) relative to an element
+		 * used for notification positioning
 		 * @param    obj   $relative_el  element to get an offset relative to
 		 * @return   int
 		 * @since    3.8.0
@@ -256,7 +256,7 @@
 
 		}
 
-		// initalize
+		// initialize
 		this.init();
 
 		return this;

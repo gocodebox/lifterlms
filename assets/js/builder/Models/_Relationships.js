@@ -18,7 +18,7 @@ define( [], function() {
 
 		/**
 		 * Relationship settings object
-		 * Should be overriden in the model
+		 * Should be overridden in the model
 		 * @type  {Object}
 		 */
 		relationships: {},
@@ -33,7 +33,7 @@ define( [], function() {
 
 			var rels = this.get_relationships();
 
-			// initialize parent relaxtionships
+			// initialize parent relationships
 			// useful when adding a model to ensure parent is initialized
 			if ( rels.parent && options && options.parent ) {
 				this.set_parent( options.parent );

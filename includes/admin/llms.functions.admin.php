@@ -1,6 +1,6 @@
 <?php
 /**
- * Core functions used exlusively on the admin panel
+ * Core functions used exclusively on the admin panel
  * @since    3.0.0
  * @version  3.30.0
  */
@@ -47,7 +47,7 @@ function llms_create_page( $slug, $title = '', $content = '', $option = '' ) {
 		return $page_id;
 	}
 
-	// look in the trashd trashed page by content
+	// look in the trashed page by content
 	if ( strlen( $content ) > 0 ) {
 		$trashed_id = $wpdb->get_var( $wpdb->prepare( "SELECT ID FROM $wpdb->posts WHERE post_type='page' AND post_status = 'trash' AND post_content LIKE %s LIMIT 1;", "%{$content}%" ) );
 	} // End if().
@@ -169,7 +169,7 @@ function llms_get_checkout_redirection_types( $product_type = '' ) {
  * @param    string     $target  target to add the merge code to
  *                               accepts the ID of a tinymce editor
  *                               a DOM ID (#element-id)
- *                               and fallsback to outputting an alert where the code can be copied from
+ *                               and fallback to outputting an alert where the code can be copied from
  * @param    boolean    $echo    if truthy, echos the HTML, otherwise returns it
  * @param    array      $codes   optional array of custom codes to pass in, otherwise the codes are determined
  *                               what is available for the post type

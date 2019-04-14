@@ -164,7 +164,7 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Outupt the addons screen
+	 * Output the addons screen
 	 * @since    3.5.0
 	 * @version  3.22.0
 	 */
@@ -197,7 +197,7 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Removes edit.php from the admin menu for instructors/asst instructiors
+	 * Removes edit.php from the admin menu for instructors/asst instructors
 	 * note that the post screen is still technically accessible...
 	 * posts will need to be submitted for review as the instructors only actually have
 	 * the capability of a contributor with regards to posts
@@ -217,7 +217,7 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Output the HTLM for admin settings screens
+	 * Output the HTML for admin settings screens
 	 * @return void
 	 */
 	public function settings_page_init() {
@@ -244,7 +244,7 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Handle form submission actiosn on the status pages
+	 * Handle form submission actions on the status pages
 	 * @return   void
 	 * @since    3.11.2
 	 * @version  3.11.2

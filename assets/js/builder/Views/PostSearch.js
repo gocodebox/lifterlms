@@ -1,5 +1,5 @@
 /**
- * Post Popover Serach content View
+ * Post Popover Search content View
  * @since    3.16.0
  * @version  3.17.0
  */
@@ -54,7 +54,7 @@ define( [], function() {
 
 		/**
 		 * Render the section
-		 * Initalizes a new collection and views for all lessons in the section
+		 * Initializes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.12

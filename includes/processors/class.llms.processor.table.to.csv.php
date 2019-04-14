@@ -167,7 +167,7 @@ class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 	/**
 	 * Execute calculation for each item in the queue until all students
 	 * in the course have been polled
-	 * Stores the data in the postmeta table to be accessilbe via LLMS_Course
+	 * Stores the data in the postmeta table to be accessible via LLMS_Course
 	 * @param    array     $args  query arguments passed to LLMS_Table
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue

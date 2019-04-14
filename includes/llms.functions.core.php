@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @since 3.30.1 Moved order-related functios to order functions file.
+ * @since 3.30.1 Moved order-related functions to order functions file.
  * @version 3.29.0
  */
 
@@ -117,7 +117,7 @@ if ( ! function_exists( 'llms_content' ) ) {
  * Very similar to https://developer.wordpress.org/reference/functions/_deprecated_function/
  *
  * @param   string $function    name of the deprecated class or function
- * @param   string $version     version deprecation ocurred
+ * @param   string $version     version deprecation occurred
  * @param   string $replacement function to use in it's place (optional)
  * @return  void
  * @since   2.6.0
@@ -299,7 +299,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	$count = 0;
 	$times = array();
 	foreach ( $diffs as $interval => $value ) {
-		// Break if we have needed precission
+		// Break if we have needed precision
 		if ( $count >= $precision ) {
 			break;
 		}
@@ -426,8 +426,8 @@ function llms_get_product_visibility_options() {
 }
 
 /**
-* Get an array of student IDs based on enrollment status a course or memebership
-* @param    int           $post_id   WP_Post id of a course or memberhip
+* Get an array of student IDs based on enrollment status a course or membership
+* @param    int           $post_id   WP_Post id of a course or membership
 * @param    string|array  $statuses  list of enrollment statuses to query by
 *                                    status query is an OR relationship
 * @param    integer    $limit        number of results
@@ -561,7 +561,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
 	$field['classes'] = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
 
-	// add column information to the warpper
+	// add column information to the wrapper
 	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
 	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
 
@@ -682,7 +682,7 @@ function llms_get_enrollment_status_name( $status ) {
 }
 
 /**
- * Retrive an IP Address for the current user
+ * Retrieve an IP Address for the current user
  * @source   WooCommerce WC_Geolocation::get_ip_address(), thank you <3
  * @return   string
  * @since    3.0.0
@@ -738,7 +738,7 @@ function llms_get_post( $post, $error = false ) {
 
 /**
  * Retrieve the parent course for a section, lesson, or quiz
- * @param    mixed     $post  WP Post ID or insance of WP_Post
+ * @param    mixed     $post  WP Post ID or instance of WP_Post
  * @return   obj|null         Instance of the LLMS_Course or null
  * @since    3.6.0
  * @version  3.17.7

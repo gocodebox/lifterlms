@@ -234,7 +234,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		// should be no one expired
 		$this->assertEquals( array(), llms_get_enrolled_students( $course_id, 'expired', 10, 0 ) );
 
-		// sleeping makes unerollment tests work
+		// sleeping makes unenrollment tests work
 		sleep( 1 );
 
 		$i = 0;

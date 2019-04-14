@@ -33,7 +33,7 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 
 		$txn_meta_join = '';
 		$txn_meta_where = '';
-		// create an "IN" clause that can be used for lated in WHERE clauses
+		// create an "IN" clause that can be used for later in WHERE clauses
 		if ( $this->get_posted_students() || $this->get_posted_posts() ) {
 
 			// get an array of order based on posted students & products

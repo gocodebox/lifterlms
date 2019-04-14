@@ -1,6 +1,6 @@
 <?php
 /**
- * Product Visibity Settings
+ * Product Visibility Settings
  * Adds radios to the publishing misc. actions box for courses and memberships
  * @since    3.6.0
  * @version  3.6.0

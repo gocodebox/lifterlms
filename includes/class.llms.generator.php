@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Generator class.
  *
  * @since 3.3.0
- * @since 3.30.2 Added hooks and made numerous private functions public to expand extendabiity.
+ * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
  */
 class LLMS_Generator {
 
@@ -81,7 +81,7 @@ class LLMS_Generator {
 
 	/**
 	 * Construct a new generator instance with data
-	 * @param    array|string   $raw   array or json sring of raw content
+	 * @param    array|string   $raw   array or json string of raw content
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
@@ -123,7 +123,7 @@ class LLMS_Generator {
 
 			if ( ! empty( $raw_terms[ $key ] ) && is_array( $raw_terms[ $key ] ) ) {
 
-				// we can only have one difficulte at a time
+				// we can only have one difficulty at a time
 				$append = ( 'difficulty' === $key ) ? false : true;
 
 				$terms = array();
@@ -776,7 +776,7 @@ class LLMS_Generator {
 	}
 
 	/**
-	 * Recieves a raw array of course, plan, section, lesson, etc data and gets an author id
+	 * Receives a raw array of course, plan, section, lesson, etc data and gets an author id
 	 * falls back to optionally supplied fallback id
 	 * falls back to current user id
 	 *
@@ -873,7 +873,7 @@ class LLMS_Generator {
 
 	/**
 	 * Get a WP Term ID for a term by taxonomy and term name
-	 * attempts to find a given term by name first to pervent duplicates during imports
+	 * attempts to find a given term by name first to prevent duplicates during imports
 	 * @param    string     $term_name  term name
 	 * @param    string     $tax        taxonomy slug
 	 * @return   int|void              term id or void when error

@@ -47,7 +47,7 @@ defined( 'ABSPATH' ) || exit;
  *     @type string $sku Short user-created plan identifier.
  *     @type string $title Plan title.
  *     @type int $trial_length length of the trial period. Only applicable if $trial_offer is "yes".
- *     @type string $trial_offer Enable or disable a plan trial perid. [yes|no].
+ *     @type string $trial_offer Enable or disable a plan trial period. [yes|no].
  *     @type string $trial_period Period for the trial period. Only applicable if $trial_offer is "yes". [year|month|week|day].
  *     @type float $trial_price Price for the trial period. Can be 0 for a free trial period.
  * }

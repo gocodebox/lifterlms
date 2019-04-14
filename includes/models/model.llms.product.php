@@ -165,7 +165,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Deterime if the product is purchasable
+	 * Determine if the product is purchasable
 	 * At least one gateway must be enabled and at least one access plan must exist
 	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity
 	 * @return  boolean
@@ -185,7 +185,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		}
 
-		// if we're still true, make sure we have a purchaseable plan & active gateways.
+		// if we're still true, make sure we have a purchasable plan & active gateways.
 		if ( $ret ) {
 			$gateways = LLMS()->payment_gateways();
 			$ret      = ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );

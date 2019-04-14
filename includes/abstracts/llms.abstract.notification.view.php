@@ -106,7 +106,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	abstract protected function set_merge_codes();
 
 	/**
-	 * Setup notification subject line for outpet
+	 * Setup notification subject line for output
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -410,7 +410,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Retrieve a default icon for the notificiation based on the notification type
+	 * Retrieve a default icon for the notification based on the notification type
 	 * @param    string     $type  type of icon [positive|negative]
 	 * @return   string
 	 * @since    3.8.0
@@ -607,7 +607,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Convert a string to sentence case.
-	 * Useful for handling lowercased merged data like "you" which may appear at the beginnig or middle of a sentence
+	 * Useful for handling lowercased merged data like "you" which may appear at the beginning or middle of a sentence
 	 * @param    string     $string  a string
 	 * @return   string
 	 * @since    3.8.0

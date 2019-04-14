@@ -189,7 +189,7 @@ class LLMS_Data {
 
 		foreach ( $integrations->integrations() as $obj ) {
 
-			// @todo upgrade this when integration absrtact is finished
+			// @todo upgrade this when integration abstract is finished
 			if ( method_exists( $obj, 'is_available' ) ) {
 
 				$data[ $obj->title ] = $obj->is_available() ? 'Yes' : 'No';
