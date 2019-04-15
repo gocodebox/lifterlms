@@ -113,7 +113,7 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 
 /**
  * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
- * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be uesd
+ * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used
  * @return   boolean
  * @since    3.7.0
  * @version  3.9.0
@@ -268,7 +268,7 @@ function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_c
  *
  * @return bool    true if complete, false otherwise
  *
- * @version  3.3.1  updated to use LLMS_Studnet->is_enrolled()
+ * @version  3.3.1  updated to use LLMS_Student->is_enrolled()
  */
 function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
 	$s = new LLMS_Student( $user_id );
@@ -334,7 +334,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
  * @param  int $person_id  ID of the user
  *
  * @return void
- * @version  3.0.0   now uses wp_set_current_user rather than overridding the global manually
+ * @version  3.0.0   now uses wp_set_current_user rather than overriding the global manually
  */
 function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 	wp_set_current_user( $user_id );
@@ -463,7 +463,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 	switch ( $column_name ) {
 
 		/**
-		 * Display user information for their last sucessful login
+		 * Display user information for their last successful login
 		 */
 		case 'llms-last-login':
 

@@ -8,7 +8,7 @@
 class LLMS_Test_Abstract_User_Data extends LLMS_UnitTestCase {
 
 	/**
-	 * Test exists funciton
+	 * Test exists function
 	 * @return   void
 	 * @since    3.9.0
 	 * @version  3.9.0

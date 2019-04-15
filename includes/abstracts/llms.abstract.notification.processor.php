@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS Notification Backgroung Processor Abstract
+ * LifterLMS Notification Background Processor Abstract
  *
  * @since    3.8.0
  * @version  3.8.0

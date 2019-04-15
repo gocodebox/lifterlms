@@ -70,7 +70,7 @@ class LLMS_Controller_Lesson_Progression {
 	}
 
 	/**
-	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle competion of lessons for a student.
+	 * Handle form submission from the Student -> Courses -> Course table where admins can toggle completion of lessons for a student.
 	 *
 	 * @return  void
 	 * @since   3.29.0
@@ -105,7 +105,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * Mark Lesson as complete
 	 * Complete Lesson form post
 	 * Marks lesson as complete and returns completion message to user
-	 * Autoadvances to next lesson if completion is succesful
+	 * Autoadvances to next lesson if completion is successful
 	 * @return   void
 	 * @since    3.17.1
 	 * @version  3.29.0
@@ -202,7 +202,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * @param    int      $user_id           WP User ID of the student completing the lesson
 	 * @param    int      $lesson_id         WP Post ID of the lesson to be completed
 	 * @param    string   $trigger           text string to record the reason why the lesson is being completed
-	 * @param    array    $args              optional additional arguements from the triggering function
+	 * @param    array    $args              optional additional arguments from the triggering function
 	 * @return   bool
 	 * @since    3.17.1
 	 * @version  3.17.1

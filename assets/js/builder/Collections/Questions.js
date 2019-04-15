@@ -52,7 +52,7 @@ define( [ 'Models/Question' ], function( model ) {
 
 		/**
 		 * When adding a question to a question list, update the question's parent
-		 * Will ensure that questions moved into and out of groups always have the corerct parent_id
+		 * Will ensure that questions moved into and out of groups always have the correct parent_id
 		 * @param    obj   model  instance of the question model
 		 * @return   void
 		 * @since    3.16.0

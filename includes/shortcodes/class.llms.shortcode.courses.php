@@ -35,7 +35,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		return array(
 			'category' => '',
 			'hidden' => 'yes',
-			'id' => '', // allow comma-seperated list of course ids
+			'id' => '', // allow comma-separated list of course ids
 			'mine' => 'no',
 			'post_status' => 'publish',
 			'posts_per_page' => -1,

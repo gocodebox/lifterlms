@@ -58,7 +58,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * Sets up data needed to generate certificate.
 	 * @param    int   $email_id   ID of Certificate
-	 * @param    int   $person_id  ID of the user recieving the certificate
+	 * @param    int   $person_id  ID of the user receiving the certificate
 	 * @param    int   $lesson_id  ID of associated lesson
 	 * @return   void
 	 * @since    ??
@@ -93,7 +93,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * [trigger description]
 	 *
-	 * @param  int $user_id   [ID of the user recieving the certificate]
+	 * @param  int $user_id   [ID of the user receiving the certificate]
 	 * @param  int $email_id  [ID of the certificate]
 	 * @param  int $lesson_id [ID of the associated lesson]
 	 *

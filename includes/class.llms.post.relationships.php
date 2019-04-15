@@ -91,7 +91,7 @@ class LLMS_Post_Relationships {
 	}
 
 	/**
-	 * Retrieve filtered LifterLMS post relatinoships array
+	 * Retrieve filtered LifterLMS post relationships array
 	 * @return   array
 	 * @since    3.16.12
 	 * @version  3.16.12

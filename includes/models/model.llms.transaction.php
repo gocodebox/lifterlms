@@ -52,7 +52,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get the amount of the transaciton that can be refunded
+	 * Get the amount of the transaction that can be refunded
 	 * @return   float
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -112,7 +112,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retreive the payment gateway instance for the transactions payment gateway
+	 * Retrieve the payment gateway instance for the transactions payment gateway
 	 * @return   LLMS_Gateway or WP_Error
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -184,7 +184,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 */
 	public function process_refund( $amount, $note = '', $method = 'manual' ) {
 
-		// ensure the transaciton is still eligible for a refund
+		// ensure the transaction is still eligible for a refund
 		if ( ! $this->can_be_refunded() ) {
 			return new WP_Error( 'error', __( 'The selected transaction is not eligible for a refund.', 'lifterlms' ) );
 		}
@@ -232,7 +232,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		}
 
-		// ouput an error
+		// output an error
 		if ( is_wp_error( $refund_id ) ) {
 
 			return $refund_id;

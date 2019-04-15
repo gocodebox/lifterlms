@@ -53,7 +53,7 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
 		/**
-		 * Scheduler Actiions
+		 * Scheduler Actions
 		 */
 
 		// charge recurring payments
@@ -80,7 +80,7 @@ class LLMS_Controller_Orders {
 
 		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] || empty( $_POST['_wpnonce'] ) ) { return; }
 
-		// noonnce the post
+		// nonce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'confirm_pending_order' );
 
 		// ensure we have an order key we can locate the order with
@@ -109,7 +109,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Perform actions on a succesful order completion
+	 * Perform actions on a successful order completion
 	 * @param    obj    $order       Instance of an LLMS_Order
 	 * @param    string $old_status  Previous order status (eg: 'pending')
 	 * @return   void
@@ -234,7 +234,7 @@ class LLMS_Controller_Orders {
 
 		/**
 		 * Allow gateways, extensions, etc to do their own validation
-		 * after all standard validations are succesfuly
+		 * after all standard validations are successfully
 		 * If this returns a truthy, we'll stop processing
 		 * The extension should add a notice in addition to returning the truthy
 		 */
@@ -361,7 +361,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Trigger a recrurring payment
+	 * Trigger a recurring payment
 	 * Called by action scheduler
 	 * @param    int     $order_id  WP Post ID of the order
 	 * @return   void
@@ -517,7 +517,7 @@ class LLMS_Controller_Orders {
 	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status
 	 * @param    string     $new_status  new status
 	 * @param    string     $old_status  old status
-	 * @param    ojb        $post        WP_Post isntance
+	 * @param    ojb        $post        WP_Post instance
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.0

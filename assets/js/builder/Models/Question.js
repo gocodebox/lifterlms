@@ -114,7 +114,7 @@ define( [
 
 				// when a choice is removed, maybe add back some defaults so we always have the minimum
 				this.listenTo( this.get( 'choices' ), 'remove', function() {
-					// new itmes are added at index 0 when there's only 1 item in the collection, not sure why exactly...
+					// new items are added at index 0 when there's only 1 item in the collection, not sure why exactly...
 					setTimeout( function() {
 						self._ensure_min_choices();
 					}, 0 );
@@ -354,7 +354,7 @@ define( [
 		},
 
 		/**
-		 * Deterine if the question belongs to a question group
+		 * Determine if the question belongs to a question group
 		 * @return   {Boolean}
 		 * @since    3.16.0
 		 * @version  3.16.0

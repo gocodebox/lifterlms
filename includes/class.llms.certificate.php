@@ -19,7 +19,7 @@ class LLMS_Certificate {
 	 */
 	function __construct() {
 
-			// Settings TODO Refoactor: theses can come from the email post now
+			// Settings TODO Refactor: theses can come from the email post now
 			$this->email_type     	= 'html';
 			//$this->enabled   		= get_option( 'enabled' );
 

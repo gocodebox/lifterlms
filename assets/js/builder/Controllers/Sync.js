@@ -363,7 +363,7 @@ define( [], function() {
 
 					_.each( data[ key ] , function( info ) {
 
-						// succesfully detached, remove it from the detached collection
+						// successfully detached, remove it from the detached collection
 						if ( ! info.error ) {
 
 							coll.remove( info.id );

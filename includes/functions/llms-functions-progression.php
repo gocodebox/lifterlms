@@ -48,7 +48,7 @@ function llms_show_mark_complete_button( $lesson ) {
 }
 
 /**
- * Determiens whether or not a "Take Quiz" button should be displayed for a given lesson.
+ * Determines whether or not a "Take Quiz" button should be displayed for a given lesson.
  *
  * @param   obj    $lesson LLMS_Lesson.
  * @return  boolean

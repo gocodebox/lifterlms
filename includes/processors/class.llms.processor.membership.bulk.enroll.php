@@ -4,10 +4,10 @@
  * This triggers a bg process which gets the current progress
  * of all students in a course
  *
- * Progress is queued for recalulation when
+ * Progress is queued for recalculation when
  * 		students enroll
  * 		students unenroll
- * 		sutendts complete lessons
+ * 		students complete lessons
  * @since    3.15.0
  * @version  3.26.1
  */
@@ -126,7 +126,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	/**
 	 * Execute calculation for each item in the queue until all students
 	 * in the course have been polled
-	 * Stores the data in the postmeta table to be accessilbe via LLMS_Course
+	 * Stores the data in the postmeta table to be accessible via LLMS_Course
 	 * @param    array     $item  array of processing data
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue

@@ -152,7 +152,7 @@ class LLMS_Notification_Controller_Purchase_Receipt extends LLMS_Abstract_Notifi
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0

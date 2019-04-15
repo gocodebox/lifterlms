@@ -100,7 +100,7 @@ define( [
 				this.model = this.lesson.get( 'quiz' );
 
 				/**
-				 * @todo  this is a terrilbe terrible patch
+				 * @todo  this is a terrible terrible patch
 				 *        I've spent nearly 3 days trying to figure out how to not use this line of code
 				 *        ISSUE REPRODUCTION:
 				 *        Open course builder
@@ -233,7 +233,7 @@ define( [
 		},
 
 		/**
-		 * Adds a new quiz to a lesson which currently has no quiz associated wlith it
+		 * Adds a new quiz to a lesson which currently has no quiz associated with it
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0

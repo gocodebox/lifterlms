@@ -19,7 +19,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 	function __construct( $_field ) {
 
 		$button_defaults = array(
-			'classes' => '', // array or space seperated string
+			'classes' => '', // array or space separated string
 			'icon' => 'dashicons-plus', // dashicon classname or HTML/String
 			'id' => $_field['id'] . '-add-new',
 			'size' => 'small',

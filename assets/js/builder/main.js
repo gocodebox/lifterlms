@@ -146,7 +146,7 @@ require( [
 		},
 
 		/**
-		 * Determine if two values are equal and output seleted attribute if they are
+		 * Determine if two values are equal and output selected attribute if they are
 		 * Useful for templating select elements
 		 * Like WP Core PHP selected() but in JS
 		 * @param    mixed   expected  expected element value
@@ -216,7 +216,7 @@ require( [
 	} );
 
 	/**
-	 * Do deeplinking to Lesson / Quiz / Assignments
+	 * Do deep linking to Lesson / Quiz / Assignments
 	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
 	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
 	 * @since 3.27.0

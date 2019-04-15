@@ -12,7 +12,7 @@ class LLMS_Email_Reset_Password extends LLMS_Email {
 	protected $id = 'reset_password';
 
 	/**
-	 * Initiailizer
+	 * Initializer
 	 * @param    array      $args  associative array of user related data for the email to be sent
 	 * @return   void
 	 * @since    3.8.0

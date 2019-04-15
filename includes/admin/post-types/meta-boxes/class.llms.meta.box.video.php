@@ -3,7 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Meta Box Video
- * diplays text input for oembed video
+ * displays text input for oembed video
  * @since    ??
  * @version  3.24.0
  */

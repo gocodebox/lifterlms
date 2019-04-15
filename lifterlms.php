@@ -494,7 +494,7 @@ final class LifterLMS {
 
 	/**
 	 * Load all background processors and
-	 * access to them programattically a processor via LLMS()->processors()->get( $processor )
+	 * access to them programmatically a processor via LLMS()->processors()->get( $processor )
 	 * @return   LLMS_Processors
 	 * @since    3.15.0
 	 * @version  3.15.0

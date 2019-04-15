@@ -81,7 +81,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	abstract protected function get_subscriber( $subscriber );
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0
@@ -124,7 +124,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
-	 * Constrcutor
+	 * Constructor
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -235,7 +235,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
-	 * Get an array of saved subscriber settings prefilled with defaults for the current notificaton
+	 * Get an array of saved subscriber settings prefilled with defaults for the current notification
 	 * @param    string     $type  notification type
 	 * @return   array
 	 * @since    3.8.0
@@ -409,7 +409,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 		// if autodupcheck is set
 		// and the send function doesn't override the dupcheck
-		// and the subscriber has already receieved the notification
+		// and the subscriber has already received the notification
 		// skip it
 		if ( $this->auto_dupcheck && ! $force && $this->has_subscriber_received( $type, $subscriber ) ) {
 			// llms_log( sprintf( 'Skipped %1$s to subscriber "%2$s" bc of dupcheck', $type, $subscriber ), 'notifications' );
@@ -425,7 +425,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			'user_id' => $this->user_id,
 		) );
 
-		// if sucessful, push to the processor where processing is supported
+		// if successful, push to the processor where processing is supported
 		if ( $id ) {
 
 			$processor = LLMS()->notifications()->get_processor( $type );

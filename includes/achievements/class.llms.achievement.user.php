@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
-* User Achievemnet class, inherits methods from LLMS_Achievment
+* User Achievement class, inherits methods from LLMS_Achievement
 * Generates achievements for users.
 * @since    1.0.0
 * @version  3.24.0

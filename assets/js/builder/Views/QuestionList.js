@@ -72,7 +72,7 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		},
 
 		/**
-		 * Overrides receive to ensure that question groups can't be moved into queston groups
+		 * Overrides receive to ensure that question groups can't be moved into question groups
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI Sortable ui object
 		 * @return   void
@@ -102,7 +102,7 @@ define( [ 'Views/Question' ], function( QuestionView ) {
 		},
 
 		/**
-		 * Override to allow manipulatino of placeholder element
+		 * Override to allow manipulation of placeholder element
 		 * @param    {[type]}   event  [description]
 		 * @param    {[type]}   ui     [description]
 		 * @return   {[type]}

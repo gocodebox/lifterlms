@@ -39,7 +39,7 @@ class LLMS_Student_Dashboard {
 	}
 
 	/**
-	 * Retreive an array of all endpoint data for student dashboard endpoints
+	 * Retrieve an array of all endpoint data for student dashboard endpoints
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -91,7 +91,7 @@ class LLMS_Student_Dashboard {
 	}
 
 	/**
-	 * Retreive the current tab when on the student dashboard
+	 * Retrieve the current tab when on the student dashboard
 	 * @param    string     $return   type of return, either "data" for an array of data or 'slug' for just the slug
 	 * @return   mixed
 	 * @since    3.0.0
@@ -413,7 +413,7 @@ class LLMS_Student_Dashboard {
 	}
 
 	/**
-	 * Callback to oupput the notifications content
+	 * Callback to output the notifications content
 	 * @return     void
 	 * @since      3.8.0
 	 * @version    3.26.3

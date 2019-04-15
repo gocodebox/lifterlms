@@ -25,7 +25,7 @@ class LLMS_Comments {
 
 	/**
 	 * Delete transient data when inserting new comments or updating comment status
-	 * Next time wp_count_comments is called it'll be automatically regenrated
+	 * Next time wp_count_comments is called it'll be automatically regenerated
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0

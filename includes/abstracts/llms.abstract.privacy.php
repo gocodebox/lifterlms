@@ -80,8 +80,8 @@ abstract class LLMS_Abstract_Privacy {
 	}
 
 	/**
-	 * Retrive an instance of an LLMS_Student from email address
-	 * @param    string     $email  Email addres
+	 * Retrieve an instance of an LLMS_Student from email address
+	 * @param    string     $email  Email address
 	 * @return   false|LLMS_Student
 	 * @since    3.18.0
 	 * @version  3.18.0

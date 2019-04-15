@@ -67,7 +67,7 @@ class LLMS_Notifications {
 
 	/**
 	 * On shutdown, check for processors that have items in the queue that need to be saved
-	 * save & dispatch the backgroun process
+	 * save & dispatch the background process
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0

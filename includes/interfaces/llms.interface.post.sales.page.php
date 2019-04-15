@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Post Model Sales Page Functiosn
+ * LifterLMS Post Model Sales Page Functions
  * @since    3.20.0
  * @version  3.20.0
  */
@@ -17,7 +17,7 @@ interface LLMS_Interface_Post_Sales_Page {
 	public function get_sales_page_url();
 
 	/**
-	 * Determine if sales page rediriction is enabled
+	 * Determine if sales page redirection is enabled
 	 * @return   string
 	 * @since    3.20.0
 	 * @version  3.20.0

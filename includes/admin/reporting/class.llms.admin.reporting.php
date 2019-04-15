@@ -20,7 +20,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get array of course IDs selected accoding to applied filters
+	 * Get array of course IDs selected according to applied filters
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -39,7 +39,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get array of membership IDs selected accoding to applied filters
+	 * Get array of membership IDs selected according to applied filters
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -99,7 +99,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get the current end date accoring to filters
+	 * Get the current end date according to filters
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -109,7 +109,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get the current strart date accoring to filters
+	 * Get the current start date according to filters
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0

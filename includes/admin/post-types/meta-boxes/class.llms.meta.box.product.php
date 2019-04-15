@@ -63,7 +63,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	/**
 	 * Filter the available buttons in the Plan Description editors
 	 *
-	 * @param  array  $buttons array of default butotns
+	 * @param  array  $buttons array of default buttons
 	 * @param  string $id      editor id
 	 * @return array
 	 * @since   3.0.0
@@ -95,7 +95,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	/**
 	 * Output metabox content
-	 * Overwrites abstract because of the requirments of the UI
+	 * Overwrites abstract because of the requirements of the UI
 	 *
 	 * @return void
 	 * @since  3.0.0

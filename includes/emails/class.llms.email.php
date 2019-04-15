@@ -111,7 +111,7 @@ class LLMS_Email {
 	 * @param    int|string  $address  if string, must be a valid email address
 	 *                                 if int, must be the WP User ID of a user
 	 * @param    string      $type     recipient type [to,cc,bcc]
-	 * @param    string      $name     recipent name (optional)
+	 * @param    string      $name     recipient name (optional)
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.10.1
@@ -155,7 +155,7 @@ class LLMS_Email {
 	}
 
 	/**
-	 * Add multiple recipents
+	 * Add multiple recipients
 	 * @param    array      $recipients  array of recipient information
 	 * @return   void
 	 * @since    3.8.0

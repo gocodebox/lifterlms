@@ -61,7 +61,7 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Retreive an array of fields for a specific screen
+	 * Retrieve an array of fields for a specific screen
 	 *
 	 * Each array represents a form field that can be passed to llms_form_field()
 	 *
@@ -309,7 +309,7 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Retreive an array of password fields for a specific screen
+	 * Retrieve an array of password fields for a specific screen
 	 *
 	 * Each array represents a form field that can be passed to llms_form_field()
 	 *
@@ -466,7 +466,7 @@ class LLMS_Person_Handler {
 
 	/**
 	 * Field an array of user fields retrieved from self::get_available_fields() with data
-	 * the resulting array will be the data retrived from self::get_available_fields() with "value" keys filled for each field
+	 * the resulting array will be the data retrieved from self::get_available_fields() with "value" keys filled for each field
 	 *
 	 * @param    array $fields array of fields from self::get_available_fields()
 	 * @param    array $data   array of data (from a $_POST or function)

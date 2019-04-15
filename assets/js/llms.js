@@ -85,7 +85,7 @@ var LLMS = window.LLMS || {};
 		},
 	
 		/**
-		 * Creates modal a modal for an achiemvement
+		 * Creates modal a modal for an achievement
 		 * @param    obj   $el  jQuery selector for the modal card
 		 * @return   void
 		 * @since    3.14.0
@@ -194,7 +194,7 @@ var LLMS = window.LLMS || {};
 		response:[],
 	
 		/**
-		 * initilize Ajax methods
+		 * initialize Ajax methods
 		 * loads class methods
 		 */
 		init: function(obj) {
@@ -452,7 +452,7 @@ var LLMS = window.LLMS || {};
 		$els: null,
 	
 		/**
-		 * Initilize
+		 * Initialize
 		 * @return void
 		 */
 		init: function() {
@@ -551,12 +551,12 @@ var LLMS = window.LLMS || {};
 	/**
 	 * LifterLMS Loops JS
 	 * @since    3.0.0
-	 * @version  [versino]
+	 * @version  3.14.0
 	 */
 	LLMS.Loops = {
 	
 		/**
-		 * Initilize
+		 * Initialize
 		 * @return void
 		 */
 		init: function() {
@@ -594,7 +594,7 @@ var LLMS = window.LLMS || {};
 		/* global LLMS, $ */
 	
 	/**
-	 * Handle the Collpasible Syllabus Widget / Shortcode
+	 * Handle the Collapsible Syllabus Widget / Shortcode
 	 */
 	LLMS.OutlineCollapse = {
 	
@@ -605,7 +605,7 @@ var LLMS = window.LLMS || {};
 		$outlines: null,
 	
 		/**
-		 * Initilize
+		 * Initialize
 		 * @return void
 		 */
 		init: function() {
@@ -897,7 +897,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Retrieve current strength as a number, a slug, or a translated text string
-		 * @param    string   format  derifed return format [int|slug|text] defaults to int
+		 * @param    string   format  derived return format [int|slug|text] defaults to int
 		 * @return   mixed
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -1210,7 +1210,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Get an exiting spinner element or create a new one
-		 * @param    obj      $el   jQuery selector of the parent element that should hold and be mased by a spinnner
+		 * @param    obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 		 * @param    string   size  size or the spinner [default|small]
 		 *                          default is 40px
 		 *                          small is 20px
@@ -1244,7 +1244,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Start spinner(s) inr=side a given element
 		 * Creates them if they don't exist!
-		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinnner
+		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 		 * @param   string   size  size or the spinner [default|small]
 		 *                          default is 40px
 		 *                          small is 20px
@@ -1265,8 +1265,8 @@ var LLMS = window.LLMS || {};
 		},
 	
 		/**
-		 * Stor spinners within an element
-		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinnner
+		 * Store spinners within an element
+		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 		 * @return  void
 		 * @since   3.0.0
 		 * @version 3.0.0

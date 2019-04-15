@@ -9,7 +9,7 @@
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	/**
-	 * Teste username generation
+	 * Test username generation
 	 * @return   void
 	 * @since    3.19.4
 	 * @version  3.19.4

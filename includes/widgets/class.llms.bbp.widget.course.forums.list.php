@@ -31,7 +31,7 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 	}
 
 	/**
-	 * Output the wigdet
+	 * Output the widget
 	 * @param    array     $args      arguments passed to the widget
 	 * @param    array     $instance  instance information
 	 * @return   void

@@ -6,10 +6,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * This triggers a bg process which gets the current progress
  * of all students in a course
  *
- * Progress is queued for recalulation when
+ * Progress is queued for recalculation when
  * 		students enroll
  * 		students unenroll
- * 		sutendts complete lessons
+ * 		students complete lessons
  * @since    3.15.0
  * @version  3.15.0
  */
@@ -251,7 +251,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	/**
 	 * Execute calculation for each item in the queue until all students
 	 * in the course have been polled
-	 * Stores the data in the postmeta table to be accessilbe via LLMS_Course
+	 * Stores the data in the postmeta table to be accessible via LLMS_Course
 	 * @param    array     $args  query arguments passed to LLMS_Student_Query
 	 * @return   boolean      	  true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue

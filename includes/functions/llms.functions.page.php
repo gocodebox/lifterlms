@@ -37,7 +37,7 @@ function llms_confirm_payment_url( $order_key = null ) {
  * Retrieve the full URL to a LifterLMS endpoint
  * @param    string     $endpoint   ID of the endpoint, eg "view-courses"
  * @param    string     $value
- * @param    string     $permalink  base URL to append the endoint to
+ * @param    string     $permalink  base URL to append the endpoint to
  * @return   string
  * @since    1.0.0
  * @version  3.26.3
@@ -88,7 +88,7 @@ function llms_get_page_id( $page ) {
 
 
 /**
- * Retrive the URL for a LifterLMS Page
+ * Retrieve the URL for a LifterLMS Page
  * EG: 'checkout', 'memberships', 'myaccount', 'courses' etc...
  * @param  string $page name of the page
  * @param  array  $args optional array of query arguments that can be passed to add_query_arg()

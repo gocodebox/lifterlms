@@ -60,7 +60,7 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 }
 
 /**
- * Retrive an LLMS Order ID by the associated order_key
+ * Retrieve an LLMS Order ID by the associated order_key
  *
  * @since 3.0.0
  * @since 3.30.1 Return `null` instead of `false` when requesting an `LLMS_Order` return and no order could be found.
@@ -109,7 +109,7 @@ function llms_get_order_status_name( $status ) {
  * @since 3.0.0
  * @version 3.19.0
  *
- * @param string $order_type filter stauses which are specific to the supplied order type, defaults to any statuses.
+ * @param string $order_type filter statuses which are specific to the supplied order type, defaults to any statuses.
  * @return array
  */
 function llms_get_order_statuses( $order_type = 'any' ) {

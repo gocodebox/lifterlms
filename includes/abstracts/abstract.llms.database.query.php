@@ -89,7 +89,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Escape and add quotes to a string, useful for array mapping when building queries
-	 * @param    mixed     $input  intupt data
+	 * @param    mixed     $input  input data
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -345,7 +345,7 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve the prepared SQL for the ORDER clase
+	 * Retrieve the prepared SQL for the ORDER clause
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0

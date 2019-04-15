@@ -123,7 +123,7 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Get a random product from a category that doensn't exist in the list of excluded product ids
+	 * Get a random product from a category that doesn't exist in the list of excluded product ids
 	 * @param    string     $cat       category slug
 	 * @param    array      $excludes  list of product ids to exclude
 	 * @return   array|false

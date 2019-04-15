@@ -53,7 +53,7 @@ class LLMS_Integrations {
 	}
 
 	/**
-	 * Initalize Integration Classes
+	 * Initialize Integration Classes
 	 * @return   null
 	 * @since    1.0.0
 	 * @version  3.18.0

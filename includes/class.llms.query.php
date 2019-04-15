@@ -87,7 +87,7 @@ class LLMS_Query {
 	}
 
 	/**
-	 * Get a taxonomy query that filters out courses & memberships based on catalog / search visibilty settings
+	 * Get a taxonomy query that filters out courses & memberships based on catalog / search visibility settings
 	 * @param    array      $query  existing taxonomy query from the global $wp_query
 	 * @return   array
 	 * @since    3.6.0

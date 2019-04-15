@@ -411,7 +411,7 @@
 
 		/**
 		 * Get a stub of the data object used by this.get_data_object
-		 * @param    string   date  date to intatniate the object with
+		 * @param    string   date  date to instantiate the object with
 		 * @return   obj
 		 * @since    3.0.0
 		 * @version  3.0.0

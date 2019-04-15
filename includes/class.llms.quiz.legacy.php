@@ -165,7 +165,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get Grade
-	 * Multiply total points earned by total point wieght
+	 * Multiply total points earned by total point weight
 	 *
 	 * @param  int $points [total points earned]
 	 * @return int [numeric representation of grade percentage]
@@ -257,7 +257,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get total time spent on quiz
-	 * Subtract starttime from endtime
+	 * Subtract start time from end time
 	 *
 	 * @param  int $user_id [ID of user]
 	 * @param  string $unique_id [wpnonce of quiz submit]
@@ -400,7 +400,7 @@ class LLMS_Quiz_Legacy {
 
 			$total_attempts_remaining = ( $attempts_allowed - $attempts );
 
-			// don't show negative attmepts
+			// don't show negative attempts
 			if ( $total_attempts_remaining < 0 ) {
 
 				$total_attempts_remaining = 0;

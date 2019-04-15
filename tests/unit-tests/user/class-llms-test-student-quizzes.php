@@ -19,7 +19,7 @@ class LLMS_Test_Student_Quizzes extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test delet_attempt method
+	 * test delete_attempt method
 	 * @return   void
 	 * @since    3.9.0
 	 * @version  3.16.11

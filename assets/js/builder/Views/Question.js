@@ -168,7 +168,7 @@ define( [
 
 		/**
 		 * Recursive clone function which will correctly clone children of a question
-		 * @param    obj   question  queston model
+		 * @param    obj   question  question model
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -186,7 +186,7 @@ define( [
 			// set the question type ID
 			clone.question_type = question.get( 'question_type' ).get( 'id' );
 
-			// clone the image attributes seperately
+			// clone the image attributes separately
 			clone.image = _.clone( question.get( 'image' ).attributes );
 
 			// if it has choices clone all the choices

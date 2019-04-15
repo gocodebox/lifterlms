@@ -27,7 +27,7 @@ class LLMS_HTTPS {
 	}
 
 	/**
-	 * Redircet to https checkout page is force is enabled
+	 * Redirect to https checkout page is force is enabled
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.10.0

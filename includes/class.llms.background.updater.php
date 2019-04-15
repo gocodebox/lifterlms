@@ -74,7 +74,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 	}
 
 	/**
-	 * Retrieve appoximate progess of updates in the queue
+	 * Retrieve approximate progress of updates in the queue
 	 * @return   int
 	 * @since    3.4.3
 	 * @version  3.16.10

@@ -129,7 +129,7 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.24.0

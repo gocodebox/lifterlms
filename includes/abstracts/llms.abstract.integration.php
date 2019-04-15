@@ -40,7 +40,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Integration Priority
-	 * Detemines the order of the settings on the Integrations settings table
+	 * Determines the order of the settings on the Integrations settings table
 	 * Don't be arrogant developers, your integration may not be the most important to the user
 	 * even if it is the most important to you
 	 *
@@ -159,7 +159,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Detemine if the integration had been enabled via checkbox
+	 * Determine if the integration had been enabled via checkbox
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.8.0

@@ -78,7 +78,7 @@ class LLMS_Notification_Controller_Enrollment extends LLMS_Abstract_Notification
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0

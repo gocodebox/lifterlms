@@ -47,7 +47,7 @@ class LLMS_Quiz_Attempt_Question {
 
 		if ( $this->get( 'points' ) >= 1 ) {
 
-			// the question is auto-gradeable so it cannot be manually graded
+			// the question is auto-gradable so it cannot be manually graded
 			if ( $question->get_auto_grade_type() ) {
 				return false;
 			} elseif ( $question->supports( 'grading', 'manual' ) || $question->supports( 'grading', 'conditional' ) ) {
@@ -75,7 +75,7 @@ class LLMS_Quiz_Attempt_Question {
 	}
 
 	/**
-	 * Retrieve anwser HTML for the question answers
+	 * Retrieve answer HTML for the question answers
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.15
@@ -137,7 +137,7 @@ class LLMS_Quiz_Attempt_Question {
 	}
 
 	/**
-	 * Retrieve anwser HTML for the question correct answers
+	 * Retrieve answer HTML for the question correct answers
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.15
@@ -277,7 +277,7 @@ class LLMS_Quiz_Attempt_Question {
 	}
 
 	/**
-	 * Detemrine if a question is correct
+	 * Determine if a question is correct
 	 * @return   bool
 	 * @since    3.16.8
 	 * @version  3.16.8

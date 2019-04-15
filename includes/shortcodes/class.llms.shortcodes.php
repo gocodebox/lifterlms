@@ -442,7 +442,7 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * Output user statstics related to courses enrolled, completed, etc...
+	 * Output user statistics related to courses enrolled, completed, etc...
 	 * @param  [array] $atts / array of user input attributes
 	 * @return string / html content
 	 */
@@ -517,7 +517,7 @@ class LLMS_Shortcodes {
 
 		$ret = '';
 
-		// get produt id from loop if used from within a course or membership
+		// get product id from loop if used from within a course or membership
 		if ( ! $atts['product'] ) {
 			$id = get_the_ID();
 			if ( in_array( get_post_type( $id ), array( 'course', 'llms_membership' ) ) ) {
@@ -527,7 +527,7 @@ class LLMS_Shortcodes {
 
 		if ( ! empty( $atts['product'] ) && is_numeric( $atts['product'] ) ) {
 
-			// enqueue match height for heigth alignments
+			// enqueue match height for height alignments
 			self::enqueue_script( 'llms-jquery-matchheight' );
 
 			ob_start();

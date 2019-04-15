@@ -144,7 +144,7 @@ class LLMS_Post_Types {
 	}
 
 	/**
-	 * Get an array of capabilities for a custom posty type
+	 * Get an array of capabilities for a custom post type
 	 * @note     core bug does not allow us to use capability_type in post type registration
 	 *           https://core.trac.wordpress.org/ticket/30991
 	 * @param    [type]     $post_type  [description]
@@ -897,7 +897,7 @@ class LLMS_Post_Types {
 					'publicly_queryable' 	=> false,
 					'exclude_from_search' 	=> true,
 					/**
-					 * Making this post type hierachical prevents a conflict
+					 * Making this post type hierarchical prevents a conflict
 					 * with the Redirection plugin (https://wordpress.org/plugins/redirection/)
 					 * When 301 monitoring is turned on, Redirection creates access plans
 					 * for each access plan that redirect the course or membership

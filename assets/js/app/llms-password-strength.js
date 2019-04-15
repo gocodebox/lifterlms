@@ -164,7 +164,7 @@ $.extend( LLMS.PasswordStrength, {
 
 	/**
 	 * Retrieve current strength as a number, a slug, or a translated text string
-	 * @param    string   format  derifed return format [int|slug|text] defaults to int
+	 * @param    string   format  derived return format [int|slug|text] defaults to int
 	 * @return   mixed
 	 * @since    3.0.0
 	 * @version  3.0.0

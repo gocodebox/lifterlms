@@ -433,14 +433,14 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	public function get_date( $key, $format = null ) {
 		$format = ( ! $format ) ? $this->get_date_format() : $format;
 		$raw = $this->get( $key );
-		// only conver the date if we actually have something stored, otherwise we'll return the current date, which we probably aren't expecting
+		// only convert the date if we actually have something stored, otherwise we'll return the current date, which we probably aren't expecting
 		$date = $raw ? date_i18n( $format, strtotime( $raw ) ) : '';
 		return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_date', $date, $this );
 	}
 
 	/**
 	 * Retrieve the default date format for the post model
-	 * This *can* be overriden by child classes if the post type requires a different default date format
+	 * This *can* be overridden by child classes if the post type requires a different default date format
 	 * If no format is supplied by the child class, the default WP date & time formats available
 	 * via General Settings will be combined and used
 	 * @return string
@@ -931,10 +931,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Any property returned by $this->get_properties() will be retrieved
 	 * via $this->get() and added to the array
 	 *
-	 * Extending classes can add additonal properties to the array
+	 * Extending classes can add additional properties to the array
 	 * by overriding $this->toArrayAfter()
 	 *
-	 * This function is also utilzied to serialize the object to json
+	 * This function is also utilized to serialize the object to json
 	 *
 	 * @return   array
 	 * @since    3.3.0
@@ -982,7 +982,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// add custom fields
 		$arr = $this->toArrayCustom( $arr );
 
-		// allow extending classes to add properties easily without overridding the class
+		// allow extending classes to add properties easily without overriding the class
 		$arr = $this->toArrayAfter( $arr );
 
 		$cpt_data = $this->get_post_type_data();

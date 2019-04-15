@@ -1,6 +1,6 @@
 <?php
 /**
-* Engagments Class
+* Engagements Class
 * Finds and triggers the appropriate engagement
 * @since    2.3.0
 * @version  3.13.1
@@ -299,7 +299,7 @@ class LLMS_Engagements {
 				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
 			break;
 
-			// allow extensions to hook into our engagments
+			// allow extensions to hook into our engagements
 			default :
 				extract( apply_filters( 'lifterlms_external_engagement_query_arguments' , array(
 					'related_post_id' => null,
@@ -360,7 +360,7 @@ class LLMS_Engagements {
 
 					break;
 
-					// allow extensions to hook into our engagments
+					// allow extensions to hook into our engagements
 					default :
 
 						extract( apply_filters( 'lifterlms_external_engagement_handler_arguments' , array(
@@ -401,7 +401,7 @@ class LLMS_Engagements {
 
 
 	/**
-	 * Retreive engagements based on the trigger type
+	 * Retrieve engagements based on the trigger type
 	 *
 	 * Joins rather than nested loops and sub queries ftw
 	 *
@@ -412,8 +412,8 @@ class LLMS_Engagements {
 	 *         				[engagement_id] => 123, // WordPress Post ID of the event post (email, certificate, achievement, etc...)
 	 *         		  		[trigger_id]    => 123, // this is the Post ID of the llms_engagement post
 	 *         			    [trigger_event] => 'user_registration', // triggering action
-	 *         			    [event_type]    => 'certificate', // engagment event action
-	 *         			    [delay]         => 0, // time in days to delay the engagment
+	 *         			    [event_type]    => 'certificate', // engagement event action
+	 *         			    [delay]         => 0, // time in days to delay the engagement
 	 *         		     )
 	 *         		)
 	 *

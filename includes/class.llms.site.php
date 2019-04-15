@@ -82,7 +82,7 @@ class LLMS_Site {
 	}
 
 	/**
-	 * Get a list of automated features that it migth be useful
+	 * Get a list of automated features that it might be useful
 	 * to disable on testing or staging environments
 	 * @todo  need to add engagement email support here
 	 * @return   array

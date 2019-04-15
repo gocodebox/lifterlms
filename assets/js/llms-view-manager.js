@@ -75,7 +75,7 @@
 
 	};
 
-	// initalize the object
+	// initialize the object
 	window.llms.ViewManager = new ViewManager();
 
 } )( jQuery );

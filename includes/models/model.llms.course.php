@@ -7,8 +7,8 @@
  * @version  3.24.0
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
- * @property $average_grade  (float)  Calulated value of the overall average grade of all *enrolled* students in the course.
- * @property $average_progress  (float)  Calulated value of the overall average progress of all *enrolled* students in the course.
+ * @property $average_grade  (float)  Calculated value of the overall average grade of all *enrolled* students in the course.
+ * @property $average_progress  (float)  Calculated value of the overall average progress of all *enrolled* students in the course.
  * @property $capacity  (int)  Number of students who can be enrolled in the course before enrollment closes
  * @property $capacity_message  (string)  Message displayed when capacity has been reached
  * @property $content_restricted_message  (string)  Message displayed when non-enrolled visitors try to access lessons/quizzes directly
@@ -17,8 +17,8 @@
  * @property $enable_capacity  (string)  Whether capacity restrictions are enabled [yes|no]
  * @property $enrollment_closed_message  (string)  Message displayed to non-enrolled visitors when the course is accessed after the Enrollment End Date has passed. Only applicable when $enrollment_period is 'yes'
  * @property $enrollment_end_date   (string)  After this date, registration closes
- * @property $enrollment_opens_message  (string)  Message displayed to non-enrolled visitorswhen the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'
- * @property $enrollment_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
+ * @property $enrollment_opens_message  (string)  Message displayed to non-enrolled visitors when the course is accessed before the Enrollment Start Date has passed. Only applicable when $enrollment_period is 'yes'
+ * @property $enrollment_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned)
  * @property $enrollment_start_date  (string)  Before this date, registration is closed
  * @property $end_date   (string)  Date when a course closes. Students may no longer view content or complete lessons / quizzes after this date.
  * @property $has_prerequisite   (string)  Determine if prerequisites are enabled [yes|no]
@@ -29,9 +29,9 @@
  * @property sales_page_content_type  (string)  Sales page behavior [none,content,page,url]
  * @property sales_page_content_url  (string)  Redirect URL for a sales page, when $sales_page_content_type is 'url'
  * @property $start_date  (string)  Date when a course is opens. Students may register before this date but can only view content and complete lessons or quizzes after this date.
- * @property $length  (string)  User defined coure length
+ * @property $length  (string)  User defined course length
  * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
- * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be retruned)
+ * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned)
  * @property $video_embed  (string)  URL to an oEmbed enable video URL
  */
 
@@ -111,7 +111,7 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Get course's prerequisite id based on the type of prerequsite
+	 * Get course's prerequisite id based on the type of prerequisite
 	 * @param    string     $type  Type of prereq to retrieve id for [course|track]
 	 * @return   int|false         Post ID of a course, taxonomy ID of a track, or false if none found
 	 * @since    3.0.0
@@ -166,7 +166,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get Difficulty
-	 * @param    string   $field  which field to return from the availble term fields
+	 * @param    string   $field  which field to return from the available term fields
 	 *                            any public variables from a WP_Term object are acceptable
 	 *                            term_id, name, slug, and more
 	 * @return   string
@@ -453,7 +453,7 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Determine if the course is at capacity based on course capacity serttings
+	 * Determine if the course is at capacity based on course capacity settings
 	 * @return   boolean    true if not at capacity, false if at or over capacity
 	 * @since    3.0.0
 	 * @version  3.15.0
@@ -507,7 +507,7 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Determine if sales page rediriction is enabled
+	 * Determine if sales page redirection is enabled
 	 * @return   string
 	 * @since    3.20.0
 	 * @version  3.23.0
@@ -570,7 +570,7 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Determine if a prerequesite is completed for a student
+	 * Determine if a prerequisite is completed for a student
 	 * @param    string     $type  type of prereq [course|track]
 	 * @return   boolean
 	 * @since    3.0.0
@@ -615,7 +615,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Add data to the course model when converted to array
-	 * Called before data is sorted and retuned by $this->jsonSerialize()
+	 * Called before data is sorted and returned by $this->jsonSerialize()
 	 * @param    array     $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0

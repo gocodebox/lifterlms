@@ -211,7 +211,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		// should be a comment
 		$this->assertTrue( is_a( $note, 'WP_Comment' ) );
 
-		// comment content should be our orignal note
+		// comment content should be our original note
 		$this->assertEquals( $note->comment_content, $note_text );
 		// author should be the system (LifterLMS)
 		$this->assertEquals( $note->comment_author, 'LifterLMS' );
@@ -252,7 +252,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the can_resubcribe() method
+	 * Test the can_resubscribe() method
 	 * @return   [type]
 	 * @since    3.19.0
 	 * @version  3.19.0
@@ -309,7 +309,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'access_expiration', 'lifetime' );
 		$this->assertEquals( 'Lifetime Access', $this->obj->get_access_expiration_date() );
 
-		// expires on a specific datae
+		// expires on a specific date
 		$this->obj->set( 'access_expiration', 'limited-date' );
 		$this->obj->set( 'access_expires', '12/01/2020' ); // m/d/Y format (from datepicker)
 		$this->assertEquals( '2020-12-01', $this->obj->get_access_expiration_date() );
@@ -774,7 +774,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	public function test_maybe_schedule_expiration() {
 
-		// recurring order with lifetime access won't schedule expiratin
+		// recurring order with lifetime access won't schedule expiration
 		$order = $this->get_mock_order();
 
 		$order->set_status( 'llms-active' );

@@ -19,7 +19,7 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 	public $tag = 'lifterlms_bbp_course_forums';
 
 	/**
-	 * Retrive the forum ids associated with the course
+	 * Retrieve the forum ids associated with the course
 	 * @return   array
 	 * @since    3.12.0
 	 * @version  3.12.1

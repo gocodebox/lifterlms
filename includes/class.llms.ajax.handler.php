@@ -41,7 +41,7 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Add or remove a student from a course or memberhip
+	 * Add or remove a student from a course or membership
 	 * @since    3.0.0
 	 * @version  3.4.0
 	 */
@@ -87,7 +87,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Queue a table export event
-	 * @param    array     $request  post data ($_REQUST)
+	 * @param    array     $request  post data ($_REQUEST)
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.28.1
@@ -115,7 +115,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Reload admin tables
-	 * @param    array     $request  post data ($_REQUST)
+	 * @param    array     $request  post data ($_REQUEST)
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -482,7 +482,7 @@ class LLMS_AJAX_Handler {
 	 * Start a Quiz Attempt
 	 * @param    array     $request  $_POST data
 	 *                               required:
-	 *                               	(string) attemptkey
+	 *                               	(string) attempt_key
 	 *                               or
 	 *                               	(int) quiz_id
 	 *                               	(int) lesson_id
@@ -578,7 +578,7 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
-		// record the answe
+		// record the answer
 		$attempt->answer_question( $question_id, $answer );
 
 		// get the next question
@@ -777,7 +777,7 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Add or remove a student from a course or memberhip
+	 * Add or remove a student from a course or membership
 	 * @since    3.0.0
 	 * @version  3.4.0
 	 */

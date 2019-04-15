@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS Unit Test Case Base clase
+ * LifterLMS Unit Test Case Base class
  * @since    3.3.1
  * @version  3.24.0
  */
@@ -41,7 +41,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Setup reuqest data to mock post/get and request data
+	 * Setup request data to mock post/get and request data
 	 * @param    array      $vars  mock request data
 	 * @return   void
 	 * @since    3.19.4

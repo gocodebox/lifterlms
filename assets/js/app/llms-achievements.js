@@ -61,7 +61,7 @@ LLMS.Achievements = {
 	},
 
 	/**
-	 * Creates modal a modal for an achiemvement
+	 * Creates modal a modal for an achievement
 	 * @param    obj   $el  jQuery selector for the modal card
 	 * @return   void
 	 * @since    3.14.0

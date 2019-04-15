@@ -698,7 +698,7 @@ class LLMS_Admin_Settings {
 	/**
 	 * Setup a field's tooltip and description based on supplied values
 	 * @param    array  $field  associative array of field data
-	 * @return   array          associatve array containing field description and tooltip HTML
+	 * @return   array          associative array containing field description and tooltip HTML
 	 * @since    1.4.5
 	 * @version  3.24.0
 	 */

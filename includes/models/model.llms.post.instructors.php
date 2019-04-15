@@ -102,7 +102,7 @@ class LLMS_Post_Instructors {
 	public function pre_set_instructors( $instructors = array() ) {
 
 		// we cannot allow no instructors to exist...
-		// so we'll revert to the devault current post_author
+		// so we'll revert to the default current post_author
 		if ( ! $instructors ) {
 
 			// clear so the getter will retrieve the default author

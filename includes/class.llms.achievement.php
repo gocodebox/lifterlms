@@ -16,7 +16,7 @@ class LLMS_Achievement {
 
 	function __construct() {
 
-		// Settings TODO Refoactor: theses can come from the achievement post now
+		// Settings TODO Refactor: theses can come from the achievement post now
 		$this->enabled   		= get_option( 'enabled' );
 
 		$this->find = array( '{blogname}', '{site_title}' );
@@ -78,14 +78,14 @@ class LLMS_Achievement {
 	/**
 	 * Generate HTML output of achievement
 	 * Converts merge fields to raw data sources and wraps content in HTML
-	 * then saves new achivement post and updates user_postmeta table.
+	 * then saves new achievement post and updates user_postmeta table.
 	 * @return   void
 	 * @since    1.0.0
 	 */
 	function get_content_html() {}
 
 	/**
-	 * Create the achivement
+	 * Create the achievement
 	 * @param    string    $content  achievement body content
 	 * @return   void
 	 * @since    1.0.0

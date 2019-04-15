@@ -208,7 +208,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve the prepared SQL for the ORDER clase
+	 * Retrieve the prepared SQL for the ORDER clause
 	 * Slightly modified from abstract to include the table name to prevent ambiguous errors
 	 * @return   string
 	 * @since    3.9.2

@@ -30,7 +30,7 @@ define( [
 		},
 
 		/**
-		 * Element classnames
+		 * Element class names
 		 * @type  {String}
 		 */
 		className: 'llms-builder-item llms-section',
@@ -97,7 +97,7 @@ define( [
 
 		/**
 		 * Render the section
-		 * Initalizes a new collection and views for all lessons in the section
+		 * Initializes a new collection and views for all lessons in the section
 		 * @return   void
 		 * @since    3.13.0
 		 * @version  3.16.0

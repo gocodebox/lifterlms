@@ -36,7 +36,7 @@ class LLMS_PlayNice {
 	 * The live editor for OptimizePress does not work because it is trying to load a frontend environment
 	 * in the admin area and needs access lifterlms frontend files.
 	 *
-	 * This function loads all frontend files when the optimizepress live editor is initalized.
+	 * This function loads all frontend files when the optimizepress live editor is initialized.
 	 *
 	 * @return   void
 	 * @since    3.2.2
@@ -48,7 +48,7 @@ class LLMS_PlayNice {
 		include_once( 'class.llms.ajax.php' );
 		include_once( 'class.llms.ajax.handler.php' );
 
-		// These files are all necesarry to get the liveeditor to open
+		// These files are all necessary to get the liveeditor to open
 		include_once( 'llms.template.functions.php' );
 		include_once 'class.llms.https.php';
 
