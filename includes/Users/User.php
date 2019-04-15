@@ -1,9 +1,12 @@
 <?php
 // @codingStandardsIgnoreFile
+/**
+ * @deprecated [version]
+ */
 namespace LLMS\Users;
 
-class User
-{
+class User {
+
 	/**
 	 * @var string
 	 * @since 1.3.0
