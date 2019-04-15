@@ -1,0 +1,90 @@
+[
+  {
+    "name": "duplicate",
+    "color": "#cfcfcf"
+  },
+  {
+    "name": "good first issue",
+    "color": "#2cbf18"
+  },
+  {
+    "name": "hacktoberfest",
+    "color": "#dbed8e"
+  },
+  {
+    "name": "help wanted",
+    "color": "#159818"
+  },
+  {
+    "name": "invalid",
+    "color": "#cccccc"
+  },
+  {
+    "name": "language: js",
+    "color": "#e5aa70"
+  },
+  {
+    "name": "language: php",
+    "color": "#e5aa70"
+  },
+  {
+    "name": "language: scss",
+    "color": "#e5aa70"
+  },
+  {
+    "name": "language: sql",
+    "color": "#e5aa70"
+  },
+  {
+    "name": "notes/docs",
+    "color": "#f9f9f9"
+  },
+  {
+    "name": "status: assigned",
+    "color": "#25c5ed"
+  },
+  {
+    "name": "status: can't recreate",
+    "color": "#67f7f0"
+  },
+  {
+    "name": "status: changes requested",
+    "color": "#9fe3ea"
+  },
+  {
+    "name": "status: has-pr",
+    "color": "#007acc"
+  },
+  {
+    "name": "status: need information",
+    "color": "#a0b7ef"
+  },
+  {
+    "name": "type: bug",
+    "color": "#fc2929"
+  },
+  {
+    "name": "type: documentation",
+    "color": "#f2736f"
+  },
+  {
+    "name": "type: enhancement",
+    "color": "#cc3d52"
+  },
+  {
+    "name": "type: feature request",
+    "color": "#c45733"
+  },
+  {
+    "name": "type: marketing",
+    "color": "#ef215b"
+  },
+  {
+    "name": "type: question",
+    "color": "#d15134"
+  },
+  {
+    "name": "wontfix",
+    "color": "#cccccc"
+  }
+]
