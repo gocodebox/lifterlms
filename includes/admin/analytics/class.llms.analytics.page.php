@@ -1,12 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
 * Admin analytics Page Base Class
 *
-* @author codeBOX
-* @project lifterLMS
+* @deprecated [version]
 */
+
+if ( ! defined( 'ABSPATH' ) ) { exit; }
+
 class LLMS_Analytics_Page {
 
 	/**

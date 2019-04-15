@@ -16,7 +16,11 @@ v3.30.3 - 2019-04-??
 
 ##### Deprecations
 
-+ The unused class `LLMS\Users\User` has been marked as deprecated.
+The following unused classes have been marked as deprecated and will be removed from LifterLMS in the next major release.
+
++ `LLMS\Users\User`
++ `LLMS_Analytics_Page`
++
 
 
 v3.30.2 - 2019-04-09
