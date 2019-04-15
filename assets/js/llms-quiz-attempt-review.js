@@ -37,6 +37,10 @@
 
 			$els = $( '.llms-quiz-attempt-question:not(.type--content)' );
 
+			if ( $els.length < 1 ) {
+				return;
+			}
+
 			var title = LLMS.l10n.translate( 'Remarks to Student' ),
 				points = LLMS.l10n.translate( 'points' );
 
@@ -70,9 +74,13 @@
 
 			} );
 
-
-			$els.first().find( '.toggle-answer' ).trigger( 'click' );
-
+			var $els_first = $els.first();
+			if ( ! $els_first.find( '.llms-quiz-attempt-question-main' ).is( ':visible' ) ) {
+				// expand the first question toggle.
+				$els_first.find( '.toggle-answer' ).trigger( 'click' );
+			}
+			// focus on its remark textarea.
+			$els_first.find( '.llms-remarks-field' ).focus();
 		}
 
 		bind();
