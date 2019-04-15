@@ -182,7 +182,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Confirm Payment', 'lifterlms' ),
-				'desc' => '<br>' . __( 'Payment confirmation endpont slug', 'lifterlms' ),
+				'desc' => '<br>' . __( 'Payment confirmation endpoint slug', 'lifterlms' ),
 				'id' => 'lifterlms_myaccount_confirm_payment_endpoint',
 				'type' => 'text',
 				'default' => 'confirm-payment',

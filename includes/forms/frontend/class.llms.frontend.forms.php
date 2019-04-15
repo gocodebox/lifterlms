@@ -122,7 +122,7 @@ class LLMS_Frontend_Forms {
 
 			} else {
 
-				llms_add_notice( __( 'Voucher redeemed sucessfully!', 'lifterlms' ), 'success' );
+				llms_add_notice( __( 'Voucher redeemed successfully!', 'lifterlms' ), 'success' );
 
 			}
 		}

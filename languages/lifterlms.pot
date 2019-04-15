@@ -33,7 +33,7 @@ msgid "There was a problem deleting your access plan, please try again."
 msgstr ""
 
 #: includes/class.llms.ajax.handler.php:164
-msgid "Missing required paramters"
+msgid "Missing required parameters"
 msgstr ""
 
 #: includes/class.llms.ajax.handler.php:269
@@ -631,7 +631,7 @@ msgid "After deleting this access plan, any students subscribed to this plan wil
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:403
-msgid "An error was encounterd during the save attempt. Please try again."
+msgid "An error was encountered during the save attempt. Please try again."
 msgstr ""
 
 #: includes/class.llms.l10n.js.php:411
@@ -2803,7 +2803,7 @@ msgid "Course Author"
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:273
-msgid "Enter additional email addresses which will recieve this notification. Separate multiple addresses with commas."
+msgid "Enter additional email addresses which will receive this notification. Separate multiple addresses with commas."
 msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:274
@@ -3424,7 +3424,7 @@ msgid "Student Dashboard"
 msgstr ""
 
 #: includes/admin/class.llms.admin.setup.wizard.php:335, includes/admin/settings/class.llms.settings.accounts.php:63
-msgid "Page where students can view and manage their current enrollments, earned certificates and acheivements, account information, and purchase history."
+msgid "Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history."
 msgstr ""
 
 #: includes/admin/class.llms.admin.setup.wizard.php:339
@@ -3708,7 +3708,7 @@ msgstr ""
 
 #. translators: %s = supplied visibility setting.
 #: includes/functions/llms-functions-access-plans.php:159
-msgid "Invalid access plan visibilty: \"%s\""
+msgid "Invalid access plan visibility: \"%s\""
 msgstr ""
 
 #. translators: %1$s = plan period key name; %2$s = the invalid period.
@@ -3732,7 +3732,7 @@ msgid "Invalid checkout redirect URL: \"%s\""
 msgstr ""
 
 #: includes/functions/llms-functions-access-plans.php:191
-msgid "An error was encounterd while creating the access plan"
+msgid "An error was encountered while creating the access plan"
 msgstr ""
 
 #: includes/functions/llms-functions-access-plans.php:232
@@ -5588,7 +5588,7 @@ msgid "bbPress"
 msgstr ""
 
 #: includes/integrations/class.llms.integration.bbpress.php:34
-msgid "Restrict forums and topics to memberships, add fourms to courses, and %1$smore%2$s."
+msgid "Restrict forums and topics to memberships, add forums to courses, and %1$smore%2$s."
 msgstr ""
 
 #: includes/integrations/class.llms.integration.bbpress.php:111
@@ -5948,7 +5948,7 @@ msgid "Order cancelled during personal data erasure."
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-erasers.php:160
-msgid "Peronsal data removed during personal data erasure."
+msgid "Personal data removed during personal data erasure."
 msgstr ""
 
 #. translators: %s Prop name.
@@ -5994,11 +5994,11 @@ msgid "%s Title"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:174
-msgid "Enrollement Status"
+msgid "Enrollment Status"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:179
-msgid "Enrollement Date"
+msgid "Enrollment Date"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:186, templates/myaccount/my-grades-single.php:39, templates/admin/reporting/tabs/students/courses-course.php:59
@@ -7309,7 +7309,7 @@ msgid "Page used for displaying the checkout form."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:185
-msgid "Payment confirmation endpont slug"
+msgid "Payment confirmation endpoint slug"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:194
@@ -7762,7 +7762,7 @@ msgid "Passwords do not match."
 msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.forms.php:125
-msgid "Voucher redeemed sucessfully!"
+msgid "Voucher redeemed successfully!"
 msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.password.php:34
@@ -7874,19 +7874,19 @@ msgid "Subscription Cancellation Notice"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:78
-msgid "Achievment Content"
+msgid "Achievement Content"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:79
-msgid "Achievment Image"
+msgid "Achievement Image"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:80
-msgid "Achievment Image URL"
+msgid "Achievement Image URL"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:81
-msgid "Achievment Title"
+msgid "Achievement Title"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:106
@@ -9023,7 +9023,7 @@ msgid "Date Available"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:151
-msgid "Optionally enter a time when the lesson should become available. If no time supplied, leson will be available at 12:00 AM. Format must be HH:MM AM"
+msgid "Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:153
@@ -9039,7 +9039,7 @@ msgid "Require Passing Grade"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:44
-msgid "No automatic enrollment couses found. Add a course below."
+msgid "No automatic enrollment courses found. Add a course below."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:106
@@ -10000,11 +10000,11 @@ msgid "Enrolled students only"
 msgstr ""
 
 #: includes/admin/views/builder/lesson.php:135
-msgid "No prerequsite"
+msgid "No prerequisite"
 msgstr ""
 
 #: includes/admin/views/builder/lesson.php:136
-msgid "Prerequsite Enabled"
+msgid "Prerequisite Enabled"
 msgstr ""
 
 #: includes/admin/views/builder/lesson.php:144
@@ -10374,7 +10374,7 @@ msgid "Course Information"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-blocks/includes/blocks/class-llms-blocks-instructors-block.php:76
-msgid "No visibile instructors were found."
+msgid "No visible instructors were found."
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-blocks/includes/blocks/class-llms-blocks-pricing-table-block.php:83

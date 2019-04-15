@@ -148,7 +148,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 						'controller' => '#' . $this->prefix . 'drip_method',
 						'controller_value' => 'date',
 						'class' => '',
-						'desc' => __( 'Optionally enter a time when the lesson should become available. If no time supplied, leson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
+						'desc' => __( 'Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM', 'lifterlms' ),
 						'id' => $this->prefix . 'time_available',
 						'label' => __( 'Time Available', 'lifterlms' ),
 						'type' => 'text',

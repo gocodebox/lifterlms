@@ -41,7 +41,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 		$data = array();
 		$data[] = array(
 			'',
-			'<br>' . __( 'No automatic enrollment couses found. Add a course below.', 'lifterlms' ) . '<br><br>',
+			'<br>' . __( 'No automatic enrollment courses found. Add a course below.', 'lifterlms' ) . '<br><br>',
 			'',
 		);
 

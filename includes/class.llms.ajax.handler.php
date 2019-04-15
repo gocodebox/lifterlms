@@ -161,7 +161,7 @@ class LLMS_AJAX_Handler {
 
 			return array(
 				'data' => array(),
-				'message' => __( 'Missing required paramters', 'lifterlms' ),
+				'message' => __( 'Missing required parameters', 'lifterlms' ),
 				'success' => false,
 			);
 
