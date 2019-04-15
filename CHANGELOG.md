@@ -4,7 +4,8 @@ LifterLMS Changelog
 v3.30.3 - 2019-04-??
 --------------------
 
-+ Improved the quiz attempt grading experience by automatically focusing on the remarks field and only toggling the first answer if it's not visible, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ Improved the quiz attempt grading experience by automatically focusing the remarks field and only toggling the first answer if it's not visible, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ Fixed an undefined variable notice encountered when filtering quiz attempts on the quiz attempts reporting screen, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
 + Fixed an issue causing slashes to appear before quotation marks when saving remarks on a quiz attempt, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
 + @[pondermatic](https://github.com/pondermatic) fixed typos and mispellings in comment and docs on 225 files and while that doesn't concern most users it's worthy of a mention.
 
