@@ -20,7 +20,7 @@ The following unused classes have been marked as deprecated and will be removed 
 
 + `LLMS\Users\User`
 + `LLMS_Analytics_Page`
-+
++ `LLMS_Course_Basic`
 
 
 v3.30.2 - 2019-04-09
