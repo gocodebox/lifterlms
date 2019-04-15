@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Lesson Complete
+ *
+ * @since 3.8.0
+ * @version 3.8.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Lesson Complete
- * @since    3.8.0
- * @version  3.8.0
+ *
+ * @since 3.8.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notification_Controller {
 

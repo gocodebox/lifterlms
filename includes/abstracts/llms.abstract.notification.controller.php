@@ -1,10 +1,18 @@
 <?php
+/**
+ * Notification Controller Abstract
+ *
+ * @since 3.8.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller Abstract
- * @since    3.8.0
- * @version  3.24.0
+ *
+ * @since 3.8.0
+ * @since [version] Explicitly define undefined properties.
  */
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 

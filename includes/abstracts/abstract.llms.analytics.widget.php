@@ -1,13 +1,19 @@
 <?php
 /**
+ * Analytics Widget Abstract
+ *
+ * @since 3.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
 * Analytics Widget Abstract
 *
-* @since   3.0.0
-* @version 3.0.0
+* @since 3.0.0
+* @since [version] Define undefined properties.
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Analytics_Widget {
 
 	/**

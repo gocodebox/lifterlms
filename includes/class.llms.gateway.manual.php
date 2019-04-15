@@ -1,11 +1,19 @@
 <?php
 /**
-* Manual Payment Gateway Class
-*
-* @since   3.0.0
-* @version 3.10.0
-*/
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+ * Manual Payment Gateway Class
+ *
+ * @since 3.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Manual Payment Gateway Class
+ *
+ * @since 3.0.0
+ * @since [version] Explicitly define class properties.
+ */
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**

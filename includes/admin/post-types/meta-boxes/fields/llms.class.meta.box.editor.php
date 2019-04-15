@@ -1,9 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * WP Editor metabox field
+ *
+ * @since Unknown
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
-*
-*/
+ * WP Editor metabox field
+ *
+ * @since Unknown
+ * @since [version] Explicitly define class properties.
+ */
 class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**

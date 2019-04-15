@@ -2,18 +2,23 @@
 /**
  * Admin Table Export Functions
  *
- * @since   3.28.0
- * @version 3.28.1
+ * @since 3.28.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_Table abstract.
+ *
+ * @since 3.28.0
+ * @since [version] Explicitly define undefined properties.
  */
 abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
+	 * The current page.
+	 *
 	 * @var int
 	 * @since 3.28.0
 	 */
@@ -21,6 +26,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Unique ID for the table
+	 *
 	 * @var  string
 	 * @since 3.28.0
 	 */

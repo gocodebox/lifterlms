@@ -2,15 +2,19 @@
 /**
  * Certificates
  *
- * @see      LLMS()->certificates()
- * @since    1.0.0
- * @version  3.24.3
+ * @see LLMS()->certificates()
+ *
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Certificates class
+ *
+ * @since 1.0.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Certificates {
 

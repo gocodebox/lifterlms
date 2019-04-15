@@ -1,11 +1,19 @@
 <?php
+/**
+ * Base Achievement Class
+ * Handles generating Achievement
+ *
+ * @since 1.0.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Base Achievement Class
- * Handles generating Achievement
- * @since    ??
- * @version  3.24.0
+ *
+ * @since 1.0.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Achievement {
 
@@ -96,7 +104,7 @@ class LLMS_Achievement {
 	/**
 	 * Checks if achievement is enabled
 	 * @return   bool
-	 * @since    ??
+	 * @since    Unknown
 	 * @version  3.24.0
 	 * @todo     returning true always. Need to build setting to disable / enable
 	 */

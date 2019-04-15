@@ -1,10 +1,18 @@
 <?php
+/**
+ * Query data about a quiz
+ *
+ * @since 3.16.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Query data about a quiz
- * @since    3.16.0
- * @version  3.24.0
+ *
+ * @since 3.16.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Quiz_Data extends LLMS_Course_Data {
 

@@ -3,18 +3,23 @@
  * LifterLMS Add-On browser
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  *
- * @since    3.5.0
- * @version  3.28.0
+ * @since 3.5.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_AddOns class.
+ *
+ * @since 3.5.0
+ * @since [version] Explicitly define undefined properties.
  */
 class LLMS_Admin_AddOns {
 
 	/**
+	 * Data from `llms_get_add_ons()`.
+	 *
 	 * @var array
 	 * @since 3.5.0
 	 */

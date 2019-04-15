@@ -1,11 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Base Certificate Class
+ *
+ * Handles generating certificates.
+ *
+ * @since 1.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Base Certificate Class
-*
-* Handles generating certificates
-*/
+ * Base Certificate Class
+ *
+ * @since 1.0.0
+ * @since [version] Explicitly define class properties.
+ */
 class LLMS_Certificate {
 
 	/**

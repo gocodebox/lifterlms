@@ -1,12 +1,20 @@
 <?php
+/**
+ * Certificate Class
+ * Generates certificate post for user, triggered from engagement.
+ *
+ * @since 1.0.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Certificate Class
- * Child Class. Extends from LLMS_Certificate.
- * Generates certificate post for user. Triggered from engagement.
- * @since    1.0.0
- * @version  3.24.0
+ * Generates certificate post for user, triggered from engagement.
+ *
+ * @since 1.0.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Certificate_User extends LLMS_Certificate {
 

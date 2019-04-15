@@ -1,11 +1,18 @@
 <?php
+/**
+ * Bulk Enrollment Class
+ *
+ * @since 3.20.0
+ * @version 3.21.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Bulk Enrollment Class
  *
- * @since   3.20.0
- * @version 3.21.0
+ * @since 3.20.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Student_Bulk_Enroll {
 

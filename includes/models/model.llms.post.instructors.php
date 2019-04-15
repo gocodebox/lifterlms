@@ -3,20 +3,24 @@
  * LLMS Post Instructors
  *
  * Allow interactions with the custom multi-author functionality
- * currently enabled for Courses and Memberships only
+ * currently enabled for Courses and Memberships only.
  *
  * Rather than instantiating this class directly
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
- * @package  LifterLMS/Models
- * @since    3.13.0
- * @version  3.28.0
+ * @package LifterLMS/Models
+ *
+ * @since 3.13.0
+ * @version 3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Post_Instructors class.
+ *
+ * @since 3.13.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Post_Instructors {
 

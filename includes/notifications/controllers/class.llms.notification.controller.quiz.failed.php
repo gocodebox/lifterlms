@@ -1,10 +1,18 @@
 <?php
+/**
+ * Notification Controller: Quiz Failed
+ *
+ * @since 3.8.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Quiz Failed
- * @since    3.8.0
- * @version  3.24.0
+ *
+ * @since 3.8.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notification_Controller {
 

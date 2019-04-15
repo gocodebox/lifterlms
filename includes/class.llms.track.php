@@ -1,12 +1,19 @@
 <?php
 /**
  * LifterLMS Course Tracks
- * @since    3.0.0
- * @version  3.8.0
+ *
+ * @since 3.0.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LifterLMS Course Tracks
+ *
+ * @since 3.0.0
+ * @since [version] Explicitly define class properties.
+ */
 class LLMS_Track {
 
 	/**

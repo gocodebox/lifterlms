@@ -1,10 +1,17 @@
 <?php
+/**
+ * Admin Settings: Notifications Tab
+ *
+ * @since 3.8.0
+ * @version [version]
+ */
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Settings: Notifications Tab
- * @since    3.8.0
- * @version  3.24.0
+ *
+ * @since 3.8.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 

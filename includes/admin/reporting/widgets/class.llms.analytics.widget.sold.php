@@ -1,16 +1,22 @@
 <?php
 /**
-* Sold Amount Widget
-*
-* Retrieves the total amount of all successful transactions
-* according to active filters
-*
-* @since  3.0.0
-* @version 3.0.0
-*/
+ * Sold Amount Widget
+ *
+ * Retrieves the total amount of all successful transactions
+ * according to active filters
+ *
+ * @since 3.0.0
+ * @version [version]
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Sold Amount Widget
+ *
+ * @since 3.0.0
+ * @since [version] Explicitly define class properties.
+ */
 class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;

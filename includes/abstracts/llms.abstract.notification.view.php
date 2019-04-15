@@ -1,14 +1,18 @@
 <?php
 /**
  * Notification View Abstract
- * @since    3.8.0
- * @version  3.28.2
+ *
+ * @since 3.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Abstract_Notification_View abstract.
+ *
+ * @since 3.8.0
+ * @since [version] Explicitly define undefined properties.
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 

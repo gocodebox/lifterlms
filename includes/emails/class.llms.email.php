@@ -3,14 +3,18 @@
  * Email Base Class
  *
  * @package  LifterLMS/Email
- * @since    1.0.0
- * @version  3.26.1
+ *
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Email Base Class
+ *
+ * @since 1.0.0
+ * @since [version] Explicitly define class properties.
  */
 class LLMS_Email {
 
