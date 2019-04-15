@@ -1,10 +1,20 @@
 <?php
+/**
+ * Abstract Database Query
+ *
+ * @package LifterLMS/Classes/Abstracts
+ *
+ * @since 3.8.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Abstract Database Query
- * @since    3.8.0
- * @version  3.24.0
+ * Abstract Database Query Class
+ *
+ * @since 3.8.0
+ * @since [version] `is_last_page()` method returns `true` when no results are found.
  */
 abstract class LLMS_Database_Query {
 
@@ -201,9 +211,11 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Determine if we're on the last page of results
-	 * @return   boolean
-	 * @since    3.8.0
-	 * @version  3.14.0
+	 *
+	 * @since 3.8.0
+	 * @since [version] Return true if there are no results.
+	 *
+	 * @return boolean
 	 */
 	public function is_last_page() {
 		return ! $this->has_results() || ( absint( $this->get( 'page' ) ) === $this->max_pages );
