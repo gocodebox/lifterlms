@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.30.3 - 2019-04-??
+--------------------
+
++ Fixed an issue causing slashes to appear before quotation marks when saving remarks on a quiz attempt, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
+
+
+
 v3.30.2 - 2019-04-09
 --------------------
 
