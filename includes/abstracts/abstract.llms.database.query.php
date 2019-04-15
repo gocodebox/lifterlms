@@ -206,7 +206,7 @@ abstract class LLMS_Database_Query {
 	 * @version  3.14.0
 	 */
 	public function is_last_page() {
-		return ( absint( $this->get( 'page' ) ) === $this->max_pages );
+		return ! $this->has_results() || ( absint( $this->get( 'page' ) ) === $this->max_pages );
 	}
 
 	/**
