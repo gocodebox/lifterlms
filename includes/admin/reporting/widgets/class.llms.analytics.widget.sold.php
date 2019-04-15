@@ -15,6 +15,20 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
 
+	/**
+	 * temporary order ids
+	 * @var array
+	 * @since 3.0.0
+	 */
+	public $temp = array();
+
+	/**
+	 * temporary query
+	 * @since 3.0.0
+	 * @var array
+	 */
+	public $temp_q = array();
+
 	protected function get_chart_data() {
 		return array(
 			'type' => 'amount', // type of field

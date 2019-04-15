@@ -15,6 +15,12 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Admin_AddOns {
 
 	/**
+	 * @var array
+	 * @since 3.5.0
+	 */
+	public $data = array();
+
+	/**
 	 * Get the current section from the query string
 	 * defaults to "all"
 	 * @return   string

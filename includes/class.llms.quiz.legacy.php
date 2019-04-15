@@ -17,6 +17,60 @@ class LLMS_Quiz_Legacy {
 	public $id;
 
 	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $llms_allowed_attempts;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $llms_passing_percent;
+
+	/**
+	 * @var LLMS_Question[]
+	 * @since
+	 */
+	public $llms_questions;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $llms_random_answers;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_correct_answer;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_options_description_right_answer;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_options_description_wrong_answer;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_results;
+
+	/**
+	 * @var string
+	 * @since 1.2.2
+	 */
+	public $llms_time_limit;
+
+	/**
 	* Post Object
 	* @access public
 	* @var array

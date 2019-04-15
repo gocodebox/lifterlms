@@ -14,6 +14,19 @@ defined( 'ABSPATH' ) || exit;
 abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
+	 * @var int
+	 * @since 3.28.0
+	 */
+	protected $current_page;
+
+	/**
+	 * Unique ID for the table
+	 * @var  string
+	 * @since 3.28.0
+	 */
+	protected $id;
+
+	/**
 	 * Is the Table Exportable?
 	 * @var  boolean
 	 */

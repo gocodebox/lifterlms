@@ -9,9 +9,67 @@ defined( 'ABSPATH' ) || exit;
 */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
-	var $user_login;
-	var $user_email;
-	var $user_pass;
+	/**
+	 * @var string|false
+	 * @since 1.0.0
+	 */
+	public $account_link;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $recipient;
+
+	/**
+	 * partial path and file name of HTML template
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $template_html;
+
+	/**
+	 * user meta fields
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $user = array();
+
+	/**
+	 * @var WP_User|false
+	 * @since 1.0.0
+	 */
+	public $user_data;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_email;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_firstname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_lastname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_login;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_pass;
 
 	/**
 	 * Constructor

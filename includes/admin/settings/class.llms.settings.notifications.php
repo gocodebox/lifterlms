@@ -9,6 +9,12 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
+	 * @var LLMS_Abstract_Notification_View
+	 * @since 3.8.0
+	 */
+	public $view;
+
+	/**
 	 * Constructor
 	 * @since    3.8.0
 	 * @version  3.24.0

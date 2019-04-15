@@ -7,6 +7,14 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Metabox_Editor_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
+	 * Array of editor arguments.
+	 * @see _WP_Editors::parse_settings()
+	 * @var array
+	 * @since 3.11.0
+	 */
+	public $settings;
+
+	/**
 	 * Class constructor
 	 * @param array $_field Array containing information about field
 	 */

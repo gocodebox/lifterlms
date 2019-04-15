@@ -9,7 +9,17 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 class LLMS_Track {
 
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
 	public $taxonomy = 'course_track';
+
+	/**
+	 * @var WP_Term
+	 * @since 3.0.0
+	 */
+	public $term;
 
 	/**
 	 * Constructor
