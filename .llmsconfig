@@ -1,6 +1,6 @@
 {
 	"build": {
-		"custom": [ "js:additional", "js:builder", "readme" ]
+		"custom": [ "js-additional", "js-builder", "readme" ]
 	},
 	"docs": {
 		"package": "LifterLMS"
@@ -44,7 +44,7 @@
 		"dest": "assets/js/"
 	},
 	"versioner": {
-		"custom": [ "versioner:readme" ],
+		"custom": [ "versioner-readme" ],
 		"scripts": false,
 		"src": [
 			"./*.php",
@@ -64,7 +64,7 @@
 	"watch": {
 		"custom": [ {
 			"glob": [ "assets/js/builder/**/*.js", "assets/js/private/**/*.js" ],
-			"tasks": [ "js:additional", "js:builder" ]
+			"tasks": [ "js-additional", "js-builder" ]
 		} ]
 	},
 	"zip": {

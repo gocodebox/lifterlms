@@ -1,6 +1,6 @@
 /**
  * -----------------------------------------------------------
- * js:builder
+ * js-builder
  * -----------------------------------------------------------
  * Compile Admin builder Javascript
  */
@@ -12,7 +12,7 @@ var   gulp              = require( 'gulp' )
 	, sourcemaps        = require( 'gulp-sourcemaps' )
 ;
 
-gulp.task( 'js:builder', function( cb ) {
+gulp.task( 'js-builder', function( cb ) {
 
 	gulp.src( 'assets/js/builder/main.js' )
 		// unminified
@@ -32,7 +32,7 @@ gulp.task( 'js:builder', function( cb ) {
 		} ).on( 'error', notify.onError( {
 			message: '<%= error.message %>',
 			sound: 'Frog',
-			title: 'js:builder error'
+			title: 'js-builder error'
 		} ) ) )
 		.pipe( rename( 'llms-builder.js' ) )
 		.pipe( sourcemaps.write('/') )
@@ -55,7 +55,7 @@ gulp.task( 'js:builder', function( cb ) {
 		} ).on( 'error', notify.onError( {
 			message: '<%= error.message %>',
 			sound: 'Frog',
-			title: 'js:builder error'
+			title: 'js-https://webce.vistacast.com/builder error'
 		} ) ) )
 		.pipe( rename( 'llms-builder.min.js' ) )
 		.pipe( sourcemaps.write('/') )
