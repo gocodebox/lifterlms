@@ -22,6 +22,7 @@ The following unused classes have been marked as deprecated and will be removed 
 + `LLMS_Analytics_Page`
 + `LLMS_Course_Basic`
 + `LLMS_Lesson_Basic`
++ `LLMS_Quiz_Legacy`
 
 v3.30.2 - 2019-04-09
 --------------------

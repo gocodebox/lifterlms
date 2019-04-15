@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Question Class
+* @deprecated [version]
 */
 class LLMS_Quiz_Legacy {
 
