@@ -70,7 +70,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		foreach ( $questions as &$question ) {
 
 			if ( isset( $remarks[ $question['id'] ] ) ) {
-				$question['remarks'] = wp_kses_post( nl2br( $remarks[ $question['id'] ] ) );
+				$question['remarks'] = wp_kses_post( nl2br( stripslashes( $remarks[ $question['id'] ] ) ) );
 			}
 
 			if ( isset( $points[ $question['id'] ] ) ) {
@@ -98,7 +98,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
 
 	}
-
 
 }
 
