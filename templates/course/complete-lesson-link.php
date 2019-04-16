@@ -12,6 +12,10 @@ defined( 'ABSPATH' ) || exit;
 
 global $post;
 
+if ( ! is_lesson() ) {
+	return;
+}
+
 $lesson = llms_get_post( $post );
 if ( ! $lesson ) {
 	return;
