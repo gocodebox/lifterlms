@@ -612,7 +612,6 @@ function get_lifterlms_currency_symbol( $currency = '' ) {
 		'LRD' => '&#36;',
 		'LSL' => 'L',
 		'LYD' => '&#x644;.&#x62f;',
-		'MAD' => '&#x62f;. &#x645;.',
 		'MAD' => '&#x62f;.&#x645;.',
 		'MDL' => 'L',
 		'MGA' => 'Ar',
