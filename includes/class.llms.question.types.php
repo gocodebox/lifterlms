@@ -52,7 +52,7 @@ class LLMS_Question_Types {
 				'order' => 20,
 				'name' => __( 'Other', 'lifterlms' ),
 			),
-			'icon' => 'question-cirlce',
+			'icon' => 'question-circle',
 			'id' => 'generic',
 			'image' => true,
 			'name' => esc_html__( 'Question', 'lifterlms' ),
