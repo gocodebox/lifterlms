@@ -147,7 +147,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		$settings[] = array(
 			'title' => __( 'Notification Settings', 'lifterlms' ),
 			'type' => 'title',
-			'id' => 'notificati_options_title',
+			'id' => 'notification_options_title',
 		);
 
 		if ( isset( $_GET['notification'] ) ) {
