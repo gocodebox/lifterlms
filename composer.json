@@ -53,7 +53,7 @@
       "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
     ],
     "phpcs": "composer run-script check-cs",
-    "check-cs": "\"vendor/bin/phpcs\" --colors --extensions=php -n lifterlms.php includes/ templates/",
+    "check-cs": "\"vendor/bin/phpcs\" --colors --extensions=php -n -p lifterlms.php includes/ templates/",
     "fix-cs": "\"vendor/bin/phpcbf\" --extensions=php -n lifterlms.php includes/ templates/",
     "tests-install": [
       "\"vendor/bin/llms-tests\" teardown llms_tests root password 127.0.0.1",
