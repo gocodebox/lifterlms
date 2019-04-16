@@ -408,7 +408,7 @@ class LLMS_Data {
 			$data['php_max_input_vars'] = ini_get( 'max_input_vars' );
 			$data['php_memory_limit'] = ini_get( 'memory_limit' );
 			$data['php_post_max_size'] = ini_get( 'post_max_size' );
-			$data['php_time_limt'] = ini_get( 'max_execution_time' );
+			$data['php_time_limit'] = ini_get( 'max_execution_time' );
 			$data['php_suhosin'] = extension_loaded( 'suhosin' ) ? 'Yes' : 'No';
 		}
 
