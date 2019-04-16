@@ -254,7 +254,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 */
 	public function toArray() {
 		return array(
-			'descrpition' => $this->get( 'description' ),
+			'description' => $this->get( 'description' ),
 			'email' => $this->get( 'user_email' ),
 			'first_name' => $this->get( 'first_name' ),
 			'id' => $this->get_id(),
