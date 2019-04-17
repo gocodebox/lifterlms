@@ -8,6 +8,7 @@
 [![CircleCI](https://circleci.com/gh/gocodebox/lifterlms/tree/master.svg?style=svg)](https://circleci.com/gh/gocodebox/lifterlms/tree/master)
 [![Code Climate](https://codeclimate.com/github/gocodebox/lifterlms/badges/gpa.svg)](https://codeclimate.com/github/gocodebox/lifterlms)
 [![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
+[![Slack](https://img.shields.io/badge/chat-on%20slack-blue.svg)](https://lifterlms.com/slack)
 [![All Contributors](https://img.shields.io/badge/all_contributors-28-orange.svg?style=flat-square)](#contributors)
 
 [LifterLMS](https://lifterlms.com), a WordPress LMS Solution: Easily create, sell, and protect engaging online courses.
