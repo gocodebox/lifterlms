@@ -232,7 +232,6 @@ Functions and class methods should be formatted as follows:
  * Description.
  *
  * @since x.x.x
- * @version x.x.x
  *
  * @see Function/method/class relied on
  * @link URL
