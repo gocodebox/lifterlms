@@ -7,6 +7,7 @@ v3.30.3 - 2019-04-??
 ##### Updates
 
 + Improved the quiz attempt grading experience by automatically focusing the remarks field and only toggling the first answer if it's not visible, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ Removed commented out code on the Student Dashboard Notifications Tab template, thanks [@tnorthcutt](https://github.com/tnorthcutt)!
 
 ##### Bug Fixes
 
@@ -23,6 +24,11 @@ The following unused classes have been marked as deprecated and will be removed 
 + `LLMS_Course_Basic`
 + `LLMS_Lesson_Basic`
 + `LLMS_Quiz_Legacy`
+
+##### Template Updates
+
++ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
+
 
 v3.30.2 - 2019-04-09
 --------------------

@@ -1,14 +1,12 @@
 <?php
 /**
- * Notifications Center
+ * Student Dashboard: Notifications Tab
  *
- * @since    3.8.0
- * @version  3.26.3
+ * @since 3.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
-
-$sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;' );
 ?>
 
 <div class="llms-sd-notification-center">
