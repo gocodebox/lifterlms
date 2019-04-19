@@ -160,7 +160,7 @@ Admin panel templates replaced with view files which cannot be overridden from a
 
 ##### Updates
 
-+ Updated default country list to remove non-existant countries and resolve capitilization issues, thanks [nrherron92](https://github.com/nrherron92)!
++ Updated default country list to remove non-existent countries and resolve capitalization issues, thanks [nrherron92](https://github.com/nrherron92)!
 
 ##### Bug fixes
 
