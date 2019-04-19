@@ -302,7 +302,6 @@ Note that `@return` is not used for hook documentation, because action hooks ret
  * Description.
  *
  * @since x.x.x
- * @version x.x.x
  *
  * @param type  $var Description.
  * @param array $args {
