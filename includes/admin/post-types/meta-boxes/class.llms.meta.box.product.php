@@ -2,8 +2,8 @@
 /**
  * Access Plan metabox
  *
- * @since    1.0.0
- * @version  3.30.0
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,17 +11,19 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Meta_Box_Product class.
  *
- * @since    1.0.0
- * @since  3.30.0 Added checkout redirect settings
- * @version  3.30.0
+ * @since 1.0.0
+ * @since 3.30.0 Added checkout redirect settings
+ * @since [version] Adjusted localization priority to 9.
  */
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
-	 * @return void
+	 *
 	 * @since 3.0.0
-	 * @version 3.0.0
+	 * @since [version] Adjusted localization priority to 9.
+	 *
+	 * @return void
 	 */
 	public function configure() {
 

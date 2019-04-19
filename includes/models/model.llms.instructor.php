@@ -3,15 +3,19 @@
  * LifterLMS Instructor class
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant.
  *
- * @package  LifterLMS/Models
- * @since   3.13.0
- * @version 3.16.11
+ * @package LifterLMS/Models
+ *
+ * @since 3.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Instructor model.
+ *
+ * @since 3.13.0
+ * @since [version] Fixed typo in "description" key of the the toArray() method.
  */
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
@@ -248,9 +252,11 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Used by exporter / cloner to get instructor data
-	 * @return   array
-	 * @since    3.16.11
-	 * @version  3.16.11
+	 *
+	 * @since 3.16.11
+	 * @since [version] Renamed "descrpition" key to "description".
+	 *
+	 * @return array
 	 */
 	public function toArray() {
 		return array(

@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings: Notifications Tab
  *
  * @since 3.8.0
- * @since [version] Explicitly define class properties.
+ * @since [version] Explicitly define class properties; fix typo in title element id.
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
@@ -130,9 +130,11 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Get settings array
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since [version] Fixed typo in title id.
+	 *
+	 * @return array
 	 */
 	public function get_settings() {
 
