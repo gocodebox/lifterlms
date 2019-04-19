@@ -2,14 +2,17 @@
 /**
  * LifterLMS Question Types
  *
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Question_Types class.
+ *
+ * @since 3.16.0
+ * @since [version] Fixed typo.
  */
 class LLMS_Question_Types {
 
@@ -29,9 +32,10 @@ class LLMS_Question_Types {
 	/**
 	 * Retrieve question type model defaults
 	 *
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since [version] Fixed typo in icon name.
+	 *
+	 * @return array
 	 */
 	public static function get_model() {
 

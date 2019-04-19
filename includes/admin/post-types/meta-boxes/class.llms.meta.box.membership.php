@@ -3,7 +3,7 @@
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @version 3.23.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @since [version] Fixed spelling errors.
+ * @since [version] Fixed spelling errors; removed duplicate array keys.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -79,8 +79,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 *
 	 * @since 3.0.0
-	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable autoenrollment table.
-	 * @version 3.30.0
+	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable auto-enrollment table.
+	 * @since [version] Removed duplicate array keys.
 	 *
 	 * @return array
 	 */
