@@ -37,15 +37,15 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		// test character sanitization
 		$tests = array(
 			'mock_mock' => 'mock_mock',
-			'mockmock' => "mock'mock",
-			'mockmock' => "mock+mock",
+			"mock'mock" => "mockmock",
+			'mock+mock' => "mockmock",
 			'mock.mock' => "mock.mock",
 			'mock-mock' => "mock-mock",
 			'mock mock' => "mock mock",
-			'mockmock' => "mock!mock",
+			'mock!mock' => "mockmock",
 		);
 
-		foreach ( $tests as $expect => $email ) {
+		foreach ( $tests as $email => $expect) {
 			$this->assertEquals( $expect, LLMS_Person_Handler::generate_username( $email . '@whatever.com' ) );
 		}
 

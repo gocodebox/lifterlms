@@ -187,7 +187,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						),
 					),
 					array(
-						'class' 	=> '',
+						'class'     => 'llms-select2-post',
 						'controller' => '#' . $this->prefix . 'restriction_redirect_type',
 						'controller_value' => 'page',
 						'data_attributes' => array(
@@ -196,7 +196,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'id' 		=> $this->prefix . 'redirect_page_id',
 						'label'		=> __( 'Select a WordPress Page', 'lifterlms' ),
 						'type'		=> 'select',
-						'class'     => 'llms-select2-post',
 						'value'   => $redirect_options,
 					),
 					array(

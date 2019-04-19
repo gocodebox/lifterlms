@@ -1059,7 +1059,6 @@ class LLMS_Post_Types {
 
 		// course tag
 		self::register_taxonomy( 'course_tag', array( 'course' ), array(
-			'hierarchical' => false,
 			'label' => __( 'Course Tags', 'lifterlms' ),
 			'labels' => array(
 				'name' => __( 'Course Tags', 'lifterlms' ),
