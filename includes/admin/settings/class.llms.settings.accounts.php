@@ -60,7 +60,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Dashboard Page', 'lifterlms' ),
-				'desc' 		=> '<br>' . __( 'Page where students can view and manage their current enrollments, earned certificates and acheivements, account information, and purchase history.', 'lifterlms' ),
+				'desc' 		=> '<br>' . __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
 				'id' 		=> 'lifterlms_myaccount_page_id',
 				'default'	=> '',
 				'desc_tip'	=> true,

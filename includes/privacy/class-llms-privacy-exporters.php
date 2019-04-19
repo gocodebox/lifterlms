@@ -171,12 +171,12 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		);
 
 		$data[] = array(
-			'name' => __( 'Enrollement Status', 'lifterlms' ),
+			'name' => __( 'Enrollment Status', 'lifterlms' ),
 			'value' => llms_get_enrollment_status_name( $student->get_enrollment_status( $post_id ) ),
 		);
 
 		$data[] = array(
-			'name' => __( 'Enrollement Date', 'lifterlms' ),
+			'name' => __( 'Enrollment Date', 'lifterlms' ),
 			'value' => $student->get_enrollment_date( $post_id, 'enrolled', 'Y-m-d H:i:s' ),
 		);
 

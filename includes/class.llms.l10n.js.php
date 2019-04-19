@@ -400,7 +400,7 @@ class LLMS_L10n_JS {
 			 */
 			'There was an error loading the necessary resources. Please try again.' => esc_html__( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
 			'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.' => esc_html__( 'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.', 'lifterlms' ),
-			'An error was encounterd during the save attempt. Please try again.' => esc_html__( 'An error was encounterd during the save attempt. Please try again.', 'lifterlms' ),
+			'An error was encountered during the save attempt. Please try again.' => esc_html__( 'An error was encountered during the save attempt. Please try again.', 'lifterlms' ),
 
 			/**
 			 * File: assets/js/llms-metabox-students.js.

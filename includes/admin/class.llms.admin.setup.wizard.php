@@ -332,7 +332,7 @@ class LLMS_Admin_Setup_Wizard {
 					</tr>
 					<tr>
 						<td><a href="https://lifterlms.com/docs/student-dashboard/" target="_blank"><?php _e( 'Student Dashboard', 'lifterlms' );?></a></td>
-						<td><p><?php _e( 'Page where students can view and manage their current enrollments, earned certificates and acheivements, account information, and purchase history.', 'lifterlms' ); ?></p></td>
+						<td><p><?php _e( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ); ?></p></td>
 					</tr>
 				</table>
 

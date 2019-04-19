@@ -610,7 +610,7 @@
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
 					console.error( 'llms access plan save error encounterd:', jqXHR );
-					alert( LLMS.l10n.translate( 'An error was encounterd during the save attempt. Please try again.' ) + ' ['  + textStatus + ': ' + errorThrown + ']' );
+					alert( LLMS.l10n.translate( 'An error was encountered during the save attempt. Please try again.' ) + ' ['  + textStatus + ': ' + errorThrown + ']' );
 				},
 				success: function( res ) {
 

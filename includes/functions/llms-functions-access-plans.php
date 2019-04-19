@@ -156,7 +156,7 @@ function llms_insert_access_plan( $props = array() ) {
 	// Ensure visibility setting is valid.
 	if ( ! in_array( $props['visibility'], array_keys( llms_get_access_plan_visibility_options() ), true ) ) {
 		// Translators: %s = supplied visibility setting.
-		return new WP_Error( 'invalid-visibility', sprintf( __( 'Invalid access plan visibilty: "%s"', 'lifterlms' ), $props['visibility'] ) );
+		return new WP_Error( 'invalid-visibility', sprintf( __( 'Invalid access plan visibility: "%s"', 'lifterlms' ), $props['visibility'] ) );
 	}
 
 	// Ensure all periods are valid.
@@ -188,7 +188,7 @@ function llms_insert_access_plan( $props = array() ) {
 	if ( 'create' === $action ) {
 		$plan = new LLMS_Access_Plan( 'new' );
 		if ( ! $plan ) {
-			return new WP_Error( 'plan-creation', __( 'An error was encounterd while creating the access plan', 'lifterlms' ) );
+			return new WP_Error( 'plan-creation', __( 'An error was encountered while creating the access plan', 'lifterlms' ) );
 		}
 	}
 

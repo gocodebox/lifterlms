@@ -157,7 +157,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		$order->set( 'anonymized', 'yes' );
-		$order->add_note( __( 'Peronsal data removed during personal data erasure.', 'lifterlms' ) );
+		$order->add_note( __( 'Personal data removed during personal data erasure.', 'lifterlms' ) );
 
 	}
 

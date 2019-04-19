@@ -132,8 +132,8 @@
 			'prereq' => array(
 				'action' => false,
 				'active_condition' => "'yes' === data.get( 'has_prerequisite' )",
-				'tip' => esc_attr__( 'No prerequsite', 'lifterlms' ),
-				'tip_active' => esc_attr__( 'Prerequsite Enabled', 'lifterlms' ),
+				'tip' => esc_attr__( 'No prerequisite', 'lifterlms' ),
+				'tip_active' => esc_attr__( 'Prerequisite Enabled', 'lifterlms' ),
 				'icon' => '<i class="fa fa-chain-broken"></i>',
 				'icon_active' => '<i class="fa fa-link"></i>',
 			),
