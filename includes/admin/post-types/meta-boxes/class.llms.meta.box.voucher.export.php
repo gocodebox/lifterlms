@@ -193,7 +193,7 @@ class LLMS_Meta_Box_Voucher_Export {
 	public static function download_csv( $csv, $name ) {
 
 		header( 'Content-Type: application/csv' );
-		header( 'Content-Disposition: attachement; filename="' . $name . '";' );
+		header( 'Content-Disposition: attachment; filename="' . $name . '";' );
 
 		echo $csv;
 		exit;
