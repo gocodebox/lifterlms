@@ -1,10 +1,18 @@
 <?php
+/**
+ * Membership Settings Metabox
+ *
+ * @since 1.0.0
+ * @version 3.23.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Membership Settings Metabox
- * @since   1.0.0
- * @version 3.23.0
+ *
+ * @since 1.0.0
+ * @since [version] Fixed spelling errors.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -31,7 +39,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Removed sorting by title.
-	 * @version 3.4.0
+	 * @since [version] Fixed spelling errors.
 	 *
 	 * @param obj $membership instance of LLMS_Membership for the current post.
 	 * @return array

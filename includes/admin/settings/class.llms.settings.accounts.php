@@ -1,11 +1,19 @@
 <?php
+/**
+ * Admin Settings Page, Accounts Tab
+ *
+ * @since 1.0.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Admin Settings Page, Accounts Tab
-* @since    1.0.0
-* @version  3.24.0
-*/
+ * Admin Settings Page, Accounts Tab
+ *
+ * @since 1.0.0
+ * @since [version] Fixed spelling errors.
+ */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
@@ -32,9 +40,11 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
 	 * Get settings array
-	 * @return  array
-	 * @since   1.0.0
-	 * @version 3.24.0
+	 *
+	 * @since 1.0.0
+	 * @since [version] Fixed spelling errors.
+	 *
+	 * @return array
 	 */
 	public function get_settings() {
 

@@ -1,12 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Admin Settings Page, Checkout Tab
- * @since    3.0.0
- * @version  3.17.5
+ *
+ * @since 3.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+/**
+ * Admin Settings Page, Checkout Tab
+ *
+ * @since 3.0.0
+ * @since [version] Fixed spelling errors.
  */
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
@@ -137,9 +142,11 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 	/**
 	 * Retrieve the default checkout settings for the main section
-	 * @return   array
-	 * @since    3.17.5
-	 * @version  3.17.5
+	 *
+	 * @since 3.17.5
+	 * @since [version] Fixed spelling errors.
+	 *
+	 * @return array
 	 */
 	private function get_settings_default() {
 

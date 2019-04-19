@@ -1,8 +1,9 @@
 /**
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
- * @since    3.0.0
- * @version  3.30.0
+ *
+ * @since 3.0.0
+ * @version [version]
  */
 ( function( $ ) {
 
@@ -579,9 +580,10 @@
 		/**
 		 * Persist access plans to the DB if they pass validation
 		 *
-		 * @return  {[type]}
-		 * @since   3.29.0
-		 * @version 3.29.0
+		 * @since 3.29.0
+		 * @since [version] Fixed typo in error message.
+		 *
+		 * @return void
 		 */
 		this.save_plans = function() {
 

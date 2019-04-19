@@ -1,12 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Display a Setup Wizard
+ * @since 3.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Display a Setup Wizard
- * @since    3.0.0
- * @version  3.17.8
+ *
+ * @since 3.0.0
+ * @since [version] Fixed spelling error.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -271,10 +276,12 @@ class LLMS_Admin_Setup_Wizard {
 
 	/**
 	 * Outputs the HTML "body" for the requested step
-	 * @param    string     $step  step slug
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.0.0
+	 * @since [version] Fixed spelling error.
+	 *
+	 * @param string $step Step slug.
+	 * @return void
 	 */
 	public function output_step_html( $step ) {
 

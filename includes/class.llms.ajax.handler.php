@@ -3,7 +3,7 @@
  * LifterLMS AJAX Event Handler
  *
  * @since 1.0.0
- * @version 3.30.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,8 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
- * @version 3.30.0
- *
+ * @since [version] Fixed spelling errors.
  */
 class LLMS_AJAX_Handler {
 
@@ -149,10 +148,12 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Store data for the instructors metabox
-	 * @param    [type]     $request  [description]
-	 * @return   [type]               [description]
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 * @since [version] Fixed typos.
+	 *
+	 * @param array $request $_REQUEST object.
+	 * @return array
 	 */
 	public static function instructors_mb_store( $request ) {
 

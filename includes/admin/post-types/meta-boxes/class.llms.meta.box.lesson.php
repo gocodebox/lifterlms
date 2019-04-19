@@ -1,11 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Lesson Settings Metabox
+ *
+ * @since 1.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Lesson Settings Metabox
  *
- * @since    1.0.0
- * @version  3.16.3
+ * @since 1.0.0
+ * @since [version] Fixed spelling errors.
  */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
@@ -32,9 +39,10 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 * This function is where extending classes can configure all the fields within the metabox
 	 * The function must return an array which can be consumed by the "output" function
 	 *
+	 * @since 3.0.0
+ 	 * @since [version] Fixed spelling errors.
+ 	 *
 	 * @return array
-	 * @since   3.0.0
-	 * @version 3.16.3
 	 */
 	public function get_fields() {
 

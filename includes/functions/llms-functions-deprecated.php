@@ -1,6 +1,6 @@
 <?php
 /**
- * Deprecated functions
+ * Deprecated Functions
  *
  * * * * * * * * * * * * * * * *
  * sometimes a thing must      *
@@ -9,8 +9,9 @@
  * * * * * * * * * * * * * * * *
  *
  * @package LifterLMS/Functions/Deprecated
+ *
  * @since 3.29.0
- * @version 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

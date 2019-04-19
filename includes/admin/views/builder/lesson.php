@@ -1,8 +1,10 @@
 <?php
 /**
  * Builder lesson model view
- * @since   3.16.0
- * @version 3.17.2
+ *
+ * @since 3.16.0
+ * @since [version] Fixed spelling errors.
+ * @version [version]
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">

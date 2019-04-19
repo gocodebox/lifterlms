@@ -1,17 +1,26 @@
 <?php
+/**
+ * Front End Forms Class
+ *
+ * @since 1.0.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Front End Forms Class
- * Class used managing front end facing forms.
- * @since   1.0.0
- * @version 3.19.4
+ *
+ * @since 1.0.0
+ * @since [version] Fixed spelling errors.
  */
 class LLMS_Frontend_Forms {
 
 	/**
 	 * Constructor
-	 * initializes the forms methods
+	 *
+	 * @since  1.0.0
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -100,8 +109,10 @@ class LLMS_Frontend_Forms {
 	}
 
 	/**
-	 *
 	 * Check voucher and use it if valid
+	 *
+	 * @since Unknown
+	 * @since [version] Fixed spelling errors.
 	 *
 	 * @return bool
 	 */

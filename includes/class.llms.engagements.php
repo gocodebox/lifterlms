@@ -2,12 +2,19 @@
 /**
 * Engagements Class
 * Finds and triggers the appropriate engagement
-* @since    2.3.0
-* @version  3.13.1
+*
+* @since 2.3.0
+* @version [version]
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+* Engagements Class
+*
+* @since 2.3.0
+* @since [version] Fixed spelling errors.
+*/
 class LLMS_Engagements {
 
 	/**

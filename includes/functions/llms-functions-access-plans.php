@@ -2,9 +2,10 @@
 /**
  * Functions for LifterLMS Access Plans
  *
- * @package  LifterLMS/Functions/Access_Plans
- * @since    3.29.0
- * @version  3.29.2
+ * @package LifterLMS/Functions/Access_Plans
+ *
+ * @since 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,9 +17,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @see LLMS_Access_Plan
  *
- * @since   3.29.0
- * @since   3.30.0 Added checkout redirect options.
- * @version 3.30.0
+ * @since 3.29.0
+ * @since 3.30.0 Added checkout redirect options.
+ * @since [version] Fixed spelling errors.
  *
  * @param array $props {
  *     An array of of properties that make up the plan to create or update.

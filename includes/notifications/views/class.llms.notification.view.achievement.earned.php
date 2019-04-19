@@ -1,12 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification View: Achievement Earned
+ * @since 3.8.0
+ * @version 3.17.6
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification View: Achievement Earned
- * @since    3.8.0
- * @version  3.17.6
+ *
+ * @since 3.8.0
+ * @since [version] Fixed spelling errors.
  */
 class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notification_View {
 
@@ -69,9 +74,11 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Setup merge codes that can be used with the notification
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since [version] Fixed spelling errors.
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
