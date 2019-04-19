@@ -68,7 +68,7 @@
 				multiple: false,
 				placeholder: undefined !== LLMS.l10n ? LLMS.l10n.translate( 'Select a Course/Membership' ) : 'Select a Course/Membership',
 				post_type: self.attr( 'data-post-type' ) || 'post',
-				future_posts: "1" === self.attr( 'data-future-posts' ) ? 1 : 0,
+				post_statuses: self.attr( 'data-post-statuses' ) || 'publish',
 				allow_clear: self.attr( 'data-post-type' ) || false,
 				width: null,
 			};
@@ -97,8 +97,8 @@
 						action: 'select2_query_posts',
 						page: ( params.page ) ? params.page - 1 : 0, // 0 index the pages to make it simpler for the database query
 						post_type: options.post_type,
+						post_statuses: options.post_statuses,
 						term: params.term,
-						future_posts: options.future_posts,
 						_ajax_nonce: wp_ajax_data.nonce
 					};
 				},

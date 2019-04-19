@@ -45,8 +45,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				'fields' => array(
 					array(
 						'data_attributes' => array(
-							'post-type' => 'course',
-							'future-posts' => true,
+							'post-type'     => 'course',
+							'post-statuses' => 'publish,draft,future',
 						),
 						'type' => 'select',
 						'label' => __( 'Courses', 'lifterlms' ),
@@ -58,8 +58,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 					),
 					array(
 						'data_attributes' => array(
-							'post-type' => 'llms_membership',
-							'future-posts' => true,
+							'post-type'     => 'llms_membership',
+							'post-statuses' => 'publish,draft,future',
 						),
 						'type' => 'select',
 						'label' => __( 'Membership', 'lifterlms' ),
