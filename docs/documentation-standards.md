@@ -108,12 +108,11 @@ Versions should be expressed in the 3-digit `x.x.x` style.
  * @since 3.29.0
 ```
 
-When any change has been made to the element, the `@version` tag should be updated to match the current version of the codebase and an additional `@since` tag can be added with a short description of the changes which were made.
+When any change has been made to the element an additional `@since` tag can be added with a short description of the changes which were made.
 
 ```
  * @since 3.3.0
  * @since 3.5.0 Added optional 3rd argument.
- * @version 3.5.0
 ```
 
 #### Deprecations
@@ -126,12 +125,15 @@ A short description may be added to provide additional information about the dep
 ```
  * @since 3.3.0
  * @since 3.5.0 Added optional 3rd argument.
- * @version 3.10.0
  * @deprecated 3.10.0 Use `llms_new_function_name()` instead.
  * @see llms_new_function_name()
 ```
 
 When adding documentation on an existing element which does not yet have a changelog (common in code added prior to the creation and enforcement of these standards) if it is impossible to determine when the element was added the version may be expressed with `Unknown` instead of the `x.x.x` version number.
+
+#### File Headers
+
+Whenever an element within a file is updated, the `@version` tag in the header should be updated to the current version of the codebase.
 
 #### Using Placeholders
 
@@ -143,7 +145,6 @@ For a new element:
 
 ```
  * @since [version]
- * @version [verson]
 ```
 
 When updating an existing element:
@@ -151,7 +152,6 @@ When updating an existing element:
 ```
  * @since 3.5.0
  * @since [version] Updated element.
- * @version [verson]
 ```
 
 
@@ -232,7 +232,6 @@ Functions and class methods should be formatted as follows:
  * Description.
  *
  * @since x.x.x
- * @version x.x.x
  *
  * @see Function/method/class relied on
  * @link URL
@@ -302,7 +301,6 @@ Note that `@return` is not used for hook documentation, because action hooks ret
  * Description.
  *
  * @since x.x.x
- * @version x.x.x
  *
  * @param type  $var Description.
  * @param array $args {
