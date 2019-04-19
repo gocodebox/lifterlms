@@ -158,6 +158,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'selected' => $c ? $c->get_array( 'coupon_courses' ) : array(),
 						'data_attributes' => array(
 							'post-type' => 'course',
+							'future-posts' => true,
 						),
 					),
 					array(
@@ -171,6 +172,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 						'selected' => $c ? $c->get_array( 'coupon_membership' ) : array(),
 						'data_attributes' => array(
 							'post-type' => 'llms_membership',
+							'future-posts' => true,
 						),
 					),
 					array(

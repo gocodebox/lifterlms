@@ -712,6 +712,12 @@ class LLMS_AJAX_Handler {
 		}
 		$post_types = implode( ',', $post_types_array );
 
+		$post_statuses_array = array( 'publish' );
+		if ( ! empty( $_REQUEST['future_posts'] ) ) {
+			$post_statuses_array = array_merge( $post_statuses_array, array( 'draft', 'future' ) );
+		}
+		$post_statuses = "'" . implode( "', '", $post_statuses_array ) . "'";
+
 		$limit = 30;
 		$start = $limit * $page;
 
@@ -728,7 +734,7 @@ class LLMS_AJAX_Handler {
 			 FROM $wpdb->posts
 			 WHERE
 			 	post_type IN ( $post_types )
-			 	AND post_status = 'publish'
+			 	AND post_status IN ( $post_statuses )
 			 	$like
 			 ORDER BY post_title
 			 LIMIT %d, %d
