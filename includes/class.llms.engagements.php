@@ -213,7 +213,7 @@ class LLMS_Engagements {
 					),
 					array( '%d', '%d', '%s', '%d', '%s' )
 				);
-				llms_log( sprintf( 'Email `#%d` sent sucessfully', $email_id ) );
+				llms_log( sprintf( 'Email `#%d` sent successfully', $email_id ) );
 
 			} else {
 

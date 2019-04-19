@@ -291,7 +291,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 				'title' => __( 'Course Author', 'lifterlms' ),
 			),
 			'custom' => array(
-				'description' => __( 'Enter additional email addresses which will recieve this notification. Separate multiple addresses with commas.', 'lifterlms' ),
+				'description' => __( 'Enter additional email addresses which will receive this notification. Separate multiple addresses with commas.', 'lifterlms' ),
 				'title' => __( 'Additional Recipients', 'lifterlms' ),
 			),
 		);

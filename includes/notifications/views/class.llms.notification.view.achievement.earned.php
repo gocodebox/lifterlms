@@ -75,10 +75,10 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{ACHIEVEMENT_CONTENT}}' => __( 'Achievment Content', 'lifterlms' ),
-			'{{ACHIEVEMENT_IMAGE}}' => __( 'Achievment Image', 'lifterlms' ),
-			'{{ACHIEVEMENT_IMAGE_URL}}' => __( 'Achievment Image URL', 'lifterlms' ),
-			'{{ACHIEVEMENT_TITLE}}' => __( 'Achievment Title', 'lifterlms' ),
+			'{{ACHIEVEMENT_CONTENT}}' => __( 'Achievement Content', 'lifterlms' ),
+			'{{ACHIEVEMENT_IMAGE}}' => __( 'Achievement Image', 'lifterlms' ),
+			'{{ACHIEVEMENT_IMAGE_URL}}' => __( 'Achievement Image URL', 'lifterlms' ),
+			'{{ACHIEVEMENT_TITLE}}' => __( 'Achievement Title', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 		);
 	}
