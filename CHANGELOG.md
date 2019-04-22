@@ -14,6 +14,7 @@ v3.30.3 - 2019-04-??
 ##### Bug Fixes
 
 + Renamed "descrpition" key to "description" found in the return of `LLMS_Instructor()->toArray()`.
++ Fixed an issue causing slashes to be stripped from course content when cloning a course.
 + Fixed an issue causing JS warnings to be thrown in the Javascript console on Course and Membership edit pages on the admin panel due to variables being defined too late, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
 + Fixed an undefined variable notice encountered when filtering quiz attempts on the quiz attempts reporting screen, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
 + Fixed an issue causing slashes to appear before quotation marks when saving remarks on a quiz attempt, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!

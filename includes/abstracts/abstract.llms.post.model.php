@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.30.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
+ * @since [version] Use `wp_slash()` when creating new posts.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -315,10 +316,12 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Create a new post of the Instantiated Model
 	 * This can be called by instantiating an instance with "new"
 	 * as the value passed to the constructor
-	 * @param    string  $title   Title to create the post with
-	 * @return   int    WP Post ID of the new Post on success or 0 on error
-	 * @since    3.0.0
-	 * @version  3.14.6
+	 *
+	 * @since 3.0.0
+	 * @since [version] Use `wp_slash()` for the post title.
+	 *
+	 * @param string $title Title to create the post with.
+	 * @return int WP Post ID of the new Post on success or 0 on error.
 	 */
 	private function create( $title = '' ) {
 		return wp_insert_post( wp_slash( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) ), true );
@@ -843,11 +846,13 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Setter
-	 * @param    string $key  key of the property
-	 * @param    mixed  $val  value to set the property with
-	 * @return   boolean      true on success, false on error or if the submitted value is the same as what's in the database
-	 * @since    3.0.0
-	 * @version  3.16.0
+	 *
+	 * @since 3.0.0
+	 * @since [version] Use `wp_slash()` when setting properties.
+	 *
+	 * @param string $key Key of the property.
+	 * @param mixed  $val Value to set the property with.
+	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database
 	 */
 	public function set( $key, $val ) {
 
