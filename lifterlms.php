@@ -211,8 +211,11 @@ final class LifterLMS {
 
 	/**
 	 * Include required core classes
-	 * @since   1.0.0
-	 * @version 3.28.1
+	 *
+	 * @since 1.0.0
+	 * @since [version] Add theme support includes.
+	 *
+	 * @return void
 	 */
 	private function includes() {
 
@@ -381,6 +384,23 @@ final class LifterLMS {
 
 		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class.llms.playnice.php';
+
+		$this->includes_theme_support();
+
+	}
+
+	/**
+	 * Conditionally require additional theme support classes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function includes_theme_support() {
+
+		if ( 'twentynineteen' === get_template() ) {
+			include_once 'includes/theme-support/class-llms-twenty-nineteen.php';
+		}
 
 	}
 

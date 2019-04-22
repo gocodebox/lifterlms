@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.30.4 - 2019-04-??
+--------------------
+
++ Adds explicit support for the twentynineteen default theme.
+
+
 v3.30.3 - 2019-04-22
 --------------------
 
