@@ -321,7 +321,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @version  3.14.6
 	 */
 	private function create( $title = '' ) {
-		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ), true );
+		return wp_insert_post( wp_slash( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) ), true );
 	}
 
 	/**
@@ -884,7 +884,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
 
-			if ( wp_update_post( $args ) ) {
+			if ( wp_update_post( wp_slash( $args ) ) ) {
 				$this->post->{$post_key} = $val;
 				return true;
 			} else {
