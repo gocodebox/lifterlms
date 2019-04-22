@@ -1,6 +1,40 @@
 == Changelog ==
 
 
+= v3.30.3 - 2019-04-22 =
+------------------------
+
+##### Updates
+
++ Fixed typos and spelling errors in various strings.
++ Corrected a typo in the `content-disposition` header used when exporting voucher CSVs, thanks [@pondermatic](https://github.com/pondermatic)!
++ Improved the quiz attempt grading experience by automatically focusing the remarks field and only toggling the first answer if it's not visible, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ Removed commented out code on the Student Dashboard Notifications Tab template, thanks [@tnorthcutt](https://github.com/tnorthcutt)!
+
+##### Bug Fixes
+
++ Renamed "descrpition" key to "description" found in the return of `LLMS_Instructor()->toArray()`.
++ Fixed an issue causing slashes to be stripped from course content when cloning a course.
++ Fixed an issue causing JS warnings to be thrown in the Javascript console on Course and Membership edit pages on the admin panel due to variables being defined too late, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ Fixed an undefined variable notice encountered when filtering quiz attempts on the quiz attempts reporting screen, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ Fixed an issue causing slashes to appear before quotation marks when saving remarks on a quiz attempt, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
++ [@pondermatic](https://github.com/pondermatic) fixed typos and misspellings in comment and docs in over 200 files and while that doesn't concern most users it's worthy of a mention.
+
+##### Deprecations
+
+The following unused classes have been marked as deprecated and will be removed from LifterLMS in the next major release.
+
++ `LLMS\Users\User`
++ `LLMS_Analytics_Page`
++ `LLMS_Course_Basic`
++ `LLMS_Lesson_Basic`
++ `LLMS_Quiz_Legacy`
+
+##### Template Updates
+
++ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
+
+
 = v3.30.2 - 2019-04-09 =
 ------------------------
 
@@ -8,6 +42,10 @@
 + Added hooks and filters to the `LLMS_Generator` class to allow 3rd parties to easily generate content during course clone and import operations.
 + Fixed an issue causing all available courses to display when the [lifterlms_courses] shortcode is used with the "mine" parameter and the current user viewing the shortcode is not enrolled in any courses.
 + Fixed a PHP undefined variable warning present on the payment confirmation screen.
+
+##### Template Updates
+
++ [templates/checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
 
 
 = v3.30.1 - 2019-04-04 =
@@ -29,6 +67,10 @@
 + Fixed an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
 + Fixed builder deep links to quizzes freezing due to dependencies not being available during initialization.
 + Fixed builder issue causing duplicate copies of questions to be added when adding existing questions multiple times.
+
+##### Template Updates
+
++ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
 
 
 = v3.30.0 - 2019-03-21 =
@@ -153,21 +195,3 @@ Admin panel templates replaced with view files which cannot be overridden from a
 + ❤❤❤ Happy Valentines Day or whatever ❤❤❤
 + Tested to WordPress 5.1
 + Fixed an issue causing JSON data saved by 3rd party plugins in course or lesson postmeta fields to be not duplicate properly during course duplications and imports.
-
-
-= v3.28.2 - 2019-02-11 =
-------------------------
-
-##### Updates
-
-+ Updated default country list to remove non-existent countries and resolve capitalization issues, thanks [nrherron92](https://github.com/nrherron92)!
-
-##### Bug fixes
-
-+ Fixed an issue causing the email notification content getter to use the same filter as popover notifications.
-+ Fixed an issue preventing default blog date & time settings from being used when displaying an access plan's access expiration date on course and membership pricing tables.
-+ Fixed an issue causing 404s on paginated dashboard endpoints when the permalink structure is set to anything other than `%postname%`.
-
-##### Deprecations
-
-+ `LLMS_Query->set_dashboard_pagination()`
