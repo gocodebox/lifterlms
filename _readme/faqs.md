@@ -28,7 +28,7 @@ Absolutely. If you're not finding your questions answered on the product pages, 
 
 #### What add-ons are available for LifterLMS, and where can I read more about them?
 
-You can find a full list of officlai LifterLMS Add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
+You can find a full list of official LifterLMS Add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 
 #### I have a feature idea. What's the best way to tell you about it?

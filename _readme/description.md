@@ -108,9 +108,9 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 
 #### **Engage Your Students**
 
-+ Achievement bages
++ Achievement badges
 + Certificates
-+ Peronalized email
++ Personalized email
 + Social learning
 + Private coaching
 + Text messaging
