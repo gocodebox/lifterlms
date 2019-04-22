@@ -3,7 +3,7 @@
  * Front End Forms Class
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Front End Forms Class
  *
  * @since 1.0.0
- * @since [version] Fixed spelling errors.
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Frontend_Forms {
 
@@ -112,7 +112,7 @@ class LLMS_Frontend_Forms {
 	 * Check voucher and use it if valid
 	 *
 	 * @since Unknown
-	 * @since [version] Fixed spelling errors.
+	 * @since 3.30.3 Fixed spelling errors.
 	 *
 	 * @return bool
 	 */

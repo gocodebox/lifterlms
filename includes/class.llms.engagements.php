@@ -4,7 +4,7 @@
 * Finds and triggers the appropriate engagement
 *
 * @since 2.3.0
-* @version [version]
+* @version 3.30.3
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 * Engagements Class
 *
 * @since 2.3.0
-* @since [version] Fixed spelling errors.
+* @since 3.30.3 Fixed spelling errors.
 */
 class LLMS_Engagements {
 

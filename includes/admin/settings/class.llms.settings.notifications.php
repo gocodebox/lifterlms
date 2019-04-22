@@ -3,7 +3,7 @@
  * Admin Settings: Notifications Tab
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.30.3
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings: Notifications Tab
  *
  * @since 3.8.0
- * @since [version] Explicitly define class properties; fix typo in title element id.
+ * @since 3.30.3 Explicitly define class properties; fix typo in title element id.
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
@@ -132,7 +132,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * Get settings array
 	 *
 	 * @since 3.8.0
-	 * @since [version] Fixed typo in title id.
+	 * @since 3.30.3 Fixed typo in title id.
 	 *
 	 * @return array
 	 */

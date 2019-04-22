@@ -3,7 +3,7 @@
  * Lesson Settings Metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Lesson Settings Metabox
  *
  * @since 1.0.0
- * @since [version] Fixed spelling errors.
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
@@ -40,7 +40,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 *
 	 * @since 3.0.0
-		 * @since [version] Fixed spelling errors.
+		 * @since 3.30.3 Fixed spelling errors.
 		 *
 	 * @return array
 	 */

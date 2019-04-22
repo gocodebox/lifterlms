@@ -3,8 +3,8 @@
  * Builder lesson model view
  *
  * @since 3.16.0
- * @since [version] Fixed spelling errors.
- * @version [version]
+ * @since 3.30.3 Fixed spelling errors.
+ * @version 3.30.3
  */
 ?>
 <script type="text/html" id="tmpl-llms-lesson-template">

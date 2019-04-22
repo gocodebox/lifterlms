@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 *
 * Basic lesson is the standard, single lesson.
 *
-* @deprecated [version]
+* @deprecated 3.30.3
 */
 class LLMS_Lesson_Basic extends LLMS_Lesson {
 

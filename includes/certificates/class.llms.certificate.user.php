@@ -4,7 +4,7 @@
  * Generates certificate post for user, triggered from engagement.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Generates certificate post for user, triggered from engagement.
  *
  * @since 1.0.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Certificate_User extends LLMS_Certificate {
 

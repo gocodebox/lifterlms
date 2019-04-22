@@ -3,7 +3,7 @@
  * Admin Settings Page, Checkout Tab
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Page, Checkout Tab
  *
  * @since 3.0.0
- * @since [version] Fixed spelling errors.
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
@@ -144,7 +144,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	 * Retrieve the default checkout settings for the main section
 	 *
 	 * @since 3.17.5
-	 * @since [version] Fixed spelling errors.
+	 * @since 3.30.3 Fixed spelling errors.
 	 *
 	 * @return array
 	 */

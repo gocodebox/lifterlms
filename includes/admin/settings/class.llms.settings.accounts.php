@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Page, Accounts Tab
  *
  * @since 1.0.0
- * @since [version] Fixed spelling errors.
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -42,7 +42,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * Get settings array
 	 *
 	 * @since 1.0.0
-	 * @since [version] Fixed spelling errors.
+	 * @since 3.30.3 Fixed spelling errors.
 	 *
 	 * @return array
 	 */

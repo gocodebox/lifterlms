@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Post_Instructors class.
  *
  * @since 3.13.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Post_Instructors {
 

@@ -2,7 +2,7 @@
 /**
  * Display a Setup Wizard
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Display a Setup Wizard
  *
  * @since 3.0.0
- * @since [version] Fixed spelling error.
+ * @since 3.30.3 Fixed spelling error.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -278,7 +278,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Outputs the HTML "body" for the requested step
 	 *
 	 * @since 3.0.0
-	 * @since [version] Fixed spelling error.
+	 * @since 3.30.3 Fixed spelling error.
 	 *
 	 * @param string $step Step slug.
 	 * @return void

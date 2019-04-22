@@ -3,7 +3,7 @@
  * Access Plan metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.0 Added checkout redirect settings
- * @since [version] Adjusted localization priority to 9.
+ * @since 3.30.3 Adjusted localization priority to 9.
  */
 class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
@@ -21,7 +21,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 * Configure the metabox settings
 	 *
 	 * @since 3.0.0
-	 * @since [version] Adjusted localization priority to 9.
+	 * @since 3.30.3 Adjusted localization priority to 9.
 	 *
 	 * @return void
 	 */

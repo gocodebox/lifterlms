@@ -3,7 +3,7 @@
  * Analytics Widget Abstract
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
 * Analytics Widget Abstract
 *
 * @since 3.0.0
-* @since [version] Define undefined properties.
+* @since 3.30.3 Define undefined properties.
 */
 abstract class LLMS_Analytics_Widget {
 

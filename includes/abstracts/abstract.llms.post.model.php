@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
- * @since [version] Use `wp_slash()` when creating new posts.
+ * @since 3.30.3 Use `wp_slash()` when creating new posts.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -318,7 +318,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * as the value passed to the constructor
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use `wp_slash()` for the post title.
+	 * @since 3.30.3 Use `wp_slash()` for the post title.
 	 *
 	 * @param string $title Title to create the post with.
 	 * @return int WP Post ID of the new Post on success or 0 on error.
@@ -848,7 +848,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Setter
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use `wp_slash()` when setting properties.
+	 * @since 3.30.3 Use `wp_slash()` when setting properties.
 	 *
 	 * @param string $key Key of the property.
 	 * @param mixed  $val Value to set the property with.

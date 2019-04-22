@@ -3,7 +3,7 @@
  * LifterLMS Question Types
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Question_Types class.
  *
  * @since 3.16.0
- * @since [version] Fixed typo.
+ * @since 3.30.3 Fixed typo.
  */
 class LLMS_Question_Types {
 
@@ -33,7 +33,7 @@ class LLMS_Question_Types {
 	 * Retrieve question type model defaults
 	 *
 	 * @since 3.16.0
-	 * @since [version] Fixed typo in icon name.
+	 * @since 3.30.3 Fixed typo in icon name.
 	 *
 	 * @return array
 	 */

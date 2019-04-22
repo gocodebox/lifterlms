@@ -1,7 +1,7 @@
 <?php
 // @codingStandardsIgnoreFile
 /**
- * @deprecated [version]
+ * @deprecated 3.30.3
  */
 namespace LLMS\Users;
 

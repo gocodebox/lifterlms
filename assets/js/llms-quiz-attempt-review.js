@@ -2,7 +2,7 @@
  * Quiz attempt review / grading UI & UX
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.30.3
  */
 ;( function( $ ) {
 
@@ -10,7 +10,7 @@
 	 * Handle UX for graving quiz attempts.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Improve grading UX
+	 * @since 3.30.3 Improve grading UX
 	 */
 	var Grading = function() {
 
@@ -38,7 +38,7 @@
 		 * Create editable fields for grading / remarking
 		 *
 		 * @since 3.16.0
-		 * @since [version] When starting a review only toggle first item if it's hidden and always automatically focus on the remarks field.
+		 * @since 3.30.3 When starting a review only toggle first item if it's hidden and always automatically focus on the remarks field.
 		 *
 		 * @return Grading
 		 */

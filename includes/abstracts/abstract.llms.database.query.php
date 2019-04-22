@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Abstracts
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Abstract Database Query Class
  *
  * @since 3.8.0
- * @since [version] `is_last_page()` method returns `true` when no results are found.
+ * @since 3.30.3 `is_last_page()` method returns `true` when no results are found.
  */
 abstract class LLMS_Database_Query {
 
@@ -213,7 +213,7 @@ abstract class LLMS_Database_Query {
 	 * Determine if we're on the last page of results
 	 *
 	 * @since 3.8.0
-	 * @since [version] Return true if there are no results.
+	 * @since 3.30.3 Return true if there are no results.
 	 *
 	 * @return boolean
 	 */

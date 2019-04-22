@@ -3,7 +3,7 @@
  * Displays on Course & Membership Post Types
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.3
  */
 ( function( $ ) {
 
@@ -581,7 +581,7 @@
 		 * Persist access plans to the DB if they pass validation
 		 *
 		 * @since 3.29.0
-		 * @since [version] Fixed typo in error message.
+		 * @since 3.30.3 Fixed typo in error message.
 		 *
 		 * @return void
 		 */

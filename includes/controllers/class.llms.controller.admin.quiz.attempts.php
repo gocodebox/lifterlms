@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * Allows admins to grade, leave remarks, and delete quiz attempts.
  *
  * @since 3.16.0
- * @since [version] Fixed an issue causing backlashes to be saved around escaped characters when leaving remarks.
+ * @since 3.30.3 Fixed an issue causing backlashes to be saved around escaped characters when leaving remarks.
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -68,7 +68,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 * Saves changes to a quiz
 	 *
 	 * @since 3.16.0
-	 * @since [version] Strip slashes on remarks.
+	 * @since 3.30.3 Strip slashes on remarks.
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
 	 * @return void

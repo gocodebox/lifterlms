@@ -4,7 +4,7 @@
  * Generates emails and sends to user. Triggered from an engagement.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * Engagement Email Class
  *
  * @since 1.0.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Email_Engagement extends LLMS_Email {
 

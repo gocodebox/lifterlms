@@ -2,7 +2,7 @@
 /**
  * Currency and Price related functions for LifterLMS Products
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -517,7 +517,7 @@ function get_lifterlms_currencies() {
  * Get Currency Symbol text code
  *
  * @since Unknown
- * @since [version] Removed duplicate key "MAD".
+ * @since 3.30.3 Removed duplicate key "MAD".
  *
  * @param  string $currency Currency Code.
  * @return string

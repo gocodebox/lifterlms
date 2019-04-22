@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Notification View: Achievement Earned
  *
  * @since 3.8.0
- * @since [version] Fixed spelling errors.
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notification_View {
 
@@ -76,7 +76,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 * Setup merge codes that can be used with the notification
 	 *
 	 * @since 3.8.0
-	 * @since [version] Fixed spelling errors.
+	 * @since 3.30.3 Fixed spelling errors.
 	 *
 	 * @return array
 	 */

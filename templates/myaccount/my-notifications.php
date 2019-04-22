@@ -3,7 +3,7 @@
  * Student Dashboard: Notifications Tab
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;

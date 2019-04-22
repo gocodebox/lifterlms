@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Notification Controller: Quiz Passed
  *
  * @since 3.8.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Quiz_Passed extends LLMS_Abstract_Notification_Controller {
 

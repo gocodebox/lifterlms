@@ -2,7 +2,7 @@
 /**
  * Meta Box Voucher Export
  * @since Unknown
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * Meta Box Voucher Export
  *
  * @since Unknown
- * @since [version] Fixed typo in export content-disposition header.
+ * @since 3.30.3 Fixed typo in export content-disposition header.
  */
 class LLMS_Meta_Box_Voucher_Export {
 
@@ -201,7 +201,7 @@ class LLMS_Meta_Box_Voucher_Export {
 	 * Serve the CSV as an attachment to be downloaded.
 	 *
 	 * @since Unknown
-	 * @since [version] Fixed typo in export content-disposition header.
+	 * @since 3.30.3 Fixed typo in export content-disposition header.
 	 *
 	 * @param string $csv CSV content string.
 	 * @param string $name Filename.

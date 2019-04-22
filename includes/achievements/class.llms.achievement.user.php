@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Achievement_User class.
  *
  * @since 1.0.0
- * @since [version] Explicitly define undefined properties.
+ * @since 3.30.3 Explicitly define undefined properties.
  */
 class LLMS_Achievement_User extends LLMS_Achievement {
 

@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Privacy Eraser functions
  *
  * @since 3.18.0
- * @since [version] Fixed spelling errors.
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
@@ -145,7 +145,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 	 * Erase and anonymize an order
 	 *
 	 * @since 3.18.0
-	 * @since [version] Fixed spelling error.
+	 * @since 3.30.3 Fixed spelling error.
 	 *
 	 * @param LLMS_Order $order Order object.
 	 * @return void

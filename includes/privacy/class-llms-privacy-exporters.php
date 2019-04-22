@@ -3,7 +3,7 @@
  * LifterLMS Privacy Exporter functions
  *
  * @since 3.18.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Privacy Exporter functions
  *
  * @since 3.18.0
- * @since [version] Fixed spelling error.
+ * @since 3.30.3 Fixed spelling error.
  */
 class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
@@ -163,7 +163,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Get an array of enrollment data for a course or membership
 	 *
 	 * @since 3.18.0
-	 * @since [version] Fixed spelling errors.
+	 * @since 3.30.3 Fixed spelling errors.
 	 *
 	 * @param int $post_id WP Post ID of course or membership.
 	 * @param obj $student LLMS_Student.

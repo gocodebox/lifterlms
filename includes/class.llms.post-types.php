@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Post_Types class
  *
  * @since 1.0.0
- * @since [version] Removed duplicate array keys when registering course_tag taxonomy.
+ * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
  */
 class LLMS_Post_Types {
 
@@ -1003,7 +1003,7 @@ class LLMS_Post_Types {
 	 * Register Taxonomies
 	 *
 	 * @since 1.0.0
-	 * @since [version] Removed duplicate array keys when registering course_tag taxonomy.
+	 * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
 	 *
 	 * @return void
 	 */
