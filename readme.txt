@@ -122,9 +122,9 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 
 #### **Engage Your Students**
 
-+ Achievement bages
++ Achievement badges
 + Certificates
-+ Peronalized email
++ Personalized email
 + Social learning
 + Private coaching
 + Text messaging
@@ -311,7 +311,7 @@ Absolutely. If you're not finding your questions answered on the product pages, 
 
 #### What add-ons are available for LifterLMS, and where can I read more about them?
 
-You can find a full list of officlai LifterLMS Add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
+You can find a full list of official LifterLMS Add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
 
 #### I have a feature idea. What's the best way to tell you about it?
@@ -514,7 +514,7 @@ Admin panel templates replaced with view files which cannot be overridden from a
 
 ##### Updates
 
-+ Updated default country list to remove non-existant countries and resolve capitilization issues, thanks [nrherron92](https://github.com/nrherron92)!
++ Updated default country list to remove non-existent countries and resolve capitalization issues, thanks [nrherron92](https://github.com/nrherron92)!
 
 ##### Bug fixes
 

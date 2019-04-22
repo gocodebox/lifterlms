@@ -58,7 +58,7 @@ Class file names should be based on the class name with `class-` prepended and t
 class-llms-data.php
 ```
 
-Files containng model classes should prepend `model-` instead of `class-`. For example the `LLMS_Student` model class becomes:
+Files containing model classes should prepend `model-` instead of `class-`. For example the `LLMS_Student` model class becomes:
 
 ```
 model-llms-student.php
@@ -100,14 +100,14 @@ When actions are set to run before and after items (templates, as an example) it
 
 There are a number of legacy hooks which use the prefix `lifterlms_` instead of `llms_`. These are retained for backwards compatibility but should not be used as an example of an acceptable naming convention for new code.
 
-### CSS Clases and IDs
+### CSS Classes and IDs
 
-Classnames and IDs should be lowercase and prefixed with `llms-`.
+Class names and IDs should be lowercase and prefixed with `llms-`.
 
 Words should be separated with hyphens (AKA "kebab case").
 
 ```html
-<div class="llms-element-name" id="llms-elemend-id"></div>
+<div class="llms-element-name" id="llms-element-id"></div>
 ```
 
 ### Form Element `name` attributes

@@ -159,7 +159,7 @@ When updating an existing element:
 
 #### 1. Parameters and Returns
 
-Functions and methods should define all paramter arguments and returns with the `@param` and `@return` tags.
+Functions and methods should define all parameter arguments and returns with the `@param` and `@return` tags.
 
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
@@ -249,7 +249,7 @@ Class DocBlocks should be formatted as follows:
 
 + Summary
 + Description (Optional)
-+ Links and References (as an example use `@see` to referenece a super class when documenting a sub class)
++ Links and References (as an example use `@see` to reference a super class when documenting a sub class)
 + Changelog
 
 ```
