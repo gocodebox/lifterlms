@@ -13,34 +13,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.16.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since [version] Extends LLMS_Abstract_Post_Data.
  */
-class LLMS_Quiz_Data extends LLMS_Course_Data {
-
-	/**
-	 * @var LLMS_Quiz
-	 * @since 3.16.0
-	 */
-	public $quiz;
-
-	/**
-	 * WP Post ID of the quiz
-	 * @var int
-	 * @since 3.16.0
-	 */
-	public $quiz_id;
-
-	/**
-	 * Constructor
-	 * @param    int     $quiz_id  WP Post ID of the quiz
-	 * @since    3.16.0
-	 * @version  3.16.0
-	 */
-	public function __construct( $quiz_id ) {
-
-		$this->quiz_id = $quiz_id;
-		$this->quiz = llms_get_post( $this->quiz_id );
-
-	}
+class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve # of quiz attempts within the period
@@ -59,7 +34,7 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 			WHERE quiz_id = %d
 			  AND update_date BETWEEN %s AND %s
 			",
-			$this->quiz_id,
+			$this->post_id,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
@@ -83,7 +58,7 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 			WHERE quiz_id = %d
 			  AND update_date BETWEEN %s AND %s
 			",
-			$this->quiz_id,
+			$this->post_id,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
@@ -111,7 +86,7 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 			  AND status = %s
 			  AND update_date BETWEEN %s AND %s
 			",
-			$this->quiz_id,
+			$this->post_id,
 			$status,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
@@ -139,23 +114,6 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	 */
 	public function get_pass_count( $period = 'current' ) {
 		return $this->get_count_by_status( 'pass', $period );
-	}
-
-	/**
-	 * Retrieve recent LLMS_User_Postmeta for the quiz
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
-	 */
-	public function recent_events() {
-
-		$query = new LLMS_Query_User_Postmeta( array(
-			'per_page' => 10,
-			'post_id' => $this->quiz_id,
-		) );
-
-		return $query->get_metas();
-
 	}
 
 }

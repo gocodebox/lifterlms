@@ -13,53 +13,15 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.15.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since [version] Extends LLMS_Abstract_Post_Data.
  */
-class LLMS_Course_Data {
+class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
-	 * @var LLMS_Course
-	 * @since 3.15.0
+	 * @var string
+	 * @since [version]
 	 */
-	public $course;
-
-	/**
-	 * @var int
-	 * @since 3.15.0
-	 */
-	public $course_id;
-
-	/**
-	 * @var array
-	 * @since 3.15.0
-	 */
-	protected $dates = array();
-
-	/**
-	 * Constructor
-	 * @param    int     $course_id  WP Post ID of the course
-	 * @since    3.15.0
-	 * @version  3.15.0
-	 */
-	public function __construct( $course_id ) {
-
-		$this->course_id = $course_id;
-		$this->course = llms_get_post( $this->course_id );
-
-	}
-
-	/**
-	 * Allow dates and timestamps to be passed into various data functions
-	 * @param    mixed     $date  date string or timestamp
-	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.16.0
-	 */
-	protected function strtotime( $date ) {
-		if ( ! is_numeric( $date ) ) {
-			$date = date( 'U', strtotime( $date ) );
-		}
-		return $date;
-	}
+	protected $recent_events_types = 'all';
 
 	/**
 	 * Retrieve an array of all post ids in the course
@@ -70,126 +32,11 @@ class LLMS_Course_Data {
 	 */
 	private function get_all_ids() {
 		return array_merge(
-			array( $this->course_id ),
-			$this->course->get_sections( 'ids' ),
-			$this->course->get_lessons( 'ids' ),
-			$this->course->get_quizzes()
+			array( $this->post_id ),
+			$this->post->get_sections( 'ids' ),
+			$this->post->get_lessons( 'ids' ),
+			$this->post->get_quizzes()
 		);
-	}
-
-	/**
-	 * Retrieve a start or end date based on the period
-	 * @param    string     $period  period [current|previous]
-	 * @param    string     $date    date type [start|end]
-	 * @return   string
-	 * @since    3.15.0
-	 * @version  3.16.0
-	 */
-	protected function get_date( $period, $date ) {
-
-		return date( 'Y-m-d H:i:s', $this->dates[ $period ][ $date ] );
-
-	}
-
-	/**
-	 * Set the dates passed on a date range period
-	 * @param    string     $period  date range period
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.17.2
-	 */
-	public function set_period( $period = 'today' ) {
-
-		$now = current_time( 'timestamp' );
-
-		switch ( $period ) {
-
-			case 'all_time':
-				$curr_start = 0;
-				$curr_end = $now;
-
-				$prev_start = 0;
-				$prev_end = $now;
-			break;
-
-			case 'last_year':
-				$curr_start = strtotime( 'first day of january last year', $now );
-				$curr_end = strtotime( 'last day of december last year', $now );
-
-				$prev_start = strtotime( 'first day of january last year', $curr_start );
-				$prev_end = strtotime( 'last day of december last year', $curr_start );
-			break;
-
-			case 'year':
-				$curr_start = strtotime( 'first day of january this year', $now );
-				$curr_end = strtotime( 'last day of december this year', $now );
-
-				$prev_start = strtotime( 'first day of january last year', $now );
-				$prev_end = strtotime( 'last day of december last year', $now );
-			break;
-
-			case 'last_month':
-				$curr_start = strtotime( 'first day of previous month', $now );
-				$curr_end = strtotime( 'last day of previous month', $now );
-
-				$prev_start = strtotime( 'first day of previous month', $curr_start );
-				$prev_end = strtotime( 'last day of previous month', $curr_start );
-			break;
-
-			case 'month':
-				$curr_start = strtotime( 'first day of this month', $now );
-				$curr_end = strtotime( 'last day of this month', $now );
-
-				$prev_start = strtotime( 'first day of previous month', $now );
-				$prev_end = strtotime( 'last day of previous month', $now );
-			break;
-
-			case 'last_week':
-				$curr_start = strtotime( 'monday this week', $now - WEEK_IN_SECONDS );
-				$curr_end = $now;
-
-				$prev_start = strtotime( 'monday previous week', $curr_start - WEEK_IN_SECONDS );
-				$prev_end = $curr_start - DAY_IN_SECONDS;
-			break;
-
-			case 'week':
-				$curr_start = strtotime( 'monday this week', $now );
-				$curr_end = $now;
-
-				$prev_start = strtotime( 'monday previous week', $now );
-				$prev_end = $curr_start - DAY_IN_SECONDS;
-			break;
-
-			case 'yesterday':
-				$curr_start = $now - DAY_IN_SECONDS;
-				$curr_end = $curr_start;
-
-				$prev_start = $curr_start - DAY_IN_SECONDS;
-				$prev_end = $prev_start;
-			break;
-
-			case 'today':
-			default:
-
-				$curr_start = $now;
-				$curr_end = $now;
-
-				$prev_start = $now - DAY_IN_SECONDS;
-				$prev_end = $prev_start;
-
-		}// End switch().
-
-		$this->dates = array(
-			'current' => array(
-				'start' => strtotime( 'midnight', $curr_start ),
-				'end' => strtotime( 'tomorrow', $curr_end ) - 1,
-			),
-			'previous' => array(
-				'start' => strtotime( 'midnight', $prev_start ),
-				'end' => strtotime( 'tomorrow', $prev_end ) - 1,
-			),
-		);
-
 	}
 
 	/**
@@ -211,7 +58,7 @@ class LLMS_Course_Data {
 			  AND post_id = %d
 			  AND updated_date BETWEEN %s AND %s
 			",
-			$this->course_id,
+			$this->post_id,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
@@ -237,7 +84,7 @@ class LLMS_Course_Data {
 			  AND post_id = %d
 			  AND updated_date BETWEEN %s AND %s
 			",
-			$this->course_id,
+			$this->post_id,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
@@ -283,7 +130,7 @@ class LLMS_Course_Data {
 
 		global $wpdb;
 
-		$lessons = implode( ',', $this->course->get_lessons( 'ids' ) );
+		$lessons = implode( ',', $this->post->get_lessons( 'ids' ) );
 
 		return $wpdb->get_var( $wpdb->prepare( "
 			SELECT COUNT( * )
@@ -381,7 +228,7 @@ class LLMS_Course_Data {
 			  AND post_id = %d
 			  AND updated_date BETWEEN %s AND %s
 			",
-			$this->course_id,
+			$this->post_id,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
@@ -403,7 +250,7 @@ class LLMS_Course_Data {
 			'post_status' => array( 'llms-active', 'llms-complete' ),
 			'posts_per_page' => $num_orders,
 			'meta_key' => '_llms_product_id',
-			'meta_value' => $this->course_id,
+			'meta_value' => $this->post_id,
 		);
 
 		if ( $dates ) {
@@ -413,24 +260,6 @@ class LLMS_Course_Data {
 		$query = new WP_Query( $args );
 
 		return $query;
-
-	}
-
-	/**
-	 * Retrieve recent LLMS_User_Postmeta for the course
-	 * @return   array
-	 * @since    3.15.0
-	 * @version  3.15.0
-	 */
-	public function recent_events() {
-
-		$query = new LLMS_Query_User_Postmeta( array(
-			'per_page' => 10,
-			'post_id' => $this->course_id,
-			'types' => 'all',
-		) );
-
-		return $query->get_metas();
 
 	}
 
