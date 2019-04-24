@@ -405,15 +405,12 @@ class LLMS_Admin_Reporting {
 		$change = false;
 		if ( $args['data_compare'] && $args['data'] ) {
 
-			if ( $args['data'] ) {
-
-				$change = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
-				$compare_operator = ( $change <= 0 ) ? '' : '+';
-				if ( 'positive' === $args['impact'] ) {
-					$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
-				} else {
-					$compare_class = ( $change <= 0 ) ? 'positive' : 'negative';
-				}
+			$change = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
+			$compare_operator = ( $change <= 0 ) ? '' : '+';
+			if ( 'positive' === $args['impact'] ) {
+				$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
+			} else {
+				$compare_class = ( $change <= 0 ) ? 'positive' : 'negative';
 			}
 		}
 
