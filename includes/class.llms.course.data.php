@@ -18,10 +18,35 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
+	 * @var LLMS_Course
+	 * @since 3.15.0
+	 */
+	public $course;
+	/**
+	 * @var int
+	 * @since 3.15.0
+	 */
+	public $course_id;
+
+	/**
 	 * @var string
 	 * @since [version]
 	 */
 	protected $recent_events_types = 'all';
+
+	/**
+	 * Constructor
+	 * @param    int     $course_id  WP Post ID of the course
+	 * @since    3.15.0
+	 * @version  3.15.0
+	 */
+	public function __construct( $course_id ) {
+
+		$this->course_id = $course_id;
+		$this->course = llms_get_post( $this->course_id );
+		parent::__construct( $course_id );
+
+	}
 
 	/**
 	 * Retrieve an array of all post ids in the course

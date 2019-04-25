@@ -18,6 +18,33 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
+	 * @var LLMS_Quiz
+	 * @since 3.16.0
+	 */
+	public $quiz;
+
+	/**
+	 * WP Post ID of the quiz
+	 * @var int
+	 * @since 3.16.0
+	 */
+	public $quiz_id;
+
+	/**
+	 * Constructor
+	 * @param    int     $quiz_id  WP Post ID of the quiz
+	 * @since    3.16.0
+	 * @version  3.16.0
+	 */
+	public function __construct( $quiz_id ) {
+
+		$this->quiz_id = $quiz_id;
+		$this->quiz = llms_get_post( $this->quiz_id );
+		parent::__construct( $quiz_id );
+
+	}
+
+	/**
 	 * Retrieve # of quiz attempts within the period
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
