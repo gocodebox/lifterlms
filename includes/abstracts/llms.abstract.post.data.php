@@ -37,19 +37,6 @@ abstract class LLMS_Abstract_Post_Data {
 	protected $dates = array();
 
 	/**
-	 * @var int
-	 * @since [version]
-	 */
-	protected $recent_events_per_page = 10;
-
-	/**
-	 * @var string
-	 * @since [version]
-	 */
-	protected $recent_events_types = '';
-
-
-	/**
 	 * Constructor
 	 * @param    int     $post_id  WP Post ID of the LLMS Post
 	 * @since    [version]
@@ -219,16 +206,13 @@ abstract class LLMS_Abstract_Post_Data {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function recent_events() {
+	public function recent_events( $args = array() ) {
 
-		$query_args = array(
-			'per_page' => $this->recent_events_per_page,
+		$query_args = wp_parse_args( $args, array(
+			'per_page' => 10,
 			'post_id'  => $this->post_id,
-		);
-
-		if ( $this->recent_events_types ) {
-			$query_args['types'] = $this->recent_events_types;
-		}
+			'types'    => 'all',
+		));
 
 		$query = new LLMS_Query_User_Postmeta( $query_args );
 

@@ -143,4 +143,20 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 		return $this->get_count_by_status( 'pass', $period );
 	}
 
+	/**
+	 * Retrieve recent LLMS_User_Postmeta for the quiz.
+	 * This overrides the LLMS_Abstract_Post_Data method.
+	 *
+	 * @return   array
+	 * @since    3.16.0
+	 * @version  3.16.0
+	 */
+	public function recent_events( $args = array() ) {
+
+		$query_args = wp_parse_args( $args, array(
+			'types'    => array(),
+		) );
+
+		return parent::recent_events( $query_args );
+	}
 }
