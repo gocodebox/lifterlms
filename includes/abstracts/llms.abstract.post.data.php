@@ -22,13 +22,13 @@ abstract class LLMS_Abstract_Post_Data {
 	 * @var obj LLMS_Post_Model
 	 * @since [version]
 	 */
-	public $post;
+	protected $post;
 
 	/**
 	 * @var int
 	 * @since [version]
 	 */
-	public $post_id;
+	protected $post_id;
 
 	/**
 	 * @var array
@@ -60,6 +60,28 @@ abstract class LLMS_Abstract_Post_Data {
 		$this->post_id = $post_id;
 		$this->post    = llms_get_post( $this->post_id );
 
+	}
+
+	/**
+	 * Retrieve the instance of the LLMS_Post_Model.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Post_Model the instance of the LLMS_Post_Model.
+	 */
+	public function get_post() {
+		return $this->post;
+	}
+
+	/**
+	 * Retrieve the LLMS_Post_Model ID.
+	 *
+	 * @since  [version]
+	 *
+	 * @return int The LLMS_Post_Model ID.
+	 */
+	public function get_post_id() {
+		return $this->post_id;
 	}
 
 	/**
