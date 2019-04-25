@@ -43,7 +43,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	public function __construct( $course_id ) {
 
 		$this->course_id = $course_id;
-		$this->course = llms_get_post( $this->course_id );
+		$this->course    = llms_get_post( $this->course_id );
 		parent::__construct( $course_id );
 
 	}
@@ -271,11 +271,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	private function orders_query( $num_orders = 1, $dates = array() ) {
 
 		$args = array(
-			'post_type' => 'llms_order',
-			'post_status' => array( 'llms-active', 'llms-complete' ),
+			'post_type'      => 'llms_order',
+			'post_status'    => array( 'llms-active', 'llms-complete' ),
 			'posts_per_page' => $num_orders,
-			'meta_key' => '_llms_product_id',
-			'meta_value' => $this->post_id,
+			'meta_key'       => '_llms_product_id',
+			'meta_value'     => $this->post_id,
 		);
 
 		if ( $dates ) {

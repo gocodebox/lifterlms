@@ -39,7 +39,7 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	public function __construct( $quiz_id ) {
 
 		$this->quiz_id = $quiz_id;
-		$this->quiz = llms_get_post( $this->quiz_id );
+		$this->quiz    = llms_get_post( $this->quiz_id );
 		parent::__construct( $quiz_id );
 
 	}
@@ -154,7 +154,7 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	public function recent_events( $args = array() ) {
 
 		$query_args = wp_parse_args( $args, array(
-			'types'    => array(),
+			'types' => array(),
 		) );
 
 		return parent::recent_events( $query_args );
