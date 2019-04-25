@@ -1,6 +1,6 @@
 <?php
 /**
- * Defines base methods and properties for querying data about LifterLMS Custom Post Types
+ * Defines base methods and properties for querying data about LifterLMS Custom Post Types.
  *
  * @package LifterLMS/Abstracts
  *
@@ -11,36 +11,40 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Post_Data abstract
+ * LLMS_Post_Data abstract.
  *
- * @since   [version]
- * @version [version]
+ * @since [version]
  */
 abstract class LLMS_Abstract_Post_Data {
 
 	/**
-	 * @var obj LLMS_Post_Model
+	 * LLMS Post instance.
+	 *
 	 * @since [version]
+	 * @var LLMS_Post_Model
 	 */
 	protected $post;
 
 	/**
-	 * @var int
+	 * LLMS Post ID.
+	 *
 	 * @since [version]
+	 * @var int
 	 */
 	protected $post_id;
 
 	/**
-	 * @var array
 	 * @since [version]
+	 * @var array
 	 */
 	protected $dates = array();
 
 	/**
-	 * Constructor
-	 * @param    int     $post_id  WP Post ID of the LLMS Post
-	 * @since    [version]
-	 * @version  [version]
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP Post ID of the LLMS Post.
 	 */
 	public function __construct( $post_id ) {
 
@@ -54,7 +58,7 @@ abstract class LLMS_Abstract_Post_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @return LLMS_Post_Model the instance of the LLMS_Post_Model.
+	 * @return LLMS_Post_Model The instance of the LLMS_Post_Model.
 	 */
 	public function get_post() {
 		return $this->post;
@@ -63,7 +67,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve the LLMS_Post_Model ID.
 	 *
-	 * @since  [version]
+	 * @since [version]
 	 *
 	 * @return int The LLMS_Post_Model ID.
 	 */
@@ -72,11 +76,12 @@ abstract class LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Allow dates and timestamps to be passed into various data functions
-	 * @param    mixed     $date  date string or timestamp
-	 * @return   int
-	 * @since    [version]
-	 * @version  [version]
+	 * Allow dates and timestamps to be passed into various data functions.
+	 *
+	 * @since [version]
+	 *
+	 * @param  mixed $date A date string or timestamp.
+	 * @return int The Unix timestamp of the given date.
 	 */
 	protected function strtotime( $date ) {
 		if ( ! is_numeric( $date ) ) {
@@ -86,12 +91,13 @@ abstract class LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve a start or end date based on the period
-	 * @param    string     $period  period [current|previous]
-	 * @param    string     $date    date type [start|end]
-	 * @return   string
-	 * @since    [version]
-	 * @version  [version]
+	 * Retrieve a start or end date based on the period.
+	 *
+	 * @since [version]
+	 *
+	 * @param  string $period Period [current|previous].
+	 * @param  string $date   The date type [start|end].
+	 * @return string The start or end date in the format 'Y-m-d H:i:s'.
 	 */
 	protected function get_date( $period, $date ) {
 
@@ -101,10 +107,11 @@ abstract class LLMS_Abstract_Post_Data {
 
 	/**
 	 * Set the dates passed on a date range period
-	 * @param    string     $period  date range period
-	 * @return   void
-	 * @since    [version]
-	 * @version  [version]
+	 *
+	 * @since [version]
+	 *
+	 * @param  string $period Date range period.
+	 * @return void
 	 */
 	public function set_period( $period = 'today' ) {
 
@@ -202,17 +209,26 @@ abstract class LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve recent LLMS_User_Postmeta for the quiz
-	 * @return   array
-	 * @since    [version]
-	 * @version  [version]
+	 *
+	 * @since [version]
+	 *
+	 * @param array $args {
+	 *     Optional. An array of arguments to feed the LLMS_Query_User_Postmeta with.
+	 *
+	 *     @type int          $per_page The number of posts to query for. Default 10.
+	 *     @type array|string $types    Array of strings for the type of events to fetch, or a string to fetch them all. Default 'all'.
+	 *                                  @see LLMS_Query_User_Postmeta::parse_args()
+	 * }
+	 * @return array Array of LLMS_User_Postmetas.
 	 */
 	public function recent_events( $args = array() ) {
 
 		$query_args = wp_parse_args( $args, array(
 			'per_page' => 10,
-			'post_id'  => $this->post_id,
 			'types'    => 'all',
 		));
+
+		$query_args['post_id'] = $this->post_id;
 
 		$query = new LLMS_Query_User_Postmeta( $query_args );
 
