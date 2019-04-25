@@ -306,10 +306,10 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		?>
 		<div class="llms-table-filters">
 			<div class="llms-table-filter-wrap">
-				<label class="screen-reader-text" for="<?php echo $select_id ?>">
+				<label class="screen-reader-text" for="<?php echo $select_id; ?>">
 					<?php _e( 'Choose Course/Membership', 'lifterlms' ); ?>
 				</label>
-				<select data-post-type="llms_membership,course" class="llms-posts-select2 llms-table-filter" id="<?php echo $select_id ?>" name="course_membership" style="min-width:200px;max-width:500px;"></select>
+				<select data-post-type="llms_membership,course" class="llms-posts-select2 llms-table-filter" id="<?php echo $select_id; ?>" name="course_membership" style="min-width:200px;max-width:500px;"></select>
 			</div>
 		</div>
 		<?php
