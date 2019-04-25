@@ -278,7 +278,7 @@ Class properties and constants should be formatted as follows:
  * Summary.
  *
  * @since x.x.x
- * @var type $var Optional description.
+ * @var type Optional description.
  */
 ```
 
