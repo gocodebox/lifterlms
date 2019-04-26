@@ -5,6 +5,7 @@ v3.30.4 - 2019-04-??
 --------------------
 
 + Adds explicit support for the twentynineteen default theme.
++ Treat `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
 
 
 v3.30.3 - 2019-04-22
