@@ -319,9 +319,10 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Retrieve an array of query arguments to pass to the LLMS_Student_Query
 	 *
-	 * @return  array
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 * @since [version] Added logic to setup the query args in order to allow the filtering by Course or Membership.
+	 *
+	 * @return array
 	 */
 	private function get_query_args() {
 
@@ -452,10 +453,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Parse arguments passed to get_results() method & setup table class variables.
 	 *
+	 * @since 3.28.0
+	 * @since [version] Added logic to parse 'filterby' and 'filter' args when this table is filterable.
+	 *
 	 * @param   array     $args array of arguments.
 	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 *
 	 */
 	protected function parse_args( $args = array() ) {
 
