@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:515, includes/admin/class.llms.admin.menus.php:135
+#: lifterlms.php:535, includes/admin/class.llms.admin.menus.php:135
 msgid "Settings"
 msgstr ""
 
@@ -2762,7 +2762,7 @@ msgstr ""
 msgid "The selected payment Gateway \"%s\" does not support payment method switching."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.post.model.php:358
+#: includes/abstracts/abstract.llms.post.model.php:359
 msgid "An unknown error occurred during post cloning. Please try again."
 msgstr ""
 
@@ -10197,8 +10197,25 @@ msgstr ""
 msgid "Post visibility."
 msgstr ""
 
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:51
+msgid "Removes block editor code from all courses and lessons which were migrated to the block editor during an upgrade to WordPress 5.0 or later. If you installed the Classic Editor plugin after upgrading and see duplicate content items (such as the course syllabus or lesson mark complete button) this tool will remove the duplicates."
+msgstr ""
+
+#. translators: %d = number of affected courses/lessons.
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:54
+msgid "Currently %d courses and/or lessons are affected."
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:58
+msgid "Remove LifterLMS Block Code"
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-status-tools.php:59
+msgid "Remove Block Code"
+msgstr ""
+
 #. translators: %1$s = LifterLMS.
-#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:46
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:50
 msgid "%1$s Blocks"
 msgstr ""
 
