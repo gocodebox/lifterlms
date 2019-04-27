@@ -1,11 +1,15 @@
 LifterLMS Changelog
 ===================
 
-v3.30.4 - 2019-04-??
---------------------
+v3.30.4-beta.1 - 2019-04-26
+---------------------------
 
 + Adds explicit support for the twentynineteen default theme.
-+ Treat `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
++ Treats `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
++ Update to LifterLMS Blocks 1.4.0:
+
+  + Adds an "unmigration" utility to LifterLMS -> Status -> Tools & Utilities which can be used to remove LifterLMS blocks from courses and lessons which were migrated to the block editor structure.
+  + This tool is only available when the Classic Editor plugin is installed and enabled and it will remove blocks from ALL courses and lessons regardless of whether or not the block editor is being utilized on that post.
 
 
 v3.30.3 - 2019-04-22
