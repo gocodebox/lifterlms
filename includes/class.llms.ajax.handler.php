@@ -3,17 +3,18 @@
  * LifterLMS AJAX Event Handler
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_AJAX_Handler class
+ * LLMS_AJAX_Handler class.
  *
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
+ * @since [version] Handled the delete enrollment request in the `update_student_enrollment` method.
  */
 class LLMS_AJAX_Handler {
 
@@ -778,9 +779,12 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Add or remove a student from a course or membership
-	 * @since    3.0.0
-	 * @version  3.4.0
+	 * Add or remove a student from a course or membership.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Handle the delete enrollment request.
+	 *
+	 * @return void
 	 */
 	public static function update_student_enrollment( $request ) {
 
@@ -788,7 +792,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
 
-		if ( ! in_array( $request['status'], array( 'add', 'remove' ) ) ) {
+		if ( ! in_array( $request['status'], array( 'add', 'remove', 'delete' ) ) ) {
 			return new WP_Error( 400, __( 'Invalid status', 'lifterlms' ) );
 		}
 
@@ -796,6 +800,8 @@ class LLMS_AJAX_Handler {
 			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' . get_current_user_id() );
 		} elseif ( 'remove' === $request['status'] ) {
 			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
+		} elseif ( 'delete' === $request['status'] ) {
+			llms_delete_student_enrollment( $request['student_id'], $request['post_id'], 'any' );
 		}
 
 	}

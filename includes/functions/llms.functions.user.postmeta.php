@@ -2,8 +2,8 @@
 /**
  * CRUD LifterLMS User Postmeta Data
  * All functions are pluggable
- * @since    3.21.0
- * @version  3.21.0
+ * @since 3.21.0
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -33,6 +33,38 @@ if ( ! function_exists( 'llms_delete_user_postmeta' ) ) :
 		}
 
 		return $ret;
+
+	}
+endif;
+
+if ( ! function_exists( 'llms_bulk_delete_user_postmeta' ) ) :
+	/**
+	 * Bulk remove user postmeta data
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $user_id   WP User ID
+	 * @param int   $post_id   WP Post ID
+	 * @param array $data      key=>val Optional. Associative array of meta keys => meta values to delete.
+	 *                                  If not meta values supplied, all matching items will be removed. Default empty array.
+	 * @return array|boolean On error returns an associative array of the submitted keys, each item will be true for success or false for error.
+	 *                       On success returns true.
+	 *
+	 */
+	function llms_bulk_delete_user_postmeta( $user_id, $post_id, $data = array() ) {
+
+		$res  = array_fill_keys( array_keys( $data ), null );
+		$err  = false;
+
+		foreach ( $data as $key => $value ) {
+			$delete      = llms_delete_user_postmeta( $user_id, $post_id, $key, $value );
+			$res[ $key ] = $delete;
+			if ( ! $delete ) {
+				$err = true;
+			}
+		}
+
+		return $err ? $res : true;
 
 	}
 endif;

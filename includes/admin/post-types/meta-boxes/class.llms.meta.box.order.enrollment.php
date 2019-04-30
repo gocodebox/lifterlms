@@ -1,12 +1,19 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Metaboxes for Student Enrollment Information
  * Associated with a specific order
  *
- * @since    3.0.0
- * @version  3.18.0
+ * @since 3.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Metaboxes for Student Enrollment Information class.
+ *
+ * @since 3.0.0
+ * @since [version] Added the logic to handle the Enrollment 'deleted' status on save.
  */
 class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
@@ -61,7 +68,18 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
 		$select = '<select name="llms_student_new_enrollment_status">';
 		$select .= '<option value="">-- ' . esc_html__( 'Select', 'lifterlms' ) . ' --</option>';
-		foreach ( llms_get_enrollment_statuses() as $val => $name ) {
+
+		$enrollment_statuses = llms_get_enrollment_statuses();
+		// prepend the fictitious "Deleted" status.
+		$enrollment_statuses = is_array( $enrollment_statuses ) ? $enrollment_statuses : array( $enrollment_statuses );
+		$enrollment_statuses = array_merge(
+			array(
+				'deleted'   => __( 'Deleted', 'lifterlms' ),
+			),
+			$enrollment_statuses
+		);
+
+		foreach ( $enrollment_statuses as $val => $name ) {
 			$select .= '<option value="' . $val . '"' . selected( $val, strtolower( $current_status ), false ) . '>' . $name . '</option>';
 		}
 		$select .= '</select>';
@@ -89,12 +107,14 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Save method
-	 * Does nothing because there's no editable data in this metabox
-	 * @param    int     $post_id  Post ID of the Order
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.18.0
+	 * Save method.
+	 * Does nothing because there's no editable data in this metabox.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Added the logic to handle the Enrollment 'deleted' status.
+	 *
+	 * @param int $post_id  Post ID of the Order.
+	 * @return void
 	 */
 	public function save( $post_id ) {
 		if ( isset( $_POST['llms_update_enrollment_status'] ) && isset( $_POST['llms_student_old_enrollment_status'] ) && isset( $_POST['llms_student_new_enrollment_status'] ) ) {
@@ -111,6 +131,15 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 				if ( 'enrolled' === $new_status ) {
 
 					llms_enroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
+
+				} elseif ( 'deleted' === $new_status ) {
+
+					// Switch the order status to Cancelled: it will also unenroll the student setting the enrollment status to 'cancelled' as well
+					// @see `LLMS_Controller_Orders->error_order()`
+					$order->set_status( 'cancelled' );
+
+					// Completely remove any enrollment records related to the given product.
+					llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'any' );
 
 				} else {
 

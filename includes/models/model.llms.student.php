@@ -4,14 +4,18 @@
  * Manages data and interactions with a LifterLMS Student
  *
  * @package LifterLMS/Models
- * @since   2.2.3
- * @version 3.26.0
+ * @since 2.2.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Student model.
+ * LLMS_Student model class.
+ *
+ * @since 2.2.3
+ * @since [version] Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
+ * @since [version] Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1201,6 +1205,28 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
+	 * Remove student enrollment postmeta for a given product.
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $product_id WP Post ID of the course or membership.
+	 * @param string $trigger    Optional. String the reason for enrollment. Default `null`
+	 * @return boolean Whether or not the enrollment records have been succesfully removed.
+	 */
+	private function delete_enrollment_postmeta( $product_id, $trigger = null ) {
+
+		// delete info from the user postmeta table
+		$user_metadatas = array(
+			'_enrollment_trigger' => $trigger,
+			'_start_date'         => null,
+			'_status'             => null,
+		);
+		$delete = llms_bulk_delete_user_postmeta( $this->get_id(), $product_id, $user_metadatas );
+
+		return is_array( $delete ) ? false : true;
+	}
+
+	/**
 	 * Add a new status record to the user postmeta table for a specific product
 	 * @param    int    $product_id   WP Post ID of the course or membership
 	 * @param    string $status       string describing the new status
@@ -1431,6 +1457,73 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		// return false if we didn't update
+		return false;
+
+	}
+
+	/**
+	 * Delete a student enrollment.
+	 *
+	 * @since [version]
+	 *
+	 * @param  int     $product_id  WP Post ID of the course or membership.
+	 * @param  string  $trigger     Optiona. Only delete the student's enrollment if the original enrollment trigger matches the submitted value
+	 *                              "any" will remove regardless of enrollment trigger. Default "any".
+	 * @return boolean Whether or not the enrollment records have been succesfully removed.
+	 *
+	 * @see  llms_delete_student_enrollment() calls this function without having to instantiate the LLMS_Student class first.
+	 */
+	public function delete_enrollment( $product_id, $trigger = 'any' ) {
+
+		// assume we can't delete the enrollment
+		$delete = false;
+
+		// if trigger is "any" we'll just delete the enrollment regardless of the trigger.
+		if ( 'any' === $trigger ) {
+
+			$delete = true;
+
+		} // End if().
+		else {
+
+			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
+
+			// no enrollment trigger exists b/c pre 3.0.0 enrollment, delete the user's enrollment.
+			if ( ! $enrollment_trigger ) {
+
+				$delete = apply_filters( 'lifterlms_legacy_delete_enrollment_action', true );
+
+			} // End if().
+			elseif ( $enrollment_trigger === $trigger ) {
+
+				$delete = true;
+
+			}
+		}
+
+		// delete if we can
+		if ( $delete ) {
+
+			// Unenroll the student if enrolled
+			$this->unenroll( $product_id, $trigger, 'expired' );
+
+			// delete enrollment for the product
+			if ( $this->delete_enrollment_postmeta( $product_id ) ) {
+
+				// clean the cache
+				$this->cache_delete( sprintf( 'enrollment_status_%d', $product_id ) );
+				$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
+				$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
+
+				// trigger action
+				do_action( 'llms_user_enrollment_deleted', $this->get_id(), $product_id );
+
+				return true;
+
+			}
+		}
+
+		// return false if we didn't remove anything
 		return false;
 
 	}
