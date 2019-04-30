@@ -1221,6 +1221,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			'_start_date'         => null,
 			'_status'             => null,
 		);
+
 		$delete = llms_bulk_delete_user_postmeta( $this->get_id(), $product_id, $user_metadatas );
 
 		return is_array( $delete ) ? false : true;

@@ -53,8 +53,8 @@ if ( ! function_exists( 'llms_bulk_delete_user_postmeta' ) ) :
 	 */
 	function llms_bulk_delete_user_postmeta( $user_id, $post_id, $data = array() ) {
 
-		$res  = array_fill_keys( array_keys( $data ), null );
-		$err  = false;
+		$res = array_fill_keys( array_keys( $data ), null );
+		$err = false;
 
 		foreach ( $data as $key => $value ) {
 			$delete      = llms_delete_user_postmeta( $user_id, $post_id, $key, $value );

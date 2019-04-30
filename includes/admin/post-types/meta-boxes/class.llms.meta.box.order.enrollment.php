@@ -74,7 +74,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		$enrollment_statuses = is_array( $enrollment_statuses ) ? $enrollment_statuses : array( $enrollment_statuses );
 		$enrollment_statuses = array_merge(
 			array(
-				'deleted'   => __( 'Deleted', 'lifterlms' ),
+				'deleted' => __( 'Deleted', 'lifterlms' ),
 			),
 			$enrollment_statuses
 		);
