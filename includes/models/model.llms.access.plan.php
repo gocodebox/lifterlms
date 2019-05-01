@@ -48,6 +48,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Added checkout redirect properties and methods
  * @since 3.30.1 Added method to get the initial price due on checkout.
+ * @since [version] Added 'llms_access_plan_get_checkout_url' filter and deprecated 'llms_plan_get_checkout_url' filter.
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
@@ -265,7 +266,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * @since    3.0.0
 	 * @since    3.30.0 Added access plan redirection settings.
-	 * @version  3.30.0
+	 * @since    [version] Added 'llms_access_plan_get_checkout_url' filter and deprecated 'llms_plan_get_checkout_url' filter.
 	 *
 	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
 	 * @return   string
@@ -310,12 +311,24 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * Filter the checkout URL for an access plan.
 		 *
 		 * @since Unknown
-		 * @version 3.30.0
+		 * @deprecated [version], use 'llms_access_plan_get_checkout_url' instead.
 		 *
 		 * @param string $ret The checkout URL.
 		 * @param LLMS_Access_Plan $this Access plan object.
 		 */
-		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
+		$ret = apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
+
+		/**
+		 * Filter the checkout URL for an access plan.
+		 *
+		 * @since [version]
+		 *
+		 * @param string           $ret                The checkout URL.
+		 * @param bool             $check_availability Determine if availability checks should be made.
+		 *                                             (allows retrieving plans on admin panel)
+		 * @param LLMS_Access_Plan $this               Access plan object.
+		 */
+		return apply_filters( 'llms_access_plan_get_checkout_url', $ret, $check_availability, $this );
 
 	}
 
