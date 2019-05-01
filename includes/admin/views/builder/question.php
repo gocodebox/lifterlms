@@ -124,6 +124,28 @@
 				<# } #>
 			</div>
 
+			<# if ( data.get( 'question_type' ).get( 'choices' ) ) { #>
+				<# if ( data.get( 'question_type' ).get_multi_choices() && data.get( 'question_type' ).get_choice_selectable() ) { #>
+					<div class="llms-settings-row">
+						<div class="llms-settings-field">
+							<label class="llms-switch">
+								<span class="llms-label"><?php _e( 'Multiple Correct Choices', 'lifterlms' ); ?></span>
+								<input type="checkbox" name="multi_choices"<# if ( 'yes' === data.get( 'multi_choices' ) ) { print( ' checked' ) } #>>
+								<div class="llms-switch-slider"></div>
+							</label>
+						</div>
+
+						<div class="llms-settings-field">
+							<label class="llms-switch">
+								<span class="llms-label"><?php _e( 'Randomize Choices', 'lifterlms' ); ?></span>
+								<input type="checkbox" name="rand_choices"<# if ( 'yes' === data.get( 'rand_choices' ) ) { print( ' checked' ) } #>>
+								<div class="llms-switch-slider"></div>
+							</label>
+						</div>
+					</div>
+				<# } #>
+			<# } #>
+
 			<?php do_action( 'llms_builder_question_after_features' ); ?>
 
 		</div>
@@ -134,14 +156,6 @@
 				<header class="llms-question-choices-list-header">
 
 					<span class="llms-label"><?php _e( 'Choices', 'lifterlms' ); ?></span>
-
-					<# if ( data.get( 'question_type' ).get_multi_choices() && data.get( 'question_type' ).get_choice_selectable() ) { #>
-						<label class="llms-switch">
-							<span class="llms-label"><?php _e( 'Multiple Correct Choices', 'lifterlms' ); ?></span>
-							<input type="checkbox" name="multi_choices"<# if ( 'yes' === data.get( 'multi_choices' ) ) { print( ' checked' ) } #>>
-							<div class="llms-switch-slider"></div>
-						</label>
-					<# } #>
 
 				</header>
 

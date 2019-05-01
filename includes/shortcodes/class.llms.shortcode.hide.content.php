@@ -7,9 +7,9 @@ defined( 'ABSPATH' ) || exit;
  * [lifterlms_hide_content]
  *
  * @example
- * 		[hide_content id="1"] allows user with access to 1 to access content
- * 		[hide_content id="1,2,3,4" relation="any"] allows user with access to 1,2,3, OR 4 to access content
- *   	[hide_content id="1,2,3,4" relation="all"] allows only users with access 1,2,3 AND 4 to access
+ * 		[lifterlms_hide_content id="1"] allows user with access to 1 to access content
+ * 		[lifterlms_hide_content id="1,2,3,4" relation="any"] allows user with access to 1,2,3, OR 4 to access content
+ *   	[lifterlms_hide_content id="1,2,3,4" relation="all"] allows only users with access 1,2,3 AND 4 to access
  *
  * @since    3.5.1
  * @version  3.24.1

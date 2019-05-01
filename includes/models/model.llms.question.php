@@ -34,6 +34,7 @@ class LLMS_Question extends LLMS_Post_Model {
 		'points' => 'absint',
 		'question_type' => 'string',
 		'question' => 'html',
+		'rand_choices' => 'yesno',
 		'title' => 'html',
 		'video_enabled' => 'yesno',
 		'video_src' => 'string',
@@ -190,7 +191,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *                       'ids' returns an array of LLMS_Question_Choice ids.
 	 * @return array
 	 */
-	public function get_choices( $return = 'choices' ) {
+	public function get_choices( $return = 'choices', $context = 'edit' ) {
 
 		global $wpdb;
 		$results = $wpdb->get_results( $wpdb->prepare(
@@ -203,6 +204,11 @@ class LLMS_Question extends LLMS_Post_Model {
 		) );
 
 		usort( $results, array( $this, 'sort_choices' ) );
+
+		// If choices are to be displayed and randomization is enabled randomize them.
+		if ( 'display' === $context && llms_parse_bool( $this->get( 'rand_choices' ) ) ) {
+			$results = llms_shuffle_choices( $results );
+		}
 
 		if ( 'ids' === $return ) {
 			return wp_list_pluck( $results, 'id' );

@@ -79,6 +79,7 @@ define( [
 				description_enabled: 'no',
 				image: {},
 				multi_choices: 'no',
+				rand_choices: 'yes',
 				menu_order: 1,
 				points: 1,
 				question_type: 'generic',

@@ -24,9 +24,11 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 *
+	 * @since 3.16.12
+	 * @since [version] Add rand_choices.
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array(
@@ -38,6 +40,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 			'parent_id' => 'absint',
 			'points' => 'absint',
 			'question_type' => 'string',
+			'rand_choices' => 'yesno',
 			'title' => 'html',
 			'video_enabled' => 'yesno',
 			'video_src' => 'string',
@@ -47,9 +50,11 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 *
+	 * @since 3.16.12
+	 * @since [version] Add rand_choices.
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
@@ -61,6 +66,7 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 			'parent_id' => 123,
 			'points' => 3,
 			'question_type' => 'choice',
+			'rand_choices' => 'yes',
 			'title' => 'this <b>is</b> <i>a</i> question',
 			'video_enabled' => 'yes',
 			'video_src' => 'http://example.tld/video_embed',
@@ -136,14 +142,14 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the get_questions() method.
+	 * Test the get_choices() method.
 	 *
 	 * @since 3.30.1
-	 * @version 3.30.1
+	 * @since [version] Renamed to `test_get_choices()` from `test_get_questions()` because it is actually testing choices not questions.
 	 *
 	 * @return void
 	 */
-	public function test_get_questions() {
+	public function test_get_choices() {
 
 		foreach ( array( range( 'A', 'Z' ), range( 1, 26 ) ) as $i => $markers ) {
 
@@ -199,6 +205,27 @@ class LLMS_Test_LLMS_Question extends LLMS_PostModelUnitTestCase {
 
 		// Remove marker filter.
 		remove_all_filters( 'llms_get_question_type', 923 );
+
+	}
+
+	public function test_get_choices_rand() {
+
+			$this->create();
+			$this->obj->set( 'question_type', 'choice' );
+			$this->obj->set( 'rand_choices', 'yes' );
+			$i = 0;
+			while ( $i < 4 ) {
+				$this->obj->create_choice( array() );
+				$i++;
+			}
+
+			$orig_choices = $this->obj->get_choices( 'ids', 'edit' ); // original choice order.
+			$choices = $this->obj->get_choices( 'choices', 'display' );
+
+			foreach ( $choices as $choice ) {
+				var_dump( $choice->get( 'marker' ) );
+			}
+
 
 	}
 
