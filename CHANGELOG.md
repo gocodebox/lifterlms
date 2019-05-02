@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.31.0-beta.2 - 2019-05-??
+---------------------------
+
++ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
+
+
 v3.31.0-beta.1 - 2019-04-26
 ---------------------------
 
