@@ -278,6 +278,16 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "andrewvaughan",
+      "name": "Andrew Vaughan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1119590?v=4",
+      "profile": "https://andrewvaughan.io",
+      "contributions": [
+        "bug",
+        "code"
+      ]
     }
   ]
 }
