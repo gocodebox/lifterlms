@@ -50,7 +50,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
-	private function get_post__in() {
+	protected function get_post__in() {
 
 		$ids = array();
 		$post_id = $this->get_attribute( 'id' );
@@ -82,7 +82,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
-	private function get_tax_query() {
+	protected function get_tax_query() {
 
 		$has_tax_query = false;
 
@@ -131,7 +131,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
-	private function get_wp_query() {
+	protected function get_wp_query() {
 
 		$args = array(
 			'paged' => get_query_var( 'paged' ),
