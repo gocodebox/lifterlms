@@ -6,7 +6,7 @@
  * @package  LifterLMS/Models
  *
  * @since    3.0.0
- * @version  3.30.1
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -48,6 +48,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Added checkout redirect properties and methods
  * @since 3.30.1 Added method to get the initial price due on checkout.
+ * @since [version] The `$check_availability` parameter was added to the `llms_plan_get_checkout_url` filter.
  */
 class LLMS_Access_Plan extends LLMS_Post_Model {
 
@@ -265,7 +266,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * @since    3.0.0
 	 * @since    3.30.0 Added access plan redirection settings.
-	 * @version  3.30.0
 	 *
 	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
 	 * @return   string
@@ -310,12 +310,14 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 * Filter the checkout URL for an access plan.
 		 *
 		 * @since Unknown
-		 * @version 3.30.0
+		 * @since [version] The `$check_availability` parameter was added.
 		 *
-		 * @param string $ret The checkout URL.
+		 * @param string $ret      The checkout URL.
 		 * @param LLMS_Access_Plan $this Access plan object.
+		 * @param bool             $check_availability Determine if availability checks should be made.
+		 *                                             (allows retrieving plans on admin panel)
 		 */
-		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this );
+		return apply_filters( 'llms_plan_get_checkout_url', $ret, $this, $check_availability );
 
 	}
 
