@@ -1,8 +1,9 @@
 <?php
 /**
- * Individual Student's Courses Table
+ * Students Reporting Table
  *
  * @since   3.2.0
+ * @since   [version] Allow filtering the table by Course or Membership
  * @version 3.28.0
  */
 
@@ -20,10 +21,35 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	protected $id = 'students';
 
 	/**
+	 * Value of the field being filtered by
+	 * Only applicable if $filterby is set
+	 *
+	 * @since [version]
+	 * @var  string
+	 */
+	protected $filter = '';
+
+	/**
+	 * Field results are filtered by
+	 *
+	 * @since [version]
+	 * @var  string
+	 */
+	protected $filterby = 'course_membership';
+
+	/**
 	 * Is the Table Exportable?
 	 * @var  boolean
 	 */
 	protected $is_exportable = true;
+
+	/**
+	 * Determine if the table is filterable
+	 *
+	 * @since [version]
+	 * @var  boolean
+	 */
+	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
@@ -265,11 +291,38 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
+	 * Get HTML for the filters displayed in the head of the table
+	 *
+	 * This overrides the LLMS_Admin_Table method.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_table_filters_html() {
+		$select_id = sprintf( '%1$s-%2$s-filter', $this->id, 'course-membership' );
+
+		ob_start();
+		?>
+		<div class="llms-table-filters">
+			<div class="llms-table-filter-wrap">
+				<label class="screen-reader-text" for="<?php echo $select_id; ?>">
+					<?php _e( 'Choose Course/Membership', 'lifterlms' ); ?>
+				</label>
+				<select data-post-type="llms_membership,course" class="llms-posts-select2 llms-table-filter" id="<?php echo $select_id; ?>" name="course_membership" style="min-width:200px;max-width:500px;"></select>
+			</div>
+		</div>
+		<?php
+		return ob_get_clean();
+	}
+
+	/**
 	 * Retrieve an array of query arguments to pass to the LLMS_Student_Query
 	 *
-	 * @return  array
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 * @since [version] Added logic to setup the query args in order to allow the filtering by Course or Membership.
+	 *
+	 * @return array
 	 */
 	private function get_query_args() {
 
@@ -283,6 +336,11 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
 
 			$query_args['statuses'] = array( $this->get_filter() );
+
+		} elseif ( 'course_membership' === $this->get_filterby() && '' !== $this->get_filter() ) {
+
+			$query_args['post_id']  = absint( $this->get_filter() );
+			$query_args['statuses'] = 'enrolled';
 
 		}
 
@@ -395,10 +453,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Parse arguments passed to get_results() method & setup table class variables.
 	 *
+	 * @since 3.28.0
+	 * @since [version] Added logic to parse 'filterby' and 'filter' args when this table is filterable.
+	 *
 	 * @param   array     $args array of arguments.
 	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 *
 	 */
 	protected function parse_args( $args = array() ) {
 
@@ -416,6 +476,11 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
 
 		$this->per_page = isset( $args['per_page'] ) ? $args['per_page'] : $this->get_per_page();
+
+		if ( $this->is_filterable ) {
+			$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
+			$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		}
 
 		if ( isset( $args['search'] ) ) {
 			$this->search = $args['search'];
