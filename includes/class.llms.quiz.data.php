@@ -13,8 +13,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.16.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since [version] Extends LLMS_Abstract_Post_Data.
  */
-class LLMS_Quiz_Data extends LLMS_Course_Data {
+class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * @var LLMS_Quiz
@@ -38,7 +39,8 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	public function __construct( $quiz_id ) {
 
 		$this->quiz_id = $quiz_id;
-		$this->quiz = llms_get_post( $this->quiz_id );
+		$this->quiz    = llms_get_post( $this->quiz_id );
+		parent::__construct( $quiz_id );
 
 	}
 
@@ -59,7 +61,7 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 			WHERE quiz_id = %d
 			  AND update_date BETWEEN %s AND %s
 			",
-			$this->quiz_id,
+			$this->post_id,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
@@ -83,7 +85,7 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 			WHERE quiz_id = %d
 			  AND update_date BETWEEN %s AND %s
 			",
-			$this->quiz_id,
+			$this->post_id,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
 		) );
@@ -111,7 +113,7 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 			  AND status = %s
 			  AND update_date BETWEEN %s AND %s
 			",
-			$this->quiz_id,
+			$this->post_id,
 			$status,
 			$this->get_date( $period, 'start' ),
 			$this->get_date( $period, 'end' )
@@ -142,20 +144,19 @@ class LLMS_Quiz_Data extends LLMS_Course_Data {
 	}
 
 	/**
-	 * Retrieve recent LLMS_User_Postmeta for the quiz
+	 * Retrieve recent LLMS_User_Postmeta for the quiz.
+	 * This overrides the LLMS_Abstract_Post_Data method.
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
-	public function recent_events() {
+	public function recent_events( $args = array() ) {
 
-		$query = new LLMS_Query_User_Postmeta( array(
-			'per_page' => 10,
-			'post_id' => $this->quiz_id,
+		$query_args = wp_parse_args( $args, array(
+			'types' => array(),
 		) );
 
-		return $query->get_metas();
-
+		return parent::recent_events( $query_args );
 	}
-
 }
