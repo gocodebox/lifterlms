@@ -264,8 +264,9 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Retrieve the full URL to the checkout screen for the plan
 	 *
-	 * @since    3.0.0
-	 * @since    3.30.0 Added access plan redirection settings.
+	 * @since 3.0.0
+	 * @since 3.30.0 Added access plan redirection settings.
+	 * @since [version] The `$check_availability` parameter was added to the filter `llms_plan_get_checkout_url`
 	 *
 	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
 	 * @return   string
