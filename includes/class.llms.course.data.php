@@ -3,7 +3,7 @@
  * Query data about a course
  *
  * @since 3.15.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,27 +18,31 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
-	 * @var LLMS_Course
+	 * Course object.
+	 *
 	 * @since 3.15.0
+	 * @deprecated [version] Use $this->post instead.
+	 *
+	 * @var LLMS_Course
 	 */
 	public $course;
+
 	/**
+	 * WP Post ID of the course
+	 *
 	 * @var int
+	 *
 	 * @since 3.15.0
+	 * @deprecated [version] Use $this->post_id instead.
 	 */
 	public $course_id;
 
 	/**
-	 * @var string
-	 * @since [version]
-	 */
-	protected $recent_events_types = 'all';
-
-	/**
 	 * Constructor
-	 * @param    int     $course_id  WP Post ID of the course
+	 *
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 *
+	 * @param    int     $course_id  WP Post ID of the course
 	 */
 	public function __construct( $course_id ) {
 
@@ -51,9 +55,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve an array of all post ids in the course
 	 * Includes course id, all section ids, all lesson ids, and all quiz ids
+	 *
+	 * @since 3.15.0
+	 * @since [version] Use $this->post_id instead of deprecated $this->course_id.
+	 *
 	 * @return   array
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	private function get_all_ids() {
 		return array_merge(
@@ -66,10 +72,12 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve # of course completions within the period
+	 *
+	 * @since 3.15.0
+	 * @since [version] Use $this->post_id instead of deprecated $this->course_id.
+	 *
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function get_completions( $period = 'current' ) {
 
@@ -91,11 +99,13 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * retrieve # of course enrollments within the period
+	 * Retrieve # of course enrollments within the period
+	 *
+	 * @since 3.15.0
+	 * @since [version] Use $this->post_id instead of deprecated $this->course_id.
+	 *
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function get_enrollments( $period = 'current' ) {
 
@@ -117,12 +127,13 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * retrieve # of engagements related to the course awarded within the period
+	 * Retrieve # of engagements related to the course awarded within the period
+	 *
+	 * @since    3.15.0
+	 *
 	 * @param    string     $type    engagement type [email|certificate|achievement]
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function get_engagements( $type, $period = 'current' ) {
 
@@ -146,10 +157,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * retrieve # of lessons completed within the period
+	 *
+	 * @since    3.15.0
+	 *
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function get_lesson_completions( $period = 'current' ) {
 
@@ -173,10 +185,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * retrieve # of orders placed for the course within the period
+	 *
+	 * @since    3.15.0
+	 *
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function get_orders( $period = 'current' ) {
 
@@ -193,10 +206,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * retrieve total amount of transactions related to orders for the course completed within the period
+	 *
+	 * @since    3.15.0
+	 *
 	 * @param    string     $period  date period [current|previous]
 	 * @return   float
-	 * @since    3.15.0
-	 * @version  3.16.0
 	 */
 	public function get_revenue( $period ) {
 
@@ -235,11 +249,12 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve the number of unenrollments on a given date
+	 *
+	 * @since    3.15.0
+	 *
 	 * @param    mixed     $start  date string or timestamp
 	 * @param    mixed     $end    date string or timestamp
 	 * @return   int
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function get_unenrollments( $period = 'current' ) {
 
@@ -262,11 +277,12 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Execute a WP Query to retrieve orders within the given date range
+	 *
+	 * @since    3.15.0
+	 *
 	 * @param    int        $num_orders  number of orders to retrieve
 	 * @param    array      $dates       date range (passed to WP_Query['date_query'])
 	 * @return   obj
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	private function orders_query( $num_orders = 1, $dates = array() ) {
 
