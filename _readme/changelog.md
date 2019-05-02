@@ -1,6 +1,15 @@
 == Changelog ==
 
 
+v3.31.0-beta.2 - 2019-05-02
+-------------------------------
+
++ The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
++ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
++ The filter `llms_plan_get_checkout_url` no passes a 3rd parameter: `$check_availability`
++ Changed access on class methods in `LLMS_Shortcode_Courses` from private to protected, thanks [@andrewvaughan](https://github.com/andrewvaughan)!
+
+
 v3.31.0-beta.1 - 2019-04-26
 -------------------------------
 
