@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.31.0-beta.2 - 2019-05-??
+v3.31.0-beta.2 - 2019-05-02
 ---------------------------
 
 + The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
