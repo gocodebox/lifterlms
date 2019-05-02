@@ -1,10 +1,18 @@
 <?php
+/**
+ * Admin Reporting Base Class
+ *
+ * @since 3.2.0
+ * @version 3.19.4
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Reporting Base Class
- * @since   3.2.0
- * @version 3.19.4
+ *
+ * @since 3.2.0
+ * @since [version] Fix redundant `if` statement in the `output_widget` method.
  */
 class LLMS_Admin_Reporting {
 
@@ -185,9 +193,10 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Retrieve an array of period filters
 	 * used by self::output_widget_range_filter()
+	 *
+	 * @since 3.16.0
+	 *
 	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.17.2
 	 */
 	public static function get_period_filters() {
 		return array(
@@ -377,10 +386,12 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Output the HTML for a reporting widget
+	 *
+	 * @since 3.15.0
+	 * @since [version] Remove redundant `if` statement.
+	 *
 	 * @param    array      $args   widget options
 	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public static function output_widget( $args = array() ) {
 
