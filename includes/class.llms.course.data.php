@@ -248,13 +248,12 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	}
 
 	/**
-	 * Retrieve the number of unenrollments on a given date
+	 * Retrieve the number of unenrollments on a given date.
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
 	 *
-	 * @param    mixed     $start  date string or timestamp
-	 * @param    mixed     $end    date string or timestamp
-	 * @return   int
+	 * @param  string $period Optional. Date period [current|previous]. Default 'current'.
+	 * @return int
 	 */
 	public function get_unenrollments( $period = 'current' ) {
 
