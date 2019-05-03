@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.2.0
  * @since [version] Fix redundant `if` statement in the `output_widget` method.
+ * @since [version] Added Memberships tab.
+ * @since [version] The `output_event()` method now outputs the student's avatar whent in 'membership' context.
  */
 class LLMS_Admin_Reporting {
 
@@ -213,11 +215,13 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get the full URL to a sub-tab within a reporting screen
-	 * @param    string     $stab  slug of the sub-tab
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.16.0
+	 * Get the full URL to a sub-tab within a reporting screen.
+	 *
+	 * @since 3.2.0
+	 * @since [version] Added Memberships tab.
+	 *
+	 * @param string $stab Slug of the sub-tab.
+	 * @return string
 	 */
 	public static function get_stab_url( $stab ) {
 
@@ -228,6 +232,9 @@ class LLMS_Admin_Reporting {
 		);
 
 		switch ( self::get_current_tab() ) {
+			case 'memberships':
+				$args['membership_id'] = $_GET['membership_id'];
+			break;
 
 			case 'courses':
 				$args['course_id'] = $_GET['course_id'];
@@ -248,17 +255,20 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get an array of tabs to output in the main reporting menu
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.19.4
+	 * Get an array of tabs to output in the main reporting menu.
+	 *
+	 * @since 3.2.0
+	 * @since [version] Added Memberships tab.
+	 *
+	 * @return array
 	 */
 	private function get_tabs() {
 		$tabs = array(
-			'students' => __( 'Students', 'lifterlms' ),
-			'courses' => __( 'Courses', 'lifterlms' ),
-			'quizzes' => __( 'Quizzes', 'lifterlms' ),
-			'sales' => __( 'Sales', 'lifterlms' ),
+			'students'    => __( 'Students', 'lifterlms' ),
+			'courses'     => __( 'Courses', 'lifterlms' ),
+			'memberships' => __( 'Memberships', 'lifterlms' ),
+			'quizzes'     => __( 'Quizzes', 'lifterlms' ),
+			'sales'       => __( 'Sales', 'lifterlms' ),
 			'enrollments' => __( 'Enrollments', 'lifterlms' ),
 		);
 		foreach ( $tabs as $slug => $tab ) {
@@ -345,12 +355,14 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Output the HTML for a postmeta event in the recent events sidebar of various reporting screens
-	 * @param    obj     $event    instance of an LLMS_User_Postmeta item
-	 * @param    string     $context  display context [course|student]
+	 * Output the HTML for a postmeta event in the recent events sidebar of various reporting screens.
+	 *
+	 * @since 3.15.0
+	 * @since [version] Outputs the student's avatar whent in 'membership' context
+	 *
+	 * @param obj    $event   Instance of an LLMS_User_Postmeta item.
+	 * @param string $context Optional. Display context [course|student|quiz|membership]. Default 'course'.
 	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.16.0
 	 */
 	public static function output_event( $event, $context = 'course' ) {
 
@@ -368,7 +380,7 @@ class LLMS_Admin_Reporting {
 				<a href="<?php echo esc_url( $url ); ?>">
 			<?php endif; ?>
 
-				<?php if ( 'course' === $context || 'quiz' === $context ) : ?>
+				<?php if ( 'course' === $context || 'membership' === $context || 'quiz' === $context ) : ?>
 					<?php echo $student->get_avatar( 24 ); ?>
 				<?php endif; ?>
 

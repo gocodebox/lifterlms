@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
- * @version 3.30.0
+ * @since [version] Added `get_student_count()` method.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -153,6 +153,24 @@ implements LLMS_Interface_Post_Instructors
 		}
 
 		return apply_filters( 'llms_membership_get_sales_page_url', $url, $this, $type );
+	}
+
+	/**
+	 * Retrieve the number of enrolled students in the membership.
+	 *
+	 * @since [version]
+	 * @return int
+	 */
+	public function get_student_count() {
+
+		$query = new LLMS_Student_Query( array(
+			'post_id' => $this->get( 'id' ),
+			'statuses' => array( 'enrolled' ),
+			'per_page' => 1,
+		) );
+
+		return $query->found_results;
+
 	}
 
 	/**
