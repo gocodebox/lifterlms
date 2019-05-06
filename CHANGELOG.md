@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.31.? - 2019-05-??
+--------------------
+
++ Resolve conflict with WC 3.6 and later resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".
+
+
 v3.31.0-beta.2 - 2019-05-02
 ---------------------------
 
