@@ -9,8 +9,9 @@ v3.31.0 - 2019-05-06
 + Adds explicit support for the twentynineteen default theme.
 + The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
 + Resolve conflict with WooCommerce (3.6 and later) resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".
-+ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
++ Adds a dynamic filter (`llms_notification_view{$trigger_id}_basic_options`) to basic (pop-over) notifications to allow configuration of their settings.
 + The filter `llms_plan_get_checkout_url` now passes a 3rd parameter: `$check_availability`
++ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
 + Changed access on class methods in `LLMS_Shortcode_Courses` from private to protected, thanks [@andrewvaughan](https://github.com/andrewvaughan)!
 
 ##### Bug fixes
