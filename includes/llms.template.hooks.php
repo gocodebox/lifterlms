@@ -2,8 +2,8 @@
 /**
  * LifterLMS Template Actions
  * @since 1.0.0
- * @since [version] Explicitly declare priority 10 for lifterlms_sidebar action.
- * @version [version]
+ * @since 3.31.0 Explicitly declare priority 10 for lifterlms_sidebar action.
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;

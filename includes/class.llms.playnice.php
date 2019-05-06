@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version [version]
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_PlayNice class.
  *
  * @since 3.1.3
- * @since [version] Resolve dashboard endpoint 404s resulting from changes in WC 3.6.
+ * @since 3.31.0 Resolve dashboard endpoint 404s resulting from changes in WC 3.6.
  */
 class LLMS_PlayNice {
 
@@ -22,7 +22,7 @@ class LLMS_PlayNice {
 	 * Constructor
 	 *
 	 * @since 3.1.3
-	 * @since [version] Add `plugins_loaded` hook.
+	 * @since 3.31.0 Add `plugins_loaded` hook.
 	 *
 	 * @return void
 	 */
@@ -41,7 +41,7 @@ class LLMS_PlayNice {
 	/**
 	 * Conditionally add hooks after the other plugin is loaded.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @return void
 	 */
@@ -57,7 +57,7 @@ class LLMS_PlayNice {
 	 * Lie to WC and tell it we're on a WC account page when accessing endpoints which
 	 * share a query var with WC. See https://github.com/gocodebox/lifterlms/issues/849.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @param bool $is_acct_page False from `woocommerce_is_account_page` filter.
 	 * @return bool

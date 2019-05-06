@@ -3,7 +3,7 @@
  * Query data about a quiz
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.16.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Extends LLMS_Abstract_Post_Data.
+ * @since 3.31.0 Extends LLMS_Abstract_Post_Data.
  */
 class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 
@@ -21,7 +21,7 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	 * Quiz object.
 	 *
 	 * @since 3.16.0
-	 * @deprecated [version] Use $this->post instead.
+	 * @deprecated 3.31.0 Use $this->post instead.
 	 *
 	 * @var LLMS_Quiz
 	 */
@@ -31,7 +31,7 @@ class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
 	 * WP Post ID of the quiz
 	 *
 	 * @since 3.16.0
-	 * @deprecated [version] Use $this->post_id instead.
+	 * @deprecated 3.31.0 Use $this->post_id instead.
 	 *
 	 * @var int
 	 */

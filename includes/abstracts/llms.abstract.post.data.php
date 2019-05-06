@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts
  *
- * @since   [version]
- * @version [version]
+ * @since   3.31.0
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Post_Data abstract.
  *
- * @since [version]
+ * @since 3.31.0
  */
 abstract class LLMS_Abstract_Post_Data {
 
 	/**
 	 * LLMS Post instance.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 * @var LLMS_Post_Model
 	 */
 	protected $post;
@@ -28,13 +28,13 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * LLMS Post ID.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 * @var int
 	 */
 	protected $post_id;
 
 	/**
-	 * @since [version]
+	 * @since 3.31.0
 	 * @var array
 	 */
 	protected $dates = array();
@@ -42,7 +42,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @param int $post_id WP Post ID of the LLMS Post.
 	 */
@@ -56,7 +56,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve the instance of the LLMS_Post_Model.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @return LLMS_Post_Model The instance of the LLMS_Post_Model.
 	 */
@@ -67,7 +67,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve the LLMS_Post_Model ID.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @return int The LLMS_Post_Model ID.
 	 */
@@ -78,7 +78,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Allow dates and timestamps to be passed into various data functions.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @param  mixed $date A date string or timestamp.
 	 * @return int The Unix timestamp of the given date.
@@ -93,7 +93,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve a start or end date based on the period.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @param  string $period Period [current|previous].
 	 * @param  string $date   The date type [start|end].
@@ -108,7 +108,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Set the dates passed on a date range period
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @param  string $period Date range period.
 	 * @return void
@@ -210,7 +210,7 @@ abstract class LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve recent LLMS_User_Postmeta for the quiz
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @param array $args {
 	 *     Optional. An array of arguments to feed the LLMS_Query_User_Postmeta with.

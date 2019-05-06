@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.1
-Stable tag: 3.31.0-beta.2
+Stable tag: 3.31.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,24 +355,33 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.31.0-beta.2 - 2019-05-02
--------------------------------
+= v3.31.0 - 2019-05-06 =
+------------------------
 
-+ The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
-+ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
-+ The filter `llms_plan_get_checkout_url` no passes a 3rd parameter: `$check_availability`
-+ Changed access on class methods in `LLMS_Shortcode_Courses` from private to protected, thanks [@andrewvaughan](https://github.com/andrewvaughan)!
-
-
-v3.31.0-beta.1 - 2019-04-26
--------------------------------
+##### Updates
 
 + Adds explicit support for the twentynineteen default theme.
-+ Treats `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
-+ Update to LifterLMS Blocks 1.4.0:
++ The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
++ Resolve conflict with WooCommerce (3.6 and later) resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".
++ Adds a dynamic filter (`llms_notification_view{$trigger_id}_basic_options`) to basic (pop-over) notifications to allow configuration of their settings.
++ The filter `llms_plan_get_checkout_url` now passes a 3rd parameter: `$check_availability`
++ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
++ Changed access on class methods in `LLMS_Shortcode_Courses` from private to protected, thanks [@andrewvaughan](https://github.com/andrewvaughan)!
 
-  + Adds an "unmigration" utility to LifterLMS -> Status -> Tools & Utilities which can be used to remove LifterLMS blocks from courses and lessons which were migrated to the block editor structure.
-  + This tool is only available when the Classic Editor plugin is installed and enabled and it will remove blocks from ALL courses and lessons regardless of whether or not the block editor is being utilized on that post.
+##### Bug fixes
+
++ Treats `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
++ Fix an issue allowing access plan sales prices to be set as negative values.
+
+##### LifterLMS Blocks
+
++ Updated to LifterLMS Blocks 1.4.0.
++ Adds an "unmigration" utility to LifterLMS -> Status -> Tools & Utilities which can be used to remove LifterLMS blocks from courses and lessons which were migrated to the block editor structure.
++ This tool is only available when the Classic Editor plugin is installed and enabled and it will remove blocks from ALL courses and lessons regardless of whether or not the block editor is being utilized on that post.
+
+##### Deprecations
+
++ `LLMS_Query::add_query_vars()` use `LLMS_Query::set_query_vars()` instead.
 
 
 = v3.30.3 - 2019-04-22 =
@@ -561,13 +570,5 @@ Admin panel templates replaced with view files which cannot be overridden from a
 
 + `admin/post-types/product-access-plan.php`
 + `admin/post-types/product.php`
-
-
-= v3.28.3 - 2019-02-14 =
-------------------------
-
-+ ❤❤❤ Happy Valentines Day or whatever ❤❤❤
-+ Tested to WordPress 5.1
-+ Fixed an issue causing JSON data saved by 3rd party plugins in course or lesson postmeta fields to be not duplicate properly during course duplications and imports.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

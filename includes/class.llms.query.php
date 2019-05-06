@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Query class
  *
  * @since 1.0.0
- * @since [version] Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
+ * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
  */
 class LLMS_Query {
 
@@ -143,7 +143,7 @@ class LLMS_Query {
 	 * Parse the request for query variables
 	 *
 	 * @since unknown
-	 * @since [version] sanitize and unslash `$_GET` vars.
+	 * @since 3.31.0 sanitize and unslash `$_GET` vars.
 	 *
 	 * @return void
 	 */
@@ -276,7 +276,7 @@ class LLMS_Query {
 	 * Add query variables
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version] Use LLMS_Query::set_query_vars() instead.
+	 * @deprecated 3.31.0 Use LLMS_Query::set_query_vars() instead.
 	 *
 	 * @param array $vars WP query variables available for query.
 	 * @return array

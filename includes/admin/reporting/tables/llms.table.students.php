@@ -3,7 +3,7 @@
  * Students Reporting Table
  *
  * @since   3.2.0
- * @since   [version] Allow filtering the table by Course or Membership
+ * @since   3.31.0 Allow filtering the table by Course or Membership
  * @version 3.28.0
  */
 
@@ -24,7 +24,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 * @var  string
 	 */
 	protected $filter = '';
@@ -32,7 +32,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Field results are filtered by
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 * @var  string
 	 */
 	protected $filterby = 'course_membership';
@@ -46,7 +46,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Determine if the table is filterable
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 * @var  boolean
 	 */
 	protected $is_filterable = true;
@@ -295,7 +295,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 *
 	 * This overrides the LLMS_Admin_Table method.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @return string
 	 */
@@ -320,7 +320,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Retrieve an array of query arguments to pass to the LLMS_Student_Query
 	 *
 	 * @since 3.28.0
-	 * @since [version] Added logic to setup the query args in order to allow the filtering by Course or Membership.
+	 * @since 3.31.0 Added logic to setup the query args in order to allow the filtering by Course or Membership.
 	 *
 	 * @return array
 	 */
@@ -454,7 +454,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * Parse arguments passed to get_results() method & setup table class variables.
 	 *
 	 * @since 3.28.0
-	 * @since [version] Added logic to parse 'filterby' and 'filter' args when this table is filterable.
+	 * @since 3.31.0 Added logic to parse 'filterby' and 'filter' args when this table is filterable.
 	 *
 	 * @param   array     $args array of arguments.
 	 * @return  void

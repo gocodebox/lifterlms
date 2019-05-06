@@ -3,7 +3,7 @@
  * Notification View Abstract
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties.
- * @since [version] Add filter on `$basic_options` class property.
+ * @since 3.31.0 Add filter on `$basic_options` class property.
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
@@ -137,7 +137,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Constructor
 	 *
 	 * @since 3.8.0
-	 * @since [version] Add filter on `$basic_options` class class property.
+	 * @since 3.31.0 Add filter on `$basic_options` class class property.
 	 *
 	 * @param mixed $notification Notification id, instance of LLMS_Notification
 	 *                            or an object containing at least an 'id'.

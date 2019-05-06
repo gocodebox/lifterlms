@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Reporting Base Class
  *
  * @since 3.2.0
- * @since [version] Fix redundant `if` statement in the `output_widget` method.
+ * @since 3.31.0 Fix redundant `if` statement in the `output_widget` method.
  */
 class LLMS_Admin_Reporting {
 
@@ -388,7 +388,7 @@ class LLMS_Admin_Reporting {
 	 * Output the HTML for a reporting widget
 	 *
 	 * @since 3.15.0
-	 * @since [version] Remove redundant `if` statement.
+	 * @since 3.31.0 Remove redundant `if` statement.
 	 *
 	 * @param    array      $args   widget options
 	 * @return   void

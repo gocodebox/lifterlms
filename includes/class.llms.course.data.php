@@ -3,7 +3,7 @@
  * Query data about a course
  *
  * @since 3.15.0
- * @version [version]
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.15.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Extends LLMS_Abstract_Post_Data.
+ * @since 3.31.0 Extends LLMS_Abstract_Post_Data.
  */
 class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
@@ -21,7 +21,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * Course object.
 	 *
 	 * @since 3.15.0
-	 * @deprecated [version] Use $this->post instead.
+	 * @deprecated 3.31.0 Use $this->post instead.
 	 *
 	 * @var LLMS_Course
 	 */
@@ -33,7 +33,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * @var int
 	 *
 	 * @since 3.15.0
-	 * @deprecated [version] Use $this->post_id instead.
+	 * @deprecated 3.31.0 Use $this->post_id instead.
 	 */
 	public $course_id;
 
@@ -57,7 +57,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * Includes course id, all section ids, all lesson ids, and all quiz ids
 	 *
 	 * @since 3.15.0
-	 * @since [version] Use $this->post_id instead of deprecated $this->course_id.
+	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
 	 * @return   array
 	 */
@@ -74,7 +74,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * Retrieve # of course completions within the period
 	 *
 	 * @since 3.15.0
-	 * @since [version] Use $this->post_id instead of deprecated $this->course_id.
+	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int
@@ -102,7 +102,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * Retrieve # of course enrollments within the period
 	 *
 	 * @since 3.15.0
-	 * @since [version] Use $this->post_id instead of deprecated $this->course_id.
+	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
 	 * @param    string     $period  date period [current|previous]
 	 * @return   int

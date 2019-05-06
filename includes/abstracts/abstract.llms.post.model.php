@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
  * @since 3.30.3 Use `wp_slash()` when creating new posts.
- * @since [version] Treat `post_excerpt` fields as HTML instead of plain text.
+ * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -656,7 +656,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * These properties need to be get/set with alternate methods
 	 *
 	 * @since 3.0.0
-	 * @since [version] Treat excerpts as HTML instead of plain text.
+	 * @since 3.31.0 Treat excerpts as HTML instead of plain text.
 	 *
 	 * @return array
 	 */

@@ -6,7 +6,7 @@
  *
  * @since 3.0.0
  * @since 3.30.0 Added checkout redirect settings.
- * @since [version] Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
+ * @since 3.31.0 Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
  *
  * @var obj $course LLMS_Course.
  * @var array $checkout_redirection_types checkout redirect setting options.
