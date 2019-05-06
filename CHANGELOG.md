@@ -1,30 +1,32 @@
 LifterLMS Changelog
 ===================
 
-v3.31.? - 2019-05-??
+v3.31.0 - 2019-05-06
 --------------------
 
-+ Resolve conflict with WC 3.6 and later resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".
-
-
-v3.31.0-beta.2 - 2019-05-02
----------------------------
-
-+ The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
-+ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
-+ The filter `llms_plan_get_checkout_url` no passes a 3rd parameter: `$check_availability`
-+ Changed access on class methods in `LLMS_Shortcode_Courses` from private to protected, thanks [@andrewvaughan](https://github.com/andrewvaughan)!
-
-
-v3.31.0-beta.1 - 2019-04-26
----------------------------
+##### Updates
 
 + Adds explicit support for the twentynineteen default theme.
-+ Treats `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
-+ Update to LifterLMS Blocks 1.4.0:
++ The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
++ Resolve conflict with WooCommerce (3.6 and later) resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".
++ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
++ The filter `llms_plan_get_checkout_url` now passes a 3rd parameter: `$check_availability`
++ Changed access on class methods in `LLMS_Shortcode_Courses` from private to protected, thanks [@andrewvaughan](https://github.com/andrewvaughan)!
 
-  + Adds an "unmigration" utility to LifterLMS -> Status -> Tools & Utilities which can be used to remove LifterLMS blocks from courses and lessons which were migrated to the block editor structure.
-  + This tool is only available when the Classic Editor plugin is installed and enabled and it will remove blocks from ALL courses and lessons regardless of whether or not the block editor is being utilized on that post.
+##### Bug fixes
+
++ Treats `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
++ Fix an issue allowing access plan sales prices to be set as negative values.
+
+##### LifterLMS Blocks
+
++ Updated to LifterLMS Blocks 1.4.0.
++ Adds an "unmigration" utility to LifterLMS -> Status -> Tools & Utilities which can be used to remove LifterLMS blocks from courses and lessons which were migrated to the block editor structure.
++ This tool is only available when the Classic Editor plugin is installed and enabled and it will remove blocks from ALL courses and lessons regardless of whether or not the block editor is being utilized on that post.
+
+##### Deprecations
+
++ `LLMS_Query::add_query_vars()` use `LLMS_Query::set_query_vars()` instead.
 
 
 v3.30.3 - 2019-04-22
