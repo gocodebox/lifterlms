@@ -6,6 +6,7 @@ v3.31.0 - 2019-05-06
 
 ##### Updates
 
++ Tested to WordPress 5.2
 + Adds explicit support for the twentynineteen default theme.
 + The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
 + Resolve conflict with WooCommerce (3.6 and later) resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".

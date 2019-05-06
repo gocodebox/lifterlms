@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 7.2
-Tested up to: 5.1
+Tested up to: 5.2
 Stable tag: 3.31.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -360,6 +360,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 ##### Updates
 
++ Tested to WordPress 5.2
 + Adds explicit support for the twentynineteen default theme.
 + The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
 + Resolve conflict with WooCommerce (3.6 and later) resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".
