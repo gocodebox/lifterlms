@@ -34,7 +34,7 @@ class LLMS_PlayNice {
 		// wpe heartbeat fix
 		add_filter( 'wpe_heartbeat_allowed_pages', array( $this, 'wpe_heartbeat_allowed_pages' ) );
 
-		add_action( 'plugins_loaded', array( $this, 'plugins_loaded' ) );
+		add_action( 'init', array( $this, 'plugins_loaded' ), 11 );
 
 	}
 

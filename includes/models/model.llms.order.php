@@ -2,9 +2,10 @@
 /**
  * LifterLMS Order Model
  *
- * @package  LifterLMS/Models
- * @since    3.0.0
- * @version  3.24.0
+ * @package LifterLMS/Models
+ *
+ * @since 3.0.0
+ * @version [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -73,6 +74,9 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Order model.
+ *
+ * @since 3.0.0
+ * @since [version] Update to use latest action-scheduler functions.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -1207,31 +1211,35 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Schedule access expiration
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 * @since [version] Update to use latest action-scheduler functions.
+	 *
+	 * @return void
 	 */
 	public function maybe_schedule_expiration() {
 
-		// get expiration date based on setting
+		// get expiration date based on setting.
 		$expires = $this->get_access_expiration_date( 'U' );
 
-		// will return a timestamp or "Lifetime Access as a string"
+		// will return a timestamp or "Lifetime Access as a string".
 		if ( is_numeric( $expires ) ) {
-
 			$this->unschedule_expiration();
-			wc_schedule_single_action( $expires, 'llms_access_plan_expiration', $this->get_action_args() );
-
+			as_schedule_single_action( $expires, 'llms_access_plan_expiration', $this->get_action_args() );
 		}
+
 	}
 
 	/**
 	 * Schedules the next payment due on a recurring order
+	 *
 	 * Can be called without consequence on a single payment order
 	 * Will always unschedule the scheduled action (if one exists) before scheduling another
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.12.0
+	 *
+	 * @since 3.0.0
+	 * @since [version] Update to use latest action-scheduler functions.
+	 *
+	 * @return void
 	 */
 	public function maybe_schedule_payment( $recalc = true ) {
 
@@ -1255,7 +1263,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$date = $date - ( HOUR_IN_SECONDS * get_option( 'gmt_offset' ) );
 
 			// schedule the payment
-			wc_schedule_single_action( $date, 'llms_charge_recurring_payment', array(
+			as_schedule_single_action( $date, 'llms_charge_recurring_payment', array(
 				'order_id' => $this->get( 'id' ),
 			) );
 
@@ -1474,30 +1482,36 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Cancels a scheduled expiration action
-	 * does nothing if no expiration is scheduled
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * Does nothing if no expiration is scheduled
+	 *
+	 * @since 3.19.0
+	 * @since [version] Update to use latest action-scheduler functions.
+	 *
+	 * @return void
 	 */
 	public function unschedule_expiration() {
 
-		if ( wc_next_scheduled_action( 'llms_access_plan_expiration', $this->get_action_args() ) ) {
-			wc_unschedule_action( 'llms_access_plan_expiration', $this->get_action_args() );
+		if ( as_next_scheduled_action( 'llms_access_plan_expiration', $this->get_action_args() ) ) {
+			as_unschedule_action( 'llms_access_plan_expiration', $this->get_action_args() );
 		}
 
 	}
 
 	/**
 	 * Cancels a scheduled recurring payment action
-	 * does nothing if no payments are scheduled
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 *
+	 * Does nothing if no payments are scheduled
+	 *
+	 * @since 3.0.0
+	 * @since [version] Update to use latest action-scheduler functions.
+	 *
+	 * @return void
 	 */
 	public function unschedule_recurring_payment() {
 
-		if ( wc_next_scheduled_action( 'llms_charge_recurring_payment', $this->get_action_args() ) ) {
-			wc_unschedule_action( 'llms_charge_recurring_payment', $this->get_action_args() );
+		if ( as_next_scheduled_action( 'llms_charge_recurring_payment', $this->get_action_args() ) ) {
+			as_unschedule_action( 'llms_charge_recurring_payment', $this->get_action_args() );
 		}
 
 	}
