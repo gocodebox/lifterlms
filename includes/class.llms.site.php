@@ -18,6 +18,11 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Site {
 
+	/**
+	 * String part used to encrypt and decrypt the lock url.
+	 *
+	 * @var string
+	 */
 	public static $lock_string = '_[llms_site_url]_';
 
 	/**
