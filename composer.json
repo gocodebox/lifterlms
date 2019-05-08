@@ -29,7 +29,7 @@
   "repositories": [
     {
       "type": "vcs",
-      "url": "https://github.com/gocodebox/action-scheduler"
+      "url": "https://github.com/Prospress/action-scheduler"
     },
     {
       "type": "vcs",
@@ -37,7 +37,7 @@
     }
   ],
   "require": {
-    "gocodebox/action-scheduler": "dev-master",
+    "prospress/action-scheduler": "dev-master",
     "ericmann/wp-session-manager": "dev-master",
     "lifterlms/lifterlms-blocks": "^1.1"
   },

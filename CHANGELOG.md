@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.31.1 - 2019-05-08
+--------------------
+
++ Update the Action Scheduler library to the latest version (2.2.5)
+
+
 v3.31.0 - 2019-05-06
 --------------------
 

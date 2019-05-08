@@ -1,5 +1,12 @@
 <?php
 /**
+ * LifterLMS WordPress Plugin
+ *
+ * @package LifterLMS/Main
+ *
+ * @since 1.0.0
+ * @version [version]
+ *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
@@ -16,14 +23,14 @@
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Autoloader
- */
+// Autoloader.
 require_once 'vendor/autoload.php';
 
 /**
  * Main LifterLMS Class
- * @class LifterLMS
+ *
+ * @since 1.0.0
+ * @since [version] Update action-scheduler to latest version
  */
 final class LifterLMS {
 
@@ -213,7 +220,8 @@ final class LifterLMS {
 	 * Include required core classes
 	 *
 	 * @since 1.0.0
-	 * @since 3.31.0-beta.1 Add theme support includes.
+	 * @since 3.31.0 Add theme support includes.
+	 * @since [version] Update action-scheduler to latest version
 	 *
 	 * @return void
 	 */
@@ -228,7 +236,7 @@ final class LifterLMS {
 		require_once 'includes/class.llms.session.php';
 		require_once 'includes/class.llms.cache.helper.php';
 
-		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
+		require_once 'vendor/prospress/action-scheduler/action-scheduler.php';
 
 		require_once 'includes/class.llms.hasher.php';
 
