@@ -30,7 +30,7 @@ require_once 'vendor/autoload.php';
  * Main LifterLMS Class
  *
  * @since 1.0.0
- * @since [version] Update action-scheduler to latest version
+ * @since [version] Update action-scheduler to latest version; load staging class on the admin panel.
  */
 final class LifterLMS {
 
@@ -221,7 +221,7 @@ final class LifterLMS {
 	 *
 	 * @since 1.0.0
 	 * @since 3.31.0 Add theme support includes.
-	 * @since [version] Update action-scheduler to latest version
+	 * @since [version] Update action-scheduler to latest version; load staging class on the admin panel.
 	 *
 	 * @return void
 	 */
@@ -250,6 +250,7 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
+			include_once 'includes/class-llms-staging.php';
 			include_once 'includes/class.llms.dot.com.api.php';
 
 			include_once 'includes/class.llms.generator.php';
