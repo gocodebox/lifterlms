@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.32.0 - 2019-05-08
 --------------------
 
++ Recurring recharges now add order notes and trigger actions when gateway or recurring payment status errors are encountered.
 + When recurring payments are disabled, output a "Staging" bubble on the "Orders" menu item.
 + When managing recurring payment status through the warning notice, stay on the same page and clear nonces instead of redirecting to the LifterLMS Settings screen.
 + WooCommerce compatibility filters added in 3.31.0 are now scheduled at `init` instead of `plugins_loaded`, resolves conflicts with several WooCommerce add-ons which utilize core WC functions before LifterLMS functions are loaded.
