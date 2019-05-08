@@ -106,7 +106,6 @@ class LLMS_Site {
 	public static function get_features() {
 
 		$defaults = apply_filters( 'llms_site_default_features', array(
-			// 'emails' => true, // @todo
 			'recurring_payments' => true,
 		) );
 
