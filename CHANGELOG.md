@@ -5,6 +5,7 @@ v3.31.1 - 2019-05-08
 --------------------
 
 + Update the Action Scheduler library to the latest version (2.2.5)
++ Exposed the Action Scheduler's scheduled actions interface as a tab on the LifterLMS Status page.
 
 
 v3.31.0 - 2019-05-06

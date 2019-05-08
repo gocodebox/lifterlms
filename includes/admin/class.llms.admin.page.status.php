@@ -1,10 +1,18 @@
 <?php
+/**
+ * Admin Status Pages
+ *
+ * @since 3.11.2
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Status Pages
- * @since    3.11.2
- * @version  3.22.0
+ * LLMS_Admin_Page_Status class.
+ *
+ * @since 3.11.2
+ * @since [version] Add "Scheduled Actions" tab.
  */
 class LLMS_Admin_Page_Status {
 
@@ -116,9 +124,11 @@ class LLMS_Admin_Page_Status {
 
 	/**
 	 * Output the system report
-	 * @return   void
-	 * @since    2.1.0
-	 * @version  3.22.0
+	 *
+	 * @since 2.1.0
+	 * @since [version] Add "Scheduled Actions" tab output.
+	 *
+	 * @return void
 	 */
 	public static function output() {
 
@@ -126,10 +136,10 @@ class LLMS_Admin_Page_Status {
 			'report' => __( 'System Report', 'lifterlms' ),
 			'tools' => __( 'Tools & Utilities', 'lifterlms' ),
 			'logs' => __( 'Logs', 'lifterlms' ),
+			'action-scheduler' => __( 'Scheduled Actions', 'lifterlms' ),
 		) );
 
 		$current_tab = ! isset( $_GET['tab'] ) ? 'report' : sanitize_text_field( $_GET['tab'] );
-
 		?>
 
 		<div class="wrap lifterlms llms-status llms-status--<?php echo $current_tab; ?>">
@@ -148,6 +158,10 @@ class LLMS_Admin_Page_Status {
 			<?php do_action( 'llms_before_admin_page_status', $current_tab );
 
 			switch ( $current_tab ) {
+
+				case 'action-scheduler':
+					ActionScheduler_AdminView::instance()->render_admin_ui();
+				break;
 
 				case 'logs':
 					self::output_logs_content();
