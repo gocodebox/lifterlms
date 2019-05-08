@@ -397,7 +397,6 @@ class LLMS_Controller_Orders {
 				$gateway->handle_recurring_transaction( $order );
 
 			}
-
 		} else {
 
 			do_action( 'llms_order_recurring_charge_gateway_error', $order_id, $gateway, $this );
@@ -412,7 +411,7 @@ class LLMS_Controller_Orders {
 				)
 			);
 
-		}
+		}// End if().
 
 	}
 

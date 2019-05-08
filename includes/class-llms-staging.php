@@ -85,7 +85,6 @@ class LLMS_Staging {
 			if ( 'edit.php?post_type=llms_order' === $item[2] ) {
 				$menu[ $index ][0] .= ' <span class="update-plugins">' . esc_html__( 'Staging', 'lifterlms' ) . '</span>';
 			}
-
 		}
 
 	}
