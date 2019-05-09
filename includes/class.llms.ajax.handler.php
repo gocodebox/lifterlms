@@ -697,7 +697,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since [version] Updated to use llms_filter_input().
-	 * @since [version] Posts can be queried by post status(es) too, via the `$_POST` var `post_statuses`.
+	 * @since [version] Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
 	 *                  By default only the published posts will be queried.
 	 * @return void
 	 */
@@ -705,12 +705,13 @@ class LLMS_AJAX_Handler {
 
 		global $wpdb;
 
-		// grab the search term if it exists
+		// grab the search term if it exists.
 		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
 
-		// get the page
+		// get the page.
 		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
+		// Get post type(s).
 		$post_type = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
@@ -718,6 +719,7 @@ class LLMS_AJAX_Handler {
 		}
 		$post_types = implode( ',', $post_types_array );
 
+		// Get post status(es).
 		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
 		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
 		$post_statuses_array = explode( ',', $post_statuses );
@@ -740,10 +742,9 @@ class LLMS_AJAX_Handler {
 		$posts = $wpdb->get_results( $wpdb->prepare(
 			"SELECT ID, post_title, post_type
 			 FROM $wpdb->posts
-			 WHERE
-			 	post_type IN ( $post_types )
-			 	AND post_status IN ( $post_statuses )
-			 	$like
+			 WHERE post_type IN ( $post_types )
+			   AND post_status IN ( $post_statuses )
+			       $like
 			 ORDER BY post_title
 			 LIMIT %d, %d
 			",
