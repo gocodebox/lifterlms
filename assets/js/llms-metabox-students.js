@@ -126,7 +126,6 @@
 		/**
 		 * Delete a Student's enrollment.
 		 *
-		 * @since 3.0.0
 		 * @since [version]
 		 *
 		 * @param  obj  $el  jQuery selector of the add button.
