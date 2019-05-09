@@ -321,8 +321,8 @@ class LLMS_Controller_Orders {
 	 */
 	public function on_delete_order( $post_id ) {
 
-		$order = new LLMS_Order( $post_id );
-		if ( 'llms_order' === $order->get( 'post' )->post_type ) {
+		$order = llms_get_post( $post_id );
+		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
 			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
 		}
 
