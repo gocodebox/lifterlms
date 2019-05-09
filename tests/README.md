@@ -13,7 +13,7 @@ To install tests locally you'll first need a local MySQL server (5.6 or later) a
 ### Running Tests
 
 + Run tests: `composer run-script tests-run`
-+ Run tests by group `composer run-scripts tests-run -- --group LLMS_Post_Model`
++ Run tests by group `composer run-script tests-run -- --group LLMS_Post_Model`
 + Run a specific tests `composer run-script tests-run -- --filter test_my_test_method`
 + Run tests and generate code coverage in HTML format: `composer run-script tests-run -- --coverage-html tmp/coverage`
 + Run tests and generate text code coverage: `composer run-script tests-run -- --coverage-text`
