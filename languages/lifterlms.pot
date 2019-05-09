@@ -32,67 +32,67 @@ msgstr ""
 msgid "Staging"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:32, includes/class.llms.ajax.handler.php:51, includes/class.llms.ajax.handler.php:166, includes/class.llms.ajax.handler.php:791
+#: includes/class.llms.ajax.handler.php:33, includes/class.llms.ajax.handler.php:52, includes/class.llms.ajax.handler.php:167, includes/class.llms.ajax.handler.php:801
 msgid "Missing required parameters"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:38
+#: includes/class.llms.ajax.handler.php:39
 msgid "Members are being enrolled in the background. You may leave this page."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:79
+#: includes/class.llms.ajax.handler.php:80
 msgid "There was a problem deleting your access plan, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:271
+#: includes/class.llms.ajax.handler.php:272
 msgid "Missing required parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:277
+#: includes/class.llms.ajax.handler.php:278
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:502, includes/class.llms.ajax.handler.php:560, includes/class.llms.ajax.handler.php:626, includes/class.llms.template.loader.php:345
+#: includes/class.llms.ajax.handler.php:503, includes/class.llms.ajax.handler.php:561, includes/class.llms.ajax.handler.php:627, includes/class.llms.template.loader.php:345
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:514
+#: includes/class.llms.ajax.handler.php:515
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:524
+#: includes/class.llms.ajax.handler.php:525
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:567, includes/class.llms.ajax.handler.php:631
+#: includes/class.llms.ajax.handler.php:568, includes/class.llms.ajax.handler.php:632
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:579
+#: includes/class.llms.ajax.handler.php:580
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:751, includes/llms.functions.core.php:819, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:48, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:54
+#: includes/class.llms.ajax.handler.php:761, includes/llms.functions.core.php:819, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:57, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
 msgid "ID#"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:795
+#: includes/class.llms.ajax.handler.php:805
 msgid "Invalid status"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:819
+#: includes/class.llms.ajax.handler.php:829
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:824
+#: includes/class.llms.ajax.handler.php:834
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:833, includes/functions/llms.functions.order.php:240
+#: includes/class.llms.ajax.handler.php:843, includes/functions/llms.functions.order.php:240
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1115
+#: includes/class.llms.ajax.handler.php:1125
 msgid "Missing Required Parameters."
 msgstr ""
 
@@ -434,7 +434,7 @@ msgstr ""
 msgid "Time"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:163, includes/class.llms.l10n.js.php:327, includes/abstracts/abstract.llms.payment.gateway.php:274, includes/privacy/class-llms-privacy-exporters.php:110, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:204, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:65
+#: includes/class.llms.l10n.js.php:163, includes/class.llms.l10n.js.php:327, includes/abstracts/abstract.llms.payment.gateway.php:274, includes/privacy/class-llms-privacy-exporters.php:110, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:211, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:215, includes/admin/post-types/post-tables/class.llms.admin.post.table.coupons.php:35, includes/admin/views/builder/question.php:65
 msgid "Description"
 msgstr ""
 
@@ -1035,7 +1035,7 @@ msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:250, includes/admin/class.llms.admin.builder.php:47, includes/admin/class.llms.admin.import.php:93, includes/integrations/class.llms.integration.buddypress.php:52, includes/integrations/class.llms.integration.buddypress.php:65, includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/reporting/class.llms.admin.reporting.php:259, includes/admin/settings/class.llms.settings.courses.php:19, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:76, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:152, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:51, includes/admin/reporting/tables/llms.table.courses.php:157, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:83, templates/admin/reporting/tabs/courses/course.php:12
+#: includes/class.llms.post-types.php:250, includes/admin/class.llms.admin.builder.php:47, includes/admin/class.llms.admin.import.php:93, includes/integrations/class.llms.integration.buddypress.php:52, includes/integrations/class.llms.integration.buddypress.php:65, includes/admin/analytics/class.llms.analytics.courses.php:20, includes/admin/analytics/class.llms.analytics.sales.php:103, includes/admin/reporting/class.llms.admin.reporting.php:259, includes/admin/settings/class.llms.settings.courses.php:19, templates/admin/analytics/analytics.php:90, templates/admin/reporting/nav-filters.php:76, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:161, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:64, includes/admin/reporting/tables/llms.table.courses.php:157, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:83, templates/admin/reporting/tabs/courses/course.php:12
 msgid "Courses"
 msgstr ""
 
@@ -1321,7 +1321,7 @@ msgstr ""
 msgid "Memberships"
 msgstr ""
 
-#: includes/class.llms.post-types.php:434, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:165, includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:126, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:63
+#: includes/class.llms.post-types.php:434, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:175, includes/admin/post-types/meta-boxes/class.llms.meta.box.product.php:126, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:77
 msgid "Membership"
 msgstr ""
 
@@ -5746,7 +5746,7 @@ msgstr ""
 msgid "Unlicensed"
 msgstr ""
 
-#: includes/models/model.llms.coupon.php:117, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:82
+#: includes/models/model.llms.coupon.php:117, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:91
 msgid "Percentage Discount"
 msgstr ""
 
@@ -7537,7 +7537,7 @@ msgstr ""
 msgid "Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:19, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:117, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:66, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:44
+#: includes/admin/settings/class.llms.settings.general.php:19, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:117, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:66, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:56
 msgid "General"
 msgstr ""
 
@@ -8515,99 +8515,99 @@ msgstr ""
 msgid "Select an Image to use for the certificate."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:20
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:27
 msgid "Coupon Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:74
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:83
 msgid "Select a dollar or percentage discount."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:77
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:86
 msgid "Discount Type"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:86
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:95
 msgid "%s Discount"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:92
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:101
 msgid "Access Plan Types"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:93
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:102
 msgid "Select which type of access plans this coupon can be used with."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:99
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:108
 msgid "Any Access Plan"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:103
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:112
 msgid "Only One-time Payment Access Plans"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:107
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:116
 msgid "Only Recurring Access Plans"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:118
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:127
 msgid "Discount Amount"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:119
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:128
 msgid "The amount to be subtracted from the \"Price\" of an applicable access plan. Do not include symbols such as %1$s."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:127
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:136
 msgid "Enable Trial Pricing Discount"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:136
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:145
 msgid "Trial Discount Amount"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:137
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:146
 msgid "The amount to be subtracted from the \"Trial Price\" of an applicable access plan. Do not include symbols such as %1$s."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:148, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:165, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:160
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:157, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:165, includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:160
 msgid "Restrictions"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:153
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:162
 msgid "Limit coupon to the following courses."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:166
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:176
 msgid "Limit coupon to the following memberships."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:178
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:189
 msgid "Coupon Expiration Date"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:179
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:190
 msgid "Coupon will no longer be usable after this date. Leave blank for no expiration."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:188
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:199
 msgid "Usage Limit"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:189
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:200
 msgid "The amount of times this coupon can be used. Leave empty or enter 0 for unlimited uses."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:205
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:216
 msgid "Optional description for internal notes. This is never displayed to your students."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:232
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:243
 msgid "Coupon code already exists. Customers will use the most recently created coupon with this code."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:241
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:252
 msgid "A Trial Discount Amount was not supplied. Trial Pricing Discount has automatically been disabled. Please re-enable Trial Pricing Discount and enter a Trial Discount Amount, then save this coupon again."
 msgstr ""
 
@@ -9274,15 +9274,15 @@ msgstr ""
 msgid "Generate Export"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:18
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:27
 msgid "Voucher Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:72
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:86
 msgid "Codes"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:80, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:84
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:94, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:98
 msgid "Redemptions"
 msgstr ""
 
