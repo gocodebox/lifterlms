@@ -79,7 +79,7 @@ class LLMS_Query {
 	 *
 	 * @since Unknown
 	 *
-	 * @return void
+	 * @return array
 	 */
 	public function get_query_vars() {
 		return apply_filters( 'llms_get_endpoints', $this->query_vars );
@@ -167,7 +167,7 @@ class LLMS_Query {
 	 * @since 1.4.4 Moved from LLMS_Post_Types.
 	 * @since 3.16.8
 	 *
-	 * @param obj $query Main WP_Query Object.
+	 * @param WP_Query $query Main WP_Query Object.
 	 * @return void
 	 */
 	public function pre_get_posts( $query ) {
@@ -235,7 +235,8 @@ class LLMS_Query {
 	 *
 	 * @since Unknown
 	 *
-	 * @return void
+	 * @param  array $vars WP query variables available for query.
+	 * @return array
 	 */
 	public function set_query_vars( $vars ) {
 
