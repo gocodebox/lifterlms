@@ -1,20 +1,19 @@
 <?php
 /**
- * LifterLMS AJAX Event Handler
+ * LifterLMS AJAX Event Handler.
  *
  * @since 1.0.0
- * @version 3.30.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_AJAX_Handler class
+ * LLMS_AJAX_Handler class.
  *
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
- * @version 3.30.0
- *
+ * @since [version] Now `select2_query_posts` method allows for querying posts by post status(es) too.
  */
 class LLMS_AJAX_Handler {
 
@@ -690,10 +689,12 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle Select2 Search boxes for WordPress Posts by Post Type
-	 * @since   3.0.0
-	 * @version 3.10.1
-	 * @return  string/json
+	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Posts can be queried by post status(es) too, via the `$_REQUEST` var `post_statuses`.
+	 *                  By default only the published posts will be queried.
+	 * @return string/json
 	 */
 	public static function select2_query_posts() {
 

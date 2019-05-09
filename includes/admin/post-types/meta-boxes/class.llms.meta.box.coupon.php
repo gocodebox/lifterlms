@@ -1,11 +1,18 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Coupon Metabox
  *
- * @since    1.0.0
- * @version  3.24.0
+ * @since 1.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Coupon Metabox class.
+ *
+ * @since 1.0.0
+ * @since [version] Coupons can now be restricted also to a draft or scheduled Course/Membership.
  */
 class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
@@ -26,12 +33,14 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * This function is where extending classes can configure all the fields within the metabox
-	 * The function must return an array which can be consumed by the "output" function
+	 * This function is where extending classes can configure all the fields within the metabox.
+	 * The function must return an array which can be consumed by the "output" function.
 	 *
-	 * @return  array
-	 * @since   3.0.0
-	 * @version 3.24.0
+	 * @since 3.0.0
+	 * @since [version] Coupons can now be restricted also to a draft or scheduled Course/Membership
+	 *                  via the `<select />` data attribute 'post-statuses' (data-post-status).
+	 *
+	 * @return array
 	 */
 	public function get_fields() {
 
