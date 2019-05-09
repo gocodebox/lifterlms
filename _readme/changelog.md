@@ -1,6 +1,23 @@
 == Changelog ==
 
 
+v3.32.0-beta.1 - 2019-05-08
+-------------------------------
+
+##### Updates
+
++ When recurring payments are disabled, output a "Staging" bubble on the "Orders" menu item.
++ Recurring recharges now add order notes and trigger actions when gateway or recurring payment status errors are encountered.
++ When managing recurring payment status through the warning notice, stay on the same page and clear nonces instead of redirecting to the LifterLMS Settings screen.
++ Updated the Action Scheduler library to the latest version (2.2.5)
++ Exposed the Action Scheduler's scheduled actions interface as a tab on the LifterLMS Status page.
+
+##### Bug Fixes
+
++ Fixed an issue allowing instructors to view a list of students from courses and memberships they don't have access to.
++ WooCommerce compatibility filters added in 3.31.0 are now scheduled at `init` instead of `plugins_loaded`, resolves conflicts with several WooCommerce add-ons which utilize core WC functions before LifterLMS functions are loaded.
+
+
 = v3.31.0 - 2019-05-06 =
 ------------------------
 
