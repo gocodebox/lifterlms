@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.32.0-beta.2 - 2019-05-09
 ---------------------------
 
++ Added Membership reporting
 + Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
 
 
