@@ -1,9 +1,12 @@
 /**
  * LifterLMS Admin Panel Javascript
+ *
+ * @since    ??
+ * @since    [version] `llmsPostsSelect2` function allows posts fecthing based on post statuses.
+ * @version  [version]
+ *
  * @param    obj   $  traditional jQuery reference
  * @return   void
- * @since    ??
- * @version  3.19.5
  */
 ;( function( $ ) {
 
@@ -53,12 +56,14 @@
 	var llms_widgets = new window.llms.widgets();
 
 	/**
-	 * Simple jQuery plugin to transform select elements into Select2-powered elements to query for Courses/Memberships via AJAX
-	 * @param    obj   options  options passed to Select2
-	 *                          each default option will pulled from the elements data-attributes
-	 * @return   void
-	 * @since    3.19.4
-	 * @version  3.19.5
+	 * Simple jQuery plugin to transform select elements into Select2-powered elements to query for Courses/Memberships via AJAX.
+	 *
+	 * @since 3.19.4
+	 * @since [version] Added ability to fetch posts based on their post status.
+	 *
+	 * @param obj options Options passed to Select2.
+	 *                    Each default option will pulled from the elements data-attributes.
+	 * @return void
 	 */
 	$.fn.llmsPostsSelect2 = function( options ) {
 
@@ -68,6 +73,7 @@
 				multiple: false,
 				placeholder: undefined !== LLMS.l10n ? LLMS.l10n.translate( 'Select a Course/Membership' ) : 'Select a Course/Membership',
 				post_type: self.attr( 'data-post-type' ) || 'post',
+				post_statuses: self.attr( 'data-post-statuses' ) || 'publish',
 				allow_clear: self.attr( 'data-post-type' ) || false,
 				width: null,
 			};
@@ -96,6 +102,7 @@
 						action: 'select2_query_posts',
 						page: ( params.page ) ? params.page - 1 : 0, // 0 index the pages to make it simpler for the database query
 						post_type: options.post_type,
+						post_statuses: options.post_statuses,
 						term: params.term,
 						_ajax_nonce: wp_ajax_data.nonce
 					};

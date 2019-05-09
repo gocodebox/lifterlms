@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS AJAX Event Handler
+ * LifterLMS AJAX Event Handler.
  *
  * @since 1.0.0
  * @version [version]
@@ -9,12 +9,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_AJAX_Handler class
+ * LLMS_AJAX_Handler class.
  *
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Update select2_query_posts to use llms_filter_input()
+ * @since [version] Update `select2_query_posts` to use llms_filter_input()
+ * @since [version] Now `select2_query_posts` method allows for querying posts by post status(es) too.
  */
 class LLMS_AJAX_Handler {
 
@@ -692,11 +693,12 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle Select2 Search boxes for WordPress Posts by Post Type
+	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
 	 *
 	 * @since 3.0.0
 	 * @since [version] Updated to use llms_filter_input().
-	 *
+	 * @since [version] Posts can be queried by post status(es) too, via the `$_POST` var `post_statuses`.
+	 *                  By default only the published posts will be queried.
 	 * @return void
 	 */
 	public static function select2_query_posts() {
@@ -716,6 +718,14 @@ class LLMS_AJAX_Handler {
 		}
 		$post_types = implode( ',', $post_types_array );
 
+		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
+		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
+		$post_statuses_array = explode( ',', $post_statuses );
+		foreach ( $post_statuses_array as &$str ) {
+			$str = "'" . esc_sql( trim( $str ) ) . "'";
+		}
+		$post_statuses = implode( ',', $post_statuses_array );
+
 		$limit = 30;
 		$start = $limit * $page;
 
@@ -732,7 +742,7 @@ class LLMS_AJAX_Handler {
 			 FROM $wpdb->posts
 			 WHERE
 			 	post_type IN ( $post_types )
-			 	AND post_status = 'publish'
+			 	AND post_status IN ( $post_statuses )
 			 	$like
 			 ORDER BY post_title
 			 LIMIT %d, %d
