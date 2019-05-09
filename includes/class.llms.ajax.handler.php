@@ -697,7 +697,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since [version] Updated to use llms_filter_input().
-	 * @since [version] Posts can be queried by post status(es) too, via the `$_REQUEST` var `post_statuses`.
+	 * @since [version] Posts can be queried by post status(es) too, via the `$_POST` var `post_statuses`.
 	 *                  By default only the published posts will be queried.
 	 * @return void
 	 */
@@ -718,13 +718,14 @@ class LLMS_AJAX_Handler {
 		}
 		$post_types = implode( ',', $post_types_array );
 
-		$post_statuses       = sanitize_text_field( $_REQUEST['post_statuses'] );
+		$post_statuses       = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING ) );
+		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
+
 		$post_statuses_array = explode( ',', $post_statuses );
 		foreach ( $post_statuses_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
 		}
 		$post_statuses = implode( ',', $post_statuses_array );
-		$post_statuses = empty( $post_statuses ) ? 'publish' : $post_statuses;
 
 		$limit = 30;
 		$start = $limit * $page;
