@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2
-Stable tag: 3.32.0-beta.1
+Stable tag: 3.32.0-beta.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -353,6 +353,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+v3.32.0-beta.2 - 2019-05-09
+-------------------------------
+
++ Added Membership reporting
++ Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
 
 
 v3.32.0-beta.1 - 2019-05-08
