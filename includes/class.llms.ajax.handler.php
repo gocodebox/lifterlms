@@ -718,9 +718,8 @@ class LLMS_AJAX_Handler {
 		}
 		$post_types = implode( ',', $post_types_array );
 
-		$post_statuses       = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING ) );
+		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
 		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
-
 		$post_statuses_array = explode( ',', $post_statuses );
 		foreach ( $post_statuses_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
