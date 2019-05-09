@@ -1505,9 +1505,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// delete if we can
 		if ( $delete ) {
 
-			// Unenroll the student if enrolled
-			$this->unenroll( $product_id, $trigger, 'expired' );
-
 			// delete enrollment for the product
 			if ( $this->delete_enrollment_postmeta( $product_id ) ) {
 
