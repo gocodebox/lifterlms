@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.30.2
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
+ * @since 3.30.3 Use `wp_slash()` when creating new posts.
+ * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -315,13 +317,15 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Create a new post of the Instantiated Model
 	 * This can be called by instantiating an instance with "new"
 	 * as the value passed to the constructor
-	 * @param    string  $title   Title to create the post with
-	 * @return   int    WP Post ID of the new Post on success or 0 on error
-	 * @since    3.0.0
-	 * @version  3.14.6
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.3 Use `wp_slash()` for the post title.
+	 *
+	 * @param string $title Title to create the post with.
+	 * @return int WP Post ID of the new Post on success or 0 on error.
 	 */
 	private function create( $title = '' ) {
-		return wp_insert_post( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ), true );
+		return wp_insert_post( wp_slash( apply_filters( 'llms_new_' . $this->model_post_type, $this->get_creation_args( $title ) ) ), true );
 	}
 
 	/**
@@ -650,16 +654,18 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Retrieve an array of post properties
 	 * These properties need to be get/set with alternate methods
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.16.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.31.0 Treat excerpts as HTML instead of plain text.
+	 *
+	 * @return array
 	 */
 	protected function get_post_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', array(
 			'author' => 'absint',
 			'content' => 'html',
 			'date' => 'text',
-			'excerpt' => 'text',
+			'excerpt' => 'html',
 			'menu_order' => 'absint',
 			'modified' => 'text',
 			'name' => 'text',
@@ -843,11 +849,13 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Setter
-	 * @param    string $key  key of the property
-	 * @param    mixed  $val  value to set the property with
-	 * @return   boolean      true on success, false on error or if the submitted value is the same as what's in the database
-	 * @since    3.0.0
-	 * @version  3.16.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.3 Use `wp_slash()` when setting properties.
+	 *
+	 * @param string $key Key of the property.
+	 * @param mixed  $val Value to set the property with.
+	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database
 	 */
 	public function set( $key, $val ) {
 
@@ -884,7 +892,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
 
-			if ( wp_update_post( $args ) ) {
+			if ( wp_update_post( wp_slash( $args ) ) ) {
 				$this->post->{$post_key} = $val;
 				return true;
 			} else {

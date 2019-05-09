@@ -2,7 +2,7 @@
 /**
 * Admin analytics Page Base Class
 *
-* @deprecated [version]
+* @deprecated 3.30.3
 */
 
 if ( ! defined( 'ABSPATH' ) ) { exit; }

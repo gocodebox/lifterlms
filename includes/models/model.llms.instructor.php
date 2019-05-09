@@ -3,15 +3,20 @@
  * LifterLMS Instructor class
  * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant.
  *
- * @package  LifterLMS/Models
- * @since   3.13.0
- * @version 3.16.11
+ * @package LifterLMS/Models
+ *
+ * @since 3.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Instructor model.
+ *
+ * @since 3.13.0
+ * @since 3.30.3 Fixed typo in "description" key of the the toArray() method.
+ * @since [version] Add validation to data passed into the `get_students()` method.
  */
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
@@ -151,11 +156,15 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve instructor's students
-	 * @uses     LLMS_Student_Query
-	 * @param    array      $args  array of args passed to LLMS_Student_Query
-	 * @return   obj
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 * @since [version] Validate `post_id` data passed into this function to ensure only students
+	 *        			in courses/memberships for this instructor are returned.
+	 *
+	 * @see LLMS_Student_Query
+	 *
+	 * @param array $args Array of args passed to LLMS_Student_Query.
+	 * @return obj
 	 */
 	public function get_students( $args = array() ) {
 
@@ -163,9 +172,16 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			'posts_per_page' => -1,
 		), 'ids' );
 
-		$args = wp_parse_args( $args, array(
-			'post_id' => $ids,
-		) );
+		// if post IDs were passed we need to verify they're IDs that the instructor has access to.
+		if ( $args['post_id'] ) {
+			$args['post_id'] = ! is_array( $args['post_id'] ) ? array( $args['post_id'] ) : $args['post_id'];
+			$args['post_id'] = array_intersect( $args['post_id'], $ids );
+		}
+
+		// not post IDs were passed OR there was no intersections during validation above.
+		if ( empty( $args['post_id'] ) ) {
+			$args['post_id'] = $ids;
+		}
 
 		$query = new LLMS_Student_Query( $args );
 
@@ -248,13 +264,15 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Used by exporter / cloner to get instructor data
-	 * @return   array
-	 * @since    3.16.11
-	 * @version  3.16.11
+	 *
+	 * @since 3.16.11
+	 * @since 3.30.3 Renamed "descrpition" key to "description".
+	 *
+	 * @return array
 	 */
 	public function toArray() {
 		return array(
-			'descrpition' => $this->get( 'description' ),
+			'description' => $this->get( 'description' ),
 			'email' => $this->get( 'user_email' ),
 			'first_name' => $this->get( 'first_name' ),
 			'id' => $this->get_id(),

@@ -3,7 +3,7 @@
  * Notification View Abstract
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Abstract_Notification_View abstract.
  *
  * @since 3.8.0
- * @since [version] Explicitly define undefined properties.
+ * @since 3.30.3 Explicitly define undefined properties.
+ * @since 3.31.0 Add filter on `$basic_options` class property.
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
@@ -134,10 +135,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Constructor
-	 * @param    mixed     $notification  notification id, instance of LLMS_Notification
-	 *                                    or an object containing at least an 'id'
-	 * @since    3.8.0
-	 * @version  3.16.14
+	 *
+	 * @since 3.8.0
+	 * @since 3.31.0 Add filter on `$basic_options` class class property.
+	 *
+	 * @param mixed $notification Notification id, instance of LLMS_Notification
+	 *                            or an object containing at least an 'id'.
+	 * @return void
 	 */
 	public function __construct( $notification ) {
 
@@ -155,6 +159,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$this->subscriber = new LLMS_Student( $this->notification->get( 'subscriber' ) );
 		$this->user = new LLMS_Student( $this->notification->get( 'user_id' ) );
 		$this->post = llms_get_post( $this->notification->get( 'post_id' ), 'post' );
+
+		$this->basic_options = apply_filters( $this->get_filter( 'basic_options' ), $this->basic_options, $this );
 
 	}
 

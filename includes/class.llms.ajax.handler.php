@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
+ * @since 3.30.3 Fixed spelling errors.
+ * @since [version] Update `select2_query_posts` to use llms_filter_input()
  * @since [version] Now `select2_query_posts` method allows for querying posts by post status(es) too.
  */
 class LLMS_AJAX_Handler {
@@ -148,10 +150,12 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Store data for the instructors metabox
-	 * @param    [type]     $request  [description]
-	 * @return   [type]               [description]
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 * @since 3.30.3 Fixed typos.
+	 *
+	 * @param array $request $_REQUEST object.
+	 * @return array
 	 */
 	public static function instructors_mb_store( $request ) {
 
@@ -160,7 +164,7 @@ class LLMS_AJAX_Handler {
 
 			return array(
 				'data' => array(),
-				'message' => __( 'Missing required paramters', 'lifterlms' ),
+				'message' => __( 'Missing required parameters', 'lifterlms' ),
 				'success' => false,
 			);
 
@@ -692,28 +696,29 @@ class LLMS_AJAX_Handler {
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Updated to use llms_filter_input().
 	 * @since [version] Posts can be queried by post status(es) too, via the `$_REQUEST` var `post_statuses`.
 	 *                  By default only the published posts will be queried.
-	 * @return string/json
+	 * @return void
 	 */
 	public static function select2_query_posts() {
 
 		global $wpdb;
 
 		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
 
 		// get the page
-		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
-		$post_type = sanitize_text_field( $_REQUEST['post_type'] );
+		$post_type = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
 		}
 		$post_types = implode( ',', $post_types_array );
 
-		$post_statuses = sanitize_text_field( $_REQUEST['post_statuses'] );
+		$post_statuses       = sanitize_text_field( $_REQUEST['post_statuses'] );
 		$post_statuses_array = explode( ',', $post_statuses );
 		foreach ( $post_statuses_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
@@ -745,44 +750,44 @@ class LLMS_AJAX_Handler {
 			$vars
 		) );
 
-		$r = array();
+		$items = array();
 
 		$grouping = ( count( $post_types_array ) > 1 );
 
-		foreach ( $posts as $p ) {
+		foreach ( $posts as $post ) {
 
 			$item = array(
-				'id' => $p->ID,
-				'name' => $p->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $p->ID . ')',
+				'id' => $post->ID,
+				'name' => $post->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $post->ID . ')',
 			);
 
 			if ( $grouping ) {
 
 				// setup an object for the optgroup if it's not already set up
-				if ( ! isset( $r[ $p->post_type ] ) ) {
-					$obj = get_post_type_object( $p->post_type );
-					$r[ $p->post_type ] = array(
+				if ( ! isset( $items[ $post->post_type ] ) ) {
+					$obj = get_post_type_object( $post->post_type );
+					$items[ $post->post_type ] = array(
 						'label' => $obj->labels->name,
 						'items' => array(),
 					);
 				}
 
-				$r[ $p->post_type ]['items'][] = $item;
+				$items[ $post->post_type ]['items'][] = $item;
 
 			} else {
 
-				$r[] = $item;
+				$items[] = $item;
 
 			}
 		}
 
 		echo json_encode( array(
-			'items' => $r,
-			'more' => count( $r ) === $limit,
+			'items' => $items,
+			'more' => count( $items ) === $limit,
 			'success' => true,
 		) );
-
 		wp_die();
+
 	}
 
 	/**

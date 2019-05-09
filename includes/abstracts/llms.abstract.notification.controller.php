@@ -3,7 +3,7 @@
  * Notification Controller Abstract
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Notification Controller Abstract
  *
  * @since 3.8.0
- * @since [version] Explicitly define undefined properties.
+ * @since 3.30.3 Explicitly define undefined properties & fixed typo in output string.
  */
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 
@@ -269,11 +269,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Get an array of prebuilt subscriber option settings for common subscriptions
-	 * @param    string     $id       id of the subscriber type
-	 * @param    string     $enabled  whether or not the subscription should be enabled by default [yes|no]
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since 3.30.3 Fixed typo in default description string.
+	 *
+	 * @param string $id Id of the subscriber type
+	 * @param string $enabled Whether or not the subscription should be enabled by default [yes|no]
+	 * @return array
 	 */
 	public function get_subscriber_option_array( $id, $enabled = 'yes' ) {
 
@@ -291,7 +293,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 				'title' => __( 'Course Author', 'lifterlms' ),
 			),
 			'custom' => array(
-				'description' => __( 'Enter additional email addresses which will recieve this notification. Separate multiple addresses with commas.', 'lifterlms' ),
+				'description' => __( 'Enter additional email addresses which will receive this notification. Separate multiple addresses with commas.', 'lifterlms' ),
 				'title' => __( 'Additional Recipients', 'lifterlms' ),
 			),
 		);

@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Bulk Enrollment Class
  *
  * @since 3.20.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Student_Bulk_Enroll {
 

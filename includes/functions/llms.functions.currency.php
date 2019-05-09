@@ -2,7 +2,7 @@
 /**
  * Currency and Price related functions for LifterLMS Products
  * @since 1.0.0
- * @version 3.28.2
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -515,9 +515,12 @@ function get_lifterlms_currencies() {
 
 /**
  * Get Currency Symbol text code
- * @param  string $currency Currency Code
+ *
+ * @since Unknown
+ * @since 3.30.3 Removed duplicate key "MAD".
+ *
+ * @param  string $currency Currency Code.
  * @return string
- * @version  3.0.0
  */
 function get_lifterlms_currency_symbol( $currency = '' ) {
 	if ( ! $currency ) {
@@ -612,7 +615,6 @@ function get_lifterlms_currency_symbol( $currency = '' ) {
 		'LRD' => '&#36;',
 		'LSL' => 'L',
 		'LYD' => '&#x644;.&#x62f;',
-		'MAD' => '&#x62f;. &#x645;.',
 		'MAD' => '&#x62f;.&#x645;.',
 		'MDL' => 'L',
 		'MGA' => 'Ar',

@@ -2,12 +2,19 @@
 /**
 * Engagements Class
 * Finds and triggers the appropriate engagement
-* @since    2.3.0
-* @version  3.13.1
+*
+* @since 2.3.0
+* @version 3.30.3
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+* Engagements Class
+*
+* @since 2.3.0
+* @since 3.30.3 Fixed spelling errors.
+*/
 class LLMS_Engagements {
 
 	/**
@@ -213,7 +220,7 @@ class LLMS_Engagements {
 					),
 					array( '%d', '%d', '%s', '%d', '%s' )
 				);
-				llms_log( sprintf( 'Email `#%d` sent sucessfully', $email_id ) );
+				llms_log( sprintf( 'Email `#%d` sent successfully', $email_id ) );
 
 			} else {
 

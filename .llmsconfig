@@ -18,7 +18,7 @@
 		"package": "lifterlms",
 		"phpSrc": [
 			"./*.php", "./**/*.php",
-			"!vendor/*", "!vendor/**/*.php",
+			"!vendor/*", "!vendor/**/*.php", "!tmp/**", "!tests/**",
 			"./vendor/lifterlms/lifterlms-blocks/*.php", "./vendor/lifterlms/lifterlms-blocks/**/*.php"
 		]
 	},

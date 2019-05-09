@@ -1,12 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Display a Setup Wizard
+ * @since 3.0.0
+ * @version 3.30.3
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Display a Setup Wizard
- * @since    3.0.0
- * @version  3.17.8
+ *
+ * @since 3.0.0
+ * @since 3.30.3 Fixed spelling error.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -271,10 +276,12 @@ class LLMS_Admin_Setup_Wizard {
 
 	/**
 	 * Outputs the HTML "body" for the requested step
-	 * @param    string     $step  step slug
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.30.3 Fixed spelling error.
+	 *
+	 * @param string $step Step slug.
+	 * @return void
 	 */
 	public function output_step_html( $step ) {
 
@@ -332,7 +339,7 @@ class LLMS_Admin_Setup_Wizard {
 					</tr>
 					<tr>
 						<td><a href="https://lifterlms.com/docs/student-dashboard/" target="_blank"><?php _e( 'Student Dashboard', 'lifterlms' );?></a></td>
-						<td><p><?php _e( 'Page where students can view and manage their current enrollments, earned certificates and acheivements, account information, and purchase history.', 'lifterlms' ); ?></p></td>
+						<td><p><?php _e( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ); ?></p></td>
 					</tr>
 				</table>
 

@@ -1,10 +1,18 @@
 <?php
+/**
+ * LifterLMS Privacy Eraser functions
+ *
+ * @since 3.18.0
+ * @version 3.18.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Privacy Eraser functions
- * @since    3.18.0
- * @version  3.18.0
+ *
+ * @since 3.18.0
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
@@ -135,10 +143,12 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase and anonymize an order
-	 * @param    obj     $order  LLMS_Order
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 *
+	 * @since 3.18.0
+	 * @since 3.30.3 Fixed spelling error.
+	 *
+	 * @param LLMS_Order $order Order object.
+	 * @return void
 	 */
 	private static function erase_order_data( $order ) {
 
@@ -157,7 +167,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		$order->set( 'anonymized', 'yes' );
-		$order->add_note( __( 'Peronsal data removed during personal data erasure.', 'lifterlms' ) );
+		$order->add_note( __( 'Personal data removed during personal data erasure.', 'lifterlms' ) );
 
 	}
 

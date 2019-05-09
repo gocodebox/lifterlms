@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Admin Settings Page Base Class
  *
  * @since 1.0.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Settings_Page {
 

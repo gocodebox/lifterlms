@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Question_Manager class.
  *
  * @since 3.16.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Question_Manager {
 

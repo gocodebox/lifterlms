@@ -1,9 +1,10 @@
 <?php
 /**
-* LifterLMS Template Actions
-* @since    1.0.0
-* @version  3.24.0
-*/
+ * LifterLMS Template Actions
+ * @since 1.0.0
+ * @since 3.31.0 Explicitly declare priority 10 for lifterlms_sidebar action.
+ * @version 3.31.0
+ */
 
 defined( 'ABSPATH' ) || exit;
 
@@ -189,9 +190,7 @@ add_action( 'lifterlms_single_membership_after_summary', 'lifterlms_template_pri
 
 //After Membership Summary
 
-
-
-add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar' );
+add_action( 'lifterlms_sidebar', 'lifterlms_get_sidebar', 10 );
 
 
 

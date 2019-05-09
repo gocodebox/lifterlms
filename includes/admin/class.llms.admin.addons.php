@@ -4,7 +4,7 @@
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  *
  * @since 3.5.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_AddOns class.
  *
  * @since 3.5.0
- * @since [version] Explicitly define undefined properties.
+ * @since 3.30.3 Explicitly define undefined properties.
  */
 class LLMS_Admin_AddOns {
 

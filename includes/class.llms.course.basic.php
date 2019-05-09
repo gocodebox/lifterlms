@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 *
 * Basic course is the "standard" single purchase course.
 *
-* @deprecated [version]
+* @deprecated 3.30.3
 */
 class LLMS_Course_Basic extends LLMS_Course {
 

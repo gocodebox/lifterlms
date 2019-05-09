@@ -2,14 +2,17 @@
 /**
  * LifterLMS Question Types
  *
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Question_Types class.
+ *
+ * @since 3.16.0
+ * @since 3.30.3 Fixed typo.
  */
 class LLMS_Question_Types {
 
@@ -29,9 +32,10 @@ class LLMS_Question_Types {
 	/**
 	 * Retrieve question type model defaults
 	 *
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since 3.30.3 Fixed typo in icon name.
+	 *
+	 * @return array
 	 */
 	public static function get_model() {
 
@@ -52,7 +56,7 @@ class LLMS_Question_Types {
 				'order' => 20,
 				'name' => __( 'Other', 'lifterlms' ),
 			),
-			'icon' => 'question-cirlce',
+			'icon' => 'question-circle',
 			'id' => 'generic',
 			'image' => true,
 			'name' => esc_html__( 'Question', 'lifterlms' ),

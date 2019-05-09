@@ -3,7 +3,7 @@
  * LifterLMS Course Tracks
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS Course Tracks
  *
  * @since 3.0.0
- * @since [version] Explicitly define class properties.
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Track {
 

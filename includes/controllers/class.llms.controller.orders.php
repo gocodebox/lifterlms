@@ -362,11 +362,14 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Trigger a recurring payment
-	 * Called by action scheduler
-	 * @param    int     $order_id  WP Post ID of the order
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * Called by action scheduler.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Record order notes and trigger actions during errors.
+	 *
+	 * @param int $order_id WP Post ID of the order.
+	 * @return void
 	 */
 	public function recurring_charge( $order_id ) {
 
@@ -376,30 +379,39 @@ class LLMS_Controller_Orders {
 		// ensure the gateway is still installed & available
 		if ( ! is_wp_error( $gateway ) ) {
 
-			// ensure that recurring payments feature is enabled
-			// & that the gateway still supports recurring payments
-			if ( LLMS_Site::get_feature( 'recurring_payments' ) && $gateway->supports( 'recurring_payments' ) ) {
+			if ( ! $gateway->supports( 'recurring_payments' ) ) {
+
+				do_action( 'llms_order_recurring_charge_gateway_payments_disabled', $order_id, $gateway, $this );
+
+				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
+
+				$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled in for the payment gateway.', 'lifterlms' ) );
+
+			} elseif ( ! LLMS_Site::get_feature( 'recurring_payments' ) ) {
+
+				do_action( 'llms_order_recurring_charge_skipped', $order_id, $gateway, $this );
+				$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled in staging mode.', 'lifterlms' ) );
+
+			} else {
 
 				$gateway->handle_recurring_transaction( $order );
 
-			} // End if().
-			else {
-				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
-				/**
-				 * @todo  notifications....
-				 */
 			}
-		} // End if().
-		else {
+		} else {
+
+			do_action( 'llms_order_recurring_charge_gateway_error', $order_id, $gateway, $this );
 
 			llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed', 'recurring-payments' );
 			llms_log( $gateway->get_error_message(), 'recurring-payments' );
 
-			/**
-			 * @todo  notifications....
-			 */
+			$order->add_note(
+				sprintf(
+					__( 'A recurring charge was not processed due to an error encountered while loading the payment gateway: "%s"', 'lifterlms' ),
+					$gateway->get_error_message()
+				)
+			);
 
-		}
+		}// End if().
 
 	}
 

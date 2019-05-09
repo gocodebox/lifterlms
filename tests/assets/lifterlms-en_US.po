@@ -45,7 +45,7 @@ msgid "The export is being generated and will be emailed to %s when complete."
 msgstr ""
 
 #: includes/class.llms.ajax.handler.php:155
-msgid "Missing required paramters"
+msgid "Missing required parameters"
 msgstr ""
 
 #: includes/class.llms.ajax.handler.php:260
@@ -2790,7 +2790,7 @@ msgid "Student completes a section"
 msgstr ""
 
 #: includes/llms.functions.core.php:348
-msgid "Student comepletes a course track"
+msgid "Student completes a course track"
 msgstr ""
 
 #: includes/llms.functions.core.php:349
@@ -3041,7 +3041,7 @@ msgstr ""
 
 #: includes/abstracts/llms.abstract.notification.controller.php:265
 msgid ""
-"Enter additional email addresses which will recieve this notification. "
+"Enter additional email addresses which will receive this notification. "
 "Separate multiple addresses with commas."
 msgstr ""
 
@@ -3699,7 +3699,7 @@ msgstr ""
 #: includes/admin/settings/class.llms.settings.accounts.php:63
 msgid ""
 "Page where students can view and manage their current enrollments, earned "
-"certificates and acheivements, account information, and purchase history."
+"certificates and achievements, account information, and purchase history."
 msgstr ""
 
 #: includes/admin/class.llms.admin.setup.wizard.php:339
@@ -5789,7 +5789,7 @@ msgstr ""
 
 #: includes/integrations/class.llms.integration.bbpress.php:34
 msgid ""
-"Restrict forums and topics to memberships, add fourms to courses, and "
+"Restrict forums and topics to memberships, add forums to courses, and "
 "%1$smore%2$s."
 msgstr ""
 
@@ -6110,7 +6110,7 @@ msgid "Order cancelled during personal data erasure."
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-erasers.php:160
-msgid "Peronsal data removed during personal data erasure."
+msgid "Personal data removed during personal data erasure."
 msgstr ""
 
 #. translators: %s Prop name.
@@ -6159,11 +6159,11 @@ msgid "%s Title"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:174
-msgid "Enrollement Status"
+msgid "Enrollment Status"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:179
-msgid "Enrollement Date"
+msgid "Enrollment Date"
 msgstr ""
 
 #: includes/privacy/class-llms-privacy-exporters.php:186,
@@ -7505,7 +7505,7 @@ msgid "Customize data retention during %1$saccount erasure requests%2$s."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:317
-msgid "When enabled orders will be anonymized during a presonal data erasure."
+msgid "When enabled orders will be anonymized during a personal data erasure."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.accounts.php:318
@@ -7624,7 +7624,7 @@ msgid "Page used for displaying the checkout form."
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:185
-msgid "Payment confirmation endpont slug"
+msgid "Payment confirmation endpoint slug"
 msgstr ""
 
 #: includes/admin/settings/class.llms.settings.checkout.php:194
@@ -8139,7 +8139,7 @@ msgid "Passwords do not match."
 msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.forms.php:125
-msgid "Voucher redeemed sucessfully!"
+msgid "Voucher redeemed successfully!"
 msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.password.php:34
@@ -8214,19 +8214,19 @@ msgid "Subscription Cancellation Notice"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:78
-msgid "Achievment Content"
+msgid "Achievement Content"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:79
-msgid "Achievment Image"
+msgid "Achievement Image"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:80
-msgid "Achievment Image URL"
+msgid "Achievement Image URL"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:81
-msgid "Achievment Title"
+msgid "Achievement Title"
 msgstr ""
 
 #: includes/notifications/views/class.llms.notification.view.achievement.earned.php:82,
@@ -9824,7 +9824,7 @@ msgstr ""
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:151
 msgid ""
 "Optionally enter a time when the lesson should become available. If no time "
-"supplied, leson will be available at 12:00 AM. Format must be HH:MM AM"
+"supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:153
@@ -9937,7 +9937,7 @@ msgid "Course Name"
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:228
-msgid "No auto-enrollment couses found."
+msgid "No auto-enrollment courses found."
 msgstr ""
 
 #: includes/admin/post-types/meta-boxes/class.llms.meta.box.membership.php:237
@@ -10631,11 +10631,11 @@ msgid "Enrolled students only"
 msgstr ""
 
 #: includes/admin/views/builder/lesson.php:135
-msgid "No prerequsite"
+msgid "No prerequisite"
 msgstr ""
 
 #: includes/admin/views/builder/lesson.php:136
-msgid "Prerequsite Enabled"
+msgid "Prerequisite Enabled"
 msgstr ""
 
 #: includes/admin/views/builder/lesson.php:144

@@ -1,12 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification View: Achievement Earned
+ * @since 3.8.0
+ * @version 3.17.6
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification View: Achievement Earned
- * @since    3.8.0
- * @version  3.17.6
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notification_View {
 
@@ -69,16 +74,18 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Setup merge codes that can be used with the notification
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since 3.30.3 Fixed spelling errors.
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{ACHIEVEMENT_CONTENT}}' => __( 'Achievment Content', 'lifterlms' ),
-			'{{ACHIEVEMENT_IMAGE}}' => __( 'Achievment Image', 'lifterlms' ),
-			'{{ACHIEVEMENT_IMAGE_URL}}' => __( 'Achievment Image URL', 'lifterlms' ),
-			'{{ACHIEVEMENT_TITLE}}' => __( 'Achievment Title', 'lifterlms' ),
+			'{{ACHIEVEMENT_CONTENT}}' => __( 'Achievement Content', 'lifterlms' ),
+			'{{ACHIEVEMENT_IMAGE}}' => __( 'Achievement Image', 'lifterlms' ),
+			'{{ACHIEVEMENT_IMAGE_URL}}' => __( 'Achievement Image URL', 'lifterlms' ),
+			'{{ACHIEVEMENT_TITLE}}' => __( 'Achievement Title', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 		);
 	}

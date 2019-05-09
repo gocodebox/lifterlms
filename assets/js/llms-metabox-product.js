@@ -1,8 +1,9 @@
 /**
  * Product Options MetaBox
  * Displays on Course & Membership Post Types
- * @since    3.0.0
- * @version  3.30.0
+ *
+ * @since 3.0.0
+ * @version 3.30.3
  */
 ( function( $ ) {
 
@@ -579,9 +580,10 @@
 		/**
 		 * Persist access plans to the DB if they pass validation
 		 *
-		 * @return  {[type]}
-		 * @since   3.29.0
-		 * @version 3.29.0
+		 * @since 3.29.0
+		 * @since 3.30.3 Fixed typo in error message.
+		 *
+		 * @return void
 		 */
 		this.save_plans = function() {
 
@@ -610,7 +612,7 @@
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
 					console.error( 'llms access plan save error encounterd:', jqXHR );
-					alert( LLMS.l10n.translate( 'An error was encounterd during the save attempt. Please try again.' ) + ' ['  + textStatus + ': ' + errorThrown + ']' );
+					alert( LLMS.l10n.translate( 'An error was encountered during the save attempt. Please try again.' ) + ' ['  + textStatus + ': ' + errorThrown + ']' );
 				},
 				success: function( res ) {
 

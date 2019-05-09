@@ -2,9 +2,10 @@
 /**
  * Functions for LifterLMS Access Plans
  *
- * @package  LifterLMS/Functions/Access_Plans
- * @since    3.29.0
- * @version  3.29.2
+ * @package LifterLMS/Functions/Access_Plans
+ *
+ * @since 3.29.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,9 +17,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @see LLMS_Access_Plan
  *
- * @since   3.29.0
- * @since   3.30.0 Added checkout redirect options.
- * @version 3.30.0
+ * @since 3.29.0
+ * @since 3.30.0 Added checkout redirect options.
+ * @since 3.30.3 Fixed spelling errors.
  *
  * @param array $props {
  *     An array of of properties that make up the plan to create or update.
@@ -156,7 +157,7 @@ function llms_insert_access_plan( $props = array() ) {
 	// Ensure visibility setting is valid.
 	if ( ! in_array( $props['visibility'], array_keys( llms_get_access_plan_visibility_options() ), true ) ) {
 		// Translators: %s = supplied visibility setting.
-		return new WP_Error( 'invalid-visibility', sprintf( __( 'Invalid access plan visibilty: "%s"', 'lifterlms' ), $props['visibility'] ) );
+		return new WP_Error( 'invalid-visibility', sprintf( __( 'Invalid access plan visibility: "%s"', 'lifterlms' ), $props['visibility'] ) );
 	}
 
 	// Ensure all periods are valid.
@@ -188,7 +189,7 @@ function llms_insert_access_plan( $props = array() ) {
 	if ( 'create' === $action ) {
 		$plan = new LLMS_Access_Plan( 'new' );
 		if ( ! $plan ) {
-			return new WP_Error( 'plan-creation', __( 'An error was encounterd while creating the access plan', 'lifterlms' ) );
+			return new WP_Error( 'plan-creation', __( 'An error was encountered while creating the access plan', 'lifterlms' ) );
 		}
 	}
 

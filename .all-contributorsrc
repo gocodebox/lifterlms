@@ -20,6 +20,35 @@
       ]
     },
     {
+      "login": "actual-saurabh",
+      "name": "Saurabh Shukla",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1739834?v=4",
+      "profile": "https://github.com/actual-saurabh",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "nrherron92",
+      "name": "nrherron92",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/47434271?v=4",
+      "profile": "https://github.com/nrherron92",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
+      "login": "eri-trabiccolo",
+      "name": "Rocco Aliberti",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/7689242?v=4",
+      "profile": "https://github.com/eri-trabiccolo",
+      "contributions": [
+        "bug",
+        "code"
+      ]
+    },
+    {
       "login": "therealmarknelson",
       "name": "Mark Nelson",
       "avatar_url": "https://avatars0.githubusercontent.com/u/5050601?v=4",
@@ -34,15 +63,6 @@
       "name": "Petar Smolic",
       "avatar_url": "https://avatars3.githubusercontent.com/u/4542049?v=4",
       "profile": "http://psmolic.com",
-      "contributions": [
-        "code"
-      ]
-    },
-    {
-      "login": "actual-saurabh",
-      "name": "Saurabh Shukla",
-      "avatar_url": "https://avatars1.githubusercontent.com/u/1739834?v=4",
-      "profile": "https://github.com/actual-saurabh",
       "contributions": [
         "code"
       ]
@@ -195,16 +215,6 @@
       ]
     },
     {
-      "login": "eri-trabiccolo",
-      "name": "Rocco Aliberti",
-      "avatar_url": "https://avatars3.githubusercontent.com/u/7689242?v=4",
-      "profile": "https://github.com/eri-trabiccolo",
-      "contributions": [
-        "bug",
-        "code"
-      ]
-    },
-    {
       "login": "philwp",
       "name": "Phil Webster",
       "avatar_url": "https://avatars2.githubusercontent.com/u/5949352?v=4",
@@ -261,22 +271,22 @@
       ]
     },
     {
-      "login": "nrherron92",
-      "name": "nrherron92",
-      "avatar_url": "https://avatars0.githubusercontent.com/u/47434271?v=4",
-      "profile": "https://github.com/nrherron92",
-      "contributions": [
-        "bug",
-        "code"
-      ]
-    },
-    {
       "login": "pondermatic",
       "name": "James Richards",
       "avatar_url": "https://avatars1.githubusercontent.com/u/5377968?v=4",
       "profile": "http://vistacast.com",
       "contributions": [
         "doc"
+      ]
+    },
+    {
+      "login": "andrewvaughan",
+      "name": "Andrew Vaughan",
+      "avatar_url": "https://avatars2.githubusercontent.com/u/1119590?v=4",
+      "profile": "https://andrewvaughan.io",
+      "contributions": [
+        "bug",
+        "code"
       ]
     }
   ]

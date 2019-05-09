@@ -3,14 +3,18 @@
  * Register Post Types, Taxonomies, Statuses
  *
  * @package  LifterLMS\Classes
- * @since    1.0.0
- * @version  3.26.0
+ *
+ * @since 1.0.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Post_Types class
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
  */
 class LLMS_Post_Types {
 
@@ -997,8 +1001,11 @@ class LLMS_Post_Types {
 
 	/**
 	 * Register Taxonomies
-	 * @since    1.0.0
-	 * @version  3.13.0
+	 *
+	 * @since 1.0.0
+	 * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
+	 *
+	 * @return void
 	 */
 	public static function register_taxonomies() {
 
@@ -1059,7 +1066,6 @@ class LLMS_Post_Types {
 
 		// course tag
 		self::register_taxonomy( 'course_tag', array( 'course' ), array(
-			'hierarchical' => false,
 			'label' => __( 'Course Tags', 'lifterlms' ),
 			'labels' => array(
 				'name' => __( 'Course Tags', 'lifterlms' ),
