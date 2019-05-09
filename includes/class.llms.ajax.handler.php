@@ -14,8 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Update `select2_query_posts` to use llms_filter_input()
- * @since [version] Now `select2_query_posts` method allows for querying posts by post status(es) too.
+ * @since [version] Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
  */
 class LLMS_AJAX_Handler {
 

@@ -2,7 +2,7 @@
 /**
  * Vouchers Metabox
  *
- * @since ??
+ * @since Unknown
  * @version [version]
  */
 
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Vouchers Metabox class
  *
- * @since ??
+ * @since Unknown
  * @since [version] Vouchers can now be restricted also to a draft or scheduled Course/Membership.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
@@ -34,13 +34,12 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 	/**
 	 * Builds array of metabox options.
+	 *
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
 	 *
-	 *
 	 * @since 3.0.0
 	 * @since [version] Vouchers can now be restricted also to a draft or scheduled Course/Membership
-	 *                  via the `<select />` data attribute 'post-statuses' (data-post-status).
 	 *
 	 * @return array
 	 */
