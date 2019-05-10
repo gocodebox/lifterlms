@@ -1,10 +1,12 @@
 <?php
 /**
  * Tests for LifterLMS User Postmeta functions
- * @group    functions
- * @group    user_postmeta
- * @since    3.21.0
- * @version  3.21.0
+ * @group functions
+ * @group user_postmeta
+ *
+ * @since 3.21.0
+ * @since [version] Add test for the `llms_bulk_delete_user_postmeta` function.
+ * @version [version]
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
@@ -84,6 +86,68 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 		$this->assertEquals( array(), llms_get_user_postmeta( $this->student_id, $this->course_id ) );
 
 	}
+
+	/**
+	 * Test the bulk_delete_user_postmeta() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_bulk_delete_user_postmeta() {
+
+		// delete the (key,value) matching pairs
+		$data = array(
+			'_bulk_test_data_to_erase1'         => 'bulk_eraseme_1',
+			'_bulk_test_data_to_erase2'         => 'bulk_eraseme_2',
+			'_bulk_test_data_to_preserve'       => 'bulk_saveme_1',
+			'_bulk_test_data_to_preserve_value' => 'bulk_savemy_value_1',
+		);
+		llms_bulk_update_user_postmeta( $this->student_id, $this->course_id, $data );
+
+		$data_to_erase = array(
+			'_bulk_test_data_to_erase1'         => 'bulk_eraseme_1',
+			'_bulk_test_data_to_erase2'         => 'bulk_eraseme_2',
+			'_bulk_test_data_to_preserve_value' => 'bulk_eraseme_3',
+		);
+
+		$this->assertTrue( llms_bulk_delete_user_postmeta( $this->student_id, $this->course_id, $data_to_erase ) );
+		$this->assertEquals( '', llms_get_user_postmeta( $this->student_id, $this->course_id, '_bulk_test_data_to_erase1' ) );
+		$this->assertEquals( '', llms_get_user_postmeta( $this->student_id, $this->course_id, '_bulk_test_data_to_erase2' ) );
+		$this->assertEquals( $data['_bulk_test_data_to_preserve'], llms_get_user_postmeta( $this->student_id, $this->course_id, '_bulk_test_data_to_preserve' ) );
+		$this->assertEquals( $data['_bulk_test_data_to_preserve_value'], llms_get_user_postmeta( $this->student_id, $this->course_id, '_bulk_test_data_to_preserve_value' ) );
+
+		// delete all the metas for a student and course
+		$data = array(
+			'_bulk_test_data_to_erase1' => 'bulk_eraseme_1',
+			'_bulk_test_data_to_erase2' => 'bulk_eraseme_2',
+			'_bulk_test_data_to_erase3' => 'bulk_eraseme_3',
+			'_bulk_test_data_to_erase4' => 'bulk_eraseme_4',
+		);
+		llms_bulk_update_user_postmeta( $this->student_id, $this->course_id, $data );
+
+		$this->assertTrue( llms_bulk_delete_user_postmeta( $this->student_id, $this->course_id ) );
+		$this->assertEquals( array(), llms_get_user_postmeta( $this->student_id, $this->course_id ) );
+
+		// delete all the metas with the matching keys
+		$data = array(
+			'_bulk_test_data_to_erase1'   => 'bulk_eraseme_1',
+			'_bulk_test_data_to_erase2'   => 'bulk_eraseme_2',
+			'_bulk_test_data_to_erase3'   => 'bulk_eraseme_3',
+			'_bulk_test_data_to_preserve' => 'bulk_saveme_1',
+		);
+		llms_bulk_update_user_postmeta( $this->student_id, $this->course_id, $data );
+
+		$data_to_erase = array(
+			'_bulk_test_data_to_erase1' => null,
+			'_bulk_test_data_to_erase2' => null,
+			'_bulk_test_data_to_erase3' => null,
+		);
+		$this->assertTrue( llms_bulk_delete_user_postmeta( $this->student_id, $this->course_id, $data_to_erase ) );
+		$this->assertArrayHasKey( '_bulk_test_data_to_preserve', llms_get_user_postmeta( $this->student_id, $this->course_id ) );
+
+	}
+
 
 	public function test_llms_get_user_postmeta() {
 

@@ -56,12 +56,17 @@ if ( ! function_exists( 'llms_bulk_delete_user_postmeta' ) ) :
 		$res = array_fill_keys( array_keys( $data ), null );
 		$err = false;
 
-		foreach ( $data as $key => $value ) {
-			$delete      = llms_delete_user_postmeta( $user_id, $post_id, $key, $value );
-			$res[ $key ] = $delete;
-			if ( ! $delete ) {
-				$err = true;
+		if ( ! empty( $data ) ) {
+			foreach ( $data as $key => $value ) {
+				$delete      = llms_delete_user_postmeta( $user_id, $post_id, $key, $value );
+				$res[ $key ] = $delete;
+				if ( ! $delete ) {
+					$err = true;
+				}
 			}
+		} else {
+			$res = llms_delete_user_postmeta( $user_id, $post_id );
+			$err = ! $res;
 		}
 
 		return $err ? $res : true;
