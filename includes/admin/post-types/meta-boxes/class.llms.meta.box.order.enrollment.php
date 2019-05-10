@@ -43,12 +43,14 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	public function get_fields() {}
 
 	/**
-	 * Function to field WP::output() method call
-	 * Passes output instruction to parent
-	 * @param    object  $post  WP global post object
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.18.0
+	 * Function to field WP::output() method call.
+	 * Passes output instruction to parent.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Added 'Deleted' as enrollment status option.
+	 *
+	 * @param  object $post WP global post object
+	 * @return void
 	 */
 	public function output() {
 
