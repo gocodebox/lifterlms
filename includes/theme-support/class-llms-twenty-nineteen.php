@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes/ThemeSupport
  *
- * @since [version]
- * @version [version]
+ * @since 3.31.0
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Twenty Nineteen Theme Support.
  *
- * @since [version]
+ * @since 3.31.0
  */
 class LLMS_Twenty_Nineteen {
 
 	/**
 	 * Static Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @return void
 	 */
@@ -41,7 +41,7 @@ class LLMS_Twenty_Nineteen {
 	/**
 	 * Output Twentynineteen theme wrapper openers
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @return void
 	 */
@@ -52,7 +52,7 @@ class LLMS_Twenty_Nineteen {
 	/**
 	 * Output Twentynineteen theme wrapper closers
 	 *
-	 * @since [version]
+	 * @since 3.31.0
 	 *
 	 * @return void
 	 */

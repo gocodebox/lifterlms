@@ -1,6 +1,6 @@
 <?php
 /**
- * LifterLMS AJAX Event Handler
+ * LifterLMS AJAX Event Handler.
  *
  * @since 1.0.0
  * @version [version]
@@ -14,7 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Handled the delete enrollment request in the `update_student_enrollment` method.
+ * @since [version] Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
+ * @since [version] Update `update_student_enrollment` to handle enrollment deletion requests.
  */
 class LLMS_AJAX_Handler {
 
@@ -692,27 +693,40 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle Select2 Search boxes for WordPress Posts by Post Type
-	 * @since   3.0.0
-	 * @version 3.10.1
-	 * @return  string/json
+	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Updated to use llms_filter_input().
+	 * @since [version] Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
+	 *                  By default only the published posts will be queried.
+	 * @return void
 	 */
 	public static function select2_query_posts() {
 
 		global $wpdb;
 
-		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+		// grab the search term if it exists.
+		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
 
-		// get the page
-		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+		// get the page.
+		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
-		$post_type = sanitize_text_field( $_REQUEST['post_type'] );
+		// Get post type(s).
+		$post_type = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
 		}
 		$post_types = implode( ',', $post_types_array );
+
+		// Get post status(es).
+		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
+		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
+		$post_statuses_array = explode( ',', $post_statuses );
+		foreach ( $post_statuses_array as &$str ) {
+			$str = "'" . esc_sql( trim( $str ) ) . "'";
+		}
+		$post_statuses = implode( ',', $post_statuses_array );
 
 		$limit = 30;
 		$start = $limit * $page;
@@ -728,54 +742,53 @@ class LLMS_AJAX_Handler {
 		$posts = $wpdb->get_results( $wpdb->prepare(
 			"SELECT ID, post_title, post_type
 			 FROM $wpdb->posts
-			 WHERE
-			 	post_type IN ( $post_types )
-			 	AND post_status = 'publish'
-			 	$like
+			 WHERE post_type IN ( $post_types )
+			   AND post_status IN ( $post_statuses )
+			       $like
 			 ORDER BY post_title
 			 LIMIT %d, %d
 			",
 			$vars
 		) );
 
-		$r = array();
+		$items = array();
 
 		$grouping = ( count( $post_types_array ) > 1 );
 
-		foreach ( $posts as $p ) {
+		foreach ( $posts as $post ) {
 
 			$item = array(
-				'id' => $p->ID,
-				'name' => $p->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $p->ID . ')',
+				'id' => $post->ID,
+				'name' => $post->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $post->ID . ')',
 			);
 
 			if ( $grouping ) {
 
 				// setup an object for the optgroup if it's not already set up
-				if ( ! isset( $r[ $p->post_type ] ) ) {
-					$obj = get_post_type_object( $p->post_type );
-					$r[ $p->post_type ] = array(
+				if ( ! isset( $items[ $post->post_type ] ) ) {
+					$obj = get_post_type_object( $post->post_type );
+					$items[ $post->post_type ] = array(
 						'label' => $obj->labels->name,
 						'items' => array(),
 					);
 				}
 
-				$r[ $p->post_type ]['items'][] = $item;
+				$items[ $post->post_type ]['items'][] = $item;
 
 			} else {
 
-				$r[] = $item;
+				$items[] = $item;
 
 			}
 		}
 
 		echo json_encode( array(
-			'items' => $r,
-			'more' => count( $r ) === $limit,
+			'items' => $items,
+			'more' => count( $items ) === $limit,
 			'success' => true,
 		) );
-
 		wp_die();
+
 	}
 
 	/**

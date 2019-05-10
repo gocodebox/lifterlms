@@ -1,9 +1,16 @@
 <?php
 /**
+ * LifterLMS WordPress Plugin
+ *
+ * @package LifterLMS/Main
+ *
+ * @since 1.0.0
+ * @version [version]
+ *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.30.3
+ * Version: 3.32.0-beta.2
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -11,23 +18,23 @@
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.8
- * Tested up to: 5.1
+ * Tested up to: 5.2
  */
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Autoloader
- */
+// Autoloader.
 require_once 'vendor/autoload.php';
 
 /**
  * Main LifterLMS Class
- * @class LifterLMS
+ *
+ * @since 1.0.0
+ * @since [version] Update action-scheduler to latest version; load staging class on the admin panel.
  */
 final class LifterLMS {
 
-	public $version = '3.30.3';
+	public $version = '3.32.0-beta.2';
 
 	protected static $_instance = null;
 
@@ -213,7 +220,8 @@ final class LifterLMS {
 	 * Include required core classes
 	 *
 	 * @since 1.0.0
-	 * @since [version] Add theme support includes.
+	 * @since 3.31.0 Add theme support includes.
+	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
 	 *
 	 * @return void
 	 */
@@ -228,7 +236,7 @@ final class LifterLMS {
 		require_once 'includes/class.llms.session.php';
 		require_once 'includes/class.llms.cache.helper.php';
 
-		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
+		require_once 'vendor/prospress/action-scheduler/action-scheduler.php';
 
 		require_once 'includes/class.llms.hasher.php';
 
@@ -242,6 +250,7 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
+			include_once 'includes/class-llms-staging.php';
 			include_once 'includes/class.llms.dot.com.api.php';
 
 			include_once 'includes/class.llms.generator.php';
@@ -392,7 +401,7 @@ final class LifterLMS {
 	/**
 	 * Conditionally require additional theme support classes.
 	 *
-	 * @since [version]
+	 * @since 3.31.0-beta.1
 	 *
 	 * @return void
 	 */

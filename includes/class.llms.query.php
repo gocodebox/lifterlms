@@ -3,7 +3,7 @@
 * Query base class
 * Handles queries and endpoints.
 *
-* @since   1.0.0
+* @since 1.0.0
 * @version 3.28.2
 */
 
@@ -11,11 +11,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Query class
+ *
+ * @since 1.0.0
+ * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
  */
 class LLMS_Query {
 
 	/**
 	* Query var
+	*
 	* @var array
 	*/
 	public $query_vars = array();
@@ -23,8 +27,10 @@ class LLMS_Query {
 	/**
 	 * Constructor
 	 *
-	 * @since    1.0.0
-	 * @version  3.28.2
+	 * @since 1.0.0
+	 * @version 3.28.2
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -47,12 +53,16 @@ class LLMS_Query {
 	 * Add Query Endpoints
 	 *
 	 * @since 1.0.0
-	 * @version 3.28.2
+	 * @since 3.28.2 Handle dashboard tab pagination via a rewrite rule.
+	 *
+	 * @return void
 	 */
 	public function add_endpoints() {
+
 		foreach ( $this->get_query_vars() as $key => $var ) {
 			add_rewrite_endpoint( $var, EP_PAGES );
 		}
+
 		global $wp_rewrite;
 		foreach ( LLMS_Student_Dashboard::get_tabs() as $id => $tab ) {
 			if ( ! empty( $tab['paginate'] ) ) {
@@ -61,37 +71,27 @@ class LLMS_Query {
 				add_rewrite_rule( $regex, $redirect, 'top' );
 			}
 		}
-	}
 
-	/**
-	 * Add query variables
-	 * @param $vars [array of WP query variables available for query]
-	 */
-	public function add_query_vars( $vars ) {
-		foreach ( $this->get_query_vars() as $key => $var ) {
-			$vars[] = $key;
-		}
-
-		return $vars;
 	}
 
 	/**
 	 * Get query variables
 	 *
-	 * @return void
+	 * @since Unknown
+	 *
+	 * @return array
 	 */
 	public function get_query_vars() {
-
 		return apply_filters( 'llms_get_endpoints', $this->query_vars );
-
 	}
 
 	/**
 	 * Get a taxonomy query that filters out courses & memberships based on catalog / search visibility settings
-	 * @param    array      $query  existing taxonomy query from the global $wp_query
-	 * @return   array
+	 *
 	 * @since    3.6.0
-	 * @version  3.6.0
+	 *
+	 * @param array $query Existing taxonomy query from the global $wp_query.
+	 * @return array
 	 */
 	private function get_tax_query( $query = array() ) {
 
@@ -126,6 +126,8 @@ class LLMS_Query {
 	/**
 	 * Init queries
 	 *
+	 * @since Unknown
+	 *
 	 * @return void
 	 */
 	public function init_query_vars() {
@@ -140,21 +142,20 @@ class LLMS_Query {
 	/**
 	 * Parse the request for query variables
 	 *
+	 * @since unknown
+	 * @since 3.31.0 sanitize and unslash `$_GET` vars.
+	 *
 	 * @return void
 	 */
 	public function parse_request() {
+
 		global $wp;
 
 		foreach ( $this->get_query_vars() as $key => $var ) {
-
 			if ( isset( $_GET[ $var ] ) ) {
-
-				$wp->query_vars[ $key ] = $_GET[ $var ];
-
+				$wp->query_vars[ $key ] = sanitize_text_field( wp_unslash( $_GET[ $var ] ) );
 			} elseif ( isset( $wp->query_vars[ $var ] ) ) {
-
 				$wp->query_vars[ $key ] = $wp->query_vars[ $var ];
-
 			}
 		}
 
@@ -162,10 +163,12 @@ class LLMS_Query {
 
 	/**
 	 * Sets the WP_Query variables for "post_type" on LifterLMS custom taxonomy archive pages for Courses and Memberships
-	 * @param    obj    $query   Main WP_Query Object
-	 * @return   void
-	 * @since    1.4.4           moved from LLMS_Post_Types
-	 * @version  3.16.8
+	 *
+	 * @since 1.4.4 Moved from LLMS_Post_Types.
+	 * @since 3.16.8
+	 *
+	 * @param WP_Query $query Main WP_Query Object.
+	 * @return void
 	 */
 	public function pre_get_posts( $query ) {
 
@@ -228,13 +231,31 @@ class LLMS_Query {
 	}
 
 	/**
+	 * Set query variables
+	 *
+	 * @since Unknown
+	 *
+	 * @param  array $vars WP query variables available for query.
+	 * @return array
+	 */
+	public function set_query_vars( $vars ) {
+
+		foreach ( $this->get_query_vars() as $key => $var ) {
+			$vars[] = $key;
+		}
+
+		return $vars;
+
+	}
+
+	/**
 	 * Handles setting the "paged" variable on Student Dashboard endpoints
 	 * which utilize page/{n} style pagination
 	 *
-	 * @return void
 	 * @since 3.14.0
-	 * @version 3.14.0
 	 * @deprecated 3.28.2 $paged automatically set via add_rewrite_rule() in $this->add_endpoints() method.
+	 *
+	 * @return void
 	 */
 	public function set_dashboard_pagination() {
 
@@ -253,19 +274,18 @@ class LLMS_Query {
 	}
 
 	/**
-	 * Set query variables
+	 * Add query variables
 	 *
-	 * @return void
+	 * @since 1.0.0
+	 * @deprecated 3.31.0 Use LLMS_Query::set_query_vars() instead.
+	 *
+	 * @param array $vars WP query variables available for query.
+	 * @return array
 	 */
-	public function set_query_vars( $vars ) {
+	public function add_query_vars( $vars ) {
 
-		foreach ( $this->get_query_vars() as $key => $var ) {
-
-			$vars[] = $key;
-
-		}
-
-		return $vars;
+		llms_deprecated_function( 'LLMS_Query::add_query_vars()', '3.31.0', 'LLMS_Query::set_query_vars()' );
+		return $this->set_query_vars( $vars );
 
 	}
 

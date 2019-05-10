@@ -5,7 +5,7 @@
  * [lifterlms_courses]
  *
  * @since 3.14.0
- * @version 3.30.2
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.14.0
  * @since 3.30.2 Output a message instead of the entire course catalog when "mine" is used and and current student is not enrolled in any courses.
+ * @since 3.31.0 Adjusted several private methods to be protected.
  */
 class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
@@ -46,11 +47,13 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 	/**
 	 * Retrieve an array of post ids based on submitted ID parameter and the mine parameter
+	 *
+	 * @since 3.14.0
+	 * @since 3.31.0 Changed access from private to protected.
+	 *
 	 * @return   array
-	 * @since    3.14.0
-	 * @version  3.14.0
 	 */
-	private function get_post__in() {
+	protected function get_post__in() {
 
 		$ids = array();
 		$post_id = $this->get_attribute( 'id' );
@@ -78,11 +81,13 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 	/**
 	 * Retrieve the tax query based on submitted category & visibility
+	 *
+	 * @since 3.14.0
+	 * @since 3.31.0 Changed access from private to protected.
+	 *
 	 * @return   array|string
-	 * @since    3.14.0
-	 * @version  3.14.0
 	 */
-	private function get_tax_query() {
+	protected function get_tax_query() {
 
 		$has_tax_query = false;
 
@@ -127,11 +132,13 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 	/**
 	 * Retrieve a WP_Query based on all submitted parameters
+	 *
+	 * @since 3.14.0
+	 * @since 3.31.0 Changed access from private to protected.
+	 *
 	 * @return mixed WP_Query
-	 * @since    3.14.0
-	 * @version  3.14.0
 	 */
-	private function get_wp_query() {
+	protected function get_wp_query() {
 
 		$args = array(
 			'paged' => get_query_var( 'paged' ),

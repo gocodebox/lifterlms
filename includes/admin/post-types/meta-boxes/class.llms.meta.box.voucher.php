@@ -1,10 +1,19 @@
 <?php
 /**
  * Vouchers Metabox
+ *
+ * @since Unknown
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Vouchers Metabox class
+ *
+ * @since Unknown
+ * @since [version] Vouchers can now be restricted also to a draft or scheduled Course/Membership.
+ */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 	/**
@@ -25,12 +34,14 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 	/**
 	 * Builds array of metabox options.
+	 *
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Vouchers can now be restricted also to a draft or scheduled Course/Membership
+	 *
+	 * @return array
 	 */
 	public function get_fields() {
 
@@ -45,7 +56,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				'fields' => array(
 					array(
 						'data_attributes' => array(
-							'post-type' => 'course',
+							'post-type'     => 'course',
+							'post-statuses' => 'publish,draft,future',
 						),
 						'type' => 'select',
 						'label' => __( 'Courses', 'lifterlms' ),
@@ -57,7 +69,8 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 					),
 					array(
 						'data_attributes' => array(
-							'post-type' => 'llms_membership',
+							'post-type'     => 'llms_membership',
+							'post-statuses' => 'publish,draft,future',
 						),
 						'type' => 'select',
 						'label' => __( 'Membership', 'lifterlms' ),

@@ -3,9 +3,10 @@
  * Individual Access Plan as displayed within the "Product Options" metabox.
  *
  * @package  LifterLMS/Admin/Views
- * @since    3.0.0
- * @since    3.30.0 Added checkout redirect settings.
- * @version  3.30.0
+ *
+ * @since 3.0.0
+ * @since 3.30.0 Added checkout redirect settings.
+ * @since 3.31.0 Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
  *
  * @var obj $course LLMS_Course.
  * @var array $checkout_redirection_types checkout redirect setting options.
@@ -293,7 +294,7 @@ endwhile; ?>
 
 			<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">
 				<label><?php _e( 'Sale Price', 'lifterlms' ) ?></label>
-				<input name="_llms_plans[<?php echo $order; ?>][sale_price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="text"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . $plan->get( 'sale_price' ) . '"' : ' disabled="disabled"'; ?>>
+				<input name="_llms_plans[<?php echo $order; ?>][sale_price]" min="0" placeholder="<?php echo strip_tags( llms_price( 99.99 ) ); ?>" required="required" step="<?php echo $price_step; ?>" type="number"<?php echo ( $plan && 'yes' === $on_sale ) ? ' value="' . $plan->get( 'sale_price' ) . '"' : ' disabled="disabled"'; ?>>
 			</div>
 
 			<div class="llms-metabox-field d-1of6" data-controller="llms-on-sale" data-value-is="yes">

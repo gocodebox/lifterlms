@@ -4,8 +4,8 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 7.2
-Tested up to: 5.1
-Stable tag: 3.30.3
+Tested up to: 5.2
+Stable tag: 3.32.0-beta.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -251,7 +251,7 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 
 LifterLMS Requires
 
-+ PHP 5.6 or later
++ PHP 7.2 or later
 + MySQL 5.6 or later
 + WordPress 4.0 or later
 
@@ -353,6 +353,60 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+v3.32.0-beta.2 - 2019-05-09
+-------------------------------
+
++ Added Membership reporting
++ Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
+
+
+v3.32.0-beta.1 - 2019-05-08
+-------------------------------
+
+##### Updates
+
++ When recurring payments are disabled, output a "Staging" bubble on the "Orders" menu item.
++ Recurring recharges now add order notes and trigger actions when gateway or recurring payment status errors are encountered.
++ When managing recurring payment status through the warning notice, stay on the same page and clear nonces instead of redirecting to the LifterLMS Settings screen.
++ Updated the Action Scheduler library to the latest version (2.2.5)
++ Exposed the Action Scheduler's scheduled actions interface as a tab on the LifterLMS Status page.
+
+##### Bug Fixes
+
++ Fixed an issue allowing instructors to view a list of students from courses and memberships they don't have access to.
++ WooCommerce compatibility filters added in 3.31.0 are now scheduled at `init` instead of `plugins_loaded`, resolves conflicts with several WooCommerce add-ons which utilize core WC functions before LifterLMS functions are loaded.
+
+
+= v3.31.0 - 2019-05-06 =
+------------------------
+
+##### Updates
+
++ Tested to WordPress 5.2
++ Adds explicit support for the twentynineteen default theme.
++ The main students reporting table can now be filtered to show only students enrolled in a specific course or membership.
++ Resolve conflict with WooCommerce (3.6 and later) resulting in 404s on the dashboard endpoints "lost password", "order history", and "edit account".
++ Adds a dynamic filter (`llms_notification_view{$trigger_id}_basic_options`) to basic (pop-over) notifications to allow configuration of their settings.
++ The filter `llms_plan_get_checkout_url` now passes a 3rd parameter: `$check_availability`
++ Improves `LLMS_Course_Data` and `LLMS_Quiz_Data` classes by adding shared functionality to a shared abstract, `LLMS_Abstract_Post_Data`
++ Changed access on class methods in `LLMS_Shortcode_Courses` from private to protected, thanks [@andrewvaughan](https://github.com/andrewvaughan)!
+
+##### Bug fixes
+
++ Treats `post_excerpt` data as HTML instead of plain text. Fixes an issue resulting in HTML tags being stripped from lesson excerpts when duplicating a lesson in the course builder or importing lessons via the course importer.
++ Fix an issue allowing access plan sales prices to be set as negative values.
+
+##### LifterLMS Blocks
+
++ Updated to LifterLMS Blocks 1.4.0.
++ Adds an "unmigration" utility to LifterLMS -> Status -> Tools & Utilities which can be used to remove LifterLMS blocks from courses and lessons which were migrated to the block editor structure.
++ This tool is only available when the Classic Editor plugin is installed and enabled and it will remove blocks from ALL courses and lessons regardless of whether or not the block editor is being utilized on that post.
+
+##### Deprecations
+
++ `LLMS_Query::add_query_vars()` use `LLMS_Query::set_query_vars()` instead.
 
 
 = v3.30.3 - 2019-04-22 =
@@ -541,13 +595,5 @@ Admin panel templates replaced with view files which cannot be overridden from a
 
 + `admin/post-types/product-access-plan.php`
 + `admin/post-types/product.php`
-
-
-= v3.28.3 - 2019-02-14 =
-------------------------
-
-+ ❤❤❤ Happy Valentines Day or whatever ❤❤❤
-+ Tested to WordPress 5.1
-+ Fixed an issue causing JSON data saved by 3rd party plugins in course or lesson postmeta fields to be not duplicate properly during course duplications and imports.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

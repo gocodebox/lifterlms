@@ -115,7 +115,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 
 	/**
 	 * Prepare the SQL for the query
-	 * @return   void
+	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
