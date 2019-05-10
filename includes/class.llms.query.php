@@ -193,14 +193,14 @@ class LLMS_Query {
 
 				$sorting = explode( ',', get_option( 'lifterlms_shop_ordering', 'menu_order,ASC' ) );
 
-				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
-				if ( 'menu_order' === $order ) {
-					$order .= ' post_title';
+				$orderby = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
+				if ( 'menu_order' === $orderby ) {
+					$orderby .= ' post_title';
 				}
-				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
+				$order = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
 
-				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $order ) );
-				$query->set( 'order', apply_filters( 'llms_courses_order', $orderby ) );
+				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $orderby ) );
+				$query->set( 'order', apply_filters( 'llms_courses_order', $order ) );
 
 				$modify_tax_query = true;
 
@@ -210,14 +210,14 @@ class LLMS_Query {
 
 				$sorting = explode( ',', get_option( 'lifterlms_memberships_ordering', 'menu_order,ASC' ) );
 
-				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
-				if ( 'menu_order' === $order ) {
-					$order .= ' post_title';
+				$orderby = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
+				if ( 'menu_order' === $orderby ) {
+					$orderby .= ' post_title';
 				}
-				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
+				$order = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
 
-				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $order ) );
-				$query->set( 'order', apply_filters( 'llms_memberships_order', $orderby ) );
+				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $orderby ) );
+				$query->set( 'order', apply_filters( 'llms_memberships_order', $order ) );
 
 				$modify_tax_query = true;
 
