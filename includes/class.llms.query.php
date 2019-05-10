@@ -4,7 +4,7 @@
 * Handles queries and endpoints.
 *
 * @since 1.0.0
-* @version 3.28.2
+* @version [version]
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -166,6 +166,7 @@ class LLMS_Query {
 	 *
 	 * @since 1.4.4 Moved from LLMS_Post_Types.
 	 * @since 3.16.8
+	 * @since [version] Added `post_title` as a secondary sort when the primary sort is `menu_order`
 	 *
 	 * @param WP_Query $query Main WP_Query Object.
 	 * @return void
