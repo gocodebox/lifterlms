@@ -795,13 +795,13 @@ class LLMS_AJAX_Handler {
 	 * Add or remove a student from a course or membership.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Handle the delete enrollment request.
+	 * @since [version] Handle the delete enrollment request and make sure the $request['post_id'] is not empty.
 	 *
 	 * @return void
 	 */
 	public static function update_student_enrollment( $request ) {
 
-		if ( empty( $request['student_id'] ) || empty( $request['status'] ) ) {
+		if ( empty( $request['student_id'] ) || empty( $request['status'] ) || empty( $request['post_id'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
 

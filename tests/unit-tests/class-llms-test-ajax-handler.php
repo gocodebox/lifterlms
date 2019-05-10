@@ -103,7 +103,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		// No results, when querying for 'future' posts
 		$args = array(
 			'post_type'     => 'course',
-			'post_statuses' => 'future'
+			'post_statuses' => 'future',
 		);
 		$res = $this->do_ajax( 'select2_query_posts', $args );
 		$this->assertSame( 0, count( $res['items'] ) );
