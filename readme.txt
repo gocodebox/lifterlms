@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2
-Stable tag: 3.32.0-beta.2
+Stable tag: 3.32.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,23 +355,24 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-v3.32.0-beta.2 - 2019-05-09
--------------------------------
-
-+ Added Membership reporting
-+ Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
-
-
-v3.32.0-beta.1 - 2019-05-08
--------------------------------
+= v3.32.0 - 2019-05-13 =
+------------------------
 
 ##### Updates
 
++ Added Membership reporting
++ Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
 + When recurring payments are disabled, output a "Staging" bubble on the "Orders" menu item.
 + Recurring recharges now add order notes and trigger actions when gateway or recurring payment status errors are encountered.
 + When managing recurring payment status through the warning notice, stay on the same page and clear nonces instead of redirecting to the LifterLMS Settings screen.
 + Updated the Action Scheduler library to the latest version (2.2.5)
 + Exposed the Action Scheduler's scheduled actions interface as a tab on the LifterLMS Status page.
+
+##### LifterLMS Blocks
+
++ Updated to version 1.4.1.
++ Fixed issue causing asset paths to have invalid double slashes.
++ Fixed issue causing frontend css assets to look for an unresolvable dependency.
 
 ##### Bug Fixes
 
@@ -538,62 +539,5 @@ The following unused classes have been marked as deprecated and will be removed 
 
 + Automatically reorder access plans when a plan is deleted.
 + Skip (don't create) empty plans passed to the access plan save method as a result of deleted access plans.
-
-
-= v3.29.0 - 2019-02-27 =
-------------------------
-
-##### Improved Access Plan Management
-
-+ Added a set of methods for creating access plans programmatically.
-+ Updated the Access Plan metabox on courses and lessons with improved data validation.
-+ When using the block editor, the "Pricing Table" block will automatically update when access plan changes are saved to the database (from LifterLMS Blocks 1.3.5).
-+ Access plans are now created and updated via AJAX requests, resolves a 5.0 editor issue causing duplicated access plans to be created.
-
-##### Student Management Improvements
-
-+ Added the ability for instructors and admins to mark lessons complete and incomplete for students via the student course reporting table.
-
-##### Admin Panel Settings and Reporting Design Changes
-
-+ Replaced LifterLMS logos and icons on the admin panel with our new logo LifterLMS Logo and Icons.
-+ Revamped the design and layout of settings and reporting screens.
-
-##### Checkout Improvements
-
-+ Updated checkout javascript to expose an error addition functions
-+ Abstracted the checkout form submission functionality into a callable function not directly tied to `$_POST` data
-+ Removed display order field from payment gateway settings in favor of using the gateway table sortable list
-
-##### Other Updates
-
-+ Removed code related to an incompatibility between Yoast SEO Premium and LifterLMS resulting from former access plan save methods.
-+ Reduced application logic in the `course/complete-lesson-link.php` template file by refactoring button display filters into functions.
-+ Added function for checking if request is a REST request
-+ Updated LifterLMS Blocks to version 1.3.7
-
-##### Bug Fixes
-
-+ Fixed an issue preventing "Pricing Table" blocks from displaying on the admin panel when the current user was enrolled in the course or no payment gateways were enabled on the site.
-+ Fixed the checkout nonce to have a unique ID & name
-+ Fixed an issue with deleted quizzes causing quiz notification's to throw fatal errors.
-+ Fixed an issue preventing notification timestamps from displaying on the notifications dashboard page.
-+ Fix an issue causing `GET` requests with no query string variables from causing issues via incorrect JSON encoding via the API Handler abstract.
-+ Fix an issue causing access plan sale end dates from using the default WordPress date format settings.
-+ `LLMS_Lesson::has_quiz()` will now properly return a boolean instead of the ID of the associated quiz (or 0 when none found)
-
-##### Template Updates
-
-+ [checkout/form-checkout.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-checkout.php)
-+ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
-+ [product/access-plan-pricing.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-pricing.php)
-+ [notifications/basic.php](https://github.com/gocodebox/lifterlms/blob/master/templates/notifications/basic.php)
-
-##### Templates Removed
-
-Admin panel templates replaced with view files which cannot be overridden from a theme or custom plugin.
-
-+ `admin/post-types/product-access-plan.php`
-+ `admin/post-types/product.php`
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
