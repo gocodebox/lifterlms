@@ -1,8 +1,10 @@
 <?php
 /**
  * Tests for LifterLMS Student Functions
- * @group    LLMS_Student
- * @since    3.5.0
+ * @group LLMS_Student
+ * @since 3.5.0
+ * @since [version] Add delete enrollment tests.
+ *
  * @version  3.28.0
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
@@ -130,13 +132,12 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		sleep( 1 );
 
 		// Unenroll Student in newly created course/membership
-		llms_unenroll_student( $user_id, $course_id, 'cancelled', 'test_is_enrolled');
+		llms_unenroll_student( $user_id, $course_id, 'cancelled', 'test_is_enrolled' );
 		llms_unenroll_student( $user_id, $memb_id, 'cancelled', 'test_is_enrolled' );
 
 		// Student should be not enrolled in newly created course/membership
 		$this->assertFalse( llms_is_user_enrolled( $user_id, $course_id ) );
 		$this->assertFalse( llms_is_user_enrolled( $user_id, $memb_id ) );
-
 
 		// these were tests against now deprecated has_access
 		sleep( 1 );
@@ -208,9 +209,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 	/**
 	 * Test get_enrollment_date()
-	 * @return   void
-	 * @since    3.17.0
-	 * @version  3.17.0
+	 *
+	 * @since 3.17.0
+	 * @since [version] Add test after enrollment deletion.
+	 *
+	 * @return void
 	 */
 	public function test_get_enrollment_date() {
 
@@ -243,6 +246,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 			// enrollment date should still be the original date
 			$this->assertEquals( $date, $student->get_enrollment_date( $cid, 'enrolled', $format ) );
 
+			// after enrollment deletion there should be no 'updated' or 'enrolled' date
+			$student->delete_enrollment( $cid );
+			$this->assertFalse( $student->get_enrollment_date( $cid, 'updated', $format ) );
+			$this->assertFalse( $student->get_enrollment_date( $cid, 'enrolled', $format ) );
+
 		}
 
 	}
@@ -257,7 +265,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 		$uid = $this->factory->user->create( array( 'role' => 'student' ) );
 		$user = new WP_User( $uid );
-		$student =  new LLMS_Student( $uid );
+		$student = new LLMS_Student( $uid );
 
 		// test some core prefixed stuff from the usermeta table
 		$student->set( 'first_name', 'Student' );
@@ -286,7 +294,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 			'role' => 'student'
 		) );
 		$user = new WP_User( $uid );
-		$student =  new LLMS_Student( $uid );
+		$student = new LLMS_Student( $uid );
 
 		// no first/last name set, should return display name
 		$this->assertEquals( $user->display_name, $student->get_name() );
@@ -297,16 +305,18 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 			'last_name' => 'McStudentFace',
 			'role' => 'student'
 		) );
-		$student =  new LLMS_Student( $uid );
+		$student = new LLMS_Student( $uid );
 		$this->assertEquals( 'Student McStudentFace', $student->get_name() );
 
 	}
 
 	/**
 	 * Test get_enrollment_status()
-	 * @return   void
-	 * @since    3.17.0
-	 * @version  3.17.0
+	 *
+	 * @since  3.17.0
+	 * @since [version] Add test after enrollment deletion.
+	 *
+	 * @return void
 	 */
 	public function test_get_enrollment_status() {
 
@@ -331,6 +341,13 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$student->unenroll( $course_id );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id ) );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $course_id, false ) );
+
+		sleep( 1 );
+
+		// deleted
+		$student->delete_enrollment( $course_id );
+		$this->assertFalse( $student->get_enrollment_status( $course_id ) );
+		$this->assertFalse( $student->get_enrollment_status( $course_id, false ) );
 
 	}
 
@@ -395,7 +412,6 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 		$courses = $this->generate_mock_courses( 3, 2, 5, 0 );
 
-
 		// create a track and add all 3 courses to it
 		$track_id = wp_insert_term( 'Test Course Track', 'course_track' )['term_id'];
 		foreach ( $courses as $cid ) {
@@ -442,9 +458,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 	/**
 	 * Test is_enrolled() method
-	 * @return  [type]
-	 * @since   3.25.0
-	 * @version 3.25.0
+	 *
+	 * @since 3.25.0
+	 * @since [version] Add test after enrollment deletion.
+	 *
+	 * @return void
 	 */
 	public function test_is_enrolled() {
 
@@ -501,6 +519,11 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$student->unenroll( $courses[1] );
 		$this->assertFalse( $student->is_enrolled( $courses, 'any' ) );
 		$this->assertFalse( $student->is_enrolled( $courses, 'all' ) );
+
+		// deleted
+		$student->enroll( $courses[1] );
+		$student->delete_enrollment( $courses[1] );
+		$this->assertFalse( $student->is_enrolled( $courses[1] ) );
 
 	}
 
