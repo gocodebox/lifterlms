@@ -9,7 +9,7 @@
  * @group LLMS_Post_Model
  *
  * @since 3.10.0
- * @since [version] Update to use latest action-scheduler functions.
+ * @since 3.32.0 Update to use latest action-scheduler functions.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -772,7 +772,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the schedule expiration function
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return   void
 	 */
@@ -805,7 +805,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test recurring payment scheduling
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */
@@ -937,7 +937,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test the start access function
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */

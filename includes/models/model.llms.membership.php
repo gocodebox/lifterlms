@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
- * @since [version] Added `get_student_count()` method.
+ * @since 3.32.0 Added `get_student_count()` method.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -158,7 +158,7 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Retrieve the number of enrolled students in the membership.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 * @return int
 	 */
 	public function get_student_count() {

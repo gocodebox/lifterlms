@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.32.0
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Staging class..
  *
- * @since [version]
+ * @since 3.32.0
  */
 class LLMS_Staging {
 
 	/**
 	 * Static Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Staging {
 	/**
 	 * Handle the action buttons present in the recurring payments staging notice.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -69,7 +69,7 @@ class LLMS_Staging {
 	/**
 	 * Adds a "bubble" to the "Orders" menu item when recurring payments are disabled.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */

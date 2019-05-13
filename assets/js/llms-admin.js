@@ -2,8 +2,8 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since    ??
- * @since    [version] `llmsPostsSelect2` function allows posts fecthing based on post statuses.
- * @version  [version]
+ * @since    3.32.0 `llmsPostsSelect2` function allows posts fecthing based on post statuses.
+ * @version  3.32.0
  *
  * @param    obj   $  traditional jQuery reference
  * @return   void
@@ -59,7 +59,7 @@
 	 * Simple jQuery plugin to transform select elements into Select2-powered elements to query for Courses/Memberships via AJAX.
 	 *
 	 * @since 3.19.4
-	 * @since [version] Added ability to fetch posts based on their post status.
+	 * @since 3.32.0 Added ability to fetch posts based on their post status.
 	 *
 	 * @param obj options Options passed to Select2.
 	 *                    Each default option will pulled from the elements data-attributes.

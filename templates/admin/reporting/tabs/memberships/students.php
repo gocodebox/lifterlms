@@ -1,8 +1,8 @@
 <?php
 /**
  * Single Membership Tab: Students Subtab.
- * @since    [version]
- * @version  [version]
+ * @since    3.32.0
+ * @version  3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -3,7 +3,7 @@
  * Manage core admin notices
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Manage core admin notices
  *
  * @since 3.0.0
- * @since [version] Moved staging notice logic to LLMS_Staging::handle_staging_notice_actions().
+ * @since 3.32.0 Moved staging notice logic to LLMS_Staging::handle_staging_notice_actions().
  */
 class LLMS_Admin_Notices_Core {
 
@@ -60,7 +60,7 @@ class LLMS_Admin_Notices_Core {
 	 * from the button on the general settings tab
 	 *
 	 * @since 3.0.0
-	 * @since [version] Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
+	 * @since 3.32.0 Moved logic for handling notice actions to LLMS_Staging::handle_staging_notice_actions().
 	 *
 	 * @return   void
 	 */

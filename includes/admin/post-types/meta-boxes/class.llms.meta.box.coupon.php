@@ -3,7 +3,7 @@
  * Coupon Metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Coupon Metabox class.
  *
  * @since 1.0.0
- * @since [version] Coupons can now be restricted also to a draft or scheduled Course/Membership.
+ * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership.
  */
 class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
@@ -37,7 +37,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Coupons can now be restricted also to a draft or scheduled Course/Membership
+	 * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership
 	 *                  via the `<select />` data attribute 'post-statuses' (data-post-status).
 	 *
 	 * @return array

@@ -6,8 +6,8 @@
  *
  * @group AJAX
  *
- * @since [version]
- * @version [version]
+ * @since 3.32.0
+ * @version 3.32.0
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
@@ -24,7 +24,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Call a method for the LLMS_AJAX_Handler class that calls wp_die()
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $function Method name.
 	 * @param array $args $_REQUEST args.
@@ -44,7 +44,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test the select2_query_posts() ajax method.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -167,7 +167,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Catch wp_die() called by ajax methods & store the output buffer contents for use later.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $msg Die msg.
 	 * @return void

@@ -3,7 +3,7 @@
  * Admin Status Pages
  *
  * @since 3.11.2
- * @version [version]
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Page_Status class.
  *
  * @since 3.11.2
- * @since [version] Add "Scheduled Actions" tab.
+ * @since 3.32.0 Add "Scheduled Actions" tab.
  */
 class LLMS_Admin_Page_Status {
 
@@ -126,7 +126,7 @@ class LLMS_Admin_Page_Status {
 	 * Output the system report
 	 *
 	 * @since 2.1.0
-	 * @since [version] Add "Scheduled Actions" tab output.
+	 * @since 3.32.0 Add "Scheduled Actions" tab output.
 	 *
 	 * @return void
 	 */

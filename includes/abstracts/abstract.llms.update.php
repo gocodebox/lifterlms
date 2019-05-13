@@ -3,7 +3,7 @@
  * Handle background database updates
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Database background update abstract
  *
  * @since 3.0.0
- * @since [version] Update to use latest action-scheduler functions.
+ * @since 3.32.0 Update to use latest action-scheduler functions.
  */
 abstract class LLMS_Update {
 
@@ -194,7 +194,7 @@ abstract class LLMS_Update {
 	 * Schedules a function
 	 *
 	 * @since 3.0.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @param string $func Function name / callable.
 	 * @param array $args Array of arguments to pass to the function.

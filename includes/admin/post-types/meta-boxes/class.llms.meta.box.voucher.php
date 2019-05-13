@@ -3,7 +3,7 @@
  * Vouchers Metabox
  *
  * @since Unknown
- * @version [version]
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Vouchers Metabox class
  *
  * @since Unknown
- * @since [version] Vouchers can now be restricted also to a draft or scheduled Course/Membership.
+ * @since 3.32.0 Vouchers can now be restricted also to a draft or scheduled Course/Membership.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -39,7 +39,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * Appropriate fields are generated based on type.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Vouchers can now be restricted also to a draft or scheduled Course/Membership
+	 * @since 3.32.0 Vouchers can now be restricted also to a draft or scheduled Course/Membership
 	 *
 	 * @return array
 	 */

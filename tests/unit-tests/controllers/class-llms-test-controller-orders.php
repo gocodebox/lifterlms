@@ -7,7 +7,7 @@
  * @group orders
  *
  * @since 3.19.0
- * @since [version] Update to use latest action-scheduler functions.
+ * @since 3.32.0 Update to use latest action-scheduler functions.
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -24,7 +24,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Disable manual gateway recurring payments for mocking error conditions.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param array $supports Gateway features array.
 	 * @param string $gateway_id Gateway ID.
@@ -44,7 +44,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test order completion actions
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */
@@ -157,7 +157,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * test order error statuses
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return [version]
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * Test expire access function
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */
@@ -246,7 +246,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test gateway-related errors encountered during a recurring_charge attempt.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -272,7 +272,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test a recurring payment processed when recurring payments are disabled on the site.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -299,7 +299,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test gateway-related errors encountered during a recurring_charge attempt.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -329,7 +329,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test gateway-related errors encountered during a recurring_charge attempt.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */

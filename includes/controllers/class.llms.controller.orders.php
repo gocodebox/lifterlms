@@ -366,7 +366,7 @@ class LLMS_Controller_Orders {
 	 * Called by action scheduler.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Record order notes and trigger actions during errors.
+	 * @since 3.32.0 Record order notes and trigger actions during errors.
 	 *
 	 * @param int $order_id WP Post ID of the order.
 	 * @return void

@@ -7,7 +7,7 @@
  * @group LLMS_Access_Plan
  *
  * @since 3.29.0
- * @since [version] Add delta to date assertions for `test_llms_insert_access_plan_update()`.
+ * @since 3.32.0 Add delta to date assertions for `test_llms_insert_access_plan_update()`.
  */
 class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 
@@ -312,7 +312,7 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 * Test updating existing llms_insert_access_plan() function.
 	 *
 	 * @since 3.29.0
-	 * @since [version] Add delta to date assertions.
+	 * @since 3.32.0 Add delta to date assertions.
 	 *
 	 * @return void
 	 */
