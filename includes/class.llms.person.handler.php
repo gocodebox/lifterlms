@@ -1,9 +1,9 @@
 <?php
 /**
- * User Handling for login and registration (mostly)
+ * User Handling for login and registration (mostly).
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
+ * @since [version] Added a "Display Name" text field to the "Edit Account" area of the student dashboard.
+ *               Also added `llms_pre_save_display_name` filter.
  */
 class LLMS_Person_Handler {
 
@@ -45,7 +47,7 @@ class LLMS_Person_Handler {
 	public static function generate_username( $email ) {
 
 		/**
-		 * Allow custom username generation
+		 * Allow custom username generation.
 		 */
 		$custom_username = apply_filters( 'lifterlms_generate_username', null, $email );
 		if ( $custom_username ) {
@@ -67,26 +69,27 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Retrieve an array of fields for a specific screen
+	 * Retrieve an array of fields for a specific screen.
 	 *
-	 * Each array represents a form field that can be passed to llms_form_field()
+	 * Each array represents a form field that can be passed to llms_form_field().
+	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields().
 	 *
-	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields()
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 * @since [version] Added a "Display Name" text field to the "Edit Account" area of the student dashboard.
 	 *
-	 * @param    string    $screen  name os the screen [account|checkout|registration]
-	 * @param    array|int $data    array of data to fill fields with or a WP User ID
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @param string    $screen Optional. The name os the screen [account|checkout|registration]. Default 'registration'.
+	 * @param array|int $data   Optional. The array of data to fill fields with or a WP User ID. Default empty array.
+	 * @return array
 	 */
 	public static function get_available_fields( $screen = 'registration', $data = array() ) {
 
 		$uid = get_current_user_id();
 
-		// setup all the fields to load
+		// setup all the fields to load.
 		$fields = array();
 
-		// this isn't needed if we're on an account screen or
+		// this isn't needed if we're on an account screen or.
 		if ( 'account' !== $screen && ( 'checkout' !== $screen || ! $uid ) ) {
 			$fields[] = array(
 				'columns'     => 12,
@@ -99,7 +102,7 @@ class LLMS_Person_Handler {
 		}
 
 		// on the checkout screen, if we already have a user we can remove these fields:
-		// username, email, email confirm, password, password confirm, password meter
+		// username, email, email confirm, password, password confirm, password meter.
 		if ( 'checkout' !== $screen || ! $uid ) {
 			$email_con = get_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility' );
 			$fields[]  = array(
@@ -123,7 +126,7 @@ class LLMS_Person_Handler {
 				);
 			}
 
-			// account screen has password updates at the bottom
+			// account screen has password updates at the bottom.
 			if ( 'account' !== $screen ) {
 				$fields = self::get_password_fields( $screen, $fields );
 			}
@@ -145,6 +148,17 @@ class LLMS_Person_Handler {
 				'label'       => __( 'Last Name', 'lifterlms' ),
 				'last_column' => true,
 				'required'    => ( 'required' === $names ) ? true : false,
+				'type'        => 'text',
+			);
+		}
+
+		if ( 'account' === $screen ) {
+			$fields[] = array(
+				'columns'     => 12,
+				'description' => __( 'Used when your name is displayed publicly on the site', 'lifterlms' ),
+				'label'       => __( 'Display Name', 'lifterlms' ),
+				'id'          => 'display_name',
+				'last_column' => true,
 				'type'        => 'text',
 			);
 		}
@@ -241,14 +255,14 @@ class LLMS_Person_Handler {
 
 		}
 
-		// add account password fields
+		// add account password fields.
 		if ( 'account' === $screen ) {
 			$fields = self::get_password_fields( $screen, $fields );
 		}
 
 		$fields = apply_filters( 'lifterlms_get_person_fields', $fields, $screen );
 
-		// populate fields with data, if we have any
+		// populate fields with data, if we have any.
 		if ( $data ) {
 			$fields = self::fill_fields( $fields, $data );
 		}
@@ -534,13 +548,15 @@ class LLMS_Person_Handler {
 
 
 	/**
-	 * Insert user data during registrations and updates
+	 * Insert user data during registrations and updates.
 	 *
-	 * @param    array  $data    array of user data to be passed to WP core functions
-	 * @param    string $action  either registration or update
-	 * @return   WP_Error|int        WP_Error on error or the WP User ID
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Save user `display_name` field. Also add the 'llms_pre_save_display_name' filter.
+	 *
+	 * @param array  $data   Optional. Array of user data to be passed to WP core functions. Default empty array.
+	 * @param string $action Optional. Either registration or update. Default 'registration'.
+	 * @return WP_Error|int  WP_Error on error or the WP User ID.
 	 */
 	private static function insert_data( $data = array(), $action = 'registration' ) {
 
@@ -567,14 +583,34 @@ class LLMS_Person_Handler {
 				'ID' => $data['user_id'],
 			);
 
-			// email address if set
+			// email address if set.
 			if ( isset( $data['email_address'] ) ) {
 				$insert_data['user_email'] = $data['email_address'];
 			}
 
-			// update password if both are set
+			// update password if both are set.
 			if ( isset( $data['password'] ) && isset( $data['password_confirm'] ) ) {
 				$insert_data['user_pass'] = $data['password'];
+			}
+
+			// sanitize and save display name.
+			if ( ! empty( $data['display_name'] ) ) {
+				$sanitized_display_name = preg_replace( '/[^A-Za-z ]/', '', $data['display_name'] );
+
+				/**
+				 * Filter the user `display_name` before saving.
+				 *
+				 * @since [version]
+				 *
+				 * @param string $sanitized_display_name The sanitized user `display_name`.
+				 * @param string $display_name           The raw user `display_name`.
+				 * @param array  $data                   Array of user data to be passed to WP core functions.
+				 */
+				$name = apply_filters( 'llms_pre_save_display_name', $sanitized_display_name, $data['display_name'], $data );
+
+				if ( $name ) {
+					$insert_data['display_name'] = $name;
+				}
 			}
 
 			$extra_data = array(
@@ -597,18 +633,18 @@ class LLMS_Person_Handler {
 			}
 		}
 
-		// attempt to insert the data
+		// attempt to insert the data.
 		$person_id = $insert_func( apply_filters( 'lifterlms_user_' . $action . '_insert_user', $insert_data, $data, $action ) );
 
-		// return the error object if registration fails
+		// return the error object if registration fails.
 		if ( is_wp_error( $person_id ) ) {
 			return apply_filters( 'lifterlms_user_' . $action . '_failure', $person_id, $data, $action );
 		}
 
-		// add user ip address
+		// add user ip address.
 		$data[ self::$meta_prefix . 'ip_address' ] = llms_get_ip_address();
 
-		// metas
+		// metas.
 		$possible_metas = apply_filters(
 			'llms_person_insert_data_possible_metas',
 			array(
@@ -629,13 +665,13 @@ class LLMS_Person_Handler {
 			}
 		}
 
-		// record all meta values
+		// record all meta values.
 		$metas = apply_filters( 'lifterlms_user_' . $action . '_insert_user_meta', $insert_metas, $data, $action );
 		foreach ( $metas as $key => $val ) {
 			$meta_func( $person_id, $key, $val );
 		}
 
-		// if agree to terms data is present, record the agreement date
+		// if agree to terms data is present, record the agreement date.
 		if ( isset( $data[ self::$meta_prefix . 'agree_to_terms' ] ) && 'yes' === $data[ self::$meta_prefix . 'agree_to_terms' ] ) {
 
 			$meta_func( $person_id, self::$meta_prefix . 'agree_to_terms', current_time( 'mysql' ) );
