@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
+ * @since 3.32.0 Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
  * @since [version] Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
  *                  Also always return either a WP_Error on failure or a "success" array on requested action performed.
  */
@@ -697,8 +697,8 @@ class LLMS_AJAX_Handler {
 	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Updated to use llms_filter_input().
-	 * @since [version] Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
+	 * @since 3.32.0 Updated to use llms_filter_input().
+	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
 	 *                  By default only the published posts will be queried.
 	 * @return void
 	 */

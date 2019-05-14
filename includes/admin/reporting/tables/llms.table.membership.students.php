@@ -1,21 +1,21 @@
 <?php
 /**
  * Display students enrolled in a given membership on the membership students subtab.
- * @since   [version]
- * @version [version]
+ * @since   3.32.0
+ * @version 3.32.0
  */
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Display students enrolled in a given membership on the membership students subtab class.
- * @since   [version]
+ * @since   3.32.0
  */
 class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  string
 	 */
@@ -25,7 +25,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set.
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  string
 	 */
@@ -34,7 +34,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Field results are filtered by.
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  string
 	 */
@@ -43,7 +43,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Is the Table Exportable?
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  boolean
 	 */
@@ -52,7 +52,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 	/**
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * Determine if the table is filterable.
 	 * @var  boolean
@@ -62,7 +62,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * If true, tfoot will add ajax pagination links.
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  boolean
 	 */
@@ -71,7 +71,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Determine of the table is searchable.
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  boolean
 	 */
@@ -81,7 +81,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	 * Results sort order 'ASC' or 'DESC'.
 	 * Only applicable of $orderby is not set.
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  string
 	 */
@@ -90,7 +90,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Field results are sorted by.
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  string
 	 */
@@ -99,7 +99,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Post ID for the current table.
 	 *
-	 * @since   [version]
+	 * @since   3.32.0
 	 *
 	 * @var  int
 	 */
@@ -108,7 +108,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for the columns
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $key     The column id / key.
 	 * @param int    $user_id WP User ID.
@@ -172,7 +172,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	 * Retrieve data for a cell in an export file.
 	 * Should be overridden in extending classes.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $key     The column id / key.
 	 * @param obj    $student Instance of the LLMS_Student.
@@ -211,7 +211,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Get a lock key unique to the table & user for locking the table during export generation.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return string
 	 */
@@ -223,7 +223,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Allow customization of the title for export files.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param  array $args Optional. Array of arguments passed from table to csv processor. Default empty array.
 	 * @return string
@@ -239,7 +239,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return string
 	 */
@@ -250,7 +250,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param array $args Optional. Array of query args. Default empty array.
 	 * @return void
@@ -347,7 +347,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return array
 	 */
@@ -366,7 +366,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return array
 	 */

@@ -6,7 +6,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.30.3 Fixed typo in "description" key of the the toArray() method.
- * @since [version] Add validation to data passed into the `get_students()` method.
+ * @since 3.32.0 Add validation to data passed into the `get_students()` method.
  */
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
@@ -158,7 +158,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * Retrieve instructor's students
 	 *
 	 * @since 3.13.0
-	 * @since [version] Validate `post_id` data passed into this function to ensure only students
+	 * @since 3.32.0 Validate `post_id` data passed into this function to ensure only students
 	 *        			in courses/memberships for this instructor are returned.
 	 *
 	 * @see LLMS_Student_Query

@@ -1,23 +1,24 @@
 LifterLMS Changelog
 ===================
 
-v3.32.0-beta.2 - 2019-05-09
----------------------------
-
-+ Added Membership reporting
-+ Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
-
-
-v3.32.0-beta.1 - 2019-05-08
----------------------------
+v3.32.0 - 2019-05-13
+--------------------
 
 ##### Updates
 
++ Added Membership reporting
++ Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
 + When recurring payments are disabled, output a "Staging" bubble on the "Orders" menu item.
 + Recurring recharges now add order notes and trigger actions when gateway or recurring payment status errors are encountered.
 + When managing recurring payment status through the warning notice, stay on the same page and clear nonces instead of redirecting to the LifterLMS Settings screen.
 + Updated the Action Scheduler library to the latest version (2.2.5)
 + Exposed the Action Scheduler's scheduled actions interface as a tab on the LifterLMS Status page.
+
+##### LifterLMS Blocks
+
++ Updated to version 1.4.1.
++ Fixed issue causing asset paths to have invalid double slashes.
++ Fixed issue causing frontend css assets to look for an unresolvable dependency.
 
 ##### Bug Fixes
 

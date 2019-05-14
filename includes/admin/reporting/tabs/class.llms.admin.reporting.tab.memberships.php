@@ -1,8 +1,8 @@
 <?php
 /**
  * Memberships Tab on Reporting Screen
- * @since [version]
- * @version [version]
+ * @since 3.32.0
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -10,14 +10,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Memberships Tab on Reporting Screen class.
  *
- * @since [version]
+ * @since 3.32.0
  */
 class LLMS_Admin_Reporting_Tab_Memberships {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 	/**
 	 * Add breadcrumb links to the tab depending on current view.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 	/**
 	 * Output tab content.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return void
 	 */

@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "94f7f4819ec7639eb440a4db0e5ec7e5",
+    "content-hash": "ddb126db35c1402db153c5cb62d679ed",
     "packages": [
         {
             "name": "ericmann/wp-session-manager",
@@ -45,16 +45,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.4.0",
+            "version": "1.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "cc58edaa15c1f9acbeb6e09182129c5c443ffc72"
+                "reference": "474f66124fd7461a63cfaf1b628bc049992b3f36"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/cc58edaa15c1f9acbeb6e09182129c5c443ffc72",
-                "reference": "cc58edaa15c1f9acbeb6e09182129c5c443ffc72",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/474f66124fd7461a63cfaf1b628bc049992b3f36",
+                "reference": "474f66124fd7461a63cfaf1b628bc049992b3f36",
                 "shasum": ""
             },
             "require-dev": {
@@ -75,7 +75,7 @@
                 }
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
-            "time": "2019-04-27T00:12:51+00:00"
+            "time": "2019-05-13T19:49:34+00:00"
         },
         {
             "name": "prospress/action-scheduler",

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.32.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -76,7 +76,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Order model.
  *
  * @since 3.0.0
- * @since [version] Update to use latest action-scheduler functions.
+ * @since 3.32.0 Update to use latest action-scheduler functions.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -1213,7 +1213,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Schedule access expiration
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */
@@ -1237,7 +1237,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Will always unschedule the scheduled action (if one exists) before scheduling another
 	 *
 	 * @since 3.0.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */
@@ -1486,7 +1486,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Does nothing if no expiration is scheduled
 	 *
 	 * @since 3.19.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */
@@ -1504,7 +1504,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Does nothing if no payments are scheduled
 	 *
 	 * @since 3.0.0
-	 * @since [version] Update to use latest action-scheduler functions.
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @return void
 	 */

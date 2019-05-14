@@ -2,8 +2,8 @@
 /**
  * Query data about a membership.
  *
- * @since [version]
- * @version [version]
+ * @since 3.32.0
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,14 +11,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Query data about a membership.
  *
- * @since [version]
+ * @since 3.32.0
  */
 class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 
 	/**
 	 * Retrieve # of membership enrollments within the period.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $period Optional.Date period [current|previous]. Default 'current'.
 	 * @return int
@@ -45,7 +45,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve # of engagements related to the membership awarded within the period.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $type   Engagement type [email|certificate|achievement].
 	 * @param string $period Optional. Date period [current|previous]. Default 'current'.
@@ -73,7 +73,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve # of orders placed for the membership within the period.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $period Optional. Date period [current|previous]. Default 'current'.
 	 * @return int
@@ -94,7 +94,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve total amount of transactions related to orders for the course completed within the period.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $period Optional. Date period [current|previous]. Default 'current'.
 	 * @return float
@@ -137,7 +137,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	/**
 	 * Retrieve the number of unenrollments on a given date.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $period Optional. Date period [current|previous]. Default 'current'.
 	 * @return int
@@ -164,7 +164,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	/**
 	 * Execute a WP Query to retrieve orders within the given date range.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param int   $num_orders Optional. Number of orders to retrieve. Default 1.
 	 * @param array $dates      Optiona. Date range (passed to WP_Query['date_query']). Default empty array.

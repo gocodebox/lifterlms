@@ -2,8 +2,8 @@
 /**
  * Memberships Reporting Table
  *
- * @since [version]
- * @version [version]
+ * @since 3.32.0
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,14 +11,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Memberships Reporting Table class.
  *
- * @since [version]
+ * @since 3.32.0
  */
 class LLMS_Table_Memberships extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  string
 	 */
@@ -28,7 +28,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	 * Value of the field being filtered by.
 	 * Only applicable if $filterby is set.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  string
 	 */
@@ -37,7 +37,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Field results are filtered by.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  string
 	 */
@@ -46,7 +46,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Is the Table Exportable?
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  boolean
 	 */
@@ -55,7 +55,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Determine if the table is filterable.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  boolean
 	 */
@@ -64,7 +64,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * If true, tfoot will add ajax pagination links.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  boolean
 	 */
@@ -73,7 +73,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Determine of the table is searchable
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  boolean
 	 */
@@ -83,7 +83,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	 * Results sort order 'ASC' or 'DESC'.
 	 * Only applicable of $orderby is not set.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  string
 	 */
@@ -92,7 +92,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Field results are sorted by.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @var  string
 	 */
@@ -101,7 +101,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param string $key   The column id / key.
 	 * @param mixed  $data  Object / array of data that the function can use to extract the data.
@@ -151,7 +151,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Retrieve a list of Instructors to be used for Filtering.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return array
 	 */
@@ -173,7 +173,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Execute a query to retrieve results from the table.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @param  array $args  Optional. Array of query args. Default empty array.
 	 * @return void
@@ -259,7 +259,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return string
 	 */
@@ -270,7 +270,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return array
 	 */
@@ -281,7 +281,7 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table.
 	 *
-	 * @since [version]
+	 * @since 3.32.0
 	 *
 	 * @return array
 	 */

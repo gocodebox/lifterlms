@@ -13,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.2.0
  * @since 3.31.0 Fix redundant `if` statement in the `output_widget` method.
- * @since [version] Added Memberships tab.
- * @since [version] The `output_event()` method now outputs the student's avatar whent in 'membership' context.
+ * @since 3.32.0 Added Memberships tab.
+ * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
  */
 class LLMS_Admin_Reporting {
 
@@ -218,7 +218,7 @@ class LLMS_Admin_Reporting {
 	 * Get the full URL to a sub-tab within a reporting screen.
 	 *
 	 * @since 3.2.0
-	 * @since [version] Added Memberships tab.
+	 * @since 3.32.0 Added Memberships tab.
 	 *
 	 * @param string $stab Slug of the sub-tab.
 	 * @return string
@@ -258,7 +258,7 @@ class LLMS_Admin_Reporting {
 	 * Get an array of tabs to output in the main reporting menu.
 	 *
 	 * @since 3.2.0
-	 * @since [version] Added Memberships tab.
+	 * @since 3.32.0 Added Memberships tab.
 	 *
 	 * @return array
 	 */
@@ -358,7 +358,7 @@ class LLMS_Admin_Reporting {
 	 * Output the HTML for a postmeta event in the recent events sidebar of various reporting screens.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Outputs the student's avatar whent in 'membership' context
+	 * @since 3.32.0 Outputs the student's avatar whent in 'membership' context
 	 *
 	 * @param obj    $event   Instance of an LLMS_User_Postmeta item.
 	 * @param string $context Optional. Display context [course|student|quiz|membership]. Default 'course'.
