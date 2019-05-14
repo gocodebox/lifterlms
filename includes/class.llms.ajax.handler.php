@@ -821,7 +821,7 @@ class LLMS_AJAX_Handler {
 			break;
 
 			case 'remove':
-				$res = llms_unenroll_student( $student_id , $post_id, 'cancelled', 'any' );
+				$res = llms_unenroll_student( $student_id, $post_id, 'cancelled', 'any' );
 			break;
 
 			case 'delete':

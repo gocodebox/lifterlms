@@ -5,7 +5,7 @@
  * @since 3.5.0
  * @since [version] Add delete enrollment tests.
  *
- * @version  3.28.0
+ * @version [version]
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -313,7 +313,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	/**
 	 * Test get_enrollment_status()
 	 *
-	 * @since  3.17.0
+	 * @since 3.17.0
 	 * @since [version] Add test after enrollment deletion.
 	 *
 	 * @return void

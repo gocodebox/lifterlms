@@ -251,7 +251,12 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertWPErrorCodeEquals( '400', $res );
 		$this->assertSame( 'Action "remove" failed. Please try again', $res->get_error_message() );
 
-		// TODO: 'delete' failure: student not enrolled to a Course with ID as $course_id
+		// 'delete' failure: student not enrolled to a Course with ID as $course_id
+		$request['status']  = 'delete';
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Action "delete" failed. Please try again', $res->get_error_message() );
 
 	}
 
