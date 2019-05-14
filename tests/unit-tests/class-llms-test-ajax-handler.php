@@ -243,7 +243,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertWPErrorCodeEquals( '400', $res );
 		$this->assertSame( 'Action "add" failed. Please try again', $res->get_error_message() );
 
-		// 'remove' failure: student not enrolled to a Course with ID as $course_id
+		// 'remove' failure: student not enrolled in a Course with ID as $course_id
 		$request['status']  = 'remove';
 		$request['post_id'] = $course_id;
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
@@ -251,7 +251,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertWPErrorCodeEquals( '400', $res );
 		$this->assertSame( 'Action "remove" failed. Please try again', $res->get_error_message() );
 
-		// 'delete' failure: student not enrolled to a Course with ID as $course_id
+		// 'delete' failure: student not enrolled in a Course with ID as $course_id
 		$request['status']  = 'delete';
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
@@ -304,7 +304,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		// create a course
 		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
 
-		// enroll the student to the course
+		// enroll the student in the course
 		$student->enroll( $course_id );
 
 		$request = array(
@@ -335,7 +335,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		// create a course
 		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
 
-		// enroll the student to the course
+		// enroll the student in the course
 		$student->enroll( $course_id );
 
 		$request = array(
