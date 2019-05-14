@@ -1467,12 +1467,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since [version]
 	 *
-	 * @param  int     $product_id  WP Post ID of the course or membership.
-	 * @param  string  $trigger     Optiona. Only delete the student's enrollment if the original enrollment trigger matches the submitted value
-	 *                              "any" will remove regardless of enrollment trigger. Default "any".
-	 * @return boolean Whether or not the enrollment records have been succesfully removed.
+	 * @see llms_delete_student_enrollment() calls this function without having to instantiate the LLMS_Student class first.
 	 *
-	 * @see  llms_delete_student_enrollment() calls this function without having to instantiate the LLMS_Student class first.
+	 * @param int    $product_id WP Post ID of the course or membership.
+	 * @param string $trigger    Optional. Only delete the student's enrollment if the original enrollment trigger matches the submitted value
+	 *                           "any" will remove regardless of enrollment trigger. Default "any".
+	 * @return boolean Whether or not the enrollment records have been succesfully removed.
 	 */
 	public function delete_enrollment( $product_id, $trigger = 'any' ) {
 
