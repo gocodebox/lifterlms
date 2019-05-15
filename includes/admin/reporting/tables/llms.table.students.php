@@ -3,7 +3,7 @@
  * Students Reporting Table
  *
  * @since 3.2.0
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.31.0 Allow filtering the table by Course or Membership
  * @since 3.36.0 Add "Last Seen" column.
  * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
+ * @since [version] The post filter on the students table now limits post results based on instructor access.
  */
 class LLMS_Table_Students extends LLMS_Admin_Table {
 
@@ -344,17 +345,26 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Get HTML for the filters displayed in the head of the table
+	 * Get HTML for the filters displayed in the head of the table.
 	 *
 	 * This overrides the LLMS_Admin_Table method.
 	 *
 	 * @since 3.31.0
+	 * @since [version]
 	 *
 	 * @return string
 	 */
 	public function get_table_filters_html() {
-		$select_id = sprintf( '%1$s-%2$s-filter', $this->id, 'course-membership' );
-
+		$select_id       = sprintf( '%1$s-%2$s-filter', $this->id, 'course-membership' );
+		$additional_data = array();
+		// Limit Course/Membership results based on instructor access.
+		if ( ! current_user_can( 'view_others_lifterlms_reports' ) && current_user_can( 'view_lifterlms_reports' ) ) {
+			$instructor = llms_get_instructor();
+			if ( $instructor ) {
+				$additional_data[] = sprintf( 'data-instructor_id="%d"', $instructor->get( 'id' ) );
+			}
+		}
+		$additional_data = implode( ' ', $additional_data );
 		ob_start();
 		?>
 		<div class="llms-table-filters">
@@ -362,7 +372,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				<label class="screen-reader-text" for="<?php echo $select_id; ?>">
 					<?php _e( 'Choose Course/Membership', 'lifterlms' ); ?>
 				</label>
-				<select data-post-type="llms_membership,course" class="llms-posts-select2 llms-table-filter" id="<?php echo $select_id; ?>" name="course_membership" style="min-width:200px;max-width:500px;"></select>
+				<select data-post-type="llms_membership,course" class="llms-posts-select2 llms-table-filter" id="<?php echo $select_id; ?>" name="course_membership" style="min-width:200px;max-width:500px;"<?php echo $additional_data; ?>></select>
 			</div>
 		</div>
 		<?php
@@ -700,9 +710,9 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Set the table's title.
 	 *
-	 * @return  string
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return string
 	 */
 	protected function set_title() {
 		return __( 'Students', 'lifterlms' );
