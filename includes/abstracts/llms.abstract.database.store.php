@@ -1,10 +1,16 @@
 <?php
+/**
+ * WPDB database interactions
+ * @since 3.14.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * WPDB database interactions
- * @since    3.14.0
- * @version  3.24.0
+ * @since 3.14.0
+ * @since [version] `setup()` method returns self instead of void.
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -170,16 +176,20 @@ abstract class LLMS_Abstract_Database_Store {
 
 	/**
 	 * Setup an object with an array of data
-	 * @param    array     $data  key => val
-	 * @return   void
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 *
+	 * @since 3.14.0
+	 * @since [version] Return self for chaining instead of void.
+	 *
+	 * @param array $data key => val
+	 * @return self
 	 */
 	public function setup( $data ) {
 
 		foreach ( $data as $key => $val ) {
 			$this->set( $key, $val, false );
 		}
+
+		return $this; // allow chaining like $this->setup( $data )->save();
 
 	}
 
