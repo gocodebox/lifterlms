@@ -4,8 +4,9 @@
  * Mark Complete & Mark Incomplete buttons
  * Take Quiz Button when quiz attached
  *
- * @since    1.0.0
- * @version  3.29.0
+ * @since 1.0.0
+ * @since [version] Only render on lesson post types.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 global $post;
 
 $lesson = llms_get_post( $post );
-if ( ! $lesson ) {
+if ( ! $lesson || ! is_a( $post, 'LLMS_Lesson' ) ) {
 	return;
 }
 

@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.32.? - 2019-05-16
+--------------------
+
+##### Bug Fixes
+
++ Fix issue causing errors when using the `[lifterlms_lesson_mark_complete]` shortcode on course post types.
+
+##### Templates Changed
+
++ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
+
+
 v3.32.0 - 2019-05-13
 --------------------
 
