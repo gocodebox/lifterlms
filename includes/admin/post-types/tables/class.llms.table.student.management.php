@@ -77,13 +77,13 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for the columns
 	 *
-	 * @since    3.4.0
-	 * @since    [version] Added action button to delete a cancelled enrollment.
-	 * @since    [version] Added icon popover tooltip via llms tooltip data attribute api.
+	 * @since 3.4.0
+	 * @since [version] Added action button to delete a cancelled enrollment.
+	 * @since [version] Added icon popover tooltip via llms tooltip data attribute api.
 	 *
-	 * @param    string     $key        the column id / key
-	 * @param    int        $user_id    WP User ID
-	 * @return   mixed
+	 * @param string $key The column id / key.
+	 * @param int $user_id WP User ID.
+	 * @return  mixed
 	 */
 	public function get_data( $key, $student ) {
 
@@ -106,7 +106,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 						$value = '<a class="llms-action-icon llms-add-student tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-add" data-tip="' . __( 'Reactivate Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-update"></span></a>';
 					}
 					if ( current_user_can( 'unenroll' ) ) {
-						$value .= '<a class="llms-action-icon llms-delete-enrollment tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-delete-enrollment" data-tip="' . __( 'Delete Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-trash"></span></a>';
+						$value .= '<a class="llms-action-icon danger llms-delete-enrollment tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-delete-enrollment" data-tip="' . __( 'Delete Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-trash"></span></a>';
 					}
 				}
 			break;
