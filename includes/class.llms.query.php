@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
+ * @since [version] Added catalog secondary sorting by `post_title` when the primary sort is `menu_order`.
  */
 class LLMS_Query {
 

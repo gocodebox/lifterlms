@@ -4,6 +4,10 @@ LifterLMS Changelog
 v3.32.? - 2019-05-16
 --------------------
 
+##### Updates
+
++ Catalogs sorted by Order (`menu_order`) now have an additional sort (by post title) to improve ordering consistency for items with the same order, thanks [@pondermatic](https://github.com/pondermatic)!
+
 ##### Bug Fixes
 
 + Fix issue causing errors when using the `[lifterlms_lesson_mark_complete]` shortcode on course post types.
