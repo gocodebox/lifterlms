@@ -1,8 +1,9 @@
 <?php
 /**
  * LifterLMS Unit Test Case Base class
- * @since    3.3.1
- * @version  3.24.0
+ *
+ * @since 3.3.1
+ * @since [version] Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -20,41 +21,28 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup Get data to mock post and request data
-	 * @param    array      $vars  mock get data
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.4
+	 *
+	 * @since 3.19.0
+	 * @deprecated [version] Use $this->mockGetRequest() from lifterlms/lifterlms-tests lib.
+	 *
+	 * @param array $vars  mock get data
+	 * @return void
 	 */
 	protected function setup_get( $vars = array() ) {
-		$this->setup_request( 'GET', $vars );
+		$this->mockGetRequest( $vars );
 	}
 
 	/**
 	 * Setup Post data to mock post and request data
-	 * @param    array      $vars  mock post data
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.4
+	 *
+	 * @since 3.19.0
+	 * @deprecated [version] Use $this->mockPostRequest() from lifterlms/lifterlms-tests lib.
+	 *
+	 * @param array $vars mock post data.
+	 * @return void
 	 */
 	protected function setup_post( $vars = array() ) {
-		$this->setup_request( 'POST', $vars );
-	}
-
-	/**
-	 * Setup request data to mock post/get and request data
-	 * @param    array      $vars  mock request data
-	 * @return   void
-	 * @since    3.19.4
-	 * @version  3.19.4
-	 */
-	private function setup_request( $method, $vars = array() ) {
-		putenv( 'REQUEST_METHOD=' . $method );
-		if ( 'POST' === $method ) {
-			$_POST = $vars;
-		} elseif ( 'GET' === $method ) {
-			$_GET = $vars;
-		}
-		$_REQUEST = $vars;
+		$this->mockPostRequest( $vars );
 	}
 
 	/**
