@@ -4,17 +4,16 @@
  * @group LLMS_Student
  * @since 3.5.0
  * @since [version] Add delete enrollment tests.
- *
- * @version [version]
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 	/**
 	 * Test mark_complete() and mark_incomplete() on a tracks, courses, sections, and lessons
 	 *
-	 * @return   void
-	 * @since    3.5.0
-	 * @version  3.17.0
+	 * @since 3.5.0
+	 * @since 3.17.0
+	 *
+	 * @return void
 	 */
 	public function test_completion_incompletion() {
 
