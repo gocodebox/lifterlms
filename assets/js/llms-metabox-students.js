@@ -1,10 +1,10 @@
 /**
  * LifterLMS Students Metabox Functions
+ *
  * @since 3.0.0
  * @since [version] Added the logic to handle the Student's enrollment deletion.
- * @version [version]
  */
-;( function( $, undefined ) {
+( function( $, undefined ) {
 
 	window.llms = window.llms || {};
 
@@ -31,9 +31,12 @@
 
 		/**
 		 * Bind dom events
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.4.0
+		 *
+		 * @since 3.0.0
+		 * @since 3.4.0 Unknown.
+		 * @since [version] Added enrollment deletion handlers.
+		 *
+		 * @return void
 		 */
 		this.bind = function() {
 
@@ -137,12 +140,12 @@
 
 		/**
 		 * Execute AJAX call, add spinners, update html view
-		 * @since 3.0.0
-		 * @since [version] the status param can also be "delete".
 		 *
-		 * @param    int      id      student id
-		 * @param    string   status  new status [add|remove|delete]
-		 * @return   void
+		 * @since 3.0.0
+		 *
+		 * @param int id Student id.
+		 * @param string status New status [add|remove|delete].
+		 * @return void
 		 */
 		this.update_student_enrollment = function( id, status ) {
 
