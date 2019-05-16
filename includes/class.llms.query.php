@@ -4,7 +4,7 @@
 * Handles queries and endpoints.
 *
 * @since 1.0.0
-* @version 3.28.2
+* @version [version]
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -166,6 +166,7 @@ class LLMS_Query {
 	 *
 	 * @since 1.4.4 Moved from LLMS_Post_Types.
 	 * @since 3.16.8
+	 * @since [version] Added `post_title` as a secondary sort when the primary sort is `menu_order`
 	 *
 	 * @param WP_Query $query Main WP_Query Object.
 	 * @return void
@@ -193,11 +194,14 @@ class LLMS_Query {
 
 				$sorting = explode( ',', get_option( 'lifterlms_shop_ordering', 'menu_order,ASC' ) );
 
-				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
-				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
+				$orderby = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
+				if ( 'menu_order' === $orderby ) {
+					$orderby .= ' post_title';
+				}
+				$order = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
 
-				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $order ) );
-				$query->set( 'order', apply_filters( 'llms_courses_order', $orderby ) );
+				$query->set( 'orderby', apply_filters( 'llms_courses_orderby', $orderby ) );
+				$query->set( 'order', apply_filters( 'llms_courses_order', $order ) );
 
 				$modify_tax_query = true;
 
@@ -207,11 +211,14 @@ class LLMS_Query {
 
 				$sorting = explode( ',', get_option( 'lifterlms_memberships_ordering', 'menu_order,ASC' ) );
 
-				$order = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
-				$orderby = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
+				$orderby = empty( $sorting[0] ) ? 'menu_order' : $sorting[0];
+				if ( 'menu_order' === $orderby ) {
+					$orderby .= ' post_title';
+				}
+				$order = empty( $sorting[1] ) ? 'ASC' : $sorting[1];
 
-				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $order ) );
-				$query->set( 'order', apply_filters( 'llms_memberships_order', $orderby ) );
+				$query->set( 'orderby', apply_filters( 'llms_memberships_orderby', $orderby ) );
+				$query->set( 'order', apply_filters( 'llms_memberships_order', $order ) );
 
 				$modify_tax_query = true;
 
