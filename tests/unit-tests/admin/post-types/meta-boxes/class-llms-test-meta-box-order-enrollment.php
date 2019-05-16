@@ -4,8 +4,10 @@
  *
  * @package LifterLMS/Tests
  *
- * @group metabox
  * @group admin
+ * @group metaboxes
+ * @group LLMS_Meta_Box_Order_Enrollment
+ *
  * @since [version]
  * @version [version]
  */
@@ -43,7 +45,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
 		// check enroll
 		$this->setup_post( array(
-			'llms_update_enrollment_status'      => '',
+			'llms_update_enrollment_status'      => 'Update',
 			'llms_student_old_enrollment_status' => '',
 			'llms_student_new_enrollment_status' => 'enrolled',
 		) );
@@ -53,7 +55,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
 		// check unenroll
 		$this->setup_post( array(
-			'llms_update_enrollment_status'      => '',
+			'llms_update_enrollment_status'      => 'Update',
 			'llms_student_old_enrollment_status' => 'enrolled',
 			'llms_student_new_enrollment_status' => 'expired',
 		) );
@@ -63,7 +65,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
 		// check enrollment deleted => no enrollment records + order status set to cancelled
 		$this->setup_post( array(
-			'llms_update_enrollment_status'      => '',
+			'llms_delete_enrollment_status'      => 'Delete',
 			'llms_student_old_enrollment_status' => 'expired',
 			'llms_student_new_enrollment_status' => 'deleted',
 		) );
