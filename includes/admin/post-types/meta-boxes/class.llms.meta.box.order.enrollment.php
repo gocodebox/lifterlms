@@ -95,7 +95,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		echo '<input name="llms_student_old_enrollment_status" type="hidden" value="' . $current_status . '">';
 
 		echo '<input name="llms_update_enrollment_status" type="submit" class="llms-button-secondary small" value="' . __( 'Update Status', 'lifterlms' ) . '"> ';
-		if ( $current_status !== 'enrolled' ) {
+		if ( 'enrolled' !== $current_status ) {
 			echo '<input name="llms_delete_enrollment_status" type="submit" class="llms-button-danger small" value="' . __( 'Delete Enrollment', 'lifterlms' ) . '">';
 		}
 
@@ -186,7 +186,6 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		}
 
 		$order->add_note( $note, true );
-
 
 	}
 
