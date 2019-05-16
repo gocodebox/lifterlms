@@ -12,14 +12,15 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Controller_Orders class.
  * @since 3.0.0
  * @since [version] Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
- *                  @see `on_delete_order()` method.
  */
 class LLMS_Controller_Orders {
 
 	/**
 	 * Constructor
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.19.0 Updated.
+	 * @since [version] Added `before_delete_post` action to handle order deletion
 	 */
 	public function __construct() {
 
@@ -316,7 +317,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $post_id WordPress post ID
+	 * @param int $post_id WP_Post ID.
 	 * @return void
 	 */
 	public function on_delete_order( $post_id ) {
