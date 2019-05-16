@@ -1,15 +1,17 @@
 LifterLMS Changelog
 ===================
 
-v3.32.? - 2019-05-16
+v3.32.? - 2019-05-??
 --------------------
 
 ##### Updates
 
++ Added the ability for site administrators to delete (completely remove) enrollment records from the database.
 + Catalogs sorted by Order (`menu_order`) now have an additional sort (by post title) to improve ordering consistency for items with the same order, thanks [@pondermatic](https://github.com/pondermatic)!
 
 ##### Bug Fixes
 
++ When an order is deleted, student enrollment records for that order will be removed. This fixes an issue causing admins to not be able to manage the enrollment status of a student enrolled via a deleted order.
 + Fix issue causing errors when using the `[lifterlms_lesson_mark_complete]` shortcode on course post types.
 
 ##### Templates Changed
