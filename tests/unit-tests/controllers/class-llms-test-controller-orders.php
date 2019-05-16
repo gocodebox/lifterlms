@@ -8,6 +8,8 @@
  *
  * @since 3.19.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
+ * @since [version] Add test for the `on_delete_order` method.
+ * @version [version]
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -75,7 +77,6 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( 1, did_action( 'lifterlms_product_purchased' ) );
 		$this->assertEquals( 1, did_action( 'lifterlms_access_plan_purchased' ) );
 
-
 		/**
 		 * Tests for one-time payment with access expiration
 		 */
@@ -100,7 +101,6 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		// actions were run
 		$this->assertEquals( 2, did_action( 'lifterlms_product_purchased' ) );
 		$this->assertEquals( 2, did_action( 'lifterlms_access_plan_purchased' ) );
-
 
 		/**
 		 * Tests for recurring payment
@@ -127,7 +127,6 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertEquals( 3, did_action( 'lifterlms_product_purchased' ) );
 		$this->assertEquals( 3, did_action( 'lifterlms_access_plan_purchased' ) );
 
-
 		// cancel the order to test reactivation
 		$this->assertEquals( 'Lifetime Access', $order->get_access_expiration_date() );
 		$order->set( 'status', 'llms-pending-cancel' );
@@ -138,7 +137,6 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		$this->assertFalse( as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) ) );
-
 
 		// test a limited date order for reactivation events
 		$plan = $this->get_mock_plan( '25.99', 1, 'limited-date' );
@@ -159,7 +157,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
-	 * @return [version]
+	 * @return void
 	 */
 	public function test_error_order() {
 
@@ -200,6 +198,42 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * test delete order
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_on_delete_order() {
+
+		$order   = $this->get_mock_order();
+		$student = llms_get_student( $order->get( 'user_id' ) );
+
+		$order_product_id = $order->get( 'product_id' );
+
+		// schedule payments & enroll the student
+		$order->set( 'status', 'llms-active' );
+
+		// delete order
+		wp_delete_post( $order->get( 'id' ), false );
+
+		// student should be removed
+		$this->assertFalse( $student->is_enrolled( $order_product_id ) );
+
+		// more in depth checks
+		// enrollment status must be false
+		$this->assertFalse( $student->get_enrollment_status( $order_product_id ) );
+
+		// enrollment trigger must be false
+		$this->assertFalse( $student->get_enrollment_trigger( $order_product_id ) );
+
+		// enrollment date must be false
+		$this->assertFalse( $student->get_enrollment_date( $order_product_id ) );
+
+	}
+
+
+	/**
 	 * Test expire access function
 	 *
 	 * @since 3.19.0
@@ -223,7 +257,6 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 		) ) );
 		$this->assertEquals( 'expired', $student->get_enrollment_status( $order->get( 'product_id' ) ) );
 		$this->assertEquals( 'llms-active', $order->get( 'status' ) );
-
 
 		// simulate a pending-cancel -> cancel
 		$plan = $this->get_mock_plan( '25.99', 1, 'limited-date' );

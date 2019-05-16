@@ -2,14 +2,17 @@
 /**
  * Order processing and related actions controller
  *
- * @since   3.0.0
- * @version 3.27.0
+ * @since 3.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Controller_Orders class.
+ * @since 3.0.0
+ * @since [version] Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
+ *                  @see `on_delete_order()` method.
  */
 class LLMS_Controller_Orders {
 
@@ -27,6 +30,9 @@ class LLMS_Controller_Orders {
 
 		// this action adds our lifterlms specific actions when order & transaction statuses change
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
+
+		// this action adds lifterlms specific action when an order is deleted, just before the WP post postmetas are removed.
+		add_action( 'before_delete_post', array( $this, 'on_delete_order' ) );
 
 		/**
 		 * Status Change Actions for Orders and Transactions
@@ -301,6 +307,24 @@ class LLMS_Controller_Orders {
 		$order->unschedule_recurring_payment();
 
 		llms_unenroll_student( $order->get( 'user_id' ), $order->get( 'product_id' ), $status, 'order_' . $order->get( 'id' ) );
+
+	}
+
+	/**
+	 * Called when a post is permanently deleted.
+	 * Will delete any enrollment records linked to the LLMS_Order with the ID of the deleted post
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WordPress post ID
+	 * @return void
+	 */
+	public function on_delete_order( $post_id ) {
+
+		$order = llms_get_post( $post_id );
+		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
+			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
+		}
 
 	}
 

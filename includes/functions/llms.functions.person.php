@@ -3,8 +3,8 @@
 * Person Functions
 * Functions for managing users in the LifterLMS system.
 * @package  LifterLMS\Functions
-* @since    1.0.0
-* @version  1.0.0
+* @since 1.0.0
+* @version 1.0.0
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -396,6 +396,23 @@ function llms_set_user_password_rest_key( $user_id ) {
 function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', $trigger = 'any' ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->unenroll( $product_id, $trigger, $new_status );
+}
+
+/**
+ * Delete LifterLMS Student's Enrollment record related to a given product.
+ *
+ * @since [version]
+ * @param  int    $user_id     WP User ID.
+ * @param  int    $product_id  WP Post ID of the Course or Membership.
+ * @param  string $trigger     Optional. Only delete the student enrollment if the original enrollment trigger matches the submitted value
+ *                             "any" will remove regardless of enrollment trigger.AS
+ * @return boolean Whether or not the enrollment records have been succesfully removed.
+ *
+ * @see `LLMS_Student->delete_enrollment()` the class method wrapped by this function.
+ */
+function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->delete_enrollment( $product_id, $trigger );
 }
 
 /**

@@ -2,12 +2,19 @@
 /**
  * Student Management table on Courses and Memberships
  *
- * @since   3.4.0
- * @version 3.17.4
+ * @since 3.4.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Student Management table on Courses and Memberships class.
+ *
+ * @since 3.4.0
+ * @since [version] Added table action button to delete a cancelled enrollment.
+ * @since [version] Added popover tooltip to the table action button icons via llms tooltip data attribute api.
+ */
 class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
@@ -69,11 +76,14 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve data for the columns
+	 *
+	 * @since    3.4.0
+	 * @since    [version] Added action button to delete a cancelled enrollment.
+	 * @since    [version] Added icon popover tooltip via llms tooltip data attribute api.
+	 *
 	 * @param    string     $key        the column id / key
 	 * @param    int        $user_id    WP User ID
 	 * @return   mixed
-	 * @since    3.4.0
-	 * @version  3.17.4
 	 */
 	public function get_data( $key, $student ) {
 
@@ -85,15 +95,18 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 				if ( $student->is_enrolled( $this->post_id ) ) {
 					$trigger = $student->get_enrollment_trigger( $this->post_id );
 					if ( false !== strpos( $trigger, 'order_' ) ) {
-						$value = '<a class="llms-action-icon" href="' . get_edit_post_link( $student->get_enrollment_trigger_id( $this->post_id ) ) . '" target="_blank"><span class="tooltip" title="' . __( 'Visit the triggering order to manage this student\'s enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-external"></span></span></a>';
+						$value = '<a class="llms-action-icon tip--top-left" href="' . get_edit_post_link( $student->get_enrollment_trigger_id( $this->post_id ) ) . '" target="_blank" data-tip="' . __( 'Visit the triggering order to manage this student\'s enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-external"></span></a>';
 					} else {
 						if ( current_user_can( 'unenroll' ) ) {
-							$value = '<a class="llms-action-icon llms-remove-student" data-id="' . $student->get_id() . '" href="#llms-student-remove"><span class="tooltip" title="' . __( 'Cancel Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-no"></span></span></a>';
+							$value = '<a class="llms-action-icon llms-remove-student tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-remove" data-tip="' . __( 'Cancel Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-no"></span></a>';
 						}
 					}
 				} else {
 					if ( current_user_can( 'enroll' ) ) {
-						$value = '<a class="llms-action-icon llms-add-student" data-id="' . $student->get_id() . '" href="#llms-student-remove"><span class="tooltip" title="' . __( 'Reactivate Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-update"></span></span></a>';
+						$value = '<a class="llms-action-icon llms-add-student tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-add" data-tip="' . __( 'Reactivate Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-update"></span></a>';
+					}
+					if ( current_user_can( 'unenroll' ) ) {
+						$value .= '<a class="llms-action-icon llms-delete-enrollment tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-delete-enrollment" data-tip="' . __( 'Delete Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-trash"></span></a>';
 					}
 				}
 			break;

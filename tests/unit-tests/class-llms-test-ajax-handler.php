@@ -103,7 +103,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		// No results, when querying for 'future' posts
 		$args = array(
 			'post_type'     => 'course',
-			'post_statuses' => 'future'
+			'post_statuses' => 'future',
 		);
 		$res = $this->do_ajax( 'select2_query_posts', $args );
 		$this->assertSame( 0, count( $res['items'] ) );
@@ -162,6 +162,192 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertSame( 'Posts', $res['items']['post']['label'] );
 		$this->assertTrue( array_key_exists( 'items', $res['items']['post'] ) );
 		$this->assertSame( 1, count( $res['items']['post']['items'] ) );
+	}
+
+	/**
+	 * Test the errors returned by the LLMS_AJAX_Handler::update_student_enrollment() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_student_enrollment_errors() {
+
+		$request = array(
+			'post_id' => 1,
+			'status'  => 'add',
+		);
+		// Missing student_id
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Missing required parameters', $res->get_error_message() );
+
+		$request = array(
+			'student_id' => 1,
+			'status'     => 'add',
+		);
+		// Missing post_id
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Missing required parameters', $res->get_error_message() );
+
+		$request = array(
+			'student_id' => 1,
+			'post_id'    => 1,
+		);
+		// Missing status
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Missing required parameters', $res->get_error_message() );
+
+		$request = array(
+			'status'     => 'add',
+			'student_id' => 1,
+			'post_id'    => '',
+		);
+		// Empty post_id ( or student_id, or status) value
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Missing required parameters', $res->get_error_message() );
+
+		$request = array(
+			'status'     => 'enjoy',
+			'student_id' => 1,
+			'post_id'    => 2,
+		);
+		// status not in ('add', 'remove', 'delete')
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Invalid status', $res->get_error_message() );
+
+		//create a student
+		$student    = $this->get_mock_student();
+		$student_id = $student->get( 'id' );
+
+		//create a course
+		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
+
+		$request = array(
+			'status'     => 'add',
+			'student_id' => $student_id,
+			'post_id'    => $course_id + 1,
+		);
+		// 'add' failure: no course
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Action "add" failed. Please try again', $res->get_error_message() );
+
+		// 'remove' failure: student not enrolled in a Course with ID as $course_id
+		$request['status']  = 'remove';
+		$request['post_id'] = $course_id;
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Action "remove" failed. Please try again', $res->get_error_message() );
+
+		// 'delete' failure: student not enrolled in a Course with ID as $course_id
+		$request['status']  = 'delete';
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( '400', $res );
+		$this->assertSame( 'Action "delete" failed. Please try again', $res->get_error_message() );
+
+	}
+
+	/**
+	 * Test the update_student_enrollment() method can perform user's enrollment
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_student_enrollment_enroll() {
+
+		//create a student
+		$student    = $this->get_mock_student();
+		$student_id = $student->get( 'id' );
+
+		//create a course
+		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
+
+		$request = array(
+			'status'     => 'add',
+			'student_id' => $student_id,
+			'post_id'    => $course_id,
+		);
+
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertTrue( $res['success'] );
+		$this->assertTrue( $student->is_enrolled( $course_id ) );
+
+	}
+
+	/**
+	 * Test the update_student_enrollment() method can perform user's unenrollment
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_student_enrollment_unenroll() {
+
+		// create a student
+		$student    = $this->get_mock_student();
+		$student_id = $student->get( 'id' );
+
+		// create a course
+		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
+
+		// enroll the student in the course
+		$student->enroll( $course_id );
+
+		$request = array(
+			'status'     => 'remove',
+			'student_id' => $student_id,
+			'post_id'    => $course_id,
+		);
+
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertTrue( $res['success'] );
+		$this->assertFalse( $student->is_enrolled( $course_id ) );
+
+	}
+
+	/**
+	 * Test the update_student_enrollment() method can perform user's enrollment deletion
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_update_student_enrollment_delete() {
+
+		// create a student
+		$student    = $this->get_mock_student();
+		$student_id = $student->get( 'id' );
+
+		// create a course
+		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
+
+		// enroll the student in the course
+		$student->enroll( $course_id );
+
+		$request = array(
+			'status'     => 'delete',
+			'student_id' => $student_id,
+			'post_id'    => $course_id,
+		);
+
+		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
+		$this->assertTrue( $res['success'] );
+		$this->assertEquals( array(), llms_get_user_postmeta( $student_id, $course_id ) );
+
 	}
 
 	/**

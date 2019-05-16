@@ -3,7 +3,7 @@
  * LifterLMS AJAX Event Handler.
  *
  * @since 1.0.0
- * @version 3.32.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.32.0 Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
+ * @since [version] Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
+ *                  Also always return either a WP_Error on failure or a "success" array on requested action performed.
  */
 class LLMS_AJAX_Handler {
 
@@ -791,25 +793,49 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Add or remove a student from a course or membership
-	 * @since    3.0.0
-	 * @version  3.4.0
+	 * Add or remove a student from a course or membership.
+	 *
+	 * @since 3.0.0
+	 * @since [version] Handle the delete enrollment request and make sure the $request['post_id'] is not empty.
+	 *                  Also always return either a WP_Error on failure or a "success" array on action performed.
+	 *
+	 * @param $request array
+	 * @return WP_Error|array
 	 */
 	public static function update_student_enrollment( $request ) {
 
-		if ( empty( $request['student_id'] ) || empty( $request['status'] ) ) {
+		if ( empty( $request['student_id'] ) || empty( $request['status'] ) || empty( $request['post_id'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
 
-		if ( ! in_array( $request['status'], array( 'add', 'remove' ) ) ) {
+		if ( ! in_array( $request['status'], array( 'add', 'remove', 'delete' ) ) ) {
 			return new WP_Error( 400, __( 'Invalid status', 'lifterlms' ) );
 		}
 
-		if ( 'add' === $request['status'] ) {
-			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' . get_current_user_id() );
-		} elseif ( 'remove' === $request['status'] ) {
-			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
+		$student_id = intval( $request['student_id'] );
+		$post_id    = intval( $request['post_id'] );
+
+		switch ( $request['status'] ) {
+			case 'add':
+				$res = llms_enroll_student( $student_id, $post_id, 'admin_' . get_current_user_id() );
+			break;
+
+			case 'remove':
+				$res = llms_unenroll_student( $student_id, $post_id, 'cancelled', 'any' );
+			break;
+
+			case 'delete':
+				$res = llms_delete_student_enrollment( $student_id, $post_id, 'any' );
+			break;
 		}
+
+		if ( ! $res ) {
+			return new WP_Error( 400, sprintf( __( 'Action "%1$s" failed. Please try again', 'lifterlms' ), $request['status'] ) );
+		}
+
+		return array(
+			'success' => true,
+		);
 
 	}
 

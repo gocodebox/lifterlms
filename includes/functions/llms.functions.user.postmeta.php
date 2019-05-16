@@ -2,37 +2,82 @@
 /**
  * CRUD LifterLMS User Postmeta Data
  * All functions are pluggable
- * @since    3.21.0
- * @version  3.21.0
+ * @since 3.21.0
+ * @since [version] Added `llms_bulk_delete_user_postmeta`.
+ *                  Also now `llms_delete_user_postmeta` returns true only if at least one existing user postmeta has been successfully deleted.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
 if ( ! function_exists( 'llms_delete_user_postmeta' ) ) :
 	/**
 	 * Delete user postmeta data
-	 * @param    int        $user_id     WP User ID
-	 * @param    int        $post_id     WP Post ID
-	 * @param    string     $meta_key    optional meta key for lookup, if not supplied, all matching items will be removed
-	 * @param    mixed      $meta_value  optional meta value for lookup, if not supplied, all matching items will be removed
-	 * @return   bool
-	 * @since    3.21.0
-	 * @version  3.21.0
+	 *
+	 * @since 3.21.0
+	 * @since [version] Returns true only if at least one existing user postmeta has been successfully deleted.
+	 *
+	 * @param int    $user_id    WP User ID
+	 * @param int    $post_id    WP Post ID
+	 * @param string $meta_key   Optional. Meta key for lookup, if not supplied, all matching items will be removed. Default null.
+	 * @param mixed  $meta_value Optional. Meta value for lookup, if not supplied, all matching items will be removed. Default null.
+	 *
+	 * @return bool False if no postmetas has been deleted either because they do not exist or because of an error during the
+	 *              actual row deletion from the db. True if at least one existing user postmeta has been successfully deleted.
 	 */
 	function llms_delete_user_postmeta( $user_id, $post_id, $meta_key = null, $meta_value = null ) {
 
-		$ret = true;
+		$ret = false;
 
 		$existing = _llms_query_user_postmeta( $user_id, $post_id, $meta_key, maybe_unserialize( $meta_value ) );
 		if ( $existing ) {
 			foreach ( $existing as $obj ) {
 				$item = new LLMS_User_Postmeta( $obj->meta_id, false );
 				if ( ! $item->delete() ) {
-					$ret = false;
+					$ret = $ret || false;
+				} else {
+					$ret = true;
 				}
 			}
 		}
 
 		return $ret;
+
+	}
+endif;
+
+if ( ! function_exists( 'llms_bulk_delete_user_postmeta' ) ) :
+	/**
+	 * Bulk remove user postmeta data
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $user_id WP User ID
+	 * @param int   $post_id WP Post ID
+	 * @param array $data    key=>val Optional. Associative array of meta keys => meta values to delete.
+	 *                                If not meta values supplied, all matching items will be removed. Default empty array.
+	 * @return array|boolean On error returns an associative array of the submitted keys, each item will be true for success or false for error.
+	 *                       On success returns true.
+	 *
+	 */
+	function llms_bulk_delete_user_postmeta( $user_id, $post_id, $data = array() ) {
+
+		$res = array_fill_keys( array_keys( $data ), null );
+		$err = false;
+
+		if ( ! empty( $data ) ) {
+			foreach ( $data as $key => $value ) {
+				$delete      = llms_delete_user_postmeta( $user_id, $post_id, $key, $value );
+				$res[ $key ] = $delete;
+				if ( ! $delete ) {
+					$err = true;
+				}
+			}
+		} else {
+			$res = llms_delete_user_postmeta( $user_id, $post_id );
+			$err = ! $res;
+		}
+
+		return $err ? $res : true;
 
 	}
 endif;
