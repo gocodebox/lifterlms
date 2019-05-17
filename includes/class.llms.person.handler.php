@@ -1,9 +1,9 @@
 <?php
 /**
- * User Handling for login and registration (mostly)
+ * User Handling for login and registration (mostly).
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,9 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Person_Handler class.
  *
  * @since 3.0.0
+ * @since 3.29.4 Unknown.
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
+ * @since [version] Added logic to require the email confirmation field, when editing account, only if email changed.
  */
 class LLMS_Person_Handler {
 
@@ -67,26 +69,27 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Retrieve an array of fields for a specific screen
+	 * Retrieve an array of fields for a specific screen.
 	 *
-	 * Each array represents a form field that can be passed to llms_form_field()
+	 * Each array represents a form field that can be passed to llms_form_field().
+	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields().
 	 *
-	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields()
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 * @since [version] On edit account screen, require the email confirmation field only if email changed.
 	 *
-	 * @param    string    $screen  name os the screen [account|checkout|registration]
-	 * @param    array|int $data    array of data to fill fields with or a WP User ID
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.7.0
+	 * @param string    $screen Optional. The name os the screen [account|checkout|registration]. Default 'registration'
+	 * @param array|int $data   Optional. An array of data to fill fields with or a WP User ID. Default empty array.
+	 * @return array
 	 */
 	public static function get_available_fields( $screen = 'registration', $data = array() ) {
 
 		$uid = get_current_user_id();
 
-		// setup all the fields to load
+		// setup all the fields to load.
 		$fields = array();
 
-		// this isn't needed if we're on an account screen or
+		// this isn't needed if we're on an account screen or.
 		if ( 'account' !== $screen && ( 'checkout' !== $screen || ! $uid ) ) {
 			$fields[] = array(
 				'columns'     => 12,
@@ -99,7 +102,7 @@ class LLMS_Person_Handler {
 		}
 
 		// on the checkout screen, if we already have a user we can remove these fields:
-		// username, email, email confirm, password, password confirm, password meter
+		// username, email, email confirm, password, password confirm, password meter.
 		if ( 'checkout' !== $screen || ! $uid ) {
 			$email_con = get_option( 'lifterlms_user_info_field_email_confirmation_' . $screen . '_visibility' );
 			$fields[]  = array(
@@ -112,22 +115,29 @@ class LLMS_Person_Handler {
 				'type'        => 'email',
 			);
 			if ( 'yes' === $email_con ) {
+				$is_required = true;
+
+				// on the account screen the email address confirm field is not required by default,
+				// unless this method is called with the $data param and the email address is not equal to the current user email address (e.g. during validation).
+				if ( 'account' === $screen ) {
+					$is_required = isset( $data['email_address'] ) && self::sanitize_field( $data['email_address'], 'email' ) !== wp_get_current_user()->user_email;
+				}
 				$fields[] = array(
 					'columns'     => 6,
 					'id'          => 'email_address_confirm',
 					'label'       => __( 'Confirm Email Address', 'lifterlms' ),
 					'last_column' => true,
 					'match'       => 'email_address',
-					'required'    => true,
+					'required'    => $is_required,
 					'type'        => 'email',
 				);
 			}
 
-			// account screen has password updates at the bottom
+			// account screen has password updates at the bottom.
 			if ( 'account' !== $screen ) {
 				$fields = self::get_password_fields( $screen, $fields );
 			}
-		}
+		}// End if().
 
 		$names = get_option( 'lifterlms_user_info_field_names_' . $screen . '_visibility' );
 		if ( 'hidden' !== $names ) {
@@ -241,14 +251,14 @@ class LLMS_Person_Handler {
 
 		}
 
-		// add account password fields
+		// add account password fields.
 		if ( 'account' === $screen ) {
 			$fields = self::get_password_fields( $screen, $fields );
 		}
 
 		$fields = apply_filters( 'lifterlms_get_person_fields', $fields, $screen );
 
-		// populate fields with data, if we have any
+		// populate fields with data, if we have any.
 		if ( $data ) {
 			$fields = self::fill_fields( $fields, $data );
 		}
@@ -865,9 +875,12 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Validate submitted user data for registration or profile updates
+	 * Validate submitted user data for registration or profile updates.
 	 *
-	 * @param  array  $data   user data array
+	 * @since 3.0.0
+	 * @since [version] On edit account screen, require the email confirmation field only if email changed.
+	 *
+	 * @param array  $data  User data array
 	 *                        array(
 	 *                          'user_login' => '',
 	 *                          'email_address' => '',
@@ -884,10 +897,8 @@ class LLMS_Person_Handler {
 	 *                          'llms_billing_country' => '',
 	 *                          'llms_phone' => '',
 	 *                        )
-	 * @param    string $screen screen to validate fields against, accepts "account", "checkout", "registration", or "update"
-	 * @return   true|WP_Error
-	 * @since    3.0.0
-	 * @version  3.19.4
+	 * @param string $screen Optional. Screen to validate fields against, accepts "account", "checkout", "registration", or "update". Default 'registration'.
+	 * @return true|WP_Error
 	 */
 	public static function validate_fields( $data, $screen = 'registration' ) {
 
@@ -903,17 +914,41 @@ class LLMS_Person_Handler {
 
 			$fields = self::get_available_fields( $screen );
 
-			// if no current password submitted with an account update
-			// we can remove password fields so we don't get false validations
-			if ( 'account' === $screen && empty( $data['current_password'] ) ) {
-				unset( $data['current_password'], $data['password'], $data['password_confirm'] );
-				foreach ( $fields as $key => $field ) {
-					if ( in_array( $field['id'], array( 'current_password', 'password', 'password_confirm' ) ) ) {
-						unset( $fields[ $key ] );
+			// only run the following when for an account update.
+			if ( 'account' === $screen ) {
+
+				// if no current password submitted with an account update we can remove password fields so we don't get false validations.
+				if ( empty( $data['current_password'] ) ) {
+					unset( $data['current_password'], $data['password'], $data['password_confirm'] );
+					foreach ( $fields as $key => $field ) {
+						if ( in_array( $field['id'], array( 'current_password', 'password', 'password_confirm' ) ) ) {
+							unset( $fields[ $key ] );
+						}
 					}
 				}
-			}
-		}
+
+				// email confirmation field required only if email changed.
+				$ec_index = array_search( 'email_address_confirm', array_column( $fields, 'id' ) );
+				if ( false !== $ec_index ) {
+					if ( isset( $data['email_address'] ) ) {
+						// if email didn't change we might need to remove the email_address_confirm field to avoid false validations.
+						if ( self::sanitize_field( $data['email_address'], 'email' ) === wp_get_current_user()->user_email ) {
+							// if no email_address_confirm submitted with an account update we can remove email_address_confirm so we don't get false validations.
+							if ( ! isset( $data['email_address_confirm'] ) || ! self::sanitize_field( $data['email_address_confirm'], 'email' ) ) {
+								unset( $data['email_address_confirm'] );
+								unset( $fields[ $ec_index ] );
+							}
+						} else {
+							// email is changed, email_confirmation_field is required (if available).
+							$fields[ $ec_index ]['required'] = true;
+						}
+					} else {
+						// for unit testing mostly.
+						unset( $fields[ $ec_index ] );
+					} // End if().
+				} // End if().
+			}// End if().
+		}// End if().
 
 		$e = new WP_Error();
 
@@ -927,7 +962,7 @@ class LLMS_Person_Handler {
 			$field_type = isset( $field['type'] ) ? $field['type'] : '';
 			$val        = isset( $data[ $name ] ) ? self::sanitize_field( $data[ $name ], $field_type ) : '';
 
-			// ensure required fields are submitted
+			// ensure required fields are submitted.
 			if ( isset( $field['required'] ) && $field['required'] && empty( $val ) ) {
 
 				$e->add( $field['id'], sprintf( __( '%s is a required field', 'lifterlms' ), $label ), 'required' );
@@ -935,15 +970,15 @@ class LLMS_Person_Handler {
 
 			}
 
-			// check email field for uniqueness
+			// check email field for uniqueness.
 			if ( 'email_address' === $name ) {
 
 				$skip_email = false;
 
-				// only run this check when we're trying to change the email address for an account update
+				// only run this check when we're trying to change the email address for an account update.
 				if ( 'account' === $screen ) {
 					$user = wp_get_current_user();
-					if ( self::sanitize_field( $data['email_address'], 'email' ) === $user->user_email ) {
+					if ( $val === $user->user_email ) {
 						$skip_email = true;
 					}
 				}
@@ -953,10 +988,10 @@ class LLMS_Person_Handler {
 				}
 			} elseif ( 'user_login' === $name ) {
 
-				// blacklist usernames for security purposes
+				// blacklist usernames for security purposes.
 				$banned_usernames = apply_filters( 'llms_usernames_blacklist', array( 'admin', 'test', 'administrator', 'password', 'testing' ) );
 
-				if ( in_array( $val, $banned_usernames ) || ! validate_username( $val ) ) {
+				if ( in_array( $val, $banned_usernames, true ) || ! validate_username( $val ) ) {
 
 					$e->add( $field['id'], sprintf( __( 'The username "%s" is invalid, please try a different username.', 'lifterlms' ), $val ), 'invalid-username' );
 
@@ -979,12 +1014,12 @@ class LLMS_Person_Handler {
 				}
 			}
 
-			// scrub and check field data types
+			// scrub and check field data types.
 			if ( isset( $field['type'] ) ) {
 
 				switch ( $field['type'] ) {
 
-					// ensure it's a selectable option
+					// ensure it's a selectable option.
 					case 'select':
 					case 'radio':
 						if ( ! in_array( $val, array_keys( $field['options'] ) ) ) {
@@ -997,7 +1032,7 @@ class LLMS_Person_Handler {
 					// case 'textarea':
 					// break;
 
-					// make sure the value is numeric
+					// make sure the value is numeric.
 					case 'number':
 						if ( ! is_numeric( $val ) ) {
 							$e->add( $field['id'], sprintf( __( '%s must be numeric', 'lifterlms' ), $label ), 'invalid' );
@@ -1005,7 +1040,7 @@ class LLMS_Person_Handler {
 						}
 						break;
 
-					// validate the email address
+					// validate the email address.
 					case 'email':
 						if ( ! is_email( $val ) ) {
 							$e->add( $field['id'], sprintf( __( '%s must be a valid email address', 'lifterlms' ), $label ), 'invalid' );
@@ -1015,14 +1050,14 @@ class LLMS_Person_Handler {
 				}
 			}// End if().
 
-			// store this fields label so it can be used in a match error later if necessary
+			// store this fields label so it can be used in a match error later if necessary.
 			if ( ! empty( $field['matched'] ) ) {
 
 				$matched_values[ $field['matched'] ] = $label;
 
 			}
 
-			// match matchy fields
+			// match matchy fields.
 			if ( ! empty( $field['match'] ) ) {
 
 				$match = isset( $data[ $field['match'] ] ) ? self::sanitize_field( $data[ $field['match'] ], $field_type ) : false;
@@ -1034,7 +1069,7 @@ class LLMS_Person_Handler {
 			}
 		}// End foreach().
 
-		// return errors if we have errors
+		// return errors if we have errors.
 		if ( $e->get_error_messages() ) {
 			return $e;
 		}

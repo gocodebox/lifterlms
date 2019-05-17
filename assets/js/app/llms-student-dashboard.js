@@ -3,8 +3,10 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.7.0
- * @version  3.10.0
+ * @since 3.7.0
+ * @since 3.10.0 Unknown.
+ * @since [version] Added logic to make the email address confirm field required only if email is different from the original value.
+ * @version [version]
  */
 
 LLMS.StudentDashboard = {
@@ -26,11 +28,13 @@ LLMS.StudentDashboard = {
 	meter_exists: 0,
 
 	/**
-	 * Init
+	 * Init.
 	 *
-	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.10.0
+	 * @since 3.7.0
+	 * @since 3.10.0 Unknown.
+	 * @since [version] Treat the case when we're on edit-account screen and we need to make the email address confirm field required.
+	 *
+	 * @return void
 	 */
 	init: function() {
 
@@ -43,6 +47,13 @@ LLMS.StudentDashboard = {
 
 				this.bind_orders();
 
+			} else if ( 'edit-account' === this.get_screen() ) {
+
+				if ( $( '#email_address_confirm' ).length && 'required' !== $( '#email_address_confirm' ).attr( 'required' ) ) {
+					$( '#email_address' ).data( 'llms-original-email', $( '#email_address' ).val() );
+					this.bind_email_fields();
+				}
+
 			}
 
 		}
@@ -50,11 +61,12 @@ LLMS.StudentDashboard = {
 	},
 
 	/**
-	 * Bind DOM events
+	 * Bind DOM events.
 	 *
-	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.7.4
+	 * @since 3.7.0
+	 * @since 3.7.4 Unknown.
+	 *
+	 * @return void
 	 */
 	bind: function() {
 
@@ -88,7 +100,6 @@ LLMS.StudentDashboard = {
 
 		// this will remove the required by default without having to mess with
 		// conditionals in PHP and still allows the required * to show in the label
-
 		if ( this.meter_exists ) {
 
 			$( '.llms-person-form.edit-account' ).on( 'llms-password-strength-ready', function() {
@@ -108,11 +119,11 @@ LLMS.StudentDashboard = {
 	},
 
 	/**
-	 * Bind events related to the orders screen on the dashboard
+	 * Bind events related to the orders screen on the dashboard.
 	 *
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	bind_orders: function() {
 
@@ -124,12 +135,44 @@ LLMS.StudentDashboard = {
 
 	},
 
+
 	/**
-	 * Get the current dashboard endpoint/tab slug
+	 * Bind events related to the email fields on the dashboard's edit account screen.
 	 *
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	bind_email_fields: function() {
+
+		var $email_confirm = $( '#email_address_confirm' ),
+			$email         = $( '#email_address' );
+
+		function maybe_require_email_address_confirm() {
+			if ( $email.data( 'llms-original-email' ) !== $email.val() ) {
+				if ( 'required' !== $email_confirm.attr( 'required' ) ) {
+					$( '<span class="llms-required">*</span>' ).insertBefore( $email_confirm.attr( 'required', 'required' ) );
+				}
+			} else {
+				$email_confirm.removeAttr( 'required' ).prev( '.llms-required' ).remove();
+			}
+		}
+
+		$email.on( 'focusout', maybe_require_email_address_confirm )
+			  .closest( 'form' ).submit( function() {
+				  maybe_require_email_address_confirm();
+				  return true;
+			  });
+
+	},
+
+
+	/**
+	 * Get the current dashboard endpoint/tab slug.
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	get_screen: function() {
 		if ( ! this.screen ) {
@@ -139,12 +182,12 @@ LLMS.StudentDashboard = {
 	},
 
 	/**
-	 * Show a confirmation warning when Cancel Subscription form is submitted
+	 * Show a confirmation warning when Cancel Subscription form is submitted.
 	 *
-	 * @param    obj   e  JS event data
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 * @since 3.10.0
+	 *
+	 * @param obj e JS event data.
+	 * @return void
 	 */
 	order_cancel_warning: function( e ) {
 		e.preventDefault();
@@ -156,12 +199,13 @@ LLMS.StudentDashboard = {
 	},
 
 	/**
-	 * Toggle password related fields on the account edit page
+	 * Toggle password related fields on the account edit page.
 	 *
-	 * @param    string   action  [show|hide]
-	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.7.4
+	 * @since 3.7.0
+	 * @since 3.7.4 Unknown.
+	 *
+	 * @param string action[show|hide]
+	 * @return void
 	 */
 	password_toggle: function( action ) {
 
