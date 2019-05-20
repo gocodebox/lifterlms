@@ -1,6 +1,6 @@
 <?php
 /**
- * Metaboxe for Student Enrollment Information via the Order interface
+ * Metabox for Student Enrollment Information via the Order interface
  *
  * @since 3.0.0
  * @version [version]
@@ -9,7 +9,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metaboxe for Student Enrollment Information via the Order interface
+ * Metabox for Student Enrollment Information via the Order interface
  *
  * @since 3.0.0
  * @since [version] Added the logic to handle the Enrollment 'deleted' status on save.
@@ -95,7 +95,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		echo '<input name="llms_student_old_enrollment_status" type="hidden" value="' . $current_status . '">';
 
 		echo '<input name="llms_update_enrollment_status" type="submit" class="llms-button-secondary small" value="' . __( 'Update Status', 'lifterlms' ) . '"> ';
-		if ( 'enrolled' !== $current_status ) {
+		if ( $current_status && 'enrolled' !== $current_status ) {
 			echo '<input name="llms_delete_enrollment_status" type="submit" class="llms-button-danger small" value="' . __( 'Delete Enrollment', 'lifterlms' ) . '">';
 		}
 
