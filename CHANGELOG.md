@@ -13,6 +13,7 @@ v3.32.? - 2019-05-??
 
 + When an order is deleted, student enrollment records for that order will be removed. This fixes an issue causing admins to not be able to manage the enrollment status of a student enrolled via a deleted order.
 + Fix issue causing errors when using the `[lifterlms_lesson_mark_complete]` shortcode on course post types.
++ Fixed an issue causing quiz questions to generate publicly accessible permalinks which could be indexed by search engines.
 
 ##### Templates Changed
 
