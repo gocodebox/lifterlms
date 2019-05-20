@@ -1,8 +1,10 @@
 <?php
 /**
- * View an Order
- * @since    3.0.0
- * @version  3.19.0
+ * View an Order.
+ *
+ * @since 3.0.0
+ * @since [version] Pass the current order object instance as param for all the actions and filters.
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -16,7 +18,7 @@ $order_status = $order->get( 'status' );
 llms_print_notices();
 ?>
 
-<div class="llms-sd-section llms-view-order<?php echo apply_filters( 'llms_sd_stacked_order_layout', false ) ? ' llms-stack-cols' : ''; ?>">
+<div class="llms-sd-section llms-view-order<?php echo apply_filters( 'llms_sd_stacked_order_layout', false, $order ) ? ' llms-stack-cols' : ''; ?>">
 
 	<?php if ( ! $order ) : ?>
 		<p><?php _e( 'Invalid Order', 'lifterlms' ); ?></p>
@@ -27,7 +29,7 @@ llms_print_notices();
 			<span class="llms-status <?php echo $order_status; ?>"><?php echo $order->get_status_name(); ?></span>
 		</h2>
 
-		<?php do_action( 'lifterlms_before_view_order_table' ); ?>
+		<?php do_action( 'lifterlms_before_view_order_table', $order ); ?>
 
 		<section class="order-primary">
 
@@ -160,7 +162,7 @@ llms_print_notices();
 					</tr>
 					<?php endif; ?>
 
-					<?php do_action( 'lifterlms_view_order_table_body' ); ?>
+					<?php do_action( 'lifterlms_view_order_table_body', $order ); ?>
 				</tbody>
 			</table>
 		</section>
@@ -178,7 +180,7 @@ llms_print_notices();
 
 				<?php endif; ?>
 
-				<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true ) && in_array( $order_status, array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
+				<?php if ( apply_filters( 'llms_allow_subscription_cancellation', true, $order ) && in_array( $order_status, array( 'llms-active', 'llms-on-hold' ) ) ) : ?>
 
 					<form action="" id="llms-cancel-subscription-form" method="POST">
 
@@ -209,7 +211,7 @@ llms_print_notices();
 			'transactions' => $transactions,
 		) ); ?>
 
-		<?php do_action( 'lifterlms_after_view_order_table' ); ?>
+		<?php do_action( 'lifterlms_after_view_order_table', $order ); ?>
 
 	<?php endif; ?>
 </div>
