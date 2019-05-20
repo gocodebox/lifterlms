@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
 global $post;
 
 $lesson = llms_get_post( $post );
-if ( ! $lesson || ! is_a( $post, 'LLMS_Lesson' ) ) {
+if ( ! $lesson || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 	return;
 }
 
