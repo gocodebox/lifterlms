@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
+ * @since [version] `llms_question` post type is not publicly queryable anymore.
  */
 class LLMS_Post_Types {
 
@@ -238,8 +239,10 @@ class LLMS_Post_Types {
 	/**
 	 * Register Post Types.
 	 *
-	 * @since    1.0.0
-	 * @version  3.26.0
+	 * @since 1.0.0
+	 * @since [version] `llms_question` post type is not publicly queryable anymore.
+	 *
+	 * @return void
 	 */
 	public static function register_post_types() {
 
@@ -391,39 +394,35 @@ class LLMS_Post_Types {
 
 		// Quiz Question
 		self::register_post_type( 'llms_question', array(
-			'labels' => array(
-				'name' => __( 'Questions', 'lifterlms' ),
-				'singular_name' => __( 'Question', 'lifterlms' ),
-				'add_new' => __( 'Add Question', 'lifterlms' ),
-				'add_new_item' => __( 'Add New Question', 'lifterlms' ),
-				'edit' => __( 'Edit', 'lifterlms' ),
-				'edit_item' => __( 'Edit Question', 'lifterlms' ),
-				'new_item' => __( 'New Question', 'lifterlms' ),
-				'view' => __( 'View Question', 'lifterlms' ),
-				'view_item' => __( 'View Question', 'lifterlms' ),
-				'search_items' => __( 'Search Questions', 'lifterlms' ),
-				'not_found' => __( 'No Questions found', 'lifterlms' ),
+			'labels'              => array(
+				'name'               => __( 'Questions', 'lifterlms' ),
+				'singular_name'      => __( 'Question', 'lifterlms' ),
+				'add_new'            => __( 'Add Question', 'lifterlms' ),
+				'add_new_item'       => __( 'Add New Question', 'lifterlms' ),
+				'edit'               => __( 'Edit', 'lifterlms' ),
+				'edit_item'          => __( 'Edit Question', 'lifterlms' ),
+				'new_item'           => __( 'New Question', 'lifterlms' ),
+				'view'               => __( 'View Question', 'lifterlms' ),
+				'view_item'          => __( 'View Question', 'lifterlms' ),
+				'search_items'       => __( 'Search Questions', 'lifterlms' ),
+				'not_found'          => __( 'No Questions found', 'lifterlms' ),
 				'not_found_in_trash' => __( 'No Questions found in trash', 'lifterlms' ),
-				'parent' => __( 'Parent Questions', 'lifterlms' ),
-				'menu_name' => _x( 'Quiz Questions', 'Admin menu name', 'lifterlms' ),
+				'parent'             => __( 'Parent Questions', 'lifterlms' ),
+				'menu_name'          => _x( 'Quiz Questions', 'Admin menu name', 'lifterlms' ),
 			),
-			'description' => __( 'This is where you can view all of the Quiz Questions.', 'lifterlms' ),
-			'public' => true,
-			'show_ui' => false,
-			'map_meta_cap' => true,
-			'capabilities' => self::get_post_type_caps( 'question' ),
-			'publicly_queryable' => true,
+			'description'         => __( 'This is where you can view all of the Quiz Questions.', 'lifterlms' ),
+			'public'              => false,
+			'show_ui'             => false,
+			'map_meta_cap'        => true,
+			'capabilities'        => self::get_post_type_caps( 'question' ),
+			'publicly_queryable'  => false,
 			'exclude_from_search' => true,
-			'show_in_menu' => 'edit.php?post_type=course',
-			'hierarchical' => false,
-			'rewrite' => array(
-				'slug' => _x( 'llms_question', 'quiz question url slug', 'lifterlms' ),
-				'with_front' => false,
-				'feeds' => true,
-			),
-			'show_in_nav_menus' => false,
-			'query_var' => true,
-			'supports' => array( 'title', 'editor' ),
+			'show_in_menu'        => 'edit.php?post_type=course',
+			'hierarchical'        => false,
+			'rewrite'             => false,
+			'show_in_nav_menus'   => false,
+			'query_var'           => false,
+			'supports'            => array( 'title', 'editor' ),
 		) );
 
 		// Memberships
