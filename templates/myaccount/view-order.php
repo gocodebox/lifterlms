@@ -3,7 +3,7 @@
  * View an Order.
  *
  * @since 3.0.0
- * @since [version] Pass the current order object instance as param for all the actions and filters.
+ * @since [version] Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
  * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
@@ -19,10 +19,6 @@ llms_print_notices();
 ?>
 
 <div class="llms-sd-section llms-view-order<?php echo apply_filters( 'llms_sd_stacked_order_layout', false, $order ) ? ' llms-stack-cols' : ''; ?>">
-
-	<?php if ( ! $order ) : ?>
-		<p><?php _e( 'Invalid Order', 'lifterlms' ); ?></p>
-	<?php else : ?>
 
 		<h2 class="order-title">
 			<?php printf( __( 'Order #%d', 'lifterlms' ), $order->get( 'id' ) ); ?>
