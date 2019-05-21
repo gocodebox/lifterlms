@@ -45,16 +45,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.4.1",
+            "version": "1.5.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "474f66124fd7461a63cfaf1b628bc049992b3f36"
+                "reference": "bd7b44e9e3ddce644d0f01268b5d17e9f84667b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/474f66124fd7461a63cfaf1b628bc049992b3f36",
-                "reference": "474f66124fd7461a63cfaf1b628bc049992b3f36",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/bd7b44e9e3ddce644d0f01268b5d17e9f84667b4",
+                "reference": "bd7b44e9e3ddce644d0f01268b5d17e9f84667b4",
                 "shasum": ""
             },
             "require-dev": {
@@ -75,7 +75,7 @@
                 }
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
-            "time": "2019-05-13T19:49:34+00:00"
+            "time": "2019-05-17T20:04:51+00:00"
         },
         {
             "name": "prospress/action-scheduler",

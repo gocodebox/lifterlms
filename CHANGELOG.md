@@ -10,6 +10,12 @@ v3.33.0 - 2019-05-21
 + Catalogs sorted by Order (`menu_order`) now have an additional sort (by post title) to improve ordering consistency for items with the same order, thanks [@pondermatic](https://github.com/pondermatic)!
 + Hooks in the dashboard order review template now pass the `LLMS_Order`.
 
+##### LifterLMS Blocks
+
++ Updated to version 1.5.1
++ All blocks are now registered only for post types where they can actually be used.
++ Only register block visibility settings on static blocks. Fixes an issue causing core (or 3rd party) dynamic blocks from being managed within the block editor.
+
 ##### Bug Fixes
 
 + If an enrolled student accesses checkout for a course/membership they're already enrolled in they will be shown a message stating as much.
