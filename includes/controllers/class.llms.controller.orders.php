@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Controller_Orders class.
  * @since 3.0.0
- * @since [version] Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
+ * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
  */
 class LLMS_Controller_Orders {
 
@@ -20,7 +20,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.19.0 Updated.
-	 * @since [version] Added `before_delete_post` action to handle order deletion
+	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion
 	 */
 	public function __construct() {
 
@@ -315,7 +315,7 @@ class LLMS_Controller_Orders {
 	 * Called when a post is permanently deleted.
 	 * Will delete any enrollment records linked to the LLMS_Order with the ID of the deleted post
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @return void

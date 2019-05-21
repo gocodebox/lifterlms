@@ -1,8 +1,8 @@
 <?php
 /**
  * Unit Test Case with tests and utilities specific to testing LifterLMS post type Metabox classes.
- * @since [version]
- * @version [version]
+ * @since 3.33.0
+ * @version 3.33.0
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -10,7 +10,7 @@ require_once 'class-llms-unit-test-case.php';
 class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 
 	/**
-	 * @since [version]
+	 * @since 3.33.0
 	 */
 	public static function setUpBeforeClass() {
 		// manually include required files

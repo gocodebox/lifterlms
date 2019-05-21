@@ -3,7 +3,7 @@
  * LifterLMS Unit Test Case Base class
  *
  * @since 3.3.1
- * @since [version] Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
+ * @since 3.33.0 Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -23,7 +23,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 * Setup Get data to mock post and request data
 	 *
 	 * @since 3.19.0
-	 * @deprecated [version] Use $this->mockGetRequest() from lifterlms/lifterlms-tests lib.
+	 * @deprecated 3.33.0 Use $this->mockGetRequest() from lifterlms/lifterlms-tests lib.
 	 *
 	 * @param array $vars  mock get data
 	 * @return void
@@ -36,7 +36,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 * Setup Post data to mock post and request data
 	 *
 	 * @since 3.19.0
-	 * @deprecated [version] Use $this->mockPostRequest() from lifterlms/lifterlms-tests lib.
+	 * @deprecated 3.33.0 Use $this->mockPostRequest() from lifterlms/lifterlms-tests lib.
 	 *
 	 * @param array $vars mock post data.
 	 * @return void

@@ -8,8 +8,8 @@
  *
  * @since 3.19.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
- * @since [version] Add test for the `on_delete_order` method.
- * @version [version]
+ * @since 3.33.0 Add test for the `on_delete_order` method.
+ * @version 3.33.0
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -200,7 +200,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * test delete order
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */

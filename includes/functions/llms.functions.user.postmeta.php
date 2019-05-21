@@ -3,9 +3,9 @@
  * CRUD LifterLMS User Postmeta Data
  * All functions are pluggable
  * @since 3.21.0
- * @since [version] Added `llms_bulk_delete_user_postmeta`.
+ * @since 3.33.0 Added `llms_bulk_delete_user_postmeta`.
  *                  Also now `llms_delete_user_postmeta` returns true only if at least one existing user postmeta has been successfully deleted.
- * @version [version]
+ * @version 3.33.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -14,7 +14,7 @@ if ( ! function_exists( 'llms_delete_user_postmeta' ) ) :
 	 * Delete user postmeta data
 	 *
 	 * @since 3.21.0
-	 * @since [version] Returns true only if at least one existing user postmeta has been successfully deleted.
+	 * @since 3.33.0 Returns true only if at least one existing user postmeta has been successfully deleted.
 	 *
 	 * @param int    $user_id    WP User ID
 	 * @param int    $post_id    WP Post ID
@@ -49,7 +49,7 @@ if ( ! function_exists( 'llms_bulk_delete_user_postmeta' ) ) :
 	/**
 	 * Bulk remove user postmeta data
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @param int   $user_id WP User ID
 	 * @param int   $post_id WP Post ID

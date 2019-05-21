@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
- * @since [version] `llms_question` post type is not publicly queryable anymore.
+ * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
  */
 class LLMS_Post_Types {
 
@@ -240,7 +240,7 @@ class LLMS_Post_Types {
 	 * Register Post Types.
 	 *
 	 * @since 1.0.0
-	 * @since [version] `llms_question` post type is not publicly queryable anymore.
+	 * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
 	 *
 	 * @return void
 	 */

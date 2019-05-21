@@ -401,7 +401,7 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
 /**
  * Delete LifterLMS Student's Enrollment record related to a given product.
  *
- * @since [version]
+ * @since 3.33.0
  * @param  int    $user_id     WP User ID.
  * @param  int    $product_id  WP Post ID of the Course or Membership.
  * @param  string $trigger     Optional. Only delete the student enrollment if the original enrollment trigger matches the submitted value

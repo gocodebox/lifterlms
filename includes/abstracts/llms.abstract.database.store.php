@@ -2,7 +2,7 @@
 /**
  * WPDB database interactions
  * @since 3.14.0
- * @version [version]
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -10,7 +10,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WPDB database interactions
  * @since 3.14.0
- * @since [version] `setup()` method returns self instead of void.
+ * @since 3.33.0 `setup()` method returns self instead of void.
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -178,7 +178,7 @@ abstract class LLMS_Abstract_Database_Store {
 	 * Setup an object with an array of data
 	 *
 	 * @since 3.14.0
-	 * @since [version] Return self for chaining instead of void.
+	 * @since 3.33.0 Return self for chaining instead of void.
 	 *
 	 * @param array $data key => val
 	 * @return self

@@ -4,16 +4,16 @@
  * @group LLMS_Student
  * @group LLMS_Student_Model
  *
- * @since [version]
+ * @since 3.33.0
  *
- * @version [version]
+ * @version 3.33.0
  */
 class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */
@@ -35,7 +35,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	/**
 	* Functional test for the enroll() method.
 	*
-	* @since [version]
+	* @since 3.33.0
 	* @see user/class-llms-test-student.php for integration tests.
 	*
 	* @return void
@@ -76,7 +76,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	/**
 	 * Functional test for the unenroll() method.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 * @see user/class-llms-test-student.php for integration tests.
 	 *
 	 * @return void
@@ -115,7 +115,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	/**
 	 * Functional test for the delete_enrollment() method.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 * @see user/class-llms-test-student.php for integration tests.
 	 *
 	 * @return void

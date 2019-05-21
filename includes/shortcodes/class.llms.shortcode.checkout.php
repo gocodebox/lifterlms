@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
- * @since [version] Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
+ * @since 3.33.0 Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -36,7 +36,7 @@ class LLMS_Shortcode_Checkout {
 	 * Renders the checkout template
 	 *
 	 * @since 1.0.0
-	 * @since [version] Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
+	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
 	 *
 	 * @param array $atts Shortcode attributes array.
 	 * @return void

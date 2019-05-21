@@ -5,8 +5,8 @@
  * @group user_postmeta
  *
  * @since 3.21.0
- * @since [version] Add test for the `llms_bulk_delete_user_postmeta` function.
- * @version [version]
+ * @since 3.33.0 Add test for the `llms_bulk_delete_user_postmeta` function.
+ * @version 3.33.0
  */
 class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 
@@ -90,7 +90,7 @@ class LLMS_Test_Functions_User_Postmeta extends LLMS_UnitTestCase {
 	/**
 	 * Test the bulk_delete_user_postmeta() method.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */

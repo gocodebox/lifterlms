@@ -2,7 +2,7 @@
  * LifterLMS Students Metabox Functions
  *
  * @since 3.0.0
- * @since [version] Added the logic to handle the Student's enrollment deletion.
+ * @since 3.33.0 Added the logic to handle the Student's enrollment deletion.
  */
 ( function( $, undefined ) {
 
@@ -34,7 +34,7 @@
 		 *
 		 * @since 3.0.0
 		 * @since 3.4.0 Unknown.
-		 * @since [version] Added enrollment deletion handlers.
+		 * @since 3.33.0 Added enrollment deletion handlers.
 		 *
 		 * @return void
 		 */
@@ -129,7 +129,7 @@
 		/**
 		 * Delete a Student's enrollment.
 		 *
-		 * @since [version]
+		 * @since 3.33.0
 		 *
 		 * @param  obj  $el  jQuery selector of the add button.
 		 * @return void

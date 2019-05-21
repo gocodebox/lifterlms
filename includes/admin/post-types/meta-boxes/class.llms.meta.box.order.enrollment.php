@@ -3,7 +3,7 @@
  * Metabox for Student Enrollment Information via the Order interface
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Metabox for Student Enrollment Information via the Order interface
  *
  * @since 3.0.0
- * @since [version] Added the logic to handle the Enrollment 'deleted' status on save.
+ * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status on save.
  */
 class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 
@@ -47,7 +47,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * Passes output instruction to parent.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added 'Delete Enrollment' button.
+	 * @since 3.33.0 Added 'Delete Enrollment' button.
 	 *
 	 * @param  object $post WP global post object
 	 * @return void
@@ -105,7 +105,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * Save method.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added the logic to handle the Enrollment 'deleted' status.
+	 * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return void
@@ -127,7 +127,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	/**
 	 * Delete enrollment data based on posted values.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @param int $post_id WP_Post ID of the order.
 	 * @return void
@@ -150,7 +150,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	/**
 	 * Update enrollment data based on posted values.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @param int $post_id WP_Post ID of the order.
 	 * @return void

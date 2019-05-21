@@ -3,7 +3,7 @@
  * Student Management table on Courses and Memberships
  *
  * @since 3.4.0
- * @version [version]
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
  * Student Management table on Courses and Memberships class.
  *
  * @since 3.4.0
- * @since [version] Added table action button to delete a cancelled enrollment.
- * @since [version] Added popover tooltip to the table action button icons via llms tooltip data attribute api.
+ * @since 3.33.0 Added table action button to delete a cancelled enrollment.
+ * @since 3.33.0 Added popover tooltip to the table action button icons via llms tooltip data attribute api.
  */
 class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
@@ -78,8 +78,8 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * Retrieve data for the columns
 	 *
 	 * @since 3.4.0
-	 * @since [version] Added action button to delete a cancelled enrollment.
-	 * @since [version] Added icon popover tooltip via llms tooltip data attribute api.
+	 * @since 3.33.0 Added action button to delete a cancelled enrollment.
+	 * @since 3.33.0 Added icon popover tooltip via llms tooltip data attribute api.
 	 *
 	 * @param string $key The column id / key.
 	 * @param int $user_id WP User ID.

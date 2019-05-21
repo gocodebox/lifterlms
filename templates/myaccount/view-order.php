@@ -3,8 +3,8 @@
  * View an Order.
  *
  * @since 3.0.0
- * @since [version] Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
- * @version [version]
+ * @since 3.33.0 Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;

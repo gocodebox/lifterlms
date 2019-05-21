@@ -167,7 +167,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test the errors returned by the LLMS_AJAX_Handler::update_student_enrollment() method.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */
@@ -263,7 +263,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test the update_student_enrollment() method can perform user's enrollment
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */
@@ -291,7 +291,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test the update_student_enrollment() method can perform user's unenrollment
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */
@@ -322,7 +322,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test the update_student_enrollment() method can perform user's enrollment deletion
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */

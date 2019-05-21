@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version [version]
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,8 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Student model class.
  *
  * @since 2.2.3
- * @since [version] Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
- * @since [version] Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
+ * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
+ * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1207,7 +1207,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Remove student enrollment postmeta for a given product.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @param int    $product_id WP Post ID of the course or membership.
 	 * @param string $trigger    Optional. String the reason for enrollment. Default `null`
@@ -1465,7 +1465,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Delete a student enrollment.
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @see llms_delete_student_enrollment() calls this function without having to instantiate the LLMS_Student class first.
 	 *

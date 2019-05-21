@@ -4,7 +4,7 @@
 * Handles queries and endpoints.
 *
 * @since 1.0.0
-* @version [version]
+* @version 3.33.0
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
- * @since [version] Added catalog secondary sorting by `post_title` when the primary sort is `menu_order`.
+ * @since 3.33.0 Added catalog secondary sorting by `post_title` when the primary sort is `menu_order`.
  */
 class LLMS_Query {
 
@@ -167,7 +167,7 @@ class LLMS_Query {
 	 *
 	 * @since 1.4.4 Moved from LLMS_Post_Types.
 	 * @since 3.16.8
-	 * @since [version] Added `post_title` as a secondary sort when the primary sort is `menu_order`
+	 * @since 3.33.0 Added `post_title` as a secondary sort when the primary sort is `menu_order`
 	 *
 	 * @param WP_Query $query Main WP_Query Object.
 	 * @return void

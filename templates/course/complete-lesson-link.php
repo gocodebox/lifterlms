@@ -5,8 +5,8 @@
  * Take Quiz Button when quiz attached
  *
  * @since 1.0.0
- * @since [version] Only render on lesson post types.
- * @version [version]
+ * @since 3.33.0 Only render on lesson post types.
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;

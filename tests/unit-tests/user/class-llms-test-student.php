@@ -3,7 +3,7 @@
  * Tests for LifterLMS Student Functions
  * @group LLMS_Student
  * @since 3.5.0
- * @since [version] Add delete enrollment tests.
+ * @since 3.33.0 Add delete enrollment tests.
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -210,7 +210,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test get_enrollment_date()
 	 *
 	 * @since 3.17.0
-	 * @since [version] Add test after enrollment deletion.
+	 * @since 3.33.0 Add test after enrollment deletion.
 	 *
 	 * @return void
 	 */
@@ -313,7 +313,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test get_enrollment_status()
 	 *
 	 * @since 3.17.0
-	 * @since [version] Add test after enrollment deletion.
+	 * @since 3.33.0 Add test after enrollment deletion.
 	 *
 	 * @return void
 	 */
@@ -459,7 +459,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 * Test is_enrolled() method
 	 *
 	 * @since 3.25.0
-	 * @since [version] Add test after enrollment deletion.
+	 * @since 3.33.0 Add test after enrollment deletion.
 	 *
 	 * @return void
 	 */

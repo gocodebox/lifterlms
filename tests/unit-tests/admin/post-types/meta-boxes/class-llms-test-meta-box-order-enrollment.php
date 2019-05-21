@@ -8,15 +8,15 @@
  * @group metaboxes
  * @group LLMS_Meta_Box_Order_Enrollment
  *
- * @since [version]
- * @version [version]
+ * @since 3.33.0
+ * @version 3.33.0
  */
 class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * test the LLMS_Meta_Box_Order_Enrollment save method
 	 *
-	 * @since [version]
+	 * @since 3.33.0
 	 *
 	 * @return void
 	 */
