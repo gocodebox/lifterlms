@@ -6,6 +6,7 @@
  * @since [version] Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
  * @version [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 if ( ! $order ) {
