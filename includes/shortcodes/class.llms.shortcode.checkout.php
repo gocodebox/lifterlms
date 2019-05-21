@@ -62,14 +62,15 @@ class LLMS_Shortcode_Checkout {
 		}
 
 		if ( self::$uid ) {
-			// ensure the user isn't enrolled in the product being purchased
+			// ensure the user isn't enrolled in the product being purchased.
 			if ( isset( $atts['product'] ) && llms_is_user_enrolled( self::$uid, $atts['product']->get( 'id' ) ) ) {
 
 				llms_print_notice( sprintf(
+					// Translators: %s = The product type (course/membership).
 					__( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ),
 					llms_get_page_url( 'myaccount' ),
 					$atts['product']->get_post_type_label()
-				), 'error' );
+				), 'notice' );
 				return;
 			}
 
