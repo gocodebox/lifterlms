@@ -8,9 +8,12 @@ v3.32.? - 2019-05-??
 
 + Added the ability for site administrators to delete (completely remove) enrollment records from the database.
 + Catalogs sorted by Order (`menu_order`) now have an additional sort (by post title) to improve ordering consistency for items with the same order, thanks [@pondermatic](https://github.com/pondermatic)!
++ Hooks in the dashboard order review template now pass the `LLMS_Order`.
 
 ##### Bug Fixes
 
++ If an enrolled student accesses checkout for a course/membership they're already enrolled in they will be shown a message stating as much.
++ Removed a redundant check for the existence of an order on the dashboard order review template.
 + When an order is deleted, student enrollment records for that order will be removed. This fixes an issue causing admins to not be able to manage the enrollment status of a student enrolled via a deleted order.
 + Fix issue causing errors when using the `[lifterlms_lesson_mark_complete]` shortcode on course post types.
 + Fixed an issue causing quiz questions to generate publicly accessible permalinks which could be indexed by search engines.
@@ -18,6 +21,7 @@ v3.32.? - 2019-05-??
 ##### Templates Changed
 
 + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/templates/myaccount/view-order.php)
 
 
 v3.32.0 - 2019-05-13
