@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2
-Stable tag: 3.32.0
+Stable tag: 3.33.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,35 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.33.0 - 2019-05-21 =
+------------------------
+
+##### Updates
+
++ Added the ability for site administrators to delete (completely remove) enrollment records from the database.
++ Catalogs sorted by Order (`menu_order`) now have an additional sort (by post title) to improve ordering consistency for items with the same order, thanks [@pondermatic](https://github.com/pondermatic)!
++ Hooks in the dashboard order review template now pass the `LLMS_Order`.
+
+##### LifterLMS Blocks
+
++ Updated to version 1.5.1
++ All blocks are now registered only for post types where they can actually be used.
++ Only register block visibility settings on static blocks. Fixes an issue causing core (or 3rd party) dynamic blocks from being managed within the block editor.
+
+##### Bug Fixes
+
++ If an enrolled student accesses checkout for a course/membership they're already enrolled in they will be shown a message stating as much.
++ Removed a redundant check for the existence of an order on the dashboard order review template.
++ When an order is deleted, student enrollment records for that order will be removed. This fixes an issue causing admins to not be able to manage the enrollment status of a student enrolled via a deleted order.
++ Fix issue causing errors when using the `[lifterlms_lesson_mark_complete]` shortcode on course post types.
++ Fixed an issue causing quiz questions to generate publicly accessible permalinks which could be indexed by search engines.
+
+##### Templates Changed
+
++ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
++ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/templates/myaccount/view-order.php)
+
+
 = v3.32.0 - 2019-05-13 =
 ------------------------
 
@@ -532,12 +561,5 @@ The following unused classes have been marked as deprecated and will be removed 
 
 + Fix issue causing blank "period" values on access plans from being updated.
 + Fix an issue preventing paid access plans from being switched to "Free".
-
-
-= v3.29.1 - 2019-02-27 =
-------------------------
-
-+ Automatically reorder access plans when a plan is deleted.
-+ Skip (don't create) empty plans passed to the access plan save method as a result of deleted access plans.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
