@@ -3,7 +3,7 @@
  * Analytics Widget Abstract
  *
  * @since 3.0.0
- * @version []
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
