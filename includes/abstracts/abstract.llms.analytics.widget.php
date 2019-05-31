@@ -3,7 +3,7 @@
  * Analytics Widget Abstract
  *
  * @since 3.0.0
- * @version 3.30.3
+ * @version []
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 *
 * @since 3.0.0
 * @since 3.30.3 Define undefined properties.
+* @since [version] In `set_order_data_query()` always set $order_clause variable to avoid PHP notices
 */
 abstract class LLMS_Analytics_Widget {
 
@@ -287,6 +288,7 @@ abstract class LLMS_Analytics_Widget {
 			$wheres_clause .= $where . "\r\n";
 		}
 
+		$order_clause = '';
 		if ( $order && $orderby ) {
 			$order_clause = 'ORDER BY ' . $orderby . ' ' . $order;
 		}
