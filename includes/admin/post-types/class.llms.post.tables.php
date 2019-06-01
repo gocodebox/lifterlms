@@ -65,31 +65,35 @@ class LLMS_Admin_Post_Tables {
 	 */
 	public function handle_link_actions() {
 
-		if ( ! isset( $_GET['action'] ) ) {
+		$action = llms_filter_input( INPUT_GET, 'action' );
+
+		if( empty( $action) ){
 			return;
 		}
 
-		if ( 'llms-clone-post' !== $_GET['action'] && 'llms-export-post' !== $_GET['action'] ) {
+		if ( 'llms-clone-post' !== $action && 'llms-export-post' !== $action ) {
 			return;
 		}
 
-		if ( ! isset( $_GET['post'] ) ) {
+		$post_id = llms_filter_input( INPUT_GET, 'post' );
+
+		if ( empty( $post_id ) ) {
 			wp_die( __( 'Missing post ID.', 'lifterlms' ) );
 		}
 
-		$post = get_post( $_GET['post'] );
+		$post = get_post( $post_id );
 
 		if ( ! $post ) {
 			wp_die( __( 'Invalid post ID.', 'lifterlms' ) );
 		}
 
-		if ( ! post_type_supports( $post->post_type, $_GET['action'] ) ) {
+		if ( ! post_type_supports( $post->post_type, $action ) ) {
 			wp_die( __( 'Action cannot be executed on the current post.', 'lifterlms' ) );
 		}
 
 		$post = llms_get_post( $post );
 
-		switch ( $_GET['action'] ) {
+		switch ( $action ) {
 
 			case 'llms-export-post':
 				$post->export();
