@@ -68,7 +68,7 @@ class LLMS_Admin_Post_Tables {
 		$action = llms_filter_input( INPUT_GET, 'action' );
 
 		// bail early if request doesn't concern us.
-		if ( empty( $action) ){
+		if ( empty( $action ) ){
 			return;
 		}
 
