@@ -68,7 +68,7 @@ class LLMS_Admin_Post_Tables {
 		$action = llms_filter_input( INPUT_GET, 'action' );
 
 		// bail early if request doesn't concern us.
-		if( empty( $action) ){
+		if ( empty( $action) ){
 			return;
 		}
 
@@ -97,7 +97,7 @@ class LLMS_Admin_Post_Tables {
 		}
 
 		// bail if user doesn't have permissions.
-		if( ! current_user_can( 'edit_course', $post->ID ) ) {
+		if ( ! current_user_can( 'edit_course', $post->ID ) ) {
 			wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 		}
 
