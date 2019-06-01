@@ -91,6 +91,10 @@ class LLMS_Admin_Post_Tables {
 			wp_die( __( 'Action cannot be executed on the current post.', 'lifterlms' ) );
 		}
 
+		if( ! current_user_can( 'edit_course', $post->ID ) ) {
+			wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
+		}
+
 		$post = llms_get_post( $post );
 
 		switch ( $action ) {
