@@ -35,7 +35,7 @@ class LLMS_Admin_Post_Tables {
 	 */
 	public function add_links( $actions, $post ) {
 
-		if ( current_user_can( 'edit_post', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
+		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
 			$url = add_query_arg( array(
 				'post_type' => $post->post_type,
 				'action' => 'llms-clone-post',
@@ -44,7 +44,7 @@ class LLMS_Admin_Post_Tables {
 			$actions['llms-clone'] = '<a href="' . esc_url( $url ) . '">' . __( 'Clone', 'lifterlms' ) . '</a>';
 		}
 
-		if ( current_user_can( 'edit_post', $post->ID ) && post_type_supports( $post->post_type, 'llms-export-post' ) ) {
+		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-export-post' ) ) {
 			$url = add_query_arg( array(
 				'post_type' => $post->post_type,
 				'action' => 'llms-export-post',
