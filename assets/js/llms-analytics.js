@@ -1,7 +1,9 @@
 /**
  * LifterLMS Admin Reporting Widgets & Charts
- * @since    3.0.0
- * @version  3.17.6
+ * @since 3.0.0
+ * @since [version] @since Fix issue that produced series options not aligned with the chart data
+ *
+ * @version [version]
  */
 ;( function( $, undefined ) {
 
@@ -149,7 +151,7 @@
 			if ( data.length ) {
 
 				data = google.visualization.arrayToDataTable( data );
-				data.sort([{column: 0}])
+				data.sort([{column: 0}]);
 				chart.draw( data, options );
 
 			}
@@ -473,10 +475,11 @@
 		};
 
 		/**
-		 * Get a object of series options needed to draw the chart
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * Get a object of series options needed to draw the chart.
+		 * @return void
+		 *
+		 * @since 3.0.0
+		 * @since Fix issue that produced series options not aligned with the chart data
 		 */
 		this.get_chart_series_options = function() {
 
@@ -498,9 +501,9 @@
 						targetAxisIndex: ( 'count' === type ) ? 1 : 0,
 					};
 
-				}
+					i++;
 
-				i++;
+				}
 
 			}
 
