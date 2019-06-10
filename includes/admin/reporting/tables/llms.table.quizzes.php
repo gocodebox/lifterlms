@@ -1,10 +1,19 @@
 <?php
+/**
+ * Quizzes Reporting Table.
+ *
+ * @since 3.16.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Quizzes Reporting Table
- * @since    3.16.0
- * @version  3.25.0
+ * Quizzes Reporting Table class.
+ *
+ * @since 3.16.0
+ * @since [version] Fixed an issue that allow instructors, who can only see their own reports,
+ *                  to see all the quizzes when they had no courses or courses with no lessons.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -183,11 +192,15 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.25.0
+	 * Execute a query to retrieve results from the table.
+	 *
+	 * @since 3.16.0
+	 * @since [version] Fixed an issue that allow instructors, who can only see their own reports,
+	 *                  to see all the quizzes when they had no courses or courses with no lessons.
+	 *
+	 * @param array $args Array of query args.
+	 * @return void
+	 *
 	 */
 	public function get_results( $args = array() ) {
 
@@ -240,6 +253,11 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			foreach ( $courses as $course ) {
 				$lessons = array_merge( $lessons, $course->get_lessons( 'ids' ) );
 			}
+
+			if ( empty( $lessons ) ) {
+				return;
+			}
+
 			$query_args['meta_query'] = array(
 				array(
 					'compare' => 'IN',
@@ -253,7 +271,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 			return;
 
-		}
+		}// End if().
 
 		$this->max_pages = $query->max_num_pages;
 
