@@ -86,6 +86,10 @@ final class LifterLMS {
 		//Include required files
 		$this->includes();
 
+		// load modules.
+		$this->load_modules();
+
+
 		// setup session stuff
 		$this->session = new LLMS_Session();
 
@@ -141,6 +145,7 @@ final class LifterLMS {
 			$this->modules_loaded[ $module[ 'name' ] ] = $module;
 
 		}
+
 	}
 
 	/**
