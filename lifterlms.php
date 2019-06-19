@@ -127,8 +127,6 @@ final class LifterLMS {
 		 */
 		$final_modules = apply_filters( 'lifterlms_modules', $this->load_module_info() );
 
-		$modules_loaded = array();
-
 		foreach ( $final_modules as $module ) {
 
 			// define the constant as true if it hasn't been defined by the user in wp-config.php or similar.
@@ -144,6 +142,11 @@ final class LifterLMS {
 			$this->modules_loaded[ $module['name'] ] = $module;
 
 		}
+
+		/**
+		 * Fires after all modules are loaded
+		 */
+		do_action( 'lifterlms_modules_loaded', $this->modules_loaded );
 
 	}
 
