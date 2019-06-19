@@ -106,7 +106,9 @@ final class LifterLMS {
 			LLMS_Tracker::init();
 		}
 
-		// Loaded action
+		/**
+		 * Fires after LifterLMS is loaded
+		 */
 		do_action( 'lifterlms_loaded' );
 
 	}
@@ -145,6 +147,9 @@ final class LifterLMS {
 
 		/**
 		 * Fires after all modules are loaded
+		 *
+		 * @since	[version]
+		 * @version	[version]
 		 */
 		do_action( 'lifterlms_modules_loaded', $this->modules_loaded );
 
