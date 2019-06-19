@@ -141,7 +141,7 @@ final class LifterLMS {
 				include_once $module['file_path'];
 			}
 
-			$this->modules_loaded[$module['name']] = $module;
+			$this->modules_loaded[ $module['name'] ] = $module;
 
 		}
 
