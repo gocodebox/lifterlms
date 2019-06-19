@@ -89,7 +89,6 @@ final class LifterLMS {
 		// load modules.
 		$this->load_modules();
 
-
 		// setup session stuff
 		$this->session = new LLMS_Session();
 
@@ -118,7 +117,7 @@ final class LifterLMS {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function load_modules(){
+	private function load_modules() {
 
 		/**
 		 * Filters list of LifterLMS modules to load.
@@ -130,19 +129,19 @@ final class LifterLMS {
 
 		$modules_loaded = array();
 
-		foreach( $final_modules as $module ){
+		foreach ( $final_modules as $module ) {
 
 			// define the constant as true if it hasn't been defined by the user in wp-config.php or similar.
-			if( ! defined( $module[ 'constant' ] ) ){
-				define( $module[ 'constant' ] , true );
+			if ( ! defined( $module['constant'] ) ) {
+				define( $module['constant'] , true );
 			}
 
 			// if the constant's value is true and the class file exists, include the module class
-			if( constant( $module[ 'constant' ] ) === true && file_exists( $module[ 'file_path' ] ) ){
-				include_once $module[ 'file_path' ];
+			if ( constant( $module['constant'] ) === true && file_exists( $module['file_path'] ) ) {
+				include_once $module['file_path'];
 			}
 
-			$this->modules_loaded[ $module[ 'name' ] ] = $module;
+			$this->modules_loaded[$module['name']] = $module;
 
 		}
 
@@ -154,7 +153,7 @@ final class LifterLMS {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function load_module_info(){
+	private function load_module_info() {
 
 		// get a list of directories inside the modules directory.
 		$directories = glob( LLMS_PLUGIN_DIR . 'includes/modules/*' , GLOB_ONLYDIR );
@@ -162,7 +161,7 @@ final class LifterLMS {
 		$modules = array();
 
 		// loop through every directory
-		foreach( $directories as $module ){
+		foreach ( $directories as $module ) {
 
 			// the name of the module is the same as the name of the directory. eg "certificate-builder"
 			$module_name = basename( $module );
@@ -176,7 +175,7 @@ final class LifterLMS {
 			$modules[ $module_name ] = array(
 				'name' => $module_name,
 				'file_path' => $module_class_file_path,
-				'constant' => $module_constant_name
+				'constant' => $module_constant_name,
 			);
 
 			unset( $module_name );
