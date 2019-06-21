@@ -225,8 +225,8 @@ class LLMS_Certificate_Migrator {
 			// copy meta key
 			$meta_key = $meta_info->meta_key;
 
-			// skip copying old slugs
-			if ( '_wp_old_slug' === $meta_key ) {
+			// skip copying old slugs and legacy certificate meta not needed by the builder
+			if ( '_wp_old_slug' === $meta_key || '_llms_certificate_title' === $meta_key || '_llms_certificate_image' === $meta_key ) {
 				continue;
 			}
 
