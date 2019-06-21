@@ -49,7 +49,7 @@ class LLMS_Certificate_Migrator {
 
 		$legacy = self::has_legacy( $certificate_id );
 
-		if ( false === $legacy  ) {
+		if ( false === $legacy ) {
 			return WP_Error( 'missing-legacy', __( 'Sorry! No legacied certificate found to rollback to.', 'lifterlms' ) );
 		}
 
@@ -190,7 +190,7 @@ class LLMS_Certificate_Migrator {
 
 		foreach ( $post_meta_infos as $meta_info ) {
 			$meta_key = $meta_info->meta_key;
-			if( '_wp_old_slug' === $meta_key ) {
+			if ( '_wp_old_slug' === $meta_key ) {
 				continue;
 			}
 			$meta_value = addslashes( $meta_info->meta_value );
@@ -214,7 +214,7 @@ class LLMS_Certificate_Migrator {
 	public static function delete_legacy( $certificate_id ) {
 		$legacy = self::has_legacy( $certificate_id );
 
-		if ( $legacy === false ) {
+		if ( false === $legacy ) {
 			return WP_Error( 'missing-legacy', __( 'No legacy found for deletion.', 'lifterlms' ) );
 		}
 
