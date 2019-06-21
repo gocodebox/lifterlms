@@ -9,8 +9,10 @@ if ( ! LLMS_CERTIFICATE_BUILDER ) {
 
 /**
  * Helper class that handles Certificate Migration and Rollbacks
+ *
  * @since [version]
  * @version [version]
+ * @todo Better error handling
  */
 class LLMS_Certificate_Migrator {
 
@@ -24,11 +26,13 @@ class LLMS_Certificate_Migrator {
 	 */
 	public static function migrate( $certificate_id ) {
 
+		// legacy current certificate and get the new certificate.
 		$new_certificate = $self::legacy( $certificate_id );
 
+		// redirect to new certificate's editor.
 		wp_safe_redirect( add_query_arg(
 			array(
-				'llms-certificate-migrate' => true,
+				'llms-certificate-migrate' => true, // special query parameter to trigger content migration.
 			),
 			get_edit_post_link( $new_certificate )
 		) );
@@ -47,17 +51,36 @@ class LLMS_Certificate_Migrator {
 	 */
 	public static function rollback( $certificate_id ) {
 
+		// check if a legacied version exists.
 		$legacy = self::has_legacy( $certificate_id );
 
+		// throw error if no legacied version was found.
 		if ( false === $legacy ) {
 			return WP_Error( 'missing-legacy', __( 'Sorry! No legacied certificate found to rollback to.', 'lifterlms' ) );
 		}
 
+		// swap back engagements.
 		self::swap_engagements( $certificate_id, $legacy->ID );
 
+		// get the current certificates status.
+		$post_status = get_post_status( $certificate_id );
+
+		// maintain the post status during rollback to legacy.
+		wp_update_post( array(
+			'post_id' => $legacy->ID,
+			'post_status' => $post_status,
+		) );
+
+		// legacy the current certificate.
+		wp_update_post( array(
+			'post_id' => $certificate_id,
+			'post_status' => 'legacy',
+		) );
+
+		// redirect to restored legacy certificate
 		wp_safe_redirect( add_query_arg(
 			array(
-				'llms-certificate-migrated' => true,
+				'llms-certificate-legacied' => true, // special query parameter to trigger content migration.
 			),
 			get_edit_post_link( $legacy->ID )
 		) );
@@ -78,12 +101,12 @@ class LLMS_Certificate_Migrator {
 
 		$certificate = get_post( $certificate_id, ARRAY_A );
 
-		// check if this is already an legacied certificate.
+		// check if this is already a legacied certificate.
 		if ( 0 !== $certificate['post_parent'] || 'legacy' === $certificate['post_status'] ) {
 			return WP_Error( 'is-legacy', __( 'This is already an legacied version!', 'lifterlms' ) );
 		}
 
-		//  check if this already has an legacy
+		//  check if this already has a legacy.
 		if ( false !== self::has_legacy( $certificate_id ) ) {
 			return WP_Error( 'has-legacy', __( 'An legacied version already exists. Please delete it to legacy this certificate.', 'lifterlms' ) );
 		}
@@ -91,10 +114,10 @@ class LLMS_Certificate_Migrator {
 		// unset ID so that a new post is created instead of simply updating the existing post.
 		unset( $certificate['ID'] );
 
-		// insert new post with the same data as the current post
+		// insert new post with the same data as the current post.
 		$new_certificate_id = wp_insert_post( $certificate );
 
-		// change post status of current certificate ($certificate_id) to legacied.
+		// change post status of current certificate ($certificate_id) to legacied and set new certificate as parent.
 		$legacied_certificate_args = array(
 			'post_id' => $certificate_id,
 			'post_status' => 'legacy',
@@ -103,10 +126,10 @@ class LLMS_Certificate_Migrator {
 
 		wp_update_post( $legacied_certificate_args );
 
-		// Copy all metadata
+		// copy all metadata.
 		self::duplicate_meta( $certificate_id, $new_certificate_id );
 
-		// swap engagement $engagement
+		// swap engagements.
 		self::swap_engagements( $certificate_id, $new_certificate_id );
 
 		// return new certificate ID.
@@ -132,15 +155,16 @@ class LLMS_Certificate_Migrator {
 			'meta_value' => $from_certificate_id,
 		) );
 
+		// no engagements found, bail
 		if ( empty( $engagements ) ) {
 			return false;
 		}
 
 		// swap the $old_certificate_id with the $new_certificate_id.
-
 		foreach ( $engagements as $engagemnet ) {
 			update_post_meta( $engagement->ID, '_llms_engagement', $to_certificate_id );
 		}
+
 		// return engagement/ engagement_id.
 		return $engagements;
 
@@ -151,12 +175,14 @@ class LLMS_Certificate_Migrator {
 	 *
 	 * @param int $certificate_id Certificate ID.
 	 *
-	 * @return WP_Post|bool
+	 * @return WP_Post|bool Legacy certificate's post data or 'false' if no legacy found.
 	 *
 	 * @since [version]
 	 * @version [version]
 	 */
 	public static function has_legacy( $certificate_id ) {
+
+		// set up arguments for get_children()
 		$legacied_args = array(
 			'numberposts' => 1,
 			'post_type'   => 'llms-certificate',
@@ -170,6 +196,8 @@ class LLMS_Certificate_Migrator {
 	}
 
 	/**
+	 * Duplicates all metadata of a post to another
+	 *
 	 * @param int $from_certificate_id Certificate ID to copy meta from
 	 * @param int $to_certificate_id Certificate ID to copy meta to
 	 *
@@ -180,29 +208,44 @@ class LLMS_Certificate_Migrator {
 	 */
 	private static function duplicate_meta( $from_certificate_id, $to_certificate_id ) {
 
+		// get all the current metadata rows.
 		$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$from_certificate_id" );
 
+		// if there's no metadata, return early.
 		if ( 0 === count( $post_meta_infos ) ) {
 			return;
 		}
 
+		// start insert query statement.
 		$sql_query = "INSERT INTO $wpdb->postmeta ( post_id, meta_key, meta_value ) ";
 
+		// create fragments for duplicating and inserting each metadata
 		foreach ( $post_meta_infos as $meta_info ) {
+
+			// copy meta key
 			$meta_key = $meta_info->meta_key;
+
+			// skip copying old slugs
 			if ( '_wp_old_slug' === $meta_key ) {
 				continue;
 			}
+
+			// copy meta value
 			$meta_value = addslashes( $meta_info->meta_value );
+
+			// setup copying to new post's ID
 			$sql_query_sel[] = "SELECT $to_certificate_id, '$meta_key', '$meta_value'";
 		}
 
+		// merge all metadata insertion fragments.
 		$sql_query .= implode( ' UNION ALL ', $sql_query_sel );
 
+		// run the bulk insertion of duplicated metadata.
 		return $wpdb->query( $sql_query );
 	}
 
 	/**
+	 * Deletes legacy version
 	 *
 	 * @param int $certificate_id Certificate ID.
 	 *
