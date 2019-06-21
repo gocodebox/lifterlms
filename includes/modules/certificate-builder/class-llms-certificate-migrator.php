@@ -2,7 +2,10 @@
 
 defined( 'ABSPATH' ) || exit;
 
-if( ! LLMS_CERTIFICATE_BUILDER ) return;
+if ( ! LLMS_CERTIFICATE_BUILDER ) {
+	exit;
+}
+
 
 /**
  * Helper class that handles Certificate Migration and Rollbacks
@@ -25,7 +28,7 @@ class LLMS_Certificate_Migrator {
 
 		wp_safe_redirect( add_query_arg(
 			array(
-				'llms-certificate-migrate' => true
+				'llms-certificate-migrate' => true,
 			),
 			get_edit_post_link( $new_certificate )
 		) );
@@ -46,15 +49,15 @@ class LLMS_Certificate_Migrator {
 
 		$legacy = self::has_legacy( $certificate_id );
 
-		if( $legacy === false ){
-			return WP_Error( 'missing-legacy', __( 'Sorry! No legacied certificate found to rollback to.', 'lifterlms' ));
+		if ( false === $legacy  ) {
+			return WP_Error( 'missing-legacy', __( 'Sorry! No legacied certificate found to rollback to.', 'lifterlms' ) );
 		}
 
 		self::swap_engagements( $certificate_id, $legacy->ID );
 
 		wp_safe_redirect( add_query_arg(
 			array(
-				'llms-certificate-migrated' => true
+				'llms-certificate-migrated' => true,
 			),
 			get_edit_post_link( $legacy->ID )
 		) );
@@ -76,12 +79,12 @@ class LLMS_Certificate_Migrator {
 		$certificate = get_post( $certificate_id, ARRAY_A );
 
 		// check if this is already an legacied certificate.
-		if ( $certificate['post_parent'] !== 0 || $certificate['post_status'] === 'legacy' ){
+		if ( 0 !== $certificate['post_parent'] || 'legacy' === $certificate['post_status'] ) {
 			return WP_Error( 'is-legacy', __( 'This is already an legacied version!', 'lifterlms' ) );
 		}
 
 		//  check if this already has an legacy
-		if( self::has_legacy( $certificate_id ) !== false ){
+		if ( false !== self::has_legacy( $certificate_id ) ) {
 			return WP_Error( 'has-legacy', __( 'An legacied version already exists. Please delete it to legacy this certificate.', 'lifterlms' ) );
 		}
 
@@ -92,7 +95,7 @@ class LLMS_Certificate_Migrator {
 		$new_certificate_id = wp_insert_post( $certificate );
 
 		// change post status of current certificate ($certificate_id) to legacied.
-		$legacied_certificate_args =  array(
+		$legacied_certificate_args = array(
 			'post_id' => $certificate_id,
 			'post_status' => 'legacy',
 			'post_parent' => $new_certificate_id,
@@ -129,13 +132,13 @@ class LLMS_Certificate_Migrator {
 			'meta_value' => $from_certificate_id,
 		) );
 
-		if( empty( $engagements ) ){
+		if ( empty( $engagements ) ) {
 			return false;
 		}
 
 		// swap the $old_certificate_id with the $new_certificate_id.
 
-		foreach( $engagements as $engagemnet ) {
+		foreach ( $engagements as $engagemnet ) {
 			update_post_meta( $engagement->ID, '_llms_engagement', $to_certificate_id );
 		}
 		// return engagement/ engagement_id.
@@ -153,7 +156,7 @@ class LLMS_Certificate_Migrator {
 	 * @since [version]
 	 * @version [version]
 	 */
-	public static function has_legacy( $certificate_id ){
+	public static function has_legacy( $certificate_id ) {
 		$legacied_args = array(
 			'numberposts' => 1,
 			'post_type'   => 'llms-certificate',
@@ -175,11 +178,11 @@ class LLMS_Certificate_Migrator {
 	 * @since [version]
 	 * @version [version]
 	 */
-	private static function duplicate_meta( $from_certificate_id, $to_certificate_id ){
+	private static function duplicate_meta( $from_certificate_id, $to_certificate_id ) {
 
 		$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$from_certificate_id" );
 
-		if ( count( $post_meta_infos ) === 0 ) {
+		if ( 0 === count( $post_meta_infos ) ) {
 			return;
 		}
 
@@ -187,12 +190,14 @@ class LLMS_Certificate_Migrator {
 
 		foreach ( $post_meta_infos as $meta_info ) {
 			$meta_key = $meta_info->meta_key;
-			if( $meta_key == '_wp_old_slug' ) continue;
+			if( '_wp_old_slug' === $meta_key ) {
+				continue;
+			}
 			$meta_value = addslashes( $meta_info->meta_value );
-			$sql_query_sel[]= "SELECT $to_certificate_id, '$meta_key', '$meta_value'";
+			$sql_query_sel[] = "SELECT $to_certificate_id, '$meta_key', '$meta_value'";
 		}
 
-		$sql_query.= implode( " UNION ALL ", $sql_query_sel );
+		$sql_query .= implode( ' UNION ALL ', $sql_query_sel );
 
 		return $wpdb->query( $sql_query );
 	}
@@ -206,10 +211,10 @@ class LLMS_Certificate_Migrator {
 	 * @since [version]
 	 * @version [version]
 	 */
-	public static function delete_legacy( $certificate_id ){
+	public static function delete_legacy( $certificate_id ) {
 		$legacy = self::has_legacy( $certificate_id );
 
-		if( $legacy === false ){
+		if ( $legacy === false ) {
 			return WP_Error( 'missing-legacy', __( 'No legacy found for deletion.', 'lifterlms' ) );
 		}
 
