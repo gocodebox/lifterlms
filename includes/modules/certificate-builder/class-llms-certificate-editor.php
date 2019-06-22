@@ -179,11 +179,11 @@ class LLMS_Certificate_Editor {
 		}
 
 		// set default overlay config to edit.
-		$this->current_overlay_config = $this->overlay_configs[ 'edit' ];
+		$this->current_overlay_config = $this->overlay_configs['edit'];
 
 		// override for add new screen.
-		if ( 'add' === $screen->action ){
-			$this->current_overlay_config = $this->overlay_configs[ 'add' ];
+		if ( 'add' === $screen->action ) {
+			$this->current_overlay_config = $this->overlay_configs['add'];
 		}
 
 		// add a build button alongside the Add Media button.
@@ -223,7 +223,7 @@ class LLMS_Certificate_Editor {
 
 		// override for legacy certificates
 		if ( llms_certificate_is_legacy( $post->ID ) ) {
-			$this->current_overlay_config = $this->overlay_configs[ 'legacy' ];
+			$this->current_overlay_config = $this->overlay_configs['legacy'];
 		}
 
 		/**
@@ -261,14 +261,14 @@ class LLMS_Certificate_Editor {
 			<div class="llms-editor-overlay-content">
 				<p><?php echo $current_overlay_config['title']; ?></p>
 				<?php
-					foreach ( $current_overlay_config['buttons'] as $button ) {
-						$classes = array( 'button' ) + $button['class'];
-						?>
-						<a href="#" class="<?php echo implode( ' ', $button['class'] ); ?>">
-							<?php echo $button['text']; ?>
-						</a>
-						<?php
-					}
+				foreach ( $current_overlay_config['buttons'] as $button ) {
+					$classes = array( 'button' ) + $button['class'];
+					?>
+					<a href="#" class="<?php echo implode( ' ', $button['class'] ); ?>">
+						<?php echo $button['text']; ?>
+					</a>
+					<?php
+				}
 				?>
 			</div>
 
