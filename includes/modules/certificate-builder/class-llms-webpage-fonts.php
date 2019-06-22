@@ -173,7 +173,7 @@ class LLMS_Webpage_Fonts {
 	private function load_url( $url = false ) {
 
 		// default to url prop
-		if( false === $url ){
+		if ( false === $url ) {
 			$url = $this->url;
 		}
 
