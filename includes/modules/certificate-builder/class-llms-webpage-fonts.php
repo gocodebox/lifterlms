@@ -233,6 +233,7 @@ class LLMS_Webpage_Fonts {
 		$inline_styles = $this->dom->getElementsByTagName( 'style' );
 
 		foreach ( $inline_styles as $inline_style ) {
+			// phpcs:ignore
 			$raw[] = $inline_style->nodeValue;
 		}
 
