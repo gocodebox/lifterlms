@@ -49,7 +49,12 @@ class LLMS_Certificate_Editor {
 		}
 
 		// add build mode parameter to post permalink.
-		$build_url = add_query_arg( array( 'llms_certificate_build_mode' => true ), get_permalink( $post->ID ) );
+		$build_url = add_query_arg(
+			array(
+				'llms_certificate_build_mode' => true,
+			),
+			get_permalink( $post->ID )
+		);
 
 		return $build_url;
 	}
@@ -68,13 +73,18 @@ class LLMS_Certificate_Editor {
 	public function build_action( $actions, $post ) {
 
 		// Only load for certificates and for appropriate permissions.
-		if ( $post->post_type === 'llms_certificate' && current_user_can( 'edit_post', $post->ID ) ) {
+		if ( 'llms_certificate' === $post->post_type && current_user_can( 'edit_post', $post->ID ) ) {
 
 			// Get the build url.
 			$build_url = $this->build_url( $post );
 
+			// Build action.
+			$build_action = array(
+				'build' => sprintf( '<a href="%1$s">%2$s</a>', $build_url, __( 'Build', 'lifterlms' ) )
+			);
+
 			// prepend build url to post actions.
-			$actions = array( 'build' => sprintf( '<a href="%1$s">%2$s</a>', $build_url, __( 'Build', 'lifterlms' ) ) ) + $actions;
+			$actions =  $build_action + $actions;
 		}
 
 		return $actions;
@@ -92,17 +102,17 @@ class LLMS_Certificate_Editor {
 		$screen = get_current_screen();
 
 		// if no post type is set, no point doing anything.
-		if ( !isset( $screen->post_type) ) {
+		if ( ! isset( $screen->post_type) ) {
 			return;
 		}
 
 		// only load for certificates.
-		if ( $screen->post_type != 'llms_certificate' ) {
+		if ( 'llms_certificate' !== $screen->post_type ) {
 			return;
 		}
 
 		// add a build button alongside the Add Media button.
-		add_action( 'media_buttons', array( $this, 'builder_button') );
+		add_action( 'media_buttons', array( $this, 'builder_button' ) );
 
 		// add overlay markup after the form. this will be moved in DOM by js.
 		add_action( 'edit_form_after_editor', array( $this, 'editor_overlay' ) );
@@ -141,7 +151,7 @@ class LLMS_Certificate_Editor {
 			<div class="llms-editor-overlay-content">
 				<p><?php _e( "LifterLMS's Builder is active on this certificate." ); ?></p>
 				<a href="#" class="button button-secondary llms-certificate-switch">
-					<?php _e("Switch to WP Editor"); ?>
+					<?php _e( 'Switch to WP Editor' ); ?>
 				</a>
 				<a href="<?php echo $this->build_url( $post ); ?>" class="button button-primary llms-certificate-build">
 					<?php _e( 'Launch Builder', 'lifterlms' ); ?>
@@ -170,7 +180,7 @@ class LLMS_Certificate_Editor {
 
 	public function default_content( $content, $post ) {
 
-		if ( $post->post_type != 'llms_certificate' || ! current_user_can( 'edit_post', $post->ID ) ) {
+		if ( 'llms_certificate' !== $post->post_type || ! current_user_can( 'edit_post', $post->ID ) ) {
 			return $content;
 		}
 
