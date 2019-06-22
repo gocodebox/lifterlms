@@ -289,10 +289,10 @@ class LLMS_Webpage_Fonts {
 		// initialise variable for preg match result.
 		$result = '';
 
-		// make sure to pick up only those with pixel units.
+		// make sure to ignore definitions that include font-size.
 		preg_match( '/\dpx/i', $font_family_definition, $result );
 
-		// no matches.
+		// font-size present, remove
 		if ( ! empty( $result ) ) {
 			return false;
 		}
