@@ -58,7 +58,7 @@ class LLMS_Webpage_Fonts {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	public function get_font_familes_for_tinymce( $url = false ){
+	public function get_font_familes_for_tinymce( $url = false ) {
 
 		// retreive the webpage.
 		$this->url = ! empty( $url ) ? $url : get_site_url();
@@ -91,14 +91,14 @@ class LLMS_Webpage_Fonts {
 
 			// if there are more than one font-family, set the first one as label.
 			if ( ! empty( $font_families ) ) {
-				$font_family_label = $font_families[ 0 ];
+				$font_family_label = $font_families[0];
 			}
 
 			// replace any unnecessary characters from the label
-			$font_family_label = trim( str_replace( $replacement_array, "", $font_family_label ) );
+			$font_family_label = trim( str_replace( $replacement_array, '', $font_family_label ) );
 
 			// add to font family array with the label as index.
-			$this->font_families[$font_family_label] = $font_family;
+			$this->font_families[ $font_family_label ] = $font_family;
 		}
 
 		return $this->font_families;
@@ -152,7 +152,7 @@ class LLMS_Webpage_Fonts {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function load_url(){
+	private function load_url() {
 
 		// fetch the url.
 		$req = wp_remote_get( $this->url );
@@ -175,7 +175,7 @@ class LLMS_Webpage_Fonts {
 			 * @since    [version]
 			 * @version  [version]
 			 */
-			$this->html =  apply_filters( 'llms_get_webpage_html_for_styles', $html );
+			$this->html = apply_filters( 'llms_get_webpage_html_for_styles', $html );
 
 		}
 
@@ -190,7 +190,7 @@ class LLMS_Webpage_Fonts {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function get_link_styles(){
+	private function get_link_styles() {
 
 		$raw = array();
 
@@ -227,12 +227,12 @@ class LLMS_Webpage_Fonts {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function get_inline_styles(){
+	private function get_inline_styles() {
 
 		// get all style tags.
 		$inline_styles = $this->dom->getElementsByTagName( 'style' );
 
-		foreach ( $inline_styles as $inline_style ){
+		foreach ( $inline_styles as $inline_style ) {
 			$raw[] = $inline_style->nodeValue;
 		}
 
@@ -247,7 +247,7 @@ class LLMS_Webpage_Fonts {
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function get_font_family_definitions(){
+	private function get_font_family_definitions() {
 
 		// get style definitions from both inline styles and stylesheets.
 		$raw = array_merge( $this->get_link_styles(), $this->get_inline_styles() );
@@ -266,7 +266,7 @@ class LLMS_Webpage_Fonts {
 
 		// filter font-families and remove duplicates.
 		if ( ! empty( $font_family_definitions ) ) {
-			$final_font_family_definitions = array_unique( array_filter( $font_family_definitions[ 1 ], array( $this, 'filter_fonts' ) ) );
+			$final_font_family_definitions = array_unique( array_filter( $font_family_definitions[1], array( $this, 'filter_fonts' ) ) );
 		}
 
 		return $final_font_family_definitions;
