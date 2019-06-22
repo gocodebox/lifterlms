@@ -123,6 +123,22 @@ class LLMS_Webpage_Fonts {
 			return $url_loaded;
 		}
 
+		$this->html = $url_loaded;
+
+		if ( ! class_exists( 'DOMDocument' ) ) {
+
+			/**
+			 * Filters the webpage html used for extracting styles.
+			 *
+			 * Useful only when DOMDocument is not available.
+			 *
+			 * @since    [version]
+			 * @version  [version]
+			 */
+			$this->html = apply_filters( 'llms_get_webpage_html_for_styles', $this->html );
+
+		}
+
 		// html is empty for any reason.
 		if ( empty( $this->html ) ) {
 			return new WP_Error( 'no-html', __( 'No html found in the page', 'lifterlms' ) );
@@ -147,15 +163,22 @@ class LLMS_Webpage_Fonts {
 	/**
 	 * Loads a URL's html.
 	 *
-	 * @return WP_Error|bool True when succesful, WP_Error on failure
+	 * @param string $url URL to fetch content from
+	 *
+	 * @return string|WP_Error Document body when succesful, WP_Error on failure
 	 *
 	 * @since    [version]
 	 * @version  [version]
 	 */
-	private function load_url() {
+	private function load_url( $url = false ) {
+
+		// default to url prop
+		if( false === $url ){
+			$url = $this->url;
+		}
 
 		// fetch the url.
-		$req = wp_remote_get( $this->url );
+		$req = wp_remote_get( $url );
 
 		// error?
 		if ( is_wp_error( $req ) ) {
@@ -163,23 +186,7 @@ class LLMS_Webpage_Fonts {
 		}
 
 		// get the html.
-		$this->html = wp_remote_retrieve_body( $req );
-
-		if ( ! class_exists( 'DOMDocument' ) ) {
-
-			/**
-			 * Filters the webpage html used for extracting styles.
-			 *
-			 * Useful only when DOMDocument is not available.
-			 *
-			 * @since    [version]
-			 * @version  [version]
-			 */
-			$this->html = apply_filters( 'llms_get_webpage_html_for_styles', $html );
-
-		}
-
-		return true;
+		return wp_remote_retrieve_body( $req );
 	}
 
 	/**
@@ -205,14 +212,8 @@ class LLMS_Webpage_Fonts {
 				continue;
 			}
 
-			// save href for use later.
-			$href = $link->getAttribute( 'href' );
-
-			// get the stylesheet's path from its url.
-			$stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $href ), '?' );
-
 			// get the contents on the stylesheet.
-			$raw[] = file_get_contents( $stylepath );
+			$raw[] = $this->load_url( $link->getAttribute( 'href' ) );
 
 		}
 
