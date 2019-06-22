@@ -80,11 +80,11 @@ class LLMS_Certificate_Editor {
 
 			// Build action.
 			$build_action = array(
-				'build' => sprintf( '<a href="%1$s">%2$s</a>', $build_url, __( 'Build', 'lifterlms' ) )
+				'build' => sprintf( '<a href="%1$s">%2$s</a>', $build_url, __( 'Build', 'lifterlms' ) ),
 			);
 
 			// prepend build url to post actions.
-			$actions =  $build_action + $actions;
+			$actions = $build_action + $actions;
 		}
 
 		return $actions;
@@ -102,7 +102,7 @@ class LLMS_Certificate_Editor {
 		$screen = get_current_screen();
 
 		// if no post type is set, no point doing anything.
-		if ( ! isset( $screen->post_type) ) {
+		if ( ! isset( $screen->post_type ) ) {
 			return;
 		}
 
