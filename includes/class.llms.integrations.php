@@ -1,10 +1,19 @@
 <?php
+/**
+ * LifterLMS Integrations
+ *
+ * @since 1.0.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Integrations
- * @since    1.0.0
- * @version  3.18.2
+ *
+ * @since 1.0.0
+ * @since 3.18.2 Updated.
+ * @since [version] Integrations are now loaded based on their defined priority.
  */
 class LLMS_Integrations {
 
@@ -54,9 +63,12 @@ class LLMS_Integrations {
 
 	/**
 	 * Initialize Integration Classes
-	 * @return   null
-	 * @since    1.0.0
-	 * @version  3.18.0
+	 *
+	 * @since 1.0.0
+	 * @since 3.18.0 Updated.
+	 * @since [version] Updated sort order to be based off the priority defined for the integration.
+	 *
+	 * @return void
 	 */
 	public function init() {
 
@@ -65,19 +77,23 @@ class LLMS_Integrations {
 			'LLMS_Integration_Buddypress',
 		) );
 
-		$order_end = 999;
-
 		if ( ! empty( $integrations ) ) {
 
 			foreach ( $integrations as $integration ) {
 
 				$load_integration = new $integration();
 
-				$this->integrations[ $order_end ] = $load_integration;
-				$order_end++;
+				$priority = $load_integration->get_priority();
+				while ( array_key_exists( (string) $priority, $this->integrations ) ) {
+					$priority += .01;
+				}
+
+				$this->integrations[ (string) $priority ] = $load_integration;
 
 				ksort( $this->integrations );
+
 			}
+
 		}
 
 		do_action( 'llms_integrations_init', $this );
