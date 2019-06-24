@@ -4,7 +4,8 @@ LifterLMS Changelog
 v[version] - [date]
 --------------------
 
-
++ Fix issue causing a PHP error when viewing the admin logs screen when no logs exist.
++ Added method to retrieve the load priority of integrations.
 
 
 v3.33.0 - 2019-05-21

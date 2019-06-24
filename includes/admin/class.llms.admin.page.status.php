@@ -3,7 +3,7 @@
  * Admin Status Pages
  *
  * @since 3.11.2
- * @version 3.32.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.11.2
  * @since 3.32.0 Add "Scheduled Actions" tab.
+ * @since [version] Read log files using `llms_filter_input`.
  */
 class LLMS_Admin_Page_Status {
 
@@ -220,20 +221,22 @@ class LLMS_Admin_Page_Status {
 
 	/**
 	 * Output the HTML for the Logs tab
+	 *
+	 * @since 3.11.2
+	 * @version [version] Use `llms_filter_input` to read current log file.
+	 *
 	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
 	 */
 	private static function output_logs_content() {
 
 		$logs = self::get_logs();
 		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
-		if ( $logs && ! isset( $_POST['llms_log_file'] ) ) {
+		$current = llms_filter_input( INPUT_POST, 'llms_log_file', FILTER_SANITIZE_STRING );
+
+		if ( $logs && ! $file ) {
 			$log_keys = array_keys( $logs );
 			$current = array_shift( $log_keys );
-		} else {
-			$current = sanitize_title( $_POST['llms_log_file'] );
 		}
 
 		if ( $logs ) : ?>
