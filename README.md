@@ -30,6 +30,8 @@ GitHub is for bug reports and contributions only! If you have a support question
 
 Bugs can be reported at [https://github.com/gocodebox/lifterlms/issues/new](https://github.com/gocodebox/lifterlms/issues/new).
 
+Security issues and vulnerabilities should be responsibly disclodes. Please see our [Security Policy](.github/SECURITY.md) for details on disclosing a security vulnerability to us.
+
 Before reporting a bug, [search existing issues](https://github.com/gocodebox/lifterlms/issues) and ensure you're not creating a duplicate. If the issue already exists you can add your information to the existing report.
 
 Also check our [known issues and conflicts](https://lifterlms.com/doc-category/lifterlms/known-conflicts/) for possible resolutions.
