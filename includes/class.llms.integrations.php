@@ -93,7 +93,6 @@ class LLMS_Integrations {
 				ksort( $this->integrations );
 
 			}
-
 		}
 
 		do_action( 'llms_integrations_init', $this );
