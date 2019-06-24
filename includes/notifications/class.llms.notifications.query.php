@@ -25,7 +25,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Get an array of allowed notification statuses
-	 * @return   array
+	 * @return   string[]
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -35,7 +35,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Get the available notification types
-	 * @return   array
+	 * @return   string[]
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -72,7 +72,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Convert raw results to notification objects
-	 * @return   array
+	 * @return   LLMS_Notification[]
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */

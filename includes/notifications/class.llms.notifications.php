@@ -11,37 +11,37 @@ class LLMS_Notifications {
 
 	/**
 	 * Singleton instance
-	 * @var  null
+	 * @var  LLMS_Notifications
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Controller instances
-	 * @var  array
+	 * @var  LLMS_Abstract_Notification_Controller[]
 	 */
 	private $controllers = array();
 
 	/**
 	 * Background processor instances
-	 * @var  array
+	 * @var  LLMS_Abstract_Notification_Processor[]
 	 */
 	private $processors = array();
 
 	/**
 	 * Array of processors needing to be dispatched on shutdown
-	 * @var  array
+	 * @var  string[]
 	 */
 	private $processors_to_dispatch = array();
 
 	/**
-	 * Views
-	 * @var  array
+	 * [string $view_classname => string $trigger ]
+	 * @var  string[]
 	 */
 	private $views = array();
 
 	/**
 	 * Main Instance
-	 * @return    LLMS_Controller_Notifications
+	 * @return    LLMS_Notifications
 	 * @since     3.8.0
 	 * @version   3.8.0
 	 */
@@ -136,7 +136,7 @@ class LLMS_Notifications {
 	/**
 	 * Get a single controller instance
 	 * @param    string     $controller  trigger id (eg: lesson_complete)
-	 * @return   obj
+	 * @return   LLMS_Abstract_Notification_Controller|false
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -149,7 +149,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Get loaded controllers
-	 * @return   array
+	 * @return   LLMS_Abstract_Notification_Controller[]
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -160,7 +160,7 @@ class LLMS_Notifications {
 	/**
 	 * Retrieve a single processor instance
 	 * @param    string     $processor  name of the processor (eg: email)
-	 * @return   obj
+	 * @return   LLMS_Abstract_Notification_Processor|false
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -173,7 +173,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Get loaded processors
-	 * @return   array
+	 * @return   LLMS_Abstract_Notification_Processor[]
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -183,8 +183,8 @@ class LLMS_Notifications {
 
 	/**
 	 * Retrieve a view instance of a notification
-	 * @param    obj       $notification  instance of an LLMS_Notification
-	 * @return   obj|false
+	 * @param    LLMS_Notification  $notification  instance of an LLMS_Notification
+	 * @return   LLMS_Abstract_Notification_View|false
 	 * @since    3.8.0
 	 * @version  3.24.0
 	 */
@@ -206,6 +206,7 @@ class LLMS_Notifications {
 	/**
 	 * Get the classname for the view of a given notification based off it's trigger
 	 * @param    string     $trigger  trigger id (eg: lesson_complete).
+	 * @param    string     $prefix   default = 'LLMS'
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.24.0
@@ -323,6 +324,8 @@ class LLMS_Notifications {
 	 * Load a single view
 	 * @param    string     $trigger  trigger id (eg: lesson_complete)
 	 * @param    string     $path     full path to the view file, allows third parties to load external views
+	 * @param    string     $prefix   Classname prefix. Defaults to "LLMS". Can be used by 3rd parties to adjust
+	 *                                the prefix in accordance with the projects standards.
 	 * @return   boolean              true if the view is added and loaded, false otherwise
 	 * @since    3.8.0
 	 * @version  3.24.0
