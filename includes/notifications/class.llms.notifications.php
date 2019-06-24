@@ -324,7 +324,8 @@ class LLMS_Notifications {
 	 * Load a single view
 	 * @param    string     $trigger  trigger id (eg: lesson_complete)
 	 * @param    string     $path     full path to the view file, allows third parties to load external views
-	 * @param    string     $prefix
+	 * @param    string     $prefix   Classname prefix. Defaults to "LLMS". Can be used by 3rd parties to adjust
+	 *                                the prefix in accordance with the projects standards.
 	 * @return   boolean              true if the view is added and loaded, false otherwise
 	 * @since    3.8.0
 	 * @version  3.24.0
