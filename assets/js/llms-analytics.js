@@ -1,9 +1,9 @@
 /**
  * LifterLMS Admin Reporting Widgets & Charts
- * @since 3.0.0
- * @since [version] @since Fix issue that produced series options not aligned with the chart data
  *
- * @version [version]
+ * @since 3.0.0
+ * @since 3.17.2 Unknown.
+ * @since [version] Fix issue that produced series options not aligned with the chart data.
  */
 ;( function( $, undefined ) {
 
@@ -476,10 +476,11 @@
 
 		/**
 		 * Get a object of series options needed to draw the chart.
-		 * @return void
 		 *
 		 * @since 3.0.0
-		 * @since Fix issue that produced series options not aligned with the chart data
+		 * @since Fix issue that produced series options not aligned with the chart data.
+		 *
+		 * @return void
 		 */
 		this.get_chart_series_options = function() {
 

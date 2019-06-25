@@ -11,6 +11,7 @@ v[version] - [date]
 
 ##### Bug Fixes
 
++ Fixed an issue which would cause the "Net Sales" line to sometimes display as a bar on the sales revenue reporting chart.
 + Fixed an issue causing a PHP notice to be logged when viewing the sales reporting screen.
 + Fixed an issue causing backslashes to be added before quotation marks in access plan descriptions.
 + Integration classes are now loaded in the order defined by the integration class.
