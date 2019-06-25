@@ -7,6 +7,7 @@ v[version] - [date]
 ##### Updates
 
 + Added method to retrieve the load priority of integrations.
++ The capabilities used to determine if uses can clone and export courses now check `edit_course` instead of `edit_post`.
 
 ##### Bug Fixes
 
