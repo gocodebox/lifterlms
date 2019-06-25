@@ -13,20 +13,20 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 class LLMS_Emails {
 
 	/**
-	 * Object of all emails
-	 * @var object
+	 * Class names of all emails
+	 * @var string[]
 	 */
 	public $emails;
 
 	/**
 	 * protected private instance of email
-	 * @var string
+	 * @var LLMS_Emails
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Create instance of class
-	 * @var object self
+	 * @return LLMS_Emails
 	 * @since    1.0.0
 	 * @version  1.0.0
 	 */
@@ -139,7 +139,7 @@ class LLMS_Emails {
 	 * Retrieve a new instance of an email
 	 * @param    string     $id    email id
 	 * @param    array      $args  optional arguments to pass to the email
-	 * @return   obj
+	 * @return   LLMS_Email
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -153,6 +153,7 @@ class LLMS_Emails {
 		}
 
 		// otherwise return a generic email and set the ID to be the requested ID
+		/** @var LLMS_Email $generic */
 		$generic = new $emails['generic']( $args );
 		$generic->set_id( $id );
 		return $generic;
@@ -161,7 +162,7 @@ class LLMS_Emails {
 
 	/**
 	 * Get all email objects
-	 * @return array [Array of all email objects]
+	 * @return string[] [Array of all email class names]
 	 * @since    1.0.0
 	 * @version  1.0.0
 	 */

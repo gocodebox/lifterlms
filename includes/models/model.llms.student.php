@@ -21,7 +21,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve an instance of the LLMS_Instructor model for the current user
-	 * @return   obj|false
+	 * @return   LLMS_Instructor|false
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
@@ -183,7 +183,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Retrieves the most recently updated order for the given product
 	 *
 	 * @param    int        $product_id  WP Post ID of the LifterLMS Product (course, lesson, or membership)
-	 * @return   obj|false               Instance of the LLMS_Order or false if none found
+	 * @return   LLMS_Order|false        Instance of the LLMS_Order or false if none found
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
