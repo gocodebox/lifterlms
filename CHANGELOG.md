@@ -4,9 +4,16 @@ LifterLMS Changelog
 v[version] - [date]
 --------------------
 
-+ LifterLMS integrations are now loaded in the order defined by the integration class.
-+ Fix issue causing a PHP error when viewing the admin logs screen when no logs exist.
+##### Updates
+
 + Added method to retrieve the load priority of integrations.
+
+##### Bug Fixes
+
++ Fixed an issue causing a PHP notice to be logged when viewing the sales reporting screen.
++ Fixed an issue causing backslashes to be added before quotation marks in access plan descriptions.
++ Integration classes are now loaded in the order defined by the integration class.
++ Fixed an issue causing a PHP error when viewing the admin logs screen when no logs exist.
 
 
 v3.33.0 - 2019-05-21
