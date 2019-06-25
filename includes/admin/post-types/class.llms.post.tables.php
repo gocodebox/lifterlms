@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.33.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,8 +15,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.13.0 Unknown.
- * @since [version] Use `llms_filter_input`
- * @since [version] Use specific caps (`edit_course`) instead of generic caps (`edit_post`) for exporting and cloning courses.
+ * @since 3.33.1 Use `llms_filter_input`
+ * @since 3.33.1 Use specific caps (`edit_course`) instead of generic caps (`edit_post`) for exporting and cloning courses.
  */
 class LLMS_Admin_Post_Tables {
 
@@ -42,7 +42,7 @@ class LLMS_Admin_Post_Tables {
 	 *
 	 * @since 3.3.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Use `edit_course` instead of `edit_post` when checking capabilities.
+	 * @since 3.33.1 Use `edit_course` instead of `edit_post` when checking capabilities.
 	 *
 	 * @param array $actions Existing actions.
 	 * @param WP_Post $post Post object.
@@ -76,8 +76,8 @@ class LLMS_Admin_Post_Tables {
 	 * Handle events for our custom postrow actions
 	 *
 	 * @since 3.3.0
-	 * @since [version] Use `llms_filter_input` to access `$_GET` and `$_POST` data.
-	 * @since [version] Use `edit_course` cap instead of `edit_post` cap.
+	 * @since 3.33.1 Use `llms_filter_input` to access `$_GET` and `$_POST` data.
+	 * @since 3.33.1 Use `edit_course` cap instead of `edit_post` cap.
 	 *
 	 * @return void
 	 */

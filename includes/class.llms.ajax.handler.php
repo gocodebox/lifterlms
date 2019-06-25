@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
  * @since 3.33.0 Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
  *                  Also always return either a WP_Error on failure or a "success" array on requested action performed.
- * @since [version] Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
+ * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
  */
 class LLMS_AJAX_Handler {
 
@@ -1142,7 +1142,7 @@ class LLMS_AJAX_Handler {
 	 * AJAX handler for creating and updating access plans via the metabox on courses & memberships
 	 *
 	 * @since 3.29.0
-	 * @since [version] Use `wp_unslash()` before inserting access plan data.
+	 * @since 3.33.1 Use `wp_unslash()` before inserting access plan data.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array

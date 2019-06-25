@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
 *
 * @since 3.0.0
 * @since 3.21.1 Updated.
-* @since [version] Added `get_priority` method to allow reading of the protected priority property.
+* @since 3.33.1 Added `get_priority` method to allow reading of the protected priority property.
 */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
@@ -111,7 +111,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Retrieve the integration priority property.
 	 *
-	 * @since [version]
+	 * @since 3.33.1
 	 *
 	 * @return int
 	 */

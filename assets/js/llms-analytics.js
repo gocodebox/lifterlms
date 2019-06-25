@@ -3,7 +3,7 @@
  *
  * @since 3.0.0
  * @since 3.17.2 Unknown.
- * @since [version] Fix issue that produced series options not aligned with the chart data.
+ * @since 3.33.1 Fix issue that produced series options not aligned with the chart data.
  */
 ;( function( $, undefined ) {
 

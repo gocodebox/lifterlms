@@ -3,7 +3,7 @@
  * LifterLMS Integrations
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.33.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.18.2 Updated.
- * @since [version] Integrations are now loaded based on their defined priority.
+ * @since 3.33.1 Integrations are now loaded based on their defined priority.
  */
 class LLMS_Integrations {
 
@@ -66,7 +66,7 @@ class LLMS_Integrations {
 	 *
 	 * @since 1.0.0
 	 * @since 3.18.0 Updated.
-	 * @since [version] Updated sort order to be based off the priority defined for the integration.
+	 * @since 3.33.1 Updated sort order to be based off the priority defined for the integration.
 	 *
 	 * @return void
 	 */

@@ -3,7 +3,7 @@
  * Admin Status Pages
  *
  * @since 3.11.2
- * @version [version]
+ * @version 3.33.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.11.2
  * @since 3.32.0 Add "Scheduled Actions" tab.
- * @since [version] Read log files using `llms_filter_input`.
+ * @since 3.33.1 Read log files using `llms_filter_input`.
  */
 class LLMS_Admin_Page_Status {
 
@@ -223,7 +223,7 @@ class LLMS_Admin_Page_Status {
 	 * Output the HTML for the Logs tab
 	 *
 	 * @since 3.11.2
-	 * @version [version] Use `llms_filter_input` to read current log file.
+	 * @version 3.33.1 Use `llms_filter_input` to read current log file.
 	 *
 	 * @return   void
 	 */
