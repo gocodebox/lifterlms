@@ -35,7 +35,7 @@ class LLMS_Admin_Post_Tables {
 	 */
 	public function add_links( $actions, $post ) {
 
-		if ( current_user_can( 'edit_post', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
+		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-clone-post' ) ) {
 			$url = add_query_arg( array(
 				'post_type' => $post->post_type,
 				'action' => 'llms-clone-post',
@@ -44,7 +44,7 @@ class LLMS_Admin_Post_Tables {
 			$actions['llms-clone'] = '<a href="' . esc_url( $url ) . '">' . __( 'Clone', 'lifterlms' ) . '</a>';
 		}
 
-		if ( current_user_can( 'edit_post', $post->ID ) && post_type_supports( $post->post_type, 'llms-export-post' ) ) {
+		if ( current_user_can( 'edit_course', $post->ID ) && post_type_supports( $post->post_type, 'llms-export-post' ) ) {
 			$url = add_query_arg( array(
 				'post_type' => $post->post_type,
 				'action' => 'llms-export-post',
@@ -65,31 +65,46 @@ class LLMS_Admin_Post_Tables {
 	 */
 	public function handle_link_actions() {
 
-		if ( ! isset( $_GET['action'] ) ) {
+		$action = llms_filter_input( INPUT_GET, 'action' );
+
+		// bail early if request doesn't concern us.
+		if ( empty( $action ) ) {
 			return;
 		}
 
-		if ( 'llms-clone-post' !== $_GET['action'] && 'llms-export-post' !== $_GET['action'] ) {
+		// bail early if it isn't a clone/ export request.
+		if ( 'llms-clone-post' !== $action && 'llms-export-post' !== $action ) {
 			return;
 		}
 
-		if ( ! isset( $_GET['post'] ) ) {
+		$post_id = llms_filter_input( INPUT_GET, 'post' );
+
+		// bail if there's no post ID.
+		if ( empty( $post_id ) ) {
 			wp_die( __( 'Missing post ID.', 'lifterlms' ) );
 		}
 
-		$post = get_post( $_GET['post'] );
+		$post = get_post( $post_id );
 
+		// bail if post ID is invalid.
 		if ( ! $post ) {
 			wp_die( __( 'Invalid post ID.', 'lifterlms' ) );
 		}
 
-		if ( ! post_type_supports( $post->post_type, $_GET['action'] ) ) {
+		// bail if the action isn't supported on post type.
+		if ( ! post_type_supports( $post->post_type, $action ) ) {
 			wp_die( __( 'Action cannot be executed on the current post.', 'lifterlms' ) );
+		}
+
+		// bail if user doesn't have permissions.
+		if ( ! current_user_can( 'edit_course', $post->ID ) ) {
+			wp_die( __( 'You are not authorized to perform this action on the current post.', 'lifterlms' ) );
 		}
 
 		$post = llms_get_post( $post );
 
-		switch ( $_GET['action'] ) {
+		// run export or clone action as needed.
+		switch ( $action ) {
 
 			case 'llms-export-post':
 				$post->export();
