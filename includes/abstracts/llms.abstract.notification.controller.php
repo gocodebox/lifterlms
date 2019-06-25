@@ -122,13 +122,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Holds singletons for extending classes
-	 * @var  array
+	 * @var  LLMS_Abstract_Notification_Controller[]
 	 */
 	private static $_instances = array();
 
 	/**
 	 * Get the singleton instance for the extending class
-	 * @return   obj
+	 * @return   LLMS_Abstract_Notification_Controller
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -216,7 +216,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @param    int      $subscriber  subscriber id
 	 * @param    int      $user_id     user id
 	 * @param    int      $post_id     post id
-	 * @return   obj
+	 * @return   LLMS_Abstract_Notification_View|false
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */

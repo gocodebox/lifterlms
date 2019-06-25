@@ -22,7 +22,7 @@ class LLMS_Processors {
 
 	/**
 	 * Array of available processors loaded via $this->load_all()
-	 * @var  array
+	 * @var  LLMS_Abstract_Processor[]
 	 */
 	private $processors = array();
 
@@ -60,7 +60,7 @@ class LLMS_Processors {
 	/**
 	 * Access a single loaded processor instance
 	 * @param    string     $name  name of the processor
-	 * @return   obj|false         instance of the processor if found, otherwise false
+	 * @return   LLMS_Abstract_Processor|false instance of the processor if found, otherwise false
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
@@ -113,7 +113,7 @@ class LLMS_Processors {
 	/**
 	 * Load a single processor
 	 * @param    string     $name  name of the processor
-	 * @return   obj|false         instance of the processor if found, otherwise false
+	 * @return   LLMS_Abstract_Processor|false         instance of the processor if found, otherwise false
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */

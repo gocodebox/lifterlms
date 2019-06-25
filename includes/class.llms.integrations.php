@@ -12,13 +12,13 @@ class LLMS_Integrations {
 
 	/**
 	 * Array of integrations, regardless of availability
-	 * @var  array
+	 * @var  LLMS_Abstract_Integration[]
 	 */
 	private $integrations = array();
 
 	/**
 	 * Instance Singleton Generator
-	 * @return   obj
+	 * @return   LLMS_Integrations
 	 * @since    1.0.0
 	 * @version  1.0.0
 	 */
@@ -43,7 +43,7 @@ class LLMS_Integrations {
 	/**
 	 * Get an integration instance by id
 	 * @param    string     $id  id of the integration
-	 * @return   obj|false
+	 * @return   LLMS_Abstract_Integration|false
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -86,7 +86,7 @@ class LLMS_Integrations {
 
 	/**
 	 * Get available integrations
-	 * @return   array
+	 * @return   LLMS_Abstract_Integration[]
 	 * @since    1.0.0
 	 * @version  3.17.8
 	 */
@@ -107,7 +107,7 @@ class LLMS_Integrations {
 
 	/**
 	 * Get all integrations regardless of availability
-	 * @return   array
+	 * @return   LLMS_Abstract_Integration[]
 	 * @since    3.18.2
 	 * @version  3.18.2
 	 */
@@ -117,7 +117,7 @@ class LLMS_Integrations {
 
 	/**
 	 * Get all integrations regardless of availability
-	 * @return array
+	 * @return   LLMS_Abstract_Integration[]
 	 * @since    1.0.0
 	 * @version  3.17.8
 	 * @todo     deprecate
