@@ -307,7 +307,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-analytics.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.17.6
+			 * @version  3.5.0
 			 */
 			'Filter by Student(s)' => esc_html__( 'Filter by Student(s)', 'lifterlms' ),
 			'Error' => esc_html__( 'Error', 'lifterlms' ),

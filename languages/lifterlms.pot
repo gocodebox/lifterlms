@@ -20,7 +20,7 @@ msgstr ""
 msgid "Settings"
 msgstr ""
 
-#: includes/class-llms-staging.php:48, includes/class.llms.install.php:557, includes/class.llms.install.php:577, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:28, includes/admin/class.llms.admin.page.status.php:197
+#: includes/class-llms-staging.php:48, includes/class.llms.install.php:557, includes/class.llms.install.php:577, includes/admin/class.llms.admin.notices.php:195, includes/admin/class.llms.admin.page.status.php:29, includes/admin/class.llms.admin.page.status.php:198
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
@@ -32,71 +32,71 @@ msgstr ""
 msgid "Staging"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:34, includes/class.llms.ajax.handler.php:53, includes/class.llms.ajax.handler.php:168, includes/class.llms.ajax.handler.php:808
+#: includes/class.llms.ajax.handler.php:35, includes/class.llms.ajax.handler.php:54, includes/class.llms.ajax.handler.php:169, includes/class.llms.ajax.handler.php:809
 msgid "Missing required parameters"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:40
+#: includes/class.llms.ajax.handler.php:41
 msgid "Members are being enrolled in the background. You may leave this page."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:81
+#: includes/class.llms.ajax.handler.php:82
 msgid "There was a problem deleting your access plan, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:273
+#: includes/class.llms.ajax.handler.php:274
 msgid "Missing required parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:279
+#: includes/class.llms.ajax.handler.php:280
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:504, includes/class.llms.ajax.handler.php:562, includes/class.llms.ajax.handler.php:628, includes/class.llms.template.loader.php:345
+#: includes/class.llms.ajax.handler.php:505, includes/class.llms.ajax.handler.php:563, includes/class.llms.ajax.handler.php:629, includes/class.llms.template.loader.php:345
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:516
+#: includes/class.llms.ajax.handler.php:517
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:526
+#: includes/class.llms.ajax.handler.php:527
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:569, includes/class.llms.ajax.handler.php:633
+#: includes/class.llms.ajax.handler.php:570, includes/class.llms.ajax.handler.php:634
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:581
+#: includes/class.llms.ajax.handler.php:582
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:763, includes/llms.functions.core.php:819, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:57, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
+#: includes/class.llms.ajax.handler.php:764, includes/llms.functions.core.php:819, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:57, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:63
 msgid "ID#"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:812
+#: includes/class.llms.ajax.handler.php:813
 msgid "Invalid status"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:833
+#: includes/class.llms.ajax.handler.php:834
 msgid "Action \"%1$s\" failed. Please try again"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:855
+#: includes/class.llms.ajax.handler.php:856
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:860
+#: includes/class.llms.ajax.handler.php:861
 msgid "Please enter a plan ID."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:869, includes/functions/llms.functions.order.php:240
+#: includes/class.llms.ajax.handler.php:870, includes/functions/llms.functions.order.php:240
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1151
+#: includes/class.llms.ajax.handler.php:1153
 msgid "Missing Required Parameters."
 msgstr ""
 
@@ -183,7 +183,7 @@ msgstr ""
 msgid "No generator supplied."
 msgstr ""
 
-#: includes/class.llms.generator.php:231, includes/class.llms.l10n.js.php:230, includes/class.llms.l10n.js.php:377, includes/admin/post-types/class.llms.post.tables.php:44
+#: includes/class.llms.generator.php:231, includes/class.llms.l10n.js.php:230, includes/class.llms.l10n.js.php:377, includes/admin/post-types/class.llms.post.tables.php:59
 msgid "Clone"
 msgstr ""
 
@@ -2678,7 +2678,7 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:567, includes/admin/post-types/class.llms.post.tables.php:53, includes/admin/post-types/post-tables/class.llms.admin.post.table.courses.php:107
+#: includes/abstracts/abstract.llms.admin.table.php:567, includes/admin/post-types/class.llms.post.tables.php:68, includes/admin/post-types/post-tables/class.llms.admin.post.table.courses.php:107
 msgid "Export"
 msgstr ""
 
@@ -2728,7 +2728,7 @@ msgstr ""
 msgid "Checking this box will allow users to use this payment gateway."
 msgstr ""
 
-#: includes/abstracts/abstract.llms.payment.gateway.php:258, includes/abstracts/llms.abstract.integration.php:124, includes/admin/settings/class.llms.settings.accounts.php:264, includes/admin/settings/class.llms.settings.accounts.php:396
+#: includes/abstracts/abstract.llms.payment.gateway.php:258, includes/abstracts/llms.abstract.integration.php:146, includes/admin/settings/class.llms.settings.accounts.php:264, includes/admin/settings/class.llms.settings.accounts.php:396
 msgid "Enable / Disable"
 msgstr ""
 
@@ -2789,7 +2789,7 @@ msgstr ""
 msgid "Unable to generate export file, could not open file for writing."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.integration.php:120
+#: includes/abstracts/llms.abstract.integration.php:142
 msgid "Check to enable this integration."
 msgstr ""
 
@@ -3139,91 +3139,91 @@ msgstr ""
 msgid "Remind me later"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:136
+#: includes/admin/class.llms.admin.page.status.php:137
 msgid "System Report"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:137
+#: includes/admin/class.llms.admin.page.status.php:138
 msgid "Tools & Utilities"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:138
+#: includes/admin/class.llms.admin.page.status.php:139
 msgid "Logs"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:139
+#: includes/admin/class.llms.admin.page.status.php:140
 msgid "Scheduled Actions"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:250
+#: includes/admin/class.llms.admin.page.status.php:253
 msgid "View Log"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:254
+#: includes/admin/class.llms.admin.page.status.php:257
 msgid "Viewing: %s"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:257
+#: includes/admin/class.llms.admin.page.status.php:260
 msgid "Delete Log"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:265
+#: includes/admin/class.llms.admin.page.status.php:268
 msgid "There are currently no logs to view."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:281
+#: includes/admin/class.llms.admin.page.status.php:284
 msgid "Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:282
+#: includes/admin/class.llms.admin.page.status.php:285
 msgid "Automatic Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:283
+#: includes/admin/class.llms.admin.page.status.php:286
 msgid "Reset Automatic Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:287
+#: includes/admin/class.llms.admin.page.status.php:290
 msgid "Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:288
+#: includes/admin/class.llms.admin.page.status.php:291
 msgid "User Sessions"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:289
+#: includes/admin/class.llms.admin.page.status.php:292
 msgid "Clear All Session Data"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:293
+#: includes/admin/class.llms.admin.page.status.php:296
 msgid "If you opted into LifterLMS Tracking and no longer wish to participate, you may opt out here."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:294, includes/admin/class.llms.admin.page.status.php:295
+#: includes/admin/class.llms.admin.page.status.php:297, includes/admin/class.llms.admin.page.status.php:298
 msgid "Reset Tracking Settings"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:299
+#: includes/admin/class.llms.admin.page.status.php:302
 msgid "Clears the cached data displayed on various reporting screens. This does not affect actual student progress, it only clears cached progress data. This data will be regenerated the next time it is accessed."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:300
+#: includes/admin/class.llms.admin.page.status.php:303
 msgid "Student Progress Cache"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:301
+#: includes/admin/class.llms.admin.page.status.php:304
 msgid "Clear cache"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:305
+#: includes/admin/class.llms.admin.page.status.php:308
 msgid "If you want to run the LifterLMS Setup Wizard again or skipped it and want to return now, click below."
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:306
+#: includes/admin/class.llms.admin.page.status.php:309
 msgid "Setup Wizard"
 msgstr ""
 
-#: includes/admin/class.llms.admin.page.status.php:307
+#: includes/admin/class.llms.admin.page.status.php:310
 msgid "Return to Setup Wizard"
 msgstr ""
 
@@ -6917,19 +6917,23 @@ msgstr ""
 msgid "Export CSV"
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:77
+#: includes/admin/post-types/class.llms.post.tables.php:102
 msgid "Missing post ID."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:83
+#: includes/admin/post-types/class.llms.post.tables.php:109
 msgid "Invalid post ID."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:87
+#: includes/admin/post-types/class.llms.post.tables.php:114
 msgid "Action cannot be executed on the current post."
 msgstr ""
 
-#: includes/admin/post-types/class.llms.post.tables.php:127, includes/admin/post-types/class.llms.post.tables.php:129
+#: includes/admin/post-types/class.llms.post.tables.php:119
+msgid "You are not authorized to perform this action on the current post."
+msgstr ""
+
+#: includes/admin/post-types/class.llms.post.tables.php:161, includes/admin/post-types/class.llms.post.tables.php:163
 msgid "Filter by %s"
 msgstr ""
 

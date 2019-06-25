@@ -4,8 +4,8 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 7.2
-Tested up to: 5.2
-Stable tag: 3.33.0
+Tested up to: 5.2.2
+Stable tag: 3.33.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -355,6 +355,23 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.33.1 - 2019-06-25 =
+------------------------
+
+##### Updates
+
++ Added method to retrieve the load priority of integrations.
++ The capabilities used to determine if uses can clone and export courses now check `edit_course` instead of `edit_post`.
+
+##### Bug Fixes
+
++ Fixed an issue which would cause the "Net Sales" line to sometimes display as a bar on the sales revenue reporting chart.
++ Fixed an issue causing a PHP notice to be logged when viewing the sales reporting screen.
++ Fixed an issue causing backslashes to be added before quotation marks in access plan descriptions.
++ Integration classes are now loaded in the order defined by the integration class.
++ Fixed an issue causing a PHP error when viewing the admin logs screen when no logs exist.
+
+
 = v3.33.0 - 2019-05-21 =
 ------------------------
 
@@ -554,12 +571,5 @@ The following unused classes have been marked as deprecated and will be removed 
 ##### Template Updates
 
 + [product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
-
-
-= v3.29.2 - 2019-02-28 =
-------------------------
-
-+ Fix issue causing blank "period" values on access plans from being updated.
-+ Fix an issue preventing paid access plans from being switched to "Free".
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
