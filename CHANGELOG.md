@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v[version] - [date]
+v3.33.1 - 2019-06-25
 --------------------
 
 ##### Updates
