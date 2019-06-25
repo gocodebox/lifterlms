@@ -1,18 +1,29 @@
 <?php
 /**
- * General post table management
- * @since    3.0.0
- * @version  3.13.0
+ * Post Table management for LifterLMS custom post types
+ *
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 3.0.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Post_Tables class.
+ *
+ * @since 3.0.0
+ * @since 3.13.0 Unknown.
+ * @since [version] Use `llms_filter_input`
+ * @since [version] Use specific caps (`edit_course`) instead of generic caps (`edit_post`) for exporting and cloning courses.
+ */
 class LLMS_Admin_Post_Tables {
 
 	/**
 	 * Constructor
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @since 3.0.0
 	 */
 	public function __construct() {
 
@@ -28,10 +39,14 @@ class LLMS_Admin_Post_Tables {
 
 	/**
 	 * Adds clone links to post types which support lifterlms post cloning
-	 * @param    array     $actions  existing actions
-	 * @param    obj       $post    WP_Post object
-	 * @since    3.3.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.3.0
+	 * @since 3.13.0 Unknown.
+	 * @since [version] Use `edit_course` instead of `edit_post` when checking capabilities.
+	 *
+	 * @param array $actions Existing actions.
+	 * @param WP_Post $post Post object.
+	 * @return void
 	 */
 	public function add_links( $actions, $post ) {
 
@@ -59,9 +74,12 @@ class LLMS_Admin_Post_Tables {
 
 	/**
 	 * Handle events for our custom postrow actions
-	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 *
+	 * @since 3.3.0
+	 * @since [version] Use `llms_filter_input` to access `$_GET` and `$_POST` data.
+	 * @since [version] Use `edit_course` cap instead of `edit_post` cap.
+	 *
+	 * @return void
 	 */
 	public function handle_link_actions() {
 
@@ -125,12 +143,13 @@ class LLMS_Admin_Post_Tables {
 
 	/**
 	 * Get the HTML for a post type select2 filter
-	 * @param    string     $name       name of the select element
-	 * @param    string     $post_type  post type to search by
-	 * @param    array      $selected   array of POST IDs to use for the pre-selected options on page load
-	 * @return   string
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 *
+	 * @since 3.12.0
+	 *
+	 * @param string $name Name of the select element.
+	 * @param string $post_type Post type to search by.
+	 * @param int[] $selected Array of POST IDs to use for the pre-selected options on page load.
+	 * @return string
 	 */
 	public static function get_post_type_filter_html( $name, $post_type = 'course', $selected = array() ) {
 		$obj = get_post_type_object( $post_type );
