@@ -3,7 +3,7 @@
  * LifterLMS Integrations
  *
  * @since 1.0.0
- * @version 3.33.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.18.2 Updated.
  * @since 3.33.1 Integrations are now loaded based on their defined priority.
+ * @since [version] Integration priority checks are backwards compatible to handle deprecated legacy integrations.
  */
 class LLMS_Integrations {
 
@@ -67,6 +68,7 @@ class LLMS_Integrations {
 	 * @since 1.0.0
 	 * @since 3.18.0 Updated.
 	 * @since 3.33.1 Updated sort order to be based off the priority defined for the integration.
+	 * @since [version] Made sort order check backwards compatible with deprecated legacy integrations.
 	 *
 	 * @return void
 	 */
@@ -83,7 +85,7 @@ class LLMS_Integrations {
 
 				$load_integration = new $integration();
 
-				$priority = $load_integration->get_priority();
+				$priority = method_exists( $load_integration, 'get_priority' ) ? $load_integration->get_priority() : 50;
 				while ( array_key_exists( (string) $priority, $this->integrations ) ) {
 					$priority += .01;
 				}

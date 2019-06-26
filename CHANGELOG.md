@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.33.2 - 2019-06-26
+--------------------
+
++ Add backwards compatibility for legacy add-on integrations priority loading method.
+
+
 v3.33.1 - 2019-06-25
 --------------------
 
