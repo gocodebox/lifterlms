@@ -4,9 +4,10 @@ LifterLMS Changelog
 v3.33.2 - 2019-06-26
 --------------------
 
++ It is now possible to send test copies of the "Student Welcome" email to yourself.
++ Improved information logged when an error is encountered during an email send.
 + Add backwards compatibility for legacy add-on integrations priority loading method.
 + Fixed undefined index notice when viewing log files on the admin status screen.
-+ Improved information logged when an error is encountered during an email send.
 
 
 v3.33.1 - 2019-06-25
