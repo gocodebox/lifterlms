@@ -1,6 +1,15 @@
 == Changelog ==
 
 
+= v3.33.2 - 2019-06-26 =
+------------------------
+
++ It is now possible to send test copies of the "Student Welcome" email to yourself.
++ Improved information logged when an error is encountered during an email send.
++ Add backwards compatibility for legacy add-on integrations priority loading method.
++ Fixed undefined index notice when viewing log files on the admin status screen.
+
+
 = v3.33.1 - 2019-06-25 =
 ------------------------
 
@@ -204,16 +213,3 @@ The following unused classes have been marked as deprecated and will be removed 
 ------------------------
 
 + Fixed an issue preventing users with email addresses containing an apostrophe from being able to login.
-
-
-= v3.29.3 - 2019-03-01 =
-------------------------
-
-##### Bug Fixes
-
-+ Removed attempts to validate & save access plan data when the Classic Editor "post" form is submitted.
-+ Fix issue causing 1-click free-enrollment for logged in users to refresh the screen without actually performing an enrollment.
-
-##### Template Updates
-
-+ [product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)

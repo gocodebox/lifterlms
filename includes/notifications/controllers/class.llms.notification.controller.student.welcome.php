@@ -3,7 +3,7 @@
  * Notification Controller: Student Welcome
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.33.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Notification Controller: Student Welcome
  *
  * @since 3.8.0
- * @since [version] Add test send functionality.
+ * @since 3.33.2 Add test send functionality.
  */
 class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notification_Controller {
 
@@ -102,7 +102,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	/**
 	 * Get an array of LifterLMS Admin Page settings to send test notifications
 	 *
-	 * @since [version]
+	 * @since 3.33.2
 	 *
 	 * @param string $type Notification type [basic|email]
 	 * @return array
@@ -156,7 +156,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 * Send a test notification to the currently logged in users
 	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
 	 *
-	 * @since [version]
+	 * @since 3.33.2
 	 *
 	 * @param string $type Notification type [basic|email].
 	 * @param array $data Array of test notification data as specified by $this->get_test_data().

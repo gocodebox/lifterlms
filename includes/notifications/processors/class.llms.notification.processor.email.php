@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.10.1 Unknown.
- * @since [version] Improve data logged during errors.
+ * @since 3.33.2 Improve data logged during errors.
  */
 class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Processor {
 
@@ -30,7 +30,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.1 Unknown.
-	 * @since [version] Log additional data during errors.
+	 * @since 3.33.2 Log additional data during errors.
 	 *
 	 * @param int $notification_id ID of an LLMS_Notification.
 	 * @return bool `false` removes item from queue, `true` retain for further processing.

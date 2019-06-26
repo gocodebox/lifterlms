@@ -3,7 +3,7 @@
  * Admin Status Pages
  *
  * @since 3.11.2
- * @version [version]
+ * @version 3.33.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.11.2
  * @since 3.32.0 Add "Scheduled Actions" tab.
  * @since 3.33.1 Read log files using `llms_filter_input`.
- * @since [version] Fix undefined index when viewing log files.
+ * @since 3.33.2 Fix undefined index when viewing log files.
  */
 class LLMS_Admin_Page_Status {
 
@@ -225,7 +225,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 3.33.1 Use `llms_filter_input` to read current log file.
-	 * @since [version] Fix undefined variable notice.
+	 * @since 3.33.2 Fix undefined variable notice.
 	 *
 	 * @return   void
 	 */
