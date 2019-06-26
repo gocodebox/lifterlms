@@ -3,7 +3,7 @@
  * Admin Status Pages
  *
  * @since 3.11.2
- * @version 3.33.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.11.2
  * @since 3.32.0 Add "Scheduled Actions" tab.
  * @since 3.33.1 Read log files using `llms_filter_input`.
+ * @since [version] Fix undefined index when viewing log files.
  */
 class LLMS_Admin_Page_Status {
 
@@ -223,7 +224,8 @@ class LLMS_Admin_Page_Status {
 	 * Output the HTML for the Logs tab
 	 *
 	 * @since 3.11.2
-	 * @version 3.33.1 Use `llms_filter_input` to read current log file.
+	 * @since 3.33.1 Use `llms_filter_input` to read current log file.
+	 * @since [version] Fix undefined variable notice.
 	 *
 	 * @return   void
 	 */
@@ -234,7 +236,7 @@ class LLMS_Admin_Page_Status {
 
 		$current = llms_filter_input( INPUT_POST, 'llms_log_file', FILTER_SANITIZE_STRING );
 
-		if ( $logs && ! $file ) {
+		if ( $logs && ! $current ) {
 			$log_keys = array_keys( $logs );
 			$current = array_shift( $log_keys );
 		}

@@ -5,6 +5,8 @@ v3.33.2 - 2019-06-26
 --------------------
 
 + Add backwards compatibility for legacy add-on integrations priority loading method.
++ Fixed undefined index notice when viewing log files on the admin status screen.
+
 
 
 v3.33.1 - 2019-06-25
