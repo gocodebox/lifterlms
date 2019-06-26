@@ -2,12 +2,21 @@
 /**
  * Notification Background Processor: Emails
  *
- * @since    3.8.0
- * @version  3.10.1
+ * @package LifterLMS/Notifications/Processors
+ *
+ * @since 3.8.0
+ * @version 3.10.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Notification Background Processor: Emails
+ *
+ * @since 3.8.0
+ * @since 3.10.1 Unknown.
+ * @since [version] Improve data logged during errors.
+ */
 class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Processor {
 
 	/**
@@ -18,11 +27,13 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 
 	/**
 	 * Processes an item in the queue
-	 * @param    int     $notification_id  ID of an LLMS_Notification
-	 * @return   boolean                   false removes item from the queue
-	 *                                     true leaves it in the queue for further processing
-	 * @since    3.8.0
-	 * @version  3.10.1
+	 *
+	 * @since 3.8.0
+	 * @since 3.10.1 Unknown.
+	 * @since [version] Log additional data during errors.
+	 *
+	 * @param int $notification_id ID of an LLMS_Notification.
+	 * @return bool `false` removes item from queue, `true` retain for further processing.
 	 */
 	protected function task( $notification_id ) {
 
@@ -37,22 +48,24 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 			return false;
 		}
 
-		// setup the email
+		// setup the email.
 		$mailer = LLMS()->mailer()->get_email( 'notification' );
 
 		if ( ! $mailer->add_recipient( $notification->get( 'subscriber' ), 'to' ) ) {
 			$this->log( sprintf( 'error sending email notification ID #%d - subscriber does not exist', $notification_id ) );
+			$this->log( $notification->toArray() );
 			$notification->set( 'status', 'error' );
 			return false;
 		}
 
 		$mailer->set_subject( $view->get_subject() )->set_heading( $view->get_title() )->set_body( $view->get_html() );
 
-		// log when wp_mail fails
+		// log when wp_mail fails.
 		if ( $mailer->send() ) {
 			$notification->set( 'status', 'sent' );
 		} else {
 			$this->log( sprintf( 'error sending email notification ID #%d', $notification_id ) );
+			$this->log( $notification->toArray() );
 		}
 
 		return false;
@@ -62,4 +75,3 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 }
 
 return new LLMS_Notification_Processor_Email();
-
