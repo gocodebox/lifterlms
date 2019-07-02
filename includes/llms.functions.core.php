@@ -739,7 +739,7 @@ function llms_get_post( $post, $error = false ) {
 /**
  * Retrieve the parent course for a section, lesson, or quiz
  * @param    mixed     $post  WP Post ID or instance of WP_Post
- * @return   obj|null         Instance of the LLMS_Course or null
+ * @return   LLMS_Course|null Instance of the LLMS_Course or null
  * @since    3.6.0
  * @version  3.17.7
  */

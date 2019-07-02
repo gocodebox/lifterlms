@@ -41,7 +41,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Instance of the LLMS_Post_Model for the triggering post
-	 * @var  [type]
+	 * @var  LLMS_Post_Model
 	 */
 	protected $post;
 
@@ -59,19 +59,19 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Instance of the current LLMS_Notification
-	 * @var  obj
+	 * @var  LLMS_Notification
 	 */
 	protected $notification;
 
 	/**
 	 * Instance of LLMS_Student for the subscriber
-	 * @var  [type]
+	 * @var  LLMS_Student
 	 */
 	protected $subscriber;
 
 	/**
 	 * Instance of an LLMS_Student for the triggering user
-	 * @var  [type]
+	 * @var  LLMS_Student
 	 */
 	protected $user;
 
@@ -534,7 +534,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Access the protected notification object
-	 * @return   obj
+	 * @return   LLMS_Notification
 	 * @since    3.18.2
 	 * @version  3.18.2
 	 */

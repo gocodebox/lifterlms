@@ -193,7 +193,7 @@ class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Retrieve a student obj for the meta item
-	 * @return   obj LLMS_Student
+	 * @return   LLMS_Student|false
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */

@@ -20,7 +20,7 @@ class LLMS_Certificates {
 
 	/**
 	 * Instance
-	 * @var  null
+	 * @var  LLMS_Certificates
 	 */
 	protected static $_instance = null;
 
@@ -32,7 +32,7 @@ class LLMS_Certificates {
 
 	/**
 	 * Instance singleton
-	 * @return   void
+	 * @return   LLMS_Certificates
 	 * @since    1.0.0
 	 * @version  1.0.0
 	 */

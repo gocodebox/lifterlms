@@ -487,7 +487,7 @@ final class LifterLMS {
 
 	/**
 	 * Grading instance
-	 * @return   obj
+	 * @return   LLMS_Grades
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
@@ -497,7 +497,7 @@ final class LifterLMS {
 
 	/**
 	 * get integrations
-	 * @return object instance
+	 * @return LLMS_Integrations instance
 	 */
 	public function integrations() {
 		return LLMS_Integrations::instance();
@@ -505,7 +505,7 @@ final class LifterLMS {
 
 	/**
 	 * Retrieve an instance of the notifications class
-	 * @return   obj
+	 * @return   LLMS_Notifications
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -515,7 +515,7 @@ final class LifterLMS {
 
 	/**
 	 * get payment gateways.
-	 * @return array
+	 * @return LLMS_Payment_Gateways
 	 */
 	public function payment_gateways() {
 		return LLMS_Payment_Gateways::instance();

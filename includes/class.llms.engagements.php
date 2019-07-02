@@ -26,13 +26,13 @@ class LLMS_Engagements {
 
 	/**
 	 * protected instance of class
-	 * @var null
+	 * @var LLMS_Engagements
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Create instance of class
-	 * @return object [Instance of engagements class]
+	 * @return LLMS_Engagements [Instance of engagements class]
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
