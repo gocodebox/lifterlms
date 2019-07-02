@@ -227,7 +227,7 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Retrieve an instance of the notification view class for the notification
-	 * @return   obj
+	 * @return   LLMS_Abstract_Notification_View|false
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
