@@ -352,7 +352,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// force numeric id and prevent filtering on the id.
 		if ( 'id' === $key ) {
 
-			return $raw ? $this->$key : absint( $this->$key );
+			return absint( $this->$key );
 
 		} elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
 			$post_key = 'post_' . $key;
