@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.31.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
  * @since 3.30.3 Use `wp_slash()` when creating new posts.
  * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
+ * @since [version] Add parameter to the `get()` method in order to get raw properties.
+ * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt` as gettable post properties.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -129,79 +131,14 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Magic Getter
-	 * @param    string $key   key to retrieve
-	 * @return   mixed
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $key Key to retrieve.
+	 * @return mixed
 	 */
 	public function __get( $key ) {
-
-		// force numeric id and prevent filtering on the id
-		if ( 'id' === $key ) {
-
-			return absint( $this->$key );
-
-		} elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
-
-			$post_key = 'post_' . $key;
-
-			// ensure post is set globally for filters below
-			global $post;
-			$temp = $post;
-			$post = $this->post;
-
-			switch ( $key ) {
-
-				case 'content':
-					$val = llms_content( $this->post->$post_key );
-				break;
-
-				case 'excerpt':
-					$val = apply_filters( 'get_the_excerpt', $this->post->$post_key );
-				break;
-
-				case 'menu_order':
-					$val = $this->post->menu_order;
-				break;
-
-				case 'title':
-					$val = apply_filters( 'the_title', $this->post->$post_key, $this->get( 'id' ) );
-				break;
-
-				default:
-					$val = $this->post->$post_key;
-
-			}
-
-			// return the original global
-			$post = $temp;
-
-		} elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
-
-			if ( metadata_exists( 'post',  $this->id, $this->meta_prefix . $key ) ) {
-				$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
-			} else {
-				$val = $this->get_default_value( $key );
-			}
-		} else {
-
-			return $this->$key;
-
-		}// End if().
-
-		// if we found a valid, apply default llms get get filter and return the value
-		if ( isset( $val ) ) {
-
-			if ( 'content' !== $key ) {
-				$val = $this->scrub( $key, $val );
-			}
-			return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key, $val, $this );
-
-		}
-
-		// shouldn't ever get here
-		return false;
-
+		return $this->___get( $key );
 	}
 
 	/**
@@ -402,13 +339,108 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
-	 * Getter
-	 * @param  string $key  property key
+	 * Private getter.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $key The property key.
+	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
 	 * @return mixed
-	 * @since  3.0.0
 	 */
-	public function get( $key ) {
+	private function ___get( $key, $raw = false ) {
+
+		// force numeric id and prevent filtering on the id.
+		if ( 'id' === $key ) {
+
+			return $raw ? $this->$key : absint( $this->$key );
+
+		} elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
+			$post_key = 'post_' . $key;
+
+			// ensure post is set globally for filters below.
+			global $post;
+			$temp = $post;
+			$post = $this->post;
+
+			switch ( $key ) {
+
+				case 'content':
+					$val = $raw ? $this->post->$post_key : llms_content( $this->post->$post_key );
+				break;
+
+				case 'excerpt':
+					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key );
+				break;
+
+				case 'menu_order':
+					$val = $this->post->menu_order;
+				break;
+
+				case 'comment_status':
+					$val = $this->post->comment_status;
+				break;
+
+				case 'ping_status':
+					$val = $this->post->ping_status;
+				break;
+
+				case 'title':
+					$val = $raw ? $this->post->$post_key : apply_filters( 'the_title', $this->post->$post_key, $this->get( 'id' ) );
+				break;
+
+				default:
+					$val = $this->post->$post_key;
+
+			}
+
+			// return the original global.
+			$post = $temp;
+
+		} elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
+
+			if ( metadata_exists( 'post',  $this->id, $this->meta_prefix . $key ) ) {
+				$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
+			} else {
+				$val = $this->get_default_value( $key );
+			}
+		} else {
+
+			return $this->$key;
+		}// End if().
+
+		// if we found a valid, apply default llms get get filter and return the value.
+		if ( isset( $val ) ) {
+
+			if ( ! $raw && 'content' !== $key ) {
+				$val = $this->scrub( $key, $val );
+			}
+
+			return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key, $val, $this );
+
+		}
+
+		// shouldn't ever get here.
+		return false;
+
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @since  3.0.0
+	 *
+	 * @param string  $key The property key.
+	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
+	 * @return mixed
+	 */
+	public function get( $key, $raw = false ) {
+
+		if ( $raw ) {
+			return $this->___get( $key, $raw );
+		}
+
 		return $this->$key;
+
 	}
 
 	/**
@@ -657,21 +689,26 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.31.0 Treat excerpts as HTML instead of plain text.
+	 * @since [version] Add date and modified dates GMT version, comment and ping status.
 	 *
 	 * @return array
 	 */
 	protected function get_post_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', array(
-			'author' => 'absint',
-			'content' => 'html',
-			'date' => 'text',
-			'excerpt' => 'html',
-			'menu_order' => 'absint',
-			'modified' => 'text',
-			'name' => 'text',
-			'status' => 'text',
-			'title' => 'text',
-			'type' => 'text',
+			'author'         => 'absint',
+			'content'        => 'html',
+			'date'           => 'text',
+			'date_gmt'       => 'text',
+			'excerpt'        => 'html',
+			'menu_order'     => 'absint',
+			'modified'       => 'text',
+			'modified_gmt'   => 'text',
+			'name'           => 'text',
+			'status'         => 'text',
+			'title'          => 'text',
+			'type'           => 'text',
+			'comment_status' => 'text',
+			'ping_status'    => 'text',
 		), $this );
 	}
 
