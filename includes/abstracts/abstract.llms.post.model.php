@@ -13,6 +13,27 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Post_Model abstract
  *
+ * @property      string  $author           ID of post author.
+ * @property      string  $content          The post's content.
+ * @property      string  $date             The post's local publication time.
+ * @property-read string  $db_post_type     Name of the post type as stored in the database
+ *                                          This will be prefixed (where applicable)
+ *                                          ie: "llms_order" for the "llms_order" post type
+ * @property      string  $excerpt          The post's excerpt.
+ * @property-read int     $id               Post ID.
+ * @property      int     $menu_order       A field used for ordering posts.
+ * @property-read string  $meta_prefix      A prefix to add to all meta properties
+ *                                          Child classes can redefine this
+ * @property-read string  $model_post_type  Define this in extending classes
+ *                                          Allows models to use unprefixed post type names for filters and more
+ *                                          ie: "order" for the "llms_order" post type
+ * @property      string  $modified         The post's local modified time.
+ * @property      string  $name             The post's slug.
+ * @property-read WP_Post $post             Instance of WP_Post
+ * @property      string  $status           The post's status.
+ * @property      string  $title            The post's title.
+ * @property      string  $type             The post's type, like post or page.
+ *
  * @since 3.0.0
  * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
