@@ -874,7 +874,9 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Find the next uncompleted lesson in the course syllabus
-	 * @return int [Next uncompleted lesson]
+	 * @return int|false next uncompleted lesson id or false if all lessons are complete
+	 * @since [version] Returns false if all lessons are complete.
+	 * @version [version]
 	 */
 	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
@@ -895,6 +897,8 @@ implements LLMS_Interface_Post_Audio
 		if ( $lessons_not_completed ) {
 			return $lessons_not_completed[0];
 		}
+
+		return false;
 	}
 
 	/**
