@@ -32,7 +32,9 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an instance of LLMS_Course for the sections's parent course
-	 * @return   obj|null
+	 * @return   LLMS_Course|null|false LLMS_Course,
+	 *                                  null if WP get_post() fails,
+	 *                                  false if LLMS_Course class isn't found
 	 * @since    3.6.0
 	 * @version  3.6.0
 	 */
@@ -79,7 +81,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the previous section
-	 * @return   obj|false
+	 * @return   LLMS_Section|false
 	 * @since    3.13.0
 	 * @version  3.24.0
 	 */
@@ -120,7 +122,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the previous section
-	 * @return   obj|false
+	 * @return   LLMS_Section|false
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
@@ -142,7 +144,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Get all lessons in the section
 	 * @param    string  $return  type of return [ids|posts|lessons]
-	 * @return   array
+	 * @return   int[]|WP_Post[]|LLMS_Lesson[] type depends on value of $return
 	 * @since    3.3.0
 	 * @version  3.24.0
 	 */
@@ -177,7 +179,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Get sibling sections
 	 * @param    string  $return  type of return [ids|posts|sections]
-	 * @return   array
+	 * @return   int[]|WP_Post[]|LLMS_Section[] type depends on value of $return
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
@@ -271,7 +273,7 @@ class LLMS_Section extends LLMS_Post_Model {
 	 * Set parent section
 	 * Set's parent section in database
 	 * @param [int] $meta [id section post]
-	 * @return [mixed] $meta [if mta didn't exist returns the meta_id else t/f if update success]
+	 * @return int|bool if meta didn't exist returns the meta_id else t/f if update success
 	 * Returns False if section id is already parent
 	 * @todo     deprecate
 	 */
@@ -289,7 +291,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Remove all associated lessons and delete section
-	 * @return [type] [description]
+	 * @return WP_Post|false|null
 	 * @todo     deprecate
 	 */
 	public function delete() {
@@ -304,7 +306,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Remove ALL child lessons
-	 * @return [type] [description]
+	 * @return void
 	 * @todo     deprecate
 	 */
 	public function remove_all_child_lessons() {
@@ -326,7 +328,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Remove individual child lesson
-	 * @param  [int] $lesson_id  [lesson post id]
+	 * @param  int $lesson_id  lesson post id
 	 * @return [bool]            [if lesson was deleted]
 	 * @todo     deprecate
 	 */
@@ -348,7 +350,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Count child lessons
-	 * @return [int] [number of child lessons in section]
+	 * @return int number of child lessons in section
 	 * @todo     deprecate
 	 */
 	public function count_children_lessons() {
@@ -359,7 +361,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Get the next lesson order for assigning a lesson to a section
-	 * @return [int] [number of child lesson plus 1]
+	 * @return int number of child lesson plus 1
 	 * @todo     deprecate
 	 */
 	public function get_next_available_lesson_order() {
@@ -373,8 +375,8 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Set parent course
 	 * Set's parent course in database
-	 * @param [int] $meta [id course post]
-	 * @return [mixed] $meta [if meta didn't exist returns the meta_id else t/f if update success]
+	 * @param int $course_id id of course post
+	 * @return int|bool if meta didn't exist returns the meta_id else t/f if update success
 	 * Returns False if course id is already parent
 	 * @todo     deprecate
 	 */
@@ -401,7 +403,7 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	/**
 	 * Get All child lessons
-	 * @return      [array] [array of post objects of all child lessons]
+	 * @return      WP_Post[] [array of post objects of all child lessons]
 	 * @since       1.0.0
 	 * @version     3.24.0
 	 * @deprecated  3.24.0

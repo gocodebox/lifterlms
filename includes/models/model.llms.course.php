@@ -103,7 +103,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an instance of the Post Instructors model
-	 * @return   obj
+	 * @return   LLMS_Post_Instructors
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
@@ -227,7 +227,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get course lessons
 	 * @param    string     $return  type of return [ids|posts|lessons]
-	 * @return   array
+	 * @return   int[]|WP_Post[]|LLMS_Lesson[] type depends on value of $return
 	 * @since    3.0.0
 	 * @version  3.24.0
 	 */
@@ -297,7 +297,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get course sections
 	 * @param    string  $return  type of return [ids|posts|sections]
-	 * @return   array
+	 * @return   int[]|WP_Post[]|LLMS_Section[] type depends on value of $return
 	 * @since    3.0.0
 	 * @version  3.24.0
 	 */
@@ -420,7 +420,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an instance of the LLMS_Product for this course
-	 * @return   obj         instance of an LLMS_Product
+	 * @return   LLMS_Product instance of an LLMS_Product
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
@@ -718,7 +718,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get WP user object for the course author
-	 * @return obj   instance of WP_User
+	 * @return WP_User instance of WP_User
 	 *
 	 * @since  3.0.0
 	 */
@@ -874,7 +874,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Find the next uncompleted lesson in the course syllabus
-	 * @return int [Next uncompleted lesson]
+	 * @return int next uncompleted lesson id
 	 */
 	public function get_next_uncompleted_lesson() {
 		$lessons_not_completed = array();
