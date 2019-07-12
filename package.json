@@ -15,7 +15,7 @@
   "devDependencies": {
     "all-contributors-cli": "^4.11.2",
     "gulp": "^4.0.0",
-    "gulp-cli": "^2.0.1",
+    "gulp-cli": "^2.2.0",
     "gulp-header": "^2.0.5",
     "gulp-include": "^2.3.1",
     "gulp-notify": "^3.2.0",
