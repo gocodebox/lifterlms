@@ -811,7 +811,7 @@ implements LLMS_Interface_Post_Audio
 		global $wpdb;
 		$user_id = get_current_user_id();
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %d', $user_id, $post_id) );
+		$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %d', $user_id, $post_id ) );
 		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->meta_key ] = $results[ $i ];
 			unset( $results[ $i ] );
