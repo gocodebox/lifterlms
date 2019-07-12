@@ -40,7 +40,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Use `wp_slash()` when creating new posts.
  * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
  * @since [version] Add parameter to the `get()` method in order to get raw properties.
- * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt` as gettable post properties.
+ * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order` as gettable\settable post properties.
+ * @since [version] Add `update_model()` method that will allow to update an object at once given an array of properties.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -910,69 +911,129 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
+	 * @since [version] Turned to be only a wrapper for the update_model() method.
 	 *
-	 * @param string $key Key of the property.
-	 * @param mixed  $val Value to set the property with.
+	 * @param string|array $key_or_array Key of the property or a an associative array of key/val pairs.
+	 * @param mixed        $val          Optional. Value to set the property with. Default empty string.
+	 *                                   This parameter will be ignored when the first parameter is an associative array of key/val pairs.
 	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database
 	 */
-	public function set( $key, $val ) {
+	public function set( $key_or_array, $val = '' ) {
 
-		$val = $this->scrub( $key, $val );
-
-		// update WordPress Post Properties using the wp_insert_post() function
-		if ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
-
-			$post_key = 'post_' . $key;
-
-			switch ( $key ) {
-
-				case 'content':
-					$val = apply_filters( 'content_save_pre', $val );
-				break;
-
-				case 'excerpt':
-					$val = apply_filters( 'excerpt_save_pre', $val );
-				break;
-
-				case 'menu_order':
-					$post_key = 'menu_order';
-				break;
-
-				case 'title':
-					$val = apply_filters( 'title_save_pre', $val );
-				break;
-
-			}
-
-			$args = array(
-				'ID' => $this->get( 'id' ),
+		$model_array = array();
+		if ( ! is_array( $key_or_array ) ) {
+			$model_array = array(
+				$key_or_array => $val,
 			);
-
-			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
-
-			if ( wp_update_post( wp_slash( $args ) ) ) {
-				$this->post->{$post_key} = $val;
-				return true;
-			} else {
-				return false;
-			}
-		} // End if().
-		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
-
-			$u = update_post_meta( $this->id, $this->meta_prefix . $key, apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this ) );
-			if ( is_numeric( $u ) || true === $u ) {
-				return true;
-			} else {
-				return false;
-			}
-		} // we have a problem...
-		else {
-
-			return false;
-
+		} else {
+			$model_array = $key_or_array;
 		}
+		return $this->update_model( $model_array );
 
 	}
+
+
+	/**
+	 * Updater
+	 *
+	 * @since [version]
+	 *
+	 * @param array $model_array Associative array of key/val pairs.
+	 * @return boolean true on success, false on error or if there was nothing to update.
+	 */
+	public function update_model( $model_array ) {
+
+		if ( empty( $model_array ) ) {
+			return false;
+		}
+
+		$llms_post = array(
+			'post' => array(),
+			'meta' => array(),
+		);
+
+		$post_properties = array_keys( $this->get_post_properties() );
+		$unsettable_properties = $this->get_unsettable_properties();
+
+		foreach ( $model_array as $key => $val ) {
+
+			$val = $this->scrub( $key, $val );
+
+			// update WordPress Post Properties using the wp_insert_post() function
+			if ( in_array( $key, $post_properties ) ) {
+
+				$type           = 'post';
+				$llms_post_key  = "post_{$key}";
+
+				switch ( $key ) {
+
+					case 'content':
+						$val = apply_filters( 'content_save_pre', $val );
+					break;
+
+					case 'excerpt':
+						$val = apply_filters( 'excerpt_save_pre', $val );
+					break;
+
+					case 'menu_order':
+						$llms_post_key = 'menu_order';
+					break;
+
+					case 'title':
+						$val = apply_filters( 'title_save_pre', $val );
+					break;
+				}
+			} elseif ( ! in_array( $key, $unsettable_properties ) ) {
+				$type          = 'meta';
+				$llms_post_key = $key;
+			} else {
+				continue;
+			}
+
+			$llms_post[ $type ][ $llms_post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
+
+		}// End foreach().
+
+		if ( empty( $llms_post['post'] ) && empty( $llms_post['meta'] ) ) {
+			return false;
+		}
+
+		$has_error = false;
+
+		if ( ! empty( $llms_post['post'] ) ) {
+
+			$args = array_merge(
+				array(
+					'ID' => $this->get( 'id' ),
+				),
+				$llms_post['post']
+			);
+
+			if ( wp_update_post( wp_slash( $args ) ) ) {
+				// update this post
+				foreach ( $llms_post['post'] as $key => $val ) {
+					$this->post->{$key} = $val;
+				}
+				$has_error = false;
+			} else {
+				$has_error = true;
+			}
+		}
+
+		if ( ! empty( $llms_post['meta'] ) ) {
+			foreach ( $llms_post['meta']  as $key => $val ) {
+				$u = update_post_meta( $this->id, $this->meta_prefix . $key, $val );
+				if ( is_numeric( $u ) || true === $u ) {
+					$has_error = $has_error || false;
+				} else {
+					$has_error = true;
+				}
+			}
+		}
+
+		return ! $has_error;
+	}
+
 
 	/**
 	 * Update terms for the post for a given taxonomy

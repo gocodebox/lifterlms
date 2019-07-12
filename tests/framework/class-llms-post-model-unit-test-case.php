@@ -108,6 +108,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 
 	/**
 	 * Test getters and setters
+	 *
 	 * @return   void
 	 * @since    3.4.0
 	 * @version  3.28.0
@@ -155,7 +156,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 					$this->assertTrue( is_array( $this->obj->get( $prop ) ) );
 					// strings should return an array with the string as the first item in the array
 					$this->obj->set( $prop, 'string' );
-					$this->assertEquals( array( 'string'), $this->obj->get( $prop ) );
+					$this->assertEquals( array( 'string' ), $this->obj->get( $prop ) );
 				break;
 
 				case 'float':
@@ -200,4 +201,31 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 		}
 	}
 
+
+	/**
+	 * Test update_model()
+	 *
+	 * @since [version]
+	 * @return void
+	 */
+	public function test_update_model() {
+
+		$this->create( 'another creative test title' );
+		$props = $this->get_properties();
+		$data = $this->get_data();
+
+		if ( ! $data ) {
+			$this->markTestSkipped( 'No properties to test.' );
+		}
+
+		// update should return true
+		$this->assertTrue( $this->obj->update_model( $data ) );
+
+		// Check each property has been set as expected.
+		foreach ( $props as $prop => $type ) {
+			// make sure gotten value equals set val
+			$this->assertEquals( $data[ $prop ], $this->obj->get( $prop ) );
+		}
+
+	}
 }
