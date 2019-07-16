@@ -400,6 +400,28 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	}
 
 	/**
+	 * Returns an array of CSS class names to use on this table.
+	 * @return array
+	 * @since   [version]
+	 * @version [version]
+	 */
+	protected function get_table_classes() {
+		$classes = [
+			'llms-table',
+			'llms-gb-table',
+			'llms-gb-table-' . $this->id,
+		];
+
+		/**
+		 * Filters the CSS classes to use on the table.
+		 * @param array $classes CSS class names
+		 * @param array $table_id id property of this table object
+		 * @since [version]
+		 */
+		return apply_filters( 'llms_table_get_table_classes', $classes, $this->id );
+	}
+
+	/**
 	 * Get HTML for the filters displayed in the head of the table
 	 * @return   string
 	 * @since    3.4.0
@@ -434,11 +456,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	public function get_table_html() {
 
-		$classes = array(
-			'llms-table',
-			'llms-gb-table',
-			'llms-gb-table-' . $this->id,
-		);
+		$classes = $this->get_table_classes();
 
 		if ( $this->is_zebra ) {
 			$classes[] = 'zebra';
