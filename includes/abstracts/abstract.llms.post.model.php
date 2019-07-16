@@ -41,7 +41,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
  * @since [version] Add parameter to the `get()` method in order to get raw properties.
  * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order` as gettable\settable post properties.
- * @since [version] Add `update_model()` method that will allow to update an object at once given an array of properties.
+ * @since [version] Add `set_bulk()` method that will allow to update an object at once given an array of properties.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -911,7 +911,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
-	 * @since [version] Turned to be only a wrapper for the update_model() method.
+	 * @since [version] Turned to be only a wrapper for the set_bulk() method.
 	 *
 	 * @param string|array $key_or_array Key of the property or a an associative array of key/val pairs.
 	 * @param mixed        $val          Optional. Value to set the property with. Default empty string.
@@ -928,23 +928,29 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		} else {
 			$model_array = $key_or_array;
 		}
-		return $this->update_model( $model_array );
+		return $this->set_bulk( $model_array );
 
 	}
 
 
 	/**
-	 * Updater
+	 * Bulk setter.
 	 *
 	 * @since [version]
 	 *
 	 * @param array $model_array Associative array of key/val pairs.
-	 * @return boolean true on success, false on error or if there was nothing to update.
+	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
+	 * @return boolean|WP_Error True on success. If the param $wp_error is set to false this will be false on error or if there was nothing to update.
+	 *                          Otherwise this will be a WP_Error object collecting all the errors encountered along the way.
 	 */
-	public function update_model( $model_array ) {
+	public function set_bulk( $model_array, $wp_error = false ) {
 
 		if ( empty( $model_array ) ) {
-			return false;
+			if ( ! $wp_error ) {
+				return false;
+			} else {
+				return new WP_Error( 'empty_data', __( 'Empty data', 'lifterlms' ) );
+			}
 		}
 
 		$llms_post = array(
@@ -995,43 +1001,50 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		}// End foreach().
 
 		if ( empty( $llms_post['post'] ) && empty( $llms_post['meta'] ) ) {
-			return false;
+			if ( ! $wp_error ) {
+				return false;
+			} else {
+				return new WP_Error( 'invalid_data', __( 'Invalid data', 'lifterlms' ) );
+			}
 		}
 
-		$has_error = false;
+		$error = new WP_Error();
 
 		if ( ! empty( $llms_post['post'] ) ) {
 
 			$args = array_merge(
+				$llms_post['post'],
 				array(
 					'ID' => $this->get( 'id' ),
-				),
-				$llms_post['post']
+				)
 			);
 
-			if ( wp_update_post( wp_slash( $args ) ) ) {
-				// update this post
+			$update_post = wp_update_post( wp_slash( $args ), true );
+
+			if ( ! is_wp_error( $update_post ) ) {
+				// update this post.
 				foreach ( $llms_post['post'] as $key => $val ) {
 					$this->post->{$key} = $val;
 				}
-				$has_error = false;
 			} else {
-				$has_error = true;
+				$error = $update_post;
 			}
 		}
 
 		if ( ! empty( $llms_post['meta'] ) ) {
-			foreach ( $llms_post['meta']  as $key => $val ) {
+			foreach ( $llms_post['meta'] as $key => $val ) {
 				$u = update_post_meta( $this->id, $this->meta_prefix . $key, $val );
-				if ( is_numeric( $u ) || true === $u ) {
-					$has_error = $has_error || false;
-				} else {
-					$has_error = true;
+				if ( ! ( is_numeric( $u ) || true === $u ) ) {
+					$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
 				}
 			}
 		}
 
-		return ! $has_error;
+		if ( $error->has_errors() ) {
+			return $wp_error ? $error : false;
+		}
+
+		return true;
 	}
 
 
