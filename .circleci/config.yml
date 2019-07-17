@@ -9,7 +9,7 @@ references:
   common_env_vars: &common_env_vars
     environment:
       - MYSQL_ROOT_HOST: "%"
-      - MYSQL_ROOT_PASSWORD: password
+      # - MYSQL_ROOT_PASSWORD: password
 
   common: &common
     working_directory: ~/repo
