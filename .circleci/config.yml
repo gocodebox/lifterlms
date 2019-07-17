@@ -45,12 +45,12 @@ references:
       #     command: |
       #       sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
 
-      - run:
-          name: Start database server
-          command: |
-            service mysql start
-            sleep 2
-            ps aux | grep mysql
+      # - run:
+      #     name: Start database server
+      #     command: |
+      #       service mysql start
+      #       sleep 2
+      #       ps aux | grep mysql
 
       - run:
           name: Setup MySQL User
@@ -82,8 +82,7 @@ references:
 
       - run:
           name: Check Coding Standards
-          # command: composer run-script check-cs-errors
-          command: composer run-script phpcs
+          command: composer run-script check-cs
 
       - run:
           name: Install PHP Unit Tests
