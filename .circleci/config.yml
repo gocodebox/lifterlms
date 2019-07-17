@@ -92,10 +92,10 @@ references:
           name: Run PHP Unit Tests
           command: |
             if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73" == "${CIRCLE_JOB}" ]; then
-                ./cc-test-reporter before-build
+                /cc-test-reporter before-build
                 export COMPOSER_PROCESS_TIMEOUT=1200
                 composer run-script tests-run -- --coverage-clover clover.xml
-                ./cc-test-reporter after-build --coverage-input-type clover --exit-code $?
+                /cc-test-reporter after-build --coverage-input-type clover --exit-code $?
             else
               composer run-script tests-run
             fi
