@@ -45,18 +45,18 @@ references:
       #     command: |
       #       sudo sh -c "echo 'pdo_mysql.default_socket=/var/run/mysqld/mysqld.sock' > /usr/local/etc/php/conf.d/pdo.ini"
 
-      - run:
-          name: Start database server
-          command: |
-            service mysql start
-            sleep 2
-            ps aux | grep mysql
+      # - run:
+      #     name: Start database server
+      #     command: |
+      #       service mysql start
+      #       sleep 2
+      #       ps aux | grep mysql
 
-      - run:
-          name: Setup MySQL User
-          command: |
-            mysql -e "UPDATE mysql.user SET plugin = '', Password = PASSWORD('$MYSQL_ROOT_PASSWORD') WHERE User = 'root';"
-            mysql -e "FLUSH PRIVILEGES;"
+      # - run:
+      #     name: Setup MySQL User
+      #     command: |
+      #       mysql -e "UPDATE mysql.user SET plugin = '', Password = PASSWORD('$MYSQL_ROOT_PASSWORD') WHERE User = 'root';"
+      #       mysql -e "FLUSH PRIVILEGES;"
 
       # - run:
       #     name: Install Subversion
