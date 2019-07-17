@@ -48,15 +48,15 @@ references:
       - run:
           name: Start database server
           command: |
-            sudo service mysql start
+            service mysql start
             sleep 2
             ps aux | grep mysql
 
       - run:
           name: Setup MySQL User
           command: |
-            sudo mysql -e "UPDATE mysql.user SET plugin = '', Password = PASSWORD('$MYSQL_ROOT_PASSWORD') WHERE User = 'root';"
-            sudo mysql -e "FLUSH PRIVILEGES;"
+            mysql -e "UPDATE mysql.user SET plugin = '', Password = PASSWORD('$MYSQL_ROOT_PASSWORD') WHERE User = 'root';"
+            mysql -e "FLUSH PRIVILEGES;"
 
       # - run:
       #     name: Install Subversion
@@ -66,14 +66,14 @@ references:
           name: Install Composer Dependencies
           command: composer install -n --prefer-dist
 
-      - run:
-          name: Install Test Reporter
-          command: |
-            if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73" == "${CIRCLE_JOB}" ]; then
-              curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
-              chmod +x ./cc-test-reporter
-              sudo -E docker-php-ext-enable xdebug
-            fi
+      # - run:
+      #     name: Install Test Reporter
+      #     command: |
+      #       if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73" == "${CIRCLE_JOB}" ]; then
+      #         curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+      #         chmod +x ./cc-test-reporter
+      #         sudo -E docker-php-ext-enable xdebug
+      #       fi
 
       - save_cache:
           paths:
