@@ -2,7 +2,7 @@
 /**
  * WPDB database interactions
  * @since 3.14.0
- * @version 3.33.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -10,7 +10,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * WPDB database interactions
  * @since 3.14.0
- * @since 3.33.0 `setup()` method returns self instead of void.
+ * @since 3.33.0 setup() method returns self instead of void.
+ * @since [version] to_array() method returns value of the primary key instead of the format.
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -380,13 +381,15 @@ abstract class LLMS_Abstract_Database_Store {
 
 	/**
 	 * Retrieve object as an array
-	 * @return   array
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 *
+	 * @since 3.14.0
+	 * @since [version] Return the item ID instead of item format as the value of the primary key.
+	 *
+	 * @return array
 	 */
 	public function to_array() {
 
-		return array_merge( $this->primary_key, $this->data );
+		return array_merge( array_combine( array_keys( $this->primary_key ), array( $this->id ) ), $this->data );
 
 	}
 
