@@ -40,7 +40,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Use `wp_slash()` when creating new posts.
  * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
  * @since [version] Add parameter to the `get()` method in order to get raw properties.
- * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order` as gettable\settable post properties.
+ * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, 'post_password` as gettable\settable post properties.
  * @since [version] Add `set_bulk()` method that will allow to update an object at once given an array of properties.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
@@ -394,16 +394,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key );
 				break;
 
-				case 'menu_order':
-					$val = $this->post->menu_order;
-				break;
-
-				case 'comment_status':
-					$val = $this->post->comment_status;
-				break;
-
 				case 'ping_status':
-					$val = $this->post->ping_status;
+				case 'comment_status':
+				case 'menu_order':
+					$val = $this->post->$key;
 				break;
 
 				case 'title':
@@ -711,7 +705,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.31.0 Treat excerpts as HTML instead of plain text.
-	 * @since [version] Add date and modified dates GMT version, comment and ping status.
+	 * @since [version] Add date and modified dates GMT version, comment and ping status, post password and menu_order.
 	 *
 	 * @return array
 	 */
@@ -722,6 +716,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'date'           => 'text',
 			'date_gmt'       => 'text',
 			'excerpt'        => 'html',
+			'password'       => 'text',
 			'menu_order'     => 'absint',
 			'modified'       => 'text',
 			'modified_gmt'   => 'text',
@@ -981,8 +976,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 						$val = apply_filters( 'excerpt_save_pre', $val );
 					break;
 
+					case 'ping_status':
+					case 'comment_status':
 					case 'menu_order':
-						$llms_post_key = 'menu_order';
+						$llms_post_key = $key;
 					break;
 
 					case 'title':
