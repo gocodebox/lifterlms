@@ -40,7 +40,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Use `wp_slash()` when creating new posts.
  * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
  * @since [version] Add parameter to the `get()` method in order to get raw properties.
- * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt` as gettable post properties.
+ * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, 'post_password` as gettable\settable post properties.
+ * @since [version] Add `set_bulk()` method that will allow to update an object at once given an array of properties.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -393,16 +394,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key );
 				break;
 
-				case 'menu_order':
-					$val = $this->post->menu_order;
-				break;
-
-				case 'comment_status':
-					$val = $this->post->comment_status;
-				break;
-
 				case 'ping_status':
-					$val = $this->post->ping_status;
+				case 'comment_status':
+				case 'menu_order':
+					$val = $this->post->$key;
 				break;
 
 				case 'title':
@@ -710,7 +705,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.31.0 Treat excerpts as HTML instead of plain text.
-	 * @since [version] Add date and modified dates GMT version, comment and ping status.
+	 * @since [version] Add date and modified dates GMT version, comment and ping status, post password and menu_order.
 	 *
 	 * @return array
 	 */
@@ -721,6 +716,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'date'           => 'text',
 			'date_gmt'       => 'text',
 			'excerpt'        => 'html',
+			'password'       => 'text',
 			'menu_order'     => 'absint',
 			'modified'       => 'text',
 			'modified_gmt'   => 'text',
@@ -910,69 +906,144 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
+	 * @since [version] Turned to be only a wrapper for the set_bulk() method.
 	 *
-	 * @param string $key Key of the property.
-	 * @param mixed  $val Value to set the property with.
+	 * @param string|array $key_or_array Key of the property or a an associative array of key/val pairs.
+	 * @param mixed        $val          Optional. Value to set the property with. Default empty string.
+	 *                                   This parameter will be ignored when the first parameter is an associative array of key/val pairs.
 	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database
 	 */
-	public function set( $key, $val ) {
+	public function set( $key_or_array, $val = '' ) {
 
-		$val = $this->scrub( $key, $val );
-
-		// update WordPress Post Properties using the wp_insert_post() function
-		if ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
-
-			$post_key = 'post_' . $key;
-
-			switch ( $key ) {
-
-				case 'content':
-					$val = apply_filters( 'content_save_pre', $val );
-				break;
-
-				case 'excerpt':
-					$val = apply_filters( 'excerpt_save_pre', $val );
-				break;
-
-				case 'menu_order':
-					$post_key = 'menu_order';
-				break;
-
-				case 'title':
-					$val = apply_filters( 'title_save_pre', $val );
-				break;
-
-			}
-
-			$args = array(
-				'ID' => $this->get( 'id' ),
+		$model_array = array();
+		if ( ! is_array( $key_or_array ) ) {
+			$model_array = array(
+				$key_or_array => $val,
 			);
-
-			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
-
-			if ( wp_update_post( wp_slash( $args ) ) ) {
-				$this->post->{$post_key} = $val;
-				return true;
-			} else {
-				return false;
-			}
-		} // End if().
-		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
-
-			$u = update_post_meta( $this->id, $this->meta_prefix . $key, apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this ) );
-			if ( is_numeric( $u ) || true === $u ) {
-				return true;
-			} else {
-				return false;
-			}
-		} // we have a problem...
-		else {
-
-			return false;
-
+		} else {
+			$model_array = $key_or_array;
 		}
+		return $this->set_bulk( $model_array );
 
 	}
+
+
+	/**
+	 * Bulk setter.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $model_array Associative array of key/val pairs.
+	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
+	 * @return boolean|WP_Error True on success. If the param $wp_error is set to false this will be false on error or if there was nothing to update.
+	 *                          Otherwise this will be a WP_Error object collecting all the errors encountered along the way.
+	 */
+	public function set_bulk( $model_array, $wp_error = false ) {
+
+		if ( empty( $model_array ) ) {
+			if ( ! $wp_error ) {
+				return false;
+			} else {
+				return new WP_Error( 'empty_data', __( 'Empty data', 'lifterlms' ) );
+			}
+		}
+
+		$llms_post = array(
+			'post' => array(),
+			'meta' => array(),
+		);
+
+		$post_properties = array_keys( $this->get_post_properties() );
+		$unsettable_properties = $this->get_unsettable_properties();
+
+		foreach ( $model_array as $key => $val ) {
+
+			$val = $this->scrub( $key, $val );
+
+			// update WordPress Post Properties using the wp_insert_post() function
+			if ( in_array( $key, $post_properties ) ) {
+
+				$type           = 'post';
+				$llms_post_key  = "post_{$key}";
+
+				switch ( $key ) {
+
+					case 'content':
+						$val = apply_filters( 'content_save_pre', $val );
+					break;
+
+					case 'excerpt':
+						$val = apply_filters( 'excerpt_save_pre', $val );
+					break;
+
+					case 'ping_status':
+					case 'comment_status':
+					case 'menu_order':
+						$llms_post_key = $key;
+					break;
+
+					case 'title':
+						$val = apply_filters( 'title_save_pre', $val );
+					break;
+				}
+			} elseif ( ! in_array( $key, $unsettable_properties ) ) {
+				$type          = 'meta';
+				$llms_post_key = $key;
+			} else {
+				continue;
+			}
+
+			$llms_post[ $type ][ $llms_post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
+
+		}// End foreach().
+
+		if ( empty( $llms_post['post'] ) && empty( $llms_post['meta'] ) ) {
+			if ( ! $wp_error ) {
+				return false;
+			} else {
+				return new WP_Error( 'invalid_data', __( 'Invalid data', 'lifterlms' ) );
+			}
+		}
+
+		$error = new WP_Error();
+
+		if ( ! empty( $llms_post['post'] ) ) {
+
+			$args = array_merge(
+				$llms_post['post'],
+				array(
+					'ID' => $this->get( 'id' ),
+				)
+			);
+
+			$update_post = wp_update_post( wp_slash( $args ), true );
+
+			if ( ! is_wp_error( $update_post ) ) {
+				// update this post.
+				foreach ( $llms_post['post'] as $key => $val ) {
+					$this->post->{$key} = $val;
+				}
+			} else {
+				$error = $update_post;
+			}
+		}
+
+		if ( ! empty( $llms_post['meta'] ) ) {
+			foreach ( $llms_post['meta'] as $key => $val ) {
+				$u = update_post_meta( $this->id, $this->meta_prefix . $key, $val );
+				if ( ! ( is_numeric( $u ) || true === $u ) ) {
+					$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
+				}
+			}
+		}
+
+		if ( $error->has_errors() ) {
+			return $wp_error ? $error : false;
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * Update terms for the post for a given taxonomy
