@@ -7,6 +7,7 @@ v3.33.? - 2019-07-??
 + Added a filter `llms_table_get_table_classes` to LifterLMS admin tables which allows customization of the CSS classes applied to the `<table>` elements. Thanks  [@pondermatic](https://github.com/pondermatic)!
 + Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.
 + Added the ability to pull "raw" (unfiltered) data from the database via classes extending the `LLMS_Post_Model` abstract.
++ Added a `bulk_set()` method to the `LLMS_Post_Model` abstract allowing the updating of multiple properties in one command.
 
 ##### Deprecations
 
