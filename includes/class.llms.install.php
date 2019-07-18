@@ -444,6 +444,14 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 ) $collate;
 ";
 
+		/**
+		 * Filter the database table schema.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $tables A semi-colon (`;`) separated list of database table creating commands.
+		 * @param strind $collate Database collation statement.
+		 */
 		return apply_filters( 'llms_install_get_schema', $tables, $collate );
 
 	}
