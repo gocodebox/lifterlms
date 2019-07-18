@@ -232,6 +232,7 @@ Functions and class methods should be formatted as follows:
  * Description.
  *
  * @since x.x.x
+ * @since x.x.x Description of function/method changes.
  *
  * @see Function/method/class relied on
  * @link URL
@@ -261,6 +262,7 @@ Class DocBlocks should be formatted as follows:
  * @see Super_Class
  *
  * @since x.x.x
+ * @since x.x.x Description of class changes.
  */
 ```
 
@@ -278,6 +280,7 @@ Class properties and constants should be formatted as follows:
  * Summary.
  *
  * @since x.x.x
+ * @since x.x.x Description of member changes.
  * @var type Optional description.
  */
 ```
@@ -301,6 +304,7 @@ Note that `@return` is not used for hook documentation, because action hooks ret
  * Description.
  *
  * @since x.x.x
+ * @since x.x.x Description of hook changes.
  *
  * @param type  $var Description.
  * @param array $args {
@@ -334,6 +338,7 @@ The file header DocBlock is used to give an overview of what is contained in the
  *
  * @package LifterLMS/SecondaryPackage/TertiaryPackage
  * @since x.x.x
+ * @since x.x.x Description of file changes.
  * @version x.x.x
  */
 ```
