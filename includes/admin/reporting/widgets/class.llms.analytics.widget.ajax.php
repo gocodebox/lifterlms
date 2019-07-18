@@ -16,7 +16,7 @@ class LLMS_Analytics_Widget_Ajax {
 	 */
 	public function __construct() {
 
-		// only proceed if we're doing ajaxg
+		// only proceed if we're doing ajax
 		if ( ! defined( 'DOING_AJAX' ) || ! DOING_AJAX || ! isset( $_REQUEST['action'] ) ) {
 			return;
 		}

@@ -243,7 +243,7 @@
 		/**
 		 * Reload a table
 		 * @param    obj   $table  jQuery selector for the current table
-		 * @param    obj   args    arguements to pass with the ajax query
+		 * @param    obj   args    arguments to pass with the ajax query
 		 * @return   void
 		 * @since    3.2.0
 		 * @version  3.2.0
@@ -328,7 +328,7 @@
 
 	};
 
-	// initalize the object
+	// initialize the object
 	window.llms.admin_tables = new AdminTables();
 
 } )( jQuery );

@@ -1,12 +1,26 @@
 <?php
 /**
-* Manual Payment Gateway Class
-*
-* @since   3.0.0
-* @version 3.10.0
-*/
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+ * Manual Payment Gateway Class
+ *
+ * @since 3.0.0
+ * @version 3.30.3
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Manual Payment Gateway Class
+ *
+ * @since 3.0.0
+ * @since 3.30.3 Explicitly define class properties.
+ */
 class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	public $payment_instructions;
 
 	/**
 	 * Constructor
@@ -153,7 +167,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 				$order->set( 'status', 'llms-completed' );
 
 				// free trial, reduced to free via coupon, etc...
-				// we do want to record a transaction and then generate a reciept
+				// we do want to record a transaction and then generate a receipt
 			} else {
 
 				// record a $0.00 transaction to ensure a receipt is sent

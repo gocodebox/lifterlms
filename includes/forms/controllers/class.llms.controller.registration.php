@@ -48,7 +48,7 @@ class LLMS_Controller_Registration {
 	}
 
 	/**
-	 * Handle submission of user registrration forms
+	 * Handle submission of user registration forms
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.24.0

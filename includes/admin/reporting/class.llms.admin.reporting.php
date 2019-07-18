@@ -1,10 +1,20 @@
 <?php
+/**
+ * Admin Reporting Base Class
+ *
+ * @since 3.2.0
+ * @version 3.19.4
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Reporting Base Class
- * @since   3.2.0
- * @version 3.19.4
+ *
+ * @since 3.2.0
+ * @since 3.31.0 Fix redundant `if` statement in the `output_widget` method.
+ * @since 3.32.0 Added Memberships tab.
+ * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
  */
 class LLMS_Admin_Reporting {
 
@@ -20,7 +30,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get array of course IDs selected accoding to applied filters
+	 * Get array of course IDs selected according to applied filters
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -39,7 +49,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get array of membership IDs selected accoding to applied filters
+	 * Get array of membership IDs selected according to applied filters
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -99,7 +109,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get the current end date accoring to filters
+	 * Get the current end date according to filters
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -109,7 +119,7 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get the current strart date accoring to filters
+	 * Get the current start date according to filters
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -185,9 +195,10 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Retrieve an array of period filters
 	 * used by self::output_widget_range_filter()
+	 *
+	 * @since 3.16.0
+	 *
 	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.17.2
 	 */
 	public static function get_period_filters() {
 		return array(
@@ -204,11 +215,13 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get the full URL to a sub-tab within a reporting screen
-	 * @param    string     $stab  slug of the sub-tab
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.16.0
+	 * Get the full URL to a sub-tab within a reporting screen.
+	 *
+	 * @since 3.2.0
+	 * @since 3.32.0 Added Memberships tab.
+	 *
+	 * @param string $stab Slug of the sub-tab.
+	 * @return string
 	 */
 	public static function get_stab_url( $stab ) {
 
@@ -219,6 +232,9 @@ class LLMS_Admin_Reporting {
 		);
 
 		switch ( self::get_current_tab() ) {
+			case 'memberships':
+				$args['membership_id'] = $_GET['membership_id'];
+			break;
 
 			case 'courses':
 				$args['course_id'] = $_GET['course_id'];
@@ -239,17 +255,20 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get an array of tabs to output in the main reporting menu
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.19.4
+	 * Get an array of tabs to output in the main reporting menu.
+	 *
+	 * @since 3.2.0
+	 * @since 3.32.0 Added Memberships tab.
+	 *
+	 * @return array
 	 */
 	private function get_tabs() {
 		$tabs = array(
-			'students' => __( 'Students', 'lifterlms' ),
-			'courses' => __( 'Courses', 'lifterlms' ),
-			'quizzes' => __( 'Quizzes', 'lifterlms' ),
-			'sales' => __( 'Sales', 'lifterlms' ),
+			'students'    => __( 'Students', 'lifterlms' ),
+			'courses'     => __( 'Courses', 'lifterlms' ),
+			'memberships' => __( 'Memberships', 'lifterlms' ),
+			'quizzes'     => __( 'Quizzes', 'lifterlms' ),
+			'sales'       => __( 'Sales', 'lifterlms' ),
 			'enrollments' => __( 'Enrollments', 'lifterlms' ),
 		);
 		foreach ( $tabs as $slug => $tab ) {
@@ -336,12 +355,14 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Output the HTML for a postmeta event in the recent events sidebar of various reporting screens
-	 * @param    obj     $event    instance of an LLMS_User_Postmeta item
-	 * @param    string     $context  display context [course|student]
+	 * Output the HTML for a postmeta event in the recent events sidebar of various reporting screens.
+	 *
+	 * @since 3.15.0
+	 * @since 3.32.0 Outputs the student's avatar whent in 'membership' context
+	 *
+	 * @param obj    $event   Instance of an LLMS_User_Postmeta item.
+	 * @param string $context Optional. Display context [course|student|quiz|membership]. Default 'course'.
 	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.16.0
 	 */
 	public static function output_event( $event, $context = 'course' ) {
 
@@ -359,7 +380,7 @@ class LLMS_Admin_Reporting {
 				<a href="<?php echo esc_url( $url ); ?>">
 			<?php endif; ?>
 
-				<?php if ( 'course' === $context || 'quiz' === $context ) : ?>
+				<?php if ( 'course' === $context || 'membership' === $context || 'quiz' === $context ) : ?>
 					<?php echo $student->get_avatar( 24 ); ?>
 				<?php endif; ?>
 
@@ -377,10 +398,12 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Output the HTML for a reporting widget
+	 *
+	 * @since 3.15.0
+	 * @since 3.31.0 Remove redundant `if` statement.
+	 *
 	 * @param    array      $args   widget options
 	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public static function output_widget( $args = array() ) {
 
@@ -405,15 +428,12 @@ class LLMS_Admin_Reporting {
 		$change = false;
 		if ( $args['data_compare'] && $args['data'] ) {
 
-			if ( $args['data'] ) {
-
-				$change = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
-				$compare_operator = ( $change <= 0 ) ? '' : '+';
-				if ( 'positive' === $args['impact'] ) {
-					$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
-				} else {
-					$compare_class = ( $change <= 0 ) ? 'positive' : 'negative';
-				}
+			$change = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
+			$compare_operator = ( $change <= 0 ) ? '' : '+';
+			if ( 'positive' === $args['impact'] ) {
+				$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
+			} else {
+				$compare_class = ( $change <= 0 ) ? 'positive' : 'negative';
 			}
 		}
 

@@ -39,7 +39,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		// Success.
 		$order = new LLMS_Order( 'new' );
 		$this->assertEquals( $order, llms_get_order_by_key( $order->get( 'order_key' ) ) ); // Default.
-		$this->assertEquals( $order, llms_get_order_by_key( $order->get( 'order_key' ), 'order' ) ); // Explict.
+		$this->assertEquals( $order, llms_get_order_by_key( $order->get( 'order_key' ), 'order' ) ); // Explicit.
 		$this->assertEquals( $order->get( 'id' ), llms_get_order_by_key( $order->get( 'order_key' ), 'id' ) ); // Id.
 		$this->assertEquals( $order->get( 'id' ), llms_get_order_by_key( $order->get( 'order_key' ), 'somethingelse' ) ); // Fake.
 
@@ -199,7 +199,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		update_post_meta( $coupon_id, '_llms_expiration_date', date( 'm/d/Y', strtotime( '-1 year' ) ) );
 		$this->setup_pending_order_fail( $order_data, 'invalid-coupon' );
 
-		// make the coupon useable
+		// make the coupon usable
 		update_post_meta( $coupon_id, '_llms_expiration_date', date( 'm/d/Y', strtotime( '+5 years' ) ) );
 
 		// missing payment gateway

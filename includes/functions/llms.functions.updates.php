@@ -76,7 +76,7 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
  * if course is restricted to a membership a free members only plan will be created
  * in addition to paid open recurring & single plans
  *
- * if course is restrcited to a membership and no price is found
+ * if course is restricted to a membership and no price is found
  * only one free members only plan will be created
  */
 function llms_update_300_create_access_plans() {
@@ -300,7 +300,7 @@ function llms_update_300_del_deprecated_options() {
 	delete_option( 'lifterlms_student_role_created' );
 
 	/**
-	 * Delete course and memberhip display & related options
+	 * Delete course and membership display & related options
 	 * these are now filters or can be handled with action hooks
 	 * moving forward
 	 */
@@ -1470,7 +1470,7 @@ function llms_update_3160_update_question_data() {
 						// trying to figure out where in our codebase we went wrong...
 					} elseif ( is_string( $option['correct_option'] ) && '' !== $option['correct_option'] ) {
 						$correct = true;
-						// cactch everything else and filter var it
+						// catch everything else and filter var it
 					} else {
 
 						$correct = filter_var( $option['correct_option'], FILTER_VALIDATE_BOOLEAN, FILTER_NULL_ON_FAILURE );

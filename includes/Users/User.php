@@ -1,10 +1,35 @@
 <?php
 // @codingStandardsIgnoreFile
+/**
+ * @deprecated 3.30.3
+ */
 namespace LLMS\Users;
 
-class User
-{
+class User {
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $first_name;
+
+	/**
+	 * @var int
+	 * @since 1.3.0
+	 */
 	private $id;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $last_name;
+
+	/**
+	 * @var array
+	 * @since 1.3.0
+	 */
+	public $quiz_data;
 
 	/**
 	 * Constructor

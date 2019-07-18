@@ -8,7 +8,7 @@
 
 
 /**
- * Retrive the full path to the log file for a given log handle
+ * Retrieve the full path to the log file for a given log handle
  * @param    string  $handle  log handle
  * @return   string
  * @since    3.0.0

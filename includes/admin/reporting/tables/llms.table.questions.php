@@ -19,7 +19,7 @@ class LLMS_Table_Questions extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for the columns
 	 * @param    string     $key   the column id / key
-	 * @param    mixed      $data  object of achievment data
+	 * @param    mixed      $data  object of achievement data
 	 * @return   mixed
 	 * @since    3.2.0
 	 * @version  3.9.0

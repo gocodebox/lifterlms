@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @since 3.30.1 Moved order-related functios to order functions file.
+ * @since 3.30.1 Moved order-related functions to order functions file.
  * @version 3.29.0
  */
 
@@ -96,7 +96,7 @@ if ( ! function_exists( 'llms_current_time' ) ) {
 /**
  * Do apply_filters( 'the_content', $content ) without actions adding their own content onto us...
  * @param    string     $content  [description]
- * @return   [type]
+ * @return   string
  * @since    3.16.10
  * @version  3.19.2
  */
@@ -117,7 +117,7 @@ if ( ! function_exists( 'llms_content' ) ) {
  * Very similar to https://developer.wordpress.org/reference/functions/_deprecated_function/
  *
  * @param   string $function    name of the deprecated class or function
- * @param   string $version     version deprecation ocurred
+ * @param   string $version     version deprecation occurred
  * @param   string $replacement function to use in it's place (optional)
  * @return  void
  * @since   2.6.0
@@ -198,7 +198,9 @@ if ( ! function_exists( 'llms_filter_input' ) ) {
 	 * @param   string $variable_name  Name of a variable to get.
 	 * @param   int    $filter         The ID of the filter to apply.
 	 * @param   mixed  $options        Associative array of options or bitwise disjunction of flags. If filter accepts options, flags can be provided in "flags" field of array.
-	 * @return  Value of the requested variable on success, FALSE if the filter fails, or NULL if the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used, it returns FALSE if the variable is not set and NULL if the filter fails.
+	 * @return  mixed  Value of the requested variable on success, FALSE if the filter fails, or NULL if
+	 *                 the variable_name variable is not set. If the flag FILTER_NULL_ON_FAILURE is used,
+	 *                 it returns FALSE if the variable is not set and NULL if the filter fails.
 	 * @since   3.29.0
 	 * @version 3.29.0
 	 */
@@ -299,7 +301,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 	$count = 0;
 	$times = array();
 	foreach ( $diffs as $interval => $value ) {
-		// Break if we have needed precission
+		// Break if we have needed precision
 		if ( $count >= $precision ) {
 			break;
 		}
@@ -322,7 +324,7 @@ function llms_get_date_diff( $time1, $time2, $precision = 2 ) {
 /**
  * Retrieve the HTML for a donut chart
  * Note that this must be used in conjunction with some JS to initialize the chart!
- * @param    [type]     $percentage  percentage to display
+ * @param    mixed      $percentage  percentage to display
  * @param    string     $text        optional text/caption to display (short)
  * @param    string     $size        size of the chart (mini, small, default, large)
  * @param    array      $classes     additional custom css classes to add to the chart element
@@ -387,8 +389,9 @@ function llms_get_engagement_types() {
 
 /**
  * Retrieve an HTML anchor for an option page
- * @param    [type]     $option_name  [description]
- * @return   [type]
+ * @param    string $option_name
+ * @param    string $target      HTML target attribute, defaults to _blank
+ * @return   string
  * @since    3.18.0
  * @version  3.18.0
  */
@@ -426,8 +429,8 @@ function llms_get_product_visibility_options() {
 }
 
 /**
-* Get an array of student IDs based on enrollment status a course or memebership
-* @param    int           $post_id   WP_Post id of a course or memberhip
+* Get an array of student IDs based on enrollment status a course or membership
+* @param    int           $post_id   WP_Post id of a course or membership
 * @param    string|array  $statuses  list of enrollment statuses to query by
 *                                    status query is an OR relationship
 * @param    integer    $limit        number of results
@@ -561,7 +564,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
 	$field['classes'] = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
 
-	// add column information to the warpper
+	// add column information to the wrapper
 	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
 	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
 
@@ -682,7 +685,7 @@ function llms_get_enrollment_status_name( $status ) {
 }
 
 /**
- * Retrive an IP Address for the current user
+ * Retrieve an IP Address for the current user
  * @source   WooCommerce WC_Geolocation::get_ip_address(), thank you <3
  * @return   string
  * @since    3.0.0
@@ -705,11 +708,14 @@ function llms_get_ip_address() {
 
 /**
  * Retrieve the LLMS Post Model for a give post by ID or WP_Post Object
- * @param    obj|int   $post    instance of WP_Post or a WP Post ID
- * @param    mixed     $error   determine what to return if the LLMS class isn't found
+ * @param    WP_Post|int $post  instance of WP_Post or a WP Post ID
+ * @param    mixed       $error determine what to return if the LLMS class isn't found
  *                              post  = WP_Post
  *                              falsy = false
- * @return   mixed
+ * @return   LLMS_Post_Model|WP_Post|null|false LLMS_Post_Model extended object,
+ *                                              null if WP get_post() fails,
+ *                                              WP_Post if LLMS_Post_Model extended class isn't found and $error = 'post'
+ *                                              false if LLMS_Post_Model extended class isn't found and $error != 'post'
  * @since    3.3.0
  * @version  3.16.11
  */
@@ -738,8 +744,8 @@ function llms_get_post( $post, $error = false ) {
 
 /**
  * Retrieve the parent course for a section, lesson, or quiz
- * @param    mixed     $post  WP Post ID or insance of WP_Post
- * @return   obj|null         Instance of the LLMS_Course or null
+ * @param    WP_Post|int $post WP Post ID or instance of WP_Post
+ * @return   LLMS_Course|null Instance of the LLMS_Course or null
  * @since    3.6.0
  * @version  3.17.7
  */
@@ -751,6 +757,7 @@ function llms_get_post_parent_course( $post ) {
 		return null;
 	}
 
+	/** @var LLMS_Section|LLMS_Lesson|LLMS_Quiz $post */
 	return $post->get_course();
 
 }
@@ -840,7 +847,7 @@ function llms_make_select2_post_array( $post_ids = array(), $template = '' ) {
 /**
  * Create an array that can be passed to metabox select elements
  * configured as an llms-select2-student query-ier
- * @param    array      $post_ids  indexed array of WordPress User IDs
+ * @param    array      $user_ids  indexed array of WordPress User IDs
  * @param    string     $template  an optional template to customize the way the results look
  *                                 %1$s = student name
  *                                 %2$s = student email

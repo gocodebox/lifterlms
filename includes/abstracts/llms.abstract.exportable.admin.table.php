@@ -2,16 +2,35 @@
 /**
  * Admin Table Export Functions
  *
- * @since   3.28.0
- * @version 3.28.1
+ * @since 3.28.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_Table abstract.
+ *
+ * @since 3.28.0
+ * @since 3.30.3 Explicitly define undefined properties.
  */
 abstract class LLMS_Abstract_Exportable_Admin_Table {
+
+	/**
+	 * The current page.
+	 *
+	 * @var int
+	 * @since 3.28.0
+	 */
+	protected $current_page;
+
+	/**
+	 * Unique ID for the table
+	 *
+	 * @var  string
+	 * @since 3.28.0
+	 */
+	protected $id;
 
 	/**
 	 * Is the Table Exportable?
@@ -79,7 +98,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Gets data prepared for an export
-	 * @param    array     $args  query arguements to be passed to get_results()
+	 * @param    array     $args  query arguments to be passed to get_results()
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.1
@@ -107,7 +126,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Retrieve data for a cell in an export file
-	 * Should be overriden in extending classes
+	 * Should be overridden in extending classes
 	 * @param    string     $key   the column id / key
 	 * @param    mixed      $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
@@ -158,7 +177,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Get the file name for an export file
-	 * @param    array    $args   optional arguements passed from table to csv processor
+	 * @param    array    $args   optional arguments passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.28.0
@@ -182,7 +201,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Allow customization of the title for export files
-	 * @param    array    $args   optional arguements passed from table to csv processor
+	 * @param    array    $args   optional arguments passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.28.0

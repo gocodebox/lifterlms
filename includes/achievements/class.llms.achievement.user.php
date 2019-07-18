@@ -1,17 +1,84 @@
 <?php
+/**
+* User Achievement class, inherits methods from LLMS_Achievement
+*
+* Generates achievements for users.
+*
+* @since 1.0.0
+* @version 3.24.0
+*/
+
 defined( 'ABSPATH' ) || exit;
 
 /**
-* User Achievemnet class, inherits methods from LLMS_Achievment
-* Generates achievements for users.
-* @since    1.0.0
-* @version  3.24.0
-*/
+ * LLMS_Achievement_User class.
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define undefined properties.
+ */
 class LLMS_Achievement_User extends LLMS_Achievement {
 
-	var $user_login;
-	var $user_email;
-	var $user_pass;
+	/**
+	 * @var string|false
+	 * @since 1.0.0
+	 */
+	public $account_link;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $recipient;
+
+	/**
+	 * partial path and file name of HTML template
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $template_html;
+
+	/**
+	 * user meta fields
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $user = array();
+
+	/**
+	 * @var WP_User|false
+	 * @since 1.0.0
+	 */
+	public $user_data;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_email;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_firstname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_lastname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_login;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_pass;
 
 	/**
 	 * Constructor

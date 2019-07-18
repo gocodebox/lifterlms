@@ -1,10 +1,19 @@
 <?php
 /**
  * Handle background database updates
+ *
+ * @since 3.0.0
+ * @version 3.32.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Database background update abstract
+ *
+ * @since 3.0.0
+ * @since 3.32.0 Update to use latest action-scheduler functions.
+ */
 abstract class LLMS_Update {
 
 	/**
@@ -183,15 +192,17 @@ abstract class LLMS_Update {
 
 	/**
 	 * Schedules a function
-	 * @param    string     $func  function name / callable
-	 * @param    assay      $args  array of arguments to pass to the function
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 *
+	 * @param string $func Function name / callable.
+	 * @param array $args Array of arguments to pass to the function.
+	 * @return void
 	 */
 	protected function schedule_function( $func, $args = array() ) {
 		$this->log( sprintf( 'function `%s()` scheduled with arguments: %s', $func, json_encode( $args ) ) );
-		wc_schedule_single_action( time(), $this->get_hook( $func ), $args, 'llms_update_' . $this->version );
+		as_schedule_single_action( time(), $this->get_hook( $func ), $args, 'llms_update_' . $this->version );
 	}
 
 	/**

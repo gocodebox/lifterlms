@@ -99,7 +99,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 		// order is important -- if both trial and next payment are updated
 		// they should be saved in that order since next payment date
-		// is automatically recalced by trial end date update
+		// is automatically recalculated by trial end date update
 		$editable_dates = array(
 			'_llms_date_trial_end',
 			'_llms_date_next_payment',

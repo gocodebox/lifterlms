@@ -444,7 +444,7 @@ define( [], function() {
 
 		/**
 		 * Helper to undo changes
-		 * Bound to "escape" key via on_keydwon function
+		 * Bound to "escape" key via on_keydown function
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -457,7 +457,7 @@ define( [], function() {
 		},
 
 		/**
-		 * Sync chages to the model and DB
+		 * Sync changes to the model and DB
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0

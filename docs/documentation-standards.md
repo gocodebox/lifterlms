@@ -108,12 +108,11 @@ Versions should be expressed in the 3-digit `x.x.x` style.
  * @since 3.29.0
 ```
 
-When any change has been made to the element, the `@version` tag should be updated to match the current version of the codebase and an additional `@since` tag can be added with a short description of the changes which were made.
+When any change has been made to the element an additional `@since` tag can be added with a short description of the changes which were made.
 
 ```
  * @since 3.3.0
  * @since 3.5.0 Added optional 3rd argument.
- * @version 3.5.0
 ```
 
 #### Deprecations
@@ -126,12 +125,15 @@ A short description may be added to provide additional information about the dep
 ```
  * @since 3.3.0
  * @since 3.5.0 Added optional 3rd argument.
- * @version 3.10.0
  * @deprecated 3.10.0 Use `llms_new_function_name()` instead.
  * @see llms_new_function_name()
 ```
 
 When adding documentation on an existing element which does not yet have a changelog (common in code added prior to the creation and enforcement of these standards) if it is impossible to determine when the element was added the version may be expressed with `Unknown` instead of the `x.x.x` version number.
+
+#### File Headers
+
+Whenever an element within a file is updated, the `@version` tag in the header should be updated to the current version of the codebase.
 
 #### Using Placeholders
 
@@ -143,7 +145,6 @@ For a new element:
 
 ```
  * @since [version]
- * @version [verson]
 ```
 
 When updating an existing element:
@@ -151,7 +152,6 @@ When updating an existing element:
 ```
  * @since 3.5.0
  * @since [version] Updated element.
- * @version [verson]
 ```
 
 
@@ -159,7 +159,7 @@ When updating an existing element:
 
 #### 1. Parameters and Returns
 
-Functions and methods should define all paramter arguments and returns with the `@param` and `@return` tags.
+Functions and methods should define all parameter arguments and returns with the `@param` and `@return` tags.
 
 No HTML should be used in the descriptions for these tags, though limited Markdown can be used as necessary, such as for adding backticks around variables, e.g. `$variable`.
 
@@ -232,7 +232,7 @@ Functions and class methods should be formatted as follows:
  * Description.
  *
  * @since x.x.x
- * @version x.x.x
+ * @since x.x.x Description of function/method changes.
  *
  * @see Function/method/class relied on
  * @link URL
@@ -250,7 +250,7 @@ Class DocBlocks should be formatted as follows:
 
 + Summary
 + Description (Optional)
-+ Links and References (as an example use `@see` to referenece a super class when documenting a sub class)
++ Links and References (as an example use `@see` to reference a super class when documenting a sub class)
 + Changelog
 
 ```
@@ -262,6 +262,7 @@ Class DocBlocks should be formatted as follows:
  * @see Super_Class
  *
  * @since x.x.x
+ * @since x.x.x Description of class changes.
  */
 ```
 
@@ -279,7 +280,8 @@ Class properties and constants should be formatted as follows:
  * Summary.
  *
  * @since x.x.x
- * @var type $var Optional description.
+ * @since x.x.x Description of member changes.
+ * @var type Optional description.
  */
 ```
 
@@ -302,7 +304,7 @@ Note that `@return` is not used for hook documentation, because action hooks ret
  * Description.
  *
  * @since x.x.x
- * @version x.x.x
+ * @since x.x.x Description of hook changes.
  *
  * @param type  $var Description.
  * @param array $args {
@@ -336,6 +338,7 @@ The file header DocBlock is used to give an overview of what is contained in the
  *
  * @package LifterLMS/SecondaryPackage/TertiaryPackage
  * @since x.x.x
+ * @since x.x.x Description of file changes.
  * @version x.x.x
  */
 ```

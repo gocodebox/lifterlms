@@ -1,12 +1,22 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Quiz Attempt Forms on the admin panel
+ *
+ * @package LifterLMS/Classes/Controllers
+ *
+ * @since 3.16.0
+ * @version 3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Quiz Attempt Forms
- * Grading, Deleting, Etc...
+ * Quiz Attempt Forms on the admin panel
  *
- * @since   3.16.0
- * @version 3.24.0
+ * Allows admins to grade, leave remarks, and delete quiz attempts.
+ *
+ * @since 3.16.0
+ * @since 3.30.3 Fixed an issue causing backlashes to be saved around escaped characters when leaving remarks.
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -56,10 +66,12 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 	/**
 	 * Saves changes to a quiz
-	 * @param    obj     $attempt  LLMS_Quiz_Attempt instance
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.24.0
+	 *
+	 * @since 3.16.0
+	 * @since 3.30.3 Strip slashes on remarks.
+	 *
+	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
+	 * @return void
 	 */
 	private function save_grade( $attempt ) {
 
@@ -70,7 +82,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		foreach ( $questions as &$question ) {
 
 			if ( isset( $remarks[ $question['id'] ] ) ) {
-				$question['remarks'] = wp_kses_post( nl2br( $remarks[ $question['id'] ] ) );
+				$question['remarks'] = wp_kses_post( nl2br( stripslashes( $remarks[ $question['id'] ] ) ) );
 			}
 
 			if ( isset( $points[ $question['id'] ] ) ) {
@@ -98,7 +110,6 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
 
 	}
-
 
 }
 

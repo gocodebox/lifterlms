@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Lesson Complete
+ *
+ * @since 3.8.0
+ * @version 3.8.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Lesson Complete
- * @since    3.8.0
- * @version  3.8.0
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notification_Controller {
 
@@ -27,6 +33,12 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	 * @var  array
 	 */
 	protected $action_hooks = array( 'lifterlms_lesson_completed' );
+
+	/**
+	 * @var LLMS_Lesson
+	 * @since 3.8.0
+	 */
+	public $lesson;
 
 	/**
 	 * Callback function called when a lesson is completed by a student
@@ -80,7 +92,7 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0

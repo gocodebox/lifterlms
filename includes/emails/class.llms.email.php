@@ -3,31 +3,91 @@
  * Email Base Class
  *
  * @package  LifterLMS/Email
- * @since    1.0.0
- * @version  3.26.1
+ *
+ * @since 1.0.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Email Base Class
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Email {
 
-	protected $id = 'generic';
+	/**
+	 * @var array
+	 * @since 3.15.0
+	 */
+	private $attachments = array();
 
+	/**
+	 * @var string
+	 * @since 3.8.0
+	 */
+	protected $body = '';
+
+	/**
+	 * @var string
+	 * @since 3.8.0
+	 */
 	protected $content_type = 'text/html';
 
-	protected $body = '';
-	protected $heading = '';
-	protected $subject = '';
+	/**
+	 * @var WP_Post
+	 * @since 3.26.1
+	 */
+	public $email_post;
 
-	private $attachments = array();
-	private $headers = array();
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
 	private $find = array();
+
+	/**
+	 * @var array
+	 * @since 3.8.0
+	 */
+	private $headers = array();
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $heading = '';
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $id = 'generic';
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
 	private $recipient = array();
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
 	private $replace = array();
 
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	protected $subject = '';
+
+	/**
+	 * @var string
+	 * @since 3.8.0
+	 */
 	protected $template_html = 'emails/template.php';
 
 	/**
@@ -111,7 +171,7 @@ class LLMS_Email {
 	 * @param    int|string  $address  if string, must be a valid email address
 	 *                                 if int, must be the WP User ID of a user
 	 * @param    string      $type     recipient type [to,cc,bcc]
-	 * @param    string      $name     recipent name (optional)
+	 * @param    string      $name     recipient name (optional)
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.10.1
@@ -155,7 +215,7 @@ class LLMS_Email {
 	}
 
 	/**
-	 * Add multiple recipents
+	 * Add multiple recipients
 	 * @param    array      $recipients  array of recipient information
 	 * @return   void
 	 * @since    3.8.0

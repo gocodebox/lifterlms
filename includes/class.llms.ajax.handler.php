@@ -1,20 +1,23 @@
 <?php
 /**
- * LifterLMS AJAX Event Handler
+ * LifterLMS AJAX Event Handler.
  *
  * @since 1.0.0
- * @version 3.30.0
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_AJAX_Handler class
+ * LLMS_AJAX_Handler class.
  *
  * @since 1.0.0
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
- * @version 3.30.0
- *
+ * @since 3.30.3 Fixed spelling errors.
+ * @since 3.32.0 Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
+ * @since 3.33.0 Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
+ *                  Also always return either a WP_Error on failure or a "success" array on requested action performed.
+ * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
  */
 class LLMS_AJAX_Handler {
 
@@ -41,7 +44,7 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Add or remove a student from a course or memberhip
+	 * Add or remove a student from a course or membership
 	 * @since    3.0.0
 	 * @version  3.4.0
 	 */
@@ -87,7 +90,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Queue a table export event
-	 * @param    array     $request  post data ($_REQUST)
+	 * @param    array     $request  post data ($_REQUEST)
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.28.1
@@ -115,7 +118,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Reload admin tables
-	 * @param    array     $request  post data ($_REQUST)
+	 * @param    array     $request  post data ($_REQUEST)
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -149,10 +152,12 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Store data for the instructors metabox
-	 * @param    [type]     $request  [description]
-	 * @return   [type]               [description]
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 * @since 3.30.3 Fixed typos.
+	 *
+	 * @param array $request $_REQUEST object.
+	 * @return array
 	 */
 	public static function instructors_mb_store( $request ) {
 
@@ -161,7 +166,7 @@ class LLMS_AJAX_Handler {
 
 			return array(
 				'data' => array(),
-				'message' => __( 'Missing required paramters', 'lifterlms' ),
+				'message' => __( 'Missing required parameters', 'lifterlms' ),
 				'success' => false,
 			);
 
@@ -482,7 +487,7 @@ class LLMS_AJAX_Handler {
 	 * Start a Quiz Attempt
 	 * @param    array     $request  $_POST data
 	 *                               required:
-	 *                               	(string) attemptkey
+	 *                               	(string) attempt_key
 	 *                               or
 	 *                               	(int) quiz_id
 	 *                               	(int) lesson_id
@@ -578,7 +583,7 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
-		// record the answe
+		// record the answer
 		$attempt->answer_question( $question_id, $answer );
 
 		// get the next question
@@ -690,27 +695,40 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle Select2 Search boxes for WordPress Posts by Post Type
-	 * @since   3.0.0
-	 * @version 3.10.1
-	 * @return  string/json
+	 * Handle Select2 Search boxes for WordPress Posts by Post Type and Post Status.
+	 *
+	 * @since 3.0.0
+	 * @since 3.32.0 Updated to use llms_filter_input().
+	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
+	 *                  By default only the published posts will be queried.
+	 * @return void
 	 */
 	public static function select2_query_posts() {
 
 		global $wpdb;
 
-		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+		// grab the search term if it exists.
+		$term = llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING );
 
-		// get the page
-		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+		// get the page.
+		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
-		$post_type = sanitize_text_field( $_REQUEST['post_type'] );
+		// Get post type(s).
+		$post_type = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
 		}
 		$post_types = implode( ',', $post_types_array );
+
+		// Get post status(es).
+		$post_statuses       = llms_filter_input( INPUT_POST, 'post_statuses', FILTER_SANITIZE_STRING );
+		$post_statuses       = empty( $post_statuses ) ? 'publish' : $post_statuses;
+		$post_statuses_array = explode( ',', $post_statuses );
+		foreach ( $post_statuses_array as &$str ) {
+			$str = "'" . esc_sql( trim( $str ) ) . "'";
+		}
+		$post_statuses = implode( ',', $post_statuses_array );
 
 		$limit = 30;
 		$start = $limit * $page;
@@ -726,76 +744,99 @@ class LLMS_AJAX_Handler {
 		$posts = $wpdb->get_results( $wpdb->prepare(
 			"SELECT ID, post_title, post_type
 			 FROM $wpdb->posts
-			 WHERE
-			 	post_type IN ( $post_types )
-			 	AND post_status = 'publish'
-			 	$like
+			 WHERE post_type IN ( $post_types )
+			   AND post_status IN ( $post_statuses )
+			       $like
 			 ORDER BY post_title
 			 LIMIT %d, %d
 			",
 			$vars
 		) );
 
-		$r = array();
+		$items = array();
 
 		$grouping = ( count( $post_types_array ) > 1 );
 
-		foreach ( $posts as $p ) {
+		foreach ( $posts as $post ) {
 
 			$item = array(
-				'id' => $p->ID,
-				'name' => $p->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $p->ID . ')',
+				'id' => $post->ID,
+				'name' => $post->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $post->ID . ')',
 			);
 
 			if ( $grouping ) {
 
 				// setup an object for the optgroup if it's not already set up
-				if ( ! isset( $r[ $p->post_type ] ) ) {
-					$obj = get_post_type_object( $p->post_type );
-					$r[ $p->post_type ] = array(
+				if ( ! isset( $items[ $post->post_type ] ) ) {
+					$obj = get_post_type_object( $post->post_type );
+					$items[ $post->post_type ] = array(
 						'label' => $obj->labels->name,
 						'items' => array(),
 					);
 				}
 
-				$r[ $p->post_type ]['items'][] = $item;
+				$items[ $post->post_type ]['items'][] = $item;
 
 			} else {
 
-				$r[] = $item;
+				$items[] = $item;
 
 			}
 		}
 
 		echo json_encode( array(
-			'items' => $r,
-			'more' => count( $r ) === $limit,
+			'items' => $items,
+			'more' => count( $items ) === $limit,
 			'success' => true,
 		) );
-
 		wp_die();
+
 	}
 
 	/**
-	 * Add or remove a student from a course or memberhip
-	 * @since    3.0.0
-	 * @version  3.4.0
+	 * Add or remove a student from a course or membership.
+	 *
+	 * @since 3.0.0
+	 * @since 3.33.0 Handle the delete enrollment request and make sure the $request['post_id'] is not empty.
+	 *                  Also always return either a WP_Error on failure or a "success" array on action performed.
+	 *
+	 * @param $request array
+	 * @return WP_Error|array
 	 */
 	public static function update_student_enrollment( $request ) {
 
-		if ( empty( $request['student_id'] ) || empty( $request['status'] ) ) {
+		if ( empty( $request['student_id'] ) || empty( $request['status'] ) || empty( $request['post_id'] ) ) {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
 
-		if ( ! in_array( $request['status'], array( 'add', 'remove' ) ) ) {
+		if ( ! in_array( $request['status'], array( 'add', 'remove', 'delete' ) ) ) {
 			return new WP_Error( 400, __( 'Invalid status', 'lifterlms' ) );
 		}
 
-		if ( 'add' === $request['status'] ) {
-			llms_enroll_student( $request['student_id'], $request['post_id'], 'admin_' . get_current_user_id() );
-		} elseif ( 'remove' === $request['status'] ) {
-			llms_unenroll_student( $request['student_id'], $request['post_id'], 'cancelled', 'any' );
+		$student_id = intval( $request['student_id'] );
+		$post_id    = intval( $request['post_id'] );
+
+		switch ( $request['status'] ) {
+			case 'add':
+				$res = llms_enroll_student( $student_id, $post_id, 'admin_' . get_current_user_id() );
+			break;
+
+			case 'remove':
+				$res = llms_unenroll_student( $student_id, $post_id, 'cancelled', 'any' );
+			break;
+
+			case 'delete':
+				$res = llms_delete_student_enrollment( $student_id, $post_id, 'any' );
+			break;
 		}
+
+		if ( ! $res ) {
+			return new WP_Error( 400, sprintf( __( 'Action "%1$s" failed. Please try again', 'lifterlms' ), $request['status'] ) );
+		}
+
+		return array(
+			'success' => true,
+		);
 
 	}
 
@@ -1100,10 +1141,11 @@ class LLMS_AJAX_Handler {
 	/**
 	 * AJAX handler for creating and updating access plans via the metabox on courses & memberships
 	 *
-	 * @param   array $request $_POST data.
-	 * @return  array
-	 * @since   3.29.0
-	 * @version 3.29.2
+	 * @since 3.29.0
+	 * @since 3.33.1 Use `wp_unslash()` before inserting access plan data.
+	 *
+	 * @param array $request $_POST data.
+	 * @return array
 	 */
 	public static function llms_update_access_plans( $request ) {
 
@@ -1122,6 +1164,8 @@ class LLMS_AJAX_Handler {
 			if ( empty( $raw_plan_data ) ) {
 				continue;
 			}
+
+			$raw_plan_data = wp_unslash( $raw_plan_data );
 
 			// Ensure we can switch plans that used to be paid to free.
 			if ( isset( $raw_plan_data['is_free'] ) && llms_parse_bool( $raw_plan_data['is_free'] ) && ! isset( $raw_plan_data['price'] ) ) {

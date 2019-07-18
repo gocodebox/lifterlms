@@ -1,18 +1,89 @@
 <?php
+/**
+ * Certificate Class
+ * Generates certificate post for user, triggered from engagement.
+ *
+ * @since 1.0.0
+ * @version 3.30.3
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Certificate Class
- * Child Class. Extends from LLMS_Certificate.
- * Generates certificate post for user. Triggered from engagement.
- * @since    1.0.0
- * @version  3.24.0
+ * Generates certificate post for user, triggered from engagement.
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Certificate_User extends LLMS_Certificate {
 
-	var $user_login;
-	var $user_email;
-	var $user_pass;
+	/**
+	 * @var string|false
+	 * @since 1.0.0
+	 */
+	public $account_link;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $email_content;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $recipient;
+
+	/**
+	 * partial path and file name of HTML template
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $template_html;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $user = array();
+
+	/**
+	 * @var WP_User|false
+	 * @since 1.0.0
+	 */
+	public $user_data;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_email;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_firstname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_lastname;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_login;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $user_pass;
 
 	/**
 	 * Constructor
@@ -58,7 +129,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * Sets up data needed to generate certificate.
 	 * @param    int   $email_id   ID of Certificate
-	 * @param    int   $person_id  ID of the user recieving the certificate
+	 * @param    int   $person_id  ID of the user receiving the certificate
 	 * @param    int   $lesson_id  ID of associated lesson
 	 * @return   void
 	 * @since    ??
@@ -93,7 +164,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * [trigger description]
 	 *
-	 * @param  int $user_id   [ID of the user recieving the certificate]
+	 * @param  int $user_id   [ID of the user receiving the certificate]
 	 * @param  int $email_id  [ID of the certificate]
 	 * @param  int $lesson_id [ID of the associated lesson]
 	 *

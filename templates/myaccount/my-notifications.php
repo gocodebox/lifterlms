@@ -1,25 +1,15 @@
 <?php
 /**
- * Notifications Center
+ * Student Dashboard: Notifications Tab
  *
- * @since    3.8.0
- * @version  3.26.3
+ * @since 3.8.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
-
-$sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;' );
 ?>
 
 <div class="llms-sd-notification-center">
-
-<!-- 	<nav class="llms-sd-nav">
-		<ul class="llms-sd-items">
-			<?php foreach ( $sections as $data ) : ?>
-				<li class="llms-sd-item"><a class="llms-sd-link" href="<?php echo esc_url( $data['url'] ); ?>"><?php echo $data['name']; ?></a><span class="llms-sep"><?php echo $sep; ?></span></li>
-			<?php endforeach; ?>
-		</ul>
-	</nav> -->
 
 	<?php if ( isset( $notifications ) ) : ?>
 

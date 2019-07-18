@@ -414,7 +414,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * @param    array     $answer  selected answer(s)
 	 * @return   mixed     yes = correct
 	 *                     no  = incorrect
-	 *                     null = not auto gradeable
+	 *                     null = not auto gradable
 	 * @since    3.16.0
 	 * @version  3.16.15
 	 */
@@ -550,7 +550,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Determine if the question supports a question feature
 	 * @param    string     $feature  name of the feature (eg "choices")
-	 * @param    mixed      $option   allow matching feauture options
+	 * @param    mixed      $option   allow matching feature options
 	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.16.15

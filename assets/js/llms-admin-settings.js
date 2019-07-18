@@ -48,7 +48,7 @@
 					axis: 'y',
 					cursor: 'move',
 					items: 'tr',
-					// containtment: 'parent',
+					// containment: 'parent',
 					handle: 'td.sort',
 					helper: function( event, ui ) {
 						ui.children().each( function() {

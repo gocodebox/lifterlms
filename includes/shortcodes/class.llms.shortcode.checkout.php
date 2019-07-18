@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes
  *
  * @since 1.0.0
- * @version 3.30.1
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
- * @version 3.30.1
+ * @since 3.33.0 Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -36,14 +36,14 @@ class LLMS_Shortcode_Checkout {
 	 * Renders the checkout template
 	 *
 	 * @since 1.0.0
-	 * @version 3.0.0
+	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
 	 *
 	 * @param array $atts Shortcode attributes array.
 	 * @return void
 	 */
 	private static function checkout( $atts ) {
 
-		// if theres membership restrictions, check the user is in at least one membership
+		// if there are membership restrictions, check the user is in at least one membership
 		// this is to combat CHEATERS
 		if ( $atts['plan']->has_availability_restrictions() ) {
 			$access = false;
@@ -62,6 +62,18 @@ class LLMS_Shortcode_Checkout {
 		}
 
 		if ( self::$uid ) {
+			// ensure the user isn't enrolled in the product being purchased.
+			if ( isset( $atts['product'] ) && llms_is_user_enrolled( self::$uid, $atts['product']->get( 'id' ) ) ) {
+
+				llms_print_notice( sprintf(
+					// Translators: %s = The product type (course/membership).
+					__( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ),
+					llms_get_page_url( 'myaccount' ),
+					$atts['product']->get_post_type_label()
+				), 'notice' );
+				return;
+			}
+
 			$user = get_userdata( self::$uid );
 			llms_print_notice( sprintf( __( 'You are currently logged in as <em>%1$s</em>. <a href="%2$s">Click here to logout</a>', 'lifterlms' ), $user->user_email, wp_logout_url( $atts['plan']->get_checkout_url() ) ), 'notice' );
 		} else {
@@ -78,7 +90,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 1.0.0
 	 * @version 3.0.0
 	 *
-	 * @param array $atts shortocde attributes.
+	 * @param array $atts shortcode attributes.
 	 * @return void
 	 */
 	private static function confirm_payment( $atts ) {
@@ -121,7 +133,6 @@ class LLMS_Shortcode_Checkout {
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
-	 * @version 3.30.1
 	 *
 	 * @param array $atts shortcode atts from originating shortcode
 	 * @return void

@@ -3,13 +3,16 @@
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.28.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_Table abstract.
+ *
+ * @since 3.2.0
+ * @since [version] Added get_table_classes().
  */
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
@@ -174,7 +177,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Ensure that a valid array of data is passed to a query
-	 * Used by AJAX methods to clean unnecssarry parameters before passing the request data
+	 * Used by AJAX methods to clean unnecessary parameters before passing the request data
 	 * to the get_results function
 	 * @param    array      $args  array of arguments
 	 * @return   array
@@ -379,7 +382,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	protected function get_new_order( $orderby = '' ) {
 
-		// current order matches submitted order, return oppossite
+		// current order matches submitted order, return opposite
 		if ( $this->orderby === $orderby ) {
 			return ( 'ASC' === $this->order ) ? 'DESC' : 'ASC';
 		} // End if().
@@ -397,6 +400,39 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	public function get_search() {
 		return esc_attr( trim( $this->search ) );
+	}
+
+	/**
+	 * Returns an array of CSS class names to use on this table.
+	 *
+	 * @since  [version]
+	 *
+	 * @return array
+	 */
+	protected function get_table_classes() {
+		$classes = [
+			'llms-table',
+			'llms-gb-table',
+			'llms-gb-table-' . $this->id,
+		];
+
+		if ( $this->is_zebra ) {
+			$classes[] = 'zebra';
+		}
+
+		if ( $this->is_large ) {
+			$classes[] = 'size-large';
+		}
+
+		/**
+		 * Filters the CSS classes to use on the table.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $classes  CSS class names.
+		 * @param array $table_id Id property of this table object.
+		 */
+		return apply_filters( 'llms_table_get_table_classes', $classes, $this->id );
 	}
 
 	/**
@@ -434,19 +470,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 */
 	public function get_table_html() {
 
-		$classes = array(
-			'llms-table',
-			'llms-gb-table',
-			'llms-gb-table-' . $this->id,
-		);
-
-		if ( $this->is_zebra ) {
-			$classes[] = 'zebra';
-		}
-
-		if ( $this->is_large ) {
-			$classes[] = 'size-large';
-		}
+		$classes = $this->get_table_classes();
 
 		ob_start();
 		?>

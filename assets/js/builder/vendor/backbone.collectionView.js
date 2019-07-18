@@ -166,7 +166,7 @@
 			}
 		},
 
-		setOption : function( optionName, optionValue ) { // now is mearly a wrapper around backbone.viewOptions' setOptions()
+		setOption : function( optionName, optionValue ) { // now is merely a wrapper around backbone.viewOptions' setOptions()
 			var optionHash = {};
 			optionHash[ optionName ] = optionValue;
 			this.setOptions( optionHash );

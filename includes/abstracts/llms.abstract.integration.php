@@ -1,10 +1,21 @@
 <?php
+/**
+* LifterLMS Integration Abstract
+*
+* @package LifterLMS/Abstracts
+*
+* @since 3.0.0
+* @version 3.21.1
+*/
+
 defined( 'ABSPATH' ) || exit;
 
 /**
 * LifterLMS Integration Abstract
-* @since   3.0.0
-* @version 3.21.1
+*
+* @since 3.0.0
+* @since 3.21.1 Updated.
+* @since 3.33.1 Added `get_priority` method to allow reading of the protected priority property.
 */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
@@ -40,13 +51,13 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Integration Priority
-	 * Detemines the order of the settings on the Integrations settings table
+	 * Determines the order of the settings on the Integrations settings table
 	 * Don't be arrogant developers, your integration may not be the most important to the user
 	 * even if it is the most important to you
 	 *
 	 * Core integrations fire at 5
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $priority = 20;
 
@@ -95,6 +106,17 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 */
 	protected function get_integration_settings() {
 		return array();
+	}
+
+	/**
+	 * Retrieve the integration priority property.
+	 *
+	 * @since 3.33.1
+	 *
+	 * @return int
+	 */
+	public function get_priority() {
+		return $this->priority;
 	}
 
 	/**
@@ -159,7 +181,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	}
 
 	/**
-	 * Detemine if the integration had been enabled via checkbox
+	 * Determine if the integration had been enabled via checkbox
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.8.0

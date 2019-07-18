@@ -1,10 +1,18 @@
 <?php
+/**
+ * Notification Controller Abstract
+ *
+ * @since 3.8.0
+ * @version 3.30.3
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller Abstract
- * @since    3.8.0
- * @version  3.24.0
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Explicitly define undefined properties & fixed typo in output string.
  */
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 
@@ -39,10 +47,23 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	protected $auto_dupcheck = false;
 
 	/**
+	 * @var LLMS_Course
+	 * @since 3.8.0
+	 */
+	public $course;
+
+	/**
 	 * WP Post ID associated with the triggering action
 	 * @var  null
 	 */
 	protected $post_id = null;
+
+	/**
+	 * WP Post ID of the post which triggered the achievement to be awarded
+	 * @var int
+	 * @since 3.8.0
+	 */
+	public $related_post_id;
 
 	/**
 	 * Array of subscriptions for the notification
@@ -81,7 +102,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	abstract protected function get_subscriber( $subscriber );
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0
@@ -101,13 +122,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Holds singletons for extending classes
-	 * @var  array
+	 * @var  LLMS_Abstract_Notification_Controller[]
 	 */
 	private static $_instances = array();
 
 	/**
 	 * Get the singleton instance for the extending class
-	 * @return   obj
+	 * @return   LLMS_Abstract_Notification_Controller
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -124,7 +145,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
-	 * Constrcutor
+	 * Constructor
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -195,7 +216,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * @param    int      $subscriber  subscriber id
 	 * @param    int      $user_id     user id
 	 * @param    int      $post_id     post id
-	 * @return   obj
+	 * @return   LLMS_Abstract_Notification_View|false
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -235,7 +256,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	}
 
 	/**
-	 * Get an array of saved subscriber settings prefilled with defaults for the current notificaton
+	 * Get an array of saved subscriber settings prefilled with defaults for the current notification
 	 * @param    string     $type  notification type
 	 * @return   array
 	 * @since    3.8.0
@@ -248,11 +269,13 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 	/**
 	 * Get an array of prebuilt subscriber option settings for common subscriptions
-	 * @param    string     $id       id of the subscriber type
-	 * @param    string     $enabled  whether or not the subscription should be enabled by default [yes|no]
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since 3.30.3 Fixed typo in default description string.
+	 *
+	 * @param string $id Id of the subscriber type
+	 * @param string $enabled Whether or not the subscription should be enabled by default [yes|no]
+	 * @return array
 	 */
 	public function get_subscriber_option_array( $id, $enabled = 'yes' ) {
 
@@ -270,7 +293,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 				'title' => __( 'Course Author', 'lifterlms' ),
 			),
 			'custom' => array(
-				'description' => __( 'Enter additional email addresses which will recieve this notification. Separate multiple addresses with commas.', 'lifterlms' ),
+				'description' => __( 'Enter additional email addresses which will receive this notification. Separate multiple addresses with commas.', 'lifterlms' ),
 				'title' => __( 'Additional Recipients', 'lifterlms' ),
 			),
 		);
@@ -409,7 +432,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 
 		// if autodupcheck is set
 		// and the send function doesn't override the dupcheck
-		// and the subscriber has already receieved the notification
+		// and the subscriber has already received the notification
 		// skip it
 		if ( $this->auto_dupcheck && ! $force && $this->has_subscriber_received( $type, $subscriber ) ) {
 			// llms_log( sprintf( 'Skipped %1$s to subscriber "%2$s" bc of dupcheck', $type, $subscriber ), 'notifications' );
@@ -425,7 +448,7 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 			'user_id' => $this->user_id,
 		) );
 
-		// if sucessful, push to the processor where processing is supported
+		// if successful, push to the processor where processing is supported
 		if ( $id ) {
 
 			$processor = LLMS()->notifications()->get_processor( $type );

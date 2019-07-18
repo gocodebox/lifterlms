@@ -3,8 +3,8 @@
 * Person Functions
 * Functions for managing users in the LifterLMS system.
 * @package  LifterLMS\Functions
-* @since    1.0.0
-* @version  1.0.0
+* @since 1.0.0
+* @version 1.0.0
 */
 
 defined( 'ABSPATH' ) || exit;
@@ -113,7 +113,7 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 
 /**
  * Determine whether or not a user can bypass enrollment, drip, and prerequisite restrictions
- * @param    obj|int  $user     LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be uesd
+ * @param    LLMS_Student|WP_User|int $user LLMS_Student, WP_User, or WP User ID, if none supplied get_current_user() will be used
  * @return   boolean
  * @since    3.7.0
  * @version  3.9.0
@@ -176,7 +176,7 @@ function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) 
 /**
  * Get an LLMS_Instructor
  * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any instructor class extending this class
- * @return   obj|false        LLMS_Instructor instance on success, false if user not found
+ * @return   LLMS_Instructor|false LLMS_Instructor instance on success, false if user not found
  * @since    3.13.0
  * @version  3.13.0
  */
@@ -228,7 +228,7 @@ function llms_get_minimum_password_strength_name() {
 /**
  * Get an LLMS_Student
  * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
- * @return   obj|false        LLMS_Student instance on success, false if user not found
+ * @return   LLMS_Student|false LLMS_Student instance on success, false if user not found
  * @since    3.8.0
  * @version  3.9.0
  */
@@ -268,7 +268,7 @@ function llms_is_user_enrolled( $user_id, $product_id, $relation = 'all', $use_c
  *
  * @return bool    true if complete, false otherwise
  *
- * @version  3.3.1  updated to use LLMS_Studnet->is_enrolled()
+ * @version  3.3.1  updated to use LLMS_Student->is_enrolled()
  */
 function llms_is_complete( $user_id, $object_id, $object_type = 'course' ) {
 	$s = new LLMS_Student( $user_id );
@@ -334,7 +334,7 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
  * @param  int $person_id  ID of the user
  *
  * @return void
- * @version  3.0.0   now uses wp_set_current_user rather than overridding the global manually
+ * @version  3.0.0   now uses wp_set_current_user rather than overriding the global manually
  */
 function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 	wp_set_current_user( $user_id );
@@ -396,6 +396,23 @@ function llms_set_user_password_rest_key( $user_id ) {
 function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', $trigger = 'any' ) {
 	$student = new LLMS_Student( $user_id );
 	return $student->unenroll( $product_id, $trigger, $new_status );
+}
+
+/**
+ * Delete LifterLMS Student's Enrollment record related to a given product.
+ *
+ * @since 3.33.0
+ * @param  int    $user_id     WP User ID.
+ * @param  int    $product_id  WP Post ID of the Course or Membership.
+ * @param  string $trigger     Optional. Only delete the student enrollment if the original enrollment trigger matches the submitted value
+ *                             "any" will remove regardless of enrollment trigger.AS
+ * @return boolean Whether or not the enrollment records have been succesfully removed.
+ *
+ * @see `LLMS_Student->delete_enrollment()` the class method wrapped by this function.
+ */
+function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any' ) {
+	$student = new LLMS_Student( $user_id );
+	return $student->delete_enrollment( $product_id, $trigger );
 }
 
 /**
@@ -463,7 +480,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 	switch ( $column_name ) {
 
 		/**
-		 * Display user information for their last sucessful login
+		 * Display user information for their last successful login
 		 */
 		case 'llms-last-login':
 

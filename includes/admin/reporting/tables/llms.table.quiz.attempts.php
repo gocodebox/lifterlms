@@ -2,15 +2,19 @@
 /**
  * Quizzes Reporting Table
  *
- * @package  LifterLMS/Admin/Reporting/Tables/Classes
- * @since    3.16.0
- * @version  3.26.3
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.16.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Table_Quiz_Attempts class.
+ *
+ * @since 3.16.0
+ * @since 3.30.3 Fixed undefined variable notice in the `set_args()` method.
  */
 class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
@@ -221,13 +225,15 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
+	 * @since 3.16.0
+	 * @version 3.30.3 Fallback to `null` when `$_GET` param is not set.
+	 *
 	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.19.2
 	 */
 	public function set_args() {
 		return array(
-			'quiz_id' => ! empty( $this->quiz_id ) ? $this->quiz_id : absint( $_GET['quiz_id'] ),
+			'quiz_id'    => ! empty( $this->quiz_id ) ? $this->quiz_id : ( isset( $_GET['quiz_id'] ) ? absint( $_GET['quiz_id'] ) : null ),
 			'student_id' => 0,
 		);
 	}

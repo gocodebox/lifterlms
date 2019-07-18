@@ -1,6 +1,6 @@
 <?php
 /**
- * Retrive sidebar
+ * Retrieve sidebar
  */
 if ( ! defined( 'ABSPATH' ) ) { exit; }
 

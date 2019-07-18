@@ -1,19 +1,39 @@
 <?php
 /**
-* Sold Amount Widget
-*
-* Retrieves the total amount of all successful transactions
-* according to active filters
-*
-* @since  3.0.0
-* @version 3.0.0
-*/
+ * Sold Amount Widget
+ *
+ * Retrieves the total amount of all successful transactions
+ * according to active filters
+ *
+ * @since 3.0.0
+ * @version 3.30.3
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Sold Amount Widget
+ *
+ * @since 3.0.0
+ * @since 3.30.3 Explicitly define class properties.
+ */
 class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
+
+	/**
+	 * temporary order ids
+	 * @var array
+	 * @since 3.0.0
+	 */
+	public $temp = array();
+
+	/**
+	 * temporary query
+	 * @since 3.0.0
+	 * @var array
+	 */
+	public $temp_q = array();
 
 	protected function get_chart_data() {
 		return array(
@@ -33,7 +53,7 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 
 		$txn_meta_join = '';
 		$txn_meta_where = '';
-		// create an "IN" clause that can be used for lated in WHERE clauses
+		// create an "IN" clause that can be used for later in WHERE clauses
 		if ( $this->get_posted_students() || $this->get_posted_posts() ) {
 
 			// get an array of order based on posted students & products

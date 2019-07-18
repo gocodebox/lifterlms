@@ -1,12 +1,19 @@
 <?php
 /**
 * bbPress Integration
-* @since    3.0.0
-* @version  3.13.0
+*
+* @since 3.0.0
+* @version 3.13.0
 */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+* bbPress Integration
+*
+* @since 3.0.0
+* @since 3.30.3 Fixed spelling errors.
+*/
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 	/**
@@ -23,15 +30,16 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Configure the integration
-	 * Do things like configure ID and title here
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since 3.30.3 Fixed spelling errors.
+	 *
+	 * @return void
 	 */
 	protected function configure() {
 
 		$this->title = __( 'bbPress', 'lifterlms' );
-		$this->description = sprintf( __( 'Restrict forums and topics to memberships, add fourms to courses, and %1$smore%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' );
+		$this->description = sprintf( __( 'Restrict forums and topics to memberships, add forums to courses, and %1$smore%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-bbpress/" target="_blank">', '</a>' );
 
 		if ( $this->is_available() ) {
 

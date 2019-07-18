@@ -1,11 +1,15 @@
 <?php
 /**
  * Tests for LifterLMS Course Model
- * @group    orders
- * @group    LLMS_Order
- * @group    LLMS_Post_Model
- * @since    3.10.0
- * @version  3.20.0
+ *
+ * @package LifterLMS/Tests
+ *
+ * @group orders
+ * @group LLMS_Order
+ * @group LLMS_Post_Model
+ *
+ * @since 3.10.0
+ * @since 3.32.0 Update to use latest action-scheduler functions.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -16,10 +20,8 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	private $date_delta = 120;
 
 	public function setUp() {
-
 		parent::setUp();
 		$this->create();
-
 	}
 
 	private function mock_gateway_support( $feature ) {
@@ -211,7 +213,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		// should be a comment
 		$this->assertTrue( is_a( $note, 'WP_Comment' ) );
 
-		// comment content should be our orignal note
+		// comment content should be our original note
 		$this->assertEquals( $note->comment_content, $note_text );
 		// author should be the system (LifterLMS)
 		$this->assertEquals( $note->comment_author, 'LifterLMS' );
@@ -252,7 +254,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the can_resubcribe() method
+	 * Test the can_resubscribe() method
 	 * @return   [type]
 	 * @since    3.19.0
 	 * @version  3.19.0
@@ -309,7 +311,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->obj->set( 'access_expiration', 'lifetime' );
 		$this->assertEquals( 'Lifetime Access', $this->obj->get_access_expiration_date() );
 
-		// expires on a specific datae
+		// expires on a specific date
 		$this->obj->set( 'access_expiration', 'limited-date' );
 		$this->obj->set( 'access_expires', '12/01/2020' ); // m/d/Y format (from datepicker)
 		$this->assertEquals( '2020-12-01', $this->obj->get_access_expiration_date() );
@@ -768,19 +770,21 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the schedule expiration function
+	 *
+	 * @since 3.19.0
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 *
 	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
 	 */
 	public function test_maybe_schedule_expiration() {
 
-		// recurring order with lifetime access won't schedule expiratin
+		// recurring order with lifetime access won't schedule expiration
 		$order = $this->get_mock_order();
 
 		$order->set_status( 'llms-active' );
 		$order->maybe_schedule_expiration();
 
-		$this->assertFalse( wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+		$this->assertFalse( as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) ) );
 
@@ -791,7 +795,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order->set_status( 'llms-active' );
 		$order->maybe_schedule_expiration();
 
-		$this->assertEquals( $order->get_access_expiration_date( 'U' ), wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+		$this->assertEquals( $order->get_access_expiration_date( 'U' ), as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) ) );
 
@@ -799,9 +803,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test recurring payment scheduling
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 *
+	 * @return void
 	 */
 	public function test_maybe_schedule_payment() {
 
@@ -816,7 +822,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$order->maybe_schedule_payment();
 		$this->assertTrue( ! empty( $order->get( 'date_next_payment' ) ) );
 
-		$this->assertEquals( $order->get_next_payment_due_date( 'U' ), wc_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $order->get( 'id' ) ) ) );
+		$this->assertEquals( $order->get_next_payment_due_date( 'U' ), as_next_scheduled_action( 'llms_charge_recurring_payment', array( 'order_id' => $order->get( 'id' ) ) ) );
 
 	}
 
@@ -929,9 +935,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the start access function
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 * @since 3.32.0 Update to use latest action-scheduler functions.
+	 *
+	 * @return void
 	 */
 	public function test_start_access() {
 
@@ -952,7 +960,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertEquals( $time, $order->get( 'start_date' ) );
 
 		// an expiration event should be scheduled to match the expiration date
-		$event_time = wc_next_scheduled_action( 'llms_access_plan_expiration', array(
+		$event_time = as_next_scheduled_action( 'llms_access_plan_expiration', array(
 			'order_id' => $order->get( 'id' ),
 		) );
 		$this->assertEquals( $order->get_access_expiration_date( 'U' ), $event_time );

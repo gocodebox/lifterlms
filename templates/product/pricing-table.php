@@ -3,8 +3,8 @@
  * Product (Course & Membership) Pricing Table Template
  * @property  obj   $product       WP_Product object
  * @property  bool  $is_enrolled   determines if current viewer is enrolled in $product
- * @property  bool  $purchaseable  determines if current product is purchaseable
- * @property  bool  $has_free      determines if any free access plans are avialable for the product
+ * @property  bool  $purchaseable  determines if current product is purchasable
+ * @property  bool  $has_free      determines if any free access plans are available for the product
  * @author    LifterLMS
  * @package   LifterLMS/Templates
  * @since     3.0.0

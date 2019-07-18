@@ -269,7 +269,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 		},
 
 		/**
-		 * Initialize lesson assignments *if* the assignments addon is availalbe and enabled
+		 * Initialize lesson assignments *if* the assignments addon is available and enabled
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0

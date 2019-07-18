@@ -710,7 +710,7 @@ function llms_get_progress_bar_html( $percentage ) {
 
 
 /**
- * Outupt a course continue button linking to the incomplete lesson for a given student
+ * Output a course continue button linking to the incomplete lesson for a given student
  * If the course is complete "Course Complete" is displayed
  * @param    int        $post_id   WP Post ID for a course, lesson, or quiz
  * @param    obj        $student   instance of an LLMS_Student, defaults to current student
@@ -823,7 +823,7 @@ if ( ! function_exists( 'is_courses' ) ) {
 
 
 /**
- * Is Memberhsip Archive Page
+ * Is Membership Archive Page
  * @return boolean [Is Membership Archive?]
  */
 if ( ! function_exists( 'is_memberships' ) ) {

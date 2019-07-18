@@ -1,25 +1,118 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Base Certificate Class
+ *
+ * Handles generating certificates.
+ *
+ * @since 1.0.0
+ * @version 3.30.3
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
-* Base Certificate Class
-*
-* Handles generating certificates
-*/
+ * Base Certificate Class
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define class properties.
+ */
 class LLMS_Certificate {
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $certificate_template_id;
+
+	/**
+	 * post title
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $certificate_title;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $content;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $email_type;
 
 	/**
 	 * Certificate Enabled
 	 * @var bool
+	 * @since 1.0.0
+	 * @deprecated 2.2.0
 	 */
-	var $enabled;
+	public $enabled;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $find = array();
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $id;
+
+	/**
+	 * image id
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $image;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $lesson_id;
+
+	/**
+	 * @var WP_User
+	 * @since 1.0.0
+	 */
+	public $object;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $replace = array();
+
+	/**
+	 * @var bool
+	 * @since 1.0.0
+	 */
+	public $sending;
+
+	/**
+	 * post title
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $title;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $userid;
 
 	/**
 	 * Constructor
 	 */
 	function __construct() {
 
-			// Settings TODO Refoactor: theses can come from the email post now
+			// Settings TODO Refactor: theses can come from the email post now
 			$this->email_type     	= 'html';
 			//$this->enabled   		= get_option( 'enabled' );
 

@@ -281,7 +281,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		// always add the subqueries for enrollment status
 		$selects[] = "( {$this->sql_subquery( 'meta_value' )} ) AS status";
 
-		// all the possilbe fields
+		// all the possible fields
 		$fields = array(
 			'date' => "( {$this->sql_subquery( 'updated_date' )} ) AS `date`",
 			'last_name' => 'm_last.meta_value AS last_name',
@@ -310,8 +310,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Generate an SQL IN clause based on submitted status arguements
-	 * @param    string     $column  name of the columen
+	 * Generate an SQL IN clause based on submitted status arguments
+	 * @param    string     $column  name of the column
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0

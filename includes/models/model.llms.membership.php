@@ -14,9 +14,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
- * @version 3.30.0
+ * @since 3.32.0 Added `get_student_count()` method.
  *
- * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successfull enrollment in this membership
+ * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
  * @property $restriction_redirect_type (string) What type of redirect action to take when content is restricted by this membership [none|membership|page|custom]
  * @property $redirect_page_id (int) WP Post ID of a page to redirect users to when $restriction_redirect_type is 'page'
@@ -156,6 +156,24 @@ implements LLMS_Interface_Post_Instructors
 	}
 
 	/**
+	 * Retrieve the number of enrolled students in the membership.
+	 *
+	 * @since 3.32.0
+	 * @return int
+	 */
+	public function get_student_count() {
+
+		$query = new LLMS_Student_Query( array(
+			'post_id' => $this->get( 'id' ),
+			'statuses' => array( 'enrolled' ),
+			'per_page' => 1,
+		) );
+
+		return $query->found_results;
+
+	}
+
+	/**
 	 * Get an array of student IDs based on enrollment status in the membership
 	 * @param    string|array  $statuses  list of enrollment statuses to query by
 	 *                                    status query is an OR relationship
@@ -172,7 +190,7 @@ implements LLMS_Interface_Post_Instructors
 	}
 
 	/**
-	 * Determine if sales page rediriction is enabled
+	 * Determine if sales page redirection is enabled
 	 * @return   string
 	 * @since    3.20.0
 	 * @version  3.23.0

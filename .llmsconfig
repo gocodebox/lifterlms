@@ -18,7 +18,7 @@
 		"package": "lifterlms",
 		"phpSrc": [
 			"./*.php", "./**/*.php",
-			"!vendor/*", "!vendor/**/*.php",
+			"!vendor/*", "!vendor/**/*.php", "!tmp/**", "!tests/**",
 			"./vendor/lifterlms/lifterlms-blocks/*.php", "./vendor/lifterlms/lifterlms-blocks/**/*.php"
 		]
 	},
@@ -63,7 +63,7 @@
 	},
 	"watch": {
 		"custom": [ {
-			"glob": [ "assets/js/builder/**/*.js", "assets/js/private/**/*.js" ],
+			"glob": [ "assets/js/builder/**/*.js", "assets/js/private/**/*.js", "assets/js/app/*.js" ],
 			"tasks": [ "js-additional", "js-builder" ]
 		} ]
 	},

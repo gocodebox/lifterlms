@@ -265,7 +265,7 @@ this.repeaters = {
 	},
 
 	/**
-	 * Load repereater data from the server and create rows in the DOM
+	 * Load repeater data from the server and create rows in the DOM
 	 * @return   void
 	 * @since    3.11.0
 	 * @version  3.12.1
@@ -352,7 +352,7 @@ this.repeaters = {
 	/**
 	 * Save a single repeaters data to the server
 	 * @param    obj   $repeater  jQuery selector for a repeater element
-	 * @return   vois
+	 * @return   void
 	 * @since    3.11.0
 	 * @version  3.13.0
 	 */

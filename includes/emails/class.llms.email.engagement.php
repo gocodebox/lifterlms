@@ -1,16 +1,33 @@
 <?php
 /**
-* Engagement Email Class
-* Generates emails and sends to user. Triggered from an engagement.
-* @since   1.0.0
-* @version 3.8.0
-*/
+ * Engagement Email Class
+ * Generates emails and sends to user. Triggered from an engagement.
+ *
+ * @since 1.0.0
+ * @version 3.30.3
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Engagement Email Class
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define class properties.
+ */
 class LLMS_Email_Engagement extends LLMS_Email {
 
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
 	protected $id = 'engagement';
+
+	/**
+	 * @var WP_User
+	 * @since 3.8.0
+	 */
+	public $student;
 
 	/**
 	 * Initialize all variables

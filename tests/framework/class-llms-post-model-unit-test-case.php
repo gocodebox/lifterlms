@@ -56,7 +56,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	*/
 
 	/**
-	 * Will hold an intance of the model being tested by the class
+	 * Will hold an instance of the model being tested by the class
 	 * @var  obj
 	 */
 	protected $obj = null;
@@ -108,6 +108,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 
 	/**
 	 * Test getters and setters
+	 *
 	 * @return   void
 	 * @since    3.4.0
 	 * @version  3.28.0
@@ -145,7 +146,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 					// negative should return positive
 					$this->obj->set( $prop, -45 );
 					$this->assertEquals( 45, $this->obj->get( $prop ) );
-					// numeric strind should return int
+					// numeric string should return int
 					$this->obj->set( $prop, '6' );
 					$this->assertEquals( '6', $this->obj->get( $prop ) );
 				break;
@@ -155,7 +156,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 					$this->assertTrue( is_array( $this->obj->get( $prop ) ) );
 					// strings should return an array with the string as the first item in the array
 					$this->obj->set( $prop, 'string' );
-					$this->assertEquals( array( 'string'), $this->obj->get( $prop ) );
+					$this->assertEquals( array( 'string' ), $this->obj->get( $prop ) );
 				break;
 
 				case 'float':
@@ -200,4 +201,73 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 		}
 	}
 
+
+	/**
+	 * Test set_bulk()
+	 *
+	 * @since [version]
+	 * @return void
+	 */
+	public function test_set_bulk() {
+
+		$this->create( 'another creative test title' );
+		$props = $this->get_properties();
+		$data = $this->get_data();
+
+		if ( ! $data ) {
+			$this->markTestSkipped( 'No properties to test.' );
+		}
+
+		// update should return true
+		$this->assertTrue( $this->obj->set_bulk( $data ) );
+
+		// Check each property has been set as expected.
+		foreach ( $props as $prop => $type ) {
+			// make sure gotten value equals set val
+			$this->assertEquals( $data[ $prop ], $this->obj->get( $prop ) );
+		}
+
+		// update should return false, the DB values are the same.
+		$this->assertFalse( $this->obj->set_bulk( $data ) );
+	}
+
+	/**
+	 * Test set_bulk() when passing $wp_erro param as true
+	 *
+	 * @since [version]
+	 * @return void
+	 */
+	public function test_set_bulk_wp_error() {
+
+		$this->create( 'a creative test title take one' );
+		$props = $this->get_properties();
+		$data = $this->get_data();
+
+		if ( ! $data ) {
+			$this->markTestSkipped( 'No properties to test.' );
+		}
+
+		// update should return true
+		$this->assertTrue( $this->obj->set_bulk( $data, $wp_error = true ) );
+
+		// Let's add some post data
+		$data['content'] = 'Special creative content';
+
+		// We're updating an llms post with exactly the same set of metas
+		// this will produce a wp_error object with the error code 'invalid_meta'.
+		$result = $this->obj->set_bulk( $data, $wp_error = true );
+		$this->assertWPError( $result );
+		$this->assertWPErrorCodeEquals( 'invalid_meta', $result );
+
+		// let's force a wp_post_update (wp_insert_post) failure, by forcing the 'wp_insert_post_empty_content' filter
+		// see wp-includes/post.php:wp_insert_post()
+		add_filter( 'wp_insert_post_empty_content', '__return_true' );
+
+		// update should a wp_error object which contains both the 'invalid_meta' error code
+		// and the 'empty_content' one.
+		$result = $this->obj->set_bulk( $data, true );
+		$this->assertArrayHasKey( 'invalid_meta', $result->errors );
+		$this->assertArrayHasKey( 'empty_content', $result->errors );
+
+	}
 }

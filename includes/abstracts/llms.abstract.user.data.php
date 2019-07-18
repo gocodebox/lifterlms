@@ -184,7 +184,7 @@ abstract class LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the User ID based on object
 	 * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
-	 * @return   mixed            int if a user id can be found, otherwise fale
+	 * @return   mixed            int if a user id can be found, otherwise false
 	 * @since    3.9.0
 	 * @version  3.9.0
 	 */

@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Course Track Complete
+ *
+ * @since 3.8.0
+ * @version 3.30.3
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Course Track Complete
- * @since    3.8.0
- * @version  3.8.0
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_Notification_Controller {
 
@@ -27,6 +33,12 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 	 * @var  array
 	 */
 	protected $action_hooks = array( 'lifterlms_course_track_completed' );
+
+	/**
+	 * @var LLMS_Track
+	 * @since 3.8.0
+	 */
+	public $track;
 
 	/**
 	 * Callback function called when a course track is completed by a student
@@ -71,7 +83,7 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0

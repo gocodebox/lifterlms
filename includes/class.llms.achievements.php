@@ -45,7 +45,7 @@ class LLMS_Achievements {
 	}
 
 	/**
-	 * Includes achivement class
+	 * Includes achievement class
 	 * @return void
 	 * @since    1.0.0
 	 * @version  ??
@@ -116,8 +116,8 @@ class LLMS_Achievements {
 	 * Award an achievement to a user
 	 * Calls trigger method passing arguments
 	 * @param  int $person_id        [ID of the current user]
-	 * @param  int $achievement      [Achivement template post ID]
-	 * @param  int $related_post_id  Post ID of the related engagment (eg lesson id)
+	 * @param  int $achievement      [Achievement template post ID]
+	 * @param  int $related_post_id  Post ID of the related engagement (eg lesson id)
 	 * @return void
 	 * @since    ??
 	 * @version  ??

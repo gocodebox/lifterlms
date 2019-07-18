@@ -1,22 +1,100 @@
 <?php
+/**
+ * Base Achievement Class
+ * Handles generating Achievement
+ *
+ * @since 1.0.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Base Achievement Class
- * Handles generating Achievement
- * @since    ??
- * @version  3.24.0
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Achievement {
 
-	// is the achievement enabled
-	var $enabled;
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $achievement_template_id;
 
-	var $heading;
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $achievement_title;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $content;
+
+	/**
+	 * is the achievement enabled
+	 * @var bool
+	 * @since 1.0.0
+	 */
+	public $enabled;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $find = array();
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $id;
+
+	/**
+	 * image id
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $image;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $lesson_id;
+
+	/**
+	 * @var WP_User
+	 * @since 1.0.0
+	 */
+	public $object;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	public $replace = array();
+
+	/**
+	 * post title
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $title;
+
+	/**
+	 * @var int
+	 * @since 1.0.0
+	 */
+	public $userid;
 
 	function __construct() {
 
-		// Settings TODO Refoactor: theses can come from the achievement post now
+		// Settings TODO Refactor: theses can come from the achievement post now
 		$this->enabled   		= get_option( 'enabled' );
 
 		$this->find = array( '{blogname}', '{site_title}' );
@@ -26,7 +104,7 @@ class LLMS_Achievement {
 	/**
 	 * Checks if achievement is enabled
 	 * @return   bool
-	 * @since    ??
+	 * @since    Unknown
 	 * @version  3.24.0
 	 * @todo     returning true always. Need to build setting to disable / enable
 	 */
@@ -66,7 +144,9 @@ class LLMS_Achievement {
 	/**
 	 * Get the content of the Achievement
 	 *
-	 * @return array $achievement_content [data needed to generate achievement]
+	 * @return  string data needed to generate achievement
+	 * @since   1.0.0
+	 * @version 1.4.1
 	 */
 	function get_content() {
 
@@ -78,14 +158,14 @@ class LLMS_Achievement {
 	/**
 	 * Generate HTML output of achievement
 	 * Converts merge fields to raw data sources and wraps content in HTML
-	 * then saves new achivement post and updates user_postmeta table.
+	 * then saves new achievement post and updates user_postmeta table.
 	 * @return   void
 	 * @since    1.0.0
 	 */
 	function get_content_html() {}
 
 	/**
-	 * Create the achivement
+	 * Create the achievement
 	 * @param    string    $content  achievement body content
 	 * @return   void
 	 * @since    1.0.0

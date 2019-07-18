@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 /**
 * Base Question Class
+* @deprecated 3.30.3
 */
 class LLMS_Quiz_Legacy {
 
@@ -15,6 +16,60 @@ class LLMS_Quiz_Legacy {
 	* @var int
 	*/
 	public $id;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $llms_allowed_attempts;
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $llms_passing_percent;
+
+	/**
+	 * @var LLMS_Question[]
+	 * @since
+	 */
+	public $llms_questions;
+
+	/**
+	 * @var string
+	 * @since 1.4.0
+	 */
+	public $llms_random_answers;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_correct_answer;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_options_description_right_answer;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_options_description_wrong_answer;
+
+	/**
+	 * @var string
+	 * @since 1.3.0
+	 */
+	public $llms_show_results;
+
+	/**
+	 * @var string
+	 * @since 1.2.2
+	 */
+	public $llms_time_limit;
 
 	/**
 	* Post Object
@@ -165,7 +220,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get Grade
-	 * Multiply total points earned by total point wieght
+	 * Multiply total points earned by total point weight
 	 *
 	 * @param  int $points [total points earned]
 	 * @return int [numeric representation of grade percentage]
@@ -257,7 +312,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get total time spent on quiz
-	 * Subtract starttime from endtime
+	 * Subtract start time from end time
 	 *
 	 * @param  int $user_id [ID of user]
 	 * @param  string $unique_id [wpnonce of quiz submit]
@@ -400,7 +455,7 @@ class LLMS_Quiz_Legacy {
 
 			$total_attempts_remaining = ( $attempts_allowed - $attempts );
 
-			// don't show negative attmepts
+			// don't show negative attempts
 			if ( $total_attempts_remaining < 0 ) {
 
 				$total_attempts_remaining = 0;

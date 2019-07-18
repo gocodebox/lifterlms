@@ -1,10 +1,18 @@
 <?php
+/**
+ * Membership Settings Metabox
+ *
+ * @since 1.0.0
+ * @version 3.30.3
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Membership Settings Metabox
- * @since   1.0.0
- * @version 3.23.0
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -31,7 +39,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Removed sorting by title.
-	 * @version 3.4.0
+	 * @since 3.30.3 Fixed spelling errors.
 	 *
 	 * @param obj $membership instance of LLMS_Membership for the current post.
 	 * @return array
@@ -41,7 +49,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 		$data = array();
 		$data[] = array(
 			'',
-			'<br>' . __( 'No automatic enrollment couses found. Add a course below.', 'lifterlms' ) . '<br><br>',
+			'<br>' . __( 'No automatic enrollment courses found. Add a course below.', 'lifterlms' ) . '<br><br>',
 			'',
 		);
 
@@ -71,8 +79,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * The function must return an array which can be consumed by the "output" function
 	 *
 	 * @since 3.0.0
-	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable autoenrollment table.
-	 * @version 3.30.0
+	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable auto-enrollment table.
+	 * @since 3.30.3 Removed duplicate array keys.
 	 *
 	 * @return array
 	 */
@@ -179,7 +187,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						),
 					),
 					array(
-						'class' 	=> '',
+						'class'     => 'llms-select2-post',
 						'controller' => '#' . $this->prefix . 'restriction_redirect_type',
 						'controller_value' => 'page',
 						'data_attributes' => array(
@@ -188,7 +196,6 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 						'id' 		=> $this->prefix . 'redirect_page_id',
 						'label'		=> __( 'Select a WordPress Page', 'lifterlms' ),
 						'type'		=> 'select',
-						'class'     => 'llms-select2-post',
 						'value'   => $redirect_options,
 					),
 					array(

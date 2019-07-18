@@ -77,7 +77,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Answer a question
 	 * records the selected option and whether or not the selected option was the correct option
-	 * Automatically updates & saves the attempt to the dabatase
+	 * Automatically updates & saves the attempt to the database
 	 * @param    int     $question_id  WP_Post ID of the LLMS_Question
 	 * @param    int     $answer       index/key of the selected answer option
 	 *                                 as found in the array of options retrieved by LLMS_Question->get_options()
@@ -199,7 +199,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
 		}
 
-		// clear "cached" grade so it's recalced next time it's requested
+		// clear "cached" grade so it's recalculated next time it's requested
 		$this->get_student()->set( 'overall_grade', '' );
 
 		return $this;

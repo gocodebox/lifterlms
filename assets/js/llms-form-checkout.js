@@ -30,7 +30,7 @@
 		this.form_action = false;
 
 		/**
-		 * Initalize checkout JS & bind if on the checkout screen
+		 * Initialize checkout JS & bind if on the checkout screen
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.24.1
@@ -407,7 +407,7 @@
 		};
 
 		/**
-		 * Start or stop proccessing events on the checkout form
+		 * Start or stop processing events on the checkout form
 		 * @param    string   action  whether to start or stop processing [start|stop]
 		 * @return   void
 		 * @since    3.0.0
@@ -445,7 +445,7 @@
 		 * Handles form submission
 		 * Calls all validation events in `before_submit[]`
 		 * waits for call backs and either displays returned errors
-		 * or submits the form when all are succesful
+		 * or submits the form when all are successful
 		 * @param    obj   e  JS event object
 		 * @return   void
 		 * @since    3.0.0
@@ -504,7 +504,7 @@
 				// everything has finished
 				else if ( num === finishes ) {
 
-					// all were succesful, submit the form
+					// all were successful, submit the form
 					if ( num === successes ) {
 
 						clear = true;
@@ -542,7 +542,7 @@
 
 		};
 
-		// initalize
+		// initialize
 		this.init();
 
 		return this;

@@ -1,12 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Admin Settings Page, Checkout Tab
- * @since    3.0.0
- * @version  3.17.5
+ *
+ * @since 3.0.0
+ * @version 3.30.3
+ */
+
+defined( 'ABSPATH' ) || exit;
+/**
+ * Admin Settings Page, Checkout Tab
+ *
+ * @since 3.0.0
+ * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
@@ -137,9 +142,11 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 	/**
 	 * Retrieve the default checkout settings for the main section
-	 * @return   array
-	 * @since    3.17.5
-	 * @version  3.17.5
+	 *
+	 * @since 3.17.5
+	 * @since 3.30.3 Fixed spelling errors.
+	 *
+	 * @return array
 	 */
 	private function get_settings_default() {
 
@@ -182,7 +189,7 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
 			array(
 				'title' => __( 'Confirm Payment', 'lifterlms' ),
-				'desc' => '<br>' . __( 'Payment confirmation endpont slug', 'lifterlms' ),
+				'desc' => '<br>' . __( 'Payment confirmation endpoint slug', 'lifterlms' ),
 				'id' => 'lifterlms_myaccount_confirm_payment_endpoint',
 				'type' => 'text',
 				'default' => 'confirm-payment',

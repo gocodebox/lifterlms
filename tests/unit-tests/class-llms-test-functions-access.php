@@ -10,7 +10,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	/**
 	 * Get a formatted date for setting time period related restrictions
 	 * @param    string     $offset  adjust day via strtotime
-	 * @param    string     $format  desired retured format, passed to date()
+	 * @param    string     $format  desired returned format, passed to date()
 	 * @return   string
 	 * @since    3.7.3
 	 * @version  3.7.3
@@ -133,7 +133,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 		// results should all be the same with the student b/c nothing completed
 		$this->prereq_tests( $test_ids, $course, $prereq_course_id, $track_id, $student_id );
 
-		// results differ once student completes coures
+		// results differ once student completes courses
 		$this->complete_courses_for_student( $student_id, $courses );
 
 		$this->prereq_tests( $test_ids, $course, $prereq_course_id, $track_id, $student_id );
@@ -143,7 +143,7 @@ class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 	/**
 	 * test_llms_is_post_restricted_by_prerequisite() runs this series of assertions several times
 	 * @param    array      $test_ids          array of post ids to test the llms_is_post_restricted_by_prerequisite() against
-	 * @param    obj        $course            course objet
+	 * @param    obj        $course            course object
 	 * @param    int        $prereq_course_id  post id of the prereq course
 	 * @param    int        $track_id          term id of the prereq track
 	 * @param    int        $user_id           wp user id of a student

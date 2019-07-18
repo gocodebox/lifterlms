@@ -32,7 +32,7 @@ class LLMS_Admin_Notices {
 	}
 
 	/**
-	 * Add output notice actioins depending on the current sceen
+	 * Add output notice actions depending on the current screen
 	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -274,7 +274,7 @@ class LLMS_Admin_Notices {
 	}
 
 	/**
-	 * Save notices in the databse
+	 * Save notices in the database
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0

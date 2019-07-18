@@ -84,7 +84,7 @@
 	}
 
 	/**
-	 * Show the keys management dropdown on click of the "My Licenese Keys" button
+	 * Show the keys management dropdown on click of the "My License Keys" button
 	 * @since    3.22.0
 	 * @version  3.22.0
 	 */

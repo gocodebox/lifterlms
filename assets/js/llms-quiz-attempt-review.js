@@ -1,10 +1,17 @@
 /**
  * Quiz attempt review / grading UI & UX
- * @since    3.16.0
- * @version  3.16.9
+ *
+ * @since 3.16.0
+ * @version 3.30.3
  */
 ;( function( $ ) {
 
+	/**
+	 * Handle UX for graving quiz attempts.
+	 *
+	 * @since 3.16.0
+	 * @since 3.30.3 Improve grading UX
+	 */
 	var Grading = function() {
 
 		/**
@@ -29,13 +36,19 @@
 
 		/**
 		 * Create editable fields for grading / remarking
-		 * @return   {[type]}
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 *
+		 * @since 3.16.0
+		 * @since 3.30.3 When starting a review only toggle first item if it's hidden and always automatically focus on the remarks field.
+		 *
+		 * @return Grading
 		 */
 		function setup_fields() {
 
 			$els = $( '.llms-quiz-attempt-question:not(.type--content)' );
+
+			if ( $els.length < 1 ) {
+				return;
+			}
 
 			var title = LLMS.l10n.translate( 'Remarks to Student' ),
 				points = LLMS.l10n.translate( 'points' );
@@ -70,9 +83,13 @@
 
 			} );
 
-
-			$els.first().find( '.toggle-answer' ).trigger( 'click' );
-
+			var $els_first = $els.first();
+			if ( ! $els_first.find( '.llms-quiz-attempt-question-main' ).is( ':visible' ) ) {
+				// expand the first question toggle.
+				$els_first.find( '.toggle-answer' ).trigger( 'click' );
+			}
+			// focus on its remark textarea.
+			$els_first.find( '.llms-remarks-field' ).focus();
 		}
 
 		bind();

@@ -2,7 +2,7 @@
 /**
  * Tests for LifterLMS User Postmeta functions
  * @group    functions
- * @group    template_functinos
+ * @group    template_functions
  * @group    pricing_tables
  * @since    3.23.0
  * @version  3.23.0
@@ -34,7 +34,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_get_access_plan_classes metho
+	 * test the llms_get_access_plan_classes method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -63,7 +63,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan metho
+	 * test the llms_template_access_plan method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -82,7 +82,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan_button metho
+	 * test the llms_template_access_plan_button method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -106,7 +106,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan_description metho
+	 * test the llms_template_access_plan_description method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -124,7 +124,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan_feature metho
+	 * test the llms_template_access_plan_feature method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -145,7 +145,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan_pricing metho
+	 * test the llms_template_access_plan_pricing method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -175,7 +175,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan_restrictions metho
+	 * test the llms_template_access_plan_restrictions method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -199,7 +199,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan_title metho
+	 * test the llms_template_access_plan_title method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0
@@ -212,7 +212,7 @@ class LLMS_Test_Functions_Templates_Pricing_Tables extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the llms_template_access_plan_trial metho
+	 * test the llms_template_access_plan_trial method
 	 * @return   void
 	 * @since    3.23.0
 	 * @version  3.23.0

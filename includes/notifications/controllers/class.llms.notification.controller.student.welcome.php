@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Student Welcome
+ *
+ * @since 3.8.0
+ * @version 3.33.2
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Student Welcome
- * @since    3.8.0
- * @version  3.8.0
+ *
+ * @since 3.8.0
+ * @since 3.33.2 Add test send functionality.
  */
 class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notification_Controller {
 
@@ -28,6 +34,15 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 */
 	protected $action_hooks = array(
 		'lifterlms_user_registered',
+	);
+
+	/**
+	 * Determines if test notifications can be sent
+	 * @var  bool
+	 */
+	protected $testable = array(
+		'basic' => false,
+		'email' => true,
 	);
 
 	/**
@@ -85,7 +100,49 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get an array of LifterLMS Admin Page settings to send test notifications
+	 *
+	 * @since 3.33.2
+	 *
+	 * @param string $type Notification type [basic|email]
+	 * @return array
+	 */
+	public function get_test_settings( $type ) {
+
+		$query = new WP_User_Query( array(
+			'number' => 25,
+		) );
+
+		$options = array(
+			'' => '',
+		);
+		foreach ( $query->get_results() as $user ) {
+			$student = llms_get_student( $user );
+			if ( $student ) {
+				$options[ $student->get_id() ] = esc_attr( sprintf( __( '%1$s <%2$s>', 'lifterlms' ), $student->get_name(), $student->get( 'user_email' ) ) );
+			}
+		}
+
+		return array(
+			array(
+				'class' => 'llms-select2',
+				'custom_attributes' => array(
+					'data-allow-clear' => true,
+					'data-placeholder' => __( 'Select a user', 'lifterlms' ),
+				),
+				'default' => '',
+				'id'      => 'user_id',
+				'desc'    => '<br/>' . __( 'Send yourself a test notification using information for the selected user.', 'lifterlms' ),
+				'options' => $options,
+				'title'   => __( 'Send a Test', 'lifterlms' ),
+				'type'    => 'select',
+			),
+		);
+
+	}
+
+	/**
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0
@@ -93,6 +150,30 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 */
 	public function get_title() {
 		return __( 'Student Welcome', 'lifterlms' );
+	}
+
+	/**
+	 * Send a test notification to the currently logged in users
+	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
+	 *
+	 * @since 3.33.2
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @param array $data Array of test notification data as specified by $this->get_test_data().
+	 *
+	 * @return int|false
+	 */
+	public function send_test( $type, $data = array() ) {
+
+		if ( empty( $data['user_id'] ) ) {
+			return;
+		}
+
+		$this->user_id = $data['user_id'];
+		$this->post_id = null;
+
+		return parent::send_test( $type );
+
 	}
 
 	/**

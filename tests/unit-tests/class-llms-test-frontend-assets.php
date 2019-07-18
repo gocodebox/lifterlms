@@ -6,7 +6,7 @@
 class LLMS_Test_Frontend_Assets extends LLMS_UnitTestCase {
 
 	/**
-	 * Test inline script managment functions
+	 * Test inline script management functions
 	 * @return   void
 	 * @since    3.4.1
 	 * @version  3.4.1

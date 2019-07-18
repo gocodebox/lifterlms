@@ -1,32 +1,108 @@
 <?php
 /**
+ * Analytics Widget Abstract
+ *
+ * @since 3.0.0
+ * @version 3.33.1
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
 * Analytics Widget Abstract
 *
-* @since   3.0.0
-* @version 3.0.0
+* @since 3.0.0
+* @since 3.30.3 Define undefined properties.
+* @since 3.33.1 In `set_order_data_query()` always set $order_clause variable to avoid PHP notices
 */
-
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 abstract class LLMS_Analytics_Widget {
 
-	public $charts = false;
-	public $success = false;
-	public $message = '';
-	public $response;
+	/**
+	 * @var array
+	 * @since 3.0.0
+	 */
+	public $chart_data;
 
-	protected $date_start;
+	/**
+	 * @var bool
+	 * @since 3.0.0
+	 */
+	public $charts = false;
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 * @deprecated 3.0.0
+	 */
 	protected $date_end;
 
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 * @deprecated 3.0.0
+	 */
+	protected $date_start;
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	public $message = '';
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 * @deprecated 3.0.0
+	 */
 	protected $output;
 
-	protected $query;
-	protected $query_vars;
-	protected $query_function;
+	/**
+	 * One of the wpdb constants: OBJECT, OBJECT_K, ARRAY_A, or ARRAY_N
+	 * @var string
+	 * @since 3.0.0
+	 */
 	protected $output_type;
-	// protected $prepared_query;
 
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	protected $prepared_query;
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	protected $query;
+
+	/**
+	 * @var string
+	 * @since 3.0.0
+	 */
+	protected $query_function;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
+	protected $query_vars;
+
+	/**
+	 * @var int
+	 * @since 3.0.0
+	 */
+	public $response;
+
+	/**
+	 * @var array
+	 * @since 1.0.0
+	 */
 	public $results = array();
+
+	/**
+	 * @var bool
+	 * @since 3.0.0
+	 */
+	public $success = false;
 
 	abstract protected function format_response();
 	abstract protected function set_query();
@@ -212,6 +288,7 @@ abstract class LLMS_Analytics_Widget {
 			$wheres_clause .= $where . "\r\n";
 		}
 
+		$order_clause = '';
 		if ( $order && $orderby ) {
 			$order_clause = 'ORDER BY ' . $orderby . ' ' . $order;
 		}

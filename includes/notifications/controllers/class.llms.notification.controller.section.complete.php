@@ -1,12 +1,17 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Section Complete
+ *
+ * @since 3.8.0
+ * @version 3.30.3
+ */
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Section Complete
- * @since    3.8.0
- * @version  3.8.0
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notification_Controller {
 
@@ -27,6 +32,12 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 	 * @var  array
 	 */
 	protected $action_hooks = array( 'lifterlms_section_completed' );
+
+	/**
+	 * @var LLMS_Section
+	 * @since 3.8.0
+	 */
+	public $section;
 
 	/**
 	 * Callback function called when a section is completed by a student
@@ -76,7 +87,7 @@ class LLMS_Notification_Controller_Section_Complete extends LLMS_Abstract_Notifi
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0

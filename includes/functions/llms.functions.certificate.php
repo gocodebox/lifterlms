@@ -39,7 +39,7 @@ function llms_get_certificate_content( $id = 0 ) {
 
 
 /**
- * Retrive an array of image data for a certificate background image
+ * Retrieve an array of image data for a certificate background image
  *
  * If no image found, will default to the LifterLMS placeholder (which can be filtered for a custom placeholder)
  *
@@ -83,7 +83,7 @@ function llms_get_certificate_image( $id = 0 ) {
 
 
 /**
- * Retrive the title of a certificate
+ * Retrieve the title of a certificate
  * @param  int    $id WP post id of the cert (optional if used within a loop)
  * @return string     title of the cert
  * @since    2.2.0

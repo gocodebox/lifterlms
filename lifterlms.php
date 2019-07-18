@@ -1,9 +1,16 @@
 <?php
 /**
+ * LifterLMS WordPress Plugin
+ *
+ * @package LifterLMS/Main
+ *
+ * @since 1.0.0
+ * @version 3.32.0
+ *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.30.2
+ * Version: 3.33.2
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -11,23 +18,23 @@
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.8
- * Tested up to: 5.1
+ * Tested up to: 5.2.2
  */
 
 defined( 'ABSPATH' ) || exit;
 
-/**
- * Autoloader
- */
+// Autoloader.
 require_once 'vendor/autoload.php';
 
 /**
  * Main LifterLMS Class
- * @class LifterLMS
+ *
+ * @since 1.0.0
+ * @since 3.32.0 Update action-scheduler to latest version; load staging class on the admin panel.
  */
 final class LifterLMS {
 
-	public $version = '3.30.2';
+	public $version = '3.33.2';
 
 	protected static $_instance = null;
 
@@ -211,8 +218,12 @@ final class LifterLMS {
 
 	/**
 	 * Include required core classes
-	 * @since   1.0.0
-	 * @version 3.28.1
+	 *
+	 * @since 1.0.0
+	 * @since 3.31.0 Add theme support includes.
+	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
+	 *
+	 * @return void
 	 */
 	private function includes() {
 
@@ -225,7 +236,7 @@ final class LifterLMS {
 		require_once 'includes/class.llms.session.php';
 		require_once 'includes/class.llms.cache.helper.php';
 
-		require_once 'vendor/gocodebox/action-scheduler/action-scheduler.php';
+		require_once 'vendor/prospress/action-scheduler/action-scheduler.php';
 
 		require_once 'includes/class.llms.hasher.php';
 
@@ -239,6 +250,7 @@ final class LifterLMS {
 
 		if ( is_admin() ) {
 
+			include_once 'includes/class-llms-staging.php';
 			include_once 'includes/class.llms.dot.com.api.php';
 
 			include_once 'includes/class.llms.generator.php';
@@ -382,6 +394,23 @@ final class LifterLMS {
 		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class.llms.playnice.php';
 
+		$this->includes_theme_support();
+
+	}
+
+	/**
+	 * Conditionally require additional theme support classes.
+	 *
+	 * @since 3.31.0-beta.1
+	 *
+	 * @return void
+	 */
+	private function includes_theme_support() {
+
+		if ( 'twentynineteen' === get_template() ) {
+			include_once 'includes/theme-support/class-llms-twenty-nineteen.php';
+		}
+
 	}
 
 	/**
@@ -458,7 +487,7 @@ final class LifterLMS {
 
 	/**
 	 * Grading instance
-	 * @return   obj
+	 * @return   LLMS_Grades
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
@@ -468,7 +497,7 @@ final class LifterLMS {
 
 	/**
 	 * get integrations
-	 * @return object instance
+	 * @return LLMS_Integrations instance
 	 */
 	public function integrations() {
 		return LLMS_Integrations::instance();
@@ -476,7 +505,7 @@ final class LifterLMS {
 
 	/**
 	 * Retrieve an instance of the notifications class
-	 * @return   obj
+	 * @return   LLMS_Notifications
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -486,7 +515,7 @@ final class LifterLMS {
 
 	/**
 	 * get payment gateways.
-	 * @return array
+	 * @return LLMS_Payment_Gateways
 	 */
 	public function payment_gateways() {
 		return LLMS_Payment_Gateways::instance();
@@ -494,7 +523,7 @@ final class LifterLMS {
 
 	/**
 	 * Load all background processors and
-	 * access to them programattically a processor via LLMS()->processors()->get( $processor )
+	 * access to them programmatically a processor via LLMS()->processors()->get( $processor )
 	 * @return   LLMS_Processors
 	 * @since    3.15.0
 	 * @version  3.15.0

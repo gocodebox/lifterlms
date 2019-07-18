@@ -49,7 +49,7 @@ LLMS.Ajax = {
 	response:[],
 
 	/**
-	 * initilize Ajax methods
+	 * initialize Ajax methods
 	 * loads class methods
 	 */
 	init: function(obj) {

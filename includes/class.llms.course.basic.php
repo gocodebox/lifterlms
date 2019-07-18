@@ -7,10 +7,15 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 *
 * Basic course is the "standard" single purchase course.
 *
-* @author codeBOX
-* @project lifterLMS
+* @deprecated 3.30.3
 */
 class LLMS_Course_Basic extends LLMS_Course {
+
+	/**
+	 * @var string
+	 * @since 1.0.0
+	 */
+	public $course_type;
 
 	/**
 	 * post id

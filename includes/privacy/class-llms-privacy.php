@@ -237,7 +237,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	}
 
 	/**
-	 * Retrive student orders
+	 * Retrieve student orders
 	 * @param    obj     $student    LLMS_Student
 	 * @param    int     $page       page number
 	 * @return   array

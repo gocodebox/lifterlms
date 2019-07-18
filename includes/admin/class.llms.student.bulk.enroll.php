@@ -1,20 +1,28 @@
 <?php
+/**
+ * Bulk Enrollment Class
+ *
+ * @since 3.20.0
+ * @version 3.21.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Bulk Enrollment Class
  *
- * @since   3.20.0
- * @version 3.21.0
+ * @since 3.20.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Student_Bulk_Enroll {
 
 	/**
 	 * Admin notices
 	 *
-	 * @var array
+	 * @var string[]
+	 * @since 3.19.4
 	 */
-	public $user_admin_notices = array();
+	public $admin_notices = array();
 
 	/**
 	 * Product (Course/Membership) ID

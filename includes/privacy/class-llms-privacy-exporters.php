@@ -1,10 +1,18 @@
 <?php
+/**
+ * LifterLMS Privacy Exporter functions
+ *
+ * @since 3.18.0
+ * @version 3.30.3
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Privacy Exporter functions
- * @since    3.18.0
- * @version  3.18.0
+ *
+ * @since 3.18.0
+ * @since 3.30.3 Fixed spelling error.
  */
 class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
@@ -153,12 +161,14 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
 	/**
 	 * Get an array of enrollment data for a course or membership
-	 * @param    int     $post_id           WP Post ID of course or membership
-	 * @param    obj     $student           LLMS_Student
-	 * @param    obj     $post_type_object  WP post type object
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 *
+	 * @since 3.18.0
+	 * @since 3.30.3 Fixed spelling errors.
+	 *
+	 * @param int $post_id WP Post ID of course or membership.
+	 * @param obj $student LLMS_Student.
+	 * @param obj $post_type_object WP post type object.
+	 * @return array
 	 */
 	private static function get_enrollment_data( $post_id, $student, $post_type_object ) {
 
@@ -171,12 +181,12 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		);
 
 		$data[] = array(
-			'name' => __( 'Enrollement Status', 'lifterlms' ),
+			'name' => __( 'Enrollment Status', 'lifterlms' ),
 			'value' => llms_get_enrollment_status_name( $student->get_enrollment_status( $post_id ) ),
 		);
 
 		$data[] = array(
-			'name' => __( 'Enrollement Date', 'lifterlms' ),
+			'name' => __( 'Enrollment Date', 'lifterlms' ),
 			'value' => $student->get_enrollment_date( $post_id, 'enrolled', 'Y-m-d H:i:s' ),
 		);
 

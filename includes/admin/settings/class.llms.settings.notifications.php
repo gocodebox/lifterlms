@@ -1,12 +1,25 @@
 <?php
+/**
+ * Admin Settings: Notifications Tab
+ *
+ * @since 3.8.0
+ * @version 3.30.3
+ */
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Settings: Notifications Tab
- * @since    3.8.0
- * @version  3.24.0
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Explicitly define class properties; fix typo in title element id.
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
+
+	/**
+	 * @var LLMS_Abstract_Notification_View
+	 * @since 3.8.0
+	 */
+	public $view;
 
 	/**
 	 * Constructor
@@ -117,9 +130,11 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Get settings array
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since 3.30.3 Fixed typo in title id.
+	 *
+	 * @return array
 	 */
 	public function get_settings() {
 
@@ -134,7 +149,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		$settings[] = array(
 			'title' => __( 'Notification Settings', 'lifterlms' ),
 			'type' => 'title',
-			'id' => 'notificati_options_title',
+			'id' => 'notification_options_title',
 		);
 
 		if ( isset( $_GET['notification'] ) ) {

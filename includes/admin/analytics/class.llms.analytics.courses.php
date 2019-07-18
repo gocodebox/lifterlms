@@ -58,7 +58,7 @@ if ( ! class_exists( 'LLMS_Analytics_Courses' ) ) :
 
 				$html .= '</div>'; //end widget row
 
-				//sales volumn line chart
+				//sales volume line chart
 				$html .= self::full_width_widget( $this->sales_chart( $search ) );
 
 				if ( 'all_courses' !== $search->product_id ) {

@@ -78,7 +78,7 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 				} );
 			}
 
-			// if we don't have a single corret answer & the question has points, set one
+			// if we don't have a single correct answer & the question has points, set one
 			// allows users to create quizzes / questions with no points and therefore no correct answers are allowed
 			if ( 0 === this.count_correct() && question.get( 'points' ) > 0 ) {
 				var models = 1 === this.size() ? this.models : siblings;

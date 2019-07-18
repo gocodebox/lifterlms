@@ -211,7 +211,7 @@ define( [
 		},
 
 		/**
-		 * Adds a hash for deeplinking to a specific lesson tab
+		 * Adds a hash for deep linking to a specific lesson tab
 		 * @param  string  subtab subtab [quiz|assignment]
 		 * @return void
 		 * @since   3.27.0

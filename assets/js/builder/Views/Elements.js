@@ -114,7 +114,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 		/**
 		 * Show the popover to add an existing lessons
-		 * @param    object   event  JS Event OBject
+		 * @param    object   event  JS Event Object
 		 * @return   void
 		 * @since    3.16.12
 		 * @version  3.16.12

@@ -1,10 +1,18 @@
 <?php
+/**
+ * Notification Controller: Quiz Failed
+ *
+ * @since 3.8.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Quiz Failed
- * @since    3.8.0
- * @version  3.24.0
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notification_Controller {
 
@@ -25,6 +33,12 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	 * @var  array
 	 */
 	protected $action_hooks = array( 'lifterlms_quiz_failed' );
+
+	/**
+	 * @var LLMS_Quiz
+	 * @since 3.8.0
+	 */
+	public $quiz;
 
 	/**
 	 * Determines if test notifications can be sent
@@ -139,7 +153,7 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	}
 
 	/**
-	 * Get the translateable title for the notification
+	 * Get the translatable title for the notification
 	 * used on settings screens
 	 * @return   string
 	 * @since    3.8.0

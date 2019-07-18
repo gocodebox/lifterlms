@@ -20,7 +20,7 @@ class LLMS_Admin_Builder {
 	private static $search_term = '';
 
 	/**
-	 * Add menu items to the WP Admin Bar to allow quiz returns to the dashboad from the course builder
+	 * Add menu items to the WP Admin Bar to allow quiz returns to the dashboard from the course builder
 	 * @param    obj     $wp_admin_bar  Instance of WP_Admin_Bar
 	 * @return   void
 	 * @since    3.16.7
@@ -831,7 +831,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
 
-				// update all updateable properties
+				// update all updatable properties
 				foreach ( $properties as $prop ) {
 					if ( isset( $lesson_data[ $prop ] ) && ! in_array( $prop, $skip_props ) ) {
 						$lesson->set( $prop, $lesson_data[ $prop ] );
@@ -1007,7 +1007,7 @@ if ( ! empty( $active_post_lock ) ) {
 				'title',
 			) );
 
-			// update all updateable properties
+			// update all updatable properties
 			foreach ( $properties as $prop ) {
 				if ( isset( $quiz_data[ $prop ] ) ) {
 					$quiz->set( $prop, $quiz_data[ $prop ] );

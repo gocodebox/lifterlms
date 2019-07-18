@@ -1,14 +1,19 @@
 <?php
 /**
  * Notification View Abstract
- * @since    3.8.0
- * @version  3.28.2
+ *
+ * @since 3.8.0
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Abstract_Notification_View abstract.
+ *
+ * @since 3.8.0
+ * @since 3.30.3 Explicitly define undefined properties.
+ * @since 3.31.0 Add filter on `$basic_options` class property.
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
@@ -29,8 +34,14 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	);
 
 	/**
+	 * @var string
+	 * @since 3.8.0
+	 */
+	public $id;
+
+	/**
 	 * Instance of the LLMS_Post_Model for the triggering post
-	 * @var  [type]
+	 * @var  LLMS_Post_Model
 	 */
 	protected $post;
 
@@ -48,19 +59,19 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Instance of the current LLMS_Notification
-	 * @var  obj
+	 * @var  LLMS_Notification
 	 */
 	protected $notification;
 
 	/**
 	 * Instance of LLMS_Student for the subscriber
-	 * @var  [type]
+	 * @var  LLMS_Student
 	 */
 	protected $subscriber;
 
 	/**
 	 * Instance of an LLMS_Student for the triggering user
-	 * @var  [type]
+	 * @var  LLMS_Student
 	 */
 	protected $user;
 
@@ -106,7 +117,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	abstract protected function set_merge_codes();
 
 	/**
-	 * Setup notification subject line for outpet
+	 * Setup notification subject line for output
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -124,10 +135,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Constructor
-	 * @param    mixed     $notification  notification id, instance of LLMS_Notification
-	 *                                    or an object containing at least an 'id'
-	 * @since    3.8.0
-	 * @version  3.16.14
+	 *
+	 * @since 3.8.0
+	 * @since 3.31.0 Add filter on `$basic_options` class class property.
+	 *
+	 * @param mixed $notification Notification id, instance of LLMS_Notification
+	 *                            or an object containing at least an 'id'.
+	 * @return void
 	 */
 	public function __construct( $notification ) {
 
@@ -145,6 +159,8 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 		$this->subscriber = new LLMS_Student( $this->notification->get( 'subscriber' ) );
 		$this->user = new LLMS_Student( $this->notification->get( 'user_id' ) );
 		$this->post = llms_get_post( $this->notification->get( 'post_id' ), 'post' );
+
+		$this->basic_options = apply_filters( $this->get_filter( 'basic_options' ), $this->basic_options, $this );
 
 	}
 
@@ -410,7 +426,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	}
 
 	/**
-	 * Retrieve a default icon for the notificiation based on the notification type
+	 * Retrieve a default icon for the notification based on the notification type
 	 * @param    string     $type  type of icon [positive|negative]
 	 * @return   string
 	 * @since    3.8.0
@@ -518,7 +534,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Access the protected notification object
-	 * @return   obj
+	 * @return   LLMS_Notification
 	 * @since    3.18.2
 	 * @version  3.18.2
 	 */
@@ -607,7 +623,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Convert a string to sentence case.
-	 * Useful for handling lowercased merged data like "you" which may appear at the beginnig or middle of a sentence
+	 * Useful for handling lowercased merged data like "you" which may appear at the beginning or middle of a sentence
 	 * @param    string     $string  a string
 	 * @return   string
 	 * @since    3.8.0

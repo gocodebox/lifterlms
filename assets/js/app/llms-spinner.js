@@ -9,7 +9,7 @@ LLMS.Spinner = {
 
 	/**
 	 * Get an exiting spinner element or create a new one
-	 * @param    obj      $el   jQuery selector of the parent element that should hold and be mased by a spinnner
+	 * @param    obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 	 * @param    string   size  size or the spinner [default|small]
 	 *                          default is 40px
 	 *                          small is 20px
@@ -43,7 +43,7 @@ LLMS.Spinner = {
 	/**
 	 * Start spinner(s) inr=side a given element
 	 * Creates them if they don't exist!
-	 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinnner
+	 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 	 * @param   string   size  size or the spinner [default|small]
 	 *                          default is 40px
 	 *                          small is 20px
@@ -64,8 +64,8 @@ LLMS.Spinner = {
 	},
 
 	/**
-	 * Stor spinners within an element
-	 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinnner
+	 * Store spinners within an element
+	 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 	 * @return  void
 	 * @since   3.0.0
 	 * @version 3.0.0

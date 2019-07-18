@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Admin Settings Page Base Class
+ *
+ * @since 1.0.0
+ * @version 3.17.5
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Admin Settings Page Base Class
- * @since    1.0.0
- * @version  3.17.5
+ *
+ * @since 1.0.0
+ * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Settings_Page {
 
@@ -17,6 +23,20 @@ class LLMS_Settings_Page {
 	 * @version  3.0.4
 	 */
 	protected $flush = false;
+
+	/**
+	 * Settings identifier
+	 * @var      string
+	 * @since    1.0.0
+	 */
+	public $id;
+
+	/**
+	 * Settings page link label
+	 * @var      string
+	 * @since    1.0.0
+	 */
+	public $label;
 
 	/**
 	 * Add the settings page

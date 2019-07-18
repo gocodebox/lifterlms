@@ -155,7 +155,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Get the number of remaining uses
-	 * calculated by substracting # of uses from the usage limit
+	 * calculated by subtracting # of uses from the usage limit
 	 * @since  3.0.0
 	 * @version 3.0.0
 	 * @return string|int

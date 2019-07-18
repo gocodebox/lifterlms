@@ -2,21 +2,25 @@
 /**
  * Order processing and related actions controller
  *
- * @since   3.0.0
- * @version 3.27.0
+ * @since 3.0.0
+ * @version 3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Controller_Orders class.
+ * @since 3.0.0
+ * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
  */
 class LLMS_Controller_Orders {
 
 	/**
 	 * Constructor
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.19.0 Updated.
+	 * @since 3.33.0 Added `before_delete_post` action to handle order deletion
 	 */
 	public function __construct() {
 
@@ -27,6 +31,9 @@ class LLMS_Controller_Orders {
 
 		// this action adds our lifterlms specific actions when order & transaction statuses change
 		add_action( 'transition_post_status', array( $this, 'transition_status' ), 10, 3 );
+
+		// this action adds lifterlms specific action when an order is deleted, just before the WP post postmetas are removed.
+		add_action( 'before_delete_post', array( $this, 'on_delete_order' ) );
 
 		/**
 		 * Status Change Actions for Orders and Transactions
@@ -53,7 +60,7 @@ class LLMS_Controller_Orders {
 		add_action( 'lifterlms_order_status_trash', array( $this, 'error_order' ), 10, 1 );
 
 		/**
-		 * Scheduler Actiions
+		 * Scheduler Actions
 		 */
 
 		// charge recurring payments
@@ -80,7 +87,7 @@ class LLMS_Controller_Orders {
 
 		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] || empty( $_POST['_wpnonce'] ) ) { return; }
 
-		// noonnce the post
+		// nonce the post
 		wp_verify_nonce( $_POST['_wpnonce'], 'confirm_pending_order' );
 
 		// ensure we have an order key we can locate the order with
@@ -109,7 +116,7 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Perform actions on a succesful order completion
+	 * Perform actions on a successful order completion
 	 * @param    obj    $order       Instance of an LLMS_Order
 	 * @param    string $old_status  Previous order status (eg: 'pending')
 	 * @return   void
@@ -234,7 +241,7 @@ class LLMS_Controller_Orders {
 
 		/**
 		 * Allow gateways, extensions, etc to do their own validation
-		 * after all standard validations are succesfuly
+		 * after all standard validations are successfully
 		 * If this returns a truthy, we'll stop processing
 		 * The extension should add a notice in addition to returning the truthy
 		 */
@@ -305,6 +312,24 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
+	 * Called when a post is permanently deleted.
+	 * Will delete any enrollment records linked to the LLMS_Order with the ID of the deleted post
+	 *
+	 * @since 3.33.0
+	 *
+	 * @param int $post_id WP_Post ID.
+	 * @return void
+	 */
+	public function on_delete_order( $post_id ) {
+
+		$order = llms_get_post( $post_id );
+		if ( $order && is_a( $order, 'LLMS_Order' ) ) {
+			llms_delete_student_enrollment( $order->get( 'user_id' ), $order->get( 'product_id' ), 'order_' . $order->get( 'id' ) );
+		}
+
+	}
+
+	/**
 	 * Handle expiration & cancellation from a course / membership
 	 * Called via scheduled action set during order completion for plans with a limited access plan
 	 * Additionally called when an order is marked as "pending-cancel" to revoke access at the end of a pre-paid period
@@ -361,12 +386,15 @@ class LLMS_Controller_Orders {
 	}
 
 	/**
-	 * Trigger a recrurring payment
-	 * Called by action scheduler
-	 * @param    int     $order_id  WP Post ID of the order
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Trigger a recurring payment
+	 *
+	 * Called by action scheduler.
+	 *
+	 * @since 3.0.0
+	 * @since 3.32.0 Record order notes and trigger actions during errors.
+	 *
+	 * @param int $order_id WP Post ID of the order.
+	 * @return void
 	 */
 	public function recurring_charge( $order_id ) {
 
@@ -376,30 +404,39 @@ class LLMS_Controller_Orders {
 		// ensure the gateway is still installed & available
 		if ( ! is_wp_error( $gateway ) ) {
 
-			// ensure that recurring payments feature is enabled
-			// & that the gateway still supports recurring payments
-			if ( LLMS_Site::get_feature( 'recurring_payments' ) && $gateway->supports( 'recurring_payments' ) ) {
+			if ( ! $gateway->supports( 'recurring_payments' ) ) {
+
+				do_action( 'llms_order_recurring_charge_gateway_payments_disabled', $order_id, $gateway, $this );
+
+				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
+
+				$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled in for the payment gateway.', 'lifterlms' ) );
+
+			} elseif ( ! LLMS_Site::get_feature( 'recurring_payments' ) ) {
+
+				do_action( 'llms_order_recurring_charge_skipped', $order_id, $gateway, $this );
+				$order->add_note( __( 'Recurring charge skipped because recurring payments are disabled in staging mode.', 'lifterlms' ) );
+
+			} else {
 
 				$gateway->handle_recurring_transaction( $order );
 
-			} // End if().
-			else {
-				llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed because the gateway no longer supports recurring payments', 'recurring-payments' );
-				/**
-				 * @todo  notifications....
-				 */
 			}
-		} // End if().
-		else {
+		} else {
+
+			do_action( 'llms_order_recurring_charge_gateway_error', $order_id, $gateway, $this );
 
 			llms_log( 'Recurring charge for order # ' . $order_id . ' could not be processed', 'recurring-payments' );
 			llms_log( $gateway->get_error_message(), 'recurring-payments' );
 
-			/**
-			 * @todo  notifications....
-			 */
+			$order->add_note(
+				sprintf(
+					__( 'A recurring charge was not processed due to an error encountered while loading the payment gateway: "%s"', 'lifterlms' ),
+					$gateway->get_error_message()
+				)
+			);
 
-		}
+		}// End if().
 
 	}
 
@@ -517,7 +554,7 @@ class LLMS_Controller_Orders {
 	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status
 	 * @param    string     $new_status  new status
 	 * @param    string     $old_status  old status
-	 * @param    ojb        $post        WP_Post isntance
+	 * @param    ojb        $post        WP_Post instance
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.0
