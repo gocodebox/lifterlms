@@ -3,7 +3,7 @@
  * Admin Tables
  *
  * @since   3.2.0
- * @version 3.28.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,9 +11,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Table abstract.
  *
- * @since   3.2.0
- * @since   [version] Added get_table_classes().
- * @version [version]
+ * @since 3.2.0
+ * @since [version] Added get_table_classes().
  */
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
