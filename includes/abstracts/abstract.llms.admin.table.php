@@ -422,8 +422,8 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		 *
 		 * @since [version]
 		 *
-		 * @param array $classes  CSS class names
-		 * @param array $table_id id property of this table object
+		 * @param array $classes  CSS class names.
+		 * @param array $table_id Id property of this table object.
 		 */
 		return apply_filters( 'llms_table_get_table_classes', $classes, $this->id );
 	}
