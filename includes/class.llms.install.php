@@ -444,7 +444,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 ) $collate;
 ";
 
-		return $tables;
+		return apply_filters( 'llms_install_get_schema', $tables, $collate );
 
 	}
 

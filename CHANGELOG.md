@@ -4,6 +4,7 @@ LifterLMS Changelog
 v3.33.? - 2019-07-??
 --------------------
 
++ Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.
 + Added the ability to pull "raw" (unfiltered) data from the database via classes extending the `LLMS_Post_Model` abstract.
 
 ##### Deprecations
