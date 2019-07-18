@@ -417,6 +417,14 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 			'llms-gb-table-' . $this->id,
 		];
 
+		if ( $this->is_zebra ) {
+			$classes[] = 'zebra';
+		}
+
+		if ( $this->is_large ) {
+			$classes[] = 'size-large';
+		}
+
 		/**
 		 * Filters the CSS classes to use on the table.
 		 *
@@ -464,14 +472,6 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	public function get_table_html() {
 
 		$classes = $this->get_table_classes();
-
-		if ( $this->is_zebra ) {
-			$classes[] = 'zebra';
-		}
-
-		if ( $this->is_large ) {
-			$classes[] = 'size-large';
-		}
 
 		ob_start();
 		?>
