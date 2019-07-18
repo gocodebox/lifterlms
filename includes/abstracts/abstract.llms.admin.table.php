@@ -10,6 +10,10 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_Table abstract.
+ *
+ * @since   3.2.0
+ * @since   [version] Added get_table_classes().
+ * @version [version]
  */
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
@@ -401,9 +405,10 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Returns an array of CSS class names to use on this table.
+	 *
+	 * @since  [version]
+	 *
 	 * @return array
-	 * @since   [version]
-	 * @version [version]
 	 */
 	protected function get_table_classes() {
 		$classes = [
@@ -414,9 +419,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
 		/**
 		 * Filters the CSS classes to use on the table.
-		 * @param array $classes CSS class names
-		 * @param array $table_id id property of this table object
+		 *
 		 * @since [version]
+		 *
+		 * @param array $classes  CSS class names
+		 * @param array $table_id id property of this table object
 		 */
 		return apply_filters( 'llms_table_get_table_classes', $classes, $this->id );
 	}
