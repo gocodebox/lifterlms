@@ -55,7 +55,7 @@ gulp.task( 'js-builder', function( cb ) {
 		} ).on( 'error', notify.onError( {
 			message: '<%= error.message %>',
 			sound: 'Frog',
-			title: 'js-https://webce.vistacast.com/builder error'
+			title: 'js-builder error'
 		} ) ) )
 		.pipe( rename( 'llms-builder.min.js' ) )
 		.pipe( sourcemaps.write('/') )
