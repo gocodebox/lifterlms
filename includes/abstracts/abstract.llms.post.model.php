@@ -960,8 +960,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			$is_post_property = in_array( $key, $post_properties );
 
-			// sanitize the post properties keys by removing the "post_" prefix.
-			if ( $is_post_property && "post_" === substr( $key, 0, 5 ) ) {
+			// sanitize the post properties keys by removing the 'post_' prefix.
+			if ( $is_post_property && 'post_' === substr( $key, 0, 5 ) ) {
 				$key = substr( $key, 5 );
 			}
 
