@@ -958,10 +958,17 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		foreach ( $model_array as $key => $val ) {
 
+			$is_post_property = in_array( $key, $post_properties );
+
+			// sanitize the post properties keys by removing the "post_" prefix.
+			if ( $is_post_property && "post_" === substr( $key, 0, 5 ) ) {
+				$key = substr( $key, 5 );
+			}
+
 			$val = $this->scrub( $key, $val );
 
 			// update WordPress Post Properties using the wp_insert_post() function
-			if ( in_array( $key, $post_properties ) ) {
+			if ( $is_post_property ) {
 
 				$type           = 'post';
 				$llms_post_key  = "post_{$key}";
