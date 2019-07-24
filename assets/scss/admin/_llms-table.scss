@@ -35,6 +35,13 @@
 	border-collapse: collapse;
 	width: 100%;
 
+	a {
+		color: $color-brand-blue;
+		&:hover {
+			color: $color-brand-blue-dark;
+		}
+	}
+
 	td, th {
 		border-bottom: 1px solid #cecece;
 		font-size: 95%;
@@ -196,12 +203,6 @@
 		cursor: move;
 		text-align: center;
 		width: 10px;
-	}
-	a {
-		color: $color-brand-blue;
-		&:hover {
-			color: $color-brand-blue-dark;
-		}
 	}
 }
 

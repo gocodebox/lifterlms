@@ -2,13 +2,17 @@
 /**
  * Plugin installation
  *
- * @since   1.0.0
- * @version 3.28.0
+ * @since 1.0.0
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Install.
+ * LLMS_Install
+ *
+ * @since 1.0.0
+ * @since 3.28.0 Unknown.
+ * @since [version] Added filter to the return of the get_schema() method.
  */
 class LLMS_Install {
 
@@ -352,9 +356,13 @@ class LLMS_Install {
 
 	/**
 	 * Get a string of table data that can be passed to dbDelta() to install LLMS tables
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.16.9
+	 *
+	 * @since 3.0.0
+	 * @since 3.16.9 Unknown
+	 * @since 3.16.9 Unknown
+	 * @since [version] Added `llms_install_get_schema` filter to method return.
+	 *
+	 * @return string
 	 */
 	private static function get_schema() {
 
@@ -444,7 +452,15 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 ) $collate;
 ";
 
-		return $tables;
+		/**
+		 * Filter the database table schema.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $tables A semi-colon (`;`) separated list of database table creating commands.
+		 * @param strind $collate Database collation statement.
+		 */
+		return apply_filters( 'llms_install_get_schema', $tables, $collate );
 
 	}
 

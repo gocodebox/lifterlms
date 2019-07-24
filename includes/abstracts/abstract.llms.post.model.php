@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.31.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,11 +13,35 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Post_Model abstract
  *
+ * @property      string  $author           ID of post author.
+ * @property      string  $content          The post's content.
+ * @property      string  $date             The post's local publication time.
+ * @property-read string  $db_post_type     Name of the post type as stored in the database
+ *                                          This will be prefixed (where applicable)
+ *                                          ie: "llms_order" for the "llms_order" post type
+ * @property      string  $excerpt          The post's excerpt.
+ * @property-read int     $id               Post ID.
+ * @property      int     $menu_order       A field used for ordering posts.
+ * @property-read string  $meta_prefix      A prefix to add to all meta properties
+ *                                          Child classes can redefine this
+ * @property-read string  $model_post_type  Define this in extending classes
+ *                                          Allows models to use unprefixed post type names for filters and more
+ *                                          ie: "order" for the "llms_order" post type
+ * @property      string  $modified         The post's local modified time.
+ * @property      string  $name             The post's slug.
+ * @property-read WP_Post $post             Instance of WP_Post
+ * @property      string  $status           The post's status.
+ * @property      string  $title            The post's title.
+ * @property      string  $type             The post's type, like post or page.
+ *
  * @since 3.0.0
  * @since 3.30.0 Improve handling of custom field data to `toArrayCustom()`.
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
  * @since 3.30.3 Use `wp_slash()` when creating new posts.
  * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
+ * @since [version] Add parameter to the `get()` method in order to get raw properties.
+ * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, 'post_password` as gettable\settable post properties.
+ * @since [version] Add `set_bulk()` method that will allow to update an object at once given an array of properties.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -129,79 +153,14 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Magic Getter
-	 * @param    string $key   key to retrieve
-	 * @return   mixed
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param string $key Key to retrieve.
+	 * @return mixed
 	 */
 	public function __get( $key ) {
-
-		// force numeric id and prevent filtering on the id
-		if ( 'id' === $key ) {
-
-			return absint( $this->$key );
-
-		} elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
-
-			$post_key = 'post_' . $key;
-
-			// ensure post is set globally for filters below
-			global $post;
-			$temp = $post;
-			$post = $this->post;
-
-			switch ( $key ) {
-
-				case 'content':
-					$val = llms_content( $this->post->$post_key );
-				break;
-
-				case 'excerpt':
-					$val = apply_filters( 'get_the_excerpt', $this->post->$post_key );
-				break;
-
-				case 'menu_order':
-					$val = $this->post->menu_order;
-				break;
-
-				case 'title':
-					$val = apply_filters( 'the_title', $this->post->$post_key, $this->get( 'id' ) );
-				break;
-
-				default:
-					$val = $this->post->$post_key;
-
-			}
-
-			// return the original global
-			$post = $temp;
-
-		} elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
-
-			if ( metadata_exists( 'post',  $this->id, $this->meta_prefix . $key ) ) {
-				$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
-			} else {
-				$val = $this->get_default_value( $key );
-			}
-		} else {
-
-			return $this->$key;
-
-		}// End if().
-
-		// if we found a valid, apply default llms get get filter and return the value
-		if ( isset( $val ) ) {
-
-			if ( 'content' !== $key ) {
-				$val = $this->scrub( $key, $val );
-			}
-			return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key, $val, $this );
-
-		}
-
-		// shouldn't ever get here
-		return false;
-
+		return $this->___get( $key );
 	}
 
 	/**
@@ -401,13 +360,102 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	}
 
 	/**
-	 * Getter
-	 * @param  string $key  property key
+	 * Private getter.
+	 *
+	 * @since [version]
+	 *
+	 * @param string  $key The property key.
+	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
 	 * @return mixed
-	 * @since  3.0.0
 	 */
-	public function get( $key ) {
+	private function ___get( $key, $raw = false ) {
+
+		// force numeric id and prevent filtering on the id.
+		if ( 'id' === $key ) {
+
+			return absint( $this->$key );
+
+		} elseif ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
+			$post_key = 'post_' . $key;
+
+			// ensure post is set globally for filters below.
+			global $post;
+			$temp = $post;
+			$post = $this->post;
+
+			switch ( $key ) {
+
+				case 'content':
+					$val = $raw ? $this->post->$post_key : llms_content( $this->post->$post_key );
+				break;
+
+				case 'excerpt':
+					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key );
+				break;
+
+				case 'ping_status':
+				case 'comment_status':
+				case 'menu_order':
+					$val = $this->post->$key;
+				break;
+
+				case 'title':
+					$val = $raw ? $this->post->$post_key : apply_filters( 'the_title', $this->post->$post_key, $this->get( 'id' ) );
+				break;
+
+				default:
+					$val = $this->post->$post_key;
+
+			}
+
+			// return the original global.
+			$post = $temp;
+
+		} elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
+
+			if ( metadata_exists( 'post',  $this->id, $this->meta_prefix . $key ) ) {
+				$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
+			} else {
+				$val = $this->get_default_value( $key );
+			}
+		} else {
+
+			return $this->$key;
+		}// End if().
+
+		// if we found a valid, apply default llms get get filter and return the value.
+		if ( isset( $val ) ) {
+
+			if ( ! $raw && 'content' !== $key ) {
+				$val = $this->scrub( $key, $val );
+			}
+
+			return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key, $val, $this );
+
+		}
+
+		// shouldn't ever get here.
+		return false;
+
+	}
+
+	/**
+	 * Getter
+	 *
+	 * @since  3.0.0
+	 *
+	 * @param string  $key The property key.
+	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
+	 * @return mixed
+	 */
+	public function get( $key, $raw = false ) {
+
+		if ( $raw ) {
+			return $this->___get( $key, $raw );
+		}
+
 		return $this->$key;
+
 	}
 
 	/**
@@ -656,21 +704,27 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.31.0 Treat excerpts as HTML instead of plain text.
+	 * @since [version] Add date and modified dates GMT version, comment and ping status, post password and menu_order.
 	 *
 	 * @return array
 	 */
 	protected function get_post_properties() {
 		return apply_filters( 'llms_post_model_get_post_properties', array(
-			'author' => 'absint',
-			'content' => 'html',
-			'date' => 'text',
-			'excerpt' => 'html',
-			'menu_order' => 'absint',
-			'modified' => 'text',
-			'name' => 'text',
-			'status' => 'text',
-			'title' => 'text',
-			'type' => 'text',
+			'author'         => 'absint',
+			'content'        => 'html',
+			'date'           => 'text',
+			'date_gmt'       => 'text',
+			'excerpt'        => 'html',
+			'password'       => 'text',
+			'menu_order'     => 'absint',
+			'modified'       => 'text',
+			'modified_gmt'   => 'text',
+			'name'           => 'text',
+			'status'         => 'text',
+			'title'          => 'text',
+			'type'           => 'text',
+			'comment_status' => 'text',
+			'ping_status'    => 'text',
 		), $this );
 	}
 
@@ -851,69 +905,151 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
+	 * @since [version] Turned to be only a wrapper for the set_bulk() method.
 	 *
-	 * @param string $key Key of the property.
-	 * @param mixed  $val Value to set the property with.
+	 * @param string|array $key_or_array Key of the property or a an associative array of key/val pairs.
+	 * @param mixed        $val          Optional. Value to set the property with. Default empty string.
+	 *                                   This parameter will be ignored when the first parameter is an associative array of key/val pairs.
 	 * @return boolean true on success, false on error or if the submitted value is the same as what's in the database
 	 */
-	public function set( $key, $val ) {
+	public function set( $key_or_array, $val = '' ) {
 
-		$val = $this->scrub( $key, $val );
-
-		// update WordPress Post Properties using the wp_insert_post() function
-		if ( in_array( $key, array_keys( $this->get_post_properties() ) ) ) {
-
-			$post_key = 'post_' . $key;
-
-			switch ( $key ) {
-
-				case 'content':
-					$val = apply_filters( 'content_save_pre', $val );
-				break;
-
-				case 'excerpt':
-					$val = apply_filters( 'excerpt_save_pre', $val );
-				break;
-
-				case 'menu_order':
-					$post_key = 'menu_order';
-				break;
-
-				case 'title':
-					$val = apply_filters( 'title_save_pre', $val );
-				break;
-
-			}
-
-			$args = array(
-				'ID' => $this->get( 'id' ),
+		$model_array = array();
+		if ( ! is_array( $key_or_array ) ) {
+			$model_array = array(
+				$key_or_array => $val,
 			);
-
-			$args[ $post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
-
-			if ( wp_update_post( wp_slash( $args ) ) ) {
-				$this->post->{$post_key} = $val;
-				return true;
-			} else {
-				return false;
-			}
-		} // End if().
-		elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
-
-			$u = update_post_meta( $this->id, $this->meta_prefix . $key, apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this ) );
-			if ( is_numeric( $u ) || true === $u ) {
-				return true;
-			} else {
-				return false;
-			}
-		} // we have a problem...
-		else {
-
-			return false;
-
+		} else {
+			$model_array = $key_or_array;
 		}
+		return $this->set_bulk( $model_array );
 
 	}
+
+
+	/**
+	 * Bulk setter.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $model_array Associative array of key/val pairs.
+	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
+	 * @return boolean|WP_Error True on success. If the param $wp_error is set to false this will be false on error or if there was nothing to update.
+	 *                          Otherwise this will be a WP_Error object collecting all the errors encountered along the way.
+	 */
+	public function set_bulk( $model_array, $wp_error = false ) {
+
+		if ( empty( $model_array ) ) {
+			if ( ! $wp_error ) {
+				return false;
+			} else {
+				return new WP_Error( 'empty_data', __( 'Empty data', 'lifterlms' ) );
+			}
+		}
+
+		$llms_post = array(
+			'post' => array(),
+			'meta' => array(),
+		);
+
+		$post_properties = array_keys( $this->get_post_properties() );
+		$unsettable_properties = $this->get_unsettable_properties();
+
+		foreach ( $model_array as $key => $val ) {
+
+			$is_post_property = in_array( $key, $post_properties );
+
+			// sanitize the post properties keys by removing the 'post_' prefix.
+			if ( $is_post_property && 'post_' === substr( $key, 0, 5 ) ) {
+				$key = substr( $key, 5 );
+			}
+
+			$val = $this->scrub( $key, $val );
+
+			// update WordPress Post Properties using the wp_insert_post() function
+			if ( $is_post_property ) {
+
+				$type           = 'post';
+				$llms_post_key  = "post_{$key}";
+
+				switch ( $key ) {
+
+					case 'content':
+						$val = apply_filters( 'content_save_pre', $val );
+					break;
+
+					case 'excerpt':
+						$val = apply_filters( 'excerpt_save_pre', $val );
+					break;
+
+					case 'ping_status':
+					case 'comment_status':
+					case 'menu_order':
+						$llms_post_key = $key;
+					break;
+
+					case 'title':
+						$val = apply_filters( 'title_save_pre', $val );
+					break;
+				}
+			} elseif ( ! in_array( $key, $unsettable_properties ) ) {
+				$type          = 'meta';
+				$llms_post_key = $key;
+			} else {
+				continue;
+			}
+
+			$llms_post[ $type ][ $llms_post_key ] = apply_filters( 'llms_set_' . $this->model_post_type . '_' . $key, $val, $this );
+
+		}// End foreach().
+
+		if ( empty( $llms_post['post'] ) && empty( $llms_post['meta'] ) ) {
+			if ( ! $wp_error ) {
+				return false;
+			} else {
+				return new WP_Error( 'invalid_data', __( 'Invalid data', 'lifterlms' ) );
+			}
+		}
+
+		$error = new WP_Error();
+
+		if ( ! empty( $llms_post['post'] ) ) {
+
+			$args = array_merge(
+				$llms_post['post'],
+				array(
+					'ID' => $this->get( 'id' ),
+				)
+			);
+
+			$update_post = wp_update_post( wp_slash( $args ), true );
+
+			if ( ! is_wp_error( $update_post ) ) {
+				// update this post.
+				foreach ( $llms_post['post'] as $key => $val ) {
+					$this->post->{$key} = $val;
+				}
+			} else {
+				$error = $update_post;
+			}
+		}
+
+		if ( ! empty( $llms_post['meta'] ) ) {
+			foreach ( $llms_post['meta'] as $key => $val ) {
+				$u = update_post_meta( $this->id, $this->meta_prefix . $key, $val );
+				if ( ! ( is_numeric( $u ) || true === $u ) ) {
+					$error->add( 'invalid_meta', sprintf( __( 'Cannot insert/update the %s meta', 'lifterlms' ), $key ) );
+				}
+			}
+		}
+
+		if ( $error->has_errors() ) {
+			return $wp_error ? $error : false;
+		}
+
+		return true;
+	}
+
 
 	/**
 	 * Update terms for the post for a given taxonomy
