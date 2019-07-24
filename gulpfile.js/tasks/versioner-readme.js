@@ -17,7 +17,7 @@ var   gulp    = require( 'gulp' )
 	, pkg = require( process.cwd() + '/package.json' )
 ;
 
-gulp.task( 'versioner:readme', function() {
+gulp.task( 'versioner-readme', function() {
 
     let the_version = argv.V;
 

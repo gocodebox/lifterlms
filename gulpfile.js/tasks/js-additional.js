@@ -7,7 +7,7 @@ var    gulp = require( 'gulp' )
 	,  uglify = require( 'gulp-uglify' )
 ;
 
-gulp.task( 'js:additional', function( cb ) {
+gulp.task( 'js-additional', function( cb ) {
 
 	var notice = [
 		'/****************************************************************',

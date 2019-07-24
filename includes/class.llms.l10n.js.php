@@ -2,7 +2,7 @@
 /**
  * Localize JS strings
  * This file should not be edited directly
- * It is compiled automatically via the gulp task `js:pot`
+ * It is compiled automatically via the gulp task `pot-js`
  * See the lifterlms-lib-tasks package for more information
  *
  * @package  LifterLMS/Classes/Localization
