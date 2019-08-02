@@ -305,7 +305,7 @@ abstract class LLMS_Database_Query {
 	 */
 	protected function sanitize_sort() {
 
-		if ( empty ( $this->allowed_sort_fields ) ) {
+		if ( empty( $this->allowed_sort_fields ) ) {
 			return;
 		}
 
@@ -316,7 +316,6 @@ abstract class LLMS_Database_Query {
 				unset( $this->arguments['sort'][ $orderby ] );
 
 			}
-
 		}
 
 	}
@@ -365,7 +364,6 @@ abstract class LLMS_Database_Query {
 	protected function setup_args() {
 
 		$this->arguments = wp_parse_args( $this->arguments_original, $this->arguments_default );
-
 
 		$this->parse_args();
 
@@ -418,9 +416,7 @@ abstract class LLMS_Database_Query {
 				$sql .= $pre . "{$orderby} {$order}";
 				$comma = true;
 			}
-
 		}
-
 
 		if ( $this->get( 'suppress_filters' ) ) {
 			return $sql;
