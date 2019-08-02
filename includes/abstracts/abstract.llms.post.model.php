@@ -289,15 +289,14 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Clones the Post if the post is cloneable
-	 * @return   mixed         WP_Error or WP Post ID of the clone (new) post
+	 * @return   WP_Error|int|null WP_Error, WP Post ID of the clone (new) post, or null if post is not cloneable.
 	 * @since    3.3.0
-	 * @version  3.19.2
 	 */
 	public function clone_post() {
 
-		// if post type doesnt support cloning don't proceed
+		// if post type doesn't support cloning, don't proceed
 		if ( ! $this->is_cloneable() ) {
-			return;
+			return null;
 		}
 
 		$this->allowed_post_tags_set();
@@ -958,17 +957,18 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		foreach ( $model_array as $key => $val ) {
 
-			$is_post_property = in_array( $key, $post_properties );
-
 			// sanitize the post properties keys by removing the 'post_' prefix.
-			if ( $is_post_property && 'post_' === substr( $key, 0, 5 ) ) {
-				$key = substr( $key, 5 );
+			if ( 'post_' === substr( $key, 0, 5 ) ) {
+				$_key = substr( $key, 5 );
+				if ( in_array( $_key, $post_properties ) ) {
+					$key = $_key;
+				}
 			}
 
 			$val = $this->scrub( $key, $val );
 
 			// update WordPress Post Properties using the wp_insert_post() function
-			if ( $is_post_property ) {
+			if ( in_array( $key, $post_properties ) ) {
 
 				$type           = 'post';
 				$llms_post_key  = "post_{$key}";

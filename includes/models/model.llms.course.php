@@ -894,7 +894,7 @@ implements LLMS_Interface_Post_Audio
 	 * @since Unknown
 	 * @deprecated [version]
 	 *
-	 * @return int|void
+	 * @return int|false
 	 */
 	public function get_next_uncompleted_lesson() {
 		llms_deprecated_function( 'LLMS_Course::get_next_uncompleted_lesson()', '[version]' );
@@ -910,6 +910,8 @@ implements LLMS_Interface_Post_Audio
 		if ( $lessons_not_completed ) {
 			return $lessons_not_completed[0];
 		}
+
+		return false;
 	}
 
 	/**
