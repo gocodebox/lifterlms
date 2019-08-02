@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Abstracts
  *
  * @since 3.8.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 `is_last_page()` method returns `true` when no results are found.
+ * @since [version] Sanitizes sort parameters.
  */
 abstract class LLMS_Database_Query {
 
@@ -23,6 +24,13 @@ abstract class LLMS_Database_Query {
 	 * @var  string
 	 */
 	protected $id = 'database';
+
+	/**
+	 * Defines fields that can be sorted on via ORDER BY
+	 *
+	 * @var array
+	 */
+	protected $allowed_sort_fields = null;
 
 	/**
 	 * Arguments
@@ -289,6 +297,31 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
+	 * Removes any invalid sort fields before preparing a query.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function sanitize_sort() {
+
+		if ( empty ( $this->allowed_sort_fields ) ) {
+			return;
+		}
+
+		foreach ( (array) $this->get( 'sort' ) as $orderby => $order ) {
+
+			if ( ! in_array( $orderby, $this->allowed_sort_fields, true ) || ! in_array( $order, array( 'ASC', 'DESC' ), true ) ) {
+
+				unset( $this->arguments['sort'][ $orderby ] );
+
+			}
+
+		}
+
+	}
+
+	/**
 	 * Sets a query variable
 	 * @param    string     $key  variable key
 	 * @param    mixed      $val  variable value
@@ -323,13 +356,16 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Setup arguments prior to a query
+	 *
+	 * @since 3.8.0
+	 * @since [version] Sanitizes sort parameters.
+	 *
 	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
 	 */
 	protected function setup_args() {
 
 		$this->arguments = wp_parse_args( $this->arguments_original, $this->arguments_default );
+
 
 		$this->parse_args();
 
@@ -338,6 +374,8 @@ abstract class LLMS_Database_Query {
 			$this->set( $arg, $val );
 
 		}
+
+		$this->sanitize_sort();
 
 	}
 
@@ -358,21 +396,31 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Retrieve the prepared SQL for the ORDER clause
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 * @since [version] Returns an empty string if no sort fields are available.
+	 *
+	 * @return string
 	 */
 	protected function sql_orderby() {
 
-		$sql = 'ORDER BY';
+		$sql = '';
 
-		$comma = false;
+		$sort = $this->get( 'sort' );
+		if ( $sort ) {
 
-		foreach ( $this->get( 'sort' ) as $orderby => $order ) {
-			$pre = ( $comma ) ? ', ' : ' ';
-			$sql .= $pre . "{$orderby} {$order}";
-			$comma = true;
+			$sql = 'ORDER BY';
+
+			$comma = false;
+
+			foreach ( $sort as $orderby => $order ) {
+				$pre = ( $comma ) ? ', ' : ' ';
+				$sql .= $pre . "{$orderby} {$order}";
+				$comma = true;
+			}
+
 		}
+
 
 		if ( $this->get( 'suppress_filters' ) ) {
 			return $sql;
