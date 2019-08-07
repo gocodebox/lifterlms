@@ -1,6 +1,10 @@
 == Description ==
 
-LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
+LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more.
+
+LifterLMS strikes a beautiful balance in being an all-in-one solution while also integrating with other best of breed technologies relevant to course creators and membership site owners.
+
+LifterLMS is also known for having a thriving well supported user community through, active listening, social engagement and robust documentation.
 
 https://www.youtube.com/watch?v=jDVvkipF_pg
 
@@ -9,7 +13,7 @@ https://www.youtube.com/watch?v=jDVvkipF_pg
 
 #### **Advanced**
 
-_Courses + Community + Coaching = Engagement_
+_Increase your training program's value with these engagement add-ons_
 
 + [LifterLMS Advanced Quizzes][aq]
 + [LifterLMS Assignments][ass]
@@ -31,14 +35,14 @@ _Integrate with the third-party tools you know and love_
 
 _Make your learning platform beautiful_
 
-+ [LifterLMS Pro][pro]
++ [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
 
 #### **Support**
 
 _Our world-class support has your back_
 
-+ [LifterLMS Pro][pro]
++ [LifterLMS Powerpack][pro]
 + [LifterLMS Office Hours][oh]
 
 #### **Save Big with a Bundle**
@@ -51,37 +55,18 @@ _Save money while unlocking the full potential of your learning platform_
 
 # **Give LifterLMS a Try**
 
-_Try LifterLMS and the premium add-ons before investing any time_
+_There are many ways to take LifterLMS for a test drive_
 
-+ [Try LifterLMS for $1][try]
-+ [Take a Free Course][demo]
++ Go ahead and install the free core LifterLMS plugin right now
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This "proof of concept website" allows you to test drive all the add-ons before you invest. This proof of concept website allows you to test everything out, add your other favorite plugins & themes, but is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
++ Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
 
 
 # **[LifterLMS Features][features]**
 
 _With LifterLMS and LifterLMS Add-ons you can..._
 
-#### **Create Courses**
-
-+ Multimedia lessons
-+ Quizzes
-+ Course builder
-+ Drip Content
-+ Pre-requisites
-+ Course tracks
-+ Assignments (coming soon)
-+ Quiz time limits
-+ Student dashboard
-+ Multi-instructor
-+ Lesson downloads
-+ Course import & export
-+ Discussion areas
-+ Instructional design
-+ Forum integrations
-+ Graphics pack
-+ Course reviews
-
-#### **Build an Education-Based Business**
+#### **Make Money Building an Education-Based Business**
 
 + Credit card payments
 + One-time payments
@@ -105,6 +90,28 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 + Credit card management
 + Subscription switching
 + Payment switching
+
+
+#### **Create Courses**
+
++ Multimedia lessons
++ Quizzes
++ Course builder
++ Drip Content
++ Pre-requisites
++ Course tracks
++ Assignments (coming soon)
++ Quiz time limits
++ Student dashboard
++ Multi-instructor
++ Lesson downloads
++ Course import & export
++ Discussion areas
++ Instructional design
++ Forum integrations
++ Graphics pack
++ Course reviews
+
 
 #### **Engage Your Students**
 
@@ -168,6 +175,7 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 #### **Get Support**
 
 + Technical support
++ 30 Days of live weekly onboading calls called Liftoff Sessions
 + [Live office hours][oh]
 + Free training courses
 + Setup wizard
@@ -194,7 +202,9 @@ If you’re interested in contributing to LifterLMS, head over to the [LifterLMS
 
 Want to add a new language to LifterLMS? Swell! You can contribute at [translate.wordpress.org][translate].
 
-Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users are up to and ask questions to the community.
+Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users are up to and ask questions to the community. We also have an engaged [LifterLMS Slack community][slack] with live developer office hours if you would like to connect in Slack.
+
+**The mission of LifterLMS is to democratize education in the digital classroom. Our vision is to lift up others through education.**
 
 
 [home]: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -205,6 +215,7 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 [demo]: https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [translate]: https://translate.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [facebook]: https://www.facebook.com/groups/lifterlmsvip/
+[slack]: https://join.slack.com/t/lifterlms/shared_invite/enQtMzk3ODczNjc4Mjc3LTBlMmEzMWYyOTIwMDU3NDc2MmRhNGIxNGE0Nzc1OWIxZjg1OGVhM2E5YTkwYzZmMmM1ZTU4MDQxYjVlZDYyZTE
 
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
