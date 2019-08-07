@@ -1,15 +1,25 @@
 LifterLMS Changelog
 ===================
 
-v3.33.? - 2019-07-??
+v3.34.0 - 2019-08-??
 --------------------
 
+##### Updates
+
++ Added the `list_users` capability to the "Instructor" role, allowing instructor's to better view and manage their assistant instructors.
++ Added methods and logic for managing user management of other users.
 + Added a filter `llms_table_get_table_classes` to LifterLMS admin tables which allows customization of the CSS classes applied to the `<table>` elements. Thanks  [@pondermatic](https://github.com/pondermatic)!
 + Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.
 + Added the ability to pull "raw" (unfiltered) data from the database via classes extending the `LLMS_Post_Model` abstract.
 + Added a `bulk_set()` method to the `LLMS_Post_Model` abstract allowing the updating of multiple properties in one command.
 + Added `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, `post_password` as gettable\settable post properties via the `LLMS_Post_Model` abstract.
 + Links on reporting tables are now the proper color.
++ The `editable_roles` filter which determines which roles can manage which other roles is now always loaded (instead of being loaded only on the admin panel).
+
+##### Bug Fixes
+
++ Fixed an issue causing the `LLMS_Instructors::get_assistants()` method to return assistants for the currently logged in user instead of the instructor of the instantiated object.
++ Fixed an issue which would allow LMS Managers to edit and delete site administrators.
 
 ##### Deprecations
 

@@ -1,20 +1,28 @@
 <?php
 /**
  * LifterLMS Custom Roles and Capabilities
- * @since   3.13.0
- * @version 3.14.0
+ *
+ * @since 3.13.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Roles class.
+ *
+ * @since 3.13.0
+ * @since 3.14.0 Add the `lifterlms_instructor` capability.
+ * @since [version] Add the `list_users` capability to instructors.
+ */
 class LLMS_Roles {
 
 	/**
 	 * Retrieve an array of all capabilities for a role
-	 * @param    string     $role  name of the role
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 * @param string $role Name of the role.
+	 * @return array
 	 */
 	private static function get_all_caps( $role ) {
 
@@ -29,9 +37,11 @@ class LLMS_Roles {
 
 	/**
 	 * Get an array of registered core lifterlms caps
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.14.0
+	 *
+	 * @since 3.13.0
+	 * @since 3.14.0 Add the `lifterlms_instructor` capability.
+	 *
+	 * @return string[]
 	 */
 	public static function get_all_core_caps() {
 		return apply_filters( 'llms_get_all_core_caps', array(
@@ -46,10 +56,11 @@ class LLMS_Roles {
 
 	/**
 	 * Retrieve the LifterLMS core capabilities for a give role
-	 * @param    string     $role  name of the role
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 *
+	 * @param string $role Name of the role.
+	 * @return array
 	 */
 	private static function get_core_caps( $role ) {
 
@@ -82,10 +93,11 @@ class LLMS_Roles {
 
 	/**
 	 * Retrieve the post type specific capabilities for a give role
-	 * @param    string     $role  name of the role
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 *
+	 * @param string $role Name of the role
+	 * @return array
 	 */
 	private static function get_post_type_caps( $role ) {
 
@@ -175,10 +187,12 @@ class LLMS_Roles {
 
 	/**
 	 * Retrieve the core WP capabilities for a give role
-	 * @param    string     $role  name of the role
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 * @since [version] Add the `list_users` capability to instructors.
+	 *
+	 * @param string $role Name of the role.
+	 * @return array
 	 */
 	private static function get_wp_caps( $role ) {
 
@@ -194,6 +208,7 @@ class LLMS_Roles {
 					'create_users' => true,
 					'edit_users' => true,
 					'promote_users' => true,
+					'list_users' => true,
 
 					'read' => true,
 					'upload_files' => true,
@@ -270,9 +285,10 @@ class LLMS_Roles {
 
 	/**
 	 * Retrieve LifterLMS roles and role names
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 *
+	 * @return array
 	 */
 	public static function get_roles() {
 
@@ -287,10 +303,12 @@ class LLMS_Roles {
 
 	/**
 	 * Install custom roles and related capabilities
-	 * Called from LLMS_Install during installation and upgrades
-	 * @return   [type]     [description]
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * Called from LLMS_Install during installation and upgrades.
+	 *
+	 * @since 3.13.0
+	 *
+	 * @return void
 	 */
 	public static function install() {
 
@@ -323,9 +341,10 @@ class LLMS_Roles {
 
 	/**
 	 * Uninstall custom roles and remove custom caps from default WP roles
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 *
+	 * @return void
 	 */
 	public static function remove_roles() {
 
@@ -347,11 +366,12 @@ class LLMS_Roles {
 
 	/**
 	 * Update the capabilities for a given role
-	 * @param    obj     $role   instance of a WP_Role
-	 * @param    string     $type   update type [add|remove]
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 *
+	 * @since 3.13.0
+	 *
+	 * @param WP_Role $role Role object.
+	 * @param string $type Update type [add|remove].
+	 * @return void
 	 */
 	private static function update_caps( $role, $type = 'add' ) {
 

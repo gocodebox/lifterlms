@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.32.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -31,11 +31,22 @@ require_once 'vendor/autoload.php';
  *
  * @since 1.0.0
  * @since 3.32.0 Update action-scheduler to latest version; load staging class on the admin panel.
+ * @since [version] Include the LLMS_Admin_Users_Table class.
  */
 final class LifterLMS {
 
+	/**
+	 * LifterLMS Plugin Version.
+	 *
+	 * @var string
+	 */
 	public $version = '3.33.2';
 
+	/**
+	 * Singleton instance of LifterLMS.
+	 *
+	 * @var LifterLMS
+	 */
 	protected static $_instance = null;
 
 	public $course_factory = null;
@@ -222,6 +233,7 @@ final class LifterLMS {
 	 * @since 1.0.0
 	 * @since 3.31.0 Add theme support includes.
 	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
+	 * @since [version] Include LLMS_Admin_Users Table class.
 	 *
 	 * @return void
 	 */
@@ -249,6 +261,8 @@ final class LifterLMS {
 		require_once 'includes/privacy/class-llms-privacy.php';
 
 		if ( is_admin() ) {
+
+			include_once 'includes/admin/class-llms-admin-users-table.php';
 
 			include_once 'includes/class-llms-staging.php';
 			include_once 'includes/class.llms.dot.com.api.php';
@@ -577,10 +591,6 @@ final class LifterLMS {
 
 }
 
-/**
- * shame shame shame...
- * http://i.giphy.com/c2YyNySJ1CbFC.gif
- */
 // @codingStandardsIgnoreStart
 /**
  * Returns the main instance of LLMS
