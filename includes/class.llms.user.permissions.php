@@ -143,7 +143,6 @@ class LLMS_User_Permissions {
 			if ( in_array( sprintf( 'edit_others_%s', $cpt ), $cap ) ) {
 				$allcaps = $this->edit_others_lms_content( $allcaps, $cap, $args );
 			}
-
 		}
 
 		$required_cap = ! empty( $cap[0] ) ? $cap[0] : false;
@@ -214,7 +213,6 @@ class LLMS_User_Permissions {
 			} elseif ( ! empty( $editable_roles[ $role ] ) && array_intersect( $edit_roles, $editable_roles[ $role ] ) ) {
 				return true;
 			}
-
 		}
 
 		return false;

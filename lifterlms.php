@@ -296,7 +296,7 @@ final class LifterLMS {
 			require_once 'includes/admin/class-llms-admin-review.php';
 			require_once 'includes/admin/class-llms-admin-export-download.php';
 
-		}
+		}// End if().
 
 		// legacy
 		include_once( 'includes/class.llms.quiz.legacy.php' );
