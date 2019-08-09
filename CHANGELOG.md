@@ -18,6 +18,7 @@ v3.34.0 - 2019-08-??
 
 ##### Bug Fixes
 
++ Fixed an issue preventing the `user_url` property from being retrieved by the `get()` method of the `LLMS_Abstract_User_Data` class.
 + Fixed an issue causing the `LLMS_Instructors::get_assistants()` method to return assistants for the currently logged in user instead of the instructor of the instantiated object.
 + Fixed an issue which would allow LMS Managers to edit and delete site administrators.
 

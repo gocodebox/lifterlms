@@ -1,11 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * LifterLMS User Data Abstract
  *
  * @since   3.9.0
  * @version 3.17.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LifterLMS User Data Abstract
+ *
+ * @since 3.9.0
+ * @since [version] Allow `user_url` to be retrieved by `get()`.
  */
 abstract class LLMS_Abstract_User_Data {
 
@@ -48,11 +55,15 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Magic Getter for User Data
-	 * Mapped directly to the WP_User class
+	 *
+	 * Mapped directly to the WP_User class.
+	 *
+	 * @since 3.0.0
+	 * @since 3.10.1 Unknown.
+	 * @since [version] Allow `user_url` to be retrieved.
+	 *
 	 * @param    string $key key of the property to get a value for
 	 * @return   mixed
-	 * @since    3.0.0
-	 * @version  3.10.1
 	 */
 	public function __get( $key ) {
 
@@ -67,6 +78,7 @@ abstract class LLMS_Abstract_User_Data {
 			'user_nicename',
 			'user_email',
 			'user_registered',
+			'user_url',
 		), $this );
 
 		// add the meta prefix to things that aren't in the above array
