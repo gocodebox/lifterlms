@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed typo in "description" key of the the toArray() method.
  * @since 3.32.0 Add validation to data passed into the `get_students()` method.
  * @since [version] Fix issue causing `get_assistants()` to return assistants to the currently logged in user instead of using the user id of the current object.
+ *                  Add `has_student()` method.
  */
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
@@ -195,6 +196,33 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 		}
 
 		return $query;
+
+	}
+
+	/**
+	 * Determines if the instructor is an instructor to a specific student.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Student|WP_User|int $student Student or user object or WP User ID.
+	 * @return bool
+	 */
+	public function has_student( $student ) {
+
+		$student = llms_get_student( $student );
+		if ( ! $student ) {
+			return false;
+		}
+
+		$ids = $this->get_posts( array(
+			'posts_per_page' => -1,
+		), 'ids' );
+
+		if ( ! $ids ) {
+			return false;
+		}
+
+		return $student->is_enrolled( $ids, 'any' );
 
 	}
 

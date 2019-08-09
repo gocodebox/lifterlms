@@ -4,9 +4,16 @@ LifterLMS Changelog
 v3.34.0 - 2019-08-??
 --------------------
 
+##### Student management capabilities
+
++ Explicit capabilities have been added to determine which users can create, view, update, and delete students.
++ Admins and LMS Managers have all student management capabilities.
++ Instructors and instructors assistants are granted limited view capabilities allowing them to only view students enrolled in their own courses/memberships.
++ Added the `list_users` capability to the "Instructor" role, allowing instructor's to better view and manage their assistant instructors.
++ The new capabilities are: `create_students`, `view_students`, `view_others_students`, `edit_students`, `edit_others_students`, `delete_students`, & `delete_others_students`.
+
 ##### Updates
 
-+ Added the `list_users` capability to the "Instructor" role, allowing instructor's to better view and manage their assistant instructors.
 + Added methods and logic for managing user management of other users.
 + Added a filter `llms_table_get_table_classes` to LifterLMS admin tables which allows customization of the CSS classes applied to the `<table>` elements. Thanks  [@pondermatic](https://github.com/pondermatic)!
 + Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.

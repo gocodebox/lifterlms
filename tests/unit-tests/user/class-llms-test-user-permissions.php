@@ -136,4 +136,81 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 	}
 
+	public function test_student_crud_caps() {
+
+		$users = $this->create_mock_users();
+
+		// These users have all student permissions regardless of the user role.
+		foreach ( array( 'admin', 'lms_manager' ) as $role ) {
+
+			wp_set_current_user( $users[ $role ] );
+			$this->assertTrue( current_user_can( 'create_students' ) );
+			foreach ( $users as $user ) {
+				// General Capability.
+				$this->assertTrue( current_user_can( 'view_students' ) );
+				$this->assertTrue( current_user_can( 'edit_students' ) );
+				$this->assertTrue( current_user_can( 'delete_students' ) );
+				// Specific User.
+				$this->assertTrue( current_user_can( 'view_students', $user ) );
+				$this->assertTrue( current_user_can( 'edit_students', $user ) );
+				$this->assertTrue( current_user_can( 'delete_students', $user ) );
+			}
+
+		}
+
+		// These users can't do anything.
+		foreach ( array( 'student', 'editor', 'subscriber' ) as $role ) {
+
+			wp_set_current_user( $users[ $role ] );
+			$this->assertFalse( current_user_can( 'create_students' ) );
+
+			foreach ( $users as $user ) {
+				// General Capability.
+				$this->assertFalse( current_user_can( 'view_students' ) );
+				$this->assertFalse( current_user_can( 'edit_students' ) );
+				$this->assertFalse( current_user_can( 'delete_students' ) );
+				// Specific User.
+				$this->assertFalse( current_user_can( 'view_students', $user ) );
+				$this->assertFalse( current_user_can( 'edit_students', $user ) );
+				$this->assertFalse( current_user_can( 'delete_students', $user ) );
+			}
+
+		}
+
+		$course_1 = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+		$course_2 = $this->factory->course->create_and_get( array( 'sections' => 0 ) );
+
+		// These users can view their own and that's it.
+		foreach ( array( 'assistant', 'instructor' ) as $role ) {
+
+			wp_set_current_user( $users[ $role ] );
+			$this->assertFalse( current_user_can( 'create_students' ) );
+
+			foreach ( $users as $user ) {
+				// General Capability.
+				$this->assertTrue( current_user_can( 'view_students' ) );
+				$this->assertFalse( current_user_can( 'edit_students' ) );
+				$this->assertFalse( current_user_can( 'delete_students' ) );
+				// Specific User.
+				$this->assertFalse( current_user_can( 'view_students', $user ) );
+				$this->assertFalse( current_user_can( 'edit_students', $user ) );
+				$this->assertFalse( current_user_can( 'delete_students', $user ) );
+			}
+
+			$course_1->instructors()->set_instructors( array( array( 'id' => $users[ $role ] ) ) );
+			$course_2->instructors()->set_instructors( array( array( 'id' => $users[ $role ] ) ) );
+
+			foreach ( $users as $user ) {
+
+				llms_enroll_student( $user, $course_1->get( 'id' ) );
+				$this->assertTrue( current_user_can( 'view_students', $user ) );
+
+			}
+
+		}
+
+
+
+	}
+
 }

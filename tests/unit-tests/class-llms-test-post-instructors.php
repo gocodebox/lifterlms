@@ -1,10 +1,12 @@
 <?php
 /**
  * Tests for LLMS_Post_Instructors model & functions
+ *
  * @group   LLMS_Post_Instructors
  * @group   LLMS_Course
  * @group   LLMS_Membership
- * @since   3.13.0
+ *
+ * @since 3.13.0
  * @version 3.25.2
  */
 class LLMS_Test_Post_Instructors extends LLMS_UnitTestCase {

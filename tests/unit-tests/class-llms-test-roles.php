@@ -9,9 +9,10 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 
 	/**
 	 * Tear down
+	 *
+	 * @since 3.28.0
+	 *
 	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
 	 */
 	public function tearDown() {
 		parent::tearDown();
@@ -55,9 +56,10 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	/**
 	 * Test install_roles() method.
 	 *
+	 * @since 3.13.0
+	 * @since [version] Test for "view_students" on instructors.
+	 *
 	 * @return  void
-	 * @since   3.13.0
-	 * @version 3.13.0
 	 */
 	public function test_install() {
 
@@ -84,7 +86,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 		$instructor = $wp_roles->get_role( 'instructor' );
 		foreach ( LLMS_Roles::get_all_core_caps() as $cap ) {
 			$has = $instructor->has_cap( $cap );
-			if ( in_array( $cap, array( 'view_lifterlms_reports', 'lifterlms_instructor' ) ) ) {
+			if ( in_array( $cap, array( 'view_lifterlms_reports', 'lifterlms_instructor', 'view_students' ) ) ) {
 				$this->assertTrue( $has );
 			} else {
 				$this->assertFalse( $has );

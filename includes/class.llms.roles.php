@@ -13,7 +13,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.14.0 Add the `lifterlms_instructor` capability.
- * @since [version] Add the `list_users` capability to instructors.
+ * @since [version] Added the `list_users` capability to instructors.
+ *                  Added capabilities for student management.
  */
 class LLMS_Roles {
 
@@ -40,6 +41,7 @@ class LLMS_Roles {
 	 *
 	 * @since 3.13.0
 	 * @since 3.14.0 Add the `lifterlms_instructor` capability.
+	 * @since [version] Added capabilities for student management.
 	 *
 	 * @return string[]
 	 */
@@ -51,6 +53,13 @@ class LLMS_Roles {
 			'view_others_lifterlms_reports',
 			'enroll',
 			'unenroll',
+			'create_students',
+			'view_students',
+			'view_others_students',
+			'edit_students',
+			'edit_others_students',
+			'delete_students',
+			'delete_others_students',
 		) );
 	}
 
@@ -58,6 +67,7 @@ class LLMS_Roles {
 	 * Retrieve the LifterLMS core capabilities for a give role
 	 *
 	 * @since 3.13.0
+	 * @since [version] Added student management capabilities.
 	 *
 	 * @param string $role Name of the role.
 	 * @return array
@@ -71,10 +81,18 @@ class LLMS_Roles {
 			case 'instructor':
 			case 'instructors_assistant':
 				$caps = $all_caps;
-				unset( $caps['enroll'] );
-				unset( $caps['unenroll'] );
-				unset( $caps['manage_lifterlms'] );
-				unset( $caps['view_others_lifterlms_reports'] );
+				unset(
+					$caps['enroll'],
+					$caps['unenroll'],
+					$caps['manage_lifterlms'],
+					$caps['view_others_lifterlms_reports'],
+					$caps['create_students'],
+					$caps['view_others_students'],
+					$caps['edit_students'],
+					$caps['edit_others_students'],
+					$caps['delete_students'],
+					$caps['delete_others_students']
+				);
 			break;
 
 			case 'administrator':

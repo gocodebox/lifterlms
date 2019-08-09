@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.13.0
  * @since [version] Always add the `editable_roles` filter.
  * @since [version] Added methods and logic for managing user management of other users.
+ *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
  */
 class LLMS_User_Permissions {
 
@@ -127,6 +128,7 @@ class LLMS_User_Permissions {
 	 *
 	 * @since 3.13.0
 	 * @since [version] Add logic for `edit_users` and `delete_users` capabilities with regards to LifterLMS user roles.
+	 *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 *
 	 * @param array  $allcaps  All the capabilities of the user
 	 * @param array  $cap      [0] Required capability
@@ -147,9 +149,27 @@ class LLMS_User_Permissions {
 
 		$required_cap = ! empty( $cap[0] ) ? $cap[0] : false;
 
+		// We don't have a cap or the user doesn't have the requested cap.
+		if ( ! $required_cap || empty( $allcaps[ $required_cap ] ) ) {
+			return $allcaps;
+		}
+
+		$user_id   = ! empty( $args[1] ) ? $args[1] : false;
+		$object_id = ! empty( $args[2] ) ? $args[2] : false;
+
 		if ( in_array( $required_cap, array( 'edit_users', 'delete_users' ), true ) ) {
-			if ( ! empty( $args[1] ) && ! empty( $args[2] ) && false === $this->user_can_manage_user( $args[1], $args[2] ) ) {
+			if ( $user_id && $object_id && false === $this->user_can_manage_user( $user_id, $object_id ) ) {
 				unset( $allcaps[ $required_cap ] );
+			}
+		}
+
+		if ( in_array( $required_cap, array( 'view_students', 'edit_students', 'delete_students' ), true ) ) {
+			$others_cap = str_replace( '_', '_others_', $required_cap );
+			if ( $user_id && $object_id && ! user_can( $user_id, $others_cap ) ) {
+				$instructor = llms_get_instructor( $user_id );
+				if ( ! $instructor || ! $instructor->has_student( $object_id ) ) {
+					unset( $allcaps[ $required_cap ] );
+				}
 			}
 		}
 
