@@ -2,8 +2,10 @@
 /**
  * Unit Test Case with tests and utilities specific to testing classes
  * which extend the LLMS_Post_Model
- * @since    3.4.0
- * @version  3.28.0
+ *
+ * @since 3.4.0
+ * @since [version] Add tests for new `set_bulk()` method and other recently added properties.
+ * @version [version]
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -201,6 +203,68 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 		}
 	}
 
+	/**
+	 * Test creation date and status relationship on updating.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_date_status_relationship_update() {
+
+		if ( ! $this->get_data() ) {
+			$this->markTestSkipped( 'No properties to test.' );
+		}
+
+		// Check we can update drafts creation date.
+		$this->create( 'test title date status relationship' );
+
+		// Check that when setting the creation date to the future, the post status changes accordingly.
+		$this->obj->set( 'status', 'publish' );
+		$this->obj->set( 'date_gmt', date( 'Y-m-d H:i:s', strtotime( '+1 year', current_time( 'timestamp' ) ) ) );
+		$this->assertEquals( 'future', $this->obj->get( 'status' ) );
+
+	}
+
+	/**
+	 * Test edit_date post proerty.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_edit_date() {
+
+		if ( ! $this->get_data() ) {
+			$this->markTestSkipped( 'No properties to test.' );
+		}
+
+		// Check we can update drafts creation date.
+		$this->create( 'test title draft' );
+
+		// Makes sense only for drafts.
+		if ( 'draft' !== $this->obj->get( 'status' ) ) {
+			$this->markTestSkipped( 'No properties to test.' );
+		}
+
+		$new_date = date( 'Y-m-d H:i:s', strtotime( '-1 year', current_time( 'timestamp' ) ) );
+		$this->obj->set_bulk( array(
+			'date_gmt'  => $new_date,
+			'edit_date' => true,
+		) );
+		$this->assertEquals( $new_date, $this->obj->get( 'date_gmt' ) );
+
+		// Check we cannot update drafts creation dates without passing edit_date.
+		$this->create( 'test title draft two' );
+
+		$this->obj->set_bulk( array(
+			'date_gmt' => $new_date,
+		) );
+		$this->assertNotEquals( $new_date, $this->obj->get( 'date_gmt' ) );
+		$this->assertEquals( '0000-00-00 00:00:00', $this->obj->get( 'date_gmt' ) );
+
+	}
+
 
 	/**
 	 * Test set_bulk()
@@ -229,10 +293,11 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 
 		// update should return false, the DB values are the same.
 		$this->assertFalse( $this->obj->set_bulk( $data ) );
+
 	}
 
 	/**
-	 * Test set_bulk() when passing $wp_erro param as true
+	 * Test set_bulk() when passing $wp_error param as true.
 	 *
 	 * @since [version]
 	 * @return void
@@ -270,4 +335,5 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 		$this->assertArrayHasKey( 'empty_content', $result->errors );
 
 	}
+
 }
