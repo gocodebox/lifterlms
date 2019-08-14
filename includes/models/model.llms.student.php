@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version 3.33.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.2.3
  * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
  * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
+ * @since [version] Added new filters for differentiating between enrollment update and creation.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -70,18 +71,26 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Enroll the student in a course or membership
+	 * Enroll the student into a course or membership
+	 *
+	 * @since 2.2.3
+	 * @since 3.17.0 Unknown.
+	 * @since [version] Added new actions to differentiate between first-time enrollment and enrollment status updates.
+	 *
+	 * @see llms_enroll_student()
+	 *
 	 * @param  int     $product_id   WP Post ID of the course or membership
 	 * @param  string  $trigger      String describing the reason for enrollment
 	 * @return boolean
-	 *
-	 * @see  llms_enroll_student()  calls this function without having to instantiate the LLMS_Student class first
-	 *
-	 * @since    2.2.3
-	 * @version  3.17.0
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
+		/**
+		 * Fires before a user is enrolled into a course or membership.
+		 *
+		 * @param int $user_id WP User ID.
+		 * @param int $product_id WP Post ID of the course or membership.
+		 */
 		do_action( 'before_llms_user_enrollment', $this->get_id(), $product_id );
 
 		// can only be enrolled in the following post types
@@ -98,9 +107,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// if the student has been previously enrolled, simply update don't run a full enrollment
 		if ( $this->get_enrollment_status( $product_id, false ) ) {
-			$insert = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
+			$insert      = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
+			$action_type = 'updated';
 		} else {
-			$insert = $this->insert_enrollment_postmeta( $product_id, $trigger );
+			$insert      = $this->insert_enrollment_postmeta( $product_id, $trigger );
+			$action_type = 'created';
 		}
 
 		// add the user postmeta for the enrollment
@@ -111,23 +122,42 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
 			$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
 
-			// trigger additional actions based off post type
-			switch ( get_post_type( $product_id ) ) {
+			$post_type = str_replace( 'llms_', '', get_post_type( $product_id ) );
 
-				case 'course':
+			if ( 'course' === $post_type ) {
 
-					do_action( 'llms_user_enrolled_in_course', $this->get_id(), $product_id );
+				/**
+				 * Fires after a user is enrolled in course
+				 *
+				 * @param int $user_id WP User ID.
+				 * @param int $product_id WP Post ID of the course or membership.
+				 */
+				do_action( 'llms_user_enrolled_in_course', $this->get_id(), $product_id );
 
-				break;
+			} elseif ( 'membership' === $post_type ) {
 
-				case 'llms_membership':
+				$this->add_membership_level( $product_id );
 
-					$this->add_membership_level( $product_id );
-					do_action( 'llms_user_added_to_membership_level', $this->get_id(), $product_id );
-
-				break;
+				/**
+				 * Fires after a user is enrolled in membership
+				 *
+				 * @param int $user_id WP User ID.
+				 * @param int $product_id WP Post ID of the course or membership.
+				 */
+				do_action( 'llms_user_added_to_membership_level', $this->get_id(), $product_id );
 
 			}
+
+			/**
+			 * Fires after a user's enrollment is created or updated.
+			 *
+			 * `$post_type` refers to the type of item the user is enrolled in, either 'course' or 'membership'
+			 * `$action_type` refers to the type of action taking place, either "created" or "updated".
+			 *
+			 * @param int $user_id WP User ID.
+			 * @param int $product_id WP Post ID of the course or membership.
+			 */
+			do_action( "llms_user_{$post_type}_enrollment_{$action_type}", $this->get_id(), $product_id );
 
 			return true;
 
@@ -1455,6 +1485,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				return true;
 
 			}
+
 		}
 
 		// return false if we didn't update

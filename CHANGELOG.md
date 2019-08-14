@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.34.0 - 2019-08-??
+v3.34.0 - 2019-08-14
 --------------------
 
 ##### Student management capabilities
@@ -14,6 +14,7 @@ v3.34.0 - 2019-08-??
 
 ##### Updates
 
++ Added new filters to help differentiate enrollment creation and update events.
 + Added methods and logic for managing user management of other users.
 + Added a filter `llms_table_get_table_classes` to LifterLMS admin tables which allows customization of the CSS classes applied to the `<table>` elements. Thanks  [@pondermatic](https://github.com/pondermatic)!
 + Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.
