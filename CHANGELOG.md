@@ -14,7 +14,7 @@ v3.34.0 - 2019-08-14
 
 ##### Updates
 
-+ Added new filters to help differentiate enrollment creation and update events.
++ Added new actions to help differentiate enrollment creation and update events.
 + Added methods and logic for managing user management of other users.
 + Added a filter `llms_table_get_table_classes` to LifterLMS admin tables which allows customization of the CSS classes applied to the `<table>` elements. Thanks  [@pondermatic](https://github.com/pondermatic)!
 + Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.
@@ -23,6 +23,7 @@ v3.34.0 - 2019-08-14
 + Added `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, `post_password` as gettable\settable post properties via the `LLMS_Post_Model` abstract.
 + Links on reporting tables are now the proper color.
 + The `editable_roles` filter which determines which roles can manage which other roles is now always loaded (instead of being loaded only on the admin panel).
++ Updated LifterLMS Blocks to 1.5.2
 
 ##### Bug Fixes
 

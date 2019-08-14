@@ -45,16 +45,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.5.1",
+            "version": "1.5.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "bd7b44e9e3ddce644d0f01268b5d17e9f84667b4"
+                "reference": "19219727b1566f170fd25492b0e84c86afdcabe0"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/bd7b44e9e3ddce644d0f01268b5d17e9f84667b4",
-                "reference": "bd7b44e9e3ddce644d0f01268b5d17e9f84667b4",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/19219727b1566f170fd25492b0e84c86afdcabe0",
+                "reference": "19219727b1566f170fd25492b0e84c86afdcabe0",
                 "shasum": ""
             },
             "require-dev": {
@@ -75,7 +75,7 @@
                 }
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
-            "time": "2019-05-17T20:04:51+00:00"
+            "time": "2019-08-14T23:36:52+00:00"
         },
         {
             "name": "prospress/action-scheduler",
@@ -323,12 +323,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "b4f38529bb1364311721872ee8e9e6b41107edb9"
+                "reference": "c14de6c83ed65936eb3acc7a213b4778cf8d1cd2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/b4f38529bb1364311721872ee8e9e6b41107edb9",
-                "reference": "b4f38529bb1364311721872ee8e9e6b41107edb9",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/c14de6c83ed65936eb3acc7a213b4778cf8d1cd2",
+                "reference": "c14de6c83ed65936eb3acc7a213b4778cf8d1cd2",
                 "shasum": ""
             },
             "require": {
@@ -350,7 +350,7 @@
                 }
             ],
             "description": "Testing framework for LifterLMS projects",
-            "time": "2019-04-08T17:46:35+00:00"
+            "time": "2019-08-09T01:13:25+00:00"
         },
         {
             "name": "myclabs/deep-copy",
