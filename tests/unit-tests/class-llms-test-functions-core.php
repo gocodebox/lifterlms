@@ -1,10 +1,12 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
+ *
  * @group    functions
  * @group    functions_core
- * @since    3.3.1
- * @version  3.30.1
+ *
+ * @since 3.3.1
+ * @version 3.30.1
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -425,13 +427,15 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_redirect_and_exit() func with safe on
-	 * @return   void
-	 * @since    3.19.4
-	 * @version  3.19.4
+	 *
+	 * @since 3.19.4
+	 * @since [version] Use exception from lifterlms-tests lib.
+	 *
+	 * @return void
 	 */
 	public function test_llms_redirect_and_exit_safe_on() {
 
-		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
 		$this->expectExceptionMessage( 'https://lifterlms.com [302] YES' );
 		llms_redirect_and_exit( 'https://lifterlms.com' );
 
@@ -439,13 +443,14 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_redirect_and_exit() func with safe on
-	 * @return   void
-	 * @since    3.19.4
-	 * @version  3.19.4
+	 *
+	 *  @since [version] Use exception from lifterlms-tests lib.
+	 *
+	 * @return void
 	 */
 	public function test_llms_redirect_and_exit_safe_off() {
 
-		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
 		$this->expectExceptionMessage( 'https://lifterlms.com [302] NO' );
 		llms_redirect_and_exit( 'https://lifterlms.com', array( 'safe' => false ) );
 
@@ -453,13 +458,14 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_redirect_and_exit() func with safe custom status
-	 * @return   void
-	 * @since    3.19.4
-	 * @version  3.19.4
+	 *
+	 *  @since [version] Use exception from lifterlms-tests lib.
+	 *
+	 * @return void
 	 */
 	public function test_llms_redirect_and_exit_safe_status() {
 
-		$this->expectException( LLMS_Testing_Exception_Redirect::class );
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
 		$this->expectExceptionMessage( 'https://lifterlms.com [301] YES' );
 		llms_redirect_and_exit( 'https://lifterlms.com', array( 'status' => 301 ) );
 

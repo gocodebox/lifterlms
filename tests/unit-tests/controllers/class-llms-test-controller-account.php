@@ -1,9 +1,11 @@
 <?php
 /**
  * Tests for the LLMS_Controller_Account class
- * @group    controllers
- * @since    3.19.0
- * @version  3.19.4
+ *
+ * @group controllers
+ *
+ * @since 3.19.0
+ * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -79,9 +81,11 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	/**
 	 * Test account update form submission handler
+	 *
+	 * @since 3.19.4
+	 * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from test lib.
+	 *
 	 * @return   void
-	 * @since    3.19.4
-	 * @version  3.19.4
 	 */
 	public function test_update() {
 
@@ -140,7 +144,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		) );
 
 		// exceptions thrown in testing env instead of exit()
-		$this->expectException( LLMS_Testing_Exception_Exit::class );
+		$this->expectException( LLMS_Unit_Test_Exception_Exit::class );
 		$this->expectExceptionMessage( sprintf( '%s [302] YES', llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) ) ) );
 
 		// run these assertions within actions because the exit() at the end of the redirect will halt program execution

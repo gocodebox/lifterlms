@@ -1,18 +1,22 @@
 <?php
 /**
  * Tests for the LLMS_Controller_Registration class
- * @group    controllers
- * @group    registration
- * @since    3.19.4
- * @version  3.19.4
+ *
+ * @group controllers
+ * @group registration
+ *
+ * @since 3.19.4
+ * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
  */
 class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 
 	/**
 	 * Test order completion actions
-	 * @return   void
-	 * @since    3.19.4
-	 * @version  3.19.4
+	 *
+	 * @since 3.19.4
+	 * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+	 *
+	 * @return void
 	 */
 	public function test_register() {
 
@@ -90,7 +94,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 		) );
 
 		// exceptions thrown in testing env instead of exit()
-		$this->expectException( LLMS_Testing_Exception_Exit::class );
+		$this->expectException( LLMS_Unit_Test_Exception_Exit::class );
 		$this->expectExceptionMessage( sprintf( '%s [302] YES', llms_get_page_url( 'myaccount' ) ) );
 
 		// run these assertions within actions because the exit() at the end of the redirect will halt program execution
