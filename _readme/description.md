@@ -19,6 +19,9 @@ _Increase your training program's value with these engagement add-ons_
 + [LifterLMS Assignments][ass]
 + [LifterLMS Private Areas][pa]
 + [LifterLMS Social Learning][sl]
++ [LifterLMS Advanced Video][av] (Scheduled to Release: 10/15/19)
++ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
++ LifterLMS Groups (Scheduled to Release: 12/11/19)
 
 #### **Integrations**
 
@@ -220,6 +223,7 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[av]: https://lifterlms.com/product/advanced-video/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale

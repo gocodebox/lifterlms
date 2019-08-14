@@ -42,6 +42,7 @@ defined( 'ABSPATH' ) || exit;
  * @since [version] Add parameter to the `get()` method in order to get raw properties.
  * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, 'post_password` as gettable\settable post properties.
  * @since [version] Add `set_bulk()` method that will allow to update an object at once given an array of properties.
+ * @since [version] Refresh the whole $post property with the just updated instance of WP_Post after updating it.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -968,7 +969,11 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			$val = $this->scrub( $key, $val );
 
 			// update WordPress Post Properties using the wp_insert_post() function
-			if ( in_array( $key, $post_properties ) ) {
+			/**
+			 * The 'edit_date' must be passed to the wp_update_post() function in order
+			 * to allow 'drafty' posts' creation date to be modified.
+			 */
+			if ( in_array( $key, $post_properties ) || 'edit_date' === $key ) {
 
 				$type           = 'post';
 				$llms_post_key  = "post_{$key}";
@@ -983,6 +988,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 						$val = apply_filters( 'excerpt_save_pre', $val );
 					break;
 
+					case 'edit_date':
 					case 'ping_status':
 					case 'comment_status':
 					case 'menu_order':
@@ -1027,9 +1033,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			if ( ! is_wp_error( $update_post ) ) {
 				// update this post.
-				foreach ( $llms_post['post'] as $key => $val ) {
-					$this->post->{$key} = $val;
-				}
+				$this->post = get_post( $this->get( 'id' ) );
 			} else {
 				$error = $update_post;
 			}

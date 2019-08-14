@@ -21,7 +21,7 @@ If you're already a LifterLMS Pro user or you have purchased one of the LifterLM
 Yes. You can get an instant quote for the team at LifterLMS to set everything up for you through our signature Done For You service. Get an instant quote through our automated quote generation tool on the [LifterLMS website services page](https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
-#### I'm interested in LifterLMS Pro, another LifterLMS extension, or a LifterLMS theme, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
+#### I'm interested in LifterLMS add-ons, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
 
 Absolutely. If you're not finding your questions answered on the product pages, you can ask your presales questions through this [contact form](https://lifterlms.com/contact/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). You can also connect live with a member of our team [here](https://lifterlms.com/contact/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
