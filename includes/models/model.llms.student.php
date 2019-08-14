@@ -161,7 +161,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			return true;
 
-		}
+		}// End if().
 
 		return false;
 
@@ -1485,7 +1485,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				return true;
 
 			}
-
 		}
 
 		// return false if we didn't update
