@@ -8,6 +8,7 @@
  *
  * @since 3.29.0
  * @since 3.32.0 Add delta to date assertions for `test_llms_insert_access_plan_update()`.
+ * @since 3.34.0 Add gmt date to list of date fields that should be assersted with a delta.
  */
 class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 
@@ -313,6 +314,7 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.29.0
 	 * @since 3.32.0 Add delta to date assertions.
+	 * @since 3.34.0 Add gmt date to list of date fields that should be assersted with a delta.
 	 *
 	 * @return void
 	 */
@@ -356,10 +358,10 @@ class LLMS_Test_Functions_Access_Plans extends LLMS_UnitTestCase {
 		foreach ( $plan->toArray() as $key => $val ) {
 			if ( 'price' === $key ) {
 				$this->assertFalse( $plan_before[ $key ] === $val );
-			} elseif ( in_array( $key, array( 'date', 'modified' ), true ) ) {
-				$this->assertEquals( strtotime( $plan_before[ $key ] ), strtotime( $val ), '', 5 );
+			} elseif ( in_array( $key, array( 'date', 'date_gmt', 'modified', 'modified_gmt' ), true ) ) {
+				$this->assertEquals( strtotime( $plan_before[ $key ] ), strtotime( $val ), $key, 5 );
 			} else {
-				$this->assertEquals( $plan_before[ $key ], $val );
+				$this->assertEquals( $plan_before[ $key ], $val, $key );
 			}
 		}
 
