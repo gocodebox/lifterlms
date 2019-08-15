@@ -1,0 +1,23 @@
+# https://github.com/Rebilly/ReDoc/blob/master/src/theme.ts
+theme:
+  logo:
+    gutter: 20px
+  colors:
+    primary:
+      main: '#466dd8'
+  typography:
+    headings:
+      fontFamily: 'Montserrat'
+      fontWeight: 600
+    fontFamily: 'Montserrat'
+    fontWeight: 300
+    fontSize: 16px
+  rightPanel:
+    backgroundColor: '#222'
+
+noAutoAuth: true
+requiredPropsFirst: true
+sortPropsAlphabetically: true
+
+# Use a specific build version
+# redocURL: https://cdn.jsdelivr.net/npm/redoc@2.0.0-rc.11/bundles/redoc.standalone.js

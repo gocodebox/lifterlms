@@ -1,0 +1,43 @@
+type: object
+properties:
+  id:
+    allOf:
+      - description: Unique section identifier. The WordPress Post `ID`.
+        readOnly: true
+      - $ref: '#/components/schemas/ResourceId'
+      - example: 987
+  date_created:
+    description: 'Creation date. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:22:05'
+  date_created_gmt:
+    description: 'Creation date (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:22:05'
+  date_updated:
+    description: 'Date last modified. Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 17:25:05'
+    readOnly: true
+  date_updated_gmt:
+    description: 'Date last modified (in GMT). Format: `Y-m-d H:i:s`.'
+    type: string
+    example: '2019-05-20 13:25:05'
+    readOnly: true
+  order:
+    description: Order of the section within the course.
+    type: integer
+    default: 1
+    minimum: 1
+  parent_id:
+    description: WordPress post ID of the parent item.<br> Must be a Course ID.
+    type: integer
+    minimum: 1
+    example: 1234
+  post_type:
+    allOf:
+      - $ref: '#/components/schemas/PostType'
+      - type: string
+        default: section
+        readOnly: true
+

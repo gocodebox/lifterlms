@@ -1,0 +1,87 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique membership Identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve a membership
+  description: Retrieve the details of an existing membership.
+  tags:
+    - Memberships
+  parameters:
+    - $ref: '#/components/parameters/Context'
+    - $ref: '#/components/parameters/PostPassword'
+  responses:
+    200:
+      description: Successfully retrieved the membership.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MembershipResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+post:
+  summary: Update a membership
+  description: >-
+    Update the specified membership by setting the values of the parameters passed.
+    Any parameters not provided will be left unchanged.
+  tags:
+    - Memberships
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/MembershipRequest'
+  responses:
+    200:
+      description: Successfully updated the membership.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/MembershipResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete a membership
+  description: Delete an existing membership.
+  tags:
+    - Memberships
+  requestBody:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            force:
+              description: Bypass the trash and force membership deletion.
+              type: boolean
+              default: false
+  responses:
+    204:
+      description: Successfully deleted the membership.
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

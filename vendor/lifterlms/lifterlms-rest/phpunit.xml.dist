@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/|version|/phpunit.xsd"
+	backupGlobals="false"
+	bootstrap="tests/bootstrap.php"
+	colors="true"
+	convertErrorsToExceptions="true"
+	convertNoticesToExceptions="true"
+	convertWarningsToExceptions="true"
+	timeoutForSmallTests="1"
+	timeoutForMediumTests="10"
+	timeoutForLargeTests="60"
+	verbose="true">
+
+	<testsuites>
+		<testsuite name="LifterLMS REST API Test Suite">
+			<directory suffix=".php">tests/unit-tests</directory>
+			<!-- @todo: rework these tests to post to a mocked url -->
+			<exclude>./tests/unit-tests/class-llms-rest-test-webhook-delivery.php</exclude>
+		</testsuite>
+	</testsuites>
+
+	<filter>
+		<whitelist addUncoveredFilesFromWhitelist="true">
+			<directory suffix=".php">.</directory>
+			<exclude>
+				<directory>./tests/</directory>
+				<directory suffix=".php">./tmp/</directory>
+				<directory suffix=".php">./dist/</directory>
+				<directory suffix=".php">./node_modules/</directory>
+				<directory suffix=".php">./vendor/</directory>
+				<file>./**/index.php</file>
+			</exclude>
+		</whitelist>
+	</filter>
+
+</phpunit>

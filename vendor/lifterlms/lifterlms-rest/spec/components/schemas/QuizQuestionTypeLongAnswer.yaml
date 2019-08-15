@@ -1,0 +1,20 @@
+title: Long Answer
+description: Long answer quiz question type
+allOf:
+  - $ref: '#/components/schemas/QuizQuestion'
+  - type: object
+    properties:
+      question_type:
+        description: The type of question.
+        type: string
+        default: long_answer
+      words_min:
+        description: Minimum word count for the answer. Setting the minimum at `0` disables the minimum word count.
+        type: integer
+        minimum: 0
+        example: 500
+      words_max:
+        description: Maximum word count for the answer.  Setting the maximum at `0` disables the maximum word count.
+        type: integer
+        minimum: 0
+        example: 10000

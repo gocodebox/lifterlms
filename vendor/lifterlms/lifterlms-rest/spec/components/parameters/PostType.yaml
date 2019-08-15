@@ -1,0 +1,6 @@
+name: post_type
+in: query
+description: Filter results to those of a specific `post_type`.
+required: false
+schema:
+  $ref: '#/components/schemas/PostType'

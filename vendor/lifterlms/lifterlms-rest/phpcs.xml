@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<ruleset name="LifterLMS REST API">
+    <description>LifterLMS REST API rules for PHP_CodeSniffer</description>
+
+    <file>.</file>
+
+    <rule ref="LifterLMS"></rule>
+
+	<rule ref="WordPress.WP.I18n">
+		<properties>
+			<property name="text_domain" value="lifterlms" />
+		</properties>
+	</rule>
+
+</ruleset>

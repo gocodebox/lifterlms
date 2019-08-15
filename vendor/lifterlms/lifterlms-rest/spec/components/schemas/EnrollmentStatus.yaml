@@ -1,0 +1,6 @@
+description: The status of the enrollment.
+type: string
+enum:
+  - enrolled
+  - expired
+  - cancelled

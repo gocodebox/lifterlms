@@ -1,0 +1,102 @@
+parameters:
+  - name: id
+    in: path
+    description: Unique quiz question identifier. The WordPress Post `ID`.
+    required: true
+    schema:
+      $ref: '#/components/schemas/ResourceId'
+
+get:
+  summary: Retrieve a quiz question
+  description: Retrieve the details of an existing quiz question.
+  tags:
+    - Quiz Questions
+  parameters:
+    - $ref: '#/components/parameters/Context'
+  responses:
+    200:
+      description: Successfully retrieved the quiz question.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizQuestionTypesResponseList'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+post:
+  summary: Update a quiz question
+  description: >-
+    Update the specified quiz question by setting the values of the parameters passed.
+    Any parameters not provided will be left unchanged.
+  tags:
+    - Quiz Questions
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          anyOf:
+            - title: Multiple Choice
+              allOf:
+                - $ref: '#/components/schemas/QuizQuestionTypeChoice'
+                - $ref: '#/components/schemas/QuizQuestionRequest'
+            - title: Picture Choice
+              allOf:
+                - $ref: '#/components/schemas/QuizQuestionTypePictureChoice'
+                - $ref: '#/components/schemas/QuizQuestionRequest'
+            - title: True / False
+              allOf:
+                - $ref: '#/components/schemas/QuizQuestionTypeTrueFalse'
+                - $ref: '#/components/schemas/QuizQuestionRequest'
+            - title: Content
+              allOf:
+                - $ref: '#/components/schemas/QuizQuestionTypeContent'
+                - $ref: '#/components/schemas/QuizQuestionRequest'
+
+            - title: Fill in the Blank
+              allOf:
+                - $ref: '#/components/schemas/QuizQuestionTypeBlank'
+                - $ref: '#/components/schemas/QuizQuestionRequest'
+            - title: Long Answer
+              allOf:
+                - $ref: '#/components/schemas/QuizQuestionTypeLongAnswer'
+                - $ref: '#/components/schemas/QuizQuestionRequest'
+
+  responses:
+    200:
+      description: Successfully updated the quiz question.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizQuestionTypesResponseList'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'
+
+delete:
+  summary: Delete a quiz question
+  description: Delete an existing quiz question.
+  tags:
+    - Quiz Questions
+  responses:
+    204:
+      description: Successfully deleted the quiz question.
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+    404:
+      $ref: '#/components/responses/Error404'

@@ -1,0 +1,38 @@
+type: object
+properties:
+  title:
+    description: Quiz title. Most likely in the form of a question.
+    type: object
+    properties:
+      rendered:
+        type: string
+        description: Rendered title.
+        example: What is your favorite color?
+      raw:
+        type: string
+        description: Raw title. Useful when displaying title in the WP Editor. Only returned in `edit` context.
+        example: What is your favorite color?
+  content:
+    description: Quiz content. Useful for providing additional information or context to the question.
+    type: object
+    properties:
+      rendered:
+        type: string
+        description: Rendered content.
+        example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>
+      raw:
+        type: string
+        description: Raw content. Useful when displaying title in the WP Block Editor. Only returned in `edit` context.
+        example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>
+  answer_clarification:
+    description: Additional clarifying information displayed on the quiz attempt review screen when the question was answered incorrectly.
+    type: object
+    properties:
+      rendered:
+        type: string
+        description: Rendered content.
+        example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>
+      raw:
+        type: string
+        description: Raw content. Useful when displaying title in the WP Block Editor. Only returned in `edit` context.
+        example: <h2>Lorem ipsum dolor sit amet.</h2>\n\n<p>Expectoque quid ad id, quod quaerebam, respondeas. Nec enim, omnes avaritias si aeque avaritias esse dixerimus, sequetur ut etiam aequas esse dicamus.</p>

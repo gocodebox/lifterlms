@@ -1,0 +1,361 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0-beta.2
+  title: LifterLMS REST API
+  description: >-
+    # Introduction
+
+    LifterLMS (LLMS) is fully integrated with the [WordPress REST API](https://developer.wordpress.org/rest-api/). This allows LifterLMS data to be created, read, updated, and deleted using requests in JSON format and using WordPress REST API Authentication methods and standard HTTP verbs which are understood by most HTTP clients.
+
+    ## Public Beta
+
+    As of LifterLMS version 3.34.0, the LifterLMS REST API is included in the LifterLMS core plugin for public evaluation and testing.
+
+    The specification may change slightly over the next few months as we evaluate feedback and use-cases. If you are building integrations relying on the REST API please keep your eye on our changelog and let us know how things are going!
+
+    If you're interested in contributing or discussing the REST API, please join us in [GitHub](https://github.com/gocodebox/lifterlms-rest) and post in `#developers` on the [LifterLMS Community Slack](https://lifterlms.com/slack).
+
+    ## Requirements
+
+    To use the latest version of the REST API you must be using the following:
+
+      + LifterLMS Version 3.34.0+.
+      + WordPress 5.2+.
+      + Pretty permalinks in `Settings -> Permalinks` so that the custom endpoints are supported. **Default permalinks will not work.**
+      + An SSL certificate.
+
+    ## Libraries and Tools
+
+    ### Official Libraries
+
+    LifterLMS develops and maintains official libraries for different programming languages so you can easily build around the REST API.
+
+      + [Node/Javascript](https://github.com/gocodebox/llms-api-node)
+      + PHP (coming soon)
+
+    ### Tools
+
+    Some useful tools to help develop and access the REST API:
+
+      + [Postman](https://www.getpostman.com/) - A multi platform REST API GUI client.
+      + [RESTCLient](https://addons.mozilla.org/en-US/firefox/addon/restclient/) - A free Firefox add-on.
+      + [Advanced REST client](https://chrome.google.com/webstore/detail/advanced-rest-client/hgmloofddffdnphfgcellkdfbfbjeloo) - A free Google Chrome extension.
+      + [RequestBin](https://requestbin.com/) - A free service allowing you to quickly test webhooks.
+
+    # Authentication
+
+    Requests to most API resources require authentication. Authentication can be preformed by providing API Credentials by using as the username and password via [HTTP Basic Authentication](http://en.wikipedia.org/wiki/Basic_access_authentication) or through request headers.
+
+
+    Requests to the REST API may only be made over [HTTPS](http://en.wikipedia.org/wiki/HTTP_Secure). Requests made over HTTP will fail.
+
+    ## Basic Authentication
+
+    The preferred authentication method is HTTP Basic Authentication.
+
+    To use HTTP Basic Auth, provide the Consumer Key as the username and the Consumer Secret as the password.
+
+    ```
+      curl https://example.tld/wp-json/llms/v1/courses \
+        -u ck_d7W85twOWT0poKzDSAQzI7:sk_8bsMmRfjW1HgEFw5ad7BIF
+    ```
+
+    ## Header Authentication
+
+    Alternatively, requests may be authenticated by providing the Consumer Key and Consumer secret as the request headers `X-LLMS-CONSUMER-KEY` and `X-LLMS-CONSUMER-SECRET`.
+
+    ```
+      curl https://example.tld/wp-json/llms/v1/courses \
+        -H X-LLMS-CONSUMER-KEY: ck_d7W85twOWT0poKzDSAQzI7 \
+        -H X-LLMS-CONSUMER-SECRET: sk_8bsMmRfjW1HgEFw5ad7BIF
+    ```
+
+  x-logo:
+    altText: LifterLMS
+    url: "https://gocodebox.github.io/lifterlms-brand/assets/img/png/logo/lifterlms-logo.png"
+    href: "https://lifterlms.com/"
+
+servers:
+  - url: /wp-json/llms/v1
+
+security:
+  - Basic-Authentication: []
+
+tags:
+
+  - name: API Keys
+    description: |
+      API Keys are used to authenticate REST API requests.
+
+      The API keys API allows you to create, view, update, and delete API keys.
+
+      ## API Key Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/APIKey" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Access Plans
+    description: |
+      Access plans allow you to define how LMS content is purchased and accessed by your students.
+
+      The access plans API allows you to create, view, update, and delete access plans.
+
+      ## Access Plan Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/AccessPlanResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Courses
+    description: |
+      The courses API allows you to create, view, update, and delete courses.
+
+      ## Course Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/CourseResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Instructors
+    description: |
+      Instructors are members of your site who have the ability to create and manage LMS content and students. Instructors may be Adminstators, LMS Managers, Instructors, and Instructors Assistants.
+
+      The instructors API allows you to create, view, update, and delete student accounts.
+
+      ## Instructor Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/Instructor" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Memberships
+    description: |
+      The memberships API allows you to create, view, update, and delete memberships.
+
+      ## Membership Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/MembershipResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Quiz Questions
+    description: |
+      The quiz questions API allows you to create, view, update, and delete quiz questions.
+
+      ## Question Types
+
+      There are four unique question types available via the LifterLMS Core:
+
+      + Multiple Choice
+      + Picture Choice
+      + True / False
+      + Content
+
+      An additional eight question types are available with the LifterLMS Advanced Quizzes Add-on:
+
+      + Fill in the Blank
+      + Reorder Items
+      + Reorder Pictures
+      + Short Answer
+      + Long Answer
+      + File Upload
+      + Code
+      + Scale
+
+      While these additional question types are documented here, they are only available when the LifterLMS Advanced Quizzes Add-on is installed and activated on your site.
+
+  - name: Quizzes
+    description: |
+      The quizzes API allows you to create, view, update, and delete quizzes.
+
+      ## Quiz Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/QuizResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Sections
+    description: |
+      The sections API allows you to create, view, update, and delete sections.
+
+      Sections are used within courses to organize content (lessons) into groups.
+
+      ## Section Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/SectionResponse" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Students
+    description: |
+      Students are members of your site who are (or were) enrolled in your courses and memberships. Students can be any WordPress user account on your site (not exclusively the "student" role).
+
+      The students API allows you to create, view, update, and delete student accounts  as well as view information about the student's LMS content.
+
+      ## Student Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/Student" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Student Enrollments
+    description: |
+      The Student Enrollments API allows you to create, view, update, and delete records of a student's enrollment into courses and memberships.
+
+      ## Enrollment Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/Enrollment" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Student Progress
+    description: |
+      The Student Progress API allows you to create, view, update, and delete a student's progress through courses.
+
+      A student's progress through a course is calculated by dividing the number of lessons completed by the student by the total number of lessons available in a course. It is not possible to manually update the `progress` percentage property of a course, instead you must update the status of each lesson in the course.
+
+      When updating the status of a course or a section, the status of the lessons within that course or section will be automatically updated to match the status of the course or section. For example, when updating a course's status to `complete` a new `complete` progress record will be created/updated for each incomplete lesson in the course.
+
+      Finally, the `progress` property of a lesson will _always_ be either `0` _or_ `100` whereas the `progress` of courses and sections will range from `0` _to_ `100`.
+
+      ## Progress Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/Progress" showReadOnly={true} showWriteOnly={true} />
+
+  - name: Webhooks
+    description: |
+      Webhooks can be created to notify you about LMS-related events that happen on your site.
+
+      The Webhooks API allows you to create, view, update, and delete webhooks.
+
+      Webhooks may additionally be managed on the LifterLMS Webhooks screen on your site's WordPress admin panel.
+
+      ## Topics
+
+      The `topic` is a combination of the resource (e.g. student) and event (e.g. created). Each `topic` maps to one or more hook names (e.g. `llms_user_registered`). The proper hooks are automatically added based on the `topic`.
+
+      The following topics are available:
+
+      + Courses
+        + `course.created`
+        + `course.updated`
+        + `course.deleted`
+        + `course.restored`
+      + Sections
+        + `section.created`
+        + `section.updated`
+        + `section.deleted`
+        + `section.restored`
+      + Lessons
+        + `lesson.created`
+        + `lesson.updated`
+        + `lesson.deleted`
+        + `lesson.restored`
+      + Memberships
+        + `membership.created`
+        + `membership.updated`
+        + `membership.deleted`
+        + `membership.restored`
+      + Students
+        + `student.created`
+        + `student.updated`
+        + `student.deleted`
+      + Student Enrollment
+        + `enrollment.created`
+        + `enrollment.updated`
+        + `enrollment.deleted`
+      + Student Progress
+        + `progress.updated`
+        + `progress.deleted`
+      + Instructors
+        + `instructor.created`
+        + `instructor.updated`
+        + `instructor.deleted`
+
+      Custom topics can also be used in order to create a webhook triggered by an arbitrary WordPress hook. For a custom topic use the `action` resource with any hook as the event. For example, to create a webhook triggered by the `user_register` hook the topic would be `action.user_register`.
+
+      ## Delivery
+
+      Webhook payloads are delivered in the background using wp-cron and `wp_remote_post()` (HTTP POST).
+
+      Custom headers are supplied to assist with the receipt of the webhook:
+
+      | Header                   | Description                                        | Example             |
+      | ------------------------ | -------------------------------------------------- | ------------------- |
+      | X-LLMS-Webhook-Source    | The URL of the LifterLMS website.                  | https://example.tld |
+      | X-LLMS-Webhook-Topic     | The webhook `topic` property.                      | student.created     |
+      | X-LLMS-Webhook-Resource  | The webhook `resource` property.                   | student             |
+      | X-LLMS-Webhook-Event     | The webhook `event` property.                      | created             |
+      | X-LLMS-Webhook-Signature | A base64 encoded HMAC-SHA256 hash of the payload.  |                     |
+      | X-LLMS-Webhook-ID        | The unique webhook identifier (WordPress post ID). | 654                 |
+      | X-LLMS-Delivery-ID       | A unique ID for the webhook delivery.              | 765                 |
+
+      The payload is a JSON-encoded object of the API resource as if retrieved by a `GET` request.
+
+      The payload for a custom hook will be a JSON-encoded version of the first parameter supplied by the hook.
+
+      ## Signature Verification
+
+      Webhooks are signed by LifterLMS and the event's unique signature is included in the `X-LLMS-Webhook-Signature` header. The signature allows you to verify that the webhook was sent by LifterLMS and not by a third party. We recommend verifying all webhooks and discarding any payloads which cannot be verified.
+
+      The `X-LLMS-Webhook-Signature` contains a timestamp and one or more signatures. The timestamp is prefixed by `t=` and the signatures are prefixed by `v` and an integer. Currently the only valid signature scheme is `v1`.
+
+      ```
+      X-LLMS-Webhook-Signature: t=1562715579,v1=0d579d62ef442b6e2d1d522924aafed480fdaaacbe498486a94445de8b995819
+      ```
+
+      The signature is generated using a hash-based message authentication code ([HMAC](https://en.wikipedia.org/wiki/HMAC)) with [SHA-256](https://en.wikipedia.org/wiki/SHA-2).
+
+      To verify a webhook signature you must construct an _expected_ webhook signature which you can then compare against the webhook signature supplied with delivery.
+
+      #### Step 1: Extract the timestamps and signatures from the header
+
+      Split the header, using the `,` character as the separator, to get a list of elements. Then split each element, using the `=` character as the separator, to get a prefix and value pair.
+
+      The value for the prefix `t` corresponds to the timestamp, and `v1` corresponds to the signature. You can discard all other elements.
+
+      #### Step 2: Prepare the payload string for signing
+
+      You achieve this by concatenating:
+
+      + The timestamp (as a string)
+      + The character `.`
+      + The actual JSON payload (i.e. the request's body)
+
+      #### Step 3: Generate the expected signature string
+
+      Compute an HMAC with the SHA256 hash function. Use the endpoints signing secret as the key, and use the string from Step 2 as the message.
+
+      #### Step 4: Compare the signatures
+
+      Compare the signature(s) in the header to the expected signature. If a signature matches, compute the difference between the current timestamp and the received timestamp, then decide if the difference is within your tolerance. We recommend accepting a difference of no more than five minutes between the provided timestamp and the current time.
+
+      ## Webook Properties
+
+      <SchemaDefinition schemaRef="#/components/schemas/Webhook" showReadOnly={true} showWriteOnly={true} />
+
+x-tagGroups:
+
+  - name: API Keys
+    tags:
+      - API Keys
+
+  - name: Courses
+    tags:
+      - Courses
+      - Sections
+      - Lessons
+
+  # @todo: Implement
+  # - name: E-Commerce
+  #   tags:
+  #     - Access Plans
+
+  - name: Instructors
+    tags:
+      - Instructors
+
+  - name: Memberships
+    tags:
+      - Memberships
+
+  # @todo: Implment.
+  # - name: Quizzes
+  #   tags:
+  #     - Quizzes
+  #     - Quiz Questions
+  #     - Quiz Attempts
+
+  - name: Students
+    tags:
+      - Students
+      - Student Enrollments
+      - Student Progress
+
+  - name: Webhooks
+    tags:
+      - Webhooks
+

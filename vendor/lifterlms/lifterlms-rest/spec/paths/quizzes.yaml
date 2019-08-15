@@ -1,0 +1,104 @@
+get:
+  summary: List quizzes
+  description: Retrieve a list of quizzes.
+  tags:
+    - Quizzes
+  parameters:
+    - $ref: '#/components/parameters/Context'
+    - $ref: '#/components/parameters/Page'
+    - $ref: '#/components/parameters/PerPage'
+    - $ref: '#/components/parameters/Order'
+    - name: orderby
+      description: Specify the sort field for a collection of results.
+      in: query
+      schema:
+        type: string
+        enum:
+          - id
+          - title
+          - date_created
+          - date_updated
+        default: id
+    - $ref: '#/components/parameters/Include'
+    - $ref: '#/components/parameters/Exclude'
+    - name: parent
+      description: Filter quizzes by the parent post (lesson) ID.
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 789
+    - name: course
+      description: Filter quizzes by the parent couse ID.
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        example: 1234
+    - name: status
+      description: Filter quizzes by the post status.
+      in: query
+      schema:
+        type: string
+        enum:
+          - publish
+          - draft
+
+  responses:
+    200:
+      description: Successfully returned a list of quizzes.
+      headers:
+        Link:
+          description: Pagination links for the collection.
+          schema:
+            type: string
+            example: >-
+              </wp-json/llms/v1/quizzes?page=1>; rel="first",
+              </wp-json/llms/v1/quizzes?page=2>; rel="prev",
+              </wp-json/llms/v1/quizzes?page=4>; rel="next",
+              </wp-json/llms/v1/quizzes?page=5>; rel="last"
+        X-WP-Total:
+          $ref: '#/components/headers/PaginationTotalResults'
+        X-WP-TotalPages:
+          $ref: '#/components/headers/PaginationTotalPages'
+      content:
+        application/json:
+          schema:
+            type: array
+            items:
+              $ref: '#/components/schemas/QuizResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'
+
+post:
+  summary: Create a quiz
+  description: Create a new quiz object.
+  tags:
+    - Quizzes
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          allOf:
+            - $ref: '#/components/schemas/QuizRequest'
+            - required:
+              - title
+              - content
+  responses:
+    201:
+      description: Successfully created the quiz.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/QuizResponse'
+    400:
+      $ref: '#/components/responses/Error400'
+    401:
+      $ref: '#/components/responses/Error401'
+    403:
+      $ref: '#/components/responses/Error403'

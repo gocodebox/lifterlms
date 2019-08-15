@@ -1,0 +1,11 @@
+description: The publication status of the course.
+type: string
+enum:
+  - publish
+  - pending
+  - draft
+  - auto-draft
+  - future
+  - private
+  - trash
+default: publish
