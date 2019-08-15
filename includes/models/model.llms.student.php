@@ -567,7 +567,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			if ( $llms_post ) {
 				$product_id = $llms_post->get_parent_course();
 			}
-
 		}
 
 		if ( $use_cache ) {
