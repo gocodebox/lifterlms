@@ -6,15 +6,15 @@
  *
  * @group LLMS_Instructor
  *
- * @since [version]
- * @version [version]
+ * @since 3.34.0
+ * @version 3.34.0
  */
 class LLMS_Test_Instructor extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test something
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return void
 	 */

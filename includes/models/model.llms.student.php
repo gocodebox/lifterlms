@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version [version]
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.2.3
  * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
  * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
- * @since [version] Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
+ * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -75,7 +75,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 2.2.3
 	 * @since 3.17.0 Unknown.
-	 * @since [version] Added new actions to differentiate between first-time enrollment and enrollment status updates.
+	 * @since 3.34.0 Added new actions to differentiate between first-time enrollment and enrollment status updates.
 	 *
 	 * @see llms_enroll_student()
 	 *

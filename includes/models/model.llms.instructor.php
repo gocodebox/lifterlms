@@ -6,7 +6,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.13.0
  * @since 3.30.3 Fixed typo in "description" key of the the toArray() method.
  * @since 3.32.0 Add validation to data passed into the `get_students()` method.
- * @since [version] Fix issue causing `get_assistants()` to return assistants to the currently logged in user instead of using the user id of the current object.
+ * @since 3.34.0 Fix issue causing `get_assistants()` to return assistants to the currently logged in user instead of using the user id of the current object.
  *                  Add `has_student()` method.
  */
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
@@ -58,7 +58,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 * Retrieve an array of user ids for assistant instructors attached to the instructor
 	 *
 	 * @since 3.14.4
-	 * @since [version] Uses object ID instead of current user id.
+	 * @since 3.34.0 Uses object ID instead of current user id.
 	 *
 	 * @return int[]
 	 */
@@ -202,7 +202,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	/**
 	 * Determines if the instructor is an instructor to a specific student.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @param LLMS_Student|WP_User|int $student Student or user object or WP User ID.
 	 * @return bool

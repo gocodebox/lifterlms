@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Abstracts
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 `is_last_page()` method returns `true` when no results are found.
- * @since [version] Sanitizes sort parameters.
+ * @since 3.34.0 Sanitizes sort parameters.
  */
 abstract class LLMS_Database_Query {
 
@@ -299,7 +299,7 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Removes any invalid sort fields before preparing a query.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return void
 	 */
@@ -357,7 +357,7 @@ abstract class LLMS_Database_Query {
 	 * Setup arguments prior to a query
 	 *
 	 * @since 3.8.0
-	 * @since [version] Sanitizes sort parameters.
+	 * @since 3.34.0 Sanitizes sort parameters.
 	 *
 	 * @return   void
 	 */
@@ -396,7 +396,7 @@ abstract class LLMS_Database_Query {
 	 * Retrieve the prepared SQL for the ORDER clause
 	 *
 	 * @since 3.8.0
-	 * @since [version] Returns an empty string if no sort fields are available.
+	 * @since 3.34.0 Returns an empty string if no sort fields are available.
 	 *
 	 * @return string
 	 */

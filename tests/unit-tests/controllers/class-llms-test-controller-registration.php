@@ -6,7 +6,7 @@
  * @group registration
  *
  * @since 3.19.4
- * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+ * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
  */
 class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 
@@ -14,7 +14,7 @@ class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 	 * Test order completion actions
 	 *
 	 * @since 3.19.4
-	 * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
 	 *
 	 * @return void
 	 */

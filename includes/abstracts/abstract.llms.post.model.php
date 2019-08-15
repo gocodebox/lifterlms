@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -39,10 +39,10 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
  * @since 3.30.3 Use `wp_slash()` when creating new posts.
  * @since 3.31.0 Treat `post_excerpt` fields as HTML instead of plain text.
- * @since [version] Add parameter to the `get()` method in order to get raw properties.
- * @since [version] Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, 'post_password` as gettable\settable post properties.
- * @since [version] Add `set_bulk()` method that will allow to update an object at once given an array of properties.
- * @since [version] Refresh the whole $post property with the just updated instance of WP_Post after updating it.
+ * @since 3.34.0 Add parameter to the `get()` method in order to get raw properties.
+ * @since 3.34.0 Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, 'post_password` as gettable\settable post properties.
+ * @since 3.34.0 Add `set_bulk()` method that will allow to update an object at once given an array of properties.
+ * @since 3.34.0 Refresh the whole $post property with the just updated instance of WP_Post after updating it.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -363,7 +363,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Private getter.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @param string  $key The property key.
 	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
@@ -705,7 +705,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.31.0 Treat excerpts as HTML instead of plain text.
-	 * @since [version] Add date and modified dates GMT version, comment and ping status, post password and menu_order.
+	 * @since 3.34.0 Add date and modified dates GMT version, comment and ping status, post password and menu_order.
 	 *
 	 * @return array
 	 */
@@ -906,7 +906,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Use `wp_slash()` when setting properties.
-	 * @since [version] Turned to be only a wrapper for the set_bulk() method.
+	 * @since 3.34.0 Turned to be only a wrapper for the set_bulk() method.
 	 *
 	 * @param string|array $key_or_array Key of the property or a an associative array of key/val pairs.
 	 * @param mixed        $val          Optional. Value to set the property with. Default empty string.
@@ -931,7 +931,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Bulk setter.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @param array $model_array Associative array of key/val pairs.
 	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.

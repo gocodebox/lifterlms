@@ -429,7 +429,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test llms_redirect_and_exit() func with safe on
 	 *
 	 * @since 3.19.4
-	 * @since [version] Use exception from lifterlms-tests lib.
+	 * @since 3.34.0 Use exception from lifterlms-tests lib.
 	 *
 	 * @return void
 	 */

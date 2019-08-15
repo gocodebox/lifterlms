@@ -3,7 +3,7 @@
  * Plugin installation
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.34.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.28.0 Unknown.
- * @since [version] Added filter to the return of the get_schema() method.
+ * @since 3.34.0 Added filter to the return of the get_schema() method.
  */
 class LLMS_Install {
 
@@ -360,7 +360,7 @@ class LLMS_Install {
 	 * @since 3.0.0
 	 * @since 3.16.9 Unknown
 	 * @since 3.16.9 Unknown
-	 * @since [version] Added `llms_install_get_schema` filter to method return.
+	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
 	 *
 	 * @return string
 	 */
@@ -455,7 +455,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		/**
 		 * Filter the database table schema.
 		 *
-		 * @since [version]
+		 * @since 3.34.0
 		 *
 		 * @param string $tables A semi-colon (`;`) separated list of database table creating commands.
 		 * @param strind $collate Database collation statement.

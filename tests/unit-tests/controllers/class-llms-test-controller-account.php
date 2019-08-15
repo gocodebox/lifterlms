@@ -5,7 +5,7 @@
  * @group controllers
  *
  * @since 3.19.0
- * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+ * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -83,7 +83,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * Test account update form submission handler
 	 *
 	 * @since 3.19.4
-	 * @since [version] Use `LLMS_Unit_Test_Exception_Exit` from test lib.
+	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from test lib.
 	 *
 	 * @return   void
 	 */

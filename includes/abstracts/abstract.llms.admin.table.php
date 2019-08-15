@@ -3,7 +3,7 @@
  * Admin Tables
  *
  * @since   3.2.0
- * @version [version]
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Table abstract.
  *
  * @since 3.2.0
- * @since [version] Added get_table_classes().
+ * @since 3.34.0 Added get_table_classes().
  */
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
@@ -405,7 +405,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Returns an array of CSS class names to use on this table.
 	 *
-	 * @since  [version]
+	 * @since  3.34.0
 	 *
 	 * @return array
 	 */
@@ -427,7 +427,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 		/**
 		 * Filters the CSS classes to use on the table.
 		 *
-		 * @since [version]
+		 * @since 3.34.0
 		 *
 		 * @param array $classes  CSS class names.
 		 * @param array $table_id Id property of this table object.

@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.34.0
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Users_Table class.
  *
- * @since [version]
+ * @since 3.34.0
  */
 class LLMS_Admin_Users_Table {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class LLMS_Admin_Users_Table {
 	 * If the current user is an instructor and no `role` argument is provided will limit the query to users
 	 * with the `instructors_assistant` and `instructor` roles.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @param array $args Array of arguments to be passed to a WP_User_Query.
 	 * @return array
@@ -58,7 +58,7 @@ class LLMS_Admin_Users_Table {
 	 * and additionally modify the count on the "All" filter to reflect the total number of users who are visible
 	 * to the current instructor.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @param array $views Associative array of views where the key is the role name and the value is the HTML for the view link.
 	 * @return array

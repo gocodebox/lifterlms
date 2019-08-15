@@ -6,8 +6,8 @@
  *
  * @group user_permissions
  *
- * @since [version]
- * @version [version]
+ * @since 3.34.0
+ * @version 3.34.0
  */
 class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
@@ -19,7 +19,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Create mock users of different roles for testing permissions.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return int[]
 	 */
@@ -40,7 +40,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test the get_editable_roles method.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return [type]
 	 */
@@ -55,7 +55,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test the is_current_user_instructor() method.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return [type]
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test the user_can_manage_user method.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return [type]
 	 */

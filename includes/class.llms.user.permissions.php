@@ -3,7 +3,7 @@
  * Filters and actions related to user permissions
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,8 +12,8 @@ defined( 'ABSPATH' ) || exit;
  * Filters and actions related to user permissions
  *
  * @since 3.13.0
- * @since [version] Always add the `editable_roles` filter.
- * @since [version] Added methods and logic for managing user management of other users.
+ * @since 3.34.0 Always add the `editable_roles` filter.
+ * @since 3.34.0 Added methods and logic for managing user management of other users.
  *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
  */
 class LLMS_User_Permissions {
@@ -21,7 +21,7 @@ class LLMS_User_Permissions {
 	/**
 	 * Constructor
 	 * @since 3.13.0
-	 * @since [version] Always add the `editable_roles` filter.
+	 * @since 3.34.0 Always add the `editable_roles` filter.
 	 */
 	public function __construct() {
 
@@ -37,7 +37,7 @@ class LLMS_User_Permissions {
 	 * Allows instructors to create & manage assistants.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Moved the `llms_editable_roles` filter to the class method get_editable_roles().
+	 * @since 3.34.0 Moved the `llms_editable_roles` filter to the class method get_editable_roles().
 	 *
 	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/editable_roles
 	 *
@@ -101,7 +101,7 @@ class LLMS_User_Permissions {
 	/**
 	 * Get a map of roles that can be managed by LifterLMS User Roles
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return array
 	 */
@@ -127,7 +127,7 @@ class LLMS_User_Permissions {
 	 * Custom capability checks for LifterLMS things
 	 *
 	 * @since 3.13.0
-	 * @since [version] Add logic for `edit_users` and `delete_users` capabilities with regards to LifterLMS user roles.
+	 * @since 3.34.0 Add logic for `edit_users` and `delete_users` capabilities with regards to LifterLMS user roles.
 	 *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 *
 	 * @param array  $allcaps  All the capabilities of the user
@@ -180,7 +180,7 @@ class LLMS_User_Permissions {
 	/**
 	 * Determines if the current user is an instructor.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return bool
 	 */
@@ -195,7 +195,7 @@ class LLMS_User_Permissions {
 	 *
 	 * Run on `user_has_cap` filters for the `edit_users` and `delete_users` capabilities.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @param int $user_id WP User ID of the user requesting to perform the action.
 	 * @param int $edit_id WP User ID of the user the action will be performed on.

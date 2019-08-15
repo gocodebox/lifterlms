@@ -710,7 +710,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since 3.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return WP_User instance of WP_User
 	 */
@@ -723,7 +723,7 @@ implements LLMS_Interface_Post_Audio
 	 * Get the course author's WP User ID
 	 *
 	 * @since  3.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return int
 	 */
@@ -736,7 +736,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since  3.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -750,7 +750,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -763,7 +763,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since 3.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return int
 	 */
@@ -776,7 +776,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since  3.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -789,7 +789,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since 3.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -802,7 +802,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return array
 	 */
@@ -823,7 +823,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return  array
 	 */
@@ -843,7 +843,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -862,7 +862,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -879,7 +879,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -892,7 +892,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return int|false
 	 */
@@ -918,7 +918,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return int[]
 	 */
@@ -954,7 +954,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return array
 	 */
@@ -974,7 +974,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */
@@ -988,7 +988,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return array
 	 */
@@ -1002,7 +1002,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @param string $user_id WP_User ID.
 	 * @return string
@@ -1029,7 +1029,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @param int $post_id WP_Post ID.
 	 * @param string $user_id WP_User ID.
@@ -1062,7 +1062,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @param int $course_id WP_Post ID.
 	 * @param string $user_id WP_User ID.
@@ -1104,7 +1104,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @param string $user_id WP_User ID.
 	 * @return bool
@@ -1127,7 +1127,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @param string $user_id WP_User ID.
 	 * @return obj
@@ -1255,7 +1255,7 @@ implements LLMS_Interface_Post_Audio
 	 * Deprecated.
 	 *
 	 * @since Unknown
-	 * @deprecated [version]
+	 * @deprecated 3.34.0
 	 *
 	 * @return string
 	 */

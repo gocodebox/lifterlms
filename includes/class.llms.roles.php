@@ -3,7 +3,7 @@
  * LifterLMS Custom Roles and Capabilities
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.34.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.14.0 Add the `lifterlms_instructor` capability.
- * @since [version] Added the `list_users` capability to instructors.
+ * @since 3.34.0 Added the `list_users` capability to instructors.
  *                  Added capabilities for student management.
  */
 class LLMS_Roles {
@@ -41,7 +41,7 @@ class LLMS_Roles {
 	 *
 	 * @since 3.13.0
 	 * @since 3.14.0 Add the `lifterlms_instructor` capability.
-	 * @since [version] Added capabilities for student management.
+	 * @since 3.34.0 Added capabilities for student management.
 	 *
 	 * @return string[]
 	 */
@@ -67,7 +67,7 @@ class LLMS_Roles {
 	 * Retrieve the LifterLMS core capabilities for a give role
 	 *
 	 * @since 3.13.0
-	 * @since [version] Added student management capabilities.
+	 * @since 3.34.0 Added student management capabilities.
 	 *
 	 * @param string $role Name of the role.
 	 * @return array
@@ -207,7 +207,7 @@ class LLMS_Roles {
 	 * Retrieve the core WP capabilities for a give role
 	 *
 	 * @since 3.13.0
-	 * @since [version] Add the `list_users` capability to instructors.
+	 * @since 3.34.0 Add the `list_users` capability to instructors.
 	 *
 	 * @param string $role Name of the role.
 	 * @return array

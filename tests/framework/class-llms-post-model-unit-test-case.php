@@ -4,8 +4,8 @@
  * which extend the LLMS_Post_Model
  *
  * @since 3.4.0
- * @since [version] Add tests for new `set_bulk()` method and other recently added properties.
- * @version [version]
+ * @since 3.34.0 Add tests for new `set_bulk()` method and other recently added properties.
+ * @version 3.34.0
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -206,7 +206,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Test creation date and status relationship on updating.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return void
 	 */
@@ -229,7 +229,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Test edit_date post proerty.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 *
 	 * @return void
 	 */
@@ -269,7 +269,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Test set_bulk()
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 * @return void
 	 */
 	public function test_set_bulk() {
@@ -299,7 +299,7 @@ class LLMS_PostModelUnitTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Test set_bulk() when passing $wp_error param as true.
 	 *
-	 * @since [version]
+	 * @since 3.34.0
 	 * @return void
 	 */
 	public function test_set_bulk_wp_error() {

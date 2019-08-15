@@ -57,7 +57,7 @@ class LLMS_Test_Roles extends LLMS_UnitTestCase {
 	 * Test install_roles() method.
 	 *
 	 * @since 3.13.0
-	 * @since [version] Test for "view_students" on instructors.
+	 * @since 3.34.0 Test for "view_students" on instructors.
 	 *
 	 * @return  void
 	 */
