@@ -370,7 +370,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-= v3.34.0 - 2019-08-14 =
+= v3.34.0 - 2019-08-15 =
 ------------------------
 
 ##### LifterLMS REST API v1.0.0-beta.1
