@@ -243,6 +243,11 @@ final class LifterLMS {
 			require_once 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
 		}
 
+		// Only load bundled REST API if the plugin version doesn't exist.
+		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
+			require_once 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
+		}
+
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
 		require_once 'includes/class.llms.session.php';

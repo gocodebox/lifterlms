@@ -14,7 +14,11 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 
 == Description ==
 
-LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses. The mission of LifterLMS is to democratize education in the digital classroom.
+LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more.
+
+LifterLMS strikes a beautiful balance in being an all-in-one solution while also integrating with other best of breed technologies relevant to course creators and membership site owners.
+
+LifterLMS is also known for having a thriving well supported user community through, active listening, social engagement and robust documentation.
 
 https://www.youtube.com/watch?v=jDVvkipF_pg
 
@@ -23,12 +27,15 @@ https://www.youtube.com/watch?v=jDVvkipF_pg
 
 #### **Advanced**
 
-_Courses + Community + Coaching = Engagement_
+_Increase your training program's value with these engagement add-ons_
 
 + [LifterLMS Advanced Quizzes][aq]
 + [LifterLMS Assignments][ass]
 + [LifterLMS Private Areas][pa]
 + [LifterLMS Social Learning][sl]
++ [LifterLMS Advanced Video][av] (Scheduled to Release: 10/15/19)
++ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
++ LifterLMS Groups (Scheduled to Release: 12/11/19)
 
 #### **Integrations**
 
@@ -45,14 +52,14 @@ _Integrate with the third-party tools you know and love_
 
 _Make your learning platform beautiful_
 
-+ [LifterLMS Pro][pro]
++ [LifterLMS Powerpack][pro]
 + [LifterLMS LaunchPad Theme][lp]
 
 #### **Support**
 
 _Our world-class support has your back_
 
-+ [LifterLMS Pro][pro]
++ [LifterLMS Powerpack][pro]
 + [LifterLMS Office Hours][oh]
 
 #### **Save Big with a Bundle**
@@ -65,37 +72,18 @@ _Save money while unlocking the full potential of your learning platform_
 
 # **Give LifterLMS a Try**
 
-_Try LifterLMS and the premium add-ons before investing any time_
+_There are many ways to take LifterLMS for a test drive_
 
-+ [Try LifterLMS for $1][try]
-+ [Take a Free Course][demo]
++ Go ahead and install the free core LifterLMS plugin right now
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This "proof of concept website" allows you to test drive all the add-ons before you invest. This proof of concept website allows you to test everything out, add your other favorite plugins & themes, but is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
++ Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
 
 
 # **[LifterLMS Features][features]**
 
 _With LifterLMS and LifterLMS Add-ons you can..._
 
-#### **Create Courses**
-
-+ Multimedia lessons
-+ Quizzes
-+ Course builder
-+ Drip Content
-+ Pre-requisites
-+ Course tracks
-+ Assignments (coming soon)
-+ Quiz time limits
-+ Student dashboard
-+ Multi-instructor
-+ Lesson downloads
-+ Course import & export
-+ Discussion areas
-+ Instructional design
-+ Forum integrations
-+ Graphics pack
-+ Course reviews
-
-#### **Build an Education-Based Business**
+#### **Make Money Building an Education-Based Business**
 
 + Credit card payments
 + One-time payments
@@ -119,6 +107,28 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 + Credit card management
 + Subscription switching
 + Payment switching
+
+
+#### **Create Courses**
+
++ Multimedia lessons
++ Quizzes
++ Course builder
++ Drip Content
++ Pre-requisites
++ Course tracks
++ Assignments (coming soon)
++ Quiz time limits
++ Student dashboard
++ Multi-instructor
++ Lesson downloads
++ Course import & export
++ Discussion areas
++ Instructional design
++ Forum integrations
++ Graphics pack
++ Course reviews
+
 
 #### **Engage Your Students**
 
@@ -182,6 +192,7 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 #### **Get Support**
 
 + Technical support
++ 30 Days of live weekly onboading calls called Liftoff Sessions
 + [Live office hours][oh]
 + Free training courses
 + Setup wizard
@@ -208,7 +219,9 @@ If you’re interested in contributing to LifterLMS, head over to the [LifterLMS
 
 Want to add a new language to LifterLMS? Swell! You can contribute at [translate.wordpress.org][translate].
 
-Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users are up to and ask questions to the community.
+Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so you can check out what other LifterLMS users are up to and ask questions to the community. We also have an engaged [LifterLMS Slack community][slack] with live developer office hours if you would like to connect in Slack.
+
+**The mission of LifterLMS is to democratize education in the digital classroom. Our vision is to lift up others through education.**
 
 
 [home]: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -219,10 +232,12 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 [demo]: https://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [translate]: https://translate.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [facebook]: https://www.facebook.com/groups/lifterlmsvip/
+[slack]: https://join.slack.com/t/lifterlms/shared_invite/enQtMzk3ODczNjc4Mjc3LTBlMmEzMWYyOTIwMDU3NDc2MmRhNGIxNGE0Nzc1OWIxZjg1OGVhM2E5YTkwYzZmMmM1ZTU4MDQxYjVlZDYyZTE
 
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[av]: https://lifterlms.com/product/advanced-video/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -304,7 +319,7 @@ If you're already a LifterLMS Pro user or you have purchased one of the LifterLM
 Yes. You can get an instant quote for the team at LifterLMS to set everything up for you through our signature Done For You service. Get an instant quote through our automated quote generation tool on the [LifterLMS website services page](https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
-#### I'm interested in LifterLMS Pro, another LifterLMS extension, or a LifterLMS theme, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
+#### I'm interested in LifterLMS add-ons, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
 
 Absolutely. If you're not finding your questions answered on the product pages, you can ask your presales questions through this [contact form](https://lifterlms.com/contact/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). You can also connect live with a member of our team [here](https://lifterlms.com/contact/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
@@ -353,6 +368,74 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.34.0 - 2019-08-14 =
+------------------------
+
+##### LifterLMS REST API v1.0.0-beta.1
+
++ A robust REST API is now included in the LifterLMS core.
++ Create API Keys to consume and manage LifterLMS resources and students from external applications.
++ Create webhooks to pass LifterLMS resource data to external applications (like Zapier!).
++ The full API specification can be found at [https://gocodebox.github.io/lifterlms-rest/](https://gocodebox.github.io/lifterlms-rest/).
+
+##### Student management capabilities
+
++ Explicit capabilities have been added to determine which users can create, view, update, and delete students.
++ Admins and LMS Managers have all student management capabilities.
++ Instructors and instructors assistants are granted limited view capabilities allowing them to only view students enrolled in their own courses/memberships.
++ Added the `list_users` capability to the "Instructor" role, allowing instructor's to better view and manage their assistant instructors.
++ The new capabilities are: `create_students`, `view_students`, `view_others_students`, `edit_students`, `edit_others_students`, `delete_students`, & `delete_others_students`.
+
+##### Updates
+
++ Added new actions to help differentiate enrollment creation and update events.
++ Added methods and logic for managing user management of other users.
++ Added a filter `llms_table_get_table_classes` to LifterLMS admin tables which allows customization of the CSS classes applied to the `<table>` elements. Thanks  [@pondermatic](https://github.com/pondermatic)!
++ Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.
++ Added the ability to pull "raw" (unfiltered) data from the database via classes extending the `LLMS_Post_Model` abstract.
++ Added a `bulk_set()` method to the `LLMS_Post_Model` abstract allowing the updating of multiple properties in one command.
++ Added `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, `post_password` as gettable\settable post properties via the `LLMS_Post_Model` abstract.
++ Links on reporting tables are now the proper color.
++ The `editable_roles` filter which determines which roles can manage which other roles is now always loaded (instead of being loaded only on the admin panel).
++ Updated LifterLMS Blocks to 1.5.2
+
+##### Bug Fixes
+
++ Fixed an issue preventing the `user_url` property from being retrieved by the `get()` method of the `LLMS_Abstract_User_Data` class.
++ Fixed an issue causing the `LLMS_Instructors::get_assistants()` method to return assistants for the currently logged in user instead of the instructor of the instantiated object.
++ Fixed an issue which would allow LMS Managers to edit and delete site administrators.
+
+##### Deprecations
+
+**The following functions and methods have been marked as deprecated and will be removed from LifterLMS with the next major release.**
+
++ LLMS_Course::get_children_sections() use LLMS_Course::get_sections( 'posts' )" instead
++ LLMS_Course::get_children_lessons() use LLMS_Course::get_lessons( 'posts' )" instead
++ LLMS_Course::get_author()
++ LLMS_Course::get_author_id() use LLMS_Course::get( "author" ) instead
++ LLMS_Course::get_author_name()
++ LLMS_Course::get_sku() use LLMS_Course::get( "sku" ) instead
++ LLMS_Course::get_id() use LLMS_Course::get( "id" ) instead
++ LLMS_Course::get_title() use get_the_title() instead
++ LLMS_Course::get_permalink() use get_permalink() instead
++ LLMS_Course::get_user_postmeta_data()
++ LLMS_Course::get_user_postmetas_by_key()
++ LLMS_Course::get_checkout_url()
++ LLMS_Course::get_start_date() use LLMS_Course::get_date( "start_date" ) instead
++ LLMS_Course::get_end_date() use LLMS_Course::get_date( "end_date" ) instead
++ LLMS_Course::get_next_uncompleted_lesson()
++ LLMS_Course::get_lesson_ids() use LLMS_Course::get_lessons( "ids" ) instead
++ LLMS_Course::get_syllabus_sections() use LLMS_Course::get_sections() instead
++ LLMS_Course::get_short_description() use LLMS_Course::get( "excerpt" ) instead
++ LLMS_Course::get_syllabus() use LLMS_Course::get_sections() instead
++ LLMS_Course::get_user_enroll_date()
++ LLMS_Course::get_user_post_data()
++ LLMS_Course::check_enrollment()
++ LLMS_Course::is_user_enrolled() use llms_is_user_enrolled() instead
++ LLMS_Course::get_student_progress() use LLMS_Student::get_progress() instead
++ LLMS_Course::get_membership_link()
 
 
 = v3.33.2 - 2019-06-26 =
@@ -561,11 +644,5 @@ The following unused classes have been marked as deprecated and will be removed 
 
 + [templates/product/access-plan-restrictions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-restrictions.php)
 + [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
-
-
-= v3.29.4 - 2019-03-08 =
-------------------------
-
-+ Fixed an issue preventing users with email addresses containing an apostrophe from being able to login.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

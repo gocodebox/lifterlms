@@ -1,6 +1,74 @@
 == Changelog ==
 
 
+= v3.34.0 - 2019-08-14 =
+------------------------
+
+##### LifterLMS REST API v1.0.0-beta.1
+
++ A robust REST API is now included in the LifterLMS core.
++ Create API Keys to consume and manage LifterLMS resources and students from external applications.
++ Create webhooks to pass LifterLMS resource data to external applications (like Zapier!).
++ The full API specification can be found at [https://gocodebox.github.io/lifterlms-rest/](https://gocodebox.github.io/lifterlms-rest/).
+
+##### Student management capabilities
+
++ Explicit capabilities have been added to determine which users can create, view, update, and delete students.
++ Admins and LMS Managers have all student management capabilities.
++ Instructors and instructors assistants are granted limited view capabilities allowing them to only view students enrolled in their own courses/memberships.
++ Added the `list_users` capability to the "Instructor" role, allowing instructor's to better view and manage their assistant instructors.
++ The new capabilities are: `create_students`, `view_students`, `view_others_students`, `edit_students`, `edit_others_students`, `delete_students`, & `delete_others_students`.
+
+##### Updates
+
++ Added new actions to help differentiate enrollment creation and update events.
++ Added methods and logic for managing user management of other users.
++ Added a filter `llms_table_get_table_classes` to LifterLMS admin tables which allows customization of the CSS classes applied to the `<table>` elements. Thanks  [@pondermatic](https://github.com/pondermatic)!
++ Added a filter `llms_install_get_schema` to the database schema to allow 3rd parties to run table installations alongside the core.
++ Added the ability to pull "raw" (unfiltered) data from the database via classes extending the `LLMS_Post_Model` abstract.
++ Added a `bulk_set()` method to the `LLMS_Post_Model` abstract allowing the updating of multiple properties in one command.
++ Added `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, `post_password` as gettable\settable post properties via the `LLMS_Post_Model` abstract.
++ Links on reporting tables are now the proper color.
++ The `editable_roles` filter which determines which roles can manage which other roles is now always loaded (instead of being loaded only on the admin panel).
++ Updated LifterLMS Blocks to 1.5.2
+
+##### Bug Fixes
+
++ Fixed an issue preventing the `user_url` property from being retrieved by the `get()` method of the `LLMS_Abstract_User_Data` class.
++ Fixed an issue causing the `LLMS_Instructors::get_assistants()` method to return assistants for the currently logged in user instead of the instructor of the instantiated object.
++ Fixed an issue which would allow LMS Managers to edit and delete site administrators.
+
+##### Deprecations
+
+**The following functions and methods have been marked as deprecated and will be removed from LifterLMS with the next major release.**
+
++ LLMS_Course::get_children_sections() use LLMS_Course::get_sections( 'posts' )" instead
++ LLMS_Course::get_children_lessons() use LLMS_Course::get_lessons( 'posts' )" instead
++ LLMS_Course::get_author()
++ LLMS_Course::get_author_id() use LLMS_Course::get( "author" ) instead
++ LLMS_Course::get_author_name()
++ LLMS_Course::get_sku() use LLMS_Course::get( "sku" ) instead
++ LLMS_Course::get_id() use LLMS_Course::get( "id" ) instead
++ LLMS_Course::get_title() use get_the_title() instead
++ LLMS_Course::get_permalink() use get_permalink() instead
++ LLMS_Course::get_user_postmeta_data()
++ LLMS_Course::get_user_postmetas_by_key()
++ LLMS_Course::get_checkout_url()
++ LLMS_Course::get_start_date() use LLMS_Course::get_date( "start_date" ) instead
++ LLMS_Course::get_end_date() use LLMS_Course::get_date( "end_date" ) instead
++ LLMS_Course::get_next_uncompleted_lesson()
++ LLMS_Course::get_lesson_ids() use LLMS_Course::get_lessons( "ids" ) instead
++ LLMS_Course::get_syllabus_sections() use LLMS_Course::get_sections() instead
++ LLMS_Course::get_short_description() use LLMS_Course::get( "excerpt" ) instead
++ LLMS_Course::get_syllabus() use LLMS_Course::get_sections() instead
++ LLMS_Course::get_user_enroll_date()
++ LLMS_Course::get_user_post_data()
++ LLMS_Course::check_enrollment()
++ LLMS_Course::is_user_enrolled() use llms_is_user_enrolled() instead
++ LLMS_Course::get_student_progress() use LLMS_Student::get_progress() instead
++ LLMS_Course::get_membership_link()
+
+
 = v3.33.2 - 2019-06-26 =
 ------------------------
 
@@ -207,9 +275,3 @@ The following unused classes have been marked as deprecated and will be removed 
 
 + [templates/product/access-plan-restrictions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-restrictions.php)
 + [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
-
-
-= v3.29.4 - 2019-03-08 =
-------------------------
-
-+ Fixed an issue preventing users with email addresses containing an apostrophe from being able to login.

@@ -4,6 +4,13 @@ LifterLMS Changelog
 v3.34.0 - 2019-08-14
 --------------------
 
+##### LifterLMS REST API v1.0.0-beta.1
+
++ A robust REST API is now included in the LifterLMS core.
++ Create API Keys to consume and manage LifterLMS resources and students from external applications.
++ Create webhooks to pass LifterLMS resource data to external applications (like Zapier!).
++ The full API specification can be found at [https://gocodebox.github.io/lifterlms-rest/](https://gocodebox.github.io/lifterlms-rest/).
+
 ##### Student management capabilities
 
 + Explicit capabilities have been added to determine which users can create, view, update, and delete students.
