@@ -39,7 +39,8 @@
   "require": {
     "prospress/action-scheduler": "dev-master",
     "ericmann/wp-session-manager": "dev-master",
-    "lifterlms/lifterlms-blocks": "^1.1"
+    "lifterlms/lifterlms-blocks": "^1.1",
+    "lifterlms/lifterlms-rest": "dev-master"
   },
   "require-dev": {
     "codeclimate/php-test-reporter": "dev-master",

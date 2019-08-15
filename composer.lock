@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ddb126db35c1402db153c5cb62d679ed",
+    "content-hash": "ffa9404aafe6037dfb768d74baf9974e",
     "packages": [
         {
             "name": "ericmann/wp-session-manager",
@@ -76,6 +76,38 @@
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
             "time": "2019-08-14T23:36:52+00:00"
+        },
+        {
+            "name": "lifterlms/lifterlms-rest",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/gocodebox/lifterlms-rest.git",
+                "reference": "f3e9ae4b1d8453444592a54e8eb05fcb15a23891"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/f3e9ae4b1d8453444592a54e8eb05fcb15a23891",
+                "reference": "f3e9ae4b1d8453444592a54e8eb05fcb15a23891",
+                "shasum": ""
+            },
+            "require-dev": {
+                "lifterlms/lifterlms-cs": "dev-master",
+                "lifterlms/lifterlms-tests": "dev-master"
+            },
+            "type": "wordpress-plugin",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Team LifterLMS",
+                    "email": "team@lifterlms.com"
+                }
+            ],
+            "description": "REST API feature plugin for the LifterLMS Core.",
+            "time": "2019-08-15T07:29:09+00:00"
         },
         {
             "name": "prospress/action-scheduler",
@@ -2564,12 +2596,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards.git",
+                "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
                 "reference": "407e4b85f547a5251185f89ceae6599917343388"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress-Coding-Standards/WordPress-Coding-Standards/zipball/407e4b85f547a5251185f89ceae6599917343388",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/407e4b85f547a5251185f89ceae6599917343388",
                 "reference": "407e4b85f547a5251185f89ceae6599917343388",
                 "shasum": ""
             },
@@ -2601,6 +2633,7 @@
     "stability-flags": {
         "prospress/action-scheduler": 20,
         "ericmann/wp-session-manager": 20,
+        "lifterlms/lifterlms-rest": 20,
         "codeclimate/php-test-reporter": 20,
         "wp-coding-standards/wpcs": 20,
         "lifterlms/lifterlms-tests": 20
