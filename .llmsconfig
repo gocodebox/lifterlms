@@ -19,7 +19,8 @@
 		"phpSrc": [
 			"./*.php", "./**/*.php",
 			"!vendor/*", "!vendor/**/*.php", "!tmp/**", "!tests/**",
-			"./vendor/lifterlms/lifterlms-blocks/*.php", "./vendor/lifterlms/lifterlms-blocks/**/*.php"
+			"./vendor/lifterlms/lifterlms-blocks/*.php", "./vendor/lifterlms/lifterlms-blocks/**/*.php",
+			"./vendor/lifterlms/lifterlms-rest/*.php", "./vendor/lifterlms/lifterlms-rest/**/*.php"
 		]
 	},
 	"publish": {
