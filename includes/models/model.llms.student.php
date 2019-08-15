@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 2.2.3
  * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
  * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
- * @since [version] Added new filters for differentiating between enrollment update and creation.
+ * @since [version] Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -543,7 +543,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
-	 * @param    int    $product_id  WP Post ID of a Course, Lesson, or Membership
+	 * @param    int    $product_id  WP Post ID of a Course, Section, Lesson, or Membership
 	 * @param    bool   $use_cache   If true, returns cached data if available, if false will run a db query
 	 * @return   false|string
 	 * @since    3.0.0
@@ -556,15 +556,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$product_type = get_post_type( $product_id );
 
 		// only check the following post types
-		if ( ! in_array( $product_type, array( 'course', 'lesson', 'llms_membership' ) ) ) {
+		if ( ! in_array( $product_type, array( 'course', 'section', 'lesson', 'llms_membership' ), true ) ) {
 			return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
 		}
 
-		// get course ID if we're looking at a lesson
-		if ( 'lesson' === $product_type ) {
+		// Get course ID if we're looking at a lesson or section.
+		if ( in_array( $product_type, array( 'section', 'lesson' ), true ) ) {
 
-			$lesson = new LLMS_Lesson( $product_id );
-			$product_id = $lesson->get_parent_course();
+			$llms_post = llms_get_post( $product_id );
+			if ( $llms_post ) {
+				$product_id = $llms_post->get_parent_course();
+			}
 
 		}
 
@@ -1283,7 +1285,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see     llms_is_user_enrolled()
 	 *
-	 * @param   int|array  $product_id  WP Post ID of a Course, Lesson, or Membership or array of multiple IDs.
+	 * @param   int|array  $product_id  WP Post ID of a Course, Section, Lesson, or Membership or array of multiple IDs.
 	 * @param   string     $relation    Comparator for enrollment check.
 	 *                                 		All = user must be enrolled in all $product_ids.
 	 *                                 		Any = user must be enrolled in at least one of the $product_ids.
