@@ -1,6 +1,34 @@
 == Changelog ==
 
 
+= v3.34.1 - 2019-08-19 =
+------------------------
+
++ Update LifterLMS REST to v1.0.0-beta.3
+
+##### Interface and Experience improvements during API Key creation
+
++ Better expose that API Keys are never shown again after the initial creation.
++ Allow downloading of API Credentials as a `.txt` file.
++ Add `required` properties to required fields.
+
+##### Updates
+
++ Added the ability to CRUD webhooks via the REST API.
++ Conditionally throw `_doing_it_wrong` on server controller stubs.
++ Improve performance by returning early when errors are encountered for various methods.
++ Utilizes a new custom property `show_in_llms_rest` to determine if taxonomies should be displayed in the LifterLMS REST API.
++ On the webhooks table the "Delivery URL" is trimmed to 40 characters to improve table readability.
+
+##### Bug fixes
+
++ Fixed a formatting error when creating webhooks with the default auto-generated webhook name.
++ On the webhooks table a translatable string is output for the status instead of the database value.
++ Fix an issue causing the "Last" page pagination link to display for lists with 0 possible results.
++ Don't output the "Last" page pagination link on the last page.
+
+
+
 = v3.34.0 - 2019-08-15 =
 ------------------------
 
@@ -249,29 +277,3 @@ The following unused classes have been marked as deprecated and will be removed 
 ##### Template Updates
 
 + [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
-
-
-= v3.30.0 - 2019-03-21 =
-------------------------
-
-##### Updates
-
-+ **Create custom thank you pages with new access plan checkout redirect options.**
-+ Added the ability to sort items on the membership auto enrollment table (drag and drop to sort and reorder).
-+ Improved the interface and interactions with the membership auto enrollment table settings.
-
-##### LifterLMS Blocks
-
-+ Updated LifterLMS Blocks to 1.3.8.
-+ Fixed an issue causing some installations to be unable to use certain blocks due to jQuery dependencies being declared improperly.
-
-##### Bug Fixes
-
-+ Fixed issue preventing courses with the same title from properly displayed on the membership automatic enrollment courses table on the admin panel.
-+ Fixed an issue preventing builder custom fields from being able to specify a custom sanitization callback.
-+ Fixed an issue preventing builder custom fields from being able to properly save and render multi-select data.
-
-##### Template Updates
-
-+ [templates/product/access-plan-restrictions.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/access-plan-restrictions.php)
-+ [templates/product/free-enroll-form.php](https://github.com/gocodebox/lifterlms/blob/master/templates/product/free-enroll-form.php)
