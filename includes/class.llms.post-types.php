@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version 3.33.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
  * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
+ * @since [version] Add the custom property `show_in_llms_rest` set to true by default, to those taxonomies we want to be shown in LLMS REST api.
  */
 class LLMS_Post_Types {
 
@@ -1003,6 +1004,7 @@ class LLMS_Post_Types {
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
+	 * @since [version] Add custom property `show_in_llms_rest` set to true by default to those taxonomies we want to show in LLMS REST api.
 	 *
 	 * @return void
 	 */
@@ -1034,6 +1036,7 @@ class LLMS_Post_Types {
 				'with_front' => false,
 				'hierarchical' => true,
 			),
+			'show_in_llms_rest' => true,
 		) );
 
 		// course difficulty
@@ -1061,6 +1064,7 @@ class LLMS_Post_Types {
 				'slug' => _x( 'course-difficulty', 'slug', 'lifterlms' ),
 				'with_front' => false,
 			),
+			'show_in_llms_rest' => true,
 		) );
 
 		// course tag
@@ -1088,6 +1092,7 @@ class LLMS_Post_Types {
 				'slug' => _x( 'course-tag', 'slug', 'lifterlms' ),
 				'with_front' => false,
 			),
+			'show_in_llms_rest' => true,
 		) );
 
 		// course track
@@ -1116,6 +1121,7 @@ class LLMS_Post_Types {
 				'with_front' => false,
 				'hierarchical' => true,
 			),
+			'show_in_llms_rest' => true,
 		) );
 
 		// membership cats
@@ -1145,6 +1151,7 @@ class LLMS_Post_Types {
 				'with_front' => false,
 				'hierarchical' => true,
 			),
+			'show_in_llms_rest' => true,
 		) );
 
 		// membership tags
@@ -1173,6 +1180,7 @@ class LLMS_Post_Types {
 				'slug' => _x( 'membership-tag', 'slug', 'lifterlms' ),
 				'with_front' => false,
 			),
+			'show_in_llms_rest' => true,
 		) );
 
 		// course/membership visibility
