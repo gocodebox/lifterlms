@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.34.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
  * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
- * @since [version] Add the custom property `show_in_llms_rest` set to true by default, to those taxonomies we want to be shown in LLMS REST api.
+ * @since 3.34.1 Add the custom property `show_in_llms_rest` set to true by default, to those taxonomies we want to be shown in LLMS REST api.
  */
 class LLMS_Post_Types {
 
@@ -1004,7 +1004,7 @@ class LLMS_Post_Types {
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
-	 * @since [version] Add custom property `show_in_llms_rest` set to true by default to those taxonomies we want to show in LLMS REST api.
+	 * @since 3.34.1 Add custom property `show_in_llms_rest` set to true by default to those taxonomies we want to show in LLMS REST api.
 	 *
 	 * @return void
 	 */
