@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ffa9404aafe6037dfb768d74baf9974e",
+    "content-hash": "cbbccf735e053a159edd9dff3e7449bb",
     "packages": [
         {
             "name": "ericmann/wp-session-manager",
@@ -79,16 +79,16 @@
         },
         {
             "name": "lifterlms/lifterlms-rest",
-            "version": "dev-master",
+            "version": "1.0.0-beta.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-rest.git",
-                "reference": "cb14a1899c500afb17394346d14d0d22a43e5e70"
+                "reference": "36674e5a6166fb0ef51d2c93d4fee912d9002b63"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/cb14a1899c500afb17394346d14d0d22a43e5e70",
-                "reference": "cb14a1899c500afb17394346d14d0d22a43e5e70",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/36674e5a6166fb0ef51d2c93d4fee912d9002b63",
+                "reference": "36674e5a6166fb0ef51d2c93d4fee912d9002b63",
                 "shasum": ""
             },
             "require-dev": {
@@ -107,7 +107,7 @@
                 }
             ],
             "description": "REST API feature plugin for the LifterLMS Core.",
-            "time": "2019-08-15T08:43:37+00:00"
+            "time": "2019-08-19T21:39:17+00:00"
         },
         {
             "name": "prospress/action-scheduler",
@@ -2633,7 +2633,6 @@
     "stability-flags": {
         "prospress/action-scheduler": 20,
         "ericmann/wp-session-manager": 20,
-        "lifterlms/lifterlms-rest": 20,
         "codeclimate/php-test-reporter": 20,
         "wp-coding-standards/wpcs": 20,
         "lifterlms/lifterlms-tests": 20
