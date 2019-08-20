@@ -18,7 +18,7 @@ If you're already a LifterLMS Pro user or you have purchased one of the LifterLM
 
 #### LifterLMS is awesome! Can you set it all up for me?
 
-Yes. You can get an instant quote for the team at LifterLMS to set everything up for you through our signature Done For You service. Get an instant quote through our automated quote generation tool on the [LifterLMS website services page](https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+LifterLMS offers technical support, but we do not offer custom website development. However, we do recommend third party LifterLMS Experts who can help with web design, web development, instructional design or marketing for a fee.  Click here to visit the [LifterLMS Experts page](https://lifterlms.com/experts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
 #### I'm interested in LifterLMS add-ons, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
