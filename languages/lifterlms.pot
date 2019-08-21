@@ -10723,7 +10723,7 @@ msgstr ""
 msgid "Post password. Required if the post is password protected."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:129, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:274, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:159
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:129, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-api-keys-controller.php:274, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:167
 msgid "The page number requested is larger than the number of pages available."
 msgstr ""
 
@@ -10764,7 +10764,7 @@ msgstr ""
 msgid "Unique Identifier. The WordPress Post ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:950, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:637, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:226, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:182
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:950, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:651, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:226, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:182
 msgid "Creation date. Format: Y-m-d H:i:s"
 msgstr ""
 
@@ -10772,7 +10772,7 @@ msgstr ""
 msgid "Creation date (in GMT). Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:960, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:642, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:235, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:189
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:960, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:656, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:235, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:189
 msgid "Date last modified. Format: Y-m-d H:i:s"
 msgstr ""
 
@@ -11355,55 +11355,55 @@ msgstr ""
 msgid "Limit results to a specific student or a list of students. Accepts a single student id or a comma separated list of student ids."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:83, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:412
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:86, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:412
 msgid "Unique course, lesson, or section Identifer. The WordPress Post ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:270
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:278
 msgid "Cannot create existing enrollment. Use the PATCH method if you want to update an existing enrollment"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:274
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:282
 msgid "Sorry, you are not allowed to create an enrollment as this user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:316
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:324
 msgid "The enrollment could not be created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:351
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:359
 msgid "Sorry, you are not allowed to update an enrollment as this user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:395
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:404
 msgid "The enrollment status could not be updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:405
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:418
 msgid "The enrollment creation date could not be updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:473
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:486
 msgid "The enrollment cannot be deleted."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:593
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:607
 msgid "Filter results to records matching the specified status."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:600
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:614
 msgid "Limit results to a specific course or membership or a list of courses and/or memberships. Accepts a single post id or a comma separated list of post ids."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:625, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:220
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:639, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:220
 msgid "The ID of the course/membership."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:631, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:214
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:645, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:214
 msgid "The ID of the student."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:648, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:242
+#: vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-enrollments-controller.php:662, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:242
 msgid "The status of the enrollment."
 msgstr ""
 

@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2.2
-Stable tag: 3.34.1
+Stable tag: 3.34.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -19,6 +19,8 @@ LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell,
 LifterLMS strikes a beautiful balance in being an all-in-one solution while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
 LifterLMS is also known for having a thriving well supported user community through, active listening, social engagement and robust documentation.
+
+LifterLMS encourages you to get to know us by signing up for a $1 temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes. Are you ready to [Try LifterLMS for $1][try]?
 
 https://www.youtube.com/watch?v=jDVvkipF_pg
 
@@ -316,7 +318,7 @@ If you're already a LifterLMS Pro user or you have purchased one of the LifterLM
 
 #### LifterLMS is awesome! Can you set it all up for me?
 
-Yes. You can get an instant quote for the team at LifterLMS to set everything up for you through our signature Done For You service. Get an instant quote through our automated quote generation tool on the [LifterLMS website services page](https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+LifterLMS offers technical support, but we do not offer custom website development. However, we do recommend third party LifterLMS Experts who can help with web design, web development, instructional design or marketing for a fee.  Click here to visit the [LifterLMS Experts page](https://lifterlms.com/experts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
 #### I'm interested in LifterLMS add-ons, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
@@ -368,6 +370,18 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.34.2 - 2019-08-21 =
+------------------------
+
+##### LifterLMS REST API v1.0.0-beta.4
+
++ Load authentication handlers as early as possible. Fixes conflicts with numerous plugins which load user information earlier than expected by the WordPress core.
++ Harden permissions associated with viewing student enrollment information.
++ Returns a 400 Bad Request when invalid dates are supplied.
++ Student Enrollment objects return student and post id's as integers instead of strings.
++ Fixed references to an undefined function.
 
 
 = v3.34.1 - 2019-08-19 =
@@ -621,30 +635,5 @@ The following unused classes have been marked as deprecated and will be removed 
 ##### Template Updates
 
 + [templates/checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
-
-
-= v3.30.1 - 2019-04-04 =
-------------------------
-
-##### Updates
-
-+ Added handler to automatically resume pending (incomplete or abandoned) orders.
-+ Classes extending the `LLMS_Abstract_API_Handler` can now prevent a request body from being sent.
-+ Added dynamic filter `'llms_' . $action . '_more'` to allow customization of the "More" button text and url for student dashboard sections. Thanks @[pondermatic](https://github.com/pondermatic).
-+ Remove unused CSS code on the admin panel.
-
-##### Bug Fixes
-
-+ Fixed a bug preventing course imports as a result of action priority ordering issues.
-+ Function `llms_get_order_by_key()` correctly returns `null` instead of false when no order is found and will return an `int` instead of a numeric string when an order is found.
-+ Changed the method used to sort question choices to accommodate numeric choice markers. This fixes an issue in the Advanced Quizzes add-on causing reorder questions with 10+ choices to sort display in the incorrect order.
-+ Increased the specificity of LifterLMS element tooltip hovers. Resolves a conflict causing issues on the WooCommerce tax rate management screen.
-+ Fixed an issue causing certain fields in the Customizer from displaying a blue background as a result of very unspecific CSS rules, thanks [@Swapnildhanrale](https://github.com/Swapnildhanrale)!
-+ Fixed builder deep links to quizzes freezing due to dependencies not being available during initialization.
-+ Fixed builder issue causing duplicate copies of questions to be added when adding existing questions multiple times.
-
-##### Template Updates
-
-+ [templates/myaccount/dashboard-section.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/dashboard-section.php)
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
