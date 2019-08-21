@@ -72,7 +72,7 @@ _There are many ways to take LifterLMS for a test drive_
 _With LifterLMS and LifterLMS Add-ons you can..._
 
 #### **Make Money Building an Education-Based Business**
-_LifterLMS plus one payment gateway is powerful enough to get you started on your journey! _
+_LifterLMS plus one payment gateway is powerful enough to get you started on your journey!_
 
 + Credit card payments
 + One-time payments
