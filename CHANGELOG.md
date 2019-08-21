@@ -1,6 +1,18 @@
 LifterLMS Changelog
 ===================
 
+v3.34.2 - 2019-08-21
+--------------------
+
+##### LifterLMS REST API v1.0.0-beta.4
+
++ Load authentication handlers as early as possible. Fixes conflicts with numerous plugins which load user information earlier than expected by the WordPress core.
++ Harden permissions associated with viewing student enrollment information.
++ Returns a 400 Bad Request when invalid dates are supplied.
++ Student Enrollment objects return student and post id's as integers instead of strings.
++ Fixed references to an undefined function.
+
+
 v3.34.1 - 2019-08-19
 --------------------
 
