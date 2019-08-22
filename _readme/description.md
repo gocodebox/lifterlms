@@ -11,67 +11,12 @@ LifterLMS encourages you to get to know us by signing up for a $1 temporary _30 
 https://www.youtube.com/watch?v=jDVvkipF_pg
 
 
-# **Extend and Enhance LifterLMS with Add-ons**
-
-#### **Advanced**
-
-_Increase your training program's value with these engagement add-ons_
-
-+ [LifterLMS Advanced Quizzes][aq]
-+ [LifterLMS Assignments][ass]
-+ [LifterLMS Private Areas][pa]
-+ [LifterLMS Social Learning][sl]
-+ [LifterLMS Advanced Video][av] (Scheduled to Release: 10/15/19)
-+ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
-+ LifterLMS Groups (Scheduled to Release: 12/11/19)
-
-#### **Integrations**
-
-_Integrate with the third-party tools you know and love_
-
-+ [LifterLMS Stripe][stripe]
-+ [LifterLMS PayPal][pp]
-+ [LifterLMS Authorize.Net][anet]
-+ [LifterLMS WooCommerce][wc]
-+ [LifterLMS ConvertKit][ck]
-+ [LifterLMS MailChimp][mc]
-
-#### **Design Tools**
-
-_Make your learning platform beautiful_
-
-+ [LifterLMS Powerpack][pro]
-+ [LifterLMS LaunchPad Theme][lp]
-
-#### **Support**
-
-_Our world-class support has your back_
-
-+ [LifterLMS Powerpack][pro]
-+ [LifterLMS Office Hours][oh]
-
-#### **Save Big with a Bundle**
-
-_Save money while unlocking the full potential of your learning platform_
-
-+ [Infinity Bundle][infinity]
-+ [Universe Bundle][universe]
-
-
-# **Give LifterLMS a Try**
-
-_There are many ways to take LifterLMS for a test drive_
-
-+ Go ahead and install the free core LifterLMS plugin right now
-+ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This "proof of concept website" allows you to test drive all the add-ons before you invest. This proof of concept website allows you to test everything out, add your other favorite plugins & themes, but is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
-+ Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
-
-
 # **[LifterLMS Features][features]**
 
 _With LifterLMS and LifterLMS Add-ons you can..._
 
 #### **Make Money Building an Education-Based Business**
+_LifterLMS plus one payment gateway is powerful enough to get you started on your journey!_
 
 + Credit card payments
 + One-time payments
@@ -197,6 +142,83 @@ _With LifterLMS and LifterLMS Add-ons you can..._
 + The [LifterLMS Knowledgebase][docs]
 + The [LifterLMS Blog][blog]
 + The [LifterLMS Podcast][podcast]
+
+
+# **Extend and Enhance LifterLMS with Add-ons**
+
+#### **Advanced**
+
+_Increase your training program's value with these engagement add-ons_
+
++ [LifterLMS Advanced Quizzes][aq]
++ [LifterLMS Assignments][ass]
++ [LifterLMS Private Areas][pa]
++ [LifterLMS Social Learning][sl]
++ [LifterLMS Advanced Video][av] (Scheduled to Release: 10/15/19)
++ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
++ LifterLMS Groups (Scheduled to Release: 12/11/19)
+
+#### **Integrations**
+
+_Integrate with the third-party tools you know and love_
+
++ [LifterLMS Stripe][stripe]
++ [LifterLMS PayPal][pp]
++ [LifterLMS Authorize.Net][anet]
++ [LifterLMS WooCommerce][wc]
++ [LifterLMS ConvertKit][ck]
++ [LifterLMS MailChimp][mc]
+
+#### **Design Tools**
+
+_Make your learning platform beautiful_
+
++ [LifterLMS Powerpack][pro]
++ [LifterLMS LaunchPad Theme][lp]
+
+#### **Support**
+
+_Our world-class support has your back_
+
++ [LifterLMS Powerpack][pro]
++ [LifterLMS Office Hours][oh]
+
+#### **Save Big with a Bundle**
+
+_Save money while unlocking the full potential of your learning platform_
+
++ [Infinity Bundle][infinity]
++ [Universe Bundle][universe]
+
+
+# **Give LifterLMS a Try**
+
+_There are many ways to take LifterLMS for a test drive_
+
++ Go ahead and install the free core LifterLMS plugin right now
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This "proof of concept website" allows you to test drive all the add-ons before you invest. This proof of concept website allows you to test everything out, add your other favorite plugins & themes, but is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
++ Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
+
+
+
+
+# **What Others Are Saying**
+
+"As a former School Teacher, professional User Experience Designer, and current online course creator – I can honestly attribute much of our success to LifterLMS and it’s consideration for multiple learning modalities, UI/UX out of the box, and natural student Engagement opportunities. In less than 10 months we’ve gone from $0 to $300K in revenue with LifterLMS playing a huge part in that!! I’m looking forward to everything that comes next from the creators of LifterLMS!!"
+
+_Sarah Lorenzen
+Teacher, Entrepreneur_
+
+"LifterLMS has been the best decision we have made towards the build out of our online Learning Management site and community.
+The breadth and depth of what Lifter offers in a few WordPress plugins exceeds anything else we evaluated as it includes: easy course construction, integrated eCommerce, community capabilities, gamification and the support for delivery of 1-on-1 coaching collaboration services. Lifter also has pre-built integrations with other key WordPress technologies we wanted to use. Lifter has attracted a solid community and support network of leading experts to help guide anyone who wants to transform the world or their industry with online training. Chris and the Lifter team are real people, and they care."
+
+_Michael Wolf
+CEO, emPowering NOW LLC (Golden XPR)_
+
+"I bought/installed LifterLMS yesterday then spent the day having a blast! Two years ago I started writing a book, which morphed into wanting to present the material online in a more interactive way. I started my website from scratch in January and installing the LMS was a milestone moment! A milestone moment that turned out to be one joy right after the other! I'm always amazed when something is made easy! The LifterLMS product is amazing!! Power to the people! Really quite extraordinary to have something so helpful be able to be in the hands of regular folk."
+
+_Margot Worthy
+Author, Teacher_
 
 
 # **Join Our Growing Community**
