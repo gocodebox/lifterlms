@@ -1,6 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v3.34.3 - 2019-08-22
+--------------------
+
++ During payment gateway order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
+
+##### LifterLMS REST API v1.0.0-beta.5
+
++ Load all required files and functions when authentication is triggered.
++ Access `$_SERVER` variables via `filter_var` instead of `llms_filter_input` to work around PHP bug https://bugs.php.net/bug.php?id=49184.
+
+
 v3.34.2 - 2019-08-21
 --------------------
 
