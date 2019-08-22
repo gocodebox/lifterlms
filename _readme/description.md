@@ -11,62 +11,6 @@ LifterLMS encourages you to get to know us by signing up for a $1 temporary _30 
 https://www.youtube.com/watch?v=jDVvkipF_pg
 
 
-# **Extend and Enhance LifterLMS with Add-ons**
-
-#### **Advanced**
-
-_Increase your training program's value with these engagement add-ons_
-
-+ [LifterLMS Advanced Quizzes][aq]
-+ [LifterLMS Assignments][ass]
-+ [LifterLMS Private Areas][pa]
-+ [LifterLMS Social Learning][sl]
-+ [LifterLMS Advanced Video][av] (Scheduled to Release: 10/15/19)
-+ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
-+ LifterLMS Groups (Scheduled to Release: 12/11/19)
-
-#### **Integrations**
-
-_Integrate with the third-party tools you know and love_
-
-+ [LifterLMS Stripe][stripe]
-+ [LifterLMS PayPal][pp]
-+ [LifterLMS Authorize.Net][anet]
-+ [LifterLMS WooCommerce][wc]
-+ [LifterLMS ConvertKit][ck]
-+ [LifterLMS MailChimp][mc]
-
-#### **Design Tools**
-
-_Make your learning platform beautiful_
-
-+ [LifterLMS Powerpack][pro]
-+ [LifterLMS LaunchPad Theme][lp]
-
-#### **Support**
-
-_Our world-class support has your back_
-
-+ [LifterLMS Powerpack][pro]
-+ [LifterLMS Office Hours][oh]
-
-#### **Save Big with a Bundle**
-
-_Save money while unlocking the full potential of your learning platform_
-
-+ [Infinity Bundle][infinity]
-+ [Universe Bundle][universe]
-
-
-# **Give LifterLMS a Try**
-
-_There are many ways to take LifterLMS for a test drive_
-
-+ Go ahead and install the free core LifterLMS plugin right now
-+ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This "proof of concept website" allows you to test drive all the add-ons before you invest. This proof of concept website allows you to test everything out, add your other favorite plugins & themes, but is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
-+ Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
-
-
 # **[LifterLMS Features][features]**
 
 _With LifterLMS and LifterLMS Add-ons you can..._
@@ -200,6 +144,64 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + The [LifterLMS Podcast][podcast]
 
 
+# **Extend and Enhance LifterLMS with Add-ons**
+
+#### **Advanced**
+
+_Increase your training program's value with these engagement add-ons_
+
++ [LifterLMS Advanced Quizzes][aq]
++ [LifterLMS Assignments][ass]
++ [LifterLMS Private Areas][pa]
++ [LifterLMS Social Learning][sl]
++ [LifterLMS Advanced Video][av] (Scheduled to Release: 10/15/19)
++ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
++ LifterLMS Groups (Scheduled to Release: 12/11/19)
+
+#### **Integrations**
+
+_Integrate with the third-party tools you know and love_
+
++ [LifterLMS Stripe][stripe]
++ [LifterLMS PayPal][pp]
++ [LifterLMS Authorize.Net][anet]
++ [LifterLMS WooCommerce][wc]
++ [LifterLMS ConvertKit][ck]
++ [LifterLMS MailChimp][mc]
+
+#### **Design Tools**
+
+_Make your learning platform beautiful_
+
++ [LifterLMS Powerpack][pro]
++ [LifterLMS LaunchPad Theme][lp]
+
+#### **Support**
+
+_Our world-class support has your back_
+
++ [LifterLMS Powerpack][pro]
++ [LifterLMS Office Hours][oh]
+
+#### **Save Big with a Bundle**
+
+_Save money while unlocking the full potential of your learning platform_
+
++ [Infinity Bundle][infinity]
++ [Universe Bundle][universe]
+
+
+# **Give LifterLMS a Try**
+
+_There are many ways to take LifterLMS for a test drive_
+
++ Go ahead and install the free core LifterLMS plugin right now
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This "proof of concept website" allows you to test drive all the add-ons before you invest. This proof of concept website allows you to test everything out, add your other favorite plugins & themes, but is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
++ Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
+
+
+
+
 # **What Others Are Saying**
 
 "As a former School Teacher, professional User Experience Designer, and current online course creator – I can honestly attribute much of our success to LifterLMS and it’s consideration for multiple learning modalities, UI/UX out of the box, and natural student Engagement opportunities. In less than 10 months we’ve gone from $0 to $300K in revenue with LifterLMS playing a huge part in that!! I’m looking forward to everything that comes next from the creators of LifterLMS!!"
@@ -217,6 +219,7 @@ CEO, emPowering NOW LLC (Golden XPR)_
 
 _Margot Worthy
 Author, Teacher_
+
 
 # **Join Our Growing Community**
 
