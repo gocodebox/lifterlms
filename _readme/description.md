@@ -187,7 +187,7 @@ _Our world-class support has your back_
 
 _Save money while unlocking the full potential of your learning platform_
 
-+ Level up your online course website with passive income ecommerce, beautiful design, marketing technology, and automation tools that help you scale with the [Universe Bundle][universe]
++ Level up your online course website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe]
 + Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity]
 
 
