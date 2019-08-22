@@ -10310,7 +10310,7 @@ msgstr ""
 msgid "\"%s\" is not a valid permission."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-authentication.php:267
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-authentication.php:277
 msgid "LifterLMS REST API"
 msgstr ""
 

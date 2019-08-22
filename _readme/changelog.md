@@ -1,6 +1,17 @@
 == Changelog ==
 
 
+= v3.34.3 - 2019-08-22 =
+------------------------
+
++ During payment gateway order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
+
+##### LifterLMS REST API v1.0.0-beta.5
+
++ Load all required files and functions when authentication is triggered.
++ Access `$_SERVER` variables via `filter_var` instead of `llms_filter_input` to work around PHP bug https://bugs.php.net/bug.php?id=49184.
+
+
 = v3.34.2 - 2019-08-21 =
 ------------------------
 
@@ -251,16 +262,3 @@ The following unused classes have been marked as deprecated and will be removed 
 ##### Template Updates
 
 + [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
-
-
-= v3.30.2 - 2019-04-09 =
-------------------------
-
-+ Added new filter to allow 3rd parties to determine if a `LLMS_Post_Model` field should be added to the `custom` array when converting the post to an array.
-+ Added hooks and filters to the `LLMS_Generator` class to allow 3rd parties to easily generate content during course clone and import operations.
-+ Fixed an issue causing all available courses to display when the [lifterlms_courses] shortcode is used with the "mine" parameter and the current user viewing the shortcode is not enrolled in any courses.
-+ Fixed a PHP undefined variable warning present on the payment confirmation screen.
-
-##### Template Updates
-
-+ [templates/checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)

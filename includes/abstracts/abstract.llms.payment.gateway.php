@@ -3,7 +3,7 @@
  * LifterLMS Payment Gateways Abstract
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.34.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.0 Added access plan and query string checkout redirect settings.
- * @since [version] During order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
+ * @since 3.34.3 During order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
  */
 abstract class LLMS_Payment_Gateway {
 
@@ -138,7 +138,7 @@ abstract class LLMS_Payment_Gateway {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Unknown.
-	 * @since [version] Use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
+	 * @since 3.34.3 Use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
 	 *
 	 * @param    obj        $order       Instance of an LLMS_Order object
 	 * @param    string     $deprecated  (deprecated) optional message to display on the redirect screen
