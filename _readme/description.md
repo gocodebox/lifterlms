@@ -200,6 +200,24 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + The [LifterLMS Podcast][podcast]
 
 
+# **What Others Are Saying**
+
+"As a former School Teacher, professional User Experience Designer, and current online course creator – I can honestly attribute much of our success to LifterLMS and it’s consideration for multiple learning modalities, UI/UX out of the box, and natural student Engagement opportunities. In less than 10 months we’ve gone from $0 to $300K in revenue with LifterLMS playing a huge part in that!! I’m looking forward to everything that comes next from the creators of LifterLMS!!"
+
+_Sarah Lorenzen
+Teacher, Entrepreneur_
+
+"LifterLMS has been the best decision we have made towards the build out of our online Learning Management site and community.
+The breadth and depth of what Lifter offers in a few WordPress plugins exceeds anything else we evaluated as it includes: easy course construction, integrated eCommerce, community capabilities, gamification and the support for delivery of 1-on-1 coaching collaboration services. Lifter also has pre-built integrations with other key WordPress technologies we wanted to use. Lifter has attracted a solid community and support network of leading experts to help guide anyone who wants to transform the world or their industry with online training. Chris and the Lifter team are real people, and they care."
+
+_Michael Wolf
+CEO, emPowering NOW LLC (Golden XPR)_
+
+"I bought/installed LifterLMS yesterday then spent the day having a blast! Two years ago I started writing a book, which morphed into wanting to present the material online in a more interactive way. I started my website from scratch in January and installing the LMS was a milestone moment! A milestone moment that turned out to be one joy right after the other! I'm always amazed when something is made easy! The LifterLMS product is amazing!! Power to the people! Really quite extraordinary to have something so helpful be able to be in the hands of regular folk."
+
+_Margot Worthy
+Author, Teacher_
+
 # **Join Our Growing Community**
 
 When you download LifterLMS, you join a thriving community of education entrepreneurs, developers, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here.
