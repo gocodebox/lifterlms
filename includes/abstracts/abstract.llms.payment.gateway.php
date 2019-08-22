@@ -1,8 +1,9 @@
 <?php
 /**
  * LifterLMS Payment Gateways Abstract
+ *
  * @since    3.0.0
- * @version  3.30.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -10,9 +11,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Payment Gateways Abstract
  *
- * @since    3.0.0
- * @since    3.30.0 Added access plan and query string checkout redirect settings.
- * @version  3.30.0
+ * @since 3.0.0
+ * @since 3.30.0 Added access plan and query string checkout redirect settings.
+ * @since [version] During order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
  */
 abstract class LLMS_Payment_Gateway {
 
@@ -135,9 +136,9 @@ abstract class LLMS_Payment_Gateway {
 	/**
 	 * This should be called by the gateway after verifying the transaction was completed successfully
 	 *
-	 * @since    3.0.0
-	 * @since    3.30.0
-	 * @version  3.8.0
+	 * @since 3.0.0
+	 * @since 3.30.0 Unknown.
+	 * @since [version] Use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
 	 *
 	 * @param    obj        $order       Instance of an LLMS_Order object
 	 * @param    string     $deprecated  (deprecated) optional message to display on the redirect screen
@@ -163,8 +164,7 @@ abstract class LLMS_Payment_Gateway {
 		do_action( 'llms_dispatch_notification_processors' );
 
 		// execute a redirect
-		wp_redirect( $redirect );
-		exit();
+		llms_redirect_and_exit( $redirect );
 
 	}
 
