@@ -1,6 +1,6 @@
 == Description ==
 
-LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more.
+LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier.
 
 LifterLMS strikes a beautiful balance in being an all-in-one solution while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
@@ -40,6 +40,7 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + Credit card management
 + Subscription switching
 + Payment switching
++ Native Zapier integration
 
 
 #### **Create Courses**
