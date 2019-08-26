@@ -178,10 +178,10 @@ _Make your learning platform beautiful_
 
 #### **Support**
 
-_Our world-class support has your back_
+_Our world-class support has your back and all of our paid products include priority private support with the LifterLMS development team_
 
-+ [LifterLMS Powerpack][pro]
-+ [LifterLMS Office Hours][oh]
++ [LifterLMS Powerpack][pro] includes special powerpack-only offers, graphics and more 
++ [LifterLMS Office Hours][oh] is weekly Mastermind group hosted by LifterLMS CEO Chris Badgett
 
 #### **Save Big with a Bundle**
 
