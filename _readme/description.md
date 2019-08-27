@@ -221,6 +221,10 @@ _Margot Worthy
 Author, Teacher_
 
 
+# **See Examples of LifterLMS in Action**
++[case]
++[sho]
+
 # **Join Our Growing Community**
 
 When you download LifterLMS, you join a thriving community of education entrepreneurs, developers, and WordPress enthusiasts. We’re one of the fastest growing open source eLearning communities online, and you are welcome here.
