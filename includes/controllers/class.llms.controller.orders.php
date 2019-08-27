@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since 3.0.0
- * @version 3.33.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Controller_Orders class.
  * @since 3.0.0
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
+ * @since [version] Added filter `llms_order_can_be_confirmed`.
  */
 class LLMS_Controller_Orders {
 
@@ -78,10 +79,11 @@ class LLMS_Controller_Orders {
 	 * Executes payment gateway confirm order method and completes order.
 	 * Redirects user to appropriate page / post
 	 *
-	 * @return void
+	 * @since 3.0.0
+	 * @since 3.4.0 Unknown.
+	 * @since [version] Added filter `llms_order_can_be_confirmed`.
 	 *
-	 * @since   3.0.0
-	 * @version 3.4.0
+	 * @return void
 	 */
 	public function confirm_pending_order() {
 
@@ -102,8 +104,16 @@ class LLMS_Controller_Orders {
 			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
 		}
 
-		// ensure the order is pending
-		if ( 'llms-pending' !== $order->get( 'status' ) ) {
+		/**
+		 * Determine if the order can be confirmed.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $can_be_confirmed True if the order can be confirmed, false otherwise.
+		 * @param LLMS_Order $order Order object.
+		 * @param string $gateway_id Payment gateway ID.
+		 */
+		if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' !== $order->get( 'status' ) ), $order, $order->get( 'payment_gateway' ) ) ) {
 			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
 		}
 

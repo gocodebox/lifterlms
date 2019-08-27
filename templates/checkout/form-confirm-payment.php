@@ -5,16 +5,18 @@
  * @package  LifterLMS/Templates
  *
  * @since 1.0.0
- * @version 3.30.2
+ * @since [version] Added filter `llms_order_can_be_confirmed`.
+ * @version [version]
  */
 
 $order_key = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );
 $order = llms_get_order_by_key( $order_key );
+$gateway_id = $selected_gateway->get_id();
 
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<?php if ( 'llms-pending' !== $order->get( 'status' ) ) : ?>
+<?php if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' !== $order->get( 'status' ) ), $order, $gateway_id ) ) : ?>
 
 	<?php llms_print_notice(
 		sprintf(
@@ -71,7 +73,7 @@ defined( 'ABSPATH' ) || exit;
 				<div class="llms-checkout-section-content llms-form-fields">
 
 					<div class="llms-payment-method">
-						<?php do_action( 'lifterlms_checkout_confirm_before_payment_method', $selected_gateway->get_id() ); ?>
+						<?php do_action( 'lifterlms_checkout_confirm_before_payment_method', $gateway_id ); ?>
 						<span class="llms-gateway-title"><span class="llms-label"><?php _e( 'Payment Method:', 'lifterlms' ); ?></span> <?php echo $selected_gateway->get_title(); ?></span>
 						<?php if ( $selected_gateway->get_icon() ) : ?>
 							<span class="llms-gateway-icon"><?php echo $selected_gateway->get_icon(); ?></span>
@@ -79,20 +81,26 @@ defined( 'ABSPATH' ) || exit;
 						<?php if ( $selected_gateway->get_description() ) : ?>
 							<div class="llms-gateway-description"><?php echo wpautop( wptexturize( $selected_gateway->get_description() ) ); ?></div>
 						<?php endif; ?>
-						<?php do_action( 'lifterlms_checkout_confirm_after_payment_method', $selected_gateway->get_id() ); ?>
+						<?php do_action( 'lifterlms_checkout_confirm_after_payment_method', $gateway_id ); ?>
 					</div>
 
 					<footer class="llms-checkout-confirm llms-form-fields flush">
 
-						<?php llms_form_field( array(
-							'columns' => 12,
-							'classes' => 'llms-button-action',
-							'id' => 'llms_confirm_pending_order',
-							'value' => apply_filters( 'lifterlms_checkout_confirm_button_text', __( 'Confirm Payment', 'lifterlms' ) ),
-							'last_column' => true,
-							'required' => false,
-							'type'  => 'submit',
-						) ); ?>
+						<?php if ( apply_filters( 'llms_gateway_' . $gateway_id . '_show_confirm_order_button', true ) ) : ?>
+
+							<?php llms_form_field( array(
+								'columns' => 12,
+								'classes' => 'llms-button-action',
+								'id' => 'llms_confirm_pending_order',
+								'value' => apply_filters( 'lifterlms_checkout_confirm_button_text', __( 'Confirm Payment', 'lifterlms' ) ),
+								'last_column' => true,
+								'required' => false,
+								'type'  => 'submit',
+							) ); ?>
+
+						<?php endif; ?>
+
+						<input id="llms-payment-gateway" type="hidden" readonly="readonly" value="<?php echo $gateway_id; ?>">
 
 					</footer>
 
