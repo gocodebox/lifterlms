@@ -221,9 +221,10 @@ _Margot Worthy
 Author, Teacher_
 
 
-# **See Examples of LifterLMS in Action**
-+ [case]
-+ [sho]
+# **LifterLMS in Action**
++ [Success Stories][case] — Discover these amazing stories and accomplishments from our community.
++ [Showcase][sho] — Check out these websites using LifterLMS
+
 
 # **Join Our Growing Community**
 
