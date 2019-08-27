@@ -11,6 +11,11 @@ v3.34.4 - 2019-08-27
 
 + [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
 
+##### LifterLMS REST API v1.0.0-beta.6
+
++ Fix issue causing certain webhooks to not trigger as a result of action load order.
++ Change "access_plans" to "Access Plans" for better human reading.
+
 
 v3.34.3 - 2019-08-22
 --------------------
