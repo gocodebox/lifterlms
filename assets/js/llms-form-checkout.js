@@ -1,8 +1,8 @@
 /**
  * LifterLMS Checkout Screen related events and interactions
  *
- * @since    3.0.0
- * @version  3.27.0
+ * @since   3.0.0
+ * @version [version]
  */
 ;( function( $ ) {
 
@@ -31,13 +31,20 @@
 
 		/**
 		 * Initialize checkout JS & bind if on the checkout screen
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.24.1
+		 *
+		 * @since 3.0.0
+		 * @since [version] Make sure we bind click events for the Show / Hide login area at the top of the checkout screen
+		 *                  even if there's no llms product purchase form.
+		 *
+		 * @return void
 		 */
 		this.init = function() {
 
 			var self = this;
+
+			if ( $( '.llms-checkout-wrapper' ).length ) {
+				this.bind_login();
+			}
 
 			if ( this.$checkout_form.length ) {
 
@@ -53,8 +60,6 @@
 						handler: LLMS.PasswordStrength.checkout,
 					} );
 				}
-
-				this.bind_login();
 
 				this.bind_coupon();
 
@@ -237,16 +242,18 @@
 
 		/**
 		 * Bind click events for the Show / Hide login area at the top of the checkout screen
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 *
+		 * @since 3.0.0
+		 * @since [version] When showing the login form area make sure we slide up the `.llms-notice` link's parent too.
+		 *
+		 * @return void
 		 */
 		this.bind_login = function() {
 
 			$( 'a[href="#llms-show-login"]' ).on( 'click', function( e ) {
 
 				e.preventDefault();
-				$( this ).closest( '.llms-info' ).slideUp( 400 );
+				$( this ).closest( '.llms-info,.llms-notice' ).slideUp( 400 );
 				$( 'form.llms-login' ).slideDown( 400 );
 
 			} );
