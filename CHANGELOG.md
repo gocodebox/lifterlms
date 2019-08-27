@@ -7,6 +7,10 @@ v3.34.4 - 2019-08-27
 + Add a new admin settings field type, "keyval", used for displaying custom html alongside a setting.
 + Added filter `llms_order_can_be_confirmed`.
 
+##### Templates Changed
+
++ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
+
 
 v3.34.3 - 2019-08-22
 --------------------
