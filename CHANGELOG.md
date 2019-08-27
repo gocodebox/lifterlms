@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.34.4 - 2019-08-27
+--------------------
+
++ Add a new admin settings field type, "keyval", used for displaying custom html alongside a setting.
++
+
+
 v3.34.3 - 2019-08-22
 --------------------
 

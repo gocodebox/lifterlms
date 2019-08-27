@@ -1,45 +1,50 @@
 <?php
 /**
  * Admin Settings Class
- * Settings field Factory
- * @package  LifterLMS/Admin/Classes
- * @since    1.0.0
- * @version  3.29.0
+ *
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Settings class.
+ * Admin settings and fields.
+ *
+ * @since 1.0.0
+ * @since 3.29.0 Unknown.
+ * @since [version] Add "keyval" field for displaying custom html next to a setting key.
  */
 class LLMS_Admin_Settings {
 
 	/**
-	* Settings array
-	* @access private
-	* @var array
-	*/
+	 * Settings array
+	 *
+	 * @var array
+	 */
 	private static $settings = array();
 
 	/**
-	* Errors array
-	* @access private
-	* @var array
-	*/
+	 * Errors array
+	 *
+	 * @var array
+	 */
 	private static $errors   = array();
 
 	/**
-	* Messages array
-	* @access private
-	* @var array
-	*/
+	 * Messages array
+	 *
+	 * @var array
+	 */
 	private static $messages = array();
 
 	/**
-	* Inits $settings and includes settings base class.
-	*
-	* @return self::$settings array
-	*/
+	 * Inits $settings and includes settings base class.
+	 *
+	 * @return self::$settings array
+	 */
 	public static function get_settings_tabs() {
 
 		if ( empty( self::$settings ) ) {
@@ -64,10 +69,10 @@ class LLMS_Admin_Settings {
 	}
 
 	/**
-	* Save method. Saves all fields on current tab
-	*
-	* @return void
-	*/
+	 * Save method. Saves all fields on current tab
+	 *
+	 * @return void
+	 */
 	public static function save() {
 		global $current_tab;
 
@@ -187,9 +192,13 @@ class LLMS_Admin_Settings {
 
 	/**
 	 * Output fields
+	 *
+	 * @since Unknown.
+	 * @since 3.29.0 Unknown.
+	 * @since [version] Add "keyval" field for displaying custom html next to a setting key.
+	 *
 	 * @param    array  $field  array of field settings
 	 * @return   void
-	 * @version  3.29.0
 	 */
 	public static function output_field( $field ) {
 
@@ -332,6 +341,20 @@ class LLMS_Admin_Settings {
 					name="' . esc_attr( $field['id'] ) . '"
 					id="' . esc_attr( $field['id'] ) . '"
 					value="' . esc_attr( $field['value'] ) . '">';
+			break;
+
+			case 'keyval':
+
+				?><tr valign="top">
+					<th>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<?php echo $tooltip; ?>
+					</th>
+					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ) ?>">
+						<div id="<?php echo esc_attr( $field['id'] ); ?>"><?php echo $field['value']; ?></div>
+					</td>
+				</tr><?php
+
 			break;
 
 			case 'text':
