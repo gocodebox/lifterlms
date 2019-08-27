@@ -222,8 +222,8 @@ Author, Teacher_
 
 
 # **See Examples of LifterLMS in Action**
-+[case]
-+[sho]
++ [case]
++ [sho]
 
 # **Join Our Growing Community**
 
