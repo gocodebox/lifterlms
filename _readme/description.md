@@ -1,6 +1,6 @@
 == Description ==
 
-LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier.
+LifterLMS is a powerful [WordPress LMS plugin][home] that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier.
 
 LifterLMS strikes a beautiful balance in being an all-in-one solution while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
@@ -215,10 +215,10 @@ The breadth and depth of what Lifter offers in a few WordPress plugins exceeds a
 _Michael Wolf
 CEO, emPowering NOW LLC (Golden XPR)_
 
-"I bought/installed LifterLMS yesterday then spent the day having a blast! Two years ago I started writing a book, which morphed into wanting to present the material online in a more interactive way. I started my website from scratch in January and installing the LMS was a milestone moment! A milestone moment that turned out to be one joy right after the other! I'm always amazed when something is made easy! The LifterLMS product is amazing!! Power to the people! Really quite extraordinary to have something so helpful be able to be in the hands of regular folk."
+> "I bought/installed LifterLMS yesterday then spent the day having a blast! Two years ago I started writing a book, which morphed into wanting to present the material online in a more interactive way. I started my website from scratch in January and installing the LMS was a milestone moment! A milestone moment that turned out to be one joy right after the other! I'm always amazed when something is made easy! The LifterLMS product is amazing!! Power to the people! Really quite extraordinary to have something so helpful be able to be in the hands of regular folk."
 
-_Margot Worthy
-Author, Teacher_
+>_Margot Worthy
+> Author, Teacher_
 
 
 # **LifterLMS in Action**
