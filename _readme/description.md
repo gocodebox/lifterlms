@@ -238,7 +238,9 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 
 Install the free LifterLMS plugin on your website from here, then ...
 
-### **[try out all the premium add-ons for $1 by signing up here][try]**
+## **[Try out all the premium add-ons for $1 by signing up here][try]**
+
+:rocket:
 
 
 [home]: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
