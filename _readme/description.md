@@ -128,7 +128,7 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + Technical support
 + 30 Days of live weekly onboading calls called [Liftoff Sessions][lift]
 + [Live office hours][oh]
-+ Free training courses
++ [Free training courses][aca]
 + Setup wizard
 + Detailed documentation
 + Dynamic resources
@@ -143,6 +143,7 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + The [LifterLMS Knowledgebase][docs]
 + The [LifterLMS Blog][blog]
 + The [LifterLMS Podcast][podcast]
++ The [LifterLMS Academy][aca]
 
 
 # **Extend and Enhance LifterLMS with Add-ons**
@@ -255,6 +256,7 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [sho]: https://lifterlms.com/showcase/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [case]: https://lifterlms.com/success/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [lift]: https://blog.lifterlms.com/liftoff/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
+[aca]: https://academy.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
