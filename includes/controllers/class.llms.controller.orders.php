@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.34.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Controller_Orders class.
  * @since 3.0.0
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
- * @since [version] Added filter `llms_order_can_be_confirmed`.
+ * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
  */
 class LLMS_Controller_Orders {
 
@@ -81,7 +81,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.4.0 Unknown.
-	 * @since [version] Added filter `llms_order_can_be_confirmed`.
+	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Controller_Orders {
 		/**
 		 * Determine if the order can be confirmed.
 		 *
-		 * @since [version]
+		 * @since 3.34.4
 		 *
 		 * @param bool $can_be_confirmed True if the order can be confirmed, false otherwise.
 		 * @param LLMS_Order $order Order object.

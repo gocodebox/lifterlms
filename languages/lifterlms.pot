@@ -406,7 +406,7 @@ msgstr ""
 msgid "Drip Method"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:147, includes/class.llms.l10n.js.php:351, includes/admin/class.llms.admin.settings.php:642, vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-api-key.php:128
+#: includes/class.llms.l10n.js.php:147, includes/class.llms.l10n.js.php:351, includes/admin/class.llms.admin.settings.php:665, vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-api-key.php:128
 msgid "None"
 msgstr ""
 
@@ -2951,7 +2951,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: includes/admin/class.llms.admin.analytics.php:79, includes/admin/class.llms.admin.settings.php:75
+#: includes/admin/class.llms.admin.analytics.php:79, includes/admin/class.llms.admin.settings.php:80
 msgid "Whoa! something went wrong there!. Please refresh the page and retry."
 msgstr ""
 
@@ -3295,15 +3295,15 @@ msgstr ""
 msgid "Select to prevent a user from submitting more than one review."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:82
+#: includes/admin/class.llms.admin.settings.php:87
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:577
+#: includes/admin/class.llms.admin.settings.php:600
 msgid "Upload"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:616
+#: includes/admin/class.llms.admin.settings.php:639
 msgid "Select a page&hellip;"
 msgstr ""
 
@@ -3644,67 +3644,67 @@ msgstr ""
 msgid "The lesson %s is now marked as incomplete."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:96, includes/controllers/class.llms.controller.orders.php:102, includes/shortcodes/class.llms.shortcode.checkout.php:221
+#: includes/controllers/class.llms.controller.orders.php:98, includes/controllers/class.llms.controller.orders.php:104, includes/shortcodes/class.llms.shortcode.checkout.php:221
 msgid "Could not locate an order to confirm."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:107
+#: includes/controllers/class.llms.controller.orders.php:117
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:267
+#: includes/controllers/class.llms.controller.orders.php:277
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:350
+#: includes/controllers/class.llms.controller.orders.php:360
 msgid "Student unenrolled at the end of access period due to subscription cancellation."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:357
+#: includes/controllers/class.llms.controller.orders.php:367
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:413
+#: includes/controllers/class.llms.controller.orders.php:423
 msgid "Recurring charge skipped because recurring payments are disabled in for the payment gateway."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:418
+#: includes/controllers/class.llms.controller.orders.php:428
 msgid "Recurring charge skipped because recurring payments are disabled in staging mode."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:434
+#: includes/controllers/class.llms.controller.orders.php:444
 msgid "A recurring charge was not processed due to an error encountered while loading the payment gateway: \"%s\""
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:456
+#: includes/controllers/class.llms.controller.orders.php:466
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:461, templates/myaccount/view-order.php:13
+#: includes/controllers/class.llms.controller.orders.php:471, templates/myaccount/view-order.php:13
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:463
+#: includes/controllers/class.llms.controller.orders.php:473
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:579
+#: includes/controllers/class.llms.controller.orders.php:589
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:610, includes/functions/llms.functions.order.php:35
+#: includes/controllers/class.llms.controller.orders.php:620, includes/functions/llms.functions.order.php:35
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:615, includes/functions/llms.functions.order.php:41
+#: includes/controllers/class.llms.controller.orders.php:625, includes/functions/llms.functions.order.php:41
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:620, includes/functions/llms.functions.order.php:47
+#: includes/controllers/class.llms.controller.orders.php:630, includes/functions/llms.functions.order.php:47
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:625, includes/functions/llms.functions.order.php:53
+#: includes/controllers/class.llms.controller.orders.php:635, includes/functions/llms.functions.order.php:53
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -5730,7 +5730,7 @@ msgstr ""
 msgid "Could not deactivate %s."
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:206, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:163
+#: includes/models/model.llms.add-on.php:206, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:164
 msgid "Active"
 msgstr ""
 
@@ -6339,7 +6339,7 @@ msgstr ""
 msgid "You do not have any certificates yet."
 msgstr ""
 
-#: templates/checkout/form-checkout.php:27, templates/checkout/form-confirm-payment.php:36
+#: templates/checkout/form-checkout.php:27, templates/checkout/form-confirm-payment.php:38
 msgid "Billing Information"
 msgstr ""
 
@@ -6347,11 +6347,11 @@ msgstr ""
 msgid "Student Information"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:51, templates/checkout/form-confirm-payment.php:54
+#: templates/checkout/form-checkout.php:51, templates/checkout/form-confirm-payment.php:56
 msgid "Order Summary"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:75, templates/checkout/form-confirm-payment.php:70
+#: templates/checkout/form-checkout.php:75, templates/checkout/form-confirm-payment.php:72
 msgid "Payment Details"
 msgstr ""
 
@@ -6367,15 +6367,15 @@ msgstr ""
 msgid "Enroll Now"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:21
+#: templates/checkout/form-confirm-payment.php:23
 msgid "Only pending orders can be confirmed. View your %1$sorder history%2$s for more information"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:75, templates/checkout/form-switch-source.php:59
+#: templates/checkout/form-confirm-payment.php:77, templates/checkout/form-switch-source.php:59
 msgid "Payment Method:"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:91, includes/admin/settings/class.llms.settings.checkout.php:191
+#: templates/checkout/form-confirm-payment.php:95, includes/admin/settings/class.llms.settings.checkout.php:191
 msgid "Confirm Payment"
 msgstr ""
 
@@ -7582,7 +7582,7 @@ msgstr ""
 msgid "Automatic Recurring Payments: <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:92, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:165
+#: includes/admin/settings/class.llms.settings.general.php:92, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:166
 msgid "Disabled"
 msgstr ""
 
@@ -10315,188 +10315,188 @@ msgid "LifterLMS REST API"
 msgstr ""
 
 #. translators: %s = created date.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:123
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:124
 msgid "Webhook created on %s"
 msgstr ""
 
 #. translators: Date format.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:125
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:126
 msgctxt "Webhook created on date parsed by strftime"
 msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:141
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:142
 msgid "Webhook"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:164
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:165
 msgid "Paused"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:190
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:192
 msgid "Course created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:191
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:193
 msgid "Course updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:192
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:194
 msgid "Course deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:193
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:195
 msgid "Course restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:194
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:196
 msgid "Section created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:195
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:197
 msgid "Section updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:196
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:198
 msgid "Section deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:197
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:199
 msgid "Lesson created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:198
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:200
 msgid "Lesson updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:199
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:201
 msgid "Lesson deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:200
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:202
 msgid "Lesson restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:201
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:203
 msgid "Membership created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:202
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:204
 msgid "Membership updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:203
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:205
 msgid "Membership deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:204
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:206
 msgid "Membership restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:205
-msgid "Access_plan created"
-msgstr ""
-
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:206
-msgid "Access_plan updated"
-msgstr ""
-
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:207
-msgid "Access_plan deleted"
+msgid "Access Plan created"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:208
-msgid "Access_plan restored"
+msgid "Access Plan updated"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:209
-msgid "Order created"
+msgid "Access Plan deleted"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:210
-msgid "Order updated"
+msgid "Access Plan restored"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:211
-msgid "Order deleted"
+msgid "Order created"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:212
-msgid "Order restored"
+msgid "Order updated"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:213
-msgid "Transaction created"
+msgid "Order deleted"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:214
-msgid "Transaction updated"
+msgid "Order restored"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:215
-msgid "Transaction deleted"
+msgid "Transaction created"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:216
-msgid "Student created"
+msgid "Transaction updated"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:217
-msgid "Student updated"
+msgid "Transaction deleted"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:218
-msgid "Student deleted"
+msgid "Student created"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:219
-msgid "Enrollment created"
+msgid "Student updated"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:220
-msgid "Enrollment updated"
+msgid "Student deleted"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:221
-msgid "Enrollment deleted"
+msgid "Enrollment created"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:222
-msgid "Progress updated"
+msgid "Enrollment updated"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:223
-msgid "Progress deleted"
+msgid "Enrollment deleted"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:224
-msgid "Instructor created"
+msgid "Progress updated"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:225
-msgid "Instructor updated"
+msgid "Progress deleted"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:226
+msgid "Instructor created"
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:227
+msgid "Instructor updated"
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:228
 msgid "Instructor deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:227, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:92
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:229, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:92
 msgid "Action"
 msgstr ""
 
 #. translators: %s = Invalid permission string.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:430
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:432
 msgid "\"%s\" is not a valid status."
 msgstr ""
 
 #. translators: %s = Invalid permission string.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:436
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:438
 msgid "\"%s\" is not a valid topic."
 msgstr ""
 
 #. translators: %s = field name.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:443
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:445
 msgid "\"%s\" is required."
 msgstr ""
 

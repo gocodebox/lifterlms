@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.34.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.29.0 Unknown.
- * @since [version] Add "keyval" field for displaying custom html next to a setting key.
+ * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
  */
 class LLMS_Admin_Settings {
 
@@ -195,7 +195,7 @@ class LLMS_Admin_Settings {
 	 *
 	 * @since Unknown.
 	 * @since 3.29.0 Unknown.
-	 * @since [version] Add "keyval" field for displaying custom html next to a setting key.
+	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
 	 *
 	 * @param    array  $field  array of field settings
 	 * @return   void

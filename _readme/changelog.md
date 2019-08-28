@@ -1,6 +1,22 @@
 == Changelog ==
 
 
+= v3.34.4 - 2019-08-27 =
+------------------------
+
++ Add a new admin settings field type, "keyval", used for displaying custom html alongside a setting.
++ Added filter `llms_order_can_be_confirmed`.
+
+##### Templates Changed
+
++ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
+
+##### LifterLMS REST API v1.0.0-beta.6
+
++ Fix issue causing certain webhooks to not trigger as a result of action load order.
++ Change "access_plans" to "Access Plans" for better human reading.
+
+
 = v3.34.3 - 2019-08-22 =
 ------------------------
 
@@ -228,37 +244,3 @@
 ##### Deprecations
 
 + `LLMS_Query::add_query_vars()` use `LLMS_Query::set_query_vars()` instead.
-
-
-= v3.30.3 - 2019-04-22 =
-------------------------
-
-##### Updates
-
-+ Fixed typos and spelling errors in various strings.
-+ Corrected a typo in the `content-disposition` header used when exporting voucher CSVs, thanks [@pondermatic](https://github.com/pondermatic)!
-+ Improved the quiz attempt grading experience by automatically focusing the remarks field and only toggling the first answer if it's not visible, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ Removed commented out code on the Student Dashboard Notifications Tab template, thanks [@tnorthcutt](https://github.com/tnorthcutt)!
-
-##### Bug Fixes
-
-+ Renamed "descrpition" key to "description" found in the return of `LLMS_Instructor()->toArray()`.
-+ Fixed an issue causing slashes to be stripped from course content when cloning a course.
-+ Fixed an issue causing JS warnings to be thrown in the Javascript console on Course and Membership edit pages on the admin panel due to variables being defined too late, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ Fixed an undefined variable notice encountered when filtering quiz attempts on the quiz attempts reporting screen, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ Fixed an issue causing slashes to appear before quotation marks when saving remarks on a quiz attempt, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ [@pondermatic](https://github.com/pondermatic) fixed typos and misspellings in comment and docs in over 200 files and while that doesn't concern most users it's worthy of a mention.
-
-##### Deprecations
-
-The following unused classes have been marked as deprecated and will be removed from LifterLMS in the next major release.
-
-+ `LLMS\Users\User`
-+ `LLMS_Analytics_Page`
-+ `LLMS_Course_Basic`
-+ `LLMS_Lesson_Basic`
-+ `LLMS_Quiz_Legacy`
-
-##### Template Updates
-
-+ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)

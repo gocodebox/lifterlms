@@ -5,8 +5,8 @@
  * @package  LifterLMS/Templates
  *
  * @since 1.0.0
- * @since [version] Added filter `llms_order_can_be_confirmed`.
- * @version [version]
+ * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
+ * @version 3.34.4
  */
 
 $order_key = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );

@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2.2
-Stable tag: 3.34.3
+Stable tag: 3.34.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -14,7 +14,7 @@ LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and pro
 
 == Description ==
 
-LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more.
+LifterLMS is a powerful WordPress LMS plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites. LifterLMS works with any well-coded WordPress theme and all the popular WordPress page builders (like Elementor, Beaver Builder, Divi, etc.). As an engaged WordPress community member, LifterLMS actively encourages and helps other great plugins integrate with LifterLMS like Affiliate WP, Monster Insights, WP Fusion, the most popular form plugins, GamiPress, Astra Pro, the Course Scheduler, and many more. You can also connect your WordPress LMS website to 1,500+ other apps via Zapier.
 
 LifterLMS strikes a beautiful balance in being an all-in-one solution while also integrating with other best of breed technologies relevant to course creators and membership site owners.
 
@@ -27,7 +27,7 @@ https://www.youtube.com/watch?v=jDVvkipF_pg
 
 # **[LifterLMS Features][features]**
 
-_With LifterLMS and LifterLMS Add-ons you can..._
+_Start with our core free plugin and scale-up as your business grows!_
 
 #### **Make Money Building an Education-Based Business**
 _LifterLMS plus one payment gateway is powerful enough to get you started on your journey!_
@@ -54,6 +54,7 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + Credit card management
 + Subscription switching
 + Payment switching
++ Native Zapier integration
 
 
 #### **Create Courses**
@@ -192,17 +193,18 @@ _Make your learning platform beautiful_
 
 #### **Support**
 
-_Our world-class support has your back_
+_Our world-class support has your back and all of our paid products include priority private support with the LifterLMS development team_
 
-+ [LifterLMS Powerpack][pro]
-+ [LifterLMS Office Hours][oh]
++ [LifterLMS Powerpack][pro] includes special powerpack-only offers and more 
++ [LifterLMS Office Hours][oh] is weekly Mastermind group hosted by LifterLMS CEO Chris Badgett
 
 #### **Save Big with a Bundle**
 
 _Save money while unlocking the full potential of your learning platform_
 
-+ [Infinity Bundle][infinity]
-+ [Universe Bundle][universe]
++ Level up your online course website with our ecommerce, design, marketing technology, and automation tools with the [Universe Bundle][universe]
++ Add even more engagement and student transformation potential to your immersive training programs with our entire suite of products including advanced features used by the best teachers, experts, and coaches with the [Infinity Bundle][infinity]
+
 
 
 # **Give LifterLMS a Try**
@@ -210,10 +212,8 @@ _Save money while unlocking the full potential of your learning platform_
 _There are many ways to take LifterLMS for a test drive_
 
 + Go ahead and install the free core LifterLMS plugin right now
-+ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This "proof of concept website" allows you to test drive all the add-ons before you invest. This proof of concept website allows you to test everything out, add your other favorite plugins & themes, but is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo website allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes, but this demo site is not something you get to keep after the 30 days are over. [Try LifterLMS for $1][try]
 + Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
-
-
 
 
 # **What Others Are Saying**
@@ -233,6 +233,11 @@ CEO, emPowering NOW LLC (Golden XPR)_
 
 _Margot Worthy
 Author, Teacher_
+
+
+# **LifterLMS in Action**
++ [Success Stories][case] — Discover these amazing stories and accomplishments from our community.
++ [Showcase][sho] — Check out these websites using LifterLMS
 
 
 # **Join Our Growing Community**
@@ -257,6 +262,8 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 [translate]: https://translate.lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [facebook]: https://www.facebook.com/groups/lifterlmsvip/
 [slack]: https://join.slack.com/t/lifterlms/shared_invite/enQtMzk3ODczNjc4Mjc3LTBlMmEzMWYyOTIwMDU3NDc2MmRhNGIxNGE0Nzc1OWIxZjg1OGVhM2E5YTkwYzZmMmM1ZTU4MDQxYjVlZDYyZTE
+[sho]: https://lifterlms.com/showcase/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
+[case]: https://lifterlms.com/success/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -360,7 +367,8 @@ We care about your feature ideas and what you have to say. You can [request a fe
 
 #### I still have questions. Where can I find answers?
 
-Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We also encourage you to get to know us by signing up for a $1 temporary _30 Day_ website on our servers which comes with the core LifterLMS plugin all our add-ons intalled. This demo allows you to test drive all the add-ons before you invest. Check it out here: [Try LifterLMS for $1](https://lifterlms.com/product/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+
 
 
 == Screenshots ==
@@ -392,6 +400,22 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 
 == Changelog ==
+
+
+= v3.34.4 - 2019-08-27 =
+------------------------
+
++ Add a new admin settings field type, "keyval", used for displaying custom html alongside a setting.
++ Added filter `llms_order_can_be_confirmed`.
+
+##### Templates Changed
+
++ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
+
+##### LifterLMS REST API v1.0.0-beta.6
+
++ Fix issue causing certain webhooks to not trigger as a result of action load order.
++ Change "access_plans" to "Access Plans" for better human reading.
 
 
 = v3.34.3 - 2019-08-22 =
@@ -621,39 +645,5 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 ##### Deprecations
 
 + `LLMS_Query::add_query_vars()` use `LLMS_Query::set_query_vars()` instead.
-
-
-= v3.30.3 - 2019-04-22 =
-------------------------
-
-##### Updates
-
-+ Fixed typos and spelling errors in various strings.
-+ Corrected a typo in the `content-disposition` header used when exporting voucher CSVs, thanks [@pondermatic](https://github.com/pondermatic)!
-+ Improved the quiz attempt grading experience by automatically focusing the remarks field and only toggling the first answer if it's not visible, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ Removed commented out code on the Student Dashboard Notifications Tab template, thanks [@tnorthcutt](https://github.com/tnorthcutt)!
-
-##### Bug Fixes
-
-+ Renamed "descrpition" key to "description" found in the return of `LLMS_Instructor()->toArray()`.
-+ Fixed an issue causing slashes to be stripped from course content when cloning a course.
-+ Fixed an issue causing JS warnings to be thrown in the Javascript console on Course and Membership edit pages on the admin panel due to variables being defined too late, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ Fixed an undefined variable notice encountered when filtering quiz attempts on the quiz attempts reporting screen, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ Fixed an issue causing slashes to appear before quotation marks when saving remarks on a quiz attempt, thanks [@eri-trabiccolo](https://github.com/eri-trabiccolo)!
-+ [@pondermatic](https://github.com/pondermatic) fixed typos and misspellings in comment and docs in over 200 files and while that doesn't concern most users it's worthy of a mention.
-
-##### Deprecations
-
-The following unused classes have been marked as deprecated and will be removed from LifterLMS in the next major release.
-
-+ `LLMS\Users\User`
-+ `LLMS_Analytics_Page`
-+ `LLMS_Course_Basic`
-+ `LLMS_Lesson_Basic`
-+ `LLMS_Quiz_Legacy`
-
-##### Template Updates
-
-+ [templates/myaccount/my-notifications.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-notifications.php)
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
