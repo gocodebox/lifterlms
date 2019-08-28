@@ -17,7 +17,7 @@ LifterLMS is also known for having a thriving well supported user community thro
 
 ***
 
-We encourage you to get to know us by signing up for a **[$1 temporary _30 Day_ website][try]** on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes to your demo site so you can see them in action together. 
+> We encourage you to get to know us by signing up for a **[$1 temporary _30 Day_ website][try]** on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes to your demo site so you can see them in action together. 
 
 > Are you ready to **[Try LifterLMS for $1][try]?**
 
