@@ -209,7 +209,7 @@ _There are many ways to take LifterLMS for a test drive_
 _Sarah Lorenzen
 Teacher, Entrepreneur_
 
-"LifterLMS has been the best decision we have made towards the build out of our online Learning Management site and community.
+> "LifterLMS has been the best decision we have made towards the build out of our online Learning Management site and community.
 The breadth and depth of what Lifter offers in a few WordPress plugins exceeds anything else we evaluated as it includes: easy course construction, integrated eCommerce, community capabilities, gamification and the support for delivery of 1-on-1 coaching collaboration services. Lifter also has pre-built integrations with other key WordPress technologies we wanted to use. Lifter has attracted a solid community and support network of leading experts to help guide anyone who wants to transform the world or their industry with online training. Chris and the Lifter team are real people, and they care."
 
 _Michael Wolf
@@ -217,7 +217,8 @@ CEO, emPowering NOW LLC (Golden XPR)_
 
 > "I bought/installed LifterLMS yesterday then spent the day having a blast! Two years ago I started writing a book, which morphed into wanting to present the material online in a more interactive way. I started my website from scratch in January and installing the LMS was a milestone moment! A milestone moment that turned out to be one joy right after the other! I'm always amazed when something is made easy! The LifterLMS product is amazing!! Power to the people! Really quite extraordinary to have something so helpful be able to be in the hands of regular folk."
 
->_Margot Worthy
+> _Margot Worthy
+
 > Author, Teacher_
 
 
