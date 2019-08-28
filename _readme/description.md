@@ -234,7 +234,7 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 
 **The mission of LifterLMS is to democratize education in the digital classroom. Our vision is to lift up others through education.**
 
-#Here's What I'd Like You To Do Next ...#
+#Here's What I'd Like You To Do Next ...
 
 
 [home]: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
