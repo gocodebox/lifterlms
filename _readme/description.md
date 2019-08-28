@@ -126,7 +126,7 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 #### **Get Support**
 
 + Technical support
-+ 30 Days of live weekly onboading calls called Liftoff Sessions
++ 30 Days of live weekly onboading calls called [Liftoff Sessions][lift]
 + [Live office hours][oh]
 + Free training courses
 + Setup wizard
