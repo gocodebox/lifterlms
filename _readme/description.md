@@ -236,7 +236,7 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 
 # **Here's What I'd Like You To Do Next ...**
 
-Install the free LifterLMS plugin on your website from here, then ...
+Install the free LifterLMS plugin on your website from here on WordPress, then ...
 
 ## **[Try out all the premium add-ons for $1 by signing up here][try]**
 
