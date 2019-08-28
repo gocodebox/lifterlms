@@ -136,6 +136,7 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + System analyzer
 + User community
 + [Developer ecosystem][devblog]
++ [Recommended Resources][resources] for course creators
 
 #### **Further Reading**
 
