@@ -254,6 +254,7 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [slack]: https://join.slack.com/t/lifterlms/shared_invite/enQtMzk3ODczNjc4Mjc3LTBlMmEzMWYyOTIwMDU3NDc2MmRhNGIxNGE0Nzc1OWIxZjg1OGVhM2E5YTkwYzZmMmM1ZTU4MDQxYjVlZDYyZTE
 [sho]: https://lifterlms.com/showcase/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [case]: https://lifterlms.com/success/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
+[lift]: https://blog.lifterlms.com/liftoff/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 
 [anet]: https://lifterlms.com/product/authorize-net/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [aq]: https://lifterlms.com/product/advanced-quizzes//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
