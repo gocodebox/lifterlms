@@ -13,7 +13,7 @@ https://www.youtube.com/watch?v=jDVvkipF_pg
 
 # **[LifterLMS Features][features]**
 
-_Start with our core free plugin and scale-up as your business grows!_
+_Start with our core free plugin and [scale-up][price] as your business grows!_
 
 #### **Make Money Building an Education-Based Business**
 _LifterLMS plus one payment gateway is powerful enough to get you started on your journey!_
