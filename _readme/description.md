@@ -198,7 +198,7 @@ _Save money while unlocking the full potential of your learning platform_
 _There are many ways to take LifterLMS for a test drive_
 
 + Go ahead and install the free core LifterLMS plugin right now
-+ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo website allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes, but this demo site is not something you get to keep after the 30 days are over. **[Try LifterLMS for $1]**[try]
++ Get a temporary _30 Day_ website on our servers with the core LifterLMS plugin AND all the premium add-ons intalled. This demo website allows you to test drive all the add-ons before you invest. You can even add your other favorite plugins & themes, but this demo site is not something you get to keep after the 30 days are over. **[Try LifterLMS for $1][try]**
 + Another way to test LifterLMS out is to see what the student experience is like. Take a **free** course on how to build a LifterLMS website in 20 minutes LifterLMS while using LifterLMS.  [Take a Free Course][demo]
 
 
@@ -238,7 +238,7 @@ Also I'd like to invite you to the [LifterLMS VIP Facebook group][facebook] so y
 
 Install the free LifterLMS plugin on your website from here, then ...
 
-**[try out all the premium add-ons for $1 by signing up here]**[try].
+### **[try out all the premium add-ons for $1 by signing up here][try]**
 
 
 [home]: https://lifterlms.com/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
