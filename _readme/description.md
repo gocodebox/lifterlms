@@ -145,7 +145,7 @@ _LifterLMS plus one payment gateway is powerful enough to get you started on you
 + The [LifterLMS Blog][blog]
 + The [LifterLMS Podcast][podcast]
 + The [LifterLMS Academy][aca]
-+ The LifterLMS Developer Blog [devblog]
++ The [LifterLMS Developer Blog] [devblog]
 
 
 # **Extend and Enhance LifterLMS with Add-ons**
