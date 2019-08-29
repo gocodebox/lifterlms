@@ -1,5 +1,8 @@
 == Frequently Asked Questions ==
 
+#### Where do I buy LifterLMS add-ons or bundles?
+You can explore the individual add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) or save BIG with a [bundle](https://lifterlms.com/product-category/bundles/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
+
 #### Are there any troubleshooting steps you'd suggest I try that might resolve my issue before I post a new thread?
 
 First, make sure that you're running the latest version of LifterLMS. And if you've got any other LifterLMS extensions or themes, make sure those are running the most current version as well.
@@ -11,14 +14,14 @@ Also be sure to check out the official LifterLMS [Knowledge Base](https://lifter
 
 #### I'm still stuck. Where do I go to file a bug or ask a question?
 
-Users of the free LifterLMS should post their questions in the plugin's WordPress.org forum. If you find you're not getting support in as timely a fashion as you wish, you might want to consider purchasing a [LifterLMS Pro license](https://lifterlms.com/product/lifterlms-pro/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+Users of the free LifterLMS should post their questions in the plugin's WordPress.org forum. If you find you're not getting support in as timely a fashion as you wish, you might want to consider [purchasing a product from LifterLMS](https://lifterlms.com/pricing/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) so you can access the LifterLMS support team.
 
-If you're already a LifterLMS Pro user or you have purchased one of the LifterLMS themes or extensions, you're entitled to log into your account and contact the support team directly on the [LifterLMS website](https://lifterlms.com/my-account/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We can provide a deeper level of support here and address your needs on a daily basis during the work week. Generally, except in times of increased support loads, we reply to all comments within 12 business hours.
+If you're already a LifterLMS customer, you can simply log into your account and contact the support team directly on the [LifterLMS website](https://lifterlms.com/my-account/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We can provide a deeper level of support in there and address your needs on a daily basis during the work week. Generally, except in times of increased support loads, we reply to all comments within 12 business hours.
 
 
 #### LifterLMS is awesome! Can you set it all up for me?
 
-LifterLMS offers technical support, but we do not offer custom website development. However, we do recommend third party LifterLMS Experts who can help with web design, web development, instructional design or marketing for a fee.  Click here to visit the [LifterLMS Experts page](https://lifterlms.com/experts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+LifterLMS offers technical support, but we do not offer custom website development services. However, we do recommend third party LifterLMS Experts who can help with web design, web development, instructional design or marketing for a fee.  Click here to visit the [LifterLMS Experts page](https://lifterlms.com/experts/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
 
 
 #### I'm interested in LifterLMS add-ons, but there are a few questions I've got before making the purchase. Can you help me get those addressed?
@@ -38,5 +41,5 @@ We care about your feature ideas and what you have to say. You can [request a fe
 
 #### I still have questions. Where can I find answers?
 
-Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We also encourage you to get to know us by signing up for a $1 temporary _30 Day_ website on our servers which comes with the core LifterLMS plugin all our add-ons intalled. This demo allows you to test drive all the add-ons before you invest. Check it out here: [Try LifterLMS for $1](https://lifterlms.com/product/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale).
+Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We also encourage you to get to know us by signing up for a $1 temporary _30 Day_ website on our servers which comes with the core LifterLMS plugin all our add-ons intalled. This demo allows you to test drive all the add-ons before you invest. Check it out here: **[Try LifterLMS for $1](https://lifterlms.com/product/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)**.
 
