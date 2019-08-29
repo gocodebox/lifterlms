@@ -83,7 +83,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.4.0 Unknown.
 	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
- 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
+	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
 	 *
 	 * @return void
 	 */
