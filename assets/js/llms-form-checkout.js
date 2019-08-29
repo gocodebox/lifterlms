@@ -2,7 +2,7 @@
  * LifterLMS Checkout Screen related events and interactions
  *
  * @since   3.0.0
- * @version [version]
+ * @version 3.34.5
  */
 ;( function( $ ) {
 
@@ -33,7 +33,7 @@
 		 * Initialize checkout JS & bind if on the checkout screen
 		 *
 		 * @since 3.0.0
-		 * @since [version] Make sure we bind click events for the Show / Hide login area at the top of the checkout screen
+		 * @since 3.34.5 Make sure we bind click events for the Show / Hide login area at the top of the checkout screen
 		 *                  even if there's no llms product purchase form.
 		 *
 		 * @return void
@@ -244,7 +244,7 @@
 		 * Bind click events for the Show / Hide login area at the top of the checkout screen
 		 *
 		 * @since 3.0.0
-		 * @since [version] When showing the login form area make sure we slide up the `.llms-notice` link's parent too.
+		 * @since 3.34.5 When showing the login form area make sure we slide up the `.llms-notice` link's parent too.
 		 *
 		 * @return void
 		 */

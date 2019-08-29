@@ -3644,67 +3644,67 @@ msgstr ""
 msgid "The lesson %s is now marked as incomplete."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:98, includes/controllers/class.llms.controller.orders.php:104, includes/shortcodes/class.llms.shortcode.checkout.php:221
+#: includes/controllers/class.llms.controller.orders.php:100, includes/controllers/class.llms.controller.orders.php:106, includes/shortcodes/class.llms.shortcode.checkout.php:221
 msgid "Could not locate an order to confirm."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:117
+#: includes/controllers/class.llms.controller.orders.php:119
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:277
+#: includes/controllers/class.llms.controller.orders.php:279
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:360
+#: includes/controllers/class.llms.controller.orders.php:362
 msgid "Student unenrolled at the end of access period due to subscription cancellation."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:367
+#: includes/controllers/class.llms.controller.orders.php:369
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:423
+#: includes/controllers/class.llms.controller.orders.php:425
 msgid "Recurring charge skipped because recurring payments are disabled in for the payment gateway."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:428
+#: includes/controllers/class.llms.controller.orders.php:430
 msgid "Recurring charge skipped because recurring payments are disabled in staging mode."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:444
+#: includes/controllers/class.llms.controller.orders.php:446
 msgid "A recurring charge was not processed due to an error encountered while loading the payment gateway: \"%s\""
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:466
+#: includes/controllers/class.llms.controller.orders.php:468
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:471, templates/myaccount/view-order.php:13
+#: includes/controllers/class.llms.controller.orders.php:473, templates/myaccount/view-order.php:13
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:473
+#: includes/controllers/class.llms.controller.orders.php:475
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:589
+#: includes/controllers/class.llms.controller.orders.php:591
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:620, includes/functions/llms.functions.order.php:35
+#: includes/controllers/class.llms.controller.orders.php:622, includes/functions/llms.functions.order.php:35
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:625, includes/functions/llms.functions.order.php:41
+#: includes/controllers/class.llms.controller.orders.php:627, includes/functions/llms.functions.order.php:41
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:630, includes/functions/llms.functions.order.php:47
+#: includes/controllers/class.llms.controller.orders.php:632, includes/functions/llms.functions.order.php:47
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:635, includes/functions/llms.functions.order.php:53
+#: includes/controllers/class.llms.controller.orders.php:637, includes/functions/llms.functions.order.php:53
 msgid "An invalid payment method was selected."
 msgstr ""
 
@@ -6339,7 +6339,7 @@ msgstr ""
 msgid "You do not have any certificates yet."
 msgstr ""
 
-#: templates/checkout/form-checkout.php:27, templates/checkout/form-confirm-payment.php:38
+#: templates/checkout/form-checkout.php:27, templates/checkout/form-confirm-payment.php:39
 msgid "Billing Information"
 msgstr ""
 
@@ -6347,11 +6347,11 @@ msgstr ""
 msgid "Student Information"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:51, templates/checkout/form-confirm-payment.php:56
+#: templates/checkout/form-checkout.php:51, templates/checkout/form-confirm-payment.php:57
 msgid "Order Summary"
 msgstr ""
 
-#: templates/checkout/form-checkout.php:75, templates/checkout/form-confirm-payment.php:72
+#: templates/checkout/form-checkout.php:75, templates/checkout/form-confirm-payment.php:73
 msgid "Payment Details"
 msgstr ""
 
@@ -6367,15 +6367,15 @@ msgstr ""
 msgid "Enroll Now"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:23
+#: templates/checkout/form-confirm-payment.php:24
 msgid "Only pending orders can be confirmed. View your %1$sorder history%2$s for more information"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:77, templates/checkout/form-switch-source.php:59
+#: templates/checkout/form-confirm-payment.php:78, templates/checkout/form-switch-source.php:59
 msgid "Payment Method:"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:95, includes/admin/settings/class.llms.settings.checkout.php:191
+#: templates/checkout/form-confirm-payment.php:96, includes/admin/settings/class.llms.settings.checkout.php:191
 msgid "Confirm Payment"
 msgstr ""
 
