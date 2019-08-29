@@ -304,7 +304,7 @@ We invite you to **let us guide you to a successful training platform** through 
 
 Install the free LifterLMS plugin on your website from here on WordPress, then ...
 
-**[Try out all the premium add-ons for $1 by signing up >>HERE<<][try]
+**[Try out all the premium add-ons for $1 by signing up >>HERE<<][try]**
 
 🚀
 
