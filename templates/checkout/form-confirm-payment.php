@@ -6,7 +6,8 @@
  *
  * @since 1.0.0
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
- * @version 3.34.4
+ * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
+ * @version 3.34.5
  */
 
 $order_key = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );
@@ -16,7 +17,7 @@ $gateway_id = $selected_gateway->get_id();
 defined( 'ABSPATH' ) || exit;
 ?>
 
-<?php if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' !== $order->get( 'status' ) ), $order, $gateway_id ) ) : ?>
+<?php if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' === $order->get( 'status' ) ), $order, $gateway_id ) ) : ?>
 
 	<?php llms_print_notice(
 		sprintf(

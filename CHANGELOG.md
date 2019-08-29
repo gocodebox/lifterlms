@@ -1,6 +1,15 @@
 LifterLMS Changelog
 ===================
 
+v3.34.5 - 2019-08-29
+--------------------
+
++ Fixed logic issues preventing pending orders from being completed.
+
+##### Templates Changed
+
++ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
+
 v3.34.4 - 2019-08-27
 --------------------
 

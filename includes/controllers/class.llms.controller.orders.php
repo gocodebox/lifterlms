@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since 3.0.0
- * @version 3.34.4
+ * @version 3.34.5
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
+ * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
  */
 class LLMS_Controller_Orders {
 
@@ -82,6 +83,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.4.0 Unknown.
 	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
+ 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
 	 *
 	 * @return void
 	 */
@@ -113,7 +115,7 @@ class LLMS_Controller_Orders {
 		 * @param LLMS_Order $order Order object.
 		 * @param string $gateway_id Payment gateway ID.
 		 */
-		if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' !== $order->get( 'status' ) ), $order, $order->get( 'payment_gateway' ) ) ) {
+		if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' === $order->get( 'status' ) ), $order, $order->get( 'payment_gateway' ) ) ) {
 			return llms_add_notice( __( 'Only pending orders can be confirmed.', 'lifterlms' ), 'error' );
 		}
 
