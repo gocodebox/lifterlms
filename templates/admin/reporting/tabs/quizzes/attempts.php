@@ -1,24 +1,37 @@
 <?php
 /**
  * Single Quiz Tab: Attempts Subtab
- * @since    3.16.0
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since 3.16.0
+ * @since [version] Access `$_GET` data via `llms_filter_input()`.
  * @version  3.16.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
 
 if ( isset( $_GET['attempt_id'] ) ) {
 
-	llms_get_template( 'admin/reporting/tabs/quizzes/attempt.php', array(
-		'attempt' => new LLMS_Quiz_Attempt( $_GET['attempt_id'] ),
-	) );
+	llms_get_template(
+		'admin/reporting/tabs/quizzes/attempt.php',
+		array(
+			'attempt' => new LLMS_Quiz_Attempt( llms_filter_input( INPUT_GET, 'attempt_id', FILTER_SANITIZE_NUMBER_INT ) ),
+		)
+	);
 
 } else {
 
 	$table = new LLMS_Table_Quiz_Attempts();
-	$table->get_results( array(
-		'quiz_id' => absint( $_GET['quiz_id'] ),
-	) );
+	$table->get_results(
+		array(
+			'quiz_id' => llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT ),
+		)
+	);
 	echo $table->get_table_html();
 
 }
