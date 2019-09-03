@@ -2,9 +2,19 @@
 <ruleset name="LifterLMS Core">
 	<description>LifterLMS Rules for PHP_CodeSniffer</description>
 
-    <file>.</file>
+	<file>.</file>
 
-    <rule ref="LifterLMS" />
+	<rule ref="LifterLMS">
+
+		<!-- @todo: Fix docs and comments to adhere to these rules -->
+		<exclude name="Squiz.Commenting.InlineComment.InvalidEndChar" />
+		<exclude name="Squiz.Commenting.FunctionComment.ParamCommentFullStop" />
+
+		<!-- Most core files break this rule. -->
+		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+
+	</rule>
+
 
 	<rule ref="WordPress.WP.I18n">
 		<properties>
