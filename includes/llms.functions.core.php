@@ -686,23 +686,33 @@ function llms_get_enrollment_status_name( $status ) {
 
 /**
  * Retrieve an IP Address for the current user
- * @source   WooCommerce WC_Geolocation::get_ip_address(), thank you <3
- * @return   string
- * @since    3.0.0
- * @version  3.0.0
+ *
+ * @since 3.0.0
+ * @since [version] Sanitize superglobal input.
+ *
+ * @return string
  */
 function llms_get_ip_address() {
 
-	if ( isset( $_SERVER['X-Real-IP'] ) ) {
-		return $_SERVER['X-Real-IP'];
+	$ip = '';
+
+	if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
+		$ip = $_SERVER['HTTP_X_REAL_IP'];
 	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
 		// Proxy servers can send through this header like this: X-Forwarded-For: client1, proxy1, proxy2
 		// Make sure we always only send through the first IP in the list which should always be the client IP.
-		return trim( current( explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
+		$ip = trim( current( explode( ',', $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) );
 	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
-		return $_SERVER['REMOTE_ADDR'];
+		$ip = $_SERVER['REMOTE_ADDR'];
 	}
-	return '';
+
+	$ip = sanitize_text_field( wp_unslash( $ip ) );
+
+	if ( ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+		return '';
+	}
+
+	return $ip;
 
 }
 
