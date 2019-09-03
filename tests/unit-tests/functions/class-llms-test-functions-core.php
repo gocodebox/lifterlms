@@ -6,7 +6,7 @@
  * @group    functions_core
  *
  * @since 3.3.1
- * @version 3.30.1
+ * @since [version] Test ipv6 addresses.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -283,20 +283,42 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_ip_address()
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 *
+	 * @since 3.6.0
+	 * @since [version] Test sanitization and ipv6 addresses.
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_ip_address() {
 
 		$_SERVER['REMOTE_ADDR'] = '127.0.0.1';
 		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
 
+		$_SERVER['REMOTE_ADDR'] = '::1';
+		$this->assertEquals( '::1', llms_get_ip_address() );
+		unset( $_SERVER['REMOTE_ADDR'] );
+
 		$_SERVER['HTTP_X_FORWARDED_FOR'] = '127.0.0.1, 192.168.1.1, 192.168.1.5';
 		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
 
-		$_SERVER['X-Real-IP'] = '127.0.0.1';
+		$_SERVER['HTTP_X_FORWARDED_FOR'] = '::1, ::2';
+		$this->assertEquals( '::1', llms_get_ip_address() );
+		unset( $_SERVER['HTTP_X_FORWARDED_FOR'] );
+
+		$_SERVER['HTTP_X_REAL_IP'] = '127.0.0.1';
 		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+		$_SERVER['HTTP_X_REAL_IP'] = '::1';
+		$this->assertEquals( '::1', llms_get_ip_address() );
+		unset( $_SERVER['HTTP_X_REAL_IP'] );
+
+		$this->assertEquals( '', llms_get_ip_address() );
+
+		$_SERVER['REMOTE_ADDR'] = '127\.0.0.1';
+		$this->assertEquals( '127.0.0.1', llms_get_ip_address() );
+
+		$_SERVER['REMOTE_ADDR'] = '127\\/\/\/\.0.0.1';
+		$this->assertEquals( '', llms_get_ip_address() );
 
 	}
 
