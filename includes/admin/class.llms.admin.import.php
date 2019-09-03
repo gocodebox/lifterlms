@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version 3.3.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.3.0
  * @since 3.30.1 Explicitly include template functions during imports.
- * @version 3.3.0
+ * @since [version] Initialize at `admin_init` instead of `init`.
+ *               Import template from the admin views directory instead of the frontend templates directory.
+ *               Improve error handling
  */
 class LLMS_Admin_Import {
 
@@ -23,22 +25,77 @@ class LLMS_Admin_Import {
 	 * Constructor
 	 *
 	 * @since 3.3.0
-	 * @version 3.3.0
+	 * @since [version] Initialize at `admin_init` instead of `init`.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
-		add_action( 'init', array( $this, 'upload_import' ) );
+		add_action( 'admin_init', array( $this, 'upload_import' ) );
+	}
+
+	/**
+	 * Localize statistic information for display on success.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $stat Statistic key name.
+	 * @return string
+	 */
+	protected function localize_stat( $stat ) {
+
+		switch ( $stat ) {
+
+			case 'authors':
+				$name = __( 'Authors', 'lifterlms' );
+				break;
+
+			case 'courses':
+				$name = __( 'Courses', 'lifterlms' );
+				break;
+
+			case 'sections':
+				$name = __( 'Sections', 'lifterlms' );
+				break;
+
+			case 'lessons':
+				$name = __( 'Lessons', 'lifterlms' );
+				break;
+
+			case 'plans':
+				$name = __( 'Plans', 'lifterlms' );
+				break;
+
+			case 'quizzes':
+				$name = __( 'Quizzes', 'lifterlms' );
+				break;
+
+			case 'questions':
+				$name = __( 'Questions', 'lifterlms' );
+				break;
+
+			case 'terms':
+				$name = __( 'Terms', 'lifterlms' );
+				break;
+
+			default:
+				$name = $stat;
+
+		}// End switch().
+
+		return $name;
+
 	}
 
 	/**
 	 * Handle HTML output on the screen
 	 *
 	 * @since 3.3.0
-	 * @version 3.3.0
+	 * @since [version] Import template from the admin views directory instead of the frontend templates directory.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public static function output() {
-		llms_get_template( 'admin/import/import.php' );
+		include 'views/import.php';
 	}
 
 	/**
@@ -46,88 +103,56 @@ class LLMS_Admin_Import {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.1 Explicitly include template functions.
-	 * @version 3.30.1
+	 * @since [version] Validate nonce and user permissions before processing import data.
+	 *               Moved statistic localization into its own function.
+	 *               UpdateD return signature.
 	 *
-	 * @return void
+	 * @return boolean|WP_Error false for nonce or permission errors, WP_Error when an error is encountered, true on success.
 	 */
 	public function upload_import() {
 
-		if ( ! isset( $_FILES['llms_import'] ) || ! $_FILES['llms_import'] ) {
-			return;
+		if ( ! llms_verify_nonce( 'llms_importer_nonce', 'llms-importer' ) || empty( $_FILES['llms_import'] ) ) {
+			return false;
 		}
 
-		// Fixes an issue where hooks are loaded out of order causing template functions required to parse an import aren't available?
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			return false;
+		}
+
+		// Fixes an issue where hooks are loaded in an unexpected order causing template functions required to parse an import aren't available.
 		LLMS()->include_template_functions();
 
 		$validate = $this->validate_upload( $_FILES['llms_import'] );
 
+		// File upload error.
 		if ( is_wp_error( $validate ) ) {
-			return LLMS_Admin_Notices::flash_notice( $validate->get_error_message(), 'error' );
+			LLMS_Admin_Notices::flash_notice( $validate->get_error_message(), 'error' );
+			return $validate;
 		}
 
 		$raw = file_get_contents( $_FILES['llms_import']['tmp_name'] );
 
 		$generator = new LLMS_Generator( $raw );
 		if ( is_wp_error( $generator->set_generator() ) ) {
-			return LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
-		} else {
-			$generator->generate();
-			if ( $generator->is_error( ) ) {
-				return LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
-			} else {
+			LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
+			return $generater->error;
+		}
 
-				$msg = '<strong>' . __( 'Import Successful', 'lifterlms' ) . '</strong><br>';
+		$generator->generate();
+		if ( $generator->is_error() ) {
+			LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
+			return $generator->error;
+		}
 
-				$msg .= '<ul>';
+		$msg = '<strong>' . __( 'Import Successful', 'lifterlms' ) . '</strong><br>';
+		$msg .= '<ul>';
+		foreach ( $generator->get_results() as $stat => $count ) {
+			$msg .= '<li>' . sprintf( '%s: %d', $this->localize_stat( $stat ), $count ) . '</li>';
+		}
+		$msg .= '</ul>';
 
-				foreach ( $generator->get_results() as $stat => $count ) {
-
-					// translate like a boss ya'll
-					switch ( $stat ) {
-
-						case 'authors':
-							$name = __( 'Authors', 'lifterlms' );
-						break;
-
-						case 'courses':
-							$name = __( 'Courses', 'lifterlms' );
-						break;
-
-						case 'sections':
-							$name = __( 'Sections', 'lifterlms' );
-						break;
-
-						case 'lessons':
-							$name = __( 'Lessons', 'lifterlms' );
-						break;
-
-						case 'plans':
-							$name = __( 'Plans', 'lifterlms' );
-						break;
-
-						case 'quizzes':
-							$name = __( 'Quizzes', 'lifterlms' );
-						break;
-
-						case 'questions':
-							$name = __( 'Questions', 'lifterlms' );
-						break;
-
-						case 'terms':
-							$name = __( 'Terms', 'lifterlms' );
-						break;
-
-					}
-
-					$msg .= '<li>' . sprintf( '%s: %d', $name, $count ) . '</li>';
-
-				}// End foreach().
-
-				$msg .= '</ul>';
-
-				return LLMS_Admin_Notices::flash_notice( $msg, 'success' );
-			}// End if().
-		}// End if().
+		LLMS_Admin_Notices::flash_notice( $msg, 'success' );
+		return true;
 
 	}
 
@@ -135,7 +160,9 @@ class LLMS_Admin_Import {
 	 * Validate the uploaded file
 	 *
 	 * @since 3.3.0
-	 * @version 3.3.0
+	 * @since [version] Fix undefined variable error.
+	 *
+	 * @link https://www.php.net/manual/en/features.file-upload.errors.php
 	 *
 	 * @param array $file  array of file data.
 	 * @return WP_Error|true
@@ -145,47 +172,50 @@ class LLMS_Admin_Import {
 		if ( ! empty( $file['error'] ) ) {
 
 			switch ( $file['error'] ) {
+
 				case UPLOAD_ERR_INI_SIZE:
-					$error_message = __( 'The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'lifterlms' );
-				break;
+					$msg = __( 'The uploaded file exceeds the upload_max_filesize directive in php.ini.', 'lifterlms' );
+					break;
 
 				case UPLOAD_ERR_FORM_SIZE:
-					$error_message = __( 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.', 'lifterlms' );
-				break;
+					$msg = __( 'The uploaded file exceeds the MAX_FILE_SIZE directive that was specified in the HTML form.', 'lifterlms' );
+					break;
 
 				case UPLOAD_ERR_PARTIAL:
-					$error_message = __( 'The uploaded file was only partially uploaded.', 'lifterlms' );
-				break;
+					$msg = __( 'The uploaded file was only partially uploaded.', 'lifterlms' );
+					break;
 
 				case UPLOAD_ERR_NO_FILE:
-					$error_message = __( 'No file was uploaded.', 'lifterlms' );
-				break;
+					$msg = __( 'No file was uploaded.', 'lifterlms' );
+					break;
 
 				case UPLOAD_ERR_NO_TMP_DIR:
-					$error_message = __( 'Missing a temporary folder.', 'lifterlms' );
-				break;
+					$msg = __( 'Missing a temporary folder.', 'lifterlms' );
+					break;
 
 				case UPLOAD_ERR_CANT_WRITE:
-					$error_message = __( 'Failed to write file to disk.', 'lifterlms' );
-				break;
+					$msg = __( 'Failed to write file to disk.', 'lifterlms' );
+					break;
 
 				case UPLOAD_ERR_EXTENSION:
-					$error_message = __( 'File upload stopped by extension.', 'lifterlms' );
-				break;
+					$msg = __( 'File upload stopped by extension.', 'lifterlms' );
+					break;
 
 				default:
-					$error_message = __( 'Unknown upload error.', 'lifterlms' );
-				break;
+					$msg = __( 'Unknown upload error.', 'lifterlms' );
+
 			}
 		} else {
+
 			$info = pathinfo( $file['name'] );
 
 			if ( 'json' !== strtolower( $info['extension'] ) ) {
 				$msg = __( 'Only valid JSON files can be imported.', 'lifterlms' );
 			}
 		}// End if().
+
 		if ( ! empty( $msg ) ) {
-			return new WP_Error( 'upload-error', $msg );
+			return new WP_Error( 'llms_import_file_error', $msg );
 		}
 
 		return true;
