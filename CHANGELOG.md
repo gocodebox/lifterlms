@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.35.0 - 2019-09-03
+--------------------
+
++ Fix undefined index error when PHP file upload errors are encountered during a course import.
++ Closes a security issue disclosed to us by the WordPress plugin review team.
+
+
 v3.34.5 - 2019-08-29
 --------------------
 
