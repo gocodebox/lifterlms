@@ -1,10 +1,15 @@
 <?php
 /**
  * Import & Export LLMS Content
+ *
+ * @since 3.3.0
+ * @since [version] Moved from frontend templates directory.
+ *                  Added field.
+ * @version [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 
-if ( ! is_admin() ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
 ?>
 
 <div class="wrap lifterlms llms-import-export">
@@ -28,17 +33,21 @@ if ( ! is_admin() ) { exit; }
 				</tr>
 
 				<?php
-				/**
-				 * Hook in here to add importers from other platforms, perhaps
-				 */
+					/**
+					 * Fires after core importer(s) on the "Import screen".
+					 *
+					 * Allows 3rd parties to add their own importers to the table.
+					 *
+					 * @since 3.3.0
+					 */
+					do_action( 'lifterlms_importer_tr' );
 				?>
-				<?php do_action( 'lifterlms_importer_tr' ); ?>
 
 			</table>
 
+			<?php wp_nonce_field( 'llms-importer', 'llms_importer_nonce' ); ?>
+
 		</form>
-
-
 
 	</div>
 
