@@ -129,4 +129,6 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 
 }
 
-return new LLMS_Unit_Tests_Bootstrap();
+global $lifterlms_tests;
+$lifterlms_tests = new LLMS_Unit_Tests_Bootstrap();
+return $lifterlms_tests;
