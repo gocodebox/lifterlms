@@ -3,12 +3,17 @@
  * LifterLMS Admin Notices
  *
  * @since    3.0.0
- * @version  3.7.4
+ * @version  [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Notices
+ *
+ * @since  3.0.0
+ * @since [version] Unslash input data.
+ */
 class LLMS_Admin_Notices {
 
 	/**
@@ -204,23 +209,24 @@ class LLMS_Admin_Notices {
 	 * Called when "Dismiss X" or "Remind Me" is clicked on a notice
 	 * Validates request and deletes the notice
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Unslash input data.
+	 *
+	 * @return void
 	 */
 	public static function hide_notices() {
 		if ( ( isset( $_GET['llms-hide-notice'] ) || isset( $_GET['llms-remind-notice'] ) ) && isset( $_GET['_llms_notice_nonce'] ) ) {
-			if ( ! wp_verify_nonce( $_GET['_llms_notice_nonce'], 'llms_hide_notices_nonce' ) ) {
+			if ( ! llms_verify_nonce( '_llms_notice_nonce', 'llms_hide_notices_nonce', 'GET' ) ) {
 				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 			}
 			if ( isset( $_GET['llms-hide-notice'] ) ) {
-				$notice = sanitize_text_field( $_GET['llms-hide-notice'] );
+				$notice = sanitize_text_field( wp_unslash( $_GET['llms-hide-notice'] ) );
 				$action = 'hide';
 			} elseif ( isset( $_GET['llms-remind-notice'] ) ) {
-				$notice = sanitize_text_field( $_GET['llms-remind-notice'] );
+				$notice = sanitize_text_field( wp_unslash( $_GET['llms-remind-notice'] ) );
 				$action = 'remind';
 			}
 			self::delete_notice( $notice, $action );

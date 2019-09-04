@@ -1,42 +1,50 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Front End Password handler
  *
  * Class used managing front end password functionality
  *
- * @version 1.0
- * @author codeBOX
- * @project lifterLMS
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Frontend_Password
+ *
+ * @since 1.0.0
+ * @since [version] Sanitize `$_POST` data.
  */
 class LLMS_Frontend_Password {
 
 	/**
 	 * Lost password template
 	 *
+	 * @since 1.0.0
+	 * @since [version] Sanitize `$_POST` data.
+	 *
 	 * @return void
 	 */
 	public static function retrieve_password() {
 
-		global $lifterlms,$wpdb;
+		global $wpdb;
 
-		if ( empty( $_POST['user_login'] ) ) {
+		$login = trim( llms_filter_input( INPUT_POST, 'user_login', FILTER_SANITIZE_STRING ) );
+
+		if ( $login ) {
 
 			llms_add_notice( __( 'Enter a username or e-mail address.', 'lifterlms' ), 'error' );
 
-		} elseif ( strpos( $_POST['user_login'], '@' ) && apply_filters( 'lifterlms_get_username_from_email', true ) ) {
+		} elseif ( strpos( $login, '@' ) && apply_filters( 'lifterlms_get_username_from_email', true ) ) {
 
-			$user_data = get_user_by( 'email', trim( $_POST['user_login'] ) );
+			$user_data = get_user_by( 'email', $login );
 
 			if ( empty( $user_data ) ) {
 
-				llms_add_notice( __( 'The email address entered is not associated with an account.', 'lifterlms' ), 'error' ); }
+				llms_add_notice( __( 'The email address entered is not associated with an account.', 'lifterlms' ), 'error' );
+			}
 		} else {
-
-			$login = trim( $_POST['user_login'] );
-
 			$user_data = get_user_by( 'login', $login );
 		}
 
@@ -109,7 +117,7 @@ class LLMS_Frontend_Password {
 	 * @return string $user
 	 */
 	public static function check_password_reset_key( $key, $login ) {
-		global $lifterlms,$wpdb;
+		global $wpdb;
 
 		$key = preg_replace( '/[^a-z0-9]/i', '', $key );
 

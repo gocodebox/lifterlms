@@ -221,17 +221,18 @@ if ( ! function_exists( '_llms_query_user_postmeta' ) ) :
 		$key = $meta_key ? $wpdb->prepare( 'AND meta_key = %s', $meta_key ) : '';
 		$val = $meta_value ? $wpdb->prepare( 'AND meta_value = %s', $meta_value ) : '';
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$res = $wpdb->get_results(
 			$wpdb->prepare(
-				"
-		SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
-		WHERE user_id = %d AND post_id = %d {$key} {$val} ORDER BY updated_date DESC",
+				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
+				 WHERE user_id = %d AND post_id = %d {$key} {$val} ORDER BY updated_date DESC",
 				$user_id,
 				$post_id
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-			return $res;
+		return $res;
 
 	}
 endif;

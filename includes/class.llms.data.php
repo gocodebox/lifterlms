@@ -1,11 +1,18 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Retrieve data sets used by various other classes and functions
  *
  * @since    3.0.0
  * @version  3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Data
+ *
+ * @since 3.0.0
+ * @since [version] Sanitize `$_SERVER` data.
  */
 class LLMS_Data {
 
@@ -78,14 +85,16 @@ class LLMS_Data {
 	/**
 	 * add browser and os info to the system report
 	 *
-	 * @return   array
-	 * @since    3.17.0
-	 * @version  3.17.0
+	 * @since 3.17.0
+	 * @since [version] Sanitize `$_SERVER` data.
+	 *
+	 * @return array
 	 */
 	private static function get_browser_data() {
 
 		$data = array(
-			'HTTP_USER_AGENT' => $_SERVER['HTTP_USER_AGENT'],
+			'HTTP_USER_AGENT' => ! empty( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : '',
+
 		);
 
 		return $data;
@@ -407,9 +416,10 @@ class LLMS_Data {
 	/**
 	 * Get PHP & Server Data
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Sanitize `$_SERVER` data.
+	 *
+	 * @return array
 	 */
 	private static function get_server_data() {
 
@@ -438,7 +448,7 @@ class LLMS_Data {
 		}
 
 		if ( isset( $_SERVER['SERVER_SOFTWARE'] ) && ! empty( $_SERVER['SERVER_SOFTWARE'] ) ) {
-			$data['software'] = $_SERVER['SERVER_SOFTWARE'];
+			$data['software'] = ! empty( $_SERVER['SERVER_SOFTWARE'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SERVER_SOFTWARE'] ) ) : '';
 		}
 
 		$data['wp_memory_limit'] = WP_MEMORY_LIMIT;

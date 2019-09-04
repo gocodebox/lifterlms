@@ -56,7 +56,7 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	 * Parse the body of the response and set a success/error
 	 *
 	 * @param    array $response  response data
-	 * @return   array
+	 * @return   void
 	 * @since    3.22.0
 	 * @version  3.22.0
 	 */

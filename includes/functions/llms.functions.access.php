@@ -394,13 +394,11 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
 		}
 		$course_id = $lesson->get_parent_course();
 
-	} // End if().
-	elseif ( 'course' == $post_type ) {
+	} elseif ( 'course' == $post_type ) {
 
 		$course_id = $post_id;
 
-	} // don't pass any other post types into this function, dumb dumb
-	else {
+	} else {
 
 		return false;
 
@@ -531,8 +529,7 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 
 		return $membership_id;
 
-	} // End if().
-	else {
+	} else {
 
 		return false;
 

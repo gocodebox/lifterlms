@@ -153,6 +153,9 @@ class LLMS_Lesson_Handler {
 	public static function duplicate_meta( $post_id, $new_post_id ) {
 		global $wpdb;
 
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 		// duplicate all post meta
 		$post_meta_infos = $wpdb->get_results( "SELECT meta_key, meta_value FROM $wpdb->postmeta WHERE post_id=$post_id" );
 
@@ -187,6 +190,9 @@ class LLMS_Lesson_Handler {
 
 			return $insert_post_meta;
 		}
+
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 	}
 
 } //end LLMS_POST_Handler

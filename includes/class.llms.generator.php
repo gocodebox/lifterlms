@@ -752,8 +752,7 @@ class LLMS_Generator {
 						if ( $user->user_email == $raw['email'] ) {
 							$author_id = $user->ID;
 						}
-					} // End if().
-					else {
+					} else {
 						$author_id = $user->ID;
 					}
 				}
@@ -996,14 +995,12 @@ class LLMS_Generator {
 
 						$obj->set( 'prerequisite', $ids[ $old_prereq ] );
 
-					} // End if().
-					elseif ( ! isset( $raw['_source'] ) || get_site_url() !== $raw['_source'] ) {
+					} elseif ( ! isset( $raw['_source'] ) || get_site_url() !== $raw['_source'] ) {
 
 						$obj->set( 'has_prerequisite', 'no' );
 						$obj->set( 'prerequisite', 0 );
 
-					} // check to be sure old prereq still exists
-					else {
+					} else {
 						$post = get_post( $old_prereq );
 						// post doesn't exist or the post type doesn't match, get rid of it...
 						if ( ! $post || $obj_type !== $post->post_type ) {

@@ -114,7 +114,7 @@ class LLMS_Certificate {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 
 			// Settings TODO Refactor: theses can come from the email post now
 			$this->email_type = 'html';
@@ -129,7 +129,7 @@ class LLMS_Certificate {
 	 *
 	 * @return boolean [certificate enabled]
 	 */
-	function is_enabled() {
+	public function is_enabled() {
 		// $enabled = $this->enabled == "yes" ? true : false;
 		return true;
 	}
@@ -139,7 +139,7 @@ class LLMS_Certificate {
 	 *
 	 * @return string [blog name]
 	 */
-	function get_blogname() {
+	public function get_blogname() {
 		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
@@ -149,7 +149,7 @@ class LLMS_Certificate {
 	 * @param  string $string [Find and replace merge fields]
 	 * @return string [formatted string]
 	 */
-	function format_string( $string ) {
+	public function format_string( $string ) {
 		return str_replace( $this->find, $this->replace, $string );
 	}
 
@@ -158,7 +158,7 @@ class LLMS_Certificate {
 	 *
 	 * @return string [Blog title]
 	 */
-	function get_title() {
+	public function get_title() {
 		return apply_filters( '_llms_certificate_title' . $this->id, $this->title, $this->object );
 	}
 
@@ -167,7 +167,7 @@ class LLMS_Certificate {
 	 *
 	 * @return string [Post Content]
 	 */
-	function get_content() {
+	public function get_content() {
 
 		$this->sending = true;
 
@@ -179,9 +179,9 @@ class LLMS_Certificate {
 	/**
 	 * Get Content HTML
 	 *
-	 * @return string [html formatted string]
+	 * @return void
 	 */
-	function get_content_html() {}
+	public function get_content_html() {}
 
 	/**
 	 * Create Certificate

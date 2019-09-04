@@ -6,9 +6,17 @@
  * @version  3.10.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+/**
+ * LLMS_HTTPS
+ *
+ * @since 3.0.0
+ */
 class LLMS_HTTPS {
 
 	/**
@@ -82,5 +90,9 @@ class LLMS_HTTPS {
 
 
 }
+
+// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 return new LLMS_HTTPS();

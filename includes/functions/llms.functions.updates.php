@@ -1074,7 +1074,7 @@ function llms_update_3160_update_quiz_settings() {
 /**
  * Rename meta keys for lesson -> quiz relationship
  *
- * @return   [type]
+ * @return   void
  * @since    3.16.0
  * @version  3.16.10
  */
@@ -1274,6 +1274,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 			$part = substr( $part, 5, -1 );
 		}
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$quiz_ids = $wpdb->get_col(
 			"
 			SELECT post_id
@@ -1281,6 +1282,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 			WHERE meta_key = '_llms_questions'
 			  AND ( meta_value LIKE '%{$parts[0]}%' OR meta_value LIKE '%{$parts[1]}%' );"
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// question is attached to 2 or more quizzes
 		if ( count( $quiz_ids ) >= 2 ) {
@@ -1301,6 +1303,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 				update_post_meta( $quiz_id, '_llms_questions', $questions );
 
 				// update references to the quiz in quiz attempts
+				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				$attempt_ids = $wpdb->get_col(
 					"
 					SELECT id
@@ -1308,6 +1311,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 					WHERE quiz_id = {$quiz_id}
 					  AND ( questions LIKE '%{$parts[0]}%' OR questions LIKE '%{$parts[1]}%' );"
 				);
+				// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 				foreach ( $attempt_ids as $aid ) {
 
@@ -1407,12 +1411,14 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 
 			$lesson->set( 'quiz', $dupe_quiz_id );
 
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$attempt_ids = $wpdb->get_col(
 				"
 				SELECT id
 				FROM {$wpdb->prefix}lifterlms_quiz_attempts
 				WHERE quiz_id = {$data->quiz_id} AND lesson_id = {$data->lesson_id}"
 			);
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			foreach ( $attempt_ids as $aid ) {
 				$attempt   = new LLMS_Quiz_Attempt( $aid );

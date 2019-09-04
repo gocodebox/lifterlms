@@ -13,9 +13,12 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Hasher {
 
-	/*
-	 Key: Next prime greater than 62 ^ n / 1.618033988749894848 */
-	/* Value: modular multiplicative inverse */
+	/**
+	 * Key: Next prime greater than 62 ^ n / 1.618033988749894848
+	 * Value: modular multiplicative inverse
+	 *
+	 * @var array
+	 */
 	private static $golden_primes = array(
 		'1'                  => '1',
 		'41'                 => '59',
@@ -30,9 +33,12 @@ class LLMS_Hasher {
 		'518715534842869223' => '280042546585394647',
 	);
 
-	/*
-	 Ascii :                    0  9,         A  Z,         a  z     */
-	/* $chars = array_merge(range(48,57), range(65,90), range(97,122)) */
+	/**
+	 * Ascii  =                     0  9,         A  Z,         a  z
+	 * $chars = array_merge(range(48,57), range(65,90), range(97,122))
+	 *
+	 * @var array
+	 */
 	private static $chars62 = array(
 		0  => 48,
 		1  => 49,

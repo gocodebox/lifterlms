@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 3.34.4
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.29.0 Unknown.
  * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_Settings {
 
@@ -74,9 +75,10 @@ class LLMS_Admin_Settings {
 	 * @return void
 	 */
 	public static function save() {
+
 		global $current_tab;
 
-		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'lifterlms-settings' ) ) {
+		if ( isset( $_POST['_wpnonce'] ) && ! llms_verify_nonce( '_wpnonce', 'lifterlms-settings' ) ) {
 			die( __( 'Whoa! something went wrong there!. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
@@ -118,12 +120,12 @@ class LLMS_Admin_Settings {
 	 */
 	public static function display_messages_html() {
 
-		if ( sizeof( self::$errors ) > 0 ) {
+		if ( count( self::$errors ) > 0 ) {
 
 			foreach ( self::$errors as $error ) {
 				echo '<div class="error"><p><strong>' . $error . '</strong></p></div>';
 			}
-		} elseif ( sizeof( self::$messages ) > 0 ) {
+		} elseif ( count( self::$messages ) > 0 ) {
 
 			foreach ( self::$messages as $message ) {
 				echo '<div class="updated"><p><strong>' . $message . '</strong></p></div>';
@@ -134,9 +136,11 @@ class LLMS_Admin_Settings {
 	/**
 	 * Settings Page output tabs
 	 *
+	 * @since 1.0.0
+	 * @since 3.29.0 Unknown.
+	 * @since [version] Sanitize `$_GET` data.
+	 *
 	 * @return void
-	 * @since  1.0.0
-	 * @since  3.29.0
 	 */
 	public static function output() {
 
@@ -146,18 +150,18 @@ class LLMS_Admin_Settings {
 
 		self::get_settings_tabs();
 
-		$current_tab = empty( $_GET['tab'] ) ? 'general' : sanitize_title( $_GET['tab'] );
+		$current_tab = empty( $_GET['tab'] ) ? 'general' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
 
-		if ( ! empty( $_POST ) ) {
-			self::save();
+		self::save();
+
+		$err = llms_filter_input( INPUT_GET, 'llms_error', FILTER_SANITIZE_STRING );
+		if ( $err ) {
+			self::set_error( $err );
 		}
 
-		if ( ! empty( $_GET['llms_error'] ) ) {
-			self::set_error( stripslashes( $_GET['llms_error'] ) );
-		}
-
-		if ( ! empty( $_GET['llms_message'] ) ) {
-			self::set_message( stripslashes( $_GET['llms_message'] ) );
+		$msg = llms_filter_input( INPUT_GET, 'llms_message', FILTER_SANITIZE_STRING );
+		if ( $msg ) {
+			self::set_message( $msg );
 		}
 
 		self::display_messages_html();
@@ -428,6 +432,10 @@ class LLMS_Admin_Settings {
 			// Select boxes
 			case 'select':
 			case 'multiselect':
+				$field_name = esc_attr( $field['id'] );
+				if ( 'multiselect' === $field['type'] ) {
+					$field_name .= '[]';
+				}
 				?>
 				<tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
@@ -436,12 +444,7 @@ class LLMS_Admin_Settings {
 					</th>
 					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ); ?>">
 						<select
-							name="<?php echo esc_attr( $field['id'] ); ?>
-											 <?php
-												if ( 'multiselect' == $field['type'] ) {
-													echo '[]'; }
-												?>
-							"
+							name="<?php echo $field_name; ?>"
 							id="<?php echo esc_attr( $field['id'] ); ?>"
 							style="<?php echo esc_attr( $field['css'] ); ?>"
 							class="<?php echo esc_attr( $field['class'] ); ?>"
@@ -461,7 +464,7 @@ class LLMS_Admin_Settings {
 								}
 
 								?>
-								<option value="<?php echo esc_attr( $key ); ?>" 
+								<option value="<?php echo esc_attr( $key ); ?>"
 														  <?php
 
 															if ( is_array( $option_value ) ) {
@@ -863,14 +866,20 @@ class LLMS_Admin_Settings {
 	 * Save admin fields.
 	 * Loops though the lifterlms options array and outputs each field.
 	 *
+	 * @since 1.0.0
+	 * @since 3.29.0 Unknown.
+	 * @since [version] Sanitize `$_POST` data.
+	 *
 	 * @param    array $settings Opens array to output
 	 * @return   bool
-	 * @since    1.0.0
-	 * @version  3.29.0
 	 */
 	public static function save_fields( $settings ) {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is checked in self::save().
+
 		if ( empty( $_POST ) ) {
-			return false; }
+			return false;
+		}
 
 		// Options to update will be stored here
 		$update_options = array();
@@ -917,7 +926,7 @@ class LLMS_Admin_Settings {
 				case 'textarea':
 				case 'wpeditor':
 					if ( isset( $_POST[ $value['id'] ] ) ) {
-						$option_value = wp_kses_post( trim( stripslashes( $_POST[ $value['id'] ] ) ) );
+						$option_value = wp_kses_post( trim( llms_filter_input( INPUT_POST, $value['id'], FILTER_SANITIZE_STRING ) ) );
 					} else {
 						$option_value = '';
 					}
@@ -935,7 +944,7 @@ class LLMS_Admin_Settings {
 				case 'hidden':
 				case 'image':
 					if ( isset( $_POST[ $value['id'] ] ) ) {
-						$option_value = llms_clean( stripslashes( $_POST[ $value['id'] ] ) );
+						$option_value = llms_filter_input( INPUT_POST, $value['id'], FILTER_SANITIZE_STRING );
 					} else {
 						$option_value = '';
 					}
@@ -948,12 +957,7 @@ class LLMS_Admin_Settings {
 
 				case 'multiselect':
 					if ( isset( $_POST[ $value['id'] ] ) ) {
-						foreach ( $_POST[ $value['id'] ] as $k => $v ) {
-
-							$_POST[ $value['id'] ][ $k ] = llms_clean( stripslashes( $v ) );
-						}
-						$option_value = $_POST[ $value['id'] ];
-
+						$option_value = llms_filter_input( INPUT_POST, $value['id'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 					} else {
 						$option_value = '';
 					}
@@ -1004,6 +1008,8 @@ class LLMS_Admin_Settings {
 			update_option( $name, $value );
 
 		}
+
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 		return true;
 	}

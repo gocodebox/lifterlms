@@ -89,7 +89,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 
 		parent::__construct();
 	}
@@ -176,7 +176,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 *
 	 * @return void
 	 */
-	function trigger( $user_id, $email_id, $lesson_id ) {
+	public function trigger( $user_id, $email_id, $lesson_id ) {
 
 		$this->init( $email_id, $user_id, $lesson_id );
 
@@ -205,7 +205,7 @@ class LLMS_Certificate_User extends LLMS_Certificate {
 	 * @since    1.0.0
 	 * @version  3.17.4
 	 */
-	function get_content_html() {
+	public function get_content_html() {
 
 		$codes = apply_filters(
 			'llms_certificate_merge_codes',

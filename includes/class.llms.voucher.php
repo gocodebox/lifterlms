@@ -12,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Voucher {
 
+	// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+	// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	/**
 	 * ID of the voucher
@@ -391,7 +393,7 @@ class LLMS_Voucher {
 
 		return $wpdb->get_var(
 			$wpdb->prepare(
-				"SELECT count(id) FROM {$this->get_redemptions_table_name()} WHERE user_id = %d and code_id = %d",
+				"SELECT count(id) FROM {$this->get_redemptions_table_name()} WHERE user_id = %d and code_id = %d", // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				array( $user_id, $code_id )
 			)
 		);
@@ -429,7 +431,7 @@ class LLMS_Voucher {
 
 		$table = $this->get_product_to_voucher_table_name();
 
-		$products = $wpdb->get_col( $wpdb->prepare( "SELECT product_id FROM {$table} WHERE `voucher_id` = %d;", $this->id ) );
+		$products = $wpdb->get_col( $wpdb->prepare( "SELECT product_id FROM {$table} WHERE `voucher_id` = %d;", $this->id ) ); //phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( ! empty( $products ) ) {
 
@@ -479,23 +481,28 @@ class LLMS_Voucher {
 	/**
 	 * [is_code_duplicate description]
 	 *
+	 * @since 2.0.0
+	 * @since [version] Prepare SQL.
+	 *
 	 * @param    [type] $codes  [description]
 	 * @return   boolean            [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
 	 */
 	public function is_code_duplicate( $codes ) {
 
 		global $wpdb;
-		$table = $this->get_codes_table_name();
-
 		$codes_as_string = join( '","', $codes );
-
-		$query = 'SELECT code
-                  FROM ' . $table . '
-                  WHERE code IN ("' . $codes_as_string . '")
-                  AND voucher_id != ' . $this->id;
-		$codes = $wpdb->get_results( $query, ARRAY_A );
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$codes = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT code
+             FROM {$this->get_codes_table_name()}
+             WHERE code IN ( {$codes_as_string} )
+               AND voucher_id != %d",
+				array( $this->id )
+			),
+			ARRAY_A
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( count( $codes ) ) {
 			return $codes;
@@ -541,3 +548,6 @@ class LLMS_Voucher {
 		);
 	}
 }
+
+// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared

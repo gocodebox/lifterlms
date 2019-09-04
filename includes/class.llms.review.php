@@ -143,13 +143,13 @@ class LLMS_Reviews {
 	public function process_review() {
 
 		$post = array(
-			'post_content' => $_POST['review_text'], // The full text of the post.
-			'post_name'    => $_POST['review_title'], // The name (slug) for your post
-			'post_title'   => $_POST['review_title'], // The title of your post.
+			'post_content' => llms_filter_input( INPUT_POST, 'review_text', FILTER_SANITIZE_STRING ), // The full text of the post.
+			'post_name'    => llms_filter_input( INPUT_POST, 'review_title', FILTER_SANITIZE_STRING ), // The name (slug) for your post
+			'post_title'   => llms_filter_input( INPUT_POST, 'review_title', FILTER_SANITIZE_STRING ), // The title of your post.
 			'post_status'  => 'publish',
 			'post_type'    => 'llms_review',
-			'post_parent'  => $_POST['pageID'], // Sets the parent of the new post, if any. Default 0.
-			'post_excerpt' => $_POST['review_title'],
+			'post_parent'  => llms_filter_input( INPUT_POST, 'pageID', FILTER_SANITIZE_NUMBER_INT ), // Sets the parent of the new post, if any. Default 0.
+			'post_excerpt' => llms_filter_input( INPUT_POST, 'review_title', FILTER_SANITIZE_STRING ),
 		);
 
 		$result = wp_insert_post( $post, true );

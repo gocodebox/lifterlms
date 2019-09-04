@@ -95,7 +95,7 @@ class LLMS_Achievement {
 	 */
 	public $userid;
 
-	function __construct() {
+	public function __construct() {
 
 		// Settings TODO Refactor: theses can come from the achievement post now
 		$this->enabled = get_option( 'enabled' );
@@ -112,7 +112,7 @@ class LLMS_Achievement {
 	 * @version  3.24.0
 	 * @todo     returning true always. Need to build setting to disable / enable
 	 */
-	function is_enabled() {
+	public function is_enabled() {
 		$enabled = 'yes' == $this->enabled ? true : false;
 		return true;
 	}
@@ -123,7 +123,7 @@ class LLMS_Achievement {
 	 *
 	 * @return string [Blogname from options]
 	 */
-	function get_blogname() {
+	public function get_blogname() {
 		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
@@ -133,7 +133,7 @@ class LLMS_Achievement {
 	 * @param  string $string [un-formatted string]
 	 * @return string         [formatted string]
 	 */
-	function format_string( $string ) {
+	public function format_string( $string ) {
 		return str_replace( $this->find, $this->replace, $string );
 	}
 
@@ -143,7 +143,7 @@ class LLMS_Achievement {
 	 *
 	 * @return string [display title of the achievement]
 	 */
-	function get_title() {
+	public function get_title() {
 		return apply_filters( '_llms_achievement_title' . $this->id, $this->title, $this->object );
 	}
 
@@ -154,7 +154,7 @@ class LLMS_Achievement {
 	 * @since   1.0.0
 	 * @version 1.4.1
 	 */
-	function get_content() {
+	public function get_content() {
 
 		$achievement_content = $this->content;
 
@@ -169,7 +169,7 @@ class LLMS_Achievement {
 	 * @return   void
 	 * @since    1.0.0
 	 */
-	function get_content_html() {}
+	public function get_content_html() {}
 
 	/**
 	 * Create the achievement

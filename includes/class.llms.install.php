@@ -592,7 +592,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		// start the updater if the run button was clicked
 		if ( ! empty( $_GET['llms-db-update'] ) ) {
 
-			if ( ! wp_verify_nonce( $_GET['llms-db-update'], 'do_db_updates' ) ) {
+			if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
 				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
 
@@ -612,7 +612,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		// force update triggered
 		if ( ! empty( $_GET['llms-force-db-update'] ) ) {
 
-			if ( ! wp_verify_nonce( $_GET['llms-force-db-update'], 'force_db_updates' ) ) {
+			if ( ! llms_verify_nonce( 'llms-force-db-update', 'force_db_updates', 'GET' ) ) {
 				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
 
@@ -662,8 +662,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 					)
 				);
 
-			} // End if().
-			else {
+			} else {
 
 				LLMS_Admin_Notices::add_notice(
 					'bg-db-update',

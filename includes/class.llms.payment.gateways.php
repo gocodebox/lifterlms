@@ -128,7 +128,7 @@ class LLMS_Payment_Gateways {
 	 *
 	 * @since  2.5.0
 	 */
-	function get_gateway_by_id( $id ) {
+	public function get_gateway_by_id( $id ) {
 
 		$gateways = $this->get_payment_gateways();
 

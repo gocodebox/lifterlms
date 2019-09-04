@@ -46,9 +46,10 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Add LLMS navigation items to the BuddyPress User Profile
 	 *
-	 * @return  null
 	 * @since   1.0.0
 	 * @version 1.0.0
+	 *
+	 * @return  void
 	 */
 	public function add_profile_nav_items() {
 		global $bp;
@@ -127,9 +128,10 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Callback for "Achievements" profile screen
 	 *
-	 * @return null
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function achievements_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_achievements' );
@@ -139,9 +141,10 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Callback for "Certificates" profile screen
 	 *
-	 * @return null
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function certificates_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_certificates' );
@@ -151,9 +154,10 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Callback for "Courses" profile screen
 	 *
-	 * @return null
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function courses_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_courses' );
@@ -163,9 +167,10 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Callback for "memberships" profile screen
 	 *
-	 * @return null
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function memberships_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );

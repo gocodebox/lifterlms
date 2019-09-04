@@ -9,6 +9,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * @author codeBOX
  * @project lifterLMS
+ *
+ * @deprecated [version]
  */
 class LLMS_Admin_Analytics {
 

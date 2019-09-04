@@ -8,7 +8,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$field_data = isset( $_POST ) ? $_POST : get_current_user_id(); // phpcs:disable WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
+$req_method = ! empty( $_SERVER['REQUEST_METHOD'] ) ? sanitize_text_field( wp_unslash( $_SERVER['REQUEST_METHOD'] ) ) : false;
+$field_data = 'post' === strtolower( $req_method ) ? $_POST : get_current_user_id(); // phpcs:disable WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
 ?>
 
 <?php llms_print_notices(); ?>

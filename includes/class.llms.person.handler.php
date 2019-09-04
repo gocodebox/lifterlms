@@ -844,8 +844,7 @@ class LLMS_Person_Handler {
 
 			return apply_filters( 'lifterlms_user_update_errors', $valid, $data, $screen );
 
-		} // End if().
-		else {
+		} else {
 
 			do_action( 'lifterlms_user_update_after_validation', $data, $screen );
 
@@ -952,8 +951,7 @@ class LLMS_Person_Handler {
 				if ( ! $skip_email && email_exists( $val ) ) {
 					$e->add( $field['id'], sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $val ), 'email-exists' );
 				}
-			} // End if().
-			elseif ( 'user_login' === $name ) {
+			} elseif ( 'user_login' === $name ) {
 
 				// blacklist usernames for security purposes
 				$banned_usernames = apply_filters( 'llms_usernames_blacklist', array( 'admin', 'test', 'administrator', 'password', 'testing' ) );

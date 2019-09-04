@@ -100,12 +100,12 @@ function llms_notice_count( $notice_type = '' ) {
 
 	if ( isset( $all_notices[ $notice_type ] ) ) {
 
-		$notice_count = absint( sizeof( $all_notices[ $notice_type ] ) );
+		$notice_count = absint( count( $all_notices[ $notice_type ] ) );
 
 	} elseif ( empty( $notice_type ) ) {
 
 		foreach ( $all_notices as $notices ) {
-			$notice_count += absint( sizeof( $all_notices ) );
+			$notice_count += absint( count( $all_notices ) );
 		}
 	}
 

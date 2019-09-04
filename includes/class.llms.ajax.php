@@ -4,8 +4,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * AJAX Event Handler
  *
- * @since    1.0.0
- * @version  3.24.0
+ * @since 1.0.0
+ * @version [version]
  */
 class LLMS_AJAX {
 
@@ -121,17 +121,20 @@ class LLMS_AJAX {
 	/**
 	 * Register our AJAX JavaScript.
 	 *
-	 * @since    1.0.0
-	 * @version  3.17.8
+	 * @since 1.0.0
+	 * @since [version] Sanitize data & declare script versions.
+	 *
+	 * @return  void
 	 */
 	public function register_script() {
 
 		// script will only register once
-		wp_register_script( 'llms', LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
+		wp_register_script( 'llms', LLMS_PLUGIN_URL . '/assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 		wp_localize_script( 'llms', 'wp_ajax_data', $this->get_ajax_data() );
 
+		$script = ! empty( $_SERVER['SCRIPT_NAME'] ) ? sanitize_text_field( wp_unslash( $_SERVER['SCRIPT_NAME'] ) ) : false;
 		// ensure this doesn't load on the wp-login.php screen
-		if ( isset( $_SERVER['SCRIPT_NAME'] ) && false === stripos( $_SERVER['SCRIPT_NAME'], strrchr( wp_login_url(), '/' ) ) ) {
+		if ( false === stripos( $script, strrchr( wp_login_url(), '/' ) ) ) {
 			wp_enqueue_script( 'llms' );
 		}
 
@@ -174,20 +177,28 @@ class LLMS_AJAX {
 		 \_______/ \_______/|__/|__/|_______/  \_______/ \_______/|__/  \__/|_______/
 	*/
 
+	/**
+	 * Check if a voucher is a duplicate.
+	 *
+	 * @return void
+	 */
 	public function check_voucher_duplicate() {
+
 		global $wpdb;
 		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
 
-		$codes   = array_key_exists( 'codes', $_REQUEST ) ? $_REQUEST['codes'] : array();
-		$post_id = array_key_exists( 'postId', $_REQUEST ) ? (int) $_REQUEST['postId'] : 0;
+		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input( INPUT_REQUEST, 'codes', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+		$post_id = ! empty( $_REQUEST['postId'] ) ? llms_filter_input( INPUT_REQUEST, 'postId', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		$codes_as_string = join( '","', $codes );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		$query        = 'SELECT code
                   FROM ' . $table . '
                   WHERE code IN ("' . $codes_as_string . '")
                   AND voucher_id != ' . $post_id;
 		$codes_result = $wpdb->get_results( $query, ARRAY_A );
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		echo json_encode(
 			array(
@@ -205,14 +216,14 @@ class LLMS_AJAX {
 	 * Used by Select2 AJAX functions to load paginated quiz questions
 	 * Also allows querying by question title
 	 *
-	 * @return json
+	 * @return void
 	 */
 	public function query_quiz_questions() {
 
 		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'term', FILTER_SANITIZE_STRING ) : '';
 
-		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		global $wpdb;
 
@@ -226,6 +237,8 @@ class LLMS_AJAX {
 			$like = '';
 			$vars = array( $start, $limit );
 		}
+
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$questions = $wpdb->get_results(
 			$wpdb->prepare(
@@ -241,6 +254,8 @@ class LLMS_AJAX {
 				$vars
 			)
 		);
+
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$r = array();
 		foreach ( $questions as $q ) {
@@ -277,6 +292,8 @@ class LLMS_AJAX {
 							| $$
 							|__/
 	*/
+
+	// phpcs:disable
 
 	/**
 	 * Return array of achievements (id => name)
@@ -1033,6 +1050,8 @@ class LLMS_AJAX {
 		die();
 
 	}
+
+	// phpcs:enable
 
 }
 

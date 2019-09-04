@@ -418,8 +418,7 @@ class LLMS_Engagements {
 
 					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, array( $handler_args ) );
 
-				} // End if().
-				else {
+				} else {
 
 					do_action( $handler_action, $handler_args );
 
@@ -472,6 +471,8 @@ class LLMS_Engagements {
 
 		}
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 		$r = $wpdb->get_results(
 			$wpdb->prepare(
 				// the query
@@ -512,6 +513,8 @@ class LLMS_Engagements {
 			),
 			OBJECT
 		);
+
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$this->log( '$wpdb->last_query' . $wpdb->last_query );
 

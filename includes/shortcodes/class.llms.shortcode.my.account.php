@@ -41,7 +41,7 @@ class LLMS_Shortcode_My_Account {
 
 		if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
 			$args['form']   = 'reset_password';
-			$args['fields'] = LLMS_Person_Handler::get_password_reset_fields( trim( sanitize_text_field( $_GET['key'] ) ), trim( sanitize_text_field( $_GET['login'] ) ) );
+			$args['fields'] = LLMS_Person_Handler::get_password_reset_fields( trim( sanitize_text_field( wp_unslash( $_GET['key'] ) ) ), trim( sanitize_text_field( wp_unslash( $_GET['login'] ) ) ) );
 		} else {
 			$args['form']   = 'lost_password';
 			$args['fields'] = LLMS_Person_Handler::get_lost_password_fields();

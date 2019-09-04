@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes
  *
  * @since 1.0.0
- * @version 3.33.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
  * @since 3.33.0 Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -67,8 +68,8 @@ class LLMS_Shortcode_Checkout {
 
 				llms_print_notice(
 					sprintf(
-						// Translators: %s = The product type (course/membership).
-						__( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ),
+						// Translators: 2$s = The product type (course/membership); %1$s = product permalink.
+						__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
 						llms_get_page_url( 'myaccount' ),
 						$atts['product']->get_post_type_label()
 					),
@@ -136,6 +137,7 @@ class LLMS_Shortcode_Checkout {
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
+	 * @since [version] Sanitize input data.
 	 *
 	 * @param array $atts shortcode atts from originating shortcode
 	 * @return void
@@ -156,8 +158,8 @@ class LLMS_Shortcode_Checkout {
 		$atts['order_key'] = '';
 
 		$atts['field_data'] = array();
-		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) {
-			$atts['field_data'] = $_POST;
+		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
+			$atts['field_data'] = wp_unslash( $_POST ); // phpcs:disable WordPress.Security.NonceVerification.Missing
 		} elseif ( self::$uid ) {
 			$atts['field_data'] = get_current_user_id();
 		}
@@ -176,8 +178,10 @@ class LLMS_Shortcode_Checkout {
 		// purchase step 1
 		if ( isset( $_GET['plan'] ) && is_numeric( $_GET['plan'] ) ) {
 
+			$plan_id = llms_filter_input( INPUT_GET, 'plan', FILTER_SANITIZE_NUMBER_INT );
+
 			// Only retrieve if plan is a llms_access_plan and is published
-			if ( 0 === strcmp( get_post_status( $_GET['plan'] ), 'publish' ) && 0 === strcmp( get_post_type( $_GET['plan'] ), 'llms_access_plan' ) ) {
+			if ( 0 === strcmp( get_post_status( $plan_id, 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) ) {
 
 				$coupon = LLMS()->session->get( 'llms_coupon' );
 
@@ -193,19 +197,19 @@ class LLMS_Shortcode_Checkout {
 				}
 
 				// Use posted order key to resume a pending order.
-				if ( isset( $_POST['llms_order_key'] ) ) {
-					$atts['order_key'] = sanitize_text_field( $_POST['llms_order_key'] );
+				if ( isset( $_POST['llms_order_key'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
+					$atts['order_key'] = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
 
 					// Attempt to located a pending order.
 				} elseif ( self::$uid ) {
-					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $_GET['plan'] );
+					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $plan_id );
 					if ( $pending_order ) {
 						$order             = llms_get_post( $pending_order );
 						$atts['order_key'] = ( 'llms-pending' === $order->get( 'status' ) ) ? $order->get( 'order_key' ) : '';
 					}
 				}
 
-				$atts['plan']    = new LLMS_Access_Plan( $_GET['plan'] );
+				$atts['plan']    = new LLMS_Access_Plan( $plan_id );
 				$atts['product'] = $atts['plan']->get_product();
 
 				self::checkout( $atts );
@@ -214,10 +218,8 @@ class LLMS_Shortcode_Checkout {
 
 				self::error( __( 'Invalid access plan.', 'lifterlms' ) );
 
-			}// End if().
+			}
 		} elseif ( isset( $wp->query_vars['confirm-payment'] ) ) {
-
-			// $atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
 
 			if ( ! isset( $_GET['order'] ) ) {
 
@@ -225,7 +227,7 @@ class LLMS_Shortcode_Checkout {
 
 			}
 
-			$order           = llms_get_order_by_key( $_GET['order'] );
+			$order           = llms_get_order_by_key( llms_filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) );
 			$atts['plan']    = new LLMS_Access_Plan( $order->get( 'plan_id' ) );
 			$atts['product'] = $atts['plan']->get_product();
 

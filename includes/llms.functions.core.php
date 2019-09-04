@@ -731,6 +731,9 @@ function llms_get_ip_address() {
 
 	$ip = '';
 
+	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Look below you.
+	// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash -- Look below you.
+
 	if ( isset( $_SERVER['HTTP_X_REAL_IP'] ) ) {
 		$ip = $_SERVER['HTTP_X_REAL_IP'];
 	} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
@@ -740,6 +743,9 @@ function llms_get_ip_address() {
 	} elseif ( isset( $_SERVER['REMOTE_ADDR'] ) ) {
 		$ip = $_SERVER['REMOTE_ADDR'];
 	}
+
+	// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
 
 	$ip = sanitize_text_field( wp_unslash( $ip ) );
 
@@ -1039,12 +1045,13 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
  * Skips verification if the nonce is not set
  * Useful for checking nonce for various LifterLMS forms which check for the form submission on init actions
  *
+ * @since 3.8.0
+ * @since [version] Sanitize nonce field before verification.
+ *
  * @param    string $nonce           name of the nonce field
  * @param    string $action          name of the action
  * @param    string $request_method  name of the intended request method
  * @return   null|false|int
- * @since    3.8.0
- * @version  3.8.0
  */
 function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 
@@ -1056,7 +1063,7 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 		return;
 	}
 
-	return wp_verify_nonce( $_REQUEST[ $nonce ], $action );
+	return wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce ] ) ), $action );
 
 }
 

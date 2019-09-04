@@ -420,8 +420,7 @@ class LLMS_Template_Loader {
 			// so for these post types we'll return the regular template
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 				return $template;
-			} // End if().
-			else {
+			} else {
 				$template = 'single-no-access.php';
 			}
 		} elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {

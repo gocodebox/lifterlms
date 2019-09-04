@@ -1,11 +1,12 @@
 <?php
 
+defined( 'ABSPATH' ) || exit;
+
 /**
  * Person base class.
  *
  * Class used for instantiating course object
  */
-
 class LLMS_Person {
 
 	/**
@@ -77,7 +78,7 @@ class LLMS_Person {
 
 		$user_id = ( ! $user_id ) ? get_current_user_id() : $user_id;
 
-		$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $wpdb->prefix . 'lifterlms_user_postmeta WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC LIMIT %d', $user_id, '_achievement_earned', $count ) );
+		$results = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %s and meta_key = %s ORDER BY updated_date DESC LIMIT %d", $user_id, '_achievement_earned', $count ) );
 
 		$achievements = array();
 
@@ -154,11 +155,9 @@ class LLMS_Person {
 			return;
 		}
 
-		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and post_id = %d',
+				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %s and post_id = %d",
 				$user_id,
 				$post_id
 			)
@@ -168,7 +167,8 @@ class LLMS_Person {
 			return;
 		}
 
-		for ( $i = 0; $i < count( $results ); $i++ ) {
+		$num_results = count( $results );
+		for ( $i = 0; $i < $num_results; $i++ ) {
 			$results[ $results[ $i ]->meta_key ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -188,11 +188,9 @@ class LLMS_Person {
 			return;
 		}
 
-		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-
 		$results = $wpdb->get_results(
 			$wpdb->prepare(
-				'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC',
+				"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %s and meta_key = %s ORDER BY updated_date DESC",
 				$user_id,
 				$meta_key
 			)
@@ -202,7 +200,8 @@ class LLMS_Person {
 			return;
 		}
 
-		for ( $i = 0; $i < count( $results ); $i++ ) {
+		$num_results = count( $results );
+		for ( $i = 0; $i < $num_results; $i++ ) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}

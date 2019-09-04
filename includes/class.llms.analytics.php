@@ -6,6 +6,8 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Analytics Class
  *
  * Manages large queries of grouped data
+ *
+ * @deprecated [version]
  */
 class LLMS_Analytics {
 

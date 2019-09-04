@@ -1,22 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
  *
  * @since    3.7.0
- * @version  3.17.8
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_View_Manager
+ *
+ * @since 3.7.0
+ * @since [version] Sanitize `$_GET` data.
  */
 class LLMS_View_Manager {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 * @version 3.7.0
 	 */
 	public function __construct() {
 
@@ -124,14 +129,15 @@ class LLMS_View_Manager {
 	 * Inline JS
 	 * Updates links so admins can navigate around quickly when "viewing as"
 	 *
+	 * @since 3.7.0
+	 * @since [version] Sanitize `$_GET` data.
+	 *
 	 * @return   string
-	 * @since    3.7.0
-	 * @version  3.7.0
 	 */
 	private function get_inline_script() {
 		ob_start();
 		?>
-		window.llms.ViewManager.set_nonce( '<?php echo $_GET['view_nonce']; ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
+		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input( INPUT_GET, 'view_nonce', FILTER_SANITIZE_STRING ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
 		<?php
 		return ob_get_clean();
 	}
@@ -166,13 +172,14 @@ class LLMS_View_Manager {
 	/**
 	 * Get the current view role/type
 	 *
+	 * @since 3.7.0
+	 * @since [version] Sanitize `$_GET` data.
+	 *
 	 * @return   string
-	 * @since    3.7.0
-	 * @version  3.7.0
 	 */
 	private function get_view() {
 
-		if ( ! isset( $_GET['llms-view-as'] ) || ! isset( $_GET['view_nonce'] ) || ! wp_verify_nonce( $_GET['view_nonce'], 'llms-view-as' ) ) {
+		if ( ! llms_verify_nonce( 'view_nonce', 'llms-view-as', 'GET' ) ) {
 			return 'self';
 		}
 
@@ -182,7 +189,7 @@ class LLMS_View_Manager {
 			return 'self';
 		}
 
-		return $_GET['llms-view-as'];
+		return llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
 
 	}
 
@@ -295,9 +302,11 @@ class LLMS_View_Manager {
 	/**
 	 * Enqueue Scripts
 	 *
+	 * @since 3.7.0
+	 * @since 3.17.8 Unknown.
+	 * @since [version] Declare asset version.
+	 *
 	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.17.8
 	 */
 	public function scripts() {
 
@@ -306,7 +315,7 @@ class LLMS_View_Manager {
 			return;
 		}
 
-		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
+		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 		wp_add_inline_script( 'llms-view-manager', $this->get_inline_script(), 'after' );
 
 	}

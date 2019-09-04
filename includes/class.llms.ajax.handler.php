@@ -301,21 +301,21 @@ class LLMS_AJAX_Handler {
 	 *      last name
 	 *      email
 	 *
-	 * @return   json
+	 * @return   void
 	 * @since    ??
 	 * @version  3.14.2
 	 */
 	public static function query_students() {
 
 		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'term', FILTER_SANITIZE_STRING ) : '';
 
-		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
-		$enrolled_in     = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['enrolled_in'] ) : null;
-		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['not_enrolled_in'] ) : null;
+		$enrolled_in     = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['enrolled_in'] ) ) : null;
+		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['not_enrolled_in'] ) ) : null;
 
-		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( $_REQUEST['roles'] ) : null;
+		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['roles'] ) ) : null;
 
 		global $wpdb;
 
@@ -445,7 +445,7 @@ class LLMS_AJAX_Handler {
 
 		}// End if().
 
-		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( $enrolled_in ) {
 
@@ -784,6 +784,7 @@ class LLMS_AJAX_Handler {
 			$vars = array( $start, $limit );
 		}
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$posts = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT ID, post_title, post_type
@@ -797,6 +798,7 @@ class LLMS_AJAX_Handler {
 				$vars
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$items = array();
 
@@ -908,8 +910,7 @@ class LLMS_AJAX_Handler {
 
 			$error->add( 'error', __( 'Please enter a plan ID.', 'lifterlms' ) );
 
-		} // End if().
-		else {
+		} else {
 
 			$cid = llms_find_coupon( $request['code'] );
 
@@ -1011,7 +1012,6 @@ class LLMS_AJAX_Handler {
 	/**
 	 * @todo organize and docblock remaining class functions
 	 */
-
 	public static function create_section( $request ) {
 
 		$section_id = LLMS_Post_Handler::create_section( $request['post_id'], $request['title'] );

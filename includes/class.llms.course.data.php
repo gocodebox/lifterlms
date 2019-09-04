@@ -147,6 +147,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		$ids = implode( ',', $this->get_all_ids() );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_var(
 			$wpdb->prepare(
 				"
@@ -161,6 +162,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
@@ -177,7 +179,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		global $wpdb;
 
 		$lessons = implode( ',', $this->post->get_lessons( 'ids' ) );
-
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		return $wpdb->get_var(
 			$wpdb->prepare(
 				"
@@ -192,6 +194,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				$this->get_date( $period, 'end' )
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
@@ -239,6 +242,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			$order_ids = implode( ',', $order_ids );
 
 			global $wpdb;
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 			$revenue = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT SUM( m2.meta_value )
@@ -254,6 +258,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 					$this->get_date( $period, 'end' )
 				)
 			);
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			if ( is_null( $revenue ) ) {
 				$revenue = 0;

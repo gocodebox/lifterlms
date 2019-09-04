@@ -5,7 +5,7 @@
  * @param  string $slug [url slug of template]
  * @param  string $name [name of template]
  *
- * @return string [name of file]
+ * @return void
  */
 function llms_get_template_part( $slug, $name = '' ) {
 	$template = '';

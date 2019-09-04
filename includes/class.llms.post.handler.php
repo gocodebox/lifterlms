@@ -211,7 +211,6 @@ class LLMS_Post_Handler {
 
 	}
 
-	// this is getting rewritten into a new shiny interface soon!!!!
 	public static function get_prerequisite( $post_id ) {
 		$post_type = get_post_type( $post_id );
 

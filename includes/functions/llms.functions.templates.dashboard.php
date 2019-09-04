@@ -13,10 +13,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	/**
 	 * Output the LifterLMS Student Dashboard
 	 *
+	 * @since 3.25.1
+	 * @since [version] unslash `$_GET` data.
+	 *
 	 * @param   array $options  array of options.
-	 * @return  [type]
-	 * @since   3.25.1
-	 * @version 3.25.2
+	 * @return  void
 	 */
 	function lifterlms_student_dashboard( $options = array() ) {
 
@@ -47,7 +48,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 
 				if ( isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
 					$args['form']   = 'reset_password';
-					$args['fields'] = LLMS_Person_Handler::get_password_reset_fields( trim( sanitize_text_field( $_GET['key'] ) ), trim( sanitize_text_field( $_GET['login'] ) ) );
+					$args['fields'] = LLMS_Person_Handler::get_password_reset_fields( trim( sanitize_text_field( wp_unslash( $_GET['key'] ) ) ), trim( sanitize_text_field( wp_unslash( $_GET['login'] ) ) ) );
 				} else {
 					$args['form']   = 'lost_password';
 					$args['fields'] = LLMS_Person_Handler::get_lost_password_fields();
@@ -560,15 +561,16 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) 
 	}
 }
 
-/**
- * Template for My Notifications student dashboard endpoint
- *
- * @return   void
- * @since    3.26.3
- * @version  3.26.3
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' ) ) {
 
+	/**
+	 * Template for My Notifications student dashboard endpoint
+	 *
+	 * @since 3.26.3
+	 * @since [version] Sanitize `$_GET` data.
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_my_notifications() {
 
 		$url = llms_get_endpoint_url( 'notifications', '', llms_get_page_url( 'myaccount' ) );
@@ -584,7 +586,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 			),
 		);
 
-		$view = isset( $_GET['sdview'] ) ? $_GET['sdview'] : 'view';
+		$view = isset( $_GET['sdview'] ) ? llms_filter_input( INPUT_GET, 'sdview', FILTER_SANITIZE_STRING ) : 'view';
 
 		if ( 'view' === $view ) {
 

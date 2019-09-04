@@ -545,7 +545,7 @@ class LLMS_Admin_Builder {
 
 				?>
 
-			<script>window.llms_builder = 
+			<script>window.llms_builder =
 			<?php
 			echo json_encode(
 				array(
@@ -699,7 +699,7 @@ class LLMS_Admin_Builder {
 
 			// both functions return false on failure
 			if ( ! $stat ) {
-				$res['error'] = sprintf( esc_html__( 'Error deleting %1$s "%s".', 'lifterlms' ), $type, $id );
+				$res['error'] = sprintf( esc_html__( 'Error deleting %1$s "%2$s".', 'lifterlms' ), $type, $id );
 			} else {
 				unset( $res['error'] );
 			}

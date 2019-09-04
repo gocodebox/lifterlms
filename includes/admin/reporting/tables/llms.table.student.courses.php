@@ -6,8 +6,7 @@
  * @version 3.13.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
@@ -188,14 +187,23 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
+	 * @since 2.3.0
+	 * @since [version] Sanitize `$_GET` data.
+	 *
 	 * @return   array
-	 * @since    2.3.0
-	 * @version  2.3.0
 	 */
 	public function set_args() {
+
+		$student = false;
+		if ( ! empty( $this->student ) ) {
+			$student = $this->student->get_id();
+		} elseif ( ! empty( $_GET['student_id'] ) ) {
+			$student = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+		}
+
 		return array(
 			'page'    => $this->get_current_page(),
-			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'student' => $student,
 		);
 	}
 
