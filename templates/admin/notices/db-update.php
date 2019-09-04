@@ -2,8 +2,10 @@
 /**
  * Database Update Notice
  *
- * @since    3.0.0
- * @version  3.16.10
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.0.0
+ * @version 3.16.10
  */
 
 defined( 'ABSPATH' ) || exit;

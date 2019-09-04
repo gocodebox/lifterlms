@@ -2,9 +2,12 @@
 /**
  * Reporting Screen Main Template
  *
- * @since  ??
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since Unknown
  * @version 3.29.0
  */
+
 defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 ?>

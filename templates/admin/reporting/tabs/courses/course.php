@@ -1,6 +1,11 @@
 <?php
 /**
  * Single Course View
+ *
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since Unknown
+ * @version Unknown
  */
 
 defined( 'ABSPATH' ) || exit;

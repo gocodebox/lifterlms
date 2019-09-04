@@ -2,14 +2,17 @@
 /**
  * Registration Form
  *
- * @since    3.0.0
- * @version  3.19.4
+ * @package LifterLMS/Templates
+ *
+ * @since 3.0.0
+ * @version 3.19.4
  */
+
 defined( 'ABSPATH' ) || exit;
 
 $field_data = isset( $_POST ) ? $_POST : array(); // phpcs:disable WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
 
-// don't allow logged in users to register
+// don't allow logged in users to register.
 if ( get_current_user_id() ) {
 	return;
 }

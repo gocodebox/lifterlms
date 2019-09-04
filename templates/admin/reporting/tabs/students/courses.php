@@ -2,7 +2,7 @@
 /**
  * Single Student View: Courses Tab
  *
- * @package LifterLMS/Templates
+ * @package LifterLMS/Templates/Admin
  *
  * @since 3.2.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.

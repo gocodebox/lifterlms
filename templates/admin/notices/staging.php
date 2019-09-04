@@ -2,8 +2,10 @@
 /**
  * Staging Site Recurring Payment Notice
  *
- * @since    3.0.2
- * @version  3.0.2
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.0.2
+ * @version 3.0.2
  */
 
 defined( 'ABSPATH' ) || exit;

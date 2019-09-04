@@ -2,8 +2,10 @@
 /**
  * Single Quiz View
  *
- * @since    3.16.0
- * @version  3.16.0
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.16.0
+ * @version 3.16.0
  */
 
 defined( 'ABSPATH' ) || exit;

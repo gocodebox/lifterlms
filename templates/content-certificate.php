@@ -2,7 +2,9 @@
 /**
  * Certificate: Content
  *
- * @since   1.0.0
+ * @package LifterLMS/Templates
+ *
+ * @since 1.0.0
  * @version 3.18.0
  */
 

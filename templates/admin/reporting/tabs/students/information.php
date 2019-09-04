@@ -2,9 +2,12 @@
 /**
  * Single Student View: Information Tab
  *
- * @since    3.2.0
- * @version  3.15.0
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.2.0
+ * @version 3.15.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 if ( ! is_admin() ) {

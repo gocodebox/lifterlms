@@ -2,8 +2,10 @@
 /**
  * Single Achievement Template
  *
- * @since    1.0.0
- * @version  3.14.6
+ * @package LifterLMS/Templates
+ *
+ * @since 1.0.0
+ * @version 3.14.6
  */
 
 defined( 'ABSPATH' ) || exit;

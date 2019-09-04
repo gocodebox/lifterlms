@@ -1,6 +1,11 @@
 <?php
 /**
  * Single Student View: Certificates Tab
+ *
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since Unknown
+ * @version Unknown
  */
 
 defined( 'ABSPATH' ) || exit;

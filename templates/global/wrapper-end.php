@@ -1,4 +1,12 @@
 <?php
+/**
+ * Content Wrapper: End
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since Unknown
+ * @version Unknown
+ */
 
 defined( 'ABSPATH' ) || exit;
 

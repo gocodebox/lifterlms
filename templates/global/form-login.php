@@ -2,9 +2,12 @@
 /**
  * LifterLMS Login Form
  *
- * @since    3.0.0
- * @version  3.21.0
+ * @package LifterLMS/Templates
+ *
+ * @since 3.0.0
+ * @version 3.21.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 if ( ! isset( $redirect ) ) {

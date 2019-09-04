@@ -2,8 +2,10 @@
 /**
  * Basic Notification Template
  *
- * @since    3.8.0
- * @version  3.29.0
+ * @package LifterLMS/Templates
+ *
+ * @since 3.8.0
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;

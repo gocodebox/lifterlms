@@ -2,9 +2,12 @@
 /**
  * Additional Filters used by various reporting screens
  *
- * @since    ??
- * @version  3.29.0
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since Unknown
+ * @version 3.29.0
  */
+
 defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 ?>

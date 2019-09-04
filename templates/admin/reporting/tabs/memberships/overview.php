@@ -2,6 +2,8 @@
 /**
  * Single Membership Tab: Overview Subtab.
  *
+ * @package LifterLMS/Templates/Admin
+ *
  * @since 3.32.0
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @version 3.35.0

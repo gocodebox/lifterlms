@@ -2,8 +2,10 @@
 /**
  * Lesson Video embed
  *
- * @since    1.0.0
- * @version  3.1.1
+ * @package LifterLMS/Templates
+ *
+ * @since 1.0.0
+ * @version 3.1.1
  */
 
 defined( 'ABSPATH' ) || exit;

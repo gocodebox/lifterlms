@@ -2,9 +2,12 @@
 /**
  * Single Membership View.
  *
+ * @package LifterLMS/Templates/Admin
+ *
  * @since    3.32.0
  * @version  3.32.0
  */
+
 defined( 'ABSPATH' ) || exit;
 is_admin() || exit;
 

@@ -2,8 +2,10 @@
 /**
  * Single Membership Tab: Students Subtab.
  *
- * @since    3.32.0
- * @version  3.32.0
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.32.0
+ * @version 3.32.0
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -1,7 +1,13 @@
 <?php
 /**
  * Students Table
+ *
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since Unknown
+ * @version Unknown
  */
+
 defined( 'ABSPATH' ) || exit;
 
 if ( ! is_admin() ) {

@@ -2,8 +2,10 @@
 /**
  * Order Details metabox for Order on Admin Panel
  *
- * @since    3.0.0
- * @version  3.18.0
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.0.0
+ * @version 3.18.0
  */
 
 defined( 'ABSPATH' ) || exit;

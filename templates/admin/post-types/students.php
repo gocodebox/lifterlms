@@ -2,8 +2,10 @@
 /**
  * Students Metabox on admin panel
  *
- * @since    3.0.0
- * @version  3.13.0
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.0.0
+ * @version 3.13.0
  */
 
 defined( 'ABSPATH' ) || exit;

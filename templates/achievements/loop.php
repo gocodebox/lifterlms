@@ -2,6 +2,8 @@
 /**
  * Achievements Loop
  *
+ * @package LifterLMS/Templates
+ *
  * @since    3.14.0
  * @version  3.14.0
  */

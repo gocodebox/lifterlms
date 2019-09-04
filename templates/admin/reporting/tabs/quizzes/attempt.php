@@ -2,11 +2,16 @@
 /**
  * Single Quiz Tab: Single Attempt Subtab
  *
- * @since    3.16.0
- * @version  3.17.3
- * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since 3.16.0
+ * @version 3.17.3
+ *
+ * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
  */
-if ( ! defined( 'ABSPATH' ) || ! is_admin() ) {
+
+defined( 'ABSPATH' ) || exit;
+if ( ! is_admin() ) {
 	exit;
 }
 
