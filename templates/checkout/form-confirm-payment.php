@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 	llms_print_notice(
 		sprintf(
+			// Translators: %1$s = opening anchor tag; %2$s = closing anchor tag.
 			__( 'Only pending orders can be confirmed. View your %1$sorder history%2$s for more information', 'lifterlms' ),
 			'<a href="' . esc_url( llms_get_endpoint_url( 'orders', '', llms_get_page_url( 'myaccount' ) ) ) . '">',
 			'</a>'

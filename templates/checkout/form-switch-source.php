@@ -3,8 +3,10 @@
  * Recurring Payment Source Switching
  * Included on single order view pages via Student Dashboard
  *
- * @since     3.10.0
- * @version   3.19.0
+ * @package LifterLMS/Templates
+ *
+ * @since 3.10.0
+ * @version 3.19.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -57,7 +59,10 @@ if ( 'llms-active' === $status ) {
 			<?php if ( ! in_array( $status, array( 'llms-active', 'llms-pending-cancel' ) ) ) : ?>
 				<ul class="llms-order-summary">
 					<li>
-						<?php printf( __( 'Due Now: %s', 'lifterlms' ), '<span class="price-regular">' . $order->get_price( 'total' ) . '</span>' ); ?>
+						<?php
+						// Translators: %s = formatted price / amount due.
+						printf( __( 'Due Now: %s', 'lifterlms' ), '<span class="price-regular">' . $order->get_price( 'total' ) . '</span>' );
+						?>
 					</li>
 				</ul>
 			<?php endif; ?>

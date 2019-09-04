@@ -2,13 +2,15 @@
 /**
  * Coupon area of the checkout form
  *
- * @author      LifterLMS
- * @package     LifterLMS/Templates
+ * @package LifterLMS/Templates
+ *
+ * @since Unknown
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
-// don't display if the plan is marked as free
+// don't display if the plan is marked as free.
 if ( isset( $plan ) && $plan->is_free() ) {
 	return;
 }
@@ -57,7 +59,10 @@ if ( isset( $plan ) && $plan->is_free() ) {
 
 	<?php else : ?>
 
-		<?php llms_print_notice( sprintf( __( 'Coupon code "%s" has been applied to your order.', 'lifterlms' ), $coupon->get( 'title' ) ), 'success' ); ?>
+		<?php
+		// Translators: %s = coupon code.
+		llms_print_notice( sprintf( __( 'Coupon code "%s" has been applied to your order.', 'lifterlms' ), $coupon->get( 'title' ) ), 'success' );
+		?>
 
 		<div class="llms-form-fields flush">
 			<?php
