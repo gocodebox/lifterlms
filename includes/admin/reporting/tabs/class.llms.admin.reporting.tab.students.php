@@ -118,8 +118,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 				)
 			);
 
-		} // End if().
-		else {
+		} else {
 
 			llms_get_template( 'admin/reporting/tabs/students/students.php' );
 

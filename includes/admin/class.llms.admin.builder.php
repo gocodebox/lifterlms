@@ -629,7 +629,7 @@ class LLMS_Admin_Builder {
 			unset( $res['error'] );
 			array_push( $ret, $res );
 
-		}// End foreach().
+		}
 
 		return $ret;
 
@@ -682,8 +682,7 @@ class LLMS_Admin_Builder {
 				// delete sections
 				if ( in_array( $type, array( 'section', 'llms_question', 'llms_quiz' ) ) ) {
 					$stat = wp_delete_post( $id, true );
-				} // End if().
-				else {
+				} else {
 					$stat = wp_trash_post( $id );
 				}
 			} else {
@@ -706,7 +705,7 @@ class LLMS_Admin_Builder {
 
 			array_push( $ret, $res );
 
-		}// End foreach().
+		}
 
 		return $ret;
 

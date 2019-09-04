@@ -53,7 +53,8 @@
 		<exclude name="Squiz.Commenting.FunctionComment.ParamNameNoMatch" />
 		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturnVoid" />
 
-		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace" />
+		<!-- @todo: Update these to use a prefix, see https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#naming-conventions-prefix-everything-in-the-global-namespace -->
+		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
 
 		<!-- @todo: extract is messy you're right, fix this -->
 		<exclude name="WordPress.PHP.DontExtract.extract_extract" />
@@ -66,15 +67,9 @@
 			<exclude-pattern>templates/taxonomy-*.php</exclude-pattern>
 		</exclude>
 
-		<!-- @todo: Update these to use a prefix, see https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#naming-conventions-prefix-everything-in-the-global-namespace -->
-		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
-
 	</rule>
 
-
-
 	<rule ref="WordPress.WP.I18n">
-
 		<!-- @todo: Fix all of these -->
 		<exclude name="WordPress.WP.I18n.MissingTranslatorsComment" />
 

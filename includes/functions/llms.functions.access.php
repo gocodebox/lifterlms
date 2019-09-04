@@ -1,10 +1,14 @@
 <?php
 /**
  * Functions used for managing page / post access
+ *
+ * @package LifterLMS/Functions
+ *
+ * @since 1.0.0
+ * @version 3.16.14
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Determine if content should be restricted
@@ -48,31 +52,25 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		// if it's a search page and the site isn't restricted to a membership bypass restrictions
 	} elseif ( ( is_search() ) && ! get_option( 'lifterlms_membership_required', '' ) ) {
 		return apply_filters( 'llms_page_restricted', $results, $post_id );
-	} // End if().
-	elseif ( is_singular() && $sitewide_membership_id ) {
+	} elseif ( is_singular() && $sitewide_membership_id ) {
 		$restriction_id = $sitewide_membership_id;
 		$reason         = 'sitewide_membership';
-	} // content is restricted by a membership
-	elseif ( is_singular() && $membership_id ) {
+	} elseif ( is_singular() && $membership_id ) {
 		$restriction_id = $membership_id;
 		$reason         = 'membership';
-	} // checks for lessons
-	elseif ( is_singular() && 'lesson' === $post_type ) {
+	} elseif ( is_singular() && 'lesson' === $post_type ) {
 		$lesson = new LLMS_Lesson( $post_id );
 		// if lesson is free, return accessible results and skip the rest of this function
 		if ( $lesson->is_free() ) {
 			return $results;
-		} // End if().
-		else {
+		} else {
 			$restriction_id = $lesson->get_parent_course();
 			$reason         = 'enrollment_lesson';
 		}
-	} // checks for course
-	elseif ( is_singular() && 'course' === $post_type ) {
+	} elseif ( is_singular() && 'course' === $post_type ) {
 		$restriction_id = $post_id;
 		$reason         = 'enrollment_course';
-	} // checks for memberships
-	elseif ( is_singular() && 'llms_membership' === $post_type ) {
+	} elseif ( is_singular() && 'llms_membership' === $post_type ) {
 		$restriction_id = $post_id;
 		$reason         = 'enrollment_membership';
 	} else {
@@ -199,8 +197,7 @@ function llms_get_restriction_message( $restriction ) {
 			// if the start date hasn't passed yet
 			if ( ! $course->has_date_passed( 'start_date' ) ) {
 				$msg = $course->get( 'course_opens_message' );
-			} // End if().
-			elseif ( $course->has_date_passed( 'end_date' ) ) {
+			} elseif ( $course->has_date_passed( 'end_date' ) ) {
 				$msg = $course->get( 'course_closed_message' );
 			}
 			break;
@@ -255,18 +252,17 @@ function llms_is_post_restricted_by_drip_settings( $post_id, $user_id = null ) {
 
 	$post_type = get_post_type( $post_id );
 
-	// if we're on a lesson, lesson id is the post id
+	// if we're on a lesson, lesson id is the post id.
 	if ( 'lesson' === $post_type ) {
 		$lesson_id = $post_id;
-	} // End if().
-	elseif ( 'llms_quiz' == $post_type ) {
+	} elseif ( 'llms_quiz' == $post_type ) {
 		$quiz      = llms_get_post( $post_id );
 		$lesson_id = $quiz->get( 'lesson_id' );
 		if ( ! $lesson_id ) {
 			return false;
 		}
-	} // dont pass other post types in here dumb dumb
-	else {
+	} else {
+		// dont pass other post types in here dumb dumb.
 		return false;
 	}
 

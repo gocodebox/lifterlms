@@ -89,8 +89,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 				)
 			);
 
-		} // End if().
-		else {
+		} else {
 
 			$table = new LLMS_Table_Memberships();
 			$table->get_results();

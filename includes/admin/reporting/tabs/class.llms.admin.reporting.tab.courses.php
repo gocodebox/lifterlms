@@ -82,10 +82,10 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	/**
 	 * Output tab content
 	 *
-	 * @since    3.15.0
+	 * @since 3.15.0
 	 * @since 3.35.0 Sanitize input data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function output() {
 
@@ -114,8 +114,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 				)
 			);
 
-		} // End if().
-		else {
+		} else {
 
 			$table = new LLMS_Table_Courses();
 			$table->get_results();

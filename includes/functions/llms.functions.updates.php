@@ -141,7 +141,7 @@ function llms_update_300_create_access_plans() {
 			 * determine what kinds of plans to create
 			 */
 
-				// free and members only, only available to members
+			// free and members only, only available to members
 			if ( $is_free && $members_only ) {
 
 				$free_members_only = true;
@@ -149,16 +149,15 @@ function llms_update_300_create_access_plans() {
 				$single_free_open  = false;
 				$recurring_paid    = false;
 
-			} // End if().
-			elseif ( ! $is_free && $members_only ) {
+			} elseif ( ! $is_free && $members_only ) {
 
 				$free_members_only = true;
 				$single_paid_open  = true;
 				$single_free_open  = false;
 				$recurring_paid    = $has_recurring;
 
-			} // no restrictions, normal settings apply
-			else {
+			} else {
+				// no restrictions, normal settings apply
 
 				$free_members_only = false;
 				$single_paid_open  = ! $is_free ? true : false;
