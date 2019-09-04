@@ -1,22 +1,30 @@
 <?php
 /**
-* Admin Metabox Class
-* @since    3.0.0
-* @version  3.16.14
-*/
+ * Admin Metabox Class
+ *
+ * @since 3.0.0
+ * @version [version]
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 // include all classes for each of the metabox types
 foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php' ) as $filename ) {
 	require_once $filename;
 }
 
+/**
+ * Admin metabox class.
+ *
+ * @since 3.0.0
+ * @since [version] Sanitize and verify nonce when saving metabox data.
+ */
 abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Metabox ID
 	 * Define this in extending class's $this->configure() method
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -26,6 +34,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Post Types this metabox should be added to
 	 * Can be a string of a single post type or an indexed array of multiple post types
 	 * Define this in extending class's $this->configure() method
+	 *
 	 * @var array
 	 * @since 3.0.0
 	 */
@@ -35,6 +44,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Title of the metabox
 	 * This should be a translatable, use __()
 	 * Define this in extending class's $this->configure() method
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -42,6 +52,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Capability to check in order to display the metabox to the user
+	 *
 	 * @var    string
 	 * @since  3.13.0
 	 */
@@ -52,6 +63,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Accepts anything that can be passed to WP core add_meta_box() function
 	 * Options are: 'normal', 'side', 'advanced'
 	 * Define this in extending class's $this->configure() method
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -62,6 +74,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Accepts anything that can be passed to WP core add_meta_box() function
 	 * Options are: 'default', 'high', 'low'
 	 * Define this in extending class's $this->configure() method
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -69,6 +82,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Instance of WP_Post for the current post
+	 *
 	 * @var obj
 	 * @since  3.0.0
 	 */
@@ -76,6 +90,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Meta Key Prefix for all elements in the metabox
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -83,6 +98,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Array of error message strings to be displayed after an update attempt
+	 *
 	 * @var array
 	 * @since 3.0.0
 	 */
@@ -91,6 +107,7 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * HTML for the Metabox Content
 	 * Content handled by $this->process_fields()
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -98,6 +115,7 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * HTML for the Metabox Navigation
 	 * Content handled by $this->process_fields()
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -107,6 +125,7 @@ abstract class LLMS_Admin_Metabox {
 	 * The number of tabs registered to the metabox
 	 * This will be calculated automatically
 	 * Navigation will not display unless there's 2 or more tabs
+	 *
 	 * @var integer
 	 * @since  3.0.0
 	 */
@@ -114,6 +133,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Metabox Version Numbers
+	 *
 	 * @var  integer
 	 */
 	private $version = 1;
@@ -148,6 +168,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Add an Error Message
+	 *
 	 * @param string $text
 	 * @return   void
 	 * @since    3.0.0
@@ -176,6 +197,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Normalizes $this->screens to ensure it's an array
+	 *
 	 * @return array
 	 * @since  3.0.0
 	 */
@@ -189,6 +211,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Determine if any errors have been added
+	 *
 	 * @return boolean
 	 */
 	public function has_errors() {
@@ -197,6 +220,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Generate and output the HTML for the metabox
+	 *
 	 * @return void
 	 * @version  3.0.0
 	 */
@@ -221,6 +245,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Display the messages as a WP Admin Notice
+	 *
 	 * @return  void
 	 * @since  3.0.0
 	 */
@@ -243,6 +268,7 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Process fields to setup navigation and content with minimal PHP loops
 	 * called by $this->output before actually outputting html
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.16.14
@@ -268,12 +294,22 @@ abstract class LLMS_Admin_Metabox {
 
 			foreach ( $tab['fields'] as $field ) {
 
-				$name = ucfirst( strtr( preg_replace_callback( '/(\w+)/', function( $m ) {
-					return ucfirst( $m[1] );
-				}, $field['type'] ),'-','_' ) );
+				$name = ucfirst(
+					strtr(
+						preg_replace_callback(
+							'/(\w+)/',
+							function( $m ) {
+								return ucfirst( $m[1] );
+							},
+							$field['type']
+						),
+						'-',
+						'_'
+					)
+				);
 
 				$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
-				$field_class = new $field_class_name($field);
+				$field_class      = new $field_class_name( $field );
 				ob_start();
 				$field_class->Output();
 				$this->content .= ob_get_clean();
@@ -290,6 +326,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Register the Metabox using WP Functions
 	 * This is called automatically by constructor
 	 * Utilizes class properties for registration
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.13.0
@@ -315,12 +352,18 @@ abstract class LLMS_Admin_Metabox {
 	 * This function is dumb. If the fields need to output error messages or do validation
 	 * Override this method and create a custom save method to accommodate the validations or conditions
 	 *
-	 * @param    int   $post_id   WP Post ID of the post being saved
+	 * @since 3.0.0
+	 * @since 3.14.1 Unknown.
+	 * @since [version] Added nonce verification before processing data; only access `$_POST` data via `llms_filter_input()`.
+	 *
+	 * @param    int $post_id   WP Post ID of the post being saved
 	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.14.1
 	 */
 	protected function save( $post_id ) {
+
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
 
 		// dont save metabox during a quick save action
 		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
@@ -352,10 +395,9 @@ abstract class LLMS_Admin_Metabox {
 						// get the posted value
 						if ( isset( $_POST[ $field['id'] ] ) ) {
 
-							$val = $_POST[ $field['id'] ];
+							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
 
-						} // End if().
-						elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
+						} elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = '';
 
@@ -383,7 +425,7 @@ abstract class LLMS_Admin_Metabox {
 	 * when the default save is not being overridden
 	 * Called before $this->save() during $this->save_actions()
 	 *
-	 * @param  int   $post_id   WP Post ID of the post being saved
+	 * @param  int $post_id   WP Post ID of the post being saved
 	 * @return void
 	 * @since  3.0.0
 	 */
@@ -394,7 +436,7 @@ abstract class LLMS_Admin_Metabox {
 	 * when the default save is not being overridden
 	 * Called before $this->save() during $this->save_actions()
 	 *
-	 * @param  int   $post_id   WP Post ID of the post being saved
+	 * @param  int $post_id   WP Post ID of the post being saved
 	 * @return void
 	 * @since  3.0.0
 	 */
@@ -406,7 +448,8 @@ abstract class LLMS_Admin_Metabox {
 	 * And calls the save method which actually saves metadata
 	 *
 	 * This is called automatically on save_post_{$post_type} for screens the metabox is registered to
-	 * @param  int   $post_id   WP Post ID of the post being saved
+	 *
+	 * @param  int $post_id   WP Post ID of the post being saved
 	 * @return void
 	 * @since  3.0.0
 	 */
@@ -428,6 +471,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Save messages to the database
+	 *
 	 * @return  void
 	 * @since  3.0.0
 	 */
