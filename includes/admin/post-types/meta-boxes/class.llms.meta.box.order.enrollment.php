@@ -38,10 +38,13 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
 	 *
-	 * @return array
 	 * @since  3.0.0
+	 *
+	 * @return array
 	 */
-	public function get_fields() {}
+	public function get_fields() {
+		return array();
+	}
 
 	/**
 	 * Function to field WP::output() method call.
@@ -50,8 +53,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.33.0 Added 'Delete Enrollment' button.
 	 *
-	 * @param  object $post WP global post object
-	 * @return void
+	 * @return null
 	 */
 	public function output() {
 
