@@ -3,7 +3,7 @@
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.
+ * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -25,9 +26,9 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-membership';
-		$this->title = __( 'Membership Settings', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-membership';
+		$this->title    = __( 'Membership Settings', 'lifterlms' );
+		$this->screens  = array(
 			'llms_membership',
 		);
 		$this->priority = 'high';
@@ -46,7 +47,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 */
 	private function get_content_table( $membership ) {
 
-		$data = array();
+		$data   = array();
 		$data[] = array(
 			'',
 			'<br>' . __( 'No automatic enrollment courses found. Add a course below.', 'lifterlms' ) . '<br><br>',
@@ -94,7 +95,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 		$redirect_page_id = $membership->get( 'redirect_page_id' );
 		if ( $redirect_page_id ) {
 			$redirect_options[] = array(
-				'key' => $redirect_page_id,
+				'key'   => $redirect_page_id,
 				'title' => get_the_title( $redirect_page_id ) . '(ID#' . $redirect_page_id . ')',
 			);
 		}
@@ -106,151 +107,151 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 		return array(
 			array(
-				'title' 	=> __( 'Sales Page', 'lifterlms' ),
-				'fields' 	=> array(
+				'title'  => __( 'Sales Page', 'lifterlms' ),
+				'fields' => array(
 					array(
-						'allow_null' => false,
-						'class' 	=> 'llms-select2',
-						'desc' 		    => __( 'Customize the content displayed to visitors and students who are not enrolled in the membership.', 'lifterlms' ),
+						'allow_null'    => false,
+						'class'         => 'llms-select2',
+						'desc'          => __( 'Customize the content displayed to visitors and students who are not enrolled in the membership.', 'lifterlms' ),
 						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
 						'default'       => $sales_page_content_type,
 						'id'            => $this->prefix . 'sales_page_content_type',
 						'is_controller' => true,
-						'label'		    => __( 'Sales Page Content', 'lifterlms' ),
-						'type'		=> 'select',
-						'value' 	=> llms_get_sales_page_types(),
+						'label'         => __( 'Sales Page Content', 'lifterlms' ),
+						'type'          => 'select',
+						'value'         => llms_get_sales_page_types(),
 					),
 					array(
-						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller'       => '#' . $this->prefix . 'sales_page_content_type',
 						'controller_value' => 'content',
-						'desc' 		=> __( 'This content will only be shown to visitors who are not enrolled in this membership.', 'lifterlms' ),
-						'id'        => '',
-						'label'		=> __( 'Sales Page Custom Content', 'lifterlms' ),
-						'type'		=> 'post-excerpt',
+						'desc'             => __( 'This content will only be shown to visitors who are not enrolled in this membership.', 'lifterlms' ),
+						'id'               => '',
+						'label'            => __( 'Sales Page Custom Content', 'lifterlms' ),
+						'type'             => 'post-excerpt',
 					),
 					array(
-						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller'       => '#' . $this->prefix . 'sales_page_content_type',
 						'controller_value' => 'page',
-						'data_attributes' => array(
-							'post-type' => 'page',
+						'data_attributes'  => array(
+							'post-type'   => 'page',
 							'placeholder' => __( 'Select a page', 'lifterlms' ),
 						),
-						'class' 	=> 'llms-select2-post',
-						'id' 		=> $this->prefix . 'sales_page_content_page_id',
-						'type'		=> 'select',
-						'label'		=> __( 'Select a Page', 'lifterlms' ),
-						'value'     => $membership->get( 'sales_page_content_page_id' ) ? llms_make_select2_post_array( array( $membership->get( 'sales_page_content_page_id' ) ) ) : array(),
+						'class'            => 'llms-select2-post',
+						'id'               => $this->prefix . 'sales_page_content_page_id',
+						'type'             => 'select',
+						'label'            => __( 'Select a Page', 'lifterlms' ),
+						'value'            => $membership->get( 'sales_page_content_page_id' ) ? llms_make_select2_post_array( array( $membership->get( 'sales_page_content_page_id' ) ) ) : array(),
 					),
 					array(
-						'controller' => '#' . $this->prefix . 'sales_page_content_type',
+						'controller'       => '#' . $this->prefix . 'sales_page_content_type',
 						'controller_value' => 'url',
-						'type'		=> 'text',
-						'label'		=> __( 'Sales Page Redirect URL', 'lifterlms' ),
-						'id' 		=> $this->prefix . 'sales_page_content_url',
-						'class' 	=> 'input-full',
-						'value' 	=> '',
-						'desc_class' => 'd-all',
-						'group' 	=> 'top',
+						'type'             => 'text',
+						'label'            => __( 'Sales Page Redirect URL', 'lifterlms' ),
+						'id'               => $this->prefix . 'sales_page_content_url',
+						'class'            => 'input-full',
+						'value'            => '',
+						'desc_class'       => 'd-all',
+						'group'            => 'top',
 					),
 
 				),
 			),
 
 			array(
-				'title' 	=> __( 'Restrictions', 'lifterlms' ),
-				'fields' 	=> array(
+				'title'  => __( 'Restrictions', 'lifterlms' ),
+				'fields' => array(
 					array(
-						'allow_null' => false,
-						'class' 	=> '',
-						'desc' 		=> __( 'When a non-member attempts to access content restricted to this membership', 'lifterlms' ),
-						'id' 		=> $this->prefix . 'restriction_redirect_type',
+						'allow_null'    => false,
+						'class'         => '',
+						'desc'          => __( 'When a non-member attempts to access content restricted to this membership', 'lifterlms' ),
+						'id'            => $this->prefix . 'restriction_redirect_type',
 						'is_controller' => true,
-						'type'		=> 'select',
-						'label'		=> __( 'Restricted Access Redirect', 'lifterlms' ),
-						'value'   => array(
+						'type'          => 'select',
+						'label'         => __( 'Restricted Access Redirect', 'lifterlms' ),
+						'value'         => array(
 							array(
-								'key' => 'none',
+								'key'   => 'none',
 								'title' => __( 'Stay on page', 'lifterlms' ),
 							),
 							array(
-								'key' => 'membership',
+								'key'   => 'membership',
 								'title' => __( 'Redirect to this membership page', 'lifterlms' ),
 							),
 							array(
-								'key' => 'page',
+								'key'   => 'page',
 								'title' => __( 'Redirect to a WordPress page', 'lifterlms' ),
 							),
 							array(
-								'key' => 'custom',
+								'key'   => 'custom',
 								'title' => __( 'Redirect to a Custom URL', 'lifterlms' ),
 							),
 						),
 					),
 					array(
-						'class'     => 'llms-select2-post',
-						'controller' => '#' . $this->prefix . 'restriction_redirect_type',
+						'class'            => 'llms-select2-post',
+						'controller'       => '#' . $this->prefix . 'restriction_redirect_type',
 						'controller_value' => 'page',
-						'data_attributes' => array(
+						'data_attributes'  => array(
 							'post-type' => 'page',
 						),
-						'id' 		=> $this->prefix . 'redirect_page_id',
-						'label'		=> __( 'Select a WordPress Page', 'lifterlms' ),
-						'type'		=> 'select',
-						'value'   => $redirect_options,
+						'id'               => $this->prefix . 'redirect_page_id',
+						'label'            => __( 'Select a WordPress Page', 'lifterlms' ),
+						'type'             => 'select',
+						'value'            => $redirect_options,
 					),
 					array(
-						'class' 	=> '',
-						'controller' => '#' . $this->prefix . 'restriction_redirect_type',
+						'class'            => '',
+						'controller'       => '#' . $this->prefix . 'restriction_redirect_type',
 						'controller_value' => 'custom',
-						'id' 		=> $this->prefix . 'redirect_custom_url',
-						'label'		=> __( 'Enter a Custom URL', 'lifterlms' ),
-						'type'		=> 'text',
-						'value'   => 'test',
+						'id'               => $this->prefix . 'redirect_custom_url',
+						'label'            => __( 'Enter a Custom URL', 'lifterlms' ),
+						'type'             => 'text',
+						'value'            => 'test',
 					),
 					array(
-						'class' 	=> '',
-						'controls' => '#' . $this->prefix . 'restriction_notice',
-						'default'   => 'yes',
-						'desc' 		=> __( 'Check this box to output a message after redirecting. If no redirect is selected this message will replace the normal content that would be displayed.', 'lifterlms' ),
+						'class'      => '',
+						'controls'   => '#' . $this->prefix . 'restriction_notice',
+						'default'    => 'yes',
+						'desc'       => __( 'Check this box to output a message after redirecting. If no redirect is selected this message will replace the normal content that would be displayed.', 'lifterlms' ),
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
-						'id' 		=> $this->prefix . 'restriction_add_notice',
-						'label'		=> __( 'Display a Message', 'lifterlms' ),
-						'type'		=> 'checkbox',
-						'value'   => 'yes',
+						'id'         => $this->prefix . 'restriction_add_notice',
+						'label'      => __( 'Display a Message', 'lifterlms' ),
+						'type'       => 'checkbox',
+						'value'      => 'yes',
 					),
 					array(
-						'class' 	=> 'full-width',
-						'desc' 		=> sprintf( __( 'Shortcodes like %s can be used in this message', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
-						'default'   => sprintf( __( 'You must belong to the %s membership to access this content.', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
-						'id' 		=> $this->prefix . 'restriction_notice',
-						'label'		=> __( 'Restricted Content Notice', 'lifterlms' ),
-						'type'		=> 'text',
+						'class'   => 'full-width',
+						'desc'    => sprintf( __( 'Shortcodes like %s can be used in this message', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
+						'default' => sprintf( __( 'You must belong to the %s membership to access this content.', 'lifterlms' ), '[lifterlms_membership_link id="' . $this->post->ID . '"]' ),
+						'id'      => $this->prefix . 'restriction_notice',
+						'label'   => __( 'Restricted Content Notice', 'lifterlms' ),
+						'type'    => 'text',
 					),
 				),
 			),
 
 			array(
-				'title' 	=> __( 'Auto Enrollment', 'lifterlms' ),
-				'fields' 	=> array(
+				'title'  => __( 'Auto Enrollment', 'lifterlms' ),
+				'fields' => array(
 					array(
-						'label' 	=> __( 'Automatic Enrollment', 'lifterlms' ),
-						'desc' 		=> sprintf( __( 'When a student joins this membership they will be automatically enrolled in these courses. Click %1$shere%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/membership-auto-enrollment/" target="_blank">', '</a>' ),
-						'id' 		=> $this->prefix . 'content_table',
-						'titles'	=> array( '', __( 'Course Name', 'lifterlms' ), '' ),
-						'type'  	=> 'table',
+						'label'      => __( 'Automatic Enrollment', 'lifterlms' ),
+						'desc'       => sprintf( __( 'When a student joins this membership they will be automatically enrolled in these courses. Click %1$shere%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/membership-auto-enrollment/" target="_blank">', '</a>' ),
+						'id'         => $this->prefix . 'content_table',
+						'titles'     => array( '', __( 'Course Name', 'lifterlms' ), '' ),
+						'type'       => 'table',
 						'table_data' => $this->get_content_table( $membership ),
 					),
 					array(
-						'class'     => 'llms-select2-post',
+						'class'           => 'llms-select2-post',
 						'data_attributes' => array(
-							'placeholder' => __( 'Select course(s)', 'lifterlms' ),
-							'post-type' => 'course',
+							'placeholder'    => __( 'Select course(s)', 'lifterlms' ),
+							'post-type'      => 'course',
 							'no-view-button' => true,
 						),
-						'id' 		=> $this->prefix . 'auto_enroll',
-						'label'		=> __( 'Add Course(s)', 'lifterlms' ),
-						'type'		=> 'select',
-						'value'     => array(),
+						'id'              => $this->prefix . 'auto_enroll',
+						'label'           => __( 'Add Course(s)', 'lifterlms' ),
+						'type'            => 'select',
+						'value'           => array(),
 					),
 				),
 			),
@@ -262,7 +263,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Autoenroll courses saved via AJAX and removed from this method.
-	 * @version 3.30.0
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @see LLMS_Admin_Metabox::save_actions()
 	 *
@@ -270,6 +271,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @return void
 	 */
 	public function save( $post_id ) {
+
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
 
 		$membership = new LLMS_Membership( $post_id );
 
@@ -292,7 +297,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
 
-				$membership->set( $field, $_POST[ $this->prefix . $field ] );
+				$membership->set( $field, llms_filter_input( INPUT_POST, $this->prefix . $field, FILTER_SANITIZE_STRING ) );
 
 			}
 		}

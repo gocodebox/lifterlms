@@ -12,7 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Duplicate a WP Post & all relate metadata
- * @param    int     $id  WP Post ID
+ *
+ * @param    int $id  WP Post ID
  * @return   int          WP Post ID of the new duplicate
  * @since    3.16.0
  * @version  3.16.0
@@ -34,9 +35,10 @@ function llms_update_util_post_duplicator( $id ) {
 
 /**
  * Update the key of a postmeta item
- * @param    string     $post_type   post type
- * @param    string     $new_key     new postmeta key
- * @param    string     $old_key     old postmeta key
+ *
+ * @param    string $post_type   post type
+ * @param    string $new_key     new postmeta key
+ * @param    string $old_key     old postmeta key
  * @return   void
  * @since    3.4.3
  * @version  3.4.3
@@ -45,13 +47,15 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
 
 	global $wpdb;
 
-	$wpdb->query( $wpdb->prepare(
-		"UPDATE {$wpdb->prefix}postmeta AS m
+	$wpdb->query(
+		$wpdb->prepare(
+			"UPDATE {$wpdb->prefix}postmeta AS m
 		 INNER JOIN {$wpdb->prefix}posts AS p ON p.ID = m.post_ID
 		 SET m.meta_key = %s
 	 	 WHERE p.post_type = %s AND m.meta_key = %s;",
-		array( $new_key, $post_type, $old_key )
-	) );
+			array( $new_key, $post_type, $old_key )
+		)
+	);
 
 }
 
@@ -81,18 +85,20 @@ function llms_update_util_rekey_meta( $post_type, $new_key, $old_key ) {
  */
 function llms_update_300_create_access_plans() {
 
-	$courses = new WP_Query( array(
-		'post_type' => array( 'course', 'llms_membership' ),
-		'posts_per_page' => -1,
-		'status' => 'any',
-	) );
+	$courses = new WP_Query(
+		array(
+			'post_type'      => array( 'course', 'llms_membership' ),
+			'posts_per_page' => -1,
+			'status'         => 'any',
+		)
+	);
 
 	if ( $courses->have_posts() ) {
 		foreach ( $courses->posts as $post ) {
 
 			$meta = get_post_meta( $post->ID );
 
-			$is_free = ( ! $meta['_price'][0] || floatval( 0 ) === floatval( $meta['_price'][0] ) );
+			$is_free       = ( ! $meta['_price'][0] || floatval( 0 ) === floatval( $meta['_price'][0] ) );
 			$has_recurring = ( 1 == $meta['_llms_recurring_enabled'][0] );
 			if ( 'course' === $post->post_type ) {
 				$members_only = ( 'on' === $meta['_llms_is_restricted'][0] && $meta['_llms_restricted_levels'][0] );
@@ -103,27 +109,33 @@ function llms_update_300_create_access_plans() {
 			// base plan for single & recurring
 			$base_plan = array(
 
-				'access_expiration' => 'lifetime',
-				'availability' => 'open',
+				'access_expiration'         => 'lifetime',
+				'availability'              => 'open',
 				'availability_restrictions' => array(),
-				'content' => '',
-				'enroll_text' => ( 'course' === $post->post_type ) ? __( 'Enroll', 'lifterlms' ) : __( 'Join', 'lifterlms' ),
-				'featured' => 'no',
-				'frequency' => 0,
-				'is_free' => 'no',
-				'product_id' => $post->ID,
-				'sku' => $meta['_sku'][0],
-				'trial_offer' => 'no',
+				'content'                   => '',
+				'enroll_text'               => ( 'course' === $post->post_type ) ? __( 'Enroll', 'lifterlms' ) : __( 'Join', 'lifterlms' ),
+				'featured'                  => 'no',
+				'frequency'                 => 0,
+				'is_free'                   => 'no',
+				'product_id'                => $post->ID,
+				'sku'                       => $meta['_sku'][0],
+				'trial_offer'               => 'no',
 
 			);
 
-			$single = array_merge( array(
-				'price' => $meta['_price'][0],
-			), $base_plan );
+			$single = array_merge(
+				array(
+					'price' => $meta['_price'][0],
+				),
+				$base_plan
+			);
 
-			$recurring = array_merge( array(
-				'price' => $meta['_llms_subscription_price'][0],
-			), $base_plan );
+			$recurring = array_merge(
+				array(
+					'price' => $meta['_llms_subscription_price'][0],
+				),
+				$base_plan
+			);
 
 			/**
 			 * determine what kinds of plans to create
@@ -133,25 +145,25 @@ function llms_update_300_create_access_plans() {
 			if ( $is_free && $members_only ) {
 
 				$free_members_only = true;
-				$single_paid_open = false;
-				$single_free_open = false;
-				$recurring_paid = false;
+				$single_paid_open  = false;
+				$single_free_open  = false;
+				$recurring_paid    = false;
 
 			} // End if().
 			elseif ( ! $is_free && $members_only ) {
 
 				$free_members_only = true;
-				$single_paid_open = true;
-				$single_free_open = false;
-				$recurring_paid = $has_recurring;
+				$single_paid_open  = true;
+				$single_free_open  = false;
+				$recurring_paid    = $has_recurring;
 
 			} // no restrictions, normal settings apply
 			else {
 
 				$free_members_only = false;
-				$single_paid_open = ! $is_free ? true : false;
-				$single_free_open = $is_free ? true : false;
-				$recurring_paid = $has_recurring;
+				$single_paid_open  = ! $is_free ? true : false;
+				$single_free_open  = $is_free ? true : false;
+				$recurring_paid    = $has_recurring;
 
 			}
 
@@ -162,11 +174,11 @@ function llms_update_300_create_access_plans() {
 			 */
 			if ( $free_members_only ) {
 
-				$plan = $single;
-				$plan['menu_order'] = $order;
-				$plan['is_free'] = 'yes';
-				$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-membersonly' : '';
-				$plan['availability'] = 'members';
+				$plan                              = $single;
+				$plan['menu_order']                = $order;
+				$plan['is_free']                   = 'yes';
+				$plan['sku']                       = ! empty( $plan['sku'] ) ? $plan['sku'] . '-membersonly' : '';
+				$plan['availability']              = 'members';
 				$plan['availability_restrictions'] = unserialize( $meta['_llms_restricted_levels'][0] );
 
 				$obj = new LLMS_Access_Plan( 'new', __( 'Members Only', 'lifterlms' ) );
@@ -181,16 +193,16 @@ function llms_update_300_create_access_plans() {
 
 			if ( $single_paid_open ) {
 
-				$plan = $single;
+				$plan               = $single;
 				$plan['menu_order'] = $order;
-				$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-onetime' : '';
-				$plan['on_sale'] = ! empty( $meta['_sale_price'][0] ) ? 'yes' : 'no';
+				$plan['sku']        = ! empty( $plan['sku'] ) ? $plan['sku'] . '-onetime' : '';
+				$plan['on_sale']    = ! empty( $meta['_sale_price'][0] ) ? 'yes' : 'no';
 
 				if ( 'yes' === $plan['on_sale'] ) {
 
-		 			$plan['sale_end'] = ! empty( $meta['_sale_price_dates_to'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
-		 			$plan['sale_start'] = ! empty( $meta['_sale_price_dates_from'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
-		 			$plan['sale_price'] = $meta['_sale_price'][0];
+					$plan['sale_end']   = ! empty( $meta['_sale_price_dates_to'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_to'][0] ) ) : '';
+					$plan['sale_start'] = ! empty( $meta['_sale_price_dates_from'][0] ) ? date( 'm/d/Y', strtotime( $meta['_sale_price_dates_from'][0] ) ) : '';
+					$plan['sale_price'] = $meta['_sale_price'][0];
 
 				}
 
@@ -206,12 +218,12 @@ function llms_update_300_create_access_plans() {
 
 			if ( $single_free_open ) {
 
-				$plan = $single;
+				$plan               = $single;
 				$plan['menu_order'] = $order;
-				$plan['is_free'] = 'yes';
-				$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-free' : '';
+				$plan['is_free']    = 'yes';
+				$plan['sku']        = ! empty( $plan['sku'] ) ? $plan['sku'] . '-free' : '';
 
-				$obj = new LLMS_Access_Plan( 'new',__( 'Free', 'lifterlms' ) );
+				$obj = new LLMS_Access_Plan( 'new', __( 'Free', 'lifterlms' ) );
 				foreach ( $plan as $key => $val ) {
 					$obj->set( $key, $val );
 				}
@@ -223,20 +235,20 @@ function llms_update_300_create_access_plans() {
 
 			if ( $recurring_paid ) {
 
-				$plan = $recurring;
+				$plan               = $recurring;
 				$plan['menu_order'] = $order;
-				$plan['sku'] = ! empty( $plan['sku'] ) ? $plan['sku'] . '-subscription' : '';
+				$plan['sku']        = ! empty( $plan['sku'] ) ? $plan['sku'] . '-subscription' : '';
 
 				if ( isset( $meta['_llms_subscription_first_payment'][0] ) && $meta['_llms_subscription_first_payment'][0] != $meta['_llms_subscription_price'][0] ) {
-					$plan['trial_offer'] = 'yes';
+					$plan['trial_offer']  = 'yes';
 					$plan['trial_length'] = $meta['_llms_billing_freq'][0];
 					$plan['trial_period'] = $meta['_llms_billing_period'][0];
-					$plan['trial_price'] = $meta['_llms_subscription_first_payment'][0];
+					$plan['trial_price']  = $meta['_llms_subscription_first_payment'][0];
 				}
 
 				$plan['frequency'] = $meta['_llms_billing_freq'][0];
-				$plan['length'] = $meta['_llms_billing_cycle'][0];
-				$plan['period'] = $meta['_llms_billing_period'][0];
+				$plan['length']    = $meta['_llms_billing_cycle'][0];
+				$plan['period']    = $meta['_llms_billing_period'][0];
 
 				$obj = new LLMS_Access_Plan( 'new', __( 'Subscription', 'lifterlms' ) );
 				foreach ( $plan as $key => $val ) {
@@ -405,10 +417,12 @@ function llms_update_300_migrate_coupon_data() {
 		update_post_meta( $obj->post_id, '_llms_description', get_the_title( $obj->post_id ) );
 
 		// update the post title to be the value of the old meta field
-		wp_update_post( array(
-			'ID' => $obj->post_id,
-			'post_title' => $obj->meta_value,
-		) );
+		wp_update_post(
+			array(
+				'ID'         => $obj->post_id,
+				'post_title' => $obj->meta_value,
+			)
+		);
 
 		// clean up
 		delete_post_meta( $obj->post_id, '_llms_coupon_title' );
@@ -445,8 +459,10 @@ function llms_update_300_migrate_course_postmeta() {
 	);
 	foreach ( $dates as $r ) {
 		// if no value in the field skip it otherwise we end up with start of the epoch
-		if ( ! $r->meta_value ) { continue; }
-		$wpdb->update( $wpdb->postmeta,
+		if ( ! $r->meta_value ) {
+			continue; }
+		$wpdb->update(
+			$wpdb->postmeta,
 			array(
 				'meta_value' => date( 'm/d/Y', strtotime( $r->meta_value ) ),
 			),
@@ -598,9 +614,9 @@ function llms_update_300_migrate_order_data() {
 function llms_update_300_update_orders() {
 
 	$args = array(
-		'post_type' => array( 'llms_order' ),
+		'post_type'      => array( 'llms_order' ),
 		'posts_per_page' => -1,
-		'status' => 'publish',
+		'status'         => 'publish',
 	);
 
 	$orders = new WP_Query( $args );
@@ -629,15 +645,15 @@ function llms_update_300_update_orders() {
 					$student = new LLMS_Student( $id );
 
 					$metas = array(
-						'billing_address_1' => 'billing_address_1',
-						'billing_address_2' => 'billing_address_2',
-						'billing_city' => 'billing_city',
-						'billing_country' => 'billing_country',
-						'billing_email' => 'user_email',
+						'billing_address_1'  => 'billing_address_1',
+						'billing_address_2'  => 'billing_address_2',
+						'billing_city'       => 'billing_city',
+						'billing_country'    => 'billing_country',
+						'billing_email'      => 'user_email',
 						'billing_first_name' => 'first_name',
-						'billing_last_name' => 'last_name',
-						'billing_state' => 'billing_state',
-						'billing_zip' => 'billing_zip',
+						'billing_last_name'  => 'last_name',
+						'billing_state'      => 'billing_state',
+						'billing_zip'        => 'billing_zip',
 					);
 
 					foreach ( $metas as $ordermeta => $usermeta ) {
@@ -714,7 +730,9 @@ function llms_update_303_update_students_role() {
 	// we delete it at the conclusion of the function
 	if ( ! get_role( 'studnet' ) ) {
 
-		add_role( 'studnet', __( 'Student', 'lifterlms' ),
+		add_role(
+			'studnet',
+			__( 'Student', 'lifterlms' ),
 			array(
 				'read' => true,
 			)
@@ -722,10 +740,12 @@ function llms_update_303_update_students_role() {
 
 	}
 
-	$users = new WP_User_Query( array(
-		'number' => -1,
-		'role__in' => array( 'studnet' ),
-	) );
+	$users = new WP_User_Query(
+		array(
+			'number'   => -1,
+			'role__in' => array( 'studnet' ),
+		)
+	);
 
 	if ( $users->get_results() ) {
 		foreach ( $users->get_results() as $user ) {
@@ -767,7 +787,8 @@ function llms_update_343_update_relationships() {
 	global $wpdb;
 
 	// update parent course key for courses and lessons
-	$wpdb->query( "UPDATE {$wpdb->postmeta} AS m
+	$wpdb->query(
+		"UPDATE {$wpdb->postmeta} AS m
 		 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id
 		 SET m.meta_key = '_llms_parent_course'
 		 WHERE m.meta_key = '_parent_course'
@@ -775,7 +796,8 @@ function llms_update_343_update_relationships() {
 	);
 
 	// update parent section key for lessons
-	$wpdb->query( "UPDATE {$wpdb->postmeta} AS m
+	$wpdb->query(
+		"UPDATE {$wpdb->postmeta} AS m
 		 JOIN {$wpdb->posts} AS p ON p.ID = m.post_id
 		 SET m.meta_key = '_llms_parent_section'
 		 WHERE m.meta_key = '_parent_section'
@@ -810,11 +832,13 @@ function llms_update_343_update_db_version() {
  * Courses were NOT SEARCHABLE in earlier versions
  */
 function llms_update_360_set_product_visibility() {
-	$query = new WP_Query( array(
-		'post_status' => 'any',
-		'post_type' => array( 'course', 'llms_membership' ),
-		'posts_per_page' => -1,
-	) );
+	$query = new WP_Query(
+		array(
+			'post_status'    => 'any',
+			'post_type'      => array( 'course', 'llms_membership' ),
+			'posts_per_page' => -1,
+		)
+	);
 	if ( $query->have_posts() ) {
 		foreach ( $query->posts as $post ) {
 			$visibility = ( 'course' === $post->post_type ) ? 'catalog' : 'catalog_search';
@@ -848,14 +872,16 @@ function llms_update_360_update_db_version() {
  * and delete the "featured" meta values for all access plans
  */
 function llms_update_380_set_access_plan_visibility() {
-	$query = new WP_Query( array(
-		'post_status' => 'any',
-		'post_type' => array( 'llms_access_plan' ),
-		'posts_per_page' => -1,
-	) );
+	$query = new WP_Query(
+		array(
+			'post_status'    => 'any',
+			'post_type'      => array( 'llms_access_plan' ),
+			'posts_per_page' => -1,
+		)
+	);
 	if ( $query->have_posts() ) {
 		foreach ( $query->posts as $post ) {
-			$plan = llms_get_post( $post );
+			$plan       = llms_get_post( $post );
 			$visibility = $plan->is_featured() ? 'featured' : 'visible';
 			wp_set_object_terms( $post->ID, $visibility, 'llms_access_plan_visibility', false );
 			delete_post_meta( $post->ID, '_llms_featured' );
@@ -909,7 +935,8 @@ function llms_update_3120_update_order_end_dates() {
 function llms_update_3120_update_integration_options() {
 
 	global $wpdb;
-	$wpdb->update( $wpdb->options,
+	$wpdb->update(
+		$wpdb->options,
 		array(
 			'option_name' => 'llms_integration_bbpress_enabled',
 		),
@@ -918,7 +945,8 @@ function llms_update_3120_update_integration_options() {
 		)
 	);
 
-	$wpdb->update( $wpdb->options,
+	$wpdb->update(
+		$wpdb->options,
 		array(
 			'option_name' => 'llms_integration_buddypress_enabled',
 		),
@@ -954,10 +982,12 @@ function llms_update_3120_update_db_version() {
  */
 function llms_update_3130_create_default_instructors() {
 
-	$query = new WP_Query( array(
-		'post_type' => array( 'course', 'llms_membership' ),
-		'posts_per_page' => -1,
-	) );
+	$query = new WP_Query(
+		array(
+			'post_type'      => array( 'course', 'llms_membership' ),
+			'posts_per_page' => -1,
+		)
+	);
 
 	foreach ( $query->posts as $post ) {
 		$course = llms_get_post( $post );
@@ -973,17 +1003,20 @@ function llms_update_3130_builder_notice() {
 
 	require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 
-	LLMS_Admin_Notices::add_notice( 'update-3130', array(
-		'html' => sprintf(
-			__( 'Welcome to LifterLMS 3.13.0! We\'ve packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s.', 'lifterlms' ),
-			'<a href="https://lifterlms.com/docs/using-course-builder/" target="_blank">',
-			'<a href="https://lifterlms.com/docs/roles-and-capabilities/" target="_blank">',
-			'</a>'
-		),
-		'type' => 'info',
-		'dismissible' => true,
-		'remindable' => false,
-	) );
+	LLMS_Admin_Notices::add_notice(
+		'update-3130',
+		array(
+			'html'        => sprintf(
+				__( 'Welcome to LifterLMS 3.13.0! We\'ve packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s.', 'lifterlms' ),
+				'<a href="https://lifterlms.com/docs/using-course-builder/" target="_blank">',
+				'<a href="https://lifterlms.com/docs/roles-and-capabilities/" target="_blank">',
+				'</a>'
+			),
+			'type'        => 'info',
+			'dismissible' => true,
+			'remindable'  => false,
+		)
+	);
 
 }
 
@@ -1013,6 +1046,7 @@ function llms_update_3130_update_db_version() {
 
 /**
  * Add yes/no vals for quiz new quiz settings
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.16.10
@@ -1039,7 +1073,8 @@ function llms_update_3160_update_quiz_settings() {
 
 /**
  * Rename meta keys for lesson -> quiz relationship
- * @return   [type]
+ *
+ * @return   void
  * @since    3.16.0
  * @version  3.16.10
  */
@@ -1060,6 +1095,7 @@ function llms_update_3160_lesson_to_quiz_relationships_migration() {
 
 /**
  * Migrate attempt data from the former location on the wp_usermeta table
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.24.1
@@ -1086,17 +1122,17 @@ function llms_update_3160_attempt_migration() {
 				}
 
 				$to_insert = array();
-				$format = array();
+				$format    = array();
 
 				$start = $attempt['start_date'];
-				$end = $attempt['end_date'];
+				$end   = $attempt['end_date'];
 
 				if ( $end ) {
 					$to_insert['update_date'] = $end;
-					$format[] = '%s';
+					$format[]                 = '%s';
 				} elseif ( $start ) {
 					$to_insert['update_date'] = $start;
-					$format[] = '%s';
+					$format[]                 = '%s';
 				} else {
 					continue;
 				}
@@ -1149,11 +1185,11 @@ function llms_update_3160_attempt_migration() {
 						case 'student_id':
 						case 'attempt':
 							$insert_format = '%d';
-						break;
+							break;
 
 						case 'grade':
 							$insert_format = '%f';
-						break;
+							break;
 
 						default:
 							$insert_format = '%s';
@@ -1161,7 +1197,7 @@ function llms_update_3160_attempt_migration() {
 					}
 
 					$to_insert[ $insert_key ] = $insert_val;
-					$format[] = $insert_format;
+					$format[]                 = $insert_format;
 
 				}// End foreach().
 
@@ -1185,6 +1221,7 @@ function llms_update_3160_attempt_migration() {
 
 /**
  * Create duplicate questions for each question attached to multiple quizzes
+ *
  * @return   [void]
  * @since    3.16.0
  * @version  3.16.10
@@ -1202,14 +1239,16 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 	set_transient( 'llms_3160_skipper_dupe_q', $skip + 20, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$question_ids = $wpdb->get_col( $wpdb->prepare(
-		"SELECT ID
+	$question_ids = $wpdb->get_col(
+		$wpdb->prepare(
+			"SELECT ID
 		 FROM {$wpdb->posts}
 		 WHERE post_type = 'llms_question'
 		 ORDER BY ID ASC
 		 LIMIT %d, 20;",
-		$skip
-	) );
+			$skip
+		)
+	);
 
 	if ( ! $question_ids ) {
 		set_transient( 'llms_update_3160_ensure_no_dupe_question_rels_status', 'complete', DAY_IN_SECONDS );
@@ -1219,23 +1258,31 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 	foreach ( $question_ids as $qid ) {
 
 		$parts = array(
-			serialize( array(
-				'id' => $qid,
-			) ),
-			serialize( array(
-				'id' => absint( $qid ),
-			) ),
+			serialize(
+				array(
+					'id' => $qid,
+				)
+			),
+			serialize(
+				array(
+					'id' => absint( $qid ),
+				)
+			),
 		);
 
 		foreach ( $parts as &$part ) {
 			$part = substr( $part, 5, -1 );
 		}
 
-		$quiz_ids = $wpdb->get_col( "
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$quiz_ids = $wpdb->get_col(
+			"
 			SELECT post_id
 			FROM {$wpdb->postmeta}
 			WHERE meta_key = '_llms_questions'
-			  AND ( meta_value LIKE '%{$parts[0]}%' OR meta_value LIKE '%{$parts[1]}%' );" );
+			  AND ( meta_value LIKE '%{$parts[0]}%' OR meta_value LIKE '%{$parts[1]}%' );"
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		// question is attached to 2 or more quizzes
 		if ( count( $quiz_ids ) >= 2 ) {
@@ -1247,7 +1294,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 
 				// copy the question and add update the reference on the quiz
 				$question_copy_id = llms_update_util_post_duplicator( $qid );
-				$questions = get_post_meta( $quiz_id, '_llms_questions', true );
+				$questions        = get_post_meta( $quiz_id, '_llms_questions', true );
 				foreach ( $questions as &$qdata ) {
 					if ( $qdata['id'] == $qid ) {
 						$qdata['id'] = $question_copy_id;
@@ -1256,15 +1303,19 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 				update_post_meta( $quiz_id, '_llms_questions', $questions );
 
 				// update references to the quiz in quiz attempts
-				$attempt_ids = $wpdb->get_col( "
+				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+				$attempt_ids = $wpdb->get_col(
+					"
 					SELECT id
 					FROM {$wpdb->prefix}lifterlms_quiz_attempts
 					WHERE quiz_id = {$quiz_id}
-					  AND ( questions LIKE '%{$parts[0]}%' OR questions LIKE '%{$parts[1]}%' );" );
+					  AND ( questions LIKE '%{$parts[0]}%' OR questions LIKE '%{$parts[1]}%' );"
+				);
+				// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 				foreach ( $attempt_ids as $aid ) {
 
-					$attempt = new LLMS_Quiz_Attempt( $aid );
+					$attempt    = new LLMS_Quiz_Attempt( $aid );
 					$attempt_qs = $attempt->get_questions();
 					foreach ( $attempt_qs as &$answer ) {
 						if ( $answer['id'] == $qid ) {
@@ -1285,6 +1336,7 @@ function llms_update_3160_ensure_no_dupe_question_rels() {
 
 /**
  * Create duplicates for any quiz attached to multiple lessons
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.16.10
@@ -1302,16 +1354,18 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 	set_transient( 'llms_3160_skipper_dupe_l', $skip + 100, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$res = $wpdb->get_results( $wpdb->prepare(
-		"SELECT post_id AS lesson_id, meta_value AS quiz_id
+	$res = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT post_id AS lesson_id, meta_value AS quiz_id
 		 FROM {$wpdb->postmeta}
 		 WHERE meta_key = '_llms_quiz'
 		   AND meta_value != 0
 		 ORDER BY lesson_id ASC
 		 LIMIT %d, 100
 		;",
-		$skip
-	) );
+			$skip
+		)
+	);
 
 	if ( ! $res ) {
 		set_transient( 'llms_update_3160_ensure_no_lesson_dupe_rels', 'complete', DAY_IN_SECONDS );
@@ -1336,34 +1390,38 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 		}
 
 		// quiz already attached to a lesson
-		//  + duplicate it
-		//  + assign lesson/quiz relationships off new quiz
-		//  + find quiz attempts by old quiz / lesson
-		//  	+ update attempt quiz id
-		//  	+ update attempt question ids
+		// + duplicate it
+		// + assign lesson/quiz relationships off new quiz
+		// + find quiz attempts by old quiz / lesson
+		// + update attempt quiz id
+		// + update attempt question ids
 		//
 		if ( in_array( $data->quiz_id, $quizzes_set ) ) {
 
 			$orig_questions = get_post_meta( $data->quiz_id, '_llms_questions', true );
-			$qid_map = array();
-			$dupe_quiz_id = llms_update_util_post_duplicator( $data->quiz_id );
+			$qid_map        = array();
+			$dupe_quiz_id   = llms_update_util_post_duplicator( $data->quiz_id );
 			foreach ( $orig_questions as &$oqdata ) {
-				$dupe_q = llms_update_util_post_duplicator( $oqdata['id'] );
+				$dupe_q                   = llms_update_util_post_duplicator( $oqdata['id'] );
 				$qid_map[ $oqdata['id'] ] = $dupe_q;
-				$oqdata['id'] = $dupe_q;
+				$oqdata['id']             = $dupe_q;
 			}
 			update_post_meta( $dupe_quiz_id, '_llms_questions', $orig_questions );
 			update_post_meta( $dupe_quiz_id, '_llms_lesson_id', $data->lesson_id );
 
 			$lesson->set( 'quiz', $dupe_quiz_id );
 
-			$attempt_ids = $wpdb->get_col( "
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$attempt_ids = $wpdb->get_col(
+				"
 				SELECT id
 				FROM {$wpdb->prefix}lifterlms_quiz_attempts
-				WHERE quiz_id = {$data->quiz_id} AND lesson_id = {$data->lesson_id}" );
+				WHERE quiz_id = {$data->quiz_id} AND lesson_id = {$data->lesson_id}"
+			);
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			foreach ( $attempt_ids as $aid ) {
-				$attempt = new LLMS_Quiz_Attempt( $aid );
+				$attempt   = new LLMS_Quiz_Attempt( $aid );
 				$questions = $attempt->get_questions();
 				foreach ( $questions as &$aqd ) {
 
@@ -1390,6 +1448,7 @@ function llms_update_3160_ensure_no_lesson_dupe_rels() {
 
 /**
  * Update question & choice data to new structure
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.16.10
@@ -1407,14 +1466,16 @@ function llms_update_3160_update_question_data() {
 	set_transient( 'llms_3160_skipper_qdata', $skip + 100, DAY_IN_SECONDS );
 
 	global $wpdb;
-	$res = $wpdb->get_results( $wpdb->prepare(
-		"SELECT post_id AS quiz_id, meta_value AS questions
+	$res = $wpdb->get_results(
+		$wpdb->prepare(
+			"SELECT post_id AS quiz_id, meta_value AS questions
 		 FROM {$wpdb->postmeta}
 		 WHERE meta_key = '_llms_questions'
 		 ORDER BY post_id ASC
 		 LIMIT %d, 100;",
-		$skip
-	) );
+			$skip
+		)
+	);
 
 	// finished
 	if ( ! $res ) {
@@ -1481,11 +1542,13 @@ function llms_update_3160_update_question_data() {
 						}
 					}
 
-					$question->create_choice( array(
-						'choice' => $option['option_text'],
-						'correct' => $correct,
-						'marker' => $markers[ $index ],
-					) );
+					$question->create_choice(
+						array(
+							'choice'  => $option['option_text'],
+							'correct' => $correct,
+							'marker'  => $markers[ $index ],
+						)
+					);
 
 					// if an option desc is set
 					if ( ! empty( $option['option_description'] ) ) {
@@ -1511,6 +1574,7 @@ function llms_update_3160_update_question_data() {
 
 /**
  * Update question data to new formats & match question choice indexes to new choice IDs
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.16.10
@@ -1538,7 +1602,7 @@ function llms_update_3160_update_attempt_question_data() {
 
 	foreach ( $res as $att_id ) {
 
-		$attempt = new LLMS_Quiz_Attempt( $att_id );
+		$attempt   = new LLMS_Quiz_Attempt( $att_id );
 		$questions = $attempt->get_questions();
 		foreach ( $questions as &$question ) {
 
@@ -1566,6 +1630,7 @@ function llms_update_3160_update_attempt_question_data() {
 
 /**
  * Ensure quizzes backreference their parent lessons
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.16.10
@@ -1595,6 +1660,7 @@ function llms_update_3160_update_quiz_to_lesson_rels() {
 
 /**
  * Add an admin notice about new quiz things
+ *
  * @return void
  * @since    3.16.0
  * @version  3.16.0
@@ -1607,21 +1673,25 @@ function llms_update_3160_builder_notice() {
 
 	require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
 
-	LLMS_Admin_Notices::add_notice( 'update-3160', array(
-		'html' => sprintf(
-			__( 'Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under "Courses" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s.', 'lifterlms' ),
-			'<a href="http://blog.lifterlms.com/hello-quizzes/" target="_blank">',
-			'</a>'
-		),
-		'type' => 'info',
-		'dismissible' => true,
-		'remindable' => false,
-	) );
+	LLMS_Admin_Notices::add_notice(
+		'update-3160',
+		array(
+			'html'        => sprintf(
+				__( 'Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under "Courses" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s.', 'lifterlms' ),
+				'<a href="http://blog.lifterlms.com/hello-quizzes/" target="_blank">',
+				'</a>'
+			),
+			'type'        => 'info',
+			'dismissible' => true,
+			'remindable'  => false,
+		)
+	);
 
 }
 
 /**
  * Update db version at conclusion of 3.16.0 updates
+ *
  * @return void
  * @since    3.16.0
  * @version  3.16.0
@@ -1660,6 +1730,7 @@ function llms_update_3280_clear_session_cleanup_cron() {
 
 /**
  * Update db version at conclusion of 3.28.0 updates
+ *
  * @return void
  * @since    3.28.0
  * @version  3.28.0

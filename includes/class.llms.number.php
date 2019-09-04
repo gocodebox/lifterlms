@@ -1,11 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Number Class
-*
-* Manages formatting numbers for I/O and display
-*/
+ * Number Class
+ *
+ * Manages formatting numbers for I/O and display
+ */
 class LLMS_Number {
 
 	/**
@@ -17,6 +18,7 @@ class LLMS_Number {
 
 	/**
 	 * Format number to money with decimals
+	 *
 	 * @param  [int] $number
 	 * @return [string]
 	 */
@@ -28,6 +30,7 @@ class LLMS_Number {
 
 	/**
 	 * Format number to money with no decimals
+	 *
 	 * @param  [int] $number
 	 * @return [string]
 	 */
@@ -37,6 +40,7 @@ class LLMS_Number {
 
 	/**
 	 * Converts and rounds a decimal to a whole number
+	 *
 	 * @param  [decimal] $decimal [percentage]
 	 * @return [int]        [whole number representation of decimal value]
 	 */
@@ -48,4 +52,4 @@ class LLMS_Number {
 
 }
 
-return new LLMS_Number;
+return new LLMS_Number();

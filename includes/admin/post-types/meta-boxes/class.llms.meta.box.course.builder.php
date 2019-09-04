@@ -20,25 +20,27 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
+	 *
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public function configure() {
 
-		$this->id = 'course_builder';
-		$this->title = __( 'Course Builder', 'lifterlms' );
-		$this->screens = array(
+		$this->id         = 'course_builder';
+		$this->title      = __( 'Course Builder', 'lifterlms' );
+		$this->screens    = array(
 			'course',
 			'lesson',
 		);
-		$this->context = 'side';
+		$this->context    = 'side';
 		$this->capability = 'edit_course';
 
 	}
 
 	/**
 	 * Get a URL to the course builder with an optional hash to a lesson/quiz/assignment
+	 *
 	 * @param   int    $course_id WP Post ID of a course.
 	 * @param   string $hash      Hash of the lesson & tab info (lesson:{$lesson_id}:tab).
 	 * @return  string
@@ -47,10 +49,13 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 	 */
 	public function get_builder_url( $course_id, $hash = null ) {
 
-		$url = add_query_arg( array(
-			'page' => 'llms-course-builder',
-			'course_id' => $course_id,
-		), admin_url( 'admin.php' ) );
+		$url = add_query_arg(
+			array(
+				'page'      => 'llms-course-builder',
+				'course_id' => $course_id,
+			),
+			admin_url( 'admin.php' )
+		);
 
 		if ( $hash ) {
 			$url = $url . '#' . $hash;
@@ -62,6 +67,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 	/**
 	 * This metabox has no options
+	 *
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -72,8 +78,9 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 	/**
 	 * Get the HTML for a title, optionally as an anchor
-	 * @param    string     $title  title to display
-	 * @param    boolean    $url    url to link to
+	 *
+	 * @param    string  $title  title to display
+	 * @param    boolean $url    url to link to
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.27.0
@@ -100,7 +107,7 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 		$post_id = $this->post->ID;
 
-		$lesson = false;
+		$lesson  = false;
 		$section = false;
 		if ( 'lesson' === $this->post->post_type ) {
 			$course = llms_get_post_parent_course( $post_id );
@@ -109,8 +116,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 				return;
 			}
 			$course_id = $course->get( 'id' );
-			$lesson = llms_get_post( $this->post );
-			$section = $lesson->get_parent_section() ? llms_get_post( $lesson->get_parent_section() ) : false;
+			$lesson    = llms_get_post( $this->post );
+			$section   = $lesson->get_parent_section() ? llms_get_post( $lesson->get_parent_section() ) : false;
 		} else {
 			$course = llms_get_post( $post_id );
 		}
@@ -138,8 +145,9 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 	/**
 	 * HTML helper to output info for a section
-	 * @param    obj        $section  LLMS_Section object
-	 * @param    string     $which    positioning [current|previous|next]
+	 *
+	 * @param    obj    $section  LLMS_Section object
+	 * @param    string $which    positioning [current|previous|next]
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.28.0
@@ -170,8 +178,10 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 
 		<?php if ( 'current' === $which ) : ?>
 			<ol>
-			<?php foreach ( $section->get_lessons() as $lesson ) :
-				$hash = 'lesson:' . $lesson->get( 'id' ); ?>
+			<?php
+			foreach ( $section->get_lessons() as $lesson ) :
+				$hash = 'lesson:' . $lesson->get( 'id' );
+				?>
 				<li>
 					<?php if ( $this->post->ID != $lesson->get( 'id' ) ) : ?>
 						<?php echo $this->get_title_html( $lesson->get( 'title' ), get_edit_post_link( $lesson->get( 'id' ) ) ); ?>
@@ -179,8 +189,10 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 						<?php echo $lesson->get( 'title' ); ?>
 					<?php endif; ?>
 					<a class="tip--top-left" href="<?php echo esc_url( $this->get_builder_url( $lesson->get( 'parent_course' ), $hash ) ); ?>" data-tip="<?php esc_attr_e( 'Edit lesson in builder', 'lifterlms' ); ?>"><i class="fa fa-cog"></i></a>
-					<?php if ( $lesson->has_quiz() ) :
-						$quiz = $lesson->get_quiz(); ?>
+					<?php
+					if ( $lesson->has_quiz() ) :
+						$quiz = $lesson->get_quiz();
+						?>
 						<br>
 						<?php printf( '<span class="tip--top-right" data-tip="%1$s"><i class="fa fa-question-circle"></i></span> %2$s', __( 'Quiz', 'lifterlms' ), $this->get_title_html( $quiz->get( 'title' ), $this->get_builder_url( $lesson->get( 'parent_course' ), $hash . ':quiz' ) ) ); ?>
 					<?php endif; ?>
@@ -188,7 +200,8 @@ class LLMS_Metabox_Course_Builder extends LLMS_Admin_Metabox {
 				</li>
 			<?php endforeach; ?>
 			</ol>
-		<?php endif;
+			<?php
+		endif;
 
 	}
 

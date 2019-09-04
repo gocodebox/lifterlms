@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Add, Customize, and Manage LifterLMS Lesson posts table Columns
+ *
  * @since    3.2.3
  * @version  3.24.0
  */
@@ -10,6 +11,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 	/**
 	 * Constructor
+	 *
 	 * @return  void
 	 * @since    3.2.3
 	 * @version  3.12.0
@@ -26,7 +28,8 @@ class LLMS_Admin_Post_Table_Lessons {
 
 	/**
 	 * Add Custom lesson Columns
-	 * @param   array  $columns  array of default columns
+	 *
+	 * @param   array $columns  array of default columns
 	 * @return  array
 	 * @since    3.2.3
 	 * @version  3.12.0
@@ -34,13 +37,13 @@ class LLMS_Admin_Post_Table_Lessons {
 	public function add_columns( $columns ) {
 
 		$columns = array(
-			'cb' => '<input type="checkbox" />',
-			'title' => __( 'Lesson Title', 'lifterlms' ),
-			'course' => __( 'Course', 'lifterlms' ),
+			'cb'      => '<input type="checkbox" />',
+			'title'   => __( 'Lesson Title', 'lifterlms' ),
+			'course'  => __( 'Course', 'lifterlms' ),
 			'section' => __( 'Section', 'lifterlms' ),
-			'prereq' => __( 'Prerequisite', 'lifterlms' ),
-			'author' => __( 'Author', 'lifterlms' ),
-			'date' => __( 'Date', 'lifterlms' ),
+			'prereq'  => __( 'Prerequisite', 'lifterlms' ),
+			'author'  => __( 'Author', 'lifterlms' ),
+			'date'    => __( 'Date', 'lifterlms' ),
 		);
 
 		return $columns;
@@ -48,8 +51,9 @@ class LLMS_Admin_Post_Table_Lessons {
 
 	/**
 	 * Add filters to the top of the post table
-	 * @param    string     $post_type  Post Type of the current posts table
-	 * @param    string     $which      positioning of the filters [top|bottom]
+	 *
+	 * @param    string $post_type  Post Type of the current posts table
+	 * @param    string $which      positioning of the filters [top|bottom]
 	 * @since    3.12.0
 	 * @version  3.12.0
 	 */
@@ -67,6 +71,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 	/**
 	 * Manage content of custom lesson columns
+	 *
 	 * @param    string $column   column key/name
 	 * @param    int    $post_id  WP Post ID of the lesson for the row
 	 * @return   void
@@ -82,31 +87,28 @@ class LLMS_Admin_Post_Table_Lessons {
 
 		switch ( $column ) {
 
-			case 'course' :
-
-				$course = $lesson->get_parent_course();
+			case 'course':
+				$course    = $lesson->get_parent_course();
 				$edit_link = get_edit_post_link( $course );
 
 				if ( ! empty( $course ) ) {
-					printf( '<a href="%1$s">%2$s</a>', $edit_link , get_the_title( $course ) );
+					printf( '<a href="%1$s">%2$s</a>', $edit_link, get_the_title( $course ) );
 				}
 
-			break;
+				break;
 
-			case 'section' :
-
+			case 'section':
 				$section = $lesson->get_parent_section();
 				if ( ! empty( $section ) ) {
 					echo get_the_title( $section );
 				}
 
-			break;
+				break;
 
-			case 'prereq' :
-
+			case 'prereq':
 				if ( $lesson->has_prerequisite() ) {
 
-					$prereq = $lesson->get( 'prerequisite' );
+					$prereq    = $lesson->get( 'prerequisite' );
 					$edit_link = get_edit_post_link( $prereq );
 
 					if ( $prereq ) {
@@ -124,7 +126,7 @@ class LLMS_Admin_Post_Table_Lessons {
 
 				}
 
-			break;
+				break;
 
 		}// End switch().
 
@@ -132,7 +134,8 @@ class LLMS_Admin_Post_Table_Lessons {
 
 	/**
 	 * Modify the main WP Query
-	 * @param    obj     $query  WP_Query
+	 *
+	 * @param    obj $query  WP_Query
 	 * @return   obj
 	 * @since    3.12.0
 	 * @version  3.12.0
@@ -166,8 +169,8 @@ class LLMS_Admin_Post_Table_Lessons {
 
 		$meta_query[] = array(
 			'compare' => '=',
-			'key' => '_llms_parent_course',
-			'value' => absint( $_REQUEST['llms_filter_course_id'] ),
+			'key'     => '_llms_parent_course',
+			'value'   => absint( $_REQUEST['llms_filter_course_id'] ),
 		);
 
 		$query->set( 'meta_query', $meta_query );

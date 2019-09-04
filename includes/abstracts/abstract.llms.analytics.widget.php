@@ -3,18 +3,19 @@
  * Analytics Widget Abstract
  *
  * @since 3.0.0
- * @version 3.33.1
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Analytics Widget Abstract
-*
-* @since 3.0.0
-* @since 3.30.3 Define undefined properties.
-* @since 3.33.1 In `set_order_data_query()` always set $order_clause variable to avoid PHP notices
-*/
+ * Analytics Widget Abstract
+ *
+ * @since 3.0.0
+ * @since 3.30.3 Define undefined properties.
+ * @since 3.33.1 In `set_order_data_query()` always set $order_clause variable to avoid PHP notices
+ * @since 3.35.0 Sanitize input data from reporting filters.
+ */
 abstract class LLMS_Analytics_Widget {
 
 	/**
@@ -58,6 +59,7 @@ abstract class LLMS_Analytics_Widget {
 
 	/**
 	 * One of the wpdb constants: OBJECT, OBJECT_K, ARRAY_A, or ARRAY_N
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -108,40 +110,35 @@ abstract class LLMS_Analytics_Widget {
 	abstract protected function set_query();
 	protected function get_chart_data() {
 		return array(
-			'type' => 'count',
+			'type'   => 'count',
 			'header' => array(
-				'id' => '',
+				'id'    => '',
 				'label' => '',
-				'type' => 'string',
+				'type'  => 'string',
 			),
 		);
 	}
 
 	public function __construct() {}
 
-	// protected function get_date_range_difference() {
-	// 	$dates = $this->get_posted_dates();
-	// 	if ( $dates ) {
-	// 		return strtotime( $dates['end'] ) - strtotime( $dates['start'] );
-	// 	}
-	// 	return 0;
-	// }
-
 	protected function get_posted_dates() {
 
-		return ( isset( $_POST['dates'] ) ) ? $_POST['dates'] : '';
+		$dates = llms_filter_input( INPUT_POST, 'dates', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+		return $dates ? $dates : '';
 
 	}
 
 	protected function get_posted_courses() {
 
-		return ( isset( $_POST['courses'] ) ) ? $_POST['courses'] : array();
+		$courses = llms_filter_input( INPUT_POST, 'courses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		return $courses ? $courses : array();
 
 	}
 
 	protected function get_posted_memberships() {
 
-		return ( isset( $_POST['memberships'] ) ) ? $_POST['memberships'] : array();
+		$memberships = llms_filter_input( INPUT_POST, 'memberships', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		return $memberships ? $memberships : array();
 
 	}
 
@@ -150,8 +147,8 @@ abstract class LLMS_Analytics_Widget {
 	}
 
 	protected function get_posted_students() {
-
-		return ( isset( $_POST['students'] ) ) ? $_POST['students'] : array();
+		$students = llms_filter_input( INPUT_POST, 'students', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		return $students ? $students : array();
 
 	}
 
@@ -176,16 +173,14 @@ abstract class LLMS_Analytics_Widget {
 		switch ( $type ) {
 
 			case 'start':
-
 				$date .= ' 00:00:00';
 
-			break;
+				break;
 
 			case 'end':
-
 				$date .= ' 23:23:59';
 
-			break;
+				break;
 
 		}
 
@@ -193,64 +188,63 @@ abstract class LLMS_Analytics_Widget {
 
 	}
 
-
 	protected function is_error() {
 
 		return ( $this->success ) ? false : true;
 
 	}
 
-
-
-
-
 	protected function set_order_data_query( $args = array() ) {
 
-		extract( wp_parse_args( $args, array(
+		extract(
+			wp_parse_args(
+				$args,
+				array(
+					'select'         => array( '*' ),
+					'date_range'     => true, // whether or not to add a "where" for the posted date range
+					'date_field'     => 'post_date',
+					'query_function' => 'get_results', // query function to pass to $wpdb->query()
+					'output_type'    => OBJECT,
+					'joins'          => array(), // array of JOIN statements
+					'statuses'       => array(), // array of order statuses to query
+					'wheres'         => array(), // array of "WHERE" statements
+					'order'          => 'ASC',
+					'orderby'        => '',
 
-			'select' => array( '*' ),
-			'date_range' => true, // whether or not to add a "where" for the posted date range
-			'date_field' => 'post_date',
-			'query_function' => 'get_results', // query function to pass to $wpdb->query()
-			'output_type' => OBJECT,
-			'joins' => array(), // array of JOIN statements
-			'statuses' => array(), // array of order statuses to query
-			'wheres' => array(), // array of "WHERE" statements
-			'order' => 'ASC',
-			'orderby' => '',
-
-		) ) );
+				)
+			)
+		);
 
 		$this->query_function = $query_function;
-		$this->query_vars = array();
-		$this->output_type = $output_type;
+		$this->query_vars     = array();
+		$this->output_type    = $output_type;
 
 		global $wpdb;
 
 		// setup student join & where clauses
-		$students = $this->get_posted_students();
-		$students_join = '';
+		$students       = $this->get_posted_students();
+		$students_join  = '';
 		$students_where = '';
 		if ( $students ) {
-			$students_join = "JOIN {$wpdb->postmeta} AS m1 ON orders.ID = m1.post_id";
+			$students_join   = "JOIN {$wpdb->postmeta} AS m1 ON orders.ID = m1.post_id";
 			$students_where .= "AND m1.meta_key = '_llms_user_id'";
 			$students_where .= ' AND m1.meta_value IN ( ' . implode( ', ', $students ) . ' )';
 		}
 
 		// setup post (product) joins & where clauses
-		$posts = $this->get_posted_posts();
-		$products_join = '';
+		$posts          = $this->get_posted_posts();
+		$products_join  = '';
 		$products_where = '';
 		if ( $posts ) {
-			$products_join = "JOIN {$wpdb->postmeta} AS m2 ON orders.ID = m2.post_id";
+			$products_join   = "JOIN {$wpdb->postmeta} AS m2 ON orders.ID = m2.post_id";
 			$products_where .= "AND m2.meta_key = '_llms_product_id'";
 			$products_where .= ' AND m2.meta_value IN ( ' . implode( ', ', $posts ) . ' )';
 		}
 
 		$order_dates = '';
 		if ( $date_range ) {
-			$dates = $this->get_posted_dates();
-			$order_dates = "AND orders.{$date_field} BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )";
+			$dates              = $this->get_posted_dates();
+			$order_dates        = "AND orders.{$date_field} BETWEEN CAST( %s AS DATETIME ) AND CAST( %s AS DATETIME )";
 			$this->query_vars[] = $this->format_date( $dates['start'], 'start' );
 			$this->query_vars[] = $this->format_date( $dates['end'], 'end' );
 		}
@@ -263,7 +257,7 @@ abstract class LLMS_Analytics_Widget {
 				if ( $i > 0 ) {
 					$post_statuses .= ' OR ';
 				}
-				$post_statuses .= 'post_status = %s';
+				$post_statuses     .= 'post_status = %s';
 				$this->query_vars[] = $status;
 			}
 			$post_statuses .= ' )';
@@ -309,21 +303,14 @@ abstract class LLMS_Analytics_Widget {
 
 	}
 
-
-
-
-
-
-
 	protected function query() {
 
 		global $wpdb;
 		// no output options
 		if ( in_array( $this->query_function, array( 'get_var', 'get_col' ) ) ) {
-			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ) );
-		} // End if().
-		else {
-			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ), $this->output_type );
+			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ) ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
+		} else {
+			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ), $this->output_type ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
 		}
 
 		$this->prepared_query = trim( str_replace( array( "\r", "\n", "\t", '  ' ), ' ', $wpdb->last_query ) );

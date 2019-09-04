@@ -43,25 +43,36 @@
     "lifterlms/lifterlms-rest": "^1.0.0-beta.3"
   },
   "require-dev": {
-    "codeclimate/php-test-reporter": "dev-master",
-    "squizlabs/php_codesniffer": "2.*",
-    "wp-coding-standards/wpcs": "dev-master",
-    "lifterlms/lifterlms-tests": "dev-master"
+    "lifterlms/lifterlms-tests": "dev-master",
+    "lifterlms/lifterlms-cs": "dev-master"
   },
   "scripts": {
-    "post-install-cmd": [
-      "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs",
-      "\"vendor/bin/phpcs\" --config-set default_standard ./phpcs.xml"
+    "config-cs": [
+      "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/lifterlms/lifterlms-cs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
+      "\"vendor/bin/phpcs\" --config-set default_standard 'LifterLMS Core'"
     ],
-    "phpcs": "composer run-script check-cs",
-    "check-cs": "\"vendor/bin/phpcs\" --colors --extensions=php -n -p lifterlms.php includes/ templates/",
-    "fix-cs": "\"vendor/bin/phpcbf\" --extensions=php -n lifterlms.php includes/ templates/",
+    "check-cs": [
+      "\"vendor/bin/phpcs\" --colors"
+    ],
+    "check-cs-errors": [
+      "\"vendor/bin/phpcs\" --colors --error-severity=1 --warning-severity=6"
+    ],
+    "fix-cs": [
+      "\"vendor/bin/phpcbf\""
+    ],
+    "post-install-cmd": [
+      "composer config-cs"
+    ],
+    "post-update-cmd": [
+      "composer config-cs"
+    ],
     "tests-install": [
       "\"vendor/bin/llms-tests\" teardown llms_tests root password 127.0.0.1",
       "\"vendor/bin/llms-tests\" install llms_tests root password 127.0.0.1"
     ],
     "tests-run": [
       "\"vendor/bin/phpunit\""
-    ]
+    ],
+    "phpcs": "composer run-script check-cs"
   }
 }

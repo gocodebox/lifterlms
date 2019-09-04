@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification View: Section Complete
+ *
  * @since    3.8.0
  * @version  3.10.1
  */
@@ -12,6 +13,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 
 	/**
 	 * Settings for basic notifications
+	 *
 	 * @var  array
 	 */
 	protected $basic_options = array(
@@ -23,17 +25,19 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 		/**
 		 * Enables manual dismissal of notifications
 		 */
-		'dismissible' => true,
+		'dismissible'  => true,
 	);
 
 	/**
 	 * Notification Trigger ID
+	 *
 	 * @var  [type]
 	 */
 	public $trigger_id = 'section_complete';
 
 	/**
 	 * Setup body content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -42,11 +46,12 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 		if ( 'email' === $this->notification->get( 'type' ) ) {
 			return sprintf( __( 'Congratulations! %1$s completed %2$s', 'lifterlms' ), '{{STUDENT_NAME}}', '{{SECTION_TITLE}}' );
 		}
-		return  sprintf( __( 'Congratulations! You finished %s', 'lifterlms' ), '{{SECTION_TITLE}}' );
+		return sprintf( __( 'Congratulations! You finished %s', 'lifterlms' ), '{{SECTION_TITLE}}' );
 	}
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -57,6 +62,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup notification icon for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -67,6 +73,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup merge codes that can be used with the notification
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -74,15 +81,16 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 	protected function set_merge_codes() {
 		return array(
 			'{{COURSE_PROGRESS}}' => __( 'Course Progress Bar', 'lifterlms' ),
-			'{{COURSE_TITLE}}' => __( 'Course Title', 'lifterlms' ),
-			'{{SECTION_TITLE}}' => __( 'Section Title', 'lifterlms' ),
-			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
+			'{{COURSE_TITLE}}'    => __( 'Course Title', 'lifterlms' ),
+			'{{SECTION_TITLE}}'   => __( 'Section Title', 'lifterlms' ),
+			'{{STUDENT_NAME}}'    => __( 'Student Name', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.10.1
@@ -93,8 +101,8 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 
 			case '{{COURSE_PROGRESS}}':
 				$progress = $this->user->get_progress( $this->post->get( 'parent_course' ), 'course' );
-				$code = lifterlms_course_progress_bar( $progress, false, false, false );
-			break;
+				$code     = lifterlms_course_progress_bar( $progress, false, false, false );
+				break;
 
 			case '{{COURSE_TITLE}}':
 				$course = $this->post->get_course();
@@ -103,15 +111,15 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 				} else {
 					$code = '';
 				}
-			break;
+				break;
 
 			case '{{SECTION_TITLE}}':
 				$code = $this->post->get( 'title' );
-			break;
+				break;
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
-			break;
+				break;
 
 		}
 
@@ -121,6 +129,7 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup notification subject for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -131,12 +140,13 @@ class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup notification title for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
 	protected function set_title() {
-		return  sprintf( __( '%s Completed a Section', 'lifterlms' ), '{{STUDENT_NAME}}' );
+		return sprintf( __( '%s Completed a Section', 'lifterlms' ), '{{STUDENT_NAME}}' );
 	}
 
 }

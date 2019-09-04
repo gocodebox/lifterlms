@@ -1,5 +1,6 @@
 /**
  * Sidebar Elements View
+ *
  * @since    3.16.0
  * @version  3.16.12
  */
@@ -9,6 +10,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 		/**
 		 * HTML element selector
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-elements',
@@ -21,18 +23,21 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-elements-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -50,6 +55,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -114,6 +120,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 		/**
 		 * Show the popover to add an existing lessons
+		 *
 		 * @param    object   event  JS Event Object
 		 * @return   void
 		 * @since    3.16.12
@@ -149,6 +156,7 @@ define( [ 'Models/Section', 'Views/Section', 'Models/Lesson', 'Views/Lesson', 'V
 
 		/**
 		 * Disables lesson add buttons if no sections are available to add a lesson to
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0

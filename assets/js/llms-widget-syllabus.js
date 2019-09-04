@@ -4,11 +4,11 @@
 
 	/**
 	 * Manage
+	 *
 	 * @return obj    instance of the class
 	 * @since 2.6.0
 	 */
 	window.llms.widget_syllabus = function() {
-
 
 		/**
 		 * Init
@@ -24,6 +24,7 @@
 
 		/**
 		 * Bind DOM events
+		 *
 		 * @return void
 		 * @since 2.6.0
 		 */
@@ -39,20 +40,17 @@
 				// self.toggle( $( this ) );
 				$( '#widgets-right .llms-course-outline-collapse:not([data-is-bound="true"])' ).each( function() {
 
-
-
 					self.bind_toggles( $( this ) );
 
 				} );
-
 
 			} );
 
 		};
 
-
 		/**
 		 * Bind change events to a specific toggle or set of toggles
+		 *
 		 * @param  obj      $toggles   jQuery selector of toggle input ('input.llms-course-outline-collapse')
 		 * @return void
 		 * @since 2.6.0
@@ -70,12 +68,11 @@
 
 			} );
 
-
 		};
-
 
 		/**
 		 * Toggle the visibility of the secondary option to display toggles
+		 *
 		 * @param  obj      $input   jQuery selector of a single collapse toggle element ('input.llms-course-outline-collapse')
 		 * @return void
 		 * @since 2.6.0

@@ -1,17 +1,18 @@
-/**
+;/**
  * LifterLMS Basic Notifications Displayer
+ *
  * @since    3.8.0
  * @version  3.22.0
- */
-;( function( $ ) {
+ */( function( $ ) {
 
 	var llms_notifications = function() {
 
-		var self = this,
+		var self          = this,
 			notifications = [];
 
 		/**
 		 * Bind dom events
+		 *
 		 * @return   void
 		 * @since    3.8.0
 		 * @version  3.8.0
@@ -24,6 +25,7 @@
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.8.0
 		 * @version  3.22.0
@@ -47,6 +49,7 @@
 
 		/**
 		 * Queue notifications to be displayed
+		 *
 		 * @param    object   new_notis  array of notifications
 		 * @return   void
 		 * @since    3.8.0
@@ -75,6 +78,7 @@
 
 		/**
 		 * Dismiss a notification
+		 *
 		 * @param    obj   $el  notification dom element
 		 * @return   void
 		 * @since    3.8.0
@@ -90,6 +94,7 @@
 
 		/**
 		 * Determine if a notification already exists in the notifications array
+		 *
 		 * @param    int        id  notification id
 		 * @return   int|false      index of the notification in the array OR false if not found
 		 * @since    3.8.0
@@ -116,6 +121,7 @@
 		/**
 		 * Get the vertical offset (on screen) relative to an element
 		 * used for notification positioning
+		 *
 		 * @param    obj   $relative_el  element to get an offset relative to
 		 * @return   int
 		 * @since    3.8.0
@@ -133,7 +139,7 @@
 				return 24;
 			}
 
-			var top = $relative_el.offset().top,
+			var top    = $relative_el.offset().top,
 				height = $relative_el.outerHeight();
 
 			return top + height + spacer;
@@ -142,6 +148,7 @@
 
 		/**
 		 * Determine if there are notifications to show
+		 *
 		 * @return   Boolean
 		 * @since    3.8.0
 		 * @version  3.8.0
@@ -152,6 +159,7 @@
 
 		/**
 		 * Determine if a user is logged in
+		 *
 		 * @return   boolean
 		 * @since    3.8.0
 		 * @version  3.8.0
@@ -162,6 +170,7 @@
 
 		/**
 		 * Reposition elements, starting with the specified element
+		 *
 		 * @param    obj   $start_el  element to start repositioning with
 		 * @return   void
 		 * @since    3.8.0
@@ -169,7 +178,7 @@
 		 */
 		this.reposition = function( $start_el ) {
 
-			var self = this,
+			var self     = this,
 				selector = '.llms-notification.visible',
 				$next_el;
 
@@ -186,11 +195,11 @@
 				}, 150 );
 			}
 
-
 		};
 
 		/**
 		 * Show all queued notifications
+		 *
 		 * @return   void
 		 * @since    3.8.0
 		 * @version  3.8.0
@@ -198,7 +207,7 @@
 		this.show_all = function() {
 
 			var self = this,
-				i = 0,
+				i    = 0,
 				interval;
 
 			interval = setInterval( function() {
@@ -223,6 +232,7 @@
 
 		/**
 		 * Show a single notification
+		 *
 		 * @param    object   n  notification object data
 		 * @return   void
 		 * @since    3.8.0
@@ -230,12 +240,12 @@
 		 */
 		this.show_one = function( n ) {
 
-			var self = this,
+			var self  = this,
 				$html = $( n.html );
 
 			$html.find( 'a' ).on( 'click', function( e ) {
 				e.preventDefault();
-				var $this = $( this );
+				var $this       = $( this );
 				window.location = $this.attr( 'href' );
 			} );
 
@@ -253,7 +263,6 @@
 				}, $html.attr( 'data-auto-dismiss' ) );
 			}
 
-
 		}
 
 		// initialize
@@ -263,7 +272,7 @@
 
 	};
 
-	window.llms = window.llms || {};
+	window.llms               = window.llms || {};
 	window.llms.notifications = new llms_notifications();
 
 } )( jQuery );

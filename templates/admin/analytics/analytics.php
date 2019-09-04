@@ -1,11 +1,16 @@
 <?php
 /**
  * Analytics
+ *
  * @since    3.0.0
  * @version  3.24.0
  */
+
 defined( 'ABSPATH' ) || exit;
-if ( ! is_admin() ) { exit; }
+
+if ( ! is_admin() ) {
+	exit;
+}
 ?>
 
 <div class="wrap lifterlms llms-analytics-wrap">
@@ -63,7 +68,7 @@ if ( ! is_admin() ) { exit; }
 
 		</nav>
 
-		<nav class="llms-nav-tab-wrapper llms-nav-secondary llms-analytics-filters"<?php echo ( $current_students || $current_courses || $current_memberships ) ? ' style="display:block;"' : '' ; ?>>
+		<nav class="llms-nav-tab-wrapper llms-nav-secondary llms-analytics-filters"<?php echo ( $current_students || $current_courses || $current_memberships ) ? ' style="display:block;"' : ''; ?>>
 
 			<ul class="llms-nav-items">
 				<li class="llms-nav-item llms-analytics-form">

@@ -1,5 +1,6 @@
 /**
  * Model settings fields view
+ *
  * @since    3.17.0
  * @version  3.24.0
  */
@@ -9,6 +10,7 @@ define( [], function() {
 
 		/**
 		 * DOM events
+		 *
 		 * @type  {Object}
 		 */
 		events: {
@@ -18,24 +20,28 @@ define( [], function() {
 		/**
 		 * Processed fields data
 		 * Allows access by ID without traversing the schema
+		 *
 		 * @type  {Object}
 		 */
 		fields: {},
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-settings-fields-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -44,6 +50,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve an array of all editor fields in all groups
+		 *
 		 * @return   array
 		 * @since    3.17.1
 		 * @version  3.17.1
@@ -56,6 +63,7 @@ define( [], function() {
 
 		/**
 		 * Get settings group data from a model
+		 *
 		 * @return   {[type]}
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -68,6 +76,7 @@ define( [], function() {
 
 		/**
 		 * Determine if a settings group is hidden in localStorage
+		 *
 		 * @param    string   group_id  id of the group
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -87,6 +96,7 @@ define( [], function() {
 
 		/**
 		 * Get the switch attribute for a field with switches
+		 *
 		 * @param    obj   field  field data obj
 		 * @return   string
 		 * @since    3.17.0
@@ -100,6 +110,7 @@ define( [], function() {
 
 		/**
 		 * Determine if a field has a switch
+		 *
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -111,6 +122,7 @@ define( [], function() {
 
 		/**
 		 * Determine if a field is a default (text) field
+		 *
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -125,6 +137,7 @@ define( [], function() {
 
 		/**
 		 * Determine if a field is a WYSIWYG editor field
+		 *
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
 		 * @since    3.17.1
@@ -139,6 +152,7 @@ define( [], function() {
 
 		/**
 		 * Determine if a switch is enabled for a field
+		 *
 		 * @param    obj   field  field data object
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -152,6 +166,7 @@ define( [], function() {
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.17.0
 		 * @version  3.17.1
@@ -171,6 +186,7 @@ define( [], function() {
 
 		/**
 		 * Renders an editor field
+		 *
 		 * @param    obj   field  field data object
 		 * @return   void
 		 * @since    3.17.1
@@ -183,10 +199,10 @@ define( [], function() {
 			wp.editor.remove( field.id );
 			field.settings.tinymce.setup = function( editor ) {
 
-				var $ed = $( '#' + editor.id ),
+				var $ed     = $( '#' + editor.id ),
 					$parent = $ed.closest( '.llms-editable-editor' ),
-					$label = $parent.find( '.llms-label' ),
-					prop = $ed.attr( 'data-attribute' )
+					$label  = $parent.find( '.llms-label' ),
+					prop    = $ed.attr( 'data-attribute' )
 
 				if ( $label.length ) {
 					$label.prependTo( $parent.find( '.wp-editor-tools' ) );
@@ -216,6 +232,7 @@ define( [], function() {
 
 		/**
 		 * Get the HTML for a select field
+		 *
 		 * @param    obj      options    flat or multi-dimensional options object
 		 * @param    string   attribute  name of the select field's attribute
 		 * @return   string
@@ -224,7 +241,7 @@ define( [], function() {
 		 */
 		render_select_options: function( options, attribute ) {
 
-			var html = '',
+			var html     = '',
 				selected = this.model.get( attribute );
 
 			function option_html( label, val ) {
@@ -238,7 +255,7 @@ define( [], function() {
 				// this will be an key:val object
 				if ( 'string' === typeof option ) {
 					html += option_html( option, index );
-				// either option group or array of key,val objects
+					// either option group or array of key,val objects
 				} else if ( 'object' === typeof option ) {
 					// option group
 					if ( option.label && option.options ) {
@@ -257,6 +274,7 @@ define( [], function() {
 
 		/**
 		 * Setup and fill fields with default data based on field type
+		 *
 		 * @param    obj   orig_field   original field as defined in the settings
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
@@ -287,8 +305,8 @@ define( [], function() {
 				case 'audio_embed':
 					defaults.classes.push( 'llms-editable-audio' );
 					defaults.placeholder = 'https://';
-					defaults.tip = LLMS.l10n.translate( 'Use SoundCloud or Spotify audio URLS.' );
-					defaults.input_type = 'url';
+					defaults.tip         = LLMS.l10n.translate( 'Use SoundCloud or Spotify audio URLS.' );
+					defaults.input_type  = 'url';
 				break;
 
 				case 'datepicker':
@@ -318,14 +336,14 @@ define( [], function() {
 				case 'video_embed':
 					defaults.classes.push( 'llms-editable-video' );
 					defaults.placeholder = 'https://';
-					defaults.tip = LLMS.l10n.translate( 'Use YouTube, Vimeo, or Wistia video URLS.' );
-					defaults.input_type = 'url';
+					defaults.tip         = LLMS.l10n.translate( 'Use YouTube, Vimeo, or Wistia video URLS.' );
+					defaults.input_type  = 'url';
 				break;
 
 			}
 
 			if ( this.has_switch( orig_field.type ) ) {
-				defaults.switch_on = 'yes';
+				defaults.switch_on  = 'yes';
 				defaults.switch_off = 'no';
 			}
 
@@ -344,7 +362,7 @@ define( [], function() {
 				_.each( orig_field.options, function( val, key ) {
 					if ( -1 !== val.indexOf( '.png' ) || -1 !== val.indexOf( '.jpg' ) ) {
 						field.options[key] = '<span><img src="' + val + '"></span>';
-						has_images = true;
+						has_images         = true;
 					}
 				} );
 				if ( has_images ) {
@@ -366,6 +384,7 @@ define( [], function() {
 
 		/**
 		 * Determine if toggling a switch select should rerender the view
+		 *
 		 * @param    string   field_type  field type string
 		 * @return   boolean
 		 * @since    3.17.0
@@ -380,6 +399,7 @@ define( [], function() {
 		/**
 		 * Click event for toggling visibility of settings groups
 		 * If localStorage is available, persist state
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.17.0
@@ -389,7 +409,7 @@ define( [], function() {
 
 			event.preventDefault();
 
-			var $el = $( event.currentTarget ),
+			var $el    = $( event.currentTarget ),
 				$group = $el.closest( '.llms-model-settings' );
 
 			$group.toggleClass( 'hidden' );

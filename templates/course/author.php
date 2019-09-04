@@ -1,6 +1,7 @@
 <?php
 /**
  * LifterLMS Course Author Info
+ *
  * @since   3.0.0
  * @version 3.25.0
  */
@@ -23,13 +24,17 @@ $count = count( $instructors );
 	<div class="llms-instructors llms-cols">
 		<?php foreach ( $instructors as $instructor ) : ?>
 			<div class="llms-col-<?php echo $count <= 4 ? $count : 4; ?>">
-				<?php echo llms_get_author( array(
-					'avatar_size' => 100,
-					'bio' => true,
-					'label' => $instructor['label'],
-					'user_id' => $instructor['id'],
-				) ); ?>
+				<?php
+				echo llms_get_author(
+					array(
+						'avatar_size' => 100,
+						'bio'         => true,
+						'label'       => $instructor['label'],
+						'user_id'     => $instructor['id'],
+					)
+				);
+				?>
 			</div>
-		<?php endforeach ; ?>
+		<?php endforeach; ?>
 	</div>
 </section>

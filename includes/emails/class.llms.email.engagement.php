@@ -31,27 +31,30 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 	/**
 	 * Initialize all variables
-	 * @param    array   $args   associative array of engagement args
+	 *
+	 * @param    array $args   associative array of engagement args
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.8.0
 	 */
 	public function init( $args ) {
 
-		$this->student = new WP_User( $args['person_id'] );
+		$this->student    = new WP_User( $args['person_id'] );
 		$this->email_post = get_post( $args['email_id'] );
 
-		$this->add_merge_data( array(
-			'{user_login}' => stripslashes( $this->student->user_login ),
-			'{first_name}' => stripslashes( $this->student->first_name ),
-			'{last_name}' => stripslashes( $this->student->last_name ),
-			'{email_address}' => stripslashes( $this->student->user_email ),
-			'{site_url}' => get_permalink( llms_get_page_id( 'myaccount' ) ),
-			'{current_date}' => date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ),
-		) );
+		$this->add_merge_data(
+			array(
+				'{user_login}'    => stripslashes( $this->student->user_login ),
+				'{first_name}'    => stripslashes( $this->student->first_name ),
+				'{last_name}'     => stripslashes( $this->student->last_name ),
+				'{email_address}' => stripslashes( $this->student->user_email ),
+				'{site_url}'      => get_permalink( llms_get_page_id( 'myaccount' ) ),
+				'{current_date}'  => date_i18n( get_option( 'date_format' ), current_time( 'timestamp' ) ),
+			)
+		);
 
 		// setup subject, headline, & body
-		$this->body = $this->email_post->post_content;
+		$this->body    = $this->email_post->post_content;
 		$this->subject = get_post_meta( $this->email_post->ID, '_llms_email_subject', true );
 		$this->heading = get_post_meta( $this->email_post->ID, '_llms_email_heading', true );
 
@@ -78,7 +81,8 @@ class LLMS_Email_Engagement extends LLMS_Email {
 
 	/**
 	 * Handles email merge codes that can be used in the to, cc, and bcc fields
-	 * @param    string  $list  unmerged, comma-separated list of emails
+	 *
+	 * @param    string $list  unmerged, comma-separated list of emails
 	 * @return   array
 	 * @since    3.1.0
 	 * @version  3.8.0
@@ -96,7 +100,7 @@ class LLMS_Email_Engagement extends LLMS_Email {
 		);
 
 		$merged = str_replace( $codes, $addresses, $list );
-		$array = explode( ',', $merged );
+		$array  = explode( ',', $merged );
 		return array_map( 'trim', $array );
 
 	}

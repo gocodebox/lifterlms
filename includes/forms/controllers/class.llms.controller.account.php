@@ -1,16 +1,24 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * User Account Edit Forms
  *
- * @since   3.7.0
- * @version 3.24.0
+ * @since 3.7.0
+ * @version 3.35.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Controller_Account class.
+ *
+ * @since 3.7.0
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Account {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.7.0
 	 * @version  3.10.0
 	 */
@@ -25,9 +33,12 @@ class LLMS_Controller_Account {
 
 	/**
 	 * Lets student cancel recurring access plan subscriptions from the student dashboard view order screen
+	 *
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
 	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.19.0
 	 */
 	public function cancel_subscription() {
 
@@ -38,8 +49,8 @@ class LLMS_Controller_Account {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
 		}
 
-		$order = llms_get_post( $_POST['order_id'] );
-		$uid = get_current_user_id();
+		$order = llms_get_post( llms_filter_input( INPUT_POST, 'order_id', FILTER_SANITIZE_NUMBER_INT ) );
+		$uid   = get_current_user_id();
 
 		if ( ! $order || $uid != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
@@ -51,7 +62,7 @@ class LLMS_Controller_Account {
 		// all other statuses are cancelled immediately
 		if ( 'llms-active' === $order->get( 'status' ) ) {
 			$new_status = 'pending-cancel';
-			$note .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
+			$note      .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
 		} else {
 			$new_status = 'cancelled';
 		}
@@ -65,6 +76,7 @@ class LLMS_Controller_Account {
 
 	/**
 	 * Handle submission of user account edit form
+	 *
 	 * @return   void
 	 * @since    3.7.0
 	 * @version  3.24.0
@@ -110,9 +122,12 @@ class LLMS_Controller_Account {
 	/**
 	 * Handle form submission of the Lost Password form
 	 * This is the form that sends a password recovery email with a link to reset the password
+	 *
+	 * @since 3.8.0
+	 * @since 3.9.5 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
 	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.9.5
 	 */
 	public function lost_password() {
 
@@ -126,7 +141,7 @@ class LLMS_Controller_Account {
 			return llms_add_notice( __( 'Enter a username or e-mail address.', 'lifterlms' ), 'error' );
 		}
 
-		$login = trim( $_POST['llms_login'] );
+		$login = llms_filter_input( INPUT_POST, 'llms_login', FILTER_SANITIZE_STRING );
 
 		// always check email
 		$get_by = array( 'email' );
@@ -168,11 +183,14 @@ class LLMS_Controller_Account {
 		$key = llms_set_user_password_rest_key( $user->ID );
 
 		// setup the email
-		$email = LLMS()->mailer()->get_email( 'reset_password', array(
-			'key' => $key,
-			'user' => $user,
-			'login_display' => 'email' === $get_by ? $user->user_email : $user->user_login,
-		) );
+		$email = LLMS()->mailer()->get_email(
+			'reset_password',
+			array(
+				'key'           => $key,
+				'user'          => $user,
+				'login_display' => 'email' === $get_by ? $user->user_email : $user->user_login,
+			)
+		);
 
 		// send the email
 		if ( $email ) {
@@ -189,9 +207,11 @@ class LLMS_Controller_Account {
 	/**
 	 * Handle form submission of the Reset Password form
 	 * This is the form that actually updates a users password
+	 *
+	 * @since 3.8.0
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
 	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
 	 */
 	public function reset_password() {
 
@@ -210,13 +230,12 @@ class LLMS_Controller_Account {
 			return;
 		}
 
-		$login = trim( sanitize_text_field( $_POST['llms_reset_login'] ) );
-
-		if ( ! llms_verify_password_reset_key( trim( sanitize_text_field( $_POST['llms_reset_key'] ) ), $login ) ) {
+		$login = llms_filter_input( INPUT_POST, 'llms_reset_login', FILTER_SANITIZE_STRING );
+		if ( ! llms_verify_password_reset_key( llms_filter_input( INPUT_POST, 'llms_reset_key', FILTER_SANITIZE_STRING ), $login ) ) {
 			return llms_add_notice( __( 'Invalid Key', 'lifterlms' ), 'error' );
 		}
 
-		$pass = $_POST['password'];
+		$pass = llms_filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING );
 		$user = get_user_by( 'login', $login );
 
 		if ( ! $user ) {

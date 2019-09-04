@@ -1,16 +1,24 @@
 <?php
 /**
  * LifterLMS Sidebars
+ *
+ * @since 3.0.0
+ * @version 3.0.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LifterLMS SIdebars
+ *
+ * @since 3.0.0
+ */
 class LLMS_Sidebars {
 
 	/**
 	 * Static Constructor
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	public static function init() {
 
@@ -27,9 +35,10 @@ class LLMS_Sidebars {
 
 	/**
 	 * Output course sidebar
-	 * @return   void
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   void
 	 */
 	public static function do_course_sidebar() {
 		if ( is_active_sidebar( 'llms_course_widgets_side' ) ) {
@@ -39,9 +48,10 @@ class LLMS_Sidebars {
 
 	/**
 	 * Output lesson sidebar
-	 * @return   void
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   void
 	 */
 	public static function do_lesson_sidebar() {
 		if ( is_active_sidebar( 'llms_lesson_widgets_side' ) ) {
@@ -51,9 +61,11 @@ class LLMS_Sidebars {
 
 	/**
 	 * Get the theme default sidebar that will be replaced by course and lesson sidebars
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.1
+	 *
+	 * @since 3.0.0
+	 * @since 3.0.1 Unknown.
+	 *
+	 * @return string
 	 */
 	private static function get_theme_default_sidebar() {
 
@@ -63,7 +75,7 @@ class LLMS_Sidebars {
 
 			case 'canvas':
 				$id = 'primary';
-			break;
+				break;
 
 			case 'Divi':
 			case 'twentyeleven':
@@ -73,15 +85,15 @@ class LLMS_Sidebars {
 			case 'twentysixteen':
 			case 'twentytwelve':
 				$id = 'sidebar-1';
-			break;
+				break;
 
 			case 'twentythirteen':
 				$id = 'sidebar-2';
-			break;
+				break;
 
 			case 'twentyten':
 				$id = 'primary-widget-area';
-			break;
+				break;
 
 			default:
 				$id = '';
@@ -94,9 +106,10 @@ class LLMS_Sidebars {
 
 	/**
 	 * Custom static constructor that modifies methods for native genesis sidebar compatibility
-	 * @return   void
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   void
 	 */
 	public static function genesis_support() {
 
@@ -118,9 +131,10 @@ class LLMS_Sidebars {
 	 * Outputs llms sidebars in place of the default Genesis Primary Sidebar
 	 * Removes the default sidebar action and calls the respective output method
 	 * from this class instead
-	 * @return   void
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   void
 	 */
 	public static function genesis_do_sidebar() {
 
@@ -141,9 +155,10 @@ class LLMS_Sidebars {
 
 	/**
 	 * Register LifterLMS Sidebars using genesis methods
-	 * @return   void
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   void
 	 */
 	public static function genesis_register_sidebars() {
 
@@ -159,31 +174,41 @@ class LLMS_Sidebars {
 
 	/**
 	 * Get a filtered array of sidebars to register
-	 * @return   array
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   array
 	 */
 	public static function get_sidebars() {
 
 		$sidebars = array(
-			apply_filters( 'lifterlms_register_lesson_sidebar', array(
-				'id' => 'llms_course_widgets_side',
-				'description' => __( 'Widgets in this area will be shown on LifterLMS courses.', 'lifterlms' ),
-				'name' => __( 'Course Sidebar', 'lifterlms' ),
-			) ),
-			apply_filters( 'lifterlms_register_course_sidebar', array(
-				'description' => __( 'Widgets in this area will be shown on LifterLMS lessons.', 'lifterlms' ),
-				'id' => 'llms_lesson_widgets_side',
-				'name' => __( 'Lesson Sidebar', 'lifterlms' ),
-			) ),
+			apply_filters(
+				'lifterlms_register_lesson_sidebar',
+				array(
+					'id'          => 'llms_course_widgets_side',
+					'description' => __( 'Widgets in this area will be shown on LifterLMS courses.', 'lifterlms' ),
+					'name'        => __( 'Course Sidebar', 'lifterlms' ),
+				)
+			),
+			apply_filters(
+				'lifterlms_register_course_sidebar',
+				array(
+					'description' => __( 'Widgets in this area will be shown on LifterLMS lessons.', 'lifterlms' ),
+					'id'          => 'llms_lesson_widgets_side',
+					'name'        => __( 'Lesson Sidebar', 'lifterlms' ),
+				)
+			),
 		);
 
-		$settings = apply_filters( 'llms_sidebar_settings', array(
-			'before_widget' => '<li id="%1$s" class="widget %2$s">',
-			'after_widget'  => '</li>',
-			'before_title'  => '<h2 class="widgettitle">',
-			'after_title'   => '</h2>',
-		) );
+		$settings = apply_filters(
+			'llms_sidebar_settings',
+			array(
+				'before_widget' => '<li id="%1$s" class="widget %2$s">',
+				'after_widget'  => '</li>',
+				'before_title'  => '<h2 class="widgettitle">',
+				'after_title'   => '</h2>',
+			)
+		);
 
 		foreach ( $sidebars as &$s ) {
 
@@ -196,9 +221,10 @@ class LLMS_Sidebars {
 
 	/**
 	 * Registers all sidebars
-	 * @return   void
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   void
 	 */
 	public static function register_sidebars() {
 
@@ -215,10 +241,12 @@ class LLMS_Sidebars {
 
 	/**
 	 * Replaces existing sidebars with Course / Lesson sidebar widgets for supporting themes
+	 *
+	 * @since 1.0.0
+	 * @since 3.0.0 Unknown.
+	 *
 	 * @param    array $widgets    array of sidebars and their widgets
 	 * @return   array
-	 * @since    1.0.0
-	 * @version  3.0.0
 	 */
 	public static function replace_default_sidebars( $widgets ) {
 

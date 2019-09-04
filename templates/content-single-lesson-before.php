@@ -1,11 +1,12 @@
 <?php
 /**
  * Display content before lessons
+ *
  * @since   1.0.0
  * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 llms_print_notices();
 

@@ -1,17 +1,21 @@
 <?php
 /**
- * The Template for displaying all single courses.
+ * Template: Single post no access
  *
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * @package LifterLMS/Templates
  *
+ * @since Unknown
+ * @version 3.35.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
 global $post;
 get_header();
 
-while ( have_posts() ) : the_post();
+while ( have_posts() ) :
+
+	the_post();
 
 	llms_get_template_part( 'content', 'no-access' );
 

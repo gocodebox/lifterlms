@@ -16,6 +16,7 @@ class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.17.1
 	 * @version  3.29.0
 	 */
@@ -82,8 +83,8 @@ class LLMS_Controller_Lesson_Progression {
 			return;
 		}
 
-		$action = llms_filter_input( INPUT_POST, 'llms-lesson-action', FILTER_SANITIZE_STRING );
-		$lesson_id = absint( llms_filter_input( INPUT_POST, 'lesson_id' ) );
+		$action     = llms_filter_input( INPUT_POST, 'llms-lesson-action', FILTER_SANITIZE_STRING );
+		$lesson_id  = absint( llms_filter_input( INPUT_POST, 'lesson_id' ) );
 		$student_id = absint( llms_filter_input( INPUT_POST, 'student_id' ) );
 
 		// Missing required data.
@@ -106,6 +107,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * Complete Lesson form post
 	 * Marks lesson as complete and returns completion message to user
 	 * Autoadvances to next lesson if completion is successful
+	 *
 	 * @return   void
 	 * @since    3.17.1
 	 * @version  3.29.0
@@ -122,7 +124,7 @@ class LLMS_Controller_Lesson_Progression {
 
 		if ( apply_filters( 'lifterlms_autoadvance', true ) ) {
 
-			$lesson = new LLMS_Lesson( $lesson_id );
+			$lesson         = new LLMS_Lesson( $lesson_id );
 			$next_lesson_id = $lesson->get_next_lesson();
 			if ( $next_lesson_id ) {
 
@@ -138,6 +140,7 @@ class LLMS_Controller_Lesson_Progression {
 	 * Mark Lesson as incomplete
 	 * Incomplete Lesson form post
 	 * Marks lesson as incomplete and returns incompletion message to user
+	 *
 	 * @return   void
 	 * @since    3.17.1
 	 * @version  3.29.0
@@ -160,10 +163,11 @@ class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Handle completion of lesson via `llms_trigger_lesson_completion` action
-	 * @param    int        $user_id    User ID
-	 * @param    int        $lesson_id  Lesson ID
-	 * @param    string     $trigger    Optional trigger description string
-	 * @param    array      $args       Optional arguments
+	 *
+	 * @param    int    $user_id    User ID
+	 * @param    int    $lesson_id  Lesson ID
+	 * @param    string $trigger    Optional trigger description string
+	 * @param    array  $args       Optional arguments
 	 * @return   void
 	 * @since    3.17.1
 	 * @version  3.29.0
@@ -180,29 +184,37 @@ class LLMS_Controller_Lesson_Progression {
 
 	/**
 	 * Trigger lesson completion when a quiz is completed
-	 * @param    int     $student_id  WP User ID
-	 * @param    int     $quiz_id     WP Post ID of the quiz
-	 * @param    obj     $attempt     Instance of the LLMS_Quiz_Attempt
+	 *
+	 * @param    int $student_id  WP User ID
+	 * @param    int $quiz_id     WP Post ID of the quiz
+	 * @param    obj $attempt     Instance of the LLMS_Quiz_Attempt
 	 * @return   void
 	 * @since    3.17.1
 	 * @version  3.17.1
 	 */
 	public function quiz_complete( $student_id, $quiz_id, $attempt ) {
 
-		do_action( 'llms_trigger_lesson_completion', $student_id, $attempt->get( 'lesson_id' ), 'quiz_' . $quiz_id, array(
-			'attempt' => $attempt,
-		) );
+		do_action(
+			'llms_trigger_lesson_completion',
+			$student_id,
+			$attempt->get( 'lesson_id' ),
+			'quiz_' . $quiz_id,
+			array(
+				'attempt' => $attempt,
+			)
+		);
 
 	}
 
 	/**
 	 * Before a lesson is marked as complete, check if all the lesson's quiz requirements are met
+	 *
 	 * @filter   llms_allow_lesson_completion
-	 * @param    bool     $allow_completion  whether or not to allow completion (true by default, false if something else has already prevented)
-	 * @param    int      $user_id           WP User ID of the student completing the lesson
-	 * @param    int      $lesson_id         WP Post ID of the lesson to be completed
-	 * @param    string   $trigger           text string to record the reason why the lesson is being completed
-	 * @param    array    $args              optional additional arguments from the triggering function
+	 * @param    bool   $allow_completion  whether or not to allow completion (true by default, false if something else has already prevented)
+	 * @param    int    $user_id           WP User ID of the student completing the lesson
+	 * @param    int    $lesson_id         WP Post ID of the lesson to be completed
+	 * @param    string $trigger           text string to record the reason why the lesson is being completed
+	 * @param    array  $args              optional additional arguments from the triggering function
 	 * @return   bool
 	 * @since    3.17.1
 	 * @version  3.17.1
@@ -214,7 +226,7 @@ class LLMS_Controller_Lesson_Progression {
 			return $allow_completion;
 		}
 
-		$lesson = llms_get_post( $lesson_id );
+		$lesson           = llms_get_post( $lesson_id );
 		$passing_required = llms_parse_bool( $lesson->get( 'require_passing_grade' ) );
 
 		// if the lesson is being completed by a quiz

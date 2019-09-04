@@ -1,15 +1,17 @@
-/* global LLMS, $ */
-
 /**
  * Student Dashboard related JS
- * @type  {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.7.0
  * @version  3.10.0
  */
+
 LLMS.StudentDashboard = {
 
 	/**
 	 * Slug for the current screen/endpoint
+	 *
 	 * @type  {String}
 	 */
 	screen: '',
@@ -18,12 +20,14 @@ LLMS.StudentDashboard = {
 	 * Will show the number of meters on the page
 	 * Used to conditionally bind meter-related events only when meters
 	 * actually exist
+	 *
 	 * @type  int
 	 */
 	meter_exists: 0,
 
 	/**
 	 * Init
+	 *
 	 * @return   void
 	 * @since    3.7.0
 	 * @version  3.10.0
@@ -47,13 +51,14 @@ LLMS.StudentDashboard = {
 
 	/**
 	 * Bind DOM events
+	 *
 	 * @return   void
 	 * @since    3.7.0
 	 * @version  3.7.4
 	 */
 	bind: function() {
 
-		var self = this,
+		var self    = this,
 			$toggle = $( '.llms-student-dashboard a[href="#llms-password-change-toggle"]' );
 
 		// click event for the change password link
@@ -61,11 +66,11 @@ LLMS.StudentDashboard = {
 
 			e.preventDefault();
 
-			var $this = $( this ),
-				curr_text = $this.text(),
+			var $this       = $( this ),
+				curr_text   = $this.text(),
 				curr_action = $this.attr( 'data-action' ),
-				new_action = 'hide' === curr_action ? 'show' : 'hide',
-				new_text = $this.attr( 'data-text' );
+				new_action  = 'hide' === curr_action ? 'show' : 'hide',
+				new_text    = $this.attr( 'data-text' );
 
 			self.password_toggle( curr_action );
 
@@ -104,6 +109,7 @@ LLMS.StudentDashboard = {
 
 	/**
 	 * Bind events related to the orders screen on the dashboard
+	 *
 	 * @return   void
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -120,12 +126,13 @@ LLMS.StudentDashboard = {
 
 	/**
 	 * Get the current dashboard endpoint/tab slug
+	 *
 	 * @return   void
 	 * @since    3.10.0
 	 * @version  3.10.0
 	 */
 	get_screen: function() {
-		if ( !this.screen ) {
+		if ( ! this.screen ) {
 			this.screen = $( '.llms-student-dashboard' ).attr( 'data-current' );
 		}
 		return this.screen;
@@ -133,6 +140,7 @@ LLMS.StudentDashboard = {
 
 	/**
 	 * Show a confirmation warning when Cancel Subscription form is submitted
+	 *
 	 * @param    obj   e  JS event data
 	 * @return   void
 	 * @since    3.10.0
@@ -149,6 +157,7 @@ LLMS.StudentDashboard = {
 
 	/**
 	 * Toggle password related fields on the account edit page
+	 *
 	 * @param    string   action  [show|hide]
 	 * @return   void
 	 * @since    3.7.0
@@ -156,11 +165,11 @@ LLMS.StudentDashboard = {
 	 */
 	password_toggle: function( action ) {
 
-		if ( !action ) {
+		if ( ! action ) {
 			action = 'show';
 		}
 
-		var self = this,
+		var self  = this,
 			$pwds = $( '#password, #password_confirm, #current_password' ),
 			$form = $( '#password' ).closest( 'form' );
 

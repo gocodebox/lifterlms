@@ -1,6 +1,7 @@
 <?php
 /**
  * Privacy related template functions
+ *
  * @since    3.18.0
  * @version  3.18.1
  */
@@ -9,6 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Get the HTML for the Terms field displayed on reg forms
+ *
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
@@ -27,17 +29,20 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
 		if ( llms_are_terms_and_conditions_required() ) {
 
-			$ret = llms_form_field( array(
-				'columns' => 12,
-				'description' => '',
-				'default' => 'no',
-				'id' => 'llms_agree_to_terms',
-				'label' => llms_get_terms_notice( true ),
-				'last_column' => true,
-				'required' => true,
-				'type'  => 'checkbox',
-				'value' => 'yes',
-			), false );
+			$ret = llms_form_field(
+				array(
+					'columns'     => 12,
+					'description' => '',
+					'default'     => 'no',
+					'id'          => 'llms_agree_to_terms',
+					'label'       => llms_get_terms_notice( true ),
+					'last_column' => true,
+					'required'    => true,
+					'type'        => 'checkbox',
+					'value'       => 'yes',
+				),
+				false
+			);
 
 		}
 
@@ -59,6 +64,7 @@ if ( ! function_exists( 'llms_agree_to_terms_form_field' ) ) {
 
 /**
  * Get the HTML for the Privacy Policy section on checkout / registration forms
+ *
  * @param    boolean    $echo   echo the data if true, return otherwise
  * @return   void|string
  * @since    3.0.0
@@ -77,12 +83,15 @@ if ( ! function_exists( 'llms_privacy_policy_form_field' ) ) {
 
 		$notice = llms_get_privacy_notice( true );
 		if ( $notice ) {
-			$ret = llms_form_field( array(
-				'columns' => 12,
-				'label' => $notice,
-				'last_column' => true,
-				'type'  => 'html',
-			), false );
+			$ret = llms_form_field(
+				array(
+					'columns'     => 12,
+					'label'       => $notice,
+					'last_column' => true,
+					'type'        => 'html',
+				),
+				false
+			);
 		}
 
 		$ret = apply_filters( 'llms_privacy_policy_form_field', $ret, $echo );

@@ -1,11 +1,16 @@
 <?php
 /**
  * Single Quiz View
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
 ?>
 <section class="llms-reporting-tab llms-reporting-quiz">
 
@@ -26,7 +31,7 @@ if ( ! is_admin() ) { exit; }
 		<ul class="llms-nav-items">
 		<?php foreach ( $tabs as $name => $label ) : ?>
 			<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ) ?>">
+				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
 					<?php echo $label; ?>
 				</a>
 		<?php endforeach; ?>
@@ -34,9 +39,14 @@ if ( ! is_admin() ) { exit; }
 	</nav>
 
 	<section class="llms-gb-tab">
-		<?php llms_get_template( 'admin/reporting/tabs/quizzes/' . $current_tab . '.php', array(
-			'quiz' => $quiz,
-		) ); ?>
+		<?php
+		llms_get_template(
+			'admin/reporting/tabs/quizzes/' . $current_tab . '.php',
+			array(
+				'quiz' => $quiz,
+			)
+		);
+		?>
 	</section>
 
 </section>

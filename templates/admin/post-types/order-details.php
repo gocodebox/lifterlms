@@ -5,15 +5,17 @@
  * @since    3.0.0
  * @version  3.18.0
  */
+
 defined( 'ABSPATH' ) || exit;
+
 is_admin() || exit;
 
 // used to allow admins to switch payment gateways
-$gateway_feature = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
-$switchable_gateways = array();
+$gateway_feature           = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
+$switchable_gateways       = array();
 $switchable_gateway_fields = array();
 foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature ) as $id => $gateway_obj ) {
-	$switchable_gateways[ $id ] = $gateway_obj->get_admin_title();
+	$switchable_gateways[ $id ]       = $gateway_obj->get_admin_title();
 	$switchable_gateway_fields[ $id ] = $gateway_obj->get_admin_order_fields();
 }
 ?>
@@ -91,12 +93,12 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 			<?php if ( $order->has_coupon() && $order->get( 'coupon_amount_trial' ) ) : ?>
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Original Total:', 'lifterlms' ) ?></label>
+					<label><?php _e( 'Original Total:', 'lifterlms' ); ?></label>
 					<?php echo $order->get_price( 'trial_original_total' ); ?>
 				</div>
 
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Coupon Discount:', 'lifterlms' ) ?></label>
+					<label><?php _e( 'Coupon Discount:', 'lifterlms' ); ?></label>
 					<?php echo $order->get_coupon_amount( 'trial' ); ?>
 					(<?php echo llms_price( $order->get_price( 'coupon_value_trial', array(), 'float' ) * - 1 ); ?>)
 					[<a href="<?php echo get_edit_post_link( $order->get( 'coupon_id' ) ); ?>"><?php echo $order->get( 'coupon_code' ); ?></a>]
@@ -115,13 +117,13 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 		<?php if ( $order->has_discount() ) : ?>
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Original Total:', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Original Total:', 'lifterlms' ); ?></label>
 				<?php echo $order->get_price( 'original_total' ); ?>
 			</div>
 
 			<?php if ( $order->has_sale() ) : ?>
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Sale Discount:', 'lifterlms' ) ?></label>
+					<label><?php _e( 'Sale Discount:', 'lifterlms' ); ?></label>
 					<?php echo $order->get_price( 'sale_price' ); ?>
 					(<?php echo llms_price( $order->get_price( 'sale_value', array(), 'float' ) * -1 ); ?>)
 				</div>
@@ -129,7 +131,7 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 			<?php if ( $order->has_coupon() ) : ?>
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Coupon Discount:', 'lifterlms' ) ?></label>
+					<label><?php _e( 'Coupon Discount:', 'lifterlms' ); ?></label>
 					<?php echo $order->get_coupon_amount( 'regular' ); ?>
 					(<?php echo llms_price( $order->get_price( 'coupon_value', array(), 'float' ) * - 1 ); ?>)
 					[<a href="<?php echo get_edit_post_link( $order->get( 'coupon_id' ) ); ?>"><?php echo $order->get( 'coupon_code' ); ?></a>]
@@ -141,7 +143,15 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 			<label><?php _e( 'Total:', 'lifterlms' ); ?></label>
 			<?php echo $order->get_price( 'total' ); ?>
 			<?php if ( $order->is_recurring() ) : ?>
-				<?php printf( _n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ), $order->get( 'billing_frequency' ), $order->get( 'billing_period' ) ); ?>
+				<?php
+				//phpcs:disable WordPress.WP.I18n.MissingSingularPlaceholder -- We don't output the number so it's throwing an error but it's not broken.
+				printf(
+					_n( 'Every %2$s', 'Every %1$d %2$ss', $order->get( 'billing_frequency' ), 'lifterlms' ),
+					$order->get( 'billing_frequency' ),
+					$order->get( 'billing_period' )
+				);
+				//phpcs:enable WordPress.WP.I18n.MissingSingularPlaceholder
+				?>
 				<?php if ( $order->get( 'billing_length' ) > 0 ) : ?>
 					<?php printf( _n( 'for %1$d %2$s', 'for %1$d %2$ss', $order->get( 'billing_length' ), 'lifterlms' ), $order->get( 'billing_length' ), $order->get( 'billing_period' ) ); ?>
 				<?php endif; ?>
@@ -161,7 +171,7 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 		<h4><?php _e( 'Customer Information', 'lifterlms' ); ?></h4>
 
 		<div class="llms-metabox-field">
-			<label><?php _e( 'Buyer Name:', 'lifterlms' ) ?></label>
+			<label><?php _e( 'Buyer Name:', 'lifterlms' ); ?></label>
 			<?php if ( llms_parse_bool( $order->get( 'anonymized' ) ) ) : ?>
 				<?php echo $order->get_customer_name(); ?>
 			<?php else : ?>
@@ -170,13 +180,13 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 		</div>
 
 		<div class="llms-metabox-field">
-			<label><?php _e( 'Buyer Email:', 'lifterlms' ) ?></label>
+			<label><?php _e( 'Buyer Email:', 'lifterlms' ); ?></label>
 			<a href="mailto:<?php echo $order->get( 'billing_email' ); ?>"><?php echo $order->get( 'billing_email' ); ?></a>
 		</div>
 
 		<?php if ( $order->get( 'billing_address_1' ) ) : ?>
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Buyer Address:', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Buyer Address:', 'lifterlms' ); ?></label>
 				<?php echo $order->get( 'billing_address_1' ); ?><br>
 				<?php if ( isset( $order->billing_address_2 ) ) : ?>
 					<?php echo $order->get( 'billing_address_2' ); ?><br>
@@ -190,14 +200,14 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 
 		<?php if ( $order->get( 'billing_phone' ) ) : ?>
 			<div class="llms-metabox-field">
-			<label><?php _e( 'Buyer Phone:', 'lifterlms' ) ?></label>
+			<label><?php _e( 'Buyer Phone:', 'lifterlms' ); ?></label>
 				<?php echo $order->get( 'billing_phone' ); ?>
 			</div>
 		<?php endif; ?>
 
 
 		<div class="llms-metabox-field">
-			<label><?php _e( 'Buyer IP Address:', 'lifterlms' ) ?></label>
+			<label><?php _e( 'Buyer IP Address:', 'lifterlms' ); ?></label>
 			<?php echo $order->get( 'user_ip_address' ); ?>
 		</div>
 

@@ -1,41 +1,41 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 $template = get_option( 'template' );
 
 switch ( $template ) {
 
-	case 'twentyeleven' :
+	case 'twentyeleven':
 		echo '<div id="primary"><div id="content" role="main" class="twentyeleven">';
-	break;
+		break;
 
-	case 'twentytwelve' :
+	case 'twentytwelve':
 		echo '<div id="primary" class="site-content"><div id="content" role="main" class="twentytwelve">';
-	break;
+		break;
 
-	case 'twentythirteen' :
+	case 'twentythirteen':
 		echo '<div id="primary" class="site-content"><div id="content" role="main" class="entry-content twentythirteen">';
-	break;
+		break;
 
-	case 'twentyfourteen' :
+	case 'twentyfourteen':
 		echo '<div id="primary" class="content-area"><div id="content" role="main" class="site-content twentyfourteen"><div class="tfwc">';
-	break;
+		break;
 
-	case 'twentyfifteen' :
+	case 'twentyfifteen':
 		echo '<div id="primary" role="main" class="content-area twentyfifteen"><div id="main" class="site-main t15wc">';
-	break;
+		break;
 
-	case 'twentysixteen' :
+	case 'twentysixteen':
 		echo '<div id="primary" class="content-area twentysixteen"><main id="main" class="site-main" role="main">';
-	break;
+		break;
 
-	case 'twentyseventeen' :
+	case 'twentyseventeen':
 		echo '<div class="wrap">';
-	break;
+		break;
 
-	default :
+	default:
 		echo '<div id="container"><div id="content" role="main">';
-	break;
+		break;
 
 }

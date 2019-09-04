@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Quizzes Reporting Table
+ *
  * @since    3.16.0
  * @version  3.25.0
  */
@@ -10,6 +11,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'quizzes';
@@ -17,36 +19,42 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	/**
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set
+	 *
 	 * @var  string
 	 */
 	protected $filter = 'any';
 
 	/**
 	 * Field results are filtered by
+	 *
 	 * @var  string
 	 */
 	protected $filterby = 'instructor';
 
 	/**
 	 * Is the Table Exportable?
+	 *
 	 * @var  boolean
 	 */
 	protected $is_exportable = true;
 
 	/**
 	 * Determine if the table is filterable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
+	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = true;
 
 	/**
 	 * Determine of the table is searchable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_searchable = true;
@@ -55,20 +63,23 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * Results sort order
 	 * 'ASC' or 'DESC'
 	 * Only applicable of $orderby is not set
+	 *
 	 * @var  string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
+	 *
 	 * @var  string
 	 */
 	protected $orderby = 'title';
 
 	/**
 	 * Retrieve data for a cell
-	 * @param    string     $key   the column id / key
-	 * @param    mixed      $data  object / array of data that the function can use to extract the data
+	 *
+	 * @param    string $key   the column id / key
+	 * @param    mixed  $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.16.0
 	 * @version  3.24.0
@@ -80,28 +91,32 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		switch ( $key ) {
 
 			case 'attempts':
+				$query = new LLMS_Query_Quiz_Attempt(
+					array(
+						'quiz_id'  => $quiz->get( 'id' ),
+						'per_page' => 1,
+					)
+				);
 
-				$query = new LLMS_Query_Quiz_Attempt( array(
-					'quiz_id' => $quiz->get( 'id' ),
-					'per_page' => 1,
-				) );
-
-				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-					'tab' => 'quizzes',
-					'stab' => 'attempts',
-					'quiz_id' => $quiz->get( 'id' ),
-				) );
+				$url   = LLMS_Admin_Reporting::get_current_tab_url(
+					array(
+						'tab'     => 'quizzes',
+						'stab'    => 'attempts',
+						'quiz_id' => $quiz->get( 'id' ),
+					)
+				);
 				$value = '<a href="' . $url . '">' . $query->found_results . '</a>';
 
-			break;
+				break;
 
 			case 'average':
-
 				$grade = 0;
-				$query = new LLMS_Query_Quiz_Attempt( array(
-					'quiz_id' => $quiz->get( 'id' ),
-					'per_page' => 1000,
-				) );
+				$query = new LLMS_Query_Quiz_Attempt(
+					array(
+						'quiz_id'  => $quiz->get( 'id' ),
+						'per_page' => 1000,
+					)
+				);
 
 				$attempts = count( $query->results );
 
@@ -117,40 +132,44 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 				}
 
-			break;
+				break;
 
 			case 'course':
-				$value = '&mdash;';
+				$value  = '&mdash;';
 				$course = $quiz->get_course();
 				if ( $course ) {
-					$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-						'tab' => 'courses',
-						'course_id' => $course->get( 'id' ),
-					) );
+					$url   = LLMS_Admin_Reporting::get_current_tab_url(
+						array(
+							'tab'       => 'courses',
+							'course_id' => $course->get( 'id' ),
+						)
+					);
 					$value = '<a href="' . esc_url( $url ) . '">' . $course->get( 'title' ) . '</a>';
 				}
-			break;
+				break;
 
 			case 'id':
 				$value = $this->get_post_link( $quiz->get( 'id' ) );
-			break;
+				break;
 
 			case 'lesson':
-				$value = '&mdash;';
+				$value  = '&mdash;';
 				$lesson = $quiz->get_lesson();
 				if ( $lesson ) {
 					$value = $lesson->get( 'title' );
 				}
-			break;
+				break;
 
 			case 'title':
 				$value = $quiz->get( 'title' );
-				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-					'tab' => 'quizzes',
-					'quiz_id' => $quiz->get( 'id' ),
-				) );
+				$url   = LLMS_Admin_Reporting::get_current_tab_url(
+					array(
+						'tab'     => 'quizzes',
+						'quiz_id' => $quiz->get( 'id' ),
+					)
+				);
 				$value = '<a href="' . esc_url( $url ) . '">' . $quiz->get( 'title' ) . '</a>';
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -163,18 +182,21 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve a list of Instructors to be used for Filtering
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
 	private function get_instructor_filters() {
 
-		$query = get_users( array(
-			'fields' => array( 'ID', 'display_name' ),
-			'meta_key' => 'last_name',
-			'orderby' => 'meta_value',
-			'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
-		) );
+		$query = get_users(
+			array(
+				'fields'   => array( 'ID', 'display_name' ),
+				'meta_key' => 'last_name',
+				'orderby'  => 'meta_value',
+				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
+			)
+		);
 
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
@@ -184,7 +206,8 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.25.0
@@ -201,18 +224,18 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 		$per = apply_filters( 'llms_reporting_' . $this->id . '_per_page', 25 );
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : $this->order;
+		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->order;
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->orderby;
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
 		$query_args = array(
-			'order' => $this->order,
-			'orderby' => $this->orderby,
-			'paged' => $this->current_page,
-			'post_status' => 'publish',
-			'post_type' => 'llms_quiz',
+			'order'          => $this->order,
+			'orderby'        => $this->orderby,
+			'paged'          => $this->current_page,
+			'post_status'    => 'publish',
+			'post_type'      => 'llms_quiz',
 			'posts_per_page' => $per,
 		);
 
@@ -234,20 +257,22 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			}
 
 			$lessons = array();
-			$courses = $instructor->get_courses( array(
-				'posts_per_page' => -1,
-			) );
+			$courses = $instructor->get_courses(
+				array(
+					'posts_per_page' => -1,
+				)
+			);
 			foreach ( $courses as $course ) {
 				$lessons = array_merge( $lessons, $course->get_lessons( 'ids' ) );
 			}
 			$query_args['meta_query'] = array(
 				array(
 					'compare' => 'IN',
-					'key' => '_llms_lesson_id',
-					'value' => $lessons,
+					'key'     => '_llms_lesson_id',
+					'value'   => $lessons,
 				),
 			);
-			$query = new WP_Query( $query_args );
+			$query                    = new WP_Query( $query_args );
 
 		} else {
 
@@ -267,6 +292,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -277,6 +303,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -287,41 +314,42 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.10
 	 */
 	protected function set_columns() {
 		return array(
-			'id' => array(
+			'id'       => array(
 				'exportable' => true,
-				'title' => __( 'ID', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'ID', 'lifterlms' ),
+				'sortable'   => true,
 			),
-			'title' => array(
+			'title'    => array(
 				'exportable' => true,
-				'title' => __( 'Title', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'Title', 'lifterlms' ),
+				'sortable'   => true,
 			),
-			'course' => array(
+			'course'   => array(
 				'exportable' => true,
-				'title' => __( 'Course', 'lifterlms' ),
-				'sortable' => false,
+				'title'      => __( 'Course', 'lifterlms' ),
+				'sortable'   => false,
 			),
-			'lesson' => array(
+			'lesson'   => array(
 				'exportable' => true,
-				'title' => __( 'Lesson', 'lifterlms' ),
-				'sortable' => false,
+				'title'      => __( 'Lesson', 'lifterlms' ),
+				'sortable'   => false,
 			),
 			'attempts' => array(
 				'exportable' => true,
-				'title' => __( 'Total Attempts', 'lifterlms' ),
-				'sortable' => false,
+				'title'      => __( 'Total Attempts', 'lifterlms' ),
+				'sortable'   => false,
 			),
-			'average' => array(
+			'average'  => array(
 				'exportable' => true,
-				'title' => __( 'Average Grade', 'lifterlms' ),
-				'sortable' => false,
+				'title'      => __( 'Average Grade', 'lifterlms' ),
+				'sortable'   => false,
 			),
 		);
 	}

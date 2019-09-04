@@ -6,12 +6,14 @@
  * @version  3.16.14
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'courses';
@@ -19,36 +21,42 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 	/**
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set
+	 *
 	 * @var  string
 	 */
 	protected $filter = 'any';
 
 	/**
 	 * Field results are filtered by
+	 *
 	 * @var  string
 	 */
 	protected $filterby = 'instructor';
 
 	/**
 	 * Is the Table Exportable?
+	 *
 	 * @var  boolean
 	 */
 	protected $is_exportable = true;
 
 	/**
 	 * Determine if the table is filterable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
+	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = true;
 
 	/**
 	 * Determine of the table is searchable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_searchable = true;
@@ -57,20 +65,23 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 	 * Results sort order
 	 * 'ASC' or 'DESC'
 	 * Only applicable of $orderby is not set
+	 *
 	 * @var  string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
+	 *
 	 * @var  string
 	 */
 	protected $orderby = 'title';
 
 	/**
 	 * Retrieve data for a cell
-	 * @param    string     $key   the column id / key
-	 * @param    mixed      $data  object / array of data that the function can use to extract the data
+	 *
+	 * @param    string $key   the column id / key
+	 * @param    mixed  $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -83,38 +94,40 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 			case 'grade':
 				$value = $course->get( 'average_grade' ) . '%';
-			break;
+				break;
 
 			case 'id':
 				$value = $this->get_post_link( $course->get( 'id' ) );
-			break;
+				break;
 
 			case 'instructors':
 				$data = array();
 				foreach ( $course->get_instructors() as $info ) {
 					$instructor = llms_get_instructor( $info['id'] );
 					if ( $instructor ) {
-						$data[] = sprintf( '%1$s (%2$s)', $instructor->get( 'display_name' ),  $info['label'] );
+						$data[] = sprintf( '%1$s (%2$s)', $instructor->get( 'display_name' ), $info['label'] );
 					}
 				}
 				$value = implode( ', ', $data );
-			break;
+				break;
 
 			case 'progress':
 				$value = $this->get_progress_bar_html( $course->get( 'average_progress' ) );
-			break;
+				break;
 
 			case 'students':
 				$value = number_format_i18n( $course->get_student_count(), 0 );
-			break;
+				break;
 
 			case 'title':
-				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-					'tab' => 'courses',
-					'course_id' => $course->get( 'id' ),
-				) );
+				$url   = LLMS_Admin_Reporting::get_current_tab_url(
+					array(
+						'tab'       => 'courses',
+						'course_id' => $course->get( 'id' ),
+					)
+				);
 				$value = '<a href="' . esc_url( $url ) . '">' . $course->get( 'title' ) . '</a>';
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -126,18 +139,21 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve a list of Instructors to be used for Filtering
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
 	private function get_instructor_filters() {
 
-		$query = get_users( array(
-			'fields' => array( 'ID', 'display_name' ),
-			'meta_key' => 'last_name',
-			'orderby' => 'meta_value',
-			'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
-		) );
+		$query = get_users(
+			array(
+				'fields'   => array( 'ID', 'display_name' ),
+				'meta_key' => 'last_name',
+				'orderby'  => 'meta_value',
+				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
+			)
+		);
 
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
@@ -147,7 +163,8 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.16.14
@@ -164,33 +181,35 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 		$per = apply_filters( 'llms_reporting_' . $this->id . '_per_page', 25 );
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : $this->order;
+		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->order;
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->orderby;
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
 		$query_args = array(
-			'order' => $this->order,
-			'orderby' => $this->orderby,
-			'paged' => $this->current_page,
-			'post_status' => array( 'publish', 'private' ),
-			'post_type' => 'course',
+			'order'          => $this->order,
+			'orderby'        => $this->orderby,
+			'paged'          => $this->current_page,
+			'post_status'    => array( 'publish', 'private' ),
+			'post_type'      => 'course',
 			'posts_per_page' => $per,
 		);
 
 		if ( 'any' !== $this->filter ) {
 
-			$serialized_id = serialize( array(
-				'id' => absint( $this->filter ),
-			) );
+			$serialized_id = serialize(
+				array(
+					'id' => absint( $this->filter ),
+				)
+			);
 			$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
 
 			$query_args['meta_query'] = array(
 				array(
 					'compare' => 'LIKE',
-					'key' => '_llms_instructors',
-					'value' => $serialized_id,
+					'key'     => '_llms_instructors',
+					'value'   => $serialized_id,
 				),
 			);
 
@@ -198,10 +217,10 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 		if ( 'progress' === $this->orderby ) {
 			$query_args['meta_key'] = '_llms_average_progress';
-			$query_args['orderby'] = 'meta_value_num';
+			$query_args['orderby']  = 'meta_value_num';
 		} elseif ( 'grade' === $this->orderby ) {
 			$query_args['meta_key'] = '_llms_average_progress';
-			$query_args['orderby'] = 'meta_value_num';
+			$query_args['orderby']  = 'meta_value_num';
 		}
 
 		if ( isset( $args['search'] ) ) {
@@ -240,6 +259,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -250,6 +270,7 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -260,40 +281,41 @@ class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
 	protected function set_columns() {
 		return array(
-			'id' => array(
+			'id'          => array(
 				'exportable' => true,
-				'title' => __( 'ID', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'ID', 'lifterlms' ),
+				'sortable'   => true,
 			),
-			'title' => array(
+			'title'       => array(
 				'exportable' => true,
-				'title' => __( 'Title', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'Title', 'lifterlms' ),
+				'sortable'   => true,
 			),
 			'instructors' => array(
 				'exportable' => true,
 				'filterable' => current_user_can( 'view_others_lifterlms_reports' ) ? $this->get_instructor_filters() : false,
-				'title' => __( 'Instructors', 'lifterlms' ),
+				'title'      => __( 'Instructors', 'lifterlms' ),
 			),
-			'students' => array(
+			'students'    => array(
 				'exportable' => true,
-				'title' => __( 'Students', 'lifterlms' ),
+				'title'      => __( 'Students', 'lifterlms' ),
 			),
-			'progress' => array(
+			'progress'    => array(
 				'exportable' => true,
-				'title' => __( 'Average Progress', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'Average Progress', 'lifterlms' ),
+				'sortable'   => true,
 			),
-			'grade' => array(
+			'grade'       => array(
 				'exportable' => true,
-				'title' => __( 'Average Grade', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'Average Grade', 'lifterlms' ),
+				'sortable'   => true,
 			),
 		);
 	}

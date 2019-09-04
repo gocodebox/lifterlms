@@ -1,6 +1,7 @@
 <?php
 /**
  * Individual Student's Courses Table
+ *
  * @since   3.2.0
  * @version 3.21.0
  */
@@ -9,11 +10,15 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Table_Student_Course class.
+ *
+ * @since  3.2.0
+ * @since 3.35.0 Get student ID more reliably.
  */
 class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'student-course';
@@ -22,12 +27,14 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * Stores the current section while building the table
 	 * used by $this->output_section_row_html() to determine
 	 * if a new section header needs to be output
+	 *
 	 * @var  int
 	 */
 	private $current_section = null;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
+	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = false;
@@ -36,18 +43,21 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	 * Results sort order
 	 * 'ASC' or 'DESC'
 	 * Only applicable of $orderby is not set
+	 *
 	 * @var  string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
+	 *
 	 * @var  string
 	 */
 	protected $orderby = 'name';
 
 	/**
 	 * Instance of LLMS_Student
+	 *
 	 * @var  null
 	 */
 	public $student = null;
@@ -55,7 +65,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 	/**
 	 * Get the HTML for the actions column on the table
 	 *
-	 * @param   obj    $lesson LLMS_Lesson..
+	 * @param   obj $lesson LLMS_Lesson..
 	 * @return  string
 	 * @since   3.29.0
 	 * @version 3.29.0
@@ -68,12 +78,12 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 			if ( $this->student->is_complete( $lesson->get( 'id' ) ) ) {
 				$action = 'incomplete';
-				$icon = 'exclamation-triangle';
-				$text = __( 'Mark Incomplete', 'lifterlms' );
+				$icon   = 'exclamation-triangle';
+				$text   = __( 'Mark Incomplete', 'lifterlms' );
 			} else {
 				$action = 'complete';
-				$icon = 'check';
-				$text = __( 'Mark Complete', 'lifterlms' );
+				$icon   = 'check';
+				$text   = __( 'Mark Complete', 'lifterlms' );
 			}
 			$html = '
 				<form action="" method="POST">
@@ -93,8 +103,9 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve data for the columns
-	 * @param    string     $key        the column id / key
-	 * @param    int        $lesson     Instance of an LLMS_Lesson
+	 *
+	 * @param    string $key        the column id / key
+	 * @param    int    $lesson     Instance of an LLMS_Lesson
 	 * @return   mixed
 	 * @since    3.2.0
 	 * @version  3.29.0
@@ -105,43 +116,46 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 			case 'actions':
 				$value = $this->get_actions_html( $lesson );
-			break;
+				break;
 
 			case 'completed':
-				$date = $this->student->get_completion_date( $lesson->get( 'id' ) );
+				$date  = $this->student->get_completion_date( $lesson->get( 'id' ) );
 				$value = $date ? $date : '&ndash;';
-			break;
+				break;
 
 			case 'grade':
 				$grade = $this->student->get_grade( $lesson->get( 'id' ) );
 				$value = is_numeric( $grade ) ? $grade . '%' : $grade;
-			break;
+				break;
 
 			case 'id':
 				$value = $this->get_post_link( $lesson->get( 'id' ) );
-			break;
+				break;
 
 			case 'name':
 				$value = $lesson->get( 'title' );
-			break;
+				break;
 
 			case 'quiz':
-
 				$q = $lesson->get( 'quiz' );
 
 				if ( $q ) {
 
-					$url = esc_url( add_query_arg( array(
-						'quiz_id' => $q,
-						'lesson_id' => $lesson->get( 'id' ),
-					) ) );
+					$url   = esc_url(
+						add_query_arg(
+							array(
+								'quiz_id'   => $q,
+								'lesson_id' => $lesson->get( 'id' ),
+							)
+						)
+					);
 					$value = '<a href="' . $url . '">' . get_the_title( $q ) . '</a>';
 
 				} else {
 					$value = '&ndash;';
 				}
 
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -154,7 +168,8 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -175,7 +190,8 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
 	 * Output a section title row for each course Section
-	 * @param    obj     $lesson  the current lesson instance
+	 *
+	 * @param    obj $lesson  the current lesson instance
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.21.0
@@ -196,6 +212,7 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
 	 * Allow custom hooks to be registered for use within the class
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.21.0
@@ -206,43 +223,54 @@ class LLMS_Table_Student_Course extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
-	 * @return   array
+	 *
 	 * @since    2.3.0
-	 * @version  2.3.0
+	 * @since 3.35.0 Get student ID more reliably.
+	 *
+	 * @return   array
 	 */
 	public function set_args() {
+
+		$student = false;
+		if ( ! empty( $this->student ) ) {
+			$student = $this->student->get_id();
+		} elseif ( ! empty( $_GET['student_id'] ) ) {
+			$student = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+		}
+
 		return array(
-			'page' => $this->get_current_page(),
-			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'page'    => $this->get_current_page(),
+			'student' => $student,
 		);
 	}
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.29.0
 	 */
 	public function set_columns() {
 		return array(
-			'id' => array(
+			'id'        => array(
 				'title' => __( 'ID', 'lifterlms' ),
 			),
-			'name' => array(
+			'name'      => array(
 				'title' => __( 'Name', 'lifterlms' ),
 			),
-			'quiz' => array(
+			'quiz'      => array(
 				'title' => __( 'Quiz', 'lifterlms' ),
 			),
-			'grade' => array(
+			'grade'     => array(
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
 			'completed' => array(
 				'title' => __( 'Completed', 'lifterlms' ),
 			),
-			'actions' => array(
+			'actions'   => array(
 				'exportable' => false,
-				'title' => __( 'Actions', 'lifterlms' ),
+				'title'      => __( 'Actions', 'lifterlms' ),
 			),
 		);
 	}

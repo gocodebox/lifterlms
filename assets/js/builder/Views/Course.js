@@ -1,5 +1,6 @@
 /**
  * Single Course View
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -9,6 +10,7 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 
 		/**
 		 * Get default attributes for the html wrapper element
+		 *
 		 * @return   obj
 		 * @since    3.13.0
 		 * @version  3.13.0
@@ -21,24 +23,28 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 
 		/**
 		 * HTML element selector
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-builder-main',
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-course-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.13.0
 		 * @version  3.13.0
@@ -61,7 +67,7 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 			// selection changes
 			this.sectionListView.on( 'selectionChanged', this.active_section_change );
 			// "select" a section when it's added to the course
-			this.listenTo( this.model.get( 'sections'), 'add', this.on_section_add );
+			this.listenTo( this.model.get( 'sections' ), 'add', this.on_section_add );
 
 			Backbone.pubSub.on( 'section-toggle', this.on_section_toggle, this );
 
@@ -73,6 +79,7 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.13.0
 		 * @version  3.13.0
@@ -93,6 +100,7 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 		/**
 		 * When a section "selection" changes in the list
 		 * Update each section model so we can figure out which one is selected from other views
+		 *
 		 * @param    array   current   array of selected models
 		 * @param    array   previous  array of previously selected models
 		 * @return   void
@@ -113,6 +121,7 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 
 		/**
 		 * "Selects" the new section when it's added to the course
+		 *
 		 * @param    obj   model  Section model that's just been added
 		 * @return   void
 		 * @since    3.16.0
@@ -127,6 +136,7 @@ define( [ 'Views/SectionList', 'Views/_Editable' ], function( SectionListView, E
 		/**
 		 * When expanding/collapsing sections
 		 * if collapsing, unselect, if expanding, select
+		 *
 		 * @param    obj   model  toggled section
 		 * @return   void
 		 * @since    3.16.0

@@ -17,14 +17,14 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0
  * @version 3.29.0
  *
- * @param string $gateway_id LLMS_Payment_Gateway ID.
+ * @param string           $gateway_id LLMS_Payment_Gateway ID.
  * @param LLMS_Access_Plan $plan The access plan.
  * @return WP_Error|bool WP_Error on error, true on success
  */
 function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
 
 	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
-	$err = new WP_Error();
+	$err     = new WP_Error();
 
 	// valid gateway
 	if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {
@@ -120,14 +120,14 @@ function llms_get_order_statuses( $order_type = 'any' ) {
 	switch ( $order_type ) {
 		case 'recurring':
 			unset( $statuses['llms-completed'] );
-		break;
+			break;
 
 		case 'single':
 			unset( $statuses['llms-active'] );
 			unset( $statuses['llms-expired'] );
 			unset( $statuses['llms-on-hold'] );
 			unset( $statuses['llms-pending-cancel'] );
-		break;
+			break;
 	}
 
 	return apply_filters( 'llms_get_order_statuses', $statuses, $order_type );
@@ -158,7 +158,8 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
 			   AND pm_user.meta_value = %d
 			   AND pm_plan.meta_value = %d
 			;",
-			$user_id, $plan_id
+			$user_id,
+			$plan_id
 		)
 	);
 
@@ -228,7 +229,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 	// used later
 	$coupon_id = null;
-	$coupon = false;
+	$coupon    = false;
 
 	// if a coupon is being used, validate it
 	if ( ! empty( $data['coupon_code'] ) ) {
@@ -243,7 +244,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 		// coupon is real, make sure it's valid for the current plan
 		$coupon = llms_get_post( $coupon_id );
-		$valid = $coupon->is_valid( $data['plan_id'] );
+		$valid  = $coupon->is_valid( $data['plan_id'] );
 
 		// if the coupon has a validation error, return an error message
 		if ( is_wp_error( $valid ) ) {
@@ -258,7 +259,7 @@ function llms_setup_pending_order( $data = array() ) {
 		return $err;
 	}
 
-	$gateway_id = empty( $data['payment_gateway'] ) ? 'manual' : $data['payment_gateway'];
+	$gateway_id    = empty( $data['payment_gateway'] ) ? 'manual' : $data['payment_gateway'];
 	$gateway_error = llms_can_gateway_be_used_for_plan( $gateway_id, $plan );
 	if ( is_wp_error( $gateway_error ) ) {
 		return $gateway_error;
@@ -293,14 +294,18 @@ function llms_setup_pending_order( $data = array() ) {
 	if ( llms_is_user_enrolled( $person_id, $plan->get( 'product_id' ) ) ) {
 
 		$product = $plan->get_product();
-		$err->add( 'already-enrolled', sprintf(
-			__( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ),
-			llms_get_page_url( 'myaccount' ), $product->get_post_type_label()
-		) );
+		$err->add(
+			'already-enrolled',
+			sprintf(
+				__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
+				llms_get_page_url( 'myaccount' ),
+				$product->get_post_type_label()
+			)
+		);
 		return $err;
 	}
 
-	$person = llms_get_student( $person_id );
+	$person  = llms_get_student( $person_id );
 	$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
 
 	/**

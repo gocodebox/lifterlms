@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification View: Purchase Receipt
+ *
  * @since    3.17.8
  * @version  3.18.2
  */
@@ -10,12 +11,14 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 	/**
 	 * Notification Trigger ID
+	 *
 	 * @var  [type]
 	 */
 	public $trigger_id = 'subscription_cancelled';
 
 	/**
 	 * Setup body content for output
+	 *
 	 * @return   string
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -34,6 +37,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -44,6 +48,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 	/**
 	 * Setup notification icon for output
+	 *
 	 * @return   string
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -54,24 +59,26 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 	/**
 	 * Setup merge codes that can be used with the notification
+	 *
 	 * @return   array
 	 * @since    3.17.8
 	 * @version  3.17.8
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{CUSTOMER_NAME}}' => __( 'Customer Name', 'lifterlms' ),
-			'{{ORDER_ID}}' => __( 'Order ID', 'lifterlms' ),
-			'{{PLAN_TITLE}}' => __( 'Plan Title', 'lifterlms' ),
-			'{{PRODUCT_TITLE}}' => __( 'Product Title', 'lifterlms' ),
-			'{{PRODUCT_TYPE}}' => __( 'Product Type', 'lifterlms' ),
+			'{{CUSTOMER_NAME}}'      => __( 'Customer Name', 'lifterlms' ),
+			'{{ORDER_ID}}'           => __( 'Order ID', 'lifterlms' ),
+			'{{PLAN_TITLE}}'         => __( 'Plan Title', 'lifterlms' ),
+			'{{PRODUCT_TITLE}}'      => __( 'Product Title', 'lifterlms' ),
+			'{{PRODUCT_TYPE}}'       => __( 'Product Type', 'lifterlms' ),
 			'{{PRODUCT_TITLE_LINK}}' => __( 'Product Title (Link)', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -84,27 +91,27 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 			case '{{CUSTOMER_NAME}}':
 				$code = $order->get_customer_name();
-			break;
+				break;
 
 			case '{{ORDER_ID}}':
 				$code = $order->get( 'id' );
-			break;
+				break;
 
 			case '{{PLAN_TITLE}}':
 				$code = $order->get( 'plan_title' );
-			break;
+				break;
 
 			case '{{PRODUCT_TITLE}}':
 				$code = $order->get( 'product_title' );
-			break;
+				break;
 
 			case '{{PRODUCT_TITLE_LINK}}':
 				$permalink = esc_url( get_permalink( $order->get( 'product_id' ) ) );
 				if ( $permalink ) {
 					$title = $this->set_merge_data( '{{PRODUCT_TITLE}}' );
-					$code = '<a href="' . $permalink . '">' . $title . '</a>';
+					$code  = '<a href="' . $permalink . '">' . $title . '</a>';
 				}
-			break;
+				break;
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
@@ -113,7 +120,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 				} else {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				}
-			break;
+				break;
 
 		}// End switch().
 
@@ -123,6 +130,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 	/**
 	 * Setup notification subject for output
+	 *
 	 * @return   string
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -133,6 +141,7 @@ class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notifi
 
 	/**
 	 * Setup notification title for output
+	 *
 	 * @return   string
 	 * @since    3.17.8
 	 * @version  3.17.8

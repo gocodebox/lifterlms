@@ -1,6 +1,15 @@
 /**
  * LifterLMS Students Metabox Functions
  *
+ * @package LifterLMS/Scripts
+ *
+ * @since 3.0.0
+ * @version 3.33.0
+ */
+
+/**
+ * LifterLMS Students Metabox Functions
+ *
  * @since 3.0.0
  * @since 3.33.0 Added the logic to handle the Student's enrollment deletion.
  */
@@ -12,6 +21,7 @@
 
 		/**
 		 * Initialize
+		 *
 		 * @return void
 		 * @since  3.0.0
 		 * @version  3.0.0
@@ -67,6 +77,7 @@
 
 		/**
 		 * Add a Student
+		 *
 		 * @param    obj  $el  jQuery selector of the add button
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -77,6 +88,7 @@
 
 		/**
 		 * Handle bulk enrollment via "Enroll New Students" area
+		 *
 		 * @param    obj   $el  jQuery selector for the triggering button
 		 * @return   void
 		 * @since    3.0.0
@@ -84,9 +96,9 @@
 		 */
 		this.enroll_students = function( $el ) {
 
-			var self = this,
-				$select = $( '#llms-add-student-select' ),
-				ids = $select.val(),
+			var self       = this,
+				$select    = $( '#llms-add-student-select' ),
+				ids        = $select.val(),
 				$container = this.$metabox.find( '.llms-metabox-students-add-new' );
 
 			LLMS.Spinner.start( $container );
@@ -112,12 +124,11 @@
 				},
 			} );
 
-
-
 		};
 
 		/**
 		 * Remove a Student
+		 *
 		 * @param    obj  $el  jQuery selector of the add button
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -149,7 +160,7 @@
 		 */
 		this.update_student_enrollment = function( id, status ) {
 
-			var $table = $( '#llms-gb-table-student-management' ),
+			var $table     = $( '#llms-gb-table-student-management' ),
 				$container = $table.closest( '.llms-table-wrap' );
 
 			LLMS.Spinner.start( $container );
@@ -167,7 +178,6 @@
 			} );
 
 		};
-
 
 		// go
 		this.init();

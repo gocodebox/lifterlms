@@ -50,6 +50,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Name of the post type as stored in the database
 	 * This will be prefixed (where applicable)
 	 * ie: "llms_order" for the "llms_order" post type
+	 *
 	 * @var string
 	 * @since  3.0.0
 	 */
@@ -57,6 +58,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * WP Post ID
+	 *
 	 * @var int
 	 * @since 3.0.0
 	 */
@@ -66,6 +68,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Define this in extending classes
 	 * Allows models to use unprefixed post type names for filters and more
 	 * ie: "order" for the "llms_order" post type
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -74,6 +77,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * A prefix to add to all meta properties
 	 * Child classes can redefine this
+	 *
 	 * @var string
 	 * @since 3.0.0
 	 */
@@ -81,6 +85,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Instance of WP_Post
+	 *
 	 * @var WP_Post
 	 * @since 3.0.0
 	 */
@@ -88,6 +93,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Array of meta properties and their property type
+	 *
 	 * @var     array
 	 * @since   3.3.0
 	 * @version 3.3.0
@@ -97,6 +103,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Array of default property values
 	 * key => default value
+	 *
 	 * @var  array
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -166,7 +173,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Magic Isset
-	 * @param  string  $key  check if a key exists in the database
+	 *
+	 * @param  string $key  check if a key exists in the database
 	 * @return boolean
 	 * @since  3.0.0
 	 */
@@ -176,6 +184,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Magic Setter
+	 *
 	 * @param string $key  key of the property
 	 * @param mixed  $val  value to set the property with
 	 * @return  void
@@ -187,7 +196,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Allow extending classes to add custom meta properties to the object
-	 * @param    array      $props  key val array of prop key => prop type (see $this->properties)
+	 *
+	 * @param    array $props  key val array of prop key => prop type (see $this->properties)
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
@@ -199,6 +209,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Modify allowed post tags for wp_kses for this post
+	 *
 	 * @return   void
 	 * @since    3.19.2
 	 * @version  3.19.2
@@ -207,15 +218,16 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		global $allowedposttags;
 		$allowedposttags['iframe'] = array(
 			'allowfullscreen' => true,
-			'frameborder' => true,
-			'height' => true,
-			'src' => true,
-			'width' => true,
+			'frameborder'     => true,
+			'height'          => true,
+			'src'             => true,
+			'width'           => true,
 		);
 	}
 
 	/**
 	 * Remove modified allowed post tags for wp_kses for this post
+	 *
 	 * @return   void
 	 * @since    3.19.2
 	 * @version  3.19.2
@@ -232,7 +244,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * with a switch statement or something
 	 * this will return the untranslated string if a translation isn't defined
 	 *
-	 * @param    string     $key  key to retrieve
+	 * @param    string $key  key to retrieve
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -241,13 +253,13 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$val = $this->get( $key );
 		// ******* example *******
 		// switch( $key ) {
-		// 	case 'example_key':
-		// 		if ( 'example-val' === $val ) {
-		// 			return translate( 'Example Key', 'lifterlms' );
-		// 		}
-		// 	break;
-		// 	default:
-		// 		return $val;
+		// case 'example_key':
+		// if ( 'example-val' === $val ) {
+		// return translate( 'Example Key', 'lifterlms' );
+		// }
+		// break;
+		// default:
+		// return $val;
 		// }
 		// ******* example *******
 		return $val;
@@ -255,7 +267,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Wrapper for the $this->translate() that echos the result rather than returning it
-	 * @param    string     $key  key to retrieve
+	 *
+	 * @param    string $key  key to retrieve
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -267,6 +280,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Called immediately after creating / inserting a new post into the database
 	 * This stub can be overwritten by child classes
+	 *
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 * @return  void
@@ -290,6 +304,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Clones the Post if the post is cloneable
+	 *
 	 * @return   WP_Error|int|null WP_Error, WP Post ID of the clone (new) post, or null if post is not cloneable.
 	 * @since    3.3.0
 	 */
@@ -321,6 +336,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Trigger an export download of the given post type
+	 *
 	 * @return   void
 	 * @since    3.3.0
 	 * @version  3.19.2
@@ -347,8 +363,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$arr = $this->toArray();
 
 		$arr['_generator'] = 'LifterLMS/Single' . ucwords( $this->model_post_type ) . 'Exporter';
-		$arr['_source'] = get_site_url();
-		$arr['_version'] = LLMS()->version;
+		$arr['_source']    = get_site_url();
+		$arr['_version']   = LLMS()->version;
 
 		ksort( $arr );
 
@@ -388,21 +404,21 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 				case 'content':
 					$val = $raw ? $this->post->$post_key : llms_content( $this->post->$post_key );
-				break;
+					break;
 
 				case 'excerpt':
 					$val = $raw ? $this->post->$post_key : apply_filters( 'get_the_excerpt', $this->post->$post_key );
-				break;
+					break;
 
 				case 'ping_status':
 				case 'comment_status':
 				case 'menu_order':
 					$val = $this->post->$key;
-				break;
+					break;
 
 				case 'title':
 					$val = $raw ? $this->post->$post_key : apply_filters( 'the_title', $this->post->$post_key, $this->get( 'id' ) );
-				break;
+					break;
 
 				default:
 					$val = $this->post->$post_key;
@@ -414,7 +430,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		} elseif ( ! in_array( $key, $this->get_unsettable_properties() ) ) {
 
-			if ( metadata_exists( 'post',  $this->id, $this->meta_prefix . $key ) ) {
+			if ( metadata_exists( 'post', $this->id, $this->meta_prefix . $key ) ) {
 				$val = get_post_meta( $this->id, $this->meta_prefix . $key, true );
 			} else {
 				$val = $this->get_default_value( $key );
@@ -462,6 +478,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Getter for array values
 	 * Ensures that even empty values return an array
+	 *
 	 * @param  string $key  property key
 	 * @return array
 	 * @since  3.0.0 [<description>]
@@ -477,6 +494,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Getter for date strings with optional date format conversion
 	 * If no format is supplied, the default format available via $this->get_date_format() will be used
+	 *
 	 * @param  string $key     property key
 	 * @param  string $format  any valid date format that can be passed to date()
 	 * @return string
@@ -484,7 +502,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 */
 	public function get_date( $key, $format = null ) {
 		$format = ( ! $format ) ? $this->get_date_format() : $format;
-		$raw = $this->get( $key );
+		$raw    = $this->get( $key );
 		// only convert the date if we actually have something stored, otherwise we'll return the current date, which we probably aren't expecting
 		$date = $raw ? date_i18n( $format, strtotime( $raw ) ) : '';
 		return apply_filters( 'llms_get_' . $this->model_post_type . '_' . $key . '_date', $date, $this );
@@ -495,6 +513,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * This *can* be overridden by child classes if the post type requires a different default date format
 	 * If no format is supplied by the child class, the default WP date & time formats available
 	 * via General Settings will be combined and used
+	 *
 	 * @return string
 	 * @since  3.0.0
 	 */
@@ -506,7 +525,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Get the default value of a property
 	 * If defaults don't exist returns an empty string in accordance with the return of get_post_meta() when no metadata exists
-	 * @param    string     $key  property key/name
+	 *
+	 * @param    string $key  property key/name
 	 * @return   mixed
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -520,9 +540,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Retrieve URL for an image associated with the post
 	 * Currently only retrieves the featured image if the post type supports it
 	 * in the future this will allow retrieval of custom post images as well
-	 * @param    string|array   $size  registered image size or a numeric array with width/height
-	 * @param    string         $key   currently unused but here for forward compatibility if
-	 *                                 additional custom images are added
+	 *
+	 * @param    string|array $size  registered image size or a numeric array with width/height
+	 * @param    string       $key   currently unused but here for forward compatibility if
+	 *                               additional custom images are added
 	 * @return   string                empty string if no image or not supported
 	 * @since    3.3.0
 	 * @version  3.8.0
@@ -544,6 +565,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve the Post's post type data object
+	 *
 	 * @return WP_Post_Type|null
 	 * @since  3.0.0
 	 */
@@ -553,6 +575,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve a label from the post type data object's labels object
+	 *
 	 * @param    string $label key for the label
 	 * @return   string
 	 * @since    3.0.0
@@ -568,6 +591,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Getter for price strings with optional formatting options
+	 *
 	 * @param    string $key         property key
 	 * @param    array  $price_args  optional array of arguments that can be passed to llms_price()
 	 * @param    string $format      optional format conversion method [html|raw|float]
@@ -601,6 +625,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve the default values for properties
+	 *
 	 * @return   array
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -613,7 +638,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
 	 * This *should* be overridden by child classes
-	 * @param    array  $args   args of data to be passed to wp_insert_post
+	 *
+	 * @param    array $args   args of data to be passed to wp_insert_post
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.18.0
@@ -632,24 +658,28 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			);
 		}
 
-		$args = wp_parse_args( $args, array(
-			'comment_status' => 'closed',
-			'ping_status' => 'closed',
-			'post_author' => get_current_user_id(),
-			'post_content' => '',
-			'post_excerpt' => '',
-			'post_status' => 'draft',
-			'post_title' => '',
-			'post_type' => $this->get( 'db_post_type' ),
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => get_current_user_id(),
+				'post_content'   => '',
+				'post_excerpt'   => '',
+				'post_status'    => 'draft',
+				'post_title'     => '',
+				'post_type'      => $this->get( 'db_post_type' ),
+			)
+		);
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
 	}
 
 	/**
 	 * Get media embeds
-	 * @param    string     $type  embed type [video|audio]
-	 * @param    string     $prop  postmeta property name, defaults to {$type}_embed
+	 *
+	 * @param    string $type  embed type [video|audio]
+	 * @param    string $prop  postmeta property name, defaults to {$type}_embed
 	 * @return   string
 	 * @since    3.17.0
 	 * @version  3.17.5
@@ -659,7 +689,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		$ret = '';
 
 		$prop = $prop ? $prop : $type . '_embed';
-		$url = $this->get( $prop );
+		$url  = $this->get( $prop );
 		if ( $url ) {
 
 			$ret = wp_oembed_get( $url );
@@ -678,6 +708,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
+	 *
 	 * @param   string $key  property key
 	 * @return  string
 	 * @since   3.3.0
@@ -690,8 +721,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 		// check against the properties array
 		if ( in_array( $key, array_keys( $props ) ) ) {
 			$type = $props[ $key ];
-		} // End if().
-		else {
+		} else {
 			$type = 'text';
 		}
 
@@ -710,27 +740,32 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @return array
 	 */
 	protected function get_post_properties() {
-		return apply_filters( 'llms_post_model_get_post_properties', array(
-			'author'         => 'absint',
-			'content'        => 'html',
-			'date'           => 'text',
-			'date_gmt'       => 'text',
-			'excerpt'        => 'html',
-			'password'       => 'text',
-			'menu_order'     => 'absint',
-			'modified'       => 'text',
-			'modified_gmt'   => 'text',
-			'name'           => 'text',
-			'status'         => 'text',
-			'title'          => 'text',
-			'type'           => 'text',
-			'comment_status' => 'text',
-			'ping_status'    => 'text',
-		), $this );
+		return apply_filters(
+			'llms_post_model_get_post_properties',
+			array(
+				'author'         => 'absint',
+				'content'        => 'html',
+				'date'           => 'text',
+				'date_gmt'       => 'text',
+				'excerpt'        => 'html',
+				'password'       => 'text',
+				'menu_order'     => 'absint',
+				'modified'       => 'text',
+				'modified_gmt'   => 'text',
+				'name'           => 'text',
+				'status'         => 'text',
+				'title'          => 'text',
+				'type'           => 'text',
+				'comment_status' => 'text',
+				'ping_status'    => 'text',
+			),
+			$this
+		);
 	}
 
 	/**
 	 * Retrieve an array of properties defined by the model
+	 *
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.16.0
@@ -742,6 +777,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Retrieve the registered Label of the posts current status
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -753,9 +789,10 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Get an array of terms for a given taxonomy for the post
-	 * @param    string     $tax     taxonomy name
-	 * @param    boolean    $single  return only one term as an int, useful for taxes which
-	 *                               can only have one term (eg: visibilities and difficulties and such)
+	 *
+	 * @param    string  $tax     taxonomy name
+	 * @param    boolean $single  return only one term as an int, useful for taxes which
+	 *                            can only have one term (eg: visibilities and difficulties and such)
 	 * @return   mixed               when single a single term object or null
 	 *                               when not single an array of term objects
 	 * @since    3.8.0
@@ -778,21 +815,27 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * If a child class adds any properties which should not be settable
 	 * the class should override this property and add their custom
 	 * properties to the array
+	 *
 	 * @return array
 	 * @since 3.0.0
 	 */
 	protected function get_unsettable_properties() {
-		return apply_filters( 'llms_post_model_get_unsettable_properties', array(
-			'db_post_type',
-			'id',
-			'meta_prefix',
-			'model_post_type',
-			'post',
-		), $this );
+		return apply_filters(
+			'llms_post_model_get_unsettable_properties',
+			array(
+				'db_post_type',
+				'id',
+				'meta_prefix',
+				'model_post_type',
+				'post',
+			),
+			$this
+		);
 	}
 
 	/**
 	 * Determine if the associated post is exportable
+	 *
 	 * @return   boolean
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -803,6 +846,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Determine if the associated post is exportable
+	 *
 	 * @return   boolean
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -814,6 +858,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Format the object for json serialization
 	 * encodes the results of $this->toArray()
+	 *
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -842,6 +887,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 	/**
 	 * Scrub fields according to datatype
+	 *
 	 * @param    mixed  $val   property value to scrub
 	 * @param    string $type  data type
 	 * @return   mixed
@@ -858,37 +904,37 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 			case 'absint':
 				$val = absint( $val );
-			break;
+				break;
 
 			case 'array':
 				if ( '' === $val ) {
 					$val = array();
 				}
 				$val = (array) $val;
-			break;
+				break;
 
 			case 'bool':
 			case 'boolean':
 				$val = boolval( $val );
-			break;
+				break;
 
 			case 'float':
 				$val = floatval( $val );
-			break;
+				break;
 
 			case 'html':
 				$this->allowed_post_tags_set();
 				$val = wp_kses_post( $val );
 				$this->allowed_post_tags_unset();
-			break;
+				break;
 
 			case 'int':
 				$val = intval( $val );
-			break;
+				break;
 
 			case 'yesno':
 				$val = 'yes' === $val ? 'yes' : 'no';
-			break;
+				break;
 
 			case 'text':
 			case 'string':
@@ -953,7 +999,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			'meta' => array(),
 		);
 
-		$post_properties = array_keys( $this->get_post_properties() );
+		$post_properties       = array_keys( $this->get_post_properties() );
 		$unsettable_properties = $this->get_unsettable_properties();
 
 		foreach ( $model_array as $key => $val ) {
@@ -975,29 +1021,29 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			 */
 			if ( in_array( $key, $post_properties ) || 'edit_date' === $key ) {
 
-				$type           = 'post';
-				$llms_post_key  = "post_{$key}";
+				$type          = 'post';
+				$llms_post_key = "post_{$key}";
 
 				switch ( $key ) {
 
 					case 'content':
 						$val = apply_filters( 'content_save_pre', $val );
-					break;
+						break;
 
 					case 'excerpt':
 						$val = apply_filters( 'excerpt_save_pre', $val );
-					break;
+						break;
 
 					case 'edit_date':
 					case 'ping_status':
 					case 'comment_status':
 					case 'menu_order':
 						$llms_post_key = $key;
-					break;
+						break;
 
 					case 'title':
 						$val = apply_filters( 'title_save_pre', $val );
-					break;
+						break;
 				}
 			} elseif ( ! in_array( $key, $unsettable_properties ) ) {
 				$type          = 'meta';
@@ -1059,9 +1105,9 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	/**
 	 * Update terms for the post for a given taxonomy
 	 *
-	 * @param    array      $terms   array of terms (name or ids)
-	 * @param    string     $tax     the name of the tax
-	 * @param    boolean    $append  if true, will append the terms, false will replace existing terms
+	 * @param    array   $terms   array of terms (name or ids)
+	 * @param    string  $tax     the name of the tax
+	 * @param    boolean $append  if true, will append the terms, false will replace existing terms
 	 *
 	 * @return bool
 	 * @since    3.8.0
@@ -1103,7 +1149,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 
 		$arr['content'] = $this->post->post_content;
 		$arr['excerpt'] = $this->post->post_excerpt;
-		$arr['title'] = $this->post->post_title;
+		$arr['title']   = $this->post->post_title;
 
 		// add the featured image if the post type supports it
 		if ( post_type_supports( $this->db_post_type, 'thumbnail' ) ) {
@@ -1148,7 +1194,8 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Called before data is sorted and returned by $this->toArray()
 	 * Extending classes should override this data if custom data should
 	 * be added when object is converted to an array or json
-	 * @param    array     $arr   array of data to be serialized
+	 *
+	 * @param    array $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -1167,7 +1214,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * @since 3.30.0 Use `maybe_unserialize()` to ensure array data is accessible as an array.
 	 * @since 3.30.2 Add filter to allow 3rd parties to prevent a field from being added to the custom field array.
 	 *
-	 * @param    array     $arr  existing post array
+	 * @param    array $arr  existing post array
 	 * @return   array
 	 */
 	protected function toArrayCustom( $arr ) {

@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
@@ -17,18 +18,21 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
 	 * action name
+	 *
 	 * @var  string
 	 */
 	protected $action = 'llms_bg_updater';
 
 	/**
 	 * Enables event logging
+	 *
 	 * @var  boolean
 	 */
 	private $enable_logging = true;
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.4.3
 	 * @version  3.4.3
 	 */
@@ -46,6 +50,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
 	 * Called when queue is emptied and action is complete
+	 *
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -59,6 +64,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
 	 * Starts the queue
+	 *
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -75,6 +81,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
 	 * Retrieve approximate progress of updates in the queue
+	 *
 	 * @return   int
 	 * @since    3.4.3
 	 * @version  3.16.10
@@ -87,8 +94,8 @@ class LLMS_Background_Updater extends WP_Background_Process {
 		}
 
 		// get the progress
-		$batch = $this->get_batch();
-		$total = max( array_keys( $batch->data ) ) + 1 ;
+		$batch     = $this->get_batch();
+		$total     = max( array_keys( $batch->data ) ) + 1;
 		$remaining = count( $batch->data );
 		if ( ! $total ) {
 			return 0;
@@ -124,6 +131,7 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
 	 * Returns true if the updater is running
+	 *
 	 * @return   boolean
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -134,7 +142,8 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
 	 * Log event data to an update file when logging enabled
-	 * @param    mixed     $data  data to log
+	 *
+	 * @param    mixed $data  data to log
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -149,7 +158,8 @@ class LLMS_Background_Updater extends WP_Background_Process {
 
 	/**
 	 * Processes an item in the queue
-	 * @param    string     $callback  name of the callback function to execute
+	 *
+	 * @param    string $callback  name of the callback function to execute
 	 * @return   mixed                 false removes item from the queue
 	 *                                 truthy (callback function name) leaves it in the queue for further processing
 	 * @since    3.4.3

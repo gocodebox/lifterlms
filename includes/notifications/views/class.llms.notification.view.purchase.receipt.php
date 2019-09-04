@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification View: Purchase Receipt
+ *
  * @since    3.8.0
  * @version  3.8.2
  */
@@ -12,12 +13,14 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 
 	/**
 	 * Notification Trigger ID
+	 *
 	 * @var  [type]
 	 */
 	public $trigger_id = 'purchase_receipt';
 
 	/**
 	 * Setup body content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -32,16 +35,16 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 			$mailer->get_css( 'font-family', false ),
 			$mailer->get_css( 'font-size', false )
 		);
-		$tr_style = 'color:inherit;font-family:inherit;font-size:inherit;';
-		$td_style = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
+		$tr_style    = 'color:inherit;font-family:inherit;font-size:inherit;';
+		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
 		$rows = array(
-			'TRANSACTION_DATE' => __( 'Date', 'lifterlms' ),
+			'TRANSACTION_DATE'   => __( 'Date', 'lifterlms' ),
 			'PRODUCT_TITLE_LINK' => '{{PRODUCT_TYPE}}',
-			'PLAN_TITLE' => __( 'Plan', 'lifterlms' ),
+			'PLAN_TITLE'         => __( 'Plan', 'lifterlms' ),
 			'TRANSACTION_AMOUNT' => __( 'Amount', 'lifterlms' ),
 			'TRANSACTION_SOURCE' => __( 'Payment Method', 'lifterlms' ),
-			'TRANSACTION_ID' => __( 'Transaction ID', 'lifterlms' ),
+			'TRANSACTION_ID'     => __( 'Transaction ID', 'lifterlms' ),
 		);
 
 		ob_start();
@@ -61,6 +64,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -71,6 +75,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup notification icon for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -81,31 +86,33 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup merge codes that can be used with the notification
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{CUSTOMER_ADDRESS}}' => __( 'Customer Address', 'lifterlms' ),
-			'{{CUSTOMER_NAME}}' => __( 'Customer Name', 'lifterlms' ),
-			'{{CUSTOMER_PHONE}}' => __( 'Customer Phone', 'lifterlms' ),
-			'{{ORDER_ID}}' => __( 'Order ID', 'lifterlms' ),
-			'{{ORDER_URL}}' => __( 'Order URL', 'lifterlms' ),
-			'{{PLAN_TITLE}}' => __( 'Plan Title', 'lifterlms' ),
-			'{{PRODUCT_TITLE}}' => __( 'Product Title', 'lifterlms' ),
-			'{{PRODUCT_TYPE}}' => __( 'Product Type', 'lifterlms' ),
+			'{{CUSTOMER_ADDRESS}}'   => __( 'Customer Address', 'lifterlms' ),
+			'{{CUSTOMER_NAME}}'      => __( 'Customer Name', 'lifterlms' ),
+			'{{CUSTOMER_PHONE}}'     => __( 'Customer Phone', 'lifterlms' ),
+			'{{ORDER_ID}}'           => __( 'Order ID', 'lifterlms' ),
+			'{{ORDER_URL}}'          => __( 'Order URL', 'lifterlms' ),
+			'{{PLAN_TITLE}}'         => __( 'Plan Title', 'lifterlms' ),
+			'{{PRODUCT_TITLE}}'      => __( 'Product Title', 'lifterlms' ),
+			'{{PRODUCT_TYPE}}'       => __( 'Product Type', 'lifterlms' ),
 			'{{PRODUCT_TITLE_LINK}}' => __( 'Product Title (Link)', 'lifterlms' ),
 			'{{TRANSACTION_AMOUNT}}' => __( 'Transaction Amount', 'lifterlms' ),
-			'{{TRANSACTION_DATE}}' => __( 'Transaction Date', 'lifterlms' ),
-			'{{TRANSACTION_ID}}' => __( 'Transaction ID', 'lifterlms' ),
+			'{{TRANSACTION_DATE}}'   => __( 'Transaction Date', 'lifterlms' ),
+			'{{TRANSACTION_ID}}'     => __( 'Transaction ID', 'lifterlms' ),
 			'{{TRANSACTION_SOURCE}}' => __( 'Transaction Source', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.2
@@ -113,7 +120,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 	protected function set_merge_data( $code ) {
 
 		$transaction = $this->post;
-		$order = $transaction->get_order();
+		$order       = $transaction->get_order();
 
 		switch ( $code ) {
 
@@ -133,39 +140,39 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 					$code .= ', ';
 					$code .= llms_get_country_name( $order->get( 'billing_country' ) );
 				}
-			break;
+				break;
 
 			case '{{CUSTOMER_NAME}}':
 				$code = $order->get_customer_name();
-			break;
+				break;
 
 			case '{{CUSTOMER_PHONE}}':
 				$code = $order->get( 'billing_phone' );
-			break;
+				break;
 
 			case '{{ORDER_ID}}':
 				$code = $order->get( 'id' );
-			break;
+				break;
 
 			case '{{ORDER_URL}}':
 				$code = esc_url( $order->get_view_link() );
-			break;
+				break;
 
 			case '{{PLAN_TITLE}}':
 				$code = $order->get( 'plan_title' );
-			break;
+				break;
 
 			case '{{PRODUCT_TITLE}}':
 				$code = $order->get( 'product_title' );
-			break;
+				break;
 
 			case '{{PRODUCT_TITLE_LINK}}':
 				$permalink = esc_url( get_permalink( $order->get( 'product_id' ) ) );
 				if ( $permalink ) {
 					$title = $this->set_merge_data( '{{PRODUCT_TITLE}}' );
-					$code = '<a href="' . $permalink . '">' . $title . '</a>';
+					$code  = '<a href="' . $permalink . '">' . $title . '</a>';
 				}
-			break;
+				break;
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
@@ -174,23 +181,23 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 				} else {
 					$code = _x( 'Item', 'generic product type description', 'lifterlms' );
 				}
-			break;
+				break;
 
 			case '{{TRANSACTION_AMOUNT}}':
 				$code = $transaction->get_price( 'amount' );
-			break;
+				break;
 
 			case '{{TRANSACTION_DATE}}':
 				$code = $transaction->get_date( 'date', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-			break;
+				break;
 
 			case '{{TRANSACTION_ID}}':
 				$code = $transaction->get( 'id' );
-			break;
+				break;
 
 			case '{{TRANSACTION_SOURCE}}':
 				$code = $transaction->get( 'gateway_source_description' );
-			break;
+				break;
 
 		}// End switch().
 
@@ -200,6 +207,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup notification subject for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -210,6 +218,7 @@ class LLMS_Notification_View_Purchase_Receipt extends LLMS_Abstract_Notification
 
 	/**
 	 * Setup notification title for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0

@@ -1,11 +1,19 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Add Custom User Fields to user admin panel screens
  * Applies to edit-user.php, user-new.php, & profile.php
+ *
  * @since    2.7.0
- * @version  3.24.0
+ * @version  3.35.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_User_Custom_Fields
+ *
+ * @since 2.7.0
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_User_Custom_Fields {
 
@@ -13,6 +21,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    2.7.0
 	 * @version  3.13.0
 	 */
@@ -42,9 +51,10 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Validate custom fields
 	 * During updates will save data
 	 * Creation is saved during a different action
-	 * @param    obj    &$errors  Instance of WP_Error
-	 * @param    bool   $update   true if updating a profile, false if a new user
-	 * @param    obj    $user     Instance of WP_User for the user being updated
+	 *
+	 * @param    obj  &$errors  Instance of WP_Error
+	 * @param    bool $update   true if updating a profile, false if a new user
+	 * @param    obj  $user     Instance of WP_User for the user being updated
 	 * @return   void
 	 * @since    2.7.0
 	 * @version  3.13.0
@@ -79,71 +89,75 @@ class LLMS_Admin_User_Custom_Fields {
 
 	/**
 	 * Retrieve an associative array of custom fields and custom field data
+	 *
 	 * @return   array
 	 * @since    2.7.0
 	 * @version  3.13.0
 	 */
 	public function get_fields() {
 
-		$fields = apply_filters( 'lifterlms_get_user_custom_fields', array(
+		$fields = apply_filters(
+			'lifterlms_get_user_custom_fields',
+			array(
 
-			'llms_billing_address_1' => array(
-				'description' => '',
-				'label' => __( 'Billing Address 1', 'lifterlms' ),
-				'required' => false,
-				'type'  => 'text',
-				'value' => '',
-			),
+				'llms_billing_address_1' => array(
+					'description' => '',
+					'label'       => __( 'Billing Address 1', 'lifterlms' ),
+					'required'    => false,
+					'type'        => 'text',
+					'value'       => '',
+				),
 
-			'llms_billing_address_2' => array(
-				'description' => '',
-				'label' => __( 'Billing Address 2', 'lifterlms' ),
-				'required' => false,
-				'type'  => 'text',
-				'value' => '',
-			),
+				'llms_billing_address_2' => array(
+					'description' => '',
+					'label'       => __( 'Billing Address 2', 'lifterlms' ),
+					'required'    => false,
+					'type'        => 'text',
+					'value'       => '',
+				),
 
-			'llms_billing_city' => array(
-				'description' => '',
-				'label' => __( 'Billing City', 'lifterlms' ),
-				'required' => false,
-				'type'  => 'text',
-				'value' => '',
-			),
+				'llms_billing_city'      => array(
+					'description' => '',
+					'label'       => __( 'Billing City', 'lifterlms' ),
+					'required'    => false,
+					'type'        => 'text',
+					'value'       => '',
+				),
 
-			'llms_billing_state' => array(
-				'description' => '',
-				'label' => __( 'Billing State', 'lifterlms' ),
-				'required' => false,
-				'type'  => 'text',
-				'value' => '',
-			),
+				'llms_billing_state'     => array(
+					'description' => '',
+					'label'       => __( 'Billing State', 'lifterlms' ),
+					'required'    => false,
+					'type'        => 'text',
+					'value'       => '',
+				),
 
-			'llms_billing_zip' => array(
-				'description' => '',
-				'label' => __( 'Billing Zip Code', 'lifterlms' ),
-				'required' => false,
-				'type'  => 'text',
-				'value' => '',
-			),
+				'llms_billing_zip'       => array(
+					'description' => '',
+					'label'       => __( 'Billing Zip Code', 'lifterlms' ),
+					'required'    => false,
+					'type'        => 'text',
+					'value'       => '',
+				),
 
-			'llms_billing_country' => array(
-				'description' => '',
-				'label' => __( 'Billing Country', 'lifterlms' ),
-				'required' => false,
-				'type'  => 'text',
-				'value' => '',
-			),
+				'llms_billing_country'   => array(
+					'description' => '',
+					'label'       => __( 'Billing Country', 'lifterlms' ),
+					'required'    => false,
+					'type'        => 'text',
+					'value'       => '',
+				),
 
-			'llms_phone' => array(
-				'description' => '',
-				'label' => __( 'Phone', 'lifterlms' ),
-				'required' => false,
-				'type'  => 'text',
-				'value' => '',
-			),
+				'llms_phone'             => array(
+					'description' => '',
+					'label'       => __( 'Phone', 'lifterlms' ),
+					'required'    => false,
+					'type'        => 'text',
+					'value'       => '',
+				),
 
-		) );
+			)
+		);
 
 		$this->fields = $fields;
 
@@ -155,7 +169,8 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Load usermeta data into the array of fields retrieved from $this->get_fields
 	 * meta data is added to the array under the key "value" for each field
 	 * if no data is found for a particular field the value is still added as an empty string
-	 * @param    mixed  $user   Instance of WP_User or WP User ID
+	 *
+	 * @param    mixed $user   Instance of WP_User or WP User ID
 	 * @return   array
 	 * @since    2.7.0
 	 * @version  2.7.0
@@ -180,7 +195,8 @@ class LLMS_Admin_User_Custom_Fields {
 
 	/**
 	 * Output custom field data fields as HTML inputs
-	 * @param    mixed  $user   Instance of WP_User or WP User ID
+	 *
+	 * @param    mixed $user   Instance of WP_User or WP User ID
 	 * @return   void
 	 * @since    2.7.0
 	 * @version  3.24.0
@@ -193,16 +209,20 @@ class LLMS_Admin_User_Custom_Fields {
 			$this->get_fields();
 		}
 
-		llms_get_template( 'admin/user-edit.php', array(
-			'section_title' => __( 'LifterLMS Profile', 'lifterlms' ),
-			'fields' => $this->fields,
-		) );
+		llms_get_template(
+			'admin/user-edit.php',
+			array(
+				'section_title' => __( 'LifterLMS Profile', 'lifterlms' ),
+				'fields'        => $this->fields,
+			)
+		);
 
 	}
 
 	/**
 	 * Add instructor parent fields for use when creating instructor's assistants
-	 * @param    mixed  $user   Instance of WP_User or WP User ID
+	 *
+	 * @param    mixed $user   Instance of WP_User or WP User ID
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.23.0
@@ -211,7 +231,7 @@ class LLMS_Admin_User_Custom_Fields {
 
 		if ( is_numeric( $user ) || is_a( $user, 'WP_User' ) ) {
 			$instructor = llms_get_instructor( $user );
-			$selected = $instructor->get( 'parent_instructors' );
+			$selected   = $instructor->get( 'parent_instructors' );
 			if ( empty( $selected ) && ! is_array( $selected ) ) {
 				$selected = array();
 			}
@@ -222,9 +242,11 @@ class LLMS_Admin_User_Custom_Fields {
 		// only let admins & lms managers select the parent for an instructor's assistant
 		if ( current_user_can( 'manage_lifterlms' ) ) {
 
-			$users = get_users( array(
-				'role__in' => array( 'administrator', 'lms_manager', 'instructor' ),
-			) );
+			$users = get_users(
+				array(
+					'role__in' => array( 'administrator', 'lms_manager', 'instructor' ),
+				)
+			);
 			?>
 			<table class="form-table" id="llms-parent-instructors-table" style="display:none;">
 				<tr class="form-field">
@@ -256,12 +278,14 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Output JS to handle user interaction with the instructor's parent field
 	 * Display custom field ONLY when creating/editing an instructor's assistant
+	 *
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public function output_instructors_assistant_scripts() {
-		?><script>
+		?>
+		<script>
 			( function( $ ) {
 				var $role = $( '#role' ),
 					$parent = $( '#llms-parent-instructors-table' );
@@ -274,17 +298,22 @@ class LLMS_Admin_User_Custom_Fields {
 					}
 				} ).trigger( 'change' );
 			} )( jQuery );
-		</script><?php
+		</script>
+		<?php
 	}
 
 	/**
 	 * Save custom field data for a user
-	 * @param    mixed     $user  WP_User or WP_User ID
-	 * @return   void
+	 *
 	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
+	 * @param    mixed $user  WP_User or WP_User ID
+	 * @return   void
 	 */
 	public function save( $user ) {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 
 		if ( is_numeric( $user ) ) {
 			$user = new WP_User( $user );
@@ -296,7 +325,8 @@ class LLMS_Admin_User_Custom_Fields {
 		// saves custom fields
 		foreach ( $this->fields as $field => $data ) {
 
-			update_user_meta( $user->ID, $field, sanitize_text_field( apply_filters( 'lifterlms_save_custom_user_field_' . $field, $_POST[ $field ], $user, $field ) ) );
+			$value = apply_filters( 'lifterlms_save_custom_user_field_' . $field, llms_filter_input( INPUT_POST, $field, FILTER_SANITIZE_STRING ), $user, $field );
+			update_user_meta( $user->ID, $field, $value );
 
 		}
 
@@ -304,9 +334,11 @@ class LLMS_Admin_User_Custom_Fields {
 		if ( in_array( 'instructors_assistant', $user->roles ) && ! empty( $_POST['llms_parent_instructors'] ) ) {
 
 			$instructor = llms_get_instructor( $user );
-			$instructor->add_parent( $_POST['llms_parent_instructors'] );
+			$instructor->add_parent( llms_filter_input( INPUT_POST, 'llms_parent_instructors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) );
 
 		}
+
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	}
 
@@ -316,10 +348,10 @@ class LLMS_Admin_User_Custom_Fields {
 	 * If adding custom fields, hook into the action run after required validation
 	 * to add special validation rules for your field
 	 *
-	 * @param    mixed  $user   Instance of WP_User or WP User ID
-	 * @return   mixed          false if no validation errors, string (the error message) if validation errors occurred
 	 * @since    2.7.0
-	 * @version  2.7.0
+	 *
+	 * @param    mixed $user   Instance of WP_User or WP User ID
+	 * @return   mixed          false if no validation errors, string (the error message) if validation errors occurred
 	 */
 	public function validate_fields( $user ) {
 
@@ -327,18 +359,18 @@ class LLMS_Admin_User_Custom_Fields {
 		foreach ( $this->fields as $field => $data ) {
 
 			// return an error message for empty required fields
-			if ( empty( $_POST[ $field ] ) && $data['required'] ) {
+			if ( empty( $_POST[ $field ] ) && $data['required'] ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
 
 				return sprintf( __( 'Required field "%s" is missing.', 'lifterlms' ), $data['label'] );
 
-			} // End if().
-			else {
+			} else {
 
 				/**
 				 * Run custom validation against the field
 				 * If filter function returns a truthy, validation will stop, fields will not be saved,
 				 * and an error message will be displayed on screen
 				 * This should return false or a string which will be used as the error message
+				 *
 				 * @since  2.7.0
 				 */
 				$error_msg = apply_filters( 'lifterlms_validate_custom_user_field_' . $field, false, $field, $user );
@@ -357,4 +389,4 @@ class LLMS_Admin_User_Custom_Fields {
 
 }
 
-return new LLMS_Admin_User_Custom_Fields;
+return new LLMS_Admin_User_Custom_Fields();

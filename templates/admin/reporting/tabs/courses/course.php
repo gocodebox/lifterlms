@@ -2,8 +2,12 @@
 /**
  * Single Course View
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
 $img = $course->get_image( array( 64, 64 ) );
 ?>
 <section class="llms-reporting-tab llms-reporting-course">
@@ -30,7 +34,7 @@ $img = $course->get_image( array( 64, 64 ) );
 		<ul class="llms-nav-items">
 		<?php foreach ( $tabs as $name => $label ) : ?>
 			<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ) ?>">
+				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
 					<?php echo $label; ?>
 				</a>
 		<?php endforeach; ?>
@@ -38,9 +42,14 @@ $img = $course->get_image( array( 64, 64 ) );
 	</nav>
 
 	<section class="llms-gb-tab">
-		<?php llms_get_template( 'admin/reporting/tabs/courses/' . $current_tab . '.php', array(
-			'course' => $course,
-		) ); ?>
+		<?php
+		llms_get_template(
+			'admin/reporting/tabs/courses/' . $current_tab . '.php',
+			array(
+				'course' => $course,
+			)
+		);
+		?>
 	</section>
 
 </section>

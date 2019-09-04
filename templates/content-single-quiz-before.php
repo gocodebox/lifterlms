@@ -1,10 +1,12 @@
 <?php
 /**
  * LifterLMS Single Quiz Before
+ *
  * @since   1.0.0
  * @version 3.16.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 
 llms_print_notices();
 

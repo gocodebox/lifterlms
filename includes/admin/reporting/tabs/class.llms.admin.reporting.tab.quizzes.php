@@ -1,15 +1,24 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
 /**
  * Courses Tab on Reporting Screen
- * @since    3.16.0
- * @version  3.16.0
+ *
+ * @since 3.16.0
+ * @version 3.35.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_Reporting_Tab_Quizzes
+ *
+ * @since 3.16.0
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Quizzes {
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -23,6 +32,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 
 	/**
 	 * Add breadcrumb links to the tab depending on current view
+	 *
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -54,29 +64,37 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 
 	/**
 	 * Output tab content
+	 *
+	 * @since 3.16.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.16.0
 	 */
 	public function output() {
 
 		// single quiz
 		if ( isset( $_GET['quiz_id'] ) ) {
 
-			if ( ! current_user_can( 'edit_post', $_GET['quiz_id'] ) ) {
+			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
-			$tabs = apply_filters( 'llms_reporting_tab_quiz_tabs', array(
-				'overview' => __( 'Overview', 'lifterlms' ),
-				'attempts' => __( 'Attempts', 'lifterlms' ),
-			) );
+			$tabs = apply_filters(
+				'llms_reporting_tab_quiz_tabs',
+				array(
+					'overview' => __( 'Overview', 'lifterlms' ),
+					'attempts' => __( 'Attempts', 'lifterlms' ),
+				)
+			);
 
-			llms_get_template( 'admin/reporting/tabs/quizzes/quiz.php', array(
-				'current_tab' => isset( $_GET['stab'] ) ? esc_attr( $_GET['stab'] ) : 'overview',
-				'tabs' => $tabs,
-				'quiz' => llms_get_post( intval( $_GET['quiz_id'] ) ),
-			) );
+			llms_get_template(
+				'admin/reporting/tabs/quizzes/quiz.php',
+				array(
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
+					'tabs'        => $tabs,
+					'quiz'        => llms_get_post( intval( $_GET['quiz_id'] ) ),
+				)
+			);
 
 			// quiz table
 		} else {

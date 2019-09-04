@@ -27,9 +27,9 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-product';
-		$this->title = __( 'Access Plans', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-product';
+		$this->title    = __( 'Access Plans', 'lifterlms' );
+		$this->screens  = array(
 			'course',
 			'llms_membership',
 		);
@@ -42,6 +42,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 
 	/**
 	 * Return an empty array because the metabox fields here are completely custom
+	 *
 	 * @return array
 	 * @since  3.0.0
 	 */
@@ -57,7 +58,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 	 * @version 3.0.0
 	 */
 	public function localize_js() {
-		$p = new LLMS_Product( $this->post );
+		$p     = new LLMS_Product( $this->post );
 		$limit = $p->get_access_plan_limit();
 		echo '<script>window.llms = window.llms || {}; window.llms.product = { access_plan_limit: ' . $limit . ' };</script>';
 	}
@@ -123,7 +124,7 @@ class LLMS_Meta_Box_Product extends LLMS_Admin_Metabox {
 		$course = ( 'course' === $product->get( 'type' ) ) ? new LLMS_Course( $product->post ) : false;
 
 		// get available checkout redirection types.
-		$product_type = ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' );
+		$product_type               = ( ! $course ) ? __( 'Membership', 'lifterlms' ) : __( 'Course', 'lifterlms' );
 		$checkout_redirection_types = llms_get_checkout_redirection_types( $product_type );
 
 		include LLMS_PLUGIN_DIR . 'includes/admin/views/access-plans/metabox.php';

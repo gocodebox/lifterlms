@@ -1,5 +1,6 @@
 /**
  * Model schema functions
+ *
  * @since    3.17.0
  * @version  3.17.0
  */
@@ -7,6 +8,7 @@ define( [], function() {
 
 	/**
 	 * Main Schemas class
+	 *
 	 * @param    obj   schemas  schemas definitions initialized via PHP filters
 	 * @return   obj
 	 * @since    3.17.0
@@ -25,6 +27,7 @@ define( [], function() {
 		/**
 		 * Retrieve a schema for a given model by type
 		 * Extends default schemas definitions with custom 3rd party definitions
+		 *
 		 * @param    obj      schema      default schema definition from the model (or empty object if none defined)
 		 * @param    string   model_type  the model type ('lesson', 'quiz', etc)
 		 * @param    obj      model       Instance of the Backbone.Model for the given model

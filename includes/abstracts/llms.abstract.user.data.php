@@ -18,18 +18,21 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Student's WordPress User ID
+	 *
 	 * @var int
 	 */
 	protected $id;
 
 	/**
 	 * User postmeta key prefix
+	 *
 	 * @var  string
 	 */
 	protected $meta_prefix = 'llms_';
 
 	/**
 	 * Instance of the WP_User
+	 *
 	 * @var obj
 	 */
 	protected $user;
@@ -38,7 +41,8 @@ abstract class LLMS_Abstract_User_Data {
 	 * Constructor
 	 *
 	 * If no user id provided, will attempt to use the current user id
-	 * @param    mixed     $user   WP_User ID, instance of WP_User, or instance of any student class extending this class
+	 *
+	 * @param    mixed $user   WP_User ID, instance of WP_User, or instance of any student class extending this class
 	 * @return   void
 	 * @since    2.2.3
 	 * @version  3.9.0
@@ -47,7 +51,7 @@ abstract class LLMS_Abstract_User_Data {
 
 		$user = $this->get_user_id( $user );
 		if ( false !== $user ) {
-			$this->id = $user;
+			$this->id   = $user;
 			$this->user = get_user_by( 'ID', $user );
 		}
 
@@ -68,18 +72,22 @@ abstract class LLMS_Abstract_User_Data {
 	public function __get( $key ) {
 
 		// array of items we should *not* add the $this->meta_prefix to
-		$unprefixed = apply_filters( 'llms_student_unprefixed_metas', array(
-			'description',
-			'display_name',
-			'first_name',
-			'last_name',
-			'nickname',
-			'user_login',
-			'user_nicename',
-			'user_email',
-			'user_registered',
-			'user_url',
-		), $this );
+		$unprefixed = apply_filters(
+			'llms_student_unprefixed_metas',
+			array(
+				'description',
+				'display_name',
+				'first_name',
+				'last_name',
+				'nickname',
+				'user_login',
+				'user_nicename',
+				'user_email',
+				'user_registered',
+				'user_url',
+			),
+			$this
+		);
 
 		// add the meta prefix to things that aren't in the above array
 		// only if the meta prefix isn't already there
@@ -100,7 +108,8 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve an item from the cache
-	 * @param    string     $key   cache key
+	 *
+	 * @param    string $key   cache key
 	 * @return   false|mixed       false on failure
 	 * @since    3.17.0
 	 * @version  3.17.0
@@ -111,7 +120,8 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Delete an item from the cache
-	 * @param    string     $key  cache key
+	 *
+	 * @param    string $key  cache key
 	 * @return   bool
 	 * @since    3.17.0
 	 * @version  3.17.0
@@ -122,8 +132,9 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Add an item to the cache cache
-	 * @param    string    $key  cache key
-	 * @param    mixed     $val  value to cache
+	 *
+	 * @param    string $key  cache key
+	 * @param    mixed  $val  value to cache
 	 * @return   boolean
 	 * @since    3.17.0
 	 * @version  3.17.0
@@ -134,6 +145,7 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Determine if the user exists
+	 *
 	 * @return   boolean
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -144,6 +156,7 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Allows direct access to WP_User object for retrieving user data from the user or usermeta tables
+	 *
 	 * @since   3.0.0
 	 * @version 3.0.0
 	 * @param   string $key key of the property to get a value for
@@ -155,6 +168,7 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve the group name used by cache functions
+	 *
 	 * @return   string
 	 * @since    3.17.0
 	 * @version  3.17.0
@@ -165,6 +179,7 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve the user id
+	 *
 	 * @return   int
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -175,6 +190,7 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Allow extending classes to access the main student class
+	 *
 	 * @return   LLMS_Student|false
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -185,6 +201,7 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve the instance of the WP User for the student
+	 *
 	 * @return   WP_User
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -195,7 +212,8 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve the User ID based on object
-	 * @param    mixed     $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
+	 *
+	 * @param    mixed $user  WP_User ID, instance of WP_User, or instance of any student class extending this class
 	 * @return   mixed            int if a user id can be found, otherwise false
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -218,10 +236,11 @@ abstract class LLMS_Abstract_User_Data {
 
 	/**
 	 * Update a meta property for the user
-	 * @param    string     $key     meta key
-	 * @param    mixed      $value   meta value
-	 * @param    boolean    $prefix  include the meta prefix when setting
-	 *                               passing false will allow 3rd parties to update fields with a custom prefix
+	 *
+	 * @param    string  $key     meta key
+	 * @param    mixed   $value   meta value
+	 * @param    boolean $prefix  include the meta prefix when setting
+	 *                            passing false will allow 3rd parties to update fields with a custom prefix
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */

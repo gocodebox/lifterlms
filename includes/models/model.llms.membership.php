@@ -33,23 +33,24 @@ implements LLMS_Interface_Post_Instructors
 		 , LLMS_Interface_Post_Sales_Page {
 
 	protected $properties = array(
-		'auto_enroll' => 'array',
-		'instructors' => 'array',
-		'redirect_page_id' => 'absint',
-		'restriction_add_notice' => 'yesno',
-		'restriction_notice' => 'html',
-		'restriction_redirect_type' => 'text',
-		'redirect_custom_url' => 'text',
+		'auto_enroll'                => 'array',
+		'instructors'                => 'array',
+		'redirect_page_id'           => 'absint',
+		'restriction_add_notice'     => 'yesno',
+		'restriction_notice'         => 'html',
+		'restriction_redirect_type'  => 'text',
+		'redirect_custom_url'        => 'text',
 		'sales_page_content_page_id' => 'absint',
-		'sales_page_content_type' => 'string',
-		'sales_page_content_url' => 'string',
+		'sales_page_content_type'    => 'string',
+		'sales_page_content_url'     => 'string',
 	);
 
-	protected $db_post_type = 'llms_membership'; // maybe fix this
+	protected $db_post_type    = 'llms_membership';
 	protected $model_post_type = 'membership';
 
 	/**
 	 * Retrieve an instance of the Post Instructors model
+	 *
 	 * @return   obj
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -66,7 +67,7 @@ implements LLMS_Interface_Post_Instructors
 	 * @version 3.30.0
 	 *
 	 * @param array|int $course_ids Array of course id or course id as int.
-	 * @param bool $replace Optional. Default `false`. When `true`, replaces all existing courses with `$course_ids`, when false merges `$course_ids` with existing courses.
+	 * @param bool      $replace Optional. Default `false`. When `true`, replaces all existing courses with `$course_ids`, when false merges `$course_ids` with existing courses.
 	 * @return boolean true on success, false on error or if the value in the db is unchanged.
 	 */
 	public function add_auto_enroll_courses( $course_ids, $replace = false ) {
@@ -88,6 +89,7 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Get an array of the auto enrollment course ids
 	 * use a custom function due to the default "get_array" returning an array with an empty string
+	 *
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -103,14 +105,16 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Retrieve course instructor information
-	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
+	 *
+	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
-		return apply_filters( 'llms_membership_get_instructors',
+		return apply_filters(
+			'llms_membership_get_instructors',
 			$this->instructors()->get_instructors( $exclude_hidden ),
 			$this,
 			$exclude_hidden
@@ -120,6 +124,7 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Retrieve an instance of the LLMS_Product for this course
+	 *
 	 * @return   obj         instance of an LLMS_Product
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -130,6 +135,7 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
+	 *
 	 * @return   string
 	 * @since    3.20.0
 	 * @version  3.20.0
@@ -141,11 +147,11 @@ implements LLMS_Interface_Post_Instructors
 
 			case 'page':
 				$url = get_permalink( $this->get( 'sales_page_content_page_id' ) );
-			break;
+				break;
 
 			case 'url':
 				$url = $this->get( 'sales_page_content_url' );
-			break;
+				break;
 
 			default:
 				$url = get_permalink( $this->get( 'id' ) );
@@ -163,11 +169,13 @@ implements LLMS_Interface_Post_Instructors
 	 */
 	public function get_student_count() {
 
-		$query = new LLMS_Student_Query( array(
-			'post_id' => $this->get( 'id' ),
-			'statuses' => array( 'enrolled' ),
-			'per_page' => 1,
-		) );
+		$query = new LLMS_Student_Query(
+			array(
+				'post_id'  => $this->get( 'id' ),
+				'statuses' => array( 'enrolled' ),
+				'per_page' => 1,
+			)
+		);
 
 		return $query->found_results;
 
@@ -175,10 +183,11 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Get an array of student IDs based on enrollment status in the membership
-	 * @param    string|array  $statuses  list of enrollment statuses to query by
-	 *                                    status query is an OR relationship
-	 * @param    integer    $limit        number of results
-	 * @param    integer    $skip         number of results to skip (for pagination)
+	 *
+	 * @param    string|array $statuses  list of enrollment statuses to query by
+	 *                                   status query is an OR relationship
+	 * @param    integer      $limit        number of results
+	 * @param    integer      $skip         number of results to skip (for pagination)
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -191,6 +200,7 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Determine if sales page redirection is enabled
+	 *
 	 * @return   string
 	 * @since    3.20.0
 	 * @version  3.23.0
@@ -202,7 +212,8 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Remove a course from auto enrollment
-	 * @param    int     $course_id  WP Post ID of the course
+	 *
+	 * @param    int $course_id  WP Post ID of the course
 	 * @return   bool
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -213,7 +224,8 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Save instructor information
-	 * @param    array      $instructors  array of course instructor information
+	 *
+	 * @param    array $instructors  array of course instructor information
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */

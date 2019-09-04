@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Interact with the LifterLMS.com API
+ *
  * @since    3.22.0
  * @version  3.22.0
  */
@@ -10,18 +11,21 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
 	/**
 	 * Send requests in JSON format
+	 *
 	 * @var  bool
 	 */
 	protected $is_json = false;
 
 	/**
 	 * Determines if it's a request to the .com REST api
+	 *
 	 * @var  bool
 	 */
 	protected $is_rest = true;
 
 	/**
 	 * Construct an API call, parameters are passed to private `call()` function
+	 *
 	 * @param    stirng $resource  url endpoint or resource to make a request to
 	 * @param    array  $data      array of data to pass in the body of the request
 	 * @param    string $method    method of request (POST, GET, DELETE, PUT, etc...)
@@ -39,6 +43,7 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
 	/**
 	 * Determine if the current request is a rest request
+	 *
 	 * @return   bool
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -49,8 +54,9 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
 	/**
 	 * Parse the body of the response and set a success/error
-	 * @param    array     $response  response data
-	 * @return   array
+	 *
+	 * @param    array $response  response data
+	 * @return   void
 	 * @since    3.22.0
 	 * @version  3.22.0
 	 */
@@ -73,9 +79,10 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
 	/**
 	 * Set request body
-	 * @param    array      $data      request body
-	 * @param    string     $method    request method
-	 * @param    string     $resource  requested resource
+	 *
+	 * @param    array  $data      request body
+	 * @param    string $method    request method
+	 * @param    string $resource  requested resource
 	 * @return   array
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -86,9 +93,10 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
 	/**
 	 * Set request headers
-	 * @param    array      $headers   default request headers
-	 * @param    string     $resource  request resource
-	 * @param    string     $method    request method
+	 *
+	 * @param    array  $headers   default request headers
+	 * @param    string $resource  request resource
+	 * @param    string $method    request method
 	 * @return   array
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -99,8 +107,9 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 
 	/**
 	 * Set the request URL
-	 * @param    string     $resource  requested resource
-	 * @param    string     $method    request method
+	 *
+	 * @param    string $resource  requested resource
+	 * @param    string $method    request method
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -118,9 +127,10 @@ class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 	/**
 	 * Set the request User Agent
 	 * Can be overridden by extending classes when necessary
-	 * @param    string     $user_agent  default user agent (LifterLMS {$version})
-	 * @param    string     $resource    requested resource
-	 * @param    string     $method      request method
+	 *
+	 * @param    string $user_agent  default user agent (LifterLMS {$version})
+	 * @param    string $resource    requested resource
+	 * @param    string $method      request method
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0

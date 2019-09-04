@@ -1,7 +1,9 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 /**
  * Custom filters & actions for LifterLMS Comments
+ *
  * @since  3.0.0
  * @version  3.0.0
  */
@@ -26,6 +28,7 @@ class LLMS_Comments {
 	/**
 	 * Delete transient data when inserting new comments or updating comment status
 	 * Next time wp_count_comments is called it'll be automatically regenerated
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -72,6 +75,7 @@ class LLMS_Comments {
 
 	/**
 	 * Exclude order comments from queries and RSS.
+	 *
 	 * @param  string $join
 	 * @return string
 	 * @since  3.0.0
@@ -88,6 +92,7 @@ class LLMS_Comments {
 
 	/**
 	 * Exclude order comments from queries and RSS.
+	 *
 	 * @param  string $where
 	 * @return string
 	 * @since  3.0.0
@@ -105,8 +110,9 @@ class LLMS_Comments {
 
 	/**
 	 * Remove order notes from the count when counting comments
-	 * @param    object     $stats    original comment stats
-	 * @param    int        $post_id  WP Post ID
+	 *
+	 * @param    object $stats    original comment stats
+	 * @param    int    $post_id  WP Post ID
 	 * @return   object
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -117,12 +123,12 @@ class LLMS_Comments {
 		if ( 0 === $post_id ) {
 			$trans = get_transient( 'llms_count_comments' );
 			if ( ! $trans ) {
-				$count = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} WHERE comment_type = 'llms_order_note' GROUP BY comment_approved;", ARRAY_A );
+				$count    = $wpdb->get_results( "SELECT comment_approved, COUNT( * ) AS num_comments FROM {$wpdb->comments} WHERE comment_type = 'llms_order_note' GROUP BY comment_approved;", ARRAY_A );
 				$approved = array(
-					'0' => 'moderated',
-					'1' => 'approved',
-					'spam' => 'spam',
-					'trash' => 'trash',
+					'0'            => 'moderated',
+					'1'            => 'approved',
+					'spam'         => 'spam',
+					'trash'        => 'trash',
 					'post-trashed' => 'post-trashed',
 				);
 				foreach ( $count as $row ) {
@@ -132,7 +138,7 @@ class LLMS_Comments {
 					}
 
 					if ( isset( $approved[ $row['comment_approved'] ] ) ) {
-						$var = $approved[ $row['comment_approved'] ];
+						$var          = $approved[ $row['comment_approved'] ];
 						$stats->$var -= $row['num_comments'];
 					}
 				}

@@ -13,8 +13,12 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Hasher {
 
-	/* Key: Next prime greater than 62 ^ n / 1.618033988749894848 */
-	/* Value: modular multiplicative inverse */
+	/**
+	 * Key: Next prime greater than 62 ^ n / 1.618033988749894848
+	 * Value: modular multiplicative inverse
+	 *
+	 * @var array
+	 */
 	private static $golden_primes = array(
 		'1'                  => '1',
 		'41'                 => '59',
@@ -29,19 +33,23 @@ class LLMS_Hasher {
 		'518715534842869223' => '280042546585394647',
 	);
 
-	/* Ascii :                    0  9,         A  Z,         a  z     */
-	/* $chars = array_merge(range(48,57), range(65,90), range(97,122)) */
+	/**
+	 * Ascii  =                     0  9,         A  Z,         a  z
+	 * $chars = array_merge(range(48,57), range(65,90), range(97,122))
+	 *
+	 * @var array
+	 */
 	private static $chars62 = array(
-		0 => 48,
-		1 => 49,
-		2 => 50,
-		3 => 51,
-		4 => 52,
-		5 => 53,
-		6 => 54,
-		7 => 55,
-		8 => 56,
-		9 => 57,
+		0  => 48,
+		1  => 49,
+		2  => 50,
+		3  => 51,
+		4  => 52,
+		5  => 53,
+		6  => 54,
+		7  => 55,
+		8  => 56,
+		9  => 57,
 		10 => 65,
 		11 => 66,
 		12 => 67,
@@ -98,13 +106,14 @@ class LLMS_Hasher {
 
 	/**
 	 * Modulo function
+	 *
 	 * @todo  figure this out better...
 	 *        64 bit systems can use % without issue
 	 *        32 bit systems have problems with % and needs to use fmod
-	 * 				  however after 100001 unhash no longer works correctly when using fmod
+	 *                however after 100001 unhash no longer works correctly when using fmod
 	 *
-	 * @param    int     $a  first int
-	 * @param    int     $b  second int
+	 * @param    int $a  first int
+	 * @param    int $b  second int
 	 * @return   int
 	 * @since    3.16.10
 	 * @version  3.16.10
@@ -122,7 +131,8 @@ class LLMS_Hasher {
 
 	/**
 	 * Base 62 encode a number
-	 * @param    int     $int  number to encode
+	 *
+	 * @param    int $int  number to encode
 	 * @return   string
 	 * @since    3.16.7
 	 * @version  3.16.10
@@ -130,16 +140,17 @@ class LLMS_Hasher {
 	public static function base62( $int ) {
 		$key = '';
 		while ( $int > 0 ) {
-			$mod = self::mod( $int, 62 );
+			$mod  = self::mod( $int, 62 );
 			$key .= chr( self::$chars62[ $mod ] );
-			$int = floor( $int / 62 );
+			$int  = floor( $int / 62 );
 		}
 		return strrev( $key );
 	}
 
 	/**
 	 * Hash a number
-	 * @param    int     $num   number to hash
+	 *
+	 * @param    int $num   number to hash
 	 * @return   string
 	 * @since    3.16.7
 	 * @version  3.24.0
@@ -155,18 +166,19 @@ class LLMS_Hasher {
 			$len = 5;
 		}
 
-		$ceil = pow( 62, $len );
+		$ceil   = pow( 62, $len );
 		$primes = array_keys( self::$golden_primes );
-		$prime = $primes[ $len ];
-		$dec = self::mod( ( $num * $prime ), $ceil );
-		$hash = self::base62( $dec );
+		$prime  = $primes[ $len ];
+		$dec    = self::mod( ( $num * $prime ), $ceil );
+		$hash   = self::base62( $dec );
 		return str_pad( $hash, $len, '0', STR_PAD_LEFT );
 
 	}
 
 	/**
 	 * Decode a base62 encoded string to get the associated number
-	 * @param    string     $key   encoded character
+	 *
+	 * @param    string $key   encoded character
 	 * @return   int
 	 * @since    3.16.7
 	 * @version  3.16.7
@@ -182,19 +194,20 @@ class LLMS_Hasher {
 
 	/**
 	 * Decode a hashed string to get the original number
-	 * @param    [type]     $hash  encoded hash string
+	 *
+	 * @param    [type] $hash  encoded hash string
 	 * @return   int
 	 * @since    3.16.7
 	 * @version  3.16.10
 	 */
 	public static function unhash( $hash ) {
 
-		$len = strlen( $hash );
-		$ceil = pow( 62, $len );
+		$len       = strlen( $hash );
+		$ceil      = pow( 62, $len );
 		$mmiprimes = array_values( self::$golden_primes );
-		$mmi = $mmiprimes[ $len ];
-		$num = self::unbase62( $hash );
-		$dec = self::mod( ( $num * $mmi ), $ceil );
+		$mmi       = $mmiprimes[ $len ];
+		$num       = self::unbase62( $hash );
+		$dec       = self::mod( ( $num * $mmi ), $ceil );
 		return $dec;
 
 	}

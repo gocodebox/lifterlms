@@ -1,36 +1,38 @@
 /**
  * Sync builder data to the server
+ *
  * @since    3.16.0
  * @version  3.19.4
  */
 define( [], function() {
 
- 	return function( Course, settings ) {
+	return function( Course, settings ) {
 
- 		this.saving = false;
+		this.saving = false;
 
- 		var self = this,
- 			autosave = true,
- 			check_interval = null,
- 			check_interval_ms = settings.check_interval_ms || 10000,
- 			detached = new Backbone.Collection(),
- 			trashed = new Backbone.Collection();
+		var self              = this,
+			autosave          = true,
+			check_interval    = null,
+			check_interval_ms = settings.check_interval_ms || 10000,
+			detached          = new Backbone.Collection(),
+			trashed           = new Backbone.Collection();
 
 		/**
 		 * init
+		 *
 		 * @return   void
 		 * @since    3.16.7
 		 * @version  3.16.7
 		 */
- 		function init() {
+		function init() {
 
- 			// determine if autosaving is possible
- 			if ( 'undefined' === typeof wp.heartbeat ) {
+			// determine if autosaving is possible
+			if ( 'undefined' === typeof wp.heartbeat ) {
 
- 				window.llms_builder.debug.log( 'WordPress Heartbeat disabled. Autosaving is disabled!' );
- 				autosave = false;
+				window.llms_builder.debug.log( 'WordPress Heartbeat disabled. Autosaving is disabled!' );
+				autosave = false;
 
- 			}
+			}
 
 			// setup the check interval
 			if ( check_interval_ms ) {
@@ -47,30 +49,31 @@ define( [], function() {
 
 			} );
 
- 		};
+		};
 
- 		/*
- 			 /$$             /$$                                             /$$                           /$$
- 			|__/            | $$                                            | $$                          |__/
- 			 /$$ /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$  /$$$$$$$   /$$$$$$ | $$        /$$$$$$   /$$$$$$  /$$
- 			| $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$| $$__  $$ |____  $$| $$       |____  $$ /$$__  $$| $$
- 			| $$| $$  \ $$  | $$    | $$$$$$$$| $$  \__/| $$  \ $$  /$$$$$$$| $$        /$$$$$$$| $$  \ $$| $$
- 			| $$| $$  | $$  | $$ /$$| $$_____/| $$      | $$  | $$ /$$__  $$| $$       /$$__  $$| $$  | $$| $$
- 			| $$| $$  | $$  |  $$$$/|  $$$$$$$| $$      | $$  | $$|  $$$$$$$| $$      |  $$$$$$$| $$$$$$$/| $$
- 			|__/|__/  |__/   \___/   \_______/|__/      |__/  |__/ \_______/|__/       \_______/| $$____/ |__/
- 			                                                                                    | $$
- 			                                                                                    | $$
- 			                                                                                    |__/
- 		*/
+		/*
+			  /$$             /$$                                             /$$                           /$$
+			 |__/            | $$                                            | $$                          |__/
+			  /$$ /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$  /$$$$$$$   /$$$$$$ | $$        /$$$$$$   /$$$$$$  /$$
+			 | $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$| $$__  $$ |____  $$| $$       |____  $$ /$$__  $$| $$
+			 | $$| $$  \ $$  | $$    | $$$$$$$$| $$  \__/| $$  \ $$  /$$$$$$$| $$        /$$$$$$$| $$  \ $$| $$
+			 | $$| $$  | $$  | $$ /$$| $$_____/| $$      | $$  | $$ /$$__  $$| $$       /$$__  $$| $$  | $$| $$
+			 | $$| $$  | $$  |  $$$$/|  $$$$$$$| $$      | $$  | $$|  $$$$$$$| $$      |  $$$$$$$| $$$$$$$/| $$
+			 |__/|__/  |__/   \___/   \_______/|__/      |__/  |__/ \_______/|__/       \_______/| $$____/ |__/
+																								 | $$
+																								 | $$
+																								 |__/
+		 */
 
- 		/**
- 		 * Adds error message(s) to the data object returned by heartbeat-tick
- 		 * @param    obj            data  llms_builder data object from heartbeat-tick
- 		 * @param    string|array   err   error messages array or string
- 		 * @return   obj
- 		 * @since    3.16.0
- 		 * @version  3.16.0
- 		 */
+		/**
+		 * Adds error message(s) to the data object returned by heartbeat-tick
+		 *
+		 * @param    obj            data  llms_builder data object from heartbeat-tick
+		 * @param    string|array   err   error messages array or string
+		 * @return   obj
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		function add_error_msg( data, err ) {
 
 			if ( 'success' === data.status ) {
@@ -89,16 +92,17 @@ define( [], function() {
 
 		/**
 		 * Publish sync status so other areas of the application can see what's happening here
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		function check_for_changes() {
 
-			var data = {};
-			data.changes = self.get_unsaved_changes();
+			var data                 = {};
+			data.changes             = self.get_unsaved_changes();
 			data.has_unsaved_changes = self.has_unsaved_changes( data.changes );
-			data.saving = self.saving;
+			data.saving              = self.saving;
 
 			window.llms_builder.debug.log( '==== start changes check ====', data, '==== finish changes check ====' );
 
@@ -108,6 +112,7 @@ define( [], function() {
 
 		/**
 		 * Manually Save data via Admin AJAX when the heartbeat API has been disabled
+		 *
 		 * @return   void
 		 * @since    3.16.7
 		 * @version  3.16.7
@@ -150,7 +155,7 @@ define( [], function() {
 
 						Backbone.pubSub.trigger( 'heartbeat-tick', self, {
 							status: 'error',
-							message: xhr.responseText + ' (' + error + ' ' + status +')',
+							message: xhr.responseText + ' (' + error + ' ' + status + ')',
 						} );
 
 					},
@@ -174,7 +179,6 @@ define( [], function() {
 				} );
 
 			}
-
 
 		};
 
@@ -205,19 +209,19 @@ define( [], function() {
 			// send *all* of it's atts
 			if ( has_temp_id( model ) || true === model.get( '_forceSync' ) ) {
 
-				atts = _.clone( model.attributes );
+				atts      = _.clone( model.attributes );
 				sync_type = 'full';
 
-			// only send the changed atts
+				// only send the changed atts
 			} else {
 
-				atts = model.unsavedAttributes();
+				atts      = model.unsavedAttributes();
 				sync_type = 'partial';
 
 			}
 
 			var exclude = ( model.get_relationships ) ? model.get_child_props() : [];
-			atts = _.omit( atts, function( val, key ) {
+			atts        = _.omit( atts, function( val, key ) {
 
 				// exclude keys that start with an underscore which are used by the
 				// application but don't need to be stored in the database
@@ -294,6 +298,7 @@ define( [], function() {
 
 		/**
 		 * Determines if a model has a temporary ID or a real persisted ID
+		 *
 		 * @param    obj   model  instance of a model
 		 * @return   boolean
 		 * @since    3.16.0
@@ -308,6 +313,7 @@ define( [], function() {
 		/**
 		 * Compares changes synced to the server against current model and restarts
 		 * tracking on elements that haven't changed since the last sync
+		 *
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
@@ -342,6 +348,7 @@ define( [], function() {
 		 * Processes response data from heartbeat-tick related to trashing & detaching models
 		 * On success, removes from local removal collection
 		 * On error, appends error messages to the data object returned to UI for on-screen feedback
+		 *
 		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
 		 * @return   obj
 		 * @since    3.16.0
@@ -390,6 +397,7 @@ define( [], function() {
 		/**
 		 * Processes response data from heartbeat-tick related to creating / updating a single object
 		 * Handles both collections and models as a recursive function
+		 *
 		 * @param    {[type]}   data       [description]
 		 * @param    {[type]}   type       [description]
 		 * @param    {[type]}   parent     [description]
@@ -476,6 +484,7 @@ define( [], function() {
 		 * Processes response data from heartbeat-tick related to updating & creating new models
 		 * On success, removes from local removal collection
 		 * On error, appends error messages to the data object returned to UI for on-screen feedback
+		 *
 		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
 		 * @return   obj
 		 * @since    3.16.0
@@ -497,8 +506,8 @@ define( [], function() {
 		};
 
 		/*
-			                     /$$       /$$ /$$                                     /$$
-			                    | $$      | $$|__/                                    |__/
+								 /$$       /$$ /$$                                     /$$
+								| $$      | $$|__/                                    |__/
 			  /$$$$$$  /$$   /$$| $$$$$$$ | $$ /$$  /$$$$$$$        /$$$$$$   /$$$$$$  /$$
 			 /$$__  $$| $$  | $$| $$__  $$| $$| $$ /$$_____/       |____  $$ /$$__  $$| $$
 			| $$  \ $$| $$  | $$| $$  \ $$| $$| $$| $$              /$$$$$$$| $$  \ $$| $$
@@ -512,6 +521,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve all unsaved changes for the builder instance
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.17.1
@@ -528,6 +538,7 @@ define( [], function() {
 
 		/**
 		 * Check if the builder instance has unsaved changes
+		 *
 		 * @param    obj      changes    optionally pass in an object from the return of this.get_unsaved_changes()
 		 *                               save some resources by not running the check twice during heartbeats
 		 * @return   boolean
@@ -553,6 +564,7 @@ define( [], function() {
 
 		/**
 		 * Save changes right now.
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.7
@@ -567,6 +579,7 @@ define( [], function() {
 
 		/**
 		 * Update the interval that checks for changes to the builder instance
+		 *
 		 * @param    int        ms   time (in milliseconds) to run the check on
 		 *                           pass 0 to disable the check
 		 * @return   void
@@ -596,6 +609,7 @@ define( [], function() {
 
 		/**
 		 * Listen for detached models and send them to the server for persistence
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
@@ -612,6 +626,7 @@ define( [], function() {
 
 		/**
 		 * Listen for trashed models and send them to the server for deletion
+		 *
 		 * @since    3.16.0
 		 * @version  3.17.1
 		 */
@@ -645,6 +660,7 @@ define( [], function() {
 
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.7
 		 */
@@ -660,8 +676,8 @@ define( [], function() {
 			// only send data if we have data to send
 			if ( self.has_unsaved_changes( changes ) ) {
 
-				changes.id = Course.get( 'id' );
-				self.saving = true;
+				changes.id        = Course.get( 'id' );
+				self.saving       = true;
 				data.llms_builder = JSON.stringify( changes );
 
 			}
@@ -674,6 +690,7 @@ define( [], function() {
 
 		/**
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
@@ -696,6 +713,7 @@ define( [], function() {
 
 		/**
 		 * On heartbeat errors publish an error to the main builder application
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
@@ -707,7 +725,7 @@ define( [], function() {
 
 			Backbone.pubSub.trigger( 'heartbeat-tick', self, {
 				status: 'error',
-				message: data.responseText + ' (' + data.status + ' ' + data.statusText +')',
+				message: data.responseText + ' (' + data.status + ' ' + data.statusText + ')',
 			} );
 
 		} );

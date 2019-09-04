@@ -1,30 +1,34 @@
 <?php
 /**
-* Payment Gateway class
-*
-* Class for managing payment gateways
-*
-* @version  3.0.0
-*/
+ * Payment Gateway class
+ *
+ * Class for managing payment gateways
+ *
+ * @version  3.0.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Payment_Gateways {
 
 	/**
 	 * Payment Gateways
+	 *
 	 * @var array
 	 */
 	public $payment_gateways = array();
 
 	/**
 	 * private instance of class
+	 *
 	 * @var null
 	 */
 	private static $_instance = null;
 
 	/**
 	 * Create instance of class
+	 *
 	 * @return self
 	 */
 	public static function instance() {
@@ -39,6 +43,7 @@ class LLMS_Payment_Gateways {
 
 	/**
 	 * Constructor
+	 *
 	 * @version  3.0.0
 	 */
 	public function __construct() {
@@ -69,7 +74,8 @@ class LLMS_Payment_Gateways {
 
 	/**
 	 * Register core gateways
-	 * @param    array     $gateways  array of gateways
+	 *
+	 * @param    array $gateways  array of gateways
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -101,13 +107,14 @@ class LLMS_Payment_Gateways {
 	/**
 	 * Get the ID of the default payment gateway
 	 * This will always be the FIRST gateway from the list of all enabled gateways
+	 *
 	 * @return string
 	 * @since 3.0.0
 	 */
 	public function get_default_gateway() {
 
 		$gateways = $this->get_enabled_payment_gateways();
-		$ids = array_keys( $gateways );
+		$ids      = array_keys( $gateways );
 
 		return array_shift( $ids );
 
@@ -121,7 +128,7 @@ class LLMS_Payment_Gateways {
 	 *
 	 * @since  2.5.0
 	 */
-	function get_gateway_by_id( $id ) {
+	public function get_gateway_by_id( $id ) {
 
 		$gateways = $this->get_payment_gateways();
 
@@ -137,6 +144,7 @@ class LLMS_Payment_Gateways {
 
 	/**
 	 * Get all registered payment gateways
+	 *
 	 * @return array
 	 * @version  3.0.0
 	 */
@@ -156,7 +164,8 @@ class LLMS_Payment_Gateways {
 
 	/**
 	 * Get an array of payment gateways which support a specific gateway feature
-	 * @param    string    $feature  a gateway feature string
+	 *
+	 * @param    string $feature  a gateway feature string
 	 * @return   array
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -176,7 +185,8 @@ class LLMS_Payment_Gateways {
 
 	/**
 	 * Determine if any payment gateways are registered
-	 * @param boolean  $enabled   if true, will check only enabled gateways
+	 *
+	 * @param boolean $enabled   if true, will check only enabled gateways
 	 * @return boolean
 	 * @since  3.0.0
 	 */

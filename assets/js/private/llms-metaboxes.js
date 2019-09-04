@@ -20,7 +20,7 @@
 
 		this.on( 'click', '.llms-collapsible-header', function() {
 
-			var $parent = $( this ).closest( '.llms-collapsible' ),
+			var $parent   = $( this ).closest( '.llms-collapsible' ),
 				$siblings = $parent.siblings( '.llms-collapsible' );
 
 			$parent.toggleClass( 'opened' ).trigger( 'llms-collapsible-toggled' );
@@ -45,10 +45,11 @@
 		/**
 		 * load all partials
 		 */
-		//= include ../partials/*.js
+		// = include ../partials/*.js
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.13.0
@@ -70,7 +71,7 @@
 				{
 					selector: $( '.llms-datepicker' ),
 					func: 'bind_datepickers',
-				},
+			},
 				{
 					selector: $( '.llms-select2' ),
 					func: function( $selector ) {
@@ -78,33 +79,33 @@
 							width: '100%',
 						} );
 					},
-				},
+			},
 				{
 					selector: $( '.llms-select2-student' ),
 					func: function( $selector ) {
 						$selector.llmsStudentsSelect2();
 					}
-				},
+			},
 				{
 					selector: $( 'input[type="checkbox"][data-controls]' ),
 					func: 'bind_cb_controllers',
-				},
+			},
 				{
 					selector: $( '[data-is-controller]' ),
 					func: 'bind_controllers',
-				},
+			},
 				{
 					selector: $( '.llms-table' ),
 					func: 'bind_tables',
-				},
+			},
 				{
 					selector: $( '.llms-merge-code-wrapper' ),
 					func: 'bind_merge_code_buttons',
-				},
+			},
 				{
 					selector: $( 'a.llms-editable' ),
 					func: 'bind_editables',
-				},
+			},
 			];
 
 			// bind all the bindables but don't bind things in repeaters
@@ -147,6 +148,7 @@
 
 		/**
 		 * Bind checkboxes that control the display of other elements
+		 *
 		 * @param    obj   $controllers  jQuery selector for checkboxes to be bound as checkbox controllers
 		 * @return   void
 		 * @since    3.0.0
@@ -158,7 +160,7 @@
 
 			$controllers.each( function() {
 
-				var $cb = $( this ),
+				var $cb         = $( this ),
 					$controlled = $( $cb.attr( 'data-controls' ) ).closest( '.llms-mb-list' );
 
 				$cb.on( 'change', function() {
@@ -183,6 +185,7 @@
 
 		/**
 		 * Bind elements that control the display of other elements
+		 *
 		 * @param    obj   $controllers  jQuery selector for elements to be bound as checkbox controllers
 		 * @return   void
 		 * @since    3.0.0
@@ -194,7 +197,7 @@
 
 			$controllers.each( function() {
 
-				var $el = $( this ),
+				var $el         = $( this ),
 					$controlled = $( '[data-controller="#' + $el.attr( 'id' ) + '"]' ),
 					val;
 
@@ -213,7 +216,7 @@
 					$controlled.each( function() {
 
 						var possible = $( this ).attr( 'data-controller-value' ),
-							vals = [];
+							vals     = [];
 
 						if ( -1 !== possible.indexOf( ',' ) ) {
 
@@ -237,7 +240,6 @@
 
 					} );
 
-
 				} );
 
 				$el.trigger( 'change' );
@@ -248,13 +250,14 @@
 
 		/**
 		 * Bind a single datepicker element
+		 *
 		 * @param    obj   $el  jQuery selector for the input to bind the datepicker to
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.10.0
 		 */
 		this.bind_datepicker = function( $el ) {
-			var format = $el.attr( 'data-format' ) || 'mm/dd/yy',
+			var format  = $el.attr( 'data-format' ) || 'mm/dd/yy',
 				maxDate = $el.attr( 'data-max-date' ) || null,
 				minDate = $el.attr( 'data-min-date' ) || null;
 			$el.datepicker( {
@@ -266,6 +269,7 @@
 
 		/**
 		 * Bind all LifterLMS datepickers
+		 *
 		 * @param    obj   $datepickers  jQuery selector for the elements to bind
 		 * @return   void
 		 * @since    3.0.0
@@ -275,7 +279,7 @@
 
 			var self = this;
 
-			$datepickers = $datepickers || $('.llms-datepicker');
+			$datepickers = $datepickers || $( '.llms-datepicker' );
 
 			$datepickers.each( function() {
 				self.bind_datepicker( $( this ) );
@@ -285,6 +289,7 @@
 
 		/**
 		 * Bind llms-editable metabox fields and related dom interactions
+		 *
 		 * @return   void
 		 * @since    3.10.0
 		 * @version  3.28.0
@@ -295,11 +300,11 @@
 
 			function make_editable( $field ) {
 
-				var $label = $field.find( 'label' ).clone(),
-					name = $field.attr( 'data-llms-editable' ),
-					type = $field.attr( 'data-llms-editable-type' ),
+				var $label   = $field.find( 'label' ).clone(),
+					name     = $field.attr( 'data-llms-editable' ),
+					type     = $field.attr( 'data-llms-editable-type' ),
 					required = $field.attr( 'data-llms-editable-required' ) || 'no',
-					val = $field.attr( 'data-llms-editable-value' ),
+					val      = $field.attr( 'data-llms-editable-value' ),
 					$input;
 
 				required = ( 'yes' === required ) ? ' required="required"' : '';
@@ -309,34 +314,33 @@
 					var options = JSON.parse( $field.attr( 'data-llms-editable-options' ) ),
 						selected;
 
-					$input = $( '<select name="' + name + '"' + required + ' />');
+					$input = $( '<select name="' + name + '"' + required + ' />' );
 					for ( var key in options ) {
 						selected = val === key ? ' selected="selected"' : '';
 						$input.append( '<option value="' + key + '"' + selected + '>' + options[ key ] + '</option>' );
 					}
 
-
 				} else if ( 'datetime' === type ) {
 
 					$input = $( '<div class="llms-datetime-field" />' );
 
-					val = JSON.parse( val );
-					var format = $field.attr( 'data-llms-editable-date-format' ) || '',
+					val          = JSON.parse( val );
+					var format   = $field.attr( 'data-llms-editable-date-format' ) || '',
 						min_date = $field.attr( 'data-llms-editable-date-min' ) || '',
 						max_date = $field.attr( 'data-llms-editable-date-max' ) || '';
 
-					$picker = $( '<input class="llms-date-input llms-datepicker" data-format="' + format + '" data-max-date="' + max_date + '" data-min-date="' + min_date + '" name="' + name + '[date]" type="text" value="' +  val.date + '">' );
+					$picker = $( '<input class="llms-date-input llms-datepicker" data-format="' + format + '" data-max-date="' + max_date + '" data-min-date="' + min_date + '" name="' + name + '[date]" type="text" value="' + val.date + '">' );
 					self.bind_datepicker( $picker );
 					$input.append( $picker );
-					$input.append( '<em>@</em>');
+					$input.append( '<em>@</em>' );
 
-					$input.append( '<input class="llms-time-input" max="23" min="0" name="' + name + '[hour]" type="number" value="' +  val.hour + '">' );
-					$input.append( '<em>:</em>');
-					$input.append( '<input class="llms-time-input" max="59" min="0" name="' + name + '[minute]" type="number" value="' +  val.minute + '">' );
+					$input.append( '<input class="llms-time-input" max="23" min="0" name="' + name + '[hour]" type="number" value="' + val.hour + '">' );
+					$input.append( '<em>:</em>' );
+					$input.append( '<input class="llms-time-input" max="59" min="0" name="' + name + '[minute]" type="number" value="' + val.minute + '">' );
 
 				} else {
 
-					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '"' + required + '>');
+					$input = $( '<input name="' + name + '" type="' + type + '" value="' + val + '"' + required + '>' );
 				}
 
 				$field.empty().append( $label ).append( $input );
@@ -373,6 +377,7 @@
 
 		/**
 		 * Bind Engagement post type JS
+		 *
 		 * @return   void
 		 * @since    3.1.0
 		 * @version  3.1.0
@@ -479,8 +484,8 @@
 
 				e.preventDefault();
 
-				var $el = $( this ),
-					$row = $el.closest( 'tr' ),
+				var $el        = $( this ),
+					$row       = $el.closest( 'tr' ),
 					$container = $el.closest( '.llms-mb-list' );
 
 				LLMS.Spinner.start( $container );
@@ -522,8 +527,8 @@
 
 				e.preventDefault();
 
-				var $el = $( this ),
-					$row = $el.closest( 'tr' ),
+				var $el        = $( this ),
+					$row       = $el.closest( 'tr' ),
 					$container = $el.closest( '.llms-mb-list' );
 
 				if ( ! window.confirm( LLMS.l10n.translate( 'Click okay to enroll all active members into the selected course. Enrollment will take place in the background and you may leave your site after confirmation. This action cannot be undone!' ) ) ) {
@@ -561,13 +566,13 @@
 			// Add an item to the autoenroll table on select.
 			$( '#_llms_auto_enroll' ).on( 'change', function() {
 
-				var id = $( this ).val(),
-					title = $( this ).find( 'option[value="' + $( this ).val() + '"]').text();
+				var id    = $( this ).val(),
+					title = $( this ).find( 'option[value="' + $( this ).val() + '"]' ).text();
 
 				// If there's no ID
 				if ( ! id ) {
 					return;
-				// Prevent Dupes.
+					// Prevent Dupes.
 				} else if ( -1 !== get_course_ids().indexOf( id ) ) {
 
 					alert( LLMS.l10n.replace( '"%s" is already in the course list.', { '%s': title } ) )
@@ -580,14 +585,14 @@
 				}
 
 				var $table = $( '.llms-mb-list._llms_content_table' );
-					$tr = $( '<tr />' );
+					$tr    = $( '<tr />' );
 
 				$tr.append( '<td><span class="llms-drag-handle" style="color:#999;"><i class="fa fa-ellipsis-v" aria-hidden="true" style="margin-right:2px;"></i><i class="fa fa-ellipsis-v" aria-hidden="true"></i></span></td>' );
 				$tr.append( '<td><a href="' + window.llms.admin_url + 'post.php?action=edit&post=' + id + '">' + title + '</a></td>' );
 				$tr.append( '<td><a class="llms-button-danger small" data-id="' + id + '" href="#llms-course-remove" style="float:right;">' + LLMS.l10n.translate( 'Remove course' ) + '</a><a class="llms-button-secondary small" data-id="' + id + '" href="#llms-course-bulk-enroll" style="float:right;">' + LLMS.l10n.translate( 'Enroll All Members' ) + '</a></td>' );
 
 				// append the element to the table.
-				$table.find('table tbody' ).append( $tr );
+				$table.find( 'table tbody' ).append( $tr );
 
 				// reset the select field.
 				$( this ).val( '' ).trigger( 'change' );
@@ -635,6 +640,7 @@
 
 		/**
 		 * Actions for ORDERS
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.28.0
@@ -643,14 +649,14 @@
 
 			$( 'button[name="llms-refund-toggle"]' ).on( 'click', function() {
 
-				var $btn = $( this ),
-					$row = $btn.closest( 'tr' ),
-					txn_id = $row.attr( 'data-transaction-id' ),
+				var $btn              = $( this ),
+					$row              = $btn.closest( 'tr' ),
+					txn_id            = $row.attr( 'data-transaction-id' ),
 					refundable_amount = $btn.attr( 'data-refundable' ),
-					gateway_supports = ( '1' === $btn.attr( 'data-gateway-supports' ) ) ? true : false,
-					gateway_title = $btn.attr( 'data-gateway' ),
-					$new_row = $( '#llms-txn-refund-model .llms-txn-refund-form' ).clone(),
-					$gateway_btn = $new_row.find( '.gateway-btn' );
+					gateway_supports  = ( '1' === $btn.attr( 'data-gateway-supports' ) ) ? true : false,
+					gateway_title     = $btn.attr( 'data-gateway' ),
+					$new_row          = $( '#llms-txn-refund-model .llms-txn-refund-form' ).clone(),
+					$gateway_btn      = $new_row.find( '.gateway-btn' );
 
 				// configure and add the form
 				if ( 'remove' !== $btn.attr( 'data-action' ) ) {
@@ -680,8 +686,8 @@
 
 			$( 'button[name="llms-manual-txn-toggle"]' ).on( 'click', function() {
 
-				var $btn = $( this ),
-					$row = $btn.closest( 'tr' ),
+				var $btn     = $( this ),
+					$row     = $btn.closest( 'tr' ),
 					$new_row = $( '#llms-manual-txn-model .llms-manual-txn-form' ).clone();
 
 				// configure and add the form
@@ -717,15 +723,15 @@
 			// supported/needed by the newly selected gateway
 			$( '.llms-metabox' ).on( 'change', '.llms-metabox-field[data-llms-editable="payment_gateway"] select', function() {
 
-				var $select = $( this ),
-					gateway = $select.val(),
-					data = JSON.parse( $select.closest( '.llms-metabox-field' ).attr( 'data-gateway-fields' ) ),
+				var $select      = $( this ),
+					gateway      = $select.val(),
+					data         = JSON.parse( $select.closest( '.llms-metabox-field' ).attr( 'data-gateway-fields' ) ),
 					gateway_data = data[ gateway ];
 
 				for ( var field in gateway_data ) {
 
 					var $field = $( 'input[name="' + gateway_data[ field ].name + '"]' ),
-						$wrap = $field.closest( '.llms-metabox-field' );
+						$wrap  = $field.closest( '.llms-metabox-field' );
 
 					// if the field is enabled show it the field and, if we're switching back to the originally selected
 					// gateway, reload the value from the dom
@@ -735,12 +741,12 @@
 						$field.attr( 'required', 'required' );
 						$field.removeAttr( 'disabled' );
 
-						if ( gateway === $select.attr( 'data-original-value') ) {
+						if ( gateway === $select.attr( 'data-original-value' ) ) {
 							$field.val( $wrap.attr( 'data-llms-editable-value' ) );
 						}
 
-					// otherwise hide the field
-					// this will ensure it gets updated in the database
+						// otherwise hide the field
+						// this will ensure it gets updated in the database
 					} else {
 
 						// always clear the value when switching
@@ -761,6 +767,7 @@
 
 		/**
 		 * Binds custom llms merge code buttons
+		 *
 		 * @return   void
 		 * @since    3.1.0
 		 * @version  3.9.2
@@ -777,10 +784,10 @@
 
 			$wrappers.find( '.llms-merge-codes li' ).on( 'click', function() {
 
-				var $el = $( this ),
+				var $el     = $( this ),
 					$parent = $el.closest( '.llms-merge-codes' ),
-					target = $parent.attr( 'data-target' ),
-					code = $el.attr( 'data-code' );
+					target  = $parent.attr( 'data-target' ),
+					code    = $el.attr( 'data-code' );
 
 				// dealing with a tinymce instance
 				if ( -1 === target.indexOf( '#' ) ) {
@@ -809,6 +816,7 @@
 
 		/**
 		 * Bind metabox tabs
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -816,9 +824,9 @@
 		this.bind_tabs = function() {
 			$( '.llms-nav-tab-wrapper .tabs li' ).on( 'click', function() {
 
-				var $btn = $( this ),
+				var $btn     = $( this ),
 					$metabox = $btn.closest( '.llms-mb-container' ),
-					tab_id = $btn.attr( 'data-tab' );
+					tab_id   = $btn.attr( 'data-tab' );
 
 				$btn.siblings().removeClass( 'llms-active' );
 
@@ -832,6 +840,7 @@
 
 		/**
 		 * Enable WP Post Table searches for applicable select2 boxes
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.21.0
@@ -849,8 +858,8 @@
 			}
 
 			// add a "View" button to see what the selected page looks like
-			var msg = LLMS.l10n.translate( 'View' ),
-				$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' +  msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
+			var msg  = LLMS.l10n.translate( 'View' ),
+				$btn = $( '<a class="llms-button-secondary small" style="margin-left:5px;" target="_blank" href="#">' + msg + ' <i class="fa fa-external-link" aria-hidden="true"></i></a>' );
 			$el.next( '.select2' ).after( $btn );
 
 			$el.on( 'change', function() {
@@ -866,6 +875,7 @@
 
 		/**
 		 * Bind dom events for .llms-tables
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -874,7 +884,7 @@
 
 			$( '.llms-table button[name="llms-expand-table"]' ).on( 'click', function() {
 
-				var $btn = $( this ),
+				var $btn   = $( this ),
 					$table = $btn.closest( '.llms-table' )
 
 				// switch the text on the button if alt text is found

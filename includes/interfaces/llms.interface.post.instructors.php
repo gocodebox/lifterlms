@@ -1,16 +1,19 @@
 <?php
 /**
  * LifterLMS Post Instructors Interface
+ *
  * @since    3.13.0
  * @version  3.13.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 interface LLMS_Interface_Post_Instructors {
 
 	/**
 	 * Retrieve an instance of the Post Instructors model
+	 *
 	 * @return   obj
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -19,7 +22,8 @@ interface LLMS_Interface_Post_Instructors {
 
 	/**
 	 * Retrieve course instructor information
-	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
+	 *
+	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -28,7 +32,8 @@ interface LLMS_Interface_Post_Instructors {
 
 	/**
 	 * Save instructor information
-	 * @param    array      $instructors  array of course instructor information
+	 *
+	 * @param    array $instructors  array of course instructor information
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */

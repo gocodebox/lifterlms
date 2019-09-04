@@ -6,12 +6,14 @@
  * @version  3.6.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 
 	/**
 	 * Call the template function for the course element
+	 *
 	 * @return   void
 	 * @since    3.6.0
 	 * @version  3.6.0
@@ -21,6 +23,7 @@ abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
+	 *
 	 * @return   array
 	 * @since    3.6.0
 	 * @version  3.6.0

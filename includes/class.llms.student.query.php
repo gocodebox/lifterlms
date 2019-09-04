@@ -1,22 +1,25 @@
 <?php
 /**
-* Query LifterLMS Students for a given course / membership
-* @since    3.4.0
-* @version  3.13.0
-*/
+ * Query LifterLMS Students for a given course / membership
+ *
+ * @since    3.4.0
+ * @version  3.13.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Identify the extending query
+	 *
 	 * @var  string
 	 */
 	protected $id = 'student';
 
 	/**
 	 * Retrieve default arguments for a student query
+	 *
 	 * @return   array
 	 * @since    3.4.0
 	 * @version  3.13.0
@@ -28,13 +31,13 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		$post_id = ! empty( $post->ID ) ? $post->ID : array();
 
 		$args = array(
-			'post_id' => $post_id,
-			'sort' => array(
-				'date' => 'DESC',
-				'status' => 'ASC',
-				'last_name' => 'ASC',
+			'post_id'  => $post_id,
+			'sort'     => array(
+				'date'       => 'DESC',
+				'status'     => 'ASC',
+				'last_name'  => 'ASC',
 				'first_name' => 'ASC',
-				'id' => 'ASC',
+				'id'         => 'ASC',
 			),
 			'statuses' => array_keys( llms_get_enrollment_statuses() ),
 		);
@@ -48,6 +51,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve an array of LLMS_Students for the given set of students
 	 * returned by the query
+	 *
 	 * @return   array
 	 * @since    3.4.0
 	 * @version  3.8.0
@@ -55,7 +59,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	public function get_students() {
 
 		$students = array();
-		$results = $this->get_results();
+		$results  = $this->get_results();
 
 		if ( $results ) {
 
@@ -76,6 +80,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Parses data passed to $statuses
 	 * Convert strings to array and ensure resulting array contains only valid statuses
 	 * If no valid statuses, returns to the default
+	 *
 	 * @return   void
 	 * @since    3.4.0
 	 * @version  3.13.0
@@ -117,6 +122,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Prepare the SQL for the query
+	 *
 	 * @return   void
 	 * @since    3.4.0
 	 * @version  3.13.0
@@ -137,6 +143,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		$vars[] = $this->get_skip();
 		$vars[] = $this->get( 'per_page' );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$sql = $wpdb->prepare(
 			"SELECT SQL_CALC_FOUND_ROWS
 			{$this->sql_select()}
@@ -148,6 +155,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			LIMIT %d, %d;",
 			$vars
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
 
@@ -155,7 +163,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Determines if a field should be selected/joined based on searching and sorting arguments
-	 * @param    string     $field  field name/key
+	 *
+	 * @param    string $field  field name/key
 	 * @return   bool
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -182,6 +191,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Retrieve prepared SQL for the HAVING clause
+	 *
 	 * @return   string
 	 * @since    3.4.0
 	 * @version  3.13.0
@@ -202,6 +212,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Setup joins based on submitted sort and search args
+	 *
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -213,10 +224,10 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		$joins = array();
 
 		$fields = array(
-			'first_name' => "JOIN {$wpdb->usermeta} AS m_first ON u.ID = m_first.user_id AND m_first.meta_key = 'first_name'",
-			'last_name' => "JOIN {$wpdb->usermeta} AS m_last ON u.ID = m_last.user_id AND m_last.meta_key = 'last_name'",
+			'first_name'       => "JOIN {$wpdb->usermeta} AS m_first ON u.ID = m_first.user_id AND m_first.meta_key = 'first_name'",
+			'last_name'        => "JOIN {$wpdb->usermeta} AS m_last ON u.ID = m_last.user_id AND m_last.meta_key = 'last_name'",
 			'overall_progress' => "JOIN {$wpdb->usermeta} AS m_o_p ON u.ID = m_o_p.user_id AND m_o_p.meta_key = 'llms_overall_progress'",
-			'overall_grade' => "JOIN {$wpdb->usermeta} AS m_o_g ON u.ID = m_o_g.user_id AND m_o_g.meta_key = 'llms_overall_grade'",
+			'overall_grade'    => "JOIN {$wpdb->usermeta} AS m_o_g ON u.ID = m_o_g.user_id AND m_o_g.meta_key = 'llms_overall_grade'",
 		);
 
 		// add the fields to the array of fields to select
@@ -238,6 +249,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Retrieve the prepared SEARCH query for the WHERE clause
+	 *
 	 * @return   string
 	 * @since    3.4.0
 	 * @version  3.8.0
@@ -267,6 +279,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Setup the SQL for the select statement
+	 *
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -283,13 +296,13 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		// all the possible fields
 		$fields = array(
-			'date' => "( {$this->sql_subquery( 'updated_date' )} ) AS `date`",
-			'last_name' => 'm_last.meta_value AS last_name',
-			'first_name' => 'm_last.meta_value AS first_name',
-			'email' => 'u.user_email AS email',
-			'registered' => 'u.user_registered AS registered',
+			'date'             => "( {$this->sql_subquery( 'updated_date' )} ) AS `date`",
+			'last_name'        => 'm_last.meta_value AS last_name',
+			'first_name'       => 'm_last.meta_value AS first_name',
+			'email'            => 'u.user_email AS email',
+			'registered'       => 'u.user_registered AS registered',
 			'overall_progress' => 'CAST( m_o_p.meta_value AS decimal( 5, 2 ) ) AS overall_progress',
-			'overall_grade' => 'CAST( m_o_g.meta_value AS decimal( 5, 2 ) ) AS overall_grade',
+			'overall_grade'    => 'CAST( m_o_g.meta_value AS decimal( 5, 2 ) ) AS overall_grade',
 		);
 
 		// add the fields to the array of fields to select
@@ -311,30 +324,32 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
 	 * Generate an SQL IN clause based on submitted status arguments
-	 * @param    string     $column  name of the column
+	 *
+	 * @param    string $column  name of the column
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	private function sql_status_in( $column = 'status' ) {
 		global $wpdb;
-		$comma = false;
+		$comma    = false;
 		$statuses = array();
-		$sql = '';
+		$sql      = '';
 		foreach ( $this->get( 'statuses' ) as $status ) {
-			$sql .= $comma ? ',%s' : '%s';
+			$sql       .= $comma ? ',%s' : '%s';
 			$statuses[] = $status;
-			$comma = true;
+			$comma      = true;
 		}
 
-		$sql = $wpdb->prepare( $sql, $statuses );
+		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		return "{$column} IN ( {$sql} )";
 
 	}
 
 	/**
 	 * Generate an SQL subquery for the dynamic status or date values in the main query
-	 * @param    string     $column  column name
+	 *
+	 * @param    string $column  column name
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -346,7 +361,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		$post_ids = $this->get( 'post_id' );
 		if ( $post_ids ) {
 			$post_ids = implode( ',', $post_ids );
-			$and = "AND post_id IN ( {$post_ids} )";
+			$and      = "AND post_id IN ( {$post_ids} )";
 		} else {
 			$and = "AND {$this->sql_status_in( 'meta_value' )}";
 		}

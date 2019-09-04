@@ -6,12 +6,22 @@
  * @version  3.10.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+/**
+ * LLMS_HTTPS
+ *
+ * @since 3.0.0
+ */
 class LLMS_HTTPS {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -28,6 +38,7 @@ class LLMS_HTTPS {
 
 	/**
 	 * Redirect to https checkout page is force is enabled
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.10.0
@@ -53,6 +64,7 @@ class LLMS_HTTPS {
 
 	/**
 	 * Redirect back to http when not on checkout if force ssl is enabled and the site isn't fully ssl'd
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.10.0
@@ -78,5 +90,9 @@ class LLMS_HTTPS {
 
 
 }
+
+// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotValidated
+// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 return new LLMS_HTTPS();

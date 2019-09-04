@@ -1,14 +1,17 @@
 <?php
 /**
  * Template functions for quizzes & questions
+ *
  * @since    1.0.0
  * @version  3.16.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Single question main content template
+ *
  * @return void
  * @since    3.16.0
  * @version  3.16.0
@@ -19,16 +22,20 @@ if ( ! function_exists( 'lifterlms_template_question_content' ) ) {
 		$type = $args['question']->get( 'question_type' );
 
 		$template = apply_filters( 'llms_get_' . $type . '_question_template', 'quiz/questions/content-' . $type, $args['question'] );
-		llms_get_template( $template . '.php', array(
-			'question' => $args['question'],
-			'attempt' => $args['attempt'],
-		) );
+		llms_get_template(
+			$template . '.php',
+			array(
+				'question' => $args['question'],
+				'attempt'  => $args['attempt'],
+			)
+		);
 
 	}
 }
 
 /**
  * Single question description template
+ *
  * @return void
  * @since    3.16.0
  * @version  3.16.0
@@ -41,6 +48,7 @@ if ( ! function_exists( 'lifterlms_template_question_description' ) ) {
 
 /**
  * Single question featured image template
+ *
  * @return void
  * @since    3.16.0
  * @version  3.16.0
@@ -53,6 +61,7 @@ if ( ! function_exists( 'lifterlms_template_question_image' ) ) {
 
 /**
  * Single question featured video template
+ *
  * @return void
  * @since    3.16.0
  * @version  3.16.0
@@ -65,6 +74,7 @@ if ( ! function_exists( 'lifterlms_template_question_video' ) ) {
 
 /**
  * Question Wrapper End Template Include
+ *
  * @return void
  * @since    1.0.0
  * @version  3.16.0
@@ -77,6 +87,7 @@ if ( ! function_exists( 'lifterlms_template_question_wrapper_end' ) ) {
 
 /**
  * Question Wrapper Start Template Include
+ *
  * @return void
  * @since    1.0.0
  * @version  3.16.0
@@ -89,6 +100,7 @@ if ( ! function_exists( 'lifterlms_template_question_wrapper_start' ) ) {
 
 /**
  * Passing Percent Template Include
+ *
  * @return void
  * @since    1.0.0
  * @version  1.0.0
@@ -101,35 +113,44 @@ if ( ! function_exists( 'lifterlms_template_quiz_meta_info' ) ) {
 
 /**
  * Quiz Single Attempt Results
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_quiz_attempt_results' ) ) {
 	function lifterlms_template_quiz_attempt_results( $attempt = null ) {
-		llms_get_template( 'quiz/results-attempt.php', array(
-			'attempt' => $attempt,
-		) );
+		llms_get_template(
+			'quiz/results-attempt.php',
+			array(
+				'attempt' => $attempt,
+			)
+		);
 	}
 }
 
 /**
  * Quiz Single Attempt Results Question List
+ *
  * @return   void
  * @since    3.16.0
  * @version  3.16.0
  */
 if ( ! function_exists( 'lifterlms_template_quiz_attempt_results_questions_list' ) ) {
 	function lifterlms_template_quiz_attempt_results_questions_list( $attempt = null ) {
-		llms_get_template( 'quiz/results-attempt-questions-list.php', array(
-			'attempt' => $attempt,
-		) );
+		llms_get_template(
+			'quiz/results-attempt-questions-list.php',
+			array(
+				'attempt' => $attempt,
+			)
+		);
 	}
 }
 
 
 /**
  * Quiz Results Template Include
+ *
  * @return void
  * @since    1.0.0
  * @version  1.0.0
@@ -144,6 +165,7 @@ if ( ! function_exists( 'lifterlms_template_quiz_results' ) ) {
 
 /**
  * Lesson Return link Template Include
+ *
  * @return void
  * @since    1.0.0
  * @version  1.0.0
@@ -156,6 +178,7 @@ if ( ! function_exists( 'lifterlms_template_quiz_return_link' ) ) {
 
 /**
  * Quiz: wrapper end ( quiz container )
+ *
  * @return   void
  * @since    1.0.0
  * @version  1.0.0
@@ -168,6 +191,7 @@ if ( ! function_exists( 'lifterlms_template_quiz_wrapper_end' ) ) {
 
 /**
  * Quiz: wrapper start ( quiz container )
+ *
  * @return   void
  * @since    1.0.0
  * @version  1.0.0
@@ -180,6 +204,7 @@ if ( ! function_exists( 'lifterlms_template_quiz_wrapper_start' ) ) {
 
 /**
  * Start Button Template Include
+ *
  * @todo  this should be renamed to lifterlms_template_quiz_start_button
  * @return void
  * @since    1.0.0

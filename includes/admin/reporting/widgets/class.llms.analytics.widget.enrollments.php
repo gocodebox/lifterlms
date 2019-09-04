@@ -1,11 +1,13 @@
 <?php
 /**
-* Enrollments analytics widget
-* @since  3.0.0
-* @version 3.0.0
-*/
+ * Enrollments analytics widget
+ *
+ * @since  3.0.0
+ * @version 3.0.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 
@@ -14,11 +16,11 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 
 	protected function get_chart_data() {
 		return array(
-			'type' => 'count', // type of field
+			'type'   => 'count', // type of field
 			'header' => array(
-				'id' => 'enrollments',
+				'id'    => 'enrollments',
 				'label' => __( '# of Enrollments', 'lifterlms' ),
-				'type' => 'number',
+				'type'  => 'number',
 			),
 		);
 	}
@@ -30,19 +32,19 @@ class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 		$dates = $this->get_posted_dates();
 
 		$student_ids = '';
-		$students = $this->get_posted_students();
+		$students    = $this->get_posted_students();
 		if ( $students ) {
 			$student_ids .= 'AND user_id IN ( ' . implode( ', ', $students ) . ' )';
 		}
 
 		$product_ids = '';
-		$products = $this->get_posted_posts();
+		$products    = $this->get_posted_posts();
 		if ( $products ) {
 			$product_ids .= 'AND post_id IN ( ' . implode( ', ', $products ) . ' )';
 		}
 
 		$this->query_function = 'get_results';
-		$this->output_type = OBJECT ;
+		$this->output_type    = OBJECT;
 
 		$this->query = "SELECT updated_date AS date
 						FROM {$wpdb->prefix}lifterlms_user_postmeta

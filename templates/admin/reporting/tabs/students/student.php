@@ -1,11 +1,15 @@
 <?php
 /**
  * Single Student View
+ *
  * @since    3.2.0
  * @version  3.15.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
 ?>
 <section class="llms-reporting-tab llms-reporting-student">
 
@@ -30,7 +34,7 @@ if ( ! is_admin() ) { exit; }
 		<ul class="llms-nav-items">
 		<?php foreach ( $tabs as $name => $label ) : ?>
 			<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ) ?>">
+				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
 					<?php echo $label; ?>
 				</a>
 		<?php endforeach; ?>
@@ -38,9 +42,14 @@ if ( ! is_admin() ) { exit; }
 	</nav>
 
 	<section class="llms-reporting-stab">
-		<?php llms_get_template( 'admin/reporting/tabs/students/' . $current_tab . '.php', array(
-			'student' => $student,
-		) ); ?>
+		<?php
+		llms_get_template(
+			'admin/reporting/tabs/students/' . $current_tab . '.php',
+			array(
+				'student' => $student,
+			)
+		);
+		?>
 	</section>
 
 </section>

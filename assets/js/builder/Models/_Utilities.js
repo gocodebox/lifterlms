@@ -1,5 +1,6 @@
 /**
  * Utility functions for Models
+ *
  * @since    3.16.0
  * @version  3.17.1
  */
@@ -11,6 +12,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve the edit post link for the current model
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -27,6 +29,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve schema fields defined for the model
+		 *
 		 * @return   object
 		 * @since    3.17.0
 		 * @version  3.17.1
@@ -40,6 +43,7 @@ define( [], function() {
 
 		/**
 		 * Determine if the model has a temporary ID
+		 *
 		 * @return   {Boolean}
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -52,6 +56,7 @@ define( [], function() {
 
 		/**
 		 * Initializes 3rd party custom schema (field) data for a model
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -63,10 +68,9 @@ define( [], function() {
 			} );
 
 			_.each( groups, function( group ) {
-				_.each( _.flatten(  group.fields ), function( field ) {
+				_.each( _.flatten( group.fields ), function( field ) {
 
-
-					var keys = [ field.attribute ],
+					var keys    = [ field.attribute ],
 						customs = this.get( 'custom' );
 
 					if ( field.switch_attribute ) {

@@ -1,14 +1,17 @@
-/* global LLMS, $ */
-
 /**
  * LifterLMS Loops JS
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.0.0
  * @version  3.14.0
  */
+
 LLMS.Loops = {
 
 	/**
 	 * Initialize
+	 *
 	 * @return void
 	 */
 	init: function() {
@@ -29,6 +32,7 @@ LLMS.Loops = {
 
 	/**
 	 * Match the height of .llms-loop-item
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.14.0

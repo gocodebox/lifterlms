@@ -1,15 +1,19 @@
 /**
  * LifterLMS Checkout Screen related events and interactions
  *
+ * @package LifterLMS/Scripts
+ *
  * @since   3.0.0
  * @version 3.34.5
  */
-;( function( $ ) {
+
+( function( $ ) {
 
 	var llms_checkout = function() {
 
 		/**
 		 * Array of validation functions to call on form submission
+		 *
 		 * @type    array
 		 * @since   3.0.0
 		 * @version 3.0.0
@@ -18,6 +22,7 @@
 
 		/**
 		 * Array of gateways to be automatically bound when needed
+		 *
 		 * @type    array
 		 * @since   3.0.0
 		 * @version 3.0.0
@@ -25,9 +30,9 @@
 		var gateways = [];
 
 		this.$checkout_form = $( '#llms-product-purchase-form' );
-		this.$confirm_form = $( '#llms-product-purchase-confirm-form' );
+		this.$confirm_form  = $( '#llms-product-purchase-confirm-form' );
 		this.$form_sections = false;
-		this.form_action = false;
+		this.form_action    = false;
 
 		/**
 		 * Initialize checkout JS & bind if on the checkout screen
@@ -48,7 +53,7 @@
 
 			if ( this.$checkout_form.length ) {
 
-				this.form_action = 'checkout';
+				this.form_action    = 'checkout';
 				this.$form_sections = this.$checkout_form.find( '.llms-checkout-section' );
 
 				this.$checkout_form.on( 'submit', this, this.submit );
@@ -67,7 +72,7 @@
 
 			} else if ( this.$confirm_form.length ) {
 
-				this.form_action = 'confirm';
+				this.form_action    = 'confirm';
 				this.$form_sections = this.$confirm_form.find( '.llms-checkout-section' );
 
 				this.$confirm_form.on( 'submit', function() {
@@ -81,6 +86,7 @@
 		/**
 		 * Public function which allows other classes or extensions to add
 		 * before submit events to llms checkout private "before_submit" array
+		 *
 		 * @param    object  obj  object of data to push to the array
 		 *                        requires at least a "handler" key which should pass a callable function
 		 *                        "data" can be anything, will be passed as the first parameter to the handler function
@@ -89,11 +95,11 @@
 		 */
 		this.add_before_submit_event = function( obj ) {
 
-			if ( !obj.handler || 'function' !== typeof obj.handler ) {
+			if ( ! obj.handler || 'function' !== typeof obj.handler ) {
 				return;
 			}
 
-			if ( !obj.data ) {
+			if ( ! obj.data ) {
 				obj.data = null;
 			}
 
@@ -103,6 +109,7 @@
 
 		/**
 		 * Add an error message
+		 *
 		 * @param    string     message  error message string
 		 * @param    mixed      data     optional error data to output on the console
 		 * @return   void
@@ -111,7 +118,7 @@
 		 */
 		this.add_error = function( message, data ) {
 
-			var id = 'llms-checkout-errors';
+			var id   = 'llms-checkout-errors';
 				$err = $( '#' + id );
 
 			if ( ! $err.length ) {
@@ -130,6 +137,7 @@
 		/**
 		 * Public function which allows other classes or extensions to add
 		 * gateways classes that should be bound by this class
+		 *
 		 * @param    obj   gateway_class  callable class object
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -142,6 +150,7 @@
 
 		/**
 		 * Bind coupon add & remove button events
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -178,6 +187,7 @@
 
 		/**
 		 * Bind gateway section events
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -186,19 +196,19 @@
 
 			this.load_gateways();
 
-			if ( ! $( 'input[name="llms_payment_gateway"]').length ) {
+			if ( ! $( 'input[name="llms_payment_gateway"]' ).length ) {
 				$( '#llms_create_pending_order' ).removeAttr( 'disabled' );
 			}
 
 			// add class and trigger watchable event when gateway selection changes
 			$( 'input[name="llms_payment_gateway"]' ).on( 'change', function() {
 
- 				$( 'input[name="llms_payment_gateway"]' ).each( function() {
+				$( 'input[name="llms_payment_gateway"]' ).each( function() {
 
-					var $el = $( this ),
-						$parent = $el.closest( '.llms-payment-gateway' ),
-						$fields = $parent.find( '.llms-gateway-fields' ).find( 'input, textarea, select' ),
-						checked = $el.is( ':checked' ),
+					var $el          = $( this ),
+						$parent      = $el.closest( '.llms-payment-gateway' ),
+						$fields      = $parent.find( '.llms-gateway-fields' ).find( 'input, textarea, select' ),
+						checked      = $el.is( ':checked' ),
 						display_func = ( checked ) ? 'addClass' : 'removeClass';
 
 					$parent[ display_func ]( 'is-selected' );
@@ -261,6 +271,7 @@
 
 		/**
 		 * Clear error messages
+		 *
 		 * @return   void
 		 * @since    3.27.0
 		 * @version  3.27.0
@@ -274,6 +285,7 @@
 		 * Validates the coupon via JS and adds error / success messages
 		 * On success it will replace partials on the checkout screen with updated
 		 * prices and a "remove coupon" button
+		 *
 		 * @param    obj   $btn  jQuery selector of the Apply button
 		 * @return   void
 		 * @since    3.0.0
@@ -281,11 +293,11 @@
 		 */
 		this.coupon_apply = function ( $btn ) {
 
-			var self = this,
-				$code = $( '#llms_coupon_code' ),
-				code = $code.val(),
-				$messages = $( '.llms-coupon-messages' ),
-				$errors = $messages.find( '.llms-error' ),
+			var self       = this,
+				$code      = $( '#llms_coupon_code' ),
+				code       = $code.val(),
+				$messages  = $( '.llms-coupon-messages' ),
+				$errors    = $messages.find( '.llms-error' ),
 				$container = $( 'form.llms-checkout' );
 
 			LLMS.Spinner.start( $container );
@@ -307,7 +319,7 @@
 
 					if ( 'error' === r.code ) {
 
-						var $message = $( '<li>' + r.message + '</li>');
+						var $message = $( '<li>' + r.message + '</li>' );
 
 						if ( ! $errors.length ) {
 
@@ -344,6 +356,7 @@
 		/**
 		 * Called by clicking the "Remove Coupon" button
 		 * Removes the coupon via AJAX and unsets related session data
+		 *
 		 * @param    obj   $btn  jQuery selector of the Remove button
 		 * @return   void
 		 * @since    3.0.0
@@ -351,7 +364,7 @@
 		 */
 		this.coupon_remove = function( $btn ) {
 
-			var self = this,
+			var self       = this,
 				$container = $( 'form.llms-checkout' );
 
 			LLMS.Spinner.start( $container );
@@ -385,6 +398,7 @@
 
 		/**
 		 * Scroll error messages into view
+		 *
 		 * @return   void
 		 * @since    3.27.0
 		 * @version  3.27.0
@@ -397,6 +411,7 @@
 
 		/**
 		 * Bind external gateway JS
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -415,6 +430,7 @@
 
 		/**
 		 * Start or stop processing events on the checkout form
+		 *
 		 * @param    string   action  whether to start or stop processing [start|stop]
 		 * @return   void
 		 * @since    3.0.0
@@ -453,6 +469,7 @@
 		 * Calls all validation events in `before_submit[]`
 		 * waits for call backs and either displays returned errors
 		 * or submits the form when all are successful
+		 *
 		 * @param    obj   e  JS event object
 		 * @return   void
 		 * @since    3.0.0
@@ -460,13 +477,13 @@
 		 */
 		this.submit = function( e ) {
 
-			var self = e.data,
-				num = before_submit.length,
-				checks = 0,
+			var self       = e.data,
+				num        = before_submit.length,
+				checks     = 0,
 				max_checks = 60000,
-				errors = [],
-				finishes = 0,
-				successes = 0,
+				errors     = [],
+				finishes   = 0,
+				successes  = 0,
 				interval;
 
 			e.preventDefault();
@@ -499,17 +516,16 @@
 			interval = setInterval( function() {
 
 				var clear = false,
-					stop = false;
+					stop  = false;
 
 				// timeout...
 				if ( checks >= max_checks ) {
 
 					clear = true;
-					stop = true;
+					stop  = true;
 
-				}
-				// everything has finished
-				else if ( num === finishes ) {
+				} else if ( num === finishes ) {
+					// everything has finished
 
 					// all were successful, submit the form
 					if ( num === successes ) {
@@ -522,7 +538,7 @@
 					} else if ( errors.length ) {
 
 						clear = true;
-						stop = true;
+						stop  = true;
 
 						for ( var i = 0; i < errors.length; i++ ) {
 							self.add_error( errors[ i ] );
@@ -542,7 +558,6 @@
 					self.processing( 'stop' );
 				}
 
-
 				checks++;
 
 			}, 100 );
@@ -556,7 +571,7 @@
 
 	};
 
-	window.llms = window.llms || {};
+	window.llms          = window.llms || {};
 	window.llms.checkout = new llms_checkout();
 
 } )( jQuery );

@@ -2,6 +2,7 @@
 /**
  * Student Quiz Data
  * Rather than instantiating this class directly use LLMS_Student->quizzes().
+ *
  * @package  LifterLMS/Models
  * @since   3.9.0
  * @version 3.16.11
@@ -16,19 +17,21 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve # of quiz attempts for a quiz
-	 * @param    int     $quiz_id  WP Post ID of the quiz
-	 * @param    array   $args     additional args to pass to LLMS_Query_Quiz_Attempt
-	 * @return   int
+	 *
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 *
+	 * @param    int $quiz_id  WP Post ID of the quiz
+	 * @return   int
 	 */
 	public function count_attempts_by_quiz( $quiz_id ) {
 
-		$query = new LLMS_Query_Quiz_Attempt( array(
-			'student_id' => $this->get_id(),
-			'quiz_id' => $quiz_id,
-			'per_page' => 1,
-		) );
+		$query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'student_id' => $this->get_id(),
+				'quiz_id'    => $quiz_id,
+				'per_page'   => 1,
+			)
+		);
 
 		return $query->found_results;
 
@@ -36,7 +39,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Remove Student Quiz attempt by ID
-	 * @param    int     $attempt_id  Attempt ID
+	 *
+	 * @param    int $attempt_id  Attempt ID
 	 * @return   boolean              true on success, false on error
 	 * @since    3.9.0
 	 * @version  3.16.11
@@ -50,17 +54,20 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve quiz data for a student and optionally filter by quiz_id(s)
-	 * @param    mixed   $quiz    WP Post ID / Array of WP Post IDs
+	 *
+	 * @param    mixed $quiz    WP Post ID / Array of WP Post IDs
 	 * @return   object           Instance of LLMS_Query_Quiz_Attempt
 	 * @since    3.9.0
 	 * @version  3.16.11
 	 */
 	public function get_all( $quiz = array() ) {
 
-		$query = new LLMS_Query_Quiz_Attempt( array(
-			'quiz_id' => $quiz,
-			'per_page' => 5000,
-		) );
+		$query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'quiz_id'  => $quiz,
+				'per_page' => 5000,
+			)
+		);
 
 		return apply_filters( 'llms_student_get_quiz_data', $query->get_attempts(), $quiz );
 
@@ -68,18 +75,22 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve quiz attempts
-	 * @param    int     $quiz_id  WP Post ID of the quiz
-	 * @param    array   $args     additional args to pass to LLMS_Query_Quiz_Attempt
+	 *
+	 * @param    int   $quiz_id  WP Post ID of the quiz
+	 * @param    array $args     additional args to pass to LLMS_Query_Quiz_Attempt
 	 * @return   array             array of LLMS_Quiz_Attempts
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
 	public function get_attempts_by_quiz( $quiz_id, $args = array() ) {
 
-		$args = wp_parse_args( array(
-			'student_id' => $this->get_id(),
-			'quiz_id' => $quiz_id,
-		), $args );
+		$args = wp_parse_args(
+			array(
+				'student_id' => $this->get_id(),
+				'quiz_id'    => $quiz_id,
+			),
+			$args
+		);
 
 		$query = new LLMS_Query_Quiz_Attempt( $args );
 
@@ -93,7 +104,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve an attempt by attempt id
-	 * @param    int     $attempt_id  Attempt ID
+	 *
+	 * @param    int $attempt_id  Attempt ID
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -104,7 +116,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Decodes an attempt string and returns the associated attempt
-	 * @param    string     $attempt_key  encoded attempt key
+	 *
+	 * @param    string $attempt_key  encoded attempt key
 	 * @return   obj|false
 	 * @since    3.9.0
 	 * @version  3.16.0
@@ -121,7 +134,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the # of attempts remaining by a student for a given quiz
-	 * @param    int     $quiz_id  WP Post ID of the Quiz
+	 *
+	 * @param    int $quiz_id  WP Post ID of the Quiz
 	 * @return   mixed
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -135,7 +149,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 		if ( $quiz->has_attempt_limit() ) {
 
 			$allowed = $quiz->get( 'allowed_attempts' );
-			$used = $this->count_attempts_by_quiz( $quiz->get( 'id' ) );
+			$used    = $this->count_attempts_by_quiz( $quiz->get( 'id' ) );
 
 			// ensure undefined, null, '', etc.. show as an int
 			if ( ! $allowed ) {
@@ -155,7 +169,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get all the attempts for a given quiz/lesson from an attempt key
-	 * @param    string     $attempt_key  an encoded attempt key
+	 *
+	 * @param    string $attempt_key  an encoded attempt key
 	 * @return   false|array
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -171,23 +186,27 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
-	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    null    $deprecated deprecated
+	 *
+	 * @param    int  $quiz_id    WP Post ID of a Quiz
+	 * @param    null $deprecated deprecated
 	 * @return   false|array
 	 * @since    3.9.0
 	 * @version  3.16.0
 	 */
 	public function get_best_attempt( $quiz_id = null, $deprecated = null ) {
 
-		$attempts = $this->get_attempts_by_quiz( $quiz_id, array(
-			'per_page' => 1,
-			'sort' => array(
-				'grade' => 'DESC',
-				'update_date' => 'DESC',
-				'id' => 'DESC',
-			),
-			'status' => array( 'pass', 'fail' ),
-		) );
+		$attempts = $this->get_attempts_by_quiz(
+			$quiz_id,
+			array(
+				'per_page' => 1,
+				'sort'     => array(
+					'grade'       => 'DESC',
+					'update_date' => 'DESC',
+					'id'          => 'DESC',
+				),
+				'status'   => array( 'pass', 'fail' ),
+			)
+		);
 
 		if ( $attempts ) {
 			return $attempts[0];
@@ -200,19 +219,23 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve the last recorded attempt for a student for a given quiz/lesson
 	 * "Last" is defined as the attempt with the highest attempt number
-	 * @param    int     $quiz_id    WP Post ID of the quiz
+	 *
+	 * @param    int $quiz_id    WP Post ID of the quiz
 	 * @return   obj|false
 	 * @since    3.9.0
 	 * @version  3.16.0
 	 */
 	public function get_last_attempt( $quiz_id ) {
 
-		$attempts = $this->get_attempts_by_quiz( $quiz_id, array(
-			'per_page' => 1,
-			'sort' => array(
-				'attempt' => 'DESC',
-			),
-		) );
+		$attempts = $this->get_attempts_by_quiz(
+			$quiz_id,
+			array(
+				'per_page' => 1,
+				'sort'     => array(
+					'attempt' => 'DESC',
+				),
+			)
+		);
 
 		if ( $attempts ) {
 			return $attempts[0];
@@ -224,24 +247,27 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the last completed attempt for a given quiz or quiz/lesson combination
-	 * @param    int     $quiz    WP Post ID of a Quiz
-	 * @param    int     $lesson  WP Post ID of a Lesson
+	 *
+	 * @param    int $quiz    WP Post ID of a Quiz
+	 * @param    int $lesson  WP Post ID of a Lesson
 	 * @return   false|obj
 	 * @since    3.9.0
 	 * @version  3.16.0
 	 */
 	public function get_last_completed_attempt( $quiz_id = null, $deprecated = null ) {
 
-		$query = new LLMS_Query_Quiz_Attempt( array(
-			'student_id' => $this->get_id(),
-			'quiz_id' => $quiz_id,
-			'per_page' => 1,
-			'status_exclude' => array( 'incomplete' ),
-			'sort' => array(
-				'end_date' => 'DESC',
-				'id' => 'DESC',
-			),
-		) );
+		$query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'student_id'     => $this->get_id(),
+				'quiz_id'        => $quiz_id,
+				'per_page'       => 1,
+				'status_exclude' => array( 'incomplete' ),
+				'sort'           => array(
+					'end_date' => 'DESC',
+					'id'       => 'DESC',
+				),
+			)
+		);
 
 		if ( $query->has_results() ) {
 			return $query->get_attempts()[0];
@@ -252,7 +278,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Parse an attempt key into it's parts
-	 * @param    string     $attempt_key  an encoded attempt key
+	 *
+	 * @param    string $attempt_key  an encoded attempt key
 	 * @return   array|false
 	 * @since    3.9.0
 	 * @version  3.16.7

@@ -3,12 +3,14 @@
  * Students Tab on Reporting Screen
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Admin_Reporting_Tab_Enrollments {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
@@ -33,9 +35,9 @@ class LLMS_Admin_Reporting_Tab_Enrollments {
 
 		$data['current_memberships'] = LLMS_Admin_Reporting::get_current_memberships();
 
-		$data['dates'] = LLMS_Admin_Reporting::get_dates( $data['current_range'] );
+		$data['dates']      = LLMS_Admin_Reporting::get_dates( $data['current_range'] );
 		$data['date_start'] = $data['dates']['start'];
-		$data['date_end'] = $data['dates']['end'];
+		$data['date_end']   = $data['dates']['end'];
 
 		return $data;
 
@@ -43,58 +45,67 @@ class LLMS_Admin_Reporting_Tab_Enrollments {
 
 	/**
 	 * Get an array of ajax widgets to load on page load
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.5.0
 	 */
 	public function get_widget_data() {
-		return apply_filters( 'llms_reporting_tab_enrollments_widgets', array(
+		return apply_filters(
+			'llms_reporting_tab_enrollments_widgets',
 			array(
-				'registrations' => array(
-					'title' => __( 'Registrations', 'lifterlms' ),
-					'cols' => '1-4',
-					'content' => __( 'loading...', 'lifterlms' ),
-					'info' => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
+				array(
+					'registrations'     => array(
+						'title'   => __( 'Registrations', 'lifterlms' ),
+						'cols'    => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info'    => __( 'Number of total user registrations during the selected period', 'lifterlms' ),
+					),
+					'enrollments'       => array(
+						'title'   => __( 'Enrollments', 'lifterlms' ),
+						'cols'    => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info'    => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
+					),
+					'coursecompletions' => array(
+						'title'   => __( 'Courses Completed', 'lifterlms' ),
+						'cols'    => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info'    => __( 'Number of total courses completed during the selected period', 'lifterlms' ),
+					),
+					'lessoncompletions' => array(
+						'title'   => __( 'Lessons Completed', 'lifterlms' ),
+						'cols'    => '1-4',
+						'content' => __( 'loading...', 'lifterlms' ),
+						'info'    => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
+					),
 				),
-				'enrollments' => array(
-					'title' => __( 'Enrollments', 'lifterlms' ),
-					'cols' => '1-4',
-					'content' => __( 'loading...', 'lifterlms' ),
-					'info' => __( 'Number of total enrollments during the selected period', 'lifterlms' ),
-				),
-				'coursecompletions' => array(
-					'title' => __( 'Courses Completed', 'lifterlms' ),
-					'cols' => '1-4',
-					'content' => __( 'loading...', 'lifterlms' ),
-					'info' => __( 'Number of total courses completed during the selected period', 'lifterlms' ),
-				),
-				'lessoncompletions' => array(
-					'title' => __( 'Lessons Completed', 'lifterlms' ),
-					'cols' => '1-4',
-					'content' => __( 'loading...', 'lifterlms' ),
-					'info' => __( 'Number of total lessons completed during the selected period', 'lifterlms' ),
-				),
-			),
-		) );
+			)
+		);
 	}
 
 	/**
 	 * Output the template for the sales tab
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
 	public function output() {
 
-		llms_get_template( 'admin/reporting/tabs/widgets.php', array(
-			'json' => json_encode( self::get_filter_data() ),
-			'widget_data' => $this->get_widget_data(),
-		) );
+		llms_get_template(
+			'admin/reporting/tabs/widgets.php',
+			array(
+				'json'        => json_encode( self::get_filter_data() ),
+				'widget_data' => $this->get_widget_data(),
+			)
+		);
 
 	}
 
 	/**
 	 * Output filters navigation
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0

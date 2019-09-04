@@ -1,6 +1,7 @@
 <?php
 /**
  * Memberships Tab on Reporting Screen
+ *
  * @since 3.32.0
  * @version 3.32.0
  */
@@ -11,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Memberships Tab on Reporting Screen class.
  *
  * @since 3.32.0
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Memberships {
 
@@ -57,6 +59,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 	 * Output tab content.
 	 *
 	 * @since 3.32.0
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return void
 	 */
@@ -65,20 +68,26 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 		// single membership
 		if ( isset( $_GET['membership_id'] ) ) {
 
-			if ( ! current_user_can( 'edit_post', $_GET['membership_id'] ) ) {
+			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'membership_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
-			$tabs = apply_filters( 'llms_reporting_tab_membership_tabs', array(
-				'overview' => __( 'Overview', 'lifterlms' ),
-				'students' => __( 'Students', 'lifterlms' ),
-			) );
+			$tabs = apply_filters(
+				'llms_reporting_tab_membership_tabs',
+				array(
+					'overview' => __( 'Overview', 'lifterlms' ),
+					'students' => __( 'Students', 'lifterlms' ),
+				)
+			);
 
-			llms_get_template( 'admin/reporting/tabs/memberships/membership.php', array(
-				'current_tab' => isset( $_GET['stab'] ) ? esc_attr( $_GET['stab'] ) : 'overview',
-				'tabs'        => $tabs,
-				'membership'  => llms_get_post( intval( $_GET['membership_id'] ) ),
-			) );
+			llms_get_template(
+				'admin/reporting/tabs/memberships/membership.php',
+				array(
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
+					'tabs'        => $tabs,
+					'membership'  => llms_get_post( intval( $_GET['membership_id'] ) ),
+				)
+			);
 
 		} // End if().
 		else {

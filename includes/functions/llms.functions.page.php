@@ -1,13 +1,15 @@
 <?php
 /**
-* Page functions
-* @since    1.0.0
-* @version  3.26.3
-*/
+ * Page functions
+ *
+ * @since    1.0.0
+ * @version  3.26.3
+ */
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Get url for when user cancels payment
+ *
  * @return string [url to redirect user to on form post]
  */
 function llms_cancel_payment_url() {
@@ -20,6 +22,7 @@ function llms_cancel_payment_url() {
 
 /**
  * Get url for redirect when user confirms payment
+ *
  * @return string [url to redirect user to on form post]
  */
 function llms_confirm_payment_url( $order_key = null ) {
@@ -35,9 +38,10 @@ function llms_confirm_payment_url( $order_key = null ) {
 
 /**
  * Retrieve the full URL to a LifterLMS endpoint
- * @param    string     $endpoint   ID of the endpoint, eg "view-courses"
- * @param    string     $value
- * @param    string     $permalink  base URL to append the endpoint to
+ *
+ * @param    string $endpoint   ID of the endpoint, eg "view-courses"
+ * @param    string $value
+ * @param    string $permalink  base URL to append the endpoint to
  * @return   string
  * @since    1.0.0
  * @version  3.26.3
@@ -47,7 +51,7 @@ function llms_get_endpoint_url( $endpoint, $value = '', $permalink = '' ) {
 		$permalink = get_permalink(); }
 
 	// Map endpoint to options
-	$vars = LLMS()->query->get_query_vars();
+	$vars     = LLMS()->query->get_query_vars();
 	$endpoint = isset( $vars[ $endpoint ] ) ? $vars[ $endpoint ] : $endpoint;
 
 	if ( get_option( 'permalink_structure' ) ) {
@@ -90,10 +94,12 @@ function llms_get_page_id( $page ) {
 /**
  * Retrieve the URL for a LifterLMS Page
  * EG: 'checkout', 'memberships', 'myaccount', 'courses' etc...
+ *
+ * @since  3.0.0
+ *
  * @param  string $page name of the page
  * @param  array  $args optional array of query arguments that can be passed to add_query_arg()
  * @return string
- * @since  3.0.0
  */
 function llms_get_page_url( $page, $args = array() ) {
 	$url = add_query_arg( $args, get_permalink( llms_get_page_id( $page ) ) );
@@ -104,11 +110,11 @@ function llms_get_page_url( $page, $args = array() ) {
 /**
  * Returns the url to the lost password endpoint url
  *
- * @param string $url
+ * @since Unknown
  *
  * @return string
  */
 function llms_lostpassword_url() {
 	return llms_get_endpoint_url( 'lost-password', '', get_permalink( llms_get_page_id( 'myaccount' ) ) );
 }
-add_filter( 'lostpassword_url',  'llms_lostpassword_url', 10, 0 );
+add_filter( 'lostpassword_url', 'llms_lostpassword_url', 10, 0 );

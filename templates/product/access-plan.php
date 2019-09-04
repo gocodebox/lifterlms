@@ -1,6 +1,7 @@
 <?php
 /**
  * Single Access Plan Template
+ *
  * @property  obj  $plan  Instance of the LLMS_Access_Plan
  * @author    LifterLMS
  * @package   LifterLMS/Templates
@@ -15,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
 	<?php
 		/**
 		 * llms_before_access_plan
+		 *
 		 * @hooked llms_template_access_plan_feature - 10
 		 */
 		do_action( 'llms_before_access_plan', $plan );
@@ -24,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php
 			/**
 			 * llms_acces_plan_content
+			 *
 			 * @hooked llms_template_access_plan_title - 10
 			 * @hooked llms_template_access_plan_pricing - 20
 			 * @hooked llms_template_access_plan_restrictions - 30
@@ -38,6 +41,7 @@ defined( 'ABSPATH' ) || exit;
 		<?php
 			/**
 			 * llms_acces_plan_footer
+			 *
 			 * @hooked llms_template_access_plan_trial - 10
 			 * @hooked llms_template_access_plan_button - 20
 			 */

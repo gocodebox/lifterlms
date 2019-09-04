@@ -1,13 +1,17 @@
 <?php
 /**
  * Quiz Results Template
- * @since    1.0.0
- * @version  3.16.0
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since 1.0.0
+ * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
+ * @version 3.35.0
  *
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 $quiz = llms_get_post( $post );
@@ -15,15 +19,18 @@ if ( ! $quiz ) {
 	return;
 }
 
-$student = llms_get_student();
-$attempts = $student->quizzes()->get_attempts_by_quiz( $quiz->get( 'id' ), array(
-	'per_page' => 25,
-	'sort' => array(
-		'attempt' => 'DESC',
-	),
-) );
+$student  = llms_get_student();
+$attempts = $student->quizzes()->get_attempts_by_quiz(
+	$quiz->get( 'id' ),
+	array(
+		'per_page' => 25,
+		'sort'     => array(
+			'attempt' => 'DESC',
+		),
+	)
+);
 
-$attempt = isset( $_GET['attempt_key'] ) ? $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] ) : false;
+$attempt = isset( $_GET['attempt_key'] ) ? $student->quizzes()->get_attempt_by_key( llms_filter_input( INPUT_GET, 'attempt_key', FILTER_SANITIZE_STRING ) ) : false;
 
 if ( ! $attempt && ! $attempts ) {
 	return;
@@ -36,6 +43,7 @@ if ( ! $attempt && ! $attempts ) {
 	<?php
 		/**
 		 * llms_single_quiz_attempt_results
+		 *
 		 * @hooked lifterlms_template_quiz_attempt_results - 10
 		 */
 		do_action( 'llms_single_quiz_attempt_results', $attempt );

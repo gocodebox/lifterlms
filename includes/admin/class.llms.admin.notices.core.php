@@ -18,6 +18,7 @@ class LLMS_Admin_Notices_Core {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.0.0
 	 * @version  3.14.8
 	 */
@@ -34,6 +35,7 @@ class LLMS_Admin_Notices_Core {
 	/**
 	 * Add actions on different hooks depending on the current screen
 	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle
+	 *
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -41,10 +43,10 @@ class LLMS_Admin_Notices_Core {
 
 		$screen = get_current_screen();
 		if ( ! empty( $screen->base ) && 'lifterlms_page_llms-settings' === $screen->base ) {
-			$action = 'lifterlms_settings_notices';
+			$action   = 'lifterlms_settings_notices';
 			$priority = 5;
 		} else {
-			$action = 'current_screen';
+			$action   = 'current_screen';
 			$priority = 77;
 		}
 
@@ -75,12 +77,15 @@ class LLMS_Admin_Notices_Core {
 			// disable recurring payments immediately.
 			LLMS_Site::update_feature( 'recurring_payments', false );
 
-			LLMS_Admin_Notices::add_notice( $id, array(
-				'type' => 'info',
-				'dismissible' => false,
-				'remindable' => false,
-				'template' => 'admin/notices/staging.php',
-			) );
+			LLMS_Admin_Notices::add_notice(
+				$id,
+				array(
+					'type'        => 'info',
+					'dismissible' => false,
+					'remindable'  => false,
+					'template'    => 'admin/notices/staging.php',
+				)
+			);
 
 		}
 
@@ -88,6 +93,7 @@ class LLMS_Admin_Notices_Core {
 
 	/**
 	 * Check for gateways and output gateway notice
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.13.0
@@ -96,16 +102,29 @@ class LLMS_Admin_Notices_Core {
 		$id = 'no-gateways';
 
 		if ( ! apply_filters( 'llms_admin_notice_no_payment_gateways', LLMS()->payment_gateways()->has_gateways( true ) ) ) {
-			$html = __( 'No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans.', 'lifterlms' ) . '<br><br>';
-			$html .= sprintf( __( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ), '<a href="' . add_query_arg( array(
-				'page' => 'llms-settings',
-				'tab' => 'checkout',
-			), admin_url( 'admin.php' ) ) . '">', '</a>', '<a href="https://lifterlms.com/product-category/plugins/payment-gateways/" target="_blank">', '</a>' );
-			LLMS_Admin_Notices::add_notice( $id, $html, array(
-				'type' => 'warning',
-				'dismiss_for_days' => 7,
-				'remindable' => true,
-			) );
+			$html  = __( 'No LifterLMS Payment Gateways are currently enabled. Students will only be able to enroll in courses or memberships with free access plans.', 'lifterlms' ) . '<br><br>';
+			$html .= sprintf(
+				__( 'For starters you can configure manual payments on the %1$sCheckout Settings tab%2$s. Be sure to check out all the available %3$sLifterLMS Payment Gateways%4$s and install one later so that you can start selling your courses and memberships.', 'lifterlms' ),
+				'<a href="' . add_query_arg(
+					array(
+						'page' => 'llms-settings',
+						'tab'  => 'checkout',
+					),
+					admin_url( 'admin.php' )
+				) . '">',
+				'</a>',
+				'<a href="https://lifterlms.com/product-category/plugins/payment-gateways/" target="_blank">',
+				'</a>'
+			);
+			LLMS_Admin_Notices::add_notice(
+				$id,
+				$html,
+				array(
+					'type'             => 'warning',
+					'dismiss_for_days' => 7,
+					'remindable'       => true,
+				)
+			);
 		} elseif ( LLMS_Admin_Notices::has_notice( $id ) ) {
 			LLMS_Admin_Notices::delete_notice( $id );
 		}
@@ -113,6 +132,7 @@ class LLMS_Admin_Notices_Core {
 
 	/**
 	 * Don't display notices on specific pages
+	 *
 	 * @return   void
 	 * @since    3.14.8
 	 * @version  3.16.14
@@ -132,6 +152,7 @@ class LLMS_Admin_Notices_Core {
 
 	/**
 	 * Check theme support for LifterLMS Sidebars
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.7.4
@@ -147,16 +168,22 @@ class LLMS_Admin_Notices_Core {
 			$msg = sprintf(
 				__( '<strong>The current theme, %1$s, does not declare support for LifterLMS Sidebars.</strong> Course and Lesson sidebars may not work as expected. Please see our %2$sintegration guide%3$s or check out our %4$sLaunchPad%5$s theme which is designed specifically for use with LifterLMS.', 'lifterlms' ),
 				$theme->get( 'Name' ),
-				'<a href="https://lifterlms.com/docs/lifterlms-sidebar-support/?utm_source=notice&utm_medium=product&utm_content=sidebarsupport&utm_campaign=lifterlmsplugin" target="_blank">', '</a>',
-				'<a href="https://lifterlms.com/product/launchpad/?utm_source=notice&utm_medium=product&utm_content=launchpad&utm_campaign=lifterlmsplugin" target="_blank">', '</a>'
+				'<a href="https://lifterlms.com/docs/lifterlms-sidebar-support/?utm_source=notice&utm_medium=product&utm_content=sidebarsupport&utm_campaign=lifterlmsplugin" target="_blank">',
+				'</a>',
+				'<a href="https://lifterlms.com/product/launchpad/?utm_source=notice&utm_medium=product&utm_content=launchpad&utm_campaign=lifterlmsplugin" target="_blank">',
+				'</a>'
 			);
 
-			LLMS_Admin_Notices::add_notice( $id, $msg, array(
-				'dismissible' => true,
-				'dismiss_for_days' => 730, // @todo there should be a "forever" setting
-				'remindable' => false,
-				'type' => 'warning',
-			) );
+			LLMS_Admin_Notices::add_notice(
+				$id,
+				$msg,
+				array(
+					'dismissible'      => true,
+					'dismiss_for_days' => 730, // @todo there should be a "forever" setting
+					'remindable'       => false,
+					'type'             => 'warning',
+				)
+			);
 
 		} elseif ( LLMS_Admin_Notices::has_notice( $id ) ) {
 
@@ -169,6 +196,7 @@ class LLMS_Admin_Notices_Core {
 	/**
 	 * Removes the current sidebar notice (if present) and clears notice delay transients
 	 * Called when theme is switched
+	 *
 	 * @return   void
 	 * @since    3.14.7
 	 * @version  3.14.7

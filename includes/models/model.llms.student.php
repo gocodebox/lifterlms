@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version 3.34.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,11 +17,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
  * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
  * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
+ * @since 3.35.0 Prepare all variables when querying for enrollment date.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve an instance of the LLMS_Instructor model for the current user
+	 *
 	 * @return   LLMS_Instructor|false
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -35,6 +37,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve an instance of the student quiz data model
+	 *
 	 * @return   LLMS_Student_Quizzes
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -45,6 +48,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add the student to a LifterLMS Membership
+	 *
 	 * @param int $membership_id   WP Post ID of the membership
 	 * @return  void
 	 *
@@ -79,8 +83,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see llms_enroll_student()
 	 *
-	 * @param  int     $product_id   WP Post ID of the course or membership
-	 * @param  string  $trigger      String describing the reason for enrollment
+	 * @param  int    $product_id   WP Post ID of the course or membership
+	 * @param  string $trigger      String describing the reason for enrollment
 	 * @return boolean
 	 */
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
@@ -169,11 +173,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve achievements that a user has earned
+	 *
 	 * @param    string $orderby field to order the returned results by
 	 * @param    string $order   ordering method for returned results (ASC or DESC)
 	 * @param    string $return  return type
-	 *                           	obj => array of objects from $wpdb->get_results
-	 *                           	achievements => array of LLMS_User_Achievement instances
+	 *                              obj => array of objects from $wpdb->get_results
+	 *                              achievements => array of LLMS_User_Achievement instances
 	 * @return   array
 	 * @since    2.4.0
 	 * @version  3.14.0
@@ -181,14 +186,18 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_achievements( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 
 		$orderby = esc_sql( $orderby );
-		$order = esc_sql( $order );
+		$order   = esc_sql( $order );
 
 		global $wpdb;
 
-		$query = $wpdb->get_results( $wpdb->prepare(
-			"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
-			$this->get_id()
-		) );
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
+				$this->get_id()
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( 'achievements' === $return ) {
 			$ret = array();
@@ -212,7 +221,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Retrieve the order which enrolled a student in a given course or membership
 	 * Retrieves the most recently updated order for the given product
 	 *
-	 * @param    int        $product_id  WP Post ID of the LifterLMS Product (course, lesson, or membership)
+	 * @param    int $product_id  WP Post ID of the LifterLMS Product (course, lesson, or membership)
 	 * @return   LLMS_Order|false        Instance of the LLMS_Order or false if none found
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -221,7 +230,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// if a lesson id was passed in, cascade up to the course for order retrieval
 		if ( 'lesson' === get_post_type( $product_id ) ) {
-			$lesson = new LLMS_Lesson( $product_id );
+			$lesson     = new LLMS_Lesson( $product_id );
 			$product_id = $lesson->get_parent_course();
 		}
 
@@ -241,24 +250,26 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		// couldn't find via enrollment trigger, do a WP_Query
-		$q = new WP_Query( array(
-			'order' => 'DESC',
-			'orderby' => 'modified',
-			'meta_query' => array(
-				'relation' => 'AND',
-				array(
-					'key' => '_llms_user_id',
-					'value' => $this->get_id(),
+		$q = new WP_Query(
+			array(
+				'order'          => 'DESC',
+				'orderby'        => 'modified',
+				'meta_query'     => array(
+					'relation' => 'AND',
+					array(
+						'key'   => '_llms_user_id',
+						'value' => $this->get_id(),
+					),
+					array(
+						'key'   => '_llms_product_id',
+						'value' => $product_id,
+					),
 				),
-				array(
-					'key' => '_llms_product_id',
-					'value' => $product_id,
-				),
-			),
-			'posts_per_page' => 1,
-			// 'post_status' => $statuses,
-			'post_type' => 'llms_order',
-		) );
+				'posts_per_page' => 1,
+				// 'post_status' => $statuses,
+				'post_type'      => 'llms_order',
+			)
+		);
 
 		if ( $q->have_posts() ) {
 			return new LLMS_Order( $q->posts[0] );
@@ -271,11 +282,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve certificates that a user has earned
+	 *
 	 * @param    string $orderby field to order the returned results by
 	 * @param    string $order   ordering method for returned results (ASC or DESC)
 	 * @param    string $return  return type
-	 *                           	obj => array of objects from $wpdb->get_results
-	 *                           	certificates => array of LLMS_User_Certificate instances
+	 *                              obj => array of objects from $wpdb->get_results
+	 *                              certificates => array of LLMS_User_Certificate instances
 	 * @return   array
 	 * @since    2.4.0
 	 * @version  3.14.1
@@ -283,14 +295,18 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_certificates( $orderby = 'updated_date', $order = 'DESC', $return = 'obj' ) {
 
 		$orderby = esc_sql( $orderby );
-		$order = esc_sql( $order );
+		$order   = esc_sql( $order );
 
 		global $wpdb;
 
-		$query = $wpdb->get_results( $wpdb->prepare(
-			"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_certificate_earned' ORDER BY $orderby $order",
-			$this->get_id()
-		) );
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_certificate_earned' ORDER BY $orderby $order",
+				$this->get_id()
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( 'certificates' === $return ) {
 			$ret = array();
@@ -306,7 +322,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve IDs of user's courses based on supplied criteria
-	 * @param    array  $args   see `get_enrollments`
+	 *
+	 * @param    array $args   see `get_enrollments`
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.15.0
@@ -320,7 +337,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve IDs of courses a user has completed
 	 *
-	 * @param  array  $args query arguments
+	 * @param  array $args query arguments
 	 *                      @arg int    $limit    number of courses to return
 	 *                      @arg string $orderby  table reference and field to order results by
 	 *                      @arg string $order    result order (DESC, ASC)
@@ -334,19 +351,23 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
-		$args = array_merge( array(
-			'limit'   => 20,
-			'orderby' => 'upm.updated_date',
-			'order'   => 'DESC',
-			'skip'    => 0,
-		), $args );
+		$args = array_merge(
+			array(
+				'limit'   => 20,
+				'orderby' => 'upm.updated_date',
+				'order'   => 'DESC',
+				'skip'    => 0,
+			),
+			$args
+		);
 
 		// add one to the limit to see if there's pagination
 		$args['limit']++;
 
-		// the query
-		$q = $wpdb->get_results( $wpdb->prepare(
-			"SELECT upm.post_id AS id
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$q = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT upm.post_id AS id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 			 WHERE p.post_type = 'course'
@@ -355,14 +376,18 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			   AND upm.user_id = %d
 			 ORDER BY {$args['orderby']} {$args['order']}
 			 LIMIT %d, %d;
-			", array(
-				$this->get_id(),
-				$args['skip'],
-				$args['limit'],
-			)
-		), 'OBJECT_K' );
+			",
+				array(
+					$this->get_id(),
+					$args['skip'],
+					$args['limit'],
+				)
+			),
+			'OBJECT_K'
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
-		$ids = array_keys( $q );
+		$ids  = array_keys( $q );
 		$more = false;
 
 		// if we hit our limit we have too many results, pop the last one
@@ -375,10 +400,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		$args['limit']--;
 
 		$r = array(
-			'limit' => $args['limit'],
-			'more' => $more,
+			'limit'   => $args['limit'],
+			'more'    => $more,
 			'results' => $ids,
-			'skip' => $args['skip'],
+			'skip'    => $args['skip'],
 		);
 
 		return $r;
@@ -387,8 +412,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the formatted date when a course or lesson was completed by the student
-	 * @param    int        $object_id  WP Post ID of a course or lesson
-	 * @param    string     $format     date format as accepted by php date()
+	 *
+	 * @param    int    $object_id  WP Post ID of a course or lesson
+	 * @param    string $format     date format as accepted by php date()
 	 * @return   false|string            will return false if the user is not enrolled
 	 * @since    ??
 	 * @version  ??
@@ -397,10 +423,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
-		$q = $wpdb->get_var( $wpdb->prepare(
-			"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-			array( $this->get_id(), $object_id )
-		) );
+		$q = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_is_complete' AND meta_value = 'yes' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+				array( $this->get_id(), $object_id )
+			)
+		);
 
 		return ( $q ) ? date_i18n( $format, strtotime( $q ) ) : false;
 
@@ -408,6 +436,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve IDs of user's enrollments by post type (and additional criteria)
+	 *
 	 * @param  string $post_type  name of the post type (course|membership)
 	 * @param  array  $args query arguments
 	 *                      @arg int    $limit    number of courses to return
@@ -425,13 +454,16 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
-		$args = wp_parse_args( $args, array(
-			'limit' => 20,
-			'orderby' => 'upm.updated_date',
-			'order' => 'DESC',
-			'skip' => 0,
-			'status' => 'any', // any, enrolled, cancelled, expired
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'limit'   => 20,
+				'orderby' => 'upm.updated_date',
+				'order'   => 'DESC',
+				'skip'    => 0,
+				'status'  => 'any', // any, enrolled, cancelled, expired
+			)
+		);
 
 		// prefix membership
 		if ( 'membership' === $post_type ) {
@@ -440,24 +472,25 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// sanitize order & orderby
 		$args['orderby'] = preg_replace( '/[^a-zA-Z_.]/', '', $args['orderby'] );
-		$args['order'] = preg_replace( '/[^a-zA-Z_.]/', '', $args['order'] );
+		$args['order']   = preg_replace( '/[^a-zA-Z_.]/', '', $args['order'] );
 
 		// allow "short" orderby's to be passed in without a table reference
 		switch ( $args['orderby'] ) {
 			case 'date':
 				$args['orderby'] = 'upm.updated_date';
-			break;
+				break;
 			case 'order':
 				$args['orderby'] = 'p.menu_order';
-			break;
+				break;
 			case 'title':
 				$args['orderby'] = 'p.post_title';
-			break;
+				break;
 		}
 
 		// prepare additional status AND clauses
 		if ( 'any' !== $args['status'] ) {
-			$status = $wpdb->prepare( "
+			$status = $wpdb->prepare(
+				"
 				AND upm.meta_value = %s
 				AND upm.updated_date = (
 					SELECT MAX( upm2.updated_date )
@@ -465,14 +498,18 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					 WHERE upm2.meta_key = '_status'
 					   AND upm2.user_id = %d
 					   AND upm2.post_id = upm.post_id
-					)", $args['status'], $this->get_id() );
+					)",
+				$args['status'],
+				$this->get_id()
+			);
 		} else {
 			$status = '';
 		}
 
-		// the query
-		$query = $wpdb->get_results( $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS DISTINCT upm.post_id AS id
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$query = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT SQL_CALC_FOUND_ROWS DISTINCT upm.post_id AS id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta AS upm
 			 JOIN {$wpdb->posts} AS p ON p.ID = upm.post_id
 			 WHERE p.post_type = %s
@@ -482,21 +519,25 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			   {$status}
 			 ORDER BY {$args['orderby']} {$args['order']}
 			 LIMIT %d, %d;
-			", array(
-				$post_type,
-				$this->get_id(),
-				$args['skip'],
-				$args['limit'],
-			)
-		), 'OBJECT_K' );
+			",
+				array(
+					$post_type,
+					$this->get_id(),
+					$args['skip'],
+					$args['limit'],
+				)
+			),
+			'OBJECT_K'
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
 
 		return array(
-			'found' => $found,
-			'limit' => $args['limit'],
-			'more' => ( $found > ( ( $args['skip'] / $args['limit'] + 1 ) * $args['limit'] ) ),
-			'skip' => $args['skip'],
+			'found'   => $found,
+			'limit'   => $args['limit'],
+			'more'    => ( $found > ( ( $args['skip'] / $args['limit'] + 1 ) * $args['limit'] ) ),
+			'skip'    => $args['skip'],
 			'results' => array_keys( $query ),
 		);
 
@@ -504,12 +545,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the formatted date when a user initially enrolled in a product or when they were last updated
+	 *
+	 * @since 3.0.0
+	 * @since 3.35.0 Prepare SQL properly.
+	 *
 	 * @param   int    $product_id  WP Post ID of a course or membership
 	 * @param   string $date        "enrolled" will get the most recent start date, "updated" will get the most recent status change date
 	 * @param   string $format      date format as accepted by php date(), if none supplied uses the WP core "date_format" option
 	 * @return  false|string        will return false if the user is not enrolled
-	 * @since   3.0.0
-	 * @version 3.17.0
 	 */
 	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = null ) {
 
@@ -518,7 +561,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		$cache_key = sprintf( 'date_%1$s_%2$s', $date, $product_id );
-		$res = $this->cache_get( $cache_key );
+		$res       = $this->cache_get( $cache_key );
 
 		if ( false === $res ) {
 
@@ -527,10 +570,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			global $wpdb;
 
 			// get the oldest recorded Enrollment date
-			$res = $wpdb->get_var( $wpdb->prepare(
-				"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-				array( $this->get_id(), $product_id )
-			) );
+			$res = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = %s AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+					array( $key, $this->get_id(), $product_id )
+				)
+			);
 
 			$this->cache_set( $cache_key, $res );
 
@@ -543,8 +588,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
-	 * @param    int    $product_id  WP Post ID of a Course, Section, Lesson, or Membership
-	 * @param    bool   $use_cache   If true, returns cached data if available, if false will run a db query
+	 * @param    int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
+	 * @param    bool $use_cache   If true, returns cached data if available, if false will run a db query
 	 * @return   false|string
 	 * @since    3.0.0
 	 * @version  3.17.0
@@ -574,18 +619,20 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		// status will be:
-		//    + false if there was nothing in the cache -- run a query!
-		//    + a string if there was a status          -- don't run query
-		//    + null if there's no status               -- don't run query
+		// + false if there was nothing in the cache -- run a query!
+		// + a string if there was a status          -- don't run query
+		// + null if there's no status               -- don't run query
 		if ( false === $status ) {
 
 			global $wpdb;
 
 			// get the most recent recorded status
-			$status = $wpdb->get_var( $wpdb->prepare(
-				"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-				array( $this->get_id(), $product_id )
-			) );
+			$status = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+					array( $this->get_id(), $product_id )
+				)
+			);
 
 			// null will be stored if the student has no status
 			$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), $status );
@@ -600,7 +647,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the enrollment trigger for a the student's enrollment in a course
-	 * @param    int           $product_id   WP Post ID of the course or membership
+	 *
+	 * @param    int $product_id   WP Post ID of the course or membership
 	 * @return   string|false
 	 * @since    ??
 	 * @version  3.21.0
@@ -614,7 +662,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the enrollment trigger id for a the student's enrollment in a course
-	 * @param    int  $product_id  WP Post ID of the course or membership
+	 *
+	 * @param    int $product_id  WP Post ID of the course or membership
 	 * @return   int|false
 	 * @since    3.0.0
 	 * @version  3.17.2
@@ -622,7 +671,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	public function get_enrollment_trigger_id( $product_id ) {
 
 		$trigger = $this->get_enrollment_trigger( $product_id );
-		$id = false;
+		$id      = false;
 		if ( $trigger && false !== strpos( $trigger, 'order_' ) ) {
 			$trigger_obj = $this->get_enrollment_order( $product_id );
 			if ( $trigger_obj instanceof LLMS_Order ) {
@@ -639,18 +688,24 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve postmeta events related to the student
-	 * @param    array      $args  default args, see LLMS_Query_User_Postmeta
+	 *
+	 * @param    array $args  default args, see LLMS_Query_User_Postmeta
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
 	public function get_events( $args = array() ) {
 
-		$query = new LLMS_Query_User_Postmeta( wp_parse_args( $args, array(
-			'types' => 'all',
-			'per_page' => 10,
-			'user_id' => $this->get_id(),
-		) ) );
+		$query = new LLMS_Query_User_Postmeta(
+			wp_parse_args(
+				$args,
+				array(
+					'types'    => 'all',
+					'per_page' => 10,
+					'user_id'  => $this->get_id(),
+				)
+			)
+		);
 
 		return $query->get_metas();
 
@@ -659,8 +714,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the students grade for a lesson / course
 	 * All grades are based on quizzes assigned to lessons
-	 * @param    int     $object_id  WP Post ID of a course or lesson
-	 * @param    bool    $use_cache  If true, uses cached results
+	 *
+	 * @param    int  $object_id  WP Post ID of a course or lesson
+	 * @param    bool $use_cache  If true, uses cached results
 	 * @return   mixed
 	 * @since    ??
 	 * @version  3.24.0
@@ -675,7 +731,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve IDs of user's memberships based on supplied criteria
-	 * @param    array  $args   see `get_enrollments`
+	 *
+	 * @param    array $args   see `get_enrollments`
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -688,9 +745,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve a user's notification subscription preferences for a given type & trigger
-	 * @param    string   $type     notification type: email, basic, etc...
-	 * @param    string   $trigger  notification trigger: eg purchase_receipt, lesson_complete, etc...
-	 * @param    string   $default  value to return if no setting is saved in the db
+	 *
+	 * @param    string $type     notification type: email, basic, etc...
+	 * @param    string $trigger  notification trigger: eg purchase_receipt, lesson_complete, etc...
+	 * @param    string $default  value to return if no setting is saved in the db
 	 * @return   string             yes or no
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -717,7 +775,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * cached data is automatically cleared when a student completes a quiz
 	 *
-	 * @param    boolean      $use_cache   if false, calculates the grade, otherwise utilizes cached data (if available)
+	 * @param    boolean $use_cache   if false, calculates the grade, otherwise utilizes cached data (if available)
 	 * @return   float|string              grade as float or "N/A"
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -742,9 +800,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$grades = array();
 
 			// get courses
-			$courses = $this->get_courses( array(
-				'limit' => 9999,
-			) );
+			$courses = $this->get_courses(
+				array(
+					'limit' => 9999,
+				)
+			);
 
 			// loop through courses
 			foreach ( $courses['results'] as $course_id ) {
@@ -784,7 +844,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Overall progress is the total percentage completed based on all courses the student is enrolled in
 	 * Cached data is cleared every time the student completes a lesson
 	 *
-	 * @param    boolean    $use_cache  if false, calculates the progress, otherwise utilizes cached data (if available)
+	 * @param    boolean $use_cache  if false, calculates the progress, otherwise utilizes cached data (if available)
 	 * @return   float
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -809,9 +869,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$progresses = array();
 
 			// get courses
-			$courses = $this->get_courses( array(
-				'limit' => 9999,
-			) );
+			$courses = $this->get_courses(
+				array(
+					'limit' => 9999,
+				)
+			);
 
 			// loop through courses
 			foreach ( $courses['results'] as $course_id ) {
@@ -840,14 +902,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the students last completed lesson in a course
-	 * @param    int     $course_id    WP_Post ID of the course
+	 *
+	 * @param    int $course_id    WP_Post ID of the course
 	 * @return   int                   WP_Post ID of the lesson or false if no progress has been made
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_last_completed_lesson( $course_id ) {
 
-		$course = new LLMS_Course( $course_id );
+		$course  = new LLMS_Course( $course_id );
 		$lessons = array_reverse( $course->get_lessons( 'ids' ) );
 
 		foreach ( $lessons as $lesson ) {
@@ -862,6 +925,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve an array of Membership Levels for a user
+	 *
 	 * @return array
 	 * @since   2.2.3
 	 * @version 2.2.3
@@ -882,6 +946,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the full name of a student
+	 *
 	 * @return   string
 	 * @since    3.0.4
 	 * @version  3.5.1
@@ -900,14 +965,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the next lesson a student needs to complete in a course
-	 * @param    int     $course_id    WP_Post ID of the course
+	 *
+	 * @param    int $course_id    WP_Post ID of the course
 	 * @return   int                   WP_Post ID of the lesson or false if all courses are complete
 	 * @since    3.0.1
 	 * @version  3.0.1
 	 */
 	public function get_next_lesson( $course_id ) {
 
-		$course = new LLMS_Course( $course_id );
+		$course  = new LLMS_Course( $course_id );
 		$lessons = $course->get_lessons( 'ids' );
 
 		foreach ( $lessons as $lesson ) {
@@ -922,30 +988,35 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	public function get_orders( $params = array() ) {
 
-		$params = wp_parse_args( $params, array(
+		$params = wp_parse_args(
+			$params,
+			array(
 
-			'count' => 25,
-			'page' => 1,
-			'statuses' => array_keys( llms_get_order_statuses() ),
+				'count'    => 25,
+				'page'     => 1,
+				'statuses' => array_keys( llms_get_order_statuses() ),
 
-		) );
+			)
+		);
 
 		extract( $params );
 
-		$q = new WP_Query( array(
-			'order' => 'DESC',
-			'orderby' => 'date',
-			'meta_query' => array(
-				array(
-					'key' => '_llms_user_id',
-					'value' => $this->get_id(),
+		$q = new WP_Query(
+			array(
+				'order'          => 'DESC',
+				'orderby'        => 'date',
+				'meta_query'     => array(
+					array(
+						'key'   => '_llms_user_id',
+						'value' => $this->get_id(),
+					),
 				),
-			),
-			'paged' => $page,
-			'posts_per_page' => $count,
-			'post_status' => $statuses,
-			'post_type' => 'llms_order',
-		) );
+				'paged'          => $page,
+				'posts_per_page' => $count,
+				'post_status'    => $statuses,
+				'post_type'      => 'llms_order',
+			)
+		);
 
 		$orders = array();
 
@@ -959,9 +1030,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		return array(
-			'count' => count( $q->posts ),
-			'page' => $page,
-			'pages' => $q->max_num_pages,
+			'count'  => count( $q->posts ),
+			'page'   => $page,
+			'pages'  => $q->max_num_pages,
 			'orders' => $orders,
 		);
 
@@ -969,30 +1040,31 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get students progress through a course or track
-	 * @param    int        $object_id  course or track id
-	 * @param    string     $type       object type [course|course_track|section]
-	 * @param    boolean    $use_cache  if true, will use cached data from the usermeta table (if available)
-	 *                                  if false, will bypass cached data and recalculate the progress from scratch
+	 *
+	 * @param    int     $object_id  course or track id
+	 * @param    string  $type       object type [course|course_track|section]
+	 * @param    boolean $use_cache  if true, will use cached data from the usermeta table (if available)
+	 *                               if false, will bypass cached data and recalculate the progress from scratch
 	 * @return   float
 	 * @since    3.0.0
 	 * @version  3.24.0
 	 */
 	public function get_progress( $object_id, $type = 'course', $use_cache = true ) {
 
-		$ret = 0;
+		$ret       = 0;
 		$cache_key = sprintf( '%1$s_%2$d_progress', $type, $object_id );
-		$cached = $use_cache ? $this->get( $cache_key ) : '';
+		$cached    = $use_cache ? $this->get( $cache_key ) : '';
 
 		if ( '' === $cached ) {
 
-			$total = 0;
+			$total     = 0;
 			$completed = 0;
 
 			if ( 'course' === $type ) {
 
-				$course = new LLMS_Course( $object_id );
+				$course  = new LLMS_Course( $object_id );
 				$lessons = $course->get_lessons( 'ids' );
-				$total = count( $lessons );
+				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {
 						$completed++;
@@ -1000,9 +1072,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				}
 			} elseif ( 'course_track' === $type ) {
 
-				$track = new LLMS_Track( $object_id );
+				$track   = new LLMS_Track( $object_id );
 				$courses = $track->get_courses();
-				$total = count( $courses );
+				$total   = count( $courses );
 				foreach ( $courses as $course ) {
 					if ( $this->is_complete( $course->ID, 'course' ) ) {
 						$completed++;
@@ -1012,7 +1084,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				$section = new LLMS_Section( $object_id );
 				$lessons = $section->get_lessons( 'ids' );
-				$total = count( $lessons );
+				$total   = count( $lessons );
 				foreach ( $lessons as $lesson ) {
 					if ( $this->is_complete( $lesson, 'lesson' ) ) {
 						$completed++;
@@ -1043,7 +1115,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve the Students original registration date in chosen format
-	 * @param    string     $format  any date format that can be passed to date()
+	 *
+	 * @param    string $format  any date format that can be passed to date()
 	 * @return   string
 	 * @since    ??
 	 * @version  3.14.0
@@ -1060,6 +1133,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Determine if the student is active in at least one course or membership
+	 *
 	 * @return   boolean
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -1072,10 +1146,12 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}
 
 		// check for at least one enrolled course
-		$courses = $this->get_courses( array(
-			'limit'   => 1,
-			'status'  => 'enrolled',
-		) );
+		$courses = $this->get_courses(
+			array(
+				'limit'  => 1,
+				'status' => 'enrolled',
+			)
+		);
 
 		if ( $courses['results'] ) {
 			return true;
@@ -1089,8 +1165,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the student has completed a course, track, or lesson
 	 *
-	 * @param    int     $object_id  WP Post ID of a course or lesson or section or the term id of the track
-	 * @param    string     $type    Object type (course, lesson, section, or track)
+	 * @param    int    $object_id  WP Post ID of a course or lesson or section or the term id of the track
+	 * @param    string $type    Object type (course, lesson, section, or track)
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.24.0
@@ -1107,13 +1183,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// everything else can be checked on the postmeta table
 		} else {
 
-			$query = new LLMS_Query_User_Postmeta( array(
-				'types' => 'completion',
-				'include_post_children' => false,
-				'user_id' => $this->get_id(),
-				'post_id' => $object_id,
-				'per_page' => 1,
-			) );
+			$query = new LLMS_Query_User_Postmeta(
+				array(
+					'types'                 => 'completion',
+					'include_post_children' => false,
+					'user_id'               => $this->get_id(),
+					'post_id'               => $object_id,
+					'per_page'              => 1,
+				)
+			);
 
 			$ret = $query->has_results();
 
@@ -1126,6 +1204,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the student is a LifterLMS Instructor (of any kind)
 	 * Can be admin, manager, instructor, assistant
+	 *
 	 * @return   boolean
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -1136,8 +1215,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add student postmeta data for completion of a lesson, section, course or track
-	 * @param  int        $object_id    WP Post ID of the lesson, section, course or track
-	 * @param  string     $trigger      String describing the reason for mark completion
+	 *
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course or track
+	 * @param  string $trigger      String describing the reason for mark completion
 	 * @return boolean
 	 * @since    3.3.1
 	 * @version  3.21.0
@@ -1160,8 +1240,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Add student postmeta data for incompletion of a lesson, section, course or track
 	 * An "_is_complete" value of "no" is inserted into postmeta
-	 * @param    int        $object_id    WP Post ID of the lesson, section, course or track
-	 * @param    string     $trigger      String describing the reason for mark incompletion
+	 *
+	 * @param    int    $object_id    WP Post ID of the lesson, section, course or track
+	 * @param    string $trigger      String describing the reason for mark incompletion
 	 * @return   boolean
 	 * @since    3.5.0
 	 * @version  3.24.0
@@ -1184,7 +1265,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// lessons that have never been complete will not have an '_is_complete' record,
 			// lessons that were completed will have an '_is_complete' record of 'yes',
 			// lessons that have been completed once but were marked incomplete will have an '_is_complete' record of 'no'
-			$update = $wpdb->update( $wpdb->prefix . 'lifterlms_user_postmeta',
+			$update = $wpdb->update(
+				$wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
 					'user_id'      => $this->get_id(),
 					'post_id'      => $object_id,
@@ -1193,9 +1275,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					'updated_date' => current_time( 'mysql' ),
 				),
 				array(
-					'user_id'	   => $this->get_id(),
-					'post_id'      => $object_id,
-					'meta_key'     => $key,
+					'user_id'  => $this->get_id(),
+					'post_id'  => $object_id,
+					'meta_key' => $key,
 				),
 				array( '%d', '%d', '%s', '%s', '%s' )
 			);
@@ -1213,8 +1295,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add student postmeta data for enrollment into a course or membership
-	 * @param    int        $product_id   WP Post ID of the course or membership
-	 * @param    string     $trigger      String describing the reason for enrollment
+	 *
+	 * @param    int    $product_id   WP Post ID of the course or membership
+	 * @param    string $trigger      String describing the reason for enrollment
 	 * @return   boolean
 	 * @since    2.2.3
 	 * @version  3.21.0
@@ -1260,9 +1343,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add a new status record to the user postmeta table for a specific product
+	 *
 	 * @param    int    $product_id   WP Post ID of the course or membership
 	 * @param    string $status       string describing the new status
-	 * @param    string     $trigger  String describing the reason for enrollment (optional)
+	 * @param    string $trigger  String describing the reason for enrollment (optional)
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.21.0
@@ -1284,11 +1368,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see     llms_is_user_enrolled()
 	 *
-	 * @param   int|array  $product_id  WP Post ID of a Course, Section, Lesson, or Membership or array of multiple IDs.
-	 * @param   string     $relation    Comparator for enrollment check.
-	 *                                 		All = user must be enrolled in all $product_ids.
-	 *                                 		Any = user must be enrolled in at least one of the $product_ids.
-	 * @param   bool       $use_cache  If true, returns cached data if available, if false will run a db query.
+	 * @param   int|array $product_id  WP Post ID of a Course, Section, Lesson, or Membership or array of multiple IDs.
+	 * @param   string    $relation    Comparator for enrollment check.
+	 *                                     All = user must be enrolled in all $product_ids.
+	 *                                     Any = user must be enrolled in at least one of the $product_ids.
+	 * @param   bool      $use_cache  If true, returns cached data if available, if false will run a db query.
 	 *
 	 * @return  boolean
 	 *
@@ -1333,9 +1417,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Mark a lesson, section, course, or track complete for the given user
-	 * @param  int     $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param  string  $object_type  object type [lesson|section|course|track]
-	 * @param  string  $trigger      String describing the reason for marking complete
+	 *
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param  string $object_type  object type [lesson|section|course|track]
+	 * @param  string $trigger      String describing the reason for marking complete
 	 * @return boolean
 	 *
 	 * @see    llms_mark_complete() calls this function without having to instantiate the LLMS_Student class first
@@ -1357,9 +1442,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Mark a lesson, section, course, or track incomplete for the given user
 	 * Gives an "_is_complete" value of "no" for the given object
-	 * @param  int     $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param  string  $object_type  object type [lesson|section|course|track]
-	 * @param  string  $trigger      String describing the reason for marking incomplete
+	 *
+	 * @param  int    $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param  string $object_type  object type [lesson|section|course|track]
+	 * @param  string $trigger      String describing the reason for marking incomplete
 	 * @return boolean
 	 *
 	 * @see    llms_mark_incomplete() calls this function without having to instantiate the LLMS_Student class first
@@ -1374,8 +1460,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 	/**
 	 * Remove a student from a membership level
-	 * @param    int        $membership_id  WP Post ID of the membership
-	 * @param    string     $status         status to update the removal to
+	 *
+	 * @param    int    $membership_id  WP Post ID of the membership
+	 * @param    string $status         status to update the removal to
 	 * @return   void
 	 * @since    2.7
 	 * @version  3.7.5
@@ -1384,7 +1471,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// remove the user from the membership level
 		$membership_levels = $this->get_membership_levels();
-		$key = array_search( $membership_id, $membership_levels );
+		$key               = array_search( $membership_id, $membership_levels );
 		if ( false !== $key ) {
 			unset( $membership_levels[ $key ] );
 		}
@@ -1392,10 +1479,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 		// locate all enrollments triggered by this membership level
-		$q = $wpdb->get_results( $wpdb->prepare(
-			"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
-			array( $this->get_id(), 'membership_' . $membership_id )
-		), 'OBJECT_K' );
+		$q = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT post_id FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d AND meta_key = '_enrollment_trigger' AND meta_value = %s",
+				array( $this->get_id(), 'membership_' . $membership_id )
+			),
+			'OBJECT_K'
+		);
 
 		$courses = array_keys( $q );
 
@@ -1438,8 +1528,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$update = true;
 
-		} // End if().
-		else {
+		} else {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
@@ -1448,8 +1537,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
 
-			} // End if().
-			elseif ( $enrollment_trigger == $trigger ) {
+			} elseif ( $enrollment_trigger == $trigger ) {
 
 				$update = true;
 
@@ -1472,14 +1560,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 					case 'course':
 						do_action( 'llms_user_removed_from_course', $this->get_id(), $product_id );
-					break;
+						break;
 
 					case 'llms_membership':
 						// also physically remove from the membership level & perform unenrollment
 						// on related products
 						$this->remove_membership_level( $product_id, $new_status );
 						do_action( 'llms_user_removed_from_membership_level', $this->get_id(), $product_id );
-					break;
+						break;
 
 				}
 
@@ -1515,8 +1603,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$delete = true;
 
-		} // End if().
-		else {
+		} else {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
@@ -1525,8 +1612,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				$delete = apply_filters( 'lifterlms_legacy_delete_enrollment_action', true );
 
-			} // End if().
-			elseif ( $enrollment_trigger === $trigger ) {
+			} elseif ( $enrollment_trigger === $trigger ) {
 
 				$delete = true;
 
@@ -1562,10 +1648,11 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Cascades up to parents and clears progress caches for parents
 	 * Triggers actions for completion/incompletion
 	 * Inserts / updates necessary user postmeta data
-	 * @param    string    $status       new status to update to [complete|incomplete]
-	 * @param    int       $object_id    WP Post ID of the lesson, section, course, or track
-	 * @param    string    $object_type  object type [lesson|section|course|course_track]
-	 * @param    string    $trigger      String describing the reason for marking complete
+	 *
+	 * @param    string $status       new status to update to [complete|incomplete]
+	 * @param    int    $object_id    WP Post ID of the lesson, section, course, or track
+	 * @param    string $object_type  object type [lesson|section|course|course_track]
+	 * @param    string $trigger      String describing the reason for marking complete
 	 * @return   boolean
 	 * @since    3.17.0
 	 * @version  3.17.0
@@ -1574,6 +1661,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		/**
 		 * Before hook
+		 *
 		 * @action  before_llms_mark_complete
 		 * @action  before_llms_mark_incomplete
 		 */
@@ -1590,7 +1678,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		// parent(s) to cascade up and check for incompletion
 		// lessons -> section -> course -> track(s)
-		$parent_ids = array();
+		$parent_ids  = array();
 		$parent_type = false;
 
 		// lessons are complete / incomplete automatically
@@ -1602,19 +1690,19 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		switch ( $object_type ) {
 
 			case 'lesson':
-				$parent_ids = array( $object->get( 'parent_section' ) );
+				$parent_ids  = array( $object->get( 'parent_section' ) );
 				$parent_type = 'section';
-			break;
+				break;
 
 			case 'section':
-				$parent_ids = array( $object->get( 'parent_course' ) );
+				$parent_ids  = array( $object->get( 'parent_course' ) );
 				$parent_type = 'course';
-			break;
+				break;
 
 			case 'course':
-				$parent_ids = wp_list_pluck( $object->get_tracks(), 'term_id' );
+				$parent_ids  = wp_list_pluck( $object->get_tracks(), 'term_id' );
 				$parent_type = 'course_track';
-			break;
+				break;
 
 		}
 
@@ -1647,6 +1735,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			/**
 			 * Generic hook
+			 *
 			 * @action  llms_mark_complete
 			 * @action  llms_mark_incomplete
 			 */
@@ -1655,6 +1744,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			/**
 			 * Specific hook
 			 * Also backwards compatible
+			 *
 			 * @action  lifterlms_{$object_type}_completed
 			 * @action  lifterlms_{$object_type}_incompleted
 			 */
@@ -1672,6 +1762,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			/**
 			 * Generic after hook
+			 *
 			 * @action  after_llms_mark_complete
 			 * @action  after_llms_mark_incomplete
 			 */
@@ -1687,24 +1778,25 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 
 	/*
-		       /$$                                                               /$$                     /$$
-		      | $$                                                              | $$                    | $$
+			   /$$                                                               /$$                     /$$
+			  | $$                                                              | $$                    | $$
 		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
 		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
 		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
 		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
 		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
 		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-		                    | $$
-		                    | $$
-		                    |__/
+							| $$
+							| $$
+							|__/
 	*/
 
 	/**
 	 * Remove Student Quiz attempts
-	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    int     $lesson_id  WP Post ID of a lesson
-	 * @param    int     $attempt    optional attempt number, if omitted all attempts for quiz & lesson will be deleted
+	 *
+	 * @param    int $quiz_id    WP Post ID of a Quiz
+	 * @param    int $lesson_id  WP Post ID of a lesson
+	 * @param    int $attempt    optional attempt number, if omitted all attempts for quiz & lesson will be deleted
 	 * @return   array               updated array quiz data for the student
 	 * @since    3.4.4
 	 * @version  3.9.0
@@ -1716,8 +1808,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
-	 * @param    int     $quiz_id    WP Post ID of a Quiz
-	 * @param    int     $lesson_id  WP Post ID of a lesson
+	 *
+	 * @param    int $quiz_id    WP Post ID of a Quiz
+	 * @param    int $lesson_id  WP Post ID of a lesson
 	 * @return   array
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -1729,8 +1822,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve quiz data for a student for a lesson / quiz combination
-	 * @param    int     $quiz    WP Post ID of a Quiz
-	 * @param    int     $lesson  WP Post ID of a lesson
+	 *
+	 * @param    int $quiz    WP Post ID of a Quiz
+	 * @param    int $lesson  WP Post ID of a lesson
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.9.0
@@ -1742,7 +1836,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Determine if a student has access to a product's content
-	 * @param      int     $product_id    WP Post ID of a course or membership
+	 *
+	 * @param      int $product_id    WP Post ID of a course or membership
 	 * @return     boolean
 	 * @since      3.0.0
 	 * @version    3.12.2
@@ -1755,10 +1850,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *                      and the enrollment status says "Enrolled" but the student still cannot
 	 *                      access the content
 	 *
-	 * 						Additionally redundant due to the fact that access is expired automatically
-	 * 						via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
-	 * 						This action changes the enrollment status thereby rendering this additional
-	 * 						access check redundant, confusing, unnecessary
+	 *                      Additionally redundant due to the fact that access is expired automatically
+	 *                      via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
+	 *                      This action changes the enrollment status thereby rendering this additional
+	 *                      access check redundant, confusing, unnecessary
 	 */
 	public function has_access( $product_id ) {
 

@@ -17,6 +17,7 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Notification ID
+	 *
 	 * @var  int
 	 */
 	public $id;
@@ -24,17 +25,18 @@ class LLMS_Notification implements JsonSerializable {
 	/**********************************************************
 	 *
 	 * Default Properties
-	 *
 	 **********************************************************/
 
 	/**
 	 * Created Date
+	 *
 	 * @var  string (DATETIME)
 	 */
 	private $created;
 
 	/**
 	 * Updated Date
+	 *
 	 * @var  string (DATETIME)
 	 */
 	private $updated;
@@ -42,6 +44,7 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Current Status
 	 * Options vary based on notification type
+	 *
 	 * @var  string
 	 */
 	private $status;
@@ -49,6 +52,7 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Type of Notification
 	 * basic, email, sms, etc...
+	 *
 	 * @var  string
 	 */
 	private $type;
@@ -56,6 +60,7 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Subscriber Identifier
 	 * WP User ID, email address (for cc,bcc), phone number, etc...
+	 *
 	 * @var  mixed
 	 */
 	private $subscriber;
@@ -63,6 +68,7 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Trigger ID for the notification
 	 * lesson_complete, course_complete, etc...
+	 *
 	 * @var  string
 	 */
 	private $trigger_id;
@@ -70,12 +76,14 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * WP User ID of the user who triggered the notification to be generated
 	 * NOT to be confused with $subscriber and can be different than the subscriber
+	 *
 	 * @var  int
 	 */
 	private $user_id;
 
 	/**
 	 * WP Post ID of the post which triggered the notification to be generated
+	 *
 	 * @var  int
 	 */
 	private $post_id;
@@ -83,18 +91,19 @@ class LLMS_Notification implements JsonSerializable {
 	/**********************************************************
 	 *
 	 * View Related Properties
-	 *
 	 **********************************************************/
 	/**
 	 * Merged HTML for the notification
 	 * used for displaying a notification view
+	 *
 	 * @var  [type]
 	 */
 	private $html;
 
 	/**
 	 * Constructor
-	 * @param    int     $notification  Notification ID
+	 *
+	 * @param    int $notification  Notification ID
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -108,7 +117,8 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Get notification properties
-	 * @param    string     $key  key to retrieve
+	 *
+	 * @param    string $key  key to retrieve
 	 * @return   mixed
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -119,7 +129,8 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Create a new notification in the database
-	 * @param    array      $data  notification data
+	 *
+	 * @param    array $data  notification data
 	 * @return   int|false         new notification id on success, false otherwise
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -128,18 +139,21 @@ class LLMS_Notification implements JsonSerializable {
 
 		$time = current_time( 'mysql' );
 
-		$data = wp_parse_args( $data, array(
+		$data = wp_parse_args(
+			$data,
+			array(
 
-			'created' => $time,
-			'post_id' => null,
-			'status' => 'new',
-			'subscriber' => null,
-			'trigger_id' => null,
-			'type' => '',
-			'updated' => $time,
-			'user_id' => null,
+				'created'    => $time,
+				'post_id'    => null,
+				'status'     => 'new',
+				'subscriber' => null,
+				'trigger_id' => null,
+				'type'       => '',
+				'updated'    => $time,
+				'user_id'    => null,
 
-		) );
+			)
+		);
 
 		ksort( $data ); // maintain alpha sort you savages
 
@@ -167,6 +181,7 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Determine if the triggering user is the subscriber
+	 *
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -177,7 +192,8 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Get notification properties
-	 * @param    string     $key  key to retrieve
+	 *
+	 * @param    string $key  key to retrieve
 	 * @return   mixed
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -196,12 +212,13 @@ class LLMS_Notification implements JsonSerializable {
 
 		// get the value from the database
 		global $wpdb;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) ); // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
 	/**
 	 * Retrieve the HTML for the current notification
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -216,6 +233,7 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Get the table name for notification data
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -227,6 +245,7 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Retrieve an instance of the notification view class for the notification
+	 *
 	 * @return   LLMS_Abstract_Notification_View|false
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -237,6 +256,7 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Called when converting a notification to JSON
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -247,6 +267,7 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Load all notification data into the instance
+	 *
 	 * @return   self
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -255,8 +276,10 @@ class LLMS_Notification implements JsonSerializable {
 
 		global $wpdb;
 
-		$query = $wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id );
-		$notification = $wpdb->get_row( $query, ARRAY_A );
+		$notification = $wpdb->get_row(
+			$wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id ), // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			ARRAY_A
+		);
 
 		if ( $notification ) {
 
@@ -274,10 +297,11 @@ class LLMS_Notification implements JsonSerializable {
 
 	/**
 	 * Set object variables
-	 * @param    string     $key  variable name
-	 * @param    mixed     $val  data
+	 *
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @param    string $key  variable name
+	 * @param    mixed  $val  data
 	 */
 	public function set( $key, $val ) {
 
@@ -294,10 +318,16 @@ class LLMS_Notification implements JsonSerializable {
 			default:
 				$this->$key = $val;
 				if ( $this->id ) {
-					return $wpdb->query( $wpdb->prepare(
-						"UPDATE {$this->get_table()} SET {$key} = %s, updated = %s WHERE id = %d", $val, current_time( 'mysql' ),
-						$this->id
-					) );
+					// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+					return $wpdb->query(
+						$wpdb->prepare(
+							"UPDATE {$this->get_table()} SET {$key} = %s, updated = %s WHERE id = %d",
+							$val,
+							current_time( 'mysql' ),
+							$this->id
+						)
+					);
+					// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				}
 				return true;
 			break;
@@ -309,6 +339,7 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Convert the notification to an array
 	 * access to all properties and meta items will be made accessible
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0

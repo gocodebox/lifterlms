@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Frontend_Forms {
 
@@ -31,19 +32,23 @@ class LLMS_Frontend_Forms {
 	/**
 	 * Reset password form
 	 *
+	 * @since Unknown
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
 	 * @return void
 	 */
 	public function reset_password() {
 
 		if ( ! isset( $_POST['llms_reset_password'] ) ) {
-
 			return;
 		}
 
 		// process lost password form
 		if ( isset( $_POST['user_login'] ) && isset( $_POST['_wpnonce'] ) ) {
 
-			wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms-lost_password' );
+			if ( ! llms_verify_nonce( '_wpnonce', 'lifterlms-lost_password' ) ) {
+				return;
+			}
 
 			LLMS_Shortcode_My_Account::retrieve_password();
 
@@ -57,16 +62,21 @@ class LLMS_Frontend_Forms {
 			&& isset( $_POST['_wpnonce'] )
 		) {
 
+			$key = llms_filter_input( INPUT_POST, 'reset_key', FILTER_SANITIZE_STRING );
+			$login = llms_filter_input( INPUT_POST, 'reset_key', FILTER_SANITIZE_STRING );
+
 			// verify reset key again
-			$user = LLMS_Shortcode_My_Account::check_password_reset_key( $_POST['reset_key'], $_POST['reset_login'] );
+			$user = LLMS_Shortcode_My_Account::check_password_reset_key( $key, $login );
 
 			if ( is_object( $user ) ) {
 
 				// save these values into the form again in case of errors
-				$args['key'] = llms_clean( $_POST['reset_key'] );
-				$args['login'] = llms_clean( $_POST['reset_login'] );
+				$args['key']   = $key;
+				$args['login'] = $login;
 
-				wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms-reset_password' );
+				if ( ! llms_verify_nonce( '_wpnonce', 'lifterlms-reset_password' ) ) {
+					return;
+				}
 
 				if ( empty( $_POST['password_1'] ) || empty( $_POST['password_2'] ) ) {
 
@@ -95,7 +105,7 @@ class LLMS_Frontend_Forms {
 
 				if ( 0 == llms_notice_count( 'error' ) ) {
 
-					LLMS_Shortcode_My_Account::reset_password( $user, $_POST['password_1'] );
+					LLMS_Shortcode_My_Account::reset_password( $user, llms_filter_input( INPUT_POST, 'password_1', FILTER_SANITIZE_STRING ) );
 
 					do_action( 'lifterlms_person_reset_password', $user );
 
@@ -113,19 +123,20 @@ class LLMS_Frontend_Forms {
 	 *
 	 * @since Unknown
 	 * @since 3.30.3 Fixed spelling errors.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return bool
 	 */
 	public function voucher_check() {
 
-		if ( empty( $_POST['lifterlms_voucher_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_voucher_nonce'], 'lifterlms_voucher_check' ) ) {
+		if ( ! llms_verify_nonce( 'lifterlms_voucher_nonce', 'lifterlms_voucher_check' ) ) {
 			return false;
 		}
 
 		if ( isset( $_POST['llms_voucher_code'] ) && ! empty( $_POST['llms_voucher_code'] ) ) {
 
-			$voucher = new LLMS_Voucher();
-			$redeemed = $voucher->use_voucher( $_POST['llms_voucher_code'], get_current_user_id() );
+			$voucher  = new LLMS_Voucher();
+			$redeemed = $voucher->use_voucher( llms_filter_input( INPUT_POST, 'llms_voucher_code', FILTER_SANITIZE_STRING ), get_current_user_id() );
 
 			if ( is_wp_error( $redeemed ) ) {
 

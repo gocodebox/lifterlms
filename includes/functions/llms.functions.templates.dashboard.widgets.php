@@ -1,6 +1,7 @@
 <?php
 /**
  * Template functions for displaying stat widgets on the student dashboard
+ *
  * @since    3.24.0
  * @version  3.24.0
  */
@@ -10,9 +11,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Main function used to display a dashboard widget
  *
- * @param    string     $title       Title of the widget.
- * @param    string     $content     Content (HTML) of the widget body.
- * @param    string     $empty_text  Content (text) to display if $content is empty.
+ * @param    string $title       Title of the widget.
+ * @param    string $content     Content (HTML) of the widget body.
+ * @param    string $empty_text  Content (text) to display if $content is empty.
  * @return   void
  * @since    3.24.0
  * @version  3.24.0
@@ -33,9 +34,9 @@ function llms_sd_dashboard_widget( $title, $content, $empty_text = '' ) {
 /**
  * Displays a date widget
  *
- * @param   string    $title      Title of the widget.
- * @param   int       $timestamp  Timestamp used to display the date.
- * @param   string    $empty_text Content (text) to display if $content is empty.
+ * @param   string $title      Title of the widget.
+ * @param   int    $timestamp  Timestamp used to display the date.
+ * @param   string $empty_text Content (text) to display if $content is empty.
  * @return  void
  * @since   3.24.0
  * @version 3.24.0
@@ -63,10 +64,10 @@ function llms_sd_dashboard_date_widget( $title, $timestamp, $empty_text = '' ) {
 /**
  * Displays a donut chart widget
  *
- * @param    string     $title  Title of the widget.
- * @param    float      $perc   donut chart percentage.
- * @param    string     $text   Text to display within the donut.
- * @param    string     $size   Size of the chart.
+ * @param    string $title  Title of the widget.
+ * @param    float  $perc   donut chart percentage.
+ * @param    string $text   Text to display within the donut.
+ * @param    string $size   Size of the chart.
  * @return   void
  * @since    3.24.0
  * @version  3.24.0

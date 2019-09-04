@@ -1,23 +1,34 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Metabox Field: Button
+ *
+ * @since Unknown
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
-*
-*/
+ * LLMS_Metabox_Button_Field
+ *
+ * @since Unknown
+ */
 class LLMS_Metabox_Button_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
 	 * Class constructor
+	 *
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct( $_field ) {
+	public function __construct( $_field ) {
 
 		$this->field = $_field;
 	}
 
 	/**
 	 * outputs the Html for the given field
-	 * @return HTML
+	 *
+	 * @return void
 	 */
 	public function output() {
 

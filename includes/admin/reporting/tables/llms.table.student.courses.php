@@ -6,18 +6,20 @@
  * @version 3.13.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'student-courses';
 
 	/**
 	 * If true, tfoot will add ajax pagination links
+	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = true;
@@ -26,26 +28,30 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	 * Results sort order
 	 * 'ASC' or 'DESC'
 	 * Only applicable of $orderby is not set
+	 *
 	 * @var  string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
+	 *
 	 * @var  string
 	 */
 	protected $orderby = 'name';
 
 	/**
 	 * Instance of LLMS_Student
+	 *
 	 * @var  null
 	 */
 	protected $student = null;
 
 	/**
 	 * Retrieve data for the columns
-	 * @param    string     $key        the column id / key
-	 * @param    int        $course_id  ID of the course
+	 *
+	 * @param    string $key        the column id / key
+	 * @param    int    $course_id  ID of the course
 	 * @return   mixed
 	 * @since    3.2.0
 	 * @version  3.13.0
@@ -58,49 +64,53 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 			case 'progress':
 				$value = $this->student->get_progress( $course->get( 'id' ), 'course' ) . '%';
-			break;
+				break;
 
 			case 'completed':
-				$date = $this->student->get_completion_date( $course->get( 'id' ) );
+				$date  = $this->student->get_completion_date( $course->get( 'id' ) );
 				$value = $date ? $date : '&ndash;';
-			break;
+				break;
 
 			case 'grade':
-
 				$grade = $this->student->get_grade( $course->get( 'id' ) );
-				$value  = is_numeric( $grade ) ? $grade . '%' : $grade;
+				$value = is_numeric( $grade ) ? $grade . '%' : $grade;
 
-			break;
+				break;
 
 			case 'id':
 				$value = $course->get( 'id' );
 				if ( current_user_can( 'edit_post', $value ) ) {
 					$value = $this->get_post_link( $value );
 				}
-			break;
+				break;
 
 			case 'name':
 				$id = $course->get( 'id' );
 				if ( current_user_can( 'edit_post', $id ) ) {
-					$url = esc_url( add_query_arg( array(
-						'course_id' => $course->get( 'id' ),
-						'page' => 'llms-reporting',
-						'stab' => 'courses',
-						'student_id' => $this->student->get_id(),
-					), admin_url( 'admin.php' ) ) );
+					$url   = esc_url(
+						add_query_arg(
+							array(
+								'course_id'  => $course->get( 'id' ),
+								'page'       => 'llms-reporting',
+								'stab'       => 'courses',
+								'student_id' => $this->student->get_id(),
+							),
+							admin_url( 'admin.php' )
+						)
+					);
 					$value = '<a href="' . $url . '">' . $course->get( 'title' ) . '</a>';
 				} else {
 					$value = $course->get( 'title' );
 				}
-			break;
+				break;
 
 			case 'status':
 				$value = llms_get_enrollment_status_name( $this->student->get_enrollment_status( $course->get( 'id' ) ) );
-			break;
+				break;
 
 			case 'updated':
 				$value = $this->student->get_enrollment_date( $course->get( 'id' ), 'updated' );
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -113,7 +123,8 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -148,20 +159,22 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 			case 'updated':
 				$orderby = 'upm.updated_date';
-			break;
+				break;
 
-			case 'name';
+			case 'name':
 			default:
 				$orderby = 'p.post_title';
-			break;
+
 		}
 
-		$courses = $this->student->get_courses( array(
-			'limit' => $per,
-			'skip' => ( $this->current_page - 1 ) * $per,
-			'orderby' => $orderby,
-			'order' => $order,
-		) );
+		$courses = $this->student->get_courses(
+			array(
+				'limit'   => $per,
+				'skip'    => ( $this->current_page - 1 ) * $per,
+				'orderby' => $orderby,
+				'order'   => $order,
+			)
+		);
 
 		if ( $courses['more'] ) {
 			$this->is_last_page = false;
@@ -173,43 +186,54 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
+	 * @since 2.3.0
+	 * @since 3.35.0 Sanitize `$_GET` data.
+	 *
 	 * @return   array
-	 * @since    2.3.0
-	 * @version  2.3.0
 	 */
 	public function set_args() {
+
+		$student = false;
+		if ( ! empty( $this->student ) ) {
+			$student = $this->student->get_id();
+		} elseif ( ! empty( $_GET['student_id'] ) ) {
+			$student = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+		}
+
 		return array(
-			'page' => $this->get_current_page(),
-			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'page'    => $this->get_current_page(),
+			'student' => $student,
 		);
 	}
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
 	public function set_columns() {
 		return array(
-			'id' => array(
+			'id'        => array(
 				'title' => __( 'ID', 'lifterlms' ),
 			),
-			'name' => array(
-				'title' => __( 'Name', 'lifterlms' ),
+			'name'      => array(
+				'title'    => __( 'Name', 'lifterlms' ),
 				'sortable' => true,
 			),
-			'status' => array(
+			'status'    => array(
 				'title' => __( 'Status', 'lifterlms' ),
 			),
-			'grade' => array(
+			'grade'     => array(
 				'title' => __( 'Grade', 'lifterlms' ),
 			),
-			'progress' => array(
+			'progress'  => array(
 				'title' => __( 'Progress', 'lifterlms' ),
 			),
-			'updated' => array(
-				'title' => __( 'Updated', 'lifterlms' ),
+			'updated'   => array(
+				'title'    => __( 'Updated', 'lifterlms' ),
 				'sortable' => true,
 			),
 			'completed' => array(
@@ -220,6 +244,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 	/**
 	 * Empty message displayed when no results are found
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0

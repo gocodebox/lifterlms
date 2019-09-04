@@ -1,6 +1,7 @@
 <?php
 /**
  * Admin Settings Page HTML
+ *
  * @since    1.0.0
  * @version  3.29.0
  */
@@ -39,8 +40,10 @@ defined( 'ABSPATH' ) || exit;
 				<?php do_action( 'lifterlms_before_settings_tabs' ); ?>
 
 				<ul class="llms-nav-items">
-				<?php foreach ( $tabs as $name => $label ) :
-					$active = ( $current_tab == $name ) ? ' llms-active' : ''; ?>
+				<?php
+				foreach ( $tabs as $name => $label ) :
+					$active = ( $current_tab == $name ) ? ' llms-active' : '';
+					?>
 
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo admin_url( 'admin.php?page=llms-settings&tab=' . $name ); ?>"><?php echo $label; ?></a></li>
 

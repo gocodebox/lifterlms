@@ -31,7 +31,7 @@ class LLMS_Track {
 	/**
 	 * Constructor
 	 *
-	 * @param    int|string|obj     $term   term_id, term_slug, or instance of a WP_Term
+	 * @param    int|string|obj $term   term_id, term_slug, or instance of a WP_Term
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -55,6 +55,7 @@ class LLMS_Track {
 
 	/**
 	 * Get an array of WP Posts for the courses in the track
+	 *
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -67,19 +68,21 @@ class LLMS_Track {
 		}
 
 		// get posts
-		$q = new WP_Query( array(
-			'post_status' => 'publish',
-			'post_type' => 'course',
-			'posts_per_page' => -1,
-			'tax_query' => array(
-				array(
-					'field' => 'id',
-					'include_children' => false,
-					'taxonomy' => $this->taxonomy,
-					'terms' => $this->term->term_id,
+		$q = new WP_Query(
+			array(
+				'post_status'    => 'publish',
+				'post_type'      => 'course',
+				'posts_per_page' => -1,
+				'tax_query'      => array(
+					array(
+						'field'            => 'id',
+						'include_children' => false,
+						'taxonomy'         => $this->taxonomy,
+						'terms'            => $this->term->term_id,
+					),
 				),
-			),
-		) );
+			)
+		);
 
 		// return posts
 		if ( $q->have_posts() ) {
@@ -91,6 +94,7 @@ class LLMS_Track {
 
 	/**
 	 * Get a permalink to the track's archive page
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -101,6 +105,7 @@ class LLMS_Track {
 
 	/**
 	 * Get the track's title
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0

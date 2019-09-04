@@ -1,6 +1,7 @@
 <?php
 /**
  * LifterLMS Quiz Question Model
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -18,11 +19,12 @@ class LLMS_Question_Choice {
 
 	private $data = array();
 
-	private $question = null;
+	private $question    = null;
 	private $question_id = null;
 
 	/**
 	 * Constructor
+	 *
 	 * @param    int          $question_id  WP Post ID of the choice's parent LLMS_Question
 	 * @param    array|string $data_or_id   array of choice data or the choice ID string
 	 * @since    3.16.0
@@ -49,7 +51,8 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Creates a new question
-	 * @param    array     $data  question data array
+	 *
+	 * @param    array $data  question data array
 	 * @return   self
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -63,6 +66,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Delete a choice
+	 *
 	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -73,6 +77,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Determine if the choice that's been requested actually exists
+	 *
 	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -83,8 +88,9 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Retrieve a piece of choice data by key
-	 * @param    string     $key      name of the data to be retrieved
-	 * @param    mixed      $default  default value if key isn't set
+	 *
+	 * @param    string $key      name of the data to be retrieved
+	 * @param    mixed  $default  default value if key isn't set
 	 * @return   mixed
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -101,6 +107,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Generic choice getter which automatically uses correct functions based on choice type
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -114,6 +121,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Retrieve an image for picture choices
+	 *
 	 * @return   [type]
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -131,6 +139,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Retrieve all of the choice data as an array
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -141,6 +150,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Retrieve an instance of an LLMS_Question for questions parent
+	 *
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -151,6 +161,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Retrieve the question ID for the given choice
+	 *
 	 * @return   int
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -161,19 +172,21 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Setup the id and data variables
-	 * @param    array     $data  array of question data
+	 *
+	 * @param    array $data  array of question data
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
 	private function hydrate( $data ) {
-		$this->id = $data['id'];
+		$this->id         = $data['id'];
 		$this->data['id'] = $this->id;
 		$this->update( $data );
 	}
 
 	/**
 	 * Determine if the choice is correct
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -184,6 +197,7 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Save $this->data to the postmeta table
+	 *
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -191,7 +205,7 @@ class LLMS_Question_Choice {
 	public function save() {
 
 		$this->data['id'] = $this->id; // always ensure the ID is set when saving data
-		$update = update_post_meta( $this->question_id, $this->prefix . $this->id, $this->data );
+		$update           = update_post_meta( $this->question_id, $this->prefix . $this->id, $this->data );
 
 		return ( $update );
 
@@ -199,8 +213,9 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Set a piece of data by key
-	 * @param    string     $key  name of the key to set
-	 * @param    mixed      $val  value to set
+	 *
+	 * @param    string $key  name of the key to set
+	 * @param    mixed  $val  value to set
 	 * @return   self
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -218,19 +233,19 @@ class LLMS_Question_Choice {
 				if ( ! in_array( $val, array( 'text', 'image' ) ) ) {
 					$val = 'text';
 				}
-			break;
+				break;
 
 			case 'correct':
 				$val = filter_var( $val, FILTER_VALIDATE_BOOLEAN );
-			break;
+				break;
 
 			case 'marker':
-				$type = $this->get_question()->get_question_type();
+				$type    = $this->get_question()->get_question_type();
 				$markers = $type['choices']['markers'];
 				if ( ! in_array( $val, $markers ) ) {
 					$val = $markers[0];
 				}
-			break;
+				break;
 
 			case 'choice':
 			default:
@@ -239,7 +254,7 @@ class LLMS_Question_Choice {
 				} else {
 					$val = wp_kses_post( $val );
 				}
-			break;
+				break;
 
 		}
 
@@ -250,7 +265,8 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Sets question-related data from constructor
-	 * @param    int     $id  WP Post ID of the question's parent question
+	 *
+	 * @param    int $id  WP Post ID of the question's parent question
 	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -258,7 +274,7 @@ class LLMS_Question_Choice {
 	public function set_question( $id ) {
 		$question = llms_get_post( $id );
 		if ( $question && is_a( $question, 'LLMS_Question' ) ) {
-			$this->question = $question;
+			$this->question    = $question;
 			$this->question_id = $id;
 			return true;
 		}
@@ -269,7 +285,8 @@ class LLMS_Question_Choice {
 
 	/**
 	 * Update multiple data by key=>val pairs
-	 * @param    array      $data  array of data to set
+	 *
+	 * @param    array $data  array of data to set
 	 * @return   self
 	 * @since    3.16.0
 	 * @version  3.16.0

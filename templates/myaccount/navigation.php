@@ -1,6 +1,7 @@
 <?php
 /**
  * My Account Navigation Links
+ *
  * @since    2.?.?
  * @version  3.17.5
  */
@@ -9,7 +10,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-$sep = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;' );
+$sep     = apply_filters( 'lifterlms_my_account_navigation_link_separator', '&bull;' );
 $current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 ?>
 <nav class="llms-sd-nav">

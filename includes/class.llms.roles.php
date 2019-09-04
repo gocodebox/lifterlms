@@ -27,10 +27,10 @@ class LLMS_Roles {
 	 */
 	private static function get_all_caps( $role ) {
 
-		$caps = array();
+		$caps         = array();
 		$caps['core'] = self::get_core_caps( $role );
-		$caps['wp'] = self::get_wp_caps( $role );
-		$caps = array_merge( $caps, self::get_post_type_caps( $role ) );
+		$caps['wp']   = self::get_wp_caps( $role );
+		$caps         = array_merge( $caps, self::get_post_type_caps( $role ) );
 
 		return apply_filters( 'llms_get_all_' . $role . '_caps', $caps );
 
@@ -46,21 +46,24 @@ class LLMS_Roles {
 	 * @return string[]
 	 */
 	public static function get_all_core_caps() {
-		return apply_filters( 'llms_get_all_core_caps', array(
-			'lifterlms_instructor',
-			'manage_lifterlms',
-			'view_lifterlms_reports',
-			'view_others_lifterlms_reports',
-			'enroll',
-			'unenroll',
-			'create_students',
-			'view_students',
-			'view_others_students',
-			'edit_students',
-			'edit_others_students',
-			'delete_students',
-			'delete_others_students',
-		) );
+		return apply_filters(
+			'llms_get_all_core_caps',
+			array(
+				'lifterlms_instructor',
+				'manage_lifterlms',
+				'view_lifterlms_reports',
+				'view_others_lifterlms_reports',
+				'enroll',
+				'unenroll',
+				'create_students',
+				'view_students',
+				'view_others_students',
+				'edit_students',
+				'edit_others_students',
+				'delete_students',
+				'delete_others_students',
+			)
+		);
 	}
 
 	/**
@@ -93,14 +96,14 @@ class LLMS_Roles {
 					$caps['delete_students'],
 					$caps['delete_others_students']
 				);
-			break;
+				break;
 
 			case 'administrator':
 			case 'lms_manager':
 				$caps = $all_caps;
-			break;
+				break;
 
-			default :
+			default:
 				$caps = array();
 
 		}
@@ -125,10 +128,10 @@ class LLMS_Roles {
 		if ( 'student' !== $role ) {
 
 			$post_types = array(
-				'course' => 'course',
-				'lesson' => 'lesson',
-				'llms_quiz' => array( 'quiz', 'quizzes' ),
-				'llms_question' => 'question',
+				'course'          => 'course',
+				'lesson'          => 'lesson',
+				'llms_quiz'       => array( 'quiz', 'quizzes' ),
+				'llms_question'   => 'question',
 				'llms_membership' => 'membership',
 			);
 			foreach ( $post_types as $post_type => $names ) {
@@ -139,7 +142,7 @@ class LLMS_Roles {
 				if ( in_array( $role, array( 'instructor', 'instructors_assistant' ) ) ) {
 
 					$allowed = array(
-						'instructor' => array(
+						'instructor'            => array(
 							'delete_posts',
 							'delete_published_posts',
 							'edit_post',
@@ -168,12 +171,12 @@ class LLMS_Roles {
 			}// End foreach().
 
 			$taxes = array(
-				'course_cat' => 'course_cat',
+				'course_cat'        => 'course_cat',
 				'course_difficulty' => array( 'course_difficulty', 'course_difficulties' ),
-				'course_tag' => 'course_tag',
-				'course_track' => 'course_track',
-				'membership_cat' => 'membership_cat',
-				'membership_tag' => 'membership_tag',
+				'course_tag'        => 'course_tag',
+				'course_track'      => 'course_track',
+				'membership_cat'    => 'membership_cat',
+				'membership_tag'    => 'membership_tag',
 			);
 			foreach ( $taxes as $tax => $names ) {
 
@@ -220,79 +223,76 @@ class LLMS_Roles {
 
 		switch ( $role ) {
 
-			case 'instructor' :
-
+			case 'instructor':
 				$add = array(
-					'create_users' => true,
-					'edit_users' => true,
+					'create_users'  => true,
+					'edit_users'    => true,
 					'promote_users' => true,
-					'list_users' => true,
+					'list_users'    => true,
 
-					'read' => true,
+					'read'          => true,
+					'upload_files'  => true,
+
+					// see WP Core issue(s)
+					// https://core.trac.wordpress.org/ticket/22895
+					// https://core.trac.wordpress.org/ticket/16808
+					'edit_posts'    => true,
+				);
+
+				break;
+
+			case 'instructors_assistant':
+				$add = array(
+					'read'         => true,
 					'upload_files' => true,
 
 					// see WP Core issue(s)
-					// 		https://core.trac.wordpress.org/ticket/22895
-					// 		https://core.trac.wordpress.org/ticket/16808
-					'edit_posts' => true,
+					// https://core.trac.wordpress.org/ticket/22895
+					// https://core.trac.wordpress.org/ticket/16808
+					'edit_posts'   => true,
 				);
 
-			break;
+				break;
 
-			case 'instructors_assistant' :
-
+			case 'lms_manager':
 				$add = array(
-					'read' => true,
-					'upload_files' => true,
-
-					// see WP Core issue(s)
-					// 		https://core.trac.wordpress.org/ticket/22895
-					// 		https://core.trac.wordpress.org/ticket/16808
-					'edit_posts' => true,
-				);
-
-			break;
-
-			case 'lms_manager' :
-
-				$add = array(
-					'read_private_pages' => true,
-					'read_private_posts' => true,
-					'edit_posts' => true,
-					'edit_pages' => true,
-					'edit_published_posts' => true,
-					'edit_published_pages' => true,
-					'edit_private_pages' => true,
-					'edit_private_posts' => true,
-					'edit_others_posts' => true,
-					'edit_others_pages' => true,
-					'publish_posts' => true,
-					'publish_pages' => true,
-					'delete_posts' => true,
-					'delete_pages' => true,
-					'delete_private_pages' => true,
-					'delete_private_posts' => true,
+					'read_private_pages'     => true,
+					'read_private_posts'     => true,
+					'edit_posts'             => true,
+					'edit_pages'             => true,
+					'edit_published_posts'   => true,
+					'edit_published_pages'   => true,
+					'edit_private_pages'     => true,
+					'edit_private_posts'     => true,
+					'edit_others_posts'      => true,
+					'edit_others_pages'      => true,
+					'publish_posts'          => true,
+					'publish_pages'          => true,
+					'delete_posts'           => true,
+					'delete_pages'           => true,
+					'delete_private_pages'   => true,
+					'delete_private_posts'   => true,
 					'delete_published_pages' => true,
 					'delete_published_posts' => true,
-					'delete_others_posts' => true,
-					'delete_others_pages' => true,
-					'manage_categories' => true,
-					'manage_links' => true,
-					'moderate_comments' => true,
-					'upload_files' => true,
-					'export' => true,
-					'import' => true,
+					'delete_others_posts'    => true,
+					'delete_others_pages'    => true,
+					'manage_categories'      => true,
+					'manage_links'           => true,
+					'moderate_comments'      => true,
+					'upload_files'           => true,
+					'export'                 => true,
+					'import'                 => true,
 
-					'edit_users' => true,
-					'create_users' => true,
-					'list_users' => true,
-					'promote_users' => true,
-					'delete_users' => true,
+					'edit_users'             => true,
+					'create_users'           => true,
+					'list_users'             => true,
+					'promote_users'          => true,
+					'delete_users'           => true,
 				);
 
-			break;
+				break;
 
-			default :
+			default:
 				$add = array();
 
 		}// End switch().
@@ -310,12 +310,15 @@ class LLMS_Roles {
 	 */
 	public static function get_roles() {
 
-		return apply_filters( 'llms_get_roles', array(
-			'lms_manager' => __( 'LMS Manager', 'lifterlms' ),
-			'instructor' => __( 'Instructor', 'lifterlms' ),
-			'instructors_assistant' => __( 'Instructor\'s Assistant', 'lifterlms' ),
-			'student' => __( 'Student', 'lifterlms' ),
-		) );
+		return apply_filters(
+			'llms_get_roles',
+			array(
+				'lms_manager'           => __( 'LMS Manager', 'lifterlms' ),
+				'instructor'            => __( 'Instructor', 'lifterlms' ),
+				'instructors_assistant' => __( 'Instructor\'s Assistant', 'lifterlms' ),
+				'student'               => __( 'Student', 'lifterlms' ),
+			)
+		);
 
 	}
 
@@ -338,7 +341,7 @@ class LLMS_Roles {
 
 		// self::remove_roles(); // @todo remove, this is here for dev reasons only
 
-		$roles = self::get_roles();
+		$roles                  = self::get_roles();
 		$roles['administrator'] = __( 'Administrator', 'lifterlms' );
 
 		$wp_roles = wp_roles();
@@ -388,7 +391,7 @@ class LLMS_Roles {
 	 * @since 3.13.0
 	 *
 	 * @param WP_Role $role Role object.
-	 * @param string $type Update type [add|remove].
+	 * @param string  $type Update type [add|remove].
 	 * @return void
 	 */
 	private static function update_caps( $role, $type = 'add' ) {

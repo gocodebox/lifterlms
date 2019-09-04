@@ -1,6 +1,7 @@
 <?php
 /**
  * Notification View: Achievement Earned
+ *
  * @since 3.8.0
  * @version 3.17.6
  */
@@ -17,6 +18,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Settings for basic notifications
+	 *
 	 * @var  array
 	 */
 	protected $basic_options = array(
@@ -28,17 +30,19 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 		/**
 		 * Enables manual dismissal of notifications
 		 */
-		'dismissible' => true,
+		'dismissible'  => true,
 	);
 
 	/**
 	 * Notification Trigger ID
+	 *
 	 * @var  [type]
 	 */
 	public $trigger_id = 'achievement_earned';
 
 	/**
 	 * Setup body content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -48,12 +52,14 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 		?>
 		<p style="text-align: center;">{{ACHIEVEMENT_IMAGE}}</p>
 		<h2 style="text-align: center;"><strong>{{ACHIEVEMENT_TITLE}}</strong></h2>
-		<p style="text-align: center;">{{ACHIEVEMENT_CONTENT}}</p><?php
+		<p style="text-align: center;">{{ACHIEVEMENT_CONTENT}}</p>
+		<?php
 		return ob_get_clean();
 	}
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -64,6 +70,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Setup notification icon for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -82,17 +89,18 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{ACHIEVEMENT_CONTENT}}' => __( 'Achievement Content', 'lifterlms' ),
-			'{{ACHIEVEMENT_IMAGE}}' => __( 'Achievement Image', 'lifterlms' ),
+			'{{ACHIEVEMENT_CONTENT}}'   => __( 'Achievement Content', 'lifterlms' ),
+			'{{ACHIEVEMENT_IMAGE}}'     => __( 'Achievement Image', 'lifterlms' ),
 			'{{ACHIEVEMENT_IMAGE_URL}}' => __( 'Achievement Image URL', 'lifterlms' ),
-			'{{ACHIEVEMENT_TITLE}}' => __( 'Achievement Title', 'lifterlms' ),
-			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
+			'{{ACHIEVEMENT_TITLE}}'     => __( 'Achievement Title', 'lifterlms' ),
+			'{{STUDENT_NAME}}'          => __( 'Student Name', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.2
@@ -105,28 +113,28 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 			case '{{ACHIEVEMENT_CONTENT}}':
 				$code = $achievement->get( 'content' );
-			break;
+				break;
 
 			case '{{ACHIEVEMENT_IMAGE}}':
 				$title = $this->set_merge_data( '{{ACHIEVEMENT_TITLE}}' );
-				$url = $this->set_merge_data( '{{ACHIEVEMENT_IMAGE_URL}}' );
-				$code = '<img alt="' . sprintf( _x( '%s Icon', 'Achievement icon alt text', 'lifterlms' ), $title ) . '" src="' . $url . '">';
-			break;
+				$url   = $this->set_merge_data( '{{ACHIEVEMENT_IMAGE_URL}}' );
+				$code  = '<img alt="' . sprintf( _x( '%s Icon', 'Achievement icon alt text', 'lifterlms' ), $title ) . '" src="' . $url . '">';
+				break;
 
 			case '{{ACHIEVEMENT_IMAGE_URL}}':
 				$code = $achievement->get_image( 'medium', 'achievement_image' );
 				if ( ! $code ) {
 					$code = apply_filters( 'lifterlms_placeholder_img_src', LLMS()->plugin_url() . '/assets/images/optional_achievement.png' );
 				}
-			break;
+				break;
 
 			case '{{ACHIEVEMENT_TITLE}}':
 				$code = $achievement->get( 'title' );
-			break;
+				break;
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
-			break;
+				break;
 
 		}
 
@@ -136,6 +144,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Setup notification subject for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -146,6 +155,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 
 	/**
 	 * Setup notification title for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -158,6 +168,7 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	 * Define field support for the view
 	 * Extending classes can override this
 	 * 3rd parties should filter $this->get_supported_fields()
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -165,9 +176,9 @@ class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notificati
 	protected function set_supported_fields() {
 		return array(
 			'basic' => array(
-				'body' => true,
+				'body'  => true,
 				'title' => true,
-				'icon' => false,
+				'icon'  => false,
 			),
 		);
 	}

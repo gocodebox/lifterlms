@@ -1,8 +1,8 @@
-/* global LLMS, $, wp */
-/* jshint strict: false */
-
 /**
  * Handle Password Strength Meter for registration and password update fields
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since 3.0.0
  * @version  3.7.0
  */
@@ -15,8 +15,9 @@ $.extend( LLMS.PasswordStrength, {
 	$form: null,
 
 	/**
-	 * init
+	 * Init
 	 * loads class methods
+	 *
 	 * @since    3.0.0
 	 * @version  3.7.0
 	 */
@@ -33,7 +34,7 @@ $.extend( LLMS.PasswordStrength, {
 			// our asset enqueue is all screwed up and I'm too tired to fix it
 			// so we're going to run this little dependency check
 			// and wait for matchHeight to be available before binding
-			var self = this,
+			var self    = this,
 				counter = 0,
 				interval;
 
@@ -43,15 +44,15 @@ $.extend( LLMS.PasswordStrength, {
 				// and really who cares if the element heights aren't matched
 				if ( counter >= 300 ) {
 
-					console.log( 'cannot do password strength meter.');
+					console.log( 'cannot do password strength meter.' );
 
-				// if we can't access ye, increment and wait...
+					// if we can't access ye, increment and wait...
 				} else if ( 'undefined' === typeof wp && 'undefined' === typeof wp.passwordStrength ) {
 
 					counter++;
 					return;
 
-				// bind the events, we're good!
+					// bind the events, we're good!
 				} else {
 
 					self.bind();
@@ -70,6 +71,7 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Bind Method
 	 * Handles dom binding on load
+	 *
 	 * @return void
 	 * @since 3.0.0
 	 */
@@ -78,7 +80,7 @@ $.extend( LLMS.PasswordStrength, {
 		var self = this;
 
 		// add submission event handlers when not on a checkout form
-		if ( !this.$form.hasClass( 'llms-checkout' ) ) {
+		if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
 			this.$form.on( 'submit', self, self.submit );
 		}
 
@@ -92,6 +94,7 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Check the strength of a user entered password
 	 * and update elements depending on the current strength
+	 *
 	 * @return void
 	 * @since 3.0.0
 	 * @version 3.0.0
@@ -104,7 +107,7 @@ $.extend( LLMS.PasswordStrength, {
 			conf_length = this.$conf.val().length;
 
 		// hide the meter if both fields are empty
-		if ( !pass_length && !conf_length ) {
+		if ( ! pass_length && ! conf_length ) {
 			$pass_field.removeClass( 'valid invalid' );
 			$conf_field.removeClass( 'valid invalid' );
 			this.$meter.hide();
@@ -130,7 +133,8 @@ $.extend( LLMS.PasswordStrength, {
 	},
 
 	/**
-	 * form submission action called during registration on checkout screen
+	 * Form submission action called during registration on checkout screen
+	 *
 	 * @param    obj       self      instance of this class
 	 * @param    Function  callback  callback function, passes error message or success back to checkout handler
 	 * @return   void
@@ -154,6 +158,7 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Get the list of blacklisted strings
 	 * We'll add a filter to this later so that developers can add their own blacklist to the default WP list
+	 *
 	 * @return array
 	 * @since 3.0.0
 	 */
@@ -164,6 +169,7 @@ $.extend( LLMS.PasswordStrength, {
 
 	/**
 	 * Retrieve current strength as a number, a slug, or a translated text string
+	 *
 	 * @param    string   format  derived return format [int|slug|text] defaults to int
 	 * @return   mixed
 	 * @since    3.0.0
@@ -171,7 +177,7 @@ $.extend( LLMS.PasswordStrength, {
 	 */
 	get_current_strength: function( format ) {
 
-		format = format || 'int';
+		format   = format || 'int';
 		var pass = this.$pass.val(),
 			conf = this.$conf.val(),
 			val;
@@ -199,18 +205,20 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Determines if the current password strength meets the user-defined
 	 * minimum password strength requirements
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	get_current_strength_status: function() {
 		var curr = this.get_current_strength(),
-			min = this.get_strength_value( this.get_minimum_strength() );
+			min  = this.get_strength_value( this.get_minimum_strength() );
 		return ( 5 === curr ) ? false : ( curr >= min );
 	},
 
 	/**
 	 * Get the slug associated with a strength value
+	 *
 	 * @param    int   strength_val  strength value number
 	 * @return   string
 	 * @since    3.0.0
@@ -233,6 +241,7 @@ $.extend( LLMS.PasswordStrength, {
 
 	/**
 	 * Gets the translated text associated with a strength value
+	 *
 	 * @param    int  strength_val  strength value
 	 * @return   string
 	 * @since    3.0.0
@@ -255,6 +264,7 @@ $.extend( LLMS.PasswordStrength, {
 
 	/**
 	 * Get the value associated with a strength slug
+	 *
 	 * @param    string   strength_slug  a strength slug
 	 * @return   int
 	 * @since    3.0.0
@@ -277,6 +287,7 @@ $.extend( LLMS.PasswordStrength, {
 
 	/**
 	 * Form submission handler for registration and update forms
+	 *
 	 * @param    obj    e         event data
 	 * @return   void
 	 * @since    3.0.0

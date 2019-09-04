@@ -2,10 +2,13 @@
  * Handles UX and Events for inline editing of views
  * Use with a Model's View
  * Allows editing model.title field via .llms-editable-title elements
- * @type     {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.16.0
  * @version  3.25.4
  */
+
 define( [], function() {
 
 	return {
@@ -14,6 +17,7 @@ define( [], function() {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type  {Object}
 		 * @since    3.16.0
 		 * @version  3.17.8
@@ -34,6 +38,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve a list of allowed tags for a given element
+		 *
 		 * @param    obj   $el  jQuery selector for the element
 		 * @return   array
 		 * @since    3.16.0
@@ -53,6 +58,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve the content of an element
+		 *
 		 * @param    obj   $el  jQuery object of the element
 		 * @return   string
 		 * @since    3.16.0
@@ -74,6 +80,7 @@ define( [], function() {
 
 		/**
 		 * Determine if changes have been made to the element
+		 *
 		 * @param    {[obj]}   event  js event object
 		 * @return   {Boolean}        true when changes have been made, false otherwise
 		 * @since    3.16.0
@@ -86,6 +93,7 @@ define( [], function() {
 
 		/**
 		 * Ensure that new content is at least 1 character long
+		 *
 		 * @param    obj   event  js event object
 		 * @return   boolean
 		 * @since    3.16.0
@@ -93,10 +101,10 @@ define( [], function() {
 		 */
 		is_valid: function( event ) {
 
-			var self = this,
-				$el = $( event.target ),
+			var self    = this,
+				$el     = $( event.target ),
 				content = this.get_content( $el ),
-				type = $el.attr( 'data-type' );
+				type    = $el.attr( 'data-type' );
 
 			if ( ( $el.attr( 'required' ) || $el.attr( 'data-required' ) ) && content.length < 1 ) {
 				return false;
@@ -140,6 +148,7 @@ define( [], function() {
 
 		/**
 		 * Initialize datepicker elements
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -163,6 +172,7 @@ define( [], function() {
 
 		/**
 		 * Initialize elements that allow inline formatting
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -174,7 +184,7 @@ define( [], function() {
 			this.$el.find( '.llms-input-formatting[data-formatting]' ).each( function() {
 
 				var formatting = $( this ).attr( 'data-formatting' ).split( ',' ),
-					attr = $( this ).attr( 'data-attribute' );
+					attr       = $( this ).attr( 'data-attribute' );
 
 				var ed = new Quill( this, {
 					modules: {
@@ -213,6 +223,7 @@ define( [], function() {
 
 		/**
 		 * Initialize editable select elements
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.25.4
@@ -228,6 +239,7 @@ define( [], function() {
 		/**
 		 * Blur/focusout function for .llms-editable-title elements
 		 * Automatically saves changes if changes have been made
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -239,8 +251,8 @@ define( [], function() {
 
 			this.model.set( '_has_focus', false, { silent: true } );
 
-			var self = this,
-				$el = $( event.target ),
+			var self    = this,
+				$el     = $( event.target ),
 				changed = this.has_changed( event );
 
 			if ( changed ) {
@@ -257,6 +269,7 @@ define( [], function() {
 
 		/**
 		 * Focus event for editable inputs
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.6
@@ -272,6 +285,7 @@ define( [], function() {
 		/**
 		 * Handle content pasted into contenteditable fields
 		 * This will ensure that HTML from RTF editors isn't pasted into the dom
+		 *
 		 * @param    obj   event  js event obj
 		 * @return   void
 		 * @since    3.17.8
@@ -289,6 +303,7 @@ define( [], function() {
 
 		/**
 		 * Change event for selectables
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -296,9 +311,9 @@ define( [], function() {
 		 */
 		on_select: function( event ) {
 
-			var $el = $( event.target ),
-				multi = ( $el.attr( 'multiple' ) ),
-				attr = $el.attr( 'name' ),
+			var $el       = $( event.target ),
+				multi     = ( $el.attr( 'multiple' ) ),
+				attr      = $el.attr( 'name' ),
 				$selected = $el.find( 'option:selected' ),
 				val;
 
@@ -317,6 +332,7 @@ define( [], function() {
 
 		/**
 		 * Change event for radio element groups
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.17.6
@@ -324,9 +340,9 @@ define( [], function() {
 		 */
 		on_radio_select: function( event ) {
 
-			var $el = $( event.target ),
+			var $el  = $( event.target ),
 				attr = $el.attr( 'name' ),
-				val = $el.val();
+				val  = $el.val();
 
 			this.model.set( attr, val );
 
@@ -335,6 +351,7 @@ define( [], function() {
 		/**
 		 * Keydown function for .llms-editable-title elements
 		 * Blurs
+		 *
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -344,8 +361,8 @@ define( [], function() {
 
 			event.stopPropagation();
 
-			var self = this,
-				key = event.which || event.keyCode,
+			var self  = this,
+				key   = event.which || event.keyCode,
 				shift = event.shiftKey;
 				// ctrl = event.metaKey || event.ctrlKey;
 
@@ -371,6 +388,7 @@ define( [], function() {
 
 		/**
 		 * Open the WP media lib
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -381,7 +399,7 @@ define( [], function() {
 			event.stopPropagation();
 
 			var self = this,
-				$el = $( event.currentTarget );
+				$el  = $( event.currentTarget );
 
 			if ( self.media_lib ) {
 
@@ -399,9 +417,9 @@ define( [], function() {
 
 				self.media_lib.on( 'select', function() {
 
-					var size = $el.attr( 'data-image-size' ),
+					var size       = $el.attr( 'data-image-size' ),
 						attachment = self.media_lib.state().get( 'selection' ).first().toJSON(),
-						image = self.model.get( $el.attr( 'data-attribute' ) ),
+						image      = self.model.get( $el.attr( 'data-attribute' ) ),
 						url;
 
 					if ( size && attachment.sizes[ size ] ) {
@@ -421,11 +439,11 @@ define( [], function() {
 
 			self.media_lib.open();
 
-
 		},
 
 		/**
 		 * Click event to remove an image
+		 *
 		 * @param    obj   event  js event obj
 		 * @return   voids
 		 * @since    3.16.0
@@ -445,6 +463,7 @@ define( [], function() {
 		/**
 		 * Helper to undo changes
 		 * Bound to "escape" key via on_keydown function
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -458,6 +477,7 @@ define( [], function() {
 
 		/**
 		 * Sync changes to the model and DB
+		 *
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -474,6 +494,7 @@ define( [], function() {
 
 		/**
 		 * Change event for a switch element
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -482,8 +503,8 @@ define( [], function() {
 		toggle_switch: function( event ) {
 
 			event.stopPropagation();
-			var $el = $( event.target ),
-				attr = $el.attr( 'name' ),
+			var $el      = $( event.target ),
+				attr     = $el.attr( 'name' ),
 				rerender = $el.attr( 'data-rerender' ),
 				val;
 
@@ -502,7 +523,6 @@ define( [], function() {
 				} else {
 					this.model.get( split[0] ).set( split[1], val );
 				}
-
 
 			} else {
 
@@ -523,6 +543,7 @@ define( [], function() {
 
 		/**
 		 * Initializes a WP Editor on a textarea
+		 *
 		 * @param    string   id        CSS ID of the editor (don't include #)
 		 * @param    obj      settings  optional object of settings to pass to wp.editor.initialize()
 		 * @return   void
@@ -548,6 +569,7 @@ define( [], function() {
 
 		/**
 		 * Setup a permalink editor to allow editing of a permalink
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.6
@@ -555,12 +577,12 @@ define( [], function() {
 		 */
 		make_slug_editable: function( event ) {
 
-			var self = this,
-				$btn = $( event.currentTarget ),
-				$link = $btn.prevAll( 'a' ),
-				$input = $btn.prev( 'input.permalink' ),
-				full_url = $link.attr( 'href' ),
-				slug = $input.val(),
+			var self      = this,
+				$btn      = $( event.currentTarget ),
+				$link     = $btn.prevAll( 'a' ),
+				$input    = $btn.prev( 'input.permalink' ),
+				full_url  = $link.attr( 'href' ),
+				slug      = $input.val(),
 				short_url = full_url.replace( slug, '' );
 
 			// hide the button
@@ -585,6 +607,7 @@ define( [], function() {
 		 * Callback function called after initialization of an editor
 		 * Updates UI if a label is present
 		 * Binds a change event to ensure editor changes are saved to the model
+		 *
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
 		 * @since    3.16.0
@@ -592,11 +615,11 @@ define( [], function() {
 		 */
 		on_editor_ready: function( editor ) {
 
-			var self = this,
-				$ed = $( '#' + editor.id ),
+			var self    = this,
+				$ed     = $( '#' + editor.id ),
 				$parent = $ed.closest( '.llms-editable-editor' ),
-				$label = $parent.find( '.llms-label' ),
-				prop = $ed.attr( 'data-attribute' )
+				$label  = $parent.find( '.llms-label' ),
+				prop    = $ed.attr( 'data-attribute' )
 
 			if ( $label.length ) {
 				$label.prependTo( $parent.find( '.wp-editor-tools' ) );
@@ -623,7 +646,7 @@ define( [], function() {
 
 		_validate_url: function( str ) {
 
-			var a = document.createElement( 'a' );
+			var a  = document.createElement( 'a' );
 			a.href = str;
 			return ( a.host && a.host !== window.location.host );
 

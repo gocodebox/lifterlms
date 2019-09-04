@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Dates Class
  * Manages formatting dates for I/O and display
+ *
  * @since    ??
  * @version  3.24.0
  */
@@ -29,15 +30,16 @@ class LLMS_Date {
 
 	/**
 	 * Date filter options for analytics
+	 *
 	 * @return [array] [array of date filters]
 	 */
 	public static function date_filters() {
 		$filters = array(
-			'none' => 'Enter Specific Dates',
-			'week' => 'Last 7 Days',
-			'month' => 'Current Month',
+			'none'    => 'Enter Specific Dates',
+			'week'    => 'Last 7 Days',
+			'month'   => 'Current Month',
 			'quarter' => 'Current Quarter',
-			'year' => 'Current Year',
+			'year'    => 'Current Year',
 		);
 		return $filters;
 	}
@@ -56,7 +58,7 @@ class LLMS_Date {
 
 		if ( 'au' === $type ) {
 			list($d, $m, $y) = preg_split( '/\//', $date );
-			$date = sprintf( '%4d-%02d-%02d', $y, $m, $d );
+			$date            = sprintf( '%4d-%02d-%02d', $y, $m, $d );
 		} else {
 			$date = date( 'Y-m-d', strtotime( $date ) );
 		}
@@ -74,44 +76,44 @@ class LLMS_Date {
 	 */
 	public static function get_date_range_by_filter( $filter ) {
 
-		$today = current_time( 'Y-m-d' );
+		$today         = current_time( 'Y-m-d' );
 		$current_month = date( 'm', strtotime( $today ) );
-		$current_year = date( 'Y', strtotime( $today ) );
+		$current_year  = date( 'Y', strtotime( $today ) );
 
 		if ( 'week' === $filter ) {
 
 			$start_date = self::db_date( $today . '- 7 days' );
-			$end_date = self::db_date( $today );
+			$end_date   = self::db_date( $today );
 
 		} elseif ( 'month' === $filter ) {
 
 			$start_date = date( 'Y-m-01', strtotime( $today ) );
-			$end_date = date( 'Y-m-t', strtotime( $today ) );
+			$end_date   = date( 'Y-m-t', strtotime( $today ) );
 
 		} elseif ( 'quarter' === $filter ) {
 
 			if ( $current_month >= 1 && $current_month <= 3 ) {
 				$start_date = $current_year . '-01-01';
-				$end_date = $current_year . '-03-31';
+				$end_date   = $current_year . '-03-31';
 			} elseif ( $current_month >= 4 && $current_month <= 6 ) {
 				$start_date = $current_year . '-04-01';
-				$end_date = $current_year . '-06-30';
+				$end_date   = $current_year . '-06-30';
 			} elseif ( $current_month >= 7 && $current_month <= 9 ) {
 				$start_date = $current_year . '-07-01';
-				$end_date = $current_year . '-09-30';
+				$end_date   = $current_year . '-09-30';
 			} elseif ( $current_month >= 10 && $current_month <= 12 ) {
 				$start_date = $current_year . '-10-01';
-				$end_date = ($current_year + 1) . '-01-01';
+				$end_date   = ( $current_year + 1 ) . '-01-01';
 			}
 		} elseif ( 'year' === $filter ) {
 
 			$start_date = $current_year . '-01-01';
-			$end_date = ($current_year + 1) . '-01-01';
+			$end_date   = ( $current_year + 1 ) . '-01-01';
 		}
 
 		$date_range = array(
 			'start_date' => $start_date,
-			'end_date' => $end_date,
+			'end_date'   => $end_date,
 		);
 
 		return $date_range;
@@ -122,6 +124,7 @@ class LLMS_Date {
 	 * Query Filter for for last 7 days
 	 * Appends AND statement to WP_Query WHERE clause
 	 * Only retrieves posts created
+	 *
 	 * @param  string $where [WP_Query Where clause]
 	 * @return [string]        [modified where clause]
 	 */
@@ -158,24 +161,24 @@ class LLMS_Date {
 		if ( $time < 1 ) {
 			return;
 		}
-		$hours = floor( $time / 60 );
-		$minutes = ($time % 60);
-		$seconds = (60 * $decimal_part);
+		$hours   = floor( $time / 60 );
+		$minutes = ( $time % 60 );
+		$seconds = ( 60 * $decimal_part );
 
-		$hours_string = '';
-	  	$minutes_string = '';
+		$hours_string   = '';
+		$minutes_string = '';
 		$seconds_string = '';
 
-	    //determine hours vs hour in string
-	    if ( ! empty( $hours ) ) {
-	    	if ( $hours > 1 ) {
-	    		$hour_desc = __( 'hours', 'lifterlms' );
-	    	} else {
-	    		$hour_desc = __( 'hour', 'lifterlms' );
-	    	}
+		// determine hours vs hour in string
+		if ( ! empty( $hours ) ) {
+			if ( $hours > 1 ) {
+				$hour_desc = __( 'hours', 'lifterlms' );
+			} else {
+				$hour_desc = __( 'hour', 'lifterlms' );
+			}
 
-	    	$hours_string = sprintf( __( '%1$d %2$s ', 'lifterlms' ), $hours, $hour_desc );
-	    } else {
+			$hours_string = sprintf( __( '%1$d %2$s ', 'lifterlms' ), $hours, $hour_desc );
+		} else {
 			if ( ! empty( $seconds ) ) {
 				if ( $seconds > 1 ) {
 					$second_desc = __( 'seconds', 'lifterlms' );
@@ -188,23 +191,23 @@ class LLMS_Date {
 			}
 		}
 
-	    //determine minutes vs minute in string
-	    if ( ! empty( $minutes ) ) {
-	    	if ( $minutes > 1 ) {
-	    		$minute_desc = __( 'minutes', 'lifterlms' );
-	    	} else {
-	    		$minute_desc = __( 'minute', 'lifterlms' );
-	    	}
+		// determine minutes vs minute in string
+		if ( ! empty( $minutes ) ) {
+			if ( $minutes > 1 ) {
+				$minute_desc = __( 'minutes', 'lifterlms' );
+			} else {
+				$minute_desc = __( 'minute', 'lifterlms' );
+			}
 
-	    	$minutes_string = sprintf( ' %d %s', $minutes, $minute_desc );
+			$minutes_string = sprintf( ' %d %s', $minutes, $minute_desc );
 
-	    }
+		}
 
-	    return $hours_string . $minutes_string . $seconds_string;
+		return $hours_string . $minutes_string . $seconds_string;
 	}
 
 
 
 }
 
-return new LLMS_Date;
+return new LLMS_Date();

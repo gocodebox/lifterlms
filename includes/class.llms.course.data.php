@@ -42,7 +42,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 *
 	 * @since    3.15.0
 	 *
-	 * @param    int     $course_id  WP Post ID of the course
+	 * @param    int $course_id  WP Post ID of the course
 	 */
 	public function __construct( $course_id ) {
 
@@ -76,14 +76,16 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * @since 3.15.0
 	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
-	 * @param    string     $period  date period [current|previous]
+	 * @param    string $period  date period [current|previous]
 	 * @return   int
 	 */
 	public function get_completions( $period = 'current' ) {
 
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"
 			SELECT DISTINCT COUNT( user_id )
 			FROM {$wpdb->prefix}lifterlms_user_postmeta
 			WHERE meta_value = 'yes'
@@ -91,10 +93,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			  AND post_id = %d
 			  AND updated_date BETWEEN %s AND %s
 			",
-			$this->post_id,
-			$this->get_date( $period, 'start' ),
-			$this->get_date( $period, 'end' )
-		) );
+				$this->post_id,
+				$this->get_date( $period, 'start' ),
+				$this->get_date( $period, 'end' )
+			)
+		);
 
 	}
 
@@ -104,14 +107,16 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 * @since 3.15.0
 	 * @since 3.31.0 Use $this->post_id instead of deprecated $this->course_id.
 	 *
-	 * @param    string     $period  date period [current|previous]
+	 * @param    string $period  date period [current|previous]
 	 * @return   int
 	 */
 	public function get_enrollments( $period = 'current' ) {
 
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"
 			SELECT DISTINCT COUNT( user_id )
 			FROM {$wpdb->prefix}lifterlms_user_postmeta
 			WHERE meta_value = 'yes'
@@ -119,10 +124,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			  AND post_id = %d
 			  AND updated_date BETWEEN %s AND %s
 			",
-			$this->post_id,
-			$this->get_date( $period, 'start' ),
-			$this->get_date( $period, 'end' )
-		) );
+				$this->post_id,
+				$this->get_date( $period, 'start' ),
+				$this->get_date( $period, 'end' )
+			)
+		);
 
 	}
 
@@ -131,8 +137,8 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 *
 	 * @since    3.15.0
 	 *
-	 * @param    string     $type    engagement type [email|certificate|achievement]
-	 * @param    string     $period  date period [current|previous]
+	 * @param    string $type    engagement type [email|certificate|achievement]
+	 * @param    string $period  date period [current|previous]
 	 * @return   int
 	 */
 	public function get_engagements( $type, $period = 'current' ) {
@@ -141,17 +147,22 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		$ids = implode( ',', $this->get_all_ids() );
 
-		return $wpdb->get_var( $wpdb->prepare( "
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"
 			SELECT DISTINCT COUNT( user_id )
 			FROM {$wpdb->prefix}lifterlms_user_postmeta
 			WHERE meta_key = %s
 			  AND post_id IN ( {$ids} )
 			  AND updated_date BETWEEN %s AND %s
 			",
-			'_' . $type,
-			$this->get_date( $period, 'start' ),
-			$this->get_date( $period, 'end' )
-		) );
+				'_' . $type,
+				$this->get_date( $period, 'start' ),
+				$this->get_date( $period, 'end' )
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
@@ -160,7 +171,7 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 *
 	 * @since    3.15.0
 	 *
-	 * @param    string     $period  date period [current|previous]
+	 * @param    string $period  date period [current|previous]
 	 * @return   int
 	 */
 	public function get_lesson_completions( $period = 'current' ) {
@@ -168,8 +179,10 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 		global $wpdb;
 
 		$lessons = implode( ',', $this->post->get_lessons( 'ids' ) );
-
-		return $wpdb->get_var( $wpdb->prepare( "
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"
 			SELECT COUNT( * )
 			FROM {$wpdb->prefix}lifterlms_user_postmeta
 			WHERE meta_value = 'yes'
@@ -177,9 +190,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			  AND post_id IN ( {$lessons} )
 			  AND updated_date BETWEEN %s AND %s
 			",
-			$this->get_date( $period, 'start' ),
-			$this->get_date( $period, 'end' )
-		) );
+				$this->get_date( $period, 'start' ),
+				$this->get_date( $period, 'end' )
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
@@ -188,18 +203,21 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 *
 	 * @since    3.15.0
 	 *
-	 * @param    string     $period  date period [current|previous]
+	 * @param    string $period  date period [current|previous]
 	 * @return   int
 	 */
 	public function get_orders( $period = 'current' ) {
 
-		$query = $this->orders_query( array(
+		$query = $this->orders_query(
 			array(
-				'after'     => $this->get_date( $period, 'start' ),
-				'before'    => $this->get_date( $period, 'end' ),
-				'inclusive' => true,
+				array(
+					'after'     => $this->get_date( $period, 'start' ),
+					'before'    => $this->get_date( $period, 'end' ),
+					'inclusive' => true,
+				),
 			),
-		), 1 );
+			1
+		);
 		return $query->found_posts;
 
 	}
@@ -209,12 +227,12 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 *
 	 * @since    3.15.0
 	 *
-	 * @param    string     $period  date period [current|previous]
+	 * @param    string $period  date period [current|previous]
 	 * @return   float
 	 */
 	public function get_revenue( $period ) {
 
-		$query = $this->orders_query( -1 );
+		$query     = $this->orders_query( -1 );
 		$order_ids = wp_list_pluck( $query->posts, 'ID' );
 
 		$revenue = 0;
@@ -224,8 +242,10 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			$order_ids = implode( ',', $order_ids );
 
 			global $wpdb;
-			$revenue = $wpdb->get_var( $wpdb->prepare(
-				"SELECT SUM( m2.meta_value )
+			// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			$revenue = $wpdb->get_var(
+				$wpdb->prepare(
+					"SELECT SUM( m2.meta_value )
 				 FROM $wpdb->posts AS p
 				 LEFT JOIN $wpdb->postmeta AS m1 ON m1.post_id = p.ID AND m1.meta_key = '_llms_order_id' -- join for the ID
 				 LEFT JOIN $wpdb->postmeta AS m2 ON m2.post_id = p.ID AND m2.meta_key = '_llms_amount'-- get the actual amounts
@@ -234,9 +254,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 				   AND m1.meta_value IN ({$order_ids})
 				   AND p.post_modified BETWEEN %s AND %s
 				;",
-				$this->get_date( $period, 'start' ),
-				$this->get_date( $period, 'end' )
-			) );
+					$this->get_date( $period, 'start' ),
+					$this->get_date( $period, 'end' )
+				)
+			);
+			// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 			if ( is_null( $revenue ) ) {
 				$revenue = 0;
@@ -259,7 +281,9 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 
 		global $wpdb;
 
-		return $wpdb->get_var( $wpdb->prepare( "
+		return $wpdb->get_var(
+			$wpdb->prepare(
+				"
 			SELECT DISTINCT COUNT( user_id )
 			FROM {$wpdb->prefix}lifterlms_user_postmeta
 			WHERE meta_value != 'enrolled'
@@ -267,10 +291,11 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 			  AND post_id = %d
 			  AND updated_date BETWEEN %s AND %s
 			",
-			$this->post_id,
-			$this->get_date( $period, 'start' ),
-			$this->get_date( $period, 'end' )
-		) );
+				$this->post_id,
+				$this->get_date( $period, 'start' ),
+				$this->get_date( $period, 'end' )
+			)
+		);
 
 	}
 
@@ -279,8 +304,8 @@ class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 	 *
 	 * @since    3.15.0
 	 *
-	 * @param    int        $num_orders  number of orders to retrieve
-	 * @param    array      $dates       date range (passed to WP_Query['date_query'])
+	 * @param    int   $num_orders  number of orders to retrieve
+	 * @param    array $dates       date range (passed to WP_Query['date_query'])
 	 * @return   obj
 	 */
 	private function orders_query( $num_orders = 1, $dates = array() ) {

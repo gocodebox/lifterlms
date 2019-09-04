@@ -1,6 +1,7 @@
 <?php
 /**
  * Template functions for pricing tables
+ *
  * @since    3.23.0
  * @version  3.23.0
  */
@@ -8,7 +9,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieve a list of CSS classes for a single access plan element
- * @param    obj     $plan  Instance of an LLMS_Access_Plan
+ *
+ * @param    obj $plan  Instance of an LLMS_Access_Plan
  * @return   string
  * @since    3.23.0
  * @version  3.23.0
@@ -29,6 +31,7 @@ function llms_get_access_plan_classes( $plan ) {
 
 /**
  * Include single access plan template within the pricing table
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -45,6 +48,7 @@ if ( ! function_exists( 'llms_template_access_plan' ) ) {
 
 /**
  * Include Single Access Plan Button Template
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -61,6 +65,7 @@ if ( ! function_exists( 'llms_template_access_plan_button' ) ) {
 
 /**
  * Include Single Access Plan Description Template
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -77,6 +82,7 @@ if ( ! function_exists( 'llms_template_access_plan_description' ) ) {
 
 /**
  * Include Single Access Plan Featured Template
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -93,6 +99,7 @@ if ( ! function_exists( 'llms_template_access_plan_feature' ) ) {
 
 /**
  * Include Single Access Plan pricing Template
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -109,6 +116,7 @@ if ( ! function_exists( 'llms_template_access_plan_pricing' ) ) {
 
 /**
  * Include Single Access Plan restrictions Template
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -125,6 +133,7 @@ if ( ! function_exists( 'llms_template_access_plan_restrictions' ) ) {
 
 /**
  * Include Single Access Plan title Template
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -141,6 +150,7 @@ if ( ! function_exists( 'llms_template_access_plan_title' ) ) {
 
 /**
  * Include Single Access Plan trial Template
+ *
  * @param    obj     $plan   Instance of an LLMS_Access_Plan
  * @return   void
  * @since    3.23.0
@@ -157,6 +167,7 @@ if ( ! function_exists( 'llms_template_access_plan_trial' ) ) {
 
 /**
  * Include pricing table for a LifterLMS Product (course or membership)
+ *
  * @param    int     $post_id   WP Post ID of the product
  * @return   void
  * @since    3.0.0
@@ -170,9 +181,9 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 
 		$product = new LLMS_Product( $post_id );
 
-		$is_enrolled = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) );
+		$is_enrolled  = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) );
 		$purchaseable = $product->is_purchasable();
-		$has_free = $product->has_free_access_plan();
+		$has_free     = $product->has_free_access_plan();
 
 		llms_get_template(
 			'product/pricing-table.php',

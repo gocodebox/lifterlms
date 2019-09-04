@@ -1,5 +1,6 @@
 /**
  * Sidebar Utilities View
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,6 +10,7 @@ define( [], function() {
 
 		/**
 		 * HTML element selector
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-utilities',
@@ -20,18 +22,21 @@ define( [], function() {
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-utilities-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -39,11 +44,11 @@ define( [], function() {
 		initialize: function() {
 
 			// this.render();
-
 		},
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -55,6 +60,7 @@ define( [], function() {
 
 		/**
 		 * Collapse all sections
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -66,6 +72,7 @@ define( [], function() {
 
 		/**
 		 * Expand all sections
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0

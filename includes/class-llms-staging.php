@@ -5,15 +5,16 @@
  * @package  LifterLMS/Classes
  *
  * @since 3.32.0
- * @version 3.32.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Staging class..
+ * LLMS_Staging class.
  *
  * @since 3.32.0
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Staging {
 
@@ -35,6 +36,7 @@ class LLMS_Staging {
 	 * Handle the action buttons present in the recurring payments staging notice.
 	 *
 	 * @since 3.32.0
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return void
 	 */
@@ -44,7 +46,7 @@ class LLMS_Staging {
 			return;
 		}
 
-		if ( ! wp_verify_nonce( $_GET['_llms_staging_nonce'], 'llms_staging_status' ) ) {
+		if ( ! llms_verify_nonce( '_llms_staging_nonce', 'llms_staging_status', 'GET' ) ) {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
@@ -62,7 +64,9 @@ class LLMS_Staging {
 
 		LLMS_Admin_Notices::delete_notice( 'maybe-staging' );
 
-		llms_redirect_and_exit( $_SERVER['HTTP_REFERER'] );
+		if ( ! empty( $_SERVER['HTTP_REFERER'] ) ) {
+			llms_redirect_and_exit( sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) );
+		}
 
 	}
 

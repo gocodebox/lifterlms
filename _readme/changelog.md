@@ -1,6 +1,57 @@
 == Changelog ==
 
 
+= v3.35.0 - 2019-09-04 =
+------------------------
+
+##### Security Notice
+
++ Fixed a security vulnerability disclosed by the WordPress plugin review team. Please upgrade immediately!
+
+##### Updates
+
++ Explicitly setting css and js file versions for various static assets..
++ Added data sanitization methods in various form handlers.
++ Added nonce verification to various form handlers.
+
+##### Bug fixes
+
++ Fixed undefined index error encountered when attempting to email a voucher export.
++ Fixed undefined index error when PHP file upload errors are encountered during a course import.
+
+##### Deprecations
+
+The following unused classes have been marked as deprecated and will be removed from LifterLMS in the next major release.
+
++ LLMS_Analytics_Memberships
++ LLMS_Analytics_Courses
++ LLMS_Analytics_Sales
++ LLMS_Meta_Box_Expiration
++ LLMS_Meta_Box_Video
+
+##### Template Updates
+
++  [admin/reporting/tabs/courses/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/courses/overview.php)
++  [admin/reporting/tabs/memberships/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/memberships/overview.php)
++  [admin/reporting/tabs/quizzes/attempts.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempts.php)
++  [admin/reporting/tabs/quizzes/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/overview.php)
++  [admin/reporting/tabs/students/courses-course.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses-course.php)
++  [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
++  [loop/featured-image.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop/featured-image.php)
++  [myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
++  [quiz/results.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results.php)
++  [single-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/single-certificate.php)
++  [single-no-access.php](https://github.com/gocodebox/lifterlms/blob/master/templates/single-no-access.php)
++  [taxonomy-course_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_cat.php)
++  [taxonomy-course_difficulty.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_difficulty.php)
++  [taxonomy-course_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_tag.php)
++  [taxonomy-course_track.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_track.php)
++  [taxonomy-membership_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_cat.php)
++  [taxonomy-membership_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_tag.php)
+
+
+
+
 = v3.34.5 - 2019-08-29 =
 ------------------------
 
@@ -199,28 +250,3 @@
 
 + [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
 + [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/templates/myaccount/view-order.php)
-
-
-= v3.32.0 - 2019-05-13 =
-------------------------
-
-##### Updates
-
-+ Added Membership reporting
-+ Added the ability to restrict coupons to courses and memberships which are in draft or scheduled status.
-+ When recurring payments are disabled, output a "Staging" bubble on the "Orders" menu item.
-+ Recurring recharges now add order notes and trigger actions when gateway or recurring payment status errors are encountered.
-+ When managing recurring payment status through the warning notice, stay on the same page and clear nonces instead of redirecting to the LifterLMS Settings screen.
-+ Updated the Action Scheduler library to the latest version (2.2.5)
-+ Exposed the Action Scheduler's scheduled actions interface as a tab on the LifterLMS Status page.
-
-##### LifterLMS Blocks
-
-+ Updated to version 1.4.1.
-+ Fixed issue causing asset paths to have invalid double slashes.
-+ Fixed issue causing frontend css assets to look for an unresolvable dependency.
-
-##### Bug Fixes
-
-+ Fixed an issue allowing instructors to view a list of students from courses and memberships they don't have access to.
-+ WooCommerce compatibility filters added in 3.31.0 are now scheduled at `init` instead of `plugins_loaded`, resolves conflicts with several WooCommerce add-ons which utilize core WC functions before LifterLMS functions are loaded.

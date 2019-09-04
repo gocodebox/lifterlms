@@ -1,9 +1,12 @@
 /**
  * Load view mixins
- * @return   obj
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.17.1
  * @version  3.17.1
  */
+
 define( [
 		'Views/_Detachable',
 		'Views/_Editable',
@@ -21,13 +24,13 @@ define( [
 		Trashable
 	) {
 
-	return {
-		Detachable: Detachable,
-		Editable: Editable,
-		Receivable: Receivable,
-		Shiftable: Shiftable,
-		Subview: Subview,
-		Trashable: Trashable,
-	};
+		return {
+			Detachable: Detachable,
+			Editable: Editable,
+			Receivable: Receivable,
+			Shiftable: Shiftable,
+			Subview: Subview,
+			Trashable: Trashable,
+		};
 
 } );

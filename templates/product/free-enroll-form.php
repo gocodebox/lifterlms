@@ -24,8 +24,10 @@ $redirection = $plan->get_redirection_url();
 ?>
 
 <form action="" class="llms-free-enroll-form" method="POST">
-	<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $uid ) as $field ) :
-		$field['type'] = 'hidden'; ?>
+	<?php
+	foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $uid ) as $field ) :
+		$field['type'] = 'hidden';
+		?>
 		<?php llms_form_field( $field ); ?>
 	<?php endforeach; ?>
 	<?php wp_nonce_field( 'create_pending_order', '_llms_checkout_nonce' ); ?>

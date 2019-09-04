@@ -1,17 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Post Handler Class
-*
-* Main Handler for post management in LifterLMS
-*
-* @author codeBOX
-*/
+ * Post Handler Class
+ *
+ * Main Handler for post management in LifterLMS
+ *
+ * @author codeBOX
+ */
 class LLMS_Post_Handler {
 
 	/**
 	 * Create Post
+	 *
 	 * @param  string $type [optional: a post type]
 	 * @param  string $title [optional: a title for the post]
 	 * @return int [id of section]
@@ -23,19 +25,22 @@ class LLMS_Post_Handler {
 		}
 
 		// create section post
-		$post_data = apply_filters( 'lifterlms_new_post', array(
-			'post_type'     => $type,
-			'post_title'    => $title,
-			'post_status'   => 'publish',
-			'post_author'   => get_current_user_id(),
-			'post_excerpt'  => $excerpt,
-		) );
+		$post_data = apply_filters(
+			'lifterlms_new_post',
+			array(
+				'post_type'    => $type,
+				'post_title'   => $title,
+				'post_status'  => 'publish',
+				'post_author'  => get_current_user_id(),
+				'post_excerpt' => $excerpt,
+			)
+		);
 
 		$post_id = wp_insert_post( $post_data, true );
 
-		//check for error in update
+		// check for error in update
 		if ( is_wp_error( $post_id ) ) {
-			//for now just log the error and set $post_id to 0 (false)
+			// for now just log the error and set $post_id to 0 (false)
 			llms_log( $post_id->get_error_message() );
 			$post_id = 0;
 		}
@@ -47,16 +52,16 @@ class LLMS_Post_Handler {
 	public static function update_title( $post_id, $title ) {
 
 		$post_data = array(
-		      'ID'           => $post_id,
-		      'post_title'   => $title,
-		  );
+			'ID'         => $post_id,
+			'post_title' => $title,
+		);
 
 		// Update the post into the database
 		$updated_post_id = wp_update_post( $post_data );
 
 		if ( $updated_post_id ) {
 			return array(
-				'id' => $updated_post_id,
+				'id'    => $updated_post_id,
 				'title' => $title,
 			);
 		}
@@ -66,8 +71,8 @@ class LLMS_Post_Handler {
 	public static function update_excerpt( $post_id, $excerpt ) {
 
 		$post_data = array(
-		      'ID'           => $post_id,
-		      'post_excerpt'   => $excerpt,
+			'ID'           => $post_id,
+			'post_excerpt' => $excerpt,
 		);
 
 		// Update the post into the database
@@ -75,7 +80,7 @@ class LLMS_Post_Handler {
 
 		if ( $updated_post_id ) {
 			return array(
-				'id' => $updated_post_id,
+				'id'           => $updated_post_id,
 				'post_excerpt' => $excerpt,
 			);
 		}
@@ -84,32 +89,33 @@ class LLMS_Post_Handler {
 
 	/**
 	 * Creates a new Section
-	 * @param  [int] $course_id [the parent course id]
+	 *
+	 * @param  [int]  $course_id [the parent course id]
 	 * @param  string $title    [optional: a title for the section]
 	 * @return [int]            [post id of section]
 	 */
 	public static function create_section( $course_id, $title = '' ) {
 
-		//no course id? no new section!
+		// no course id? no new section!
 		if ( ! isset( $course_id ) ) {
 			return;
 		}
 
-		//set the section_order variable
-		//get the count of sections in the course and add 1
-		$course = new LLMS_Course( $course_id );
-		$sections = $course->get_sections( 'posts' );
+		// set the section_order variable
+		// get the count of sections in the course and add 1
+		$course        = new LLMS_Course( $course_id );
+		$sections      = $course->get_sections( 'posts' );
 		$section_order = count( $sections ) + 1;
 
 		$title = isset( $title ) ? $title : 'New Section';
 
 		$post_id = self::create( 'section', $title );
 
-		//if post created set parent course and order to order determined above
+		// if post created set parent course and order to order determined above
 		if ( $post_id ) {
 			update_post_meta( $post_id, '_llms_order', $section_order );
 
-			$section = new LLMS_Section( $post_id );
+			$section               = new LLMS_Section( $post_id );
 			$updated_parent_course = $section->set_parent_course( $course_id );
 		}
 
@@ -118,34 +124,35 @@ class LLMS_Post_Handler {
 
 	/**
 	 * Creates a new Lesson
-	 * @param  [int] $course_id [the parent course id]
+	 *
+	 * @param  [int]  $course_id [the parent course id]
 	 * @param  string $title    [optional: a title for the lesson]
 	 * @param  string $excerpt  [optional: a desc for the lesson]
 	 * @return [int]            [post id of lesson]
 	 */
 	public static function create_lesson( $course_id, $section_id, $title = '', $excerpt = '' ) {
 
-		//no course id or section id? no new lesson!
+		// no course id or section id? no new lesson!
 		if ( ! isset( $course_id ) || ! isset( $course_id ) ) {
 			return;
 		}
 
-		//set the lesson_order variable
-		//get the count of lessons in the section
-		$section = new LLMS_Section( $section_id );
+		// set the lesson_order variable
+		// get the count of lessons in the section
+		$section      = new LLMS_Section( $section_id );
 		$lesson_order = $section->get_next_available_lesson_order();
 
 		$title = isset( $title ) ? $title : 'New Lesson';
 
 		$post_id = self::create( 'lesson', $title, $excerpt );
 
-		//if post created set parent section, parent course and order determined above
+		// if post created set parent section, parent course and order determined above
 		if ( $post_id ) {
 			update_post_meta( $post_id, '_llms_order', $lesson_order );
 
-			$lesson = new LLMS_Lesson( $post_id );
+			$lesson                 = new LLMS_Lesson( $post_id );
 			$updated_parent_section = $lesson->set_parent_section( $section_id );
-			$updated_parent_course = $lesson->set_parent_course( $course_id );
+			$updated_parent_course  = $lesson->set_parent_course( $course_id );
 
 		}
 
@@ -154,14 +161,14 @@ class LLMS_Post_Handler {
 
 	public static function get_posts( $type = 'post' ) {
 
-		$args = array(
-		'posts_per_page' 	=> 1000,
-		'post_type' 		=> $type,
-		'nopaging' 			=> true,
-		'post_status' 		=> 'publish',
-		'orderby'          	=> 'post_title',
-		'order'            	=> 'ASC',
-		'suppress_filters' 	=> true,
+		$args      = array(
+			'posts_per_page'   => 1000,
+			'post_type'        => $type,
+			'nopaging'         => true,
+			'post_status'      => 'publish',
+			'orderby'          => 'post_title',
+			'order'            => 'ASC',
+			'suppress_filters' => true,
 		);
 		$postslist = get_posts( $args );
 
@@ -186,7 +193,7 @@ class LLMS_Post_Handler {
 
 			foreach ( $lessons as $key => $value ) {
 
-				//get parent course if assigned
+				// get parent course if assigned
 				$parent_course = get_post_meta( $value->ID, '_llms_parent_course', true );
 
 				if ( $parent_course ) {
@@ -204,7 +211,6 @@ class LLMS_Post_Handler {
 
 	}
 
-	//this is getting rewritten into a new shiny interface soon!!!!
 	public static function get_prerequisite( $post_id ) {
 		$post_type = get_post_type( $post_id );
 

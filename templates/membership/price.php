@@ -1,9 +1,13 @@
 <?php
 /**
  * Membership price template
- * @since    ??
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since Unknown
  * @version  3.24.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 global $post;
@@ -17,13 +21,13 @@ $llms_product = new LLMS_Product( $post->ID );
 
 		<?php foreach ( $llms_product->get_payment_options() as $option ) : ?>
 
-			<?php if ( 'single' == $option || 'free' == $option ) : ?>
+			<?php if ( 'single' === $option || 'free' === $option ) : ?>
 
 				<h4 class="llms-price"><span><?php echo apply_filters( 'lifterlms_single_payment_text', $llms_product->get_single_price_html(), $llms_product ); ?></span></h4>
 
-			<?php elseif ( 'recurring' == $option ) : ?>
+			<?php elseif ( 'recurring' === $option ) : ?>
 
-				<?php foreach ( $llms_product->get_subscriptions() as $id => $sub ) : ?>
+				<?php foreach ( $llms_product->get_subscriptions() as $sub ) : ?>
 
 					<?php if ( count( $llms_product->get_payment_options() ) > 1 ) : ?>
 

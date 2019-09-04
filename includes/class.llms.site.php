@@ -110,9 +110,12 @@ class LLMS_Site {
 	 */
 	public static function get_features() {
 
-		$defaults = apply_filters( 'llms_site_default_features', array(
-			'recurring_payments' => true,
-		) );
+		$defaults = apply_filters(
+			'llms_site_default_features',
+			array(
+				'recurring_payments' => true,
+			)
+		);
 
 		return get_option( 'llms_site_get_features', $defaults );
 
@@ -124,12 +127,12 @@ class LLMS_Site {
 	 * @since 3.0.0
 	 *
 	 * @param string $feature Name / key of the feature.
-	 * @param bool $val Status of the feature [true = enabled; false = disabled].
+	 * @param bool   $val Status of the feature [true = enabled; false = disabled].
 	 * @return void
 	 */
 	public static function update_feature( $feature, $val ) {
 
-		$features = self::get_features();
+		$features             = self::get_features();
 		$features[ $feature ] = $val;
 		update_option( 'llms_site_get_features', $features );
 

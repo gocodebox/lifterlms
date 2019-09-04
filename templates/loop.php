@@ -2,16 +2,15 @@
 /**
  * Generic loop template
  *
- * utilized by both courses and memberships
+ * Utilized by both courses and memberships.
  *
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ * @package     LifterLMS/Templates
+ *
  * @since       1.0.0
  * @version     3.14.0
- *
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 ?>
 <?php get_header( 'llms_loop' ); ?>
 
@@ -27,7 +26,8 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 
 <?php
 	/**
-	 * lifterlms_loop
+	 * Hook: lifterlms_loop
+	 *
 	 * @hooked lifterlms_loop - 10
 	 */
 	do_action( 'lifterlms_loop' );

@@ -1,11 +1,12 @@
 <?php
 /**
  * Single Certificate Preview Template
+ *
  * @since    3.14.0
  * @version  3.14.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 ?>
 

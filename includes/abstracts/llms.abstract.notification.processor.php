@@ -6,7 +6,8 @@
  * @version  3.8.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
@@ -15,12 +16,14 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 
 	/**
 	 * Enables event logging
+	 *
 	 * @var  boolean
 	 */
 	private $enable_logging = true;
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -38,6 +41,7 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 
 	/**
 	 * Called when queue is emptied and action is complete
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -51,6 +55,7 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 
 	/**
 	 * Starts the queue
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -95,6 +100,7 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 
 	/**
 	 * Returns true if the processor is running
+	 *
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -105,7 +111,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 
 	/**
 	 * Log event data to an update file when logging enabled
-	 * @param    mixed     $data  data to log
+	 *
+	 * @param    mixed $data  data to log
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0

@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Base LifterLMS Widget Class
+ *
  * @since    1.0.0
  * @version  3.24.0
  */
@@ -10,9 +11,10 @@ class LLMS_Widget extends WP_Widget {
 
 	/**
 	 * Register widget with WordPress.
+	 *
 	 * @see WP_Widget::__construct()
 	 */
-	function __construct() {}
+	public function __construct() {}
 
 	/**
 	 * Front-end display of widget.
@@ -21,6 +23,8 @@ class LLMS_Widget extends WP_Widget {
 	 *
 	 * @param array $args     Widget arguments.
 	 * @param array $instance Saved values from database.
+	 *
+	 * @return  void
 	 */
 	public function widget( $args, $instance ) {
 		echo $args['before_widget'];
@@ -43,12 +47,12 @@ class LLMS_Widget extends WP_Widget {
 
 	/**
 	 * Back-end widget form.
+	 *
 	 * @see WP_Widget::form()
 	 * @param array $instance Previously saved values from database.
 	 * @return  void
 	 * @since    1.0.0
 	 * @version  3.24.0
-	 *
 	 */
 	public function form( $instance ) {
 		$title = ! empty( $instance['title'] ) ? $instance['title'] : '';
@@ -71,7 +75,7 @@ class LLMS_Widget extends WP_Widget {
 	 * @return array Updated safe values to be saved.
 	 */
 	public function update( $new_instance, $old_instance ) {
-		$instance = array();
+		$instance          = array();
 		$instance['title'] = ( ! empty( $new_instance['title'] ) ) ? strip_tags( $new_instance['title'] ) : '';
 
 		return $instance;
@@ -79,4 +83,4 @@ class LLMS_Widget extends WP_Widget {
 
 }
 
-return new LLMS_Widget;
+return new LLMS_Widget();

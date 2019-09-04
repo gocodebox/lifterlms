@@ -24,22 +24,23 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
-	protected $db_post_type = 'llms_quiz';
+	protected $db_post_type    = 'llms_quiz';
 	protected $model_post_type = 'quiz';
 
 	protected $properties = array(
-		'lesson_id' => 'absint',
-		'allowed_attempts' => 'int',
-		'limit_attempts' => 'yesno',
-		'limit_time' => 'yesno',
-		'passing_percent' => 'float',
-		'random_questions' => 'yesno',
+		'lesson_id'           => 'absint',
+		'allowed_attempts'    => 'int',
+		'limit_attempts'      => 'yesno',
+		'limit_time'          => 'yesno',
+		'passing_percent'     => 'float',
+		'random_questions'    => 'yesno',
 		'show_correct_answer' => 'yesno',
-		'time_limit' => 'int',
+		'time_limit'          => 'int',
 	);
 
 	/**
 	 * Retrieve the LLMS_Course for the quiz
+	 *
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -54,6 +55,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve LLMS_Lesson for the quiz's parent lesson
+	 *
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.12
@@ -68,7 +70,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the quizzes child questions
-	 * @param    string  $return  type of return [ids|posts|questions]
+	 *
+	 * @param    string $return  type of return [ids|posts|questions]
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -79,6 +82,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the time limit formatted as a human readable string
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -91,6 +95,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the quiz defines limited attempts
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -101,6 +106,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a time limit is enabled for the quiz
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -111,6 +117,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the quiz is an orphan
+	 *
 	 * @return   bool
 	 * @since    3.16.12
 	 * @version  3.16.12
@@ -129,7 +136,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a student can take the quiz
-	 * @param    int      $user_id   WP User ID, none supplied uses current user
+	 *
+	 * @param    int $user_id   WP User ID, none supplied uses current user
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.16.0
@@ -154,6 +162,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an instance of the question manager for the quiz
+	 *
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -166,7 +175,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Called before data is sorted and returned by $this->toArray()
 	 * Extending classes should override this data if custom data should
 	 * be added when object is converted to an array or json
-	 * @param    array     $arr   array of data to be serialized
+	 *
+	 * @param    array $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.19.2
@@ -207,7 +217,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve lessons this quiz is assigned to
-	 * @param    string    $return  format of the return [ids|lessons]
+	 *
+	 * @param    string $return  format of the return [ids|lessons]
 	 * @return   array              array of WP_Post IDs (lesson post types)
 	 * @since    3.12.0
 	 * @version  3.12.0
@@ -215,13 +226,15 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	public function get_lessons( $return = 'ids' ) {
 
 		global $wpdb;
-		$query = $wpdb->get_col( $wpdb->prepare(
-			"SELECT post_id
+		$query = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT post_id
 			 FROM {$wpdb->postmeta}
 			 WHERE meta_key = '_llms_assigned_quiz'
 			   AND meta_value = %d;",
-			$this->get( 'id' )
-		) );
+				$this->get( 'id' )
+			)
+		);
 
 		// return just the ids
 		if ( 'ids' === $return ) {
@@ -240,7 +253,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Get the (points) value of a question
-	 * @param    int     $question_id  WP Post ID of the LLMS_Question
+	 *
+	 * @param    int $question_id  WP Post ID of the LLMS_Question
 	 * @return   int
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -259,6 +273,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the array of raw question data from the postmeta table
+	 *
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -272,22 +287,23 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 
 	/*
-		       /$$                                                               /$$                     /$$
-		      | $$                                                              | $$                    | $$
+			   /$$                                                               /$$                     /$$
+			  | $$                                                              | $$                    | $$
 		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
 		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
 		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
 		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
 		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
 		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-		                    | $$
-		                    | $$
-		                    |__/
+							| $$
+							| $$
+							|__/
 	*/
 
 	/**
 	 * Get remaining quiz attempts
-	 * @param      int   $user_id   WP_User ID, if not supplied uses current user
+	 *
+	 * @param      int $user_id   WP_User ID, if not supplied uses current user
 	 * @return     int
 	 * @since      1.0.0
 	 * @version    3.16.0
@@ -309,6 +325,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the configured time limit
+	 *
 	 * @return      int
 	 * @since       1.0.0
 	 * @version     3.16.0
@@ -321,6 +338,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the configured time limit
+	 *
 	 * @return      int
 	 * @since       1.0.0
 	 * @version     3.16.0
@@ -333,7 +351,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	/**
 	 * Get total attempts by user
-	 * @param       int   $user_id  a WP_User ID, if not supplied uses current user
+	 *
+	 * @param       int $user_id  a WP_User ID, if not supplied uses current user
 	 * @return      int
 	 * @since       1.0.0
 	 * @version     3.16.0

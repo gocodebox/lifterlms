@@ -1,19 +1,24 @@
 <?php
 /**
  * Admin Menu Items
+ *
  * @since   1.0.0
- * @version 3.29.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_Menus class.
+ *
+ * @since  1.0.0
+ * @since  3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Menus {
 
 	/**
 	 * Constructor
+	 *
 	 * @since   1.0.0
 	 * @version 3.19.0
 	 */
@@ -37,7 +42,8 @@ class LLMS_Admin_Menus {
 	/**
 	 * If WP_DEBUG is not enabled, expose the schedule-action post type management via direct link
 	 * EG: site.com/wp-admin/edit.php?post_type=scheduled-action
-	 * @param    array     $args  default custom post type arguments
+	 *
+	 * @param    array $args  default custom post type arguments
 	 * @return   array
 	 * @since    3.19.0
 	 * @version  3.19.0
@@ -50,16 +56,20 @@ class LLMS_Admin_Menus {
 		}
 
 		// otherwise we'll add a hidden menu accessible via direct link only
-		return array_merge( $args, array(
-			'show_ui' => true,
-			'show_in_menu' => '',
-			'show_in_admin_bar' => false,
-		) );
+		return array_merge(
+			$args,
+			array(
+				'show_ui'           => true,
+				'show_in_menu'      => '',
+				'show_in_admin_bar' => false,
+			)
+		);
 
 	}
 
 	/**
 	 * Remove the default menu page from the submenu
+	 *
 	 * @param  array
 	 * @return array
 	 * @since   1.0.0
@@ -80,6 +90,7 @@ class LLMS_Admin_Menus {
 	 * Handle init actions on the course builder page
 	 * Used for post-locking redirects when taking over from another user
 	 * on the course builder page
+	 *
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.16.7
@@ -94,10 +105,15 @@ class LLMS_Admin_Menus {
 			$post_id = absint( $_GET['course_id'] );
 			check_admin_referer( 'lock-post_' . $post_id );
 			wp_set_post_lock( $post_id );
-			wp_redirect( add_query_arg( array(
-				'page' => 'llms-course-builder',
-				'course_id' => $post_id,
-			), admin_url( 'admin.php' ) ) );
+			wp_redirect(
+				add_query_arg(
+					array(
+						'page'      => 'llms-course-builder',
+						'course_id' => $post_id,
+					),
+					admin_url( 'admin.php' )
+				)
+			);
 			exit();
 
 		}
@@ -109,6 +125,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Set the global $title variable for the builder
 	 * Prevents the <title> in the admin head being partially empty on builder screen
+	 *
 	 * @return   void
 	 * @since    3.14.9
 	 * @version  3.14.9
@@ -120,6 +137,7 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Admin Menu
+	 *
 	 * @return void
 	 * @since   1.0.0
 	 * @version 3.13.0
@@ -128,7 +146,7 @@ class LLMS_Admin_Menus {
 
 		global $menu;
 
-		$menu[51] = array( '', 'read', 'llms-separator','','wp-menu-separator' );
+		$menu[51] = array( '', 'read', 'llms-separator', '', 'wp-menu-separator' );
 
 		add_menu_page( 'lifterlms', 'LifterLMS', 'read', 'lifterlms', '__return_empty_string', plugin_dir_url( LLMS_PLUGIN_FILE ) . 'assets/images/lifterlms-icon.png', 51 );
 
@@ -146,6 +164,7 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Add items to the admin menu with a later priority
+	 *
 	 * @return   void
 	 * @since    3.5.0
 	 * @version  3.22.0
@@ -165,6 +184,7 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Output the addons screen
+	 *
 	 * @since    3.5.0
 	 * @version  3.22.0
 	 */
@@ -177,6 +197,7 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Output the HTML for the Course Builder
+	 *
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.16.0
@@ -188,6 +209,7 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Outputs the LifterLMS Importer Screen HTML
+	 *
 	 * @return   void
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -202,8 +224,9 @@ class LLMS_Admin_Menus {
 	 * posts will need to be submitted for review as the instructors only actually have
 	 * the capability of a contributor with regards to posts
 	 * but this hack will allow instructors to publish new lessons, quizzes, & questions
+	 *
 	 * @see      WP Core Issue(s): https://core.trac.wordpress.org/ticket/22895
-	 *           				   https://core.trac.wordpress.org/ticket/16808
+	 *                             https://core.trac.wordpress.org/ticket/16808
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -218,22 +241,26 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Output the HTML for admin settings screens
+	 *
 	 * @return void
 	 */
 	public function settings_page_init() {
-		include_once( 'class.llms.admin.settings.php' );
+		include_once 'class.llms.admin.settings.php';
 		LLMS_Admin_Settings::output();
 	}
 
 	/**
 	 * Output the HTML for the reporting screens
-	 * @return   void
+	 *
 	 * @since    3.2.0
-	 * @version  3.13.0
+	 * @since  3.13.0 Unknown.
+	 * @since  3.35.0 Sanitize input data.
+	 *
+	 * @return   void
 	 */
 	public function reporting_page_init() {
 
-		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', $_GET['student_id'] ) ) {
+		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 
@@ -245,6 +272,7 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Handle form submission actions on the status pages
+	 *
 	 * @return   void
 	 * @since    3.11.2
 	 * @version  3.11.2
@@ -256,6 +284,7 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Output the HTML for the Status Pages
+	 *
 	 * @return   void
 	 * @since    ??
 	 * @version  3.11.2

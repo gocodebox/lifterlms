@@ -1,8 +1,9 @@
 <?php
 /**
  * LifterLMS Order Model
+ *
  * @since  3.0.0
- * @version  3.0.0
+ * @version 3.0.0
  *
  * @property   $api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $amount  (float)  Transaction charge amount
@@ -26,15 +27,29 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Transaction model.
+ *
+ * @since 3.0.0
  */
 class LLMS_Transaction extends LLMS_Post_Model {
 
-	protected $db_post_type = 'llms_transaction'; // maybe fix this
+	/**
+	 * DB Post Type.
+	 *
+	 * @var string
+	 */
+	protected $db_post_type    = 'llms_transaction';
+
+	/**
+	 * Model Name/Type.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'transaction';
 
 	/**
 	 * Determine if the transaction can be refunded
 	 * Status must not be "failed" and total refunded amount must be less than order amount
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -44,8 +59,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		// can't refund failed or pending transactions
 		if ( 'llms-txn-failed' === $status || 'llms-txn-pending' === $status ) {
 			return false;
-		} // End if().
-		elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
+		} elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
 			return false;
 		}
 		return true;
@@ -53,12 +67,13 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 	/**
 	 * Get the amount of the transaction that can be refunded
+	 *
 	 * @return   float
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_refundable_amount() {
-		$amount = $this->get_price( 'amount', array(), 'float' );
+		$amount   = $this->get_price( 'amount', array(), 'float' );
 		$refunded = $this->get_price( 'refund_amount', array(), 'float' );
 		return $amount - $refunded;
 	}
@@ -66,7 +81,8 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
-	 * @param    int   $order_id   LLMS_Order ID of the related order
+	 *
+	 * @param    int $order_id   LLMS_Order ID of the related order
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -75,21 +91,26 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 		$title = sprintf( __( 'Transaction for Order #%1$d &ndash; %2$s', 'lifterlms' ), $order_id, strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
 
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', array(
-			'comment_status' => 'closed',
-			'ping_status'	 => 'closed',
-			'post_author' 	 => 0,
-			'post_content'   => '',
-			'post_excerpt'   => '',
-			'post_password'	 => uniqid( 'order_' ),
-			'post_status' 	 => 'llms-' . apply_filters( 'llms_default_order_status', 'txn-pending' ),
-			'post_title'     => $title,
-			'post_type' 	 => $this->get( 'db_post_type' ),
-		), $this );
+		return apply_filters(
+			'llms_' . $this->model_post_type . '_get_creation_args',
+			array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => 0,
+				'post_content'   => '',
+				'post_excerpt'   => '',
+				'post_password'  => uniqid( 'order_' ),
+				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'txn-pending' ),
+				'post_title'     => $title,
+				'post_type'      => $this->get( 'db_post_type' ),
+			),
+			$this
+		);
 	}
 
 	/**
 	 * Get the total amount of the transaction after deducting refunds
+	 *
 	 * @param  array  $price_args  optional array of arguments that can be passed to llms_price()
 	 * @param  string $format      optional format conversion method [html|raw|float]
 	 * @return mixed
@@ -103,6 +124,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an instance of LLMS_Order for the transaction's parent order
+	 *
 	 * @return   obj
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -113,13 +135,14 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the payment gateway instance for the transactions payment gateway
+	 *
 	 * @return   LLMS_Gateway or WP_Error
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_gateway() {
 		$gateways = LLMS()->payment_gateways();
-		$gateway = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
+		$gateway  = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
 		if ( $gateway && $gateway->is_enabled() || is_admin() ) {
 			return $gateway;
 		} else {
@@ -129,6 +152,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Get a property's data type for scrubbing
 	 * used by $this->scrub() to determine how to scrub the property
+	 *
 	 * @param  string $key  property key
 	 * @since  3.0.0
 	 * @version  3.0.0
@@ -141,17 +165,17 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			case 'id':
 			case 'order_id':
 				$type = 'absint';
-			break;
+				break;
 
 			case 'refund_data':
 				$type = 'array';
-			break;
+				break;
 
 			case 'amount':
 			case 'gateway_fee_amount':
 			case 'refund_amount':
 				$type = 'float';
-			break;
+				break;
 
 			case 'api_mode':
 			case 'completed_date':
@@ -175,9 +199,10 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	/**
 	 * Process a Refund
 	 * Called from the admin panel by clicking a refund (manual or gateway) button
-	 * @param    float      $amount   amount to refund
-	 * @param    string     $note     optional note to record in the gateway (if possible) and as an order note
-	 * @param    string     $method   method used to refund, either "manual" (available for all transactions) or "gateway" (where supported)
+	 *
+	 * @param    float  $amount   amount to refund
+	 * @param    string $note     optional note to record in the gateway (if possible) and as an order note
+	 * @param    string $method   method used to refund, either "manual" (available for all transactions) or "gateway" (where supported)
 	 * @return   string|WP_Error      a refund ID on success or a WP_Error object
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -202,13 +227,12 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			// we're okay here
 			case 'manual':
-				$refund_id = apply_filters( 'llms_manual_refund_id', uniqid() );
+				$refund_id    = apply_filters( 'llms_manual_refund_id', uniqid() );
 				$method_title = __( 'manual refund', 'lifterlms' );
-			break;
+				break;
 
 			// check gateway to ensure it's valid and supports refunds
 			case 'gateway':
-
 				$gateway = $this->get_gateway();
 				if ( is_wp_error( $gateway ) ) {
 					return new WP_Error( 'error', sprintf( __( 'Selected gateway "%s" is inactive or invalid.', 'lifterlms' ), $method ) );
@@ -216,18 +240,18 @@ class LLMS_Transaction extends LLMS_Post_Model {
 					if ( ! $gateway->supports( 'refunds' ) ) {
 						return new WP_Error( 'error', sprintf( __( 'Selected gateway "%s" does not support refunds.', 'lifterlms' ), $gateway->get_admin_title() ) );
 					} else {
-						$refund_id = $gateway->process_refund( $this, $amount, $note );
+						$refund_id    = $gateway->process_refund( $this, $amount, $note );
 						$method_title = $gateway->get_admin_title();
 					}
 				}
 
-			break;
+				break;
 
 			default:
 				/**
 				 * Allow custom refund methods for fancy developer folk
 				 */
-				$refund_id = apply_filters( 'llms_' . $method . '_refund_id', false, $method, $this, $amount, $note );
+				$refund_id    = apply_filters( 'llms_' . $method . '_refund_id', false, $method, $this, $amount, $note );
 				$method_title = apply_filters( 'llms_' . $method . '_title', $method );
 
 		}
@@ -237,8 +261,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			return $refund_id;
 
-		} // End if().
-		elseif ( is_string( $refund_id ) ) {
+		} elseif ( is_string( $refund_id ) ) {
 
 			// filter the note before recording it
 			$orig_note = apply_filters( 'llms_transaction_refund_note', $note, $this, $amount, $method );
@@ -262,13 +285,19 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			$this->set( 'refund_amount', $new_amount );
 
 			// record refund metadata
-			$refund_data = $this->get_array( 'refund_data' );
-			$refund_data[ $refund_id ] = apply_filters( 'llms_transaction_refund_data', array(
-				'amount' => $amount,
-				'date' => current_time( 'mysql' ),
-				'id' => $refund_id,
-				'method' => $method,
-			), $this, $amount, $method );
+			$refund_data               = $this->get_array( 'refund_data' );
+			$refund_data[ $refund_id ] = apply_filters(
+				'llms_transaction_refund_data',
+				array(
+					'amount' => $amount,
+					'date'   => current_time( 'mysql' ),
+					'id'     => $refund_id,
+					'method' => $method,
+				),
+				$this,
+				$amount,
+				$method
+			);
 			$this->set( 'refund_data', $refund_data );
 
 			// update status
@@ -276,8 +305,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			return $refund_id;
 
-		} // wut happened?
-		else {
+		} else {
 
 			return new WP_Error( 'error', __( 'An unknown error occurred during refund processing', 'lifterlms' ) );
 
@@ -287,7 +315,8 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 	/**
 	 * Wrapper for $this-get() which allows translation of the database value before outputting on screen
-	 * @param    string     $key  key to retrieve
+	 *
+	 * @param    string $key  key to retrieve
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -306,7 +335,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				} elseif ( 'trial' === $val ) {
 					$val = __( 'Trial', 'lifterlms' );
 				}
-			break;
+				break;
 
 			default:
 				$val = $val;

@@ -1,5 +1,6 @@
 /**
  * Quiz Question Type
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,6 +10,7 @@ define( [], function() {
 
 		/**
 		 * Get model default attributes
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -33,13 +35,14 @@ define( [], function() {
 		/**
 		 * Retrieve an array of keywords for the question type
 		 * Used for filtering questions by search term in the quiz builder
+		 *
 		 * @return   array
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		get_keywords: function() {
 
-			var name = this.get( 'name' ),
+			var name  = this.get( 'name' ),
 				words = [ name ];
 
 			return words.concat( this.get( 'keywords' ) ).concat( name.split( ' ' ) );
@@ -48,6 +51,7 @@ define( [], function() {
 
 		/**
 		 * Get marker array for the question choices
+		 *
 		 * @return   array
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -60,6 +64,7 @@ define( [], function() {
 
 		/**
 		 * Determine if the question's choices are selectable
+		 *
 		 * @return   bool
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -72,6 +77,7 @@ define( [], function() {
 
 		/**
 		 * Get the choice type (text,image)
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -84,6 +90,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve defined min. choices
+		 *
 		 * @return   int
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -96,6 +103,7 @@ define( [], function() {
 
 		/**
 		 * Get type-defined max choices
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -108,6 +116,7 @@ define( [], function() {
 
 		/**
 		 * Determine if multi-choice selection is enabled
+		 *
 		 * @return   bool
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -127,6 +136,7 @@ define( [], function() {
 		/**
 		 * Retrieve data from the type's "choices" attribute
 		 * Allows quick handling of types with no choice definitions w/o additional checks
+		 *
 		 * @param    string   option  name of the choice option to retrieve
 		 * @return   mixed
 		 * @since    3.16.0

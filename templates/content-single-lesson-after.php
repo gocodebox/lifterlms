@@ -1,11 +1,12 @@
 <?php
 /**
  * Display content after lesson content
+ *
  * @since    1.0.0
  * @version  3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * @hooked - lifterlms_template_complete_lesson_link - 10

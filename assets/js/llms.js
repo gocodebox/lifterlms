@@ -22,19 +22,20 @@ var LLMS = window.LLMS || {};
 	/**
 	 * load all app modules
 	 */
-	/* global LLMS, $ */
-	/* jshint strict: false */
-	
 	/**
 	 * Front End Achievements
-	 * @type     {Object}
+	 *
+	 * @package LifterLMS/Scripts
+	 *
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
+	
 	LLMS.Achievements = {
 	
 		/**
 		 * Init
+		 *
 		 * @return   void
 		 * @since    3.14.0
 		 * @version  3.14.0
@@ -54,6 +55,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Bind DOM events
+		 *
 		 * @return   void
 		 * @since    3.14.0
 		 * @version  3.14.0
@@ -70,11 +72,11 @@ var LLMS = window.LLMS || {};
 	
 			$( '.llms-achievement' ).on( 'click', function() {
 	
-				var $this = $( this ),
-					id = 'achievement-' + $this.attr( 'data-id' ),
+				var $this  = $( this ),
+					id     = 'achievement-' + $this.attr( 'data-id' ),
 					$modal = $( '#' + id );
 	
-				if ( !$modal.length ) {
+				if ( ! $modal.length ) {
 					self.create_modal( $this );
 				}
 	
@@ -86,6 +88,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Creates modal a modal for an achievement
+		 *
 		 * @param    obj   $el  jQuery selector for the modal card
 		 * @return   void
 		 * @since    3.14.0
@@ -93,10 +96,10 @@ var LLMS = window.LLMS || {};
 		 */
 		create_modal: function( $el ) {
 	
-			var id = 'achievement-' + $el.attr( 'data-id' ),
+			var id     = 'achievement-' + $el.attr( 'data-id' ),
 				$modal = $( '#' + id );
 	
-			if ( !$modal.length ) {
+			if ( ! $modal.length ) {
 				$modal = $( '<div class="llms-achievement-modal" id="' + id + '" />' );
 				$( 'body' ).append( $modal );
 			}
@@ -128,6 +131,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * On page load, opens a modal if the URL contains an achievement in the location hash
+		 *
 		 * @return   void
 		 * @since    3.14.0
 		 * @version  3.14.0
@@ -136,57 +140,65 @@ var LLMS = window.LLMS || {};
 	
 			var hash = window.location.hash;
 			if ( hash && -1 !== hash.indexOf( 'achievement-' ) ) {
-				$( 'a[href="' + hash + '"]').first().trigger( 'click' );
+				$( 'a[href="' + hash + '"]' ).first().trigger( 'click' );
 			}
 	
 		}
 	
 	};
 	
-		/* global LLMS, $, wp_ajax_data */
-	/* jshint strict: false */
-	
-	/**
+		/**
 	 * Main Ajax class
 	 * Handles Primary Ajax connection
-	 * @type {Object}
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since Unknown
+	 * @version Unknown
 	 */
+	
 	LLMS.Ajax = {
 	
 		/**
-		 * url
+		 * Url
+		 *
 		 * @type {String}
 		 */
 		url: window.ajaxurl || window.llms.ajaxurl,
 	
 		/**
-		 * type
+		 * Type
+		 *
 		 * @type {[type]}
 		 */
 		type: 'post',
 	
 		/**
-		 * data
+		 * Data
+		 *
 		 * @type {[type]}
 		 */
 		data: [],
 	
 		/**
-		 * cache
+		 * Cache
+		 *
 		 * @type {[type]}
 		 */
 		cache: false,
 	
 		/**
-		 * dataType
+		 * DataType
 		 * defaulted to json
+		 *
 		 * @type {String}
 		 */
 		dataType: 'json',
 	
 		/**
-		 * async
+		 * Async
 		 * default to false
+		 *
 		 * @type {Boolean}
 		 */
 		async: true,
@@ -194,32 +206,32 @@ var LLMS = window.LLMS || {};
 		response:[],
 	
 		/**
-		 * initialize Ajax methods
+		 * Initialize Ajax methods
 		 * loads class methods
 		 */
 		init: function(obj) {
 	
-			//if obj is not of type object or null return false;
-			if( obj === null || typeof obj !== 'object' ) {
+			// if obj is not of type object or null return false;
+			if ( obj === null || typeof obj !== 'object' ) {
 				return false;
 			}
 	
-			//set object defaults if values are not supplied
-			obj.url			= 'url'         in obj ? obj.url        : this.url;
-			obj.type 		= 'type' 		in obj ? obj.type 		: this.type;
-			obj.data 		= 'data' 		in obj ? obj.data 		: this.data;
-			obj.cache 		= 'cache' 		in obj ? obj.cache 		: this.cache;
-			obj.dataType 	= 'dataType'	in obj ? obj.dataType 	: this.dataType;
-			obj.async 		= 'async'		in obj ? obj.async 		: this.async;
+			// set object defaults if values are not supplied
+			obj.url      = 'url'         in obj ? obj.url : this.url;
+			obj.type     = 'type' 		in obj ? obj.type : this.type;
+			obj.data     = 'data' 		in obj ? obj.data : this.data;
+			obj.cache    = 'cache' 		in obj ? obj.cache : this.cache;
+			obj.dataType = 'dataType'	in obj ? obj.dataType : this.dataType;
+			obj.async    = 'async'		in obj ? obj.async : this.async;
 	
-			//add nonce to data object
+			// add nonce to data object
 			obj.data._ajax_nonce = wp_ajax_data.nonce;
 	
-			//add post id to data object
-			var $R = LLMS.Rest,
-			query_vars = $R.get_query_vars();
+			// add post id to data object
+			var $R           = LLMS.Rest,
+			query_vars       = $R.get_query_vars();
 			obj.data.post_id = 'post' in query_vars ? query_vars.post : null;
-			if ( !obj.data.post_id && $( 'input#post_ID' ).length ) {
+			if ( ! obj.data.post_id && $( 'input#post_ID' ).length ) {
 				obj.data.post_id = $( 'input#post_ID' ).val();
 			}
 	
@@ -230,19 +242,20 @@ var LLMS = window.LLMS || {};
 		 * Call
 		 * Called by external classes
 		 * Sets up jQuery Ajax object
+		 *
 		 * @param  {[object]} [object of ajax settings]
 		 * @return {[mixed]} [false if not object or this]
 		 */
 		call: function(obj) {
 	
-			//get default variables if not included in call
-			var settings = this.init(obj);
+			// get default variables if not included in call
+			var settings = this.init( obj );
 	
-			//if init return a response of false
-			if (!settings) {
+			// if init return a response of false
+			if ( ! settings) {
 				return false;
 			} else {
-				this.request(settings);
+				this.request( settings );
 			}
 	
 			return this;
@@ -251,11 +264,12 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Calls jQuery Ajax on settings object
+		 *
 		 * @return {[object]} [this]
 		 */
 		request: function(settings) {
 	
-			$.ajax(settings);
+			$.ajax( settings );
 	
 			return this;
 	
@@ -263,16 +277,19 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS */
-	/* jshint strict: false */
-	
-	/**
+		/**
 	 * Create a Donut Chart
-	 * @source   https://gist.github.com/joeyinbox/8205962
-	 * @param    obj   $el  jQuery element to draw a chart within
+	 *
+	 * @package LifterLMS/Scripts
+	 *
 	 * @since    3.9.0
 	 * @version  3.9.0
+	 *
+	 * @link  https://gist.github.com/joeyinbox/8205962
+	 *
+	 * @param    obj   $el  jQuery element to draw a chart within
 	 */
+	
 	LLMS.Donut = function( $el ) {
 	
 		function Donut(options) {
@@ -282,12 +299,12 @@ var LLMS = window.LLMS || {};
 				percent: 100
 			}, options );
 	
-			this.circle = this.settings.element.find( 'path' );
+			this.circle                = this.settings.element.find( 'path' );
 			this.settings.stroke_width = parseInt( this.circle.css( 'stroke-width' ) );
-			this.radius = ( parseInt( this.settings.element.css( 'width' ) ) - this.settings.stroke_width ) / 2;
-			this.angle = -97.5; // Origin of the draw at the top of the circle
-			this.i = Math.round( 0.75 * this.settings.percent );
-			this.first = true;
+			this.radius                = ( parseInt( this.settings.element.css( 'width' ) ) - this.settings.stroke_width ) / 2;
+			this.angle                 = -97.5; // Origin of the draw at the top of the circle
+			this.i                     = Math.round( 0.75 * this.settings.percent );
+			this.first                 = true;
 	
 			this.animate = function() {
 				this.timer = setInterval( this.loop.bind( this ), 10 );
@@ -297,11 +314,11 @@ var LLMS = window.LLMS || {};
 				this.angle += 5;
 				this.angle %= 360;
 				var radians = ( this.angle / 180 ) * Math.PI,
-					x = this.radius + this.settings.stroke_width / 2 + Math.cos( radians ) * this.radius,
-					y = this.radius + this.settings.stroke_width / 2 + Math.sin( radians ) * this.radius,
+					x       = this.radius + this.settings.stroke_width / 2 + Math.cos( radians ) * this.radius,
+					y       = this.radius + this.settings.stroke_width / 2 + Math.sin( radians ) * this.radius,
 					d;
 				if (this.first === true) {
-					d = this.circle.attr( 'd' ) + ' M ' + x + ' ' + y;
+					d          = this.circle.attr( 'd' ) + ' M ' + x + ' ' + y;
 					this.first = false;
 				} else {
 					d = this.circle.attr( 'd' ) + ' L ' + x + ' ' + y;
@@ -309,8 +326,8 @@ var LLMS = window.LLMS || {};
 				this.circle.attr( 'd', d );
 				this.i--;
 	
-				if(this.i<=0) {
-					clearInterval(this.timer);
+				if (this.i <= 0) {
+					clearInterval( this.timer );
 				}
 			};
 		}
@@ -320,7 +337,7 @@ var LLMS = window.LLMS || {};
 			$el.append( '<svg preserveAspectRatio="xMidYMid" xmlns:xlink="http://www.w3.org/1999/xlink">' + path + '</svg>' );
 			var donut = new Donut( {
 				element: $el,
-				percent: $el.attr('data-perc')
+				percent: $el.attr( 'data-perc' )
 			} );
 			donut.animate();
 		}
@@ -329,15 +346,19 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS, $ */
-	/* jshint strict: false */
-	/**
+		/**
 	 * Instructors List
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since  Unknown
+	 * @version  Unknown
 	 */
+	
 	LLMS.Instructors = {
 	
 		/**
-		 * init
+		 * Init
 		 */
 		init: function() {
 	
@@ -360,6 +381,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind Method
 		 * Handles dom binding on load
+		 *
 		 * @return {[type]} [description]
 		 */
 		bind: function() {
@@ -370,19 +392,19 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS */
-	
-	/**
+		/**
 	 * Localization functions for LifterLMS Javascript
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since  2.7.3
+	 * @version  2.7.3
 	 *
 	 * @todo  we need more robust translation functions to handle sprintf and pluralization
 	 *        at this moment we don't need those and haven't stubbed them out
 	 *        those will be added when they're needed
-	 *
-	 * @type Object
-	 *
-	 * @since  2.7.3
 	 */
+	
 	LLMS.l10n = LLMS.l10n || {};
 	
 	LLMS.l10n.translate = function ( string ) {
@@ -436,23 +458,27 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS, $ */
-	
-	/**
+		/**
 	 * Handle Lesson Preview Elements
+	 *
+	 * @package LifterLMS/Scripts
+	 *
 	 * @since    3.0.0
 	 * @version  3.16.12
 	 */
+	
 	LLMS.LessonPreview = {
 	
 		/**
-		 * jQuery object of all outlines present on the current screen
+		 * A jQuery object of all outlines present on the current screen
+		 *
 		 * @type obj
 		 */
 		$els: null,
 	
 		/**
 		 * Initialize
+		 *
 		 * @return void
 		 */
 		init: function() {
@@ -481,6 +507,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Bind DOM events
+		 *
 		 * @return void
 		 * @since    3.0.0
 		 * @version  3.16.12
@@ -496,9 +523,9 @@ var LLMS = window.LLMS || {};
 			this.$locked.on( 'mouseenter', function() {
 	
 				var $tip = $( this ).find( '.llms-tooltip' );
-				if ( !$tip.length ) {
+				if ( ! $tip.length ) {
 					var msg = $( this ).attr( 'data-tooltip-msg' );
-					if ( !msg ) {
+					if ( ! msg ) {
 						msg = LLMS.l10n.translate( 'You do not have permission to access this content' );
 					}
 					$tip = self.get_tooltip( msg );
@@ -521,6 +548,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Match the height of lesson preview items in course navigation blocks
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -533,6 +561,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Get a tooltip element
+		 *
 		 * @param    string   msg   message to display inside the tooltip
 		 * @return   obj
 		 * @since    3.0.0
@@ -546,17 +575,20 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS, $ */
-	
-	/**
+		/**
 	 * LifterLMS Loops JS
+	 *
+	 * @package LifterLMS/Scripts
+	 *
 	 * @since    3.0.0
 	 * @version  3.14.0
 	 */
+	
 	LLMS.Loops = {
 	
 		/**
 		 * Initialize
+		 *
 		 * @return void
 		 */
 		init: function() {
@@ -577,6 +609,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Match the height of .llms-loop-item
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.14.0
@@ -591,21 +624,27 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS, $ */
-	
-	/**
+		/**
 	 * Handle the Collapsible Syllabus Widget / Shortcode
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since Unknown
+	 * @version Unknown
 	 */
+	
 	LLMS.OutlineCollapse = {
 	
 		/**
-		 * jQuery object of all outlines present on the current screen
+		 * A jQuery object of all outlines present on the current screen
+		 *
 		 * @type obj
 		 */
 		$outlines: null,
 	
 		/**
 		 * Initialize
+		 *
 		 * @return void
 		 */
 		init: function() {
@@ -622,6 +661,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Bind DOM events
+		 *
 		 * @return void
 		 */
 		bind: function() {
@@ -638,11 +678,11 @@ var LLMS = window.LLMS || {};
 	
 					e.preventDefault();
 	
-					var $toggle = $( this ),
+					var $toggle  = $( this ),
 						$section = $toggle.closest( '.llms-section' ),
-						state = self.get_section_state( $section );
+						state    = self.get_section_state( $section );
 	
-					switch( state ) {
+					switch ( state ) {
 	
 						case 'closed':
 							self.open_section( $section );
@@ -661,20 +701,20 @@ var LLMS = window.LLMS || {};
 	
 					e.preventDefault();
 	
-					var $btn = $( this ),
-						action = $btn.attr( 'data-action' ),
+					var $btn            = $( this ),
+						action          = $btn.attr( 'data-action' ),
 						opposite_action = ( 'close' === action ) ? 'opened' : 'closed';
 	
 					$headers.each( function() {
 	
 						var $section = $( this ).closest( '.llms-section' ),
-							state = self.get_section_state( $section );
+							state    = self.get_section_state( $section );
 	
 						if ( opposite_action !== state ) {
 							return true;
 						}
 	
-						switch( state ) {
+						switch ( state ) {
 	
 							case 'closed':
 								self.close_section( $section );
@@ -698,6 +738,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Close an outline section
+		 *
 		 * @param  obj    $section   jQuery selector of a '.llms-section'
 		 * @return void
 		 */
@@ -709,6 +750,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Open an outline section
+		 *
 		 * @param  obj    $section   jQuery selector of a '.llms-section'
 		 * @return void
 		 */
@@ -720,6 +762,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Get the current state (open or closed) of an outline section
+		 *
 		 * @param  obj    $section   jQuery selector of a '.llms-section'
 		 * @return string            'opened' or 'closed'
 		 */
@@ -731,11 +774,11 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS, $, wp */
-	/* jshint strict: false */
-	
-	/**
+		/**
 	 * Handle Password Strength Meter for registration and password update fields
+	 *
+	 * @package LifterLMS/Scripts
+	 *
 	 * @since 3.0.0
 	 * @version  3.7.0
 	 */
@@ -748,8 +791,9 @@ var LLMS = window.LLMS || {};
 		$form: null,
 	
 		/**
-		 * init
+		 * Init
 		 * loads class methods
+		 *
 		 * @since    3.0.0
 		 * @version  3.7.0
 		 */
@@ -766,7 +810,7 @@ var LLMS = window.LLMS || {};
 				// our asset enqueue is all screwed up and I'm too tired to fix it
 				// so we're going to run this little dependency check
 				// and wait for matchHeight to be available before binding
-				var self = this,
+				var self    = this,
 					counter = 0,
 					interval;
 	
@@ -776,15 +820,15 @@ var LLMS = window.LLMS || {};
 					// and really who cares if the element heights aren't matched
 					if ( counter >= 300 ) {
 	
-						console.log( 'cannot do password strength meter.');
+						console.log( 'cannot do password strength meter.' );
 	
-					// if we can't access ye, increment and wait...
+						// if we can't access ye, increment and wait...
 					} else if ( 'undefined' === typeof wp && 'undefined' === typeof wp.passwordStrength ) {
 	
 						counter++;
 						return;
 	
-					// bind the events, we're good!
+						// bind the events, we're good!
 					} else {
 	
 						self.bind();
@@ -803,6 +847,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind Method
 		 * Handles dom binding on load
+		 *
 		 * @return void
 		 * @since 3.0.0
 		 */
@@ -811,7 +856,7 @@ var LLMS = window.LLMS || {};
 			var self = this;
 	
 			// add submission event handlers when not on a checkout form
-			if ( !this.$form.hasClass( 'llms-checkout' ) ) {
+			if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
 				this.$form.on( 'submit', self, self.submit );
 			}
 	
@@ -825,6 +870,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Check the strength of a user entered password
 		 * and update elements depending on the current strength
+		 *
 		 * @return void
 		 * @since 3.0.0
 		 * @version 3.0.0
@@ -837,7 +883,7 @@ var LLMS = window.LLMS || {};
 				conf_length = this.$conf.val().length;
 	
 			// hide the meter if both fields are empty
-			if ( !pass_length && !conf_length ) {
+			if ( ! pass_length && ! conf_length ) {
 				$pass_field.removeClass( 'valid invalid' );
 				$conf_field.removeClass( 'valid invalid' );
 				this.$meter.hide();
@@ -863,7 +909,8 @@ var LLMS = window.LLMS || {};
 		},
 	
 		/**
-		 * form submission action called during registration on checkout screen
+		 * Form submission action called during registration on checkout screen
+		 *
 		 * @param    obj       self      instance of this class
 		 * @param    Function  callback  callback function, passes error message or success back to checkout handler
 		 * @return   void
@@ -887,6 +934,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get the list of blacklisted strings
 		 * We'll add a filter to this later so that developers can add their own blacklist to the default WP list
+		 *
 		 * @return array
 		 * @since 3.0.0
 		 */
@@ -897,6 +945,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Retrieve current strength as a number, a slug, or a translated text string
+		 *
 		 * @param    string   format  derived return format [int|slug|text] defaults to int
 		 * @return   mixed
 		 * @since    3.0.0
@@ -904,7 +953,7 @@ var LLMS = window.LLMS || {};
 		 */
 		get_current_strength: function( format ) {
 	
-			format = format || 'int';
+			format   = format || 'int';
 			var pass = this.$pass.val(),
 				conf = this.$conf.val(),
 				val;
@@ -932,18 +981,20 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Determines if the current password strength meets the user-defined
 		 * minimum password strength requirements
+		 *
 		 * @return   boolean
 		 * @since    3.0.0
 		 * @version  3.0.0
 		 */
 		get_current_strength_status: function() {
 			var curr = this.get_current_strength(),
-				min = this.get_strength_value( this.get_minimum_strength() );
+				min  = this.get_strength_value( this.get_minimum_strength() );
 			return ( 5 === curr ) ? false : ( curr >= min );
 		},
 	
 		/**
 		 * Get the slug associated with a strength value
+		 *
 		 * @param    int   strength_val  strength value number
 		 * @return   string
 		 * @since    3.0.0
@@ -966,6 +1017,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Gets the translated text associated with a strength value
+		 *
 		 * @param    int  strength_val  strength value
 		 * @return   string
 		 * @since    3.0.0
@@ -988,6 +1040,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Get the value associated with a strength slug
+		 *
 		 * @param    string   strength_slug  a strength slug
 		 * @return   int
 		 * @since    3.0.0
@@ -1010,6 +1063,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Form submission handler for registration and update forms
+		 *
 		 * @param    obj    e         event data
 		 * @return   void
 		 * @since    3.0.0
@@ -1037,15 +1091,19 @@ var LLMS = window.LLMS || {};
 	
 	} );
 	
-		/* global LLMS, $ */
-	/* jshint strict: false */
-	/**
+		/**
 	 * Pricing Table UI
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since  Unknown.
+	 * @version  Unknown.
 	 */
+	
 	LLMS.Pricing_Tables = {
 	
 		/**
-		 * init
+		 * Init
 		 */
 		init: function() {
 	
@@ -1078,6 +1136,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind Method
 		 * Handles dom binding on load
+		 *
 		 * @return {[type]} [description]
 		 */
 		bind: function() {
@@ -1089,6 +1148,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Setup a popover for members-only restricted plans
+		 *
 		 * @return void
 		 * @since    3.0.0
 		 * @version  3.9.1
@@ -1117,17 +1177,21 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS, $, jQuery */
-	/* jshint strict: false */
-	/*jshint -W020 */
+		/**
+	 * LifterLMS Reviews JS
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since Unknown
+	 * @version Unknown
+	 */
 	
 	LLMS.Review = {
 		/**
-		 * init
+		 * Init
 		 * loads class methods
 		 */
-		init: function()
-		{
+		init: function() {
 			// console.log('Initializing Review ');
 			this.bind();
 		},
@@ -1135,81 +1199,80 @@ var LLMS = window.LLMS || {};
 		/**
 		 * This function binds actions to the appropriate hooks
 		 */
-		bind: function()
-		{
-			$('#llms_review_submit_button').click(function()
-			{
-				if ($('#review_title').val() !== '' && $('#review_text').val() !== '')
+		bind: function() {
+			$( '#llms_review_submit_button' ).click(function()
 				{
+				if ($( '#review_title' ).val() !== '' && $( '#review_text' ).val() !== '') {
 					jQuery.ajax({
-			            type : 'post',
-			            dataType : 'json',
-			            url : window.llms.ajaxurl,
-			            data : {
-			            	action : 'LLMSSubmitReview',
-			                review_title: $('#review_title').val(),
-			                review_text: $('#review_text').val(),
-			                pageID : $('#post_ID').val()
-			            },
-			            success: function()
-			            {
-			                console.log('Review success');
-			                $('#review_box').hide('swing');
-			                $('#thank_you_box').show('swing');
-			            },
-			            error: function(jqXHR, textStatus, errorThrown )
-			            {
-			                console.log(jqXHR);
-			                console.log(textStatus);
-			                console.log(errorThrown);
-			            },
-			        });
+						type : 'post',
+						dataType : 'json',
+						url : window.llms.ajaxurl,
+						data : {
+							action : 'LLMSSubmitReview',
+							review_title: $( '#review_title' ).val(),
+							review_text: $( '#review_text' ).val(),
+							pageID : $( '#post_ID' ).val()
+						},
+						success: function()
+						{
+							console.log( 'Review success' );
+							$( '#review_box' ).hide( 'swing' );
+							$( '#thank_you_box' ).show( 'swing' );
+						},
+						error: function(jqXHR, textStatus, errorThrown )
+						{
+							console.log( jqXHR );
+							console.log( textStatus );
+							console.log( errorThrown );
+						},
+					});
 				} else {
-					if ($('#review_title').val() === '')
-					{
-						$('#review_title_error').show('swing');
+					if ($( '#review_title' ).val() === '') {
+						$( '#review_title_error' ).show( 'swing' );
 					} else {
-						$('#review_title_error').hide('swing');
+						$( '#review_title_error' ).hide( 'swing' );
 					}
-					if ($('#review_text').val() === '')
-					{
-						$('#review_text_error').show('swing');
+					if ($( '#review_text' ).val() === '') {
+						$( '#review_text_error' ).show( 'swing' );
 					} else {
-						$('#review_text_error').hide('swing');
+						$( '#review_text_error' ).hide( 'swing' );
 					}
 				}
 			});
-			if ( $('#_llms_display_reviews').attr('checked') ) {
-				$('.llms-num-reviews-top').addClass('top');
-				$('.llms-num-reviews-bottom').show();
+			if ( $( '#_llms_display_reviews' ).attr( 'checked' ) ) {
+				$( '.llms-num-reviews-top' ).addClass( 'top' );
+				$( '.llms-num-reviews-bottom' ).show();
 	
 			} else {
-				$('.llms-num-reviews-bottom').hide();
+				$( '.llms-num-reviews-bottom' ).hide();
 			}
-			$('#_llms_display_reviews').change(function() {
-				if ( $('#_llms_display_reviews').attr('checked') ) {
-					$('.llms-num-reviews-top').addClass('top');
-					$('.llms-num-reviews-bottom').show();
+			$( '#_llms_display_reviews' ).change(function() {
+				if ( $( '#_llms_display_reviews' ).attr( 'checked' ) ) {
+					$( '.llms-num-reviews-top' ).addClass( 'top' );
+					$( '.llms-num-reviews-bottom' ).show();
 				} else {
-					$('.llms-num-reviews-top').removeClass('top');
-					$('.llms-num-reviews-bottom').hide();
+					$( '.llms-num-reviews-top' ).removeClass( 'top' );
+					$( '.llms-num-reviews-bottom' ).hide();
 				}
 			});
 	
 		},
 	};
 	
-		/* global LLMS, $ */
-	
-	/**
+		/**
 	 * Add Spinners for AJAX events
+	 *
+	 * @package LifterLMS/Scripts
+	 *
 	 * @since 3.0.0
 	 * @version 3.0.0
 	 */
+	
 	LLMS.Spinner = {
 	
 		/**
 		 * Get an exiting spinner element or create a new one
+		 *
 		 * @param    obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 		 * @param    string   size  size or the spinner [default|small]
 		 *                          default is 40px
@@ -1224,7 +1287,7 @@ var LLMS = window.LLMS || {};
 			var $spinner = $el.find( '.llms-spinning' ).first();
 	
 			// no spinner inside $el
-			if ( !$spinner.length ) {
+			if ( ! $spinner.length ) {
 	
 				size = ( size ) ? size : 'default';
 	
@@ -1244,6 +1307,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Start spinner(s) inr=side a given element
 		 * Creates them if they don't exist!
+		 *
 		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 		 * @param   string   size  size or the spinner [default|small]
 		 *                          default is 40px
@@ -1266,6 +1330,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Store spinners within an element
+		 *
 		 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 		 * @return  void
 		 * @since   3.0.0
@@ -1285,18 +1350,20 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/* global LLMS, $ */
-	
-	/**
+		/**
 	 * Student Dashboard related JS
-	 * @type  {Object}
+	 *
+	 * @package LifterLMS/Scripts
+	 *
 	 * @since    3.7.0
 	 * @version  3.10.0
 	 */
+	
 	LLMS.StudentDashboard = {
 	
 		/**
 		 * Slug for the current screen/endpoint
+		 *
 		 * @type  {String}
 		 */
 		screen: '',
@@ -1305,12 +1372,14 @@ var LLMS = window.LLMS || {};
 		 * Will show the number of meters on the page
 		 * Used to conditionally bind meter-related events only when meters
 		 * actually exist
+		 *
 		 * @type  int
 		 */
 		meter_exists: 0,
 	
 		/**
 		 * Init
+		 *
 		 * @return   void
 		 * @since    3.7.0
 		 * @version  3.10.0
@@ -1334,13 +1403,14 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Bind DOM events
+		 *
 		 * @return   void
 		 * @since    3.7.0
 		 * @version  3.7.4
 		 */
 		bind: function() {
 	
-			var self = this,
+			var self    = this,
 				$toggle = $( '.llms-student-dashboard a[href="#llms-password-change-toggle"]' );
 	
 			// click event for the change password link
@@ -1348,11 +1418,11 @@ var LLMS = window.LLMS || {};
 	
 				e.preventDefault();
 	
-				var $this = $( this ),
-					curr_text = $this.text(),
+				var $this       = $( this ),
+					curr_text   = $this.text(),
 					curr_action = $this.attr( 'data-action' ),
-					new_action = 'hide' === curr_action ? 'show' : 'hide',
-					new_text = $this.attr( 'data-text' );
+					new_action  = 'hide' === curr_action ? 'show' : 'hide',
+					new_text    = $this.attr( 'data-text' );
 	
 				self.password_toggle( curr_action );
 	
@@ -1391,6 +1461,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Bind events related to the orders screen on the dashboard
+		 *
 		 * @return   void
 		 * @since    3.10.0
 		 * @version  3.10.0
@@ -1407,12 +1478,13 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Get the current dashboard endpoint/tab slug
+		 *
 		 * @return   void
 		 * @since    3.10.0
 		 * @version  3.10.0
 		 */
 		get_screen: function() {
-			if ( !this.screen ) {
+			if ( ! this.screen ) {
 				this.screen = $( '.llms-student-dashboard' ).attr( 'data-current' );
 			}
 			return this.screen;
@@ -1420,6 +1492,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Show a confirmation warning when Cancel Subscription form is submitted
+		 *
 		 * @param    obj   e  JS event data
 		 * @return   void
 		 * @since    3.10.0
@@ -1436,6 +1509,7 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Toggle password related fields on the account edit page
+		 *
 		 * @param    string   action  [show|hide]
 		 * @return   void
 		 * @since    3.7.0
@@ -1443,11 +1517,11 @@ var LLMS = window.LLMS || {};
 		 */
 		password_toggle: function( action ) {
 	
-			if ( !action ) {
+			if ( ! action ) {
 				action = 'show';
 			}
 	
-			var self = this,
+			var self  = this,
 				$pwds = $( '#password, #password_confirm, #current_password' ),
 				$form = $( '#password' ).closest( 'form' );
 	
@@ -1483,18 +1557,20 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
-		/*global LLMS */
-	/* jshint strict: false */
-	
-	/**
+		/**
 	 * Rest Methods
 	 * Manages URL and Rest object parsing
-	 * @type {Object}
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since Unknown
+	 * @version  Unknown
 	 */
+	
 	LLMS.Rest = {
 	
 		/**
-		 * init
+		 * Init
 		 * loads class methods
 		 */
 		init: function() {
@@ -1504,6 +1580,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind Method
 		 * Handles dom binding on load
+		 *
 		 * @return {[type]} [description]
 		 */
 		bind: function() {
@@ -1511,17 +1588,18 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Searches for string matches in url path
+		 *
 		 * @param  {Array}  strings [Array of strings to search for matches]
 		 * @return {Boolean}         [Was a match found?]
 		 */
 		is_path: function( strings ) {
 	
 			var path_exists = false,
-				url = window.location.href;
+				url         = window.location.href;
 	
-			for( var i = 0; i < strings.length; i++ ) {
+			for ( var i = 0; i < strings.length; i++ ) {
 	
-				if ( url.search( strings[i] ) > 0 && !path_exists ) {
+				if ( url.search( strings[i] ) > 0 && ! path_exists ) {
 	
 					path_exists = true;
 				}
@@ -1532,20 +1610,21 @@ var LLMS = window.LLMS || {};
 	
 		/**
 		 * Retrieves query variables
+		 *
 		 * @return {[Array]} [array object of query variable key=>value pairs]
 		 */
 		get_query_vars: function() {
 	
-		    var vars = [], hash,
-		    	hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+			var vars   = [], hash,
+				hashes = window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ).split( '&' );
 	
-		    for(var i = 0; i < hashes.length; i++) {
-		        hash = hashes[i].split('=');
-		        vars.push(hash[0]);
-		        vars[hash[0]] = hash[1];
-		    }
+			for (var i = 0; i < hashes.length; i++) {
+				hash = hashes[i].split( '=' );
+				vars.push( hash[0] );
+				vars[hash[0]] = hash[1];
+			}
 	
-	    	return vars;
+			return vars;
 		}
 	
 	};
@@ -1553,6 +1632,7 @@ var LLMS = window.LLMS || {};
 
 	/**
 	 * Initializes all classes within the LLMS Namespace
+	 *
 	 * @return {[type]} [description]
 	 */
 	LLMS.init = function() {
@@ -1585,8 +1665,8 @@ var LLMS = window.LLMS || {};
 	 */
 	LLMS.is_touch_device = function() {
 
-		var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-		var mq = function( query ) {
+		var prefixes = ' -webkit- -moz- -o- -ms- '.split( ' ' );
+		var mq       = function( query ) {
 			return window.matchMedia( query ).matches;
 		}
 
@@ -1596,13 +1676,14 @@ var LLMS = window.LLMS || {};
 
 		// include the 'heartz' as a way to have a non matching MQ to help terminate the join
 		// https://git.io/vznFH
-		var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+		var query = ['(', prefixes.join( 'touch-enabled),(' ), 'heartz', ')'].join( '' );
 		return mq( query );
 
 	};
 
 	/**
 	 * Wait for matchHeight to load
+	 *
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.0.0
@@ -1616,6 +1697,7 @@ var LLMS = window.LLMS || {};
 
 	/**
 	 * Wait for webuiPopover to load
+	 *
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.9.1
@@ -1630,6 +1712,7 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Wait for a dependency to load and then run a callback once it has
 	 * Temporary fix for a less-than-optimal assets loading function on the PHP side of things
+	 *
 	 * @param    {Function}    test  a function that returns a truthy if the dependency is loaded
 	 * @param    {Function}    cb    a callback function executed once the dependency is loaded
 	 * @return   void
@@ -1648,7 +1731,7 @@ var LLMS = window.LLMS || {};
 
 				console.log( 'could not load dependency' );
 
-			// if we can't access ye, increment and wait...
+				// if we can't access ye, increment and wait...
 			} else {
 
 				// bind the events, we're good!
@@ -1672,7 +1755,6 @@ var LLMS = window.LLMS || {};
 
 	};
 
-	LLMS.init($);
+	LLMS.init( $ );
 
-
-})(jQuery);
+})( jQuery );

@@ -1,20 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
+ *
  * @since    3.7.0
- * @version  3.17.8
+ * @version 3.35.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_View_Manager
+ *
+ * @since 3.7.0
+ * @since 3.35.0 Sanitize `$_GET` data.
  */
 class LLMS_View_Manager {
 
 	/**
 	 * Constructor
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 *
+	 * @since 3.7.0
+	 * @version 3.7.0
 	 */
 	public function __construct() {
 
@@ -24,6 +31,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Add actions & filters
+	 *
 	 * @since    3.7.0
 	 * @version  3.7.0
 	 */
@@ -59,6 +67,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Add view links to the admin menu bar for qualifying users
+	 *
 	 * @return   void
 	 * @since    3.7.0
 	 * @version  3.16.0
@@ -89,11 +98,13 @@ class LLMS_View_Manager {
 
 		$title = sprintf( __( 'Viewing as %s', 'lifterlms' ), $views[ $view ] );
 
-		$wp_admin_bar->add_node( array(
-			'id' => 'llms-view-as-menu',
-			'parent' => 'top-secondary',
-			'title' => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png"></span>' . $title,
-		) );
+		$wp_admin_bar->add_node(
+			array(
+				'id'     => 'llms-view-as-menu',
+				'parent' => 'top-secondary',
+				'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png"></span>' . $title,
+			)
+		);
 
 		foreach ( $views as $slug => $title ) {
 
@@ -101,12 +112,14 @@ class LLMS_View_Manager {
 				continue;
 			}
 
-			$wp_admin_bar->add_node( array(
-				'href' => $this->get_url( $slug ),
-				'id' => 'llms-view-as--' . $slug,
-				'parent' => 'llms-view-as-menu',
-				'title' => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
-			) );
+			$wp_admin_bar->add_node(
+				array(
+					'href'   => $this->get_url( $slug ),
+					'id'     => 'llms-view-as--' . $slug,
+					'parent' => 'llms-view-as-menu',
+					'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
+				)
+			);
 
 		}
 
@@ -115,22 +128,25 @@ class LLMS_View_Manager {
 	/**
 	 * Inline JS
 	 * Updates links so admins can navigate around quickly when "viewing as"
+	 *
+	 * @since 3.7.0
+	 * @since 3.35.0 Sanitize `$_GET` data.
+	 *
 	 * @return   string
-	 * @since    3.7.0
-	 * @version  3.7.0
 	 */
 	private function get_inline_script() {
 		ob_start();
 		?>
-		window.llms.ViewManager.set_nonce( '<?php echo $_GET['view_nonce']; ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
+		window.llms.ViewManager.set_nonce( '<?php echo llms_filter_input( INPUT_GET, 'view_nonce', FILTER_SANITIZE_STRING ); ?>' ).set_view( '<?php echo $this->get_view(); ?>' ).update_links();
 		<?php
 		return ob_get_clean();
 	}
 
 	/**
 	 * Get a view url for the requested view
-	 * @param    string     $role  view option [self|visitor|student]
-	 * @param    array      $args  additional query args to add to the url
+	 *
+	 * @param    string $role  view option [self|visitor|student]
+	 * @param    array  $args  additional query args to add to the url
 	 * @return   string
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -155,13 +171,15 @@ class LLMS_View_Manager {
 
 	/**
 	 * Get the current view role/type
+	 *
+	 * @since 3.7.0
+	 * @since 3.35.0 Sanitize `$_GET` data.
+	 *
 	 * @return   string
-	 * @since    3.7.0
-	 * @version  3.7.0
 	 */
 	private function get_view() {
 
-		if ( ! isset( $_GET['llms-view-as'] ) || ! isset( $_GET['view_nonce'] ) || ! wp_verify_nonce( $_GET['view_nonce'], 'llms-view-as' ) ) {
+		if ( ! llms_verify_nonce( 'view_nonce', 'llms-view-as', 'GET' ) ) {
 			return 'self';
 		}
 
@@ -171,19 +189,20 @@ class LLMS_View_Manager {
 			return 'self';
 		}
 
-		return $_GET['llms-view-as'];
+		return llms_filter_input( INPUT_GET, 'llms-view-as', FILTER_SANITIZE_STRING );
 
 	}
 
 	/**
 	 * Get a list of available views
+	 *
 	 * @return   array
 	 * @since    3.7.0
 	 * @version  3.7.0
 	 */
 	private function get_views() {
-		return 	array(
-			'self' => __( 'Myself', 'lifterlms' ),
+		return array(
+			'self'    => __( 'Myself', 'lifterlms' ),
 			'visitor' => __( 'Visitor', 'lifterlms' ),
 			'student' => __( 'Student', 'lifterlms' ),
 		);
@@ -192,7 +211,8 @@ class LLMS_View_Manager {
 	/**
 	 * Modify the completion status of course, lessons, tracks based on current view
 	 * Visitors and students will always show content as not completed
-	 * @param    boolean     $completed   actual status for the current user
+	 *
+	 * @param    boolean $completed   actual status for the current user
 	 * @return   boolean
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -201,10 +221,10 @@ class LLMS_View_Manager {
 		switch ( $this->get_view() ) {
 			case 'visitor':
 				$status = false;
-			break;
+				break;
 			case 'student':
 				$status = true;
-			break;
+				break;
 		}
 		return $completed;
 	}
@@ -213,7 +233,8 @@ class LLMS_View_Manager {
 	 * Modify the status of a course access period based on the current view
 	 * Students and Visitors will see the actual access period
 	 * If viewing as self and self can bypass restrictions will appear as if course is open
-	 * @param    boolean    $status  default status
+	 *
+	 * @param    boolean $status  default status
 	 * @return   boolean
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -234,7 +255,8 @@ class LLMS_View_Manager {
 	 * Modify the enrollment status of current user based on the view
 	 * students will always show as enrolled
 	 * visitors will always show as not-enrolled
-	 * @param    string     $status   actual status for the current user
+	 *
+	 * @param    string $status   actual status for the current user
 	 * @return   string
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -245,11 +267,11 @@ class LLMS_View_Manager {
 
 			case 'visitor':
 				$status = false;
-			break;
+				break;
 
 			case 'student':
 				$status = 'enrolled';
-			break;
+				break;
 
 		}
 
@@ -259,7 +281,8 @@ class LLMS_View_Manager {
 
 	/**
 	 * Modify llms_page_restricted for qualifying users to allow them to bypass restrictions
-	 * @param    array     $restrictions  restriction data
+	 *
+	 * @param    array $restrictions  restriction data
 	 * @return   array
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -269,7 +292,7 @@ class LLMS_View_Manager {
 		if ( 'self' === $this->get_view() && llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
 
 			$restrictions['is_restricted'] = false;
-			$restrictions['reason'] = 'role-access';
+			$restrictions['reason']        = 'role-access';
 
 		}
 
@@ -278,9 +301,12 @@ class LLMS_View_Manager {
 
 	/**
 	 * Enqueue Scripts
+	 *
+	 * @since 3.7.0
+	 * @since 3.17.8 Unknown.
+	 * @since 3.35.0 Declare asset version.
+	 *
 	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.17.8
 	 */
 	public function scripts() {
 
@@ -289,7 +315,7 @@ class LLMS_View_Manager {
 			return;
 		}
 
-		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '', true );
+		wp_enqueue_script( 'llms-view-manager', LLMS_PLUGIN_URL . '/assets/js/llms-view-manager' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 		wp_add_inline_script( 'llms-view-manager', $this->get_inline_script(), 'after' );
 
 	}

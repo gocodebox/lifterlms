@@ -8,12 +8,14 @@
  * @version  3.11.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Shortcode_Lesson_Mark_Complete extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
+	 *
 	 * @var  string
 	 */
 	public $tag = 'lifterlms_lesson_mark_complete';

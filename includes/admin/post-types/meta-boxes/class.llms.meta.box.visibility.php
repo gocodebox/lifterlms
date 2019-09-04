@@ -2,18 +2,25 @@
 /**
  * Product Visibility Settings
  * Adds radios to the publishing misc. actions box for courses and memberships
- * @since    3.6.0
- * @version  3.6.0
+ *
+ * @since 3.6.0
+ * @version 3.35.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Meta_Box_Visibility class
+ *
+ * @since 3.6.0
+ * @since 3.35.0 Sanitize `$_POST` data and add nonce verification.
+ */
 class LLMS_Meta_Box_Visibility {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.6.0
-	 * @version  3.6.0
 	 */
 	public function __construct() {
 
@@ -25,9 +32,11 @@ class LLMS_Meta_Box_Visibility {
 
 	/**
 	 * Output HTML for the settings
+	 *
+	 * @since  3.6.0
+	 * @since 3.35.0 Add nonce verification.
+	 *
 	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
 	 */
 	public function output() {
 
@@ -37,10 +46,10 @@ class LLMS_Meta_Box_Visibility {
 			return;
 		}
 
-		$product = new LLMS_Product( $post );
+		$product    = new LLMS_Product( $post );
 		$visibility = $product->get_catalog_visibility();
-		$options = llms_get_product_visibility_options();
-		$name = isset( $options[ $visibility ] ) ? $options[ $visibility ] : $visibility;
+		$options    = llms_get_product_visibility_options();
+		$name       = isset( $options[ $visibility ] ) ? $options[ $visibility ] : $visibility;
 		?>
 		<div class="misc-pub-section" id="llms-catalog-visibility">
 
@@ -61,6 +70,9 @@ class LLMS_Meta_Box_Visibility {
 					<a href="#llms-catalog-visibility" class="llms-save-catalog-visibility hide-if-no-js button"><?php _e( 'OK', 'lifterlms' ); ?></a>
 					<a href="#llms-catalog-visibility" class="llms-cancel-catalog-visibility hide-if-no-js"><?php _e( 'Cancel', 'lifterlms' ); ?></a>
 				</p>
+
+				<?php wp_nonce_field( 'llms-catalog-visibility-nonce', 'llms_catalog_visibility_nonce' ); ?>
+
 			</div>
 		</div>
 		<?php
@@ -69,17 +81,27 @@ class LLMS_Meta_Box_Visibility {
 
 	/**
 	 * Save the settings
-	 * @param    int     $post_id  WP Post ID
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 *
+	 * @since 3.6.0
+	 * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
+	 *
+	 * @param int $post_id WP Post ID.
+	 * @return void
 	 */
 	public function save( $post_id ) {
-		if ( ! isset( $_POST['_llms_visibility'] ) ) {
+
+		if ( ! llms_verify_nonce( 'llms_catalog_visibility_nonce', 'llms-catalog-visibility-nonce' ) ) {
 			return;
 		}
+
+		$visibility = llms_filter_input( INPUT_POST, '_llms_visibility', FILTER_SANITIZE_STRING );
+		if ( ! $visibility ) {
+			return;
+		}
+
 		$product = new LLMS_Product( $post_id );
-		$product->set_catalog_visibility( $_POST['_llms_visibility'] );
+		$product->set_catalog_visibility( $visibility );
+
 	}
 
 }

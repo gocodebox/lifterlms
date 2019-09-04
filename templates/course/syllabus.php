@@ -1,14 +1,15 @@
 <?php
 /**
  * Template for the Course Syllabus Displayed on individual course pages
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ *
+ * @author      LifterLMS
+ * @package     LifterLMS/Templates
  * @since       1.0.0
  * @version     3.24.0
  */
 defined( 'ABSPATH' ) || exit;
 global $post;
-$course = new LLMS_Course( $post );
+$course   = new LLMS_Course( $post );
 $sections = $course->get_sections();
 ?>
 
@@ -33,10 +34,15 @@ $sections = $course->get_sections();
 
 				<?php foreach ( $lessons as $lesson ) : ?>
 
-					<?php llms_get_template( 'course/lesson-preview.php', array(
-						'lesson' => $lesson,
-						'total_lessons' => count( $lessons ),
-					) ); ?>
+					<?php
+					llms_get_template(
+						'course/lesson-preview.php',
+						array(
+							'lesson'        => $lesson,
+							'total_lessons' => count( $lessons ),
+						)
+					);
+					?>
 
 				<?php endforeach; ?>
 

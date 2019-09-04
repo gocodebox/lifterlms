@@ -28,7 +28,7 @@ references:
 
       - run:
           name: Check Coding Standards
-          command: composer run-script check-cs
+          command: composer run-script check-cs-errors
 
       - run:
           name: Install PHP Unit Tests

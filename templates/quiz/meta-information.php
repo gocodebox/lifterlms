@@ -1,17 +1,20 @@
 <?php
 /**
  * Single Quiz: Meta Information
+ *
+ * @package LifterLMS/Templates
+ *
  * @since    3.9.0
  * @version  3.16.14
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 
-$quiz = llms_get_post( $post );
+$quiz            = llms_get_post( $post );
 $passing_percent = $quiz->get_passing_percent();
-$student = llms_get_student();
+$student         = llms_get_student();
 ?>
 
 <h2 class="llms-quiz-meta-title"><?php _e( 'Quiz Information', 'lifterlms' ); ?></h2>

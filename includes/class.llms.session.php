@@ -1,11 +1,13 @@
 <?php
 /**
  * LLMS_Session Class
+ *
  * @since    1.0.0
  * @version  3.7.7
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Session {
 
@@ -27,6 +29,7 @@ class LLMS_Session {
 
 	/**
 	 * Session prefix
+	 *
 	 * @var string
 	 * @access private
 	 */
@@ -34,6 +37,7 @@ class LLMS_Session {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    1.0.0
 	 * @version  3.7.5
 	 */

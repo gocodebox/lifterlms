@@ -1,9 +1,13 @@
 <?php
 /**
  * Redeem vouchers
+ *
+ * @package LifterLMS/Templates
+ *
  * @since  2.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <?php llms_print_notices(); ?>

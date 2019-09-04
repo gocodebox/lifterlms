@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * LifterLMS Options Table Data Store Abstract
@@ -13,8 +14,9 @@ abstract class LLMS_Abstract_Options_Data {
 
 	/**
 	 * Retrieve the value of an option from the database
-	 * @param    string     $name     option name (unprefixed)
-	 * @param    mixed      $default  default value to use if no option is found
+	 *
+	 * @param    string $name     option name (unprefixed)
+	 * @param    mixed  $default  default value to use if no option is found
 	 * @return   mixed
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -29,6 +31,7 @@ abstract class LLMS_Abstract_Options_Data {
 
 	/**
 	 * Retrieve a prefix for options
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -41,7 +44,8 @@ abstract class LLMS_Abstract_Options_Data {
 	 * Retrieve a prefixed option name from the database
 	 * Prefix automatically adds a trigger and type to the option name
 	 * in addition to llms_notification
-	 * @param    string     $name  option name (unprefixed)
+	 *
+	 * @param    string $name  option name (unprefixed)
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -52,8 +56,9 @@ abstract class LLMS_Abstract_Options_Data {
 
 	/**
 	 * Set the value of an option
-	 * @param    string     $name   option name (unprefixed)
-	 * @param    mixed      $value  option value
+	 *
+	 * @param    string $name   option name (unprefixed)
+	 * @param    mixed  $value  option value
 	 * @return   bool               true if option value has changed
 	 *                              false if no update or update failed
 	 * @since    3.17.8

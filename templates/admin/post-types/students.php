@@ -1,13 +1,16 @@
 <?php
 /**
  * Students Metabox on admin panel
+ *
  * @since    3.0.0
  * @version  3.13.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
-if ( ! is_admin() ) { exit; }
+if ( ! is_admin() ) {
+	exit;
+}
 
 $table = new LLMS_Table_StudentManagement();
 $table->get_results();
@@ -23,7 +26,7 @@ $table->get_results();
 	<?php if ( current_user_can( 'enroll' ) ) : ?>
 
 		<div class="llms-metabox-section llms-metabox-students-add-new">
-			<h2><?php echo __( 'Enroll New Students', 'lifterlms' ) ?></h2>
+			<h2><?php echo __( 'Enroll New Students', 'lifterlms' ); ?></h2>
 
 			<div class="llms-metabox-field d-all">
 				<select id="llms-add-student-select" multiple="multiple" name="_llms_add_student"></select>

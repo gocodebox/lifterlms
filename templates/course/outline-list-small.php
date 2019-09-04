@@ -2,6 +2,7 @@
 /**
  * Course Outline Small List
  * Used for lifterlms_course_outline Shortcode & Course Syllabus Widget
+ *
  * @property  $collapse         bool   whether or not sections are collapsible via user interaction
  * @property  $course           obj    instance of the LLMS_Course for the current course
  * @property  $current_section  int    WP Post ID of the current section, this determines which section is open when the outline is collapsible
@@ -43,10 +44,12 @@ defined( 'ABSPATH' ) || exit;
 
 				</div>
 
-				<?php foreach ( $section->get_lessons() as $lesson ) :
-					$current = ( $current_lesson == $lesson->get( 'id' ) );
+				<?php
+				foreach ( $section->get_lessons() as $lesson ) :
+					$current     = ( $current_lesson == $lesson->get( 'id' ) );
 					$is_complete = $student ? $student->is_complete( $lesson->get( 'id' ), 'lesson' ) : false;
-					$restricted = llms_page_restricted( $lesson->get( 'id' ) ); ?>
+					$restricted  = llms_page_restricted( $lesson->get( 'id' ) );
+					?>
 
 					<ul class="llms-lesson<?php echo $current ? ' current-lesson' : ''; ?>">
 

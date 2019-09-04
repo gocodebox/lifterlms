@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Controllers
  *
  * @since 3.16.0
- * @version 3.24.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.16.0
  * @since 3.30.3 Fixed an issue causing backlashes to be saved around escaped characters when leaving remarks.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -28,9 +29,12 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 	/**
 	 * Run actions on form submission
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.16.9
+	 *
+	 * @since 3.16.0
+	 * @since 3.16.9 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
+	 * @return void
 	 */
 	public function maybe_run_actions() {
 
@@ -40,8 +44,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 		if ( isset( $_POST['llms_quiz_attempt_action'] ) && isset( $_POST['llms_attempt_id'] ) ) {
 
-			$action = $_POST['llms_quiz_attempt_action'];
-
+			$action  = llms_filter_input( INPUT_POST, 'llms_quiz_attempt_action', FILTER_SANITIZE_STRING );
 			$attempt = new LLMS_Quiz_Attempt( absint( $_POST['llms_attempt_id'] ) );
 
 			if ( ! current_user_can( 'edit_post', $attempt->get( 'quiz_id' ) ) ) {
@@ -49,15 +52,18 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			}
 
 			if ( 'llms_attempt_delete' === $action ) {
-				$url = add_query_arg( array(
-					'page' => 'llms-reporting',
-					'tab' => 'quizzes',
-					'quiz_id' => $attempt->get( 'quiz_id' ),
-					'stab' => 'attempts',
-				), admin_url( 'admin.php' ) );
+				$url = add_query_arg(
+					array(
+						'page'    => 'llms-reporting',
+						'tab'     => 'quizzes',
+						'quiz_id' => $attempt->get( 'quiz_id' ),
+						'stab'    => 'attempts',
+					),
+					admin_url( 'admin.php' )
+				);
 				$attempt->delete();
 				wp_safe_redirect( $url );
-			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] )) ) {
+			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] ) ) ) {
 				$this->save_grade( $attempt );
 			}
 		}
@@ -69,14 +75,17 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 *
 	 * @since 3.16.0
 	 * @since 3.30.3 Strip slashes on remarks.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
 	 * @return void
 	 */
 	private function save_grade( $attempt ) {
 
-		$remarks = isset( $_POST['remarks'] ) ? $_POST['remarks'] : array();
-		$points = isset( $_POST['points'] ) ? $_POST['points'] : array();
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified in `maybe_run_actions()` method.
+
+		$remarks = isset( $_POST['remarks'] ) ? llms_filter_input( INPUT_POST, 'remarks', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+		$points  = isset( $_POST['points'] ) ? llms_filter_input( INPUT_POST, 'points', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
 
 		$questions = $attempt->get_questions();
 		foreach ( $questions as &$question ) {
@@ -86,7 +95,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			}
 
 			if ( isset( $points[ $question['id'] ] ) ) {
-				$earned = absint( $points[ $question['id'] ] );
+				$earned             = absint( $points[ $question['id'] ] );
 				$question['earned'] = $earned;
 				if ( ( $earned / $question['points'] ) >= 0.5 ) {
 					$question['correct'] = 'yes';
@@ -108,6 +117,8 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 		}
 
 		do_action( 'llms_quiz_graded', $attempt->get_student()->get_id(), $attempt->get( 'quiz_id' ), $attempt );
+
+		// phpcs:enable
 
 	}
 

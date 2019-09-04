@@ -1,17 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Basic lesson class
-*
-* Basic lesson is the standard, single lesson.
-*
-* @deprecated 3.30.3
-*/
+ * Basic lesson class
+ *
+ * Basic lesson is the standard, single lesson.
+ *
+ * @deprecated 3.30.3
+ */
 class LLMS_Lesson_Basic extends LLMS_Lesson {
 
 	/**
 	 * Lesson id
+	 *
 	 * @var int
 	 */
 	public $id;
@@ -24,12 +26,14 @@ class LLMS_Lesson_Basic extends LLMS_Lesson {
 
 	/**
 	 * post object
+	 *
 	 * @var object
 	 */
 	public $post;
 
 	/**
 	 * [__construct description]
+	 *
 	 * @param int $lesson [ID of lesson post]
 	 */
 	public function __construct( $lesson ) {
