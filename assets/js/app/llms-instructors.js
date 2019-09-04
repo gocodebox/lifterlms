@@ -1,12 +1,16 @@
-/* global LLMS, $ */
-/* jshint strict: false */
 /**
  * Instructors List
+ *
+ * @package LifterLMS/Scripts
+ *
+ * @since  Unknown
+ * @version  Unknown
  */
+
 LLMS.Instructors = {
 
 	/**
-	 * init
+	 * Init
 	 */
 	init: function() {
 
@@ -29,6 +33,7 @@ LLMS.Instructors = {
 	/**
 	 * Bind Method
 	 * Handles dom binding on load
+	 *
 	 * @return {[type]} [description]
 	 */
 	bind: function() {

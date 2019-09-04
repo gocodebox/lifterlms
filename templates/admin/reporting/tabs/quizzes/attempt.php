@@ -1,6 +1,7 @@
 <?php
 /**
  * Single Quiz Tab: Single Attempt Subtab
+ *
  * @since    3.16.0
  * @version  3.17.3
  * @arg  obj  $attempt  instance of the LLMS_Quiz_Attempt]
@@ -9,12 +10,15 @@ if ( ! defined( 'ABSPATH' ) || ! is_admin() ) {
 	exit;
 }
 
-$student = $attempt->get_student();
+$student  = $attempt->get_student();
 $siblings = array();
 if ( $student ) {
-	$siblings = $student->quizzes()->get_attempts_by_quiz( $attempt->get( 'quiz_id' ), array(
-		'per_page' => 10,
-	) );
+	$siblings = $student->quizzes()->get_attempts_by_quiz(
+		$attempt->get( 'quiz_id' ),
+		array(
+			'per_page' => 10,
+		)
+	);
 }
 ?>
 
@@ -24,88 +28,104 @@ if ( $student ) {
 
 		<header>
 			<h3><?php echo $attempt->get_title(); ?></h3>
-		</header><?php
+		</header>
+		<?php
 
 		do_action( 'llms_reporting_single_quiz_attempt_before_widgets', $attempt );
 
-		LLMS_Admin_Reporting::output_widget( array(
-			'cols' => 'd-1of4',
-			'icon' => 'graduation-cap',
-			'id' => 'llms-reporting-quiz-attempt-grade',
-			'data' => $attempt->get( 'grade' ),
-			'data_type' => 'percentage',
-			'text' => __( 'Grade', 'lifterlms' ),
-		) );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of4',
+				'icon'      => 'graduation-cap',
+				'id'        => 'llms-reporting-quiz-attempt-grade',
+				'data'      => $attempt->get( 'grade' ),
+				'data_type' => 'percentage',
+				'text'      => __( 'Grade', 'lifterlms' ),
+			)
+		);
 
-		LLMS_Admin_Reporting::output_widget( array(
-			'cols' => 'd-1of4',
-			'icon' => 'check-circle',
-			'id' => 'llms-reporting-quiz-attempt-correct',
-			'data' => sprintf( '%1$d / %2$d', $attempt->get_count( 'correct_answers' ), $attempt->get_count( 'questions' ) ),
-			'data_type' => 'numeric',
-			'text' => __( 'Correct answers', 'lifterlms' ),
-		) );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of4',
+				'icon'      => 'check-circle',
+				'id'        => 'llms-reporting-quiz-attempt-correct',
+				'data'      => sprintf( '%1$d / %2$d', $attempt->get_count( 'correct_answers' ), $attempt->get_count( 'questions' ) ),
+				'data_type' => 'numeric',
+				'text'      => __( 'Correct answers', 'lifterlms' ),
+			)
+		);
 
-		LLMS_Admin_Reporting::output_widget( array(
-			'cols' => 'd-1of4',
-			'icon' => 'percent',
-			'id' => 'llms-reporting-quiz-attempt-points',
-			'data' => sprintf( '%1$d / %2$d', $attempt->get_count( 'points' ), $attempt->get_count( 'available_points' ) ),
-			'data_type' => 'numeric',
-			'text' => __( 'Points earned', 'lifterlms' ),
-		) );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of4',
+				'icon'      => 'percent',
+				'id'        => 'llms-reporting-quiz-attempt-points',
+				'data'      => sprintf( '%1$d / %2$d', $attempt->get_count( 'points' ), $attempt->get_count( 'available_points' ) ),
+				'data_type' => 'numeric',
+				'text'      => __( 'Points earned', 'lifterlms' ),
+			)
+		);
 
 		switch ( $attempt->get( 'status' ) ) {
 			case 'pass':
 				$icon = 'star';
-			break;
+				break;
 			case 'incomplete':
 			case 'fail':
 				$icon = 'times-circle';
-			break;
+				break;
 			case 'pending':
 				$icon = 'clock-o';
-			break;
+				break;
 			default:
 				$icon = 'question-circle';
 		}
 
-		LLMS_Admin_Reporting::output_widget( array(
-			'cols' => 'd-1of4',
-			'icon' => $icon,
-			'id' => 'llms-reporting-quiz-attempt-status',
-			'data' => $attempt->l10n( 'status' ),
-			'data_type' => 'text',
-			'text' => __( 'Status', 'lifterlms' ),
-		) );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of4',
+				'icon'      => $icon,
+				'id'        => 'llms-reporting-quiz-attempt-status',
+				'data'      => $attempt->l10n( 'status' ),
+				'data_type' => 'text',
+				'text'      => __( 'Status', 'lifterlms' ),
+			)
+		);
 
-		LLMS_Admin_Reporting::output_widget( array(
-			'cols' => 'd-1of3',
-			'icon' => 'sign-in',
-			'id' => 'llms-reporting-quiz-attempt-start-date',
-			'data' => $attempt->get_date( 'start' ),
-			'data_type' => 'date',
-			'text' => __( 'Start Date', 'lifterlms' ),
-		) );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of3',
+				'icon'      => 'sign-in',
+				'id'        => 'llms-reporting-quiz-attempt-start-date',
+				'data'      => $attempt->get_date( 'start' ),
+				'data_type' => 'date',
+				'text'      => __( 'Start Date', 'lifterlms' ),
+			)
+		);
 
-		LLMS_Admin_Reporting::output_widget( array(
-			'cols' => 'd-1of3',
-			'icon' => 'sign-out',
-			'id' => 'llms-reporting-quiz-attempt-end-date',
-			'data' => ( 'incomplete' !== $attempt->get( 'status' ) ) ? $attempt->get_date( 'end' ) : '&ndash;',
-			'data_type' => 'date',
-			'text' => __( 'End Date', 'lifterlms' ),
-		) );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols'      => 'd-1of3',
+				'icon'      => 'sign-out',
+				'id'        => 'llms-reporting-quiz-attempt-end-date',
+				'data'      => ( 'incomplete' !== $attempt->get( 'status' ) ) ? $attempt->get_date( 'end' ) : '&ndash;',
+				'data_type' => 'date',
+				'text'      => __( 'End Date', 'lifterlms' ),
+			)
+		);
 
-		LLMS_Admin_Reporting::output_widget( array(
-			'cols' => 'd-1of3',
-			'icon' => 'clock-o',
-			'id' => 'llms-reporting-quiz-attempt-time',
-			'data' => ( 'incomplete' !== $attempt->get( 'status' ) ) ? $attempt->get_time() : '&ndash;',
-			'text' => __( 'Time Elapsed', 'lifterlms' ),
-		) );
+		LLMS_Admin_Reporting::output_widget(
+			array(
+				'cols' => 'd-1of3',
+				'icon' => 'clock-o',
+				'id'   => 'llms-reporting-quiz-attempt-time',
+				'data' => ( 'incomplete' !== $attempt->get( 'status' ) ) ? $attempt->get_time() : '&ndash;',
+				'text' => __( 'Time Elapsed', 'lifterlms' ),
+			)
+		);
 
-		do_action( 'llms_reporting_single_quiz_attempt_after_widgets', $attempt ); ?>
+		do_action( 'llms_reporting_single_quiz_attempt_after_widgets', $attempt );
+		?>
 
 		<div class="clear"></div>
 
@@ -149,11 +169,19 @@ if ( $student ) {
 		<?php foreach ( $siblings as $attempt ) : ?>
 			<div class="llms-reporting-event quiz_attempt">
 
-				<a href="<?php echo esc_url( LLMS_Admin_Reporting::get_current_tab_url( array(
-						'attempt_id' => $attempt->get( 'id' ),
-						'quiz_id' => $attempt->get( 'quiz_id' ),
-						'stab' => 'attempts',
-				) ) ); ?>">
+				<a href="
+				<?php
+				echo esc_url(
+					LLMS_Admin_Reporting::get_current_tab_url(
+						array(
+							'attempt_id' => $attempt->get( 'id' ),
+							'quiz_id'    => $attempt->get( 'quiz_id' ),
+							'stab'       => 'attempts',
+						)
+					)
+				);
+				?>
+				">
 
 					<?php printf( 'Attempt #%1$s - %2$s', $attempt->get( 'attempt' ), $attempt->get( 'grade' ) . '%' ); ?>
 					<br>

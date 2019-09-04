@@ -25,22 +25,26 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-order-enrollment-status';
-		$this->title = __( 'Student Enrollment', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-order-enrollment-status';
+		$this->title    = __( 'Student Enrollment', 'lifterlms' );
+		$this->screens  = array(
 			'llms_order',
 		);
-		$this->context = 'side';
+		$this->context  = 'side';
 		$this->priority = 'default';
 
 	}
 
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
-	 * @return array
+	 *
 	 * @since  3.0.0
+	 *
+	 * @return array
 	 */
-	public function get_fields() {}
+	public function get_fields() {
+		return array();
+	}
 
 	/**
 	 * Function to field WP::output() method call.
@@ -49,8 +53,7 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.33.0 Added 'Delete Enrollment' button.
 	 *
-	 * @param  object $post WP global post object
-	 * @return void
+	 * @return null
 	 */
 	public function output() {
 
@@ -62,13 +65,13 @@ class LLMS_Meta_Box_Order_Enrollment extends LLMS_Admin_Metabox {
 		}
 
 		if ( $order->get( 'user_id' ) ) {
-			$student = llms_get_student( $order->get( 'user_id' ) );
+			$student        = llms_get_student( $order->get( 'user_id' ) );
 			$current_status = $student->get_enrollment_status( $order->get( 'product_id' ) );
 		} else {
 			$current_status = '';
 		}
 
-		$select = '<select name="llms_student_new_enrollment_status">';
+		$select  = '<select name="llms_student_new_enrollment_status">';
 		$select .= '<option value="">-- ' . esc_html__( 'Select', 'lifterlms' ) . ' --</option>';
 
 		foreach ( llms_get_enrollment_statuses() as $val => $name ) {

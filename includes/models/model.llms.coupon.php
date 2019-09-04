@@ -27,26 +27,27 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Coupon extends LLMS_Post_Model {
 
 	protected $properties = array(
-		'coupon_amount' => 'float',
-		'coupon_courses' => 'array',
-		'coupon_membership' => 'array',
-		'description' => 'string',
-		'discount_type' => 'string',
+		'coupon_amount'         => 'float',
+		'coupon_courses'        => 'array',
+		'coupon_membership'     => 'array',
+		'description'           => 'string',
+		'discount_type'         => 'string',
 		'enable_trial_discount' => 'yesno',
-		'expiration_date' => 'string',
-		'plan_type' => 'string',
-		'trial_amount' => 'float',
-		'usage_limit' => 'absint',
+		'expiration_date'       => 'string',
+		'plan_type'             => 'string',
+		'trial_amount'          => 'float',
+		'usage_limit'           => 'absint',
 	);
 
-	protected $db_post_type = 'llms_coupon'; // maybe fix this
+	protected $db_post_type    = 'llms_coupon';
 	protected $model_post_type = 'coupon';
 
 	/**
 	 * Determine if the coupon can be applied to an access plan
+	 *
 	 * @since    3.0.0
 	 * @version  3.0.0
-	 * @param    int|obj    $plan_id  WP Post ID of the LLMS Access Plan or an instance of LLMS_Access_Plan
+	 * @param    int|obj $plan_id  WP Post ID of the LLMS Access Plan or an instance of LLMS_Access_Plan
 	 * @return  bool
 	 */
 	public function applies_to_plan( $plan_id ) {
@@ -72,9 +73,10 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a coupon can be applied to a specific product
+	 *
 	 * @since  3.0.0
 	 * @version  3.0.0
-	 * @param  int  $product_id  WP Post ID of a LLMS Course or Membership
+	 * @param  int $product_id  WP Post ID of a LLMS Course or Membership
 	 * @return boolean     true if it can be applied, false otherwise
 	 */
 	public function applies_to_product( $product_id ) {
@@ -82,8 +84,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		// no product restrictions
 		if ( empty( $products ) ) {
 			return true;
-		} // End if().
-		else {
+		} else {
 			return in_array( $product_id, $products );
 		}
 	}
@@ -92,6 +93,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	 * Retrieve the timestamp of a coupon expiration date
 	 * Transforms the expiration date to a timestamp and adds 23 hours 59 minutes and 59 seconds to the date
 	 * Coupons expire end of day on the expiration date (EG: 2015-12-01 @ 23:59:59)
+	 *
 	 * @return   false|int
 	 * @since    3.19.0
 	 * @version  3.19.0
@@ -124,6 +126,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Get the formatted coupon amount with currency symbol and/or percentage symbol
+	 *
 	 * @since 3.0.0
 	 * @version 3.0.0
 	 * @param   string $amount key for the amount to format
@@ -134,10 +137,10 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		switch ( $this->get( 'discount_type' ) ) {
 			case 'percent':
 				$amount .= '%';
-			break;
+				break;
 			case 'dollar':
 				$amount = llms_price( $amount );
-			break;
+				break;
 		}
 		return $amount;
 	}
@@ -145,6 +148,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	/**
 	 * Get an array of all products the coupon can be used with
 	 * Combines $this->coupon_courses & $this->coupon_membership
+	 *
 	 * @since 3.0.0
 	 * @version 3.0.0
 	 * @return  array
@@ -156,6 +160,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 	/**
 	 * Get the number of remaining uses
 	 * calculated by subtracting # of uses from the usage limit
+	 *
 	 * @since  3.0.0
 	 * @version 3.0.0
 	 * @return string|int
@@ -179,23 +184,26 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Get the number of times the coupon has been used
+	 *
 	 * @return   int
 	 * @since    3.0.0
 	 * @version  3.19.0
 	 */
 	public function get_uses() {
 
-		$query = new WP_Query( array(
-			'meta_query' => array(
-				array(
-					'key' => $this->meta_prefix . 'coupon_code',
-					'value' => $this->get( 'title' ),
+		$query = new WP_Query(
+			array(
+				'meta_query'     => array(
+					array(
+						'key'   => $this->meta_prefix . 'coupon_code',
+						'value' => $this->get( 'title' ),
+					),
 				),
-			),
-			'post_status' => 'any',
-			'post_type' => 'llms_order',
-			'posts_per_page' => -1,
-		) );
+				'post_status'    => 'any',
+				'post_type'      => 'llms_order',
+				'posts_per_page' => -1,
+			)
+		);
 
 		return $query->post_count;
 
@@ -203,6 +211,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the main (non-trial) price is discounted by this coupon
+	 *
 	 * @return   bool
 	 * @since    3.21.1
 	 * @version  3.21.1
@@ -213,6 +222,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a coupon has uses remaining
+	 *
 	 * @return boolean   true if uses are remaining, false otherwise
 	 */
 	public function has_remaining_uses() {
@@ -225,6 +235,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Determine if trial amount discount is enabled for the coupon
+	 *
 	 * @return  boolean
 	 * @since   3.0.0
 	 * @version 3.21.1
@@ -235,6 +246,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a coupon is expired
+	 *
 	 * @return  boolean   true if expired, false otherwise
 	 * @since   3.0.0
 	 * @version 3.19.0
@@ -251,7 +263,8 @@ class LLMS_Coupon extends LLMS_Post_Model {
 
 	/**
 	 * Perform all available validations and return a success or error message
-	 * @param    int            $plan_id  WP Post ID of an LLMS Access Plan
+	 *
+	 * @param    int $plan_id  WP Post ID of an LLMS Access Plan
 	 * @return   WP_Error|true            If true, the coupon is valid, if WP_Error, there was an error
 	 * @since    3.0.0
 	 * @version  3.19.0

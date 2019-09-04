@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.0.0
- * @version 3.32.0
+ * @version 3.35.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -77,71 +77,72 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
+ * @since 3.35.0 Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
-	protected $db_post_type = 'llms_order';
+	protected $db_post_type    = 'llms_order';
 	protected $model_post_type = 'order';
 
 	protected $properties = array(
 
-		'anonymized' => 'yesno',
-		'coupon_amount' => 'float',
-		'coupon_amout_trial' => 'float',
-		'coupon_value' => 'float',
-		'coupon_value_trial' => 'float',
-		'original_total' => 'float',
-		'sale_price' => 'float',
-		'sale_value' => 'float',
-		'total' => 'float',
+		'anonymized'           => 'yesno',
+		'coupon_amount'        => 'float',
+		'coupon_amout_trial'   => 'float',
+		'coupon_value'         => 'float',
+		'coupon_value_trial'   => 'float',
+		'original_total'       => 'float',
+		'sale_price'           => 'float',
+		'sale_value'           => 'float',
+		'total'                => 'float',
 		'trial_original_total' => 'float',
-		'trial_total' => 'float',
+		'trial_total'          => 'float',
 
-		'access_length' => 'absint',
-		'billing_frequency' => 'absint',
-		'billing_length' => 'absint',
-		'coupon_id' => 'absint',
-		'plan_id' => 'absint',
-		'product_id' => 'absint',
-		'trial_length' => 'absint',
-		'user_id' => 'absint',
+		'access_length'        => 'absint',
+		'billing_frequency'    => 'absint',
+		'billing_length'       => 'absint',
+		'coupon_id'            => 'absint',
+		'plan_id'              => 'absint',
+		'product_id'           => 'absint',
+		'trial_length'         => 'absint',
+		'user_id'              => 'absint',
 
-		'access_expiration' => 'text',
-		'access_expires' => 'text',
-		'access_period' => 'text',
-		'billing_address_1' => 'text',
-		'billing_address_2' => 'text',
-		'billing_city' => 'text',
-		'billing_country' => 'text',
-		'billing_email' => 'text',
-		'billing_first_name' => 'text',
-		'billing_last_name' => 'text',
-		'billing_state' => 'text',
-		'billing_zip' => 'text',
-		'billing_period' => 'text',
-		'coupon_code' => 'text',
-		'coupon_type' => 'text',
-		'coupon_used' => 'text',
-		'currency' => 'text',
-		'on_sale' => 'text',
-		'order_key' => 'text',
-		'order_type' => 'text',
-		'payment_gateway' => 'text',
-		'plan_sku' => 'text',
-		'plan_title' => 'text',
-		'product_sku' => 'text',
-		'product_type' => 'text',
-		'title' => 'text',
-		'gateway_api_mode' => 'text',
-		'gateway_customer_id' => 'text',
-		'trial_offer' => 'text',
-		'trial_period' => 'text',
-		'user_ip_address' => 'text',
+		'access_expiration'    => 'text',
+		'access_expires'       => 'text',
+		'access_period'        => 'text',
+		'billing_address_1'    => 'text',
+		'billing_address_2'    => 'text',
+		'billing_city'         => 'text',
+		'billing_country'      => 'text',
+		'billing_email'        => 'text',
+		'billing_first_name'   => 'text',
+		'billing_last_name'    => 'text',
+		'billing_state'        => 'text',
+		'billing_zip'          => 'text',
+		'billing_period'       => 'text',
+		'coupon_code'          => 'text',
+		'coupon_type'          => 'text',
+		'coupon_used'          => 'text',
+		'currency'             => 'text',
+		'on_sale'              => 'text',
+		'order_key'            => 'text',
+		'order_type'           => 'text',
+		'payment_gateway'      => 'text',
+		'plan_sku'             => 'text',
+		'plan_title'           => 'text',
+		'product_sku'          => 'text',
+		'product_type'         => 'text',
+		'title'                => 'text',
+		'gateway_api_mode'     => 'text',
+		'gateway_customer_id'  => 'text',
+		'trial_offer'          => 'text',
+		'trial_period'         => 'text',
+		'user_ip_address'      => 'text',
 
-		'date_access_expires' => 'text',
-		'date_billing_end' => 'text',
-		'date_next_payment' => 'text',
-		'date_trial_end' => 'text',
+		'date_access_expires'  => 'text',
+		'date_billing_end'     => 'text',
+		'date_next_payment'    => 'text',
+		'date_trial_end'       => 'text',
 
 	);
 
@@ -149,11 +150,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Add an admin-only note to the order visible on the admin panel
 	 * notes are recorded using the wp comments API & DB
 	 *
-	 * @param    string     $note           note content
-	 * @param    boolean    $added_by_user  if this is an admin-submitted note adds user info to note meta
-	 * @return   null|int                   null on error or WP_Comment ID of the note
 	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.35.0 Sanitize $_SERVER data.
+	 *
+	 * @param    string  $note           note content
+	 * @param    boolean $added_by_user  if this is an admin-submitted note adds user info to note meta
+	 * @return   null|int                   null on error or WP_Comment ID of the note
 	 */
 	public function add_note( $note, $added_by_user = false ) {
 
@@ -164,34 +166,39 @@ class LLMS_Order extends LLMS_Post_Model {
 		// added by a user from the admin panel
 		if ( $added_by_user && is_user_logged_in() && current_user_can( apply_filters( 'lifterlms_admin_order_access', 'manage_options' ) ) ) {
 
-			$user_id = get_current_user_id();
-			$user = get_user_by( 'id', $user_id );
-			$author = $user->display_name;
+			$user_id      = get_current_user_id();
+			$user         = get_user_by( 'id', $user_id );
+			$author       = $user->display_name;
 			$author_email = $user->user_email;
 
 		} else {
 
-			$user_id = 0;
-			$author = _x( 'LifterLMS', 'default order note author', 'lifterlms' );
-			$author_email = strtolower( _x( 'LifterLms', 'default order note author', 'lifterlms' ) ) . '@';
-			$author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www.', '', $_SERVER['HTTP_HOST'] ) : 'noreply.com';
-			$author_email = sanitize_email( $author_email );
+			$user_id       = 0;
+			$author        = _x( 'LifterLMS', 'default order note author', 'lifterlms' );
+			$author_email  = strtolower( _x( 'LifterLms', 'default order note author', 'lifterlms' ) ) . '@';
+			$author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www.', '', sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) : 'noreply.com';
+			$author_email  = sanitize_email( $author_email );
 
 		}
 
-		$note_id = wp_insert_comment( apply_filters( 'llms_add_order_note_content', array(
-			'comment_post_ID' => $this->get( 'id' ),
-			'comment_author' => $author,
-			'comment_author_email' => $author_email,
-			'comment_author_url' => '',
-			'comment_content' => $note,
-			'comment_type' => 'llms_order_note',
-			'comment_parent' => 0,
-			'user_id' => $user_id,
-			'comment_approved' => 1,
-			'comment_agent' => 'LifterLMS',
-			'comment_date' => current_time( 'mysql' ),
-		) ) );
+		$note_id = wp_insert_comment(
+			apply_filters(
+				'llms_add_order_note_content',
+				array(
+					'comment_post_ID'      => $this->get( 'id' ),
+					'comment_author'       => $author,
+					'comment_author_email' => $author_email,
+					'comment_author_url'   => '',
+					'comment_content'      => $note,
+					'comment_type'         => 'llms_order_note',
+					'comment_parent'       => 0,
+					'user_id'              => $user_id,
+					'comment_approved'     => 1,
+					'comment_agent'        => 'LifterLMS',
+					'comment_date'         => current_time( 'mysql' ),
+				)
+			)
+		);
 
 		do_action( 'llms_new_order_note_added', $note_id, $this );
 
@@ -201,6 +208,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Called after inserting a new order into the database
+	 *
 	 * @return  void
 	 * @since   3.0.0
 	 * @version 3.0.0
@@ -213,6 +221,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Calculate the date when billing should
 	 * applicable to orders created from plans with a set # of billing intervals
+	 *
 	 * @return   int
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -226,7 +235,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 			$start = $this->get_date( 'date', 'U' );
 
-			$period = $this->get( 'billing_period' );
+			$period    = $this->get( 'billing_period' );
 			$frequency = $this->get( 'billing_frequency' );
 
 			$end = $start;
@@ -244,7 +253,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Calculate the next payment due date
-	 * @param    string     $format  return format
+	 *
+	 * @param    string $format  return format
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.12.0
@@ -252,7 +262,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s' ) {
 
 		$start_time = $this->get_date( 'date', 'U' );
-		$end_time = $this->get_date( 'date_billing_end', 'U' );
+		$end_time   = $this->get_date( 'date_billing_end', 'U' );
 		if ( ! $end_time && $this->get( 'billing_length' ) ) {
 			$end_time = $this->calculate_billing_end_date();
 			$this->set( 'date_billing_end', date_i18n( 'Y-m-d H:i:s', $end_time ) );
@@ -278,15 +288,15 @@ class LLMS_Order extends LLMS_Post_Model {
 
 				// check previous transactions and get the date from there
 				// this will be true of orders created prior to 3.10 when no payment dates were saved
-				$last_txn = $this->get_last_transaction( array( 'llms-txn-succeeded', 'llms-txn-refunded' ), 'recurring' );
+				$last_txn      = $this->get_last_transaction( array( 'llms-txn-succeeded', 'llms-txn-refunded' ), 'recurring' );
 				$last_txn_time = $last_txn ? $last_txn->get_date( 'date', 'U' ) : 0;
 				if ( $last_txn_time && $last_txn_time < llms_current_time( 'timestamp' ) ) {
 					$from_time = $last_txn_time;
 				}
 			}
 
-			$period = $this->get( 'billing_period' );
-			$frequency = $this->get( 'billing_frequency' );
+			$period            = $this->get( 'billing_period' );
+			$frequency         = $this->get( 'billing_frequency' );
 			$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $from_time );
 
 			// Make sure the next payment is more than 2 hours in the future
@@ -312,7 +322,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Calculate the end date of the trial
-	 * @param    string     $format  desired return format of the date
+	 *
+	 * @param    string $format  desired return format of the date
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -334,6 +345,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the order can be retried for recurring payments
+	 *
 	 * @return   boolean
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -367,6 +379,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if an order can be resubscribed to
+	 *
 	 * @return   bool
 	 * @since    3.19.0
 	 * @version  3.19.0
@@ -377,12 +390,15 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		if ( $this->is_recurring() ) {
 
-			$allowed_statuses = apply_filters( 'llms_order_status_can_resubscribe_from', array(
-				'llms-on-hold',
-				'llms-pending',
-				'llms-pending-cancel',
-			) );
-			$ret = in_array( $this->get( 'status' ), $allowed_statuses );
+			$allowed_statuses = apply_filters(
+				'llms_order_status_can_resubscribe_from',
+				array(
+					'llms-on-hold',
+					'llms-pending',
+					'llms-pending-cancel',
+				)
+			);
+			$ret              = in_array( $this->get( 'status' ), $allowed_statuses );
 
 		}
 
@@ -392,6 +408,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Generate an order key for the order
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -405,7 +422,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * based on the access settings of the access plan
 	 * at the $start_date of access
 	 *
-	 * @param    string     $format  date format
+	 * @param    string $format  date format
 	 * @return   string              date string
 	 *                               "Lifetime Access" for plans with lifetime access
 	 *                               "To be Determined" for limited date when access hasn't started yet
@@ -422,20 +439,20 @@ class LLMS_Order extends LLMS_Post_Model {
 			switch ( $type ) {
 				case 'lifetime':
 					$ret = __( 'Lifetime Access', 'lifterlms' );
-				break;
+					break;
 
 				case 'limited-date':
 					$ret = date_i18n( $format, ( $this->get_date( 'access_expires', 'U' ) + ( DAY_IN_SECONDS - 1 ) ) );
-				break;
+					break;
 
 				case 'limited-period':
 					if ( $this->get( 'start_date' ) ) {
 						$time = strtotime( '+' . $this->get( 'access_length' ) . ' ' . $this->get( 'access_period' ), $this->get_date( 'start_date', 'U' ) ) + ( DAY_IN_SECONDS - 1 );
-						$ret = date_i18n( $format, $time );
+						$ret  = date_i18n( $format, $time );
 					} else {
 						$ret = __( 'To be Determined', 'lifterlms' );
 					}
-				break;
+					break;
 
 				default:
 					$ret = apply_filters( 'llms_order_' . $type . '_access_expiration_date', $type, $this, $format );
@@ -450,6 +467,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get the current status of a student's access based on the access plan data
 	 * stored on the order at the time of purchase
+	 *
 	 * @return   string        'inactive' if the order is refunded, failed, pending, etc...
 	 *                         'expired'  if access has expired according to $this->get_access_expiration_date()
 	 *                         'active'   otherwise
@@ -458,16 +476,19 @@ class LLMS_Order extends LLMS_Post_Model {
 	 */
 	public function get_access_status() {
 
-		$statuses = apply_filters( 'llms_order_allow_access_stasuses', array(
-			'llms-active',
-			'llms-completed',
-			'llms-pending-cancel',
-			// recurring orders can expire but still grant access
-			// eg: 3monthly payments grants 1 year of access
-			// on the 4th month the order will be marked as expired
-			// but the access has not yet expired based on the data below
-			'llms-expired',
-		) );
+		$statuses = apply_filters(
+			'llms_order_allow_access_stasuses',
+			array(
+				'llms-active',
+				'llms-completed',
+				'llms-pending-cancel',
+				// recurring orders can expire but still grant access
+				// eg: 3monthly payments grants 1 year of access
+				// on the 4th month the order will be marked as expired
+				// but the access has not yet expired based on the data below
+				'llms-expired',
+			)
+		);
 
 		// if the order doesn't have one of the allowed statuses
 		// return 'inactive' and don't bother checking expiration data
@@ -503,6 +524,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve arguments passed to order-related events processed by the action scheduler
+	 *
 	 * @return   array
 	 * @since    3.19.0
 	 * @version  3.19.0
@@ -515,7 +537,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Get the formatted coupon amount with a currency symbol or percentage
-	 * @param    string     $payment  coupon discount type, either 'regular' or 'trial'
+	 *
+	 * @param    string $payment  coupon discount type, either 'regular' or 'trial'
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -540,6 +563,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the customer's full name
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.18.0
@@ -554,7 +578,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
-	 * @param    string  $title   Title to create the post with
+	 *
+	 * @param    string $title   Title to create the post with
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.10.0
@@ -562,31 +587,36 @@ class LLMS_Order extends LLMS_Post_Model {
 	protected function get_creation_args( $title = '' ) {
 
 		if ( empty( $title ) ) {
-			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%b %d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
+			$title = sprintf( __( 'Order &ndash; %s', 'lifterlms' ), strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Order date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
 		}
 
-		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', array(
-			'comment_status' => 'closed',
-			'ping_status'	 => 'closed',
-			'post_author' 	 => 1,
-			'post_content'   => '',
-			'post_excerpt'   => '',
-			'post_password'	 => uniqid( 'order_' ),
-			'post_status' 	 => 'llms-' . apply_filters( 'llms_default_order_status', 'pending' ),
-			'post_title'     => $title,
-			'post_type' 	 => $this->get( 'db_post_type' ),
-		), $this );
+		return apply_filters(
+			'llms_' . $this->model_post_type . '_get_creation_args',
+			array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => 1,
+				'post_content'   => '',
+				'post_excerpt'   => '',
+				'post_password'  => uniqid( 'order_' ),
+				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'pending' ),
+				'post_title'     => $title,
+				'post_type'      => $this->get( 'db_post_type' ),
+			),
+			$this
+		);
 	}
 
 	/**
 	 * Retrieve the payment gateway instance for the order's selected payment gateway
+	 *
 	 * @return   instance of an LLMS_Gateway
 	 * @since    1.0.0
 	 * @version  1.0.0
 	 */
 	public function get_gateway() {
 		$gateways = LLMS()->payment_gateways();
-		$gateway = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
+		$gateway  = $gateways->get_gateway_by_id( $this->get( 'payment_gateway' ) );
 		if ( $gateway && ( $gateway->is_enabled() || is_admin() ) ) {
 			return $gateway;
 		} else {
@@ -597,6 +627,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get the initial payment amount due on checkout
 	 * This will always be the value of "total" except when the product has a trial
+	 *
 	 * @return   mixed
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -616,20 +647,23 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Get an array of the order notes
 	 * Each note is actually a WordPress comment
-	 * @param    integer    $number  number of comments to return
-	 * @param    integer    $page    page number for pagination
+	 *
+	 * @param    integer $number  number of comments to return
+	 * @param    integer $page    page number for pagination
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_notes( $number = 10, $page = 1 ) {
 
-		$comments = get_comments( array(
-			'status' => 'approve',
-			'number'  => $number,
-			'offset'  => ( $page - 1 ) * $number,
-			'post_id' => $this->get( 'id' ),
-		) );
+		$comments = get_comments(
+			array(
+				'status'  => 'approve',
+				'number'  => $number,
+				'offset'  => ( $page - 1 ) * $number,
+				'post_id' => $this->get( 'id' ),
+			)
+		);
 
 		return $comments;
 
@@ -637,6 +671,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an LLMS_Post_Model object for the associated product
+	 *
 	 * @return   obj       LLMS_Course / LLMS_Membership instance
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -647,18 +682,21 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the last (most recent) transaction processed for the order
-	 * @param    array|string  $status  filter by status (see transaction statuses)
-	 * @param    array|string  $type    filter by type [recurring|single|trial]
+	 *
+	 * @param    array|string $status  filter by status (see transaction statuses)
+	 * @param    array|string $type    filter by type [recurring|single|trial]
 	 * @return   obj|false              instance of the LLMS_Transaction or false if none found
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function get_last_transaction( $status = 'any', $type = 'any' ) {
-		$txns = $this->get_transactions( array(
-			'per_page' => 1,
-			'status' => $status,
-			'type' => $type,
-		) );
+		$txns = $this->get_transactions(
+			array(
+				'per_page' => 1,
+				'status'   => $status,
+				'type'     => $type,
+			)
+		);
 		if ( $txns['count'] ) {
 			return array_pop( $txns['transactions'] );
 		}
@@ -667,9 +705,10 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the date of the last (most recent) transaction
-	 * @param    array|string  $status  filter by status (see transaction statuses)
-	 * @param    array|string  $type    filter by type [recurring|single|trial]
-	 * @param    string        $format  date format of the return
+	 *
+	 * @param    array|string $status  filter by status (see transaction statuses)
+	 * @param    array|string $type    filter by type [recurring|single|trial]
+	 * @param    string       $format  date format of the return
 	 * @return   string|false           date or false if none found
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -685,7 +724,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the due date of the next payment according to access plan terms
-	 * @param    string     $format  date format to return the date in (see php date())
+	 *
+	 * @param    string $format  date format to return the date in (see php date())
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.19.0
@@ -716,6 +756,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Get configured payment retry rules
+	 *
 	 * @return   array
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -724,23 +765,23 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		$rules = array(
 			array(
-				'delay' => HOUR_IN_SECONDS * 12,
-				'status' => 'on-hold',
+				'delay'         => HOUR_IN_SECONDS * 12,
+				'status'        => 'on-hold',
 				'notifications' => false,
 			),
 			array(
-				'delay' => DAY_IN_SECONDS,
-				'status' => 'on-hold',
+				'delay'         => DAY_IN_SECONDS,
+				'status'        => 'on-hold',
 				'notifications' => true,
 			),
 			array(
-				'delay' => DAY_IN_SECONDS * 2,
-				'status' => 'on-hold',
+				'delay'         => DAY_IN_SECONDS * 2,
+				'status'        => 'on-hold',
 				'notifications' => true,
 			),
 			array(
-				'delay' => DAY_IN_SECONDS * 3,
-				'status' => 'on-hold',
+				'delay'         => DAY_IN_SECONDS * 3,
+				'status'        => 'on-hold',
 				'notifications' => true,
 			),
 		);
@@ -751,10 +792,12 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * SQL query to retrieve total amounts for transactions by type
-	 * @param    stirng  $type  'amount' or 'refund_amount'
+	 *
+	 * @since 3.0.0
+	 * @since 3.35.0 Prepare SQL query properly.
+	 *
+	 * @param    stirng $type  'amount' or 'refund_amount'
 	 * @return   float
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	public function get_transaction_total( $type = 'amount' ) {
 
@@ -773,18 +816,27 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		global $wpdb;
-		$grosse = $wpdb->get_var( $wpdb->prepare(
-			"SELECT SUM( m2.meta_value )
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $post_statuses is prepared above.
+		$grosse = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT SUM( m2.meta_value )
 			 FROM $wpdb->posts AS p
 			 LEFT JOIN $wpdb->postmeta AS m1 ON m1.post_id = p.ID -- join for the ID
 			 LEFT JOIN $wpdb->postmeta AS m2 ON m2.post_id = p.ID -- get the actual amounts
 			 WHERE p.post_type = 'llms_transaction'
 			   AND ( $post_statuses )
-			   AND m1.meta_key = '{$this->meta_prefix}order_id'
+			   AND m1.meta_key = %s
 			   AND m1.meta_value = %d
-			   AND m2.meta_key = '{$this->meta_prefix}{$type}'
-			;"
-		, array( $this->get( 'id' ) ) ) );
+			   AND m2.meta_key = %s
+			;",
+				array(
+					"{$this->meta_prefix}order_id",
+					$this->get( 'id' ),
+					"{$this->meta_prefix}{$type}",
+				)
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return floatval( $grosse );
 	}
@@ -793,7 +845,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Get the start date for the order
 	 * gets the date of the first initially successful transaction
 	 * if none found, uses the created date of the order
-	 * @param    string     $format  desired return format of the date
+	 *
+	 * @param    string $format  desired return format of the date
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -801,15 +854,17 @@ class LLMS_Order extends LLMS_Post_Model {
 	public function get_start_date( $format = 'Y-m-d H:i:s' ) {
 		// get the first recorded transaction
 		// refunds are okay b/c that would have initially given the user access
-		$txns = $this->get_transactions( array(
-			'order' => 'ASC',
-			'orderby' => 'date',
-			'per_page' => 1,
-			'status' => array( 'llms-txn-succeeded', 'llms-txn-refunded' ),
-			'type' => 'any',
-		) );
+		$txns = $this->get_transactions(
+			array(
+				'order'    => 'ASC',
+				'orderby'  => 'date',
+				'per_page' => 1,
+				'status'   => array( 'llms-txn-succeeded', 'llms-txn-refunded' ),
+				'type'     => 'any',
+			)
+		);
 		if ( $txns['count'] ) {
-			$txn = array_pop( $txns['transactions'] );
+			$txn  = array_pop( $txns['transactions'] );
 			$date = $txn->get_date( 'date', $format );
 		} else {
 			$date = $this->get_date( 'date', $format );
@@ -819,21 +874,27 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an array of transactions associated with the order according to supplied arguments
-	 * @param    array      $args  array of query argument data, see example of arguments below
+	 *
+	 * @param    array $args  array of query argument data, see example of arguments below
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.10.0
 	 */
 	public function get_transactions( $args = array() ) {
 
-		extract( wp_parse_args( $args, array(
-			'status' => 'any', // string or array or post statuses
-			'type' => 'any',   // string or array of transaction types [recurring|single|trial]
-			'per_page' => 50,  // int, number of transactions to return
-			'paged' => 1,      // int, page number of transactions to return
-			'order' => 'DESC',    //
-			'orderby' => 'date',  // field to order results by
-		) ) );
+		extract(
+			wp_parse_args(
+				$args,
+				array(
+					'status'   => 'any', // string or array or post statuses
+					'type'     => 'any',   // string or array of transaction types [recurring|single|trial]
+					'per_page' => 50,  // int, number of transactions to return
+					'paged'    => 1,      // int, page number of transactions to return
+					'order'    => 'DESC',
+					'orderby'  => 'date',  // field to order results by
+				)
+			)
+		);
 
 		// assume any and use this to check for valid statuses
 		$statuses = llms_get_transaction_statuses();
@@ -862,48 +923,55 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		if ( 'any' === $type ) {
 			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
+				'key'   => $this->meta_prefix . 'payment_type',
 				'value' => 'recurring',
 			);
 			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
+				'key'   => $this->meta_prefix . 'payment_type',
 				'value' => 'single',
 			);
 			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
+				'key'   => $this->meta_prefix . 'payment_type',
 				'value' => 'trial',
 			);
 		} elseif ( is_string( $type ) ) {
 			$types[] = array(
-				'key' => $this->meta_prefix . 'payment_type',
+				'key'   => $this->meta_prefix . 'payment_type',
 				'value' => $type,
 			);
 		} elseif ( is_array( $type ) ) {
 			foreach ( $type as $t ) {
 				$types[] = array(
-					'key' => $this->meta_prefix . 'payment_type',
+					'key'   => $this->meta_prefix . 'payment_type',
 					'value' => $t,
 				);
 			}
 		}
 
 		// execute the query
-		$query = new WP_Query( apply_filters( 'llms_order_get_transactions_query', array(
-			'meta_query' => array(
-				'relation' => 'AND',
+		$query = new WP_Query(
+			apply_filters(
+				'llms_order_get_transactions_query',
 				array(
-					'key' => $this->meta_prefix . 'order_id',
-					'value' => $this->get( 'id' ),
-				),
-				$types,
+					'meta_query'     => array(
+						'relation' => 'AND',
+						array(
+							'key'   => $this->meta_prefix . 'order_id',
+							'value' => $this->get( 'id' ),
+						),
+						$types,
+					),
+					'order'          => $order,
+					'orderby'        => $orderby,
+					'post_status'    => $statuses,
+					'post_type'      => 'llms_transaction',
+					'posts_per_page' => $per_page,
+					'paged'          => $paged,
+				)
 			),
-			'order' => $order,
-			'orderby' => $orderby,
-			'post_status' => $statuses,
-			'post_type' => 'llms_transaction',
-			'posts_per_page' => $per_page,
-			'paged' => $paged,
-		) ), $this, $status );
+			$this,
+			$status
+		);
 
 		$transactions = array();
 
@@ -912,9 +980,9 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return array(
-			'count' => count( $query->posts ),
-			'page' => $paged,
-			'pages' => $query->max_num_pages,
+			'count'        => count( $query->posts ),
+			'page'         => $paged,
+			'pages'        => $query->max_num_pages,
 			'transactions' => $transactions,
 		);
 
@@ -922,7 +990,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the date when a trial will end
-	 * @param    string     $format  date return format
+	 *
+	 * @param    string $format  date return format
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -952,7 +1021,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Gets the total revenue of an order
-	 * @param    string     $type    revenue type [grosse|net]
+	 *
+	 * @param    string $type    revenue type [grosse|net]
 	 * @return   float
 	 * @since    3.0.0
 	 * @version  3.1.3 - handle legacy orders
@@ -976,12 +1046,13 @@ class LLMS_Order extends LLMS_Post_Model {
 			}
 		}
 
-		return apply_filters( 'llms_order_get_revenue' , $amount, $type, $this );
+		return apply_filters( 'llms_order_get_revenue', $amount, $type, $this );
 
 	}
 
 	/**
 	 * Get a link to view the order on the student dashboard
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.8.0
@@ -995,6 +1066,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the student associated with this order has access
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1005,6 +1077,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a coupon was used
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1016,6 +1089,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Determine if there was a discount applied to this order
 	 * via either a sale or a coupon
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1026,6 +1100,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the access plan was on sale during the purchase
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1036,6 +1111,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if there's a payment scheduled for the order
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1047,6 +1123,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the order has a trial
+	 *
 	 * @return   boolean     true if has a trial, false if it doesn't
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1057,6 +1134,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the trial period has ended for the order
+	 *
 	 * @return   boolean     true if ended, false if not ended
 	 * @since    3.0.0
 	 * @version  3.10.0
@@ -1069,10 +1147,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Initialize a pending order
 	 * Used during checkout
 	 * Assumes all data passed in has already been validated
-	 * @param    obj     $person   LLMS_Student
-	 * @param    obj     $plan     LLMS_Access_Plan
-	 * @param    obj     $gateway  LLMS_Gateway
-	 * @param    mixed   $coupon   LLMS_Coupon or false
+	 *
+	 * @param    obj   $person   LLMS_Student
+	 * @param    obj   $plan     LLMS_Access_Plan
+	 * @param    obj   $gateway  LLMS_Gateway
+	 * @param    mixed $coupon   LLMS_Coupon or false
 	 * @return   obj               $this
 	 * @since    3.8.0
 	 * @version  3.10.0
@@ -1191,6 +1270,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the order is a legacy order migrated from 2.x
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1201,6 +1281,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the order is recurring or singular
+	 *
 	 * @return   boolean      true if recurring, false if not
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -1263,9 +1344,13 @@ class LLMS_Order extends LLMS_Post_Model {
 			$date = $date - ( HOUR_IN_SECONDS * get_option( 'gmt_offset' ) );
 
 			// schedule the payment
-			as_schedule_single_action( $date, 'llms_charge_recurring_payment', array(
-				'order_id' => $this->get( 'id' ),
-			) );
+			as_schedule_single_action(
+				$date,
+				'llms_charge_recurring_payment',
+				array(
+					'order_id' => $this->get( 'id' ),
+				)
+			);
 
 		} elseif ( is_wp_error( $date ) ) {
 
@@ -1284,6 +1369,7 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Handles scheduling recurring payment retries when the gateway supports them
+	 *
 	 * @return   void
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -1298,7 +1384,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( '' === $current_rule ) {
 			$current_rule = 0;
 		} else {
-			$current_rule = $current_rule + 1;
+			++$current_rule;
 		}
 		$rules = $this->get_retry_rules();
 
@@ -1343,28 +1429,31 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Record a transaction for the order
-	 * @param    array      $data    optional array of additional data to store for the transaction
+	 *
+	 * @param    array $data    optional array of additional data to store for the transaction
 	 * @return   obj        instance of LLMS_Transaction for the created transaction
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function record_transaction( $data = array() ) {
 
-		extract( array_merge(
-			array(
-				'amount' => 0,
-				'completed_date' => current_time( 'mysql' ),
-				'customer_id' => '',
-				'fee_amount' => 0,
-				'source_id' => '',
-				'source_description' => '',
-				'transaction_id' => '',
-				'status' => 'llms-txn-succeeded',
-				'payment_gateway' => $this->get( 'payment_gateway' ),
-				'payment_type' => 'single',
-			),
-			$data
-		) );
+		extract(
+			array_merge(
+				array(
+					'amount'             => 0,
+					'completed_date'     => current_time( 'mysql' ),
+					'customer_id'        => '',
+					'fee_amount'         => 0,
+					'source_id'          => '',
+					'source_description' => '',
+					'transaction_id'     => '',
+					'status'             => 'llms-txn-succeeded',
+					'payment_gateway'    => $this->get( 'payment_gateway' ),
+					'payment_type'       => 'single',
+				),
+				$data
+			)
+		);
 
 		$txn = new LLMS_Transaction( 'new', $this->get( 'id' ) );
 
@@ -1393,8 +1482,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * Settable dates: date_next_payment, date_trial_end, date_access_expires
 	 *
-	 * @param    string     $date_key  date field to set
-	 * @param    string     $date_val  date string or a unix time stamp
+	 * @param    string $date_key  date field to set
+	 * @param    string $date_val  date string or a unix time stamp
 	 * @since    3.10.0
 	 * @version  3.19.0
 	 */
@@ -1412,7 +1501,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			// reschedule access expiration
 			case 'access_expires':
 				$this->maybe_schedule_expiration();
-			break;
+				break;
 
 			// additionally update the next payment date
 			// & don't break because we want to reschedule payments too
@@ -1429,7 +1518,8 @@ class LLMS_Order extends LLMS_Post_Model {
 
 	/**
 	 * Update the status of an order
-	 * @param    string     $status  status name, accepts unprefixed statuses
+	 *
+	 * @param    string $status  status name, accepts unprefixed statuses
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.10.0
@@ -1451,6 +1541,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Record the start date of the access plan and schedule expiration
 	 * if expiration is required in the future
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.0

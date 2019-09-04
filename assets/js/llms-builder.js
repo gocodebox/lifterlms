@@ -453,6 +453,7 @@ define("vendor/wp-hooks", function(){});
 
 /**
  * Returns the WordPress-loaded version of Underscore for use with things that need it and use Require.
+ *
  * @return   obj
  * @since    3.16.0
  * @version  3.16.0
@@ -463,6 +464,7 @@ define( 'underscore',[],function() {
 
 /**
  * Returns the WordPress-loaded version of Backbone for use with things that need it and use Require.
+ *
  * @return   obj
  * @since    3.16.0
  * @version  3.16.0
@@ -473,10 +475,13 @@ define( 'backbone',[],function() {
 
 /**
  * Returns the WordPress-loaded version of Underscore for use with things that need it and use Require.
- * @return   obj
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
+
 define( 'jquery',[],function() {
 	return jQuery;
 } );
@@ -2071,6 +2076,7 @@ define("vendor/backbone.trackit", function(){});
 
 /**
  * Image object model for use in various models for the 'image' attribute
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -2094,6 +2100,7 @@ define( 'Models/Image',[], function() {
 
 /**
  * Model relationships mixin
+ *
  * @since    3.16.0
  * @version  3.16.11
  */
@@ -2103,6 +2110,7 @@ define( 'Models/_Relationships',[], function() {
 
 		/**
 		 * Default relationship settings object
+		 *
 		 * @type  {Object}
 		 */
 		relationship_defaults: {
@@ -2113,12 +2121,14 @@ define( 'Models/_Relationships',[], function() {
 		/**
 		 * Relationship settings object
 		 * Should be overridden in the model
+		 *
 		 * @type  {Object}
 		 */
 		relationships: {},
 
 		/**
 		 * Initialize all parent and child relationships
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2155,7 +2165,7 @@ define( 'Models/_Relationships',[], function() {
 					if ( 'model' === child_data.type ) {
 						this._maybe_set_parent_reference( child );
 
-					// save directly to each model in the collection
+						// save directly to each model in the collection
 					} else if ( 'collection' === child_data.type ) {
 
 						child.parent = this;
@@ -2175,6 +2185,7 @@ define( 'Models/_Relationships',[], function() {
 
 		/**
 		 * Retrieve the property names for all children of the model
+		 *
 		 * @return   array
 		 * @since    3.16.11
 		 * @version  3.16.11
@@ -2197,6 +2208,7 @@ define( 'Models/_Relationships',[], function() {
 
 		/**
 		 * Retrieve the model's parent (if set)
+		 *
 		 * @return   obj|false
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2216,6 +2228,7 @@ define( 'Models/_Relationships',[], function() {
 		/**
 		 * Retrieve relationships for the model
 		 * Extends with defaults
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2228,6 +2241,7 @@ define( 'Models/_Relationships',[], function() {
 
 		/**
 		 * Set the parent reference for the given model
+		 *
 		 * @param    obj   obj   parent model obj
 		 * @return   void
 		 * @since    3.16.0
@@ -2239,6 +2253,7 @@ define( 'Models/_Relationships',[], function() {
 
 		/**
 		 * Set up the parent relationships for qualifying children during relationship initialization
+		 *
 		 * @param    obj   model  child model
 		 * @return   void
 		 * @since    3.16.0
@@ -2262,6 +2277,7 @@ define( 'Models/_Relationships',[], function() {
 
 /**
  * Quiz Question Choice
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -2271,6 +2287,7 @@ define( 'Models/QuestionChoice',[ 'Models/Image', 'Models/_Relationships' ], fun
 
 		/**
 		 * Model relationships
+		 *
 		 * @type  {Object}
 		 */
 		relationships: {
@@ -2292,6 +2309,7 @@ define( 'Models/QuestionChoice',[ 'Models/Image', 'Models/_Relationships' ], fun
 
 		/**
 		 * Model defaults
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2310,6 +2328,7 @@ define( 'Models/QuestionChoice',[ 'Models/Image', 'Models/_Relationships' ], fun
 
 		/**
 		 * Initializer
+		 *
 		 * @param    obj   data     object of model attributes
 		 * @param    obj   options  additional options
 		 * @return   void
@@ -2325,6 +2344,7 @@ define( 'Models/QuestionChoice',[ 'Models/Image', 'Models/_Relationships' ], fun
 
 		/**
 		 * Retrieve the choice's parent question
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2335,6 +2355,7 @@ define( 'Models/QuestionChoice',[ 'Models/Image', 'Models/_Relationships' ], fun
 
 		/**
 		 * Retrieve the ID used when trashing the model
+		 *
 		 * @return   string
 		 * @since    3.17.1
 		 * @version  3.17.1
@@ -2346,6 +2367,7 @@ define( 'Models/QuestionChoice',[ 'Models/Image', 'Models/_Relationships' ], fun
 		/**
 		 * Determine if "selection" is enabled for the question type
 		 * Choice type questions are selectable by reorder type questions are not but still use choices
+		 *
 		 * @return   {Boolean}
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2360,6 +2382,7 @@ define( 'Models/QuestionChoice',[ 'Models/Image', 'Models/_Relationships' ], fun
 
 /**
  * Question Choice Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -2369,6 +2392,7 @@ define( 'Collections/QuestionChoices',[ 'Models/QuestionChoice' ], function( mod
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
@@ -2393,6 +2417,7 @@ define( 'Collections/QuestionChoices',[ 'Models/QuestionChoice' ], function( mod
 
 		/**
 		 * Retrieve the number of correct choices in the collection
+		 *
 		 * @return   int
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2405,6 +2430,7 @@ define( 'Collections/QuestionChoices',[ 'Models/QuestionChoice' ], function( mod
 
 		/**
 		 * Retrieve the collection reduced to only correct choices
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2417,6 +2443,7 @@ define( 'Collections/QuestionChoices',[ 'Models/QuestionChoice' ], function( mod
 
 		/**
 		 * Ensure min/max correct choices exist in the collection based on the question's settings
+		 *
 		 * @param    obj      choice  model of the choice that was toggled
 		 * @return   void
 		 * @since    3.16.0
@@ -2449,13 +2476,14 @@ define( 'Collections/QuestionChoices',[ 'Models/QuestionChoice' ], function( mod
 
 		/**
 		 * Update the marker attr of each choice in the list to reflect the order of the collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		update_order: function() {
 
-			var self = this,
+			var self     = this,
 				question = this.parent;
 
 			this.each( function( choice ) {
@@ -2470,6 +2498,7 @@ define( 'Collections/QuestionChoices',[ 'Models/QuestionChoice' ], function( mod
 
 /**
  * Quiz Question Type
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -2479,6 +2508,7 @@ define( 'Models/QuestionType',[], function() {
 
 		/**
 		 * Get model default attributes
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2503,13 +2533,14 @@ define( 'Models/QuestionType',[], function() {
 		/**
 		 * Retrieve an array of keywords for the question type
 		 * Used for filtering questions by search term in the quiz builder
+		 *
 		 * @return   array
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		get_keywords: function() {
 
-			var name = this.get( 'name' ),
+			var name  = this.get( 'name' ),
 				words = [ name ];
 
 			return words.concat( this.get( 'keywords' ) ).concat( name.split( ' ' ) );
@@ -2518,6 +2549,7 @@ define( 'Models/QuestionType',[], function() {
 
 		/**
 		 * Get marker array for the question choices
+		 *
 		 * @return   array
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2530,6 +2562,7 @@ define( 'Models/QuestionType',[], function() {
 
 		/**
 		 * Determine if the question's choices are selectable
+		 *
 		 * @return   bool
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2542,6 +2575,7 @@ define( 'Models/QuestionType',[], function() {
 
 		/**
 		 * Get the choice type (text,image)
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2554,6 +2588,7 @@ define( 'Models/QuestionType',[], function() {
 
 		/**
 		 * Retrieve defined min. choices
+		 *
 		 * @return   int
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2566,6 +2601,7 @@ define( 'Models/QuestionType',[], function() {
 
 		/**
 		 * Get type-defined max choices
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2578,6 +2614,7 @@ define( 'Models/QuestionType',[], function() {
 
 		/**
 		 * Determine if multi-choice selection is enabled
+		 *
 		 * @return   bool
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2597,6 +2634,7 @@ define( 'Models/QuestionType',[], function() {
 		/**
 		 * Retrieve data from the type's "choices" attribute
 		 * Allows quick handling of types with no choice definitions w/o additional checks
+		 *
 		 * @param    string   option  name of the choice option to retrieve
 		 * @return   mixed
 		 * @since    3.16.0
@@ -2620,6 +2658,7 @@ define( 'Models/QuestionType',[], function() {
 
 /**
  * Utility functions for Models
+ *
  * @since    3.16.0
  * @version  3.17.1
  */
@@ -2631,6 +2670,7 @@ define( 'Models/_Utilities',[], function() {
 
 		/**
 		 * Retrieve the edit post link for the current model
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2647,6 +2687,7 @@ define( 'Models/_Utilities',[], function() {
 
 		/**
 		 * Retrieve schema fields defined for the model
+		 *
 		 * @return   object
 		 * @since    3.17.0
 		 * @version  3.17.1
@@ -2660,6 +2701,7 @@ define( 'Models/_Utilities',[], function() {
 
 		/**
 		 * Determine if the model has a temporary ID
+		 *
 		 * @return   {Boolean}
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -2672,6 +2714,7 @@ define( 'Models/_Utilities',[], function() {
 
 		/**
 		 * Initializes 3rd party custom schema (field) data for a model
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -2683,10 +2726,9 @@ define( 'Models/_Utilities',[], function() {
 			} );
 
 			_.each( groups, function( group ) {
-				_.each( _.flatten(  group.fields ), function( field ) {
+				_.each( _.flatten( group.fields ), function( field ) {
 
-
-					var keys = [ field.attribute ],
+					var keys    = [ field.attribute ],
 						customs = this.get( 'custom' );
 
 					if ( field.switch_attribute ) {
@@ -2711,6 +2753,7 @@ define( 'Models/_Utilities',[], function() {
 
 /**
  * Quiz Question
+ *
  * @since    3.16.0
  * @version  3.27.0
  */
@@ -2730,367 +2773,381 @@ define( 'Models/Question',[
 		Utilities
 	) {
 
-	return Backbone.Model.extend( _.defaults( {
+		return Backbone.Model.extend( _.defaults( {
 
-		/**
-		 * Model relationships
-		 * @type  {Object}
-		 */
-		relationships: {
-			parent: {
-				model: 'llms_quiz',
-				type: 'model',
-			},
-			children: {
-				choices: {
-					class: 'QuestionChoices',
-					model: 'choice',
-					type: 'collection',
-				},
-				image: {
-					class: 'Image',
-					model: 'image',
+			/**
+			 * Model relationships
+			 *
+			 * @type  {Object}
+			 */
+			relationships: {
+				parent: {
+					model: 'llms_quiz',
 					type: 'model',
 				},
-				questions: {
-					class: 'Questions',
-					conditional: function( model ) {
-						var type = model.get( 'question_type' ),
-							type_id = _.isString( type ) ? type : type.get( 'id' );
-						return ( 'group' === type_id );
+				children: {
+					choices: {
+						class: 'QuestionChoices',
+						model: 'choice',
+						type: 'collection',
 					},
-					model: 'llms_question',
-					type: 'collection',
-				},
-				question_type: {
-					class: 'QuestionType',
-					lookup: function( val ) {
-						if ( _.isString( val ) ) {
-							return window.llms_builder.questions.get( val );
-						}
-						return val;
+					image: {
+						class: 'Image',
+						model: 'image',
+						type: 'model',
 					},
-					model: 'question_type',
-					type: 'model',
-				},
-			}
-		},
-
-		/**
-		 * Model defaults
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		defaults: function() {
-			return {
-				id: _.uniqueId( 'temp_' ),
-				choices: [],
-				content: '',
-				description_enabled: 'no',
-				image: {},
-				multi_choices: 'no',
-				menu_order: 1,
-				points: 1,
-				question_type: 'generic',
-				questions: [], // for question groups
-				parent_id: '',
-				title: '',
-				type: 'llms_question',
-				video_enabled: 'no',
-				video_src: '',
-
-				_expanded: false,
-			}
-		},
-
-		/**
-		 * Initializer
-		 * @param    obj   data     object of data for the model
-		 * @param    obj   options  additional options
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		initialize: function( data, options ) {
-
-			var self = this;
-
-			this.startTracking();
-			this.init_relationships( options );
-
-			if ( false !== this.get( 'question_type' ).choices ) {
-
-				this._ensure_min_choices();
-
-				// when a choice is removed, maybe add back some defaults so we always have the minimum
-				this.listenTo( this.get( 'choices' ), 'remove', function() {
-					// new items are added at index 0 when there's only 1 item in the collection, not sure why exactly...
-					setTimeout( function() {
-						self._ensure_min_choices();
-					}, 0 );
-				} );
-
-			}
-
-			// ensure question types that don't support points don't record default 1 point in database
-			if ( ! this.get( 'question_type' ).get( 'points' ) ) {
-				this.set( 'points', 0 );
-			}
-
-			_.delay( function( self ) {
-				self.on( 'change:points', self.get_parent().update_points, self.get_parent() );
-			}, 1, this );
-
-		},
-
-		/**
-		 * Add a new question choice
-		 * @param    obj   data     object of choice data
-		 * @param    obj   options  additional options
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		add_choice: function( data, options ) {
-
-			var max = this.get( 'question_type' ).get_max_choices();
-			if ( this.get( 'choices' ).size() >= max ) {
-				return;
-			}
-
-			data = data || {};
-			options = options || {};
-
-			data.choice_type = this.get( 'question_type' ).get_choice_type();
-			data.question_id = this.get( 'id' );
-			options.parent = this;
-
-			var choice = this.get( 'choices' ).add( data, options );
-
-			Backbone.pubSub.trigger( 'question-add-choice', choice, this );
-
-		},
-
-		/**
-		 * Collapse question_type attribute during full syncs to save to database
-		 * Not needed because question types cannot be adjusted after question creation
-		 * Called from sync controller
-		 * @param    obj      atts       flat object of attributes to be saved to db
-		 * @param    string   sync_type  full or partial
-		 *                                 full indicates a force resync or that the model isn't persisted yet
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		before_save: function( atts, sync_type  ) {
-			if ( 'full' === sync_type ) {
-				atts.question_type = this.get( 'question_type' ).get( 'id' );
-			}
-			return atts;
-		},
-
-		/**
-		 * Retrieve the model's parent (if set)
-		 * @return   obj|false
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_parent: function() {
-
-			var rels = this.get_relationships();
-
-			if ( rels.parent ) {
-				if ( this.collection && this.collection.parent ) {
-					return this.collection.parent;
-				} else if ( rels.parent.reference ) {
-					return rels.parent.reference;
+					questions: {
+						class: 'Questions',
+						conditional: function( model ) {
+							var type = model.get( 'question_type' ),
+							type_id  = _.isString( type ) ? type : type.get( 'id' );
+							return ( 'group' === type_id );
+						},
+						model: 'llms_question',
+						type: 'collection',
+					},
+					question_type: {
+						class: 'QuestionType',
+						lookup: function( val ) {
+							if ( _.isString( val ) ) {
+								return window.llms_builder.questions.get( val );
+							}
+							return val;
+						},
+						model: 'question_type',
+						type: 'model',
+					},
 				}
-			}
+			},
 
-			return false;
+			/**
+			 * Model defaults
+			 *
+			 * @return   obj
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			defaults: function() {
+				return {
+					id: _.uniqueId( 'temp_' ),
+					choices: [],
+					content: '',
+					description_enabled: 'no',
+					image: {},
+					multi_choices: 'no',
+					menu_order: 1,
+					points: 1,
+					question_type: 'generic',
+					questions: [], // for question groups
+					parent_id: '',
+					title: '',
+					type: 'llms_question',
+					video_enabled: 'no',
+					video_src: '',
 
-		},
+					_expanded: false,
+				}
+			},
 
-		/**
-		 * Retrieve the translated post type name for the model's type
-		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
-		 * @return   string
-		 * @since    3.27.0
-		 * @version  3.27.0
-		 */
-		get_l10n_type: function( plural ) {
+			/**
+			 * Initializer
+			 *
+			 * @param    obj   data     object of data for the model
+			 * @param    obj   options  additional options
+			 * @return   void
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			initialize: function( data, options ) {
 
-			if ( plural ) {
-				return LLMS.l10n.translate( 'questions' );
-			}
+				var self = this;
 
-			return LLMS.l10n.translate( 'question' );
-		},
+				this.startTracking();
+				this.init_relationships( options );
 
-		/**
-		 * Gets the index of the question within it's parent
-		 * Question numbers skip content elements
-		 * & content elements skip questions
-		 * @return   int
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_type_index: function() {
+				if ( false !== this.get( 'question_type' ).choices ) {
 
-			// current models type, used to check the predicate in the filter function below
-			var curr_type = this.get( 'question_type' ).get( 'id' ),
+					this._ensure_min_choices();
+
+					// when a choice is removed, maybe add back some defaults so we always have the minimum
+					this.listenTo( this.get( 'choices' ), 'remove', function() {
+						// new items are added at index 0 when there's only 1 item in the collection, not sure why exactly...
+						setTimeout( function() {
+							self._ensure_min_choices();
+						}, 0 );
+					} );
+
+				}
+
+				// ensure question types that don't support points don't record default 1 point in database
+				if ( ! this.get( 'question_type' ).get( 'points' ) ) {
+					this.set( 'points', 0 );
+				}
+
+				_.delay( function( self ) {
+					self.on( 'change:points', self.get_parent().update_points, self.get_parent() );
+				}, 1, this );
+
+			},
+
+			/**
+			 * Add a new question choice
+			 *
+			 * @param    obj   data     object of choice data
+			 * @param    obj   options  additional options
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			add_choice: function( data, options ) {
+
+				var max = this.get( 'question_type' ).get_max_choices();
+				if ( this.get( 'choices' ).size() >= max ) {
+					return;
+				}
+
+				data    = data || {};
+				options = options || {};
+
+				data.choice_type = this.get( 'question_type' ).get_choice_type();
+				data.question_id = this.get( 'id' );
+				options.parent   = this;
+
+				var choice = this.get( 'choices' ).add( data, options );
+
+				Backbone.pubSub.trigger( 'question-add-choice', choice, this );
+
+			},
+
+			/**
+			 * Collapse question_type attribute during full syncs to save to database
+			 * Not needed because question types cannot be adjusted after question creation
+			 * Called from sync controller
+			 *
+			 * @param    obj      atts       flat object of attributes to be saved to db
+			 * @param    string   sync_type  full or partial
+			 *                                 full indicates a force resync or that the model isn't persisted yet
+			 * @return   obj
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			before_save: function( atts, sync_type  ) {
+				if ( 'full' === sync_type ) {
+					atts.question_type = this.get( 'question_type' ).get( 'id' );
+				}
+				return atts;
+			},
+
+			/**
+			 * Retrieve the model's parent (if set)
+			 *
+			 * @return   obj|false
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			get_parent: function() {
+
+				var rels = this.get_relationships();
+
+				if ( rels.parent ) {
+					if ( this.collection && this.collection.parent ) {
+						return this.collection.parent;
+					} else if ( rels.parent.reference ) {
+						return rels.parent.reference;
+					}
+				}
+
+				return false;
+
+			},
+
+			/**
+			 * Retrieve the translated post type name for the model's type
+			 *
+			 * @param    bool     plural  if true, returns the plural, otherwise returns singular
+			 * @return   string
+			 * @since    3.27.0
+			 * @version  3.27.0
+			 */
+			get_l10n_type: function( plural ) {
+
+				if ( plural ) {
+					return LLMS.l10n.translate( 'questions' );
+				}
+
+				return LLMS.l10n.translate( 'question' );
+			},
+
+			/**
+			 * Gets the index of the question within it's parent
+			 * Question numbers skip content elements
+			 * & content elements skip questions
+			 *
+			 * @return   int
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			get_type_index: function() {
+
+				// current models type, used to check the predicate in the filter function below
+				var curr_type = this.get( 'question_type' ).get( 'id' ),
 				questions;
 
-			questions = this.collection.filter( function( question ) {
+				questions = this.collection.filter( function( question ) {
 
-				var type = question.get( 'question_type' ).get( 'id' );
+					var type = question.get( 'question_type' ).get( 'id' );
 
-				// if current model is not content, return all non-content questions
-				if ( curr_type !== 'content' ) {
-					return ( 'content' !== type );
+					// if current model is not content, return all non-content questions
+					if ( curr_type !== 'content' ) {
+						return ( 'content' !== type );
+					}
+
+					// current model is content, return only content questions
+					return 'content' === type;
+
+				} );
+
+				return questions.indexOf( this );
+
+			},
+
+			/**
+			 * Gets iterator for the given type
+			 * Questions use numbers and content uses alphabet
+			 *
+			 * @return   mixed
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			get_type_iterator: function() {
+
+				var index = this.get_type_index();
+
+				if ( -1 === index ) {
+					return '';
 				}
 
-				// current model is content, return only content questions
-				return 'content' === type;
+				if ( 'content' === this.get( 'question_type' ).get( 'id' ) ) {
+					var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split( '' );
+					return alphabet[ index ];
+				}
 
-			} );
+				return index + 1;
 
-			return questions.indexOf( this );
+			},
 
-		},
+			get_qid: function() {
 
-		/**
-		 * Gets iterator for the given type
-		 * Questions use numbers and content uses alphabet
-		 * @return   mixed
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_type_iterator: function() {
+				var parent = this.get_parent_question(),
+				prefix     = '';
 
-			var index = this.get_type_index();
+				if ( parent ) {
 
-			if ( -1 === index ) {
-				return '';
-			}
+					prefix = parent.get_qid() + '.';
 
-			if ( 'content' === this.get( 'question_type' ).get( 'id' ) ) {
-				var alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split( '' );
-				return alphabet[ index ];
-			}
+				}
 
-			return index + 1;
+				// return short_id + this.get_type_iterator();
+				return prefix + this.get_type_iterator();
 
-		},
+			},
 
+			/**
+			 * Retrieve the parent question (if the question is in a question group)
+			 *
+			 * @return   obj|false
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			get_parent_question: function() {
 
-		get_qid: function() {
+				if ( this.is_in_group() ) {
 
-			var parent = this.get_parent_question(),
-				prefix = '';
+					return this.collection.parent;
 
-			if ( parent ) {
+				}
 
-				prefix = parent.get_qid() + '.';
+				return false;
 
-			}
+			},
 
-			// return short_id + this.get_type_iterator();
-			return prefix + this.get_type_iterator();
+			/**
+			 * Retrieve the parent quiz
+			 *
+			 * @return   obj
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			get_parent_quiz: function() {
+				return this.get_parent();
+			},
 
-		},
+			/**
+			 * Points getter
+			 * ensures that 0 is always returned if the question type doesn't support points
+			 *
+			 * @return   int
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			get_points: function() {
 
-		/**
-		 * Retrieve the parent question (if the question is in a question group)
-		 * @return   obj|false
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_parent_question: function() {
+				if ( ! this.get( 'question_type' ).get( 'points' ) ) {
+					return 0;
+				}
 
-			if ( this.is_in_group() ) {
+				return this.get( 'points' );
 
-				return this.collection.parent;
+			},
 
-			}
+			/**
+			 * Retrieve the questions percentage value within the quiz
+			 *
+			 * @return   string
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			get_points_percentage: function() {
 
-			return false;
+				var total = this.get_parent().get( '_points' ),
+				points    = this.get( 'points' );
 
-		},
+				if ( 0 === total ) {
+					return '0%';
+				}
 
-		/**
-		 * Retrieve the parent quiz
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_parent_quiz: function() {
-			return this.get_parent();
-		},
+				return ( ( points / total ) * 100 ).toFixed( 2 ) + '%';
 
-		/**
-		 * Points getter
-		 * ensures that 0 is always returned if the question type doesn't support points
-		 * @return   int
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_points: function() {
+			},
 
-			if ( ! this.get( 'question_type' ).get( 'points' ) ) {
-				return 0;
-			}
+			/**
+			 * Determine if the question belongs to a question group
+			 *
+			 * @return   {Boolean}
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			is_in_group: function() {
 
-			return this.get( 'points' );
+				return ( 'question' === this.collection.parent.get( 'type' ) );
 
-		},
+			},
 
-		/**
-		 * Retrieve the questions percentage value within the quiz
-		 * @return   string
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		get_points_percentage: function() {
+			_ensure_min_choices: function() {
 
-			var total = this.get_parent().get( '_points' ),
-				points = this.get( 'points' );
+				var choices = this.get( 'choices' );
+				while ( choices.size() < this.get( 'question_type' ).get_min_choices() ) {
+					this.add_choice();
+				}
 
-			if ( 0 === total ) {
-				return '0%';
-			}
+			},
 
-			return ( ( points / total ) * 100 ).toFixed( 2 ) + '%';
-
-		},
-
-		/**
-		 * Determine if the question belongs to a question group
-		 * @return   {Boolean}
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		is_in_group: function() {
-
-			return ( 'question' === this.collection.parent.get( 'type' ) );
-
-		},
-
-		_ensure_min_choices: function() {
-
-			var choices = this.get( 'choices' );
-			while ( choices.size() < this.get( 'question_type' ).get_min_choices() ) {
-				this.add_choice();
-			}
-
-		},
-
-	}, Relationships, Utilities ) );
+		}, Relationships, Utilities ) );
 
 } );
 
 /**
  * Questions Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -3100,12 +3157,14 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -3125,6 +3184,7 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
 
 		/**
 		 * Update the order attr of each question in the list to reflect the order of the collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -3144,6 +3204,7 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
 		/**
 		 * When adding a question to a question list, update the question's parent
 		 * Will ensure that questions moved into and out of groups always have the correct parent_id
+		 *
 		 * @param    obj   model  instance of the question model
 		 * @return   void
 		 * @since    3.16.0
@@ -3161,6 +3222,7 @@ define( 'Collections/Questions',[ 'Models/Question' ], function( model ) {
 
 /**
  * Quiz Schema
+ *
  * @since    3.17.6
  * @version  3.24.0
  */
@@ -3177,14 +3239,14 @@ define( 'Schemas/Quiz',[], function() {
 						attribute: 'permalink',
 						id: 'permalink',
 						type: 'permalink',
-					},
+			},
 				], [
 					{
 						attribute: 'content',
 						id: 'description',
 						label: LLMS.l10n.translate( 'Description' ),
 						type: 'editor',
-					},
+			},
 				], [
 					{
 						attribute: 'passing_percent',
@@ -3194,7 +3256,7 @@ define( 'Schemas/Quiz',[], function() {
 						max: 100,
 						tip: LLMS.l10n.translate( 'Minimum percentage of total points required to pass the quiz' ),
 						type: 'number',
-					},
+			},
 					{
 						attribute: 'allowed_attempts',
 						id: 'allowed-attempts',
@@ -3202,7 +3264,7 @@ define( 'Schemas/Quiz',[], function() {
 						switch_attribute: 'limit_attempts',
 						tip: LLMS.l10n.translate( 'Limit the maximum number of times a student can take this quiz' ),
 						type: 'switch-number',
-					},
+			},
 					{
 						attribute: 'time_limit',
 						id: 'time-limit',
@@ -3212,7 +3274,7 @@ define( 'Schemas/Quiz',[], function() {
 						switch_attribute: 'limit_time',
 						tip: LLMS.l10n.translate( 'Enforce a maximum number of minutes a student can spend on each attempt' ),
 						type: 'switch-number',
-					},
+			},
 				], [
 					{
 						attribute: 'show_correct_answer',
@@ -3220,14 +3282,14 @@ define( 'Schemas/Quiz',[], function() {
 						label: LLMS.l10n.translate( 'Show Correct Answers' ),
 						tip: LLMS.l10n.translate( 'When enabled, students will be shown the correct answer to any question they answered incorrectly.' ),
 						type: 'switch',
-					},
+			},
 					{
 						attribute: 'random_questions',
 						id: 'random-questions',
 						label: LLMS.l10n.translate( 'Randomize Question Order' ),
 						tip: LLMS.l10n.translate( 'Display questions in a random order for each attempt. Content questions are locked into their defined positions.' ),
 						type: 'switch',
-					},
+			},
 				],
 
 			],
@@ -3471,6 +3533,7 @@ define( 'Models/Quiz',[
 
 /**
  * Lesson Schemas
+ *
  * @since    3.17.0
  * @version  3.25.4
  */
@@ -3487,20 +3550,20 @@ define( 'Schemas/Lesson',[], function() {
 						attribute: 'permalink',
 						id: 'permalink',
 						type: 'permalink',
-					},
+			},
 				], [
 					{
 						attribute: 'video_embed',
 						id: 'video-embed',
 						label: LLMS.l10n.translate( 'Video Embed URL' ),
 						type: 'video_embed',
-					},
+			},
 					{
 						attribute: 'audio_embed',
 						id: 'audio-embed',
 						label: LLMS.l10n.translate( 'Audio Embed URL' ),
 						type: 'audio_embed',
-					},
+			},
 				], [
 					{
 						attribute: 'free_lesson',
@@ -3508,7 +3571,7 @@ define( 'Schemas/Lesson',[], function() {
 						label: LLMS.l10n.translate( 'Free Lesson' ),
 						tip: LLMS.l10n.translate( "Free lessons can be accessed without enrollment." ),
 						type: 'switch',
-					},
+			},
 					{
 						attribute: 'require_passing_grade',
 						id: 'require-passing-grade',
@@ -3518,7 +3581,7 @@ define( 'Schemas/Lesson',[], function() {
 						condition: function() {
 							return ( 'yes' === this.get( 'quiz_enabled' ) );
 						},
-					},
+			},
 					{
 						attribute: 'require_assignment_passing_grade',
 						id: 'require-assignment-passing-grade',
@@ -3528,7 +3591,7 @@ define( 'Schemas/Lesson',[], function() {
 						condition: function() {
 							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
 						},
-					},
+			},
 					{
 						attribute: 'points',
 						id: 'points',
@@ -3542,7 +3605,7 @@ define( 'Schemas/Lesson',[], function() {
 						condition: function() {
 							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
 						},
-					},
+			},
 				], [
 					{
 						attribute: 'prerequisite',
@@ -3556,7 +3619,7 @@ define( 'Schemas/Lesson',[], function() {
 						options: function() {
 							return this.get_available_prereq_options();
 						},
-					},
+			},
 				], [
 					{
 						attribute: 'drip_method',
@@ -3570,15 +3633,15 @@ define( 'Schemas/Lesson',[], function() {
 								{
 									key: '',
 									val: LLMS.l10n.translate( 'None' ),
-								},
+							},
 								{
 									key: 'date',
 									val: LLMS.l10n.translate( 'On a specific date' ),
-								},
+							},
 								{
 									key: 'enrollment',
 									val: LLMS.l10n.translate( '# of days after course enrollment' ),
-								},
+							},
 							];
 
 							if ( this.get_course() && this.get_course().get( 'start_date' ) ) {
@@ -3598,7 +3661,7 @@ define( 'Schemas/Lesson',[], function() {
 							return options;
 
 						},
-					},
+			},
 					{
 						attribute: 'days_before_available',
 						condition: function() {
@@ -3608,7 +3671,7 @@ define( 'Schemas/Lesson',[], function() {
 						label: LLMS.l10n.translate( '# of days' ),
 						min: 0,
 						type: 'number',
-					},
+			},
 					{
 						attribute: 'date_available',
 						date_format: 'Y-m-d',
@@ -3619,7 +3682,7 @@ define( 'Schemas/Lesson',[], function() {
 						label: LLMS.l10n.translate( 'Date' ),
 						timepicker: 'false',
 						type: 'datepicker',
-					},
+			},
 					{
 						attribute: 'time_available',
 						condition: function() {
@@ -3630,7 +3693,7 @@ define( 'Schemas/Lesson',[], function() {
 						id: 'time-available',
 						label: LLMS.l10n.translate( 'Time' ),
 						type: 'datepicker',
-					},
+			},
 				],
 			],
 		},
@@ -3641,6 +3704,7 @@ define( 'Schemas/Lesson',[], function() {
 
 /**
  * Lesson Model
+ *
  * @since    3.13.0
  * @version  3.27.0
  */
@@ -3650,6 +3714,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Model relationships
+		 *
 		 * @type  {Object}
 		 */
 		relationships: {
@@ -3672,12 +3737,14 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Lesson Settings Schema
+		 *
 		 * @type  {Object}
 		 */
 		schema: LessonSchema,
 
 		/**
 		 * New lesson defaults
+		 *
 		 * @return   obj
 		 * @since    3.13.0
 		 * @version  3.24.0
@@ -3719,6 +3786,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Initializer
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.17.0
@@ -3742,6 +3810,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Retrieve a reference to the parent course of the lesson
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -3752,6 +3821,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Retrieve the translated post type name for the model's type
+		 *
 		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
 		 * @return   string
 		 * @since    3.16.12
@@ -3768,6 +3838,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Override default get_parent to grab from collection if models parent isn't set
+		 *
 		 * @return   obj
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -3786,13 +3857,14 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Retrieve the questions percentage value within the quiz
+		 *
 		 * @return   string
 		 * @since    3.24.0
 		 * @version  3.24.0
 		 */
 		get_points_percentage: function() {
 
-			var total = this.get_course().get_total_points(),
+			var total  = this.get_course().get_total_points(),
 				points = this.get( 'points' ) * 1;
 
 			if ( ! _.isNumber( points ) ) {
@@ -3809,26 +3881,27 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Retrieve an array of prerequisite options available for the current lesson
+		 *
 		 * @return   obj
 		 * @since    3.17.0
 		 * @version  3.17.0
 		 */
 		get_available_prereq_options: function() {
 
-			var parent_section_index = this.get_parent().collection.indexOf( this.get_parent() ),
+			var parent_section_index    = this.get_parent().collection.indexOf( this.get_parent() ),
 				lesson_index_in_section = this.collection.indexOf( this ),
-				options = [];
+				options                 = [];
 
 			this.get_course().get( 'sections' ).each( function( section, curr_sec_index ) {
 				if ( curr_sec_index <= parent_section_index ) {
 					var group = {
 							/* translators: %1$d = section order number, %2$s = section title */
-							label: LLMS.l10n.replace( 'Section %1$d: %2$s', {
-								'%1$d': section.get( 'order' ),
-								'%2$s': section.get( 'title' )
-							} ),
-							options: [],
-						};
+						label: LLMS.l10n.replace( 'Section %1$d: %2$s', {
+							'%1$d': section.get( 'order' ),
+							'%2$s': section.get( 'title' )
+						} ),
+					options: [],
+					};
 
 					section.get( 'lessons' ).each( function( lesson, curr_les_index ) {
 						if ( curr_sec_index !== parent_section_index || curr_les_index < lesson_index_in_section ) {
@@ -3853,6 +3926,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Add a new quiz to the lesson
+		 *
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
@@ -3862,7 +3936,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 			data = data || {};
 
-			data.lesson_id = this.id;
+			data.lesson_id         = this.id;
 			data._questions_loaded = true;
 
 			if ( ! data.title ) {
@@ -3887,6 +3961,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Determine if this is the first lesson
+		 *
 		 * @return   {Boolean}
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -3911,6 +3986,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 		/**
 		 * Initialize lesson assignments *if* the assignments addon is available and enabled
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -3939,6 +4015,7 @@ define( 'Models/Lesson',[ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utili
 
 /**
  * Lessons Collection
+ *
  * @since    3.13.0
  * @version  3.17.0
  */
@@ -3948,12 +4025,14 @@ define( 'Collections/Lessons',[ 'Models/Lesson' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initializer
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.17.0
@@ -3986,6 +4065,7 @@ define( 'Collections/Lessons',[ 'Models/Lesson' ], function( model ) {
 
 		/**
 		 * Update lesson order attribute of all lessons when lessons are reordered
+		 *
 		 * @return      void
 		 * @since       3.16.0
 		 * @version     3.17.0
@@ -3998,9 +4078,9 @@ define( 'Collections/Lessons',[ 'Models/Lesson' ], function( model ) {
 
 		},
 
-
 		/**
 		 * Validate prerequisite (if set) and unset it if it's no longer a valid prereq
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -4030,6 +4110,7 @@ define( 'Collections/Lessons',[ 'Models/Lesson' ], function( model ) {
 
 /**
  * Quiz Question Type Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -4039,12 +4120,14 @@ define( 'Collections/QuestionTypes',[ 'Models/QuestionType' ], function( model )
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initializer
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4058,6 +4141,7 @@ define( 'Collections/QuestionTypes',[ 'Models/QuestionType' ], function( model )
 
 		/**
 		 * Comparator (sorts collection)
+		 *
 		 * @param    obj   model  QuestionType model
 		 * @return   void
 		 * @since    3.16.0
@@ -4075,6 +4159,7 @@ define( 'Collections/QuestionTypes',[ 'Models/QuestionType' ], function( model )
 
 /**
  * Section Model
+ *
  * @since    3.16.0
  * @version  3.16.12
  */
@@ -4098,6 +4183,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 		/**
 		 * New section defaults
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4118,6 +4204,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4131,6 +4218,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 		/**
 		 * Add a lesson to the section
+		 *
 		 * @param    obj   data     hash of lesson data (creates new lesson)
 		 *                          or existing lesson as a Backbone.Model
 		 * @param    obj   options  has of options
@@ -4140,7 +4228,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 		 */
 		add_lesson: function( data, options ) {
 
-			data = data || {};
+			data    = data || {};
 			options = options || {};
 
 			if ( data instanceof Backbone.Model ) {
@@ -4156,6 +4244,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 		/**
 		 * Retrieve the translated post type name for the model's type
+		 *
 		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
 		 * @return   string
 		 * @since    3.16.12
@@ -4172,6 +4261,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 		/**
 		 * Get next section in the collection
+		 *
 		 * @param    bool     circular   if true handles the collection in a circle
 		 *                               	if current is the last section, returns the first section
 		 *                               	if current is the first section, returns the last section
@@ -4185,6 +4275,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 		/**
 		 * Get prev section in the collection
+		 *
 		 * @param    bool     circular   if true handles the collection in a circle
 		 *                               	if current is the last section, returns the first section
 		 *                               	if current is the first section, returns the last section
@@ -4198,6 +4289,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 		/**
 		 * Get a sibling section
+		 *
 		 * @param    string   direction  siblings direction [next|prev]
 		 * @param    bool     circular   if true handles the collection in a circle
 		 *                               	if current is the last section, returns the first section
@@ -4210,7 +4302,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 			circular = ( 'undefined' === circular ) ? true : circular;
 
-			var max = this.collection.size() - 1,
+			var max   = this.collection.size() - 1,
 				index = this.collection.indexOf( this ),
 				sibling_index;
 
@@ -4245,6 +4337,7 @@ define( 'Models/Section',[ 'Collections/Lessons', 'Models/_Relationships' ], fun
 
 /**
  * Sections Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -4254,12 +4347,14 @@ define( 'Collections/Sections',[ 'Models/Section' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4279,6 +4374,7 @@ define( 'Collections/Sections',[ 'Models/Section' ], function( model ) {
 
 		/**
 		 * Update the order attr of each section in the list to reflect the order of the collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4301,6 +4397,7 @@ define( 'Collections/Sections',[ 'Models/Section' ], function( model ) {
 
 /**
  * Lessons Collection
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -4318,18 +4415,19 @@ define( 'Collections/loader',[
 		Sections
 	) {
 
-	return {
-		Lessons: Lessons,
-		QuestionChoices: QuestionChoices,
-		Questions: Questions,
-		QuestionTypes: QuestionTypes,
-		Sections: Sections,
-	};
+		return {
+			Lessons: Lessons,
+			QuestionChoices: QuestionChoices,
+			Questions: Questions,
+			QuestionTypes: QuestionTypes,
+			Sections: Sections,
+		};
 
 } );
 
 /**
  * Abstract LifterLMS Model
+ *
  * @since    3.17.0
  * @version  3.17.0
  */
@@ -4341,6 +4439,7 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
 
 /**
  * Course Model
+ *
  * @since    3.16.0
  * @version  3.24.0
  */
@@ -4360,6 +4459,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 		/**
 		 * New Course Defaults
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4376,6 +4476,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 		/**
 		 * Init
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4398,6 +4499,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * Add an existing lesson to the course
 		 * Duplicate a lesson from this or another course or attach an orphaned lesson
+		 *
 		 * @param    obj   lesson  lesson data obj
 		 * @return   void
 		 * @since    3.16.0
@@ -4413,7 +4515,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 				// if a quiz is attached, duplicate the quiz also
 				if ( data.quiz ) {
-					data.quiz = _.prepareQuizObjectForCloning( data.quiz );
+					data.quiz                   = _.prepareQuizObjectForCloning( data.quiz );
 					data.quiz._questions_loaded = true;
 				}
 
@@ -4433,6 +4535,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 		/**
 		 * Add a new lesson to the course
+		 *
 		 * @param    obj   data   lesson data
 		 * @return   obj          Backbone.Model of the lesson
 		 * @since    3.16.0
@@ -4440,7 +4543,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 */
 		add_lesson: function( data ) {
 
-			data = data || {};
+			data        = data || {};
 			var options = {},
 				section;
 
@@ -4469,6 +4572,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 		/**
 		 * Add a new section to the course
+		 *
 		 * @param    obj   data   section data
 		 * @return   void
 		 * @since    3.16.0
@@ -4476,9 +4580,9 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 */
 		add_section: function( data ) {
 
-			data = data || {};
+			data         = data || {};
 			var sections = this.get( 'sections' ),
-				options = {},
+				options  = {},
 				selected = this.get_selected_section();
 
 			// if a section is selected, add the new section after the currently selected one
@@ -4492,6 +4596,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 		/**
 		 * Retrieve the currently selected section in the course
+		 *
 		 * @return   obj|undefined
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4506,6 +4611,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 		/**
 		 * Retrieve the total number of points in the course
+		 *
 		 * @return   int
 		 * @since    3.24.0
 		 * @version  3.24.0
@@ -4534,6 +4640,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 /**
  * Load all models
+ *
  * @return   obj
  * @since    3.16.0
  * @version  3.17.0
@@ -4561,32 +4668,36 @@ define( 'Models/loader',[
 		Section
 	) {
 
-	return {
-		Abstract: Abstract,
-		Course: Course,
-		Image: Image,
-		Lesson: Lesson,
-		Question: Question,
-		QuestionChoice: QuestionChoice,
-		QuestionType: QuestionType,
-		Quiz: Quiz,
-		Section: Section,
-	};
+		return {
+			Abstract: Abstract,
+			Course: Course,
+			Image: Image,
+			Lesson: Lesson,
+			Question: Question,
+			QuestionChoice: QuestionChoice,
+			QuestionType: QuestionType,
+			Quiz: Quiz,
+			Section: Section,
+		};
 
 } );
 
 /**
  * Detachable model
- * @type     {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.16.12
  * @version  3.16.12
  */
+
 define( 'Views/_Detachable',[], function() {
 
 	return {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type  {Object}
 		 * @since    3.16.12
 		 * @version  3.16.12
@@ -4597,6 +4708,7 @@ define( 'Views/_Detachable',[], function() {
 
 		/**
 		 * Detaches a model from it's parent (doesn't delete)
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.12
@@ -4637,10 +4749,13 @@ define( 'Views/_Detachable',[], function() {
  * Handles UX and Events for inline editing of views
  * Use with a Model's View
  * Allows editing model.title field via .llms-editable-title elements
- * @type     {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.16.0
  * @version  3.25.4
  */
+
 define( 'Views/_Editable',[], function() {
 
 	return {
@@ -4649,6 +4764,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type  {Object}
 		 * @since    3.16.0
 		 * @version  3.17.8
@@ -4669,6 +4785,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Retrieve a list of allowed tags for a given element
+		 *
 		 * @param    obj   $el  jQuery selector for the element
 		 * @return   array
 		 * @since    3.16.0
@@ -4688,6 +4805,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Retrieve the content of an element
+		 *
 		 * @param    obj   $el  jQuery object of the element
 		 * @return   string
 		 * @since    3.16.0
@@ -4709,6 +4827,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Determine if changes have been made to the element
+		 *
 		 * @param    {[obj]}   event  js event object
 		 * @return   {Boolean}        true when changes have been made, false otherwise
 		 * @since    3.16.0
@@ -4721,6 +4840,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Ensure that new content is at least 1 character long
+		 *
 		 * @param    obj   event  js event object
 		 * @return   boolean
 		 * @since    3.16.0
@@ -4728,10 +4848,10 @@ define( 'Views/_Editable',[], function() {
 		 */
 		is_valid: function( event ) {
 
-			var self = this,
-				$el = $( event.target ),
+			var self    = this,
+				$el     = $( event.target ),
 				content = this.get_content( $el ),
-				type = $el.attr( 'data-type' );
+				type    = $el.attr( 'data-type' );
 
 			if ( ( $el.attr( 'required' ) || $el.attr( 'data-required' ) ) && content.length < 1 ) {
 				return false;
@@ -4775,6 +4895,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Initialize datepicker elements
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -4798,6 +4919,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Initialize elements that allow inline formatting
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -4809,7 +4931,7 @@ define( 'Views/_Editable',[], function() {
 			this.$el.find( '.llms-input-formatting[data-formatting]' ).each( function() {
 
 				var formatting = $( this ).attr( 'data-formatting' ).split( ',' ),
-					attr = $( this ).attr( 'data-attribute' );
+					attr       = $( this ).attr( 'data-attribute' );
 
 				var ed = new Quill( this, {
 					modules: {
@@ -4848,6 +4970,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Initialize editable select elements
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.25.4
@@ -4863,6 +4986,7 @@ define( 'Views/_Editable',[], function() {
 		/**
 		 * Blur/focusout function for .llms-editable-title elements
 		 * Automatically saves changes if changes have been made
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -4874,8 +4998,8 @@ define( 'Views/_Editable',[], function() {
 
 			this.model.set( '_has_focus', false, { silent: true } );
 
-			var self = this,
-				$el = $( event.target ),
+			var self    = this,
+				$el     = $( event.target ),
 				changed = this.has_changed( event );
 
 			if ( changed ) {
@@ -4892,6 +5016,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Focus event for editable inputs
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.6
@@ -4907,6 +5032,7 @@ define( 'Views/_Editable',[], function() {
 		/**
 		 * Handle content pasted into contenteditable fields
 		 * This will ensure that HTML from RTF editors isn't pasted into the dom
+		 *
 		 * @param    obj   event  js event obj
 		 * @return   void
 		 * @since    3.17.8
@@ -4924,6 +5050,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Change event for selectables
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -4931,9 +5058,9 @@ define( 'Views/_Editable',[], function() {
 		 */
 		on_select: function( event ) {
 
-			var $el = $( event.target ),
-				multi = ( $el.attr( 'multiple' ) ),
-				attr = $el.attr( 'name' ),
+			var $el       = $( event.target ),
+				multi     = ( $el.attr( 'multiple' ) ),
+				attr      = $el.attr( 'name' ),
 				$selected = $el.find( 'option:selected' ),
 				val;
 
@@ -4952,6 +5079,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Change event for radio element groups
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.17.6
@@ -4959,9 +5087,9 @@ define( 'Views/_Editable',[], function() {
 		 */
 		on_radio_select: function( event ) {
 
-			var $el = $( event.target ),
+			var $el  = $( event.target ),
 				attr = $el.attr( 'name' ),
-				val = $el.val();
+				val  = $el.val();
 
 			this.model.set( attr, val );
 
@@ -4970,6 +5098,7 @@ define( 'Views/_Editable',[], function() {
 		/**
 		 * Keydown function for .llms-editable-title elements
 		 * Blurs
+		 *
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -4979,8 +5108,8 @@ define( 'Views/_Editable',[], function() {
 
 			event.stopPropagation();
 
-			var self = this,
-				key = event.which || event.keyCode,
+			var self  = this,
+				key   = event.which || event.keyCode,
 				shift = event.shiftKey;
 				// ctrl = event.metaKey || event.ctrlKey;
 
@@ -5006,6 +5135,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Open the WP media lib
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -5016,7 +5146,7 @@ define( 'Views/_Editable',[], function() {
 			event.stopPropagation();
 
 			var self = this,
-				$el = $( event.currentTarget );
+				$el  = $( event.currentTarget );
 
 			if ( self.media_lib ) {
 
@@ -5034,9 +5164,9 @@ define( 'Views/_Editable',[], function() {
 
 				self.media_lib.on( 'select', function() {
 
-					var size = $el.attr( 'data-image-size' ),
+					var size       = $el.attr( 'data-image-size' ),
 						attachment = self.media_lib.state().get( 'selection' ).first().toJSON(),
-						image = self.model.get( $el.attr( 'data-attribute' ) ),
+						image      = self.model.get( $el.attr( 'data-attribute' ) ),
 						url;
 
 					if ( size && attachment.sizes[ size ] ) {
@@ -5056,11 +5186,11 @@ define( 'Views/_Editable',[], function() {
 
 			self.media_lib.open();
 
-
 		},
 
 		/**
 		 * Click event to remove an image
+		 *
 		 * @param    obj   event  js event obj
 		 * @return   voids
 		 * @since    3.16.0
@@ -5080,6 +5210,7 @@ define( 'Views/_Editable',[], function() {
 		/**
 		 * Helper to undo changes
 		 * Bound to "escape" key via on_keydown function
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -5093,6 +5224,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Sync changes to the model and DB
+		 *
 		 * @param    {obj}   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -5109,6 +5241,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Change event for a switch element
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.0
@@ -5117,8 +5250,8 @@ define( 'Views/_Editable',[], function() {
 		toggle_switch: function( event ) {
 
 			event.stopPropagation();
-			var $el = $( event.target ),
-				attr = $el.attr( 'name' ),
+			var $el      = $( event.target ),
+				attr     = $el.attr( 'name' ),
 				rerender = $el.attr( 'data-rerender' ),
 				val;
 
@@ -5137,7 +5270,6 @@ define( 'Views/_Editable',[], function() {
 				} else {
 					this.model.get( split[0] ).set( split[1], val );
 				}
-
 
 			} else {
 
@@ -5158,6 +5290,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Initializes a WP Editor on a textarea
+		 *
 		 * @param    string   id        CSS ID of the editor (don't include #)
 		 * @param    obj      settings  optional object of settings to pass to wp.editor.initialize()
 		 * @return   void
@@ -5183,6 +5316,7 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Setup a permalink editor to allow editing of a permalink
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.6
@@ -5190,12 +5324,12 @@ define( 'Views/_Editable',[], function() {
 		 */
 		make_slug_editable: function( event ) {
 
-			var self = this,
-				$btn = $( event.currentTarget ),
-				$link = $btn.prevAll( 'a' ),
-				$input = $btn.prev( 'input.permalink' ),
-				full_url = $link.attr( 'href' ),
-				slug = $input.val(),
+			var self      = this,
+				$btn      = $( event.currentTarget ),
+				$link     = $btn.prevAll( 'a' ),
+				$input    = $btn.prev( 'input.permalink' ),
+				full_url  = $link.attr( 'href' ),
+				slug      = $input.val(),
 				short_url = full_url.replace( slug, '' );
 
 			// hide the button
@@ -5220,6 +5354,7 @@ define( 'Views/_Editable',[], function() {
 		 * Callback function called after initialization of an editor
 		 * Updates UI if a label is present
 		 * Binds a change event to ensure editor changes are saved to the model
+		 *
 		 * @param    obj   editor  wp.editor instance
 		 * @return   void
 		 * @since    3.16.0
@@ -5227,11 +5362,11 @@ define( 'Views/_Editable',[], function() {
 		 */
 		on_editor_ready: function( editor ) {
 
-			var self = this,
-				$ed = $( '#' + editor.id ),
+			var self    = this,
+				$ed     = $( '#' + editor.id ),
 				$parent = $ed.closest( '.llms-editable-editor' ),
-				$label = $parent.find( '.llms-label' ),
-				prop = $ed.attr( 'data-attribute' )
+				$label  = $parent.find( '.llms-label' ),
+				prop    = $ed.attr( 'data-attribute' )
 
 			if ( $label.length ) {
 				$label.prependTo( $parent.find( '.wp-editor-tools' ) );
@@ -5258,7 +5393,7 @@ define( 'Views/_Editable',[], function() {
 
 		_validate_url: function( str ) {
 
-			var a = document.createElement( 'a' );
+			var a  = document.createElement( 'a' );
 			a.href = str;
 			return ( a.host && a.host !== window.location.host );
 
@@ -5271,6 +5406,7 @@ define( 'Views/_Editable',[], function() {
 /**
  * _receive override for Backbone.CollectionView core
  * enables connection with jQuery UI draggable buttons
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -5281,6 +5417,7 @@ define( 'Views/_Receivable',[], function() {
 		/**
 		 * Overloads the function from Backbone.CollectionView core because it doesn't properly handle
 		 * receives from a jQuery UI draggable object
+		 *
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
@@ -5297,11 +5434,13 @@ define( 'Views/_Receivable',[], function() {
 				return;
 			}
 
-			var senderListEl = ui.sender;
+			var senderListEl             = ui.sender;
 			var senderCollectionListView = senderListEl.data( 'view' );
-			if( ! senderCollectionListView || ! senderCollectionListView.collection ) return;
+			if ( ! senderCollectionListView || ! senderCollectionListView.collection ) {
+				return;
+			}
 
-			var newIndex = this._getContainerEl().children().index( ui.item );
+			var newIndex      = this._getContainerEl().children().index( ui.item );
 			var modelReceived = senderCollectionListView.collection.get( ui.item.attr( 'data-model-cid' ) );
 			senderCollectionListView.collection.remove( modelReceived );
 			this.collection.add( modelReceived, { at : newIndex } );
@@ -5313,9 +5452,9 @@ define( 'Views/_Receivable',[], function() {
 
 } );
 
-
 /**
  * Shiftable view mixin function
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -5325,6 +5464,7 @@ define( 'Views/_Shiftable',[], function() {
 
 		/**
 		 * Conditionally hide action buttons based on section position in collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -5347,6 +5487,7 @@ define( 'Views/_Shiftable',[], function() {
 
 		/**
 		 * Move an item in a collection from one position to another
+		 *
 		 * @param    int   old_index  current (old) index within the collection
 		 * @param    int   new_index  desired (new) index within the collection
 		 * @return   void
@@ -5365,6 +5506,7 @@ define( 'Views/_Shiftable',[], function() {
 
 		/**
 		 * Move an item down the tree one position
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -5379,6 +5521,7 @@ define( 'Views/_Shiftable',[], function() {
 
 		/**
 		 * Move an item up the tree one position
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -5397,6 +5540,7 @@ define( 'Views/_Shiftable',[], function() {
 
 /**
  * Subview utility mixin
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -5408,18 +5552,21 @@ define( 'Views/_Subview',[], function() {
 
 		/**
 		 * Name of the current subview
+		 *
 		 * @type  {String}
 		 */
 		state: '',
 
 		/**
 		 * Object of subview data
+		 *
 		 * @type  {Object}
 		 */
 		views: {},
 
 		/**
 		 * Retrieve a subview by name from this.views
+		 *
 		 * @param    string   name   name of the subview
 		 * @return   obl|false
 		 * @since    3.16.0
@@ -5459,6 +5606,7 @@ define( 'Views/_Subview',[], function() {
 
 		/**
 		 * Remove a single subview (and all it's subviews) by name
+		 *
 		 * @param    string   name   name of the subview
 		 * @return   void
 		 * @since    3.16.0
@@ -5486,7 +5634,7 @@ define( 'Views/_Subview',[], function() {
 				view.instance.undelegateEvents();
 
 				// _.each( view.instance, function( val, key ) {
-				// 	delete view.instance[ key ];
+				// delete view.instance[ key ];
 				// } );
 
 				view.instance = null;
@@ -5497,6 +5645,7 @@ define( 'Views/_Subview',[], function() {
 
 		/**
 		 * Remove all subviews (and all the subviews of those subviews)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -5513,6 +5662,7 @@ define( 'Views/_Subview',[], function() {
 
 		/**
 		 * Render subviews based on current state
+		 *
 		 * @param    obj   view_data  additional data to pass to the subviews
 		 * @return   void
 		 * @since    3.16.0
@@ -5540,6 +5690,7 @@ define( 'Views/_Subview',[], function() {
 
 		/**
 		 * Render a single subview by name
+		 *
 		 * @param    string   name       name of the subview
 		 * @param    obj      view_data  additional data to pass to the subview initializer
 		 * @return   void
@@ -5567,6 +5718,7 @@ define( 'Views/_Subview',[], function() {
 		/**
 		 * Set the current subview
 		 * Must call render after!
+		 *
 		 * @param    string   state  name of the state [builder|editor]
 		 * @return   obj             this for chaining
 		 * @since    3.16.0
@@ -5585,6 +5737,7 @@ define( 'Views/_Subview',[], function() {
 
 /**
  * Trashable model
+ *
  * @type     {Object}
  * @since    3.16.12
  * @version  3.16.12
@@ -5595,6 +5748,7 @@ define( 'Views/_Trashable',[], function() {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type  {Object}
 		 * @since    3.16.12
 		 * @version  3.16.12
@@ -5605,6 +5759,7 @@ define( 'Views/_Trashable',[], function() {
 
 		/**
 		 * Remove a model from it's parent and delete it
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.12
@@ -5643,10 +5798,13 @@ define( 'Views/_Trashable',[], function() {
 
 /**
  * Load view mixins
- * @return   obj
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.17.1
  * @version  3.17.1
  */
+
 define( 'Views/_loader',[
 		'Views/_Detachable',
 		'Views/_Editable',
@@ -5664,19 +5822,20 @@ define( 'Views/_loader',[
 		Trashable
 	) {
 
-	return {
-		Detachable: Detachable,
-		Editable: Editable,
-		Receivable: Receivable,
-		Shiftable: Shiftable,
-		Subview: Subview,
-		Trashable: Trashable,
-	};
+		return {
+			Detachable: Detachable,
+			Editable: Editable,
+			Receivable: Receivable,
+			Shiftable: Shiftable,
+			Subview: Subview,
+			Trashable: Trashable,
+		};
 
 } );
 
 /**
  * Constructor functions for constructing models, views, and collections
+ *
  * @since    3.16.0
  * @version  3.17.1
  */
@@ -5690,173 +5849,183 @@ define( 'Controllers/Construct',[
 		Views
 	) {
 
-	return function() {
+		return function() {
 
-		/**
-		 * Internal getter
-		 * Constructs new Collections, Models, and Views
-		 * @param    obj      type     type of object to construct [Collection,Model,View]
-		 * @param    string   name     name of the object to construct
-		 * @param    obj      data     object data to pass into the object's constructor
-		 * @param    obj      options  object options to pass into the constructor
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		function get( type, name, data, options ) {
+			/**
+			 * Internal getter
+			 * Constructs new Collections, Models, and Views
+			 *
+			 * @param    obj      type     type of object to construct [Collection,Model,View]
+			 * @param    string   name     name of the object to construct
+			 * @param    obj      data     object data to pass into the object's constructor
+			 * @param    obj      options  object options to pass into the constructor
+			 * @return   obj
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			function get( type, name, data, options ) {
 
-			if ( ! type[ name ] ) {
-				console.log( '"' + name + '" not found.' );
-				return false;
-			}
-
-			return new type[ name ]( data, options );
-
-		}
-
-		/**
-		 * Instantiate a collection
-		 * @param    string   name     Collection class name (EG: "Sections")
-		 * @param    array    data     Array of model objects to pass to the constructor
-		 * @param    obj      options  Object of options to pass to the constructor
-		 * @return   obj
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		this.get_collection = function( name, data, options ) {
-
-			return get( Collections, name, data, options );
-
-		};
-
-		/**
-		 * Instantiate a model
-		 * @param    string   name     Model class name (EG: "Section")
-		 * @param    obj      data     Object of model attributes to pass to the constructor
-		 * @param    obj      options  Object of options to pass to the constructor
-		 * @return   obj
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		this.get_model = function( name, data, options ) {
-
-			return get( Models, name, data, options );
-
-		};
-
-		/**
-		 * Let 3rd parties extend a view using any of the mixin (_) views
-		 * @param    {obj}     view     base object used for the view
-		 * @param... {string}  extends  any number of strings that should be mixed into the view
-		 * @return   obj
-		 * @since    3.17.1
-		 * @version  3.17.1
-		 */
-		this.extend_view = function() {
-
-			var view = arguments[0],
-				i = 1;
-
-			while ( arguments[ i ] ) {
-
-				var classname = arguments[ i ];
-				if ( Views[ classname ] ) {
-
-					if ( view.events && Views[ classname ].events ) {
-						view.events = _.defaults( view.events, Views[ classname ].events );
-					}
-
-					view = _.defaults( view, Views[ classname ] );
-
+				if ( ! type[ name ] ) {
+					console.log( '"' + name + '" not found.' );
+					return false;
 				}
 
-				i++;
+				return new type[ name ]( data, options );
+
 			}
 
-			return Backbone.View.extend( view );
+			/**
+			 * Instantiate a collection
+		 *
+			 * @param    string   name     Collection class name (EG: "Sections")
+			 * @param    array    data     Array of model objects to pass to the constructor
+			 * @param    obj      options  Object of options to pass to the constructor
+			 * @return   obj
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			this.get_collection = function( name, data, options ) {
+
+				return get( Collections, name, data, options );
+
+			};
+
+			/**
+			 * Instantiate a model
+			 *
+			 * @param    string   name     Model class name (EG: "Section")
+			 * @param    obj      data     Object of model attributes to pass to the constructor
+			 * @param    obj      options  Object of options to pass to the constructor
+			 * @return   obj
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			this.get_model = function( name, data, options ) {
+
+				return get( Models, name, data, options );
+
+			};
+
+			/**
+			 * Let 3rd parties extend a view using any of the mixin (_) views
+			 *
+			 * @param    {obj}     view     base object used for the view
+			 * @param... {string}  extends  any number of strings that should be mixed into the view
+			 * @return   obj
+			 * @since    3.17.1
+			 * @version  3.17.1
+			 */
+			this.extend_view = function() {
+
+				var view = arguments[0],
+				i        = 1;
+
+				while ( arguments[ i ] ) {
+
+					var classname = arguments[ i ];
+					if ( Views[ classname ] ) {
+
+						if ( view.events && Views[ classname ].events ) {
+							view.events = _.defaults( view.events, Views[ classname ].events );
+						}
+
+						view = _.defaults( view, Views[ classname ] );
+
+					}
+
+					i++;
+				}
+
+				return Backbone.View.extend( view );
+
+			};
+
+			/**
+			 * Allows custom collection registration by extending the default BackBone collection
+			 *
+			 * @param    string   name   model name
+			 * @param    obj      props  properties to extend the collection with
+			 * @return   void
+			 * @since    3.17.1
+			 * @version  3.17.1
+			 */
+			this.register_collection = function( name, props ) {
+
+				Collections[ name ] = Backbone.Collection.extend( props );
+
+			};
+
+			/**
+			 * Allows custom model registration by extending the default abstract model
+			 *
+			 * @param    string   name   model name
+			 * @param    obj      props  properties to extend the abstract model with
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			this.register_model = function( name, props ) {
+
+				Models[ name ] = Models['Abstract'].extend( props );
+
+			};
+
+			return this;
 
 		};
-
-		/**
-		 * Allows custom collection registration by extending the default BackBone collection
-		 * @param    string   name   model name
-		 * @param    obj      props  properties to extend the collection with
-		 * @return   void
-		 * @since    3.17.1
-		 * @version  3.17.1
-		 */
-		this.register_collection = function( name, props ) {
-
-			Collections[ name ] = Backbone.Collection.extend( props );
-
-		};
-
-		/**
-		 * Allows custom model registration by extending the default abstract model
-		 * @param    string   name   model name
-		 * @param    obj      props  properties to extend the abstract model with
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		this.register_model = function( name, props ) {
-
-			Models[ name ] = Models['Abstract'].extend( props );
-
-		};
-
-		return this;
-
-	};
 
 } );
 
 /**
  * LifterLMS Builder Debugging suite
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
 define( 'Controllers/Debug',[], function() {
 
- 	return function( settings ) {
+	return function( settings ) {
 
- 		var self = this,
- 			enabled = settings.enabled || false;
+		var self    = this,
+			enabled = settings.enabled || false;
 
 		/**
 		 * Disable debugging
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
- 		this.disable = function() {
+		this.disable = function() {
 
- 			self.log( 'LifterLMS Builder debugging disabled' );
- 			enabled = false;
+			self.log( 'LifterLMS Builder debugging disabled' );
+			enabled = false;
 
- 		};
+		};
 
 		/**
 		 * Enable debugging
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
- 		this.enable = function() {
+		this.enable = function() {
 
- 			enabled = true;
- 			self.log( 'LifterLMS Builder debugging enabled' );
+			enabled = true;
+			self.log( 'LifterLMS Builder debugging enabled' );
 
- 		};
+		};
 
- 		/**
- 		 * General logging function
- 		 * Logs to the js console only if logging is enabled
- 		 * @return   void
- 		 * @since    3.16.0
- 		 * @version  3.16.0
- 		 */
- 		this.log = function() {
+		/**
+		 * General logging function
+		 * Logs to the js console only if logging is enabled
+		 *
+		 * @return   void
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
+		this.log = function() {
 
 			if ( ! enabled ) {
 				return;
@@ -5866,15 +6035,16 @@ define( 'Controllers/Debug',[], function() {
 				console.log( data );
 			} );
 
- 		};
+		};
 
- 		/**
- 		 * Toggles current state of the logger on or off
- 		 * @return   void
- 		 * @since    3.16.0
- 		 * @version  3.16.0
- 		 */
- 		this.toggle = function() {
+		/**
+		 * Toggles current state of the logger on or off
+		 *
+		 * @return   void
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
+		this.toggle = function() {
 
 			if ( enabled ) {
 				self.disable();
@@ -5882,19 +6052,20 @@ define( 'Controllers/Debug',[], function() {
 				self.enable();
 			}
 
- 		};
+		};
 
- 		// on startup, log a message if logging is enabled
- 		if ( enabled ) {
- 			self.enable();
- 		}
+		// on startup, log a message if logging is enabled
+		if ( enabled ) {
+			self.enable();
+		}
 
- 	}
+	}
 
- } );
+} );
 
 /**
  * Model schema functions
+ *
  * @since    3.17.0
  * @version  3.17.0
  */
@@ -5902,6 +6073,7 @@ define( 'Controllers/Schemas',[], function() {
 
 	/**
 	 * Main Schemas class
+	 *
 	 * @param    obj   schemas  schemas definitions initialized via PHP filters
 	 * @return   obj
 	 * @since    3.17.0
@@ -5920,6 +6092,7 @@ define( 'Controllers/Schemas',[], function() {
 		/**
 		 * Retrieve a schema for a given model by type
 		 * Extends default schemas definitions with custom 3rd party definitions
+		 *
 		 * @param    obj      schema      default schema definition from the model (or empty object if none defined)
 		 * @param    string   model_type  the model type ('lesson', 'quiz', etc)
 		 * @param    obj      model       Instance of the Backbone.Model for the given model
@@ -5946,37 +6119,39 @@ define( 'Controllers/Schemas',[], function() {
 
 /**
  * Sync builder data to the server
+ *
  * @since    3.16.0
  * @version  3.19.4
  */
 define( 'Controllers/Sync',[], function() {
 
- 	return function( Course, settings ) {
+	return function( Course, settings ) {
 
- 		this.saving = false;
+		this.saving = false;
 
- 		var self = this,
- 			autosave = true,
- 			check_interval = null,
- 			check_interval_ms = settings.check_interval_ms || 10000,
- 			detached = new Backbone.Collection(),
- 			trashed = new Backbone.Collection();
+		var self              = this,
+			autosave          = true,
+			check_interval    = null,
+			check_interval_ms = settings.check_interval_ms || 10000,
+			detached          = new Backbone.Collection(),
+			trashed           = new Backbone.Collection();
 
 		/**
 		 * init
+		 *
 		 * @return   void
 		 * @since    3.16.7
 		 * @version  3.16.7
 		 */
- 		function init() {
+		function init() {
 
- 			// determine if autosaving is possible
- 			if ( 'undefined' === typeof wp.heartbeat ) {
+			// determine if autosaving is possible
+			if ( 'undefined' === typeof wp.heartbeat ) {
 
- 				window.llms_builder.debug.log( 'WordPress Heartbeat disabled. Autosaving is disabled!' );
- 				autosave = false;
+				window.llms_builder.debug.log( 'WordPress Heartbeat disabled. Autosaving is disabled!' );
+				autosave = false;
 
- 			}
+			}
 
 			// setup the check interval
 			if ( check_interval_ms ) {
@@ -5993,30 +6168,31 @@ define( 'Controllers/Sync',[], function() {
 
 			} );
 
- 		};
+		};
 
- 		/*
- 			 /$$             /$$                                             /$$                           /$$
- 			|__/            | $$                                            | $$                          |__/
- 			 /$$ /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$  /$$$$$$$   /$$$$$$ | $$        /$$$$$$   /$$$$$$  /$$
- 			| $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$| $$__  $$ |____  $$| $$       |____  $$ /$$__  $$| $$
- 			| $$| $$  \ $$  | $$    | $$$$$$$$| $$  \__/| $$  \ $$  /$$$$$$$| $$        /$$$$$$$| $$  \ $$| $$
- 			| $$| $$  | $$  | $$ /$$| $$_____/| $$      | $$  | $$ /$$__  $$| $$       /$$__  $$| $$  | $$| $$
- 			| $$| $$  | $$  |  $$$$/|  $$$$$$$| $$      | $$  | $$|  $$$$$$$| $$      |  $$$$$$$| $$$$$$$/| $$
- 			|__/|__/  |__/   \___/   \_______/|__/      |__/  |__/ \_______/|__/       \_______/| $$____/ |__/
- 			                                                                                    | $$
- 			                                                                                    | $$
- 			                                                                                    |__/
- 		*/
+		/*
+			  /$$             /$$                                             /$$                           /$$
+			 |__/            | $$                                            | $$                          |__/
+			  /$$ /$$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$  /$$$$$$$   /$$$$$$ | $$        /$$$$$$   /$$$$$$  /$$
+			 | $$| $$__  $$|_  $$_/   /$$__  $$ /$$__  $$| $$__  $$ |____  $$| $$       |____  $$ /$$__  $$| $$
+			 | $$| $$  \ $$  | $$    | $$$$$$$$| $$  \__/| $$  \ $$  /$$$$$$$| $$        /$$$$$$$| $$  \ $$| $$
+			 | $$| $$  | $$  | $$ /$$| $$_____/| $$      | $$  | $$ /$$__  $$| $$       /$$__  $$| $$  | $$| $$
+			 | $$| $$  | $$  |  $$$$/|  $$$$$$$| $$      | $$  | $$|  $$$$$$$| $$      |  $$$$$$$| $$$$$$$/| $$
+			 |__/|__/  |__/   \___/   \_______/|__/      |__/  |__/ \_______/|__/       \_______/| $$____/ |__/
+																								 | $$
+																								 | $$
+																								 |__/
+		 */
 
- 		/**
- 		 * Adds error message(s) to the data object returned by heartbeat-tick
- 		 * @param    obj            data  llms_builder data object from heartbeat-tick
- 		 * @param    string|array   err   error messages array or string
- 		 * @return   obj
- 		 * @since    3.16.0
- 		 * @version  3.16.0
- 		 */
+		/**
+		 * Adds error message(s) to the data object returned by heartbeat-tick
+		 *
+		 * @param    obj            data  llms_builder data object from heartbeat-tick
+		 * @param    string|array   err   error messages array or string
+		 * @return   obj
+		 * @since    3.16.0
+		 * @version  3.16.0
+		 */
 		function add_error_msg( data, err ) {
 
 			if ( 'success' === data.status ) {
@@ -6035,16 +6211,17 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Publish sync status so other areas of the application can see what's happening here
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		function check_for_changes() {
 
-			var data = {};
-			data.changes = self.get_unsaved_changes();
+			var data                 = {};
+			data.changes             = self.get_unsaved_changes();
 			data.has_unsaved_changes = self.has_unsaved_changes( data.changes );
-			data.saving = self.saving;
+			data.saving              = self.saving;
 
 			window.llms_builder.debug.log( '==== start changes check ====', data, '==== finish changes check ====' );
 
@@ -6054,6 +6231,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Manually Save data via Admin AJAX when the heartbeat API has been disabled
+		 *
 		 * @return   void
 		 * @since    3.16.7
 		 * @version  3.16.7
@@ -6096,7 +6274,7 @@ define( 'Controllers/Sync',[], function() {
 
 						Backbone.pubSub.trigger( 'heartbeat-tick', self, {
 							status: 'error',
-							message: xhr.responseText + ' (' + error + ' ' + status +')',
+							message: xhr.responseText + ' (' + error + ' ' + status + ')',
 						} );
 
 					},
@@ -6120,7 +6298,6 @@ define( 'Controllers/Sync',[], function() {
 				} );
 
 			}
-
 
 		};
 
@@ -6151,19 +6328,19 @@ define( 'Controllers/Sync',[], function() {
 			// send *all* of it's atts
 			if ( has_temp_id( model ) || true === model.get( '_forceSync' ) ) {
 
-				atts = _.clone( model.attributes );
+				atts      = _.clone( model.attributes );
 				sync_type = 'full';
 
-			// only send the changed atts
+				// only send the changed atts
 			} else {
 
-				atts = model.unsavedAttributes();
+				atts      = model.unsavedAttributes();
 				sync_type = 'partial';
 
 			}
 
 			var exclude = ( model.get_relationships ) ? model.get_child_props() : [];
-			atts = _.omit( atts, function( val, key ) {
+			atts        = _.omit( atts, function( val, key ) {
 
 				// exclude keys that start with an underscore which are used by the
 				// application but don't need to be stored in the database
@@ -6240,6 +6417,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Determines if a model has a temporary ID or a real persisted ID
+		 *
 		 * @param    obj   model  instance of a model
 		 * @return   boolean
 		 * @since    3.16.0
@@ -6254,6 +6432,7 @@ define( 'Controllers/Sync',[], function() {
 		/**
 		 * Compares changes synced to the server against current model and restarts
 		 * tracking on elements that haven't changed since the last sync
+		 *
 		 * @param    obj   model  instance of a Backbone.Model
 		 * @param    obj   data   data set that was processed by the server
 		 * @return   void
@@ -6288,6 +6467,7 @@ define( 'Controllers/Sync',[], function() {
 		 * Processes response data from heartbeat-tick related to trashing & detaching models
 		 * On success, removes from local removal collection
 		 * On error, appends error messages to the data object returned to UI for on-screen feedback
+		 *
 		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
 		 * @return   obj
 		 * @since    3.16.0
@@ -6336,6 +6516,7 @@ define( 'Controllers/Sync',[], function() {
 		/**
 		 * Processes response data from heartbeat-tick related to creating / updating a single object
 		 * Handles both collections and models as a recursive function
+		 *
 		 * @param    {[type]}   data       [description]
 		 * @param    {[type]}   type       [description]
 		 * @param    {[type]}   parent     [description]
@@ -6422,6 +6603,7 @@ define( 'Controllers/Sync',[], function() {
 		 * Processes response data from heartbeat-tick related to updating & creating new models
 		 * On success, removes from local removal collection
 		 * On error, appends error messages to the data object returned to UI for on-screen feedback
+		 *
 		 * @param    obj   data  data.llms_builder object from heartbeat-tick response
 		 * @return   obj
 		 * @since    3.16.0
@@ -6443,8 +6625,8 @@ define( 'Controllers/Sync',[], function() {
 		};
 
 		/*
-			                     /$$       /$$ /$$                                     /$$
-			                    | $$      | $$|__/                                    |__/
+								 /$$       /$$ /$$                                     /$$
+								| $$      | $$|__/                                    |__/
 			  /$$$$$$  /$$   /$$| $$$$$$$ | $$ /$$  /$$$$$$$        /$$$$$$   /$$$$$$  /$$
 			 /$$__  $$| $$  | $$| $$__  $$| $$| $$ /$$_____/       |____  $$ /$$__  $$| $$
 			| $$  \ $$| $$  | $$| $$  \ $$| $$| $$| $$              /$$$$$$$| $$  \ $$| $$
@@ -6458,6 +6640,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Retrieve all unsaved changes for the builder instance
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.17.1
@@ -6474,6 +6657,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Check if the builder instance has unsaved changes
+		 *
 		 * @param    obj      changes    optionally pass in an object from the return of this.get_unsaved_changes()
 		 *                               save some resources by not running the check twice during heartbeats
 		 * @return   boolean
@@ -6499,6 +6683,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Save changes right now.
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.7
@@ -6513,6 +6698,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Update the interval that checks for changes to the builder instance
+		 *
 		 * @param    int        ms   time (in milliseconds) to run the check on
 		 *                           pass 0 to disable the check
 		 * @return   void
@@ -6542,6 +6728,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Listen for detached models and send them to the server for persistence
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
@@ -6558,6 +6745,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Listen for trashed models and send them to the server for deletion
+		 *
 		 * @since    3.16.0
 		 * @version  3.17.1
 		 */
@@ -6591,6 +6779,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Add data to the WP heartbeat to persist new models, changes, and deletions to the DB
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.7
 		 */
@@ -6606,8 +6795,8 @@ define( 'Controllers/Sync',[], function() {
 			// only send data if we have data to send
 			if ( self.has_unsaved_changes( changes ) ) {
 
-				changes.id = Course.get( 'id' );
-				self.saving = true;
+				changes.id        = Course.get( 'id' );
+				self.saving       = true;
 				data.llms_builder = JSON.stringify( changes );
 
 			}
@@ -6620,6 +6809,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * Confirm detachments & deletions and replace temp IDs with new persisted IDs
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
@@ -6642,6 +6832,7 @@ define( 'Controllers/Sync',[], function() {
 
 		/**
 		 * On heartbeat errors publish an error to the main builder application
+		 *
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
@@ -6653,7 +6844,7 @@ define( 'Controllers/Sync',[], function() {
 
 			Backbone.pubSub.trigger( 'heartbeat-tick', self, {
 				status: 'error',
-				message: data.responseText + ' (' + data.status + ' ' + data.statusText +')',
+				message: data.responseText + ' (' + data.status + ' ' + data.statusText + ')',
 			} );
 
 		} );
@@ -6941,6 +7132,7 @@ define( 'Views/Lesson',[
 
 /**
  * Single Section View
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -6952,18 +7144,21 @@ define( 'Views/LessonList',[ 'Views/Lesson', 'Views/_Receivable' ], function( Le
 
 		/**
 		 * Section model
+		 *
 		 * @type  {[type]}
 		 */
 		modelView: LessonView,
 
 		/**
 		 * Are sections selectable?
+		 *
 		 * @type  {Bool}
 		 */
 		selectable: false,
 
 		/**
 		 * Are sections sortable?
+		 *
 		 * @type  {Bool}
 		 */
 		sortable: true,
@@ -6988,6 +7183,7 @@ define( 'Views/LessonList',[ 'Views/Lesson', 'Views/_Receivable' ], function( Le
 		/**
 		 * Overloads the function from Backbone.CollectionView core because it doesn't send stop events
 		 * if moving from one sortable to another... :-(
+		 *
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
@@ -6996,9 +7192,9 @@ define( 'Views/LessonList',[ 'Views/Lesson', 'Views/_Receivable' ], function( Le
 		 */
 		_sortStop : function( event, ui ) {
 
-			var modelBeingSorted = this.collection.get( ui.item.attr( 'data-model-cid' ) ),
+			var modelBeingSorted     = this.collection.get( ui.item.attr( 'data-model-cid' ) ),
 				modelViewContainerEl = this._getContainerEl(),
-				newIndex = modelViewContainerEl.children().index( ui.item );
+				newIndex             = modelViewContainerEl.children().index( ui.item );
 
 			if ( newIndex == -1 && modelBeingSorted ) {
 				this.collection.remove( modelBeingSorted );
@@ -7007,7 +7203,7 @@ define( 'Views/LessonList',[ 'Views/Lesson', 'Views/_Receivable' ], function( Le
 			this._reorderCollectionBasedOnHTML();
 			this.updateDependentControls();
 
-			if( this._isBackboneCourierAvailable() ) {
+			if ( this._isBackboneCourierAvailable() ) {
 				this.spawn( 'sortStop', { modelBeingSorted : modelBeingSorted, newIndex : newIndex } );
 			} else {
 				this.trigger( 'sortStop', modelBeingSorted, newIndex );
@@ -7276,6 +7472,7 @@ define( 'Views/Section',[
 
 /**
  * Single Section View
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -7285,6 +7482,7 @@ define( 'Views/SectionList',[ 'Views/Section', 'Views/_Receivable' ], function( 
 
 		/**
 		 * Parent element
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-sections',
@@ -7299,24 +7497,28 @@ define( 'Views/SectionList',[ 'Views/Section', 'Views/_Receivable' ], function( 
 
 		/**
 		 * Section model
+		 *
 		 * @type  {[type]}
 		 */
 		modelView: SectionView,
 
 		/**
 		 * Enable keyboard events
+		 *
 		 * @type  {Bool}
 		 */
 		processKeyEvents: false,
 
 		/**
 		 * Are sections selectable?
+		 *
 		 * @type  {Bool}
 		 */
 		selectable: true,
 
 		/**
 		 * Are sections sortable?
+		 *
 		 * @type  {Bool}
 		 */
 		sortable: true,
@@ -7343,6 +7545,7 @@ define( 'Views/SectionList',[ 'Views/Section', 'Views/_Receivable' ], function( 
 
 /**
  * Single Course View
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -7352,6 +7555,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 
 		/**
 		 * Get default attributes for the html wrapper element
+		 *
 		 * @return   obj
 		 * @since    3.13.0
 		 * @version  3.13.0
@@ -7364,24 +7568,28 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 
 		/**
 		 * HTML element selector
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-builder-main',
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-course-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.13.0
 		 * @version  3.13.0
@@ -7404,7 +7612,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 			// selection changes
 			this.sectionListView.on( 'selectionChanged', this.active_section_change );
 			// "select" a section when it's added to the course
-			this.listenTo( this.model.get( 'sections'), 'add', this.on_section_add );
+			this.listenTo( this.model.get( 'sections' ), 'add', this.on_section_add );
 
 			Backbone.pubSub.on( 'section-toggle', this.on_section_toggle, this );
 
@@ -7416,6 +7624,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.13.0
 		 * @version  3.13.0
@@ -7436,6 +7645,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 		/**
 		 * When a section "selection" changes in the list
 		 * Update each section model so we can figure out which one is selected from other views
+		 *
 		 * @param    array   current   array of selected models
 		 * @param    array   previous  array of previously selected models
 		 * @return   void
@@ -7456,6 +7666,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 
 		/**
 		 * "Selects" the new section when it's added to the course
+		 *
 		 * @param    obj   model  Section model that's just been added
 		 * @return   void
 		 * @since    3.16.0
@@ -7470,6 +7681,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 		/**
 		 * When expanding/collapsing sections
 		 * if collapsing, unselect, if expanding, select
+		 *
 		 * @param    obj   model  toggled section
 		 * @return   void
 		 * @since    3.16.0
@@ -7488,6 +7700,7 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 
 /**
  * Model settings fields view
+ *
  * @since    3.17.0
  * @version  3.24.0
  */
@@ -7497,6 +7710,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * DOM events
+		 *
 		 * @type  {Object}
 		 */
 		events: {
@@ -7506,24 +7720,28 @@ define( 'Views/SettingsFields',[], function() {
 		/**
 		 * Processed fields data
 		 * Allows access by ID without traversing the schema
+		 *
 		 * @type  {Object}
 		 */
 		fields: {},
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-settings-fields-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -7532,6 +7750,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Retrieve an array of all editor fields in all groups
+		 *
 		 * @return   array
 		 * @since    3.17.1
 		 * @version  3.17.1
@@ -7544,6 +7763,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Get settings group data from a model
+		 *
 		 * @return   {[type]}
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -7556,6 +7776,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Determine if a settings group is hidden in localStorage
+		 *
 		 * @param    string   group_id  id of the group
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -7575,6 +7796,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Get the switch attribute for a field with switches
+		 *
 		 * @param    obj   field  field data obj
 		 * @return   string
 		 * @since    3.17.0
@@ -7588,6 +7810,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Determine if a field has a switch
+		 *
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -7599,6 +7822,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Determine if a field is a default (text) field
+		 *
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -7613,6 +7837,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Determine if a field is a WYSIWYG editor field
+		 *
 		 * @param    string   type  field type string
 		 * @return   {Boolean}
 		 * @since    3.17.1
@@ -7627,6 +7852,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Determine if a switch is enabled for a field
+		 *
 		 * @param    obj   field  field data object
 		 * @return   {Boolean}
 		 * @since    3.17.0
@@ -7640,6 +7866,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.17.0
 		 * @version  3.17.1
@@ -7659,6 +7886,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Renders an editor field
+		 *
 		 * @param    obj   field  field data object
 		 * @return   void
 		 * @since    3.17.1
@@ -7671,10 +7899,10 @@ define( 'Views/SettingsFields',[], function() {
 			wp.editor.remove( field.id );
 			field.settings.tinymce.setup = function( editor ) {
 
-				var $ed = $( '#' + editor.id ),
+				var $ed     = $( '#' + editor.id ),
 					$parent = $ed.closest( '.llms-editable-editor' ),
-					$label = $parent.find( '.llms-label' ),
-					prop = $ed.attr( 'data-attribute' )
+					$label  = $parent.find( '.llms-label' ),
+					prop    = $ed.attr( 'data-attribute' )
 
 				if ( $label.length ) {
 					$label.prependTo( $parent.find( '.wp-editor-tools' ) );
@@ -7704,6 +7932,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Get the HTML for a select field
+		 *
 		 * @param    obj      options    flat or multi-dimensional options object
 		 * @param    string   attribute  name of the select field's attribute
 		 * @return   string
@@ -7712,7 +7941,7 @@ define( 'Views/SettingsFields',[], function() {
 		 */
 		render_select_options: function( options, attribute ) {
 
-			var html = '',
+			var html     = '',
 				selected = this.model.get( attribute );
 
 			function option_html( label, val ) {
@@ -7726,7 +7955,7 @@ define( 'Views/SettingsFields',[], function() {
 				// this will be an key:val object
 				if ( 'string' === typeof option ) {
 					html += option_html( option, index );
-				// either option group or array of key,val objects
+					// either option group or array of key,val objects
 				} else if ( 'object' === typeof option ) {
 					// option group
 					if ( option.label && option.options ) {
@@ -7745,6 +7974,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Setup and fill fields with default data based on field type
+		 *
 		 * @param    obj   orig_field   original field as defined in the settings
 		 * @param    int   field_index  index of the field in the current row
 		 * @return   obj
@@ -7775,8 +8005,8 @@ define( 'Views/SettingsFields',[], function() {
 				case 'audio_embed':
 					defaults.classes.push( 'llms-editable-audio' );
 					defaults.placeholder = 'https://';
-					defaults.tip = LLMS.l10n.translate( 'Use SoundCloud or Spotify audio URLS.' );
-					defaults.input_type = 'url';
+					defaults.tip         = LLMS.l10n.translate( 'Use SoundCloud or Spotify audio URLS.' );
+					defaults.input_type  = 'url';
 				break;
 
 				case 'datepicker':
@@ -7806,14 +8036,14 @@ define( 'Views/SettingsFields',[], function() {
 				case 'video_embed':
 					defaults.classes.push( 'llms-editable-video' );
 					defaults.placeholder = 'https://';
-					defaults.tip = LLMS.l10n.translate( 'Use YouTube, Vimeo, or Wistia video URLS.' );
-					defaults.input_type = 'url';
+					defaults.tip         = LLMS.l10n.translate( 'Use YouTube, Vimeo, or Wistia video URLS.' );
+					defaults.input_type  = 'url';
 				break;
 
 			}
 
 			if ( this.has_switch( orig_field.type ) ) {
-				defaults.switch_on = 'yes';
+				defaults.switch_on  = 'yes';
 				defaults.switch_off = 'no';
 			}
 
@@ -7832,7 +8062,7 @@ define( 'Views/SettingsFields',[], function() {
 				_.each( orig_field.options, function( val, key ) {
 					if ( -1 !== val.indexOf( '.png' ) || -1 !== val.indexOf( '.jpg' ) ) {
 						field.options[key] = '<span><img src="' + val + '"></span>';
-						has_images = true;
+						has_images         = true;
 					}
 				} );
 				if ( has_images ) {
@@ -7854,6 +8084,7 @@ define( 'Views/SettingsFields',[], function() {
 
 		/**
 		 * Determine if toggling a switch select should rerender the view
+		 *
 		 * @param    string   field_type  field type string
 		 * @return   boolean
 		 * @since    3.17.0
@@ -7868,6 +8099,7 @@ define( 'Views/SettingsFields',[], function() {
 		/**
 		 * Click event for toggling visibility of settings groups
 		 * If localStorage is available, persist state
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.17.0
@@ -7877,7 +8109,7 @@ define( 'Views/SettingsFields',[], function() {
 
 			event.preventDefault();
 
-			var $el = $( event.currentTarget ),
+			var $el    = $( event.currentTarget ),
 				$group = $el.closest( '.llms-model-settings' );
 
 			$group.toggleClass( 'hidden' );
@@ -7901,6 +8133,7 @@ define( 'Views/SettingsFields',[], function() {
 
 /**
  * Lesson Editor (Sidebar) View
+ *
  * @since    3.17.0
  * @version  3.24.0
  */
@@ -7918,117 +8151,125 @@ define( 'Views/LessonEditor',[
 		SettingsFields
 	) {
 
-	return Backbone.View.extend( _.defaults( {
+		return Backbone.View.extend( _.defaults( {
 
-		/**
-		 * Current view state
-		 * @type  {String}
-		 */
-		state: 'default',
+			/**
+			 * Current view state
+			 *
+			 * @type  {String}
+			 */
+			state: 'default',
 
-		/**
-		 * Current Subviews
-		 * @type  {Object}
-		 */
-		views: {
-			settings: {
-				class: SettingsFields,
-				instance: null,
-				state: 'default',
+			/**
+			 * Current Subviews
+			 *
+			 * @type  {Object}
+			 */
+			views: {
+				settings: {
+					class: SettingsFields,
+					instance: null,
+					state: 'default',
+				},
 			},
-		},
 
-		el: '#llms-editor-lesson',
+			el: '#llms-editor-lesson',
 
-		/**
-		 * Events
-		 * @type  {Object}
-		 */
-		events: _.defaults( {}, Detachable.events, Editable.events, Trashable.events ),
+			/**
+			 * Events
+			 *
+			 * @type  {Object}
+			 */
+			events: _.defaults( {}, Detachable.events, Editable.events, Trashable.events ),
 
-		/**
-		 * Template function
-		 * @type  {[type]}
-		 */
-		template: wp.template( 'llms-lesson-settings-template' ),
+			/**
+			 * Template function
+			 *
+			 * @type  {[type]}
+			 */
+			template: wp.template( 'llms-lesson-settings-template' ),
 
-		/**
-		 * Init
-		 * @param    obj   data  parent template data
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.24.0
-		 */
-		initialize: function( data ) {
+			/**
+			 * Init
+			 *
+			 * @param    obj   data  parent template data
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.24.0
+			 */
+			initialize: function( data ) {
 
-			this.model = data.lesson;
+				this.model = data.lesson;
 
-			var change_events = [
+				var change_events = [
 				'change:date_available',
 				'change:drip_method',
 				'change:time_available',
-			];
-			_.each( change_events, function( event ) {
-				this.listenTo( this.model, event, this.render );
-			}, this );
+				];
+				_.each( change_events, function( event ) {
+					this.listenTo( this.model, event, this.render );
+				}, this );
 
-			// render only the tooltip for points percentage when points change
-			this.listenTo( this.model, 'change:points', this.render_points_percentage );
+				// render only the tooltip for points percentage when points change
+				this.listenTo( this.model, 'change:points', this.render_points_percentage );
 
-			// when the "has_prerequisite" attr is toggled ON
-			// trigger the prereq select object to set the default (first available) prereq for the lesson
-			this.listenTo( this.model, 'change:has_prerequisite', function( lesson, val ) {
-				if ( 'yes' === val ) {
-					this.$el.find( 'select[name="prerequisite"]' ).trigger( 'change' );
-				}
-			} );
+				// when the "has_prerequisite" attr is toggled ON
+				// trigger the prereq select object to set the default (first available) prereq for the lesson
+				this.listenTo( this.model, 'change:has_prerequisite', function( lesson, val ) {
+					if ( 'yes' === val ) {
+						this.$el.find( 'select[name="prerequisite"]' ).trigger( 'change' );
+					}
+				} );
 
-		},
+			},
 
-		/**
-		 * Render the view
-		 * @return   obj
-		 * @since    3.17.0
-		 * @version  3.24.0
-		 */
-		render: function() {
+			/**
+			 * Render the view
+			 *
+			 * @return   obj
+			 * @since    3.17.0
+			 * @version  3.24.0
+			 */
+			render: function() {
 
-			this.$el.html( this.template( this.model ) );
+				this.$el.html( this.template( this.model ) );
 
-			this.remove_subview( 'settings' );
+				this.remove_subview( 'settings' );
 
-			this.render_subview( 'settings', {
-				el: '#llms-lesson-settings-fields',
-				model: this.model,
-			} );
+				this.render_subview( 'settings', {
+					el: '#llms-lesson-settings-fields',
+					model: this.model,
+				} );
 
-			this.init_datepickers();
-			this.init_selects();
+				this.init_datepickers();
+				this.init_selects();
 
-			this.render_points_percentage();
+				this.render_points_percentage();
 
-			return this;
+				return this;
 
-		},
+			},
 
-		/**
-		 * Render the portion of the template which displays the points percentage
-		 * @return   void
-		 * @since    3.24.0
-		 * @version  3.24.0
-		 */
-		render_points_percentage: function() {
-			this.$el.find( '#llms-model-settings-field--points .llms-editable-input' )
+			/**
+			 * Render the portion of the template which displays the points percentage
+			 *
+			 * @return   void
+			 * @since    3.24.0
+			 * @version  3.24.0
+			 */
+			render_points_percentage: function() {
+				this.$el.find( '#llms-model-settings-field--points .llms-editable-input' )
 				.addClass( 'tip--top-left' )
 				.attr( 'data-tip', this.model.get_points_percentage() );
-		}
+			}
 
-	}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
+		}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
 
 } );
 
 /**
  * Single Quiz View
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -8053,12 +8294,14 @@ define( 'Views/Popover',[], function() {
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.14.1
 		 * @version  3.14.1
@@ -8076,6 +8319,7 @@ define( 'Views/Popover',[], function() {
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -8089,6 +8333,7 @@ define( 'Views/Popover',[], function() {
 
 		/**
 		 * Hide the popover
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.12
@@ -8102,6 +8347,7 @@ define( 'Views/Popover',[], function() {
 
 		/**
 		 * Show the popover
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.12
@@ -8119,6 +8365,7 @@ define( 'Views/Popover',[], function() {
 
 /**
  * Post Popover Search content View
+ *
  * @since    3.16.0
  * @version  3.17.0
  */
@@ -8128,6 +8375,7 @@ define( 'Views/PostSearch',[], function() {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type     obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -8138,12 +8386,14 @@ define( 'Views/PostSearch',[], function() {
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'select',
 
 		/**
 		 * Initializer
+		 *
 		 * @param    obj   data  customize the search box with data
 		 * @return   void
 		 * @since    3.16.12
@@ -8151,13 +8401,14 @@ define( 'Views/PostSearch',[], function() {
 		 */
 		initialize: function( data ) {
 
-			this.post_type = data.post_type;
+			this.post_type         = data.post_type;
 			this.searching_message = data.searching_message || LLMS.l10n.translate( 'Searching...' );
 
 		},
 
 		/**
 		 * Select event, adds the existing lesson to the course
+		 *
 		 * @param    obj   event  select2:select event object
 		 * @since    3.16.0
 		 * @version  3.17.0
@@ -8174,6 +8425,7 @@ define( 'Views/PostSearch',[], function() {
 		/**
 		 * Render the section
 		 * Initializes a new collection and views for all lessons in the section
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.12
@@ -8199,7 +8451,7 @@ define( 'Views/PostSearch',[], function() {
 							};
 						},
 						// error: function( xhr, status, error ) {
-						// 	console.log( status, error );
+						// console.log( status, error );
 						// },
 					},
 					dropdownParent: $( '.wrap.lifterlms.llms-builder' ),
@@ -8219,6 +8471,7 @@ define( 'Views/PostSearch',[], function() {
 
 		/**
 		 * Render a nicer UI for each search result in the in the Select2 search results
+		 *
 		 * @param    object   res  result data
 		 * @return   string
 		 * @since    3.16.0
@@ -8234,8 +8487,8 @@ define( 'Views/PostSearch',[], function() {
 
 			var $side = $( '<aside class="llms-existing-action" />' ),
 				$main = $( '<div class="llms-existing-info" />' );
-				icon = ( 'attach' === res.action ) ? 'paperclip' : 'clone',
-				text = ( 'attach' === res.action ) ? LLMS.l10n.translate( 'Attach' ) : LLMS.l10n.translate( 'Clone' );
+				icon  = ( 'attach' === res.action ) ? 'paperclip' : 'clone',
+				text  = ( 'attach' === res.action ) ? LLMS.l10n.translate( 'Attach' ) : LLMS.l10n.translate( 'Clone' );
 
 			$side.append( '<i class="fa fa-' + icon + '" aria-hidden="true"></i><small>' + text + '</small>' );
 
@@ -8267,6 +8520,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		/**
 		 * HTML class names
+		 *
 		 * @type  {String}
 		 */
 		className: 'llms-question-type',
@@ -8277,6 +8531,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		/**
 		 * HTML element wrapper ID attribute
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -8287,18 +8542,21 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'li',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-question-type-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -8311,6 +8569,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -8322,6 +8581,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		/**
 		 * Add a question of the selected type to the current quiz
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.27.0
@@ -8401,6 +8661,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		/**
 		 * Add a new question to the quiz
+		 *
 		 * @return  void
 		 * @since   3.27.0
 		 * @version 3.27.0
@@ -8419,22 +8680,22 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 		// filter: function( term ) {
 
-		// 	var words = this.model.get_keywords().map( function( word ) {
-		// 		return word.toLowerCase();
-		// 	} );
+		// var words = this.model.get_keywords().map( function( word ) {
+		// return word.toLowerCase();
+		// } );
 
-		// 	term = term.toLowerCase();
+		// term = term.toLowerCase();
 
-		// 	if ( -1 === words.indexOf( term ) ) {
-		// 		this.$el.addClass( 'filtered' );
-		// 	} else {
-		// 		this.$el.removeClass( 'filtered' );
-		// 	}
+		// if ( -1 === words.indexOf( term ) ) {
+		// this.$el.addClass( 'filtered' );
+		// } else {
+		// this.$el.removeClass( 'filtered' );
+		// }
 
 		// },
 
 		// clear_filter: function() {
-		// 	this.$el.removeClass( 'filtered' );
+		// this.$el.removeClass( 'filtered' );
 		// }
 
 	} );
@@ -8443,6 +8704,7 @@ define( 'Views/QuestionType',[ 'Views/Popover', 'Views/PostSearch' ], function( 
 
 /**
  * Quiz question bank view
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -8454,24 +8716,28 @@ define( 'Views/QuestionBank',[ 'Views/QuestionType' ], function( QuestionView ) 
 
 		/**
 		 * Parent element
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-question-bank',
 
 		/**
 		 * Section model
+		 *
 		 * @type  {[type]}
 		 */
 		modelView: QuestionView,
 
 		/**
 		 * Are sections selectable?
+		 *
 		 * @type  {Bool}
 		 */
 		selectable: false,
 
 		/**
 		 * Are sections sortable?
+		 *
 		 * @type  {Bool}
 		 */
 		sortable: false,
@@ -8608,6 +8874,7 @@ define( 'Views/QuestionChoice',[ 'Views/_Editable', ], function( Editable ) {
 
 /**
  * Quiz question bank view
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -8619,24 +8886,28 @@ define( 'Views/QuestionChoiceList',[ 'Views/QuestionChoice' ], function( ChoiceV
 
 		/**
 		 * Choice model view
+		 *
 		 * @type  {[type]}
 		 */
 		modelView: ChoiceView,
 
 		/**
 		 * Enable keyboard events
+		 *
 		 * @type  {Bool}
 		 */
 		processKeyEvents: false,
 
 		/**
 		 * Are sections selectable?
+		 *
 		 * @type  {Bool}
 		 */
 		selectable: false,
 
 		/**
 		 * Are sections sortable?
+		 *
 		 * @type  {Bool}
 		 */
 		sortable: true,
@@ -9526,9 +9797,13 @@ define( 'Views/Quiz',[
 
 /**
  * Single Assignment View
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.17.0
  * @version  3.17.7
  */
+
 define( 'Views/Assignment',[
 		'Views/Popover',
 		'Views/PostSearch',
@@ -9547,304 +9822,318 @@ define( 'Views/Assignment',[
 		SettingsFields
 	) {
 
-	return Backbone.View.extend( _.defaults( {
+		return Backbone.View.extend( _.defaults( {
 
-		/**
-		 * Current view state
-		 * @type  {String}
-		 */
-		state: 'default',
+			/**
+			 * Current view state
+			 *
+			 * @type  {String}
+			 */
+			state: 'default',
 
-		/**
-		 * Current Subviews
-		 * @type  {Object}
-		 */
-		views: {
-			settings: {
-				class: SettingsFields,
-				instance: null,
-				state: 'default',
+			/**
+			 * Current Subviews
+			 *
+			 * @type  {Object}
+			 */
+			views: {
+				settings: {
+					class: SettingsFields,
+					instance: null,
+					state: 'default',
+				},
 			},
-		},
 
-		el: '#llms-editor-assignment',
+			el: '#llms-editor-assignment',
 
-		/**
-		 * DOM Events
-		 * @return   obj
-		 * @since    3.17.1
-		 * @version  3.17.1
-		 */
-		events: function() {
-			var addon_events = this.is_addon_available() ? window.llms_builder.assignments.get_view_events() : {};
-			return _.defaults( {
-				'click #llms-existing-assignment': 'add_existing_assignment_click',
-				'click #llms-new-assignment': 'add_new_assignment',
-			}, Detachable.events, Editable.events, Trashable.events, addon_events );
-		},
+			/**
+			 * DOM Events
+			 *
+			 * @return   obj
+			 * @since    3.17.1
+			 * @version  3.17.1
+			 */
+			events: function() {
+				var addon_events = this.is_addon_available() ? window.llms_builder.assignments.get_view_events() : {};
+				return _.defaults( {
+					'click #llms-existing-assignment': 'add_existing_assignment_click',
+					'click #llms-new-assignment': 'add_new_assignment',
+				}, Detachable.events, Editable.events, Trashable.events, addon_events );
+			},
 
-		/**
-		 * Wrapper Tag name
-		 * @type  {String}
-		 */
-		tagName: 'div',
+			/**
+			 * Wrapper Tag name
+			 *
+			 * @type  {String}
+			 */
+			tagName: 'div',
 
-		/**
-		 * Get the underscore template
-		 * @type  {[type]}
-		 */
-		template: wp.template( 'llms-assignment-template' ),
+			/**
+			 * Get the underscore template
+			 *
+			 * @type  {[type]}
+			 */
+			template: wp.template( 'llms-assignment-template' ),
 
-		/**
-		 * Initialization callback func (renders the element on screen)
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.2
-		 */
-		initialize: function( data ) {
+			/**
+			 * Initialization callback func (renders the element on screen)
+			 *
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.2
+			 */
+			initialize: function( data ) {
 
-			this.lesson = data.lesson;
+				this.lesson = data.lesson;
 
-			// initialize the model if the assignment is enabled or it's disabled but we still have data for a assignment
-			if ( 'yes' === this.lesson.get( 'assignment_enabled' ) || ! _.isEmpty( this.lesson.get( 'assignment' ) ) ) {
+				// initialize the model if the assignment is enabled or it's disabled but we still have data for a assignment
+				if ( 'yes' === this.lesson.get( 'assignment_enabled' ) || ! _.isEmpty( this.lesson.get( 'assignment' ) ) ) {
 
-				this.model = this.lesson.get( 'assignment' );
+					this.model = this.lesson.get( 'assignment' );
 
-				/**
-				 * @todo  this is a terrible terrible patch
-				 *        I've spent nearly 3 days trying to figure out how to not use this line of code
-				 *        ISSUE REPRODUCTION:
-				 *        Open course builder
-				 *        Open a lesson (A) and add a assignment
-				 *        Switch to a new lesson (B)
-				 *        Add a new assignment
-				 *        Return to lesson A and the assignment's parent will be set to LESSON B
-				 *        This will happen for *every* assignment in the builder...
-				 *        Adding this set_parent on init guarantees that the assignment's correct parent is set
-				 *        after adding new assignment's to other lessons
-				 *        it's awful and it's gross...
-				 *        I'm confused and tired and going to miss release dates again because of it
-				 */
-				this.model.set_parent( this.lesson );
+					/**
+					 * Todo Item.
+					 *
+					 * @todo  this is a terrible terrible patch
+					 *        I've spent nearly 3 days trying to figure out how to not use this line of code
+					 *        ISSUE REPRODUCTION:
+					 *        Open course builder
+					 *        Open a lesson (A) and add a assignment
+					 *        Switch to a new lesson (B)
+					 *        Add a new assignment
+					 *        Return to lesson A and the assignment's parent will be set to LESSON B
+					 *        This will happen for *every* assignment in the builder...
+					 *        Adding this set_parent on init guarantees that the assignment's correct parent is set
+					 *        after adding new assignment's to other lessons
+					 *        it's awful and it's gross...
+					 *        I'm confused and tired and going to miss release dates again because of it
+					 */
+					this.model.set_parent( this.lesson );
 
-			}
+				}
 
-			this.on( 'model-trashed', this.on_trashed );
+				this.on( 'model-trashed', this.on_trashed );
 
-		},
+			},
 
-		/**
-		 * Compiles the template and renders the view
-		 * @return   self (for chaining)
-		 * @since    3.17.0
-		 * @version  3.17.7
-		 */
-		render: function() {
+			/**
+			 * Compiles the template and renders the view
+			 *
+			 * @return   self (for chaining)
+			 * @since    3.17.0
+			 * @version  3.17.7
+			 */
+			render: function() {
 
-			this.$el.html( this.template( this.model ) );
+				this.$el.html( this.template( this.model ) );
 
-			if ( this.model && this.is_addon_available() ) {
+				if ( this.model && this.is_addon_available() ) {
 
-				this.stopListening( this.model, 'change:assignment_type', this.render );
+					this.stopListening( this.model, 'change:assignment_type', this.render );
 
-				this.render_subview( 'settings', {
-					el: '#llms-assignment-settings-fields',
-					model: this.model,
-				} );
+					this.render_subview( 'settings', {
+						el: '#llms-assignment-settings-fields',
+						model: this.model,
+					} );
 
-				// this.init_datepickers();
-				this.init_selects();
+					// this.init_datepickers();
+					this.init_selects();
 
-				window.llms_builder.assignments.render_editor( this );
+					window.llms_builder.assignments.render_editor( this );
 
-				this.listenTo( this.model, 'change:assignment_type', this.render );
+					this.listenTo( this.model, 'change:assignment_type', this.render );
 
-			}
+				}
 
-			return this;
+				return this;
 
-		},
+			},
 
-		/**
-		 * Adds a new assignment to a lesson which currently has no assignment associated with it
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		add_new_assignment: function() {
+			/**
+			 * Adds a new assignment to a lesson which currently has no assignment associated with it
+			 *
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			add_new_assignment: function() {
 
-			if ( this.is_addon_available() ) {
+				if ( this.is_addon_available() ) {
 
-				this.model = window.llms_builder.assignments.get_assignment( {
-					/* translators: %1$s = associated lesson title */
-					title: LLMS.l10n.replace( '%1$s Assignment', {
-						'%1$s': this.lesson.get( 'title' ),
-					} ),
-					lesson_id: this.lesson.get( 'id' ),
-				} );
+					this.model = window.llms_builder.assignments.get_assignment( {
+						/* translators: %1$s = associated lesson title */
+						title: LLMS.l10n.replace( '%1$s Assignment', {
+							'%1$s': this.lesson.get( 'title' ),
+						} ),
+                        lesson_id: this.lesson.get( 'id' ),
+					} );
+
+					this.lesson.set( 'assignment_enabled', 'yes' );
+					this.lesson.set( 'assignment', this.model );
+
+					this.render();
+
+				} else {
+
+					this.show_ad_popover( '#llms-new-assignment' );
+
+				}
+
+			},
+
+			/**
+			 * When an assignment is selected from the post select popover
+			 * instantiate it and add it to the current lesson
+			 *
+			 * @param    object   event  data from the select2 select event
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			add_existing_assignment: function( event ) {
+
+				this.post_search_popover.hide();
+
+				var assignment = event.data;
+
+				if ( 'clone' === event.action ) {
+
+					delete assignment.id;
+
+				} else {
+
+					assignment._forceSync = true;
+
+				}
+
+				assignment.lesson_id = this.lesson.get( 'id' )
+
+				assignment = window.llms_builder.construct.get_model( 'Assignment', assignment );
 
 				this.lesson.set( 'assignment_enabled', 'yes' );
-				this.lesson.set( 'assignment', this.model );
+				this.lesson.set( 'assignment', assignment );
+				this.model = assignment;
 
 				this.render();
 
-			} else {
+			},
 
-				this.show_ad_popover( '#llms-new-assignment' );
+			/**
+			 * Open add existing assignment popover
+			 *
+			 * @param    obj   event  JS event object
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			add_existing_assignment_click: function( event ) {
 
-			}
+				event.preventDefault();
 
+				if ( this.is_addon_available() ) {
 
-		},
+					this.post_search_popover = new Popover( {
+						el: '#llms-existing-assignment',
+						args: {
+							backdrop: true,
+							closeable: true,
+							container: '.wrap.lifterlms.llms-builder',
+							dismissible: true,
+							placement: 'left',
+							width: 480,
+							title: LLMS.l10n.translate( 'Add Existing Assignment' ),
+							content: new PostSearch( {
+								post_type: 'llms_assignment',
+								searching_message: LLMS.l10n.translate( 'Search for existing assignments...' ),
+							} ).render().$el,
+						onHide: function() {
+							Backbone.pubSub.off( 'assignment-search-select' );
+						},
+						}
+					} );
 
-		/**
-		 * When an assignment is selected from the post select popover
-		 * instantiate it and add it to the current lesson
-		 * @param    object   event  data from the select2 select event
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		add_existing_assignment: function( event ) {
+					this.post_search_popover.show();
+					Backbone.pubSub.once( 'assignment-search-select', this.add_existing_assignment, this );
 
-			this.post_search_popover.hide();
+				} else {
 
-			var assignment = event.data;
+					this.show_ad_popover( '#llms-existing-assignment' );
 
-			if ( 'clone' === event.action ) {
+				}
 
-				delete assignment.id;
+			},
 
-			} else {
+			/**
+			 * Determine if Assignments addon is available to use
+			 *
+			 * @return   {Boolean}
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			is_addon_available: function() {
 
-				assignment._forceSync = true;
+				return ( window.llms_builder.assignments );
 
-			}
+			},
 
-			assignment.lesson_id = this.lesson.get( 'id' )
+			/**
+			 * Called when assignment is trashed
+			 *
+			 * @param    obj   assignment  Assignment model
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			on_trashed: function( assignment ) {
 
-			assignment = window.llms_builder.construct.get_model( 'Assignment', assignment );
+				this.lesson.set( 'assignment_enabled', 'no' );
+				this.lesson.set( 'assignment', '' );
 
-			this.lesson.set( 'assignment_enabled', 'yes' );
-			this.lesson.set( 'assignment', assignment );
-			this.model = assignment;
+				delete this.model;
 
-			this.render();
+				this.render();
 
-		},
+			},
 
-		/**
-		 * Open add existing assignment popover
-		 * @param    obj   event  JS event object
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		add_existing_assignment_click: function( event ) {
+			/**
+			 * Shows a dirty dirty ad popover for advanced assignments
+			 *
+			 * @param    string   el  jQuery selector string
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.0
+			 */
+			show_ad_popover: function( el ) {
 
-			event.preventDefault();
+				var h3 = LLMS.l10n.translate( 'Get Your Students Taking Action' ),
+				p      = 'Great learning content is only half of teaching online. When your learners fully engage, they will take your content and move into action. Remove barriers for your learners by telling them what to do to apply what they just learned. Create graded assignments or simply give them a checklist of action items to complete before moving on.',
+				btn    = LLMS.l10n.translate( 'Get Assignments Now!' ),
+				url    = 'https://lifterlms.com/product/lifterlms-assignments?utm_source=LifterLMS%20Plugin&utm_medium=Assignment%20Builder%20Button&utm_campaign=Assignment%20Addon%20Upsell&utm_content=3.17.0';
 
-			if ( this.is_addon_available() ) {
-
-				this.post_search_popover = new Popover( {
-					el: '#llms-existing-assignment',
+				this.ad_popover = new Popover( {
+					el: el,
 					args: {
 						backdrop: true,
 						closeable: true,
 						container: '.wrap.lifterlms.llms-builder',
 						dismissible: true,
-						placement: 'left',
-						width: 480,
-						title: LLMS.l10n.translate( 'Add Existing Assignment' ),
-						content: new PostSearch( {
-							post_type: 'llms_assignment',
-							searching_message: LLMS.l10n.translate( 'Search for existing assignments...' ),
-						} ).render().$el,
-						onHide: function() {
-							Backbone.pubSub.off( 'assignment-search-select' );
-						},
+						// placement: 'left',
+						width: 380,
+						title: LLMS.l10n.translate( 'Unlock LifterLMS Assignments' ),
+						content: '<h3>' + h3 + '</h3><p>' + p + '</p><br><p><a class="llms-button-primary" href="' + url + '" target="_blank">' + btn + '</a></p>'
 					}
 				} );
 
-				this.post_search_popover.show();
-				Backbone.pubSub.once( 'assignment-search-select', this.add_existing_assignment, this );
+				this.ad_popover.show();
 
-			} else {
+			},
 
-				this.show_ad_popover( '#llms-existing-assignment' );
+		}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
 
-			}
-
-
-		},
-
-		/**
-		 * Determine if Assignments addon is available to use
-		 * @return   {Boolean}
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		is_addon_available: function() {
-
-			return ( window.llms_builder.assignments );
-
-		},
-
-		/**
-		 * Called when assignment is trashed
-		 * @param    obj   assignment  Assignment model
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		on_trashed: function( assignment ) {
-
-			this.lesson.set( 'assignment_enabled', 'no' );
-			this.lesson.set( 'assignment', '' );
-
-			delete this.model;
-
-			this.render();
-
-		},
-
-		/**
-		 * Shows a dirty dirty ad popover for advanced assignments
-		 * @param    string   el  jQuery selector string
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.0
-		 */
-		show_ad_popover: function( el ) {
-
-			var h3 = LLMS.l10n.translate( 'Get Your Students Taking Action' ),
-				p = 'Great learning content is only half of teaching online. When your learners fully engage, they will take your content and move into action. Remove barriers for your learners by telling them what to do to apply what they just learned. Create graded assignments or simply give them a checklist of action items to complete before moving on.',
-				btn = LLMS.l10n.translate( 'Get Assignments Now!' ),
-				url = 'https://lifterlms.com/product/lifterlms-assignments?utm_source=LifterLMS%20Plugin&utm_medium=Assignment%20Builder%20Button&utm_campaign=Assignment%20Addon%20Upsell&utm_content=3.17.0';
-
-			this.ad_popover = new Popover( {
-				el: el,
-				args: {
-					backdrop: true,
-					closeable: true,
-					container: '.wrap.lifterlms.llms-builder',
-					dismissible: true,
-					// placement: 'left',
-					width: 380,
-					title: LLMS.l10n.translate( 'Unlock LifterLMS Assignments' ),
-					content: '<h3>' + h3 + '</h3><p>' + p + '</p><br><p><a class="llms-button-primary" href="' + url + '" target="_blank">' + btn + '</a></p>'
-				}
-			} );
-
-			this.ad_popover.show();
-
-		},
-
-	}, Detachable, Editable, Trashable, Subview, SettingsFields ) );
-
-} );
+	} );
 
 /**
  * Sidebar Editor View
+ *
  * @since    3.16.0
  * @version  3.27.0
  */
@@ -9860,157 +10149,167 @@ define( 'Views/Editor',[
 		Subview
 	) {
 
-	return Backbone.View.extend( _.defaults( {
+		return Backbone.View.extend( _.defaults( {
 
-		/**
-		 * Current view state
-		 * @type  {String}
-		 */
-		state: 'lesson', // [lesson|quiz]
+			/**
+			 * Current view state
+			 *
+			 * @type  {String}
+			 */
+			state: 'lesson', // [lesson|quiz]
 
-		/**
-		 * Current Subviews
-		 * @type  {Object}
-		 */
-		views: {
-			lesson: {
-				class: LessonEditor,
-				instance: null,
-				state: 'lesson',
+			/**
+			 * Current Subviews
+			 *
+			 * @type  {Object}
+			 */
+			views: {
+				lesson: {
+					class: LessonEditor,
+					instance: null,
+					state: 'lesson',
+				},
+				assignment: {
+					class: Assignment,
+					instance: null,
+					state: 'assignment',
+				},
+				quiz: {
+					class: Quiz,
+					instance: null,
+					state: 'quiz',
+				},
 			},
-			assignment: {
-				class: Assignment,
-				instance: null,
-				state: 'assignment',
+
+			/**
+			 * HTML element selector
+			 *
+			 * @type  {String}
+			 */
+			el: '#llms-editor',
+
+			events: {
+				'click .llms-editor-nav a[href="#llms-editor-close"]': 'close_editor',
+				'click .llms-editor-nav a:not([href="#llms-editor-close"])': 'switch_tab',
 			},
-			quiz: {
-				class: Quiz,
-				instance: null,
-				state: 'quiz',
+
+			/**
+			 * Wrapper Tag name
+			 *
+			 * @type  {String}
+			 */
+			tagName: 'div',
+
+			/**
+			 * Get the underscore template
+			 *
+			 * @type  {[type]}
+			 */
+			template: wp.template( 'llms-editor-template' ),
+
+			/**
+			 * Initialization callback func (renders the element on screen)
+			 *
+			 * @return   void
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			initialize: function( data ) {
+
+				this.SidebarView = data.SidebarView;
+				if ( data.tab ) {
+					this.state = data.tab;
+				}
+
 			},
-		},
 
-		/**
-		 * HTML element selector
-		 * @type  {String}
-		 */
-		el: '#llms-editor',
+			/**
+			 * Compiles the template and renders the view
+			 *
+			 * @return   self (for chaining)
+			 * @since    3.16.0
+			 * @version  3.16.0
+			 */
+			render: function( view_data ) {
 
-		events: {
-			'click .llms-editor-nav a[href="#llms-editor-close"]': 'close_editor',
-			'click .llms-editor-nav a:not([href="#llms-editor-close"])': 'switch_tab',
-		},
+				view_data = view_data || {};
 
-		/**
-		 * Wrapper Tag name
-		 * @type  {String}
-		 */
-		tagName: 'div',
+				this.$el.html( this.template( this ) );
 
-		/**
-		 * Get the underscore template
-		 * @type  {[type]}
-		 */
-		template: wp.template( 'llms-editor-template' ),
+				this.render_subviews( _.extend( view_data, {
+					lesson: this.model,
+				} ) );
 
-		/**
-		 * Initialization callback func (renders the element on screen)
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		initialize: function( data ) {
+				return this;
 
-			this.SidebarView = data.SidebarView;
-			if ( data.tab ) {
-				this.state = data.tab;
-			}
+			},
 
-		},
+			/**
+			 * Click event for close sidebar editor button
+			 * Sends event to main SidebarView to trigger editor closing events
+			 *
+			 * @param    obj   event  js event obj
+			 * @return   void
+			 * @since    3.16.0
+			 * @version  3.27.0
+			 */
+			close_editor: function( event ) {
 
-		/**
-		 * Compiles the template and renders the view
-		 * @return   self (for chaining)
-		 * @since    3.16.0
-		 * @version  3.16.0
-		 */
-		render: function( view_data ) {
+				event.preventDefault();
+				Backbone.pubSub.trigger( 'sidebar-editor-close' );
+				window.location.hash = '';
 
-			view_data = view_data || {};
+			},
 
-			this.$el.html( this.template( this ) );
+			/**
+			 * Click event for switching tabs in the editor navigation
+			 *
+			 * @param    object  event  js event object
+			 * @return   void
+			 * @since    3.16.0
+			 * @version  3.27.0
+			 */
+			switch_tab: function( event ) {
 
-			this.render_subviews( _.extend( view_data, {
-				lesson: this.model,
-			} ) );
+				event.preventDefault();
 
-			return this;
+				var $btn = $( event.target ),
+				view     = $btn.attr( 'data-view' ),
+				$tab     = this.$el.find( $btn.attr( 'href' ) );
 
-		},
+				this.set_state( view ).render();
+				this.set_hash( view );
 
-		/**
-		 * Click event for close sidebar editor button
-		 * Sends event to main SidebarView to trigger editor closing events
-		 * @param    obj   event  js event obj
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.27.0
-		 */
-		close_editor: function( event ) {
+				// Backbone.pubSub.trigger( 'editor-tab-activated', $btn.attr( 'href' ).substring( 1 ) );
+			},
 
-			event.preventDefault();
-			Backbone.pubSub.trigger( 'sidebar-editor-close' );
-			window.location.hash = '';
+			/**
+			 * Adds a hash for deep linking to a specific lesson tab
+			 *
+			 * @param  string  subtab subtab [quiz|assignment]
+			 * @return void
+			 * @since   3.27.0
+			 * @version 3.27.0
+			 */
+			set_hash: function( subtab ) {
 
-		},
+				var hash = 'lesson:' + this.model.get( 'id' );
 
-		/**
-		 * Click event for switching tabs in the editor navigation
-		 * @param    object  event  js event object
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.27.0
-		 */
-		switch_tab: function( event ) {
+				if ( 'lesson' !== subtab ) {
+					hash += ':' + subtab;
+				}
 
-			event.preventDefault();
+				window.location.hash = hash;
 
-			var $btn = $( event.target ),
-				view = $btn.attr( 'data-view' ),
-				$tab = this.$el.find( $btn.attr( 'href' ) );
+			},
 
-			this.set_state( view ).render();
-			this.set_hash( view );
-
-			// Backbone.pubSub.trigger( 'editor-tab-activated', $btn.attr( 'href' ).substring( 1 ) );
-
-		},
-
-		/**
-		 * Adds a hash for deep linking to a specific lesson tab
-		 * @param  string  subtab subtab [quiz|assignment]
-		 * @return void
-		 * @since   3.27.0
-		 * @version 3.27.0
-		 */
-		set_hash: function( subtab ) {
-
-			var hash = 'lesson:' + this.model.get( 'id' );
-
-			if ( 'lesson' !== subtab ) {
-				hash += ':' + subtab;
-			}
-
-			window.location.hash = hash;
-
-		},
-
-	}, Subview ) );
+		}, Subview ) );
 
 } );
 
 /**
  * Sidebar Elements View
+ *
  * @since    3.16.0
  * @version  3.16.12
  */
@@ -10020,6 +10319,7 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 		/**
 		 * HTML element selector
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-elements',
@@ -10032,18 +10332,21 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-elements-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -10061,6 +10364,7 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -10125,6 +10429,7 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 		/**
 		 * Show the popover to add an existing lessons
+		 *
 		 * @param    object   event  JS Event Object
 		 * @return   void
 		 * @since    3.16.12
@@ -10160,6 +10465,7 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 		/**
 		 * Disables lesson add buttons if no sections are available to add a lesson to
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -10182,6 +10488,7 @@ define( 'Views/Elements',[ 'Models/Section', 'Views/Section', 'Models/Lesson', '
 
 /**
  * Sidebar Utilities View
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -10191,6 +10498,7 @@ define( 'Views/Utilities',[], function() {
 
 		/**
 		 * HTML element selector
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-utilities',
@@ -10202,18 +10510,21 @@ define( 'Views/Utilities',[], function() {
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-utilities-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -10221,11 +10532,11 @@ define( 'Views/Utilities',[], function() {
 		initialize: function() {
 
 			// this.render();
-
 		},
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -10237,6 +10548,7 @@ define( 'Views/Utilities',[], function() {
 
 		/**
 		 * Collapse all sections
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -10248,6 +10560,7 @@ define( 'Views/Utilities',[], function() {
 
 		/**
 		 * Expand all sections
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -10583,6 +10896,7 @@ define( 'Views/Sidebar',[
 
 /**
  * LifterLMS JS Builder App Bootstrap
+ *
  * @since 3.16.0
  * @version 3.30.1
  */
@@ -10597,7 +10911,7 @@ require( [
 	'Models/loader',
 	'Views/Course',
 	'Views/Sidebar'
-], function(
+	], function(
 	Hooks,
 	CV,
 	TrackIt,
@@ -10608,227 +10922,235 @@ require( [
 	Models,
 	CourseView,
 	SidebarView
-) {
+	) {
 
-	window.llms_builder.debug = new Debug( window.llms_builder.debug );
-	window.llms_builder.construct = new Construct();
-	window.llms_builder.schemas = new Schemas( window.llms_builder.schemas );
-
-	/**
-	 * Compare values, used by _.checked & _.selected mixins
-	 * @param    mixed   expected  expected value, probably a string (the value of a select option or checkbox element)
-	 * @param    mixed   actual    actual value, probably a string (the return of model.get( 'something' ) )
-	 *                             				 but could be an array like a multiselect
-	 * @return   boolean
-	 * @since    3.17.2
-	 * @version  3.17.2
-	 */
-	function value_compare( expected, actual ) {
-		return ( ( _.isArray( actual ) && -1 !== actual.indexOf( expected ) ) || expected == actual );
-	};
-
-	/**
-	 * Underscores templating utilities
-	 * @since    3.17.0
-	 * @version  3.27.0
-	 */
-	_.mixin( {
+		window.llms_builder.debug     = new Debug( window.llms_builder.debug );
+		window.llms_builder.construct = new Construct();
+		window.llms_builder.schemas   = new Schemas( window.llms_builder.schemas );
 
 		/**
-		 * Determine if two values are equal and output checked attribute if they are
-		 * Useful for templating checkboxes & radio elements
-		 * Like WP Core PHP checked() but in JS
-		 * @param    mixed   expected  expected element value
-		 * @param    mixed   actual    actual element value
-		 * @return   void
-		 * @since    3.17.0
+		 * Compare values, used by _.checked & _.selected mixins
+		 *
+		 * @param    mixed   expected  expected value, probably a string (the value of a select option or checkbox element)
+		 * @param    mixed   actual    actual value, probably a string (the return of model.get( 'something' ) )
+		 *                             				 but could be an array like a multiselect
+		 * @return   boolean
+		 * @since    3.17.2
 		 * @version  3.17.2
 		 */
-		checked: function( expected, actual ) {
-			if ( value_compare( expected, actual ) ) {
-				return ' checked="checked"';
-			}
-			return '';
-		},
+		function value_compare( expected, actual ) {
+			return ( ( _.isArray( actual ) && -1 !== actual.indexOf( expected ) ) || expected == actual );
+		};
 
 		/**
-		 * Recursively clone an object via _.clone()
-		 * @param    obj   obj  object to clone
-		 * @return   obj
-		 * @since    3.17.7
-		 * @version  3.17.7
-		 */
-		deepClone: function( obj ) {
-
-			var clone = _.clone( obj );
-
-			_.each( clone, function( val, key ) {
-				if ( ! _.isFunction( val ) && _.isObject( val ) ) {
-					clone[ key ] = _.deepClone( val );
-				};
-			} );
-
-			return clone;
-
-		},
-
-		/**
-		 * Strips IDs & Parent References from quizzes and all quiz questions
-		 * @param    obj   quiz   raw quiz object (not a model)
-		 * @return   obj
-		 * @since    3.24.0
+		 * Underscores templating utilities
+		 *
+		 * @since    3.17.0
 		 * @version  3.27.0
 		 */
-		prepareQuizObjectForCloning: function( quiz ) {
+		_.mixin( {
 
-			delete quiz.id;
-			delete quiz.lesson_id;
+			/**
+			 * Determine if two values are equal and output checked attribute if they are
+			 * Useful for templating checkboxes & radio elements
+			 * Like WP Core PHP checked() but in JS
+			 *
+			 * @param    mixed   expected  expected element value
+			 * @param    mixed   actual    actual element value
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.2
+			 */
+			checked: function( expected, actual ) {
+				if ( value_compare( expected, actual ) ) {
+					return ' checked="checked"';
+				}
+				return '';
+			},
 
-			_.each( quiz.questions, function( question ) {
+			/**
+			 * Recursively clone an object via _.clone()
+			 *
+			 * @param    obj   obj  object to clone
+			 * @return   obj
+			 * @since    3.17.7
+			 * @version  3.17.7
+			 */
+			deepClone: function( obj ) {
 
-				question = _.prepareQuestionObjectForCloning( question );
+				var clone = _.clone( obj );
 
-			} );
+				_.each( clone, function( val, key ) {
+					if ( ! _.isFunction( val ) && _.isObject( val ) ) {
+						clone[ key ] = _.deepClone( val );
+					};
+				} );
 
-			return quiz;
+				return clone;
 
-		},
+			},
+
+			/**
+			 * Strips IDs & Parent References from quizzes and all quiz questions
+			 *
+			 * @param    obj   quiz   raw quiz object (not a model)
+			 * @return   obj
+			 * @since    3.24.0
+			 * @version  3.27.0
+			 */
+			prepareQuizObjectForCloning: function( quiz ) {
+
+				delete quiz.id;
+				delete quiz.lesson_id;
+
+				_.each( quiz.questions, function( question ) {
+
+					question = _.prepareQuestionObjectForCloning( question );
+
+				} );
+
+				return quiz;
+
+			},
+
+			/**
+			 * Strips IDs & Parent References from a question
+			 *
+			 * @param    obj   question   raw question object (not a model).
+			 * @return   obj
+			 * @since    3.27.0
+			 * @version  3.27.0
+			 */
+			prepareQuestionObjectForCloning: function( question ) {
+
+				delete question.id;
+				delete question.parent_id;
+
+				if ( question.image && _.isObject( question.image ) ) {
+					question.image._forceSync = true;
+				}
+
+				if ( question.choices ) {
+
+					_.each( question.choices, function( choice ) {
+
+						delete choice.question_id;
+						delete choice.id;
+						if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
+							choice.choice._forceSync = true;
+						}
+
+					} );
+
+				}
+
+				return question;
+
+			},
+
+			/**
+			 * Determine if two values are equal and output selected attribute if they are
+			 * Useful for templating select elements
+			 * Like WP Core PHP selected() but in JS
+			 *
+			 * @param    mixed   expected  expected element value
+			 * @param    mixed   actual    actual element value
+			 * @return   void
+			 * @since    3.17.0
+			 * @version  3.17.2
+			 */
+			selected: function( expected, actual ) {
+				if ( value_compare( expected, actual ) ) {
+					return ' selected="selected"';
+				}
+				return '';
+			},
+
+			/**
+			 * Generic function for stripping HTML tags from a string
+			 *
+			 * @param    string   content       raw string
+			 * @param    array   allowed_tags  array of allowed HTML tags
+			 * @return   string
+			 * @since    3.17.8
+			 * @version  3.17.8
+			 */
+			stripFormatting: function( content, allowed_tags ) {
+
+				if ( ! allowed_tags ) {
+					allowed_tags = [ 'b', 'i', 'u', 'strong', 'em' ];
+				}
+
+				var $html = $( '<div>' + content + '</div>' );
+
+				$html.find( '*' ).not( allowed_tags.join( ',' ) ).each( function( ) {
+
+					$( this ).replaceWith( this.innerHTML );
+
+				} );
+
+				return $html.html();
+
+			},
+
+		} );
+
+		Backbone.pubSub = _.extend( {}, Backbone.Events );
+
+		$( document ).trigger( 'llms-builder-pre-init' );
+
+		window.llms_builder.questions = window.llms_builder.construct.get_collection( 'QuestionTypes', window.llms_builder.questions );
+
+		var CourseModel                 = window.llms_builder.construct.get_model( 'Course', window.llms_builder.course );
+		window.llms_builder.CourseModel = CourseModel;
+
+		window.llms_builder.sync = new Sync( CourseModel, window.llms_builder.sync );
+
+		var Course = new CourseView( {
+			model: CourseModel,
+		} );
+
+		var Sidebar = new SidebarView( {
+			CourseView: Course
+		} );
+
+		$( document ).trigger( 'llms-builder-init', {
+			course: Course,
+			sidebar: Sidebar,
+		} );
 
 		/**
-		 * Strips IDs & Parent References from a question
-		 * @param    obj   question   raw question object (not a model).
-		 * @return   obj
-		 * @since    3.27.0
-		 * @version  3.27.0
+		 * Do deep linking to Lesson / Quiz / Assignments
+		 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
+		 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
+		 *
+		 * @since 3.27.0
+		 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
 		 */
-		prepareQuestionObjectForCloning: function( question ) {
+		if ( window.location.hash ) {
 
-			delete question.id;
-			delete question.parent_id;
-
-			if ( question.image && _.isObject( question.image ) ) {
-				question.image._forceSync = true;
+			var hash = window.location.hash;
+			if ( -1 === hash.indexOf( '#lesson:' ) ) {
+				return;
 			}
+			var parts = hash.replace( '#lesson:', '' ).split( ':' ),
+			$lesson   = $( '#llms-lesson-' + parts[0] );
 
-			if ( question.choices ) {
+			if ( $lesson.length ) {
 
-				_.each( question.choices, function( choice ) {
-
-					delete choice.question_id;
-					delete choice.id;
-					if ( 'image' === choice.choice_type && _.isObject( choice.choice ) ) {
-						choice.choice._forceSync = true;
-					}
-
+				LLMS.wait_for( function() {
+					return ( undefined !== wp.editor && undefined !== window.tinymce );
+                    }, function() {
+					$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
+					var subtab = parts[1] ? parts[1] : 'lesson';
+					$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
 				} );
 
 			}
 
-			return question;
-
-		},
-
-		/**
-		 * Determine if two values are equal and output selected attribute if they are
-		 * Useful for templating select elements
-		 * Like WP Core PHP selected() but in JS
-		 * @param    mixed   expected  expected element value
-		 * @param    mixed   actual    actual element value
-		 * @return   void
-		 * @since    3.17.0
-		 * @version  3.17.2
-		 */
-		selected: function( expected, actual ) {
-			if ( value_compare( expected, actual ) ) {
-				return ' selected="selected"';
-			}
-			return '';
-		},
-
-		/**
-		 * Generic function for stripping HTML tags from a string
-		 * @param    string   content       raw string
-		 * @param    array   allowed_tags  array of allowed HTML tags
-		 * @return   string
-		 * @since    3.17.8
-		 * @version  3.17.8
-		 */
-		stripFormatting: function( content, allowed_tags ) {
-
-			if ( ! allowed_tags ) {
-				allowed_tags = [ 'b', 'i', 'u', 'strong', 'em' ];
-			}
-
-			var $html = $( '<div>' + content + '</div>' );
-
-			$html.find( '*' ).not( allowed_tags.join( ',' ) ).each( function( ) {
-
-				$( this ).replaceWith( this.innerHTML );
-
-			} );
-
-			return $html.html();
-
-		},
-
-	} );
-
-
-	Backbone.pubSub = _.extend( {}, Backbone.Events );
-
-	$( document ).trigger( 'llms-builder-pre-init' );
-
-	window.llms_builder.questions = window.llms_builder.construct.get_collection( 'QuestionTypes', window.llms_builder.questions );
-
-	var CourseModel = window.llms_builder.construct.get_model( 'Course', window.llms_builder.course );
-	window.llms_builder.CourseModel = CourseModel;
-
-	window.llms_builder.sync = new Sync( CourseModel, window.llms_builder.sync );
-
-	var Course = new CourseView( {
-		model: CourseModel,
-	} );
-
-	var Sidebar = new SidebarView( {
-		CourseView: Course
-	} );
-
-	$( document ).trigger( 'llms-builder-init', {
-		course: Course,
-		sidebar: Sidebar,
-	} );
-
-	/**
-	 * Do deep linking to Lesson / Quiz / Assignments
-	 * Hash should be in the form of #lesson:{lesson_id}:{subtab}
-	 * subtab can be either "quiz" or "assignment". If none found assumes the "lesson" tab
-	 * @since 3.27.0
-	 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
-	 */
-	if ( window.location.hash ) {
-
-		var hash = window.location.hash;
-		if ( -1 === hash.indexOf( '#lesson:' ) ) {
-			return;
-		}
-		var parts = hash.replace( '#lesson:', '' ).split( ':' ),
-			$lesson = $( '#llms-lesson-' + parts[0] );
-
-		if ( $lesson.length ) {
-
-			LLMS.wait_for( function() {
-				return ( undefined !== wp.editor && undefined !== window.tinymce );
-			}, function() {
-				$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
-				var subtab = parts[1] ? parts[1] : 'lesson';
-				$( '#llms-lesson-' + parts[0] ).find( 'a.llms-action-icon.edit-' + subtab ).trigger( 'click' );
-			} );
-
 		}
 
-	}
-
-} );
+	} );
 
 define("main", function(){});
 

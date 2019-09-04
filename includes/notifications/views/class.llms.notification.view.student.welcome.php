@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification View: Student Welcome
+ *
  * @since    3.8.0
  * @version  3.8.2
  */
@@ -12,12 +13,14 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 
 	/**
 	 * Notification Trigger ID
+	 *
 	 * @var  [type]
 	 */
 	public $trigger_id = 'student_welcome';
 
 	/**
 	 * Setup body content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -37,6 +40,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -47,6 +51,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 
 	/**
 	 * Setup notification icon for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -57,23 +62,25 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 
 	/**
 	 * Setup merge codes that can be used with the notification
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{DASHBOARD_URL}}' => __( 'Dashboard URL', 'lifterlms' ),
+			'{{DASHBOARD_URL}}'      => __( 'Dashboard URL', 'lifterlms' ),
 			'{{PASSWORD_RESET_URL}}' => __( 'Password Reset URL', 'lifterlms' ),
-			'{{SITE_TITLE}}' => __( 'Site Title', 'lifterlms' ),
-			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
-			'{{STUDENT_LOGIN}}' => __( 'Student Login', 'lifterlms' ),
+			'{{SITE_TITLE}}'         => __( 'Site Title', 'lifterlms' ),
+			'{{STUDENT_NAME}}'       => __( 'Student Name', 'lifterlms' ),
+			'{{STUDENT_LOGIN}}'      => __( 'Student Login', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.2
@@ -84,24 +91,24 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 
 			case '{{DASHBOARD_URL}}':
 				$code = llms_get_page_url( 'myaccount' );
-			break;
+				break;
 
 			case '{{PASSWORD_RESET_URL}}':
 				$code = llms_lostpassword_url();
-			break;
+				break;
 
 			case '{{SITE_TITLE}}':
 				$code = get_bloginfo( 'name', 'display' );
-			break;
+				break;
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->user->get_name();
-			break;
+				break;
 
 			case '{{STUDENT_LOGIN}}':
 				$field = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) ) ? 'user_email' : 'user_login';
-				$code = $this->user->get( $field );
-			break;
+				$code  = $this->user->get( $field );
+				break;
 
 		}
 
@@ -111,6 +118,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 
 	/**
 	 * Setup notification subject for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -121,6 +129,7 @@ class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_
 
 	/**
 	 * Setup notification title for output
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0

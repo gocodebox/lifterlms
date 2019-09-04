@@ -1,5 +1,6 @@
 /**
  * Model relationships mixin
+ *
  * @since    3.16.0
  * @version  3.16.11
  */
@@ -9,6 +10,7 @@ define( [], function() {
 
 		/**
 		 * Default relationship settings object
+		 *
 		 * @type  {Object}
 		 */
 		relationship_defaults: {
@@ -19,12 +21,14 @@ define( [], function() {
 		/**
 		 * Relationship settings object
 		 * Should be overridden in the model
+		 *
 		 * @type  {Object}
 		 */
 		relationships: {},
 
 		/**
 		 * Initialize all parent and child relationships
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -61,7 +65,7 @@ define( [], function() {
 					if ( 'model' === child_data.type ) {
 						this._maybe_set_parent_reference( child );
 
-					// save directly to each model in the collection
+						// save directly to each model in the collection
 					} else if ( 'collection' === child_data.type ) {
 
 						child.parent = this;
@@ -81,6 +85,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve the property names for all children of the model
+		 *
 		 * @return   array
 		 * @since    3.16.11
 		 * @version  3.16.11
@@ -103,6 +108,7 @@ define( [], function() {
 
 		/**
 		 * Retrieve the model's parent (if set)
+		 *
 		 * @return   obj|false
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -122,6 +128,7 @@ define( [], function() {
 		/**
 		 * Retrieve relationships for the model
 		 * Extends with defaults
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -134,6 +141,7 @@ define( [], function() {
 
 		/**
 		 * Set the parent reference for the given model
+		 *
 		 * @param    obj   obj   parent model obj
 		 * @return   void
 		 * @since    3.16.0
@@ -145,6 +153,7 @@ define( [], function() {
 
 		/**
 		 * Set up the parent relationships for qualifying children during relationship initialization
+		 *
 		 * @param    obj   model  child model
 		 * @return   void
 		 * @since    3.16.0

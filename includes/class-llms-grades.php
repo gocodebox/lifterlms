@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Get & Set grades for gradable post types
+ *
  * @since    3.24.0
  * @version  3.24.0
  */
@@ -10,18 +11,21 @@ class LLMS_Grades {
 
 	/**
 	 * Singleton instance
+	 *
 	 * @var  null
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Determines the rounding precision used by grading functions
+	 *
 	 * @var  int
 	 */
 	private $rounding_precision = 2;
 
 	/**
 	 * Get Main Singleton Instance
+	 *
 	 * @return   LLMS_Grades
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -35,6 +39,7 @@ class LLMS_Grades {
 
 	/**
 	 * Private constructor
+	 *
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
@@ -46,15 +51,16 @@ class LLMS_Grades {
 
 	/**
 	 * Calculates the grades for elements that have a list of children which are averaged / weighted to come up with the total grade
-	 * @param    array      $children  list of child objects
-	 * @param    obj        $student   LLMS_Student
+	 *
+	 * @param    array $children  list of child objects
+	 * @param    obj   $student   LLMS_Student
 	 * @return   float|null
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
 	private function calculate_grade_from_children( $children, $student ) {
 
-		$grade = null;
+		$grade  = null;
 		$grades = array();
 
 		// loop through all the children and compile the overall grade & points data
@@ -77,7 +83,7 @@ class LLMS_Grades {
 
 			// add the grade & points for further processing after we have all the data
 			$grades[] = array(
-				'grade' => $grade,
+				'grade'  => $grade,
 				'points' => $points,
 			);
 
@@ -108,8 +114,9 @@ class LLMS_Grades {
 
 	/**
 	 * Calculate the grade for a course
-	 * @param    obj        $course   LLMS_Course
-	 * @param    obj        $student  LLMS_Student
+	 *
+	 * @param    obj $course   LLMS_Course
+	 * @param    obj $student  LLMS_Student
 	 * @return   float|null
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -130,8 +137,9 @@ class LLMS_Grades {
 	 * Calculates the grade for a gradable post model
 	 * DOES NOT CACHE RESULTS!
 	 * See get_grade() for a function which uses caching
-	 * @param    obj     $post     LLMS_Post_Model
-	 * @param    obj     $student  LLMS_Student
+	 *
+	 * @param    obj $post     LLMS_Post_Model
+	 * @param    obj $student  LLMS_Student
 	 * @return   float|null
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -145,11 +153,11 @@ class LLMS_Grades {
 
 			case 'course':
 				$grade = $this->calculate_course_grade( $post, $student );
-			break;
+				break;
 
 			case 'lesson':
 				$grade = $this->calculate_lesson_grade( $post, $student );
-			break;
+				break;
 
 			case 'llms_quiz':
 				$attempt = $student->quizzes()->get_best_attempt( $post->get( 'id' ) );
@@ -157,7 +165,7 @@ class LLMS_Grades {
 					$grade = $attempt->get( 'grade' );
 				}
 
-			break;
+				break;
 
 			// 3rd party / custom element grading
 			default:
@@ -176,8 +184,9 @@ class LLMS_Grades {
 
 	/**
 	 * Calculates the grade for a lesson
-	 * @param    obj        $lesson   LLMS_Lesson
-	 * @param    obj        $student  LLMS_Student
+	 *
+	 * @param    obj $lesson   LLMS_Lesson
+	 * @param    obj $student  LLMS_Student
 	 * @return   float|null
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -199,16 +208,17 @@ class LLMS_Grades {
 	/**
 	 * Main grade getter function
 	 * Uses caching by default and can bypass cache when requested
-	 * @param    obj        $post       LLMS_Post_Model
-	 * @param    obj        $student    LLMS_Student
-	 * @param    bool       $use_cache  when true, retrieves from cache if available
+	 *
+	 * @param    obj  $post       LLMS_Post_Model
+	 * @param    obj  $student    LLMS_Student
+	 * @param    bool $use_cache  when true, retrieves from cache if available
 	 * @return   float|null
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
 	public function get_grade( $post, $student, $use_cache = true ) {
 
-		$post = llms_get_post( $post );
+		$post    = llms_get_post( $post );
 		$student = llms_get_student( $student );
 
 		$grade = $use_cache ? $this->get_grade_from_cache( $post, $student ) : false;
@@ -233,8 +243,9 @@ class LLMS_Grades {
 
 	/**
 	 * Retrieve a grade from the wp_cache
-	 * @param    obj     $post     LLMS_Post_Model
-	 * @param    obj     $student  LLMS_Student
+	 *
+	 * @param    obj $post     LLMS_Post_Model
+	 * @param    obj $student  LLMS_Student
 	 * @return   mixed             grade as a float
 	 *                             null if there's no grade for the post
 	 *                             false if the grade wasn't found in the cache
@@ -252,7 +263,8 @@ class LLMS_Grades {
 
 	/**
 	 * Round grades according to filterable rounding options set during construction
-	 * @param    float     $grade  Grade to round
+	 *
+	 * @param    float $grade  Grade to round
 	 * @return   float
 	 * @since    3.24.0
 	 * @version  3.24.0

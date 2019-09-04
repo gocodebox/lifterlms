@@ -1,5 +1,6 @@
 /**
  * Quiz question bank view
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -11,24 +12,28 @@ define( [ 'Views/QuestionChoice' ], function( ChoiceView ) {
 
 		/**
 		 * Choice model view
+		 *
 		 * @type  {[type]}
 		 */
 		modelView: ChoiceView,
 
 		/**
 		 * Enable keyboard events
+		 *
 		 * @type  {Bool}
 		 */
 		processKeyEvents: false,
 
 		/**
 		 * Are sections selectable?
+		 *
 		 * @type  {Bool}
 		 */
 		selectable: false,
 
 		/**
 		 * Are sections sortable?
+		 *
 		 * @type  {Bool}
 		 */
 		sortable: true,

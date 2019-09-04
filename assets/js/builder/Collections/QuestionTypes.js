@@ -1,5 +1,6 @@
 /**
  * Quiz Question Type Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,12 +10,14 @@ define( [ 'Models/QuestionType' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initializer
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -28,6 +31,7 @@ define( [ 'Models/QuestionType' ], function( model ) {
 
 		/**
 		 * Comparator (sorts collection)
+		 *
 		 * @param    obj   model  QuestionType model
 		 * @return   void
 		 * @since    3.16.0

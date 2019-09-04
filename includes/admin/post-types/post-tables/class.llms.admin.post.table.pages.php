@@ -1,11 +1,13 @@
 <?php
 /**
  * Customize display of the "Page" post tables
+ *
  * @since    3.0.0
  * @version  3.7.5
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Admin_Post_Table_Pages {
 
@@ -13,6 +15,7 @@ class LLMS_Admin_Post_Table_Pages {
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -22,10 +25,10 @@ class LLMS_Admin_Post_Table_Pages {
 		if ( isset( $_GET['post_type'] ) && 'page' === $_GET['post_type'] ) {
 
 			$pages = array(
-				'checkout' => __( 'LifterLMS Checkout', 'lifterlms' ),
-				'courses' => __( 'LifterLMS Course Catalog', 'lifterlms' ),
+				'checkout'    => __( 'LifterLMS Checkout', 'lifterlms' ),
+				'courses'     => __( 'LifterLMS Course Catalog', 'lifterlms' ),
 				'memberships' => __( 'LifterLMS Memberships Catalog', 'lifterlms' ),
-				'myaccount' => __( 'LifterLMS Student Dashboard', 'lifterlms' ),
+				'myaccount'   => __( 'LifterLMS Student Dashboard', 'lifterlms' ),
 			);
 
 			foreach ( $pages as $key => $name ) {
@@ -45,8 +48,9 @@ class LLMS_Admin_Post_Table_Pages {
 
 	/**
 	 * Add state information to pages that are set as LifterLMD pages
-	 * @param    array      $states  array of post states
-	 * @param    obj        $post    WP_Post object
+	 *
+	 * @param    array $states  array of post states
+	 * @param    obj   $post    WP_Post object
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0

@@ -20,6 +20,7 @@ class LLMS_User_Permissions {
 
 	/**
 	 * Constructor
+	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Always add the `editable_roles` filter.
 	 */
@@ -48,7 +49,7 @@ class LLMS_User_Permissions {
 
 		$user = wp_get_current_user();
 
-		$lms_roles = LLMS_User_Permissions::get_editable_roles();
+		$lms_roles = self::get_editable_roles();
 
 		foreach ( $lms_roles as $role => $allowed_roles ) {
 
@@ -71,11 +72,11 @@ class LLMS_User_Permissions {
 	 *
 	 * @since 3.13.0
 	 *
-	 * @param array  $allcaps  All the capabilities of the user
-	 * @param array  $cap      [0] Required capability
-	 * @param array  $args     [0] Requested capability
-	 *                         [1] User ID
-	 *                         [2] Associated object ID
+	 * @param array $allcaps  All the capabilities of the user
+	 * @param array $cap      [0] Required capability
+	 * @param array $args     [0] Requested capability
+	 *                        [1] User ID
+	 *                        [2] Associated object ID
 	 * @return array
 	 */
 	public function edit_others_lms_content( $allcaps, $cap, $args ) {
@@ -114,10 +115,13 @@ class LLMS_User_Permissions {
 		 *
 		 * @param array $roles Array of user roles. The array key is the role and the value is an array of roles that can be managed by that role.
 		 */
-		$roles = apply_filters( 'llms_editable_roles', array(
-			'lms_manager' => array( 'instructor', 'instructors_assistant', 'lms_manager', 'student' ),
-			'instructor' => array( 'instructors_assistant' ),
-		) );
+		$roles = apply_filters(
+			'llms_editable_roles',
+			array(
+				'lms_manager' => array( 'instructor', 'instructors_assistant', 'lms_manager', 'student' ),
+				'instructor'  => array( 'instructors_assistant' ),
+			)
+		);
 
 		return $roles;
 
@@ -130,11 +134,11 @@ class LLMS_User_Permissions {
 	 * @since 3.34.0 Add logic for `edit_users` and `delete_users` capabilities with regards to LifterLMS user roles.
 	 *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 *
-	 * @param array  $allcaps  All the capabilities of the user
-	 * @param array  $cap      [0] Required capability
-	 * @param array  $args     [0] Requested capability
-	 *                         [1] User ID
-	 *                         [2] Associated object ID
+	 * @param array $allcaps  All the capabilities of the user
+	 * @param array $cap      [0] Required capability
+	 * @param array $args     [0] Requested capability
+	 *                        [1] User ID
+	 *                        [2] Associated object ID
 	 * @return array
 	 */
 	public function handle_caps( $allcaps, $cap, $args ) {
@@ -221,7 +225,7 @@ class LLMS_User_Permissions {
 		$edit_user  = get_user_by( 'id', $edit_id );
 		$edit_roles = array_intersect( $edit_user->roles, $lms_roles );
 
-		$editable_roles = LLMS_User_Permissions::get_editable_roles();
+		$editable_roles = self::get_editable_roles();
 
 		foreach ( $user_roles as $role ) {
 

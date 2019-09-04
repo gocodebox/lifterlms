@@ -23,11 +23,12 @@ defined( 'ABSPATH' ) || exit;
 		<?php endforeach; ?>
 	</tr>
 
-	<?php foreach ( $section->get_lessons() as $lesson ) :
+	<?php
+	foreach ( $section->get_lessons() as $lesson ) :
 		$restricted = llms_page_restricted( $lesson->get( 'id' ) );
-		$title = $lesson->get( 'title' );
-		$url = $restricted['is_restricted'] ? '#' :get_permalink( $lesson->get( 'id' ) );
-		$title = sprintf( '<a href="%1$s">%2$s</a>', $url, $title );
+		$title      = $lesson->get( 'title' );
+		$url        = $restricted['is_restricted'] ? '#' : get_permalink( $lesson->get( 'id' ) );
+		$title      = sprintf( '<a href="%1$s">%2$s</a>', $url, $title );
 		?>
 		<tr>
 			<td class="llms-lesson_title" colspan="2">

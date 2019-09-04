@@ -125,7 +125,7 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = 0;
 				$prev_end   = $now;
-			break;
+				break;
 
 			case 'last_year':
 				$curr_start = strtotime( 'first day of january last year', $now );
@@ -133,7 +133,7 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = strtotime( 'first day of january last year', $curr_start );
 				$prev_end   = strtotime( 'last day of december last year', $curr_start );
-			break;
+				break;
 
 			case 'year':
 				$curr_start = strtotime( 'first day of january this year', $now );
@@ -141,7 +141,7 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = strtotime( 'first day of january last year', $now );
 				$prev_end   = strtotime( 'last day of december last year', $now );
-			break;
+				break;
 
 			case 'last_month':
 				$curr_start = strtotime( 'first day of previous month', $now );
@@ -149,7 +149,7 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = strtotime( 'first day of previous month', $curr_start );
 				$prev_end   = strtotime( 'last day of previous month', $curr_start );
-			break;
+				break;
 
 			case 'month':
 				$curr_start = strtotime( 'first day of this month', $now );
@@ -157,7 +157,7 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = strtotime( 'first day of previous month', $now );
 				$prev_end   = strtotime( 'last day of previous month', $now );
-			break;
+				break;
 
 			case 'last_week':
 				$curr_start = strtotime( 'monday this week', $now - WEEK_IN_SECONDS );
@@ -165,7 +165,7 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = strtotime( 'monday previous week', $curr_start - WEEK_IN_SECONDS );
 				$prev_end   = $curr_start - DAY_IN_SECONDS;
-			break;
+				break;
 
 			case 'week':
 				$curr_start = strtotime( 'monday this week', $now );
@@ -173,7 +173,7 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = strtotime( 'monday previous week', $now );
 				$prev_end   = $curr_start - DAY_IN_SECONDS;
-			break;
+				break;
 
 			case 'yesterday':
 				$curr_start = $now - DAY_IN_SECONDS;
@@ -181,11 +181,10 @@ abstract class LLMS_Abstract_Post_Data {
 
 				$prev_start = $curr_start - DAY_IN_SECONDS;
 				$prev_end   = $prev_start;
-			break;
+				break;
 
 			case 'today':
 			default:
-
 				$curr_start = $now;
 				$curr_end   = $now;
 
@@ -223,10 +222,13 @@ abstract class LLMS_Abstract_Post_Data {
 	 */
 	public function recent_events( $args = array() ) {
 
-		$query_args = wp_parse_args( $args, array(
-			'per_page' => 10,
-			'types'    => 'all',
-		));
+		$query_args = wp_parse_args(
+			$args,
+			array(
+				'per_page' => 10,
+				'types'    => 'all',
+			)
+		);
 
 		$query_args['post_id'] = $this->post_id;
 

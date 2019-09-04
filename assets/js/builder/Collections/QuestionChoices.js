@@ -1,5 +1,6 @@
 /**
  * Question Choice Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,6 +10,7 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
@@ -33,6 +35,7 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 
 		/**
 		 * Retrieve the number of correct choices in the collection
+		 *
 		 * @return   int
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -45,6 +48,7 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 
 		/**
 		 * Retrieve the collection reduced to only correct choices
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -57,6 +61,7 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 
 		/**
 		 * Ensure min/max correct choices exist in the collection based on the question's settings
+		 *
 		 * @param    obj      choice  model of the choice that was toggled
 		 * @return   void
 		 * @since    3.16.0
@@ -89,13 +94,14 @@ define( [ 'Models/QuestionChoice' ], function( model ) {
 
 		/**
 		 * Update the marker attr of each choice in the list to reflect the order of the collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
 		 */
 		update_order: function() {
 
-			var self = this,
+			var self     = this,
 				question = this.parent;
 
 			this.each( function( choice ) {

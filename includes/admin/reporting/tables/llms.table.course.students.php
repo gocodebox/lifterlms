@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Display students enrolled in a given course on the course students subtab
+ *
  * @since   3.15.0
  * @version 3.17.6
  */
@@ -12,6 +13,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'course-students';
@@ -19,18 +21,21 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set
+	 *
 	 * @var  string
 	 */
 	protected $filter = 'any';
 
 	/**
 	 * Field results are filtered by
+	 *
 	 * @var  string
 	 */
 	protected $filterby = 'status';
 
 	/**
 	 * Is the Table Exportable?
+	 *
 	 * @var  boolean
 	 */
 	protected $is_exportable = true;
@@ -38,18 +43,21 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Determine if the table is filterable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
+	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = true;
 
 	/**
 	 * Determine of the table is searchable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_searchable = true;
@@ -58,26 +66,30 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	 * Results sort order
 	 * 'ASC' or 'DESC'
 	 * Only applicable of $orderby is not set
+	 *
 	 * @var  string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
+	 *
 	 * @var  string
 	 */
 	protected $orderby = 'name';
 
 	/**
 	 * Post ID for the current table
+	 *
 	 * @var  int
 	 */
 	public $course_id = null;
 
 	/**
 	 * Retrieve data for the columns
-	 * @param    string     $key        the column id / key
-	 * @param    int        $user_id    WP User ID
+	 *
+	 * @param    string $key        the column id / key
+	 * @param    int    $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.15.0
 	 * @version  3.17.2
@@ -89,20 +101,20 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 		switch ( $key ) {
 
 			case 'completed':
-				$date = $student->get_completion_date( $this->course_id );
+				$date  = $student->get_completion_date( $this->course_id );
 				$value = $date ? $date : '&mdash;';
-			break;
+				break;
 
 			case 'enrolled':
 				$value = $student->get_enrollment_date( $this->course_id, 'updated' );
-			break;
+				break;
 
 			case 'grade':
 				$value = $student->get_grade( $this->course_id );
 				if ( is_numeric( $value ) ) {
 					$value .= '%';
 				}
-			break;
+				break;
 
 			case 'id':
 				$id = $student->get_id();
@@ -111,7 +123,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				} else {
 					$value = $id;
 				}
-			break;
+				break;
 
 			case 'last_lesson':
 				$lid = $student->get_last_completed_lesson( $this->course_id );
@@ -120,12 +132,11 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 				} else {
 					$value = '&ndash;';
 				}
-			break;
+				break;
 
 			case 'name':
-
 				$first = $student->get( 'first_name' );
-				$last = $student->get( 'last_name' );
+				$last  = $student->get( 'last_name' );
 
 				if ( ! $first || ! $last ) {
 					$value = $student->get( 'display_name' );
@@ -133,24 +144,27 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 					$value = $last . ', ' . $first;
 				}
 
-				$url = add_query_arg( array(
-					'page' => 'llms-reporting',
-					'tab' => 'students',
-					'student_id' => $student->get_id(),
-					'stab' => 'courses',
-					'course_id' => $this->course_id,
-				), admin_url( 'admin.php' ) );
+				$url   = add_query_arg(
+					array(
+						'page'       => 'llms-reporting',
+						'tab'        => 'students',
+						'student_id' => $student->get_id(),
+						'stab'       => 'courses',
+						'course_id'  => $this->course_id,
+					),
+					admin_url( 'admin.php' )
+				);
 				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
 
-			break;
+				break;
 
 			case 'progress':
 				$value = $this->get_progress_bar_html( $student->get_progress( $this->course_id ) );
-			break;
+				break;
 
 			case 'status':
 				$value = llms_get_enrollment_status_name( $student->get_enrollment_status( $this->course_id ) );
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -164,8 +178,9 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell in an export file
 	 * Should be overridden in extending classes
-	 * @param    string     $key        the column id / key
-	 * @param    obj        $student    Instance of the LLMS_Student
+	 *
+	 * @param    string $key        the column id / key
+	 * @param    obj    $student    Instance of the LLMS_Student
 	 * @return   mixed
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -176,23 +191,23 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 			case 'id':
 				$value = $student->get_id();
-			break;
+				break;
 
 			case 'email':
 				$value = $student->get( 'user_email' );
-			break;
+				break;
 
 			case 'name_first':
 				$value = $student->get( 'first_name' );
-			break;
+				break;
 
 			case 'name_last':
 				$value = $student->get( 'last_name' );
-			break;
+				break;
 
 			case 'progress':
 				$value = $student->get_progress( $this->course_id ) . '%';
-			break;
+				break;
 
 			default:
 				$value = $this->get_data( $key, $student );
@@ -206,6 +221,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Get a lock key unique to the table & user for locking the table during export generation
+	 *
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -217,7 +233,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Allow customization of the title for export files
-	 * @param    array    $args   optional arguments passed from table to csv processor
+	 *
+	 * @param    array $args   optional arguments passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -232,6 +249,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 *
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -242,7 +260,8 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -263,10 +282,10 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 			$this->current_page = absint( $args['page'] );
 		}
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : $this->get_order();
+		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->get_order();
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
 
 		$sort = array();
@@ -274,43 +293,43 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 			case 'enrolled':
 				$sort = array(
-					'date' => $this->get_order(),
-					'last_name' => 'ASC',
+					'date'       => $this->get_order(),
+					'last_name'  => 'ASC',
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 			case 'id':
 				$sort = array(
 					'id' => $this->get_order(),
 				);
-			break;
+				break;
 
 			case 'name':
 				$sort = array(
-					'last_name' => $this->get_order(),
+					'last_name'  => $this->get_order(),
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 			case 'status':
 				$sort = array(
-					'status' => $this->get_order(),
-					'last_name' => 'ASC',
+					'status'     => $this->get_order(),
+					'last_name'  => 'ASC',
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 		}
 
 		$query_args = array(
-			'page' => $this->get_current_page(),
-			'post_id' => $args['course_id'],
+			'page'     => $this->get_current_page(),
+			'post_id'  => $args['course_id'],
 			'per_page' => apply_filters( 'llms_' . $this->id . '_table_students_per_page', 25 ),
-			'sort' => $sort,
+			'sort'     => $sort,
 		);
 
 		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
@@ -321,14 +340,14 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 		if ( isset( $args['search'] ) ) {
 
-			$this->search = $args['search'];
+			$this->search         = $args['search'];
 			$query_args['search'] = $this->get_search();
 
 		}
 
 		$query = new LLMS_Student_Query( $query_args );
 
-		$this->max_pages = $query->max_pages;
+		$this->max_pages    = $query->max_pages;
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
@@ -338,6 +357,7 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -356,65 +376,66 @@ class LLMS_Table_Course_Students extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.16.11
 	 */
 	public function set_columns() {
 		$cols = array(
-			'id' => array(
+			'id'          => array(
 				'exportable' => true,
+				'sortable'   => true,
+				'title'      => __( 'ID', 'lifterlms' ),
+			),
+			'name'        => array(
 				'sortable' => true,
-				'title' => __( 'ID', 'lifterlms' ),
+				'title'    => __( 'Name', 'lifterlms' ),
 			),
-			'name' => array(
-				'sortable' => true,
-				'title' => __( 'Name', 'lifterlms' ),
-			),
-			'name_last' => array(
-				'exportable' => true,
+			'name_last'   => array(
+				'exportable'  => true,
 				'export_only' => true,
-				'title' => __( 'Last Name', 'lifterlms' ),
+				'title'       => __( 'Last Name', 'lifterlms' ),
 			),
-			'name_first' => array(
-				'exportable' => true,
+			'name_first'  => array(
+				'exportable'  => true,
 				'export_only' => true,
-				'title' => __( 'First Name', 'lifterlms' ),
+				'title'       => __( 'First Name', 'lifterlms' ),
 			),
-			'email' => array(
-				'exportable' => true,
+			'email'       => array(
+				'exportable'  => true,
 				'export_only' => true,
-				'title' => __( 'Email', 'lifterlms' ),
+				'title'       => __( 'Email', 'lifterlms' ),
 			),
-			'status' => array(
+			'status'      => array(
 				'exportable' => true,
 				'filterable' => llms_get_enrollment_statuses(),
-				'sortable' => true,
-				'title' => __( 'Status', 'lifterlms' ),
+				'sortable'   => true,
+				'title'      => __( 'Status', 'lifterlms' ),
 			),
-			'enrolled' => array(
+			'enrolled'    => array(
 				'exportable' => true,
-				'sortable' => true,
-				'title' => __( 'Enrollment Updated', 'lifterlms' ),
+				'sortable'   => true,
+				'title'      => __( 'Enrollment Updated', 'lifterlms' ),
 			),
-			'completed' => array(
+			'completed'   => array(
 				'exportable' => true,
-				'sortable' => true,
-				'title' => __( 'Completed', 'lifterlms' ),
+				'sortable'   => true,
+				'title'      => __( 'Completed', 'lifterlms' ),
 			),
-			'progress' => array(
+			'progress'    => array(
 				'exportable' => true,
-				'sortable' => false,
-				'title' => __( 'Progress', 'lifterlms' ),
+				'sortable'   => false,
+				'title'      => __( 'Progress', 'lifterlms' ),
 			),
-			'grade' => array(
+			'grade'       => array(
 				'exportable' => true,
-				'sortable' => false,
-				'title' => __( 'Grade', 'lifterlms' ),
+				'sortable'   => false,
+				'title'      => __( 'Grade', 'lifterlms' ),
 			),
 			'last_lesson' => array(
 				'sortable' => false,
-				'title' => __( 'Last Lesson', 'lifterlms' ),
+				'title'    => __( 'Last Lesson', 'lifterlms' ),
 			),
 		);
 

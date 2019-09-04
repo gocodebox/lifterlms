@@ -15,14 +15,33 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Product extends LLMS_Post_Model {
 
+	/**
+	 * Model properties.
+	 *
+	 * @var array
+	 */
 	protected $properties = array();
 
-	protected $db_post_type = 'product'; // maybe fix this
+	/**
+	 * Model DB Post Type.
+	 *
+	 * @todo The post type depends conditionally on whether it's a course or a membership so this is semantically incorrect.
+	 *
+	 * @var string
+	 */
+	protected $db_post_type    = 'product';
+
+	/**
+	 * Model type.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'product';
 
 	/**
 	 * Retrieve the max number of access plans that can be created
 	 * for this product
+	 *
 	 * @return int
 	 * @since 3.0.0
 	 * @version 3.0.0
@@ -33,8 +52,9 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Get all access plans for the product
-	 * @param    boolean  $free_only     only include free access plans if true
-	 * @param    boolean  $visible_only  excludes hidden access plans from results
+	 *
+	 * @param    boolean $free_only     only include free access plans if true
+	 * @param    boolean $visible_only  excludes hidden access plans from results
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.25.2
@@ -42,20 +62,20 @@ class LLMS_Product extends LLMS_Post_Model {
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
 		$args = array(
-			'meta_key' => '_llms_product_id',
-			'meta_value' => $this->get( 'id' ),
-			'order' => 'ASC',
-			'orderby' => 'menu_order',
+			'meta_key'       => '_llms_product_id',
+			'meta_value'     => $this->get( 'id' ),
+			'order'          => 'ASC',
+			'orderby'        => 'menu_order',
 			'posts_per_page' => $this->get_access_plan_limit(),
-			'post_type' => 'llms_access_plan',
-			'status' => 'publish',
+			'post_type'      => 'llms_access_plan',
+			'status'         => 'publish',
 		);
 
 		// filter results to only free access plans
 		if ( $free_only ) {
 			$args['meta_query'] = array(
 				array(
-					'key' => '_llms_is_free',
+					'key'   => '_llms_is_free',
 					'value' => 'yes',
 				),
 			);
@@ -65,9 +85,9 @@ class LLMS_Product extends LLMS_Post_Model {
 		if ( $visible_only ) {
 			$args['tax_query'] = array(
 				array(
-					'field' => 'name',
+					'field'    => 'name',
 					'operator' => 'NOT IN',
-					'terms' => array( 'hidden' ),
+					'terms'    => array( 'hidden' ),
 					'taxonomy' => 'llms_access_plan_visibility',
 				),
 			);
@@ -91,6 +111,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the product's catalog visibility term
+	 *
 	 * @return   string
 	 * @since    3.6.0
 	 * @version  3.6.0
@@ -111,6 +132,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the product's catalog visibility name for display
+	 *
 	 * @return   string
 	 * @since    3.6.0
 	 * @version  3.6.0
@@ -118,7 +140,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	public function get_catalog_visibility_name() {
 
 		$visibility = $this->get_catalog_visibility();
-		$options = llms_get_product_visibility_options();
+		$options    = llms_get_product_visibility_options();
 		if ( isset( $options[ $visibility ] ) ) {
 			return $options[ $visibility ];
 		}
@@ -129,7 +151,8 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Get the number of columns for the pricing table
-	 * @param    boolean    $free_only  only include free access plans if true
+	 *
+	 * @param    boolean $free_only  only include free access plans if true
 	 * @return   int
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -142,11 +165,11 @@ class LLMS_Product extends LLMS_Post_Model {
 
 			case 0:
 				$cols = 1;
-			break;
+				break;
 
 			case 6:
 				$cols = 3;
-			break;
+				break;
 
 			default:
 				$cols = $count;
@@ -156,6 +179,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the product has at least one free access plan
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.25.2
@@ -168,6 +192,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * Determine if the product is purchasable
 	 * At least one gateway must be enabled and at least one access plan must exist
 	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity
+	 *
 	 * @return  boolean
 	 * @since   3.0.0
 	 * @version 3.25.2
@@ -197,7 +222,8 @@ class LLMS_Product extends LLMS_Post_Model {
 
 	/**
 	 * Update the product's catalog visibility setting
-	 * @param    string    $visibility  visibility term name
+	 *
+	 * @param    string $visibility  visibility term name
 	 * @return   void
 	 * @since    3.6.0
 	 * @version  3.6.0

@@ -1,11 +1,13 @@
 <?php
 /**
-* Registrations analytics widget
-* @since   3.5.0
-* @version 3.5.0
-*/
+ * Registrations analytics widget
+ *
+ * @since   3.5.0
+ * @version 3.5.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 
@@ -13,11 +15,11 @@ class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 
 	protected function get_chart_data() {
 		return array(
-			'type' => 'count', // type of field
+			'type'   => 'count', // type of field
 			'header' => array(
-				'id' => 'registrations',
+				'id'    => 'registrations',
 				'label' => __( '# of Registrations', 'lifterlms' ),
-				'type' => 'number',
+				'type'  => 'number',
 			),
 		);
 	}
@@ -29,13 +31,13 @@ class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 		$dates = $this->get_posted_dates();
 
 		$student_ids = '';
-		$students = $this->get_posted_students();
+		$students    = $this->get_posted_students();
 		if ( $students ) {
 			$student_ids .= 'AND ID IN ( ' . implode( ', ', $students ) . ' )';
 		}
 
 		$this->query_function = 'get_results';
-		$this->output_type = OBJECT ;
+		$this->output_type    = OBJECT;
 
 		$this->query = "SELECT user_registered AS date
 						FROM {$wpdb->users}

@@ -18,18 +18,21 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 	/**
 	 * Trigger Identifier
+	 *
 	 * @var  [type]
 	 */
 	public $id = 'student_welcome';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
+	 *
 	 * @var  integer
 	 */
 	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
+	 *
 	 * @var  array
 	 */
 	protected $action_hooks = array(
@@ -38,6 +41,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 	/**
 	 * Determines if test notifications can be sent
+	 *
 	 * @var  bool
 	 */
 	protected $testable = array(
@@ -47,7 +51,8 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 	/**
 	 * Callback function called when a lesson is completed by a student
-	 * @param    int     $transaction   Instance of a LLMS_Transaction
+	 *
+	 * @param    int $transaction   Instance of a LLMS_Transaction
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -63,7 +68,8 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
-	 * @param    string     $subscriber  subscriber type string
+	 *
+	 * @param    string $subscriber  subscriber type string
 	 * @return   int|false
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -74,7 +80,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 			case 'student':
 				$uid = $this->user_id;
-			break;
+				break;
 
 			default:
 				$uid = false;
@@ -89,6 +95,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 * Determine what types are supported
 	 * Extending classes can override this function in order to add or remove support
 	 * 3rd parties should add support via filter on $this->get_supported_types()
+	 *
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -109,9 +116,11 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 */
 	public function get_test_settings( $type ) {
 
-		$query = new WP_User_Query( array(
-			'number' => 25,
-		) );
+		$query = new WP_User_Query(
+			array(
+				'number' => 25,
+			)
+		);
 
 		$options = array(
 			'' => '',
@@ -125,17 +134,17 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 		return array(
 			array(
-				'class' => 'llms-select2',
+				'class'             => 'llms-select2',
 				'custom_attributes' => array(
 					'data-allow-clear' => true,
 					'data-placeholder' => __( 'Select a user', 'lifterlms' ),
 				),
-				'default' => '',
-				'id'      => 'user_id',
-				'desc'    => '<br/>' . __( 'Send yourself a test notification using information for the selected user.', 'lifterlms' ),
-				'options' => $options,
-				'title'   => __( 'Send a Test', 'lifterlms' ),
-				'type'    => 'select',
+				'default'           => '',
+				'id'                => 'user_id',
+				'desc'              => '<br/>' . __( 'Send yourself a test notification using information for the selected user.', 'lifterlms' ),
+				'options'           => $options,
+				'title'             => __( 'Send a Test', 'lifterlms' ),
+				'type'              => 'select',
 			),
 		);
 
@@ -144,6 +153,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	/**
 	 * Get the translatable title for the notification
 	 * used on settings screens
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -159,7 +169,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	 * @since 3.33.2
 	 *
 	 * @param string $type Notification type [basic|email].
-	 * @param array $data Array of test notification data as specified by $this->get_test_data().
+	 * @param array  $data Array of test notification data as specified by $this->get_test_data().
 	 *
 	 * @return int|false
 	 */
@@ -178,7 +188,8 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 	/**
 	 * Setup the subscriber options for the notification
-	 * @param    string     $type  notification type id
+	 *
+	 * @param    string $type  notification type id
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -192,7 +203,7 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
-			break;
+				break;
 
 		}
 

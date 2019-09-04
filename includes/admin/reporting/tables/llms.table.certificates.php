@@ -1,29 +1,39 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Admin Achievements Table
  *
  * @since   3.2.0
  * @version 3.18.0
  */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Table_Student_Certificates
+ *
+ * @since   3.2.0
+ * @since 3.35.0 Get student ID more reliably.
+ */
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'certificates';
 
 	/**
 	 * Instance of LLMS_Student
+	 *
 	 * @var  null
 	 */
 	protected $student = null;
 
 	/**
 	 * Get HTML for buttons in the actions cell of the table
-	 * @param    int     $certificate_id  WP Post ID of the llms_my_certificate
+	 *
+	 * @param    int $certificate_id  WP Post ID of the llms_my_certificate
 	 * @return   void
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -62,8 +72,9 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve data for the columns
-	 * @param    string     $key   the column id / key
-	 * @param    mixed      $data  object of achievement data
+	 *
+	 * @param    string $key   the column id / key
+	 * @param    mixed  $data  object of achievement data
 	 * @return   mixed
 	 * @since    3.2.0
 	 * @version  3.18.0
@@ -73,7 +84,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 			case 'actions':
 				$value = $this->get_actions_html( $data->certificate_id );
-			break;
+				break;
 
 			case 'related':
 				if ( $data->post_id && 'llms_certificate' !== get_post_type( $data->post_id ) ) {
@@ -85,19 +96,19 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				} else {
 					$value = '&ndash;';
 				}
-			break;
+				break;
 
 			case 'earned':
 				$value = date_i18n( 'F j, Y', strtotime( $data->earned_date ) );
-			break;
+				break;
 
 			case 'id':
 				$value = $data->certificate_id;
-			break;
+				break;
 
 			case 'name':
 				$value = get_post_meta( $data->certificate_id, '_llms_certificate_title', true );
-			break;
+				break;
 
 			// prior to 3.2 this data wasn't recorded
 			case 'template_id':
@@ -107,7 +118,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 				} else {
 					$value = '&ndash;';
 				}
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -134,35 +145,47 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
-	 * @return   array
+	 *
 	 * @since    2.3.0
-	 * @version  2.3.0
+	 * @since 3.35.0 Get student ID more reliably.
+	 *
+	 * @return   array
 	 */
 	public function set_args() {
+
+		$student = false;
+		if ( ! empty( $this->student ) ) {
+			$student = $this->student->get_id();
+		} elseif ( ! empty( $_GET['student_id'] ) ) {
+			$student = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+		}
+
 		return array(
-			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'student' => $student,
 		);
 	}
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.18.0
 	 */
 	protected function set_columns() {
 		return array(
-			'id' => __( 'ID', 'lifterlms' ),
+			'id'          => __( 'ID', 'lifterlms' ),
 			'template_id' => __( 'Template ID', 'lifterlms' ),
-			'name' => __( 'Certificate Title', 'lifterlms' ),
-			'earned' => __( 'Earned Date', 'lifterlms' ),
-			'related' => __( 'Related Post', 'lifterlms' ),
-			'actions' => '',
+			'name'        => __( 'Certificate Title', 'lifterlms' ),
+			'earned'      => __( 'Earned Date', 'lifterlms' ),
+			'related'     => __( 'Related Post', 'lifterlms' ),
+			'actions'     => '',
 		);
 	}
 
 	/**
 	 * Empty message displayed when no results are found
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0

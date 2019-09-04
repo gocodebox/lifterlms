@@ -1,6 +1,7 @@
 <?php
 /**
  * Meta Box Voucher Export
+ *
  * @since Unknown
  * @version 3.30.3
  */
@@ -12,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since Unknown
  * @since 3.30.3 Fixed typo in export content-disposition header.
+ * @since 3.35.0 Sanitize $_POST data, fix issue preventing emails from being properly sent.
  */
 class LLMS_Meta_Box_Voucher_Export {
 
@@ -23,7 +25,8 @@ class LLMS_Meta_Box_Voucher_Export {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * @param    object  $post  WP global post object
+	 *
+	 * @param    object $post  WP global post object
 	 * @return   void
 	 * @since    ??
 	 * @version  3.24.0
@@ -71,18 +74,18 @@ class LLMS_Meta_Box_Voucher_Export {
 
 	public static function export() {
 
-		if ( empty( $_POST['llms_generate_export'] ) || empty( $_POST['lifterlms_export_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_export_nonce'], 'lifterlms_csv_export_data' ) ) {
+		if ( empty( llms_filter_input( INPUT_POST, 'llms_generate_export', FILTER_SANITIZE_STRING ) ) || ! llms_verify_nonce( 'lifterlms_export_nonce', 'lifterlms_csv_export_data' ) ) {
 			return false;
 		}
 
-		$type = ( isset( $_POST['llms_voucher_export_type'] ) ) ? $_POST['llms_voucher_export_type'] : false;
-		if ( isset( $type ) && ! empty( $type ) ) {
+		$type = llms_filter_input( INPUT_POST, 'llms_voucher_export_type', FILTER_SANITIZE_STRING );
+		if ( ! empty( $type ) ) {
 
 			if ( 'vouchers' === $type || 'redeemed' === $type ) {
 
 				// export CSV
 
-				$csv = array();
+				$csv       = array();
 				$file_name = '';
 
 				global $post;
@@ -90,9 +93,8 @@ class LLMS_Meta_Box_Voucher_Export {
 
 				switch ( $type ) {
 					case 'vouchers':
-
 						$voucher = new LLMS_Voucher( $post->ID );
-						$codes = $voucher->get_voucher_codes( 'ARRAY_A' );
+						$codes   = $voucher->get_voucher_codes( 'ARRAY_A' );
 
 						if ( ! $codes ) {
 							/**
@@ -104,8 +106,8 @@ class LLMS_Meta_Box_Voucher_Export {
 						foreach ( $codes as $k => $v ) {
 							unset( $codes[ $k ]['id'] );
 							unset( $codes[ $k ]['voucher_id'] );
-							$codes[ $k ]['count'] = $codes[ $k ]['redemption_count'];
-							$codes[ $k ]['used'] = $codes[ $k ]['used'];
+							$codes[ $k ]['count']   = $codes[ $k ]['redemption_count'];
+							$codes[ $k ]['used']    = $codes[ $k ]['used'];
 							$codes[ $k ]['created'] = $codes[ $k ]['created_at'];
 							$codes[ $k ]['updated'] = $codes[ $k ]['updated_at'];
 							unset( $codes[ $k ]['redemption_count'] );
@@ -117,10 +119,9 @@ class LLMS_Meta_Box_Voucher_Export {
 						$csv = self::array_to_csv( $codes );
 
 						$file_name = 'vouchers.csv';
-					break;
+						break;
 
 					case 'redeemed':
-
 						$redeemed_codes = $voucher->get_redeemed_codes( 'ARRAY_A' );
 
 						if ( ! $redeemed_codes ) {
@@ -143,24 +144,24 @@ class LLMS_Meta_Box_Voucher_Export {
 
 						$file_name = 'redeemed_codes.csv';
 
-					break;
+						break;
 				}// End switch().
 
-				$send_email = isset( $_POST['llms_voucher_export_send_email'] ) ? $_POST['llms_voucher_export_send_email'] : false;
-
-				if ( isset( $send_email ) && ! empty( $send_email ) && true == $send_email ) {
+				$send_email = llms_parse_bool( llms_filter_input( INPUT_POST, 'llms_voucher_export_send_email', FILTER_SANITIZE_STRING ) );
+				if ( $send_email ) {
 
 					// send email
-					$email_text = trim( $_POST['llms_voucher_export_email'] );
-					if ( isset( $email_text ) && ! empty( $email_text ) ) {
+					$email_text = trim( llms_filter_input( INPUT_POST, 'llms_voucher_export_email', FILTER_SANITIZE_STRING ) );
+					if ( ! empty( $email_text ) ) {
 
-						$emails = explode( ',', $email_text );
+						$emails = array_filter( array_map( 'is_email', array_map( 'trim', explode( ',', $email_text ) ) ) );
 
 						if ( ! empty( $emails ) ) {
 
 							$voucher = new LLMS_Voucher( $post->ID );
 
 							self::send_email( $csv, $emails, $voucher->get_voucher_title() );
+
 						}
 					}
 
@@ -175,7 +176,7 @@ class LLMS_Meta_Box_Voucher_Export {
 
 	public static function array_to_csv( $data, $delimiter = ',', $enclosure = '"' ) {
 
-		$handle = fopen( 'php://temp', 'r+' );
+		$handle   = fopen( 'php://temp', 'r+' );
 		$contents = '';
 
 		$names = array();
@@ -216,7 +217,7 @@ class LLMS_Meta_Box_Voucher_Export {
 		exit;
 	}
 
-	public static function send_email( $csv, $emails ) {
+	public static function send_email( $csv, $emails, $title ) {
 
 		$subject = 'Your LifterLMS Voucher Export';
 		$message = 'Please find the attached voucher csv export for ' . $title . '.';
@@ -229,7 +230,7 @@ class LLMS_Meta_Box_Voucher_Export {
 		fwrite( $handle, $csv );
 
 		// prepare filename
-		$temp_data = stream_get_meta_data( $handle );
+		$temp_data     = stream_get_meta_data( $handle );
 		$temp_filename = $temp_data['uri'];
 
 		$new_filename = substr_replace( $temp_filename, '', 13 ) . '.csv';

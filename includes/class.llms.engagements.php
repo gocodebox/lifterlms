@@ -1,24 +1,25 @@
 <?php
 /**
-* Engagements Class
-* Finds and triggers the appropriate engagement
-*
-* @since 2.3.0
-* @version 3.30.3
-*/
+ * Engagements Class
+ * Finds and triggers the appropriate engagement
+ *
+ * @since 2.3.0
+ * @version 3.30.3
+ */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Engagements Class
-*
-* @since 2.3.0
-* @since 3.30.3 Fixed spelling errors.
-*/
+ * Engagements Class
+ *
+ * @since 2.3.0
+ * @since 3.30.3 Fixed spelling errors.
+ */
 class LLMS_Engagements {
 
 	/**
 	 * Enable debug logging
+	 *
 	 * @var  boolean
 	 * @since  2.7.9
 	 */
@@ -26,12 +27,14 @@ class LLMS_Engagements {
 
 	/**
 	 * protected instance of class
+	 *
 	 * @var LLMS_Engagements
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Create instance of class
+	 *
 	 * @return LLMS_Engagements [Instance of engagements class]
 	 */
 	public static function instance() {
@@ -52,7 +55,7 @@ class LLMS_Engagements {
 		}
 
 		$this->add_actions();
-	 	$this->init();
+		$this->init();
 
 	}
 
@@ -66,22 +69,25 @@ class LLMS_Engagements {
 	 */
 	private function add_actions() {
 
-		$actions = apply_filters( 'lifterlms_engagement_actions', array(
+		$actions = apply_filters(
+			'lifterlms_engagement_actions',
+			array(
 
-			'lifterlms_access_plan_purchased',
-			'lifterlms_course_completed',
-			'lifterlms_course_track_completed',
-			'lifterlms_created_person',
-			'lifterlms_lesson_completed',
-			'lifterlms_product_purchased',
-			'lifterlms_quiz_completed',
-			'lifterlms_quiz_passed',
-			'lifterlms_quiz_failed',
-			'lifterlms_section_completed',
-			'llms_user_enrolled_in_course',
-			'llms_user_added_to_membership_level',
+				'lifterlms_access_plan_purchased',
+				'lifterlms_course_completed',
+				'lifterlms_course_track_completed',
+				'lifterlms_created_person',
+				'lifterlms_lesson_completed',
+				'lifterlms_product_purchased',
+				'lifterlms_quiz_completed',
+				'lifterlms_quiz_passed',
+				'lifterlms_quiz_failed',
+				'lifterlms_section_completed',
+				'llms_user_enrolled_in_course',
+				'llms_user_added_to_membership_level',
 
-		) );
+			)
+		);
 
 		foreach ( $actions as $action ) {
 
@@ -99,12 +105,13 @@ class LLMS_Engagements {
 
 	/**
 	 * Include engagement types (excluding email)
+	 *
 	 * @return void
 	 */
 	public function init() {
 
-		include( 'class.llms.certificates.php' );
-		include( 'class.llms.achievements.php' );
+		include 'class.llms.certificates.php';
+		include 'class.llms.achievements.php';
 
 	}
 
@@ -172,14 +179,16 @@ class LLMS_Engagements {
 		$this->log( '======== handle_email() =======' );
 		$this->log( $args );
 
-		$person_id = $args[0];
-		$email_id = $args[1];
+		$person_id  = $args[0];
+		$email_id   = $args[1];
 		$related_id = $args[2];
 
 		// dupcheck
 		global $wpdb;
 
-		$res = (int) $wpdb->get_var( $wpdb->prepare( "
+		$res = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"
 			SELECT count( meta_id )
 			FROM {$wpdb->prefix}lifterlms_user_postmeta
 			WHERE post_id = %d
@@ -187,12 +196,13 @@ class LLMS_Engagements {
 			  AND meta_value = %d
 			  LIMIT 1
 			;",
-			array(
-				$related_id,
-				$person_id,
-				$email_id,
+				array(
+					$related_id,
+					$person_id,
+					$email_id,
+				)
 			)
-		) );
+		);
 
 		if ( $res >= 1 ) {
 			llms_log( sprintf( 'Email `#%d` was not sent because of dupcheck', $email_id ) );
@@ -200,23 +210,27 @@ class LLMS_Engagements {
 		}
 
 		// setup the email
-		$email = LLMS()->mailer()->get_email( 'engagement', array(
-			'person_id' => $args[0],
-			'email_id' => $args[1],
-			'related_id' => $args[2],
-		) );
+		$email = LLMS()->mailer()->get_email(
+			'engagement',
+			array(
+				'person_id'  => $args[0],
+				'email_id'   => $args[1],
+				'related_id' => $args[2],
+			)
+		);
 
 		if ( $email ) {
 
 			if ( $email->send() ) {
 
-				$wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+				$wpdb->insert(
+					$wpdb->prefix . 'lifterlms_user_postmeta',
 					array(
-						'user_id' 			=> $person_id,
-						'post_id' 			=> $related_id,
-						'meta_key'			=> '_email_sent',
-						'meta_value'		=> $email_id,
-						'updated_date'		=> current_time( 'mysql' ),
+						'user_id'      => $person_id,
+						'post_id'      => $related_id,
+						'meta_key'     => '_email_sent',
+						'meta_value'   => $email_id,
+						'updated_date' => current_time( 'mysql' ),
 					),
 					array( '%d', '%d', '%s', '%d', '%s' )
 				);
@@ -232,7 +246,8 @@ class LLMS_Engagements {
 
 	/**
 	 * Log debug data to the WordPress debug.log file
-	 * @param    mixed     $log  data to write to the log
+	 *
+	 * @param    mixed $log  data to write to the log
 	 * @return   void
 	 * @since    2.7.9
 	 * @version  3.12.0
@@ -260,7 +275,7 @@ class LLMS_Engagements {
 	public function maybe_trigger_engagement() {
 
 		$action = current_filter();
-		$args = func_get_args();
+		$args   = func_get_args();
 
 		$this->log( '======= start maybe_trigger_engagement ========' );
 		$this->log( '$action: ' . $action );
@@ -269,50 +284,57 @@ class LLMS_Engagements {
 		// setup variables used in queries and triggers based on the action
 		switch ( $action ) {
 
-			case 'lifterlms_created_person' :
-				$user_id = intval( $args[0] );
-				$trigger_type = 'user_registration';
+			case 'lifterlms_created_person':
+				$user_id         = intval( $args[0] );
+				$trigger_type    = 'user_registration';
 				$related_post_id = '';
-			break;
+				break;
 
-			case 'lifterlms_course_completed' :
-			case 'lifterlms_course_track_completed' :
-			case 'lifterlms_lesson_completed' :
-			case 'lifterlms_section_completed' :
-				$user_id = intval( $args[0] );
+			case 'lifterlms_course_completed':
+			case 'lifterlms_course_track_completed':
+			case 'lifterlms_lesson_completed':
+			case 'lifterlms_section_completed':
+				$user_id         = intval( $args[0] );
 				$related_post_id = intval( $args[1] );
-				$trigger_type = str_replace( 'lifterlms_', '', $action );
-			break;
+				$trigger_type    = str_replace( 'lifterlms_', '', $action );
+				break;
 
 			case 'lifterlms_quiz_completed':
 			case 'lifterlms_quiz_passed':
 			case 'lifterlms_quiz_failed':
-				$user_id = absint( $args[0] );
+				$user_id         = absint( $args[0] );
 				$related_post_id = absint( $args[1] );
-				$trigger_type = str_replace( 'lifterlms_', '', $action );
-			break;
+				$trigger_type    = str_replace( 'lifterlms_', '', $action );
+				break;
 
 			case 'llms_user_added_to_membership_level':
 			case 'llms_user_enrolled_in_course':
-				$user_id = intval( $args[0] );
+				$user_id         = intval( $args[0] );
 				$related_post_id = intval( $args[1] );
-				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_enrollment';
-			break;
+				$trigger_type    = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_enrollment';
+				break;
 
-			case 'lifterlms_access_plan_purchased' :
-			case 'lifterlms_product_purchased' :
-				$user_id = intval( $args[0] );
+			case 'lifterlms_access_plan_purchased':
+			case 'lifterlms_product_purchased':
+				$user_id         = intval( $args[0] );
 				$related_post_id = intval( $args[1] );
-				$trigger_type = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
-			break;
+				$trigger_type    = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
+				break;
 
 			// allow extensions to hook into our engagements
-			default :
-				extract( apply_filters( 'lifterlms_external_engagement_query_arguments' , array(
-					'related_post_id' => null,
-					'trigger_type' => null,
-					'user_id' => null,
-				), $action, $args ) );
+			default:
+				extract(
+					apply_filters(
+						'lifterlms_external_engagement_query_arguments',
+						array(
+							'related_post_id' => null,
+							'trigger_type'    => null,
+							'user_id'         => null,
+						),
+						$action,
+						$args
+					)
+				);
 
 		}// End switch().
 
@@ -322,7 +344,7 @@ class LLMS_Engagements {
 		}
 
 		// gather triggerable engagements matching the supplied criteria
-		$engagements = apply_filters( 'lifterlms_get_engagements' , $this->get_engagements( $trigger_type, $related_post_id ), $trigger_type, $related_post_id );
+		$engagements = apply_filters( 'lifterlms_get_engagements', $this->get_engagements( $trigger_type, $related_post_id ), $trigger_type, $related_post_id );
 
 		$this->log( '$engagements: ' . json_encode( $engagements ) );
 
@@ -333,20 +355,18 @@ class LLMS_Engagements {
 			foreach ( $engagements as $e ) {
 
 				$handler_action = null;
-				$handler_args = null;
+				$handler_args   = null;
 
 				// do actions based on the event type
 				switch ( $e->event_type ) {
 
-					case 'achievement' :
-
+					case 'achievement':
 						$handler_action = 'lifterlms_engagement_award_achievement';
-						$handler_args = array( $user_id, $e->engagement_id, $related_post_id );
+						$handler_args   = array( $user_id, $e->engagement_id, $related_post_id );
 
-					break;
+						break;
 
-					case 'certificate' :
-
+					case 'certificate':
 						/**
 						 * @todo  fix this
 						 * if there's no related post id we have to send one anyway for certs to work
@@ -356,24 +376,31 @@ class LLMS_Engagements {
 						$related_post_id = ( ! $related_post_id ) ? $e->engagement_id : $related_post_id;
 
 						$handler_action = 'lifterlms_engagement_award_certificate';
-						$handler_args = array( $user_id, $e->engagement_id, $related_post_id );
+						$handler_args   = array( $user_id, $e->engagement_id, $related_post_id );
 
-					break;
+						break;
 
-					case 'email' :
-
+					case 'email':
 						$handler_action = 'lifterlms_engagement_send_email';
-						$handler_args = array( $user_id, $e->engagement_id, $related_post_id );
+						$handler_args   = array( $user_id, $e->engagement_id, $related_post_id );
 
-					break;
+						break;
 
 					// allow extensions to hook into our engagements
-					default :
-
-						extract( apply_filters( 'lifterlms_external_engagement_handler_arguments' , array(
-							'handler_action' => $handler_action,
-							'handler_args' => $handler_args,
-						), $e, $user_id, $related_post_id, $trigger_type ) );
+					default:
+						extract(
+							apply_filters(
+								'lifterlms_external_engagement_handler_arguments',
+								array(
+									'handler_action' => $handler_action,
+									'handler_args'   => $handler_args,
+								),
+								$e,
+								$user_id,
+								$related_post_id,
+								$trigger_type
+							)
+						);
 
 				}// End switch().
 
@@ -391,8 +418,7 @@ class LLMS_Engagements {
 
 					wp_schedule_single_event( time() + ( DAY_IN_SECONDS * $delay ), $handler_action, array( $handler_args ) );
 
-				} // End if().
-				else {
+				} else {
 
 					do_action( $handler_action, $handler_args );
 
@@ -414,15 +440,15 @@ class LLMS_Engagements {
 	 *
 	 * @param  string $trigger_type  name of the trigger to look for
 	 * @return array of objects
-	 *				Array(
-		 *				    [0] => stdClass Object (
-	 *         				[engagement_id] => 123, // WordPress Post ID of the event post (email, certificate, achievement, etc...)
-	 *         		  		[trigger_id]    => 123, // this is the Post ID of the llms_engagement post
-	 *         			    [trigger_event] => 'user_registration', // triggering action
-	 *         			    [event_type]    => 'certificate', // engagement event action
-	 *         			    [delay]         => 0, // time in days to delay the engagement
-	 *         		     )
-	 *         		)
+	 *              Array(
+	 *                  [0] => stdClass Object (
+	 *                      [engagement_id] => 123, // WordPress Post ID of the event post (email, certificate, achievement, etc...)
+	 *                      [trigger_id]    => 123, // this is the Post ID of the llms_engagement post
+	 *                      [trigger_event] => 'user_registration', // triggering action
+	 *                      [event_type]    => 'certificate', // engagement event action
+	 *                      [delay]         => 0, // time in days to delay the engagement
+	 *                   )
+	 *              )
 	 *
 	 * @since    2.3.0
 	 * @version  3.13.1
@@ -434,20 +460,23 @@ class LLMS_Engagements {
 		if ( $related_post_id ) {
 
 			$related_select = ', relation_meta.meta_value AS related_post_id';
-			$related_join = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
-			$related_where = $wpdb->prepare( "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d", $related_post_id );
+			$related_join   = "LEFT JOIN $wpdb->postmeta AS relation_meta ON triggers.ID = relation_meta.post_id";
+			$related_where  = $wpdb->prepare( "AND relation_meta.meta_key = '_llms_engagement_trigger_post' AND relation_meta.meta_value = %d", $related_post_id );
 
 		} else {
 
 			$related_select = '';
-			$related_join = '';
-			$related_where = '';
+			$related_join   = '';
+			$related_where  = '';
 
 		}
 
-		$r = $wpdb->get_results( $wpdb->prepare(
-			// the query
-			"SELECT
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
+		$r = $wpdb->get_results(
+			$wpdb->prepare(
+				// the query
+				"SELECT
 				  DISTINCT triggers.ID AS trigger_id
 				, triggers_meta.meta_value AS engagement_id
 				, engagements_meta.meta_value AS trigger_event
@@ -479,9 +508,13 @@ class LLMS_Engagements {
 
 				$related_where
 			",
-			// prepare variables
-			$trigger_type
-		), OBJECT );
+				// prepare variables
+				$trigger_type
+			),
+			OBJECT
+		);
+
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$this->log( '$wpdb->last_query' . $wpdb->last_query );
 

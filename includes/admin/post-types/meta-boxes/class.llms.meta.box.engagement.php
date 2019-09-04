@@ -1,25 +1,33 @@
 <?php
 /**
-* Engagements Metabox
-* @since    1.0.0
-* @version  3.11.0
-*/
+ * Engagements Metabox
+ *
+ * @since 1.0.0
+ * @version 3.35.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Engagements Metabox
+ *
+ * @since 1.0.0
+ * @since 3.35.0 Verify nonce and access $_POST data via `llms_filter_input()`.
+ */
 class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
+	 *
 	 * @return   void
 	 * @since    3.1.0
 	 * @version  3.1.0
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-engagement';
-		$this->title = __( 'Engagement Options', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-engagement';
+		$this->title    = __( 'Engagement Options', 'lifterlms' );
+		$this->screens  = array(
 			'llms_engagement',
 		);
 		$this->priority = 'high';
@@ -28,6 +36,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 	/**
 	 * Return an empty array because the metabox fields here are completely custom
+	 *
 	 * @return   array
 	 * @since    1.0.0
 	 * @version  3.11.0
@@ -41,65 +50,65 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		$fields = array();
 
 		$fields[] = array(
-			'allow_null' => false,
-			'class' 	=> 'llms-select2',
-			'desc' 		=> __( 'This engagement will be triggered when a student completes the selected action', 'lifterlms' ),
-			'id' 		=> $this->prefix . 'trigger_type',
+			'allow_null'    => false,
+			'class'         => 'llms-select2',
+			'desc'          => __( 'This engagement will be triggered when a student completes the selected action', 'lifterlms' ),
+			'id'            => $this->prefix . 'trigger_type',
 			'is_controller' => true,
-			'type'		=> 'select',
-			'label'		=> __( 'Triggering Event', 'lifterlms' ),
-			'value'     => $triggers,
+			'type'          => 'select',
+			'label'         => __( 'Triggering Event', 'lifterlms' ),
+			'value'         => $triggers,
 		);
 
 		$trigger_post_fields = array(
 
-			'course' => array(
+			'course'           => array(
 				'controller_value' => array(
 					'course_completed',
 					'course_enrollment',
 					'course_purchased',
 				),
-				'id' => '_faux_engagement_trigger_post_course',
-				'label' => __( 'Select a Course', 'lifterlms' ),
+				'id'               => '_faux_engagement_trigger_post_course',
+				'label'            => __( 'Select a Course', 'lifterlms' ),
 			),
 
-			'lesson' => array(
+			'lesson'           => array(
 				'controller_value' => array( 'lesson_completed' ),
-				'id' => '_faux_engagement_trigger_post_lesson',
-				'label' => __( 'Select a Lesson', 'lifterlms' ),
+				'id'               => '_faux_engagement_trigger_post_lesson',
+				'label'            => __( 'Select a Lesson', 'lifterlms' ),
 			),
 
 			'llms_access_plan' => array(
 				'controller_value' => array(
 					'access_plan_purchased',
 				),
-				'id' => '_faux_engagement_trigger_post_access_plan',
-				'label' => __( 'Select an Access Plan', 'lifterlms' ),
+				'id'               => '_faux_engagement_trigger_post_access_plan',
+				'label'            => __( 'Select an Access Plan', 'lifterlms' ),
 			),
 
-			'llms_membership' => array(
+			'llms_membership'  => array(
 				'controller_value' => array(
 					'membership_enrollment',
 					'membership_purchased',
 				),
-				'id' => '_faux_engagement_trigger_post_membership',
-				'label' => __( 'Select a Membership', 'lifterlms' ),
+				'id'               => '_faux_engagement_trigger_post_membership',
+				'label'            => __( 'Select a Membership', 'lifterlms' ),
 			),
 
-			'llms_quiz' => array(
+			'llms_quiz'        => array(
 				'controller_value' => array(
 					'quiz_completed',
 					'quiz_passed',
 					'quiz_failed',
 				),
-				'id' => '_faux_engagement_trigger_post_quiz',
-				'label' => __( 'Select a Quiz', 'lifterlms' ),
+				'id'               => '_faux_engagement_trigger_post_quiz',
+				'label'            => __( 'Select a Quiz', 'lifterlms' ),
 			),
 
-			'section' => array(
+			'section'          => array(
 				'controller_value' => array( 'section_completed' ),
-				'id' => '_faux_engagement_trigger_post_section',
-				'label' => __( 'Select a Section', 'lifterlms' ),
+				'id'               => '_faux_engagement_trigger_post_section',
+				'label'            => __( 'Select a Section', 'lifterlms' ),
 			),
 
 		);
@@ -115,27 +124,30 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 			}
 
 			$fields[] = array(
-				'allow_null' => false,
-				'class'     => 'llms-select2-post',
-				'controller' => '#' . $this->prefix . 'trigger_type',
+				'allow_null'       => false,
+				'class'            => 'llms-select2-post',
+				'controller'       => '#' . $this->prefix . 'trigger_type',
 				'controller_value' => implode( ',', $data['controller_value'] ),
-				'data_attributes' => array(
+				'data_attributes'  => array(
 					'allow_clear' => true,
 					'placeholder' => $data['label'],
-					'post-type' => $post_type,
+					'post-type'   => $post_type,
 				),
-				'id' 		=> $data['id'],
-				'label'		=> $data['label'],
-				'type'		=> 'select',
-				'value'     => $val,
+				'id'               => $data['id'],
+				'label'            => $data['label'],
+				'type'             => 'select',
+				'value'            => $val,
 			);
 
 		}
 
 		$track_options = array();
-		$tracks = get_terms( 'course_track', array(
-			'hide_empty' => '0',
-		) );
+		$tracks        = get_terms(
+			'course_track',
+			array(
+				'hide_empty' => '0',
+			)
+		);
 		foreach ( $tracks as $track ) {
 			$track_options[] = array(
 				'key'   => $track->term_id,
@@ -144,63 +156,63 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		}
 
 		$fields[] = array(
-			'allow_null' => false,
-			'class'     => 'llms-select2',
-			'controller' => '#' . $this->prefix . 'trigger_type',
+			'allow_null'       => false,
+			'class'            => 'llms-select2',
+			'controller'       => '#' . $this->prefix . 'trigger_type',
 			'controller_value' => implode( ',', apply_filters( 'llms_engagement_controller_values_track', array( 'course_track_completed' ) ) ),
-			'data_attributes' => array(
+			'data_attributes'  => array(
 				'allow_clear' => true,
 				'placeholder' => __( 'Select a Course Track', 'lifterlms' ),
 			),
-			'id' 		=> '_faux_engagement_trigger_post_track',
-			'label'		=> __( 'Select a Course Track', 'lifterlms' ),
-			'type'		=> 'select',
-			'selected'  => get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true ),
-			'value'     => $track_options,
+			'id'               => '_faux_engagement_trigger_post_track',
+			'label'            => __( 'Select a Course Track', 'lifterlms' ),
+			'type'             => 'select',
+			'selected'         => get_post_meta( $this->post->ID, $this->prefix . 'engagement_trigger_post', true ),
+			'value'            => $track_options,
 		);
 
 		$fields[] = array(
-			'allow_null' => false,
-			'class' 	=> 'llms-select2',
-			'desc' 		=> __( 'Determines the type of engagement', 'lifterlms' ),
-			'id' 		=> $this->prefix . 'engagement_type',
+			'allow_null'    => false,
+			'class'         => 'llms-select2',
+			'desc'          => __( 'Determines the type of engagement', 'lifterlms' ),
+			'id'            => $this->prefix . 'engagement_type',
 			'is_controller' => true,
-			'label'		=> __( 'Engagement Type', 'lifterlms' ),
-			'type'		=> 'select',
-			'value'     => $types,
+			'label'         => __( 'Engagement Type', 'lifterlms' ),
+			'type'          => 'select',
+			'value'         => $types,
 		);
 
-		$type = get_post_meta( $this->post->ID, $this->prefix . 'engagement_type', true );
+		$type    = get_post_meta( $this->post->ID, $this->prefix . 'engagement_type', true );
 		$default = ( ! $type ) ? 'llms_achievement' : 'llms_' . $type;
 
 		$fields[] = array(
-			'allow_null' => false,
-			'class'     => 'llms-select2-post',
+			'allow_null'      => false,
+			'class'           => 'llms-select2-post',
 			'data_attributes' => array(
 				'allow_clear' => true,
 				'placeholder' => __( 'Select an Engagement', 'lifterlms' ),
-				'post-type' => $default,
+				'post-type'   => $default,
 			),
-			'id' 		=> $this->prefix . 'engagement',
-			'label'		=> __( 'Select an Engagement', 'lifterlms' ),
-			'type'		=> 'select',
-			'value'     => llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'engagement', true ) ) ),
+			'id'              => $this->prefix . 'engagement',
+			'label'           => __( 'Select an Engagement', 'lifterlms' ),
+			'type'            => 'select',
+			'value'           => llms_make_select2_post_array( array( get_post_meta( $this->post->ID, $this->prefix . 'engagement', true ) ) ),
 		);
 
 		$fields[] = array(
-			'class'     => 'input-full',
-			'default'   => 0,
-			'desc'  	=> __( 'Enter the number of days to wait before triggering this engagement. Enter 0 or leave blank to trigger immediately.', 'lifterlms' ),
-			'id'    	=> $this->prefix . 'engagement_delay',
-			'label'  	=> __( 'Engagement Delay', 'lifterlms' ),
-			'min'       => 0,
-			'type'  	=> 'number',
+			'class'   => 'input-full',
+			'default' => 0,
+			'desc'    => __( 'Enter the number of days to wait before triggering this engagement. Enter 0 or leave blank to trigger immediately.', 'lifterlms' ),
+			'id'      => $this->prefix . 'engagement_delay',
+			'label'   => __( 'Engagement Delay', 'lifterlms' ),
+			'min'     => 0,
+			'type'    => 'number',
 		);
 
 		return array(
 			array(
-				'title' 	=> __( 'Engagement Settings', 'lifterlms' ),
-				'fields' 	=> $fields,
+				'title'  => __( 'Engagement Settings', 'lifterlms' ),
+				'fields' => $fields,
 			),
 		);
 
@@ -209,12 +221,19 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	/**
 	 * Custom save method
 	 * ensures that the faux fields are not saved to the postmeta table
-	 * @param    int     $post_id  WP Post ID of the engagement
+	 *
+	 * @since 3.1.0
+	 * @since 3.11.0 Unknown.
+	 * @since 3.35.0 Verify nonce and access $_POST data via `llms_filter_input()`.
+	 *
+	 * @param    int $post_id  WP Post ID of the engagement
 	 * @return   void
-	 * @since    3.1.0
-	 * @version  3.11.0
 	 */
 	public function save( $post_id ) {
+
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
 
 		// get all defined fields
 		$fields = $this->get_fields();
@@ -243,10 +262,9 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 						// get the posted value
 						if ( isset( $_POST[ $field['id'] ] ) ) {
 
-							$val = $_POST[ $field['id'] ];
+							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
 
-						} // End if().
-						elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
+						} elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = '';
 
@@ -267,50 +285,50 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		}// End foreach().
 
 		// locate and store the trigger post id
-		$type = isset( $_POST[ $this->prefix . 'trigger_type' ] ) ? $_POST[ $this->prefix . 'trigger_type' ] : false;
+		$type = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type', FILTER_SANITIZE_STRING );
 		switch ( $type ) {
 
 			case 'access_plan_purchased':
 				$var = 'access_plan';
-			break;
+				break;
 
 			case 'course_completed':
 			case 'course_purchased':
 			case 'course_enrollment':
 				$var = 'course';
-			break;
+				break;
 
 			case 'lesson_completed':
 				$var = 'lesson';
-			break;
+				break;
 
 			case 'membership_purchased':
 			case 'membership_enrollment':
 				$var = 'membership';
-			break;
+				break;
 
 			case 'quiz_completed':
 			case 'quiz_passed':
 			case 'quiz_failed':
 				$var = 'quiz';
-			break;
+				break;
 
 			case 'section_completed':
 				$var = 'section';
-			break;
+				break;
 
 			case 'course_track_completed':
 				$var = 'track';
-			break;
+				break;
 
 			default:
 				$var = false;
 
-		}// End switch().
+		}
 
 		if ( $var ) {
 
-			$val = isset( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) ? sanitize_text_field( $_POST[ '_faux_engagement_trigger_post_' . $var ] ) : '';
+			$val = llms_filter_input( INPUT_POST, '_faux_engagement_trigger_post_' . $var, FILTER_SANITIZE_STRING );
 
 		} else {
 

@@ -10,6 +10,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Controller_Orders class.
+ *
  * @since 3.0.0
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
@@ -84,18 +85,23 @@ class LLMS_Controller_Orders {
 	 * @since 3.4.0 Unknown.
 	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
+	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */
 	public function confirm_pending_order() {
 
-		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] || empty( $_POST['_wpnonce'] ) ) { return; }
-
 		// nonce the post
-		wp_verify_nonce( $_POST['_wpnonce'], 'confirm_pending_order' );
+		if ( ! llms_verify_nonce( '_wpnonce', 'confirm_pending_order' ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] ) {
+			return;
+		}
 
 		// ensure we have an order key we can locate the order with
-		$key = isset( $_POST['llms_order_key'] ) ? $_POST['llms_order_key'] : false;
+		$key = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
 		if ( ! $key ) {
 			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
 		}
@@ -129,6 +135,7 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Perform actions on a successful order completion
+	 *
 	 * @param    obj    $order       Instance of an LLMS_Order
 	 * @param    string $old_status  Previous order status (eg: 'pending')
 	 * @return   void
@@ -145,9 +152,9 @@ class LLMS_Controller_Orders {
 		// record access start time & maybe schedule expiration
 		$order->start_access();
 
-		$order_id = $order->get( 'id' );
+		$order_id   = $order->get( 'id' );
 		$product_id = $order->get( 'product_id' );
-		$user_id = $order->get( 'user_id' );
+		$user_id    = $order->get( 'user_id' );
 
 		unset( LLMS()->session->llms_coupon );
 
@@ -170,19 +177,21 @@ class LLMS_Controller_Orders {
 	/**
 	 * Handle form submission of the checkout / payment form
 	 *
-	 * 		1. Logs in or Registers a user
-	 *   	2. Validates all fields
-	 *    	3. Handles coupon pricing adjustments
-	 *    	4. Creates a PENDING llms_order
+	 *      1. Logs in or Registers a user
+	 *      2. Validates all fields
+	 *      3. Handles coupon pricing adjustments
+	 *      4. Creates a PENDING llms_order
 	 *
-	 * 		If errors, returns error on screen to user
-	 * 		If success, passes to the selected gateways "process_payment" method
-	 * 			the process_payment method should complete by returning an error or
-	 * 			triggering the "lifterlms_process_payment_redirect" // todo check this last statement
+	 *      If errors, returns error on screen to user
+	 *      If success, passes to the selected gateways "process_payment" method
+	 *          the process_payment method should complete by returning an error or
+	 *          triggering the "lifterlms_process_payment_redirect" // todo check this last statement
+	 *
+	 * @since 3.0.0
+	 * @since 3.27.0 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return void
-	 * @since    3.0.0
-	 * @version  3.27.0
 	 */
 	public function create_pending_order() {
 
@@ -217,7 +226,7 @@ class LLMS_Controller_Orders {
 
 		foreach ( $keys as $key ) {
 			if ( isset( $_POST[ $key ] ) ) {
-				$data[ str_replace( 'llms_', '', $key ) ] = $_POST[ $key ];
+				$data[ str_replace( 'llms_', '', $key ) ] = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
 			}
 		}
 
@@ -228,7 +237,7 @@ class LLMS_Controller_Orders {
 		foreach ( LLMS_Person_Handler::get_available_fields( 'checkout' ) as $cust_field ) {
 			$cust_key = $cust_field['id'];
 			if ( isset( $_POST[ $cust_key ] ) ) {
-				$data['customer'][ $cust_key ] = $_POST[ $cust_key ];
+				$data['customer'][ $cust_key ] = llms_filter_input( INPUT_POST, $cust_key, FILTER_SANITIZE_STRING );
 			}
 		}
 
@@ -242,7 +251,7 @@ class LLMS_Controller_Orders {
 
 			// existing user fails validation from the free checkout form
 			if ( get_current_user_id() && isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] && isset( $_POST['llms_plan_id'] ) ) {
-				$plan = llms_get_post( $_POST['llms_plan_id'] );
+				$plan = llms_get_post( llms_filter_input( INPUT_POST, 'llms_plan_id', FILTER_SANITIZE_NUMBER_INT ) );
 				wp_redirect( $plan->get_checkout_url() );
 				exit;
 			}
@@ -263,9 +272,9 @@ class LLMS_Controller_Orders {
 
 		$order_id = 'new';
 
-		// get order ID by Key if it exists
+		// get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {
-			$locate = llms_get_order_by_key( $_POST['llms_order_key'], 'id' );
+			$locate = llms_get_order_by_key( llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING ), 'id' );
 			if ( $locate ) {
 				$order_id = $locate;
 			}
@@ -292,7 +301,7 @@ class LLMS_Controller_Orders {
 	/**
 	 * Called when an order's status changes to refunded, cancelled, expired, or failed
 	 *
-	 * @param    obj    $order  instance of an LLMS_Order
+	 * @param    obj $order  instance of an LLMS_Order
 	 * @return   void
 	 *
 	 * @since    3.0.0
@@ -307,13 +316,13 @@ class LLMS_Controller_Orders {
 			case 'lifterlms_order_status_on-hold':
 			case 'lifterlms_order_status_refunded':
 				$status = 'cancelled';
-			break;
+				break;
 
 			case 'lifterlms_order_status_expired':
 			case 'lifterlms_order_status_failed':
 			default:
 				$status = 'expired';
-			break;
+				break;
 
 		}
 
@@ -345,28 +354,29 @@ class LLMS_Controller_Orders {
 	 * Handle expiration & cancellation from a course / membership
 	 * Called via scheduled action set during order completion for plans with a limited access plan
 	 * Additionally called when an order is marked as "pending-cancel" to revoke access at the end of a pre-paid period
-	 * @param    int  $order_id  WP Post ID of the LLMS Order
+	 *
+	 * @param    int $order_id  WP Post ID of the LLMS Order
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.0
 	 */
 	public function expire_access( $order_id ) {
 
-		$order = new LLMS_Order( $order_id );
+		$order            = new LLMS_Order( $order_id );
 		$new_order_status = false;
 
 		// pending cancel moves to cancelled
 		if ( 'llms-pending-cancel' === $order->get( 'status' ) ) {
 
-			$status = 'cancelled';
-			$note = __( 'Student unenrolled at the end of access period due to subscription cancellation.', 'lifterlms' );
+			$status           = 'cancelled';
+			$note             = __( 'Student unenrolled at the end of access period due to subscription cancellation.', 'lifterlms' );
 			$new_order_status = 'cancelled';
 
 			// all others move to expired
 		} else {
 
 			$status = 'expired';
-			$note = __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' );
+			$note   = __( 'Student unenrolled due to automatic access plan expiration', 'lifterlms' );
 
 		}
 
@@ -382,7 +392,8 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Unschedule recurring payments and schedule access expiration
-	 * @param    obj        $order  LLMS_Order object
+	 *
+	 * @param    obj $order  LLMS_Order object
 	 * @return   void
 	 * @since    3.19.0
 	 * @version  3.19.0
@@ -410,7 +421,7 @@ class LLMS_Controller_Orders {
 	 */
 	public function recurring_charge( $order_id ) {
 
-		$order = new LLMS_Order( $order_id );
+		$order   = new LLMS_Order( $order_id );
 		$gateway = $order->get_gateway();
 
 		// ensure the gateway is still installed & available
@@ -455,9 +466,12 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
+	 *
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
 	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.19.0
 	 */
 	public function switch_payment_source() {
 
@@ -468,16 +482,16 @@ class LLMS_Controller_Orders {
 			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
 		}
 
-		$order = llms_get_post( $_POST['order_id'] );
+		$order = llms_get_post( llms_filter_input( INPUT_POST, 'order_id', FILTER_SANITIZE_NUMBER_INT ) );
 		if ( ! $order || get_current_user_id() != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
 		} elseif ( empty( $_POST['llms_payment_gateway'] ) ) {
 			return llms_add_notice( __( 'Missing gateway information.', 'lifterlms' ), 'error' );
 		}
 
-		$plan = llms_get_post( $order->get( 'plan_id' ) );
-		$gateway_id = sanitize_text_field( $_POST['llms_payment_gateway'] );
-		$gateway = $this->validate_selected_gateway( $gateway_id, $plan );
+		$plan       = llms_get_post( $order->get( 'plan_id' ) );
+		$gateway_id = llms_filter_input( INPUT_POST, 'llms_payment_gateway', FILTER_SANITIZE_STRING );
+		$gateway    = $this->validate_selected_gateway( $gateway_id, $plan );
 
 		if ( is_wp_error( $gateway ) ) {
 			return llms_add_notice( $gateway->get_error_message(), 'error' );
@@ -495,7 +509,8 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * When a transaction fails, update the parent order's status
-	 * @param    obj     $txn  Instance of the LLMS_Transaction
+	 *
+	 * @param    obj $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.10.0
@@ -505,7 +520,8 @@ class LLMS_Controller_Orders {
 		$order = $txn->get_order();
 
 		// halt if legacy
-		if ( $order->is_legacy() ) { return; }
+		if ( $order->is_legacy() ) {
+			return; }
 
 		if ( $order->can_be_retried() ) {
 
@@ -521,7 +537,8 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * When a transaction is refunded, update the parent order's status
-	 * @param    obj     $txn  Instance of the LLMS_Transaction
+	 *
+	 * @param    obj $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -531,7 +548,8 @@ class LLMS_Controller_Orders {
 		$order = $txn->get_order();
 
 		// halt if legacy
-		if ( $order->is_legacy() ) { return; }
+		if ( $order->is_legacy() ) {
+			return; }
 
 		$order->set( 'status', 'llms-refunded' );
 
@@ -539,7 +557,8 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * When a transaction succeeds, update the parent order's status
-	 * @param    obj     $txn  Instance of the LLMS_Transaction
+	 *
+	 * @param    obj $txn  Instance of the LLMS_Transaction
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.10.0
@@ -550,7 +569,8 @@ class LLMS_Controller_Orders {
 		$order = $txn->get_order();
 
 		// halt if legacy
-		if ( $order->is_legacy() ) { return; }
+		if ( $order->is_legacy() ) {
+			return; }
 
 		// update the status based on the order type
 		$status = $order->is_recurring() ? 'llms-active' : 'llms-completed';
@@ -564,9 +584,10 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Trigger actions when the status of LifterLMS Orders and LifterLMS Transactions change status
-	 * @param    string     $new_status  new status
-	 * @param    string     $old_status  old status
-	 * @param    ojb        $post        WP_Post instance
+	 *
+	 * @param    string $new_status  new status
+	 * @param    string $old_status  old status
+	 * @param    ojb    $post        WP_Post instance
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.0
@@ -584,7 +605,7 @@ class LLMS_Controller_Orders {
 		}
 
 		$post_type = str_replace( 'llms_', '', $post->post_type );
-		$obj = 'order' === $post_type ? new LLMS_Order( $post ) : new LLMS_Transaction( $post );
+		$obj       = 'order' === $post_type ? new LLMS_Order( $post ) : new LLMS_Transaction( $post );
 
 		// record order status changes as notes
 		if ( 'order' === $post_type ) {
@@ -602,8 +623,9 @@ class LLMS_Controller_Orders {
 
 	/**
 	 * Validate a gateway can be used to process the current action / transaction
-	 * @param    string     $gateway_id  gateway's id
-	 * @param    obj        $plan        instance of the LLMS_Access_Plan related to the action/transaction
+	 *
+	 * @param    string $gateway_id  gateway's id
+	 * @param    obj    $plan        instance of the LLMS_Access_Plan related to the action/transaction
 	 * @return   mixed                   WP_Error or LLMS_Payment_Gateway subclass
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -611,7 +633,7 @@ class LLMS_Controller_Orders {
 	private function validate_selected_gateway( $gateway_id, $plan ) {
 
 		$gateway = LLMS()->payment_gateways()->get_gateway_by_id( $gateway_id );
-		$err = new WP_Error();
+		$err     = new WP_Error();
 
 		// valid gateway
 		if ( is_subclass_of( $gateway, 'LLMS_Payment_Gateway' ) ) {

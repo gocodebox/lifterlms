@@ -1,5 +1,6 @@
 /**
  * Trashable model
+ *
  * @type     {Object}
  * @since    3.16.12
  * @version  3.16.12
@@ -10,6 +11,7 @@ define( [], function() {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type  {Object}
 		 * @since    3.16.12
 		 * @version  3.16.12
@@ -20,6 +22,7 @@ define( [], function() {
 
 		/**
 		 * Remove a model from it's parent and delete it
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.12

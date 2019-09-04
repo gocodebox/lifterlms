@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Please say nice things about us
+ *
  * @since    3.24.0
  * @version  3.24.0
  */
@@ -10,6 +11,7 @@ class LLMS_Admin_Review {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
@@ -25,7 +27,7 @@ class LLMS_Admin_Review {
 	/**
 	 * On LifterLMS admin screens replace the default footer text with a review request
 	 *
-	 * @param   string    $text default footer text
+	 * @param   string $text default footer text
 	 * @return  string
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -62,6 +64,7 @@ class LLMS_Admin_Review {
 
 	/**
 	 * AJAX callback for dismissing the notice
+	 *
 	 * @return  void
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -70,11 +73,14 @@ class LLMS_Admin_Review {
 
 		$success = llms_parse_bool( filter_input( INPUT_POST, 'success', FILTER_SANITIZE_STRING ) );
 
-		update_option( 'llms_review', array(
-			'time'      => time(),
-			'dismissed' => true,
-			'success'   => $success ? 'yes' : 'no',
-		) );
+		update_option(
+			'llms_review',
+			array(
+				'time'      => time(),
+				'dismissed' => true,
+				'success'   => $success ? 'yes' : 'no',
+			)
+		);
 
 		die;
 
@@ -82,6 +88,7 @@ class LLMS_Admin_Review {
 
 	/**
 	 * Determine if the notice should be displayed and display it
+	 *
 	 * @return  void
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -124,7 +131,7 @@ class LLMS_Admin_Review {
 			return;
 		}
 
-		$enrollments = LLMS_Admin_Review::round_down( $enrollments );
+		$enrollments = self::round_down( $enrollments );
 
 		include 'views/notices/review-request.php';
 
@@ -132,7 +139,8 @@ class LLMS_Admin_Review {
 
 	/**
 	 * Round a number down to a big-ish round number
-	 * @param   int    $number input number
+	 *
+	 * @param   int $number input number
 	 * @return  int
 	 * @since   3.24.0
 	 * @version 3.24.0

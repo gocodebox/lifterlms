@@ -3,9 +3,9 @@
  * Import & Export LLMS Content
  *
  * @since 3.3.0
- * @since [version] Moved from frontend templates directory.
+ * @since 3.35.0 Moved from frontend templates directory.
  *                  Added field.
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;

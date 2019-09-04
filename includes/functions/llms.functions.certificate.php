@@ -3,12 +3,14 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Certificate Functions
+ *
  * @since    2.2.0
  * @version  2.2.0
  */
 
 /**
  * Retrieve the content of a certificate
+ *
  * @param  integer $id WP Post ID of the cert (optional if used within a loop)
  * @return string
  * @since    2.2.0
@@ -62,21 +64,21 @@ function llms_get_certificate_image( $id = 0 ) {
 	if ( ! $src ) {
 
 		$height = apply_filters( 'lifterlms_certificate_background_image_placeholder_height', 616, $id );
-		$width = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
-		$src = apply_filters( 'lifterlms_certificate_background_image_placeholder_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png', $id );
+		$width  = apply_filters( 'lifterlms_certificate_background_image_placeholder_width', 800, $id );
+		$src    = apply_filters( 'lifterlms_certificate_background_image_placeholder_src', LLMS()->plugin_url() . '/assets/images/optional_certificate.png', $id );
 
 	} else {
 
 		$height = apply_filters( 'lifterlms_certificate_background_image_height', $src[2], $id );
-		$width = apply_filters( 'lifterlms_certificate_background_image_width', $src[1], $id );
-		$src = apply_filters( 'lifterlms_certificate_background_image_src', $src[0], $id );
+		$width  = apply_filters( 'lifterlms_certificate_background_image_width', $src[1], $id );
+		$src    = apply_filters( 'lifterlms_certificate_background_image_src', $src[0], $id );
 
 	}
 
 	return array(
 		'height' => $height,
-		'src' => $src,
-		'width' => $width,
+		'src'    => $src,
+		'width'  => $width,
 	);
 
 }
@@ -84,7 +86,8 @@ function llms_get_certificate_image( $id = 0 ) {
 
 /**
  * Retrieve the title of a certificate
- * @param  int    $id WP post id of the cert (optional if used within a loop)
+ *
+ * @param  int $id WP post id of the cert (optional if used within a loop)
  * @return string     title of the cert
  * @since    2.2.0
  * @version  2.2.0
@@ -100,6 +103,7 @@ function llms_get_certificate_title( $id = 0 ) {
 
 /**
  * Register the custom "print_certificate" image size
+ *
  * @return void
  * @since    2.2.0
  * @version  2.2.0

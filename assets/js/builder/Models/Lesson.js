@@ -1,5 +1,6 @@
 /**
  * Lesson Model
+ *
  * @since    3.13.0
  * @version  3.27.0
  */
@@ -9,6 +10,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Model relationships
+		 *
 		 * @type  {Object}
 		 */
 		relationships: {
@@ -31,12 +33,14 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Lesson Settings Schema
+		 *
 		 * @type  {Object}
 		 */
 		schema: LessonSchema,
 
 		/**
 		 * New lesson defaults
+		 *
 		 * @return   obj
 		 * @since    3.13.0
 		 * @version  3.24.0
@@ -78,6 +82,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Initializer
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.17.0
@@ -101,6 +106,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Retrieve a reference to the parent course of the lesson
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -111,6 +117,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Retrieve the translated post type name for the model's type
+		 *
 		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
 		 * @return   string
 		 * @since    3.16.12
@@ -127,6 +134,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Override default get_parent to grab from collection if models parent isn't set
+		 *
 		 * @return   obj
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -145,13 +153,14 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Retrieve the questions percentage value within the quiz
+		 *
 		 * @return   string
 		 * @since    3.24.0
 		 * @version  3.24.0
 		 */
 		get_points_percentage: function() {
 
-			var total = this.get_course().get_total_points(),
+			var total  = this.get_course().get_total_points(),
 				points = this.get( 'points' ) * 1;
 
 			if ( ! _.isNumber( points ) ) {
@@ -168,26 +177,27 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Retrieve an array of prerequisite options available for the current lesson
+		 *
 		 * @return   obj
 		 * @since    3.17.0
 		 * @version  3.17.0
 		 */
 		get_available_prereq_options: function() {
 
-			var parent_section_index = this.get_parent().collection.indexOf( this.get_parent() ),
+			var parent_section_index    = this.get_parent().collection.indexOf( this.get_parent() ),
 				lesson_index_in_section = this.collection.indexOf( this ),
-				options = [];
+				options                 = [];
 
 			this.get_course().get( 'sections' ).each( function( section, curr_sec_index ) {
 				if ( curr_sec_index <= parent_section_index ) {
 					var group = {
 							/* translators: %1$d = section order number, %2$s = section title */
-							label: LLMS.l10n.replace( 'Section %1$d: %2$s', {
-								'%1$d': section.get( 'order' ),
-								'%2$s': section.get( 'title' )
-							} ),
-							options: [],
-						};
+						label: LLMS.l10n.replace( 'Section %1$d: %2$s', {
+							'%1$d': section.get( 'order' ),
+							'%2$s': section.get( 'title' )
+						} ),
+					options: [],
+					};
 
 					section.get( 'lessons' ).each( function( lesson, curr_les_index ) {
 						if ( curr_sec_index !== parent_section_index || curr_les_index < lesson_index_in_section ) {
@@ -212,6 +222,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Add a new quiz to the lesson
+		 *
 		 * @param    obj   data   object of quiz data used to construct a new quiz model
 		 * @return   obj          model for the created quiz
 		 * @since    3.16.0
@@ -221,7 +232,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 			data = data || {};
 
-			data.lesson_id = this.id;
+			data.lesson_id         = this.id;
 			data._questions_loaded = true;
 
 			if ( ! data.title ) {
@@ -246,6 +257,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Determine if this is the first lesson
+		 *
 		 * @return   {Boolean}
 		 * @since    3.17.0
 		 * @version  3.17.0
@@ -270,6 +282,7 @@ define( [ 'Models/Quiz', 'Models/_Relationships', 'Models/_Utilities', 'Schemas/
 
 		/**
 		 * Initialize lesson assignments *if* the assignments addon is available and enabled
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0

@@ -2,14 +2,16 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Template loader class
-* @since    1.0.0
-* @version  3.20.0
-*/
+ * Template loader class
+ *
+ * @since    1.0.0
+ * @version  3.20.0
+ */
 class LLMS_Template_Loader {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    1.0.0
 	 * @version  3.20.0
 	 */
@@ -19,17 +21,20 @@ class LLMS_Template_Loader {
 		add_filter( 'template_include', array( $this, 'template_loader' ) );
 
 		// restriction actions for each kind of restriction
-		$reasons = apply_filters( 'llms_restriction_reasons', array(
-			'course_prerequisite',
-			'course_track_prerequisite',
-			'course_time_period',
-			'enrollment_lesson',
-			'lesson_drip',
-			'lesson_prerequisite',
-			'membership',
-			'sitewide_membership',
-			'quiz',
-		) );
+		$reasons = apply_filters(
+			'llms_restriction_reasons',
+			array(
+				'course_prerequisite',
+				'course_track_prerequisite',
+				'course_time_period',
+				'enrollment_lesson',
+				'lesson_drip',
+				'lesson_prerequisite',
+				'membership',
+				'sitewide_membership',
+				'quiz',
+			)
+		);
 
 		foreach ( $reasons as $reason ) {
 			add_action( 'llms_content_restricted_by_' . $reason, array( $this, 'restricted_by_' . $reason ), 10, 1 );
@@ -41,9 +46,10 @@ class LLMS_Template_Loader {
 
 	/**
 	 * Add a notice and / or redirect during restriction actions
-	 * @param    string    $msg       notice message to display
-	 * @param    string    $redirect  optional url to redirect to after setting a notice
-	 * @param    string    $msg_type  type of message to display [notice|success|error|debug]
+	 *
+	 * @param    string $msg       notice message to display
+	 * @param    string $redirect  optional url to redirect to after setting a notice
+	 * @param    string $msg_type  type of message to display [notice|success|error|debug]
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -62,6 +68,7 @@ class LLMS_Template_Loader {
 
 	/**
 	 * Handle sales page redirects for courses & memberships
+	 *
 	 * @return   void
 	 * @since    3.20.0
 	 * @version  3.20.0
@@ -86,9 +93,12 @@ class LLMS_Template_Loader {
 			return;
 		}
 
-		llms_redirect_and_exit( $post->get_sales_page_url(), array(
-			'safe' => false,
-		) );
+		llms_redirect_and_exit(
+			$post->get_sales_page_url(),
+			array(
+				'safe' => false,
+			)
+		);
 
 	}
 
@@ -99,7 +109,7 @@ class LLMS_Template_Loader {
 	 * redirect to parent course and display message
 	 * if course do nothing
 	 *
-	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @param    array $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.7.3
 	 * @version  3.7.3
@@ -110,8 +120,8 @@ class LLMS_Template_Loader {
 			return;
 		}
 
-		$msg = llms_get_restriction_message( $info );
-		$course = llms_get_post_parent_course( $info['content_id'] );
+		$msg      = llms_get_restriction_message( $info );
+		$course   = llms_get_post_parent_course( $info['content_id'] );
 		$redirect = get_permalink( $course->get( 'id' ) );
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_course_track_prerequisite_message', $msg, $info ),
@@ -128,7 +138,7 @@ class LLMS_Template_Loader {
 	 * redirect to parent course and display message
 	 * if course do nothing
 	 *
-	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @param    array $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.7.3
 	 * @version  3.7.3
@@ -139,8 +149,8 @@ class LLMS_Template_Loader {
 			return;
 		}
 
-		$msg = llms_get_restriction_message( $info );
-		$course = llms_get_post_parent_course( $info['content_id'] );
+		$msg      = llms_get_restriction_message( $info );
+		$course   = llms_get_post_parent_course( $info['content_id'] );
 		$redirect = get_permalink( $course->get( 'id' ) );
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_course_prerequisite_message', $msg, $info ),
@@ -158,7 +168,7 @@ class LLMS_Template_Loader {
 	 *
 	 * Courses display a notice until the course opens and an error once the course closes
 	 *
-	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @param    array $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -172,7 +182,7 @@ class LLMS_Template_Loader {
 		// message once we get there
 		// this prevents duplicate messages from being displayed
 		if ( 'lesson' === $post_type || 'llms_quiz' === $post_type ) {
-			$msg = '';
+			$msg      = '';
 			$redirect = get_permalink( $info['restriction_id'] );
 		}
 
@@ -195,14 +205,14 @@ class LLMS_Template_Loader {
 	 *
 	 * redirect to parent course and display message
 	 *
-	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @param    array $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.2.4 -- moved message generation to llms_get_restriction_message();
 	 */
 	public function restricted_by_enrollment_lesson( $info ) {
 
-		$msg = llms_get_restriction_message( $info );
+		$msg      = llms_get_restriction_message( $info );
 		$redirect = get_permalink( $info['restriction_id'] );
 
 		$this->handle_restriction(
@@ -219,7 +229,7 @@ class LLMS_Template_Loader {
 	 *
 	 * redirect to parent course and display message
 	 *
-	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @param    array $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.2.4 -- moved message generation to llms_get_restriction_message();
@@ -228,7 +238,7 @@ class LLMS_Template_Loader {
 
 		$lesson = new LLMS_Lesson( $info['restriction_id'] );
 
-		$msg = llms_get_restriction_message( $info );
+		$msg      = llms_get_restriction_message( $info );
 		$redirect = get_permalink( $lesson->get_parent_course() );
 
 		$this->handle_restriction(
@@ -245,14 +255,14 @@ class LLMS_Template_Loader {
 	 *
 	 * redirect to parent course and display message
 	 *
-	 * @param    array     $info  array of restriction info from llms_page_restricted()
+	 * @param    array $info  array of restriction info from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.2.4 -- moved message generation to llms_get_restriction_message()
 	 */
 	public function restricted_by_lesson_prerequisite( $info ) {
 
-		$msg = llms_get_restriction_message( $info );
+		$msg      = llms_get_restriction_message( $info );
 		$redirect = get_permalink( $info['restriction_id'] );
 		$this->handle_restriction(
 			apply_filters( 'llms_restricted_by_lesson_prerequisite_message', $msg, $info ),
@@ -267,7 +277,7 @@ class LLMS_Template_Loader {
 	 *
 	 * Parses and obeys Membership "Restriction Behavior" settings
 	 *
-	 * @param    array     $info  array of restriction results from llms_page_restricted()
+	 * @param    array $info  array of restriction results from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -282,7 +292,7 @@ class LLMS_Template_Loader {
 			// instantiate the membership
 			$membership = new LLMS_Membership( $membership_id );
 
-			$msg = '';
+			$msg      = '';
 			$redirect = '';
 
 			// get the redirect based on the redirect type (if set)
@@ -290,15 +300,15 @@ class LLMS_Template_Loader {
 
 				case 'custom':
 					$redirect = $membership->get( 'redirect_custom_url' );
-				break;
+					break;
 
 				case 'membership':
 					$redirect = get_permalink( $membership->get( 'id' ) );
-				break;
+					break;
 
 				case 'page':
 					$redirect = get_permalink( $membership->get( 'redirect_page_id' ) );
-				break;
+					break;
 
 			}
 
@@ -320,19 +330,20 @@ class LLMS_Template_Loader {
 
 	/**
 	 * Handle attempts to access quizzes
-	 * @param    array     $info  array of restriction results from llms_page_restricted()
+	 *
+	 * @param    array $info  array of restriction results from llms_page_restricted()
 	 * @return   void
 	 * @since    3.1.6
 	 * @version  3.16.1
 	 */
 	public function restricted_by_quiz( $info ) {
 
-		$msg = '';
+		$msg      = '';
 		$redirect = '';
 
 		if ( get_current_user_id() ) {
 
-			$msg = __( 'You must be enrolled in the course to access this quiz.', 'lifterlms' );
+			$msg  = __( 'You must be enrolled in the course to access this quiz.', 'lifterlms' );
 			$quiz = llms_get_post( $info['restriction_id'] );
 			if ( $quiz ) {
 				$course = $quiz->get_course();
@@ -342,7 +353,7 @@ class LLMS_Template_Loader {
 			}
 		} else {
 
-			$msg = __( 'You must be logged in to take quizzes.', 'lifterlms' );
+			$msg      = __( 'You must be logged in to take quizzes.', 'lifterlms' );
 			$redirect = llms_person_my_courses_url();
 
 		}
@@ -360,7 +371,7 @@ class LLMS_Template_Loader {
 	 *
 	 * Parses and obeys Membership "Restriction Behavior" settings
 	 *
-	 * @param    array     $info  array of restriction results from llms_page_restricted()
+	 * @param    array $info  array of restriction results from llms_page_restricted()
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -372,7 +383,8 @@ class LLMS_Template_Loader {
 	/**
 	 * Check if content should be restricted and include overrides where appropriate
 	 * triggers various actions based on content restrictions
-	 * @param    string  $template
+	 *
+	 * @param    string $template
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.16.11
@@ -380,7 +392,7 @@ class LLMS_Template_Loader {
 	public function template_loader( $template ) {
 
 		$page_restricted = llms_page_restricted( get_the_ID() );
-		$post_type = get_post_type();
+		$post_type       = get_post_type();
 
 		// blog should bypass checks, except when sitewide restrictions are enabled
 		if ( is_home() && 'sitewide_membership' == $page_restricted['reason'] && $page_restricted['is_restricted'] ) {
@@ -408,8 +420,7 @@ class LLMS_Template_Loader {
 			// so for these post types we'll return the regular template
 			if ( 'course' === $post_type || 'llms_membership' === $post_type ) {
 				return $template;
-			} // End if().
-			else {
+			} else {
 				$template = 'single-no-access.php';
 			}
 		} elseif ( is_post_type_archive( 'course' ) || is_page( llms_get_page_id( 'llms_shop' ) ) ) {
@@ -419,7 +430,7 @@ class LLMS_Template_Loader {
 		} elseif ( is_tax( array( 'course_cat', 'course_tag', 'course_difficulty', 'course_track', 'membership_tag', 'membership_cat' ) ) ) {
 
 			global $wp_query;
-			$obj = $wp_query->get_queried_object();
+			$obj      = $wp_query->get_queried_object();
 			$template = 'taxonomy-' . $obj->taxonomy . '.php';
 
 		} elseif ( is_post_type_archive( 'llms_membership' ) || is_page( llms_get_page_id( 'memberships' ) ) ) {
@@ -437,7 +448,7 @@ class LLMS_Template_Loader {
 		} // End if().
 
 		// check for an override file
-		$override = llms_get_template_override( $template );
+		$override      = llms_get_template_override( $template );
 		$template_path = $override ? $override : LLMS()->plugin_path() . '/templates/';
 		return $template_path . $template;
 

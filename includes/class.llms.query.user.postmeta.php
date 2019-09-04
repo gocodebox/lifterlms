@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS User Postmeta Query
+ *
  * @since    3.15.0
  * @version  3.15.0
  */
@@ -11,12 +12,14 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 	/**
 	 * Identify the extending query
+	 *
 	 * @var  string
 	 */
 	protected $id = 'user_postmeta';
 
 	/**
 	 * Retrieve default arguments for a student query
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -25,15 +28,15 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 		$args = array(
 			'include_post_children' => true,
-			'query' => array(),
-			'query_compare' => 'OR',
-			'post_id' => array(),
-			'sort' => array(
+			'query'                 => array(),
+			'query_compare'         => 'OR',
+			'post_id'               => array(),
+			'sort'                  => array(
 				'updated_date' => 'DESC',
-				'meta_id' => 'ASC',
+				'meta_id'      => 'ASC',
 			),
-			'types' => array(),
-			'user_id' => array(),
+			'types'                 => array(),
+			'user_id'               => array(),
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
@@ -44,13 +47,14 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 	/**
 	 * Retrieve an array of LLMS_User_Postmetas for the given set of results
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
 	public function get_metas() {
 
-		$metas = array();
+		$metas   = array();
 		$results = $this->get_results();
 
 		if ( $results ) {
@@ -72,6 +76,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	 * Parses data passed to $statuses
 	 * Convert strings to array and ensure resulting array contains only valid statuses
 	 * If no valid statuses, returns to the default
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -93,7 +98,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 					continue;
 				}
 
-				$course = llms_get_post( $id );
+				$course                     = llms_get_post( $id );
 				$this->arguments['post_id'] = array_merge(
 					$this->arguments['post_id'],
 					$this->sanitize_id_array( $course->get_sections( 'ids' ) ),
@@ -107,30 +112,30 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		if ( $this->arguments['types'] ) {
 
 			$all_events = array(
-				'completion' => array(
-					'key' => '_is_complete',
+				'completion'  => array(
+					'key'   => '_is_complete',
 					'value' => 'yes',
 				),
-				'status' => array(
+				'status'      => array(
 					'compare' => 'IS NOT NULL',
-					'key' => '_status',
+					'key'     => '_status',
 				),
 				'achievement' => array(
 					'compare' => 'IS NOT NULL',
-					'key' => '_achievement_earned',
+					'key'     => '_achievement_earned',
 				),
 				'certificate' => array(
 					'compare' => 'IS NOT NULL',
-					'key' => '_certificate_earned',
+					'key'     => '_certificate_earned',
 				),
-				'email' => array(
+				'email'       => array(
 					'compare' => 'IS NOT NULL',
-					'key' => '_email_sent',
+					'key'     => '_email_sent',
 				),
-				'purchase' => array(
+				'purchase'    => array(
 					'compare' => 'LIKE',
-					'key' => '_enrollment_trigger',
-					'value' => 'order_%',
+					'key'     => '_enrollment_trigger',
+					'value'   => 'order_%',
 				),
 			);
 
@@ -160,11 +165,14 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			foreach ( $this->arguments['query'] as $i => &$query ) {
 
 				// ensure that each query has a compare operator
-				$query = wp_parse_args( $query, array(
-					'compare' => '=',
-					'key' => '',
-					'value' => '',
-				) );
+				$query = wp_parse_args(
+					$query,
+					array(
+						'compare' => '=',
+						'key'     => '',
+						'value'   => '',
+					)
+				);
 
 				$operators = array( '=', '!=', 'LIKE', 'IN', 'NOT IN', 'IS NOT NULL' );
 				if ( ! in_array( $query['compare'], $operators ) ) {
@@ -181,6 +189,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 	/**
 	 * Prepare the SQL for the query
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -194,6 +203,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		$vars[] = $this->get_skip();
 		$vars[] = $this->get( 'per_page' );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$sql = $wpdb->prepare(
 			"SELECT SQL_CALC_FOUND_ROWS meta_id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta
@@ -202,6 +212,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			 LIMIT %d, %d;",
 			$vars
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
 
@@ -209,6 +220,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
 	/**
 	 * SQL "where" clause for the query
+	 *
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -224,7 +236,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			$ids = $this->get( $key );
 			if ( $ids ) {
 				$prepared = implode( ',', $ids );
-				$sql .= " AND {$key} IN ({$prepared})";
+				$sql     .= " AND {$key} IN ({$prepared})";
 			}
 		}
 
@@ -238,26 +250,31 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 					$sql .= " {$this->get( 'query_compare' )} ";
 				}
 
+				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 				switch ( $query['compare'] ) {
 
 					case '=':
 					case '!=':
 					case 'LIKE':
 						$sql .= $wpdb->prepare( "( meta_key = %s AND meta_value {$query['compare']} %s )", $query['key'], $query['value'] );
-					break;
+						break;
 
-					case 'IN';
-					case 'NOT IN';
+					case 'IN':
+					case 'NOT IN':
 						$query['value'] = array_map( array( $this, 'escape_and_quote_string' ), $query['value'] );
-						$vals = implode( ',', $query['value'] );
-						$sql .= $wpdb->prepare( "( meta_key = %s AND meta_value {$query['compare']} ( {$vals} ) )", $query['key'] );
-					break;
+						$vals           = implode( ',', $query['value'] );
+						$sql           .= $wpdb->prepare( "( meta_key = %s AND meta_value {$query['compare']} ( {$vals} ) )", $query['key'] );
+						break;
 
 					case 'IS NOT NULL':
 						$sql .= $wpdb->prepare( "( meta_key = %s AND meta_value {$query['compare']} )", $query['key'] );
-					break;
+						break;
 
 				}
+
+				// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 			}
 
 			$sql .= ' )';

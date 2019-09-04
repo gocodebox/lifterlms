@@ -11,10 +11,11 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Determine if lesson completion is allowed for a given user & lesson
- * @param   int        $user_id    WP User ID.
- * @param   int        $lesson_id  WP Post ID of a lesson.
- * @param   string     $trigger    Optional trigger description string.
- * @param   array      $args       Optional arguments.
+ *
+ * @param   int    $user_id    WP User ID.
+ * @param   int    $lesson_id  WP Post ID of a lesson.
+ * @param   string $trigger    Optional trigger description string.
+ * @param   array  $args       Optional arguments.
  * @return  boolean
  * @since   3.29.0
  * @version 3.29.0
@@ -30,7 +31,8 @@ function llms_allow_lesson_completion( $user_id, $lesson_id, $trigger = '', $arg
 
 /**
  * Determines whether or not a "Mark Complete" button should be displayed for a given lesson
- * @param   obj    $lesson LLMS_Lesson.
+ *
+ * @param   obj $lesson LLMS_Lesson.
  * @return  boolean
  * @since   3.29.0
  * @version 3.29.0
@@ -50,7 +52,7 @@ function llms_show_mark_complete_button( $lesson ) {
 /**
  * Determines whether or not a "Take Quiz" button should be displayed for a given lesson.
  *
- * @param   obj    $lesson LLMS_Lesson.
+ * @param   obj $lesson LLMS_Lesson.
  * @return  boolean
  * @since   3.29.0
  * @version 3.29.0

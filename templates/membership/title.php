@@ -1,10 +1,14 @@
 <?php
 /**
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * Membership Title
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since Unknown
+ * @version Unknown
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 ?>
 

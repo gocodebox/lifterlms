@@ -21,6 +21,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Identify the extending query
+	 *
 	 * @var  string
 	 */
 	protected $id = 'database';
@@ -35,24 +36,28 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Arguments
 	 * Original merged into defaults
+	 *
 	 * @var  array
 	 */
 	protected $arguments = array();
 
 	/**
 	 * Default arguments before merging with original
+	 *
 	 * @var  array
 	 */
 	protected $arguments_default = array();
 
 	/**
 	 * Original args before merging with defaults
+	 *
 	 * @var  array
 	 */
 	protected $arguments_original = array();
 
 	/**
 	 * Total number of results matching query parameters
+	 *
 	 * @var  integer
 	 */
 	public $found_results = 0;
@@ -60,44 +65,50 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Maximum number of pages of results
 	 * based off per_page & found_results
+	 *
 	 * @var  integer
 	 */
 	public $max_pages = 0;
 
 	/**
 	 * Number of results on the current page
+	 *
 	 * @var  integer
 	 */
 	public $number_results = 0;
 
 	/**
 	 * Array of query variables
+	 *
 	 * @var  array
 	 */
 	public $query_vars = array();
 
 	/**
 	 * Array of results retrieved by the query
+	 *
 	 * @var  array
 	 */
 	public $results = array();
 
 	/**
 	 * The raw SQL query
+	 *
 	 * @var  string
 	 */
 	protected $sql = '';
 
 	/**
 	 * Constructor
-	 * @param    array      $args  query arguments
+	 *
+	 * @param    array $args  query arguments
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
 	public function __construct( $args = array() ) {
 
 		$this->arguments_original = $args;
-		$this->arguments_default = $this->get_default_args();
+		$this->arguments_default  = $this->get_default_args();
 
 		$this->setup_args();
 
@@ -107,7 +118,8 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Escape and add quotes to a string, useful for array mapping when building queries
-	 * @param    mixed     $input  input data
+	 *
+	 * @param    mixed $input  input data
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -118,8 +130,9 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Retrieve a query variable with an optional fallback / default
-	 * @param    string     $key      variable key
-	 * @param    mixed      $default  default value
+	 *
+	 * @param    string $key      variable key
+	 * @param    mixed  $default  default value
 	 * @return   mixed
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -135,6 +148,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Retrieve default arguments for a the query
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -142,10 +156,10 @@ abstract class LLMS_Database_Query {
 	protected function get_default_args() {
 
 		$args = array(
-			'page' => 1,
-			'per_page' => 25,
-			'search' => '',
-			'sort' => array(
+			'page'             => 1,
+			'per_page'         => 25,
+			'search'           => '',
+			'sort'             => array(
 				'id' => 'ASC',
 			),
 			'suppress_filters' => false,
@@ -161,7 +175,8 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Get a string used as filter names unique to the extending query
-	 * @param    string     $filter  filter name
+	 *
+	 * @param    string $filter  filter name
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -172,6 +187,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Retrieve an array of results for the given query
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -189,6 +205,7 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Get the number of results to skip for the query
 	 * based on the current page and per_page vars
+	 *
 	 * @return   int
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -199,6 +216,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Determine if the query has at least one result
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -209,6 +227,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Determine if we're on the first page of results
+	 *
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.14.0
@@ -231,6 +250,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Parse arguments needed for the query
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -239,6 +259,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Prepare the SQL for the query
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -247,6 +268,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Execute a query
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -260,7 +282,7 @@ abstract class LLMS_Database_Query {
 			$this->sql = apply_filters( $this->get_filter( 'prepare_query' ), $this->sql, $this );
 		}
 
-		$this->results = $wpdb->get_results( $this->sql );
+		$this->results        = $wpdb->get_results( $this->sql ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- SQL is prepared just not right here.
 		$this->number_results = count( $this->results );
 
 		$this->set_found_results();
@@ -269,7 +291,8 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Sanitize input to ensure an array of absints
-	 * @param    mixed     $ids  String/Int or array of strings/ints
+	 *
+	 * @param    mixed $ids  String/Int or array of strings/ints
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.24.0
@@ -322,8 +345,9 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Sets a query variable
-	 * @param    string     $key  variable key
-	 * @param    mixed      $val  variable value
+	 *
+	 * @param    string $key  variable key
+	 * @param    mixed  $val  variable value
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -335,6 +359,7 @@ abstract class LLMS_Database_Query {
 	/**
 	 * Set variables related to total number of results and pages possible
 	 * with supplied arguments
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -349,7 +374,7 @@ abstract class LLMS_Database_Query {
 		}
 
 		$this->found_results = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
-		$this->max_pages = absint( ceil( $this->found_results / $this->get( 'per_page' ) ) );
+		$this->max_pages     = absint( ceil( $this->found_results / $this->get( 'per_page' ) ) );
 
 	}
 
@@ -379,6 +404,7 @@ abstract class LLMS_Database_Query {
 
 	/**
 	 * Retrieve the prepared SQL for the LIMIT clause
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -412,8 +438,8 @@ abstract class LLMS_Database_Query {
 			$comma = false;
 
 			foreach ( $sort as $orderby => $order ) {
-				$pre = ( $comma ) ? ', ' : ' ';
-				$sql .= $pre . "{$orderby} {$order}";
+				$pre   = ( $comma ) ? ', ' : ' ';
+				$sql  .= $pre . "{$orderby} {$order}";
 				$comma = true;
 			}
 		}

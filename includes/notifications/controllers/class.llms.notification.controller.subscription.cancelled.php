@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification Controller: Subscription Cancelled (by Student)
+ *
  * @since    3.17.8
  * @version  3.17.8
  */
@@ -12,26 +13,30 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 
 	/**
 	 * Trigger Identifier
+	 *
 	 * @var  [type]
 	 */
 	public $id = 'subscription_cancelled';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
+	 *
 	 * @var  integer
 	 */
 	protected $action_accepted_args = 2;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
+	 *
 	 * @var  array
 	 */
 	protected $action_hooks = array( 'llms_subscription_cancelled_by_student' );
 
 	/**
 	 * Callback function, called upon student subscription cancellation
-	 * @param    obj     $order       Instance of the LLMS_Order
-	 * @param    int     $student_id  WP User ID of the Student
+	 *
+	 * @param    obj $order       Instance of the LLMS_Order
+	 * @param    int $student_id  WP User ID of the Student
 	 * @return   void
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -47,7 +52,8 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
-	 * @param    string     $subscriber  subscriber type string
+	 *
+	 * @param    string $subscriber  subscriber type string
 	 * @return   int|false
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -66,7 +72,7 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 					return false;
 				}
 				$uid = $product->get( 'author' );
-			break;
+				break;
 
 			default:
 				$uid = false;
@@ -80,6 +86,7 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 	/**
 	 * Get the translatable title for the notification
 	 * used on settings screens
+	 *
 	 * @return   string
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -90,7 +97,8 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 
 	/**
 	 * Setup the subscriber options for the notification
-	 * @param    string     $type  notification type id
+	 *
+	 * @param    string $type  notification type id
 	 * @return   array
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -104,7 +112,7 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'author', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
-			break;
+				break;
 
 		}
 
@@ -116,6 +124,7 @@ class LLMS_Notification_Controller_Subscription_Cancelled extends LLMS_Abstract_
 	 * Determine what types are supported
 	 * Extending classes can override this function in order to add or remove support
 	 * 3rd parties should add support via filter on $this->get_supported_types()
+	 *
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
 	 * @since    3.17.8
 	 * @version  3.17.8

@@ -93,7 +93,8 @@ class LLMS_Email {
 	/**
 	 * Initializer
 	 * Children can configure the email in this function called by the __construct() function
-	 * @param    array     $args  optional arguments passed in from the constructor
+	 *
+	 * @param    array $args  optional arguments passed in from the constructor
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -103,6 +104,7 @@ class LLMS_Email {
 	/**
 	 * Constructor
 	 * Sets up data needed to generate email content
+	 *
 	 * @since    1.0.0
 	 * @version  3.8.0
 	 */
@@ -110,12 +112,14 @@ class LLMS_Email {
 
 		$this->add_header( 'Content-Type', $this->get_content_type() );
 
-		$this->add_merge_data( array(
-			'{blogname}' => get_bloginfo( 'name', 'display' ),
-			'{site_title}' => get_bloginfo( 'name', 'display' ),
-			'{divider}' => LLMS()->mailer()->get_divider_html(),
-			'{button_style}' => LLMS()->mailer()->get_button_style(),
-		) );
+		$this->add_merge_data(
+			array(
+				'{blogname}'     => get_bloginfo( 'name', 'display' ),
+				'{site_title}'   => get_bloginfo( 'name', 'display' ),
+				'{divider}'      => LLMS()->mailer()->get_divider_html(),
+				'{button_style}' => LLMS()->mailer()->get_button_style(),
+			)
+		);
 
 		$this->init( $args );
 
@@ -123,7 +127,8 @@ class LLMS_Email {
 
 	/**
 	 * Add an attachment to the email
-	 * @param    string     $attachment  full system path to a file to attach
+	 *
+	 * @param    string $attachment  full system path to a file to attach
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -136,8 +141,9 @@ class LLMS_Email {
 
 	/**
 	 * Add a single header to the email headers array
-	 * @param    string     $key   header key eg: 'Cc'
-	 * @param    string     $val   header value eg: 'noreply@website.tld'
+	 *
+	 * @param    string $key   header key eg: 'Cc'
+	 * @param    string $val   header value eg: 'noreply@website.tld'
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -149,9 +155,10 @@ class LLMS_Email {
 
 	/**
 	 * Add merge data that will be used in the email
-	 * @param    array      $data    associative array where
-	 *                               	$key = merge field
-	 *                               	$val = merge value
+	 *
+	 * @param    array $data    associative array where
+	 *                             $key = merge field
+	 *                             $val = merge value
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -168,10 +175,11 @@ class LLMS_Email {
 
 	/**
 	 * Add a single recipient for sending to, cc, or bcc
-	 * @param    int|string  $address  if string, must be a valid email address
-	 *                                 if int, must be the WP User ID of a user
-	 * @param    string      $type     recipient type [to,cc,bcc]
-	 * @param    string      $name     recipient name (optional)
+	 *
+	 * @param    int|string $address  if string, must be a valid email address
+	 *                                if int, must be the WP User ID of a user
+	 * @param    string     $type     recipient type [to,cc,bcc]
+	 * @param    string     $name     recipient name (optional)
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.10.1
@@ -185,7 +193,7 @@ class LLMS_Email {
 				return false;
 			}
 			$address = $student->get( 'user_email' );
-			$name = $student->get_name();
+			$name    = $student->get_name();
 		}
 
 		// ensure address is a valid email
@@ -216,7 +224,8 @@ class LLMS_Email {
 
 	/**
 	 * Add multiple recipients
-	 * @param    array      $recipients  array of recipient information
+	 *
+	 * @param    array $recipients  array of recipient information
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -225,11 +234,14 @@ class LLMS_Email {
 
 		foreach ( $recipients as $data ) {
 
-			$data = wp_parse_args( $data, array(
-				'address' => '',
-				'type' => 'to',
-				'name' => '',
-			) );
+			$data = wp_parse_args(
+				$data,
+				array(
+					'address' => '',
+					'type'    => 'to',
+					'name'    => '',
+				)
+			);
 
 			if ( $data['address'] ) {
 				$this->add_recipient( $data['address'], $data['type'], $data['name'] );
@@ -241,7 +253,8 @@ class LLMS_Email {
 	/**
 	 *  Format string method
 	 *  Finds and replaces merge fields with appropriate data
-	 * @param    string  $string  string to be formatted
+	 *
+	 * @param    string $string  string to be formatted
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  1.0.0
@@ -252,6 +265,7 @@ class LLMS_Email {
 
 	/**
 	 * Get attachments
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -262,6 +276,7 @@ class LLMS_Email {
 
 	/**
 	 * Get the body content of the email
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -272,6 +287,7 @@ class LLMS_Email {
 
 	/**
 	 * Get email content
+	 *
 	 * @return string
 	 * @since    1.0.0
 	 * @version  3.8.0
@@ -285,6 +301,7 @@ class LLMS_Email {
 
 	/**
 	 * Get the HTML email content
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.26.1
@@ -302,10 +319,13 @@ class LLMS_Email {
 		}
 
 		ob_start();
-		llms_get_template( $this->template_html, array(
-			'email_heading' => $this->get_heading(),
-			'email_message' => $this->get_body(),
-		) );
+		llms_get_template(
+			$this->template_html,
+			array(
+				'email_heading' => $this->get_heading(),
+				'email_message' => $this->get_body(),
+			)
+		);
 
 		$html = apply_filters( 'llms_email_content_get_content_html', ob_get_clean(), $this );
 
@@ -320,6 +340,7 @@ class LLMS_Email {
 
 	/**
 	 * Get the content type
+	 *
 	 * @return string
 	 * @since    1.0.0
 	 * @version  3.8.0
@@ -330,6 +351,7 @@ class LLMS_Email {
 
 	/**
 	 * Get from email option data
+	 *
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  1.0.0
@@ -340,6 +362,7 @@ class LLMS_Email {
 
 	/**
 	 * Get from name option data
+	 *
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  1.0.0
@@ -350,6 +373,7 @@ class LLMS_Email {
 
 	/**
 	 * Get email headers
+	 *
 	 * @return   string|array
 	 * @since    1.0.0
 	 * @version  3.8.0
@@ -360,6 +384,7 @@ class LLMS_Email {
 
 	/**
 	 * Get the text of the email "heading"
+	 *
 	 * @return string
 	 * @since    1.0.0
 	 * @version  3.8.0
@@ -370,6 +395,7 @@ class LLMS_Email {
 
 	/**
 	 * Get recipient email address
+	 *
 	 * @return   string|array
 	 * @since    1.0.0
 	 * @version  3.8.0
@@ -380,6 +406,7 @@ class LLMS_Email {
 
 	/**
 	 * Get email subject
+	 *
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.8.0
@@ -390,7 +417,8 @@ class LLMS_Email {
 
 	/**
 	 * Set the body for the email
-	 * @param    string     $body   text or html body content for the email
+	 *
+	 * @param    string $body   text or html body content for the email
 	 * @return   $this
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -402,7 +430,8 @@ class LLMS_Email {
 
 	/**
 	 * set the content_type for the email
-	 * @param    string     $content_type   content type (for the header)
+	 *
+	 * @param    string $content_type   content type (for the header)
 	 * @return   $this
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -414,7 +443,8 @@ class LLMS_Email {
 
 	/**
 	 * set the heading for the email
-	 * @param    string     $heading    text string to use for the email heading
+	 *
+	 * @param    string $heading    text string to use for the email heading
 	 * @return   $this
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -426,7 +456,8 @@ class LLMS_Email {
 
 	/**
 	 * Set the ID of the email
-	 * @param    string     $id   id string
+	 *
+	 * @param    string $id   id string
 	 * @return   $this
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -438,6 +469,7 @@ class LLMS_Email {
 
 	/**
 	 * set the subject for the email
+	 *
 	 * @param    string $content_type text string to use for the email subject.
 	 * @return   $this
 	 * @since    3.8.0
@@ -450,6 +482,7 @@ class LLMS_Email {
 
 	/**
 	 * Send email
+	 *
 	 * @return bool
 	 * @since    1.0.0
 	 * @version  3.15.0

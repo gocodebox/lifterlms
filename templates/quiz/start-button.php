@@ -9,7 +9,7 @@
 defined( 'ABSPATH' ) || exit;
 
 global $post;
-$quiz = llms_get_post( $post );
+$quiz   = llms_get_post( $post );
 $lesson = $quiz->get_lesson();
 ?>
 
@@ -39,7 +39,7 @@ $lesson = $quiz->get_lesson();
 			<?php endif; ?>
 
 			<?php if ( $lesson->get_next_lesson() && llms_is_complete( get_current_user_id(), $lesson->get( 'id' ), 'lesson' ) ) : ?>
-				<a href="<?php echo get_permalink( $lesson->get_next_lesson() );?>" class="button llms-button-secondary llms-next-lesson"><?php _e( 'Next Lesson','lifterlms' ); ?></a>
+				<a href="<?php echo get_permalink( $lesson->get_next_lesson() ); ?>" class="button llms-button-secondary llms-next-lesson"><?php _e( 'Next Lesson', 'lifterlms' ); ?></a>
 			<?php endif; ?>
 		</form>
 

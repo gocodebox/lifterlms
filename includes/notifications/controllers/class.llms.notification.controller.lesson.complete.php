@@ -18,18 +18,21 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 
 	/**
 	 * Trigger Identifier
+	 *
 	 * @var  [type]
 	 */
 	public $id = 'lesson_complete';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
+	 *
 	 * @var  integer
 	 */
 	protected $action_accepted_args = 2;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
+	 *
 	 * @var  array
 	 */
 	protected $action_hooks = array( 'lifterlms_lesson_completed' );
@@ -42,8 +45,9 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 
 	/**
 	 * Callback function called when a lesson is completed by a student
-	 * @param    int     $student_id  WP User ID of a LifterLMS Student
-	 * @param    int     $lesson_id   WP Post ID of a LifterLMS Lesson
+	 *
+	 * @param    int $student_id  WP User ID of a LifterLMS Student
+	 * @param    int $lesson_id   WP Post ID of a LifterLMS Lesson
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -52,8 +56,8 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 
 		$this->user_id = $student_id;
 		$this->post_id = $lesson_id;
-		$this->lesson = llms_get_post( $lesson_id );
-		$this->course = $this->lesson->get_course();
+		$this->lesson  = llms_get_post( $lesson_id );
+		$this->course  = $this->lesson->get_course();
 
 		$this->send();
 
@@ -61,7 +65,8 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
-	 * @param    string     $subscriber  subscriber type string
+	 *
+	 * @param    string $subscriber  subscriber type string
 	 * @return   int|false
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -72,15 +77,15 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 
 			case 'course_author':
 				$uid = $this->course->get( 'author' );
-			break;
+				break;
 
 			case 'lesson_author':
 				$uid = $this->lesson->get( 'author' );
-			break;
+				break;
 
 			case 'student':
 				$uid = $this->user_id;
-			break;
+				break;
 
 			default:
 				$uid = false;
@@ -94,6 +99,7 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 	/**
 	 * Get the translatable title for the notification
 	 * used on settings screens
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -104,7 +110,8 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 
 	/**
 	 * Setup the subscriber options for the notification
-	 * @param    string     $type  notification type id
+	 *
+	 * @param    string $type  notification type id
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -117,13 +124,13 @@ class LLMS_Notification_Controller_Lesson_Complete extends LLMS_Abstract_Notific
 
 			case 'basic':
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
-			break;
+				break;
 
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'lesson_author', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'course_author', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
-			break;
+				break;
 
 		}
 

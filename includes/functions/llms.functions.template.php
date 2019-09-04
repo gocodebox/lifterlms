@@ -1,10 +1,11 @@
 <?php
 /**
  * Get template part
+ *
  * @param  string $slug [url slug of template]
  * @param  string $name [name of template]
  *
- * @return string [name of file]
+ * @return void
  */
 function llms_get_template_part( $slug, $name = '' ) {
 	$template = '';
@@ -63,10 +64,10 @@ function llms_get_template_part_contents( $slug, $name = '' ) {
 /**
  * Get Template Part
  *
- * @param    string  $template_name [name of template]
- * @param    array   $args          [array of pst args]
- * @param    string  $template_path [file path to template]
- * @param    string  $default_path  [default file path]
+ * @param    string $template_name [name of template]
+ * @param    array  $args          [array of pst args]
+ * @param    string $template_path [file path to template]
+ * @param    string $default_path  [default file path]
  * @return   void
  * @since    1.0.0
  * @version  3.16.0
@@ -81,7 +82,7 @@ function llms_get_template( $template_name, $args = array(), $template_path = ''
 	  do_action( 'lifterlms_before_template_part', $template_name, $template_path, $located, $args );
 
 	if ( file_exists( $located ) ) {
-		include( $located );
+		include $located;
 	}
 
 	  do_action( 'lifterlms_after_template_part', $template_name, $template_path, $located, $args );
@@ -99,9 +100,9 @@ function llms_get_template_ajax( $template_name, $args = array(), $template_path
 /**
  * Locate Template
  *
- * @param   string  $template_name name of template
- * @param   string  $template_path dir path to template
- * @param   string  $default_path  default path
+ * @param   string $template_name name of template
+ * @param   string $template_path dir path to template
+ * @param   string $default_path  default path
  * @return  string
  * @since   1.0.0
  * @version 3.0.0 - only returns path if template exists
@@ -119,7 +120,7 @@ function llms_locate_template( $template_name, $template_path = '', $default_pat
 	$override_path = llms_get_template_override( $template_name );
 
 	// Get default template
-	$path = ($override_path) ? $override_path : $default_path;
+	$path = ( $override_path ) ? $override_path : $default_path;
 
 	$template = $path . $template_name;
 
@@ -144,16 +145,19 @@ function llms_get_template_override( $template = '' ) {
 	/**
 	* Allow themes and plugins to determine which folders to look in for theme overrides
 	*/
-	$dirs = apply_filters( 'lifterlms_theme_override_directories', array(
-		get_stylesheet_directory() . '/lifterlms',
-		get_template_directory() . '/lifterlms',
-	) );
+	$dirs = apply_filters(
+		'lifterlms_theme_override_directories',
+		array(
+			get_stylesheet_directory() . '/lifterlms',
+			get_template_directory() . '/lifterlms',
+		)
+	);
 
 	foreach ( $dirs as $dir ) {
 
 		$path = $dir . '/';
 
-	 	if ( file_exists( $path . $template ) ) {
+		if ( file_exists( $path . $template ) ) {
 			return $path;
 		}
 	}

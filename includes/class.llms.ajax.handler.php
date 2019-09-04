@@ -24,7 +24,8 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Queue all members of a membership to be enrolled into a specific course
 	 * Triggered from the auto-enrollment tab of a membership
-	 * @param    array     $request  array of request data
+	 *
+	 * @param    array $request  array of request data
 	 * @return   array
 	 * @since    3.4.0
 	 * @version  3.15.0
@@ -45,6 +46,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Add or remove a student from a course or membership
+	 *
 	 * @since    3.0.0
 	 * @version  3.4.0
 	 */
@@ -64,6 +66,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Move a Product Access Plan to the trash
+	 *
 	 * @since  3.0.0
 	 * @version  3.0.0
 	 * @param  array $request $_REQUEST object
@@ -90,7 +93,8 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Queue a table export event
-	 * @param    array     $request  post data ($_REQUEST)
+	 *
+	 * @param    array $request  post data ($_REQUEST)
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.28.1
@@ -105,7 +109,7 @@ class LLMS_AJAX_Handler {
 		if ( class_exists( $handler ) ) {
 
 			$table = new $handler();
-			$file = isset( $request['filename'] ) ? $request['filename'] : null;
+			$file  = isset( $request['filename'] ) ? $request['filename'] : null;
 			return $table->generate_export_file( $request, $file );
 
 		} else {
@@ -118,7 +122,8 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Reload admin tables
-	 * @param    array     $request  post data ($_REQUEST)
+	 *
+	 * @param    array $request  post data ($_REQUEST)
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -165,7 +170,7 @@ class LLMS_AJAX_Handler {
 		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
 
 			return array(
-				'data' => array(),
+				'data'    => array(),
 				'message' => __( 'Missing required parameters', 'lifterlms' ),
 				'success' => false,
 			);
@@ -178,18 +183,17 @@ class LLMS_AJAX_Handler {
 
 			case 'load':
 				$instructors = $post->get_instructors();
-			break;
+				break;
 
 			case 'save':
-
 				$instructors = array();
 
 				foreach ( $request['rows'] as $instructor ) {
 
 					foreach ( $instructor as $key => $val ) {
 
-						$new_key = str_replace( array( 'llms', '_' ), '', $key );
-						$new_key = preg_replace( '/[0-9]+/', '', $new_key );
+						$new_key                = str_replace( array( 'llms', '_' ), '', $key );
+						$new_key                = preg_replace( '/[0-9]+/', '', $new_key );
 						$instructor[ $new_key ] = $val;
 						unset( $instructor[ $key ] );
 
@@ -201,7 +205,7 @@ class LLMS_AJAX_Handler {
 
 				$post->set_instructors( $instructors );
 
-			break;
+				break;
 
 		}
 
@@ -219,17 +223,20 @@ class LLMS_AJAX_Handler {
 			$data[] = $new_instructor;
 		}
 
-		wp_send_json( array(
-			'data' => $data,
-			'message' => 'success',
-			'success' => true,
-		) );
+		wp_send_json(
+			array(
+				'data'    => $data,
+				'message' => 'success',
+				'success' => true,
+			)
+		);
 
 	}
 
 	/**
 	 * Handle notification display & dismissal
-	 * @param    array     $request  $_POST
+	 *
+	 * @param    array $request  $_POST
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -249,12 +256,14 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
-		$query = new LLMS_Notifications_Query( array(
-			'per_page' => 5,
-			'statuses' => 'new',
-			'types' => 'basic',
-			'subscriber' => get_current_user_id(),
-		) );
+		$query = new LLMS_Notifications_Query(
+			array(
+				'per_page'   => 5,
+				'statuses'   => 'new',
+				'types'      => 'basic',
+				'subscriber' => get_current_user_id(),
+			)
+		);
 
 		$ret['new'] = $query->get_notifications();
 
@@ -265,6 +274,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Remove a course from the list of membership auto enrollment courses
 	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes
+	 *
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -287,25 +297,25 @@ class LLMS_AJAX_Handler {
 	 *
 	 * Used by Select2 AJAX functions to load paginated student results
 	 * Also allows querying by:
-	 * 		first name
-	 * 		last name
-	 * 		email
+	 *      first name
+	 *      last name
+	 *      email
 	 *
-	 * @return   json
+	 * @return   void
 	 * @since    ??
 	 * @version  3.14.2
 	 */
 	public static function query_students() {
 
 		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
 
-		$page = array_key_exists( 'page', $_REQUEST ) ? $_REQUEST['page'] : 0;
+		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
-		$enrolled_in = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['enrolled_in'] ) : null;
-		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( $_REQUEST['not_enrolled_in'] ) : null;
+		$enrolled_in     = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['enrolled_in'] ) ) : null;
+		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['not_enrolled_in'] ) ) : null;
 
-		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( $_REQUEST['roles'] ) : null;
+		$roles = array_key_exists( 'roles', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['roles'] ) ) : null;
 
 		global $wpdb;
 
@@ -321,7 +331,7 @@ class LLMS_AJAX_Handler {
 			$total = count( $roles );
 			foreach ( $roles as $i => $role ) {
 				$roles_sql .= "roles.meta_value LIKE '%s'";
-				$vars[] = '%"' . $role . '"%';
+				$vars[]     = '%"' . $role . '"%';
 				if ( $total > 1 && $i + 1 !== $total ) {
 					$roles_sql .= ' OR ';
 				}
@@ -350,11 +360,14 @@ class LLMS_AJAX_Handler {
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array_merge( $vars, array(
-					'%' . $term . '%',
-					$start,
-					$limit,
-				) );
+				$vars = array_merge(
+					$vars,
+					array(
+						'%' . $term . '%',
+						$start,
+						$limit,
+					)
+				);
 
 			} elseif ( false !== strpos( $term, ' ' ) ) {
 
@@ -373,12 +386,15 @@ class LLMS_AJAX_Handler {
 						  ORDER BY users.display_name
 						  LIMIT %d, %d;";
 
-				$vars = array_merge( $vars, array(
-					'%' . $term[0] . '%', // first name
-					'%' . $term[1] . '%', // last name
-					$start,
-					$limit,
-				) );
+				$vars = array_merge(
+					$vars,
+					array(
+						'%' . $term[0] . '%', // first name
+						'%' . $term[1] . '%', // last name
+						$start,
+						$limit,
+					)
+				);
 
 				// search for login, display name, or email
 			} else {
@@ -396,13 +412,16 @@ class LLMS_AJAX_Handler {
 						  ORDER BY display_name
 						  LIMIT %d, %d;";
 
-				$vars = array_merge( $vars, array(
-					'%' . $term . '%',
-					'%' . $term . '%',
-					'%' . $term . '%',
-					$start,
-					$limit,
-				) );
+				$vars = array_merge(
+					$vars,
+					array(
+						'%' . $term . '%',
+						'%' . $term . '%',
+						'%' . $term . '%',
+						$start,
+						$limit,
+					)
+				);
 
 			}// End if().
 		} else {
@@ -416,14 +435,17 @@ class LLMS_AJAX_Handler {
 					  ORDER BY display_name
 					  LIMIT %d, %d;";
 
-			$vars = array_merge( $vars, array(
-				$start,
-				$limit,
-			) );
+			$vars = array_merge(
+				$vars,
+				array(
+					$start,
+					$limit,
+				)
+			);
 
 		}// End if().
 
-		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) );
+		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( $enrolled_in ) {
 
@@ -473,11 +495,13 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
-		echo json_encode( array(
-			'items' => $res,
-			'more' => count( $res ) === $limit,
-			'success' => true,
-		) );
+		echo json_encode(
+			array(
+				'items'   => $res,
+				'more'    => count( $res ) === $limit,
+				'success' => true,
+			)
+		);
 
 		wp_die();
 
@@ -485,12 +509,13 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Start a Quiz Attempt
-	 * @param    array     $request  $_POST data
-	 *                               required:
-	 *                               	(string) attempt_key
-	 *                               or
-	 *                               	(int) quiz_id
-	 *                               	(int) lesson_id
+	 *
+	 * @param    array $request  $_POST data
+	 *                           required:
+	 *                              (string) attempt_key
+	 *                           or
+	 *                              (int) quiz_id
+	 *                              (int) lesson_id
 	 *
 	 * @return   obj|array           WP_Error on error or array containing html template of the first question
 	 * @since    3.9.0
@@ -529,27 +554,31 @@ class LLMS_AJAX_Handler {
 		}
 
 		$attempt->start();
-		$html = llms_get_template_ajax( 'content-single-question.php', array(
-			'attempt' => $attempt,
-			'question' => llms_get_post( $question_id ),
-		) );
+		$html = llms_get_template_ajax(
+			'content-single-question.php',
+			array(
+				'attempt'  => $attempt,
+				'question' => llms_get_post( $question_id ),
+			)
+		);
 
-		$quiz = $attempt->get_quiz();
+		$quiz  = $attempt->get_quiz();
 		$limit = $quiz->has_time_limit() ? $quiz->get( 'time_limit' ) : false;
 
 		return array(
 			'attempt_key' => $attempt->get_key(),
-			'html' => $html,
-			'time_limit' => $limit,
+			'html'        => $html,
+			'time_limit'  => $limit,
 			'question_id' => $question_id,
-			'total' => $attempt->get_count( 'questions' ),
+			'total'       => $attempt->get_count( 'questions' ),
 		);
 
 	}
 
 	/**
 	 * AJAX Quiz answer question
-	 * @param    [type]     $request  [description]
+	 *
+	 * @param    [type] $request  [description]
 	 * @return   [type]               [description]
 	 * @since    3.9.0
 	 * @version  3.27.0
@@ -575,7 +604,7 @@ class LLMS_AJAX_Handler {
 		// $quiz_id = absint( $request['quiz_id'] );
 		$attempt_key = sanitize_text_field( $request['attempt_key'] );
 		$question_id = absint( $request['question_id'] );
-		$answer = array_map( 'stripslashes_deep', isset( $request['answer'] ) ? $request['answer'] : array() );
+		$answer      = array_map( 'stripslashes_deep', isset( $request['answer'] ) ? $request['answer'] : array() );
 
 		$attempt = $student->quizzes()->get_attempt_by_key( $attempt_key );
 		if ( ! $attempt ) {
@@ -592,13 +621,16 @@ class LLMS_AJAX_Handler {
 		// return html for the next question
 		if ( $question_id ) {
 
-			$html = llms_get_template_ajax( 'content-single-question.php', array(
-				'attempt' => $attempt,
-				'question' => llms_get_post( $question_id ),
-			) );
+			$html = llms_get_template_ajax(
+				'content-single-question.php',
+				array(
+					'attempt'  => $attempt,
+					'question' => llms_get_post( $question_id ),
+				)
+			);
 
 			return array(
-				'html' => $html,
+				'html'        => $html,
 				'question_id' => $question_id,
 			);
 
@@ -612,8 +644,9 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * End a quiz attempt
-	 * @param    [type]     $request  [description]
-	 * @param    [type]     $attempt  [description]
+	 *
+	 * @param    [type] $request  [description]
+	 * @param    [type] $attempt  [description]
 	 * @return   array
 	 * @since    3.9.0
 	 * @version  3.16.0
@@ -643,9 +676,12 @@ class LLMS_AJAX_Handler {
 		$attempt->end();
 
 		// setup a redirect
-		$url = add_query_arg( array(
-			'attempt_key' => $attempt->get_key(),
-		), get_permalink( $attempt->get( 'quiz_id' ) ) );
+		$url = add_query_arg(
+			array(
+				'attempt_key' => $attempt->get_key(),
+			),
+			get_permalink( $attempt->get( 'quiz_id' ) )
+		);
 
 		return array(
 			'redirect' => apply_filters( 'llms_quiz_complete_redirect', $url, $attempt ),
@@ -655,6 +691,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Remove a coupon from an order during checkout
+	 *
 	 * @return  string/json
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -670,26 +707,32 @@ class LLMS_AJAX_Handler {
 		$coupon_html = ob_get_clean();
 
 		ob_start();
-		llms_get_template( 'checkout/form-gateways.php', array(
-			'coupon' => false,
-			'gateways' => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-			'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
-			'plan' => $plan,
-		) );
+		llms_get_template(
+			'checkout/form-gateways.php',
+			array(
+				'coupon'           => false,
+				'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
+				'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+				'plan'             => $plan,
+			)
+		);
 		$gateways_html = ob_get_clean();
 
 		ob_start();
-		llms_get_template( 'checkout/form-summary.php', array(
-			'coupon' => false,
-			'plan' => $plan,
-			'product' => $plan->get_product(),
-		) );
+		llms_get_template(
+			'checkout/form-summary.php',
+			array(
+				'coupon'  => false,
+				'plan'    => $plan,
+				'product' => $plan->get_product(),
+			)
+		);
 		$summary_html = ob_get_clean();
 
 		return array(
-			'coupon_html' => $coupon_html,
+			'coupon_html'   => $coupon_html,
 			'gateways_html' => $gateways_html,
-			'summary_html' => $summary_html,
+			'summary_html'  => $summary_html,
 		);
 
 	}
@@ -714,7 +757,7 @@ class LLMS_AJAX_Handler {
 		$page = llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT );
 
 		// Get post type(s).
-		$post_type = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
+		$post_type        = sanitize_text_field( llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING ) );
 		$post_types_array = explode( ',', $post_type );
 		foreach ( $post_types_array as &$str ) {
 			$str = "'" . esc_sql( trim( $str ) ) . "'";
@@ -741,8 +784,10 @@ class LLMS_AJAX_Handler {
 			$vars = array( $start, $limit );
 		}
 
-		$posts = $wpdb->get_results( $wpdb->prepare(
-			"SELECT ID, post_title, post_type
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		$posts = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT ID, post_title, post_type
 			 FROM $wpdb->posts
 			 WHERE post_type IN ( $post_types )
 			   AND post_status IN ( $post_statuses )
@@ -750,8 +795,10 @@ class LLMS_AJAX_Handler {
 			 ORDER BY post_title
 			 LIMIT %d, %d
 			",
-			$vars
-		) );
+				$vars
+			)
+		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$items = array();
 
@@ -760,7 +807,7 @@ class LLMS_AJAX_Handler {
 		foreach ( $posts as $post ) {
 
 			$item = array(
-				'id' => $post->ID,
+				'id'   => $post->ID,
 				'name' => $post->post_title . ' (' . __( 'ID#', 'lifterlms' ) . ' ' . $post->ID . ')',
 			);
 
@@ -768,7 +815,7 @@ class LLMS_AJAX_Handler {
 
 				// setup an object for the optgroup if it's not already set up
 				if ( ! isset( $items[ $post->post_type ] ) ) {
-					$obj = get_post_type_object( $post->post_type );
+					$obj                       = get_post_type_object( $post->post_type );
 					$items[ $post->post_type ] = array(
 						'label' => $obj->labels->name,
 						'items' => array(),
@@ -784,11 +831,13 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
-		echo json_encode( array(
-			'items' => $items,
-			'more' => count( $items ) === $limit,
-			'success' => true,
-		) );
+		echo json_encode(
+			array(
+				'items'   => $items,
+				'more'    => count( $items ) === $limit,
+				'success' => true,
+			)
+		);
 		wp_die();
 
 	}
@@ -819,15 +868,15 @@ class LLMS_AJAX_Handler {
 		switch ( $request['status'] ) {
 			case 'add':
 				$res = llms_enroll_student( $student_id, $post_id, 'admin_' . get_current_user_id() );
-			break;
+				break;
 
 			case 'remove':
 				$res = llms_unenroll_student( $student_id, $post_id, 'cancelled', 'any' );
-			break;
+				break;
 
 			case 'delete':
 				$res = llms_delete_student_enrollment( $student_id, $post_id, 'any' );
-			break;
+				break;
 		}
 
 		if ( ! $res ) {
@@ -842,6 +891,7 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Validate a Coupon via the Checkout Form
+	 *
 	 * @return  string/json
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -860,8 +910,7 @@ class LLMS_AJAX_Handler {
 
 			$error->add( 'error', __( 'Please enter a plan ID.', 'lifterlms' ) );
 
-		} // End if().
-		else {
+		} else {
 
 			$cid = llms_find_coupon( $request['code'] );
 
@@ -881,41 +930,53 @@ class LLMS_AJAX_Handler {
 
 				} else {
 
-					LLMS()->session->set( 'llms_coupon', array(
-						'plan_id' => $request['plan_id'],
-						'coupon_id' => $c->get( 'id' ),
-					) );
+					LLMS()->session->set(
+						'llms_coupon',
+						array(
+							'plan_id'   => $request['plan_id'],
+							'coupon_id' => $c->get( 'id' ),
+						)
+					);
 
 					$plan = new LLMS_Access_Plan( $request['plan_id'] );
 
 					ob_start();
-					llms_get_template( 'checkout/form-coupon.php', array(
-						'coupon' => $c,
-					) );
+					llms_get_template(
+						'checkout/form-coupon.php',
+						array(
+							'coupon' => $c,
+						)
+					);
 					$coupon_html = ob_get_clean();
 
 					ob_start();
-					llms_get_template( 'checkout/form-gateways.php', array(
-						'coupon' => $c,
-						'gateways' => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
-						'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
-						'plan' => $plan,
-					) );
+					llms_get_template(
+						'checkout/form-gateways.php',
+						array(
+							'coupon'           => $c,
+							'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
+							'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
+							'plan'             => $plan,
+						)
+					);
 					$gateways_html = ob_get_clean();
 
 					ob_start();
-					llms_get_template( 'checkout/form-summary.php', array(
-						'coupon' => $c,
-						'plan' => $plan,
-						'product' => $plan->get_product(),
-					) );
+					llms_get_template(
+						'checkout/form-summary.php',
+						array(
+							'coupon'  => $c,
+							'plan'    => $plan,
+							'product' => $plan->get_product(),
+						)
+					);
 					$summary_html = ob_get_clean();
 
 					$success = array(
-						'code' => $c->get( 'title' ),
-						'coupon_html' => $coupon_html,
+						'code'          => $c->get( 'title' ),
+						'coupon_html'   => $coupon_html,
 						'gateways_html' => $gateways_html,
-						'summary_html' => $summary_html,
+						'summary_html'  => $summary_html,
 					);
 
 				}// End if().
@@ -951,7 +1012,6 @@ class LLMS_AJAX_Handler {
 	/**
 	 * @todo organize and docblock remaining class functions
 	 */
-
 	public static function create_section( $request ) {
 
 		$section_id = LLMS_Post_Handler::create_section( $request['post_id'], $request['title'] );
@@ -964,7 +1024,7 @@ class LLMS_AJAX_Handler {
 
 	public static function get_course_sections( $request ) {
 
-		$course = new LLMS_Course( $request['post_id'] );
+		$course   = new LLMS_Course( $request['post_id'] );
 		$sections = $course->get_sections( 'posts' );
 
 		return $sections;
@@ -1018,8 +1078,8 @@ class LLMS_AJAX_Handler {
 		$l = new LLMS_Lesson( $request['lesson_id'] );
 
 		return array(
-			'id' => $l->get( 'id' ),
-			'title' => $l->get( 'title' ),
+			'id'      => $l->get( 'id' ),
+			'title'   => $l->get( 'title' ),
 			'excerpt' => $l->get( 'excerpt' ),
 		);
 
@@ -1028,7 +1088,7 @@ class LLMS_AJAX_Handler {
 	public static function update_course_lesson( $request ) {
 
 		$post_data = array(
-			'title' => $request['title'],
+			'title'   => $request['title'],
 			'excerpt' => $request['excerpt'],
 		);
 
@@ -1041,9 +1101,9 @@ class LLMS_AJAX_Handler {
 	public static function remove_course_lesson( $request ) {
 
 		$post_data = array(
-			'parent_course' => '',
+			'parent_course'  => '',
 			'parent_section' => '',
-			'order'	=> '',
+			'order'          => '',
 		);
 
 		$lesson = new LLMS_Lesson( $request['lesson_id'] );
@@ -1064,10 +1124,12 @@ class LLMS_AJAX_Handler {
 
 		foreach ( $request['sections'] as $key => $value ) {
 
-			$section = new LLMS_Section( $key );
-			$updated_data[ $key ] = $section->update( array(
-				'order' => $value,
-			) );
+			$section              = new LLMS_Section( $key );
+			$updated_data[ $key ] = $section->update(
+				array(
+					'order' => $value,
+				)
+			);
 
 		}
 
@@ -1081,11 +1143,11 @@ class LLMS_AJAX_Handler {
 
 		foreach ( $request['lessons'] as $key => $value ) {
 
-			$lesson = new LLMS_Lesson( $key );
+			$lesson               = new LLMS_Lesson( $key );
 			$updated_data[ $key ] = $lesson->update(
 				array(
 					'parent_section' => $value['parent_section'],
-					'order' => $value['order'],
+					'order'          => $value['order'],
 				)
 			);
 
@@ -1097,7 +1159,8 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * "API" for the Admin Builder
-	 * @param    [type]     $request  [description]
+	 *
+	 * @param    [type] $request  [description]
 	 * @return   [type]               [description]
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -1153,8 +1216,8 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 'error', __( 'Missing Required Parameters.', 'lifterlms' ) );
 		}
 
-		$metabox = new LLMS_Meta_Box_Product();
-		$post_id = absint( $request['post_id'] );
+		$metabox       = new LLMS_Meta_Box_Product();
+		$post_id       = absint( $request['post_id'] );
 		$metabox->post = get_post( $post_id );
 
 		$errors = array();
@@ -1188,7 +1251,7 @@ class LLMS_AJAX_Handler {
 
 		return array(
 			'errors' => $errors,
-			'html' => $metabox->get_html(),
+			'html'   => $metabox->get_html(),
 		);
 
 	}

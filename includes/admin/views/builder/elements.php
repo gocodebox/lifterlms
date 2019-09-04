@@ -1,6 +1,7 @@
 <?php
 /**
  * Builder sidebar course elements list
+ *
  * @since   3.16.0
  * @version 3.16.0
  */

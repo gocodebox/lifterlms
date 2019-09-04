@@ -1,19 +1,26 @@
 <?php
 /**
  * Courses Tab on Reporting Screen
- * @since    3.15.0
- * @version  3.15.0
+ *
+ * @since 3.15.0
+ * @version 3.35.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Reporting_Tab_Courses
+ *
+ * @since 3.15.0
+ * @since 3.35.0 Sanitize input data.
+ */
 class LLMS_Admin_Reporting_Tab_Courses {
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function __construct() {
 
@@ -24,6 +31,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 
 	/**
 	 * Add breadcrumb links to the tab depending on current view
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -38,28 +46,28 @@ class LLMS_Admin_Reporting_Tab_Courses {
 			$links[ LLMS_Admin_Reporting::get_stab_url( 'overview' ) ] = $course->get( 'title' );
 
 			// if ( isset( $_GET['stab'] ) && 'courses' === $_GET['stab'] ) {
-			// 	$links[ LLMS_Admin_Reporting::get_stab_url( 'courses' ) ] = __( 'All Courses', 'lifterlms' );
+			// $links[ LLMS_Admin_Reporting::get_stab_url( 'courses' ) ] = __( 'All Courses', 'lifterlms' );
 
-			// 	if ( isset( $_GET['course_id'] ) ) {
-			// 		$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-			// 			'stab' => 'courses',
-			// 			'course_id' => $_GET['course_id'],
-			// 			'course_id' => $_GET['course_id'],
-			// 		) );
-			// 		$links[ $url ] = get_the_title( $_GET['course_id'] );
+			// if ( isset( $_GET['course_id'] ) ) {
+			// $url = LLMS_Admin_Reporting::get_current_tab_url( array(
+			// 'stab' => 'courses',
+			// 'course_id' => $_GET['course_id'],
+			// 'course_id' => $_GET['course_id'],
+			// ) );
+			// $links[ $url ] = get_the_title( $_GET['course_id'] );
 
-			// 		if ( isset( $_GET['quiz_id'] ) ) {
-			// 			$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-			// 				'stab' => 'courses',
-			// 				'course_id' => $_GET['course_id'],
-			// 				'course_id' => $_GET['course_id'],
-			// 				'quiz_id' => $_GET['quiz_id'],
-			// 			) );
-			// 			$links[ $url ] = get_the_title( $_GET['quiz_id'] );
+			// if ( isset( $_GET['quiz_id'] ) ) {
+			// $url = LLMS_Admin_Reporting::get_current_tab_url( array(
+			// 'stab' => 'courses',
+			// 'course_id' => $_GET['course_id'],
+			// 'course_id' => $_GET['course_id'],
+			// 'quiz_id' => $_GET['quiz_id'],
+			// ) );
+			// $links[ $url ] = get_the_title( $_GET['quiz_id'] );
 
-			// 		}
+			// }
 
-			// 	}
+			// }
 			// }
 		}
 
@@ -73,30 +81,38 @@ class LLMS_Admin_Reporting_Tab_Courses {
 
 	/**
 	 * Output tab content
-	 * @return   void
+	 *
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
+	 * @return   void
 	 */
 	public function output() {
 
 		// single course
 		if ( isset( $_GET['course_id'] ) ) {
 
-			if ( ! current_user_can( 'edit_post', $_GET['course_id'] ) ) {
+			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
-			$tabs = apply_filters( 'llms_reporting_tab_course_tabs', array(
-				'overview' => __( 'Overview', 'lifterlms' ),
-				'students' => __( 'Students', 'lifterlms' ),
+			$tabs = apply_filters(
+				'llms_reporting_tab_course_tabs',
+				array(
+					'overview' => __( 'Overview', 'lifterlms' ),
+					'students' => __( 'Students', 'lifterlms' ),
 				// 'quizzes' => __( 'Quizzes', 'lifterlms' ),
-			) );
+				)
+			);
 
-			llms_get_template( 'admin/reporting/tabs/courses/course.php', array(
-				'current_tab' => isset( $_GET['stab'] ) ? esc_attr( $_GET['stab'] ) : 'overview',
-				'tabs' => $tabs,
-				'course' => llms_get_post( intval( $_GET['course_id'] ) ),
-			) );
+			llms_get_template(
+				'admin/reporting/tabs/courses/course.php',
+				array(
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
+					'tabs'        => $tabs,
+					'course'      => llms_get_post( intval( $_GET['course_id'] ) ),
+				)
+			);
 
 		} // End if().
 		else {

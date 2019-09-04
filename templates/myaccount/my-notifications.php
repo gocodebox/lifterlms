@@ -27,16 +27,20 @@ defined( 'ABSPATH' ) || exit;
 
 		<footer class="llms-sd-pagination llms-my-notifications-pagination">
 			<nav class="llms-pagination">
-			<?php echo paginate_links( array(
-				'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
-				'format'       => '?page=%#%',
-				'total'        => $pagination['max'],
-				'current'      => $pagination['current'],
-				'prev_next'    => true,
-				'prev_text'    => '« ' . __( 'Previous', 'lifterlms' ),
-				'next_text'    => __( 'Next', 'lifterlms' ) . ' »',
-				'type'         => 'list',
-			) ); ?>
+			<?php
+			echo paginate_links(
+				array(
+					'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+					'format'    => '?page=%#%',
+					'total'     => $pagination['max'],
+					'current'   => $pagination['current'],
+					'prev_next' => true,
+					'prev_text' => '« ' . __( 'Previous', 'lifterlms' ),
+					'next_text' => __( 'Next', 'lifterlms' ) . ' »',
+					'type'      => 'list',
+				)
+			);
+			?>
 			</nav>
 		</footer>
 
@@ -47,16 +51,20 @@ defined( 'ABSPATH' ) || exit;
 			<h4><?php echo apply_filters( 'llms_notification_' . $type . '_title', $type ); ?></h4>
 			<p><?php echo apply_filters( 'llms_notification_' . $type . '_desc', '' ); ?></p>
 			<?php foreach ( $triggers as $id => $data ) : ?>
-				<?php llms_form_field( array(
-					'description' => '',
-					'id' => $id,
-					'label' => $data['name'],
-					'last_column' => true,
-					'name' => 'llms_notification_pref[' . $type . '][' . $id . ']',
-					'selected' => ( 'yes' === $data['value'] ),
-					'type'  => 'checkbox',
-					'value' => 'yes',
-				) ); ?>
+				<?php
+				llms_form_field(
+					array(
+						'description' => '',
+						'id'          => $id,
+						'label'       => $data['name'],
+						'last_column' => true,
+						'name'        => 'llms_notification_pref[' . $type . '][' . $id . ']',
+						'selected'    => ( 'yes' === $data['value'] ),
+						'type'        => 'checkbox',
+						'value'       => 'yes',
+					)
+				);
+				?>
 			<?php endforeach; ?>
 
 		<?php endforeach; ?>

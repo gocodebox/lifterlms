@@ -1,29 +1,40 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Metabox Field: Checkbox
+ *
+ * @since Unknown
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
-*
-*/
+ * LLMS_Metabox_Checkbox_Field
+ *
+ * @since Unknown
+ */
 class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
 	 * Class constructor
+	 *
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct( $_field ) {
+	public function __construct( $_field ) {
 
 		$this->field = $_field;
 	}
 
 	/**
 	 * outputs the Html for the given field
-	 * @return HTML
+	 *
+	 * @return void
 	 */
 	public function output() {
 
 		global $post;
 
-		$controls = isset( $this->field['controls'] ) ? 'data-controls="' . $this->field['controls'] . '"' : '';
+		$controls   = isset( $this->field['controls'] ) ? 'data-controls="' . $this->field['controls'] . '"' : '';
 		$controller = isset( $this->field['is_controller'] ) ? 'data-is-controller="true"' : '';
 
 		parent::output(); ?>
@@ -47,7 +58,7 @@ class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box
 					<?php echo ( $this->field['value'] === $this->meta ) ? 'checked' : ''; ?>
 				/>
 
-			<label for="<?php echo $this->field['id'] ?>"></label>
+			<label for="<?php echo $this->field['id']; ?>"></label>
 		</div>
 		<?php
 		parent::close_output();

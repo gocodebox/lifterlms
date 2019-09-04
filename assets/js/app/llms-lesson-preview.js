@@ -1,20 +1,24 @@
-/* global LLMS, $ */
-
 /**
  * Handle Lesson Preview Elements
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.0.0
  * @version  3.16.12
  */
+
 LLMS.LessonPreview = {
 
 	/**
-	 * jQuery object of all outlines present on the current screen
+	 * A jQuery object of all outlines present on the current screen
+	 *
 	 * @type obj
 	 */
 	$els: null,
 
 	/**
 	 * Initialize
+	 *
 	 * @return void
 	 */
 	init: function() {
@@ -43,6 +47,7 @@ LLMS.LessonPreview = {
 
 	/**
 	 * Bind DOM events
+	 *
 	 * @return void
 	 * @since    3.0.0
 	 * @version  3.16.12
@@ -58,9 +63,9 @@ LLMS.LessonPreview = {
 		this.$locked.on( 'mouseenter', function() {
 
 			var $tip = $( this ).find( '.llms-tooltip' );
-			if ( !$tip.length ) {
+			if ( ! $tip.length ) {
 				var msg = $( this ).attr( 'data-tooltip-msg' );
-				if ( !msg ) {
+				if ( ! msg ) {
 					msg = LLMS.l10n.translate( 'You do not have permission to access this content' );
 				}
 				$tip = self.get_tooltip( msg );
@@ -83,6 +88,7 @@ LLMS.LessonPreview = {
 
 	/**
 	 * Match the height of lesson preview items in course navigation blocks
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -95,6 +101,7 @@ LLMS.LessonPreview = {
 
 	/**
 	 * Get a tooltip element
+	 *
 	 * @param    string   msg   message to display inside the tooltip
 	 * @return   obj
 	 * @since    3.0.0

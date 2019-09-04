@@ -1,9 +1,13 @@
 /**
  * JS events for the view manager
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.8.0
  * @version  3.8.0
  */
-;( function( $, undefined ) {
+
+( function( $, undefined ) {
 
 	window.llms = window.llms || {};
 
@@ -14,6 +18,7 @@
 
 		/**
 		 * Set the current Nonce
+		 *
 		 * @param    string   nonce    a nonce
 		 * @since    3.8.0
 		 * @version  3.8.0
@@ -25,6 +30,7 @@
 
 		/**
 		 * Set the current view
+		 *
 		 * @param    string   view   a view option
 		 * @since    3.8.0
 		 * @version  3.8.0
@@ -36,6 +42,7 @@
 
 		/**
 		 * Update various links on the page for easy navigation when using views
+		 *
 		 * @return   void
 		 * @since    3.8.0
 		 * @version  3.8.0
@@ -51,21 +58,21 @@
 			$links.each( function() {
 
 				var $link = $( this ),
-					href = $link.attr( 'href' ),
+					href  = $link.attr( 'href' ),
 					split = href.split( '?' ),
-					qs = {};
+					qs    = {};
 
 				if ( split.length > 1 ) {
 
 					$.each( split[1].split( '&' ), function( i, pair ) {
-						pair = pair.split( '=' );
+						pair          = pair.split( '=' );
 						qs[ pair[0] ] = pair[1];
 					} );
 
 				}
 
 				qs['llms-view-as'] = currentView;
-				qs.view_nonce = currentNonce;
+				qs.view_nonce      = currentNonce;
 
 				$link.attr( 'href', split[0] + '?' + $.param( qs ) );
 

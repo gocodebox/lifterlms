@@ -1,6 +1,7 @@
 <?php
 /**
  * My Grades Single Course Template
+ *
  * @since    3.24.0
  * @version  3.24.0
  */
@@ -33,11 +34,13 @@ llms_print_notices();
 		);
 		llms_sd_dashboard_widget(
 			__( 'Latest Achievement', 'lifterlms' ),
-			$latest_achievement ? llms_get_achievement( $latest_achievement ) : '', __( 'No achievements', 'lifterlms' )
+			$latest_achievement ? llms_get_achievement( $latest_achievement ) : '',
+			__( 'No achievements', 'lifterlms' )
 		);
 		llms_sd_dashboard_date_widget(
 			__( 'Last Activity', 'lifterlms' ),
-			$last_activity, __( 'No activity', 'lifterlms' )
+			$last_activity,
+			__( 'No activity', 'lifterlms' )
 		);
 
 		do_action( 'llms_after_my_grades_widgets', $course, $student );

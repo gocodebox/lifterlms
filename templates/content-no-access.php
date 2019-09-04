@@ -2,12 +2,12 @@
 /**
  * The Template for displaying all single courses.
  *
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
- *
+ * @author      codeBOX
+ * @package     lifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
 global $post;
 do_action( 'lifterlms_before_main_content' );
 ?>
@@ -16,7 +16,7 @@ do_action( 'lifterlms_before_main_content' );
 
 		<div class="llms-summary entry-content">
 		<?php llms_print_notices(); ?>
-			
+
 			<?php
 				do_action( 'before_lifterlms_no_access_main_content' );
 

@@ -1,5 +1,6 @@
 /**
  * Sidebar Elements View
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -15,12 +16,14 @@ define( [], function() {
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -30,7 +33,7 @@ define( [], function() {
 			var self = this;
 
 			this.$input = data.$input;
-			this.tags = data.tags;
+			this.tags   = data.tags;
 
 			this.$input.on( 'keyup focus click', function() {
 
@@ -44,7 +47,6 @@ define( [], function() {
 						self.toggle_button_state( name, 'off' );
 					}
 
-
 				} );
 
 			} );
@@ -53,6 +55,7 @@ define( [], function() {
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -66,7 +69,7 @@ define( [], function() {
 
 		template: function() {
 
-			var self = this,
+			var self     = this,
 				$toolbar = $( '<div />' );
 
 			_.each( this.tags, function( tag ) {
@@ -83,9 +86,9 @@ define( [], function() {
 
 			event.preventDefault();
 
-			var $btn = $( event.target ),
+			var $btn      = $( event.target ),
 				selection = window.getSelection(),
-				commands = [ 'bold', 'italic', 'underline' ],
+				commands  = [ 'bold', 'italic', 'underline' ],
 				range, cmd;
 
 			if ( $btn.hasClass( 'fa' ) ) {
@@ -106,8 +109,8 @@ define( [], function() {
 		toggle_button_state: function( tag_name, state ) {
 
 			var $btn = this.$el.find( 'a[data-cmd="' + tag_name + '"]' ),
-				del = 'on' === state ? '' : 'active',
-				add = 'on' === state ? 'active' : '';
+				del  = 'on' === state ? '' : 'active',
+				add  = 'on' === state ? 'active' : '';
 
 			$btn.removeClass( del ).addClass( add );
 

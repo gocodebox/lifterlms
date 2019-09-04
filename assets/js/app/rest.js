@@ -1,15 +1,17 @@
-/*global LLMS */
-/* jshint strict: false */
-
 /**
  * Rest Methods
  * Manages URL and Rest object parsing
- * @type {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
+ * @since Unknown
+ * @version  Unknown
  */
+
 LLMS.Rest = {
 
 	/**
-	 * init
+	 * Init
 	 * loads class methods
 	 */
 	init: function() {
@@ -19,6 +21,7 @@ LLMS.Rest = {
 	/**
 	 * Bind Method
 	 * Handles dom binding on load
+	 *
 	 * @return {[type]} [description]
 	 */
 	bind: function() {
@@ -26,17 +29,18 @@ LLMS.Rest = {
 
 	/**
 	 * Searches for string matches in url path
+	 *
 	 * @param  {Array}  strings [Array of strings to search for matches]
 	 * @return {Boolean}         [Was a match found?]
 	 */
 	is_path: function( strings ) {
 
 		var path_exists = false,
-			url = window.location.href;
+			url         = window.location.href;
 
-		for( var i = 0; i < strings.length; i++ ) {
+		for ( var i = 0; i < strings.length; i++ ) {
 
-			if ( url.search( strings[i] ) > 0 && !path_exists ) {
+			if ( url.search( strings[i] ) > 0 && ! path_exists ) {
 
 				path_exists = true;
 			}
@@ -47,20 +51,21 @@ LLMS.Rest = {
 
 	/**
 	 * Retrieves query variables
+	 *
 	 * @return {[Array]} [array object of query variable key=>value pairs]
 	 */
 	get_query_vars: function() {
 
-	    var vars = [], hash,
-	    	hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+		var vars   = [], hash,
+			hashes = window.location.href.slice( window.location.href.indexOf( '?' ) + 1 ).split( '&' );
 
-	    for(var i = 0; i < hashes.length; i++) {
-	        hash = hashes[i].split('=');
-	        vars.push(hash[0]);
-	        vars[hash[0]] = hash[1];
-	    }
+		for (var i = 0; i < hashes.length; i++) {
+			hash = hashes[i].split( '=' );
+			vars.push( hash[0] );
+			vars[hash[0]] = hash[1];
+		}
 
-    	return vars;
+		return vars;
 	}
 
 };

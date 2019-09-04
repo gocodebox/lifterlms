@@ -13,12 +13,14 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
+	 *
 	 * @var  string
 	 */
 	public $tag = 'lifterlms_course_outline';
 
 	/**
 	 * Retrieve the default course id depending on the current post
+	 *
 	 * @return   int|null
 	 * @since    3.5.1
 	 * @version  3.17.7
@@ -53,16 +55,17 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
+	 *
 	 * @return   array
 	 * @since    3.5.1
 	 * @version  3.5.1
 	 */
 	protected function get_default_attributes() {
 		return array(
-			'collapse' => 0, // outputs a collapsible syllabus when true
-			'course_id' => $this->get_course_id(),
+			'collapse'     => 0, // outputs a collapsible syllabus when true
+			'course_id'    => $this->get_course_id(),
 			'outline_type' => 'full', // full, current_section
-			'toggles' => 0, // outputs open/close all toggles when true
+			'toggles'      => 0, // outputs open/close all toggles when true
 		);
 	}
 
@@ -78,17 +81,17 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 	 */
 	protected function get_output() {
 
-		$course = new LLMS_Course( $this->get_attribute( 'course_id' ) );
+		$course  = new LLMS_Course( $this->get_attribute( 'course_id' ) );
 		$student = llms_get_student();
 
 		$args = array(
-			'collapse' => $this->get_attribute( 'collapse' ),
-			'course' => $course,
+			'collapse'        => $this->get_attribute( 'collapse' ),
+			'course'          => $course,
 			'current_section' => null,
-			'current_lesson' => null,
-			'sections' => array(),
-			'student' => $student,
-			'toggles' => $this->get_attribute( 'toggles' ),
+			'current_lesson'  => null,
+			'sections'        => array(),
+			'student'         => $student,
+			'toggles'         => $this->get_attribute( 'toggles' ),
 		);
 
 		if ( ! $course ) {
@@ -106,7 +109,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 
 			$section = llms_get_post( $next_lesson->get( 'parent_section' ) );
 
-			$args['sections'][] = $section;
+			$args['sections'][]      = $section;
 			$args['current_section'] = $section->get( 'id' );
 
 		} else {
@@ -117,7 +120,7 @@ class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 				$lesson = $next_lesson;
 			}
 
-			$args['sections'] = $course->get_sections();
+			$args['sections']        = $course->get_sections();
 			$args['current_section'] = ! empty( $lesson ) && is_a( $lesson, 'LLMS_Post_Model' ) ? $lesson->get( 'parent_section' ) : false;
 
 		}

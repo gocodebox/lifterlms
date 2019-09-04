@@ -1,11 +1,13 @@
 <?php
 /**
  * LifterLMS Notification Interface
+ *
  * @since    ??
  * @version  ??
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 interface LLMS_Interface_Notification_Manager {
 
@@ -22,6 +24,7 @@ interface LLMS_Interface_Notification_Manager {
 	/**
 	 * Callback function for notifications
 	 * Depending on the action that triggers this callback there will be a variable number of parameters
+	 *
 	 * @return   void
 	 * @since    ??
 	 * @version  ??

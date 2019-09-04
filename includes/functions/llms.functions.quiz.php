@@ -9,11 +9,13 @@
  * @version   3.16.12
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Retrieve the number of columns needed for a picture choice question
- * @param    int     $num_choices  number of choices
+ *
+ * @param    int $num_choices  number of choices
  * @return   int
  * @since    3.16.0
  * @version  3.16.0
@@ -60,7 +62,8 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 
 /**
  * Retrieve data for a single question type
- * @param    string     $type  id of the question type
+ *
+ * @param    string $type  id of the question type
  * @return   array|false
  * @since    3.16.0
  * @version  3.16.0
@@ -68,7 +71,7 @@ function llms_get_picture_choice_question_cols( $num_choices ) {
 function llms_get_question_type( $type ) {
 
 	$types = llms_get_question_types();
-	$ret = isset( $types[ $type ] ) ? $types[ $type ] : false;
+	$ret   = isset( $types[ $type ] ) ? $types[ $type ] : false;
 	return apply_filters( 'llms_get_question_type', $ret, $type );
 
 }
@@ -76,6 +79,7 @@ function llms_get_question_type( $type ) {
 /**
  * Retrieve question types
  * see LLMS_Question_Types class for actual loading of core question types
+ *
  * @return   array
  * @since    3.16.0
  * @version  3.16.0
@@ -86,37 +90,45 @@ function llms_get_question_types() {
 
 /**
  * Retrieve statuses for quiz attempts
+ *
  * @return   array
  * @since    3.16.0
  * @version  3.16.0
  */
 function llms_get_quiz_attempt_statuses() {
-	return apply_filters( 'llms_get_quiz_attempt_statuses', array(
-		'incomplete' => __( 'Incomplete', 'lifterlms' ),
-		'pending' => __( 'Pending Review', 'lifterlms' ),
-		'fail' => __( 'Fail', 'lifterlms' ),
-		'pass' => __( 'Pass', 'lifterlms' ),
-	) );
+	return apply_filters(
+		'llms_get_quiz_attempt_statuses',
+		array(
+			'incomplete' => __( 'Incomplete', 'lifterlms' ),
+			'pending'    => __( 'Pending Review', 'lifterlms' ),
+			'fail'       => __( 'Fail', 'lifterlms' ),
+			'pass'       => __( 'Pass', 'lifterlms' ),
+		)
+	);
 }
 
 /**
  * Get quiz settings defined by supporting themes
- * @param    string     $setting  name of setting, if omitted returns all settings
- * @param    string     $default  default fallback if setting not set
+ *
+ * @param    string $setting  name of setting, if omitted returns all settings
+ * @param    string $default  default fallback if setting not set
  * @return   array
  * @since    3.16.8
  * @version  3.16.8
  */
 function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 
-	$settings = apply_filters( 'llms_get_quiz_theme_settings', array(
-		'layout' => array(
-			'id' => '',
-			'name' => __( 'Layout', 'lifterlms' ),
-			'options' => array(),
-			'type' => 'select', // select, image_select
-		),
-	) );
+	$settings = apply_filters(
+		'llms_get_quiz_theme_settings',
+		array(
+			'layout' => array(
+				'id'      => '',
+				'name'    => __( 'Layout', 'lifterlms' ),
+				'options' => array(),
+				'type'    => 'select', // select, image_select
+			),
+		)
+	);
 
 	if ( $setting ) {
 		return isset( $settings[ $setting ] ) ? $settings[ $setting ] : $default;
@@ -129,7 +141,8 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 /**
  * Shuffles choices until the choice order has changed from the original
  * The smaller the list of choices the greater the chance of shuffling not changing the array
- * @param    array     $choices  choices from an LLMS_Question
+ *
+ * @param    array $choices  choices from an LLMS_Question
  * @return   array
  * @since    3.16.12
  * @version  3.16.12

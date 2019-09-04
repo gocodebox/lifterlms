@@ -1,15 +1,24 @@
 <?php
+/**
+ * Achievement Forms
+ *
+ * @since   3.18.0
+ * @version 3.35.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Achievement Forms
- * @since   3.18.0
- * @version 3.18.0
+ * LLMS_Controller_Achievements
+ *
+ * @since 3.18.0
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Achievements {
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -22,9 +31,11 @@ class LLMS_Controller_Achievements {
 
 	/**
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 *
+	 * @since 3.18.0
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
+	 * @return void
 	 */
 	public function maybe_handle_reporting_actions() {
 
@@ -32,17 +43,16 @@ class LLMS_Controller_Achievements {
 			return;
 		}
 
-		$cert_id = absint( $_POST['achievement_id'] );
-
 		if ( isset( $_POST['llms_delete_achievement'] ) ) {
-			$this->delete( $cert_id );
+			$this->delete( llms_filter_input( INPUT_POST, 'achievement_id', FILTER_SANITIZE_NUMBER_INT ) );
 		}
 
 	}
 
 	/**
 	 * Delete a cert
-	 * @param    int     $cert_id  WP Post ID of the llms_my_certificate
+	 *
+	 * @param    int $cert_id  WP Post ID of the llms_my_certificate
 	 * @return   void
 	 * @since    3.18.0
 	 * @version  3.18.0

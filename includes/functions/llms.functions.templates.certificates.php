@@ -3,11 +3,13 @@
  * Certificates & Related template functions
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Get the content of a single certificates
- * @param    obj     $certificate  instance of an LLMS_User_Achievement
+ *
+ * @param    obj $certificate  instance of an LLMS_User_Achievement
  * @return   void
  * @since    3.14.0
  * @version  3.14.0
@@ -16,16 +18,20 @@ function llms_get_certificate_preview( $certificate ) {
 
 	ob_start();
 
-	llms_get_template( 'certificates/preview.php', array(
-		'certificate' => $certificate,
-	) );
+	llms_get_template(
+		'certificates/preview.php',
+		array(
+			'certificate' => $certificate,
+		)
+	);
 
 	return ob_get_clean();
 
 }
 	/**
 	 * Output the content of a single certificate
-	 * @param    obj     $certificate  instance of an LLMS_User_Achievement
+	 *
+	 * @param    obj $certificate  instance of an LLMS_User_Achievement
 	 * @return   void
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -36,6 +42,7 @@ function llms_the_certificate_preview( $certificate ) {
 
 /**
  * Retrieve the number of columns used in certificates loops
+ *
  * @return   int
  * @since    3.14.0
  * @version  3.14.0
@@ -47,6 +54,7 @@ function llms_get_certificates_loop_columns() {
 
 /**
  * Get template for certificates loop
+ *
  * @param    obj       $student  LLMS_Student (uses current if none supplied)
  * @param    bool|int  $limit    number of certificates to show (defaults to all)
  * @return   void
@@ -77,10 +85,13 @@ if ( ! function_exists( 'lifterlms_template_certificates_loop' ) ) {
 			}
 		}
 
-		llms_get_template( 'certificates/loop.php', array(
-			'cols' => $cols,
-			'certificates' => $certificates,
-		) );
+		llms_get_template(
+			'certificates/loop.php',
+			array(
+				'cols'         => $cols,
+				'certificates' => $certificates,
+			)
+		);
 
 	}
 }

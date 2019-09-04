@@ -30,6 +30,7 @@
 				<directory suffix=".php">./dist/</directory>
 				<directory suffix=".php">./node_modules/</directory>
 				<directory suffix=".php">./vendor/</directory>
+				<directory suffix=".php">./admin/views/</directory>
 			</exclude>
 		</whitelist>
 	</filter>

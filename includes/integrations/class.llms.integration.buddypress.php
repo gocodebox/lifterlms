@@ -1,11 +1,13 @@
 <?php
 /**
  * BuddyPress Integration
+ *
  * @since    1.0.0
  * @version  3.14.4
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
@@ -13,6 +15,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Display order on Integrations tab
+	 *
 	 * @var  integer
 	 */
 	protected $priority = 5;
@@ -20,18 +23,19 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Configure the integration
 	 * Do things like configure ID and title here
+	 *
 	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.12.0
 	 */
 	protected function configure() {
 
-		$this->title = __( 'BuddyPress', 'lifterlms' );
+		$this->title       = __( 'BuddyPress', 'lifterlms' );
 		$this->description = sprintf( __( 'Add LifterLMS information to user profiles and enable membership restrictions for activity, group, and member directories. %1$sLearn More%2$s.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-and-buddypress/" target="_blank">', '</a>' );
 
 		if ( $this->is_available() ) {
 
-			add_action( 'bp_setup_nav',array( $this, 'add_profile_nav_items' ) );
+			add_action( 'bp_setup_nav', array( $this, 'add_profile_nav_items' ) );
 
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks' ), 40, 1 );
 
@@ -41,65 +45,78 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Add LLMS navigation items to the BuddyPress User Profile
-	 * @return  null
+	 *
 	 * @since   1.0.0
 	 * @version 1.0.0
+	 *
+	 * @return  void
 	 */
 	public function add_profile_nav_items() {
 		global $bp;
 		// add the main nav menu
-		bp_core_new_nav_item( array(
-			'name' => __( 'Courses', 'lifterlms' ),
-			'slug' => 'courses',
-			'position' => 20,
-			'screen_function' => array( $this,'courses_screen' ),
-			'show_for_displayed_user' => false,
-			'default_subnav_slug' => 'courses',
-		));
+		bp_core_new_nav_item(
+			array(
+				'name'                    => __( 'Courses', 'lifterlms' ),
+				'slug'                    => 'courses',
+				'position'                => 20,
+				'screen_function'         => array( $this, 'courses_screen' ),
+				'show_for_displayed_user' => false,
+				'default_subnav_slug'     => 'courses',
+			)
+		);
 
-		$parent_url = $bp->loggedin_user->domain . 'courses/';
+		$parent_url    = $bp->loggedin_user->domain . 'courses/';
 		$is_my_profile = bp_is_my_profile(); // only let the logged in user access subnav screens
 
 		// add sub nav items
-		bp_core_new_subnav_item(array(
-			'name'            => __( 'Courses', 'lifterlms' ),
-			'slug'            => 'courses',
-			'parent_slug'     => 'courses',
-			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'courses_screen' ),
-			'user_has_access' => $is_my_profile,
-		));
+		bp_core_new_subnav_item(
+			array(
+				'name'            => __( 'Courses', 'lifterlms' ),
+				'slug'            => 'courses',
+				'parent_slug'     => 'courses',
+				'parent_url'      => $parent_url,
+				'screen_function' => array( $this, 'courses_screen' ),
+				'user_has_access' => $is_my_profile,
+			)
+		);
 
-		bp_core_new_subnav_item(array(
-			'name'            => __( 'Memberships', 'lifterlms' ),
-			'slug'            => 'memberships',
-			'parent_slug'     => 'courses',
-			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'memberships_screen' ),
-			'user_has_access' => $is_my_profile,
-		));
+		bp_core_new_subnav_item(
+			array(
+				'name'            => __( 'Memberships', 'lifterlms' ),
+				'slug'            => 'memberships',
+				'parent_slug'     => 'courses',
+				'parent_url'      => $parent_url,
+				'screen_function' => array( $this, 'memberships_screen' ),
+				'user_has_access' => $is_my_profile,
+			)
+		);
 
-		bp_core_new_subnav_item(array(
-			'name'            => __( 'Achievements', 'lifterlms' ),
-			'slug'            => 'achievements',
-			'parent_slug'     => 'courses',
-			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'achievements_screen' ),
-			'user_has_access' => $is_my_profile,
-		));
+		bp_core_new_subnav_item(
+			array(
+				'name'            => __( 'Achievements', 'lifterlms' ),
+				'slug'            => 'achievements',
+				'parent_slug'     => 'courses',
+				'parent_url'      => $parent_url,
+				'screen_function' => array( $this, 'achievements_screen' ),
+				'user_has_access' => $is_my_profile,
+			)
+		);
 
-		bp_core_new_subnav_item(array(
-			'name'            => __( 'Certificates', 'lifterlms' ),
-			'slug'            => 'certificates',
-			'parent_slug'     => 'courses',
-			'parent_url'      => $parent_url,
-			'screen_function' => array( $this,'certificates_screen' ),
-			'user_has_access' => $is_my_profile,
-		));
+		bp_core_new_subnav_item(
+			array(
+				'name'            => __( 'Certificates', 'lifterlms' ),
+				'slug'            => 'certificates',
+				'parent_slug'     => 'courses',
+				'parent_url'      => $parent_url,
+				'screen_function' => array( $this, 'certificates_screen' ),
+				'user_has_access' => $is_my_profile,
+			)
+		);
 	}
 
 	/**
 	 * Checks if the BuddyPress plugin is installed & activated
+	 *
 	 * @return boolean
 	 * @since   1.0.0
 	 * @version 1.0.0
@@ -110,9 +127,11 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "Achievements" profile screen
-	 * @return null
+	 *
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function achievements_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_achievements' );
@@ -121,9 +140,11 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "Certificates" profile screen
-	 * @return null
+	 *
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function certificates_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_certificates' );
@@ -132,9 +153,11 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "Courses" profile screen
-	 * @return null
+	 *
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function courses_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_courses' );
@@ -143,9 +166,11 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Callback for "memberships" profile screen
-	 * @return null
+	 *
 	 * @since   1.0.0
 	 * @version 3.14.4
+	 *
+	 * @return void
 	 */
 	public function memberships_screen() {
 		add_action( 'bp_template_content', 'lifterlms_template_student_dashboard_my_memberships' );
@@ -154,7 +179,8 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Allows restricting of BP Directory Pages for Activity and Members via LifterLMS membership restrictions
-	 * @param    array     $results  array of restriction results
+	 *
+	 * @param    array $results  array of restriction results
 	 * @return   array
 	 * @since    3.12.0
 	 * @version  3.12.0
@@ -189,9 +215,9 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 			if ( $restriction_id ) {
 
-				$results['content_id'] = $post_id;
+				$results['content_id']     = $post_id;
 				$results['restriction_id'] = $restriction_id;
-				$results['reason'] = 'membership';
+				$results['reason']         = 'membership';
 
 			}
 		}

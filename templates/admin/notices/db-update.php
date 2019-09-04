@@ -1,12 +1,16 @@
 <?php
 /**
  * Database Update Notice
+ *
  * @since    3.0.0
  * @version  3.16.10
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
 ?>
 <p><strong><?php _e( 'The LifterLMS database needs to be updated to the latest version.', 'lifterlms' ); ?></strong></p>
 <p><?php _e( 'The update will only take a few minutes and it will run in the background. A notice like this will let you know when it\'s finished.', 'lifterlms' ); ?></p>

@@ -2,6 +2,7 @@
 /**
  * Retrieve sidebar
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 
 get_sidebar( 'llms_shop' );

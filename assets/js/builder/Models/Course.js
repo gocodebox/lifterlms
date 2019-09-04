@@ -1,5 +1,6 @@
 /**
  * Course Model
+ *
  * @since    3.16.0
  * @version  3.24.0
  */
@@ -19,6 +20,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		/**
 		 * New Course Defaults
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -35,6 +37,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		/**
 		 * Init
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -57,6 +60,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		/**
 		 * Add an existing lesson to the course
 		 * Duplicate a lesson from this or another course or attach an orphaned lesson
+		 *
 		 * @param    obj   lesson  lesson data obj
 		 * @return   void
 		 * @since    3.16.0
@@ -72,7 +76,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 				// if a quiz is attached, duplicate the quiz also
 				if ( data.quiz ) {
-					data.quiz = _.prepareQuizObjectForCloning( data.quiz );
+					data.quiz                   = _.prepareQuizObjectForCloning( data.quiz );
 					data.quiz._questions_loaded = true;
 				}
 
@@ -92,6 +96,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		/**
 		 * Add a new lesson to the course
+		 *
 		 * @param    obj   data   lesson data
 		 * @return   obj          Backbone.Model of the lesson
 		 * @since    3.16.0
@@ -99,7 +104,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 */
 		add_lesson: function( data ) {
 
-			data = data || {};
+			data        = data || {};
 			var options = {},
 				section;
 
@@ -128,6 +133,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		/**
 		 * Add a new section to the course
+		 *
 		 * @param    obj   data   section data
 		 * @return   void
 		 * @since    3.16.0
@@ -135,9 +141,9 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 */
 		add_section: function( data ) {
 
-			data = data || {};
+			data         = data || {};
 			var sections = this.get( 'sections' ),
-				options = {},
+				options  = {},
 				selected = this.get_selected_section();
 
 			// if a section is selected, add the new section after the currently selected one
@@ -151,6 +157,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		/**
 		 * Retrieve the currently selected section in the course
+		 *
 		 * @return   obj|undefined
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -165,6 +172,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		/**
 		 * Retrieve the total number of points in the course
+		 *
 		 * @return   int
 		 * @since    3.24.0
 		 * @version  3.24.0

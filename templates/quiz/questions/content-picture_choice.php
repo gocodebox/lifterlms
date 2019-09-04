@@ -1,6 +1,9 @@
 <?php
 /**
  * Picture choice question template
+ *
+ * @package LifterLMS/Templates
+ *
  * @since    3.16.0
  * @version  3.16.0
  *
@@ -8,11 +11,11 @@
  * @arg  $question (obj)  LLMS_Question instance
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 $input_type = ( 'yes' === $question->get( 'multi_choices' ) ) ? 'checkbox' : 'radio';
-$choices = $question->get_choices();
-$cols = llms_get_picture_choice_question_cols( count( $choices ) );
+$choices    = $question->get_choices();
+$cols       = llms_get_picture_choice_question_cols( count( $choices ) );
 ?>
 
 <ol class="llms-question-choices llms-cols">

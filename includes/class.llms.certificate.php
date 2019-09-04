@@ -26,6 +26,7 @@ class LLMS_Certificate {
 
 	/**
 	 * post title
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
@@ -45,6 +46,7 @@ class LLMS_Certificate {
 
 	/**
 	 * Certificate Enabled
+	 *
 	 * @var bool
 	 * @since 1.0.0
 	 * @deprecated 2.2.0
@@ -65,6 +67,7 @@ class LLMS_Certificate {
 
 	/**
 	 * image id
+	 *
 	 * @var int
 	 * @since 1.0.0
 	 */
@@ -96,6 +99,7 @@ class LLMS_Certificate {
 
 	/**
 	 * post title
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
@@ -110,55 +114,60 @@ class LLMS_Certificate {
 	/**
 	 * Constructor
 	 */
-	function __construct() {
+	public function __construct() {
 
 			// Settings TODO Refactor: theses can come from the email post now
-			$this->email_type     	= 'html';
-			//$this->enabled   		= get_option( 'enabled' );
+			$this->email_type = 'html';
+			// $this->enabled        = get_option( 'enabled' );
 
-			$this->find = array( '{blogname}', '{site_title}' );
+			$this->find    = array( '{blogname}', '{site_title}' );
 			$this->replace = array( $this->get_blogname(), $this->get_blogname() );
 	}
 
 	/**
 	 * Is Enabled
+	 *
 	 * @return boolean [certificate enabled]
 	 */
-	function is_enabled() {
-		//$enabled = $this->enabled == "yes" ? true : false;
+	public function is_enabled() {
+		// $enabled = $this->enabled == "yes" ? true : false;
 		return true;
 	}
 
 	/**
 	 * Get Blog Name
+	 *
 	 * @return string [blog name]
 	 */
-	function get_blogname() {
+	public function get_blogname() {
 		return wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES );
 	}
 
 	/**
 	 * Format String
+	 *
 	 * @param  string $string [Find and replace merge fields]
 	 * @return string [formatted string]
 	 */
-	function format_string( $string ) {
+	public function format_string( $string ) {
 		return str_replace( $this->find, $this->replace, $string );
 	}
 
 	/**
 	 * Get Blog Title
+	 *
 	 * @return string [Blog title]
 	 */
-	function get_title() {
+	public function get_title() {
 		return apply_filters( '_llms_certificate_title' . $this->id, $this->title, $this->object );
 	}
 
 	/**
 	 * Get Content
+	 *
 	 * @return string [Post Content]
 	 */
-	function get_content() {
+	public function get_content() {
 
 		$this->sending = true;
 
@@ -169,12 +178,14 @@ class LLMS_Certificate {
 
 	/**
 	 * Get Content HTML
-	 * @return string [html formatted string]
+	 *
+	 * @return void
 	 */
-	function get_content_html() {}
+	public function get_content_html() {}
 
 	/**
 	 * Create Certificate
+	 *
 	 * @param    string $content [html formatted post content]
 	 * @return   void
 	 * @since    1.0.0
@@ -183,32 +194,36 @@ class LLMS_Certificate {
 	public function create( $content ) {
 		global $wpdb;
 
-		$new_user_certificate = apply_filters( 'lifterlms_new_page', array(
-			'post_type' 	=> 'llms_my_certificate',
-			'post_title'    => $this->title,
-			'post_content'  => $content,
-			'post_status'   => 'publish',
-			'post_author'   => 1,
-		) );
+		$new_user_certificate = apply_filters(
+			'lifterlms_new_page',
+			array(
+				'post_type'    => 'llms_my_certificate',
+				'post_title'   => $this->title,
+				'post_content' => $content,
+				'post_status'  => 'publish',
+				'post_author'  => 1,
+			)
+		);
 
 		$new_user_certificate_id = wp_insert_post( $new_user_certificate, true );
 
-		update_post_meta( $new_user_certificate_id,'_llms_certificate_title', $this->certificate_title );
-		update_post_meta( $new_user_certificate_id,'_llms_certificate_image', $this->image );
-		update_post_meta( $new_user_certificate_id,'_llms_certificate_template', $this->certificate_template_id );
+		update_post_meta( $new_user_certificate_id, '_llms_certificate_title', $this->certificate_title );
+		update_post_meta( $new_user_certificate_id, '_llms_certificate_image', $this->image );
+		update_post_meta( $new_user_certificate_id, '_llms_certificate_template', $this->certificate_template_id );
 
 		$user_metadatas = array(
 			'_certificate_earned' => $new_user_certificate_id,
 		);
 
 		foreach ( $user_metadatas as $key => $value ) {
-			$update_user_postmeta = $wpdb->insert( $wpdb->prefix . 'lifterlms_user_postmeta',
+			$update_user_postmeta = $wpdb->insert(
+				$wpdb->prefix . 'lifterlms_user_postmeta',
 				array(
-					'user_id' 			=> $this->userid,
-					'post_id' 			=> $this->lesson_id,
-					'meta_key'			=> $key,
-					'meta_value'		=> $value,
-					'updated_date'		=> current_time( 'mysql' ),
+					'user_id'      => $this->userid,
+					'post_id'      => $this->lesson_id,
+					'meta_key'     => $key,
+					'meta_value'   => $value,
+					'updated_date' => current_time( 'mysql' ),
 				)
 			);
 		}

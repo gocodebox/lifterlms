@@ -6,26 +6,30 @@
  * @version 3.10.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'notifications';
 
 	/**
 	 * If true will be a table with a larger font size
+	 *
 	 * @var  bool
 	 */
 	protected $is_large = true;
 
 	/**
 	 * Retrieve data for the columns
-	 * @param    string     $key        the column id / key
-	 * @param    int        $user_id    WP User ID
+	 *
+	 * @param    string $key        the column id / key
+	 * @param    int    $user_id    WP User ID
 	 * @return   mixed
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -37,14 +41,18 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 			case 'configure':
 				$links = array();
 				foreach ( $data['configure'] as $type => $name ) {
-					$url = esc_url( add_query_arg( array(
-						'notification' => $data['id'],
-						'type' => $type,
-					) ) );
+					$url     = esc_url(
+						add_query_arg(
+							array(
+								'notification' => $data['id'],
+								'type'         => $type,
+							)
+						)
+					);
 					$links[] = '<a href="' . $url . '">' . $name . '</a>';
 				}
 				$value = implode( ', ', $links );
-			break;
+				break;
 
 			default:
 				$value = $data[ $key ];
@@ -57,7 +65,8 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.10.0
@@ -69,9 +78,9 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 		foreach ( LLMS()->notifications()->get_controllers() as $controller ) {
 
 			$rows[] = array(
-				'id' => $controller->id,
+				'id'           => $controller->id,
 				'notification' => $controller->get_title(),
-				'configure' => $controller->get_supported_types(),
+				'configure'    => $controller->get_supported_types(),
 			);
 
 		}
@@ -83,6 +92,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -93,6 +103,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -100,7 +111,7 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 	public function set_columns() {
 		$cols = array(
 			'notification' => __( 'Notification', 'lifterlms' ),
-			'configure' => __( 'Configure', 'lifterlms' ),
+			'configure'    => __( 'Configure', 'lifterlms' ),
 		);
 
 		return $cols;
@@ -108,8 +119,9 @@ class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 	/**
 	 * Sorting function to display all loaded notifications in alphabetical order
-	 * @param    array     $row_a  first row to compare
-	 * @param    array     $row_b  second row to compare
+	 *
+	 * @param    array $row_a  first row to compare
+	 * @param    array $row_b  second row to compare
 	 * @return   int
 	 * @since    3.10.0
 	 * @version  3.10.0

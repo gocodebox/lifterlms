@@ -10,7 +10,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.34.5
+ * Version: 3.35.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -40,7 +40,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '3.34.5';
+	public $version = '3.35.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -49,14 +49,38 @@ final class LifterLMS {
 	 */
 	protected static $_instance = null;
 
+	/**
+	 * LifterLMS Course Factory
+	 *
+	 * @var LLMS_Course_Factory
+	 */
 	public $course_factory = null;
+
+	/**
+	 * LLMS_Person instance
+	 *
+	 * @var LLMS_Person
+	 */
 	public $person = null;
+
+	/**
+	 * LLMS_Query instance
+	 *
+	 * @var LLMS_Query
+	 */
 	public $query = null;
+
+	/**
+	 * Session instance
+	 *
+	 * @var LLMS_Session
+	 */
 	public $session = null;
 
 	/**
 	 * Main Instance of LifterLMS
 	 * Ensures only one instance of LifterLMS is loaded or can be loaded.
+	 *
 	 * @see      LLMS()
 	 * @return   LifterLMS - Main instance
 	 * @since    1.0.0
@@ -71,6 +95,7 @@ final class LifterLMS {
 
 	/**
 	 * LifterLMS Constructor.
+	 *
 	 * @return   LifterLMS
 	 * @since    1.0.0
 	 * @version  3.21.1
@@ -92,7 +117,7 @@ final class LifterLMS {
 		// so that our custom "safe" location will always load first
 		$this->localize();
 
-		//Include required files
+		// Include required files
 		$this->includes();
 
 		// setup session stuff
@@ -119,21 +144,20 @@ final class LifterLMS {
 
 	/**
 	 * Auto-load LLMS classes.
-	 * @param    string  $class  class name being called
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.15.0
+	 *
+	 * @since 1.0.0
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @param string $class Class name being called.
+	 * @return void
 	 */
 	public function autoload( $class ) {
 
 		$class = strtolower( $class );
-		// if ( false === strpos( $class, 'llms' ) ) {
-		// 	return;
-		// }
 
-		$path = null;
+		$path    = null;
 		$fileize = str_replace( '_', '.', $class );
-		$file = 'class.' . $fileize . '.php';
+		$file    = 'class.' . $fileize . '.php';
 
 		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
 			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
@@ -154,13 +178,14 @@ final class LifterLMS {
 		}
 
 		if ( $path && is_readable( $path . $file ) ) {
-			include_once( $path . $file );
+			include_once $path . $file;
 			return;
 		}
 	}
 
 	/**
 	 * Define LifterLMS Constants
+	 *
 	 * @since    1.0.0
 	 * @version  3.17.8
 	 */
@@ -199,6 +224,7 @@ final class LifterLMS {
 
 			/**
 			 * URL to the plugin directory for assets, etc
+			 *
 			 * @since   3.17.8
 			 * @version 3.17.8
 			 */
@@ -211,16 +237,15 @@ final class LifterLMS {
 			// if we're loading in debug mode
 			$debug = ( defined( 'SCRIPT_DEBUG' ) ) ? SCRIPT_DEBUG : false;
 
-			/* if debugging, load the unminified version
-			 * on production, load the minified one
-			 */
+			// If debugging, load the unminified versionon production, load the minified one.
 			$min = ( $debug ) ? '' : '.min';
 
 			/**
 			 * Assets suffix
-			 * Defines if minified versions of assets should be loaded
-			 * @since   3.17.8
-			 * @version 3.17.8
+			 *
+			 * Defines if minified versions of assets should be loaded.
+			 *
+			 * @since 3.17.8
 			 */
 			define( 'LLMS_ASSETS_SUFFIX', $min );
 		}
@@ -234,6 +259,7 @@ final class LifterLMS {
 	 * @since 3.31.0 Add theme support includes.
 	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
 	 * @since 3.34.0 Include LLMS_Admin_Users Table class.
+	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
 	 *
 	 * @return void
 	 */
@@ -285,26 +311,27 @@ final class LifterLMS {
 			include_once 'includes/admin/class.llms.admin.notices.core.php';
 			include_once 'includes/admin/class.llms.admin.post-types.php';
 			include_once 'includes/admin/post-types/class.llms.post.tables.php';
-			if ( ! empty( $_GET['page'] ) && 'llms-setup' === $_GET['page'] ) {
+
+			if ( 'llms-setup' === llms_filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
 				require_once 'includes/admin/class.llms.admin.setup.wizard.php';
 			}
 
-			include_once( 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php' );
-			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php' );
-			include_once( 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php' );
-			include_once( 'includes/class.llms.analytics.php' );
-			include_once( 'includes/admin/class.llms.admin.reviews.php' );
+			include_once 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php';
+			include_once 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';
+			include_once 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php';
+			include_once 'includes/class.llms.analytics.php';
+			include_once 'includes/admin/class.llms.admin.reviews.php';
 			require 'includes/abstracts/abstract.llms.admin.metabox.php';
-			include_once( 'includes/admin/class.llms.admin.user.custom.fields.php' );
-			include_once( 'includes/admin/class.llms.student.bulk.enroll.php' );
+			include_once 'includes/admin/class.llms.admin.user.custom.fields.php';
+			include_once 'includes/admin/class.llms.student.bulk.enroll.php';
 
 			require_once 'includes/admin/class-llms-admin-review.php';
 			require_once 'includes/admin/class-llms-admin-export-download.php';
 
-		}// End if().
+		}
 
 		// legacy
-		include_once( 'includes/class.llms.quiz.legacy.php' );
+		include_once 'includes/class.llms.quiz.legacy.php';
 
 		// nav menus
 		require_once 'includes/class.llms.nav.menus.php';
@@ -312,17 +339,17 @@ final class LifterLMS {
 		include 'includes/notifications/class.llms.notifications.php';
 
 		// Date, Number and language formatting
-		include_once( 'includes/class.llms.date.php' );
-		include_once( 'includes/class.llms.number.php' );
+		include_once 'includes/class.llms.date.php';
+		include_once 'includes/class.llms.number.php';
 
 		// oembed
-		include_once( 'includes/class.llms.oembed.php' );
+		include_once 'includes/class.llms.oembed.php';
 
 		// svg management
-		include_once( 'includes/class.llms.svg.php' );
+		include_once 'includes/class.llms.svg.php';
 
 		// Post types
-		include_once( 'includes/class.llms.post-types.php' );
+		include_once 'includes/class.llms.post-types.php';
 
 		// sidebars
 		require_once 'includes/class.llms.sidebars.php';
@@ -332,11 +359,11 @@ final class LifterLMS {
 		require_once 'includes/class.llms.gateway.manual.php';
 
 		// Ajax
-		include_once( 'includes/class.llms.ajax.php' );
-		include_once( 'includes/class.llms.ajax.handler.php' );
+		include_once 'includes/class.llms.ajax.php';
+		include_once 'includes/class.llms.ajax.handler.php';
 
 		// Hooks
-		include_once( 'includes/llms.template.hooks.php' );
+		include_once 'includes/llms.template.hooks.php';
 
 		// Models
 		require_once 'includes/abstracts/abstract.llms.post.model.php';
@@ -345,31 +372,31 @@ final class LifterLMS {
 		}
 
 		// queries
-		include_once( 'includes/abstracts/abstract.llms.database.query.php' );
-		include_once( 'includes/class.llms.query.quiz.attempt.php' );
-		include_once( 'includes/class.llms.query.user.postmeta.php' );
-		include_once( 'includes/class.llms.student.query.php' );
-		include_once( 'includes/notifications/class.llms.notifications.query.php' );
+		include_once 'includes/abstracts/abstract.llms.database.query.php';
+		include_once 'includes/class.llms.query.quiz.attempt.php';
+		include_once 'includes/class.llms.query.user.postmeta.php';
+		include_once 'includes/class.llms.student.query.php';
+		include_once 'includes/notifications/class.llms.notifications.query.php';
 
 		// Classes
-		include_once( 'includes/class.llms.lesson.handler.php' );
-		include_once( 'includes/class.llms.course.factory.php' );
-		include_once( 'includes/class.llms.question.types.php' );
-		include_once( 'includes/class.llms.post.relationships.php' );
-		include_once( 'includes/class.llms.review.php' );
-		include_once( 'includes/class.llms.student.dashboard.php' );
-		include_once( 'includes/class.llms.user.permissions.php' );
-		include_once( 'includes/class.llms.view.manager.php' );
-		include_once( 'includes/class.llms.l10n.js.php' );
+		include_once 'includes/class.llms.lesson.handler.php';
+		include_once 'includes/class.llms.course.factory.php';
+		include_once 'includes/class.llms.question.types.php';
+		include_once 'includes/class.llms.post.relationships.php';
+		include_once 'includes/class.llms.review.php';
+		include_once 'includes/class.llms.student.dashboard.php';
+		include_once 'includes/class.llms.user.permissions.php';
+		include_once 'includes/class.llms.view.manager.php';
+		include_once 'includes/class.llms.l10n.js.php';
 
-		//handler classes
+		// handler classes
 		require_once 'includes/class.llms.person.handler.php';
 		require_once 'includes/class.llms.post.handler.php';
 
-		include_once( 'includes/widgets/class.llms.widgets.php' );
-		include_once( 'includes/widgets/class.llms.widget.php' );
+		include_once 'includes/widgets/class.llms.widgets.php';
+		include_once 'includes/widgets/class.llms.widget.php';
 
-		include_once( 'includes/class.llms.query.php' );
+		include_once 'includes/class.llms.query.php';
 
 		// controllers
 		include_once 'includes/controllers/class.llms.controller.achievements.php';
@@ -384,7 +411,7 @@ final class LifterLMS {
 		include_once 'includes/forms/controllers/class.llms.controller.registration.php';
 
 		// comments
-		include_once( 'includes/class.llms.comments.php' );
+		include_once 'includes/class.llms.comments.php';
 
 		// shortcodes
 		require_once 'includes/shortcodes/class.llms.shortcodes.php';
@@ -399,14 +426,14 @@ final class LifterLMS {
 
 			require_once 'includes/class.llms.https.php';
 
-			include_once( 'includes/class.llms.template.loader.php' );
-			include_once( 'includes/class.llms.frontend.assets.php' );
+			include_once 'includes/class.llms.template.loader.php';
+			include_once 'includes/class.llms.frontend.assets.php';
 
 			// form classes
-			include_once( 'includes/forms/frontend/class.llms.frontend.forms.php' );
-			include_once( 'includes/forms/frontend/class.llms.frontend.password.php' );
+			include_once 'includes/forms/frontend/class.llms.frontend.forms.php';
+			include_once 'includes/forms/frontend/class.llms.frontend.password.php';
 
-			include_once( 'includes/class.llms.person.php' );
+			include_once 'includes/class.llms.person.php';
 
 		}
 
@@ -434,15 +461,18 @@ final class LifterLMS {
 
 	/**
 	 * Load Hooks
+	 *
+	 * @since Unknown
+	 *
+	 * @return void
 	 */
 	public function include_template_functions() {
-		// if ( ! is_admin() || ( defined( 'DOING_AJAX' ) && DOING_AJAX ) ) {
-			include_once( 'includes/llms.template.functions.php' );
-		// }
+		include_once 'includes/llms.template.functions.php';
 	}
 
 	/**
 	 * Init LifterLMS when WordPress Initialises.
+	 *
 	 * @return    void [<description>]
 	 * @since     1.0.0
 	 * @version   3.21.1
@@ -489,33 +519,64 @@ final class LifterLMS {
 		return apply_filters( 'llms_template_path', 'lifterlms/' );
 	}
 
+	/**
+	 * Retrieve the LLMS_Emails singleton.
+	 *
+	 * @since Unknown
+	 *
+	 * @return LLMS_Emails
+	 */
 	public function mailer() {
 		return LLMS_Emails::instance();
 	}
 
+	/**
+	 * Retrieve the LLMS_Achievements singleton.
+	 *
+	 * @since Unknown
+	 *
+	 * @return LLMS_Achievements
+	 */
 	public function achievements() {
 		return LLMS_Achievements::instance();
 	}
+
+	/**
+	 * Retrieve the LLMS_Certificates singleton.
+	 *
+	 * @since Unknown
+	 *
+	 * @return LLMS_Certificates
+	 */
 	public function certificates() {
 		return LLMS_Certificates::instance();
 	}
 
+	/**
+	 * Retrieve the LLMS_Engagements singleton.
+	 *
+	 * @since Unknown
+	 *
+	 * @return LLMS_Engagements
+	 */
 	public function engagements() {
 		return LLMS_Engagements::instance();
 	}
 
 	/**
 	 * Grading instance
-	 * @return   LLMS_Grades
+	 *
 	 * @since    3.24.0
-	 * @version  3.24.0
+	 *
+	 * @return   LLMS_Grades
 	 */
 	public function grades() {
 		return LLMS_Grades::instance();
 	}
 
 	/**
-	 * get integrations
+	 * Get integrations
+	 *
 	 * @return LLMS_Integrations instance
 	 */
 	public function integrations() {
@@ -524,6 +585,7 @@ final class LifterLMS {
 
 	/**
 	 * Retrieve an instance of the notifications class
+	 *
 	 * @return   LLMS_Notifications
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -533,7 +595,8 @@ final class LifterLMS {
 	}
 
 	/**
-	 * get payment gateways.
+	 * Get payment gateways.
+	 *
 	 * @return LLMS_Payment_Gateways
 	 */
 	public function payment_gateways() {
@@ -543,27 +606,30 @@ final class LifterLMS {
 	/**
 	 * Load all background processors and
 	 * access to them programmatically a processor via LLMS()->processors()->get( $processor )
-	 * @return   LLMS_Processors
+	 *
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 *
+	 * @return   LLMS_Processors
 	 */
 	public function processors() {
 		return LLMS_Processors::instance();
 	}
 
 	/**
-	 * Add Action Links
-	 * Settings action links
+	 * Add plugin settings Action Links
 	 *
-	 * @param array $links [array of links]
+	 * @since Unknown
+	 *
+	 * @param string[] $links Existing action links.
+	 * @return string[]
 	 */
 	public function add_action_links( $links ) {
 
 		$lifter_links = array(
-			'<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>'
+			'<a href="' . admin_url( 'admin.php?page=llms-settings' ) . '">' . __( 'Settings', 'lifterlms' ) . '</a>',
 		);
 
-		if ( count( $links ) == 3 ) {
+		if ( 3 === count( $links ) ) {
 			return $links;
 		}
 
@@ -576,8 +642,8 @@ final class LifterLMS {
 	 * The first loaded file takes priority
 	 *
 	 * Files can be found in the following order:
-	 * 		WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
-	 * 		WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
+	 *      WP_LANG_DIR/lifterlms/lifterlms-LOCALE.mo
+	 *      WP_LANG_DIR/plugins/lifterlms-LOCALE.mo
 	 *
 	 * @return void
 	 */

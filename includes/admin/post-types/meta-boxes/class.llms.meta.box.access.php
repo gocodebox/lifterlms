@@ -1,28 +1,30 @@
 <?php
 /**
-* Meta Box Access
-*
-* Access metabox allows users to assign multiple membership levels to a post or page (or other post types via filtering)
-*
-* @since   1.0.0
-* @version 3.0.0
-*/
+ * Meta Box Access
+ *
+ * Access metabox allows users to assign multiple membership levels to a post or page (or other post types via filtering)
+ *
+ * @since   1.0.0
+ * @version 3.0.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 
 
 	/**
 	 * Configure the metabox
+	 *
 	 * @return  void
 	 * @since   3.0.0
 	 * @version 3.0.0
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-membership-access';
-		$this->title = __( 'Membership Access', 'lifterlms' );
+		$this->id      = 'lifterlms-membership-access';
+		$this->title   = __( 'Membership Access', 'lifterlms' );
 		$this->screens = $this->get_screens();
 		$this->context = 'side';
 
@@ -30,6 +32,7 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 
 	/**
 	 * Define metabox fields
+	 *
 	 * @return  array
 	 * @since   3.0.0
 	 * @version 3.0.0
@@ -47,27 +50,27 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 		return array(
 
 			array(
-				'title' => __( 'Membership Access', 'lifterlms' ),
+				'title'  => __( 'Membership Access', 'lifterlms' ),
 				'fields' => array(
 					array(
 						'controls'   => '#' . $this->prefix . 'restricted_levels',
 						'desc_class' => 'd-1of2 t-1of2 m-1of2',
-						'id' 		 => $this->prefix . 'is_restricted',
-						'label'		 => sprintf( _x( 'Restrict this %s', 'apply membership restriction to post type', 'lifterlms' ), $post_type->labels->singular_name ),
-						'type'		 => 'checkbox',
-						'value' 	 => 'yes',
+						'id'         => $this->prefix . 'is_restricted',
+						'label'      => sprintf( _x( 'Restrict this %s', 'apply membership restriction to post type', 'lifterlms' ), $post_type->labels->singular_name ),
+						'type'       => 'checkbox',
+						'value'      => 'yes',
 					),
 					array(
-						'class'      => 'input-full llms-select2-post',
+						'class'           => 'input-full llms-select2-post',
 						'data_attributes' => array(
 							'post-type' => 'llms_membership',
 						),
-						'desc'       => sprintf( __( 'Visitors must belong to one of these memberships to access this %s', 'lifterlms' ), strtolower( $post_type->labels->singular_name ) ),
-						'id' 		 => $this->prefix . 'restricted_levels',
-						'label'		 => __( 'Memberships', 'lifterlms' ),
-						'multi'      => true,
-						'type'		 => 'select',
-						'value' 	 => llms_make_select2_post_array( $restrictions ),
+						'desc'            => sprintf( __( 'Visitors must belong to one of these memberships to access this %s', 'lifterlms' ), strtolower( $post_type->labels->singular_name ) ),
+						'id'              => $this->prefix . 'restricted_levels',
+						'label'           => __( 'Memberships', 'lifterlms' ),
+						'multi'           => true,
+						'type'            => 'select',
+						'value'           => llms_make_select2_post_array( $restrictions ),
 					),
 				),
 			),
@@ -92,9 +95,13 @@ class LLMS_Meta_Box_Access extends LLMS_Admin_Metabox {
 
 		// get all public post types
 		// non public can't be restricted for hopefully obvious reasons
-		foreach ( get_post_types( array(
-			'public' => true,
-		), 'names', 'and' ) as $post_type ) {
+		foreach ( get_post_types(
+			array(
+				'public' => true,
+			),
+			'names',
+			'and'
+		) as $post_type ) {
 
 			// check if the post type supports membership restrictions
 			if ( post_type_supports( $post_type, 'llms-membership-restrictions' ) ) {

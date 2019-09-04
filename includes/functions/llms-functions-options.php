@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Retrieve a "secure" option.
  * Checks environment variables and then constant definitions
  *
- * @param   string    $name Name of the variable.
+ * @param   string $name Name of the variable.
  * @return  mixed
  * @since   3.29.0
  * @version 3.29.0

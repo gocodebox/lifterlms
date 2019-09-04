@@ -3,7 +3,7 @@
  * Admin Reporting Base Class
  *
  * @since 3.2.0
- * @version 3.19.4
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,11 +15,13 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.31.0 Fix redundant `if` statement in the `output_widget` method.
  * @since 3.32.0 Added Memberships tab.
  * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
@@ -31,18 +33,20 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get array of course IDs selected according to applied filters
+	 *
+	 * @since 3.2.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_courses() {
 
-		$r = isset( $_GET['course_ids'] ) ? $_GET['course_ids'] : array();
+		$r = isset( $_GET['course_ids'] ) ? llms_filter_input( INPUT_GET, 'course_ids', FILTER_SANITIZE_STRING ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}
 		if ( is_string( $r ) ) {
-			$r = explode( ',', $r );
+			$r = array_map( 'absint', explode( ',', $r ) );
 		}
 		return $r;
 
@@ -50,49 +54,54 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get array of membership IDs selected according to applied filters
+	 *
+	 * @since 3.2.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_memberships() {
 
-		$r = isset( $_GET['membership_ids'] ) ? $_GET['membership_ids'] : array();
+		$r = isset( $_GET['membership_ids'] ) ? llms_filter_input( INPUT_GET, 'membership_ids', FILTER_SANITIZE_STRING ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}
 		if ( is_string( $r ) ) {
-			$r = explode( ',', $r );
+			$r = array_map( 'absint', explode( ',', $r ) );
 		}
 		return $r;
-
 	}
 
 	/**
 	 * Get the currently selected date range filter
+	 *
+	 * @since 3.2.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_range() {
 
-		return ( isset( $_GET['range'] ) ) ? $_GET['range'] : 'last-7-days';
+		return ( isset( $_GET['range'] ) ) ? llms_filter_input( INPUT_GET, 'range', FILTER_SANITIZE_STRING ) : 'last-7-days';
 
 	}
 
 	/**
 	 * Get array of student IDs according to current filters
+	 *
+	 * @since 3.2.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_students() {
 
-		$r = isset( $_GET['student_ids'] ) ? $_GET['student_ids'] : array();
+		$r = isset( $_GET['student_ids'] ) ? llms_filter_input( INPUT_GET, 'student_ids', FILTER_SANITIZE_STRING ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}
 		if ( is_string( $r ) ) {
-			$r = explode( ',', $r );
+			$r = array_map( 'absint', explode( ',', $r ) );
 		}
 		return $r;
 
@@ -100,37 +109,44 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Retrieve the current reporting tab
+	 *
+	 * @since 3.2.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_tab() {
-		return isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'students';
+		return isset( $_GET['tab'] ) ? llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) : 'students';
 	}
 
 	/**
 	 * Get the current end date according to filters
+	 *
+	 * @since 3.2.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_date_end() {
-		return ( isset( $_GET['date_end'] ) ) ? $_GET['date_end'] : '';
+		return ( isset( $_GET['date_end'] ) ) ? llms_filter_input( INPUT_GET, 'date_end', FILTER_SANITIZE_STRING ) : '';
 	}
 
 	/**
 	 * Get the current start date according to filters
+	 *
+	 * @since 3.2.0
+	 * @since 3.35.0 Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_date_start() {
-		return ( isset( $_GET['date_start'] ) ) ? $_GET['date_start'] : '';
+		return ( isset( $_GET['date_start'] ) ) ? llms_filter_input( INPUT_GET, 'date_start', FILTER_SANITIZE_STRING ) : '';
 	}
 
 	/**
 	 * Get dates via the current date string
-	 * @param    string   $range   date range string
+	 *
+	 * @param    string $range   date range string
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -147,36 +163,31 @@ class LLMS_Admin_Reporting {
 		switch ( $range ) {
 
 			case 'this-year':
-
 				$dates['start'] = date( 'Y', $now ) . '-01-01';
 
-			break;
+				break;
 
 			case 'last-month':
-
 				$dates['start'] = date( 'Y-m-d', strtotime( 'first day of last month', $now ) );
-				$dates['end'] = date( 'Y-m-d', strtotime( 'last day of last month', $now ) );
+				$dates['end']   = date( 'Y-m-d', strtotime( 'last day of last month', $now ) );
 
-			break;
+				break;
 
 			case 'this-month':
-
 				$dates['start'] = date( 'Y-m', $now ) . '-01';
 
-			break;
+				break;
 
 			case 'last-7-days':
-
 				$dates['start'] = date( 'Y-m-d', strtotime( '-7 days', $now ) );
 
-			break;
+				break;
 
 			case 'custom':
-
 				$dates['start'] = self::get_date_start();
-				$dates['end'] = self::get_date_end();
+				$dates['end']   = self::get_date_end();
 
-			break;
+				break;
 
 		}
 
@@ -185,10 +196,13 @@ class LLMS_Admin_Reporting {
 	}
 
 	public static function get_current_tab_url( $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'page' => 'llms-reporting',
-			'tab' => self::get_current_tab(),
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'page' => 'llms-reporting',
+				'tab'  => self::get_current_tab(),
+			)
+		);
 		return add_query_arg( $args, admin_url( 'admin.php' ) );
 	}
 
@@ -202,15 +216,15 @@ class LLMS_Admin_Reporting {
 	 */
 	public static function get_period_filters() {
 		return array(
-			'today' => esc_attr__( 'Today', 'lifterlms' ),
-			'yesterday' => esc_attr__( 'Yesterday', 'lifterlms' ),
-			'week' => esc_attr__( 'This Week', 'lifterlms' ),
-			'last_week' => esc_attr__( 'Last Week', 'lifterlms' ),
-			'month' => esc_attr__( 'This Month', 'lifterlms' ),
+			'today'      => esc_attr__( 'Today', 'lifterlms' ),
+			'yesterday'  => esc_attr__( 'Yesterday', 'lifterlms' ),
+			'week'       => esc_attr__( 'This Week', 'lifterlms' ),
+			'last_week'  => esc_attr__( 'Last Week', 'lifterlms' ),
+			'month'      => esc_attr__( 'This Month', 'lifterlms' ),
 			'last_month' => esc_attr__( 'Last Month', 'lifterlms' ),
-			'year' => esc_attr__( 'This Year', 'lifterlms' ),
-			'last_year' => esc_attr__( 'Last Year', 'lifterlms' ),
-			'all_time' => esc_attr__( 'All Time', 'lifterlms' ),
+			'year'       => esc_attr__( 'This Year', 'lifterlms' ),
+			'last_year'  => esc_attr__( 'Last Year', 'lifterlms' ),
+			'all_time'   => esc_attr__( 'All Time', 'lifterlms' ),
 		);
 	}
 
@@ -219,6 +233,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.32.0 Added Memberships tab.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @param string $stab Slug of the sub-tab.
 	 * @return string
@@ -227,26 +242,26 @@ class LLMS_Admin_Reporting {
 
 		$args = array(
 			'page' => 'llms-reporting',
-			'tab' => self::get_current_tab(),
+			'tab'  => self::get_current_tab(),
 			'stab' => $stab,
 		);
 
 		switch ( self::get_current_tab() ) {
 			case 'memberships':
-				$args['membership_id'] = $_GET['membership_id'];
-			break;
+				$args['membership_id'] = llms_filter_input( INPUT_GET, 'membership_id', FILTER_SANITIZE_NUMBER_INT );
+				break;
 
 			case 'courses':
-				$args['course_id'] = $_GET['course_id'];
-			break;
+				$args['course_id'] = llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT );
+				break;
 
 			case 'students':
-				$args['student_id'] = $_GET['student_id'];
-			break;
+				$args['student_id'] = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+				break;
 
 			case 'quizzes':
-				$args['quiz_id'] = $_GET['quiz_id'];
-			break;
+				$args['quiz_id'] = llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT );
+				break;
 
 		}
 
@@ -283,7 +298,8 @@ class LLMS_Admin_Reporting {
 	 * Get the WP capability required to access a reporting tab
 	 * Defaults to 'view_lifterlms_reports' -- most reports implement additional permissions within the view
 	 * Sales & Enrollments tab require 'view_others_lifterlms_reports' b/c they don't add any additional filters within the view
-	 * @param    string     $tab  id/slug of the tab
+	 *
+	 * @param    string $tab  id/slug of the tab
 	 * @return   string
 	 * @since    3.19.4
 	 * @version  3.19.4
@@ -303,6 +319,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Retrieve an array of data to pass to the reporting page template
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -311,13 +328,14 @@ class LLMS_Admin_Reporting {
 
 		return array(
 			'current_tab' => self::get_current_tab(),
-			'tabs' => $this->get_tabs(),
+			'tabs'        => $this->get_tabs(),
 		);
 
 	}
 
 	/**
 	 * Include all required classes & files for the Reporting screens
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.16.0
@@ -340,6 +358,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Output the reporting screen html
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.19.4
@@ -402,23 +421,26 @@ class LLMS_Admin_Reporting {
 	 * @since 3.15.0
 	 * @since 3.31.0 Remove redundant `if` statement.
 	 *
-	 * @param    array      $args   widget options
+	 * @param    array $args   widget options
 	 * @return   void
 	 */
 	public static function output_widget( $args = array() ) {
 
-		$args = wp_parse_args( $args, array(
+		$args = wp_parse_args(
+			$args,
+			array(
 
-			'cols' => 'd-1of2',
-			'data' => '',
-			'data_compare' => '',
-			'data_type' => 'numeric', // [numeric|monetary|text|percentage|date]
-			'icon' => '',
-			'id' => '',
-			'impact' => 'positive',
-			'text' => '',
+				'cols'         => 'd-1of2',
+				'data'         => '',
+				'data_compare' => '',
+				'data_type'    => 'numeric', // [numeric|monetary|text|percentage|date]
+				'icon'         => '',
+				'id'           => '',
+				'impact'       => 'positive',
+				'text'         => '',
 
-		) );
+			)
+		);
 
 		$data_after = '';
 		if ( 'percentage' === $args['data_type'] && is_numeric( $args['data'] ) ) {
@@ -428,7 +450,7 @@ class LLMS_Admin_Reporting {
 		$change = false;
 		if ( $args['data_compare'] && $args['data'] ) {
 
-			$change = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
+			$change           = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
 			$compare_operator = ( $change <= 0 ) ? '' : '+';
 			if ( 'positive' === $args['impact'] ) {
 				$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
@@ -438,7 +460,7 @@ class LLMS_Admin_Reporting {
 		}
 
 		if ( 'monetary' === $args['data_type'] && is_numeric( $args['data'] ) ) {
-			$args['data'] = llms_price( $args['data'] );
+			$args['data']         = llms_price( $args['data'] );
 			$args['data_compare'] = llms_price_raw( $args['data_compare'] );
 		}
 
@@ -451,7 +473,7 @@ class LLMS_Admin_Reporting {
 				<div class="llms-reporting-widget-data">
 					<strong><?php echo $args['data'] . $data_after; ?></strong>
 					<?php if ( $change ) : ?>
-						<small class="compare tooltip <?php echo $compare_class ?>" title="<?php printf( esc_attr__( 'Previously %s', 'lifterlms' ), $args['data_compare'] ); ?>">
+						<small class="compare tooltip <?php echo $compare_class; ?>" title="<?php printf( esc_attr__( 'Previously %s', 'lifterlms' ), $args['data_compare'] ); ?>">
 							<?php echo $compare_operator . $change; ?>%
 						</small>
 					<?php endif; ?>
@@ -466,9 +488,10 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Output a range filter select
 	 * Used by overview data tabs
-	 * @param    string     $selected_period  currently selected period
-	 * @param    string     $tab              current tab name
-	 * @param    array      $args             additional args to be passed when form is submitted
+	 *
+	 * @param    string $selected_period  currently selected period
+	 * @param    string $tab              current tab name
+	 * @param    array  $args             additional args to be passed when form is submitted
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0

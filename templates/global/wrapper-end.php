@@ -1,35 +1,35 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 $template = get_option( 'template' );
 
 switch ( $template ) {
-	case 'twentyeleven' :
+	case 'twentyeleven':
 		echo '</div>';
 		get_sidebar( 'shop' );
 		echo '</div>';
-	break;
-	case 'twentytwelve' :
+		break;
+	case 'twentytwelve':
 		echo '</div></div>';
-	break;
-	case 'twentythirteen' :
+		break;
+	case 'twentythirteen':
 		echo '</div></div>';
-	break;
-	case 'twentyfourteen' :
+		break;
+	case 'twentyfourteen':
 		echo '</div></div></div>';
 		get_sidebar( 'content' );
-	break;
-	case 'twentyfifteen' :
+		break;
+	case 'twentyfifteen':
 		echo '</div></div>';
-	break;
-	case 'twentysixteen' :
+		break;
+	case 'twentysixteen':
 		echo '</main></div>';
-	break;
-	case 'twentyseventeen' :
+		break;
+	case 'twentyseventeen':
 		echo '</div>';
-	break;
-	default :
+		break;
+	default:
 		echo '</div></div>';
-	break;
+		break;
 }

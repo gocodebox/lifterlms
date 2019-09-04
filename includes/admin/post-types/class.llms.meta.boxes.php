@@ -1,26 +1,34 @@
 <?php
 /**
-* Admin base Metabox Class
-*
-* sets up base metabox functionality and global save.
-*
-* @since   1.0.0
-* @version 3.16.0
-*/
+ * Admin base Metabox Class
+ *
+ * sets up base metabox functionality and global save.
+ *
+ * @since   1.0.0
+ * @version 3.35.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Meta_Boxes
+ *
+ * @since 1.0.0
+ * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+ */
 class LLMS_Admin_Meta_Boxes {
 
 	/**
-	* array of collected errors.
-	* @access public
-	* @var string
-	*/
+	 * array of collected errors.
+	 *
+	 * @access public
+	 * @var string
+	 */
 	private static $errors = array();
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.16.0
@@ -78,7 +86,7 @@ class LLMS_Admin_Meta_Boxes {
 
 		add_action( 'lifterlms_process_llms_voucher_meta', 'LLMS_Meta_Box_Voucher_Export::export', 10, 2 );
 
-		//Error handling
+		// Error handling
 		add_action( 'admin_notices', array( $this, 'display_errors' ) );
 		add_action( 'shutdown', array( $this, 'set_errors' ) );
 
@@ -95,8 +103,6 @@ class LLMS_Admin_Meta_Boxes {
 
 	/**
 	 * Save messages to the database
-	 *
-	 * @param string $text
 	 */
 	public function set_errors() {
 		update_option( 'lifterlms_errors', self::$errors );
@@ -104,8 +110,6 @@ class LLMS_Admin_Meta_Boxes {
 
 	/**
 	 * Display the messages in the error dialog box
-	 *
-	 * @param string $text
 	 */
 	public function display_errors() {
 		$errors = get_option( 'lifterlms_errors' );
@@ -129,11 +133,12 @@ class LLMS_Admin_Meta_Boxes {
 	}
 
 	/**
-	* Add Metaboxes
-	* @return   void
-	* @since    1.0.0
-	* @version  3.16.0
-	*/
+	 * Add Metaboxes
+	 *
+	 * @return   void
+	 * @since    1.0.0
+	 * @version  3.16.0
+	 */
 	public function get_meta_boxes() {
 
 		add_action( 'media_buttons', 'llms_merge_code_button' );
@@ -146,11 +151,12 @@ class LLMS_Admin_Meta_Boxes {
 	}
 
 	/**
-	* Remove Metaboxes
-	* @return void
-	* @since    3.4.0
-	* @version  3.13.0
-	*/
+	 * Remove Metaboxes
+	 *
+	 * @return void
+	 * @since    3.4.0
+	 * @version  3.13.0
+	 */
 	public function hide_meta_boxes() {
 
 		// remove some defaults from orders
@@ -163,25 +169,29 @@ class LLMS_Admin_Meta_Boxes {
 
 		// remove some defaults from the course
 		remove_meta_box( 'postexcerpt', 'course', 'normal' );
-		remove_meta_box( 'tagsdiv-course_difficulty','course','side' );
+		remove_meta_box( 'tagsdiv-course_difficulty', 'course', 'side' );
 
 	}
 
 	/**
-	* Updates global $post variable
-	*
-	* @return void
-	*/
+	 * Updates global $post variable
+	 *
+	 * @return void
+	 */
 	public function refresh_meta_boxes() {
 		global $post;
 	}
 
 	/**
-	* Validates post and metabox data before saving.
-	*
-	* @return bool
-	* @param $post, $post_id
-	*/
+	 * Validates post and metabox data before saving.
+	 *
+	 * @since Unknown
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 *
+	 * @param int     $post_id WP Post ID.
+	 * @param WP_Post $post Post object.
+	 * @return bool
+	 */
 	public function validate_post( $post_id, $post ) {
 
 		if ( ! current_user_can( 'edit_post', $post_id ) ) {
@@ -190,7 +200,7 @@ class LLMS_Admin_Meta_Boxes {
 			return false;
 		} elseif ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {
 			return false;
-		} elseif ( empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' ) ) {
+		} elseif ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
 			return false;
 		} elseif ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
 			return false;
@@ -206,16 +216,16 @@ class LLMS_Admin_Meta_Boxes {
 	}
 
 	/**
-	* Global Metabox Save
-	*
-	* @return void
-	* @param $post, $post_id
-	*/
+	 * Global Metabox Save
+	 *
+	 * @return void
+	 * @param $post, $post_id
+	 */
 	public function save_meta_boxes( $post_id, $post ) {
 
-		if ( LLMS_Admin_Meta_Boxes::validate_post( $post_id, $post ) ) {
+		if ( self::validate_post( $post_id, $post ) ) {
 
-			if ( LLMS_Admin_Meta_Boxes::is_llms_post_type( $post ) ) {
+			if ( self::is_llms_post_type( $post ) ) {
 
 				do_action( 'lifterlms_process_' . $post->post_type . '_meta', $post_id, $post );
 

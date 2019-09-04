@@ -1,11 +1,14 @@
 <?php
 /**
  * My Account page
+ *
+ * @package LifterLMS/Templates
+ *
  * @since    1.0.0
  * @version  3.14.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 llms_print_notices();
 ?>
@@ -18,6 +21,7 @@ llms_print_notices();
 
 		/**
 		 * lifterlms_student_dashboard_index
+		 *
 		 * @hooked lifterlms_template_student_dashboard_my_courses - 10
 		 * @hooked lifterlms_template_student_dashboard_my_achievements - 20
 		 * @hooked lifterlms_template_student_dashboard_my_certificates - 30

@@ -1,28 +1,39 @@
 <?php
 /**
  * Date Picker Field
- * Pass in 'llms-datepicker' for the class for the field to automatically use jQuery datepicker!
- * @since    ??
+ *
+ * Pass in 'llms-datepicker' for the class for the field to automatically use jQuery datepicker.
+ *
+ * @since  Unknown
  * @version  3.11.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Metabox_Date_Field
+ *
+ * @since Unknown
+ */
 class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 	/**
 	 * Class constructor
+	 *
 	 * @param    array $_field Array containing information about field
 	 * @since    ??
 	 * @version  3.11.0
 	 */
-	function __construct( $_field ) {
+	public function __construct( $_field ) {
 
-		$_field = wp_parse_args( $_field, array(
-			'date_format' => 'mm/dd/yy', // jQuery datepicker formats (http://api.jqueryui.com/datepicker/#utility-formatDate)
-			'date_max' => '',
-			'date_min' => '',
-		) );
+		$_field = wp_parse_args(
+			$_field,
+			array(
+				'date_format' => 'mm/dd/yy', // jQuery datepicker formats (http://api.jqueryui.com/datepicker/#utility-formatDate)
+				'date_max'    => '',
+				'date_min'    => '',
+			)
+		);
 
 		$this->field = $_field;
 
@@ -31,6 +42,7 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 	/**
 	 * Construct data attributes for the field
 	 * sets up jQuery datepicker
+	 *
 	 * @return   [type]     [description]
 	 * @since    3.11.0
 	 * @version  3.11.0
@@ -39,8 +51,8 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 
 		$attrs = array(
 			'date_format' => 'data-format',
-			'date_max' => 'data-max-date',
-			'date_min' => 'data-min-date',
+			'date_max'    => 'data-max-date',
+			'date_min'    => 'data-min-date',
 		);
 
 		$data_attrs = '';
@@ -56,9 +68,11 @@ class LLMS_Metabox_Date_Field extends LLMS_Metabox_Field implements Meta_Box_Fie
 
 	/**
 	 * outputs the Html for the given field
-	 * @return HTML
+	 *
 	 * @since    ??
 	 * @version  3.11.0
+	 *
+	 * @return void
 	 */
 	public function output() {
 

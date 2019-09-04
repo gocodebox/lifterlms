@@ -1,10 +1,14 @@
 <?php
 /**
  * View an Order
+ *
+ * @package LifterLMS/Templates
+ *
  * @since    3.10.0
  * @version  3.10.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 
 if ( ! $transactions || ! $transactions['transactions'] ) {
 	return;

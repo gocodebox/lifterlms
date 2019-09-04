@@ -1,5 +1,6 @@
 /**
  * Single Quiz View
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -24,12 +25,14 @@ define( [], function() {
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'div',
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.14.1
 		 * @version  3.14.1
@@ -47,6 +50,7 @@ define( [], function() {
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -60,6 +64,7 @@ define( [], function() {
 
 		/**
 		 * Hide the popover
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.12
@@ -73,6 +78,7 @@ define( [], function() {
 
 		/**
 		 * Show the popover
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.12

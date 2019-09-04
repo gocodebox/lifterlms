@@ -168,8 +168,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @since    3.4.6
 	 * @version  3.23.0
 	 *
-	 * @param    string     $period  (optional) untranslated access period, if not supplied uses stored value for the plan.
-	 * @param    int        $length  (optional) access length (for pluralization), if not supplied uses stored value for the plan.
+	 * @param    string $period  (optional) untranslated access period, if not supplied uses stored value for the plan.
+	 * @param    int    $length  (optional) access length (for pluralization), if not supplied uses stored value for the plan.
 	 * @return   string
 	 */
 	public function get_access_period_name( $period = null, $length = null ) {
@@ -200,12 +200,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		/**
 		 * Filter the translated name of an access plan's billing period.
 		 *
-	     * @since 3.4.6
-	     * @version 3.4.6
-	     *
-	     * @param string $period Translated period name.
-	     * @param int $length Access length, used for pluralization.
-	     * @param LLMS_Access_Plan $this Access plan instance.
+		 * @since 3.4.6
+		 * @version 3.4.6
+		 *
+		 * @param string $period Translated period name.
+		 * @param int $length Access length, used for pluralization.
+		 * @param LLMS_Access_Plan $this Access plan instance.
 		 */
 		return apply_filters( 'llms_plan_get_access_period_name', $period, $length, $this );
 
@@ -218,14 +218,17 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @since  3.0.0
 	 * @version  3.0.0
 	 *
-	 * @param  string  $title   Title to create the post with
+	 * @param  string $title   Title to create the post with
 	 * @return array
 	 */
 	protected function get_creation_args( $title = '' ) {
 
-		return array_merge( parent::get_creation_args( $title ), array(
-			'post_status' 	 => 'publish',
-		) );
+		return array_merge(
+			parent::get_creation_args( $title ),
+			array(
+				'post_status' => 'publish',
+			)
+		);
 
 	}
 
@@ -268,12 +271,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @since 3.30.0 Added access plan redirection settings.
 	 * @since 3.31.0 The `$check_availability` parameter was added to the filter `llms_plan_get_checkout_url`
 	 *
-	 * @param    bool   $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
+	 * @param    bool $check_availability  determine if availability checks should be made (allows retrieving plans on admin panel).
 	 * @return   string
 	 */
 	public function get_checkout_url( $check_availability = true ) {
 
-		$ret = '#llms-plan-locked';
+		$ret       = '#llms-plan-locked';
 		$available = $this->is_available_to_user( get_current_user_id() );
 
 		$redirection = $this->get_redirection_url();
@@ -300,9 +303,12 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			if ( 1 === count( $memberships ) ) {
 				$ret = get_permalink( $memberships[0] );
 				if ( ! empty( $redirection ) ) {
-					$ret = add_query_arg( array(
-						'redirect' => $redirection,
-					), $ret );
+					$ret = add_query_arg(
+						array(
+							'redirect' => $redirection,
+						),
+						$ret
+					);
 				}
 			}
 		}
@@ -330,9 +336,9 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * @since 3.30.1
 	 * @version 3.30.1
 	 *
-	 * @param array $price_args Arguments passed to the price getter function to generate the price.
+	 * @param array    $price_args Arguments passed to the price getter function to generate the price.
 	 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
-	 * @param string $format Format the price to be returned. Options: html, raw, float (default).
+	 * @param string   $format Format the price to be returned. Options: html, raw, float (default).
 	 * @return mixed
 	 */
 	public function get_initial_price( $price_args = array(), $coupon_id = null, $format = 'float' ) {
@@ -386,6 +392,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get a string to use for 0 dollar amount prices rather than 0
+	 *
 	 * @param   string $format format to display the price in
 	 * @return  string
 	 * @since   3.0.0
@@ -414,6 +421,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Getter for price strings with optional formatting options
+	 *
 	 * @param    string $key         property key
 	 * @param    array  $price_args  optional array of arguments that can be passed to llms_price()
 	 * @param    string $format      optional format conversion method [html|raw|float]
@@ -440,6 +448,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Apply a coupon to a price
+	 *
 	 * @param   string $key        price to retrieve, "price", "sale_price", or "trial_price"
 	 * @param   int    $coupon_id  LifterLMS Coupon Post ID
 	 * @param   array  $price_args optional arguments to be passed to llms_price()
@@ -486,8 +495,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// simple subtraction
 			if ( 'dollar' === $discount_type ) {
 				$price = $price - $coupon_amount;
-			} // End if().
-			elseif ( 'percent' === $discount_type ) {
+			} elseif ( 'percent' === $discount_type ) {
 				$price = $price - ( $price * ( $coupon_amount / 100 ) );
 			}
 		}
@@ -517,6 +525,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve an instance of the associated LLMS_Product
+	 *
 	 * @return   obj
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -527,6 +536,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the product type (course or membership) for the associated product
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -539,6 +549,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Retrieve the text displayed on "Buy" buttons
 	 * Uses optional user submitted text and falls back to LifterLMS defaults if none is supplied
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.23.0
@@ -554,11 +565,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 				case 'course':
 					$text = apply_filters( 'llms_course_enroll_button_text', __( 'Enroll', 'lifterlms' ), $this );
-				break;
+					break;
 
 				case 'membership':
 					$text = apply_filters( 'llms_membership_enroll_button_text', __( 'Join', 'lifterlms' ), $this );
-				break;
+					break;
 
 			}
 		}
@@ -568,6 +579,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get a sentence explaining plan expiration details
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.28.2
@@ -589,6 +601,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get a sentence explaining the plan's payment schedule
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.23.0
@@ -597,9 +610,9 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		$ret = '';
 
-		$period = $this->get( 'period' );
+		$period    = $this->get( 'period' );
 		$frequency = $this->get( 'frequency' );
-		$length = $this->get( 'length' );
+		$length    = $this->get( 'length' );
 
 		// one-time payments don't display anything here unless filtered
 		if ( $frequency > 0 ) {
@@ -624,6 +637,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get a sentence explaining the plan's trial offer
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.4.8
@@ -634,8 +648,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		if ( $this->has_trial() ) {
 
-			$length = $this->get( 'trial_length' );
-			$period = $this->get( 'trial_period' );
+			$length  = $this->get( 'trial_length' );
+			$period  = $this->get( 'trial_period' );
 			$details = sprintf( _x( 'for %1$d %2$s', 'trial offer description', 'lifterlms' ), $length, $this->get_access_period_name( $period, $length ) );
 
 		}
@@ -645,13 +659,14 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Get the access plans visibility setting
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
 	public function get_visibility() {
 		$term = $this->get_terms( 'llms_access_plan_visibility', true );
-		$ret = ( $term && $term->name ) ? $term->name : 'visible';
+		$ret  = ( $term && $term->name ) ? $term->name : 'visible';
 		return apply_filters( 'llms_get_access_plan_visibility', $ret, $this );
 	}
 
@@ -659,6 +674,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Determine if the plan has availability restrictions
 	 * Related product must be a COURSE
 	 * Availability must be set to "members" and at least one membership must be selected
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -669,6 +685,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the free checkout process & interface should be used for this access plan
+	 *
 	 * @return   boolean
 	 * @since    3.4.0
 	 * @version  3.4.0
@@ -680,6 +697,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Determine if the plan has a trial offer
 	 * One-time payments can't have a trial, so the plan must have a frequency greater than 0
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.23.0
@@ -694,7 +712,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the plan is available to a user based on configured availability restrictions
-	 * @param    int     $user_id  (optional) WP User ID, if not supplied get_current_user_id() will be used
+	 *
+	 * @param    int $user_id  (optional) WP User ID, if not supplied get_current_user_id() will be used
 	 * @return   boolean
 	 * @since    3.4.4
 	 * @version  3.23.0
@@ -724,6 +743,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the plan is marked as "featured"
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.8.0
@@ -736,6 +756,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Determines if a plan is marked ar free
 	 * This only returns the value of the setting and should not
 	 * be used to check if payment is required (when using a coupon for example)
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.23.0
@@ -746,6 +767,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a plan is *currently* on sale
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.24.3
@@ -759,11 +781,11 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			$now = llms_current_time( 'timestamp' );
 
 			$start = $this->get( 'sale_start' );
-			$end = $this->get( 'sale_end' );
+			$end   = $this->get( 'sale_end' );
 
 			// add times if the values exist (start of day & end of day)
 			$start = ( $start ) ? strtotime( $start . ' 00:00:00' ) : $start;
-			$end = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
+			$end   = ( $end ) ? strtotime( '+1 day', strtotime( $end . ' 00:00:00' ) ) : $end;
 
 			// no dates, the product is indefinitely on sale
 			if ( ! $start && ! $end ) {
@@ -795,6 +817,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Determine if the plan is visible
 	 * Both featured and visible access plans are considered visible
+	 *
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -805,6 +828,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the Access Plan has recurring payments
+	 *
 	 * @return  boolean   true if it is recurring, false otherwise
 	 * @since   3.0.0
 	 * @version 3.0.0
@@ -834,7 +858,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Update the visibility term for the access plan
-	 * @param    string     $visibility  access plan name
+	 *
+	 * @param    string $visibility  access plan name
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
@@ -844,7 +869,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Cleanup data to remove unnecessary defaults
-	 * @param    array     $arr   array of data to be serialized
+	 *
+	 * @param    array $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.16.11
 	 * @version  3.16.11
@@ -856,7 +882,8 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 	/**
 	 * Don't add custom fields during toArray()
-	 * @param    array     $arr  post model array
+	 *
+	 * @param    array $arr  post model array
 	 * @return   array
 	 * @since    3.16.11
 	 * @version  3.16.11

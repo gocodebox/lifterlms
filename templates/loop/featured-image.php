@@ -1,9 +1,14 @@
 <?php
 /**
  * Display a Featured Image on the Loop Tile
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since  Unknown
+ * @version 3.35.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; } // End if().
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 

@@ -72,7 +72,7 @@ class LLMS_Student_Bulk_Enroll {
 	public function display_product_selection_for_bulk_users( $which ) {
 
 		// the attributes need to be different for top and bottom of the table
-		$id = 'bottom' === $which ? 'llms_bulk_enroll_product2' : 'llms_bulk_enroll_product';
+		$id     = 'bottom' === $which ? 'llms_bulk_enroll_product2' : 'llms_bulk_enroll_product';
 		$submit = 'bottom' === $which ? 'llms_bulk_enroll2' : 'llms_bulk_enroll';
 		?>
 		<div class="alignleft actions">
@@ -132,7 +132,7 @@ class LLMS_Student_Bulk_Enroll {
 	 * Retrieves submitted inputs
 	 *
 	 * @param   string $param The input key
-	 * @param   mixed $validation Validation filter constant
+	 * @param   mixed  $validation Validation filter constant
 	 * @return  mixed The submitted input value
 	 * @since   3.20.0
 	 * @version 3.20.0
@@ -199,21 +199,21 @@ class LLMS_Student_Bulk_Enroll {
 		$user_query_args = array(
 			'include' => $user_ids,
 			// we need display names for notices
-			'fields' => array( 'ID', 'display_name' ),
+			'fields'  => array( 'ID', 'display_name' ),
 		);
 
 		$user_query = new WP_User_Query( $user_query_args );
 
 		$results = $user_query->get_results();
 
-		return empty( $results ) ? false: $results;
+		return empty( $results ) ? false : $results;
 	}
 
 	/**
 	 * Enrolls a user into the selected product
 	 *
 	 * @param   WP_User $user User object
-	 * @param   string $trigger Enrollment trigger string
+	 * @param   string  $trigger Enrollment trigger string
 	 * @since   3.20.0
 	 * @version 3.20.0
 	 */
@@ -226,7 +226,7 @@ class LLMS_Student_Bulk_Enroll {
 		$type = ( ! $enrolled ) ? 'error' : 'success';
 
 		// Figure out notice message string based on notice type
-		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll <em>%1s</em> into <em>%2s</em>.', 'lifterlms' ) : __( 'Successfully enrolled <em>%1s</em> into <em>%2s</em>.', 'lifterlms' );
+		$success_fail_string = ( ! $enrolled ) ? __( 'Failed to enroll <em>%1$1s</em> into <em>%2$2s</em>.', 'lifterlms' ) : __( 'Successfully enrolled <em>%1$1s</em> into <em>%2$2s</em>.', 'lifterlms' );
 
 		// get formatted message with username and product title
 		$message = sprintf( $success_fail_string, $user->display_name, $this->product_title );
@@ -250,7 +250,7 @@ class LLMS_Student_Bulk_Enroll {
 			<p><?php echo $message; ?></p>
 		</div>
 		<?php
-		$notice = ob_get_clean();
+		$notice                = ob_get_clean();
 		$this->admin_notices[] = $notice;
 	}
 

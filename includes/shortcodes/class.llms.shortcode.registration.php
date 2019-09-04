@@ -8,12 +8,14 @@
  * @version  3.4.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Shortcode_Registration extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
+	 *
 	 * @var  string
 	 */
 	public $tag = 'lifterlms_registration';

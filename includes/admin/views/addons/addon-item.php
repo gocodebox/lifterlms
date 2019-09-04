@@ -2,6 +2,7 @@
 /**
  * Single Add-on Item View
  * Used on Add-Ons browser screen
+ *
  * @since    3.22.0
  * @version  3.22.0
  */
@@ -26,10 +27,12 @@ defined( 'ABSPATH' ) || exit;
 				<ul>
 					<?php if ( $addon->get( 'author' )['name'] ) : ?>
 						<li>
-							<span><?php
+							<span>
+							<?php
 								// Translators: %s = Author Name
 								printf( __( 'Author: %s', 'lifterlms' ), $addon->get( 'author' )['name'] );
-							?></span>
+							?>
+							</span>
 							<?php if ( $addon->get( 'author' )['image'] ) : ?>
 								<img alt="<?php echo esc_attr( $addon->get( 'author' )['name'] ); ?> logo" src="<?php echo esc_url( $addon->get( 'author' )['image'] ); ?>">
 							<?php endif; ?>
@@ -37,15 +40,19 @@ defined( 'ABSPATH' ) || exit;
 					<?php endif; ?>
 
 					<?php if ( $addon->is_installable() ) : ?>
-						<li><?php
+						<li>
+						<?php
 							// Translators: %s = Current Version Number
 							printf( __( 'Version: %s', 'lifterlms' ), $addon->is_installed() ? $addon->get_installed_version() : $addon->get_latest_version() );
-						?></li>
+						?>
+						</li>
 						<?php if ( $addon->is_installed() && $addon->has_available_update() ) : ?>
-							<li><strong><?php
+							<li><strong>
+							<?php
 								// Translators: %s = Available Version Number
 								printf( __( 'Update Available: %s', 'lifterlms' ), $addon->get_latest_version() );
-							?></strong></li>
+							?>
+							</strong></li>
 						<?php endif; ?>
 					<?php endif; ?>
 				</ul>
@@ -64,8 +71,10 @@ defined( 'ABSPATH' ) || exit;
 					<i class="fa fa-external-link show-on-hover" aria-hidden="true"></i>
 					<span class="llms-status-text"><?php _e( 'Learn more', 'lifterlms' ); ?></span>
 				</a>
-			<?php else :
-				$url = $addon->is_licensed() ? 'https://lifterlms.com/my-account' : $addon->get_permalink(); ?>
+				<?php
+			else :
+				$url = $addon->is_licensed() ? 'https://lifterlms.com/my-account' : $addon->get_permalink();
+				?>
 				<a href="<?php echo esc_url( $url ); ?>" class="llms-status-icon status--<?php echo esc_attr( $addon->get_license_status() ); ?>" target="_blank">
 					<i class="fa fa-key hide-on-hover" aria-hidden="true"></i>
 					<i class="fa fa-external-link show-on-hover" aria-hidden="true"></i>

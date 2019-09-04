@@ -20,30 +20,35 @@ class LLMS_Generator {
 
 	/**
 	 * Instance of WP_Error
+	 *
 	 * @var  obj
 	 */
 	public $error;
 
 	/**
 	 * Default post status when status isn't set in $raw for a given post
+	 *
 	 * @var  string
 	 */
 	private $default_post_status = 'draft';
 
 	/**
 	 * Name of the Generator to use for generation
+	 *
 	 * @var  string
 	 */
 	private $generator = '';
 
 	/**
 	 * Array of generated posts
+	 *
 	 * @var  array
 	 */
 	private $posts = array();
 
 	/**
 	 * Raw contents passed into the generator's constructor
+	 *
 	 * @var  array
 	 */
 	private $raw = array();
@@ -51,12 +56,14 @@ class LLMS_Generator {
 	/**
 	 * Type of data to work from
 	 * bulk|single
+	 *
 	 * @var  string
 	 */
 	private $raw_type = '';
 
 	/**
 	 * Associate raw tempids with actual created ids
+	 *
 	 * @var  array
 	 */
 	private $tempids = array(
@@ -66,22 +73,24 @@ class LLMS_Generator {
 
 	/**
 	 * Array of Stats
+	 *
 	 * @var  array
 	 */
 	private $stats = array(
-		'authors' => 0,
-		'courses' => 0,
-		'sections' => 0,
-		'lessons' => 0,
-		'plans' => 0,
-		'quizzes' => 0,
+		'authors'   => 0,
+		'courses'   => 0,
+		'sections'  => 0,
+		'lessons'   => 0,
+		'plans'     => 0,
+		'quizzes'   => 0,
 		'questions' => 0,
-		'terms' => 0,
+		'terms'     => 0,
 	);
 
 	/**
 	 * Construct a new generator instance with data
-	 * @param    array|string   $raw   array or json string of raw content
+	 *
+	 * @param    array|string $raw   array or json string of raw content
 	 * @since    3.3.0
 	 * @version  3.3.0
 	 */
@@ -94,29 +103,30 @@ class LLMS_Generator {
 		}
 
 		$this->error = new WP_Error();
-		$this->raw = $raw;
+		$this->raw   = $raw;
 
 		// for featured image creation via `media_sideload_image()`
-		require_once( ABSPATH . 'wp-admin/includes/media.php' );
-		require_once( ABSPATH . 'wp-admin/includes/file.php' );
-		require_once( ABSPATH . 'wp-admin/includes/image.php' );
+		require_once ABSPATH . 'wp-admin/includes/media.php';
+		require_once ABSPATH . 'wp-admin/includes/file.php';
+		require_once ABSPATH . 'wp-admin/includes/image.php';
 
 	}
 
 	/**
 	 * Add taxonomy terms to a course
-	 * @param    obj      $course_id   WP Post ID of a Course
-	 * @param    array    $raw_terms   array of raw term arrays
+	 *
+	 * @param    obj   $course_id   WP Post ID of a Course
+	 * @param    array $raw_terms   array of raw term arrays
 	 * @since    3.3.0
 	 * @version  3.7.5
 	 */
 	private function add_course_terms( $course_id, $raw_terms ) {
 
 		$taxes = array(
-			'course_cat' => 'categories',
+			'course_cat'        => 'categories',
 			'course_difficulty' => 'difficulty',
-			'course_tag' => 'tags',
-			'course_track' => 'tracks',
+			'course_tag'        => 'tags',
+			'course_track'      => 'tracks',
 		);
 
 		foreach ( $taxes as $tax => $key ) {
@@ -155,7 +165,7 @@ class LLMS_Generator {
 	 * @since 3.28.3 Add extra slashes around JSON strings.
 	 * @since 3.30.2 Skip JSON evaluation for non-string values; make publicly accessible.
 	 *
-	 * @param int $post_id WP Post ID.
+	 * @param int   $post_id WP Post ID.
 	 * @param array $raw raw data.
 	 * @return void
 	 */
@@ -220,6 +230,7 @@ class LLMS_Generator {
 
 	/**
 	 * Generator called when cloning a lesson
+	 *
 	 * @return   void
 	 * @since    3.14.8
 	 * @version  3.14.8
@@ -238,6 +249,7 @@ class LLMS_Generator {
 	 * Generator called for single course imports
 	 * converts the single course into a format that can be handled by the bulk courses generator
 	 * and invokes that generator
+	 *
 	 * @return   void
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -263,6 +275,7 @@ class LLMS_Generator {
 
 	/**
 	 * Generator called for bulk course imports
+	 *
 	 * @return   void
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -290,9 +303,10 @@ class LLMS_Generator {
 
 	/**
 	 * Create a new access plan
-	 * @param    array     $raw                 Raw Access Plan Data
-	 * @param    int       $course_id           WP Post ID of a LLMS Course to assign the access plan to
-	 * @param    int       $fallback_author_id  WP User ID to use for the access plan author if no author is supplied in the raw data
+	 *
+	 * @param    array $raw                 Raw Access Plan Data
+	 * @param    int   $course_id           WP Post ID of a LLMS Course to assign the access plan to
+	 * @param    int   $fallback_author_id  WP User ID to use for the access plan author if no author is supplied in the raw data
 	 * @return   int
 	 * @since    3.3.0
 	 * @version  3.7.3
@@ -305,14 +319,17 @@ class LLMS_Generator {
 		}
 
 		// insert the plan
-		$plan = new LLMS_Access_Plan( 'new', array(
-			'post_author' => $author_id,
-			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
-			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-			'post_title' => $raw['title'],
-		) );
+		$plan = new LLMS_Access_Plan(
+			'new',
+			array(
+				'post_author'   => $author_id,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
+				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
+				'post_title'    => $raw['title'],
+			)
+		);
 
 		$this->increment( 'plans' );
 
@@ -341,7 +358,7 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 *
-	 * @param    array     $raw  raw course data
+	 * @param    array $raw  raw course data
 	 * @return   void|int
 	 */
 	private function create_course( $raw ) {
@@ -354,15 +371,18 @@ class LLMS_Generator {
 		}
 
 		// insert the course
-		$course = new LLMS_Course( 'new', array(
-			'post_author' => $author_id,
-			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
-			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-			'post_excerpt' => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
-			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => apply_filters( 'llms_generator_course_status', $this->get_default_post_status(), $raw, $this ),
-			'post_title' => $raw['title'],
-		) );
+		$course = new LLMS_Course(
+			'new',
+			array(
+				'post_author'   => $author_id,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
+				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
+				'post_status'   => apply_filters( 'llms_generator_course_status', $this->get_default_post_status(), $raw, $this ),
+				'post_title'    => $raw['title'],
+			)
+		);
 
 		if ( ! $course->get( 'id' ) ) {
 			return $this->error->add( 'course_creation', __( 'Error creating course', 'lifterlms' ) );
@@ -427,11 +447,11 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 *
-	 * @param    array     $raw                 raw lesson data
-	 * @param    int       $order               lesson order within the section (starts at 1)
-	 * @param    int       $section_id          WP Post ID of the lesson's parent section
-	 * @param    int       $course_id           WP Post ID of the lesson's parent course
-	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
+	 * @param    array $raw                 raw lesson data
+	 * @param    int   $order               lesson order within the section (starts at 1)
+	 * @param    int   $section_id          WP Post ID of the lesson's parent section
+	 * @param    int   $course_id           WP Post ID of the lesson's parent course
+	 * @param    int   $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   mixed                          lesson id or WP_Error
 	 */
 	private function create_lesson( $raw, $order, $section_id, $course_id, $fallback_author_id = null ) {
@@ -444,15 +464,18 @@ class LLMS_Generator {
 		}
 
 		// insert the course
-		$lesson = new LLMS_lesson( 'new', array(
-			'post_author' => $author_id,
-			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
-			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-			'post_excerpt' => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
-			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-			'post_title' => $raw['title'],
-		) );
+		$lesson = new LLMS_lesson(
+			'new',
+			array(
+				'post_author'   => $author_id,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+				'post_excerpt'  => isset( $raw['excerpt'] ) ? $raw['excerpt'] : null,
+				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
+				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
+				'post_title'    => $raw['title'],
+			)
+		);
 
 		if ( ! $lesson->get( 'id' ) ) {
 			return $this->error->add( 'lesson_creation', __( 'Error creating lesson', 'lifterlms' ) );
@@ -483,7 +506,7 @@ class LLMS_Generator {
 
 		if ( ! empty( $raw['quiz'] ) ) {
 			$raw['quiz']['lesson_id'] = $lesson->get( 'id' );
-			$raw['quiz'] = $this->create_quiz( $raw['quiz'], $author_id );
+			$raw['quiz']              = $this->create_quiz( $raw['quiz'], $author_id );
 		}
 
 		// set all metadata
@@ -509,8 +532,8 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 *
-	 * @param    array     $raw                 raw quiz data
-	 * @param    int       $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
+	 * @param    array $raw                 raw quiz data
+	 * @param    int   $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                            WP Post ID of the Quiz
 	 */
 	private function create_quiz( $raw, $fallback_author_id = null ) {
@@ -523,14 +546,17 @@ class LLMS_Generator {
 		}
 
 		// insert the course
-		$quiz = new LLMS_Quiz( 'new', array(
-			'post_author' => $author_id,
-			'post_content' => isset( $raw['content'] ) ? $raw['content'] : null,
-			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-			'post_title' => $raw['title'],
-		) );
+		$quiz = new LLMS_Quiz(
+			'new',
+			array(
+				'post_author'   => $author_id,
+				'post_content'  => isset( $raw['content'] ) ? $raw['content'] : null,
+				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
+				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
+				'post_title'    => $raw['title'],
+			)
+		);
 
 		if ( ! $quiz->get( 'id' ) ) {
 			return $this->error->add( 'quiz_creation', __( 'Error creating quiz', 'lifterlms' ) );
@@ -567,8 +593,8 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 *
-	 * @param    array      $raw        raw question data
-	 * @param    int        $author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
+	 * @param    array $raw        raw question data
+	 * @param    int   $author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                    WP Post ID of the question
 	 */
 	private function create_question( $raw, $manager, $author_id ) {
@@ -577,10 +603,15 @@ class LLMS_Generator {
 
 		unset( $raw['parent_id'] );
 
-		$question_id = $manager->create_question( array_merge( array(
-			'post_status' => 'publish',
-			'post_author' => $author_id,
-		), $raw ) );
+		$question_id = $manager->create_question(
+			array_merge(
+				array(
+					'post_status' => 'publish',
+					'post_author' => $author_id,
+				),
+				$raw
+			)
+		);
 
 		if ( ! $question_id ) {
 			return $this->error->add( 'question_creation', __( 'Error creating question', 'lifterlms' ) );
@@ -617,10 +648,10 @@ class LLMS_Generator {
 	 * @since 3.3.0
 	 * @since 3.30.2 Added hooks.
 	 *
-	 * @param    array      $raw                 raw section data
-	 * @param    int        $order               order within the course (starts at 1)
-	 * @param    int        $course_id           WP Post ID of the parent course
-	 * @param    int        $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
+	 * @param    array $raw                 raw section data
+	 * @param    int   $order               order within the course (starts at 1)
+	 * @param    int   $course_id           WP Post ID of the parent course
+	 * @param    int   $fallback_author_id  optional author ID to use as a fallback if no raw author data supplied for the lesson
 	 * @return   int                             WP Post ID of the Section
 	 */
 	private function create_section( $raw, $order, $course_id, $fallback_author_id = null ) {
@@ -630,13 +661,16 @@ class LLMS_Generator {
 		$author_id = $this->get_author_id_from_raw( $raw, $fallback_author_id );
 
 		// insert the course
-		$section = new LLMS_Section( 'new', array(
-			'post_author' => $author_id,
-			'post_date' => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
-			'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
-			'post_status' => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
-			'post_title' => $raw['title'],
-		) );
+		$section = new LLMS_Section(
+			'new',
+			array(
+				'post_author'   => $author_id,
+				'post_date'     => isset( $raw['date'] ) ? $this->format_date( $raw['date'] ) : null,
+				'post_modified' => isset( $raw['modified'] ) ? $this->format_date( $raw['modified'] ) : null,
+				'post_status'   => isset( $raw['status'] ) ? $raw['status'] : $this->get_default_post_status(),
+				'post_title'    => $raw['title'],
+			)
+		);
 
 		if ( ! $section->get( 'id' ) ) {
 			return $this->error->add( 'section_creation', __( 'Error creating section', 'lifterlms' ) );
@@ -674,20 +708,21 @@ class LLMS_Generator {
 		if ( ! $raw_date ) {
 			return current_time( 'mysql' );
 		} else {
-			return date( 'Y-m-d H:i:s' , strtotime( $raw_date ) );
+			return date( 'Y-m-d H:i:s', strtotime( $raw_date ) );
 		}
 
 	}
 
 	/**
 	 * Accepts raw author data and locates an existing author by email or id or creates one
-	 * @param    array     $raw  author data
-	 *                           if id and email are provided will use id only if it matches the email for user matching that id in the database
-	 *                           if no id found, attempts to locate by email
-	 *                           if no author found and email provided, creates new user using email
-	 *                           falls back to current user id
-	 *                           first_name, last_name, and description can be optionally provided
-	 *                           when provided will be used only when creating a new user
+	 *
+	 * @param    array $raw  author data
+	 *                       if id and email are provided will use id only if it matches the email for user matching that id in the database
+	 *                       if no id found, attempts to locate by email
+	 *                       if no author found and email provided, creates new user using email
+	 *                       falls back to current user id
+	 *                       first_name, last_name, and description can be optionally provided
+	 *                       when provided will be used only when creating a new user
 	 *
 	 * @return   int|void        WP User ID or void when error encountered
 	 * @since    3.3.0
@@ -717,8 +752,7 @@ class LLMS_Generator {
 						if ( $user->user_email == $raw['email'] ) {
 							$author_id = $user->ID;
 						}
-					} // End if().
-					else {
+					} else {
 						$author_id = $user->ID;
 					}
 				}
@@ -742,16 +776,16 @@ class LLMS_Generator {
 			if ( ! $author_id && isset( $raw['email'] ) ) {
 
 				$data = array(
-					'role' => 'administrator',
+					'role'       => 'administrator',
 					'user_email' => $raw['email'],
 					'user_login' => LLMS_Person_Handler::generate_username( $raw['email'] ),
-					'user_pass' => wp_generate_password(),
+					'user_pass'  => wp_generate_password(),
 				);
 
 				if ( isset( $raw['first_name'] ) && isset( $raw['last_name'] ) ) {
 					$data['display_name'] = $raw['first_name'] . ' ' . $raw['last_name'];
-					$data['first_name'] = $raw['first_name'];
-					$data['last_name'] = $raw['last_name'];
+					$data['first_name']   = $raw['first_name'];
+					$data['last_name']    = $raw['last_name'];
 				}
 
 				if ( isset( $raw['description'] ) ) {
@@ -784,7 +818,7 @@ class LLMS_Generator {
 	 * @since 3.30.2 Made publicly accessible.
 	 *
 	 * @param array $raw raw data
-	 * @param int $fallback_author_id WP User ID
+	 * @param int   $fallback_author_id WP User ID
 	 * @return int|WP_Error
 	 */
 	public function get_author_id_from_raw( $raw, $fallback_author_id = null ) {
@@ -817,6 +851,7 @@ class LLMS_Generator {
 
 	/**
 	 * Retrieve the array of generated course ids
+	 *
 	 * @return   array
 	 * @since    3.7.3
 	 * @version  3.14.8
@@ -830,6 +865,7 @@ class LLMS_Generator {
 
 	/**
 	 * Retrieve the array of generated post ids
+	 *
 	 * @return   array
 	 * @since    3.14.8
 	 * @version  3.14.8
@@ -840,23 +876,28 @@ class LLMS_Generator {
 
 	/**
 	 * Get an array of valid LifterLMS generators
+	 *
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.14.8
 	 */
 	private function get_generators() {
-		return apply_filters( 'llms_generators', array(
-			'LifterLMS/BulkCourseExporter' => array( $this, 'generate_courses' ),
-			'LifterLMS/BulkCourseGenerator' => array( $this, 'generate_courses' ),
-			'LifterLMS/SingleCourseCloner' => array( $this, 'generate_course' ),
-			'LifterLMS/SingleCourseExporter' => array( $this, 'generate_course' ),
-			'LifterLMS/SingleCourseGenerator' => array( $this, 'generate_course' ),
-			'LifterLMS/SingleLessonCloner' => array( $this, 'clone_lesson' ),
-		) );
+		return apply_filters(
+			'llms_generators',
+			array(
+				'LifterLMS/BulkCourseExporter'    => array( $this, 'generate_courses' ),
+				'LifterLMS/BulkCourseGenerator'   => array( $this, 'generate_courses' ),
+				'LifterLMS/SingleCourseCloner'    => array( $this, 'generate_course' ),
+				'LifterLMS/SingleCourseExporter'  => array( $this, 'generate_course' ),
+				'LifterLMS/SingleCourseGenerator' => array( $this, 'generate_course' ),
+				'LifterLMS/SingleLessonCloner'    => array( $this, 'clone_lesson' ),
+			)
+		);
 	}
 
 	/**
 	 * Get the results of the generate function
+	 *
 	 * @return   mixed       array of stats or WP_Error
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -874,8 +915,9 @@ class LLMS_Generator {
 	/**
 	 * Get a WP Term ID for a term by taxonomy and term name
 	 * attempts to find a given term by name first to prevent duplicates during imports
-	 * @param    string     $term_name  term name
-	 * @param    string     $tax        taxonomy slug
+	 *
+	 * @param    string $term_name  term name
+	 * @param    string $tax        taxonomy slug
 	 * @return   int|void              term id or void when error
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -953,14 +995,12 @@ class LLMS_Generator {
 
 						$obj->set( 'prerequisite', $ids[ $old_prereq ] );
 
-					} // End if().
-					elseif ( ! isset( $raw['_source'] ) || get_site_url() !== $raw['_source'] ) {
+					} elseif ( ! isset( $raw['_source'] ) || get_site_url() !== $raw['_source'] ) {
 
 						$obj->set( 'has_prerequisite', 'no' );
 						$obj->set( 'prerequisite', 0 );
 
-					} // check to be sure old prereq still exists
-					else {
+					} else {
 						$post = get_post( $old_prereq );
 						// post doesn't exist or the post type doesn't match, get rid of it...
 						if ( ! $post || $obj_type !== $post->post_type ) {
@@ -994,6 +1034,7 @@ class LLMS_Generator {
 
 	/**
 	 * Determines if there was an error during the running of the generator
+	 *
 	 * @return   boolean     true when there was an error, false otherwise
 	 * @since    3.3.0
 	 * @version  3.16.11
@@ -1004,8 +1045,9 @@ class LLMS_Generator {
 
 	/**
 	 * Records a generated post id
-	 * @param    int      $id    WP Post ID of the generated post
-	 * @param    string   $type  key of the stat to increment
+	 *
+	 * @param    int    $id    WP Post ID of the generated post
+	 * @param    string $type  key of the stat to increment
 	 * @return   void
 	 * @since    3.14.8
 	 * @version  3.14.8
@@ -1023,8 +1065,9 @@ class LLMS_Generator {
 
 	/**
 	 * Saves an image (from URL) to the media library and sets it as the featured image for a given post
-	 * @param    string     $url_or_raw  array of raw data or URL to an image
-	 * @param    int        $post_id     WP Post ID
+	 *
+	 * @param    string $url_or_raw  array of raw data or URL to an image
+	 * @param    int    $post_id     WP Post ID
 	 * @return   void
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -1056,7 +1099,8 @@ class LLMS_Generator {
 
 	/**
 	 * Configure the default post status for generated posts at runtime
-	 * @param    string     $status  any valid WP Post Status
+	 *
+	 * @param    string $status  any valid WP Post Status
 	 * @since    3.7.3
 	 * @version  3.7.3
 	 */
@@ -1066,7 +1110,8 @@ class LLMS_Generator {
 
 	/**
 	 * Sets the generator to use for the current instance
-	 * @param    string     $generator  generator string, eg: "LifterLMS/SingleCourseExporter"
+	 *
+	 * @param    string $generator  generator string, eg: "LifterLMS/SingleCourseExporter"
 	 * @return   WP_Error|void
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -1100,8 +1145,9 @@ class LLMS_Generator {
 
 	/**
 	 * Accepts a raw object, finds the raw id and stores it
-	 * @param    array     $raw  array of raw data
-	 * @param    obj       $obj  the LLMS Post Object generated from the raw data
+	 *
+	 * @param    array $raw  array of raw data
+	 * @param    obj   $obj  the LLMS Post Object generated from the raw data
 	 * @return   mixed           raw id when present, false if no raw id was found
 	 * @since    3.3.0
 	 * @version  3.3.0

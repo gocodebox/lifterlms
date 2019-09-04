@@ -5,9 +5,10 @@
  * of all students in a course
  *
  * Progress is queued for recalculation when
- * 		students enroll
- * 		students unenroll
- * 		students complete lessons
+ *      students enroll
+ *      students unenroll
+ *      students complete lessons
+ *
  * @since    3.15.0
  * @version  3.26.1
  */
@@ -21,20 +22,23 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 	/**
 	 * Unique identifier for the processor
+	 *
 	 * @var  string
 	 */
 	protected $id = 'membership_bulk_enroll';
 
 	/**
 	 * WP Cron Hook for scheduling the bg process
+	 *
 	 * @var  string
 	 */
 	private $schedule_hook = 'llms_membership_bulk_enroll';
 
 	/**
 	 * Action triggered to queue all students who need to be enrolled
-	 * @param    int     $membership_id  WP Post ID of the membership
-	 * @param    int     $course_id      WP Post ID of the course to enroll members into
+	 *
+	 * @param    int $membership_id  WP Post ID of the membership
+	 * @param    int $course_id      WP Post ID of the course to enroll members into
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -47,9 +51,9 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 		$this->cancel_process();
 
 		$args = array(
-			'post_id' => $membership_id,
+			'post_id'  => $membership_id,
 			'statuses' => 'enrolled',
-			'page' => 1,
+			'page'     => 1,
 			'per_page' => 250,
 		);
 
@@ -59,11 +63,13 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 			while ( $args['page'] <= $query->max_pages ) {
 
-				$this->push_to_queue( array(
-					'course_id' => $course_id,
-					'query_args' => $args,
-					'trigger' => sprintf( 'membership_%d', $membership_id ),
-				) );
+				$this->push_to_queue(
+					array(
+						'course_id'  => $course_id,
+						'query_args' => $args,
+						'trigger'    => sprintf( 'membership_%d', $membership_id ),
+					)
+				);
 
 				$args['page']++;
 
@@ -79,6 +85,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 	/**
 	 * Initializer
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -92,8 +99,8 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 		$this->actions = array(
 			'llms_membership_do_bulk_course_enrollment' => array(
 				'arguments' => 2,
-				'callback' => 'schedule_enrollment',
-				'priority' => 10,
+				'callback'  => 'schedule_enrollment',
+				'priority'  => 10,
 			),
 		);
 
@@ -102,8 +109,9 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	/**
 	 * Schedule bulk enrollment
 	 * This will schedule an event that will setup the queue of items for the background process
-	 * @param    int     $membership_id  WP Post ID of the membership
-	 * @param    int     $course_id      WP Post ID of the course to enroll members into
+	 *
+	 * @param    int $membership_id  WP Post ID of the membership
+	 * @param    int $course_id      WP Post ID of the course to enroll members into
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -127,8 +135,9 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	 * Execute calculation for each item in the queue until all students
 	 * in the course have been polled
 	 * Stores the data in the postmeta table to be accessible via LLMS_Course
-	 * @param    array     $item  array of processing data
-	 * @return   boolean      	  true to keep the item in the queue and process again
+	 *
+	 * @param    array $item  array of processing data
+	 * @return   boolean          true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
 	 * @since    3.15.0
 	 * @version  3.26.1

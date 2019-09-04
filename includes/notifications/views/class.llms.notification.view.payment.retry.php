@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification View: Purchase Receipt
+ *
  * @since    3.10.0
  * @version  3.10.0
  */
@@ -12,6 +13,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Settings for basic notifications
+	 *
 	 * @var  array
 	 */
 	protected $basic_options = array(
@@ -23,18 +25,20 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 		/**
 		 * Enables manual dismissal of notifications
 		 */
-		'dismissible' => true,
+		'dismissible'  => true,
 	);
 
 
 	/**
 	 * Notification Trigger ID
+	 *
 	 * @var  [type]
 	 */
 	public $trigger_id = 'payment_retry';
 
 	/**
 	 * Setup body content for output
+	 *
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -50,6 +54,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup default notification body for basic notifications
+	 *
 	 * @since    3.10.0
 	 * @version  3.10.0
 	 */
@@ -59,6 +64,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup default notification body for email notifications
+	 *
 	 * @since    3.10.0
 	 * @version  3.10.0
 	 */
@@ -71,20 +77,20 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 			$mailer->get_css( 'font-family', false ),
 			$mailer->get_css( 'font-size', false )
 		);
-		$tr_style = 'color:inherit;font-family:inherit;font-size:inherit;';
-		$td_style = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
+		$tr_style    = 'color:inherit;font-family:inherit;font-size:inherit;';
+		$td_style    = sprintf( 'border-bottom:1px solid %s;color:inherit;font-family:inherit;font-size:inherit;padding:10px;', $mailer->get_css( 'divider-color', false ) );
 
 		$rows = array(
-			'NEXT_PAYMENT_DATE' => __( 'Payment Due Date', 'lifterlms' ),
+			'NEXT_PAYMENT_DATE'  => __( 'Payment Due Date', 'lifterlms' ),
 			'PRODUCT_TITLE_LINK' => '{{PRODUCT_TYPE}}',
-			'PLAN_TITLE' => __( 'Plan', 'lifterlms' ),
-			'PAYMENT_AMOUNT' => __( 'Amount', 'lifterlms' ),
+			'PLAN_TITLE'         => __( 'Plan', 'lifterlms' ),
+			'PAYMENT_AMOUNT'     => __( 'Amount', 'lifterlms' ),
 		);
 
 		ob_start();
 		?><p><?php printf( __( 'Hello %s,', 'lifterlms' ), '{{CUSTOMER_NAME}}' ); ?></p>
 		<p><?php printf( __( 'The automatic payment for your subscription to %1$s has failed. We\'ll automatically retry this charge on %2$s.', 'lifterlms' ), '{{PRODUCT_TITLE}}', '{{NEXT_PAYMENT_DATE}}' ); ?></p>
-		<p><?php printf( __( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">','</a>' ); ?></p>
+		<p><?php printf( __( 'To reactivate your subscription you can login to your account and %1$spay now%2$s.', 'lifterlms' ), '<a href="{{ORDER_URL}}">', '</a>' ); ?></p>
 		<h4><?php printf( __( 'Order #%s', 'lifterlms' ), '{{ORDER_ID}}' ); ?></h4>
 		<table style="<?php echo $table_style; ?>">
 		<?php foreach ( $rows as $code => $name ) : ?>
@@ -101,6 +107,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -112,6 +119,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup notification icon for output
+	 *
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -122,29 +130,31 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup merge codes that can be used with the notification
+	 *
 	 * @return   array
 	 * @since    3.10.0
 	 * @version  3.10.0
 	 */
 	protected function set_merge_codes() {
 		return array(
-			'{{CUSTOMER_ADDRESS}}' => __( 'Customer Address', 'lifterlms' ),
-			'{{CUSTOMER_NAME}}' => __( 'Customer Name', 'lifterlms' ),
-			'{{CUSTOMER_PHONE}}' => __( 'Customer Phone', 'lifterlms' ),
-			'{{NEXT_PAYMENT_DATE}}' => __( 'Next Payment Date', 'lifterlms' ),
-			'{{ORDER_ID}}' => __( 'Order ID', 'lifterlms' ),
-			'{{ORDER_URL}}' => __( 'Order URL', 'lifterlms' ),
-			'{{PAYMENT_AMOUNT}}' => __( 'Payment Amount', 'lifterlms' ),
-			'{{PLAN_TITLE}}' => __( 'Plan Title', 'lifterlms' ),
-			'{{PRODUCT_TITLE}}' => __( 'Product Title', 'lifterlms' ),
-			'{{PRODUCT_TYPE}}' => __( 'Product Type', 'lifterlms' ),
+			'{{CUSTOMER_ADDRESS}}'   => __( 'Customer Address', 'lifterlms' ),
+			'{{CUSTOMER_NAME}}'      => __( 'Customer Name', 'lifterlms' ),
+			'{{CUSTOMER_PHONE}}'     => __( 'Customer Phone', 'lifterlms' ),
+			'{{NEXT_PAYMENT_DATE}}'  => __( 'Next Payment Date', 'lifterlms' ),
+			'{{ORDER_ID}}'           => __( 'Order ID', 'lifterlms' ),
+			'{{ORDER_URL}}'          => __( 'Order URL', 'lifterlms' ),
+			'{{PAYMENT_AMOUNT}}'     => __( 'Payment Amount', 'lifterlms' ),
+			'{{PLAN_TITLE}}'         => __( 'Plan Title', 'lifterlms' ),
+			'{{PRODUCT_TITLE}}'      => __( 'Product Title', 'lifterlms' ),
+			'{{PRODUCT_TYPE}}'       => __( 'Product Type', 'lifterlms' ),
 			'{{PRODUCT_TITLE_LINK}}' => __( 'Product Title (Link)', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -171,47 +181,47 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 					$code .= ', ';
 					$code .= llms_get_country_name( $order->get( 'billing_country' ) );
 				}
-			break;
+				break;
 
 			case '{{CUSTOMER_NAME}}':
 				$code = $order->get_customer_name();
-			break;
+				break;
 
 			case '{{CUSTOMER_PHONE}}':
 				$code = $order->get( 'billing_phone' );
-			break;
+				break;
 
 			case '{{NEXT_PAYMENT_DATE}}':
 				$code = $order->get_date( 'date_next_payment', get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-			break;
+				break;
 
 			case '{{ORDER_ID}}':
 				$code = $order->get( 'id' );
-			break;
+				break;
 
 			case '{{ORDER_URL}}':
 				$code = esc_url( $order->get_view_link() );
-			break;
+				break;
 
 			case '{{PAYMENT_AMOUNT}}':
 				$code = $order->get_price( 'total' );
-			break;
+				break;
 
 			case '{{PLAN_TITLE}}':
 				$code = $order->get( 'plan_title' );
-			break;
+				break;
 
 			case '{{PRODUCT_TITLE}}':
 				$code = $order->get( 'product_title' );
-			break;
+				break;
 
 			case '{{PRODUCT_TITLE_LINK}}':
 				$permalink = esc_url( get_permalink( $order->get( 'product_id' ) ) );
 				if ( $permalink ) {
 					$title = $this->set_merge_data( '{{PRODUCT_TITLE}}' );
-					$code = '<a href="' . $permalink . '">' . $title . '</a>';
+					$code  = '<a href="' . $permalink . '">' . $title . '</a>';
 				}
-			break;
+				break;
 
 			case '{{PRODUCT_TYPE}}':
 				$obj = $order->get_product();
@@ -220,7 +230,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 				} else {
 					$code = $obj->get_post_type_label( 'singular_name' );
 				}
-			break;
+				break;
 
 		}// End switch().
 
@@ -230,6 +240,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup notification subject for output
+	 *
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -240,6 +251,7 @@ class LLMS_Notification_View_Payment_Retry extends LLMS_Abstract_Notification_Vi
 
 	/**
 	 * Setup notification title for output
+	 *
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0

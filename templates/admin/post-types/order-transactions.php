@@ -1,12 +1,16 @@
 <?php
 /**
  * Transactions Table Metabox for Orders
+ *
  * @since    3.5.0
  * @version  3.26.1
  */
 
 defined( 'ABSPATH' ) || exit;
-if ( ! is_admin() ) { exit; }
+
+if ( ! is_admin() ) {
+	exit;
+}
 
 // create a "step" attribute for price fields according to LLMS settings
 $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decimal_separator(), get_lifterlms_thousand_separator() );
@@ -51,8 +55,10 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 					<td class="expandable closed"><?php echo $gateway ? $gateway->get_admin_title() : $txn->get( 'payment_gateway' ); ?></td>
 					<td class="expandable closed">
 						<?php echo $txn->get( 'gateway_source_description' ); ?>
-						<?php $source_id = $txn->get( 'gateway_source_id' );
-						if ( $source_id ) : ?>
+						<?php
+						$source_id = $txn->get( 'gateway_source_id' );
+						if ( $source_id ) :
+							?>
 							<?php $source = $gateway ? $gateway->get_source_url( $source_id ) : false; ?>
 							<?php if ( false === filter_var( $source, FILTER_VALIDATE_URL ) ) : ?>
 								(<?php echo $source; ?>)
@@ -62,8 +68,10 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 						<?php endif; ?>
 					</td>
 					<td class="expandable closed">
-						<?php $txn_id = $txn->get( 'gateway_transaction_id' );
-						if ( $txn_id ) : ?>
+						<?php
+						$txn_id = $txn->get( 'gateway_transaction_id' );
+						if ( $txn_id ) :
+							?>
 							<?php $txn_url = $gateway ? $gateway->get_transaction_url( $txn_id, $txn->get( 'api_mode' ) ) : false; ?>
 							<?php if ( false === filter_var( $txn_url, FILTER_VALIDATE_URL ) ) : ?>
 								<?php echo $txn_id; ?>
@@ -112,12 +120,12 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 		<div class="llms-metabox-section">
 
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Refund Amount:', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Refund Amount:', 'lifterlms' ); ?></label>
 				<input disabled="disabled" name="llms_refund_amount" min="0" step="<?php echo $price_step; ?>" type="number">
 			</div>
 
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Refund Note (optional):', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Refund Note (optional):', 'lifterlms' ); ?></label>
 				<input disabled="disabled" name="llms_refund_note" type="text">
 			</div>
 
@@ -144,22 +152,22 @@ $price_step = number_format( 0.01, get_lifterlms_decimals(), get_lifterlms_decim
 		<div class="llms-metabox-section">
 
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Payment Amount:', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Payment Amount:', 'lifterlms' ); ?></label>
 				<input disabled="disabled" name="llms_txn_amount" min="0" step="<?php echo $price_step; ?>" type="number">
 			</div>
 
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Payment Source (optional):', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Payment Source (optional):', 'lifterlms' ); ?></label>
 				<input disabled="disabled" name="llms_txn_source" type="text">
 			</div>
 
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Payment Transaction ID (optional):', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Payment Transaction ID (optional):', 'lifterlms' ); ?></label>
 				<input disabled="disabled" name="llms_txn_id" type="text">
 			</div>
 
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Payment Note (optional):', 'lifterlms' ) ?></label>
+				<label><?php _e( 'Payment Note (optional):', 'lifterlms' ); ?></label>
 				<input disabled="disabled" name="llms_txn_note" type="text">
 			</div>
 

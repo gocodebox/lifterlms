@@ -35,22 +35,22 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Order post. Appends custom columns to post grid/
 	 *
-	 * @param   array  $columns  array of columns
+	 * @param   array $columns  array of columns
 	 * @return  array
 	 * @since   3.0.0
 	 * @version 3.24.0
 	 */
 	public function add_columns( $columns ) {
 
-	    $columns = array(
-			'cb' => '<input type="checkbox" />',
-			'order' => __( 'Order', 'lifterlms' ),
+		$columns = array(
+			'cb'             => '<input type="checkbox" />',
+			'order'          => __( 'Order', 'lifterlms' ),
 			'payment_status' => __( 'Payment Status', 'lifterlms' ),
-			'access_status' => __( 'Access Status', 'lifterlms' ),
-			'product' => __( 'Product', 'lifterlms' ),
-			'revenue' => __( 'Revenue', 'lifterlms' ),
-			'type' => __( 'Order Type', 'lifterlms' ),
-			'order_date' => __( 'Date', 'lifterlms' ),
+			'access_status'  => __( 'Access Status', 'lifterlms' ),
+			'product'        => __( 'Product', 'lifterlms' ),
+			'revenue'        => __( 'Revenue', 'lifterlms' ),
+			'type'           => __( 'Order Type', 'lifterlms' ),
+			'order_date'     => __( 'Date', 'lifterlms' ),
 		);
 
 		return $columns;
@@ -60,7 +60,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 * Order post: Queries data based on column name.
 	 *
 	 * @param    string $column  custom column name
-	 * @param    int $post_id    ID of the individual post
+	 * @param    int    $post_id    ID of the individual post
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.0
@@ -72,8 +72,7 @@ class LLMS_Admin_Post_Table_Orders {
 
 		switch ( $column ) {
 
-			case 'order' :
-
+			case 'order':
 				echo '<a href="' . admin_url( 'post.php?post=' . $post_id . '&action=edit' ) . '">';
 					printf( _x( '#%d', 'order number display', 'lifterlms' ), $post_id );
 				echo '</a> ';
@@ -88,19 +87,17 @@ class LLMS_Admin_Post_Table_Orders {
 					echo '<a href="mailto:' . $order->get( 'billing_email' ) . '">' . $order->get( 'billing_email' ) . '</a>';
 				}
 
-			break;
+				break;
 
-			case 'payment_status' :
-
+			case 'payment_status':
 				$status = $order->get( 'status' );
 				echo '<span class="llms-status llms-size--large ' . $status . ' ">' . llms_get_order_status_name( $status ) . '</span>';
 
-			break;
+				break;
 
 			case 'access_status':
-
 				$date = $order->get_access_expiration_date( 'F j, Y' );
-				$ts = strtotime( $date );
+				$ts   = strtotime( $date );
 
 				// timestamp will be false if date is not a date
 				if ( $ts ) {
@@ -113,26 +110,23 @@ class LLMS_Admin_Post_Table_Orders {
 
 					echo ' ' . $date;
 
-				} // End if().
-				else {
+				} else {
 
 					echo $date;
 
 				}
 
-			break;
+				break;
 
-			case 'product' :
-
+			case 'product':
 				echo '<a href="' . admin_url( 'post.php?post=' . $order->get( 'product_id' ) . '&action=edit' ) . '">' . $order->get( 'product_title' ) . '</a>';
 				echo ' (' . ucfirst( $order->get( 'product_type' ) ) . ')';
 
-			break;
+				break;
 
-			case 'revenue' :
-
+			case 'revenue':
 				$grosse = $order->get_revenue( 'grosse' );
-				$net = $order->get_revenue( 'net' );
+				$net    = $order->get_revenue( 'net' );
 
 				if ( $grosse !== $net ) {
 					echo '<del>' . llms_price( $grosse ) . '</del> ';
@@ -140,23 +134,21 @@ class LLMS_Admin_Post_Table_Orders {
 
 				echo llms_price( $net );
 
-			break;
+				break;
 
 			case 'type':
-
 				if ( $order->is_recurring() ) {
 					_e( 'Recurring', 'lifterlms' );
 				} else {
 					_e( 'One-time', 'lifterlms' );
 				}
 
-			break;
+				break;
 
-			case 'order_date' :
-
+			case 'order_date':
 				echo $order->get_date( 'date' );
 
-			break;
+				break;
 
 		}// End switch().
 	}
@@ -170,8 +162,8 @@ class LLMS_Admin_Post_Table_Orders {
 	 */
 	public function sortable_columns( $columns ) {
 
-		$columns['order'] = 'order';
-		$columns['product'] = 'product';
+		$columns['order']      = 'order';
+		$columns['product']    = 'product';
 		$columns['order_date'] = 'order_date';
 
 		return $columns;
@@ -205,17 +197,15 @@ class LLMS_Admin_Post_Table_Orders {
 						'orderby' => 'ID',
 					)
 				);
-			} // End if().
-			elseif ( isset( $vars['orderby'] ) && 'product' == $vars['orderby'] ) {
+			} elseif ( isset( $vars['orderby'] ) && 'product' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars,
 					array(
 						'meta_key' => '_llms_product_title',
-						'orderby' => 'meta_value',
+						'orderby'  => 'meta_value',
 					)
 				);
-			} // date field
-			elseif ( isset( $vars['orderby'] ) && 'order_date' == $vars['orderby'] ) {
+			} elseif ( isset( $vars['orderby'] ) && 'order_date' == $vars['orderby'] ) {
 				$vars = array_merge(
 					$vars,
 					array(
@@ -231,11 +221,11 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Modify the actions for the orders.
 	 *
-	 * @param    array     $actions   existing actions
-	 * @param    obj       $post      WP_Post Object
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param    array $actions   existing actions
+	 * @param    obj   $post      WP_Post Object
+	 * @return   string[]
 	 */
 	public function modify_actions( $actions, $post ) {
 
@@ -253,10 +243,12 @@ class LLMS_Admin_Post_Table_Orders {
 	/**
 	 * Modify the search query for various post types before retrieving posts.
 	 *
-	 * @param    obj  $query  WP_Query
+	 * @since 2.5.0
+	 * @since 3.24.3 Unknown
+	 * @since 3.35.0 Sanitize $_GET data.
+	 *
+	 * @param    obj $query  WP_Query
 	 * @return   obj
-	 * @since    2.5.0
-	 * @version  3.24.3
 	 */
 	public function modify_admin_search( $query ) {
 
@@ -268,29 +260,33 @@ class LLMS_Admin_Post_Table_Orders {
 			$term = $query->query_vars['s'];
 
 			// Search wp_users
-			$user_query = new WP_User_Query( array(
-				'search' => '*' . esc_attr( $term ) . '*',
-				'search_columns' => array( 'user_login', 'user_url', 'user_email', 'user_nicename', 'display_name' ),
-				'fields' => 'ID',
-			) );
+			$user_query = new WP_User_Query(
+				array(
+					'search'         => '*' . esc_attr( $term ) . '*',
+					'search_columns' => array( 'user_login', 'user_url', 'user_email', 'user_nicename', 'display_name' ),
+					'fields'         => 'ID',
+				)
+			);
 
 			// Search wp_usermeta for First and Last names
-			$user_query2 = new WP_User_Query( array(
-				'fields' => 'ID',
-				'meta_query' => array(
-					'relation' => 'OR',
-					array(
-						'key' => 'first_name',
-						'value' => $term,
-						'compare' => 'LIKE',
+			$user_query2 = new WP_User_Query(
+				array(
+					'fields'     => 'ID',
+					'meta_query' => array(
+						'relation' => 'OR',
+						array(
+							'key'     => 'first_name',
+							'value'   => $term,
+							'compare' => 'LIKE',
+						),
+						array(
+							'key'     => 'last_name',
+							'value'   => $term,
+							'compare' => 'LIKE',
+						),
 					),
-					array(
-						'key' => 'last_name',
-						'value' => $term,
-						'compare' => 'LIKE',
-					),
-				),
-			) );
+				)
+			);
 
 			$results = wp_parse_id_list( array_merge( (array) $user_query->get_results(), (array) $user_query2->get_results() ) );
 
@@ -298,10 +294,10 @@ class LLMS_Admin_Post_Table_Orders {
 			$meta_query = array(
 				'relation' => 'OR',
 				array(
-					'key' => '_llms_user_id',
-					'value' => $results,
+					'key'     => '_llms_user_id',
+					'value'   => $results,
 					'compare' => 'IN',
-				)
+				),
 			);
 
 			// we have to kill this value so that the query actually works
@@ -312,11 +308,14 @@ class LLMS_Admin_Post_Table_Orders {
 
 			// add a filter back in so we don't have 'Search results for ""' on the top of the screen
 			// @note we're not super proud of this incredible piece of duct tape
-			add_filter( 'get_search_query', function( $q ) {
-				if ( '' === $q ) {
-					return $_GET['s'];
+			add_filter(
+				'get_search_query',
+				function( $q ) {
+					if ( '' === $q ) {
+						return llms_filter_input( INPUT_GET, 's', FILTER_SANITIZE_STRING );
+					}
 				}
-			} );
+			);
 
 		} // End if().
 

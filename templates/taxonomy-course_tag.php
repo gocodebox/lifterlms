@@ -1,12 +1,13 @@
 <?php
 /**
- * The Template for displaying all single courses.
+ * Template: Archive for the Course Tags taxonomy.
  *
- * @author 		codeBOX
- * @package 	lifterLMS/Templates
+ * @package LifterLMS/Templates
  *
+ * @since Unknown
+ * @version 3.35.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 llms_get_template( 'archive-course.php' );

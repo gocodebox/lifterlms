@@ -20,6 +20,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'quiz_attempts';
@@ -27,36 +28,42 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	/**
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set
+	 *
 	 * @var  string
 	 */
 	protected $filter = 'any';
 
 	/**
 	 * Field results are filtered by
+	 *
 	 * @var  string
 	 */
 	protected $filterby = 'grade';
 
 	/**
 	 * Is the Table Exportable?
+	 *
 	 * @var  boolean
 	 */
 	protected $is_exportable = false;
 
 	/**
 	 * Determine if the table is filterable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
+	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = true;
 
 	/**
 	 * Determine of the table is searchable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_searchable = false;
@@ -65,26 +72,30 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	 * Results sort order
 	 * 'ASC' or 'DESC'
 	 * Only applicable of $orderby is not set
+	 *
 	 * @var  string
 	 */
 	protected $order = 'DESC';
 
 	/**
 	 * Field results are sorted by
+	 *
 	 * @var  string
 	 */
 	protected $orderby = 'id';
 
 	/**
 	 * WP Post ID of the displayed quiz
+	 *
 	 * @var  null
 	 */
 	protected $quiz_id = null;
 
 	/**
 	 * Retrieve data for a cell
-	 * @param    string     $key      the column id / key
-	 * @param    obj        $attempt  LLMS_Quiz_Attempt obj
+	 *
+	 * @param    string $key      the column id / key
+	 * @param    obj    $attempt  LLMS_Quiz_Attempt obj
 	 * @return   mixed
 	 * @since    3.16.0
 	 * @version  3.26.3
@@ -94,47 +105,47 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 		switch ( $key ) {
 
 			case 'student':
-				$value = '&ndash;';
+				$value   = '&ndash;';
 				$student = $attempt->get_student();
 				if ( $student ) {
 					$value = $student->get_name();
 				}
-			break;
+				break;
 
 			case 'attempt':
 				$value = '#' . $attempt->get( $key );
-			break;
+				break;
 
 			case 'grade':
-				$value = $attempt->get( $key ) ? $attempt->get( $key ) . '%' : '0%';
+				$value  = $attempt->get( $key ) ? $attempt->get( $key ) . '%' : '0%';
 				$value .= ' (' . $attempt->l10n( 'status' ) . ')';
-			break;
+				break;
 
 			case 'start_date':
 			case 'end_date':
-
 				$value = '&ndash;';
-				$date = $attempt->get( $key );
+				$date  = $attempt->get( $key );
 				if ( $date ) {
 					$value = date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), strtotime( $date ) );
 				}
 
-			break;
+				break;
 
 			case 'id':
-
 				$value = sprintf( '%2$d (%1$s)', $attempt->get_key(), $attempt->get( 'id' ) );
 
-				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-					'tab' => 'quizzes',
-					'stab' => 'attempts',
-					'quiz_id' => $attempt->get( 'quiz_id' ),
-					'attempt_id' => $attempt->get( 'id' ),
-				) );
+				$url = LLMS_Admin_Reporting::get_current_tab_url(
+					array(
+						'tab'        => 'quizzes',
+						'stab'       => 'attempts',
+						'quiz_id'    => $attempt->get( 'quiz_id' ),
+						'attempt_id' => $attempt->get( 'id' ),
+					)
+				);
 
 				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
 
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -146,18 +157,21 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve a list of Instructors to be used for Filtering
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
 	private function get_instructor_filters() {
 
-		$query = get_users( array(
-			'fields' => array( 'ID', 'display_name' ),
-			'meta_key' => 'last_name',
-			'orderby' => 'meta_value',
-			'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
-		) );
+		$query = get_users(
+			array(
+				'fields'   => array( 'ID', 'display_name' ),
+				'meta_key' => 'last_name',
+				'orderby'  => 'meta_value',
+				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
+			)
+		);
 
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
@@ -167,7 +181,8 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.25.0
@@ -186,19 +201,19 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 		$per = apply_filters( 'llms_reporting_' . $this->id . '_per_page', 25 );
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : $this->order;
+		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->order;
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->orderby;
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
 		$query_args = array(
-			'sort' => array(
+			'sort'       => array(
 				$this->orderby => $this->order,
 			),
-			'page' => $this->current_page,
-			'per_page' => $per,
-			'quiz_id' => $args['quiz_id'],
+			'page'       => $this->current_page,
+			'per_page'   => $per,
+			'quiz_id'    => $args['quiz_id'],
 			'student_id' => isset( $args['student_id'] ) ? $args['student_id'] : null,
 		);
 
@@ -216,7 +231,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 		}
 
-		$this->max_pages = $query->max_pages;
+		$this->max_pages    = $query->max_pages;
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_attempts();
@@ -240,6 +255,7 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.19.2
@@ -247,36 +263,36 @@ class LLMS_Table_Quiz_Attempts extends LLMS_Admin_Table {
 	protected function set_columns() {
 
 		$cols = array(
-			'id' => array(
+			'id'         => array(
 				'exportable' => true,
-				'title' => __( 'ID', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'ID', 'lifterlms' ),
+				'sortable'   => true,
 			),
-			'attempt' => array(
+			'attempt'    => array(
 				'exportable' => true,
-				'title' => __( 'Attempt #', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'Attempt #', 'lifterlms' ),
+				'sortable'   => true,
 			),
-			'student' => array(
+			'student'    => array(
 				'exportable' => true,
-				'title' => __( 'Student', 'lifterlms' ),
-				'sortable' => false,
+				'title'      => __( 'Student', 'lifterlms' ),
+				'sortable'   => false,
 			),
-			'grade' => array(
+			'grade'      => array(
 				'filterable' => llms_get_quiz_attempt_statuses(),
 				'exportable' => true,
-				'title' => __( 'Grade', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'Grade', 'lifterlms' ),
+				'sortable'   => true,
 			),
 			'start_date' => array(
 				'exportable' => true,
-				'title' => __( 'Start Date', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'Start Date', 'lifterlms' ),
+				'sortable'   => true,
 			),
-			'end_date' => array(
+			'end_date'   => array(
 				'exportable' => true,
-				'title' => __( 'End Date', 'lifterlms' ),
-				'sortable' => true,
+				'title'      => __( 'End Date', 'lifterlms' ),
+				'sortable'   => true,
 			),
 		);
 

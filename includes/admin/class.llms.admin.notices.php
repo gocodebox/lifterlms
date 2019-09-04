@@ -1,22 +1,31 @@
 <?php
 /**
  * LifterLMS Admin Notices
+ *
  * @since    3.0.0
- * @version  3.7.4
+ * @version  3.35.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Notices
+ *
+ * @since  3.0.0
+ * @since 3.35.0 Unslash input data.
+ */
 class LLMS_Admin_Notices {
 
 	/**
 	 * Array of messages to display
+	 *
 	 * @var  array
 	 */
 	private static $notices = array();
 
 	/**
 	 * Static constructor
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -34,6 +43,7 @@ class LLMS_Admin_Notices {
 	/**
 	 * Add output notice actions depending on the current screen
 	 * Adds later for LLMS Settings screens to accommodate for settings that are updated later in the load cycle
+	 *
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -51,12 +61,13 @@ class LLMS_Admin_Notices {
 	/**
 	 * Add a notice
 	 * Saves options to the database to be output later
-	 * @param    string     $notice_id        unique id of the notice
-	 * @param    string     $html_or_options  html content of the notice for short notices that don't need a template
-	 *                                          or array of options, html of the notice will be in a template
-	 *                                        	passed as the "template" param of this array
-	 * @param    array      $options          array of options, when passing html directly via $html_or_options
-	 *                                          notice options should be passed in this array
+	 *
+	 * @param    string $notice_id        unique id of the notice
+	 * @param    string $html_or_options  html content of the notice for short notices that don't need a template
+	 *                                      or array of options, html of the notice will be in a template
+	 *                                      passed as the "template" param of this array
+	 * @param    array  $options          array of options, when passing html directly via $html_or_options
+	 *                                      notice options should be passed in this array
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.3.0 - added "flash" option
@@ -77,19 +88,22 @@ class LLMS_Admin_Notices {
 			$options['html'] = $html_or_options;
 		}
 
-		$options = wp_parse_args( $options, array(
-			'dismissible' => true,
-			'dismiss_for_days' => 7,
-			'flash' => false, // if true, will delete the notice after displaying it
-			'html' => '',
-			'remind_in_days' => 7,
-			'remindable' => false,
-			'type' => 'info', // info, warning, success, error
-			'template' => false, // template name, eg "admin/notices/notice.php"
-			'template_path' => '', // allow override of default LLMS()->template_path()
-			'default_path' => '', // allow override of default path LLMS()->plugin_path() . '/templates/'
+		$options = wp_parse_args(
+			$options,
+			array(
+				'dismissible'      => true,
+				'dismiss_for_days' => 7,
+				'flash'            => false, // if true, will delete the notice after displaying it
+				'html'             => '',
+				'remind_in_days'   => 7,
+				'remindable'       => false,
+				'type'             => 'info', // info, warning, success, error
+				'template'         => false, // template name, eg "admin/notices/notice.php"
+				'template_path'    => '', // allow override of default LLMS()->template_path()
+				'default_path'     => '', // allow override of default path LLMS()->plugin_path() . '/templates/'
 								  // an addon may add a notice and pass it's own path in here
-		) );
+			)
+		);
 
 		self::$notices = array_unique( array_merge( self::get_notices(), array( $notice_id ) ) );
 		update_option( 'llms_admin_notice_' . $notice_id, $options );
@@ -98,18 +112,19 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Delete a notice by id
-	 * @param    string     $notice_id  unique id of the notice
+	 *
+	 * @param    string $notice_id  unique id of the notice
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.4.3
 	 */
 	public static function delete_notice( $notice_id, $trigger = 'delete' ) {
 		self::$notices = array_diff( self::get_notices(), array( $notice_id ) );
-		$notice = self::get_notice( $notice_id );
+		$notice        = self::get_notice( $notice_id );
 		delete_option( 'llms_admin_notice_' . $notice_id );
 		if ( $notice ) {
 			if ( 'remind' === $trigger && $notice['remindable'] ) {
-				$delay = isset( $notice['remind_in_days'] )  ? $notice['remind_in_days'] : 0;
+				$delay = isset( $notice['remind_in_days'] ) ? $notice['remind_in_days'] : 0;
 			} elseif ( 'hide' === $trigger && $notice['dismissible'] ) {
 				$delay = isset( $notice['dismiss_for_days'] ) ? $notice['dismiss_for_days'] : 7;
 			} else {
@@ -124,8 +139,9 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Flash a notice on screen, isn't saved and is automatically deleted after being displayed
-	 * @param    string     $message  Message text / html to display onscreen
-	 * @param    string     $type     notice type [info|warning|success|error]
+	 *
+	 * @param    string $message  Message text / html to display onscreen
+	 * @param    string $type     notice type [info|warning|success|error]
 	 * @return   void
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -133,7 +149,7 @@ class LLMS_Admin_Notices {
 	public static function flash_notice( $message, $type = 'info' ) {
 
 		$id = 'llms-flash-notice-';
-		$i = 0;
+		$i  = 0;
 
 		// increment the notice id so we can flash multiple notices on screen in one load if necessary
 		while ( self::has_notice( $id . $i ) ) {
@@ -142,17 +158,22 @@ class LLMS_Admin_Notices {
 
 		$id = $id . $i;
 
-		self::add_notice( $id, $message, array(
-			'dismissible' => false,
-			'flash' => true,
-			'type' => $type,
-		) );
+		self::add_notice(
+			$id,
+			$message,
+			array(
+				'dismissible' => false,
+				'flash'       => true,
+				'type'        => $type,
+			)
+		);
 
 	}
 
 	/**
 	 * Get notice details array from the DB
-	 * @param    string  $notice_id  notice id
+	 *
+	 * @param    string $notice_id  notice id
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -163,6 +184,7 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Get notices
+	 *
 	 * @return array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -173,7 +195,8 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Determine if a notice is already set
-	 * @param    string     $notice_id   id of the notice
+	 *
+	 * @param    string $notice_id   id of the notice
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -185,23 +208,25 @@ class LLMS_Admin_Notices {
 	/**
 	 * Called when "Dismiss X" or "Remind Me" is clicked on a notice
 	 * Validates request and deletes the notice
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @since 3.0.0
+	 * @since 3.35.0 Unslash input data.
+	 *
+	 * @return void
 	 */
 	public static function hide_notices() {
 		if ( ( isset( $_GET['llms-hide-notice'] ) || isset( $_GET['llms-remind-notice'] ) ) && isset( $_GET['_llms_notice_nonce'] ) ) {
-			if ( ! wp_verify_nonce( $_GET['_llms_notice_nonce'], 'llms_hide_notices_nonce' ) ) {
+			if ( ! llms_verify_nonce( '_llms_notice_nonce', 'llms_hide_notices_nonce', 'GET' ) ) {
 				wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 			}
 			if ( ! current_user_can( 'manage_options' ) ) {
 				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 			}
 			if ( isset( $_GET['llms-hide-notice'] ) ) {
-				$notice = sanitize_text_field( $_GET['llms-hide-notice'] );
+				$notice = sanitize_text_field( wp_unslash( $_GET['llms-hide-notice'] ) );
 				$action = 'hide';
 			} elseif ( isset( $_GET['llms-remind-notice'] ) ) {
-				$notice = sanitize_text_field( $_GET['llms-remind-notice'] );
+				$notice = sanitize_text_field( wp_unslash( $_GET['llms-remind-notice'] ) );
 				$action = 'remind';
 			}
 			self::delete_notice( $notice, $action );
@@ -210,7 +235,8 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Output a single notice by ID
-	 * @param    string     $notice_id  notice id
+	 *
+	 * @param    string $notice_id  notice id
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.7.4
@@ -263,6 +289,7 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Output all saved notices
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -275,6 +302,7 @@ class LLMS_Admin_Notices {
 
 	/**
 	 * Save notices in the database
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0

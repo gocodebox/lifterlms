@@ -1,17 +1,17 @@
 <?php
 /**
-* Course syllabus widget
-* Displays all lessons in the course
-*
-* @author codeBOX
-* @project lifterLMS
-*/
+ * Course syllabus widget
+ * Displays all lessons in the course
+ *
+ * @author codeBOX
+ * @project lifterLMS
+ */
 class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 
 	/**
 	 * Register widget with WordPress.
 	 */
-	function __construct() {
+	public function __construct() {
 
 		WP_Widget::__construct(
 			'course_syllabus',
@@ -35,8 +35,8 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 		// call widget defaults from parent
 		parent::form( $instance );
 
-		$collapse = ( ! empty( $instance['collapse'] ) ) ? $instance['collapse'] : 0;
-		$toggles = ( ! empty( $instance['toggles'] ) ) ? $instance['toggles'] : 0;
+		$collapse       = ( ! empty( $instance['collapse'] ) ) ? $instance['collapse'] : 0;
+		$toggles        = ( ! empty( $instance['toggles'] ) ) ? $instance['toggles'] : 0;
 		$toggle_display = ( ! $collapse ) ? ' style="display:none;"' : '';
 		?>
 		<p>
@@ -62,11 +62,11 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 	 * Overrides parent class
 	 *
 	 * @see  LLMS_Widget()
-	 * @return echo
+	 * @return void
 	 */
 	public function widget_contents( $args, $instance ) {
 		$collapse = ( isset( $instance['collapse'] ) ) ? $instance['collapse'] : 0;
-		$toggles = ( isset( $instance['toggles'] ) ) ? $instance['toggles'] : 0;
+		$toggles  = ( isset( $instance['toggles'] ) ) ? $instance['toggles'] : 0;
 		echo do_shortcode( '[lifterlms_course_outline collapse="' . $collapse . '" toggles="' . $toggles . '"]' );
 	}
 
@@ -85,7 +85,7 @@ class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 		$instance = parent::update( $new_instance, $old_instance );
 
 		$instance['collapse'] = ( ! empty( $new_instance['collapse'] ) ) ? 1 : 0;
-		$instance['toggles'] = ( ! empty( $new_instance['toggles'] ) ) ? 1 : 0;
+		$instance['toggles']  = ( ! empty( $new_instance['toggles'] ) ) ? 1 : 0;
 
 		return $instance;
 	}

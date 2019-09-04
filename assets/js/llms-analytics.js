@@ -1,30 +1,31 @@
-/**
+;/**
  * LifterLMS Admin Reporting Widgets & Charts
  *
  * @since 3.0.0
  * @since 3.17.2 Unknown.
  * @since 3.33.1 Fix issue that produced series options not aligned with the chart data.
- */
-;( function( $, undefined ) {
+ */( function( $, undefined ) {
 
 	window.llms = window.llms || {};
 
 	/**
 	 * LifterLMS Admin Analytics
+	 *
 	 * @since    3.0.0
 	 * @version  3.5.0
 	 */
 	var Analytics = function() {
 
 		this.charts_loaded = false;
-		this.data = {};
-		this.query = $.parseJSON( $( '#llms-analytics-json' ).text() );
-		this.timeout = 8000;
+		this.data          = {};
+		this.query         = $.parseJSON( $( '#llms-analytics-json' ).text() );
+		this.timeout       = 8000;
 
 		this.$widgets = $( '.llms-widget[data-method]' );
 
 		/**
 		 * Initializer
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -36,7 +37,7 @@
 					'corechart'
 				]
 			} );
-      		google.charts.setOnLoadCallback( this.charts_ready );
+			google.charts.setOnLoadCallback( this.charts_ready );
 
 			this.bind();
 			this.load_widgets();
@@ -45,6 +46,7 @@
 
 		/**
 		 * Bind DOM events
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -55,7 +57,6 @@
 				dateFormat: 'yy-mm-dd',
 				maxDate: 0,
 			} );
-
 
 			$( '#llms-students-ids-filter' ).llmsStudentsSelect2( {
 				multiple: true,
@@ -84,6 +85,7 @@
 
 		/**
 		 * Called  by Google Charts when the library is loaded and ready
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -97,6 +99,7 @@
 
 		/**
 		 * Render the chart
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.17.6
@@ -113,9 +116,9 @@
 				return;
 			}
 
-			var self = this,
-				chart = new google.visualization.ComboChart( el ),
-				data = self.get_chart_data(),
+			var self    = this,
+				chart   = new google.visualization.ComboChart( el ),
+				data    = self.get_chart_data(),
 				options = {
 					chartArea: {
 						height: '75%',
@@ -138,30 +141,29 @@
 							format: '',
 						},
 					},
-				};
+			};
 				// data = google.visualization.arrayToDataTable( [
-				// 	// ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
-				// 	// ['2004/05',  165,      938,         522,             998,           450,      614.6],
-				// 	// ['2005/06',  135,      1120,        599,             1268,          288,      682],
-				// 	// ['2006/07',  157,      1167,        587,             807,           397,      623],
-				// 	// ['2007/08',  139,      1110,        615,             968,           215,      609.4],
-				// 	// ['2008/09',  136,      691,         629,             1026,          366,      569.6]
+				// ['Month', 'Bolivia', 'Ecuador', 'Madagascar', 'Papua New Guinea', 'Rwanda', 'Average'],
+				// ['2004/05',  165,      938,         522,             998,           450,      614.6],
+				// ['2005/06',  135,      1120,        599,             1268,          288,      682],
+				// ['2006/07',  157,      1167,        587,             807,           397,      623],
+				// ['2007/08',  139,      1110,        615,             968,           215,      609.4],
+				// ['2008/09',  136,      691,         629,             1026,          366,      569.6]
 				// ] )
 
 			if ( data.length ) {
 
 				data = google.visualization.arrayToDataTable( data );
-				data.sort([{column: 0}]);
+				data.sort( [{column: 0}] );
 				chart.draw( data, options );
 
 			}
-
-
 
 		};
 
 		/**
 		 * Check if a widget is still loading
+		 *
 		 * @return   bool
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -175,6 +177,7 @@
 
 		/**
 		 * Start loading all widgets on the current screen
+		 *
 		 * @return   void
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -193,6 +196,7 @@
 
 		/**
 		 * Load a specific widget
+		 *
 		 * @param    obj   $widget  jQuery selector of the widget element
 		 * @return   void
 		 * @since    3.0.0
@@ -200,10 +204,10 @@
 		 */
 		this.load_widget = function( $widget ) {
 
-			var self = this,
-				method = $widget.attr( 'data-method' ),
-				$content = $widget.find( 'h1' ),
-				$retry = $widget.find( '.llms-reload-widget' ),
+			var self         = this,
+				method       = $widget.attr( 'data-method' ),
+				$content     = $widget.find( 'h1' ),
+				$retry       = $widget.find( '.llms-reload-widget' ),
 				content_text = LLMS.l10n.translate( 'Error' ),
 				status;
 
@@ -225,7 +229,7 @@
 
 					status = 'success';
 
-					if( 'undefined' !== typeof r.response ) {
+					if ( 'undefined' !== typeof r.response ) {
 
 						content_text = r.response;
 
@@ -239,7 +243,6 @@
 
 					}
 
-
 				},
 				error: function( r ) {
 
@@ -250,7 +253,7 @@
 
 					if ( 'error' === status ) {
 
-						if( 'timeout' === r.statusText ) {
+						if ( 'timeout' === r.statusText ) {
 
 							content_text = LLMS.l10n.translate( 'Request timed out' );
 
@@ -289,13 +292,14 @@
 
 		/**
 		 * Get the time in seconds between the queried dates
+		 *
 		 * @return   int
 		 * @since    3.0.0
 		 * @version  3.0.0
 		 */
 		this.get_date_diff = function() {
 
-			var end = new Date( this.query.dates.end ),
+			var end   = new Date( this.query.dates.end ),
 				start = new Date( this.query.dates.start );
 
 			return Math.abs( end.getTime() - start.getTime() );
@@ -304,16 +308,17 @@
 
 		/**
 		 * Builds an object of data that can be used to, ultimately, draw the screen's chart
+		 *
 		 * @return   obj
 		 * @since    3.0.0
 		 * @version  3.1.6
 		 */
 		this.get_chart_data_object = function() {
 
-			var self = this,
+			var self         = this,
 				max_for_days = ( ( 1000 * 3600 * 24 ) * 30 ) * 4, // 4 months in seconds
-				diff = this.get_date_diff(),
-				data = {},
+				diff         = this.get_date_diff(),
+				data         = {},
 				res, i, d, date;
 
 			for ( var method in self.data ) {
@@ -372,6 +377,7 @@
 
 		/**
 		 * Get the data google charts needs to initiate the current chart
+		 *
 		 * @return   obj
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -379,7 +385,7 @@
 		this.get_chart_data = function() {
 
 			var self = this,
-				obj = self.get_chart_data_object(),
+				obj  = self.get_chart_data_object(),
 				data = self.get_chart_headers();
 
 			for ( var date in obj ) {
@@ -413,6 +419,7 @@
 
 		/**
 		 * Get a stub of the data object used by this.get_data_object
+		 *
 		 * @param    string   date  date to instantiate the object with
 		 * @return   obj
 		 * @since    3.0.0
@@ -421,9 +428,9 @@
 		this.get_empty_data_object = function( date ) {
 
 			var self = this,
-				obj = {
+				obj  = {
 					_date: date,
-				};
+			};
 
 			for ( var method in self.data ) {
 				if ( ! self.data.hasOwnProperty( method ) ) {
@@ -442,6 +449,7 @@
 
 		/**
 		 * Builds an array of chart header data
+		 *
 		 * @return   array
 		 * @since    3.0.0
 		 * @version  3.0.0
@@ -449,7 +457,7 @@
 		this.get_chart_headers = function() {
 
 			var self = this,
-				h = [];
+				h    = [];
 
 			// date headers go first
 			h.push( {
@@ -457,7 +465,6 @@
 				id: 'date',
 				type: 'date',
 			} );
-
 
 			for ( var method in self.data ) {
 				if ( ! self.data.hasOwnProperty( method ) ) {
@@ -484,9 +491,9 @@
 		 */
 		this.get_chart_series_options = function() {
 
-			var self = this,
+			var self    = this,
 				options = {}
-				i = 0;
+				i       = 0;
 
 			for ( var method in self.data ) {
 				if ( ! self.data.hasOwnProperty( method ) ) {
@@ -514,6 +521,7 @@
 
 		/**
 		 * Instantiate a Date instance via a date string
+		 *
 		 * @param    string   string  date string, expected format should be from php date( 'Y-m-d H:i:s' )
 		 * @return   obj
 		 * @since    3.1.4
@@ -535,6 +543,7 @@
 		/**
 		 * Called when a widget is finished loading
 		 * Updates the current chart with the new data from the widget
+		 *
 		 * @param    obj   $widget  jQuery selector of the widget element
 		 * @return   void
 		 * @since    3.0.0

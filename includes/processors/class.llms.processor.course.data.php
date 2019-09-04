@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Handle background processing of average progress & average grade for LifterLMS Courses
@@ -7,9 +8,10 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
  * of all students in a course
  *
  * Progress is queued for recalculation when
- * 		students enroll
- * 		students unenroll
- * 		students complete lessons
+ *      students enroll
+ *      students unenroll
+ *      students complete lessons
+ *
  * @since    3.15.0
  * @version  3.15.0
  */
@@ -17,12 +19,14 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 	/**
 	 * Unique identifier for the processor
+	 *
 	 * @var  string
 	 */
 	protected $id = 'course_data';
 
 	/**
 	 * WP Cron Hook for scheduling the bg process
+	 *
 	 * @var  string
 	 */
 	private $schedule_hook = 'llms_calculate_course_data';
@@ -31,6 +35,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Maximum number of students allowed in a course
 	 * when enrollment is higher than this number
 	 * throttling the calculations will be delayed
+	 *
 	 * @var  int
 	 */
 	private $throttle_max_students;
@@ -40,12 +45,14 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * this will determine the frequency with which the query can run
 	 * Should be time in seconds
 	 * default is HOUR_IN_SECONDS * 4
+	 *
 	 * @var  int
 	 */
 	private $throttle_frequency;
 
 	/**
 	 * Called when queue is emptied and process is complete
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -59,7 +66,8 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 	/**
 	 * Action triggered to queue queries needed to make the calculation
-	 * @param    int     $course_id  WP Post ID of the course
+	 *
+	 * @param    int $course_id  WP Post ID of the course
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -72,9 +80,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		$this->cancel_process();
 
 		$args = array(
-			'post_id' => $course_id,
+			'post_id'  => $course_id,
 			'statuses' => array( 'enrolled' ),
-			'page' => 1,
+			'page'     => 1,
 			'per_page' => 100,
 		);
 
@@ -115,6 +123,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 	/**
 	 * Initializer
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -126,42 +135,43 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 		// for LifterLMS actions which trigger recalculation
 		$this->actions = array(
-			'llms_course_calculate_data' => array(
+			'llms_course_calculate_data'    => array(
 				'arguments' => 1,
-				'callback' => 'schedule_calculation',
-				'priority' => 10,
+				'callback'  => 'schedule_calculation',
+				'priority'  => 10,
 			),
-			'llms_user_enrolled_in_course' => array(
+			'llms_user_enrolled_in_course'  => array(
 				'arguments' => 2,
-				'callback' => 'schedule_from_course',
-				'priority' => 10,
+				'callback'  => 'schedule_from_course',
+				'priority'  => 10,
 			),
 			'llms_user_removed_from_course' => array(
 				'arguments' => 2,
-				'callback' => 'schedule_from_course',
-				'priority' => 10,
+				'callback'  => 'schedule_from_course',
+				'priority'  => 10,
 			),
-			'lifterlms_lesson_completed' => array(
+			'lifterlms_lesson_completed'    => array(
 				'arguments' => 2,
-				'callback' => 'schedule_from_lesson',
-				'priority' => 10,
+				'callback'  => 'schedule_from_lesson',
+				'priority'  => 10,
 			),
-			'lifterlms_quiz_completed' => array(
+			'lifterlms_quiz_completed'      => array(
 				'arguments' => 3,
-				'callback' => 'schedule_from_quiz',
-				'priority' => 10,
+				'callback'  => 'schedule_from_quiz',
+				'priority'  => 10,
 			),
 		);
 
 		// setup throttle vars
 		$this->throttle_max_students = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_count', 2500, $this );
-		$this->throttle_frequency = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_frequency', HOUR_IN_SECONDS * 4, $this );
+		$this->throttle_frequency    = apply_filters( 'llms_data_processor_' . $this->id . '_throttle_frequency', HOUR_IN_SECONDS * 4, $this );
 
 	}
 
 	/**
 	 * For large courses, only recalculate once every 4 hours
-	 * @param    int    $num_students  number of students in the current course
+	 *
+	 * @param    int $num_students  number of students in the current course
 	 * @return   boolean               true = throttle the current dispatch
 	 *                                 false = run the current dispatch
 	 * @since    3.15.0
@@ -185,8 +195,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 	/**
 	 * Schedule recalculation from actions triggered against a course
-	 * @param    int     $user_id    WP user id of the student
-	 * @param    int     $course_id  WP Post ID of the course
+	 *
+	 * @param    int $user_id    WP user id of the student
+	 * @param    int $course_id  WP Post ID of the course
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -197,8 +208,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 	/**
 	 * Schedule recalculation from actions triggered against a lesson
-	 * @param    int     $user_id    WP user id of the student
-	 * @param    int     $lesson_id  WP Post ID of the lesson
+	 *
+	 * @param    int $user_id    WP user id of the student
+	 * @param    int $lesson_id  WP Post ID of the lesson
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -210,9 +222,10 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 	/**
 	 * Schedule recalculation from actions triggered against a quiz
-	 * @param    int     $user_id  WP user id of the student
-	 * @param    int     $quiz_id  WP Post ID of the quiz
-	 * @param    obj     $attempt  LLMS_Quiz_Attempt object
+	 *
+	 * @param    int $user_id  WP user id of the student
+	 * @param    int $quiz_id  WP Post ID of the quiz
+	 * @param    obj $attempt  LLMS_Quiz_Attempt object
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -224,8 +237,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	/**
 	 * Schedule a calculation to execute
 	 * This will schedule an event that will setup the queue of items for the background process
-	 * @param    int     $course_id  WP Post ID of the course
-	 * @param    int     $time       optionally pass a timestamp for when the event should be run
+	 *
+	 * @param    int $course_id  WP Post ID of the course
+	 * @param    int $time       optionally pass a timestamp for when the event should be run
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -252,8 +266,9 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Execute calculation for each item in the queue until all students
 	 * in the course have been polled
 	 * Stores the data in the postmeta table to be accessible via LLMS_Course
-	 * @param    array     $args  query arguments passed to LLMS_Student_Query
-	 * @return   boolean      	  true to keep the item in the queue and process again
+	 *
+	 * @param    array $args  query arguments passed to LLMS_Student_Query
+	 * @return   boolean          true to keep the item in the queue and process again
 	 *                            false to remove the item from the queue
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -271,12 +286,15 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		$data = ( 1 !== $args['page'] ) ? $course->get( 'temp_calc_data' ) : array();
 
 		// merge with the defaults
-		$data = wp_parse_args( $data, array(
-			'students' => 0,
-			'progress' => 0,
-			'quizzes' => 0,
-			'grade' => 0,
-		) );
+		$data = wp_parse_args(
+			$data,
+			array(
+				'students' => 0,
+				'progress' => 0,
+				'quizzes'  => 0,
+				'grade'    => 0,
+			)
+		);
 
 		$query = new LLMS_Student_Query( $args );
 
@@ -303,7 +321,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 		if ( $query->max_pages === $query->get( 'page' ) ) {
 
 			// calculate
-			$grade = $data['quizzes'] ? round( $data['grade'] / $data['quizzes'], 2 ) : 0;
+			$grade    = $data['quizzes'] ? round( $data['grade'] / $data['quizzes'], 2 ) : 0;
 			$progress = $data['students'] ? round( $data['progress'] / $data['students'], 2 ) : 0;
 
 			// save the data to the course
@@ -315,8 +333,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 			$this->log( sprintf( 'course data calculation completed for course %d', $course_id ) );
 
-		} // End if().
-		else {
+		} else {
 
 			$course->set( 'temp_calc_data', $data );
 

@@ -1,47 +1,55 @@
-/* global LLMS, $, wp_ajax_data */
-/* jshint strict: false */
-
 /**
  * Main Ajax class
  * Handles Primary Ajax connection
- * @type {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
+ * @since Unknown
+ * @version Unknown
  */
+
 LLMS.Ajax = {
 
 	/**
-	 * url
+	 * Url
+	 *
 	 * @type {String}
 	 */
 	url: window.ajaxurl || window.llms.ajaxurl,
 
 	/**
-	 * type
+	 * Type
+	 *
 	 * @type {[type]}
 	 */
 	type: 'post',
 
 	/**
-	 * data
+	 * Data
+	 *
 	 * @type {[type]}
 	 */
 	data: [],
 
 	/**
-	 * cache
+	 * Cache
+	 *
 	 * @type {[type]}
 	 */
 	cache: false,
 
 	/**
-	 * dataType
+	 * DataType
 	 * defaulted to json
+	 *
 	 * @type {String}
 	 */
 	dataType: 'json',
 
 	/**
-	 * async
+	 * Async
 	 * default to false
+	 *
 	 * @type {Boolean}
 	 */
 	async: true,
@@ -49,32 +57,32 @@ LLMS.Ajax = {
 	response:[],
 
 	/**
-	 * initialize Ajax methods
+	 * Initialize Ajax methods
 	 * loads class methods
 	 */
 	init: function(obj) {
 
-		//if obj is not of type object or null return false;
-		if( obj === null || typeof obj !== 'object' ) {
+		// if obj is not of type object or null return false;
+		if ( obj === null || typeof obj !== 'object' ) {
 			return false;
 		}
 
-		//set object defaults if values are not supplied
-		obj.url			= 'url'         in obj ? obj.url        : this.url;
-		obj.type 		= 'type' 		in obj ? obj.type 		: this.type;
-		obj.data 		= 'data' 		in obj ? obj.data 		: this.data;
-		obj.cache 		= 'cache' 		in obj ? obj.cache 		: this.cache;
-		obj.dataType 	= 'dataType'	in obj ? obj.dataType 	: this.dataType;
-		obj.async 		= 'async'		in obj ? obj.async 		: this.async;
+		// set object defaults if values are not supplied
+		obj.url      = 'url'         in obj ? obj.url : this.url;
+		obj.type     = 'type' 		in obj ? obj.type : this.type;
+		obj.data     = 'data' 		in obj ? obj.data : this.data;
+		obj.cache    = 'cache' 		in obj ? obj.cache : this.cache;
+		obj.dataType = 'dataType'	in obj ? obj.dataType : this.dataType;
+		obj.async    = 'async'		in obj ? obj.async : this.async;
 
-		//add nonce to data object
+		// add nonce to data object
 		obj.data._ajax_nonce = wp_ajax_data.nonce;
 
-		//add post id to data object
-		var $R = LLMS.Rest,
-		query_vars = $R.get_query_vars();
+		// add post id to data object
+		var $R           = LLMS.Rest,
+		query_vars       = $R.get_query_vars();
 		obj.data.post_id = 'post' in query_vars ? query_vars.post : null;
-		if ( !obj.data.post_id && $( 'input#post_ID' ).length ) {
+		if ( ! obj.data.post_id && $( 'input#post_ID' ).length ) {
 			obj.data.post_id = $( 'input#post_ID' ).val();
 		}
 
@@ -85,19 +93,20 @@ LLMS.Ajax = {
 	 * Call
 	 * Called by external classes
 	 * Sets up jQuery Ajax object
+	 *
 	 * @param  {[object]} [object of ajax settings]
 	 * @return {[mixed]} [false if not object or this]
 	 */
 	call: function(obj) {
 
-		//get default variables if not included in call
-		var settings = this.init(obj);
+		// get default variables if not included in call
+		var settings = this.init( obj );
 
-		//if init return a response of false
-		if (!settings) {
+		// if init return a response of false
+		if ( ! settings) {
 			return false;
 		} else {
-			this.request(settings);
+			this.request( settings );
 		}
 
 		return this;
@@ -106,11 +115,12 @@ LLMS.Ajax = {
 
 	/**
 	 * Calls jQuery Ajax on settings object
+	 *
 	 * @return {[object]} [this]
 	 */
 	request: function(settings) {
 
-		$.ajax(settings);
+		$.ajax( settings );
 
 		return this;
 

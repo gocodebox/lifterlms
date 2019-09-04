@@ -1,12 +1,12 @@
 <?php
 /**
  * Achievements Loop
+ *
  * @since    3.14.0
  * @version  3.14.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <?php do_action( 'llms_before_achievement_loop' ); ?>

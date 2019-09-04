@@ -1,6 +1,7 @@
 <?php
 /**
  * Single Access Plan Description
+ *
  * @property  obj  $plan  Instance of the LLMS_Access_Plan
  * @author    LifterLMS
  * @package   LifterLMS/Templates

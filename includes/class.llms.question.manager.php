@@ -26,7 +26,8 @@ class LLMS_Question_Manager {
 
 	/**
 	 * Constructor
-	 * @param    obj     $parent  instance of the parent LLMS_Quiz or LLMS_Question
+	 *
+	 * @param    obj $parent  instance of the parent LLMS_Quiz or LLMS_Question
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
@@ -38,6 +39,7 @@ class LLMS_Question_Manager {
 
 	/**
 	 * Quick access to the parent attribute
+	 *
 	 * @return   [type]
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -48,6 +50,7 @@ class LLMS_Question_Manager {
 
 	/**
 	 * Quick access to parents type property
+	 *
 	 * @return   string    [llms_quiz|llms_question]
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -58,6 +61,7 @@ class LLMS_Question_Manager {
 
 	/**
 	 * Retrieve the related LLMS_Quiz
+	 *
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -74,7 +78,8 @@ class LLMS_Question_Manager {
 
 	/**
 	 * Create a new question and add it to the quiz
-	 * @param    array      $data  array of question data
+	 *
+	 * @param    array $data  array of question data
 	 * @return   false|question id
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -96,7 +101,8 @@ class LLMS_Question_Manager {
 	/**
 	 * Delete a question associated with this quiz
 	 * skips trash and force deletes the question
-	 * @param    int     $id  WP Post ID of a question (must be associated with this quiz)
+	 *
+	 * @param    int $id  WP Post ID of a question (must be associated with this quiz)
 	 * @return   boolean      true = deleted, false = error
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -120,7 +126,8 @@ class LLMS_Question_Manager {
 
 	/**
 	 * Retrieve a question associated with this quiz by question ID
-	 * @param    int     $id  WP Post ID of the question
+	 *
+	 * @param    int $id  WP Post ID of the question
 	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.27.0
@@ -153,26 +160,29 @@ class LLMS_Question_Manager {
 
 	/**
 	 * Get questions
-	 * @param    string  $return  type of return [ids|posts|questions]
+	 *
+	 * @param    string $return  type of return [ids|posts|questions]
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.24.0
 	 */
 	public function get_questions( $return = 'questions' ) {
 
-		$query = new WP_Query( array(
-			'meta_query' => array(
-				array(
-					'key' => '_llms_parent_id',
-					'value' => $this->get_parent()->get( 'id' ),
+		$query = new WP_Query(
+			array(
+				'meta_query'     => array(
+					array(
+						'key'   => '_llms_parent_id',
+						'value' => $this->get_parent()->get( 'id' ),
+					),
 				),
-			),
-			'order' => 'ASC',
-			'orderby' => 'menu_order',
-			'post_status' => 'publish',
-			'post_type' => 'llms_question',
-			'posts_per_page' => 500,
-		) );
+				'order'          => 'ASC',
+				'orderby'        => 'menu_order',
+				'post_status'    => 'publish',
+				'post_type'      => 'llms_question',
+				'posts_per_page' => 500,
+			)
+		);
 
 		if ( 'ids' === $return ) {
 			$ret = wp_list_pluck( $query->posts, 'ID' );
@@ -193,7 +203,8 @@ class LLMS_Question_Manager {
 	 * Create or update questions
 	 * If 'id' passed in $data array will update existing question
 	 * Omit 'id' to create a new question
-	 * @param    array      $data  array of question data
+	 *
+	 * @param    array $data  array of question data
 	 * @return   false|question id
 	 * @since    3.16.0
 	 * @version  3.17.2
@@ -216,11 +227,15 @@ class LLMS_Question_Manager {
 
 			// merge image data into the array
 			if ( 'image' === $key ) {
-				$val = array_merge( array(
-					'enabled' => 'no',
-					'id' => '',
-					'src' => '',
-				), $question->get( $key ), $val );
+				$val = array_merge(
+					array(
+						'enabled' => 'no',
+						'id'      => '',
+						'src'     => '',
+					),
+					$question->get( $key ),
+					$val
+				);
 			}
 
 			$question->set( $key, $val );

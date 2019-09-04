@@ -1,6 +1,7 @@
 <?php
 /**
  * Display students enrolled in a given membership on the membership students subtab.
+ *
  * @since   3.32.0
  * @version 3.32.0
  */
@@ -8,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Display students enrolled in a given membership on the membership students subtab class.
+ *
  * @since   3.32.0
  */
 class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
@@ -122,7 +124,7 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 			case 'enrolled':
 				$value = $student->get_enrollment_date( $this->membership_id, 'updated' );
-			break;
+				break;
 
 			case 'id':
 				$id = $student->get_id();
@@ -131,10 +133,9 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 				} else {
 					$value = $id;
 				}
-			break;
+				break;
 
 			case 'name':
-
 				$first = $student->get( 'first_name' );
 				$last  = $student->get( 'last_name' );
 
@@ -144,20 +145,23 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 					$value = $last . ', ' . $first;
 				}
 
-				$url = add_query_arg( array(
-					'page'          => 'llms-reporting',
-					'tab'           => 'students',
-					'student_id'    => $student->get_id(),
-					'stab'          => 'memberships',
-					'membership_id' => $this->membership_id,
-				), admin_url( 'admin.php' ) );
+				$url   = add_query_arg(
+					array(
+						'page'          => 'llms-reporting',
+						'tab'           => 'students',
+						'student_id'    => $student->get_id(),
+						'stab'          => 'memberships',
+						'membership_id' => $this->membership_id,
+					),
+					admin_url( 'admin.php' )
+				);
 				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
 
-			break;
+				break;
 
 			case 'status':
 				$value = llms_get_enrollment_status_name( $student->get_enrollment_status( $this->membership_id ) );
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -184,19 +188,19 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 			case 'id':
 				$value = $student->get_id();
-			break;
+				break;
 
 			case 'email':
 				$value = $student->get( 'user_email' );
-			break;
+				break;
 
 			case 'name_first':
 				$value = $student->get( 'first_name' );
-			break;
+				break;
 
 			case 'name_last':
 				$value = $student->get( 'last_name' );
-			break;
+				break;
 
 			default:
 				$value = $this->get_data( $key, $student );
@@ -271,10 +275,10 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 			$this->current_page = absint( $args['page'] );
 		}
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : $this->get_order();
+		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->get_order();
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
 
 		$sort = array();
@@ -282,43 +286,43 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 			case 'enrolled':
 				$sort = array(
-					'date' => $this->get_order(),
-					'last_name' => 'ASC',
+					'date'       => $this->get_order(),
+					'last_name'  => 'ASC',
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 			case 'id':
 				$sort = array(
 					'id' => $this->get_order(),
 				);
-			break;
+				break;
 
 			case 'name':
 				$sort = array(
-					'last_name' => $this->get_order(),
+					'last_name'  => $this->get_order(),
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 			case 'status':
 				$sort = array(
-					'status' => $this->get_order(),
-					'last_name' => 'ASC',
+					'status'     => $this->get_order(),
+					'last_name'  => 'ASC',
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 		}
 
 		$query_args = array(
-			'page' => $this->get_current_page(),
-			'post_id' => $args['membership_id'],
+			'page'     => $this->get_current_page(),
+			'post_id'  => $args['membership_id'],
 			'per_page' => apply_filters( 'llms_' . $this->id . '_table_students_per_page', 25 ),
-			'sort' => $sort,
+			'sort'     => $sort,
 		);
 
 		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
@@ -329,14 +333,14 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 
 		if ( isset( $args['search'] ) ) {
 
-			$this->search = $args['search'];
+			$this->search         = $args['search'];
 			$query_args['search'] = $this->get_search();
 
 		}
 
 		$query = new LLMS_Student_Query( $query_args );
 
-		$this->max_pages = $query->max_pages;
+		$this->max_pages    = $query->max_pages;
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
@@ -373,13 +377,13 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 	public function set_columns() {
 		$cols = array(
 			'id'         => array(
-				'exportable'  => true,
-				'sortable'    => true,
-				'title'       => __( 'ID', 'lifterlms' ),
+				'exportable' => true,
+				'sortable'   => true,
+				'title'      => __( 'ID', 'lifterlms' ),
 			),
 			'name'       => array(
-				'sortable'    => true,
-				'title'       => __( 'Name', 'lifterlms' ),
+				'sortable' => true,
+				'title'    => __( 'Name', 'lifterlms' ),
 			),
 			'name_last'  => array(
 				'exportable'  => true,
@@ -397,15 +401,15 @@ class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 				'title'       => __( 'Email', 'lifterlms' ),
 			),
 			'status'     => array(
-				'exportable'  => true,
-				'filterable'  => llms_get_enrollment_statuses(),
-				'sortable'    => true,
-				'title'       => __( 'Status', 'lifterlms' ),
+				'exportable' => true,
+				'filterable' => llms_get_enrollment_statuses(),
+				'sortable'   => true,
+				'title'      => __( 'Status', 'lifterlms' ),
 			),
 			'enrolled'   => array(
-				'exportable'  => true,
-				'sortable'    => true,
-				'title'       => __( 'Enrollment Updated', 'lifterlms' ),
+				'exportable' => true,
+				'sortable'   => true,
+				'title'      => __( 'Enrollment Updated', 'lifterlms' ),
 			),
 		);
 

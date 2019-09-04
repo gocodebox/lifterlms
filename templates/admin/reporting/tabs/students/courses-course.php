@@ -1,17 +1,29 @@
 <?php
 /**
  * Single Student View: Courses Tab: Single Course View
+ *
+ * @package LifterLMS/Templates/Admin
+ *
+ * @since Unknown
+ * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
+ * @version 3.35.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
 
-$course_id = absint( $_GET['course_id'] );
-$course = new LLMS_Course( $course_id );
-$table = new LLMS_Table_Student_Course();
-$table->get_results( array(
-	'course_id' => $course_id,
-	'student' => $student,
-) );
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
+
+$course_id = llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT );
+$course    = new LLMS_Course( $course_id );
+$table     = new LLMS_Table_Student_Course();
+$table->get_results(
+	array(
+		'course_id' => $course_id,
+		'student'   => $student,
+	)
+);
 ?>
 
 <h2 class="llms-stab-title">

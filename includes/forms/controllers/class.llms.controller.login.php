@@ -1,17 +1,27 @@
 <?php
+/**
+ * User Login Form Controller
+ *
+ * @since 3.19.4
+ * @version 3.35.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * User Login Form Controller
- * @since   3.19.4
- * @version 3.19.4
+ * LLMS_Controller_Login
+ *
+ * @since 3.19.4
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Login {
 
 	/**
 	 * Constructor
-	 * @since    3.19.4
-	 * @version  3.19.4
+	 *
+	 * @since 3.19.4
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -21,9 +31,11 @@ class LLMS_Controller_Login {
 
 	/**
 	 * Handle Login Form Submission
+	 *
+	 * @since 3.19.4
+	 * @since 3.35.0 Sanitize `$_POST` data.
+	 *
 	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.19.4
 	 */
 	public function login() {
 
@@ -41,7 +53,7 @@ class LLMS_Controller_Login {
 			return;
 		}
 
-		$redirect = isset( $_POST['redirect'] ) ? $_POST['redirect'] : get_permalink( llms_get_page_id( 'myaccount' ) );
+		$redirect = isset( $_POST['redirect'] ) ? llms_filter_input( INPUT_POST, 'redirect', FILTER_SANITIZE_URL ) : get_permalink( llms_get_page_id( 'myaccount' ) );
 
 		llms_redirect_and_exit( apply_filters( 'lifterlms_login_redirect', $redirect, $login ) );
 

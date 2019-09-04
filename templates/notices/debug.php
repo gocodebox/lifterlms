@@ -2,13 +2,17 @@
 /**
  * Show debug notices
  *
- * @author 		LifterLMS
- * @package 	Lifterlms/Templates
+ * @package     Lifterlms/Templates
+ *
  * @since       1.0.0
- * @version       1.0.0
+ * @version     1.0.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! $messages ) { return; }
+
+defined( 'ABSPATH' ) || exit;
+
+if ( ! $messages ) {
+	return;
+}
 ?>
 <?php do_action( 'lifterlms_before_debug_notices' ); ?>
 <?php foreach ( $messages as $message ) : ?>

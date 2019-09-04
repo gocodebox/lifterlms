@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Notification Controller: Manual Gateway Payment Due
+ *
  * @since    3.10.0
  * @version  3.10.0
  */
@@ -12,18 +13,21 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 
 	/**
 	 * Trigger Identifier
+	 *
 	 * @var  [type]
 	 */
 	public $id = 'manual_payment_due';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
+	 *
 	 * @var  integer
 	 */
 	protected $action_accepted_args = 2;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
+	 *
 	 * @var  array
 	 */
 	protected $action_hooks = array(
@@ -32,7 +36,8 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 
 	/**
 	 * Callback function called when a payment retry is scheduled
-	 * @param    int     $order   Instance of an LLMS_Order
+	 *
+	 * @param    int $order   Instance of an LLMS_Order
 	 * @return   void
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -48,7 +53,8 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
-	 * @param    string     $subscriber  subscriber type string
+	 *
+	 * @param    string $subscriber  subscriber type string
 	 * @return   int|false
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -67,11 +73,11 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 					return false;
 				}
 				$uid = $product->get( 'author' );
-			break;
+				break;
 
 			case 'student':
 				$uid = $this->user_id;
-			break;
+				break;
 
 			default:
 				$uid = false;
@@ -86,6 +92,7 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 	 * Determine what types are supported
 	 * Extending classes can override this function in order to add or remove support
 	 * 3rd parties should add support via filter on $this->get_supported_types()
+	 *
 	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -100,6 +107,7 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 	/**
 	 * Get the translatable title for the notification
 	 * used on settings screens
+	 *
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -110,7 +118,8 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 
 	/**
 	 * Setup the subscriber options for the notification
-	 * @param    string     $type  notification type id
+	 *
+	 * @param    string $type  notification type id
 	 * @return   array
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -123,13 +132,13 @@ class LLMS_Notification_Controller_Manual_Payment_Due extends LLMS_Abstract_Noti
 
 			case 'basic':
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
-			break;
+				break;
 
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'author', 'no' );
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
-			break;
+				break;
 
 		}
 

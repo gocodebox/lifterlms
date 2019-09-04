@@ -1,18 +1,24 @@
-/* global LLMS, $ */
-
 /**
  * Handle the Collapsible Syllabus Widget / Shortcode
+ *
+ * @package LifterLMS/Scripts
+ *
+ * @since Unknown
+ * @version Unknown
  */
+
 LLMS.OutlineCollapse = {
 
 	/**
-	 * jQuery object of all outlines present on the current screen
+	 * A jQuery object of all outlines present on the current screen
+	 *
 	 * @type obj
 	 */
 	$outlines: null,
 
 	/**
 	 * Initialize
+	 *
 	 * @return void
 	 */
 	init: function() {
@@ -29,6 +35,7 @@ LLMS.OutlineCollapse = {
 
 	/**
 	 * Bind DOM events
+	 *
 	 * @return void
 	 */
 	bind: function() {
@@ -45,11 +52,11 @@ LLMS.OutlineCollapse = {
 
 				e.preventDefault();
 
-				var $toggle = $( this ),
+				var $toggle  = $( this ),
 					$section = $toggle.closest( '.llms-section' ),
-					state = self.get_section_state( $section );
+					state    = self.get_section_state( $section );
 
-				switch( state ) {
+				switch ( state ) {
 
 					case 'closed':
 						self.open_section( $section );
@@ -68,20 +75,20 @@ LLMS.OutlineCollapse = {
 
 				e.preventDefault();
 
-				var $btn = $( this ),
-					action = $btn.attr( 'data-action' ),
+				var $btn            = $( this ),
+					action          = $btn.attr( 'data-action' ),
 					opposite_action = ( 'close' === action ) ? 'opened' : 'closed';
 
 				$headers.each( function() {
 
 					var $section = $( this ).closest( '.llms-section' ),
-						state = self.get_section_state( $section );
+						state    = self.get_section_state( $section );
 
 					if ( opposite_action !== state ) {
 						return true;
 					}
 
-					switch( state ) {
+					switch ( state ) {
 
 						case 'closed':
 							self.close_section( $section );
@@ -105,6 +112,7 @@ LLMS.OutlineCollapse = {
 
 	/**
 	 * Close an outline section
+	 *
 	 * @param  obj    $section   jQuery selector of a '.llms-section'
 	 * @return void
 	 */
@@ -116,6 +124,7 @@ LLMS.OutlineCollapse = {
 
 	/**
 	 * Open an outline section
+	 *
 	 * @param  obj    $section   jQuery selector of a '.llms-section'
 	 * @return void
 	 */
@@ -127,6 +136,7 @@ LLMS.OutlineCollapse = {
 
 	/**
 	 * Get the current state (open or closed) of an outline section
+	 *
 	 * @param  obj    $section   jQuery selector of a '.llms-section'
 	 * @return string            'opened' or 'closed'
 	 */

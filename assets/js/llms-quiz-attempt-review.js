@@ -1,10 +1,9 @@
-/**
+;/**
  * Quiz attempt review / grading UI & UX
  *
  * @since 3.16.0
  * @version 3.30.3
- */
-;( function( $ ) {
+ */( function( $ ) {
 
 	/**
 	 * Handle UX for graving quiz attempts.
@@ -16,6 +15,7 @@
 
 		/**
 		 * Bind DOM events
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.9
@@ -50,18 +50,18 @@
 				return;
 			}
 
-			var title = LLMS.l10n.translate( 'Remarks to Student' ),
+			var title  = LLMS.l10n.translate( 'Remarks to Student' ),
 				points = LLMS.l10n.translate( 'points' );
 
 			$els.each( function() {
 
-				var id = $( this ).attr( 'data-question-id' ),
+				var id        = $( this ).attr( 'data-question-id' ),
 					$existing = $( this ).find( '.llms-quiz-attempt-answer-section.llms-remarks' ),
-					$ui = $( '<div class="llms-quiz-attempt-answer-section llms-remarks" />' ),
+					$ui       = $( '<div class="llms-quiz-attempt-answer-section llms-remarks" />' ),
 					$textarea = $( '<textarea class="llms-remarks-field" name="remarks[' + id + ']"></textarea>' )
 					gradeable = ( 'yes' === $( this ).attr( 'data-grading-manual' ) );
 
-				$ui.append( '<p class="llms-quiz-results-label remarks">' + title + ':</p>')
+				$ui.append( '<p class="llms-quiz-results-label remarks">' + title + ':</p>' )
 				$ui.append( $textarea );
 				if ( gradeable ) {
 					var pts = $( this ).attr( 'data-points-curr' ),
@@ -80,7 +80,6 @@
 
 				}
 
-
 			} );
 
 			var $els_first = $els.first();
@@ -98,8 +97,7 @@
 
 	};
 
-	window.llms = window.llms || {};
+	window.llms         = window.llms || {};
 	window.llms.grading = new Grading();
-
 
 } )( jQuery );

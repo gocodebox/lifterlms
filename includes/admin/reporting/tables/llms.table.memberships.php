@@ -115,30 +115,32 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 
 			case 'id':
 				$value = $this->get_post_link( $membership->get( 'id' ) );
-			break;
+				break;
 
 			case 'instructors':
 				$data = array();
 				foreach ( $membership->get_instructors() as $info ) {
 					$instructor = llms_get_instructor( $info['id'] );
 					if ( $instructor ) {
-						$data[] = sprintf( '%1$s (%2$s)', $instructor->get( 'display_name' ),  $info['label'] );
+						$data[] = sprintf( '%1$s (%2$s)', $instructor->get( 'display_name' ), $info['label'] );
 					}
 				}
 				$value = implode( ', ', $data );
-			break;
+				break;
 
 			case 'students':
 				$value = number_format_i18n( $membership->get_student_count(), 0 );
-			break;
+				break;
 
 			case 'title':
-				$url = LLMS_Admin_Reporting::get_current_tab_url( array(
-					'tab' => 'memberships',
-					'membership_id' => $membership->get( 'id' ),
-				) );
+				$url   = LLMS_Admin_Reporting::get_current_tab_url(
+					array(
+						'tab'           => 'memberships',
+						'membership_id' => $membership->get( 'id' ),
+					)
+				);
 				$value = '<a href="' . esc_url( $url ) . '">' . $membership->get( 'title' ) . '</a>';
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -157,12 +159,14 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 	 */
 	private function get_instructor_filters() {
 
-		$query = get_users( array(
-			'fields'   => array( 'ID', 'display_name' ),
-			'meta_key' => 'last_name',
-			'orderby'  => 'meta_value',
-			'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
-		) );
+		$query = get_users(
+			array(
+				'fields'   => array( 'ID', 'display_name' ),
+				'meta_key' => 'last_name',
+				'orderby'  => 'meta_value',
+				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
+			)
+		);
 
 		$instructors = wp_list_pluck( $query, 'display_name', 'ID' );
 
@@ -207,16 +211,18 @@ class LLMS_Table_Memberships extends LLMS_Admin_Table {
 
 		if ( 'any' !== $this->filter ) {
 
-			$serialized_id = serialize( array(
-				'id' => absint( $this->filter ),
-			) );
+			$serialized_id = serialize(
+				array(
+					'id' => absint( $this->filter ),
+				)
+			);
 			$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
 
 			$query_args['meta_query'] = array(
 				array(
 					'compare' => 'LIKE',
-					'key' => '_llms_instructors',
-					'value' => $serialized_id,
+					'key'     => '_llms_instructors',
+					'value'   => $serialized_id,
 				),
 			);
 

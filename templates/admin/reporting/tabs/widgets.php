@@ -2,8 +2,11 @@
 /**
  * Reporting Sales Tab
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
+if ( ! is_admin() ) {
+	exit;
+}
 ?>
 
 <?php foreach ( $widget_data as $row => $widgets ) : ?>

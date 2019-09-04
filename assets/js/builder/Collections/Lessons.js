@@ -1,5 +1,6 @@
 /**
  * Lessons Collection
+ *
  * @since    3.13.0
  * @version  3.17.0
  */
@@ -9,12 +10,14 @@ define( [ 'Models/Lesson' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initializer
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.17.0
@@ -47,6 +50,7 @@ define( [ 'Models/Lesson' ], function( model ) {
 
 		/**
 		 * Update lesson order attribute of all lessons when lessons are reordered
+		 *
 		 * @return      void
 		 * @since       3.16.0
 		 * @version     3.17.0
@@ -59,9 +63,9 @@ define( [ 'Models/Lesson' ], function( model ) {
 
 		},
 
-
 		/**
 		 * Validate prerequisite (if set) and unset it if it's no longer a valid prereq
+		 *
 		 * @return   void
 		 * @since    3.17.0
 		 * @version  3.17.0

@@ -30,12 +30,14 @@ abstract class LLMS_Update {
 
 	/**
 	 * Version number of the update
+	 *
 	 * @var  string
 	 */
 	protected $version = '';
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.0.0
 	 * @version  3.3.1
 	 */
@@ -54,10 +56,10 @@ abstract class LLMS_Update {
 			// start the update
 			case 'pending':
 				$this->start();
-			break;
+				break;
 
 			case 'finished':
-			break;
+				break;
 
 			// check progress
 			case 'running':
@@ -66,7 +68,7 @@ abstract class LLMS_Update {
 					$this->output_progress_notice( $progress );
 				}
 				$this->check_progress( $progress );
-			break;
+				break;
 
 		}
 
@@ -74,6 +76,7 @@ abstract class LLMS_Update {
 
 	/**
 	 * Add action hooks for each function in the update
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -91,6 +94,7 @@ abstract class LLMS_Update {
 	/**
 	 * Checks progress of functions within the update
 	 * and triggers completion when finished
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -104,7 +108,7 @@ abstract class LLMS_Update {
 
 		} else {
 
-			$vals = array_count_values( $progress['functions'] );
+			$vals      = array_count_values( $progress['functions'] );
 			$remaining = isset( $vals['incomplete'] ) ? $vals['incomplete'] : 0;
 			$completed = isset( $vals['done'] ) ? $vals['done'] : 0;
 			$this->log( sprintf( 'Progress: %d completed, %d remaining', $completed, $remaining ) );
@@ -116,6 +120,7 @@ abstract class LLMS_Update {
 	/**
 	 * Called when the queue is emptied for the group
 	 * Outputs an admin notice
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -130,6 +135,7 @@ abstract class LLMS_Update {
 
 	/**
 	 * Adds all functions to the queue
+	 *
 	 * @return   void
 	 * @since    3.0.0.
 	 * @version  3.0.0.
@@ -148,14 +154,15 @@ abstract class LLMS_Update {
 	/**
 	 * Should be called by each update function when it's finished
 	 * updates the progress in the functions array
-	 * @param    string     $function  function name
+	 *
+	 * @param    string $function  function name
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.3.1
 	 */
 	protected function function_complete( $function ) {
 
-		$progress = $this->get_progress();
+		$progress                           = $this->get_progress();
 		$progress['functions'][ $function ] = 'done';
 		update_option( 'llms_update_' . $this->version, $progress );
 		$this->log( sprintf( '%s::%s() is complete', get_class( $this ), $function ) );
@@ -164,7 +171,8 @@ abstract class LLMS_Update {
 
 	/**
 	 * Get the name of the action hook for a given function
-	 * @param    string     $function  name of the function
+	 *
+	 * @param    string $function  name of the function
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -175,6 +183,7 @@ abstract class LLMS_Update {
 
 	/**
 	 * Get data about the progress of an update
+	 *
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.3.1
@@ -182,7 +191,7 @@ abstract class LLMS_Update {
 	private function get_progress() {
 
 		$default = array(
-			'status' => 'pending',
+			'status'    => 'pending',
 			'functions' => array_fill_keys( $this->functions, 'incomplete' ),
 		);
 
@@ -197,7 +206,7 @@ abstract class LLMS_Update {
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
 	 *
 	 * @param string $func Function name / callable.
-	 * @param array $args Array of arguments to pass to the function.
+	 * @param array  $args Array of arguments to pass to the function.
 	 * @return void
 	 */
 	protected function schedule_function( $func, $args = array() ) {
@@ -207,6 +216,7 @@ abstract class LLMS_Update {
 
 	/**
 	 * Logs the start of the queue
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -219,14 +229,15 @@ abstract class LLMS_Update {
 
 	/**
 	 * Update the progress data to a new status
-	 * @param    string     $status  new status
+	 *
+	 * @param    string $status  new status
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	private function update_status( $status ) {
 
-		$p = $this->get_progress();
+		$p           = $this->get_progress();
 		$p['status'] = $status;
 		update_option( 'llms_update_' . $this->version, $p );
 
@@ -234,7 +245,8 @@ abstract class LLMS_Update {
 
 	/**
 	 * Log data related to the queue
-	 * @param    string     $msg  message to log
+	 *
+	 * @param    string $msg  message to log
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -250,7 +262,8 @@ abstract class LLMS_Update {
 
 	/**
 	 * Output a LifterLMS Admin Notice displaying the progress of the background updates
-	 * @param    array     $progress  progress array from $this->get_progress()
+	 *
+	 * @param    array $progress  progress array from $this->get_progress()
 	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
@@ -263,22 +276,25 @@ abstract class LLMS_Update {
 			LLMS_Admin_Notices::delete_notice( $id );
 		}
 
-		$vals = array_count_values( $progress['functions'] );
-		$val = isset( $vals['done'] ) ? $vals['done'] : 0;
-		$max = count( $progress['functions'] );
+		$vals  = array_count_values( $progress['functions'] );
+		$val   = isset( $vals['done'] ) ? $vals['done'] : 0;
+		$max   = count( $progress['functions'] );
 		$width = $val ? ( $val / $max ) * 100 : 0;
-		$html = '
+		$html  = '
 			<p>' . sprintf( __( 'LifterLMS Database Upgrade %s Progress Report', 'lifterlms' ), $this->version ) . '</p>
 			<div style="background:#efefef;height:18px;margin:0.5em 0;"><div style="background:#ef476f;display:block;height:18px;width:' . $width . '%;"><span style="padding:0 0.5em;color:#fff;">' . $width . '%</span></div></div>
-			<p><em>' . sprintf( __( 'This completion percentage is an estimate, please be patient and %sclick here%s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-database-updates/#upgrade-progress-report" target="_blank">', '</a>' ) . '</em></p>
+			<p><em>' . sprintf( __( 'This completion percentage is an estimate, please be patient and %1$sclick here%2$s for more information.', 'lifterlms' ), '<a href="https://lifterlms.com/docs/lifterlms-database-updates/#upgrade-progress-report" target="_blank">', '</a>' ) . '</em></p>
 		';
 
-		LLMS_Admin_Notices::add_notice( $id, array(
-			'dismissible' => false,
-			'flash' => true,
-			'html' => $html,
-			'type' => 'info',
-		) );
+		LLMS_Admin_Notices::add_notice(
+			$id,
+			array(
+				'dismissible' => false,
+				'flash'       => true,
+				'html'        => $html,
+				'type'        => 'info',
+			)
+		);
 
 	}
 

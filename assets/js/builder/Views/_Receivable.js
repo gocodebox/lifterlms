@@ -1,6 +1,7 @@
 /**
  * _receive override for Backbone.CollectionView core
  * enables connection with jQuery UI draggable buttons
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -11,6 +12,7 @@ define( [], function() {
 		/**
 		 * Overloads the function from Backbone.CollectionView core because it doesn't properly handle
 		 * receives from a jQuery UI draggable object
+		 *
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
@@ -27,11 +29,13 @@ define( [], function() {
 				return;
 			}
 
-			var senderListEl = ui.sender;
+			var senderListEl             = ui.sender;
 			var senderCollectionListView = senderListEl.data( 'view' );
-			if( ! senderCollectionListView || ! senderCollectionListView.collection ) return;
+			if ( ! senderCollectionListView || ! senderCollectionListView.collection ) {
+				return;
+			}
 
-			var newIndex = this._getContainerEl().children().index( ui.item );
+			var newIndex      = this._getContainerEl().children().index( ui.item );
 			var modelReceived = senderCollectionListView.collection.get( ui.item.attr( 'data-model-cid' ) );
 			senderCollectionListView.collection.remove( modelReceived );
 			this.collection.add( modelReceived, { at : newIndex } );
@@ -42,4 +46,3 @@ define( [], function() {
 	}
 
 } );
-

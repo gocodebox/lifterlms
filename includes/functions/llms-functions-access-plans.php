@@ -61,7 +61,7 @@ function llms_insert_access_plan( $props = array() ) {
 	if ( ! empty( $props['id'] ) ) {
 
 		$action = 'update';
-		$plan = llms_get_post( $props['id'] );
+		$plan   = llms_get_post( $props['id'] );
 		if ( ! $plan || ! is_a( $plan, 'LLMS_Access_Plan' ) ) {
 			// Translators: %s = The invalid access plan ID.
 			return new WP_Error( 'invalid-plan', sprintf( __( 'Access Plan ID "%s" is not valid.', 'lifterlms' ), $props['id'] ) );
@@ -72,26 +72,32 @@ function llms_insert_access_plan( $props = array() ) {
 	}
 
 	// Merge in default properties.
-	$props = wp_parse_args( $props, apply_filters( 'llms_access_plan_default_properties', array(
-		'access_expiration' => 'lifetime',
-		'access_length' => 1,
-		'access_period' => 'year',
-		'availability' => 'open',
-		'checkout_redirect_type' => 'self',
-		'frequency' => 0,
-		'is_free' => 'yes',
-		'length' => 0,
-		'on_sale' => 'no',
-		'period' => 'year',
-		'price' => 0,
-		'sale_price' => 0,
-		'title' => __( 'Access Plan', 'lifterlms' ),
-		'trial_length' => 1,
-		'trial_offer' => 'no',
-		'trial_period' => 'year',
-		'trial_price' => 0,
-		'visibility' => 'visible',
-	) ) );
+	$props = wp_parse_args(
+		$props,
+		apply_filters(
+			'llms_access_plan_default_properties',
+			array(
+				'access_expiration'      => 'lifetime',
+				'access_length'          => 1,
+				'access_period'          => 'year',
+				'availability'           => 'open',
+				'checkout_redirect_type' => 'self',
+				'frequency'              => 0,
+				'is_free'                => 'yes',
+				'length'                 => 0,
+				'on_sale'                => 'no',
+				'period'                 => 'year',
+				'price'                  => 0,
+				'sale_price'             => 0,
+				'title'                  => __( 'Access Plan', 'lifterlms' ),
+				'trial_length'           => 1,
+				'trial_offer'            => 'no',
+				'trial_period'           => 'year',
+				'trial_price'            => 0,
+				'visibility'             => 'visible',
+			)
+		)
+	);
 
 	/**
 	 * Modify the properties passed into `llms_insert_access_plan()`.
@@ -122,10 +128,10 @@ function llms_insert_access_plan( $props = array() ) {
 		}
 	} else {
 
-		$props['is_free'] = 'yes';
-		$props['price'] = 0;
-		$props['frequency'] = 0;
-		$props['on_sale'] = 'no';
+		$props['is_free']     = 'yes';
+		$props['price']       = 0;
+		$props['frequency']   = 0;
+		$props['on_sale']     = 'no';
 		$props['trial_offer'] = 'no';
 
 	}
@@ -229,12 +235,15 @@ function llms_insert_access_plan( $props = array() ) {
  * @version 3.29.0
  */
 function llms_get_access_plan_period_options() {
-	return apply_filters( 'llms_get_access_plan_period_options', array(
-		'year' => __( 'Year', 'lifterlms' ),
-		'month' => __( 'Month', 'lifterlms' ),
-		'week' => __( 'Week', 'lifterlms' ),
-		'day' => __( 'Day', 'lifterlms' ),
-	) );
+	return apply_filters(
+		'llms_get_access_plan_period_options',
+		array(
+			'year'  => __( 'Year', 'lifterlms' ),
+			'month' => __( 'Month', 'lifterlms' ),
+			'week'  => __( 'Week', 'lifterlms' ),
+			'day'   => __( 'Day', 'lifterlms' ),
+		)
+	);
 }
 
 /**
@@ -245,9 +254,12 @@ function llms_get_access_plan_period_options() {
  * @version  3.8.0
  */
 function llms_get_access_plan_visibility_options() {
-	return apply_filters( 'lifterlms_access_plan_visibility_options', array(
-		'visible' => __( 'Visible', 'lifterlms' ),
-		'hidden' => __( 'Hidden', 'lifterlms' ),
-		'featured' => __( 'Featured', 'lifterlms' ),
-	) );
+	return apply_filters(
+		'lifterlms_access_plan_visibility_options',
+		array(
+			'visible'  => __( 'Visible', 'lifterlms' ),
+			'hidden'   => __( 'Hidden', 'lifterlms' ),
+			'featured' => __( 'Featured', 'lifterlms' ),
+		)
+	);
 }

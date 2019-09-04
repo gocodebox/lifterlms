@@ -1,16 +1,19 @@
 <?php
 /**
  * Base Shortcode Class
+ *
  * @since    3.4.3
  * @version  3.4.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 abstract class LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
+	 *
 	 * @var  string
 	 */
 	public $tag = '';
@@ -30,6 +33,7 @@ abstract class LLMS_Shortcode {
 	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
+	 *
 	 * @return   array
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -40,6 +44,7 @@ abstract class LLMS_Shortcode {
 
 	/**
 	 * Retrieves a string used for default content which is used if no content is supplied
+	 *
 	 * @return   string
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -50,15 +55,17 @@ abstract class LLMS_Shortcode {
 
 	/**
 	 * Holds singletons for extending classes
+	 *
 	 * @var  array
 	 */
 	private static $_instances = array();
 
 	private $attributes = array();
-	private $content = '';
+	private $content    = '';
 
 	/**
 	 * Get the singleton instance for the extending class
+	 *
 	 * @return   obj
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -77,6 +84,7 @@ abstract class LLMS_Shortcode {
 
 	/**
 	 * Private constructor
+	 *
 	 * @since    3.4.3
 	 * @version  3.4.3
 	 */
@@ -87,7 +95,8 @@ abstract class LLMS_Shortcode {
 	/**
 	 * Allow shortcodes to enqueue scripts only when the shortcode is used
 	 * Enqueues a registered script IF that script isn't already enqueued
-	 * @param    string     $handle  script handle
+	 *
+	 * @param    string $handle  script handle
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -104,6 +113,7 @@ abstract class LLMS_Shortcode {
 
 	/**
 	 * Get the array of attributes
+	 *
 	 * @return   array
 	 * @since    3.4.3
 	 * @version  3.5.1
@@ -114,8 +124,9 @@ abstract class LLMS_Shortcode {
 
 	/**
 	 * Get a specific attribute from the attributes array
-	 * @param    string     $key      attribute key to retrieve
-	 * @param    string     $default  if no attribute is set, this value will be used
+	 *
+	 * @param    string $key      attribute key to retrieve
+	 * @param    string $default  if no attribute is set, this value will be used
 	 * @return   mixed
 	 * @since    3.4.3
 	 * @version  3.5.1
@@ -130,6 +141,7 @@ abstract class LLMS_Shortcode {
 
 	/**
 	 * Retrieve the content of the shortcode
+	 *
 	 * @return   string
 	 * @since    3.4.3
 	 * @version  3.5.1
@@ -141,7 +153,8 @@ abstract class LLMS_Shortcode {
 	/**
 	 * Retrieve a string that can be used for apply_filters()
 	 * Ensures that all shortcode related filters follow the same naming convention
-	 * @param    string     $filter  filter name / suffix
+	 *
+	 * @param    string $filter  filter name / suffix
 	 * @return   string
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -158,8 +171,8 @@ abstract class LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
-	 * @param    array      $atts     user submitted shortcode attributes
-	 * @param    string     $content  user submitted content
+	 * @param    array  $atts     user submitted shortcode attributes
+	 * @param    string $content  user submitted content
 	 * @return   string
 	 * @since    3.4.3
 	 * @version  3.5.1

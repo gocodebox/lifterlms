@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
+ *
  * @since     3.8.0
  * @version   3.24.0
  */
@@ -11,36 +12,42 @@ class LLMS_Notifications {
 
 	/**
 	 * Singleton instance
+	 *
 	 * @var  LLMS_Notifications
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Controller instances
+	 *
 	 * @var  LLMS_Abstract_Notification_Controller[]
 	 */
 	private $controllers = array();
 
 	/**
 	 * Background processor instances
+	 *
 	 * @var  LLMS_Abstract_Notification_Processor[]
 	 */
 	private $processors = array();
 
 	/**
 	 * Array of processors needing to be dispatched on shutdown
+	 *
 	 * @var  string[]
 	 */
 	private $processors_to_dispatch = array();
 
 	/**
 	 * [string $view_classname => string $trigger ]
+	 *
 	 * @var  string[]
 	 */
 	private $views = array();
 
 	/**
 	 * Main Instance
+	 *
 	 * @return    LLMS_Notifications
 	 * @since     3.8.0
 	 * @version   3.8.0
@@ -54,6 +61,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.8.0
 	 * @version  3.22.0
 	 */
@@ -68,6 +76,7 @@ class LLMS_Notifications {
 	/**
 	 * On shutdown, check for processors that have items in the queue that need to be saved
 	 * save & dispatch the background process
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -87,6 +96,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Enqueue basic notifications for onscreen display
+	 *
 	 * @return   void
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -99,12 +109,14 @@ class LLMS_Notifications {
 		}
 
 		// get 5 most recent new notifications for the current user
-		$query = new LLMS_Notifications_Query( array(
-			'per_page' => 5,
-			'statuses' => 'new',
-			'types' => 'basic',
-			'subscriber' => $user_id,
-		) );
+		$query = new LLMS_Notifications_Query(
+			array(
+				'per_page'   => 5,
+				'statuses'   => 'new',
+				'types'      => 'basic',
+				'subscriber' => $user_id,
+			)
+		);
 
 		$notifications = $query->get_notifications();
 
@@ -125,6 +137,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Get the directory path for core notification classes
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -135,7 +148,8 @@ class LLMS_Notifications {
 
 	/**
 	 * Get a single controller instance
-	 * @param    string     $controller  trigger id (eg: lesson_complete)
+	 *
+	 * @param    string $controller  trigger id (eg: lesson_complete)
 	 * @return   LLMS_Abstract_Notification_Controller|false
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -149,6 +163,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Get loaded controllers
+	 *
 	 * @return   LLMS_Abstract_Notification_Controller[]
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -159,7 +174,8 @@ class LLMS_Notifications {
 
 	/**
 	 * Retrieve a single processor instance
-	 * @param    string     $processor  name of the processor (eg: email)
+	 *
+	 * @param    string $processor  name of the processor (eg: email)
 	 * @return   LLMS_Abstract_Notification_Processor|false
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -173,6 +189,7 @@ class LLMS_Notifications {
 
 	/**
 	 * Get loaded processors
+	 *
 	 * @return   LLMS_Abstract_Notification_Processor[]
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -183,7 +200,8 @@ class LLMS_Notifications {
 
 	/**
 	 * Retrieve a view instance of a notification
-	 * @param    LLMS_Notification  $notification  instance of an LLMS_Notification
+	 *
+	 * @param    LLMS_Notification $notification  instance of an LLMS_Notification
 	 * @return   LLMS_Abstract_Notification_View|false
 	 * @since    3.8.0
 	 * @version  3.24.0
@@ -195,7 +213,7 @@ class LLMS_Notifications {
 		if ( in_array( $trigger, $this->views ) ) {
 			$views = array_flip( $this->views );
 			$class = $views[ $trigger ];
-			$view = new $class( $notification );
+			$view  = new $class( $notification );
 			return $view;
 		}
 
@@ -205,8 +223,9 @@ class LLMS_Notifications {
 
 	/**
 	 * Get the classname for the view of a given notification based off it's trigger
-	 * @param    string     $trigger  trigger id (eg: lesson_complete).
-	 * @param    string     $prefix   default = 'LLMS'
+	 *
+	 * @param    string $trigger  trigger id (eg: lesson_complete).
+	 * @param    string $prefix   default = 'LLMS'
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.24.0
@@ -214,13 +233,14 @@ class LLMS_Notifications {
 	private function get_view_classname( $trigger, $prefix = null ) {
 
 		$prefix = $prefix ? $prefix : 'LLMS';
-		$name = str_replace( ' ', '_', ucwords( str_replace( '_', ' ', $trigger ) ) );
+		$name   = str_replace( ' ', '_', ucwords( str_replace( '_', ' ', $trigger ) ) );
 		return sprintf( '%1$s_Notification_View_%2$s', $prefix, $name );
 
 	}
 
 	/**
 	 * Load all notifications
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.24.0
@@ -271,8 +291,9 @@ class LLMS_Notifications {
 
 	/**
 	 * Load and initialize a single controller
-	 * @param    string     $trigger  trigger id (eg: lesson_complete)
-	 * @param    string     $path     full path to the controller file, allows third parties to load external controllers
+	 *
+	 * @param    string $trigger  trigger id (eg: lesson_complete)
+	 * @param    string $path     full path to the controller file, allows third parties to load external controllers
 	 * @return   boolean              true if the controller is added and loaded, false otherwise
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -297,8 +318,9 @@ class LLMS_Notifications {
 
 	/**
 	 * Load a single processor
-	 * @param    string     $type   processor type id
-	 * @param    string     $path   optional path (for allowing 3rd party processor loading)
+	 *
+	 * @param    string $type   processor type id
+	 * @param    string $path   optional path (for allowing 3rd party processor loading)
 	 * @return   boolean
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -322,10 +344,11 @@ class LLMS_Notifications {
 
 	/**
 	 * Load a single view
-	 * @param    string     $trigger  trigger id (eg: lesson_complete)
-	 * @param    string     $path     full path to the view file, allows third parties to load external views
-	 * @param    string     $prefix   Classname prefix. Defaults to "LLMS". Can be used by 3rd parties to adjust
-	 *                                the prefix in accordance with the projects standards.
+	 *
+	 * @param    string $trigger  trigger id (eg: lesson_complete)
+	 * @param    string $path     full path to the view file, allows third parties to load external views
+	 * @param    string $prefix   Classname prefix. Defaults to "LLMS". Can be used by 3rd parties to adjust
+	 *                            the prefix in accordance with the projects standards.
 	 * @return   boolean              true if the view is added and loaded, false otherwise
 	 * @since    3.8.0
 	 * @version  3.24.0
@@ -352,7 +375,8 @@ class LLMS_Notifications {
 	/**
 	 * Convert a trigger name to a filename string
 	 * Eg lesson_complete to lesson.complete
-	 * @param    string     $name  trigger name
+	 *
+	 * @param    string $name  trigger name
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -363,7 +387,8 @@ class LLMS_Notifications {
 
 	/**
 	 * Schedule a processor to dispatch its queue on shutdown
-	 * @param    string     $type  processor name/type (eg: email)
+	 *
+	 * @param    string $type  processor name/type (eg: email)
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0

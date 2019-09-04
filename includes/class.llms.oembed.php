@@ -1,14 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Handle custom oEmbed Providers
-*
-* @author codeBOX
-* @project lifterLMS
-*
-* @since  1.4.6
-*/
+ * Handle custom oEmbed Providers
+ *
+ * @author codeBOX
+ * @project lifterLMS
+ *
+ * @since  1.4.6
+ */
 class LLMS_OEmbed {
 
 
@@ -19,6 +20,7 @@ class LLMS_OEmbed {
 
 		/**
 		 * Add oEmbed Provider for Wistia
+		 *
 		 * @since 1.4.6
 		 */
 		wp_oembed_add_provider( '/https?\:\/\/(.+)?(wistia\.com|wi\.st)\/.*/', 'https://fast.wistia.com/oembed', true );

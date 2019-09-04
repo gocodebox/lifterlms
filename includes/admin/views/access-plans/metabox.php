@@ -35,7 +35,7 @@ defined( 'ABSPATH' ) || exit;
 		// unset $plan so it's not used for the model.
 		unset( $plan );
 		// model of an access plan we'll clone when clicking the "add" button.
-		include 'access-plan.php';
+		require 'access-plan.php';
 	?>
 
 </div>

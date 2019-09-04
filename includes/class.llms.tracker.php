@@ -1,10 +1,16 @@
 <?php
 /**
  * Handle sending data to LifterLMS when tracking is enabled
+ *
+ * @since 3.0.0
+ * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LifterLMS telemetry tracking data.
+ */
 class LLMS_Tracker {
 
 	/**
@@ -12,15 +18,23 @@ class LLMS_Tracker {
 	 */
 	const API_URL = 'https://lifterlms.com/llms-api/tracking';
 
+	/**
+	 * Initialize.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return void
+	 */
 	public static function init() {
 		add_action( 'llms_send_tracking_data', array( __CLASS__, 'send_data' ) );
 	}
 
 	/**
 	 * Retrieve a timestamp of the last time the tracks sent data home
-	 * @return   int 		a timestamp
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @return   int        a timestamp
 	 */
 	private static function get_last_send_time() {
 		return apply_filters( 'llms_tracker_get_last_send_time', get_option( 'llms_tracker_last_send_time', 0 ) );
@@ -28,10 +42,12 @@ class LLMS_Tracker {
 
 	/**
 	 * Send data home
-	 * @param    boolean    $force  force a send regardless or the last send time
-	 * @return   void
+	 *
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @param    boolean $force  force a send regardless or the last send time
+	 *
+	 * @return   void
 	 */
 	public static function send_data( $force = false ) {
 
@@ -53,19 +69,22 @@ class LLMS_Tracker {
 		// record a last send time
 		update_option( 'llms_tracker_last_send_time', time() );
 
-		$r = wp_remote_post( self::API_URL, array(
-			// 'sslverify'   => false,
-			'body'        => array(
-				'data' => json_encode( LLMS_Data::get_data( 'tracker' ) ),
-			),
-			'cookies'     => array(),
-			'headers'     => array(
-				'user-agent' => 'LifterLMS_Tracker/' . md5( esc_url( home_url( '/' ) ) ) . ';',
-			),
-			'method'      => 'POST',
-			'redirection' => 5,
-			'timeout'     => 60,
-		) );
+		$r = wp_remote_post(
+			self::API_URL,
+			array(
+				// 'sslverify'   => false,
+				'body'        => array(
+					'data' => json_encode( LLMS_Data::get_data( 'tracker' ) ),
+				),
+				'cookies'     => array(),
+				'headers'     => array(
+					'user-agent' => 'LifterLMS_Tracker/' . md5( esc_url( home_url( '/' ) ) ) . ';',
+				),
+				'method'      => 'POST',
+				'redirection' => 5,
+				'timeout'     => 60,
+			)
+		);
 
 		if ( ! is_wp_error( $r ) ) {
 

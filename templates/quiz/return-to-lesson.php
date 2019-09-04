@@ -1,11 +1,15 @@
 <?php
 /**
  * Single Quiz: Return to Lesson Link
+ *
+ * @package LifterLMS/Templates
+ *
  * @since    1.0.0
  * @version  3.16.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
 global $post;
 
 $quiz = llms_get_post( $post );

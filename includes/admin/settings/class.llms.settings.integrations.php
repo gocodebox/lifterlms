@@ -2,15 +2,17 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Admin Settings Page, Integrations Tab
-* @since    1.0.0
-* @version  3.18.2
-*/
+ * Admin Settings Page, Integrations Tab
+ *
+ * @since    1.0.0
+ * @version  3.18.2
+ */
 class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 	/**
 	 * Constructor
 	 * executes settings tab actions
+	 *
 	 * @since    1.0.0
 	 * @version  3.18.2
 	 */
@@ -28,6 +30,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 	/**
 	 * Get default settings array for the main integrations tab
+	 *
 	 * @return   array
 	 * @since    3.18.2
 	 * @version  3.18.2
@@ -37,20 +40,20 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 		$settings = array(
 			array(
 				'type' => 'sectionstart',
-				'id' => 'checkout_settings_integrations_list_start',
+				'id'   => 'checkout_settings_integrations_list_start',
 			),
 			array(
 				'title' => __( 'Integrations', 'lifterlms' ),
-				'type' => 'title',
-				'id' => 'checkout_settings_integrations_list_title',
+				'type'  => 'title',
+				'id'    => 'checkout_settings_integrations_list_title',
 			),
 			array(
 				'value' => $this->get_table_html(),
-				'type' => 'custom-html',
+				'type'  => 'custom-html',
 			),
 			array(
 				'type' => 'sectionend',
-				'id' => 'checkout_settings_integrations_list_end',
+				'id'   => 'checkout_settings_integrations_list_end',
 			),
 		);
 
@@ -60,6 +63,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 	/**
 	 * Get the page sections
+	 *
 	 * @return   array
 	 * @since    3.18.2
 	 * @version  3.18.2
@@ -74,9 +78,12 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 			$sections[ $int->id ] = trim( str_replace( 'LifterLMS', '', $int->title ) );
 		}
 
-		$sections = array_merge( array(
-			'main' => __( 'Integrations', 'lifterlms' ),
-		), $sections );
+		$sections = array_merge(
+			array(
+				'main' => __( 'Integrations', 'lifterlms' ),
+			),
+			$sections
+		);
 
 		return apply_filters( 'llms_integration_settings_sections', $sections );
 
@@ -84,6 +91,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 	/**
 	 * Get settings array
+	 *
 	 * @return   array
 	 * @since    1.0.0
 	 * @version  3.18.2
@@ -104,6 +112,7 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 
 	/**
 	 * Get HTML for the integrations table
+	 *
 	 * @return   string
 	 * @since    3.18.2
 	 * @version  3.18.2
@@ -124,7 +133,8 @@ class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 				</tr>
 			</thead>
 			<tbody>
-			<?php foreach ( $integrations as $integration ) :
+			<?php
+			foreach ( $integrations as $integration ) :
 				if ( ! is_subclass_of( $integration, 'LLMS_Abstract_Integration' ) ) {
 					continue;
 				}

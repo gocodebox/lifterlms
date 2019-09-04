@@ -1,18 +1,21 @@
 <?php
 /**
-* Students Metabox for Courses & Memberships
-*
-* Add & remove students
-* @since    3.0.0
-* @version  3.13.0
-*/
+ * Students Metabox for Courses & Memberships
+ *
+ * Add & remove students
+ *
+ * @since    3.0.0
+ * @version  3.13.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 	/**
 	 * Capability to check in order to display the metabox to the user
+	 *
 	 * @var    string
 	 * @since  3.13.0
 	 */
@@ -20,14 +23,15 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
+	 *
 	 * @return void
 	 * @since  3.0.0
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-students';
-		$this->title = __( 'Student Management', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-students';
+		$this->title    = __( 'Student Management', 'lifterlms' );
+		$this->screens  = array(
 			'course',
 			'llms_membership',
 		);
@@ -37,9 +41,10 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 	/**
 	 * Unused with our custom metabox output
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	public function get_fields() {
 		return array();
@@ -47,6 +52,7 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 	/**
 	 * Custom metabox output function
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.4.0
@@ -63,9 +69,12 @@ class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 			global $post;
 
-			llms_get_template( 'admin/post-types/students.php', array(
-				'post_id' => $post->ID,
-			) );
+			llms_get_template(
+				'admin/post-types/students.php',
+				array(
+					'post_id' => $post->ID,
+				)
+			);
 
 		}
 

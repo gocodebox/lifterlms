@@ -1,16 +1,17 @@
-/* global LLMS, $ */
-/* jshint strict: false */
-
 /**
  * Front End Achievements
- * @type     {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.14.0
  * @version  3.14.0
  */
+
 LLMS.Achievements = {
 
 	/**
 	 * Init
+	 *
 	 * @return   void
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -30,6 +31,7 @@ LLMS.Achievements = {
 
 	/**
 	 * Bind DOM events
+	 *
 	 * @return   void
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -46,11 +48,11 @@ LLMS.Achievements = {
 
 		$( '.llms-achievement' ).on( 'click', function() {
 
-			var $this = $( this ),
-				id = 'achievement-' + $this.attr( 'data-id' ),
+			var $this  = $( this ),
+				id     = 'achievement-' + $this.attr( 'data-id' ),
 				$modal = $( '#' + id );
 
-			if ( !$modal.length ) {
+			if ( ! $modal.length ) {
 				self.create_modal( $this );
 			}
 
@@ -62,6 +64,7 @@ LLMS.Achievements = {
 
 	/**
 	 * Creates modal a modal for an achievement
+	 *
 	 * @param    obj   $el  jQuery selector for the modal card
 	 * @return   void
 	 * @since    3.14.0
@@ -69,10 +72,10 @@ LLMS.Achievements = {
 	 */
 	create_modal: function( $el ) {
 
-		var id = 'achievement-' + $el.attr( 'data-id' ),
+		var id     = 'achievement-' + $el.attr( 'data-id' ),
 			$modal = $( '#' + id );
 
-		if ( !$modal.length ) {
+		if ( ! $modal.length ) {
 			$modal = $( '<div class="llms-achievement-modal" id="' + id + '" />' );
 			$( 'body' ).append( $modal );
 		}
@@ -104,6 +107,7 @@ LLMS.Achievements = {
 
 	/**
 	 * On page load, opens a modal if the URL contains an achievement in the location hash
+	 *
 	 * @return   void
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -112,7 +116,7 @@ LLMS.Achievements = {
 
 		var hash = window.location.hash;
 		if ( hash && -1 !== hash.indexOf( 'achievement-' ) ) {
-			$( 'a[href="' + hash + '"]').first().trigger( 'click' );
+			$( 'a[href="' + hash + '"]' ).first().trigger( 'click' );
 		}
 
 	}

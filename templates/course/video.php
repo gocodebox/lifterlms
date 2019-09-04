@@ -1,16 +1,17 @@
 <?php
 /**
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ * @author      LifterLMS
+ * @package     LifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 
 $course = new LLMS_Course( $post );
 
-if ( ! $course->get_video() ) { return; }
+if ( ! $course->get_video() ) {
+	return; }
 
 ?>
 
