@@ -56,11 +56,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 */
 	private function mock_file_upload( $err = 0, $import = null ) {
 
-		$import = is_null( $import ) ? 'import-sample-course.json' : $import;
-
-		// has a file but user not logged in.
-		global $lifterlms_tests;
-		$file = $lifterlms_tests->tests_dir . '/assets/' . $import;
+		$file = is_null( $import ) ? LLMS_PLUGIN_DIR . 'sample-data/sample-course.json' : $import;
 
 		$_FILES['llms_import'] = array(
 			'name' => basename( $file ),
@@ -192,7 +188,9 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 		$this->mockPostRequest( array(
 			'llms_importer_nonce' => wp_create_nonce( 'llms-importer' ),
 		) );
-		$this->mock_file_upload( 0, 'import-fake-generator.json' );
+
+		global $lifterlms_tests;
+		$this->mock_file_upload( 0, $lifterlms_tests->tests_dir . '/assets/import-fake-generator.json' );
 
 		$err = $this->import->upload_import();
 		$this->assertIsWPError( $err );
@@ -213,7 +211,9 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 		$this->mockPostRequest( array(
 			'llms_importer_nonce' => wp_create_nonce( 'llms-importer' ),
 		) );
-		$this->mock_file_upload( 0, 'import-error.json' );
+
+		global $lifterlms_tests;
+		$this->mock_file_upload( 0, $lifterlms_tests->tests_dir . '/assets/import-error.json' );
 
 		$err = $this->import->upload_import();
 		$this->assertIsWPError( $err );
