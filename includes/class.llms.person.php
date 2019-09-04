@@ -1,25 +1,27 @@
 <?php
 
 /**
-* Person base class.
-*
-* Class used for instantiating course object
-*/
+ * Person base class.
+ *
+ * Class used for instantiating course object
+ */
 
 class LLMS_Person {
 
 	/**
-	* person data array
-	* @access private
-	* @var array
-	*/
+	 * person data array
+	 *
+	 * @access private
+	 * @var array
+	 */
 	protected $_data;
 
 	/**
-	* Has data been changed?
-	* @access private
-	* @var bool
-	*/
+	 * Has data been changed?
+	 *
+	 * @access private
+	 * @var bool
+	 */
 	private $_changed = false;
 
 	/**
@@ -66,7 +68,8 @@ class LLMS_Person {
 
 	/**
 	 * Get user postmeta achievements
-	 * @param  int    $user_id    user id
+	 *
+	 * @param  int $user_id    user id
 	 * @return array              associative array of users achievement data
 	 */
 	public function get_user_achievements( $count = 1000, $user_id = 0 ) {
@@ -85,7 +88,7 @@ class LLMS_Person {
 			$meta = get_post_meta( $val->meta_value );
 			$post = get_post( $val->meta_value );
 
-			$achievement['title'] = $meta['_llms_achievement_title'][0];
+			$achievement['title']   = $meta['_llms_achievement_title'][0];
 			$achievement['content'] = $post->post_content;
 
 			$image_id = $meta['_llms_achievement_image'][0];
@@ -153,8 +156,13 @@ class LLMS_Person {
 
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
-		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and post_id = %d', $user_id, $post_id) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and post_id = %d',
+				$user_id,
+				$post_id
+			)
+		);
 
 		if ( empty( $results ) ) {
 			return;
@@ -182,8 +190,13 @@ class LLMS_Person {
 
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 
-		$results = $wpdb->get_results( $wpdb->prepare(
-		'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $user_id, $meta_key ) );
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				'SELECT * FROM ' . $table_name . ' WHERE user_id = %s and meta_key = "%s" ORDER BY updated_date DESC',
+				$user_id,
+				$meta_key
+			)
+		);
 
 		if ( empty( $results ) ) {
 			return;

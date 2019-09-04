@@ -7,9 +7,9 @@ defined( 'ABSPATH' ) || exit;
  * [lifterlms_hide_content]
  *
  * @example
- * 		[hide_content id="1"] allows user with access to 1 to access content
- * 		[hide_content id="1,2,3,4" relation="any"] allows user with access to 1,2,3, OR 4 to access content
- *   	[hide_content id="1,2,3,4" relation="all"] allows only users with access 1,2,3 AND 4 to access
+ *      [hide_content id="1"] allows user with access to 1 to access content
+ *      [hide_content id="1,2,3,4" relation="any"] allows user with access to 1,2,3, OR 4 to access content
+ *      [hide_content id="1,2,3,4" relation="all"] allows only users with access 1,2,3 AND 4 to access
  *
  * @since    3.5.1
  * @version  3.24.1
@@ -18,6 +18,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
+	 *
 	 * @var  string
 	 */
 	public $tag = 'lifterlms_hide_content';
@@ -25,6 +26,7 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
+	 *
 	 * @return   array
 	 * @since    3.5.1
 	 * @version  3.24.1
@@ -32,8 +34,8 @@ class LLMS_Shortcode_Hide_Content extends LLMS_Shortcode {
 	protected function get_default_attributes() {
 		return array(
 			'membership' => '', // backwards compat, use ID moving forward
-			'message' => '',
-			'id' => get_the_ID(),
+			'message'    => '',
+			'id'         => get_the_ID(),
 			'relation'   => 'all',
 		);
 	}

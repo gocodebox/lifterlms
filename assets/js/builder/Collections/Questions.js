@@ -1,5 +1,6 @@
 /**
  * Questions Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,12 +10,14 @@ define( [ 'Models/Question' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -34,6 +37,7 @@ define( [ 'Models/Question' ], function( model ) {
 
 		/**
 		 * Update the order attr of each question in the list to reflect the order of the collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -53,6 +57,7 @@ define( [ 'Models/Question' ], function( model ) {
 		/**
 		 * When adding a question to a question list, update the question's parent
 		 * Will ensure that questions moved into and out of groups always have the correct parent_id
+		 *
 		 * @param    obj   model  instance of the question model
 		 * @return   void
 		 * @since    3.16.0

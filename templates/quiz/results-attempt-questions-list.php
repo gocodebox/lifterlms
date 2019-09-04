@@ -1,6 +1,7 @@
 <?php
 /**
  * List of attempt questions/answers for a single attempt
+ *
  * @since    3.16.0
  * @version  3.17.8
  * @arg  $attempt  (obj)  LLMS_Quiz_Attempt instance
@@ -12,7 +13,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 
 <ol class="llms-quiz-attempt-results">
-<?php foreach ( $attempt->get_question_objects() as $attempt_question ) :
+<?php
+foreach ( $attempt->get_question_objects() as $attempt_question ) :
 	$quiz_question = $attempt_question->get_question();
 	if ( ! $quiz_question ) {
 		continue;

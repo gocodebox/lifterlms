@@ -1,6 +1,7 @@
 <?php
 /**
  * View for the LLMS_Meta_Box_Order_Submit metabox
+ *
  * @since     3.19.0
  * @version   3.19.0
  *
@@ -10,8 +11,8 @@
 defined( 'ABSPATH' ) || exit;
 
 $current_status = $order->get( 'status' );
-$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
-$statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single' );
+$date_format    = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
+$statuses       = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'single' );
 ?>
 
 <div class="llms-metabox">
@@ -19,7 +20,7 @@ $statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'sin
 	<div class="llms-metabox-section d-all no-top-margin">
 
 		<div class="llms-metabox-field">
-			<label for="_llms_order_status"><?php _e( 'Update Order Status:', 'lifterlms' ) ?></label>
+			<label for="_llms_order_status"><?php _e( 'Update Order Status:', 'lifterlms' ); ?></label>
 			<select id="_llms_order_status" name="_llms_order_status">
 				<?php foreach ( $statuses as $key => $val ) : ?>
 					<option value="<?php echo $key; ?>"<?php selected( $key, $current_status ); ?>><?php echo $val; ?></option>
@@ -28,7 +29,7 @@ $statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'sin
 		</div>
 
 		<div class="llms-metabox-field">
-			<label><?php _e( 'Order Date', 'lifterlms' ) ?>:</label>
+			<label><?php _e( 'Order Date', 'lifterlms' ); ?>:</label>
 			<?php echo $order->get_date( 'date', $date_format ); ?>
 		</div>
 
@@ -38,7 +39,7 @@ $statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'sin
 
 			<?php if ( $order->has_trial() ) : ?>
 				<div class="llms-metabox-field">
-					<label><?php _e( 'Trial End Date', 'lifterlms' ) ?>:</label>
+					<label><?php _e( 'Trial End Date', 'lifterlms' ); ?>:</label>
 					<span
 						id="llms-editable-trial-end-date"
 						data-llms-editable="_llms_date_trial_end"
@@ -54,7 +55,7 @@ $statuses = llms_get_order_statuses( $order->is_recurring() ? 'recurring' : 'sin
 
 			<?php if ( $order->is_recurring() && 'llms-pending-cancel' !== $current_status ) : ?>
 			<div class="llms-metabox-field">
-				<label><?php _e( 'Next Payment Date', 'lifterlms' ) ?>:</label>
+				<label><?php _e( 'Next Payment Date', 'lifterlms' ); ?>:</label>
 				<?php if ( is_wp_error( $next_time ) ) : ?>
 					<?php echo $next_time->get_error_message(); ?>
 				<?php else : ?>

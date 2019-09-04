@@ -1,11 +1,12 @@
 <?php
 /**
-* Admin analytics Page Base Class
-*
-* @deprecated 3.30.3
-*/
+ * Admin analytics Page Base Class
+ *
+ * @deprecated 3.30.3
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Analytics_Page {
 
@@ -61,7 +62,7 @@ class LLMS_Analytics_Page {
 
 		foreach ( $sections as $id => $label ) {
 			echo '<li><a href="' . admin_url( 'admin.php?page=' . $this->id . '&section=' . sanitize_title( $id ) )
-			. '"class="' . ($current_section == $id ? 'current' : '' ) . '">' . ( end( $array_keys ) == $id ? '' : '|' ) . '</li>';
+			. '"class="' . ( $current_section == $id ? 'current' : '' ) . '">' . ( end( $array_keys ) == $id ? '' : '|' ) . '</li>';
 
 			echo '</ul><br class="clear" />';
 		}
@@ -70,6 +71,7 @@ class LLMS_Analytics_Page {
 
 	/**
 	 * Wraps analytics content in parent div and applies title
+	 *
 	 * @param  string $title    [tab title]
 	 * @param  string $contents [html contents of page]
 	 * @return $html
@@ -90,7 +92,7 @@ class LLMS_Analytics_Page {
 
 	public static function full_width_widget( $content ) {
 
-		$html = '<div class="llms-widget-full">';
+		$html  = '<div class="llms-widget-full">';
 		$html .= '<div class="llms-widget">';
 
 		$html .= $content;
@@ -103,7 +105,7 @@ class LLMS_Analytics_Page {
 
 	public static function quarter_width_widget( $content ) {
 
-		$html = '<div class="llms-widget-1-4">';
+		$html  = '<div class="llms-widget-1-4">';
 		$html .= '<div class="llms-widget">';
 
 		$html .= $content;
@@ -138,7 +140,7 @@ class LLMS_Analytics_Page {
 		LLMS_Admin_Analytics::save_fields( $analytics );
 
 		if ( $current_section ) {
-	    	do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section ); }
+			do_action( 'lifterlms_update_options_' . $this->id . '_' . $current_section ); }
 
 	}
 

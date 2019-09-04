@@ -1,12 +1,16 @@
-/* global LLMS, $ */
-/* jshint strict: false */
 /**
  * Pricing Table UI
+ *
+ * @package LifterLMS/Scripts
+ *
+ * @since  Unknown.
+ * @version  Unknown.
  */
+
 LLMS.Pricing_Tables = {
 
 	/**
-	 * init
+	 * Init
 	 */
 	init: function() {
 
@@ -39,6 +43,7 @@ LLMS.Pricing_Tables = {
 	/**
 	 * Bind Method
 	 * Handles dom binding on load
+	 *
 	 * @return {[type]} [description]
 	 */
 	bind: function() {
@@ -50,6 +55,7 @@ LLMS.Pricing_Tables = {
 
 	/**
 	 * Setup a popover for members-only restricted plans
+	 *
 	 * @return void
 	 * @since    3.0.0
 	 * @version  3.9.1

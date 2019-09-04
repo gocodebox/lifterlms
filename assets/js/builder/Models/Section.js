@@ -1,5 +1,6 @@
 /**
  * Section Model
+ *
  * @since    3.16.0
  * @version  3.16.12
  */
@@ -23,6 +24,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 		/**
 		 * New section defaults
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -43,6 +45,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -56,6 +59,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 		/**
 		 * Add a lesson to the section
+		 *
 		 * @param    obj   data     hash of lesson data (creates new lesson)
 		 *                          or existing lesson as a Backbone.Model
 		 * @param    obj   options  has of options
@@ -65,7 +69,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 		 */
 		add_lesson: function( data, options ) {
 
-			data = data || {};
+			data    = data || {};
 			options = options || {};
 
 			if ( data instanceof Backbone.Model ) {
@@ -81,6 +85,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 		/**
 		 * Retrieve the translated post type name for the model's type
+		 *
 		 * @param    bool     plural  if true, returns the plural, otherwise returns singular
 		 * @return   string
 		 * @since    3.16.12
@@ -97,6 +102,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 		/**
 		 * Get next section in the collection
+		 *
 		 * @param    bool     circular   if true handles the collection in a circle
 		 *                               	if current is the last section, returns the first section
 		 *                               	if current is the first section, returns the last section
@@ -110,6 +116,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 		/**
 		 * Get prev section in the collection
+		 *
 		 * @param    bool     circular   if true handles the collection in a circle
 		 *                               	if current is the last section, returns the first section
 		 *                               	if current is the first section, returns the last section
@@ -123,6 +130,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 		/**
 		 * Get a sibling section
+		 *
 		 * @param    string   direction  siblings direction [next|prev]
 		 * @param    bool     circular   if true handles the collection in a circle
 		 *                               	if current is the last section, returns the first section
@@ -135,7 +143,7 @@ define( [ 'Collections/Lessons', 'Models/_Relationships' ], function( Lessons, R
 
 			circular = ( 'undefined' === circular ) ? true : circular;
 
-			var max = this.collection.size() - 1,
+			var max   = this.collection.size() - 1,
 				index = this.collection.indexOf( this ),
 				sibling_index;
 

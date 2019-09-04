@@ -1,27 +1,28 @@
 <?php
 /**
-* LifterLMS Integration Abstract
-*
-* @package LifterLMS/Abstracts
-*
-* @since 3.0.0
-* @version 3.21.1
-*/
+ * LifterLMS Integration Abstract
+ *
+ * @package LifterLMS/Abstracts
+ *
+ * @since 3.0.0
+ * @version 3.21.1
+ */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
-* LifterLMS Integration Abstract
-*
-* @since 3.0.0
-* @since 3.21.1 Updated.
-* @since 3.33.1 Added `get_priority` method to allow reading of the protected priority property.
-*/
+ * LifterLMS Integration Abstract
+ *
+ * @since 3.0.0
+ * @since 3.21.1 Updated.
+ * @since 3.33.1 Added `get_priority` method to allow reading of the protected priority property.
+ */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Integration ID
 	 * Defined by extending class as a variable
+	 *
 	 * @var  string
 	 */
 	public $id = '';
@@ -29,6 +30,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Integration Title
 	 * Should be defined by extending class in configure() function (so it can be i18n)
+	 *
 	 * @var  string
 	 */
 	public $title = '';
@@ -36,6 +38,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Integration Description
 	 * Should be defined by extending class in configure() function (so it can be i18n)
+	 *
 	 * @var  string
 	 */
 	public $description = '';
@@ -45,6 +48,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Should be defined by extending class in configure() function (so it can be i18n)
 	 * Displays on the settings screen when $this->is_installed() is false
 	 * to help users identify what requirements are missing
+	 *
 	 * @var  string
 	 */
 	public $description_missing = '';
@@ -63,6 +67,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.18.2
@@ -78,6 +83,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Configure the integration
 	 * Do things like configure ID and title here
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -87,7 +93,8 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Merge the default abstract settings with the actual integration settings
 	 * Automatically called via filter upon construction
-	 * @param    array     $settings   existing settings from other integrations
+	 *
+	 * @param    array $settings   existing settings from other integrations
 	 * @return   array
 	 * @since    3.17.8
 	 * @version  3.17.8
@@ -100,6 +107,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Get additional settings specific to the integration
 	 * extending classes should override this with the settings
 	 * specific to the integration
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -121,6 +129,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Retrieve an array of integration related settings
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.21.1
@@ -128,33 +137,33 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	protected function get_settings() {
 
 		$settings[] = array(
-			'type' => 'sectionstart',
-			'id' => 'llms_integration_' . $this->id . '_start',
+			'type'  => 'sectionstart',
+			'id'    => 'llms_integration_' . $this->id . '_start',
 			'class' => 'top',
 		);
 		$settings[] = array(
-			'desc' => $this->description,
-			'id' => 'llms_integration_' . $this->id . '_title',
+			'desc'  => $this->description,
+			'id'    => 'llms_integration_' . $this->id . '_title',
 			'title' => $this->title,
-			'type' => 'title',
+			'type'  => 'title',
 		);
 		$settings[] = array(
-			'desc' 		=> __( 'Check to enable this integration.', 'lifterlms' ),
-			'default'	=> 'no',
-			'id' 		=> $this->get_option_name( 'enabled' ),
-			'type' 		=> 'checkbox',
-			'title'     => __( 'Enable / Disable', 'lifterlms' ),
+			'desc'    => __( 'Check to enable this integration.', 'lifterlms' ),
+			'default' => 'no',
+			'id'      => $this->get_option_name( 'enabled' ),
+			'type'    => 'checkbox',
+			'title'   => __( 'Enable / Disable', 'lifterlms' ),
 		);
 		if ( ! $this->is_installed() && ! empty( $this->description_missing ) ) {
 			$settings[] = array(
-				'type' => 'custom-html',
+				'type'  => 'custom-html',
 				'value' => '<em>' . $this->description_missing . '</em>',
 			);
 		}
-		$settings = array_merge( $settings, $this->get_integration_settings() );
+		$settings   = array_merge( $settings, $this->get_integration_settings() );
 		$settings[] = array(
 			'type' => 'sectionend',
-			'id' => 'llms_integration_' . $this->id . '_end',
+			'id'   => 'llms_integration_' . $this->id . '_end',
 		);
 
 		return apply_filters( 'llms_integration_' . $this->id . '_get_settings', $settings, $this );
@@ -172,6 +181,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Determine if the integration is enabled via the checkbox on the admin panel
 	 * and the necessary plugin (if any) is installed and activated
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.17.8
@@ -182,6 +192,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Determine if the integration had been enabled via checkbox
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.8.0
@@ -194,6 +205,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * Determine if the related plugin, theme, 3rd party is
 	 * installed and activated
 	 * extending classes should override this to perform dependency checks
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.8.0

@@ -11,6 +11,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		/**
 		 * HTML class names
+		 *
 		 * @type  {String}
 		 */
 		className: 'llms-question-type',
@@ -21,6 +22,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		/**
 		 * HTML element wrapper ID attribute
+		 *
 		 * @return   string
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -31,18 +33,21 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'li',
 
 		/**
 		 * Get the underscore template
+		 *
 		 * @type  {[type]}
 		 */
 		template: wp.template( 'llms-question-type-template' ),
 
 		/**
 		 * Initialization callback func (renders the element on screen)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -55,6 +60,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		/**
 		 * Compiles the template and renders the view
+		 *
 		 * @return   self (for chaining)
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -66,6 +72,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		/**
 		 * Add a question of the selected type to the current quiz
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.27.0
@@ -145,6 +152,7 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		/**
 		 * Add a new question to the quiz
+		 *
 		 * @return  void
 		 * @since   3.27.0
 		 * @version 3.27.0
@@ -163,22 +171,22 @@ define( [ 'Views/Popover', 'Views/PostSearch' ], function( Popover, QuestionSear
 
 		// filter: function( term ) {
 
-		// 	var words = this.model.get_keywords().map( function( word ) {
-		// 		return word.toLowerCase();
-		// 	} );
+		// var words = this.model.get_keywords().map( function( word ) {
+		// return word.toLowerCase();
+		// } );
 
-		// 	term = term.toLowerCase();
+		// term = term.toLowerCase();
 
-		// 	if ( -1 === words.indexOf( term ) ) {
-		// 		this.$el.addClass( 'filtered' );
-		// 	} else {
-		// 		this.$el.removeClass( 'filtered' );
-		// 	}
+		// if ( -1 === words.indexOf( term ) ) {
+		// this.$el.addClass( 'filtered' );
+		// } else {
+		// this.$el.removeClass( 'filtered' );
+		// }
 
 		// },
 
 		// clear_filter: function() {
-		// 	this.$el.removeClass( 'filtered' );
+		// this.$el.removeClass( 'filtered' );
 		// }
 
 	} );

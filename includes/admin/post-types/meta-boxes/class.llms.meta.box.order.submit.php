@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Metaboxes for Orders
+ *
  * @since    1.0.0
  * @version  3.19.0
  */
@@ -10,41 +11,46 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-order-submit';
-		$this->title = __( 'Order Information', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-order-submit';
+		$this->title    = __( 'Order Information', 'lifterlms' );
+		$this->screens  = array(
 			'llms_order',
 		);
-		$this->context = 'side';
+		$this->context  = 'side';
 		$this->priority = 'high';
 
 	}
 
 	/**
 	 * Retrieve json to be used by the llms-editable date fields
-	 * @param    int     $time  timestamp
+	 *
+	 * @param    int $time  timestamp
 	 * @return   string
 	 * @since    3.10.0
 	 * @version  3.19.0
 	 */
 	public function get_editable_date_json( $time ) {
 
-		return json_encode( array(
-			'date' => date_i18n( 'Y-m-d', $time ),
-			'hour' => date_i18n( 'H', $time ),
-			'minute' => date_i18n( 'i', $time ),
-		) );
+		return json_encode(
+			array(
+				'date'   => date_i18n( 'Y-m-d', $time ),
+				'hour'   => date_i18n( 'H', $time ),
+				'minute' => date_i18n( 'i', $time ),
+			)
+		);
 
 	}
 
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
+	 *
 	 * @return array
 	 *
 	 * @since  3.0.0
@@ -54,6 +60,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
+	 *
 	 * @param object $post WP global post object
 	 * @return void
 	 * @since    3.0.0
@@ -75,7 +82,8 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
 	/**
 	 * Save action, update order status
-	 * @param    int     $post_id  WP Post ID of the Order
+	 *
+	 * @param    int $post_id  WP Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.0

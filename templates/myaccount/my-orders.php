@@ -1,10 +1,14 @@
 <?php
 /**
  * Order History List
+ *
+ * @package LifterLMS/Templates
+ *
  * @since    3.0.0
  * @version  3.17.6
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <div class="llms-sd-section llms-my-orders">
@@ -56,15 +60,27 @@ if ( ! defined( 'ABSPATH' ) ) { exit; }
 		<?php if ( $orders['orders'] ) : ?>
 			<footer class="llms-sd-pagination llms-my-orders-pagination">
 				<?php if ( $orders['page'] > 1 ) : ?>
-					<a href="<?php echo add_query_arg( array(
-						'opage' => $orders['page'] - 1,
-					) ); ?>"><?php _e( 'Back', 'lifterlms' ); ?></a>
+					<a href="
+					<?php
+					echo add_query_arg(
+						array(
+							'opage' => $orders['page'] - 1,
+						)
+					);
+					?>
+					"><?php _e( 'Back', 'lifterlms' ); ?></a>
 				<?php endif; ?>
 
 				<?php if ( $orders['page'] < $orders['pages'] ) : ?>
-					<a href="<?php echo add_query_arg( array(
-						'opage' => $orders['page'] + 1,
-					) ); ?>"><?php _e( 'Next', 'lifterlms' ); ?></a>
+					<a href="
+					<?php
+					echo add_query_arg(
+						array(
+							'opage' => $orders['page'] + 1,
+						)
+					);
+					?>
+					"><?php _e( 'Next', 'lifterlms' ); ?></a>
 				<?php endif; ?>
 			</footer>
 		<?php endif; ?>

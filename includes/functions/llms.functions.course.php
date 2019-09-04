@@ -1,14 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 /**
-* Course Functions
-*
-* Misc functions used for user interactions with courses and lessons
-* TODO: refactor and re-organize
-*
-* @author codeBOX
-* @project lifterLMS
-*/
+ * Course Functions
+ *
+ * Misc functions used for user interactions with courses and lessons
+ * TODO: refactor and re-organize
+ *
+ * @author codeBOX
+ * @project lifterLMS
+ */
 
 /**
  * Get page object

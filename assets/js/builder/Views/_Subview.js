@@ -1,5 +1,6 @@
 /**
  * Subview utility mixin
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -11,18 +12,21 @@ define( [], function() {
 
 		/**
 		 * Name of the current subview
+		 *
 		 * @type  {String}
 		 */
 		state: '',
 
 		/**
 		 * Object of subview data
+		 *
 		 * @type  {Object}
 		 */
 		views: {},
 
 		/**
 		 * Retrieve a subview by name from this.views
+		 *
 		 * @param    string   name   name of the subview
 		 * @return   obl|false
 		 * @since    3.16.0
@@ -62,6 +66,7 @@ define( [], function() {
 
 		/**
 		 * Remove a single subview (and all it's subviews) by name
+		 *
 		 * @param    string   name   name of the subview
 		 * @return   void
 		 * @since    3.16.0
@@ -89,7 +94,7 @@ define( [], function() {
 				view.instance.undelegateEvents();
 
 				// _.each( view.instance, function( val, key ) {
-				// 	delete view.instance[ key ];
+				// delete view.instance[ key ];
 				// } );
 
 				view.instance = null;
@@ -100,6 +105,7 @@ define( [], function() {
 
 		/**
 		 * Remove all subviews (and all the subviews of those subviews)
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -116,6 +122,7 @@ define( [], function() {
 
 		/**
 		 * Render subviews based on current state
+		 *
 		 * @param    obj   view_data  additional data to pass to the subviews
 		 * @return   void
 		 * @since    3.16.0
@@ -143,6 +150,7 @@ define( [], function() {
 
 		/**
 		 * Render a single subview by name
+		 *
 		 * @param    string   name       name of the subview
 		 * @param    obj      view_data  additional data to pass to the subview initializer
 		 * @return   void
@@ -170,6 +178,7 @@ define( [], function() {
 		/**
 		 * Set the current subview
 		 * Must call render after!
+		 *
 		 * @param    string   state  name of the state [builder|editor]
 		 * @return   obj             this for chaining
 		 * @since    3.16.0

@@ -1,11 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Dates Class
-*
-* Manages formatting dates for I/O and display
-*/
+ * Dates Class
+ *
+ * Manages formatting dates for I/O and display
+ */
 class LLMS_Svg {
 
 	/**
@@ -35,9 +36,9 @@ class LLMS_Svg {
 
 			$html .= '<title id="title">' . $title . '</title>';
 
-		  	$html .= '<desc id="desc">' . $desc . '</desc>';
+			$html .= '<desc id="desc">' . $desc . '</desc>';
 
-		  	$html .= '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' . LLMS_SVG_DIR . '#' . $id . '"></use>';
+			$html .= '<use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="' . LLMS_SVG_DIR . '#' . $id . '"></use>';
 
 			$html .= '</svg>';
 
@@ -49,4 +50,4 @@ class LLMS_Svg {
 
 }
 
-return new LLMS_Svg;
+return new LLMS_Svg();

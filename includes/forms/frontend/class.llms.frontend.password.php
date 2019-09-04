@@ -1,22 +1,23 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Front End Password handler
-*
-* Class used managing front end password functionality
-*
-* @version 1.0
-* @author codeBOX
-* @project lifterLMS
-*/
+ * Front End Password handler
+ *
+ * Class used managing front end password functionality
+ *
+ * @version 1.0
+ * @author codeBOX
+ * @project lifterLMS
+ */
 class LLMS_Frontend_Password {
 
 	/**
-	* Lost password template
-	*
-	* @return void
-	*/
+	 * Lost password template
+	 *
+	 * @return void
+	 */
 	public static function retrieve_password() {
 
 		global $lifterlms,$wpdb;
@@ -84,11 +85,15 @@ class LLMS_Frontend_Password {
 			do_action( 'retrieve_password_key', $user_login, $key );
 
 			// Now insert the new md5 key into the db
-			$wpdb->update( $wpdb->users, array(
-				'user_activation_key' => $key,
-				), array(
-				'user_login' => $user_login,
-			) );
+			$wpdb->update(
+				$wpdb->users,
+				array(
+					'user_activation_key' => $key,
+				),
+				array(
+					'user_login' => $user_login,
+				)
+			);
 
 		}
 
@@ -99,10 +104,10 @@ class LLMS_Frontend_Password {
 	}
 
 	/**
-	* Checks the password reset key
-	*
-	* @return string $user
-	*/
+	 * Checks the password reset key
+	 *
+	 * @return string $user
+	 */
 	public static function check_password_reset_key( $key, $login ) {
 		global $lifterlms,$wpdb;
 
@@ -135,10 +140,10 @@ class LLMS_Frontend_Password {
 	}
 
 	/**
-	* Reset the users password
-	*
-	* @return void
-	*/
+	 * Reset the users password
+	 *
+	 * @return void
+	 */
 	public static function reset_password( $user, $new_pass ) {
 
 		do_action( 'password_reset', $user, $new_pass );

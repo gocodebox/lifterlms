@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 /**
  * Add, Customize, and Manage LifterLMS Coupon Post Table Columns
  *
@@ -9,6 +10,7 @@ class LLMS_Admin_Post_Table_Coupons {
 
 	/**
 	 * Constructor
+	 *
 	 * @return  void
 	 *
 	 * @since 3.0.0
@@ -22,13 +24,14 @@ class LLMS_Admin_Post_Table_Coupons {
 
 	/**
 	 * Add Custom Coupon Columns
+	 *
 	 * @param array $columns array of default columns
 	 * @return  array
 	 * @since  3.0.0
 	 */
 	public function add_columns( $columns ) {
 
-	    $columns = array(
+		$columns = array(
 			'cb'     => '<input type="checkbox" />',
 			'title'  => __( 'Code', 'lifterlms' ),
 			'amount' => __( 'Coupon Amount', 'lifterlms' ),
@@ -43,8 +46,9 @@ class LLMS_Admin_Post_Table_Coupons {
 
 	/**
 	 * Manage content of custom coupon columns
+	 *
 	 * @param  string $column  column key/name
-	 * @param  int $post_id WP Post ID of the coupon for the row
+	 * @param  int    $post_id WP Post ID of the coupon for the row
 	 * @return void
 	 */
 	public function manage_columns( $column, $post_id ) {
@@ -55,7 +59,6 @@ class LLMS_Admin_Post_Table_Coupons {
 		switch ( $column ) {
 
 			case 'amount':
-
 				_e( 'Discount: ', 'lifterlms' );
 				echo $c->get_formatted_amount();
 				echo '<br>';
@@ -66,21 +69,21 @@ class LLMS_Admin_Post_Table_Coupons {
 					echo '<br>';
 				}
 
-			break;
+				break;
 
 			case 'desc':
 				echo $c->get( 'description' );
-			break;
+				break;
 
 			case 'usage':
 				echo $c->get_uses();
 				echo ' / ';
 				echo ( $c->get( 'usage_limit' ) ) ? $c->get( 'usage_limit' ) : '&infin;';
-			break;
+				break;
 
 			case 'expiry':
 				echo $c->get( 'expiration_date' ) ? $c->get_date( 'expiration_date', 'F d, Y' ) : '&ndash;';
-			break;
+				break;
 
 		}
 

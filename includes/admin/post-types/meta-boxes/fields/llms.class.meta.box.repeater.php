@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Metabox Repeater Field
+ *
  * @since    3.11.0
  * @version  3.17.3
  */
@@ -12,19 +13,20 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 	/**
 	 * Class constructor
+	 *
 	 * @param array $_field Array containing information about field
 	 * @since    3.11.0
 	 * @version  3.11.0
 	 */
-	function __construct( $_field ) {
+	public function __construct( $_field ) {
 
 		$button_defaults = array(
 			'classes' => '', // array or space separated string
-			'icon' => 'dashicons-plus', // dashicon classname or HTML/String
-			'id' => $_field['id'] . '-add-new',
-			'size' => 'small',
-			'style' => 'primary',
-			'text' => __( 'Add New', 'lifterlms' ),
+			'icon'    => 'dashicons-plus', // dashicon classname or HTML/String
+			'id'      => $_field['id'] . '-add-new',
+			'size'    => 'small',
+			'style'   => 'primary',
+			'text'    => __( 'Add New', 'lifterlms' ),
 		);
 
 		if ( empty( $_field['button'] ) ) {
@@ -39,6 +41,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 	/**
 	 * Retrieve the HTML for the repeater add more button
+	 *
 	 * @return   string
 	 * @since    3.11.0
 	 * @version  3.11.0
@@ -48,11 +51,11 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 		$btn = $this->field['button'];
 
 		// setup class list
-		$classes = explode( ' ', $btn['classes'] );
+		$classes   = explode( ' ', $btn['classes'] );
 		$classes[] = sprintf( 'llms-button-%s', $btn['style'] );
 		$classes[] = $btn['size'];
 		$classes[] = 'llms-repeater-new-btn';
-		$classes = implode( ' ', $classes );
+		$classes   = implode( ' ', $classes );
 
 		// setup icon
 		if ( $btn['icon'] && 0 === strpos( $btn['icon'], 'dashicons-' ) ) {
@@ -114,6 +117,7 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 	/**
 	 * Get repeater sub field html output
+	 *
 	 * @return   string
 	 * @since    3.11.0
 	 * @version  3.17.3
@@ -126,12 +130,22 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 			$field['controller'] .= '_' . $index;
 		}
 
-		$name = ucfirst( strtr( preg_replace_callback( '/(\w+)/', function( $m ) {
-			return ucfirst( $m[1] );
-		}, $field['type'] ),'-','_' ) );
+		$name = ucfirst(
+			strtr(
+				preg_replace_callback(
+					'/(\w+)/',
+					function( $m ) {
+						return ucfirst( $m[1] );
+					},
+					$field['type']
+				),
+				'-',
+				'_'
+			)
+		);
 
 		$field_class_name = str_replace( '{TOKEN}', $name, 'LLMS_Metabox_{TOKEN}_Field' );
-		$field_class = new $field_class_name($field);
+		$field_class      = new $field_class_name( $field );
 		ob_start();
 		$field_class->output();
 		return ob_get_clean();
@@ -140,7 +154,8 @@ class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box
 
 	/**
 	 * Outputs the Html for the given field
-	 * @return   string
+	 *
+	 * @return   void
 	 * @since    3.11.0
 	 * @version  3.11.0
 	 */

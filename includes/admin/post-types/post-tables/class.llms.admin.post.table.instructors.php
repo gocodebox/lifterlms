@@ -17,6 +17,7 @@ class LLMS_Admin_Post_Table_Instructors {
 
 	/**
 	 * Constructor
+	 *
 	 * @return  void
 	 * @since    3.3.0
 	 * @version  3.13.0
@@ -35,7 +36,8 @@ class LLMS_Admin_Post_Table_Instructors {
 
 	/**
 	 * Add Custom Columns
-	 * @param    array  $columns array of default columns
+	 *
+	 * @param    array $columns array of default columns
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -55,22 +57,26 @@ class LLMS_Admin_Post_Table_Instructors {
 	/**
 	 * Create a string that can be used in a LIKE query for finding a student's id in the llms_instructors
 	 * meta field on the usermeta table
-	 * @param    int     $user_id  WP User ID
+	 *
+	 * @param    int $user_id  WP User ID
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	private function get_serialized_id( $user_id ) {
-		$val = serialize( array(
-			'id' => absint( $user_id ),
-		) );
+		$val = serialize(
+			array(
+				'id' => absint( $user_id ),
+			)
+		);
 		return str_replace( array( 'a:1:{', '}' ), '', $val );
 	}
 
 	/**
 	 * Ensure that the "Mine" view quick link at the top of the table displays the correct number
 	 * Most of this is based on WordPress core functions found in wp-admin/includes/class-wp-posts-list-table.php
-	 * @param    array     $views  array of view link HTML string
+	 *
+	 * @param    array $views  array of view link HTML string
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.24.0
@@ -81,12 +87,17 @@ class LLMS_Admin_Post_Table_Instructors {
 
 		$current_user_id = get_current_user_id();
 
-		$exclude_states = get_post_stati( array(
-			'show_in_admin_all_list' => false,
-		) );
+		$exclude_states = get_post_stati(
+			array(
+				'show_in_admin_all_list' => false,
+			)
+		);
 
 		global $wpdb;
-		$count = intval( $wpdb->get_var( $wpdb->prepare( "
+		$count = intval(
+			$wpdb->get_var(
+				$wpdb->prepare(
+					"
 			SELECT COUNT( 1 )
 			FROM $wpdb->posts AS p
 			JOIN $wpdb->postmeta AS m
@@ -95,7 +106,12 @@ class LLMS_Admin_Post_Table_Instructors {
 			 AND m.meta_value LIKE %s
 			WHERE p.post_type = %s
 			  AND p.post_status NOT IN ( '" . implode( "','", $exclude_states ) . "' )
-		", '%' . $this->get_serialized_id( $current_user_id ) . '%', $post_type ) ) );
+		",
+					'%' . $this->get_serialized_id( $current_user_id ) . '%',
+					$post_type
+				)
+			)
+		);
 
 		$label = sprintf(
 			_nx(
@@ -108,10 +124,13 @@ class LLMS_Admin_Post_Table_Instructors {
 			number_format_i18n( $count )
 		);
 
-		$url = add_query_arg( array(
-			'post_type' => $post_type,
-			'author' => $current_user_id,
-		), 'edit.php' );
+		$url = add_query_arg(
+			array(
+				'post_type' => $post_type,
+				'author'    => $current_user_id,
+			),
+			'edit.php'
+		);
 
 		$class = '';
 		if ( isset( $_GET['author'] ) && ( $_GET['author'] == $current_user_id ) ) {
@@ -123,10 +142,10 @@ class LLMS_Admin_Post_Table_Instructors {
 		if ( ! isset( $views['mine'] ) ) {
 
 			$offset = array_search( 'all', array_keys( $views ) );
-			$add = array(
+			$add    = array(
 				'mine' => '',
 			);
-			$views = array_slice( $views, 0, $offset + 1 ) + $add + array_slice( $views, $offset + 1 );
+			$views  = array_slice( $views, 0, $offset + 1 ) + $add + array_slice( $views, $offset + 1 );
 
 		}
 
@@ -137,8 +156,9 @@ class LLMS_Admin_Post_Table_Instructors {
 
 	/**
 	 * Manage content of custom columns
-	 * @param    string  $column   column key/name
-	 * @param    int     $post_id  WP Post ID of the coupon for the row
+	 *
+	 * @param    string $column   column key/name
+	 * @param    int    $post_id  WP Post ID of the coupon for the row
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.23.0
@@ -151,13 +171,16 @@ class LLMS_Admin_Post_Table_Instructors {
 
 			case 'llms-instructors':
 				$instructors = $post->get_instructors();
-				$htmls = array();
+				$htmls       = array();
 				foreach ( $instructors as $user ) {
 
-					$url = add_query_arg( array(
-						'post_type' => $post->get( 'type' ),
-						'author' => $user['id'],
-					), 'edit.php' );
+					$url = add_query_arg(
+						array(
+							'post_type' => $post->get( 'type' ),
+							'author'    => $user['id'],
+						),
+						'edit.php'
+					);
 
 					$instructor = llms_get_instructor( $user['id'] );
 
@@ -166,7 +189,7 @@ class LLMS_Admin_Post_Table_Instructors {
 					}
 				}
 				echo implode( ', ', $htmls );
-			break;
+				break;
 
 		}
 
@@ -174,7 +197,8 @@ class LLMS_Admin_Post_Table_Instructors {
 
 	/**
 	 * Handle course & membership queries for searching by llms_instructors rather than author
-	 * @param    obj     $query  WP_Query
+	 *
+	 * @param    obj $query  WP_Query
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -210,8 +234,8 @@ class LLMS_Admin_Post_Table_Instructors {
 
 			$meta_query[] = array(
 				'compare' => 'LIKE',
-				'key' => '_llms_instructors',
-				'value' => $this->get_serialized_id( $query->query_vars['author'] ),
+				'key'     => '_llms_instructors',
+				'value'   => $this->get_serialized_id( $query->query_vars['author'] ),
 			);
 
 			$query->set( 'meta_query', $meta_query );

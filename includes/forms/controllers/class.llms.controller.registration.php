@@ -11,6 +11,7 @@ class LLMS_Controller_Registration {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
@@ -24,9 +25,10 @@ class LLMS_Controller_Registration {
 	/**
 	 * Attempt to redeem a voucher on user registration
 	 * if a voucher was submitted during registration
-	 * @param    int        $person_id  WP_User ID of the newly registered user
-	 * @param    array      $data       $_POST
-	 * @param    string     $screen     screen user registered from [checkout|registration]
+	 *
+	 * @param    int    $person_id  WP_User ID of the newly registered user
+	 * @param    array  $data       $_POST
+	 * @param    string $screen     screen user registered from [checkout|registration]
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.19.4
@@ -35,7 +37,7 @@ class LLMS_Controller_Registration {
 
 		if ( 'registration' === $screen && ! empty( $data['llms_voucher'] ) ) {
 
-			$voucher = new LLMS_Voucher();
+			$voucher  = new LLMS_Voucher();
 			$redeemed = $voucher->use_voucher( $data['llms_voucher'], $person_id );
 
 			if ( is_wp_error( $redeemed ) ) {
@@ -49,6 +51,7 @@ class LLMS_Controller_Registration {
 
 	/**
 	 * Handle submission of user registration forms
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.24.0

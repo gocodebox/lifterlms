@@ -21,6 +21,7 @@ class LLMS_Notification_Processor_Email extends LLMS_Abstract_Notification_Proce
 
 	/**
 	 * action name
+	 *
 	 * @var  string
 	 */
 	protected $action = 'llms_notification_processor_email';

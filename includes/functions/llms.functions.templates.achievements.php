@@ -1,16 +1,19 @@
 <?php
 /**
  * Achievements & Related template functions
+ *
  * @since    3.14.0
  * @version  3.14.1
  */
 
 // Restrict direct access
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Get the content of a single achievement
- * @param    obj     $achievement  instance of an LLMS_User_Achievement
+ *
+ * @param    obj $achievement  instance of an LLMS_User_Achievement
  * @return   void
  * @since    3.14.0
  * @version  3.14.0
@@ -19,16 +22,20 @@ function llms_get_achievement( $achievement ) {
 
 	ob_start();
 
-	llms_get_template( 'achievements/template.php', array(
-		'achievement' => $achievement,
-	) );
+	llms_get_template(
+		'achievements/template.php',
+		array(
+			'achievement' => $achievement,
+		)
+	);
 
 	return ob_get_clean();
 
 }
 	/**
 	 * Output the content of a single achievement
-	 * @param    obj     $achievement  instance of an LLMS_User_Achievement
+	 *
+	 * @param    obj $achievement  instance of an LLMS_User_Achievement
 	 * @return   void
 	 * @since    3.14.0
 	 * @version  3.14.0
@@ -39,6 +46,7 @@ function llms_the_achievement( $achievement ) {
 
 /**
  * Retrieve the number of columns used in achievement loops
+ *
  * @return   int
  * @since    3.14.0
  * @version  3.14.0
@@ -50,6 +58,7 @@ function llms_get_achievement_loop_columns() {
 
 /**
  * Get template for achievements loop
+ *
  * @param    obj       $student  LLMS_Student (uses current if none supplied)
  * @param    bool|int  $limit    number of achievements to show (defaults to all)
  * @param    int       $columns  number of achievements columns
@@ -80,10 +89,13 @@ if ( ! function_exists( 'lifterlms_template_achievements_loop' ) ) {
 			}
 		}
 
-		llms_get_template( 'achievements/loop.php', array(
-			'cols' => $cols,
-			'achievements' => $achievements,
-		) );
+		llms_get_template(
+			'achievements/loop.php',
+			array(
+				'cols'         => $cols,
+				'achievements' => $achievements,
+			)
+		);
 
 	}
 }

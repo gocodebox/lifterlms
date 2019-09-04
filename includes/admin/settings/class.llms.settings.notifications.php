@@ -23,6 +23,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.8.0
 	 * @version  3.24.0
 	 */
@@ -44,22 +45,24 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Get a breadcrumb custom html for use on notification settings screens (not on the table)
-	 * @param    string     $current_title  the title of the current notification
+	 *
+	 * @param    string $current_title  the title of the current notification
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
 	 */
 	private function get_breadcrumbs( $current_title ) {
 		return array(
-			'id' => 'notification_options_breadcrumbs',
-			'type' => 'custom-html',
+			'id'    => 'notification_options_breadcrumbs',
+			'type'  => 'custom-html',
 			'value' => '<a href="' . esc_url( admin_url( 'admin.php?page=llms-settings&tab=notifications' ) ) . '">' . __( 'All Notifications', 'lifterlms' ) . '</a> <small>&gt;</small> <strong>' . $current_title . '</strong>',
 		);
 	}
 
 	/**
 	 * Get settings specific to the current notification type
-	 * @param    obj     $controller  instance of an LLMS_Notification_Controller
+	 *
+	 * @param    obj $controller  instance of an LLMS_Notification_Controller
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.24.0
@@ -69,10 +72,10 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		$settings = array();
 
 		// setup vars
-		$type = sanitize_text_field( $_GET['type'] );
+		$type  = sanitize_text_field( $_GET['type'] );
 		$types = $controller->get_supported_types();
 		$title = $controller->get_title() . ' (' . $types[ $type ] . ')';
-		$view = $controller->get_mock_view( $type );
+		$view  = $controller->get_mock_view( $type );
 
 		// so the merge code button can use it i
 		$this->view = $view;
@@ -92,13 +95,13 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 			$sub_settings = array(
 				'default' => $data['enabled'],
-				'desc' => $data['title'],
-				'id' => sprintf( '%1$s[%2$s]', $controller->get_option_name( $type . '_subscribers' ), $data['id'] ),
-				'type' => 'checkbox',
+				'desc'    => $data['title'],
+				'id'      => sprintf( '%1$s[%2$s]', $controller->get_option_name( $type . '_subscribers' ), $data['id'] ),
+				'type'    => 'checkbox',
 			);
 
 			if ( 0 === $i ) {
-				$sub_settings['title'] = __( 'Subscribers', 'lifterlms' );
+				$sub_settings['title']         = __( 'Subscribers', 'lifterlms' );
 				$sub_settings['checkboxgroup'] = 'start';
 			} elseif ( count( $subscribers ) - 1 === $i ) {
 				$sub_settings['checkboxgroup'] = 'end';
@@ -111,7 +114,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 			if ( 'custom' === $data['id'] ) {
 				$settings[] = array(
 					'desc' => '<br>' . $data['description'],
-					'id' => $controller->get_option_name( $type . '_custom_subscribers' ),
+					'id'   => $controller->get_option_name( $type . '_custom_subscribers' ),
 					'type' => 'text',
 				);
 			}
@@ -120,7 +123,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		if ( $controller->is_testable( $type ) ) {
 			foreach ( $controller->get_test_settings( $type ) as $setting ) {
 				$setting['id'] = 'llms_notification_test_data[' . $setting['id'] . ']';
-				$settings[] = $setting;
+				$settings[]    = $setting;
 			}
 		}
 
@@ -142,14 +145,14 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		$settings[] = array(
 			'class' => 'top',
-			'id' => 'notification_options',
-			'type' => 'sectionstart',
+			'id'    => 'notification_options',
+			'type'  => 'sectionstart',
 		);
 
 		$settings[] = array(
 			'title' => __( 'Notification Settings', 'lifterlms' ),
-			'type' => 'title',
-			'id' => 'notification_options_title',
+			'type'  => 'title',
+			'id'    => 'notification_options_title',
 		);
 
 		if ( isset( $_GET['notification'] ) ) {
@@ -163,8 +166,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 			} else {
 
 				$settings[] = array(
-					'id' => 'notification_options_invalid_error',
-					'type' => 'custom-html',
+					'id'    => 'notification_options_invalid_error',
+					'type'  => 'custom-html',
 					'value' => __( 'Invalid notification', 'lifterlms' ),
 				);
 
@@ -172,15 +175,15 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		} else {
 
 			$settings[] = array(
-				'id' => 'llms_notifications_table',
+				'id'    => 'llms_notifications_table',
 				'table' => new LLMS_Table_NotificationSettings(),
-				'type' => 'table',
+				'type'  => 'table',
 			);
 
 		}
 
 		$settings[] = array(
-			'id' => 'notification_options',
+			'id'   => 'notification_options',
 			'type' => 'sectionend',
 		);
 
@@ -190,7 +193,8 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Disable save button on the main notification tab (list)
-	 * @param    bool      $bool  default display value (true)
+	 *
+	 * @param    bool $bool  default display value (true)
 	 * @return   boolean
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -203,6 +207,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Output a merge code button in the WYSIWYG editor
+	 *
 	 * @return   [type]     [description]
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -215,6 +220,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Remove test data from $_POST so that it wont be saved to the DB
+	 *
 	 * @return   void
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -232,6 +238,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 	/**
 	 * Send a test notification after notification data is saved
+	 *
 	 * @return   void
 	 * @since    3.24.0
 	 * @version  3.24.0

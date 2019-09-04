@@ -1,12 +1,12 @@
 <?php
 /**
-* User Achievement class, inherits methods from LLMS_Achievement
-*
-* Generates achievements for users.
-*
-* @since 1.0.0
-* @version 3.24.0
-*/
+ * User Achievement class, inherits methods from LLMS_Achievement
+ *
+ * Generates achievements for users.
+ *
+ * @since 1.0.0
+ * @version 3.24.0
+ */
 
 defined( 'ABSPATH' ) || exit;
 
@@ -32,6 +32,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 	/**
 	 * partial path and file name of HTML template
+	 *
 	 * @var string
 	 * @since 1.0.0
 	 */
@@ -39,6 +40,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 	/**
 	 * user meta fields
+	 *
 	 * @var array
 	 * @since 1.0.0
 	 */
@@ -91,6 +93,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	/**
 	 * Check if the user has already earned this achievement
 	 * used to prevent duplicates
+	 *
 	 * @return   boolean
 	 * @since    3.4.1
 	 * @version  3.17.4
@@ -99,7 +102,9 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 		global $wpdb;
 
-		$count = (int) $wpdb->get_var( $wpdb->prepare( "
+		$count = (int) $wpdb->get_var(
+			$wpdb->prepare(
+				"
 			SELECT COUNT( pm.meta_id )
 			FROM {$wpdb->postmeta} AS pm
 			JOIN {$wpdb->prefix}lifterlms_user_postmeta AS upm ON pm.post_id = upm.meta_value
@@ -110,8 +115,9 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 			  AND upm.post_id = %d
 			  LIMIT 1
 			;",
-			array( $this->achievement_template_id, $this->userid, $this->lesson_id )
-		) );
+				array( $this->achievement_template_id, $this->userid, $this->lesson_id )
+			)
+		);
 
 		/**
 		 * @filter llms_achievement_has_user_earned
@@ -123,9 +129,10 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 	/**
 	 * Initializes all of the variables needed to create the achievement post.
-	 * @param    int  $id         id of post
-	 * @param    int  $person_id  id of user
-	 * @param    int  $lesson_id  id of associated lesson
+	 *
+	 * @param    int $id         id of post
+	 * @param    int $person_id  id of user
+	 * @param    int $lesson_id  id of associated lesson
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.24.0
@@ -134,22 +141,22 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		global $wpdb;
 
 		$content = get_post( $id );
-		$meta = get_post_meta( $content->ID );
+		$meta    = get_post_meta( $content->ID );
 
-		$this->achievement_template_id	= $id;
-		$this->lesson_id    			= $lesson_id;
-		$this->title 					= $content->post_title;
-		$this->achievement_title 		= $meta['_llms_achievement_title'][0];
-		$this->content 					= ( ! empty( $content->post_content ) ) ? $content->post_content : $meta['_llms_achievement_content'][0];
-		$this->image 					= $meta['_llms_achievement_image'][0];
-		$this->userid           		= $person_id;
-		$this->user             		= get_user_meta( $person_id );
-		$this->user_data				= get_userdata( $person_id );
-		$this->user_firstname			= ( '' != $this->user['first_name'][0] ? $this->user['first_name'][0] : $this->user['nickname'][0] );
-		$this->user_lastname			= ( '' != $this->user['last_name'][0] ? $this->user['last_name'][0] : '' );
-		$this->user_email				= $this->user_data->data->user_email;
-		$this->template_html 			= 'achievements/template.php';
-		$this->account_link 			= get_permalink( llms_get_page_id( 'myaccount' ) );
+		$this->achievement_template_id = $id;
+		$this->lesson_id               = $lesson_id;
+		$this->title                   = $content->post_title;
+		$this->achievement_title       = $meta['_llms_achievement_title'][0];
+		$this->content                 = ( ! empty( $content->post_content ) ) ? $content->post_content : $meta['_llms_achievement_content'][0];
+		$this->image                   = $meta['_llms_achievement_image'][0];
+		$this->userid                  = $person_id;
+		$this->user                    = get_user_meta( $person_id );
+		$this->user_data               = get_userdata( $person_id );
+		$this->user_firstname          = ( '' != $this->user['first_name'][0] ? $this->user['first_name'][0] : $this->user['nickname'][0] );
+		$this->user_lastname           = ( '' != $this->user['last_name'][0] ? $this->user['last_name'][0] : '' );
+		$this->user_email              = $this->user_data->data->user_email;
+		$this->template_html           = 'achievements/template.php';
+		$this->account_link            = get_permalink( llms_get_page_id( 'myaccount' ) );
 
 	}
 
@@ -173,10 +180,10 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 
 		if ( $user_id ) {
 
-			$this->object 		      = new WP_User( $user_id );
-			$this->user_login         = stripslashes( $this->object->user_login );
-			$this->user_email         = stripslashes( $this->object->user_email );
-			$this->recipient          = $this->user_email;
+			$this->object     = new WP_User( $user_id );
+			$this->user_login = stripslashes( $this->object->user_login );
+			$this->user_email = stripslashes( $this->object->user_email );
+			$this->recipient  = $this->user_email;
 
 		}
 
@@ -195,7 +202,7 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 	 */
 	public function get_content_html() {
 
-		$this->find = array(
+		$this->find    = array(
 			'{site_title}',
 			'{user_login}',
 			'{site_url}',
@@ -217,11 +224,14 @@ class LLMS_Achievement_User extends LLMS_Achievement {
 		$content = $this->format_string( $this->content );
 
 		ob_start();
-		llms_get_template( $this->template_html, array(
-			'content'        => $this->content,
-			'title'			 => $this->format_string( $this->title ),
-			'image'			 => $this->image,
-		) );
+		llms_get_template(
+			$this->template_html,
+			array(
+				'content' => $this->content,
+				'title'   => $this->format_string( $this->title ),
+				'image'   => $this->image,
+			)
+		);
 		return ob_get_clean();
 	}
 

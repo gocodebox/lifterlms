@@ -2,6 +2,7 @@
 /**
  * Assignment template
  * Please give us your money <3
+ *
  * @since   3.17.0
  * @version 3.17.0
  */

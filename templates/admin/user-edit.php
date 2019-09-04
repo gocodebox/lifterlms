@@ -2,10 +2,12 @@
 /**
  * Add LifterLMS fields to the user-edit screen
  * on the WordPress admin Panel
+ *
  * @since    2.7.0
  * @version  3.13.0
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+
+defined( 'ABSPATH' ) || exit;
 ?>
 
 <h2><?php echo $section_title; ?></h2>

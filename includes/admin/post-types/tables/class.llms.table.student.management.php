@@ -19,6 +19,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'student-management';
@@ -26,30 +27,35 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	/**
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set
+	 *
 	 * @var  string
 	 */
 	protected $filter = 'any';
 
 	/**
 	 * Field results are filtered by
+	 *
 	 * @var  string
 	 */
 	protected $filterby = 'status';
 
 	/**
 	 * Determine if the table is filterable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
+	 *
 	 * @var  boolean
 	 */
 	protected $is_paginated = true;
 
 	/**
 	 * Determine of the table is searchable
+	 *
 	 * @var  boolean
 	 */
 	protected $is_searchable = true;
@@ -58,18 +64,21 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * Results sort order
 	 * 'ASC' or 'DESC'
 	 * Only applicable of $orderby is not set
+	 *
 	 * @var  string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
+	 *
 	 * @var  string
 	 */
 	protected $orderby = 'name';
 
 	/**
 	 * Post ID for the current table
+	 *
 	 * @var  int
 	 */
 	protected $post_id = null;
@@ -82,7 +91,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 	 * @since 3.33.0 Added icon popover tooltip via llms tooltip data attribute api.
 	 *
 	 * @param string $key The column id / key.
-	 * @param int $user_id WP User ID.
+	 * @param int    $user_id WP User ID.
 	 * @return  mixed
 	 */
 	public function get_data( $key, $student ) {
@@ -109,15 +118,15 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 						$value .= '<a class="llms-action-icon danger llms-delete-enrollment tip--top-left" data-id="' . $student->get_id() . '" href="#llms-student-delete-enrollment" data-tip="' . __( 'Delete Enrollment', 'lifterlms' ) . '"><span class="dashicons dashicons-trash"></span></a>';
 					}
 				}
-			break;
+				break;
 
 			case 'enrolled':
 				$value = $student->get_enrollment_date( $this->post_id, 'updated' );
-			break;
+				break;
 
 			case 'grade':
 				$value = $student->get_grade( $this->post_id );
-			break;
+				break;
 
 			case 'id':
 				$id = $student->get_id();
@@ -126,7 +135,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 				} else {
 					$value = $id;
 				}
-			break;
+				break;
 
 			case 'last_lesson':
 				$lid = $student->get_last_completed_lesson( $this->post_id );
@@ -135,12 +144,11 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 				} else {
 					$value = '&ndash;';
 				}
-			break;
+				break;
 
 			case 'name':
-
 				$first = $student->get( 'first_name' );
-				$last = $student->get( 'last_name' );
+				$last  = $student->get( 'last_name' );
 
 				if ( ! $first || ! $last ) {
 					$value = $student->get( 'display_name' );
@@ -148,37 +156,40 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 					$value = $last . ', ' . $first;
 				}
 
-				$url = add_query_arg( array(
-					'page' => 'llms-reporting',
-					'tab' => 'students',
-					'student_id' => $student->get_id(),
-				), admin_url( 'admin.php' ) );
+				$url   = add_query_arg(
+					array(
+						'page'       => 'llms-reporting',
+						'tab'        => 'students',
+						'student_id' => $student->get_id(),
+					),
+					admin_url( 'admin.php' )
+				);
 				$value = '<a href="' . esc_url( $url ) . '">' . $value . '</a>';
 
-			break;
+				break;
 
 			case 'progress':
 				$value = $student->get_progress( $this->post_id ) . '%';
-			break;
+				break;
 
 			case 'status':
 				$value = llms_get_enrollment_status_name( $student->get_enrollment_status( $this->post_id ) );
-			break;
+				break;
 
 			case 'trigger':
 				$trigger = $student->get_enrollment_trigger( $this->post_id );
 				if ( $trigger && false !== strpos( $trigger, 'order_' ) ) {
-					$tid = $student->get_enrollment_trigger_id( $this->post_id );
+					$tid   = $student->get_enrollment_trigger_id( $this->post_id );
 					$value = $this->get_post_link( $tid, sprintf( __( 'Order #%d', 'lifterlms' ), $tid ) );
 				} elseif ( $trigger && false !== strpos( $trigger, 'admin_' ) ) {
-					$tid = $student->get_enrollment_trigger_id( $this->post_id );
-					$admin = llms_get_student( $tid );
+					$tid        = $student->get_enrollment_trigger_id( $this->post_id );
+					$admin      = llms_get_student( $tid );
 					$admin_name = $admin ? $admin->get_name() : __( '[Deleted]', 'lifterlms' );
-					$value = $this->get_user_link( $tid, sprintf( __( 'Admin: %1$s (#%2$d)', 'lifterlms' ), $admin_name, $tid ) );
+					$value      = $this->get_user_link( $tid, sprintf( __( 'Admin: %1$s (#%2$d)', 'lifterlms' ), $admin_name, $tid ) );
 				} else {
 					$value = $trigger;
 				}
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -191,7 +202,8 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
 	 * Retrieve a list of IDs for all the users enrollments
-	 * @param    obj     $student  instance of LLMS_Student
+	 *
+	 * @param    obj $student  instance of LLMS_Student
 	 * @return   array             array of course ids
 	 * @since    3.4.0
 	 * @version  3.4.0
@@ -205,10 +217,12 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 		while ( true ) {
 
-			$courses = $student->get_courses( array(
-				'limit' => 5000,
-				'skip' => 5000 * ( $page - 1 ),
-			) );
+			$courses = $student->get_courses(
+				array(
+					'limit' => 5000,
+					'skip'  => 5000 * ( $page - 1 ),
+				)
+			);
 
 			$r = array_merge( $courses['results'] );
 
@@ -225,6 +239,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 *
 	 * @return   string
 	 * @since    3.4.0
 	 * @version  3.4.0
@@ -235,7 +250,8 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.4.0
 	 * @version  3.4.0
@@ -256,53 +272,53 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 			$this->current_page = absint( $args['page'] );
 		}
 
-		$this->filter = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
+		$this->filter   = isset( $args['filter'] ) ? $args['filter'] : $this->get_filter();
 		$this->filterby = isset( $args['filterby'] ) ? $args['filterby'] : $this->get_filterby();
 
-		$this->order = isset( $args['order'] ) ? $args['order'] : $this->get_order();
+		$this->order   = isset( $args['order'] ) ? $args['order'] : $this->get_order();
 		$this->orderby = isset( $args['orderby'] ) ? $args['orderby'] : $this->get_orderby();
 
 		$sort = array();
 		switch ( $this->get_orderby() ) {
 			case 'enrolled':
 				$sort = array(
-					'date' => $this->get_order(),
-					'last_name' => 'ASC',
+					'date'       => $this->get_order(),
+					'last_name'  => 'ASC',
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 			case 'id':
 				$sort = array(
 					'id' => $this->get_order(),
 				);
-			break;
+				break;
 
 			case 'name':
 				$sort = array(
-					'last_name' => $this->get_order(),
+					'last_name'  => $this->get_order(),
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 			case 'status':
 				$sort = array(
-					'status' => $this->get_order(),
-					'last_name' => 'ASC',
+					'status'     => $this->get_order(),
+					'last_name'  => 'ASC',
 					'first_name' => 'ASC',
-					'id' => 'ASC',
+					'id'         => 'ASC',
 				);
-			break;
+				break;
 
 		}
 
 		$query_args = array(
-			'page' => $this->get_current_page(),
-			'post_id' => $args['post_id'],
+			'page'     => $this->get_current_page(),
+			'post_id'  => $args['post_id'],
 			'per_page' => apply_filters( 'llms_' . $this->id . '_table_students_per_page', 20 ),
-			'sort' => $sort,
+			'sort'     => $sort,
 		);
 
 		if ( 'status' === $this->get_filterby() && 'any' !== $this->get_filter() ) {
@@ -313,14 +329,14 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 		if ( isset( $args['search'] ) ) {
 
-			$this->search = $args['search'];
+			$this->search         = $args['search'];
 			$query_args['search'] = $this->get_search();
 
 		}
 
 		$query = new LLMS_Student_Query( $query_args );
 
-		$this->max_pages = $query->max_pages;
+		$this->max_pages    = $query->max_pages;
 		$this->is_last_page = $query->is_last_page();
 
 		$this->tbody_data = $query->get_students();
@@ -330,6 +346,7 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
 	 * @return   array
 	 * @since    3.4.0
 	 * @version  3.4.0
@@ -349,48 +366,49 @@ class LLMS_Table_StudentManagement extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.4.0
 	 * @version  3.4.0
 	 */
 	public function set_columns() {
 		$cols = array(
-			'id' => array(
+			'id'          => array(
 				'sortable' => true,
-				'title' => __( 'ID', 'lifterlms' ),
+				'title'    => __( 'ID', 'lifterlms' ),
 			),
-			'name' => array(
+			'name'        => array(
 				'sortable' => true,
-				'title' => __( 'Name', 'lifterlms' ),
+				'title'    => __( 'Name', 'lifterlms' ),
 			),
-			'status' => array(
+			'status'      => array(
 				'filterable' => llms_get_enrollment_statuses(),
+				'sortable'   => true,
+				'title'      => __( 'Status', 'lifterlms' ),
+			),
+			'enrolled'    => array(
 				'sortable' => true,
-				'title' => __( 'Status', 'lifterlms' ),
+				'title'    => __( 'Enrollment Updated', 'lifterlms' ),
 			),
-			'enrolled' => array(
-				'sortable' => true,
-				'title' => __( 'Enrollment Updated', 'lifterlms' ),
-			),
-			'progress' => array(
+			'progress'    => array(
 				'sortable' => false,
-				'title' => __( 'Progress', 'lifterlms' ),
+				'title'    => __( 'Progress', 'lifterlms' ),
 			),
-			'grade' => array(
+			'grade'       => array(
 				'sortable' => false,
-				'title' => __( 'Grade', 'lifterlms' ),
+				'title'    => __( 'Grade', 'lifterlms' ),
 			),
 			'last_lesson' => array(
 				'sortable' => false,
-				'title' => __( 'Last Lesson', 'lifterlms' ),
+				'title'    => __( 'Last Lesson', 'lifterlms' ),
 			),
-			'trigger' => array(
+			'trigger'     => array(
 				'sortable' => false,
-				'title' => __( 'Enrollment Trigger', 'lifterlms' ),
+				'title'    => __( 'Enrollment Trigger', 'lifterlms' ),
 			),
-			'actions' => array(
+			'actions'     => array(
 				'sortable' => false,
-				'title' => '&nbsp;',
+				'title'    => '&nbsp;',
 			),
 		);
 		$args = $this->get_args();

@@ -1,6 +1,7 @@
 <?php
 /**
  * My Grades Template
+ *
  * @since    3.24.0
  * @version  3.24.0
  */
@@ -27,9 +28,11 @@ llms_print_notices();
 				<td><a href="<?php echo llms_get_endpoint_url( 'my-grades', $course->get( 'name' ) ); ?>"><?php echo $course->get( 'title' ); ?></a></td>
 				<td><?php echo $student->get_enrollment_date( $course->get( 'id' ) ); ?></td>
 				<td><?php echo llms_get_progress_bar_html( $student->get_progress( $course->get( 'id' ) ) ); ?></td>
-				<td><?php
+				<td>
+				<?php
 					$grade = $student->get_grade( $course->get( 'id' ) );
-					echo is_numeric( $grade ) ? llms_get_donut( $grade, '', 'mini' ) : '&ndash;'; ?>
+					echo is_numeric( $grade ) ? llms_get_donut( $grade, '', 'mini' ) : '&ndash;';
+				?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
@@ -40,16 +43,20 @@ llms_print_notices();
 				<td class="llms-table-navigation" colspan="2">
 					<?php if ( 1 !== $pagination['current'] || $pagination['max'] !== $pagination['current'] ) : ?>
 					<nav class="llms-pagination">
-					<?php echo paginate_links( array(
-						'base'         => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
-						'format'       => '?page=%#%',
-						'total'        => $pagination['max'],
-						'current'      => $pagination['current'],
-						'prev_next'    => true,
-						'prev_text'    => '« ' . __( 'Previous', 'lifterlms' ),
-						'next_text'    => __( 'Next', 'lifterlms' ) . ' »',
-						'type'         => 'list',
-					) ); ?>
+						<?php
+						echo paginate_links(
+							array(
+								'base'      => str_replace( 999999, '%#%', esc_url( get_pagenum_link( 999999 ) ) ),
+								'format'    => '?page=%#%',
+								'total'     => $pagination['max'],
+								'current'   => $pagination['current'],
+								'prev_next' => true,
+								'prev_text' => '« ' . __( 'Previous', 'lifterlms' ),
+								'next_text' => __( 'Next', 'lifterlms' ) . ' »',
+								'type'      => 'list',
+							)
+						);
+						?>
 					</nav>
 					<?php endif; ?>
 				</td>

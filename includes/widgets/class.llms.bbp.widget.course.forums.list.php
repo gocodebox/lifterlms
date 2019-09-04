@@ -16,13 +16,14 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.12.0
 	 * @version  3.12.0
 	 */
 	public function __construct() {
 
 		$options = array(
-			'classname' => 'llms-bbp-widget-course-forums',
+			'classname'   => 'llms-bbp-widget-course-forums',
 			'description' => esc_html__( 'Displays a list of bbPress forums associated with the course.', 'lifterlms' ),
 		);
 
@@ -32,8 +33,9 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 
 	/**
 	 * Output the widget
-	 * @param    array     $args      arguments passed to the widget
-	 * @param    array     $instance  instance information
+	 *
+	 * @param    array $args      arguments passed to the widget
+	 * @param    array $instance  instance information
 	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.12.0
@@ -69,7 +71,8 @@ class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 
 	/**
 	 * Output widget options form
-	 * @param    array     $instance  instance data
+	 *
+	 * @param    array $instance  instance data
 	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.24.0

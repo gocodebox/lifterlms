@@ -1,14 +1,17 @@
-/* global LLMS, $ */
-
 /**
  * Add Spinners for AJAX events
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since 3.0.0
  * @version 3.0.0
  */
+
 LLMS.Spinner = {
 
 	/**
 	 * Get an exiting spinner element or create a new one
+	 *
 	 * @param    obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 	 * @param    string   size  size or the spinner [default|small]
 	 *                          default is 40px
@@ -23,7 +26,7 @@ LLMS.Spinner = {
 		var $spinner = $el.find( '.llms-spinning' ).first();
 
 		// no spinner inside $el
-		if ( !$spinner.length ) {
+		if ( ! $spinner.length ) {
 
 			size = ( size ) ? size : 'default';
 
@@ -43,6 +46,7 @@ LLMS.Spinner = {
 	/**
 	 * Start spinner(s) inr=side a given element
 	 * Creates them if they don't exist!
+	 *
 	 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 	 * @param   string   size  size or the spinner [default|small]
 	 *                          default is 40px
@@ -65,6 +69,7 @@ LLMS.Spinner = {
 
 	/**
 	 * Store spinners within an element
+	 *
 	 * @param   obj      $el   jQuery selector of the parent element that should hold and be mased by a spinner
 	 * @return  void
 	 * @since   3.0.0

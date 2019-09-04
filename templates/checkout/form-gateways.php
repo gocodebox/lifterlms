@@ -1,11 +1,12 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
 /**
  * Payment Gateway selection area of the checkout form
  *
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ * @author      LifterLMS
+ * @package     LifterLMS/Templates
  */
+
+defined( 'ABSPATH' ) || exit;
 
 $show_gateways = true;
 
@@ -19,7 +20,7 @@ if ( ! empty( $coupon ) && ! $plan->requires_payment( $coupon->get( 'id' ) ) ) {
 	$show_gateways = false;
 }
 
-$supports = $plan->is_recurring() ? 'recurring_payments' : 'single_payments';
+$supports            = $plan->is_recurring() ? 'recurring_payments' : 'single_payments';
 $supporting_gateways = 0;
 ?>
 <ul class="llms-payment-gateways">
@@ -30,23 +31,27 @@ $supporting_gateways = 0;
 			<?php foreach ( $gateways as $gateway ) : ?>
 				<?php if ( $gateway->supports( $supports ) ) : ?>
 					<li class="llms-payment-gateway <?php echo $gateway->get_id(); ?><?php echo ( $selected_gateway === $gateway->get_id() ) ? ' is-selected' : ''; ?>">
-					<?php llms_form_field( array(
-						'columns' => 12,
-						'classes' => '',
-						'description' => $gateway->get_icon(),
-						'default' => '',
-						'id' => 'llms_payment_gateway_' . $gateway->get_id(),
-						'label' => $gateway->get_title(),
-						'last_column' => true,
-						'name' => 'llms_payment_gateway',
-						'options' => array(),
-						'placeholder' => '',
-						'selected' => ( $selected_gateway === $gateway->get_id() ),
-						'required' => false,
-						'type'  => 'radio',
-						'value' => $gateway->get_id(),
-						'wrapper_classes' => 'llms-payment-gateway-option',
-					) ); ?>
+					<?php
+					llms_form_field(
+						array(
+							'columns'         => 12,
+							'classes'         => '',
+							'description'     => $gateway->get_icon(),
+							'default'         => '',
+							'id'              => 'llms_payment_gateway_' . $gateway->get_id(),
+							'label'           => $gateway->get_title(),
+							'last_column'     => true,
+							'name'            => 'llms_payment_gateway',
+							'options'         => array(),
+							'placeholder'     => '',
+							'selected'        => ( $selected_gateway === $gateway->get_id() ),
+							'required'        => false,
+							'type'            => 'radio',
+							'value'           => $gateway->get_id(),
+							'wrapper_classes' => 'llms-payment-gateway-option',
+						)
+					);
+					?>
 					<?php if ( $gateway->get_description() ) : ?>
 						<div class="llms-gateway-description"><?php echo wpautop( wptexturize( $gateway->get_description() ) ); ?></div>
 					<?php endif; ?>
@@ -54,7 +59,7 @@ $supporting_gateways = 0;
 						<div class="llms-gateway-fields"><?php echo $gateway->get_fields(); ?></div>
 					<?php endif; ?>
 					</li>
-				<?php $supporting_gateways++; ?>
+					<?php $supporting_gateways++; ?>
 				<?php endif; ?>
 			<?php endforeach; ?>
 

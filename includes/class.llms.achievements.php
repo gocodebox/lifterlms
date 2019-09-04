@@ -35,6 +35,7 @@ class LLMS_Achievements {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    1.0.0
 	 * @version  3.24.0
 	 */
@@ -46,22 +47,23 @@ class LLMS_Achievements {
 
 	/**
 	 * Includes achievement class
+	 *
 	 * @return void
 	 * @since    1.0.0
 	 * @version  ??
 	 */
 	public function init() {
 
-		include_once( 'class.llms.achievement.php' );
-		$this->achievements['LLMS_Achievement_User']  = include_once( 'achievements/class.llms.achievement.user.php' );
+		include_once 'class.llms.achievement.php';
+		$this->achievements['LLMS_Achievement_User'] = include_once 'achievements/class.llms.achievement.user.php';
 
 	}
 
 	/**
 	 * Get a list of achievement Achievement Template IDs for a given post
 	 *
-	 * @param   array|int  $post_ids         Post IDs or single post ID to look for achievements by.
-	 * @param   bool       $include_children If true, will include course children (sections, lessons, and quizzes).
+	 * @param   array|int $post_ids         Post IDs or single post ID to look for achievements by.
+	 * @param   bool      $include_children If true, will include course children (sections, lessons, and quizzes).
 	 * @return  array
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -76,7 +78,7 @@ class LLMS_Achievements {
 
 			foreach ( $post_ids as $post_id ) {
 				if ( 'course' === get_post_type( $post_id ) ) {
-					$course = llms_get_post( $post_id );
+					$course   = llms_get_post( $post_id );
 					$post_ids = array_merge(
 						$post_ids,
 						$course->get_sections( 'ids' ),
@@ -87,20 +89,22 @@ class LLMS_Achievements {
 			}
 		}
 
-		$query = new WP_Query( array(
-			'post_type' => 'llms_engagement',
-			'meta_query' => array(
-				array(
-					'key' => '_llms_engagement_type',
-					'value' => 'achievement',
+		$query = new WP_Query(
+			array(
+				'post_type'  => 'llms_engagement',
+				'meta_query' => array(
+					array(
+						'key'   => '_llms_engagement_type',
+						'value' => 'achievement',
+					),
+					array(
+						'compare' => 'IN',
+						'key'     => '_llms_engagement_trigger_post',
+						'value'   => $post_ids,
+					),
 				),
-				array(
-					'compare' => 'IN',
-					'key' => '_llms_engagement_trigger_post',
-					'value' => $post_ids,
-				),
-			),
-		) );
+			)
+		);
 
 		$achievements = array();
 
@@ -115,6 +119,7 @@ class LLMS_Achievements {
 	/**
 	 * Award an achievement to a user
 	 * Calls trigger method passing arguments
+	 *
 	 * @param  int $person_id        [ID of the current user]
 	 * @param  int $achievement      [Achievement template post ID]
 	 * @param  int $related_post_id  Post ID of the related engagement (eg lesson id)

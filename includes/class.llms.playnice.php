@@ -29,7 +29,7 @@ class LLMS_PlayNice {
 	public function __construct() {
 
 		// optimize press live editor initialization
-		add_action( 'op_liveeditor_init' , array( $this, 'wp_optimizepress_live_editor' ) );
+		add_action( 'op_liveeditor_init', array( $this, 'wp_optimizepress_live_editor' ) );
 
 		// wpe heartbeat fix
 		add_filter( 'wpe_heartbeat_allowed_pages', array( $this, 'wpe_heartbeat_allowed_pages' ) );
@@ -87,29 +87,30 @@ class LLMS_PlayNice {
 	public function wp_optimizepress_live_editor() {
 
 		// These files are necessary to get optimizepress ajax to play nicely in the liveeditor
-		include_once( 'class.llms.ajax.php' );
-		include_once( 'class.llms.ajax.handler.php' );
+		include_once 'class.llms.ajax.php';
+		include_once 'class.llms.ajax.handler.php';
 
 		// These files are all necessary to get the liveeditor to open
-		include_once( 'llms.template.functions.php' );
+		include_once 'llms.template.functions.php';
 		include_once 'class.llms.https.php';
 
-		include_once( 'class.llms.template.loader.php' );
-		include_once( 'class.llms.frontend.assets.php' );
-		include_once( 'forms/frontend/class.llms.frontend.forms.php' );
-		include_once( 'forms/frontend/class.llms.frontend.password.php' );
-		include_once( 'class.llms.person.php' );
-		include_once( 'shortcodes/class.llms.shortcodes.php' );
+		include_once 'class.llms.template.loader.php';
+		include_once 'class.llms.frontend.assets.php';
+		include_once 'forms/frontend/class.llms.frontend.forms.php';
+		include_once 'forms/frontend/class.llms.frontend.password.php';
+		include_once 'class.llms.person.php';
+		include_once 'shortcodes/class.llms.shortcodes.php';
 
-		include_once( 'shortcodes/class.llms.shortcode.my.account.php' );
-		include_once( 'shortcodes/class.llms.shortcode.checkout.php' );
+		include_once 'shortcodes/class.llms.shortcode.my.account.php';
+		include_once 'shortcodes/class.llms.shortcode.checkout.php';
 
 	}
 
 	/**
 	 * WPE blocks the WordPress Heartbeat script from being loaded
 	 * Event when it's explicitly defined as a dependency
-	 * @param    array    $pages    list of pages that the heartbeat is allowed to load on
+	 *
+	 * @param    array $pages    list of pages that the heartbeat is allowed to load on
 	 * @return   array
 	 * @since    3.16.4
 	 * @version  3.16.4

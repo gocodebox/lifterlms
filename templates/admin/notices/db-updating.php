@@ -6,8 +6,11 @@
  * @version  3.4.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
 $progress = LLMS_Install::$background_updater->get_progress() . '%';
 ?>
 <p><strong><?php _e( 'LifterLMS database update', 'lifterlms' ); ?></strong> &ndash; <?php _e( 'Your database is being upgraded in the background.', 'lifterlms' ); ?></p>

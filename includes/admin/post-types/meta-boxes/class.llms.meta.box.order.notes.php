@@ -1,5 +1,6 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Metaboxes for Orders
@@ -10,23 +11,25 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
+	 *
 	 * @return void
 	 * @since  3.0.0
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-order-notes';
-		$this->title = __( 'Order Notes', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-order-notes';
+		$this->title    = __( 'Order Notes', 'lifterlms' );
+		$this->screens  = array(
 			'llms_order',
 		);
-		$this->context = 'side';
+		$this->context  = 'side';
 		$this->priority = 'default';
 
 	}
 
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
+	 *
 	 * @return array
 	 *
 	 * @since  3.0.0
@@ -47,11 +50,11 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 		$order = new LLMS_Order( $this->post );
 
 		$curr_page = isset( $_GET['notes-page'] ) ? $_GET['notes-page'] : 1;
-		$per_page = 10;
+		$per_page  = 10;
 
 		$edit_link = get_edit_post_link( $this->post->ID );
 
-		$notes = $order->get_notes( $per_page, $curr_page );
+		$notes     = $order->get_notes( $per_page, $curr_page );
 		$next_page = ( count( $notes ) == $per_page ) ? count( $order->get_notes( $per_page, $curr_page + 1 ) ) : 0;
 
 		$prev_url = ( $curr_page > 1 ) ? add_query_arg( 'notes-page', $curr_page - 1, $edit_link ) . '#' . $this->id : false;
@@ -99,7 +102,8 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 	/**
 	 * Save method
 	 * Does nothing because there's no editable data in this metabox
-	 * @param    int     $post_id  Post ID of the Order
+	 *
+	 * @param    int $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0

@@ -16,20 +16,23 @@ class LLMS_Add_On {
 
 	/**
 	 * Add On ID
+	 *
 	 * @var  string
 	 */
 	private $id = '';
 
 	/**
 	 * Add On Data
+	 *
 	 * @var  array
 	 */
 	private $data = array();
 
 	/**
 	 * Constructor
-	 * @param    array     $addon       array of addon data
-	 * @param    string    $lookup_key  if $addon is a string, this determines how to lookup the addon from the available list of addons
+	 *
+	 * @param    array  $addon       array of addon data
+	 * @param    string $lookup_key  if $addon is a string, this determines how to lookup the addon from the available list of addons
 	 * @return   void
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -39,7 +42,7 @@ class LLMS_Add_On {
 		if ( is_string( $addon ) ) {
 
 			$lookup_val = $addon;
-			$addons = llms_get_add_ons();
+			$addons     = llms_get_add_ons();
 			if ( ! empty( $addons['items'] ) ) {
 				foreach ( $addons['items'] as $addon ) {
 
@@ -52,13 +55,14 @@ class LLMS_Add_On {
 		}
 
 		$this->data = $addon;
-		$this->id = $addon['id'];
+		$this->id   = $addon['id'];
 
 	}
 
 	/**
 	 * Magic getter to retrieve add-on props from private $data array
-	 * @param    string     $key  property key
+	 *
+	 * @param    string $key  property key
 	 * @return   mixed
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -69,6 +73,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Activate an add-on
+	 *
 	 * @return   string|WP_Error
 	 * @since    3.22.0
 	 * @version  3.25.0
@@ -99,6 +104,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Deactivate the addon
+	 *
 	 * @return   string|WP_Error
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -121,7 +127,8 @@ class LLMS_Add_On {
 
 	/**
 	 * Get add-on properties
-	 * @param    string     $key  property key
+	 *
+	 * @param    string $key  property key
 	 * @return   mixed
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -132,6 +139,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Retrieve the update channel for the addon
+	 *
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -142,7 +150,8 @@ class LLMS_Add_On {
 
 	/**
 	 * Determine the status of an addon's license
-	 * @param    bool       $translate   if true, returns the translated string for on-screen display
+	 *
+	 * @param    bool $translate   if true, returns the translated string for on-screen display
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -161,6 +170,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Get the currently installed version of an addon
+	 *
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -181,6 +191,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Retrieve the latest available version for the current channel
+	 *
 	 * @return   strin
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -194,7 +205,8 @@ class LLMS_Add_On {
 
 	/**
 	 * Translate strings
-	 * @param    string     $status  untranslated string / key
+	 *
+	 * @param    string $status  untranslated string / key
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -203,19 +215,19 @@ class LLMS_Add_On {
 
 		$strings = array(
 
-			'active' => __( 'Active', 'lifterlms' ),
-			'inactive' => __( 'Inactive', 'lifterlms' ),
+			'active'           => __( 'Active', 'lifterlms' ),
+			'inactive'         => __( 'Inactive', 'lifterlms' ),
 
-			'installed' => __( 'Installed', 'lifterlms' ),
-			'uninstalled' => __( 'Not Installed', 'lifterlms' ),
+			'installed'        => __( 'Installed', 'lifterlms' ),
+			'uninstalled'      => __( 'Not Installed', 'lifterlms' ),
 
-			'activate' => __( 'Activate', 'lifterlms' ),
-			'deactivate' => __( 'Deactivate', 'lifterlms' ),
-			'install' => __( 'Install', 'lifterlms' ),
+			'activate'         => __( 'Activate', 'lifterlms' ),
+			'deactivate'       => __( 'Deactivate', 'lifterlms' ),
+			'install'          => __( 'Install', 'lifterlms' ),
 
-			'none' => __( 'N/A', 'lifterlms' ),
+			'none'             => __( 'N/A', 'lifterlms' ),
 
-			'license_active' => __( 'Licensed', 'lifterlms' ),
+			'license_active'   => __( 'Licensed', 'lifterlms' ),
 			'license_inactive' => __( 'Unlicensed', 'lifterlms' ),
 
 		);
@@ -226,7 +238,8 @@ class LLMS_Add_On {
 
 	/**
 	 * Determine the status of an addon's license
-	 * @param    bool       $translate   if true, returns the translated string for on-screen display
+	 *
+	 * @param    bool $translate   if true, returns the translated string for on-screen display
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -245,6 +258,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Retrieve a utm'd link to the add-on
+	 *
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -253,10 +267,10 @@ class LLMS_Add_On {
 
 		$url = add_query_arg(
 			array(
-				'utm_source' => urlencode( 'LifterLMS Plugin' ),
+				'utm_source'   => urlencode( 'LifterLMS Plugin' ),
 				'utm_campaign' => urlencode( 'Plugin to Sale' ),
-				'utm_medium' => urlencode( 'Add-Ons Screen' ),
-				'utm_content' => urlencode( sprintf( '%1$s Ad %2$s', $this->get( 'title' ), LLMS_VERSION ) ),
+				'utm_medium'   => urlencode( 'Add-Ons Screen' ),
+				'utm_content'  => urlencode( sprintf( '%1$s Ad %2$s', $this->get( 'title' ), LLMS_VERSION ) ),
 			),
 			$this->get( 'permalink' )
 		);
@@ -267,6 +281,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Get the type of addon
+	 *
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -295,7 +310,8 @@ class LLMS_Add_On {
 
 	/**
 	 * Get the addon's status
-	 * @param    bool       $translate  if true, translates the status for on-screen display
+	 *
+	 * @param    bool $translate  if true, translates the status for on-screen display
 	 * @return   string
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -320,6 +336,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Determine if there is an available update for the add-on
+	 *
 	 * @return   bool
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -330,6 +347,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Determine if an installable addon is active
+	 *
 	 * @return   bool
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -354,6 +372,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Determines if the add-on is installable
+	 *
 	 * @return   bool
 	 * @since    3.22.0
 	 * @version  3.22.1
@@ -364,6 +383,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Determine if the add-on is currently installed
+	 *
 	 * @return   bool
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -388,6 +408,7 @@ class LLMS_Add_On {
 
 	/**
 	 * Determines if the add-on is licensed
+	 *
 	 * @return   bool
 	 * @since    3.22.0
 	 * @version  3.22.0

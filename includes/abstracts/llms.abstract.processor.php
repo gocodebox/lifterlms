@@ -1,8 +1,10 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
  * Background Processor abstract
+ *
  * @since    3.15.0
  * @version  3.15.0
  */
@@ -10,12 +12,14 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Prefix
+	 *
 	 * @var string
 	 */
 	protected $prefix = 'llms';
 
 	/**
 	 * Unique identifier for the processor
+	 *
 	 * @var  string
 	 */
 	protected $id;
@@ -24,6 +28,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Initializer
 	 * Acts as a constructor that extending processors should implement
 	 * at the very least should populate the $this->actions array
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -34,8 +39,9 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Inherited from WP_Background Process
 	 * Extending classes should implement
 	 * this is called for each item pushed into the queue
+	 *
 	 * @param    array    $item  item in the queue
-	 * @return   boolean      	 true to keep the item in the queue and process again
+	 * @return   boolean         true to keep the item in the queue and process again
 	 *                           false to remove the item from the queue
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -46,6 +52,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Array of actions that should be watched to trigger
 	 * the process(es)
+	 *
 	 * @var  array
 	 */
 	protected $actions = array();
@@ -53,6 +60,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Constructor
 	 * Initializes and adds actions
+	 *
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
@@ -72,6 +80,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Add actions defined in $this->actions
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -80,10 +89,13 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 		foreach ( $this->get_actions() as $action => $data ) {
 
-			$data = wp_parse_args( $data, array(
-				'arguments' => 1,
-				'priority' => 10,
-			) );
+			$data = wp_parse_args(
+				$data,
+				array(
+					'arguments' => 1,
+					'priority'  => 10,
+				)
+			);
 
 			add_action( $action, array( $this, $data['callback'] ), $data['priority'], $data['arguments'] );
 
@@ -95,6 +107,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	 * Disable a processor
 	 * Useful when bulk enrolling into a membership (for example)
 	 * so we don't trigger course data calculations a few hundred times
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -104,10 +117,13 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 		remove_action( $this->cron_hook_identifier, array( $this, 'handle_cron_healthcheck' ) );
 		foreach ( $this->get_actions() as $action => $data ) {
 
-			$data = wp_parse_args( $data, array(
-				'arguments' => 1,
-				'priority' => 10,
-			) );
+			$data = wp_parse_args(
+				$data,
+				array(
+					'arguments' => 1,
+					'priority'  => 10,
+				)
+			);
 
 			remove_action( $action, array( $this, $data['callback'] ), $data['priority'], $data['arguments'] );
 
@@ -117,6 +133,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Retrieve a filtered array of actions to be added by $this->add_actions
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -130,8 +147,9 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	/**
 	 * Retrieve data for the current processor that can be used
 	 * in future processes
-	 * @param    string     $key      if set, return a specific piece of data rather than the whole array
-	 * @param    string     $default  when returning a specific piece of data, allows a default value to be passed
+	 *
+	 * @param    string $key      if set, return a specific piece of data rather than the whole array
+	 * @param    string $default  when returning a specific piece of data, allows a default value to be passed
 	 * @return   array|mixed
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -156,7 +174,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Log data to the processors log when processors debugging is enabled
-	 * @param    mixed     $data  data to log
+	 *
+	 * @param    mixed $data  data to log
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -171,7 +190,8 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Persist data to the database related to the processor
-	 * @param    array     $data   data to save
+	 *
+	 * @param    array $data   data to save
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -179,9 +199,12 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	private function save_data( $data ) {
 
 		// merge the current data with all processor data
-		$all_data = wp_parse_args( array(
-			$this->id => $data,
-		), get_option( 'llms_processor_data', array() ) );
+		$all_data = wp_parse_args(
+			array(
+				$this->id => $data,
+			),
+			get_option( 'llms_processor_data', array() )
+		);
 
 		// save it
 		update_option( 'llms_processor_data', $all_data );
@@ -190,8 +213,9 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Update data to the database related to the processor
-	 * @param    string     $key   key name
-	 * @param    mixed     $value  value
+	 *
+	 * @param    string $key   key name
+	 * @param    mixed  $value  value
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -199,7 +223,7 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 	public function set_data( $key, $value ) {
 
 		// get the array of processor data
-		$data = $this->get_data();
+		$data         = $this->get_data();
 		$data[ $key ] = $value;
 
 		$this->save_data( $data );
@@ -208,10 +232,11 @@ abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 
 	/**
 	 * Delete a piece of data from the database by key
-	 * @param    string     $key  key name to remove
-	 * @return   [type]
+	 *
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 *
+	 * @param    string $key  key name to remove
+	 * @return   void
 	 */
 	public function unset_data( $key ) {
 

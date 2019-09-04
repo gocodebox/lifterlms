@@ -21,6 +21,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
+	 *
 	 * @var  string
 	 */
 	public $tag = 'lifterlms_courses';
@@ -28,20 +29,21 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
+	 *
 	 * @return   array
 	 * @since    3.14.0
 	 * @version  3.14.0
 	 */
 	protected function get_default_attributes() {
 		return array(
-			'category' => '',
-			'hidden' => 'yes',
-			'id' => '', // allow comma-separated list of course ids
-			'mine' => 'no',
-			'post_status' => 'publish',
+			'category'       => '',
+			'hidden'         => 'yes',
+			'id'             => '', // allow comma-separated list of course ids
+			'mine'           => 'no',
+			'post_status'    => 'publish',
 			'posts_per_page' => -1,
-			'order' => 'ASC',
-			'orderby' => 'title',
+			'order'          => 'ASC',
+			'orderby'        => 'title',
 		);
 	}
 
@@ -55,7 +57,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 */
 	protected function get_post__in() {
 
-		$ids = array();
+		$ids     = array();
 		$post_id = $this->get_attribute( 'id' );
 		if ( $post_id ) {
 			$ids = explode( ',', $post_id ); // allow multiple ids to be passed
@@ -67,10 +69,12 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		$mine = $this->get_attribute( 'mine' );
 		if ( in_array( $mine, array( 'any', 'cancelled', 'enrolled', 'expired' ) ) ) {
 
-			$courses = $student->get_courses( array(
-				'limit' => 1000,
-				'status' => $this->get_attribute( 'mine' ),
-			) );
+			$courses = $student->get_courses(
+				array(
+					'limit'  => 1000,
+					'status' => $this->get_attribute( 'mine' ),
+				)
+			);
 
 			$ids = $ids ? array_intersect( $ids, $courses['results'] ) : $courses['results'];
 
@@ -97,10 +101,10 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 		$category = $this->get_attribute( 'category' );
 		if ( $category ) {
-			$tax_query[] = array(
+			$tax_query[]   = array(
 				'taxonomy' => 'course_cat',
-				'field' => 'slug',
-				'terms' => $category,
+				'field'    => 'slug',
+				'terms'    => $category,
 			);
 			$has_tax_query = true;
 		}
@@ -109,19 +113,21 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		if ( 'no' === $hidden ) {
 
 			$terms = wp_list_pluck(
-				get_terms( array(
-					'taxonomy' => 'llms_product_visibility',
-					'hide_empty' => false,
-				) ),
+				get_terms(
+					array(
+						'taxonomy'   => 'llms_product_visibility',
+						'hide_empty' => false,
+					)
+				),
 				'term_taxonomy_id',
 				'name'
 			);
 
-			$tax_query[] = array(
-				'field' => 'term_taxonomy_id',
+			$tax_query[]   = array(
+				'field'    => 'term_taxonomy_id',
 				'operator' => 'NOT IN',
 				'taxonomy' => 'llms_product_visibility',
-				'terms' => array( $terms['hidden'] ),
+				'terms'    => array( $terms['hidden'] ),
 			);
 			$has_tax_query = true;
 		}
@@ -141,14 +147,14 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	protected function get_wp_query() {
 
 		$args = array(
-			'paged' => get_query_var( 'paged' ),
-			'post__in' => $this->get_post__in(),
-			'post_type' => 'course',
-			'post_status' => $this->get_attribute( 'post_status' ),
-			'tax_query' => $this->get_tax_query(),
+			'paged'          => get_query_var( 'paged' ),
+			'post__in'       => $this->get_post__in(),
+			'post_type'      => 'course',
+			'post_status'    => $this->get_attribute( 'post_status' ),
+			'tax_query'      => $this->get_tax_query(),
 			'posts_per_page' => $this->get_attribute( 'posts_per_page' ),
-			'order' => $this->get_attribute( 'order' ),
-			'orderby' => $this->get_attribute( 'orderby' ),
+			'order'          => $this->get_attribute( 'order' ),
+			'orderby'        => $this->get_attribute( 'orderby' ),
 		);
 
 		return new WP_Query( $args );

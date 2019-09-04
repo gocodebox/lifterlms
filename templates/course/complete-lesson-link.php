@@ -47,16 +47,20 @@ $student = llms_get_student( get_current_user_id() );
 					<input type="hidden" name="action" value="mark_incomplete" />
 					<?php wp_nonce_field( 'mark_incomplete' ); ?>
 
-					<?php llms_form_field( array(
-						'columns' => 12,
-						'classes' => 'llms-button-secondary auto button',
-						'id' => 'llms_mark_incomplete',
-						'value' => apply_filters( 'lifterlms_mark_lesson_incomplete_button_text', __( 'Mark Incomplete', 'lifterlms' ), $lesson ),
-						'last_column' => true,
-						'name' => 'mark_incomplete',
-						'required' => false,
-						'type'  => 'submit',
-					) ); ?>
+					<?php
+					llms_form_field(
+						array(
+							'columns'     => 12,
+							'classes'     => 'llms-button-secondary auto button',
+							'id'          => 'llms_mark_incomplete',
+							'value'       => apply_filters( 'lifterlms_mark_lesson_incomplete_button_text', __( 'Mark Incomplete', 'lifterlms' ), $lesson ),
+							'last_column' => true,
+							'name'        => 'mark_incomplete',
+							'required'    => false,
+							'type'        => 'submit',
+						)
+					);
+					?>
 
 					<?php do_action( 'lifterlms_after_mark_incomplete_lesson' ); ?>
 
@@ -78,16 +82,20 @@ $student = llms_get_student( get_current_user_id() );
 				<input type="hidden" name="action" value="mark_complete" />
 				<?php wp_nonce_field( 'mark_complete' ); ?>
 
-				<?php llms_form_field( array(
-					'columns' => 12,
-					'classes' => 'llms-button-primary auto button',
-					'id' => 'llms_mark_complete',
-					'value' => apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'lifterlms' ), $lesson ),
-					'last_column' => true,
-					'name' => 'mark_complete',
-					'required' => false,
-					'type'  => 'submit',
-				) ); ?>
+				<?php
+				llms_form_field(
+					array(
+						'columns'     => 12,
+						'classes'     => 'llms-button-primary auto button',
+						'id'          => 'llms_mark_complete',
+						'value'       => apply_filters( 'lifterlms_mark_lesson_complete_button_text', __( 'Mark Complete', 'lifterlms' ), $lesson ),
+						'last_column' => true,
+						'name'        => 'mark_complete',
+						'required'    => false,
+						'type'        => 'submit',
+					)
+				);
+				?>
 
 				<?php do_action( 'lifterlms_after_mark_complete_lesson' ); ?>
 

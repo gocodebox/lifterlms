@@ -144,7 +144,7 @@ class LLMS_Admin_Import {
 			return $generator->error;
 		}
 
-		$msg = '<strong>' . __( 'Import Successful', 'lifterlms' ) . '</strong><br>';
+		$msg  = '<strong>' . __( 'Import Successful', 'lifterlms' ) . '</strong><br>';
 		$msg .= '<ul>';
 		foreach ( $generator->get_results() as $stat => $count ) {
 			$msg .= '<li>' . sprintf( '%s: %d', $this->localize_stat( $stat ), $count ) . '</li>';

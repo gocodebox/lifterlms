@@ -37,36 +37,37 @@ implements LLMS_Interface_Post_Audio
 
 	protected $properties = array(
 
-		'order' => 'absint',
+		'order'                            => 'absint',
 
 		// drippable
-		'days_before_available' => 'absint',
-		'date_available' => 'text',
-		'drip_method' => 'text',
-		'time_available' => 'text',
+		'days_before_available'            => 'absint',
+		'date_available'                   => 'text',
+		'drip_method'                      => 'text',
+		'time_available'                   => 'text',
 
 		// parent element
-		'parent_course' => 'absint',
-		'parent_section' => 'absint',
+		'parent_course'                    => 'absint',
+		'parent_section'                   => 'absint',
 
-		'audio_embed' => 'text',
-		'free_lesson' => 'yesno',
-		'has_prerequisite' => 'yesno',
-		'prerequisite' => 'absint',
-		'require_passing_grade' => 'yesno',
+		'audio_embed'                      => 'text',
+		'free_lesson'                      => 'yesno',
+		'has_prerequisite'                 => 'yesno',
+		'prerequisite'                     => 'absint',
+		'require_passing_grade'            => 'yesno',
 		'require_assignment_passing_grade' => 'yesno',
-		'video_embed' => 'text',
-		'points' => 'absint',
+		'video_embed'                      => 'text',
+		'points'                           => 'absint',
 
 		// quizzes
-		'quiz' => 'absint',
-		'quiz_enabled' => 'yesno',
+		'quiz'                             => 'absint',
+		'quiz_enabled'                     => 'yesno',
 
 	);
 
 	/**
 	 * Array of default property values
 	 * key => default value
+	 *
 	 * @var  array
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -75,12 +76,13 @@ implements LLMS_Interface_Post_Audio
 		'points' => 1,
 	);
 
-	protected $db_post_type = 'lesson';
+	protected $db_post_type    = 'lesson';
 	protected $model_post_type = 'lesson';
 
 	/**
 	 * Attempt to get oEmbed for an audio provider
 	 * Falls back to the [audio] shortcode if the oEmbed fails
+	 *
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.17.0
@@ -93,7 +95,7 @@ implements LLMS_Interface_Post_Audio
 	 * Get the date a course became or will become available according to element drip settings
 	 * If there are no drip settings, the published date of the element will be returned
 	 *
-	 * @param    string     $format  date format (passed to date_i18n()) (defaults to WP Core date + time formats)
+	 * @param    string $format  date format (passed to date_i18n()) (defaults to WP Core date + time formats)
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -115,7 +117,6 @@ implements LLMS_Interface_Post_Audio
 
 			// available on a specific date / time
 			case 'date':
-
 				$date = $this->get( 'date_available' );
 				$time = $this->get( 'time_available' );
 
@@ -125,7 +126,7 @@ implements LLMS_Interface_Post_Audio
 
 				$available = strtotime( $date . ' ' . $time );
 
-			break;
+				break;
 
 			// available # of days after enrollment in course
 			case 'enrollment':
@@ -133,10 +134,9 @@ implements LLMS_Interface_Post_Audio
 				if ( $student ) {
 					$available = $days + $student->get_enrollment_date( $this->get_parent_course(), 'enrolled', 'U' );
 				}
-			break;
+				break;
 
 			case 'prerequisite':
-
 				if ( $this->has_prerequisite() ) {
 					$student = llms_get_student();
 					if ( $student ) {
@@ -147,13 +147,13 @@ implements LLMS_Interface_Post_Audio
 					}
 				}
 
-			break;
+				break;
 
 			// available # of days after course start date
 			case 'start':
-				$course = $this->get_course();
+				$course    = $this->get_course();
 				$available = $days + $course->get_date( 'start_date', 'U' );
-			break;
+				break;
 
 		}// End switch().
 
@@ -163,6 +163,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an instance of LLMS_Course for the element's parent course
+	 *
 	 * @return   obj|null
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -181,7 +182,8 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
-	 * @param    array  $args   args of data to be passed to wp_insert_post
+	 *
+	 * @param    array $args   args of data to be passed to wp_insert_post
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -200,16 +202,19 @@ implements LLMS_Interface_Post_Audio
 			);
 		}
 
-		$args = wp_parse_args( $args, array(
-			'comment_status' => 'closed',
-			'ping_status'	 => 'closed',
-			'post_author' 	 => get_current_user_id(),
-			'post_content'   => '',
-			'post_excerpt'   => '',
-			'post_status' 	 => 'publish',
-			'post_title'     => '',
-			'post_type' 	 => $this->get( 'db_post_type' ),
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'comment_status' => 'closed',
+				'ping_status'    => 'closed',
+				'post_author'    => get_current_user_id(),
+				'post_content'   => '',
+				'post_excerpt'   => '',
+				'post_status'    => 'publish',
+				'post_title'     => '',
+				'post_type'      => $this->get( 'db_post_type' ),
+			)
+		);
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
 
@@ -217,6 +222,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieves the lesson's order within its parent section
+	 *
 	 * @todo  this should be deprecated
 	 * @return int
 	 * @since  1.0.0
@@ -228,6 +234,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get parent course id
+	 *
 	 * @return  int
 	 * @since   1.0.0
 	 * @version 3.0.0
@@ -238,16 +245,18 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get parent section id
+	 *
 	 * @return  int
 	 * @since   1.0.0
 	 * @version 3.0.0
 	 */
 	public function get_parent_section() {
-		return  absint( get_post_meta( $this->get( 'id' ), '_llms_parent_section', true ) );
+		return absint( get_post_meta( $this->get( 'id' ), '_llms_parent_section', true ) );
 	}
 
 	/**
 	 * Get CSS classes to display on the course syllabus .llms-lesson-preview element
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -271,6 +280,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get HTML of the icon to display in the .llms-lesson-preview element on the syllabus
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -298,6 +308,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an instance of LLMS_Course for the elements's parent section
+	 *
 	 * @return   obj|null
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -315,6 +326,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an object for the assigned quiz (if a quiz is assigned )
+	 *
 	 * @return   obj|false
 	 * @since    3.3.0
 	 * @version  3.16.0
@@ -332,6 +344,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Attempt to get oEmbed for a video provider
 	 * Falls back to the [video] shortcode if the oEmbed fails
+	 *
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.17.0
@@ -342,6 +355,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if lesson prereq is enabled and a prereq lesson is selected
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -356,6 +370,7 @@ implements LLMS_Interface_Post_Audio
 	 * Determine if the slug (post name) of a lesson has been modified
 	 * Ensures that lessons created via the builder with "New Lesson" as the title (default slug "new-lesson-{$num}")
 	 * have their slug renamed when the title is renamed for the first time
+	 *
 	 * @return   bool
 	 * @since    3.14.8
 	 * @version  3.14.8
@@ -369,6 +384,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if a quiz is assigned to this lesson
+	 *
 	 * @return   boolean
 	 * @since    3.3.0
 	 * @version  3.29.0
@@ -396,7 +412,7 @@ implements LLMS_Interface_Post_Audio
 		}
 
 		$available = $this->get_available_date( 'U' );
-		$now = llms_current_time( 'timestamp' );
+		$now       = llms_current_time( 'timestamp' );
 
 		return ( $now > $available );
 
@@ -404,7 +420,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if the lesson has been completed by a specific user
-	 * @param   int    $user_id  WP_User ID of a student
+	 *
+	 * @param   int $user_id  WP_User ID of a student
 	 * @return  bool
 	 * @since   1.0.0
 	 * @version 3.0.0  refactored to utilize LLMS_Student->is_complete()
@@ -428,6 +445,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if a the lesson is marked as "free"
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -438,6 +456,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if the lesson is an orphan
+	 *
 	 * @return   bool
 	 * @since    3.14.8
 	 * @version  3.14.8
@@ -464,6 +483,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determines if a quiz is enabled for the lesson
 	 * Lesson must have a quiz and the quiz must be enabled
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.18.0
@@ -475,7 +495,8 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and returned by $this->jsonSerialize()
-	 * @param    array     $arr   data to be serialized
+	 *
+	 * @param    array $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.16.0
@@ -509,7 +530,7 @@ implements LLMS_Interface_Post_Audio
 			$method = 'set_' . $key;
 
 			if ( method_exists( $this, $method ) ) {
-				$updated_value = $this->$method($value);
+				$updated_value = $this->$method( $value );
 
 				$updated_values[ $key ] = $updated_value;
 
@@ -535,6 +556,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Set parent section
 	 * Set's parent section in database
+	 *
 	 * @param [int] $meta [id section post]
 	 * @return [mixed] $meta [if mta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if section id is already parent
@@ -548,6 +570,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Set parent section
 	 * Set's parent section in database
+	 *
 	 * @param [int] $meta [id section post]
 	 * @return [mixed] $meta [if mta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if section id is already parent
@@ -561,6 +584,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Set parent course
 	 * Set's parent course in database
+	 *
 	 * @param [int] $meta [id course post]
 	 * @return [mixed] $meta [if meta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if course id is already parent
@@ -597,72 +621,73 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get Next lesson
 	 * Finds and returns next lesson id
+	 *
 	 * @return   int [ID of next lesson]
 	 * @since    1.0.0
 	 * @version  3.24.0
 	 */
 	public function get_next_lesson() {
 
-		$parent_section = $this->get_parent_section();
+		$parent_section   = $this->get_parent_section();
 		$current_position = $this->get_order();
-		$next_position = $current_position + 1;
+		$next_position    = $current_position + 1;
 
-		$args = array(
-			'posts_per_page' 	=> 1,
-			'post_type' 		=> 'lesson',
-			'nopaging' 			=> true,
-			'post_status'   	=> 'publish',
-			'meta_query' 		=> array(
+		$args    = array(
+			'posts_per_page' => 1,
+			'post_type'      => 'lesson',
+			'nopaging'       => true,
+			'post_status'    => 'publish',
+			'meta_query'     => array(
 				'relation' => 'AND',
 				array(
-				    'key' => '_llms_parent_section',
-				    'value' => $parent_section,
-				    'compare' => '=',
-			    ),
-			    array(
-				    'key' => '_llms_order',
-				    'value' => $next_position,
-				    'compare' => '=',
-			    )
+					'key'     => '_llms_parent_section',
+					'value'   => $parent_section,
+					'compare' => '=',
+				),
+				array(
+					'key'     => '_llms_order',
+					'value'   => $next_position,
+					'compare' => '=',
+				),
 			),
 		);
 		$lessons = get_posts( $args );
 
-		//return the first one even if there for some crazy reason were more than one.
+		// return the first one even if there for some crazy reason were more than one.
 		if ( $lessons ) {
 			return $lessons[0]->ID;
 		} else {
 			// See if there is another section after this section and get first lesson there
-			$parent_course = $this->get_parent_course();
-			$cursection = new LLMS_Section( $this->get_parent_section() );
+			$parent_course    = $this->get_parent_course();
+			$cursection       = new LLMS_Section( $this->get_parent_section() );
 			$current_position = $cursection->get_order();
-			$next_position = $current_position + 1;
+			$next_position    = $current_position + 1;
 
-			$args = array(
-				'post_type' 		=> 'section',
-				'posts_per_page'	=> 500,
-				'meta_key'			=> '_llms_order',
-				'order'				=> 'ASC',
-				'orderby'			=> 'meta_value_num',
-				'meta_query' 		=> array(
+			$args     = array(
+				'post_type'      => 'section',
+				'posts_per_page' => 500,
+				'meta_key'       => '_llms_order',
+				'order'          => 'ASC',
+				'orderby'        => 'meta_value_num',
+				'meta_query'     => array(
 					'relation' => 'AND',
 					array(
-					    'key' => '_llms_parent_course',
-					    'value' => $parent_course,
-					    'compare' => '=',
-				    ),
-				    array(
-					    'key' => '_llms_order',
-					    'value' => $next_position,
-					    'compare' => '=',
-				    )
+						'key'     => '_llms_parent_course',
+						'value'   => $parent_course,
+						'compare' => '=',
+					),
+					array(
+						'key'     => '_llms_order',
+						'value'   => $next_position,
+						'compare' => '=',
+					),
 				),
 			);
 			$sections = get_posts( $args );
 
 			if ( $sections ) {
 				$newsection = new LLMS_Section( $sections[0]->ID );
-				$lessons = $newsection->get_lessons( 'posts' );
+				$lessons    = $newsection->get_lessons( 'posts' );
 				if ( $lessons ) {
 					return $lessons[0]->ID;
 				} else {
@@ -676,41 +701,42 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get previous lesson id
+	 *
 	 * @return   int [ID of previous lesson]
 	 * @since    1.0.0
 	 * @version  3.24.0
 	 */
 	public function get_previous_lesson() {
 
-		$parent_section = $this->get_parent_section();
+		$parent_section   = $this->get_parent_section();
 		$current_position = $this->get_order();
 
 		$previous_position = $current_position - 1;
 
 		if ( 0 != $previous_position ) {
 
-			$args = array(
-				'posts_per_page' 	=> 1,
-				'post_type' 		=> 'lesson',
-				'nopaging' 			=> true,
-				'post_status'   	=> 'publish',
-				'meta_query' 		=> array(
+			$args    = array(
+				'posts_per_page' => 1,
+				'post_type'      => 'lesson',
+				'nopaging'       => true,
+				'post_status'    => 'publish',
+				'meta_query'     => array(
 					'relation' => 'AND',
 					array(
-					    'key' => '_llms_parent_section',
-					    'value' => $parent_section,
-					    'compare' => '=',
-				    ),
-				    array(
-					    'key' => '_llms_order',
-					    'value' => $previous_position,
-					    'compare' => '=',
-				    )
+						'key'     => '_llms_parent_section',
+						'value'   => $parent_section,
+						'compare' => '=',
+					),
+					array(
+						'key'     => '_llms_order',
+						'value'   => $previous_position,
+						'compare' => '=',
+					),
 				),
 			);
 			$lessons = get_posts( $args );
 
-			//return the first one even if there for some crazy reason were more than one.
+			// return the first one even if there for some crazy reason were more than one.
 			if ( $lessons ) {
 				return $lessons[0]->ID;
 			} else {
@@ -718,37 +744,37 @@ implements LLMS_Interface_Post_Audio
 			}
 		} else {
 			// See if there is a previous section
-			$parent_course = $this->get_parent_course();
-			$cursection = new LLMS_Section( $this->get_parent_section() );
-			$current_position = $cursection->get_order();
+			$parent_course     = $this->get_parent_course();
+			$cursection        = new LLMS_Section( $this->get_parent_section() );
+			$current_position  = $cursection->get_order();
 			$previous_position = $current_position - 1;
 
 			if ( 0 != $previous_position ) {
-				$args = array(
-					'post_type' 		=> 'section',
-					'posts_per_page'	=> 500,
-					'meta_key'			=> '_llms_order',
-					'order'				=> 'ASC',
-					'orderby'			=> 'meta_value_num',
-					'meta_query' 		=> array(
+				$args     = array(
+					'post_type'      => 'section',
+					'posts_per_page' => 500,
+					'meta_key'       => '_llms_order',
+					'order'          => 'ASC',
+					'orderby'        => 'meta_value_num',
+					'meta_query'     => array(
 						'relation' => 'AND',
 						array(
-						    'key' => '_llms_parent_course',
-						    'value' => $parent_course,
-						    'compare' => '=',
-					    ),
-					    array(
-						    'key' => '_llms_order',
-						    'value' => $previous_position,
-						    'compare' => '=',
-					    )
+							'key'     => '_llms_parent_course',
+							'value'   => $parent_course,
+							'compare' => '=',
+						),
+						array(
+							'key'     => '_llms_order',
+							'value'   => $previous_position,
+							'compare' => '=',
+						),
 					),
 				);
 				$sections = get_posts( $args );
 
 				if ( $sections ) {
 					$newsection = new LLMS_Section( $sections[0]->ID );
-					$lessons = $newsection->get_lessons( 'posts' );
+					$lessons    = $newsection->get_lessons( 'posts' );
 					if ( ! $lessons ) {
 						return false;
 					}
@@ -772,13 +798,14 @@ implements LLMS_Interface_Post_Audio
 		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
 		| $$$$$$$/|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
 		|_______/  \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-		                    | $$
-		                    | $$
-		                    |__/
+							| $$
+							| $$
+							|__/
 	*/
 
 	/**
 	 * Get the quiz associated with the lesson
+	 *
 	 * @return     false|int
 	 * @deprecated 3.0.2
 	 * @since      1.0.0
@@ -799,6 +826,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get the lesson drip days
+	 *
 	 * @return      int [ID of the prerequisite post]
 	 * @deprecated  3.16.0
 	 */
@@ -815,6 +843,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Marks the current lesson complete
+	 *
 	 * @param      int     $user_id              WP User ID of the user
 	 * @param      boolean $prevent_autoadvance  Deprecated
 	 * @return     boolean

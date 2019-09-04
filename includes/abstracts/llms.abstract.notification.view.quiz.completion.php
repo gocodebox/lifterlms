@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Shared Notification View for quiz completions
+ *
  * @since    3.24.0
  * @version  3.24.0
  */
@@ -10,6 +11,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 
 	/**
 	 * Settings for basic notifications
+	 *
 	 * @var  array
 	 */
 	protected $basic_options = array(
@@ -21,11 +23,12 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 		/**
 		 * Enables manual dismissal of notifications
 		 */
-		'dismissible' => true,
+		'dismissible'  => true,
 	);
 
 	/**
 	 * Setup body for email notification
+	 *
 	 * @return  string
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -72,6 +75,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -82,6 +86,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 
 	/**
 	 * Setup merge codes that can be used with the notification
+	 *
 	 * @return   array
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -89,27 +94,28 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	protected function set_merge_codes() {
 		return array(
 			'{{COURSE_PROGRESS}}' => __( 'Course Progress Bar', 'lifterlms' ),
-			'{{COURSE_TITLE}}' => __( 'Course Title', 'lifterlms' ),
-			'{{GRADE}}' => __( 'Grade', 'lifterlms' ),
-			'{{GRADE_BAR}}' => __( 'Grade Bar', 'lifterlms' ),
-			'{{LESSON_TITLE}}' => __( 'Lesson Title', 'lifterlms' ),
-			'{{QUIZ_TITLE}}' => __( 'Quiz Title', 'lifterlms' ),
-			'{{REVIEW_URL}}' => __( 'Review URL', 'lifterlms' ),
-			'{{STATUS}}' => __( 'Quiz Status', 'lifterlms' ),
-			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
+			'{{COURSE_TITLE}}'    => __( 'Course Title', 'lifterlms' ),
+			'{{GRADE}}'           => __( 'Grade', 'lifterlms' ),
+			'{{GRADE_BAR}}'       => __( 'Grade Bar', 'lifterlms' ),
+			'{{LESSON_TITLE}}'    => __( 'Lesson Title', 'lifterlms' ),
+			'{{QUIZ_TITLE}}'      => __( 'Quiz Title', 'lifterlms' ),
+			'{{REVIEW_URL}}'      => __( 'Review URL', 'lifterlms' ),
+			'{{STATUS}}'          => __( 'Quiz Status', 'lifterlms' ),
+			'{{STUDENT_NAME}}'    => __( 'Student Name', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
 	 */
 	protected function set_merge_data( $code ) {
 
-		$quiz = new LLMS_Quiz_Legacy( $this->notification->get( 'post_id' ) );
+		$quiz    = new LLMS_Quiz_Legacy( $this->notification->get( 'post_id' ) );
 		$attempt = $this->user->quizzes()->get_last_completed_attempt( $this->notification->get( 'post_id' ) );
 		if ( ! $attempt ) {
 			return '';
@@ -128,23 +134,23 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 				} else {
 					$code = '';
 				}
-			break;
+				break;
 
 			case '{{GRADE}}':
 				$code = round( $attempt->get( 'grade' ), 2 ) . '%';
-			break;
+				break;
 
 			case '{{GRADE_BAR}}':
 				$code = lifterlms_course_progress_bar( $attempt->get( 'grade' ), false, false, false );
-			break;
+				break;
 
 			case '{{LESSON_TITLE}}':
 				$code = $lesson->get( 'title' );
-			break;
+				break;
 
 			case '{{QUIZ_TITLE}}':
 				$code = get_the_title( $quiz->get_id() );
-			break;
+				break;
 
 			case '{{REVIEW_URL}}':
 				$code = add_query_arg(
@@ -156,15 +162,15 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 					),
 					admin_url( 'admin.php?page=llms-reporting' )
 				);
-			break;
+				break;
 
 			case '{{STATUS}}':
 				$code = $attempt->l10n( 'status' );
-			break;
+				break;
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
-			break;
+				break;
 
 		}// End switch().
 

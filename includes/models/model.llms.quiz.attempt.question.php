@@ -18,25 +18,30 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Constructor
-	 * @param    array      $data   question data array from attempt record
+	 *
+	 * @param    array $data   question data array from attempt record
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
 	public function __construct( $data = array() ) {
 
-		$this->data = wp_parse_args( $data, array(
-			'id' => null,
-			'earned' => null,
-			'points' => null,
-			'remarks' => null,
-			'answer' => null,
-			'correct' => null,
-		) );
+		$this->data = wp_parse_args(
+			$data,
+			array(
+				'id'      => null,
+				'earned'  => null,
+				'points'  => null,
+				'remarks' => null,
+				'answer'  => null,
+				'correct' => null,
+			)
+		);
 
 	}
 
 	/**
 	 * Determine if it's possible to manually grade the question
+	 *
 	 * @return   boolean
 	 * @since    3.16.8
 	 * @version  3.16.9
@@ -61,8 +66,9 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Getter
-	 * @param    string     $key      data key name
-	 * @param    mixed      $default  default fallback value if key is unset
+	 *
+	 * @param    string $key      data key name
+	 * @param    mixed  $default  default fallback value if key is unset
 	 * @return   mixed
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -76,6 +82,7 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Retrieve answer HTML for the question answers
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.15
@@ -83,8 +90,8 @@ class LLMS_Quiz_Attempt_Question {
 	public function get_answer() {
 
 		$question = $this->get_question();
-		$answers = $this->get_answer_array();
-		$ret = apply_filters( 'llms_quiz_attempt_question_get_answer_pre', '', $answers, $question, $this );
+		$answers  = $this->get_answer_array();
+		$ret      = apply_filters( 'llms_quiz_attempt_question_get_answer_pre', '', $answers, $question, $this );
 
 		if ( ! $ret ) {
 
@@ -105,15 +112,16 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Get answer(s) as an array
+	 *
 	 * @return   array
 	 * @since    3.16.15
 	 * @version  3.27.0
 	 */
 	public function get_answer_array() {
 
-		$ret = array();
+		$ret      = array();
 		$question = $this->get_question();
-		$answers = $this->get( 'answer' );
+		$answers  = $this->get( 'answer' );
 
 		if ( $answers ) {
 
@@ -122,7 +130,7 @@ class LLMS_Quiz_Attempt_Question {
 				foreach ( $answers as $aid ) {
 
 					$choice = $question->get_choice( $aid );
-					$ret[] = $choice ? $choice->get_choice() : _x( '[Deleted]', 'Selected quiz choice has been deleted.', 'lifterlms' );
+					$ret[]  = $choice ? $choice->get_choice() : _x( '[Deleted]', 'Selected quiz choice has been deleted.', 'lifterlms' );
 
 				}
 			} else {
@@ -138,13 +146,14 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Retrieve answer HTML for the question correct answers
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.15
 	 */
 	public function get_correct_answer() {
 
-		$ret = '';
+		$ret     = '';
 		$answers = $this->get_correct_answer_array();
 
 		if ( $answers ) {
@@ -163,21 +172,22 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Get correct answer(s) as an array
+	 *
 	 * @return   array
 	 * @since    3.16.15
 	 * @version  3.16.15
 	 */
 	public function get_correct_answer_array() {
 
-		$ret = array();
+		$ret      = array();
 		$question = $this->get_question();
-		$type = $question->get_auto_grade_type();
+		$type     = $question->get_auto_grade_type();
 
 		if ( 'choices' === $type ) {
 
 			foreach ( $question->get_correct_choice() as $aid ) {
 				$choice = $question->get_choice( $aid );
-				$ret[] = $choice->get_choice();
+				$ret[]  = $choice->get_choice();
 			}
 		} elseif ( 'conditional' === $type ) {
 
@@ -191,6 +201,7 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Retrieve an instance of the LLMS_Question
+	 *
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -201,6 +212,7 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Retrieve the status icon HTML based on the question's status/answer
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -214,16 +226,16 @@ class LLMS_Quiz_Attempt_Question {
 			case 'graded':
 				if ( $this->is_correct() ) {
 					$icon = 'check';
-					$tip = esc_attr__( 'Correct answer', 'lifterlms' );
+					$tip  = esc_attr__( 'Correct answer', 'lifterlms' );
 				} else {
 					$icon = 'times';
-					$tip = esc_attr__( 'Incorrect answer', 'lifterlms' );
+					$tip  = esc_attr__( 'Incorrect answer', 'lifterlms' );
 				}
-			break;
+				break;
 			case 'waiting':
 				$icon = 'clock-o';
-				$tip = esc_attr__( 'Awaiting review', 'lifterlms' );
-			break;
+				$tip  = esc_attr__( 'Awaiting review', 'lifterlms' );
+				break;
 
 		}
 
@@ -237,6 +249,7 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Receive the graded status of the question
+	 *
 	 * @return   string      [graded|waiting|none]
 	 * @since    3.16.0
 	 * @version  3.16.9
@@ -266,6 +279,7 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Determine if remarks are available for the question
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -278,6 +292,7 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Determine if a question is correct
+	 *
 	 * @return   bool
 	 * @since    3.16.8
 	 * @version  3.16.8
@@ -294,8 +309,9 @@ class LLMS_Quiz_Attempt_Question {
 
 	/**
 	 * Setter
-	 * @param    string    $key  data key name
-	 * @param    mixed     $val  value
+	 *
+	 * @param    string $key  data key name
+	 * @param    mixed  $val  value
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0

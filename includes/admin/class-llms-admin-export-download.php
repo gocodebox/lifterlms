@@ -14,6 +14,7 @@ class LLMS_Admin_Export_Download {
 
 	/**
 	 * Constructor.
+	 *
 	 * @since   3.28.1
 	 * @version 3.28.1
 	 */
@@ -25,6 +26,7 @@ class LLMS_Admin_Export_Download {
 
 	/**
 	 * Serve an export file as a download
+	 *
 	 * @return  void
 	 * @since   3.28.1
 	 * @version 3.28.1

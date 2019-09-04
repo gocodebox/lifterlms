@@ -1,13 +1,14 @@
 <?php
 /**
  * Checkout Form
+ *
  * @since    1.0.0
  * @version  3.27.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$free = $plan->has_free_checkout();
+$free   = $plan->has_free_checkout();
 $fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 ?>
 
@@ -52,16 +53,26 @@ $fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 
 				<div class="llms-checkout-section-content">
 
-					<?php llms_get_template( 'checkout/form-summary.php', array(
-						'coupon' => $coupon,
-						'plan' => $plan,
-						'product' => $product,
-					) ); ?>
+					<?php
+					llms_get_template(
+						'checkout/form-summary.php',
+						array(
+							'coupon'  => $coupon,
+							'plan'    => $plan,
+							'product' => $product,
+						)
+					);
+					?>
 
-					<?php llms_get_template( 'checkout/form-coupon.php', array(
-						'coupon' => $coupon,
-						'plan' => $plan,
-					) ); ?>
+					<?php
+					llms_get_template(
+						'checkout/form-coupon.php',
+						array(
+							'coupon' => $coupon,
+							'plan'   => $plan,
+						)
+					);
+					?>
 
 				</div>
 
@@ -81,12 +92,17 @@ $fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 
 			<div class="llms-checkout-section-content llms-form-fields">
 
-				<?php llms_get_template( 'checkout/form-gateways.php', array(
-					'coupon' => $coupon,
-					'gateways' => $gateways,
-					'selected_gateway' => $selected_gateway,
-					'plan' => $plan,
-				) ); ?>
+				<?php
+				llms_get_template(
+					'checkout/form-gateways.php',
+					array(
+						'coupon'           => $coupon,
+						'gateways'         => $gateways,
+						'selected_gateway' => $selected_gateway,
+						'plan'             => $plan,
+					)
+				);
+				?>
 
 				<footer class="llms-checkout-confirm llms-form-fields flush">
 
@@ -94,22 +110,27 @@ $fields = LLMS_Person_Handler::get_available_fields( 'checkout', $field_data );
 
 					<?php
 						/**
-						 * llms_registration_privacy
+						 * Hook: llms_registration_privacy
+						 *
 						 * @hooked llms_privacy_policy_form_field - 10
 						 * @hooked llms_agree_to_terms_form_field - 20
 						 */
 						do_action( 'llms_registration_privacy' );
 					?>
 
-					<?php llms_form_field( array(
-						'columns' => 12,
-						'classes' => 'llms-button-action',
-						'id' => 'llms_create_pending_order',
-						'value' => apply_filters( 'lifterlms_checkout_buy_button_text', ! $free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
-						'last_column' => true,
-						'required' => false,
-						'type'  => 'submit',
-					) ); ?>
+					<?php
+					llms_form_field(
+						array(
+							'columns'     => 12,
+							'classes'     => 'llms-button-action',
+							'id'          => 'llms_create_pending_order',
+							'value'       => apply_filters( 'lifterlms_checkout_buy_button_text', ! $free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
+							'last_column' => true,
+							'required'    => false,
+							'type'        => 'submit',
+						)
+					);
+					?>
 
 					<?php do_action( 'llms_checkout_footer_after' ); ?>
 

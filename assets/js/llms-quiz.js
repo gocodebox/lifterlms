@@ -1,54 +1,61 @@
-/* global LLMS, $ */
+;/* global LLMS, $ */
 /* jshint strict: true */
 
 /**
  * Front End Quiz Class
+ *
  * @type     {Object}
  * @since    1.0.0
  * @version  3.24.3
- */
-;( function( $ ) {
+ */( function( $ ) {
 
 	var quiz = {
 
 		/**
 		 * Selector of all the available button elements
+		 *
 		 * @type  obj
 		 */
 		$buttons: null,
 
 		/**
 		 * Main Question Container Element
+		 *
 		 * @type  obj
 		 */
 		$container: null,
 
 		/**
 		 * Main Quiz container UI element
+		 *
 		 * @type  obj
 		 */
 		$ui: null,
 
 		/**
 		 * Attempt key for the current quiz
+		 *
 		 * @type  {[type]}
 		 */
 		attempt_key: null,
 
 		/**
 		 * Question ID of the current question
+		 *
 		 * @type  {Number}
 		 */
 		current_question: 0,
 
 		/**
 		 * Total number of questions in the current quiz
+		 *
 		 * @type  {Number}
 		 */
 		total_questions: 0,
 
 		/**
 		 * Object of quiz question HTML
+		 *
 		 * @type  {Object}
 		 */
 		questions: {},
@@ -56,6 +63,7 @@
 		/**
 		 * Validator functions for question types
 		 * Third party custom question types can register validators for use when answering questions
+		 *
 		 * @type  {Object}
 		 */
 		validators: {},
@@ -65,12 +73,14 @@
 		 * If a user attempts to navigate away from a quiz
 		 * while taking the quiz they'll be warned that their progress
 		 * will not be saved if this status is not null
+		 *
 		 * @type  boolean
 		 */
 		status: null,
 
 		/**
 		 * Bind DOM events
+		 *
 		 * @return void
 		 * @since    1.0.0
 		 * @version  3.16.6
@@ -124,6 +134,7 @@
 
 		/**
 		 * Add an error message to the UI
+		 *
 		 * @param    string   msg  error message string
 		 * @return   void
 		 * @since    3.16.0
@@ -148,6 +159,7 @@
 
 		/**
 		 * Answer a Question
+		 *
 		 * @param    obj   $btn   jQuery object for the "Next Lesson" button
 		 * @return   void
 		 * @since    1.0.0
@@ -155,9 +167,9 @@
 		 */
 		answer_question: function( $btn ) {
 
-			var self = this,
+			var self      = this,
 				$question = this.$container.find( '.llms-question-wrapper' ),
-				type = $question.attr( 'data-type' ),
+				type      = $question.attr( 'data-type' ),
 				valid;
 
 			if ( ! this.validators[ type ] ) {
@@ -168,7 +180,7 @@
 			}
 
 			valid = this.validators[ type ]( $question );
-			if ( ! valid || true !== valid.valid || !valid.answer ) {
+			if ( ! valid || true !== valid.valid || ! valid.answer ) {
 				return self.add_error( valid.valid );
 			}
 
@@ -199,7 +211,7 @@
 
 							self.load_question( self.questions[ 'q-' + r.data.question_id ] );
 
-						// load html from server if the question's never been seen before
+							// load html from server if the question's never been seen before
 						} else {
 							self.load_question( r.data.html );
 						}
@@ -229,6 +241,7 @@
 		 * Complete the quiz
 		 * Called when timed quizzes reach time limit
 		 * & during unload events to record the attempt as abandoned
+		 *
 		 * @return   void
 		 * @since    1.0.0
 		 * @version  3.9.0
@@ -274,6 +287,7 @@
 
 		/**
 		 * Retrieve the index of a question by question id
+		 *
 		 * @param    int   qid  WP Post ID of the question
 		 * @return   int
 		 * @since    3.16.0
@@ -287,6 +301,7 @@
 
 		/**
 		 * Redirect on quiz completion / timeout
+		 *
 		 * @param    string   url  redirect url
 		 * @return   void
 		 * @since    3.9.0
@@ -295,16 +310,17 @@
 		redirect: function( url ) {
 
 			this.toggle_loader( 'show', 'Grading Quiz...' );
-			this.status = null;
+			this.status          = null;
 			window.location.href = url;
 
 		},
 
 		/**
 		 * Return to the previous question
+		 *
 		 * @return   void
 		 * @since    1.0.0
-	 	 * @version  3.16.6
+		 * @version  3.16.6
 		 */
 		previous_question: function() {
 
@@ -313,8 +329,8 @@
 			self.toggle_loader( 'show', LLMS.l10n.translate( 'Loading Question...' ) );
 			self.update_progress_bar( 'decrement' );
 
-			var ids = Object.keys( self.questions ),
-				curr = ids.indexOf( 'q-' + self.current_question ),
+			var ids     = Object.keys( self.questions ),
+				curr    = ids.indexOf( 'q-' + self.current_question ),
 				prev_id = ids[0];
 
 			if ( curr >= 1 ) {
@@ -330,6 +346,7 @@
 
 		/**
 		 * Register question type validator functions
+		 *
 		 * @param    string     type  question type id
 		 * @param    function   func  callback function to validate the question with
 		 * @return   void
@@ -344,6 +361,7 @@
 
 		/**
 		 * Start a Quiz via AJAX call
+		 *
 		 * @return   void
 		 * @since    1.0.0
 		 * @version  3.24.3
@@ -353,8 +371,8 @@
 			var self = this;
 
 			this.load_ui_elements();
-			this.$ui = $( '#llms-quiz-ui' );
-			this.$buttons = $( '#llms-quiz-nav button' );
+			this.$ui        = $( '#llms-quiz-ui' );
+			this.$buttons   = $( '#llms-quiz-nav button' );
 			this.$container = $( '#llms-quiz-question-wrapper' );
 
 			// bind submission event for answering questions
@@ -398,8 +416,7 @@
 							self.start_quiz_timer( r.data.time_limit );
 						}
 
-
-						self.attempt_key = r.data.attempt_key;
+						self.attempt_key     = r.data.attempt_key;
 						self.total_questions = r.data.total;
 
 						self.load_question( r.data.html );
@@ -421,6 +438,7 @@
 
 			/**
 			 * Use JS mouse events instead of CSS :hover because iOS is really smart
+			 *
 			 * @see: https://css-tricks.com/annoying-mobile-double-tap-link-issue/
 			 */
 			if ( ! LLMS.is_touch_device() ) {
@@ -442,6 +460,7 @@
 		 * Not used as actual quiz timer. Quiz is timed on the server from the quiz class
 		 * Calculates minutes to milliseconds and then converts to hours / minutes
 		 * When time limit reaches 0 calls complete_quiz() to complete quiz.
+		 *
 		 * @return Calls get_count_down at a set interval of 1 second
 		 * @since    1.0.0
 		 * @version  3.16.0
@@ -458,13 +477,13 @@
 			$( '#llms-quiz-header' ).append( $el );
 
 			// start the timer
-			var self = this,
+			var self        = this,
 				target_date = new Date().getTime() + ( ( total_minutes * 60 ) * 1000 ), // set the countdown date
-				time_limit = ( ( total_minutes * 60 ) * 1000 ),
-				countdown = document.getElementById('llms-tiles'), // get tag element
+				time_limit  = ( ( total_minutes * 60 ) * 1000 ),
+				countdown   = document.getElementById( 'llms-tiles' ), // get tag element
 				days, hours, minutes, seconds; // variables for time units
 
-			//set actual timer
+			// set actual timer
 			setTimeout( function() {
 				self.complete_quiz();
 			}, time_limit + 1000 );
@@ -497,6 +516,7 @@
 
 		/**
 		 * Trigger events
+		 *
 		 * @param    string   event  event to trigger
 		 * @return   void
 		 * @since    3.16.0
@@ -525,6 +545,7 @@
 
 		/**
 		 * Load the HTML of a question into the DOM and the question cache
+		 *
 		 * @param    string   html  string of html
 		 * @return   void
 		 * @since    3.9.0
@@ -533,10 +554,10 @@
 		load_question: function( html ) {
 
 			var $html = $( html ),
-				qid = $html.attr( 'data-id' );
+				qid   = $html.attr( 'data-id' );
 
 			// cache the question HTML for faster rewinds
-			if ( !this.questions[ 'q-' + qid ] ) {
+			if ( ! this.questions[ 'q-' + qid ] ) {
 				this.questions[ 'q-' + qid ] = $html;
 			}
 
@@ -554,14 +575,15 @@
 
 		/**
 		 * Constructs the quiz UI & adds the elements into the DOM
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.9
 		 */
 		load_ui_elements: function() {
 
-			var $html = $( '<div class="llms-quiz-ui" id="llms-quiz-ui" />' ),
-				$header = $( '<header class="llms-quiz-header" id="llms-quiz-header" />')
+			var $html   = $( '<div class="llms-quiz-ui" id="llms-quiz-ui" />' ),
+				$header = $( '<header class="llms-quiz-header" id="llms-quiz-header" />' )
 				$footer = $( '<footer class="llms-quiz-nav" id="llms-quiz-nav" />' );
 
 			$footer.append( '<button class="button large llms-button-action" id="llms-next-question" name="llms_next_question" type="submit">' + LLMS.l10n.translate( 'Next Question' ) + '</button>' );
@@ -569,7 +591,7 @@
 			$footer.append( '<button class="button llms-button-secondary" id="llms-prev-question" name="llms_prev_question" type="submit" style="display:none;">' + LLMS.l10n.translate( 'Previous Question' ) + '</button>' );
 
 			$header.append( '<div class="llms-progress"><div class="progress-bar-complete"></div></div>' );
-			$footer.append( '<div class="llms-quiz-counter" id="llms-quiz-counter"><span class="llms-current"></span><span class="llms-sep">/</span><span class="llms-total"></span></div>')
+			$footer.append( '<div class="llms-quiz-counter" id="llms-quiz-counter"><span class="llms-current"></span><span class="llms-sep">/</span><span class="llms-total"></span></div>' )
 
 			$html.append( $header )
 				 .append( '<div class="llms-quiz-question-wrapper" id="llms-quiz-question-wrapper" />' )
@@ -581,6 +603,7 @@
 
 		/**
 		 * Perform actions on question HTML after it's been appended to the DOM
+		 *
 		 * @param    obj      event  js event object
 		 * @param    obj      html   js HTML object
 		 * @return   void
@@ -599,6 +622,7 @@
 
 		/**
 		 * Show or hide the "loading" spinner with an option message
+		 *
 		 * @param    string   display  show|hide
 		 * @param    string   msg      text to display when showing
 		 * @return   void
@@ -629,6 +653,7 @@
 
 		/**
 		 * Update the progress bar and toggle button availability based on question the question being shown
+		 *
 		 * @param    {[type]}   qid  [description]
 		 * @return   {[type]}
 		 * @since    3.16.0
@@ -670,6 +695,7 @@
 
 		/**
 		 * Increase progress bar ui element
+		 *
 		 * @param    string   dir  update direction [increment|decrement]
 		 * @return   void
 		 * @since    3.16.0
@@ -694,6 +720,7 @@
 		 * Called every second to update the on screen countdown timer
 		 * Changes color to yellow at 1/2 of total time
 		 * Changes color to red at 1/4 of total time
+		 *
 		 * @param  {[int]} minutes     [description]
 		 * @param  {[date]} target_date [description]
 		 * @param  {[int]} time_limit  [description]
@@ -704,7 +731,7 @@
 		 * @param  {[int]} countdown   [description]
 		 * @return Displays updates hours, minutes on quiz timer
 		 * @since    1.0.0
-	 	 * @version  1.0.0
+		 * @version  1.0.0
 		 */
 		getCountdown: function( total_minutes, target_date, time_limit, days, hours, minutes, seconds, countdown ){
 
@@ -714,25 +741,25 @@
 
 			if ( seconds_left >= 0 ) {
 
-				if ( ( seconds_left * 1000 ) < ( time_limit / 2 ) )  {
+				if ( ( seconds_left * 1000 ) < ( time_limit / 2 ) ) {
 
 					$( '#llms-quiz-timer' ).addClass( 'color-half' );
 
 				}
 
-				if ( ( seconds_left * 1000 ) < ( time_limit / 4 ) )  {
+				if ( ( seconds_left * 1000 ) < ( time_limit / 4 ) ) {
 
 					$( '#llms-quiz-timer' ).removeClass( 'color-half' );
 					$( '#llms-quiz-timer' ).addClass( 'color-empty' );
 
 				}
 
-				days = this.pad( parseInt(seconds_left / 86400) );
+				days         = this.pad( parseInt( seconds_left / 86400 ) );
 				seconds_left = seconds_left % 86400;
-				hours = this.pad( parseInt(seconds_left / 3600) );
+				hours        = this.pad( parseInt( seconds_left / 3600 ) );
 				seconds_left = seconds_left % 3600;
-				minutes = this.pad( parseInt( seconds_left / 60 ) );
-				seconds = this.pad( parseInt( seconds_left % 60 ) );
+				minutes      = this.pad( parseInt( seconds_left / 60 ) );
+				seconds      = this.pad( parseInt( seconds_left % 60 ) );
 
 				// format countdown string + set tag value
 				countdown.innerHTML = '<span class="hours">' + hours + '</span>:<span class="minutes">' + minutes + '</span>:<span class="seconds">' + seconds + '</span>';
@@ -742,10 +769,11 @@
 		/**
 		 * Pad Number
 		 * pads number with 0 if single digit.
+		 *
 		 * @param  {[int]} n [number]
 		 * @return {[string]} [padded number]
 		 * @since    1.0.0
-	 	 * @version  1.0.0
+		 * @version  1.0.0
 		 */
 		pad: function(n) {
 			return (n < 10 ? '0' : '') + n;
@@ -754,6 +782,7 @@
 		/**
 		 * Basic validation method which performs no validation and returns a validation object
 		 * in the format required by the application
+		 *
 		 * @param    obj   $question  jQuery selector of the question
 		 * @return   obj
 		 * @since    3.16.0
@@ -768,6 +797,7 @@
 
 		/**
 		 * Validates a choice question to ensure there's at least one checked input
+		 *
 		 * @param    obj   $question  jQuery selector of the question
 		 * @return   obj
 		 * @since    3.16.0
@@ -775,10 +805,10 @@
 		 */
 		validate_choice: function( $question ) {
 
-			var ret = window.llms.quizzes.validate( $question ),
+			var ret     = window.llms.quizzes.validate( $question ),
 				checked = $question.find( 'input:checked' );
 
-			if ( !checked.length ) {
+			if ( ! checked.length ) {
 				ret.valid = LLMS.l10n.translate( 'You must select an answer to continue.' );
 			} else {
 				checked.each( function() {
@@ -794,7 +824,7 @@
 
 	quiz.bind();
 
-	window.llms = window.llms || {};
+	window.llms         = window.llms || {};
 	window.llms.quizzes = quiz;
 
 } )( jQuery );

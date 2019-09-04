@@ -18,18 +18,21 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 
 	/**
 	 * Trigger Identifier
+	 *
 	 * @var  [type]
 	 */
 	public $id = 'course_track_complete';
 
 	/**
 	 * Number of accepted arguments passed to the callback function
+	 *
 	 * @var  integer
 	 */
 	protected $action_accepted_args = 2;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
+	 *
 	 * @var  array
 	 */
 	protected $action_hooks = array( 'lifterlms_course_track_completed' );
@@ -42,8 +45,9 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 
 	/**
 	 * Callback function called when a course track is completed by a student
-	 * @param    int     $student_id  WP User ID of a LifterLMS Student
-	 * @param    int     $course_track_id   WP Post ID of a LifterLMS Course
+	 *
+	 * @param    int $student_id  WP User ID of a LifterLMS Student
+	 * @param    int $course_track_id   WP Post ID of a LifterLMS Course
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -52,7 +56,7 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 
 		$this->user_id = $student_id;
 		$this->post_id = $course_track_id;
-		$this->track = new LLMS_Track( $course_track_id );
+		$this->track   = new LLMS_Track( $course_track_id );
 
 		$this->send();
 
@@ -60,7 +64,8 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
-	 * @param    string     $subscriber  subscriber type string
+	 *
+	 * @param    string $subscriber  subscriber type string
 	 * @return   int|false
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -71,7 +76,7 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 
 			case 'student':
 				$uid = $this->user_id;
-			break;
+				break;
 
 			default:
 				$uid = false;
@@ -85,6 +90,7 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 	/**
 	 * Get the translatable title for the notification
 	 * used on settings screens
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -95,7 +101,8 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 
 	/**
 	 * Setup the subscriber options for the notification
-	 * @param    string     $type  notification type id
+	 *
+	 * @param    string $type  notification type id
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -108,11 +115,11 @@ class LLMS_Notification_Controller_Course_Track_Complete extends LLMS_Abstract_N
 
 			case 'basic':
 				$options[] = $this->get_subscriber_option_array( 'student', 'yes' );
-			break;
+				break;
 
 			case 'email':
 				$options[] = $this->get_subscriber_option_array( 'custom', 'no' );
-			break;
+				break;
 
 		}
 

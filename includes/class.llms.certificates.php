@@ -20,6 +20,7 @@ class LLMS_Certificates {
 
 	/**
 	 * Instance
+	 *
 	 * @var  LLMS_Certificates
 	 */
 	protected static $_instance = null;
@@ -32,6 +33,7 @@ class LLMS_Certificates {
 
 	/**
 	 * Instance singleton
+	 *
 	 * @return   LLMS_Certificates
 	 * @since    1.0.0
 	 * @version  1.0.0
@@ -45,6 +47,7 @@ class LLMS_Certificates {
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  1.0.0
@@ -55,21 +58,23 @@ class LLMS_Certificates {
 
 	/**
 	 * Initialize Class
+	 *
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  1.0.0
 	 */
 	public function init() {
-		include_once( 'class.llms.certificate.php' );
-		$this->certs['LLMS_Certificate_User'] = include_once( 'certificates/class.llms.certificate.user.php' );
+		include_once 'class.llms.certificate.php';
+		$this->certs['LLMS_Certificate_User'] = include_once 'certificates/class.llms.certificate.user.php';
 	}
 
 	/**
 	 * Award a certificate to a user
 	 * Calls trigger method passing arguments
-	 * @param    int   $person_id        [ID of the current user]
-	 * @param    int   $achievement      [Achievement template post ID]
-	 * @param    int   $related_post_id  Post ID of the related engagement (eg lesson id)
+	 *
+	 * @param    int $person_id        [ID of the current user]
+	 * @param    int $achievement      [Achievement template post ID]
+	 * @param    int $related_post_id  Post ID of the related engagement (eg lesson id)
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  1.0.0
@@ -81,8 +86,9 @@ class LLMS_Certificates {
 
 	/**
 	 * Generate a downloadable HTML file for a certificate
-	 * @param    string  $filepath        full path for the created file
-	 * @param    int     $certificate_id  WP Post ID of the earned certificate
+	 *
+	 * @param    string $filepath        full path for the created file
+	 * @param    int    $certificate_id  WP Post ID of the earned certificate
 	 * @return   mixed                    WP_Error or full path to the generated export
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -112,8 +118,9 @@ class LLMS_Certificates {
 
 	/**
 	 * Retrieve an existing or generate a downloadable HTML file for a certificate
-	 * @param    int     $certificate_id  WP Post ID of the earned certificate
-	 * @param    bool    $use_cache       if true will check for existence of a cached version of the file first
+	 *
+	 * @param    int  $certificate_id  WP Post ID of the earned certificate
+	 * @param    bool $use_cache       if true will check for existence of a cached version of the file first
 	 * @return   mixed                    WP_Error or full path to the generated export
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -130,9 +137,9 @@ class LLMS_Certificates {
 		$cert = new LLMS_User_Certificate( $certificate_id );
 
 		/* translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity */
-		$filename = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'certificate_title' ), wp_generate_password( 12, false, false ) ) );
+		$filename  = sanitize_title( sprintf( esc_attr_x( 'certificate-%1$s-%2$s', 'certificate download filename', 'lifterlms' ), $cert->get( 'certificate_title' ), wp_generate_password( 12, false, false ) ) );
 		$filename .= '.html';
-		$filepath = LLMS_TMP_DIR . $filename;
+		$filepath  = LLMS_TMP_DIR . $filename;
 
 		if ( $use_cache ) {
 			update_post_meta( $certificate_id, '_llms_export_filepath', $filepath );
@@ -144,7 +151,8 @@ class LLMS_Certificates {
 
 	/**
 	 * Retrieves the HTML of a certificate which can be used to create an exportable download
-	 * @param    int     $certificate_id  WP Post ID of the earned certificate
+	 *
+	 * @param    int $certificate_id  WP Post ID of the earned certificate
 	 * @return   string
 	 * @since    3.18.0
 	 * @version  3.24.3
@@ -157,9 +165,12 @@ class LLMS_Certificates {
 
 		// scrape the html from a one-time use URL
 		$url = apply_filters( 'llms_get_certificate_export_html_url', add_query_arg( '_llms_cert_auth', $token, get_permalink( $certificate_id ) ), $certificate_id );
-		$req = wp_safe_remote_get( $url, array(
-			'sslverify' => false,
-		) );
+		$req = wp_safe_remote_get(
+			$url,
+			array(
+				'sslverify' => false,
+			)
+		);
 
 		// delete the token after the request
 		delete_post_meta( $certificate_id, '_llms_auth_nonce', $token );
@@ -178,7 +189,7 @@ class LLMS_Certificates {
 		// don't throw or log warnings
 		$libxml_state = libxml_use_internal_errors( true );
 
-		$dom = new DOMDocument;
+		$dom = new DOMDocument();
 
 		if ( $dom->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
 
@@ -191,7 +202,7 @@ class LLMS_Certificates {
 			}
 
 			// get all <links>
-			$links = $dom->getElementsByTagName( 'link' );
+			$links      = $dom->getElementsByTagName( 'link' );
 			$to_replace = array();
 
 			// inline stylesheets
@@ -214,10 +225,10 @@ class LLMS_Certificates {
 
 				// get the actual CSS
 				$stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $href ), '?' );
-				$raw = file_get_contents( $stylepath );
+				$raw       = file_get_contents( $stylepath );
 
 				// add it to be inlined late
-				$tag = $dom->createElement( 'style', $raw );
+				$tag          = $dom->createElement( 'style', $raw );
 				$to_replace[] = array(
 					'old' => $link,
 					'new' => $tag,
@@ -247,7 +258,7 @@ class LLMS_Certificates {
 					continue;
 				}
 				$imgpath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
-				$data = base64_encode( file_get_contents( $imgpath ) );
+				$data    = base64_encode( file_get_contents( $imgpath ) );
 				$img->setAttribute( 'src', 'data:' . mime_content_type( $imgpath ) . ';base64,' . $data );
 			}
 

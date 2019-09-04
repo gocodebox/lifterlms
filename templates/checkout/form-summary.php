@@ -1,6 +1,7 @@
 <?php
 /**
  * Order Summary area of the checkout form
+ *
  * @since     2.4.2
  * @version   3.21.1
  */
@@ -29,13 +30,17 @@ defined( 'ABSPATH' ) || exit;
 				<span class="price-sale"><?php echo $plan->get_price( 'sale_price' ); ?></span>
 			<?php endif; ?>
 		<?php endif; ?>
-		<?php $schedule = $plan->get_schedule_details();
-		if ( $schedule ) : ?>
+		<?php
+		$schedule = $plan->get_schedule_details();
+		if ( $schedule ) :
+			?>
 			<?php echo $schedule; ?>
 		<?php endif; ?>
 	</li>
-	<?php $expires = $plan->get_expiration_details();
-	if ( $expires ) : ?>
+	<?php
+	$expires = $plan->get_expiration_details();
+	if ( $expires ) :
+		?>
 		<li><span class="llms-label"><?php _e( 'Access', 'lifterlms' ); ?>:</span> <?php echo $expires; ?></li>
 	<?php endif; ?>
 </ul>

@@ -1,5 +1,6 @@
 /**
  * Lesson Schemas
+ *
  * @since    3.17.0
  * @version  3.25.4
  */
@@ -16,20 +17,20 @@ define( [], function() {
 						attribute: 'permalink',
 						id: 'permalink',
 						type: 'permalink',
-					},
+			},
 				], [
 					{
 						attribute: 'video_embed',
 						id: 'video-embed',
 						label: LLMS.l10n.translate( 'Video Embed URL' ),
 						type: 'video_embed',
-					},
+			},
 					{
 						attribute: 'audio_embed',
 						id: 'audio-embed',
 						label: LLMS.l10n.translate( 'Audio Embed URL' ),
 						type: 'audio_embed',
-					},
+			},
 				], [
 					{
 						attribute: 'free_lesson',
@@ -37,7 +38,7 @@ define( [], function() {
 						label: LLMS.l10n.translate( 'Free Lesson' ),
 						tip: LLMS.l10n.translate( "Free lessons can be accessed without enrollment." ),
 						type: 'switch',
-					},
+			},
 					{
 						attribute: 'require_passing_grade',
 						id: 'require-passing-grade',
@@ -47,7 +48,7 @@ define( [], function() {
 						condition: function() {
 							return ( 'yes' === this.get( 'quiz_enabled' ) );
 						},
-					},
+			},
 					{
 						attribute: 'require_assignment_passing_grade',
 						id: 'require-assignment-passing-grade',
@@ -57,7 +58,7 @@ define( [], function() {
 						condition: function() {
 							return ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) );
 						},
-					},
+			},
 					{
 						attribute: 'points',
 						id: 'points',
@@ -71,7 +72,7 @@ define( [], function() {
 						condition: function() {
 							return ( ( 'yes' === this.get( 'quiz_enabled' ) ) || ( 'undefined' !== window.llms_builder.assignments && 'yes' === this.get( 'assignment_enabled' ) ) );
 						},
-					},
+			},
 				], [
 					{
 						attribute: 'prerequisite',
@@ -85,7 +86,7 @@ define( [], function() {
 						options: function() {
 							return this.get_available_prereq_options();
 						},
-					},
+			},
 				], [
 					{
 						attribute: 'drip_method',
@@ -99,15 +100,15 @@ define( [], function() {
 								{
 									key: '',
 									val: LLMS.l10n.translate( 'None' ),
-								},
+							},
 								{
 									key: 'date',
 									val: LLMS.l10n.translate( 'On a specific date' ),
-								},
+							},
 								{
 									key: 'enrollment',
 									val: LLMS.l10n.translate( '# of days after course enrollment' ),
-								},
+							},
 							];
 
 							if ( this.get_course() && this.get_course().get( 'start_date' ) ) {
@@ -127,7 +128,7 @@ define( [], function() {
 							return options;
 
 						},
-					},
+			},
 					{
 						attribute: 'days_before_available',
 						condition: function() {
@@ -137,7 +138,7 @@ define( [], function() {
 						label: LLMS.l10n.translate( '# of days' ),
 						min: 0,
 						type: 'number',
-					},
+			},
 					{
 						attribute: 'date_available',
 						date_format: 'Y-m-d',
@@ -148,7 +149,7 @@ define( [], function() {
 						label: LLMS.l10n.translate( 'Date' ),
 						timepicker: 'false',
 						type: 'datepicker',
-					},
+			},
 					{
 						attribute: 'time_available',
 						condition: function() {
@@ -159,7 +160,7 @@ define( [], function() {
 						id: 'time-available',
 						label: LLMS.l10n.translate( 'Time' ),
 						type: 'datepicker',
-					},
+			},
 				],
 			],
 		},

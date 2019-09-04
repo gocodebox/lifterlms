@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Achievement Forms
+ *
  * @since   3.18.0
  * @version 3.18.0
  */
@@ -10,6 +11,7 @@ class LLMS_Controller_Achievements {
 
 	/**
 	 * Constructor
+	 *
 	 * @return   void
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -22,6 +24,7 @@ class LLMS_Controller_Achievements {
 
 	/**
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
+	 *
 	 * @return   void
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -42,7 +45,8 @@ class LLMS_Controller_Achievements {
 
 	/**
 	 * Delete a cert
-	 * @param    int     $cert_id  WP Post ID of the llms_my_certificate
+	 *
+	 * @param    int $cert_id  WP Post ID of the llms_my_certificate
 	 * @return   void
 	 * @since    3.18.0
 	 * @version  3.18.0

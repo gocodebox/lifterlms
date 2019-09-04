@@ -65,12 +65,15 @@ class LLMS_Shortcode_Checkout {
 			// ensure the user isn't enrolled in the product being purchased.
 			if ( isset( $atts['product'] ) && llms_is_user_enrolled( self::$uid, $atts['product']->get( 'id' ) ) ) {
 
-				llms_print_notice( sprintf(
-					// Translators: %s = The product type (course/membership).
-					__( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ),
-					llms_get_page_url( 'myaccount' ),
-					$atts['product']->get_post_type_label()
-				), 'notice' );
+				llms_print_notice(
+					sprintf(
+						// Translators: %s = The product type (course/membership).
+						__( 'You already have access to this %2$s! Visit your dashboard <a href="%s">here.</a>', 'lifterlms' ),
+						llms_get_page_url( 'myaccount' ),
+						$atts['product']->get_post_type_label()
+					),
+					'notice'
+				);
 				return;
 			}
 
@@ -147,7 +150,7 @@ class LLMS_Shortcode_Checkout {
 
 		self::$uid = get_current_user_id();
 
-		$atts['gateways'] = LLMS()->payment_gateways()->get_enabled_payment_gateways();
+		$atts['gateways']         = LLMS()->payment_gateways()->get_enabled_payment_gateways();
 		$atts['selected_gateway'] = LLMS()->payment_gateways()->get_default_gateway();
 
 		$atts['order_key'] = '';
@@ -197,12 +200,12 @@ class LLMS_Shortcode_Checkout {
 				} elseif ( self::$uid ) {
 					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $_GET['plan'] );
 					if ( $pending_order ) {
-						$order = llms_get_post( $pending_order );
+						$order             = llms_get_post( $pending_order );
 						$atts['order_key'] = ( 'llms-pending' === $order->get( 'status' ) ) ? $order->get( 'order_key' ) : '';
 					}
 				}
 
-				$atts['plan'] = new LLMS_Access_Plan( $_GET['plan'] );
+				$atts['plan']    = new LLMS_Access_Plan( $_GET['plan'] );
 				$atts['product'] = $atts['plan']->get_product();
 
 				self::checkout( $atts );
@@ -222,8 +225,8 @@ class LLMS_Shortcode_Checkout {
 
 			}
 
-			$order = llms_get_order_by_key( $_GET['order'] );
-			$atts['plan'] = new LLMS_Access_Plan( $order->get( 'plan_id' ) );
+			$order           = llms_get_order_by_key( $_GET['order'] );
+			$atts['plan']    = new LLMS_Access_Plan( $order->get( 'plan_id' ) );
 			$atts['product'] = $atts['plan']->get_product();
 
 			if ( $order->get( 'coupon_id' ) ) {

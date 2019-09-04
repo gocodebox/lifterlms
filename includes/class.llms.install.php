@@ -21,10 +21,11 @@ class LLMS_Install {
 	/**
 	 * Array of database updates versions
 	 * and an array of callback functions for the update
+	 *
 	 * @var  array
 	 */
 	private static $db_updates = array(
-		'3.0.0' => array(
+		'3.0.0'  => array(
 			'llms_update_300_create_access_plans',
 			'llms_update_300_del_deprecated_options',
 			'llms_update_300_migrate_account_field_options',
@@ -36,19 +37,19 @@ class LLMS_Install {
 			'llms_update_300_update_orders',
 			'llms_update_300_update_db_version',
 		),
-		'3.0.3' => array(
+		'3.0.3'  => array(
 			'llms_update_303_update_students_role',
 			'llms_update_303_update_db_version',
 		),
-		'3.4.3' => array(
+		'3.4.3'  => array(
 			'llms_update_343_update_relationships',
 			'llms_update_343_update_db_version',
 		),
-		'3.6.0' => array(
+		'3.6.0'  => array(
 			'llms_update_360_set_product_visibility',
 			'llms_update_360_update_db_version',
 		),
-		'3.8.0' => array(
+		'3.8.0'  => array(
 			'llms_update_380_set_access_plan_visibility',
 			'llms_update_380_update_db_version',
 		),
@@ -83,6 +84,7 @@ class LLMS_Install {
 	/**
 	 * Initialize the install class
 	 * Hooks all actions
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.4.3
@@ -101,6 +103,7 @@ class LLMS_Install {
 
 	/**
 	 * Checks the current LLMS version and runs installer if required
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -115,6 +118,7 @@ class LLMS_Install {
 
 	/**
 	 * Create LifterLMS cron jobs
+	 *
 	 * @return  void
 	 * @since   1.0.0
 	 * @version 3.28.0
@@ -133,6 +137,7 @@ class LLMS_Install {
 
 	/**
 	 * Create basic course difficulties on installation
+	 *
 	 * @return   void
 	 * @since    3.0.4
 	 * @version  3.0.4
@@ -153,31 +158,32 @@ class LLMS_Install {
 
 	/**
 	 * Create files needed by LifterLMS
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.15.0
 	 */
 	public static function create_files() {
 		$upload_dir = wp_upload_dir();
-		$files = array(
+		$files      = array(
 			array(
-				'base' => LLMS_LOG_DIR,
-				'file' => '.htaccess',
+				'base'    => LLMS_LOG_DIR,
+				'file'    => '.htaccess',
 				'content' => 'deny from all',
 			),
 			array(
-				'base' => LLMS_LOG_DIR,
-				'file' => 'index.html',
+				'base'    => LLMS_LOG_DIR,
+				'file'    => 'index.html',
 				'content' => '',
 			),
 			array(
-				'base' => LLMS_TMP_DIR,
-				'file' => '.htaccess',
+				'base'    => LLMS_TMP_DIR,
+				'file'    => '.htaccess',
 				'content' => 'deny from all',
 			),
 			array(
-				'base' => LLMS_TMP_DIR,
-				'file' => 'index.html',
+				'base'    => LLMS_TMP_DIR,
+				'file'    => 'index.html',
 				'content' => '',
 			),
 		);
@@ -196,13 +202,14 @@ class LLMS_Install {
 
 	/**
 	 * Store all default options in the DB
+	 *
 	 * @return  void
 	 * @since   1.0.0
 	 * @version 3.8.0
 	 */
 	public static function create_options() {
 
-		include_once( 'admin/class.llms.admin.settings.php' );
+		include_once 'admin/class.llms.admin.settings.php';
 
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
@@ -219,37 +226,41 @@ class LLMS_Install {
 
 	/**
 	 * Create essential starter pages
+	 *
 	 * @return   boolean    false on error, true on success
 	 * @since    1.0.0
 	 * @version  3.24.0
 	 */
 	public static function create_pages() {
-		$pages = apply_filters( 'llms_install_create_pages', array(
+		$pages = apply_filters(
+			'llms_install_create_pages',
 			array(
-				'content' => '',
-				'option' => 'lifterlms_shop_page_id',
-				'slug' => 'courses',
-				'title' => __( 'Course Catalog', 'lifterlms' ),
-			),
-			array(
-				'content' => '',
-				'option' => 'lifterlms_memberships_page_id',
-				'slug' => 'memberships',
-				'title' => __( 'Membership Catalog', 'lifterlms' ),
-			),
-			array(
-				'content' => '[lifterlms_checkout]',
-				'option' => 'lifterlms_checkout_page_id',
-				'slug' => 'purchase',
-				'title' => __( 'Purchase', 'lifterlms' ),
-			),
-			array(
-				'content' => '[lifterlms_my_account]',
-				'option' => 'lifterlms_myaccount_page_id',
-				'slug' => 'dashboard',
-				'title' => __( 'Dashboard', 'lifterlms' ),
-			),
-		) );
+				array(
+					'content' => '',
+					'option'  => 'lifterlms_shop_page_id',
+					'slug'    => 'courses',
+					'title'   => __( 'Course Catalog', 'lifterlms' ),
+				),
+				array(
+					'content' => '',
+					'option'  => 'lifterlms_memberships_page_id',
+					'slug'    => 'memberships',
+					'title'   => __( 'Membership Catalog', 'lifterlms' ),
+				),
+				array(
+					'content' => '[lifterlms_checkout]',
+					'option'  => 'lifterlms_checkout_page_id',
+					'slug'    => 'purchase',
+					'title'   => __( 'Purchase', 'lifterlms' ),
+				),
+				array(
+					'content' => '[lifterlms_my_account]',
+					'option'  => 'lifterlms_myaccount_page_id',
+					'slug'    => 'dashboard',
+					'title'   => __( 'Dashboard', 'lifterlms' ),
+				),
+			)
+		);
 		foreach ( $pages as $page ) {
 			if ( ! llms_create_page( $page['slug'], $page['title'], $page['content'], $page['option'] ) ) {
 				return false;
@@ -260,6 +271,7 @@ class LLMS_Install {
 
 	/**
 	 * Create LifterLMS DB tables
+	 *
 	 * @return  void
 	 * @since   1.0.0
 	 * @version 3.3.1
@@ -270,7 +282,7 @@ class LLMS_Install {
 
 		$wpdb->hide_errors();
 
-		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 
 		dbDelta( self::get_schema() );
 
@@ -278,6 +290,7 @@ class LLMS_Install {
 
 	/**
 	 * Create default LifterLMS Product & Access Plan Visibility Options
+	 *
 	 * @return   void
 	 * @since    3.6.0
 	 * @version  3.8.0
@@ -297,6 +310,7 @@ class LLMS_Install {
 
 	/**
 	 * Queue all required db updates into the bg update queue
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.4.3
@@ -304,7 +318,7 @@ class LLMS_Install {
 	public static function db_updates() {
 
 		$current_db_version = get_option( 'lifterlms_db_version' );
-		$queued = false;
+		$queued             = false;
 
 		foreach ( self::$db_updates as $version => $callbacks ) {
 
@@ -332,6 +346,7 @@ class LLMS_Install {
 	 * instead of the "completed" notice
 	 * These small updates would finish on a second thread faster than the main
 	 * thread and the wrong notice would be displayed
+	 *
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -342,16 +357,20 @@ class LLMS_Install {
 
 	/**
 	 * Retrieve the default difficulty terms that should be created on a fresh install
+	 *
 	 * @return   array
 	 * @since    3.3.1
 	 * @version  3.3.1
 	 */
 	public static function get_difficulties() {
-		return apply_filters( 'llms_install_create_difficulties', array(
-			_x( 'Beginner', 'course difficulty name', 'lifterlms' ),
-			_x( 'Intermediate', 'course difficulty name', 'lifterlms' ),
-			_x( 'Advanced', 'course difficulty name', 'lifterlms' ),
-		) );
+		return apply_filters(
+			'llms_install_create_difficulties',
+			array(
+				_x( 'Beginner', 'course difficulty name', 'lifterlms' ),
+				_x( 'Intermediate', 'course difficulty name', 'lifterlms' ),
+				_x( 'Advanced', 'course difficulty name', 'lifterlms' ),
+			)
+		);
 	}
 
 	/**
@@ -466,6 +485,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 	/**
 	 * Initializes the bg updater class
+	 *
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.6.0
@@ -473,12 +493,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	public static function init_background_updater() {
 
 		include_once dirname( __FILE__ ) . '/class.llms.background.updater.php';
-		self::$background_updater = new LLMS_Background_Updater;
+		self::$background_updater = new LLMS_Background_Updater();
 
 	}
 
 	/**
 	 * Core install function
+	 *
 	 * @return  void
 	 * @since   1.0.0
 	 * @version 3.13.0
@@ -507,7 +528,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 		self::create_difficulties();
 		self::create_visibilities();
 
-		$version = get_option( 'lifterlms_current_version', null );
+		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
 
 		// trigger first time run redirect
@@ -540,6 +561,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 	/**
 	 * Remove the difficulties created by the create_difficulties() function
 	 * Used during uninstall when "remove_all_data" is set
+	 *
 	 * @return   void
 	 * @since    3.3.1
 	 * @version  3.3.1
@@ -560,6 +582,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 	/**
 	 * Handle form submission of update related actions
+	 *
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -609,6 +632,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 	/**
 	 * Stores an admin notice for the current state of the background updater
+	 *
 	 * @return   void
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -630,26 +654,36 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 			// update is running or button was just pressed
 			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
 
-				LLMS_Admin_Notices::add_notice( 'bg-db-update', array(
-					'dismissible' => false,
-					'template' => 'admin/notices/db-updating.php',
-				) );
+				LLMS_Admin_Notices::add_notice(
+					'bg-db-update',
+					array(
+						'dismissible' => false,
+						'template'    => 'admin/notices/db-updating.php',
+					)
+				);
 
 			} // End if().
 			else {
 
-				LLMS_Admin_Notices::add_notice( 'bg-db-update', array(
-					'dismissible' => false,
-					'template' => 'admin/notices/db-update.php',
-				) );
+				LLMS_Admin_Notices::add_notice(
+					'bg-db-update',
+					array(
+						'dismissible' => false,
+						'template'    => 'admin/notices/db-update.php',
+					)
+				);
 
 			}
 		} else {
 
-			LLMS_Admin_Notices::add_notice( 'bg-db-update', __( 'The LifterLMS database update is complete.', 'lifterlms' ), array(
-				'dismissible' => true,
-				'dismiss_for_days' => 0,
-			) );
+			LLMS_Admin_Notices::add_notice(
+				'bg-db-update',
+				__( 'The LifterLMS database update is complete.', 'lifterlms' ),
+				array(
+					'dismissible'      => true,
+					'dismiss_for_days' => 0,
+				)
+			);
 
 		}
 
@@ -657,6 +691,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 	/**
 	 * Update the LifterLMS DB record to the latest version
+	 *
 	 * @param  string $version version number
 	 * @return void
 	 * @since    3.0.0
@@ -669,6 +704,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 	/**
 	 * Update the LifterLMS version record to the latest version
+	 *
 	 * @param  string $version version number
 	 * @return void
 	 * @since    3.0.0
@@ -681,6 +717,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_notifications` (
 
 	/**
 	 * Redirects users to the setup wizard
+	 *
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.0.0

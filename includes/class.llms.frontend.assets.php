@@ -2,20 +2,23 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
-* Frontend scripts class
-* @since    1.0.0
-* @version  3.22.0
-*/
+ * Frontend scripts class
+ *
+ * @since    1.0.0
+ * @version  3.22.0
+ */
 class LLMS_Frontend_Assets {
 
 	/**
 	 * Inline script ids that have been enqueued
+	 *
 	 * @var  array
 	 */
 	private static $enqueued_inline_scripts = array();
 
 	/**
 	 * Array of inline scripts to be output in the header / footer respectively
+	 *
 	 * @var  array
 	 */
 	private static $inline_scripts = array(
@@ -26,6 +29,7 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Initializer
 	 * Replaces non-static __construct() from 3.4.0 & lower
+	 *
 	 * @return   void
 	 * @since    3.4.1
 	 * @version  3.17.5
@@ -40,10 +44,11 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Enqueue an inline script
-	 * @param    string     $id        unique id for the script, used to prevent duplicates
-	 * @param    string     $script    JS to enqueue, do not add <script> tags!
-	 * @param    string     $where     where to enqueue, in the header or footer
-	 * @param    float      $priority  enqueue priority
+	 *
+	 * @param    string $id        unique id for the script, used to prevent duplicates
+	 * @param    string $script    JS to enqueue, do not add <script> tags!
+	 * @param    string $where     where to enqueue, in the header or footer
+	 * @param    float  $priority  enqueue priority
 	 * @return   boolean
 	 * @since    3.4.1
 	 * @version  3.4.1
@@ -86,6 +91,7 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Output the inline PW Strength meter script
+	 *
 	 * @return   void
 	 * @since    3.4.1
 	 * @version  3.4.1
@@ -101,6 +107,7 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Enqueue Styles
+	 *
 	 * @since   1.0.0
 	 * @version 3.18.0
 	 */
@@ -130,6 +137,7 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Enqueue Scripts
+	 *
 	 * @since   1.0.0
 	 * @version 3.22.0
 	 */
@@ -195,7 +203,8 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Retrieve inline scripts
-	 * @param    string     $where  header or footer, if none provided both will be returned
+	 *
+	 * @param    string $where  header or footer, if none provided both will be returned
 	 * @return   array
 	 * @since    3.4.1
 	 * @version  3.4.1
@@ -214,7 +223,8 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Determine if an inline script has already been enqueued
-	 * @param    string     $id  id of the inline script
+	 *
+	 * @param    string $id  id of the inline script
 	 * @return   boolean
 	 * @since    3.4.1
 	 * @version  3.4.1
@@ -225,7 +235,8 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Output inline scripts
-	 * @param    string     $where  which set of scripts to output [header|footer]
+	 *
+	 * @param    string $where  which set of scripts to output [header|footer]
 	 * @return   void
 	 * @since    3.4.1
 	 * @version  3.4.1
@@ -249,6 +260,7 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Output inline scripts to the footer
+	 *
 	 * @return   void
 	 * @since    3.4.1
 	 * @version  3.4.1
@@ -259,6 +271,7 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Output inline scripts to the header
+	 *
 	 * @return   void
 	 * @since    3.4.1
 	 * @version  3.4.1

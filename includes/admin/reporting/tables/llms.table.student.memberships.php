@@ -6,26 +6,30 @@
  * @version 3.7.5
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
+	 *
 	 * @var  string
 	 */
 	protected $id = 'student-memberships';
 
 	/**
 	 * Instance of LLMS_Student
+	 *
 	 * @var  null
 	 */
 	protected $student = null;
 
 	/**
 	 * Retrieve data for the columns
-	 * @param    string     $key            the column id / key
-	 * @param    int        $membership_id  ID of the membership
+	 *
+	 * @param    string $key            the column id / key
+	 * @param    int    $membership_id  ID of the membership
 	 * @return   mixed
 	 * @since    3.2.0
 	 * @version  3.7.5
@@ -36,19 +40,19 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 
 			case 'id':
 				$value = $this->get_post_link( $membership_id );
-			break;
+				break;
 
 			case 'name':
 				$value = get_the_title( $membership_id );
-			break;
+				break;
 
 			case 'status':
 				$value = llms_get_enrollment_status_name( $this->student->get_enrollment_status( $membership_id ) );
-			break;
+				break;
 
 			case 'enrolled':
 				$value = $this->student->get_enrollment_date( $membership_id, 'enrolled' );
-			break;
+				break;
 
 			default:
 				$value = $key;
@@ -61,7 +65,8 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 
 	/**
 	 * Execute a query to retrieve results from the table
-	 * @param    array      $args  array of query args
+	 *
+	 * @param    array $args  array of query args
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -82,6 +87,7 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
+	 *
 	 * @return   array
 	 * @since    2.3.0
 	 * @version  2.3.0
@@ -94,19 +100,20 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 
 	/**
 	 * Define the structure of the table
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
 	public function set_columns() {
 		return array(
-			'id' => array(
+			'id'       => array(
 				'title' => __( 'ID', 'lifterlms' ),
 			),
-			'name' => array(
+			'name'     => array(
 				'title' => __( 'Name', 'lifterlms' ),
 			),
-			'status' => array(
+			'status'   => array(
 				'title' => __( 'Status', 'lifterlms' ),
 			),
 			'enrolled' => array(
@@ -117,6 +124,7 @@ class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {
 
 	/**
 	 * Empty message displayed when no results are found
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0

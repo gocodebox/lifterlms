@@ -9,7 +9,8 @@
 
 /**
  * Retrieve the full path to the log file for a given log handle
- * @param    string  $handle  log handle
+ *
+ * @param    string $handle  log handle
  * @return   string
  * @since    3.0.0
  * @version  3.0.0
@@ -22,8 +23,9 @@ function llms_get_log_path( $handle ) {
 
 /**
  * Log arbitrary messages to a log file
- * @param    mixed   $message   data to log
- * @param    string  $handle    allow creation of multiple log files by handle
+ *
+ * @param    mixed  $message   data to log
+ * @param    string $handle    allow creation of multiple log files by handle
  * @return   boolean
  * @since    1.0.0
  * @version  3.7.5

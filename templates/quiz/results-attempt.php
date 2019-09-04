@@ -1,6 +1,7 @@
 <?php
 /**
  * Quiz Single Attempt Results
+ *
  * @since    3.16.0
  * @version  3.27.0
  *
@@ -37,6 +38,7 @@ if ( in_array( $donut_class, array( 'pass', 'fail' ) ) ) {
 	<?php
 		/**
 		 * llms_single_quiz_attempt_results_main
+		 *
 		 * @hooked lifterlms_template_quiz_attempt_results_questions_list - 10
 		 */
 		do_action( 'llms_single_quiz_attempt_results_main', $attempt );

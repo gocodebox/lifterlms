@@ -1,6 +1,9 @@
 <?php
 /**
  * True / False question template
+ *
+ * @package LifterLMS/Templates
+ *
  * @since    3.16.0
  * @version  3.16.0
  *
@@ -8,6 +11,6 @@
  * @arg  $question (obj)  LLMS_Question instance
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 llms_get_template( 'quiz/questions/content-choice.php', $args );

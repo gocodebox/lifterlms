@@ -11,6 +11,7 @@ class LLMS_Controller_Account {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.7.0
 	 * @version  3.10.0
 	 */
@@ -25,6 +26,7 @@ class LLMS_Controller_Account {
 
 	/**
 	 * Lets student cancel recurring access plan subscriptions from the student dashboard view order screen
+	 *
 	 * @return   void
 	 * @since    3.10.0
 	 * @version  3.19.0
@@ -39,7 +41,7 @@ class LLMS_Controller_Account {
 		}
 
 		$order = llms_get_post( $_POST['order_id'] );
-		$uid = get_current_user_id();
+		$uid   = get_current_user_id();
 
 		if ( ! $order || $uid != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Something went wrong. Please try again.', 'lifterlms' ), 'error' );
@@ -51,7 +53,7 @@ class LLMS_Controller_Account {
 		// all other statuses are cancelled immediately
 		if ( 'llms-active' === $order->get( 'status' ) ) {
 			$new_status = 'pending-cancel';
-			$note .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
+			$note      .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
 		} else {
 			$new_status = 'cancelled';
 		}
@@ -65,6 +67,7 @@ class LLMS_Controller_Account {
 
 	/**
 	 * Handle submission of user account edit form
+	 *
 	 * @return   void
 	 * @since    3.7.0
 	 * @version  3.24.0
@@ -110,6 +113,7 @@ class LLMS_Controller_Account {
 	/**
 	 * Handle form submission of the Lost Password form
 	 * This is the form that sends a password recovery email with a link to reset the password
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.9.5
@@ -168,11 +172,14 @@ class LLMS_Controller_Account {
 		$key = llms_set_user_password_rest_key( $user->ID );
 
 		// setup the email
-		$email = LLMS()->mailer()->get_email( 'reset_password', array(
-			'key' => $key,
-			'user' => $user,
-			'login_display' => 'email' === $get_by ? $user->user_email : $user->user_login,
-		) );
+		$email = LLMS()->mailer()->get_email(
+			'reset_password',
+			array(
+				'key'           => $key,
+				'user'          => $user,
+				'login_display' => 'email' === $get_by ? $user->user_email : $user->user_login,
+			)
+		);
 
 		// send the email
 		if ( $email ) {
@@ -189,6 +196,7 @@ class LLMS_Controller_Account {
 	/**
 	 * Handle form submission of the Reset Password form
 	 * This is the form that actually updates a users password
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0

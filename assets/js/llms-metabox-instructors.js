@@ -1,5 +1,6 @@
 /**
  * Instructors Metabox
+ *
  * @since    3.13.0
  * @version  3.13.0
  */
@@ -28,7 +29,7 @@
 			$( '._llms_instructors_data.repeater' ).on( 'llms-new-repeater-row', function( e, params ) {
 
 				var $instructor = params.$row.find( 'select[name^="_llms_id"]' ),
-					$target = params.$row.find( '.llms-repeater-title' );
+					$target     = params.$row.find( '.llms-repeater-title' );
 
 				$instructor.on( 'select2:select', function( e ) {
 					if ( ! e.params ) {

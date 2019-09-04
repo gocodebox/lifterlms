@@ -1,7 +1,8 @@
 <?php
 /**
  * Single Course After
- * @author 	 LifterLMS
+ *
+ * @author   LifterLMS
  * @package  LifterLMS/Templates
  * @since    1.0.0
  * @version  3.0.3

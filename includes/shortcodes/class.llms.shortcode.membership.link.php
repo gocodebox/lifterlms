@@ -10,12 +10,14 @@
  * @version  3.4.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Shortcode_Membership_Link extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
+	 *
 	 * @var  string
 	 */
 	public $tag = 'lifterlms_membership_link';
@@ -37,6 +39,7 @@ class LLMS_Shortcode_Membership_Link extends LLMS_Shortcode {
 	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
+	 *
 	 * @return   array
 	 * @since    3.4.3
 	 * @version  3.4.3
@@ -49,6 +52,7 @@ class LLMS_Shortcode_Membership_Link extends LLMS_Shortcode {
 
 	/**
 	 * Retrieves a string used for default content which is used if no content is supplied
+	 *
 	 * @return   string
 	 * @since    3.4.3
 	 * @version  3.4.3

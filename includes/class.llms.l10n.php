@@ -8,7 +8,8 @@
  * @version 3.17.8
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_L10n {
 

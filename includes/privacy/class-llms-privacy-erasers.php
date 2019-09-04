@@ -18,8 +18,9 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student certificate data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
+	 *
+	 * @param    string $email_address  email address of the user to retrieve data for
+	 * @param    int    $page           process page number
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -33,7 +34,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 			return $ret;
 		}
 
-		$messages = array();
+		$messages     = array();
 		$achievements = self::get_student_achievements( $student );
 		if ( $achievements ) {
 
@@ -49,9 +50,10 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Setup anonymous values for anonymized data
-	 * @param    string     $val   default anonymous value ('')
-	 * @param    string     $prop  key name of the property
-	 * @param    obj        $obj   related object
+	 *
+	 * @param    string $val   default anonymous value ('')
+	 * @param    string $prop  key name of the property
+	 * @param    obj    $obj   related object
 	 * @return   mixed
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -61,7 +63,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		switch ( $prop ) {
 			case 'user_id':
 				$val = 0;
-			break;
+				break;
 		}
 
 		return $val;
@@ -69,8 +71,9 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student certificate data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
+	 *
+	 * @param    string $email_address  email address of the user to retrieve data for
+	 * @param    int    $page           process page number
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -85,7 +88,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		$messages = array();
-		$certs = self::get_student_certificates( $student );
+		$certs    = self::get_student_certificates( $student );
 		if ( $certs ) {
 
 			foreach ( $certs as $cert ) {
@@ -100,23 +103,25 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Return export data to an exporter
-	 * @param    array      $messages  array of messages
+	 *
+	 * @param    array $messages  array of messages
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
 	 */
 	private static function get_return( $messages = array(), $done = true, $removed = false, $retained = false ) {
 		return array(
-			'messages' => $messages,
-			'done' => $done,
-			'items_removed' => $removed,
+			'messages'       => $messages,
+			'done'           => $done,
+			'items_removed'  => $removed,
 			'items_retained' => $retained,
 		);
 	}
 
 	/**
 	 * Erase notifications for a student
-	 * @param    LLMS_Student  $student
+	 *
+	 * @param    LLMS_Student $student
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -125,10 +130,13 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 		$messages = array();
 		global $wpdb;
-		$deleted = $wpdb->query( $wpdb->prepare(
-			"DELETE FROM {$wpdb->prefix}lifterlms_notifications WHERE user_id = %d OR subscriber = %d",
-			$student->get( 'id' ), $student->get( 'id' )
-		) );
+		$deleted = $wpdb->query(
+			$wpdb->prepare(
+				"DELETE FROM {$wpdb->prefix}lifterlms_notifications WHERE user_id = %d OR subscriber = %d",
+				$student->get( 'id' ),
+				$student->get( 'id' )
+			)
+		);
 
 		if ( $deleted ) {
 
@@ -173,7 +181,8 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student data
-	 * @param    LLMS_Student  $student
+	 *
+	 * @param    LLMS_Student $student
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -197,7 +206,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 			if ( apply_filters( 'llms_privacy_erase_student_data_prop', $erased, $prop, $student ) ) {
 
 				/* Translators: %s Prop name. */
-				$messages[]    = sprintf( __( 'Removed student "%s"', 'lifterlms' ), $name );
+				$messages[] = sprintf( __( 'Removed student "%s"', 'lifterlms' ), $name );
 
 			}
 		}
@@ -208,8 +217,9 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student notification data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
+	 *
+	 * @param    string $email_address  email address of the user to retrieve data for
+	 * @param    int    $page           process page number
 	 * @return   [type]
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -230,8 +240,9 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student order data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
+	 *
+	 * @param    string $email_address  email address of the user to retrieve data for
+	 * @param    int    $page           process page number
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -246,7 +257,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		$enabled = llms_parse_bool( get_option( 'llms_erasure_request_removes_order_data', 'no' ) );
-		$orders = self::get_student_orders( $student, $page );
+		$orders  = self::get_student_orders( $student, $page );
 
 		foreach ( $orders['orders'] as $order ) {
 
@@ -255,13 +266,13 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 				self::erase_order_data( $order );
 
 				/* Translators: %d Order number. */
-				$ret['messages'][] = sprintf( __( 'Removed personal data from order #%d.', 'lifterlms' ), $order->get( 'id' ) );
+				$ret['messages'][]    = sprintf( __( 'Removed personal data from order #%d.', 'lifterlms' ), $order->get( 'id' ) );
 				$ret['items_removed'] = true;
 
 			} else {
 
 				/* Translators: %d Order number. */
-				$ret['messages'][] = sprintf( __( 'Personal data within order #%d has been retained.', 'lifterlms' ), $order->get( 'id' ) );
+				$ret['messages'][]     = sprintf( __( 'Personal data within order #%d has been retained.', 'lifterlms' ), $order->get( 'id' ) );
 				$ret['items_retained'] = true;
 
 			}
@@ -275,8 +286,9 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student postmeta data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
+	 *
+	 * @param    string $email_address  email address of the user to retrieve data for
+	 * @param    int    $page           process page number
 	 * @return   [type]
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -291,22 +303,24 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		$messages = array();
-		$enabled = llms_parse_bool( get_option( 'llms_erasure_request_removes_lms_data', 'no' ) );
+		$enabled  = llms_parse_bool( get_option( 'llms_erasure_request_removes_lms_data', 'no' ) );
 
 		if ( apply_filters( 'llms_privacy_erase_postmeta_data', $enabled, $attempt ) ) {
 
 			global $wpdb;
-			$deleted = $wpdb->query( $wpdb->prepare(
-				"DELETE FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d",
-				$student->get( 'id' )
-			) );
+			$deleted = $wpdb->query(
+				$wpdb->prepare(
+					"DELETE FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d",
+					$student->get( 'id' )
+				)
+			);
 
-			$ret['messages'][] = __( 'Removed all student course and membership enrollment and activity data.', 'lifterlms' );
+			$ret['messages'][]    = __( 'Removed all student course and membership enrollment and activity data.', 'lifterlms' );
 			$ret['items_removed'] = true;
 
 		} else {
 
-			$ret['messages'][] = __( 'Retained all student course and membership enrollment and activity data.', 'lifterlms' );
+			$ret['messages'][]     = __( 'Retained all student course and membership enrollment and activity data.', 'lifterlms' );
 			$ret['items_retained'] = true;
 
 		}
@@ -317,8 +331,9 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student quiz attempt data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
+	 *
+	 * @param    string $email_address  email address of the user to retrieve data for
+	 * @param    int    $page           process page number
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -333,14 +348,14 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 		}
 
 		$enabled = llms_parse_bool( get_option( 'llms_erasure_request_removes_lms_data', 'no' ) );
-		$query = self::get_student_quizzes( $student, $page );
+		$query   = self::get_student_quizzes( $student, $page );
 
 		foreach ( $query->get_attempts() as $attempt ) {
 
 			if ( apply_filters( 'llms_privacy_erase_quiz_data', $enabled, $attempt ) ) {
 
 				/* Translators: %d quiz attempt id. */
-				$ret['messages'][] = sprintf( __( 'Quiz attempt #%d removed.', 'lifterlms' ), $attempt->get_id() );
+				$ret['messages'][]    = sprintf( __( 'Quiz attempt #%d removed.', 'lifterlms' ), $attempt->get_id() );
 				$ret['items_removed'] = true;
 
 				$attempt->delete();
@@ -348,7 +363,7 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 			} else {
 
 				/* Translators: %d quiz attempt id. */
-				$ret['messages'][] = sprintf( __( 'Quiz attempt #%d retained.', 'lifterlms' ), $attempt->get_id() );
+				$ret['messages'][]     = sprintf( __( 'Quiz attempt #%d retained.', 'lifterlms' ), $attempt->get_id() );
 				$ret['items_retained'] = true;
 
 			}
@@ -362,8 +377,9 @@ class LLMS_Privacy_Erasers extends LLMS_Privacy {
 
 	/**
 	 * Erase student data by email address
-	 * @param    string     $email_address  email address of the user to retrieve data for
-	 * @param    int        $page           process page number
+	 *
+	 * @param    string $email_address  email address of the user to retrieve data for
+	 * @param    int    $page           process page number
 	 * @return   [type]
 	 * @since    3.18.0
 	 * @version  3.18.0

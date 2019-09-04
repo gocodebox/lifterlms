@@ -1,6 +1,7 @@
 <?php
 /**
  * Template functions for the student dashboard
+ *
  * @since    1.0.0
  * @version  3.19.0
  */
@@ -8,6 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * If content added to the course/membership catalog page, output it as the archive description before the loop
+ *
  * @return   void
  * @since    3.16.10
  * @version  3.19.0
@@ -30,7 +32,7 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 		}
 
 		if ( empty( $content ) && $page_id ) {
-			$page = get_post( $page_id );
+			$page    = get_post( $page_id );
 			$content = $page->post_content;
 		}
 
@@ -43,7 +45,8 @@ if ( ! function_exists( 'lifterlms_archive_description' ) ) {
 
 /**
  * Output a LifterLMS Loop
- * @param    obj     $query  WP_Query, uses global $wp_query if not supplied
+ *
+ * @param    obj $query  WP_Query, uses global $wp_query if not supplied
  * @return   void
  * @since    3.14.0
  * @version  3.14.0
@@ -54,7 +57,7 @@ function lifterlms_loop( $query = null ) {
 	$temp = null;
 
 	if ( $query ) {
-		$temp = $wp_query;
+		$temp     = $wp_query;
 		$wp_query = $query;
 	}
 
@@ -62,6 +65,7 @@ function lifterlms_loop( $query = null ) {
 
 		/**
 		 * lifterlms_before_loop hook
+		 *
 		 * @hooked lifterlms_loop_start - 10
 		 */
 		do_action( 'lifterlms_before_loop' );
@@ -73,6 +77,7 @@ function lifterlms_loop( $query = null ) {
 
 		/**
 		 * lifterlms_before_loop hook
+		 *
 		 * @hooked lifterlms_loop_end - 10
 		 */
 		do_action( 'lifterlms_after_loop' );
@@ -93,6 +98,7 @@ function lifterlms_loop( $query = null ) {
 
 /**
  * Retrieve the number of columns for llms loops
+ *
  * @return   int
  * @since    3.14.0
  * @version  3.14.0
@@ -104,6 +110,7 @@ function llms_get_loop_columns() {
 /**
  * Get classes to add to the loop wrapper based on the queried object
  * Used in templates/loop/loop-start.php
+ *
  * @return   string
  * @since    3.0.0
  * @version  3.14.0
@@ -127,6 +134,7 @@ function llms_get_loop_list_classes() {
 
 /**
  * Get archive loop end
+ *
  * @return  void
  * @since   1.0.0
  * @version 3.0.0
@@ -139,6 +147,7 @@ if ( ! function_exists( 'lifterlms_loop_end' ) ) {
 
 /**
  * Output a featured video on the course tile in a LifterLMS Loop
+ *
  * @return   void
  * @since    3.3.0
  * @version  3.3.0
@@ -158,6 +167,7 @@ function lifterlms_loop_featured_video() {
 
 /**
  * Archive loop link end
+ *
  * @return  void
  * @since   1.0.0
  * @version 3.0.0
@@ -170,6 +180,7 @@ if ( ! function_exists( 'lifterlms_loop_link_end' ) ) {
 
 /**
  * Archive loop link start
+ *
  * @return  void
  * @since   1.0.0
  * @version 3.0.0
@@ -182,6 +193,7 @@ if ( ! function_exists( 'lifterlms_loop_link_start' ) ) {
 
 /**
  * Get Archive loop start
+ *
  * @return  void
  * @since   1.0.0
  * @version 3.0.0
@@ -194,6 +206,7 @@ if ( ! function_exists( 'lifterlms_loop_start' ) ) {
 
 /**
  * Get loop item author template
+ *
  * @return void
  * @since   1.0.0
  * @version 1.0.0
@@ -207,6 +220,7 @@ if ( ! function_exists( 'lifterlms_template_loop_author' ) ) {
 
 /**
  * Course Difficulty Template Include
+ *
  * @return void
  * @since   1.0.0
  * @version 1.0.0
@@ -223,6 +237,7 @@ if ( ! function_exists( 'lifterlms_template_loop_difficulty' ) ) {
 /**
  * Show enrollment date meta
  * used on Dashboard only
+ *
  * @return void
  * @since   1.0.0
  * @version 1.0.0
@@ -237,6 +252,7 @@ if ( ! function_exists( 'lifterlms_template_loop_enroll_date' ) ) {
 /**
  * Show enrollment status meta
  * used on dashboard only
+ *
  * @return void
  * @since   1.0.0
  * @version 1.0.0
@@ -250,6 +266,7 @@ if ( ! function_exists( 'lifterlms_template_loop_enroll_status' ) ) {
 
 /**
  * Lesson Length Template Include
+ *
  * @return void
  * @since   1.0.0
  * @version 1.0.0
@@ -265,6 +282,7 @@ if ( ! function_exists( 'lifterlms_template_loop_length' ) ) {
 
 /**
  * Archive loop progress bar for courses
+ *
  * @return  void
  * @since   1.0.0
  * @version 3.0.0
@@ -284,6 +302,7 @@ if ( ! function_exists( 'lifterlms_template_loop_progress' ) ) {
 
 /**
  * Product Thumbnail Template Include
+ *
  * @return void
  * @since   1.0.0
  * @version 1.0.0
@@ -297,6 +316,7 @@ if ( ! function_exists( 'lifterlms_template_loop_thumbnail' ) ) {
 
 /**
  * product View Template Include
+ *
  * @return void
  * @since   1.0.0
  * @version 1.0.0

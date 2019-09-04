@@ -63,7 +63,7 @@ class LLMS_Frontend_Forms {
 			if ( is_object( $user ) ) {
 
 				// save these values into the form again in case of errors
-				$args['key'] = llms_clean( $_POST['reset_key'] );
+				$args['key']   = llms_clean( $_POST['reset_key'] );
 				$args['login'] = llms_clean( $_POST['reset_login'] );
 
 				wp_verify_nonce( $_POST['_wpnonce'], 'lifterlms-reset_password' );
@@ -124,7 +124,7 @@ class LLMS_Frontend_Forms {
 
 		if ( isset( $_POST['llms_voucher_code'] ) && ! empty( $_POST['llms_voucher_code'] ) ) {
 
-			$voucher = new LLMS_Voucher();
+			$voucher  = new LLMS_Voucher();
 			$redeemed = $voucher->use_voucher( $_POST['llms_voucher_code'], get_current_user_id() );
 
 			if ( is_wp_error( $redeemed ) ) {

@@ -1,11 +1,11 @@
 <?php
 /**
-* Query base class
-* Handles queries and endpoints.
-*
-* @since 1.0.0
-* @version 3.33.0
-*/
+ * Query base class
+ * Handles queries and endpoints.
+ *
+ * @since 1.0.0
+ * @version 3.33.0
+ */
 
 defined( 'ABSPATH' ) || exit;
 
@@ -19,10 +19,10 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Query {
 
 	/**
-	* Query var
-	*
-	* @var array
-	*/
+	 * Query var
+	 *
+	 * @var array
+	 */
 	public $query_vars = array();
 
 	/**
@@ -67,7 +67,7 @@ class LLMS_Query {
 		global $wp_rewrite;
 		foreach ( LLMS_Student_Dashboard::get_tabs() as $id => $tab ) {
 			if ( ! empty( $tab['paginate'] ) ) {
-				$regex = sprintf( '(.?.+?)/%1$s/%2$s/?([0-9]{1,})/?$', $tab['endpoint'], $wp_rewrite->pagination_base );
+				$regex    = sprintf( '(.?.+?)/%1$s/%2$s/?([0-9]{1,})/?$', $tab['endpoint'], $wp_rewrite->pagination_base );
 				$redirect = sprintf( 'index.php?pagename=$matches[1]&%s=$matches[3]&paged=$matches[2]', $tab['endpoint'] );
 				add_rewrite_rule( $regex, $redirect, 'top' );
 			}
@@ -103,10 +103,12 @@ class LLMS_Query {
 		}
 
 		$terms = wp_list_pluck(
-			get_terms( array(
-				'taxonomy' => 'llms_product_visibility',
-				'hide_empty' => false,
-			) ),
+			get_terms(
+				array(
+					'taxonomy'   => 'llms_product_visibility',
+					'hide_empty' => false,
+				)
+			),
 			'term_taxonomy_id',
 			'name'
 		);
@@ -114,10 +116,10 @@ class LLMS_Query {
 		$not_in = ( is_search() ) ? array( $terms['hidden'], $terms['catalog'] ) : array( $terms['hidden'], $terms['search'] );
 
 		$query[] = array(
-			'field' => 'term_taxonomy_id',
+			'field'    => 'term_taxonomy_id',
 			'operator' => 'NOT IN',
 			'taxonomy' => 'llms_product_visibility',
-			'terms' => $not_in,
+			'terms'    => $not_in,
 		);
 
 		return $query;
@@ -135,7 +137,7 @@ class LLMS_Query {
 
 		$this->query_vars = array(
 			'confirm-payment' => get_option( 'lifterlms_myaccount_confirm_payment_endpoint', 'confirm-payment' ),
-			'lost-password' => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
+			'lost-password'   => get_option( 'lifterlms_myaccount_lost_password_endpoint', 'lost-password' ),
 		);
 
 	}

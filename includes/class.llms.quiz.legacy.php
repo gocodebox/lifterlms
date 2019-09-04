@@ -2,19 +2,22 @@
 
 use LLMS\Users\User;
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Base Question Class
-* @deprecated 3.30.3
-*/
+ * Base Question Class
+ *
+ * @deprecated 3.30.3
+ */
 class LLMS_Quiz_Legacy {
 
 	/**
-	* ID
-	* @access public
-	* @var int
-	*/
+	 * ID
+	 *
+	 * @access public
+	 * @var int
+	 */
 	public $id;
 
 	/**
@@ -72,17 +75,18 @@ class LLMS_Quiz_Legacy {
 	public $llms_time_limit;
 
 	/**
-	* Post Object
-	* @access public
-	* @var array
-	*/
+	 * Post Object
+	 *
+	 * @access public
+	 * @var array
+	 */
 	public $post;
 
 	/**
-	* Constructor
-	*
-	* initializes the quiz object based on post data
-	*/
+	 * Constructor
+	 *
+	 * initializes the quiz object based on post data
+	 */
 	public function __construct( $quiz ) {
 
 		if ( is_numeric( $quiz ) ) {
@@ -106,12 +110,12 @@ class LLMS_Quiz_Legacy {
 
 
 	/**
-	* __isset function
-	*
-	* checks if metadata exists
-	*
-	* @param string $item
-	*/
+	 * __isset function
+	 *
+	 * checks if metadata exists
+	 *
+	 * @param string $item
+	 */
 	public function __isset( $item ) {
 
 		return metadata_exists( 'post', $this->id, '_' . $item );
@@ -119,13 +123,13 @@ class LLMS_Quiz_Legacy {
 	}
 
 	/**
-	* __get function
-	*
-	* initializes the quiz object based on post data
-	*
-	* @param string $item
-	* @return string $value
-	*/
+	 * __get function
+	 *
+	 * initializes the quiz object based on post data
+	 *
+	 * @param string $item
+	 * @return string $value
+	 */
 	public function __get( $item ) {
 
 		$value = get_post_meta( $this->id, '_' . $item, true );
@@ -140,6 +144,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Retrieve the course associated with the lesson
+	 *
 	 * @return   obj|null     Instance of the LLMS_Course or null
 	 * @since    3.6.0
 	 * @version  3.8.1
@@ -154,7 +159,7 @@ class LLMS_Quiz_Legacy {
 
 		// this handles getting the lesson when the quiz hasn't been saved yet or has just been started
 		if ( ! $lesson_id ) {
-			$session = LLMS()->session->get( 'llms_quiz' );
+			$session   = LLMS()->session->get( 'llms_quiz' );
 			$lesson_id = ( $session && isset( $session->assoc_lesson ) ) ? $session->assoc_lesson : false;
 		}
 
@@ -195,6 +200,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * returns the total points possible
+	 *
 	 * @return int [sum of all question points]
 	 */
 	public function get_total_possible_points() {
@@ -212,6 +218,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get weight of individual question
+	 *
 	 * @return int[question weight]
 	 */
 	public function get_point_weight() {
@@ -231,12 +238,13 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get user grade
+	 *
 	 * @param  int $user_id [ID of user]
 	 * @return int [quiz grade]
 	 */
 	public function get_user_grade( $user_id ) {
 		$grade = 0;
-		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$quiz  = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 		if ( ! $quiz ) {
 			return;
@@ -262,7 +270,7 @@ class LLMS_Quiz_Legacy {
 	public function get_best_grade( $user_id ) {
 		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
 
-		//get all grades and add to grades array
+		// get all grades and add to grades array
 		$grades = array();
 
 		if ( $quiz ) {
@@ -281,12 +289,13 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get Id of quiz with best grade
+	 *
 	 * @param  int $user_id [ID of user]
 	 * @return int [ID of quiz attempt]
 	 */
 	public function get_best_quiz_attempt( $user_id ) {
-		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
-		$grades = array();
+		$quiz      = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$grades    = array();
 		$unique_id = '';
 
 		if ( $quiz ) {
@@ -314,7 +323,7 @@ class LLMS_Quiz_Legacy {
 	 * Get total time spent on quiz
 	 * Subtract start time from end time
 	 *
-	 * @param  int $user_id [ID of user]
+	 * @param  int    $user_id [ID of user]
 	 * @param  string $unique_id [wpnonce of quiz submit]
 	 * @return string [formatted string representing total minutes]
 	 */
@@ -325,7 +334,7 @@ class LLMS_Quiz_Legacy {
 		if ( $quiz ) {
 			foreach ( $quiz as $key => $value ) {
 				if ( $unique_id == $value['wpnonce'] ) {
-					//best attempt
+					// best attempt
 					if ( $value['end_date'] ) {
 						$total_time = $this->get_date_diff( $value['start_date'], $this->get_end_date( $user_id, $unique_id ) );
 					}
@@ -355,7 +364,7 @@ class LLMS_Quiz_Legacy {
 
 	public function get_end_date( $user_id, $unique_id = '' ) {
 		$end_date = '';
-		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$quiz     = get_user_meta( $user_id, 'llms_quiz_data', true );
 
 		foreach ( $quiz as $key => $value ) {
 			if ( $value['wpnonce'] == $unique_id ) {
@@ -371,7 +380,7 @@ class LLMS_Quiz_Legacy {
 	/**
 	 * Get Quiz Start Time
 	 *
-	 * @param  int $user_id [ID of user]
+	 * @param  int    $user_id [ID of user]
 	 * @param  string $unique_id [quiz wpnonce]
 	 *
 	 * @return datetime [time user started quiz]
@@ -384,9 +393,9 @@ class LLMS_Quiz_Legacy {
 		if ( $quiz ) {
 
 			foreach ( $quiz as $key => $value ) {
-				//best
+				// best
 				if ( $value['wpnonce'] == $unique_id ) {
-					return  $value['start_date'];
+					return $value['start_date'];
 				} elseif ( $value['id'] == $this->id ) {
 					$start_date = $value['start_date'];
 				}
@@ -399,6 +408,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get lesson associated with quiz
+	 *
 	 * @param    int $user_id [ID of user]
 	 * @return   int [ID of associated lesson with quiz attempt]
 	 * @since    1.0.0
@@ -413,13 +423,15 @@ class LLMS_Quiz_Legacy {
 
 		// if there's only one possible lesson the quiz can be associated with
 		// return that lesson id
-		$query = new WP_Query( array(
-			'post_status' => 'publish',
-			'post_type' => 'lesson',
-			'posts_per_page' => 1,
-			'meta_key' => '_llms_assigned_quiz',
-			'meta_value' => $this->get_id(),
-		) );
+		$query = new WP_Query(
+			array(
+				'post_status'    => 'publish',
+				'post_type'      => 'lesson',
+				'posts_per_page' => 1,
+				'meta_key'       => '_llms_assigned_quiz',
+				'meta_value'     => $this->get_id(),
+			)
+		);
 
 		if ( 1 == $query->found_posts ) {
 			return $query->posts[0]->ID;
@@ -437,6 +449,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get remaining quiz attempts
+	 *
 	 * @param  int $user_id [ID of user]
 	 * @return int [number of attempts user has remaining]
 	 *
@@ -444,7 +457,7 @@ class LLMS_Quiz_Legacy {
 	 */
 	public function get_remaining_attempts_by_user( $user_id ) {
 		$attempts_allowed = $this->get_total_allowed_attempts();
-		$attempts = $this->get_total_attempts_by_user( $user_id );
+		$attempts         = $this->get_total_attempts_by_user( $user_id );
 
 		if ( ! empty( $attempts_allowed ) ) {
 
@@ -472,6 +485,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get Quiz Questions
+	 *
 	 * @return array [quiz questions]
 	 */
 	public function get_questions() {
@@ -481,6 +495,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get Number of questions in quiz
+	 *
 	 * @return int [number of questions in quiz]
 	 */
 	public function get_question_count() {
@@ -489,18 +504,19 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get number of correct answers
-	 * @param  int $user_id [ID of user]
+	 *
+	 * @param  int    $user_id [ID of user]
 	 * @param  string $unique_id [quiz wpnonce]
 	 * @return int [total number of correct answers]
 	 */
 	public function get_correct_answers_count( $user_id, $unique_id = '' ) {
-		$quiz = get_user_meta( $user_id, 'llms_quiz_data', true );
+		$quiz    = get_user_meta( $user_id, 'llms_quiz_data', true );
 		$wpnonce = '';
 
 		if ( $quiz ) {
 			foreach ( $quiz as $key => $value ) {
 				if ( $unique_id == $value['wpnonce'] ) {
-					$count = 0;
+					$count   = 0;
 					$wpnonce = $value['wpnonce'];
 					foreach ( $value['questions'] as $k => $v ) {
 						if ( $v['correct'] ) {
@@ -522,6 +538,7 @@ class LLMS_Quiz_Legacy {
 
 	/**
 	 * Get question key
+	 *
 	 * @param  int $question_id [ID of question]
 	 * @return key [key of question in questions array]
 	 */
@@ -615,8 +632,8 @@ class LLMS_Quiz_Legacy {
 	 *
 	 * From: http://www.if-not-true-then-false.com/2010/php-calculate-real-differences-between-two-dates-or-timestamps/
 	 *
-	 * @param mixed $time1 a time (string or timestamp)
-	 * @param mixed $time2 a time (string or timestamp)
+	 * @param mixed   $time1 a time (string or timestamp)
+	 * @param mixed   $time2 a time (string or timestamp)
 	 * @param integer $precision Optional precision
 	 * @return string time difference
 	 */

@@ -1,15 +1,19 @@
 /**
  * Detachable model
- * @type     {Object}
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.16.12
  * @version  3.16.12
  */
+
 define( [], function() {
 
 	return {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type  {Object}
 		 * @since    3.16.12
 		 * @version  3.16.12
@@ -20,6 +24,7 @@ define( [], function() {
 
 		/**
 		 * Detaches a model from it's parent (doesn't delete)
+		 *
 		 * @param    obj   event  js event object
 		 * @return   void
 		 * @since    3.16.12

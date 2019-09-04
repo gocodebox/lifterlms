@@ -21,7 +21,8 @@ class LLMS_Admin_Builder {
 
 	/**
 	 * Add menu items to the WP Admin Bar to allow quiz returns to the dashboard from the course builder
-	 * @param    obj     $wp_admin_bar  Instance of WP_Admin_Bar
+	 *
+	 * @param    obj $wp_admin_bar  Instance of WP_Admin_Bar
 	 * @return   void
 	 * @since    3.16.7
 	 * @version  3.24.0
@@ -57,6 +58,7 @@ class LLMS_Admin_Builder {
 
 	/**
 	 * Retrieve custom field schemas
+	 *
 	 * @return   array
 	 * @since    3.17.0
 	 * @version  3.17.6
@@ -79,10 +81,10 @@ class LLMS_Admin_Builder {
 
 			$field = array(
 				'attribute' => $old['id'],
-				'id' => $old['id'],
-				'label' => $old['name'],
-				'type' => ( 'select' === $old['type'] ) ? 'select' : 'radio',
-				'options' => $old['options'],
+				'id'        => $old['id'],
+				'label'     => $old['name'],
+				'type'      => ( 'select' === $old['type'] ) ? 'select' : 'radio',
+				'options'   => $old['options'],
 			);
 
 			if ( isset( $old['id_prefix'] ) ) {
@@ -90,27 +92,31 @@ class LLMS_Admin_Builder {
 			}
 
 			$quiz_fields[ sprintf( '%s_backwards_theme_group', $theme->get_stylesheet() ) ] = array(
-				'title' => sprintf( __( '%s Theme Settings', 'lifterlms' ), $theme->get( 'Name' ) ),
+				'title'      => sprintf( __( '%s Theme Settings', 'lifterlms' ), $theme->get( 'Name' ) ),
 				'toggleable' => true,
-				'fields' => array( array( $field ) ),
+				'fields'     => array( array( $field ) ),
 			);
 
 		}
 		// end backwards compat
 
-		return apply_filters( 'llms_builder_register_custom_fields', array(
-			'lesson' => array(),
-			'quiz' => $quiz_fields,
-		) );
+		return apply_filters(
+			'llms_builder_register_custom_fields',
+			array(
+				'lesson' => array(),
+				'quiz'   => $quiz_fields,
+			)
+		);
 	}
 
 	/**
 	 * Retrieve a list of lessons the current user is allowed to clone/attach
 	 * Used for ajax searching to add existing lessons
-	 * @param    int        $course_id    WP Post ID of the course
-	 * @param    string     $post_type    optionally search specific post type(s)
-	 * @param    string     $search_term  optional search term (searches post_title)
-	 * @param    integer    $page         page, used when paginating search results
+	 *
+	 * @param    int     $course_id    WP Post ID of the course
+	 * @param    string  $post_type    optionally search specific post type(s)
+	 * @param    string  $search_term  optional search term (searches post_title)
+	 * @param    integer $page         page, used when paginating search results
 	 * @return   array
 	 * @since    3.14.8
 	 * @version  3.16.12
@@ -118,10 +124,10 @@ class LLMS_Admin_Builder {
 	private static function get_existing_posts( $course_id, $post_type = '', $search_term = '', $page = 1 ) {
 
 		$args = array(
-			'order' => 'ASC',
-			'orderby' => 'post_title',
-			'paged' => $page,
-			'post_status' => array( 'publish', 'draft', 'pending' ),
+			'order'          => 'ASC',
+			'orderby'        => 'post_title',
+			'paged'          => $page,
+			'post_status'    => array( 'publish', 'draft', 'pending' ),
 			'posts_per_page' => 10,
 		);
 
@@ -132,16 +138,18 @@ class LLMS_Admin_Builder {
 		if ( ! current_user_can( 'manage_options' ) ) {
 
 			$instructor = llms_get_instructor();
-			$parents = $instructor->get( 'parent_instructors' );
+			$parents    = $instructor->get( 'parent_instructors' );
 			if ( ! $parents ) {
 				$parents = array();
 			}
 
-			$args['author__in'] = array_unique( array_merge(
-				array( get_current_user_id() ),
-				$instructor->get_assistants(),
-				$parents
-			) );
+			$args['author__in'] = array_unique(
+				array_merge(
+					array( get_current_user_id() ),
+					$instructor->get_assistants(),
+					$parents
+				)
+			);
 
 		}
 
@@ -175,7 +183,7 @@ class LLMS_Admin_Builder {
 						$course_id = $post->get( 'parent_course' );
 					} elseif ( 'llms_quiz' === $post->get( 'type' ) ) {
 						$lesson_id = $post->get( 'lesson_id' );
-						$course = $post->get_course();
+						$course    = $post->get_course();
 						if ( $course ) {
 							$course_id = $course->get( 'id' );
 						}
@@ -190,18 +198,18 @@ class LLMS_Admin_Builder {
 				}
 
 				$posts[] = array(
-					'action' => $action,
-					'data' => $post,
-					'id' => $post->get( 'id' ),
+					'action'  => $action,
+					'data'    => $post,
+					'id'      => $post->get( 'id' ),
 					'parents' => $parents,
-					'text' => sprintf( '%1$s (#%2$d)', $post->get( 'title' ), $post->get( 'id' ) ),
+					'text'    => sprintf( '%1$s (#%2$d)', $post->get( 'title' ), $post->get( 'id' ) ),
 				);
 
 			}// End foreach().
 		}// End if().
 
 		$ret = array(
-			'results' => $posts,
+			'results'    => $posts,
 			'pagination' => array(
 				'more' => ( $page < $query->max_num_pages ),
 			),
@@ -213,8 +221,9 @@ class LLMS_Admin_Builder {
 
 	/**
 	 * Search lessons by search term during existing lesson lookups
-	 * @param    string     $where      existing sql where clause
-	 * @param    obj        $wp_query   WP_Query
+	 *
+	 * @param    string $where      existing sql where clause
+	 * @param    obj    $wp_query   WP_Query
 	 * @return   string
 	 * @since    3.14.8
 	 * @version  3.16.12
@@ -232,7 +241,8 @@ class LLMS_Admin_Builder {
 
 	/**
 	 * Retrieve the HTML of a JS template
-	 * @param    [type]     $template  [description]
+	 *
+	 * @param    [type] $template  [description]
 	 * @return   [type]
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -248,8 +258,9 @@ class LLMS_Admin_Builder {
 
 	/**
 	 * A terrible Rest API for the course builder
+	 *
 	 * @shame    gimme a break pls
-	 * @param    array     $request  $_REQUEST
+	 * @param    array $request  $_REQUEST
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.19.2
@@ -264,7 +275,6 @@ class LLMS_Admin_Builder {
 		switch ( $request['action_type'] ) {
 
 			case 'ajax_save':
-
 				if ( isset( $request['llms_builder'] ) ) {
 
 					$request['llms_builder'] = stripslashes( $request['llms_builder'] );
@@ -272,38 +282,38 @@ class LLMS_Admin_Builder {
 
 				}
 
-			break;
+				break;
 
 			case 'get_permalink':
-
 				$id = isset( $request['id'] ) ? absint( $request['id'] ) : false;
 				if ( ! $id ) {
 					return array();
 				}
 				$title = isset( $request['title'] ) ? sanitize_title( $request['title'] ) : null;
-				$slug = isset( $request['slug'] ) ? sanitize_title( $request['slug'] ) : null;
-				$link = get_sample_permalink( $id, $title, $slug );
-				wp_send_json( array(
-					'slug' => $link[1],
-					'permalink' => str_replace( '%pagename%', $link[1], $link[0] ),
-				) );
+				$slug  = isset( $request['slug'] ) ? sanitize_title( $request['slug'] ) : null;
+				$link  = get_sample_permalink( $id, $title, $slug );
+				wp_send_json(
+					array(
+						'slug'      => $link[1],
+						'permalink' => str_replace( '%pagename%', $link[1], $link[0] ),
+					)
+				);
 
-			break;
+				break;
 
 			case 'lazy_load':
-
 				$ret = array();
 				if ( isset( $request['load_id'] ) ) {
 					$post = llms_get_post( absint( $request['load_id'] ) );
-					$ret = $post->toArray();
+					$ret  = $post->toArray();
 				}
 				wp_send_json( $ret );
 
-			break;
+				break;
 
 			case 'search':
-				$page = isset( $request['page'] ) ? $request['page'] : 1;
-				$term = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
+				$page      = isset( $request['page'] ) ? $request['page'] : 1;
+				$term      = isset( $request['term'] ) ? sanitize_text_field( $request['term'] ) : '';
 				$post_type = '';
 				if ( isset( $request['post_type'] ) ) {
 					if ( is_array( $request['post_type'] ) ) {
@@ -313,7 +323,7 @@ class LLMS_Admin_Builder {
 					}
 				}
 				wp_send_json( self::get_existing_posts( absint( $request['course_id'] ), $post_type, $term, $page ) );
-			break;
+				break;
 
 		}// End switch().
 
@@ -326,7 +336,7 @@ class LLMS_Admin_Builder {
 	 * Locking the course edit main screen will lock the builder and vice versa... probably need to find a way
 	 * to fix that but for now this'll work just fine and if you're unhappy about it, well, sorry...
 	 *
-	 * @param    int     $course_id  WP Post ID
+	 * @param    int $course_id  WP Post ID
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -337,13 +347,14 @@ class LLMS_Admin_Builder {
 			$active_post_lock = wp_set_post_lock( $course_id );
 		}
 
-		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>"><?php
+		?><input type="hidden" id="post_ID" value="<?php echo absint( $course_id ); ?>">
+		<?php
 
-if ( ! empty( $active_post_lock ) ) {
-	?>
+		if ( ! empty( $active_post_lock ) ) {
+			?>
 	<input type="hidden" id="active_post_lock" value="<?php echo esc_attr( implode( ':', $active_post_lock ) ); ?>" />
-	<?php
-}
+			<?php
+		}
 
 		add_filter( 'get_edit_post_link', array( __CLASS__, 'modify_take_over_link' ), 10, 3 );
 		add_action( 'admin_footer', '_admin_notice_post_locked' );
@@ -353,9 +364,10 @@ if ( ! empty( $active_post_lock ) ) {
 	/**
 	 * Handle AJAX Heartbeat received calls
 	 * All builder data is sent through the heartbeat
-	 * @param    array     $res   response data
-	 * @param    array     $data  data from the heartbeat api
-	 *                            builder data will be in the "llms_builder" array
+	 *
+	 * @param    array $res   response data
+	 * @param    array $data  data from the heartbeat api
+	 *                        builder data will be in the "llms_builder" array
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.24.2
@@ -376,19 +388,19 @@ if ( ! empty( $active_post_lock ) ) {
 
 		// setup our return
 		$ret = array(
-			'status' => 'success',
+			'status'  => 'success',
 			'message' => esc_html__( 'Success', 'lifterlms' ),
 		);
 
 		// need a numeric ID for a course post type!
 		if ( empty( $data['id'] ) || ! is_numeric( $data['id'] ) || 'course' !== get_post_type( $data['id'] ) ) {
 
-			$ret['status'] = 'error';
+			$ret['status']  = 'error';
 			$ret['message'] = esc_html__( 'Error: Invalid or missing course ID.', 'lifterlms' );
 
 		} elseif ( ! current_user_can( 'edit_course', $data['id'] ) ) {
 
-			$ret['status'] = 'error';
+			$ret['status']  = 'error';
 			$ret['message'] = esc_html__( 'Error: You do not have permission to edit this course.', 'lifterlms' );
 
 		} else {
@@ -429,7 +441,8 @@ if ( ! empty( $active_post_lock ) ) {
 	/**
 	 * Determine if an ID submitted via heartbeat data is a temporary id
 	 * if so the object must be created rather than updated
-	 * @param    string     $id  an ID string
+	 *
+	 * @param    string $id  an ID string
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.17.0
@@ -442,24 +455,29 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Modify the "Take Over" link on the post locked modal to send users to the builder when taking over a course
-	 * @param    string     $link     default post edit link
-	 * @param    int        $post_id  WP Post ID of the course
-	 * @param    string     $context  display context
+	 *
+	 * @param    string $link     default post edit link
+	 * @param    int    $post_id  WP Post ID of the course
+	 * @param    string $context  display context
 	 * @return   string
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public static function modify_take_over_link( $link, $post_id, $context ) {
 
-		return add_query_arg( array(
-			'page' => 'llms-course-builder',
-			'course_id' => $post_id,
-		), admin_url( 'admin.php' ) );
+		return add_query_arg(
+			array(
+				'page'      => 'llms-course-builder',
+				'course_id' => $post_id,
+			),
+			admin_url( 'admin.php' )
+		);
 
 	}
 
 	/**
 	 * Output the page content
+	 *
 	 * @return   void
 	 * @since    3.13.0
 	 * @version  3.19.2
@@ -516,26 +534,38 @@ if ( ! empty( $active_post_lock ) ) {
 					'utilities',
 				);
 
-			foreach ( $templates as $template ) {
-				echo self::get_template( $template, array(
-					'course_id' => $course_id,
-				) );
-			}
+				foreach ( $templates as $template ) {
+					echo self::get_template(
+						$template,
+						array(
+							'course_id' => $course_id,
+						)
+					);
+				}
 
+				?>
+
+			<script>window.llms_builder = 
+			<?php
+			echo json_encode(
+				array(
+					'admin_url' => admin_url(),
+					'course'    => $course->toArray(),
+					'debug'     => array(
+						'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
+					),
+					'questions' => array_values( llms_get_question_types() ),
+					'schemas'   => self::get_custom_schemas(),
+					'sync'      => apply_filters(
+						'llms_builder_sync_settings',
+						array(
+							'check_interval_ms' => 10000,
+						)
+					),
+				)
+			);
 			?>
-
-			<script>window.llms_builder = <?php echo json_encode( array(
-				'admin_url' => admin_url(),
-				'course' => $course->toArray(),
-				'debug' => array(
-					'enabled' => ( defined( 'LLMS_BUILDER_DEBUG' ) && LLMS_BUILDER_DEBUG ),
-				),
-				'questions' => array_values( llms_get_question_types() ),
-				'schemas' => self::get_custom_schemas(),
-				'sync' => apply_filters( 'llms_builder_sync_settings', array(
-					'check_interval_ms' => 10000,
-				) ),
-			) ); ?></script>
+			</script>
 
 			<?php do_action( 'llms_after_builder', $course_id ); ?>
 
@@ -549,7 +579,8 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Process lesson detachments from the heartbeat data
-	 * @param    array     $data  array of lesson ids
+	 *
+	 * @param    array $data  array of lesson ids
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.27.0
@@ -562,7 +593,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			$res = array(
 				'error' => sprintf( esc_html__( 'Unable to detach "%s". Invalid ID.', 'lifterlms' ), $id ),
-				'id' => $id,
+				'id'    => $id,
 			);
 
 			$type = get_post_type( $id );
@@ -606,7 +637,8 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Delete/trash elements from heartbeat data
-	 * @param    array     $data  array of ids to trash/delete
+	 *
+	 * @param    array $data  array of ids to trash/delete
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.17.1
@@ -619,7 +651,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			$res = array(
 				'error' => sprintf( esc_html__( 'Unable to delete "%s". Invalid ID.', 'lifterlms' ), $id ),
-				'id' => $id,
+				'id'    => $id,
 			);
 
 			$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
@@ -656,7 +688,7 @@ if ( ! empty( $active_post_lock ) ) {
 				}
 			} else {
 
-				$split = explode( ':', $id );
+				$split    = explode( ':', $id );
 				$question = llms_get_post( $split[0] );
 				if ( $question && is_a( $question, 'LLMS_Question' ) ) {
 					$stat = $question->delete_choice( $split[1] );
@@ -682,7 +714,8 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Process all the update data from the heartbeat
-	 * @param    array     $data  array of course updates (all the way down the tree)
+	 *
+	 * @param    array $data  array of course updates (all the way down the tree)
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -717,8 +750,8 @@ if ( ! empty( $active_post_lock ) ) {
 	 * @version 3.30.0
 	 *
 	 * @param string $type Model type (lesson, quiz, etc...).
-	 * @param obj $post LLMS_Post_Model object for the model being updated.
-	 * @param array $post_data Assoc array of raw data to update the model with.
+	 * @param obj    $post LLMS_Post_Model object for the model being updated.
+	 * @param array  $post_data Assoc array of raw data to update the model with.
 	 * @return void
 	 */
 	public static function update_custom_schemas( $type, $post, $post_data ) {
@@ -773,8 +806,9 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Update lesson from heartbeat data
-	 * @param    array     $lessons  lesson data from heartbeat
-	 * @param    obj       $section  instance of the parent LLMS_Section
+	 *
+	 * @param    array $lessons  lesson data from heartbeat
+	 * @param    obj   $section  instance of the parent LLMS_Section
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.17.0
@@ -789,16 +823,22 @@ if ( ! empty( $active_post_lock ) ) {
 				continue;
 			}
 
-			$res = array_merge( $lesson_data, array(
-				'orig_id' => $lesson_data['id'],
-			) );
+			$res = array_merge(
+				$lesson_data,
+				array(
+					'orig_id' => $lesson_data['id'],
+				)
+			);
 
 			// create a new lesson
 			if ( self::is_temp_id( $lesson_data['id'] ) ) {
 
-				$lesson = new LLMS_Lesson( 'new', array(
-					'post_title' => isset( $lesson_data['title'] ) ? $lesson_data['title'] : __( 'New Lesson', 'lifterlms' ),
-				) );
+				$lesson = new LLMS_Lesson(
+					'new',
+					array(
+						'post_title' => isset( $lesson_data['title'] ) ? $lesson_data['title'] : __( 'New Lesson', 'lifterlms' ),
+					)
+				);
 
 				// if the parent section was just created the lesson will have a temp id
 				// replace it with the newly created section's real ID
@@ -810,7 +850,7 @@ if ( ! empty( $active_post_lock ) ) {
 
 			} else {
 
-				$lesson = llms_get_post( $lesson_data['id'] );
+				$lesson  = llms_get_post( $lesson_data['id'] );
 				$created = false;
 
 			}
@@ -824,10 +864,13 @@ if ( ! empty( $active_post_lock ) ) {
 				// return the real ID (important when creating a new lesson)
 				$res['id'] = $lesson->get( 'id' );
 
-				$properties = array_merge( array_keys( $lesson->get_properties() ), array(
-					'content',
-					'title',
-				) );
+				$properties = array_merge(
+					array_keys( $lesson->get_properties() ),
+					array(
+						'content',
+						'title',
+					)
+				);
 
 				$skip_props = apply_filters( 'llms_builder_update_lesson_skip_props', array( 'quiz' ) );
 
@@ -873,8 +916,9 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Update quiz questions from heartbeat data
-	 * @param    array     $questions  question data array
-	 * @param    obj       $parent    instance of an LLMS_Quiz or LLMS_Question (group)
+	 *
+	 * @param    array $questions  question data array
+	 * @param    obj   $parent    instance of an LLMS_Quiz or LLMS_Question (group)
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.11
@@ -885,9 +929,12 @@ if ( ! empty( $active_post_lock ) ) {
 
 		foreach ( $questions as $q_data ) {
 
-			$ret = array_merge( $q_data, array(
-				'orig_id' => $q_data['id'],
-			) );
+			$ret = array_merge(
+				$q_data,
+				array(
+					'orig_id' => $q_data['id'],
+				)
+			);
 
 			// remove temp id if we have one so we'll create a new question
 			if ( self::is_temp_id( $q_data['id'] ) ) {
@@ -920,9 +967,12 @@ if ( ! empty( $active_post_lock ) ) {
 
 					foreach ( $choices as $c_data ) {
 
-						$choice_res = array_merge( $c_data, array(
-							'orig_id' => $c_data['id'],
-						) );
+						$choice_res = array_merge(
+							$c_data,
+							array(
+								'orig_id' => $c_data['id'],
+							)
+						);
 
 						unset( $c_data['question_id'] );
 
@@ -958,17 +1008,21 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Update quizzes during heartbeats
-	 * @param    array     $quiz_data  array of quiz updates
-	 * @param    obj       $lesson     instance of the parent LLMS_Lesson
+	 *
+	 * @param    array $quiz_data  array of quiz updates
+	 * @param    obj   $lesson     instance of the parent LLMS_Lesson
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.17.6
 	 */
 	private static function update_quiz( $quiz_data, $lesson ) {
 
-		$res = array_merge( $quiz_data, array(
-			'orig_id' => $quiz_data['id'],
-		) );
+		$res = array_merge(
+			$quiz_data,
+			array(
+				'orig_id' => $quiz_data['id'],
+			)
+		);
 
 		// create a quiz
 		if ( self::is_temp_id( $quiz_data['id'] ) ) {
@@ -1001,11 +1055,14 @@ if ( ! empty( $active_post_lock ) ) {
 				$quiz_data['lesson_id'] = $lesson->get( 'id' );
 			}
 
-			$properties = array_merge( array_keys( $quiz->get_properties() ), array(
-				// 'content',
-				'status',
-				'title',
-			) );
+			$properties = array_merge(
+				array_keys( $quiz->get_properties() ),
+				array(
+					// 'content',
+					'status',
+					'title',
+				)
+			);
 
 			// update all updatable properties
 			foreach ( $properties as $prop ) {
@@ -1029,17 +1086,21 @@ if ( ! empty( $active_post_lock ) ) {
 
 	/**
 	 * Update a section with data from the heartbeat
-	 * @param    array     $section_data  array of section data
-	 * @param    obj       $course_id     instance of the parent LLMS_Course
+	 *
+	 * @param    array $section_data  array of section data
+	 * @param    obj   $course_id     instance of the parent LLMS_Course
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.11
 	 */
 	private static function update_section( $section_data, $course_id ) {
 
-		$res = array_merge( $section_data, array(
-			'orig_id' => $section_data['id'],
-		) );
+		$res = array_merge(
+			$section_data,
+			array(
+				'orig_id' => $section_data['id'],
+			)
+		);
 
 		// create a new section
 		if ( self::is_temp_id( $section_data['id'] ) ) {

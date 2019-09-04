@@ -1,17 +1,30 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Metabox Field: Number
+ *
+ * @since Unknown
+ * @version Unknown
+ */
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Metabox_Number_Field
+ *
+ * @since Unknown
+ */
 class LLMS_Metabox_Number_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 
-	function __construct( $_field ) {
+	public function __construct( $_field ) {
 
 		$this->field = $_field;
 	}
 
 	/**
 	 * outputs the Html for the given field
-	 * @return   HTML
+	 *
+	 * @return void
 	 * @since    1.0.0
 	 * @version  3.16.0
 	 */

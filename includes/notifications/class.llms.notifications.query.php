@@ -1,30 +1,34 @@
 <?php
 /**
-* Query LifterLMS Students for a given course / membership
-* @example
-* 	$query = new LLMS_Notifications_Query( array(
-* 		'subscriber' => 123, // null
-* 		'per_page' => 10,
-* 		'statuses' => 'new', // array( 'new', 'read', '...' )
-* 		'types' => 'basic', // array( 'basic', 'email', '...' )
-*  	) );
-*
-* @since    3.8.0
-* @version  3.14.0
-*/
+ * Query LifterLMS Students for a given course / membership
+ *
+ * @example
+ *   $query = new LLMS_Notifications_Query( array(
+ *       'subscriber' => 123, // null
+ *       'per_page' => 10,
+ *       'statuses' => 'new', // array( 'new', 'read', '...' )
+ *       'types' => 'basic', // array( 'basic', 'email', '...' )
+ *   ) );
+ *
+ * @since    3.8.0
+ * @version  3.14.0
+ */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Identify the extending query
+	 *
 	 * @var  string
 	 */
 	protected $id = 'notifications';
 
 	/**
 	 * Get an array of allowed notification statuses
+	 *
 	 * @return   string[]
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -35,6 +39,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Get the available notification types
+	 *
 	 * @return   string[]
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -45,6 +50,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Retrieve default arguments for a student query
+	 *
 	 * @return   array
 	 * @since    3.8.0
 	 * @version  3.11.0
@@ -52,16 +58,16 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	protected function get_default_args() {
 
 		$args = array(
-			'post_id' => null,
+			'post_id'    => null,
 			'subscriber' => null,
-			'sort' => array(
+			'sort'       => array(
 				'updated' => 'DESC',
-				'id' => 'DESC',
+				'id'      => 'DESC',
 			),
-			'statuses' => array(),
-			'triggers' => array(),
-			'types' => array(),
-			'user_id' => null,
+			'statuses'   => array(),
+			'triggers'   => array(),
+			'types'      => array(),
+			'user_id'    => null,
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
@@ -72,6 +78,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Convert raw results to notification objects
+	 *
 	 * @return   LLMS_Notification[]
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -79,12 +86,12 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	public function get_notifications() {
 
 		$notifications = array();
-		$results = $this->get_results();
+		$results       = $this->get_results();
 
 		if ( $results ) {
 
 			foreach ( $results as $result ) {
-				$obj = new LLMS_Notification( $result->id );
+				$obj             = new LLMS_Notification( $result->id );
 				$notifications[] = $obj->load();
 			}
 		}
@@ -99,6 +106,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Parse arguments needed for the query
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -112,6 +120,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Parse submitted statuses
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -134,6 +143,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Parse submitted types
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -148,13 +158,14 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		}
 
 		// ensure only valid types are used
-		$types = array_intersect( $types, $this->get_available_types() );
+		$types                    = array_intersect( $types, $this->get_available_types() );
 		$this->arguments['types'] = $types;
 
 	}
 
 	/**
 	 * Parse submitted triggers
+	 *
 	 * @return   void
 	 * @since    3.11.0
 	 * @version  3.11.0
@@ -174,6 +185,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Prepare the SQL for the query
+	 *
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.9.4
@@ -210,6 +222,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve the prepared SQL for the ORDER clause
 	 * Slightly modified from abstract to include the table name to prevent ambiguous errors
+	 *
 	 * @return   string
 	 * @since    3.9.2
 	 * @version  3.9.2
@@ -221,8 +234,8 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		$comma = false;
 
 		foreach ( $this->get( 'sort' ) as $orderby => $order ) {
-			$pre = ( $comma ) ? ', ' : ' ';
-			$sql .= $pre . "n.{$orderby} {$order}";
+			$pre   = ( $comma ) ? ', ' : ' ';
+			$sql  .= $pre . "n.{$orderby} {$order}";
 			$comma = true;
 		}
 
@@ -236,6 +249,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 	/**
 	 * Retrieve the prepared SQL for the WHERE clause
+	 *
 	 * @return   string
 	 * @since    3.8.0
 	 * @version  3.14.0
@@ -248,13 +262,13 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 
 		$post_statuses = array_merge( array( 'publish' ), array_keys( llms_get_order_statuses() ) );
 		$post_statuses = array_map( array( $this, 'escape_and_quote_string' ), $post_statuses );
-		$where .= sprintf( ' AND p.post_status IN ( %s )', implode( ', ', $post_statuses ) );
+		$where        .= sprintf( ' AND p.post_status IN ( %s )', implode( ', ', $post_statuses ) );
 
 		// these args are all "whered" in the same way
 		$wheres = array(
 			'statuses' => 'status',
 			'triggers' => 'trigger_id',
-			'types' => 'type',
+			'types'    => 'type',
 		);
 
 		// loop through them and build the where clauses based off the submitted data
@@ -263,7 +277,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			$arg = $this->get( $arg_name );
 			if ( $arg ) {
 				$prepped = array_map( array( $this, 'escape_and_quote_string' ), $arg );
-				$where .= sprintf( ' AND n.%1$s IN( %2$s )', $col_name, implode( ', ', $prepped ) );
+				$where  .= sprintf( ' AND n.%1$s IN( %2$s )', $col_name, implode( ', ', $prepped ) );
 			}
 		}
 

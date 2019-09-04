@@ -5,6 +5,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 /**
  * Functions related to privacy policy and terms & conditions
+ *
  * @since    3.18.0
  * @version  3.18.0
  */
@@ -13,6 +14,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Determine if Terms & Conditions agreement is required during registration
  * according to global settings
+ *
  * @return   boolean
  * @since    3.0.0
  * @version  3.3.1
@@ -28,8 +30,9 @@ function llms_are_terms_and_conditions_required() {
 
 /**
  * Retrieve the text/html for the custom privacy policy notice
- * @param    bool       $merge  if true, will merge {{policy}} to an HTML anchor
- *                              uses `wp_page_for_privacy_policy` for page ID & title
+ *
+ * @param    bool $merge  if true, will merge {{policy}} to an HTML anchor
+ *                        uses `wp_page_for_privacy_policy` for page ID & title
  * @return   string
  * @since    3.18.0
  * @version  3.18.0
@@ -52,16 +55,19 @@ function llms_get_privacy_notice( $merge = false ) {
 		}
 
 		// kisses
-		$ret = wp_kses( $ret, array(
-			'a' => array(
-				'href' => array(),
-				'target' => array(),
-			),
-			'b' => array(),
-			'em' => array(),
-			'i' => array(),
-			'strong' => array(),
-		) );
+		$ret = wp_kses(
+			$ret,
+			array(
+				'a'      => array(
+					'href'   => array(),
+					'target' => array(),
+				),
+				'b'      => array(),
+				'em'     => array(),
+				'i'      => array(),
+				'strong' => array(),
+			)
+		);
 	}
 
 	return apply_filters( 'llms_get_privacy_notice', $ret, $text );
@@ -70,8 +76,9 @@ function llms_get_privacy_notice( $merge = false ) {
 
 /**
  * Retrieve the text/html for the custom t&c notice
- * @param    bool       $merge  if true, will merge {{terms}} to an HTML anchor
- *                              uses `lifterlms_terms_page_id` for page ID & title
+ *
+ * @param    bool $merge  if true, will merge {{terms}} to an HTML anchor
+ *                        uses `lifterlms_terms_page_id` for page ID & title
  * @return   string
  * @since    3.18.0
  * @version  3.18.0
@@ -100,16 +107,19 @@ function llms_get_terms_notice( $merge = false ) {
 		}
 
 		// kisses
-		$ret = wp_kses( $ret, array(
-			'a' => array(
-				'href' => array(),
-				'target' => array(),
-			),
-			'b' => array(),
-			'em' => array(),
-			'i' => array(),
-			'strong' => array(),
-		) );
+		$ret = wp_kses(
+			$ret,
+			array(
+				'a'      => array(
+					'href'   => array(),
+					'target' => array(),
+				),
+				'b'      => array(),
+				'em'     => array(),
+				'i'      => array(),
+				'strong' => array(),
+			)
+		);
 	}
 
 	return apply_filters( 'llms_get_terms_notice', $ret, $text );

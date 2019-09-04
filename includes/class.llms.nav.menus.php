@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Navigation Menus
+ *
  * @since    3.14.7
  * @version  3.24.0
  */
@@ -10,6 +11,7 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.14.7
 	 * @version  3.22.0
 	 */
@@ -34,6 +36,7 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Add nav menu metabox
+	 *
 	 * @return   void
 	 * @since    3.14.7
 	 * @version  3.14.7
@@ -47,10 +50,11 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Adds LifterLMS menu items to the customizer
-	 * @param    array      $items   menu items
-	 * @param    string     $type    requested menu item type
-	 * @param    string     $object  requested menu item object
-	 * @param    integer    $page    requested page number
+	 *
+	 * @param    array   $items   menu items
+	 * @param    string  $type    requested menu item type
+	 * @param    string  $object  requested menu item object
+	 * @param    integer $page    requested page number
 	 * @return   array
 	 * @since    3.14.7
 	 * @version  3.14.7
@@ -64,11 +68,11 @@ class LLMS_Nav_Menus {
 		foreach ( $this->get_nav_items() as $id => $data ) {
 
 			$items[] = array(
-				'classes' => 'llms-nav-item-' . $id,
-				'id' => $id,
-				'title' => $data['title'],
+				'classes'    => 'llms-nav-item-' . $id,
+				'id'         => $id,
+				'title'      => $data['title'],
 				'type_label' => __( 'Custom Link', 'lifterlms' ),
-				'url' => esc_url_raw( $data['url'] ),
+				'url'        => esc_url_raw( $data['url'] ),
 			);
 
 		}
@@ -78,7 +82,8 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Add the LifterLMS menu item section to the customizer
-	 * @param    array     $types  existing menu item types
+	 *
+	 * @param    array $types  existing menu item types
 	 * @return   array
 	 * @since    3.14.7
 	 * @version  3.14.7
@@ -97,7 +102,8 @@ class LLMS_Nav_Menus {
 	/**
 	 * Filters Nav Menu Items to convert #llms- urls into actual URLs
 	 * Also hides URLs that should only be available to logged in users
-	 * @param    array     $items  nav menu items
+	 *
+	 * @param    array $items  nav menu items
 	 * @return   array
 	 * @since    3.14.7
 	 * @version  3.14.7
@@ -134,6 +140,7 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Retrieve a filtered array of custom LifterLMS nav menu items
+	 *
 	 * @return   array
 	 * @since    3.14.7
 	 * @version  3.14.7
@@ -147,7 +154,7 @@ class LLMS_Nav_Menus {
 			if ( ! empty( $data['nav_item'] ) ) {
 
 				$items[ $id ] = array(
-					'url' => $data['endpoint'] ? llms_get_endpoint_url( $data['endpoint'], '', llms_get_page_url( 'myaccount' ) ) : $data['url'],
+					'url'   => $data['endpoint'] ? llms_get_endpoint_url( $data['endpoint'], '', llms_get_page_url( 'myaccount' ) ) : $data['url'],
 					'label' => $data['title'],
 					'title' => $data['title'],
 				);
@@ -155,13 +162,13 @@ class LLMS_Nav_Menus {
 			}
 		}
 
-		$items['signin'] = array(
-			'url' => '#llms-signin',
+		$items['signin']  = array(
+			'url'   => '#llms-signin',
 			'label' => __( 'Sign In', 'lifterlms' ),
 			'title' => __( 'Sign In', 'lifterlms' ),
 		);
 		$items['signout'] = array(
-			'url' => '#llms-signout',
+			'url'   => '#llms-signout',
 			'label' => __( 'Sign Out', 'lifterlms' ),
 			'title' => __( 'Sign Out', 'lifterlms' ),
 		);
@@ -172,7 +179,8 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Add "active" classes to menu items for LLMS catalog pages
-	 * @param    array     $menu_items  menu items
+	 *
+	 * @param    array $menu_items  menu items
 	 * @return   array
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -183,9 +191,9 @@ class LLMS_Nav_Menus {
 			return $menu_items;
 		}
 
-		$courses_id = llms_get_page_id( 'courses' );
+		$courses_id     = llms_get_page_id( 'courses' );
 		$memberships_id = llms_get_page_id( 'memberships' );
-		$blog_id = get_option( 'page_for_posts' );
+		$blog_id        = get_option( 'page_for_posts' );
 
 		foreach ( $menu_items as $key => $item ) {
 
@@ -203,8 +211,8 @@ class LLMS_Nav_Menus {
 			} elseif ( 'page' === $item->object && ( ( is_courses() && $courses_id == $item->object_id ) || ( is_memberships() && $memberships_id == $item->object_id ) ) ) {
 
 				$menu_items[ $key ]->current = true;
-				$classes[] = 'current-menu-item';
-				$classes[] = 'current_page_item';
+				$classes[]                   = 'current-menu-item';
+				$classes[]                   = 'current_page_item';
 
 				// set parent links for courses & memberships
 			} elseif ( ( $courses_id == $item->object_id && ( is_singular( 'course' ) || is_course_taxonomy() ) ) || ( $memberships_id == $item->object_id && ( is_singular( 'llms_membership' ) || is_membership_taxonomy() ) ) ) {
@@ -222,6 +230,7 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Output the metabox
+	 *
 	 * @return   void
 	 * @since    3.14.7
 	 * @version  3.24.0
@@ -266,6 +275,7 @@ class LLMS_Nav_Menus {
 
 	/**
 	 * Output JS to ensure that users don't edit the #llms-signout URL that's replaced dynamically with an actual signout link
+	 *
 	 * @return   void
 	 * @since    3.14.7
 	 * @version  3.14.7

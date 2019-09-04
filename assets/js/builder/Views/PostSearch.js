@@ -1,5 +1,6 @@
 /**
  * Post Popover Search content View
+ *
  * @since    3.16.0
  * @version  3.17.0
  */
@@ -9,6 +10,7 @@ define( [], function() {
 
 		/**
 		 * DOM Events
+		 *
 		 * @type     obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -19,12 +21,14 @@ define( [], function() {
 
 		/**
 		 * Wrapper Tag name
+		 *
 		 * @type  {String}
 		 */
 		tagName: 'select',
 
 		/**
 		 * Initializer
+		 *
 		 * @param    obj   data  customize the search box with data
 		 * @return   void
 		 * @since    3.16.12
@@ -32,13 +36,14 @@ define( [], function() {
 		 */
 		initialize: function( data ) {
 
-			this.post_type = data.post_type;
+			this.post_type         = data.post_type;
 			this.searching_message = data.searching_message || LLMS.l10n.translate( 'Searching...' );
 
 		},
 
 		/**
 		 * Select event, adds the existing lesson to the course
+		 *
 		 * @param    obj   event  select2:select event object
 		 * @since    3.16.0
 		 * @version  3.17.0
@@ -55,6 +60,7 @@ define( [], function() {
 		/**
 		 * Render the section
 		 * Initializes a new collection and views for all lessons in the section
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.12
@@ -80,7 +86,7 @@ define( [], function() {
 							};
 						},
 						// error: function( xhr, status, error ) {
-						// 	console.log( status, error );
+						// console.log( status, error );
 						// },
 					},
 					dropdownParent: $( '.wrap.lifterlms.llms-builder' ),
@@ -100,6 +106,7 @@ define( [], function() {
 
 		/**
 		 * Render a nicer UI for each search result in the in the Select2 search results
+		 *
 		 * @param    object   res  result data
 		 * @return   string
 		 * @since    3.16.0
@@ -115,8 +122,8 @@ define( [], function() {
 
 			var $side = $( '<aside class="llms-existing-action" />' ),
 				$main = $( '<div class="llms-existing-info" />' );
-				icon = ( 'attach' === res.action ) ? 'paperclip' : 'clone',
-				text = ( 'attach' === res.action ) ? LLMS.l10n.translate( 'Attach' ) : LLMS.l10n.translate( 'Clone' );
+				icon  = ( 'attach' === res.action ) ? 'paperclip' : 'clone',
+				text  = ( 'attach' === res.action ) ? LLMS.l10n.translate( 'Attach' ) : LLMS.l10n.translate( 'Clone' );
 
 			$side.append( '<i class="fa fa-' + icon + '" aria-hidden="true"></i><small>' + text + '</small>' );
 

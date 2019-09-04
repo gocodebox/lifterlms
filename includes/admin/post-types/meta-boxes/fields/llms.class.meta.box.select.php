@@ -1,26 +1,38 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+/**
+ * Metabox Field: Select
+ *
+ * @since Unknown
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
+ * LLMS_Metabox_Select_Field
  *
+ * @since Unknown
  */
 class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
 
 	/**
 	 * Class constructor
+	 *
 	 * @param array $_field Array containing information about field
 	 */
-	function __construct( $_field ) {
+	public function __construct( $_field ) {
 
 		$this->field = $_field;
 	}
 
 	/**
 	 * outputs the Html for the given field
-	 * @return HTML
-	 * @since    1.0.0
-	 * @version  3.1.0 - allow regular key=>val arrays to be passed
+	 *
+	 * @since 1.0.0
+	 * @since 3.1.0 Allow regular key=>val arrays to be passed.
+	 *
+	 * @return void
 	 */
 	public function output() {
 
@@ -28,7 +40,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 
 		parent::output();
 
-		$id = esc_attr( $this->field['id'] );
+		$id   = esc_attr( $this->field['id'] );
 		$name = $id;
 
 		$allow_null = ( isset( $this->field['allow_null'] ) ) ? $this->field['allow_null'] : true;
@@ -54,14 +66,19 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 			<?php if ( array_key_exists( 'multi', $this->field ) && $this->field['multi'] ) : ?>
 				multiple="multiple"
 			<?php endif; ?>
-			<?php foreach ( $attrs as $attr => $attr_val ) { echo ' data-' . $attr . '="' . $attr_val . '"'; } ?>>
+			<?php
+			foreach ( $attrs as $attr => $attr_val ) {
+				echo ' data-' . $attr . '="' . $attr_val . '"'; }
+			?>
+			>
 			<?php if ( $allow_null ) : ?>
 				<option value="">None</option>
 			<?php endif; ?>
 
 			<?php if ( isset( $this->field['value'] ) ) : ?>
 
-				<?php foreach ( $this->field['value'] as $key => $option ) :
+				<?php
+				foreach ( $this->field['value'] as $key => $option ) :
 					$selected_text = '';
 					if ( is_array( $selected ) ) {
 						if ( in_array( $option['key'], $selected ) ) {
@@ -73,7 +90,7 @@ class LLMS_Metabox_Select_Field extends LLMS_Metabox_Field implements Meta_Box_F
 						$selected_text = ' selected="selected" ';
 					}
 					?>
-					<option value="<?php echo isset( $option['key'] ) ? $option['key'] : $key; ?>"<?php echo $selected_text ?>><?php echo isset( $option['title'] ) ? $option['title'] : $option; ?></option>
+					<option value="<?php echo isset( $option['key'] ) ? $option['key'] : $key; ?>"<?php echo $selected_text; ?>><?php echo isset( $option['title'] ) ? $option['title'] : $option; ?></option>
 
 				<?php endforeach; ?>
 

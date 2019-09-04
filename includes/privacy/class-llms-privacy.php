@@ -4,6 +4,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Main Privacy Class
  * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data
+ *
  * @since    3.18.0
  * @version  3.18.0
  */
@@ -11,6 +12,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.18.0
 	 * @version  3.18.0
 	 */
@@ -60,8 +62,9 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Anonymize a property value
-	 * @param    string     $prop  property name
-	 * @param    obj        $obj   associated object (if any)
+	 *
+	 * @param    string $prop  property name
+	 * @param    obj    $obj   associated object (if any)
 	 * @return   string
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -72,7 +75,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Retrieve an array of student data properties which should be exported & erased
-	 * @param    string   $type  request type [export|erasure]
+	 *
+	 * @param    string $type  request type [export|erasure]
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -84,10 +88,10 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		// don't erase these fields, only export them
 		if ( 'export' === $type ) {
 			$props = array(
-				'id' => __( 'Order Number', 'lifterlms' ),
-				'date' => __( 'Order Date', 'lifterlms' ),
+				'id'            => __( 'Order Number', 'lifterlms' ),
+				'date'          => __( 'Order Date', 'lifterlms' ),
 				'product_title' => __( 'Product', 'lifterlms' ),
-				'plan_title' => __( 'Plan', 'lifterlms' ),
+				'plan_title'    => __( 'Plan', 'lifterlms' ),
 			);
 		} elseif ( 'erasure' === $type ) {
 			$props = array(
@@ -95,19 +99,22 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 			);
 		}
 
-		$props = array_merge( $props, array(
-			'billing_first_name' => __( 'Billing First Name', 'lifterlms' ),
-			'billing_last_name' => __( 'Billing Last Name', 'lifterlms' ),
-			'billing_email' => __( 'Billing Email', 'lifterlms' ),
-			'billing_address_1' => __( 'Billing Address 1', 'lifterlms' ),
-			'billing_address_2' => __( 'Billing Address 2', 'lifterlms' ),
-			'billing_city' => __( 'Billing City', 'lifterlms' ),
-			'billing_state' => __( 'Billing State', 'lifterlms' ),
-			'billing_zip' => __( 'Billing Zip Code', 'lifterlms' ),
-			'billing_country' => __( 'Billing Country', 'lifterlms' ),
-			'billing_phone' => __( 'Phone', 'lifterlms' ),
-			'user_ip_address' => __( 'IP Address', 'lifterlms' ),
-		) );
+		$props = array_merge(
+			$props,
+			array(
+				'billing_first_name' => __( 'Billing First Name', 'lifterlms' ),
+				'billing_last_name'  => __( 'Billing Last Name', 'lifterlms' ),
+				'billing_email'      => __( 'Billing Email', 'lifterlms' ),
+				'billing_address_1'  => __( 'Billing Address 1', 'lifterlms' ),
+				'billing_address_2'  => __( 'Billing Address 2', 'lifterlms' ),
+				'billing_city'       => __( 'Billing City', 'lifterlms' ),
+				'billing_state'      => __( 'Billing State', 'lifterlms' ),
+				'billing_zip'        => __( 'Billing Zip Code', 'lifterlms' ),
+				'billing_country'    => __( 'Billing Country', 'lifterlms' ),
+				'billing_phone'      => __( 'Phone', 'lifterlms' ),
+				'user_ip_address'    => __( 'IP Address', 'lifterlms' ),
+			)
+		);
 
 		return apply_filters( 'llms_privacy_order_data_props', $props, $type );
 
@@ -116,6 +123,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Get the privacy message sample content
 	 * This stub can be overloaded
+	 *
 	 * @return   [type]
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -169,7 +177,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Retrieve student certificates
-	 * @param    obj     $student  LLMS_Student
+	 *
+	 * @param    obj $student  LLMS_Student
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -180,7 +189,8 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Retrieve student certificates
-	 * @param    obj     $student  LLMS_Student
+	 *
+	 * @param    obj $student  LLMS_Student
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -191,31 +201,36 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Retrieve an array of student data properties which should be exported & erased
+	 *
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
 	 */
 	protected static function get_student_data_props() {
 
-		return apply_filters( 'llms_privacy_get_student_data_props', array(
-			'billing_address_1' => __( 'Billing Address 1', 'lifterlms' ),
-			'billing_address_2' => __( 'Billing Address 2', 'lifterlms' ),
-			'billing_city' => __( 'Billing City', 'lifterlms' ),
-			'billing_state' => __( 'Billing State', 'lifterlms' ),
-			'billing_zip' => __( 'Billing Zip Code', 'lifterlms' ),
-			'billing_country' => __( 'Billing Country', 'lifterlms' ),
-			'phone' => __( 'Phone', 'lifterlms' ),
-			'ip_address' => __( 'IP Address', 'lifterlms' ),
-			'last_login' => __( 'Last Login Date', 'lifterlms' ),
-		) );
+		return apply_filters(
+			'llms_privacy_get_student_data_props',
+			array(
+				'billing_address_1' => __( 'Billing Address 1', 'lifterlms' ),
+				'billing_address_2' => __( 'Billing Address 2', 'lifterlms' ),
+				'billing_city'      => __( 'Billing City', 'lifterlms' ),
+				'billing_state'     => __( 'Billing State', 'lifterlms' ),
+				'billing_zip'       => __( 'Billing Zip Code', 'lifterlms' ),
+				'billing_country'   => __( 'Billing Country', 'lifterlms' ),
+				'phone'             => __( 'Phone', 'lifterlms' ),
+				'ip_address'        => __( 'IP Address', 'lifterlms' ),
+				'last_login'        => __( 'Last Login Date', 'lifterlms' ),
+			)
+		);
 
 	}
 
 	/**
 	 * Retrieve student course & membership enrollment data
-	 * @param    obj     $student    LLMS_Student
-	 * @param    int     $page       page number
-	 * @param    string  $post_type  WP Post type (course/membership)
+	 *
+	 * @param    obj    $student    LLMS_Student
+	 * @param    int    $page       page number
+	 * @param    string $post_type  WP Post type (course/membership)
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
@@ -224,13 +239,16 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 		$limit = 250;
 
-		$enrollments = $student->get_enrollments( $post_type, array(
-			'limit' => $limit,
-			'skip' => ( $page - 1 ) * $limit,
-		) );
+		$enrollments = $student->get_enrollments(
+			$post_type,
+			array(
+				'limit' => $limit,
+				'skip'  => ( $page - 1 ) * $limit,
+			)
+		);
 
 		return array(
-			'done' => ( ! $enrollments['more'] ),
+			'done'    => ( ! $enrollments['more'] ),
 			'results' => $enrollments['results'],
 		);
 
@@ -238,28 +256,31 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Retrieve student orders
-	 * @param    obj     $student    LLMS_Student
-	 * @param    int     $page       page number
+	 *
+	 * @param    obj $student    LLMS_Student
+	 * @param    int $page       page number
 	 * @return   array
 	 * @since    3.18.0
 	 * @version  3.18.0
 	 */
 	protected static function get_student_orders( $student, $page ) {
 
-		$done = true;
+		$done    = true;
 		$results = array();
 
-		$orders = $student->get_orders( array(
-			'count' => 250,
-			'page' => $page,
-		) );
+		$orders = $student->get_orders(
+			array(
+				'count' => 250,
+				'page'  => $page,
+			)
+		);
 		if ( $orders && $orders['pages'] ) {
 			$results = $orders['orders'];
-			$done = ( $page == $orders['pages'] );
+			$done    = ( $page == $orders['pages'] );
 		}
 
 		return array(
-			'done' => $done,
+			'done'   => $done,
 			'orders' => $results,
 		);
 
@@ -267,12 +288,14 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	protected static function get_student_quizzes( $student, $page ) {
 
-		return new LLMS_Query_Quiz_Attempt( array(
-			'page' => $page,
-			'per_page' => 500,
-			'quiz_id' => array(),
-			'student_id' => $student->get( 'id' ),
-		) );
+		return new LLMS_Query_Quiz_Attempt(
+			array(
+				'page'       => $page,
+				'per_page'   => 500,
+				'quiz_id'    => array(),
+				'student_id' => $student->get( 'id' ),
+			)
+		);
 
 	}
 

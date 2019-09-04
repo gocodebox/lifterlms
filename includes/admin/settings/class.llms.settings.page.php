@@ -18,6 +18,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Allow settings page to determine if a rewrite flush is required
+	 *
 	 * @var      boolean
 	 * @since    3.0.4
 	 * @version  3.0.4
@@ -26,6 +27,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Settings identifier
+	 *
 	 * @var      string
 	 * @since    1.0.0
 	 */
@@ -33,6 +35,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Settings page link label
+	 *
 	 * @var      string
 	 * @since    1.0.0
 	 */
@@ -40,6 +43,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Add the settings page
+	 *
 	 * @return array
 	 * @since    1.0.0
 	 * @version  1.0.0
@@ -51,6 +55,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Flushes rewrite rules when necessary
+	 *
 	 * @return   void
 	 * @since    3.0.4
 	 * @version  3.0.4
@@ -68,6 +73,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Retrieve current section from URL var
+	 *
 	 * @return   string
 	 * @since    3.17.5
 	 * @version  3.17.5
@@ -80,6 +86,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Get the page sections (stub)
+	 *
 	 * @return   array
 	 * @since    1.0.0
 	 * @version  3.17.5
@@ -92,6 +99,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Retrieve the page's settings (stub)
+	 *
 	 * @return   [array
 	 * @since    3.17.5
 	 * @version  3.17.5
@@ -104,6 +112,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Output the settings fields
+	 *
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.17.5
@@ -116,6 +125,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Output settings sections as tabs and set post href
+	 *
 	 * @return array
 	 * @since    3.17.5
 	 * @version  3.17.5
@@ -144,6 +154,7 @@ class LLMS_Settings_Page {
 
 	/**
 	 * Save the settings field values
+	 *
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.17.5
@@ -152,11 +163,11 @@ class LLMS_Settings_Page {
 
 		LLMS_Admin_Settings::save_fields( $this->get_settings() );
 
-	    if ( $this->flush ) {
+		if ( $this->flush ) {
 
-	    	add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
+			add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
 
-	    }
+		}
 
 	}
 

@@ -24,7 +24,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Add a parent instructor to an assistant instructor
-	 * @param    mixed     $parent_id  WP User ID of the parent instructor or array of User IDs to add multiple
+	 *
+	 * @param    mixed $parent_id  WP User ID of the parent instructor or array of User IDs to add multiple
 	 * @return   boolean
 	 * @since    3.13.0
 	 * @version  3.14.4
@@ -65,12 +66,14 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	public function get_assistants() {
 
 		global $wpdb;
-		$results = $wpdb->get_col( $wpdb->prepare(
-			"SELECT user_id FROM {$wpdb->usermeta}
+		$results = $wpdb->get_col(
+			$wpdb->prepare(
+				"SELECT user_id FROM {$wpdb->usermeta}
 			 WHERE meta_key = 'llms_parent_instructors'
 			   AND meta_value LIKE %s;",
-			'%i:' . $this->get_id() . ';%'
-		) );
+				'%i:' . $this->get_id() . ';%'
+			)
+		);
 
 		return $results;
 
@@ -78,66 +81,80 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve instructor's courses
+	 *
 	 * @uses     $this->get_posts()
-	 * @param    array      $args    query argument, see $this->get_posts()
-	 * @param    string     $return  return format, see $this->get_posts()
+	 * @param    array  $args    query argument, see $this->get_posts()
+	 * @param    string $return  return format, see $this->get_posts()
 	 * @return   mixed
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public function get_courses( $args = array(), $return = 'llms_posts' ) {
 
-		$args = wp_parse_args( $args, array(
-			'post_type' => 'course',
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'post_type' => 'course',
+			)
+		);
 		return $this->get_posts( $args, $return );
 
 	}
 
 	/**
 	 * Retrieve instructor's memberships
+	 *
 	 * @uses     $this->get_posts()
-	 * @param    array      $args    query argument, see $this->get_posts()
-	 * @param    string     $return  return format, see $this->get_posts()
+	 * @param    array  $args    query argument, see $this->get_posts()
+	 * @param    string $return  return format, see $this->get_posts()
 	 * @return   mixed
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public function get_memberships( $args = array(), $return = 'llms_posts' ) {
 
-		$args = wp_parse_args( $args, array(
-			'post_type' => 'llms_membership',
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'post_type' => 'llms_membership',
+			)
+		);
 		return $this->get_posts( $args, $return );
 
 	}
 
 	/**
 	 * Retrieve instructor's posts (courses and memberships, mixed)
-	 * @param    array      $args    query arguments passed to WP_Query
-	 * @param    string     $return  return format [llms_posts|ids|posts|query]
+	 *
+	 * @param    array  $args    query arguments passed to WP_Query
+	 * @param    string $return  return format [llms_posts|ids|posts|query]
 	 * @return   mixed
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public function get_posts( $args = array(), $return = 'llms_posts' ) {
 
-		$serialized_id = serialize( array(
-			'id' => $this->get_id(),
-		) );
+		$serialized_id = serialize(
+			array(
+				'id' => $this->get_id(),
+			)
+		);
 		$serialized_id = str_replace( array( 'a:1:{', '}' ), '', $serialized_id );
 
-		$args = wp_parse_args( $args, array(
-			'post_type' => array( 'course', 'llms_membership' ),
-			'post_status' => 'publish',
-			'meta_query' => array(
-				array(
-					'compare' => 'LIKE',
-					'key' => '_llms_instructors',
-					'value' => $serialized_id,
+		$args = wp_parse_args(
+			$args,
+			array(
+				'post_type'   => array( 'course', 'llms_membership' ),
+				'post_status' => 'publish',
+				'meta_query'  => array(
+					array(
+						'compare' => 'LIKE',
+						'key'     => '_llms_instructors',
+						'value'   => $serialized_id,
+					),
 				),
-			),
-		) );
+			)
+		);
 
 		$query = new WP_Query( $args );
 
@@ -163,7 +180,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.13.0
 	 * @since 3.32.0 Validate `post_id` data passed into this function to ensure only students
-	 *        			in courses/memberships for this instructor are returned.
+	 *                  in courses/memberships for this instructor are returned.
 	 *
 	 * @see LLMS_Student_Query
 	 *
@@ -172,9 +189,12 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	 */
 	public function get_students( $args = array() ) {
 
-		$ids = $this->get_posts( array(
-			'posts_per_page' => -1,
-		), 'ids' );
+		$ids = $this->get_posts(
+			array(
+				'posts_per_page' => -1,
+			),
+			'ids'
+		);
 
 		// if post IDs were passed we need to verify they're IDs that the instructor has access to.
 		if ( $args['post_id'] ) {
@@ -214,9 +234,12 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 			return false;
 		}
 
-		$ids = $this->get_posts( array(
-			'posts_per_page' => -1,
-		), 'ids' );
+		$ids = $this->get_posts(
+			array(
+				'posts_per_page' => -1,
+			),
+			'ids'
+		);
 
 		if ( ! $ids ) {
 			return false;
@@ -228,7 +251,8 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Determine if the user is an instructor on a post
-	 * @param    int     $post_id  WP Post ID of a course or membership
+	 *
+	 * @param    int $post_id  WP Post ID of a course or membership
 	 * @return   boolean
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -252,11 +276,11 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 			case 'course':
 				$check_id = $post_id;
-			break;
+				break;
 
 			case 'llms_membership':
 				$check_id = $post_id;
-			break;
+				break;
 
 			case 'llms_question':
 				$question = llms_get_post( $post_id );
@@ -267,7 +291,7 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 						$check_id[] = $course->get( 'id' );
 					}
 				}
-			break;
+				break;
 
 			default:
 				$course = llms_get_post_parent_course( $post_id );
@@ -280,12 +304,15 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 
 			$check_ids = ! is_array( $check_id ) ? array( $check_id ) : $check_id;
 
-			$query = $this->get_posts( array(
-				'post__in' => $check_ids,
-				'posts_per_page' => 1,
-	 		), 'query' );
+			$query = $this->get_posts(
+				array(
+					'post__in'       => $check_ids,
+					'posts_per_page' => 1,
+				),
+				'query'
+			);
 
-	 		$ret = $query->have_posts();
+			$ret = $query->have_posts();
 
 		}
 
@@ -304,10 +331,10 @@ class LLMS_Instructor extends LLMS_Abstract_User_Data {
 	public function toArray() {
 		return array(
 			'description' => $this->get( 'description' ),
-			'email' => $this->get( 'user_email' ),
-			'first_name' => $this->get( 'first_name' ),
-			'id' => $this->get_id(),
-			'last_name' => $this->get( 'last_name' ),
+			'email'       => $this->get( 'user_email' ),
+			'first_name'  => $this->get( 'first_name' ),
+			'id'          => $this->get_id(),
+			'last_name'   => $this->get( 'last_name' ),
 		);
 	}
 

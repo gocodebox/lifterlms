@@ -1,6 +1,7 @@
 <?php
 /**
  * Product (Course & Membership) Pricing Table Template
+ *
  * @property  obj   $product       WP_Product object
  * @property  bool  $is_enrolled   determines if current viewer is enrolled in $product
  * @property  bool  $purchaseable  determines if current product is purchasable
@@ -10,7 +11,9 @@
  * @since     3.0.0
  * @version   3.23.0
  */
+
 defined( 'ABSPATH' ) || exit;
+
 $free_only = ( $has_free && ! $purchaseable );
 ?>
 
@@ -18,7 +21,7 @@ $free_only = ( $has_free && ! $purchaseable );
 
 	<?php do_action( 'lifterlms_before_access_plans', $product->get( 'id' ) ); ?>
 
-	<section class="llms-access-plans cols-<?php echo $product->get_pricing_table_columns_count( $free_only ) ?>">
+	<section class="llms-access-plans cols-<?php echo $product->get_pricing_table_columns_count( $free_only ); ?>">
 
 		<?php do_action( 'lifterlms_before_access_plans_loop', $product->get( 'id' ) ); ?>
 
@@ -26,7 +29,8 @@ $free_only = ( $has_free && ! $purchaseable );
 
 			<?php
 				/**
-				 * llms_access_plan
+				 * Hook: llms_access_plan
+				 *
 				 * @hooked llms_template_access_plan - 10
 				 */
 				do_action( 'llms_access_plan', $plan );
@@ -44,8 +48,10 @@ $free_only = ( $has_free && ! $purchaseable );
 
 	<?php do_action( 'lifterlms_product_not_purchasable', $product->get( 'id' ) ); ?>
 
-	<?php if ( 'course' === $product->get( 'type' ) ) :
-		$course = new LLMS_Course( $product->post ); ?>
+	<?php
+	if ( 'course' === $product->get( 'type' ) ) :
+		$course = new LLMS_Course( $product->post );
+		?>
 		<?php if ( 'yes' === $course->get( 'enrollment_period' ) ) : ?>
 			<?php if ( ! $course->has_date_passed( 'enrollment_start_date' ) ) : ?>
 				<?php llms_print_notice( $course->get( 'enrollment_opens_message' ), 'notice' ); ?>

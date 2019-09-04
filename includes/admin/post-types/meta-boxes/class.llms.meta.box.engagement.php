@@ -285,7 +285,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 		}// End foreach().
 
 		// locate and store the trigger post id
-		$type = llms_filter_var( INPUT_POST, $this->prefix . 'trigger_type', FILTER_SANITIZE_STRING );
+		$type = llms_filter_input( INPUT_POST, $this->prefix . 'trigger_type', FILTER_SANITIZE_STRING );
 		switch ( $type ) {
 
 			case 'access_plan_purchased':
@@ -328,7 +328,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
 		if ( $var ) {
 
-			$val = llms_filter_var( INPUT_POST, '_faux_engagement_trigger_post_' . $var, FILTER_SANITIZE_STRING );
+			$val = llms_filter_input( INPUT_POST, '_faux_engagement_trigger_post_' . $var, FILTER_SANITIZE_STRING );
 
 		} else {
 

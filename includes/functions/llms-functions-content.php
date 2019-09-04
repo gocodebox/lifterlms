@@ -16,7 +16,7 @@ if ( ! function_exists( 'llms_get_post_content' ) ) {
 	 *
 	 * Appends LLMS content above and below post content.
 	 *
-	 * @param    string  $content  WP_Post post_content.
+	 * @param    string $content  WP_Post post_content.
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.25.2

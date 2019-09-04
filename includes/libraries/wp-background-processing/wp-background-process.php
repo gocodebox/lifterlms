@@ -166,12 +166,17 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 				$table  = $wpdb->sitemeta;
 				$column = 'meta_key';
 			}
-			$key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
-			$count = $wpdb->get_var( $wpdb->prepare( "
+			$key   = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
+			$count = $wpdb->get_var(
+				$wpdb->prepare(
+					"
 			SELECT COUNT(*)
 			FROM {$table}
 			WHERE {$column} LIKE %s
-		", $key ) );
+		",
+					$key
+				)
+			);
 			return ( $count > 0 ) ? false : true;
 		}
 		/**
@@ -196,8 +201,8 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 		 */
 		protected function lock_process() {
 			$this->start_time = time(); // Set start time of current process.
-			$lock_duration = ( property_exists( $this, 'queue_lock_time' ) ) ? $this->queue_lock_time : 60; // 1 minute
-			$lock_duration = apply_filters( $this->identifier . '_queue_lock_time', $lock_duration );
+			$lock_duration    = ( property_exists( $this, 'queue_lock_time' ) ) ? $this->queue_lock_time : 60; // 1 minute
+			$lock_duration    = apply_filters( $this->identifier . '_queue_lock_time', $lock_duration );
 			set_site_transient( $this->identifier . '_process_lock', microtime(), $lock_duration );
 		}
 		/**
@@ -228,14 +233,19 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 				$key_column   = 'meta_id';
 				$value_column = 'meta_value';
 			}
-			$key = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
-			$query = $wpdb->get_row( $wpdb->prepare( "
+			$key         = $wpdb->esc_like( $this->identifier . '_batch_' ) . '%';
+			$query       = $wpdb->get_row(
+				$wpdb->prepare(
+					"
 			SELECT *
 			FROM {$table}
 			WHERE {$column} LIKE %s
 			ORDER BY {$key_column} ASC
 			LIMIT 1
-		", $key ) );
+		",
+					$key
+				)
+			);
 			$batch       = new stdClass();
 			$batch->key  = $query->$column;
 			$batch->data = maybe_unserialize( $query->$value_column );
@@ -399,7 +409,6 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 		 * Cancel Process
 		 *
 		 * Stop processing queue items, clear cronjob and delete batch.
-		 *
 		 */
 		public function cancel_process() {
 			if ( ! $this->is_queue_empty() ) {

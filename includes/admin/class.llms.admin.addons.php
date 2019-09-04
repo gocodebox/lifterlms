@@ -28,6 +28,7 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Get the current section from the query string
 	 * defaults to "all"
+	 *
 	 * @return   string
 	 * @since    3.5.0
 	 * @version  3.22.0
@@ -48,6 +49,7 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Retrieve addon data for the current section (tab) based off query string variables
+	 *
 	 * @return   array
 	 * @since    3.5.0
 	 * @version  3.22.0
@@ -74,6 +76,7 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Retrieve remote json data
+	 *
 	 * @return   null|WP_Error
 	 * @since    3.5.0
 	 * @version  3.22.2
@@ -98,6 +101,7 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Retrieve a list of 'featured' addons for use on the general settings screen
 	 * Excludes already available products from current site's activations
+	 *
 	 * @return   array
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -122,7 +126,7 @@ class LLMS_Admin_AddOns {
 			$addon = $this->get_product_from_cat( $cat, $exclude );
 			if ( $addon ) {
 				$features[] = $addon;
-				$exclude[] = $addon['id'];
+				$exclude[]  = $addon['id'];
 			}
 			if ( 3 === count( $features ) ) {
 				return $features;
@@ -135,8 +139,9 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Get a random product from a category that doesn't exist in the list of excluded product ids
-	 * @param    string     $cat       category slug
-	 * @param    array      $excludes  list of product ids to exclude
+	 *
+	 * @param    string $cat       category slug
+	 * @param    array  $excludes  list of product ids to exclude
 	 * @return   array|false
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -163,7 +168,8 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Retrieve products for a specific category
-	 * @param    string     $cat  category slug
+	 *
+	 * @param    string $cat  category slug
 	 * @return   array
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -192,6 +198,7 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Handle form submissions for managing license keys
+	 *
 	 * @return   void
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -209,18 +216,22 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Handle activation, deactivation, and cloud installation of addons
+	 *
 	 * @return   void
 	 * @since    3.22.0
 	 * @version  3.22.0
 	 */
 	private function handle_manage_addons() {
 
-		$actions = apply_filters( 'llms_admin_add_ons_manage_actions', array(
-			'activate',
-			'deactivate',
-		) );
+		$actions = apply_filters(
+			'llms_admin_add_ons_manage_actions',
+			array(
+				'activate',
+				'deactivate',
+			)
+		);
 
-		$errors = array();
+		$errors  = array();
 		$success = array();
 
 		foreach ( $actions as $action ) {
@@ -249,6 +260,7 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Output HTML for the current screen
+	 *
 	 * @return   void
 	 * @since    3.5.0
 	 * @version  3.28.0
@@ -310,7 +322,8 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Output HTML for a single addon
-	 * @param    array   $addon  associative array of add-on data
+	 *
+	 * @param    array $addon  associative array of add-on data
 	 * @return   void
 	 * @since    3.5.0
 	 * @version  3.22.0
@@ -322,6 +335,7 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Output the addon list for the current section
+	 *
 	 * @return   void
 	 * @since    3.5.0
 	 * @version  3.22.0
@@ -348,6 +362,7 @@ class LLMS_Admin_AddOns {
 	/**
 	 * Outputs most popular resources
 	 * used on general settings screen
+	 *
 	 * @return   void
 	 * @since    3.7.6
 	 * @version  3.7.6
@@ -366,6 +381,7 @@ class LLMS_Admin_AddOns {
 
 	/**
 	 * Output the navigation bar
+	 *
 	 * @return   void
 	 * @since    3.5.0
 	 * @version  3.22.0
@@ -377,10 +393,12 @@ class LLMS_Admin_AddOns {
 			<ul class="llms-nav-items">
 			<?php do_action( 'lifterlms_before_addons_nav', $curr_section ); ?>
 				<li class="llms-nav-item<?php echo ( 'all' === $curr_section ) ? ' llms-active' : ''; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=all' ) ); ?>"><?php _e( 'All', 'lifterlms' ); ?></a></li>
-				<?php foreach ( $this->data['categories'] as $name => $title ) :
-					$name = sanitize_title( $name );
-					$title = sanitize_text_field( $title );
-					$active = ( $this->get_current_section() === $name ) ? ' llms-active' : ''; ?>
+				<?php
+				foreach ( $this->data['categories'] as $name => $title ) :
+					$name   = sanitize_title( $name );
+					$title  = sanitize_text_field( $title );
+					$active = ( $this->get_current_section() === $name ) ? ' llms-active' : '';
+					?>
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( admin_url( 'admin.php?page=llms-add-ons&section=' . $name ) ); ?>"><?php echo $title; ?></a></li>
 				<?php endforeach; ?>
 

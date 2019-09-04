@@ -1,5 +1,6 @@
 /**
  * Shiftable view mixin function
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,6 +10,7 @@ define( [], function() {
 
 		/**
 		 * Conditionally hide action buttons based on section position in collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -31,6 +33,7 @@ define( [], function() {
 
 		/**
 		 * Move an item in a collection from one position to another
+		 *
 		 * @param    int   old_index  current (old) index within the collection
 		 * @param    int   new_index  desired (new) index within the collection
 		 * @return   void
@@ -49,6 +52,7 @@ define( [], function() {
 
 		/**
 		 * Move an item down the tree one position
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -63,6 +67,7 @@ define( [], function() {
 
 		/**
 		 * Move an item up the tree one position
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0

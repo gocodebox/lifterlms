@@ -1,5 +1,6 @@
 /**
  * Quiz Question Choice
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,6 +10,7 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 
 		/**
 		 * Model relationships
+		 *
 		 * @type  {Object}
 		 */
 		relationships: {
@@ -30,6 +32,7 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 
 		/**
 		 * Model defaults
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -48,6 +51,7 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 
 		/**
 		 * Initializer
+		 *
 		 * @param    obj   data     object of model attributes
 		 * @param    obj   options  additional options
 		 * @return   void
@@ -63,6 +67,7 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 
 		/**
 		 * Retrieve the choice's parent question
+		 *
 		 * @return   obj
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -73,6 +78,7 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 
 		/**
 		 * Retrieve the ID used when trashing the model
+		 *
 		 * @return   string
 		 * @since    3.17.1
 		 * @version  3.17.1
@@ -84,6 +90,7 @@ define( [ 'Models/Image', 'Models/_Relationships' ], function( Image, Relationsh
 		/**
 		 * Determine if "selection" is enabled for the question type
 		 * Choice type questions are selectable by reorder type questions are not but still use choices
+		 *
 		 * @return   {Boolean}
 		 * @since    3.16.0
 		 * @version  3.16.0

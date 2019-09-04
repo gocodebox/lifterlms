@@ -1,6 +1,7 @@
 <?php
 /**
  * Model Field Settings Template
+ *
  * @since   3.17.0
  * @version 3.24.0
  */

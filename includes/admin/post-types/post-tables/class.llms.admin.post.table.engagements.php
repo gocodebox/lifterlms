@@ -1,16 +1,19 @@
 <?php
 /**
  * Add, Customize, and Manage LifterLMS Engagement Post Table Columns
+ *
  * @since    3.1.0
  * @version  3.7.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Admin_Post_Table_Engagements {
 
 	/**
 	 * Constructor
+	 *
 	 * @return  void
 	 * @since    3.1.0
 	 * @version  3.1.0
@@ -24,7 +27,8 @@ class LLMS_Admin_Post_Table_Engagements {
 
 	/**
 	 * Add Custom Coupon Columns
-	 * @param    array  $columns array of default columns
+	 *
+	 * @param    array $columns array of default columns
 	 * @return   array
 	 * @since    3.1.0
 	 * @version  3.1.0
@@ -34,11 +38,11 @@ class LLMS_Admin_Post_Table_Engagements {
 		$date = $columns['date'];
 		unset( $columns['date'] );
 
-	    $columns['trigger'] = __( 'Trigger', 'lifterlms' );
-	    $columns['type'] = __( 'Type', 'lifterlms' );
-	    $columns['delay'] = __( 'Delay', 'lifterlms' );
+		$columns['trigger'] = __( 'Trigger', 'lifterlms' );
+		$columns['type']    = __( 'Type', 'lifterlms' );
+		$columns['delay']   = __( 'Delay', 'lifterlms' );
 
-	    $columns['date'] = $date;
+		$columns['date'] = $date;
 
 		return $columns;
 
@@ -47,8 +51,9 @@ class LLMS_Admin_Post_Table_Engagements {
 
 	/**
 	 * Manage content of custom coupon columns
+	 *
 	 * @param  string $column  column key/name
-	 * @param  int $post_id WP Post ID of the coupon for the row
+	 * @param  int    $post_id WP Post ID of the coupon for the row
 	 * @return void
 	 * @since    3.1.0
 	 * @version  3.7.0
@@ -60,7 +65,6 @@ class LLMS_Admin_Post_Table_Engagements {
 		switch ( $column ) {
 
 			case 'trigger':
-
 				$triggers = llms_get_engagement_triggers();
 
 				$trigger = get_post_meta( $post_id, '_llms_trigger_type', true );
@@ -73,22 +77,21 @@ class LLMS_Admin_Post_Table_Engagements {
 					echo '<br>';
 
 					if ( 'course_track_completed' === $trigger ) {
-						$term = get_term( $tid, 'course_track' );
+						$term  = get_term( $tid, 'course_track' );
 						$title = $term->name;
-						$link = get_edit_term_link( $tid, 'course_track', 'course' );
+						$link  = get_edit_term_link( $tid, 'course_track', 'course' );
 					} else {
 						$title = get_the_title( $tid );
-						$link = get_edit_post_link( $tid );
+						$link  = get_edit_post_link( $tid );
 					}
 
 					printf( '<a href="%s">%s (ID# %d)</a>', $link, $title, $tid );
 
 				}
 
-			break;
+				break;
 
 			case 'type':
-
 				$types = llms_get_engagement_types();
 
 				$type = get_post_meta( $post_id, '_llms_engagement_type', true );
@@ -103,10 +106,9 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				}
 
-			break;
+				break;
 
 			case 'delay':
-
 				$delay = get_post_meta( $post_id, '_llms_engagement_delay', true );
 
 				if ( $delay ) {
@@ -119,7 +121,7 @@ class LLMS_Admin_Post_Table_Engagements {
 
 				}
 
-			break;
+				break;
 
 		}// End switch().
 

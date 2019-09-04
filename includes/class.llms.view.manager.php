@@ -6,6 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Allow admins to view as various user types
  * to make easier testing and editing of LLMS Content
+ *
  * @since    3.7.0
  * @version  3.17.8
  */
@@ -13,6 +14,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.7.0
 	 * @version  3.7.0
 	 */
@@ -24,6 +26,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Add actions & filters
+	 *
 	 * @since    3.7.0
 	 * @version  3.7.0
 	 */
@@ -59,6 +62,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Add view links to the admin menu bar for qualifying users
+	 *
 	 * @return   void
 	 * @since    3.7.0
 	 * @version  3.16.0
@@ -89,11 +93,13 @@ class LLMS_View_Manager {
 
 		$title = sprintf( __( 'Viewing as %s', 'lifterlms' ), $views[ $view ] );
 
-		$wp_admin_bar->add_node( array(
-			'id' => 'llms-view-as-menu',
-			'parent' => 'top-secondary',
-			'title' => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png"></span>' . $title,
-		) );
+		$wp_admin_bar->add_node(
+			array(
+				'id'     => 'llms-view-as-menu',
+				'parent' => 'top-secondary',
+				'title'  => '<span class="ab-icon"><img src="' . LLMS()->plugin_url() . '/assets/images/lifterlms-rocket-grey.png"></span>' . $title,
+			)
+		);
 
 		foreach ( $views as $slug => $title ) {
 
@@ -101,12 +107,14 @@ class LLMS_View_Manager {
 				continue;
 			}
 
-			$wp_admin_bar->add_node( array(
-				'href' => $this->get_url( $slug ),
-				'id' => 'llms-view-as--' . $slug,
-				'parent' => 'llms-view-as-menu',
-				'title' => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
-			) );
+			$wp_admin_bar->add_node(
+				array(
+					'href'   => $this->get_url( $slug ),
+					'id'     => 'llms-view-as--' . $slug,
+					'parent' => 'llms-view-as-menu',
+					'title'  => sprintf( __( 'View as %s', 'lifterlms' ), $title ),
+				)
+			);
 
 		}
 
@@ -115,6 +123,7 @@ class LLMS_View_Manager {
 	/**
 	 * Inline JS
 	 * Updates links so admins can navigate around quickly when "viewing as"
+	 *
 	 * @return   string
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -129,8 +138,9 @@ class LLMS_View_Manager {
 
 	/**
 	 * Get a view url for the requested view
-	 * @param    string     $role  view option [self|visitor|student]
-	 * @param    array      $args  additional query args to add to the url
+	 *
+	 * @param    string $role  view option [self|visitor|student]
+	 * @param    array  $args  additional query args to add to the url
 	 * @return   string
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -155,6 +165,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Get the current view role/type
+	 *
 	 * @return   string
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -177,13 +188,14 @@ class LLMS_View_Manager {
 
 	/**
 	 * Get a list of available views
+	 *
 	 * @return   array
 	 * @since    3.7.0
 	 * @version  3.7.0
 	 */
 	private function get_views() {
-		return 	array(
-			'self' => __( 'Myself', 'lifterlms' ),
+		return array(
+			'self'    => __( 'Myself', 'lifterlms' ),
 			'visitor' => __( 'Visitor', 'lifterlms' ),
 			'student' => __( 'Student', 'lifterlms' ),
 		);
@@ -192,7 +204,8 @@ class LLMS_View_Manager {
 	/**
 	 * Modify the completion status of course, lessons, tracks based on current view
 	 * Visitors and students will always show content as not completed
-	 * @param    boolean     $completed   actual status for the current user
+	 *
+	 * @param    boolean $completed   actual status for the current user
 	 * @return   boolean
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -201,10 +214,10 @@ class LLMS_View_Manager {
 		switch ( $this->get_view() ) {
 			case 'visitor':
 				$status = false;
-			break;
+				break;
 			case 'student':
 				$status = true;
-			break;
+				break;
 		}
 		return $completed;
 	}
@@ -213,7 +226,8 @@ class LLMS_View_Manager {
 	 * Modify the status of a course access period based on the current view
 	 * Students and Visitors will see the actual access period
 	 * If viewing as self and self can bypass restrictions will appear as if course is open
-	 * @param    boolean    $status  default status
+	 *
+	 * @param    boolean $status  default status
 	 * @return   boolean
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -234,7 +248,8 @@ class LLMS_View_Manager {
 	 * Modify the enrollment status of current user based on the view
 	 * students will always show as enrolled
 	 * visitors will always show as not-enrolled
-	 * @param    string     $status   actual status for the current user
+	 *
+	 * @param    string $status   actual status for the current user
 	 * @return   string
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -245,11 +260,11 @@ class LLMS_View_Manager {
 
 			case 'visitor':
 				$status = false;
-			break;
+				break;
 
 			case 'student':
 				$status = 'enrolled';
-			break;
+				break;
 
 		}
 
@@ -259,7 +274,8 @@ class LLMS_View_Manager {
 
 	/**
 	 * Modify llms_page_restricted for qualifying users to allow them to bypass restrictions
-	 * @param    array     $restrictions  restriction data
+	 *
+	 * @param    array $restrictions  restriction data
 	 * @return   array
 	 * @since    3.7.0
 	 * @version  3.7.0
@@ -269,7 +285,7 @@ class LLMS_View_Manager {
 		if ( 'self' === $this->get_view() && llms_can_user_bypass_restrictions( get_current_user_id() ) ) {
 
 			$restrictions['is_restricted'] = false;
-			$restrictions['reason'] = 'role-access';
+			$restrictions['reason']        = 'role-access';
 
 		}
 
@@ -278,6 +294,7 @@ class LLMS_View_Manager {
 
 	/**
 	 * Enqueue Scripts
+	 *
 	 * @return   void
 	 * @since    3.7.0
 	 * @version  3.17.8

@@ -1,5 +1,6 @@
 /**
  * Load all models
+ *
  * @return   obj
  * @since    3.16.0
  * @version  3.17.0
@@ -27,16 +28,16 @@ define( [
 		Section
 	) {
 
-	return {
-		Abstract: Abstract,
-		Course: Course,
-		Image: Image,
-		Lesson: Lesson,
-		Question: Question,
-		QuestionChoice: QuestionChoice,
-		QuestionType: QuestionType,
-		Quiz: Quiz,
-		Section: Section,
-	};
+		return {
+			Abstract: Abstract,
+			Course: Course,
+			Image: Image,
+			Lesson: Lesson,
+			Question: Question,
+			QuestionChoice: QuestionChoice,
+			QuestionType: QuestionType,
+			Quiz: Quiz,
+			Section: Section,
+		};
 
 } );

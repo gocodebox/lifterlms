@@ -28,6 +28,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 
 	/**
 	 * Run actions on form submission
+	 *
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.9
@@ -49,15 +50,18 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			}
 
 			if ( 'llms_attempt_delete' === $action ) {
-				$url = add_query_arg( array(
-					'page' => 'llms-reporting',
-					'tab' => 'quizzes',
-					'quiz_id' => $attempt->get( 'quiz_id' ),
-					'stab' => 'attempts',
-				), admin_url( 'admin.php' ) );
+				$url = add_query_arg(
+					array(
+						'page'    => 'llms-reporting',
+						'tab'     => 'quizzes',
+						'quiz_id' => $attempt->get( 'quiz_id' ),
+						'stab'    => 'attempts',
+					),
+					admin_url( 'admin.php' )
+				);
 				$attempt->delete();
 				wp_safe_redirect( $url );
-			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] )) ) {
+			} elseif ( 'llms_attempt_grade' === $action && ( isset( $_POST['remarks'] ) || isset( $_POST['points'] ) ) ) {
 				$this->save_grade( $attempt );
 			}
 		}
@@ -76,7 +80,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	private function save_grade( $attempt ) {
 
 		$remarks = isset( $_POST['remarks'] ) ? $_POST['remarks'] : array();
-		$points = isset( $_POST['points'] ) ? $_POST['points'] : array();
+		$points  = isset( $_POST['points'] ) ? $_POST['points'] : array();
 
 		$questions = $attempt->get_questions();
 		foreach ( $questions as &$question ) {
@@ -86,7 +90,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 			}
 
 			if ( isset( $points[ $question['id'] ] ) ) {
-				$earned = absint( $points[ $question['id'] ] );
+				$earned             = absint( $points[ $question['id'] ] );
 				$question['earned'] = $earned;
 				if ( ( $earned / $question['points'] ) >= 0.5 ) {
 					$question['correct'] = 'yes';

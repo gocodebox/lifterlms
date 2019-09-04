@@ -1,13 +1,14 @@
 <?php
 /**
  * LifterLMS Email Header Template
+ *
  * @since    1.0.0
  * @version  3.16.15
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
-$mailer = LLMS()->mailer();
+$mailer       = LLMS()->mailer();
 $header_image = $mailer->get_header_image_src();
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -92,7 +93,7 @@ $header_image = $mailer->get_header_image_src();
 							<tr>
 								<td style="color:<?php $mailer->get_css( 'heading-font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:28px;vertical-align:top;">
 									<h1 style="color:<?php $mailer->get_css( 'heading-font-color' ); ?>;font-family:<?php $mailer->get_css( 'font-family' ); ?>;font-size:28px;font-weight:400;Margin:0;padding:20px;">
-										<?php echo $email_heading ?>
+										<?php echo $email_heading; ?>
 									</h1>
 								</td>
 							</tr>

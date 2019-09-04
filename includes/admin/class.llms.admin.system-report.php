@@ -6,12 +6,14 @@
  * @version  3.11.2
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Admin_System_Report {
 
 	/**
 	 * Output the system report
+	 *
 	 * @return   void
 	 * @since    2.1.0
 	 * @version  3.0.0
@@ -37,6 +39,7 @@ class LLMS_Admin_System_Report {
 
 	/**
 	 * Output the copy for support box
+	 *
 	 * @since    2.1.0
 	 * @version  3.11.2
 	 */
@@ -88,8 +91,9 @@ class LLMS_Admin_System_Report {
 
 	/**
 	 * Output a section of data in the system report
-	 * @param    string     $section_title  title / key of the section
-	 * @param    arry     $data             array of data for the section
+	 *
+	 * @param    string $section_title  title / key of the section
+	 * @param    arry   $data             array of data for the section
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.11.2
@@ -105,7 +109,7 @@ class LLMS_Admin_System_Report {
 		?>
 		<div class="llms-widget-full top">
 			<div class="llms-widget settings-box">
-				<p class="llms-label"><?php echo self::title( $section_title ) ?></p>
+				<p class="llms-label"><?php echo self::title( $section_title ); ?></p>
 				<div class="llms-list">
 					<ul>
 						<?php foreach ( $data as $key => $val ) : ?>
@@ -128,7 +132,8 @@ class LLMS_Admin_System_Report {
 
 	/**
 	 * Output data related to an active plugin in the system report
-	 * @param    array     $data  array of plugin data
+	 *
+	 * @param    array $data  array of plugin data
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -141,7 +146,8 @@ class LLMS_Admin_System_Report {
 
 	/**
 	 * Output data related to an overridden template system report
-	 * @param    array     $data  array of template data
+	 *
+	 * @param    array $data  array of template data
 	 * @return   void
 	 * @since    3.11.2
 	 * @version  3.11.2
@@ -154,7 +160,8 @@ class LLMS_Admin_System_Report {
 
 	/**
 	 * Output the title for an item in the system report
-	 * @param    string     $key  title
+	 *
+	 * @param    string $key  title
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -168,7 +175,8 @@ class LLMS_Admin_System_Report {
 
 	/**
 	 * Output the value of an item in the system report
-	 * @param    string     $val  value
+	 *
+	 * @param    string $val  value
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0

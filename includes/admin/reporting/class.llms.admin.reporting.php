@@ -20,6 +20,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.2.0
 	 * @version  3.2.0
 	 */
@@ -31,6 +32,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get array of course IDs selected according to applied filters
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -50,6 +52,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get array of membership IDs selected according to applied filters
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -69,6 +72,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get the currently selected date range filter
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -81,6 +85,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get array of student IDs according to current filters
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -100,6 +105,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Retrieve the current reporting tab
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -110,6 +116,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get the current end date according to filters
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -120,6 +127,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get the current start date according to filters
+	 *
 	 * @return   string
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -130,7 +138,8 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Get dates via the current date string
-	 * @param    string   $range   date range string
+	 *
+	 * @param    string $range   date range string
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -147,36 +156,31 @@ class LLMS_Admin_Reporting {
 		switch ( $range ) {
 
 			case 'this-year':
-
 				$dates['start'] = date( 'Y', $now ) . '-01-01';
 
-			break;
+				break;
 
 			case 'last-month':
-
 				$dates['start'] = date( 'Y-m-d', strtotime( 'first day of last month', $now ) );
-				$dates['end'] = date( 'Y-m-d', strtotime( 'last day of last month', $now ) );
+				$dates['end']   = date( 'Y-m-d', strtotime( 'last day of last month', $now ) );
 
-			break;
+				break;
 
 			case 'this-month':
-
 				$dates['start'] = date( 'Y-m', $now ) . '-01';
 
-			break;
+				break;
 
 			case 'last-7-days':
-
 				$dates['start'] = date( 'Y-m-d', strtotime( '-7 days', $now ) );
 
-			break;
+				break;
 
 			case 'custom':
-
 				$dates['start'] = self::get_date_start();
-				$dates['end'] = self::get_date_end();
+				$dates['end']   = self::get_date_end();
 
-			break;
+				break;
 
 		}
 
@@ -185,10 +189,13 @@ class LLMS_Admin_Reporting {
 	}
 
 	public static function get_current_tab_url( $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'page' => 'llms-reporting',
-			'tab' => self::get_current_tab(),
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'page' => 'llms-reporting',
+				'tab'  => self::get_current_tab(),
+			)
+		);
 		return add_query_arg( $args, admin_url( 'admin.php' ) );
 	}
 
@@ -202,15 +209,15 @@ class LLMS_Admin_Reporting {
 	 */
 	public static function get_period_filters() {
 		return array(
-			'today' => esc_attr__( 'Today', 'lifterlms' ),
-			'yesterday' => esc_attr__( 'Yesterday', 'lifterlms' ),
-			'week' => esc_attr__( 'This Week', 'lifterlms' ),
-			'last_week' => esc_attr__( 'Last Week', 'lifterlms' ),
-			'month' => esc_attr__( 'This Month', 'lifterlms' ),
+			'today'      => esc_attr__( 'Today', 'lifterlms' ),
+			'yesterday'  => esc_attr__( 'Yesterday', 'lifterlms' ),
+			'week'       => esc_attr__( 'This Week', 'lifterlms' ),
+			'last_week'  => esc_attr__( 'Last Week', 'lifterlms' ),
+			'month'      => esc_attr__( 'This Month', 'lifterlms' ),
 			'last_month' => esc_attr__( 'Last Month', 'lifterlms' ),
-			'year' => esc_attr__( 'This Year', 'lifterlms' ),
-			'last_year' => esc_attr__( 'Last Year', 'lifterlms' ),
-			'all_time' => esc_attr__( 'All Time', 'lifterlms' ),
+			'year'       => esc_attr__( 'This Year', 'lifterlms' ),
+			'last_year'  => esc_attr__( 'Last Year', 'lifterlms' ),
+			'all_time'   => esc_attr__( 'All Time', 'lifterlms' ),
 		);
 	}
 
@@ -227,26 +234,26 @@ class LLMS_Admin_Reporting {
 
 		$args = array(
 			'page' => 'llms-reporting',
-			'tab' => self::get_current_tab(),
+			'tab'  => self::get_current_tab(),
 			'stab' => $stab,
 		);
 
 		switch ( self::get_current_tab() ) {
 			case 'memberships':
 				$args['membership_id'] = $_GET['membership_id'];
-			break;
+				break;
 
 			case 'courses':
 				$args['course_id'] = $_GET['course_id'];
-			break;
+				break;
 
 			case 'students':
 				$args['student_id'] = $_GET['student_id'];
-			break;
+				break;
 
 			case 'quizzes':
 				$args['quiz_id'] = $_GET['quiz_id'];
-			break;
+				break;
 
 		}
 
@@ -283,7 +290,8 @@ class LLMS_Admin_Reporting {
 	 * Get the WP capability required to access a reporting tab
 	 * Defaults to 'view_lifterlms_reports' -- most reports implement additional permissions within the view
 	 * Sales & Enrollments tab require 'view_others_lifterlms_reports' b/c they don't add any additional filters within the view
-	 * @param    string     $tab  id/slug of the tab
+	 *
+	 * @param    string $tab  id/slug of the tab
 	 * @return   string
 	 * @since    3.19.4
 	 * @version  3.19.4
@@ -303,6 +311,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Retrieve an array of data to pass to the reporting page template
+	 *
 	 * @return   array
 	 * @since    3.2.0
 	 * @version  3.2.0
@@ -311,13 +320,14 @@ class LLMS_Admin_Reporting {
 
 		return array(
 			'current_tab' => self::get_current_tab(),
-			'tabs' => $this->get_tabs(),
+			'tabs'        => $this->get_tabs(),
 		);
 
 	}
 
 	/**
 	 * Include all required classes & files for the Reporting screens
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.16.0
@@ -340,6 +350,7 @@ class LLMS_Admin_Reporting {
 
 	/**
 	 * Output the reporting screen html
+	 *
 	 * @return   void
 	 * @since    3.2.0
 	 * @version  3.19.4
@@ -402,23 +413,26 @@ class LLMS_Admin_Reporting {
 	 * @since 3.15.0
 	 * @since 3.31.0 Remove redundant `if` statement.
 	 *
-	 * @param    array      $args   widget options
+	 * @param    array $args   widget options
 	 * @return   void
 	 */
 	public static function output_widget( $args = array() ) {
 
-		$args = wp_parse_args( $args, array(
+		$args = wp_parse_args(
+			$args,
+			array(
 
-			'cols' => 'd-1of2',
-			'data' => '',
-			'data_compare' => '',
-			'data_type' => 'numeric', // [numeric|monetary|text|percentage|date]
-			'icon' => '',
-			'id' => '',
-			'impact' => 'positive',
-			'text' => '',
+				'cols'         => 'd-1of2',
+				'data'         => '',
+				'data_compare' => '',
+				'data_type'    => 'numeric', // [numeric|monetary|text|percentage|date]
+				'icon'         => '',
+				'id'           => '',
+				'impact'       => 'positive',
+				'text'         => '',
 
-		) );
+			)
+		);
 
 		$data_after = '';
 		if ( 'percentage' === $args['data_type'] && is_numeric( $args['data'] ) ) {
@@ -428,7 +442,7 @@ class LLMS_Admin_Reporting {
 		$change = false;
 		if ( $args['data_compare'] && $args['data'] ) {
 
-			$change = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
+			$change           = round( ( $args['data'] - $args['data_compare'] ) / $args['data'] * 100, 2 );
 			$compare_operator = ( $change <= 0 ) ? '' : '+';
 			if ( 'positive' === $args['impact'] ) {
 				$compare_class = ( $change <= 0 ) ? 'negative' : 'positive';
@@ -438,7 +452,7 @@ class LLMS_Admin_Reporting {
 		}
 
 		if ( 'monetary' === $args['data_type'] && is_numeric( $args['data'] ) ) {
-			$args['data'] = llms_price( $args['data'] );
+			$args['data']         = llms_price( $args['data'] );
 			$args['data_compare'] = llms_price_raw( $args['data_compare'] );
 		}
 
@@ -451,7 +465,7 @@ class LLMS_Admin_Reporting {
 				<div class="llms-reporting-widget-data">
 					<strong><?php echo $args['data'] . $data_after; ?></strong>
 					<?php if ( $change ) : ?>
-						<small class="compare tooltip <?php echo $compare_class ?>" title="<?php printf( esc_attr__( 'Previously %s', 'lifterlms' ), $args['data_compare'] ); ?>">
+						<small class="compare tooltip <?php echo $compare_class; ?>" title="<?php printf( esc_attr__( 'Previously %s', 'lifterlms' ), $args['data_compare'] ); ?>">
 							<?php echo $compare_operator . $change; ?>%
 						</small>
 					<?php endif; ?>
@@ -466,9 +480,10 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Output a range filter select
 	 * Used by overview data tabs
-	 * @param    string     $selected_period  currently selected period
-	 * @param    string     $tab              current tab name
-	 * @param    array      $args             additional args to be passed when form is submitted
+	 *
+	 * @param    string $selected_period  currently selected period
+	 * @param    string $tab              current tab name
+	 * @param    array  $args             additional args to be passed when form is submitted
 	 * @return   void
 	 * @since    3.16.0
 	 * @version  3.16.0

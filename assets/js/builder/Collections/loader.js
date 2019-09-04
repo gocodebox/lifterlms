@@ -1,5 +1,6 @@
 /**
  * Lessons Collection
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -17,12 +18,12 @@ define( [
 		Sections
 	) {
 
-	return {
-		Lessons: Lessons,
-		QuestionChoices: QuestionChoices,
-		Questions: Questions,
-		QuestionTypes: QuestionTypes,
-		Sections: Sections,
-	};
+		return {
+			Lessons: Lessons,
+			QuestionChoices: QuestionChoices,
+			Questions: Questions,
+			QuestionTypes: QuestionTypes,
+			Sections: Sections,
+		};
 
 } );

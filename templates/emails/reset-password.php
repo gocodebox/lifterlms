@@ -1,11 +1,12 @@
 <?php
 /**
  * LifterLMS Reset Password Email Body Content
+ *
  * @since    1.0.0
  * @version  3.8.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; } ?>
+defined( 'ABSPATH' ) || exit; ?>
 
 <p><?php printf( __( 'Someone recently requested that the password be reset for %s.', 'lifterlms' ), '<strong>{user_login}</strong>' ); ?></p>
 

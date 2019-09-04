@@ -13,10 +13,11 @@ var LLMS = window.LLMS || {};
 	/**
 	 * load all app modules
 	 */
-	//= include ../app/*.js
+	// = include ../app/*.js
 
 	/**
 	 * Initializes all classes within the LLMS Namespace
+	 *
 	 * @return {[type]} [description]
 	 */
 	LLMS.init = function() {
@@ -49,8 +50,8 @@ var LLMS = window.LLMS || {};
 	 */
 	LLMS.is_touch_device = function() {
 
-		var prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
-		var mq = function( query ) {
+		var prefixes = ' -webkit- -moz- -o- -ms- '.split( ' ' );
+		var mq       = function( query ) {
 			return window.matchMedia( query ).matches;
 		}
 
@@ -60,13 +61,14 @@ var LLMS = window.LLMS || {};
 
 		// include the 'heartz' as a way to have a non matching MQ to help terminate the join
 		// https://git.io/vznFH
-		var query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join('');
+		var query = ['(', prefixes.join( 'touch-enabled),(' ), 'heartz', ')'].join( '' );
 		return mq( query );
 
 	};
 
 	/**
 	 * Wait for matchHeight to load
+	 *
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.0.0
@@ -80,6 +82,7 @@ var LLMS = window.LLMS || {};
 
 	/**
 	 * Wait for webuiPopover to load
+	 *
 	 * @param    {Function}  cb  callback function to run when matchheight is ready
 	 * @return   void
 	 * @since    3.9.1
@@ -94,6 +97,7 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Wait for a dependency to load and then run a callback once it has
 	 * Temporary fix for a less-than-optimal assets loading function on the PHP side of things
+	 *
 	 * @param    {Function}    test  a function that returns a truthy if the dependency is loaded
 	 * @param    {Function}    cb    a callback function executed once the dependency is loaded
 	 * @return   void
@@ -112,7 +116,7 @@ var LLMS = window.LLMS || {};
 
 				console.log( 'could not load dependency' );
 
-			// if we can't access ye, increment and wait...
+				// if we can't access ye, increment and wait...
 			} else {
 
 				// bind the events, we're good!
@@ -136,7 +140,6 @@ var LLMS = window.LLMS || {};
 
 	};
 
-	LLMS.init($);
+	LLMS.init( $ );
 
-
-})(jQuery);
+})( jQuery );

@@ -1,5 +1,6 @@
 /**
  * Abstract LifterLMS Model
+ *
  * @since    3.17.0
  * @version  3.17.0
  */

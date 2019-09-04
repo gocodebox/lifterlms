@@ -24,25 +24,26 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**
 	 * Constructor
+	 *
 	 * @return  void
 	 * @since   3.0.0
 	 * @version 3.10.0
 	 */
 	public function __construct() {
 
-		$this->id = 'manual';
-		$this->admin_description = __( 'Collect manual or offline payments. Also handles any free orders during checkout.', 'lifterlms' );
-		$this->admin_title = __( 'Manual', 'lifterlms' );
-		$this->title = __( 'Manual', 'lifterlms' );
-		$this->description = __( 'Pay manually via check', 'lifterlms' );
+		$this->id                   = 'manual';
+		$this->admin_description    = __( 'Collect manual or offline payments. Also handles any free orders during checkout.', 'lifterlms' );
+		$this->admin_title          = __( 'Manual', 'lifterlms' );
+		$this->title                = __( 'Manual', 'lifterlms' );
+		$this->description          = __( 'Pay manually via check', 'lifterlms' );
 		$this->payment_instructions = ''; // fields
 
 		$this->supports = array(
-			'checkout_fields' => false,
-			'refunds' => false, // manual refunds are available always for all gateways and are not handled by this class
-			'single_payments' => true,
+			'checkout_fields'    => false,
+			'refunds'            => false, // manual refunds are available always for all gateways and are not handled by this class
+			'single_payments'    => true,
 			'recurring_payments' => true,
-			'test_mode' => false,
+			'test_mode'          => false,
 		);
 
 		add_filter( 'llms_get_gateway_settings_fields', array( $this, 'get_settings_fields' ), 10, 2 );
@@ -52,6 +53,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**
 	 * Output payment instructions if the order is pending
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.10.0
@@ -75,6 +77,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**
 	 * Get fields displayed on the checkout form
+	 *
 	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.7.5
@@ -91,8 +94,9 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**
 	 * Get admin setting fields
-	 * @param    array      $fields      default fields
-	 * @param    string     $gateway_id  gateway ID
+	 *
+	 * @param    array  $fields      default fields
+	 * @param    string $gateway_id  gateway ID
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -104,10 +108,10 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 		}
 
 		$fields[] = array(
-			'id'            => $this->get_option_name( 'payment_instructions' ),
-			'desc'          => '<br>' . __( 'Displayed to the user when this gateway is selected during checkout. Add information here instructing the student on how to send payment.', 'lifterlms' ),
-			'title'         => __( 'Payment Instructions', 'lifterlms' ),
-			'type'          => 'textarea',
+			'id'    => $this->get_option_name( 'payment_instructions' ),
+			'desc'  => '<br>' . __( 'Displayed to the user when this gateway is selected during checkout. Add information here instructing the student on how to send payment.', 'lifterlms' ),
+			'title' => __( 'Payment Instructions', 'lifterlms' ),
+			'type'  => 'textarea',
 		);
 
 		return $fields;
@@ -120,8 +124,8 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	 * Gateways should do whatever the gateway needs to do to validate the new payment method and save it to the order
 	 * so that future payments on the order will use this new source
 	 *
-	 * @param    obj     $order      Instance of the LLMS_Order
-	 * @param    array   $form_data  Additional data passed from the submitted form (EG $_POST)
+	 * @param    obj   $order      Instance of the LLMS_Order
+	 * @param    array $form_data  Additional data passed from the submitted form (EG $_POST)
 	 * @return   void
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -171,14 +175,16 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 			} else {
 
 				// record a $0.00 transaction to ensure a receipt is sent
-				$order->record_transaction( array(
-					'amount' => floatval( 0 ),
-					'source_description' => __( 'Free', 'lifterlms' ),
-					'transaction_id' => uniqid(),
-					'status' => 'llms-txn-succeeded',
-					'payment_gateway' => 'manual',
-					'payment_type' => 'single',
-				) );
+				$order->record_transaction(
+					array(
+						'amount'             => floatval( 0 ),
+						'source_description' => __( 'Free', 'lifterlms' ),
+						'transaction_id'     => uniqid(),
+						'status'             => 'llms-txn-succeeded',
+						'payment_gateway'    => 'manual',
+						'payment_type'       => 'single',
+					)
+				);
 
 			}
 
@@ -204,7 +210,8 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 	/**
 	 * Called by scheduled actions to charge an order for a scheduled recurring transaction
 	 * This function must be defined by gateways which support recurring transactions
-	 * @param    obj       $order   Instance LLMS_Order for the order being processed
+	 *
+	 * @param    obj $order   Instance LLMS_Order for the order being processed
 	 * @return   mixed
 	 * @since    3.10.0
 	 * @version  3.10.0
@@ -228,6 +235,7 @@ class LLMS_Payment_Gateway_Manual extends LLMS_Payment_Gateway {
 
 	/**
 	 * Determine if the gateway is enabled according to admin settings checkbox
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0

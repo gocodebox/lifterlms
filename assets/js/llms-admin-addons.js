@@ -1,12 +1,17 @@
 /**
  * UI & UX for the Admin add-ons management screen
+ *
+ * @package LifterLMS/Scripts
+ *
  * @since    3.22.0
  * @version  3.22.0
  */
-;( function( $ ) {
+
+( function( $ ) {
 
 	/**
-	 * tracks current # of each bulk action to be run upon form submission
+	 * Tracks current # of each bulk action to be run upon form submission
+	 *
 	 * @type  {Object}
 	 */
 	var actions = {
@@ -18,6 +23,7 @@
 
 	/**
 	 * When the bulk action modal is closed, clear all existing staged actions
+	 *
 	 * @since    3.22.0
 	 * @version  3.22.0
 	 */
@@ -28,6 +34,7 @@
 
 	/**
 	 * Update the UI and counters when a checkbox action is changed
+	 *
 	 * @since    3.22.0
 	 * @version  3.22.0
 	 */
@@ -48,6 +55,7 @@
 	/**
 	 * Updates the UI when bulk actions are changed
 	 * Shows # of each action to be applied & shows the form submission / cancel buttons
+	 *
 	 * @return   void
 	 * @since    3.22.0
 	 * @version  3.22.0
@@ -63,7 +71,7 @@
 
 		$.each( actions, function( key, count ) {
 
-			var html = '',
+			var html  = '',
 				$desc = $el.find( '.llms-bulk-desc.' + key );
 
 			if ( actions[ key ] ) {
@@ -80,11 +88,11 @@
 
 		} );
 
-
 	}
 
 	/**
 	 * Show the keys management dropdown on click of the "My License Keys" button
+	 *
 	 * @since    3.22.0
 	 * @version  3.22.0
 	 */

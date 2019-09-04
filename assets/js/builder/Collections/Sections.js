@@ -1,5 +1,6 @@
 /**
  * Sections Collection
+ *
  * @since    3.16.0
  * @version  3.16.0
  */
@@ -9,12 +10,14 @@ define( [ 'Models/Section' ], function( model ) {
 
 		/**
 		 * Model for collection items
+		 *
 		 * @type  obj
 		 */
 		model: model,
 
 		/**
 		 * Initialize
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0
@@ -34,6 +37,7 @@ define( [ 'Models/Section' ], function( model ) {
 
 		/**
 		 * Update the order attr of each section in the list to reflect the order of the collection
+		 *
 		 * @return   void
 		 * @since    3.16.0
 		 * @version  3.16.0

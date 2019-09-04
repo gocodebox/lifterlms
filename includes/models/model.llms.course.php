@@ -54,39 +54,39 @@ implements LLMS_Interface_Post_Audio
 	protected $properties = array(
 
 		// public
-		'audio_embed' => 'text',
-		'average_grade' => 'float',
-		'average_progress' => 'float',
-		'capacity' => 'absint',
-		'capacity_message' => 'text',
-		'course_closed_message' => 'text',
-		'course_opens_message' => 'text',
+		'audio_embed'                => 'text',
+		'average_grade'              => 'float',
+		'average_progress'           => 'float',
+		'capacity'                   => 'absint',
+		'capacity_message'           => 'text',
+		'course_closed_message'      => 'text',
+		'course_opens_message'       => 'text',
 		'content_restricted_message' => 'text',
-		'enable_capacity' => 'yesno',
-		'end_date' => 'text',
-		'enrollment_closed_message' => 'text',
-		'enrollment_end_date' => 'text',
-		'enrollment_opens_message' => 'text',
-		'enrollment_period' => 'yesno',
-		'enrollment_start_date' => 'text',
-		'has_prerequisite' => 'yesno',
-		'instructors' => 'array',
-		'length' => 'text',
-		'prerequisite' => 'absint',
-		'prerequisite_track' => 'absint',
+		'enable_capacity'            => 'yesno',
+		'end_date'                   => 'text',
+		'enrollment_closed_message'  => 'text',
+		'enrollment_end_date'        => 'text',
+		'enrollment_opens_message'   => 'text',
+		'enrollment_period'          => 'yesno',
+		'enrollment_start_date'      => 'text',
+		'has_prerequisite'           => 'yesno',
+		'instructors'                => 'array',
+		'length'                     => 'text',
+		'prerequisite'               => 'absint',
+		'prerequisite_track'         => 'absint',
 		'sales_page_content_page_id' => 'absint',
-		'sales_page_content_type' => 'string',
-		'sales_page_content_url' => 'string',
-		'tile_featured_video' => 'yesno',
-		'time_period' => 'yesno',
-		'start_date' => 'text',
-		'video_embed' => 'text',
+		'sales_page_content_type'    => 'string',
+		'sales_page_content_url'     => 'string',
+		'tile_featured_video'        => 'yesno',
+		'time_period'                => 'yesno',
+		'start_date'                 => 'text',
+		'video_embed'                => 'text',
 
 		// private
-		'temp_calc_data' => 'array',
+		'temp_calc_data'             => 'array',
 	);
 
-	protected $db_post_type = 'course';
+	protected $db_post_type    = 'course';
 	protected $model_post_type = 'course';
 
 	/**
@@ -103,6 +103,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an instance of the Post Instructors model
+	 *
 	 * @return   LLMS_Post_Instructors
 	 * @since    3.13.0
 	 * @version  3.13.0
@@ -113,6 +114,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve the total points available for the course
+	 *
 	 * @return   int
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -127,7 +129,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get course's prerequisite id based on the type of prerequisite
-	 * @param    string     $type  Type of prereq to retrieve id for [course|track]
+	 *
+	 * @param    string $type  Type of prereq to retrieve id for [course|track]
 	 * @return   int|false         Post ID of a course, taxonomy ID of a track, or false if none found
 	 * @since    3.0.0
 	 * @version  3.7.3
@@ -140,11 +143,11 @@ implements LLMS_Interface_Post_Audio
 
 				case 'course':
 					$key = 'prerequisite';
-				break;
+					break;
 
 				case 'course_track':
 					$key = 'prerequisite_track';
-				break;
+					break;
 
 			}
 
@@ -160,6 +163,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Attempt to get oEmbed for an audio provider
 	 * Falls back to the [audio] shortcode if the oEmbed fails
+	 *
 	 * @return string
 	 * @since   1.0.0
 	 * @version 3.17.0
@@ -170,7 +174,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve course categories
-	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 *
+	 * @param    array $args  array of args passed to wp_get_post_terms
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -181,9 +186,10 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get Difficulty
-	 * @param    string   $field  which field to return from the available term fields
-	 *                            any public variables from a WP_Term object are acceptable
-	 *                            term_id, name, slug, and more
+	 *
+	 * @param    string $field  which field to return from the available term fields
+	 *                          any public variables from a WP_Term object are acceptable
+	 *                          term_id, name, slug, and more
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.24.0
@@ -209,14 +215,16 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve course instructor information
-	 * @param    boolean    $exclude_hidden  if true, excludes hidden instructors from the return array
+	 *
+	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
 	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
-		return apply_filters( 'llms_course_get_instructors',
+		return apply_filters(
+			'llms_course_get_instructors',
 			$this->instructors()->get_instructors( $exclude_hidden ),
 			$this,
 			$exclude_hidden
@@ -226,7 +234,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get course lessons
-	 * @param    string     $return  type of return [ids|posts|lessons]
+	 *
+	 * @param    string $return  type of return [ids|posts|lessons]
 	 * @return   int[]|WP_Post[]|LLMS_Lesson[] type depends on value of $return
 	 * @since    3.0.0
 	 * @version  3.24.0
@@ -251,6 +260,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an array of quizzes within a course
+	 *
 	 * @return   array            array of WP_Post IDs of the quizzes
 	 * @since    3.12.0
 	 * @version  3.16.0
@@ -269,6 +279,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
+	 *
 	 * @return   string
 	 * @since    3.20.0
 	 * @version  3.23.0
@@ -280,11 +291,11 @@ implements LLMS_Interface_Post_Audio
 
 			case 'page':
 				$url = get_permalink( $this->get( 'sales_page_content_page_id' ) );
-			break;
+				break;
 
 			case 'url':
 				$url = $this->get( 'sales_page_content_url' );
-			break;
+				break;
 
 			default:
 				$url = get_permalink( $this->get( 'id' ) );
@@ -296,26 +307,29 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get course sections
-	 * @param    string  $return  type of return [ids|posts|sections]
+	 *
+	 * @param    string $return  type of return [ids|posts|sections]
 	 * @return   int[]|WP_Post[]|LLMS_Section[] type depends on value of $return
 	 * @since    3.0.0
 	 * @version  3.24.0
 	 */
 	public function get_sections( $return = 'sections' ) {
 
-		$q = new WP_Query( array(
-			'meta_key' => '_llms_order',
-			'meta_query' => array(
-				array(
-					'key' => '_llms_parent_course',
+		$q = new WP_Query(
+			array(
+				'meta_key'       => '_llms_order',
+				'meta_query'     => array(
+					array(
+						'key'   => '_llms_parent_course',
 						'value' => $this->id,
 					),
 				),
-			'order' => 'ASC',
-			'orderby' => 'meta_value_num',
-			'post_type' => 'section',
-			'posts_per_page' => 500,
-		) );
+				'order'          => 'ASC',
+				'orderby'        => 'meta_value_num',
+				'post_type'      => 'section',
+				'posts_per_page' => 500,
+			)
+		);
 
 		if ( 'ids' === $return ) {
 			$r = wp_list_pluck( $q->posts, 'ID' );
@@ -334,17 +348,20 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve the number of enrolled students in the course
+	 *
 	 * @return   int
 	 * @since    3.15.0
 	 * @version  3.15.0
 	 */
 	public function get_student_count() {
 
-		$query = new LLMS_Student_Query( array(
-			'post_id' => $this->get( 'id' ),
-			'statuses' => array( 'enrolled' ),
-			'per_page' => 1,
-		) );
+		$query = new LLMS_Student_Query(
+			array(
+				'post_id'  => $this->get( 'id' ),
+				'statuses' => array( 'enrolled' ),
+				'per_page' => 1,
+			)
+		);
 
 		return $query->found_results;
 
@@ -352,10 +369,11 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get an array of student IDs based on enrollment status in the course
-	 * @param    string|array  $statuses  list of enrollment statuses to query by
-	 *                                    status query is an OR relationship
-	 * @param    integer    $limit        number of results
-	 * @param    integer    $skip         number of results to skip (for pagination)
+	 *
+	 * @param    string|array $statuses  list of enrollment statuses to query by
+	 *                                   status query is an OR relationship
+	 * @param    integer      $limit        number of results
+	 * @param    integer      $skip         number of results to skip (for pagination)
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -368,7 +386,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve course tags
-	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 *
+	 * @param    array $args  array of args passed to wp_get_post_terms
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -379,7 +398,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve course tracks
-	 * @param    array      $args  array of args passed to wp_get_post_terms
+	 *
+	 * @param    array $args  array of args passed to wp_get_post_terms
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -390,8 +410,9 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an array of students currently enrolled in the course
-	 * @param    integer    $limit   number of results
-	 * @param    integer    $skip    number of results to skip (for pagination)
+	 *
+	 * @param    integer $limit   number of results
+	 * @param    integer $skip    number of results to skip (for pagination)
 	 * @return   array
 	 * @since    1.0.0
 	 * @version  3.0.0 - updated the function to be less complicated
@@ -404,6 +425,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Get a user's percentage completion through the course
+	 *
 	 * @return  float
 	 * @since   1.0.0
 	 * @version 3.17.2
@@ -420,6 +442,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Retrieve an instance of the LLMS_Product for this course
+	 *
 	 * @return   LLMS_Product instance of an LLMS_Product
 	 * @since    3.3.0
 	 * @version  3.3.0
@@ -431,6 +454,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Attempt to get oEmbed for a video provider
 	 * Falls back to the [video] shortcode if the oEmbed fails
+	 *
 	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.17.0
@@ -441,7 +465,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Compare a course meta info date to the current date and get a bool
-	 * @param    string     $date_key  property key, eg "start_date" or "enrollment_end_date"
+	 *
+	 * @param    string $date_key  property key, eg "start_date" or "enrollment_end_date"
 	 * @return   boolean               true when the date is in the past
 	 *                                 false when the date is in the future
 	 * @since    3.0.0
@@ -449,7 +474,7 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function has_date_passed( $date_key ) {
 
-		$now = current_time( 'timestamp' );
+		$now  = current_time( 'timestamp' );
 		$date = $this->get_date( $date_key, 'U' );
 
 		// if there's no date, we can't make a comparison
@@ -469,6 +494,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if the course is at capacity based on course capacity settings
+	 *
 	 * @return   boolean    true if not at capacity, false if at or over capacity
 	 * @since    3.0.0
 	 * @version  3.15.0
@@ -493,7 +519,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if prerequisites are enabled and there are prereqs configured
-	 * @param    string   $type  determine if a specific type of prereq exists [any|course|track]
+	 *
+	 * @param    string $type  determine if a specific type of prereq exists [any|course|track]
 	 * @return   boolean         Returns true if prereq is enabled and there is a prerequisite course or track
 	 * @since    3.0.0
 	 * @version  3.7.5
@@ -523,6 +550,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if sales page redirection is enabled
+	 *
 	 * @return   string
 	 * @since    3.20.0
 	 * @version  3.23.0
@@ -534,6 +562,7 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if students can access course content based on the current date
+	 *
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.7.0
@@ -586,7 +615,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Determine if a prerequisite is completed for a student
-	 * @param    string     $type  type of prereq [course|track]
+	 *
+	 * @param    string $type  type of prereq [course|track]
 	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -618,7 +648,8 @@ implements LLMS_Interface_Post_Audio
 
 	/**
 	 * Save instructor information
-	 * @param    array      $instructors  array of course instructor information
+	 *
+	 * @param    array $instructors  array of course instructor information
 	 * @since    3.13.0
 	 * @version  3.13.0
 	 */
@@ -631,14 +662,15 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and returned by $this->jsonSerialize()
-	 * @param    array     $arr   data to be serialized
+	 *
+	 * @param    array $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.8.0
 	 */
 	public function toArrayAfter( $arr ) {
 
-		$product = $this->get_product();
+		$product             = $this->get_product();
 		$arr['access_plans'] = array();
 		foreach ( $product->get_access_plans( false, false ) as $p ) {
 			$arr['access_plans'][] = $p->toArray();
@@ -649,15 +681,21 @@ implements LLMS_Interface_Post_Audio
 			$arr['sections'][] = $s->toArray();
 		}
 
-		$arr['categories'] = $this->get_categories( array(
-			'fields' => 'names',
-		) );
-		$arr['tags'] = $this->get_tags( array(
-			'fields' => 'names',
-		) );
-		$arr['tracks'] = $this->get_tracks( array(
-			'fields' => 'names',
-		) );
+		$arr['categories'] = $this->get_categories(
+			array(
+				'fields' => 'names',
+			)
+		);
+		$arr['tags']       = $this->get_tags(
+			array(
+				'fields' => 'names',
+			)
+		);
+		$arr['tracks']     = $this->get_tracks(
+			array(
+				'fields' => 'names',
+			)
+		);
 
 		$arr['difficulty'] = $this->get_difficulty();
 
@@ -666,17 +704,17 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/*
-		       /$$                                                               /$$                     /$$
-		      | $$                                                              | $$                    | $$
+			   /$$                                                               /$$                     /$$
+			  | $$                                                              | $$                    | $$
 		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
 		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
 		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
 		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
 		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
 		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-		                    | $$
-		                    | $$
-		                    |__/
+							| $$
+							| $$
+							|__/
 	*/
 
 
@@ -809,9 +847,9 @@ implements LLMS_Interface_Post_Audio
 	public function get_user_postmeta_data( $post_id ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_postmeta_data()', '[version]' );
 		global $wpdb;
-		$user_id = get_current_user_id();
+		$user_id    = get_current_user_id();
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %d', $user_id, $post_id ) );
+		$results    = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %d', $user_id, $post_id ) );
 		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->meta_key ] = $results[ $i ];
 			unset( $results[ $i ] );
@@ -831,7 +869,7 @@ implements LLMS_Interface_Post_Audio
 		llms_deprecated_function( 'LLMS_Course::get_user_postmetas_by_key()', '[version]' );
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$results = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
+		$results    = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
 		for ( $i = 0; $i < count( $results ); $i++ ) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
 			unset( $results[ $i ] );
@@ -899,8 +937,8 @@ implements LLMS_Interface_Post_Audio
 	public function get_next_uncompleted_lesson() {
 		llms_deprecated_function( 'LLMS_Course::get_next_uncompleted_lesson()', '[version]' );
 		$lessons_not_completed = array();
-		$lessons = $this->get_lessons( 'posts' );
-		$user = new LLMS_Person;
+		$lessons               = $this->get_lessons( 'posts' );
+		$user                  = new LLMS_Person();
 		foreach ( $lessons as $lesson ) {
 			$user_postmetas = $user->get_user_postmeta_data( get_current_user_id(), $lesson->ID );
 			if ( ! isset( $user_postmetas['_is_complete'] ) ) {
@@ -924,24 +962,24 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function get_lesson_ids() {
 		llms_deprecated_function( 'LLMS_Course::get_lesson_ids()', '[version]', 'LLMS_Course::get_lessons( "ids" )' );
-		$lessons = array();
-		$args = array(
-			'post_type' 		=> 'section',
-			'posts_per_page'	=> 500,
-			'meta_key'			=> '_llms_order',
-			'order'				=> 'ASC',
-			'orderby'			=> 'meta_value_num',
-			'meta_query' 		=> array(
+		$lessons  = array();
+		$args     = array(
+			'post_type'      => 'section',
+			'posts_per_page' => 500,
+			'meta_key'       => '_llms_order',
+			'order'          => 'ASC',
+			'orderby'        => 'meta_value_num',
+			'meta_query'     => array(
 				array(
-					'key' 		=> '_llms_parent_course',
-	      			'value' 	=> $this->id,
-	      			'compare' 	=> '=',
-	  			),
-		  	),
+					'key'     => '_llms_parent_course',
+					'value'   => $this->id,
+					'compare' => '=',
+				),
+			),
 		);
 		$sections = get_posts( $args );
 		foreach ( $sections as $s ) {
-			$section = new LLMS_Section( $s->ID );
+			$section   = new LLMS_Section( $s->ID );
 			$lessonset = $section->get_children_lessons();
 			foreach ( $lessonset as $lessonojb ) {
 				$lessons[] = $lessonojb->ID;
@@ -964,7 +1002,7 @@ implements LLMS_Interface_Post_Audio
 		$sections = array();
 		if ( $syllabus ) {
 			foreach ( $syllabus as $key => $value ) {
-				array_push( $sections,$value['section_id'] );
+				array_push( $sections, $value['section_id'] );
 			}
 		}
 		return $sections;
@@ -1010,7 +1048,7 @@ implements LLMS_Interface_Post_Audio
 	public function get_user_enroll_date( $user_id = '' ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_enroll_date()', '[version]' );
 		$enrolled_date = '';
-		//if no user get current user
+		// if no user get current user
 		if ( empty( $user_id ) ) {
 			$user_id = get_current_user_id();
 		}
@@ -1031,7 +1069,7 @@ implements LLMS_Interface_Post_Audio
 	 * @since Unknown
 	 * @deprecated 3.34.0
 	 *
-	 * @param int $post_id WP_Post ID.
+	 * @param int    $post_id WP_Post ID.
 	 * @param string $user_id WP_User ID.
 	 * @return mixed
 	 */
@@ -1046,12 +1084,13 @@ implements LLMS_Interface_Post_Audio
 			}
 			// query user postmeta table
 			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$results = $wpdb->get_results(
+			$results    = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT * FROM ' . $table_name .
 						' WHERE post_id = %s
 							AND user_id = %s',
-					$post_id, $user_id
+					$post_id,
+					$user_id
 				)
 			);
 		}
@@ -1064,14 +1103,14 @@ implements LLMS_Interface_Post_Audio
 	 * @since Unknown
 	 * @deprecated 3.34.0
 	 *
-	 * @param int $course_id WP_Post ID.
+	 * @param int    $course_id WP_Post ID.
 	 * @param string $user_id WP_User ID.
 	 * @return mixed
 	 */
 	public static function check_enrollment( $course_id, $user_id = '' ) {
 		llms_deprecated_function( 'LLMS_Course::check_enrollment()', '[version]' );
 		global $wpdb;
-		//set enrollment to false
+		// set enrollment to false
 		$enrolled = false;
 		// if no course id then nothing we can do
 		if ( ! empty( $course_id ) ) {
@@ -1079,14 +1118,15 @@ implements LLMS_Interface_Post_Audio
 			if ( empty( $user_id ) ) {
 				$user_id = get_current_user_id();
 			}
-			//query user_postmeta table
+			// query user_postmeta table
 			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-			$results = $wpdb->get_results(
+			$results    = $wpdb->get_results(
 				$wpdb->prepare(
 					'SELECT * FROM ' . $table_name .
 						' WHERE post_id = %s
 							AND user_id = %s',
-					$course_id, $user_id
+					$course_id,
+					$user_id
 				)
 			);
 			if ( $results ) {
@@ -1111,7 +1151,7 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function is_user_enrolled( $user_id = '' ) {
 		llms_deprecated_function( 'LLMS_Course::is_user_enrolled()', '[version]', 'llms_is_user_enrolled()' );
-		$enrolled = false;
+		$enrolled       = false;
 		$user_post_data = self::get_user_post_data( $this->id, $user_id );
 		if ( $user_post_data ) {
 			foreach ( $user_post_data as $upd ) {
@@ -1142,11 +1182,11 @@ implements LLMS_Interface_Post_Audio
 			$user_id = get_current_user_id();
 		}
 
-		//check if user is enrolled
+		// check if user is enrolled
 		$enrollment = self::check_enrollment( $this->id, $user_id );
 
 		// set up course details and enrollment information
-		$obj = new stdClass();
+		$obj     = new stdClass();
 		$obj->id = $this->id;
 
 		if ( $enrollment ) {
@@ -1154,7 +1194,7 @@ implements LLMS_Interface_Post_Audio
 			$obj->is_enrolled = true;
 			$obj->is_complete = false;
 
-			//loop through returned rows and save data to object
+			// loop through returned rows and save data to object
 			foreach ( $enrollment as $row ) {
 
 				if ( '_start_date' === $row->meta_key ) {
@@ -1163,7 +1203,7 @@ implements LLMS_Interface_Post_Audio
 
 				} elseif ( '_is_complete' === $row->meta_key ) {
 
-					$obj->is_complete = true;
+					$obj->is_complete    = true;
 					$obj->completed_date = $row->updated_date;
 
 				} elseif ( 'status' === $row->meta_key ) {
@@ -1178,9 +1218,9 @@ implements LLMS_Interface_Post_Audio
 
 		}
 
-		//add sections array to object
+		// add sections array to object
 		$obj->sections = array();
-		//add lessons array to object
+		// add lessons array to object
 		$obj->lessons = array();
 
 		$sections = $this->get_sections( 'posts' );
@@ -1188,23 +1228,23 @@ implements LLMS_Interface_Post_Audio
 		foreach ( $sections as $child_section ) {
 			$section_obj = new LLMS_Section( $child_section->ID );
 
-			$section = array();
-			$section['id'] = $section_obj->id;
+			$section          = array();
+			$section['id']    = $section_obj->id;
 			$section['title'] = $section_obj->post->post_title;
 
 			// get any user post meta data
 			$section['is_complete'] = false;
-			$section_user_data = self::get_user_post_data( $section_obj->id, $user_id );
+			$section_user_data      = self::get_user_post_data( $section_obj->id, $user_id );
 
 			$obj->is_complete = false;
 			if ( $section_user_data ) {
 
-				//loop through returned rows and save data to object
+				// loop through returned rows and save data to object
 				foreach ( $section_user_data as $row ) {
 
 					if ( '_is_complete' === $row->meta_key ) {
 
-						$section['is_complete'] = true;
+						$section['is_complete']    = true;
 						$section['completed_date'] = $row->updated_date;
 
 					}
@@ -1213,7 +1253,7 @@ implements LLMS_Interface_Post_Audio
 
 			$obj->sections[] = $section;
 
-			//get lesson data
+			// get lesson data
 			$lessons = $section_obj->get_children_lessons();
 
 			if ( $lessons ) {
@@ -1221,21 +1261,21 @@ implements LLMS_Interface_Post_Audio
 				foreach ( $lessons as $child_lesson ) {
 					$lesson_obj = new LLMS_Lesson( $child_lesson->ID );
 
-					$lesson = array();
-					$lesson['id'] = $lesson_obj->id;
-					$lesson['title'] = $lesson_obj->post->post_title;
+					$lesson              = array();
+					$lesson['id']        = $lesson_obj->id;
+					$lesson['title']     = $lesson_obj->post->post_title;
 					$lesson['parent_id'] = $lesson_obj->get_parent_section();
 
 					$lesson['is_complete'] = false;
-					$lesson_user_data = self::get_user_post_data( $lesson_obj->id, $user_id );
+					$lesson_user_data      = self::get_user_post_data( $lesson_obj->id, $user_id );
 
-					//loop through returned rows and save data to object
+					// loop through returned rows and save data to object
 					if ( $lesson_user_data ) {
 
 						foreach ( $lesson_user_data as $row ) {
 
 							if ( '_is_complete' === $row->meta_key ) {
-								$lesson['is_complete'] = true;
+								$lesson['is_complete']    = true;
 								$lesson['completed_date'] = $row->updated_date;
 							}
 						}

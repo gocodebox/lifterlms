@@ -1,5 +1,6 @@
 /**
  * Single Section View
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -9,6 +10,7 @@ define( [ 'Views/Section', 'Views/_Receivable' ], function( SectionView, Receiva
 
 		/**
 		 * Parent element
+		 *
 		 * @type  {String}
 		 */
 		el: '#llms-sections',
@@ -23,24 +25,28 @@ define( [ 'Views/Section', 'Views/_Receivable' ], function( SectionView, Receiva
 
 		/**
 		 * Section model
+		 *
 		 * @type  {[type]}
 		 */
 		modelView: SectionView,
 
 		/**
 		 * Enable keyboard events
+		 *
 		 * @type  {Bool}
 		 */
 		processKeyEvents: false,
 
 		/**
 		 * Are sections selectable?
+		 *
 		 * @type  {Bool}
 		 */
 		selectable: true,
 
 		/**
 		 * Are sections sortable?
+		 *
 		 * @type  {Bool}
 		 */
 		sortable: true,

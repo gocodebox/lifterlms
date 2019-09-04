@@ -6,7 +6,8 @@
  * @version 3.9.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Controller_Quizzes {
 
@@ -18,6 +19,7 @@ class LLMS_Controller_Quizzes {
 
 	/**
 	 * Handle form submission of the "take quiz" button attached to lessons with quizzes
+	 *
 	 * @return  void
 	 * @since   1.0.0
 	 * @version 3.9.0
@@ -34,7 +36,7 @@ class LLMS_Controller_Quizzes {
 			return llms_add_notice( __( 'Could not proceed to the quiz because required information was missing.', 'lifterlms' ), 'error' );
 		}
 
-		$quiz = absint( $_POST['quiz_id'] );
+		$quiz   = absint( $_POST['quiz_id'] );
 		$lesson = absint( $_POST['associated_lesson'] );
 
 		try {
@@ -43,10 +45,13 @@ class LLMS_Controller_Quizzes {
 			return llms_add_notice( $exception->getMessage(), 'error' );
 		}
 
-		//redirect user to quiz page
-		$redirect = add_query_arg( array(
-			'attempt_key' => $attempt->get_key(),
-		), get_permalink( $quiz ) );
+		// redirect user to quiz page
+		$redirect = add_query_arg(
+			array(
+				'attempt_key' => $attempt->get_key(),
+			),
+			get_permalink( $quiz )
+		);
 		wp_redirect( apply_filters( 'lifterlms_lesson_start_quiz_redirect', $redirect ) );
 		exit;
 

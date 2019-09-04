@@ -13,12 +13,14 @@
 
 		/**
 		 * jQuery obj for the main $( '#llms-access-plans' ) element.
+		 *
 		 * @type obj
 		 */
 		this.$plans = null;
 
 		/**
 		 * jQuery obj for the main $( '#llms-save-access-plans' ) save button element.
+		 *
 		 * @type obj
 		 */
 		this.$save = null;
@@ -26,12 +28,14 @@
 		/**
 		 * A randomly generated temporary ID used for the tinyMCE editor's id
 		 * when a new plan is added
+		 *
 		 * @type int
 		 */
 		this.temp_id = Math.floor( ( Math.random() * 7777 ) + 777 );
 
 		/**
 		 * CSS class name used to highlight validation errors for plan fields
+		 *
 		 * @type string
 		 */
 		this.validation_class = 'llms-invalid';
@@ -49,7 +53,7 @@
 			var self = this;
 
 			self.$plans = $( '#llms-access-plans' );
-			self.$save = $( '#llms-save-access-plans' );
+			self.$save  = $( '#llms-save-access-plans' );
 
 			self.bind_visibility();
 
@@ -98,7 +102,6 @@
 
 		};
 
-
 		/**
 		 * Bind DOM Events
 		 *
@@ -135,8 +138,8 @@
 
 			// @todo Replace this with multiple data-controller functionality in llms-metaboxes.js
 			self.$plans.on( 'change', 'select[name$="[availability]"]', function() {
-				var $plan_container = $( this ).closest( '.llms-access-plan' ),
-					$plan_redirect_forced = $plan_container.find( 'input[name$="[checkout_redirect_forced]"]' ),
+				var $plan_container         = $( this ).closest( '.llms-access-plan' ),
+					$plan_redirect_forced   = $plan_container.find( 'input[name$="[checkout_redirect_forced]"]' ),
 					$plan_redirect_settings = $plan_container.find( '.llms-checkout-redirect-settings' );
 
 				if ( 'members' === $( this ).val() ) {
@@ -191,11 +194,11 @@
 			// bind text entered into the title to the displayed title for fancy fun
 			self.$plans.on( 'keyup', 'input.llms-plan-title', function( ) {
 
-				var $input = $( this ),
-					$plan = $input.closest( '.llms-access-plan' ),
+				var $input   = $( this ),
+					$plan    = $input.closest( '.llms-access-plan' ),
 					$display = $plan.find( 'span.llms-plan-title' ),
-					val = $input.val(),
-					title = ( val ) ? val : $display.attr( 'data-default' );
+					val      = $input.val(),
+					title    = ( val ) ? val : $display.attr( 'data-default' );
 
 				$display.text( title );
 
@@ -223,7 +226,6 @@
 				if ( ! data || data.cascade ) {
 					$input.closest( '.llms-access-plan' ).trigger( 'llms-validate-plan', { original_event: e.type } );
 				}
-
 
 			} );
 
@@ -282,6 +284,7 @@
 
 		/**
 		 * Bind DOM events for editing product visibility
+		 *
 		 * @return   void
 		 * @since    3.6.0
 		 * @version  3.6.0
@@ -290,8 +293,8 @@
 
 			var $radios = $( '#llms-catalog-visibility-select' ),
 				$toggle = $( 'a.llms-edit-catalog-visibility' ),
-				$save = $( 'a.llms-save-catalog-visibility' ),
-				$cancel =  $( 'a.llms-cancel-catalog-visibility' );
+				$save   = $( 'a.llms-save-catalog-visibility' ),
+				$cancel = $( 'a.llms-cancel-catalog-visibility' );
 
 			$toggle.on( 'click', function( e ) {
 				e.preventDefault();
@@ -328,8 +331,8 @@
 		 */
 		this.delete_plan = function( $btn ) {
 
-			var self = this,
-				$plan = $btn.closest( '.llms-access-plan' ),
+			var self    = this,
+				$plan   = $btn.closest( '.llms-access-plan' ),
 				plan_id = $plan.attr( 'data-id' ),
 				warning = LLMS.l10n.translate( 'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.' );
 
@@ -338,7 +341,7 @@
 
 				self.remove_plan_el( $plan );
 
-			// Throw a confirmation warning
+				// Throw a confirmation warning
 			} else if ( window.confirm( warning ) ) {
 
 				LLMS.Spinner.start( $plan );
@@ -378,20 +381,20 @@
 		 */
 		this.controller_change = function( $el ) {
 
-			var id = $el.attr( 'data-controller-id' ),
-				val = $el.val(),
-				$form = $el.closest( '.llms-access-plan' ),
-				$controls = $form.find( '[data-controller="' + id + '"]');
+			var id        = $el.attr( 'data-controller-id' ),
+				val       = $el.val(),
+				$form     = $el.closest( '.llms-access-plan' ),
+				$controls = $form.find( '[data-controller="' + id + '"]' );
 
-			if ( 'checkbox' === $el.attr( 'type' ) )  {
+			if ( 'checkbox' === $el.attr( 'type' ) ) {
 				val = ( $el.is( ':checked' ) ) ? val : 'no';
 			}
 
 			$controls.each( function() {
 
-				var $c = $( this ),
-					$els = ( 'SELECT' === $c[0].nodeName || 'INPUT'  === $c[0].nodeName || 'TEXTAREA'  === $c[0].nodeName ) ? $c : $c.find( 'input, select, textarea' ),
-					equals = $c.attr( 'data-value-is' ),
+				var $c         = $( this ),
+					$els       = ( 'SELECT' === $c[0].nodeName || 'INPUT' === $c[0].nodeName || 'TEXTAREA' === $c[0].nodeName ) ? $c : $c.find( 'input, select, textarea' ),
+					equals     = $c.attr( 'data-value-is' ),
 					not_equals = $c.attr( 'data-value-is-not' ),
 					action, operator;
 
@@ -443,6 +446,7 @@
 
 		/**
 		 * Retrieve the current number of access plans for the course / membership (saved or unsaved)
+		 *
 		 * @return  int
 		 * @since   3.29.0
 		 * @version 3.29.0
@@ -463,8 +467,8 @@
 			// ensure all content editors are saved properly.
 			tinyMCE.triggerSave();
 
-			var self = this,
-				form = self.$plans.closest( 'form' ).serializeArray(),
+			var self  = this,
+				form  = self.$plans.closest( 'form' ).serializeArray(),
 				plans = [];
 
 			for ( var i = 0; i < form.length; i++ ) {
@@ -474,10 +478,10 @@
 					continue;
 				}
 
-				var keys = form[ i ].name.replace( '_llms_plans[', '' ).split( '][' ),
+				var keys  = form[ i ].name.replace( '_llms_plans[', '' ).split( '][' ),
 					index = ( keys[0] * 1 ) - 1,
-					name = keys[1].replace( ']', '' ),
-					type = 3 === keys.length ? 'array' : 'single';
+					name  = keys[1].replace( ']', '' ),
+					type  = 3 === keys.length ? 'array' : 'single';
 
 				if ( ! plans[ index ] ) {
 					plans[ index ] = {};
@@ -532,9 +536,9 @@
 				return;
 			}
 
-			var $clone = $( '#llms-new-access-plan-model' ).clone()
+			var $clone          = $( '#llms-new-access-plan-model' ).clone()
 				$existing_plans = $( '#llms-access-plans .llms-access-plan' ),
-				$editor = $clone.find( '#_llms_plans_content_llms-new-access-plan-model' );
+				$editor         = $clone.find( '#_llms_plans_content_llms-new-access-plan-model' );
 
 			// remove ID from the item
 			$clone.removeAttr( 'id' );
@@ -543,12 +547,10 @@
 			$editor.removeAttr( 'id' ).attr( 'id', '_llms_plans_content_' + this.temp_id );
 			this.temp_id++; // increment the temp_id ID so we don't use it again
 
-
 			// activate all elements
 			$clone.find( 'select, input, textarea' ).each( function() {
 				$( this ).removeAttr( 'disabled' ); // enabled the field
 			} );
-
 
 			$clone.find( '.llms-access-plan-datepicker' ).datepicker( {
 				dateFormat: "mm/dd/yy"
@@ -612,7 +614,7 @@
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
 					console.error( 'llms access plan save error encounterd:', jqXHR );
-					alert( LLMS.l10n.translate( 'An error was encountered during the save attempt. Please try again.' ) + ' ['  + textStatus + ': ' + errorThrown + ']' );
+					alert( LLMS.l10n.translate( 'An error was encountered during the save attempt. Please try again.' ) + ' [' + textStatus + ': ' + errorThrown + ']' );
 				},
 				success: function( res ) {
 
@@ -640,6 +642,7 @@
 
 		/**
 		 * Toggle the status of a button
+		 *
 		 * @param   Object  $btn   jQuery selector of a button element
 		 * @param  string status enable or disable
 		 * @return  void
@@ -741,12 +744,12 @@
 
 			$( '#llms-access-plans .llms-access-plan' ).each( function() {
 
-				var $p = $( this ),
-					$order = $p.find( '.plan-order' ),
-					$editor = $p.find( 'textarea[id^="_llms_plans_content_"]' ),
+				var $p        = $( this ),
+					$order    = $p.find( '.plan-order' ),
+					$editor   = $p.find( 'textarea[id^="_llms_plans_content_"]' ),
 					editor_id = $editor.attr( 'id' ),
-					orig = $order.val() * 1,
-					curr = $p.index();
+					orig      = $order.val() * 1,
+					curr      = $p.index();
 
 				// de-init tinyMCE from the editor
 				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );

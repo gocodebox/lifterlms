@@ -1,16 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Register WordPress AJAX methods for Analytics Widgets
-*
-* @since  3.0.0
-* @version 3.16.8
-*/
+ * Register WordPress AJAX methods for Analytics Widgets
+ *
+ * @since  3.0.0
+ * @version 3.16.8
+ */
 class LLMS_Analytics_Widget_Ajax {
 
 	/**
 	 * Constructor
+	 *
 	 * @since  3.0.0
 	 * @version 3.16.8
 	 */
@@ -51,7 +53,7 @@ class LLMS_Analytics_Widget_Ajax {
 
 			include $file;
 			$class = 'LLMS_Analytics_' . ucwords( $method ) . '_Widget';
-			add_action( 'wp_ajax_llms_widget_' . $method, array( new $class, 'output' ) );
+			add_action( 'wp_ajax_llms_widget_' . $method, array( new $class(), 'output' ) );
 
 		}
 

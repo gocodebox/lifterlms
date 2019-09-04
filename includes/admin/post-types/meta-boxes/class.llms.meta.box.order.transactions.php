@@ -6,30 +6,33 @@
  * @version  3.8.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
+	 *
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
 	 */
 	public function configure() {
 
-		$this->id = 'lifterlms-order-transactions';
-		$this->title = __( 'Transactions', 'lifterlms' );
-		$this->screens = array(
+		$this->id       = 'lifterlms-order-transactions';
+		$this->title    = __( 'Transactions', 'lifterlms' );
+		$this->screens  = array(
 			'llms_order',
 		);
-		$this->context = 'normal';
+		$this->context  = 'normal';
 		$this->priority = 'high';
 
 	}
 
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
+	 *
 	 * @return   array
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -39,7 +42,8 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
-	 * @param    object  $post  WP global post object
+	 *
+	 * @param    object $post  WP global post object
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -52,29 +56,35 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 		// allow users to see all if they really want to
 		$per_page = isset( $_GET['txns-count'] ) ? $_GET['txns-count'] : 20;
 
-		$transactions = $order->get_transactions( array(
-			'per_page' => $per_page,
-			'paged' => $curr_page,
-		) );
+		$transactions = $order->get_transactions(
+			array(
+				'per_page' => $per_page,
+				'paged'    => $curr_page,
+			)
+		);
 
 		$edit_link = get_edit_post_link( $this->post->ID );
 
 		$prev_url = ( $transactions['page'] > 1 ) ? add_query_arg( 'txns-page', $curr_page - 1, $edit_link ) . '#' . $this->id : false;
 		$next_url = ( $transactions['page'] < $transactions['pages'] ) ? add_query_arg( 'txns-page', $curr_page + 1, $edit_link ) . '#' . $this->id : false;
-		$all_url = ( $next_url || $prev_url ) ? add_query_arg( 'txns-count', -1, $edit_link ) . '#' . $this->id : false;
+		$all_url  = ( $next_url || $prev_url ) ? add_query_arg( 'txns-count', -1, $edit_link ) . '#' . $this->id : false;
 
-		llms_get_template( 'admin/post-types/order-transactions.php', array(
-			'all_url' => $all_url,
-			'next_url' => $next_url,
-			'prev_url' => $prev_url,
-			'transactions' => $transactions,
-		) );
+		llms_get_template(
+			'admin/post-types/order-transactions.php',
+			array(
+				'all_url'      => $all_url,
+				'next_url'     => $next_url,
+				'prev_url'     => $prev_url,
+				'transactions' => $transactions,
+			)
+		);
 
 	}
 
 	/**
 	 * Resend a receipt for a transaction
-	 * @param    int     $post_id  WP Post ID of the current order
+	 *
+	 * @param    int $post_id  WP Post ID of the current order
 	 * @return   void
 	 * @since    3.8.0
 	 * @version  3.8.0
@@ -89,7 +99,8 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 	/**
 	 * Save method, processes refunds / records manual txns
-	 * @param    int     $post_id  Post ID of the Order
+	 *
+	 * @param    int $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.8.0
@@ -98,7 +109,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 		$actions = array(
 			'llms_process_refund' => 'save_refund',
-			'llms_record_txn' => 'save_transaction',
+			'llms_record_txn'     => 'save_transaction',
 			'llms_resend_receipt' => 'resend_receipt',
 		);
 
@@ -116,7 +127,8 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 	/**
 	 * Save method, processes refunds
-	 * @param    int     $post_id  Post ID of the Order
+	 *
+	 * @param    int $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -141,7 +153,8 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 	/**
 	 * Save method, records manual transactions
-	 * @param    int     $post_id  Post ID of the Order
+	 *
+	 * @param    int $post_id  Post ID of the Order
 	 * @return   void
 	 * @since    3.0.0
 	 * @version  3.0.0
@@ -153,14 +166,16 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
 		$order = new LLMS_Order( $post_id );
 
-		$txn = $order->record_transaction( array(
-			'amount' => floatval( $_POST['llms_txn_amount'] ),
-			'source_description' => sanitize_text_field( $_POST['llms_txn_source'] ),
-			'transaction_id' => sanitize_text_field( $_POST['llms_txn_id'] ),
-			'status' => 'llms-txn-succeeded',
-			'payment_gateway' => 'manual',
-			'payment_type' => 'single',
-		) );
+		$txn = $order->record_transaction(
+			array(
+				'amount'             => floatval( $_POST['llms_txn_amount'] ),
+				'source_description' => sanitize_text_field( $_POST['llms_txn_source'] ),
+				'transaction_id'     => sanitize_text_field( $_POST['llms_txn_id'] ),
+				'status'             => 'llms-txn-succeeded',
+				'payment_gateway'    => 'manual',
+				'payment_type'       => 'single',
+			)
+		);
 
 		if ( ! empty( $_POST['llms_txn_note'] ) ) {
 			$order->add_note( sanitize_text_field( $_POST['llms_txn_note'] ), true );

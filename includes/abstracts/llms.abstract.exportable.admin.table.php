@@ -34,6 +34,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Is the Table Exportable?
+	 *
 	 * @var  boolean
 	 */
 	protected $is_exportable = true;
@@ -41,9 +42,9 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Generate an export file for the current table.
 	 *
-	 * @param   array     $args      arguments to pass get_results().
-	 * @param   string    $filename  filename of the existing file, if omitted creates a new file, if passed, will continue adding to existing file.
-	 * @param   string    $type      export file type for forward compatibility. Currently only accepts 'csv'.
+	 * @param   array  $args      arguments to pass get_results().
+	 * @param   string $filename  filename of the existing file, if omitted creates a new file, if passed, will continue adding to existing file.
+	 * @param   string $type      export file type for forward compatibility. Currently only accepts 'csv'.
 	 * @return  WP_Error|array
 	 * @since   3.28.0
 	 * @version 3.28.1
@@ -59,10 +60,10 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		// Boost records / page to speed up generation.
 		$args['per_page'] = apply_filters( 'llms_table_generate_export_file_per_page_boost', 250 );
 
-		$filename = $filename ? $filename : $this->get_export_file_name() . '.' . $type;
-		$file_path = LLMS_TMP_DIR . $filename;
+		$filename    = $filename ? $filename : $this->get_export_file_name() . '.' . $type;
+		$file_path   = LLMS_TMP_DIR . $filename;
 		$option_name = 'llms_gen_export_' . basename( $filename, '.' . $type );
-		$args = get_option( $option_name, $args );
+		$args        = get_option( $option_name, $args );
 
 		$handle = @fopen( $file_path, 'a+' );
 		if ( ! $handle ) {
@@ -91,14 +92,15 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		return array(
 			'filename' => $filename,
 			'progress' => $progress,
-			'url' => $this->get_export_file_url( $file_path ),
+			'url'      => $this->get_export_file_url( $file_path ),
 		);
 
 	}
 
 	/**
 	 * Gets data prepared for an export
-	 * @param    array     $args  query arguments to be passed to get_results()
+	 *
+	 * @param    array $args  query arguments to be passed to get_results()
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.15.1
@@ -127,8 +129,9 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Retrieve data for a cell in an export file
 	 * Should be overridden in extending classes
-	 * @param    string     $key   the column id / key
-	 * @param    mixed      $data  object / array of data that the function can use to extract the data
+	 *
+	 * @param    string $key   the column id / key
+	 * @param    mixed  $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -139,19 +142,24 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Retrieve the download URL to an export file
-	 * @param   string    $file_path full path to a download file.
+	 *
+	 * @param   string $file_path full path to a download file.
 	 * @return  string
 	 * @since   3.28.0
 	 * @version 3.28.1
 	 */
 	protected function get_export_file_url( $file_path ) {
-		return add_query_arg( array(
-			'llms-dl-export' => basename( $file_path ),
-		), admin_url( 'admin.php' ) );
+		return add_query_arg(
+			array(
+				'llms-dl-export' => basename( $file_path ),
+			),
+			admin_url( 'admin.php' )
+		);
 	}
 
 	/**
 	 * Retrieve the header row for generating an export file
+	 *
 	 * @return   array
 	 * @since    3.15.0
 	 * @version  3.17.3
@@ -163,6 +171,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		/**
 		 * If the first column is "ID" force it to lowercase
 		 * to prevent Excel from attempting to interpret the .csv as SYLK
+		 *
 		 * @see  https://github.com/gocodebox/lifterlms/issues/397
 		 */
 		foreach ( $cols as &$title ) {
@@ -177,7 +186,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Get the file name for an export file
-	 * @param    array    $args   optional arguments passed from table to csv processor
+	 *
+	 * @param    array $args   optional arguments passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.28.0
@@ -191,6 +201,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Get a lock key unique to the table & user for locking the table during export generation
+	 *
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.15.0
@@ -201,7 +212,8 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Allow customization of the title for export files
-	 * @param    array    $args   optional arguments passed from table to csv processor
+	 *
+	 * @param    array $args   optional arguments passed from table to csv processor
 	 * @return   string
 	 * @since    3.15.0
 	 * @version  3.28.0
@@ -223,6 +235,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 
 	/**
 	 * Queues an export for the table to be generated
+	 *
 	 * @return   void
 	 * @since    3.15.0
 	 * @version  3.28.0

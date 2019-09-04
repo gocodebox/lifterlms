@@ -1,6 +1,7 @@
 <?php
 /**
  * Single Membership View.
+ *
  * @since    3.32.0
  * @version  3.32.0
  */
@@ -33,7 +34,7 @@ $img = $membership->get_image( array( 64, 64 ) );
 		<ul class="llms-nav-items">
 		<?php foreach ( $tabs as $name => $label ) : ?>
 			<li class="llms-nav-item<?php echo ( $current_tab === $name ) ? ' llms-active' : ''; ?>">
-				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ) ?>">
+				<a class="llms-nav-link" href="<?php echo LLMS_Admin_Reporting::get_stab_url( $name ); ?>">
 					<?php echo $label; ?>
 				</a>
 		<?php endforeach; ?>
@@ -41,9 +42,14 @@ $img = $membership->get_image( array( 64, 64 ) );
 	</nav>
 
 	<section class="llms-gb-tab">
-		<?php llms_get_template( 'admin/reporting/tabs/memberships/' . $current_tab . '.php', array(
-			'membership' => $membership,
-		) ); ?>
+		<?php
+		llms_get_template(
+			'admin/reporting/tabs/memberships/' . $current_tab . '.php',
+			array(
+				'membership' => $membership,
+			)
+		);
+		?>
 	</section>
 
 </section>

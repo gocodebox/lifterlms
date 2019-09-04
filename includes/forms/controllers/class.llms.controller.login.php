@@ -3,6 +3,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * User Login Form Controller
+ *
  * @since   3.19.4
  * @version 3.19.4
  */
@@ -10,6 +11,7 @@ class LLMS_Controller_Login {
 
 	/**
 	 * Constructor
+	 *
 	 * @since    3.19.4
 	 * @version  3.19.4
 	 */
@@ -21,6 +23,7 @@ class LLMS_Controller_Login {
 
 	/**
 	 * Handle Login Form Submission
+	 *
 	 * @return   void
 	 * @since    1.0.0
 	 * @version  3.19.4

@@ -10,8 +10,8 @@
  * @version 3.34.5
  */
 
-$order_key = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );
-$order = llms_get_order_by_key( $order_key );
+$order_key  = filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING );
+$order      = llms_get_order_by_key( $order_key );
 $gateway_id = $selected_gateway->get_id();
 
 defined( 'ABSPATH' ) || exit;
@@ -19,12 +19,16 @@ defined( 'ABSPATH' ) || exit;
 
 <?php if ( ! apply_filters( 'llms_order_can_be_confirmed', ( 'llms-pending' === $order->get( 'status' ) ), $order, $gateway_id ) ) : ?>
 
-	<?php llms_print_notice(
+	<?php
+	llms_print_notice(
 		sprintf(
 			__( 'Only pending orders can be confirmed. View your %1$sorder history%2$s for more information', 'lifterlms' ),
-			'<a href="' . esc_url( llms_get_endpoint_url( 'orders', '', llms_get_page_url( 'myaccount' ) ) ) . '">', '</a>'
+			'<a href="' . esc_url( llms_get_endpoint_url( 'orders', '', llms_get_page_url( 'myaccount' ) ) ) . '">',
+			'</a>'
 		),
-	'error' ); ?>
+		'error'
+	);
+	?>
 
 <?php else : ?>
 
@@ -41,7 +45,7 @@ defined( 'ABSPATH' ) || exit;
 				<div class="llms-checkout-section-content">
 					<?php do_action( 'lifterlms_checkout_confirm_before_billing_info' ); ?>
 					<?php foreach ( LLMS_Person_Handler::get_available_fields( 'checkout', $field_data ) as $field ) : ?>
-						<span class="llms-field-display <?php echo $field['id']; ?>"><?php echo ! empty( $field['value'] ) ? $field['value']: ''; ?></span><?php echo $field['last_column'] ? '<br>' : ' '; ?>
+						<span class="llms-field-display <?php echo $field['id']; ?>"><?php echo ! empty( $field['value'] ) ? $field['value'] : ''; ?></span><?php echo $field['last_column'] ? '<br>' : ' '; ?>
 					<?php endforeach; ?>
 					<?php do_action( 'lifterlms_checkout_confirm_after_billing_info' ); ?>
 				</div>
@@ -58,11 +62,16 @@ defined( 'ABSPATH' ) || exit;
 
 				<div class="llms-checkout-section-content">
 
-					<?php llms_get_template( 'checkout/form-summary.php', array(
-						'coupon' => $coupon,
-						'plan' => $plan,
-						'product' => $product,
-					) ); ?>
+					<?php
+					llms_get_template(
+						'checkout/form-summary.php',
+						array(
+							'coupon'  => $coupon,
+							'plan'    => $plan,
+							'product' => $product,
+						)
+					);
+					?>
 
 				</div>
 
@@ -89,15 +98,19 @@ defined( 'ABSPATH' ) || exit;
 
 						<?php if ( apply_filters( 'llms_gateway_' . $gateway_id . '_show_confirm_order_button', true ) ) : ?>
 
-							<?php llms_form_field( array(
-								'columns' => 12,
-								'classes' => 'llms-button-action',
-								'id' => 'llms_confirm_pending_order',
-								'value' => apply_filters( 'lifterlms_checkout_confirm_button_text', __( 'Confirm Payment', 'lifterlms' ) ),
-								'last_column' => true,
-								'required' => false,
-								'type'  => 'submit',
-							) ); ?>
+							<?php
+							llms_form_field(
+								array(
+									'columns'     => 12,
+									'classes'     => 'llms-button-action',
+									'id'          => 'llms_confirm_pending_order',
+									'value'       => apply_filters( 'lifterlms_checkout_confirm_button_text', __( 'Confirm Payment', 'lifterlms' ) ),
+									'last_column' => true,
+									'required'    => false,
+									'type'        => 'submit',
+								)
+							);
+							?>
 
 						<?php endif; ?>
 

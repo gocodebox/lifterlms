@@ -1,5 +1,6 @@
 /**
  * Single Section View
+ *
  * @since    3.13.0
  * @version  3.16.0
  */
@@ -11,18 +12,21 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 
 		/**
 		 * Section model
+		 *
 		 * @type  {[type]}
 		 */
 		modelView: LessonView,
 
 		/**
 		 * Are sections selectable?
+		 *
 		 * @type  {Bool}
 		 */
 		selectable: false,
 
 		/**
 		 * Are sections sortable?
+		 *
 		 * @type  {Bool}
 		 */
 		sortable: true,
@@ -47,6 +51,7 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 		/**
 		 * Overloads the function from Backbone.CollectionView core because it doesn't send stop events
 		 * if moving from one sortable to another... :-(
+		 *
 		 * @param    obj   event  js event object
 		 * @param    obj   ui     jQuery UI object
 		 * @return   void
@@ -55,9 +60,9 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 		 */
 		_sortStop : function( event, ui ) {
 
-			var modelBeingSorted = this.collection.get( ui.item.attr( 'data-model-cid' ) ),
+			var modelBeingSorted     = this.collection.get( ui.item.attr( 'data-model-cid' ) ),
 				modelViewContainerEl = this._getContainerEl(),
-				newIndex = modelViewContainerEl.children().index( ui.item );
+				newIndex             = modelViewContainerEl.children().index( ui.item );
 
 			if ( newIndex == -1 && modelBeingSorted ) {
 				this.collection.remove( modelBeingSorted );
@@ -66,7 +71,7 @@ define( [ 'Views/Lesson', 'Views/_Receivable' ], function( LessonView, Receivabl
 			this._reorderCollectionBasedOnHTML();
 			this.updateDependentControls();
 
-			if( this._isBackboneCourierAvailable() ) {
+			if ( this._isBackboneCourierAvailable() ) {
 				this.spawn( 'sortStop', { modelBeingSorted : modelBeingSorted, newIndex : newIndex } );
 			} else {
 				this.trigger( 'sortStop', modelBeingSorted, newIndex );

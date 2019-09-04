@@ -1,14 +1,15 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; }
 
 /**
-* Basic course class
-* Extends LLMS_Course
-*
-* Basic course is the "standard" single purchase course.
-*
-* @deprecated 3.30.3
-*/
+ * Basic course class
+ * Extends LLMS_Course
+ *
+ * Basic course is the "standard" single purchase course.
+ *
+ * @deprecated 3.30.3
+ */
 class LLMS_Course_Basic extends LLMS_Course {
 
 	/**
@@ -19,12 +20,14 @@ class LLMS_Course_Basic extends LLMS_Course {
 
 	/**
 	 * post id
+	 *
 	 * @var int
 	 */
 	public $id;
 
 	/**
 	 * post object
+	 *
 	 * @var object
 	 */
 	public $post;

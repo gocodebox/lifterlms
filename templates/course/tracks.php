@@ -1,11 +1,12 @@
 <?php
 /**
  * Course tracks template
- * @author 		LifterLMS
- * @package 	LifterLMS/Templates
+ *
+ * @author      LifterLMS
+ * @package     LifterLMS/Templates
  */
 
-if ( ! defined( 'ABSPATH' ) ) { exit; }
+defined( 'ABSPATH' ) || exit;
 
 global $post;
 ?>

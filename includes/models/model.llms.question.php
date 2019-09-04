@@ -20,41 +20,45 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Question extends LLMS_Post_Model {
 
-	protected $db_post_type = 'llms_question';
+	protected $db_post_type    = 'llms_question';
 	protected $model_post_type = 'question';
 
 	protected $properties = array(
-		'content' => 'html',
-		'clarifications' => 'html',
+		'content'                => 'html',
+		'clarifications'         => 'html',
 		'clarifications_enabled' => 'yesno',
-		'description_enabled' => 'yesno',
-		'image' => 'array',
-		'multi_choices' => 'yesno',
-		'parent_id' => 'absint',
-		'points' => 'absint',
-		'question_type' => 'string',
-		'question' => 'html',
-		'title' => 'html',
-		'video_enabled' => 'yesno',
-		'video_src' => 'string',
+		'description_enabled'    => 'yesno',
+		'image'                  => 'array',
+		'multi_choices'          => 'yesno',
+		'parent_id'              => 'absint',
+		'points'                 => 'absint',
+		'question_type'          => 'string',
+		'question'               => 'html',
+		'title'                  => 'html',
+		'video_enabled'          => 'yesno',
+		'video_src'              => 'string',
 	);
 
 	/**
 	 * Create a new question choice
-	 * @param    array     $data  array of question choice data
+	 *
+	 * @param    array $data  array of question choice data
 	 * @return   string|boolean
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
 	public function create_choice( $data ) {
 
-		$data = wp_parse_args( $data, array(
-			'choice' => '',
-			'choice_type' => 'text',
-			'correct' => false,
-			'marker' => $this->get_next_choice_marker(),
-			'question_id' => $this->get( 'id' ),
-		) );
+		$data = wp_parse_args(
+			$data,
+			array(
+				'choice'      => '',
+				'choice_type' => 'text',
+				'correct'     => false,
+				'marker'      => $this->get_next_choice_marker(),
+				'question_id' => $this->get( 'id' ),
+			)
+		);
 
 		$choice = new LLMS_Question_Choice( $this->get( 'id' ) );
 		if ( $choice->create( $data ) ) {
@@ -67,7 +71,8 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Delete a choice by ID
-	 * @param    string     $id  choice ID
+	 *
+	 * @param    string $id  choice ID
 	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -84,6 +89,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the type of automatic grading that can be performed on the question
+	 *
 	 * @return   string|false
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -103,7 +109,8 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * An array of default arguments to pass to $this->create() when creating a new post
-	 * @param    array  $args   args of data to be passed to wp_insert_post
+	 *
+	 * @param    array $args   args of data to be passed to wp_insert_post
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.12
@@ -147,18 +154,21 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		$args['meta_input'] = wp_parse_args( $meta, $meta );
 
-		$args = wp_parse_args( $args, array(
-			'comment_status' => 'closed',
-			'meta_input'     => array(),
-			'menu_order'     => 1,
-			'ping_status'	 => 'closed',
-			'post_author' 	 => get_current_user_id(),
-			'post_content'   => '',
-			'post_excerpt'   => '',
-			'post_status' 	 => 'publish',
-			'post_title'     => '',
-			'post_type' 	 => $this->get( 'db_post_type' ),
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'comment_status' => 'closed',
+				'meta_input'     => array(),
+				'menu_order'     => 1,
+				'ping_status'    => 'closed',
+				'post_author'    => get_current_user_id(),
+				'post_content'   => '',
+				'post_excerpt'   => '',
+				'post_status'    => 'publish',
+				'post_title'     => '',
+				'post_type'      => $this->get( 'db_post_type' ),
+			)
+		);
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
 
@@ -166,7 +176,8 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve a choice by id
-	 * @param    string     $id   Choice ID
+	 *
+	 * @param    string $id   Choice ID
 	 * @return   obj|false
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -193,14 +204,17 @@ class LLMS_Question extends LLMS_Post_Model {
 	public function get_choices( $return = 'choices' ) {
 
 		global $wpdb;
-		$results = $wpdb->get_results( $wpdb->prepare(
-			"SELECT meta_key AS id
+		$results = $wpdb->get_results(
+			$wpdb->prepare(
+				"SELECT meta_key AS id
 				  , meta_value AS data
 			 FROM {$wpdb->postmeta}
 			 WHERE post_id = %d
 			   AND meta_key LIKE '_llms_choice_%'
-			;", $this->get( 'id' )
-		) );
+			;",
+				$this->get( 'id' )
+			)
+		);
 
 		usort( $results, array( $this, 'sort_choices' ) );
 
@@ -220,6 +234,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Retrieve the question description (post_content)
 	 * Add's extra allowed tags to wp_kses_post allowed tags so that async audio shortcodes will work properly
+	 *
 	 * @return   string
 	 * @since    3.16.6
 	 * @version  3.16.6
@@ -228,10 +243,10 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		global $allowedposttags;
 		$allowedposttags['source'] = array(
-			'src' => true,
+			'src'  => true,
 			'type' => true,
 		);
-		$desc = $this->get( 'content' );
+		$desc                      = $this->get( 'content' );
 		unset( $allowedposttags['source'] );
 
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_get_description', $desc, $this );
@@ -240,6 +255,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve the correct values for a conditionally graded question
+	 *
 	 * @return   array
 	 * @since    3.16.15
 	 * @version  3.16.15
@@ -255,6 +271,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve correct choices for a given question
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -265,7 +282,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 		if ( $this->supports( 'choices' ) && $this->supports( 'grading', 'auto' ) ) {
 
-			$multi = ( 'yes' === $this->get( 'multi_choices' ) );
+			$multi   = ( 'yes' === $this->get( 'multi_choices' ) );
 			$correct = array();
 
 			foreach ( $this->get_choices() as $choice ) {
@@ -290,6 +307,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Get the question text (title)
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -300,6 +318,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve child questions (for question group)
+	 *
 	 * @todo     need to prevent access for non-group questions...
 	 * @return   array
 	 * @since    3.16.0
@@ -311,6 +330,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieves an object cache key for the question's choices
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -323,7 +343,8 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve URL for an image associated with the question if it's enabled
-	 * @param    string|array   $size  registered image size or a numeric array with width/height
+	 *
+	 * @param    string|array $size  registered image size or a numeric array with width/height
 	 * @return   string                empty string if no image or not supported
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -358,23 +379,25 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	protected function get_next_choice_marker() {
 		$next_index = count( $this->get_choices( 'ids', false ) );
-		$type = $this->get_question_type();
-		$markers = $type['choices']['markers'];
+		$type       = $this->get_question_type();
+		$markers    = $type['choices']['markers'];
 		return $next_index > count( $markers ) ? false : $markers[ $next_index ];
 	}
 
 	/**
 	 * Retrieve question type data for the given question
+	 *
 	 * @return   array
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
 	public function get_question_type() {
-		return  llms_get_question_type( $this->get( 'question_type' ) );
+		return llms_get_question_type( $this->get( 'question_type' ) );
 	}
 
 	/**
 	 * Retrieve an instance of the questions parent LLMS_Quiz
+	 *
 	 * @return   obj
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -385,13 +408,14 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve video embed for question featured video
+	 *
 	 * @return   string
 	 * @since    3.16.0
 	 * @version  3.17.0
 	 */
 	public function get_video() {
 
-		$html = '';
+		$html  = '';
 		$embed = $this->get( 'video_src' );
 
 		if ( $embed ) {
@@ -411,7 +435,8 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Attempt to grade a question
-	 * @param    array     $answer  selected answer(s)
+	 *
+	 * @param    array $answer  selected answer(s)
 	 * @return   mixed     yes = correct
 	 *                     no  = incorrect
 	 *                     null = not auto gradable
@@ -444,7 +469,7 @@ class LLMS_Question extends LLMS_Post_Model {
 					// allow case sensitivity to be enabled if required
 					if ( false === apply_filters( 'llms_quiz_grading_case_sensitive', false, $answer, $correct, $this ) ) {
 
-						$answer = array_map( 'strtolower', $answer );
+						$answer  = array_map( 'strtolower', $answer );
 						$correct = array_map( 'strtolower', $correct );
 
 					}
@@ -461,6 +486,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a description is enabled and not empty
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.12
@@ -473,6 +499,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a featured image is enabled and not empty
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -489,25 +516,27 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Determine if a featured video is enabled & not empty
+	 *
 	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.16.12
 	 */
 	public function has_video() {
 		$enabled = $this->get( 'video_enabled' );
-		$src = $this->get( 'video_src' );
+		$src     = $this->get( 'video_src' );
 		return ( 'yes' === $enabled && $src );
 	}
 
 	/**
 	 * Determine if the question is an orphan
+	 *
 	 * @return   bool
 	 * @since    3.27.0
 	 * @version  3.27.0
 	 */
 	public function is_orphan() {
 
-		$statuses = array( 'publish', 'draft' );
+		$statuses  = array( 'publish', 'draft' );
 		$parent_id = $this->get( 'parent_id' );
 
 		if ( ! $parent_id ) {
@@ -522,6 +551,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Access question manager (used for question groups)
+	 *
 	 * @todo     need to prevent access for non-group questions...
 	 * @return   obj
 	 * @since    3.16.0
@@ -549,8 +579,9 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Determine if the question supports a question feature
-	 * @param    string     $feature  name of the feature (eg "choices")
-	 * @param    mixed      $option   allow matching feature options
+	 *
+	 * @param    string $feature  name of the feature (eg "choices")
+	 * @param    mixed  $option   allow matching feature options
 	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.16.15
@@ -580,7 +611,7 @@ class LLMS_Question extends LLMS_Post_Model {
 		 * @param    string    $string   name of the feature being checked (eg "choices")
 		 * @param    obj       $this     instance of the LLMS_Question
 		 * @usage    apply_filters( 'llms_choice_question_supports', function( $ret, $feature, $option, $question ) {
-		 *           	return $ret;
+		 *              return $ret;
 		 *           }, 10, 4 );
 		 */
 		return apply_filters( 'llms_' . $this->get( 'question_type' ) . '_question_supports', $ret, $feature, $option, $this );
@@ -591,7 +622,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	 * Called before data is sorted and returned by $this->toArray()
 	 * Extending classes should override this data if custom data should
 	 * be added when object is converted to an array or json
-	 * @param    array     $arr   array of data to be serialized
+	 *
+	 * @param    array $arr   array of data to be serialized
 	 * @return   array
 	 * @since    3.3.0
 	 * @version  3.16.0
@@ -624,7 +656,8 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Update a question choice
 	 * if no id is supplied will create a new choice
-	 * @param    array     $data  array of choice data (see $this->create_choice())
+	 *
+	 * @param    array $data  array of choice data (see $this->create_choice())
 	 * @return   string|boolean
 	 * @since    3.16.0
 	 * @version  3.16.0
@@ -671,13 +704,14 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Get the correct option for the question
+	 *
 	 * @return   array|null
 	 * @since    1.0.0
 	 * @version  3.9.0
 	 */
 	public function get_correct_option() {
 		$options = $this->get_options();
-		$key = $this->get_correct_option_key();
+		$key     = $this->get_correct_option_key();
 		if ( ! is_null( $key ) && isset( $options[ $key ] ) ) {
 			return $options[ $key ];
 		}
@@ -686,6 +720,7 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Get the key of the correct option
+	 *
 	 * @return   int|null
 	 * @since    3.9.0
 	 * @version  3.9.0
@@ -702,13 +737,14 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Retrieve quizzes this quiz is assigned to
+	 *
 	 * @return   array              array of WP_Post IDs (quiz post types)
 	 * @since    3.12.0
 	 * @version  3.12.0
 	 */
 	public function get_quizzes() {
 
-		$id = absint( $this->get( 'id' ) );
+		$id  = absint( $this->get( 'id' ) );
 		$len = strlen( strval( $id ) );
 
 		$str_like = '%' . sprintf( 's:2:"id";s:%1$d:"%2$s";', $len, $id ) . '%';
@@ -731,7 +767,8 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	/**
 	 * Don't add custom fields during toArray()
-	 * @param    array     $arr  post model array
+	 *
+	 * @param    array $arr  post model array
 	 * @return   array
 	 * @since    3.16.11
 	 * @version  3.16.11
@@ -741,21 +778,22 @@ class LLMS_Question extends LLMS_Post_Model {
 	}
 
 	/*
-		       /$$                                                               /$$                     /$$
-		      | $$                                                              | $$                    | $$
+			   /$$                                                               /$$                     /$$
+			  | $$                                                              | $$                    | $$
 		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
 		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
 		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
 		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
 		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
 		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-		                    | $$
-		                    | $$
-		                    |__/
+							| $$
+							| $$
+							|__/
 	*/
 
 	/**
 	 * Get the options for the question
+	 *
 	 * @return     array
 	 * @since      1.0.0
 	 * @version    3.16.0

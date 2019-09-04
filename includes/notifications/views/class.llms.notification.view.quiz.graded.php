@@ -1,6 +1,7 @@
 <?php
 /**
  * Shared Notification View for quiz completions
+ *
  * @since    3.24.0
  * @version  3.29.0
  */
@@ -14,12 +15,14 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 
 	/**
 	 * Notification Trigger ID
+	 *
 	 * @var  string
 	 */
 	public $trigger_id = 'quiz_graded';
 
 	/**
 	 * Settings for basic notifications
+	 *
 	 * @var  array
 	 */
 	protected $basic_options = array(
@@ -31,11 +34,12 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 		/**
 		 * Enables manual dismissal of notifications
 		 */
-		'dismissible' => true,
+		'dismissible'  => true,
 	);
 
 	/**
 	 * Setup body content for output
+	 *
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -51,6 +55,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 
 	/**
 	 * Setup body for email notification
+	 *
 	 * @return  string
 	 * @since   3.24.0
 	 * @version 3.24.0
@@ -96,6 +101,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 
 	/**
 	 * Setup notification icon for output
+	 *
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -106,6 +112,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 
 	/**
 	 * Setup footer content for output
+	 *
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.29.0
@@ -127,6 +134,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 
 	/**
 	 * Setup merge codes that can be used with the notification
+	 *
 	 * @return   array
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -134,18 +142,19 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 	protected function set_merge_codes() {
 		return array(
 			'{{COURSE_TITLE}}' => __( 'Course Title', 'lifterlms' ),
-			'{{GRADE}}' => __( 'Grade', 'lifterlms' ),
+			'{{GRADE}}'        => __( 'Grade', 'lifterlms' ),
 			'{{LESSON_TITLE}}' => __( 'Lesson Title', 'lifterlms' ),
-			'{{QUIZ_TITLE}}' => __( 'Quiz Title', 'lifterlms' ),
-			'{{REVIEW_URL}}' => __( 'Review URL', 'lifterlms' ),
-			'{{STATUS}}' => __( 'Quiz Status', 'lifterlms' ),
+			'{{QUIZ_TITLE}}'   => __( 'Quiz Title', 'lifterlms' ),
+			'{{REVIEW_URL}}'   => __( 'Review URL', 'lifterlms' ),
+			'{{STATUS}}'       => __( 'Quiz Status', 'lifterlms' ),
 			'{{STUDENT_NAME}}' => __( 'Student Name', 'lifterlms' ),
 		);
 	}
 
 	/**
 	 * Replace merge codes with actual values
-	 * @param    string   $code  the merge code to ge merged data for
+	 *
+	 * @param    string $code  the merge code to ge merged data for
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -170,31 +179,31 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 				} else {
 					$code = '';
 				}
-			break;
+				break;
 
 			case '{{GRADE}}':
 				$code = LLMS()->grades()->round( $attempt->get( 'grade' ) ) . '%';
-			break;
+				break;
 
 			case '{{LESSON_TITLE}}':
 				$code = $lesson->get( 'title' );
-			break;
+				break;
 
 			case '{{QUIZ_TITLE}}':
 				$code = get_the_title( $attempt->get( 'quiz_id' ) );
-			break;
+				break;
 
 			case '{{REVIEW_URL}}':
 				$code = $attempt->get_permalink();
-			break;
+				break;
 
 			case '{{STATUS}}':
 				$code = $attempt->l10n( 'status' );
-			break;
+				break;
 
 			case '{{STUDENT_NAME}}':
 				$code = $this->user->get_name();
-			break;
+				break;
 
 		}// End switch().
 
@@ -204,6 +213,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 
 	/**
 	 * Setup notification subject for output
+	 *
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
@@ -215,6 +225,7 @@ class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View
 
 	/**
 	 * Setup notification title for output
+	 *
 	 * @return   string
 	 * @since    3.24.0
 	 * @version  3.24.0
