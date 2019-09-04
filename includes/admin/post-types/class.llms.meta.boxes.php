@@ -5,12 +5,17 @@
  * sets up base metabox functionality and global save.
  *
  * @since   1.0.0
- * @version 3.16.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Meta_Boxes
+ *
+ * @since 1.0.0
+ * @since [version] Verify nonces and sanitize `$_POST` data.
+ */
 class LLMS_Admin_Meta_Boxes {
 
 	/**
@@ -98,8 +103,6 @@ class LLMS_Admin_Meta_Boxes {
 
 	/**
 	 * Save messages to the database
-	 *
-	 * @param string $text
 	 */
 	public function set_errors() {
 		update_option( 'lifterlms_errors', self::$errors );
@@ -107,8 +110,6 @@ class LLMS_Admin_Meta_Boxes {
 
 	/**
 	 * Display the messages in the error dialog box
-	 *
-	 * @param string $text
 	 */
 	public function display_errors() {
 		$errors = get_option( 'lifterlms_errors' );
@@ -184,8 +185,12 @@ class LLMS_Admin_Meta_Boxes {
 	/**
 	 * Validates post and metabox data before saving.
 	 *
+	 * @since Unknown
+	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 *
+	 * @param int     $post_id WP Post ID.
+	 * @param WP_Post $post Post object.
 	 * @return bool
-	 * @param $post, $post_id
 	 */
 	public function validate_post( $post_id, $post ) {
 
@@ -195,7 +200,7 @@ class LLMS_Admin_Meta_Boxes {
 			return false;
 		} elseif ( defined( 'DOING_AUTOSAVE' ) || is_int( wp_is_post_revision( $post ) ) || is_int( wp_is_post_autosave( $post ) ) ) {
 			return false;
-		} elseif ( empty( $_POST['lifterlms_meta_nonce'] ) || ! wp_verify_nonce( $_POST['lifterlms_meta_nonce'], 'lifterlms_save_data' ) ) {
+		} elseif ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
 			return false;
 		} elseif ( empty( $_POST['post_ID'] ) || $_POST['post_ID'] != $post_id ) {
 			return false;

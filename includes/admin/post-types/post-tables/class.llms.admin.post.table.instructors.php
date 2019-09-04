@@ -1,12 +1,18 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Post table stuff for courses and memberships who have custom "instructor" stuff
  * which replaces "Author"
  *
  * @since    3.13.0
  * @version  3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+/**
+ * LLMS_Admin_Post_Table_Instructors
+ *
+ * @since    3.13.0
+ * @since [version] Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Admin_Post_Table_Instructors {
 
@@ -76,24 +82,27 @@ class LLMS_Admin_Post_Table_Instructors {
 	 * Ensure that the "Mine" view quick link at the top of the table displays the correct number
 	 * Most of this is based on WordPress core functions found in wp-admin/includes/class-wp-posts-list-table.php
 	 *
+	 * @since 3.13.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 *
 	 * @param    array $views  array of view link HTML string
 	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.24.0
 	 */
 	public function get_views( $views ) {
 
-		$post_type = sanitize_text_field( $_GET['post_type'] );
-
+		$post_type       = llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING );
 		$current_user_id = get_current_user_id();
-
-		$exclude_states = get_post_stati(
+		$exclude_states  = get_post_stati(
 			array(
 				'show_in_admin_all_list' => false,
 			)
 		);
 
 		global $wpdb;
+
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- Statuses are sanitized.
+
 		$count = intval(
 			$wpdb->get_var(
 				$wpdb->prepare(
@@ -112,6 +121,8 @@ class LLMS_Admin_Post_Table_Instructors {
 				)
 			)
 		);
+
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		$label = sprintf(
 			_nx(

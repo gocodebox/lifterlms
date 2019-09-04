@@ -3,7 +3,7 @@
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.
+ * @since [version] Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -262,7 +263,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Autoenroll courses saved via AJAX and removed from this method.
-	 * @version 3.30.0
+	 * @since [version] Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @see LLMS_Admin_Metabox::save_actions()
 	 *
@@ -270,6 +271,10 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @return void
 	 */
 	public function save( $post_id ) {
+
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
 
 		$membership = new LLMS_Membership( $post_id );
 
@@ -292,7 +297,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
 
-				$membership->set( $field, $_POST[ $this->prefix . $field ] );
+				$membership->set( $field, llms_filter_input( INPUT_POST, $this->prefix . $field, FILTER_SANITIZE_STRING ) );
 
 			}
 		}

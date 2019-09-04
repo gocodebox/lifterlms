@@ -1,19 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * Metaboxes for Orders
+ *
+ * @since  3.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Metaboxes for Orders
  *
- * @version  3.0.0
+ * @since  3.0.0
+ * @since [version] Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
 	 *
-	 * @return void
 	 * @since  3.0.0
+	 *
+	 * @return void
 	 */
 	public function configure() {
 
@@ -34,22 +42,24 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 	 *
 	 * @since  3.0.0
 	 */
-	public function get_fields() {}
+	public function get_fields() {
+		return array();
+	}
 
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
 	 *
-	 * @param object $post WP global post object
-	 * @return void
+	 * @since  3.0.0
+	 * @since [version] Verify nonces and sanitize `$_POST` data.
 	 *
-	 * @version  3.0.0
+	 * @return void
 	 */
 	public function output() {
 
 		$order = new LLMS_Order( $this->post );
 
-		$curr_page = isset( $_GET['notes-page'] ) ? $_GET['notes-page'] : 1;
+		$curr_page = isset( $_GET['notes-page'] ) ? absint( wp_unslash( $_GET['notes-page'] ) ) : 1;
 		$per_page  = 10;
 
 		$edit_link = get_edit_post_link( $this->post->ID );
@@ -103,13 +113,11 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 	 * Save method
 	 * Does nothing because there's no editable data in this metabox
 	 *
-	 * @param    int $post_id  Post ID of the Order
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param int $post_id  Post ID of the Order.
+	 * @return  void
 	 */
-	public function save( $post_id ) {
-		return;
-	}
+	public function save( $post_id ) {}
 
 }

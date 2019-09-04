@@ -2,14 +2,17 @@
 /**
  * Course Options
  *
- * @since    1.0.0
- * @version  3.26.3
+ * @since 1.0.0
+ * @version 3.26.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Meta_Box_Course_Options class.
+ *
+ * @since 1.0.0
+ * @since [version] Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -357,23 +360,22 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	/**
 	 * Update course difficulty on save
 	 *
+	 * @since 3.0.0
+	 * @since 3.26.3 Only save when using the classic editor.
+	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 *
 	 * @param    int $post_id  WP Post ID of the course
 	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.26.3
 	 */
 	protected function save_before( $post_id ) {
 
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
+
 		if ( ! function_exists( 'register_block_type' ) || ! llms_blocks_is_post_migrated( $this->post->ID ) ) {
 
-			if ( ! isset( $_POST['_llms_post_course_difficulty'] ) ) {
-				$difficulty = '';
-			} else {
-				$difficulty = $_POST['_llms_post_course_difficulty'];
-			}
-
-			wp_set_object_terms( $post_id, $difficulty, 'course_difficulty', false );
-
+			wp_set_object_terms( $post_id, llms_filter_input( INPUT_POST, '_llms_post_course_difficulty', FILTER_SANITIZE_STRING ), 'course_difficulty', false );
 			unset( $_POST['_llms_post_course_difficulty'] ); // don't save this to the postmeta table
 
 		}

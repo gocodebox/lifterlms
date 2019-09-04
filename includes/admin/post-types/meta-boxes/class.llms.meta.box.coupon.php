@@ -3,7 +3,7 @@
  * Coupon Metabox
  *
  * @since 1.0.0
- * @version 3.32.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership.
+ * @since [version] Sanitize `$_POST` data and verify nonce.
  */
 class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
@@ -143,7 +144,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					),
 					array(
 						'type'       => 'number',
-						'label'      => __( 'Trial Discount Amount', 'lifterlms', 'lifterlms' ),
+						'label'      => __( 'Trial Discount Amount', 'lifterlms' ),
 						'desc'       => sprintf( __( 'The amount to be subtracted from the "Trial Price" of an applicable access plan. Do not include symbols such as %1$s.', 'lifterlms' ), get_lifterlms_currency_symbol() ),
 						'id'         => $this->prefix . 'trial_amount',
 						'class'      => 'code input-full',
@@ -230,58 +231,65 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	/**
 	 * Save all metadata
 	 *
-	 * @param  int $post_id    post_id of the post we're editing
+	 * @since 3.0.0
+	 * @since [version] Sanitize `$_POST` data and verify nonce.
+	 *
+	 * @param int $post_id WP Post ID.
 	 * @return void
-	 * @version  3.0.0
 	 */
 	protected function save( $post_id ) {
 
-		$c = new LLMS_Coupon( $post_id );
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
+
+		$coupon = new LLMS_Coupon( $post_id );
 
 		// dupcheck the title
-		$exists = llms_find_coupon( $c->get( 'title' ), $post_id );
+		$exists = llms_find_coupon( $coupon->get( 'title' ), $post_id );
 		if ( $exists ) {
 			$this->add_error( __( 'Coupon code already exists. Customers will use the most recently created coupon with this code.', 'lifterlms' ) );
 		}
 
 		// trial validation
-		$trial = isset( $_POST[ $this->prefix . 'enable_trial_discount' ] ) ? $_POST[ $this->prefix . 'enable_trial_discount' ] : false;
-		if ( ! $trial ) {
-			$_POST[ $this->prefix . 'enable_trial_discount' ] = 'no';
-		} elseif ( 'yes' === $trial && empty( $_POST[ $this->prefix . 'trial_amount' ] ) ) {
-
+		$trial_discount = llms_filter_input( INPUT_POST, $this->prefix . 'enable_trial_discount', FILTER_SANITIZE_STRING );
+		$trial_amount   = llms_filter_input( INPUT_POST, $this->prefix . 'trial_amount', FILTER_SANITIZE_NUMBER_INT );
+		if ( ! $trial_discount ) {
+			$trial_discount = 'no';
+		} elseif ( 'yes' === $trial_discount && empty( $trial_amount ) ) {
 			$this->add_error( __( 'A Trial Discount Amount was not supplied. Trial Pricing Discount has automatically been disabled. Please re-enable Trial Pricing Discount and enter a Trial Discount Amount, then save this coupon again.', 'lifterlms' ) );
-			$_POST[ $this->prefix . 'enable_trial_discount' ] = 'no';
-
+			$trial_discount = 'no';
 		}
 
-		if ( ! isset( $_POST[ $this->prefix . 'coupon_courses' ] ) ) {
-			$_POST[ $this->prefix . 'coupon_courses' ] = array();
+		$coupon->set( 'enable_trial_discount', $trial_discount );
+		$coupon->set( 'trial_amount', $trial_amount );
+
+		$courses = llms_filter_input( INPUT_POST, $this->prefix . 'coupon_courses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		if ( empty( $courses ) ) {
+			$courses = array();
 		}
 
-		if ( ! isset( $_POST[ $this->prefix . 'coupon_membership' ] ) ) {
-			$_POST[ $this->prefix . 'coupon_membership' ] = array();
+		$coupon->set( 'coupon_courses', $courses );
+
+		$memberships = llms_filter_input( INPUT_POST, $this->prefix . 'coupon_membership', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		if ( empty( $memberships ) ) {
+			$memberships = array();
 		}
+
+		$coupon->set( 'coupon_membership', $memberships );
 
 		// save all the fields
 		$fields = array(
 			'coupon_amount',
-			'trial_amount',
 			'usage_limit',
-			'coupon_courses',
-			'coupon_membership',
-			'enable_trial_discount',
 			'discount_type',
 			'description',
 			'expiration_date',
 			'plan_type',
 		);
 		foreach ( $fields as $field ) {
-
 			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
-
-				$c->set( $field, $_POST[ $this->prefix . $field ] );
-
+				$coupon->set( $field, llms_filter_input( INPUT_POST, $this->prefix . $field, FILTER_SANITIZE_STRING ) );
 			}
 		}
 

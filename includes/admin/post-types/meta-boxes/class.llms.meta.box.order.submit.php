@@ -1,11 +1,18 @@
 <?php
+/**
+ * Order update/submit box.
+ *
+ * @since 1.0.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metaboxes for Orders
+ * LLMS_Meta_Box_Order_Submit
  *
- * @since    1.0.0
- * @version  3.19.0
+ * @since 1.0.0
+ * @since [version] Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
@@ -51,20 +58,22 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Not used because our metabox doesn't use the standard fields api
 	 *
-	 * @return array
-	 *
 	 * @since  3.0.0
+	 *
+	 * @return array
 	 */
-	public function get_fields() {}
+	public function get_fields() {
+		return array();
+	}
 
 	/**
 	 * Function to field WP::output() method call
 	 * Passes output instruction to parent
 	 *
-	 * @param object $post WP global post object
-	 * @return void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @return string|null
 	 */
 	public function output() {
 
@@ -83,18 +92,24 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	/**
 	 * Save action, update order status
 	 *
-	 * @param    int $post_id  WP Post ID of the Order
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 *
+	 * @param int $post_id  WP Post ID of the Order
+	 * @return null
 	 */
 	public function save( $post_id ) {
+
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
 
 		$order = llms_get_post( $post_id );
 
 		if ( isset( $_POST['_llms_order_status'] ) ) {
 
-			$new_status = $_POST['_llms_order_status'];
+			$new_status = llms_filter_input( INPUT_POST, '_llms_order_status', FILTER_SANITIZE_STRING );
 			$old_status = $order->get( 'status' );
 
 			if ( $old_status !== $new_status ) {
@@ -119,7 +134,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 			if ( isset( $_POST[ $key ] ) ) {
 
 				// the array of date, hour, minute that was submitted
-				$dates = $_POST[ $key ];
+				$dates = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
 
 				// format the array of data as a datetime string
 				$new_date = $dates['date'] . ' ' . sprintf( '%02d', $dates['hour'] ) . ':' . sprintf( '%02d', $dates['minute'] );
