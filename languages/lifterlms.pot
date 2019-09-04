@@ -406,7 +406,7 @@ msgstr ""
 msgid "Drip Method"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:147, includes/class.llms.l10n.js.php:351, includes/admin/class.llms.admin.settings.php:684, vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-api-key.php:128
+#: includes/class.llms.l10n.js.php:147, includes/class.llms.l10n.js.php:351, includes/admin/class.llms.admin.settings.php:689, vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-api-key.php:128
 msgid "None"
 msgstr ""
 
@@ -803,7 +803,7 @@ msgstr ""
 msgid "Zip Code"
 msgstr ""
 
-#: includes/class.llms.person.handler.php:200, includes/admin/settings/class.llms.settings.checkout.php:245
+#: includes/class.llms.person.handler.php:200, includes/admin/settings/class.llms.settings.checkout.php:246
 msgid "Country"
 msgstr ""
 
@@ -3335,11 +3335,11 @@ msgstr ""
 msgid "Your settings have been saved."
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:617
+#: includes/admin/class.llms.admin.settings.php:622
 msgid "Upload"
 msgstr ""
 
-#: includes/admin/class.llms.admin.settings.php:657
+#: includes/admin/class.llms.admin.settings.php:662
 msgid "Select a page&hellip;"
 msgstr ""
 
@@ -3459,7 +3459,7 @@ msgstr ""
 msgid "This page is where your visitors will find a list of all your available memberships."
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:360, includes/admin/settings/class.llms.settings.checkout.php:37
+#: includes/admin/class.llms.admin.setup.wizard.php:360, includes/admin/settings/class.llms.settings.checkout.php:38
 msgid "Checkout"
 msgstr ""
 
@@ -3499,7 +3499,7 @@ msgstr ""
 msgid "Enable Offline Payments"
 msgstr ""
 
-#: includes/admin/class.llms.admin.setup.wizard.php:516
+#: includes/admin/class.llms.admin.setup.wizard.php:515
 msgid "There was an error saving your data, please try again."
 msgstr ""
 
@@ -6411,7 +6411,7 @@ msgstr ""
 msgid "Payment Method:"
 msgstr ""
 
-#: templates/checkout/form-confirm-payment.php:107, includes/admin/settings/class.llms.settings.checkout.php:199
+#: templates/checkout/form-confirm-payment.php:107, includes/admin/settings/class.llms.settings.checkout.php:200
 msgid "Confirm Payment"
 msgstr ""
 
@@ -7339,131 +7339,131 @@ msgstr ""
 msgid "Account Update Fields"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:66, templates/admin/post-types/order-transactions.php:28
+#: includes/admin/settings/class.llms.settings.checkout.php:67, templates/admin/post-types/order-transactions.php:28
 msgid "Gateway"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:67
+#: includes/admin/settings/class.llms.settings.checkout.php:68
 msgid "Gateway ID"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:68, includes/admin/settings/class.llms.settings.checkout.php:82, includes/admin/settings/class.llms.settings.checkout.php:83, includes/admin/settings/class.llms.settings.general.php:94, includes/admin/settings/class.llms.settings.integrations.php:132, includes/admin/settings/class.llms.settings.integrations.php:157, includes/admin/settings/class.llms.settings.integrations.php:158
+#: includes/admin/settings/class.llms.settings.checkout.php:69, includes/admin/settings/class.llms.settings.checkout.php:83, includes/admin/settings/class.llms.settings.checkout.php:84, includes/admin/settings/class.llms.settings.general.php:94, includes/admin/settings/class.llms.settings.integrations.php:132, includes/admin/settings/class.llms.settings.integrations.php:157, includes/admin/settings/class.llms.settings.integrations.php:158
 msgid "Enabled"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:121, includes/admin/settings/class.llms.settings.checkout.php:181
+#: includes/admin/settings/class.llms.settings.checkout.php:122, includes/admin/settings/class.llms.settings.checkout.php:182
 msgid "Checkout Settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:186
+#: includes/admin/settings/class.llms.settings.checkout.php:187
 msgid "Checkout Page"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:187
+#: includes/admin/settings/class.llms.settings.checkout.php:188
 msgid "Page used for displaying the checkout form."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:200
+#: includes/admin/settings/class.llms.settings.checkout.php:201
 msgid "Payment confirmation endpoint slug"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:209
+#: includes/admin/settings/class.llms.settings.checkout.php:210
 msgid "Force SSL"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:210
+#: includes/admin/settings/class.llms.settings.checkout.php:211
 msgid "Force secure checkout via SSL (https) on the checkout page(s)."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:211
+#: includes/admin/settings/class.llms.settings.checkout.php:212
 msgid "Requires an SSL certificate. %1$sLearn More%2$s"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:219
+#: includes/admin/settings/class.llms.settings.checkout.php:220
 msgid "Enable automatic retry of failed recurring payments."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:220
+#: includes/admin/settings/class.llms.settings.checkout.php:221
 msgid "Recover lost revenue from temporarily declined payment methods. %1$sLearn more%2$s."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:222
+#: includes/admin/settings/class.llms.settings.checkout.php:223
 msgid "Retry Failed Payments"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:237
+#: includes/admin/settings/class.llms.settings.checkout.php:238
 msgid "Currency Options"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:239
+#: includes/admin/settings/class.llms.settings.checkout.php:240
 msgid "The following options affect how prices are displayed on the frontend."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:246
+#: includes/admin/settings/class.llms.settings.checkout.php:247
 msgid "Select the country LifterLMS should use as the default during transactions and registrations."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:256
+#: includes/admin/settings/class.llms.settings.checkout.php:257
 msgid "Currency"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:257
+#: includes/admin/settings/class.llms.settings.checkout.php:258
 msgid "Select the currency LifterLMS should use to display prices and process transactions."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:266
+#: includes/admin/settings/class.llms.settings.checkout.php:267
 msgid "Currency Position"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:267
+#: includes/admin/settings/class.llms.settings.checkout.php:268
 msgid "Customize the position and formatting of the currency symbol for displayed prices."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:280
+#: includes/admin/settings/class.llms.settings.checkout.php:281
 msgid "Thousand Separator"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:282
+#: includes/admin/settings/class.llms.settings.checkout.php:283
 msgid "Choose the character to display as the thousand's place separator for displayed prices."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:289
+#: includes/admin/settings/class.llms.settings.checkout.php:290
 msgid "Decimal Separator"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:291
+#: includes/admin/settings/class.llms.settings.checkout.php:292
 msgid "Choose the character to display as the decimal separator for displayed prices."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:298
+#: includes/admin/settings/class.llms.settings.checkout.php:299
 msgid "Decimal Places"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:300
+#: includes/admin/settings/class.llms.settings.checkout.php:301
 msgid "Customize the number of decimal places for prices."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:307
+#: includes/admin/settings/class.llms.settings.checkout.php:308
 msgid "Hide Zero Decimals"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:308
+#: includes/admin/settings/class.llms.settings.checkout.php:309
 msgid "Automatically remove zero decimals from the end of displayed prices."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:325
+#: includes/admin/settings/class.llms.settings.checkout.php:326
 msgid "Payment Gateways"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:367
+#: includes/admin/settings/class.llms.settings.checkout.php:368
 msgid "Payment Gateway Settings"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:373
+#: includes/admin/settings/class.llms.settings.checkout.php:374
 msgid "Error: \"%s\" is not a valid payment gateway"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.checkout.php:381
+#: includes/admin/settings/class.llms.settings.checkout.php:382
 msgid "%s Payment Gateway Settings"
 msgstr ""
 

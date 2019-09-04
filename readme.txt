@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2.2
-Stable tag: 3.35.0
+Stable tag: 3.35.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -483,6 +483,13 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
+= v3.35.1 - 2019-09-04 =
+------------------------
+
++ Fix instances of improper input sanitization and handling.
++ Include scripts, styles, and images for reporting charts and datepickers
+
+
 = v3.35.0 - 2019-09-04 =
 ------------------------
 
@@ -498,6 +505,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 
 ##### Bug fixes
 
++ Fixed some translation strings that had literal variables instead of placeholders.
 + Fixed undefined index error encountered when attempting to email a voucher export.
 + Fixed undefined index error when PHP file upload errors are encountered during a course import.
 
@@ -703,34 +711,5 @@ The following unused classes have been marked as deprecated and will be removed 
 + Fixed an issue causing backslashes to be added before quotation marks in access plan descriptions.
 + Integration classes are now loaded in the order defined by the integration class.
 + Fixed an issue causing a PHP error when viewing the admin logs screen when no logs exist.
-
-
-= v3.33.0 - 2019-05-21 =
-------------------------
-
-##### Updates
-
-+ Added the ability for site administrators to delete (completely remove) enrollment records from the database.
-+ Catalogs sorted by Order (`menu_order`) now have an additional sort (by post title) to improve ordering consistency for items with the same order, thanks [@pondermatic](https://github.com/pondermatic)!
-+ Hooks in the dashboard order review template now pass the `LLMS_Order`.
-
-##### LifterLMS Blocks
-
-+ Updated to version 1.5.1
-+ All blocks are now registered only for post types where they can actually be used.
-+ Only register block visibility settings on static blocks. Fixes an issue causing core (or 3rd party) dynamic blocks from being managed within the block editor.
-
-##### Bug Fixes
-
-+ If an enrolled student accesses checkout for a course/membership they're already enrolled in they will be shown a message stating as much.
-+ Removed a redundant check for the existence of an order on the dashboard order review template.
-+ When an order is deleted, student enrollment records for that order will be removed. This fixes an issue causing admins to not be able to manage the enrollment status of a student enrolled via a deleted order.
-+ Fix issue causing errors when using the `[lifterlms_lesson_mark_complete]` shortcode on course post types.
-+ Fixed an issue causing quiz questions to generate publicly accessible permalinks which could be indexed by search engines.
-
-##### Templates Changed
-
-+ [course/complete-lesson-link.php](https://github.com/gocodebox/lifterlms/blob/master/templates/course/complete-lesson-link.php)
-+ [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/templates/myaccount/view-order.php)
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
