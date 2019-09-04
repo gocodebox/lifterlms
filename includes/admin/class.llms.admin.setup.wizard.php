@@ -93,7 +93,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @return   string
 	 */
 	public function get_current_step() {
-		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_POST, 'step', FILTER_SANITIZE_STRING );
+		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING );
 	}
 
 	/**
@@ -424,7 +424,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.3.0 Unknown.
-	 * @since 3.35.0 Sanitize input data.
+	 * @since 3.35.0 Sanitize input data; load sample data from `sample-data` directory.
 	 *
 	 * @return   void
 	 */
@@ -461,8 +461,7 @@ class LLMS_Admin_Setup_Wizard {
 
 			case 'finish':
 				add_filter( 'llms_generator_course_status', array( $this, 'generator_course_status' ) );
-
-				$json = file_get_contents( 'http://d34dpc7391qduo.cloudfront.net/sample-content/llms-sample-course.json' );
+				$json = file_get_contents( LLMS_PLUGIN_DIR . 'sample-data/sample-course.json' );
 				$gen  = new LLMS_Generator( $json );
 				$gen->set_generator();
 				$gen->generate();
@@ -528,9 +527,9 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Quick and dirty JS "file"...
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return void
 	 */
 	public function scripts() {
 		?>
