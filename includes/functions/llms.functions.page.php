@@ -95,10 +95,11 @@ function llms_get_page_id( $page ) {
  * Retrieve the URL for a LifterLMS Page
  * EG: 'checkout', 'memberships', 'myaccount', 'courses' etc...
  *
+ * @since  3.0.0
+ *
  * @param  string $page name of the page
  * @param  array  $args optional array of query arguments that can be passed to add_query_arg()
  * @return string
- * @since  3.0.0
  */
 function llms_get_page_url( $page, $args = array() ) {
 	$url = add_query_arg( $args, get_permalink( llms_get_page_id( $page ) ) );
@@ -109,7 +110,7 @@ function llms_get_page_url( $page, $args = array() ) {
 /**
  * Returns the url to the lost password endpoint url
  *
- * @param string $url
+ * @since Unknown
  *
  * @return string
  */
