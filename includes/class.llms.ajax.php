@@ -293,7 +293,8 @@ class LLMS_AJAX {
 							|__/
 	*/
 
-	// phpcs:disable
+	// phpcs:disable Squiz.Commenting.FunctionComment.InvalidNoReturn
+	// phpcs:disable Squiz.Commenting.FunctionComment.WrongStyle
 
 	/**
 	 * Return array of achievements (id => name)
@@ -330,22 +331,15 @@ class LLMS_AJAX {
 	 * @deprecated  3.13.0
 	 */
 	public function get_all_posts() {
-
 		llms_deprecated_function( 'LLMS_AJAX::get_all_posts()', '3.13.0' );
-
-		$post_type = llms_clean( $_REQUEST['post_type'] );
-
+		$post_type = llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING );
 		$args = array(
 			'post_type'   => $post_type,
 			'nopaging'    => true,
 			'post_status' => 'publish',
-
 		);
-
 		$postslist = get_posts( $args );
-
 		echo json_encode( $postslist );
-
 		die();
 	}
 
@@ -361,7 +355,7 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::get_associated_lessons()', '3.13.0' );
 
-		$parent_section = $_REQUEST['section_id'];
+		$parent_section = llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_NUMBER_INT );
 
 		$args      = array(
 			'posts_per_page' => -1,
@@ -510,8 +504,8 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::get_enrolled_students()', '3.13.0' );
 
-		$term    = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] . '%' : '%';
-		$post_id = (int) $_REQUEST['postId'];
+		$term    = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) . '%' : '%';
+		$post_id = llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT );
 
 		global $wpdb;
 		$user_table = $wpdb->prefix . 'users';
@@ -525,7 +519,10 @@ class LLMS_AJAX {
 			AND ($user_table.user_email LIKE '$term'
 			OR $user_table.display_name LIKE '$term')
 			LIMIT 30";
+
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		$all_users   = $wpdb->get_results( $select_user );
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		$users_arr = array();
 
@@ -557,7 +554,7 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::get_enrolled_students_ids()', '3.13.0' );
 
-		$post_id = (int) $_REQUEST['postId'];
+		$post_id = llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT );
 
 		global $wpdb;
 		$user_table = $wpdb->prefix . 'users';
@@ -569,7 +566,10 @@ class LLMS_AJAX {
 			AND $usermeta.meta_key = '_status'
 			AND meta_value = 'Enrolled'
 			LIMIT 1000";
+
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		$all_users   = $wpdb->get_results( $select_user );
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		$users_arr = array();
 
@@ -592,7 +592,7 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::get_lesson()', '3.13.0' );
 
-		$lesson_id      = $_REQUEST['lesson_id'];
+		$lesson_id      = llms_filter_input( INPUT_POST, 'lesson_id', FILTER_SANITIZE_NUMBER_INT );
 		$post           = get_post( $lesson_id );
 		$post->edit_url = get_edit_post_link( $post->ID, false );
 
@@ -725,7 +725,7 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::get_question()', '3.13.0' );
 
-		$question_id    = $_REQUEST['question_id'];
+		$question_id    = llms_filter_input( INPUT_POST, 'question_id', FILTER_SANITIZE_NUMBER_INT );
 		$post           = get_post( $question_id );
 		$post->edit_url = get_edit_post_link( $post->ID, false );
 
@@ -832,7 +832,7 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::get_students()', '3.13.0' );
 
-		$term = array_key_exists( 'term', $_REQUEST ) ? $_REQUEST['term'] : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
 
 		$user_args = array(
 			'include'     => array(),
@@ -876,182 +876,7 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::update_syllabus()', '3.13.0' );
 
-		$post_id = $_REQUEST['post_id'];
-
-		// Parse section id and create new array for comparison.
-		function parse_new_sections( $new_sections_array ) {
-			$array = array();
-
-			foreach ( $new_sections_array as $key => $value ) {
-				if ( is_array( $value ) ) {
-					foreach ( $value as $keys => $values ) {
-						if ( 'section_id' === $keys ) {
-							array_push( $array, $values );
-						}
-					}
-					parse_new_sections( $value );
-				}
-			}
-			return $array;
-		}
-
-		// Parse section ids returned from DB and create new array for comparison.
-		function parse_current_sections( $current_sections_array ) {
-			$array = array();
-
-			foreach ( $current_sections_array[0] as $key => $value ) {
-				foreach ( $value as $keys => $values ) {
-					if ( 'section_id' == $keys ) {
-						array_push( $array, $values );
-					}
-				}
-			}
-			return $array;
-		}
-
-		// Compare arrays and determine if there are any duplicates.
-		function array_has_dupes( $new_array ) {
-			return count( $new_array ) !== count( array_unique( $new_array ) );
-		}
-
-		function delete_lesson_meta( $post_id ) {
-
-			$lesson_ids = array();
-
-			$rd_args = array(
-				'post_type'  => 'lesson',
-				'meta_key'   => '_llms_parent_course',
-				'meta_value' => $post_id,
-			);
-
-			$rd_query = new WP_Query( $rd_args );
-
-			while ( $rd_query->have_posts() ) :
-				$rd_query->the_post();
-
-				array_push( $lesson_ids, $rd_query->post->ID );
-
-			endwhile;
-
-			wp_reset_postdata();
-		}
-
-		if ( isset( $_REQUEST ) ) {
-
-			$success            = 'no'; // default response to no.
-			$new_sections_array = $_REQUEST['sections'];
-
-			$current_sections_array = get_post_meta( $_REQUEST['post_id'], '_sections' );
-
-			$new_array = parse_new_sections( $new_sections_array );
-			$old_array = parse_current_sections( $current_sections_array );
-
-			$result_array = array_intersect_assoc( $new_array, $old_array );
-
-			$new_array_duplicates = array_count_values( $result_array );
-			if ( array_has_dupes( $new_array ) ) {
-				$success = 'no';
-			} else {
-				update_post_meta( $_REQUEST['post_id'], '_sections', ( '' === $_REQUEST['sections'] ) ? '' : $_REQUEST['sections'] );
-				$success = 'yes';
-
-				// Manage Section _parent_course
-				// find all sections that where assigned to the course and delete the metadata
-				$section_args = array(
-					'post_type'  => 'section',
-					'meta_key'   => '_llms_parent_course',
-					'meta_value' => $post_id,
-				);
-
-				$section_query = new WP_Query( $section_args );
-
-				while ( $section_query->have_posts() ) :
-					$section_query->the_post();
-					// delete all metadata
-
-					// find all lessons that were assigned to sections and delete post_meta data
-					$ols_args = array(
-						'post_type'  => 'lesson',
-						'meta_key'   => '_llms_parent_section',
-						'meta_value' => $section_query->post->ID,
-					);
-
-					$ols_query = new WP_Query( $ols_args );
-
-					while ( $ols_query->have_posts() ) :
-						$ols_query->the_post();
-						if ( $section_query->post->ID ) {
-							foreach ( $new_sections_array as $key => $value ) {
-								if ( $section_query->post->ID == $value['section_id'] ) {
-									delete_post_meta( $ols_query->post->ID, '_llms_parent_section', $section_query->post->ID );
-								}
-							}
-						}
-					endwhile;
-					// wp_reset_postdata();
-
-					if ( $post_id ) {
-						delete_post_meta( $section_query->post->ID, '_llms_parent_course', $post_id );
-					}
-				endwhile;
-				wp_reset_postdata();
-
-				// find all sections that are currently assigned to the course
-				foreach ( $_REQUEST['sections'] as $key => $value ) {
-					// update _parent_course for section ids
-					update_post_meta( $value['section_id'], '_llms_parent_course', $post_id );
-				}
-
-				// Manage lesson _parent_section and _parent_course
-				// find all lessons with _parent_course as $post_id and delete the metadata
-				$rd_args = array(
-					'post_type'  => 'lesson',
-					'meta_key'   => '_llms_parent_course',
-					'meta_value' => $post_id,
-				);
-
-				$rd_query = new WP_Query( $rd_args );
-
-				while ( $rd_query->have_posts() ) :
-					$rd_query->the_post();
-					if ( $post_id ) {
-						delete_post_meta( $rd_query->post->ID, '_llms_parent_course', $post_id );
-					}
-				endwhile;
-				wp_reset_postdata();
-
-				foreach ( $_REQUEST['sections'] as $key => $value ) {
-
-					$ls_args = array(
-						'post_type'  => 'lesson',
-						'meta_key'   => '_llms_parent_section',
-						'meta_value' => $value['section_id'],
-					);
-
-					$ls_query = new WP_Query( $ls_args );
-
-					while ( $ls_query->have_posts() ) :
-						$ls_query->the_post();
-						if ( $value['section_id'] ) {
-							delete_post_meta( $ls_query->post->ID, '_llms_parent_section', $value['section_id'] );
-						}
-					endwhile;
-					wp_reset_postdata();
-
-					foreach ( $value['lessons'] as $keys => $values ) {
-						update_post_meta( $values['lesson_id'], '_llms_parent_section', $value['section_id'] );
-						update_post_meta( $values['lesson_id'], '_llms_parent_course', $post_id );
-					}
-				}
-			}// End if().
-		}// End if().
-
-		// echo json_encode($lesson_ids);
-		die();
-
 	}
-
-	// phpcs:enable
 
 }
 
