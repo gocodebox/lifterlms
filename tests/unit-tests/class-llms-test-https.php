@@ -6,15 +6,15 @@
  *
  * @group https
  *
- * @since [version]
- * @version [version]
+ * @since 3.35.1
+ * @version 3.35.1
  */
 class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup testcase.
 	 *
-	 * @since [version]
+	 * @since 3.35.1
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	/**
 	 * Setup testcase.
 	 *
-	 * @since [version]
+	 * @since 3.35.1
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	/**
 	 * Test force url getter
 	 *
-	 * @since [version]
+	 * @since 3.35.1
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	/**
 	 * Test force redirect
 	 *
-	 * @since [version]
+	 * @since 3.35.1
 	 *
 	 * @return void
 	 */
@@ -99,7 +99,7 @@ class LLMS_Test_HTTPS extends LLMS_UnitTestCase {
 	/**
 	 * Test unforce redirect
 	 *
-	 * @since [version]
+	 * @since 3.35.1
 	 *
 	 * @return void
 	 */

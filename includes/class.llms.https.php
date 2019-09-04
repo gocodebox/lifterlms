@@ -3,7 +3,7 @@
  * Handle HTTPS related redirects
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_HTTPS
  *
  * @since 3.0.0
- * @since [version] Sanitize `$_SERVER` input.
+ * @since 3.35.1 Sanitize `$_SERVER` input.
  */
 class LLMS_HTTPS {
 
@@ -35,7 +35,7 @@ class LLMS_HTTPS {
 	/**
 	 * Retrieve the http/s version of the current url.
 	 *
-	 * @since [version]
+	 * @since 3.35.1
 	 *
 	 * @param bool $https If true, gets the HTTPS url, otherwise gets url without HTTPS
 	 * @return string
@@ -67,7 +67,7 @@ class LLMS_HTTPS {
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown
-	 * @since [version] Sanitize `$_SERVER` input.
+	 * @since 3.35.1 Sanitize `$_SERVER` input.
 	 *
 	 * @return void
 	 */
@@ -89,7 +89,7 @@ class LLMS_HTTPS {
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown
-	 * @since [version] Sanitize `$_SERVER` input.
+	 * @since 3.35.1 Sanitize `$_SERVER` input.
 	 *
 	 * @return void
 	 */
