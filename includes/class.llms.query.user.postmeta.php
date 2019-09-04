@@ -203,6 +203,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		$vars[] = $this->get_skip();
 		$vars[] = $this->get( 'per_page' );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$sql = $wpdb->prepare(
 			"SELECT SQL_CALC_FOUND_ROWS meta_id
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta
@@ -211,6 +212,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			 LIMIT %d, %d;",
 			$vars
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
 
@@ -248,6 +250,8 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 					$sql .= " {$this->get( 'query_compare' )} ";
 				}
 
+				// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 				switch ( $query['compare'] ) {
 
 					case '=':
@@ -256,18 +260,21 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 						$sql .= $wpdb->prepare( "( meta_key = %s AND meta_value {$query['compare']} %s )", $query['key'], $query['value'] );
 						break;
 
-					case 'IN';
-					case 'NOT IN';
+					case 'IN':
+					case 'NOT IN':
 						$query['value'] = array_map( array( $this, 'escape_and_quote_string' ), $query['value'] );
 						$vals           = implode( ',', $query['value'] );
 						$sql           .= $wpdb->prepare( "( meta_key = %s AND meta_value {$query['compare']} ( {$vals} ) )", $query['key'] );
-					break;
+						break;
 
 					case 'IS NOT NULL':
 						$sql .= $wpdb->prepare( "( meta_key = %s AND meta_value {$query['compare']} )", $query['key'] );
 						break;
 
 				}
+
+				// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+
 			}
 
 			$sql .= ' )';

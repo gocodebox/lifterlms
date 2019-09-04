@@ -6,8 +6,7 @@
  * @version  3.13.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 class LLMS_Student_Query extends LLMS_Database_Query {
 
@@ -144,6 +143,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		$vars[] = $this->get_skip();
 		$vars[] = $this->get( 'per_page' );
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$sql = $wpdb->prepare(
 			"SELECT SQL_CALC_FOUND_ROWS
 			{$this->sql_select()}
@@ -155,6 +155,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			LIMIT %d, %d;",
 			$vars
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $sql;
 
@@ -340,7 +341,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$comma      = true;
 		}
 
-		$sql = $wpdb->prepare( $sql, $statuses );
+		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
 		return "{$column} IN ( {$sql} )";
 
 	}
