@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.35.1 - 2019-09-04
+--------------------
+
++ Fix instances of improper input sanitization and handling.
+
+
 v3.35.0 - 2019-09-04
 --------------------
 

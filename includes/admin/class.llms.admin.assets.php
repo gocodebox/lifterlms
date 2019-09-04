@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Explicitly set asset versions.
+ * @since 3.35.1 Don't reference external scripts & styles.
  */
 class LLMS_Admin_Assets {
 
@@ -96,6 +97,7 @@ class LLMS_Admin_Assets {
 	 * @since 1.0.0
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
+	 * @since 3.35.1 Don't reference external scripts & styles.
 	 *
 	 * @return   void
 	 */
@@ -143,8 +145,8 @@ class LLMS_Admin_Assets {
 			wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . 'assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS()->version, true );
 			wp_enqueue_script( 'llms-admin-scripts' );
 
-			wp_register_style( 'jquery-ui', 'https://code.jquery.com/ui/1.11.2/themes/flick/jquery-ui' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.11.2' );
-			wp_enqueue_style( 'jquery-ui' );
+			wp_register_style( 'jquery-ui-flick', LLMS_PLUGIN_URL . 'assets/vendor/jquery-ui-flick/jquery-ui-flick' . LLMS_ASSETS_SUFFIX .'.css', array(), '1.11.2' );
+			wp_enqueue_style( 'jquery-ui-flick' );
 
 			wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 
@@ -193,7 +195,7 @@ class LLMS_Admin_Assets {
 
 			if ( 'lifterlms_page_llms-reporting' === $screen->base || 'lifterlms_page_llms-settings' === $screen->base ) {
 
-				wp_register_script( 'llms-google-charts', 'https://www.gstatic.com/charts/loader.js', array(), LLMS()->version );
+				wp_register_script( 'llms-google-charts', LLMS_PLUGIN_URL . 'assets/js/vendor/gcharts-loader.min.js', array(), '2019-09-04' );
 				wp_register_script( 'llms-analytics', LLMS_PLUGIN_URL . 'assets/js/llms-analytics' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-admin-scripts', 'llms-google-charts' ), LLMS()->version, true );
 
 				if ( 'lifterlms_page_llms-settings' === $screen->base ) {
