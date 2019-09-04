@@ -149,24 +149,21 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * save settings to the database
 	 *
-	 * @return LLMS_Admin_Settings::save_fields
+	 * @return void
 	 */
 	public function save() {
 		$settings = $this->get_settings();
-
 		LLMS_Admin_Settings::save_fields( $settings );
-
 	}
 
 	/**
 	 * get settings from the database
 	 *
-	 * @return array
+	 * @return void
 	 */
 	public function output() {
 		$settings = $this->get_settings();
-
-			LLMS_Admin_Settings::output_fields( $settings );
+		LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 }

@@ -187,8 +187,8 @@ class LLMS_AJAX {
 		global $wpdb;
 		$table = $wpdb->prefix . 'lifterlms_vouchers_codes';
 
-		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input( INPUT_REQUEST, 'codes', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
-		$post_id = ! empty( $_REQUEST['postId'] ) ? llms_filter_input( INPUT_REQUEST, 'postId', FILTER_SANITIZE_NUMBER_INT ) : 0;
+		$codes   = ! empty( $_REQUEST['codes'] ) ? llms_filter_input( INPUT_POST, 'codes', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+		$post_id = ! empty( $_REQUEST['postId'] ) ? llms_filter_input( INPUT_POST, 'postId', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		$codes_as_string = join( '","', $codes );
 
@@ -221,9 +221,9 @@ class LLMS_AJAX {
 	public function query_quiz_questions() {
 
 		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'term', FILTER_SANITIZE_STRING ) : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
 
-		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
+		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		global $wpdb;
 

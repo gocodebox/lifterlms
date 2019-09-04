@@ -3,7 +3,7 @@
  * bbPress Integration
  *
  * @since 3.0.0
- * @version 3.13.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
@@ -376,18 +377,19 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Save course metabox custom fields
 	 *
+	 * @since 3.12.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @param    int $post_id  WP_Post ID of the course
 	 * @return   void
-	 * @since    3.12.0
-	 * @version  3.12.0
 	 */
 	public function save_course_settings( $post_id ) {
 
 		$ids = array();
 
-		if ( isset( $_POST['_llms_bbp_forum_ids'] ) ) {
+		if ( isset( $_POST['_llms_bbp_forum_ids'] ) ) {  // phpcs:disable WordPress.Security.NonceVerification.Missing
 
-			$ids = $_POST['_llms_bbp_forum_ids'];
+			$ids = llms_filter_input( INPUT_POST, '_llms_bbp_forum_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 			if ( ! is_array( $ids ) ) {
 				$ids = array( $ids );
 			}

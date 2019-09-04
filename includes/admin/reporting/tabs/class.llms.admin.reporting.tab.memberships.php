@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Memberships Tab on Reporting Screen class.
  *
  * @since 3.32.0
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Memberships {
 
@@ -58,6 +59,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 	 * Output tab content.
 	 *
 	 * @since 3.32.0
+	 * @since [version] Sanitize input data.
 	 *
 	 * @return void
 	 */
@@ -66,7 +68,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 		// single membership
 		if ( isset( $_GET['membership_id'] ) ) {
 
-			if ( ! current_user_can( 'edit_post', $_GET['membership_id'] ) ) {
+			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'membership_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
@@ -81,7 +83,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 			llms_get_template(
 				'admin/reporting/tabs/memberships/membership.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( $_GET['stab'] ) : 'overview',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
 					'tabs'        => $tabs,
 					'membership'  => llms_get_post( intval( $_GET['membership_id'] ) ),
 				)

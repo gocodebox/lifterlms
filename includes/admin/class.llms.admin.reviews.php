@@ -169,23 +169,23 @@ class LLMS_Admin_Reviews {
 	 */
 	public function save_review_meta_boxes() {
 
-		$enabled  = ( isset( $_POST['_llms_reviews_enabled'] ) ) ? $_POST['_llms_reviews_enabled'] : '';
-		$display  = ( isset( $_POST['_llms_display_reviews'] ) ) ? $_POST['_llms_display_reviews'] : '';
-		$num      = ( isset( $_POST['_llms_num_reviews'] ) ) ? $_POST['_llms_num_reviews'] : 0;
-		$multiple = ( isset( $_POST['_llms_multiple_reviews_disabled'] ) ) ? $_POST['_llms_multiple_reviews_disabled'] : '';
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- Nonce verified by core before triggering hook.
 
-		if ( isset( $_POST['post_ID'] ) ) {
-			update_post_meta( $_POST['post_ID'], '_llms_reviews_enabled', $enabled );
+		$enabled  = ( isset( $_POST['_llms_reviews_enabled'] ) ) ? llms_filter_input( INPUT_POST, '_llms_reviews_enabled', FILTER_SANITIZE_STRING ) : '';
+		$display  = ( isset( $_POST['_llms_display_reviews'] ) ) ? llms_filter_input( INPUT_POST, '_llms_display_reviews', FILTER_SANITIZE_STRING ) : '';
+		$num      = ( isset( $_POST['_llms_num_reviews'] ) ) ? llms_filter_input( INPUT_POST, '_llms_num_reviews', FILTER_SANITIZE_STRING ) : 0;
+		$multiple = ( isset( $_POST['_llms_multiple_reviews_disabled'] ) ) ? llms_filter_input( INPUT_POST, '_llms_multiple_reviews_disabled', FILTER_SANITIZE_STRING ) : '';
+
+		$post_id = llms_filter_input( INPUT_POST, 'post_ID', FILTER_SANITIZE_NUMBER_INT );
+
+		if ( $post_id ) {
+			update_post_meta( $post_id, '_llms_reviews_enabled', $enabled );
+			update_post_meta( $post_id, '_llms_display_reviews', $display );
+			update_post_meta( $post_id, '_llms_num_reviews', $num );
+			update_post_meta( $post_id, '_llms_multiple_reviews_disabled', $multiple );
 		}
-		if ( isset( $_POST['post_ID'] ) ) {
-			update_post_meta( $_POST['post_ID'], '_llms_display_reviews', $display );
-		}
-		if ( isset( $_POST['post_ID'] ) ) {
-			update_post_meta( $_POST['post_ID'], '_llms_num_reviews', $num );
-		}
-		if ( isset( $_POST['post_ID'] ) ) {
-			update_post_meta( $_POST['post_ID'], '_llms_multiple_reviews_disabled', $multiple );
-		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
 	}
 }
 

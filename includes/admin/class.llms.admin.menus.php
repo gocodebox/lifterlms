@@ -3,13 +3,16 @@
  * Admin Menu Items
  *
  * @since   1.0.0
- * @version 3.29.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_Menus class.
+ *
+ * @since  1.0.0
+ * @since  [version] Sanitize input data.
  */
 class LLMS_Admin_Menus {
 
@@ -249,13 +252,15 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the HTML for the reporting screens
 	 *
-	 * @return   void
 	 * @since    3.2.0
-	 * @version  3.13.0
+	 * @since  3.13.0 Unknown.
+	 * @since  [version] Sanitize input data.
+	 *
+	 * @return   void
 	 */
 	public function reporting_page_init() {
 
-		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', $_GET['student_id'] ) ) {
+		if ( isset( $_GET['student_id'] ) && ! llms_current_user_can( 'view_lifterlms_reports', llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 

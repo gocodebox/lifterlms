@@ -161,10 +161,10 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 				$orderby = 'upm.updated_date';
 				break;
 
-			case 'name';
+			case 'name':
 			default:
 				$orderby = 'p.post_title';
-			break;
+
 		}
 
 		$courses = $this->student->get_courses(

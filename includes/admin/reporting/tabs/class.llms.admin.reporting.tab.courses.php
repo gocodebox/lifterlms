@@ -2,13 +2,18 @@
 /**
  * Courses Tab on Reporting Screen
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @since 3.15.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Reporting_Tab_Courses
+ *
+ * @since 3.15.0
+ * @since [version] Sanitize input data.
+ */
 class LLMS_Admin_Reporting_Tab_Courses {
 
 	/**
@@ -16,7 +21,6 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	 *
 	 * @return   void
 	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function __construct() {
 
@@ -78,16 +82,17 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	/**
 	 * Output tab content
 	 *
-	 * @return   void
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since [version] Sanitize input data.
+	 *
+	 * @return   void
 	 */
 	public function output() {
 
 		// single course
 		if ( isset( $_GET['course_id'] ) ) {
 
-			if ( ! current_user_can( 'edit_post', $_GET['course_id'] ) ) {
+			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
@@ -103,7 +108,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 			llms_get_template(
 				'admin/reporting/tabs/courses/course.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( $_GET['stab'] ) : 'overview',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
 					'tabs'        => $tabs,
 					'course'      => llms_get_post( intval( $_GET['course_id'] ) ),
 				)

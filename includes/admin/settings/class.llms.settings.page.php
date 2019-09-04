@@ -3,7 +3,7 @@
  * Admin Settings Page Base Class
  *
  * @since 1.0.0
- * @version 3.17.5
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since [version] Unslash input data.
  */
 class LLMS_Settings_Page {
 
@@ -74,13 +75,14 @@ class LLMS_Settings_Page {
 	/**
 	 * Retrieve current section from URL var
 	 *
+	 * @since 3.17.5
+	 * @since [version] Unslash input data.
+	 *
 	 * @return   string
-	 * @since    3.17.5
-	 * @version  3.17.5
 	 */
 	protected function get_current_section() {
 
-		return isset( $_GET['section'] ) ? sanitize_text_field( $_GET['section'] ) : 'main';
+		return isset( $_GET['section'] ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'main';
 
 	}
 

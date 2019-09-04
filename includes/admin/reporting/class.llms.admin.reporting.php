@@ -3,7 +3,7 @@
  * Admin Reporting Base Class
  *
  * @since 3.2.0
- * @version 3.19.4
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.31.0 Fix redundant `if` statement in the `output_widget` method.
  * @since 3.32.0 Added Memberships tab.
  * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_Reporting {
 
@@ -33,18 +34,19 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Get array of course IDs selected according to applied filters
 	 *
+	 * @since 3.2.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_courses() {
 
-		$r = isset( $_GET['course_ids'] ) ? $_GET['course_ids'] : array();
+		$r = isset( $_GET['course_ids'] ) ? llms_filter_input( INPUT_GET, 'course_ids', FILTER_SANITIZE_STRING ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}
 		if ( is_string( $r ) ) {
-			$r = explode( ',', $r );
+			$r = array_map( 'absint', explode( ',', $r ) );
 		}
 		return $r;
 
@@ -53,51 +55,53 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Get array of membership IDs selected according to applied filters
 	 *
+	 * @since 3.2.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_memberships() {
 
-		$r = isset( $_GET['membership_ids'] ) ? $_GET['membership_ids'] : array();
+		$r = isset( $_GET['membership_ids'] ) ? llms_filter_input( INPUT_GET, 'membership_ids', FILTER_SANITIZE_STRING ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}
 		if ( is_string( $r ) ) {
-			$r = explode( ',', $r );
+			$r = array_map( 'absint', explode( ',', $r ) );
 		}
 		return $r;
-
 	}
 
 	/**
 	 * Get the currently selected date range filter
 	 *
+	 * @since 3.2.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_range() {
 
-		return ( isset( $_GET['range'] ) ) ? $_GET['range'] : 'last-7-days';
+		return ( isset( $_GET['range'] ) ) ? llms_filter_input( INPUT_GET, 'range', FILTER_SANITIZE_STRING ) : 'last-7-days';
 
 	}
 
 	/**
 	 * Get array of student IDs according to current filters
 	 *
+	 * @since 3.2.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_students() {
 
-		$r = isset( $_GET['student_ids'] ) ? $_GET['student_ids'] : array();
+		$r = isset( $_GET['student_ids'] ) ? llms_filter_input( INPUT_GET, 'student_ids', FILTER_SANITIZE_STRING ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}
 		if ( is_string( $r ) ) {
-			$r = explode( ',', $r );
+			$r = array_map( 'absint', explode( ',', $r ) );
 		}
 		return $r;
 
@@ -106,34 +110,37 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Retrieve the current reporting tab
 	 *
+	 * @since 3.2.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_current_tab() {
-		return isset( $_GET['tab'] ) ? sanitize_text_field( $_GET['tab'] ) : 'students';
+		return isset( $_GET['tab'] ) ? llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) : 'students';
 	}
 
 	/**
 	 * Get the current end date according to filters
 	 *
+	 * @since 3.2.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_date_end() {
-		return ( isset( $_GET['date_end'] ) ) ? $_GET['date_end'] : '';
+		return ( isset( $_GET['date_end'] ) ) ? llms_filter_input( INPUT_GET, 'date_end', FILTER_SANITIZE_STRING ) : '';
 	}
 
 	/**
 	 * Get the current start date according to filters
 	 *
+	 * @since 3.2.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public static function get_date_start() {
-		return ( isset( $_GET['date_start'] ) ) ? $_GET['date_start'] : '';
+		return ( isset( $_GET['date_start'] ) ) ? llms_filter_input( INPUT_GET, 'date_start', FILTER_SANITIZE_STRING ) : '';
 	}
 
 	/**
@@ -226,6 +233,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.32.0 Added Memberships tab.
+	 * @since [version] Sanitize input data.
 	 *
 	 * @param string $stab Slug of the sub-tab.
 	 * @return string
@@ -240,19 +248,19 @@ class LLMS_Admin_Reporting {
 
 		switch ( self::get_current_tab() ) {
 			case 'memberships':
-				$args['membership_id'] = $_GET['membership_id'];
+				$args['membership_id'] = llms_filter_input( INPUT_GET, 'membership_id', FILTER_SANITIZE_NUMBER_INT );
 				break;
 
 			case 'courses':
-				$args['course_id'] = $_GET['course_id'];
+				$args['course_id'] = llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT );
 				break;
 
 			case 'students':
-				$args['student_id'] = $_GET['student_id'];
+				$args['student_id'] = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
 				break;
 
 			case 'quizzes':
-				$args['quiz_id'] = $_GET['quiz_id'];
+				$args['quiz_id'] = llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT );
 				break;
 
 		}

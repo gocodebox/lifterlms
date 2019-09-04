@@ -1,11 +1,18 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Admin Achievements Table
  *
  * @since   3.2.0
- * @version 3.18.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Table_Achievements
+ *
+ * @since   3.2.0
+ * @since [version] Get student ID more reliably.
  */
 class LLMS_Table_Achievements extends LLMS_Admin_Table {
 
@@ -135,13 +142,22 @@ class LLMS_Table_Achievements extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
+	 * @since 2.3.0
+	 * @since [version] Get student ID more reliably.
+	 *
 	 * @return   array
-	 * @since    2.3.0
-	 * @version  2.3.0
 	 */
 	public function set_args() {
+
+		$student = false;
+		if ( ! empty( $this->student ) ) {
+			$student = $this->student->get_id();
+		} elseif ( ! empty( $_GET['student_id'] ) ) {
+			$student = llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT );
+		}
+
 		return array(
-			'student' => ! empty( $this->student ) ? $this->student->get_id() : absint( $_GET['student_id'] ),
+			'student' => $student,
 		);
 	}
 

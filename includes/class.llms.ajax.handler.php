@@ -308,9 +308,9 @@ class LLMS_AJAX_Handler {
 	public static function query_students() {
 
 		// grab the search term if it exists
-		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'term', FILTER_SANITIZE_STRING ) : '';
+		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
 
-		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_REQUEST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
+		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
 
 		$enrolled_in     = array_key_exists( 'enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['enrolled_in'] ) ) : null;
 		$not_enrolled_in = array_key_exists( 'not_enrolled_in', $_REQUEST ) ? sanitize_text_field( wp_unslash( $_REQUEST['not_enrolled_in'] ) ) : null;

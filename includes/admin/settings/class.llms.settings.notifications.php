@@ -3,7 +3,7 @@
  * Admin Settings: Notifications Tab
  *
  * @since 3.8.0
- * @version 3.30.3
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define class properties; fix typo in title element id.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
@@ -72,7 +73,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 		$settings = array();
 
 		// setup vars
-		$type  = sanitize_text_field( $_GET['type'] );
+		$type  = llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
 		$types = $controller->get_supported_types();
 		$title = $controller->get_title() . ' (' . $types[ $type ] . ')';
 		$view  = $controller->get_mock_view( $type );
@@ -157,7 +158,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_GET['notification'] ) ) {
 
-			$controller = LLMS()->notifications()->get_controller( $_GET['notification'] );
+			$controller = LLMS()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
 
 			if ( $controller ) {
 
@@ -208,9 +209,9 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Output a merge code button in the WYSIWYG editor
 	 *
-	 * @return   [type]     [description]
 	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @return   void
 	 */
 	public function merge_code_button() {
 
@@ -221,15 +222,20 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Remove test data from $_POST so that it wont be saved to the DB
 	 *
+	 * @since 3.24.0
+	 * @since [version] Verify nonce & Sanitize input data.
+	 *
 	 * @return   void
-	 * @since    3.24.0
-	 * @version  3.24.0
 	 */
 	public function before_save() {
 
+		if ( ! llms_verify_nonce( '_wpnonce', 'lifterlms-settings' ) ) {
+			return;
+		}
+
 		if ( isset( $_POST['llms_notification_test_data'] ) ) {
 
-			$_POST['llms_notification_test_data_temp'] = $_POST['llms_notification_test_data'];
+			$_POST['llms_notification_test_data_temp'] = wp_unslash( $_POST['llms_notification_test_data'] ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			unset( $_POST['llms_notification_test_data'] );
 
 		}
@@ -239,18 +245,26 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	/**
 	 * Send a test notification after notification data is saved
 	 *
+	 * @since 3.24.0
+	 * @since [version] Verify nonce & Sanitize input data.
+	 *
 	 * @return   void
-	 * @since    3.24.0
-	 * @version  3.24.0
 	 */
 	public function after_save() {
+
+		if ( ! llms_verify_nonce( '_wpnonce', 'lifterlms-settings' ) ) {
+			return;
+		}
 
 		if ( isset( $_GET['notification'] ) && isset( $_GET['type'] ) && isset( $_POST['llms_notification_test_data_temp'] ) ) {
 
 			if ( ! empty( $_POST['llms_notification_test_data_temp'] ) ) {
 
-				$controller = LLMS()->notifications()->get_controller( $_GET['notification'] );
-				$controller->send_test( sanitize_text_field( $_GET['type'] ), $_POST['llms_notification_test_data_temp'] );
+				$controller = LLMS()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
+				$controller->send_test(
+					llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING ),
+					wp_unslash( $_POST['llms_notification_test_data_temp'] ) // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+				);
 
 			}
 		}

@@ -399,11 +399,14 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	/**
 	 * Override default save method to save the display order of payment gateways
 	 *
-	 * @return   void
 	 * @since    3.17.5
-	 * @version  3.17.5
+	 * @return   void
 	 */
 	public function save() {
+
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return;
+		}
 
 		// save all custom fields
 		parent::save();

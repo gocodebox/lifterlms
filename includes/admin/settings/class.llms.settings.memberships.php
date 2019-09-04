@@ -134,9 +134,9 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 	/**
 	 * save settings to the database
 	 *
-	 * @return LLMS_Admin_Settings::save_fields
-	 * @since   3.5.0
-	 * @version 3.5.0
+	 * @since 3.5.0
+	 *
+	 * @return void
 	 */
 	public function save() {
 
@@ -148,9 +148,9 @@ class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 	/**
 	 * Output settings
 	 *
-	 * @return array
-	 * @since   3.5.0
-	 * @version 3.5.0
+	 * @since 3.5.0
+	 *
+	 * @return void
 	 */
 	public function output() {
 		$settings = $this->get_settings();

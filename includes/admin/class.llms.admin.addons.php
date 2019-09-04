@@ -4,7 +4,7 @@
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
  *
  * @since 3.5.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.5.0
  * @since 3.30.3 Explicitly define undefined properties.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_AddOns {
 
@@ -40,7 +41,7 @@ class LLMS_Admin_AddOns {
 		if ( isset( $_GET['page'] ) && 'llms-settings' === $_GET['page'] ) {
 			$section = 'featured';
 		} elseif ( isset( $_GET['section'] ) ) {
-			$section = $_GET['section'];
+			$section = llms_filter_input( INPUT_GET, 'section', FILTER_SANITIZE_STRING );
 		}
 
 		return apply_filters( 'llms_admin_add_ons_get_current_section', $section );
@@ -215,13 +216,16 @@ class LLMS_Admin_AddOns {
 	}
 
 	/**
-	 * Handle activation, deactivation, and cloud installation of addons
+	 * Handle activation and deactivation of addons
+	 *
+	 * @since 3.22.0
+	 * @since [version] Sanitize input data.
 	 *
 	 * @return   void
-	 * @since    3.22.0
-	 * @version  3.22.0
 	 */
 	private function handle_manage_addons() {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is verified in $this->handle_actions() method.
 
 		$actions = apply_filters(
 			'llms_admin_add_ons_manage_actions',
@@ -240,7 +244,7 @@ class LLMS_Admin_AddOns {
 				continue;
 			}
 
-			foreach ( $_POST[ 'llms_' . $action ] as $id ) {
+			foreach ( llms_filter_input( INPUT_POST, 'llms_' . $action, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) as $id ) {
 
 				$addon = llms_get_add_on( $id );
 				if ( ! method_exists( $addon, $action ) ) {
@@ -255,6 +259,8 @@ class LLMS_Admin_AddOns {
 				}
 			}
 		}
+
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	}
 

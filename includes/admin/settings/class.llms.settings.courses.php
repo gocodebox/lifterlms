@@ -135,9 +135,9 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	/**
 	 * Save settings
 	 *
-	 * @return LLMS_Admin_Settings::save_fields
 	 * @since   3.5.0
-	 * @version 3.5.0
+	 *
+	 * @return void
 	 */
 	public function save() {
 		$settings = $this->get_settings();
@@ -147,9 +147,9 @@ class LLMS_Settings_Courses extends LLMS_Settings_Page {
 	/**
 	 * Output settings on screen
 	 *
-	 * @return array
 	 * @since   3.5.0
-	 * @version 3.5.0
+	 *
+	 * @return void
 	 */
 	public function output() {
 		$settings = $this->get_settings();

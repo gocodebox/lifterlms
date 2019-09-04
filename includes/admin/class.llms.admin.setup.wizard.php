@@ -3,7 +3,7 @@
  * Display a Setup Wizard
  *
  * @since 3.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,13 +13,14 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling error.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_Setup_Wizard {
 
 	/**
 	 * Instance of WP_Error
 	 *
-	 * @var  objnct
+	 * @var WP_Error
 	 */
 	private $error;
 
@@ -86,12 +87,13 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Retrieve the current step and default to the intro
 	 *
+	 * @since 3.0.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	public function get_current_step() {
-		return empty( $_GET['step'] ) ? 'intro' : sanitize_text_field( $_GET['step'] );
+		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_POST, 'step', FILTER_SANITIZE_STRING );
 	}
 
 	/**
@@ -420,17 +422,23 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Handle saving data during setup
 	 *
+	 * @since 3.0.0
+	 * @since 3.3.0 Unknown.
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.3.0
 	 */
 	public function save() {
 
-		if ( ! isset( $_POST['llms_setup_nonce'] ) || ! wp_verify_nonce( $_POST['llms_setup_nonce'], 'llms_setup_save' ) || empty( $_POST['llms_setup_save'] ) ) {
+		if ( ! isset( $_POST['llms_setup_nonce'] ) || ! llms_verify_nonce( 'llms_setup_nonce', 'llms_setup_save' ) ) {
 			return;
 		}
 
-		switch ( $_POST['llms_setup_save'] ) {
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			return;
+		}
+
+		switch ( llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING ) ) {
 
 			case 'coupon':
 				update_option( 'llms_allow_tracking', 'yes' );
@@ -484,13 +492,13 @@ class LLMS_Admin_Setup_Wizard {
 				break;
 
 			case 'payments':
-				$country = isset( $_POST['country'] ) ? sanitize_text_field( $_POST['country'] ) : get_lifterlms_country();
+				$country = isset( $_POST['country'] ) ? llms_filter_input( INPUT_POST, 'country', FILTER_SANITIZE_STRING ) : get_lifterlms_country();
 				update_option( 'lifterlms_country', $country );
 
-				$currency = isset( $_POST['currency'] ) ? sanitize_text_field( $_POST['currency'] ) : get_lifterlms_currency();
+				$currency = isset( $_POST['currency'] ) ? llms_filter_input( INPUT_POST, 'currency', FILTER_SANITIZE_STRING ) : get_lifterlms_currency();
 				update_option( 'lifterlms_currency', $currency );
 
-				$manual = isset( $_POST['manual_payments'] ) ? sanitize_text_field( $_POST['manual_payments'] ) : 'no';
+				$manual = isset( $_POST['manual_payments'] ) ? llms_filter_input( INPUT_POST, 'manual_payments', FILTER_SANITIZE_STRING ) : 'no';
 				update_option( 'llms_gateway_manual_enabled', $manual );
 
 				$r = true;

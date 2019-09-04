@@ -122,7 +122,7 @@ class LLMS_Admin_Import {
 		// Fixes an issue where hooks are loaded in an unexpected order causing template functions required to parse an import aren't available.
 		LLMS()->include_template_functions();
 
-		$validate = $this->validate_upload( $_FILES['llms_import'] );
+		$validate = $this->validate_upload( wp_unslash( $_FILES['llms_import'] ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		// File upload error.
 		if ( is_wp_error( $validate ) ) {
@@ -130,7 +130,7 @@ class LLMS_Admin_Import {
 			return $validate;
 		}
 
-		$raw = file_get_contents( $_FILES['llms_import']['tmp_name'] );
+		$raw = ! empty( $_FILES['llms_import']['tmp_name'] ) ? file_get_contents( sanitize_text_field( wp_unslash( $_FILES['llms_import']['tmp_name'] ) ) ) : array();
 
 		$generator = new LLMS_Generator( $raw );
 		if ( is_wp_error( $generator->set_generator() ) ) {

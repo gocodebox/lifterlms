@@ -143,7 +143,7 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	/**
 	 * save settings to the database
 	 *
-	 * @return LLMS_Admin_Settings::save_fields
+	 * @return void
 	 */
 	public function save() {
 

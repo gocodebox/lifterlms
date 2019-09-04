@@ -3,7 +3,7 @@
  * Admin Status Pages
  *
  * @since 3.11.2
- * @version 3.33.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,28 +15,32 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Add "Scheduled Actions" tab.
  * @since 3.33.1 Read log files using `llms_filter_input`.
  * @since 3.33.2 Fix undefined index when viewing log files.
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_Page_Status {
 
 	/**
 	 * Handle tools actions
 	 *
-	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 * @since [version] Sanitize input data.
+	 *
+	 * @return void
 	 */
 	private static function do_tool() {
 
-		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'llms_tool' ) ) {
+		if ( ! llms_verify_nonce( '_wpnonce', 'llms_tool' ) ) {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
+
+		$tool = llms_filter_input( INPUT_POST, 'llms_tool', FILTER_SANITIZE_STRING );
 
 		/**
 		 * Custom Tools can hook into this action to do the tool action
 		 */
-		do_action( 'llms_status_tool', $_REQUEST['llms_tool'] );
+		do_action( 'llms_status_tool', $tool );
 
-		switch ( $_REQUEST['llms_tool'] ) {
+		switch ( $tool ) {
 
 			case 'automatic-payments':
 				LLMS_Site::clear_lock_url();
@@ -135,6 +139,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 2.1.0
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
+	 * @since [version] Sanitize input data.
 	 *
 	 * @return void
 	 */
@@ -150,7 +155,7 @@ class LLMS_Admin_Page_Status {
 			)
 		);
 
-		$current_tab = ! isset( $_GET['tab'] ) ? 'report' : sanitize_text_field( $_GET['tab'] );
+		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
 		?>
 
 		<div class="wrap lifterlms llms-status llms-status--<?php echo $current_tab; ?>">
@@ -203,20 +208,21 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Delete a log file
 	 *
+	 * @since 3.11.2
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
 	 */
 	private static function remove_log_file() {
 
-		if ( empty( $_REQUEST['_wpnonce'] ) || ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'delete_log' ) ) {
+		if ( ! llms_verify_nonce( '_wpnonce', 'delete_log', 'GET' ) ) {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
 		if ( ! empty( $_REQUEST['llms_delete_log'] ) ) {
 
 			$logs   = self::get_logs();
-			$handle = sanitize_title( $_REQUEST['llms_delete_log'] );
+			$handle = sanitize_title( wp_unslash( $_REQUEST['llms_delete_log'] ) );
 
 			$log = isset( $logs[ $handle ] ) ? $logs[ $handle ] : false;
 			if ( ! $log ) {

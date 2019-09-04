@@ -1,12 +1,18 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Courses Tab on Reporting Screen
  *
- * @since    3.16.0
- * @version  3.16.0
+ * @since 3.16.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_Reporting_Tab_Quizzes
+ *
+ * @since 3.16.0
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Quizzes {
 
@@ -59,16 +65,17 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 	/**
 	 * Output tab content
 	 *
+	 * @since 3.16.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.16.0
 	 */
 	public function output() {
 
 		// single quiz
 		if ( isset( $_GET['quiz_id'] ) ) {
 
-			if ( ! current_user_can( 'edit_post', $_GET['quiz_id'] ) ) {
+			if ( ! current_user_can( 'edit_post', llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT ) ) ) {
 				wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 			}
 
@@ -83,7 +90,7 @@ class LLMS_Admin_Reporting_Tab_Quizzes {
 			llms_get_template(
 				'admin/reporting/tabs/quizzes/quiz.php',
 				array(
-					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( $_GET['stab'] ) : 'overview',
+					'current_tab' => isset( $_GET['stab'] ) ? esc_attr( llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) : 'overview',
 					'tabs'        => $tabs,
 					'quiz'        => llms_get_post( intval( $_GET['quiz_id'] ) ),
 				)

@@ -1,12 +1,19 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Add Custom User Fields to user admin panel screens
  * Applies to edit-user.php, user-new.php, & profile.php
  *
  * @since    2.7.0
- * @version  3.24.0
+ * @version  [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_User_Custom_Fields
+ *
+ * @since 2.7.0
+ * @since [version] Sanitize input data.
  */
 class LLMS_Admin_User_Custom_Fields {
 
@@ -298,12 +305,15 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Save custom field data for a user
 	 *
+	 * @since    3.13.0
+	 * @since [version] Sanitize input data.
+	 *
 	 * @param    mixed $user  WP_User or WP_User ID
 	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
 	 */
 	public function save( $user ) {
+
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
 
 		if ( is_numeric( $user ) ) {
 			$user = new WP_User( $user );
@@ -315,7 +325,8 @@ class LLMS_Admin_User_Custom_Fields {
 		// saves custom fields
 		foreach ( $this->fields as $field => $data ) {
 
-			update_user_meta( $user->ID, $field, sanitize_text_field( apply_filters( 'lifterlms_save_custom_user_field_' . $field, $_POST[ $field ], $user, $field ) ) );
+			$value = apply_filters( 'lifterlms_save_custom_user_field_' . $field, llms_filter_input( INPUT_POST, $field, FILTER_SANITIZE_STRING ), $user, $field );
+			update_user_meta( $user->ID, $field, $value );
 
 		}
 
@@ -323,9 +334,11 @@ class LLMS_Admin_User_Custom_Fields {
 		if ( in_array( 'instructors_assistant', $user->roles ) && ! empty( $_POST['llms_parent_instructors'] ) ) {
 
 			$instructor = llms_get_instructor( $user );
-			$instructor->add_parent( $_POST['llms_parent_instructors'] );
+			$instructor->add_parent( llms_filter_input( INPUT_POST, 'llms_parent_instructors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) );
 
 		}
+
+		// phpcs:enable WordPress.Security.NonceVerification.Missing
 
 	}
 
@@ -335,10 +348,10 @@ class LLMS_Admin_User_Custom_Fields {
 	 * If adding custom fields, hook into the action run after required validation
 	 * to add special validation rules for your field
 	 *
+	 * @since    2.7.0
+	 *
 	 * @param    mixed $user   Instance of WP_User or WP User ID
 	 * @return   mixed          false if no validation errors, string (the error message) if validation errors occurred
-	 * @since    2.7.0
-	 * @version  2.7.0
 	 */
 	public function validate_fields( $user ) {
 
@@ -346,12 +359,11 @@ class LLMS_Admin_User_Custom_Fields {
 		foreach ( $this->fields as $field => $data ) {
 
 			// return an error message for empty required fields
-			if ( empty( $_POST[ $field ] ) && $data['required'] ) {
+			if ( empty( $_POST[ $field ] ) && $data['required'] ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
 
 				return sprintf( __( 'Required field "%s" is missing.', 'lifterlms' ), $data['label'] );
 
-			} // End if().
-			else {
+			} else {
 
 				/**
 				 * Run custom validation against the field
