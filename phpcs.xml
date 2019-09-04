@@ -11,6 +11,12 @@
 
     <!-- Exclude deprecated/legacy files -->
     <exclude-pattern>includes/admin/analytics/*.php</exclude-pattern>
+    <exclude-pattern>includes/class.llms.analytics.php</exclude-pattern>
+    <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
+    <exclude-pattern>includes/admin/class.llms.admin.analytics.php</exclude-pattern>
+
+    <!-- Exclude libs -->
+	<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 
 	<rule ref="LifterLMS">
 
@@ -47,7 +53,7 @@
 		<exclude name="Squiz.Commenting.FunctionComment.ParamNameNoMatch" />
 		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturnVoid" />
 
-
+		<exclude name="Squiz.ControlStructures.ControlSignature.SpaceAfterCloseBrace" />
 
 		<!-- @todo: extract is messy you're right, fix this -->
 		<exclude name="WordPress.PHP.DontExtract.extract_extract" />
