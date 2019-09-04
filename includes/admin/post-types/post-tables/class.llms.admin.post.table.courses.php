@@ -64,7 +64,7 @@ class LLMS_Admin_Post_Table_Courses {
 	 * @param    string $redirect_to  url to redirect to upon export completion (not used)
 	 * @param    string $doaction     action name called
 	 * @param    array  $post_ids     selected post ids
-	 * @return   void
+	 * @return   null
 	 * @since    3.3.0
 	 * @version  3.24.0
 	 */
@@ -108,12 +108,12 @@ class LLMS_Admin_Post_Table_Courses {
 	/**
 	 * Register bulk actions
 	 *
-	 * @param    array $actions  existing bulk actions
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @param array $actions Existing bulk actions.
+	 * @return string[]
 	 */
-	function register_bulk_actions( $actions ) {
+	public function register_bulk_actions( $actions ) {
 
 		$actions['llms_export'] = __( 'Export', 'lifterlms' );
 		return $actions;
