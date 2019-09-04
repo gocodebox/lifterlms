@@ -5,6 +5,7 @@ v3.35.1 - 2019-09-04
 --------------------
 
 + Fix instances of improper input sanitization and handling.
++ Include scripts, styles, and images for reporting charts and datepickers
 
 
 v3.35.0 - 2019-09-04
