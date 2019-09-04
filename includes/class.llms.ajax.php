@@ -355,7 +355,7 @@ class LLMS_AJAX {
 
 		llms_deprecated_function( 'LLMS_AJAX::get_associated_lessons()', '3.13.0' );
 
-		$parent_section = llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_NUMBER_INT );
+		$parent_section = llms_filter_input( INPUT_POST, 'section_id', FILTER_SANITIZE_NUMBER_INT );
 
 		$args      = array(
 			'posts_per_page' => -1,
