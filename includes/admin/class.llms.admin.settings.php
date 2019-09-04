@@ -152,7 +152,11 @@ class LLMS_Admin_Settings {
 
 		$current_tab = empty( $_GET['tab'] ) ? 'general' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
 
-		self::save();
+		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is checked in self::save().
+		if ( ! empty( $_POST ) ) {
+			self::save();
+		}
+		// phpcs:enable WordPress.Security.NonceVerification.Missing.
 
 		$err = llms_filter_input( INPUT_GET, 'llms_error', FILTER_SANITIZE_STRING );
 		if ( $err ) {
@@ -876,7 +880,6 @@ class LLMS_Admin_Settings {
 	public static function save_fields( $settings ) {
 
 		// phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is checked in self::save().
-
 		if ( empty( $_POST ) ) {
 			return false;
 		}
