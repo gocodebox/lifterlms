@@ -3,7 +3,7 @@
  * Admin Menu Items
  *
  * @since   1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Menus class.
  *
  * @since  1.0.0
- * @since  [version] Sanitize input data.
+ * @since  3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Menus {
 
@@ -254,7 +254,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since    3.2.0
 	 * @since  3.13.0 Unknown.
-	 * @since  [version] Sanitize input data.
+	 * @since  3.35.0 Sanitize input data.
 	 *
 	 * @return   void
 	 */

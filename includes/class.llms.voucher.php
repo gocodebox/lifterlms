@@ -482,7 +482,7 @@ class LLMS_Voucher {
 	 * [is_code_duplicate description]
 	 *
 	 * @since 2.0.0
-	 * @since [version] Prepare SQL.
+	 * @since 3.35.0 Prepare SQL.
 	 *
 	 * @param    [type] $codes  [description]
 	 * @return   boolean            [description]

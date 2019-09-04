@@ -4,7 +4,7 @@
  * to make easier testing and editing of LLMS Content
  *
  * @since    3.7.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_View_Manager
  *
  * @since 3.7.0
- * @since [version] Sanitize `$_GET` data.
+ * @since 3.35.0 Sanitize `$_GET` data.
  */
 class LLMS_View_Manager {
 
@@ -130,7 +130,7 @@ class LLMS_View_Manager {
 	 * Updates links so admins can navigate around quickly when "viewing as"
 	 *
 	 * @since 3.7.0
-	 * @since [version] Sanitize `$_GET` data.
+	 * @since 3.35.0 Sanitize `$_GET` data.
 	 *
 	 * @return   string
 	 */
@@ -173,7 +173,7 @@ class LLMS_View_Manager {
 	 * Get the current view role/type
 	 *
 	 * @since 3.7.0
-	 * @since [version] Sanitize `$_GET` data.
+	 * @since 3.35.0 Sanitize `$_GET` data.
 	 *
 	 * @return   string
 	 */
@@ -304,7 +304,7 @@ class LLMS_View_Manager {
 	 *
 	 * @since 3.7.0
 	 * @since 3.17.8 Unknown.
-	 * @since [version] Declare asset version.
+	 * @since 3.35.0 Declare asset version.
 	 *
 	 * @return   void
 	 */

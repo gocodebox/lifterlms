@@ -3,7 +3,7 @@
  * Admin Reporting Base Class
  *
  * @since 3.2.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.31.0 Fix redundant `if` statement in the `output_widget` method.
  * @since 3.32.0 Added Memberships tab.
  * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting {
 
@@ -35,7 +35,7 @@ class LLMS_Admin_Reporting {
 	 * Get array of course IDs selected according to applied filters
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   array
 	 */
@@ -56,7 +56,7 @@ class LLMS_Admin_Reporting {
 	 * Get array of membership IDs selected according to applied filters
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   array
 	 */
@@ -76,7 +76,7 @@ class LLMS_Admin_Reporting {
 	 * Get the currently selected date range filter
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   string
 	 */
@@ -90,7 +90,7 @@ class LLMS_Admin_Reporting {
 	 * Get array of student IDs according to current filters
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   array
 	 */
@@ -111,7 +111,7 @@ class LLMS_Admin_Reporting {
 	 * Retrieve the current reporting tab
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   string
 	 */
@@ -123,7 +123,7 @@ class LLMS_Admin_Reporting {
 	 * Get the current end date according to filters
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   string
 	 */
@@ -135,7 +135,7 @@ class LLMS_Admin_Reporting {
 	 * Get the current start date according to filters
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   string
 	 */
@@ -233,7 +233,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.32.0 Added Memberships tab.
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @param string $stab Slug of the sub-tab.
 	 * @return string

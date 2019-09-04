@@ -85,7 +85,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.4.0 Unknown.
 	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
-	 * @since [version] Return early if nonce doesn't pass verification and sanitize `$_POST` data.
+	 * @since 3.35.0 Return early if nonce doesn't pass verification and sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */
@@ -189,7 +189,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.27.0 Unknown.
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */
@@ -469,7 +469,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.10.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return   void
 	 */

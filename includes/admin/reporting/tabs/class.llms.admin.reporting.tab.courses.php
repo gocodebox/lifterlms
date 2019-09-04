@@ -3,7 +3,7 @@
  * Courses Tab on Reporting Screen
  *
  * @since 3.15.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Reporting_Tab_Courses
  *
  * @since 3.15.0
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Courses {
 
@@ -83,7 +83,7 @@ class LLMS_Admin_Reporting_Tab_Courses {
 	 * Output tab content
 	 *
 	 * @since    3.15.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   void
 	 */

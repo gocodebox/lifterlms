@@ -7,15 +7,15 @@
  * @group admin
  * @group admin_import
  *
- * @since [version]
- * @version [version]
+ * @since 3.35.0
+ * @version 3.35.0
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test case.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Tear down test case.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -48,7 +48,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Mock a file upload for some test data.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @param int $err Mock a PHP file upload error code, see https://www.php.net/manual/en/features.file-upload.errors.php.
 	 * @param string $import Filename to use for the import, see `import-*.json` files in the `tests/assets` directory.
@@ -75,7 +75,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Upload form not submitted.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return [type]
 	 */
@@ -88,7 +88,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Submitted with an invalid nonce.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -104,7 +104,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Submitted without files.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Submitted by a user without proper permissions.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * File encountered validation errors.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -182,7 +182,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Generator encountered an issues when setting the generator method.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Error during generation (missing required data)
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */
@@ -224,7 +224,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	/**
 	 * Success.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @return void
 	 */

@@ -3,7 +3,7 @@
  * User Handling for login and registration (mostly)
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Person_Handler class.
  *
  * @since 3.0.0
- * @since [version] Sanitize field data when filling field with user-submitted data.
+ * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
  */
 class LLMS_Person_Handler {
 
@@ -483,7 +483,7 @@ class LLMS_Person_Handler {
 	 * the resulting array will be the data retrieved from self::get_available_fields() with "value" keys filled for each field
 	 *
 	 * @since 3.0.0
-	 * @since [version] Sanitize field data when filling field with user-submitted data.
+	 * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
 	 *
 	 * @param    array $fields array of fields from self::get_available_fields()
 	 * @param    array $data   array of data (from a $_POST or function)

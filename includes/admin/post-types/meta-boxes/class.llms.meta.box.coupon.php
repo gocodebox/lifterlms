@@ -3,7 +3,7 @@
  * Coupon Metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership.
- * @since [version] Sanitize `$_POST` data and verify nonce.
+ * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
  */
 class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
@@ -232,7 +232,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 * Save all metadata
 	 *
 	 * @since 3.0.0
-	 * @since [version] Sanitize `$_POST` data and verify nonce.
+	 * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
 	 *
 	 * @param int $post_id WP Post ID.
 	 * @return void

@@ -188,7 +188,7 @@ class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
 	 * @since 2.3.0
-	 * @since [version] Sanitize `$_GET` data.
+	 * @since 3.35.0 Sanitize `$_GET` data.
 	 *
 	 * @return   array
 	 */

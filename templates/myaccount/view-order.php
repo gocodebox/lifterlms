@@ -6,8 +6,8 @@
  *
  * @since 3.0.0
  * @since 3.33.0 Pass the current order object instance as param for all the actions and filters, plus redundant check on order existence removed.
- * @since [version] Access `$_GET` data via `llms_filter_input()`.
- * @version [version]
+ * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;

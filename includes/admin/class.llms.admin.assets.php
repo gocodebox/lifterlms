@@ -3,7 +3,7 @@
  * Admin Assets Class
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Assets class.
  *
  * @since 1.0.0
- * @since [version] Explicitly set asset versions.
+ * @since 3.35.0 Explicitly set asset versions.
  */
 class LLMS_Admin_Assets {
 
@@ -63,7 +63,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
-	 * @since [version] Explicitly set asset versions.
+	 * @since 3.35.0 Explicitly set asset versions.
 	 *
 	 * @return void
 	 */
@@ -95,7 +95,7 @@ class LLMS_Admin_Assets {
 	 *
 	 * @since 1.0.0
 	 * @since 3.22.0 Unknown.
-	 * @since [version] Explicitly set asset versions.
+	 * @since 3.35.0 Explicitly set asset versions.
 	 *
 	 * @return   void
 	 */

@@ -7,7 +7,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since    ??
  * @version  3.24.0
- * @deprecated [version]
+ * @deprecated 3.35.0
  */
 class LLMS_Meta_Box_Video {
 
@@ -18,7 +18,7 @@ class LLMS_Meta_Box_Video {
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
 	 *
-	 * @deprecated [version]
+	 * @deprecated 3.35.0
 	 *
 	 * @param  object $post [WP post object]
 	 * @return void
@@ -31,7 +31,7 @@ class LLMS_Meta_Box_Video {
 	 * Static save method
 	 * cleans variables and saves using update_post_meta
 	 *
-	 * @deprecated [version]
+	 * @deprecated 3.35.0
 	 *
 	 * @param    int    $post_id  id of post object
 	 * @param    object $post     WP post object

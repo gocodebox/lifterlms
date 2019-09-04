@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.0
  *
  * @property  $question_type  (string)  type of question
  */
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.1 Fixed choice sorting issues.
- * @since [version] Escape `LIKE` clause when retrieving choices.
+ * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -196,7 +196,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.30.1 Improve choice sorting to accommodate numeric markers.
-	 * @since [version] Escape `LIKE` clause.
+	 * @since 3.35.0 Escape `LIKE` clause.
 	 *
 	 * @param string $return Optional. Determine how to return the choice data.
 	 *                       'choices' (default) returns an array of LLMS_Question_Choice objects.

@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Data
  *
  * @since 3.0.0
- * @since [version] Sanitize `$_SERVER` data.
+ * @since 3.35.0 Sanitize `$_SERVER` data.
  */
 class LLMS_Data {
 
@@ -86,7 +86,7 @@ class LLMS_Data {
 	 * add browser and os info to the system report
 	 *
 	 * @since 3.17.0
-	 * @since [version] Sanitize `$_SERVER` data.
+	 * @since 3.35.0 Sanitize `$_SERVER` data.
 	 *
 	 * @return array
 	 */
@@ -417,7 +417,7 @@ class LLMS_Data {
 	 * Get PHP & Server Data
 	 *
 	 * @since 3.0.0
-	 * @since [version] Sanitize `$_SERVER` data.
+	 * @since 3.35.0 Sanitize `$_SERVER` data.
 	 *
 	 * @return array
 	 */

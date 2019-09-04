@@ -3,7 +3,7 @@
  * Admin Settings Page Base Class
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Unslash input data.
+ * @since 3.35.0 Unslash input data.
  */
 class LLMS_Settings_Page {
 
@@ -76,7 +76,7 @@ class LLMS_Settings_Page {
 	 * Retrieve current section from URL var
 	 *
 	 * @since 3.17.5
-	 * @since [version] Unslash input data.
+	 * @since 3.35.0 Unslash input data.
 	 *
 	 * @return   string
 	 */

@@ -3,7 +3,7 @@
  * User Login Form Controller
  *
  * @since 3.19.4
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Controller_Login
  *
  * @since 3.19.4
- * @since [version] Sanitize `$_POST` data.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Login {
 
@@ -33,7 +33,7 @@ class LLMS_Controller_Login {
 	 * Handle Login Form Submission
 	 *
 	 * @since 3.19.4
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return   void
 	 */

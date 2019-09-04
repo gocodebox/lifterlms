@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.32.0
+ * @version  3.33.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.32.0
+	 * @version  3.33.0
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -43,7 +43,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/app/llms-l10n.js.
 			 *
 			 * @since    2.7.3
-			 * @version  3.16.0
+			 * @version  2.7.3
 			 */
 			'This is a %2$s %1$s String' => esc_html__( 'This is a %2$s %1$s String', 'lifterlms' ),
 
@@ -72,8 +72,8 @@ class LLMS_L10n_JS {
 			/**
 			 * File: assets/js/app/llms-pricing-tables.js.
 			 *
-			 * @since    3.0.0
-			 * @version  3.9.1
+			 * @since    Unknown.
+			 * @version  Unknown.
 			 */
 			'Members Only Pricing' => esc_html__( 'Members Only Pricing', 'lifterlms' ),
 
@@ -406,7 +406,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-metabox-students.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.0.0
+			 * @version  3.33.0
 			 */
 			'Please select a student to enroll' => esc_html__( 'Please select a student to enroll', 'lifterlms' ),
 

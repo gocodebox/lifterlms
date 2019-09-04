@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Memberships Tab on Reporting Screen class.
  *
  * @since 3.32.0
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Memberships {
 
@@ -59,7 +59,7 @@ class LLMS_Admin_Reporting_Tab_Memberships {
 	 * Output tab content.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return void
 	 */

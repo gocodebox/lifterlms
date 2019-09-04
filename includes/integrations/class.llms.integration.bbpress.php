@@ -3,7 +3,7 @@
  * bbPress Integration
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
@@ -378,7 +378,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Save course metabox custom fields
 	 *
 	 * @since 3.12.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @param    int $post_id  WP_Post ID of the course
 	 * @return   void

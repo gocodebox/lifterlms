@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.0
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -77,7 +77,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
- * @since [version] Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
+ * @since 3.35.0 Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -151,7 +151,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * notes are recorded using the wp comments API & DB
 	 *
 	 * @since    3.0.0
-	 * @since [version] Sanitize $_SERVER data.
+	 * @since 3.35.0 Sanitize $_SERVER data.
 	 *
 	 * @param    string  $note           note content
 	 * @param    boolean $added_by_user  if this is an admin-submitted note adds user info to note meta
@@ -794,7 +794,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * SQL query to retrieve total amounts for transactions by type
 	 *
 	 * @since 3.0.0
-	 * @since [version] Prepare SQL query properly.
+	 * @since 3.35.0 Prepare SQL query properly.
 	 *
 	 * @param    stirng $type  'amount' or 'refund_amount'
 	 * @return   float

@@ -4,7 +4,7 @@
  * Applies to edit-user.php, user-new.php, & profile.php
  *
  * @since    2.7.0
- * @version  [version]
+ * @version  3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_User_Custom_Fields
  *
  * @since 2.7.0
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_User_Custom_Fields {
 
@@ -306,7 +306,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 * Save custom field data for a user
 	 *
 	 * @since    3.13.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @param    mixed $user  WP_User or WP_User ID
 	 * @return   void

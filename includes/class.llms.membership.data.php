@@ -3,7 +3,7 @@
  * Query data about a membership.
  *
  * @since 3.32.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Query data about a membership.
  *
  * @since 3.32.0
- * @since [version] Sanitize post ids from WP_Query before using for a new DB query.
+ * @since 3.35.0 Sanitize post ids from WP_Query before using for a new DB query.
  */
 class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 
@@ -105,7 +105,7 @@ class LLMS_Membership_Data extends LLMS_Abstract_Post_Data {
 	 * Retrieve total amount of transactions related to orders for the course completed within the period.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Sanitize post ids from WP_Query before using for a new DB query.
+	 * @since 3.35.0 Sanitize post ids from WP_Query before using for a new DB query.
 	 *
 	 * @param string $period Optional. Date period [current|previous]. Default 'current'.
 	 * @return float

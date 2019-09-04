@@ -6,7 +6,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * Query LifterLMS Students for a given course / membership
  *
  * @since    3.16.0
- * @version  [version]
+ * @version  3.35.0
  *
  * @arg  $attempt     (int)        Query by attempt number
  * @arg  $quiz_id     (int|array)  Query by Quiz WP post ID (locate multiple quizzes with an array of ids)
@@ -142,7 +142,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * SQL "where" clause for the query
 	 *
 	 * @since 3.16.0
-	 * @since [version] Better SQL preparation.
+	 * @since 3.35.0 Better SQL preparation.
 	 *
 	 * @return   string
 	 */

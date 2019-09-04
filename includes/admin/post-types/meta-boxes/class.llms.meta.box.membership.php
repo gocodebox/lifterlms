@@ -3,7 +3,7 @@
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.
- * @since [version] Verify nonces and sanitize `$_POST` data.
+ * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -263,7 +263,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Autoenroll courses saved via AJAX and removed from this method.
-	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @see LLMS_Admin_Metabox::save_actions()
 	 *

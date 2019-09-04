@@ -9,7 +9,7 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * @since 3.18.0
- * @since [version] Sanitize `$_POST` data.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Certificates {
 
@@ -59,7 +59,7 @@ class LLMS_Controller_Certificates {
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
 	 *
 	 * @since 3.18.0
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return   void
 	 */

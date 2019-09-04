@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Post_Table_Instructors
  *
  * @since    3.13.0
- * @since [version] Verify nonces and sanitize `$_POST` data.
+ * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Admin_Post_Table_Instructors {
 
@@ -84,7 +84,7 @@ class LLMS_Admin_Post_Table_Instructors {
 	 *
 	 * @since 3.13.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @param    array $views  array of view link HTML string
 	 * @return   array

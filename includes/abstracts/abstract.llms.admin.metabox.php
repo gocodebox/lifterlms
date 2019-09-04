@@ -3,7 +3,7 @@
  * Admin Metabox Class
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  * Admin metabox class.
  *
  * @since 3.0.0
- * @since [version] Sanitize and verify nonce when saving metabox data.
+ * @since 3.35.0 Sanitize and verify nonce when saving metabox data.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -354,7 +354,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.14.1 Unknown.
-	 * @since [version] Added nonce verification before processing data; only access `$_POST` data via `llms_filter_input()`.
+	 * @since 3.35.0 Added nonce verification before processing data; only access `$_POST` data via `llms_filter_input()`.
 	 *
 	 * @param    int $post_id   WP Post ID of the post being saved
 	 * @return   void

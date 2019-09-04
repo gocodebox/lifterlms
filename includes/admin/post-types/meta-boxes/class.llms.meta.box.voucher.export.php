@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since Unknown
  * @since 3.30.3 Fixed typo in export content-disposition header.
- * @since [version] Sanitize $_POST data, fix issue preventing emails from being properly sent.
+ * @since 3.35.0 Sanitize $_POST data, fix issue preventing emails from being properly sent.
  */
 class LLMS_Meta_Box_Voucher_Export {
 

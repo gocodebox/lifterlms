@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Table_Student_Certificates
  *
  * @since   3.2.0
- * @since [version] Get student ID more reliably.
+ * @since 3.35.0 Get student ID more reliably.
  */
 class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 
@@ -147,7 +147,7 @@ class LLMS_Table_Student_Certificates extends LLMS_Admin_Table {
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
 	 * @since    2.3.0
-	 * @since [version] Get student ID more reliably.
+	 * @since 3.35.0 Get student ID more reliably.
 	 *
 	 * @return   array
 	 */

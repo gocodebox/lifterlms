@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.3.0
  * @since 3.30.1 Explicitly include template functions during imports.
- * @since [version] Initialize at `admin_init` instead of `init`.
+ * @since 3.35.0 Initialize at `admin_init` instead of `init`.
  *               Import template from the admin views directory instead of the frontend templates directory.
  *               Improve error handling
  */
@@ -25,7 +25,7 @@ class LLMS_Admin_Import {
 	 * Constructor
 	 *
 	 * @since 3.3.0
-	 * @since [version] Initialize at `admin_init` instead of `init`.
+	 * @since 3.35.0 Initialize at `admin_init` instead of `init`.
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_Admin_Import {
 	/**
 	 * Localize statistic information for display on success.
 	 *
-	 * @since [version]
+	 * @since 3.35.0
 	 *
 	 * @param string $stat Statistic key name.
 	 * @return string
@@ -90,7 +90,7 @@ class LLMS_Admin_Import {
 	 * Handle HTML output on the screen
 	 *
 	 * @since 3.3.0
-	 * @since [version] Import template from the admin views directory instead of the frontend templates directory.
+	 * @since 3.35.0 Import template from the admin views directory instead of the frontend templates directory.
 	 *
 	 * @return void
 	 */
@@ -103,7 +103,7 @@ class LLMS_Admin_Import {
 	 *
 	 * @since 3.3.0
 	 * @since 3.30.1 Explicitly include template functions.
-	 * @since [version] Validate nonce and user permissions before processing import data.
+	 * @since 3.35.0 Validate nonce and user permissions before processing import data.
 	 *               Moved statistic localization into its own function.
 	 *               UpdateD return signature.
 	 *
@@ -160,7 +160,7 @@ class LLMS_Admin_Import {
 	 * Validate the uploaded file
 	 *
 	 * @since 3.3.0
-	 * @since [version] Fix undefined variable error.
+	 * @since 3.35.0 Fix undefined variable error.
 	 *
 	 * @link https://www.php.net/manual/en/features.file-upload.errors.php
 	 *

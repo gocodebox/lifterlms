@@ -3,7 +3,7 @@
  * Engagements Metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Engagements Metabox
  *
  * @since 1.0.0
- * @since [version] Verify nonce and access $_POST data via `llms_filter_input()`.
+ * @since 3.35.0 Verify nonce and access $_POST data via `llms_filter_input()`.
  */
 class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 
@@ -224,7 +224,7 @@ class LLMS_Meta_Box_Engagement extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.1.0
 	 * @since 3.11.0 Unknown.
-	 * @since [version] Verify nonce and access $_POST data via `llms_filter_input()`.
+	 * @since 3.35.0 Verify nonce and access $_POST data via `llms_filter_input()`.
 	 *
 	 * @param    int $post_id  WP Post ID of the engagement
 	 * @return   void

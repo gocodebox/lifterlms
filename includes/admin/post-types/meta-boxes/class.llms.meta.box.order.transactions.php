@@ -3,7 +3,7 @@
  * Order transactions metabox.
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Meta_Box_Order_Transactions
  *
  * @since 3.0.0
- * @since [version] Verify nonces and sanitize `$_POST` data.
+ * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 
@@ -51,7 +51,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 * Passes output instruction to parent
 	 *
 	 * @since 3.0.0
-	 * @since [version] Sanitize `$_GET` data.
+	 * @since 3.35.0 Sanitize `$_GET` data.
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown
-	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return void
@@ -142,7 +142,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 * Save method, processes refunds
 	 *
 	 * @since 3.0.0
-	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return null
@@ -180,7 +180,7 @@ class LLMS_Meta_Box_Order_Transactions extends LLMS_Admin_Metabox {
 	 * Save method, records manual transactions
 	 *
 	 * @since 3.0.0
-	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @param int $post_id Post ID of the Order.
 	 * @return null

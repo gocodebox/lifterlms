@@ -3,7 +3,7 @@
  * Analytics Widget Abstract
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.3 Define undefined properties.
  * @since 3.33.1 In `set_order_data_query()` always set $order_clause variable to avoid PHP notices
- * @since [version] Sanitize input data from reporting filters.
+ * @since 3.35.0 Sanitize input data from reporting filters.
  */
 abstract class LLMS_Analytics_Widget {
 

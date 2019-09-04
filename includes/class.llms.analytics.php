@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  *
  * Manages large queries of grouped data
  *
- * @deprecated [version]
+ * @deprecated 3.35.0
  */
 class LLMS_Analytics {
 

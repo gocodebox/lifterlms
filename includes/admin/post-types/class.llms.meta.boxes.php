@@ -5,7 +5,7 @@
  * sets up base metabox functionality and global save.
  *
  * @since   1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Meta_Boxes
  *
  * @since 1.0.0
- * @since [version] Verify nonces and sanitize `$_POST` data.
+ * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Admin_Meta_Boxes {
 
@@ -186,7 +186,7 @@ class LLMS_Admin_Meta_Boxes {
 	 * Validates post and metabox data before saving.
 	 *
 	 * @since Unknown
-	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @param int     $post_id WP Post ID.
 	 * @param WP_Post $post Post object.

@@ -3,7 +3,7 @@
  * Display a Setup Wizard
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling error.
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -88,7 +88,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * Retrieve the current step and default to the intro
 	 *
 	 * @since 3.0.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   string
 	 */
@@ -424,7 +424,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * @since 3.0.0
 	 * @since 3.3.0 Unknown.
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   void
 	 */

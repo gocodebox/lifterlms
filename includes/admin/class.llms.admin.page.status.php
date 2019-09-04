@@ -3,7 +3,7 @@
  * Admin Status Pages
  *
  * @since 3.11.2
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Add "Scheduled Actions" tab.
  * @since 3.33.1 Read log files using `llms_filter_input`.
  * @since 3.33.2 Fix undefined index when viewing log files.
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Page_Status {
 
@@ -23,7 +23,7 @@ class LLMS_Admin_Page_Status {
 	 * Handle tools actions
 	 *
 	 * @since 3.11.2
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return void
 	 */
@@ -139,7 +139,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 2.1.0
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return void
 	 */
@@ -209,7 +209,7 @@ class LLMS_Admin_Page_Status {
 	 * Delete a log file
 	 *
 	 * @since 3.11.2
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   void
 	 */

@@ -2,7 +2,7 @@
  * Global admin functions.
  *
  * @since Unknown
- * @version [version]
+ * @version 3.35.0
  */
 
 ( function( $ ){

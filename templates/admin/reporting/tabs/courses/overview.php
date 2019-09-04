@@ -3,8 +3,8 @@
  * Single Course Tab: Overview Subtab
  *
  * @since    3.15.0
- * @since [version] Access `$_GET` data via `llms_filter_input()`.
- * @version [version]
+ * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;

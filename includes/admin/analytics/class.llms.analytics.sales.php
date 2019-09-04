@@ -8,7 +8,7 @@ if ( ! defined( 'ABSPATH' ) ) {
  * @author codeBOX
  * @project lifterLMS
  *
- * @deprecated [version]
+ * @deprecated 3.35.0
  */
 class LLMS_Analytics_Sales extends LLMS_Analytics_Page {
 

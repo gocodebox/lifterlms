@@ -9,7 +9,7 @@ if ( ! class_exists( 'LLMS_Analytics_Courses' ) ) :
 	 * @author codeBOX
 	 * @project lifterLMS
 	 *
-	 * @deprecated [version]
+	 * @deprecated 3.35.0
 	 */
 	class LLMS_Analytics_Courses extends LLMS_Analytics_Page {
 

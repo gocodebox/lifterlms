@@ -3,7 +3,7 @@
  * Metaboxes for Orders
  *
  * @since  3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Metaboxes for Orders
  *
  * @since  3.0.0
- * @since [version] Verify nonces and sanitize `$_POST` data.
+ * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 
@@ -51,7 +51,7 @@ class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {
 	 * Passes output instruction to parent
 	 *
 	 * @since  3.0.0
-	 * @since [version] Verify nonces and sanitize `$_POST` data.
+	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */

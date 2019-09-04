@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Controllers
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.16.0
  * @since 3.30.3 Fixed an issue causing backlashes to be saved around escaped characters when leaving remarks.
- * @since [version] Sanitize `$_POST` data.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Admin_Quiz_Attempts {
 
@@ -32,7 +32,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.9 Unknown.
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */
@@ -75,7 +75,7 @@ class LLMS_Controller_Admin_Quiz_Attempts {
 	 *
 	 * @since 3.16.0
 	 * @since 3.30.3 Strip slashes on remarks.
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt instance.
 	 * @return void

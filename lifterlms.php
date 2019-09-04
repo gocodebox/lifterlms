@@ -10,7 +10,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
- * Version: 3.34.5
+ * Version: 3.35.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -40,7 +40,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '3.34.5';
+	public $version = '3.35.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -259,7 +259,7 @@ final class LifterLMS {
 	 * @since 3.31.0 Add theme support includes.
 	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
 	 * @since 3.34.0 Include LLMS_Admin_Users Table class.
-	 * @since [version] Access $_GET variable via `llms_filter_input()`.
+	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
 	 *
 	 * @return void
 	 */

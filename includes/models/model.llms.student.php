@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
  * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
  * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
- * @since [version] Prepare all variables when querying for enrollment date.
+ * @since 3.35.0 Prepare all variables when querying for enrollment date.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -547,7 +547,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Get the formatted date when a user initially enrolled in a product or when they were last updated
 	 *
 	 * @since 3.0.0
-	 * @since [version] Prepare SQL properly.
+	 * @since 3.35.0 Prepare SQL properly.
 	 *
 	 * @param   int    $product_id  WP Post ID of a course or membership
 	 * @param   string $date        "enrolled" will get the most recent start date, "updated" will get the most recent status change date

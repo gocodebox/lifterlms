@@ -4,7 +4,7 @@
  * Adds radios to the publishing misc. actions box for courses and memberships
  *
  * @since 3.6.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Meta_Box_Visibility class
  *
  * @since 3.6.0
- * @since [version] Sanitize `$_POST` data and add nonce verification.
+ * @since 3.35.0 Sanitize `$_POST` data and add nonce verification.
  */
 class LLMS_Meta_Box_Visibility {
 
@@ -34,7 +34,7 @@ class LLMS_Meta_Box_Visibility {
 	 * Output HTML for the settings
 	 *
 	 * @since  3.6.0
-	 * @since [version] Add nonce verification.
+	 * @since 3.35.0 Add nonce verification.
 	 *
 	 * @return   void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Meta_Box_Visibility {
 	 * Save the settings
 	 *
 	 * @since 3.6.0
-	 * @since [version] Sanitize `$_POST` data and verify nonce.
+	 * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
 	 *
 	 * @param int $post_id WP Post ID.
 	 * @return void

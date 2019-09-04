@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Sanitize `$_POST` data.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Frontend_Forms {
 
@@ -33,7 +33,7 @@ class LLMS_Frontend_Forms {
 	 * Reset password form
 	 *
 	 * @since Unknown
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Frontend_Forms {
 	 *
 	 * @since Unknown
 	 * @since 3.30.3 Fixed spelling errors.
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return bool
 	 */

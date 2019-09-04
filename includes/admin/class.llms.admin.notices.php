@@ -3,7 +3,7 @@
  * LifterLMS Admin Notices
  *
  * @since    3.0.0
- * @version  [version]
+ * @version  3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Notices
  *
  * @since  3.0.0
- * @since [version] Unslash input data.
+ * @since 3.35.0 Unslash input data.
  */
 class LLMS_Admin_Notices {
 
@@ -210,7 +210,7 @@ class LLMS_Admin_Notices {
 	 * Validates request and deletes the notice
 	 *
 	 * @since 3.0.0
-	 * @since [version] Unslash input data.
+	 * @since 3.35.0 Unslash input data.
 	 *
 	 * @return void
 	 */

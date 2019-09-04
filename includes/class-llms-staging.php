@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 3.32.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Staging class.
  *
  * @since 3.32.0
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Staging {
 
@@ -36,7 +36,7 @@ class LLMS_Staging {
 	 * Handle the action buttons present in the recurring payments staging notice.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return void
 	 */

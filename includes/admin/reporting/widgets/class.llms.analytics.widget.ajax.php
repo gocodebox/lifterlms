@@ -3,7 +3,7 @@
  * Register WordPress AJAX methods for Analytics Widgets
  *
  * @since  3.0.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Analytics_Widget_Ajax
  *
  * @since  3.0.0
- * @since [version] Sanitize `$_REQUEST` data.
+ * @since 3.35.0 Sanitize `$_REQUEST` data.
  */
 class LLMS_Analytics_Widget_Ajax {
 
@@ -21,7 +21,7 @@ class LLMS_Analytics_Widget_Ajax {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.8 Unknown.
-	 * @since [version] Sanitize `$_REQUEST` data.
+	 * @since 3.35.0 Sanitize `$_REQUEST` data.
 	 *
 	 * @return void
 	 */

@@ -6,7 +6,7 @@
  * @since Unknown
  * @version 3.24.0
  *
- * @deprecated [version]
+ * @deprecated 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Meta_Box_Expiration
  *
  * @since Unknown
- * @since [version] Verify nonce before processing data; sanitize $_POST data with `llms_filter_input()`.
+ * @since 3.35.0 Verify nonce before processing data; sanitize $_POST data with `llms_filter_input()`.
  */
 class LLMS_Meta_Box_Expiration {
 
@@ -28,7 +28,7 @@ class LLMS_Meta_Box_Expiration {
 	 * Calls static class metabox_options
 	 * Loops through meta-options array and displays appropriate fields based on type.
 	 *
-	 * @deprecated [version]
+	 * @deprecated 3.35.0
 	 *
 	 * @param  object $post [WP post object]
 	 * @return void
@@ -42,7 +42,7 @@ class LLMS_Meta_Box_Expiration {
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
 	 *
-	 * @deprecated [version]
+	 * @deprecated 3.35.0
 	 *
 	 * @return array [md array of metabox fields]
 	 */
@@ -57,7 +57,7 @@ class LLMS_Meta_Box_Expiration {
 	 * Static save method
 	 * cleans variables and saves using update_post_meta
 	 *
-	 * @deprecated [version]
+	 * @deprecated 3.35.0
 	 *
 	 * @param    int    $post_id  id of post object
 	 * @param    object $post     WP post object

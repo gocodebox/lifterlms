@@ -5,8 +5,8 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since Unknown
- * @since [version] Access `$_GET` data via `llms_filter_input()`.
- * @version [version]
+ * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;

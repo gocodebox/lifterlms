@@ -3,7 +3,7 @@
  * Achievement Forms
  *
  * @since   3.18.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Controller_Achievements
  *
  * @since 3.18.0
- * @since [version] Sanitize `$_POST` data.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Achievements {
 
@@ -33,7 +33,7 @@ class LLMS_Controller_Achievements {
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
 	 *
 	 * @since 3.18.0
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */

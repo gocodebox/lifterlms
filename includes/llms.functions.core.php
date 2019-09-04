@@ -723,7 +723,7 @@ function llms_get_enrollment_status_name( $status ) {
  * Retrieve an IP Address for the current user
  *
  * @since 3.0.0
- * @since [version] Sanitize superglobal input.
+ * @since 3.35.0 Sanitize superglobal input.
  *
  * @return string
  */
@@ -1046,7 +1046,7 @@ function llms_trim_string( $string, $chars = 200, $suffix = '...' ) {
  * Useful for checking nonce for various LifterLMS forms which check for the form submission on init actions
  *
  * @since 3.8.0
- * @since [version] Sanitize nonce field before verification.
+ * @since 3.35.0 Sanitize nonce field before verification.
  *
  * @param    string $nonce           name of the nonce field
  * @param    string $action          name of the action

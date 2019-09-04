@@ -3,7 +3,7 @@
  * Students Tab on Reporting Screen
  *
  * @since  3.2.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  *
  * @since  3.2.0
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Students {
 
@@ -32,7 +32,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 	 * Add breadcrumb links to the tab depending on current view
 	 *
 	 * @since 3.2.0
-	 * @since [version] Sanitize input data.
+	 * @since 3.35.0 Sanitize input data.
 	 *
 	 * @return   void
 	 */

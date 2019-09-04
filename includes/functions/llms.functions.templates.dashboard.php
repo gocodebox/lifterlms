@@ -14,7 +14,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 * Output the LifterLMS Student Dashboard
 	 *
 	 * @since 3.25.1
-	 * @since [version] unslash `$_GET` data.
+	 * @since 3.35.0 unslash `$_GET` data.
 	 *
 	 * @param   array $options  array of options.
 	 * @return  void
@@ -567,7 +567,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * Template for My Notifications student dashboard endpoint
 	 *
 	 * @since 3.26.3
-	 * @since [version] Sanitize `$_GET` data.
+	 * @since 3.35.0 Sanitize `$_GET` data.
 	 *
 	 * @return void
 	 */

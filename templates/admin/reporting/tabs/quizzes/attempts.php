@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since 3.16.0
- * @since [version] Access `$_GET` data via `llms_filter_input()`.
+ * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
  * @version  3.16.0
  */
 

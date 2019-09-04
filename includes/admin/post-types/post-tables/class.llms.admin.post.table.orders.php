@@ -245,7 +245,7 @@ class LLMS_Admin_Post_Table_Orders {
 	 *
 	 * @since 2.5.0
 	 * @since 3.24.3 Unknown
-	 * @since [version] Sanitize $_GET data.
+	 * @since 3.35.0 Sanitize $_GET data.
 	 *
 	 * @param    obj $query  WP_Query
 	 * @return   obj

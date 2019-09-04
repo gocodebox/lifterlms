@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Frontend_Password
  *
  * @since 1.0.0
- * @since [version] Sanitize `$_POST` data.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Frontend_Password {
 
@@ -22,7 +22,7 @@ class LLMS_Frontend_Password {
 	 * Lost password template
 	 *
 	 * @since 1.0.0
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */

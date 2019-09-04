@@ -3,7 +3,7 @@
  * Admin Settings: Notifications Tab
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.35.0
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define class properties; fix typo in title element id.
- * @since [version] Sanitize input data.
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
@@ -223,7 +223,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * Remove test data from $_POST so that it wont be saved to the DB
 	 *
 	 * @since 3.24.0
-	 * @since [version] Verify nonce & Sanitize input data.
+	 * @since 3.35.0 Verify nonce & Sanitize input data.
 	 *
 	 * @return   void
 	 */
@@ -246,7 +246,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 	 * Send a test notification after notification data is saved
 	 *
 	 * @since 3.24.0
-	 * @since [version] Verify nonce & Sanitize input data.
+	 * @since 3.35.0 Verify nonce & Sanitize input data.
 	 *
 	 * @return   void
 	 */

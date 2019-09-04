@@ -3,7 +3,7 @@
  * User Account Edit Forms
  *
  * @since 3.7.0
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Controller_Account class.
  *
  * @since 3.7.0
- * @since [version] Sanitize `$_POST` data.
+ * @since 3.35.0 Sanitize `$_POST` data.
  */
 class LLMS_Controller_Account {
 
@@ -36,7 +36,7 @@ class LLMS_Controller_Account {
 	 *
 	 * @since 3.10.0
 	 * @since 3.19.0 Unknown.
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return   void
 	 */
@@ -125,7 +125,7 @@ class LLMS_Controller_Account {
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.5 Unknown.
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return   void
 	 */
@@ -209,7 +209,7 @@ class LLMS_Controller_Account {
 	 * This is the form that actually updates a users password
 	 *
 	 * @since 3.8.0
-	 * @since [version] Sanitize `$_POST` data.
+	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
 	 * @return   void
 	 */

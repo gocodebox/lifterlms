@@ -5,7 +5,7 @@
  * Sets up post type custom messages and includes base metabox class
  *
  * @since Unknown
- * @version [version]
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Post_Types
  *
  * @since Unknown
- * @version [version] Fix l10n calls.
+ * @version 3.35.0 Fix l10n calls.
  */
 class LLMS_Admin_Post_Types {
 
@@ -56,7 +56,7 @@ class LLMS_Admin_Post_Types {
 	 * Customize post type messages.
 	 *
 	 * @since Unknown.
-	 * @version [version] Fix l10n calls.
+	 * @version 3.35.0 Fix l10n calls.
 	 *
 	 * @return array $messages
 	 */
@@ -101,7 +101,7 @@ class LLMS_Admin_Post_Types {
 				5  => isset( $_GET['revision'] ) ? sprintf( __( '%1$s restored to revision from %2$s.', 'lifterlms' ), wp_post_revision_title( llms_filter_input( INPUT_GET, 'revision', FILTER_SANITIZE_NUMBER_INT ), false ) ) : false,
 				6  => sprintf( __( '%s published.', 'lifterlms' ), $name ) . $permalink_html,
 				7  => sprintf( __( '%s saved.', 'lifterlms' ), $name ),
-				8  => sprintf( __( '%s submitted.' ), $name ) . $preview_link_html,
+				8  => sprintf( __( '%s submitted.', 'lifterlms' ), $name ) . $preview_link_html,
 				9  => sprintf(
 					__( '%1$s scheduled for: <strong>%2$s</strong>.', 'lifterlms' ),
 					$name,

@@ -5,7 +5,7 @@ defined( 'ABSPATH' ) || exit;
  * AJAX Event Handler
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.0
  */
 class LLMS_AJAX {
 
@@ -122,7 +122,7 @@ class LLMS_AJAX {
 	 * Register our AJAX JavaScript.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Sanitize data & declare script versions.
+	 * @since 3.35.0 Sanitize data & declare script versions.
 	 *
 	 * @return  void
 	 */
