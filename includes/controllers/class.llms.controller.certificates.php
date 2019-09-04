@@ -1,11 +1,15 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Certificate Forms
  *
  * @since   3.18.0
  * @version 3.24.0
+ */
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * @since 3.18.0
+ * @since [version] Sanitize `$_POST` data.
  */
 class LLMS_Controller_Certificates {
 
@@ -54,9 +58,10 @@ class LLMS_Controller_Certificates {
 	/**
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
 	 *
+	 * @since 3.18.0
+	 * @since [version] Sanitize `$_POST` data.
+	 *
 	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
 	 */
 	public function maybe_handle_reporting_actions() {
 
@@ -64,8 +69,7 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		$cert_id = absint( $_POST['certificate_id'] );
-
+		$cert_id = llms_filter_input( INPUT_POST, 'certificate_id', FILTER_SANITIZE_STRING );
 		if ( isset( $_POST['llms_generate_cert'] ) ) {
 			$this->download( $cert_id );
 		} elseif ( isset( $_POST['llms_delete_cert'] ) ) {

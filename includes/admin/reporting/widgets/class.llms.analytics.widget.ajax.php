@@ -1,20 +1,29 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Register WordPress AJAX methods for Analytics Widgets
  *
  * @since  3.0.0
- * @version 3.16.8
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Analytics_Widget_Ajax
+ *
+ * @since  3.0.0
+ * @since [version] Sanitize `$_REQUEST` data.
  */
 class LLMS_Analytics_Widget_Ajax {
 
 	/**
 	 * Constructor
 	 *
-	 * @since  3.0.0
-	 * @version 3.16.8
+	 * @since 3.0.0
+	 * @since 3.16.8 Unknown.
+	 * @since [version] Sanitize `$_REQUEST` data.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -45,7 +54,7 @@ class LLMS_Analytics_Widget_Ajax {
 		// include the abstract
 		include LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.analytics.widget.php';
 
-		$method = str_replace( 'llms_widget_', '', $_REQUEST['action'] );
+		$method = str_replace( 'llms_widget_', '', sanitize_text_field( wp_unslash( $_REQUEST['action'] ) ) );
 
 		$file = LLMS_PLUGIN_DIR . 'includes/admin/reporting/widgets/class.llms.analytics.widget.' . $method . '.php';
 

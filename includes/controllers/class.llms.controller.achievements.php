@@ -1,11 +1,18 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Achievement Forms
  *
  * @since   3.18.0
- * @version 3.18.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Controller_Achievements
+ *
+ * @since 3.18.0
+ * @since [version] Sanitize `$_POST` data.
  */
 class LLMS_Controller_Achievements {
 
@@ -25,9 +32,10 @@ class LLMS_Controller_Achievements {
 	/**
 	 * Handle certificate form actions to download (for students and admins) and to delete (admins only)
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 * @since [version] Sanitize `$_POST` data.
+	 *
+	 * @return void
 	 */
 	public function maybe_handle_reporting_actions() {
 
@@ -35,10 +43,8 @@ class LLMS_Controller_Achievements {
 			return;
 		}
 
-		$cert_id = absint( $_POST['achievement_id'] );
-
 		if ( isset( $_POST['llms_delete_achievement'] ) ) {
-			$this->delete( $cert_id );
+			$this->delete( llms_filter_input( INPUT_POST, 'achievement_id', FILTER_SANITIZE_NUMBER_INT ) );
 		}
 
 	}

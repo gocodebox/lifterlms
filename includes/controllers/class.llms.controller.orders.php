@@ -85,19 +85,23 @@ class LLMS_Controller_Orders {
 	 * @since 3.4.0 Unknown.
 	 * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
 	 * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
+	 * @since [version] Return early if nonce doesn't pass verification and sanitize `$_POST` data.
 	 *
 	 * @return void
 	 */
 	public function confirm_pending_order() {
 
-		if ( 'POST' !== strtoupper( getenv( 'REQUEST_METHOD' ) ) || empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] || empty( $_POST['_wpnonce'] ) ) {
-			return; }
-
 		// nonce the post
-		wp_verify_nonce( $_POST['_wpnonce'], 'confirm_pending_order' );
+		if ( ! llms_verify_nonce( '_wpnonce', 'confirm_pending_order' ) ) {
+			return;
+		}
+
+		if ( empty( $_POST['action'] ) || 'confirm_pending_order' !== $_POST['action'] ) {
+			return;
+		}
 
 		// ensure we have an order key we can locate the order with
-		$key = isset( $_POST['llms_order_key'] ) ? $_POST['llms_order_key'] : false;
+		$key = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
 		if ( ! $key ) {
 			return llms_add_notice( __( 'Could not locate an order to confirm.', 'lifterlms' ), 'error' );
 		}
@@ -183,9 +187,11 @@ class LLMS_Controller_Orders {
 	 *          the process_payment method should complete by returning an error or
 	 *          triggering the "lifterlms_process_payment_redirect" // todo check this last statement
 	 *
+	 * @since 3.0.0
+	 * @since 3.27.0 Unknown.
+	 * @since [version] Sanitize `$_POST` data.
+	 *
 	 * @return void
-	 * @since    3.0.0
-	 * @version  3.27.0
 	 */
 	public function create_pending_order() {
 
@@ -220,7 +226,7 @@ class LLMS_Controller_Orders {
 
 		foreach ( $keys as $key ) {
 			if ( isset( $_POST[ $key ] ) ) {
-				$data[ str_replace( 'llms_', '', $key ) ] = $_POST[ $key ];
+				$data[ str_replace( 'llms_', '', $key ) ] = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
 			}
 		}
 
@@ -231,7 +237,7 @@ class LLMS_Controller_Orders {
 		foreach ( LLMS_Person_Handler::get_available_fields( 'checkout' ) as $cust_field ) {
 			$cust_key = $cust_field['id'];
 			if ( isset( $_POST[ $cust_key ] ) ) {
-				$data['customer'][ $cust_key ] = $_POST[ $cust_key ];
+				$data['customer'][ $cust_key ] = llms_filter_input( INPUT_POST, $cust_key, FILTER_SANITIZE_STRING );
 			}
 		}
 
@@ -245,7 +251,7 @@ class LLMS_Controller_Orders {
 
 			// existing user fails validation from the free checkout form
 			if ( get_current_user_id() && isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] && isset( $_POST['llms_plan_id'] ) ) {
-				$plan = llms_get_post( $_POST['llms_plan_id'] );
+				$plan = llms_get_post( llms_filter_input( INPUT_POST, 'llms_plan_id', FILTER_SANITIZE_NUMBER_INT ) );
 				wp_redirect( $plan->get_checkout_url() );
 				exit;
 			}
@@ -266,9 +272,9 @@ class LLMS_Controller_Orders {
 
 		$order_id = 'new';
 
-		// get order ID by Key if it exists
+		// get order ID by Key if it exists.
 		if ( ! empty( $_POST['llms_order_key'] ) ) {
-			$locate = llms_get_order_by_key( $_POST['llms_order_key'], 'id' );
+			$locate = llms_get_order_by_key( llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING ), 'id' );
 			if ( $locate ) {
 				$order_id = $locate;
 			}
@@ -461,9 +467,11 @@ class LLMS_Controller_Orders {
 	/**
 	 * Handle form submission of the "Update Payment Method" form on the student dashboard when viewing a single order
 	 *
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 * @since [version] Sanitize `$_POST` data.
+	 *
 	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.19.0
 	 */
 	public function switch_payment_source() {
 
@@ -474,7 +482,7 @@ class LLMS_Controller_Orders {
 			return llms_add_notice( __( 'Missing order information.', 'lifterlms' ), 'error' );
 		}
 
-		$order = llms_get_post( $_POST['order_id'] );
+		$order = llms_get_post( llms_filter_input( INPUT_POST, 'order_id', FILTER_SANITIZE_NUMBER_INT ) );
 		if ( ! $order || get_current_user_id() != $order->get( 'user_id' ) ) {
 			return llms_add_notice( __( 'Invalid Order.', 'lifterlms' ), 'error' );
 		} elseif ( empty( $_POST['llms_payment_gateway'] ) ) {
@@ -482,7 +490,7 @@ class LLMS_Controller_Orders {
 		}
 
 		$plan       = llms_get_post( $order->get( 'plan_id' ) );
-		$gateway_id = sanitize_text_field( $_POST['llms_payment_gateway'] );
+		$gateway_id = llms_filter_input( INPUT_POST, 'llms_payment_gateway', FILTER_SANITIZE_STRING );
 		$gateway    = $this->validate_selected_gateway( $gateway_id, $plan );
 
 		if ( is_wp_error( $gateway ) ) {
