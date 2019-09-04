@@ -3,7 +3,7 @@
  * Admin Settings Page, Checkout Tab
  *
  * @since 3.0.0
- * @version 3.30.3
+ * @version 3.35.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,6 +12,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since 3.35.1 Verify nonce when saving.
  */
 class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 
@@ -399,12 +400,14 @@ class LLMS_Settings_Checkout extends LLMS_Settings_Page {
 	/**
 	 * Override default save method to save the display order of payment gateways
 	 *
-	 * @since    3.17.5
+	 * @since 3.17.5
+	 * @since 3.35.1 Verify nonce.
+	 *
 	 * @return   void
 	 */
 	public function save() {
 
-		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! llms_verify_nonce( '_wpnonce', 'lifterlms-settings' ) ) {
 			return;
 		}
 
