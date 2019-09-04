@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version 3.35.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0 Unknown.
  * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
  * @since 3.35.0 Sanitize input data.
+ * @since 3.35.1 Fix saving issue.
  */
 class LLMS_Admin_Settings {
 
@@ -77,7 +78,6 @@ class LLMS_Admin_Settings {
 	public static function save() {
 
 		global $current_tab;
-
 		if ( isset( $_POST['_wpnonce'] ) && ! llms_verify_nonce( '_wpnonce', 'lifterlms-settings' ) ) {
 			die( __( 'Whoa! something went wrong there!. Please refresh the page and retry.', 'lifterlms' ) );
 		}
@@ -139,6 +139,7 @@ class LLMS_Admin_Settings {
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_GET` data.
+	 * @since 3.35.1 Fix issue causing data to be saved on every page load.
 	 *
 	 * @return void
 	 */
