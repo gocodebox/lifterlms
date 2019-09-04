@@ -58,8 +58,6 @@ The following unused classes have been marked as deprecated and will be removed 
 +  [taxonomy-membership_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_tag.php)
 
 
-
-
 v3.34.5 - 2019-08-29
 --------------------
 
