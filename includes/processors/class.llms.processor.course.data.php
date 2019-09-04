@@ -333,8 +333,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 			$this->log( sprintf( 'course data calculation completed for course %d', $course_id ) );
 
-		} // End if().
-		else {
+		} else {
 
 			$course->set( 'temp_calc_data', $data );
 

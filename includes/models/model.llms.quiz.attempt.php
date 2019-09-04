@@ -529,12 +529,14 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 * if no user is passed the current user will be used
 	 * if no user found returns a WP_Error
 	 *
-	 * @param    int   $quiz_id    WP Post ID of the quiz
-	 * @param    int   $lesson_id  WP Post ID of the lesson
-	 * @param    mixed $student    accepts anything that can be passed to llms_get_student
-	 * @return   obj                   $this (for chaining)
 	 * @since    3.9.0
 	 * @version  3.16.0
+	 *
+	 * @param int   $quiz_id    WP Post ID of the quiz
+	 * @param int   $lesson_id  WP Post ID of the lesson
+	 * @param mixed $student    accepts anything that can be passed to llms_get_student
+	 * @throws Exception When the user is not logged in.
+	 * @return obj
 	 */
 	public static function init( $quiz_id, $lesson_id, $student = null ) {
 

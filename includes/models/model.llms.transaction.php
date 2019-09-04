@@ -3,7 +3,7 @@
  * LifterLMS Order Model
  *
  * @since  3.0.0
- * @version  3.0.0
+ * @version 3.0.0
  *
  * @property   $api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $amount  (float)  Transaction charge amount
@@ -27,10 +27,23 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Transaction model.
+ *
+ * @since 3.0.0
  */
 class LLMS_Transaction extends LLMS_Post_Model {
 
-	protected $db_post_type    = 'llms_transaction'; // maybe fix this
+	/**
+	 * DB Post Type.
+	 *
+	 * @var string
+	 */
+	protected $db_post_type    = 'llms_transaction';
+
+	/**
+	 * Model Name/Type.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'transaction';
 
 	/**
@@ -46,8 +59,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 		// can't refund failed or pending transactions
 		if ( 'llms-txn-failed' === $status || 'llms-txn-pending' === $status ) {
 			return false;
-		} // End if().
-		elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
+		} elseif ( $this->get_refundable_amount( array(), 'float' ) <= 0 ) {
 			return false;
 		}
 		return true;
@@ -249,8 +261,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			return $refund_id;
 
-		} // End if().
-		elseif ( is_string( $refund_id ) ) {
+		} elseif ( is_string( $refund_id ) ) {
 
 			// filter the note before recording it
 			$orig_note = apply_filters( 'llms_transaction_refund_note', $note, $this, $amount, $method );
@@ -294,8 +305,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 
 			return $refund_id;
 
-		} // wut happened?
-		else {
+		} else {
 
 			return new WP_Error( 'error', __( 'An unknown error occurred during refund processing', 'lifterlms' ) );
 

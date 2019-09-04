@@ -212,7 +212,7 @@ class LLMS_Notification implements JsonSerializable {
 
 		// get the value from the database
 		global $wpdb;
-		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) );
+		return $wpdb->get_var( $wpdb->prepare( "SELECT {$key} FROM {$this->get_table()} WHERE id = %d", $this->id ) ); // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 	}
 
@@ -276,8 +276,10 @@ class LLMS_Notification implements JsonSerializable {
 
 		global $wpdb;
 
-		$query        = $wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id );
-		$notification = $wpdb->get_row( $query, ARRAY_A );
+		$notification = $wpdb->get_row(
+			$wpdb->prepare( "SELECT created, updated, status, type, subscriber, trigger_id, user_id, post_id FROM {$this->get_table()} WHERE id = %d", $this->id ), // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+			ARRAY_A
+		);
 
 		if ( $notification ) {
 
@@ -296,10 +298,10 @@ class LLMS_Notification implements JsonSerializable {
 	/**
 	 * Set object variables
 	 *
+	 * @since    3.8.0
+	 *
 	 * @param    string $key  variable name
 	 * @param    mixed  $val  data
-	 * @since    3.8.0
-	 * @version  3.8.0
 	 */
 	public function set( $key, $val ) {
 
@@ -316,6 +318,7 @@ class LLMS_Notification implements JsonSerializable {
 			default:
 				$this->$key = $val;
 				if ( $this->id ) {
+					// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 					return $wpdb->query(
 						$wpdb->prepare(
 							"UPDATE {$this->get_table()} SET {$key} = %s, updated = %s WHERE id = %d",
@@ -324,6 +327,7 @@ class LLMS_Notification implements JsonSerializable {
 							$this->id
 						)
 					);
+					// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 				}
 				return true;
 			break;

@@ -495,8 +495,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 			// simple subtraction
 			if ( 'dollar' === $discount_type ) {
 				$price = $price - $coupon_amount;
-			} // End if().
-			elseif ( 'percent' === $discount_type ) {
+			} elseif ( 'percent' === $discount_type ) {
 				$price = $price - ( $price * ( $coupon_amount / 100 ) );
 			}
 		}

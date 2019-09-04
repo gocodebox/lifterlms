@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version 3.30.1
+ * @version [version]
  *
  * @property  $question_type  (string)  type of question
  */
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.1 Fixed choice sorting issues.
+ * @since [version] Escape `LIKE` clause when retrieving choices.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -195,6 +196,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	 *
 	 * @since 3.16.0
 	 * @since 3.30.1 Improve choice sorting to accommodate numeric markers.
+	 * @since [version] Escape `LIKE` clause.
 	 *
 	 * @param string $return Optional. Determine how to return the choice data.
 	 *                       'choices' (default) returns an array of LLMS_Question_Choice objects.
@@ -210,9 +212,10 @@ class LLMS_Question extends LLMS_Post_Model {
 				  , meta_value AS data
 			 FROM {$wpdb->postmeta}
 			 WHERE post_id = %d
-			   AND meta_key LIKE '_llms_choice_%'
+			   AND meta_key LIKE %s
 			;",
-				$this->get( 'id' )
+				$this->get( 'id' ),
+				'_llms_choice_%'
 			)
 		);
 
@@ -682,26 +685,6 @@ class LLMS_Question extends LLMS_Post_Model {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
 	 * Get the correct option for the question
 	 *
@@ -751,6 +734,7 @@ class LLMS_Question extends LLMS_Post_Model {
 		$int_like = '%' . sprintf( 's:2:"id";i:%1$s;', $id ) . '%';
 
 		global $wpdb;
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$query = $wpdb->get_col(
 			"SELECT post_id
 			 FROM {$wpdb->postmeta}
@@ -760,6 +744,7 @@ class LLMS_Question extends LLMS_Post_Model {
 			   	   OR meta_value LIKE '{$int_like}'
 			   );"
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return $query;
 

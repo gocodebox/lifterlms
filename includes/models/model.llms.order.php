@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.0.0
- * @version 3.32.0
+ * @version [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -77,6 +77,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
+ * @since [version] Prepare transaction revenue SQL query properly; Sanitize $_SERVER data.
  */
 class LLMS_Order extends LLMS_Post_Model {
 
@@ -149,11 +150,12 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Add an admin-only note to the order visible on the admin panel
 	 * notes are recorded using the wp comments API & DB
 	 *
+	 * @since    3.0.0
+	 * @since [version] Sanitize $_SERVER data.
+	 *
 	 * @param    string  $note           note content
 	 * @param    boolean $added_by_user  if this is an admin-submitted note adds user info to note meta
 	 * @return   null|int                   null on error or WP_Comment ID of the note
-	 * @since    3.0.0
-	 * @version  3.24.0
 	 */
 	public function add_note( $note, $added_by_user = false ) {
 
@@ -174,7 +176,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			$user_id       = 0;
 			$author        = _x( 'LifterLMS', 'default order note author', 'lifterlms' );
 			$author_email  = strtolower( _x( 'LifterLms', 'default order note author', 'lifterlms' ) ) . '@';
-			$author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www.', '', $_SERVER['HTTP_HOST'] ) : 'noreply.com';
+			$author_email .= isset( $_SERVER['HTTP_HOST'] ) ? str_replace( 'www.', '', sanitize_text_field( wp_unslash( $_SERVER['HTTP_HOST'] ) ) ) : 'noreply.com';
 			$author_email  = sanitize_email( $author_email );
 
 		}
@@ -791,10 +793,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * SQL query to retrieve total amounts for transactions by type
 	 *
+	 * @since 3.0.0
+	 * @since [version] Prepare SQL query properly.
+	 *
 	 * @param    stirng $type  'amount' or 'refund_amount'
 	 * @return   float
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	public function get_transaction_total( $type = 'amount' ) {
 
@@ -813,6 +816,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		global $wpdb;
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- $post_statuses is prepared above.
 		$grosse = $wpdb->get_var(
 			$wpdb->prepare(
 				"SELECT SUM( m2.meta_value )
@@ -821,13 +825,18 @@ class LLMS_Order extends LLMS_Post_Model {
 			 LEFT JOIN $wpdb->postmeta AS m2 ON m2.post_id = p.ID -- get the actual amounts
 			 WHERE p.post_type = 'llms_transaction'
 			   AND ( $post_statuses )
-			   AND m1.meta_key = '{$this->meta_prefix}order_id'
+			   AND m1.meta_key = %s
 			   AND m1.meta_value = %d
-			   AND m2.meta_key = '{$this->meta_prefix}{$type}'
+			   AND m2.meta_key = %s
 			;",
-				array( $this->get( 'id' ) )
+				array(
+					"{$this->meta_prefix}order_id",
+					$this->get( 'id' ),
+					"{$this->meta_prefix}{$type}",
+				)
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		return floatval( $grosse );
 	}
@@ -1375,7 +1384,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( '' === $current_rule ) {
 			$current_rule = 0;
 		} else {
-			$current_rule = $current_rule + 1;
+			++$current_rule;
 		}
 		$rules = $this->get_retry_rules();
 

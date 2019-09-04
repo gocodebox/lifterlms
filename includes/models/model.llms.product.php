@@ -15,9 +15,27 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Product extends LLMS_Post_Model {
 
+	/**
+	 * Model properties.
+	 *
+	 * @var array
+	 */
 	protected $properties = array();
 
-	protected $db_post_type    = 'product'; // maybe fix this
+	/**
+	 * Model DB Post Type.
+	 *
+	 * @todo The post type depends conditionally on whether it's a course or a membership so this is semantically incorrect.
+	 *
+	 * @var string
+	 */
+	protected $db_post_type    = 'product';
+
+	/**
+	 * Model type.
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'product';
 
 	/**

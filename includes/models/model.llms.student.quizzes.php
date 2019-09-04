@@ -18,11 +18,10 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Retrieve # of quiz attempts for a quiz
 	 *
-	 * @param    int   $quiz_id  WP Post ID of the quiz
-	 * @param    array $args     additional args to pass to LLMS_Query_Quiz_Attempt
-	 * @return   int
 	 * @since    3.16.0
-	 * @version  3.16.0
+	 *
+	 * @param    int $quiz_id  WP Post ID of the quiz
+	 * @return   int
 	 */
 	public function count_attempts_by_quiz( $quiz_id ) {
 

@@ -39,7 +39,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		'usage_limit'           => 'absint',
 	);
 
-	protected $db_post_type    = 'llms_coupon'; // maybe fix this
+	protected $db_post_type    = 'llms_coupon';
 	protected $model_post_type = 'coupon';
 
 	/**
@@ -84,8 +84,7 @@ class LLMS_Coupon extends LLMS_Post_Model {
 		// no product restrictions
 		if ( empty( $products ) ) {
 			return true;
-		} // End if().
-		else {
+		} else {
 			return in_array( $product_id, $products );
 		}
 	}

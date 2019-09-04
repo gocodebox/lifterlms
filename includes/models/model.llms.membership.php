@@ -45,7 +45,7 @@ implements LLMS_Interface_Post_Instructors
 		'sales_page_content_url'     => 'string',
 	);
 
-	protected $db_post_type    = 'llms_membership'; // maybe fix this
+	protected $db_post_type    = 'llms_membership';
 	protected $model_post_type = 'membership';
 
 	/**

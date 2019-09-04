@@ -84,9 +84,9 @@ class LLMS_Processors {
 	/**
 	 * Include classes required by processors
 	 *
-	 * @return   [type]     [description]
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 *  @since    3.15.0
+	 *
+	 * @return void
 	 */
 	private function includes() {
 
@@ -98,9 +98,9 @@ class LLMS_Processors {
 	/**
 	 * Load all processors
 	 *
-	 * @return   [type]     [description]
 	 * @since    3.15.0
-	 * @version  3.15.0
+	 *
+	 * @return  void
 	 */
 	private function load_all() {
 

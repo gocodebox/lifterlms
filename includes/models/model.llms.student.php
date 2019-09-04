@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version 3.34.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.
  * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
  * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
+ * @since [version] Prepare all variables when querying for enrollment date.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -189,12 +190,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$query = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT post_id, meta_value AS achievement_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_achievement_earned' ORDER BY $orderby $order",
 				$this->get_id()
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( 'achievements' === $return ) {
 			$ret = array();
@@ -296,12 +299,14 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 		global $wpdb;
 
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$query = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT post_id, meta_value AS certificate_id, updated_date AS earned_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE user_id = %d and meta_key = '_certificate_earned' ORDER BY $orderby $order",
 				$this->get_id()
 			)
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		if ( 'certificates' === $return ) {
 			$ret = array();
@@ -359,7 +364,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		// add one to the limit to see if there's pagination
 		$args['limit']++;
 
-		// the query
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$q = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT upm.post_id AS id
@@ -380,6 +385,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			),
 			'OBJECT_K'
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$ids  = array_keys( $q );
 		$more = false;
@@ -500,7 +506,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$status = '';
 		}
 
-		// the query
+		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$query = $wpdb->get_results(
 			$wpdb->prepare(
 				"SELECT SQL_CALC_FOUND_ROWS DISTINCT upm.post_id AS id
@@ -523,6 +529,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			),
 			'OBJECT_K'
 		);
+		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 
 		$found = absint( $wpdb->get_var( 'SELECT FOUND_ROWS()' ) );
 
@@ -539,12 +546,13 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the formatted date when a user initially enrolled in a product or when they were last updated
 	 *
+	 * @since 3.0.0
+	 * @since [version] Prepare SQL properly.
+	 *
 	 * @param   int    $product_id  WP Post ID of a course or membership
 	 * @param   string $date        "enrolled" will get the most recent start date, "updated" will get the most recent status change date
 	 * @param   string $format      date format as accepted by php date(), if none supplied uses the WP core "date_format" option
 	 * @return  false|string        will return false if the user is not enrolled
-	 * @since   3.0.0
-	 * @version 3.17.0
 	 */
 	public function get_enrollment_date( $product_id, $date = 'enrolled', $format = null ) {
 
@@ -564,8 +572,8 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			// get the oldest recorded Enrollment date
 			$res = $wpdb->get_var(
 				$wpdb->prepare(
-					"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '$key' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
-					array( $this->get_id(), $product_id )
+					"SELECT updated_date FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = %s AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
+					array( $key, $this->get_id(), $product_id )
 				)
 			);
 
@@ -1520,8 +1528,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$update = true;
 
-		} // End if().
-		else {
+		} else {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
@@ -1530,8 +1537,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
 
-			} // End if().
-			elseif ( $enrollment_trigger == $trigger ) {
+			} elseif ( $enrollment_trigger == $trigger ) {
 
 				$update = true;
 
@@ -1597,8 +1603,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$delete = true;
 
-		} // End if().
-		else {
+		} else {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
@@ -1607,8 +1612,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 				$delete = apply_filters( 'lifterlms_legacy_delete_enrollment_action', true );
 
-			} // End if().
-			elseif ( $enrollment_trigger === $trigger ) {
+			} elseif ( $enrollment_trigger === $trigger ) {
 
 				$delete = true;
 

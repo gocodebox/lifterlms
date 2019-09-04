@@ -574,8 +574,7 @@ implements LLMS_Interface_Post_Audio
 
 			$ret = true;
 
-		} // End if().
-		else {
+		} else {
 
 			$ret = ( $this->has_date_passed( 'enrollment_start_date' ) && ! $this->has_date_passed( 'enrollment_end_date' ) );
 
@@ -602,8 +601,7 @@ implements LLMS_Interface_Post_Audio
 
 			$ret = true;
 
-		} // End if().
-		else {
+		} else {
 
 			$ret = ( $this->has_date_passed( 'start_date' ) && ! $this->has_date_passed( 'end_date' ) );
 
@@ -847,10 +845,10 @@ implements LLMS_Interface_Post_Audio
 	public function get_user_postmeta_data( $post_id ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_postmeta_data()', '[version]' );
 		global $wpdb;
-		$user_id    = get_current_user_id();
-		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$results    = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %d', $user_id, $post_id ) );
-		for ( $i = 0; $i < count( $results ); $i++ ) {
+		$user_id     = get_current_user_id();
+		$results     = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE post_id = %d", $user_id, $post_id ) );
+		$num_results = count( $results );
+		for ( $i = 0; $i < $num_results; $i++ ) {
 			$results[ $results[ $i ]->meta_key ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -868,9 +866,9 @@ implements LLMS_Interface_Post_Audio
 	public function get_user_postmetas_by_key( $post_id, $meta_key ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_postmetas_by_key()', '[version]' );
 		global $wpdb;
-		$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
-		$results    = $wpdb->get_results( $wpdb->prepare( 'SELECT * FROM ' . $table_name . ' WHERE post_id = %s and meta_key = "%s" ORDER BY updated_date DESC', $post_id, $meta_key ) );
-		for ( $i = 0; $i < count( $results ); $i++ ) {
+		$results     = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE post_id = %s and meta_key = %s ORDER BY updated_date DESC", $post_id, $meta_key ) );
+		$num_results = count( $results );
+		for ( $i = 0; $i < $num_results; $i++ ) {
 			$results[ $results[ $i ]->post_id ] = $results[ $i ];
 			unset( $results[ $i ] );
 		}
@@ -1083,12 +1081,11 @@ implements LLMS_Interface_Post_Audio
 				$user_id = get_current_user_id();
 			}
 			// query user postmeta table
-			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 			$results    = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT * FROM ' . $table_name .
-						' WHERE post_id = %s
-							AND user_id = %s',
+					"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
+					  WHERE post_id = %s
+					    AND user_id = %s",
 					$post_id,
 					$user_id
 				)
@@ -1119,12 +1116,11 @@ implements LLMS_Interface_Post_Audio
 				$user_id = get_current_user_id();
 			}
 			// query user_postmeta table
-			$table_name = $wpdb->prefix . 'lifterlms_user_postmeta';
 			$results    = $wpdb->get_results(
 				$wpdb->prepare(
-					'SELECT * FROM ' . $table_name .
-						' WHERE post_id = %s
-							AND user_id = %s',
+					"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
+						WHERE post_id = %s
+						  AND user_id = %s",
 					$course_id,
 					$user_id
 				)
