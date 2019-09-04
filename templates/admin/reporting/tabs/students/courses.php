@@ -1,41 +1,60 @@
 <?php
 /**
  * Single Student View: Courses Tab
- * This routes to the following templates based on present query vars
- * @since   3.2.0
- * @version 3.13.0
+ *
+ * @package LifterLMS/Templates
+ *
+ * @since 3.2.0
+ * @since [version] Access `$_GET` data via `llms_filter_input()`.
+ * @version [version]
  */
-if ( ! defined( 'ABSPATH' ) ) { exit; }
-if ( ! is_admin() ) { exit; }
 
-if ( empty( $_GET['course_id'] ) ) {
+defined( 'ABSPATH' ) || exit;
+
+if ( ! is_admin() ) {
+	exit;
+}
+
+$course_id = llms_filter_input( INPUT_GET, 'course_id', FILTER_SANITIZE_NUMBER_INT );
+
+if ( empty( $course_id ) ) {
 
 	$table = new LLMS_Table_Student_Courses();
-	$table->get_results( array(
-		'student' => $student,
-	) );
+	$table->get_results(
+		array(
+			'student' => $student,
+		)
+	);
 	echo $table->get_table_html();
 
-} elseif ( ! empty( $_GET['course_id'] ) ) {
+} else {
 
-	if ( ! empty( $_GET['quiz_id'] ) && ! empty( $_GET['lesson_id'] ) ) {
+	$quiz_id   = llms_filter_input( INPUT_GET, 'quiz_id', FILTER_SANITIZE_NUMBER_INT );
+	$lesson_id = llms_filter_input( INPUT_GET, 'lesson_id', FILTER_SANITIZE_NUMBER_INT );
+
+	if ( $quiz_id && $lesson_id ) {
 
 		$table = new LLMS_Table_Quiz_Attempts();
-		$table->get_results( array(
-			'quiz_id' => absint( $_GET['quiz_id'] ),
-			'student_id' => absint( $_GET['student_id'] ),
-		) );
+		$table->get_results(
+			array(
+				'quiz_id'    => $quiz_id,
+				'student_id' => llms_filter_input( INPUT_GET, 'student_id', FILTER_SANITIZE_NUMBER_INT ),
+			)
+		);
 		echo $table->get_table_html();
 
 	} else {
 
-		if ( ! current_user_can( 'edit_post', $_GET['course_id'] ) ) {
+		if ( ! current_user_can( 'edit_post', $course_id ) ) {
 			wp_die( __( 'You do not have permission to access this content.', 'lifterlms' ) );
 		}
 
-		llms_get_template( 'admin/reporting/tabs/students/courses-course.php', array(
-			'student' => $student,
-		) );
+		llms_get_template(
+			'admin/reporting/tabs/students/courses-course.php',
+			array(
+				'student' => $student,
+			)
+		);
 
 	}
 }
