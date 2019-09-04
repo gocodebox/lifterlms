@@ -181,7 +181,7 @@ class LLMS_Shortcode_Checkout {
 			$plan_id = llms_filter_input( INPUT_GET, 'plan', FILTER_SANITIZE_NUMBER_INT );
 
 			// Only retrieve if plan is a llms_access_plan and is published
-			if ( 0 === strcmp( get_post_status( $plan_id, 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) ) {
+			if ( 0 === strcmp( get_post_status( $plan_id ), 'publish' ) && 0 === strcmp( get_post_type( $plan_id ), 'llms_access_plan' ) ) {
 
 				$coupon = LLMS()->session->get( 'llms_coupon' );
 
