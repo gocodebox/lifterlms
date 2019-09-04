@@ -45,6 +45,9 @@
 		<exclude name="Squiz.Commenting.VariableComment.Missing" />
 
 		<exclude name="Squiz.Commenting.FunctionComment.ParamNameNoMatch" />
+		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturnVoid" />
+
+
 
 		<!-- @todo: extract is messy you're right, fix this -->
 		<exclude name="WordPress.PHP.DontExtract.extract_extract" />
