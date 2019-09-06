@@ -8192,20 +8192,22 @@ define( 'Views/LessonEditor',[
 			/**
 			 * Init
 			 *
+			 * @since 3.17.0
+			 * @since 3.24.0 Unknown
+			 * @since [version] Added filter to change events.
+			 *
 			 * @param    obj   data  parent template data
 			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.24.0
 			 */
 			initialize: function( data ) {
 
 				this.model = data.lesson;
 
-				var change_events = [
-				'change:date_available',
-				'change:drip_method',
-				'change:time_available',
-				];
+				var change_events = window.llms.hooks.applyFilters( 'llms_lesson_rerender_change_events', [
+					'change:date_available',
+					'change:drip_method',
+					'change:time_available',
+				] );
 				_.each( change_events, function( event ) {
 					this.listenTo( this.model, event, this.render );
 				}, this );
