@@ -1,8 +1,11 @@
 /**
  * Lesson Editor (Sidebar) View
  *
- * @since    3.17.0
- * @version  3.24.0
+ * @package LifterLMS/Scripts/Builder
+ *
+ * @since 3.17.0
+ * @since [version] Added filter `llms_lesson_rerender_change_events` to view re-render change events.
+ * @version [version]
  */
 define( [
 		'Views/_Detachable',
@@ -59,20 +62,22 @@ define( [
 			/**
 			 * Init
 			 *
-			 * @param    obj   data  parent template data
-			 * @return   void
-			 * @since    3.17.0
-			 * @version  3.24.0
+			 * @since 3.17.0
+			 * @since 3.24.0 Unknown
+			 * @since [version] Added filter to change events.
+			 *
+			 * @param {obj} data Parent template data.
+			 * @return {void}
 			 */
 			initialize: function( data ) {
 
 				this.model = data.lesson;
 
-				var change_events = [
-				'change:date_available',
-				'change:drip_method',
-				'change:time_available',
-				];
+				var change_events = window.llms.hooks.applyFilters( 'llms_lesson_rerender_change_events', [
+					'change:date_available',
+					'change:drip_method',
+					'change:time_available',
+				] );
 				_.each( change_events, function( event ) {
 					this.listenTo( this.model, event, this.render );
 				}, this );
