@@ -8134,8 +8134,11 @@ define( 'Views/SettingsFields',[], function() {
 /**
  * Lesson Editor (Sidebar) View
  *
- * @since    3.17.0
- * @version  3.24.0
+ * @package LifterLMS/Scripts/Builder
+ *
+ * @since 3.17.0
+ * @since [version] Added filter `llms_lesson_rerender_change_events` to view re-render change events.
+ * @version [version]
  */
 define( 'Views/LessonEditor',[
 		'Views/_Detachable',
@@ -8196,8 +8199,8 @@ define( 'Views/LessonEditor',[
 			 * @since 3.24.0 Unknown
 			 * @since [version] Added filter to change events.
 			 *
-			 * @param    obj   data  parent template data
-			 * @return   void
+			 * @param {obj} data Parent template data.
+			 * @return {void}
 			 */
 			initialize: function( data ) {
 

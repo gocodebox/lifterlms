@@ -1,6 +1,13 @@
 == Changelog ==
 
 
+= v3.35.2 - 2019-09-04 =
+------------------------
+
++ When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
+* Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
+
+
 = v3.35.1 - 2019-09-04 =
 ------------------------
 
@@ -56,8 +63,6 @@ The following unused classes have been marked as deprecated and will be removed 
 +  [taxonomy-course_track.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_track.php)
 +  [taxonomy-membership_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_cat.php)
 +  [taxonomy-membership_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_tag.php)
-
-
 
 
 = v3.34.5 - 2019-08-29 =
@@ -212,20 +217,3 @@ The following unused classes have been marked as deprecated and will be removed 
 + Improved information logged when an error is encountered during an email send.
 + Add backwards compatibility for legacy add-on integrations priority loading method.
 + Fixed undefined index notice when viewing log files on the admin status screen.
-
-
-= v3.33.1 - 2019-06-25 =
-------------------------
-
-##### Updates
-
-+ Added method to retrieve the load priority of integrations.
-+ The capabilities used to determine if uses can clone and export courses now check `edit_course` instead of `edit_post`.
-
-##### Bug Fixes
-
-+ Fixed an issue which would cause the "Net Sales" line to sometimes display as a bar on the sales revenue reporting chart.
-+ Fixed an issue causing a PHP notice to be logged when viewing the sales reporting screen.
-+ Fixed an issue causing backslashes to be added before quotation marks in access plan descriptions.
-+ Integration classes are now loaded in the order defined by the integration class.
-+ Fixed an issue causing a PHP error when viewing the admin logs screen when no logs exist.

@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.35.2 - 2019-09-04
+--------------------
+
++ When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
+* Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
+
+
 v3.35.1 - 2019-09-04
 --------------------
 
