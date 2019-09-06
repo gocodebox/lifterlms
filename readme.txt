@@ -483,7 +483,7 @@ Be sure you’ve taken the free tutorial training video course: [How to Create a
 == Changelog ==
 
 
-= v3.35.2 - 2019-09-04 =
+= v3.35.2 - 2019-09-06 =
 ------------------------
 
 + When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
