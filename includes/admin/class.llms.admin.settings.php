@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.35.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
  * @since 3.35.0 Sanitize input data.
  * @since 3.35.1 Fix saving issue.
- * @since [version] Don't strip tags on editor and textarea fields that allow HTML.
+ * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
  */
 class LLMS_Admin_Settings {
 
@@ -875,7 +875,7 @@ class LLMS_Admin_Settings {
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Don't strip tags on editor and textarea fields that allow HTML.
+	 * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
 	 *
 	 * @param    array $settings Opens array to output
 	 * @return   bool

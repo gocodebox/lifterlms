@@ -4,8 +4,8 @@
  * @package LifterLMS/Scripts/Builder
  *
  * @since 3.17.0
- * @since [version] Added filter `llms_lesson_rerender_change_events` to view re-render change events.
- * @version [version]
+ * @since 3.35.2 Added filter `llms_lesson_rerender_change_events` to view re-render change events.
+ * @version 3.35.2
  */
 define( [
 		'Views/_Detachable',
@@ -64,7 +64,7 @@ define( [
 			 *
 			 * @since 3.17.0
 			 * @since 3.24.0 Unknown
-			 * @since [version] Added filter to change events.
+			 * @since 3.35.2 Added filter to change events.
 			 *
 			 * @param {obj} data Parent template data.
 			 * @return {void}
