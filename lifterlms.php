@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.34.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -32,6 +32,7 @@ require_once 'vendor/autoload.php';
  * @since 1.0.0
  * @since 3.32.0 Update action-scheduler to latest version; load staging class on the admin panel.
  * @since 3.34.0 Include the LLMS_Admin_Users_Table class.
+ * @since [version] Added events classes and methods.
  */
 final class LifterLMS {
 
@@ -128,6 +129,7 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
+		add_action( 'init', array( $this, 'events' ), 5 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
@@ -260,6 +262,7 @@ final class LifterLMS {
 	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
 	 * @since 3.34.0 Include LLMS_Admin_Users Table class.
 	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
+	 * @since [version] Include events classes.
 	 *
 	 * @return void
 	 */
@@ -376,6 +379,7 @@ final class LifterLMS {
 		include_once 'includes/class.llms.query.quiz.attempt.php';
 		include_once 'includes/class.llms.query.user.postmeta.php';
 		include_once 'includes/class.llms.student.query.php';
+		include_once 'includes/class-llms-events-query.php';
 		include_once 'includes/notifications/class.llms.notifications.query.php';
 
 		// Classes
@@ -438,6 +442,7 @@ final class LifterLMS {
 		}
 
 		require_once 'includes/class-llms-grades.php';
+		require_once 'includes/class-llms-events.php';
 		require_once 'includes/class.llms.playnice.php';
 
 		$this->includes_theme_support();
@@ -561,6 +566,17 @@ final class LifterLMS {
 	 */
 	public function engagements() {
 		return LLMS_Engagements::instance();
+	}
+
+	/**
+	 * Events instance.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Events
+	 */
+	public function events() {
+		return LLMS_Events::instance();
 	}
 
 	/**
