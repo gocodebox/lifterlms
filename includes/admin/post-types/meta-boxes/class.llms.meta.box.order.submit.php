@@ -134,7 +134,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 			if ( isset( $_POST[ $key ] ) ) {
 
 				// the array of date, hour, minute that was submitted
-				$dates = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
+				$dates = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 
 				// format the array of data as a datetime string
 				$new_date = $dates['date'] . ' ' . sprintf( '%02d', $dates['hour'] ) . ':' . sprintf( '%02d', $dates['minute'] );
