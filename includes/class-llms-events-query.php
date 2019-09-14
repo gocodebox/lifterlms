@@ -36,6 +36,10 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 		$args = array(
 			'actor'         => array(),
 			'actor_not_in'  => array(),
+			'date_after'    => '',
+			'date_before'   => '',
+			'exclude'       => array(),
+			'include'       => array(),
 			'object_type'   => '',
 			'object'        => array(),
 			'object_not_in' => array(),
@@ -93,8 +97,18 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	protected function parse_args() {
 
 		// sanitize post & user ids.
-		foreach ( array( 'actor', 'actor_not_in', 'object', 'object_not_in' ) as $key ) {
+		foreach ( array( 'actor', 'actor_not_in', 'object', 'object_not_in', 'include', 'exclude' ) as $key ) {
 			$this->arguments[ $key ] = $this->sanitize_id_array( $this->arguments[ $key ] );
+		}
+
+		foreach ( array( 'date_before', 'date_after' ) as $key ) {
+			if ( ! empty( $this->arguments[ $key ] ) ) {
+				$date = $this->arguments[ $key ];
+				if ( ! is_numeric( $date ) ) {
+					$date = strtotime( $date );
+				}
+				$this->arguments[ $key ] = date( 'Y-m-d H:i:s', $date );
+			}
 		}
 
 	}
@@ -135,6 +149,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 		$ids_include = array(
 			'actor'  => 'actor_id',
 			'object' => 'object_id',
+			'include' => 'id',
 		);
 		foreach ( $ids_include as $query_key => $db_key ) {
 			$ids = $this->get( $query_key );
@@ -148,6 +163,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 		$ids_exclude = array(
 			'actor_not_in'  => 'actor_id',
 			'object_not_in' => 'object_id',
+			'exclude' => 'id',
 		);
 		foreach ( $ids_exclude as $query_key => $db_key ) {
 			$ids = $this->get( $query_key );
@@ -164,6 +180,17 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 			if ( $val ) {
 				$sql .= sprintf( " AND {$key} = '%s'", esc_sql( $val ) );
 			}
+		}
+
+		// date fields.
+		$before = $this->get( 'date_before' );
+		if ( $before ) {
+			$sql .= $wpdb->prepare( ' AND date < %s', $before );
+		}
+
+		$after = $this->get( 'date_after' );
+		if ( $after ) {
+			$sql .= $wpdb->prepare( ' AND date > %s', $after );
 		}
 
 		if ( $this->get( 'suppress_filters' ) ) {
