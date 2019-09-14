@@ -82,12 +82,12 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	public function delete_meta( $key = null, $save = false ) {
 
 		if ( ! $key ) {
-			return $this->set_unserialized_metas( array(), $save );
+			return $this->set_unencoded_metas( array(), $save );
 		}
 
 		$all = $this->get_meta( null, false );
 		unset( $all[ $key ] );
-		return $this->set_unserialized_metas( $all, $save );
+		return $this->set_unencoded_metas( $all, $save );
 
 	}
 
@@ -103,7 +103,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	public function get_meta( $key = null, $cache = true ) {
 
 		$all = $this->get( 'meta', $cache );
-		$all = empty( $all ) ? array() : unserialize( $all );
+		$all = empty( $all ) ? array() : json_decode( $all, true );
 
 		if ( ! $key ) {
 			return $all;
@@ -127,7 +127,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 
 		$all = $this->get_meta( null );
 		$all[ $key ] = $val;
-		return $this->set_unserialized_metas( $all, $save );
+		return $this->set_unencoded_metas( $all, $save );
 
 	}
 
@@ -156,7 +156,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	}
 
 	/**
-	 * Serialize the array of metadata before setting it to the object.
+	 * Encode the array of metadata before setting it to the object.
 	 *
 	 * @since [version]
 	 *
@@ -164,8 +164,8 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 * @param bool $save If true, saves the updated metadata to the database.
 	 * @return LLMS_Event
 	 */
-	protected function set_unserialized_metas( $metas, $save = false ) {
-		return $this->set( 'meta', serialize( $metas ), $save );
+	protected function set_unencoded_metas( $metas, $save = false ) {
+		return $this->set( 'meta', wp_json_encode( $metas ), $save );
 	}
 
 }
