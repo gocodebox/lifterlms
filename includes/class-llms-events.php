@@ -47,69 +47,7 @@ class LLMS_Events {
 	 */
 	private function __construct() {
 
-		add_action( 'wp_login', array( $this, 'on_signon' ), 10, 2 );
-		add_action( 'clear_auth_cookie', array( $this, 'on_signout' ) );
-
 		add_action( 'init', array( $this, 'store_cookie' ) );
-
-
-	}
-
-	/**
-	 * Determine if client side events from the current page should be tracked.
-	 *
-	 * @since [version]
-	 *
-	 * @return boolean
-	 */
-	protected function should_track_client_events() {
-
-		$ret = false;
-
-		/**
-		 * Filter the post types that should be tracked
-		 *
-		 * @since [version]
-		 *
-		 * @param string[]|string $post_types An array of post type names or a pre-defined setting as a string.
-		 *                                    "llms" uses all public LifterLMS and LifterLMS Add-on post types.
-		 *                                    "all" tracks everything.
-		 */
-		$post_types = apply_filters( 'llms_tracking_post_types', 'llms' );
-
-		if ( 'all' === $post_types ) {
-			$ret = true;
-		} elseif ( 'llms' === $post_types ) {
-
-			// Filter public post types to include LifterLMS public post types.
-			$post_types = array_keys( get_post_types( array( 'public' => true ) ) );
-			foreach ( $post_types as $key => $type ) {
-				if ( ! in_array( $type, array( 'course', 'lesson' ), true ) && 0 !== strpos( $type, 'llms_' ) ) {
-					unset( $post_types[ $key ] );
-				}
-			}
-
-		}
-
-		if ( ! is_array( $post_types ) ) {
-			$ret = false;
-		} elseif ( is_singular() && is_singular( $post_types ) ) {
-			$ret = true;
-		} elseif ( is_post_type_archive() && is_post_type_archive( $post_types ) ) {
-			$ret = true;
-		} elseif ( is_llms_account_page() || is_llms_checkout() ) {
-			$ret = true;
-		}
-
-		/**
-		 * Filters whether or not the current page should track client-side events
-		 *
-		 * @since [version]
-		 *
-		 * @param bool $ret Whether or not to track the current page.
-		 * @param string[] $post_types Array of post types that should be tracked.
-		 */
-		return apply_filters( 'llms_tracking_should_track_client_events', $ret, $post_types );
 
 	}
 
@@ -155,6 +93,8 @@ class LLMS_Events {
 		$events = array(
 			'account.signon' => false,
 			'account.signout' => false,
+			'session.start' => false,
+			'session.end' => false,
 			'page.load' => true,
 			'page.exit' => true,
 			'page.focus' => true,
@@ -185,48 +125,6 @@ class LLMS_Events {
 	protected function is_event_valid( $event ) {
 
 		return in_array( $event, array_keys( $this->get_registered_events() ), true );
-
-	}
-
-	/**
-	 * Record account.signon event via `wp_login` hook.
-	 *
-	 * @since [version]
-	 *
-	 * @param string $username WP_Users's user_login.
-	 * @param WP_User $user User object.
-	 * @return void
-	 */
-	public function on_signon( $username, $user ) {
-
-		return $this->record( array(
-			'actor_id' => $user->ID,
-			'object_type' => 'user',
-			'object_id' => $user->ID,
-			'event_type' => 'account',
-			'event_action' => 'signon',
-		) );
-
-	}
-
-	/**
-	 * Record an account.signout event via `wp_logout()`
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function on_signout() {
-
-		$uid = get_current_user_id();
-
-		return $this->record( array(
-			'actor_id' => $uid,
-			'object_type' => 'user',
-			'object_id' => $uid,
-			'event_type' => 'account',
-			'event_action' => 'signout',
-		) );
 
 	}
 
@@ -315,6 +213,16 @@ class LLMS_Events {
 		$args = $this->sanitize_raw_event( $args );
 		$meta = isset( $args['meta'] ) ? $args['meta'] : null;
 		unset( $args['meta'] );
+
+		if ( $event !== 'session.start' && $event !== 'session.end' ) {
+
+			// Start a session if one isn't open.
+			$sessions = LLMS_Sessions::instance();
+			if ( false === $sessions->get_current() ) {
+				$sessions->start();
+			}
+
+		}
 
 		$event = new LLMS_Event();
 		if ( ! $event->setup( $args )->save() ) {
@@ -406,6 +314,64 @@ class LLMS_Events {
 	}
 
 	/**
+	 * Determine if client side events from the current page should be tracked.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	protected function should_track_client_events() {
+
+		$ret = false;
+
+		/**
+		 * Filter the post types that should be tracked
+		 *
+		 * @since [version]
+		 *
+		 * @param string[]|string $post_types An array of post type names or a pre-defined setting as a string.
+		 *                                    "llms" uses all public LifterLMS and LifterLMS Add-on post types.
+		 *                                    "all" tracks everything.
+		 */
+		$post_types = apply_filters( 'llms_tracking_post_types', 'llms' );
+
+		if ( 'all' === $post_types ) {
+			$ret = true;
+		} elseif ( 'llms' === $post_types ) {
+
+			// Filter public post types to include LifterLMS public post types.
+			$post_types = array_keys( get_post_types( array( 'public' => true ) ) );
+			foreach ( $post_types as $key => $type ) {
+				if ( ! in_array( $type, array( 'course', 'lesson' ), true ) && 0 !== strpos( $type, 'llms_' ) ) {
+					unset( $post_types[ $key ] );
+				}
+			}
+
+		}
+
+		if ( ! is_array( $post_types ) ) {
+			$ret = false;
+		} elseif ( is_singular() && is_singular( $post_types ) ) {
+			$ret = true;
+		} elseif ( is_post_type_archive() && is_post_type_archive( $post_types ) ) {
+			$ret = true;
+		} elseif ( is_llms_account_page() || is_llms_checkout() ) {
+			$ret = true;
+		}
+
+		/**
+		 * Filters whether or not the current page should track client-side events
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $ret Whether or not to track the current page.
+		 * @param string[] $post_types Array of post types that should be tracked.
+		 */
+		return apply_filters( 'llms_tracking_should_track_client_events', $ret, $post_types );
+
+	}
+
+	/**
 	 * Store event data saved in the tracking cookie.
 	 *
 	 * @since [version]
@@ -421,11 +387,15 @@ class LLMS_Events {
 
 		if ( ! empty( $cookie['nonce'] ) && wp_verify_nonce( $cookie['nonce'], 'llms-tracking' ) ) {
 
-			foreach ( $cookie['events'] as &$event ) {
+			if ( ! empty( $cookie['events'] ) && is_array( $cookie['events'] ) ) {
 
-				$event = $this->prepare_event( $event );
-				if ( ! is_wp_error( $event ) ) {
-					$this->record( $event );
+				foreach ( $cookie['events'] as &$event ) {
+
+					$event = $this->prepare_event( $event );
+					if ( ! is_wp_error( $event ) ) {
+						$this->record( $event );
+					}
+
 				}
 
 			}
