@@ -443,6 +443,8 @@ final class LifterLMS {
 
 		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class-llms-events.php';
+		require_once 'includes/class-llms-events-core.php';
+		require_once 'includes/class-llms-sessions.php';
 		require_once 'includes/class.llms.playnice.php';
 
 		$this->includes_theme_support();
