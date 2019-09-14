@@ -147,8 +147,8 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 
 		// "IN" clauses for id fields.
 		$ids_include = array(
-			'actor'  => 'actor_id',
-			'object' => 'object_id',
+			'actor'   => 'actor_id',
+			'object'  => 'object_id',
 			'include' => 'id',
 		);
 		foreach ( $ids_include as $query_key => $db_key ) {
@@ -163,7 +163,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 		$ids_exclude = array(
 			'actor_not_in'  => 'actor_id',
 			'object_not_in' => 'object_id',
-			'exclude' => 'id',
+			'exclude'       => 'id',
 		);
 		foreach ( $ids_exclude as $query_key => $db_key ) {
 			$ids = $this->get( $query_key );

@@ -88,26 +88,29 @@ class LLMS_Sessions {
 	 * @since [version]
 	 *
 	 * @param LLMS_Event $start Event record for the session.start event.
-	 * @param array $args Array of additional arguments to pass to the LLMS_Events_Query.
+	 * @param array      $args Array of additional arguments to pass to the LLMS_Events_Query.
 	 * @return LLMS_Event[]
 	 */
 	public function get_session_events( $start, $args = array() ) {
 
 		$end = $this->get_session_end( $start->get( 'object_id' ) );
 
-		$args = wp_parse_args( $args, array(
-			'date_after' => $start->get( 'date' ),
-			'exclude'    => array( $start->get( 'id' ) ),
-			'actor'      => $start->get( 'actor_id' ),
-			'sort'       => array(
-				'date' => 'ASC',
-			),
-			'per_page'   => 10,
-		) );
+		$args = wp_parse_args(
+			$args,
+			array(
+				'date_after' => $start->get( 'date' ),
+				'exclude'    => array( $start->get( 'id' ) ),
+				'actor'      => $start->get( 'actor_id' ),
+				'sort'       => array(
+					'date' => 'ASC',
+				),
+				'per_page'   => 10,
+			)
+		);
 
 		if ( $end ) {
 			$args['date_before'] = $end->get( 'date' );
-			$args['exclude'][] = $end->get( 'id' );
+			$args['exclude'][]   = $end->get( 'id' );
 		}
 
 		$query = new LLMS_Events_Query( $args );
@@ -124,15 +127,17 @@ class LLMS_Sessions {
 	 */
 	public function end_idle_sessions() {
 
-		$query = new LLMS_Events_Query( array(
-			'object_type'  => 'session',
-			'event_type'   => 'session',
-			'event_action' => 'start',
-			'per_page'     => 50,
-			'sort'         => array(
-				'date' => 'ASC',
-			),
-		) );
+		$query = new LLMS_Events_Query(
+			array(
+				'object_type'  => 'session',
+				'event_type'   => 'session',
+				'event_action' => 'start',
+				'per_page'     => 50,
+				'sort'         => array(
+					'date' => 'ASC',
+				),
+			)
+		);
 
 		if ( $query->number_results ) {
 			foreach ( $query->get_events() as $event ) {
@@ -155,13 +160,15 @@ class LLMS_Sessions {
 	 */
 	protected function end( $start ) {
 
-		return LLMS()->events()->record( array(
-			'actor_id' => $start->get( 'actor_id' ),
-			'object_type' => 'session',
-			'object_id' => $start->get( 'object_id' ),
-			'event_type' => 'session',
-			'event_action' => 'end',
-		) );
+		return LLMS()->events()->record(
+			array(
+				'actor_id'     => $start->get( 'actor_id' ),
+				'object_type'  => 'session',
+				'object_id'    => $start->get( 'object_id' ),
+				'event_type'   => 'session',
+				'event_action' => 'end',
+			)
+		);
 
 	}
 
@@ -236,12 +243,15 @@ class LLMS_Sessions {
 			return false;
 		}
 
-		$events = $this->get_session_events( $start, array(
-			'per_page' => 1,
-			'sort'     => array(
-				'date' => 'DESC',
-			),
-		) );
+		$events = $this->get_session_events(
+			$start,
+			array(
+				'per_page' => 1,
+				'sort'     => array(
+					'date' => 'DESC',
+				),
+			)
+		);
 
 		// No events, the session is idle.
 		if ( ! $events ) {
@@ -281,16 +291,19 @@ class LLMS_Sessions {
 	protected function get_last_session() {
 
 		global $wpdb;
-		return $wpdb->get_row( $wpdb->prepare(
-			"SELECT *
+		return $wpdb->get_row(
+			$wpdb->prepare(
+				"SELECT *
 			   FROM {$wpdb->prefix}lifterlms_events
 			  WHERE actor_id = %d
 			    AND object_type = 'session'
 			    AND event_type = 'session'
 			    AND event_action = 'start'
 		   ORDER BY date DESC
-			  LIMIT 1;", get_current_user_id()
-		) );
+			  LIMIT 1;",
+				get_current_user_id()
+			)
+		);
 
 	}
 
@@ -305,8 +318,9 @@ class LLMS_Sessions {
 	public function get_session_end( $session_id ) {
 
 		global $wpdb;
-		$end = $wpdb->get_var( $wpdb->prepare(
-			"SELECT id
+		$end = $wpdb->get_var(
+			$wpdb->prepare(
+				"SELECT id
 			   FROM {$wpdb->prefix}lifterlms_events
 			  WHERE actor_id = %d
 			    AND object_id = %d
@@ -314,8 +328,11 @@ class LLMS_Sessions {
 			    AND event_type = 'session'
 			    AND event_action = 'end'
 		   ORDER BY date DESC
-			  LIMIT 1;", get_current_user_id(), $session_id
-		) );
+			  LIMIT 1;",
+				get_current_user_id(),
+				$session_id
+			)
+		);
 
 		if ( ! $end ) {
 			return null;
@@ -357,13 +374,15 @@ class LLMS_Sessions {
 			return false;
 		}
 
-		return LLMS()->events()->record( array(
-			'actor_id' => $user_id,
-			'object_type' => 'session',
-			'object_id' => $this->get_new_id(),
-			'event_type' => 'session',
-			'event_action' => 'start',
-		) );
+		return LLMS()->events()->record(
+			array(
+				'actor_id'     => $user_id,
+				'object_type'  => 'session',
+				'object_id'    => $this->get_new_id(),
+				'event_type'   => 'session',
+				'event_action' => 'start',
+			)
+		);
 
 	}
 

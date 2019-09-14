@@ -74,10 +74,13 @@ class LLMS_Events {
 		 *     @type string[] $events Array of events that should be tracked.
 		 * }
 		 */
-		return apply_filters( 'llms_events_get_client_settings', array(
-			'nonce' => wp_create_nonce( 'llms-tracking' ),
-			'events' => $events,
-		) );
+		return apply_filters(
+			'llms_events_get_client_settings',
+			array(
+				'nonce'  => wp_create_nonce( 'llms-tracking' ),
+				'events' => $events,
+			)
+		);
 
 	}
 
@@ -91,14 +94,14 @@ class LLMS_Events {
 	public function get_registered_events() {
 
 		$events = array(
-			'account.signon' => false,
+			'account.signon'  => false,
 			'account.signout' => false,
-			'session.start' => false,
-			'session.end' => false,
-			'page.load' => true,
-			'page.exit' => true,
-			'page.focus' => true,
-			'page.blur' => true,
+			'session.start'   => false,
+			'session.end'     => false,
+			'page.load'       => true,
+			'page.exit'       => true,
+			'page.focus'      => true,
+			'page.blur'       => true,
 		);
 
 		/**
@@ -143,12 +146,12 @@ class LLMS_Events {
 			return new WP_Error( 'llms_events_missing_event', sprintf( __( 'The event is missing the "%s" field.', 'lifterlms' ), 'event' ) );
 		}
 
-		$event = explode( '.', $raw_event['event'] );
+		$event    = explode( '.', $raw_event['event'] );
 		$prepared = array(
-			'actor_id' => get_current_user_id(),
-			'event_type' => $event[0],
+			'actor_id'     => get_current_user_id(),
+			'event_type'   => $event[0],
 			'event_action' => $event[1],
-			'meta' => isset( $raw_event['meta'] ) ? $raw_event['meta'] : array(),
+			'meta'         => isset( $raw_event['meta'] ) ? $raw_event['meta'] : array(),
 		);
 
 		// Convert timestamps to MYSQL date.
@@ -162,10 +165,10 @@ class LLMS_Events {
 				// Translators: %s = URL.
 				return new WP_Error( 'llms_events_invalid_url', sprintf( __( 'The URL "%s" cannot be mapped to a valid post object.', 'lifterlms' ), esc_url( $raw_event['url'] ) ) );
 			}
-			$prepared['object_id'] = $id;
+			$prepared['object_id']   = $id;
 			$prepared['object_type'] = str_replace( 'llms_', '', get_post_type( $id ) );
 		} elseif ( isset( $raw_event['object_id'] ) && isset( $raw_event['object_type'] ) ) {
-			$prepared['object_id'] = $raw_event['object_id'];
+			$prepared['object_id']   = $raw_event['object_id'];
 			$prepared['object_type'] = $raw_event['object_type'];
 		}
 
@@ -214,14 +217,13 @@ class LLMS_Events {
 		$meta = isset( $args['meta'] ) ? $args['meta'] : null;
 		unset( $args['meta'] );
 
-		if ( $event !== 'session.start' && $event !== 'session.end' ) {
+		if ( in_array( $event, array( 'session.start', 'session.end' ), true ) ) {
 
 			// Start a session if one isn't open.
 			$sessions = LLMS_Sessions::instance();
 			if ( false === $sessions->get_current() ) {
 				$sessions->start();
 			}
-
 		}
 
 		$event = new LLMS_Event();
@@ -263,7 +265,6 @@ class LLMS_Events {
 			} else {
 				$recorded[] = $stat;
 			}
-
 		}
 
 		if ( count( $errors ) ) {
@@ -278,7 +279,7 @@ class LLMS_Events {
 	}
 
 	/**
-	 * Sanitize event data.
+	 * Recursively sanitize event data.
 	 *
 	 * @since [version]
 	 *
@@ -346,7 +347,6 @@ class LLMS_Events {
 					unset( $post_types[ $key ] );
 				}
 			}
-
 		}
 
 		if ( ! is_array( $post_types ) ) {
@@ -380,7 +380,7 @@ class LLMS_Events {
 	 */
 	public function store_cookie() {
 
-		$cookie = ! empty( $_COOKIE['llms-tracking'] ) ? json_decode( wp_unslash( $_COOKIE['llms-tracking'] ), true ) : false;
+		$cookie = ! empty( $_COOKIE['llms-tracking'] ) ? json_decode( wp_unslash( $_COOKIE['llms-tracking'] ), true ) : false; // phpcs:ignore: WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via $this->sanitize_raw_event().
 		if ( ! $cookie ) {
 			return;
 		}
@@ -389,17 +389,14 @@ class LLMS_Events {
 
 			if ( ! empty( $cookie['events'] ) && is_array( $cookie['events'] ) ) {
 
-				foreach ( $cookie['events'] as &$event ) {
+				foreach ( $cookie['events'] as $event ) {
 
 					$event = $this->prepare_event( $event );
 					if ( ! is_wp_error( $event ) ) {
 						$this->record( $event );
 					}
-
 				}
-
 			}
-
 		}
 
 		setcookie( 'llms-tracking', '', time() - 60, '/' );

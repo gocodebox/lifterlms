@@ -1081,7 +1081,7 @@ implements LLMS_Interface_Post_Audio
 				$user_id = get_current_user_id();
 			}
 			// query user postmeta table
-			$results    = $wpdb->get_results(
+			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
 					  WHERE post_id = %s
@@ -1116,7 +1116,7 @@ implements LLMS_Interface_Post_Audio
 				$user_id = get_current_user_id();
 			}
 			// query user_postmeta table
-			$results    = $wpdb->get_results(
+			$results = $wpdb->get_results(
 				$wpdb->prepare(
 					"SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta
 						WHERE post_id = %s

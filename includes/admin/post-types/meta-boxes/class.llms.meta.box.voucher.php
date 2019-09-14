@@ -61,7 +61,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 						'data_attributes' => array(
 							'post-type'     => 'course',
 							'post-statuses' => 'publish,draft,future',
-							'placeholder' => __( 'Courses', 'lifterlms' ),
+							'placeholder'   => __( 'Courses', 'lifterlms' ),
 						),
 						'type'            => 'select',
 						'label'           => __( 'Courses', 'lifterlms' ),
@@ -75,7 +75,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 						'data_attributes' => array(
 							'post-type'     => 'llms_membership',
 							'post-statuses' => 'publish,draft,future',
-							'placeholder' => __( 'Memberships', 'lifterlms' ),
+							'placeholder'   => __( 'Memberships', 'lifterlms' ),
 						),
 						'type'            => 'select',
 						'label'           => __( 'Membership', 'lifterlms' ),
@@ -285,9 +285,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 		// Courses and membership save
 
-		$courses     = llms_filter_input( INPUT_POST, '_llms_voucher_courses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
-		$courses     = llms_filter_input( INPUT_POST, '_llms_voucher_membership', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
-		$products    = array();
+		$courses  = llms_filter_input( INPUT_POST, '_llms_voucher_courses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		$courses  = llms_filter_input( INPUT_POST, '_llms_voucher_membership', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
+		$products = array();
 
 		foreach ( array( 'courses', 'membership' ) as $type ) {
 			$list = llms_filter_input( INPUT_POST, '_llms_voucher_' . $type, FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );

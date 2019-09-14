@@ -36,19 +36,21 @@ class LLMS_Events_Core {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $username WP_Users's user_login.
+	 * @param string  $username WP_Users's user_login.
 	 * @param WP_User $user User object.
 	 * @return LLMS_Event
 	 */
 	public function on_signon( $username, $user ) {
 
-		return LLMS()->events()->record( array(
-			'actor_id' => $user->ID,
-			'object_type' => 'user',
-			'object_id' => $user->ID,
-			'event_type' => 'account',
-			'event_action' => 'signon',
-		) );
+		return LLMS()->events()->record(
+			array(
+				'actor_id'     => $user->ID,
+				'object_type'  => 'user',
+				'object_id'    => $user->ID,
+				'event_type'   => 'account',
+				'event_action' => 'signon',
+			)
+		);
 
 	}
 
@@ -63,13 +65,15 @@ class LLMS_Events_Core {
 
 		$uid = get_current_user_id();
 
-		return LLMS()->events()->record( array(
-			'actor_id' => $uid,
-			'object_type' => 'user',
-			'object_id' => $uid,
-			'event_type' => 'account',
-			'event_action' => 'signout',
-		) );
+		return LLMS()->events()->record(
+			array(
+				'actor_id'     => $uid,
+				'object_type'  => 'user',
+				'object_id'    => $uid,
+				'event_type'   => 'account',
+				'event_action' => 'signout',
+			)
+		);
 
 	}
 

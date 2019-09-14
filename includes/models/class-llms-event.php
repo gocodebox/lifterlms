@@ -46,6 +46,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 
 	/**
 	 * Database Table Name
+	 *
 	 * @var  string
 	 */
 	protected $table = 'events';
@@ -76,7 +77,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 * @since [version]
 	 *
 	 * @param string $key Meta key, if omitted deletes *all* metadata.
-	 * @param bool $save If true, saves updated metadata to the database.
+	 * @param bool   $save If true, saves updated metadata to the database.
 	 * @return LLMS_Event
 	 */
 	public function delete_meta( $key = null, $save = false ) {
@@ -97,7 +98,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 * @since [version]
 	 *
 	 * @param string $key Metadata key, if omitted returns an associative array of all metadata as key=>val pairs.
-	 * @param bool $cache If true, uses cached data when available.
+	 * @param bool   $cache If true, uses cached data when available.
 	 * @return mixed
 	 */
 	public function get_meta( $key = null, $cache = true ) {
@@ -119,13 +120,13 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 * @since [version]
 	 *
 	 * @param string $key Meta key.
-	 * @param mixed $val Meta value.
-	 * @param bool $save If true, saves the updated metadata to the database.
+	 * @param mixed  $val Meta value.
+	 * @param bool   $save If true, saves the updated metadata to the database.
 	 * @return LLMS_Event
 	 */
 	public function set_meta( $key, $val, $save = false ) {
 
-		$all = $this->get_meta( null );
+		$all         = $this->get_meta( null );
 		$all[ $key ] = $val;
 		return $this->set_unencoded_metas( $all, $save );
 
@@ -137,7 +138,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 * @since [version]
 	 *
 	 * @param array $metas Associative array of metadata to update/add as key=>val pairs.
-	 * @param bool $save If true, saves the updated metadata to the database.
+	 * @param bool  $save If true, saves the updated metadata to the database.
 	 * @return LLMS_Event
 	 */
 	public function set_metas( $metas, $save = false ) {
@@ -152,7 +153,6 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 
 		return $this;
 
-
 	}
 
 	/**
@@ -161,7 +161,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 * @since [version]
 	 *
 	 * @param array $metas Associative array of metadata to update/add as key=>val pairs.
-	 * @param bool $save If true, saves the updated metadata to the database.
+	 * @param bool  $save If true, saves the updated metadata to the database.
 	 * @return LLMS_Event
 	 */
 	protected function set_unencoded_metas( $metas, $save = false ) {
