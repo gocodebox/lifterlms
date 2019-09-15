@@ -1,11 +1,31 @@
 LifterLMS Changelog
 ===================
 
+v3.36.0 - 2019-09-??
+--------------------
+
+##### User Interaction event and session Tracking
+
++ Added user interaction tracking for the following events:
+
+  + User sign in and out.
+  + Page load and exit (for LMS content)
+  + Page focus and blur (for LMS content)
+  + And more to come
+
++ Interaction events are grouped into sessions automatically. A session is "closed" after 30 minutes of inactivity or a log-out event.
+
+##### Bug Fixes
+
++ Correctly pass the `$remember` variable when using `llms_set_person_auth_cookie()`.
++ Fixed undefined index error when retrieving an unset value from an unsaved database model.
+
+
 v3.35.2 - 2019-09-06
 --------------------
 
 + When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
-* Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
++ Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
 
 
 v3.35.1 - 2019-09-04
