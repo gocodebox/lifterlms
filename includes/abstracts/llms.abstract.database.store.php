@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 setup() method returns self instead of void.
  * @since 3.34.0 to_array() method returns value of the primary key instead of the format.
  * @since [version] Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
+ *			     Hydrate before returning an array via the `to_array()` method.
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -416,11 +417,13 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.34.0 Return the item ID instead of item format as the value of the primary key.
+	 * @since [version] Hydrate before returning the array.
 	 *
 	 * @return array
 	 */
 	public function to_array() {
 
+		$this->hydrate();
 		return array_merge( array_combine( array_keys( $this->primary_key ), array( $this->id ) ), $this->data );
 
 	}
