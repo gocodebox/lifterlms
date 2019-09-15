@@ -15,6 +15,10 @@ v3.36.0 - 2019-09-??
 
 + Interaction events are grouped into sessions automatically. A session is "closed" after 30 minutes of inactivity or a log-out event.
 
+##### Enhancements
+
++ Automatically hydrate when calling LLMS_Abstract_Database_Store::to_array().
+
 ##### Bug Fixes
 
 + Correctly pass the `$remember` variable when using `llms_set_person_auth_cookie()`.
