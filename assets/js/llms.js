@@ -1350,6 +1350,250 @@ var LLMS = window.LLMS || {};
 	
 	};
 	
+		/* global LLMS, $ */
+	
+	/*!
+	 * JavaScript Cookie v2.2.1
+	 * https://github.com/js-cookie/js-cookie
+	 *
+	 * Copyright 2006, 2015 Klaus Hartl & Fagner Brack
+	 * Released under the MIT license
+	 */
+	;(function (factory) {
+		var registeredInModuleLoader;
+		if (typeof define === 'function' && define.amd) {
+			define(factory);
+			registeredInModuleLoader = true;
+		}
+		if (typeof exports === 'object') {
+			module.exports = factory();
+			registeredInModuleLoader = true;
+		}
+		if (!registeredInModuleLoader) {
+			var OldCookies = window.Cookies;
+			var api = window.Cookies = factory();
+			api.noConflict = function () {
+				window.Cookies = OldCookies;
+				return api;
+			};
+		}
+	}(function () {
+		function extend () {
+			var i = 0;
+			var result = {};
+			for (; i < arguments.length; i++) {
+				var attributes = arguments[ i ];
+				for (var key in attributes) {
+					result[key] = attributes[key];
+				}
+			}
+			return result;
+		}
+	
+		function decode (s) {
+			return s.replace(/(%[0-9A-Z]{2})+/g, decodeURIComponent);
+		}
+	
+		function init (converter) {
+			function api() {}
+	
+			function set (key, value, attributes) {
+				if (typeof document === 'undefined') {
+					return;
+				}
+	
+				attributes = extend({
+					path: '/'
+				}, api.defaults, attributes);
+	
+				if (typeof attributes.expires === 'number') {
+					attributes.expires = new Date(new Date() * 1 + attributes.expires * 864e+5);
+				}
+	
+				// We're using "expires" because "max-age" is not supported by IE
+				attributes.expires = attributes.expires ? attributes.expires.toUTCString() : '';
+	
+				try {
+					var result = JSON.stringify(value);
+					if (/^[\{\[]/.test(result)) {
+						value = result;
+					}
+				} catch (e) {}
+	
+				value = converter.write ?
+					converter.write(value, key) :
+					encodeURIComponent(String(value))
+						.replace(/%(23|24|26|2B|3A|3C|3E|3D|2F|3F|40|5B|5D|5E|60|7B|7D|7C)/g, decodeURIComponent);
+	
+				key = encodeURIComponent(String(key))
+					.replace(/%(23|24|26|2B|5E|60|7C)/g, decodeURIComponent)
+					.replace(/[\(\)]/g, escape);
+	
+				var stringifiedAttributes = '';
+				for (var attributeName in attributes) {
+					if (!attributes[attributeName]) {
+						continue;
+					}
+					stringifiedAttributes += '; ' + attributeName;
+					if (attributes[attributeName] === true) {
+						continue;
+					}
+	
+					// Considers RFC 6265 section 5.2:
+					// ...
+					// 3.  If the remaining unparsed-attributes contains a %x3B (";")
+					//     character:
+					// Consume the characters of the unparsed-attributes up to,
+					// not including, the first %x3B (";") character.
+					// ...
+					stringifiedAttributes += '=' + attributes[attributeName].split(';')[0];
+				}
+	
+				return (document.cookie = key + '=' + value + stringifiedAttributes);
+			}
+	
+			function get (key, json) {
+				if (typeof document === 'undefined') {
+					return;
+				}
+	
+				var jar = {};
+				// To prevent the for loop in the first place assign an empty array
+				// in case there are no cookies at all.
+				var cookies = document.cookie ? document.cookie.split('; ') : [];
+				var i = 0;
+	
+				for (; i < cookies.length; i++) {
+					var parts = cookies[i].split('=');
+					var cookie = parts.slice(1).join('=');
+	
+					if (!json && cookie.charAt(0) === '"') {
+						cookie = cookie.slice(1, -1);
+					}
+	
+					try {
+						var name = decode(parts[0]);
+						cookie = (converter.read || converter)(cookie, name) ||
+							decode(cookie);
+	
+						if (json) {
+							try {
+								cookie = JSON.parse(cookie);
+							} catch (e) {}
+						}
+	
+						jar[name] = cookie;
+	
+						if (key === name) {
+							break;
+						}
+					} catch (e) {}
+				}
+	
+				return key ? jar[key] : jar;
+			}
+	
+			api.set = set;
+			api.get = function (key) {
+				return get(key, false /* read as raw */);
+			};
+			api.getJSON = function (key) {
+				return get(key, true /* read as json */);
+			};
+			api.remove = function (key, attributes) {
+				set(key, '', extend(attributes, {
+					expires: -1
+				}));
+			};
+	
+			api.defaults = {};
+	
+			api.withConverter = init;
+	
+			return api;
+		}
+	
+		return init(function () {});
+	}));
+	
+	/**
+	 * Store information in Local Storage by group.
+	 *
+	 * @since [version]
+	 *
+	 * @param string group Storage group id/name.
+	 */
+	LLMS.Storage = function( group ) {
+	
+		var self = this,
+			store = Cookies.noConflict();
+	
+		/**
+		 * Clear all data for the group.
+		 *
+		 * @since [version]
+		 *
+		 * @return void
+		 */
+		this.clearAll = function() {
+			store.remove( group );
+		};
+	
+		/**
+		 * Clear a single item from the group by key.
+		 *
+		 * @since [version]
+		 *
+		 * @return obj
+		 */
+		this.clear = function( key ) {
+			var data = self.getAll();
+			delete data[ key ];
+			return store.set( group, data );
+		};
+	
+		/**
+		 * Retrieve (and parse) all data stored for the group.
+		 *
+		 * @since [version]
+		 *
+		 * @return obj
+		 */
+		this.getAll = function() {
+			return store.getJSON( group ) || {};
+		}
+	
+		/**
+		 * Retrieve an item from the group by key.
+		 *
+		 * @since [version]
+		 *
+		 * @param string key Item key/name.
+		 * @param mixed default_val Item default value to be returned when item not found in the group.
+		 * @return mixed
+		 */
+		this.get = function( key, default_val ) {
+			var data = self.getAll();
+			return data[ key ] ? data[ key ] : default_val;
+		}
+	
+		/**
+		 * Store an item in the group by key.
+		 *
+		 * @since [version]
+		 *
+		 * @param string key Item key name.
+		 * @param mixed val Item value
+		 * @return obj
+		 */
+		this.set = function( key, val ) {
+			var data = self.getAll();
+			data[ key ] = val;
+			return store.set( group, data );
+		};
+	
+	}
+	
 		/**
 	 * Student Dashboard related JS
 	 *
@@ -1556,6 +1800,152 @@ var LLMS = window.LLMS || {};
 		},
 	
 	};
+	
+		/* global LLMS, $ */
+	
+	/**
+	 * User event/interaction tracking.
+	 *
+	 * @since [version]
+	 */
+	LLMS.Tracking = function( settings ) {
+	
+		var self = this,
+			store = new LLMS.Storage( 'llms-tracking' );
+	
+		settings = 'string' === typeof settings ? JSON.parse( settings ) : settings;
+	
+		/**
+		 * Initialize / Bind all tracking event listeners.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		function init() {
+	
+			// Set the nonce for server-side verification.
+			store.set( 'nonce', settings.nonce );
+	
+			self.addEvent( 'page.load' );
+	
+			window.addEventListener( 'beforeunload', onBeforeUnload );
+			window.addEventListener( 'unload', onUnload );
+	
+			document.addEventListener( 'visibilitychange', onVisibilityChange );
+	
+		};
+	
+		/**
+		 * Add an event.
+		 *
+		 * @since [version]
+		 *
+		 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
+		 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
+		 */
+		this.addEvent = function( event, args ) {
+	
+			args  = args || {};
+			if ( 'string' === typeof event ) {
+				args.event = event;
+			}
+	
+			// If the event isn't registered in the settings don't proceed.
+			if ( -1 === settings.events.indexOf( args.event ) ) {
+				return;
+			}
+	
+			event = self.makeEventObj( args );
+	
+			var all = store.get( 'events', [] );
+			all.push( event );
+			store.set( 'events', all );
+	
+		}
+	
+		/**
+		 * Retrieve initialization settings.
+		 *
+		 * @since [version]
+		 *
+		 * @return obj
+		 */
+		this.getSettings = function() {
+			return settings;
+		}
+	
+		/**
+		 * Create an event object suitable to save as an event.
+		 *
+		 * @since [version]
+		 *
+		 * @param obj event {
+		 *     Event hash
+		 *
+		 *     @param {string} event (Required) Event ID, eg: "page.load".
+		 *     @param {url} url Event URL. (Optional, added automatically) Stored as metadata and used to infer an object_id for post events.
+		 *     @param {time} float (Optional, added automatically) Timestamp (in milliseconds). Used for the event creation date.
+		 *     @param {int} obj_id (Optional). The object ID. Inferred automatically via `url` if not provided.
+		 *     @param {obj} meta (Optional) Hash of metadata to store with the event.
+		 * }
+		 * @return obj
+		 */
+		this.makeEventObj = function( event ) {
+			return Object.assign( event, {
+				url: window.location.href,
+				time: Math.round( new Date().getTime() / 1000 ),
+			} );
+		}
+	
+	
+		/**
+		 * Remove the visibility change event listener on window.beforeunload
+		 *
+		 * Prevents actual unloading from recording a blur event from the visibility change listener
+		 *
+		 * @param obj e JS event object.
+		 * @return void
+		 */
+		function onBeforeUnload( e ) {
+			document.removeEventListener( 'visibilitychange', onVisibilityChange );
+		}
+	
+		/**
+		 * Record a `page.exit` event on window.unload.
+		 *
+		 * @since [version]
+		 *
+		 * @param obj e JS event object.
+		 * @return void
+		 */
+		function onUnload( e ) {
+			self.addEvent( 'page.exit' );
+		}
+	
+		/**
+		 * Record `page.blur` and `page.focus` events via document.visilibitychange events.
+		 *
+		 * @since [version]
+		 *
+		 * @param obj e JS event object.
+		 * @return void
+		 */
+		function onVisibilityChange( e ) {
+	
+			var event = document.hidden ? 'page.blur' : 'page.focus';
+			self.addEvent( event );
+	
+		}
+	
+		// Initialize on the frontend only.
+		if ( ! $( 'body' ).hasClass( 'wp-admin' ) ) {
+			init();
+		}
+	
+	};
+	
+	llms.tracking = new LLMS.Tracking( llms.tracking );
 	
 		/**
 	 * Rest Methods
