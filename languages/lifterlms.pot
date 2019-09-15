@@ -16,15 +16,47 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:629, includes/admin/class.llms.admin.menus.php:153
+#: lifterlms.php:647, includes/admin/class.llms.admin.menus.php:153
 msgid "Settings"
 msgstr ""
 
-#: includes/class-llms-staging.php:50, includes/class.llms.install.php:596, includes/class.llms.install.php:616, includes/admin/class.llms.admin.notices.php:220, includes/admin/class.llms.admin.page.status.php:33, includes/admin/class.llms.admin.page.status.php:219
+#. translators: %s = Event field key.
+#: includes/class-llms-events.php:146
+msgid "The event is missing the \"%s\" field."
+msgstr ""
+
+#. translators: %s = URL.
+#: includes/class-llms-events.php:166
+msgid "The URL \"%s\" cannot be mapped to a valid post object."
+msgstr ""
+
+#. translators: %s = key name of the missing field.
+#: includes/class-llms-events.php:202
+msgid "Missing required field: \"%s\"."
+msgstr ""
+
+#. translators: %s = Submitted event string.
+#: includes/class-llms-events.php:213
+msgid "The event \"%s\" is invalid."
+msgstr ""
+
+#: includes/class-llms-events.php:231
+msgid "An unknown error occurred during event creation."
+msgstr ""
+
+#: includes/class-llms-events.php:277
+msgid "There was one or more errors encountered while recording the events."
+msgstr ""
+
+#: includes/class-llms-sessions.php:79, includes/libraries/wp-background-processing/wp-background-process.php:368
+msgid "Every %d Minutes"
+msgstr ""
+
+#: includes/class-llms-staging.php:50, includes/class.llms.install.php:612, includes/class.llms.install.php:632, includes/admin/class.llms.admin.notices.php:220, includes/admin/class.llms.admin.page.status.php:33, includes/admin/class.llms.admin.page.status.php:219
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/class-llms-staging.php:53, includes/class.llms.install.php:600, includes/class.llms.install.php:620, includes/admin/class-llms-admin-export-download.php:43, includes/admin/class-llms-admin-export-download.php:48, includes/admin/class-llms-admin-export-download.php:53, includes/admin/class.llms.admin.notices.php:223
+#: includes/class-llms-staging.php:53, includes/class.llms.install.php:616, includes/class.llms.install.php:636, includes/admin/class-llms-admin-export-download.php:43, includes/admin/class-llms-admin-export-download.php:48, includes/admin/class-llms-admin-export-download.php:53, includes/admin/class.llms.admin.notices.php:223
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -227,38 +259,38 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:242, includes/admin/class.llms.admin.setup.wizard.php:352, includes/admin/settings/class.llms.settings.courses.php:89
+#: includes/class.llms.install.php:244, includes/admin/class.llms.admin.setup.wizard.php:352, includes/admin/settings/class.llms.settings.courses.php:89
 msgid "Course Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:248, includes/admin/class.llms.admin.setup.wizard.php:356
+#: includes/class.llms.install.php:250, includes/admin/class.llms.admin.setup.wizard.php:356
 msgid "Membership Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:254
+#: includes/class.llms.install.php:256
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:260, includes/class.llms.student.dashboard.php:147, includes/admin/class.llms.admin.builder.php:39
+#: includes/class.llms.install.php:262, includes/class.llms.student.dashboard.php:147, includes/admin/class.llms.admin.builder.php:39
 msgid "Dashboard"
-msgstr ""
-
-#: includes/class.llms.install.php:369
-msgctxt "course difficulty name"
-msgid "Beginner"
-msgstr ""
-
-#: includes/class.llms.install.php:370
-msgctxt "course difficulty name"
-msgid "Intermediate"
 msgstr ""
 
 #: includes/class.llms.install.php:371
 msgctxt "course difficulty name"
+msgid "Beginner"
+msgstr ""
+
+#: includes/class.llms.install.php:372
+msgctxt "course difficulty name"
+msgid "Intermediate"
+msgstr ""
+
+#: includes/class.llms.install.php:373
+msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:680
+#: includes/class.llms.install.php:696
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -1316,7 +1348,7 @@ msgstr ""
 msgid "This is where you can view all of the Quiz Questions."
 msgstr ""
 
-#: includes/class.llms.post-types.php:462, includes/functions/llms.functions.person.php:481, includes/integrations/class.llms.integration.buddypress.php:85, includes/admin/analytics/class.llms.analytics.memberships.php:22, includes/admin/analytics/class.llms.analytics.sales.php:117, includes/admin/reporting/class.llms.admin.reporting.php:284, includes/admin/settings/class.llms.settings.memberships.php:21, templates/admin/analytics/analytics.php:109, templates/admin/reporting/nav-filters.php:91, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:70, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:78, includes/admin/reporting/tables/llms.table.memberships.php:187, includes/admin/reporting/tables/llms.table.students.php:592, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:106, includes/admin/views/access-plans/access-plan.php:241, templates/admin/reporting/tabs/memberships/membership.php:19
+#: includes/class.llms.post-types.php:462, includes/functions/llms.functions.person.php:485, includes/integrations/class.llms.integration.buddypress.php:85, includes/admin/analytics/class.llms.analytics.memberships.php:22, includes/admin/analytics/class.llms.analytics.sales.php:117, includes/admin/reporting/class.llms.admin.reporting.php:284, includes/admin/settings/class.llms.settings.memberships.php:21, templates/admin/analytics/analytics.php:109, templates/admin/reporting/nav-filters.php:91, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:70, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:78, includes/admin/reporting/tables/llms.table.memberships.php:187, includes/admin/reporting/tables/llms.table.students.php:592, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:106, includes/admin/views/access-plans/access-plan.php:241, templates/admin/reporting/tabs/memberships/membership.php:19
 msgid "Memberships"
 msgstr ""
 
@@ -5504,31 +5536,31 @@ msgstr ""
 msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%1$s\">here.</a>"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:217
+#: includes/functions/llms.functions.person.php:218
 msgid "strong"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:221
+#: includes/functions/llms.functions.person.php:222
 msgid "medium"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:225
+#: includes/functions/llms.functions.person.php:226
 msgid "weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:229
+#: includes/functions/llms.functions.person.php:230
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:480
+#: includes/functions/llms.functions.person.php:484
 msgid "Last Login"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:508
+#: includes/functions/llms.functions.person.php:512
 msgid "Never"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:547
+#: includes/functions/llms.functions.person.php:551
 msgid "No memberships"
 msgstr ""
 
@@ -7853,10 +7885,6 @@ msgstr ""
 
 #: includes/forms/frontend/class.llms.frontend.password.php:126, includes/forms/frontend/class.llms.frontend.password.php:133, includes/forms/frontend/class.llms.frontend.password.php:142
 msgid "Invalid key"
-msgstr ""
-
-#: includes/libraries/wp-background-processing/wp-background-process.php:368
-msgid "Every %d Minutes"
 msgstr ""
 
 #: includes/notifications/controllers/class.llms.notification.controller.achievement.earned.php:89
