@@ -27,26 +27,82 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test end_idle_sessions()
+	 * Test get_idle_sessions()
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
+	public function test_get_open_sessions() {
+
+		$time = time();
+
+		$i = 0;
+		while ( $i < 5 ) {
+
+			wp_set_current_user( $this->factory->user->create() );
+
+			$time += MINUTE_IN_SECONDS;
+			llms_tests_mock_current_time( $time );
+			$this->sessions->start();
+			$time += MINUTE_IN_SECONDS;
+			llms_tests_mock_current_time( $time );
+			$this->sessions->end_current();
+
+			$time += MINUTE_IN_SECONDS;
+			llms_tests_mock_current_time( $time );
+
+			$this->sessions->start();
+
+			$i++;
+
+		}
+
+		$sessions = LLMS_Unit_Test_Util::call_method( $this->sessions, 'get_open_sessions' );
+		$this->assertEquals( 5, count( $sessions ) );
+
+		foreach ( $sessions as $session ) {
+			$this->assertEquals( 2, $session->get( 'object_id' ) );
+			$this->assertTrue( $this->sessions->is_session_open( $session ) );
+		}
+
+	}
+
 	public function test_end_idle_sessions() {
 
-		wp_set_current_user( $this->factory->user->create() );
-		$start = $this->sessions->start();
+		$time = time();
 
-		llms_tests_mock_current_time( time() + HOUR_IN_SECONDS );
+		$started = array();
 
+		$i = 0;
+		while ( $i < 5 ) {
+
+			wp_set_current_user( $this->factory->user->create() );
+
+			$time += MINUTE_IN_SECONDS;
+			llms_tests_mock_current_time( $time );
+			$started[] = $this->sessions->start();
+
+			$i++;
+
+		}
+
+		// It hasn't been long enough.
 		$this->sessions->end_idle_sessions();
+		foreach ( $started as $i => $session ) {
+			$this->assertTrue( $this->sessions->is_session_open( $session ) );
+		}
 
-		$end = $this->sessions->get_session_end( $start->get( 'object_id' ) );
+		$this->assertEquals( 4, $i );
 
-		$this->assertTrue( is_a( $end, 'LLMS_Event' ) );
-		$this->assertEquals( $start->get( 'actor_id' ), $end->get( 'actor_id' ) );
-		$this->assertEquals( $start->get( 'object_id' ), $end->get( 'object_id' ) );
+		$time += HOUR_IN_SECONDS;
+		llms_tests_mock_current_time( $time );
+		$this->sessions->end_idle_sessions();
+		foreach ( $started as $i => $session ) {
+			$this->assertFalse( $this->sessions->is_session_open( $session ) );
+		}
+
+		$this->assertEquals( 4, $i );
 
 	}
 
@@ -164,7 +220,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		wp_set_current_user( $this->factory->user->create() );
 		$start = $this->sessions->start();
 
-		$this->assertNull( $this->sessions->get_session_end( $start->get( 'object_id' ) ) );
+		$this->assertNull( $this->sessions->get_session_end( $start ) );
 
 	}
 
@@ -181,7 +237,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		$start = $this->sessions->start();
 		$end = $this->sessions->end_current();
 
-		$test_end = $this->sessions->get_session_end( $start->get( 'object_id' ) );
+		$test_end = $this->sessions->get_session_end( $start );
 
 		$this->assertTrue( is_a( $test_end, 'LLMS_Event' ) );
 		$this->assertEquals( $end->get( 'id' ), $test_end->get( 'id' ) );
@@ -411,10 +467,10 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		wp_set_current_user( $this->factory->user->create() );
 		$start = $this->sessions->start();
 
-		$this->assertTrue( $this->sessions->is_session_open( $start->get( 'object_id' ) ) );
+		$this->assertTrue( $this->sessions->is_session_open( $start ) );
 		$this->sessions->end_current();
 
-		$this->assertFalse( $this->sessions->is_session_open( $start->get( 'object_id' ) ) );
+		$this->assertFalse( $this->sessions->is_session_open( $start ) );
 
 	}
 

@@ -83,42 +83,6 @@ class LLMS_Sessions {
 	}
 
 	/**
-	 * Retrieve an array of events which occurred during a session.
-	 *
-	 * @since [version]
-	 *
-	 * @param LLMS_Event $start Event record for the session.start event.
-	 * @param array      $args Array of additional arguments to pass to the LLMS_Events_Query.
-	 * @return LLMS_Event[]
-	 */
-	public function get_session_events( $start, $args = array() ) {
-
-		$end = $this->get_session_end( $start->get( 'object_id' ) );
-
-		$args = wp_parse_args(
-			$args,
-			array(
-				'date_after' => $start->get( 'date' ),
-				'exclude'    => array( $start->get( 'id' ) ),
-				'actor'      => $start->get( 'actor_id' ),
-				'sort'       => array(
-					'date' => 'ASC',
-				),
-				'per_page'   => 10,
-			)
-		);
-
-		if ( $end ) {
-			$args['date_before'] = $end->get( 'date' );
-			$args['exclude'][]   = $end->get( 'id' );
-		}
-
-		$query = new LLMS_Events_Query( $args );
-		return $query->get_events();
-
-	}
-
-	/**
 	 * End the 50 oldest idle sessions.
 	 *
 	 * @since [version]
@@ -127,24 +91,9 @@ class LLMS_Sessions {
 	 */
 	public function end_idle_sessions() {
 
-		$query = new LLMS_Events_Query(
-			array(
-				'object_type'  => 'session',
-				'event_type'   => 'session',
-				'event_action' => 'start',
-				'per_page'     => 50,
-				'sort'         => array(
-					'date' => 'ASC',
-				),
-			)
-		);
-
-		if ( $query->number_results ) {
-			foreach ( $query->get_events() as $event ) {
-				llms_log( $this->is_session_idle( $event ) );
-				if ( $this->is_session_idle( $event ) ) {
-					llms_log( $this->end( $event ) );
-				}
+		foreach ( $this->get_open_sessions() as $i => $event ) {
+			if ( $this->is_session_idle( $event ) ) {
+				$this->end( $event );
 			}
 		}
 
@@ -209,11 +158,13 @@ class LLMS_Sessions {
 			return false;
 		}
 
-		if ( ! $this->is_session_open( $session->object_id ) ) {
+		$session = new LLMS_Event( $session->id );
+
+		if ( ! $this->is_session_open( $session ) ) {
 			return false;
 		}
 
-		return new LLMS_Event( $session->id );
+		return $session;
 
 	}
 
@@ -231,7 +182,7 @@ class LLMS_Sessions {
 	public function is_session_idle( $start ) {
 
 		// Session is closed so it can't be idle.
-		if ( ! $this->is_session_open( $start->get( 'object_id' ) ) ) {
+		if ( ! $this->is_session_open( $start ) ) {
 			return false;
 		}
 
@@ -259,10 +210,6 @@ class LLMS_Sessions {
 		}
 
 		$last_event = array_shift( $events );
-		llms_log( date( 'Y-m-d H:i:s', $now ) );
-		llms_log( $last_event->get( 'date' ) );
-		llms_log( ( $now - strtotime( $last_event->get( 'date' ) ) ) );
-		llms_log( $timeout );
 		return ( ( $now - strtotime( $last_event->get( 'date' ) ) ) > $timeout );
 
 	}
@@ -272,12 +219,12 @@ class LLMS_Sessions {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $session_id The `object_id` of an event record.
+	 * @param LLMS_Event Event record for the start of the session.
 	 * @return bool
 	 */
-	public function is_session_open( $session_id ) {
+	public function is_session_open( $start ) {
 
-		return is_null( $this->get_session_end( $session_id ) );
+		return is_null( $this->get_session_end( $start ) );
 
 	}
 
@@ -308,14 +255,86 @@ class LLMS_Sessions {
 	}
 
 	/**
+	 * Retrieve open sessions.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $limit Number of sessions to return.
+	 * @param int $skip Number of sessions to skip.
+	 * @return LLMS_Event[]
+	 */
+	protected function get_open_sessions( $limit = 50, $skip = 0 ) {
+
+		global $wpdb;
+		$sessions = $wpdb->get_col( $wpdb->prepare( "
+			   SELECT e1.id
+			     FROM {$wpdb->prefix}lifterlms_events AS e1
+			LEFT JOIN {$wpdb->prefix}lifterlms_events AS e2
+			       ON e1.object_id = e2.object_id
+			      AND e1.actor_id = e2.actor_id
+			      AND e2.event_type = 'session'
+			      AND e2.event_action = 'end'
+			    WHERE e1.event_type = 'session'
+			      AND e1.event_action = 'start'
+			      AND e2.date IS NULL
+			 ORDER BY e1.date ASC
+			    LIMIT %d, %d
+		", $skip, $limit ) );
+
+		$ret = array();
+		foreach ( $sessions as $id ) {
+			$ret[] = new LLMS_Event( $id );
+		}
+
+		return $ret;
+
+	}
+
+	/**
+	 * Retrieve an array of events which occurred during a session.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Event $start Event record for the session.start event.
+	 * @param array      $args Array of additional arguments to pass to the LLMS_Events_Query.
+	 * @return LLMS_Event[]
+	 */
+	public function get_session_events( $start, $args = array() ) {
+
+		$end = $this->get_session_end( $start );
+
+		$args = wp_parse_args(
+			$args,
+			array(
+				'date_after' => $start->get( 'date' ),
+				'exclude'    => array( $start->get( 'id' ) ),
+				'actor'      => $start->get( 'actor_id' ),
+				'sort'       => array(
+					'date' => 'ASC',
+				),
+				'per_page'   => 10,
+			)
+		);
+
+		if ( $end ) {
+			$args['date_before'] = $end->get( 'date' );
+			$args['exclude'][]   = $end->get( 'id' );
+		}
+
+		$query = new LLMS_Events_Query( $args );
+		return $query->get_events();
+
+	}
+
+	/**
 	 * Retrieve session end record for by session id.
 	 *
 	 * @since [version]
 	 *
-	 * @param int $session_id The `object_id` of an event record.
+	 * @param LLMS_Event $start Event record for the session.start event.
 	 * @return LLMS_Event|end
 	 */
-	public function get_session_end( $session_id ) {
+	public function get_session_end( $start ) {
 
 		global $wpdb;
 		$end = $wpdb->get_var(
@@ -329,8 +348,8 @@ class LLMS_Sessions {
 			    AND event_action = 'end'
 		   ORDER BY date DESC
 			  LIMIT 1;",
-				get_current_user_id(),
-				$session_id
+				$start->get( 'actor_id' ),
+				$start->get( 'object_id' )
 			)
 		);
 
