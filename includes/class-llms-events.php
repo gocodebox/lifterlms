@@ -217,7 +217,7 @@ class LLMS_Events {
 		$meta = isset( $args['meta'] ) ? $args['meta'] : null;
 		unset( $args['meta'] );
 
-		if ( in_array( $event, array( 'session.start', 'session.end' ), true ) ) {
+		if ( ! in_array( $event, array( 'session.start', 'session.end' ), true ) ) {
 
 			// Start a session if one isn't open.
 			$sessions = LLMS_Sessions::instance();
@@ -233,6 +233,11 @@ class LLMS_Events {
 		}
 		if ( $meta && ! empty( $meta ) ) {
 			$event->set_metas( $meta, true );
+		}
+
+		// End the current session on signout.
+		if ( 'account.signout' === $event ) {
+			LLMS_Sessions::instance()->end_current();
 		}
 
 		return $event;
