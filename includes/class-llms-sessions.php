@@ -266,7 +266,9 @@ class LLMS_Sessions {
 	protected function get_open_sessions( $limit = 50, $skip = 0 ) {
 
 		global $wpdb;
-		$sessions = $wpdb->get_col( $wpdb->prepare( "
+		$sessions = $wpdb->get_col(
+			$wpdb->prepare(
+				"
 			   SELECT e1.id
 			     FROM {$wpdb->prefix}lifterlms_events AS e1
 			LEFT JOIN {$wpdb->prefix}lifterlms_events AS e2
@@ -279,7 +281,11 @@ class LLMS_Sessions {
 			      AND e2.date IS NULL
 			 ORDER BY e1.date ASC
 			    LIMIT %d, %d
-		", $skip, $limit ) );
+		",
+				$skip,
+				$limit
+			)
+		);
 
 		$ret = array();
 		foreach ( $sessions as $id ) {

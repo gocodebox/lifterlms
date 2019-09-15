@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 setup() method returns self instead of void.
  * @since 3.34.0 to_array() method returns value of the primary key instead of the format.
  * @since [version] Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
- *			     Hydrate before returning an array via the `to_array()` method.
+ *               Hydrate before returning an array via the `to_array()` method.
  */
 abstract class LLMS_Abstract_Database_Store {
 
