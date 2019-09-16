@@ -2,15 +2,19 @@
 /**
  * Students Reporting Table
  *
- * @since   3.2.0
- * @since   3.31.0 Allow filtering the table by Course or Membership
- * @version 3.28.0
+ * @since 3.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Table_Students class.
+ *
+ * @since 3.2.0
+ * @since 3.28.0 Unknown.
+ * @since 3.31.0 Allow filtering the table by Course or Membership
+ * @since [version] Add "Last Seen" column.
  */
 class LLMS_Table_Students extends LLMS_Admin_Table {
 
@@ -93,11 +97,13 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for the columns
 	 *
+	 * @since 3.2.0
+	 * @since 3.15.0 Unknown.
+	 * @since [version] Added "Last Seen" column.
+	 *
 	 * @param    string $key        the column id / key
 	 * @param    obj    $student    Instance of the LLMS_Student
 	 * @return   mixed
-	 * @since    3.2.0
-	 * @version  3.15.0
 	 */
 	public function get_data( $key, $student ) {
 
@@ -150,6 +156,28 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				} else {
 					$value = $id;
 				}
+				break;
+
+			case 'last_seen':
+
+				$query = new LLMS_Events_Query( array(
+					'actor' => $student->get_id(),
+					'per_page' => 1,
+					'sort' => array(
+						'date' => 'DESC',
+					),
+				) );
+
+				if ( $query->number_results ) {
+					$events = $query->get_events();
+					$last = array_shift( $events );
+					$value = $last->get( 'date' );
+				} else {
+					$value = $student->get( 'last_login' );
+				}
+
+				$value = $value ? date_i18n( get_option( 'date_format' ), strtotime( $value ) ) : '&ndash;';
+
 				break;
 
 			case 'memberships':
@@ -526,9 +554,11 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table
 	 *
+	 * @since 3.2.0
+	 * @since 3.15.0 Unknown.
+	 * @since [version] Add "Last Seen" column.
+	 *
 	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.15.0
 	 */
 	public function set_columns() {
 		return array(
@@ -560,6 +590,11 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				'exportable' => true,
 				'sortable'   => true,
 				'title'      => __( 'Registration Date', 'lifterlms' ),
+			),
+			'last_seen'             => array(
+				'exportable' => true,
+				'sortable'   => false,
+				'title'      => __( 'Last Seen', 'lifterlms' ),
 			),
 			'overall_progress'      => array(
 				'exportable' => true,
