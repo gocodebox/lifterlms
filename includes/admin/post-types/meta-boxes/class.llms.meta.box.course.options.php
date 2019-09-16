@@ -3,7 +3,7 @@
  * Course Options
  *
  * @since 1.0.0
- * @version 3.26.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+ * @since [version] Allow some fields to store values with quotes.
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -32,11 +33,12 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Setup fields
+	 * Setup fields.
+	 *
+	 * @since 1.0.0
+	 * @since [version] Allow some fields to store values with quotes.
 	 *
 	 * @return array
-	 * @since    1.0.0
-	 * @version  3.26.3
 	 */
 	public function get_fields() {
 
@@ -218,6 +220,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'id'               => $this->prefix . 'enrollment_opens_message',
 						'label'            => __( 'Enrollment Opens Message', 'lifterlms' ),
 						'type'             => 'text',
+						'sanitize'         => 'shortcode',
 					),
 					array(
 						'class'            => 'input-full',
@@ -228,6 +231,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'id'               => $this->prefix . 'enrollment_closed_message',
 						'label'            => __( 'Enrollment Closed Message', 'lifterlms' ),
 						'type'             => 'text',
+						'sanitize'         => 'shortcode',
 					),
 
 					array(
@@ -266,6 +270,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'id'               => $this->prefix . 'course_opens_message',
 						'label'            => __( 'Course Opens Message', 'lifterlms' ),
 						'type'             => 'text',
+						'sanitize'         => 'shortcode',
 					),
 					array(
 						'class'            => 'input-full',
@@ -276,6 +281,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'id'               => $this->prefix . 'course_closed_message',
 						'label'            => __( 'Course Closed Message', 'lifterlms' ),
 						'type'             => 'text',
+						'sanitize'         => 'shortcode',
 					),
 
 					array(

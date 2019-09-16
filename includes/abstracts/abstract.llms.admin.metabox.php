@@ -3,7 +3,7 @@
  * Admin Metabox Class
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize and verify nonce when saving metabox data.
+ * @since [version] Allow quotes to be saved without being encoded for some special fields that store a shortcode.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -221,8 +222,10 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Generate and output the HTML for the metabox
 	 *
+	 * @since Unknown
+	 * @since [version] Always decode quotes html entities.
+	 *
 	 * @return void
-	 * @version  3.0.0
 	 */
 	public function output() {
 
@@ -355,6 +358,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.14.1 Unknown.
 	 * @since 3.35.0 Added nonce verification before processing data; only access `$_POST` data via `llms_filter_input()`.
+	 * @since [version] Allow quotes when sanitizing some special fields that store a shortcode.
 	 *
 	 * @param    int $post_id   WP Post ID of the post being saved
 	 * @return   void
@@ -395,8 +399,11 @@ abstract class LLMS_Admin_Metabox {
 						// get the posted value
 						if ( isset( $_POST[ $field['id'] ] ) ) {
 
-							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
-
+							if ( isset( $field['sanitize'] ) && 'shortcode' === $field['sanitize'] ) {
+								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
+							} else {
+								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
+							}
 						} elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
 
 							$val = '';
