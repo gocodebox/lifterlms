@@ -14,6 +14,7 @@ v3.36.0 - 2019-09-??
   + And more to come
 
 + Interaction events are grouped into sessions automatically. A session is "closed" after 30 minutes of inactivity or a log-out event.
++ Added "Last Seen" student reporting column which reports the last recorded activity for the student.
 
 ##### Enhancements
 

@@ -9,7 +9,7 @@
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
- * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+ * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
  * Version: 3.35.2
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
@@ -18,7 +18,19 @@
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.8
- * Tested up to: 5.2.2
+ * Tested up to: 5.2.3
+ *
+ * * * * * * * * * * * * * * * * * * * * * *
+ *                                         *
+ * Reporting a Security Vulnerability      *
+ *                                         *
+ * Please disclose any security issues or  *
+ * vulnerabilities to team@lifterlms.com   *
+ *                                         *
+ * See our full Security Policy at         *
+ * https://lifterlms.com/security-policy   *
+ *                                         *
+ * * * * * * * * * * * * * * * * * * * * * *
  */
 
 defined( 'ABSPATH' ) || exit;
