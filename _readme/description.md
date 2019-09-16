@@ -11,7 +11,7 @@ https://www.youtube.com/watch?v=jDVvkipF_pg
 
 > **At it's core LifterLMS exists to lift up others through education.**
 
-You do NOT need a seperate ecommerce or membership plugin made by a different company to use LifterLMS! All that and more is included with LifterLMS so you can **avoid the "Software Frankenstein" problem** (too many plugins made by different companies that don't work well together have different levels of support).
+You do NOT need a separate ecommerce or membership plugin made by a different company to use LifterLMS! All that and more is included with LifterLMS so you can **avoid the "Software Frankenstein" problem** (too many plugins made by different companies that don't work well together have different levels of support).
 
 LifterLMS is also known for having a thriving well supported user community through, active listening, social engagement and robust documentation.
 
