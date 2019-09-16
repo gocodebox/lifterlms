@@ -1,7 +1,9 @@
 == Frequently Asked Questions ==
 
 #### Where do I buy LifterLMS add-ons or bundles?
+
 You can explore the individual add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) or save BIG with a [bundle](https://lifterlms.com/product-category/bundles/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
+
 
 #### Are there any troubleshooting steps you'd suggest I try that might resolve my issue before I post a new thread?
 
@@ -43,3 +45,18 @@ We care about your feature ideas and what you have to say. You can [request a fe
 
 Be sure you’ve taken the free tutorial training video course: [How to Create an Online Course with LifterLMS](http://demo.lifterlms.com/course/how-to-build-a-learning-management-system-with-lifterlms/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale). We also encourage you to get to know us by signing up for a $1 temporary _30 Day_ website on our servers which comes with the core LifterLMS plugin all our add-ons intalled. This demo allows you to test drive all the add-ons before you invest. Check it out here: **[Try LifterLMS for $1](https://lifterlms.com/product/try/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)**.
 
+
+#### I'm interested in contributing to LifterLMS, how can I start?
+
+LifterLMS is an open-source project. We manage our team, developers, issues, and code on [GitHub](https://github.com/gocodebox/lifterlms/).
+
+We welcome contributions of all kinds, anyone can contribute even if you don't write code! Check out our [Contributor's Guidelines](https://github.com/gocodebox/lifterlms/blob/master/.github/CONTRIBUTING.md) to get started.
+
+
+#### I found a security vulnerability or issue, how can I report it to the team?
+
+The LifterLMS team takes security issues and vulnerabilities very seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
+
+Please contact team@lifterlms.com to report a security vulnerability.
+
+You can review our full security policy at [https://lifterlms.com/security-policy](https://lifterlms.com/security-policy).
