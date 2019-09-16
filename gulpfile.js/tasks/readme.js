@@ -47,7 +47,7 @@ function changelog( cb ) {
 		data = data.replace( /-------------------/g, '-----------------------' );
 
 		// write to the file in _readme dir
-		fs.writeFile( './_readme/changelog.md', data, 'utf8', function( err ) {
+		fs.writeFile( './.wordpress-org/readme/changelog.md', data, 'utf8', function( err ) {
 
 			if ( err ) {
 				return console.log( err );
@@ -66,7 +66,7 @@ gulp.task( 'readme', function( cb ) {
 
 	changelog( function() {
 
-		gulp.src( '_readme/readme.txt' )
+		gulp.src( '.wordpress-org/readme/readme.txt' )
 			.pipe( include() )
 			.pipe( gulp.dest( './' ) );
 

@@ -4,6 +4,7 @@
 
 You can explore the individual add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) or save BIG with a [bundle](https://lifterlms.com/product-category/bundles/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
+
 #### Are there any troubleshooting steps you'd suggest I try that might resolve my issue before I post a new thread?
 
 First, make sure that you're running the latest version of LifterLMS. And if you've got any other LifterLMS extensions or themes, make sure those are running the most current version as well.
@@ -59,5 +60,3 @@ The LifterLMS team takes security issues and vulnerabilities very seriously. We 
 Please contact team@lifterlms.com to report a security vulnerability.
 
 You can review our full security policy at [https://lifterlms.com/security-policy](https://lifterlms.com/security-policy).
-
-
