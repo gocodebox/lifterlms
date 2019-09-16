@@ -3,7 +3,7 @@
  * Order update/submit box.
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+ * @since [version] Date fields require array when sanitized.
  */
 class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 
@@ -95,6 +96,7 @@ class LLMS_Meta_Box_Order_Submit extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.19.0 Unknown.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 * @since [version] Date fields require array when sanitized.
 	 *
 	 * @param int $post_id  WP Post ID of the Order
 	 * @return null

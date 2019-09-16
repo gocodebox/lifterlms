@@ -1,6 +1,8 @@
 LifterLMS Changelog
 ===================
 
++ Fix issue preventing manual updates of order dates (next payment, trial expiration, and access expiration) from being saved properly.
+
 v3.35.2 - 2019-09-06
 --------------------
 
