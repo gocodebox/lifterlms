@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// include all classes for each of the metabox types
+// Include all classes for each of the metabox types.
 foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/*.php' ) as $filename ) {
 	require_once $filename;
 }
@@ -223,7 +223,6 @@ abstract class LLMS_Admin_Metabox {
 	 * Generate and output the HTML for the metabox
 	 *
 	 * @since Unknown
-	 * @since [version] Always decode quotes html entities.
 	 *
 	 * @return void
 	 */
@@ -360,8 +359,8 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.35.0 Added nonce verification before processing data; only access `$_POST` data via `llms_filter_input()`.
 	 * @since [version] Allow quotes when sanitizing some special fields that store a shortcode.
 	 *
-	 * @param    int $post_id   WP Post ID of the post being saved
-	 * @return   void
+	 * @param int $post_id WP Post ID of the post being saved.
+	 * @return void
 	 */
 	protected function save( $post_id ) {
 
@@ -369,25 +368,24 @@ abstract class LLMS_Admin_Metabox {
 			return;
 		}
 
-		// dont save metabox during a quick save action
+		// Return early during quick saves and ajax requests.
 		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
 			return;
-			// don't save during ajax calls
 		} elseif ( llms_is_ajax() ) {
 			return;
 		}
 
-		// get all defined fields
+		// Get all defined fields.
 		$fields = $this->get_fields();
 
 		if ( ! is_array( $fields ) ) {
 			return;
 		}
 
-		// loop through the fields
+		// Loop through the fields.
 		foreach ( $fields as $group => $data ) {
 
-			// find the fields in each tab
+			// Find the fields in each tab.
 			if ( isset( $data['fields'] ) && is_array( $data['fields'] ) ) {
 
 				// loop through the fields
@@ -422,7 +420,7 @@ abstract class LLMS_Admin_Metabox {
 					}
 				}
 			}
-		}// End foreach().
+		}
 
 	}
 

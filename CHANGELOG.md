@@ -1,6 +1,7 @@
 LifterLMS Changelog
 ===================
 
++ Fix issue causing quotes to be encoded in shortcodes used in course and membership restriction message settings fields.
 + Fix issue preventing manual updates of order dates (next payment, trial expiration, and access expiration) from being saved properly.
 
 v3.35.2 - 2019-09-06
