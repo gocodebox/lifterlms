@@ -207,7 +207,7 @@ _Increase your training program's value with these engagement add-ons_
 + [LifterLMS Assignments][ass]
 + [LifterLMS Private Areas][pa]
 + [LifterLMS Social Learning][sl]
-+ [LifterLMS Advanced Video][av] (Scheduled to Release: 10/15/19)
++ [LifterLMS Advanced Video][av]
 + LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
 + LifterLMS Groups (Scheduled to Release: 12/11/19)
 
