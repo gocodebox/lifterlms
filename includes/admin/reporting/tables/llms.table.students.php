@@ -159,19 +159,20 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 				break;
 
 			case 'last_seen':
-
-				$query = new LLMS_Events_Query( array(
-					'actor' => $student->get_id(),
-					'per_page' => 1,
-					'sort' => array(
-						'date' => 'DESC',
-					),
-				) );
+				$query = new LLMS_Events_Query(
+					array(
+						'actor'    => $student->get_id(),
+						'per_page' => 1,
+						'sort'     => array(
+							'date' => 'DESC',
+						),
+					)
+				);
 
 				if ( $query->number_results ) {
 					$events = $query->get_events();
-					$last = array_shift( $events );
-					$value = $last->get( 'date' );
+					$last   = array_shift( $events );
+					$value  = $last->get( 'date' );
 				} else {
 					$value = $student->get( 'last_login' );
 				}

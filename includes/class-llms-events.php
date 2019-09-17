@@ -20,9 +20,16 @@ class LLMS_Events {
 	/**
 	 * Singleton instance
 	 *
-	 * @var  null
+	 * @var null
 	 */
 	protected static $_instance = null;
+
+	/**
+	 * List of registered event types.
+	 *
+	 * @var array
+	 */
+	protected $registered_events = array();
 
 	/**
 	 * Get Main Singleton Instance.
@@ -47,6 +54,7 @@ class LLMS_Events {
 	 */
 	private function __construct() {
 
+		add_action( 'init', array( $this, 'register_events' ) );
 		add_action( 'init', array( $this, 'store_cookie' ) );
 
 	}
@@ -92,29 +100,7 @@ class LLMS_Events {
 	 * @return array Array key is the event name and array value is used to determine if the key is a client-side event.
 	 */
 	public function get_registered_events() {
-
-		$events = array(
-			'account.signon'  => false,
-			'account.signout' => false,
-			'session.start'   => false,
-			'session.end'     => false,
-			'page.load'       => true,
-			'page.exit'       => true,
-			'page.focus'      => true,
-			'page.blur'       => true,
-		);
-
-		/**
-		 * Filter the list of registered events.
-		 *
-		 * Allows 3rd parties to register (or unregister) tracked events.
-		 *
-		 * @since [version]
-		 *
-		 * @param array $events Array of events. Array key is the event name and array value is used to determine if the key is a client-side event.
-		 */
-		return apply_filters( 'llms_get_registered_events', $events );
-
+		return $this->registered_events;
 	}
 
 	/**
@@ -280,6 +266,39 @@ class LLMS_Events {
 		$wpdb->query( 'COMMIT' );
 
 		return $recorded;
+
+	}
+
+	/**
+	 * Register event types
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function register_events() {
+
+		$events = array(
+			'account.signon'  => false,
+			'account.signout' => false,
+			'session.start'   => false,
+			'session.end'     => false,
+			'page.load'       => true,
+			'page.exit'       => true,
+			'page.focus'      => true,
+			'page.blur'       => true,
+		);
+
+		/**
+		 * Filter the list of registered events.
+		 *
+		 * Allows 3rd parties to register (or unregister) tracked events.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $events Array of events. Array key is the event name and array value is used to determine if the key is a client-side event.
+		 */
+		$this->registered_events = apply_filters( 'llms_get_registered_events', $events );
 
 	}
 

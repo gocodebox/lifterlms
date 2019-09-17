@@ -3,7 +3,7 @@
  * Vouchers Metabox
  *
  * @since Unknown
- * @version 3.32.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since Unknown
  * @since 3.32.0 Vouchers can now be restricted also to a draft or scheduled Course/Membership.
  * @since 3.35.0 Sanitize `$_POST` data; add placeholder text.
+ * @version [version] Remove superfluous code.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -230,6 +231,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 *
 	 * @version 3.0.0
 	 * @version 3.35.0 Sanitize `$_POST` data with `llms_filter_input()`.
+	 * @version [version] Remove superfluous code.
 	 *
 	 * @param  int $post_id [id of post object]
 	 *
@@ -284,9 +286,6 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 		}
 
 		// Courses and membership save
-
-		$courses  = llms_filter_input( INPUT_POST, '_llms_voucher_courses', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
-		$courses  = llms_filter_input( INPUT_POST, '_llms_voucher_membership', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 		$products = array();
 
 		foreach ( array( 'courses', 'membership' ) as $type ) {

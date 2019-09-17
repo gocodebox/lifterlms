@@ -83,7 +83,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 			return $events;
 		}
 
-		return apply_filters( $this->get_filter( 'get_keys' ), $events, $this );
+		return apply_filters( $this->get_filter( 'get_events' ), $events, $this );
 
 	}
 

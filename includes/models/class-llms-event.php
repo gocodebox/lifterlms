@@ -126,7 +126,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	 */
 	public function set_meta( $key, $val, $save = false ) {
 
-		$all         = $this->get_meta( null );
+		$all         = $this->get_meta();
 		$all[ $key ] = $val;
 		return $this->set_unencoded_metas( $all, $save );
 
@@ -144,7 +144,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	public function set_metas( $metas, $save = false ) {
 
 		foreach ( $metas as $key => $val ) {
-			$this->set_meta( $key, $val, false );
+			$this->set_meta( $key, $val );
 		}
 
 		if ( $save ) {

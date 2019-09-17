@@ -4,8 +4,9 @@
  *
  * @package  LifterLMS/Tests/Tables
  * @group    reporting_tables
- * @since    3.28.0
- * @version  3.28.1
+ *
+ * @since 3.28.0
+ * @since [version] Add "last_seen" col.
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
@@ -187,15 +188,17 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the set_columns() method
-	 * @return  [type]
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 *
+	 * @since 3.28.0
+	 * @since [version] Add "last_seen" col.
+	 *
+	 * @return void
 	 */
 	public function test_set_columns() {
 
 		$cols = $this->table->set_columns();
 		$this->assertTrue( is_array( $cols ) );
-		$this->assertEquals( 26, count( $cols ) );
+		$this->assertEquals( 27, count( $cols ) );
 		$this->assertEquals( array (
 			'id',
 			'email',
@@ -203,6 +206,7 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 			'name_last',
 			'name_first',
 			'registered',
+			'last_seen',
 			'overall_progress',
 			'overall_grade',
 			'enrollments',

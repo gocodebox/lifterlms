@@ -186,8 +186,14 @@ class LLMS_Sessions {
 			return false;
 		}
 
-		$now     = llms_current_time( 'timestamp' );
-		$timeout = apply_filters( 'llms_idle_session_timeout', 30 ) * MINUTE_IN_SECONDS;
+		$now = llms_current_time( 'timestamp' );
+
+		/**
+		 * Filter the time (in minutes) to allow a session to remain open before it's considered an "idle" session.
+		 *
+		 * @param int $minutes Number of minutes.
+		 */
+		$timeout = absint( apply_filters( 'llms_idle_session_timeout', 30 ) ) * MINUTE_IN_SECONDS;
 
 		// Session has started within the idle window, so it can't have expired yet.
 		if ( ( $now - strtotime( $start->get( 'date' ) ) ) < $timeout ) {
