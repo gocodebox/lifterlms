@@ -409,7 +409,7 @@ class LLMS_Events {
 			return;
 		}
 
-		if ( ! empty( $cookie['nonce'] ) && wp_verify_nonce( $cookie['nonce'], 'llms-tracking' ) ) {
+		if ( ! empty( $cookie['nonce'] ) && wp_verify_nonce( $cookie['nonce'], 'llms-tracking' ) && get_current_user_id() ) {
 
 			if ( ! empty( $cookie['events'] ) && is_array( $cookie['events'] ) ) {
 
