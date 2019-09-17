@@ -14,7 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Events class.
  *
  * @since 3.36.0
- * @since [version] Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
+ * @since [version] Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
+ *               Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
  */
 class LLMS_Events {
 
@@ -108,13 +109,14 @@ class LLMS_Events {
 	 * Determine if the event string is registered and valid.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Use more performant `array_key_exists( $key, $array_assoc )` in place of `in_array( $key, array_keys( $array_assoc ), true )`.
 	 *
 	 * @param string $event Event string (${event_type}.${event_action}). EG: "account.signon".
 	 * @return bool
 	 */
 	protected function is_event_valid( $event ) {
 
-		return in_array( $event, array_keys( $this->get_registered_events() ), true );
+		return array_key_exists( $event, $this->get_registered_events() );
 
 	}
 
