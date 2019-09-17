@@ -3,7 +3,7 @@
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
- * @since [version] Allow some fields to store values with quotes.
+ * @since 3.36.0 Allow some fields to store values with quotes.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
@@ -83,7 +83,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable auto-enrollment table.
 	 * @since 3.30.3 Removed duplicate array keys.
-	 * @since [version] Allow some fields to store values with quotes.
+	 * @since 3.36.0 Allow some fields to store values with quotes.
 	 *
 	 * @return array
 	 */

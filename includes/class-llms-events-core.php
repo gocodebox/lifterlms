@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.0
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Events_Core class..
  *
- * @since [version]
+ * @since 3.36.0
  */
 class LLMS_Events_Core {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Events_Core {
 	/**
 	 * Record account.signon event via `wp_login` hook.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string  $username WP_Users's user_login.
 	 * @param WP_User $user User object.
@@ -57,7 +57,7 @@ class LLMS_Events_Core {
 	/**
 	 * Record an account.signout event via `wp_logout()`
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return LLMS_Event
 	 */

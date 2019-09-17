@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.0
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Events_Query class
  *
- * @since [version]
+ * @since 3.36.0
  */
 class LLMS_Events_Query extends LLMS_Database_Query {
 
@@ -27,7 +27,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments for a query
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return array
 	 */
@@ -63,7 +63,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	/**
 	 * Retrieve an array of LLMS_Event objects for the given result set returned by the query
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return array
 	 */
@@ -90,7 +90,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	/**
 	 * Parses argument data
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	/**
 	 * Prepare the SQL for the query
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return string
 	 */
@@ -135,7 +135,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	/**
 	 * SQL "where" clause for the query
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return string
 	 */

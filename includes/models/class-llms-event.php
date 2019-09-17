@@ -2,8 +2,8 @@
 /**
  * LifterLMS Event Model
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.0
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LifterLMS Event Model
  *
- * @since [version]
+ * @since 3.36.0
  */
 class LLMS_Event extends LLMS_Abstract_Database_Store {
 
@@ -54,7 +54,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param int  $id Event ID.
 	 * @param bool $hydrate If true, hydrates the object on instantiation if an ID is supplied.
@@ -74,7 +74,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	/**
 	 * Delete meta data
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string $key Meta key, if omitted deletes *all* metadata.
 	 * @param bool   $save If true, saves updated metadata to the database.
@@ -95,7 +95,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	/**
 	 * Retrieve metadata.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string $key Metadata key, if omitted returns an associative array of all metadata as key=>val pairs.
 	 * @param bool   $cache If true, uses cached data when available.
@@ -117,7 +117,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	/**
 	 * Update/Add a single meta item.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string $key Meta key.
 	 * @param mixed  $val Meta value.
@@ -135,7 +135,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	/**
 	 * Update/Add multiple metas.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param array $metas Associative array of metadata to update/add as key=>val pairs.
 	 * @param bool  $save If true, saves the updated metadata to the database.
@@ -158,7 +158,7 @@ class LLMS_Event extends LLMS_Abstract_Database_Store {
 	/**
 	 * Encode the array of metadata before setting it to the object.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param array $metas Associative array of metadata to update/add as key=>val pairs.
 	 * @param bool  $save If true, saves the updated metadata to the database.

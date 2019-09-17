@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.36.0 - 2019-09-??
+v3.36.0 - 2019-09-16
 --------------------
 
 ##### User Interaction event and session Tracking

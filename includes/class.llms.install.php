@@ -3,7 +3,7 @@
  * Plugin installation
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.28.0 Unknown.
  * @since 3.34.0 Added filter to the return of the get_schema() method.
- * @since [version] Add `wp_lifterlms_events` table.
+ * @since 3.36.0 Add `wp_lifterlms_events` table.
  */
 class LLMS_Install {
 
@@ -382,7 +382,7 @@ class LLMS_Install {
 	 * @since 3.16.9 Unknown
 	 * @since 3.16.9 Unknown
 	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
-	 * @since [version] Add `wp_lifterlms_events` table.
+	 * @since 3.36.0 Add `wp_lifterlms_events` table.
 	 *
 	 * @return string
 	 */

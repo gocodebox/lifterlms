@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.0
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Events class.
  *
- * @since [version]
+ * @since 3.36.0
  */
 class LLMS_Events {
 
@@ -34,7 +34,7 @@ class LLMS_Events {
 	/**
 	 * Get Main Singleton Instance.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return LLMS_Events
 	 */
@@ -48,7 +48,7 @@ class LLMS_Events {
 	/**
 	 * Private Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Events {
 	/**
 	 * Retrieves an array of client settings used to initialize the JS Tracking instance on the frontend.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return array
 	 */
@@ -73,7 +73,7 @@ class LLMS_Events {
 		/**
 		 * Filter client-side tracking settings
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param array $settings {
 		 *     Hash of client-side settings.
@@ -95,7 +95,7 @@ class LLMS_Events {
 	/**
 	 * Retrieve an array of valid events.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return array Array key is the event name and array value is used to determine if the key is a client-side event.
 	 */
@@ -106,7 +106,7 @@ class LLMS_Events {
 	/**
 	 * Determine if the event string is registered and valid.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string $event Event string (${event_type}.${event_action}). EG: "account.signon".
 	 * @return bool
@@ -120,7 +120,7 @@ class LLMS_Events {
 	/**
 	 * Prepares partial events from client-side event data.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param array $raw_event Raw event from client-side data.
 	 * @return array
@@ -165,7 +165,7 @@ class LLMS_Events {
 	/**
 	 * Store an event in the database.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param array $args {
 	 *     Event data
@@ -235,7 +235,7 @@ class LLMS_Events {
 	 *
 	 * Events are recorded with an SQL transaction. If any errors are encountered the transaction is rolled back (not events are recorded).
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param array[] $events Array of event hashes. See LLMS_Events::record() for hash description.
 	 * @return LLMS_Event[]|WP_Error Array of recorded events on success or WP_Error on failure.
@@ -272,7 +272,7 @@ class LLMS_Events {
 	/**
 	 * Register event types
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -294,7 +294,7 @@ class LLMS_Events {
 		 *
 		 * Allows 3rd parties to register (or unregister) tracked events.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param array $events Array of events. Array key is the event name and array value is used to determine if the key is a client-side event.
 		 */
@@ -305,7 +305,7 @@ class LLMS_Events {
 	/**
 	 * Recursively sanitize event data.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param array $raw Event information array.
 	 * @return array
@@ -341,7 +341,7 @@ class LLMS_Events {
 	/**
 	 * Determine if client side events from the current page should be tracked.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return boolean
 	 */
@@ -352,7 +352,7 @@ class LLMS_Events {
 		/**
 		 * Filter the post types that should be tracked
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param string[]|string $post_types An array of post type names or a pre-defined setting as a string.
 		 *                                    "llms" uses all public LifterLMS and LifterLMS Add-on post types.
@@ -386,7 +386,7 @@ class LLMS_Events {
 		/**
 		 * Filters whether or not the current page should track client-side events
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param bool $ret Whether or not to track the current page.
 		 * @param string[] $post_types Array of post types that should be tracked.
@@ -398,7 +398,7 @@ class LLMS_Events {
 	/**
 	 * Store event data saved in the tracking cookie.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */

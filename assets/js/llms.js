@@ -1519,7 +1519,7 @@ var LLMS = window.LLMS || {};
 	/**
 	 * Store information in Local Storage by group.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string group Storage group id/name.
 	 */
@@ -1531,7 +1531,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Clear all data for the group.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @return void
 		 */
@@ -1542,7 +1542,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Clear a single item from the group by key.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @return obj
 		 */
@@ -1555,7 +1555,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Retrieve (and parse) all data stored for the group.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @return obj
 		 */
@@ -1566,7 +1566,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Retrieve an item from the group by key.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param string key Item key/name.
 		 * @param mixed default_val Item default value to be returned when item not found in the group.
@@ -1580,7 +1580,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Store an item in the group by key.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param string key Item key name.
 		 * @param mixed val Item value
@@ -1806,7 +1806,7 @@ var LLMS = window.LLMS || {};
 	/**
 	 * User event/interaction tracking.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 */
 	LLMS.Tracking = function( settings ) {
 	
@@ -1818,7 +1818,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Initialize / Bind all tracking event listeners.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @return {void}
 		 */
@@ -1839,7 +1839,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Add an event.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 		 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
@@ -1867,7 +1867,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Retrieve initialization settings.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @return obj
 		 */
@@ -1878,7 +1878,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Create an event object suitable to save as an event.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param obj event {
 		 *     Event hash
@@ -1914,7 +1914,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Record a `page.exit` event on window.unload.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param obj e JS event object.
 		 * @return void
@@ -1926,7 +1926,7 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Record `page.blur` and `page.focus` events via document.visilibitychange events.
 		 *
-		 * @since [version]
+		 * @since 3.36.0
 		 *
 		 * @param obj e JS event object.
 		 * @return void

@@ -3,7 +3,7 @@
 /**
  * User event/interaction tracking.
  *
- * @since [version]
+ * @since 3.36.0
  */
 LLMS.Tracking = function( settings ) {
 
@@ -15,7 +15,7 @@ LLMS.Tracking = function( settings ) {
 	/**
 	 * Initialize / Bind all tracking event listeners.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return {void}
 	 */
@@ -36,7 +36,7 @@ LLMS.Tracking = function( settings ) {
 	/**
 	 * Add an event.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 	 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
@@ -64,7 +64,7 @@ LLMS.Tracking = function( settings ) {
 	/**
 	 * Retrieve initialization settings.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return obj
 	 */
@@ -75,7 +75,7 @@ LLMS.Tracking = function( settings ) {
 	/**
 	 * Create an event object suitable to save as an event.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param obj event {
 	 *     Event hash
@@ -111,7 +111,7 @@ LLMS.Tracking = function( settings ) {
 	/**
 	 * Record a `page.exit` event on window.unload.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param obj e JS event object.
 	 * @return void
@@ -123,7 +123,7 @@ LLMS.Tracking = function( settings ) {
 	/**
 	 * Record `page.blur` and `page.focus` events via document.visilibitychange events.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param obj e JS event object.
 	 * @return void

@@ -6,7 +6,7 @@
  * @group    reporting_tables
  *
  * @since 3.28.0
- * @since [version] Add "last_seen" col.
+ * @since 3.36.0 Add "last_seen" col.
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
@@ -190,7 +190,7 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	 * Test the set_columns() method
 	 *
 	 * @since 3.28.0
-	 * @since [version] Add "last_seen" col.
+	 * @since 3.36.0 Add "last_seen" col.
 	 *
 	 * @return void
 	 */

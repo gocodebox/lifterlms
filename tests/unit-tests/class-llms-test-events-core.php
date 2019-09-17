@@ -7,15 +7,15 @@
  * @group events
  * @group events_core
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.0
+ * @version 3.36.0
  */
 class LLMS_Test_Events_Core extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Events_Core extends LLMS_Unit_Test_Case {
 	/**
 	 * Test on_signon() method
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class LLMS_Test_Events_Core extends LLMS_Unit_Test_Case {
 	/**
 	 * Test on_signon() method
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */

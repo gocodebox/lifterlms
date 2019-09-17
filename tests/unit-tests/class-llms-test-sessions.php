@@ -6,15 +6,15 @@
  *
  * @group sessions
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.0
+ * @version 3.36.0
  */
 class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_idle_sessions()
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test end_current()
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -132,7 +132,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_new_session_id()
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -150,7 +150,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_current() when there's no logged in user
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -163,7 +163,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_current() when user has no previous sessions
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -177,7 +177,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_current() when there's an open session
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -194,7 +194,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_current() when the most recent session is closed
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -211,7 +211,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_session_end() when there's no end event for the session
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -227,7 +227,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_session_end()
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -247,7 +247,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_session_events()
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -318,7 +318,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_session_idle() on an already closed session
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -338,7 +338,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_session_idle() on a session that started less than 30 minutes ago
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -359,7 +359,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_session_idle() for a session that started more than 30 minutes ago and has no events
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -381,7 +381,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	 * Test is_session_idle() for a session that started more than 30 minutes ago
 	 * and has at least one active event that's less than 30 minutes old
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -413,7 +413,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_session_idle() for a session that started more than 30 minutes ago with it's most recent event more than 30 minutes old.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -445,7 +445,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test start() when no user
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -458,7 +458,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_session_open()
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -477,7 +477,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Test start()
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */

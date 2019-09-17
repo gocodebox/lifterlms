@@ -3,7 +3,7 @@
  * Vouchers Metabox
  *
  * @since Unknown
- * @version [version]
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since Unknown
  * @since 3.32.0 Vouchers can now be restricted also to a draft or scheduled Course/Membership.
  * @since 3.35.0 Sanitize `$_POST` data; add placeholder text.
- * @version [version] Remove superfluous code.
+ * @version 3.36.0 Remove superfluous code.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -231,7 +231,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 *
 	 * @version 3.0.0
 	 * @version 3.35.0 Sanitize `$_POST` data with `llms_filter_input()`.
-	 * @version [version] Remove superfluous code.
+	 * @version 3.36.0 Remove superfluous code.
 	 *
 	 * @param  int $post_id [id of post object]
 	 *

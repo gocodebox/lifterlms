@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2.3
-Stable tag: 3.35.2
+Stable tag: 3.36.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -411,6 +411,7 @@ You can return to the setup wizard at any time by following [these steps](https:
 
 You can explore the individual add-ons [here](https://lifterlms.com/store/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale) or save BIG with a [bundle](https://lifterlms.com/product-category/bundles/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale)
 
+
 #### Are there any troubleshooting steps you'd suggest I try that might resolve my issue before I post a new thread?
 
 First, make sure that you're running the latest version of LifterLMS. And if you've got any other LifterLMS extensions or themes, make sure those are running the most current version as well.
@@ -468,8 +469,6 @@ Please contact team@lifterlms.com to report a security vulnerability.
 You can review our full security policy at [https://lifterlms.com/security-policy](https://lifterlms.com/security-policy).
 
 
-
-
 == Screenshots ==
 
 1. LifterLMS Courses
@@ -501,14 +500,39 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.36.0 - 2019-09-16 =
+------------------------
+
+##### User Interaction event and session Tracking
+
++ Added user interaction tracking for the following events:
+
+  + User sign in and out.
+  + Page load and exit (for LMS content)
+  + Page focus and blur (for LMS content)
+  + And more to come
+
++ Interaction events are grouped into sessions automatically. A session is "closed" after 30 minutes of inactivity or a log-out event.
++ Added "Last Seen" student reporting column which reports the last recorded activity for the student.
+
+##### Enhancements
+
++ Automatically hydrate when calling LLMS_Abstract_Database_Store::to_array().
++ Added CSS to make course and lesson video embeds automatically responsive.
+
+##### Bug Fixes
+
++ Correctly pass the `$remember` variable when using `llms_set_person_auth_cookie()`.
++ Fixed undefined index error when retrieving an unset value from an unsaved database model.
 + Fix issue causing quotes to be encoded in shortcodes used in course and membership restriction message settings fields.
 + Fix issue preventing manual updates of order dates (next payment, trial expiration, and access expiration) from being saved properly.
+
 
 = v3.35.2 - 2019-09-06 =
 ------------------------
 
 + When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
-* Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
++ Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
 
 
 = v3.35.1 - 2019-09-04 =
@@ -711,14 +735,5 @@ The following unused classes have been marked as deprecated and will be removed 
 + LLMS_Course::is_user_enrolled() use llms_is_user_enrolled() instead
 + LLMS_Course::get_student_progress() use LLMS_Student::get_progress() instead
 + LLMS_Course::get_membership_link()
-
-
-= v3.33.2 - 2019-06-26 =
-------------------------
-
-+ It is now possible to send test copies of the "Student Welcome" email to yourself.
-+ Improved information logged when an error is encountered during an email send.
-+ Add backwards compatibility for legacy add-on integrations priority loading method.
-+ Fixed undefined index notice when viewing log files on the admin status screen.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

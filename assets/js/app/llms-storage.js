@@ -5,7 +5,7 @@
 /**
  * Store information in Local Storage by group.
  *
- * @since [version]
+ * @since 3.36.0
  *
  * @param string group Storage group id/name.
  */
@@ -17,7 +17,7 @@ LLMS.Storage = function( group ) {
 	/**
 	 * Clear all data for the group.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ LLMS.Storage = function( group ) {
 	/**
 	 * Clear a single item from the group by key.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return obj
 	 */
@@ -41,7 +41,7 @@ LLMS.Storage = function( group ) {
 	/**
 	 * Retrieve (and parse) all data stored for the group.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return obj
 	 */
@@ -52,7 +52,7 @@ LLMS.Storage = function( group ) {
 	/**
 	 * Retrieve an item from the group by key.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string key Item key/name.
 	 * @param mixed default_val Item default value to be returned when item not found in the group.
@@ -66,7 +66,7 @@ LLMS.Storage = function( group ) {
 	/**
 	 * Store an item in the group by key.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param string key Item key name.
 	 * @param mixed val Item value

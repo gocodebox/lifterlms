@@ -3,7 +3,7 @@
  * Frontend scripts class
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Explicitly define asset versions.
- * @since [version] Localize tracking with client-side settings.
+ * @since 3.36.0 Localize tracking with client-side settings.
  */
 class LLMS_Frontend_Assets {
 
@@ -152,7 +152,7 @@ class LLMS_Frontend_Assets {
 	 * @since 1.0.0
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
-	 * @since [version] Localize tracking with client-side settings.
+	 * @since 3.36.0 Localize tracking with client-side settings.
 	 *
 	 * @return void
 	 */

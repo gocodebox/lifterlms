@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.0
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Sessions class..
  *
- * @since [version]
+ * @since 3.36.0
  */
 class LLMS_Sessions {
 
@@ -34,7 +34,7 @@ class LLMS_Sessions {
 	/**
 	 * Get Main Singleton Instance.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return LLMS_Sessions
 	 */
@@ -48,7 +48,7 @@ class LLMS_Sessions {
 	/**
 	 * Private Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -66,7 +66,7 @@ class LLMS_Sessions {
 	/**
 	 * Add cron schedule for session end interval checks.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param array $schedules Array of cron schedules
 	 * @return  array
@@ -85,7 +85,7 @@ class LLMS_Sessions {
 	/**
 	 * End the 50 oldest idle sessions.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Sessions {
 	/**
 	 * End a session.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param LLMS_Event $start Event object for a session start.
 	 * @return LLMS_EVent
@@ -124,7 +124,7 @@ class LLMS_Sessions {
 	/**
 	 * Ends the currently active session for the logged in user.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return LLMS_Event|false
 	 */
@@ -142,7 +142,7 @@ class LLMS_Sessions {
 	/**
 	 * Retrieve the current session start event record for a given user.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return LLMS_Event|false
 	 */
@@ -174,7 +174,7 @@ class LLMS_Sessions {
 	 * A session is considered idle if it's open and no new events have been recorded
 	 * in the last 30 minutes.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param LLMS_Event $start Event record for the start of the session.
 	 * @return bool
@@ -223,7 +223,7 @@ class LLMS_Sessions {
 	/**
 	 * Determines if the given session is open (has not ended).
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param LLMS_Event Event record for the start of the session.
 	 * @return bool
@@ -237,7 +237,7 @@ class LLMS_Sessions {
 	/**
 	 * Retrieve the last session object for the current user.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return obj|null
 	 */
@@ -263,7 +263,7 @@ class LLMS_Sessions {
 	/**
 	 * Retrieve open sessions.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param int $limit Number of sessions to return.
 	 * @param int $skip Number of sessions to skip.
@@ -305,7 +305,7 @@ class LLMS_Sessions {
 	/**
 	 * Retrieve an array of events which occurred during a session.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param LLMS_Event $start Event record for the session.start event.
 	 * @param array      $args Array of additional arguments to pass to the LLMS_Events_Query.
@@ -341,7 +341,7 @@ class LLMS_Sessions {
 	/**
 	 * Retrieve session end record for by session id.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @param LLMS_Event $start Event record for the session.start event.
 	 * @return LLMS_Event|end
@@ -376,7 +376,7 @@ class LLMS_Sessions {
 	/**
 	 * Retrieve a new session ID.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return int
 	 */
@@ -394,7 +394,7 @@ class LLMS_Sessions {
 	/**
 	 * Start a new session for the current user.
 	 *
-	 * @since [version]
+	 * @since 3.36.0
 	 *
 	 * @return false|LLMS_Event
 	 */
