@@ -19,6 +19,7 @@ v3.36.0 - 2019-09-??
 ##### Enhancements
 
 + Automatically hydrate when calling LLMS_Abstract_Database_Store::to_array().
++ Added CSS to make course and lesson video embeds automatically responsive.
 
 ##### Bug Fixes
 
