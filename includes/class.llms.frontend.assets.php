@@ -3,7 +3,7 @@
  * Frontend scripts class
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Explicitly define asset versions.
+ * @since [version] Localize tracking with client-side settings.
  */
 class LLMS_Frontend_Assets {
 
@@ -151,6 +152,7 @@ class LLMS_Frontend_Assets {
 	 * @since 1.0.0
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
+	 * @since [version] Localize tracking with client-side settings.
 	 *
 	 * @return void
 	 */
@@ -159,8 +161,11 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'jquery-ui-tooltip' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-slider' );
+
+		// @todo: these two scripts are probably unsued.
 		wp_enqueue_script( 'collapse', LLMS_PLUGIN_URL . 'assets/js/vendor/collapse.js', array(), '3.3.5' );
 		wp_enqueue_script( 'transition', LLMS_PLUGIN_URL . 'assets/js/vendor/transition.js', array(), '3.3.5' );
+
 		wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.2.15', true );
 
 		wp_register_script( 'llms-jquery-matchheight', LLMS_PLUGIN_URL . 'assets/js/vendor/jquery.matchHeight.js', array( 'jquery' ), '0.7.0', true );
@@ -168,10 +173,7 @@ class LLMS_Frontend_Assets {
 			wp_enqueue_script( 'llms-jquery-matchheight' );
 		}
 
-		/**
-		 * @todo  this is currently being double registered and enqueued by LLMS_Ajax
-		 *        fix it ffs...
-		 */
+		// @todo  this is currently being double registered and enqueued by LLMS_Ajax.
 		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 		wp_enqueue_script( 'llms' );
 
@@ -202,6 +204,10 @@ class LLMS_Frontend_Assets {
 		self::enqueue_inline_script(
 			'llms-ajaxurl',
 			'window.llms = window.llms || {};window.llms.ajaxurl = "' . admin_url( 'admin-ajax.php', $ssl ) . '";'
+		);
+		self::enqueue_inline_script(
+			'llms-tracking-settings',
+			"window.llms.tracking = '" . wp_json_encode( LLMS()->events()->get_client_settings() ) . "';"
 		);
 		self::enqueue_inline_script(
 			'llms-LLMS-obj',

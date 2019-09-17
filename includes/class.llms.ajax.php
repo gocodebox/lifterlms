@@ -333,7 +333,7 @@ class LLMS_AJAX {
 	public function get_all_posts() {
 		llms_deprecated_function( 'LLMS_AJAX::get_all_posts()', '3.13.0' );
 		$post_type = llms_filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING );
-		$args = array(
+		$args      = array(
 			'post_type'   => $post_type,
 			'nopaging'    => true,
 			'post_status' => 'publish',
@@ -521,7 +521,7 @@ class LLMS_AJAX {
 			LIMIT 30";
 
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		$all_users   = $wpdb->get_results( $select_user );
+		$all_users = $wpdb->get_results( $select_user );
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		$users_arr = array();
@@ -568,7 +568,7 @@ class LLMS_AJAX {
 			LIMIT 1000";
 
 		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
-		$all_users   = $wpdb->get_results( $select_user );
+		$all_users = $wpdb->get_results( $select_user );
 		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 
 		$users_arr = array();

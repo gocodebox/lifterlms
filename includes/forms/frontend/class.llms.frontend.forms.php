@@ -62,7 +62,7 @@ class LLMS_Frontend_Forms {
 			&& isset( $_POST['_wpnonce'] )
 		) {
 
-			$key = llms_filter_input( INPUT_POST, 'reset_key', FILTER_SANITIZE_STRING );
+			$key   = llms_filter_input( INPUT_POST, 'reset_key', FILTER_SANITIZE_STRING );
 			$login = llms_filter_input( INPUT_POST, 'reset_key', FILTER_SANITIZE_STRING );
 
 			// verify reset key again

@@ -5,11 +5,11 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.34.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
- * Description: LifterLMS, the #1 WordPress LMS solution, makes it easy to create, sell, and protect engaging online courses.
+ * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
  * Version: 3.35.2
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
@@ -18,7 +18,19 @@
  * License: GPLv3
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
  * Requires at least: 4.8
- * Tested up to: 5.2.2
+ * Tested up to: 5.2.3
+ *
+ * * * * * * * * * * * * * * * * * * * * * *
+ *                                         *
+ * Reporting a Security Vulnerability      *
+ *                                         *
+ * Please disclose any security issues or  *
+ * vulnerabilities to team@lifterlms.com   *
+ *                                         *
+ * See our full Security Policy at         *
+ * https://lifterlms.com/security-policy   *
+ *                                         *
+ * * * * * * * * * * * * * * * * * * * * * *
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -32,6 +44,7 @@ require_once 'vendor/autoload.php';
  * @since 1.0.0
  * @since 3.32.0 Update action-scheduler to latest version; load staging class on the admin panel.
  * @since 3.34.0 Include the LLMS_Admin_Users_Table class.
+ * @since [version] Added events classes and methods.
  */
 final class LifterLMS {
 
@@ -128,6 +141,7 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
+		add_action( 'init', array( $this, 'events' ), 5 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
@@ -260,6 +274,7 @@ final class LifterLMS {
 	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
 	 * @since 3.34.0 Include LLMS_Admin_Users Table class.
 	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
+	 * @since [version] Include events classes.
 	 *
 	 * @return void
 	 */
@@ -376,6 +391,7 @@ final class LifterLMS {
 		include_once 'includes/class.llms.query.quiz.attempt.php';
 		include_once 'includes/class.llms.query.user.postmeta.php';
 		include_once 'includes/class.llms.student.query.php';
+		include_once 'includes/class-llms-events-query.php';
 		include_once 'includes/notifications/class.llms.notifications.query.php';
 
 		// Classes
@@ -438,6 +454,9 @@ final class LifterLMS {
 		}
 
 		require_once 'includes/class-llms-grades.php';
+		require_once 'includes/class-llms-events.php';
+		require_once 'includes/class-llms-events-core.php';
+		require_once 'includes/class-llms-sessions.php';
 		require_once 'includes/class.llms.playnice.php';
 
 		$this->includes_theme_support();
@@ -561,6 +580,17 @@ final class LifterLMS {
 	 */
 	public function engagements() {
 		return LLMS_Engagements::instance();
+	}
+
+	/**
+	 * Events instance.
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Events
+	 */
+	public function events() {
+		return LLMS_Events::instance();
 	}
 
 	/**

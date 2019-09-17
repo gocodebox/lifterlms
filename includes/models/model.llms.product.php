@@ -29,7 +29,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 *
 	 * @var string
 	 */
-	protected $db_post_type    = 'product';
+	protected $db_post_type = 'product';
 
 	/**
 	 * Model type.

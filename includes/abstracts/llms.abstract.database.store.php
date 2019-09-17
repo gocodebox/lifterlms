@@ -3,7 +3,7 @@
  * WPDB database interactions
  *
  * @since 3.14.0
- * @version 3.34.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.14.0
  * @since 3.33.0 setup() method returns self instead of void.
  * @since 3.34.0 to_array() method returns value of the primary key instead of the format.
+ * @since [version] Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
+ *               Hydrate before returning an array via the `to_array()` method.
  */
 abstract class LLMS_Abstract_Database_Store {
 
@@ -128,22 +130,25 @@ abstract class LLMS_Abstract_Database_Store {
 	/**
 	 * Get object data
 	 *
+	 * @since 3.14.0
+	 * @since 3.16.0 Unknown.
+	 * @since [version] Prevent undefined index error when attempting to retrieve an unset value from an unsaved object.
+	 *
 	 * @param    string  $key    key to retrieve
 	 * @param    boolean $cache  if true, save data to to the object for future gets
 	 * @return   mixed
-	 * @since    3.14.0
-	 * @version  3.16.0
 	 */
 	public function get( $key, $cache = true ) {
 
-		if ( ! isset( $this->data[ $key ] ) && $this->id ) {
+		$key_exists = isset( $this->data[ $key ] );
+		if ( ! $key_exists && $this->id ) {
 			$res = $this->read( $key )[ $key ];
 			if ( $cache ) {
 				$this->set( $key, $res );
 			}
 			return $res;
 		}
-		return $this->$key;
+		return $key_exists ? $this->$key : null;
 
 	}
 
@@ -412,11 +417,13 @@ abstract class LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.14.0
 	 * @since 3.34.0 Return the item ID instead of item format as the value of the primary key.
+	 * @since [version] Hydrate before returning the array.
 	 *
 	 * @return array
 	 */
 	public function to_array() {
 
+		$this->hydrate();
 		return array_merge( array_combine( array_keys( $this->primary_key ), array( $this->id ) ), $this->data );
 
 	}

@@ -37,7 +37,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 *
 	 * @var string
 	 */
-	protected $db_post_type    = 'llms_transaction';
+	protected $db_post_type = 'llms_transaction';
 
 	/**
 	 * Model Name/Type.

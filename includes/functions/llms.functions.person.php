@@ -3,9 +3,10 @@
  * Person Functions
  * Functions for managing users in the LifterLMS system.
  *
- * @package  LifterLMS\Functions
+ * @package  LifterLMS/Functions
+ *
  * @since 1.0.0
- * @version 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -346,14 +347,17 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 /**
  * Sets user auth cookie by id and records the date/time of the login in the usermeta table
  *
- * @param  int $person_id  ID of the user
+ * @since  Unknown
+ * @since  3.0.0 Use `wp_set_current_user()` rather than overriding the global manually.
+ * @since  [version] Pass the `$remember` param to `wp_set_auth_cookie()`
  *
+ * @param  int  $person_id WP_User ID.
+ * @param  bool $remember Whether to remember the user.
  * @return void
- * @version  3.0.0   now uses wp_set_current_user rather than overriding the global manually
  */
 function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 	wp_set_current_user( $user_id );
-	wp_set_auth_cookie( $user_id, false );
+	wp_set_auth_cookie( $user_id, $remember );
 	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
 }
 

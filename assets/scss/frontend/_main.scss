@@ -22,10 +22,26 @@
   width: 150px;
 }
 
-
+// Responsive Videos.
 .llms-video-wrapper {
-  text-align: center;
-  margin-bottom: 10px;
+
+	.center-video {
+		height: auto;
+		max-width: 100%;
+		overflow: hidden;
+		position: relative;
+		padding-top: 56.25%;
+		text-align: center;
+
+		iframe, object, embed {
+			height: 100%;
+			left: 0;
+			position: absolute;
+			top: 0;
+			width: 100%;
+		}
+	}
+
 }
 
 
