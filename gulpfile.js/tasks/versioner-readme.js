@@ -25,7 +25,7 @@ gulp.task( 'versioner-readme', function() {
 
     gutil.log( gutil.colors.blue( 'Updating extra file versions to `' + the_version + '`' ) );
 
-	return gulp.src( [ './_readme/header.md'  ], { base: './' } )
+	return gulp.src( [ './wordpress-org/readme/header.md'  ], { base: './' } )
 		.pipe( replace( /Stable tag: (\d+\.\d+\.\d+)(\-\D+\.\d+)?/g, function( match, p1, p2, string ) {
 	        // if there's a prerelease suffix (eg -beta.1) remove it entirely
 	        if ( p2 ) {
