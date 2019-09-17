@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Events class.
  *
  * @since 3.36.0
+ * @since [version] Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
  */
 class LLMS_Events {
 
@@ -353,6 +354,7 @@ class LLMS_Events {
 		 * Filter the post types that should be tracked
 		 *
 		 * @since 3.36.0
+		 * @since [version] Remove redundant check on `is_singular()` and `is_post_type_archive()`.
 		 *
 		 * @param string[]|string $post_types An array of post type names or a pre-defined setting as a string.
 		 *                                    "llms" uses all public LifterLMS and LifterLMS Add-on post types.
@@ -375,9 +377,9 @@ class LLMS_Events {
 
 		if ( ! is_array( $post_types ) ) {
 			$ret = false;
-		} elseif ( is_singular() && is_singular( $post_types ) ) {
+		} elseif ( is_singular( $post_types ) ) {
 			$ret = true;
-		} elseif ( is_post_type_archive() && is_post_type_archive( $post_types ) ) {
+		} elseif ( is_post_type_archive( $post_types ) ) {
 			$ret = true;
 		} elseif ( is_llms_account_page() || is_llms_checkout() ) {
 			$ret = true;
