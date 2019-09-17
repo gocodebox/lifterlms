@@ -230,6 +230,32 @@ class LLMS_SendWP {
 	 */
 	private function get_connect_setting() {
 
+		if ( function_exists( 'sendwp_client_connected' ) && sendwp_client_connected() ) {
+
+			$ret = array(
+				__( 'Your site is connected to SendWP.', 'lifterlms' ),
+			);
+
+			if ( function_exists( 'sendwp_forwarding_enabled' ) && sendwp_forwarding_enabled() ) {
+				$ret[] = sprintf(
+					// Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
+					__( '%1$sManage your account%2$s.', 'lifterlms' ),
+					'<a href="https://sendwp.com/account/" target="_blank" rel="noopener noreferrer">',
+					'</a>'
+				);
+			} else {
+				$ret[] = sprintf(
+					// Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
+					'<em>' . __( 'Email sending is currently disabled. %1$sVisit the SendWP Settings%2$s to enable sending..', 'lifterlms' ) . '</em>',
+					'<a href="' . admin_url( '/tools.php?page=sendwp' ) . '">',
+					'</a>'
+				);
+			}
+
+			return '<p>' . implode( ' ', $ret ) . '</p>';
+
+		}
+
 		return '<button class="button button-primary" id="llms-sendwp-connect"><i class="fa fa-paper-plane-o" aria-hidden="true"></i> Connect SendWP</button>';
 
 	}
