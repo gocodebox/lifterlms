@@ -1,11 +1,19 @@
 <?php
+/**
+ * Quizzes Reporting Table.
+ *
+ * @since 3.16.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Quizzes Reporting Table
+ * Quizzes Reporting Table class.
  *
- * @since    3.16.0
- * @version  3.25.0
+ * @since 3.16.0
+ * @since [version] Fixed an issue that allow instructors, who can only see their own reports,
+ *               to see all the quizzes when they had no courses or courses with no lessons.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -78,11 +86,12 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	/**
 	 * Retrieve data for a cell
 	 *
+	 * @since 3.16.0
+	 * @since 3.24.0 Unknown.
+	 *
 	 * @param    string $key   the column id / key
 	 * @param    mixed  $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
-	 * @since    3.16.0
-	 * @version  3.24.0
 	 */
 	protected function get_data( $key, $data ) {
 
@@ -183,9 +192,9 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	/**
 	 * Retrieve a list of Instructors to be used for Filtering
 	 *
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return array
 	 */
 	private function get_instructor_filters() {
 
@@ -205,12 +214,14 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Execute a query to retrieve results from the table
+	 * Execute a query to retrieve results from the table.
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.25.0
+	 * @since 3.16.0
+	 * @since [version] Fixed an issue that allow instructors, who can only see their own reports,
+	 *                to see all the quizzes when they had no courses or courses with no lessons.
+	 *
+	 * @param array $args Array of query args.
+	 * @return void
 	 */
 	public function get_results( $args = array() ) {
 
@@ -265,6 +276,11 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			foreach ( $courses as $course ) {
 				$lessons = array_merge( $lessons, $course->get_lessons( 'ids' ) );
 			}
+
+			if ( empty( $lessons ) ) {
+				return;
+			}
+
 			$query_args['meta_query'] = array(
 				array(
 					'compare' => 'IN',
@@ -293,9 +309,9 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	/**
 	 * Get the Text to be used as the placeholder in a searchable tables search input
 	 *
+	 * @since 3.16.0
+	 *
 	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.0
 	 */
 	public function get_table_search_form_placeholder() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search quizzes...', 'lifterlms' ) );
@@ -304,9 +320,9 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of arguments used to pass to the get_results method
 	 *
+	 * @since 3.16.0
+	 *
 	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
 	 */
 	public function set_args() {
 		return array();
@@ -315,9 +331,10 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	/**
 	 * Define the structure of the table
 	 *
+	 * @since 3.16.0
+	 * @since 3.16.10 Unknown.
+	 *
 	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.10
 	 */
 	protected function set_columns() {
 		return array(
