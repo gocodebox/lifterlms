@@ -55,14 +55,14 @@ class LLMS_SendWP {
 	public function add_settings( $settings ) {
 
 		// Short circuit if missing unauthorized.
-		if ( ! current_user_can( 'install_plugins' )  ) {
+		if ( ! current_user_can( 'install_plugins' ) ) {
 			return $settings;
 		}
 
 		$new_settings = array(
 			array(
-				'id'    => 'sendwp_connect_start',
-				'type'  => 'sectionstart',
+				'id'   => 'sendwp_connect_start',
+				'type' => 'sectionstart',
 			),
 			array(
 				'id'    => 'sendwp_title',
@@ -71,7 +71,8 @@ class LLMS_SendWP {
 				'desc'  => sprintf(
 					// Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
 					__( '%1$sSendWP%2$s makes WordPress email delivery as simple as a few clicks so you can relax, knowing your important emails are being delivered on time.', 'lifterlms' ),
-					'<a href="https://lifterlikes.com/sendwp" target="_blank" rel="noopener noreferrer">', '</a>'
+					'<a href="https://lifterlikes.com/sendwp" target="_blank" rel="noopener noreferrer">',
+					'</a>'
 				),
 			),
 			array(
@@ -159,7 +160,7 @@ class LLMS_SendWP {
 				continue;
 			}
 			$is_sendwp_installed = true;
-			$activate = activate_plugin( $path );
+			$activate            = activate_plugin( $path );
 			if ( is_wp_error( $activate ) ) {
 				return $activate;
 			}
@@ -173,9 +174,12 @@ class LLMS_SendWP {
 			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
 
 			// Use the WordPress Plugins API to get the plugin download link.
-			$api = plugins_api( 'plugin_information', array(
-				'slug' => 'sendwp',
-			) );
+			$api = plugins_api(
+				'plugin_information',
+				array(
+					'slug' => 'sendwp',
+				)
+			);
 			if ( is_wp_error( $api ) ) {
 				return $api;
 			}
@@ -191,7 +195,6 @@ class LLMS_SendWP {
 			if ( is_wp_error( $activate ) ) {
 				return $activate;
 			}
-
 		}
 
 		// Final check to see if SendWP is available.
@@ -270,10 +273,9 @@ class LLMS_SendWP {
 	protected function should_output_inline() {
 
 		// Short circuit if missing unauthorized.
-		if ( ! current_user_can( 'install_plugins' )  ) {
+		if ( ! current_user_can( 'install_plugins' ) ) {
 			return false;
 		}
-
 
 		$screen = get_current_screen();
 		return ( 'lifterlms_page_llms-settings' === $screen->id && 'engagements' === llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) );
