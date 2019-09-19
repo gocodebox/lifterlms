@@ -224,6 +224,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
+
 		return $sql;
 
 	}

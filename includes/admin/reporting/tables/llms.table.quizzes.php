@@ -14,6 +14,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.0
  * @since [version] Fixed an issue that allow instructors, who can only see their own reports,
  *               to see all the quizzes when they had no courses or courses with no lessons.
+ *               In `get_data()` use `LLMS_Query_Quiz_Attempt->number_results` in place of `count(`LLMS_Query_Quiz_Attempt->results`)`.
+ *               Also, when calculating the 'average' on 1000 attempts, instantiate the quiz attempt query passing `no_found_rows` arg as `true`,
+ *               to improve .
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -88,7 +91,9 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *
 	 * @since 3.16.0
 	 * @since 3.24.0 Unknown.
-	 *
+	 * @since [version] Use `LLMS_Query_Quiz_Attempt->number_results` in place of `count(LLMS_Query_Quiz_Attempt->results)`.
+	 *               Also, when calculating the 'average' on 1000 attempts, instantiate the quiz attempt query passing `no_found_rows` arg as `true`,
+	 *               to improve performance.
 	 * @param    string $key   the column id / key
 	 * @param    mixed  $data  object / array of data that the function can use to extract the data
 	 * @return   mixed
@@ -122,12 +127,13 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				$grade = 0;
 				$query = new LLMS_Query_Quiz_Attempt(
 					array(
-						'quiz_id'  => $quiz->get( 'id' ),
-						'per_page' => 1000,
+						'quiz_id'       => $quiz->get( 'id' ),
+						'per_page'      => 1000,
+						'no_found_rows' => true,
 					)
 				);
 
-				$attempts = count( $query->results );
+				$attempts = $query->number_results;
 
 				if ( ! $attempts ) {
 					$value = 0;

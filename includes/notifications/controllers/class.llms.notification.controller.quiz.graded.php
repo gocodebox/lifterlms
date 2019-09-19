@@ -1,11 +1,18 @@
 <?php
+/**
+ * Notification Controller: Quiz Graded.
+ *
+ * @since 3.24.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Notification Controller: Quiz Graded
+ * Notification Controller: Quiz Graded class.
  *
- * @since    3.24.0
- * @version  3.24.0
+ * @since 3.24.0
+ * @since [version] In `get_settings()` instantiate the quiz attempt query passing `no_found_rows` arg as `true`, to improve performance.
  */
 class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notification_Controller {
 
@@ -60,12 +67,13 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 	}
 
 	/**
-	 * Get an array of LifterLMS Admin Page settings to send test notifications
+	 * Get an array of LifterLMS Admin Page settings to send test notifications-
 	 *
-	 * @param    string $type  notification type [basic|email]
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 * @since [version] Instantiate the quiz attempt query passing `no_found_rows` arg as `true`, to improve performance.
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @return array
 	 */
 	public function get_test_settings( $type ) {
 
@@ -75,7 +83,8 @@ class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notificatio
 
 		$query = new LLMS_Query_Quiz_Attempt(
 			array(
-				'per_page' => 25,
+				'per_page'      => 25,
+				'no_found_rows' => true,
 			)
 		);
 

@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  *   ) );
  *
  * @since 3.8.0
+ * @since 3.14.0 Unknown.
  * @since [version] `$this->preprare_query()` uses `$this->sql_select_columns({columns})` to determine the columns to select.
  */
 class LLMS_Notifications_Query extends LLMS_Database_Query {
@@ -196,6 +197,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
 	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
+	 *
 	 * @return string
 	 */
 	protected function preprare_query() {

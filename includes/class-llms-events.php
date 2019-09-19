@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Events class.
  *
  * @since 3.36.0
- * @since [version] Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
+ * @since [version] Improve performance when checking if an event is valid in `LLMS_Events->is_event_valid()`.
  *               Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
  */
 class LLMS_Events {

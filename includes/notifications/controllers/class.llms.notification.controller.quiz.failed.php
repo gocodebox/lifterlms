@@ -3,7 +3,7 @@
  * Notification Controller: Quiz Failed
  *
  * @since 3.8.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since [version] In `get_settings()` instantiate the quiz attempt query passing `no_found_rows` arg as `true`, to improve performance.
  */
 class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notification_Controller {
 
@@ -77,12 +78,13 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 	}
 
 	/**
-	 * Get an array of LifterLMS Admin Page settings to send test notifications
+	 * Get an array of LifterLMS Admin Page settings to send test notifications.
 	 *
-	 * @param    string $type  notification type [basic|email]
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 * @since [version] Instantiate the quiz attempt query passing `no_found_rows` arg as `true`, to improve performance.
+	 *
+	 * @param string $type Notification type [basic|email].
+	 * @return array
 	 */
 	public function get_test_settings( $type ) {
 
@@ -90,17 +92,20 @@ class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notificatio
 			return;
 		}
 
-		$query    = new LLMS_Query_Quiz_Attempt(
+		$query = new LLMS_Query_Quiz_Attempt(
 			array(
-				'per_page' => 25,
-				'status'   => 'fail',
+				'per_page'      => 25,
+				'status'        => 'fail',
+				'no_found_rows' => true,
 			)
 		);
-		$options  = array(
+
+		$options = array(
 			'' => '',
 		);
+
 		$attempts = array();
-		$results  = $query->results;
+
 		if ( $query->has_results() ) {
 			foreach ( $query->get_attempts() as $attempt ) {
 				$quiz    = llms_get_post( $attempt->get( 'quiz_id' ) );

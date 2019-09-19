@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Query LifterLMS Students for a given course / membership class.
  *
  * @since 3.16.0
+ * @since 3.35.0 Unknown.
  * @since [version] `$this->preprare_query()` uses `$this->sql_select_columns({columns})` to determine the columns to select.
  *
  * @arg $attempt    (int)       Query by attempt number.
