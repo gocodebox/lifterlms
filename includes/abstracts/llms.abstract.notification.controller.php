@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties & fixed typo in output string.
- * @since [version] Instantiate the notification query passing `no_found_row` arg as `true`.
+ * @since [version] Instantiate the notification query passing `no_found_rows` arg as `true`.
  */
 abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Options_Data implements LLMS_Interface_Notification_Controller {
 
@@ -384,8 +384,8 @@ abstract class LLMS_Abstract_Notification_Controller extends LLMS_Abstract_Optio
 	 * Determine if the notification is a potential duplicate
 	 *
 	 * @since 3.11.0
-	 * @since [version] Instantiate the notification query passing `no_found_row` arg as `true`.
-	 *                  Also use query method `has_reults()` in place of
+	 * @since [version] Instantiate the notification query passing `no_found_rows` arg as `true`.
+	 *                Also use query method `has_results()` in place of a check on query property `found_results`.
 	 *
 	 * @param string $type       Notification type id.
 	 * @param mixed  $subscriber WP User ID for the subscriber, email address, phone number, etc...

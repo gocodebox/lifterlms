@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
- * @version 3.16.11
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -25,8 +25,8 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	 *
 	 * @since    3.16.0
 	 *
-	 * @param    int $quiz_id  WP Post ID of the quiz
-	 * @return   int
+	 * @param  int $quiz_id WP Post ID of the quiz.
+	 * @return int
 	 */
 	public function count_attempts_by_quiz( $quiz_id ) {
 
@@ -43,12 +43,13 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Remove Student Quiz attempt by ID
+	 * Remove Student Quiz attempt by ID.
 	 *
-	 * @param    int $attempt_id  Attempt ID
-	 * @return   boolean              true on success, false on error
-	 * @since    3.9.0
-	 * @version  3.16.11
+	 * @since 3.9.0
+	 * @since 3.16.11 Unknown.
+	 *
+	 * @param  int $attempt_id Attempt ID.
+	 * @return boolean True on success, false on error.
 	 */
 	public function delete_attempt( $attempt_id ) {
 
@@ -58,19 +59,22 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve quiz data for a student and optionally filter by quiz_id(s)
+	 * Retrieve quiz data for a student and optionally filter by quiz_id(s).
 	 *
-	 * @param    mixed $quiz    WP Post ID / Array of WP Post IDs
-	 * @return   LLMS_Quiz_Attempt
-	 * @since    3.9.0
-	 * @version  3.16.11
+	 * @since 3.9.0
+	 * @since 3.16.11 Unknown.
+	 * @since [version] Instantiate the quiz attempt query passing `no_found_rows` arg as `true`, to improve performance.
+	 *
+	 * @param mixed $quiz WP Post ID / Array of WP Post IDs.
+	 * @return LLMS_Quiz_Attempt
 	 */
 	public function get_all( $quiz = array() ) {
 
 		$query = new LLMS_Query_Quiz_Attempt(
 			array(
-				'quiz_id'  => $quiz,
-				'per_page' => 5000,
+				'quiz_id'       => $quiz,
+				'per_page'      => 5000,
+				'no_found_rows' => true,
 			)
 		);
 
@@ -79,20 +83,22 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve quiz attempts
+	 * Retrieve quiz attempts.
 	 *
-	 * @param    int   $quiz_id  WP Post ID of the quiz
-	 * @param    array $args     additional args to pass to LLMS_Query_Quiz_Attempt
-	 * @return   LLMS_Quiz_Attempt[]
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since [version] Instantiate the quiz attempt query passing `no_found_rows` arg as `true`, to improve performance.
+	 *
+	 * @param int   $quiz_id WP Post ID of the quiz.
+	 * @param array $args    Additional args to pass to LLMS_Query_Quiz_Attempt.
+	 * @return LLMS_Quiz_Attempt[]
 	 */
 	public function get_attempts_by_quiz( $quiz_id, $args = array() ) {
 
 		$args = wp_parse_args(
 			array(
-				'student_id' => $this->get_id(),
-				'quiz_id'    => $quiz_id,
+				'student_id'    => $this->get_id(),
+				'quiz_id'       => $quiz_id,
+				'no_found_rows' => true,
 			),
 			$args
 		);
@@ -108,24 +114,25 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve an attempt by attempt id
+	 * Retrieve an attempt by attempt id.
 	 *
-	 * @param    int $attempt_id  Attempt ID
-	 * @return   LLMS_Quiz_Attempt
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param int $attempt_id Attempt ID.
+	 * @return LLMS_Quiz_Attempt
 	 */
 	public function get_attempt_by_id( $attempt_id ) {
 		return new LLMS_Quiz_Attempt( $attempt_id );
 	}
 
 	/**
-	 * Decodes an attempt string and returns the associated attempt
+	 * Decodes an attempt string and returns the associated attempt.
 	 *
-	 * @param    string $attempt_key  encoded attempt key
-	 * @return   LLMS_Quiz_Attempt|false
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param string $attempt_key Encoded attempt key.
+	 * @return LLMS_Quiz_Attempt|false
 	 */
 	public function get_attempt_by_key( $attempt_key ) {
 
@@ -138,12 +145,12 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get the # of attempts remaining by a student for a given quiz
+	 * Get the # of attempts remaining by a student for a given quiz.
 	 *
-	 * @param    int $quiz_id  WP Post ID of the Quiz
-	 * @return   mixed
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param int $quiz_id WP Post ID of the Quiz.
+	 * @return mixed
 	 */
 	public function get_attempts_remaining_for_quiz( $quiz_id ) {
 
@@ -173,12 +180,12 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get all the attempts for a given quiz/lesson from an attempt key
+	 * Get all the attempts for a given quiz/lesson from an attempt key.
 	 *
-	 * @param    string $attempt_key  an encoded attempt key
-	 * @return   false|array
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 * @since 3.9.0
+	 *
+	 * @param string $attempt_key An encoded attempt key.
+	 * @return false|array
 	 */
 	public function get_sibling_attempts_by_key( $attempt_key ) {
 
@@ -190,13 +197,14 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
+	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination.
 	 *
-	 * @param    int  $quiz_id    WP Post ID of a Quiz
-	 * @param    null $deprecated deprecated
-	 * @return   false|LLMS_Quiz_Attempt
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param int  $quiz_id    WP Post ID of a Quiz.
+	 * @param null $deprecated Deprecated.
+	 * @return false|LLMS_Quiz_Attempt
 	 */
 	public function get_best_attempt( $quiz_id = null, $deprecated = null ) {
 
@@ -222,13 +230,14 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Retrieve the last recorded attempt for a student for a given quiz/lesson
-	 * "Last" is defined as the attempt with the highest attempt number
+	 * Retrieve the last recorded attempt for a student for a given quiz/lesson.
+	 * "Last" is defined as the attempt with the highest attempt number.
 	 *
-	 * @param    int $quiz_id    WP Post ID of the quiz
-	 * @return   LLMS_Quiz_Attempt|false
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param int $quiz_id WP Post ID of the quiz.
+	 * @return LLMS_Quiz_Attempt|false
 	 */
 	public function get_last_attempt( $quiz_id ) {
 
@@ -253,11 +262,12 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the last completed attempt for a given quiz or quiz/lesson combination
 	 *
-	 * @param    int $quiz_id    WP Post ID of a Quiz.
-	 * @param    int $deprecated Deprecated.
-	 * @return   false|LLMS_Quiz_Attempt
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param int $quiz_id    WP Post ID of a Quiz.
+	 * @param int $deprecated Deprecated.
+	 * @return false|LLMS_Quiz_Attempt
 	 */
 	public function get_last_completed_attempt( $quiz_id = null, $deprecated = null ) {
 
@@ -266,6 +276,7 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 				'student_id'     => $this->get_id(),
 				'quiz_id'        => $quiz_id,
 				'per_page'       => 1,
+				'no_found_rows'  => true,
 				'status_exclude' => array( 'incomplete' ),
 				'sort'           => array(
 					'end_date' => 'DESC',
@@ -282,12 +293,13 @@ class LLMS_Student_Quizzes extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Parse an attempt key into it's parts
+	 * Parse an attempt key into it's parts.
 	 *
-	 * @param    string $attempt_key  an encoded attempt key
-	 * @return   int
-	 * @since    3.9.0
-	 * @version  3.16.7
+	 * @since 3.9.0
+	 * @since 3.16.7 Unknown.
+	 *
+	 * @param string $attempt_key An encoded attempt key.
+	 * @return int
 	 */
 	private function parse_attempt_key( $attempt_key ) {
 

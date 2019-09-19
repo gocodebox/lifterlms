@@ -105,6 +105,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.15.0 Unknown.
 	 * @since 3.36.0 Added "Last Seen" column.
 	 * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
+	 * @since [version] When retrieving the "Last Seen" column's value, instantiate the events query passing `no_found_rows` arg as `true`,
+	 *               to improve .
 	 *
 	 * @param    string $key        the column id / key
 	 * @param    obj    $student    Instance of the LLMS_Student
@@ -166,11 +168,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 			case 'last_seen':
 				$query = new LLMS_Events_Query(
 					array(
-						'actor'    => $student->get_id(),
-						'per_page' => 1,
-						'sort'     => array(
+						'actor'         => $student->get_id(),
+						'per_page'      => 1,
+						'sort'          => array(
 							'date' => 'DESC',
 						),
+						'no_found_rows' => true,
 					)
 				);
 

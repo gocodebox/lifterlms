@@ -132,6 +132,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query.
 	 *
 	 * @since 3.4.0
+	 * @since 3.13.0 Unknown.
 	 * @since [version] Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
 	 *
 	 * @return string

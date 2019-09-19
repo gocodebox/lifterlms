@@ -144,7 +144,9 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since 3.37.8 Add actions column that allows deletion of orphaned quizzes.
 	 *               ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
 	 * @since 4.2.0 Added a deep check on whether the quiz is associated to a lesson.
-	 *
+	 * @since [version] Use `LLMS_Query_Quiz_Attempt->number_results` in place of `count(LLMS_Query_Quiz_Attempt->results)`.
+	 *              Also, when calculating the 'average' on 1000 attempts, instantiate the quiz attempt query passing `no_found_rows` arg as `true`,
+	 *              to improve performance.
 	 * @param string $key  The column id / key.
 	 * @param mixed  $data Object / array of data that the function can use to extract the data.
 	 * @return mixed
@@ -182,12 +184,13 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				$grade = 0;
 				$query = new LLMS_Query_Quiz_Attempt(
 					array(
-						'quiz_id'  => $quiz->get( 'id' ),
-						'per_page' => 1000,
+						'quiz_id'       => $quiz->get( 'id' ),
+						'per_page'      => 1000,
+						'no_found_rows' => true,
 					)
 				);
 
-				$attempts = count( $query->results );
+				$attempts = $query->number_results;
 
 				if ( ! $attempts ) {
 					$value = 0;
