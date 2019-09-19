@@ -1,19 +1,20 @@
 <?php
 /**
- * Perform db queries for events
+ * Perform db queries for events.
  *
- * @package  LifterLMS/Classes
+ * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Events_Query class
+ * LLMS_Events_Query class.
  *
  * @since 3.36.0
+ * @since [version] `$this->preprare_query()` uses `$this->sql_select_columns({columns})` to determine the columns to select.
  */
 class LLMS_Events_Query extends LLMS_Database_Query {
 
@@ -117,6 +118,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 *
 	 * @since 3.36.0
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 *
 	 * @return string
 	 */
@@ -124,7 +126,7 @@ class LLMS_Events_Query extends LLMS_Database_Query {
 
 		global $wpdb;
 
-		return "SELECT SQL_CALC_FOUND_ROWS id
+		return "SELECT {$this->sql_select_columns( 'id' )}
 				FROM {$wpdb->prefix}lifterlms_events
 				{$this->sql_where()}
 				{$this->sql_orderby()}

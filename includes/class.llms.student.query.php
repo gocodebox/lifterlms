@@ -1,13 +1,22 @@
 <?php
 /**
- * Query LifterLMS Students for a given course / membership
+ * Query LifterLMS Students for a given course / membership.
  *
- * @since    3.4.0
- * @version  3.13.0
+ * @package LifterLMS/Classes
+ *
+ * @since 3.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * Query LifterLMS Students class for a given course / membership.
+ *
+ * @since 3.4.0
+ * @since [version] `$this->sql_select()` uses `$this->sql_select_columns({columns})` to determine additional columns to select.
+ *                  `$this->preprare_query()` demands to it to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
+ */
 class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**
@@ -121,11 +130,12 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
-	 * @return   void
-	 * @since    3.4.0
-	 * @version  3.13.0
+	 * @since 3.4.0
+	 * @since [version] Demands to `$this->sql_select()` to determine whether or not `SQL_CALC_FOUND_ROWS` statement is needed.
+	 *
+	 * @return string
 	 */
 	protected function preprare_query() {
 
@@ -144,9 +154,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 		$vars[] = $this->get( 'per_page' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS
-			{$this->sql_select()}
+			"SELECT {$this->sql_select()}
 			FROM {$wpdb->users} AS u
 			{$this->sql_joins()}
 			{$this->sql_search()}
@@ -156,6 +166,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$vars
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		return $sql;
 
@@ -278,11 +289,12 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Setup the SQL for the select statement
+	 * Setup the SQL for the select statement.
+	 *
+	 * @since 3.13.0
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine additional columns to select.
 	 *
 	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
 	 */
 	private function sql_select() {
 
@@ -314,6 +326,8 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 
 		$sql = implode( ', ', $selects );
 
+		$sql = $this->sql_select_columns( $sql );
+
 		if ( $this->get( 'suppress_filters' ) ) {
 			return $sql;
 		}
@@ -323,12 +337,12 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Generate an SQL IN clause based on submitted status arguments
+	 * Generate an SQL IN clause based on submitted status arguments.
 	 *
-	 * @param    string $column  name of the column
-	 * @return   string
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param  string $column  Optional. Name of the column. Default 'status'.
+	 * @return string
 	 */
 	private function sql_status_in( $column = 'status' ) {
 		global $wpdb;
@@ -340,8 +354,9 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$statuses[] = $status;
 			$comma      = true;
 		}
-
-		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- $sql contains placeholders.
+		$sql = $wpdb->prepare( $sql, $statuses );
+		// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
 		return "{$column} IN ( {$sql} )";
 
 	}

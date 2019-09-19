@@ -1,11 +1,19 @@
 <?php
+/**
+ * LifterLMS User Postmeta Query.
+ *
+ * @package LifterLMS/Classes/Abstracts
+ *
+ * @since 3.15.0
+ * @version [version]
+ */
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS User Postmeta Query
+ * LifterLMS User Postmeta Query class.
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @since 3.15.0
+ * @since [version] `$this->preprare_query()` uses `$this->sql_select_columns({columns})` to determine the columns to select.
  */
 class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
@@ -188,11 +196,12 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	}
 
 	/**
-	 * Prepare the SQL for the query
+	 * Prepare the SQL for the query.
 	 *
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
+	 *
+	 * @return string
 	 */
 	protected function preprare_query() {
 
@@ -204,8 +213,9 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 		$vars[] = $this->get( 'per_page' );
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS meta_id
+			"SELECT {$this->sql_select_columns( 'meta_id' )}
 			 FROM {$wpdb->prefix}lifterlms_user_postmeta
 			 {$this->sql_where()}
 			 {$this->sql_orderby()}
@@ -213,7 +223,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			$vars
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
-
+		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 		return $sql;
 
 	}

@@ -1,20 +1,28 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * Query LifterLMS Students for a given course / membership.
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 3.16.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Query LifterLMS Students for a given course / membership
+ * Query LifterLMS Students for a given course / membership class.
  *
- * @since    3.16.0
- * @version  3.35.0
+ * @since 3.16.0
+ * @since [version] `$this->preprare_query()` uses `$this->sql_select_columns({columns})` to determine the columns to select.
  *
- * @arg  $attempt     (int)        Query by attempt number
- * @arg  $quiz_id     (int|array)  Query by Quiz WP post ID (locate multiple quizzes with an array of ids)
- * @arg  $student_id  (int|array)  Query by WP User ID (locate by multiple users with an array of ids)
+ * @arg $attempt    (int)       Query by attempt number.
+ * @arg $quiz_id    (int|array) Query by Quiz WP post ID (locate multiple quizzes with an array of ids).
+ * @arg $student_id (int|array) Query by WP User ID (locate by multiple users with an array of ids).
  *
- * @arg  $page        (int)        Get results by page
- * @arg  $per_page    (int)        Number of results per page (default: 25)
- * @arg  $sort        (array)      Define query sorting options [id,student_id,quiz_id,start_date,update_date,end_date,attempt,grade,current,passed]
+ * @arg $page       (int)       Get results by page.
+ * @arg $per_page   (int)       Number of results per page (default: 25).
+ * @arg $sort       (array)     Define query sorting options [id,student_id,quiz_id,start_date,update_date,end_date,attempt,grade,current,passed].
  *
  * @example
  *       $query = new LLMS_Query_Quiz_Attempt( array(
@@ -122,15 +130,16 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	/**
 	 * Prepare the SQL for the query
 	 *
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
+	 *
+	 * @return string
 	 */
 	protected function preprare_query() {
 
 		global $wpdb;
 
-		return "SELECT SQL_CALC_FOUND_ROWS id
+		return "SELECT {$this->sql_select_columns( 'id' )}
 				FROM {$wpdb->prefix}lifterlms_quiz_attempts
 				{$this->sql_where()}
 				{$this->sql_orderby()}
