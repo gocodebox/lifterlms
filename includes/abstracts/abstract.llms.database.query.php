@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.34.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -147,11 +147,12 @@ abstract class LLMS_Database_Query {
 	}
 
 	/**
-	 * Retrieve default arguments for a the query
+	 * Retrieve default arguments for a the query.
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Added new default arg `no_found_rows` set to false.
+	 *
+	 * @return array
 	 */
 	protected function get_default_args() {
 
@@ -163,6 +164,7 @@ abstract class LLMS_Database_Query {
 				'id' => 'ASC',
 			),
 			'suppress_filters' => false,
+			'no_found_rows'    => false,
 		);
 
 		if ( $this->get( 'suppress_filters' ) ) {
@@ -360,16 +362,17 @@ abstract class LLMS_Database_Query {
 	 * Set variables related to total number of results and pages possible
 	 * with supplied arguments
 	 *
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Bail early if the query arg `no_found_rows` is true, b/c no reason to calculate anything.
+	 *
+	 * @return void
 	 */
 	protected function set_found_results() {
 
 		global $wpdb;
 
-		// If no results bail early b/c no reason to calculate anything.
-		if ( ! $this->number_results ) {
+		// If no results, bail early b/c no reason to calculate anything.
+		if ( ! $this->number_results || $this->get( 'no_found_rows' ) ) {
 			return;
 		}
 
@@ -400,6 +403,28 @@ abstract class LLMS_Database_Query {
 
 		$this->sanitize_sort();
 
+	}
+
+	/**
+	 * Retrieve the prepared SQL for the SELECT clause.
+	 * Prepends `SQL_CALC_FOUND_ROWS` if `no_found_rows` arg is set to `false`.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $select_columns Optional. Columns to select. Default '*'.
+	 * @return string
+	 */
+	protected function sql_select_columns( $select_columns = '*' ) {
+
+		if ( ! $this->get( 'no_found_rows' ) ) {
+			$select_columns = 'SQL_CALC_FOUND_ROWS ' . $select_columns;
+		}
+
+		if ( $this->get( 'suppress_filters' ) ) {
+			return $select_columns;
+		}
+
+		return apply_filters( $this->get_filter( 'select_columns' ), $select_columns, $this );
 	}
 
 	/**

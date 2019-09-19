@@ -5,13 +5,13 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version 4.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Query LifterLMS Students for a given course / membership
+ * Query LifterLMS Students for a given course / membership class.
  *
  * @since 3.16.0
  * @since 3.35.0 Unknown.
@@ -136,6 +136,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 	 * Prepare the SQL for the query
 	 *
 	 * @since 3.16.0
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 *
 	 * @return string
 	 */
@@ -143,7 +144,7 @@ class LLMS_Query_Quiz_Attempt extends LLMS_Database_Query {
 
 		global $wpdb;
 
-		return "SELECT SQL_CALC_FOUND_ROWS id
+		return "SELECT {$this->sql_select_columns( 'id' )}
 				FROM {$wpdb->prefix}lifterlms_quiz_attempts
 				{$this->sql_where()}
 				{$this->sql_orderby()}

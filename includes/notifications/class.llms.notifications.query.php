@@ -1,6 +1,17 @@
 <?php
 /**
- * Query LifterLMS Students for a given course / membership
+ * Query LifterLMS Notifications for a given course / membership.
+ *
+ * @package LifterLMS/Notifications
+ *
+ * @since 3.8.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Query LifterLMS Notifications class for a given course / membership.
  *
  * @package LifterLMS/Notifications/Classes
  *
@@ -195,7 +206,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.4 Unknown.
-	 *
+	 * @since [version] Use `$this->sql_select_columns({columns})` to determine the columns to select.
 	 * @return string
 	 */
 	protected function preprare_query() {
@@ -208,8 +219,9 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 		);
 
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- SQL is prepared in other functions.
+		// phpcs:disable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber -- $vars is an array with the correct number of items
 		$sql = $wpdb->prepare(
-			"SELECT SQL_CALC_FOUND_ROWS *
+			"SELECT {$this->sql_select_columns()}
 			FROM {$wpdb->prefix}lifterlms_notifications AS n
 			LEFT JOIN {$wpdb->posts} AS p on p.ID = n.post_id
 			{$this->sql_where()}
@@ -219,6 +231,7 @@ class LLMS_Notifications_Query extends LLMS_Database_Query {
 			$vars
 		);
 		// phpcs:enable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
+		// phpcs:enable WordPress.DB.PreparedSQLPlaceholders.ReplacementsWrongNumber
 
 		return $sql;
 
