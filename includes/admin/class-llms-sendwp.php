@@ -167,6 +167,7 @@ class LLMS_SendWP {
 			break;
 		}
 
+		$install = null;
 		if ( ! $is_sendwp_installed ) {
 
 			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
@@ -218,7 +219,6 @@ class LLMS_SendWP {
 		foreach ( $settings as $i => $setting ) {
 			if ( 'email_options' === $setting['id'] && 'sectionend' === $setting['type'] ) {
 				return $i + 1;
-				break;
 			}
 		}
 		return $i;
