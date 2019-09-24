@@ -13,6 +13,7 @@ v3.36.1 - 2019-09-24
 
 ##### Bugfixes
 
++ Fixed a compatibility issue with FitVids.js causing excess white space displayed around videos when using the library, WP plugin, or themes that utilize the library.
 + Fixed an issue allowing recurring charges to continue processing after the order or customer had been deleted from the site.
 + Fixed issue causing Membership Restriction settings from properly saving.
 + Fixed issue that allowed instructors to see all quizzes on a site when the instructor had either no courses or only empty courses (courses with no lessons).
