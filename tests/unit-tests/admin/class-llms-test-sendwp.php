@@ -57,7 +57,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function test_dostall_plugins_api_error() {
+	public function test_do_remote_install_plugins_api_error() {
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
 
