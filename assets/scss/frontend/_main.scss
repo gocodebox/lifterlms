@@ -33,12 +33,17 @@
 		padding-top: 56.25%;
 		text-align: center;
 
+		.fluid-width-video-wrapper,
 		iframe, object, embed {
 			height: 100%;
 			left: 0;
 			position: absolute;
 			top: 0;
 			width: 100%;
+		}
+
+		.fluid-width-video-wrapper {
+			padding-top: 0 !important;
 		}
 	}
 
