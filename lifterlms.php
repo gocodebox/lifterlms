@@ -45,6 +45,7 @@ require_once 'vendor/autoload.php';
  * @since 3.32.0 Update action-scheduler to latest version; load staging class on the admin panel.
  * @since 3.34.0 Include the LLMS_Admin_Users_Table class.
  * @since 3.36.0 Added events classes and methods.
+ * @since [version] Include SendWP Connector.
  */
 final class LifterLMS {
 
@@ -275,6 +276,7 @@ final class LifterLMS {
 	 * @since 3.34.0 Include LLMS_Admin_Users Table class.
 	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
 	 * @since 3.36.0 Include events classes.
+	 * @since [version] Include SendWP Connector.
 	 *
 	 * @return void
 	 */
@@ -342,6 +344,7 @@ final class LifterLMS {
 
 			require_once 'includes/admin/class-llms-admin-review.php';
 			require_once 'includes/admin/class-llms-admin-export-download.php';
+			require_once 'includes/admin/class-llms-sendwp.php';
 
 		}
 
