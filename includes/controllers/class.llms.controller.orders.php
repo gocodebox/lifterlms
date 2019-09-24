@@ -455,7 +455,9 @@ class LLMS_Controller_Orders {
 			llms_log(
 				sprintf(
 					'Recurring charge for Order #%1$d could not be processed because the "%2$s" gateway is no longer available. Gateway Error: %3$s',
-					$order_id, $order->get( 'payment_gateway' ), $gateway->get_error_message()
+					$order_id,
+					$order->get( 'payment_gateway' ),
+					$gateway->get_error_message()
 				),
 				'recurring-payments'
 			);
