@@ -2,7 +2,7 @@
 /**
  * Unit Test Case with tests and utilities specific to testing LifterLMS post type Metabox classes.
  * @since 3.33.0
- * @version [version]
+ * @version 3.36.1
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -13,7 +13,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	 * Require all necessary files.
 	 *
 	 * @since 3.33.0
-	 * @since [version] Conditionally require LLMS_Admin_Meta_Boxes.
+	 * @since 3.36.1 Conditionally require LLMS_Admin_Meta_Boxes.
 	 *
 	 * @return void
 	 */
@@ -31,7 +31,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	/**
 	 * Metabox utility function to add the metabox nonce field to an array of data.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @param array $data Data array.
 	 * @param bool $real If true, uses a real nonce. Otherwise uses a fake nonce (useful for testing negative cases).

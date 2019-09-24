@@ -8,15 +8,15 @@
  * @group admin
  * @group metaboxes
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.1
+ * @version 3.36.1
  */
 class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test the get_screens() method.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Save with no user should fail.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return [type]
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Save with no nonce should fail.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return [type]
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Save with invalid nonce will fail.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return [type]
 	 */
@@ -89,7 +89,7 @@ class LLMS_Test_Meta_Box_Access extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save method.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */

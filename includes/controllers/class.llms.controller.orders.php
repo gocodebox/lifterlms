@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
- * @since [version] In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
+ * @since 3.36.1 In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
  */
 class LLMS_Controller_Orders {
 
@@ -416,7 +416,7 @@ class LLMS_Controller_Orders {
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Record order notes and trigger actions during errors.
-	 * @since [version] Made sure to process only proper LLMS_Orders of existing users.
+	 * @since 3.36.1 Made sure to process only proper LLMS_Orders of existing users.
 	 *
 	 * @param int $order_id WP Post ID of the order.
 	 * @return bool `false` if the recurring charge cannot be processed, `true` when the charge is successfully handed off to the gateway.

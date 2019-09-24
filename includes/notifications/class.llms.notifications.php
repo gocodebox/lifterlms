@@ -6,7 +6,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.24.0 Unknown.
- * @since [version] Record notifications as read during the `wp_print_footer_scripts` hook.
+ * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
  */
 class LLMS_Notifications {
 
@@ -82,7 +82,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.8.0
 	 * @since 3.22.0 Unknown.
-	 * @since [version] Record basic notifications as read during `wp_print_footer_scripts`.
+	 * @since 3.36.1 Record basic notifications as read during `wp_print_footer_scripts`.
 	 *
 	 * @return void
 	 */
@@ -120,7 +120,7 @@ class LLMS_Notifications {
 	 * Enqueue basic notifications for onscreen display
 	 *
 	 * @since 3.22.0
-	 * @since [version] Don't automatically mark notifications as read.
+	 * @since 3.36.1 Don't automatically mark notifications as read.
 	 *
 	 * @return void
 	 */
@@ -156,7 +156,7 @@ class LLMS_Notifications {
 	 *
 	 * Ensures that notifications are not missed due to redirects that happen after `wp`.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */

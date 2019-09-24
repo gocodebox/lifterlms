@@ -3,7 +3,7 @@
  * Quizzes Reporting Table.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * Quizzes Reporting Table class.
  *
  * @since 3.16.0
- * @since [version] Fixed an issue that allow instructors, who can only see their own reports,
+ * @since 3.36.1 Fixed an issue that allow instructors, who can only see their own reports,
  *               to see all the quizzes when they had no courses or courses with no lessons.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
@@ -217,7 +217,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * Execute a query to retrieve results from the table.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Fixed an issue that allow instructors, who can only see their own reports,
+	 * @since 3.36.1 Fixed an issue that allow instructors, who can only see their own reports,
 	 *                to see all the quizzes when they had no courses or courses with no lessons.
 	 *
 	 * @param array $args Array of query args.

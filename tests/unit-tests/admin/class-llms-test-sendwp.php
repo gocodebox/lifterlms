@@ -6,15 +6,15 @@
  *
  * @group sendwp
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.1
+ * @version 3.36.1
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_remote_install() error for no user.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -53,7 +53,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_remote_install() error with plugins api.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do remote install success.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */

@@ -3,7 +3,7 @@
  * Admin Metabox Class
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  * @since 3.0.0
  * @since 3.35.0 Sanitize and verify nonce when saving metabox data.
  * @since 3.36.0 Allow quotes to be saved without being encoded for some special fields that store a shortcode.
- * @since [version] Improve `save()` method.
+ * @since 3.36.1 Improve `save()` method.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -359,7 +359,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.14.1 Unknown.
 	 * @since 3.35.0 Added nonce verification before processing data; only access `$_POST` data via `llms_filter_input()`.
 	 * @since 3.36.0 Allow quotes when sanitizing some special fields that store a shortcode.
-	 * @since [version] Check metabox capability during saves.
+	 * @since 3.36.1 Check metabox capability during saves.
 	 *               Return an `int` depending on return condition.
 	 *               Automatically add `FILTER_REQUIRE_ARRAY` flag when sanitizing a `multi` field.
 	 *

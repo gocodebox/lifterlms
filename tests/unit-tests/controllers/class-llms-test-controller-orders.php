@@ -9,11 +9,11 @@
  * @since 3.19.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
  * @since 3.33.0 Add test for the `on_delete_order` method.
- * @since [version] When testing deleting/erroring orders make sure to schedule a recurring payment when setting an order as active so that,
+ * @since 3.36.1 When testing deleting/erroring orders make sure to schedule a recurring payment when setting an order as active so that,
  *               when subsequently we error/delete the order, checking the recurring payment is unscheduled makes sense.
  *               Also add tests on recurrint payments not processed when order or user deleted.
  *
- * @version [version]
+ * @version 3.36.1
  */
 class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 
@@ -160,7 +160,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.0
 	 * @since 3.32.0 Update to use latest action-scheduler functions.
-	 * @since [version] Make sure to schedule a recurring payment when setting an order as active so that,
+	 * @since 3.36.1 Make sure to schedule a recurring payment when setting an order as active so that,
 	 *               when subsequently we error the order, checking the recurring payment is unscheduled maskes sense.
 	 *
 	 * @return void
@@ -214,7 +214,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	 * test delete order
 	 *
 	 * @since 3.33.0
-	 * @since [version] Check recurring payment is unscheduled.
+	 * @since 3.36.1 Check recurring payment is unscheduled.
 	 *
 	 * @return void
 	 */
@@ -305,7 +305,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test recurring_charge attempts on orders manually removed from the database.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -342,7 +342,7 @@ class LLMS_Test_Controller_Orders extends LLMS_UnitTestCase {
 	/**
 	 * Test recurring_charge attempts on orders whose user has been deleted.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */

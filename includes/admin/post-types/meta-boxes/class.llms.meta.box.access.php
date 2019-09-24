@@ -3,7 +3,7 @@
  * Metabox: Membership Access Restrictions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;

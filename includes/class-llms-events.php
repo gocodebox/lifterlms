@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Events class.
  *
  * @since 3.36.0
- * @since [version] Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
+ * @since 3.36.1 Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
  *               Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
  */
 class LLMS_Events {
@@ -109,7 +109,7 @@ class LLMS_Events {
 	 * Determine if the event string is registered and valid.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Use more performant `array_key_exists( $key, $array_assoc )` in place of `in_array( $key, array_keys( $array_assoc ), true )`.
+	 * @since 3.36.1 Use more performant `array_key_exists( $key, $array_assoc )` in place of `in_array( $key, array_keys( $array_assoc ), true )`.
 	 *
 	 * @param string $event Event string (${event_type}.${event_action}). EG: "account.signon".
 	 * @return bool
@@ -356,7 +356,7 @@ class LLMS_Events {
 		 * Filter the post types that should be tracked
 		 *
 		 * @since 3.36.0
-		 * @since [version] Remove redundant check on `is_singular()` and `is_post_type_archive()`.
+		 * @since 3.36.1 Remove redundant check on `is_singular()` and `is_post_type_archive()`.
 		 *
 		 * @param string[]|string $post_types An array of post type names or a pre-defined setting as a string.
 		 *                                    "llms" uses all public LifterLMS and LifterLMS Add-on post types.

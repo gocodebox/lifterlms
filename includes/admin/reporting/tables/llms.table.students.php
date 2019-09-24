@@ -3,7 +3,7 @@
  * Students Reporting Table
  *
  * @since 3.2.0
- * @version [version]
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.28.0 Unknown.
  * @since 3.31.0 Allow filtering the table by Course or Membership
  * @since 3.36.0 Add "Last Seen" column.
- * @since [version] Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
+ * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
  */
 class LLMS_Table_Students extends LLMS_Admin_Table {
 
@@ -101,7 +101,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.2.0
 	 * @since 3.15.0 Unknown.
 	 * @since 3.36.0 Added "Last Seen" column.
-	 * @since [version] Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
+	 * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
 	 *
 	 * @param    string $key        the column id / key
 	 * @param    obj    $student    Instance of the LLMS_Student

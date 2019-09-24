@@ -1,6 +1,25 @@
 LifterLMS Changelog
 ===================
 
+v3.36.1 - 2019-09-24
+--------------------
+
+##### Updates
+
++ Include SendWP Connector in LifterLMS Engagement Settings.
++ Removed usage of `WP_Error::has_errors()` to support WordPress version prior to 5.1.
++ Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
++ Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
+
+##### Bugfixes
+
++ Fixed an issue allowing recurring charges to continue processing after the order or customer had been deleted from the site.
++ Fixed issue causing Membership Restriction settings from properly saving.
++ Fixed issue that allowed instructors to see all quizzes on a site when the instructor had either no courses or only empty courses (courses with no lessons).
++ Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
++ Fixed an issue causing popover notifications to be skipped (never displayed) as a result of redirects.
+
+
 v3.36.0 - 2019-09-16
 --------------------
 

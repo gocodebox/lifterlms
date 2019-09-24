@@ -7,7 +7,7 @@
  *
  * @since 3.3.1
  * @since 3.35.0 Test ipv6 addresses.
- * @since [version] Use exception from lifterlms-tests lib.
+ * @since 3.36.1 Use exception from lifterlms-tests lib.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -467,7 +467,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_redirect_and_exit() func with safe on
 	 *
-	 * @since [version] Use exception from lifterlms-tests lib.
+	 * @since 3.36.1 Use exception from lifterlms-tests lib.
 	 *
 	 * @return void
 	 */
@@ -482,7 +482,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_redirect_and_exit() func with safe custom status
 	 *
-	 * @since [version] Use exception from lifterlms-tests lib.
+	 * @since 3.36.1 Use exception from lifterlms-tests lib.
 	 *
 	 * @return void
 	 */

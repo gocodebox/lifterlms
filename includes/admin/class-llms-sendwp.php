@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.1
+ * @version 3.36.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_SendWP class..
  *
- * @since [version]
+ * @since 3.36.1
  */
 class LLMS_SendWP {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_SendWP {
 		/**
 		 * Disable the SendWP Connector class and settings
 		 *
-		 * @since [version]
+		 * @since 3.36.1
 		 *
 		 * @param bool $disabled Whether or not this class is disabled.
 		 */
@@ -47,7 +47,7 @@ class LLMS_SendWP {
 	/**
 	 * Add Settings.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @param array $settings Existing settings.
 	 * @return array
@@ -95,7 +95,7 @@ class LLMS_SendWP {
 	/**
 	 * Ajax callback for installing SendWP Plugin.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @hook wp_ajax_llms_sendwp_remote_install
 	 *
@@ -112,7 +112,7 @@ class LLMS_SendWP {
 	/**
 	 * Remote installation method.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return array
 	 */
@@ -148,7 +148,7 @@ class LLMS_SendWP {
 	/**
 	 * Install / Activate SendWP plugin.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return WP_Error|true
 	 */
@@ -210,7 +210,7 @@ class LLMS_SendWP {
 	/**
 	 * Find the end of the "email_options" section to splice in new settings.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @param array $settings Default engagement settings.
 	 * @return int
@@ -227,7 +227,7 @@ class LLMS_SendWP {
 	/**
 	 * Get the "Connect" Setting field html.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return string
 	 */
@@ -266,7 +266,7 @@ class LLMS_SendWP {
 	/**
 	 * Determine if inline scripts and styles should be output.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return bool
 	 */
@@ -285,7 +285,7 @@ class LLMS_SendWP {
 	/**
 	 * Output some quick and dirty inline CSS.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -314,7 +314,7 @@ class LLMS_SendWP {
 	/**
 	 * Output some quick and dirty inline JS.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -335,7 +335,7 @@ class LLMS_SendWP {
 			/**
 			 * Perform AJAX request to install SendWP plugin.
 			 *
-			 * @since [version]
+			 * @since 3.36.1
 			 *
 			 * @return void
 			 */
@@ -357,7 +357,7 @@ class LLMS_SendWP {
 			/**
 			 * Register client with SendWP.
 			 *
-			 * @since [version]
+			 * @since 3.36.1
 			 *
 			 * @param {string} register_url Registration URL.
 			 * @param {string} client_name Client name.

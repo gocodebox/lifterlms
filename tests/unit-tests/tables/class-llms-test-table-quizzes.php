@@ -6,15 +6,15 @@
  *
  * @group reporting_tables
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.1
+ * @version 3.36.1
  */
 class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test.
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Table_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * test quizzes table is empty for instructors with no courses or courses with no lessons
 	 *
-	 * @since [version]
+	 * @since 3.36.1
 	 *
 	 * @return void
 	 */
