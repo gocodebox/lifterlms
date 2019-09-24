@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.34.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -43,6 +43,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Add `comment_status`, `ping_status`, `date_gmt`, `modified_gmt`, `menu_order`, 'post_password` as gettable\settable post properties.
  * @since 3.34.0 Add `set_bulk()` method that will allow to update an object at once given an array of properties.
  * @since 3.34.0 Refresh the whole $post property with the just updated instance of WP_Post after updating it.
+ * @since [version] In `set_bulk()` method, use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
  */
 abstract class LLMS_Post_Model implements JsonSerializable {
 
@@ -978,6 +979,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 	 * Bulk setter.
 	 *
 	 * @since 3.34.0
+	 * @since [version] Use WP_Error::$errors in place of WP_Error::has_errors() to support WordPress version prior to 5.1.
 	 *
 	 * @param array $model_array Associative array of key/val pairs.
 	 * @param array $wp_error    Optional. Whether or not return a WP_Error. Default false.
@@ -1094,7 +1096,7 @@ abstract class LLMS_Post_Model implements JsonSerializable {
 			}
 		}
 
-		if ( $error->has_errors() ) {
+		if ( ! empty( $error->errors ) ) {
 			return $wp_error ? $error : false;
 		}
 
