@@ -3,7 +3,7 @@
  * Admin Metabox Class
  *
  * @since 3.0.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,11 +14,12 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
 }
 
 /**
- * Admin metabox class.
+ * Admin metabox abstract class.
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize and verify nonce when saving metabox data.
  * @since 3.36.0 Allow quotes to be saved without being encoded for some special fields that store a shortcode.
+ * @since [version] Improve `save()` method.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -358,28 +359,33 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.14.1 Unknown.
 	 * @since 3.35.0 Added nonce verification before processing data; only access `$_POST` data via `llms_filter_input()`.
 	 * @since 3.36.0 Allow quotes when sanitizing some special fields that store a shortcode.
+	 * @since [version] Check metabox capability during saves.
+	 *               Return an `int` depending on return condition.
+	 *               Automatically add `FILTER_REQUIRE_ARRAY` flag when sanitizing a `multi` field.
 	 *
 	 * @param int $post_id WP Post ID of the post being saved.
-	 * @return void
+	 * @return int `-1` When no user or user is missing required capabilities or when there's no or invalid nonce.
+	 *             `0` during inline saves or ajax requests or when no fields are found for the metabox.
+	 *             `1` if fields were found. This doesn't mean there weren't errors during saving.
 	 */
 	protected function save( $post_id ) {
 
-		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
-			return;
+		if ( ! current_user_can( $this->capability, $post_id ) || ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+			return -1;
 		}
 
 		// Return early during quick saves and ajax requests.
 		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
-			return;
+			return 0;
 		} elseif ( llms_is_ajax() ) {
-			return;
+			return 0;
 		}
 
 		// Get all defined fields.
 		$fields = $this->get_fields();
 
 		if ( ! is_array( $fields ) ) {
-			return;
+			return 0;
 		}
 
 		// Loop through the fields.
@@ -388,39 +394,34 @@ abstract class LLMS_Admin_Metabox {
 			// Find the fields in each tab.
 			if ( isset( $data['fields'] ) && is_array( $data['fields'] ) ) {
 
-				// loop through the fields
+				// loop through the fields.
 				foreach ( $data['fields'] as $field ) {
 
-					// don't save things that don't have an ID
+					// don't save things that don't have an ID.
 					if ( isset( $field['id'] ) ) {
 
-						// get the posted value
+						$val = '';
+
+						// get the posted value & sanitize it.
 						if ( isset( $_POST[ $field['id'] ] ) ) {
 
 							if ( isset( $field['sanitize'] ) && 'shortcode' === $field['sanitize'] ) {
 								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
+							} elseif ( isset( $field['multi'] ) && $field['multi'] ) {
+								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
 							} else {
 								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
 							}
-						} elseif ( ! isset( $_POST[ $field['id'] ] ) ) {
-
-							$val = '';
-
 						}
 
-						// update the value if we have one
-						if ( isset( $val ) ) {
-
-							update_post_meta( $post_id, $field['id'], $val );
-
-						}
-
-						unset( $val );
+						update_post_meta( $post_id, $field['id'], $val );
 
 					}
 				}
 			}
 		}
+
+		return 1;
 
 	}
 
