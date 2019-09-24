@@ -1,12 +1,23 @@
 <?php
+/**
+ * LifterLMS Notifications Management and Interface
+ * Loads and allows interactions with notification views, controllers, and processors
+ *
+ * @package LifterLMS/Notifications/Classes
+ *
+ * @since 3.8.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS Notifications Management and Interface
  * Loads and allows interactions with notification views, controllers, and processors
  *
- * @since     3.8.0
- * @version   3.24.0
+ * @since 3.8.0
+ * @since 3.24.0 Unknown.
+ * @since [version] Record notifications as read during the `wp_print_footer_scripts` hook.
  */
 class LLMS_Notifications {
 
@@ -23,6 +34,13 @@ class LLMS_Notifications {
 	 * @var  LLMS_Abstract_Notification_Controller[]
 	 */
 	private $controllers = array();
+
+	/**
+	 * Notifications being displayed on this page load.
+	 *
+	 * @var array
+	 */
+	private $displayed = array();
 
 	/**
 	 * Background processor instances
@@ -62,13 +80,17 @@ class LLMS_Notifications {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.8.0
-	 * @version  3.22.0
+	 * @since 3.8.0
+	 * @since 3.22.0 Unknown.
+	 * @since [version] Record basic notifications as read during `wp_print_footer_scripts`.
+	 *
+	 * @return void
 	 */
 	private function __construct() {
 
 		$this->load();
 		add_action( 'wp', array( $this, 'enqueue_basic' ) );
+		add_action( 'wp_print_footer_scripts', array( $this, 'mark_displayed_basics_as_read' ) );
 		add_action( 'shutdown', array( $this, 'dispatch_processors' ) );
 
 	}
@@ -97,9 +119,10 @@ class LLMS_Notifications {
 	/**
 	 * Enqueue basic notifications for onscreen display
 	 *
-	 * @return   void
-	 * @since    3.22.0
-	 * @version  3.22.0
+	 * @since 3.22.0
+	 * @since [version] Don't automatically mark notifications as read.
+	 *
+	 * @return void
 	 */
 	public function enqueue_basic() {
 
@@ -118,17 +141,29 @@ class LLMS_Notifications {
 			)
 		);
 
-		$notifications = $query->get_notifications();
+		$this->displayed = $query->get_notifications();
 
 		// push to JS
 		LLMS_Frontend_Assets::enqueue_inline_script(
 			'llms-queued-notifications',
-			'window.llms = window.llms || {};window.llms.queued_notifications = ' . json_encode( $notifications ) . ';'
+			'window.llms = window.llms || {};window.llms.queued_notifications = ' . json_encode( $this->displayed ) . ';'
 		);
 
-		// record as read
-		if ( $query->has_results() ) {
-			foreach ( $notifications as $notification ) {
+	}
+
+	/**
+	 * Record notifications as read.
+	 *
+	 * Ensures that notifications are not missed due to redirects that happen after `wp`.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function mark_displayed_basics_as_read() {
+
+		if ( $this->displayed ) {
+			foreach ( $this->displayed as $notification ) {
 				$notification->set( 'status', 'read' );
 			}
 		}
