@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Added Memberships tab.
  * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Include student sessions data on appropriate reporting screen.
  */
 class LLMS_Admin_Reporting {
 
@@ -336,9 +337,11 @@ class LLMS_Admin_Reporting {
 	/**
 	 * Include all required classes & files for the Reporting screens
 	 *
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.16.0
+	 * @since 3.2.0
+	 * @since 3.16.0 Unknown.
+	 * @since [version] Include sessions data class on the appropriate screen.
+	 *
+	 * @return void
 	 */
 	public static function includes() {
 
@@ -352,6 +355,10 @@ class LLMS_Admin_Reporting {
 		// include tab classes
 		foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/reporting/tabs/*.php' ) as $filename ) {
 			include_once $filename;
+		}
+
+		if ( 'students' === llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) && 'sessions' === llms_filter_input( INPUT_GET, 'stab', FILTER_SANITIZE_STRING ) ) {
+			include_once LLMS_PLUGIN_DIR . '/includes/admin/reporting/class-llms-student-session-data.php';
 		}
 
 	}

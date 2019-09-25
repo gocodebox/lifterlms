@@ -2,16 +2,18 @@
 /**
  * Students Tab on Reporting Screen
  *
- * @since  3.2.0
- * @version 3.35.0
+ * @since 3.2.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * LLMS_Admin_Reporting_Tab_Students
  *
- * @since  3.2.0
+ * @since 3.2.0
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Add Sessions tab.
  */
 class LLMS_Admin_Reporting_Tab_Students {
 
@@ -89,9 +91,10 @@ class LLMS_Admin_Reporting_Tab_Students {
 	/**
 	 * Output HTML for the current view within the students tab
 	 *
+	 * @since 3.2.0
+	 * @since [version] Add Sessions tab.
+	 *
 	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.2.0
 	 */
 	public function output() {
 
@@ -104,6 +107,7 @@ class LLMS_Admin_Reporting_Tab_Students {
 					'information'  => __( 'Information', 'lifterlms' ),
 					'courses'      => __( 'Courses', 'lifterlms' ),
 					'memberships'  => __( 'Memberships', 'lifterlms' ),
+					'sessions'     => __( 'Sessions', 'lifterlms' ),
 					'achievements' => __( 'Achievements', 'lifterlms' ),
 					'certificates' => __( 'Certificates', 'lifterlms' ),
 				)
