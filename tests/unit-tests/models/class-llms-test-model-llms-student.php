@@ -5,8 +5,9 @@
  * @group LLMS_Student_Model
  *
  * @since 3.33.0
+ * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
  *
- * @version 3.33.0
+ * @version [vrsion]
  */
 class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 
@@ -116,33 +117,53 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	 * Functional test for the delete_enrollment() method.
 	 *
 	 * @since 3.33.0
+	 * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
 	 * @see user/class-llms-test-student.php for integration tests.
 	 *
 	 * @return void
 	 */
 	public function test_delete_enrollment() {
 
-		// delete a non existent enrollment: user not enrolled at all
+		// delete a non existent enrollment: user not enrolled at all.
 		$this->assertFalse( $this->student->delete_enrollment( $this->course_id ) );
 		$this->assertEquals( 0, did_action( 'llms_user_enrollment_deleted' ) );
 
-		// enroll a student
+		// enroll a student.
 		$this->student->enroll( $this->course_id );
 
-		// delete a non existent enrollment: user enrolled with a different trigger
+		// delete a non existent enrollment: user enrolled with a different trigger.
 		$res = $this->student->delete_enrollment( $this->course_id, $this->student->get_enrollment_trigger( $this->course_id ) . '_test' );
 		$this->assertFalse( $res );
 		$this->assertEquals( 0, did_action( 'llms_user_enrollment_deleted' ) );
 
-		// delete an existent enrollment
+		// delete an existent enrollment.
 		$this->assertTrue( $this->student->delete_enrollment( $this->course_id , $this->student->get_enrollment_trigger( $this->course_id ) ) );
 		$this->assertEquals( 1, did_action( 'llms_user_enrollment_deleted' ) );
 
 		$this->student->enroll( $this->course_id );
 
-		// delete an existent enrollment: any trigger
+		// delete an existent enrollment: any trigger.
 		$this->assertTrue( $this->student->delete_enrollment( $this->course_id ) );
 		$this->assertEquals( 2, did_action( 'llms_user_enrollment_deleted' ) );
+
+		// Test auto-enrollments deletion.
+
+		// create a membership.
+		$membership    = new LLMS_Membership( 'new', 'Membership Title' );
+		$membership_id = $membership->get('id');
+		// create two courses and set them as membership auto-enrollments.
+		$courses = $this->factory->course->create_many( 2, array( 0, 0, 0, 0 ) );
+		$membership->set( 'auto_enroll', $courses );
+
+		$actions = did_action( 'llms_user_enrollment_deleted' );
+
+		// enroll a student to the membership.
+		$this->student->enroll( $membership_id );
+
+		$res = $this->student->delete_enrollment( $membership_id, $this->student->get_enrollment_trigger( $membership_id  ) );
+		$this->assertTrue( $res );
+		// test we had 3 deletion: the membership, and the related courses.
+		$this->assertEquals( $actions + 3, did_action( 'llms_user_enrollment_deleted' ) );
 	}
 
 }
