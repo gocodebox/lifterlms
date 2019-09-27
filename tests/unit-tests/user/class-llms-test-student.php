@@ -4,6 +4,7 @@
  * @group LLMS_Student
  * @since 3.5.0
  * @since 3.33.0 Add delete enrollment tests.
+ * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -314,6 +315,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
+	 * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
 	 *
 	 * @return void
 	 */
@@ -347,6 +349,24 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$student->delete_enrollment( $course_id );
 		$this->assertFalse( $student->get_enrollment_status( $course_id ) );
 		$this->assertFalse( $student->get_enrollment_status( $course_id, false ) );
+
+		// Test auto-enrollments deletion.
+		// create a membership.
+		$membership    = new LLMS_Membership( 'new', 'Membership Title' );
+		$membership_id = $membership->get('id');
+
+		// set the courses as membership auto-enrollments.
+		$courses = $this->generate_mock_courses( 2, 0, 0, 0 );
+		$membership->set( 'auto_enroll', $courses );
+
+		$student->enroll( $membership_id );
+		$student->delete_enrollment( $membership_id );
+		$this->assertFalse( $student->get_enrollment_status( $membership_id ) );
+		$this->assertFalse( $student->get_enrollment_status( $membership_id, false ) );
+		$this->assertFalse( $student->get_enrollment_status( $courses[0] ) );
+		$this->assertFalse( $student->get_enrollment_status( $courses[0], false ) );
+		$this->assertFalse( $student->get_enrollment_status( $courses[1] ) );
+		$this->assertFalse( $student->get_enrollment_status( $courses[1], false ) );
 
 	}
 
@@ -460,6 +480,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.25.0
 	 * @since 3.33.0 Add test after enrollment deletion.
+	 * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
 	 *
 	 * @return void
 	 */
@@ -470,15 +491,15 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$course = llms_get_post( $courses[0] );
 		$student = llms_get_student( $this->factory->user->create( array( 'role' => 'student' ) ) );
 
-		// no status
+		// no status.
 		$this->assertFalse( $student->is_enrolled( $courses[0] ) );
 		$this->assertFalse( $student->is_enrolled( array( $courses[0] ) ) );
 
-		// enrolled
+		// enrolled.
 		$student->enroll( $courses[0] );
 		$this->assertTrue( $student->is_enrolled( $courses[0] ) );
 		$this->assertTrue( $student->is_enrolled( array( $courses[0] ) ) );
-		// check from a lesson
+		// check from a lesson.
 		$this->assertTrue( $student->is_enrolled( $course->get_lessons( 'ids' )[0] ) );
 		$this->assertTrue( $student->is_enrolled( array( $course->get_lessons( 'ids' )[0] ) ) );
 
@@ -501,7 +522,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 
 		sleep( 1 );
 
-		// expired
+		// expired.
 		$student->unenroll( $courses[0] );
 		$this->assertFalse( $student->is_enrolled( $courses[0] ) );
 		$this->assertFalse( $student->is_enrolled( array( $courses[0] ) ) );
@@ -519,10 +540,27 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 		$this->assertFalse( $student->is_enrolled( $courses, 'any' ) );
 		$this->assertFalse( $student->is_enrolled( $courses, 'all' ) );
 
-		// deleted
+		// deleted.
 		$student->enroll( $courses[1] );
 		$student->delete_enrollment( $courses[1] );
 		$this->assertFalse( $student->is_enrolled( $courses[1] ) );
+
+		// Test auto-enrollments deletion.
+		// create a membership.
+		$membership    = new LLMS_Membership( 'new', 'Membership Title' );
+		$membership_id = $membership->get('id');
+
+		// set the courses as membership auto-enrollments.
+		$courses = $this->generate_mock_courses( 3, 0, 0, 0 );
+		$membership->set( 'auto_enroll', $courses );
+
+		$student->enroll( $membership_id );
+
+		$student->delete_enrollment( $membership_id );
+		$this->assertFalse( $student->is_enrolled( $membership_id ) );
+		$this->assertFalse( $student->is_enrolled( $courses[0] ) );
+		$this->assertFalse( $student->is_enrolled( $courses[1] ) );
+		$this->assertFalse( $student->is_enrolled( $courses[2] ) );
 
 	}
 

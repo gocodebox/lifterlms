@@ -426,7 +426,7 @@ function llms_unenroll_student( $user_id, $product_id, $new_status = 'expired', 
  * @param  int    $user_id     WP User ID.
  * @param  int    $product_id  WP Post ID of the Course or Membership.
  * @param  string $trigger     Optional. Only delete the student enrollment if the original enrollment trigger matches the submitted value
- *                             "any" will remove regardless of enrollment trigger.AS
+ *                             "any" will remove regardless of enrollment trigger.
  * @return boolean Whether or not the enrollment records have been succesfully removed.
  *
  * @see `LLMS_Student->delete_enrollment()` the class method wrapped by this function.
