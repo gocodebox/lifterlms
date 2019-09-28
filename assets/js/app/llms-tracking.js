@@ -49,7 +49,7 @@ LLMS.Tracking = function( settings ) {
 		}
 
 		// If the event isn't registered in the settings don't proceed.
-		if ( -1 === settings.events.indexOf( args.event ) ) {
+		if ( !settings.events || -1 === settings.events.indexOf( args.event ) ) {
 			return;
 		}
 
