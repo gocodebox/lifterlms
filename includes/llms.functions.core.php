@@ -531,6 +531,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 		'type'  => 'text',
 		'value' => '',
 		'wrapper_classes' => '',
+		'multiple' => false,
 	) );
 
 	// setup the field value (if one exists)
@@ -549,6 +550,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 	if ( false === $field['name'] ) {
 		$name_attr = '';
 	} else {
+		$multiple_sufix = ( true === $field['multiple'] ) ? '[]' : '';
 		$name_attr = ' name="' . $field['name'] . '"';
 	}
 
@@ -606,7 +608,8 @@ function llms_form_field( $field = array(), $echo = true ) {
 			break;
 
 		case 'select':
-			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
+			$multiple = ( true === $field['multiple'] ) ? ' multiple="multiple"' : '';
+			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . $multiple . '>';
 			foreach ( $field['options'] as $k => $v ) {
 				$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
 			}

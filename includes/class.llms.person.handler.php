@@ -968,6 +968,7 @@ class LLMS_Person_Handler {
 
 					// ensure it's a selectable option
 					case 'select':
+					break;
 					case 'radio':
 						if ( ! in_array( $val, array_keys( $field['options'] ) ) ) {
 							$e->add( $field['id'], sprintf( __( '"%1$s" is an invalid option for %2$s', 'lifterlms' ), $val, $label ), 'invalid' );
