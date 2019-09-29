@@ -551,7 +551,7 @@ function llms_form_field( $field = array(), $echo = true ) {
 		$name_attr = '';
 	} else {
 		$multiple_sufix = ( true === $field['multiple'] ) ? '[]' : '';
-		$name_attr = ' name="' . $field['name'] . '"';
+		$name_attr = ' name="' . $field['name'] . $multiple_sufix . '"';
 	}
 
 	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
