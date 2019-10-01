@@ -1,34 +1,39 @@
 <?php
 /**
- * LifterLMS Lesson Model
+ * LifterLMS Lesson Model.
  *
- * @package  LifterLMS/Models
- * @since    1.0.0
- * @version  3.29.0
+ * @package LifterLMS/Models
  *
- * @property  $audio_embed  (string)  Audio embed URL
- * @property  $date_available  (string/date)  Date when lesson becomes available, applies when $drip_method is "date"
- * @property  $days_before_available  (int)  The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
- * @property  $drip_method  (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
- * @property  $free_lesson  (yesno)  Yes if the lesson is free
- * @property  $has_prerequisite  (yesno)  Yes if the lesson has a prereq lesson
- * @property  $order (int)  Lesson's order within its parent section
- * @property  $points  (absint)  Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
- * @property  $prerequisite  (int)  WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'
- * @property  $parent_course (int)  WP Post ID of the course the lesson belongs to
- * @property  $parent_section (int)  WP Post ID of the section the lesson belongs to
- * @property  $quiz  (int)  WP Post ID of the llms_quiz
- * @property  $quiz_enabled  (yesno)  Whether or not the attached quiz is enabled for students
- * @property  $require_passing_grade  (yesno)  Whether of not students have to pass the quiz to advance to the next lesson
- * @property  $require_assignment_passing_grade  (yesno)  Whether of not students have to pass the assignment to advance to the next lesson
- * @property  $time_available  (string)  Optional time to make lesson available on $date_available when $drip_method is "date"
- * @property  $video_embed  (string)  Video embed URL
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Lesson model.
+ * LLMS_Lesson model class.
+ *
+ * @since 1.0.0
+ * @since 3.29.0 Unknown.
+ * @since [version] When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
+ *
+ * @property $audio_embed (string) Audio embed URL
+ * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
+ * @property $days_before_available (int) The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
+ * @property $drip_method (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
+ * @property $free_lesson (yesno) Yes if the lesson is free
+ * @property $has_prerequisite (yesno) Yes if the lesson has a prereq lesson
+ * @property $order (int) Lesson's order within its parent section
+ * @property $points (absint) Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
+ * @property $prerequisite (int) WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'
+ * @property $parent_course (int) WP Post ID of the course the lesson belongs to
+ * @property $parent_section (int) WP Post ID of the section the lesson belongs to
+ * @property $quiz (int) WP Post ID of the llms_quiz
+ * @property $quiz_enabled (yesno) Whether or not the attached quiz is enabled for students
+ * @property $require_passing_grade (yesno) Whether of not students have to pass the quiz to advance to the next lesson
+ * @property $require_assignment_passing_grade (yesno) Whether of not students have to pass the assignment to advance to the next lesson
+ * @property $time_available (string) Optional time to make lesson available on $date_available when $drip_method is "date"
+ * @property $video_embed (string) Video embed URL
  */
 class LLMS_Lesson
 extends LLMS_Post_Model
@@ -92,13 +97,14 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
-	 * Get the date a course became or will become available according to element drip settings
-	 * If there are no drip settings, the published date of the element will be returned
+	 * Get the date a course became or will become available according to element drip settings.
+	 * If there are no drip settings, the published date of the element will be returned.
 	 *
-	 * @param    string $format  date format (passed to date_i18n()) (defaults to WP Core date + time formats)
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 * @since [version] Add available number of days to the course start date only if there's a course start date.
+	 *
+	 * @param  string $format Date format (passed to date_i18n()) (defaults to WP Core date + time formats)
+	 * @return string
 	 */
 	public function get_available_date( $format = '' ) {
 
@@ -151,8 +157,13 @@ implements LLMS_Interface_Post_Audio
 
 			// available # of days after course start date
 			case 'start':
-				$course    = $this->get_course();
-				$available = $days + $course->get_date( 'start_date', 'U' );
+				$course            = $this->get_course();
+				$course_start_date = $course ? $course->get_date( 'start_date', 'U' ) : '';
+
+				if ( $course_start_date ) {
+					$available = $days + $course_start_date;
+				}
+
 				break;
 
 		}// End switch().
