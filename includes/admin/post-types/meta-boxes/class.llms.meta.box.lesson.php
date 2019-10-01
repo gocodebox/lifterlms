@@ -3,7 +3,7 @@
  * Lesson Settings Metabox
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since [version] 'start' drip method made avialble only if the parent course has a start date set.
  */
 class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 
@@ -41,6 +42,7 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.3 Fixed spelling errors.
+	 * @since [version] 'start' drip method made available only if the parent course has a start date set.
 	 *
 	 * @return array
 	 */
@@ -59,6 +61,12 @@ class LLMS_Meta_Box_Lesson extends LLMS_Admin_Metabox {
 		// if the lesson isn't first, add previous completion method
 		if ( 1 !== $lesson->get( 'order' ) || ( $section && 1 !== $section->get( 'order' ) ) ) {
 			$methods['prerequisite'] = __( 'After prerequisite completion', 'lifterlms' );
+		}
+
+		// if the parent course has no start date set, unset the 'start' drip method.
+		$course = $lesson->get_course();
+		if ( ! $course || ! $course->get_date( 'start_date' ) ) {
+			unset( $methods['start'] );
 		}
 
 		return array(
