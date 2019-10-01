@@ -200,12 +200,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-cs.git",
-                "reference": "44e4295133b35f98931abe1d5195b4e4d1723161"
+                "reference": "15bd7c533b4554ffbc6c7592063cff480c7caf9b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/44e4295133b35f98931abe1d5195b4e4d1723161",
-                "reference": "44e4295133b35f98931abe1d5195b4e4d1723161",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/15bd7c533b4554ffbc6c7592063cff480c7caf9b",
+                "reference": "15bd7c533b4554ffbc6c7592063cff480c7caf9b",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +231,7 @@
                 }
             ],
             "description": "PHP_CodeSniffer rules for LifterLMS projects",
-            "time": "2019-07-24T17:28:41+00:00"
+            "time": "2019-10-01T20:33:00+00:00"
         },
         {
             "name": "lifterlms/lifterlms-tests",
@@ -239,12 +239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "acd5b8aba1dbaab43c248dee61705a99e02b98d3"
+                "reference": "ab4dcda17982c8b9c4943c16d8315b6a1e30dc4b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/acd5b8aba1dbaab43c248dee61705a99e02b98d3",
-                "reference": "acd5b8aba1dbaab43c248dee61705a99e02b98d3",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/ab4dcda17982c8b9c4943c16d8315b6a1e30dc4b",
+                "reference": "ab4dcda17982c8b9c4943c16d8315b6a1e30dc4b",
                 "shasum": ""
             },
             "require": {
@@ -266,7 +266,7 @@
                 }
             ],
             "description": "Testing framework for LifterLMS projects",
-            "time": "2019-09-24T17:55:53+00:00"
+            "time": "2019-10-01T20:14:45+00:00"
         },
         {
             "name": "myclabs/deep-copy",

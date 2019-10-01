@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version [version]
+ * @version 3.36.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Added the `delete_enrollment_postmeta` private method that allows student's enrollment postmeta deletion.
  * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
  * @since 3.35.0 Prepare all variables when querying for enrollment date.
- * @since [version] Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
+ * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1465,7 +1465,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 2.7
 	 * @since 3.7.5 Unknown.
-	 * @since [version] Added the $delete paramater, that will allow related courses enrollments data deletion.
+	 * @since 3.36.2 Added the $delete paramater, that will allow related courses enrollments data deletion.
 	 *
 	 * @param  int     $membership_id WP Post ID of the membership.
 	 * @param  string  $status        Optional. Status to update the removal to. Default is `expired`.
@@ -1594,7 +1594,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * Delete a student enrollment.
 	 *
 	 * @since 3.33.0
-	 * @since [version] Added logic to physically remove from the membership level and remove enrollments data on related products.
+	 * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products.
 	 *
 	 * @see llms_delete_student_enrollment() calls this function without having to instantiate the LLMS_Student class first.
 	 *

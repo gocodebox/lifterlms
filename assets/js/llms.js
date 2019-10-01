@@ -1807,6 +1807,7 @@ var LLMS = window.LLMS || {};
 	 * User event/interaction tracking.
 	 *
 	 * @since 3.36.0
+	 * @since 3.36.2 Fix JS error when settings aren't loaded.
 	 */
 	LLMS.Tracking = function( settings ) {
 	
@@ -1840,9 +1841,11 @@ var LLMS = window.LLMS || {};
 		 * Add an event.
 		 *
 		 * @since 3.36.0
+		 * @since 3.36.2 Fix error when settings aren't loaded.
 		 *
 		 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 		 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
+		 * @return {void}
 		 */
 		this.addEvent = function( event, args ) {
 	
@@ -1852,7 +1855,7 @@ var LLMS = window.LLMS || {};
 			}
 	
 			// If the event isn't registered in the settings don't proceed.
-			if ( -1 === settings.events.indexOf( args.event ) ) {
+			if ( !settings.events || -1 === settings.events.indexOf( args.event ) ) {
 				return;
 			}
 	

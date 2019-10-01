@@ -1,6 +1,36 @@
 LifterLMS Changelog
 ===================
 
+v3.36.2 - 2019-10-01
+--------------------
+
+##### Updates
+
++ Tested to WordPress 5.3.0-beta.2
++ Upgrade UI on student course reporting screens.
++ Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
++ Lesson metabox "start" drip method made available only if the parent course has a start date set.
+
+##### Bugfixes
+
++ Fixed JS error when client-side event tracking settings aren't loaded, thanks [@wenchen](https://github.com/wenchen)!
++ Fixed PHP warning resulting from drip the "Course Start" lesson drip settings when no course start date exists.
++ Fixed fatal error encountered when reviewing an order placed with a payment gateway that's been deactivated.
+
+##### Files Updated
+
++ assets/js/app/llms-tracking.js
++ includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php
++ includes/models/model.llms.lesson.php
++ includes/models/model.llms.student.php
++ lifterlms.php
+
+##### Templates Updated
+
++ templates/admin/post-types/order-details.php
++ templates/admin/reporting/tabs/students/courses-course.php
+
+
 v3.36.1 - 2019-09-24
 --------------------
 

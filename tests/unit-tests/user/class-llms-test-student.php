@@ -4,7 +4,7 @@
  * @group LLMS_Student
  * @since 3.5.0
  * @since 3.33.0 Add delete enrollment tests.
- * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
+ * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
  */
 class LLMS_Test_Student extends LLMS_UnitTestCase {
 
@@ -315,7 +315,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.17.0
 	 * @since 3.33.0 Add test after enrollment deletion.
-	 * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
+	 * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
 	 *
 	 * @return void
 	 */
@@ -480,7 +480,7 @@ class LLMS_Test_Student extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.25.0
 	 * @since 3.33.0 Add test after enrollment deletion.
-	 * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
+	 * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
 	 *
 	 * @return void
 	 */

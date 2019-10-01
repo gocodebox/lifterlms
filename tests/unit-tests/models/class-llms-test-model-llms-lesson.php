@@ -3,8 +3,13 @@
  * Tests for LifterLMS Lesson Model
  * @group     post_models
  * @group     lessons
- * @since     3.14.8
- * @version   3.29.0
+ *
+ * @since  3.14.8
+ * @since 3.29.0 Unknown.
+ * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
+ *               the course start date and empty course start date.
+ *               Also added `$date_delta` property to be used to test dates against current time.
+ * @version 3.36.2
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -20,6 +25,12 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 */
 	protected $post_type = 'lesson';
 
+	/**
+	 * Consider dates equal for +/- 1 min
+	 *
+	 * @var integer
+	 */
+	private $date_delta = 60;
 	/**
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
@@ -95,6 +106,15 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		   \___/   \_______/|_______/    \___/ |_______/
 	*/
 
+	/**
+	 * Test get available date.
+	 *
+	 * @since Unknown.
+	 * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
+	 *               the course start date and empty course start date.
+	 *
+	 * @return void
+	 */
 	public function test_get_available_date() {
 
 		$format = 'Y-m-d';
@@ -107,7 +127,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		wp_set_current_user( $student->get_id() );
 		$student->enroll( $course_id );
 
-		// no drip settings, lesson is currently available
+		// no drip settings, lesson is currently available.
 		$this->assertEquals( current_time( $format ), $lesson->get_available_date( $format ) );
 
 		$lesson->set( 'drip_method', 'date' );
@@ -137,6 +157,12 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$lesson->set( 'days_before_available', '3' );
 		$this->assertEquals( $student->get_completion_date( $prereq_id, 'U' ) + ( DAY_IN_SECONDS * 3 ), $lesson->get_available_date( 'U' ) );
 
+		// check lesson immediately available if set to be available after 3 days ofter a course start date which is empty.
+		$lesson->set( 'drip_method', 'start' );
+		$lesson->set( 'days_before_available', '3' );
+		$course->set( 'start_date', '' );
+		$this->assertEquals( current_time( 'timestamp' ), $lesson->get_available_date( 'U' ), '', $this->date_delta );
+
 	}
 
 	public function test_get_course() {
@@ -144,10 +170,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
 		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
 
-		// returns a course when everything's okay
+		// returns a course when everything's okay.
 		$this->assertTrue( is_a( $lesson->get_course(), 'LLMS_Course' ) );
 
-		// course trashed / doesn't exist, returns null
+		// course trashed / doesn't exist, returns null.
 		wp_delete_post( $course->get( 'id' ), true );
 		$this->assertNull( $lesson->get_course() );
 

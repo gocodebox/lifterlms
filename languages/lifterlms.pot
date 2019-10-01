@@ -338,7 +338,7 @@ msgstr ""
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:359, includes/class.llms.post-types.php:351, includes/admin/class.llms.admin.builder.php:838, includes/models/model.llms.lesson.php:380, includes/admin/views/builder/elements.php:22
+#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:359, includes/class.llms.post-types.php:351, includes/admin/class.llms.admin.builder.php:838, includes/models/model.llms.lesson.php:391, includes/admin/views/builder/elements.php:22
 msgid "New Lesson"
 msgstr ""
 
@@ -406,7 +406,7 @@ msgstr ""
 msgid "Audio Embed URL"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:139, includes/class.llms.l10n.js.php:343, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:90, includes/admin/views/builder/lesson.php:129
+#: includes/class.llms.l10n.js.php:139, includes/class.llms.l10n.js.php:343, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:98, includes/admin/views/builder/lesson.php:129
 msgid "Free Lesson"
 msgstr ""
 
@@ -442,7 +442,7 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:148, includes/class.llms.l10n.js.php:352, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:52
+#: includes/class.llms.l10n.js.php:148, includes/class.llms.l10n.js.php:352, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:54
 msgid "On a specific date"
 msgstr ""
 
@@ -1245,7 +1245,7 @@ msgstr ""
 msgid "Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:386, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:53, includes/functions/llms.functions.templates.dashboard.php:507, includes/notifications/views/class.llms.notification.view.quiz.graded.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:197, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:167, includes/admin/reporting/tables/llms.table.student.course.php:263, includes/admin/views/builder/editor.php:28
+#: includes/class.llms.post-types.php:386, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:53, includes/functions/llms.functions.templates.dashboard.php:507, includes/notifications/views/class.llms.notification.view.quiz.graded.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:197, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:175, includes/admin/reporting/tables/llms.table.student.course.php:263, includes/admin/views/builder/editor.php:28
 msgid "Quiz"
 msgstr ""
 
@@ -2890,7 +2890,7 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:56, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:98, includes/functions/llms.functions.templates.dashboard.php:508, includes/privacy/class-llms-privacy-exporters.php:218, includes/privacy/class-llms-privacy-exporters.php:310, templates/myaccount/my-grades-single.php:27, templates/myaccount/my-grades.php:22, includes/notifications/views/class.llms.notification.view.quiz.graded.php:82, includes/notifications/views/class.llms.notification.view.quiz.graded.php:145, includes/admin/post-types/tables/class.llms.table.student.management.php:399, includes/admin/reporting/tables/llms.table.course.students.php:434, includes/admin/reporting/tables/llms.table.quiz.attempts.php:284, includes/admin/reporting/tables/llms.table.student.course.php:266, includes/admin/reporting/tables/llms.table.student.courses.php:230, includes/admin/reporting/tables/llms.table.students.php:610, templates/admin/reporting/tabs/quizzes/attempt.php:48
+#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:56, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:98, includes/functions/llms.functions.templates.dashboard.php:508, includes/privacy/class-llms-privacy-exporters.php:218, includes/privacy/class-llms-privacy-exporters.php:310, templates/myaccount/my-grades-single.php:27, templates/myaccount/my-grades.php:22, includes/notifications/views/class.llms.notification.view.quiz.graded.php:82, includes/notifications/views/class.llms.notification.view.quiz.graded.php:145, includes/admin/post-types/tables/class.llms.table.student.management.php:399, includes/admin/reporting/tables/llms.table.course.students.php:434, includes/admin/reporting/tables/llms.table.quiz.attempts.php:284, includes/admin/reporting/tables/llms.table.student.course.php:266, includes/admin/reporting/tables/llms.table.student.courses.php:230, includes/admin/reporting/tables/llms.table.students.php:610, templates/admin/reporting/tabs/quizzes/attempt.php:48, templates/admin/reporting/tabs/students/courses-course.php:121
 msgid "Grade"
 msgstr ""
 
@@ -5649,7 +5649,7 @@ msgstr ""
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:506, templates/admin/reporting/tabs/students/courses-course.php:68
+#: includes/functions/llms.functions.templates.dashboard.php:506
 msgid "Completion Date"
 msgstr ""
 
@@ -5781,7 +5781,7 @@ msgid_plural "days"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/models/model.llms.access.plan.php:402, includes/models/model.llms.lesson.php:301
+#: includes/models/model.llms.access.plan.php:402, includes/models/model.llms.lesson.php:312
 msgid "FREE"
 msgstr ""
 
@@ -5977,12 +5977,12 @@ msgstr ""
 msgid "Awaiting review"
 msgstr ""
 
-#: includes/models/model.llms.student.php:727
+#: includes/models/model.llms.student.php:728
 msgctxt "Grade to display when no quizzes taken or available"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.student.php:829
+#: includes/models/model.llms.student.php:830
 msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
@@ -6123,19 +6123,19 @@ msgstr ""
 msgid "%s Title"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy-exporters.php:188, templates/admin/reporting/tabs/students/courses-course.php:38
+#: includes/privacy/class-llms-privacy-exporters.php:188, templates/admin/reporting/tabs/students/courses-course.php:86
 msgid "Enrollment Status"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy-exporters.php:193, templates/myaccount/my-grades-single.php:32, templates/myaccount/my-grades.php:20, templates/admin/reporting/tabs/students/courses-course.php:60
+#: includes/privacy/class-llms-privacy-exporters.php:193, templates/myaccount/my-grades-single.php:32, templates/myaccount/my-grades.php:20, templates/admin/reporting/tabs/students/courses-course.php:74
 msgid "Enrollment Date"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy-exporters.php:200, templates/myaccount/my-grades-single.php:41, templates/admin/reporting/tabs/students/courses-course.php:71
+#: includes/privacy/class-llms-privacy-exporters.php:200, templates/myaccount/my-grades-single.php:41
 msgid "Last Activity"
 msgstr ""
 
-#: includes/privacy/class-llms-privacy-exporters.php:209, templates/myaccount/my-grades-single.php:22, templates/myaccount/my-grades.php:21, includes/admin/post-types/tables/class.llms.table.student.management.php:395, includes/admin/reporting/tables/llms.table.course.students.php:429, includes/admin/reporting/tables/llms.table.student.courses.php:233, includes/admin/reporting/tables/llms.table.students.php:605, templates/admin/reporting/tabs/students/courses-course.php:45
+#: includes/privacy/class-llms-privacy-exporters.php:209, templates/myaccount/my-grades-single.php:22, templates/myaccount/my-grades.php:21, includes/admin/post-types/tables/class.llms.table.student.management.php:395, includes/admin/reporting/tables/llms.table.course.students.php:429, includes/admin/reporting/tables/llms.table.student.courses.php:233, includes/admin/reporting/tables/llms.table.students.php:605, templates/admin/reporting/tabs/students/courses-course.php:109
 msgid "Progress"
 msgstr ""
 
@@ -6742,7 +6742,7 @@ msgstr ""
 msgid "Amount"
 msgstr ""
 
-#: templates/myaccount/view-order-transactions.php:24, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:133
+#: templates/myaccount/view-order-transactions.php:24, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:141
 msgid "Method"
 msgstr ""
 
@@ -6762,7 +6762,7 @@ msgstr ""
 msgid "Trial Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:74, templates/myaccount/view-order.php:118, templates/admin/post-types/order-details.php:113, templates/admin/post-types/order-details.php:158
+#: templates/myaccount/view-order.php:74, templates/myaccount/view-order.php:118, templates/admin/post-types/order-details.php:115, templates/admin/post-types/order-details.php:160
 msgid "for %1$d %2$s"
 msgid_plural "for %1$d %2$ss"
 msgstr[0] ""
@@ -6776,13 +6776,13 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: templates/myaccount/view-order.php:114, templates/admin/post-types/order-details.php:151
+#: templates/myaccount/view-order.php:114, templates/admin/post-types/order-details.php:153
 msgid "Every %2$s"
 msgid_plural "Every %1$d %2$ss"
 msgstr[0] ""
 msgstr[1] ""
 
-#: templates/myaccount/view-order.php:121, templates/admin/post-types/order-details.php:161, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:143
+#: templates/myaccount/view-order.php:121, templates/admin/post-types/order-details.php:163, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:143
 msgid "One-time"
 msgstr ""
 
@@ -6878,7 +6878,7 @@ msgstr ""
 msgid "Correct Answers: %1$d / %2$d"
 msgstr ""
 
-#: templates/quiz/results-attempt.php:31, templates/admin/reporting/tabs/students/courses-course.php:84
+#: templates/quiz/results-attempt.php:31
 msgid "Completed: %s"
 msgstr ""
 
@@ -7659,7 +7659,7 @@ msgstr ""
 msgid "Enabling this will override the above dimension settings and set the image dimensions to match the dimensions of the uploaded image."
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:20, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:125, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:66, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:59
+#: includes/admin/settings/class.llms.settings.general.php:20, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:125, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:74, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:59
 msgid "General"
 msgstr ""
 
@@ -8129,7 +8129,7 @@ msgstr ""
 msgid "Sign in to your account and %1$spay now%2$s."
 msgstr ""
 
-#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:94, includes/notifications/views/class.llms.notification.view.payment.retry.php:94, templates/admin/post-types/order-details.php:33
+#: includes/notifications/views/class.llms.notification.view.manual.payment.due.php:94, includes/notifications/views/class.llms.notification.view.payment.retry.php:94, templates/admin/post-types/order-details.php:35
 msgid "Order #%s"
 msgstr ""
 
@@ -8431,79 +8431,79 @@ msgstr ""
 msgid "Enable Automatic Payments"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:27
+#: templates/admin/post-types/order-details.php:29
 msgid "This order was processed in the gateway's testing mode"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:34
+#: templates/admin/post-types/order-details.php:36
 msgid "Processed by %s"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:52
+#: templates/admin/post-types/order-details.php:54
 msgid "Access Plan Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:55, templates/admin/post-types/order-details.php:74, templates/admin/post-types/order-details.php:232
+#: templates/admin/post-types/order-details.php:57, templates/admin/post-types/order-details.php:76, templates/admin/post-types/order-details.php:234
 msgid "Name:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:61, templates/admin/post-types/order-details.php:80
+#: templates/admin/post-types/order-details.php:63, templates/admin/post-types/order-details.php:82
 msgid "SKU:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:71
+#: templates/admin/post-types/order-details.php:73
 msgid "Product Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:94
+#: templates/admin/post-types/order-details.php:96
 msgid "Trial Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:98, templates/admin/post-types/order-details.php:122
+#: templates/admin/post-types/order-details.php:100, templates/admin/post-types/order-details.php:124
 msgid "Original Total:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:103, templates/admin/post-types/order-details.php:136
+#: templates/admin/post-types/order-details.php:105, templates/admin/post-types/order-details.php:138
 msgid "Coupon Discount:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:111, templates/admin/post-types/order-details.php:145
+#: templates/admin/post-types/order-details.php:113, templates/admin/post-types/order-details.php:147
 msgid "Total:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:118
+#: templates/admin/post-types/order-details.php:120
 msgid "Payment Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:128
+#: templates/admin/post-types/order-details.php:130
 msgid "Sale Discount:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:173
+#: templates/admin/post-types/order-details.php:175
 msgid "Customer Information"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:176
+#: templates/admin/post-types/order-details.php:178
 msgid "Buyer Name:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:185
+#: templates/admin/post-types/order-details.php:187
 msgid "Buyer Email:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:191
+#: templates/admin/post-types/order-details.php:193
 msgid "Buyer Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:205
+#: templates/admin/post-types/order-details.php:207
 msgid "Buyer Phone:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:212
+#: templates/admin/post-types/order-details.php:214
 msgid "Buyer IP Address:"
 msgstr ""
 
-#: templates/admin/post-types/order-details.php:229
+#: templates/admin/post-types/order-details.php:231
 msgid "Gateway Information"
 msgstr ""
 
@@ -8745,7 +8745,8 @@ msgstr ""
 msgid "This lesson is not attached to a course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:129
+#. translators: %s = Course title.
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:129, templates/admin/reporting/tabs/students/courses-course.php:39
 msgid "Course: %s"
 msgstr ""
 
@@ -8809,7 +8810,7 @@ msgstr ""
 msgid "Featured Video"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:151, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:70
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:151, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:78
 msgid "Paste the url for a Wistia, Vimeo or Youtube video or a hosted video file. For a full list of supported providers see %s."
 msgstr ""
 
@@ -8825,7 +8826,7 @@ msgstr ""
 msgid "Featured Audio"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:166, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:78
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:166, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:86
 msgid "Paste the url for a SoundCloud or Spotify song or a hosted audio file. For a full list of supported providers see %s."
 msgstr ""
 
@@ -8921,7 +8922,7 @@ msgstr ""
 msgid "Course Closed Message"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:290, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:105
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:290, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:113
 msgid "Enable Prerequisite"
 msgstr ""
 
@@ -9085,79 +9086,79 @@ msgstr ""
 msgid "Visibility"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:30
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:31
 msgid "Lesson Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:53
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:55
 msgid "After course enrollment"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:54
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:56
 msgid "After course start date"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:61
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:63
 msgid "After prerequisite completion"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:73
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:81
 msgid "Video Embed Url"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:82
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:90
 msgid "Audio Embed Url"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:86
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:94
 msgid "Checking this box will allow guests to view the content of this lesson without registering or signing up for the course."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:97
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:105
 msgid "Prerequisites"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:102
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:110
 msgid "Enable to choose a prerequisite Lesson"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:113
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:121
 msgid "Select a Prerequisite Lesson"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:116
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:124
 msgid "Select the prerequisite lesson"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:119
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:127
 msgid "Choose Prerequisite"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:126
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:134
 msgid "Drip Settings"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:142
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:150
 msgid "Delay (in days) "
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:152
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:160
 msgid "Date Available"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:159
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:167
 msgid "Optionally enter a time when the lesson should become available. If no time supplied, lesson will be available at 12:00 AM. Format must be HH:MM AM"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:161
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:169
 msgid "Time Available"
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:172
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:180
 msgid "Checking this box will require students to get a passing score on the above quiz to complete the lesson."
 msgstr ""
 
-#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:175
+#: includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:183
 msgid "Require Passing Grade"
 msgstr ""
 
@@ -10706,16 +10707,20 @@ msgstr ""
 msgid "Quiz events coming soon..."
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:52
-msgid "Current Grade"
+#: templates/admin/reporting/tabs/students/courses-course.php:44
+msgid "Edit course"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:82
-msgid "Progress: %s"
+#: templates/admin/reporting/tabs/students/courses-course.php:57
+msgid "View course reports"
 msgstr ""
 
-#: templates/admin/reporting/tabs/students/courses-course.php:83
-msgid "Grade: %s"
+#: templates/admin/reporting/tabs/students/courses-course.php:98
+msgid "Completed Date"
+msgstr ""
+
+#: templates/admin/reporting/tabs/students/courses-course.php:98
+msgid "Last Activity Date"
 msgstr ""
 
 #: templates/admin/reporting/tabs/students/information.php:39
