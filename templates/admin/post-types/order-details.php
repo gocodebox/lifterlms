@@ -6,8 +6,8 @@
  *
  * @since 3.0.0
  * @since 3.18.0 Unknown.
- * @since [version] Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
- * @version [version]
+ * @since 3.36.2 Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
+ * @version 3.36.2
  */
 
 defined( 'ABSPATH' ) || exit;

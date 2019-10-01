@@ -6,10 +6,10 @@
  *
  * @since Unknown
  * @since 3.35.0 Access `$_GET` data via `llms_filter_input()`.
- * @since [version] Upgrade UI to utilize reporting widgets.
+ * @since 3.36.2 Upgrade UI to utilize reporting widgets.
  *               Add edit link tooltip and update icon.
  *               Add a link to view full course reporting screen.
- * @version [version]
+ * @version 3.36.2
  */
 
 defined( 'ABSPATH' ) || exit;

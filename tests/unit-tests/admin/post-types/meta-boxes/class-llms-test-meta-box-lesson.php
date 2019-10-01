@@ -8,15 +8,15 @@
  * @group admin
  * @group metaboxes
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.2
+ * @version 3.36.2
  */
 class LLMS_Test_Meta_Box_Lesson extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Setup test
 	 *
-	 * @since [version]
+	 * @since 3.36.2
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Meta_Box_Lesson extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test get fields.
 	 *
-	 * @since [version]
+	 * @since 3.36.2
 	 *
 	 * @return void
 	 */

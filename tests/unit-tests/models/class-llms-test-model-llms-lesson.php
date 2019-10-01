@@ -6,10 +6,10 @@
  *
  * @since  3.14.8
  * @since 3.29.0 Unknown.
- * @since [version] Added tests on lesson's availability with drip method set as 3 days after
+ * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
  *               the course start date and empty course start date.
  *               Also added `$date_delta` property to be used to test dates against current time.
- * @version [version]
+ * @version 3.36.2
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -110,7 +110,7 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * Test get available date.
 	 *
 	 * @since Unknown.
-	 * @since [version] Added tests on lesson's availability with drip method set as 3 days after
+	 * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
 	 *               the course start date and empty course start date.
 	 *
 	 * @return void

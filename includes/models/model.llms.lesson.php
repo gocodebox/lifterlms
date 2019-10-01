@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.36.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.29.0 Unknown.
- * @since [version] When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
+ * @since 3.36.2 When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
  *
  * @property $audio_embed (string) Audio embed URL
  * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
@@ -101,7 +101,7 @@ implements LLMS_Interface_Post_Audio
 	 * If there are no drip settings, the published date of the element will be returned.
 	 *
 	 * @since 3.16.0
-	 * @since [version] Add available number of days to the course start date only if there's a course start date.
+	 * @since 3.36.2 Add available number of days to the course start date only if there's a course start date.
 	 *
 	 * @param  string $format Date format (passed to date_i18n()) (defaults to WP Core date + time formats)
 	 * @return string

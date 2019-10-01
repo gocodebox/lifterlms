@@ -5,7 +5,7 @@
  * @group LLMS_Student_Model
  *
  * @since 3.33.0
- * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
+ * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
  *
  * @version [vrsion]
  */
@@ -117,7 +117,7 @@ class LLMS_Test_LLMS_Student extends LLMS_UnitTestCase {
 	 * Functional test for the delete_enrollment() method.
 	 *
 	 * @since 3.33.0
-	 * @since [version] Added tests on membership enrollment with related courses enrollments deletion.
+	 * @since 3.36.2 Added tests on membership enrollment with related courses enrollments deletion.
 	 * @see user/class-llms-test-student.php for integration tests.
 	 *
 	 * @return void
