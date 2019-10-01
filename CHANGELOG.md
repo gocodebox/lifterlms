@@ -16,7 +16,6 @@ v3.36.2 - 2019-10-01
 + Fixed PHP warning resulting from drip the "Course Start" lesson drip settings when no course start date exists.
 + Fixed fatal error encountered when reviewing an order placed with a payment gateway that's been deactivated.
 
-
 ##### Files Updated
 
 + assets/js/app/llms-tracking.js

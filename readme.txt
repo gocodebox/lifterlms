@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.2.3
-Stable tag: 3.36.1
+Stable tag: 3.36.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -500,6 +500,35 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.36.2 - 2019-10-01 =
+------------------------
+
+##### Updates
+
++ Upgrade UI on student course reporting screens.
++ Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
++ Lesson metabox "start" drip method made available only if the parent course has a start date set.
+
+##### Bugfixes
+
++ Fixed JS error when client-side event tracking settings aren't loaded, thanks [@wenchen](https://github.com/wenchen)!
++ Fixed PHP warning resulting from drip the "Course Start" lesson drip settings when no course start date exists.
++ Fixed fatal error encountered when reviewing an order placed with a payment gateway that's been deactivated.
+
+##### Files Updated
+
++ assets/js/app/llms-tracking.js
++ includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php
++ includes/models/model.llms.lesson.php
++ includes/models/model.llms.student.php
++ lifterlms.php
+
+##### Templates Updated
+
++ templates/admin/post-types/order-details.php
++ templates/admin/reporting/tabs/students/courses-course.php
+
+
 = v3.36.1 - 2019-09-24 =
 ------------------------
 
@@ -659,33 +688,5 @@ The following unused classes have been marked as deprecated and will be removed 
 + Returns a 400 Bad Request when invalid dates are supplied.
 + Student Enrollment objects return student and post id's as integers instead of strings.
 + Fixed references to an undefined function.
-
-
-= v3.34.1 - 2019-08-19 =
-------------------------
-
-+ Update LifterLMS REST to v1.0.0-beta.3
-
-##### Interface and Experience improvements during API Key creation
-
-+ Better expose that API Keys are never shown again after the initial creation.
-+ Allow downloading of API Credentials as a `.txt` file.
-+ Add `required` properties to required fields.
-
-##### Updates
-
-+ Added the ability to CRUD webhooks via the REST API.
-+ Conditionally throw `_doing_it_wrong` on server controller stubs.
-+ Improve performance by returning early when errors are encountered for various methods.
-+ Utilizes a new custom property `show_in_llms_rest` to determine if taxonomies should be displayed in the LifterLMS REST API.
-+ On the webhooks table the "Delivery URL" is trimmed to 40 characters to improve table readability.
-
-##### Bug fixes
-
-+ Fixed a formatting error when creating webhooks with the default auto-generated webhook name.
-+ On the webhooks table a translatable string is output for the status instead of the database value.
-+ Fix an issue causing the "Last" page pagination link to display for lists with 0 possible results.
-+ Don't output the "Last" page pagination link on the last page.
-
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
