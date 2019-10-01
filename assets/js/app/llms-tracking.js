@@ -4,6 +4,7 @@
  * User event/interaction tracking.
  *
  * @since 3.36.0
+ * @since [version] Fix JS error when settings aren't loaded.
  */
 LLMS.Tracking = function( settings ) {
 
@@ -37,9 +38,11 @@ LLMS.Tracking = function( settings ) {
 	 * Add an event.
 	 *
 	 * @since 3.36.0
+	 * @since [version] Fix error when settings aren't loaded.
 	 *
 	 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 	 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
+	 * @return {void}
 	 */
 	this.addEvent = function( event, args ) {
 
