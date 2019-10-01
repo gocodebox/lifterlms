@@ -291,6 +291,7 @@ final class LifterLMS {
 			require_once 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
 		}
 
+		require_once 'includes/class-llms-form-field.php';
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
 		require_once 'includes/class.llms.session.php';
@@ -456,6 +457,7 @@ final class LifterLMS {
 
 		}
 
+		require_once 'includes/class-llms-customizer.php';
 		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class-llms-events.php';
 		require_once 'includes/class-llms-events-core.php';
