@@ -5,14 +5,16 @@
  * @package LifterLMS/Templates/Admin
  *
  * @since 3.0.0
- * @version 3.18.0
+ * @since 3.18.0 Unknown.
+ * @since [version] Prevent fatal error when reviewing an order placed with a payment gateway that's been deactivated.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 is_admin() || exit;
 
-// used to allow admins to switch payment gateways
+// Used to allow admins to switch payment gateways.
 $gateway_feature           = $order->is_recurring() ? 'recurring_payments' : 'single_payments';
 $switchable_gateways       = array();
 $switchable_gateway_fields = array();
@@ -233,14 +235,18 @@ foreach ( LLMS()->payment_gateways()->get_supporting_gateways( $gateway_feature 
 				<?php echo is_wp_error( $gateway ) ? $order->get( 'payment_gateway' ) : $gateway->get_admin_title(); ?>
 			</div>
 
-			<?php foreach ( $gateway->get_admin_order_fields() as $field => $data ) : ?>
+			<?php if ( ! is_wp_error( $gateway ) ) : ?>
 
-				<div class="llms-metabox-field d-1of4"<?php echo ! $data['enabled'] ? ' style="display:none;"' : ' '; ?>data-llms-editable="<?php echo $data['name']; ?>" data-llms-editable-required="yes" data-llms-editable-type="text" data-llms-editable-value="<?php echo $order->get( $data['name'] ); ?>">
-					<label><?php echo $data['label']; ?></label>
-					<?php echo $gateway->get_item_link( $field, $order->get( $data['name'] ), $order->get( 'gateway_api_mode' ) ); ?>
-				</div>
+				<?php foreach ( $gateway->get_admin_order_fields() as $field => $data ) : ?>
 
-			<?php endforeach; ?>
+					<div class="llms-metabox-field d-1of4"<?php echo ! $data['enabled'] ? ' style="display:none;"' : ' '; ?>data-llms-editable="<?php echo $data['name']; ?>" data-llms-editable-required="yes" data-llms-editable-type="text" data-llms-editable-value="<?php echo $order->get( $data['name'] ); ?>">
+						<label><?php echo $data['label']; ?></label>
+						<?php echo $gateway->get_item_link( $field, $order->get( $data['name'] ), $order->get( 'gateway_api_mode' ) ); ?>
+					</div>
+
+				<?php endforeach; ?>
+
+			<?php endif; ?>
 
 			<?php do_action( 'lifterlms_order_meta_box_after_gateway_information', $order ); ?>
 
