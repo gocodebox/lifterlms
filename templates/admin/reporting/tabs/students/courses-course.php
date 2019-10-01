@@ -43,8 +43,17 @@ $table->get_results(
 						$course->get( 'id' ),
 						'<span class="tip--top-right" data-tip="' . esc_attr__( 'Edit course', 'lifterlms' ) . '"><i class="fa fa-pencil" aria-hidden="true"></i></span>'
 					);
+					?>
+				<a href="
+				<?php
+				echo LLMS_Admin_Reporting::get_current_tab_url(
+					array(
+						'tab'       => 'courses',
+						'course_id' => $course_id,
+					)
+				);
 				?>
-				<a href="<?php echo LLMS_Admin_Reporting::get_current_tab_url( array( 'tab' => 'courses', 'course_id' => $course_id ) ); ?>">
+				">
 					<span class="tip--top-right" data-tip="<?php esc_attr_e( 'View course reports', 'lifterlms' ); ?>">
 						<i class="fa fa-pie-chart" aria-hidden="true"></i>
 					</span>
