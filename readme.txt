@@ -4,7 +4,7 @@ Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 7.2
-Tested up to: 5.2.3
+Tested up to: 5.3.0
 Stable tag: 3.36.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -505,6 +505,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 ##### Updates
 
++ Tested to WordPress 5.3.0-beta.2
 + Upgrade UI on student course reporting screens.
 + Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
 + Lesson metabox "start" drip method made available only if the parent course has a start date set.

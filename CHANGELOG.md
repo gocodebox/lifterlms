@@ -6,6 +6,7 @@ v3.36.2 - 2019-10-01
 
 ##### Updates
 
++ Tested to WordPress 5.3.0-beta.2
 + Upgrade UI on student course reporting screens.
 + Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
 + Lesson metabox "start" drip method made available only if the parent course has a start date set.
