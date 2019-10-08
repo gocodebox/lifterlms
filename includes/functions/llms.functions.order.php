@@ -297,6 +297,7 @@ function llms_setup_pending_order( $data = array() ) {
 		$err->add(
 			'already-enrolled',
 			sprintf(
+				// Translators: %2$s = The product type (course/membership); %1$s = product permalink.
 				__( 'You already have access to this %2$s! Visit your dashboard <a href="%1$s">here.</a>', 'lifterlms' ),
 				llms_get_page_url( 'myaccount' ),
 				$product->get_post_type_label()
