@@ -27,16 +27,16 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * @var array
 	 */
 	private $user_info = array(
-		'email_address'             => 'help+23568@lifterlms.com',
-		'email_address_confirm'     => 'help+23568@lifterlms.com',
-		'first_name'                => 'Marshall',
-		'last_name'                 => 'Pate',
-		'llms_billing_address_1'    => 'Voluptatem',
-		'llms_billing_address_2'    => '#12345',
-		'llms_billing_city'         => 'Harum est dolorum sed vel perspiciatis consequatur dignissimos possimus delectus quos optio omnis error quas rem dicta et consectetur odio',
-		'llms_billing_state'        => 'Esse ea est dolore sed sunt ipsum a ut nemo dolorem aut aliquam cillum asperiores minim culpa',
-		'llms_billing_zip'          => '72995',
-		'llms_billing_country'      => 'US',
+		'email_address'          => 'help+23568@lifterlms.com',
+		'email_address_confirm'  => 'help+23568@lifterlms.com',
+		'first_name'             => 'Marshall',
+		'last_name'              => 'Pate',
+		'llms_billing_address_1' => 'Voluptatem',
+		'llms_billing_address_2' => '#12345',
+		'llms_billing_city'      => 'Harum est dolorum sed vel perspiciatis consequatur dignissimos possimus delectus quos optio omnis error quas rem dicta et consectetur odio',
+		'llms_billing_state'     => 'Esse ea est dolore sed sunt ipsum a ut nemo dolorem aut aliquam cillum asperiores minim culpa',
+		'llms_billing_zip'       => '72995',
+		'llms_billing_country'   => 'US',
 	);
 
 	/**
