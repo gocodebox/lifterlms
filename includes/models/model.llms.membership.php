@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  3.30.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
  * @since 3.32.0 Added `get_student_count()` method.
+ * @since [version] Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -101,6 +102,18 @@ implements LLMS_Interface_Post_Instructors
 			$courses = $this->get( 'auto_enroll' );
 		}
 		return apply_filters( 'llms_membership_get_auto_enroll_courses', $courses, $this );
+	}
+
+	/**
+	 * Retrieve membership categories.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $args Array of args passed to `wp_get_post_terms()`.
+	 * @return array
+	 */
+	public function get_categories( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'membership_cat', $args );
 	}
 
 	/**
@@ -199,6 +212,18 @@ implements LLMS_Interface_Post_Instructors
 	}
 
 	/**
+	 * Retrieve membership tags.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $args Array of args passed to `wp_get_post_terms()`.
+	 * @return array
+	 */
+	public function get_tags( $args = array() ) {
+		return wp_get_post_terms( $this->get( 'id' ), 'membership_tag', $args );
+	}
+
+	/**
 	 * Determine if sales page redirection is enabled
 	 *
 	 * @return   string
@@ -235,4 +260,29 @@ implements LLMS_Interface_Post_Instructors
 
 	}
 
+	/**
+	 * Add data to the membership model when converted to array.
+	 *
+	 * Called before data is sorted and returned by `$this->jsonSerialize()`.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $arr Data to be serialized.
+	 * @return array
+	 */
+	public function toArrayAfter( $arr ) {
+		$arr['categories'] = $this->get_categories(
+			array(
+				'fields' => 'names',
+			)
+		);
+
+		$arr['tags'] = $this->get_tags(
+			array(
+				'fields' => 'names',
+			)
+		);
+
+		return $arr;
+	}
 }
