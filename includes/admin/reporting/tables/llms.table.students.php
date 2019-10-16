@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.2.0
- * @version 3.37.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.2.0
  * @since 3.28.0 Unknown.
- * @since 3.31.0 Allow filtering the table by Course or Membership
+ * @since 3.31.0 Allow filtering the table by Course or Membership.
  * @since 3.36.0 Add "Last Seen" column.
  * @since 3.36.1 Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
  * @since 3.37.2 The post filter on the students table now limits post results based on instructor access.
@@ -99,7 +99,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	protected $per_page = 25;
 
 	/**
-	 * Retrieve data for the columns
+	 * Retrieve data for the columns.
 	 *
 	 * @since 3.2.0
 	 * @since 3.15.0 Unknown.
@@ -108,9 +108,9 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since [version] When retrieving the "Last Seen" column's value, instantiate the events query passing `no_found_rows` arg as `true`,
 	 *               to improve .
 	 *
-	 * @param    string $key        the column id / key
-	 * @param    obj    $student    Instance of the LLMS_Student
-	 * @return   mixed
+	 * @param  string $key     The column id / key
+	 * @param  obj    $student Instance of the LLMS_Student
+	 * @return mixed
 	 */
 	public function get_data( $key, $student ) {
 
@@ -243,14 +243,15 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve data for a cell in an export file
-	 * Should be overridden in extending classes
+	 * Retrieve data for a cell in an export file.
+	 * Should be overridden in extending classes.
 	 *
-	 * @param    string $key        the column id / key
-	 * @param    obj    $student    Instance of the LLMS_Student
-	 * @return   mixed
-	 * @since    3.15.0
-	 * @version  3.26.1
+	 * @since 3.15.0
+	 * @since 3.26.1 Unknown.
+	 *
+	 * @param  string $key     The column id / key.
+	 * @param  obj    $student Instance of the LLMS_Student.
+	 * @return mixed
 	 */
 	public function get_export_data( $key, $student ) {
 
@@ -339,11 +340,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Get the Text to be used as the placeholder in a searchable tables search input
+	 * Get the Text to be used as the placeholder in a searchable tables search input.
 	 *
-	 * @return   string
-	 * @since    3.2.0
-	 * @version  3.15.0
+	 * @since 3.2.0
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_table_search_form_placeholder() {
 		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search students by name or email...', 'lifterlms' ) );
@@ -385,7 +387,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Retrieve an array of query arguments to pass to the LLMS_Student_Query
+	 * Retrieve an array of query arguments to pass to the LLMS_Student_Query.
 	 *
 	 * @since 3.28.0
 	 * @since 3.31.0 Added logic to setup the query args in order to allow the filtering by Course or Membership.
@@ -421,12 +423,13 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Execute a query to retrieve results from the table
+	 * Execute a query to retrieve results from the table.
 	 *
-	 * @param    array $args  array of query args
-	 * @return   void
-	 * @since    3.2.0
-	 * @version  3.28.0
+	 * @since 3.2.0
+	 * @since 3.28.0 Unknown.
+	 *
+	 * @param array $args Array of query args.
+	 * @return void
 	 */
 	public function get_results( $args = array() ) {
 
@@ -461,11 +464,11 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Setup the array of sort arguments to pass to the LLMS_Student_Query for the table
+	 * Setup the array of sort arguments to pass to the LLMS_Student_Query for the table.
 	 *
-	 * @return  array
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 *
+	 * @return array
 	 */
 	private function get_sort() {
 
@@ -525,8 +528,8 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.28.0
 	 * @since 3.31.0 Added logic to parse 'filterby' and 'filter' args when this table is filterable.
 	 *
-	 * @param   array $args array of arguments.
-	 * @return  void
+	 * @param array $args Array of arguments.
+	 * @return void
 	 */
 	protected function parse_args( $args = array() ) {
 
@@ -557,11 +560,12 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Define the structure of arguments used to pass to the get_results method
+	 * Define the structure of arguments used to pass to the get_results method.
 	 *
-	 * @return   array
-	 * @since    2.3.0
-	 * @version  3.28.0
+	 * @since 2.3.0
+	 * @since 3.28.0 Unknown.
+	 *
+	 * @return array
 	 */
 	public function set_args() {
 		return array(
@@ -576,7 +580,7 @@ class LLMS_Table_Students extends LLMS_Admin_Table {
 	 * @since 3.15.0 Unknown.
 	 * @since 3.36.0 Add "Last Seen" column.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function set_columns() {
 		return array(
