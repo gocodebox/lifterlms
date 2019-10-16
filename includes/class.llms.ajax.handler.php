@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.39.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.28.1 Unknown.
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
- * @since 3.32.0 Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
+ * @since 3.32.0 Update `select2_query_posts` to use `llms_filter_input()` and allows for querying posts by post status(es).
  * @since 3.33.0 Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
  *               Also always return either a WP_Error on failure or a "success" array on requested action performed.
  * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
@@ -266,10 +266,11 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
-	 * Handle notification display & dismissal
+	 * Handle notification display & dismissal.
 	 *
 	 * @since 3.8.0
 	 * @since 3.37.14 Use strict comparison.
+	 * @since [version] Instantiate the notification query passing `no_found_rows` arg as `true`.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array
@@ -295,6 +296,7 @@ class LLMS_AJAX_Handler {
 				'statuses'   => 'new',
 				'types'      => 'basic',
 				'subscriber' => get_current_user_id(),
+				'no_found_rows' => true,
 			)
 		);
 
