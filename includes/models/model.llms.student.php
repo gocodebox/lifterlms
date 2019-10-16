@@ -5,7 +5,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
- * @version 4.4.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1192,13 +1192,16 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	}
 
 	/**
-	 * Determine if the student has completed a course, track, or lesson
+	 * Determine if the student has completed a course, track, or lesson.
 	 *
-	 * @param    int    $object_id  WP Post ID of a course or lesson or section or the term id of the track
-	 * @param    string $type    Object type (course, lesson, section, or track)
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.24.0
+	 * @since 3.0.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] When retrieving the course completion, instantiate the user post meta query passing `no_found_rows`
+	 *               arg as `true`, to improve performance.
+	 *
+	 * @param int    $object_id WP Post ID of a course or lesson or section or the term id of the track.
+	 * @param string $type      Object type (course, lesson, section, or track).
+	 * @return boolean
 	 */
 	public function is_complete( $object_id, $type = 'course' ) {
 
@@ -1219,6 +1222,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					'user_id'               => $this->get_id(),
 					'post_id'               => $object_id,
 					'per_page'              => 1,
+					'no_found_rows'         => true,
 				)
 			);
 

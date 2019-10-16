@@ -14,7 +14,6 @@ defined( 'ABSPATH' ) || exit;
  * LifterLMS User Postmeta Query class.
  *
  * @since 3.15.0
- * @version 3.15.0
  */
 class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 
@@ -28,9 +27,10 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	/**
 	 * Retrieve default arguments for a student query
 	 *
-	 * @return   array
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since [version] Added new default arg `no_found_rows` set to false.
+	 *
+	 * @return array
 	 */
 	protected function get_default_args() {
 
@@ -45,6 +45,7 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			),
 			'types'                 => array(),
 			'user_id'               => array(),
+			'no_found_rows'         => false,
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );

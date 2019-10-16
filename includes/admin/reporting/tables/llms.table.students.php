@@ -1,6 +1,6 @@
 <?php
 /**
- * Students Reporting Table
+ * Students Reporting Table.
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
