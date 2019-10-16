@@ -5,7 +5,7 @@
  * @package LifterLMS/Processors/Classes
  *
  * @since 3.15.0
- * @version 3.26.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -42,13 +42,14 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 	private $schedule_hook = 'llms_membership_bulk_enroll';
 
 	/**
-	 * Action triggered to queue all students who need to be enrolled
+	 * Action triggered to queue all students who need to be enrolled.
 	 *
-	 * @param    int $membership_id  WP Post ID of the membership
-	 * @param    int $course_id      WP Post ID of the course to enroll members into
-	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 * @since [version] Use query method `has_results()` in place of a check on query property `found_results`.
+	 *
+	 * @param int $membership_id WP Post ID of the membership.
+	 * @param int $course_id     WP Post ID of the course to enroll members into.
+	 * @return void
 	 */
 	public function dispatch_enrollment( $membership_id, $course_id ) {
 
@@ -66,7 +67,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 		$query = new LLMS_Student_Query( $args );
 
-		if ( $query->found_results ) {
+		if ( $query->has_results() ) {
 
 			while ( $args['page'] <= $query->max_pages ) {
 
@@ -140,14 +141,16 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 	/**
 	 * Execute calculation for each item in the queue until all students
-	 * in the course have been polled
-	 * Stores the data in the postmeta table to be accessible via LLMS_Course
+	 * in the course have been polled.
+	 * Stores the data in the postmeta table to be accessible via LLMS_Course.
 	 *
-	 * @param    array $item  array of processing data
-	 * @return   boolean          true to keep the item in the queue and process again
-	 *                            false to remove the item from the queue
-	 * @since    3.15.0
-	 * @version  3.26.1
+	 * @since 3.15.0
+	 * @since 3.26.1 Unknown.
+	 * @since [version] Use query method `has_results()` in place of a check on query property `found_results`.
+	 *
+	 * @param  array $item  Array of processing data
+	 * @return boolean True to keep the item in the queue and process again.
+	 *                 False to remove the item from the queue.
 	 */
 	public function task( $item ) {
 
@@ -167,7 +170,7 @@ class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
 		$query = new LLMS_Student_Query( $item['query_args'] );
 
-		if ( $query->found_results ) {
+		if ( $query->has_results() ) {
 			foreach ( $query->get_students() as $student ) {
 				$student->enroll( $item['course_id'], $item['trigger'] );
 			}

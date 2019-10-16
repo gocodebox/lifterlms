@@ -1,14 +1,21 @@
 <?php
 /**
- * Core LifterLMS functions file
+ * Core LifterLMS functions file.
  *
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.4.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
+
+/**
+ * Core LifterLMS functions.
+ *
+ * @since 3.29.0 Unknown.
+ * @since 3.30.1 Moved order-related functions to order functions file.
+ */
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
@@ -515,16 +522,19 @@ function llms_get_product_visibility_options() {
 }
 
 /**
- * Get an array of student IDs based on enrollment status a course or membership
+ * Get an array of student IDs based on enrollment status a course or membership.
  *
- * @param    int          $post_id   WP_Post id of a course or membership
- * @param    string|array $statuses  list of enrollment statuses to query by
- *                                   status query is an OR relationship
- * @param    integer      $limit        number of results
- * @param    integer      $skip         number of results to skip (for pagination)
- * @return   array
- * @since    3.0.0
- * @version  3.8.0
+ * @since 3.0.0
+ * @since 3.8.0 Unknown.
+ * @since [version] Instantiate the student query passing `no_found_rows` arg as `true`,
+ *                  as we don't need pagination info.
+ *
+ * @param int          $post_id  WP_Post id of a course or membership.
+ * @param string|array $statuses List of enrollment statuses to query by
+ *                               status query is an OR relationship.
+ * @param integer      $limit    Number of results.
+ * @param integer      $skip     Number of results to skip (for pagination).
+ * @return array
  */
 function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
 
@@ -537,6 +547,7 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 			'sort'     => array(
 				'id' => 'ASC',
 			),
+			'no_found_rows' => true,
 		)
 	);
 
