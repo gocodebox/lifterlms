@@ -25,10 +25,9 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 	protected $id = 'user_postmeta';
 
 	/**
-	 * Retrieve default arguments for a student query
+	 * Retrieve default arguments for a student query.
 	 *
 	 * @since 3.15.0
-	 * @since [version] Added new default arg `no_found_rows` set to false.
 	 *
 	 * @return array
 	 */
@@ -45,7 +44,6 @@ class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
 			),
 			'types'                 => array(),
 			'user_id'               => array(),
-			'no_found_rows'         => false,
 		);
 
 		$args = wp_parse_args( $args, parent::get_default_args() );
