@@ -40,6 +40,17 @@ You'll see why so many people like you are starting with or switching to [Lifter
 + Enterprise Companies
 + DIY (Do It Yourselfers)
 
+# **What Types of People Use LifterLMS?**
+
+#### **1) Builders**
+The WordPress developers, designers & IT pros who build LMS websites and training portals for clients, employers & themselves
+
+#### **2) Starters**
+Do-it-yourself innovators who are looking to create high value online courses, coaching or training based membership websites
+
+#### **3) Switchers**
+People who have outgrown a  hosted platform or an incomplete WordPress stack looking for more power, control and better support
+
 # **Who Makes LifterLMS?**
 The LifterLMS team is a **diverse group of talented course creators, developers, designers, marketers and entrepreneurs**. Before developing the LifterLMS product we consulted and built custom training based membership sites for clients all over the world. It was through many years experience building high end custom WordPress LMS websites for the expert industry, that the LifterLMS project was born.
 
