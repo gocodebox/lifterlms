@@ -57,7 +57,7 @@ class LLMS_Shortcode_Checkout {
 				}
 			}
 			if ( ! $access ) {
-				llms_print_notice( 'You must be a member in order to purchase this access plan.', 'error' );
+				llms_print_notice( __( 'You must be a member in order to purchase this access plan.' ), 'error' );
 				return;
 			}
 		}
