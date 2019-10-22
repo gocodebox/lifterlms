@@ -92,9 +92,10 @@
 
 		}
 
-		.llms-payment-gateway-option {
+		.llms-form-field.llms-payment-gateway-option {
 
-			.llms-description {
+			label + span.llms-description {
+				display: inline-block;
 				margin-left: 5px;
 			}
 
