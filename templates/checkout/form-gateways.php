@@ -2,8 +2,16 @@
 /**
  * Payment Gateway selection area of the checkout form
  *
- * @author      LifterLMS
- * @package     LifterLMS/Templates
+ * @package LifterLMS/Templates/Checkout
+ *
+ * @since Unknown
+ * @since [version] Update form field to utilize "checked" attribute of "selected" and removed superfluous values.
+ * @version [version]
+ *
+ * @param LLMS_Payment_Gateway[] $gateways Array of enabled payment gateway instances.
+ * @param string $selected_gateway ID of the currently selected/default payment gateway.
+ * @param LLMS_Coupon|false $coupon Coupon currently applied to the session or `false` when none found.
+ * @param LLMS_Access_Plan $plan Access plan object.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -34,18 +42,11 @@ $supporting_gateways = 0;
 					<?php
 					llms_form_field(
 						array(
-							'columns'         => 12,
-							'classes'         => '',
 							'description'     => $gateway->get_icon(),
-							'default'         => '',
 							'id'              => 'llms_payment_gateway_' . $gateway->get_id(),
 							'label'           => $gateway->get_title(),
-							'last_column'     => true,
 							'name'            => 'llms_payment_gateway',
-							'options'         => array(),
-							'placeholder'     => '',
-							'selected'        => ( $selected_gateway === $gateway->get_id() ),
-							'required'        => false,
+							'checked'         => ( $selected_gateway === $gateway->get_id() ),
 							'type'            => 'radio',
 							'value'           => $gateway->get_id(),
 							'wrapper_classes' => 'llms-payment-gateway-option',
