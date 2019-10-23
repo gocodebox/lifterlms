@@ -28,7 +28,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	}
 
 	/**
-	 * test the LLMS_Meta_Box_Order_Enrollment save method
+	 * test the LLMS_Meta_Box_Order_Enrollment save method.
 	 *
 	 * @since 3.33.0
 	 *
@@ -36,14 +36,14 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 	 */
 	public function test_save() {
 
-		// create a real order
+		// create a real order.
 		$order = $this->get_mock_order();
 
 		$order_id   = $order->get( 'id' );
 		$product_id = $order->get( 'product_id' );
 		$student_id = $order->get( 'user_id' );
 
-		// check enroll
+		// check enroll.
 		$this->setup_post( array(
 			'llms_update_enrollment_status'      => 'Update',
 			'llms_student_old_enrollment_status' => '',
@@ -53,7 +53,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		$this->metabox->save( $order_id );
 		$this->assertTrue( llms_is_user_enrolled( $student_id, $product_id ) );
 
-		// check unenroll
+		// check unenroll.
 		$this->setup_post( array(
 			'llms_update_enrollment_status'      => 'Update',
 			'llms_student_old_enrollment_status' => 'enrolled',
@@ -63,7 +63,7 @@ class LLMS_Test_Meta_Box_Order_Enrollment extends LLMS_PostTypeMetaboxTestCase {
 		$this->metabox->save( $order_id );
 		$this->assertFalse( llms_is_user_enrolled( $student_id, $product_id ) );
 
-		// check enrollment deleted => no enrollment records + order status set to cancelled
+		// check enrollment deleted => no enrollment records + order status set to cancelled.
 		$this->setup_post( array(
 			'llms_delete_enrollment_status'      => 'Delete',
 			'llms_student_old_enrollment_status' => 'expired',

@@ -5,7 +5,7 @@
  *
  * @package LifterLMS/Models
  * @since 2.2.3
- * @version 3.36.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
  * @since 3.35.0 Prepare all variables when querying for enrollment date.
  * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
+ * @since [version] The `$enrollment_trigger` parameter was added to the `'llms_user_enrollment_deleted'` action hook.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1595,8 +1596,9 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products.
+	 * @since [version] The `$enrollment_trigger` parameter was added to the `llms_user_enrollment_deleted` action hook.
 	 *
-	 * @see llms_delete_student_enrollment() calls this function without having to instantiate the LLMS_Student class first.
+	 * @see `llms_delete_student_enrollment()` calls this function without having to instantiate the LLMS_Student class first.
 	 *
 	 * @param int    $product_id WP Post ID of the course or membership.
 	 * @param string $trigger    Optional. Only delete the student's enrollment if the original enrollment trigger matches the submitted value.
@@ -1645,8 +1647,21 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 						$this->remove_membership_level( $product_id, '', true );
 				}
 
-				// trigger action
-				do_action( 'llms_user_enrollment_deleted', $this->get_id(), $product_id );
+				$enrollment_trigger = isset( $enrollment_trigger ) ? $enrollment_trigger : $this->get_enrollment_trigger( $product_id );
+				// no enrollment trigger exists b/c pre 3.0.0 enrollment, in this case fall back on the `$trigger` param.
+				$enrollment_trigger = $enrollment_trigger ?: $trigger;
+
+				/**
+				 * Fires after an user enrollment has been deleted.
+				 *
+				 * @since 3.33.0
+				 * @since [version] The `$enrollment_trigger` parameter was added.
+				 *
+				 * @param int    $user_id             WP User ID.
+				 * @param int    $product_id          WP Post ID of the course or membership.
+				 * @param string $enrollment_trigger  The enrollment trigger.
+				 */
+				do_action( 'llms_user_enrollment_deleted', $this->get_id(), $product_id, $enrollment_trigger );
 
 				return true;
 
@@ -1797,7 +1812,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			  | $$                                                              | $$                    | $$
 		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
 		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
+		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$s$$$$  | $$    | $$$$$$$$| $$  | $$
 		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
 		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
 		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
