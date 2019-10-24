@@ -6,7 +6,7 @@
  *
  * @since 1.0.0
  * @since 3.30.1 Moved order-related functions to order functions file.
- * @since [version] Require form functions file "functions/llms-functions-forms.php".
+ * @since [version] Require form and locale functions files.
  *               Move `llms_form_field()` to the form functions file.
  * @version [version]
  */
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
 require_once 'functions/llms-functions-forms.php';
+require_once 'functions/llms-functions-locale.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
 
