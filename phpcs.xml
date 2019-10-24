@@ -15,6 +15,9 @@
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
     <exclude-pattern>includes/admin/class.llms.admin.analytics.php</exclude-pattern>
 
+    <!-- Exclude locale files that take forever to process -->
+    <exclude-pattern>languages/*.php</exclude-pattern>
+
     <!-- Exclude libs -->
 	<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 
