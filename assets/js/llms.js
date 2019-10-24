@@ -347,6 +347,323 @@ var LLMS = window.LLMS || {};
 	};
 	
 		/**
+	 * Forms
+	 *
+	 * @package LifterLMS/Scripts
+	 *
+	 * @since [version]
+	 * @version [version]
+	 */
+	
+	LLMS.Forms = {
+	
+		/**
+		 * Stores locale information.
+		 *
+		 * Added via PHP.
+		 *
+		 * @type {Object}
+		 */
+		locale: {},
+	
+		/**
+		 * Stores references to the default locale strings
+		 * as configured by users in the form editor.
+		 *
+		 * @type {Object}
+		 */
+		locale_defaults: {},
+	
+		/**
+		 * jQuery ref. to the countries select field..
+		 *
+		 * @type {Object}
+		 */
+		$countries: null,
+	
+		/**
+		 * jQuery ref. to the states select field.
+		 *
+		 * @type {Object}
+		 */
+		$states: null,
+	
+		/**
+		 * jQuery ref. to the hidden states holder field.
+		 *
+		 * @type {Object}
+		 */
+		$states_holder: null,
+	
+		/**
+		 * Init
+		 *
+	 	 * @since [version]
+	 	 *
+	 	 * @return {void}
+		 */
+		init: function() {
+	
+			if ( $( 'body' ).hasClass( 'wp-admin' ) ) {
+				return;
+			}
+	
+			var self = this;
+	
+			self.bind_matching_fields();
+			self.bind_voucher_field();
+	
+			LLMS.wait_for( function() {
+				return ( undefined !== $.fn.llmsSelect2 );
+			}, function() {
+				self.bind_l10n_selects();
+			} );
+	
+		},
+	
+		/**
+		 * Bind DOM Events fields with dynamic localization values and language.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		bind_l10n_selects: function() {
+	
+			var self = this;
+	
+			self.$countries = $( '.llms-l10n-country-select select' );
+			self.$states    = $( '.llms-l10n-state-select select' );
+			self.$zips      = $( '#llms_billing_zip' );
+	
+			if ( ! self.$countries.length ) {
+				return;
+			}
+	
+			if ( self.$states.length ) {
+				self.prep_state_field();
+			}
+	
+			self.$countries.add( self.$states ).llmsSelect2( { width: '100%' } );
+	
+			if ( window.llms.locale ) {
+				self.locale = JSON.parse( window.llms.locale );
+				self.locale_defaults = {
+					state: (function(){
+						var $label = self.get_field_parent( self.$states ).find( 'label' ).clone();
+						$label.find( '*' ).remove();
+						return $label.text().trim();
+					})(),
+				};
+			}
+	
+			self.$countries.on( 'change', function() {
+	
+				var val = $( this ).val();
+				self.update_state_options( val );
+				self.update_locale_info( val );
+	
+			} ).trigger( 'change' );
+	
+		},
+	
+		/**
+		 * Ensure "matching" fields match.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Void}
+		 */
+		bind_matching_fields: function() {
+	
+			var $fields = $( 'input[data-match]' ).not( '[type="password"]' );
+	
+			$fields.each( function() {
+	
+				var $field = $( this ),
+					$match = $( '#' + $field.attr( 'data-match' ) ),
+					$parents;
+	
+				if ( $match.length ) {
+	
+					$parents = $field.closest( '.llms-form-field' ).add( $match.closest( '.llms-form-field' ) );
+	
+					$field.on( 'input change', function() {
+	
+						var val_1 = $field.val(),
+							val_2 = $match.val();
+	
+						if ( val_1 && val_2 && val_1 !== val_2 ) {
+							$parents.addClass( 'invalid' );
+						} else {
+							$parents.removeClass( 'invalid' );
+						}
+	
+					} );
+	
+				}
+	
+			} );
+	
+		},
+	
+		/**
+		 * Bind DOM events for voucher toggles UX.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		bind_voucher_field: function() {
+	
+			$( '#llms-voucher-toggle' ).on( 'click', function( e ) {
+				e.preventDefault();
+				$( '#llms_voucher' ).toggle();
+			} );
+	
+		},
+	
+		/**
+		 * Retrieve the parent element for a given field.
+		 *
+		 * The parent element is hidden when the field isn't required.
+		 * Looks for a WP column wrapper and falls back to the field's
+		 * wrapper div.
+		 *
+		 * @since [version]
+		 *
+		 * @see {Reference}
+		 * @link {URL}
+		 *
+		 * @param {[type]} $field
+		 * @return {[type]}
+		 */
+		get_field_parent: function( $field ) {
+	
+			var $block = $field.closest( '.wp-block-column' );
+			if ( $block.length ) {
+				return $block;
+			}
+	
+			return $field.closest( '.llms-form-field' );
+	
+		},
+	
+		/**
+		 * Prepares the state select field.
+		 *
+		 * Moves All optgroup elements into a hidden & disabled select element.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
+		prep_state_field: function() {
+	
+			var $parent = this.$states.closest( '.llms-form-field' );
+	
+			this.$holder = $( '<select disabled style="display:none !important;" />' );
+	
+			this.$holder.appendTo( $parent );
+			this.$states.find( 'optgroup' ).appendTo( this.$holder );
+	
+		},
+	
+		/**
+		 * Updates the text of a label for a given field.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} $field jQuery object of the form field.
+		 * @param {String} text Label text.
+		 * @return {void}
+		 */
+		update_label: function( $field, text ) {
+	
+			var $label = this.get_field_parent( $field ).find( 'label' ),
+				$required = $label.find( '.llms-required' ).clone();
+	
+			$label.html( text );
+			$label.append( $required );
+	
+		},
+	
+		/**
+		 * Update form fields based on selected country
+		 *
+		 * Replaces label text with locale-specific language and
+		 * hides or shows zip fields based on whether or not
+		 * they are required for the given country.
+		 *
+		 * @since [version]
+		 *
+		 * @param {String} country_code Currently selected country code.
+		 * @return {void}
+		 */
+		update_locale_info: function( country_code ) {
+	
+			if ( ! this.locale || ! this.locale[ country_code ] ) {
+				return;
+			}
+	
+			var info = this.locale[ country_code ],
+				state_text = info.state ? info.state : this.locale_defaults.state;
+	
+			this.update_label( this.$states, state_text );
+	
+			var $zips_parent = this.get_field_parent( this.$zips );
+			this.$zips.removeAttr( 'disabled' );
+			if ( info.zip ) {
+				this.update_label( this.$zips, info.zip );
+				$zips_parent.show();
+			} else {
+				this.$zips.attr( 'disabled', 'disabled' );
+				$zips_parent.hide();
+			}
+	
+		},
+	
+		/**
+		 * Update the available options in the state field
+		 *
+		 * Removes existing options and copies the options
+		 * for the requested country from the hidden select field.
+		 *
+		 * If there are no states for the given country the state
+		 * field will be hidden.
+		 *
+		 * @since [version]
+		 *
+		 * @see {Reference}
+		 * @link {URL}
+		 *
+		 * @param {String} country_code Currently selected country code.
+		 * @return {void}
+		 */
+		update_state_options: function( country_code ) {
+	
+			if ( ! this.$states.length ) {
+				return;
+			}
+	
+			var opts    = this.$holder.find( 'optgroup[data-key="' + country_code + '"] option' ).clone(),
+				$parent = this.get_field_parent( this.$states );
+	
+			if ( ! opts.length ) {
+				this.$states.html( '<option>&nbsp</option>' );
+				this.$states.attr( 'disabled', 'disabled' );
+				$parent.hide();
+			} else {
+				this.$states.html( opts );
+				this.$states.removeAttr( 'disabled' );
+				$parent.show();
+			}
+	
+		},
+	
+	};
+	
+		/**
 	 * Instructors List
 	 *
 	 * @package LifterLMS/Scripts
@@ -780,22 +1097,49 @@ var LLMS = window.LLMS || {};
 	 * @package LifterLMS/Scripts
 	 *
 	 * @since 3.0.0
-	 * @version  3.7.0
+	 * @version [version]
 	 */
 	
 	$.extend( LLMS.PasswordStrength, {
 	
-		$pass: $( '.llms-password' ),
-		$conf: $( '.llms-password-confirm' ),
+		/**
+		 * jQuery ref for the password strength meter object.
+		 *
+		 * @type {Object}
+		 */
 		$meter: $( '.llms-password-strength-meter' ),
+	
+		/**
+		 * jQuery ref for the password field.
+		 *
+		 * @type {Object}
+		 */
+		$pass: null,
+	
+		/**
+		 * jQuery ref for the password confirmation field
+		 *
+		 * @type {Object}
+		 */
+		$conf: null,
+	
+		/**
+		 * jQuery ref for form element.
+		 *
+		 * @type {Object}
+		 */
 		$form: null,
 	
 		/**
 		 * Init
 		 * loads class methods
 		 *
-		 * @since    3.0.0
-		 * @version  3.7.0
+		 * @since 3.0.0
+		 * @since 3.7.0 Unknown
+		 * @since [version] Move reference setup to `setup_references()`.
+		 *              Use `LLMS.wait_for()` for dependency waiting.
+		 *
+		 * @return {Void}
 		 */
 		init: function() {
 	
@@ -803,53 +1147,27 @@ var LLMS = window.LLMS || {};
 				return;
 			}
 	
-			if ( this.$meter.length ) {
-	
-				this.$form = this.$pass.closest( 'form' );
-	
-				// our asset enqueue is all screwed up and I'm too tired to fix it
-				// so we're going to run this little dependency check
-				// and wait for matchHeight to be available before binding
-				var self    = this,
-					counter = 0,
-					interval;
-	
-				interval = setInterval( function() {
-	
-					// if we get to 30 seconds log an error message
-					// and really who cares if the element heights aren't matched
-					if ( counter >= 300 ) {
-	
-						console.log( 'cannot do password strength meter.' );
-	
-						// if we can't access ye, increment and wait...
-					} else if ( 'undefined' === typeof wp && 'undefined' === typeof wp.passwordStrength ) {
-	
-						counter++;
-						return;
-	
-						// bind the events, we're good!
-					} else {
-	
-						self.bind();
-						self.$form.trigger( 'llms-password-strength-ready' );
-	
-					}
-	
-					clearInterval( interval );
-	
-				}, 100 );
-	
+			if ( ! this.setup_references() ) {
+				return;
 			}
+	
+			var self = this;
+	
+			LLMS.wait_for( function() {
+				return ( 'undefined' !== typeof wp && 'undefined' !== typeof wp.passwordStrength );
+			}, function() {
+				self.bind();
+				self.$form.trigger( 'llms-password-strength-ready' );
+			} );
 	
 		},
 	
 		/**
-		 * Bind Method
-		 * Handles dom binding on load
+		 * Bind DOM Events
+		 *
+		 * @since 3.0.0
 		 *
 		 * @return void
-		 * @since 3.0.0
 		 */
 		bind: function() {
 	
@@ -871,16 +1189,17 @@ var LLMS = window.LLMS || {};
 		 * Check the strength of a user entered password
 		 * and update elements depending on the current strength
 		 *
-		 * @return void
 		 * @since 3.0.0
-		 * @version 3.0.0
+		 * @since [version] Allow password confirmation to be optional when checking strength.
+		 *
+		 * @return void
 		 */
 		check_strength: function() {
 	
 			var $pass_field = this.$pass.closest( '.llms-form-field' ),
 				$conf_field = this.$conf.closest( '.llms-form-field' ),
 				pass_length = this.$pass.val().length,
-				conf_length = this.$conf.val().length;
+				conf_length = this.$conf.length ? this.$conf.val().length : 0;
 	
 			// hide the meter if both fields are empty
 			if ( ! pass_length && ! conf_length ) {
@@ -911,11 +1230,11 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Form submission action called during registration on checkout screen
 		 *
+		 * @since    3.0.0
+		 *
 		 * @param    obj       self      instance of this class
 		 * @param    Function  callback  callback function, passes error message or success back to checkout handler
 		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.0.0
 		 */
 		checkout: function( self, callback ) {
 	
@@ -928,19 +1247,31 @@ var LLMS = window.LLMS || {};
 				callback( LLMS.l10n.translate( 'There is an issue with your chosen password.' ) );
 	
 			}
-	
 		},
 	
 		/**
 		 * Get the list of blacklisted strings
-		 * We'll add a filter to this later so that developers can add their own blacklist to the default WP list
+		 *
+		 * @since 3.0.0
+		 * @since [version] Add blacklisted words as configured via the php filter and automatically add values from all text inputs in the current form.
 		 *
 		 * @return array
-		 * @since 3.0.0
 		 */
 		get_blacklist: function() {
-			var blacklist = wp.passwordStrength.userInputBlacklist();
+	
+			// Default values from WP Core + any values added via settings filter..
+			var blacklist = wp.passwordStrength.userInputBlacklist().concat( this.get_setting( 'blacklist', [] ) );
+	
+			// Add values from all text fields in the form.
+			this.$form.find( 'input[type="text"], input[type="email"], input[type="tel"], input[type="number"]' ).each( function() {
+				var val = $( this ).val();
+				if ( val ) {
+					blacklist.push( val );
+				}
+			} );
+	
 			return blacklist;
+	
 		},
 	
 		/**
@@ -959,7 +1290,7 @@ var LLMS = window.LLMS || {};
 				val;
 	
 			// enforce custom length requirement
-			if ( pass.length < 6 ) {
+			if ( pass.length < this.get_setting( 'min_length', 6 ) ) {
 				val = -1;
 			} else {
 				val = wp.passwordStrength.meter( pass, this.get_blacklist(), conf );
@@ -990,6 +1321,32 @@ var LLMS = window.LLMS || {};
 			var curr = this.get_current_strength(),
 				min  = this.get_strength_value( this.get_minimum_strength() );
 			return ( 5 === curr ) ? false : ( curr >= min );
+		},
+	
+		/**
+		 * Retrieve the minimum password strength for the current form.
+		 *
+		 * @since 3.0.0
+		 * @since [version] Replaces the version output via an inline PHP script in favor of utilizing values configured in the settings object.
+		 *
+		 * @return {string}
+		 */
+		get_minimum_strength: function() {
+			return this.get_setting( 'min_strength', 'strong' );
+		},
+	
+		/**
+		 * Get a setting and fallback to a default value.
+		 *
+		 * @since [version]
+		 *
+		 * @param {String} key Setting key.
+		 * @param {mixed} default_val Default value when the requested setting cannot be located.
+		 * @return {mixed}
+		 */
+		get_setting: function( key, default_val ) {
+			var settings = this.get_settings();
+			return settings[ key ] ? settings[ key ] : default_val;
 		},
 	
 		/**
@@ -1058,6 +1415,30 @@ var LLMS = window.LLMS || {};
 			};
 	
 			return ( values[ strength_slug ] ) ? values[ strength_slug ] : values.mismatch;
+	
+		},
+	
+		/**
+		 * Setup jQuery references to DOM elements needed to power the password meter.
+		 *
+		 * @since [version]
+		 *
+		 * @return {Boolean} Returns `true` if a meter element and password field are found, otherwise returns `false`.
+		 */
+		setup_references: function() {
+	
+			if ( ! this.$meter.length ) {
+				return false;
+			}
+	
+			this.$form = this.$meter.closest( 'form' );
+			this.$pass = this.$form.find( 'input[type="password"]' );
+	
+			if ( this.$pass.length && this.$pass.attr( 'data-match' ) ) {
+				this.$conf = this.$form.find( '#' + this.$pass.attr( 'data-match' ) );
+			}
+	
+			return ( this.$pass.length > 0 );
 	
 		},
 	
@@ -1808,8 +2189,12 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @since 3.36.0
 	 * @since 3.36.2 Fix JS error when settings aren't loaded.
+	 * @since [version] Set `settings` as an empty object when no settings supplied.
+	 *               Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 	 */
 	LLMS.Tracking = function( settings ) {
+	
+		settings = settings || {};
 	
 		var self = this,
 			store = new LLMS.Storage( 'llms-tracking' );
@@ -1820,13 +2205,18 @@ var LLMS = window.LLMS || {};
 		 * Initialize / Bind all tracking event listeners.
 		 *
 		 * @since 3.36.0
+		 * @since [version] Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
 		 *
 		 * @return {void}
 		 */
 		function init() {
 	
 			// Set the nonce for server-side verification.
-			store.set( 'nonce', settings.nonce );
+			if ( settings.nonce ) {
+	
+				store.set( 'nonce', settings.nonce );
+	
+			}
 	
 			self.addEvent( 'page.load' );
 	
