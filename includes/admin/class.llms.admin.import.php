@@ -135,7 +135,7 @@ class LLMS_Admin_Import {
 		$generator = new LLMS_Generator( $raw );
 		if ( is_wp_error( $generator->set_generator() ) ) {
 			LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
-			return $generater->error;
+			return $generator->error;
 		}
 
 		$generator->generate();
