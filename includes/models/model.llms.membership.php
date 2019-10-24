@@ -56,7 +56,7 @@ implements LLMS_Interface_Post_Instructors
 	 *
 	 * @var string
 	 */
-	protected $db_post_type    = 'llms_membership';
+	protected $db_post_type = 'llms_membership';
 
 	/**
 	 * Model name.
@@ -206,8 +206,8 @@ implements LLMS_Interface_Post_Instructors
 	 * @since    3.0.0
 	 *
 	 * @param string|string[] $statuses List of enrollment statuses to query by status query is an OR relationship.
-	 * @param int $limit Number of results.
-	 * @param int $skip Number of results to skip (for pagination).
+	 * @param int             $limit Number of results.
+	 * @param int             $skip Number of results to skip (for pagination).
 	 * @return array
 	 */
 	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
