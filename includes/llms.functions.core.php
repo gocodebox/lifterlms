@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Core LifterLMS functions.
  *
+ * @since 1.0.0
  * @since 3.29.0 Unknown.
  * @since 3.30.1 Moved order-related functions to order functions file.
  */
@@ -527,7 +528,7 @@ function llms_get_product_visibility_options() {
  * @since 3.0.0
  * @since 3.8.0 Unknown.
  * @since [version] Instantiate the student query passing `no_found_rows` arg as `true`,
- *                  as we don't need pagination info.
+ *               as we don't need pagination info.
  *
  * @param int          $post_id  WP_Post id of a course or membership.
  * @param string|array $statuses List of enrollment statuses to query by
@@ -540,11 +541,11 @@ function llms_get_enrolled_students( $post_id, $statuses = 'enrolled', $limit = 
 
 	$query = new LLMS_Student_Query(
 		array(
-			'post_id'  => $post_id,
-			'statuses' => $statuses,
-			'page'     => ( 0 === $skip ) ? 1 : ( $skip / $limit ) + 1,
-			'per_page' => $limit,
-			'sort'     => array(
+			'post_id'       => $post_id,
+			'statuses'      => $statuses,
+			'page'          => ( 0 === $skip ) ? 1 : ( $skip / $limit ) + 1,
+			'per_page'      => $limit,
+			'sort'          => array(
 				'id' => 'ASC',
 			),
 			'no_found_rows' => true,
