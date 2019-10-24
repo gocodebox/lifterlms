@@ -1,17 +1,22 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
- * @group    LLMS_Student
- * @since    3.7.0
- * @version  3.9.0
+ *
+ * @group functions_person
+ * @group functions
+ * @group LLMS_Student
+ *
+ * @since 3.8.0
+ * @since 3.9.0 Add tests for `llms_get_student()`.
  */
 class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_can_user_bypass_restrictions()
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return void
 	 */
 	public function test_llms_can_user_bypass_restrictions() {
 
@@ -35,11 +40,28 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
 	}
 
+	public function test_llms_get_minimum_password_strength_name() {
+
+		// Default value.
+		$this->assertEquals( 'strong', llms_get_minimum_password_strength_name() );
+
+		// Existing options.
+		$this->assertEquals( 'strong', llms_get_minimum_password_strength_name( 'strong' ) );
+		$this->assertEquals( 'medium', llms_get_minimum_password_strength_name( 'medium' ) );
+		$this->assertEquals( 'weak', llms_get_minimum_password_strength_name( 'weak' ) );
+		$this->assertEquals( 'very weak', llms_get_minimum_password_strength_name( 'very-weak' ) );
+
+		// Custom option.
+		$this->assertEquals( 'fake', llms_get_minimum_password_strength_name( 'fake' ) );
+
+	}
+
 	/**
 	 * Test llms_get_student
-	 * @return   void
-	 * @since    3.9.0
-	 * @version  3.9.0
+	 *
+	 * @since 3.9.0
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_student() {
 
