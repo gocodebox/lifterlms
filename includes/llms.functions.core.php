@@ -6,13 +6,17 @@
  *
  * @since 1.0.0
  * @since 3.30.1 Moved order-related functions to order functions file.
- * @version 3.29.0
+ * @since [version] Require form and locale functions files.
+ *               Move `llms_form_field()` to the form functions file.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
+require_once 'functions/llms-functions-forms.php';
+require_once 'functions/llms-functions-locale.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
 
@@ -527,160 +531,6 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 }
 
 /**
- * Generate the HTML for a form field
- *
- * this function is used during AJAX calls so needs to be in a core file
- * loaded during AJAX calls!
- *
- * @param    array   $field  field data
- * @param    boolean $echo   echo the data if true, return otherwise
- * @return   void|string
- * @since    3.0.0
- * @version  3.19.4
- */
-function llms_form_field( $field = array(), $echo = true ) {
-
-	$field = wp_parse_args(
-		$field,
-		array(
-			'columns'         => 12,
-			'classes'         => '',
-			'description'     => '',
-			'default'         => '',
-			'disabled'        => false,
-			'id'              => '',
-			'label'           => '',
-			'last_column'     => true,
-			'match'           => '',
-			'max_length'      => '',
-			'min_length'      => '',
-			'name'            => '',
-			'options'         => array(),
-			'placeholder'     => '',
-			'required'        => false,
-			'selected'        => '',
-			'style'           => '',
-			'type'            => 'text',
-			'value'           => '',
-			'wrapper_classes' => '',
-		)
-	);
-
-	// setup the field value (if one exists)
-	if ( '' !== $field['value'] ) {
-		$field['value'] = $field['value'];
-	} elseif ( '' !== $field['default'] ) {
-		$field['value'] = $field['default'];
-	}
-	$value_attr = ( '' !== $field['value'] ) ? ' value="' . $field['value'] . '"' : '';
-
-	// use id as the name if name isn't specified
-	$field['name'] = ( '' === $field['name'] ) ? $field['id'] : $field['name'];
-
-	// allow items to not have a name attr (eg: not be posted via form submission)
-	// example use case found in Stripe CC fields
-	if ( false === $field['name'] ) {
-		$name_attr = '';
-	} else {
-		$name_attr = ' name="' . $field['name'] . '"';
-	}
-
-	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
-
-	// add inline css if set
-	$field['style'] = ( $field['style'] ) ? ' style="' . $field['style'] . '"' : '';
-
-	// add space to classes
-	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
-	$field['classes']         = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
-
-	// add column information to the wrapper
-	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
-	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
-
-	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
-
-	// required attributes and content
-	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
-	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
-	$required_attr = $field['required'] ? ' required="required"' : '';
-
-	// setup the label
-	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
-
-	$r = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
-
-	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
-		$r .= $label;
-	}
-
-	$disabled_attr = ( $field['disabled'] ) ? ' disabled="disabled"' : '';
-
-	$min_attr = ( $field['min_length'] ) ? ' minlength="' . $field['min_length'] . '"' : '';
-	$max_attr = ( $field['max_length'] ) ? ' maxlength="' . $field['max_length'] . '"' : '';
-
-	switch ( $field['type'] ) {
-
-		case 'button':
-		case 'reset':
-		case 'submit':
-			$r .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $field['style'] . '>' . $field['value'] . '</button>';
-			break;
-
-		case 'checkbox':
-		case 'radio':
-			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
-			$r      .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
-			$r      .= $label;
-			break;
-
-		case 'html':
-			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
-			break;
-
-		case 'select':
-			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
-			foreach ( $field['options'] as $k => $v ) {
-				$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
-			}
-			$r .= '</select>';
-			break;
-
-		case 'textarea':
-			$r .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
-			break;
-
-		default:
-			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
-
-	}
-
-	if ( 'hidden' !== $field['type'] ) {
-		$r .= $desc;
-	}
-
-	$r .= '</div>';
-
-	if ( $field['last_column'] ) {
-		$r .= '<div class="clear"></div>';
-	}
-
-	$r = apply_filters( 'llms_form_field', $r, $field );
-
-	if ( $echo ) {
-
-		echo $r;
-		return;
-
-	} else {
-
-		return $r;
-
-	}
-
-}
-
-/**
  * Get a list of available course / membership enrollment statuses
  *
  * @return   array
@@ -955,6 +805,7 @@ function llms_maybe_define_constant( $name, $value ) {
 
 /**
  * Parse booleans
+ *
  * Mostly used to parse yes/no bools stored in various meta data fields
  *
  * @param    mixed $val      value to parse

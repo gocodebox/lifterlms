@@ -1,20 +1,30 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Shortcodes
  *
- * @since    1.0.0
- * @version  3.23.0
+ * @since 1.0.0
+ * @version [version]
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Shortcodes class.
+ *
+ * @since 1.0.0
+ * @since 3.23.0 Update pricing table shortcode.
+ * @since [version] Register [user] shortcode.
  */
 class LLMS_Shortcodes {
 
 	/**
 	 * init shortcodes array
 	 *
+	 * @since 1.0.0
+	 * @since 3.11.1 Unknown.
+	 * @since [version] Register [user] shortcode.
+	 *
 	 * @return void
-	 * @since    1.0.0
-	 * @version  3.11.1
 	 */
 	public static function init() {
 
@@ -39,7 +49,7 @@ class LLMS_Shortcodes {
 			)
 		);
 
-		// include abstracts
+		// Include Abstracts.
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.course.element.php';
 
@@ -52,6 +62,9 @@ class LLMS_Shortcodes {
 				require_once $path;
 			}
 		}
+
+		// Proper naming convention.
+		require_once LLMS_PLUGIN_DIR . 'includes/shortcodes/class-llms-shortcode-user-info.php';
 
 		/**
 		 * @deprecated  2.0.0

@@ -3,7 +3,7 @@
  * User Handling for login and registration (mostly)
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
+ * @since [version] Deprecated LLMS_Person_Handler::register() method.
  */
 class LLMS_Person_Handler {
 
@@ -46,6 +47,11 @@ class LLMS_Person_Handler {
 
 		/**
 		 * Allow custom username generation
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param string $custom_username Return a non-null value to use that as the username.
+		 * @param string $email User's email address.
 		 */
 		$custom_username = apply_filters( 'lifterlms_generate_username', null, $email );
 		if ( $custom_username ) {
@@ -700,7 +706,9 @@ class LLMS_Person_Handler {
 	/**
 	 * Perform validations according to the registration screen and registers a user
 	 *
-	 * @see  llms_register_user() for a classless wrapper for this function
+	 * @since 3.0.0
+	 * @since 3.19.4 Unknown.
+	 * @deprecated [version]
 	 *
 	 * @param  array  $data   array of user data
 	 *                        array(
@@ -722,51 +730,11 @@ class LLMS_Person_Handler {
 	 * @param    string $screen  screen to perform validations for, accepts "registration" or "checkout"
 	 * @param    bool   $signon  if true, also signon the newly created user
 	 * @return   int|WP_Error
-	 * @since    3.0.0
-	 * @version  3.19.4
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
 
-		do_action( 'lifterlms_before_user_registration', $data, $screen );
-
-		// generate a username if we're supposed to generate a username
-		if ( llms_parse_bool( get_option( 'lifterlms_registration_generate_username' ) ) && ! empty( $data['email_address'] ) ) {
-			$data['user_login'] = self::generate_username( $data['email_address'] );
-		}
-
-		// validate the fields & allow custom validation to occur
-		$valid = apply_filters( 'lifterlms_user_registration_data', self::validate_fields( $data, $screen ), $data, $screen );
-
-		// if errors found, return them
-		if ( is_wp_error( $valid ) ) {
-
-			return apply_filters( 'lifterlms_user_registration_errors', $valid, $data, $screen );
-
-		} else {
-
-			do_action( 'lifterlms_user_registration_after_validation', $data, $screen );
-
-			// create the user and update all metadata
-			$person_id = self::insert_data( $data, 'registration' ); // even during checkout we want to call this registration
-
-			// return the error object if registration fails
-			if ( is_wp_error( $person_id ) ) {
-				return $person_id; // this is filtered already
-			}
-
-			// signon
-			if ( $signon ) {
-				llms_set_person_auth_cookie( $person_id, false );
-			}
-
-			// fire actions
-			do_action( 'lifterlms_created_person', $person_id, $data, $screen );
-			do_action( 'lifterlms_user_registered', $person_id, $data, $screen );
-
-			// return the ID
-			return $person_id;
-
-		}
+		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'llms_register_user()' );
+		return llms_register_user( $data, $screen, $signon );
 
 	}
 
