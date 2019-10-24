@@ -1158,7 +1158,6 @@ class LLMS_Generator {
 			return $this->error;
 		}
 
-
 		// Set the generator.
 		$generators      = $this->get_generators();
 		$this->generator = $generators[ $generator ];
