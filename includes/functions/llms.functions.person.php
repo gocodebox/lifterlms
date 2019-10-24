@@ -6,57 +6,12 @@
  * @package  LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @since [version] Moved deprecated `llms_get_minimum_password_strength()` to the deprecated functions file.
+ *               Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
-
-/**
- * Creates new user
- *
- * @deprecated 3.0.0, use 'llms_register_user' instead
- *
- * @param  string $email             [user email]
- * @param  string $email2            [user verify email]
- * @param  string $username          [username]
- * @param  string $firstname         [user first name]
- * @param  string $lastname          [user last name]
- * @param  string $password          [user password]
- * @param  string $password2         [user verify password]
- * @param  string $billing_address_1 [user billing address 1]
- * @param  string $billing_address_2 [user billing address 2]
- * @param  string $billing_city      [user billing city]
- * @param  string $billing_state     [user billing state]
- * @param  string $billing_zip       [user billing zip]
- * @param  string $billing_country   [user billing country]
- * @param  string $agree_to_terms    [agree to terms checkbox bool]
- *
- * @return int $person_id            [ID of the user created]
- *
- * @version 3.0.0
- */
-function llms_create_new_person( $email, $email2, $username = '', $firstname = '', $lastname = '', $password = '', $password2 = '', $billing_address_1 = '', $billing_address_2 = '', $billing_city = '', $billing_state = '', $billing_zip = '', $billing_country = '', $agree_to_terms = '', $phone = '' ) {
-	llms_deprecated_function( 'llms_create_new_person', '3.0.0', 'llms_register_user' );
-	return llms_register_user(
-		array(
-			'email_address'          => $email,
-			'email_address_confirm'  => $email2,
-			'user_login'             => $username,
-			'first_name'             => $firstname,
-			'last_name'              => $lastname,
-			'password'               => $password,
-			'password_confirm'       => $password2,
-			'llms_billing_address_1' => $billing_address_1,
-			'llms_billing_address_2' => $billing_address_2,
-			'llms_billing_city'      => $billing_city,
-			'llms_billing_state'     => $billing_state,
-			'llms_billing_zip'       => $billing_zip,
-			'llms_billing_country'   => $billing_country,
-			'llms_phone'             => $phone,
-			'terms'                  => $agree_to_terms,
-		)
-	);
-}
 
 /**
  * Checks LifterLMS user capabilities against an object
@@ -167,15 +122,15 @@ add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10 );
 /**
  * Enroll a WordPress user in a course or membership
  *
+ * @since  2.2.3
+ * @since 3.0.0 added $trigger parameter
+ *
+ * @see  LLMS_Student->enroll() the class method wrapped by this function
+ *
  * @param  int    $user_id    WP User ID
  * @param  int    $product_id WP Post ID of the Course or Membership
  * @param  string $trigger    String describing the event that triggered the enrollment
  * @return bool
- *
- * @see  LLMS_Student->enroll() the class method wrapped by this function
- *
- * @since  2.2.3
- * @version 3.0.0 added $trigger parameter
  */
 function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
@@ -185,10 +140,10 @@ function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) 
 /**
  * Get an LLMS_Instructor
  *
+ * @since 3.13.0
+ *
  * @param    mixed $user  WP_User ID, instance of WP_User, or instance of any instructor class extending this class
  * @return   LLMS_Instructor|false LLMS_Instructor instance on success, false if user not found
- * @since    3.13.0
- * @version  3.13.0
  */
 function llms_get_instructor( $user = null ) {
 	$student = new LLMS_Instructor( $user );
@@ -196,45 +151,34 @@ function llms_get_instructor( $user = null ) {
 }
 
 /**
- * Retrieve the minimum accepted password strength for student passwords
- *
- * @return string
- * @since  3.0.0
- */
-function llms_get_minimum_password_strength() {
-	return apply_filters( 'llms_get_minimum_password_strength', get_option( 'lifterlms_registration_password_min_strength' ) );
-}
-
-/**
  * Retrieve the translated name of minimum accepted password strength for student passwords
  *
+ * @since 3.0.0
+ * @since [version] Remove database call to deprecated option and add the $strength parameter.
+ *
+ * @param string $strength Password strength value to translate.
  * @return string
- * @since  3.0.0
  */
-function llms_get_minimum_password_strength_name() {
-	$strength = llms_get_minimum_password_strength();
-	switch ( $strength ) {
-		case 'strong':
-			$r = __( 'strong', 'lifterlms' );
-			break;
+function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 
-		case 'medium':
-			$r = __( 'medium', 'lifterlms' );
-			break;
+	$opts = array(
+		'strong'    => __( 'strong', 'lifterlms' ),
+		'medium'    => __( 'medium', 'lifterlms' ),
+		'weak'      => __( 'weak', 'lifterlms' ),
+		'very-weak' => __( 'very weak', 'lifterlms' ),
+	);
 
-		case 'weak':
-			$r = __( 'weak', 'lifterlms' );
-			break;
+	$name = isset( $opts[ $strength ] ) ? $opts[ $strength ] : $strength;
 
-		case 'very-weak':
-			$r = __( 'very weak', 'lifterlms' );
-			break;
+	/**
+	 * Filter the name of the password strength
+	 *
+	 * @since [version]
+	 *
+	 * @param $string $name Translated name of the password strength value.
+	 */
+	return apply_filters( 'llms_get_minimum_password_strength_name_' . $strength, $name );
 
-		default:
-			$r = apply_filters( 'llms_get_minimum_password_strength_name_' . $strength, $strength );
-	}
-
-	return $r;
 }
 
 /**
