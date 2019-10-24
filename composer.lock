@@ -114,12 +114,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Prospress/action-scheduler.git",
+                "url": "https://github.com/woocommerce/action-scheduler.git",
                 "reference": "c9a9e8c95aca616046820e9a53f76190d2f7700c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/c9a9e8c95aca616046820e9a53f76190d2f7700c",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/c9a9e8c95aca616046820e9a53f76190d2f7700c",
                 "reference": "c9a9e8c95aca616046820e9a53f76190d2f7700c",
                 "shasum": ""
             },
@@ -239,12 +239,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "ab4dcda17982c8b9c4943c16d8315b6a1e30dc4b"
+                "reference": "366771a4c4bfb5ce3fe822dcbc2094963f64ba71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/ab4dcda17982c8b9c4943c16d8315b6a1e30dc4b",
-                "reference": "ab4dcda17982c8b9c4943c16d8315b6a1e30dc4b",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/366771a4c4bfb5ce3fe822dcbc2094963f64ba71",
+                "reference": "366771a4c4bfb5ce3fe822dcbc2094963f64ba71",
                 "shasum": ""
             },
             "require": {
@@ -266,7 +266,7 @@
                 }
             ],
             "description": "Testing framework for LifterLMS projects",
-            "time": "2019-10-01T20:14:45+00:00"
+            "time": "2019-10-24T19:01:26+00:00"
         },
         {
             "name": "myclabs/deep-copy",
