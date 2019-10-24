@@ -1,10 +1,13 @@
 <?php
 /**
  * Test Order Functions
- * @group    orders
- * @since    3.27.0
- * @version  3.30.1
  *
+ * @group orders
+ * @group functions
+ * @group functions_orders
+ *
+ * @since 3.27.0
+ * @since [version] Updated for form handler error codes & install forms on setup.
  */
 class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 
@@ -144,11 +147,13 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 	 * Test llms_setup_pending_order()
 	 *
 	 * @since 3.27.0
-	 * @version 3.27.0
+	 * @since [version] Install forms & Updated expected error code.
 	 *
 	 * @return void
 	 */
 	public function test_llms_setup_pending_order() {
+
+		LLMS_Forms::instance()->install();
 
 		// enable t&c
 		update_option( 'lifterlms_registration_require_agree_to_terms', 'yes' );
@@ -233,7 +238,7 @@ class LLMS_Test_Functions_Order extends LLMS_UnitTestCase {
 		);
 
 		// missing required field
-		$this->setup_pending_order_fail( $order_data, 'first_name' );
+		$this->setup_pending_order_fail( $order_data, 'llms-form-missing-required' );
 
 		// existing user who's already enrolled
 		$order_data['customer']['first_name'] = 'Test';
