@@ -4,19 +4,35 @@
  *
  * @since 3.3.1
  * @since 3.33.0 Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
+ * @since [version] Automatically clear notices on teardown.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup tests
 	 * Automatically called before each test
+	 *
+	 * @since 3.17.0
+	 *
 	 * @return   void
-	 * @since    3.17.0
-	 * @version  3.17.0
 	 */
 	public function setUp() {
 		parent::setUp();
 		llms_reset_current_time();
+	}
+
+	/**
+	 * Tear down tests.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tearDown() {
+
+		parent::tearDown();
+		llms_clear_notices();
+
 	}
 
 	/**
