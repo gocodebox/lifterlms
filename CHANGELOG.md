@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.36.3 - 2019-10-24
+--------------------
+
++ Added translation to error message encountered when non-members attempt to purchase a members-only access plan. Thanks [@mrosati84](https://github.com/mrosati84)!
+
+
 v3.36.2 - 2019-10-01
 --------------------
 
