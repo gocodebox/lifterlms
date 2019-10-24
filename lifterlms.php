@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -46,6 +46,7 @@ require_once 'vendor/autoload.php';
  * @since 3.34.0 Include the LLMS_Admin_Users_Table class.
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
+ * @since [version] Include forms and shared assets class.
  */
 final class LifterLMS {
 
@@ -277,6 +278,7 @@ final class LifterLMS {
 	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
 	 * @since 3.36.0 Include events classes.
 	 * @since 3.36.1 Include SendWP Connector.
+	 * @since [version] Include forms classes and backend/frontend shared asset class.
 	 *
 	 * @return void
 	 */
@@ -291,7 +293,9 @@ final class LifterLMS {
 			require_once 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
 		}
 
+		require_once 'includes/class-llms-assets.php';
 		require_once 'includes/class-llms-form-field.php';
+
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
 		require_once 'includes/class.llms.session.php';
@@ -457,7 +461,11 @@ final class LifterLMS {
 
 		}
 
-		require_once 'includes/class-llms-customizer.php';
+		// LifterLMS Forms.
+		require_once 'includes/class-llms-forms.php';
+		require_once 'includes/class-llms-form-handler.php';
+		require_once 'includes/class-llms-form-templates.php';
+
 		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class-llms-events.php';
 		require_once 'includes/class-llms-events-core.php';
