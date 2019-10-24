@@ -33,6 +33,7 @@
 		padding-top: 56.25%;
 		text-align: center;
 
+		& > .wp-video,
 		.fluid-width-video-wrapper,
 		iframe, object, embed {
 			height: 100%;
@@ -42,6 +43,9 @@
 			width: 100%;
 		}
 
+		& > .wp-video {
+			width: 100% !important;
+		}
 		.fluid-width-video-wrapper {
 			padding-top: 0 !important;
 		}
