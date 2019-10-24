@@ -8,6 +8,7 @@
  * @since 1.0.0
  * @since [version] Moved deprecated `llms_get_minimum_password_strength()` to the deprecated functions file.
  *               Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
+ *               Use form submission handler during user registration.
  * @version [version]
  */
 
@@ -276,16 +277,29 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
  *
  * @see  LLMS_Person_Handler::register()
  *
- * @param  array  $data    array of registration data
- * @param  string $screen  the screen to be used for the validation template, accepts "registration" or "checkout"
- * @param  bool   $signon  if true, signon the newly created user
+ * @since 3.0.0
+ * @since [version]
  *
+ * @param  array  $data   Array of registration data.
+ * @param  string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
+ * @param  bool   $signon If true, signon the newly created user
  * @return int|WP_Error
  *
- * @since 3.0.0
  */
 function llms_register_user( $data = array(), $screen = 'registration', $signon = true ) {
-	return LLMS_Person_Handler::register( $data, $screen, $signon );
+
+	$user_id = LLMS_Form_Handler::instance()->submit( $data, $screen );
+
+	if ( is_wp_error( $user_id ) ) {
+		return $user_id;
+	}
+
+	if ( $signon ) {
+		llms_set_person_auth_cookie( $user_id, false );
+	}
+
+	return $user_id;
+
 }
 
 /**

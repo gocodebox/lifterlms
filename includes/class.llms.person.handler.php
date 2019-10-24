@@ -706,8 +706,6 @@ class LLMS_Person_Handler {
 	/**
 	 * Perform validations according to the registration screen and registers a user
 	 *
-	 * @see  llms_register_user() for a classless wrapper for this function
-	 *
 	 * @since 3.0.0
 	 * @since 3.19.4 Unknown.
 	 * @deprecated [version]
@@ -735,19 +733,8 @@ class LLMS_Person_Handler {
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
 
-		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'LLMS_Form_Handler::submit()' );
-
-		$user_id = LLMS_Form_Handler::instance()->submit( $data, $screen );
-
-		if ( is_wp_error( $user_id ) ) {
-			return $user_id;
-		}
-
-		if ( $signon ) {
-			llms_set_person_auth_cookie( $user_id, false );
-		}
-
-		return $user_id;
+		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'llms_register_user()' );
+		return llms_register_user( $data, $screen, $signon );
 
 	}
 
