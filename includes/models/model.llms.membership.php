@@ -33,6 +33,11 @@ extends LLMS_Post_Model
 implements LLMS_Interface_Post_Instructors
 		 , LLMS_Interface_Post_Sales_Page {
 
+	/**
+	 * Membership post meta.
+	 *
+	 * @var array
+	 */
 	protected $properties = array(
 		'auto_enroll'                => 'array',
 		'instructors'                => 'array',
@@ -46,19 +51,19 @@ implements LLMS_Interface_Post_Instructors
 		'sales_page_content_url'     => 'string',
 	);
 
+	/**
+	 * Database post type.
+	 *
+	 * @var string
+	 */
 	protected $db_post_type    = 'llms_membership';
-	protected $model_post_type = 'membership';
 
 	/**
-	 * Retrieve an instance of the Post Instructors model
+	 * Model name.
 	 *
-	 * @return   obj
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @var string
 	 */
-	public function instructors() {
-		return new LLMS_Post_Instructors( $this );
-	}
+	protected $model_post_type = 'membership';
 
 	/**
 	 * Add courses to autoenrollment by id
@@ -89,11 +94,12 @@ implements LLMS_Interface_Post_Instructors
 
 	/**
 	 * Get an array of the auto enrollment course ids
-	 * use a custom function due to the default "get_array" returning an array with an empty string
 	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Uses a custom function due to the default "get_array" returning an array with an empty string
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return array
 	 */
 	public function get_auto_enroll_courses() {
 		if ( ! isset( $this->auto_enroll ) ) {
@@ -119,10 +125,10 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Retrieve course instructor information
 	 *
-	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param boolean $exclude_hidden If true, excludes hidden instructors from the return array.
+	 * @return array
 	 */
 	public function get_instructors( $exclude_hidden = false ) {
 
@@ -138,9 +144,8 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Retrieve an instance of the LLMS_Product for this course
 	 *
-	 * @return   obj         instance of an LLMS_Product
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 * @return LLMS_Product
 	 */
 	public function get_product() {
 		return new LLMS_Product( $this->get( 'id' ) );
@@ -149,9 +154,9 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Get the URL to a WP Page or Custom URL when sales page redirection is enabled
 	 *
-	 * @return   string
-	 * @since    3.20.0
-	 * @version  3.20.0
+	 * @since 3.20.0
+	 *
+	 * @return string
 	 */
 	public function get_sales_page_url() {
 
@@ -178,6 +183,7 @@ implements LLMS_Interface_Post_Instructors
 	 * Retrieve the number of enrolled students in the membership.
 	 *
 	 * @since 3.32.0
+	 *
 	 * @return int
 	 */
 	public function get_student_count() {
@@ -197,13 +203,12 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Get an array of student IDs based on enrollment status in the membership
 	 *
-	 * @param    string|array $statuses  list of enrollment statuses to query by
-	 *                                   status query is an OR relationship
-	 * @param    integer      $limit        number of results
-	 * @param    integer      $skip         number of results to skip (for pagination)
-	 * @return   array
 	 * @since    3.0.0
-	 * @version  3.0.0
+	 *
+	 * @param string|string[] $statuses List of enrollment statuses to query by status query is an OR relationship.
+	 * @param int $limit Number of results.
+	 * @param int $skip Number of results to skip (for pagination).
+	 * @return array
 	 */
 	public function get_students( $statuses = 'enrolled', $limit = 50, $skip = 0 ) {
 
@@ -226,9 +231,9 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Determine if sales page redirection is enabled
 	 *
-	 * @return   string
-	 * @since    3.20.0
-	 * @version  3.23.0
+	 * @since 3.20.0
+	 *
+	 * @return string
 	 */
 	public function has_sales_page_redirect() {
 		$type = $this->get( 'sales_page_content_type' );
@@ -236,12 +241,23 @@ implements LLMS_Interface_Post_Instructors
 	}
 
 	/**
+	 * Retrieve an instance of the Post Instructors model
+	 *
+	 * @since 3.13.0
+	 *
+	 * @return LLMS_Post_Instructors
+	 */
+	public function instructors() {
+		return new LLMS_Post_Instructors( $this );
+	}
+
+	/**
 	 * Remove a course from auto enrollment
 	 *
-	 * @param    int $course_id  WP Post ID of the course
-	 * @return   bool
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param int $course_id WP_Post ID of the course.
+	 * @return bool
 	 */
 	public function remove_auto_enroll_course( $course_id ) {
 		return $this->set( 'auto_enroll', array_diff( $this->get_auto_enroll_courses(), array( $course_id ) ) );
@@ -250,9 +266,10 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Save instructor information
 	 *
-	 * @param    array $instructors  array of course instructor information
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param array $instructors Array of course instructor information.
+	 * @return array
 	 */
 	public function set_instructors( $instructors = array() ) {
 
