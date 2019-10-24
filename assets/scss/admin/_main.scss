@@ -15,16 +15,6 @@
 overflow: visible;
 }
 
-// todo determine if this is necessary still
-// .title {
-// 	padding: 10px;
-// 	line-height: 1;
-// 	border-color: gray;
-// 	background-color: #f1f1f1;
-// 	border: 1px solid #f1f1f1;
-// 	margin: 0;
-// 	position: relative;
-// }
 .title .order {
 	margin-right: 10px;
 	font-weight: bold;
@@ -78,9 +68,6 @@ i.section-dismiss:hover {
 	cursor: pointer;
 	color: #d54e21;
 }
-// .select, .input {
-// 	width: 300px;
-// }
 #post_course_difficulty {
 	min-width: 200px;
 }
@@ -111,13 +98,6 @@ table.dad-list tr td:nth-child(2) {
 }
 .meta-box-sortables .course-section select {
 	width:75%;
-}
-#addNewSection {
-	margin-bottom: 16px;
-}
-
-.courses {
-	background: #000;
 }
 
 .llms_certificate_default_image, .llms_certificate_image  {
@@ -173,23 +153,6 @@ table.dad-list tr td:nth-child(2) {
 }
 .course-section {
 }
-select[disabled] {
- color:#000;
- border: transparent;
- background: none;
--moz-appearance: checkbox-container;
- -webkit-appearance: none;
- -ms-appearance: none;
- appearance: none;
-    text-indent: 1px;
-    text-overflow: '';
-    box-shadow: none;
-    background: none;
-    margin-top: -4px;
-}
-select[disabled]::-ms-expand {
-    display: none;
-}
 
 .section-placeholder {
   height: 200px;
@@ -208,9 +171,6 @@ select[disabled]::-ms-expand {
 
 	border:10px solid #4999DA;
 	background: #f4f9fb;
-  	//margin: 0 0 0.75rem 0;
-  	//position: relative;
-  	//z-index: 6;
   	visibility: visible;
 }
 /*we really need to create a helper function to style the dragged element but for v1 I'm not worried about it*/
@@ -218,10 +178,6 @@ select[disabled]::-ms-expand {
     background-color: #fff;
     border: 1px solid #ccc;
 }
-// .placeholder {
-//      background: #f3f3f3;
-//      visibility: visible;
-//  }
 .list_item td{
 	position: relative;
 }
@@ -350,17 +306,6 @@ td.llms-table-select, th.llms-table-select {
 
 .llms-meta-select {
 	width: 100%;
-}
-
-//these need to go in infusionsoft plugin
-.llmsis_cycle {
-	width: 100%;
-	float: none;
-	margin-top: 10px;
-}
-#llmis-add-new-sub {
-	margin-bottom: 20px;
-	margin-left: 10px;
 }
 
 .title
