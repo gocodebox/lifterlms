@@ -3,7 +3,7 @@
  * Plugin installation
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.28.0 Unknown.
  * @since 3.34.0 Added filter to the return of the get_schema() method.
  * @since 3.36.0 Add `wp_lifterlms_events` table.
+ * @since [version] Install forms during installation.
  */
 class LLMS_Install {
 
@@ -516,9 +517,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
 	/**
 	 * Core install function
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.13.0
+	 * @since 1.0.0
+	 * @since Unknown.
+	 * @since [version] Install forms.
+	 *
+	 * @return void
 	 */
 	public static function install() {
 
@@ -543,6 +546,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
 		self::create_files();
 		self::create_difficulties();
 		self::create_visibilities();
+
+		LLMS_Forms::instance()->install();
 
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
