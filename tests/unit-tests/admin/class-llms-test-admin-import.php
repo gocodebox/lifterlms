@@ -8,7 +8,6 @@
  * @group admin_import
  *
  * @since 3.35.0
- * @version 3.35.0
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
@@ -22,7 +21,6 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	public function setUp() {
 
 		parent::setUp();
-		// set_current_screen( 'admin.php' );
 
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.import.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.notices.php';
