@@ -1,11 +1,11 @@
 === LifterLMS ===
-Contributors: thomasplevy, chrisbadgett, saurabhshukla, lifterlms, codeboxllc
+Contributors: thomasplevy, chrisbadgett, saurabhshukla, d4z_c0nf, lifterlms, codeboxllc
 Donate link: https://lifterlms.com
 Tags: learning management system, LMS, membership, elearning, online courses, quizzes, sell courses, badges, gamification, learning, Lifter, LifterLMS
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.36.2
+Stable tag: 3.36.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -53,6 +53,17 @@ You'll see why so many people like you are starting with or switching to [Lifter
 + Governments
 + Enterprise Companies
 + DIY (Do It Yourselfers)
+
+# **What Types of People Use LifterLMS?**
+
+#### **1) Builders**
+The WordPress developers, designers & IT pros who build LMS websites and training portals for clients, employers & themselves
+
+#### **2) Starters**
+Do-it-yourself innovators who are looking to create high value online courses, coaching or training based membership websites
+
+#### **3) Switchers**
+People who have outgrown a  hosted platform or an incomplete WordPress stack looking for more power, control and better support
 
 # **Who Makes LifterLMS?**
 The LifterLMS team is a **diverse group of talented course creators, developers, designers, marketers and entrepreneurs**. Before developing the LifterLMS product we consulted and built custom training based membership sites for clients all over the world. It was through many years experience building high end custom WordPress LMS websites for the expert industry, that the LifterLMS project was born.
@@ -500,6 +511,40 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.36.3 - 2019-10-24 =
+------------------------
+
+##### Updates
+
++ Added new `LLMS_Membership` class methods: `get_categories()`, `get_tags()` and `toArrayAfter()` methods. Thanks [@pondermatic](https://github.com/pondermatic)!
+
+##### Compatibility
+
++ Fixed access plan description conflicts with the Classic Editor block. This also resolves compatibility issues with Elementor which uses a hidden TinyMCE instance.
++ Changed `pre_get_posts` callback from `10` (default) to `15`. Fixes conflict with Divi (and possibly other themes) which prevented LifterLMS catalog settings from functioning properly.
+
+##### Bugfixes
+
++ Added translation to error message encountered when non-members attempt to purchase a members-only access plan. Thanks [@mrosati84](https://github.com/mrosati84)!
++ Fix return of `LLMS_Generator::set_generator()`.
++ Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
++ Fixed issue where `wp_list_pluck()` would run on non arrays.
+
+##### LifterLMS Rest API 1.0.0-beta.8
+
++ Return links to those taxonomies which have an accessible rest route.
++ Initialize `$prepared_item` array before adding values to it. Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed `sales_page_type` not returned as `none` if course's `sales_page_content_type` property is empty.
++ Load webhook actions a little bit later, to avoid PHP warnings on first plugin activation.
++ Renamed `sales_page_page_type` and `sales_page_page_url` properties, respectively to `sales_page_type` and `sales_page_url` according to the specs.
++ Add missing quotes in enrollment/access default messages shortcodes.
++ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
++ Add missing quotes in enrollment/access default messages shortcodes.
++ `sales_page_page_id` and `sales_page_url` always returned in edit context.
++ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
+
+
 = v3.36.2 - 2019-10-01 =
 ------------------------
 
@@ -677,17 +722,5 @@ The following unused classes have been marked as deprecated and will be removed 
 
 + Load all required files and functions when authentication is triggered.
 + Access `$_SERVER` variables via `filter_var` instead of `llms_filter_input` to work around PHP bug https://bugs.php.net/bug.php?id=49184.
-
-
-= v3.34.2 - 2019-08-21 =
-------------------------
-
-##### LifterLMS REST API v1.0.0-beta.4
-
-+ Load authentication handlers as early as possible. Fixes conflicts with numerous plugins which load user information earlier than expected by the WordPress core.
-+ Harden permissions associated with viewing student enrollment information.
-+ Returns a 400 Bad Request when invalid dates are supplied.
-+ Student Enrollment objects return student and post id's as integers instead of strings.
-+ Fixed references to an undefined function.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
