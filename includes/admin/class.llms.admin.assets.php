@@ -17,7 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Explicitly set asset versions.
  * @since 3.35.1 Don't reference external scripts & styles.
  * @since [version] Select2 script and style registration moved to shared front- and back-end class `LLMS_Assets`.
- *                  Output Form location information as a window variable for block editor utilization.
+ *                Output Form location information as a window variable for block editor utilization.
+ *                Remove topModal vendor dependency.
  */
 class LLMS_Admin_Assets {
 
@@ -108,6 +109,7 @@ class LLMS_Admin_Assets {
 	 * @since 3.35.0 Explicitly set asset versions.
 	 * @since 3.35.1 Don't reference external scripts & styles.
 	 * @since [version] Select2 script registration moved to shared front- and back-end class `LLMS_Assets`.
+	 *               Remove topModal vendor dependency.
 	 *
 	 * @return void
 	 */
@@ -161,8 +163,6 @@ class LLMS_Admin_Assets {
 
 			wp_enqueue_media();
 
-			wp_register_script( 'top-modal', LLMS_PLUGIN_URL . 'assets/js/vendor/topModal.js', array( 'jquery' ), '1.0.0', true );
-
 			wp_enqueue_script( 'llms-select2' );
 
 			if ( 'course' == $post_type ) {
@@ -174,8 +174,8 @@ class LLMS_Admin_Assets {
 			if ( 'course' == $post_type || 'llms_membership' == $post_type ) {
 
 				wp_enqueue_script( 'llms-metabox-students', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-students' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms-select2' ), LLMS()->version, true );
-				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'top-modal' ), LLMS()->version, true );
-				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'top-modal' ), LLMS()->version, true );
+				wp_enqueue_script( 'llms-metabox-product', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-product' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
+				wp_enqueue_script( 'llms-metabox-instructors', LLMS_PLUGIN_URL . 'assets/js/llms-metabox-instructors' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms' ), LLMS()->version, true );
 
 			}
 
