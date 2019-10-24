@@ -2,8 +2,10 @@
 /**
  * Admin Assets Class
  *
+ * @package LifterLMS/Admin/Classes
+ *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
@@ -13,14 +15,18 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Explicitly set asset versions.
  * @since 3.35.1 Don't reference external scripts & styles.
+ * @since [version] Select2 script and style registration moved to shared front- and back-end class `LLMS_Assets`.
+ *                  Output Form location information as a window variable for block editor utilization.
  */
 class LLMS_Admin_Assets {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    1.0.0
-	 * @version  3.17.5
+	 * @since 1.0.0
+	 * @since 3.17.5 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -65,6 +71,7 @@ class LLMS_Admin_Assets {
 	 * @since 1.0.0
 	 * @since 3.29.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
+	 * @since [version] Select2 style registration moved to shared front- and back-end class `LLMS_Assets`.
 	 *
 	 * @return void
 	 */
@@ -78,7 +85,7 @@ class LLMS_Admin_Assets {
 			return;
 		}
 
-		wp_enqueue_style( 'llms-select2-styles', LLMS_PLUGIN_URL . 'assets/vendor/select2/css/select2' . LLMS_ASSETS_SUFFIX . '.css', array(), '4.0.3' );
+		wp_enqueue_style( 'llms-select2-styles' );
 
 		$screen = get_current_screen();
 
@@ -98,8 +105,9 @@ class LLMS_Admin_Assets {
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly set asset versions.
 	 * @since 3.35.1 Don't reference external scripts & styles.
+	 * @since [version] Select2 script registration moved to shared front- and back-end class `LLMS_Assets`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function admin_scripts() {
 
@@ -113,7 +121,6 @@ class LLMS_Admin_Assets {
 		}
 
 		wp_register_script( 'llms-metaboxes', LLMS_PLUGIN_URL . 'assets/js/llms-metaboxes' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'jquery-ui-datepicker', 'llms-admin-scripts' ), LLMS()->version, true );
-		wp_register_script( 'llms-select2', LLMS_PLUGIN_URL . 'assets/vendor/select2/js/select2' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '4.0.3', true );
 
 		if ( ( post_type_exists( $screen->id ) && post_type_supports( $screen->id, 'llms-membership-restrictions' ) ) || 'dashboard_page_llms-setup' === $screen->id ) {
 
@@ -135,14 +142,14 @@ class LLMS_Admin_Assets {
 			wp_enqueue_script( 'llms-admin-tables' );
 		}
 
+		wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
+		wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . 'assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS()->version, true );
+
 		if ( $this->is_llms_page() ) {
 
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_enqueue_script( 'jquery-ui-sortable' );
 
-			wp_register_script( 'llms', LLMS_PLUGIN_URL . 'assets/js/llms' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
-
-			wp_register_script( 'llms-admin-scripts', LLMS_PLUGIN_URL . 'assets/js/llms-admin' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'llms-select2' ), LLMS()->version, true );
 			wp_enqueue_script( 'llms-admin-scripts' );
 
 			wp_register_style( 'jquery-ui-flick', LLMS_PLUGIN_URL . 'assets/vendor/jquery-ui-flick/jquery-ui-flick' . LLMS_ASSETS_SUFFIX . '.css', array(), '1.11.2' );
@@ -276,11 +283,15 @@ class LLMS_Admin_Assets {
 	/**
 	 * Initialize the "llms" object for other scripts to hook into
 	 *
+	 * @since 1.0.0
+	 * @since 3.7.5 Unknown.
+	 * @since [version] Output Form location information as a window variable for block editor utilization.
+	 *
 	 * @return void
-	 * @since    1.0.0
-	 * @version  3.7.5
 	 */
 	public function admin_print_scripts() {
+
+		$screen = get_current_screen();
 
 		global $post;
 		if ( ! empty( $post ) ) {
@@ -306,6 +317,10 @@ class LLMS_Admin_Assets {
 
 		echo '<script type="text/javascript">window.LLMS = window.LLMS || {};</script>';
 		echo '<script type="text/javascript">window.LLMS.l10n = window.LLMS.l10n || {}; window.LLMS.l10n.strings = ' . LLMS_L10n::get_js_strings( true ) . ';</script>';
+
+		if ( 'llms_form' === $screen->id ) {
+			echo "<script>window.llms.formLocations = JSON.parse( '" . wp_json_encode( LLMS_Forms::instance()->get_locations() ) . "' );</script>";
+		}
 
 	}
 
