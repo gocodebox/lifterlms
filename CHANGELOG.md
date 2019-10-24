@@ -4,7 +4,22 @@ LifterLMS Changelog
 v3.36.3 - 2019-10-24
 --------------------
 
+##### Updates
+
++ Added new `LLMS_Membership` class methods: `get_categories()`, `get_tags()` and `toArrayAfter()` methods. Thanks [@pondermatic](https://github.com/pondermatic)!
+
+##### Compatibility
+
++ Fixed access plan description conflicts with the Classic Editor block. This also resolves compatibility issues with Elementor which uses a hidden TinyMCE instance.
++ Changed `pre_get_posts` callback from `10` (default) to `15`. Fixes conflict with Divi (and possibly other themes) which prevented LifterLMS catalog settings from functioning properly.
+
+##### Bugfixes
+
 + Added translation to error message encountered when non-members attempt to purchase a members-only access plan. Thanks [@mrosati84](https://github.com/mrosati84)!
++ Fix return of `LLMS_Generator::set_generator()`.
++ Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
++ Fixed issue where `wp_list_pluck()` would run on non arrays.
 
 ##### LifterLMS Rest API 1.0.0-beta.8
 
