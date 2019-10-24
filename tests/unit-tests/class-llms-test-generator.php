@@ -5,7 +5,7 @@
  * @group generator
  *
  * @since Unknown
- * @since [version] Add tests for `is_generator_valid()` and `set_generator()` methods.
+ * @since 3.36.3 Add tests for `is_generator_valid()` and `set_generator()` methods.
  *              Split `is_error()` method tests into multiple tests.
  */
 class LLMS_Test_Generator extends LLMS_UnitTestCase {
@@ -69,7 +69,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test is_error() method: no generator supplied.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test is_error() method: valid generator but no data to generate.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test is_error() method: valid generator but data formatted improperly.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test is_error() method: not an error
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -132,7 +132,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test is_generator_valid() method: valid generators.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test is_generator_valid() method: invalid generators.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -164,7 +164,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test set_generator(): interpret from raw missing generator.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -180,7 +180,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test set_generator(): interpret from raw invalid generator.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -198,7 +198,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test set_generator(): interpret from raw success.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -214,7 +214,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test set_generator(): explicitly supplied invalid.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -230,7 +230,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	/**
 	 * Test set_generator(): explicitly supplied success.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */

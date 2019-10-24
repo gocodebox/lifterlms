@@ -4,8 +4,8 @@
  *
  * @since 3.0.0
  * @since 3.30.3 Unknown.
- * @since [version] Fixed conflicts with the Classic Editor block.
- * @version [version]
+ * @since 3.36.3 Fixed conflicts with the Classic Editor block.
+ * @version 3.36.3
  */
 ( function( $ ) {
 
@@ -740,7 +740,7 @@
 		 * persisted as the last in the database if no UX reorders the item.
 		 *
 		 * @since 3.0.0
-		 * @since [version] Fixed conflicts with the classic editor block.
+		 * @since 3.36.3 Fixed conflicts with the classic editor block.
 		 *
 		 * @return void
 		 */

@@ -3,7 +3,7 @@
  * Admin Reporting Base Class
  *
  * @since 3.2.0
- * @version [version]
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Added Memberships tab.
  * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
  * @since 3.35.0 Sanitize input data.
- * @since [version] Fixed sanitization for input data array.
+ * @since 3.36.3 Fixed sanitization for input data array.
  */
 class LLMS_Admin_Reporting {
 
@@ -37,7 +37,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Fixed sanitization for input data array.
+	 * @since 3.36.3 Fixed sanitization for input data array.
 	 *
 	 * @return   array
 	 */
@@ -60,7 +60,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Fixed sanitization for input data array.
+	 * @since 3.36.3 Fixed sanitization for input data array.
 	 *
 	 * @return   array
 	 */
@@ -96,7 +96,7 @@ class LLMS_Admin_Reporting {
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Fixed sanitization for input data array.
+	 * @since 3.36.3 Fixed sanitization for input data array.
 	 *
 	 * @return   array
 	 */

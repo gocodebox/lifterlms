@@ -6,7 +6,7 @@
  * @package LifterLMS/Functions/UsersPostmeta
  *
  * @since 3.21.0
- * @version [version]
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.21.0
  * @since 3.33.0 Added `llms_bulk_delete_user_postmeta`.
  *               Also now `llms_delete_user_postmeta` returns true only if at least one existing user postmeta has been successfully deleted.
- * @since [version] Fix doc and indentation.
+ * @since 3.36.3 Fix doc and indentation.
  */
 if ( ! function_exists( 'llms_delete_user_postmeta' ) ) :
 	/**

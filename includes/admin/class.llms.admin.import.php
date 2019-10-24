@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Initialize at `admin_init` instead of `init`.
  *               Import template from the admin views directory instead of the frontend templates directory.
  *               Improve error handling.
- * @since [version] Fixed a typo where "$generator" was spelled "$generater".
+ * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
  */
 class LLMS_Admin_Import {
 
@@ -107,7 +107,7 @@ class LLMS_Admin_Import {
 	 * @since 3.35.0 Validate nonce and user permissions before processing import data.
 	 *               Moved statistic localization into its own function.
 	 *               Updated return signature.
-	 * @since [version] Fixed a typo where "$generator" was spelled "$generater".
+	 * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
 	 *
 	 * @return boolean|WP_Error false for nonce or permission errors, WP_Error when an error is encountered, true on success.
 	 */

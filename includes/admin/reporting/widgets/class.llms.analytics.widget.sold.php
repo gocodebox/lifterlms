@@ -6,7 +6,7 @@
  * according to active filters.
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] In `format_response()` method avoid running `wp_list_pluck()` on non arrays.
+ * @since 3.36.3 In `format_response()` method avoid running `wp_list_pluck()` on non arrays.
  */
 class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 
@@ -124,7 +124,7 @@ class LLMS_Analytics_Sold_Widget extends LLMS_Analytics_Widget {
 	 * Format response.
 	 *
 	 * @since unknown
-	 * @since [version] Avoid running `wp_list_pluck()` on non arrays.
+	 * @since 3.36.3 Avoid running `wp_list_pluck()` on non arrays.
 	 */
 	protected function format_response() {
 

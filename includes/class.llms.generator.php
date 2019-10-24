@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version [version]
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.3.0
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
- * @since [version] New method: is_generator_valid()
+ * @since 3.36.3 New method: is_generator_valid()
  *               Bugfix: Fix return of `set_generator()`.
  */
 class LLMS_Generator {
@@ -1048,7 +1048,7 @@ class LLMS_Generator {
 	/**
 	 * Determine if a generator is a valid generator.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @param string $generator Generator name.
 	 * @return bool
@@ -1128,7 +1128,7 @@ class LLMS_Generator {
 	 * Sets the generator to use for the current instance
 	 *
 	 * @since 3.3.0
-	 * @since [version] Fix error causing `null` to be returned instead of expected `WP_Error`.
+	 * @since 3.36.3 Fix error causing `null` to be returned instead of expected `WP_Error`.
 	 *              Return the generator name on success instead of void.
 	 *
 	 * @param string $generator Generator string, eg: "LifterLMS/SingleCourseExporter"

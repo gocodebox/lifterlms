@@ -7,15 +7,15 @@
  * @group rest
  * @group packages
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.3
+ * @version 3.36.3
  */
 class LLMS_Test_REST extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test rest package exists and is loaded.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_REST extends LLMS_Unit_Test_Case {
 	/**
 	 * Ensure the REST API initializes.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */

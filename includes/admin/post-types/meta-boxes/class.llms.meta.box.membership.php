@@ -3,7 +3,7 @@
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  * @since 3.36.0 Allow some fields to store values with quotes.
- * @since [version] In the `save() method Added logic to correctly sanitize fields of type
+ * @since 3.36.3 In the `save() method Added logic to correctly sanitize fields of type
  *              'multi' (array) and 'shortcode' (preventing quotes encode).
  *               Also align the method return type to the parent `save()` method.
  */
@@ -270,7 +270,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.30.0 Autoenroll courses saved via AJAX and removed from this method.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
-	 * @since [version] Added logic to correctly sanitize fields of type 'multi' (array)
+	 * @since 3.36.3 Added logic to correctly sanitize fields of type 'multi' (array)
 	 *               and 'shortcode' (preventing quotes encode).
 	 *               Also align the return type to the parent `save()` method.
 	 *

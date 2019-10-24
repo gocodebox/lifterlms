@@ -7,15 +7,15 @@
  * @group blocks
  * @group packages
  *
- * @since [version]
- * @version [version]
+ * @since 3.36.3
+ * @version 3.36.3
  */
 class LLMS_Test_Blocks extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test blocks lib exists and is loaded.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @return void
 	 */

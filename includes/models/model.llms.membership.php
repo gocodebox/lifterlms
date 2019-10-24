@@ -4,7 +4,7 @@
  *
  * @package  LifterLMS/Models
  * @since    3.0.0
- * @version  [version]
+ * @version  3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
  * @since 3.32.0 Added `get_student_count()` method.
- * @since [version] Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
+ * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -113,7 +113,7 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Retrieve membership categories.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @param array $args Array of args passed to `wp_get_post_terms()`.
 	 * @return array
@@ -219,7 +219,7 @@ implements LLMS_Interface_Post_Instructors
 	/**
 	 * Retrieve membership tags.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @param array $args Array of args passed to `wp_get_post_terms()`.
 	 * @return array
@@ -282,7 +282,7 @@ implements LLMS_Interface_Post_Instructors
 	 *
 	 * Called before data is sorted and returned by `$this->jsonSerialize()`.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 *
 	 * @param array $arr Data to be serialized.
 	 * @return array

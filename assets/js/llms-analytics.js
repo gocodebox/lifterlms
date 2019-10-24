@@ -4,7 +4,7 @@
  * @since 3.0.0
  * @since 3.17.2 Unknown.
  * @since 3.33.1 Fix issue that produced series options not aligned with the chart data.
- * @since [version] Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
+ * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
  *
  */( function( $, undefined ) {
 
@@ -50,7 +50,7 @@
 		 * Bind DOM events
 		 *
 		 * @since 3.0.0
-		 * @since [version] Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
+		 * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
 		 *
 		 * @return void
 		 */

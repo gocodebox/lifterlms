@@ -6,9 +6,9 @@
  * @group LLMS_Post_Model
  *
  * @since 3.20.0
- * @since [version] Remove redundant test method `test_get_sections()`,
+ * @since 3.36.3 Remove redundant test method `test_get_sections()`,
  *                @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
- * @version [version]
+ * @version 3.36.3
  */
 class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 
@@ -71,7 +71,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test LLMS_Membership->get_categories() method.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 * @return void
 	 */
 	public function test_get_categories() {
@@ -108,7 +108,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test LLMS_Membership->get_tags() method.
 	 *
-	 * @since [version]
+	 * @since 3.36.3
 	 * @return void
 	 */
 	public function test_get_tags() {
