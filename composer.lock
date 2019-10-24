@@ -45,16 +45,16 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.5.2",
+            "version": "1.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "19219727b1566f170fd25492b0e84c86afdcabe0"
+                "reference": "d146217d6a495296d75eee4dd0d0d87c58ea3009"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/19219727b1566f170fd25492b0e84c86afdcabe0",
-                "reference": "19219727b1566f170fd25492b0e84c86afdcabe0",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/d146217d6a495296d75eee4dd0d0d87c58ea3009",
+                "reference": "d146217d6a495296d75eee4dd0d0d87c58ea3009",
                 "shasum": ""
             },
             "require-dev": {
@@ -75,7 +75,7 @@
                 }
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
-            "time": "2019-08-14T23:36:52+00:00"
+            "time": "2019-10-24T08:36:40+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
@@ -114,12 +114,12 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/Prospress/action-scheduler.git",
+                "url": "https://github.com/woocommerce/action-scheduler.git",
                 "reference": "c9a9e8c95aca616046820e9a53f76190d2f7700c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Prospress/action-scheduler/zipball/c9a9e8c95aca616046820e9a53f76190d2f7700c",
+                "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/c9a9e8c95aca616046820e9a53f76190d2f7700c",
                 "reference": "c9a9e8c95aca616046820e9a53f76190d2f7700c",
                 "shasum": ""
             },
