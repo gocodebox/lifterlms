@@ -6,13 +6,16 @@
  *
  * @since 1.0.0
  * @since 3.30.1 Moved order-related functions to order functions file.
- * @version 3.29.0
+ * @since [version] Require form functions file "functions/llms-functions-forms.php".
+ *               Move `llms_form_field()` to the form functions file.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
+require_once 'functions/llms-functions-forms.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
 
@@ -527,31 +530,6 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 }
 
 /**
- * Generate the HTML for a form field
- *
- * this function is used during AJAX calls so needs to be in a core file
- * loaded during AJAX calls!
- *
- * @since 3.0.0
- * @since 3.19.4 Unknown.
- *
- * @param array $field Field settings.
- * @param boolean $echo Whether or not to output (echo) the field HTML.
- * @return string
- */
-function llms_form_field( $field = array(), $echo = true ) {
-
-	$field = new LLMS_Form_Field( $field );
-
-	if ( $echo ) {
-		echo $field->render();
-	}
-
-	return $field->get_html();
-
-}
-
-/**
  * Get a list of available course / membership enrollment statuses
  *
  * @return   array
@@ -826,6 +804,7 @@ function llms_maybe_define_constant( $name, $value ) {
 
 /**
  * Parse booleans
+ *
  * Mostly used to parse yes/no bools stored in various meta data fields
  *
  * @param    mixed $val      value to parse
