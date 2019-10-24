@@ -5,13 +5,14 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 4.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
+require_once 'functions/llms-functions-locale.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
 
