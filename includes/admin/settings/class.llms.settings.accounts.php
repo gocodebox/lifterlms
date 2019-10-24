@@ -107,7 +107,8 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'desc'    => sprintf(
 						// Translators: %1$s = opening anchor tag; %2$s = closing anchor tag.
 						__( 'Enable new user registration on the Student Dashboard. %1$sLearn More%2$s.', 'lifterlms' ),
-						'<a href="https://lifterlms.com/docs/open-registration/" target="_blank">', '</a>'
+						'<a href="https://lifterlms.com/docs/open-registration/" target="_blank">',
+						'</a>'
 					),
 					'id'      => 'lifterlms_enable_myaccount_registration',
 					'title'   => __( 'Open Registration', 'lifterlms' ),
