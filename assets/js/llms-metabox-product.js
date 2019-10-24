@@ -3,7 +3,9 @@
  * Displays on Course & Membership Post Types
  *
  * @since 3.0.0
- * @version 3.30.3
+ * @since 3.30.3 Unknown.
+ * @since [version] Fixed conflicts with the Classic Editor block.
+ * @version [version]
  */
 ( function( $ ) {
 
@@ -732,13 +734,15 @@
 		};
 
 		/**
-		 * Reorder the array indexes and the menu order hidden inputs
-		 * Called by jQuery UI Sortable on sort completion
+		 * Reorder the array indexes and the menu order hidden inputs.
+		 * Called by jQuery UI Sortable on sort completion.
 		 * Also called after adding a new plan to the DOM so the newest item is always
-		 * persisted as the last in the database if no UX reorders the item
+		 * persisted as the last in the database if no UX reorders the item.
+		 *
+		 * @since 3.0.0
+		 * @since [version] Fixed conflicts with the classic editor block.
 		 *
 		 * @return void
-		 * @since  3.0.0
 		 */
 		this.update_plan_orders = function() {
 
@@ -749,12 +753,17 @@
 					$editor   = $p.find( 'textarea[id^="_llms_plans_content_"]' ),
 					editor_id = $editor.attr( 'id' ),
 					orig      = $order.val() * 1,
-					curr      = $p.index();
+					curr      = $p.index(),
+					editor    = tinyMCE.EditorManager.get(editor_id),
+					esettings = editor ? editor.settings : tinyMCE.EditorManager.settings;
 
-				// de-init tinyMCE from the editor
+				// make sure the editor settings have the right selector.
+				esettings.selector = '#' + editor_id;
+
+				// de-init tinyMCE from the editor.
 				tinyMCE.EditorManager.execCommand( 'mceRemoveEditor', true, editor_id );
 
-				// update the order of each field in the plan
+				// update the order of each field in the plan.
 				$p.find( 'select, input, textarea' ).each( function() {
 
 					var name = $( this ).attr( 'name' );
@@ -764,8 +773,10 @@
 
 				} );
 
-				// re-init tinyMCE on the editor
-				tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, editor_id );
+				// re-init tinyMCE on the editor.
+				// We used:	tinyMCE.EditorManager.execCommand( 'mceAddEditor', true, editor_id );
+				// but it turned out to create conflicts with the Classic Editor block.
+				tinyMCE.EditorManager.init( esettings );
 
 				$order.val( curr );
 
