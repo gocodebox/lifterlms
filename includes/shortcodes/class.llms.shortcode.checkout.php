@@ -261,7 +261,7 @@ class LLMS_Shortcode_Checkout {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $plan_id LLMS_Access_Plan post id.
+	 * @param int   $plan_id LLMS_Access_Plan post id.
 	 * @param array $atts Existing attributes.
 	 * @return array Modified attributes array.
 	 */

@@ -15,8 +15,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Explicitly define asset versions.
  * @since 3.36.0 Localize tracking with client-side settings.
  * @since [version] Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
-	 *           Remove unused transiton and collapse scripts.
-	 *           Remove password strength inline enqueues.
+ *           Remove unused transiton and collapse scripts.
+ *           Remove password strength inline enqueues.
  */
 class LLMS_Frontend_Assets {
 

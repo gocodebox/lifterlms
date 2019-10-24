@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
 
 <?php do_action( 'lifterlms_pre_checkout_form' ); ?>
 
-<form action="" class="llms-checkout llms-checkout-cols-<?php echo $cols ; ?>" method="POST" id="llms-product-purchase-form">
+<form action="" class="llms-checkout llms-checkout-cols-<?php echo $cols; ?>" method="POST" id="llms-product-purchase-form">
 
 	<?php do_action( 'lifterlms_before_checkout_form' ); ?>
 
@@ -128,10 +128,10 @@ defined( 'ABSPATH' ) || exit;
 					<?php
 					llms_form_field(
 						array(
-							'classes'     => 'llms-button-action',
-							'id'          => 'llms_create_pending_order',
-							'value'       => apply_filters( 'lifterlms_checkout_buy_button_text', ! $is_free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
-							'type'        => 'submit',
+							'classes' => 'llms-button-action',
+							'id'      => 'llms_create_pending_order',
+							'value'   => apply_filters( 'lifterlms_checkout_buy_button_text', ! $is_free ? __( 'Buy Now', 'lifterlms' ) : __( 'Enroll Now', 'lifterlms' ) ),
+							'type'    => 'submit',
 						)
 					);
 					?>

@@ -284,7 +284,6 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
  * @param  string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
  * @param  bool   $signon If true, signon the newly created user
  * @return int|WP_Error
- *
  */
 function llms_register_user( $data = array(), $screen = 'registration', $signon = true ) {
 

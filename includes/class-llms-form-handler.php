@@ -162,9 +162,9 @@ class LLMS_Form_Handler {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $posted_data Sanitized & validated user-submitted form data.
+	 * @param array   $posted_data Sanitized & validated user-submitted form data.
 	 * @param array[] $fields LifterLMS form fields list.
-	 * @param string $action Insert action, either "registration" for new users or "update" for existing, logged-in users.
+	 * @param string  $action Insert action, either "registration" for new users or "update" for existing, logged-in users.
 	 * @return array
 	 */
 	protected function prepare_data_for_insert( $posted_data, $fields, $action ) {
@@ -288,7 +288,7 @@ class LLMS_Form_Handler {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $posted_data User-submitted form data.
+	 * @param array   $posted_data User-submitted form data.
 	 * @param array[] $fields LifterLMS form fields settings.
 	 * @return array
 	 */
@@ -313,9 +313,9 @@ class LLMS_Form_Handler {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $posted_data User-submitted form data.
+	 * @param array  $posted_data User-submitted form data.
 	 * @param string $location Form location ID.
-	 * @param array $args
+	 * @param array  $args
 	 * @return int|WP_Error WP_User ID on success, error object on failure.
 	 */
 	public function submit( $posted_data, $location, $args = array() ) {
