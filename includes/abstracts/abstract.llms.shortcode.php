@@ -13,8 +13,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Shortcode Abstract.
  *
-* @since 3.4.3
-* @since [version] User attributes merged with default attributes in a protected method instead of part of the `get_output()` method.
+ * @since 3.4.3
+ * @since [version] User attributes merged with default attributes in a protected method instead of part of the `get_output()` method.
  */
 abstract class LLMS_Shortcode {
 
