@@ -211,11 +211,11 @@ msgstr ""
 msgid "Every %d Minutes"
 msgstr ""
 
-#: includes/class-llms-staging.php:50, includes/class.llms.install.php:612, includes/class.llms.install.php:632, includes/admin/class.llms.admin.notices.php:220, includes/admin/class.llms.admin.page.status.php:33, includes/admin/class.llms.admin.page.status.php:219
+#: includes/class-llms-staging.php:50, includes/class.llms.install.php:617, includes/class.llms.install.php:637, includes/admin/class.llms.admin.notices.php:220, includes/admin/class.llms.admin.page.status.php:33, includes/admin/class.llms.admin.page.status.php:219
 msgid "Action failed. Please refresh the page and retry."
 msgstr ""
 
-#: includes/class-llms-staging.php:53, includes/class.llms.install.php:616, includes/class.llms.install.php:636, includes/admin/class-llms-admin-export-download.php:43, includes/admin/class-llms-admin-export-download.php:48, includes/admin/class-llms-admin-export-download.php:53, includes/admin/class.llms.admin.notices.php:223
+#: includes/class-llms-staging.php:53, includes/class.llms.install.php:621, includes/class.llms.install.php:641, includes/admin/class-llms-admin-export-download.php:43, includes/admin/class-llms-admin-export-download.php:48, includes/admin/class-llms-admin-export-download.php:53, includes/admin/class.llms.admin.notices.php:223
 msgid "Cheatin&#8217; huh?"
 msgstr ""
 
@@ -418,38 +418,38 @@ msgstr ""
 msgid "Invalid generator supplied"
 msgstr ""
 
-#: includes/class.llms.install.php:244, includes/admin/class.llms.admin.setup.wizard.php:352, includes/admin/settings/class.llms.settings.courses.php:89
+#: includes/class.llms.install.php:245, includes/admin/class.llms.admin.setup.wizard.php:352, includes/admin/settings/class.llms.settings.courses.php:89
 msgid "Course Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:250, includes/admin/class.llms.admin.setup.wizard.php:356
+#: includes/class.llms.install.php:251, includes/admin/class.llms.admin.setup.wizard.php:356
 msgid "Membership Catalog"
 msgstr ""
 
-#: includes/class.llms.install.php:256
+#: includes/class.llms.install.php:257
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:262, includes/class.llms.student.dashboard.php:147, includes/admin/class.llms.admin.builder.php:39
+#: includes/class.llms.install.php:263, includes/class.llms.student.dashboard.php:147, includes/admin/class.llms.admin.builder.php:39
 msgid "Dashboard"
-msgstr ""
-
-#: includes/class.llms.install.php:371
-msgctxt "course difficulty name"
-msgid "Beginner"
 msgstr ""
 
 #: includes/class.llms.install.php:372
 msgctxt "course difficulty name"
-msgid "Intermediate"
+msgid "Beginner"
 msgstr ""
 
 #: includes/class.llms.install.php:373
 msgctxt "course difficulty name"
+msgid "Intermediate"
+msgstr ""
+
+#: includes/class.llms.install.php:374
+msgctxt "course difficulty name"
 msgid "Advanced"
 msgstr ""
 
-#: includes/class.llms.install.php:696
+#: includes/class.llms.install.php:701
 msgid "The LifterLMS database update is complete."
 msgstr ""
 
@@ -25798,11 +25798,11 @@ msgstr ""
 msgid "No HTML was returned."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:90
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:134
 msgid "Sorry, you are not allowed to edit the object instructors."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:124
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks-post-instructors.php:169
 msgid "Instructor fields."
 msgstr ""
 
@@ -25839,9 +25839,12 @@ msgstr ""
 msgid "Remove Block Code"
 msgstr ""
 
-#. translators: %1$s = LifterLMS.
 #: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:51
-msgid "%1$s Blocks"
+msgid "LifterLMS Blocks"
+msgstr ""
+
+#: vendor/lifterlms/lifterlms-blocks/includes/class-llms-blocks.php:55
+msgid "LifterLMS Form Fields"
 msgstr ""
 
 #: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-api-keys.php:138

@@ -1,6 +1,70 @@
 LifterLMS Changelog
 ===================
 
+v3.37.0-beta.1 - 2019-10-24
+---------------------------
+
+##### Form Management Improvments
+
++ Forms (registration, checkout, account) are now managed via a block editor interface.
++ Customize field labels, description, and placeholders in a simple WYSIWYG interface.
++ Mark fields as required with a toggle.
++ Reorder fields with drag and drop.
++ Customize layout using block editor columns
++ Use LifterLMS block-level visibility to conditionally display fields based on enrollment or logged in status.
+
+##### Form Localization
+
++ Added default country and state/region lists (see the "languages" directory).
++ Country and state forms are now searchable dropdowns that adjusted based on the currently selected country.
++ Each country's locale information (such as what a "post code" is called and whether or not the country has states or post codes) will update automatically based on the selected country.
++ Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+
+##### Updates
+
++ New shortcode `[user]` which is used to output user information in a merge code interface.
++ Improved form field generation via `LLMS_Form_Field` class.
++ LifterLMS Settings: renamed "User Information Options" to "User Privacy Options".
++ Reorganized open registration setting.
++ Use `LLMS.wait_for()` for dependency waiting.
++ Moved checkout template variable declarations to the checkout shortcode controller.
++ Removed field display settings in favor of form customization using the form editors.
++ Organized function files. Some functions have been moved.
++ Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
++ Use `LLMS.wait_for()` for dependency waiting.
+
+##### LifterLMS Blocks v1.6.0
+
++ Feature: Added form field blocks for use on the Forms manager.
++ Feature: Add logic for `logged_in` and `logged_out` block visibility options.
++ Update: Added isDisabled property to Search component.
++ Update: Adjusted priority of `render_block` filter to 20.
++ Bug fix: Import `InspectorControls` from `wp.blockEditor` in favor of deprecated `wp.editor`
++ Bug fix: Automatically store course/membership instructor with `post_author` data when the post is created.
++ Bug fix: Pass style rules as camelCase.
+
+##### Removed unused Javascript assets
+
++ Remove unused bootstrap transiton and collapse scripts.
++ Remove topModal vendor dependency.
++ Remove password strength inline enqueues.
+
+##### Bug fixes
+
++ Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+
+##### Deprecations
+
++ Deprecated `LLMS_Person_Handler::register()` method, use `llms_register_user()` instead.
++ Deprecated `llms_get_minimum_password_strength()` with no replacement.
+
+##### Template Updates
+
++ templates/checkout/form-checkout.php
++ templates/checkout/form-gateways.php
++ templates/global/form-registration.php
+
+
 v3.36.2 - 2019-10-01
 --------------------
 
