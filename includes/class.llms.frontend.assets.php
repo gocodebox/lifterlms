@@ -3,7 +3,7 @@
  * Frontend scripts class
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,18 +14,21 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Explicitly define asset versions.
  * @since 3.36.0 Localize tracking with client-side settings.
+ * @since [version] Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+	 *           Remove unused transiton and collapse scripts.
+	 *           Remove password strength inline enqueues.
  */
 class LLMS_Frontend_Assets {
 
 	/**
-	 * Inline script ids that have been enqueued
+	 * Inline script ids that have been enqueued.
 	 *
 	 * @var  array
 	 */
 	private static $enqueued_inline_scripts = array();
 
 	/**
-	 * Array of inline scripts to be output in the header / footer respectively
+	 * Array of inline scripts to be output in the header / footer respectively.
 	 *
 	 * @var  array
 	 */
@@ -36,7 +39,8 @@ class LLMS_Frontend_Assets {
 
 	/**
 	 * Initializer
-	 * Replaces non-static __construct() from 3.4.0 & lower
+	 *
+	 * Replaces non-static __construct() from 3.4.0 & lower.
 	 *
 	 * @return   void
 	 * @since    3.4.1
@@ -48,6 +52,7 @@ class LLMS_Frontend_Assets {
 		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'enqueue_scripts' ) );
 		add_action( 'wp_head', array( __CLASS__, 'output_header_scripts' ) );
 		add_action( 'wp_print_footer_scripts', array( __CLASS__, 'output_footer_scripts' ), 1 );
+
 	}
 
 	/**
@@ -100,14 +105,14 @@ class LLMS_Frontend_Assets {
 	/**
 	 * Output the inline PW Strength meter script
 	 *
-	 * @return   void
-	 * @since    3.4.1
-	 * @version  3.4.1
+	 * @since 3.4.1
+	 *
+	 * @return void
 	 */
 	public static function enqueue_inline_pw_script() {
 		self::enqueue_inline_script(
 			'llms-pw-strength',
-			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {}; window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; }',
+			'window.LLMS.PasswordStrength = window.LLMS.PasswordStrength || {};window.LLMS.PasswordStrength.get_minimum_strength = function() { return "' . llms_get_minimum_password_strength() . '"; };',
 			'footer',
 			15
 		);
@@ -119,6 +124,7 @@ class LLMS_Frontend_Assets {
 	 * @since 1.0.0
 	 * @since 3.18.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
+	 * @since [version] Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
 	 *
 	 * @return void
 	 */
@@ -144,6 +150,10 @@ class LLMS_Frontend_Assets {
 			wp_enqueue_style( 'llms-iziModal' );
 		}
 
+		if ( is_llms_account_page() || is_llms_checkout() ) {
+			wp_enqueue_style( 'llms-select2-styles' );
+		}
+
 	}
 
 	/**
@@ -153,6 +163,9 @@ class LLMS_Frontend_Assets {
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 3.36.0 Localize tracking with client-side settings.
+	 * @since [version] Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+	 *               Remove unused transiton and collapse scripts.
+	 *               Remove password strength inline enqueue.
 	 *
 	 * @return void
 	 */
@@ -161,10 +174,6 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'jquery-ui-tooltip' );
 		wp_enqueue_script( 'jquery-ui-datepicker' );
 		wp_enqueue_script( 'jquery-ui-slider' );
-
-		// @todo: these two scripts are probably unsued.
-		wp_enqueue_script( 'collapse', LLMS_PLUGIN_URL . 'assets/js/vendor/collapse.js', array(), '3.3.5' );
-		wp_enqueue_script( 'transition', LLMS_PLUGIN_URL . 'assets/js/vendor/transition.js', array(), '3.3.5' );
 
 		wp_enqueue_script( 'webui-popover', LLMS_PLUGIN_URL . 'assets/vendor/webui-popover/jquery.webui-popover' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.2.15', true );
 
@@ -185,11 +194,6 @@ class LLMS_Frontend_Assets {
 		wp_enqueue_script( 'llms-ajax', LLMS_PLUGIN_URL . 'assets/js/llms-ajax' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 		wp_enqueue_script( 'llms-form-checkout', LLMS_PLUGIN_URL . 'assets/js/llms-form-checkout' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), LLMS()->version, true );
 
-		if ( ( is_llms_account_page() || is_llms_checkout() ) && 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
-			wp_enqueue_script( 'password-strength-meter' );
-			self::enqueue_inline_pw_script();
-		}
-
 		if ( is_singular( 'llms_quiz' ) ) {
 			wp_enqueue_style( 'wp-mediaelement' );
 			wp_enqueue_script( 'llms-quiz', LLMS_PLUGIN_URL . 'assets/js/llms-quiz' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery', 'llms', 'wp-mediaelement' ), LLMS()->version, true );
@@ -198,6 +202,16 @@ class LLMS_Frontend_Assets {
 		wp_register_script( 'llms-iziModal', LLMS_PLUGIN_URL . 'assets/vendor/izimodal/iziModal' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), '1.5.1', true );
 		if ( is_llms_account_page() ) {
 			wp_enqueue_script( 'llms-iziModal' );
+		}
+
+		if ( is_llms_account_page() || is_llms_checkout() ) {
+			wp_enqueue_script( 'llms-select2' );
+			self::enqueue_inline_script(
+				'llms-countries-locale',
+				"window.llms = window.llms || {};window.llms.locale = '" . wp_json_encode( llms_get_countries_locale() ) . "';",
+				'footer',
+				20
+			);
 		}
 
 		$ssl = is_ssl() ? 'https' : 'http';
