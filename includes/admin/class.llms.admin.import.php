@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.1 Explicitly include template functions during imports.
  * @since 3.35.0 Initialize at `admin_init` instead of `init`.
  *               Import template from the admin views directory instead of the frontend templates directory.
- *               Improve error handling
+ *               Improve error handling.
  */
 class LLMS_Admin_Import {
 
