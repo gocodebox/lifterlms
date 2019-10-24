@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Assets class.
  *
  * @since 1.0.0
+ * @since 3.17.5 Unknown.
  * @since 3.35.0 Explicitly set asset versions.
  * @since 3.35.1 Don't reference external scripts & styles.
  * @since [version] Select2 script and style registration moved to shared front- and back-end class `LLMS_Assets`.
@@ -39,9 +40,10 @@ class LLMS_Admin_Assets {
 	/**
 	 * Determine if the current screen should load LifterLMS assets
 	 *
-	 * @return   boolean
-	 * @since    3.7.0
-	 * @version  3.19.4
+	 * @since 3.7.0
+	 * @since 3.19.4 Unknown.
+	 *
+	 * @return bool
 	 */
 	public function is_llms_page() {
 
@@ -327,9 +329,10 @@ class LLMS_Admin_Assets {
 	/**
 	 * Register Quill CSS & JS
 	 *
-	 * @return   void
-	 * @since    3.16.0
-	 * @version  3.17.8
+	 * @since 3.16.0
+	 * @since 3.17.8 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function register_quill( $modules = array() ) {
 
