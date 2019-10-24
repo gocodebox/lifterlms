@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.33.0
+ * @version  [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.33.0
+	 * @version  [version]
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -59,7 +59,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/app/llms-password-strength.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.7.0
+			 * @version  [version]
 			 */
 			'There is an issue with your chosen password.' => esc_html__( 'There is an issue with your chosen password.', 'lifterlms' ),
 			'Too Short' => esc_html__( 'Too Short', 'lifterlms' ),
