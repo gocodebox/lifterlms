@@ -3,7 +3,7 @@
  * Admin Menu Items
  *
  * @since   1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -11,8 +11,9 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Menus class.
  *
- * @since  1.0.0
- * @since  3.35.0 Sanitize input data.
+ * @since 1.0.0
+ * @since 3.35.0 Sanitize input data.
+ * @since [version] Add custom LifterLMS submenu item sorting.
  */
 class LLMS_Admin_Menus {
 
@@ -70,19 +71,53 @@ class LLMS_Admin_Menus {
 	/**
 	 * Remove the default menu page from the submenu
 	 *
-	 * @param  array
-	 * @return array
-	 * @since   1.0.0
-	 * @version 3.2.0
+	 * @since 1.0.0
+	 * @since 3.2.0 Unknown.
+	 * @since [version] Adds custom sorting for LifterLMS submenu items.
+	 *
+	 * @param bool $flag Flag from core filter (always false).
+	 * @return bool
 	 */
-	public function submenu_order( $menu_ord ) {
+	public function submenu_order( $flag ) {
+
 		global $submenu;
 
 		if ( isset( $submenu['lifterlms'] ) ) {
-			unset( $submenu['lifterlms'][0] );
+
+			// Our desired order.
+			$order = array( 'llms-settings', 'llms-reporting', 'edit.php?post_type=llms_form' );
+
+			// Temporary array to hold our submenu items.
+			$new_submenu = array();
+
+			// Any items not defined in the $order array will be added at the end of the new array.
+			$num_items = count( $submenu['lifterlms'] );
+
+			foreach ( $submenu['lifterlms'] as $item ) {
+
+				// Locate the desired order.
+				$key = array_search( $item[2], $order, true );
+
+				// Not found, increment the number of items to add it to the end of the array in its original order.
+				if ( false === $key ) {
+					$key = ++$num_items;
+				}
+
+				// Add the item to the new submenu.
+				$new_submenu[ $key ] = $item;
+
+			}
+
+			// Sort.
+			ksort( $new_submenu );
+
+			// Remove the keys so the new array doesn't skip any numbers.
+			$submenu['lifterlms'] = array_values( $new_submenu );
+
 		}
 
-		return $menu_ord;
+		return $flag;
+
 	}
 
 
