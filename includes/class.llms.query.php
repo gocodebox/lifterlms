@@ -4,7 +4,7 @@
  * Handles queries and endpoints.
  *
  * @since 1.0.0
- * @version 3.33.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
  * @since 3.33.0 Added catalog secondary sorting by `post_title` when the primary sort is `menu_order`.
+ * @since [version] Changed `pre_get_posts` callback from `10 (default) to `15`,
+ *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
+ *               but since themes are loaded after plugins it overrode our one.
  */
 class LLMS_Query {
 
@@ -26,12 +29,13 @@ class LLMS_Query {
 	public $query_vars = array();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @version 3.28.2
-	 *
-	 * @return void
+	 * @since 3.28.2 Unknown.
+	 * @since [version] Changed `pre_get_posts` callback from `10 (default) to `15`,
+	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
+	 *               but since themes are loaded after plugins it overrode our one.
 	 */
 	public function __construct() {
 
@@ -46,7 +50,7 @@ class LLMS_Query {
 
 		$this->init_query_vars();
 
-		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
 
 	}
 
@@ -165,11 +169,14 @@ class LLMS_Query {
 	}
 
 	/**
-	 * Sets the WP_Query variables for "post_type" on LifterLMS custom taxonomy archive pages for Courses and Memberships
+	 * Sets the WP_Query variables for "post_type" on LifterLMS custom taxonomy archive pages for Courses and Memberships.
 	 *
 	 * @since 1.4.4 Moved from LLMS_Post_Types.
 	 * @since 3.16.8
 	 * @since 3.33.0 Added `post_title` as a secondary sort when the primary sort is `menu_order`
+	 * @since [version] Changed `pre_get_posts` callback from `10 (default) to `15`,
+	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
+	 *               but since themes are loaded after plugins it overrode our one.
 	 *
 	 * @param WP_Query $query Main WP_Query Object.
 	 * @return void
@@ -228,7 +235,7 @@ class LLMS_Query {
 			}
 
 			// remove action when finished
-			remove_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+			remove_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
 
 		}// End if().
 
@@ -302,3 +309,4 @@ class LLMS_Query {
 }
 
 return new LLMS_Query();
+

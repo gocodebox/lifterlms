@@ -69,6 +69,80 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test LLMS_Membership->get_categories() method.
+	 *
+	 * @since [version]
+	 * @return void
+	 */
+	public function test_get_categories() {
+		// create new membership
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$membership    = new LLMS_Membership( $membership_id );
+
+		// create new categories
+		$taxonomy = 'membership_cat';
+		$created_term_ids = array();
+		for ( $i = 1; $i <= 3; $i ++ ) {
+			$new_term_ids = wp_create_term( "mock-membership-category-$i", $taxonomy );
+			$this->assertNotWPError( $new_term_ids );
+			$created_term_ids[ $i ] = $new_term_ids['term_id'];
+		}
+
+		// set categories in membership
+		$term_taxonomy_ids = wp_set_post_terms( $membership_id, $created_term_ids, $taxonomy );
+		$this->assertNotWPError( $term_taxonomy_ids );
+		$this->assertNotFalse( $term_taxonomy_ids );
+
+		// get categories from membership
+		$membership_terms = $membership->get_categories();
+		$membership_term_ids = array();
+		/** @var WP_Term $membership_term */
+		foreach ( $membership_terms as $membership_term ) {
+			$membership_term_ids[] = $membership_term->term_id;
+		}
+
+		// compare array values while ignoring keys and order
+		$this->assertEqualSets( $created_term_ids, $membership_term_ids );
+	}
+
+	/**
+	 * Test LLMS_Membership->get_tags() method.
+	 *
+	 * @since [version]
+	 * @return void
+	 */
+	public function test_get_tags() {
+		// create new membership
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$membership    = new LLMS_Membership( $membership_id );
+
+		// create new tags
+		$taxonomy = 'membership_tag';
+		$created_term_ids = array();
+		for ( $i = 1; $i <= 3; $i ++ ) {
+			$new_term_ids = wp_create_term( "mock-membership-tag-$i", $taxonomy );
+			$this->assertNotWPError( $new_term_ids );
+			$created_term_ids[ $i ] = $new_term_ids['term_id'];
+		}
+
+		// set tags in membership
+		$term_taxonomy_ids = wp_set_post_terms( $membership_id, $created_term_ids, $taxonomy );
+		$this->assertNotWPError( $term_taxonomy_ids );
+		$this->assertNotFalse( $term_taxonomy_ids );
+
+		// get tags from membership
+		$membership_terms = $membership->get_tags();
+		$membership_term_ids = array();
+		/** @var WP_Term $membership_term */
+		foreach ( $membership_terms as $membership_term ) {
+			$membership_term_ids[] = $membership_term->term_id;
+		}
+
+		// compare array values while ignoring keys and order
+		$this->assertEqualSets( $created_term_ids, $membership_term_ids );
+	}
+
+	/**
 	 * Test get_sales_page_url method.
 	 *
 	 * @since 3.20.0

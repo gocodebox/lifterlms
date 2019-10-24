@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,6 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
  * @since 3.33.0 Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Added l10n function to membership restriction error message.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -38,6 +39,7 @@ class LLMS_Shortcode_Checkout {
 	 *
 	 * @since 1.0.0
 	 * @since 3.33.0 Do not display the checkout form but a notice to a logged in user enrolled in the product being purchased.
+	 * @since [version] Added l10n function to membership restriction error message.
 	 *
 	 * @param array $atts Shortcode attributes array.
 	 * @return void
@@ -57,7 +59,7 @@ class LLMS_Shortcode_Checkout {
 				}
 			}
 			if ( ! $access ) {
-				llms_print_notice( 'You must be a member in order to purchase this access plan.', 'error' );
+				llms_print_notice( __( 'You must be a member in order to purchase this access plan.', 'lifterlms' ), 'error' );
 				return;
 			}
 		}

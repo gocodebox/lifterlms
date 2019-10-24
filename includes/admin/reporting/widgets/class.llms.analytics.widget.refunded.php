@@ -6,12 +6,17 @@
  * according to active filters
  *
  * @since  3.0.0
- * @version 3.0.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Refunded Amount Widget.
+ *
+ * @since 3.0.0
+ * @since [version] In `format_response()` method avoid running `wp_list_pluck()` on non arrays.
+ */
 class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;
@@ -34,10 +39,10 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 
 		$txn_meta_join  = '';
 		$txn_meta_where = '';
-		// create an "IN" clause that can be used for later in WHERE clauses
+		// create an "IN" clause that can be used for later in WHERE clauses.
 		if ( $this->get_posted_students() || $this->get_posted_posts() ) {
 
-			// get an array of order based on posted students & products
+			// get an array of order based on posted students & products.
 			$this->set_order_data_query(
 				array(
 					'date_range'     => false,
@@ -69,7 +74,7 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 			}
 		}
 
-		// date range will be used to get transactions between given dates
+		// date range will be used to get transactions between given dates.
 		$dates            = $this->get_posted_dates();
 		$this->query_vars = array(
 			$this->format_date( $dates['start'], 'start' ),
@@ -96,11 +101,18 @@ class LLMS_Analytics_Refunded_Widget extends LLMS_Analytics_Widget {
 
 	}
 
+	/**
+	 * Format response.
+	 *
+	 * @since unknown
+	 * @since [version] Avoid running `wp_list_pluck()` on non arrays.
+	 */
 	protected function format_response() {
 
 		if ( ! $this->is_error() ) {
 
-			return llms_price_raw( floatval( array_sum( wp_list_pluck( $this->get_results(), 'amount' ) ) ) );
+			$results = $this->get_results();
+			return llms_price_raw( floatval( is_array( $results ) ? array_sum( wp_list_pluck( $results, 'amount' ) ) : $results ) );
 
 		}
 

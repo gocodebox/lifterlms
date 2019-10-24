@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.1 Explicitly include template functions during imports.
  * @since 3.35.0 Initialize at `admin_init` instead of `init`.
  *               Import template from the admin views directory instead of the frontend templates directory.
- *               Improve error handling
+ *               Improve error handling.
+ * @since [version] Fixed a typo where "$generator" was spelled "$generater".
  */
 class LLMS_Admin_Import {
 
@@ -105,7 +106,8 @@ class LLMS_Admin_Import {
 	 * @since 3.30.1 Explicitly include template functions.
 	 * @since 3.35.0 Validate nonce and user permissions before processing import data.
 	 *               Moved statistic localization into its own function.
-	 *               UpdateD return signature.
+	 *               Updated return signature.
+	 * @since [version] Fixed a typo where "$generator" was spelled "$generater".
 	 *
 	 * @return boolean|WP_Error false for nonce or permission errors, WP_Error when an error is encountered, true on success.
 	 */
@@ -135,7 +137,7 @@ class LLMS_Admin_Import {
 		$generator = new LLMS_Generator( $raw );
 		if ( is_wp_error( $generator->set_generator() ) ) {
 			LLMS_Admin_Notices::flash_notice( $generator->error->get_error_message(), 'error' );
-			return $generater->error;
+			return $generator->error;
 		}
 
 		$generator->generate();
