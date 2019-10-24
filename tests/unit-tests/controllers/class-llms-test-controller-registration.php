@@ -7,20 +7,23 @@
  *
  * @since 3.19.4
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+ * @since [version] Install forms during setup.
  */
 class LLMS_Test_Controller_Registration extends LLMS_UnitTestCase {
 
 	/**
-	 * Test order completion actions
+	 * Test registration form submission.
 	 *
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+	 * @since [version] Install forms during setup.
 	 *
 	 * @return void
 	 */
 	public function test_register() {
 
 		LLMS_Install::create_pages();
+		LLMS_Forms::instance()->install();
 
 		// form not submitted
 		$this->setup_post( array() );
