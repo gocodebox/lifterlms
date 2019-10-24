@@ -3,7 +3,7 @@
  * Membership Settings Metabox
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,12 +15,15 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  * @since 3.36.0 Allow some fields to store values with quotes.
+ * @since [version] In the `save() method Added logic to correctly sanitize fields of type
+ *              'multi' (array) and 'shortcode' (preventing quotes encode).
+ *               Also align the method return type to the parent `save()` method.
  */
 class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 
 	/**
 	 * This function allows extending classes to configure required class properties
-	 * $this->id, $this->title, and $this->screens should be configured in this function
+	 * $this->id, $this->title, and $this->screens should be configured in this function.
 	 *
 	 * @return void
 	 * @since  3.0.0
@@ -37,7 +40,7 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Get array of data to pass to the auto enrollment courses table
+	 * Get array of data to pass to the auto enrollment courses table.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Removed sorting by title.
@@ -77,8 +80,8 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * This function is where extending classes can configure all the fields within the metabox
-	 * The function must return an array which can be consumed by the "output" function
+	 * This function is where extending classes can configure all the fields within the metabox.
+	 * The function must return an array which can be consumed by the "output" function.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Removed empty field settings. Modified settings to accommodate sortable auto-enrollment table.
@@ -262,21 +265,33 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Save field data
+	 * Save field data.
 	 *
 	 * @since 3.0.0
 	 * @since 3.30.0 Autoenroll courses saved via AJAX and removed from this method.
 	 * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
+	 * @since [version] Added logic to correctly sanitize fields of type 'multi' (array)
+	 *               and 'shortcode' (preventing quotes encode).
+	 *               Also align the return type to the parent `save()` method.
 	 *
 	 * @see LLMS_Admin_Metabox::save_actions()
 	 *
 	 * @param int $post_id WP_Post ID of the post being saved.
-	 * @return void
+	 * @return int `-1` When no user or user is missing required capabilities or when there's no or invalid nonce.
+	 *             `0` during inline saves or ajax requests or when no fields are found for the metabox.
+	 *             `1` if fields were found. This doesn't mean there weren't errors during saving.
 	 */
 	public function save( $post_id ) {
 
 		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
-			return;
+			return -1;
+		}
+
+		// Return early during quick saves and ajax requests.
+		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
+			return 0;
+		} elseif ( llms_is_ajax() ) {
+			return 0;
 		}
 
 		$membership = new LLMS_Membership( $post_id );
@@ -285,25 +300,55 @@ class LLMS_Meta_Box_Membership extends LLMS_Admin_Metabox {
 			$_POST[ $this->prefix . 'restriction_add_notice' ] = 'no';
 		}
 
-		// save all the fields
-		$fields = array(
-			'restriction_redirect_type',
-			'redirect_page_id',
-			'redirect_custom_url',
-			'restriction_add_notice',
-			'restriction_notice',
-			'sales_page_content_page_id',
-			'sales_page_content_type',
-			'sales_page_content_url',
+		// Get all defined fields.
+		$fields = $this->get_fields();
+
+		// save all the fields.
+		$save_fields = array(
+			$this->prefix . 'restriction_redirect_type',
+			$this->prefix . 'redirect_page_id',
+			$this->prefix . 'redirect_custom_url',
+			$this->prefix . 'restriction_add_notice',
+			$this->prefix . 'restriction_notice',
+			$this->prefix . 'sales_page_content_page_id',
+			$this->prefix . 'sales_page_content_type',
+			$this->prefix . 'sales_page_content_url',
 		);
-		foreach ( $fields as $field ) {
 
-			if ( isset( $_POST[ $this->prefix . $field ] ) ) {
+		if ( ! is_array( $fields ) ) {
+			return 0;
+		}
 
-				$membership->set( $field, llms_filter_input( INPUT_POST, $this->prefix . $field, FILTER_SANITIZE_STRING ) );
+		$to_return = 0;
 
+		// Loop through the fields.
+		foreach ( $fields as $group => $data ) {
+
+			// Find the fields in each tab.
+			if ( isset( $data['fields'] ) && is_array( $data['fields'] ) ) {
+
+				// loop through the fields.
+				foreach ( $data['fields'] as $field ) {
+
+					// don't save things that don't have an ID or that are not listed in $save_fields.
+					if ( isset( $field['id'] ) && in_array( $field['id'], $save_fields, true ) ) {
+
+						if ( isset( $field['sanitize'] ) && 'shortcode' === $field['sanitize'] ) {
+							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
+						} elseif ( isset( $field['multi'] ) && $field['multi'] ) {
+							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
+						} else {
+							$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
+						}
+
+						$membership->set( substr( $field['id'], strlen( $this->prefix ) ), $val );
+						$to_return = 1;
+					}
+				}
 			}
 		}
+
+		return $to_return;
 
 	}
 
