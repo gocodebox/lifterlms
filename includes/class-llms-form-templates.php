@@ -539,7 +539,7 @@ class LLMS_Form_Templates {
 	protected function template_registration() {
 		return array_merge(
 			$this->template_default( 'registration' ),
-			$this->get_row_voucher(),
+			$this->get_row_voucher()
 		);
 	}
 

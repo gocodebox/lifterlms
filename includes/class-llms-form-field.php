@@ -641,7 +641,7 @@ class LLMS_Form_Field {
 	 *
 	 * @since [version]
 	 *
-	 * @return array
+	 * @return void
 	 */
 	protected function prepare_options_from_preset() {
 
@@ -799,7 +799,7 @@ class LLMS_Form_Field {
 
 		// Attempt to populate field data from the most recent $_POST action.
 		if ( 'POST' === strtoupper( getenv( 'REQUEST_METHOD' ) ) ) {
-			$posted = wp_unslash( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification.
+			$posted = wp_unslash( $_POST ); // phpcs:disable WordPress.Security.NonceVerification.Missing -- nonce is verified prior to reaching this method.
 			if ( isset( $posted[ $this->settings['name'] ] ) ) {
 				$user_val = llms_filter_input( INPUT_POST, $this->settings['name'], FILTER_SANITIZE_STRING );
 			}
@@ -887,7 +887,7 @@ class LLMS_Form_Field {
 
 		$this->settings['wrapper_classes'] = $this->classes_ensure_array(
 			$this->settings['wrapper_classes'],
-			$defaults,
+			$defaults
 		);
 
 	}

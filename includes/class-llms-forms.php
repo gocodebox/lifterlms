@@ -541,7 +541,7 @@ class LLMS_Forms {
 						'single'            => true,
 						'show_in_rest'      => true,
 					)
-				),
+				)
 			);
 
 		}
