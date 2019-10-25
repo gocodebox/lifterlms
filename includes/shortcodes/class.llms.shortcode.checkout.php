@@ -71,7 +71,7 @@ class LLMS_Shortcode_Checkout {
 				 *
 				 * @since [version]
 				 *
-				 * @param $display_notice bool Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
+				 * @param bool $display_notice Whether or not displaying the checkout form notice for already enrolled students in the product being purchased.
 				 */
 				if ( apply_filters( 'llms_display_checkout_form_enrolled_students_notice', true ) ) {
 					llms_print_notice(

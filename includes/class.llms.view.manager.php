@@ -2,7 +2,7 @@
 /**
  * View Manager
  *
- * Allows qualifying user roles to view as various user types to make easier testing and editing of LLMS Content
+ * Allows qualifying user roles to view as various user types to make easier testing and editing of LLMS Content.
  *
  * @package LifterLMS/Classes
  *
@@ -18,6 +18,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.7.0
  * @since 3.35.0 Sanitize `$_GET` data.
  * @since [version] Disable the view management when creating a pending order.
+ *               Added `modify_display_free_enroll_form` method.
+ *               `get_url` method modified so to take into account already present
+ *               query args in the request URI.
  */
 class LLMS_View_Manager {
 
@@ -30,10 +33,12 @@ class LLMS_View_Manager {
 	public function __construct() {
 
 		// Do nothing if we're creating a pending order.
-		if ( ! empty( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) {// phpcs:disable WordPress.Security.NonceVerification.Missing
+		// phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( ! empty( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) {
 			return;
 		}
 		// phpcs:enable WordPress.Security.NonceVerification.Missing
+
 		add_action( 'init', array( $this, 'add_actions' ) );
 
 	}
@@ -42,6 +47,7 @@ class LLMS_View_Manager {
 	 * Add actions & filters.
 	 *
 	 * @since 3.7.0
+	 * @since [version] Added filter to handle the displaying of the free enroll.
 	 *
 	 * @return void
 	 */
@@ -64,6 +70,8 @@ class LLMS_View_Manager {
 
 			add_filter( 'llms_get_enrollment_status', array( $this, 'modify_enrollment_status' ), 10, 1 );
 
+			add_filter( 'llms_display_free_enroll_form', array( $this, 'modify_display_free_enroll_form' ), 10, 1 );
+
 			add_action( 'wp_enqueue_scripts', array( $this, 'scripts' ) );
 
 		}
@@ -80,19 +88,19 @@ class LLMS_View_Manager {
 	 */
 	public function add_menu_items() {
 
-		// dont display on admin panel
+		// dont display on admin panel.
 		if ( is_admin() ) {
 			return;
 		}
 
-		// check this to prevent leaked globals creating a false positive below
+		// check this to prevent leaked globals creating a false positive below.
 		if ( is_post_type_archive() ) {
 			return;
 		}
 
-		// don't need to do anything for most post types
+		// don't need to do anything for most post types.
 		global $post;
-		if ( ! $post || ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ) ) ) {
+		if ( ! $post || ( ! is_llms_checkout() && ! in_array( $post->post_type, array( 'course', 'lesson', 'llms_membership', 'llms_quiz' ), true ) ) ) {
 			return;
 		}
 
@@ -151,6 +159,7 @@ class LLMS_View_Manager {
 	 * Get a view url for the requested view.
 	 *
 	 * @since 3.7.0
+	 * @since [version] Take into account already present query args. e.g. ?plan=X
 	 *
 	 * @param string $role View option [self|visitor|student].
 	 * @param array  $args Optional. Additional query args to add to the url. Default empty array.
@@ -158,16 +167,14 @@ class LLMS_View_Manager {
 	 */
 	private function get_url( $role, $args = array() ) {
 
-		global $post;
-		$permalink = get_permalink( $post->ID );
-
+		// returns the current url without the `llms-view-as` and `view_nonce` query args.
 		if ( 'self' === $role ) {
-			return $permalink;
+			return remove_query_arg( array( 'llms-view-as', 'view_nonce' ) );
 		}
 
 		$args['llms-view-as'] = $role;
 
-		$href = add_query_arg( $args, $permalink );
+		$href = add_query_arg( $args );
 		$href = wp_nonce_url( $href, 'llms-view-as', 'view_nonce' );
 
 		return $href;
@@ -281,6 +288,25 @@ class LLMS_View_Manager {
 		}
 
 		return $status;
+
+	}
+
+	/**
+	 * Modify the displaying of the free enroll form (free access plans).
+	 * Visitors will never be shown the free enroll form.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $display Whether or not the form is being displayed.
+	 * @return bool
+	 */
+	public function modify_display_free_enroll_form( $display ) {
+
+		if ( ! $display || 'visitor' === $this->get_view() ) {
+			return false;
+		}
+
+		return $display;
 
 	}
 
