@@ -21,7 +21,7 @@ if ( ! is_admin() ) {
 <script type="text/javascript">
 	window.onload = function() {
 		document.getElementById( 'llms-start-updater' ).onclick = function( e ) {
-			var confirm = window.confirm( '<?php echo esc_js( __( 'We strongly recommended that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'lifterlms' ) ); ?>' );
+			var confirm = window.confirm( '<?php echo esc_js( __( 'We strongly recommend that you backup your database before proceeding. Are you sure you wish to run the updater now?', 'lifterlms' ) ); ?>' );
 			if ( ! confirm ) { e.preventDefault(); }
 		};
 	};
