@@ -4,13 +4,13 @@
  * Handles queries and endpoints.
  *
  * @since 1.0.0
- * @version 3.36.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Query class
+ * LLMS_Query class.
  *
  * @since 1.0.0
  * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
@@ -18,6 +18,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
  *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
  *               but since themes are loaded after plugins it overrode our one.
+ * @since [version] Don't remove `pre_get_posts` callback from within the callback itself.
+ *               Rather use a static variable to make sure the business logic of the callback
+ *               is executed only once.
  */
 class LLMS_Query {
 
@@ -177,13 +180,21 @@ class LLMS_Query {
 	 * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
 	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
 	 *               but since themes are loaded after plugins it overrode our one.
+	 * @since [version] Don't remove this callback from within the callback itself.
+	 *               Rather use a static variable to make sure the business logic of this
+	 *               method is executed only once.
 	 *
 	 * @param WP_Query $query Main WP_Query Object.
 	 * @return void
 	 */
 	public function pre_get_posts( $query ) {
 
+		static $done      = false;
 		$modify_tax_query = false;
+
+		if ( $done ) {
+			return;
+		}
 
 		if ( ! is_admin() && $query->is_main_query() ) {
 
@@ -234,8 +245,8 @@ class LLMS_Query {
 
 			}
 
-			// remove action when finished
-			remove_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
+			// do it once.
+			$done = true;
 
 		}// End if().
 
