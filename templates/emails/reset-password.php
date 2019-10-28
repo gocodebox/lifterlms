@@ -8,7 +8,7 @@
 
 defined( 'ABSPATH' ) || exit; ?>
 
-<p><?php printf( __( 'Someone recently requested that the password be reset for %s.', 'lifterlms' ), '<strong>{user_login}</strong>' ); ?></p>
+<p><?php printf( __( 'A password reset has been requested for %s.', 'lifterlms' ), '<strong>{user_login}</strong>' ); ?></p>
 
 <p><?php _e( 'To reset your password, click on the button below:', 'lifterlms' ); ?></p>
 
