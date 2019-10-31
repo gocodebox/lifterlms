@@ -1,6 +1,8 @@
 ## Description
 <!-- Please describe what you have changed or added -->
 
+Fixes #<!-- insert the related issue number here -->
+
 ## How has this been tested?
 <!-- Please describe in detail how you tested your changes. -->
 <!-- Include details of your testing environment, tests ran to see how -->
