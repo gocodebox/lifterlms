@@ -24,7 +24,7 @@ _Note: files in the `tmp` directory used during tests are currently parsed by th
     B. Compile all static assets (`.js`, `.css`), localization files (`.pot`) and dynamically generated classes: run `gulp build`.
     C. Create a zip file: run `gulp zip`.
 
-5. Unizp the build and confirm that the main plugin file's `Version` header tag has been properly incremented.
+5. Unzip the build and confirm that the main plugin file's `Version` header tag has been properly incremented.
 6. Install and activate the zip file on a temporary sandbox site.
 
     A. Run the setup wizard.
