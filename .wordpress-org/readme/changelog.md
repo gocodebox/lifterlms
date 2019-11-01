@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.36.4 - 2019-11-01 =
+------------------------
+
++ Fixes a conflict with CartFlows introduced by a Divi theme compatibility fix added in 3.36.3. Is WordPress complicated or what?
+
+
 = v3.36.3 - 2019-10-24 =
 ------------------------
 
@@ -201,14 +207,3 @@ The following unused classes have been marked as deprecated and will be removed 
 
 + Fix issue causing certain webhooks to not trigger as a result of action load order.
 + Change "access_plans" to "Access Plans" for better human reading.
-
-
-= v3.34.3 - 2019-08-22 =
-------------------------
-
-+ During payment gateway order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
-
-##### LifterLMS REST API v1.0.0-beta.5
-
-+ Load all required files and functions when authentication is triggered.
-+ Access `$_SERVER` variables via `filter_var` instead of `llms_filter_input` to work around PHP bug https://bugs.php.net/bug.php?id=49184.

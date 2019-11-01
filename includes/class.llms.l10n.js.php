@@ -7,7 +7,7 @@
  *
  * @package  LifterLMS/Classes/Localization
  * @since    3.17.8
- * @version  3.33.0
+ * @version  3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -33,7 +33,7 @@ class LLMS_L10n_JS {
 	 * @param    array $strings existing strings from core / 3rd parties.
 	 * @return   array
 	 * @since    3.17.8
-	 * @version  3.33.0
+	 * @version  3.36.3
 	 */
 	public function get_strings( $strings ) {
 		// phpcs:disable
@@ -396,7 +396,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-metabox-product.js.
 			 *
 			 * @since    3.0.0
-			 * @version  3.30.3
+			 * @version  3.36.3
 			 */
 			'There was an error loading the necessary resources. Please try again.' => esc_html__( 'There was an error loading the necessary resources. Please try again.', 'lifterlms' ),
 			'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.' => esc_html__( 'After deleting this access plan, any students subscribed to this plan will still have access and will continue to make recurring payments according to the access plan\'s settings. If you wish to terminate their plans you must do so manually. This action cannot be reversed.', 'lifterlms' ),
