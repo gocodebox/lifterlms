@@ -58,7 +58,7 @@ class LLMS_Twenty_Twenty {
 	 */
 	public static function add_inline_styles() {
 
-		$accent     = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
+		$accent = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
 		?>
 		<style id="llms-twentytweny-style">
 		.llms-access-plan.featured .llms-access-plan-content,
@@ -109,126 +109,143 @@ class LLMS_Twenty_Twenty {
 	public static function add_elements( $elements ) {
 
 		// Accent Background.
-		$elements['content']['accent']['background'] = array_merge( $elements['content']['accent']['background'], array(
+		$elements['content']['accent']['background'] = array_merge(
+			$elements['content']['accent']['background'],
+			array(
 
-			// Buttons.
-			'.llms-button-primary',
-			'.llms-button-primary:hover',
-			'.llms-button-primary.clicked',
-			'.llms-button-primary:focus',
-			'.llms-button-primary:active',
-			'.llms-button-action',
-			'.llms-button-action:hover',
-			'.llms-button-action.clicked',
-			'.llms-button-action:focus',
-			'.llms-button-action:active',
+				// Buttons.
+				'.llms-button-primary',
+				'.llms-button-primary:hover',
+				'.llms-button-primary.clicked',
+				'.llms-button-primary:focus',
+				'.llms-button-primary:active',
+				'.llms-button-action',
+				'.llms-button-action:hover',
+				'.llms-button-action.clicked',
+				'.llms-button-action:focus',
+				'.llms-button-action:active',
 
-			// Pricing Tables.
-			'.llms-access-plan-title',
-			'.llms-access-plan .stamp',
-			'.llms-access-plan.featured .llms-access-plan-featured',
+				// Pricing Tables.
+				'.llms-access-plan-title',
+				'.llms-access-plan .stamp',
+				'.llms-access-plan.featured .llms-access-plan-featured',
 
-			// Checkout.
-			'.llms-checkout-wrapper .llms-form-heading',
+				// Checkout.
+				'.llms-checkout-wrapper .llms-form-heading',
 
-			// Notices.
-			'.llms-notice',
+				// Notices.
+				'.llms-notice',
 
-			// Progress Bar.
-			'.llms-progress .progress-bar-complete',
+				// Progress Bar.
+				'.llms-progress .progress-bar-complete',
 
-			// My Grades.
-			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
+				// My Grades.
+				'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
 
-			// Instructor.
-			'.llms-instructor-info .llms-instructors .llms-author .avatar',
+				// Instructor.
+				'.llms-instructor-info .llms-instructors .llms-author .avatar',
 
-			// Quizzes.
-			'.llms-question-wrapper ol.llms-question-choices li.llms-choice input:checked + .llms-marker',
+				// Quizzes.
+				'.llms-question-wrapper ol.llms-question-choices li.llms-choice input:checked + .llms-marker',
 
-		) );
+			)
+		);
 
 		// Accent Border Color.
-		$elements['content']['accent']['border-color'] = array_merge( $elements['content']['accent']['border-color'], array(
+		$elements['content']['accent']['border-color'] = array_merge(
+			$elements['content']['accent']['border-color'],
+			array(
 
-			// Checkout.
-			'.llms-checkout-section',
-			'.llms-checkout-wrapper form.llms-login',
+				// Checkout.
+				'.llms-checkout-section',
+				'.llms-checkout-wrapper form.llms-login',
 
-			// Notices.
-			'.llms-notice',
+				// Notices.
+				'.llms-notice',
 
-			// Instructor.
-			'.llms-instructor-info .llms-instructors .llms-author .avatar',
+				// Instructor.
+				'.llms-instructor-info .llms-instructors .llms-author .avatar',
 
-		) );
-
+			)
+		);
 
 		// Accent Color.
-		$elements['content']['accent']['color'] = array_merge( $elements['content']['accent']['color'], array(
+		$elements['content']['accent']['color'] = array_merge(
+			$elements['content']['accent']['color'],
+			array(
 
-			// Pricing Tables.
-			'.llms-access-plan-restrictions a',
-			'.llms-access-plan-restrictions a:hover',
+				// Pricing Tables.
+				'.llms-access-plan-restrictions a',
+				'.llms-access-plan-restrictions a:hover',
 
-			// Loop.
-			'.llms-loop-item-content .llms-loop-title:hover',
+				// Loop.
+				'.llms-loop-item-content .llms-loop-title:hover',
 
-			// Donuts.
-			'.llms-donut',
+				// Donuts.
+				'.llms-donut',
 
-			// Checks on Syllabus.
-			'.llms-lesson-preview.is-free .llms-lesson-complete',
-			'.llms-lesson-preview.is-complete .llms-lesson-complete',
+				// Checks on Syllabus.
+				'.llms-lesson-preview.is-free .llms-lesson-complete',
+				'.llms-lesson-preview.is-complete .llms-lesson-complete',
 
-		) );
+			)
+		);
 
 		// Background Text Color.
-		$elements['content']['background']['color'] = array_merge($elements['content']['background']['color'], array(
+		$elements['content']['background']['color'] = array_merge(
+			$elements['content']['background']['color'],
+			array(
 
-			// Buttons.
-			'.llms-button-primary',
-			'.llms-button-primary:hover',
-			'.llms-button-primary.clicked',
-			'.llms-button-primary:focus',
-			'.llms-button-primary:active',
-			'.llms-button-action',
-			'.llms-button-action:hover',
-			'.llms-button-action.clicked',
-			'.llms-button-action:focus',
-			'.llms-button-action:active',
+				// Buttons.
+				'.llms-button-primary',
+				'.llms-button-primary:hover',
+				'.llms-button-primary.clicked',
+				'.llms-button-primary:focus',
+				'.llms-button-primary:active',
+				'.llms-button-action',
+				'.llms-button-action:hover',
+				'.llms-button-action.clicked',
+				'.llms-button-action:focus',
+				'.llms-button-action:active',
 
-			// Pricing Tables.
-			'.llms-access-plan-title',
-			'.llms-access-plan .stamp',
-			'.llms-access-plan.featured .llms-access-plan-featured',
+				// Pricing Tables.
+				'.llms-access-plan-title',
+				'.llms-access-plan .stamp',
+				'.llms-access-plan.featured .llms-access-plan-featured',
 
-			// Checkout.
-			'.llms-checkout-wrapper .llms-form-heading',
+				// Checkout.
+				'.llms-checkout-wrapper .llms-form-heading',
 
-			// Notices.
-			'.llms-notice',
-			'.llms-notice a',
+				// Notices.
+				'.llms-notice',
+				'.llms-notice a',
 
-			// My Grades.
-			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
+				// My Grades.
+				'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
 
-		) );
+			)
+		);
 
 		// Background Background Color.
-		$elements['content']['background']['background'] = array_merge($elements['content']['background']['background'], array(
+		$elements['content']['background']['background'] = array_merge(
+			$elements['content']['background']['background'],
+			array(
 
-			'.llms-checkout',
+				'.llms-checkout',
 
-		) );
+			)
+		);
 
 		// Text Color.
-		$elements['content']['text']['color'] = array_merge($elements['content']['text']['color'], array(
+		$elements['content']['text']['color'] = array_merge(
+			$elements['content']['text']['color'],
+			array(
 
-			'.llms-notice.llms-debug',
-			'.llms-notice.llms-debug a',
+				'.llms-notice.llms-debug',
+				'.llms-notice.llms-debug a',
 
-		) );
+			)
+		);
 
 		return $elements;
 
@@ -266,7 +283,7 @@ class LLMS_Twenty_Twenty {
 
 		if ( is_courses() ) {
 			$page_id = llms_get_page_id( 'courses' );
-		} else if ( is_memberships() ) {
+		} elseif ( is_memberships() ) {
 			$page_id = llms_get_page_id( 'memberships' );
 		}
 
