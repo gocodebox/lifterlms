@@ -37,7 +37,8 @@ class LLMS_Test_Query extends LLMS_Unit_Test_Case {
 
 	private function assertQueryHasProductVisibilityModifications( $query, $is_search = false ) {
 
-		$this->assertTrue( 0 !== count( $query->tax_query->queries ) );
+		$queries = $query->tax_query->queries;
+		$this->assertTrue( 0 !== count( $queries ) );
 
 		$terms = wp_list_pluck(
 			get_terms(
@@ -52,7 +53,13 @@ class LLMS_Test_Query extends LLMS_Unit_Test_Case {
 
 		$not_in = $is_search ? array( $terms['hidden'], $terms['catalog'] ) : array( $terms['hidden'], $terms['search'] );
 
-		$item = array_pop( $query->tax_query->queries );
+		// search for 'llms_product_visibility' tax query.
+		unset($queries['relation']); // so that we can run wp_list_pluck.
+		$search = array_search( 'llms_product_visibility', wp_list_pluck( $queries, 'taxonomy' ) );
+		$this->assertTrue( false !== $search );
+
+		$item   = $queries[ $search ];
+
 		$this->assertEquals( 'llms_product_visibility', $item['taxonomy'] );
 		$this->assertEquals( 'term_taxonomy_id', $item['field'] );
 		$this->assertEquals( 'NOT IN', $item['operator'] );
@@ -132,11 +139,11 @@ class LLMS_Test_Query extends LLMS_Unit_Test_Case {
 			$term = wp_create_term( sprintf( 'mock-%s-term', $tax ), $tax );
 
 			$args = array(
-				$tax => $term['term_id']
+				$tax => get_term( $term['term_id'], $tax )->slug,
 			);
 
 			$query = $this->get_query( $args );
-			var_dump( is_tax( $tax ) );
+
 			$this->assertQueryHasProductVisibilityModifications( $query );
 
 		}
