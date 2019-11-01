@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -46,6 +46,7 @@ require_once 'vendor/autoload.php';
  * @since 3.34.0 Include the LLMS_Admin_Users_Table class.
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
+ * @since [version] Add Twenty Twenty Theme Support.
  */
 final class LifterLMS {
 
@@ -470,13 +471,22 @@ final class LifterLMS {
 	 * Conditionally require additional theme support classes.
 	 *
 	 * @since 3.31.0-beta.1
+	 * @since [version] Add Twenty Twenty support.
 	 *
 	 * @return void
 	 */
 	private function includes_theme_support() {
 
-		if ( 'twentynineteen' === get_template() ) {
-			include_once 'includes/theme-support/class-llms-twenty-nineteen.php';
+		switch ( get_template() ) {
+
+			case 'twentynineteen':
+				include_once 'includes/theme-support/class-llms-twenty-nineteen.php';
+				break;
+
+			case 'twentytwenty':
+				include_once 'includes/theme-support/class-llms-twenty-twenty.php';
+				break;
+
 		}
 
 	}
