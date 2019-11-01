@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.36.4 - 2019-11-01
+--------------------
+
++ Fixes a conflict with CartFlows introduced by a Divi theme compatibility fix added in 3.36.3. Is WordPress complicated or what?
+
+
 v3.36.3 - 2019-10-24
 --------------------
 

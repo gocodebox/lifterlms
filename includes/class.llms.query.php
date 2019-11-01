@@ -4,7 +4,7 @@
  * Handles queries and endpoints.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.36.4
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
  *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
  *               but since themes are loaded after plugins it overrode our one.
- * @since [version] Don't remove `pre_get_posts` callback from within the callback itself.
+ * @since 3.36.4 Don't remove `pre_get_posts` callback from within the callback itself.
  *               Rather use a static variable to make sure the business logic of the callback
  *               is executed only once.
  */
@@ -180,7 +180,7 @@ class LLMS_Query {
 	 * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
 	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
 	 *               but since themes are loaded after plugins it overrode our one.
-	 * @since [version] Don't remove this callback from within the callback itself.
+	 * @since 3.36.4 Don't remove this callback from within the callback itself.
 	 *               Rather use a static variable to make sure the business logic of this
 	 *               method is executed only once.
 	 *
