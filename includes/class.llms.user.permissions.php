@@ -3,7 +3,7 @@
  * Filters and actions related to user permissions
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.36.5
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Always add the `editable_roles` filter.
  * @since 3.34.0 Added methods and logic for managing user management of other users.
  *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
- * @since [version] Add `llms_user_caps_edit_others_posts_post_types` filter to allow 3rd parties to utilize core methods for modifying other users posts.
+ * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter to allow 3rd parties to utilize core methods for modifying other users posts.
  */
 class LLMS_User_Permissions {
 
@@ -134,7 +134,7 @@ class LLMS_User_Permissions {
 	 * @since 3.13.0
 	 * @since 3.34.0 Add logic for `edit_users` and `delete_users` capabilities with regards to LifterLMS user roles.
 	 *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
-	 * @since [version] Add `llms_user_caps_edit_others_posts_post_types` filter.
+	 * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter.
 	 *
 	 * @param array $allcaps  All the capabilities of the user
 	 * @param array $cap      [0] Required capability
@@ -148,7 +148,7 @@ class LLMS_User_Permissions {
 		/**
 		 * Modify the list of post types that users may not own but can still edit based on instructor permissions on the course
 		 *
-		 * @since [version]
+		 * @since 3.36.5
 		 *
 		 * @param string[] $post_types Array of unprefixed post type names.
 		 */

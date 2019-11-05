@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.36.5 - 2019-11-05
+--------------------
+
++ Add filter: `llms_user_caps_edit_others_posts_post_types` to allow 3rd parties to utilize core methods for determining if a user can manage another users LMS content on the admin panel.
+
+
 v3.36.4 - 2019-11-01
 --------------------
 
