@@ -563,38 +563,87 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
-	 * @param array $columns Array of block strings or block settings.
+	 * @param array  $columns Array of block strings or block settings.
+	 * @param string $visibility Block visibility restriction setting (eg "logged_out").
 	 * @return array
 	 */
 	protected function wrap_columns( $columns = array(), $visibility = '' ) {
 
-		$settings = $visibility ? ' ' . wp_json_encode( array( 'llms_visibility' => $visibility ) ) : '';
-		$cols     = array();
+		// Opening tag.
+		$cols[] = $this->wrap_columns_get_open_tag( $columns, $visibility );
 
-		$cols[] = sprintf( '<!-- wp:columns%s --><div class="wp-block-columns">', $settings );
+		// Explicit widths are used on WP 5.3 and greater.
+		global $wp_version;
+		$use_widths = ( version_compare( $wp_version, '5.3.0', '>=' ) );
 
 		foreach ( $columns as $column ) {
+			$cols[] = $this->wrap_columns_get_column( $column, $use_widths );
+		}
 
-			if ( is_string( $column ) ) {
-				$column = array(
-					'width'   => false,
-					'content' => $column,
-				);
-			}
+		$cols[] = '</div><!-- /wp:columns -->';
 
-			$width = $column['width'] ? $column['width'] : false;
-			$json  = $width ? wp_json_encode( array( 'width' => $width ) ) . ' ' : '';
-			$css   = $width ? sprintf( ' style="flex-basis:%s%%"', $width ) : '';
+		return $cols;
 
-			$cols[] = sprintf( '<!-- wp:column %1$s--><div class="wp-block-column"%2$s>', $json, $css );
-			$cols[] = $column['content'];
-			$cols[] = '</div><!-- /wp:column -->';
+	}
+
+	/**
+	 * Retrieve columns opening block comment and div tag.
+	 *
+	 * @since [version]
+	 *
+	 * @param array  $columns Array of block strings or block settings.
+	 * @param string $visibility Block visibility restriction setting (eg "logged_out").
+	 * @return string
+	 */
+	protected function wrap_columns_get_open_tag( $columns, $visibility = '' ) {
+
+		$classes  = array( 'wp-block-columns' );
+		$settings = array();
+
+		if ( $visibility ) {
+			$settings['llms_visibility'] = $visibility;
+		}
+
+		// Support WP Core 5.2 & lower.
+		global $wp_version;
+		if ( version_compare( $wp_version, '5.3.0', '<' ) ) {
+			$num_cols            = count( $columns );
+			$classes[]           = sprintf( 'has-%d-columns', $num_cols );
+			$settings['columns'] = $num_cols;
 
 		}
 
-		$cols[] = '</div><!-- /wp:column -->';
+		$settings = $settings ? ' ' . wp_json_encode( $settings ) : '';
+		return sprintf( '<!-- wp:columns%1$s --><div class="%2$s">', $settings, implode( ' ', $classes ) );
 
-		return $cols;
+	}
+
+	/**
+	 * Wrap a single block in a column block comment and html tag.
+	 *
+	 * @since [version]
+	 *
+	 * @param array|string $column Block settings array or block as a string.
+	 * @param bool         $use_widths Whether or not width information should be stored on the column tag.
+	 *                                 Prior to WP 5.3.0 columns were always equal and storing width information on the block
+	 *                                 causes block validation issues in the editor.
+	 * @return string
+	 */
+	protected function wrap_columns_get_column( $column, $use_widths = true ) {
+
+		// If a string is passed, convert it to an array with no explicit column width.
+		if ( is_string( $column ) ) {
+			$column = array(
+				'width'   => false,
+				'content' => $column,
+			);
+		}
+
+		$width = $use_widths && $column['width'] ? $column['width'] : false;
+		$json  = $width ? wp_json_encode( array( 'width' => $width ) ) . ' ' : '';
+		$css   = $width ? sprintf( ' style="flex-basis:%s%%"', $width ) : '';
+
+		return sprintf( '<!-- wp:column %1$s--><div class="wp-block-column"%2$s>%3$s</div><!-- /wp:column -->', $json, $css, $column['content'] );
 
 	}
 

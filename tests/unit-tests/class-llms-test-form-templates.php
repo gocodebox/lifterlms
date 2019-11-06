@@ -12,6 +12,30 @@
 class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 
 	/**
+	 * Hold a temporary reference to the $wp_version global.
+	 *
+	 * @var null
+	 */
+	private $wp_version = null;
+
+	/**
+	 * Mock the $wp_version global.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $version Version string.
+	 * @return void
+	 */
+	private function mock_wp_version( $version ) {
+
+		global $wp_version;
+		$this->wp_version = $wp_version;
+
+		$wp_version = $version;
+
+	}
+
+	/**
 	 * Setup the test case.
 	 *
 	 * @since [version]
@@ -19,6 +43,7 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	 * @return void
 	 */
 	public function setUp() {
+
 		parent::setUp();
 		$this->obj = LLMS_Form_Templates::instance();
 
@@ -26,6 +51,24 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 		delete_option( 'lifterlms_user_info_field_names_checkout_visibility' );
 		delete_option( 'lifterlms_user_info_field_address_checkout_visibility' );
 		delete_option( 'lifterlms_user_info_field_phone_checkout_visibility' );
+
+	}
+
+	/**
+	 * Cleanup the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tearDown() {
+
+		parent::tearDown();
+		if ( $this->wp_version ) {
+			global $wp_version;
+			$wp_version = $this->wp_version;
+			$this->wp_version = null;
+		}
 
 	}
 
@@ -390,6 +433,201 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 		$blocks = parse_blocks( $this->obj->get_template( 'checkout' ) );
 		$list   = $this->get_flat_block_list( $blocks );
 		$this->assertFalse( in_array( 'llms/form-field-user-phone', $list, true ) );
+
+	}
+
+	/**
+	 * Test column creation with no widths.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_wrap_columns_get_column_no_widths() {
+
+		$col = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
+		$expect = '<!-- wp:column --><div class="wp-block-column">' . $col . '</div><!-- /wp:column -->';
+
+		// As a string on 5.3 or later.
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, true ) );
+		$this->assertEquals( $expect, $res );
+
+		// As a string pre 5.3.
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, false ) );
+		$this->assertEquals( $expect, $res );
+
+		// As an array on 5.3 or later.
+		$col = array(
+			'content' => $col,
+			'width' => false,
+		);
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, true ) );
+		$this->assertEquals( $expect, $res );
+
+		// As an array on pre 5.3.
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, false ) );
+		$this->assertEquals( $expect, $res );
+
+	}
+
+	/**
+	 * Test column creation with widths on 5.3 or later.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_wrap_columns_get_column_with_widths_wp_53_plus() {
+
+		$col = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
+		$expect = '<!-- wp:column {"width":25} --><div class="wp-block-column" style="flex-basis:25%">' . $col . '</div><!-- /wp:column -->';
+
+		$col = array(
+			'content' => $col,
+			'width' => 25,
+		);
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, true ) );
+		$this->assertEquals( $expect, $res );
+
+	}
+
+	/**
+	 * Test column creation with widths on 5.2 or lower.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_wrap_columns_get_column_with_widths_wp_52_down() {
+
+		$col = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
+		$expect = '<!-- wp:column --><div class="wp-block-column">' . $col . '</div><!-- /wp:column -->';
+
+		$col = array(
+			'content' => $col,
+			'width' => 25,
+		);
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_column', array( $col, false ) );
+		$this->assertEquals( $expect, $res );
+
+	}
+
+	/**
+	 * Test column opening wrapper with visibility settings on 5.3 or later.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_wrap_columns_get_open_tag_with_visibility_wp_53_plus() {
+
+		$this->mock_wp_version( '5.3.0' );
+
+		$cols = array(
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+		);
+
+		$expect = '<!-- wp:columns {"llms_visibility":"logged_out"} --><div class="wp-block-columns">';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
+		$this->assertEquals( $expect, $res );
+
+		// Same result with more cols.
+		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
+		$this->assertEquals( $expect, $res );
+
+	}
+
+	/**
+	 * Test column opening wrapper without visibility settings on 5.3 or later.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_wrap_columns_get_open_tag_no_visibility_wp_53_plus() {
+
+		$this->mock_wp_version( '5.3.0' );
+
+		$cols = array(
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+		);
+
+		$expect = '<!-- wp:columns --><div class="wp-block-columns">';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
+		$this->assertEquals( $expect, $res );
+
+		// Same result with more cols.
+		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
+		$this->assertEquals( $expect, $res );
+
+	}
+
+	/**
+	 * Test column opening wrapper with visibility settings on 5.2 or earlier.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_wrap_columns_get_open_tag_with_visibility_wp_52_down() {
+
+		$this->mock_wp_version( '5.2.0' );
+
+		$cols = array(
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+		);
+
+		$expect = '<!-- wp:columns {"llms_visibility":"logged_out","columns":2} --><div class="wp-block-columns has-2-columns">';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
+		$this->assertEquals( $expect, $res );
+
+		// With 3 cols.
+		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
+		$expect = '<!-- wp:columns {"llms_visibility":"logged_out","columns":3} --><div class="wp-block-columns has-3-columns">';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols, 'logged_out' ) );
+		$this->assertEquals( $expect, $res );
+
+	}
+
+	/**
+	 * Test column opening wrapper without visibility settings on 5.2 or earlier.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_wrap_columns_get_open_tag_no_visibility_wp_52_down() {
+
+		$this->mock_wp_version( '5.2.0' );
+
+		$cols = array(
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+			'<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->',
+		);
+
+		$expect = '<!-- wp:columns {"columns":2} --><div class="wp-block-columns has-2-columns">';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
+		$this->assertEquals( $expect, $res );
+
+		// With 3 cols.
+		$cols[] = '<!-- wp:paragraph --><p>mock block</p><!-- /wp:paragraph -->';
+		$expect = '<!-- wp:columns {"columns":3} --><div class="wp-block-columns has-3-columns">';
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->obj, 'wrap_columns_get_open_tag', array( $cols ) );
+		$this->assertEquals( $expect, $res );
+
 
 	}
 
