@@ -1,20 +1,21 @@
 <?php
 /**
- * Analytics Widget Abstract
+ * Analytics Widget Abstract.
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Analytics Widget Abstract
+ * Analytics Widget Abstract.
  *
  * @since 3.0.0
  * @since 3.30.3 Define undefined properties.
- * @since 3.33.1 In `set_order_data_query()` always set $order_clause variable to avoid PHP notices
+ * @since 3.33.1 In `set_order_data_query()` always set $order_clause variable to avoid PHP notices.
  * @since 3.35.0 Sanitize input data from reporting filters.
+ * @since 3.36.3 Avoid warnings on using wpdb::prepare without placeholders.
  */
 abstract class LLMS_Analytics_Widget {
 
@@ -201,13 +202,13 @@ abstract class LLMS_Analytics_Widget {
 				$args,
 				array(
 					'select'         => array( '*' ),
-					'date_range'     => true, // whether or not to add a "where" for the posted date range
+					'date_range'     => true, // whether or not to add a "where" for the posted date range.
 					'date_field'     => 'post_date',
-					'query_function' => 'get_results', // query function to pass to $wpdb->query()
+					'query_function' => 'get_results', // query function to pass to $wpdb->query().
 					'output_type'    => OBJECT,
-					'joins'          => array(), // array of JOIN statements
-					'statuses'       => array(), // array of order statuses to query
-					'wheres'         => array(), // array of "WHERE" statements
+					'joins'          => array(), // array of JOIN statements.
+					'statuses'       => array(), // array of order statuses to query.
+					'wheres'         => array(), // array of "WHERE" statements.
 					'order'          => 'ASC',
 					'orderby'        => '',
 
@@ -221,7 +222,7 @@ abstract class LLMS_Analytics_Widget {
 
 		global $wpdb;
 
-		// setup student join & where clauses
+		// setup student join & where clauses.
 		$students       = $this->get_posted_students();
 		$students_join  = '';
 		$students_where = '';
@@ -231,7 +232,7 @@ abstract class LLMS_Analytics_Widget {
 			$students_where .= ' AND m1.meta_value IN ( ' . implode( ', ', $students ) . ' )';
 		}
 
-		// setup post (product) joins & where clauses
+		// setup post (product) joins & where clauses.
 		$posts          = $this->get_posted_posts();
 		$products_join  = '';
 		$products_where = '';
@@ -249,7 +250,7 @@ abstract class LLMS_Analytics_Widget {
 			$this->query_vars[] = $this->format_date( $dates['end'], 'end' );
 		}
 
-		// setup post status conditions in the where clause
+		// setup post status conditions in the where clause.
 		$post_statuses = '';
 		if ( $statuses ) {
 			$post_statuses .= ' AND ( ';
@@ -263,7 +264,7 @@ abstract class LLMS_Analytics_Widget {
 			$post_statuses .= ' )';
 		}
 
-		// setup the select clause
+		// setup the select clause.
 		$select_clause = '';
 		foreach ( $select as $i => $s ) {
 			if ( $i > 0 ) {
@@ -303,14 +304,31 @@ abstract class LLMS_Analytics_Widget {
 
 	}
 
+	/**
+	 * Perform the query.
+	 *
+	 * @since unknown.
+	 * @since 3.36.3 Avoid warnings on using wpdb::prepare without placeholders.
+	 */
 	protected function query() {
 
 		global $wpdb;
-		// no output options
-		if ( in_array( $this->query_function, array( 'get_var', 'get_col' ) ) ) {
-			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ) ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
+
+		// Roughly avoid warnings on using wpdb::prepare without placeholders.
+		// The following strpos simple check is the same wpdb::prepare() does to check the correct usage.
+		if ( strpos( $this->query, '%' ) === false || empty( $this->query_vars ) ) {
+			$query = $this->query;
 		} else {
-			$this->results = $wpdb->{$this->query_function}( $wpdb->prepare( $this->query, $this->query_vars ), $this->output_type ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
+			// phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- It is prepared.
+			$query = $wpdb->prepare( $this->query, $this->query_vars );
+			// phpcs:enable WordPress.DB.PreparedSQL.NotPrepared
+		}
+
+		// no output options.
+		if ( in_array( $this->query_function, array( 'get_var', 'get_col' ), true ) ) {
+			$this->results = $wpdb->{$this->query_function}( $query );
+		} else {
+			$this->results = $wpdb->{$this->query_function}( $query, $this->output_type );
 		}
 
 		$this->prepared_query = trim( str_replace( array( "\r", "\n", "\t", '  ' ), ' ', $wpdb->last_query ) );
@@ -332,6 +350,7 @@ abstract class LLMS_Analytics_Widget {
 
 		$this->set_query();
 		$this->query();
+
 		$this->response = $this->format_response();
 
 		if ( $this->charts ) {

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.3.0
- * @version 3.28.3
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.3.0
  * @since 3.30.2 Added hooks and made numerous private functions public to expand extendability.
+ * @since 3.36.3 New method: is_generator_valid()
+ *               Bugfix: Fix return of `set_generator()`.
  */
 class LLMS_Generator {
 
@@ -1044,6 +1046,20 @@ class LLMS_Generator {
 	}
 
 	/**
+	 * Determine if a generator is a valid generator.
+	 *
+	 * @since 3.36.3
+	 *
+	 * @param string $generator Generator name.
+	 * @return bool
+	 */
+	protected function is_generator_valid( $generator ) {
+
+		return in_array( $generator, array_keys( $this->get_generators() ), true );
+
+	}
+
+	/**
 	 * Records a generated post id
 	 *
 	 * @param    int    $id    WP Post ID of the generated post
@@ -1111,35 +1127,43 @@ class LLMS_Generator {
 	/**
 	 * Sets the generator to use for the current instance
 	 *
-	 * @param    string $generator  generator string, eg: "LifterLMS/SingleCourseExporter"
-	 * @return   WP_Error|void
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 * @since 3.36.3 Fix error causing `null` to be returned instead of expected `WP_Error`.
+	 *              Return the generator name on success instead of void.
+	 *
+	 * @param string $generator Generator string, eg: "LifterLMS/SingleCourseExporter"
+	 * @return string|WP_Error Name of the generator on success, otherwise an error object.
 	 */
 	public function set_generator( $generator = null ) {
 
+		// Interpret the generator from the raw data.
 		if ( empty( $generator ) ) {
 
-			// raw is missing a generator... oh noes...
+			// No generator can be interpreted.
 			if ( ! isset( $this->raw['_generator'] ) ) {
 
-				return $this->error->add( 'missing-generator', __( 'The supplied file cannot be processed by the importer.', 'lifterlms' ) );
-
-			} else {
-
-				return $this->set_generator( $this->raw['_generator'] );
+				$this->error->add( 'missing-generator', __( 'The supplied file cannot be processed by the importer.', 'lifterlms' ) );
+				return $this->error;
 
 			}
+
+			// Set the generator using the interpreted data.
+			return $this->set_generator( $this->raw['_generator'] );
+
 		}
 
-		$generators = $this->get_generators();
-
-		// invalid generator
-		if ( ! in_array( $generator, array_keys( $generators ) ) ) {
-			return $this->error->add( 'invalid-generator', __( 'Invalid generator supplied', 'lifterlms' ) );
-		} else {
-			$this->generator = $generators[ $generator ];
+		// Invalid generator.
+		if ( ! $this->is_generator_valid( $generator ) ) {
+			$this->error->add( 'invalid-generator', __( 'The supplied generator is invalid.', 'lifterlms' ) );
+			return $this->error;
 		}
+
+		// Set the generator.
+		$generators      = $this->get_generators();
+		$this->generator = $generators[ $generator ];
+
+		// Return the generator name.
+		return $generator;
 
 	}
 

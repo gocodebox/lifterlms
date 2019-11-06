@@ -4,6 +4,8 @@
  * @since 3.0.0
  * @since 3.17.2 Unknown.
  * @since 3.33.1 Fix issue that produced series options not aligned with the chart data.
+ * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
+ *
  */( function( $, undefined ) {
 
 	window.llms = window.llms || {};
@@ -47,9 +49,10 @@
 		/**
 		 * Bind DOM events
 		 *
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since 3.0.0
+		 * @since 3.36.3 Added the `allow_clear` paramater when initializiing the `llmsStudentSelect2`.
+		 *
+		 * @return void
 		 */
 		this.bind = function() {
 
@@ -61,6 +64,7 @@
 			$( '#llms-students-ids-filter' ).llmsStudentsSelect2( {
 				multiple: true,
 				placeholder: LLMS.l10n.translate( 'Filter by Student(s)' ),
+				allow_clear: true,
 			} );
 
 			$( 'a[href="#llms-toggle-filters"]' ).on( 'click', function( e ) {

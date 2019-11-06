@@ -3,7 +3,7 @@
  * Admin Reporting Base Class
  *
  * @since 3.2.0
- * @version 3.35.0
+ * @version 3.36.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Added Memberships tab.
  * @since 3.32.0 The `output_event()` method now outputs the student's avatar whent in 'membership' context.
  * @since 3.35.0 Sanitize input data.
+ * @since 3.36.3 Fixed sanitization for input data array.
  */
 class LLMS_Admin_Reporting {
 
@@ -32,16 +33,18 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get array of course IDs selected according to applied filters
+	 * Get array of course IDs selected according to applied filters.
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since 3.36.3 Fixed sanitization for input data array.
 	 *
 	 * @return   array
 	 */
 	public static function get_current_courses() {
 
-		$r = isset( $_GET['course_ids'] ) ? llms_filter_input( INPUT_GET, 'course_ids', FILTER_SANITIZE_STRING ) : array();
+		$r = isset( $_GET['course_ids'] ) ? llms_filter_input( INPUT_GET, 'course_ids', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+
 		if ( '' === $r ) {
 			$r = array();
 		}
@@ -53,16 +56,18 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get array of membership IDs selected according to applied filters
+	 * Get array of membership IDs selected according to applied filters.
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since 3.36.3 Fixed sanitization for input data array.
 	 *
 	 * @return   array
 	 */
 	public static function get_current_memberships() {
 
-		$r = isset( $_GET['membership_ids'] ) ? llms_filter_input( INPUT_GET, 'membership_ids', FILTER_SANITIZE_STRING ) : array();
+		$r = isset( $_GET['membership_ids'] ) ? llms_filter_input( INPUT_GET, 'membership_ids', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
+
 		if ( '' === $r ) {
 			$r = array();
 		}
@@ -87,16 +92,17 @@ class LLMS_Admin_Reporting {
 	}
 
 	/**
-	 * Get array of student IDs according to current filters
+	 * Get array of student IDs according to current filters.
 	 *
 	 * @since 3.2.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since 3.36.3 Fixed sanitization for input data array.
 	 *
 	 * @return   array
 	 */
 	public static function get_current_students() {
 
-		$r = isset( $_GET['student_ids'] ) ? llms_filter_input( INPUT_GET, 'student_ids', FILTER_SANITIZE_STRING ) : array();
+		$r = isset( $_GET['student_ids'] ) ? llms_filter_input( INPUT_GET, 'student_ids', FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY ) : array();
 		if ( '' === $r ) {
 			$r = array();
 		}

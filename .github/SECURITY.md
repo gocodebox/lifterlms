@@ -16,4 +16,4 @@ LifterLMS 3.x is the only supported branch of LifterLMS. If you're using an unsu
 
 The LifterLMS team takes security issues and vulnerabilities very seriously. We appreciate your efforts to responsibly disclose your findings, and will make every effort to acknowledge your contributions.
 
-Please contact team@lifterlms.com to report a security vulnerability.
+To report a vulnerability, please see our guidelines at https://lifterlms.com/security/

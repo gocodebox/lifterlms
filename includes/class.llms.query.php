@@ -4,17 +4,23 @@
  * Handles queries and endpoints.
  *
  * @since 1.0.0
- * @version 3.33.0
+ * @version 3.36.4
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Query class
+ * LLMS_Query class.
  *
  * @since 1.0.0
  * @since 3.31.0 Deprecated `add_query_vars() method and added sanitizing functions when accessing `$_GET` vars.
  * @since 3.33.0 Added catalog secondary sorting by `post_title` when the primary sort is `menu_order`.
+ * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
+ *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
+ *               but since themes are loaded after plugins it overrode our one.
+ * @since 3.36.4 Don't remove `pre_get_posts` callback from within the callback itself.
+ *               Rather use a static variable to make sure the business logic of the callback
+ *               is executed only once.
  */
 class LLMS_Query {
 
@@ -26,12 +32,13 @@ class LLMS_Query {
 	public $query_vars = array();
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * @since 1.0.0
-	 * @version 3.28.2
-	 *
-	 * @return void
+	 * @since 3.28.2 Unknown.
+	 * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
+	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
+	 *               but since themes are loaded after plugins it overrode our one.
 	 */
 	public function __construct() {
 
@@ -46,7 +53,7 @@ class LLMS_Query {
 
 		$this->init_query_vars();
 
-		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+		add_action( 'pre_get_posts', array( $this, 'pre_get_posts' ), 15 );
 
 	}
 
@@ -165,18 +172,29 @@ class LLMS_Query {
 	}
 
 	/**
-	 * Sets the WP_Query variables for "post_type" on LifterLMS custom taxonomy archive pages for Courses and Memberships
+	 * Sets the WP_Query variables for "post_type" on LifterLMS custom taxonomy archive pages for Courses and Memberships.
 	 *
 	 * @since 1.4.4 Moved from LLMS_Post_Types.
 	 * @since 3.16.8
 	 * @since 3.33.0 Added `post_title` as a secondary sort when the primary sort is `menu_order`
+	 * @since 3.36.3 Changed `pre_get_posts` callback from `10 (default) to `15`,
+	 *               so to avoid conflicts with the Divi theme whose callback runs at `10`,
+	 *               but since themes are loaded after plugins it overrode our one.
+	 * @since 3.36.4 Don't remove this callback from within the callback itself.
+	 *               Rather use a static variable to make sure the business logic of this
+	 *               method is executed only once.
 	 *
 	 * @param WP_Query $query Main WP_Query Object.
 	 * @return void
 	 */
 	public function pre_get_posts( $query ) {
 
+		static $done      = false;
 		$modify_tax_query = false;
+
+		if ( $done ) {
+			return;
+		}
 
 		if ( ! is_admin() && $query->is_main_query() ) {
 
@@ -227,8 +245,8 @@ class LLMS_Query {
 
 			}
 
-			// remove action when finished
-			remove_action( 'pre_get_posts', array( $this, 'pre_get_posts' ) );
+			// do it once.
+			$done = true;
 
 		}// End if().
 
@@ -302,3 +320,4 @@ class LLMS_Query {
 }
 
 return new LLMS_Query();
+

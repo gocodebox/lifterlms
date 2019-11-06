@@ -1,6 +1,8 @@
 ## Description
 <!-- Please describe what you have changed or added -->
 
+Fixes #<!-- insert the related issue number here -->
+
 ## How has this been tested?
 <!-- Please describe in detail how you tested your changes. -->
 <!-- Include details of your testing environment, tests ran to see how -->
@@ -17,4 +19,5 @@
 ## Checklist:
 - [ ] My code has been tested.
 - [ ] My code passes all existing automated tests. <!-- Check code: `composer run-script tests-run`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/tests/README.md -->
-- [ ] My code follows the LifterLMS Coding Standards. <!-- Check code: `composer run-script phpcs`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md -->
+- [ ] My code follows the LifterLMS Coding & Documentation Standards. <!-- Check code: `composer run-script phpcs`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md and https://github.com/gocodebox/lifterlms/blob/master/docs/documentation-standards.md -->
+

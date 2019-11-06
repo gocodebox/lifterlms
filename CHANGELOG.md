@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.37.0-beta.1 - 2019-10-24
+v3.37.0-beta.1 - 2019-11-??
 ---------------------------
 
 ##### Form Management Improvments
@@ -63,6 +63,53 @@ v3.37.0-beta.1 - 2019-10-24
 + templates/checkout/form-checkout.php
 + templates/checkout/form-gateways.php
 + templates/global/form-registration.php
+
+
+v3.36.5 - 2019-11-05
+--------------------
+
++ Add filter: `llms_user_caps_edit_others_posts_post_types` to allow 3rd parties to utilize core methods for determining if a user can manage another users LMS content on the admin panel.
+
+
+v3.36.4 - 2019-11-01
+--------------------
+
++ Fixes a conflict with CartFlows introduced by a Divi theme compatibility fix added in 3.36.3. Is WordPress complicated or what?
+
+
+v3.36.3 - 2019-10-24
+--------------------
+
+##### Updates
+
++ Added new `LLMS_Membership` class methods: `get_categories()`, `get_tags()` and `toArrayAfter()` methods. Thanks [@pondermatic](https://github.com/pondermatic)!
+
+##### Compatibility
+
++ Fixed access plan description conflicts with the Classic Editor block. This also resolves compatibility issues with Elementor which uses a hidden TinyMCE instance.
++ Changed `pre_get_posts` callback from `10` (default) to `15`. Fixes conflict with Divi (and possibly other themes) which prevented LifterLMS catalog settings from functioning properly.
+
+##### Bugfixes
+
++ Added translation to error message encountered when non-members attempt to purchase a members-only access plan. Thanks [@mrosati84](https://github.com/mrosati84)!
++ Fix return of `LLMS_Generator::set_generator()`.
++ Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
++ Fixed issue where `wp_list_pluck()` would run on non arrays.
+
+##### LifterLMS Rest API 1.0.0-beta.8
+
++ Return links to those taxonomies which have an accessible rest route.
++ Initialize `$prepared_item` array before adding values to it. Thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed `sales_page_type` not returned as `none` if course's `sales_page_content_type` property is empty.
++ Load webhook actions a little bit later, to avoid PHP warnings on first plugin activation.
++ Renamed `sales_page_page_type` and `sales_page_page_url` properties, respectively to `sales_page_type` and `sales_page_url` according to the specs.
++ Add missing quotes in enrollment/access default messages shortcodes.
++ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
++ Add missing quotes in enrollment/access default messages shortcodes.
++ `sales_page_page_id` and `sales_page_url` always returned in edit context.
++ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
+>>>>>>> 3d3440ccbc8d1b69b3c1407b0a46a8fd0d17b333
 
 
 v3.36.2 - 2019-10-01

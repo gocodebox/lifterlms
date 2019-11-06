@@ -1,31 +1,36 @@
 <?php
 /**
- * Tests for LifterLMS Membership Model
- * @group    LLMS_Membership
- * @group    LLMS_Post_Model
- * @since    3.20.0
- * @version  3.20.0
+ * Tests for LifterLMS Membership Model.
+ *
+ * @group LLMS_Membership
+ * @group LLMS_Post_Model
+ *
+ * @since 3.20.0
+ * @since 3.36.3 Remove redundant test method `test_get_sections()`,
+ *                @see tests/unit-tests/models/class-llms-test-model-llms-course.php.
+ * @version 3.36.3
  */
 class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 
 	/**
-	 * class name for the model being tested by the class
-	 * @var  string
+	 * class name for the model being tested by the class.
+	 * @var string
 	 */
 	protected $class_name = 'LLMS_Membership';
 
 	/**
-	 * db post type of the model being tested
-	 * @var  string
+	 * db post type of the model being tested.
+	 * @var string
 	 */
 	protected $post_type = 'llms_membership';
 
 	/**
-	 * Get properties, used by test_getters_setters
-	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.20.0
-	 * @version  3.20.0
+	 * Get properties, used by test_getters_setters.
+	 * This should match, exactly, the object's $properties array.
+	 *
+	 * @since 3.20.0
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array(
@@ -42,11 +47,12 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Get data to fill a create post with
-	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.20.0
-	 * @version  3.20.0
+	 * Get data to fill a create post with.
+	 * This is used by test_getters_setters.
+	 *
+	 * @since 3.20.0
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
@@ -63,10 +69,85 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test get_sales_page_url method
-	 * @return   void
-	 * @since    3.20.0
-	 * @version  3.20.0
+	 * Test LLMS_Membership->get_categories() method.
+	 *
+	 * @since 3.36.3
+	 * @return void
+	 */
+	public function test_get_categories() {
+		// create new membership
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$membership    = new LLMS_Membership( $membership_id );
+
+		// create new categories
+		$taxonomy = 'membership_cat';
+		$created_term_ids = array();
+		for ( $i = 1; $i <= 3; $i ++ ) {
+			$new_term_ids = wp_create_term( "mock-membership-category-$i", $taxonomy );
+			$this->assertNotWPError( $new_term_ids );
+			$created_term_ids[ $i ] = $new_term_ids['term_id'];
+		}
+
+		// set categories in membership
+		$term_taxonomy_ids = wp_set_post_terms( $membership_id, $created_term_ids, $taxonomy );
+		$this->assertNotWPError( $term_taxonomy_ids );
+		$this->assertNotFalse( $term_taxonomy_ids );
+
+		// get categories from membership
+		$membership_terms = $membership->get_categories();
+		$membership_term_ids = array();
+		/** @var WP_Term $membership_term */
+		foreach ( $membership_terms as $membership_term ) {
+			$membership_term_ids[] = $membership_term->term_id;
+		}
+
+		// compare array values while ignoring keys and order
+		$this->assertEqualSets( $created_term_ids, $membership_term_ids );
+	}
+
+	/**
+	 * Test LLMS_Membership->get_tags() method.
+	 *
+	 * @since 3.36.3
+	 * @return void
+	 */
+	public function test_get_tags() {
+		// create new membership
+		$membership_id = $this->factory->post->create( array( 'post_type' => 'llms_membership' ) );
+		$membership    = new LLMS_Membership( $membership_id );
+
+		// create new tags
+		$taxonomy = 'membership_tag';
+		$created_term_ids = array();
+		for ( $i = 1; $i <= 3; $i ++ ) {
+			$new_term_ids = wp_create_term( "mock-membership-tag-$i", $taxonomy );
+			$this->assertNotWPError( $new_term_ids );
+			$created_term_ids[ $i ] = $new_term_ids['term_id'];
+		}
+
+		// set tags in membership
+		$term_taxonomy_ids = wp_set_post_terms( $membership_id, $created_term_ids, $taxonomy );
+		$this->assertNotWPError( $term_taxonomy_ids );
+		$this->assertNotFalse( $term_taxonomy_ids );
+
+		// get tags from membership
+		$membership_terms = $membership->get_tags();
+		$membership_term_ids = array();
+		/** @var WP_Term $membership_term */
+		foreach ( $membership_terms as $membership_term ) {
+			$membership_term_ids[] = $membership_term->term_id;
+		}
+
+		// compare array values while ignoring keys and order
+		$this->assertEqualSets( $created_term_ids, $membership_term_ids );
+	}
+
+	/**
+	 * Test get_sales_page_url method.
+	 *
+	 * @since 3.20.0
+	 *
+	 * @return void
 	 */
 	public function test_get_sales_page_url() {
 
@@ -92,43 +173,11 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the get sections function
-	 * @return   void
-	 * @since    3.12.0
-	 * @version  3.12.0
-	 */
-	public function test_get_sections() {
-
-		$course = llms_get_post( $this->generate_mock_courses( 1, 4, 0, 0, 0 )[0] );
-
-		// get just ids
-		$sections = $course->get_sections( 'ids' );
-		$this->assertEquals( 4, count( $sections ) );
-		array_map( function( $id ) {
-			$this->assertTrue( is_numeric( $id ) );
-		}, $sections );
-
-		// wp post objects
-		$sections = $course->get_sections( 'posts' );
-		$this->assertEquals( 4, count( $sections ) );
-		array_map( function( $post ) {
-			$this->assertTrue( is_a( $post, 'WP_Post' ) );
-		}, $sections );
-
-		// section objects
-		$sections = $course->get_sections( 'sections' );
-		$this->assertEquals( 4, count( $sections ) );
-		array_map( function( $section ) {
-			$this->assertTrue( is_a( $section, 'LLMS_Section' ) );
-		}, $sections );
-
-	}
-
-	/**
-	 * Test the get students function
-	 * @return   void
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * Test the get students function.
+	 *
+	 * @since 3.12.0
+	 *
+	 * @return void
 	 */
 	public function test_get_students() {
 
@@ -145,10 +194,11 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the has_sales_page_redirect method
-	 * @return   void
-	 * @since    3.20.0
-	 * @version  3.20.0
+	 * Test the has_sales_page_redirect method.
+	 *
+	 * @since 3.20.0
+	 *
+	 * @return void
 	 */
 	public function test_has_sales_page_redirect() {
 
