@@ -9,7 +9,7 @@
  * @since [version]
  * @version [version]
  */
-class LLMS_Test_Forms extends LLMS_Unit_Test_Case {
+class LLMS_Test_Forms extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test
@@ -373,6 +373,91 @@ class LLMS_Test_Forms extends LLMS_Unit_Test_Case {
 			$this->assertArrayHasKey( 'title', $locs[ $loc ] );
 			$this->assertArrayHasKey( 'meta', $locs[ $loc ] );
 		}
+
+	}
+
+	/**
+	 * Test permalink retrieval for account updates.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink_for_account() {
+
+		LLMS_Install::create_pages();
+		$form = get_post( $this->forms->create( 'account' ) );
+		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
+		$this->assertEquals( add_query_arg( 'edit-account', '', get_permalink( get_option( 'lifterlms_myaccount_page_id' ) ) ), $link );
+
+	}
+
+	/**
+	 * Test permalink retrieval for checkout when no access plans exist.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink_for_checkout_no_plans() {
+
+		global $wpdb;
+		$wpdb->delete( $wpdb->posts, array( 'post_type' => 'llms_access_plan' ) );
+
+		LLMS_Install::create_pages();
+		$form = get_post( $this->forms->create( 'checkout' ) );
+		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
+		$this->assertEquals( get_permalink( get_option( 'lifterlms_checkout_page_id' ) ), $link );
+
+	}
+
+	/**
+	 * Test permalink retrieval for checkout with access plans.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink_for_checkout_with_plans() {
+
+		LLMS_Install::create_pages();
+		$plan = $this->get_mock_plan();
+		$form = get_post( $this->forms->create( 'checkout' ) );
+		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
+		$this->assertEquals( add_query_arg( 'plan', $plan->get( 'id' ), get_permalink( get_option( 'lifterlms_checkout_page_id' ) ) ), $link );
+
+	}
+
+	/**
+	 * Test permalink retrieval for registration form when open registration is not enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink_for_registration_not_enabled() {
+
+		$form = get_post( $this->forms->create( 'registration' ) );
+		update_option( 'lifterlms_enable_myaccount_registration', 'no' );
+		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
+		$this->assertFalse( $link );
+
+	}
+
+	/**
+	 * Test permalink retrieval for registration form when open registration is enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_permalink_for_registration_enabled() {
+
+		LLMS_Install::create_pages();
+		$form = get_post( $this->forms->create( 'registration' ) );
+		update_option( 'lifterlms_enable_myaccount_registration', 'yes' );
+		$link = LLMS_Unit_Test_Util::call_method( $this->forms, 'get_permalink', array( $form ) );
+		$this->assertEquals( get_permalink( get_option( 'lifterlms_myaccount_page_id' ) ), $link );
 
 	}
 
