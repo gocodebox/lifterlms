@@ -540,7 +540,6 @@ class LLMS_Form_Handler {
 					// break;
 
 			}
-
 		}
 
 		// Perform special validations for special field types.
@@ -549,7 +548,6 @@ class LLMS_Form_Handler {
 			switch ( $field['id'] ) {
 
 				case 'llms_voucher':
-
 					$voucher = new LLMS_Voucher();
 					$check   = $voucher->check_voucher( $posted_value );
 					if ( is_wp_error( $check ) ) {
@@ -572,7 +570,6 @@ class LLMS_Form_Handler {
 					break;
 
 			}
-
 		}
 
 		return true;

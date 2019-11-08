@@ -492,23 +492,23 @@ class LLMS_Forms {
 				break;
 
 			case 'checkout':
-
 				$url = llms_get_page_url( 'checkout' );
 
 				// Add an access plan to the URL.
-				$plans = new WP_Query( array(
-					'post_type'      => 'llms_access_plan',
-					'posts_per_page' => 1,
-					'orderby'        => 'ID',
-					'order'          => 'ASC',
-				) );
+				$plans = new WP_Query(
+					array(
+						'post_type'      => 'llms_access_plan',
+						'posts_per_page' => 1,
+						'orderby'        => 'ID',
+						'order'          => 'ASC',
+					)
+				);
 				if ( $plans->have_posts() ) {
 					$url = add_query_arg( 'plan', $plans->posts[0]->ID, $url );
 				}
 				break;
 
 			case 'registration':
-
 				if ( llms_parse_bool( get_option( 'lifterlms_enable_myaccount_registration', 'no' ) ) ) {
 					$url = llms_get_page_url( 'myaccount' );
 				}
@@ -562,7 +562,7 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $permalink Default permalink.
+	 * @param string  $permalink Default permalink.
 	 * @param WP_Post $post Post object.
 	 * @return string|false
 	 */
