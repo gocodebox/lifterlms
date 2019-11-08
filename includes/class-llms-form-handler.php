@@ -354,14 +354,14 @@ class LLMS_Form_Handler {
 		 */
 		do_action( "lifterlms_before_user_${action}", $posted_data, $location, $fields, $args );
 
-		// Sanitize.
-		$posted_data = $this->sanitize_fields( wp_unslash( $posted_data ), $fields );
-
 		// Check for all required fields.
 		$required = $this->validate_required_fields( $posted_data, $fields );
 		if ( is_wp_error( $required ) ) {
 			return $this->submit_error( $required, $posted_data, $action );
 		}
+
+		// Sanitize.
+		$posted_data = $this->sanitize_fields( wp_unslash( $posted_data ), $fields );
 
 		$valid = $this->validate_fields( $posted_data, $fields );
 		if ( is_wp_error( $valid ) ) {
@@ -549,6 +549,7 @@ class LLMS_Form_Handler {
 			switch ( $field['id'] ) {
 
 				case 'llms_voucher':
+
 					$voucher = new LLMS_Voucher();
 					$check   = $voucher->check_voucher( $posted_value );
 					if ( is_wp_error( $check ) ) {
@@ -594,7 +595,7 @@ class LLMS_Form_Handler {
 		$err_data = array();
 		foreach ( $fields as $field ) {
 
-			if ( ! isset( $posted_data[ $field['name'] ] ) ) {
+			if ( empty( $posted_data[ $field['name'] ] ) ) {
 				continue;
 			}
 
