@@ -365,6 +365,7 @@ class LLMS_Form_Templates {
 					'className'       => 'llms-password-strength-meter',
 					'field'           => 'html',
 					'id'              => 'llms-password-strength-meter',
+					'required'        => false,
 					'description'     => sprintf( __( 'A %1$s password is required. The password must be at least %2$s characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ), '{min_strength}', '{min_length}' ),
 					'min_strength'    => get_option( 'lifterlms_registration_password_min_strength', 'strong' ), // Use legacy option.
 					'min_length'      => 6,
