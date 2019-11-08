@@ -10,7 +10,7 @@
  * @since [version]
  * @version [version]
  */
-class LLMS_Test_Form_Handler extends LLMS_Unit_Test_Case {
+class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
@@ -236,6 +236,62 @@ class LLMS_Test_Form_Handler extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test special validation for user emails. They must be unique.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_user_email() {
+
+		$email = sprintf( 'mock+%s@mock.tld', uniqid() );
+
+		// Valid.
+		$valid = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( $email, array( 'id' => 'user_email' ) ) );
+		$this->assertTrue( $valid );
+
+		// Not unique.
+		$this->factory->user->create( array( 'user_email' => $email ) );
+		$exists = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( $email, array( 'id' => 'user_email' ) ) );
+		$this->assertIsWPError( $exists );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-not-unique', $exists );
+
+	}
+
+	/**
+	 * Test special validation for the username field.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_user_login() {
+
+		// Banned.
+		$banned = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( 'admin', array( 'id' => 'user_login' ) ) );
+		$this->assertIsWPError( $banned );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $banned );
+
+		// Not valid.
+		$invalid = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( '   +-!', array( 'id' => 'user_login' ) ) );
+		$this->assertIsWPError( $invalid );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $invalid );
+
+		$login = sprintf( 'mock-%s', uniqid() );
+
+		// Valid.
+		$valid = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( $login, array( 'id' => 'user_login' ) ) );
+		$this->assertTrue( $valid );
+
+		// Not unique.
+		$this->factory->user->create( array( 'user_login' => $login ) );
+		$exists = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( $login, array( 'id' => 'user_login' ) ) );
+		$this->assertIsWPError( $exists );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-not-unique', $exists );
+
+	}
+
+	/**
 	 * Sanitize telephone fields.
 	 *
 	 * @since [version]
@@ -378,6 +434,38 @@ class LLMS_Test_Form_Handler extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test special voucher field validation.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_voucher() {
+
+		$field = array( 'id' => 'llms_voucher' );
+
+		// Invalid code.
+		$res = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( 'invalid-code', $field ) );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorMessageEquals( 'Voucher code "invalid-code" could not be found.', $res );
+
+		// Valid code.
+		$voucher = $this->get_mock_voucher( 1 );
+		$code    = $voucher->get_voucher_codes()[0]->code;
+		$res = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( $code, $field ) );
+		$this->assertTrue( $res );
+
+		// Use the voucher.
+		$voucher->use_voucher( $code, 123 );
+
+		// Valid code without any remaining redemptions.
+		$res = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( $code, $field ) );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorMessageEquals( sprintf( 'Voucher code "%s" has already been redeemed the maximum number of times.', $code ), $res );
+
+	}
+
+	/**
 	 * Test submit on an invalid form location.
 	 *
 	 * @since [version]
@@ -448,6 +536,37 @@ class LLMS_Test_Form_Handler extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test registration form submissions with an invalid voucher code.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_registration_voucher_errors() {
+
+		$args = array(
+			'email_address' => 'fake@mock.com',
+			'email_address_confirm' => 'fake@mock.com',
+			'password' => '123456',
+			'password_confirm' => '123456',
+			'first_name' => 'Jeffrey',
+			'last_name' => 'Lebowski',
+			'llms_billing_address_1' => '123 Any Street',
+			'llms_billing_city' => 'Reseda',
+			'llms_billing_state' => 'CA',
+			'llms_billing_zip' => '91234',
+			'llms_billing_country' => 'US',
+			'llms_voucher' => 'invalid-code',
+		);
+
+		$ret = $this->handler->submit( $args, 'registration' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $ret );
+		$this->assertWPErrorMessageEquals( 'Voucher code "invalid-code" could not be found.', $ret );
+
+	}
+
+	/**
 	 * Test successful submission for a new users.
 	 *
 	 * @since [version]
@@ -486,6 +605,46 @@ class LLMS_Test_Form_Handler extends LLMS_Unit_Test_Case {
 		$this->assertEquals( $args['llms_billing_country'], $user->llms_billing_country );
 
 		$this->assertTrue( wp_check_password( '123456', $user->user_pass, $user->ID ) );
+
+	}
+
+	/**
+	 * Test successful submission for a new users.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_success_with_voucher() {
+
+		$voucher  = $this->get_mock_voucher( 1 );
+		$products = $voucher->get_products();
+		$code     = $voucher->get_voucher_codes()[0]->code;
+
+		$args = array(
+			'email_address' => 'fake@mock.com',
+			'email_address_confirm' => 'fake@mock.com',
+			'password' => '123456',
+			'password_confirm' => '123456',
+			'first_name' => 'Jeffrey',
+			'last_name' => 'Lebowski',
+			'llms_billing_address_1' => '123 Any Street',
+			'llms_billing_city' => 'Reseda',
+			'llms_billing_state' => 'CA',
+			'llms_billing_zip' => '91234',
+			'llms_billing_country' => 'US',
+			'llms_voucher' => $code,
+		);
+
+		$ret = $this->handler->submit( $args, 'registration' );
+
+		$this->assertTrue( is_int( $ret ) );
+		$user = new WP_User( $ret );
+
+		// Ensure voucher was redeemed successfully.
+		foreach ( $products as $product_id ) {
+			llms_is_user_enrolled( $user->ID, $product_id, 'all', false );
+		}
 
 	}
 

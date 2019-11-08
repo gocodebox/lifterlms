@@ -199,6 +199,11 @@ class LLMS_Form_Handler {
 				$defaults['user_login'] = LLMS_Person_Handler::generate_username( $posted_data['email_address'] );
 			}
 
+			// Add a password if we don't have a password field.
+			if ( empty( $prepared['users']['user_pass'] ) ) {
+				$defaults['user_pass'] = wp_generate_password( 32, true, true );
+			}
+
 			$prepared['users'] = wp_parse_args( $prepared['users'], $defaults );
 
 		} elseif ( 'update' === $action ) {
@@ -495,44 +500,77 @@ class LLMS_Form_Handler {
 			return trim( call_user_func( $field['validate'], $posted_value ) );
 		}
 
-		// @todo email_address field requires validation that it's unique across the site
-		// @todo user_login field requires validation that it's unique across the site
+		// Validate field by field type.
+		if ( ! empty( $field['type'] ) ) {
 
-		switch ( $field['type'] ) {
+			switch ( $field['type'] ) {
 
-			case 'email':
-				if ( ! is_email( $posted_value ) ) {
-					// Translators: %s user submitted value.
-					return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The email address "%s" is not valid.', 'lifterlms' ), $posted_value ) );
-				}
-				break;
-
-			case 'tel':
-				if ( 0 < strlen( trim( preg_replace( '/[\s\#0-9\-\+\(\)\.]/', '', $posted_value ) ) ) ) {
-					// Translators: %s user submitted value.
-					return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The phone number "%s" is not valid.', 'lifterlms' ), $posted_value ) );
-				}
-				break;
-
-			case 'number':
-				$temp_value = str_replace( ',', '', $posted_value );
-				if ( ! is_numeric( $temp_value ) ) {
-					// Translators: %1$s field label or name; %2$s = user submitted value.
-					return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" is not valid number.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value ) );
-				} elseif ( isset( $field['attributes'] ) ) {
-					if ( isset( $field['attributes']['min'] ) && $temp_value < $field['attributes']['min'] ) {
-						// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = minimum allowed number.
-						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be greater than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['min'] ) );
-					} elseif ( isset( $field['attributes']['max'] ) && $temp_value > $field['attributes']['max'] ) {
-						// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = maximum allowed number.
-						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be less than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['max'] ) );
+				case 'email':
+					if ( ! is_email( $posted_value ) ) {
+						// Translators: %s user submitted value.
+						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The email address "%s" is not valid.', 'lifterlms' ), $posted_value ) );
 					}
-				}
-				break;
+					break;
 
-			// case 'password':
-				// @todo check password min length
-				// break;
+				case 'tel':
+					if ( 0 < strlen( trim( preg_replace( '/[\s\#0-9\-\+\(\)\.]/', '', $posted_value ) ) ) ) {
+						// Translators: %s user submitted value.
+						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The phone number "%s" is not valid.', 'lifterlms' ), $posted_value ) );
+					}
+					break;
+
+				case 'number':
+					$temp_value = str_replace( ',', '', $posted_value );
+					if ( ! is_numeric( $temp_value ) ) {
+						// Translators: %1$s field label or name; %2$s = user submitted value.
+						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" is not valid number.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value ) );
+					} elseif ( isset( $field['attributes'] ) ) {
+						if ( isset( $field['attributes']['min'] ) && $temp_value < $field['attributes']['min'] ) {
+							// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = minimum allowed number.
+							return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be greater than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['min'] ) );
+						} elseif ( isset( $field['attributes']['max'] ) && $temp_value > $field['attributes']['max'] ) {
+							// Translators: %1$s field label or name; %2$s = user submitted value; %3$d = maximum allowed number.
+							return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The %1$s "%2$s" must be less than or equal to %3$d.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'], $posted_value, $field['attributes']['max'] ) );
+						}
+					}
+					break;
+
+				// case 'password':
+					// @todo check password min length
+					// break;
+
+			}
+
+		}
+
+		// Perform special validations for special field types.
+		if ( ! empty( $field['id'] ) ) {
+
+			switch ( $field['id'] ) {
+
+				case 'llms_voucher':
+					$voucher = new LLMS_Voucher();
+					$check   = $voucher->check_voucher( $posted_value );
+					if ( is_wp_error( $check ) ) {
+						return new WP_Error( 'llms-form-field-invalid', $check->get_error_message(), array( $posted_value, $check ) );
+					}
+					break;
+
+				case 'user_email':
+					if ( email_exists( $posted_value ) ) {
+						return new WP_Error( 'llms-form-field-not-unique', sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $posted_value ) );
+					}
+					break;
+
+				case 'user_login':
+					if ( in_array( $posted_value, llms_get_usernames_blacklist(), true ) || ! validate_username( $posted_value ) ) {
+						return new WP_Error( 'llms-form-field-invalid', sprintf( __( 'The username "%s" is invalid, please try a different username.', 'lifterlms' ), $posted_value ), $posted_value );
+					} elseif ( username_exists( $posted_value ) ) {
+						return new WP_Error( 'llms-form-field-not-unique', sprintf( __( 'An account with the username "%s" already exists.', 'lifterlms' ), $posted_value ), $posted_value );
+					}
+					break;
+
+			}
 
 		}
 
@@ -562,7 +600,7 @@ class LLMS_Form_Handler {
 
 			$valid = $this->validate_field( $posted_data[ $field['name'] ], $field );
 			if ( is_wp_error( $valid ) ) {
-				$err->add( $value->get_error_code(), $value->get_error_message() );
+				$err->add( $valid->get_error_code(), $valid->get_error_message() );
 				$err_data[ $field['name'] ] = $field;
 			}
 		}
