@@ -8,6 +8,7 @@
  *
  * @since 3.8.0
  * @since 3.9.0 Add tests for `llms_get_student()`.
+ * @since 3.9.0 Add tests for `llms_get_usernames_blacklist()`.
  */
 class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
@@ -40,6 +41,13 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test llms_get_minimum_password_strength_name().
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void
+	 */
 	public function test_llms_get_minimum_password_strength_name() {
 
 		// Default value.
@@ -73,6 +81,20 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
 		$this->assertFalse( is_a( llms_get_student( $uid + 1 ), 'LLMS_Student' ) );
 		$this->assertFalse( is_a( llms_get_student( 'string' ), 'LLMS_Student' ) );
+
+	}
+
+	/**
+	 * Test llms_get_usernames_blacklist() function.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_get_usernames_blacklist() {
+
+		$this->assertTrue( is_array( llms_get_usernames_blacklist() ) );
+		$this->assertTrue( in_array( 'admin', llms_get_usernames_blacklist(), true ) );
 
 	}
 

@@ -9,6 +9,7 @@
  * @since [version] Moved deprecated `llms_get_minimum_password_strength()` to the deprecated functions file.
  *               Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
  *               Use form submission handler during user registration.
+ *               Added function `llms_get_usernames_blacklist()`.
  * @version [version]
  */
 
@@ -194,6 +195,27 @@ function llms_get_student( $user = null ) {
 	$student = new LLMS_Student( $user );
 	return $student->exists() ? $student : false;
 }
+
+/**
+ * Retrieve a list of disallowed usernames.
+ *
+ * @since [version]
+ *
+ * @return string[]
+ */
+function llms_get_usernames_blacklist() {
+
+	/**
+	 * Modify the list of disallowed usernames
+	 *
+	 * @since Unknown.
+	 *
+	 * @param string[] $banned List of banned usernames.
+	 */
+	return apply_filters( 'llms_usernames_blacklist', array( 'admin', 'test', 'administrator', 'password', 'testing' ) );
+
+}
+
 
 /**
  * Checks if user is currently enrolled in course
