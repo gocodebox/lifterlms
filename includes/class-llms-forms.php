@@ -64,6 +64,7 @@ class LLMS_Forms {
 		add_action( 'init', array( $this, 'register_post_type' ) );
 		add_action( 'init', array( $this, 'register_meta' ) );
 
+		add_filter( 'post_type_link', array( $this, 'modify_permalink' ), 10, 2 );
 		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
 
 		/**
@@ -470,6 +471,57 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Retrieve a permalink for a given form post.
+	 *
+	 * This is primarily used by the Block Editor to allow quick links to the form from within the editor.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Post $post Form post object.
+	 * @return string|false
+	 */
+	protected function get_permalink( $post ) {
+
+		$url      = false;
+		$location = get_post_meta( $post->ID, '_llms_form_location', true );
+
+		switch ( $location ) {
+
+			case 'account':
+				$url = llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) );
+				break;
+
+			case 'checkout':
+
+				$url = llms_get_page_url( 'checkout' );
+
+				// Add an access plan to the URL.
+				$plans = new WP_Query( array(
+					'post_type'      => 'llms_access_plan',
+					'posts_per_page' => 1,
+					'orderby'        => 'ID',
+					'order'          => 'ASC',
+				) );
+				if ( $plans->have_posts() ) {
+					$url = add_query_arg( 'plan', $plans->posts[0]->ID, $url );
+				}
+				break;
+
+			case 'registration':
+
+				if ( llms_parse_bool( get_option( 'lifterlms_enable_myaccount_registration', 'no' ) ) ) {
+					$url = llms_get_page_url( 'myaccount' );
+				}
+
+				break;
+
+		}
+
+		return apply_filters( 'llms_form_get_permalink', $url, $location, $post );
+
+	}
+
+	/**
 	 * Installation function to install core forms.
 	 *
 	 * @since [version]
@@ -503,6 +555,25 @@ class LLMS_Forms {
 	 */
 	public function meta_auth_callback( $allowed, $meta_key, $object_id, $user_id, $cap, $caps ) {
 		return user_can( $user_id, $this->capability, $object_id );
+	}
+
+	/**
+	 * Modify the permalink of a given form.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $permalink Default permalink.
+	 * @param WP_Post $post Post object.
+	 * @return string|false
+	 */
+	public function modify_permalink( $permalink, $post ) {
+
+		if ( $this->post_type !== $post->post_type ) {
+			return $permalink;
+		}
+
+		return $this->get_permalink( $post );
+
 	}
 
 	/**
@@ -558,7 +629,13 @@ class LLMS_Forms {
 	public function register_post_type() {
 
 		$args = array(
-			'label'               => __( 'Forms', 'lifterlms' ),
+			'label'               => __( 'LifterLMS Forms', 'lifterlms' ),
+			'labels'              => array(
+				'name'          => __( 'LifterLMS Forms', 'lifterlms' ),
+				'singular_name' => __( 'LifterLMS Form', 'lifterlms' ),
+				'search_items'  => __( 'Search Forms', 'lifterlms' ),
+				'menu_name'     => __( 'Forms', 'lifterlms' ),
+			),
 			'public'              => false,
 			'exclude_from_search' => true,
 			'publicly_queryable'  => false,
