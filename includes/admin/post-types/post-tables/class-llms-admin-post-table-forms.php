@@ -30,6 +30,8 @@ class LLMS_Admin_Post_Table_Forms {
 
 		add_action( 'manage_llms_form_posts_custom_column', array( $this, 'manage_columns' ), 10, 2 );
 
+		add_action( 'pre_get_posts', array( 'LLMS_Admin_Post_Table_Forms', 'pre_get_posts' ) );
+
 	}
 
 	/**
@@ -105,6 +107,30 @@ class LLMS_Admin_Post_Table_Forms {
 		}
 
 		return $actions;
+	}
+
+	/**
+	 * Ensure only core forms are displayed in the forms list.
+	 *
+	 * @since [version]
+	 *
+	 * @param WP_Query $query Query object.
+	 * @return void
+	 */
+	public static function pre_get_posts( $query ) {
+
+		if ( ! function_exists( 'get_current_screen' ) ) {
+			return;
+		}
+
+		$screen = get_current_screen();
+		if ( 'edit-llms_form' !== $screen->id || ! $query->is_main_query() ) {
+			return;
+		}
+
+		$query->set( 'meta_key', '_llms_form_is_core' );
+		$query->set( 'meta_value', 'yes' );
+
 	}
 
 }
