@@ -275,7 +275,7 @@ class LLMS_Shortcode_Checkout {
 		$atts['product'] = $plan->get_product();
 		$atts['is_free'] = $plan->has_free_checkout();
 
-		$atts['form_location'] = $atts['is_free'] ? 'enrollment' : 'checkout';
+		$atts['form_location'] = 'checkout';
 		$atts['form_title']    = llms_get_form_title( $atts['form_location'], array( 'plan' => $plan ) );
 		$atts['form_fields']   = llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) );
 
