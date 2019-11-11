@@ -11,10 +11,40 @@
  * @package LifterLMS/Functions/Deprecated
  *
  * @since 3.29.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
+
+if ( ! function_exists( 'is_filtered' ) ) {
+
+	/**
+	 * Is template filtered.
+	 *
+	 * @since Unknown.
+	 * @deprecated [version]
+	 *
+	 * @return boolean
+	 */
+	function is_filtered() {
+
+		llms_deprecated_function( 'is_filtered', '[version]' );
+
+		global $_chosen_attributes;
+
+		/**
+		 * Deprecated.
+		 *
+		 * @since Unknown
+		 * @deprecated [version]
+		 *
+		 * @param bool $is_filtered Deprecated.
+		 */
+		return apply_filters( 'lifterlms_is_filtered', ( count( $_chosen_attributes ) > 0 || ( isset( $_GET['max_price'] ) && isset( $_GET['min_price'] ) ) ) );
+
+	}
+
+}
 
 /**
  * Add product-id to WP query variables
