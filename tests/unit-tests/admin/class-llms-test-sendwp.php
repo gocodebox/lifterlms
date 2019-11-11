@@ -53,7 +53,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 		$this->assertArrayHasKey( 'message', $res );
 		$this->assertEquals( 'llms_sendwp_install_nonce_failure', $res['code'] );
-		$this->assertEquals( 403, $res['status'] );
+		$this->assertEquals( 401, $res['status'] );
 
 	}
 
