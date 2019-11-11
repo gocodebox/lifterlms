@@ -36,9 +36,12 @@ class LLMS_Twenty_Twenty {
 		add_action( 'lifterlms_before_main_content', array( __CLASS__, 'output_content_wrapper' ), 10 );
 		add_action( 'lifterlms_after_main_content', array( __CLASS__, 'output_content_wrapper_end' ), 10 );
 
-		// Modify catalog columns when the catalog page isn't full width.
-		add_filter( 'lifterlms_loop_columns', array( __CLASS__, 'loop_cols' ) );
+		// Add the proper Twenty Twenty Body class on the catalogs.
 		add_filter( 'body_class', array( __CLASS__, 'body_classes' ) );
+
+		// Modify catalog & checkout columns when the catalog page isn't full width.
+		add_filter( 'lifterlms_loop_columns', array( __CLASS__, 'modify_columns_count' ) );
+		add_filter( 'llms_checkout_columns', array( __CLASS__, 'modify_columns_count' ) );
 
 		// Prevent meta output for LifterLMS custom Post Types.
 		add_filter( 'twentytwenty_disallowed_post_types_for_meta_output', array( __CLASS__, 'hide_meta_output' ) );
@@ -74,11 +77,13 @@ class LLMS_Twenty_Twenty {
 			background-image: radial-gradient(ellipse at center,<?php echo $accent; ?> 0,<?php echo $accent; ?> 40%,#fafafa 45%);
 		}
 
-		.llms-checkout-section {
+		.llms-checkout-section,
+		.llms-lesson-preview section.llms-main  {
 			padding-bottom: 0;
 			padding-top: 0;
 		}
 
+		.llms-lesson-link .llms-pre-text,
 		.llms-access-plan .llms-access-plan-title {
 			margin-top: 0;
 		}
@@ -344,7 +349,7 @@ class LLMS_Twenty_Twenty {
 	}
 
 	/**
-	 * Modify the number of catalog columns.
+	 * Modify the number of catalog & checkout columns.
 	 *
 	 * If the default template is used, drop to a single column.
 	 *
@@ -353,7 +358,7 @@ class LLMS_Twenty_Twenty {
 	 * @param int $cols Number of columns.
 	 * @return int
 	 */
-	public static function loop_cols( $cols ) {
+	public static function modify_columns_count( $cols ) {
 
 		if ( 'thin' === self::get_page_template_class() ) {
 			return 1;
@@ -388,7 +393,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Output Twenty Twenty theme wrapper openers
 	 *
-	 * @since 3.31.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
@@ -407,7 +412,7 @@ class LLMS_Twenty_Twenty {
 		}
 
 		?>
-		<main id="site-content" role="main">'
+		<main id="site-content" role="main">
 
 			<?php if ( $show_title || $has_desc ) : ?>
 				<header class="archive-header has-text-align-center header-footer-group">
@@ -450,7 +455,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Output Twenty Twenty theme wrapper closers
 	 *
-	 * @since 3.31.0
+	 * @since [version]
 	 *
 	 * @return void
 	 */
