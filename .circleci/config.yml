@@ -4,7 +4,7 @@ references:
   common_env_vars: &common_env_vars
     environment:
       - MYSQL_ROOT_HOST: "%"
-      - WP_VERSION: "latest"
+      - WP_VERSION: latest
 
   common: &common
     working_directory: ~/repo
@@ -66,11 +66,35 @@ jobs:
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
+  test-php-73-wp-nightly:
+    docker:
+      - image: thomasplevy/llms-testing-env:php73
+        environment:
+          WP_VERSION: nightly
+        <<: [ *common_env_vars ]
+    <<: [ *common ]
+
+  test-php-73-wp-5dot2:
+    docker:
+      - image: thomasplevy/llms-testing-env:php73
+        environment:
+          WP_VERSION: 5.2
+        <<: [ *common_env_vars ]
+    <<: [ *common ]
+
+  test-php-73-wp-5dot1:
+    docker:
+      - image: thomasplevy/llms-testing-env:php73
+        environment:
+          WP_VERSION: 5.1
+        <<: [ *common_env_vars ]
+    <<: [ *common ]
+
   test-php-73-wp-5dot0:
     docker:
       - image: thomasplevy/llms-testing-env:php73
         environment:
-          WP_VERSION: "5.0"
+          WP_VERSION: 5.0
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
@@ -81,4 +105,7 @@ workflows:
       - test-php-71-wp-latest
       - test-php-72-wp-latest
       - test-php-73-wp-latest
+      - test-php-73-wp-nightly
+      - test-php-73-wp-5dot2
+      - test-php-73-wp-5dot1
       - test-php-73-wp-5dot0
