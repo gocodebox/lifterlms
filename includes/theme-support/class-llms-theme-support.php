@@ -18,13 +18,6 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Theme_Support {
 
 	/**
-	 * Theme Template.
-	 *
-	 * @var string
-	 */
-	protected $template = '';
-
-	/**
 	 * Constructor
 	 *
 	 * @since [version]
@@ -33,7 +26,6 @@ class LLMS_Theme_Support {
 	 */
 	public function __construct() {
 
-		$this->template = get_template();
 		$this->includes();
 
 	}
@@ -47,7 +39,7 @@ class LLMS_Theme_Support {
 	 */
 	protected function includes() {
 
-		switch ( $this->template ) {
+		switch ( get_template() ) {
 
 			case 'twentynineteen':
 				require_once 'class-llms-twenty-nineteen.php';
