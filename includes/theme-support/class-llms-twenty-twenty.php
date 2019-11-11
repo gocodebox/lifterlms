@@ -267,7 +267,7 @@ class LLMS_Twenty_Twenty {
 	public static function body_classes( $classes ) {
 
 		$page_id = self::get_archive_page_id();
-		if ( $page_id && self::is_archive_page_full_width( $page_id ) ) {
+		if ( $page_id && self::is_page_full_width( $page_id ) ) {
 			$classes[] = 'template-full-width';
 		}
 
@@ -311,7 +311,7 @@ class LLMS_Twenty_Twenty {
 		$page_id        = self::get_archive_page_id();
 
 		if ( $page_id ) {
-			$template_class = self::is_archive_page_full_width( $page_id ) ? '' : 'thin';
+			$template_class = self::is_page_full_width( $page_id ) ? '' : 'thin';
 		} else {
 			$template_class = is_page_template( 'templates/template-full-width.php' ) ? '' : 'thin';
 		}
@@ -335,14 +335,14 @@ class LLMS_Twenty_Twenty {
 	}
 
 	/**
-	 * Determine if the catalog page is utilizing the twenty twenty full-width page template.
+	 * Determine if the given page is utilizing the twenty twenty full-width page template.
 	 *
 	 * @since [version]
 	 *
 	 * @param int $page_id WP_Post ID of the catalog page.
 	 * @return bool
 	 */
-	protected static function is_archive_page_full_width( $page_id ) {
+	protected static function is_page_full_width( $page_id ) {
 
 		return 'templates/template-full-width.php' === get_page_template_slug( $page_id );
 
