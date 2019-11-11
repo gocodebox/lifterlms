@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.36.5
+Stable tag: 3.37.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -511,6 +511,33 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.0 - 2019-11-11 =
+------------------------
+
+##### Updates
+
++ Tested and compatible with WordPress core 5.3.
++ Add theme support for the TwentyTwenty core default theme.
++ Improved security and data sanitization in with regards to the SendWP integration connector.
+
+##### LifterLMS Rest API 1.0.0-beta.8
+
++ Added memberships controller, huge thanks to [@pondermatic](https://github.com/pondermatic)!
++ Added new filters:
+
+  + `llms_rest_lesson_filters_removed_for_response`
+  + `llms_rest_course_item_schema`
+  + `llms_rest_pre_insert_course`
+  + `llms_rest_prepare_course_object_response`
+  + `llms_rest_course_links`
+
++ Improved validation when defining instructors for courses.
++ Improved performance on post collection listing functions.
++ Ensure that a course instructor is always set for courses.
++ Fixed `sales_page_url` not returned in `edit` context.
++ In `update_additional_object_fields()` method, use `WP_Error::$errors` in place of `WP_Error::has_errors()` to support WordPress version prior to 5.1.
+
+
 = v3.36.5 - 2019-11-05 =
 ------------------------
 
@@ -697,15 +724,5 @@ The following unused classes have been marked as deprecated and will be removed 
 +  [taxonomy-course_track.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_track.php)
 +  [taxonomy-membership_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_cat.php)
 +  [taxonomy-membership_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_tag.php)
-
-
-= v3.34.5 - 2019-08-29 =
-------------------------
-
-+ Fixed logic issues preventing pending orders from being completed.
-
-##### Templates Changed
-
-+ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
