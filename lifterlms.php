@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -46,6 +46,7 @@ require_once 'vendor/autoload.php';
  * @since 3.34.0 Include the LLMS_Admin_Users_Table class.
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
+ * @since [version] Move theme support methods to LLMS_Theme_Support.
  */
 final class LifterLMS {
 
@@ -277,6 +278,7 @@ final class LifterLMS {
 	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
 	 * @since 3.36.0 Include events classes.
 	 * @since 3.36.1 Include SendWP Connector.
+	 * @since [version] Include LLMS_Theme_Support class.
 	 *
 	 * @return void
 	 */
@@ -461,23 +463,7 @@ final class LifterLMS {
 		require_once 'includes/class-llms-events-core.php';
 		require_once 'includes/class-llms-sessions.php';
 		require_once 'includes/class.llms.playnice.php';
-
-		$this->includes_theme_support();
-
-	}
-
-	/**
-	 * Conditionally require additional theme support classes.
-	 *
-	 * @since 3.31.0-beta.1
-	 *
-	 * @return void
-	 */
-	private function includes_theme_support() {
-
-		if ( 'twentynineteen' === get_template() ) {
-			include_once 'includes/theme-support/class-llms-twenty-nineteen.php';
-		}
+		require_once 'includes/theme-support/class-llms-theme-support.php';
 
 	}
 
