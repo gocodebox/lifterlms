@@ -76,25 +76,26 @@ class LLMS_Twenty_Twenty {
 			background-image: -webkit-radial-gradient(center,ellipse,<?php echo $accent; ?> 0,<?php echo $accent; ?> 40%,#fafafa 45%);
 			background-image: radial-gradient(ellipse at center,<?php echo $accent; ?> 0,<?php echo $accent; ?> 40%,#fafafa 45%);
 		}
-
 		.llms-checkout-section,
 		.llms-lesson-preview section.llms-main  {
 			padding-bottom: 0;
 			padding-top: 0;
 		}
-
 		.llms-lesson-link .llms-pre-text,
 		.llms-access-plan .llms-access-plan-title {
 			margin-top: 0;
 		}
-
 		.llms-donut svg path {
 			stroke: <?php echo $accent; ?>;
 		}
-
 		.llms-notification,
 		.llms-instructor-info .llms-instructors .llms-author {
 			border-top-color: <?php echo $accent; ?>;
+		}
+		.llms-pagination ul li:first-of-type,
+		.llms-pagination ul {
+			margin-left: 0;
+			margin-right: 0;
 		}
 		</style>
 		<?php
@@ -116,143 +117,189 @@ class LLMS_Twenty_Twenty {
 		// Accent Background.
 		$elements['content']['accent']['background'] = array_merge(
 			$elements['content']['accent']['background'],
-			array(
-
-				// Buttons.
-				'.llms-button-primary',
-				'.llms-button-primary:hover',
-				'.llms-button-primary.clicked',
-				'.llms-button-primary:focus',
-				'.llms-button-primary:active',
-				'.llms-button-action',
-				'.llms-button-action:hover',
-				'.llms-button-action.clicked',
-				'.llms-button-action:focus',
-				'.llms-button-action:active',
-
-				// Pricing Tables.
-				'.llms-access-plan-title',
-				'.llms-access-plan .stamp',
-				'.llms-access-plan.featured .llms-access-plan-featured',
-
-				// Checkout.
-				'.llms-checkout-wrapper .llms-form-heading',
-
-				// Notices.
-				'.llms-notice',
-
-				// Progress Bar.
-				'.llms-progress .progress-bar-complete',
-
-				// My Grades.
-				'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
-
-				// Instructor.
-				'.llms-instructor-info .llms-instructors .llms-author .avatar',
-
-				// Quizzes.
-				'.llms-question-wrapper ol.llms-question-choices li.llms-choice input:checked + .llms-marker',
-
-			)
+			self::add_elements_content_accent_background()
 		);
 
 		// Accent Border Color.
 		$elements['content']['accent']['border-color'] = array_merge(
 			$elements['content']['accent']['border-color'],
-			array(
-
-				// Checkout.
-				'.llms-checkout-section',
-				'.llms-checkout-wrapper form.llms-login',
-
-				// Notices.
-				'.llms-notice',
-
-				// Instructor.
-				'.llms-instructor-info .llms-instructors .llms-author .avatar',
-
-			)
+			self::add_elements_content_accent_border()
 		);
 
 		// Accent Color.
 		$elements['content']['accent']['color'] = array_merge(
 			$elements['content']['accent']['color'],
-			array(
-
-				// Pricing Tables.
-				'.llms-access-plan-restrictions a',
-				'.llms-access-plan-restrictions a:hover',
-
-				// Loop.
-				'.llms-loop-item-content .llms-loop-title:hover',
-
-				// Donuts.
-				'.llms-donut',
-
-				// Checks on Syllabus.
-				'.llms-lesson-preview.is-free .llms-lesson-complete',
-				'.llms-lesson-preview.is-complete .llms-lesson-complete',
-
-			)
+			self::add_elements_content_accent_color()
 		);
 
 		// Background Text Color.
 		$elements['content']['background']['color'] = array_merge(
 			$elements['content']['background']['color'],
-			array(
-
-				// Buttons.
-				'.llms-button-primary',
-				'.llms-button-primary:hover',
-				'.llms-button-primary.clicked',
-				'.llms-button-primary:focus',
-				'.llms-button-primary:active',
-				'.llms-button-action',
-				'.llms-button-action:hover',
-				'.llms-button-action.clicked',
-				'.llms-button-action:focus',
-				'.llms-button-action:active',
-
-				// Pricing Tables.
-				'.llms-access-plan-title',
-				'.llms-access-plan .stamp',
-				'.llms-access-plan.featured .llms-access-plan-featured',
-
-				// Checkout.
-				'.llms-checkout-wrapper .llms-form-heading',
-
-				// Notices.
-				'.llms-notice',
-				'.llms-notice a',
-
-				// My Grades.
-				'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
-
-			)
+			self::add_elements_content_background_color()
 		);
 
 		// Background Background Color.
 		$elements['content']['background']['background'] = array_merge(
 			$elements['content']['background']['background'],
-			array(
-
-				'.llms-checkout',
-
-			)
+			array( '.llms-checkout' )
 		);
 
 		// Text Color.
 		$elements['content']['text']['color'] = array_merge(
 			$elements['content']['text']['color'],
 			array(
-
 				'.llms-notice.llms-debug',
 				'.llms-notice.llms-debug a',
-
 			)
 		);
 
 		return $elements;
+
+	}
+
+	/**
+	 * Get an array of selectors for items that have the accent color as the background.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected static function add_elements_content_accent_background() {
+
+		return array(
+
+			// Buttons.
+			'.llms-button-primary',
+			'.llms-button-primary:hover',
+			'.llms-button-primary.clicked',
+			'.llms-button-primary:focus',
+			'.llms-button-primary:active',
+			'.llms-button-action',
+			'.llms-button-action:hover',
+			'.llms-button-action.clicked',
+			'.llms-button-action:focus',
+			'.llms-button-action:active',
+
+			// Pricing Tables.
+			'.llms-access-plan-title',
+			'.llms-access-plan .stamp',
+			'.llms-access-plan.featured .llms-access-plan-featured',
+
+			// Checkout.
+			'.llms-checkout-wrapper .llms-form-heading',
+
+			// Notices.
+			'.llms-notice',
+
+			// Progress Bar.
+			'.llms-progress .progress-bar-complete',
+
+			// My Grades.
+			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
+
+			// Instructor.
+			'.llms-instructor-info .llms-instructors .llms-author .avatar',
+
+			// Quizzes.
+			'.llms-question-wrapper ol.llms-question-choices li.llms-choice input:checked + .llms-marker',
+
+		);
+
+	}
+
+	/**
+	 * Get an array of selectors for items that have the accent color as the border.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected static function add_elements_content_accent_border() {
+
+		return array(
+
+			// Checkout.
+			'.llms-checkout-section',
+			'.llms-checkout-wrapper form.llms-login',
+
+			// Notices.
+			'.llms-notice',
+
+			// Instructor.
+			'.llms-instructor-info .llms-instructors .llms-author .avatar',
+
+		);
+
+	}
+
+	/**
+	 * Get an array of selectors for items that have the accent color as the text color.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected static function add_elements_content_accent_color() {
+
+		return array(
+
+			// Pricing Tables.
+			'.llms-access-plan-restrictions a',
+			'.llms-access-plan-restrictions a:hover',
+
+			// Loop.
+			'.llms-loop-item-content .llms-loop-title:hover',
+
+			// Donuts.
+			'.llms-donut',
+
+			// Checks on Syllabus.
+			'.llms-lesson-preview.is-free .llms-lesson-complete',
+			'.llms-lesson-preview.is-complete .llms-lesson-complete',
+
+		);
+
+	}
+
+	/**
+	 * Get an array of selectors for items that have the background color as the text color.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	protected static function add_elements_content_background_color() {
+
+		return array(
+
+			// Buttons.
+			'.llms-button-primary',
+			'.llms-button-primary:hover',
+			'.llms-button-primary.clicked',
+			'.llms-button-primary:focus',
+			'.llms-button-primary:active',
+			'.llms-button-action',
+			'.llms-button-action:hover',
+			'.llms-button-action.clicked',
+			'.llms-button-action:focus',
+			'.llms-button-action:active',
+
+			// Pricing Tables.
+			'.llms-access-plan-title',
+			'.llms-access-plan .stamp',
+			'.llms-access-plan.featured .llms-access-plan-featured',
+
+			// Checkout.
+			'.llms-checkout-wrapper .llms-form-heading',
+
+			// Notices.
+			'.llms-notice',
+			'.llms-notice a',
+
+			// My Grades.
+			'.llms-sd-widgets .llms-sd-widget .llms-sd-widget-title',
+
+		);
 
 	}
 
@@ -442,7 +489,6 @@ class LLMS_Twenty_Twenty {
 	 * @return void
 	 */
 	public static function output_content_wrapper_part_two() {
-
 		?>
 			</div><!-- .archive-header-inner -->
 		</header><!-- .archive-header -->
