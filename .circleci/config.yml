@@ -4,6 +4,7 @@ references:
   common_env_vars: &common_env_vars
     environment:
       - MYSQL_ROOT_HOST: "%"
+      - WP_VERSION: "latest"
 
   common: &common
     working_directory: ~/repo
@@ -32,12 +33,12 @@ references:
 
       - run:
           name: Install PHP Unit Tests
-          command: composer run-script tests-install
+          command: composer run-script tests-install -- ${WP_VERSION}
 
       - run:
           name: Run PHP Unit Tests
           command: |
-            if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73" == "${CIRCLE_JOB}" ]; then
+            if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73-wp-latest" == "${CIRCLE_JOB}" ]; then
                 /cc-test-reporter before-build
                 export COMPOSER_PROCESS_TIMEOUT=1200
                 composer run-script tests-run -- --coverage-clover clover.xml
@@ -47,21 +48,29 @@ references:
             fi
 
 jobs:
-  test-php-71:
+  test-php-71-wp-latest:
     docker:
       - image: thomasplevy/llms-testing-env:php71
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-72:
+  test-php-72-wp-latest:
     docker:
       - image: thomasplevy/llms-testing-env:php72
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-73:
+  test-php-73-wp-latest:
     docker:
       - image: thomasplevy/llms-testing-env:php73
+        <<: [ *common_env_vars ]
+    <<: [ *common ]
+
+  test-php-73-wp-5dot0:
+    docker:
+      - image: thomasplevy/llms-testing-env:php73
+        environment:
+          WP_VERSION: "5.0"
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
@@ -69,6 +78,7 @@ workflows:
   version: 2
   test:
     jobs:
-      - test-php-71
-      - test-php-72
-      - test-php-73
+      - test-php-71-wp-latest
+      - test-php-72-wp-latest
+      - test-php-73-wp-latest
+      - test-php-73-wp-5dot0
