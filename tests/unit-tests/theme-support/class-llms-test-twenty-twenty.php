@@ -77,6 +77,13 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Default values for column counts will return 1 (default "thin" template)
+	 *
+	 * @since [version]
+	 *
+	 * @return [type]
+	 */
 	public function test_modify_columns_count_defaults() {
 
 		$this->assertEquals( 1, LLMS_Twenty_Twenty::modify_columns_count( 1 ) );
@@ -84,15 +91,30 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 
 	}
 
-	public function test_modify_columns_count_catalogs() {
+	/**
+	 * Modify columns on catalogs. Returns 1 for default template and default column values for full width templates.
+	 *
+	 * @since [version]
+	 *
+	 * @return [type]
+	 */
+	public function test_modify_columns_count() {
 
-		$page_id = $this->factory->post->create( array( 'post_type' => 'page' ) );
-		// LLMS_Install::create_pages();
+		LLMS_Install::create_pages();
+		LLMS_Install::create_visibilities();
 
-		global $wp_query;
-		$wp_query->queried_object_id = $page_id;
+		foreach ( array( 'courses', 'memberships', 'checkout' ) as $page ) {
 
-		update_post_meta( $page_id, '_wp_page_template', 'templates/template-full-width.php' );
+			$page_id = llms_get_page_id( $page );
+			$url = get_permalink( $page_id );
+
+			$this->go_to( $url );
+			$this->assertEquals( 1, LLMS_Twenty_Twenty::modify_columns_count( 2 ) );
+
+			update_post_meta( $page_id, '_wp_page_template', 'templates/template-full-width.php' );
+			$this->assertEquals( 2, LLMS_Twenty_Twenty::modify_columns_count( 2 ) );
+
+		}
 
 	}
 
