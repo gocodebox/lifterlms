@@ -1,25 +1,20 @@
 <?php
 /**
  * Tests for template functions
- * @group LLMS_Functions_Templates
+ *
+ * @group functions_templates
+ *
  * @since 3.15.0
- * @version 3.30.2
+ * @version [version]
  */
 class LLMS_Functions_Templates extends LLMS_UnitTestCase {
 
-	public function get_output( $func, $params = array() ) {
-
-		ob_start();
-		call_user_func_array( $func, $params );
-		return ob_get_clean();
-
-	}
-
 	/**
 	 * Test lifterlms_course_continue_button() func
+	 *
+	 * @since 3.15.0
+	 *
 	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function test_lifterlms_course_continue_button() {
 

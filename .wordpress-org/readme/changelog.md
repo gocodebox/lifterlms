@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.36.5 - 2019-11-05 =
+------------------------
+
++ Add filter: `llms_user_caps_edit_others_posts_post_types` to allow 3rd parties to utilize core methods for determining if a user can manage another users LMS content on the admin panel.
+
+
 = v3.36.4 - 2019-11-01 =
 ------------------------
 
@@ -190,20 +196,4 @@ The following unused classes have been marked as deprecated and will be removed 
 
 ##### Templates Changed
 
-+ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
-
-= v3.34.4 - 2019-08-27 =
-------------------------
-
-+ Add a new admin settings field type, "keyval", used for displaying custom html alongside a setting.
-+ Added filter `llms_order_can_be_confirmed`.
-+ Always bind JS for the login form handler on checkout and registration screens.
-
-##### Templates Changed
-
-+ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php)
-
-##### LifterLMS REST API v1.0.0-beta.6
-
-+ Fix issue causing certain webhooks to not trigger as a result of action load order.
-+ Change "access_plans" to "Access Plans" for better human reading.
++ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php
