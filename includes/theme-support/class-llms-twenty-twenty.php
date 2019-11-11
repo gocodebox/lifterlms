@@ -2,7 +2,7 @@
 /**
  * Twenty Twenty Theme Support.
  *
- * @package  Classes/ThemeSupport
+ * @package  LifterLMS/Classes/ThemeSupport
  *
  * @since [version]
  * @version [version]
