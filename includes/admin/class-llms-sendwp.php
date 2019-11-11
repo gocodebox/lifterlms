@@ -5,15 +5,16 @@
  * @package  LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_SendWP class..
+ * LLMS_SendWP class.
  *
  * @since 3.36.1
+ * @since [version] Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  */
 class LLMS_SendWP {
 
@@ -113,15 +114,22 @@ class LLMS_SendWP {
 	 * Remote installation method.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Sanitize URLS returned by SendWP functions and add nonce verification.
 	 *
 	 * @return array
 	 */
 	public function do_remote_install() {
 
-		if ( ! current_user_can( 'install_plugins' ) ) {
+		if ( ! llms_verify_nonce( '_llms_sendwp_nonce', 'llms-sendwp-install' ) ) {
+			return array(
+				'code'    => 'llms_sendwp_install_nonce_failure',
+				'message' => esc_html__( 'Security check failed.', 'lifterlms' ),
+				'status'  => 401,
+			);
+		} elseif ( ! current_user_can( 'install_plugins' ) ) {
 			return array(
 				'code'    => 'llms_sendwp_install_unauthorized',
-				'message' => __( 'You do not have permission to perform this action.', 'lifterlms' ),
+				'message' => esc_html__( 'You do not have permission to perform this action.', 'lifterlms' ),
 				'status'  => 403,
 			);
 		}
@@ -137,10 +145,10 @@ class LLMS_SendWP {
 
 		return array(
 			'partner_id'      => 2007,
-			'register_url'    => sendwp_get_server_url() . '_/signup',
-			'client_name'     => sendwp_get_client_name(),
-			'client_secret'   => sendwp_get_client_secret(),
-			'client_redirect' => sendwp_get_client_redirect(),
+			'register_url'    => esc_url( sendwp_get_server_url() . '_/signup' ),
+			'client_name'     => esc_url( sendwp_get_client_name() ),
+			'client_secret'   => esc_url( sendwp_get_client_secret() ),
+			'client_redirect' => esc_url( sendwp_get_client_redirect() ),
 		);
 
 	}
@@ -302,6 +310,7 @@ class LLMS_SendWP {
 				height: auto;
 				margin: 0 0 6px;
 				padding: 8px 14px;
+				position: relative;
 			}
 			#llms-sendwp-connect .fa {
 				margin-right: 4px;
@@ -315,6 +324,7 @@ class LLMS_SendWP {
 	 * Output some quick and dirty inline JS.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Add nonce and replace references to `$` with `jQuery`.
 	 *
 	 * @return void
 	 */
@@ -326,9 +336,11 @@ class LLMS_SendWP {
 
 		?>
 		<script>
-			var btn = document.getElementById( 'llms-sendwp-connect' )
+			var btn  = document.getElementById( 'llms-sendwp-connect' ),
+				$btn = jQuery( btn );
 			btn.addEventListener( 'click', function( e ) {
 				e.preventDefault();
+				LLMS.Spinner.start( $btn, 'small' );
 				llms_sendwp_remote_install();
 			} );
 
@@ -336,19 +348,24 @@ class LLMS_SendWP {
 			 * Perform AJAX request to install SendWP plugin.
 			 *
 			 * @since 3.36.1
+			 * @since [version] Add nonce.
+			 *                Replace references to `$` with `jQuery`.
+			 *                Add loading feedback on button click.
 			 *
 			 * @return void
 			 */
 			function llms_sendwp_remote_install() {
 				var data = {
-					'action': 'llms_sendwp_remote_install',
+					action: 'llms_sendwp_remote_install',
+					_llms_sendwp_nonce: '<?php echo wp_create_nonce( 'llms-sendwp-install' ); ?>',
 				};
 				jQuery.post( ajaxurl, data, function( res ) {
 					llms_sendwp_register_client( res.register_url, res.client_name, res.client_secret, res.client_redirect, res.partner_id );
 				} ).fail( function( jqxhr ) {
-					$( btn ).parent().find( '.llms-error' ).remove();
+					LLMS.Spinner.stop( $btn );
+					$btn.parent().find( '.llms-error' ).remove();
 					if ( jqxhr.responseJSON && jqxhr.responseJSON.message ) {
-						$( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': jqxhr.responseJSON.message } ) + '</p>' ).insertAfter( $( btn ) );
+						jQuery( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': jqxhr.responseJSON.message } ) + '</p>' ).insertAfter( $btn );
 						console.log( jqxhr );
 					}
 				} );

@@ -7,7 +7,7 @@
  * @group sendwp
  *
  * @since 3.36.1
- * @version 3.36.1
+ * @since [version] Add testing for nonce verifications.
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
@@ -26,6 +26,13 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Tear down the testcase.
+	 *
+	 * @since 3.36.1
+	 *
+	 * @return void
+	 */
 	public function tearDown() {
 
 		parent::tearDown();
@@ -34,13 +41,35 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test do_remote_install() error with no nonce submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_do_remote_install_no_nonce() {
+
+		$res = $this->sendwp->do_remote_install();
+
+		$this->assertArrayHasKey( 'message', $res );
+		$this->assertEquals( 'llms_sendwp_install_nonce_failure', $res['code'] );
+		$this->assertEquals( 403, $res['status'] );
+
+	}
+
+	/**
 	 * Test do_remote_install() error for no user.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Add mock nonce to test.
 	 *
 	 * @return void
 	 */
 	public function test_do_remote_install_no_user() {
+
+		$this->mockPostRequest( array(
+			'_llms_sendwp_nonce' => wp_create_nonce( 'llms-sendwp-install' ),
+		) );
 
 		$res = $this->sendwp->do_remote_install();
 
@@ -54,12 +83,16 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test do_remote_install() error with plugins api.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Add mock nonce to test.
 	 *
 	 * @return void
 	 */
 	public function test_do_remote_install_plugins_api_error() {
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->mockPostRequest( array(
+			'_llms_sendwp_nonce' => wp_create_nonce( 'llms-sendwp-install' ),
+		) );
 
 		$handler = function( $ret, $action, $args ) {
 			return new WP_Error( 'plugins_api_failed', 'Error' );
@@ -78,12 +111,16 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test do remote install success.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Add mock nonce to test.
 	 *
 	 * @return void
 	 */
 	public function test_do_remote_install_success() {
 
 		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$this->mockPostRequest( array(
+			'_llms_sendwp_nonce' => wp_create_nonce( 'llms-sendwp-install' ),
+		) );
 
 		// Install.
 		$res = $this->sendwp->do_remote_install();
