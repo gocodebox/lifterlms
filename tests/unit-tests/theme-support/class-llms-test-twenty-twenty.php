@@ -6,15 +6,15 @@
  *
  * @group theme_support
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.0
+ * @version 3.37.0
  */
 class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the hide_meta_output() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -57,7 +57,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_page_full_width() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -80,7 +80,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	/**
 	 * Default values for column counts will return 1 (default "thin" template)
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return [type]
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_Twenty_Twenty extends LLMS_Unit_Test_Case {
 	/**
 	 * Modify columns on catalogs. Returns 1 for default template and default column values for full width templates.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return [type]
 	 */

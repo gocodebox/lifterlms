@@ -5,7 +5,7 @@
  * @group functions_templates
  *
  * @since 3.15.0
- * @version [version]
+ * @version 3.37.0
  */
 class LLMS_Functions_Templates extends LLMS_UnitTestCase {
 

@@ -5,12 +5,12 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.0
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
- * Version: 3.36.5
+ * Version: 3.37.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -46,7 +46,7 @@ require_once 'vendor/autoload.php';
  * @since 3.34.0 Include the LLMS_Admin_Users_Table class.
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
- * @since [version] Move theme support methods to LLMS_Theme_Support.
+ * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
  */
 final class LifterLMS {
 
@@ -55,7 +55,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '3.36.5';
+	public $version = '3.37.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -278,7 +278,7 @@ final class LifterLMS {
 	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
 	 * @since 3.36.0 Include events classes.
 	 * @since 3.36.1 Include SendWP Connector.
-	 * @since [version] Include LLMS_Theme_Support class.
+	 * @since 3.37.0 Include LLMS_Theme_Support class.
 	 *
 	 * @return void
 	 */

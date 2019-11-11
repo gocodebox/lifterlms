@@ -7,7 +7,7 @@
  * @group sendwp
  *
  * @since 3.36.1
- * @since [version] Add testing for nonce verifications.
+ * @since 3.37.0 Add testing for nonce verifications.
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
@@ -43,7 +43,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_remote_install() error with no nonce submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test do_remote_install() error for no user.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Add mock nonce to test.
+	 * @since 3.37.0 Add mock nonce to test.
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test do_remote_install() error with plugins api.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Add mock nonce to test.
+	 * @since 3.37.0 Add mock nonce to test.
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Test do remote install success.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Add mock nonce to test.
+	 * @since 3.37.0 Add mock nonce to test.
 	 *
 	 * @return void
 	 */

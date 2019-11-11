@@ -7,14 +7,14 @@
  * @group functions
  * @group functions_conditional_tags
  *
- * @since [version]
+ * @since 3.37.0
  */
 class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the is_course() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_course_category() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @see {Reference}
 	 * @link {URL}
@@ -80,7 +80,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_course_tag() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @see {Reference}
 	 * @link {URL}
@@ -124,7 +124,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_course_tag() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @see {Reference}
 	 * @link {URL}
@@ -160,7 +160,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_courses()
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -187,7 +187,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test the is_lesson() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -209,7 +209,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_lifterlms() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -260,7 +260,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test the is_llms_account_page() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -285,7 +285,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test the is_llms_checkout() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -306,7 +306,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test the is_membership() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -328,7 +328,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_membership_category() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @see {Reference}
 	 * @link {URL}
@@ -372,7 +372,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_membership_tag() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @see {Reference}
 	 * @link {URL}
@@ -416,7 +416,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_membership_tag() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @see {Reference}
 	 * @link {URL}
@@ -452,7 +452,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test is_memberships()
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -479,7 +479,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	/**
 	 * Test the is_quiz() function.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */

@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes/ThemeSupport
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.0
+ * @version 3.37.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Twenty_Twenty class..
  *
- * @since [version]
+ * @since 3.37.0
  */
 class LLMS_Twenty_Twenty {
 
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -55,7 +55,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Generate inline CSS using colors from the TwenyTwenty Theme settings.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Twenty_Twenty {
 	 *
 	 * This is used to automatically generate inline CSS via the Twenty Twenty Theme.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param array $elements Multidimensional array of CSS selectors.
 	 * @return array
@@ -160,7 +160,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Get an array of selectors for items that have the accent color as the background.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return string[]
 	 */
@@ -210,7 +210,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Get an array of selectors for items that have the accent color as the border.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return string[]
 	 */
@@ -235,7 +235,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Get an array of selectors for items that have the accent color as the text color.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return string[]
 	 */
@@ -264,7 +264,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Get an array of selectors for items that have the background color as the text color.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return string[]
 	 */
@@ -306,7 +306,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Add Twenty Twenty's full-width template body class on catalogs where the page is set to use the Full Width template.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param string[] $classes Array of body classes.
 	 * @return string[]
@@ -325,7 +325,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Retrieve the page ID of a a catalog page.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return int|false
 	 */
@@ -348,7 +348,7 @@ class LLMS_Twenty_Twenty {
 	 *
 	 * If the "Full Width" template is utilized, there's no class, otherwise the class `thin` is used.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return string
 	 */
@@ -370,7 +370,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Prevent theme meta information from being output on LifterLMS Custom Post Types.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param string[] $post_types Array of post type names.
 	 * @return string[]
@@ -384,7 +384,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Determine if the given page is utilizing the twenty twenty full-width page template.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param int $page_id WP_Post ID of the catalog page.
 	 * @return bool
@@ -400,7 +400,7 @@ class LLMS_Twenty_Twenty {
 	 *
 	 * If the default template is used, drop to a single column.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param int $cols Number of columns.
 	 * @return int
@@ -418,7 +418,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Output the opening wrapper for the content description element in the theme's header.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -429,7 +429,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Output the closing wrapper for the content description element in the theme's header.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -440,7 +440,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Output Twenty Twenty theme wrapper openers
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -484,7 +484,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Outputs header closing wrappers and inner element opening wrappers for the theme wrappers.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -501,7 +501,7 @@ class LLMS_Twenty_Twenty {
 	/**
 	 * Output Twenty Twenty theme wrapper closers
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */

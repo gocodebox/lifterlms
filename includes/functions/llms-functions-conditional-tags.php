@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Functions/Tags
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.0
+ * @version 3.37.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -44,7 +44,7 @@ if ( ! function_exists( 'is_course_tag' ) ) {
 	/**
 	 * Determine if a course tag archive page is being displayed.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param  mixed $term Single or array of course tag ID(s), name(s), or slug(s).
 	 * @return boolean
@@ -75,7 +75,7 @@ if ( ! function_exists( 'is_courses' ) ) {
 	 *
 	 * @since 1.4.4
 	 * @since 3.0.0 Unknown.
-	 * @since [version] Remove ternary.
+	 * @since 3.37.0 Remove ternary.
 	 *
 	 * @return boolean
 	 */
@@ -90,7 +90,7 @@ if ( ! function_exists( 'is_lesson' ) ) {
 	 * Determine if current post is a lifterLMS Lesson
 	 *
 	 * @since Unknown
-	 * @since [version] Use `is_singular()` instead of comparing against global post's post type.
+	 * @since 3.37.0 Use `is_singular()` instead of comparing against global post's post type.
 	 *
 	 * @return boolean
 	 */
@@ -113,7 +113,7 @@ if ( ! function_exists( 'is_lifterlms' ) ) {
 		 * Modify the return of the is_lifterlms() conditional function.
 		 *
 		 * @since Unknown
-		 * @since [version] Add check for `is_membership_taxonomy()`.
+		 * @since 3.37.0 Add check for `is_membership_taxonomy()`.
 		 *
 		 * @param boolean $is_lifterlms Default value.
 		 */
@@ -128,7 +128,7 @@ if ( ! function_exists( 'is_llms_account_page' ) ) {
 	 * Determine if the LifterLMS Student Dashboard (account page) is being displayed.
 	 *
 	 * @since 1.4.6
-	 * @since [version] Remove ternary condition.
+	 * @since 3.37.0 Remove ternary condition.
 	 *
 	 * @return boolean
 	 */
@@ -152,7 +152,7 @@ if ( ! function_exists( 'is_llms_checkout' ) ) {
 	 * Determine if the LifterLMS Checkout page is being displayed.
 	 *
 	 * @since 1.4.6
-	 * @since [version] Remove ternary condition.
+	 * @since 3.37.0 Remove ternary condition.
 	 *
 	 * @return boolean
 	 */
@@ -180,7 +180,7 @@ if ( ! function_exists( 'is_membership_category' ) ) {
 	/**
 	 * Determine if a membership category archive page is being displayed.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param  mixed $term Single or array of membership category ID(s), name(s), or slug(s).
 	 * @return boolean
@@ -195,7 +195,7 @@ if ( ! function_exists( 'is_membership_tag' ) ) {
 	/**
 	 * Determine if a membership tag archive page is being displayed.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @param  mixed $term Single or array of membership tag ID(s), name(s), or slug(s).
 	 * @return boolean
@@ -225,7 +225,7 @@ if ( ! function_exists( 'is_memberships' ) ) {
 	 * Determine if the membership catalog (post type archive) is being displayed.
 	 *
 	 * @since Unknown
-	 * @since [version] Removed ternary condition.
+	 * @since 3.37.0 Removed ternary condition.
 	 *
 	 * @return boolean
 	 */
@@ -240,7 +240,7 @@ if ( ! function_exists( 'is_quiz' ) ) {
 	 * Determine if a single Quiz is being displayed.
 	 *
 	 * @since Unknown.
-	 * @since [version] Use `is_singular()` instead of comparing against global post's post type.
+	 * @since 3.37.0 Use `is_singular()` instead of comparing against global post's post type.
 	 *
 	 * @return boolean
 	 */

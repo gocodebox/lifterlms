@@ -11,7 +11,7 @@
  * @package LifterLMS/Functions/Deprecated
  *
  * @since 3.29.0
- * @version [version]
+ * @version 3.37.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ if ( ! function_exists( 'is_filtered' ) ) {
 	 * Is template filtered.
 	 *
 	 * @since Unknown.
-	 * @deprecated [version]
+	 * @deprecated 3.37.0
 	 *
 	 * @return boolean
 	 */
@@ -36,7 +36,7 @@ if ( ! function_exists( 'is_filtered' ) ) {
 		 * Deprecated.
 		 *
 		 * @since Unknown
-		 * @deprecated [version]
+		 * @deprecated 3.37.0
 		 *
 		 * @param bool $is_filtered Deprecated.
 		 */

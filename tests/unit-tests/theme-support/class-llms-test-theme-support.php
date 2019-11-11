@@ -6,8 +6,8 @@
  *
  * @group theme_support
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.0
+ * @version 3.37.0
  */
 class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 
@@ -26,7 +26,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test theme support classes are loaded based on the current theme template.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Theme_Support extends LLMS_Unit_Test_Case {
 	/**
 	 * Test theme support classes are loaded based on the current theme template.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */

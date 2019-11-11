@@ -4,8 +4,8 @@
  *
  * @package  LifterLMS/Classes/ThemeSupport
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.0
+ * @version 3.37.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Twenty_Twenty class..
  *
- * @since [version]
+ * @since 3.37.0
  */
 class LLMS_Theme_Support {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */
@@ -33,7 +33,7 @@ class LLMS_Theme_Support {
 	/**
 	 * Conditionally require additional theme support classes.
 	 *
-	 * @since [version]
+	 * @since 3.37.0
 	 *
 	 * @return void
 	 */

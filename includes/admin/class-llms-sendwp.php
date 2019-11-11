@@ -5,7 +5,7 @@
  * @package  LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version [version]
+ * @version 3.37.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_SendWP class.
  *
  * @since 3.36.1
- * @since [version] Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
+ * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  */
 class LLMS_SendWP {
 
@@ -114,7 +114,7 @@ class LLMS_SendWP {
 	 * Remote installation method.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Sanitize URLS returned by SendWP functions and add nonce verification.
+	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
 	 *
 	 * @return array
 	 */
@@ -324,7 +324,7 @@ class LLMS_SendWP {
 	 * Output some quick and dirty inline JS.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Add nonce and replace references to `$` with `jQuery`.
+	 * @since 3.37.0 Add nonce and replace references to `$` with `jQuery`.
 	 *
 	 * @return void
 	 */
@@ -348,7 +348,7 @@ class LLMS_SendWP {
 			 * Perform AJAX request to install SendWP plugin.
 			 *
 			 * @since 3.36.1
-			 * @since [version] Add nonce.
+			 * @since 3.37.0 Add nonce.
 			 *                Replace references to `$` with `jQuery`.
 			 *                Add loading feedback on button click.
 			 *

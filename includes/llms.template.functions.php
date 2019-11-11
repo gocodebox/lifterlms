@@ -3,7 +3,7 @@
  * Front end template functions
  *
  * @since    1.0.0
- * @version  [version]
+ * @version  3.37.0
  */
 
 defined( 'ABSPATH' ) || exit;
