@@ -1,6 +1,13 @@
 == Changelog ==
 
 
+= v3.37.1 - 2019-11-13 =
+------------------------
+
++ TwentyTwenty Theme: Fixed course information block misalignment.
++ Fixed conflict with WooCommerce resulting from the movement of the deprecated LiftreLMS function `is_filtered()`.
+
+
 = v3.37.0 - 2019-11-11 =
 ------------------------
 
@@ -164,53 +171,3 @@
 
 + Fix instances of improper input sanitization and handling.
 + Include scripts, styles, and images for reporting charts and datepickers
-
-
-= v3.35.0 - 2019-09-04 =
-------------------------
-
-##### Security Notice
-
-+ Fixed a security vulnerability disclosed by the WordPress plugin review team. Please upgrade immediately!
-
-##### Updates
-
-+ Explicitly setting css and js file versions for various static assets..
-+ Added data sanitization methods in various form handlers.
-+ Added nonce verification to various form handlers.
-
-##### Bug fixes
-
-+ Fixed some translation strings that had literal variables instead of placeholders.
-+ Fixed undefined index error encountered when attempting to email a voucher export.
-+ Fixed undefined index error when PHP file upload errors are encountered during a course import.
-
-##### Deprecations
-
-The following unused classes have been marked as deprecated and will be removed from LifterLMS in the next major release.
-
-+ LLMS_Analytics_Memberships
-+ LLMS_Analytics_Courses
-+ LLMS_Analytics_Sales
-+ LLMS_Meta_Box_Expiration
-+ LLMS_Meta_Box_Video
-
-##### Template Updates
-
-+  [admin/reporting/tabs/courses/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/courses/overview.php)
-+  [admin/reporting/tabs/memberships/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/memberships/overview.php)
-+  [admin/reporting/tabs/quizzes/attempts.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempts.php)
-+  [admin/reporting/tabs/quizzes/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/overview.php)
-+  [admin/reporting/tabs/students/courses-course.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses-course.php)
-+  [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
-+  [loop/featured-image.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop/featured-image.php)
-+  [myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
-+  [quiz/results.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results.php)
-+  [single-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/single-certificate.php)
-+  [single-no-access.php](https://github.com/gocodebox/lifterlms/blob/master/templates/single-no-access.php)
-+  [taxonomy-course_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_cat.php)
-+  [taxonomy-course_difficulty.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_difficulty.php)
-+  [taxonomy-course_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_tag.php)
-+  [taxonomy-course_track.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_track.php)
-+  [taxonomy-membership_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_cat.php)
-+  [taxonomy-membership_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_tag.php)
