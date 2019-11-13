@@ -11,7 +11,7 @@
  * @package LifterLMS/Functions/Deprecated
  *
  * @since 3.29.0
- * @version [version]
+ * @version 3.37.1
  */
 
 defined( 'ABSPATH' ) || exit;

@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.37.1 - 2019-11-13
+--------------------
+
++ TwentyTwenty Theme: Fixed course information block misalignment.
++ Fixed conflict with WooCommerce resulting from the movement of the deprecated LiftreLMS function `is_filtered()`.
+
+
 v3.37.0 - 2019-11-11
 --------------------
 

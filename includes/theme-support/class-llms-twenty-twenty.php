@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes/ThemeSupport
  *
  * @since 3.37.0
- * @version [version]
+ * @version 3.37.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Twenty_Twenty class..
  *
  * @since 3.37.0
- * @since [version] Fixed course information block misalignment.
+ * @since 3.37.1 Fixed course information block misalignment.
  */
 class LLMS_Twenty_Twenty {
 
@@ -57,7 +57,7 @@ class LLMS_Twenty_Twenty {
 	 * Generate inline CSS using colors from the TwenyTwenty Theme settings.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Fixed course information block misalignment.
+	 * @since 3.37.1 Fixed course information block misalignment.
 	 *
 	 * @return void
 	 */
