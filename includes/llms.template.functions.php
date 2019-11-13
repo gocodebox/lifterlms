@@ -2,8 +2,8 @@
 /**
  * Front end template functions
  *
- * @since    1.0.0
- * @version  3.37.0
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1237,4 +1237,35 @@ if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
 	function lifterlms_template_single_reviews() {
 		LLMS_Reviews::output();
 	}
+}
+
+// Deprecated Functions.
+if ( ! function_exists( 'is_filtered' ) ) {
+
+	/**
+	 * Is template filtered.
+	 *
+	 * @since Unknown.
+	 * @deprecated 3.37.0
+	 *
+	 * @return boolean
+	 */
+	function is_filtered() {
+
+		llms_deprecated_function( 'is_filtered', '3.37.0' );
+
+		global $_chosen_attributes;
+
+		/**
+		 * Deprecated.
+		 *
+		 * @since Unknown
+		 * @deprecated 3.37.0
+		 *
+		 * @param bool $is_filtered Deprecated.
+		 */
+		return apply_filters( 'lifterlms_is_filtered', ( count( $_chosen_attributes ) > 0 || ( isset( $_GET['max_price'] ) && isset( $_GET['min_price'] ) ) ) );
+
+	}
+
 }
