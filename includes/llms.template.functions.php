@@ -1267,5 +1267,4 @@ if ( ! function_exists( 'is_filtered' ) ) {
 		return apply_filters( 'lifterlms_is_filtered', ( count( $_chosen_attributes ) > 0 || ( isset( $_GET['max_price'] ) && isset( $_GET['min_price'] ) ) ) );
 
 	}
-
 }
