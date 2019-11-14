@@ -7,6 +7,7 @@
  * @group AJAX
  *
  * @since 3.32.0
+ * @since [version] Added tests on querying courses/memberships filtererd by instructors.
  * @version 3.32.0
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
@@ -45,6 +46,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 * Test the select2_query_posts() ajax method.
 	 *
 	 * @since 3.32.0
+	 * @since [version] Added tests on querying courses/memberships filtererd by instructors.
 	 *
 	 * @return void
 	 */
@@ -60,7 +62,9 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertTrue( $res['success'] );
 		$this->assertFalse( $res['more'] );
 
-		$this->factory->post->create_many( 50, array( 'post_type' => 'course' ) );
+		$this->factory->post->create_many( 50, array(
+			'post_type' => 'course',
+		) );
 
 		// Full result list.
 		$res = $this->do_ajax( 'select2_query_posts', $args );
@@ -86,8 +90,13 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$res = $this->do_ajax( 'select2_query_posts', $args );
 		$this->assertTrue( count( $res['items'] ) >= 1 );
 
-		$this->factory->post->create_many( 5, array( 'post_title' => 'search title' ) );
-		$this->factory->post->create_many( 5, array( 'post_type' => 'course', 'post_title' => 'search title' ) );
+		$this->factory->post->create_many( 5, array(
+			'post_title' => 'search title',
+		) );
+		$this->factory->post->create_many( 5, array(
+			'post_type'  => 'course',
+			'post_title' => 'search title',
+		) );
 
 		// multiple post types
 		$args['post_type'] .= ',post';
@@ -111,7 +120,10 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertFalse( $res['more'] );
 
 		// create 4 courses in draft
-		$this->factory->post->create_many( 4, array( 'post_type' => 'course', 'post_status' => 'draft' ) );
+		$this->factory->post->create_many( 4, array(
+			'post_type'   => 'course',
+			'post_status' => 'draft',
+		));
 
 		// 4 results when querying for Courses in 'draft'.
 		$args['post_statuses'] = 'draft';
@@ -134,8 +146,14 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertTrue( $res['success'] );
 		$this->assertFalse( $res['more'] );
 
-		$this->factory->post->create_many( 1, array( 'post_title' => 'search title again', 'post_status' => 'draft' ) );
-		$this->factory->post->create_many( 5, array( 'post_type' => 'course', 'post_title' => 'search title again' ) );
+		$this->factory->post->create_many( 1, array(
+			'post_title'  => 'search title again',
+			'post_status' => 'draft',
+		));
+		$this->factory->post->create_many( 5, array(
+			'post_type'  => 'course',
+			'post_title' => 'search title again',
+		));
 
 		// Search for multiple post types and multiple status.
 		// Only 1 post in 'draft' and 5 courses 'publish' must be found matching the 'term'.
@@ -162,6 +180,38 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertSame( 'Posts', $res['items']['post']['label'] );
 		$this->assertTrue( array_key_exists( 'items', $res['items']['post'] ) );
 		$this->assertSame( 1, count( $res['items']['post']['items'] ) );
+
+		// 2 Courses and 2 Memberships when querying for multiple post types limited to a specific instructor id.
+		// create and setup an instructor for the just created 2 Courses and 2 Memberships.
+		$instructor_id = $this->factory->instructor->create();
+		foreach ( array( 'course', 'llms_membership' ) as $post_type ) {
+			$ids = $this->factory->post->create_many( 2, array(
+				'post_type' => $post_type,
+			));
+			foreach ( $ids as $id ) {
+				llms_get_post( $id )->instructors()->set_instructors( array(
+					array(
+						'id' => $instructor_id,
+					),
+				));
+			}
+		}
+
+		$args = array(
+			'post_type'     => 'course,llms_membership',
+			'post_statuses' => 'publish',
+			'instructor_id' => $instructor_id,
+		);
+		$res = $this->do_ajax( 'select2_query_posts', $args );
+		$this->assertTrue( array_key_exists( 'course', $res['items'] ) );
+		$this->assertSame( 'Courses', $res['items']['course']['label'] );
+		$this->assertTrue( array_key_exists( 'items', $res['items']['course'] ) );
+		$this->assertSame( 2, count( $res['items']['course']['items'] ) );
+		$this->assertTrue( array_key_exists( 'llms_membership', $res['items'] ) );
+		$this->assertSame( 'Memberships', $res['items']['llms_membership']['label'] );
+		$this->assertTrue( array_key_exists( 'items', $res['items']['llms_membership'] ) );
+		$this->assertSame( 2, count( $res['items']['llms_membership']['items'] ) );
+
 	}
 
 	/**
