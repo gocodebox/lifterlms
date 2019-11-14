@@ -79,7 +79,7 @@ class LLMS_Template_Loader {
 	 * Handle sales page redirects for courses & memberships
 	 *
 	 * @since 3.20.0
-	 * @since [version] Flag to print notices when landing on the redirected sales page.
+	 * @since [version] Flag to print notices, if there are, when landing on the redirected sales page.
 	 *
 	 * @return void
 	 */
@@ -103,13 +103,17 @@ class LLMS_Template_Loader {
 			return;
 		}
 
+		$notices_to_print = LLMS()->session->get( 'llms_notices', array() );
+		$count_notices    = $notices_to_print ? count( $notices_to_print ) : 0;
+
 		llms_redirect_and_exit(
-			add_query_arg(
-				array(
-					'llms_print_notices' => 1,
-				),
-				$post->get_sales_page_url()
-			),
+			$count_notices > 0 ?
+				add_query_arg(
+					array(
+						'llms_print_notices' => 1,
+					),
+					$post->get_sales_page_url()
+				) : $post->get_sales_page_url(),
 			array(
 				'safe' => false,
 			)
@@ -485,7 +489,7 @@ class LLMS_Template_Loader {
 	 */
 	private function maybe_print_notices_on_sales_page_redirect() {
 
-		if ( ! empty( $_GET['llms_print_notices'] ) ) { // phpcs:ignore -- No need to verify nonce for this purpose.
+		if ( llms_filter_input( INPUT_GET, 'llms_print_notices' ) ) {
 			// prints notices on the page at loop start.
 			add_action( 'loop_start', 'llms_print_notices', 5 );
 		}
