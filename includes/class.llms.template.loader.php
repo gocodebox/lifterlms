@@ -103,11 +103,8 @@ class LLMS_Template_Loader {
 			return;
 		}
 
-		$notices_to_print = LLMS()->session->get( 'llms_notices', array() );
-		$count_notices    = $notices_to_print ? count( $notices_to_print ) : 0;
-
 		llms_redirect_and_exit(
-			$count_notices > 0 ?
+			llms_notice_count() ?
 				add_query_arg(
 					array(
 						'llms_print_notices' => 1,
