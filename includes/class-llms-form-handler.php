@@ -39,6 +39,19 @@ class LLMS_Form_Handler {
 	}
 
 	/**
+	 * Private Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	private function __construct() {
+
+		add_action( 'lifterlms_before_user_update', array( $this, 'maybe_modify_edit_account_field_settings' ), 10, 3 );
+
+	}
+
+	/**
 	 * Ensure matching fields match one another.
 	 *
 	 * @since [version]
@@ -154,6 +167,52 @@ class LLMS_Form_Handler {
 		}
 
 		return $user_id;
+
+	}
+
+	/**
+	 * Modify LifterLMS Fields prior to performing submit handler validations.
+	 *
+	 * @since [version]
+	 *
+	 * @param array &$posted_data User submitted form data (passed by reference).
+	 * @param string $location Form location ID.
+	 * @param array[] &$fields Array of LifterLMS Form Fields (passed by reference).
+	 * @return void
+	 */
+	public function maybe_modify_edit_account_field_settings( &$posted_data, $location, &$fields ) {
+
+		if ( 'account' !== $location ) {
+			return;
+		}
+
+		/**
+		 * If email address and passwords aren't submitted we can mark them as "optional" fields.
+		 *
+		 * These fields are dynamically toggled and disabled if they're not modified.
+		 */
+		foreach ( array( 'email_address', 'password' ) as $field_id ) {
+
+			// If the field exists and it's not included (or empty) in the posted data.
+			$index = LLMS_Forms::instance()->get_field_by( $fields, 'id', $field_id, 'index' );
+			if ( false !== $index && empty( $posted_data[ $fields[ $index ]['name'] ] ) ) {
+
+				// Remove the field so we don't accidentally save an empty value later.
+				unset( $posted_data[ $fields[ $index ]['name'] ] );
+
+				// Mark the field as optional (for validation purposes).
+				$fields[ $index ]['required'] = false;
+
+				// Check if there's a confirm field and do the same.
+				$con_index = LLMS_Forms::instance()->get_field_by( $fields, 'id', "{$field_id}_confirm", 'index' );
+				if ( false !== $con_index && empty( $posted_data[ $fields[ $con_index ]['name'] ] ) ) {
+					unset( $posted_data[ $fields[ $con_index ]['name'] ] );
+					$fields[ $con_index ]['required'] = false;
+				}
+
+			}
+
+		}
 
 	}
 
@@ -346,13 +405,15 @@ class LLMS_Form_Handler {
 		 * @since 3.0.0
 		 * @since [version] Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
 		 *               Added parameters `$fields` and `$args`.
+		 *               Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
+		 *                 of `$posted_data` and `$fields` via hooks.
 		 *
-		 * @param array $posted_data Array of user-submitted data.
+		 * @param array $posted_data Array of user-submitted data (passed by reference).
 		 * @param string $location Form location.
-		 * @param array[] $fields Array of LifterLMS Form Fields
+		 * @param array[] $fields Array of LifterLMS Form Fields (passed by reference).
 		 * @param array $args Additional arguments from the form retrieval function.
 		 */
-		do_action( "lifterlms_before_user_${action}", $posted_data, $location, $fields, $args );
+		do_action_ref_array( "lifterlms_before_user_${action}", array( &$posted_data, $location, &$fields, $args ) );
 
 		// Check for all required fields.
 		$required = $this->validate_required_fields( $posted_data, $fields );
