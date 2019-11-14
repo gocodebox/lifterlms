@@ -773,9 +773,14 @@ class LLMS_Form_Field {
 
 		);
 
+		// Set data storage for items on the wp_users table.
 		if ( in_array( $name, array_keys( $users_fields ), true ) ) {
 			$this->settings['data_store'] = 'users';
 			$name                         = $users_fields[ $name ];
+
+			// Don't save default core confirmation fields.
+		} elseif ( in_array( $name, array( 'email_address_confirm', 'password_confirm' ), true ) ) {
+			$this->settings['data_store'] = false;
 		}
 
 		$this->settings['data_store_key'] = $name;
