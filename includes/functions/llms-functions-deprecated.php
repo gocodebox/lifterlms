@@ -11,9 +11,9 @@
  * @package LifterLMS/Functions/Deprecated
  *
  * @since 3.29.0
+ * @version 3.37.1
  * @since [version] Moved `llms_create_new_person()` function which was deprecated at version 3.0.0.
  *                Deprecated `llms_get_minimum_password_strength() with no replacement`.
- * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

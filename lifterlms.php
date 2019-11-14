@@ -47,6 +47,7 @@ require_once 'vendor/autoload.php';
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
  * @since 3.37.0-beta.1 Include forms and shared assets class.
+ * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
  */
 final class LifterLMS {
 
@@ -55,7 +56,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '3.36.5';
+	public $version = '3.37.1';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -279,6 +280,7 @@ final class LifterLMS {
 	 * @since 3.36.0 Include events classes.
 	 * @since 3.36.1 Include SendWP Connector.
 	 * @since 3.37.0-beta.1 Include forms classes and backend/frontend shared asset class.
+	 * @since 3.37.0 Include LLMS_Theme_Support class.
 	 *
 	 * @return void
 	 */
@@ -471,23 +473,7 @@ final class LifterLMS {
 		require_once 'includes/class-llms-events-core.php';
 		require_once 'includes/class-llms-sessions.php';
 		require_once 'includes/class.llms.playnice.php';
-
-		$this->includes_theme_support();
-
-	}
-
-	/**
-	 * Conditionally require additional theme support classes.
-	 *
-	 * @since 3.31.0-beta.1
-	 *
-	 * @return void
-	 */
-	private function includes_theme_support() {
-
-		if ( 'twentynineteen' === get_template() ) {
-			include_once 'includes/theme-support/class-llms-twenty-nineteen.php';
-		}
+		require_once 'includes/theme-support/class-llms-theme-support.php';
 
 	}
 

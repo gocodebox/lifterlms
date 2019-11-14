@@ -3,7 +3,7 @@
  * LifterLMS AJAX Event Handler.
  *
  * @since 1.0.0
- * @version 3.33.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
  *                  Also always return either a WP_Error on failure or a "success" array on requested action performed.
  * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
+ * @since [version] Update `select2_query_posts` to allow filtering posts by instructor.
  */
 class LLMS_AJAX_Handler {
 
@@ -743,7 +744,8 @@ class LLMS_AJAX_Handler {
 	 * @since 3.0.0
 	 * @since 3.32.0 Updated to use llms_filter_input().
 	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
-	 *                  By default only the published posts will be queried.
+	 *               By default only the published posts will be queried.
+	 * @since [version] Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
 	 * @return void
 	 */
 	public static function select2_query_posts() {
@@ -773,6 +775,24 @@ class LLMS_AJAX_Handler {
 		}
 		$post_statuses = implode( ',', $post_statuses_array );
 
+		// filter posts (llms posts) by instructor ID.
+		$instructor_id = llms_filter_input( INPUT_POST, 'instructor_id', FILTER_SANITIZE_NUMBER_INT );
+		if ( ! empty( $instructor_id ) ) {
+			$serialized_iid = serialize(
+				array(
+					'id' => absint( $instructor_id ),
+				)
+			);
+			$serialized_iid = str_replace( array( 'a:1:{', '}' ), '', $serialized_iid );
+
+			$join = $wpdb->prepare(
+				" JOIN $wpdb->postmeta AS m ON p.ID = m.post_id AND m.meta_key = '_llms_instructors' AND m.meta_value LIKE %s",
+				'%' . $wpdb->esc_like( $serialized_iid ) . '%'
+			);
+		} else {
+			$join = '';
+		}
+
 		$limit = 30;
 		$start = $limit * $page;
 
@@ -787,10 +807,11 @@ class LLMS_AJAX_Handler {
 		// phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared
 		$posts = $wpdb->get_results(
 			$wpdb->prepare(
-				"SELECT ID, post_title, post_type
-			 FROM $wpdb->posts
-			 WHERE post_type IN ( $post_types )
-			   AND post_status IN ( $post_statuses )
+				"SELECT p.ID as ID, p.post_title as post_title, p.post_type as post_type
+			 FROM $wpdb->posts as p
+			 $join
+			 WHERE p.post_type IN ( $post_types )
+			   AND p.post_status IN ( $post_statuses )
 			       $like
 			 ORDER BY post_title
 			 LIMIT %d, %d

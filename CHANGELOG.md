@@ -65,6 +65,40 @@ v3.37.0-beta.1 - 2019-11-??
 + templates/global/form-registration.php
 
 
+v3.37.1 - 2019-11-13
+--------------------
+
++ TwentyTwenty Theme: Fixed course information block misalignment.
++ Fixed conflict with WooCommerce resulting from the movement of the deprecated LiftreLMS function `is_filtered()`.
+
+
+v3.37.0 - 2019-11-11
+--------------------
+
+##### Updates
+
++ Tested and compatible with WordPress core 5.3.
++ Add theme support for the TwentyTwenty core default theme.
++ Improved security and data sanitization in with regards to the SendWP integration connector.
+
+##### LifterLMS Rest API 1.0.0-beta.8
+
++ Added memberships controller, huge thanks to [@pondermatic](https://github.com/pondermatic)!
++ Added new filters:
+
+  + `llms_rest_lesson_filters_removed_for_response`
+  + `llms_rest_course_item_schema`
+  + `llms_rest_pre_insert_course`
+  + `llms_rest_prepare_course_object_response`
+  + `llms_rest_course_links`
+
++ Improved validation when defining instructors for courses.
++ Improved performance on post collection listing functions.
++ Ensure that a course instructor is always set for courses.
++ Fixed `sales_page_url` not returned in `edit` context.
++ In `update_additional_object_fields()` method, use `WP_Error::$errors` in place of `WP_Error::has_errors()` to support WordPress version prior to 5.1.
+
+
 v3.36.5 - 2019-11-05
 --------------------
 

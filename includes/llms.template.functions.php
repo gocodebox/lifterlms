@@ -2,13 +2,14 @@
 /**
  * Front end template functions
  *
- * @since    1.0.0
- * @version  3.25.1
+ * @since 1.0.0
+ * @version 3.37.1
  */
 
 defined( 'ABSPATH' ) || exit;
 
 require 'functions/llms-functions-content.php';
+require 'functions/llms-functions-conditional-tags.php';
 
 require 'functions/llms.functions.templates.achievements.php';
 require 'functions/llms.functions.templates.certificates.php';
@@ -457,38 +458,6 @@ function llms_setup_course_data( $post ) {
 }
 add_action( 'the_post', 'llms_setup_course_data' );
 
-// /**
-// * When the_post is called, put quiz data into a global.
-// *
-// * @param mixed $post
-// * @return LLMS_Course
-// */
-// function llms_setup_quiz_data( $post ) {
-// if ( ! is_admin() ) {
-
-// if ( $post->post_type == 'llms_quiz' ) {
-
-// unset( $GLOBALS['quiz'] );
-
-// if ( is_int( $post ) ) {
-// $post = get_post( $post );
-// }
-
-// if ( empty( $post->post_type ) ) {
-// return;
-// }
-
-// $GLOBALS['quiz'] = llms_get_quiz( $post );
-// $student = llms_get_student();
-// if ( isset( $_GET['attempt_key'] ) && $student ) {
-// $GLOBALS['llms_quiz_attempt'] = $student->quizzes()->get_attempt_by_key( $_GET['attempt_key'] );
-// }
-// }
-// }
-
-// }
-// add_action( 'the_post', 'llms_setup_quiz_data' );
-
 /**
  * When the_post is called, put question data into a global.
  *
@@ -821,109 +790,7 @@ if ( ! function_exists( 'lifterlms_course_continue_button' ) ) {
 }// End if().
 
 
-/**
- * Is template filtered
- *
- * @return boolean
- */
-if ( ! function_exists( 'is_filtered' ) ) {
 
-	function is_filtered() {
-		global $_chosen_attributes;
-		return apply_filters( 'lifterlms_is_filtered', ( count( $_chosen_attributes ) > 0 || ( isset( $_GET['max_price'] ) && isset( $_GET['min_price'] ) ) ) );
-	}
-}
-
-/**
- * Is Course Category Check
- *
- * @param  string  $term [Category name]
- * @return boolean       [Is Tax associated with Course]
- */
-if ( ! function_exists( 'is_course_category' ) ) {
-
-	function is_course_category( $term = '' ) {
-		return is_tax( 'course_cat', $term );
-	}
-}
-
-
-/**
- * Is course archive page
- * This replaces "is_llms_shop()" which replaced "is_shop()"
- *
- * @return boolean
- * @since   1.4.4
- * @version 3.0.0
- */
-if ( ! function_exists( 'is_courses' ) ) {
-	function is_courses() {
-		return ( ( is_post_type_archive( 'course' ) ) || ( is_singular() && is_page( llms_get_page_id( 'courses' ) ) ) ) ? true : false;
-	}
-}
-
-
-/**
- * Is Membership Archive Page
- *
- * @return boolean [Is Membership Archive?]
- */
-if ( ! function_exists( 'is_memberships' ) ) {
-	function is_memberships() {
-		return ( is_post_type_archive( 'llms_membership' ) || ( is_singular() && is_page( llms_get_page_id( 'memberships' ) ) ) ) ? true : false;
-	}
-}
-
-/**
- * Is Account Page
- *
- * @since  1.4.6   This function replaces the deprecated is_account_page() function because of WooCommerce conflicts
- * @return boolean [Is My Courses Page?]
- */
-if ( ! function_exists( 'is_llms_account_page' ) ) {
-
-	function is_llms_account_page() {
-		return is_page( llms_get_page_id( 'myaccount' ) ) || apply_filters( 'lifterlms_is_account_page', false ) ? true : false;
-	}
-}
-
-/**
- * Is Checkout Page
- *
- * @since  1.4.6   This function replaces the deprecated is_checkout() function because of WooCommerce conflicts
- * @return boolean [Is Checkout Page?]
- */
-if ( ! function_exists( 'is_llms_checkout' ) ) {
-	function is_llms_checkout() {
-
-		return is_page( llms_get_page_id( 'checkout' ) ) ? true : false;
-
-	}
-}
-
-/**
-* Determine if current post is a lifterLMS Lesson
- *
-* @return boolean
-*/
-if ( ! function_exists( 'is_lesson' ) ) {
-
-	function is_lesson() {
-		return ( get_post_type() == 'lesson' ) ? true : false;
-	}
-}
-
-/**
- * Determine if current post is a lifterLMS Quiz
- *
- * @return boolean
- */
-if ( ! function_exists( 'is_quiz' ) ) {
-
-	function is_quiz() {
-		return ( get_post_type() == 'llms_quiz' ) ? true : false;
-	}
-}
 
 /**
  * Get single post author template
@@ -1101,67 +968,7 @@ if ( ! function_exists( 'lifterlms_get_sidebar' ) ) {
 }
 
 
-/**
- * Is LifterLMS check
- * Checks if archive post type is associated with lifterLMS
- *
- * @return [type] [description]
- */
-if ( ! function_exists( 'is_lifterlms' ) ) {
-	function is_lifterlms() {
-		return apply_filters( 'is_lifterlms', ( is_courses() || is_course_taxonomy() || is_course() || is_lesson() || is_membership() || is_memberships() || is_quiz() ) );
-	}
-}
 
-/**
- * Is Course Tax
- *
- * @return bool [Is Tax of Course?]
- */
-if ( ! function_exists( 'is_course_taxonomy' ) ) {
-
-	function is_course_taxonomy() {
-		return is_tax( get_object_taxonomies( 'course' ) );
-	}
-}
-
-/**
- * Is Membership Tax
- *
- * @return   bool
- * @since    3.22.0
- * @version  3.22.0
- */
-if ( ! function_exists( 'is_membership_taxonomy' ) ) {
-	function is_membership_taxonomy() {
-		return is_tax( get_object_taxonomies( 'llms_membership' ) );
-	}
-}
-
-/**
- * Is Course Check
- *
- * @return bool [Is Post Type Course?]
- */
-if ( ! function_exists( 'is_course' ) ) {
-
-	function is_course() {
-		return is_singular( array( 'course' ) );
-	}
-}
-
-/**
- * Is Membership Check
- *
- * @return bool
- * @since 3.0.0
- */
-if ( ! function_exists( 'is_membership' ) ) {
-
-	function is_membership() {
-		return is_singular( array( 'llms_membership' ) );
-	}
-}
 
 /**
  * Get the link to the edit account details page
@@ -1429,5 +1236,35 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
 	function lifterlms_template_single_reviews() {
 		LLMS_Reviews::output();
+	}
+}
+
+// Deprecated Functions.
+if ( ! function_exists( 'is_filtered' ) ) {
+
+	/**
+	 * Is template filtered.
+	 *
+	 * @since Unknown.
+	 * @deprecated 3.37.0
+	 *
+	 * @return boolean
+	 */
+	function is_filtered() {
+
+		llms_deprecated_function( 'is_filtered', '3.37.0' );
+
+		global $_chosen_attributes;
+
+		/**
+		 * Deprecated.
+		 *
+		 * @since Unknown
+		 * @deprecated 3.37.0
+		 *
+		 * @param bool $is_filtered Deprecated.
+		 */
+		return apply_filters( 'lifterlms_is_filtered', ( count( $_chosen_attributes ) > 0 || ( isset( $_GET['max_price'] ) && isset( $_GET['min_price'] ) ) ) );
+
 	}
 }

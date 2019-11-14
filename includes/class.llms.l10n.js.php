@@ -298,7 +298,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/llms-admin.js.
 			 *
 			 * @since    ??
-			 * @version  3.32.0
+			 * @version  [version]
 			 */
 			'Select a Course/Membership' => esc_html__( 'Select a Course/Membership', 'lifterlms' ),
 			'Select a student' => esc_html__( 'Select a student', 'lifterlms' ),

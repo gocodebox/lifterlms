@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.36.5
+Stable tag: 3.37.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -575,6 +575,40 @@ v3.37.0-beta.1 - 2019-11-??
 + templates/global/form-registration.php
 
 
+= v3.37.1 - 2019-11-13 =
+------------------------
+
++ TwentyTwenty Theme: Fixed course information block misalignment.
++ Fixed conflict with WooCommerce resulting from the movement of the deprecated LiftreLMS function `is_filtered()`.
+
+
+= v3.37.0 - 2019-11-11 =
+------------------------
+
+##### Updates
+
++ Tested and compatible with WordPress core 5.3.
++ Add theme support for the TwentyTwenty core default theme.
++ Improved security and data sanitization in with regards to the SendWP integration connector.
+
+##### LifterLMS Rest API 1.0.0-beta.8
+
++ Added memberships controller, huge thanks to [@pondermatic](https://github.com/pondermatic)!
++ Added new filters:
+
+  + `llms_rest_lesson_filters_removed_for_response`
+  + `llms_rest_course_item_schema`
+  + `llms_rest_pre_insert_course`
+  + `llms_rest_prepare_course_object_response`
+  + `llms_rest_course_links`
+
++ Improved validation when defining instructors for courses.
++ Improved performance on post collection listing functions.
++ Ensure that a course instructor is always set for courses.
++ Fixed `sales_page_url` not returned in `edit` context.
++ In `update_additional_object_fields()` method, use `WP_Error::$errors` in place of `WP_Error::has_errors()` to support WordPress version prior to 5.1.
+
+
 = v3.36.5 - 2019-11-05 =
 ------------------------
 
@@ -712,65 +746,5 @@ v3.37.0-beta.1 - 2019-11-??
 
 + Fix instances of improper input sanitization and handling.
 + Include scripts, styles, and images for reporting charts and datepickers
-
-
-= v3.35.0 - 2019-09-04 =
-------------------------
-
-##### Security Notice
-
-+ Fixed a security vulnerability disclosed by the WordPress plugin review team. Please upgrade immediately!
-
-##### Updates
-
-+ Explicitly setting css and js file versions for various static assets..
-+ Added data sanitization methods in various form handlers.
-+ Added nonce verification to various form handlers.
-
-##### Bug fixes
-
-+ Fixed some translation strings that had literal variables instead of placeholders.
-+ Fixed undefined index error encountered when attempting to email a voucher export.
-+ Fixed undefined index error when PHP file upload errors are encountered during a course import.
-
-##### Deprecations
-
-The following unused classes have been marked as deprecated and will be removed from LifterLMS in the next major release.
-
-+ LLMS_Analytics_Memberships
-+ LLMS_Analytics_Courses
-+ LLMS_Analytics_Sales
-+ LLMS_Meta_Box_Expiration
-+ LLMS_Meta_Box_Video
-
-##### Template Updates
-
-+  [admin/reporting/tabs/courses/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/courses/overview.php)
-+  [admin/reporting/tabs/memberships/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/memberships/overview.php)
-+  [admin/reporting/tabs/quizzes/attempts.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/attempts.php)
-+  [admin/reporting/tabs/quizzes/overview.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/quizzes/overview.php)
-+  [admin/reporting/tabs/students/courses-course.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses-course.php)
-+  [admin/reporting/tabs/students/courses.php](https://github.com/gocodebox/lifterlms/blob/master/templates/admin/reporting/tabs/students/courses.php)
-+  [loop/featured-image.php](https://github.com/gocodebox/lifterlms/blob/master/templates/loop/featured-image.php)
-+  [myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
-+  [quiz/results.php](https://github.com/gocodebox/lifterlms/blob/master/templates/quiz/results.php)
-+  [single-certificate.php](https://github.com/gocodebox/lifterlms/blob/master/templates/single-certificate.php)
-+  [single-no-access.php](https://github.com/gocodebox/lifterlms/blob/master/templates/single-no-access.php)
-+  [taxonomy-course_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_cat.php)
-+  [taxonomy-course_difficulty.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_difficulty.php)
-+  [taxonomy-course_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_tag.php)
-+  [taxonomy-course_track.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-course_track.php)
-+  [taxonomy-membership_cat.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_cat.php)
-+  [taxonomy-membership_tag.php](https://github.com/gocodebox/lifterlms/blob/master/templates/taxonomy-membership_tag.php)
-
-
-= v3.34.5 - 2019-08-29 =
-------------------------
-
-+ Fixed logic issues preventing pending orders from being completed.
-
-##### Templates Changed
-
-+ [checkout/form-confirm-payment.php](https://github.com/gocodebox/lifterlms/blob/master/templates/checkout/form-confirm-payment.php
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

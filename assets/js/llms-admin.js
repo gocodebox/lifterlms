@@ -1,12 +1,13 @@
 /**
  * LifterLMS Admin Panel Javascript
  *
- * @since    ??
- * @since    3.32.0 `llmsPostsSelect2` function allows posts fecthing based on post statuses.
- * @version  3.32.0
+ * @since ??
+ * @since 3.32.0 `llmsPostsSelect2` function allows posts fecthing based on post statuses.
+ * @since [version] `llmsPostsSelect2` function allows posts (llms posts) fetching filtered by their instructor id.
+ * @version [version]
  *
- * @param    obj   $  traditional jQuery reference
- * @return   void
+ * @param obj $ Traditional jQuery reference.
+ * @return void
  */
 ;( function( $ ) {
 
@@ -60,6 +61,7 @@
 	 *
 	 * @since 3.19.4
 	 * @since 3.32.0 Added ability to fetch posts based on their post status.
+	 * @since [version] Added ability to fetch posts (llms posts) filtered by their instructor id.
 	 *
 	 * @param obj options Options passed to Select2.
 	 *                    Each default option will pulled from the elements data-attributes.
@@ -74,6 +76,7 @@
 				placeholder: undefined !== LLMS.l10n ? LLMS.l10n.translate( 'Select a Course/Membership' ) : 'Select a Course/Membership',
 				post_type: self.attr( 'data-post-type' ) || 'post',
 				post_statuses: self.attr( 'data-post-statuses' ) || 'publish',
+				instructor_id: null,
 				allow_clear: self.attr( 'data-post-type' ) || false,
 				width: null,
 			};
@@ -102,6 +105,7 @@
 						action: 'select2_query_posts',
 						page: ( params.page ) ? params.page - 1 : 0, // 0 index the pages to make it simpler for the database query
 						post_type: options.post_type,
+						instructor_id : options.instructor_id,
 						post_statuses: options.post_statuses,
 						term: params.term,
 						_ajax_nonce: wp_ajax_data.nonce
