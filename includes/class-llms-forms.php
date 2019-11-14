@@ -253,7 +253,16 @@ class LLMS_Forms {
 
 		$fields = array_merge( $fields, $this->get_additional_fields( $location, $args ) );
 
-		return $fields;
+		/**
+		 * Modify the parsed array of LifterLMS Form Fields.
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $fields Array of LifterLMS Form Field settings data.
+		 * @param string $location Form location, one of: "checkout", "registration", or "account".
+		 * @param array $args Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+		 */
+		return apply_filters( 'llms_get_form_fields', $fields, $location, $args );
 
 	}
 
@@ -265,13 +274,16 @@ class LLMS_Forms {
 	 * @param array[] $fields List of LifterLMS Form Fields.
 	 * @param string  $key Setting key to search for.
 	 * @param mixed   $val Setting valued to search for.
-	 * @return array|false
+	 * @param string  $return Determine the return value. Use "field" to return the field settings
+	 *                        array. Use "index" to return the index of the field in the $fields array.
+	 * @return array|int|false `false` when the field isn't found in $fields, otherwise returns the field settings
+	 *                          as an array when `$return` is "field". Otherwise returns the field's index as an int.
 	 */
-	public function get_field_by( $fields, $key, $val ) {
+	public function get_field_by( $fields, $key, $val, $return = 'field' ) {
 
-		foreach ( $fields as $field ) {
+		foreach ( $fields as $index => $field ) {
 			if ( isset( $field[ $key ] ) && $val === $field[ $key ] ) {
-				return $field;
+				return 'field' === $return ? $field : $index;
 			}
 		}
 
@@ -300,7 +312,16 @@ class LLMS_Forms {
 			$html .= render_block( $block );
 		}
 
-		return $html;
+		/**
+		 * Modify the parsed array of LifterLMS Form Fields.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $html Form fields HTML.
+		 * @param string $location Form location, one of: "checkout", "registration", or "account".
+		 * @param array $args Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+		 */
+		return apply_filters( 'llms_get_form_html', $html, $location, $args );
 
 	}
 
