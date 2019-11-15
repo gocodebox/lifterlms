@@ -796,7 +796,7 @@ class LLMS_Form_Field {
 	 */
 	protected function prepare_value() {
 
-		if ( in_array( $this->settings['type'], array( 'button', 'reset', 'submit', 'html' ), true ) ) {
+		if ( in_array( $this->settings['type'], array( 'button', 'reset', 'submit', 'html', 'password' ), true ) ) {
 			return;
 		}
 
