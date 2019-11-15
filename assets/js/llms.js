@@ -412,12 +412,25 @@ var LLMS = window.LLMS || {};
 	
 			self.bind_matching_fields();
 			self.bind_voucher_field();
+			self.bind_edit_account();
 	
 			LLMS.wait_for( function() {
 				return ( undefined !== $.fn.llmsSelect2 );
 			}, function() {
 				self.bind_l10n_selects();
 			} );
+	
+		},
+	
+		bind_edit_account: function() {
+	
+			// Not an edit account form.
+			if ( ! $( 'form.llms-person-form.edit-account' ).length ) {
+				return;
+			}
+	
+			this.setup_toggle_field( $( '#email_address, #email_address_confirm' ) );
+			this.setup_toggle_field( $( '#password, #password_confirm, #password_current, #llms-password-strength-meter' ) );
 	
 		},
 	
@@ -449,11 +462,9 @@ var LLMS = window.LLMS || {};
 			if ( window.llms.locale ) {
 				self.locale = JSON.parse( window.llms.locale );
 				self.locale_defaults = {
-					state: (function(){
-						var $label = self.get_field_parent( self.$states ).find( 'label' ).clone();
-						$label.find( '*' ).remove();
-						return $label.text().trim();
-					})(),
+					state: ( function() {
+						return self.get_label_text( self.get_field_parent( self.$states ).find( 'label' ) );
+					} )(),
 				};
 			}
 	
@@ -550,6 +561,24 @@ var LLMS = window.LLMS || {};
 		},
 	
 		/**
+		 * Retrieve the text of a label
+		 *
+		 * Removes an children HTML elements (eg: required span elemeents) and returns only the labels text.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object} $label jQuery object for a label element.
+		 * @return {String}
+		 */
+		get_label_text: function( $label ) {
+	
+			var $clone = $label.clone();
+			$clone.find( '*' ).remove();
+			return $clone.text().trim();
+	
+		},
+	
+		/**
 		 * Prepares the state select field.
 		 *
 		 * Moves All optgroup elements into a hidden & disabled select element.
@@ -566,6 +595,60 @@ var LLMS = window.LLMS || {};
 	
 			this.$holder.appendTo( $parent );
 			this.$states.find( 'optgroup' ).appendTo( this.$holder );
+	
+		},
+	
+		setup_toggle_field: function( $fields ) {
+	
+			var self            = this,
+				$primary        = $( $fields[0] ),
+				$primary_parent = this.get_field_parent( $primary ),
+				$toggle         = $( '<a href="#"></a>' ),
+				$toggle_wrap    = $( '<div class="llms-form-field type-html llms-cols-12 llms-cols-last"></div>' ),
+				change_text     = LLMS.l10n.replace( 'Change your %s', { '%s': this.get_label_text( $primary_parent.find( 'label' ) ).toLowerCase() } ),
+				cancel_text     = LLMS.l10n.replace( 'Cancel %s change', { '%s': this.get_label_text( $primary_parent.find( 'label' ) ).toLowerCase() } ),
+				$after_field    = $fields.length > 2 ? this.get_field_parent( $( $fields[ $fields.length - 1 ] ) ) : $primary_parent,
+				$after_el       = $after_field.hasClass( 'wp-block-column' ) ? $after_field.parent() : $after_field;
+	
+			function show_fields() {
+	
+				$toggle.text( cancel_text );
+	
+				$fields.each( function() {
+					self.get_field_parent( $( this ) ).show();
+					$( this ).attr( 'required', 'required' );
+					$( this ).removeAttr( 'disabled' );
+				} );
+	
+			}
+	
+			function hide_fields() {
+	
+				$toggle.text( change_text );
+				$fields.each( function() {
+					self.get_field_parent( $( this ) ).hide();
+					$( this ).removeAttr( 'required' );
+					$( this ).attr( 'disabled', 'disabled' );
+				} );
+	
+			}
+	
+			$toggle.on( 'click', function( e ) {
+				e.preventDefault();
+	
+				if ( $primary_parent.is( ':visible' ) ) {
+					hide_fields();
+				} else {
+					show_fields();
+				}
+	
+			} );
+	
+			$toggle_wrap.append( $toggle );
+			$after_el.after( '<div class="clear"></div>' );
+			$after_el.after( $toggle_wrap );
+	
+			hide_fields();
 	
 		},
 	
@@ -1170,11 +1253,13 @@ var LLMS = window.LLMS || {};
 		 * @return void
 		 */
 		bind: function() {
+			var i = 0;
 	
 			var self = this;
 	
 			// add submission event handlers when not on a checkout form
 			if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
+				console.log( self );
 				this.$form.on( 'submit', self, self.submit );
 			}
 	
@@ -1432,7 +1517,7 @@ var LLMS = window.LLMS || {};
 			}
 	
 			this.$form = this.$meter.closest( 'form' );
-			this.$pass = this.$form.find( 'input[type="password"]' );
+			this.$pass = this.$form.find( 'input#password' );
 	
 			if ( this.$pass.length && this.$pass.attr( 'data-match' ) ) {
 				this.$conf = this.$form.find( '#' + this.$pass.attr( 'data-match' ) );
@@ -1451,7 +1536,7 @@ var LLMS = window.LLMS || {};
 		 * @version  3.0.0
 		 */
 		submit: function( e ) {
-	
+	console.log( e );
 			var self = e.data;
 			e.preventDefault();
 			self.$pass.trigger( 'keyup' );

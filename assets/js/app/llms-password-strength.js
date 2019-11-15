@@ -77,11 +77,13 @@ $.extend( LLMS.PasswordStrength, {
 	 * @return void
 	 */
 	bind: function() {
+		var i = 0;
 
 		var self = this;
 
 		// add submission event handlers when not on a checkout form
 		if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
+			console.log( self );
 			this.$form.on( 'submit', self, self.submit );
 		}
 
@@ -339,7 +341,7 @@ $.extend( LLMS.PasswordStrength, {
 		}
 
 		this.$form = this.$meter.closest( 'form' );
-		this.$pass = this.$form.find( 'input[type="password"]' );
+		this.$pass = this.$form.find( 'input#password' );
 
 		if ( this.$pass.length && this.$pass.attr( 'data-match' ) ) {
 			this.$conf = this.$form.find( '#' + this.$pass.attr( 'data-match' ) );
