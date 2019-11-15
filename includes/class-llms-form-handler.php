@@ -616,6 +616,16 @@ class LLMS_Form_Handler {
 					}
 					break;
 
+				case 'password_current':
+					if ( ! is_user_logged_in() ) {
+						return new WP_Error( 'llms-form-field-invalid-no-user', __( 'You must be logged in to update your password.', 'lifterlms' ), $posted_value );
+					}
+					$user = wp_get_current_user();
+					if ( ! wp_check_password( $posted_value, $user->user_pass ) ) {
+						return new WP_Error( 'llms-form-field-invalid', __( 'The submitted password was not correct.', 'lifterlms' ), $posted_value );
+					}
+					break;
+
 				case 'user_email':
 					if ( email_exists( $posted_value ) ) {
 						return new WP_Error( 'llms-form-field-not-unique', sprintf( __( 'An account with the email address "%s" already exists.', 'lifterlms' ), $posted_value ) );

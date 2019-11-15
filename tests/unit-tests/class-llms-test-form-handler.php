@@ -236,6 +236,33 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test special validation for the current password field.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_field_password_current() {
+
+		// Not logged in.
+		$no_user = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( 'password', array( 'id' => 'password_current' ) ) );
+		$this->assertIsWPError( $no_user );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid-no-user', $no_user );
+
+		wp_set_current_user( $this->factory->user->create( array( 'user_pass' => 'password' ) ) );
+
+		// Invalid password.
+		$invalid = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( 'fake', array( 'id' => 'password_current' ) ) );
+		$this->assertIsWPError( $invalid );
+		$this->assertWPErrorCodeEquals( 'llms-form-field-invalid', $invalid );
+
+		// Valid.
+		$valid = LLMS_Unit_Test_Util::call_method( $this->handler, 'validate_field', array( 'password', array( 'id' => 'password_current' ) ) );
+		$this->assertTrue( $valid );
+
+	}
+
+	/**
 	 * Test special validation for user emails. They must be unique.
 	 *
 	 * @since [version]
