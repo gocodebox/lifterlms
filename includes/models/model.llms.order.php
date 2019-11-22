@@ -245,7 +245,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				$end = strtotime( '+' . $frequency . ' ' . $period, $end );
 				$i++;
 			}
-
 		}
 
 		return apply_filters( 'llms_order_calculate_billing_end_date', $end, $this );
@@ -298,7 +297,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				if ( $last_txn_time && $last_txn_time < llms_current_time( 'timestamp' ) ) {
 					$from_time = $last_txn_time;
 				}
-
 			}
 
 			$period            = $this->get( 'billing_period' );
@@ -313,7 +311,6 @@ class LLMS_Order extends LLMS_Post_Model {
 				$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $next_payment_time );
 				$i++;
 			}
-
 		}
 
 		// If the next payment is after the end time (where applicable).
