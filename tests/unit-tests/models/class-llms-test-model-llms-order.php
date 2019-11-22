@@ -10,6 +10,7 @@
  *
  * @since 3.10.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
+ * @since [version] Add additional recurring payment tests.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -19,11 +20,26 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 */
 	private $date_delta = 120;
 
+	/**
+	 * Setup the test case.
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void.
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->create();
 	}
 
+	/**
+	 * Add support for a payment gateway feature.
+	 *
+	 * @since Unknown
+	 *
+	 * @param string $feature Feature name
+	 * @return void
+	 */
 	private function mock_gateway_support( $feature ) {
 
 		global $llms_mock_gateway_feature;
@@ -63,10 +79,12 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Get properties, used by test_getters_setters
+	 *
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return string[]
 	 */
 	protected function get_properties() {
 		return array(
@@ -129,9 +147,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
@@ -193,9 +212,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the add_note() method
-	 * @return   [type]     [description]
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function test_add_note() {
 
@@ -228,6 +248,61 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test private calculate_next_payment_date() for a plan with an end date.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_calculate_next_payment_date_with_end_date() {
+
+		$now = current_time( 'timestamp' );
+		llms_mock_current_time( $now );
+
+		$plan = $this->get_plan();
+
+		$plan->set( 'frequency', 1 ); // Every.
+		$plan->set( 'period', 'month' ); // Month.
+		$plan->set( 'length', 3 ); // for 3 total payments.
+		$order = $this->get_mock_order( $plan );
+
+		// Delete the end date to simulate pre 3.10 behavior.
+		// $order->set( 'date_billing_end', '' );
+
+		$first_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
+
+		// End date is calculated and stored for future use.
+		$this->assertTrue( ! empty( $order->get( 'date_billing_end' ) ) );
+
+		// First recurring payment (the second payment) is 1 month from the order start date.
+		$this->assertEquals( strtotime( '+1 month', $order->get_date( 'date', 'U' ) ), strtotime( $first_recurring ) );
+
+		// Time travel to simulate the completion of the previous payment.
+		$now = strtotime( $first_recurring ) + 1;
+		llms_mock_current_time( $now );
+
+		// Second recurring payment (the final payment) is 1 month from the first recurring payment date.
+		$second_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
+		$this->assertEquals( strtotime( '+1 month', strtotime( $first_recurring ) ), strtotime( $second_recurring ) );
+
+		// Time travel to simulate the completion of the previous payment.
+		$now = strtotime( $second_recurring );
+		llms_mock_current_time( $now );
+
+		// There is no 3rd recurring payment because it's after the end date.
+		$third_recurring = LLMS_Unit_Test_Util::call_method( $order, 'calculate_next_payment_date' );
+		$this->assertEquals( '', $third_recurring );
+
+	}
+
+	/**
+	 * Test the can_be_retried() method.
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void
+	 */
 	public function test_can_be_retried() {
 
 		$order = $this->get_order();
@@ -255,9 +330,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the can_resubscribe() method
-	 * @return   [type]
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return void
 	 */
 	public function test_can_resubscribe() {
 
@@ -288,9 +364,10 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the generate_order_key() method
-	 * @return   [type]     [description]
-	 * @since    3.10.0
-	 * @version  3.10.0
+	 *
+	 * @since 3.10.0
+	 *
+	 * @return void
 	 */
 	public function test_generate_order_key() {
 
@@ -301,9 +378,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the get_access_expiration_date() method
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function test_get_access_expiration_date() {
 
@@ -371,9 +450,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test get access status function
-	 * @return   void
-	 * @since    3.10.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.10.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function test_get_access_status() {
 
@@ -437,8 +518,13 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	// public function test_get_coupon_amount() {}
-
+	/**
+	 * Test the get_customer_name() method.
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void
+	 */
 	public function test_get_customer_name() {
 		$first = 'Jeffrey';
 		$last = 'Lebowski';
@@ -519,15 +605,32 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_last_transaction_date() {}
 
-	public function test_get_next_payment_due_date() {
+	/**
+	 * Test get_next_payment_due_date() for a one-time payment.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_next_payment_due_date_single() {
 
-		// one-time payments
 		$plan = $this->get_plan( 25.99, 0 );
 		$order = $this->get_order( $plan );
 		$this->assertTrue( is_a( $order->get_next_payment_due_date(), 'WP_Error' ) );
 
+	}
+
+	/**
+	 * Test get_next_payment_due_date() for recurring payments
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void
+	 */
+	public function test_get_next_payment_due_date_recurring() {
+
 		$original_time = current_time( 'Y-m-d H:i:s' );
-		// recurring
+
 		$plan = $this->get_plan();
 		foreach ( array( 'day', 'week', 'month', 'year' ) as $period ) {
 
@@ -585,6 +688,11 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 		}
 
+	}
+
+	public function test_get_next_payment_due_date_payment_plan() {
+
+		$original_time = current_time( 'Y-m-d H:i:s' );
 
 		llms_mock_current_time( $original_time );
 
@@ -593,6 +701,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$plan->set( 'frequency', 3 ); // every 3rd
 		$plan->set( 'period', 'week' ); // week
 		$plan->set( 'length', 3 ); // for 3 payments
+
 
 		// payment one is order date
 		$order = $this->get_order( $plan );
@@ -614,7 +723,6 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		llms_mock_current_time( date( 'Y-m-d H:i:s', $expect ) );
 		// reschedule next date
 		$order->maybe_schedule_payment( true );
-		$expect += WEEK_IN_SECONDS * 3;
 
 		// no more payments
 		$this->assertTrue( is_a( $order->get_next_payment_due_date( 'U' ), 'WP_Error' ) );
@@ -742,7 +850,14 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	public function test_init() {
+	/**
+	 * Test init() with a plan that has a trial.
+	 *
+	 * @since Unknown
+	 *
+	 * @return void
+	 */
+	public function test_init_with_trial() {
 
 		// test initialization of a trial
 		$plan = $this->get_plan( 25.99, 1, 'lifetime', false, true );
@@ -751,6 +866,16 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 		$this->assertTrue( $order->has_trial() );
 		$this->assertNotEmpty( $order->get( 'date_trial_end' ) );
 
+	}
+
+	/**
+	 * Test init() with a plan that has limited number of payments
+	 *
+	 * @since Unknown
+	 *
+	 * @return void
+	 */
+	public function test_init_with_limited_plan() {
 
 		// test initialization of an order with a plan that ends
 		$plan = $this->get_plan();
@@ -760,6 +885,13 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test the is_recurring() method.
+	 *
+	 * @since Unknown.
+	 *
+	 * @return void
+	 */
 	public function test_is_recurring() {
 
 		$this->assertFalse( $this->obj->is_recurring() );
