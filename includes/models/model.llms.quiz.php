@@ -29,9 +29,27 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
+	/**
+	 * Post Type Database name (as registered via `register_post_type()`).
+	 *
+	 * @var string
+	 */
 	protected $db_post_type    = 'llms_quiz';
+
+	/**
+	 * Post type name (without prefix).
+	 *
+	 * @var string
+	 */
 	protected $model_post_type = 'quiz';
 
+	/**
+	 * Post type meta properties
+	 *
+	 * meta_key => property type.
+	 *
+	 * @var string[]
+	 */
 	protected $properties = array(
 		'lesson_id'           => 'absint',
 		'allowed_attempts'    => 'int',
@@ -64,7 +82,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @since 3.16.0
 	 * @since 3.16.12 Unknown.
 	 *
-	 * @return LLMS_Lesson|false
+	 * @return LLMS_Lesson|false|null The lesson object on success, `false` if no id stored, and `null` if the stored ID doesn't exist.
 	 */
 	public function get_lesson() {
 		$id = $this->get( 'lesson_id' );
@@ -94,9 +112,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * @return string
 	 */
 	public function get_time_limit_string() {
-
 		return LLMS_Date::convert_to_hours_minutes_string( $this->get( 'time_limit' ) );
-
 	}
 
 	/**
@@ -225,7 +241,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Retrieve lessons this quiz is assigned to.
 	 *
-	 * @since 3.12.0
+	 * @since Unknown.
 	 *
 	 * @param string $return Optional. Format of the return [ids|lessons]. Default `'ids'`.
 	 * @return array Array of WP_Post IDs (lesson post types).
