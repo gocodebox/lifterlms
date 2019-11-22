@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes/ThemeSupport
  *
  * @since 3.37.0
- * @version 3.37.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.37.0
  * @since 3.37.1 Fixed course information block misalignment.
+ * @since [version] Updated to use `background-color` property instead of `background` shorthand
+ *               when adding custom elements to style.
  */
 class LLMS_Twenty_Twenty {
 
@@ -114,6 +116,7 @@ class LLMS_Twenty_Twenty {
 	 * This is used to automatically generate inline CSS via the Twenty Twenty Theme.
 	 *
 	 * @since 3.37.0
+	 * @since [version] Updated to use `background-color` property instead of `background` shorthand.
 	 *
 	 * @param array $elements Multidimensional array of CSS selectors.
 	 * @return array
@@ -121,8 +124,8 @@ class LLMS_Twenty_Twenty {
 	public static function add_elements( $elements ) {
 
 		// Accent Background.
-		$elements['content']['accent']['background'] = array_merge(
-			$elements['content']['accent']['background'],
+		$elements['content']['accent']['background-color'] = array_merge(
+			$elements['content']['accent']['background-color'],
 			self::add_elements_content_accent_background()
 		);
 
@@ -145,8 +148,8 @@ class LLMS_Twenty_Twenty {
 		);
 
 		// Background Background Color.
-		$elements['content']['background']['background'] = array_merge(
-			$elements['content']['background']['background'],
+		$elements['content']['background']['background-color'] = array_merge(
+			$elements['content']['background']['background-color'],
 			array( '.llms-checkout' )
 		);
 
