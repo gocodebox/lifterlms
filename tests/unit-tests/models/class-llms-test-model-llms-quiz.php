@@ -1,32 +1,39 @@
 <?php
 /**
  * Tests for LifterLMS Quiz Model
- * @group     post_models
- * @group     quizzes
- * @group     quiz
- * @since     3.16.0
- * @version   3.16.0
+ *
+ * @package  LifterLMS_Tests/Models
+ *
+ * @group post_models
+ * @group quizzes
+ * @group quiz
+ *
+ * @since 3.16.0
  */
 class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * class name for the model being tested by the class
+	 *
 	 * @var  string
 	 */
 	protected $class_name = 'LLMS_Quiz';
 
 	/**
 	 * db post type of the model being tested
+	 *
 	 * @var  string
 	 */
 	protected $post_type = 'llms_quiz';
 
 	/**
 	 * Get properties, used by test_getters_setters
-	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.14.8
-	 * @version  3.14.8
+	 *
+	 * This should match, exactly, the object's $properties array.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @return string[]
 	 */
 	protected function get_properties() {
 		return array(
@@ -36,10 +43,12 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Get data to fill a create post with
-	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.14.8
-	 * @version  3.14.8
+	 *
+	 * This is used by test_getters_setters.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
@@ -48,7 +57,13 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	}
 
 
-
+	/**
+	 * Test the create_question() method.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @return void
+	 */
 	public function test_create_question() {
 
 		$this->create( 'test title' );
@@ -56,6 +71,13 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test the delete_question() method.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @return void
+	 */
 	public function test_delete_question() {
 
 		$this->create( 'test title' );
@@ -71,6 +93,13 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test the get_question() method.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @return void
+	 */
 	public function test_get_question() {
 
 		$this->create( 'test title' );
@@ -86,6 +115,13 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test the get_questions() method.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @return void
+	 */
 	public function test_get_questions() {
 
 		$this->create( 'test title' );
@@ -118,6 +154,13 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test the update_question() method.
+	 *
+	 * @since 3.16.0
+	 *
+	 * @return void
+	 */
 	public function test_update_question() {
 
 		$this->create( 'test title' );
