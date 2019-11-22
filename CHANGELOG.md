@@ -1,6 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v3.37.2 - 2019-11-22
+--------------------
+
++ LifterLMS notices will now be displayed on pages defined as a Course or Membership sales page.
++ TwentyTwenty Theme: Updated to use `background-color` property instead of `background` shorthand when adding custom elements to style.
++ Added filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
++ Added filter `llms_quiz_is_open` to allow customization of whether or not a quiz is available to a student.
++ When adding an client-side tracking events to the always make sure the server-side verification nonce is always set on the storage object.
++ The Course/Membership filter on the main students reporting screen now correctly limits post results based on instructor access.
+
+
 v3.37.1 - 2019-11-13
 --------------------
 

@@ -25,7 +25,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.3.0
  * @since 3.19.2 Unkwnown.
- * @since [version] Added `llms_quiz_is_open` filter hook.
+ * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -161,7 +161,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.16.0 Unkwnown.
-	 * @since [version] Added `llms_quiz_is_open` filter hook.
+	 * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
 	 *
 	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
 	 * @return boolean
@@ -279,7 +279,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 * Get the (points) value of a question.
 	 *
 	 * @since 3.3.0
-	 * @since [version] Use strict comparison '===' in place of '=='.
+	 * @since 3.37.2 Use strict comparison '===' in place of '=='.
 	 *
 	 * @param int $question_id  WP Post ID of the LLMS_Question.
 	 * @return int

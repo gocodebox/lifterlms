@@ -5,7 +5,7 @@
  * @package  LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 3.37.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Sessions class..
  *
  * @since 3.36.0
- * @since [version] Add filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
+ * @since 3.37.2 Add filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
  */
 class LLMS_Sessions {
 
@@ -50,7 +50,7 @@ class LLMS_Sessions {
 	 * Private Constructor.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Add filter to the cleanup cronjob interval.
+	 * @since 3.37.2 Add filter to the cleanup cronjob interval.
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Sessions {
 			 *
 			 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
 			 *
-			 * @since [version]
+			 * @since 3.37.2
 			 *
 			 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "every_five_mins".
 			 */

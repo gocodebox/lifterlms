@@ -3,7 +3,7 @@
  * LifterLMS AJAX Event Handler.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
  *                  Also always return either a WP_Error on failure or a "success" array on requested action performed.
  * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
- * @since [version] Update `select2_query_posts` to allow filtering posts by instructor.
+ * @since 3.37.2 Update `select2_query_posts` to allow filtering posts by instructor.
  */
 class LLMS_AJAX_Handler {
 
@@ -745,7 +745,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.32.0 Updated to use llms_filter_input().
 	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
 	 *               By default only the published posts will be queried.
-	 * @since [version] Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
+	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
 	 * @return void
 	 */
 	public static function select2_query_posts() {

@@ -10,7 +10,7 @@
  *
  * @since 3.10.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
- * @since [version] Add additional recurring payment tests.
+ * @since 3.37.2 Add additional recurring payment tests.
  */
 class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 
@@ -251,7 +251,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test private calculate_next_payment_date() for a plan with an end date.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -608,7 +608,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_next_payment_due_date() for a one-time payment.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */

@@ -9,7 +9,7 @@
  * @group quiz
  *
  * @since 3.16.0
- * @since [version] Added test coverage for many untested methods.
+ * @since 3.37.2 Added test coverage for many untested methods.
  */
 class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
@@ -97,7 +97,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_course() on a quiz with no parent lesson.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -111,7 +111,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_course() on a quiz with a parent lesson which has no parent course.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -128,7 +128,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_course() success.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -144,7 +144,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_lesson() when no value is set.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -159,7 +159,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_lesson() when the value is an invalid post.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -175,7 +175,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_lesson() success.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -252,7 +252,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the has_attempt_limit() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -281,7 +281,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the has_time_limit() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -310,7 +310,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test is_open() with no student.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -324,7 +324,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test is_open() with a student when there's no attempt limits.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -346,7 +346,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test is_open() with a student when there are attempt limits.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
@@ -382,7 +382,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the is_orphan() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */

@@ -3,7 +3,7 @@
  * Template loader.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.20.0 Unknown.
- * @since [version] Made sure notices are printed on sales pages too.
+ * @since 3.37.2 Made sure notices are printed on sales pages too.
  */
 class LLMS_Template_Loader {
 
@@ -79,7 +79,7 @@ class LLMS_Template_Loader {
 	 * Handle sales page redirects for courses & memberships
 	 *
 	 * @since 3.20.0
-	 * @since [version] Flag to print notices, if there are, when landing on the redirected sales page.
+	 * @since 3.37.2 Flag to print notices, if there are, when landing on the redirected sales page.
 	 *
 	 * @return void
 	 */
@@ -405,7 +405,7 @@ class LLMS_Template_Loader {
 	 *
 	 * @since 1.0.0
 	 * @since 3.16.11 Unknown.
-	 * @since [version] Make sure to print notices on sales page redirect.
+	 * @since 3.37.2 Make sure to print notices on sales page redirect.
 	 *
 	 * @param string $template The template to load.
 	 * @return string
@@ -480,7 +480,7 @@ class LLMS_Template_Loader {
 	/**
 	 * Maybe print notices after redirection.
 	 *
-	 * @since [version]
+	 * @since 3.37.2
 	 *
 	 * @return void
 	 */
