@@ -9,6 +9,7 @@
  * @group quiz
  *
  * @since 3.16.0
+ * @since [version] Added test coverage for many untested methods.
  */
 class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
@@ -58,7 +59,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 
 
 	/**
-	 * Test the create_question() method.
+	 * Test the questions()->create_question() method.
 	 *
 	 * @since 3.16.0
 	 *
@@ -72,7 +73,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the delete_question() method.
+	 * Test the questions()->delete_question() method.
 	 *
 	 * @since 3.16.0
 	 *
@@ -94,7 +95,101 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the get_question() method.
+	 * Test get_course() on a quiz with no parent lesson.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_course_no_lesson() {
+
+		$this->create( 'test title' );
+		$this->assertFalse( $this->obj->get_course() );
+
+	}
+
+	/**
+	 * Test get_course() on a quiz with a parent lesson which has no parent course.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_course_lesson_no_course() {
+
+		$this->create( 'test title' );
+		$lesson = llms_get_post( $this->factory->post->create( array( 'post_type' => 'lesson' ) ) );
+		$lesson->set( 'quiz', $this->obj->get( 'id' ) );
+
+		$this->assertFalse( $this->obj->get_course() );
+
+	}
+
+	/**
+	 * Test get_course() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_course() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$lesson = $course->get_lessons()[0];
+		$quiz = $lesson->get_quiz();
+		$this->assertEquals( $course, $quiz->get_course() );
+
+	}
+
+	/**
+	 * Test get_lesson() when no value is set.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_lesson_no_value() {
+
+		$this->create( 'test title' );
+		$this->obj->set( 'lesson_id', '' );
+		$this->assertFalse( $this->obj->get_lesson() );
+
+	}
+
+	/**
+	 * Test get_lesson() when the value is an invalid post.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_lesson_invalid() {
+
+		$this->create( 'test title' );
+		$post = $this->factory->post->create();
+		$this->obj->set( 'lesson_id', ++$post );
+		$this->assertNull( $this->obj->get_lesson() );
+
+	}
+
+	/**
+	 * Test get_lesson() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_lesson() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$lesson = $course->get_lessons()[0];
+		$quiz = $lesson->get_quiz();
+		$this->assertEquals( $lesson, $quiz->get_lesson() );
+
+	}
+
+	/**
+	 * Test the questions()->get_question() method.
 	 *
 	 * @since 3.16.0
 	 *
@@ -116,7 +211,7 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the get_questions() method.
+	 * Test the questions() method.
 	 *
 	 * @since 3.16.0
 	 *
@@ -155,7 +250,156 @@ class LLMS_Test_LLMS_Quiz extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the update_question() method.
+	 * Test the has_attempt_limit() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_attempt_limit() {
+
+		$this->create();
+
+		// No value set.
+		$this->obj->set( 'limit_attempts', '' );
+		$this->assertFalse( $this->obj->has_attempt_limit() );
+
+		// Explicit no.
+		$this->obj->set( 'limit_attempts', 'no' );
+		$this->assertFalse( $this->obj->has_attempt_limit() );
+
+		// Something unexpected (still no).
+		$this->obj->set( 'limit_attempts', 'fake' );
+		$this->assertFalse( $this->obj->has_attempt_limit() );
+
+		// Yes..
+		$this->obj->set( 'limit_attempts', 'yes' );
+		$this->assertTrue( $this->obj->has_attempt_limit() );
+
+	}
+
+	/**
+	 * Test the has_time_limit() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_time_limit() {
+
+		$this->create();
+
+		// No value set.
+		$this->obj->set( 'limit_time', '' );
+		$this->assertFalse( $this->obj->has_time_limit() );
+
+		// Explicit no.
+		$this->obj->set( 'limit_time', 'no' );
+		$this->assertFalse( $this->obj->has_time_limit() );
+
+		// Something unexpected (still no).
+		$this->obj->set( 'limit_time', 'fake' );
+		$this->assertFalse( $this->obj->has_time_limit() );
+
+		// Yes..
+		$this->obj->set( 'limit_time', 'yes' );
+		$this->assertTrue( $this->obj->has_time_limit() );
+
+	}
+
+	/**
+	 * Test is_open() with no student.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_open_no_student() {
+
+		$this->create();
+		$this->assertFalse( $this->obj->is_open() );
+
+	}
+
+	/**
+	 * Test is_open() with a student when there's no attempt limits.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_open_with_student_no_limits() {
+
+		$this->create();
+
+		$user = $this->factory->student->create();
+
+		// Pass in a user id.
+		$this->assertTrue( $this->obj->is_open( $user ) );
+
+		// Use the current session's user.
+		wp_set_current_user( $user );
+		$this->assertTrue( $this->obj->is_open() );
+
+	}
+
+	/**
+	 * Test is_open() with a student when there are attempt limits.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_open_with_student_with_limits() {
+
+		$course = $this->factory->course->create_and_get( array( 'sections' => 1, 'lessons' => 1 ) );
+		$lesson = $course->get_lessons()[0];
+		$quiz = $lesson->get_quiz();
+
+		$quiz->set( 'limit_attempts', 'yes' );
+		$quiz->set( 'allowed_attempts', 1 );
+
+		$user = $this->factory->student->create();
+
+		// Use the current session's user.
+		wp_set_current_user( $user );
+		$this->assertTrue( $quiz->is_open() );
+
+		// Pass in a user id.
+		$this->assertTrue( $quiz->is_open( $user ) );
+
+		// Take the quiz.
+		$this->take_quiz( $quiz->get( 'id' ), $user );
+
+		// Use the current session's user.
+		$this->assertFalse( $quiz->is_open() );
+
+		// Pass in a user id.
+		$this->assertFalse( $quiz->is_open( $user ) );
+
+	}
+
+	/**
+	 * Test the is_orphan() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_orphan() {
+
+		$this->create();
+
+		$this->obj->set( 'lesson_id', '' );
+		$this->assertTrue( $this->obj->is_orphan() );
+
+		$this->obj->set( 'lesson_id', 123 );
+		$this->assertFalse( $this->obj->is_orphan() );
+
+	}
+
+	/**
+	 * Test the questions()->update_question() method.
 	 *
 	 * @since 3.16.0
 	 *
