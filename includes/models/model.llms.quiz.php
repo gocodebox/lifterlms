@@ -1,26 +1,31 @@
 <?php
 /**
- * LifterLMS Quiz Model
+ * LifterLMS Quiz Model.
  *
- * @package  LifterLMS/Models
- * @since    3.3.0
- * @version  3.19.2
+ * @package LifterLMS/Models
  *
- * @property  $allowed_attempts  (int)  Number of times a student is allowed to take the quiz before being locked out of it
- * @property  $passing_percent  (float)  Grade required for a student to "pass" the quiz
- * @property  $random_answers  (yesno)  Whether or not to randomize the order of answers to the quiz questions
- * @property  $random_questions  (yesno)  Whether or not to randomize the order of questions for each attempt
- * @property  $show_correct_answer  (yesno)  Whether or not to show the correct answer(s) to students on the quiz results screen
- * @property  $show_options_description_right_answer  (yesno)  If yes, displays the question description when the student chooses the correct answer
- * @property  $show_options_description_wrong_answer  (yesno)  If yes, displays the question description when the student chooses the wrong answer
- * @property  $show_results  (yesno)  If yes, results will be shown to the student at the conclusion of the quiz
- * @property  $time_limit  (int)  Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz
+ * @since 3.3.0
+ * @version 3.19.2
+ *
+ * @property  $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
+ * @property  $passing_percent (float) Grade required for a student to "pass" the quiz.
+ * @property  $random_answers (yesno) Whether or not to randomize the order of answers to the quiz questions.
+ * @property  $random_questions (yesno) Whether or not to randomize the order of questions for each attempt.
+ * @property  $show_correct_answer (yesno) Whether or not to show the correct answer(s) to students on the quiz results screen.
+ * @property  $show_options_description_right_answer (yesno) If yes, displays the question description when the student chooses the correct answer.
+ * @property  $show_options_description_wrong_answer (yesno) If yes, displays the question description when the student chooses the wrong answer.
+ * @property  $show_results (yesno) If yes, results will be shown to the student at the conclusion of the quiz.
+ * @property  $time_limit (int) Quiz time limit (in minutes), empty denotes unlimited (untimed) quiz.
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Quiz model.
+ * LLMS_Quiz model class.
+ *
+ * @since 3.3.0
+ * @since 3.19.2 Unkwnown.
+ * @since [version] Added `llms_quiz_is_open` filter hook.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -39,11 +44,11 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	);
 
 	/**
-	 * Retrieve the LLMS_Course for the quiz
+	 * Retrieve the LLMS_Course for the quiz.
 	 *
-	 * @return   obj
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return LLMS_Course|false
 	 */
 	public function get_course() {
 		$lesson = $this->get_lesson();
@@ -54,11 +59,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve LLMS_Lesson for the quiz's parent lesson
+	 * Retrieve LLMS_Lesson for the quiz's parent lesson.
 	 *
-	 * @return   obj
-	 * @since    3.16.0
-	 * @version  3.16.12
+	 * @since 3.16.0
+	 * @since 3.16.12 Unknown.
+	 *
+	 * @return LLMS_Lesson|false
 	 */
 	public function get_lesson() {
 		$id = $this->get( 'lesson_id' );
@@ -69,23 +75,23 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the quizzes child questions
+	 * Retrieve the quizzes child questions.
 	 *
-	 * @param    string $return  type of return [ids|posts|questions]
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @param string $return Optional. Type of return [ids|posts|questions]. Default `'questions'`.
+	 * @return array
 	 */
 	public function get_questions( $return = 'questions' ) {
 		return $this->questions()->get_questions( $return );
 	}
 
 	/**
-	 * Retrieve the time limit formatted as a human readable string
+	 * Retrieve the time limit formatted as a human readable string.
 	 *
-	 * @return   string
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return string
 	 */
 	public function get_time_limit_string() {
 
@@ -94,33 +100,33 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if the quiz defines limited attempts
+	 * Determine if the quiz defines limited attempts.
 	 *
-	 * @return   bool
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return bool
 	 */
 	public function has_attempt_limit() {
 		return ( 'yes' === $this->get( 'limit_attempts' ) );
 	}
 
 	/**
-	 * Determine if a time limit is enabled for the quiz
+	 * Determine if a time limit is enabled for the quiz.
 	 *
-	 * @return   bool
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return bool
 	 */
 	public function has_time_limit() {
 		return ( 'yes' === $this->get( 'limit_time' ) );
 	}
 
 	/**
-	 * Determine if the quiz is an orphan
+	 * Determine if the quiz is an orphan.
 	 *
-	 * @return   bool
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 * @since 3.16.12
+	 *
+	 * @return bool
 	 */
 	public function is_orphan() {
 
@@ -135,57 +141,68 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Determine if a student can take the quiz
+	 * Determine if a student can take the quiz.
 	 *
-	 * @param    int $user_id   WP User ID, none supplied uses current user
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.16.0
+	 * @since 3.0.0
+	 * @since 3.16.0 Unkwnown.
+	 * @since [version] Added `llms_quiz_is_open` filter hook.
+	 *
+	 * @param int $user_id Optional. WP User ID, none supplied uses current user. Default `null`.
+	 * @return boolean
 	 */
 	public function is_open( $user_id = null ) {
 
 		$student = llms_get_student( $user_id );
 		if ( ! $student ) {
-			return false;
+			$quiz_open = false;
+		} else {
+
+			$remaining = $student->quizzes()->get_attempts_remaining_for_quiz( $this->get( 'id' ) );
+
+			// string for "unlimited" or number of attempts.
+			$quiz_open = ! is_numeric( $remaining ) || $remaining > 0;
 		}
 
-		$remaining = $student->quizzes()->get_attempts_remaining_for_quiz( $this->get( 'id' ) );
-
-		// string for "unlimited" or number of attempts
-		if ( ! is_numeric( $remaining ) || $remaining > 0 ) {
-			return true;
-		}
-
-		return false;
+		/**
+		 * Filters whether the quiz is open to a student or not.
+		 *
+		 * @param boolean            $quiz_open Whether the quiz is open.
+		 * @param int|null           $user_id   WP User ID, can be `null`.
+		 * @param int                $quiz_id   The Quiz id.
+		 * @param LLMS_Quiz          $quiz      The LLMS_Quiz instance.
+		 * @param LLMS_Student|false $student   LLMS_Student instance or false if user not found.
+		 */
+		return apply_filters( 'llms_quiz_is_open', $quiz_open, $user_id, $this->get( 'id' ), $this, $student );
 
 	}
 
 	/**
-	 * Retrieve an instance of the question manager for the quiz
+	 * Retrieve an instance of the question manager for the quiz.
 	 *
-	 * @return   obj
-	 * @since    3.16.0
-	 * @version  3.16.0
+	 * @since 3.16.0
+	 *
+	 * @return LLMS_Question_Manager
 	 */
 	public function questions() {
 		return new LLMS_Question_Manager( $this );
 	}
 
 	/**
-	 * Called before data is sorted and returned by $this->toArray()
+	 * Called before data is sorted and returned by $this->toArray().
 	 * Extending classes should override this data if custom data should
-	 * be added when object is converted to an array or json
+	 * be added when object is converted to an array or json.
 	 *
-	 * @param    array $arr   array of data to be serialized
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.19.2
+	 * @since 3.3.0
+	 * @since 3.19.2 Unknown.
+	 *
+	 * @param array $arr Array of data to be serialized.
+	 * @return array
 	 */
 	protected function toArrayAfter( $arr ) {
 
 		$arr['questions'] = array();
 
-		// builder lazy loads questions via ajax
+		// builder lazy loads questions via ajax.
 		global $llms_builder_lazy_load;
 		if ( ! $llms_builder_lazy_load ) {
 			foreach ( $this->get_questions() as $question ) {
@@ -193,7 +210,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			}
 		}
 
-		// if theme support quizzes, add theme metadata to the array
+		// if theme support quizzes, add theme metadata to the array.
 		if ( get_theme_support( 'lifterlms-quizzes' ) ) {
 			$layout = llms_get_quiz_theme_setting( 'layout' );
 			if ( $layout ) {
@@ -205,23 +222,13 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
 	/**
-	 * Retrieve lessons this quiz is assigned to
+	 * Retrieve lessons this quiz is assigned to.
 	 *
-	 * @param    string $return  format of the return [ids|lessons]
-	 * @return   array              array of WP_Post IDs (lesson post types)
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param string $return Optional. Format of the return [ids|lessons]. Default `'ids'`.
+	 * @return array Array of WP_Post IDs (lesson post types).
 	 */
 	public function get_lessons( $return = 'ids' ) {
 
@@ -236,33 +243,35 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			)
 		);
 
-		// return just the ids
+		// return just the ids.
 		if ( 'ids' === $return ) {
 			return $query;
 		}
 
-		// setup lesson objects
+		// setup lesson objects.
 		$ret = array();
 		foreach ( $query as $id ) {
 			$ret[] = llms_get_post( $id );
 		}
+
 		return $ret;
 
 	}
 
 
 	/**
-	 * Get the (points) value of a question
+	 * Get the (points) value of a question.
 	 *
-	 * @param    int $question_id  WP Post ID of the LLMS_Question
-	 * @return   int
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 * @since [version] Use strict comparison '===' in place of '=='.
+	 *
+	 * @param int $question_id  WP Post ID of the LLMS_Question.
+	 * @return int
 	 */
 	public function get_question_value( $question_id ) {
 
 		foreach ( $this->get_questions_raw() as $q ) {
-			if ( $question_id == $q['id'] ) {
+			if ( $question_id === $q['id'] ) {
 				return absint( $q['points'] );
 			}
 		}
@@ -272,11 +281,11 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the array of raw question data from the postmeta table
+	 * Retrieve the array of raw question data from the postmeta table.
 	 *
-	 * @return   array
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @return array
 	 */
 	private function get_questions_raw() {
 
@@ -301,13 +310,13 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	*/
 
 	/**
-	 * Get remaining quiz attempts
+	 * Get remaining quiz attempts.
 	 *
-	 * @param      int $user_id   WP_User ID, if not supplied uses current user
-	 * @return     int
-	 * @since      1.0.0
-	 * @version    3.16.0
+	 * @since 1.0.0
 	 * @deprecated 3.16.0
+	 *
+	 * @param int $user_id Optional. WP_User ID, if not supplied uses current user. Default `null`.
+	 * @return int
 	 */
 	public function get_remaining_attempts_by_user( $user_id = null ) {
 
@@ -324,12 +333,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 
 	/**
-	 * Retrieve the configured time limit
+	 * Retrieve the configured time limit.
 	 *
-	 * @return      int
-	 * @since       1.0.0
-	 * @version     3.16.0
-	 * @deprecated  3.16.0
+	 * @since 1.0.0
+	 * @deprecated 3.16.0
+	 *
+	 * @return int
 	 */
 	public function get_time_limit() {
 		llms_deprecated_function( 'LLMS_Quiz::get_time_limit()', '3.16.0', 'LLMS_Quiz::get( "time_limit" )' );
@@ -337,12 +346,12 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Retrieve the configured time limit
+	 * Retrieve the configured time limit.
 	 *
-	 * @return      int
-	 * @since       1.0.0
-	 * @version     3.16.0
-	 * @deprecated  3.16.0
+	 * @since 1.0.0
+	 * @deprecated 3.16.0
+	 *
+	 * @return int
 	 */
 	public function get_total_allowed_attempts() {
 		llms_deprecated_function( 'LLMS_Quiz::get_total_allowed_attempts()', '3.16.0', 'LLMS_Quiz::get( "allowed_attempts" )' );
@@ -350,13 +359,13 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	}
 
 	/**
-	 * Get total attempts by user
+	 * Get total attempts by user.
 	 *
-	 * @param       int $user_id  a WP_User ID, if not supplied uses current user
-	 * @return      int
-	 * @since       1.0.0
-	 * @version     3.16.0
-	 * @deprecated  3.16.0
+	 * @since 1.0.0
+	 * @deprecated 3.16.0
+	 *
+	 * @param int $user_id Optional. A WP_User ID, if not supplied uses current user. Default `null`.
+	 * @return int
 	 */
 	public function get_total_attempts_by_user( $user_id = null ) {
 
@@ -371,14 +380,30 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	}
 
+	/**
+	 * Get passing percent.
+	 *
+	 * @since ??
+	 * @deprecated ??
+	 *
+	 * @return float
+	 */
 	public function get_passing_percent() {
-		// deprecate
+		// deprecate.
 		return $this->get( 'passing_percent' );
 
 	}
 
+	/**
+	 * Get associated lesson id.
+	 *
+	 * @since ??
+	 * @deprecated ??
+	 *
+	 * @return int
+	 */
 	public function get_assoc_lesson() {
-		// deprecate
+		// deprecate.
 		return $this->get( 'lesson_id' );
 	}
 
