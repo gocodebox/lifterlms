@@ -245,6 +245,7 @@ class LLMS_Order extends LLMS_Post_Model {
 				$end = strtotime( '+' . $frequency . ' ' . $period, $end );
 				$i++;
 			}
+
 		}
 
 		return apply_filters( 'llms_order_calculate_billing_end_date', $end, $this );
@@ -264,10 +265,12 @@ class LLMS_Order extends LLMS_Post_Model {
 		$start_time = $this->get_date( 'date', 'U' );
 		$end_time   = $this->get_date( 'date_billing_end', 'U' );
 
+		// Handles pre 3.10 orders where the date_billing_end property wasn't stored during init.
 		if ( ! $end_time && $this->get( 'billing_length' ) ) {
 			$end_time = $this->calculate_billing_end_date();
 			$this->set( 'date_billing_end', date_i18n( 'Y-m-d H:i:s', $end_time ) );
 		}
+
 		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
 
 		// if were on a trial and the trial hasn't ended yet next payment date is the date the trial ends
@@ -277,11 +280,12 @@ class LLMS_Order extends LLMS_Post_Model {
 
 		} else {
 
-			// assume we'll start from the order start date
+			// assume we'll start from the order start date.
 			$from_time = $start_time;
 
+			// If we have a saved next payment that's old we can calculate from there.
+			// This will happen on the second, 3rd, 4th recurring payments etc...
 			if ( $next_payment_time && $next_payment_time < llms_current_time( 'timestamp' ) ) {
-				// if we have a saved next payment that's old we can calculate from there
 
 				$from_time = $next_payment_time;
 
@@ -309,9 +313,10 @@ class LLMS_Order extends LLMS_Post_Model {
 				$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $next_payment_time );
 				$i++;
 			}
+
 		}
 
-		// if the next payment is after the end time (where applicable)
+		// If the next payment is after the end time (where applicable).
 		if ( 0 != $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
 			$ret = '';
 		} elseif ( $next_payment_time > 0 ) {
