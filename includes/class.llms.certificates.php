@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since [version] Refactored `get_export_html()` method.
+ *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
  */
 class LLMS_Certificates {
 
@@ -72,7 +74,8 @@ class LLMS_Certificates {
 	}
 
 	/**
-	 * Award a certificate to a user
+	 * Award a certificate to a user.
+	 *
 	 * Calls trigger method passing arguments
 	 *
 	 * @since 1.0.0
@@ -91,6 +94,7 @@ class LLMS_Certificates {
 	 * Generate a downloadable HTML file for a certificate
 	 *
 	 * @since 3.18.0
+	 * @since [version] Added action `llms_certificate_generate_export`.
 	 *
 	 * @param string $filepath Full path for the created file.
 	 * @param int    $certificate_id WP_Post ID of the earned certificate.
@@ -103,6 +107,15 @@ class LLMS_Certificates {
 		if ( is_wp_error( $html ) ) {
 			return $html;
 		}
+
+		/**
+		 * Run actions prior to certificate export generation.
+		 *
+		 * @param string $filepath Full path where the created file will be stored. Passed as a reference.
+		 * @param string $html Certificate HTML. Passed as a reference.
+		 * @param int $certificate_id WP_Post ID of the earned certificate.
+		 */
+		do_action_ref_array( 'llms_certificate_generate_export', array( &$filepath, &$html, $certificate_id ) );
 
 		$file = fopen( $filepath, 'w' );
 		if ( false === $file ) {
@@ -126,7 +139,7 @@ class LLMS_Certificates {
 	 *
 	 * @param int $certificate_id WP Post ID of the earned certificate.
 	 * @param bool $use_cache If true will check for existence of a cached version of the file first.
-	 * @return   mixed WP_Error or full path to the generated export.
+	 * @return mixed WP_Error or full path to the generated export.
 	 */
 	public function get_export( $certificate_id, $use_cache = false ) {
 
@@ -144,11 +157,14 @@ class LLMS_Certificates {
 		$filename .= '.html';
 		$filepath  = LLMS_TMP_DIR . $filename;
 
-		if ( $use_cache ) {
+		// Generate the file.
+		$filepath = $this->generate_export( $filepath, $certificate_id );
+
+		if ( $use_cache && ! is_wp_error( $filepath ) ) {
 			update_post_meta( $certificate_id, '_llms_export_filepath', $filepath );
 		}
 
-		return $this->generate_export( $filepath, $certificate_id );
+		return $filepath;
 
 	}
 
@@ -157,18 +173,187 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.24.3 Unknown.
+	 * @since [version] Refactored method into multiple functions.
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate.
 	 * @return string
 	 */
 	private function get_export_html( $certificate_id ) {
 
+		// Retrieve the raw HTML of the page.
+		$html = $this->scrape_certificate( $certificate_id );
+
+		// If DOMDocument exists, modify the DOM before exporting.
+		if ( class_exists( 'DOMDocument' ) ) {
+			$html = $this->modify_dom( $html );
+		}
+
+		/**
+		 * Modify the HTML of a certificate export.
+		 *
+		 * @since  3.18.0
+		 *
+		 * @param string $html HTML to be exported.
+		 * @param int $certificate_id WP_Post ID of the earned certificate.
+		 */
+		return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
+
+	}
+
+	/**
+	 * Modify the HTML using DOMDocument.
+	 *
+	 * Preparations include:
+	 *
+	 *     1. Removing all `script` tags .
+	 *     2. Converting all stylesheets into inline `style` tags.
+	 *     3. Removes all non stylesheet `link` tags.
+	 *     4. Converts `img` tags into data uris.
+	 *     5. Adds inline CSS to hide anything hidden in a print view.
+	 *     6. Removes the WP Admin Bar.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $html Certificate HTML.
+	 * @return string
+	 */
+	private function modify_dom( $html ) {
+
+		// Don't throw or log warnings.
+		$libxml_state = libxml_use_internal_errors( true );
+
+		$dom = new DOMDocument();
+
+		// Error loading the dom, return the original HTML.
+		if ( ! $dom->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
+			return $html;
+		}
+
+		// Remove all <scripts>.
+		$scripts = $dom->getElementsByTagName( 'script' );
+		while ( $scripts && $scripts->length ) {
+			$scripts->item( 0 )->parentNode->removeChild( $scripts->item( 0 ) );
+		}
+
+		// Get all <links>.
+		$links      = $dom->getElementsByTagName( 'link' );
+		$to_replace = array();
+
+		// Inline stylesheets.
+		foreach ( $links as $link ) {
+
+			// Only proceed for stylesheets.
+			if ( 'stylesheet' !== $link->getAttribute( 'rel' ) ) {
+				continue;
+			}
+
+			// Save href for use later.
+			$href = $link->getAttribute( 'href' );
+
+			/**
+			 * Only include local stylesheets.
+			 * This means that external fonts (google, for example) are excluded from the download.
+			 */
+			if ( 0 !== strpos( $href, get_site_url() ) ) {
+				continue;
+			}
+
+			// Get the actual CSS.
+			$stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $href ), '?' );
+			$raw       = file_get_contents( $stylepath );
+
+			// Add it to be inlined late.
+			$tag          = $dom->createElement( 'style', $raw );
+			$to_replace[] = array(
+				'old' => $link,
+				'new' => $tag,
+			);
+
+		}
+
+		// Do replacements, ensures cascade order is retained.
+		foreach ( $to_replace as $replacement ) {
+			$replacement['old']->parentNode->replaceChild( $replacement['new'], $replacement['old'] );
+		}
+
+		// Remove all remaining non stylesheet <links>.
+		$links = $dom->getElementsByTagName( 'link' );
+		while ( $links && $links->length ) {
+			$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
+		}
+
+		// Convert images to data uris.
+		$images = $dom->getElementsByTagName( 'img' );
+		foreach ( $images as $img ) {
+
+			$src = $img->getAttribute( 'src' );
+
+			// Only include local images.
+			if ( 0 !== strpos( $src, get_site_url() ) ) {
+				continue;
+			}
+
+			$imgpath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
+			$data    = base64_encode( file_get_contents( $imgpath ) );
+			$img->setAttribute( 'src', 'data:' . mime_content_type( $imgpath ) . ';base64,' . $data );
+
+		}
+
+		// Hide print stuff (this is faster than traversing the dom to remove the element).
+		$header = $dom->getElementsByTagName( 'head' )->item( 0 );
+		$header->appendChild( $dom->createELement( 'style', '.no-print { display: none !important; }' ) );
+
+		// Remove the admin bar (if found).
+		$admin_bar = $dom->getElementById( 'wpadminbar' );
+		if ( $admin_bar ) {
+			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar.
+		}
+
+		$html = $dom->saveHTML();
+
+		// Handle errors.
+		libxml_clear_errors();
+
+		// Restore.
+		libxml_use_internal_errors( $libxml_state );
+
+		return $html;
+
+	}
+
+	/**
+	 * Scrape a LifterLMS Certificate permalink and return the generated HTML.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $certificate_id WP_Post ID of the earned certificate (an "llms_my_certificate" post).
+	 * @return WP_Error|string WP_Error on failure or the full page HTML on success.
+	 */
+	private function scrape_certificate( $certificate_id ) {
+
 		// Create a nonce for getting the export HTML.
 		$token = wp_generate_password( 32, false );
 		update_post_meta( $certificate_id, '_llms_auth_nonce', $token );
 
-		// Scrape the html from a one-time use URL.
-		$url = apply_filters( 'llms_get_certificate_export_html_url', add_query_arg( '_llms_cert_auth', $token, get_permalink( $certificate_id ) ), $certificate_id );
+		/**
+		 * Modify the URL used to scrape the HTML of a certificate in preparation for a certificate export.
+		 *
+		 * @since 3.18.0
+		 *
+		 * @param string $url Certificate permalink with a one-time use authorization token appended as a query string variable.
+		 * @param int $certificate_id WP_Post ID of the earned certificate (an "llms_my_certificate" post).
+		 */
+		$url = apply_filters(
+			'llms_get_certificate_export_html_url',
+			add_query_arg(
+				'_llms_cert_auth',
+				$token,
+				get_permalink( $certificate_id )
+			),
+			$certificate_id
+		);
+
+		// Perform the request.
 		$req = wp_safe_remote_get(
 			$url,
 			array(
@@ -184,112 +369,7 @@ class LLMS_Certificates {
 			return $req;
 		}
 
-		$html = wp_remote_retrieve_body( $req );
-
-		if ( ! class_exists( 'DOMDocument' ) ) {
-			return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
-		}
-
-		// Don't throw or log warnings.
-		$libxml_state = libxml_use_internal_errors( true );
-
-		$dom = new DOMDocument();
-
-		if ( $dom->loadHTML( mb_convert_encoding( $html, 'HTML-ENTITIES', 'UTF-8' ) ) ) {
-
-			$header = $dom->getElementsByTagName( 'head' )->item( 0 );
-
-			// Remove all <scripts>.
-			$scripts = $dom->getElementsByTagName( 'script' );
-			while ( $scripts && $scripts->length ) {
-				$scripts->item( 0 )->parentNode->removeChild( $scripts->item( 0 ) );
-			}
-
-			// Get all <links>.
-			$links      = $dom->getElementsByTagName( 'link' );
-			$to_replace = array();
-
-			// Inline stylesheets.
-			foreach ( $links as $link ) {
-
-				// Only proceed for stylesheets.
-				if ( 'stylesheet' !== $link->getAttribute( 'rel' ) ) {
-					continue;
-				}
-
-				// Save href for use later.
-				$href = $link->getAttribute( 'href' );
-
-				/**
-				 * Only include local stylesheets.
-				 * This means that external fonts (google, for example) are excluded from the download.
-				 */
-				if ( 0 !== strpos( $href, get_site_url() ) ) {
-					continue;
-				}
-
-				// Get the actual CSS.
-				$stylepath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $href ), '?' );
-				$raw       = file_get_contents( $stylepath );
-
-				// Add it to be inlined late.
-				$tag          = $dom->createElement( 'style', $raw );
-				$to_replace[] = array(
-					'old' => $link,
-					'new' => $tag,
-				);
-
-			}
-
-			// Do replacements, ensures cascade order is retained.
-			foreach ( $to_replace as $replacement ) {
-				$replacement['old']->parentNode->replaceChild( $replacement['new'], $replacement['old'] );
-			}
-
-			// Remove all remaining non stylesheet <links>.
-			$links = $dom->getElementsByTagName( 'link' );
-			while ( $links && $links->length ) {
-				$links->item( 0 )->parentNode->removeChild( $links->item( 0 ) );
-			}
-
-			// Convert images to data uris.
-			$images = $dom->getElementsByTagName( 'img' );
-			foreach ( $images as $img ) {
-
-				$src = $img->getAttribute( 'src' );
-
-				// Only include local images.
-				if ( 0 !== strpos( $src, get_site_url() ) ) {
-					continue;
-				}
-
-				$imgpath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
-				$data    = base64_encode( file_get_contents( $imgpath ) );
-				$img->setAttribute( 'src', 'data:' . mime_content_type( $imgpath ) . ';base64,' . $data );
-
-			}
-
-			// Hide print stuff (this is faster than traversing the dom to remove the element).
-			$header->appendChild( $dom->createELement( 'style', '.no-print { display: none !important; }' ) );
-
-			// Remove the admin bar (if found).
-			$admin_bar = $dom->getElementById( 'wpadminbar' );
-			if ( $admin_bar ) {
-				$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar.
-			}
-
-			$html = $dom->saveHTML();
-
-		}
-
-		// Handle errors.
-		libxml_clear_errors();
-
-		// Restore.
-		libxml_use_internal_errors( $libxml_state );
-
-		// Return the html.
-		return apply_filters( 'llms_get_certificate_export_html', $html, $certificate_id );
+		return wp_remote_retrieve_body( $req );
 
 	}
 
