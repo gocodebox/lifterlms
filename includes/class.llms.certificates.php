@@ -294,7 +294,7 @@ class LLMS_Certificates {
 			}
 
 			$imgpath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
-			$data    = base64_encode( file_get_contents( $imgpath ) );
+			$data    = base64_encode( file_get_contents( $imgpath ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
 			$img->setAttribute( 'src', 'data:' . mime_content_type( $imgpath ) . ';base64,' . $data );
 
 		}
@@ -306,7 +306,7 @@ class LLMS_Certificates {
 		// Remove the admin bar (if found).
 		$admin_bar = $dom->getElementById( 'wpadminbar' );
 		if ( $admin_bar ) {
-			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase.
+			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase
 		}
 
 		$html = $dom->saveHTML();
