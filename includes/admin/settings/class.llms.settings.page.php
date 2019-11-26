@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Unslash input data.
  * @since [version] Add a constructor which registers the settings page and automatically saves and outputs settings content.
  *               Add public method stub `get_label()` which is used to automatically set the `$label` property on class initialization.
+ *               Add utility method to generate a group of settings.
  */
 class LLMS_Settings_Page {
 
@@ -124,6 +125,43 @@ class LLMS_Settings_Page {
 	 */
 	public function get_label() {
 		return $this->id;
+	}
+
+	/**
+	 * Generates a group of settings.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $id Group ID. Used to create IDs for the start, end, and title fields.
+	 * @param string $title Title of the group (should be translatable).
+	 * @param string $title_desc (Optional) title field description text.
+	 * @param array[] $settings Array of settings field arrays.
+	 * @return array[]
+	 */
+	protected function generate_settings_group( $id, $title, $title_desc = '', $settings = array() ) {
+
+		$start = array(
+			array(
+				'type' => 'sectionstart',
+				'id'   => $id,
+			),
+			array(
+				'type'  => 'title',
+				'id'    => sprintf( '%s_title', $id ),
+				'title' => $title,
+				'desc'  => $title_desc,
+			),
+		);
+
+		$end = array(
+			array(
+				'type' => 'sectionend',
+				'id'   => sprintf( '%s_end', $id ),
+			),
+		);
+
+		return array_merge( $start, $settings, $end );
+
 	}
 
 	/**
