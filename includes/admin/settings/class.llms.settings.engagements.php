@@ -16,25 +16,27 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.8.0 Unknown.
  * @since [version] Renamed setting field IDs to be unique.
+ *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
+ *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
  */
 class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 	/**
-	 * Constructor
-	 * executes settings tab actions
+	 * Settings identifier
 	 *
-	 * @since    1.0.0
-	 * @version  3.8.0
+	 * @var string
 	 */
-	public function __construct() {
+	public $id = 'engagements';
 
-		$this->id    = 'engagements';
-		$this->label = __( 'Engagements', 'lifterlms' );
-
-		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
+	/**
+	 * Retrieve the page label.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_label() {
+		return __( 'Engagements', 'lifterlms' );
 	}
 
 	/**
