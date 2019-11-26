@@ -137,7 +137,7 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.18.0
 	 *
-	 * @param int $certificate_id WP Post ID of the earned certificate.
+	 * @param int  $certificate_id WP Post ID of the earned certificate.
 	 * @param bool $use_cache If true will check for existence of a cached version of the file first.
 	 * @return mixed WP_Error or full path to the generated export.
 	 */
@@ -306,7 +306,7 @@ class LLMS_Certificates {
 		// Remove the admin bar (if found).
 		$admin_bar = $dom->getElementById( 'wpadminbar' );
 		if ( $admin_bar ) {
-			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.NotSnakeCaseMemberVar.
+			$admin_bar->parentNode->removeChild( $admin_bar ); // phpcs:ignore WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase.
 		}
 
 		$html = $dom->saveHTML();

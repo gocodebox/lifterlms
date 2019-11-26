@@ -83,9 +83,9 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			array(
 				array(
 					'title' => __( 'Background Image Settings', 'lifterlms' ),
-					'type' => 'subtitle',
-					'desc' => __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
-					'id'   => 'cert_bg_image_settings',
+					'type'  => 'subtitle',
+					'desc'  => __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
+					'id'    => 'cert_bg_image_settings',
 				),
 				array(
 					'title'    => __( 'Image Width', 'lifterlms' ),
@@ -132,18 +132,18 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			__( 'Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings.', 'lifterlms' ),
 			array(
 				array(
-					'title'    => __( 'Sender Name', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Name to be displayed in From field', 'lifterlms' ),
-					'id'       => 'lifterlms_email_from_name',
-					'type'     => 'text',
-					'default'  => esc_attr( get_bloginfo( 'title' ) ),
+					'title'   => __( 'Sender Name', 'lifterlms' ),
+					'desc'    => '<br>' . __( 'Name to be displayed in From field', 'lifterlms' ),
+					'id'      => 'lifterlms_email_from_name',
+					'type'    => 'text',
+					'default' => esc_attr( get_bloginfo( 'title' ) ),
 				),
 				array(
-					'title'    => __( 'Sender Email', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Email Address displayed in the From field', 'lifterlms' ),
-					'id'       => 'lifterlms_email_from_address',
-					'type'     => 'email',
-					'default'  => get_option( 'admin_email' ),
+					'title'   => __( 'Sender Email', 'lifterlms' ),
+					'desc'    => '<br>' . __( 'Email Address displayed in the From field', 'lifterlms' ),
+					'id'      => 'lifterlms_email_from_address',
+					'type'    => 'email',
+					'default' => get_option( 'admin_email' ),
 				),
 				array(
 					'title'    => __( 'Header Image', 'lifterlms' ),
@@ -153,11 +153,11 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'autoload' => false,
 				),
 				array(
-					'title'    => __( 'Email Footer Text', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Text you would like displayed in the footer of all emails.', 'lifterlms' ),
-					'id'       => 'lifterlms_email_footer_text',
-					'type'     => 'textarea',
-					'default'  => '',
+					'title'   => __( 'Email Footer Text', 'lifterlms' ),
+					'desc'    => '<br>' . __( 'Text you would like displayed in the footer of all emails.', 'lifterlms' ),
+					'id'      => 'lifterlms_email_footer_text',
+					'type'    => 'textarea',
+					'default' => '',
 				),
 			)
 		);

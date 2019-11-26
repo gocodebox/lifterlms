@@ -132,9 +132,9 @@ class LLMS_Settings_Page {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $id Group ID. Used to create IDs for the start, end, and title fields.
-	 * @param string $title Title of the group (should be translatable).
-	 * @param string $title_desc (Optional) title field description text.
+	 * @param string  $id Group ID. Used to create IDs for the start, end, and title fields.
+	 * @param string  $title Title of the group (should be translatable).
+	 * @param string  $title_desc (Optional) title field description text.
 	 * @param array[] $settings Array of settings field arrays.
 	 * @return array[]
 	 */
