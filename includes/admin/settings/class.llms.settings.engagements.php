@@ -52,7 +52,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 				array(
 					'type'  => 'sectionstart',
-					'id'    => 'email_options_end',
+					'id'    => 'email_options',
 					'class' => 'top',
 				),
 
@@ -60,7 +60,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'title' => __( 'Email Settings', 'lifterlms' ),
 					'type'  => 'title',
 					'desc'  => __( 'Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings.', 'lifterlms' ),
-					'id'    => 'email_options_end_title',
+					'id'    => 'email_options_title',
 				),
 				array(
 					'title'    => __( 'Sender Name', 'lifterlms' ),
@@ -154,26 +154,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 			)
 		);
-	}
-
-	/**
-	 * save settings to the database
-	 *
-	 * @return void
-	 */
-	public function save() {
-		$settings = $this->get_settings();
-		LLMS_Admin_Settings::save_fields( $settings );
-	}
-
-	/**
-	 * get settings from the database
-	 *
-	 * @return void
-	 */
-	public function output() {
-		$settings = $this->get_settings();
-		LLMS_Admin_Settings::output_fields( $settings );
 	}
 
 }
