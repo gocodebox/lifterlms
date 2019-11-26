@@ -2,8 +2,10 @@
 /**
  * Admin Settings Page: Engagements
  *
- * @since    1.0.0
- * @version  3.8.0
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 1.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -46,6 +48,13 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 */
 	public function get_settings() {
 
+		/**
+		 * Modify LifterLMS Admin Settings on the "Engagements" tab,
+		 *
+		 * @since Unknown
+		 *
+		 * @param array[] $settings Array of settings fields arrays.
+		 */
 		return apply_filters(
 			'lifterlms_engagements_settings',
 			array(
