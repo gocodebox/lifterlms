@@ -6,9 +6,15 @@
  * @version  3.8.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Settings_Engagements class.
+ *
+ * @since 1.0.0
+ * @since 3.8.0 Unknown.
+ * @since [version] Renamed setting field IDs to be unique.
+ */
 class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 	/**
@@ -46,7 +52,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 				array(
 					'type'  => 'sectionstart',
-					'id'    => 'email_options',
+					'id'    => 'email_options_end',
 					'class' => 'top',
 				),
 
@@ -54,7 +60,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'title' => __( 'Email Settings', 'lifterlms' ),
 					'type'  => 'title',
 					'desc'  => __( 'Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings.', 'lifterlms' ),
-					'id'    => 'email_options',
+					'id'    => 'email_options_end_title',
 				),
 				array(
 					'title'    => __( 'Sender Name', 'lifterlms' ),
@@ -90,7 +96,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 				array(
 					'type' => 'sectionend',
-					'id'   => 'email_options',
+					'id'   => 'email_options_end',
 				),
 
 				array(
