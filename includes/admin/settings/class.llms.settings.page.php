@@ -41,6 +41,15 @@ class LLMS_Settings_Page {
 	public $label = '';
 
 	/**
+	 * Tab priority
+	 *
+	 * Determines the order of the page when registered with the core settings array.
+	 *
+	 * @var int
+	 */
+	public $tab_priority = 20;
+
+	/**
 	 * Constructor.
 	 *
 	 * @since [version]
@@ -51,18 +60,23 @@ class LLMS_Settings_Page {
 
 		$this->label = $this->get_label();
 
-		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), $this->tab_priority );
+
+		if ( $this->id ) {
+
+			add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
+			add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+
+		}
 
 	}
 
 	/**
 	 * Add the settings page
 	 *
+	 * @since 1.0.0
+	 *
 	 * @return array
-	 * @since    1.0.0
-	 * @version  1.0.0
 	 */
 	public function add_settings_page( $pages ) {
 		$pages[ $this->id ] = $this->label;
@@ -72,15 +86,15 @@ class LLMS_Settings_Page {
 	/**
 	 * Flushes rewrite rules when necessary
 	 *
-	 * @return   void
-	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @since 3.0.4
+	 *
+	 * @return void
 	 */
 	public function flush_rewrite_rules() {
 
-		// add the updated endpoints
-		$q = new LLMS_Query();
-		$q->add_endpoints();
+		// Add the updated endpoints.
+		$query = new LLMS_Query();
+		$query->add_endpoints();
 
 		// flush rewrite rules
 		flush_rewrite_rules();
@@ -93,12 +107,10 @@ class LLMS_Settings_Page {
 	 * @since 3.17.5
 	 * @since 3.35.0 Unslash input data.
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	protected function get_current_section() {
-
 		return isset( $_GET['section'] ) ? sanitize_text_field( wp_unslash( $_GET['section'] ) ) : 'main';
-
 	}
 
 	/**
@@ -117,9 +129,14 @@ class LLMS_Settings_Page {
 	/**
 	 * Get the page sections (stub)
 	 *
-	 * @return   array
-	 * @since    1.0.0
-	 * @version  3.17.5
+	 * When overriding, this should return an associative array where the key is the
+	 * section id and the value is the (translated) section title. The "default" tab
+	 * should always use the id "main".
+	 *
+	 * @since 1.0.0
+	 * @since 3.17.5 Return an array instead of void.
+	 *
+	 * @return array
 	 */
 	public function get_sections() {
 		return array();
@@ -128,7 +145,7 @@ class LLMS_Settings_Page {
 	/**
 	 * Retrieve the page's settings (stub)
 	 *
-	 * @return   [array
+	 * @return   array
 	 * @since    3.17.5
 	 * @version  3.17.5
 	 */
@@ -150,9 +167,9 @@ class LLMS_Settings_Page {
 	/**
 	 * Output settings sections as tabs and set post href
 	 *
-	 * @return array
-	 * @since    3.17.5
-	 * @version  3.17.5
+	 * @since 3.17.5
+	 *
+	 * @return void
 	 */
 	public function output_sections_nav() {
 
@@ -179,9 +196,10 @@ class LLMS_Settings_Page {
 	/**
 	 * Save the settings field values
 	 *
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.17.5
+	 * @since 1.0.0
+	 * @since 3.17.5 Unknown.
+	 *
+	 * @return void
 	 */
 	public function save() {
 
