@@ -3,7 +3,7 @@
  * Admin Settings Page Base Class
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,33 +14,48 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.35.0 Unslash input data.
+ * @since [version] Add a constructor which registers the settings page and automatically saves and outputs settings content.
+ *               Add public method stub `get_label()` which is used to automatically set the `$label` property on class initialization.
  */
 class LLMS_Settings_Page {
 
 	/**
 	 * Allow settings page to determine if a rewrite flush is required
 	 *
-	 * @var      boolean
-	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @var boolean
 	 */
 	protected $flush = false;
 
 	/**
 	 * Settings identifier
 	 *
-	 * @var      string
-	 * @since    1.0.0
+	 * @var string
 	 */
-	public $id;
+	public $id = '';
 
 	/**
-	 * Settings page link label
+	 * Settings page label / title.
 	 *
-	 * @var      string
-	 * @since    1.0.0
+	 * @var string
 	 */
-	public $label;
+	public $label = '';
+
+	/**
+	 * Constructor.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function __construct() {
+
+		$this->label = $this->get_label();
+
+		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
+		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
+		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+
+	}
 
 	/**
 	 * Add the settings page
@@ -87,6 +102,19 @@ class LLMS_Settings_Page {
 	}
 
 	/**
+	 * Retrieve the page label.
+	 *
+	 * Extending classes should override this to return a translated string used as the page's title.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	public function get_label() {
+		return $this->id;
+	}
+
+	/**
 	 * Get the page sections (stub)
 	 *
 	 * @return   array
@@ -94,9 +122,7 @@ class LLMS_Settings_Page {
 	 * @version  3.17.5
 	 */
 	public function get_sections() {
-
 		return array();
-
 	}
 
 	/**
@@ -107,9 +133,7 @@ class LLMS_Settings_Page {
 	 * @version  3.17.5
 	 */
 	public function get_settings() {
-
 		return array();
-
 	}
 
 	/**
@@ -120,9 +144,7 @@ class LLMS_Settings_Page {
 	 * @version  3.17.5
 	 */
 	public function output() {
-
 		LLMS_Admin_Settings::output_fields( $this->get_settings() );
-
 	}
 
 	/**
@@ -164,11 +186,8 @@ class LLMS_Settings_Page {
 	public function save() {
 
 		LLMS_Admin_Settings::save_fields( $this->get_settings() );
-
 		if ( $this->flush ) {
-
 			add_action( 'shutdown', array( $this, 'flush_rewrite_rules' ) );
-
 		}
 
 	}
