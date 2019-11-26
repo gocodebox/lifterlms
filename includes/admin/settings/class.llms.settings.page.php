@@ -145,9 +145,9 @@ class LLMS_Settings_Page {
 	/**
 	 * Retrieve the page's settings (stub)
 	 *
-	 * @return   array
-	 * @since    3.17.5
-	 * @version  3.17.5
+	 * @since 3.17.5
+	 *
+	 * @return array
 	 */
 	public function get_settings() {
 		return array();
@@ -156,9 +156,10 @@ class LLMS_Settings_Page {
 	/**
 	 * Output the settings fields
 	 *
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.17.5
+	 * @since 1.0.0
+	 * @since 3.17.5 Unknown.
+	 *
+	 * @return void
 	 */
 	public function output() {
 		LLMS_Admin_Settings::output_fields( $this->get_settings() );
