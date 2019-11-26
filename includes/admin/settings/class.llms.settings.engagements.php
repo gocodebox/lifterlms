@@ -19,20 +19,24 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * @version  3.8.0
 	 */
 	public function __construct() {
+
 		$this->id    = 'engagements';
 		$this->label = __( 'Engagements', 'lifterlms' );
 
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
 		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
 		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+
 	}
 
 	/**
 	 * Get settings array
 	 *
+	 * @since 1.0.0
+	 * @since 3.8.0 Unknown.
+	 * @since [version] Ensure IDs are unique.
+	 *
 	 * @return array
-	 * @since    1.0.0
-	 * @version  3.8.0
 	 */
 	public function get_settings() {
 
@@ -91,7 +95,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 				array(
 					'type'  => 'sectionstart',
-					'id'    => 'certificates_options',
+					'id'    => 'certificates_options_start',
 					'class' => 'top',
 				),
 
@@ -99,7 +103,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'title' => __( 'Certificates Settings', 'lifterlms' ),
 					'type'  => 'title',
 					'desc'  => '',
-					'id'    => 'certificates_options',
+					'id'    => 'certificates_options_title',
 				),
 
 				array(
@@ -139,7 +143,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 				array(
 					'type' => 'sectionend',
-					'id'   => 'certificates_options',
+					'id'   => 'certificates_options_end',
 				),
 
 			)
