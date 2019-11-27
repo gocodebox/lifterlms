@@ -67,7 +67,7 @@ You can learn more about **[the people behind LifterLMS here][team]**.
 + 86,807 Achievement badges awarded by LifterLMS
 + 120,728 Certificates awarded by LifterLMS
 + Over 9,000 active installs
-+ [94 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
++ [108 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
 
 # **[LifterLMS Features][features]**
 
