@@ -17,27 +17,18 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
-	 * Allow settings page to determine if a rewrite flush is required
+	 * Settings identifier
 	 *
-	 * @var      boolean
-	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @var string
 	 */
-	protected $flush = true;
+	public $id = 'accounts';
 
 	/**
-	 * Constructor
+	 * Allow settings page to determine if a rewrite flush is required
 	 *
-	 * executes settings tab actions
+	 * @var boolean
 	 */
-	public function __construct() {
-		$this->id    = 'account';
-		$this->label = __( 'Accounts', 'lifterlms' );
-
-		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-	}
+	protected $flush = true;
 
 	/**
 	 * Get settings array
@@ -488,7 +479,18 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 			 // end user info field options
 
 			)
-		); // End pages settings
+		);
+	}
+
+	/**
+	 * Retrieve the page label.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function set_label() {
+		return __( 'Accounts', 'lifterlms' );
 	}
 
 }
