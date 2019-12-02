@@ -97,7 +97,7 @@ class LLMS_Settings_Page {
 		$query = new LLMS_Query();
 		$query->add_endpoints();
 
-		// flush rewrite rules
+		// Flush rewrite rules.
 		flush_rewrite_rules();
 
 	}
