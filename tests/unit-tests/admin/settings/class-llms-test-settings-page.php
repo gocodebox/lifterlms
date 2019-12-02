@@ -243,4 +243,108 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test the save() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save() {
+
+		$page = new class() extends LLMS_Settings_Page {
+			public $id = 'mock';
+			public function get_settings() {
+				return array(
+					array(
+						'id'   => 'mock_setting_id',
+						'type' => 'text',
+					),
+					array(
+						'id'   => 'mock_setting_id_2',
+						'type' => 'text',
+					),
+				);
+			}
+		};
+
+		// No data posted.
+		$page->save();
+		$this->assertEmpty( get_option( 'mock_setting_id' ) );
+		$this->assertEmpty( get_option( 'mock_setting_id_2' ) );
+
+		// Some Data posted.
+		$this->mockPostRequest( array( 'mock_setting_id' => 'mock_setting_val' ) );
+		$page->save();
+		$this->assertEquals( 'mock_setting_val', get_option( 'mock_setting_id' ) );
+		$this->assertEmpty( get_option( 'mock_setting_id_2' ) );
+
+		// All Data posted.
+		$this->mockPostRequest( array(
+			'mock_setting_id'   => 'mock_setting_val',
+			'mock_setting_id_2' => 'mock_setting_val',
+		) );
+		$page->save();
+		$this->assertEquals( 'mock_setting_val', get_option( 'mock_setting_id' ) );
+		$this->assertEquals( 'mock_setting_val', get_option( 'mock_setting_id_2' ) );
+
+	}
+
+	/**
+	 * Ensure unregistered (fake) options aren't stored during save events.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_fake_option() {
+
+		// Fake option.
+		$this->mockPostRequest( array(
+			'mock_setting_id_3' => 'mock_setting_val',
+		) );
+		$this->page->save();
+		$this->assertEmpty( get_option( 'mock_setting_id_3' ) );
+
+	}
+
+	/**
+	 * Test the save() method when the $flush prop is true.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_flush_disabled() {
+
+		$page = new class() extends LLMS_Settings_Page {
+			public $id = 'mock';
+		};
+
+		$this->assertFalse( has_action( 'shutdown', array( $page, 'flush_rewrite_rules' ) ) );
+		$page->save();
+		$this->assertFalse( has_action( 'shutdown', array( $page, 'flush_rewrite_rules' ) ) );
+
+	}
+
+	/**
+	 * Test the save() method when the $flush prop is true.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_flush_enabled() {
+
+		$page = new class() extends LLMS_Settings_Page {
+			public $id = 'mock';
+			protected $flush = true;
+		};
+
+		$this->assertFalse( has_action( 'shutdown', array( $page, 'flush_rewrite_rules' ) ) );
+		$page->save();
+		$this->assertEquals( 10, has_action( 'shutdown', array( $page, 'flush_rewrite_rules' ) ) );
+
+	}
+
 }
