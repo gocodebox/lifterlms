@@ -27,7 +27,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 		// Setup a mock settings page.
 		$this->page = new class() extends LLMS_Settings_Page {
 			public $id = 'mock';
-			public function get_label() {
+			protected function set_label() {
 				return 'Mock';
 			}
 		};
@@ -136,34 +136,34 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 
 
 	/**
-	 * Test get_label() stub when no ID exists for the class.
+	 * Test set_label() stub when no ID exists for the class.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_label_stub_no_id() {
+	public function test_set_label_stub_no_id() {
 
 		// Empty string because no ID defined.
 		$page = new LLMS_Settings_Page();
-		$this->assertEquals( '', $page->get_label() );
+		$this->assertEquals( '', LLMS_Unit_Test_Util::call_method( $page, 'set_label' ) );
 
 	}
 
 	/**
-	 * Test get_label() stub when an ID is set.
+	 * Test set_label() stub when an ID is set.
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_get_label_stub_with_id() {
+	public function test_set_label_stub_with_id() {
 
 		// Return ID because the method isn't overriden.
 		$page = new class() extends LLMS_Settings_Page {
 			public $id = 'mock';
 		};
-		$this->assertEquals( 'mock', $page->get_label() );
+		$this->assertEquals( 'mock', LLMS_Unit_Test_Util::call_method( $page, 'set_label' ) );
 
 	}
 

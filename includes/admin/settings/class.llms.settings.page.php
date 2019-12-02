@@ -59,7 +59,7 @@ class LLMS_Settings_Page {
 	 */
 	public function __construct() {
 
-		$this->label = $this->get_label();
+		$this->label = $this->set_label();
 
 		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), $this->tab_priority );
 
@@ -123,7 +123,7 @@ class LLMS_Settings_Page {
 	 *
 	 * @return string
 	 */
-	public function get_label() {
+	protected function set_label() {
 		return $this->id;
 	}
 

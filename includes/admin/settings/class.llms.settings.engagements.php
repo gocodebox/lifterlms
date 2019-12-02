@@ -35,7 +35,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 *
 	 * @return string
 	 */
-	public function get_label() {
+	protected function set_label() {
 		return __( 'Engagements', 'lifterlms' );
 	}
 
