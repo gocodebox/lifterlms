@@ -1,10 +1,11 @@
 name: Publish to WordPress.org
 on:
   push:
-    tags-ignore:
-    - "**-alpha**"
-    - "**-beta**"
-    - "**-rc**"
+    tags:
+    - "*"
+    - "!**-alpha**"
+    - "!**-beta**"
+    - "!**-rc**"
 jobs:
   publish:
     name: Publish to WordPress.org
