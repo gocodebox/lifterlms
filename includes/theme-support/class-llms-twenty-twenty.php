@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/ThemeSupport
  *
  * @since 3.37.0
- * @version [version]
+ * @version 3.37.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.1 Fixed course information block misalignment.
  * @since 3.37.2 Updated to use `background-color` property instead of `background` shorthand
  *               when adding custom elements to style.
- * @since [version] Hide site header and footer, and set a white body background in
+ * @since 3.37.3 Hide site header and footer, and set a white body background in
  *               single certificates.
  */
 class LLMS_Twenty_Twenty {
@@ -62,7 +62,7 @@ class LLMS_Twenty_Twenty {
 	 *
 	 * @since 3.37.0
 	 * @since 3.37.1 Fixed course information block misalignment.
-	 * @since [version] Hide site header and footer, and set a white body background in single certificates.
+	 * @since 3.37.3 Hide site header and footer, and set a white body background in single certificates.
 	 *
 	 * @return void
 	 */

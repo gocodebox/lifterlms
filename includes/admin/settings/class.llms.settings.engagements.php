@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.8.0 Unknown.
- * @since [version] Renamed setting field IDs to be unique.
+ * @since 3.37.3 Renamed setting field IDs to be unique.
  *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
  *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
  */
@@ -31,7 +31,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieve the page label.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return string
 	 */
@@ -44,7 +44,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
-	 * @since [version] Refactor to pull each settings group from its own method.
+	 * @since 3.37.3 Refactor to pull each settings group from its own method.
 	 *
 	 * @return array
 	 */
@@ -70,7 +70,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieve fields for the certificates settings group.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return array[]
 	 */
@@ -120,7 +120,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieve fields for the email settings group.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return array[]
 	 */

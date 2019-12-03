@@ -3,7 +3,7 @@
  * Admin Settings Page, Accounts Tab
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Renamed setting field IDs to be unique.
+ * @since 3.37.3 Renamed setting field IDs to be unique.
  *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
  *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
  */
@@ -38,7 +38,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.3 Fixed spelling errors.
-	 * @since [version] Renamed duplicate field id for section close (`user_info_field_options` to `user_info_field_options_end`)
+	 * @since 3.37.3 Renamed duplicate field id for section close (`user_info_field_options` to `user_info_field_options_end`)
 	 *
 	 * @return array
 	 */
@@ -489,7 +489,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	/**
 	 * Retrieve the page label.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return string
 	 */

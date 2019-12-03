@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Refactored `get_export_html()` method.
+ * @since 3.37.3 Refactored `get_export_html()` method.
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
  */
 class LLMS_Certificates {
@@ -94,7 +94,7 @@ class LLMS_Certificates {
 	 * Generate a downloadable HTML file for a certificate
 	 *
 	 * @since 3.18.0
-	 * @since [version] Added action `llms_certificate_generate_export`.
+	 * @since 3.37.3 Added action `llms_certificate_generate_export`.
 	 *
 	 * @param string $filepath Full path for the created file.
 	 * @param int    $certificate_id WP_Post ID of the earned certificate.
@@ -173,7 +173,7 @@ class LLMS_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.24.3 Unknown.
-	 * @since [version] Refactored method into multiple functions.
+	 * @since 3.37.3 Refactored method into multiple functions.
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate.
 	 * @return string
@@ -212,7 +212,7 @@ class LLMS_Certificates {
 	 *     5. Adds inline CSS to hide anything hidden in a print view.
 	 *     6. Removes the WP Admin Bar.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @param string $html Certificate HTML.
 	 * @return string
@@ -324,7 +324,7 @@ class LLMS_Certificates {
 	/**
 	 * Scrape a LifterLMS Certificate permalink and return the generated HTML.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @param int $certificate_id WP_Post ID of the earned certificate (an "llms_my_certificate" post).
 	 * @return WP_Error|string WP_Error on failure or the full page HTML on success.

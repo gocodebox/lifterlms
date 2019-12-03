@@ -8,8 +8,8 @@
  * @group settings_page
  * @group settings_page_engagements
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.3
+ * @version 3.37.3
  */
 class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 
@@ -37,7 +37,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	/**
 	 * Return an array of mock settings and possible values.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */

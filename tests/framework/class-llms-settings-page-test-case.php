@@ -2,14 +2,14 @@
 /**
  * LifterLMS Unit Test Case Base class
  *
- * @since [version]
+ * @since 3.37.3
  */
 class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	 *
 	 * The array key is the option id and the value is an array of possible values to store.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return array[]
 	 */
@@ -38,7 +38,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieve an indexed array of ids for the page's registered settings.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @param bool $save_only If `true`, only return fields that can be saved to the database.
 	 * @return string[]
@@ -61,7 +61,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the settings page ID matches the expected ID.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the settings page label matches the expected label.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	/**
 	 * Ensure all editable settings exist in the settings array.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return [type]
 	 */
@@ -104,7 +104,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	/**
 	 * Ensure no duplicate values exist in the settings array.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -119,7 +119,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the save() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -159,7 +159,7 @@ class LLMS_Settings_Page_Test_Case extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the set_label() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */

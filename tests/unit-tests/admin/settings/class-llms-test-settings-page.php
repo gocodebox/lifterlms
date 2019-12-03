@@ -7,15 +7,15 @@
  * @group admin
  * @group settings_page
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.3
+ * @version 3.37.3
  */
 class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test constructor
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_settings_page() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test generation of a settings group with no settings added.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test set_label() stub when no ID exists for the class.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -153,7 +153,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test set_label() stub when an ID is set.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -170,7 +170,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the get_sections() stub.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -181,7 +181,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the get_settings() stub.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the output() stub.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -203,7 +203,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the output_sections_nav() stub when no sections exist.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -214,7 +214,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the output_sections_nav() stub when sections do exist.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -246,7 +246,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the save() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -293,7 +293,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Ensure unregistered (fake) options aren't stored during save events.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -311,7 +311,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the save() method when the $flush prop is true.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -330,7 +330,7 @@ class LLMS_Test_Settings_Page extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the save() method when the $flush prop is true.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */

@@ -3,7 +3,7 @@
  * Admin Settings Page Base Class
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.35.0 Unslash input data.
- * @since [version] Add a constructor which registers the settings page and automatically saves and outputs settings content.
+ * @since 3.37.3 Add a constructor which registers the settings page and automatically saves and outputs settings content.
  *               Add public method stub `get_label()` which is used to automatically set the `$label` property on class initialization.
  *               Add utility method to generate a group of settings.
  */
@@ -53,7 +53,7 @@ class LLMS_Settings_Page {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -119,7 +119,7 @@ class LLMS_Settings_Page {
 	 *
 	 * Extending classes should override this to return a translated string used as the page's title.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return string
 	 */
@@ -130,7 +130,7 @@ class LLMS_Settings_Page {
 	/**
 	 * Generates a group of settings.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @param string  $id Group ID. Used to create IDs for the start, end, and title fields.
 	 * @param string  $title Title of the group (should be translatable).

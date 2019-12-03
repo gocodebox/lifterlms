@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.36.1
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
- * @since [version] Modify the ID used to determine where to splice in SendWP Options.
+ * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
  */
 class LLMS_SendWP {
 
@@ -220,7 +220,7 @@ class LLMS_SendWP {
 	 * Find the end of the "email_options" section to splice in new settings.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Modify the ID used to determine where to splice in SendWP Options.
+	 * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
 	 *
 	 * @param array $settings Default engagement settings.
 	 * @return int

@@ -6,15 +6,15 @@
  *
  * @group certificates
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.3
+ * @version 3.37.3
  */
 class LLMS_Test_Certificates extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Create a certificate template post.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return int
 	 */
@@ -51,7 +51,7 @@ class LLMS_Test_Certificates extends LLMS_Unit_Test_Case {
 	/**
 	 * Test trigger_engagement() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Test_Certificates extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieve a certificate export, bypassing the cache.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
@@ -97,7 +97,7 @@ class LLMS_Test_Certificates extends LLMS_Unit_Test_Case {
 	/**
 	 * Retrieve a certificate export using caching.
 	 *
-	 * @since [version]
+	 * @since 3.37.3
 	 *
 	 * @return void
 	 */
