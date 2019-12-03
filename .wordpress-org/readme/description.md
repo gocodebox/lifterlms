@@ -366,3 +366,5 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [feature-ecomm]: https://lifterlms.com/features/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [feature-membership]: https://lifterlms.com/features/membership/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [feature-engagement]: https://lifterlms.com/features/engagement/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+
+<!-- Test Auto deployment -->
