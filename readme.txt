@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.37.2
+Stable tag: 3.37.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,17 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.3 - 2019-12-03 =
+------------------------
+
++ Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
++ Don't unslash uploaded file `tmp_name`, thanks [@pondermatic](https://github.com/pondermatic)!
++ TwentyTwenty Theme Support: Hide site header and footer, and set a white body background in single certificates.
++ Renamed setting field IDs to be unique for open/close wrapper fields on the engagements and account settings pages.
++ Removed redundant functions defined in the `LLMS_Settings_Page` class to reduce code redundancy in account and engagement setting page classes.
++ The `LLMS_Settings_Page` base class now automatically defines actions to save and output settings content.
+
+
 = v3.37.2 - 2019-11-22 =
 ------------------------
 
@@ -682,12 +693,5 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Fixed undefined index error when retrieving an unset value from an unsaved database model.
 + Fix issue causing quotes to be encoded in shortcodes used in course and membership restriction message settings fields.
 + Fix issue preventing manual updates of order dates (next payment, trial expiration, and access expiration) from being saved properly.
-
-
-= v3.35.2 - 2019-09-06 =
-------------------------
-
-+ When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
-+ Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
