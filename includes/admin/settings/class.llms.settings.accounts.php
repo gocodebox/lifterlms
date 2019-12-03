@@ -3,7 +3,7 @@
  * Admin Settings Page, Accounts Tab
  *
  * @since 1.0.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,37 +13,32 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since [version] Renamed setting field IDs to be unique.
+ *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
+ *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
  */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
-	 * Allow settings page to determine if a rewrite flush is required
+	 * Settings identifier
 	 *
-	 * @var      boolean
-	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @var string
 	 */
-	protected $flush = true;
+	public $id = 'accounts';
 
 	/**
-	 * Constructor
+	 * Allow settings page to determine if a rewrite flush is required
 	 *
-	 * executes settings tab actions
+	 * @var boolean
 	 */
-	public function __construct() {
-		$this->id    = 'account';
-		$this->label = __( 'Accounts', 'lifterlms' );
-
-		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-	}
+	protected $flush = true;
 
 	/**
 	 * Get settings array
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.3 Fixed spelling errors.
+	 * @since [version] Renamed duplicate field id for section close (`user_info_field_options` to `user_info_field_options_end`)
 	 *
 	 * @return array
 	 */
@@ -482,13 +477,24 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 				),
 
 				array(
-					'id'   => 'user_info_field_options',
+					'id'   => 'user_info_field_options_end',
 					'type' => 'sectionend',
 				),
 			 // end user info field options
 
 			)
-		); // End pages settings
+		);
+	}
+
+	/**
+	 * Retrieve the page label.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function set_label() {
+		return __( 'Accounts', 'lifterlms' );
 	}
 
 }

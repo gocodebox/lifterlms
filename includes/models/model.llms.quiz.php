@@ -34,7 +34,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 *
 	 * @var string
 	 */
-	protected $db_post_type    = 'llms_quiz';
+	protected $db_post_type = 'llms_quiz';
 
 	/**
 	 * Post type name (without prefix).
