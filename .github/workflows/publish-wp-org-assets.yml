@@ -1,0 +1,60 @@
+name: Publish WordPress.org readme.txt and Assets Directory
+
+on:
+  push:
+    branches:
+      - wordpress-org
+
+jobs:
+  build:
+    name: Build readme.txt
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+
+    - name: Setup Node.js
+      uses: actions/setup-node@v1
+
+    - name: Install npm
+      run: npm ci
+      env:
+        CI: true
+
+    - name: Build readme.txt
+      run: gulp readme
+
+    - name: Commit changes
+      run: |
+        git config --local user.email "team+readme@lifterlms.com"
+        git config --local user.name "LifterLMS Readme Updater Bot"
+        git status
+        git add -A
+        git commit -m "Action: build readme.txt [ci skip]"
+        
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Open pull request
+      uses: repo-sync/pull-request@v2
+      with:
+        pr_title: "Pulling ${{ github.ref }} into master"
+        pr_assignee: "thomasplevy"
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  publish:
+    needs: build
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v1
+    - name: WordPress.org plugin asset/readme update
+      uses: 10up/action-wordpress-plugin-asset-update@master
+      env:
+        ASSETS_DIR: ".wordpress-org/assets"
+        SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+        SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+    
