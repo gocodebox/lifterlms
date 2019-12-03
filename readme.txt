@@ -81,7 +81,7 @@ You can learn more about **[the people behind LifterLMS here][team]**.
 + 86,807 Achievement badges awarded by LifterLMS
 + 120,728 Certificates awarded by LifterLMS
 + Over 9,000 active installs
-+ [94 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
++ [108 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
 
 # **[LifterLMS Features][features]**
 
@@ -233,8 +233,8 @@ _Increase your training program's value with these engagement add-ons_
 + [LifterLMS Private Areas][pa]
 + [LifterLMS Social Learning][sl]
 + [LifterLMS Advanced Video][av]
-+ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
-+ LifterLMS Groups (Scheduled to Release: 12/11/19)
++ [LifterLMS Custom Fields][cf]
++ [LifterLMS Groups][gr] (Scheduled to Release: 2/10/20)
 
 #### **Integrations**
 
@@ -359,7 +359,9 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [av]: https://lifterlms.com/product/advanced-video/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[cf]: https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[gr]: https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -378,6 +380,8 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [feature-ecomm]: https://lifterlms.com/features/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [feature-membership]: https://lifterlms.com/features/membership/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [feature-engagement]: https://lifterlms.com/features/engagement/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+
+<!-- Test Auto deployment -->
 
 
 == Installation ==
