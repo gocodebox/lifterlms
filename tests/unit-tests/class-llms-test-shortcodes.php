@@ -1,8 +1,14 @@
 <?php
 /**
  * Test LifterLMS Shortcodes
- * @since    3.4.3
- * @version  3.24.1
+ *
+ * @package LifterLMS/Tests
+ *
+ * @group shortcodes
+ *
+ * @since 3.4.3
+ * @since 3.24.1
+ * @since [version] Don't need to test for password strength enqueue anymore.
  */
 class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
@@ -44,9 +50,11 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the registration shortcode
+	 *
+	 * @since 3.4.3
+	 * @since [version] Don't need to test for password strength enqueue anymore.
+	 *
 	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
 	 */
 	public function test_registration() {
 
@@ -62,10 +70,6 @@ class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 		$user_id = $this->factory->user->create( array( 'role' => 'administrator' ) );
 		wp_set_current_user( $user_id );
 		$this->assertEmpty( $obj->output() );
-
-		// ensure required scripts are enqueued
-		$this->assertTrue( wp_script_is( 'password-strength-meter', 'enqueued' ) );
-		$this->assertTrue( LLMS_Frontend_Assets::is_inline_script_enqueued( 'llms-pw-strength' ) );
 
 	}
 
