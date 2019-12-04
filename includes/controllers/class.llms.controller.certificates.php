@@ -2,14 +2,15 @@
 /**
  * Certificate Forms
  *
- * @since   3.18.0
- * @version 3.24.0
+ * @since 3.18.0
+ * @version [version]
  */
 defined( 'ABSPATH' ) || exit;
 
 /**
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
+ * @since [version] Modify `llms_certificate` post type registration to allow certificate templates to be exported.
  */
 class LLMS_Controller_Certificates {
 
@@ -22,8 +23,38 @@ class LLMS_Controller_Certificates {
 	 */
 	public function __construct() {
 
+		add_filter( 'lifterlms_register_post_type_llms_certificate', array( $this, 'maybe_allow_public_query' ) );
+
 		add_action( 'init', array( $this, 'maybe_handle_reporting_actions' ) );
 		add_action( 'wp', array( $this, 'maybe_authenticate_export_generation' ) );
+
+	}
+
+	/**
+	 * Modify certificate post type registration data during a certificate template export.
+	 *
+	 * Fixes issue https://github.com/gocodebox/lifterlms/issues/776
+	 *
+	 * @since [version]
+	 *
+	 * @param array $post_type_args Array of `llms_certificate` post type registration arguments.
+	 * @return array
+	 */
+	public function maybe_allow_public_query( $post_type_args ) {
+
+		if ( ! empty( $_REQUEST['_llms_cert_auth'] ) ) {
+
+			$auth = llms_filter_input( INPUT_GET, '_llms_cert_auth', FILTER_SANITIZE_STRING );
+
+			global $wpdb;
+			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) );
+			if ( $post_id && 'llms_certificate' === get_post_type( $post_id ) ) {
+				$post_type_args['publicly_queryable'] = true;
+			}
+
+		}
+
+		return $post_type_args;
 
 	}
 
