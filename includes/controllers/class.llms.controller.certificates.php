@@ -17,9 +17,10 @@ class LLMS_Controller_Certificates {
 	/**
 	 * Constructor
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 * @since [version] Add filter hook for `lifterlms_register_post_type_llms_certificate`.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
