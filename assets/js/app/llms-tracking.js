@@ -5,8 +5,12 @@
  *
  * @since 3.36.0
  * @since 3.36.2 Fix JS error when settings aren't loaded.
+<<<<<<< HEAD
  * @since [version] Set `settings` as an empty object when no settings supplied.
  *               Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+=======
+ * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
+>>>>>>> 92f463897079740d0bc868551088a31cecb850df
  */
 LLMS.Tracking = function( settings ) {
 
@@ -48,6 +52,7 @@ LLMS.Tracking = function( settings ) {
 	 *
 	 * @since 3.36.0
 	 * @since 3.36.2 Fix error when settings aren't loaded.
+	 * @since 3.37.2 Always make sure the nonce is set for server-side verification.
 	 *
 	 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 	 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
@@ -70,6 +75,8 @@ LLMS.Tracking = function( settings ) {
 		var all = store.get( 'events', [] );
 		all.push( event );
 		store.set( 'events', all );
+		// Make sure the nonce is set for server-side verification.
+		store.set( 'nonce', settings.nonce );
 
 	}
 

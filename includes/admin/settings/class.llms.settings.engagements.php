@@ -2,113 +2,91 @@
 /**
  * Admin Settings Page: Engagements
  *
- * @since    1.0.0
- * @version  3.8.0
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 1.0.0
+ * @version 3.37.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Settings_Engagements class.
+ *
+ * @since 1.0.0
+ * @since 3.8.0 Unknown.
+ * @since 3.37.3 Renamed setting field IDs to be unique.
+ *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
+ *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
+ */
 class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
 	/**
-	 * Constructor
-	 * executes settings tab actions
+	 * Settings identifier
 	 *
-	 * @since    1.0.0
-	 * @version  3.8.0
+	 * @var string
 	 */
-	public function __construct() {
-		$this->id    = 'engagements';
-		$this->label = __( 'Engagements', 'lifterlms' );
+	public $id = 'engagements';
 
-		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
+	/**
+	 * Retrieve the page label.
+	 *
+	 * @since 3.37.3
+	 *
+	 * @return string
+	 */
+	protected function set_label() {
+		return __( 'Engagements', 'lifterlms' );
 	}
 
 	/**
 	 * Get settings array
 	 *
+	 * @since 1.0.0
+	 * @since 3.8.0 Unknown.
+	 * @since 3.37.3 Refactor to pull each settings group from its own method.
+	 *
 	 * @return array
-	 * @since    1.0.0
-	 * @version  3.8.0
 	 */
 	public function get_settings() {
 
+		/**
+		 * Modify LifterLMS Admin Settings on the "Engagements" tab,
+		 *
+		 * @since 1.0.0
+		 *
+		 * @param array[] $settings Array of settings fields arrays.
+		 */
 		return apply_filters(
 			'lifterlms_engagements_settings',
+			array_merge(
+				$this->get_settings_group_email(),
+				$this->get_settings_group_certs()
+			)
+		);
+
+	}
+
+	/**
+	 * Retrieve fields for the certificates settings group.
+	 *
+	 * @since 3.37.3
+	 *
+	 * @return array[]
+	 */
+	protected function get_settings_group_certs() {
+
+		return $this->generate_settings_group(
+			'certificates_options',
+			__( 'Certificate Settings', 'lifterlms' ),
+			'',
 			array(
-
 				array(
-					'type'  => 'sectionstart',
-					'id'    => 'email_options',
-					'class' => 'top',
+					'title' => __( 'Background Image Settings', 'lifterlms' ),
+					'type'  => 'subtitle',
+					'desc'  => __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
+					'id'    => 'cert_bg_image_settings',
 				),
-
-				array(
-					'title' => __( 'Email Settings', 'lifterlms' ),
-					'type'  => 'title',
-					'desc'  => __( 'Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings.', 'lifterlms' ),
-					'id'    => 'email_options',
-				),
-				array(
-					'title'    => __( 'Sender Name', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Name to be displayed in From field', 'lifterlms' ),
-					'id'       => 'lifterlms_email_from_name',
-					'type'     => 'text',
-					'default'  => esc_attr( get_bloginfo( 'title' ) ),
-					'desc_tip' => true,
-				),
-				array(
-					'title'    => __( 'Sender Email', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Email Address displayed in the From field', 'lifterlms' ),
-					'id'       => 'lifterlms_email_from_address',
-					'type'     => 'email',
-					'default'  => get_option( 'admin_email' ),
-					'desc_tip' => true,
-				),
-				array(
-					'title'    => __( 'Header Image', 'lifterlms' ),
-					'id'       => 'lifterlms_email_header_image',
-					'type'     => 'image',
-					'default'  => '',
-					'autoload' => false,
-				),
-				array(
-					'title'    => __( 'Email Footer Text', 'lifterlms' ),
-					'desc'     => '<br>' . __( 'Text you would like displayed in the footer of all emails.', 'lifterlms' ),
-					'id'       => 'lifterlms_email_footer_text',
-					'type'     => 'textarea',
-					'default'  => '',
-					'desc_tip' => true,
-				),
-
-				array(
-					'type' => 'sectionend',
-					'id'   => 'email_options',
-				),
-
-				array(
-					'type'  => 'sectionstart',
-					'id'    => 'certificates_options',
-					'class' => 'top',
-				),
-
-				array(
-					'title' => __( 'Certificates Settings', 'lifterlms' ),
-					'type'  => 'title',
-					'desc'  => '',
-					'id'    => 'certificates_options',
-				),
-
-				array(
-					'type' => 'desc',
-					'desc' => '<strong>' . __( 'Background Image Settings', 'lifterlms' ) . '</strong><br>' .
-							  __( 'Use these sizes to determine the dimensions of certificate background images. After changing these settings, you may need to <a href="http://wordpress.org/extend/plugins/regenerate-thumbnails/" target="_blank">regenerate your thumbnails</a>.', 'lifterlms' ),
-					'id'   => 'cert_bg_image_settings',
-				),
-
 				array(
 					'title'    => __( 'Image Width', 'lifterlms' ),
 					'desc'     => __( 'in pixels', 'lifterlms' ),
@@ -117,7 +95,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'type'     => 'number',
 					'autoload' => false,
 				),
-
 				array(
 					'title'    => __( 'Image Height', 'lifterlms' ),
 					'id'       => 'lifterlms_certificate_bg_img_height',
@@ -126,7 +103,6 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'type'     => 'number',
 					'autoload' => false,
 				),
-
 				array(
 					'title'    => __( 'Legacy compatibility', 'lifterlms' ),
 					'desc'     => __( 'Use legacy certificate image sizes.', 'lifterlms' ) .
@@ -136,34 +112,56 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'type'     => 'checkbox',
 					'autoload' => false,
 				),
-
-				array(
-					'type' => 'sectionend',
-					'id'   => 'certificates_options',
-				),
-
 			)
 		);
+
 	}
 
 	/**
-	 * save settings to the database
+	 * Retrieve fields for the email settings group.
 	 *
-	 * @return void
+	 * @since 3.37.3
+	 *
+	 * @return array[]
 	 */
-	public function save() {
-		$settings = $this->get_settings();
-		LLMS_Admin_Settings::save_fields( $settings );
-	}
+	protected function get_settings_group_email() {
 
-	/**
-	 * get settings from the database
-	 *
-	 * @return void
-	 */
-	public function output() {
-		$settings = $this->get_settings();
-		LLMS_Admin_Settings::output_fields( $settings );
+		return $this->generate_settings_group(
+			'email_options',
+			__( 'Email Settings', 'lifterlms' ),
+			__( 'Settings for all emails sent by LifterLMS. Notification and engagement emails will adhere to these settings.', 'lifterlms' ),
+			array(
+				array(
+					'title'   => __( 'Sender Name', 'lifterlms' ),
+					'desc'    => '<br>' . __( 'Name to be displayed in From field', 'lifterlms' ),
+					'id'      => 'lifterlms_email_from_name',
+					'type'    => 'text',
+					'default' => esc_attr( get_bloginfo( 'title' ) ),
+				),
+				array(
+					'title'   => __( 'Sender Email', 'lifterlms' ),
+					'desc'    => '<br>' . __( 'Email Address displayed in the From field', 'lifterlms' ),
+					'id'      => 'lifterlms_email_from_address',
+					'type'    => 'email',
+					'default' => get_option( 'admin_email' ),
+				),
+				array(
+					'title'    => __( 'Header Image', 'lifterlms' ),
+					'id'       => 'lifterlms_email_header_image',
+					'type'     => 'image',
+					'default'  => '',
+					'autoload' => false,
+				),
+				array(
+					'title'   => __( 'Email Footer Text', 'lifterlms' ),
+					'desc'    => '<br>' . __( 'Text you would like displayed in the footer of all emails.', 'lifterlms' ),
+					'id'      => 'lifterlms_email_footer_text',
+					'type'    => 'textarea',
+					'default' => '',
+				),
+			)
+		);
+
 	}
 
 }

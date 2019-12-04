@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.37.1
+Stable tag: 3.37.3
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -81,7 +81,7 @@ You can learn more about **[the people behind LifterLMS here][team]**.
 + 86,807 Achievement badges awarded by LifterLMS
 + 120,728 Certificates awarded by LifterLMS
 + Over 9,000 active installs
-+ [94 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
++ [108 5 star reviews](https://wordpress.org/support/plugin/lifterlms/reviews/?filter=5)
 
 # **[LifterLMS Features][features]**
 
@@ -233,8 +233,8 @@ _Increase your training program's value with these engagement add-ons_
 + [LifterLMS Private Areas][pa]
 + [LifterLMS Social Learning][sl]
 + [LifterLMS Advanced Video][av]
-+ LifterLMS Custom Fields (Scheduled to Release: 10/15/19)
-+ LifterLMS Groups (Scheduled to Release: 12/11/19)
++ [LifterLMS Custom Fields][cf]
++ [LifterLMS Groups][gr] (Scheduled to Release: 2/10/20)
 
 #### **Integrations**
 
@@ -359,7 +359,9 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [ass]: https://lifterlms.com/product/lifterlms-assignments//?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [av]: https://lifterlms.com/product/advanced-video/?utm_source=LifterLMS%20Plugin&utm_medium=Readme&utm_campaign=Readme%20to%20Sale
 [dfy]: https://lifterlms.com/dfy/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[cf]: https://lifterlms.com/product/custom-fields/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [ck]: https://lifterlms.com/product/lifterlms-convertkit/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+[gr]: https://lifterlms.com/product/groups/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [infinity]: https://lifterlms.com/product/infinity-bundle/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [lp]: https://lifterlms.com/product/launchpad/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [mc]: https://lifterlms.com/product/mailchimp-extension/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
@@ -378,6 +380,8 @@ Install the free LifterLMS plugin on your website from here on WordPress, then .
 [feature-ecomm]: https://lifterlms.com/features/e-commerce/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [feature-membership]: https://lifterlms.com/features/membership/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
 [feature-engagement]: https://lifterlms.com/features/engagement/?utm_source=LifterLMS%20Plugin&utm_medium=README&utm_campaign=Readme%20to%20Sale
+
+<!-- Test Auto deployment -->
 
 
 == Installation ==
@@ -511,7 +515,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
-v3.37.0-beta.1 - 2019-11-??
+v3.38.0-beta.1 - 2019-12-??
 -------------------------------
 
 ##### Form Management Improvments
@@ -573,6 +577,29 @@ v3.37.0-beta.1 - 2019-11-??
 + templates/checkout/form-checkout.php
 + templates/checkout/form-gateways.php
 + templates/global/form-registration.php
+
+
+= v3.37.3 - 2019-12-03 =
+------------------------
+
+
++ Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
++ Don't unslash uploaded file `tmp_name`, thanks [@pondermatic](https://github.com/pondermatic)!
++ TwentyTwenty Theme Support: Hide site header and footer, and set a white body background in single certificates.
++ Renamed setting field IDs to be unique for open/close wrapper fields on the engagements and account settings pages.
++ Removed redundant functions defined in the `LLMS_Settings_Page` class to reduce code redundancy in account and engagement setting page classes.
++ The `LLMS_Settings_Page` base class now automatically defines actions to save and output settings content.
+
+
+= v3.37.2 - 2019-11-22 =
+------------------------
+
++ LifterLMS notices will now be displayed on pages defined as a Course or Membership sales page.
++ TwentyTwenty Theme: Updated to use `background-color` property instead of `background` shorthand when adding custom elements to style.
++ Added filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
++ Added filter `llms_quiz_is_open` to allow customization of whether or not a quiz is available to a student.
++ When adding an client-side tracking events to the always make sure the server-side verification nonce is always set on the storage object.
++ The Course/Membership filter on the main students reporting screen now correctly limits post results based on instructor access.
 
 
 = v3.37.1 - 2019-11-13 =
@@ -732,19 +759,5 @@ v3.37.0-beta.1 - 2019-11-??
 + Fixed undefined index error when retrieving an unset value from an unsaved database model.
 + Fix issue causing quotes to be encoded in shortcodes used in course and membership restriction message settings fields.
 + Fix issue preventing manual updates of order dates (next payment, trial expiration, and access expiration) from being saved properly.
-
-
-= v3.35.2 - 2019-09-06 =
-------------------------
-
-+ When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
-+ Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
-
-
-= v3.35.1 - 2019-09-04 =
-------------------------
-
-+ Fix instances of improper input sanitization and handling.
-+ Include scripts, styles, and images for reporting charts and datepickers
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

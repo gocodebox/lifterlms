@@ -2,10 +2,10 @@
 /**
  * Twenty Twenty Theme Support.
  *
- * @package  LifterLMS/Classes/ThemeSupport
+ * @package LifterLMS/Classes/ThemeSupport
  *
  * @since 3.37.0
- * @version 3.37.1
+ * @version 3.37.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.37.0
  * @since 3.37.1 Fixed course information block misalignment.
+ * @since 3.37.2 Updated to use `background-color` property instead of `background` shorthand
+ *               when adding custom elements to style.
+ * @since 3.37.3 Hide site header and footer, and set a white body background in
+ *               single certificates.
  */
 class LLMS_Twenty_Twenty {
 
@@ -58,14 +62,18 @@ class LLMS_Twenty_Twenty {
 	 *
 	 * @since 3.37.0
 	 * @since 3.37.1 Fixed course information block misalignment.
+	 * @since 3.37.3 Hide site header and footer, and set a white body background in single certificates.
 	 *
 	 * @return void
 	 */
 	public static function add_inline_styles() {
 
+		global $post_type;
 		$accent = sanitize_hex_color( twentytwenty_get_color_for_area( 'content', 'accent' ) );
+
 		?>
 		<style id="llms-twentytweny-style">
+
 		.llms-access-plan.featured .llms-access-plan-content,
 		.llms-access-plan.featured .llms-access-plan-footer {
 			border-left-color: <?php echo $accent; ?>;
@@ -103,6 +111,16 @@ class LLMS_Twenty_Twenty {
 			margin-left: auto;
 			margin-right: auto;
 		}
+		<?php if ( 'llms_my_certificate' === $post_type || 'llms_certificate' === $post_type ) : ?>
+		body {
+			background-color: #fff;
+			background-image: none;
+		}
+		#site-header,
+		#site-footer {
+			display: none;
+		}
+		<?php endif; ?>
 		</style>
 		<?php
 
@@ -114,6 +132,7 @@ class LLMS_Twenty_Twenty {
 	 * This is used to automatically generate inline CSS via the Twenty Twenty Theme.
 	 *
 	 * @since 3.37.0
+	 * @since 3.37.2 Updated to use `background-color` property instead of `background` shorthand.
 	 *
 	 * @param array $elements Multidimensional array of CSS selectors.
 	 * @return array
@@ -121,8 +140,8 @@ class LLMS_Twenty_Twenty {
 	public static function add_elements( $elements ) {
 
 		// Accent Background.
-		$elements['content']['accent']['background'] = array_merge(
-			$elements['content']['accent']['background'],
+		$elements['content']['accent']['background-color'] = array_merge(
+			$elements['content']['accent']['background-color'],
 			self::add_elements_content_accent_background()
 		);
 
@@ -145,8 +164,8 @@ class LLMS_Twenty_Twenty {
 		);
 
 		// Background Background Color.
-		$elements['content']['background']['background'] = array_merge(
-			$elements['content']['background']['background'],
+		$elements['content']['background']['background-color'] = array_merge(
+			$elements['content']['background']['background-color'],
 			array( '.llms-checkout' )
 		);
 

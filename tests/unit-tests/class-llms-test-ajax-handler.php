@@ -7,7 +7,7 @@
  * @group AJAX
  *
  * @since 3.32.0
- * @since [version] Added tests on querying courses/memberships filtererd by instructors.
+ * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
  * @version 3.32.0
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
@@ -46,7 +46,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 * Test the select2_query_posts() ajax method.
 	 *
 	 * @since 3.32.0
-	 * @since [version] Added tests on querying courses/memberships filtererd by instructors.
+	 * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
 	 *
 	 * @return void
 	 */

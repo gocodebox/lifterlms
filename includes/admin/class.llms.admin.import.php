@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.3.0
- * @version 3.36.3
+ * @version 3.37.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *               Import template from the admin views directory instead of the frontend templates directory.
  *               Improve error handling.
  * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
+ * @since 3.37.3 Don't unslash uploaded file `tmp_name`.
  */
 class LLMS_Admin_Import {
 
@@ -108,6 +109,7 @@ class LLMS_Admin_Import {
 	 *               Moved statistic localization into its own function.
 	 *               Updated return signature.
 	 * @since 3.36.3 Fixed a typo where "$generator" was spelled "$generater".
+	 * @since 3.37.3 Don't unslash uploaded file `tmp_name`.
 	 *
 	 * @return boolean|WP_Error false for nonce or permission errors, WP_Error when an error is encountered, true on success.
 	 */
@@ -124,7 +126,9 @@ class LLMS_Admin_Import {
 		// Fixes an issue where hooks are loaded in an unexpected order causing template functions required to parse an import aren't available.
 		LLMS()->include_template_functions();
 
-		$validate = $this->validate_upload( wp_unslash( $_FILES['llms_import'] ) ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		// phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$validate = $this->validate_upload( $_FILES['llms_import'] );
 
 		// File upload error.
 		if ( is_wp_error( $validate ) ) {
@@ -132,7 +136,9 @@ class LLMS_Admin_Import {
 			return $validate;
 		}
 
-		$raw = ! empty( $_FILES['llms_import']['tmp_name'] ) ? file_get_contents( sanitize_text_field( wp_unslash( $_FILES['llms_import']['tmp_name'] ) ) ) : array();
+		$raw = ! empty( $_FILES['llms_import']['tmp_name'] ) ? file_get_contents( sanitize_text_field( $_FILES['llms_import']['tmp_name'] ) ) : array();
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.MissingUnslash
+		// phpcs:enable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 		$generator = new LLMS_Generator( $raw );
 		if ( is_wp_error( $generator->set_generator() ) ) {

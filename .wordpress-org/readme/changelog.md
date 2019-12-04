@@ -1,7 +1,7 @@
 == Changelog ==
 
 
-v3.37.0-beta.1 - 2019-11-??
+v3.38.0-beta.1 - 2019-12-??
 -------------------------------
 
 ##### Form Management Improvments
@@ -63,6 +63,29 @@ v3.37.0-beta.1 - 2019-11-??
 + templates/checkout/form-checkout.php
 + templates/checkout/form-gateways.php
 + templates/global/form-registration.php
+
+
+= v3.37.3 - 2019-12-03 =
+------------------------
+
+
++ Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
++ Don't unslash uploaded file `tmp_name`, thanks [@pondermatic](https://github.com/pondermatic)!
++ TwentyTwenty Theme Support: Hide site header and footer, and set a white body background in single certificates.
++ Renamed setting field IDs to be unique for open/close wrapper fields on the engagements and account settings pages.
++ Removed redundant functions defined in the `LLMS_Settings_Page` class to reduce code redundancy in account and engagement setting page classes.
++ The `LLMS_Settings_Page` base class now automatically defines actions to save and output settings content.
+
+
+= v3.37.2 - 2019-11-22 =
+------------------------
+
++ LifterLMS notices will now be displayed on pages defined as a Course or Membership sales page.
++ TwentyTwenty Theme: Updated to use `background-color` property instead of `background` shorthand when adding custom elements to style.
++ Added filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
++ Added filter `llms_quiz_is_open` to allow customization of whether or not a quiz is available to a student.
++ When adding an client-side tracking events to the always make sure the server-side verification nonce is always set on the storage object.
++ The Course/Membership filter on the main students reporting screen now correctly limits post results based on instructor access.
 
 
 = v3.37.1 - 2019-11-13 =
@@ -222,17 +245,3 @@ v3.37.0-beta.1 - 2019-11-??
 + Fixed undefined index error when retrieving an unset value from an unsaved database model.
 + Fix issue causing quotes to be encoded in shortcodes used in course and membership restriction message settings fields.
 + Fix issue preventing manual updates of order dates (next payment, trial expiration, and access expiration) from being saved properly.
-
-
-= v3.35.2 - 2019-09-06 =
-------------------------
-
-+ When sanitizing settings, don't strip tags on editor and textarea fields that allow HTML.
-+ Added JS filter `llms_lesson_rerender_change_events` to lesson editor view re-render change events.
-
-
-= v3.35.1 - 2019-09-04 =
-------------------------
-
-+ Fix instances of improper input sanitization and handling.
-+ Include scripts, styles, and images for reporting charts and datepickers

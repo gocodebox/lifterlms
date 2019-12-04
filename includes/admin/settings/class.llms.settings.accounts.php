@@ -13,6 +13,9 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since 3.37.3 Renamed setting field IDs to be unique.
+ *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
+ *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
  * @since [version] Removed field display settings.
  *               Reorganized open registration setting.
  *               Renamed "User Information Options" to "User Privacy Options".
@@ -20,14 +23,21 @@ defined( 'ABSPATH' ) || exit;
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	/**
-	 * Allow settings page to determine if a rewrite flush is required
+	 * Settings identifier
+	 *
+	 * @var string
+	 */
+	public $id = 'accounts';
+
+	/*
+	 * Should permalinks be flushed on save?
 	 *
 	 * @var boolean
 	 */
 	protected $flush = true;
 
 	/**
-	 * Constructor
+	 * Allow settings page to determine if a rewrite flush is required
 	 *
 	 * @since 1.0.0
 	 *
@@ -44,11 +54,13 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
 	}
 
+
 	/**
 	 * Get settings array
 	 *
 	 * @since 1.0.0
 	 * @since 3.30.3 Fixed spelling errors.
+	 * @since 3.37.3 Renamed duplicate field id for section close (`user_info_field_options` to `user_info_field_options_end`)
 	 * @since [version] Removed field display settings.
 	 *               Reorganized open registration setting.
 	 *               Renamed "User Information Options" to "User Privacy Options".
@@ -60,19 +72,16 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 		return apply_filters(
 			'lifterlms_' . $this->id . '_settings',
 			array(
-
 				array(
 					'class' => 'top',
 					'id'    => 'course_account_options',
 					'type'  => 'sectionstart',
 				),
-
 				array(
 					'id'    => 'account_page_options_start',
 					'title' => __( 'Student Dashboard', 'lifterlms' ),
 					'type'  => 'title',
 				),
-
 				array(
 					'title'             => __( 'Dashboard Page', 'lifterlms' ),
 					'desc'              => '<br>' . __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
@@ -86,7 +95,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					),
 					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_myaccount_page_id', '' ) ),
 				),
-
 				array(
 					'title'   => __( 'Courses Sorting', 'lifterlms' ),
 					'default' => 'order,ASC',
@@ -101,7 +109,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 						'order,DESC' => __( 'Order (High to Low)', 'lifterlms' ),
 					),
 				),
-
 				array(
 					'default' => 'no',
 					'desc'    => sprintf(
@@ -114,25 +121,21 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'title'   => __( 'Open Registration', 'lifterlms' ),
 					'type'    => 'checkbox',
 				),
-
 				array(
 					'id'   => 'course_account_options_end',
 					'type' => 'sectionend',
 				),
-
 				array(
 					'class' => 'top',
 					'id'    => 'course_account_endpoint_options_start',
 					'type'  => 'sectionstart',
 				),
-
 				array(
 					'id'    => 'account_page_endpoint_options_title',
 					'title' => __( 'Student Dashboard Endpoints', 'lifterlms' ),
 					'desc'  => __( 'Each endpoint allows students to view more information or manage parts of their account. Each endpoint should be unique, URL-safe, and can be left blank to disable the endpoint completely.', 'lifterlms' ),
 					'type'  => 'title',
 				),
-
 				array(
 					'title'    => __( 'View Grades', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Student grade and progress reporting', 'lifterlms' ),
@@ -141,7 +144,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-grades',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Courses', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s courses', 'lifterlms' ),
@@ -150,7 +152,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-courses',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Memberships', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s memberships', 'lifterlms' ),
@@ -159,7 +160,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-memberships',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Achievements', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s achievements', 'lifterlms' ),
@@ -168,7 +168,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-achievements',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Certificates', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s certificates', 'lifterlms' ),
@@ -177,7 +176,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-certificates',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Notifications', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'View Notifications and adjust notification settings', 'lifterlms' ),
@@ -186,7 +184,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'notifications',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Edit Account', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Edit Account page', 'lifterlms' ),
@@ -195,7 +192,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'edit-account',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Lost Password', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Lost Password page', 'lifterlms' ),
@@ -204,7 +200,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'lost-password',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Redeem Vouchers', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Redeem vouchers page', 'lifterlms' ),
@@ -213,7 +208,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'redeem-voucher',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Orders History', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Students can review order history on this page', 'lifterlms' ),
@@ -222,12 +216,10 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'orders',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'id'   => 'course_account_endpoint_options_end',
 					'type' => 'sectionend',
 				),
-
 				array(
 					'id'   => 'user_info_field_options',
 					'type' => 'sectionstart',
@@ -237,7 +229,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type'  => 'title',
 					'id'    => 'user_info_field_options_title',
 				),
-
 				array(
 					'title' => __( 'Terms and Conditions', 'lifterlms' ),
 					'type'  => 'subtitle',
@@ -278,7 +269,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type'     => 'textarea',
 					'value'    => llms_get_terms_notice(),
 				),
-
 				array(
 					'title' => __( 'Privacy Policy', 'lifterlms' ),
 					'type'  => 'subtitle',
@@ -308,7 +298,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'title'    => __( 'Privacy Policy Notice', 'lifterlms' ),
 					'type'     => 'textarea',
 				),
-
 				array(
 					'title' => __( 'Account Erasure Requests', 'lifterlms' ),
 					/* Translators: %$1s = opening anchor to account erasure screen; %2$s closing anchor */
@@ -331,14 +320,24 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'title'    => __( 'Remove Student LMS Data', 'lifterlms' ),
 					'type'     => 'checkbox',
 				),
-
 				array(
-					'id'   => 'user_info_field_options',
+					'id'   => 'user_info_field_options_end',
 					'type' => 'sectionend',
 				),
 
 			)
 		);
+	}
+
+	/**
+	 * Retrieve the page label.
+	 *
+	 * @since 3.37.3
+	 *
+	 * @return string
+	 */
+	protected function set_label() {
+		return __( 'Accounts', 'lifterlms' );
 	}
 
 }

@@ -3,8 +3,8 @@
  *
  * @since ??
  * @since 3.32.0 `llmsPostsSelect2` function allows posts fecthing based on post statuses.
- * @since [version] `llmsPostsSelect2` function allows posts (llms posts) fetching filtered by their instructor id.
- * @version [version]
+ * @since 3.37.2 `llmsPostsSelect2` function allows posts (llms posts) fetching filtered by their instructor id.
+ * @version 3.37.2
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -61,7 +61,7 @@
 	 *
 	 * @since 3.19.4
 	 * @since 3.32.0 Added ability to fetch posts based on their post status.
-	 * @since [version] Added ability to fetch posts (llms posts) filtered by their instructor id.
+	 * @since 3.37.2 Added ability to fetch posts (llms posts) filtered by their instructor id.
 	 *
 	 * @param obj options Options passed to Select2.
 	 *                    Each default option will pulled from the elements data-attributes.

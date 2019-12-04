@@ -422,6 +422,13 @@ var LLMS = window.LLMS || {};
 	
 		},
 	
+		/**
+		 * Bind DOM events for the edit account screen.
+		 *
+		 * @since [version]
+		 *
+		 * @return {void}
+		 */
 		bind_edit_account: function() {
 	
 			// Not an edit account form.
@@ -598,6 +605,16 @@ var LLMS = window.LLMS || {};
 	
 		},
 	
+		/**
+		 * Setup a set of fields that can be toggled to edit.
+		 *
+		 * Used on the account edit screen to allow optionally updating user email and passwords.
+		 *
+		 * @since [version]
+		 *
+		 * @param {Object[]} $fields Array of jQuery dom objects.
+		 * @return {void}
+		 */
 		setup_toggle_field: function( $fields ) {
 	
 			var self            = this,
@@ -610,6 +627,13 @@ var LLMS = window.LLMS || {};
 				$after_field    = $fields.length > 2 ? this.get_field_parent( $( $fields[ $fields.length - 1 ] ) ) : $primary_parent,
 				$after_el       = $after_field.hasClass( 'wp-block-column' ) ? $after_field.parent() : $after_field;
 	
+			/**
+			 * Display and enable the fields.
+			 *
+			 * @since [version]
+			 *
+			 * @return {void}
+			 */
 			function show_fields() {
 	
 				$toggle.text( cancel_text );
@@ -622,6 +646,13 @@ var LLMS = window.LLMS || {};
 	
 			}
 	
+			/**
+			 * Hide and disable the fields.
+			 *
+			 * @since [version]
+			 *
+			 * @return {void}
+			 */
 			function hide_fields() {
 	
 				$toggle.text( change_text );
@@ -1536,7 +1567,7 @@ var LLMS = window.LLMS || {};
 		 * @version  3.0.0
 		 */
 		submit: function( e ) {
-	console.log( e );
+	
 			var self = e.data;
 			e.preventDefault();
 			self.$pass.trigger( 'keyup' );
@@ -2274,8 +2305,12 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @since 3.36.0
 	 * @since 3.36.2 Fix JS error when settings aren't loaded.
+	<<<<<<< HEAD
 	 * @since [version] Set `settings` as an empty object when no settings supplied.
 	 *               Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+	=======
+	 * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
+	>>>>>>> 92f463897079740d0bc868551088a31cecb850df
 	 */
 	LLMS.Tracking = function( settings ) {
 	
@@ -2317,6 +2352,7 @@ var LLMS = window.LLMS || {};
 		 *
 		 * @since 3.36.0
 		 * @since 3.36.2 Fix error when settings aren't loaded.
+		 * @since 3.37.2 Always make sure the nonce is set for server-side verification.
 		 *
 		 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 		 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
@@ -2339,6 +2375,8 @@ var LLMS = window.LLMS || {};
 			var all = store.get( 'events', [] );
 			all.push( event );
 			store.set( 'events', all );
+			// Make sure the nonce is set for server-side verification.
+			store.set( 'nonce', settings.nonce );
 	
 		}
 	
