@@ -114,6 +114,40 @@ class LLMS_Test_Form_Templates extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test retrieval of the account form template.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_template_account() {
+
+		update_option( 'lifterlms_registration_generate_username', 'no' );
+
+		$blocks = parse_blocks( $this->obj->get_template( 'account' ) );
+		$flat   = $this->get_flat_block_list( $blocks );
+		$expect = array (
+			'llms/form-field-user-username',
+			'llms/form-field-user-first-name',
+			'llms/form-field-user-last-name',
+			'llms/form-field-user-address',
+			'llms/form-field-user-address-additional',
+			'llms/form-field-user-address-city',
+			'llms/form-field-user-address-country',
+			'llms/form-field-user-address-state',
+			'llms/form-field-user-address-zip',
+			'llms/form-field-user-phone',
+			'llms/form-field-user-email',
+			'llms/form-field-user-password-current',
+			'llms/form-field-user-password',
+			'llms/form-field-user-password-confirm',
+		);
+
+		$this->assertEquals( $expect, $flat );
+
+	}
+
+	/**
 	 * Test checkout template with usernames enabled
 	 *
 	 * @since [version]
