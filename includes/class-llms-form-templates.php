@@ -470,7 +470,7 @@ class LLMS_Form_Templates {
 	 *
 	 * @since [version]
 	 *
-	 * @param string $location Form location. Accepts "checkout",, "registration", or "account".
+	 * @param string $location Form location. Accepts "checkout", "registration", or "account".
 	 * @return string
 	 */
 	public function get_template( $location ) {
@@ -494,16 +494,45 @@ class LLMS_Form_Templates {
 	 */
 	protected function template_default( $location ) {
 
-		return array_merge(
-			$this->get_row_username(),
-			$this->get_row_email( $location ),
-			$this->get_row_password(),
-			$this->get_row_password_meter(),
+		$base      = $this->get_row_username();
+		$defaults  = array_merge(
 			$this->get_row_names( $location ),
 			$this->get_row_address_street( $location ),
 			$this->get_row_address_city( $location ),
 			$this->get_row_address_l10n( $location ),
 			$this->get_row_phone( $location )
+		);
+		$passwords = array_merge(
+			$this->get_row_password(),
+			$this->get_row_password_meter()
+		);
+
+		// Account form.
+		if ( 'account' === $location ) {
+			return array_merge(
+				$base,
+				$defaults,
+				$this->get_row_email( $location ),
+				array(
+					$this->get_block(
+						'user-password-current',
+						array(
+							'field' => 'password',
+							'id'    => 'password_current',
+							'label' => __( 'User Password (current)', 'lifterlms' ),
+						)
+					),
+				),
+				$passwords,
+			);
+		}
+
+		// Checkout & Reg.
+		return array_merge(
+			$base,
+			$this->get_row_email( $location ),
+			$passwords,
+			$defaults
 		);
 
 	}
