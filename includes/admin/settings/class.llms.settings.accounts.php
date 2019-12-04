@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since [version] Removed field display settings.
  *               Reorganized open registration setting.
  *               Renamed "User Information Options" to "User Privacy Options".
+ *               Revert $id to "account".
  */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -27,7 +28,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 *
 	 * @var string
 	 */
-	public $id = 'accounts';
+	public $id = 'account';
 
 	/*
 	 * Should permalinks be flushed on save?
@@ -35,25 +36,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * @var boolean
 	 */
 	protected $flush = true;
-
-	/**
-	 * Allow settings page to determine if a rewrite flush is required
-	 *
-	 * @since 1.0.0
-	 *
-	 * @return void
-	 */
-	public function __construct() {
-
-		$this->id    = 'account';
-		$this->label = __( 'Accounts', 'lifterlms' );
-
-		add_filter( 'lifterlms_settings_tabs_array', array( $this, 'add_settings_page' ), 20 );
-		add_action( 'lifterlms_settings_' . $this->id, array( $this, 'output' ) );
-		add_action( 'lifterlms_settings_save_' . $this->id, array( $this, 'save' ) );
-
-	}
-
 
 	/**
 	 * Get settings array
