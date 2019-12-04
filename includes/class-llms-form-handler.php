@@ -191,7 +191,7 @@ class LLMS_Form_Handler {
 		 *
 		 * These fields are dynamically toggled and disabled if they're not modified.
 		 */
-		foreach ( array( 'email_address', 'password' ) as $field_id ) {
+		foreach ( array( 'email_address', 'password', 'password_current' ) as $field_id ) {
 
 			// If the field exists and it's not included (or empty) in the posted data.
 			$index = LLMS_Forms::instance()->get_field_by( $fields, 'id', $field_id, 'index' );
