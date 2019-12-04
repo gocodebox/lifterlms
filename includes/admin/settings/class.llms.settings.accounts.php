@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.3 Renamed setting field IDs to be unique.
  *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
  *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
+ * @since [version] Revert $id to "account".
  */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -24,7 +25,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 *
 	 * @var string
 	 */
-	public $id = 'accounts';
+	public $id = 'account';
 
 	/**
 	 * Allow settings page to determine if a rewrite flush is required
