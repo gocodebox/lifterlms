@@ -420,15 +420,14 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
  *
  * @since 3.0.0
  * @since 3.7.0 Unknown.
- * @since [version] Deprecated second parameter.
- *               Updated to utilize LLMS_Form_Handler class.
+ * @since [version] Updated to utilize LLMS_Form_Handler class.
  *
  * @param array $data Array of user data.
- * @param string $deprecated Deprecated.
+ * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'account'
  * @return int|WP_Error WP_User ID on success or error object on failure.
  */
-function llms_update_user( $data = array(), $deprecated = '' ) {
-	return LLMS_Form_Handler::instance()->submit( $data, 'account' );
+function llms_update_user( $data = array(), $location = 'account' ) {
+	return LLMS_Form_Handler::instance()->submit( $data, $location );
 }
 
 
