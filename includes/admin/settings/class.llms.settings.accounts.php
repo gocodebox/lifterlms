@@ -30,7 +30,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 */
 	public $id = 'account';
 
-	/*
+	/**
 	 * Should permalinks be flushed on save?
 	 *
 	 * @var boolean

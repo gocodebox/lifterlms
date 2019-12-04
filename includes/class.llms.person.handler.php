@@ -79,6 +79,8 @@ class LLMS_Person_Handler {
 	 *
 	 * An array of data or a user ID can be passed to fill the fields via self::fill_fields()
 	 *
+	 * @todo DEPRECATE
+	 *
 	 * @param    string    $screen  name os the screen [account|checkout|registration]
 	 * @param    array|int $data    array of data to fill fields with or a WP User ID
 	 * @return   array

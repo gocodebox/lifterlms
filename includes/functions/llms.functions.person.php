@@ -422,7 +422,7 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
  * @since 3.7.0 Unknown.
  * @since [version] Updated to utilize LLMS_Form_Handler class.
  *
- * @param array $data Array of user data.
+ * @param array  $data Array of user data.
  * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'account'
  * @return int|WP_Error WP_User ID on success or error object on failure.
  */

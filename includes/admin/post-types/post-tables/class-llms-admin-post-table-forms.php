@@ -108,7 +108,7 @@ class LLMS_Admin_Post_Table_Forms {
 
 		$link = get_permalink( $post );
 		if ( $link ) {
-			$label = sprintf( esc_attr__( 'View "%s"', 'lifterlms' ), $post->post_title );
+			$label           = sprintf( esc_attr__( 'View "%s"', 'lifterlms' ), $post->post_title );
 			$actions['view'] = sprintf( '<a href="%1$s" rel="bookmark" aria-label="%2$s">%3$s</a>', $link, $label, __( 'View', 'lifterlms' ) );
 		}
 

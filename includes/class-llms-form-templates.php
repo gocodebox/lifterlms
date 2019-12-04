@@ -523,7 +523,7 @@ class LLMS_Form_Templates {
 						)
 					),
 				),
-				$passwords,
+				$passwords
 			);
 		}
 

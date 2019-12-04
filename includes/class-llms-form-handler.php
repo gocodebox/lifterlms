@@ -175,8 +175,8 @@ class LLMS_Form_Handler {
 	 *
 	 * @since [version]
 	 *
-	 * @param array &$posted_data User submitted form data (passed by reference).
-	 * @param string $location Form location ID.
+	 * @param array   &$posted_data User submitted form data (passed by reference).
+	 * @param string  $location Form location ID.
 	 * @param array[] &$fields Array of LifterLMS Form Fields (passed by reference).
 	 * @return void
 	 */
@@ -209,9 +209,7 @@ class LLMS_Form_Handler {
 					unset( $posted_data[ $fields[ $con_index ]['name'] ] );
 					$fields[ $con_index ]['required'] = false;
 				}
-
 			}
-
 		}
 
 	}
