@@ -1284,14 +1284,12 @@ var LLMS = window.LLMS || {};
 		 * @return void
 		 */
 		bind: function() {
-			var i = 0;
 	
 			var self = this;
 	
 			// add submission event handlers when not on a checkout form
 			if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
-				console.log( self );
-				this.$form.on( 'submit', self, self.submit );
+				self.$form.on( 'submit', self, self.submit );
 			}
 	
 			// check password strength on keyup
@@ -1393,10 +1391,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Retrieve current strength as a number, a slug, or a translated text string
 		 *
-		 * @param    string   format  derived return format [int|slug|text] defaults to int
-		 * @return   mixed
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since 3.0.0
+		 *
+		 * @param {String} format Derived return format [int|slug|text] defaults to int.
+		 * @return mixed
 		 */
 		get_current_strength: function( format ) {
 	
@@ -1429,9 +1427,9 @@ var LLMS = window.LLMS || {};
 		 * Determines if the current password strength meets the user-defined
 		 * minimum password strength requirements
 		 *
+		 * @since 3.0.0
+		 *
 		 * @return   boolean
-		 * @since    3.0.0
-		 * @version  3.0.0
 		 */
 		get_current_strength_status: function() {
 			var curr = this.get_current_strength(),
@@ -1468,10 +1466,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get the slug associated with a strength value
 		 *
-		 * @param    int   strength_val  strength value number
-		 * @return   string
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since  3.0.0
+		 *
+		 * @param int strength_val Strength value number.
+		 * @return string
 		 */
 		get_strength_slug: function( strength_val ) {
 	
@@ -1491,10 +1489,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Gets the translated text associated with a strength value
 		 *
-		 * @param    int  strength_val  strength value
-		 * @return   string
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since  3.0.0
+		 *
+		 * @param {Integer} strength_val Strength value
+		 * @return {String}
 		 */
 		get_strength_text: function( strength_val ) {
 	
@@ -1514,10 +1512,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get the value associated with a strength slug
 		 *
-		 * @param    string   strength_slug  a strength slug
-		 * @return   int
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since 3.0.0
+		 *
+		 * @param string strength_slug A strength slug.
+		 * @return {Integer}
 		 */
 		get_strength_value: function( strength_slug ) {
 	
@@ -1561,10 +1559,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Form submission handler for registration and update forms
 		 *
-		 * @param    obj    e         event data
-		 * @return   void
-		 * @since    3.0.0
-		 * @version  3.0.0
+		 * @since 3.0.0
+		 *
+		 * @param obj e Event data.
+		 * @return void
 		 */
 		submit: function( e ) {
 	
@@ -2096,10 +2094,11 @@ var LLMS = window.LLMS || {};
 	 *
 	 * @package LifterLMS/Scripts
 	 *
-	 * @since    3.7.0
-	 * @version  3.10.0
+	 * @since 3.7.0
+	 * @since 3.10.0 Bind events on the orders screen.
+	 * @since [version] Removed redundant password toggle logic for edit account screen.
+	 * @version [version]
 	 */
-	
 	LLMS.StudentDashboard = {
 	
 		/**
@@ -2110,34 +2109,21 @@ var LLMS = window.LLMS || {};
 		screen: '',
 	
 		/**
-		 * Will show the number of meters on the page
-		 * Used to conditionally bind meter-related events only when meters
-		 * actually exist
-		 *
-		 * @type  int
-		 */
-		meter_exists: 0,
-	
-		/**
 		 * Init
 		 *
-		 * @return   void
-		 * @since    3.7.0
-		 * @version  3.10.0
+		 * @since 3.7.0
+		 * @since 3.10.0 Unknown
+		 * @since [version] Removed password toggle logic.
+		 *
+		 * @return void
 		 */
 		init: function() {
 	
 			if ( $( '.llms-student-dashboard' ).length ) {
-	
-				this.meter_exists = $( '.llms-password-strength-meter' ).length;
 				this.bind();
-	
 				if ( 'orders' === this.get_screen() ) {
-	
 					this.bind_orders();
-	
 				}
-	
 			}
 	
 		},
@@ -2145,54 +2131,13 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind DOM events
 		 *
+		 * @since 3.7.0
+		 * @since 3.7.4 Unknown.
+		 * @since [version] Removed password toggle logic.
+		 *
 		 * @return   void
-		 * @since    3.7.0
-		 * @version  3.7.4
 		 */
 		bind: function() {
-	
-			var self    = this,
-				$toggle = $( '.llms-student-dashboard a[href="#llms-password-change-toggle"]' );
-	
-			// click event for the change password link
-			$toggle.on( 'click', function( e ) {
-	
-				e.preventDefault();
-	
-				var $this       = $( this ),
-					curr_text   = $this.text(),
-					curr_action = $this.attr( 'data-action' ),
-					new_action  = 'hide' === curr_action ? 'show' : 'hide',
-					new_text    = $this.attr( 'data-text' );
-	
-				self.password_toggle( curr_action );
-	
-				// prevent accidental cancels when users tab out of the confirm password field
-				// and expect to hit submit with enter key immediately after
-				if ( 'show' === curr_action ) {
-					$this.attr( 'tabindex', '-777' );
-				} else {
-					$this.removeAttr( 'tabindex' );
-				}
-	
-				$this.attr( 'data-action', new_action ).attr( 'data-text', curr_text ).text( new_text );
-	
-			} );
-	
-			// this will remove the required by default without having to mess with
-			// conditionals in PHP and still allows the required * to show in the label
-	
-			if ( this.meter_exists ) {
-	
-				$( '.llms-person-form.edit-account' ).on( 'llms-password-strength-ready', function() {
-					self.password_toggle( 'hide' );
-				} );
-	
-			} else {
-	
-				self.password_toggle( 'hide' );
-	
-			}
 	
 			$( '.llms-donut' ).each( function() {
 				LLMS.Donut( $( this ) );
@@ -2203,9 +2148,9 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Bind events related to the orders screen on the dashboard
 		 *
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.10.0
+		 * @since 3.10.0
+		 *
+		 * @return void
 		 */
 		bind_orders: function() {
 	
@@ -2220,9 +2165,9 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Get the current dashboard endpoint/tab slug
 		 *
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.10.0
+		 * @since 3.10.0
+		 *
+		 * @return void
 		 */
 		get_screen: function() {
 			if ( ! this.screen ) {
@@ -2234,10 +2179,10 @@ var LLMS = window.LLMS || {};
 		/**
 		 * Show a confirmation warning when Cancel Subscription form is submitted
 		 *
-		 * @param    obj   e  JS event data
-		 * @return   void
-		 * @since    3.10.0
-		 * @version  3.10.0
+		 * @since 3.10.0
+		 *
+		 * @param obj e JS event data.
+		 * @return void
 		 */
 		order_cancel_warning: function( e ) {
 			e.preventDefault();
@@ -2246,54 +2191,6 @@ var LLMS = window.LLMS || {};
 				$( this ).off( 'submit', this.order_cancel_warning );
 				$( this ).submit();
 			}
-		},
-	
-		/**
-		 * Toggle password related fields on the account edit page
-		 *
-		 * @param    string   action  [show|hide]
-		 * @return   void
-		 * @since    3.7.0
-		 * @version  3.7.4
-		 */
-		password_toggle: function( action ) {
-	
-			if ( ! action ) {
-				action = 'show';
-			}
-	
-			var self  = this,
-				$pwds = $( '#password, #password_confirm, #current_password' ),
-				$form = $( '#password' ).closest( 'form' );
-	
-			// hide or show the fields
-			$( '.llms-change-password' )[ action ]();
-	
-			if ( 'show' === action ) {
-				// make passwords required
-				$pwds.attr( 'required', 'required' );
-	
-				if ( self.meter_exists ) {
-					// add the strength check on form submission
-					$form.on( 'submit', LLMS.PasswordStrength, LLMS.PasswordStrength.submit );
-				}
-	
-			} else {
-				// remove requirement so form can be submitted while fields are hidden
-				// and clear the password out of the fields if typing started
-				$pwds.removeAttr( 'required' ).val( '' );
-	
-				if ( self.meter_exists ) {
-	
-					// remove the password strength submission check
-					$form.off( 'submit', LLMS.PasswordStrength.submit );
-					// clears the meter
-					LLMS.PasswordStrength.check_strength();
-	
-				}
-	
-			}
-	
 		},
 	
 	};
