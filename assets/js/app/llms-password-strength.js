@@ -77,14 +77,12 @@ $.extend( LLMS.PasswordStrength, {
 	 * @return void
 	 */
 	bind: function() {
-		var i = 0;
 
 		var self = this;
 
 		// add submission event handlers when not on a checkout form
 		if ( ! this.$form.hasClass( 'llms-checkout' ) ) {
-			console.log( self );
-			this.$form.on( 'submit', self, self.submit );
+			self.$form.on( 'submit', self, self.submit );
 		}
 
 		// check password strength on keyup
@@ -186,10 +184,10 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Retrieve current strength as a number, a slug, or a translated text string
 	 *
-	 * @param    string   format  derived return format [int|slug|text] defaults to int
-	 * @return   mixed
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param {String} format Derived return format [int|slug|text] defaults to int.
+	 * @return mixed
 	 */
 	get_current_strength: function( format ) {
 
@@ -222,9 +220,9 @@ $.extend( LLMS.PasswordStrength, {
 	 * Determines if the current password strength meets the user-defined
 	 * minimum password strength requirements
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
 	 */
 	get_current_strength_status: function() {
 		var curr = this.get_current_strength(),
@@ -261,10 +259,10 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Get the slug associated with a strength value
 	 *
-	 * @param    int   strength_val  strength value number
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since  3.0.0
+	 *
+	 * @param int strength_val Strength value number.
+	 * @return string
 	 */
 	get_strength_slug: function( strength_val ) {
 
@@ -284,10 +282,10 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Gets the translated text associated with a strength value
 	 *
-	 * @param    int  strength_val  strength value
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since  3.0.0
+	 *
+	 * @param {Integer} strength_val Strength value
+	 * @return {String}
 	 */
 	get_strength_text: function( strength_val ) {
 
@@ -307,10 +305,10 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Get the value associated with a strength slug
 	 *
-	 * @param    string   strength_slug  a strength slug
-	 * @return   int
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string strength_slug A strength slug.
+	 * @return {Integer}
 	 */
 	get_strength_value: function( strength_slug ) {
 
@@ -354,10 +352,10 @@ $.extend( LLMS.PasswordStrength, {
 	/**
 	 * Form submission handler for registration and update forms
 	 *
-	 * @param    obj    e         event data
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param obj e Event data.
+	 * @return void
 	 */
 	submit: function( e ) {
 
