@@ -1560,6 +1560,7 @@ var LLMS = window.LLMS || {};
 		 * Form submission handler for registration and update forms
 		 *
 		 * @since 3.0.0
+		 * @since [version] Allow the account edit for to bypass strength checking when the password field is disabled (not being submitted).
 		 *
 		 * @param obj e Event data.
 		 * @return void
@@ -1570,7 +1571,8 @@ var LLMS = window.LLMS || {};
 			e.preventDefault();
 			self.$pass.trigger( 'keyup' );
 	
-			if ( self.get_current_strength_status() ) {
+			// Meets the status requirements OR we're on the account edit form and the password field is disabled.
+			if ( self.get_current_strength_status() || ( self.$form.hasClass( 'edit-account' ) && 'disabled' === self.$pass.attr( 'disabled' ) ) ) {
 				self.$form.off( 'submit', self.submit );
 				self.$form.trigger( 'submit' );
 			} else {
