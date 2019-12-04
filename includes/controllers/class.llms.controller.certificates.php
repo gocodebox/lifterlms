@@ -99,7 +99,7 @@ class LLMS_Controller_Certificates {
 	 * @since 3.18.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function maybe_handle_reporting_actions() {
 
@@ -117,12 +117,12 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Delete a cert
+	 * Delete a certificate
 	 *
-	 * @param    int $cert_id  WP Post ID of the llms_my_certificate
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param int $cert_id WP Post ID of the llms_my_certificate
+	 * @return void
 	 */
 	private function delete( $cert_id ) {
 
@@ -136,12 +136,14 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Generates an HTML export of the certificate from the "Download" button
-	 * on the View Certificate front end & on reporting backend for admins
+	 * Download a Certificate.
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * Generates an HTML export of the certificate from the "Download" button
+	 * on the View Certificate front end & on reporting backend for admins.
+	 *
+	 * @since 3.18.0
+	 *
+	 * @return void
 	 */
 	private function download( $cert_id ) {
 
