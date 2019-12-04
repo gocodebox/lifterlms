@@ -44,16 +44,15 @@ class LLMS_Controller_Certificates {
 	 */
 	public function maybe_allow_public_query( $post_type_args ) {
 
-		if ( ! empty( $_REQUEST['_llms_cert_auth'] ) ) {
+		if ( ! empty( $_REQUEST['_llms_cert_auth'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Recommended
 
 			$auth = llms_filter_input( INPUT_GET, '_llms_cert_auth', FILTER_SANITIZE_STRING );
 
 			global $wpdb;
-			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) );
+			$post_id = $wpdb->get_var( $wpdb->prepare( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key = '_llms_auth_nonce' AND meta_value = %s", $auth ) ); // db call ok; no-cache ok
 			if ( $post_id && 'llms_certificate' === get_post_type( $post_id ) ) {
 				$post_type_args['publicly_queryable'] = true;
 			}
-
 		}
 
 		return $post_type_args;
