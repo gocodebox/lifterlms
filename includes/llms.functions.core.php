@@ -118,48 +118,51 @@ if ( ! function_exists( 'llms_content' ) ) {
 }
 
 /**
- * Provide deprecation warnings
+ * Mark a function as deprecated and inform when it is used.
  *
- * Very similar to https://developer.wordpress.org/reference/functions/_deprecated_function/
+ * If WP_DEBUG is disabled, no warnings will be displayed or logged.
+ * If WP_DEBUG_DISPLAY is enabled, warnings will show on screen.
+ * If WP_DEBUG_LOG is enabled, warnings will be logged to the `deprecated` log file.
  *
- * @param   string $function    name of the deprecated class or function
- * @param   string $version     version deprecation occurred
- * @param   string $replacement function to use in it's place (optional)
+ * @since 2.6.0
+ * @since 3.6.0 Unknown.
+ * @since [version] Added filter `llms_deprecated_function_trigger_error`.
+ *               Removed fallback to pre WP 2.6 functionality.
+ *               Logs are now logged to the "deprecated" log file.
+ *               On screen notices are now wrapped in an LifterLMS notice element.
+ *
+ * @param   string $function    Name of the deprecated class or function.
+ * @param   string $version     Version number when deprecation occurred.
+ * @param   string $replacement Function to use in it's place (optional).
  * @return  void
- * @since   2.6.0
- * @version 3.6.0
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
-	// only warn if debug is enabled
-	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+    /**
+     * Filters whether to warn about deprecated functions.
+     *
+     * @since [version]
+     *
+     * @param bool $show Whether to show the warning for deprecated functions. Default: `true`.
+     */
+	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG || ! apply_filters( 'llms_deprecated_function_trigger_error', true ) ) {
 		return;
 	}
 
-	if ( function_exists( '__' ) ) {
-
-		if ( ! is_null( $replacement ) ) {
-			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
-		} else {
-			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
-		}
+	if ( ! is_null( $replacement ) ) {
+		$string = sprintf( __( '<code>%1$s</code> is <strong>deprecated</strong> since version <strong>%2$s</strong>! Use <code>%3$s</code> instead.', 'lifterlms' ), $function, $version, $replacement );
 	} else {
-
-		if ( ! is_null( $replacement ) ) {
-			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
-		} else {
-			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
-		}
+		$string = sprintf( __( '<code>%1$s</code> is <strong>deprecated</strong> since version <strong>%2$s</strong>! There is no alternative available.', 'lifterlms' ), $function, $version );
 	}
 
-	// warn on screen
+	// Warn on screen.
 	if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
-		echo '<br>' . $string . '<br>';
+		llms_print_notice( $string, 'debug' );
 	}
 
-	// log to the error logger
+	// Log to the error logger.
 	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-		llms_log( $string );
+		llms_log( $string, 'deprecated ' );
 	}
 
 }
