@@ -11,6 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
  * @since [version] Modify `llms_certificate` post type registration to allow certificate templates to be exported.
+ *                When exporting a certificate template, use the `post_author` for the certificate's WP User ID.
  */
 class LLMS_Controller_Certificates {
 
@@ -60,12 +61,15 @@ class LLMS_Controller_Certificates {
 	}
 
 	/**
-	 * Utilizes a nonce to display a certificate
+	 * Allow cURL requests to view a certificate to be authenticated via a nonce.
+	 *
 	 * cURL request is used to scrape the HTML and this will authenticate the scrape
 	 *
-	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.24.0
+	 * @since 3.18.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Use the `post_author` as the WP_User ID when exporting a certificate template.
+	 *
+	 * @return void
 	 */
 	public function maybe_authenticate_export_generation() {
 
@@ -73,8 +77,9 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		$post_id = get_the_ID();
-		if ( ! in_array( get_post_type( $post_id ), array( 'llms_my_certificate', 'llms_certificate' ) ) ) {
+		$post_id   = get_the_ID();
+		$post_type = get_post_type( $post_id );
+		if ( ! in_array( $post_type, array( 'llms_my_certificate', 'llms_certificate' ), true ) ) {
 			return;
 		}
 
@@ -83,7 +88,8 @@ class LLMS_Controller_Certificates {
 		}
 
 		$cert = new LLMS_User_Certificate( $post_id );
-		wp_set_current_user( $cert->get_user_id() );
+		$uid  = ( 'llms_certificate' === $post_type ) ? get_post_field( 'post_author', $post_id ) : $cert->get_user_id();
+		wp_set_current_user( $uid );
 
 	}
 
