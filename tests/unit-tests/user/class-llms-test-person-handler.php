@@ -1,10 +1,13 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
- * @group    LLMS_Student
- * @group    LLMS_Person_Handler
- * @since    3.19.4
- * @version  3.29.4
+ *
+ * @group LLMS_Student
+ * @group LLMS_Person_Handler
+ *
+ * @since 3.19.4
+ * @since 3.29.4 Unknown.
+ * @since [version] Update to work with changes from LLMS_Forms.
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -203,19 +206,28 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 
 	/**
-	 * @todo    this is an incomplete test
-	 * @return  [type]
-	 * @since   3.26.1
-	 * @version 3.26.1
+	 * Test the deprecated update() method.
+	 *
+	 * This test remains to ensure backwards compatibility.
+	 *
+	 * @since 3.26.1
+	 * @since [version] Create forms before running & update error codes to match updated codes.
+	 *
+	 * @return void
 	 */
 	public function test_update() {
+
+		add_filter( 'llms_deprecated_function_trigger_error', '__return_false' );
+
+		LLMS_Install::create_pages();
+		LLMS_Forms::instance()->install();
 
 		$data = array();
 
 		// No user Id supplied.
 		$update = LLMS_Person_Handler::update( $data, 'account' );
 		$this->assertTrue( is_wp_error( $update ) );
-		$this->assertEquals( 'user_id', $update->get_error_code() );
+		$this->assertEquals( 'llms-form-no-user', $update->get_error_code() );
 
 		$uid = $this->factory->user->create( array( 'role' => 'student' ) );
 		$user = new WP_User( $uid );
@@ -224,14 +236,16 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		wp_set_current_user( $uid );
 		$update = LLMS_Person_Handler::update( $data, 'account' );
 		$this->assertTrue( is_wp_error( $update ) );
-		$this->assertFalse( in_array( 'user_id', $update->get_error_codes(), true ) );
+		$this->assertFalse( in_array( 'llms-form-no-user', $update->get_error_codes(), true ) );
 		wp_set_current_user( null );
 
 		// Used ID explicitly passed.
 		$data['user_id'] = $uid;
 		$update = LLMS_Person_Handler::update( $data, 'account' );
 		$this->assertTrue( is_wp_error( $update ) );
-		$this->assertFalse( in_array( 'user_id', $update->get_error_codes(), true ) );
+		$this->assertTrue( in_array( 'llms-form-no-user', $update->get_error_codes(), true ) );
+
+		remove_filter( 'llms_deprecated_function_trigger_error', '__return_false' );
 
 	}
 
