@@ -386,6 +386,7 @@ class LLMS_Form_Handler {
 
 		$action = get_current_user_id() ? 'update' : 'registration';
 
+		// Form couldn't be located.
 		if ( false === $fields ) {
 			return $this->submit_error(
 				// Translators: %s = form location ID.
@@ -393,6 +394,17 @@ class LLMS_Form_Handler {
 				$posted_data,
 				$action
 			);
+
+			// No logged in user, can't update.
+		} elseif ( 'account' === $location && 'update' !== $action ) {
+
+			return $this->submit_error(
+				// Translators: %s = form location ID.
+				new WP_Error( 'llms-form-no-user', __( 'You must be logged in to perform this action.', 'lifterlms' ), $args ),
+				$posted_data,
+				$action
+			);
+
 		}
 
 		/**
