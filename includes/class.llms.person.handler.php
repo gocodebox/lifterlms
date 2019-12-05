@@ -269,25 +269,33 @@ class LLMS_Person_Handler {
 	/**
 	 * Get the fields for the login form
 	 *
-	 * @param    string $layout  form layout [columns|stacked]
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.4
+	 * @since 3.0.0
+	 * @since 3.0.4 Unknown.
+	 * @since [version] Remove usage of the deprecated `lifterlms_registration_generate_username`.
+	 *
+	 * @param string $layout Form layout. Accepts "columns" (default) or "stacked".
+	 * @return array[] An array of form field arrays.
 	 */
 	public static function get_login_fields( $layout = 'columns' ) {
 
-		$gen_usernames = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) );
+		$usernames = LLMS_Forms::instance()->are_usernames_enabled();
 
+		/**
+		 * Customize the fields used to build the user login form
+		 *
+		 * @since 3.0.0
+		 * @param array[] $fields An array of form field arrays.
+		 */
 		return apply_filters(
 			'lifterlms_person_login_fields',
 			array(
 				array(
 					'columns'     => ( 'columns' == $layout ) ? 6 : 12,
 					'id'          => 'llms_login',
-					'label'       => $gen_usernames ? __( 'Email Address', 'lifterlms' ) : __( 'Username or Email Address', 'lifterlms' ),
+					'label'       => ! $usernames ? __( 'Email Address', 'lifterlms' ) : __( 'Username or Email Address', 'lifterlms' ),
 					'last_column' => ( 'columns' == $layout ) ? false : true,
 					'required'    => true,
-					'type'        => $gen_usernames ? 'email' : 'text',
+					'type'        => ! $usernames ? 'email' : 'text',
 				),
 				array(
 					'columns'     => ( 'columns' == $layout ) ? 6 : 12,
