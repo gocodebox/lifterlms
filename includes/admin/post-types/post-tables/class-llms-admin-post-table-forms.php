@@ -131,7 +131,7 @@ class LLMS_Admin_Post_Table_Forms {
 		}
 
 		$screen = get_current_screen();
-		if ( 'edit-llms_form' !== $screen->id || ! $query->is_main_query() ) {
+		if ( ! $screen || 'edit-llms_form' !== $screen->id || ! $query->is_main_query() ) {
 			return;
 		}
 
