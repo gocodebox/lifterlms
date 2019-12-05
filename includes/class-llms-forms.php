@@ -79,6 +79,59 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Determine if usernames are enabled on the site.
+	 *
+	 * This method is used to determine if a username can be used to login / reset a user's password.
+	 *
+	 * It works by searching `llms_form` posts for the presence of a username form field. If at least one
+	 * form with a username field exists then usernames are considered to be enabled and can therefore
+	 * be used to login and reset a password. If no username fields are found then only the email address
+	 * can be used to login or reset passwords.
+	 *
+	 * The filter in this method `llms_are_usernames_enabled` can be used to bypass the database query
+	 * and explicitly enable or disable usernames.
+	 *
+	 * @since [version]
+	 *
+	 * @see {Reference}
+	 * @link {URL}
+	 *
+	 * @return [type]
+	 */
+	public function are_usernames_enabled() {
+
+		/**
+		 * Use this to explicitly enable of disable username fields.
+		 *
+		 * Note that usage of this filter will not actually disable the llms/form-field-username block.
+		 * It's possible to create a confusing user experience by explicitly disabling usernames and
+		 * leaving username field blocks on one or more forms. If you decide to explicitly disable via
+		 * this filter you should also remove all the username blocks from all of your forms.
+		 *
+		 * @since [version]
+		 *
+		 * @param null $enabled Whether or not usernames are explicitly disabled. If a non-null value
+		 *                      is returned will shortcircuit this method, skipping the database query.
+		 *                      A truthy indicates usernames are enabled while a falsy indicates disabled.
+		 */
+		$enabled = apply_filters( 'llms_are_usernames_enabled', null );
+		if ( ! is_null( $enabled ) ) {
+			return llms_parse_bool( $enabled );
+		}
+
+		$cache_key = 'llms_are_usernames_enabled_results';
+		$res       = wp_cache_get( $cache_key );
+		if ( false === $res ) {
+			global $wpdb;
+			$res = $wpdb->get_results( "SELECT ID FROM {$wpdb->posts} WHERE post_type = 'llms_form' AND post_content LIKE '%<!-- wp:llms/form-field-user-username %' LIMIT 1" ); // db call ok
+			wp_cache_set( $cache_key, $res );
+		}
+
+		return llms_parse_bool( count( $res ) );
+
+	}
+
+	/**
 	 * Converts a block to settings understandable by `llms_form_field()`
 	 *
 	 * @since [version]

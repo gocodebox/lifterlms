@@ -106,6 +106,71 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test are_usernames_enabled() when at least one form with a username block exists.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_are_usernames_enabled_one_form_with_usernames() {
+
+		update_option( 'lifterlms_registration_generate_username', 'no' );
+		$this->forms->create( 'registration', true );
+
+		$this->assertTrue( $this->forms->are_usernames_enabled() );
+
+		// Explicitly disabled by the filter.
+		add_filter( 'llms_are_usernames_enabled', '__return_false' );
+		$this->assertFalse( $this->forms->are_usernames_enabled() );
+		remove_filter( 'llms_are_usernames_enabled', '__return_false' );
+
+
+	}
+
+	/**
+	 * Test are_usernames_enabled() when no forms with usernames exist.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_are_usernames_enabled_no_forms_with_usernames() {
+
+		update_option( 'lifterlms_registration_generate_username', 'yes' );
+		$this->forms->create( 'registration', true );
+		$this->forms->create( 'checkout', true );
+
+		$this->assertFalse( $this->forms->are_usernames_enabled() );
+
+		// Explicitly enabled by the filter.
+		add_filter( 'llms_are_usernames_enabled', '__return_true' );
+		$this->assertTrue( $this->forms->are_usernames_enabled() );
+		remove_filter( 'llms_are_usernames_enabled', '__return_true' );
+
+	}
+
+	/**
+	 * Test are_usernames_enabled() when there's a mixture of forms with and without usernames.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_are_usernames_enabled_some_forms_with_usernames() {
+
+		// Has username.
+		update_option( 'lifterlms_registration_generate_username', 'no' );
+		$this->forms->create( 'checkout', true );
+
+		// Doesn't have username.
+		update_option( 'lifterlms_registration_generate_username', 'yes' );
+		$this->forms->create( 'registration', true );
+
+		$this->assertTrue( $this->forms->are_usernames_enabled() );
+
+	}
+
+	/**
 	 * Test block_to_field_settings(): ensure keys are renamed properly.
 	 *
 	 * @since [version]
