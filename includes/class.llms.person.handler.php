@@ -943,9 +943,9 @@ class LLMS_Person_Handler {
 		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
 		| $$$$$$$/|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
 		|_______/  \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-		                    | $$
-		                    | $$
-		                    |__/
+							| $$
+							| $$
+							|__/
 	*/
 
 	/**
@@ -955,9 +955,9 @@ class LLMS_Person_Handler {
 	 * @since 3.19.4 Unknown.
 	 * @deprecated [version]
 	 *
-	 * @param array $data Associative array of form data.
+	 * @param array  $data Associative array of form data.
 	 * @param string $screen Screen to perform validations for, accepts "registration" or "checkout".
-	 * @param bool  $signon If true, also signon the newly created user.
+	 * @param bool   $signon If true, also signon the newly created user.
 	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
 	 */
 	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
@@ -972,7 +972,7 @@ class LLMS_Person_Handler {
 	 * @since 3.7.0 Unknown.
 	 * @deprecated [version]
 	 *
-	 * @param array $data Associative array of form data.
+	 * @param array  $data Associative array of form data.
 	 * @param string $screen Screen to perform validations for, accepts "account" or "checkout".
 	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
 	 */

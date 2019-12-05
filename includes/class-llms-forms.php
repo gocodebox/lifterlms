@@ -126,7 +126,7 @@ class LLMS_Forms {
 	 *
 	 * @since [version]
 	 *
-	 * @param array[] $blocks Array of parsed block arrays.
+	 * @param array[]     $blocks Array of parsed block arrays.
 	 * @param string|null $visibility The llms_visibility attribute of the parent block which is applied to all innerBlocks
 	 *                                if the innerBlock does not already have it's own visibility attribute.
 	 * @return array[]

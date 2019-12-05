@@ -138,13 +138,13 @@ if ( ! function_exists( 'llms_content' ) ) {
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
-    /**
-     * Filters whether to warn about deprecated functions.
-     *
-     * @since [version]
-     *
-     * @param bool $show Whether to show the warning for deprecated functions. Default: `true`.
-     */
+	/**
+	 * Filters whether to warn about deprecated functions.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $show Whether to show the warning for deprecated functions. Default: `true`.
+	 */
 	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG || ! apply_filters( 'llms_deprecated_function_trigger_error', true ) ) {
 		return;
 	}
