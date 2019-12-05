@@ -79,14 +79,16 @@ class LLMS_Forms {
 	}
 
 	/**
-	 * Converts stored block attribute to settings understandable by `llms_form_field()`
+	 * Converts a block to settings understandable by `llms_form_field()`
 	 *
 	 * @since [version]
 	 *
-	 * @param array $attrs Block Attributes.
+	 * @param array $block Block Attributes.
 	 * @return array
 	 */
-	protected function block_atts_to_field_settings( $attrs ) {
+	protected function block_to_field_settings( $block ) {
+
+		$attrs = $block['attrs'];
 
 		if ( isset( $attrs['field'] ) ) {
 			// Rename "field" to "type".
@@ -100,9 +102,58 @@ class LLMS_Forms {
 			unset( $attrs['className'] );
 		}
 
+		// If the field is required and hidden it's impossible for the user to fill it out so it gets marked as optional at runtime.
+		if ( ! empty( $attrs['required'] ) && ! $this->is_block_visible( $block ) ) {
+			$attrs['required'] = false;
+		}
+
 		return $attrs;
 
 	}
+
+	/**
+	 * Cascade all llms_visibility attributes down into inner blocks.
+	 *
+	 * If a parent block has a visibility setting this will apply that visibility to a chlid block *if*
+	 * the child block does not have a visibility setting of its own.
+	 *
+	 * Ultimately this ensures that a field block that's not visible can be marked as "optional" so that
+	 * form validation can take place.
+	 *
+	 * For example, if a columns block is displayed only to logged out users and it's child fields are marked
+	 * as required that means that it's required only to logged out users and the field becomes "optional"
+	 * (for validation purposes) to logged in users.
+	 *
+	 * @since [version]
+	 *
+	 * @param array[] $blocks Array of parsed block arrays.
+	 * @param string|null $visibility The llms_visibility attribute of the parent block which is applied to all innerBlocks
+	 *                                if the innerBlock does not already have it's own visibility attribute.
+	 * @return array[]
+	 */
+	protected function cascade_visibility_attrs( $blocks, $visibility = null ) {
+
+		foreach ( $blocks as &$block ) {
+
+			// If a visibility setting has been passed from the parent and the block does not have visibility setting of it's own.
+			if ( $visibility && empty( $block['attrs']['llms_visibility'] ) ) {
+				$block['attrs']['llms_visibility'] = $visibility;
+			}
+
+			// If visibility is empty or there's no innerBlocks we don't have to do anything further to this block.
+			if ( empty( $block['attrs']['llms_visibility'] ) || empty( $block['innerBlocks'] ) ) {
+				continue;
+			}
+
+			// This block has a visibility attribute and it should be applied it to all the innerBlocks.
+			$block['innerBlocks'] = $this->cascade_visibility_attrs( $block['innerBlocks'], $block['attrs']['llms_visibility'] );
+
+		}
+
+		return $blocks;
+
+	}
+
 
 	/**
 	 * Create a form for a given location with the provided data.
@@ -224,12 +275,14 @@ class LLMS_Forms {
 		$content  = $post->post_content;
 		$content .= $this->get_additional_fields_html( $location, $args );
 
-		return parse_blocks( $content );
+		return $this->parse_blocks( $content );
 
 	}
 
 	/**
 	 * Retrieve an array of LLMS_Form_Fields settings arrays for the form at a given location.
+	 *
+	 * This method is used by the LLMS_Form_Handler to perform validations on user-submitted data.
 	 *
 	 * @since [version]
 	 *
@@ -246,7 +299,7 @@ class LLMS_Forms {
 
 		$fields = array();
 		foreach ( $this->get_field_blocks( $blocks ) as $block ) {
-			$settings = $this->block_atts_to_field_settings( $block['attrs'] );
+			$settings = $this->block_to_field_settings( $block );
 			$field    = new LLMS_Form_Field( $settings );
 			$fields[] = $field->get_settings();
 		}
@@ -543,6 +596,41 @@ class LLMS_Forms {
 	}
 
 	/**
+	 * Determine if a block is visible based on LifterLMS Visibility Settings.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $block Parsed block array.
+	 * @return bool
+	 */
+	protected function is_block_visible( $block ) {
+
+		// Make the block return `true` if it's visible, it will already automatically return an empty string if it's invisible.
+		add_filter( 'render_block', '__return_true', 5 );
+
+		// Don't run this classes render function on the block during this test.
+		remove_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
+
+		// Render the block.
+		$render = render_block( $block );
+
+		// Cleanup / reapply filters.
+		add_filter( 'render_block', array( $this, 'render_field_block' ), 10, 2 );
+		remove_filter( 'render_block', '__return_true', 5 );
+
+		/**
+		 * Filter whether or not the block is visible.
+		 *
+		 * @since [version]
+		 *
+		 * @param bool $visible Whether or not the block is visible.
+		 * @param array $block Parsed block array.
+		 */
+		return apply_filters( 'llms_forms_is_block_visible', llms_parse_bool( $render ), $block );
+
+	}
+
+	/**
 	 * Installation function to install core forms.
 	 *
 	 * @since [version]
@@ -594,6 +682,24 @@ class LLMS_Forms {
 		}
 
 		return $this->get_permalink( $post );
+
+	}
+
+	/**
+	 * Internal function to parse form content into a list of WP Block arrays.
+	 *
+	 * Parses HTML content and then cascade visibility settings to innerBlocks.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $content Post content HTML.
+	 * @return array[] Array of parsed block arrays.
+	 */
+	protected function parse_blocks( $content ) {
+
+		$blocks = parse_blocks( $content );
+		$blocks = $this->cascade_visibility_attrs( $blocks );
+		return $blocks;
 
 	}
 
@@ -715,7 +821,7 @@ class LLMS_Forms {
 			return $html;
 		}
 
-		$attrs = $this->block_atts_to_field_settings( $block['attrs'] );
+		$attrs = $this->block_to_field_settings( $block );
 
 		return llms_form_field( $attrs, false );
 

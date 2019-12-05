@@ -106,6 +106,167 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test block_to_field_settings(): ensure keys are renamed properly.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_to_field_settings() {
+
+		$attrs = array(
+			'id'        => 'field_id',
+			'className' => 'mock fake class-name',
+			'field'     => 'text',
+			'extra'     => 'remains',
+		);
+		$html   = sprintf( '<!-- wp:llms/form-field-text %s /-->', wp_json_encode( $attrs ) );
+		$blocks = parse_blocks( $html );
+
+		$parsed = LLMS_Unit_Test_Util::call_method( $this->forms, 'block_to_field_settings', array( $blocks[0] ) );
+		$expect = array(
+			'id'      => 'field_id',
+			'classes' => 'mock fake class-name',
+			'type'    => 'text',
+			'extra'   => 'remains',
+		);
+		$this->assertEquals( $expect, $parsed );
+
+	}
+
+	/**
+	 * Test block_to_field_settings(): no keys to rename so attributes don't change.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_to_field_settings_no_updates() {
+
+		$attrs  = array(
+			'id'    => 'field_id',
+			'extra' => 'remains',
+		);
+		$html   = sprintf( '<!-- wp:llms/form-field-text %s /-->', wp_json_encode( $attrs ) );
+		$blocks = parse_blocks( $html );
+
+		$parsed = LLMS_Unit_Test_Util::call_method( $this->forms, 'block_to_field_settings', array( $blocks[0] ) );
+		$this->assertEquals( $attrs, $parsed );
+
+	}
+
+	/**
+	 * Test block_to_field_settings(): has visibility but the field isn't required so we don't do anything.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_to_field_settings_with_visiblity_no_required() {
+
+		$attrs = array(
+			'id'              => 'field_id',
+			'llms_visibility' => 'logged_in',
+			'extra'           => 'remains',
+		);
+		$html   = sprintf( '<!-- wp:llms/form-field-text %s /-->', wp_json_encode( $attrs ) );
+		$blocks = parse_blocks( $html );
+
+		$parsed = LLMS_Unit_Test_Util::call_method( $this->forms, 'block_to_field_settings', array( $blocks[0] ) );
+		$this->assertEquals( $attrs, $parsed );
+
+	}
+
+	/**
+	 * Test block_to_field_settings(): has visibility and field is required so the required should be switched to optional.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_block_to_field_settings_with_visiblity_is_required() {
+
+		$attrs = array(
+			'id'              => 'field_id',
+			'llms_visibility' => 'logged_in',
+			'extra'           => 'remains',
+			'required'        => true,
+		);
+		$html   = sprintf( '<!-- wp:llms/form-field-text %s /-->', wp_json_encode( $attrs ) );
+		$blocks = parse_blocks( $html );
+
+		$parsed = LLMS_Unit_Test_Util::call_method( $this->forms, 'block_to_field_settings', array( $blocks[0] ) );
+		$expect = $attrs;
+		$expect['required'] = false;
+		$this->assertEquals( $expect, $parsed );
+
+	}
+
+	/**
+	 * Test cascade_visibility_attrs() for blocks with no innerBlocks.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_cascade_visibility_attrs_no_inner_blocks() {
+
+		$blocks = parse_blocks( '<!-- wp:paragraph --><p>mock</p><!-- /wp:paragraph --><!-- wp:paragraph {"llms_visibility":"logged_out"} --><p>mock</p><!-- /wp:paragraph -->' );
+
+		// No changes to make.
+		$res = LLMS_Unit_Test_Util::call_method( $this->forms, 'cascade_visibility_attrs', array( $blocks ) );
+		$this->assertEquals( $blocks, $res );
+
+		// Add the visibility setting.
+		$res = LLMS_Unit_Test_Util::call_method( $this->forms, 'cascade_visibility_attrs', array( $blocks, 'logged_in' ) );
+
+		// Changed.
+		$this->assertEquals( 'logged_in', $res[0]['attrs']['llms_visibility'] );
+
+		// Unchanged.
+		$this->assertEquals( 'logged_out', $res[1]['attrs']['llms_visibility'] );
+
+	}
+
+	/**
+	 * Test cascade_visibility_attrs() for blocks with innerBlocks.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_cascade_visibility_attrs_with_inner_blocks() {
+
+		$blocks = parse_blocks( '<!-- wp:columns {"className":"has-2-columns"} -->
+			<div class="wp-block-columns has-2-columns"><!-- wp:column -->
+			<div class="wp-block-column"><!-- wp:paragraph --><p>mock</p><!-- /wp:paragraph --></div>
+			<!-- /wp:column -->
+
+			<!-- wp:column -->
+			<div class="wp-block-column"><!-- wp:paragraph {"llms_visibility":"logged_out"} --><p>mock</p><!-- /wp:paragraph --></div>
+			<!-- /wp:column --></div>
+			<!-- /wp:columns -->' );
+
+		// No changes to make.
+		$res = LLMS_Unit_Test_Util::call_method( $this->forms, 'cascade_visibility_attrs', array( $blocks ) );
+		$this->assertEquals( $blocks, $res );
+
+		// Add the visibility setting.
+		$res = LLMS_Unit_Test_Util::call_method( $this->forms, 'cascade_visibility_attrs', array( $blocks, 'logged_in' ) );
+
+		// Changed.
+		$this->assertEquals( 'logged_in', $res[0]['attrs']['llms_visibility'] );
+		$this->assertEquals( 'logged_in', $res[0]['innerBlocks'][0]['attrs']['llms_visibility'] );
+		$this->assertEquals( 'logged_in', $res[0]['innerBlocks'][0]['innerBlocks'][0]['attrs']['llms_visibility'] );
+
+		$this->assertEquals( 'logged_in', $res[0]['innerBlocks'][1]['attrs']['llms_visibility'] );
+
+		// Already had visibility so this one doesn't change.
+		$this->assertEquals( 'logged_out', $res[0]['innerBlocks'][1]['innerBlocks'][0]['attrs']['llms_visibility'] );
+
+	}
+
+	/**
 	 * Test creation for an invalid location.
 	 *
 	 * @since [version]
@@ -487,6 +648,41 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 		foreach ( $installed as $id ) {
 			$this->assertFalse( $id );
 		}
+
+	}
+
+	/**
+	 * Test is_block_visible() when no visibility settings exist on the block.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_block_visible_no_visibility() {
+
+		$blocks = parse_blocks( '<!-- wp:paragraph --><p>Fake paragraph content</p><!-- /wp:paragraph -->' );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->forms, 'is_block_visible', array( $blocks[0] ) ) );
+
+	}
+
+	/**
+	 * Test is_block_visible() when there are visibility settings which would affect the visibility of the block.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_is_block_visible_with_visibility() {
+
+		// Logged out users only.
+		$blocks = parse_blocks( '<!-- wp:paragraph {"llms_visibility":"logged_out"} --><p>Fake paragraph content</p><!-- /wp:paragraph -->' );
+
+		// No user, show the block.
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->forms, 'is_block_visible', array( $blocks[0] ) ) );
+
+		// Has a user, don't show.
+		wp_set_current_user( $this->factory->student->create() );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->forms, 'is_block_visible', array( $blocks[0] ) ) );
 
 	}
 
