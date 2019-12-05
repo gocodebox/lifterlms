@@ -8,6 +8,7 @@
  * @since 3.19.4
  * @since 3.29.4 Unknown.
  * @since [version] Update to work with changes from LLMS_Forms.
+ *               Add tests for the LLMS_Person_Handler::get_login_forms() method.
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -57,9 +58,107 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	// public function test_get_available_fields() {}
 
+	/**
+	 * Test the get_login_fields() method.
+	 *
+	 * It should return an array of LifterLMS Form Fields.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_login_fields() {
 
-	// public function test_get_login_fields() {}
+		$fields = LLMS_Person_Handler::get_login_fields();
 
+		$this->assertTrue( is_array( $fields ) );
+		$this->assertEquals( 5, count( $fields ) );
+		foreach ( $fields as $field ) {
+			$this->assertTrue( is_array( $field ) );
+			$this->assertArrayHasKey( 'id', $field );
+		}
+
+	}
+
+	/**
+	 * Test the get_login_fields() method when the layout is columns
+	 *
+	 * It should return an array of LifterLMS Form Fields.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_login_fields_layout_columns() {
+
+		$default = LLMS_Person_Handler::get_login_fields();
+		$fields  = LLMS_Person_Handler::get_login_fields( 'columns' );
+
+		// Default value is "columns".
+		$this->assertEquals( $default, $fields );
+
+		$this->assertEquals( 6, $fields[0]['columns'] );
+		$this->assertEquals( 6, $fields[1]['columns'] );
+		$this->assertEquals( 3, $fields[2]['columns'] );
+		$this->assertEquals( 6, $fields[3]['columns'] );
+		$this->assertEquals( 3, $fields[4]['columns'] );
+
+	}
+
+	/**
+	 * Test the get_login_fields() method when the layout is stacked
+	 *
+	 * It should return an array of LifterLMS Form Fields.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_login_fields_layout_stacked() {
+
+		$fields = LLMS_Person_Handler::get_login_fields( 'stacked' );
+
+		$this->assertEquals( 12, $fields[0]['columns'] );
+		$this->assertEquals( 12, $fields[1]['columns'] );
+		$this->assertEquals( 12, $fields[2]['columns'] );
+		$this->assertEquals( 6, $fields[3]['columns'] );
+		$this->assertEquals( 6, $fields[4]['columns'] );
+
+	}
+
+	/**
+	 * Test get_login_fields() when usernames are enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_login_fields_usernames_enabled() {
+
+		add_filter( 'llms_are_usernames_enabled', '__return_true' );
+		$field = LLMS_Person_Handler::get_login_fields()[0];
+		$this->assertEquals( 'Username or Email Address', $field['label'] );
+		$this->assertEquals( 'text', $field['type'] );
+		remove_filter( 'llms_are_usernames_enabled', '__return_true' );
+
+	}
+
+	/**
+	 * Test get_login_fields() when usernames are disabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_login_fields_usernames_disabled() {
+
+		add_filter( 'llms_are_usernames_enabled', '__return_false' );
+		$field = LLMS_Person_Handler::get_login_fields()[0];
+		$this->assertEquals( 'Email Address', $field['label'] );
+		$this->assertEquals( 'email', $field['type'] );
+		remove_filter( 'llms_are_usernames_enabled', '__return_false' );
+
+	}
 
 	// public function test_get_lost_password_fields() {}
 
