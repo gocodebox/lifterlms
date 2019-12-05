@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.35.0 Sanitize field data when filling field with user-submitted data.
  * @since [version] Deprecated LLMS_Person_Handler::register() method.
+ *               Deprecated LLMS_Person_Handler::update() method.
  */
 class LLMS_Person_Handler {
 
@@ -706,41 +707,6 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Perform validations according to the registration screen and registers a user
-	 *
-	 * @since 3.0.0
-	 * @since 3.19.4 Unknown.
-	 * @deprecated [version]
-	 *
-	 * @param  array  $data   array of user data
-	 *                        array(
-	 *                          'user_login' => '',
-	 *                          'email_address' => '',
-	 *                          'email_address_confirm' => '',
-	 *                          'password' => '',
-	 *                          'password_confirm' => '',
-	 *                          'first_name' => '',
-	 *                          'last_name' => '',
-	 *                          'llms_billing_address_1' => '',
-	 *                          'llms_billing_address_2' => '',
-	 *                          'llms_billing_city' => '',
-	 *                          'llms_billing_state' => '',
-	 *                          'llms_billing_zip' => '',
-	 *                          'llms_billing_country' => '',
-	 *                          'llms_phone' => '',
-	 *                        )
-	 * @param    string $screen  screen to perform validations for, accepts "registration" or "checkout"
-	 * @param    bool   $signon  if true, also signon the newly created user
-	 * @return   int|WP_Error
-	 */
-	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
-
-		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'llms_register_user()' );
-		return llms_register_user( $data, $screen, $signon );
-
-	}
-
-	/**
 	 * Sanitize posted fields
 	 *
 	 * @param    string $val         unsanitized user data
@@ -757,80 +723,6 @@ class LLMS_Person_Handler {
 		}
 
 		return $val;
-
-	}
-
-
-	/**
-	 * Perform validations according to $screen and update the user
-	 *
-	 * @see    llms_update_user() for a classless wrapper for this function
-	 *
-	 * @param  array  $data   array of user data
-	 *                        array(
-	 *                          'user_id' => '',
-	 *                          'user_login' => '',
-	 *                          'email_address' => '',
-	 *                          'email_address_confirm' => '',
-	 *                          'current_password' => '',
-	 *                          'password' => '',
-	 *                          'password_confirm' => '',
-	 *                          'first_name' => '',
-	 *                          'last_name' => '',
-	 *                          'llms_billing_address_1' => '',
-	 *                          'llms_billing_address_2' => '',
-	 *                          'llms_billing_city' => '',
-	 *                          'llms_billing_state' => '',
-	 *                          'llms_billing_zip' => '',
-	 *                          'llms_billing_country' => '',
-	 *                          'llms_phone' => '',
-	 *                        )
-	 * @param    string $screen  screen to perform validations for, accepts "account", update" or "checkout"
-	 * @return   int|WP_Error
-	 * @since    3.0.0
-	 * @version  3.7.0
-	 */
-	public static function update( $data = array(), $screen = 'update' ) {
-
-		do_action( 'lifterlms_before_user_update', $data, $screen );
-
-		// user_id will automatically be the current user if non provided
-		if ( empty( $data['user_id'] ) ) {
-			$data['user_id'] = get_current_user_id();
-		}
-
-		// if no user id available, return an error
-		if ( ! $data['user_id'] ) {
-			$e = new WP_Error();
-			$e->add( 'user_id', __( 'No user ID specified.', 'lifterlms' ), 'missing-user-id' );
-			return $e;
-		}
-
-		// validate the fields & allow custom validation to occur
-		$valid = apply_filters( 'lifterlms_user_update_data', self::validate_fields( $data, $screen ), $data, $screen );
-
-		// if errors found, return them
-		if ( is_wp_error( $valid ) ) {
-
-			return apply_filters( 'lifterlms_user_update_errors', $valid, $data, $screen );
-
-		} else {
-
-			do_action( 'lifterlms_user_update_after_validation', $data, $screen );
-
-			// create the user and update all metadata
-			$person_id = self::insert_data( $data, 'update' );
-
-			// return the error object if registration fails
-			if ( is_wp_error( $person_id ) ) {
-				return $person_id; // this is filtered already
-			}
-
-			do_action( 'lifterlms_user_updated', $person_id, $data, $screen );
-
-			return $person_id;
-
-		}
 
 	}
 
@@ -1038,6 +930,55 @@ class LLMS_Person_Handler {
 
 		}
 
+	}
+
+
+
+	/*
+		 /$$$$$$$                                                                /$$                     /$$
+		| $$__  $$                                                              | $$                    | $$
+		| $$  \ $$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
+		| $$  | $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
+		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
+		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
+		| $$$$$$$/|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
+		|_______/  \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
+		                    | $$
+		                    | $$
+		                    |__/
+	*/
+
+	/**
+	 * Perform validations according to the registration screen and registers a user
+	 *
+	 * @since 3.0.0
+	 * @since 3.19.4 Unknown.
+	 * @deprecated [version]
+	 *
+	 * @param array $data Associative array of form data.
+	 * @param string $screen Screen to perform validations for, accepts "registration" or "checkout".
+	 * @param bool  $signon If true, also signon the newly created user.
+	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
+	 */
+	public static function register( $data = array(), $screen = 'registration', $signon = true ) {
+		llms_deprecated_function( 'LLMS_Person_Handler::register()', '[version]', 'llms_register_user()' );
+		return llms_register_user( $data, $screen, $signon );
+	}
+
+	/**
+	 * Perform validations according to $screen and update the user
+	 *
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 * @deprecated [version]
+	 *
+	 * @param array $data Associative array of form data.
+	 * @param string $screen Screen to perform validations for, accepts "account" or "checkout".
+	 * @return int|WP_Error WP_User ID on success or WP_Error on failure.
+	 */
+	public static function update( $data = array(), $screen = 'update' ) {
+		llms_deprecated_function( 'LLMS_Person_Handler::update()', '[version]', 'llms_update_user()' );
+		return llms_update_user( $data, $screen );
 	}
 
 }

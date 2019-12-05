@@ -150,14 +150,15 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 *
 	 * @since [version]
 	 *
-	 * @runInSeparateProcess
-	 *
 	 * @return void
 	 */
 	public function test_update_success() {
 
 		LLMS_Install::create_pages();
 		LLMS_Forms::instance()->install();
+
+		// I can't figure out why the action in the constructor isn't added when this test is run.
+		LLMS_Unit_Test_Util::call_method( LLMS_Form_Handler::instance(), '__construct' );
 
 		// create a user
 		$uid = $this->factory->user->create();
