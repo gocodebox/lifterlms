@@ -12,8 +12,37 @@
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
-	// consider dates equal within 60 seconds
-	private $date_delta = 60;
+	/**
+	 * Setup the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @see {Reference}
+	 * @link {URL}
+	 *
+	 */
+	public function setUp() {
+
+		parent::setUp();
+		$this->controller = new LLMS_Controller_Account();
+
+	}
+
+	/**
+	 * Force an error during wp_mail()
+	 *
+	 * Hooked to `wp_mail` filter.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $args Compacted wp_mail() arguments.
+	 * @return array
+	 */
+	public function fail_email_send( $args ) {
+		$args['to'] = 'invalid.address';
+		return $args;
+	}
+
 
 	/**
 	 * Test order completion actions
@@ -77,6 +106,180 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 			$expected = 'llms-active' === $status ? 'llms-pending-cancel' : 'llms-cancelled';
 			$this->assertEquals( $expected, get_post_status( $order->get( 'id' ) ) );
+
+		}
+
+	}
+
+	/**
+	 * Ensure the lost password form is not processed when it's not submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_not_submitted() {
+
+		$this->setup_post( array() );
+		$this->assertNull( $this->controller->lost_password() );
+		$this->assertEquals( 0, did_action( 'llms_before_lost_password_form_submit' ) );
+
+	}
+
+	/**
+	 * Test the lost password form returns an error if missing a required field.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_missing_required() {
+
+		$this->setup_post( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+		) );
+		$res = $this->controller->lost_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_lost_password_missing_login', $res );
+
+		$this->assertEquals( 1, did_action( 'llms_before_lost_password_form_submit' ) );
+
+		$this->assertStringContains( 'Enter a username or email address.', llms_get_notices() );
+
+	}
+
+	/**
+	 * Test lost_password() returns errors for an invalid email address.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_invalid_email() {
+
+		$this->setup_post( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => 'thisisafakeemail@fake.tld',
+		) );
+
+		$res = $this->controller->lost_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_lost_password_invalid_login', $res );
+
+		$this->assertStringContains( 'Invalid username or email address.', llms_get_notices() );
+
+	}
+
+	/**
+	 * Test lost_password() returns errors for an invalid username.
+	 *
+	 * @since [version]
+	 *
+	 * @return vod
+	 */
+	public function test_lost_password_invalid_username() {
+
+		$this->setup_post( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => 'thisisafakeusername',
+		) );
+
+		$res = $this->controller->lost_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_lost_password_invalid_login', $res );
+
+		$this->assertStringContains( 'Invalid username or email address.', llms_get_notices() );
+
+	}
+
+	/**
+	 * Test lost_password() when WP core get_password_reset_key() returns an error or password reset is disabled via filters.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_key_error() {
+
+		$user = $this->factory->user->create_and_get();
+		$this->setup_post( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => $user->user_login,
+		) );
+
+		// Mock an error.
+		add_filter( 'allow_password_reset', '__return_false' );
+
+		$res = $this->controller->lost_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'no_password_reset', $res );
+
+		$this->assertStringContains( 'Password reset is not allowed for this user', llms_get_notices() );
+
+		remove_filter( 'allow_password_reset', '__return_false' );
+
+	}
+
+	/**
+	 * Test lost_password() when an error is encountered by wp_mail().
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_email_send_error() {
+
+		$user = $this->factory->user->create_and_get();
+		$this->setup_post( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => $user->user_login,
+		) );
+
+
+		add_filter( 'wp_mail', array( $this, 'fail_email_send' ) );
+
+		$res = $this->controller->lost_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_lost_password_email_send', $res );
+
+		$this->assertStringContains( 'The password reset email could not be sent. An error was encountered while attempting to send mail.', llms_get_notices() );
+
+		remove_filter( 'wp_mail', array( $this, 'fail_email_send' ) );
+
+	}
+
+	/**
+	 * Test lost_password() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_email_success() {
+
+		$user = $this->factory->user->create_and_get();
+
+		// Test with user-submitted email & username.
+		foreach ( array( 'user_email', 'user_login' ) as $field ) {
+
+			$this->setup_post( array(
+				'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+				'llms_login'           => $user->$field,
+			) );
+
+			$this->assertTrue( $this->controller->lost_password() );
+
+			$this->assertStringContains( 'Check your inbox for an email with instructions on how to reset your password.', llms_get_notices() );
+
+			// Test the email sent.
+			$sent = tests_retrieve_phpmailer_instance()->get_sent();
+			$this->assertEquals( $user->user_email, $sent->to[0][0] );
+			$this->assertEquals( 'Password Reset for Test Blog', $sent->subject );
 
 		}
 

@@ -121,86 +121,77 @@ class LLMS_Controller_Account {
 
 	/**
 	 * Handle form submission of the Lost Password form
-	 * This is the form that sends a password recovery email with a link to reset the password
+	 *
+	 * This is the form that sends a password recovery email with a link to reset the password.
 	 *
 	 * @since 3.8.0
 	 * @since 3.9.5 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since [version]
 	 *
-	 * @return   void
+	 * @return WP_Error|true
 	 */
 	public function lost_password() {
 
-		// invalid nonce or the form wasn't submitted
-		if ( ! llms_verify_nonce( '_lost_password_nonce', 'llms_lost_password', 'POST' ) ) {
-			return;
+		// Invalid nonce or the form wasn't submitted.
+		if ( ! llms_verify_nonce( '_lost_password_nonce', 'llms_lost_password' ) ) {
+			return null;
 		}
 
-		// verify required field
-		if ( empty( $_POST['llms_login'] ) ) {
-			return llms_add_notice( __( 'Enter a username or e-mail address.', 'lifterlms' ), 'error' );
+		/**
+		 * Fire an action immediately prior to the lost password form submission processing.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_before_lost_password_form_submit' );
+
+		$login = trim( llms_filter_input( INPUT_POST, 'llms_login', FILTER_SANITIZE_STRING ) );
+
+		// Verify required field.
+		if ( ! $login ) {
+			$msg = __( 'Enter a username or email address.', 'lifterlms' );
+			llms_add_notice( $msg, 'error' );
+			return new WP_Error( 'llms_lost_password_missing_login', $msg );
 		}
 
-		$login = llms_filter_input( INPUT_POST, 'llms_login', FILTER_SANITIZE_STRING );
+		// Locate the user.
+		$field = strpos( $login, '@' ) ? 'email' : 'login';
+		$user  = get_user_by( $field, $login );
 
-		// always check email
-		$get_by = array( 'email' );
-		// add login if username generation is disabled (eg users create their own usernames)
-		if ( 'no' === get_option( 'lifterlms_registration_generate_username' ) ) {
-			$get_by[] = 'login';
-		}
-
-		$user = null;
-		// check each field to find the user
-		foreach ( $get_by as $field ) {
-			$user = get_user_by( $field, $login );
-			// if we find a user skip the next check
-			if ( $user ) {
-				break;
-			}
-		}
-
-		// if we don't have a user return an error
+		// If we don't have a user return an error.
 		if ( ! $user ) {
-			return llms_add_notice( __( 'Invalid username or e-mail address.', 'lifterlms' ), 'error' );
+			$msg = __( 'Invalid username or email address.', 'lifterlms' );
+			llms_add_notice( $msg, 'error' );
+			return new WP_Error( 'llms_lost_password_invalid_login', $msg );
 		}
 
-		do_action( 'retrieve_password', $user->user_login ); // wp core hook
-
-		// ensure that password resetting is allowed based on core filters & settings
-		$allow = apply_filters( 'allow_password_reset', true, $user->ID ); // wp core filter
-
-		if ( ! $allow ) {
-
-			return llms_add_notice( __( 'Password reset is not allowed for this user', 'lifterlms' ), 'error' );
-
-		} elseif ( is_wp_error( $allow ) ) {
-
-			return llms_add_notice( $allow->get_error_message(), 'error' );
-
+		// Set/Retrieve the password reset key.
+		$key = get_password_reset_key( $user );
+		if ( is_wp_error( $key ) ) {
+			llms_add_notice( $key->get_error_message(), 'error' );
+			return $key;
 		}
 
-		$key = llms_set_user_password_rest_key( $user->ID );
-
-		// setup the email
+		// Setup the email.
 		$email = LLMS()->mailer()->get_email(
 			'reset_password',
 			array(
 				'key'           => $key,
 				'user'          => $user,
-				'login_display' => 'email' === $get_by ? $user->user_email : $user->user_login,
+				'login_display' => 'email' === $field ? $user->user_email : $user->user_login,
 			)
 		);
 
-		// send the email
-		if ( $email ) {
-
-			if ( $email->send() ) {
-				return llms_add_notice( __( 'Check your e-mail for the confirmation link.', 'lifterlms' ) );
-			}
+		// Email error.
+		if ( ! $email->send() ) {
+			$msg = __( 'The password reset email could not be sent. An error was encountered while attempting to send mail.', 'lifterlms' );
+			llms_add_notice( $msg, 'error' );
+			return new WP_Error( 'llms_lost_password_email_send', $msg );
 		}
 
-		return llms_add_notice( __( 'Unable to reset password due to an unknown error. Please try again.', 'lifterlms' ), 'error' );
+		// Success.
+		llms_add_notice( __( 'Check your inbox for an email with instructions on how to reset your password.', 'lifterlms' ) );
+		return true;
 
 	}
 
