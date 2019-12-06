@@ -446,7 +446,7 @@ class LLMS_AJAX_Handler {
 
 		}// End if().
 
-		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
 		if ( $enrolled_in ) {
 

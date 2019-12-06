@@ -9,7 +9,7 @@
  * @group settings_page_accounts
  *
  * @since 3.37.3
- * @version 3.37.3
+ * @since 3.37.4 The ID is "account" not "accounts".
  */
 class LLMS_Test_Settings_Accounts extends LLMS_Settings_Page_Test_Case {
 

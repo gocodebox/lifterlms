@@ -282,7 +282,7 @@ abstract class LLMS_Database_Query {
 			$this->sql = apply_filters( $this->get_filter( 'prepare_query' ), $this->sql, $this );
 		}
 
-		$this->results        = $wpdb->get_results( $this->sql ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared -- SQL is prepared just not right here.
+		$this->results        = $wpdb->get_results( $this->sql ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared -- SQL is prepared just not right here.
 		$this->number_results = count( $this->results );
 
 		$this->set_found_results();

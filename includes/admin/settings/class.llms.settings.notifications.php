@@ -235,7 +235,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 
 		if ( isset( $_POST['llms_notification_test_data'] ) ) {
 
-			$_POST['llms_notification_test_data_temp'] = wp_unslash( $_POST['llms_notification_test_data'] ); // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+			$_POST['llms_notification_test_data_temp'] = wp_unslash( $_POST['llms_notification_test_data'] ); // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 			unset( $_POST['llms_notification_test_data'] );
 
 		}
@@ -263,7 +263,7 @@ class LLMS_Settings_Notifications extends LLMS_Settings_Page {
 				$controller = LLMS()->notifications()->get_controller( llms_filter_input( INPUT_GET, 'notification', FILTER_SANITIZE_STRING ) );
 				$controller->send_test(
 					llms_filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING ),
-					wp_unslash( $_POST['llms_notification_test_data_temp'] ) // phpcs:disable WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+					wp_unslash( $_POST['llms_notification_test_data_temp'] ) // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 				);
 
 			}

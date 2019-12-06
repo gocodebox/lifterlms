@@ -7,58 +7,22 @@
  * @group certificates
  *
  * @since 3.37.3
- * @version 3.37.3
+ * @version 3.37.4
  */
-class LLMS_Test_Certificates extends LLMS_Unit_Test_Case {
-
-	/**
-	 * Create a certificate template post.
-	 *
-	 * @since 3.37.3
-	 *
-	 * @return int
-	 */
-	private function create_template() {
-
-		$template = $this->factory->post->create( array(
-			'post_type' => 'llms_certificate',
-			'post_content' => '{site_title}, {current_date}',
-		) );
-		update_post_meta( $template, '_llms_certificate_title', 'Mock Certificate Title' );
-		update_post_meta( $template, '_llms_certificate_image', '' );
-
-		return $template;
-
-	}
-
-	private function earn_certificate( $user, $template, $related ) {
-
-		global $llms_user_earned_certs;
-		$llms_user_earned_certs = array();
-
-		// Watch for generation so we can compare against it later.
-		add_action( 'llms_user_earned_certificate', function( $user_id, $cert_id, $related_id ) {
-			global $llms_user_earned_certs;
-			$llms_user_earned_certs[] = array( $user_id, $cert_id, $related_id );
-		}, 10, 3 );
-
-		LLMS()->certificates()->trigger_engagement( $user, $template, $related );
-
-		return array_shift( $llms_user_earned_certs );
-
-	}
+class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
 	/**
 	 * Test trigger_engagement() method.
 	 *
 	 * @since 3.37.3
+	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
 	 *
 	 * @return void
 	 */
 	public function test_trigger_engagement() {
 
 		$user = $this->factory->user->create();
-		$template = $this->create_template();
+		$template = $this->create_certificate_template();
 		$related = $this->factory->post->create( array( 'post_type' => 'course' ) );
 
 		$earned = $this->earn_certificate( $user, $template, $related );
@@ -75,13 +39,14 @@ class LLMS_Test_Certificates extends LLMS_Unit_Test_Case {
 	 * Retrieve a certificate export, bypassing the cache.
 	 *
 	 * @since 3.37.3
+	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
 	 *
 	 * @return void
 	 */
 	public function test_get_export_no_cache() {
 
 		$user = $this->factory->user->create();
-		$template = $this->create_template();
+		$template = $this->create_certificate_template();
 		$related = $this->factory->post->create( array( 'post_type' => 'course' ) );
 
 		$earned = $this->earn_certificate( $user, $template, $related );
@@ -98,13 +63,14 @@ class LLMS_Test_Certificates extends LLMS_Unit_Test_Case {
 	 * Retrieve a certificate export using caching.
 	 *
 	 * @since 3.37.3
+	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
 	 *
 	 * @return void
 	 */
 	public function test_get_export_with_cache() {
 
 		$user = $this->factory->user->create();
-		$template = $this->create_template();
+		$template = $this->create_certificate_template();
 		$related = $this->factory->post->create( array( 'post_type' => 'course' ) );
 
 		$earned = $this->earn_certificate( $user, $template, $related );

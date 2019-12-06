@@ -7,7 +7,7 @@
  * @since Unknown
  * @since 3.36.3 Add tests for `is_generator_valid()` and `set_generator()` methods.
  *              Split `is_error()` method tests into multiple tests.
- * @since [version] Ignore core fields for custom data assertions.
+ * @since 3.37.4 Don't test against core metadata.
  */
 class LLMS_Test_Generator extends LLMS_UnitTestCase {
 

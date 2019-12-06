@@ -359,7 +359,7 @@ class LLMS_Admin_User_Custom_Fields {
 		foreach ( $this->fields as $field => $data ) {
 
 			// return an error message for empty required fields
-			if ( empty( $_POST[ $field ] ) && $data['required'] ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
+			if ( empty( $_POST[ $field ] ) && $data['required'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 				return sprintf( __( 'Required field "%s" is missing.', 'lifterlms' ), $data['label'] );
 

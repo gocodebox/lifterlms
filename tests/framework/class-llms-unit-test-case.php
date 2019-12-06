@@ -4,6 +4,7 @@
  *
  * @since 3.3.1
  * @since 3.33.0 Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
+ * @since 3.37.4 Add certificate template mock generation and earning methods.
  * @since [version] Automatically clear notices on teardown.
  *               Add a method to generate mock vouchers.
  */
@@ -412,4 +413,60 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		return llms_get_student( $student_id );
 	}
 
+
+	/**
+	 * Create a certificate template post.
+	 *
+	 * @since 3.37.4
+	 *
+	 * @param string $title Certificate title.
+	 * @param string $content Certificate content.
+	 * @param string $image Certificate background image path.
+	 * @return int
+	 */
+	protected function create_certificate_template( $title = 'Mock Certificate Title', $content = '', $image = '' ) {
+
+		$template = $this->factory->post->create( array(
+			'post_type' => 'llms_certificate',
+			'post_content' => $content ? $content : '{site_title}, {current_date}',
+		) );
+		update_post_meta( $template, '_llms_certificate_title', $title );
+		update_post_meta( $template, '_llms_certificate_image', $image );
+
+		return $template;
+
+	}
+
+	/**
+	 * Earn a certificate for a user.
+	 *
+	 * @since 3.37.3
+	 * @since 3.37.4 Moved to `LLMS_UnitTestCase`.
+	 *
+	 * @param int $user WP_User ID.
+	 * @param int $template WP_Post ID of the `llms_certificate` template.
+	 * @param int $related WP_Post ID of the related post.
+	 * @return int[] {
+	 *     Indexed array containing information about the earned certificate.
+	 *     int $0 WP_User ID
+	 *     int $1 WP_Post ID of the earned cert (`llms_my_certificate`)
+	 *     int $2 WP_Post ID of the related post.
+	 * }
+	 */
+	protected function earn_certificate( $user, $template, $related ) {
+
+		global $llms_user_earned_certs;
+		$llms_user_earned_certs = array();
+
+		// Watch for generation so we can compare against it later.
+		add_action( 'llms_user_earned_certificate', function( $user_id, $cert_id, $related_id ) {
+			global $llms_user_earned_certs;
+			$llms_user_earned_certs[] = array( $user_id, $cert_id, $related_id );
+		}, 10, 3 );
+
+		LLMS()->certificates()->trigger_engagement( $user, $template, $related );
+
+		return array_shift( $llms_user_earned_certs );
+
+	}
 }
