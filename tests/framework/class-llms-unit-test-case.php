@@ -4,7 +4,7 @@
  *
  * @since 3.3.1
  * @since 3.33.0 Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
- * @since [version] Add certificate template mock generation and earning methods.
+ * @since 3.37.4 Add certificate template mock generation and earning methods.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -366,7 +366,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Create a certificate template post.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @param string $title Certificate title.
 	 * @param string $content Certificate content.
@@ -390,7 +390,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 * Earn a certificate for a user.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Moved to `LLMS_UnitTestCase`.
+	 * @since 3.37.4 Moved to `LLMS_UnitTestCase`.
 	 *
 	 * @param int $user WP_User ID.
 	 * @param int $template WP_Post ID of the `llms_certificate` template.

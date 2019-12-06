@@ -8,15 +8,15 @@
  * @group certificates
  * @group controller_certificates
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.4
+ * @version 3.37.4
  */
 class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -30,7 +30,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_allow_public_query(): no authorization data in query string.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_allow_public_query(): authorization present but invalid.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -72,7 +72,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_allow_public_query(): authorization present and exists but on an invalid post type.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -96,7 +96,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_allow_public_query(): valid auth and post type.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -123,7 +123,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_authenticate_export_generation() when no authorization data is passed.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -137,7 +137,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_authenticate_export_generation() when no authorization data is passed.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -162,7 +162,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_authenticate_export_generation() when no authorization data is passed.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -193,7 +193,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_authenticate_export_generation() for a certificate template.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */
@@ -227,7 +227,7 @@ class LLMS_Test_Controller_Certificates extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_authenticate_export_generation() for an earned certificate.
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @return void
 	 */

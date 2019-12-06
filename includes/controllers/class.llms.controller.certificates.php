@@ -3,14 +3,14 @@
  * Certificate Forms
  *
  * @since 3.18.0
- * @version [version]
+ * @version 3.37.4
  */
 defined( 'ABSPATH' ) || exit;
 
 /**
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
- * @since [version] Modify `llms_certificate` post type registration to allow certificate templates to be exported.
+ * @since 3.37.4 Modify `llms_certificate` post type registration to allow certificate templates to be exported.
  *               When exporting a certificate template, use the `post_author` for the certificate's WP User ID.
  */
 class LLMS_Controller_Certificates {
@@ -19,7 +19,7 @@ class LLMS_Controller_Certificates {
 	 * Constructor
 	 *
 	 * @since 3.18.0
-	 * @since [version] Add filter hook for `lifterlms_register_post_type_llms_certificate`.
+	 * @since 3.37.4 Add filter hook for `lifterlms_register_post_type_llms_certificate`.
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class LLMS_Controller_Certificates {
 	 *
 	 * Fixes issue https://github.com/gocodebox/lifterlms/issues/776
 	 *
-	 * @since [version]
+	 * @since 3.37.4
 	 *
 	 * @param array $post_type_args Array of `llms_certificate` post type registration arguments.
 	 * @return array
@@ -66,7 +66,7 @@ class LLMS_Controller_Certificates {
 	 *
 	 * @since 3.18.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Use the `post_author` as the WP_User ID when exporting a certificate template.
+	 * @since 3.37.4 Use the `post_author` as the WP_User ID when exporting a certificate template.
 	 *
 	 * @return void
 	 */

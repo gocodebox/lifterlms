@@ -1,6 +1,32 @@
 LifterLMS Changelog
 ===================
 
+v3.37.4 - 2019-12-06
+--------------------
+
+##### Bug Fixes
+
++ Fixed a bug causing certificate _template_ exports to export the site's homepage instead of the certificate preview.
++ When exporting a certificate template, use the `post_author` to determine what user to use for merge code data.
++ Revert Accounts settings tab page id to "account".
+
+##### LifterLMS Blocks v1.7.1
+
++ Feature: Add logic for `logged_in` and `logged_out` block visibility options.
++ Update: Added `isDisabled` property to Search component.
++ Update: Adjusted priority of `render_block` filter to 20.
++ Update: Added filter, `llms_block_supports_visibility` to allow modification of the return of the check.
++ Update: Disabled block visibility on registration & account forms to prevent a potentially confusing form creation experience.
++ Update: Added block editor rendering for password type fields.
++ Update: Perform post migrations on `current_screen` instead of `admin_enqueue_scripts`.
++ Update: Update various dependencies to use updated gutenberg packages.
++ Bug fix: Fixed a WordPress 5.3 issues with JSON data affecting the ability to save course/membership instructors.
++ Bug fix: Import `InspectorControls` from `wp.blockEditor` in favor of deprecated `wp.editor`
++ Bug fix: Automatically store course/membership instructor with `post_author` data when the post is created.
++ Bug fix: Pass style rules as camelCase.
++ Bug fix: Fixed an issue causing "No HTML Returned" to be displayed in place of the Lesson Progression block on free lessons when viewed by a logged-out user.
+
+
 v3.37.3 - 2019-12-03
 --------------------
 

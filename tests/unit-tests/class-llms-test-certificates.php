@@ -7,7 +7,7 @@
  * @group certificates
  *
  * @since 3.37.3
- * @version [version]
+ * @version 3.37.4
  */
 class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 
@@ -15,7 +15,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 * Test trigger_engagement() method.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Use `$this->create_certificate_template()` from test case base.
+	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
 	 *
 	 * @return void
 	 */
@@ -39,7 +39,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 * Retrieve a certificate export, bypassing the cache.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Use `$this->create_certificate_template()` from test case base.
+	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
 	 *
 	 * @return void
 	 */
@@ -63,7 +63,7 @@ class LLMS_Test_Certificates extends LLMS_UnitTestCase {
 	 * Retrieve a certificate export using caching.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Use `$this->create_certificate_template()` from test case base.
+	 * @since 3.37.4 Use `$this->create_certificate_template()` from test case base.
 	 *
 	 * @return void
 	 */
