@@ -44,7 +44,7 @@ class LLMS_Controller_Certificates {
 	 */
 	public function maybe_allow_public_query( $post_type_args ) {
 
-		if ( ! empty( $_REQUEST['_llms_cert_auth'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Recommended
+		if ( ! empty( $_REQUEST['_llms_cert_auth'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 
 			$auth = llms_filter_input( INPUT_GET, '_llms_cert_auth', FILTER_SANITIZE_STRING );
 
@@ -72,7 +72,7 @@ class LLMS_Controller_Certificates {
 	 */
 	public function maybe_authenticate_export_generation() {
 
-		if ( empty( $_REQUEST['_llms_cert_auth'] ) ) {
+		if ( empty( $_REQUEST['_llms_cert_auth'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
@@ -82,7 +82,7 @@ class LLMS_Controller_Certificates {
 			return;
 		}
 
-		if ( get_post_meta( $post_id, '_llms_auth_nonce', true ) !== $_REQUEST['_llms_cert_auth'] ) {
+		if ( get_post_meta( $post_id, '_llms_auth_nonce', true ) !== $_REQUEST['_llms_cert_auth'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended
 			return;
 		}
 
