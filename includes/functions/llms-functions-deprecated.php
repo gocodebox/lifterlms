@@ -11,9 +11,10 @@
  * @package LifterLMS/Functions/Deprecated
  *
  * @since 3.29.0
- * @version 3.37.1
  * @since [version] Moved `llms_create_new_person()` function which was deprecated at version 3.0.0.
  *                Deprecated `llms_get_minimum_password_strength() with no replacement`.
+ *                Deprecated `llms_set_user_password_rest_key()` in favor of WP Core `get_password_reset_key()`.
+ * @version 3.37.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -227,4 +228,39 @@ add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
 function llms_get_minimum_password_strength() {
 	llms_deprecated_function( 'llms_get_minimum_password_strength', '[version]' );
 	return apply_filters( 'llms_get_minimum_password_strength', 'strong' );
+}
+
+/**
+ * Generate a user password reset key, hash it, and store it in the database
+ *
+ * @since 3.8.0
+ * @deprecated [version]
+ *
+ * @param int $user_id WP_User ID.
+ * @return string
+ */
+function llms_set_user_password_rest_key( $user_id ) {
+
+	llms_deprecated_function( 'llms_set_user_password_rest_key', '[version]', 'get_password_reset_key' );
+
+	$user = get_user_by( 'ID', $user_id );
+	$key = wp_generate_password( 20, false );
+	do_action( 'retrieve_password_key', $user->user_login, $key );
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+	$hashed = $wp_hasher->HashPassword( $key );
+	global $wpdb;
+	$wpdb->update(
+		$wpdb->users,
+		array(
+			'user_activation_key' => $hashed,
+		),
+		array(
+			'user_login' => $user->user_login,
+		)
+	);
+	return $key;
+
 }
