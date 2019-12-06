@@ -387,7 +387,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 		$ids = array();
 
-		if ( isset( $_POST['_llms_bbp_forum_ids'] ) ) {  // phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST['_llms_bbp_forum_ids'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			$ids = llms_filter_input( INPUT_POST, '_llms_bbp_forum_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
 			if ( ! is_array( $ids ) ) {

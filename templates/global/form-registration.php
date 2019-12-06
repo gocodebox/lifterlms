@@ -10,7 +10,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-$field_data = isset( $_POST ) ? $_POST : array(); // phpcs:disable WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
+$field_data = isset( $_POST ) ? $_POST : array(); // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Data is sanitized in LLMS_Person_Handler::fill_fields().
 
 // don't allow logged in users to register.
 if ( get_current_user_id() ) {

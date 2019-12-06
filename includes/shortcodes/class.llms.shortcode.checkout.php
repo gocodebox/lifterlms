@@ -160,8 +160,8 @@ class LLMS_Shortcode_Checkout {
 		$atts['order_key'] = '';
 
 		$atts['field_data'] = array();
-		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
-			$atts['field_data'] = wp_unslash( $_POST ); // phpcs:disable WordPress.Security.NonceVerification.Missing
+		if ( isset( $_POST ) && isset( $_POST['action'] ) && 'create_pending_order' === $_POST['action'] ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
+			$atts['field_data'] = wp_unslash( $_POST ); // phpcs:ignore WordPress.Security.NonceVerification.Missing
 		} elseif ( self::$uid ) {
 			$atts['field_data'] = get_current_user_id();
 		}
@@ -199,7 +199,7 @@ class LLMS_Shortcode_Checkout {
 				}
 
 				// Use posted order key to resume a pending order.
-				if ( isset( $_POST['llms_order_key'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
+				if ( isset( $_POST['llms_order_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					$atts['order_key'] = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
 
 					// Attempt to located a pending order.

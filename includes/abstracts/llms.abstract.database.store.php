@@ -281,7 +281,7 @@ abstract class LLMS_Abstract_Database_Store {
 			$keys = implode( ', ', $keys );
 		}
 		$res = $wpdb->get_row(
-			$wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE {$this->get_primary_key()} = %d", $this->id ), // phpcs:disable WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- This query is safe.
+			$wpdb->prepare( "SELECT {$keys} FROM {$this->get_table()} WHERE {$this->get_primary_key()} = %d", $this->id ), // phpcs:ignore WordPress.DB.PreparedSQL.InterpolatedNotPrepared -- This query is safe.
 			ARRAY_A
 		);
 		return ! $res ? false : $res;

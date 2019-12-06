@@ -341,7 +341,7 @@ class LLMS_Student_Query extends LLMS_Database_Query {
 			$comma      = true;
 		}
 
-		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:disable WordPress.DB.PreparedSQL.NotPrepared
+		$sql = $wpdb->prepare( $sql, $statuses ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 		return "{$column} IN ( {$sql} )";
 
 	}
