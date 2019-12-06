@@ -11,7 +11,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
  * @since [version] Modify `llms_certificate` post type registration to allow certificate templates to be exported.
- *                When exporting a certificate template, use the `post_author` for the certificate's WP User ID.
+ *               When exporting a certificate template, use the `post_author` for the certificate's WP User ID.
  */
 class LLMS_Controller_Certificates {
 
