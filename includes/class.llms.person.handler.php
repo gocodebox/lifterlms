@@ -336,6 +336,68 @@ class LLMS_Person_Handler {
 	}
 
 	/**
+	 * Retrieve fields for password recovery
+	 *
+	 * Used to generate the form where a username/email is entered to start the password reset process.
+	 *
+	 * @since 3.8.0
+	 * @since [version] Use LLMS_Forms::are_usernames_enabled() in favor of deprecated option "lifterlms_registration_generate_username".
+	 *               Remove field values set to the default value for a form field.
+	 *
+	 * @return array[] An array of form field arrays.
+	 */
+	public static function get_lost_password_fields() {
+
+		$usernames = LLMS_Forms::instance()->are_usernames_enabled();
+
+		if ( ! $usernames ) {
+			$message = __( 'Lost your password? Enter your email address and we will send you a link to reset it.', 'lifterlms' );
+		} else {
+			$message = __( 'Lost your password? Enter your username or email address and we will send you a link to reset it.', 'lifterlms' );
+		}
+
+		/**
+		 * Filter the message displayed on the lost password form.
+		 *
+		 * @since Unknown.
+		 *
+		 * @param string $message The message displayed before the form.
+		 */
+		$message = apply_filters( 'lifterlms_lost_password_message', $message );
+
+		/**
+		 * Filter the form fields displayed for the lost password form.
+		 *
+		 * @since 3.8.0
+		 *
+		 * @param array[] $fields An array of form field arrays.
+		 */
+		return apply_filters(
+			'lifterlms_lost_password_fields',
+			array(
+				array(
+					'id'    => 'llms_lost_password_message',
+					'type'  => 'html',
+					'value' => $message,
+				),
+				array(
+					'id'       => 'llms_login',
+					'label'    => ! $usernames ? __( 'Email Address', 'lifterlms' ) : __( 'Username or Email Address', 'lifterlms' ),
+					'required' => true,
+					'type'     => ! $usernames ? 'email' : 'text',
+				),
+				array(
+					'classes' => 'llms-button-action auto',
+					'id'      => 'llms_lost_password_button',
+					'value'   => __( 'Reset Password', 'lifterlms' ),
+					'type'    => 'submit',
+				),
+			)
+		);
+
+	}
+
+	/**
 	 * Retrieve an array of password fields for a specific screen
 	 *
 	 * Each array represents a form field that can be passed to llms_form_field()
@@ -416,56 +478,6 @@ class LLMS_Person_Handler {
 		}
 
 		return $fields;
-
-	}
-
-	/**
-	 * Retrieve fields for password recovery
-	 * This is for the form that sends a password reset email
-	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
-	 */
-	public static function get_lost_password_fields() {
-
-		$gen_usernames = ( 'yes' === get_option( 'lifterlms_registration_generate_username' ) );
-
-		if ( $gen_usernames ) {
-			$message = __( 'Lost your password? Enter your email address and we will send you a link to reset it.', 'lifterlms' );
-		} else {
-			$message = __( 'Lost your password? Enter your username or email address and we will send you a link to reset it.', 'lifterlms' );
-		}
-
-		return apply_filters(
-			'lifterlms_lost_password_fields',
-			array(
-				array(
-					'columns'     => 12,
-					'id'          => 'llms_lost_password_message',
-					'last_column' => true,
-					'type'        => 'html',
-					'value'       => apply_filters( 'lifterlms_lost_password_message', $message ),
-				),
-				array(
-					'columns'     => 12,
-					'id'          => 'llms_login',
-					'label'       => $gen_usernames ? __( 'Email Address', 'lifterlms' ) : __( 'Username or Email Address', 'lifterlms' ),
-					'last_column' => true,
-					'required'    => true,
-					'type'        => $gen_usernames ? 'email' : 'text',
-				),
-				array(
-					'columns'     => 12,
-					'classes'     => 'llms-button-action auto',
-					'id'          => 'llms_lost_password_button',
-					'value'       => __( 'Reset Password', 'lifterlms' ),
-					'last_column' => true,
-					'required'    => false,
-					'type'        => 'submit',
-				),
-			)
-		);
 
 	}
 

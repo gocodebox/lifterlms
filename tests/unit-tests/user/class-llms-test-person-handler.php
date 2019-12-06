@@ -161,7 +161,41 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	}
 
-	// public function test_get_lost_password_fields() {}
+	/**
+	 * Test get_lost_password_fields() when usernames are enabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_lost_password_fields_usernames_enabled() {
+
+		add_filter( 'llms_are_usernames_enabled', '__return_true' );
+		$fields = LLMS_Person_Handler::get_lost_password_fields();
+		$this->assertTrue( false !== strpos( $fields[0]['value'], 'username' ) );
+		$this->assertEquals( 'Username or Email Address', $fields[1]['label'] );
+		$this->assertEquals( 'text', $fields[1]['type'] );
+		remove_filter( 'llms_are_usernames_enabled', '__return_true' );
+
+	}
+
+	/**
+	 * Test get_lost_password_fields() when usernames are disabled.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_lost_password_fields_usernames_disabled() {
+
+		add_filter( 'llms_are_usernames_enabled', '__return_false' );
+		$fields = LLMS_Person_Handler::get_lost_password_fields();
+		$this->assertFalse( strpos( $fields[0]['value'], 'username' ) );
+		$this->assertEquals( 'Email Address', $fields[1]['label'] );
+		$this->assertEquals( 'email', $fields[1]['type'] );
+		remove_filter( 'llms_are_usernames_enabled', '__return_false' );
+
+	}
 
 
 	// public function test_get_password_reset_fields() {}
