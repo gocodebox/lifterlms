@@ -7,6 +7,7 @@
  * @since Unknown
  * @since 3.36.3 Add tests for `is_generator_valid()` and `set_generator()` methods.
  *              Split `is_error()` method tests into multiple tests.
+ * @since 3.37.4 Don't test against core metadata.
  */
 class LLMS_Test_Generator extends LLMS_UnitTestCase {
 
@@ -14,6 +15,7 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 	 * Test generate method.
 	 *
 	 * @since Unknown.
+	 * @since 3.37.4 Don't test against core metadata.
 	 *
 	 * @return void
 	 */
@@ -61,7 +63,9 @@ class LLMS_Test_Generator extends LLMS_UnitTestCase {
 
 		// ensure custom data is properly added
 		$courses = $gen->get_generated_courses();
-		$this->assertEquals( $course['custom'], get_post_custom( $courses[0] ) );
+		$custom  = get_post_custom( $courses[0] );
+		unset( $custom['_llms_instructors'] ); // remove core meta data.
+		$this->assertEquals( $course['custom'], $custom );
 
 
 	}
