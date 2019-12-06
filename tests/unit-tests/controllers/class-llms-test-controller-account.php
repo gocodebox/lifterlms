@@ -13,22 +13,6 @@
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	/**
-	 * Setup the test case.
-	 *
-	 * @since [version]
-	 *
-	 * @see {Reference}
-	 * @link {URL}
-	 *
-	 */
-	public function setUp() {
-
-		parent::setUp();
-		$this->controller = new LLMS_Controller_Account();
-
-	}
-
-	/**
 	 * Force an error during wp_mail()
 	 *
 	 * Hooked to `wp_mail` filter.
@@ -120,8 +104,10 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_not_submitted() {
 
+		$controller = new LLMS_Controller_Account();
+
 		$this->setup_post( array() );
-		$this->assertNull( $this->controller->lost_password() );
+		$this->assertNull( $controller->lost_password() );
 		$this->assertEquals( 0, did_action( 'llms_before_lost_password_form_submit' ) );
 
 	}
@@ -135,10 +121,12 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_missing_required() {
 
+		$controller = new LLMS_Controller_Account();
+
 		$this->setup_post( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 		) );
-		$res = $this->controller->lost_password();
+		$res = $controller->lost_password();
 
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( 'llms_lost_password_missing_login', $res );
@@ -158,12 +146,14 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_invalid_email() {
 
+		$controller = new LLMS_Controller_Account();
+
 		$this->setup_post( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 			'llms_login'           => 'thisisafakeemail@fake.tld',
 		) );
 
-		$res = $this->controller->lost_password();
+		$res = $controller->lost_password();
 
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( 'llms_lost_password_invalid_login', $res );
@@ -181,12 +171,14 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_invalid_username() {
 
+		$controller = new LLMS_Controller_Account();
+
 		$this->setup_post( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 			'llms_login'           => 'thisisafakeusername',
 		) );
 
-		$res = $this->controller->lost_password();
+		$res = $controller->lost_password();
 
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( 'llms_lost_password_invalid_login', $res );
@@ -204,6 +196,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_key_error() {
 
+		$controller = new LLMS_Controller_Account();
+
 		$user = $this->factory->user->create_and_get();
 		$this->setup_post( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
@@ -213,7 +207,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		// Mock an error.
 		add_filter( 'allow_password_reset', '__return_false' );
 
-		$res = $this->controller->lost_password();
+		$res = $controller->lost_password();
 
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( 'no_password_reset', $res );
@@ -233,6 +227,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_email_send_error() {
 
+		$controller = new LLMS_Controller_Account();
+
 		$user = $this->factory->user->create_and_get();
 		$this->setup_post( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
@@ -242,7 +238,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		add_filter( 'wp_mail', array( $this, 'fail_email_send' ) );
 
-		$res = $this->controller->lost_password();
+		$res = $controller->lost_password();
 
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( 'llms_lost_password_email_send', $res );
@@ -262,6 +258,8 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_lost_password_email_success() {
 
+		$controller = new LLMS_Controller_Account();
+
 		$user = $this->factory->user->create_and_get();
 
 		// Test with user-submitted email & username.
@@ -272,7 +270,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 				'llms_login'           => $user->$field,
 			) );
 
-			$this->assertTrue( $this->controller->lost_password() );
+			$this->assertTrue( $controller->lost_password() );
 
 			$this->assertStringContains( 'Check your inbox for an email with instructions on how to reset your password.', llms_get_notices() );
 
