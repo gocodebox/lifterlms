@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.37.3
+Stable tag: 3.37.4
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,32 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.4 - 2019-12-06 =
+------------------------
+
+##### Bug Fixes
+
++ Fixed a bug causing certificate _template_ exports to export the site's homepage instead of the certificate preview.
++ When exporting a certificate template, use the `post_author` to determine what user to use for merge code data.
++ Revert Accounts settings tab page id to "account".
+
+##### LifterLMS Blocks v1.7.1
+
++ Feature: Add logic for `logged_in` and `logged_out` block visibility options.
++ Update: Added `isDisabled` property to Search component.
++ Update: Adjusted priority of `render_block` filter to 20.
++ Update: Added filter, `llms_block_supports_visibility` to allow modification of the return of the check.
++ Update: Disabled block visibility on registration & account forms to prevent a potentially confusing form creation experience.
++ Update: Added block editor rendering for password type fields.
++ Update: Perform post migrations on `current_screen` instead of `admin_enqueue_scripts`.
++ Update: Update various dependencies to use updated gutenberg packages.
++ Bug fix: Fixed a WordPress 5.3 issues with JSON data affecting the ability to save course/membership instructors.
++ Bug fix: Import `InspectorControls` from `wp.blockEditor` in favor of deprecated `wp.editor`
++ Bug fix: Automatically store course/membership instructor with `post_author` data when the post is created.
++ Bug fix: Pass style rules as camelCase.
++ Bug fix: Fixed an issue causing "No HTML Returned" to be displayed in place of the Lesson Progression block on free lessons when viewed by a logged-out user.
+
+
 = v3.37.3 - 2019-12-03 =
 ------------------------
 
@@ -665,33 +691,5 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Fixed issue that allowed instructors to see all quizzes on a site when the instructor had either no courses or only empty courses (courses with no lessons).
 + Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
 + Fixed an issue causing popover notifications to be skipped (never displayed) as a result of redirects.
-
-
-= v3.36.0 - 2019-09-16 =
-------------------------
-
-##### User Interaction event and session Tracking
-
-+ Added user interaction tracking for the following events:
-
-  + User sign in and out.
-  + Page load and exit (for LMS content)
-  + Page focus and blur (for LMS content)
-  + And more to come
-
-+ Interaction events are grouped into sessions automatically. A session is "closed" after 30 minutes of inactivity or a log-out event.
-+ Added "Last Seen" student reporting column which reports the last recorded activity for the student.
-
-##### Enhancements
-
-+ Automatically hydrate when calling LLMS_Abstract_Database_Store::to_array().
-+ Added CSS to make course and lesson video embeds automatically responsive.
-
-##### Bug Fixes
-
-+ Correctly pass the `$remember` variable when using `llms_set_person_auth_cookie()`.
-+ Fixed undefined index error when retrieving an unset value from an unsaved database model.
-+ Fix issue causing quotes to be encoded in shortcodes used in course and membership restriction message settings fields.
-+ Fix issue preventing manual updates of order dates (next payment, trial expiration, and access expiration) from being saved properly.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
