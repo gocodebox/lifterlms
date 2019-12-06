@@ -493,6 +493,39 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test submit() for the account form when there's no logged in user.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_account_no_user() {
+
+		$ret = $this->handler->submit( array(), 'account' );
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-no-user', $ret );
+
+	}
+
+	/**
+	 * Test submit() for the account for when there is a logged in user.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_submit_account_with_user() {
+
+		wp_set_current_user( $this->factory->student->create() );
+		$ret = $this->handler->submit( array(), 'account' );
+
+		// We're still going to get an error but it won't be the "llms-form-no-user" error.
+		$this->assertIsWPError( $ret );
+		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
+
+	}
+
+	/**
 	 * Test submit on an invalid form location.
 	 *
 	 * @since [version]
@@ -521,17 +554,6 @@ class LLMS_Test_Form_Handler extends LLMS_UnitTestCase {
 		$this->assertWPErrorCodeEquals( 'llms-form-missing-required', $ret );
 
 	}
-
-	/**
-	 * test submission validation errors
-	 *
-	 * @todo sanitizing first so invalid fields show up as missing (since sanitization leaves the fields blank).
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_submit_validation_errors() {}
 
 	/**
 	 * Test submission matching errors.
