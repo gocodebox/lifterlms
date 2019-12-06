@@ -666,47 +666,81 @@ class LLMS_Person_Handler {
 	/**
 	 * Login a user
 	 *
-	 * @param    array $data array of login data.
+	 * @since 3.0.0
+	 * @since 3.29.4 Unknown.
+	 * @since [version] Removed email lookup logic since `wp_authenticate()` supports email addresses as `user_login` since WP 4.5.
+	 *
+	 * @param  array $data {
+	 *     User login information.
+	 *
+	 *     @type string $llms_login User email address or username.
+	 *     @type string $llms_password User password.
+	 *     @type string $llms_remember Whether to extend the cookie duration to keep the user logged in for a longer period.
+	 * }
 	 * @return   WP_Error|int WP_Error on error or the WP_User ID.
-	 * @since    3.0.0
-	 * @version  3.29.4
 	 */
 	public static function login( $data ) {
 
+		/**
+		 * Run an action prior to user login.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $data {
+		 *    User login credentials.
+		 *
+		 *    @type string $user_login User's username.
+		 *    @type string $password User's password.
+		 *    @type bool $remeber Whether to extend the cookie duration to keep the user logged in for a longer period.
+		 * }
+		 */
 		do_action( 'lifterlms_before_user_login', $data );
 
-		// validate the fields & allow custom validation to occur.
-		$valid = self::validate_fields( apply_filters( 'lifterlms_user_login_data', $data ), 'login' );
+		/**
+		 * Filter user submitted login data prior to data validation.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param array $data {
+		 *    User login credentials.
+		 *
+		 *    @type string $user_login User's username.
+		 *    @type string $password User's password.
+		 *    @type bool $remeber Whether to extend the cookie duration to keep the user logged in for a longer period.
+		 * }
+		 */
+		$data = apply_filters( 'lifterlms_user_login_data', $data );
 
-		// if errors found, return them.
+		// Validate the fields & allow custom validation to occur.
+		$valid = self::validate_fields( $data, 'login' );
+
+		// Error.
 		if ( is_wp_error( $valid ) ) {
 			return apply_filters( 'lifterlms_user_login_errors', $valid, $data, false );
 		}
 
-		$creds               = array();
-		$creds['user_login'] = $data['llms_login'];
+		$creds = array(
+			'user_login'    => wp_unslash( $data['llms_login'] ), // Unslash ensures that an email address with an apostrophe is unescaped for lookups.
+			'user_password' => $data['llms_password'],
+			'remember'      => isset( $data['llms_remember'] ),
+		);
 
-		$err = new WP_Error( 'login-error', __( 'Could not find an account with the supplied email address and password combination.', 'lifterlms' ) );
-
-		// get the username from the email address
-		if ( llms_parse_bool( get_option( 'lifterlms_registration_generate_username' ) ) && apply_filters( 'lifterlms_get_username_from_email', true ) ) {
-
-			$user = get_user_by( 'email', wp_unslash( $data['llms_login'] ) );
-
-			if ( ! isset( $user->user_login ) ) {
-				return apply_filters( 'lifterlms_user_login_errors', $err, $data, false );
-			}
-
-			$creds['user_login'] = $user->user_login;
-
-		}
-
-		$creds['user_password'] = $data['llms_password'];
-		$creds['remember']      = isset( $data['llms_remember'] );
-
-		$signon = wp_signon( apply_filters( 'lifterlms_login_credentials', $creds ), is_ssl() );
+		/**
+		 * Filter a user's login credentials immediately prior to signing in.
+		 *
+		 * @param array $creds {
+		 *    User login credentials.
+		 *
+		 *    @type string $user_login User's username.
+		 *    @type string $password User's password.
+		 *    @type bool $remeber Whether to extend the cookie duration to keep the user logged in for a longer period.
+		 * }
+		 */
+		$creds = apply_filters( 'lifterlms_login_credentials', $creds );
+		$signon = wp_signon( $creds, is_ssl() );
 
 		if ( is_wp_error( $signon ) ) {
+			$err = new WP_Error( 'login-error', __( 'Could not find an account with the supplied email address and password combination.', 'lifterlms' ) );
 			return apply_filters( 'lifterlms_user_login_errors', $err, $data, $signon );
 		}
 

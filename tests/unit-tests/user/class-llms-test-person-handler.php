@@ -9,6 +9,7 @@
  * @since 3.29.4 Unknown.
  * @since [version] Update to work with changes from LLMS_Forms.
  *               Add tests for the LLMS_Person_Handler::get_login_forms() method.
+ *               Login tests don't rely on deprecated option `lifterlms_registration_generate_username`.
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -168,14 +169,15 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test logging in with a username.
 	 *
+	 * @since 3.29.4
+	 * @since [version] Remove deprecated option `lifterlms_registration_generate_username` and allow username login via filter.
+	 *
 	 * @return  void
-	 * @since   3.29.4
-	 * @version 3.29.4
 	 */
 	public function test_login_with_username() {
 
-		// Test with username.
-		update_option( 'lifterlms_registration_generate_username', 'no' );
+		// Enable Usernames.
+		add_filter( 'llms_are_usernames_enabled', '__return_true' );
 
 		// Missing login.
 		$login = LLMS_Person_Handler::login( array(
@@ -203,7 +205,8 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		$this->assertWPErrorCodeEquals( 'login-error', $login );
 
 		// Test against a real user with bad creds.
-		$uid = $this->factory->user->create( array( 'user_login' => 'test_user_login', 'user_pass' => '1234' ) );
+		$user = $this->factory->user->create_and_get( array( 'user_login' => 'test_user_login', 'user_pass' => '1234' ) );
+		$uid  = $user->ID;
 
 		$login = LLMS_Person_Handler::login( array(
 			'llms_login' => 'test_user_login',
@@ -222,19 +225,36 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 		$this->assertEquals( $uid, $login );
 		wp_logout();
 
+
+		// Use a fake email address in the login field.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => 'fake@whatever.com',
+			'llms_password' => '1234',
+		) );
+		$this->assertIsWPError( $login );
+		$this->assertWPErrorCodeEquals( 'login-error', $login );
+
+		// Use the real email address in the login field.
+		$login = LLMS_Person_Handler::login( array(
+			'llms_login' => $user->user_email,
+			'llms_password' => '1234',
+		) );
+		$this->assertEquals( $uid, $login );
+		wp_logout();
+
+		remove_filter( 'llms_are_usernames_enabled', '__return_true' );
+
 	}
 
 	/**
 	 * Test logging in with a username.
 	 *
+	 * @since 3.29.4
+	 * @since [version] Remove deprecated option `lifterlms_registration_generate_username`.
+	 *
 	 * @return  void
-	 * @since   3.29.4
-	 * @version 3.29.4
 	 */
 	public function test_login_with_email() {
-
-		// Set autousername option.
-		update_option( 'lifterlms_registration_generate_username', 'yes' );
 
 		// Missing login.
 		$login = LLMS_Person_Handler::login( array(
