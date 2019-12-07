@@ -37,6 +37,57 @@ class LLMS_Person_Handler {
 	private static $voucher_script_output = false;
 
 	/**
+	 * Locate password fields from a given form location.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $location From location.
+	 * @return false|array[]
+	 */
+	protected static function find_password_fields( $location ) {
+
+		$forms = LLMS_Forms::instance();
+		$all   = $forms->get_form_fields( $location );
+
+		$pwd = $forms->get_field_by( (array) $all, 'id', 'password' );
+
+		// If we don't have a password in the form return early.
+		if ( ! $pwd ) {
+			return false;
+		}
+
+		// Setup the return array.
+		$fields = array( $pwd );
+
+		// Add confirmation and strength meter if they exist.
+		foreach ( array( 'password_confirm', 'llms-password-strength-meter' ) as $id ) {
+
+			$field = $forms->get_field_by( $all, 'id', $id );
+			if ( $field ) {
+
+				// If we have a confirmation field ensure that the fields sit side by side.
+				if ( 'password_confirm' === $id ) {
+
+					$fields[0]['columns'] = 6;
+					$fields[0]['last_column'] = false;
+					$fields[0]['wrapper_classes'] = array();
+
+					$field['columns'] = 6;
+					$field['last_column'] = true;
+					$field['wrapper_classes'] = array();
+
+				}
+
+				$fields[] = $field;
+			}
+
+		}
+
+		return $fields;
+
+	}
+
+	/**
 	 * Generate a unique login based on the user's email address
 	 *
 	 * @param    string $email user's email address
@@ -398,113 +449,120 @@ class LLMS_Person_Handler {
 	}
 
 	/**
-	 * Retrieve an array of password fields for a specific screen
+	 * Retrieve an array of password fields.
 	 *
-	 * Each array represents a form field that can be passed to llms_form_field()
+	 * This is only used on the password rest form as a fallback
+	 * when no "custom" password fields can be found in either of the default
+	 * checkout or registration forms.
 	 *
-	 * @param    string $screen  name os the screen [account|checkout|registration]
-	 * @param    array  $fields  array of fields to add the pass fields to (from self::get_available_fields() for example)
-	 * @return   array
-	 * @since    3.7.0
-	 * @version  3.7.0
+	 * @since 3.7.0
+	 * @since [version] Removed optional parameters
+	 *
+	 * @return array[]
 	 */
-	private static function get_password_fields( $screen = 'registration', $fields = array() ) {
+	private static function get_password_fields() {
 
-		if ( 'account' === $screen ) {
-			$fields[] = array(
-				'columns'         => 12,
-				'id'              => 'current_password',
-				'label'           => __( 'Current Password', 'lifterlms' ),
-				'last_column'     => true,
-				'required'        => true,
-				'type'            => 'password',
-				'wrapper_classes' => 'llms-change-password',
-			);
-		}
+		$fields = array();
 
 		$fields[] = array(
 			'columns'         => 6,
 			'classes'         => 'llms-password',
 			'id'              => 'password',
-			'label'           => ( 'account' === $screen ) ? __( 'New Password', 'lifterlms' ) : __( 'Password', 'lifterlms' ),
+			'label'           => __( 'Password', 'lifterlms' ),
 			'last_column'     => false,
-			'matched'         => 'password_confirm',
+			'match'           => 'password_confirm',
 			'required'        => true,
 			'type'            => 'password',
-			'wrapper_classes' => ( 'account' === $screen ) ? 'llms-change-password' : '',
 		);
 		$fields[] = array(
 			'columns'         => 6,
 			'classes'         => 'llms-password-confirm',
 			'id'              => 'password_confirm',
-			'label'           => ( 'account' === $screen ) ? __( 'Confirm New Password', 'lifterlms' ) : __( 'Confirm Password', 'lifterlms' ),
-			'last_column'     => true,
+			'label'           => __( 'Confirm Password', 'lifterlms' ),
 			'match'           => 'password',
 			'required'        => true,
 			'type'            => 'password',
-			'wrapper_classes' => ( 'account' === $screen ) ? 'llms-change-password' : '',
 		);
 
-		if ( 'yes' === get_option( 'lifterlms_registration_password_strength' ) ) {
-			$strength = llms_get_minimum_password_strength();
-			if ( 'strong' === $strength ) {
-				$desc = __( 'A %s password is required.', 'lifterlms' );
-			} else {
-				$desc = __( 'A minimum password strength of %s is required.', 'lifterlms' );
-			}
-
-			$fields[] = array(
-				'columns'         => 12,
-				'classes'         => 'llms-password-strength-meter',
-				'description'     => sprintf( $desc, llms_get_minimum_password_strength_name() ) . ' ' . __( 'The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
-				'id'              => 'llms-password-strength-meter',
-				'last_column'     => true,
-				'type'            => 'html',
-				'wrapper_classes' => ( 'account' === $screen ) ? 'llms-change-password' : '',
-			);
-		}
-
-		if ( 'account' === $screen ) {
-
-			$fields[] = array(
-				'columns'     => 12,
-				'classes'     => 'llms-password-change-toggle',
-				'value'       => '<a data-action="show" data-text="' . __( 'Cancel', 'lifterlms' ) . '" href="#llms-password-change-toggle">' . __( 'Change Password', 'lifterlms' ) . '</a>',
-				'id'          => 'llms-password-change-toggle',
-				'last_column' => true,
-				'type'        => 'html',
-			);
-
-		}
+		$fields[] = array(
+			'classes'         => 'llms-password-strength-meter',
+			'description'     => __( 'A strong password is required. The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
+			'id'              => 'llms-password-strength-meter',
+			'type'            => 'html',
+			'min_length'      => 6,
+			'min_strength'    => 'strong',
+		);
 
 		return $fields;
 
 	}
 
+	/**
+	 * Retrieve form fields used on the password reset form.
+	 *
+	 * This method will attempt to the "custom" password fields in the checkout form
+	 * and then in the registration form. At least a password field must be found. If
+	 * it cannot be found this function falls back to a set of default fields as defined
+	 * in the LLMS_Person_Handler::get_password_fields() method.
+	 *
+	 * @since Unknown
+	 * @since [version] Get fields from the checkout or registration forms before falling back to default fields.
+	 *               Changed filter on return from "lifterlms_lost_password_fields" to "llms_password_reset_fields".
+	 *
+	 * @param string $key User password reset key, usually populated via $_GET vars.
+	 * @param string $login User login (username), usually populated via $_GET vars.
+	 * @return array[]
+	 */
 	public static function get_password_reset_fields( $key = '', $login = '' ) {
-		$fields   = self::get_password_fields( 'reset' );
+
+		$fields = array();
+		foreach ( array( 'checkout', 'registration' ) as $location ) {
+			$fields = self::find_password_fields( $location );
+			if ( $fields ) {
+				break;
+			}
+		}
+
+		// Fallback if no custom fields are found.
+		if ( ! $fields ) {
+			$location = 'fallback';
+			$fields   = self::get_password_fields();
+		}
+
+		// Add button.
 		$fields[] = array(
-			'columns'     => 12,
-			'classes'     => 'llms-button-action auto',
-			'id'          => 'llms_lost_password_button',
-			'value'       => __( 'Update Password', 'lifterlms' ),
-			'last_column' => true,
-			'required'    => false,
-			'type'        => 'submit',
+			'classes' => 'llms-button-action auto',
+			'id'      => 'llms_lost_password_button',
+			'type'    => 'submit',
+			'value'   => __( 'Reset Password', 'lifterlms' ),
 		);
+
+		// Add hidden fields.
 		$fields[] = array(
 			'id'       => 'llms_reset_key',
-			'required' => true,
 			'type'     => 'hidden',
 			'value'    => $key,
 		);
 		$fields[] = array(
 			'id'       => 'llms_reset_login',
-			'required' => true,
 			'type'     => 'hidden',
 			'value'    => $login,
 		);
-		return apply_filters( 'lifterlms_lost_password_fields', $fields );
+
+		/**
+		 * Filter password reset form fields.
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $fields Array of form field arrays.
+		 * @param string $key User password reset key, usually populated via $_GET vars.
+		 * @param string $login User login (username), usually populated via $_GET vars.
+		 * @param string $location Location where the fields were retrieved from. Either "checkout", "registration", or "fallback".
+		 *                         Fallback denotes that no password field was located in either of the previous forms so a default
+		 *                         set of fields is generated programmatically.
+		 */
+		return apply_filters( 'llms_password_reset_fields', $fields, $key, $login, $location );
+
 	}
 
 	/**

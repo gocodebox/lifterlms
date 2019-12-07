@@ -197,8 +197,93 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test get_password_reset_fields() when "custom" password reset fields exist on the checkout form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_password_reset_fields_from_checkout() {
 
-	// public function test_get_password_reset_fields() {}
+		update_option( 'lifterlms_registration_password_strength', 'yes' );
+		LLMS_Forms::instance()->create( 'checkout', true );
+
+		add_filter( 'llms_password_reset_fields', function( $fields, $key, $login, $location ) {
+			$this->assertEquals( 'checkout', $location );
+			return $fields;
+		}, 10, 4 );
+
+		$expect = array(
+			'password',
+			'password_confirm',
+			'llms-password-strength-meter',
+			'llms_lost_password_button',
+			'llms_reset_key',
+			'llms_reset_login',
+		);
+		$this->assertEquals( $expect, wp_list_pluck( LLMS_Person_Handler::get_password_reset_fields(), 'id' ) );
+
+	}
+
+	/**
+	 * Test get_password_reset_fields() when "custom" password reset fields don't exist on checkout but do exist on reg form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_password_reset_fields_from_registration() {
+
+		wp_update_post( array(
+			'ID'           => LLMS_Forms::instance()->create( 'checkout', true ),
+			'post_content' => '',
+		) );
+
+		update_option( 'lifterlms_registration_password_strength', 'no' );
+		LLMS_Forms::instance()->create( 'registration', true );
+
+		add_filter( 'llms_password_reset_fields', function( $fields, $key, $login, $location ) {
+			$this->assertEquals( 'registration', $location );
+			return $fields;
+		}, 10, 4 );
+
+		$expect = array(
+			'password',
+			'password_confirm',
+			'llms_lost_password_button',
+			'llms_reset_key',
+			'llms_reset_login',
+		);
+		$this->assertEquals( $expect, wp_list_pluck( LLMS_Person_Handler::get_password_reset_fields(), 'id' ) );
+
+	}
+
+	/**
+	 * Test get_password_reset_fields() when "custom" password reset fields don't exist on checkout but do exist on reg form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_password_reset_fields_from_fallback() {
+
+		add_filter( 'llms_password_reset_fields', function( $fields, $key, $login, $location ) {
+			$this->assertEquals( 'fallback', $location );
+			return $fields;
+		}, 10, 4 );
+
+		$expect = array(
+			'password',
+			'password_confirm',
+			'llms-password-strength-meter',
+			'llms_lost_password_button',
+			'llms_reset_key',
+			'llms_reset_login',
+		);
+		$this->assertEquals( $expect, wp_list_pluck( LLMS_Person_Handler::get_password_reset_fields(), 'id' ) );
+
+	}
 
 	/**
 	 * Test logging in with a username.
