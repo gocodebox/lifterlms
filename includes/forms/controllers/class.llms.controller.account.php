@@ -1,9 +1,9 @@
 <?php
 /**
- * User Account Edit Forms
+ * Form submission handler for forms on the Student Dashboard.
  *
  * @since 3.7.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,10 +19,13 @@ class LLMS_Controller_Account {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.7.0
-	 * @version  3.10.0
+	 * @since 3.7.0
+	 * @since 3.10.0 Add student subscription cancellation handler.
+	 * @since [version] Add reset password link redirection handler.
 	 */
 	public function __construct() {
+
+		add_action( 'wp', array( $this, 'reset_password_link_redirect' ), 1 );
 
 		add_action( 'init', array( $this, 'update' ) );
 		add_action( 'init', array( $this, 'lost_password' ) );
@@ -202,44 +205,152 @@ class LLMS_Controller_Account {
 	 * @since 3.8.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
-	 * @return   void
+	 * @return null|WP_Error|void Returns `null` when the nonce can't be verified, on failure a `WP_Error` object, and void on success.
 	 */
 	public function reset_password() {
 
-		// invalid nonce or the form wasn't submitted
-		if ( ! llms_verify_nonce( '_reset_password_nonce', 'llms_reset_password', 'POST' ) ) {
-			return;
+		$result = $this->reset_password_handler();
+
+		if ( ! $result ) {
+			return null;
+		} elseif ( is_wp_error( $result ) ) {
+			llms_add_notice( implode( '<br>', $result->get_error_messages() ), 'error' );
+			return $result;
 		}
 
-		$valid = LLMS_Person_Handler::validate_fields( $_POST, 'reset_password' );
+		// Success.
+		llms_add_notice( __( 'Your password has been updated.', 'lifterlms' ) );
+		llms_redirect_and_exit( add_query_arg( 'password-reset', 1, llms_get_page_url( 'myaccount' ) ) );
 
-		// validation or registration issues
+	}
+
+	/**
+	 * Handle the submission of the password reset form.
+	 *
+	 * @since [version]
+	 *
+	 * @return null|WP_Error|true Returns `null` when the nonce can't be verified, on failure a `WP_Error` object, and `true` on success.
+	 */
+	private function reset_password_handler() {
+
+		// Invalid nonce or the form wasn't submitted.
+		if ( ! llms_verify_nonce( '_reset_password_nonce', 'llms_reset_password' ) ) {
+			return null;
+		}
+
+		/**
+		 * Fire an action before the user password reset form is handled.
+		 *
+		 * @since [version]
+		 */
+		do_action( 'llms_before_user_reset_password_submit' );
+
+		/**
+		 * Add custom validations to the password reset form.
+		 *
+		 * @since [version]
+		 *
+		 * @param WP_Error|true $valid Whether or not the submitted data is valid. Return `true` for valid data or a `WP_Error` when invalid.
+		 */
+		$valid = apply_filters( 'llms_validate_password_reset_form', $this->validate_password_reset( wp_unslash( $_POST ) ) );
 		if ( is_wp_error( $valid ) ) {
-			foreach ( $valid->get_error_messages() as $msg ) {
-				llms_add_notice( $msg, 'error' );
-			}
-			return;
+			return $valid;
 		}
 
 		$login = llms_filter_input( INPUT_POST, 'llms_reset_login', FILTER_SANITIZE_STRING );
-		if ( ! llms_verify_password_reset_key( llms_filter_input( INPUT_POST, 'llms_reset_key', FILTER_SANITIZE_STRING ), $login ) ) {
-			return llms_add_notice( __( 'Invalid Key', 'lifterlms' ), 'error' );
+		$key   = llms_filter_input( INPUT_POST, 'llms_reset_key', FILTER_SANITIZE_STRING );
+		$user  = check_password_reset_key( $key, $login );
+
+		if ( is_wp_error( $user ) ) {
+			// Error code is either "llms_password_reset_invalid_key" or "llms_password_reset_expired_key".
+			return new WP_Error( sprintf( 'llms_password_reset_%s', $user->get_error_code() ), __( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', 'lifterlms' ) );
 		}
 
-		$pass = llms_filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING );
-		$user = get_user_by( 'login', $login );
+		reset_password( $user, llms_filter_input( INPUT_POST, 'password', FILTER_SANITIZE_STRING ) );
 
-		if ( ! $user ) {
-			return llms_add_notice( __( 'Invalid Key', 'lifterlms' ), 'error' );
+		/**
+		 * Fire an action the the user's password is reset.
+		 *
+		 * @since [version]
+		 *
+		 * @param WP_User $user User object.
+		 */
+		do_action( 'llms_user_password_reset', $user );
+
+		return true;
+
+	}
+
+	/**
+	 * Automatically redirect password rest links to the password reset form page.
+	 *
+	 * Strips the `key` and `login` query string parameters and sets them in a cookie
+	 * (which is accessed later to populate the hidden fields on the reset form) and then
+	 * redirect to the password reset form.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function reset_password_link_redirect() {
+
+		if ( is_llms_account_page() && isset( $_GET['key'] ) && isset( $_GET['login'] ) ) {
+
+			$user = get_user_by( 'login', wp_unslash( llms_filter_input( INPUT_GET, 'login', FILTER_SANITIZE_STRING ) ) );
+			$uid  = $user ? $user->ID : 0;
+			$val  = sprintf( '%1$d:%2$s', $uid, wp_unslash( llms_filter_input( INPUT_GET, 'key', FILTER_SANITIZE_STRING ) ) );
+
+			llms_set_password_reset_cookie( $val );
+			llms_redirect_and_exit( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) );
 		}
 
-		do_action( 'password_reset', $user, $pass );
+	}
 
-		wp_set_password( $pass, $user->ID );
+	/**
+	 * Validates the password reset form.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $posted_data User submitted data.
+	 * @return WP_Error|true
+	 */
+	protected function validate_password_reset( $posted_data ) {
 
-		wp_password_change_notification( $user );
+		$err = new WP_Error();
 
-		llms_add_notice( sprintf( __( 'Your password has been updated. %1$sClick here to login%2$s', 'lifterlms' ), '<a href="' . esc_url( llms_get_page_url( 'myaccount' ) ) . '">', '</a>' ) );
+		$fields = LLMS_Person_Handler::get_password_reset_fields();
+
+		// Validate required fields.
+		foreach ( $fields as &$field ) {
+
+			$obj = new LLMS_Form_Field( $field );
+			$field = $obj->get_settings();
+
+			// Field is required, submittable, and wasn't posted.
+			if ( ! empty( $field['required'] ) && ! empty( $field['name'] ) && empty( $posted_data[ $field['name'] ] ) ) {
+
+				// Translators: %s = field label or id.
+				$msg = sprintf( __( '%s is a required field.', 'lifterlms' ), isset( $field['label'] ) ? $field['label'] : $field['name'] );
+				$err->add( 'llms-password-reset-missing-field', $msg );
+
+			}
+
+		}
+
+		if ( count( $err->errors )  ) {
+			return $err;
+		}
+
+		// If we have a password and password confirm and they don't match.
+		if ( isset( $posted_data['password'] ) && isset( $posted_data['password_confirm'] ) && $posted_data['password'] !== $posted_data['password_confirm'] ) {
+
+			$msg = __( 'The submitted passwords do must match.', 'lifterlms' );
+			$err->add( 'llms-passwords-must-match', $msg );
+			return $err;
+
+		}
+
+		return true;
 
 	}
 

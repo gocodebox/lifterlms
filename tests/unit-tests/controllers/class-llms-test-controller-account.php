@@ -284,6 +284,296 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test account reset password form submission handler when form is not submitted
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+
+	public function test_reset_password_not_submitted() {
+
+		$this->setup_post( array() );
+		do_action( 'init' );
+		$this->assertEquals( 0, did_action( 'llms_before_user_reset_password_submit' ) );
+		$this->assertEquals( 0, did_action( 'password_reset' ) );
+
+	}
+
+
+	public function test_reset_password_missing_fields() {
+
+		$controller = new LLMS_Controller_Account();
+
+		$this->mockPostRequest( array(
+ 			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+		) );
+
+		$res = $controller->reset_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms-password-reset-missing-field', $res );
+
+		$notices = llms_get_notices();
+		$this->assertStringContains( 'Password is a required field.', $notices );
+		$this->assertStringContains( 'Confirm Password is a required field.', $notices );
+
+	}
+
+	public function test_reset_password_no_match() {
+
+		$controller = new LLMS_Controller_Account();
+
+		$this->mockPostRequest( array(
+ 			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+ 			'password' => 'fake',
+ 			'password_confirm' => 'fake2',
+		) );
+
+		$res = $controller->reset_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms-passwords-must-match', $res );
+
+		$notices = llms_get_notices();
+		$this->assertStringContains( 'The submitted passwords do must match.', $notices );
+
+	}
+
+
+	public function test_reset_password_invalid_login() {
+
+		$controller = new LLMS_Controller_Account();
+
+		$this->mockPostRequest( array(
+ 			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+ 			'password' => 'fake',
+ 			'password_confirm' => 'fake',
+ 			'llms_reset_login' => 'thisisafakelogin',
+		) );
+
+		$res = $controller->reset_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_invalid_key', $res );
+		$this->assertStringContains( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', llms_get_notices() );
+
+	}
+
+	public function test_reset_password_invalid_key() {
+
+		$controller = new LLMS_Controller_Account();
+
+		$user = $this->factory->user->create_and_get();
+
+		$this->mockPostRequest( array(
+ 			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+ 			'password' => 'fake',
+ 			'password_confirm' => 'fake',
+ 			'llms_reset_login' => $user->user_login,
+ 			'llms_reset_key' => 'fake-key',
+		) );
+
+		$res = $controller->reset_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_invalid_key', $res );
+		$this->assertStringContains( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', llms_get_notices() );
+
+	}
+
+	public function test_reset_password_expired_key() {
+
+		add_filter( 'password_reset_expiration', '__return_zero' );
+
+		$controller = new LLMS_Controller_Account();
+
+		$user = $this->factory->user->create_and_get();
+		$key  = get_password_reset_key( $user );
+
+		llms_set_password_reset_cookie( sprintf( '%1$d:%2$s', $user->ID, $key ) );
+
+		$this->mockPostRequest( array(
+ 			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+ 			'password' => 'fake',
+ 			'password_confirm' => 'fake',
+ 			'llms_reset_login' => $user->user_login,
+ 			'llms_reset_key' => $key,
+		) );
+
+		$res = $controller->reset_password();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_expired_key', $res );
+		$this->assertStringContains( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', llms_get_notices() );
+
+		remove_filter( 'password_reset_expiration', '__return_zero' );
+
+	}
+
+	public function test_reset_password_success() {
+
+		LLMS_Install::create_pages();
+		$controller = new LLMS_Controller_Account();
+
+		$user = $this->factory->user->create_and_get();
+		$key  = get_password_reset_key( $user );
+
+		llms_set_password_reset_cookie( sprintf( '%1$d:%2$s', $user->ID, $key ) );
+
+		$this->mockPostRequest( array(
+ 			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+ 			'password' => 'fake',
+ 			'password_confirm' => 'fake',
+ 			'llms_reset_login' => $user->user_login,
+ 			'llms_reset_key' => $key,
+		) );
+
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( add_query_arg( 'password-reset', 1, llms_get_page_url( 'myaccount' ) ) . ' [302] YES' );
+
+		try {
+
+			$controller->reset_password();
+
+		} catch( LLMS_Unit_Test_Exception_Redirect $exception ) {
+
+			// Verify the password has been successfully changed.
+			$user = get_user_by( 'id', $user->ID );
+			wp_check_password( 'fake', $user->user_pass );
+
+			$this->assertStringContains( 'Your password has been updated.', llms_get_notices() );
+
+			throw $exception;
+
+		}
+
+
+	}
+
+	/**
+	 * Test reset_password_link_redirect(): no redirect when not on the account page.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_link_redirect_not_account_page() {
+
+		$controller = new LLMS_Controller_Account();
+		$this->go_to( home_url() );
+
+		$controller->reset_password_link_redirect();
+		$this->assertNull( $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) ) );
+
+	}
+
+	/**
+	 * Test reset_password_link_redirect(): no redirect when missing key and/or login params.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_link_redirect_no_vars() {
+
+		LLMS_Install::create_pages();
+		$this->go_to( llms_get_page_url( 'myaccount' ) );
+
+		$controller = new LLMS_Controller_Account();
+
+		// No vars.
+		$controller->reset_password_link_redirect();
+		$this->assertNull( $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) ) );
+
+		// No login.
+		$this->mockGetRequest( array(
+			'key' => 'fake-key',
+		) );
+		$controller->reset_password_link_redirect();
+		$this->assertNull( $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) ) );
+
+		// No key.
+		$this->mockGetRequest( array(
+			'login' => 'fake-login',
+		) );
+		$controller->reset_password_link_redirect();
+		$this->assertNull( $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) ) );
+
+	}
+
+	/**
+	 * Test reset_password_link_redirect(): redirect & set the cookie (even if it's an invalid user.)
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_link_redirect_success_fake_user() {
+
+		LLMS_Install::create_pages();
+		$this->go_to( llms_get_page_url( 'myaccount' ) );
+
+		$controller = new LLMS_Controller_Account();
+		$this->mockGetRequest( array(
+			'key'   => 'fake-key',
+			'login' => 'fake-login',
+		) );
+
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) . ' [302] YES' );
+
+		try {
+
+			$controller->reset_password_link_redirect();
+
+		} catch( LLMS_Unit_Test_Exception_Redirect $exception ) {
+
+			$cookie = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+			$this->assertEquals( '0:fake-key', $cookie['value'] );
+			throw $exception;
+
+		}
+
+	}
+
+	/**
+	 * Test reset_password_link_redirect(): redirect & set the cookie with a valid user.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_link_redirect_success_real_user() {
+
+		LLMS_Install::create_pages();
+		$this->go_to( llms_get_page_url( 'myaccount' ) );
+		$user = $this->factory->user->create_and_get();
+
+		$controller = new LLMS_Controller_Account();
+		$this->mockGetRequest( array(
+			'key'   => 'fake-key',
+			'login' => $user->user_login,
+		) );
+
+		$this->expectException( LLMS_Unit_Test_Exception_Redirect::class );
+		$this->expectExceptionMessage( add_query_arg( 'reset-pass', 1, llms_lostpassword_url() ) . ' [302] YES' );
+
+		try {
+
+			$controller->reset_password_link_redirect();
+
+		} catch( LLMS_Unit_Test_Exception_Redirect $exception ) {
+
+			$cookie = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+			$this->assertEquals( sprintf( '%d:fake-key', $user->ID ), $cookie['value'] );
+			throw $exception;
+
+		}
+
+	}
+
+	/**
 	 * Test account update form submission handler when form is not submitted
 	 *
 	 * @since [version]
