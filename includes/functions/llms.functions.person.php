@@ -9,7 +9,7 @@
  * @since [version] Moved deprecated `llms_get_minimum_password_strength()` & `llms_set_user_password_rest_key()` to the deprecated functions file.
  *               Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
  *               Use form submission handler during user registration.
- *               Added function `llms_get_usernames_blacklist()`.
+ *               Added functions `llms_get_usernames_blacklist()`, `llms_set_password_reset_cookie()`, and `llms_parse_password_reset_cookie()`.
  * @version [version]
  */
 
@@ -295,6 +295,45 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
 }
 
 /**
+ * Parses the password reset cookie.
+ *
+ * This is the cookie set when a user uses the password reset link found in a reset password email. The query string
+ * vars in the link (user login and reset key) are parsed and stored in this cookie.
+ *
+ * @since [version]
+ *
+ * @return array|WP_Error On success, returns an associative array containing the keys "key" and "login", on error
+ *                        returns a WP_Error.
+ */
+function llms_parse_password_reset_cookie() {
+
+	if ( ! isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) ) {
+		return new WP_Error( 'llms_password_reset_no_cookie', __( 'The password reset key could not be found. Please rest your password again if needed.', 'lifterlms' ) );
+	}
+
+	$parsed = array_map( 'sanitize_text_field', explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ) );
+	if ( 2 !== count( $parsed ) ) {
+		return new WP_Error( 'llms_password_reset_invalid_cookie', __( 'The password reset key is in an invalid format. Please rest your password again if needed.', 'lifterlms' ) );
+	}
+
+	$uid = $parsed[0];
+	$key = $parsed[1];
+
+	$user  = get_user_by( 'ID', $uid );
+	$login = $user ? $user->user_login : '';
+	$user  = check_password_reset_key( $key, $login );
+
+	if ( is_wp_error( $user ) ) {
+		// Error code is either "llms_password_reset_invalid_key" or "llms_password_reset_expired_key".
+		return new WP_Error( sprintf( 'llms_password_reset_%s', $user->get_error_code() ), __( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', 'lifterlms' ) );
+	}
+
+	// Success.
+	return compact( 'key', 'login' );
+
+}
+
+/**
  * Register a new user
  *
  * @see  LLMS_Person_Handler::register()
@@ -320,6 +359,24 @@ function llms_register_user( $data = array(), $screen = 'registration', $signon 
 	}
 
 	return $user_id;
+
+}
+
+/**
+ * Set or unset a user's password reset cookie.
+ *
+ * @since [version]
+ *
+ * @param string $val Cookie value.
+ * @return boolean
+ */
+function llms_set_password_reset_cookie( $val = '' ) {
+
+	$cookie  = sprintf( 'wp-resetpass-%s', COOKIEHASH );
+	$expires = $val ? 0 : time() - YEAR_IN_SECONDS;
+	$path    = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
+
+	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
 
 }
 
