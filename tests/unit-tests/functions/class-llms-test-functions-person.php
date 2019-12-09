@@ -9,6 +9,7 @@
  * @since 3.8.0
  * @since 3.9.0 Add tests for `llms_get_student()`.
  * @since 3.9.0 Add tests for `llms_get_usernames_blacklist()`.
+ * @since [version] Add tests for `llms_set_password_reset_cookie()` and `llms_parse_password_reset_cookie()`.
  */
 class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
@@ -95,6 +96,227 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 
 		$this->assertTrue( is_array( llms_get_usernames_blacklist() ) );
 		$this->assertTrue( in_array( 'admin', llms_get_usernames_blacklist(), true ) );
+
+	}
+
+	/**
+	 * Test llms_parse_password_reset_cookie() when no cookie is set.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_parse_password_reset_cookie_no_cookie() {
+
+		$res = llms_parse_password_reset_cookie();
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_no_cookie', $res );
+
+	}
+
+	/**
+	 * Test llms_parse_password_reset_cookie() when the cookie is malformed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_parse_password_reset_cookie_bad_cookie() {
+
+		llms_set_password_reset_cookie( 'fake' );
+
+		$res = llms_parse_password_reset_cookie();
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_invalid_cookie', $res );
+
+	}
+
+	/**
+	 * Test llms_parse_password_reset_cookie() when the user doesn't exist.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_parse_password_reset_cookie_bad_user() {
+
+		$uid = $this->factory->user->create() + 1; // Fake user.
+
+		llms_set_password_reset_cookie( sprintf( '%d:fake', $uid ) );
+
+		$res = llms_parse_password_reset_cookie();
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_invalid_key', $res );
+
+	}
+
+	/**
+	 * Test llms_parse_password_reset_cookie() when the key is invalid.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_parse_password_reset_cookie_bad_key() {
+
+		$uid = $this->factory->user->create();
+
+		llms_set_password_reset_cookie( sprintf( '%d:fake', $uid ) );
+
+		$res = llms_parse_password_reset_cookie();
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_invalid_key', $res );
+
+	}
+
+	/**
+	 * Test llms_parse_password_reset_cookie() when the key is expired.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_parse_password_reset_cookie_expired_key() {
+
+		add_filter( 'password_reset_expiration', '__return_zero' );
+
+		$user = $this->factory->user->create_and_get();
+		$key  = get_password_reset_key( $user );
+
+		llms_set_password_reset_cookie( sprintf( '%1$d:%2$s', $user->ID, $key ) );
+
+		$res = llms_parse_password_reset_cookie();
+
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_password_reset_expired_key', $res );
+
+		remove_filter( 'password_reset_expiration', '__return_zero' );
+
+	}
+
+	/**
+	 * Test llms_parse_password_reset_cookie() success.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_parse_password_reset_cookie_success() {
+
+		$user = $this->factory->user->create_and_get();
+		$key  = get_password_reset_key( $user );
+
+		llms_set_password_reset_cookie( sprintf( '%1$d:%2$s', $user->ID, $key ) );
+
+		$res = llms_parse_password_reset_cookie();
+
+		$this->assertEquals( $user->user_login, $res['login'] );
+		$this->assertEquals( $key, $res['key'] );
+
+	}
+
+	/**
+	 * Test llms_set_password_reset_cookie() under default circumstances
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_set_password_reset_cookie() {
+
+		$name = sprintf( 'wp-resetpass-%s', COOKIEHASH );
+		$this->assertTrue( llms_set_password_reset_cookie( 'reset_pass' ) );
+
+		$this->assertArrayHasKey( $name, $this->cookies->get_all() );
+		$this->assertEquals( array(
+			'value'    => 'reset_pass',
+			'expires'  => 0,
+			'path'     => '',
+			'domain'   => COOKIE_DOMAIN,
+			'secure'   => false,
+			'httponly' => true,
+		), $this->cookies->get( $name ) );
+
+	}
+
+	/**
+	 * Test that the llms_set_password_reset_cookie fails.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_set_password_reset_cookie_fail() {
+
+		// Mock failure.
+		$this->cookies->expect_error();
+
+		$this->assertFalse( llms_set_password_reset_cookie( 'cookieval' ) );
+
+	}
+
+	/**
+	 * Test llms_set_password_reset_cookie() when no value is set (expires the cookie).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_set_password_reset_cookie_no_val() {
+
+		$this->assertTrue( llms_set_password_reset_cookie() );
+		$data = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+		$this->assertEmpty( $data['value'] );
+		$this->assertTrue( time() > $data['expires'] );
+
+	}
+
+	/**
+	 * Test llms_set_password_reset_cookie() sets the cookie path properly.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_set_password_reset_cookie_path() {
+
+		// Regular URL path.
+		$_SERVER['REQUEST_URI'] = '/dashboard/lost-password';
+
+		$this->assertTrue( llms_set_password_reset_cookie( 'reset_pass' ) );
+		$data = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+		$this->assertEquals( '/dashboard/lost-password', $data['path'] );
+
+		// With query string.
+		$_SERVER['REQUEST_URI'] = '/dashboard/lost-password?var1=1&var2=2';
+
+		$this->assertTrue( llms_set_password_reset_cookie( 'reset_pass' ) );
+		$data = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+		$this->assertEquals( '/dashboard/lost-password', $data['path'] );
+
+		// Reset.
+		$_SERVER['REQUEST_URI'] = '';
+
+	}
+
+	/**
+	 * Test llms_set_password_reset_cookie() sets a secure cookie when SSL is enabled on the site.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_llms_set_password_reset_cookie_ssl() {
+
+		// Mock is_ssl() to return `true`.
+		$_SERVER['HTTPS'] = 'ON';
+
+		$this->assertTrue( llms_set_password_reset_cookie( 'reset_pass' ) );
+		$data = $this->cookies->get( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+		$this->assertTrue( $data['secure'] );
+
+		// Reset.
+		unset( $_SERVER['HTTPS'] );
 
 	}
 
