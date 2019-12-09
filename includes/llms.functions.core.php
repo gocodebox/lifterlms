@@ -867,12 +867,12 @@ if ( ! function_exists( 'llms_setcookie' ) ) {
 	 *
 	 * @param string $name The name of the cookie.
 	 * @param string $value The value of the cookie.
-	 * @param int $expires The time wehn the cookie expires as a Unix timestamp.
+	 * @param int    $expires The time wehn the cookie expires as a Unix timestamp.
 	 * @param string $path The path on the server where the cookie will be available.
 	 * @param string $domain The (sub)domain that the cookie is available to.
-	 * @param bool $secure Indicates the cookie should only be transmitted over a secure HTTPS connection.
-	 * @param bool $httponly When `true` the cookie will only be made accessible through the HTTP protocol,
-	 *                       preventing it from being accessed by scripting languages (such as Javascript).
+	 * @param bool   $secure Indicates the cookie should only be transmitted over a secure HTTPS connection.
+	 * @param bool   $httponly When `true` the cookie will only be made accessible through the HTTP protocol,
+	 *                         preventing it from being accessed by scripting languages (such as Javascript).
 	 *
 	 * @return boolean
 	 */
@@ -948,54 +948,5 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 	}
 
 	return wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce ] ) ), $action );
-
-}
-
-/**
- * Verifies a plain text password key for a user (by login) against the hashed key in the database
- *
- * @param    string $key    plain text activation key
- * @param    string $login  user login
- * @return   boolean
- * @since    3.8.0
- * @version  3.8.0
- */
-function llms_verify_password_reset_key( $key = '', $login = '' ) {
-
-	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
-	if ( empty( $key ) || ! is_string( $key ) ) {
-		return false;
-	}
-
-	if ( empty( $login ) || ! is_string( $login ) ) {
-		return false;
-	}
-
-	global $wpdb;
-	$user_key = $wpdb->get_var(
-		$wpdb->prepare(
-			"SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s",
-			$login
-		)
-	);
-
-	if ( empty( $user_key ) ) {
-		return false;
-	}
-
-	global $wp_hasher;
-
-	if ( empty( $wp_hasher ) ) {
-		require_once ABSPATH . 'wp-includes/class-phpass.php';
-		$wp_hasher = new PasswordHash( 8, true );
-	}
-
-	$valid = $wp_hasher->CheckPassword( $key, $user_key );
-
-	if ( empty( $valid ) ) {
-		return false;
-	}
-
-	return true;
 
 }

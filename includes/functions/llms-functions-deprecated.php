@@ -14,6 +14,7 @@
  * @since [version] Moved `llms_create_new_person()` function which was deprecated at version 3.0.0.
  *                Deprecated `llms_get_minimum_password_strength() with no replacement`.
  *                Deprecated `llms_set_user_password_rest_key()` in favor of WP Core `get_password_reset_key()`.
+ *                Deprecated `llms_verify_password_reset_key()` in favor of WP Core `check_password_reset_key()`.
  * @version 3.37.1
  */
 
@@ -262,5 +263,24 @@ function llms_set_user_password_rest_key( $user_id ) {
 		)
 	);
 	return $key;
+
+}
+
+/**
+ * Verifies a plain text password key for a user (by login) against the hashed key in the database
+ *
+ * @since 3.8.0
+ * @deprecated [version]
+ *
+ * @param string $key Plain text activation key.
+ * @param string $login User login.
+ * @return boolean
+ */
+function llms_verify_password_reset_key( $key = '', $login = '' ) {
+
+	llms_deprecated_function( 'llms_verify_password_reset_key', '[version]', 'check_password_reset_key' );
+
+	$valid = check_password_reset_key( $key, $login );
+	return is_wp_error( $valid ) : false : true;
 
 }
