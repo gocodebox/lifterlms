@@ -9,6 +9,8 @@
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
  * @since [version] Create forms before executing tests account update tests.
  *               Split account update assertions into multiple tests.
+ *               Add tests for lost_password() and reset_password() forms.
+ *               Use mockPostRequest() in favor of deprecated setup_post()
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -30,19 +32,21 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	/**
 	 * Test order completion actions
+	 *
+	 * @since 3.19.0
+	 * @since [version] Use mockPostRequest() in favor of deprecated setup_post()
+	 *
 	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
 	 */
 	public function test_cancel_subscription() {
 
 		// form not submitted
-		$this->setup_post( array() );
+		$this->mockPostRequest( array() );
 		do_action( 'init' );
 		$this->assertEquals( 0, did_action( 'llms_subscription_cancelled_by_student' ) );
 
 		// form submitted but missing required fields
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 		) );
 		do_action( 'init' );
@@ -52,7 +56,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		llms_clear_notices();
 
 		// form submitted but invalid order id or the order id is invalid
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 			'order_id' => 123,
 		) );
@@ -66,7 +70,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$order = $this->get_mock_order();
 
 		// form submitted but invalid order id or the order doesn't belong to the current user
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 			'order_id' => $order->get( 'id' ),
 		) );
@@ -82,7 +86,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			// active order moves to pending cancel
 			$order->set_status( $status );
 
-			$this->setup_post( array(
+			$this->mockPostRequest( array(
 				'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 				'order_id' => $order->get( 'id' ),
 			) );
@@ -106,7 +110,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		$controller = new LLMS_Controller_Account();
 
-		$this->setup_post( array() );
+		$this->mockPostRequest( array() );
 		$this->assertNull( $controller->lost_password() );
 		$this->assertEquals( 0, did_action( 'llms_before_lost_password_form_submit' ) );
 
@@ -123,7 +127,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		$controller = new LLMS_Controller_Account();
 
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 		) );
 		$res = $controller->lost_password();
@@ -148,7 +152,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		$controller = new LLMS_Controller_Account();
 
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 			'llms_login'           => 'thisisafakeemail@fake.tld',
 		) );
@@ -173,7 +177,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		$controller = new LLMS_Controller_Account();
 
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 			'llms_login'           => 'thisisafakeusername',
 		) );
@@ -199,7 +203,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$controller = new LLMS_Controller_Account();
 
 		$user = $this->factory->user->create_and_get();
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 			'llms_login'           => $user->user_login,
 		) );
@@ -230,7 +234,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$controller = new LLMS_Controller_Account();
 
 		$user = $this->factory->user->create_and_get();
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 			'llms_login'           => $user->user_login,
 		) );
@@ -265,7 +269,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		// Test with user-submitted email & username.
 		foreach ( array( 'user_email', 'user_login' ) as $field ) {
 
-			$this->setup_post( array(
+			$this->mockPostRequest( array(
 				'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
 				'llms_login'           => $user->$field,
 			) );
@@ -293,7 +297,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	public function test_reset_password_not_submitted() {
 
-		$this->setup_post( array() );
+		$this->mockPostRequest( array() );
 		do_action( 'init' );
 		$this->assertEquals( 0, did_action( 'llms_before_user_reset_password_submit' ) );
 		$this->assertEquals( 0, did_action( 'password_reset' ) );
@@ -621,7 +625,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 */
 	public function test_update_not_submitted() {
 
-		$this->setup_post( array() );
+		$this->mockPostRequest( array() );
 		do_action( 'init' );
 		$this->assertEquals( 0, did_action( 'llms_before_user_account_update_submit' ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_updated' ) );
@@ -638,7 +642,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	public function test_update_no_user() {
 
 		// form submitted but user isn't logged in
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
 		) );
 		do_action( 'init' );
@@ -664,7 +668,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		wp_set_current_user( $uid );
 
 		// form submitted but missing fields
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
 		) );
 		do_action( 'init' );
@@ -696,7 +700,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		wp_set_current_user( $uid );
 
 		// update something
-		$this->setup_post( array(
+		$this->mockPostRequest( array(
 			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
 			'email_address' => 'help+23568@lifterlms.com',
 			'email_address_confirm' => 'help+23568@lifterlms.com',
