@@ -69,7 +69,7 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 
 			}
 		}
-	}// End if().
+	}
 
 	return apply_filters( 'llms_current_user_can_' . $cap, $grant, $obj_id );
 
@@ -311,7 +311,7 @@ function llms_parse_password_reset_cookie() {
 		return new WP_Error( 'llms_password_reset_no_cookie', __( 'The password reset key could not be found. Please rest your password again if needed.', 'lifterlms' ) );
 	}
 
-	$parsed = array_map( 'sanitize_text_field', explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ) );
+	$parsed = array_map( 'sanitize_text_field', explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ) );  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 	if ( 2 !== count( $parsed ) ) {
 		return new WP_Error( 'llms_password_reset_invalid_cookie', __( 'The password reset key is in an invalid format. Please rest your password again if needed.', 'lifterlms' ) );
 	}
@@ -374,7 +374,7 @@ function llms_set_password_reset_cookie( $val = '' ) {
 
 	$cookie  = sprintf( 'wp-resetpass-%s', COOKIEHASH );
 	$expires = $val ? 0 : time() - YEAR_IN_SECONDS;
-	$path    = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : '';
+	$path    = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 
 	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
 
@@ -552,7 +552,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 
 		default:
 			$return = $val;
-	}// End switch().
+	}
 
 	return $return;
 
