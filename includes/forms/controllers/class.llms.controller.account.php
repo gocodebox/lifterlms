@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.7.0
  * @since 3.35.0 Sanitize `$_POST` data.
+ * @since [version] Refactored `lost_password` and `reset_password` forms.
  */
 class LLMS_Controller_Account {
 
