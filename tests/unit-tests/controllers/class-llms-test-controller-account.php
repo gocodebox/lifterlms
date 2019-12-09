@@ -300,7 +300,13 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	}
 
-
+	/**
+	 * Test reset_password() missing required fields.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_reset_password_missing_fields() {
 
 		$controller = new LLMS_Controller_Account();
@@ -320,6 +326,13 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test reset_password() submitted passwords don't match.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_reset_password_no_match() {
 
 		$controller = new LLMS_Controller_Account();
@@ -340,7 +353,13 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	}
 
-
+	/**
+	 * Test reset_password() with an invalid user login
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_reset_password_invalid_login() {
 
 		$controller = new LLMS_Controller_Account();
@@ -360,6 +379,13 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test reset_password() with an invalid password reset key
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_reset_password_invalid_key() {
 
 		$controller = new LLMS_Controller_Account();
@@ -382,6 +408,13 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test reset_password() with an expired password reset key.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_reset_password_expired_key() {
 
 		add_filter( 'password_reset_expiration', '__return_zero' );
@@ -411,6 +444,13 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test reset_password() success
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function test_reset_password_success() {
 
 		LLMS_Install::create_pages();
@@ -447,7 +487,6 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			throw $exception;
 
 		}
-
 
 	}
 
