@@ -47,11 +47,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 
 				$args = array();
 				if ( llms_filter_input( INPUT_GET, 'reset-pass', FILTER_SANITIZE_NUMBER_INT ) ) {
-					$args['form']   = 'reset_password';
-					$cookie         = llms_parse_password_reset_cookie();
-					$key            = '';
-					$login          = '';
-					$fields         = array();
+					$args['form'] = 'reset_password';
+					$cookie       = llms_parse_password_reset_cookie();
+					$key          = '';
+					$login        = '';
+					$fields       = array();
 					if ( is_wp_error( $cookie ) ) {
 						llms_add_notice( $cookie->get_error_message(), 'error' );
 					} else {

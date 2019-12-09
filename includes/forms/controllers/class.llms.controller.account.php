@@ -324,7 +324,7 @@ class LLMS_Controller_Account {
 		// Validate required fields.
 		foreach ( $fields as &$field ) {
 
-			$obj = new LLMS_Form_Field( $field );
+			$obj   = new LLMS_Form_Field( $field );
 			$field = $obj->get_settings();
 
 			// Field is required, submittable, and wasn't posted.
@@ -335,10 +335,9 @@ class LLMS_Controller_Account {
 				$err->add( 'llms-password-reset-missing-field', $msg );
 
 			}
-
 		}
 
-		if ( count( $err->errors )  ) {
+		if ( count( $err->errors ) ) {
 			return $err;
 		}
 

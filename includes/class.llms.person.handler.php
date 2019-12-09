@@ -68,19 +68,18 @@ class LLMS_Person_Handler {
 				// If we have a confirmation field ensure that the fields sit side by side.
 				if ( 'password_confirm' === $id ) {
 
-					$fields[0]['columns'] = 6;
-					$fields[0]['last_column'] = false;
+					$fields[0]['columns']         = 6;
+					$fields[0]['last_column']     = false;
 					$fields[0]['wrapper_classes'] = array();
 
-					$field['columns'] = 6;
-					$field['last_column'] = true;
+					$field['columns']         = 6;
+					$field['last_column']     = true;
 					$field['wrapper_classes'] = array();
 
 				}
 
 				$fields[] = $field;
 			}
-
 		}
 
 		return $fields;
@@ -465,32 +464,32 @@ class LLMS_Person_Handler {
 		$fields = array();
 
 		$fields[] = array(
-			'columns'         => 6,
-			'classes'         => 'llms-password',
-			'id'              => 'password',
-			'label'           => __( 'Password', 'lifterlms' ),
-			'last_column'     => false,
-			'match'           => 'password_confirm',
-			'required'        => true,
-			'type'            => 'password',
+			'columns'     => 6,
+			'classes'     => 'llms-password',
+			'id'          => 'password',
+			'label'       => __( 'Password', 'lifterlms' ),
+			'last_column' => false,
+			'match'       => 'password_confirm',
+			'required'    => true,
+			'type'        => 'password',
 		);
 		$fields[] = array(
-			'columns'         => 6,
-			'classes'         => 'llms-password-confirm',
-			'id'              => 'password_confirm',
-			'label'           => __( 'Confirm Password', 'lifterlms' ),
-			'match'           => 'password',
-			'required'        => true,
-			'type'            => 'password',
+			'columns'  => 6,
+			'classes'  => 'llms-password-confirm',
+			'id'       => 'password_confirm',
+			'label'    => __( 'Confirm Password', 'lifterlms' ),
+			'match'    => 'password',
+			'required' => true,
+			'type'     => 'password',
 		);
 
 		$fields[] = array(
-			'classes'         => 'llms-password-strength-meter',
-			'description'     => __( 'A strong password is required. The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
-			'id'              => 'llms-password-strength-meter',
-			'type'            => 'html',
-			'min_length'      => 6,
-			'min_strength'    => 'strong',
+			'classes'      => 'llms-password-strength-meter',
+			'description'  => __( 'A strong password is required. The password must be at least 6 characters in length. Consider adding letters, numbers, and symbols to increase the password strength.', 'lifterlms' ),
+			'id'           => 'llms-password-strength-meter',
+			'type'         => 'html',
+			'min_length'   => 6,
+			'min_strength' => 'strong',
 		);
 
 		return $fields;
@@ -539,14 +538,14 @@ class LLMS_Person_Handler {
 
 		// Add hidden fields.
 		$fields[] = array(
-			'id'       => 'llms_reset_key',
-			'type'     => 'hidden',
-			'value'    => $key,
+			'id'    => 'llms_reset_key',
+			'type'  => 'hidden',
+			'value' => $key,
 		);
 		$fields[] = array(
-			'id'       => 'llms_reset_login',
-			'type'     => 'hidden',
-			'value'    => $login,
+			'id'    => 'llms_reset_login',
+			'type'  => 'hidden',
+			'value' => $login,
 		);
 
 		/**
@@ -806,7 +805,7 @@ class LLMS_Person_Handler {
 		 *    @type bool $remeber Whether to extend the cookie duration to keep the user logged in for a longer period.
 		 * }
 		 */
-		$creds = apply_filters( 'lifterlms_login_credentials', $creds );
+		$creds  = apply_filters( 'lifterlms_login_credentials', $creds );
 		$signon = wp_signon( $creds, is_ssl() );
 
 		if ( is_wp_error( $signon ) ) {
