@@ -281,6 +281,6 @@ function llms_verify_password_reset_key( $key = '', $login = '' ) {
 	llms_deprecated_function( 'llms_verify_password_reset_key', '[version]', 'check_password_reset_key' );
 
 	$valid = check_password_reset_key( $key, $login );
-	return is_wp_error( $valid ) : false : true;
+	return is_wp_error( $valid ) ? false : true;
 
 }
