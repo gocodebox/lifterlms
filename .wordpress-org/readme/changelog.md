@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.37.5 - 2019-12-09 =
+------------------------
+
++ Update LifterLMS Blocks to v1.7.2: fixes a bug causing the block editor to encounter a fatal error when accessing custom post types that don't support custom fields.
+
+
 = v3.37.4 - 2019-12-06 =
 ------------------------
 
@@ -157,23 +163,3 @@
 
 + templates/admin/post-types/order-details.php
 + templates/admin/reporting/tabs/students/courses-course.php
-
-
-= v3.36.1 - 2019-09-24 =
-------------------------
-
-##### Updates
-
-+ Include SendWP Connector in LifterLMS Engagement Settings.
-+ Removed usage of `WP_Error::has_errors()` to support WordPress version prior to 5.1.
-+ Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
-+ Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
-
-##### Bugfixes
-
-+ Fixed a compatibility issue with FitVids.js causing excess white space displayed around videos when using the library, WP plugin, or themes that utilize the library.
-+ Fixed an issue allowing recurring charges to continue processing after the order or customer had been deleted from the site.
-+ Fixed issue causing Membership Restriction settings from properly saving.
-+ Fixed issue that allowed instructors to see all quizzes on a site when the instructor had either no courses or only empty courses (courses with no lessons).
-+ Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
-+ Fixed an issue causing popover notifications to be skipped (never displayed) as a result of redirects.
