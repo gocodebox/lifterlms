@@ -337,7 +337,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( 0 != $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
 			$ret = '';
 		} elseif ( $next_payment_time > 0 ) {
-			$ret = gmdate( $format, $next_payment_time );
+			$ret = date( $format, $next_payment_time );
 		}
 
 		/**
