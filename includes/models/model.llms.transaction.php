@@ -82,14 +82,34 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
 	 *
-	 * @param    int $order_id   LLMS_Order ID of the related order
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Add a default date information using `llms_current_time()`.
+	 *
+	 * @param int $order_id LLMS_Order ID of the related order.
+	 * @return array
 	 */
 	protected function get_creation_args( $order_id = 0 ) {
 
-		$title = sprintf( __( 'Transaction for Order #%1$d &ndash; %2$s', 'lifterlms' ), $order_id, strftime( _x( '%1$b %2$d, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'lifterlms' ), current_time( 'timestamp' ) ) );
+		$title = sprintf(
+			// Translators: %1$d = order ID; %2$s = formatted date/time string.
+			__( 'Transaction for Order #%1$d &ndash; %2$s', 'lifterlms' ),
+			$order_id,
+			strftime(
+				/**
+				 * Translators:
+				 *   %b Abbreviated month name.
+				 *   %d = Two-digit day of the month (with leading zeros).
+				 *   %Y = Four digit representation for the year.
+				 *   %I = Two digit representation of the hour in 12-hour format.
+				 *   %M = Two digit representation of the minute.
+				 *   %p = Uppercase 'AM' or 'PM' based on the given time.
+				 *
+				 *   See https://www.php.net/manual/en/function.strftime.php
+				 */
+				_x( '%b %d, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'lifterlms' ),
+				llms_current_time( 'timestamp' )
+			)
+		);
 
 		return apply_filters(
 			'llms_' . $this->model_post_type . '_get_creation_args',
@@ -98,6 +118,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				'ping_status'    => 'closed',
 				'post_author'    => 0,
 				'post_content'   => '',
+				'post_date'      => llms_current_time( 'mysql' ),
 				'post_excerpt'   => '',
 				'post_password'  => uniqid( 'order_' ),
 				'post_status'    => 'llms-' . apply_filters( 'llms_default_order_status', 'txn-pending' ),

@@ -418,4 +418,5 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		return array_shift( $llms_user_earned_certs );
 
 	}
+
 }
