@@ -8,8 +8,13 @@
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
-	private $elapsed = 0;
-
+	/**
+	 * Before the class runs, register the mock gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public static function setUpBeforeClass() {
 
 		parent::setUpBeforeClass();
@@ -20,6 +25,13 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * After the class runs, remove the mock gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public static function tearDownAfterClass() {
 
 		remove_filter( 'lifterlms_payment_gateways', array( __CLASS__, 'add_mock_gateway' ) );
@@ -35,28 +47,16 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Setup the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
 	public function setUp() {
-
 		parent::setUp();
 		$this->gateway = LLMS()->payment_gateways()->get_gateway_by_id( 'mock' );
-		$this->elapsed = 0;
-		$this->time_start = microtime( true );
-
-	}
-
-	private function incrementElapsed() {
-		$this->elapsed = microtime( true ) - $this->time_start;
-	}
-
-	public function tearDown() {
-
-		$this->incrementElapsed();
-
-		// printf( '%s seconds elapsed', $this->elapsed );
-
-		$this->elapsed = 0;
-		$this->time_start = null;
-
 	}
 
 	/**
@@ -65,19 +65,31 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * @since [version]
 	 *
 	 * @param string[] $gateways Array of gateway class names
+	 *
+	 * @return string[]
 	 */
 	public static function add_mock_gateway( $gateways ) {
 		$gateways[] = 'LLMS_Payment_Gateway_Mock';
 		return $gateways;
 	}
 
-	public function test_recurring_transaction_lifecycle() {
+	/**
+	 * Sets up a mock order for use with tests.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $period Access plan period value.
+	 * @param int $frequency Access plan frequency value.
+	 * @return LLMS_Order
+	 */
+	private function setup_order( $period, $frequency = 1 ) {
 
 		// Setup the objects.
 		$student = $this->factory->student->create_and_get();
 
 		$plan = $this->get_mock_plan();
-		$plan->set( 'period', 'month' );
+		$plan->set( 'period', $period );
+		$plan->set( 'frequency', $frequency );
 
 		$order = new LLMS_Order( 'new' );
 		$order   = $order->init( $student, $plan, $this->gateway );
@@ -85,56 +97,447 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Process the order.
 		$this->gateway->handle_pending_order( $order, $plan, $student );
 
-		// Reinitialize the order for assertions.
-		$order = llms_get_post( $order->get( 'id' ) );
+		return $order;
 
-		$order_time = $order->get_date( 'date', 'U' );
+	}
+
+	/**
+	 * Run some tests on the initial setup of the order and the first payment.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order The order.
+	 * @return void
+	 */
+	private function do_order_setup_tests( $order ) {
+
+		$plan      = llms_get_post( $order->get( 'plan_id' ) );
+		$period    = $plan->get( 'period' );
+		$frequency = $plan->get( 'frequency' );
 
 		// Order should be active.
 		$this->assertEquals( 'llms-active', $order->get( 'status' ) );
 
-		// Check there's only 1 transaction and that it succeeded.
+		// Check there's only 1 transaction.
 		$txns = $order->get_transactions();
 		$this->assertEquals( 1, $txns['count'] );
+
+		// Transaction succeeded.
 		$last = array_pop( $txns['transactions'] );
 		$this->assertEquals( 'llms-txn-succeeded', $last->get( 'status' ) );
 
 		// Next payment date.
 		$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
-		$this->assertEquals( strtotime( '+1 month', $order->get_date( 'date', 'U' ) ), $next_payment_time );
+		$this->assertEquals( strtotime( "+{$frequency} {$period}", $order->get_date( 'date', 'U' ) ), $next_payment_time, $period, 5 ); // 5 seconds tolerance.
 
+	}
+
+	/**
+	 * Runs N charges on a recurring order with optionally included "chaos".
+	 *
+	 * "Chaos" will run the recurring payment randomly between $chaos_hours before and $chaos_hours after the scheduled payment time.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Order $order Initialized order to run charges against.
+	 * @param int $num Number of charges to run.
+	 * @param int $chaos_hours Number of hours of chaos to introduce.
+	 * @param int $delta_hours Number of hours of tolerance to allow as the "delta" for date comparison assertions.
+	 * @return void
+	 */
+	private function do_n_charges_for_order( $order, $num, $chaos_hours = 0, $delta_hours = 0 ) {
+
+		$plan      = llms_get_post( $order->get( 'plan_id' ) );
+		$period    = $plan->get( 'period' );
+		$frequency = $plan->get( 'frequency' );
 
 		$i = 2;
-		while ( $i <= 100 ) {
+		while ( $i <= $num + 1 ) {
 
-			// $chaos = HOUR_IN_SECONDS * 2 * -1;
-			$chaos = rand( 0, HOUR_IN_SECONDS * 12 ) * ( rand( 0, 1 ) ? -1 : 1 );
+			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
+
+			// Run the recurring payment randomly between 12 hours before and 12 hours after the scheduled payment time.
+			$chaos = rand( 0, HOUR_IN_SECONDS * $chaos_hours ) * ( rand( 0, 1 ) ? -1 : 1 );
 
 			// Time travel.
 			llms_mock_current_time( $next_payment_time + $chaos );
 
+			// Run the transaction.
 			$this->gateway->handle_recurring_transaction( $order );
 
 			$txns = $order->get_transactions();
 			$last_txn = array_shift( $txns['transactions'] );
 			$last_txn_time = $last_txn->get_date( 'date', 'U' );
 
+			// Should have transactions equal to the current loop interval.
 			$this->assertEquals( $i, $txns['total'] );
+
+			// Last transaction date should equal the chaos time, this way we can be sure it was the payment we thought it was.
 			$this->assertEquals( $last_txn->get_date( 'date', 'U' ), $next_payment_time + $chaos );
 
 			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
 
+			$expect = strtotime( "+{$frequency} {$period}", $last_txn_time );
+			$msg = sprintf( '%s Payment #%d: Got %s and expected %s', ucfirst( $period ), $i, date( 'Y-m-d H:i:s', $next_payment_time ), date( 'Y-m-d H:i:s', $expect ) );
 
-			$expect_base = $order_time === $last_txn_time ? $order_time : $last_txn_time;
-			$expect = strtotime( "+1 month", $expect_base );
-
-			$msg = sprintf( '%d: %s', $i, date( 'Y-m-d H:i:s', $next_payment_time ) );
-			var_dump( $msg, date( 'Y-m-d H:i:s', $expect ) );
-			$this->assertEquals( $expect, $next_payment_time, $msg, 23 * HOUR_IN_SECONDS + 59 );
+			// Ensure that the calculated next payment time is 1 period +/- 23:59:59 from the previous transaction.
+			$this->assertEquals( $expect, $next_payment_time, $msg, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0 );
 
 			++$i;
 
 		}
+
+	}
+
+	/**
+	 * Run tests for a for a daily plan
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_day_plan() {
+
+		$order = $this->setup_order( 'day' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99 );
+
+	}
+
+	/**
+	 * Run tests for a for a daily plan with irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_day_plan_with_frequency() {
+
+		$order = $this->setup_order( 'day', 3 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 10 );
+
+	}
+
+	/**
+	 * Run tests for a for a daily plan_with_chaos
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_day_plan_with_chaos() {
+
+		$order = $this->setup_order( 'day' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99, 6, 12 );
+
+	}
+
+	/**
+	 * Run tests for a for a daily plan with chaos and irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_day_plan_with_chaos_and_frequency() {
+
+		$order = $this->setup_order( 'day', 3 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 25, 6, 12 );
+
+	}
+
+	/**
+	 * Run tests for a for a weekly plan
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_week_plan() {
+
+		$order = $this->setup_order( 'week' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99 );
+
+	}
+
+	/**
+	 * Run tests for a for a weekly plan with irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_week_plan_with_frequency() {
+
+		$order = $this->setup_order( 'week', 8 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 10 );
+
+	}
+
+	/**
+	 * Run tests for a for a weekly plan_with_chaos
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_week_plan_with_chaos() {
+
+		$order = $this->setup_order( 'week' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99, 12, 24 );
+
+	}
+
+	/**
+	 * Run tests for a for a weekly plan with chaos and irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_week_plan_with_chaos_and_frequency() {
+
+		$order = $this->setup_order( 'week', 2 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99, 12, 24 );
+
+	}
+
+	/**
+	 * Run tests for a for a monthly plan
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_month_plan() {
+
+		$order = $this->setup_order( 'month' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99 );
+
+	}
+
+	/**
+	 * Run tests for a for a monthly plan with irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_month_plan_with_frequency() {
+
+		$order = $this->setup_order( 'month', 2 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99 );
+
+	}
+
+	/**
+	 * Run tests for a for a monthly plan_with_chaos
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_month_plan_with_chaos() {
+
+		$order = $this->setup_order( 'month' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99, 12, 24 );
+
+	}
+
+	/**
+	 * Run tests for a for a monthly plan with chaos and irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_month_plan_with_chaos_and_frequency() {
+
+		$order = $this->setup_order( 'month', 3 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 31, 12, 24 );
+
+	}
+
+	/**
+	 * Run tests for a for a yearly plan
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_year_plan() {
+
+		$order = $this->setup_order( 'year' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99 );
+
+	}
+
+	/**
+	 * Run tests for a for a yearly plan with irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_year_plan_with_frequency() {
+
+		$order = $this->setup_order( 'year', 5 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 20 );
+
+	}
+
+	/**
+	 * Run tests for a for a yearly plan_with_chaos
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_year_plan_with_chaos() {
+
+		$order = $this->setup_order( 'year' );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 99, 12, 24 );
+
+	}
+
+	/**
+	 * Run tests for a for a yearly plan with chaos and irregular frequency
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_recurring_lifecycle_for_year_plan_with_chaos_and_frequency() {
+
+		$order = $this->setup_order( 'year', 2 );
+
+		// Reinitialize the order for assertions.
+		$order = llms_get_post( $order->get( 'id' ) );
+
+		// Test setup data.
+		$this->do_order_setup_tests( $order );
+
+		// Run 99 charges for the order.
+		$this->do_n_charges_for_order( $order, 9, 12, 24 );
 
 	}
 
