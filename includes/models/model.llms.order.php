@@ -559,14 +559,13 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * Retrieve arguments passed to order-related events processed by the action scheduler
 	 *
 	 * @since 3.19.0
-	 * @since [version] Added `$args` parameter.
 	 *
-	 * @param array $args (Optional) Additional arguments to return with the default args.
 	 * @return array
 	 */
-	protected function get_action_args( $args = array() ) {
-		$args['order_id'] = $this->get( 'id' );
-		return $args;
+	protected function get_action_args() {
+		return array(
+			'order_id' => $this->get( 'id' ),
+		);
 	}
 
 	/**
