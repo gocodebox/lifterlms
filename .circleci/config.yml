@@ -102,10 +102,10 @@ workflows:
   version: 2
   test:
     jobs:
-      - test-php-71-wp-latest
-      - test-php-72-wp-latest
       - test-php-73-wp-latest
       - test-php-73-wp-nightly
       - test-php-73-wp-5dot2
       - test-php-73-wp-5dot1
       - test-php-73-wp-5dot0
+      - test-php-72-wp-latest
+      - test-php-71-wp-latest
