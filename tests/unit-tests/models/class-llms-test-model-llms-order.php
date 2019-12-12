@@ -11,7 +11,7 @@
  * @since 3.10.0
  * @since 3.32.0 Update to use latest action-scheduler functions.
  * @since 3.37.2 Add additional recurring payment tests.
- * @since [version] Adjusted date delta for recurring payment next date assertions.
+ * @since 3.37.6 Adjusted date delta for recurring payment next date assertions.
  *               Added default test override for test_edit_date() test to prevent output
  *               of skipped test that doesn't apply to the order model.
  */
@@ -371,7 +371,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Since this test isn't essential for this class we'll skip the test with a fake assertion
 	 * in order to reduce the number of skipped tests warnings which are output.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -641,7 +641,7 @@ class LLMS_Test_LLMS_Order extends LLMS_PostModelUnitTestCase {
 	 * Test get_next_payment_due_date() for recurring payments
 	 *
 	 * @since Unknown.
-	 * @since [version] Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
+	 * @since 3.37.6 Adjusted delta on date comparison to allow 2 hours difference when calculating recurring payment dates.
 	 *
 	 * @return void
 	 */

@@ -3,7 +3,7 @@
  * LifterLMS Order Model
  *
  * @since  3.0.0
- * @version [version]
+ * @version 3.37.6
  *
  * @property   $api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $amount  (float)  Transaction charge amount
@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Transaction model.
  *
  * @since 3.0.0
- * @since [version] Transaction creation date is now specified using `llms_current_time()`.
+ * @since 3.37.6 Transaction creation date is now specified using `llms_current_time()`.
  *               Remove ordering placeholders from strftime().
  */
 class LLMS_Transaction extends LLMS_Post_Model {
@@ -85,7 +85,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 * when creating a new post
 	 *
 	 * @since 3.0.0
-	 * @since [version] Add a default date information using `llms_current_time()`.
+	 * @since 3.37.6 Add a default date information using `llms_current_time()`.
 	 *               Remove ordering placeholders from strftime().
 	 *
 	 * @param int $order_id LLMS_Order ID of the related order.

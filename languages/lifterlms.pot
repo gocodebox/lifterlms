@@ -5903,52 +5903,52 @@ msgctxt "default order note author"
 msgid "LifterLms"
 msgstr ""
 
-#: includes/models/model.llms.order.php:445, includes/admin/views/access-plans/access-plan.php:200
+#: includes/models/model.llms.order.php:474, includes/admin/views/access-plans/access-plan.php:200
 msgid "Lifetime Access"
 msgstr ""
 
-#: includes/models/model.llms.order.php:457
+#: includes/models/model.llms.order.php:486
 msgid "To be Determined"
 msgstr ""
 
-#: includes/models/model.llms.order.php:577
+#: includes/models/model.llms.order.php:606
 msgid "Anonymous"
 msgstr ""
 
-#: includes/models/model.llms.order.php:594
+#: includes/models/model.llms.order.php:623
 msgid "Order &ndash; %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:594
+#: includes/models/model.llms.order.php:623
 msgctxt "Order date parsed by strftime"
 msgid "%1$b %2$d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/models/model.llms.order.php:627, includes/models/model.llms.transaction.php:149
+#: includes/models/model.llms.order.php:656, includes/models/model.llms.transaction.php:174
 msgid "Payment gateway %s could not be located or is no longer enabled"
 msgstr ""
 
-#: includes/models/model.llms.order.php:741
+#: includes/models/model.llms.order.php:771
 msgid "Order is not recurring"
 msgstr ""
 
-#: includes/models/model.llms.order.php:743
+#: includes/models/model.llms.order.php:773
 msgid "Invalid order status"
 msgstr ""
 
-#: includes/models/model.llms.order.php:753
+#: includes/models/model.llms.order.php:783
 msgid "No more payments due"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1367
+#: includes/models/model.llms.order.php:1424
 msgid "Order payment plan completed."
 msgstr ""
 
-#: includes/models/model.llms.order.php:1415
+#: includes/models/model.llms.order.php:1472
 msgid "Automatic retry attempt scheduled for %s"
 msgstr ""
 
-#: includes/models/model.llms.order.php:1426
+#: includes/models/model.llms.order.php:1483
 msgid "Maximum retry attempts reached."
 msgstr ""
 
@@ -5991,56 +5991,57 @@ msgctxt "overall grade when no quizzes"
 msgid "N/A"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:92
+#. translators: %1$d = order ID; %2$s = formatted date/time string.
+#: includes/models/model.llms.transaction.php:98
 msgid "Transaction for Order #%1$d &ndash; %2$s"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:92
+#: includes/models/model.llms.transaction.php:113
 msgctxt "Transaction date parsed by strftime"
-msgid "%1$b %2$d, %Y @ %I:%M %p"
+msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:214
+#: includes/models/model.llms.transaction.php:239
 msgid "The selected transaction is not eligible for a refund."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:222
+#: includes/models/model.llms.transaction.php:247
 msgid "Requested refund amount was %1$s, the maximum possible refund for this transaction is %2$s."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:231
+#: includes/models/model.llms.transaction.php:256
 msgid "manual refund"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:238
+#: includes/models/model.llms.transaction.php:263
 msgid "Selected gateway \"%s\" is inactive or invalid."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:241
+#: includes/models/model.llms.transaction.php:266
 msgid "Selected gateway \"%s\" does not support refunds."
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:271
+#: includes/models/model.llms.transaction.php:296
 msgid "Refunded %1$s for transaction #%2$d via %3$s [Refund ID: %4$s]"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:275
+#: includes/models/model.llms.transaction.php:300
 msgid "Refund Notes: "
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:310
+#: includes/models/model.llms.transaction.php:335
 msgid "An unknown error occurred during refund processing"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:332
+#: includes/models/model.llms.transaction.php:357
 msgid "Single"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:334, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:141
+#: includes/models/model.llms.transaction.php:359, includes/admin/post-types/post-tables/class.llms.admin.post.table.orders.php:141
 msgid "Recurring"
 msgstr ""
 
-#: includes/models/model.llms.transaction.php:336, templates/checkout/form-summary.php:15
+#: includes/models/model.llms.transaction.php:361, templates/checkout/form-summary.php:15
 msgid "Trial"
 msgstr ""
 

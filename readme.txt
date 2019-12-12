@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.37.5
+Stable tag: 3.37.6
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,14 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.6 - 2019-12-12 =
+------------------------
+
++ New transaction creation date is now specified using `llms_current_time()`.
++ Use the last successful transaction time to calculate from when the previously stored next payment date is in the future.
++ Fixed an issue causing transaction post titles to be recorded with missing data due to invalid `strftime()` placeholders.
+
+
 = v3.37.5 - 2019-12-09 =
 ------------------------
 
@@ -647,35 +655,5 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Add missing quotes in enrollment/access default messages shortcodes.
 + `sales_page_page_id` and `sales_page_url` always returned in edit context.
 + Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
-
-
-= v3.36.2 - 2019-10-01 =
-------------------------
-
-##### Updates
-
-+ Tested to WordPress 5.3.0-beta.2
-+ Upgrade UI on student course reporting screens.
-+ Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
-+ Lesson metabox "start" drip method made available only if the parent course has a start date set.
-
-##### Bugfixes
-
-+ Fixed JS error when client-side event tracking settings aren't loaded, thanks [@wenchen](https://github.com/wenchen)!
-+ Fixed PHP warning resulting from drip the "Course Start" lesson drip settings when no course start date exists.
-+ Fixed fatal error encountered when reviewing an order placed with a payment gateway that's been deactivated.
-
-##### Files Updated
-
-+ assets/js/app/llms-tracking.js
-+ includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php
-+ includes/models/model.llms.lesson.php
-+ includes/models/model.llms.student.php
-+ lifterlms.php
-
-##### Templates Updated
-
-+ templates/admin/post-types/order-details.php
-+ templates/admin/reporting/tabs/students/courses-course.php
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

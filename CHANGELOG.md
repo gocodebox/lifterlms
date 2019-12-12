@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v3.37.6 - 2019-12-12
+--------------------
+
++ New transaction creation date is now specified using `llms_current_time()`.
++ Use the last successful transaction time to calculate from when the previously stored next payment date is in the future.
++ Fixed an issue causing transaction post titles to be recorded with missing data due to invalid `strftime()` placeholders.
+
+
 v3.37.5 - 2019-12-09
 --------------------
 

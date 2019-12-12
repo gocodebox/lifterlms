@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.6
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -256,7 +256,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.10.0
 	 * @since 3.12.0 Unknown.
-	 * @since [version] Now uses the last successful transaction time to calculate from when the previously
+	 * @since 3.37.6 Now uses the last successful transaction time to calculate from when the previously
 	 *               stored next payment date is in the future.
 	 *
 	 * @param string $format PHP date format used to format the returned date string.
@@ -925,7 +925,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.10.0 Unknown.
-	 * @since [version] Add additional return property, `total`, which returns the total number of found transactions.
+	 * @since 3.37.6 Add additional return property, `total`, which returns the total number of found transactions.
 	 *
 	 * @param array $args {
 	 *     Hash of query argument data, ultimately passed to a WP_Query.

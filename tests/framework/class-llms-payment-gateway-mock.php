@@ -2,14 +2,14 @@
 /**
  * Mock payment gateway for testing.
  *
- * @since [version]
+ * @since 3.37.6
  */
 class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 	/**
 	 * Handle a Pending Order
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @param LLMS_Order        $order  Order object.
 	 * @param LLMS_AccessPlan   $plan   Access plan object.
@@ -68,7 +68,7 @@ class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 	 *
 	 * This function must be defined by gateways which support recurring transactions
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @param obj $order Instance LLMS_Order for the order being processed.
 	 * @return mixed
@@ -93,7 +93,7 @@ class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 	 *
 	 * The mock gateway is always enabled.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return boolean
 	 */

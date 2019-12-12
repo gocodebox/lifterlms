@@ -4,14 +4,14 @@
  *
  * @group payments
  *
- * @since [version]
+ * @since 3.37.6
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
 	/**
 	 * Before the class runs, register the mock gateway.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * After the class runs, remove the mock gateway.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -50,7 +50,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Register mock gateway
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @param string[] $gateways Array of gateway class names
 	 *
@@ -76,7 +76,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Sets up a mock order for use with tests.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @param string $period Access plan period value.
 	 * @param int $frequency Access plan frequency value.
@@ -104,7 +104,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run some tests on the initial setup of the order and the first payment.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @param LLMS_Order $order The order.
 	 * @return void
@@ -137,7 +137,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 *
 	 * "Chaos" will run the recurring payment randomly between $chaos_hours before and $chaos_hours after the scheduled payment time.
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.
@@ -205,7 +205,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a daily plan
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -229,7 +229,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a daily plan with irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -251,7 +251,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a daily plan_with_chaos
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -275,7 +275,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a daily plan with chaos and irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -297,7 +297,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a weekly plan
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -321,7 +321,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a weekly plan with irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -343,7 +343,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a weekly plan_with_chaos
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -367,7 +367,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a weekly plan with chaos and irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -391,7 +391,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a monthly plan
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -415,7 +415,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a monthly plan with irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -439,7 +439,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a monthly plan_with_chaos
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -463,7 +463,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a monthly plan with chaos and irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -485,7 +485,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a yearly plan
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -509,7 +509,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a yearly plan with irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
@@ -531,7 +531,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a yearly plan_with_chaos
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @medium
 	 *
@@ -555,7 +555,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	/**
 	 * Run tests for a for a yearly plan with chaos and irregular frequency
 	 *
-	 * @since [version]
+	 * @since 3.37.6
 	 *
 	 * @return void
 	 */
