@@ -758,10 +758,11 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the due date of the next payment according to access plan terms
 	 *
-	 * @param    string $format  date format to return the date in (see php date())
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param string $format Date return format.
+	 * @return string
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
 
@@ -797,7 +798,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		 */
 		$next_payment_time = apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_time, $this, $format );
 
-		return gmdate( $format, $next_payment_time );
+		return date_i18n( $format, $next_payment_time );
 
 	}
 
