@@ -151,8 +151,11 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		$period    = $plan->get( 'period' );
 		$frequency = $plan->get( 'frequency' );
 
-		$i = 2;
-		while ( $i <= $num + 1 ) {
+		$start   = microtime( true );
+		$limit   = 2.5;
+		$elapsed = 0;
+		$i       = 2;
+		while ( $i <= $num + 1 && $elapsed <= $limit ) {
 
 			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
 
@@ -184,8 +187,18 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			$this->assertEquals( $expect, $next_payment_time, $msg, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0 );
 
 			++$i;
+			$elapsed = microtime( true ) - $start;
 
 		}
+
+		// if ( $elapsed > $limit ) {
+
+		// 	$trace = debug_backtrace();
+		// 	$caller = $trace[1];
+
+		// 	$this->markTestSkipped( "{$caller['class']}::{$caller['function']}: {$i}" );
+
+		// }
 
 	}
 
@@ -193,6 +206,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a daily plan
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -206,7 +221,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99 );
 
 	}
@@ -228,7 +243,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 10 );
 
 	}
@@ -237,6 +252,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a daily plan_with_chaos
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -250,7 +267,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99, 6, 12 );
 
 	}
@@ -272,7 +289,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 25, 6, 12 );
 
 	}
@@ -281,6 +298,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a weekly plan
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -294,7 +313,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99 );
 
 	}
@@ -316,7 +335,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 10 );
 
 	}
@@ -325,6 +344,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a weekly plan_with_chaos
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -338,7 +359,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99, 12, 24 );
 
 	}
@@ -347,6 +368,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a weekly plan with chaos and irregular frequency
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -360,7 +383,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99, 12, 24 );
 
 	}
@@ -369,6 +392,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a monthly plan
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -382,7 +407,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99 );
 
 	}
@@ -391,6 +416,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a monthly plan with irregular frequency
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -404,7 +431,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99 );
 
 	}
@@ -413,6 +440,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a monthly plan_with_chaos
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -426,7 +455,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99, 12, 24 );
 
 	}
@@ -448,7 +477,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 31, 12, 24 );
 
 	}
@@ -457,6 +486,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a yearly plan
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -470,7 +501,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99 );
 
 	}
@@ -492,7 +523,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 20 );
 
 	}
@@ -501,6 +532,8 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a yearly plan_with_chaos
 	 *
 	 * @since [version]
+	 *
+	 * @medium
 	 *
 	 * @return void
 	 */
@@ -514,7 +547,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 99, 12, 24 );
 
 	}
@@ -536,7 +569,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		// Test setup data.
 		$this->do_order_setup_tests( $order );
 
-		// Run 99 charges for the order.
+		// Run recurring charges for the order.
 		$this->do_n_charges_for_order( $order, 9, 12, 24 );
 
 	}
