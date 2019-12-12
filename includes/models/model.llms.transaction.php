@@ -3,7 +3,7 @@
  * LifterLMS Order Model
  *
  * @since  3.0.0
- * @version 3.0.0
+ * @version [version]
  *
  * @property   $api_mode  (string)  API Mode of the gateway when the transaction was made [test|live]
  * @property   $amount  (float)  Transaction charge amount
@@ -29,6 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Transaction model.
  *
  * @since 3.0.0
+ * @since [version] Transaction creation date is now specified using `llms_current_time()`.
  */
 class LLMS_Transaction extends LLMS_Post_Model {
 
