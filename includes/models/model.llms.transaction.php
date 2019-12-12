@@ -30,6 +30,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since [version] Transaction creation date is now specified using `llms_current_time()`.
+ *               Remove ordering placeholders from strftime().
  */
 class LLMS_Transaction extends LLMS_Post_Model {
 
@@ -85,6 +86,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since [version] Add a default date information using `llms_current_time()`.
+	 *               Remove ordering placeholders from strftime().
 	 *
 	 * @param int $order_id LLMS_Order ID of the related order.
 	 * @return array
@@ -96,7 +98,8 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			__( 'Transaction for Order #%1$d &ndash; %2$s', 'lifterlms' ),
 			$order_id,
 			strftime(
-				/**
+
+				/*
 				 * Translators:
 				 *   %b Abbreviated month name.
 				 *   %d = Two-digit day of the month (with leading zeros).
@@ -107,7 +110,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 				 *
 				 *   See https://www.php.net/manual/en/function.strftime.php
 				 */
-				_x( '%b %d, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'lifterlms' ),
+				_x( '%b %d, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'lifterlms' ), // phpcs:ignore WordPress.WP.I18n.UnorderedPlaceholdersText -- Adding orders to these placeholders breaks strftime().
 				llms_current_time( 'timestamp' )
 			)
 		);

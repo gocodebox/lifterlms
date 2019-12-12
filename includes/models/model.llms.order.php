@@ -257,7 +257,7 @@ class LLMS_Order extends LLMS_Post_Model {
 	 * @since 3.10.0
 	 * @since 3.12.0 Unknown.
 	 * @since [version] Now uses the last successful transaction time to calculate from when the previously
-	 *        	     stored next payment date is in the future.
+	 *               stored next payment date is in the future.
 	 *
 	 * @param string $format PHP date format used to format the returned date string.
 	 * @return string The formatted next payment due date or an empty string when there is no next payment.
@@ -932,8 +932,8 @@ class LLMS_Order extends LLMS_Post_Model {
 	 *
 	 *     @type string|string[] $status   Transaction post status or array of transaction post status. Defaults to "any".
 	 *     @type string|string[] $type     Transaction types or array of transaction types. Defaults to "any".
-	 *           				           Accepts "recurring", "single", or "trial".
-	 *     @type int 			 $per_page Number of transactions to include in the return. Default `50`.
+	 *                                     Accepts "recurring", "single", or "trial".
+	 *     @type int             $per_page Number of transactions to include in the return. Default `50`.
 	 *     @type int             $paged    Result set page number.
 	 *     @type string          $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
 	 *     @type string          $orderby  Result set ordering field. Default "date".
