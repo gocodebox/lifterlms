@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -254,58 +254,78 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Calculate the next payment due date
 	 *
-	 * @param    string $format  return format
-	 * @return   string
-	 * @since    3.10.0
-	 * @version  3.12.0
+	 * @since 3.10.0
+	 * @since 3.12.0 Unknown.
+	 * @since [version] Now uses the last successful transaction time to calculate from when the previously
+	 *               stored next payment date is in the future.
+	 *
+	 * @param string $format PHP date format used to format the returned date string.
+	 * @return string The formatted next payment due date or an empty string when there is no next payment.
 	 */
 	private function calculate_next_payment_date( $format = 'Y-m-d H:i:s' ) {
 
-		$start_time = $this->get_date( 'date', 'U' );
-		$end_time   = $this->get_date( 'date_billing_end', 'U' );
+		$start_time        = $this->get_date( 'date', 'U' );
+		$end_time          = $this->get_date( 'date_billing_end', 'U' );
+		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
+		$last_txn_time     = $this->get_last_transaction_date( 'llms-txn-succeeded', 'recurring', 'U' );
 
-		// Handles pre 3.10 orders where the date_billing_end property wasn't stored during init.
+		// Handles pre 3.10 orders where the `date_billing_end` property wasn't stored during init.
 		if ( ! $end_time && $this->get( 'billing_length' ) ) {
 			$end_time = $this->calculate_billing_end_date();
 			$this->set( 'date_billing_end', date_i18n( 'Y-m-d H:i:s', $end_time ) );
 		}
 
-		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
-
-		// if were on a trial and the trial hasn't ended yet next payment date is the date the trial ends
+		// If were on a trial and the trial hasn't ended yet next payment date is the date the trial ends.
 		if ( $this->has_trial() && ! $this->has_trial_ended() ) {
 
 			$next_payment_time = $this->get_trial_end_date( 'U' );
 
 		} else {
 
-			// assume we'll start from the order start date.
-			$from_time = $start_time;
-
-			// If we have a saved next payment that's old we can calculate from there.
-			// This will happen on the second, 3rd, 4th recurring payments etc...
+			/**
+			 * Calculate next payment date from the saved `date_next_payment` calculated during
+			 * the previous recurring transaction or during order initialization.
+			 *
+			 * This condition will be encountered during the 2nd, 3rd, 4th, etc... recurring payments.
+			 */
 			if ( $next_payment_time && $next_payment_time < llms_current_time( 'timestamp' ) ) {
 
 				$from_time = $next_payment_time;
 
+				/**
+				 * Use the order's last successful transaction date.
+				 *
+				 * This will be encountered when any amount of "chaos" is
+				 * introduced causing the previously stored `date_next_payment`
+				 * to be GREATER than the current time.
+				 *
+				 * Orders created
+				 */
+			} elseif ( $last_txn_time && $last_txn_time > $start_time ) {
+
+				$from_time = $last_txn_time;
+
+				/**
+				 * Use the order's creation time.
+				 *
+				 * This condition will be encountered for the 1st recurring payment only.
+				 */
 			} else {
 
-				// check previous transactions and get the date from there
-				// this will be true of orders created prior to 3.10 when no payment dates were saved
-				$last_txn      = $this->get_last_transaction( array( 'llms-txn-succeeded', 'llms-txn-refunded' ), 'recurring' );
-				$last_txn_time = $last_txn ? $last_txn->get_date( 'date', 'U' ) : 0;
-				if ( $last_txn_time && $last_txn_time < llms_current_time( 'timestamp' ) ) {
-					$from_time = $last_txn_time;
-				}
+				$from_time = $start_time;
+
 			}
 
 			$period            = $this->get( 'billing_period' );
 			$frequency         = $this->get( 'billing_frequency' );
 			$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $from_time );
 
-			// Make sure the next payment is more than 2 hours in the future
-			// this ensures changes to the site's timezone because of daylight savings will never cause a 2nd renewal payment to be processed on the same day
-			// thanks WooCommerce Subscriptions <3
+			/**
+			 * Make sure the next payment is more than 2 hours in the future
+			 *
+			 * this ensures changes to the site's timezone because of daylight savings
+			 * will never cause a 2nd renewal payment to be processed on the same day.
+			 */
 			$i = 1;
 			while ( $next_payment_time < ( llms_current_time( 'timestamp', true ) + 2 * HOUR_IN_SECONDS ) && $i < 3000 ) {
 				$next_payment_time = strtotime( '+' . $frequency . ' ' . $period, $next_payment_time );
@@ -317,9 +337,18 @@ class LLMS_Order extends LLMS_Post_Model {
 		if ( 0 != $end_time && ( $next_payment_time + 23 * HOUR_IN_SECONDS ) > $end_time ) {
 			$ret = '';
 		} elseif ( $next_payment_time > 0 ) {
-			$ret = date_i18n( $format, $next_payment_time );
+			$ret = date( $format, $next_payment_time );
 		}
 
+		/**
+		 * Filter the calculated next payment date
+		 *
+		 * @since 3.10.0
+		 *
+		 * @param string     $ret    The formatted next payment due date or an empty string when there is no next payment.
+		 * @param string     $format The requested date format.
+		 * @param LLMS_Order $order  The order object.
+		 */
 		return apply_filters( 'llms_order_calculate_next_payment_date', $ret, $format, $this );
 
 	}
@@ -529,9 +558,9 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve arguments passed to order-related events processed by the action scheduler
 	 *
-	 * @return   array
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 * @since 3.19.0
+	 *
+	 * @return array
 	 */
 	protected function get_action_args() {
 		return array(
@@ -729,32 +758,47 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve the due date of the next payment according to access plan terms
 	 *
-	 * @param    string $format  date format to return the date in (see php date())
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param string $format Date return format.
+	 * @return string
 	 */
 	public function get_next_payment_due_date( $format = 'Y-m-d H:i:s' ) {
 
-		// single payments will never have a next payment date
+		// Single payments will never have a next payment date.
 		if ( ! $this->is_recurring() ) {
 			return new WP_Error( 'not-recurring', __( 'Order is not recurring', 'lifterlms' ) );
 		} elseif ( ! in_array( $this->get( 'status' ), array( 'llms-active', 'llms-failed', 'llms-on-hold', 'llms-pending', 'llms-pending-cancel' ) ) ) {
 			return new WP_Error( 'invalid-status', __( 'Invalid order status', 'lifterlms' ), $this->get( 'status' ) );
 		}
 
-		// retrieve the saved due date
-		$next_payment_date = $this->get_date( 'date_next_payment', 'U' );
+		// Retrieve the saved due date.
+		$next_payment_time = $this->get_date( 'date_next_payment', 'U' );
 
-		// calculate it if not saved
-		if ( ! $next_payment_date ) {
-			$next_payment_date = $this->calculate_next_payment_date( 'U' );
-			if ( ! $next_payment_date ) {
+		// Calculate it if not saved.
+		if ( ! $next_payment_time ) {
+			$next_payment_time = $this->calculate_next_payment_date( 'U' );
+			if ( ! $next_payment_time ) {
 				return new WP_Error( 'plan-ended', __( 'No more payments due', 'lifterlms' ) );
 			}
 		}
 
-		return date_i18n( $format, apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_date, $this, $format ) );
+		/**
+		 * Filter the next payment due date.
+		 *
+		 * A timestamp should always be returned as the conversion to the requested format
+		 * will be performed on the returned value.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int $next_payment_time Unix timestamp for the next payment due date.
+		 * @param LLMS_Order $order Order object.
+		 * @param string $format Requested date format.
+		 */
+		$next_payment_time = apply_filters( 'llms_order_get_next_payment_due_date', $next_payment_time, $this, $format );
+
+		return date_i18n( $format, $next_payment_time );
 
 	}
 
@@ -879,10 +923,22 @@ class LLMS_Order extends LLMS_Post_Model {
 	/**
 	 * Retrieve an array of transactions associated with the order according to supplied arguments
 	 *
-	 * @param    array $args  array of query argument data, see example of arguments below
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.10.0
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 * @since [version] Add additional return property, `total`, which returns the total number of found transactions.
+	 *
+	 * @param array $args {
+	 *     Hash of query argument data, ultimately passed to a WP_Query.
+	 *
+	 *     @type string|string[] $status   Transaction post status or array of transaction post status. Defaults to "any".
+	 *     @type string|string[] $type     Transaction types or array of transaction types. Defaults to "any".
+	 *                                     Accepts "recurring", "single", or "trial".
+	 *     @type int             $per_page Number of transactions to include in the return. Default `50`.
+	 *     @type int             $paged    Result set page number.
+	 *     @type string          $order    Result set order. Default "DESC". Accepts "DESC" or "ASC".
+	 *     @type string          $orderby  Result set ordering field. Default "date".
+	 * }
+	 * @return array
 	 */
 	public function get_transactions( $args = array() ) {
 
@@ -984,6 +1040,7 @@ class LLMS_Order extends LLMS_Post_Model {
 		}
 
 		return array(
+			'total'        => $query->found_posts,
 			'count'        => count( $query->posts ),
 			'page'         => $paged,
 			'pages'        => $query->max_num_pages,
@@ -1336,16 +1393,16 @@ class LLMS_Order extends LLMS_Post_Model {
 			$this->set( 'date_next_payment', $this->calculate_next_payment_date() );
 		}
 
-		$date = $this->get_next_payment_due_date( 'U' );
+		$date = $this->get_next_payment_due_date();
 
-		// unschedule and reschedule
+		// Unschedule and reschedule.
 		if ( $date && ! is_wp_error( $date ) ) {
 
-			// unschedule the next action (does nothing if no action scheduled)
+			// Unschedule the next action (does nothing if no action scheduled).
 			$this->unschedule_recurring_payment();
 
-			// convert our date to UTC before passing to the scheduler
-			$date = $date - ( HOUR_IN_SECONDS * get_option( 'gmt_offset' ) );
+			// Convert our date to UTC before passing to the scheduler.
+			$date = get_gmt_from_date( $date, 'U' );
 
 			// schedule the payment
 			as_schedule_single_action(
