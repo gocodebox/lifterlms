@@ -9,17 +9,17 @@ class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 	/**
 	 * Constructor
 	 *
-	 * @return  void
-	 * @since   3.0.0
-	 * @version 3.10.0
+	 * @since [version]
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
-		$this->id                   = 'mock';
-		$this->admin_description    = __( 'Mock payment gateway used for unit testing', 'lifterlms' );
-		$this->admin_title          = __( 'Mock', 'lifterlms' );
-		$this->title                = __( 'Mock', 'lifterlms' );
-		$this->description          = __( 'Make mock payments', 'lifterlms' );
+		$this->id                = 'mock';
+		$this->admin_description = __( 'Mock payment gateway used for unit testing', 'lifterlms' );
+		$this->admin_title       = __( 'Mock', 'lifterlms' );
+		$this->title             = __( 'Mock', 'lifterlms' );
+		$this->description       = __( 'Make mock payments', 'lifterlms' );
 
 		$this->supports = array(
 			'checkout_fields'    => false,
@@ -33,16 +33,14 @@ class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 
 	/**
 	 * Handle a Pending Order
-	 * Called by LLMS_Controller_Orders->create_pending_order() on checkout form submission
-	 * All data will be validated before it's passed to this function
 	 *
-	 * @param   obj       $order   Instance LLMS_Order for the order being processed
-	 * @param   obj       $plan    Instance LLMS_Access_Plan for the order being processed
-	 * @param   obj       $person  Instance of LLMS_Student for the purchasing customer
-	 * @param   obj|false $coupon  Instance of LLMS_Coupon applied to the order being processed, or false when none is being used
-	 * @return  void
-	 * @since   3.0.0
-	 * @version 3.10.0
+	 * @since [version]
+	 *
+	 * @param LLMS_Order        $order  Order object.
+	 * @param LLMS_AccessPlan   $plan   Access plan object.
+	 * @param LLMS_Student      $person Student object.
+	 * @param false|LLMS_Coupon $coupon Coupon object, or false if none is being used.
+	 * @return void
 	 */
 	public function handle_pending_order( $order, $plan, $person, $coupon = false ) {
 
@@ -72,7 +70,7 @@ class LLMS_Payment_Gateway_Mock extends LLMS_Payment_Gateway {
 	 *
 	 * @since [version]
 	 *
-	 * @param obj $order Instance LLMS_Order for the order being processed
+	 * @param obj $order Instance LLMS_Order for the order being processed.
 	 * @return mixed
 	 */
 	public function handle_recurring_transaction( $order ) {
