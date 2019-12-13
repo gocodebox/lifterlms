@@ -65,6 +65,20 @@ v3.38.0-beta.1 - 2019-12-??
 + templates/global/form-registration.php
 
 
+= v3.37.6 - 2019-12-12 =
+------------------------
+
++ New transaction creation date is now specified using `llms_current_time()`.
++ Use the last successful transaction time to calculate from when the previously stored next payment date is in the future.
++ Fixed an issue causing transaction post titles to be recorded with missing data due to invalid `strftime()` placeholders.
+
+
+= v3.37.5 - 2019-12-09 =
+------------------------
+
++ Update LifterLMS Blocks to v1.7.2: fixes a bug causing the block editor to encounter a fatal error when accessing custom post types that don't support custom fields.
+
+
 = v3.37.4 - 2019-12-06 =
 ------------------------
 
@@ -179,67 +193,3 @@ v3.38.0-beta.1 - 2019-12-??
 + Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
 + Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
 + Fixed issue where `wp_list_pluck()` would run on non arrays.
-
-##### LifterLMS Rest API 1.0.0-beta.8
-
-+ Return links to those taxonomies which have an accessible rest route.
-+ Initialize `$prepared_item` array before adding values to it. Thanks [@pondermatic](https://github.com/pondermatic)!
-+ Fixed `sales_page_type` not returned as `none` if course's `sales_page_content_type` property is empty.
-+ Load webhook actions a little bit later, to avoid PHP warnings on first plugin activation.
-+ Renamed `sales_page_page_type` and `sales_page_page_url` properties, respectively to `sales_page_type` and `sales_page_url` according to the specs.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ `sales_page_page_id` and `sales_page_url` always returned in edit context.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
->>>>>>> 3d3440ccbc8d1b69b3c1407b0a46a8fd0d17b333
-
-
-= v3.36.2 - 2019-10-01 =
-------------------------
-
-##### Updates
-
-+ Tested to WordPress 5.3.0-beta.2
-+ Upgrade UI on student course reporting screens.
-+ Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
-+ Lesson metabox "start" drip method made available only if the parent course has a start date set.
-
-##### Bugfixes
-
-+ Fixed JS error when client-side event tracking settings aren't loaded, thanks [@wenchen](https://github.com/wenchen)!
-+ Fixed PHP warning resulting from drip the "Course Start" lesson drip settings when no course start date exists.
-+ Fixed fatal error encountered when reviewing an order placed with a payment gateway that's been deactivated.
-
-##### Files Updated
-
-+ assets/js/app/llms-tracking.js
-+ includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php
-+ includes/models/model.llms.lesson.php
-+ includes/models/model.llms.student.php
-+ lifterlms.php
-
-##### Templates Updated
-
-+ templates/admin/post-types/order-details.php
-+ templates/admin/reporting/tabs/students/courses-course.php
-
-
-= v3.36.1 - 2019-09-24 =
-------------------------
-
-##### Updates
-
-+ Include SendWP Connector in LifterLMS Engagement Settings.
-+ Removed usage of `WP_Error::has_errors()` to support WordPress version prior to 5.1.
-+ Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
-+ Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
-
-##### Bugfixes
-
-+ Fixed a compatibility issue with FitVids.js causing excess white space displayed around videos when using the library, WP plugin, or themes that utilize the library.
-+ Fixed an issue allowing recurring charges to continue processing after the order or customer had been deleted from the site.
-+ Fixed issue causing Membership Restriction settings from properly saving.
-+ Fixed issue that allowed instructors to see all quizzes on a site when the instructor had either no courses or only empty courses (courses with no lessons).
-+ Fixed "Last Seen" column displaying wrong date when the student last login date was saved as timestamp.
-+ Fixed an issue causing popover notifications to be skipped (never displayed) as a result of redirects.

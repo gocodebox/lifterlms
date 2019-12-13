@@ -65,6 +65,20 @@ v3.38.0-beta.1 - 2019-12-??
 + templates/global/form-registration.php
 
 
+v3.37.6 - 2019-12-12
+--------------------
+
++ New transaction creation date is now specified using `llms_current_time()`.
++ Use the last successful transaction time to calculate from when the previously stored next payment date is in the future.
++ Fixed an issue causing transaction post titles to be recorded with missing data due to invalid `strftime()` placeholders.
+
+
+v3.37.5 - 2019-12-09
+--------------------
+
++ Update LifterLMS Blocks to v1.7.2: fixes a bug causing the block editor to encounter a fatal error when accessing custom post types that don't support custom fields.
+
+
 v3.37.4 - 2019-12-06
 --------------------
 
@@ -179,20 +193,6 @@ v3.36.3 - 2019-10-24
 + Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
 + Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
 + Fixed issue where `wp_list_pluck()` would run on non arrays.
-
-##### LifterLMS Rest API 1.0.0-beta.8
-
-+ Return links to those taxonomies which have an accessible rest route.
-+ Initialize `$prepared_item` array before adding values to it. Thanks [@pondermatic](https://github.com/pondermatic)!
-+ Fixed `sales_page_type` not returned as `none` if course's `sales_page_content_type` property is empty.
-+ Load webhook actions a little bit later, to avoid PHP warnings on first plugin activation.
-+ Renamed `sales_page_page_type` and `sales_page_page_url` properties, respectively to `sales_page_type` and `sales_page_url` according to the specs.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ `sales_page_page_id` and `sales_page_url` always returned in edit context.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
->>>>>>> 3d3440ccbc8d1b69b3c1407b0a46a8fd0d17b333
 
 
 v3.36.2 - 2019-10-01
