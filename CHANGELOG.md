@@ -1,7 +1,7 @@
 LifterLMS Changelog
 ===================
 
-v3.38.0-beta.1 - 2019-12-??
+v3.38.0-beta.1 - 2019-12-13
 ---------------------------
 
 ##### Form Management Improvments
@@ -10,7 +10,7 @@ v3.38.0-beta.1 - 2019-12-??
 + Customize field labels, description, and placeholders in a simple WYSIWYG interface.
 + Mark fields as required with a toggle.
 + Reorder fields with drag and drop.
-+ Customize layout using block editor columns
++ Customize layout using block editor columns.
 + Use LifterLMS block-level visibility to conditionally display fields based on enrollment or logged in status.
 
 ##### Form Localization
