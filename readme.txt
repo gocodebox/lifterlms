@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.37.6
+Stable tag: 3.38.0-beta.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,7 +515,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
-v3.38.0-beta.1 - 2019-12-??
+v3.38.0-beta.1 - 2019-12-13
 -------------------------------
 
 ##### Form Management Improvments
@@ -524,7 +524,7 @@ v3.38.0-beta.1 - 2019-12-??
 + Customize field labels, description, and placeholders in a simple WYSIWYG interface.
 + Mark fields as required with a toggle.
 + Reorder fields with drag and drop.
-+ Customize layout using block editor columns
++ Customize layout using block editor columns.
 + Use LifterLMS block-level visibility to conditionally display fields based on enrollment or logged in status.
 
 ##### Form Localization

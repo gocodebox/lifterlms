@@ -90,7 +90,7 @@ class LLMS_L10n_JS {
 			 * File: assets/js/app/llms-student-dashboard.js.
 			 *
 			 * @since    3.7.0
-			 * @version  3.10.0
+			 * @version  [version]
 			 */
 			'Are you sure you want to cancel your subscription?' => esc_html__( 'Are you sure you want to cancel your subscription?', 'lifterlms' ),
 
