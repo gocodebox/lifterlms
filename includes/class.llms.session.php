@@ -21,7 +21,7 @@ class LLMS_Session {
 	/**
 	 * Session data
 	 *
-	 * @var array
+	 * @var array|WP_Session
 	 */
 	private $session;
 
@@ -84,7 +84,7 @@ class LLMS_Session {
 	 *
 	 * @since ??
 	 *
-	 * @return void
+	 * @return array|WP_Session
 	 */
 	public function init() {
 
@@ -117,7 +117,7 @@ class LLMS_Session {
 	 *
 	 * @param string $key     The key of the session variable.
 	 * @param mixed  $default Optional. The default value to return if no session variable is found with the provided key. Default `false`.
-	 * @return string
+	 * @return mixed
 	 */
 	public function get( $key, $default = false ) {
 		$key = sanitize_key( $key );
@@ -131,7 +131,7 @@ class LLMS_Session {
 	 *
 	 * @param string $key   The key of the session variable.
 	 * @param string $value The value of the session variable.
-	 * @return string
+	 * @return mixed
 	 */
 	public function set( $key, $value ) {
 
@@ -215,7 +215,7 @@ class LLMS_Session {
 	 * @since 1.0.0
 	 *
 	 * @param string $key The key of the session variable.
-	 * @return string
+	 * @return mixed
 	 */
 	public function __get( $key ) {
 		return $this->get( $key );
@@ -240,7 +240,7 @@ class LLMS_Session {
 	 * @since 1.0.0
 	 *
 	 * @param string $key The key of the session variable.
-	 * @return void
+	 * @return bool
 	 */
 	public function __isset( $key ) {
 		return isset( $this->session[ sanitize_title( $key ) ] );
