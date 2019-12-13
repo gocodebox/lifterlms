@@ -40,7 +40,7 @@ references:
           command: |
             if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73-wp-latest" == "${CIRCLE_JOB}" ]; then
                 /cc-test-reporter before-build
-                export COMPOSER_PROCESS_TIMEOUT=1200
+                export COMPOSER_PROCESS_TIMEOUT=1800
                 composer run-script tests-run -- --coverage-clover clover.xml
                 /cc-test-reporter after-build --coverage-input-type clover --exit-code $?
             else
