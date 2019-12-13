@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.0-beta.1
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -47,7 +47,7 @@ require_once 'vendor/autoload.php';
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
- * @since [version] Include forms and shared assets class.
+ * @since 3.38.0-beta.1 Include forms and shared assets class.
  */
 final class LifterLMS {
 

@@ -75,7 +75,7 @@ const writeI18nFile = ( title, desc, object ) => {
  * @package LifterLMS/i18n
  *
  * @since 3.37.0
- * @version [version]
+ * @version 3.38.0-beta.1
  */
 
 defined( 'ABSPATH' ) || exit;
