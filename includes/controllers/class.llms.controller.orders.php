@@ -241,8 +241,8 @@ class LLMS_Controller_Orders {
 		}
 
 		foreach ( LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan' => $plan->get( 'id' ) ) ) as $cust_field ) {
-			$cust_key = $cust_field['id'];
-			if ( isset( $_POST[ $cust_key ] ) ) {
+			$cust_key = ! empty( $cust_field['name'] ) ? $cust_field['name'] : false;
+			if ( $cust_key && isset( $_POST[ $cust_key ] ) ) {
 				$data['customer'][ $cust_key ] = llms_filter_input( INPUT_POST, $cust_key, FILTER_SANITIZE_STRING );
 			}
 		}
