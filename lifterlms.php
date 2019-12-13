@@ -5,12 +5,12 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.37.0
+ * @version 3.38.0-beta.1
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
- * Version: 3.37.6
+ * Version: 3.38.0-beta.1
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -47,6 +47,7 @@ require_once 'vendor/autoload.php';
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
+ * @since 3.38.0-beta.1 Include forms and shared assets class.
  */
 final class LifterLMS {
 
@@ -55,7 +56,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '3.37.6';
+	public $version = '3.38.0-beta.1';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -279,6 +280,7 @@ final class LifterLMS {
 	 * @since 3.36.0 Include events classes.
 	 * @since 3.36.1 Include SendWP Connector.
 	 * @since 3.37.0 Include LLMS_Theme_Support class.
+	 * @since 3.38.0-beta.1 Include forms classes and backend/frontend shared asset class.
 	 *
 	 * @return void
 	 */
@@ -292,6 +294,9 @@ final class LifterLMS {
 		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
 			require_once 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
 		}
+
+		require_once 'includes/class-llms-assets.php';
+		require_once 'includes/class-llms-form-field.php';
 
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
@@ -457,6 +462,11 @@ final class LifterLMS {
 			include_once 'includes/class.llms.person.php';
 
 		}
+
+		// LifterLMS Forms.
+		require_once 'includes/class-llms-forms.php';
+		require_once 'includes/class-llms-form-handler.php';
+		require_once 'includes/class-llms-form-templates.php';
 
 		require_once 'includes/class-llms-grades.php';
 		require_once 'includes/class-llms-events.php';

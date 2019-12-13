@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.37.6
+Stable tag: 3.38.0-beta.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,70 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+v3.38.0-beta.1 - 2019-12-13
+-------------------------------
+
+##### Form Management Improvments
+
++ Forms (registration, checkout, account) are now managed via a block editor interface.
++ Customize field labels, description, and placeholders in a simple WYSIWYG interface.
++ Mark fields as required with a toggle.
++ Reorder fields with drag and drop.
++ Customize layout using block editor columns.
++ Use LifterLMS block-level visibility to conditionally display fields based on enrollment or logged in status.
+
+##### Form Localization
+
++ Added default country and state/region lists (see the "languages" directory).
++ Country and state forms are now searchable dropdowns that adjusted based on the currently selected country.
++ Each country's locale information (such as what a "post code" is called and whether or not the country has states or post codes) will update automatically based on the selected country.
++ Enqueue select2 on account and checkout pages for searchable dropdowns for country & state.
+
+##### Updates
+
++ New shortcode `[user]` which is used to output user information in a merge code interface.
++ Improved form field generation via `LLMS_Form_Field` class.
++ LifterLMS Settings: renamed "User Information Options" to "User Privacy Options".
++ Reorganized open registration setting.
++ Use `LLMS.wait_for()` for dependency waiting.
++ Moved checkout template variable declarations to the checkout shortcode controller.
++ Removed field display settings in favor of form customization using the form editors.
++ Organized function files. Some functions have been moved.
++ Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
++ Use `LLMS.wait_for()` for dependency waiting.
+
+##### LifterLMS Blocks v1.6.0
+
++ Feature: Added form field blocks for use on the Forms manager.
++ Feature: Add logic for `logged_in` and `logged_out` block visibility options.
++ Update: Added isDisabled property to Search component.
++ Update: Adjusted priority of `render_block` filter to 20.
++ Bug fix: Import `InspectorControls` from `wp.blockEditor` in favor of deprecated `wp.editor`
++ Bug fix: Automatically store course/membership instructor with `post_author` data when the post is created.
++ Bug fix: Pass style rules as camelCase.
+
+##### Removed unused Javascript assets
+
++ Remove unused bootstrap transiton and collapse scripts.
++ Remove topModal vendor dependency.
++ Remove password strength inline enqueues.
+
+##### Bug fixes
+
++ Only attempt to add a nonce to the datastore when a nonce exists in the settings object.
+
+##### Deprecations
+
++ Deprecated `LLMS_Person_Handler::register()` method, use `llms_register_user()` instead.
++ Deprecated `llms_get_minimum_password_strength()` with no replacement.
+
+##### Template Updates
+
++ templates/checkout/form-checkout.php
++ templates/checkout/form-gateways.php
++ templates/global/form-registration.php
+
+
 = v3.37.6 - 2019-12-12 =
 ------------------------
 
@@ -557,6 +621,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 = v3.37.3 - 2019-12-03 =
 ------------------------
+
 
 + Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
 + Don't unslash uploaded file `tmp_name`, thanks [@pondermatic](https://github.com/pondermatic)!
@@ -642,18 +707,5 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
 + Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
 + Fixed issue where `wp_list_pluck()` would run on non arrays.
-
-##### LifterLMS Rest API 1.0.0-beta.8
-
-+ Return links to those taxonomies which have an accessible rest route.
-+ Initialize `$prepared_item` array before adding values to it. Thanks [@pondermatic](https://github.com/pondermatic)!
-+ Fixed `sales_page_type` not returned as `none` if course's `sales_page_content_type` property is empty.
-+ Load webhook actions a little bit later, to avoid PHP warnings on first plugin activation.
-+ Renamed `sales_page_page_type` and `sales_page_page_url` properties, respectively to `sales_page_type` and `sales_page_url` according to the specs.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
-+ Add missing quotes in enrollment/access default messages shortcodes.
-+ `sales_page_page_id` and `sales_page_url` always returned in edit context.
-+ Call `set_bulk()` llms post method passing `true` as second parameter, so to instruct it to return a WP_Error on failure.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

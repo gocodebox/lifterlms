@@ -6,13 +6,18 @@
  *
  * @since 1.0.0
  * @since 3.30.1 Moved order-related functions to order functions file.
- * @version 3.29.0
+ * @since [version] Require form and locale functions files.
+ *               Move `llms_form_field()` to the form functions file.
+ *               Added the `llms_setcookie()` function.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 require_once 'functions/llms-functions-access-plans.php';
 require_once 'functions/llms-functions-deprecated.php';
+require_once 'functions/llms-functions-forms.php';
+require_once 'functions/llms-functions-locale.php';
 require_once 'functions/llms-functions-options.php';
 require_once 'functions/llms-functions-progression.php';
 
@@ -114,48 +119,51 @@ if ( ! function_exists( 'llms_content' ) ) {
 }
 
 /**
- * Provide deprecation warnings
+ * Mark a function as deprecated and inform when it is used.
  *
- * Very similar to https://developer.wordpress.org/reference/functions/_deprecated_function/
+ * If WP_DEBUG is disabled, no warnings will be displayed or logged.
+ * If WP_DEBUG_DISPLAY is enabled, warnings will show on screen.
+ * If WP_DEBUG_LOG is enabled, warnings will be logged to the `deprecated` log file.
  *
- * @param   string $function    name of the deprecated class or function
- * @param   string $version     version deprecation occurred
- * @param   string $replacement function to use in it's place (optional)
+ * @since 2.6.0
+ * @since 3.6.0 Unknown.
+ * @since [version] Added filter `llms_deprecated_function_trigger_error`.
+ *               Removed fallback to pre WP 2.6 functionality.
+ *               Logs are now logged to the "deprecated" log file.
+ *               On screen notices are now wrapped in an LifterLMS notice element.
+ *
+ * @param   string $function    Name of the deprecated class or function.
+ * @param   string $version     Version number when deprecation occurred.
+ * @param   string $replacement Function to use in it's place (optional).
  * @return  void
- * @since   2.6.0
- * @version 3.6.0
  */
 function llms_deprecated_function( $function, $version, $replacement = null ) {
 
-	// only warn if debug is enabled
-	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+	/**
+	 * Filters whether to warn about deprecated functions.
+	 *
+	 * @since [version]
+	 *
+	 * @param bool $show Whether to show the warning for deprecated functions. Default: `true`.
+	 */
+	if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG || ! apply_filters( 'llms_deprecated_function_trigger_error', true ) ) {
 		return;
 	}
 
-	if ( function_exists( '__' ) ) {
-
-		if ( ! is_null( $replacement ) ) {
-			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', 'lifterlms' ), $function, $version, $replacement );
-		} else {
-			$string = sprintf( __( '%1$s is <strong>deprecated</strong> since version %2$s!', 'lifterlms' ), $function, $version );
-		}
+	if ( ! is_null( $replacement ) ) {
+		$string = sprintf( __( '<code>%1$s</code> is <strong>deprecated</strong> since version <strong>%2$s</strong>! Use <code>%3$s</code> instead.', 'lifterlms' ), $function, $version, $replacement );
 	} else {
-
-		if ( ! is_null( $replacement ) ) {
-			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s! Use %3$s instead.', $function, $version, $replacement );
-		} else {
-			$string = sprintf( '%1$s is <strong>deprecated</strong> since version %2$s!', $function, $version );
-		}
+		$string = sprintf( __( '<code>%1$s</code> is <strong>deprecated</strong> since version <strong>%2$s</strong>! There is no alternative available.', 'lifterlms' ), $function, $version );
 	}
 
-	// warn on screen
+	// Warn on screen.
 	if ( defined( 'WP_DEBUG_DISPLAY' ) && WP_DEBUG_DISPLAY ) {
-		echo '<br>' . $string . '<br>';
+		llms_print_notice( $string, 'debug' );
 	}
 
-	// log to the error logger
+	// Log to the error logger.
 	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-		llms_log( $string );
+		llms_log( $string, 'deprecated ' );
 	}
 
 }
@@ -527,160 +535,6 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 }
 
 /**
- * Generate the HTML for a form field
- *
- * this function is used during AJAX calls so needs to be in a core file
- * loaded during AJAX calls!
- *
- * @param    array   $field  field data
- * @param    boolean $echo   echo the data if true, return otherwise
- * @return   void|string
- * @since    3.0.0
- * @version  3.19.4
- */
-function llms_form_field( $field = array(), $echo = true ) {
-
-	$field = wp_parse_args(
-		$field,
-		array(
-			'columns'         => 12,
-			'classes'         => '',
-			'description'     => '',
-			'default'         => '',
-			'disabled'        => false,
-			'id'              => '',
-			'label'           => '',
-			'last_column'     => true,
-			'match'           => '',
-			'max_length'      => '',
-			'min_length'      => '',
-			'name'            => '',
-			'options'         => array(),
-			'placeholder'     => '',
-			'required'        => false,
-			'selected'        => '',
-			'style'           => '',
-			'type'            => 'text',
-			'value'           => '',
-			'wrapper_classes' => '',
-		)
-	);
-
-	// setup the field value (if one exists)
-	if ( '' !== $field['value'] ) {
-		$field['value'] = $field['value'];
-	} elseif ( '' !== $field['default'] ) {
-		$field['value'] = $field['default'];
-	}
-	$value_attr = ( '' !== $field['value'] ) ? ' value="' . $field['value'] . '"' : '';
-
-	// use id as the name if name isn't specified
-	$field['name'] = ( '' === $field['name'] ) ? $field['id'] : $field['name'];
-
-	// allow items to not have a name attr (eg: not be posted via form submission)
-	// example use case found in Stripe CC fields
-	if ( false === $field['name'] ) {
-		$name_attr = '';
-	} else {
-		$name_attr = ' name="' . $field['name'] . '"';
-	}
-
-	$field['placeholder'] = wp_strip_all_tags( $field['placeholder'] );
-
-	// add inline css if set
-	$field['style'] = ( $field['style'] ) ? ' style="' . $field['style'] . '"' : '';
-
-	// add space to classes
-	$field['wrapper_classes'] = ( $field['wrapper_classes'] ) ? ' ' . $field['wrapper_classes'] : '';
-	$field['classes']         = ( $field['classes'] ) ? ' ' . $field['classes'] : '';
-
-	// add column information to the wrapper
-	$field['wrapper_classes'] .= ' llms-cols-' . $field['columns'];
-	$field['wrapper_classes'] .= ( $field['last_column'] ) ? ' llms-cols-last' : '';
-
-	$desc = $field['description'] ? '<span class="llms-description">' . $field['description'] . '</span>' : '';
-
-	// required attributes and content
-	$required_char = apply_filters( 'lifterlms_form_field_required_character', '*', $field );
-	$required_span = $field['required'] ? ' <span class="llms-required">' . $required_char . '</span>' : '';
-	$required_attr = $field['required'] ? ' required="required"' : '';
-
-	// setup the label
-	$label = $field['label'] ? '<label for="' . $field['id'] . '">' . $field['label'] . $required_span . '</label>' : '';
-
-	$r = '<div class="llms-form-field type-' . $field['type'] . $field['wrapper_classes'] . '">';
-
-	if ( 'hidden' !== $field['type'] && 'checkbox' !== $field['type'] && 'radio' !== $field['type'] ) {
-		$r .= $label;
-	}
-
-	$disabled_attr = ( $field['disabled'] ) ? ' disabled="disabled"' : '';
-
-	$min_attr = ( $field['min_length'] ) ? ' minlength="' . $field['min_length'] . '"' : '';
-	$max_attr = ( $field['max_length'] ) ? ' maxlength="' . $field['max_length'] . '"' : '';
-
-	switch ( $field['type'] ) {
-
-		case 'button':
-		case 'reset':
-		case 'submit':
-			$r .= '<button class="llms-field-button' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $field['style'] . '>' . $field['value'] . '</button>';
-			break;
-
-		case 'checkbox':
-		case 'radio':
-			$checked = ( true === $field['selected'] ) ? ' checked="checked"' : '';
-			$r      .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" type="' . $field['type'] . '"' . $checked . $disabled_attr . $name_attr . $required_attr . $value_attr . $field['style'] . '>';
-			$r      .= $label;
-			break;
-
-		case 'html':
-			$r .= '<div class="llms-field-html' . $field['classes'] . '" id="' . $field['id'] . '">' . $field['value'] . '</div>';
-			break;
-
-		case 'select':
-			$r .= '<select class="llms-field-select' . $field['classes'] . '" id="' . $field['id'] . '" ' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>';
-			foreach ( $field['options'] as $k => $v ) {
-				$r .= '<option value="' . $k . '"' . selected( $k, $field['value'], false ) . '>' . $v . '</option>';
-			}
-			$r .= '</select>';
-			break;
-
-		case 'textarea':
-			$r .= '<textarea class="llms-field-textarea' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '"' . $disabled_attr . $name_attr . $required_attr . $field['style'] . '>' . $field['value'] . '</textarea>';
-			break;
-
-		default:
-			$r .= '<input class="llms-field-input' . $field['classes'] . '" id="' . $field['id'] . '" placeholder="' . $field['placeholder'] . '" type="' . $field['type'] . '"' . $disabled_attr . $name_attr . $min_attr . $max_attr . $required_attr . $value_attr . $field['style'] . '>';
-
-	}
-
-	if ( 'hidden' !== $field['type'] ) {
-		$r .= $desc;
-	}
-
-	$r .= '</div>';
-
-	if ( $field['last_column'] ) {
-		$r .= '<div class="clear"></div>';
-	}
-
-	$r = apply_filters( 'llms_form_field', $r, $field );
-
-	if ( $echo ) {
-
-		echo $r;
-		return;
-
-	} else {
-
-		return $r;
-
-	}
-
-}
-
-/**
  * Get a list of available course / membership enrollment statuses
  *
  * @return   array
@@ -955,6 +809,7 @@ function llms_maybe_define_constant( $name, $value ) {
 
 /**
  * Parse booleans
+ *
  * Mostly used to parse yes/no bools stored in various meta data fields
  *
  * @param    mixed $val      value to parse
@@ -994,6 +849,35 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 		call_user_func( $func, $location, $options['status'] );
 		exit();
 
+	}
+}
+
+if ( ! function_exists( 'llms_setcookie' ) ) {
+	/**
+	 * Set a cookie.
+	 *
+	 * This is a wrapper for the native PHP function `set_cookie()` which can be plugged.
+	 *
+	 * The lifterlms-tests library plugs this function during unit testing so we can mock
+	 * the returns of methods that set cookies and write tests for those functions.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://www.php.net/manual/en/function.setcookie.php
+	 *
+	 * @param string $name The name of the cookie.
+	 * @param string $value The value of the cookie.
+	 * @param int    $expires The time wehn the cookie expires as a Unix timestamp.
+	 * @param string $path The path on the server where the cookie will be available.
+	 * @param string $domain The (sub)domain that the cookie is available to.
+	 * @param bool   $secure Indicates the cookie should only be transmitted over a secure HTTPS connection.
+	 * @param bool   $httponly When `true` the cookie will only be made accessible through the HTTP protocol,
+	 *                         preventing it from being accessed by scripting languages (such as Javascript).
+	 *
+	 * @return boolean
+	 */
+	function llms_setcookie( $name, $value = '', $expires = 0, $path = '', $domain = '', $secure = false, $httponly = false ) {
+		return setcookie( $name, $value, $expires, $path, $domain, $secure, $httponly );
 	}
 }
 
@@ -1064,54 +948,5 @@ function llms_verify_nonce( $nonce, $action, $request_method = 'POST' ) {
 	}
 
 	return wp_verify_nonce( sanitize_text_field( wp_unslash( $_REQUEST[ $nonce ] ) ), $action );
-
-}
-
-/**
- * Verifies a plain text password key for a user (by login) against the hashed key in the database
- *
- * @param    string $key    plain text activation key
- * @param    string $login  user login
- * @return   boolean
- * @since    3.8.0
- * @version  3.8.0
- */
-function llms_verify_password_reset_key( $key = '', $login = '' ) {
-
-	$key = preg_replace( '/[^a-z0-9]/i', '', $key );
-	if ( empty( $key ) || ! is_string( $key ) ) {
-		return false;
-	}
-
-	if ( empty( $login ) || ! is_string( $login ) ) {
-		return false;
-	}
-
-	global $wpdb;
-	$user_key = $wpdb->get_var(
-		$wpdb->prepare(
-			"SELECT user_activation_key FROM $wpdb->users WHERE user_login = %s",
-			$login
-		)
-	);
-
-	if ( empty( $user_key ) ) {
-		return false;
-	}
-
-	global $wp_hasher;
-
-	if ( empty( $wp_hasher ) ) {
-		require_once ABSPATH . 'wp-includes/class-phpass.php';
-		$wp_hasher = new PasswordHash( 8, true );
-	}
-
-	$valid = $wp_hasher->CheckPassword( $key, $user_key );
-
-	if ( empty( $valid ) ) {
-		return false;
-	}
-
-	return true;
 
 }

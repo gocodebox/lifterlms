@@ -11,6 +11,10 @@
  * @package LifterLMS/Functions/Deprecated
  *
  * @since 3.29.0
+ * @since [version] Moved `llms_create_new_person()` function which was deprecated at version 3.0.0.
+ *                Deprecated `llms_get_minimum_password_strength() with no replacement`.
+ *                Deprecated `llms_set_user_password_rest_key()` in favor of WP Core `get_password_reset_key()`.
+ *                Deprecated `llms_verify_password_reset_key()` in favor of WP Core `check_password_reset_key()`.
  * @version 3.37.1
  */
 
@@ -41,6 +45,51 @@ add_filter( 'query_vars', 'llms_add_query_var_product_id' );
  */
 function llms_clean( $var ) {
 	return sanitize_text_field( $var );
+}
+
+/**
+ * Deprecated. Creates new user.
+ *
+ * @since Unknown.
+ * @deprecated 3.0.0 Use 'llms_register_user' instead.
+ *
+ * @param string $email User email.
+ * @param string $email2 User verify email.
+ * @param string $username Username.
+ * @param string $firstname User first name.
+ * @param string $lastname User last name.
+ * @param string $password User password.
+ * @param string $password2 User verify password.
+ * @param string $billing_address_1 User billing address 1.
+ * @param string $billing_address_2 User billing address 2.
+ * @param string $billing_city User billing city.
+ * @param string $billing_state User billing state.
+ * @param string $billing_zip User billing zip.
+ * @param string $billing_country User billing country.
+ * @param string $agree_to_terms Agree to terms checkbox bool.
+ * @return int
+ */
+function llms_create_new_person( $email, $email2, $username = '', $firstname = '', $lastname = '', $password = '', $password2 = '', $billing_address_1 = '', $billing_address_2 = '', $billing_city = '', $billing_state = '', $billing_zip = '', $billing_country = '', $agree_to_terms = '', $phone = '' ) {
+	llms_deprecated_function( 'llms_create_new_person', '3.0.0', 'llms_register_user' );
+	return llms_register_user(
+		array(
+			'email_address'          => $email,
+			'email_address_confirm'  => $email2,
+			'user_login'             => $username,
+			'first_name'             => $firstname,
+			'last_name'              => $lastname,
+			'password'               => $password,
+			'password_confirm'       => $password2,
+			'llms_billing_address_1' => $billing_address_1,
+			'llms_billing_address_2' => $billing_address_2,
+			'llms_billing_city'      => $billing_city,
+			'llms_billing_state'     => $billing_state,
+			'llms_billing_zip'       => $billing_zip,
+			'llms_billing_country'   => $billing_country,
+			'llms_phone'             => $phone,
+			'terms'                  => $agree_to_terms,
+		)
+	);
 }
 
 /**
@@ -168,3 +217,70 @@ function llms_expire_membership() {
 
 }
 add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
+
+/**
+ * Retrieve the minimum accepted password strength for student passwords
+ *
+ * @since 3.0.0
+ * @deprecated [version]
+ *
+ * @return string
+ */
+function llms_get_minimum_password_strength() {
+	llms_deprecated_function( 'llms_get_minimum_password_strength', '[version]' );
+	return apply_filters( 'llms_get_minimum_password_strength', 'strong' );
+}
+
+/**
+ * Generate a user password reset key, hash it, and store it in the database
+ *
+ * @since 3.8.0
+ * @deprecated [version]
+ *
+ * @param int $user_id WP_User ID.
+ * @return string
+ */
+function llms_set_user_password_rest_key( $user_id ) {
+
+	llms_deprecated_function( 'llms_set_user_password_rest_key', '[version]', 'get_password_reset_key' );
+
+	$user = get_user_by( 'ID', $user_id );
+	$key = wp_generate_password( 20, false );
+	do_action( 'retrieve_password_key', $user->user_login, $key );
+	if ( empty( $wp_hasher ) ) {
+		require_once ABSPATH . 'wp-includes/class-phpass.php';
+		$wp_hasher = new PasswordHash( 8, true );
+	}
+	$hashed = $wp_hasher->HashPassword( $key );
+	global $wpdb;
+	$wpdb->update(
+		$wpdb->users,
+		array(
+			'user_activation_key' => $hashed,
+		),
+		array(
+			'user_login' => $user->user_login,
+		)
+	);
+	return $key;
+
+}
+
+/**
+ * Verifies a plain text password key for a user (by login) against the hashed key in the database
+ *
+ * @since 3.8.0
+ * @deprecated [version]
+ *
+ * @param string $key Plain text activation key.
+ * @param string $login User login.
+ * @return boolean
+ */
+function llms_verify_password_reset_key( $key = '', $login = '' ) {
+
+	llms_deprecated_function( 'llms_verify_password_reset_key', '[version]', 'check_password_reset_key' );
+
+	$valid = check_password_reset_key( $key, $login );
+	return is_wp_error( $valid ) ? false : true;
+
+}

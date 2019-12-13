@@ -6,57 +6,14 @@
  * @package  LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @since [version] Moved deprecated `llms_get_minimum_password_strength()` & `llms_set_user_password_rest_key()` to the deprecated functions file.
+ *               Function `llms_get_minimum_password_strength_name()` now accepts a parameter to retrieve strength name by key.
+ *               Use form submission handler during user registration.
+ *               Added functions `llms_get_usernames_blacklist()`, `llms_set_password_reset_cookie()`, and `llms_parse_password_reset_cookie()`.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
-
-/**
- * Creates new user
- *
- * @deprecated 3.0.0, use 'llms_register_user' instead
- *
- * @param  string $email             [user email]
- * @param  string $email2            [user verify email]
- * @param  string $username          [username]
- * @param  string $firstname         [user first name]
- * @param  string $lastname          [user last name]
- * @param  string $password          [user password]
- * @param  string $password2         [user verify password]
- * @param  string $billing_address_1 [user billing address 1]
- * @param  string $billing_address_2 [user billing address 2]
- * @param  string $billing_city      [user billing city]
- * @param  string $billing_state     [user billing state]
- * @param  string $billing_zip       [user billing zip]
- * @param  string $billing_country   [user billing country]
- * @param  string $agree_to_terms    [agree to terms checkbox bool]
- *
- * @return int $person_id            [ID of the user created]
- *
- * @version 3.0.0
- */
-function llms_create_new_person( $email, $email2, $username = '', $firstname = '', $lastname = '', $password = '', $password2 = '', $billing_address_1 = '', $billing_address_2 = '', $billing_city = '', $billing_state = '', $billing_zip = '', $billing_country = '', $agree_to_terms = '', $phone = '' ) {
-	llms_deprecated_function( 'llms_create_new_person', '3.0.0', 'llms_register_user' );
-	return llms_register_user(
-		array(
-			'email_address'          => $email,
-			'email_address_confirm'  => $email2,
-			'user_login'             => $username,
-			'first_name'             => $firstname,
-			'last_name'              => $lastname,
-			'password'               => $password,
-			'password_confirm'       => $password2,
-			'llms_billing_address_1' => $billing_address_1,
-			'llms_billing_address_2' => $billing_address_2,
-			'llms_billing_city'      => $billing_city,
-			'llms_billing_state'     => $billing_state,
-			'llms_billing_zip'       => $billing_zip,
-			'llms_billing_country'   => $billing_country,
-			'llms_phone'             => $phone,
-			'terms'                  => $agree_to_terms,
-		)
-	);
-}
 
 /**
  * Checks LifterLMS user capabilities against an object
@@ -112,7 +69,7 @@ function llms_current_user_can( $cap, $obj_id = null ) {
 
 			}
 		}
-	}// End if().
+	}
 
 	return apply_filters( 'llms_current_user_can_' . $cap, $grant, $obj_id );
 
@@ -167,15 +124,15 @@ add_filter( 'show_admin_bar', 'llms_disable_admin_bar', 10 );
 /**
  * Enroll a WordPress user in a course or membership
  *
+ * @since  2.2.3
+ * @since 3.0.0 added $trigger parameter
+ *
+ * @see  LLMS_Student->enroll() the class method wrapped by this function
+ *
  * @param  int    $user_id    WP User ID
  * @param  int    $product_id WP Post ID of the Course or Membership
  * @param  string $trigger    String describing the event that triggered the enrollment
  * @return bool
- *
- * @see  LLMS_Student->enroll() the class method wrapped by this function
- *
- * @since  2.2.3
- * @version 3.0.0 added $trigger parameter
  */
 function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) {
 	$student = new LLMS_Student( $user_id );
@@ -185,10 +142,10 @@ function llms_enroll_student( $user_id, $product_id, $trigger = 'unspecified' ) 
 /**
  * Get an LLMS_Instructor
  *
+ * @since 3.13.0
+ *
  * @param    mixed $user  WP_User ID, instance of WP_User, or instance of any instructor class extending this class
  * @return   LLMS_Instructor|false LLMS_Instructor instance on success, false if user not found
- * @since    3.13.0
- * @version  3.13.0
  */
 function llms_get_instructor( $user = null ) {
 	$student = new LLMS_Instructor( $user );
@@ -196,45 +153,34 @@ function llms_get_instructor( $user = null ) {
 }
 
 /**
- * Retrieve the minimum accepted password strength for student passwords
- *
- * @return string
- * @since  3.0.0
- */
-function llms_get_minimum_password_strength() {
-	return apply_filters( 'llms_get_minimum_password_strength', get_option( 'lifterlms_registration_password_min_strength' ) );
-}
-
-/**
  * Retrieve the translated name of minimum accepted password strength for student passwords
  *
+ * @since 3.0.0
+ * @since [version] Remove database call to deprecated option and add the $strength parameter.
+ *
+ * @param string $strength Password strength value to translate.
  * @return string
- * @since  3.0.0
  */
-function llms_get_minimum_password_strength_name() {
-	$strength = llms_get_minimum_password_strength();
-	switch ( $strength ) {
-		case 'strong':
-			$r = __( 'strong', 'lifterlms' );
-			break;
+function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 
-		case 'medium':
-			$r = __( 'medium', 'lifterlms' );
-			break;
+	$opts = array(
+		'strong'    => __( 'strong', 'lifterlms' ),
+		'medium'    => __( 'medium', 'lifterlms' ),
+		'weak'      => __( 'weak', 'lifterlms' ),
+		'very-weak' => __( 'very weak', 'lifterlms' ),
+	);
 
-		case 'weak':
-			$r = __( 'weak', 'lifterlms' );
-			break;
+	$name = isset( $opts[ $strength ] ) ? $opts[ $strength ] : $strength;
 
-		case 'very-weak':
-			$r = __( 'very weak', 'lifterlms' );
-			break;
+	/**
+	 * Filter the name of the password strength
+	 *
+	 * @since [version]
+	 *
+	 * @param $string $name Translated name of the password strength value.
+	 */
+	return apply_filters( 'llms_get_minimum_password_strength_name_' . $strength, $name );
 
-		default:
-			$r = apply_filters( 'llms_get_minimum_password_strength_name_' . $strength, $strength );
-	}
-
-	return $r;
 }
 
 /**
@@ -249,6 +195,27 @@ function llms_get_student( $user = null ) {
 	$student = new LLMS_Student( $user );
 	return $student->exists() ? $student : false;
 }
+
+/**
+ * Retrieve a list of disallowed usernames.
+ *
+ * @since [version]
+ *
+ * @return string[]
+ */
+function llms_get_usernames_blacklist() {
+
+	/**
+	 * Modify the list of disallowed usernames
+	 *
+	 * @since Unknown.
+	 *
+	 * @param string[] $banned List of banned usernames.
+	 */
+	return apply_filters( 'llms_usernames_blacklist', array( 'admin', 'test', 'administrator', 'password', 'testing' ) );
+
+}
+
 
 /**
  * Checks if user is currently enrolled in course
@@ -328,20 +295,89 @@ function llms_mark_incomplete( $user_id, $object_id, $object_type, $trigger = 'u
 }
 
 /**
+ * Parses the password reset cookie.
+ *
+ * This is the cookie set when a user uses the password reset link found in a reset password email. The query string
+ * vars in the link (user login and reset key) are parsed and stored in this cookie.
+ *
+ * @since [version]
+ *
+ * @return array|WP_Error On success, returns an associative array containing the keys "key" and "login", on error
+ *                        returns a WP_Error.
+ */
+function llms_parse_password_reset_cookie() {
+
+	if ( ! isset( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ) ) {
+		return new WP_Error( 'llms_password_reset_no_cookie', __( 'The password reset key could not be found. Please rest your password again if needed.', 'lifterlms' ) );
+	}
+
+	$parsed = array_map( 'sanitize_text_field', explode( ':', wp_unslash( $_COOKIE[ 'wp-resetpass-' . COOKIEHASH ] ), 2 ) );  // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+	if ( 2 !== count( $parsed ) ) {
+		return new WP_Error( 'llms_password_reset_invalid_cookie', __( 'The password reset key is in an invalid format. Please rest your password again if needed.', 'lifterlms' ) );
+	}
+
+	$uid = $parsed[0];
+	$key = $parsed[1];
+
+	$user  = get_user_by( 'ID', $uid );
+	$login = $user ? $user->user_login : '';
+	$user  = check_password_reset_key( $key, $login );
+
+	if ( is_wp_error( $user ) ) {
+		// Error code is either "llms_password_reset_invalid_key" or "llms_password_reset_expired_key".
+		return new WP_Error( sprintf( 'llms_password_reset_%s', $user->get_error_code() ), __( 'This password reset key is invalid or has already been used. Please reset your password again if needed.', 'lifterlms' ) );
+	}
+
+	// Success.
+	return compact( 'key', 'login' );
+
+}
+
+/**
  * Register a new user
  *
  * @see  LLMS_Person_Handler::register()
  *
- * @param  array  $data    array of registration data
- * @param  string $screen  the screen to be used for the validation template, accepts "registration" or "checkout"
- * @param  bool   $signon  if true, signon the newly created user
- *
- * @return int|WP_Error
- *
  * @since 3.0.0
+ * @since [version]
+ *
+ * @param  array  $data   Array of registration data.
+ * @param  string $screen The screen to be used for the validation template, accepts "registration" or "checkout"
+ * @param  bool   $signon If true, signon the newly created user
+ * @return int|WP_Error
  */
 function llms_register_user( $data = array(), $screen = 'registration', $signon = true ) {
-	return LLMS_Person_Handler::register( $data, $screen, $signon );
+
+	$user_id = LLMS_Form_Handler::instance()->submit( $data, $screen );
+
+	if ( is_wp_error( $user_id ) ) {
+		return $user_id;
+	}
+
+	if ( $signon ) {
+		llms_set_person_auth_cookie( $user_id, false );
+	}
+
+	return $user_id;
+
+}
+
+/**
+ * Set or unset a user's password reset cookie.
+ *
+ * @since [version]
+ *
+ * @param string $val Cookie value.
+ * @return boolean
+ */
+function llms_set_password_reset_cookie( $val = '' ) {
+
+	$cookie  = sprintf( 'wp-resetpass-%s', COOKIEHASH );
+	$expires = $val ? 0 : time() - YEAR_IN_SECONDS;
+	$path    = isset( $_SERVER['REQUEST_URI'] ) ? current( explode( '?', wp_unslash( $_SERVER['REQUEST_URI'] ) ) ) : ''; // phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+
+	return llms_setcookie( $cookie, $val, $expires, $path, COOKIE_DOMAIN, is_ssl(), true );
+
 }
 
 /**
@@ -359,45 +395,6 @@ function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 	wp_set_current_user( $user_id );
 	wp_set_auth_cookie( $user_id, $remember );
 	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
-}
-
-/**
- * Generate a user password reset key, hash it, and store it in the database
- *
- * @param    int $user_id  WP_User ID
- * @return   string
- * @since    3.8.0
- * @version  3.8.0
- */
-function llms_set_user_password_rest_key( $user_id ) {
-
-	$user = get_user_by( 'ID', $user_id );
-
-	// generate an activation key
-	$key = wp_generate_password( 20, false );
-
-	do_action( 'retrieve_password_key', $user->user_login, $key ); // wp core hook
-
-	// insert the hashed key into the db
-	if ( empty( $wp_hasher ) ) {
-		require_once ABSPATH . 'wp-includes/class-phpass.php';
-		$wp_hasher = new PasswordHash( 8, true );
-	}
-	$hashed = $wp_hasher->HashPassword( $key );
-
-	global $wpdb;
-	$wpdb->update(
-		$wpdb->users,
-		array(
-			'user_activation_key' => $hashed,
-		),
-		array(
-			'user_login' => $user->user_login,
-		)
-	);
-
-	return $key;
-
 }
 
 /**
@@ -437,19 +434,18 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
 }
 
 /**
- * Perform validations according to $screen and updates the user
+ * Performs validations for the u
  *
- * @see      LLMS_Person_Handler::update()
+ * @since 3.0.0
+ * @since 3.7.0 Unknown.
+ * @since [version] Updated to utilize LLMS_Form_Handler class.
  *
- * @param    array  $data   array of user data
- * @param    string $screen  screen to perform validations for, accepts "account" or "checkout"
- * @return   int|WP_Error
- *
- * @since    3.0.0
- * @version  3.7.0
+ * @param array  $data Array of user data.
+ * @param string $location (Optional) screen to perform validations for, accepts "account" or "checkout". Default value: 'account'
+ * @return int|WP_Error WP_User ID on success or error object on failure.
  */
-function llms_update_user( $data = array(), $screen = 'account' ) {
-	return LLMS_Person_Handler::update( $data, $screen );
+function llms_update_user( $data = array(), $location = 'account' ) {
+	return LLMS_Form_Handler::instance()->submit( $data, $location );
 }
 
 
@@ -556,7 +552,7 @@ function llms_add_user_table_rows( $val, $column_name, $user_id ) {
 
 		default:
 			$return = $val;
-	}// End switch().
+	}
 
 	return $return;
 

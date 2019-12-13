@@ -7,7 +7,7 @@
  * @package LifterLMS/Shortcodes
  *
  * @since 1.0.0
- * @version 3.36.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.0 Checkout form not displayed to users already enrolled in the product being purchased, a notice informing them of that is displayed instead.
  * @since 3.35.0 Sanitize input data.
  * @since 3.36.3 Added l10n function to membership restriction error message.
+ * @since [version] Add support for LLMS_Form field management.
  */
 class LLMS_Shortcode_Checkout {
 
@@ -140,6 +141,7 @@ class LLMS_Shortcode_Checkout {
 	 * @since 1.0.0
 	 * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Organize attribute configuration and add new dynamic attributes related to the LLMS_Form post.
 	 *
 	 * @param array $atts shortcode atts from originating shortcode
 	 * @return void
@@ -202,7 +204,7 @@ class LLMS_Shortcode_Checkout {
 				if ( isset( $_POST['llms_order_key'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing
 					$atts['order_key'] = llms_filter_input( INPUT_POST, 'llms_order_key', FILTER_SANITIZE_STRING );
 
-					// Attempt to located a pending order.
+					// Attempt to locate a pending order.
 				} elseif ( self::$uid ) {
 					$pending_order = llms_locate_order_for_user_and_plan( self::$uid, $plan_id );
 					if ( $pending_order ) {
@@ -211,8 +213,19 @@ class LLMS_Shortcode_Checkout {
 					}
 				}
 
-				$atts['plan']    = new LLMS_Access_Plan( $plan_id );
-				$atts['product'] = $atts['plan']->get_product();
+				$atts = self::setup_plan_and_form_atts( $plan_id, $atts );
+
+				/**
+				 * Filter the number of columns used to render the checkout/enrollment form.
+				 *
+				 * @since Unknown.
+				 * @since [version] Added `$form_location` parameter.
+				 *
+				 * @param int $cols Number of columns. Accepts 1 or 2.
+				 * @param LLMS_Access_Plan $plan Access plan object.
+				 * @param string $form_location Form location ID.
+				 */
+				$atts['cols'] = apply_filters( 'llms_checkout_columns', ( $atts['is_free'] || ! $atts['form_fields'] ) ? 1 : $atts['cols'], $atts['plan'], $atts['form_location'] );
 
 				self::checkout( $atts );
 
@@ -229,9 +242,8 @@ class LLMS_Shortcode_Checkout {
 
 			}
 
-			$order           = llms_get_order_by_key( llms_filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) );
-			$atts['plan']    = new LLMS_Access_Plan( $order->get( 'plan_id' ) );
-			$atts['product'] = $atts['plan']->get_product();
+			$order = llms_get_order_by_key( llms_filter_input( INPUT_GET, 'order', FILTER_SANITIZE_STRING ) );
+			$atts  = self::setup_plan_and_form_atts( $order->get( 'plan_id' ), $atts );
 
 			if ( $order->get( 'coupon_id' ) ) {
 				$atts['coupon'] = new LLMS_Coupon( $order->get( 'coupon_id' ) );
@@ -247,10 +259,34 @@ class LLMS_Shortcode_Checkout {
 
 			return self::error( sprintf( __( 'Your cart is currently empty. Click <a href="%s">here</a> to get started.', 'lifterlms' ), llms_get_page_url( 'courses' ) ) );
 
-		}// End if().
+		}
 
 		echo '</div><!-- .llms-checkout-wrapper -->';
 
+	}
+
+	/**
+	 * Setup attributes for plan and form information.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $plan_id LLMS_Access_Plan post id.
+	 * @param array $atts Existing attributes.
+	 * @return array Modified attributes array.
+	 */
+	protected static function setup_plan_and_form_atts( $plan_id, $atts ) {
+
+		$plan = new LLMS_Access_Plan( $plan_id );
+
+		$atts['plan']    = $plan;
+		$atts['product'] = $plan->get_product();
+		$atts['is_free'] = $plan->has_free_checkout();
+
+		$atts['form_location'] = 'checkout';
+		$atts['form_title']    = llms_get_form_title( $atts['form_location'], array( 'plan' => $plan ) );
+		$atts['form_fields']   = llms_get_form_html( $atts['form_location'], array( 'plan' => $plan ) );
+
+		return $atts;
 	}
 
 }
