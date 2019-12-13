@@ -144,8 +144,6 @@ class LLMS_Form_Handler {
 	 * @param string  $action Type of insert action. Either "registration" for a new user or "update" for an existing one.
 	 * @param array   $posted_data User-submitted form data.
 	 * @param array[] $fields List of LifterLMS Form fields for the form.
-	 * @param string  $location Form location.
-	 * @param array   $args Extra form location arguments.
 	 * @return WP_Error|int Error on failure or WP_User ID on success.
 	 */
 	protected function insert( $action, $posted_data, $fields ) {
