@@ -108,6 +108,8 @@ class LLMS_Test_Functions_Person extends LLMS_UnitTestCase {
 	 */
 	public function test_llms_parse_password_reset_cookie_no_cookie() {
 
+		$this->cookies->unset( sprintf( 'wp-resetpass-%s', COOKIEHASH ) );
+
 		$res = llms_parse_password_reset_cookie();
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( 'llms_password_reset_no_cookie', $res );
