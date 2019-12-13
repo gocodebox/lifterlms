@@ -68,12 +68,8 @@ class LLMS_Form_Handler {
 		$matches = array();
 		foreach ( $fields as $field ) {
 
-			// Field doesn't have a match to check.
-			if ( empty( $field['match'] ) ) {
-				continue;
-
-				// Field was already checked.
-			} elseif ( in_array( $field['id'], $matches, true ) ) {
+			// Field doesn't have a match to check or it was already checked by it's match.
+			if ( empty( $field['match'] ) || in_array( $field['id'], $matches, true ) ) {
 				continue;
 			}
 
@@ -152,7 +148,7 @@ class LLMS_Form_Handler {
 	 * @param array   $args Extra form location arguments.
 	 * @return WP_Error|int Error on failure or WP_User ID on success.
 	 */
-	protected function insert( $action, $posted_data, $fields, $location, $args ) {
+	protected function insert( $action, $posted_data, $fields ) {
 
 		$func     = 'registration' === $action ? 'wp_insert_user' : 'wp_update_user';
 		$prepared = $this->prepare_data_for_insert( $posted_data, $fields, $action );
@@ -388,6 +384,7 @@ class LLMS_Form_Handler {
 
 		// Form couldn't be located.
 		if ( false === $fields ) {
+
 			return $this->submit_error(
 				// Translators: %s = form location ID.
 				new WP_Error( 'llms-form-invalid-location', sprintf( __( 'The form location "%s" is invalid.', 'lifterlms' ), $location ), $args ),
@@ -479,7 +476,7 @@ class LLMS_Form_Handler {
 		 */
 		do_action( "lifterlms_user_${action}_after_validation", $posted_data, $location, $fields, $args );
 
-		$user_id = $this->insert( $action, $posted_data, $fields, $location, $args );
+		$user_id = $this->insert( $action, $posted_data, $fields );
 		if ( is_wp_error( $user_id ) ) {
 			return $this->submit_error( $user_id, $posted_data, $action );
 		}
