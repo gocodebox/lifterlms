@@ -3,7 +3,7 @@
  * Admin Settings Page, Accounts Tab
  *
  * @since 1.0.0
- * @version 3.37.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,10 @@ defined( 'ABSPATH' ) || exit;
  *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
  *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
  * @since 3.37.4 Revert $id to "account".
+ * @since [version] Removed field display settings.
+ *               Reorganized open registration setting.
+ *               Renamed "User Information Options" to "User Privacy Options".
+ *               Revert $id to "account".
  */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 
@@ -28,7 +32,7 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	public $id = 'account';
 
 	/**
-	 * Allow settings page to determine if a rewrite flush is required
+	 * Should permalinks be flushed on save?
 	 *
 	 * @var boolean
 	 */
@@ -40,33 +44,27 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 	 * @since 1.0.0
 	 * @since 3.30.3 Fixed spelling errors.
 	 * @since 3.37.3 Renamed duplicate field id for section close (`user_info_field_options` to `user_info_field_options_end`)
+	 * @since [version] Removed field display settings.
+	 *               Reorganized open registration setting.
+	 *               Renamed "User Information Options" to "User Privacy Options".
 	 *
 	 * @return array
 	 */
 	public function get_settings() {
 
-		$field_options = array(
-			'required' => __( 'Required', 'lifterlms' ),
-			'optional' => __( 'Optional', 'lifterlms' ),
-			'hidden'   => __( 'Hidden', 'lifterlms' ),
-		);
-
 		return apply_filters(
 			'lifterlms_' . $this->id . '_settings',
 			array(
-
 				array(
 					'class' => 'top',
 					'id'    => 'course_account_options',
 					'type'  => 'sectionstart',
 				),
-
 				array(
 					'id'    => 'account_page_options_start',
 					'title' => __( 'Student Dashboard', 'lifterlms' ),
 					'type'  => 'title',
 				),
-
 				array(
 					'title'             => __( 'Dashboard Page', 'lifterlms' ),
 					'desc'              => '<br>' . __( 'Page where students can view and manage their current enrollments, earned certificates and achievements, account information, and purchase history.', 'lifterlms' ),
@@ -80,7 +78,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					),
 					'options'           => llms_make_select2_post_array( get_option( 'lifterlms_myaccount_page_id', '' ) ),
 				),
-
 				array(
 					'title'   => __( 'Courses Sorting', 'lifterlms' ),
 					'default' => 'order,ASC',
@@ -95,25 +92,33 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 						'order,DESC' => __( 'Order (High to Low)', 'lifterlms' ),
 					),
 				),
-
+				array(
+					'default' => 'no',
+					'desc'    => sprintf(
+						// Translators: %1$s = opening anchor tag; %2$s = closing anchor tag.
+						__( 'Enable new user registration on the Student Dashboard. %1$sLearn More%2$s.', 'lifterlms' ),
+						'<a href="https://lifterlms.com/docs/open-registration/" target="_blank">',
+						'</a>'
+					),
+					'id'      => 'lifterlms_enable_myaccount_registration',
+					'title'   => __( 'Open Registration', 'lifterlms' ),
+					'type'    => 'checkbox',
+				),
 				array(
 					'id'   => 'course_account_options_end',
 					'type' => 'sectionend',
 				),
-
 				array(
 					'class' => 'top',
 					'id'    => 'course_account_endpoint_options_start',
 					'type'  => 'sectionstart',
 				),
-
 				array(
 					'id'    => 'account_page_endpoint_options_title',
 					'title' => __( 'Student Dashboard Endpoints', 'lifterlms' ),
 					'desc'  => __( 'Each endpoint allows students to view more information or manage parts of their account. Each endpoint should be unique, URL-safe, and can be left blank to disable the endpoint completely.', 'lifterlms' ),
 					'type'  => 'title',
 				),
-
 				array(
 					'title'    => __( 'View Grades', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Student grade and progress reporting', 'lifterlms' ),
@@ -122,7 +127,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-grades',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Courses', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s courses', 'lifterlms' ),
@@ -131,7 +135,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-courses',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Memberships', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s memberships', 'lifterlms' ),
@@ -140,7 +143,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-memberships',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Achievements', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s achievements', 'lifterlms' ),
@@ -149,7 +151,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-achievements',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'View Certificates', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'List of all the student\'s certificates', 'lifterlms' ),
@@ -158,7 +159,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'my-certificates',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Notifications', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'View Notifications and adjust notification settings', 'lifterlms' ),
@@ -167,7 +167,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'notifications',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Edit Account', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Edit Account page', 'lifterlms' ),
@@ -176,7 +175,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'edit-account',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Lost Password', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Lost Password page', 'lifterlms' ),
@@ -185,7 +183,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'lost-password',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Redeem Vouchers', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Redeem vouchers page', 'lifterlms' ),
@@ -194,7 +191,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'redeem-voucher',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'title'    => __( 'Orders History', 'lifterlms' ),
 					'desc'     => '<br>' . __( 'Students can review order history on this page', 'lifterlms' ),
@@ -203,53 +199,18 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'default'  => 'orders',
 					'sanitize' => 'slug',
 				),
-
 				array(
 					'id'   => 'course_account_endpoint_options_end',
 					'type' => 'sectionend',
 				),
-
-				// start user info fields options
 				array(
 					'id'   => 'user_info_field_options',
 					'type' => 'sectionstart',
 				),
 				array(
-					'title' => __( 'User Information Options', 'lifterlms' ),
+					'title' => __( 'User Privacy Options', 'lifterlms' ),
 					'type'  => 'title',
 					'id'    => 'user_info_field_options_title',
-				),
-
-				array(
-					'desc'  => __( 'These settings apply to all user information screens.', 'lifterlms' ),
-					'title' => __( 'General Information Field Settings', 'lifterlms' ),
-					'type'  => 'subtitle',
-				),
-				array(
-					'title'   => __( 'Disable Usernames', 'lifterlms' ),
-					'desc'    => __( 'Automatically generate student usernames and enable email address login.', 'lifterlms' ),
-					'id'      => 'lifterlms_registration_generate_username',
-					'default' => 'yes',
-					'type'    => 'checkbox',
-				),
-				array(
-					'title'    => __( 'Password Strength', 'lifterlms' ),
-					'desc'     => __( 'Add a password strength meter', 'lifterlms' ),
-					'id'       => 'lifterlms_registration_password_strength',
-					'default'  => 'yes',
-					'type'     => 'checkbox',
-					'autoload' => false,
-				),
-				array(
-					'desc'    => '<br>' . __( 'Select the minimum password strength allowed when students create a new password.', 'lifterlms' ),
-					'id'      => 'lifterlms_registration_password_min_strength',
-					'type'    => 'select',
-					'default' => 'strong',
-					'options' => array(
-						'weak'   => _x( 'Weak', 'password strength meter', 'lifterlms' ),
-						'medium' => _x( 'Medium', 'password strength meter', 'lifterlms' ),
-						'strong' => _x( 'Strong', 'password strength meter', 'lifterlms' ),
-					),
 				),
 				array(
 					'title' => __( 'Terms and Conditions', 'lifterlms' ),
@@ -291,7 +252,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'type'     => 'textarea',
 					'value'    => llms_get_terms_notice(),
 				),
-
 				array(
 					'title' => __( 'Privacy Policy', 'lifterlms' ),
 					'type'  => 'subtitle',
@@ -321,7 +281,6 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'title'    => __( 'Privacy Policy Notice', 'lifterlms' ),
 					'type'     => 'textarea',
 				),
-
 				array(
 					'title' => __( 'Account Erasure Requests', 'lifterlms' ),
 					/* Translators: %$1s = opening anchor to account erasure screen; %2$s closing anchor */
@@ -344,144 +303,10 @@ class LLMS_Settings_Accounts extends LLMS_Settings_Page {
 					'title'    => __( 'Remove Student LMS Data', 'lifterlms' ),
 					'type'     => 'checkbox',
 				),
-
-				array(
-					'desc'  => __( 'Customize the user information fields available on the checkout screen.', 'lifterlms' ),
-					'title' => __( 'Checkout Fields', 'lifterlms' ),
-					'type'  => 'subtitle',
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'required',
-					'id'       => 'lifterlms_user_info_field_names_checkout_visibility',
-					'title'    => __( 'First & Last Name', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'required',
-					'id'       => 'lifterlms_user_info_field_address_checkout_visibility',
-					'title'    => __( 'Address', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'optional',
-					'id'       => 'lifterlms_user_info_field_phone_checkout_visibility',
-					'title'    => __( 'Phone Number', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'yes',
-					'desc'     => __( 'Add an email confirmation field', 'lifterlms' ),
-					'id'       => 'lifterlms_user_info_field_email_confirmation_checkout_visibility',
-					'title'    => __( 'Email Confirmation', 'lifterlms' ),
-					'type'     => 'checkbox',
-				),
-
-				array(
-					'desc'  => __( 'Customize the user information fields available on the open registration screen.', 'lifterlms' ),
-					'title' => __( 'Open Registration Fields', 'lifterlms' ),
-					'type'  => 'subtitle',
-				),
-				array(
-					'default' => 'no',
-					'desc'    => __( 'Allow registration on the Account Access Page without enrolling in a course or membership.', 'lifterlms' ),
-					'id'      => 'lifterlms_enable_myaccount_registration',
-					'title'   => __( 'Enable / Disable', 'lifterlms' ),
-					'type'    => 'checkbox',
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'required',
-					'id'       => 'lifterlms_user_info_field_names_registration_visibility',
-					'title'    => __( 'First & Last Name', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'optional',
-					'id'       => 'lifterlms_user_info_field_address_registration_visibility',
-					'title'    => __( 'Address', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'hidden',
-					'id'       => 'lifterlms_user_info_field_phone_registration_visibility',
-					'title'    => __( 'Phone Number', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'no',
-					'desc'     => __( 'Add an email confirmation field', 'lifterlms' ),
-					'id'       => 'lifterlms_user_info_field_email_confirmation_registration_visibility',
-					'title'    => __( 'Email Confirmation', 'lifterlms' ),
-					'type'     => 'checkbox',
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'optional',
-					'desc'     => '<br>' . __( 'If required, users can only use open registration with a voucher.', 'lifterlms' ) .
-									   '<br>' . __( 'If optional, users may redeem a voucher during open registration.', 'lifterlms' ) .
-									   '<br>' . __( 'If hidden, users can only redeem vouchers on their dashboard.', 'lifterlms' ),
-					'id'       => 'lifterlms_voucher_field_registration_visibility',
-					'title'    => __( 'Voucher', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-
-				array(
-					'desc'  => __( 'Customize the user information fields available on the account update screen.', 'lifterlms' ),
-					'title' => __( 'Account Update Fields', 'lifterlms' ),
-					'type'  => 'subtitle',
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'required',
-					'id'       => 'lifterlms_user_info_field_names_account_visibility',
-					'title'    => __( 'First & Last Name', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'required',
-					'id'       => 'lifterlms_user_info_field_address_account_visibility',
-					'title'    => __( 'Address', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'optional',
-					'id'       => 'lifterlms_user_info_field_phone_account_visibility',
-					'title'    => __( 'Phone Number', 'lifterlms' ),
-					'type'     => 'select',
-					'options'  => $field_options,
-				),
-				array(
-					'autoload' => false,
-					'default'  => 'yes',
-					'desc'     => __( 'Add an email confirmation field', 'lifterlms' ),
-					'id'       => 'lifterlms_user_info_field_email_confirmation_account_visibility',
-					'title'    => __( 'Email Confirmation', 'lifterlms' ),
-					'type'     => 'checkbox',
-				),
-
 				array(
 					'id'   => 'user_info_field_options_end',
 					'type' => 'sectionend',
 				),
-			 // end user info field options
 
 			)
 		);

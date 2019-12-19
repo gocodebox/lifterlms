@@ -6,7 +6,7 @@
  *
  * @since 3.29.0
  * @since 3.30.1 Moved order related functions from core file.
- * @version 3.30.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -172,7 +172,7 @@ function llms_locate_order_for_user_and_plan( $user_id, $plan_id ) {
  * Setup a pending order which can be passed to an LLMS_Payment_Gateway for processing.
  *
  * @since 3.29.0
- * @version 3.29.0
+ * @since [version] Use `llms_update_user()` instead of deprecated `LLMS_Person_Handler::update()`.
  *
  * @param array $data {
  *     Data used to create a pending order.
@@ -272,7 +272,7 @@ function llms_setup_pending_order( $data = array() ) {
 
 	// update the customer
 	if ( ! empty( $data['customer']['user_id'] ) ) {
-		$person_id = LLMS_Person_Handler::update( $data['customer'], 'checkout' );
+		$person_id = llms_update_user( $data['customer'], 'checkout' );
 	} else {
 		$person_id = llms_register_user( $data['customer'], 'checkout', true );
 	}

@@ -3,7 +3,7 @@
  * Order processing and related actions controller
  *
  * @since 3.0.0
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.4 Added filter `llms_order_can_be_confirmed`.
  * @since 3.34.5 Fixed logic error in `llms_order_can_be_confirmed` conditional.
  * @since 3.36.1 In `recurring_charge()`, made sure to process only proper LLMS_Orders of existing users.
+ * @since [version] Build customer data using LLMS_Forms fields information.
  */
 class LLMS_Controller_Orders {
 
@@ -191,6 +192,7 @@ class LLMS_Controller_Orders {
 	 * @since 3.0.0
 	 * @since 3.27.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
+	 * @since [version] Build customer data using LLMS_Forms fields information.
 	 *
 	 * @return void
 	 */
@@ -225,6 +227,8 @@ class LLMS_Controller_Orders {
 			'llms_coupon_code',
 		);
 
+		$plan = llms_get_post( llms_filter_input( INPUT_POST, 'llms_plan_id', FILTER_SANITIZE_NUMBER_INT ) );
+
 		foreach ( $keys as $key ) {
 			if ( isset( $_POST[ $key ] ) ) {
 				$data[ str_replace( 'llms_', '', $key ) ] = llms_filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
@@ -235,9 +239,10 @@ class LLMS_Controller_Orders {
 		if ( get_current_user_id() ) {
 			$data['customer']['user_id'] = get_current_user_id();
 		}
-		foreach ( LLMS_Person_Handler::get_available_fields( 'checkout' ) as $cust_field ) {
-			$cust_key = $cust_field['id'];
-			if ( isset( $_POST[ $cust_key ] ) ) {
+
+		foreach ( LLMS_Forms::instance()->get_form_fields( 'checkout', array( 'plan' => $plan->get( 'id' ) ) ) as $cust_field ) {
+			$cust_key = ! empty( $cust_field['name'] ) ? $cust_field['name'] : false;
+			if ( $cust_key && isset( $_POST[ $cust_key ] ) ) {
 				$data['customer'][ $cust_key ] = llms_filter_input( INPUT_POST, $cust_key, FILTER_SANITIZE_STRING );
 			}
 		}
@@ -252,7 +257,6 @@ class LLMS_Controller_Orders {
 
 			// existing user fails validation from the free checkout form
 			if ( get_current_user_id() && isset( $_POST['form'] ) && 'free_enroll' === $_POST['form'] && isset( $_POST['llms_plan_id'] ) ) {
-				$plan = llms_get_post( llms_filter_input( INPUT_POST, 'llms_plan_id', FILTER_SANITIZE_NUMBER_INT ) );
 				wp_redirect( $plan->get_checkout_url() );
 				exit;
 			}
