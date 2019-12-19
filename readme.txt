@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.38.0-beta.1
+Stable tag: 3.38.0-beta.2
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -513,6 +513,12 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 
 
 == Changelog ==
+
+
+v3.38.0-beta.2 - 2019-12-19
+-------------------------------
+
++ Update LifterLMS Blocks to v1.7.3.
 
 
 v3.38.0-beta.1 - 2019-12-13

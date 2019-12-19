@@ -48,68 +48,68 @@ msgstr ""
 msgid "There was one or more errors encountered while recording the events."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:96
+#: includes/class-llms-form-handler.php:92
 msgid "%1$s must match %2$s."
 msgstr ""
 
 #. translators: %s = form location ID.
-#: includes/class-llms-form-handler.php:393
+#: includes/class-llms-form-handler.php:388
 msgid "The form location \"%s\" is invalid."
 msgstr ""
 
 #. translators: %s = form location ID.
-#: includes/class-llms-form-handler.php:403
+#: includes/class-llms-form-handler.php:398
 msgid "You must be logged in to perform this action."
 msgstr ""
 
 #. translators: %s user submitted value.
-#: includes/class-llms-form-handler.php:582
+#: includes/class-llms-form-handler.php:577
 msgid "The email address \"%s\" is not valid."
 msgstr ""
 
 #. translators: %s user submitted value.
-#: includes/class-llms-form-handler.php:589
+#: includes/class-llms-form-handler.php:584
 msgid "The phone number \"%s\" is not valid."
 msgstr ""
 
 #. translators: %1$s field label or name; %2$s = user submitted value.
-#: includes/class-llms-form-handler.php:597
+#: includes/class-llms-form-handler.php:592
 msgid "The %1$s \"%2$s\" is not valid number."
 msgstr ""
 
 #. translators: %1$s field label or name; %2$s = user submitted value; %3$d = minimum allowed number.
-#: includes/class-llms-form-handler.php:601
+#: includes/class-llms-form-handler.php:596
 msgid "The %1$s \"%2$s\" must be greater than or equal to %3$d."
 msgstr ""
 
 #. translators: %1$s field label or name; %2$s = user submitted value; %3$d = maximum allowed number.
-#: includes/class-llms-form-handler.php:604
+#: includes/class-llms-form-handler.php:599
 msgid "The %1$s \"%2$s\" must be less than or equal to %3$d."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:631
+#: includes/class-llms-form-handler.php:626
 msgid "You must be logged in to update your password."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:635
+#: includes/class-llms-form-handler.php:630
 msgid "The submitted password was not correct."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:641, includes/class.llms.person.handler.php:925
+#: includes/class-llms-form-handler.php:636, includes/class.llms.person.handler.php:925
 msgid "An account with the email address \"%s\" already exists."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:647, includes/class.llms.person.handler.php:934
+#: includes/class-llms-form-handler.php:642, includes/class.llms.person.handler.php:934
 msgid "The username \"%s\" is invalid, please try a different username."
 msgstr ""
 
-#: includes/class-llms-form-handler.php:649, includes/class.llms.person.handler.php:938
+#: includes/class-llms-form-handler.php:644, includes/class.llms.person.handler.php:938
 msgid "An account with the username \"%s\" already exists."
 msgstr ""
 
 #. translators: %s = field label or name.
 #. translators: %s = field label or id.
-#: includes/class-llms-form-handler.php:714, includes/forms/controllers/class.llms.controller.account.php:334
+#: includes/class-llms-form-handler.php:709, includes/forms/controllers/class.llms.controller.account.php:334
 msgid "%s is a required field."
 msgstr ""
 
