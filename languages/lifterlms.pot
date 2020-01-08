@@ -1,4 +1,4 @@
-# Copyright (C) 2019 lifterlms
+# Copyright (C) 2020 lifterlms
 # This file is distributed under the same license as the lifterlms package.
 msgid ""
 msgstr ""
@@ -2698,44 +2698,44 @@ msgstr ""
 msgid "Save"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:325
+#: includes/abstracts/abstract.llms.admin.table.php:326
 msgid "Any"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:327, includes/abstracts/abstract.llms.admin.table.php:329
+#: includes/abstracts/abstract.llms.admin.table.php:328, includes/abstracts/abstract.llms.admin.table.php:330
 msgid "Any %s"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:565
+#: includes/abstracts/abstract.llms.admin.table.php:568
 msgid "Search"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:635, includes/admin/post-types/class.llms.post.tables.php:74, includes/admin/post-types/post-tables/class.llms.admin.post.table.courses.php:118
+#: includes/abstracts/abstract.llms.admin.table.php:638, includes/admin/post-types/class.llms.post.tables.php:74, includes/admin/post-types/post-tables/class.llms.admin.post.table.courses.php:118
 msgid "Export"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:645
+#: includes/abstracts/abstract.llms.admin.table.php:648
 msgctxt "pagination"
 msgid "%1$d of %2$d"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:649
+#: includes/abstracts/abstract.llms.admin.table.php:652
 msgid "First"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:651, templates/myaccount/my-orders.php:71, templates/myaccount/view-order-transactions.php:53
+#: includes/abstracts/abstract.llms.admin.table.php:654, templates/myaccount/my-orders.php:71, templates/myaccount/view-order-transactions.php:53
 msgid "Back"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:654, includes/shortcodes/class.llms.shortcodes.php:315, templates/loop/pagination.php:29, templates/myaccount/my-grades.php:55, templates/myaccount/my-notifications.php:39, templates/myaccount/my-orders.php:83, templates/myaccount/view-order-transactions.php:56
+#: includes/abstracts/abstract.llms.admin.table.php:657, includes/shortcodes/class.llms.shortcodes.php:315, templates/loop/pagination.php:29, templates/myaccount/my-grades.php:55, templates/myaccount/my-notifications.php:39, templates/myaccount/my-orders.php:83, templates/myaccount/view-order-transactions.php:56
 msgid "Next"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:656
+#: includes/abstracts/abstract.llms.admin.table.php:659
 msgid "Last"
 msgstr ""
 
-#: includes/abstracts/abstract.llms.admin.table.php:876
+#: includes/abstracts/abstract.llms.admin.table.php:879
 msgid "No results were found."
 msgstr ""
 

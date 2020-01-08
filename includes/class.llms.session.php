@@ -3,7 +3,7 @@
  * LLMS_Session.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.7
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.7.7 Unknown.
- * @since [version] Added a second parameter to the `get()` method, that represents the default value
+ * @since 3.37.7 Added a second parameter to the `get()` method, that represents the default value
  *               to return if the session variable requested doesn't exist.
  */
 class LLMS_Session {
@@ -112,7 +112,7 @@ class LLMS_Session {
 	 * Retrieve a session variable.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Added the `$default` parameter that represents the default value
+	 * @since 3.37.7 Added the `$default` parameter that represents the default value
 	 *               to return if the session variable requested doesn't exist.
 	 *
 	 * @param string $key     The key of the session variable.

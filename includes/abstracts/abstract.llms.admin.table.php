@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.2.0
  * @since 3.34.0 Added get_table_classes().
- * @since [version] Fix PHP 7.4 deprecation notice..
+ * @since 3.37.7 Fix PHP 7.4 deprecation notice..
  */
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
@@ -505,7 +505,7 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.2.0
 	 * @since 3.17.8 Unknown.
-	 * @since [version] Use correct argument order for implode to fix php 7.4 deprecation.
+	 * @since 3.37.7 Use correct argument order for implode to fix php 7.4 deprecation.
 	 *
 	 * @return   string
 	 */
