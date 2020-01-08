@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.37.7 - 2020-01-08
+--------------------
+
++ Fix error resulting from undefined default value.
++ Fix PHP 7.4 deprecation notice.
+
+
 v3.37.6 - 2019-12-12
 --------------------
 
