@@ -3,7 +3,7 @@
  * States
  *
  * Returns a multi-demensional array of countries and country states (or provinces / regions) and their respective codes.
-Countries with an empty array have no states.
+ * Countries with an empty array have no states.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
