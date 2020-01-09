@@ -10,7 +10,7 @@ v3.38.0-beta.2 - 2019-12-19
 v3.38.0-beta.1 - 2019-12-13
 -------------------------------
 
-##### Form Management Improvments
+##### Form Management Improvements
 
 + Forms (registration, checkout, account) are now managed via a block editor interface.
 + Customize field labels, description, and placeholders in a simple WYSIWYG interface.
