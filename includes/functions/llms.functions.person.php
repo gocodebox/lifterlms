@@ -158,7 +158,7 @@ function llms_get_instructor( $user = null ) {
  * @since 3.0.0
  * @since [version] Remove database call to deprecated option and add the $strength parameter.
  *
- * @param string $strength Password strength value to translate.
+ * @param string $strength Optional. Password strength value to translate. Default is 'strong'.
  * @return string
  */
 function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
