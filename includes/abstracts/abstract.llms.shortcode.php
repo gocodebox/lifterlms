@@ -93,7 +93,6 @@ abstract class LLMS_Shortcode {
 	 * Private constructor
 	 *
 	 * @since 3.4.3
-	 * @version 3.4.3
 	 */
 	private function __construct() {
 		add_shortcode( $this->tag, array( $this, 'output' ) );

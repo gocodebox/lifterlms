@@ -314,7 +314,7 @@ class LLMS_Forms {
 	 * @since [version]
 	 *
 	 * @param string $location Form location, one of: "checkout", "registration", or "account".
-	 * @param array  $args Additioal arguments passed to the short-circuit filter in `get_form_post()`.
+	 * @param array  $args Additional arguments passed to the short-circuit filter in `get_form_post()`.
 	 * @return array|false
 	 */
 	public function get_form_blocks( $location, $args = array() ) {

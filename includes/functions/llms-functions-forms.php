@@ -43,7 +43,7 @@ function llms_form_field( $field = array(), $echo = true ) {
  * @since [version]
  *
  * @param string $location Form location, one of: "checkout", "enrollment", "registration", or "account".
- * @param array  $args Additioal arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
+ * @param array  $args Additional arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
  * @return WP_Post|false
  */
 function llms_get_form( $location, $args = array() ) {
@@ -59,7 +59,7 @@ function llms_get_form( $location, $args = array() ) {
  * @since [version]
  *
  * @param string $location Form location, one of: "checkout", "enrollment", "registration", or "account".
- * @param array  $args Additioal arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
+ * @param array  $args Additional arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
  * @return string
  */
 function llms_get_form_html( $location, $args = array() ) {
@@ -77,7 +77,7 @@ function llms_get_form_html( $location, $args = array() ) {
  * @since [version]
  *
  * @param string $location Form location, one of: "checkout", "enrollment", "registration", or "account".
- * @param array  $args Additioal arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
+ * @param array  $args Additional arguments passed to the short-circuit filter in `LLMS_Forms->get_form_post()`.
  * @return string
  */
 function llms_get_form_title( $location, $args = array() ) {

@@ -284,7 +284,7 @@ class LLMS_Controller_Account {
 	}
 
 	/**
-	 * Automatically redirect password rest links to the password reset form page.
+	 * Automatically redirect password reset links to the password reset form page.
 	 *
 	 * Strips the `key` and `login` query string parameters and sets them in a cookie
 	 * (which is accessed later to populate the hidden fields on the reset form) and then
