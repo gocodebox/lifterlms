@@ -202,11 +202,8 @@ LLMS.Forms = {
 	 *
 	 * @since [version]
 	 *
-	 * @see {Reference}
-	 * @link {URL}
-	 *
-	 * @param {[type]} $field
-	 * @return {[type]}
+	 * @param {Object} $field jQuery dom object.
+	 * @return {Object}
 	 */
 	get_field_parent: function( $field ) {
 
@@ -399,9 +396,6 @@ LLMS.Forms = {
 	 * field will be hidden.
 	 *
 	 * @since [version]
-	 *
-	 * @see {Reference}
-	 * @link {URL}
 	 *
 	 * @param {String} country_code Currently selected country code.
 	 * @return {void}

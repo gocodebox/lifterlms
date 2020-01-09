@@ -531,9 +531,6 @@ class LLMS_Test_Forms extends LLMS_UnitTestCase {
 	 *
 	 * @since [version]
 	 *
-	 * @see {Reference}
-	 * @link {URL}
-	 *
 	 * @return void
 	 */
 	public function test_get_form_post_invalid() {
