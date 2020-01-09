@@ -59,7 +59,7 @@ function llms_get_countries_locale() {
 	 *
 	 * @since 1.0.0
 	 *
-	 * @param  array $states Multi-demensional array. See "languages/countries-locale.php" for details.
+	 * @param array $states Multi-dimensional array. See "languages/countries-locale.php" for details.
 	 */
 	return apply_filters( 'lifterlms_countries_locale', $states );
 
