@@ -434,7 +434,7 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
 }
 
 /**
- * Performs validations for the u
+ * Performs validations for the user.
  *
  * @since 3.0.0
  * @since 3.7.0 Unknown.
