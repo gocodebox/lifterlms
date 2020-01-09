@@ -24,16 +24,6 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 	 */
 	public $tag = 'user';
 
-	protected function get_fields() {
-
-		$fields = array(
-			'',
-		);
-
-		return $fields;
-
-	}
-
 	/**
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
@@ -83,7 +73,7 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 				return $val;
 			}
 		}
-		
+
 		return '';
 
 	}
