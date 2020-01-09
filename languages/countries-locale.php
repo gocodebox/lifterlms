@@ -6,7 +6,7 @@
  *
  * @package LifterLMS/i18n
  *
- * @since 3.37.0
+ * @since [version]
  * @version [version]
  */
 

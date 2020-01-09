@@ -83,6 +83,8 @@ class LLMS_Shortcode_User_Info extends LLMS_Shortcode {
 				return $val;
 			}
 		}
+		
+		return '';
 
 	}
 

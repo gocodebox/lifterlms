@@ -3,7 +3,7 @@
  * States
  *
  * Returns a multi-demensional array of countries and country states (or provinces / regions) and their respective codes.
-Countries with an empty array have no states.
+ * Countries with an empty array have no states.
  *
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
  *                                                                         *
@@ -26,7 +26,7 @@ Countries with an empty array have no states.
  *
  * @package LifterLMS/i18n
  *
- * @since 3.37.0
+ * @since [version]
  * @version [version]
  */
 

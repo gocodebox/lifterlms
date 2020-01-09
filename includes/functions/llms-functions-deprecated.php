@@ -15,7 +15,7 @@
  *                Deprecated `llms_get_minimum_password_strength() with no replacement`.
  *                Deprecated `llms_set_user_password_rest_key()` in favor of WP Core `get_password_reset_key()`.
  *                Deprecated `llms_verify_password_reset_key()` in favor of WP Core `check_password_reset_key()`.
- * @version 3.37.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;

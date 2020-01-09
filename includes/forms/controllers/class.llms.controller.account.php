@@ -133,7 +133,8 @@ class LLMS_Controller_Account {
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 * @since [version]
 	 *
-	 * @return WP_Error|true
+	 * @return null|WP_Error|true Returns `null` when the nonce can't be verified, on failure a `WP_Error` object, and `true` on success.
+
 	 */
 	public function lost_password() {
 

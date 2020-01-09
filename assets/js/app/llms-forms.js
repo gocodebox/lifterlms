@@ -222,7 +222,7 @@ LLMS.Forms = {
 	/**
 	 * Retrieve the text of a label
 	 *
-	 * Removes an children HTML elements (eg: required span elemeents) and returns only the labels text.
+	 * Removes any children HTML elements (eg: required span elements) and returns only the labels text.
 	 *
 	 * @since [version]
 	 *

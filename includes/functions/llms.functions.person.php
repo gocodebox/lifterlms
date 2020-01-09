@@ -158,7 +158,7 @@ function llms_get_instructor( $user = null ) {
  * @since 3.0.0
  * @since [version] Remove database call to deprecated option and add the $strength parameter.
  *
- * @param string $strength Password strength value to translate.
+ * @param string $strength Optional. Password strength value to translate. Default is 'strong'.
  * @return string
  */
 function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
@@ -174,6 +174,8 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 
 	/**
 	 * Filter the name of the password strength
+	 *
+	 * The dynamic portion of this hook, `$strength`, can be either "strong", "medium", "weak" or "very-weak".
 	 *
 	 * @since [version]
 	 *
@@ -434,7 +436,7 @@ function llms_delete_student_enrollment( $user_id, $product_id, $trigger = 'any'
 }
 
 /**
- * Performs validations for the u
+ * Performs validations for the user.
  *
  * @since 3.0.0
  * @since 3.7.0 Unknown.

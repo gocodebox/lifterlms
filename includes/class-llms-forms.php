@@ -96,7 +96,7 @@ class LLMS_Forms {
 	 * @see {Reference}
 	 * @link {URL}
 	 *
-	 * @return [type]
+	 * @return bool
 	 */
 	public function are_usernames_enabled() {
 

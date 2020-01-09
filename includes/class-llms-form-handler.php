@@ -288,6 +288,8 @@ class LLMS_Form_Handler {
 		/**
 		 * Filter meta data to be added for the user.
 		 *
+		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
+		 *
 		 * @since 3.0.0
 		 * @since [version] Moved from `LLMS_Person_Handler::insert_data()`.
 		 *
@@ -539,6 +541,8 @@ class LLMS_Form_Handler {
 
 		/**
 		 * Filter the error return when the insert/update fails.
+		 *
+		 * The dynamic portion of this hook, `$action`, can be either "registration" or "update".
 		 *
 		 * @since 3.0.0
 		 * @since [version] Moved from `LLMS_Person_Handler::insert_data()`.
