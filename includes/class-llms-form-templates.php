@@ -69,7 +69,7 @@ class LLMS_Form_Templates {
 	 *     @type string $label Field placeholder text.
 	 *     @type bool $required Whether or not the field is required. Defaults to `true`.
 	 * }
-	 * @return [type]
+	 * @return string|false
 	 */
 	protected function get_block_settings( $settings = array() ) {
 
