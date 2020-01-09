@@ -413,7 +413,7 @@ class LLMS_Form_Handler {
 		 * @since [version] Moved from `LLMS_Person_Handler::update()` & LLMS_Person_Handler::register().
 		 *               Added parameters `$fields` and `$args`.
 		 *               Triggered by `do_action_ref_array()` instead of `do_action()` allowing modification
-		 *                 of `$posted_data` and `$fields` via hooks.
+		 *               of `$posted_data` and `$fields` via hooks.
 		 *
 		 * @param array $posted_data Array of user-submitted data (passed by reference).
 		 * @param string $location Form location.
