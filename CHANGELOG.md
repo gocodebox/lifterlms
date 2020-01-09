@@ -71,6 +71,13 @@ v3.38.0-beta.1 - 2019-12-13
 + templates/global/form-registration.php
 
 
+v3.37.7 - 2020-01-08
+--------------------
+
++ Fix error resulting from undefined default value.
++ Fix PHP 7.4 deprecation notice.
+
+
 v3.37.6 - 2019-12-12
 --------------------
 
@@ -113,7 +120,6 @@ v3.37.4 - 2019-12-06
 
 v3.37.3 - 2019-12-03
 --------------------
-
 
 + Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
 + Don't unslash uploaded file `tmp_name`, thanks [@pondermatic](https://github.com/pondermatic)!

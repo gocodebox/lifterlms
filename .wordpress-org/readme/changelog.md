@@ -71,6 +71,13 @@ v3.38.0-beta.1 - 2019-12-13
 + templates/global/form-registration.php
 
 
+= v3.37.7 - 2020-01-08 =
+------------------------
+
++ Fix error resulting from undefined default value.
++ Fix PHP 7.4 deprecation notice.
+
+
 = v3.37.6 - 2019-12-12 =
 ------------------------
 
@@ -113,7 +120,6 @@ v3.38.0-beta.1 - 2019-12-13
 
 = v3.37.3 - 2019-12-03 =
 ------------------------
-
 
 + Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
 + Don't unslash uploaded file `tmp_name`, thanks [@pondermatic](https://github.com/pondermatic)!
@@ -178,24 +184,3 @@ v3.38.0-beta.1 - 2019-12-13
 ------------------------
 
 + Fixes a conflict with CartFlows introduced by a Divi theme compatibility fix added in 3.36.3. Is WordPress complicated or what?
-
-
-= v3.36.3 - 2019-10-24 =
-------------------------
-
-##### Updates
-
-+ Added new `LLMS_Membership` class methods: `get_categories()`, `get_tags()` and `toArrayAfter()` methods. Thanks [@pondermatic](https://github.com/pondermatic)!
-
-##### Compatibility
-
-+ Fixed access plan description conflicts with the Classic Editor block. This also resolves compatibility issues with Elementor which uses a hidden TinyMCE instance.
-+ Changed `pre_get_posts` callback from `10` (default) to `15`. Fixes conflict with Divi (and possibly other themes) which prevented LifterLMS catalog settings from functioning properly.
-
-##### Bugfixes
-
-+ Added translation to error message encountered when non-members attempt to purchase a members-only access plan. Thanks [@mrosati84](https://github.com/mrosati84)!
-+ Fix return of `LLMS_Generator::set_generator()`.
-+ Fixed a typo causing invalid imports from returning the expected error. Thanks [@pondermatic](https://github.com/pondermatic)!
-+ Fixed issue preventing membership post type settings from saving properly due to incorrect sanitization filters.
-+ Fixed issue where `wp_list_pluck()` would run on non arrays.

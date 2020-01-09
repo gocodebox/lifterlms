@@ -1,21 +1,27 @@
 <?php
 /**
- * LLMS_Session Class
+ * LLMS_Session.
  *
- * @since    1.0.0
- * @version  3.7.7
+ * @since 1.0.0
+ * @version 3.37.7
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Session class.
+ *
+ * @since 1.0.0
+ * @since 3.7.7 Unknown.
+ * @since 3.37.7 Added a second parameter to the `get()` method, that represents the default value
+ *               to return if the session variable requested doesn't exist.
+ */
 class LLMS_Session {
 
 	/**
 	 * Session data
 	 *
-	 * @var array
-	 * @access private
+	 * @var array|WP_Session
 	 */
 	private $session;
 
@@ -23,7 +29,6 @@ class LLMS_Session {
 	 * Use php session
 	 *
 	 * @var bool
-	 * @access private
 	 */
 	private $use_php_sessions = false;
 
@@ -31,15 +36,16 @@ class LLMS_Session {
 	 * Session prefix
 	 *
 	 * @var string
-	 * @access private
 	 */
 	private $prefix = '';
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
-	 * @since    1.0.0
-	 * @version  3.7.5
+	 * @since 1.0.0
+	 * @since 3.7.5 Unkwnown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -53,7 +59,7 @@ class LLMS_Session {
 
 			}
 
-			// Use PHP SESSION (must be enabled via the LLMS_USE_PHP_SESSIONS constant)
+			// Use PHP SESSION (must be enabled via the LLMS_USE_PHP_SESSIONS constant).
 			add_action( 'init', array( $this, 'maybe_start_session' ), -2 );
 
 		} else {
@@ -74,10 +80,11 @@ class LLMS_Session {
 	}
 
 	/**
-	 * Setup the WP_Session instance
+	 * Setup the WP_Session instance.
 	 *
-	 * @access public
-	 * @return void
+	 * @since ??
+	 *
+	 * @return array|WP_Session
 	 */
 	public function init() {
 
@@ -91,33 +98,40 @@ class LLMS_Session {
 	}
 
 	/**
-	 * Retrieve session ID
+	 * Retrieve session ID.
 	 *
-	 * @access public
-	 * @return string Session ID
+	 * @since ??
+	 *
+	 * @return string Session ID.
 	 */
 	public function get_id() {
 		return $this->session->session_id;
 	}
 
 	/**
-	 * Retrieve a session variable
+	 * Retrieve a session variable.
 	 *
-	 * @access public
-	 * @param string $key
-	 * @return string
+	 * @since 1.0.0
+	 * @since 3.37.7 Added the `$default` parameter that represents the default value
+	 *               to return if the session variable requested doesn't exist.
+	 *
+	 * @param string $key     The key of the session variable.
+	 * @param mixed  $default Optional. The default value to return if no session variable is found with the provided key. Default `false`.
+	 * @return mixed
 	 */
-	public function get( $key ) {
+	public function get( $key, $default = false ) {
 		$key = sanitize_key( $key );
-		return isset( $this->session[ $key ] ) ? maybe_unserialize( $this->session[ $key ] ) : false;
+		return isset( $this->session[ $key ] ) ? maybe_unserialize( $this->session[ $key ] ) : $default;
 	}
 
 	/**
-	 * Set a session variable
+	 * Set a session variable.
 	 *
-	 * @param string $key
-	 * @param string $value
-	 * @return string
+	 * @since 1.0.0
+	 *
+	 * @param string $key   The key of the session variable.
+	 * @param string $value The value of the session variable.
+	 * @return mixed
 	 */
 	public function set( $key, $value ) {
 
@@ -138,10 +152,11 @@ class LLMS_Session {
 	}
 
 	/**
-	 * Force the cookie expiration variant time to 23 hours
+	 * Force the cookie expiration variant time to 23 hours.
 	 *
-	 * @access public
-	 * @param int $exp Default expiration (1 hour)
+	 * @since ??
+	 *
+	 * @param int $exp Default expiration (1 hour).
 	 * @return int
 	 */
 	public function set_expiration_variant_time( $exp ) {
@@ -149,10 +164,11 @@ class LLMS_Session {
 	}
 
 	/**
-	 * Force the cookie expiration time to 24 hours
+	 * Force the cookie expiration time to 24 hours.
 	 *
-	 * @access public
-	 * @param int $exp Default expiration (1 hour)
+	 * @since ??
+	 *
+	 * @param int $exp Default expiration (1 hour).
 	 * @return int
 	 */
 	public function set_expiration_time( $exp ) {
@@ -160,7 +176,9 @@ class LLMS_Session {
 	}
 
 	/**
-	 * Determine should we use php session or wp
+	 * Determine should we use php session or wp.
+	 *
+	 * @since ??
 	 *
 	 * @return bool
 	 */
@@ -179,6 +197,10 @@ class LLMS_Session {
 
 	/**
 	 * Starts a new session if one hasn't started yet.
+	 *
+	 * @since ??
+	 *
+	 * @return void
 	 */
 	public function maybe_start_session() {
 
@@ -188,20 +210,24 @@ class LLMS_Session {
 	}
 
 	/**
-	 * __get function
+	 * __get function.
 	 *
-	 * @param string $key
-	 * @return string
+	 * @since 1.0.0
+	 *
+	 * @param string $key The key of the session variable.
+	 * @return mixed
 	 */
 	public function __get( $key ) {
 		return $this->get( $key );
 	}
 
 	/**
-	 * __set function
+	 * __set function.
 	 *
-	 * @param string $key
-	 * @param string $value
+	 * @since 1.0.0
+	 *
+	 * @param string $key   The key of the session variable.
+	 * @param string $value The value of the session variable.
 	 * @return void
 	 */
 	public function __set( $key, $value ) {
@@ -209,19 +235,23 @@ class LLMS_Session {
 	}
 
 	/**
-	 * __isset function
+	 * __isset function.
 	 *
-	 * @param string $key
-	 * @return void
+	 * @since 1.0.0
+	 *
+	 * @param string $key The key of the session variable.
+	 * @return bool
 	 */
 	public function __isset( $key ) {
 		return isset( $this->session[ sanitize_title( $key ) ] );
 	}
 
 	/**
-	 * __unset function
+	 * __unset function.
 	 *
-	 * @param string $key
+	 * @since 1.0.0
+	 *
+	 * @param string $key The key of the session variable.
 	 * @return void
 	 */
 	public function __unset( $key ) {
