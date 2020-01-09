@@ -175,6 +175,8 @@ function llms_get_minimum_password_strength_name( $strength = 'strong' ) {
 	/**
 	 * Filter the name of the password strength
 	 *
+	 * The dynamic portion of this hook, `$strength`, can be either "strong", "medium", "weak" or "very-weak".
+	 *
 	 * @since [version]
 	 *
 	 * @param $string $name Translated name of the password strength value.
