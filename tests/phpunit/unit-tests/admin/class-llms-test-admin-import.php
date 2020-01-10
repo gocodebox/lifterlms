@@ -8,6 +8,7 @@
  * @group admin_import
  *
  * @since 3.35.0
+ * @since [version] Update path to assets directory.
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
@@ -177,6 +178,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Generator encountered an issues when setting the generator method.
 	 *
 	 * @since 3.35.0
+	 * @since [version] Update path to assets directory.
 	 *
 	 * @return void
 	 */
@@ -188,7 +190,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 		) );
 
 		global $lifterlms_tests;
-		$this->mock_file_upload( 0, $lifterlms_tests->tests_dir . '/assets/import-fake-generator.json' );
+		$this->mock_file_upload( 0, $lifterlms_tests->assets_dir . 'import-fake-generator.json' );
 
 		$err = $this->import->upload_import();
 		$this->assertIsWPError( $err );
@@ -200,6 +202,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Error during generation (missing required data)
 	 *
 	 * @since 3.35.0
+	 * @since [version] Update path to assets directory.
 	 *
 	 * @return void
 	 */
@@ -211,7 +214,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 		) );
 
 		global $lifterlms_tests;
-		$this->mock_file_upload( 0, $lifterlms_tests->tests_dir . '/assets/import-error.json' );
+		$this->mock_file_upload( 0, $lifterlms_tests->assets_dir . 'import-error.json' );
 
 		$err = $this->import->upload_import();
 		$this->assertIsWPError( $err );

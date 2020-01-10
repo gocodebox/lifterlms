@@ -1,7 +1,9 @@
 <?php
 /**
  * Tests for the LLMS_Install Class
- * @since    3.3.1
+ *
+ * @since 3.3.1
+ * @since [version] Fix directory path to uninstall.php
  * @version  3.28.0
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
@@ -264,9 +266,11 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for install() function
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 * @since [version] Fix directory path to uninstall.php
+	 *
+	 * @return void
 	 */
 	public function test_install() {
 
@@ -276,7 +280,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 			define( 'LLMS_REMOVE_ALL_DATA', true );
 		}
 
-		include( dirname( dirname( dirname( __FILE__ ) ) ) . '/uninstall.php' );
+		include( dirname( __FILE__, 4 ) . '/uninstall.php' );
 
 		LLMS_Install::install();
 		$this->assertTrue( get_option( 'lifterlms_current_version' ) === LLMS()->version );
