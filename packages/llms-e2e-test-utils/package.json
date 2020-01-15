@@ -1,0 +1,24 @@
+{
+    "name": "llms-e2e-test-utils",
+    "version": "1.0.0",
+    "description": "E2E testing utilities for LifterLMS projects.",
+    "author": "Team LifterLMS <dev@lifterlms.com>",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://github.com/gocodebox/lifterlms/tree/master/packages/llms-e2e-test-utils/README.md",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/gocodebox/lifterlms.git"
+    },
+    "bugs": {
+        "url": "https://github.com/gocodebox/lifterlms/issues"
+    },
+    "main": "build/index.js",
+    "peerDependencies": {
+        "@wordpress/e2e-test-utils": ">=4.0.0",
+        "jest-puppeteer": ">=4.4.0",
+        "puppeteer": ">=2.0.0"
+    },
+    "publishConfig": {
+        "access": "public"
+    }
+}

@@ -13,7 +13,12 @@
   },
   "homepage": "https://lifterlms.com",
   "devDependencies": {
+    "@babel/cli": "^7.7.7",
+    "@babel/core": "^7.7.7",
+    "@babel/preset-env": "^7.7.7",
+    "@wordpress/e2e-test-utils": "^4.0.0",
     "all-contributors-cli": "^4.11.2",
+    "dotenv": "^8.2.0",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.2.0",
     "gulp-header": "^2.0.5",
@@ -24,11 +29,22 @@
     "gulp-requirejs-optimize": "^1.2.0",
     "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^1.5.4",
+    "jest": "^24.9.0",
+    "jest-puppeteer": "^4.4.0",
+    "lerna": "^3.20.2",
     "lifterlms-lib-tasks": "^3.6.0",
+    "llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
+    "puppeteer": "^2.0.0",
+    "watch-cli": "^0.2.3",
     "yargs": "^12.0.2"
   },
   "scripts": {
     "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate"
+    "contributors:generate": "all-contributors generate",
+    "test": "jest --config=tests/e2e/jest.config.js --runInBand",
+    "test-i": "HEADLESS=false jest --config=tests/e2e/jest.config.js --runInBand",
+    "pkgs:watch": "npx watch -p 'packages/**/src/*.js' -c 'npm run pkgs:build'",
+    "pkgs:clean": "lerna exec --parallel -- rm -rf ./build/",
+    "pkgs:build": "lerna exec --parallel -- npx babel --config-file ../../babel.config.js src --out-dir build"
   }
 }

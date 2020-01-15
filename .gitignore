@@ -18,10 +18,10 @@ sftp-config.json
 .project
 .settings/
 
-#npm debug log
+# npm debug log
 npm-debug.log
 
-#ignore osx DS_Store file
+# ignore osx DS_Store file
 .DS_Store
 
 idea/
@@ -48,3 +48,5 @@ build/
 build/*
 
 .svn
+
+.env

@@ -76,7 +76,10 @@
 				"!./**/README.md",
 				"!./_private/**",
 				"!./_readme/**",
-				"!./docs/**"
+				"!./docs/**",
+				"!./packages/**",
+				"!lerna.json",
+				"!babel.config.js"
 			]
 		}
 	}
