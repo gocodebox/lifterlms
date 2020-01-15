@@ -1,0 +1,59 @@
+version: '3.7'
+
+services:
+
+  db:
+    image: mariadb:10.4
+    restart: on-failure
+    environment:
+      MYSQL_DATABASE: llmstestdb
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+      MYSQL_RANDOM_ROOT_PASSWORD: 'yes'
+    volumes:
+      - db:/var/lib/mysql
+
+  wp-llms-dev:
+    depends_on:
+      - db
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - ${WP_PORT-8082}:80
+    restart: on-failure
+    environment:
+      WORDPRESS_DB_HOST: db
+      WORDPRESS_DB_NAME: llmstestdb
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_TABLE_PREFIX: "wp_"
+      WORDPRESS_DEBUG: 1
+    volumes:
+      - "./:/var/www/html/wp-content/plugins/lifterlms"
+      - wordpress:/var/www/html
+
+  wordpress-cli:
+    depends_on:
+      - db
+      - wp-llms-dev
+    image: wordpress:cli
+    restart: on-failure
+    user: xfs
+    command: >
+      /bin/sh -c '
+      wp core install --url=http://localhost:${WP_PORT-8082} --title="LifterLMS Core E2E Test Suite" --admin_user=${WP_USERNAME-admin} --admin_password=${WP_PASSWORD-password} --admin_email=admin@lifterlmse2etests.com --path=/var/www/html --skip-email;
+      wp plugin activate lifterlms;
+      wp theme install twentynineteen --activate;
+      wp rewrite structure '/%postname%/';
+      wp rewrite flush;
+      '
+    volumes:
+      - "./:/var/www/html/wp-content/plugins/lifterlms"
+      - uploads:/var/www/html/wp-content/uploads
+      - wordpress:/var/www/html
+
+volumes:
+  db:
+  wordpress:
+  uploads:

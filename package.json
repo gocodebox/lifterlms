@@ -18,7 +18,7 @@
     "@babel/preset-env": "^7.7.7",
     "@wordpress/e2e-test-utils": "^4.0.0",
     "all-contributors-cli": "^4.11.2",
-    "dotenv": "^8.2.0",
+    "dotenv-defaults": "^1.0.3",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.2.0",
     "gulp-header": "^2.0.5",
@@ -41,10 +41,14 @@
   "scripts": {
     "contributors:add": "all-contributors add",
     "contributors:generate": "all-contributors generate",
-    "test": "jest --config=tests/e2e/jest.config.js --runInBand",
-    "test-i": "HEADLESS=false jest --config=tests/e2e/jest.config.js --runInBand",
+    "env:up": "docker-compose up",
+    "env:down": "docker-compose down",
+    "env:clean": "docker-compose down -v",
+    "env:rebuild": "docker-compose up --force-recreate",
     "pkgs:watch": "npx watch -p 'packages/**/src/*.js' -c 'npm run pkgs:build'",
     "pkgs:clean": "lerna exec --parallel -- rm -rf ./build/",
-    "pkgs:build": "lerna exec --parallel -- npx babel --config-file ../../babel.config.js src --out-dir build"
+    "pkgs:build": "lerna exec --parallel -- npx babel --config-file ../../babel.config.js src --out-dir build",
+    "test": "jest --config=tests/e2e/jest.config.js --runInBand",
+    "test:dev": "HEADLESS=false jest --config=tests/e2e/jest.config.js --runInBand"
   }
 }
