@@ -1,4 +1,4 @@
-require( 'dotenv' ).config();
+require( 'dotenv-defaults' ).config();
 
 const { PUPPETEER_TIMEOUT } = process.env;
 
