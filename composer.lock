@@ -135,6 +135,7 @@
                 "source": "https://github.com/Prospress/action-scheduler/tree/master",
                 "issues": "https://github.com/Prospress/action-scheduler/issues"
             },
+            "abandoned": "woocommerce/action-scheduler",
             "time": "2019-05-07T21:36:13+00:00"
         }
     ],
@@ -200,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-cs.git",
-                "reference": "15bd7c533b4554ffbc6c7592063cff480c7caf9b"
+                "reference": "8e6ecb4fe4539a7f7ae663ac1aed1b647f1ba3ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/15bd7c533b4554ffbc6c7592063cff480c7caf9b",
-                "reference": "15bd7c533b4554ffbc6c7592063cff480c7caf9b",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/8e6ecb4fe4539a7f7ae663ac1aed1b647f1ba3ed",
+                "reference": "8e6ecb4fe4539a7f7ae663ac1aed1b647f1ba3ed",
                 "shasum": ""
             },
             "require": {
@@ -231,7 +232,7 @@
                 }
             ],
             "description": "PHP_CodeSniffer rules for LifterLMS projects",
-            "time": "2019-10-01T20:33:00+00:00"
+            "time": "2020-01-16T23:45:31+00:00"
         },
         {
             "name": "lifterlms/lifterlms-tests",
