@@ -18,7 +18,7 @@
 		"package": "lifterlms",
 		"phpSrc": [
 			"./*.php", "./**/*.php",
-			"!vendor/*", "!vendor/**/*.php", "!tmp/**", "!tests/**",
+			"!vendor/*", "!vendor/**/*.php", "!tmp/**", "!tests/**", "!wordpress/**",
 			"./vendor/lifterlms/lifterlms-blocks/*.php", "./vendor/lifterlms/lifterlms-blocks/**/*.php",
 			"./vendor/lifterlms/lifterlms-rest/*.php", "./vendor/lifterlms/lifterlms-rest/**/*.php"
 		]
@@ -78,8 +78,10 @@
 				"!./_readme/**",
 				"!./docs/**",
 				"!./packages/**",
+				"!./wordpress/**",
 				"!lerna.json",
 				"!babel.config.js"
+				"!docker-compose.override.yml.template"
 			]
 		}
 	}
