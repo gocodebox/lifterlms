@@ -5,11 +5,13 @@ process.env.JEST_PUPPETEER_CONFIG = require.resolve('./jest-puppeteer.config.js'
 // https://jestjs.io/docs/en/configuration.html
 module.exports = {
 
-	// A preset that is used as a base for Jest's configuration
 	preset: 'jest-puppeteer',
 
 	setupFilesAfterEnv: [
-		'./bootstrap.js',
+		'./bootstrap.js'
 	],
+
+	// Sort tests alphabetically by path. Ensures Tests in the "activate" directory run first.
+	testSequencer: './sequencer.js',
 
 };

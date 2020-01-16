@@ -1,22 +1,24 @@
 // https://github.com/smooth-code/jest-puppeteer#jest-puppeteerconfigjs
 
-const width = 1440, height = 900;
+const
+	window = process.env.PUPPETEER_WINDOW || '1440x900',
+	dimensions = window.split( 'x' ).map( int => parseInt( int, 10 ) );
 
 let config = {
 	launch: {
 		ignoreHTTPSErrors: true,
-		headless: process.env.HEADLESS !== 'false',
+		headless: process.env.PUPPETEER_HEADLESS !== 'false',
+		slowMo: parseInt( process.env.PUPPETEER_SLOWMO, 10 ) || 0,
 		defaultViewport: {
-			width: width,
-			height: height,
+			width: dimensions[0],
+			height: dimensions[1],
 		},
 	},
 };
 
 if ( false === config.launch.headless ) {
-	config.launch.slowMo = 60;
 	config.launch.args = [
-		`--window-size=${width},${height}`
+		`--window-size=${dimensions[0]},${dimensions[1]}`
 	];
 }
 
