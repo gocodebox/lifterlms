@@ -98,7 +98,6 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			__( 'Transaction for Order #%1$d &ndash; %2$s', 'lifterlms' ),
 			$order_id,
 			strftime(
-
 				/*
 				 * Translators:
 				 *   %b Abbreviated month name.
