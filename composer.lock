@@ -201,12 +201,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-cs.git",
-                "reference": "8e6ecb4fe4539a7f7ae663ac1aed1b647f1ba3ed"
+                "reference": "556ddaa5eeb1609adcb48caadcde5852c02c08ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/8e6ecb4fe4539a7f7ae663ac1aed1b647f1ba3ed",
-                "reference": "8e6ecb4fe4539a7f7ae663ac1aed1b647f1ba3ed",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-cs/zipball/556ddaa5eeb1609adcb48caadcde5852c02c08ad",
+                "reference": "556ddaa5eeb1609adcb48caadcde5852c02c08ad",
                 "shasum": ""
             },
             "require": {
@@ -214,7 +214,7 @@
                 "phpcompatibility/phpcompatibility-wp": "^2.0.0",
                 "phpmd/phpmd": "^2.6.0",
                 "squizlabs/php_codesniffer": "^3.3.2",
-                "wp-coding-standards/wpcs": "2.1.1"
+                "wp-coding-standards/wpcs": "^2.1.1"
             },
             "require-dev": {
                 "phpcompatibility/php-compatibility": "^9.0.0",
@@ -232,7 +232,7 @@
                 }
             ],
             "description": "PHP_CodeSniffer rules for LifterLMS projects",
-            "time": "2020-01-16T23:45:31+00:00"
+            "time": "2020-01-16T23:59:08+00:00"
         },
         {
             "name": "lifterlms/lifterlms-tests",
@@ -1909,12 +1909,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "e201da5c8bf5ccb4c9c0c756968a2165ac19e702"
+                "reference": "bb50f790f17a431f8cf294274081a723bf376878"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/e201da5c8bf5ccb4c9c0c756968a2165ac19e702",
-                "reference": "e201da5c8bf5ccb4c9c0c756968a2165ac19e702",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/bb50f790f17a431f8cf294274081a723bf376878",
+                "reference": "bb50f790f17a431f8cf294274081a723bf376878",
                 "shasum": ""
             },
             "require": {
@@ -1952,7 +1952,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2019-09-02T06:19:42+00:00"
+            "time": "2020-01-14T22:43:20+00:00"
         },
         {
             "name": "symfony/config",
@@ -2350,16 +2350,16 @@
         },
         {
             "name": "wp-coding-standards/wpcs",
-            "version": "2.1.1",
+            "version": "2.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/WordPress/WordPress-Coding-Standards.git",
-                "reference": "bd9c33152115e6741e3510ff7189605b35167908"
+                "reference": "f90e8692ce97b693633db7ab20bfa78d930f536a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/bd9c33152115e6741e3510ff7189605b35167908",
-                "reference": "bd9c33152115e6741e3510ff7189605b35167908",
+                "url": "https://api.github.com/repos/WordPress/WordPress-Coding-Standards/zipball/f90e8692ce97b693633db7ab20bfa78d930f536a",
+                "reference": "f90e8692ce97b693633db7ab20bfa78d930f536a",
                 "shasum": ""
             },
             "require": {
@@ -2382,7 +2382,7 @@
             "authors": [
                 {
                     "name": "Contributors",
-                    "homepage": "https://github.com/WordPress-Coding-Standards/WordPress-Coding-Standards/graphs/contributors"
+                    "homepage": "https://github.com/WordPress/WordPress-Coding-Standards/graphs/contributors"
                 }
             ],
             "description": "PHP_CodeSniffer rules (sniffs) to enforce WordPress coding conventions",
@@ -2391,7 +2391,7 @@
                 "standards",
                 "wordpress"
             ],
-            "time": "2019-05-21T02:50:00+00:00"
+            "time": "2019-11-11T12:34:03+00:00"
         }
     ],
     "aliases": [],
