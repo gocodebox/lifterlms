@@ -9,6 +9,9 @@
     <exclude-pattern>assets/js/llms-builder.js</exclude-pattern>
     <exclude-pattern>assets/js/llms-metaboxes.js</exclude-pattern>
 
+    <!-- Exclude node packages -->
+    <exclude-pattern>packages/</exclude-pattern>
+
     <!-- Exclude deprecated/legacy files -->
     <exclude-pattern>includes/admin/analytics/*.php</exclude-pattern>
     <exclude-pattern>includes/class.llms.analytics.php</exclude-pattern>
@@ -61,6 +64,9 @@
 
 		<!-- @todo: Most core files break this rule. -->
 		<exclude name="WordPress.Files.FileName.InvalidClassFileName" />
+
+		<!-- @todo: This needs to be adjusted since WP 5.3 -->
+		<exclude name="WordPress.DateTime.RestrictedFunctions.date_date" />
 
 		<!-- These templates follow WP Template style so they're okay -->
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase">
