@@ -98,6 +98,53 @@ jobs:
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
+  test-e2e:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/repo
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-js-{{ checksum "package.json" }}
+          - v1-dependencies-js-
+
+      - run:
+          name: Update npm
+          command: 'sudo npm install -g npm@latest'
+
+      - run:
+          name: Install Dependencies
+          command: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-js-{{ checksum "package.json" }}
+
+      - restore_cache:
+          keys:
+          - v1-dependencies-php-{{ checksum "composer.json" }}
+          - v1-dependencies-php-
+
+      - run:
+          name: Install Composer Dependencies
+          command: composer install -n --no-dev --no-scripts --prefer-dist
+
+      - save_cache:
+          paths:
+            - ./vendor
+          key: v1-dependencies-php-{{ checksum "composer.json" }}
+
+      - run:
+          name: Install environment
+          command: npm run env install
+
+      - run:
+          name: Run tests
+          command: npm run tests
+
 workflows:
   version: 2
   test:
@@ -109,3 +156,4 @@ workflows:
       - test-php-73-wp-5dot2
       - test-php-73-wp-nightly
       - test-php-73-wp-latest
+      - test-e2e
