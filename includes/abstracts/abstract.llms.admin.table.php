@@ -447,11 +447,11 @@ abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 	 * @return array
 	 */
 	protected function get_table_classes() {
-		$classes = [
+		$classes = array(
 			'llms-table',
 			'llms-gb-table',
 			'llms-gb-table-' . $this->id,
-		];
+		);
 
 		if ( $this->is_zebra ) {
 			$classes[] = 'zebra';

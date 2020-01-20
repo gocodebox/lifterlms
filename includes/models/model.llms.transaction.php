@@ -98,18 +98,7 @@ class LLMS_Transaction extends LLMS_Post_Model {
 			__( 'Transaction for Order #%1$d &ndash; %2$s', 'lifterlms' ),
 			$order_id,
 			strftime(
-
-				/*
-				 * Translators:
-				 *   %b Abbreviated month name.
-				 *   %d = Two-digit day of the month (with leading zeros).
-				 *   %Y = Four digit representation for the year.
-				 *   %I = Two digit representation of the hour in 12-hour format.
-				 *   %M = Two digit representation of the minute.
-				 *   %p = Uppercase 'AM' or 'PM' based on the given time.
-				 *
-				 *   See https://www.php.net/manual/en/function.strftime.php
-				 */
+				// Translators: See https://www.php.net/manual/en/function.strftime.php.
 				_x( '%b %d, %Y @ %I:%M %p', 'Transaction date parsed by strftime', 'lifterlms' ), // phpcs:ignore WordPress.WP.I18n.UnorderedPlaceholdersText -- Adding orders to these placeholders breaks strftime().
 				llms_current_time( 'timestamp' )
 			)

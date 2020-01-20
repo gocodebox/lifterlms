@@ -3,8 +3,10 @@
  * LifterLMS Add-On Testing Bootstrap
  *
  * @package LifterLMS/Tests
- * @since   3.3.1
- * @version 3.28.0
+ *
+ * @since 3.3.1
+ * @since 3.28.0 Unknown
+ * @since [version] Added class variable to access the tests assets directory.
  */
 
 require_once './vendor/lifterlms/lifterlms-tests/bootstrap.php';
@@ -31,6 +33,13 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	 * @var string
 	 */
 	public $plugin_main = 'lifterlms.php';
+
+	/**
+	 * Location of testing assets.
+	 *
+	 * @var string
+	 */
+	public $assets_dir = '';
 
 	/**
 	 * Determines if the LifterLMS core should be loaded
@@ -67,19 +76,22 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	/**
 	 * Load the plugin
 	 *
-	 * @return  void
-	 * @since   3.28.0
-	 * @version 3.28.0
+	 * @since 3.28.0
+	 * @since [version] Use $this->assets_dir.
+	 *
+	 * @return void
 	 */
 	public function load() {
 
+		$this->assets_dir = dirname( $this->tests_dir ) . '/assets/';
+
 		$files = array(
 			array(
-				'orig' => $this->tests_dir . '/assets/custom-lifterlms-en_US.mo',
+				'orig' => $this->assets_dir . 'custom-lifterlms-en_US.mo',
 				'dest' => WP_LANG_DIR . '/lifterlms/lifterlms-en_US.mo',
 			),
 			array(
-				'orig' => $this->tests_dir . '/assets/lifterlms-en_US.mo',
+				'orig' => $this->assets_dir . 'lifterlms-en_US.mo',
 				'dest' => WP_LANG_DIR . '/plugins/lifterlms-en_US.mo',
 			),
 		);

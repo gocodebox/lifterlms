@@ -18,6 +18,6 @@ trim_trailing_whitespace = true
 [*.txt]
 trim_trailing_whitespace = false
 
-[*.{md,json,yml}]
+[*.{md,json,yml,yml.template}]
 indent_style = space
 indent_size = 2
