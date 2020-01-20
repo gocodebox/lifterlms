@@ -38,7 +38,7 @@ references:
       - run:
           name: Run PHP Unit Tests
           command: |
-            if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-73-wp-latest" == "${CIRCLE_JOB}" ]; then
+            if [ ! -z "${CC_TEST_REPORTER_ID}" ] && [ "test-php-74-wp-latest" == "${CIRCLE_JOB}" ]; then
                 /cc-test-reporter before-build
                 export COMPOSER_PROCESS_TIMEOUT=1200
                 composer run-script tests-run -- --coverage-clover clover.xml
@@ -48,6 +48,7 @@ references:
             fi
 
 jobs:
+  # Supported WP Versions of WP Latest.
   test-php-71-wp-latest:
     docker:
       - image: thomasplevy/llms-testing-env:php71
@@ -66,38 +67,46 @@ jobs:
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-73-wp-nightly:
+  test-php-74-wp-latest:
     docker:
-      - image: thomasplevy/llms-testing-env:php73
+      - image: thomasplevy/llms-testing-env:php74
+        <<: [ *common_env_vars ]
+    <<: [ *common ]
+
+  # Test Other WP Versions on PHP Latest Only.
+  test-php-74-wp-nightly:
+    docker:
+      - image: thomasplevy/llms-testing-env:php74
         environment:
           WP_VERSION: nightly
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-73-wp-5dot2:
+  test-php-74-wp-5dot2:
     docker:
-      - image: thomasplevy/llms-testing-env:php73
+      - image: thomasplevy/llms-testing-env:php74
         environment:
           WP_VERSION: "5.2"
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-73-wp-5dot1:
+  test-php-w74-p-5dot1:
     docker:
-      - image: thomasplevy/llms-testing-env:php73
+      - image: thomasplevy/llms-testing-env:php74
         environment:
           WP_VERSION: "5.1"
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-73-wp-5dot0:
+  test-php-74-wp-5dot0:
     docker:
-      - image: thomasplevy/llms-testing-env:php73
+      - image: thomasplevy/llms-testing-env:php74
         environment:
           WP_VERSION: "5.0"
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
+  # TODO: This workflow doesn't work.
   test-e2e:
     docker:
       - image: circleci/php:latest
@@ -154,15 +163,17 @@ jobs:
           name: Run tests
           command: npm run tests
 
+
 workflows:
   version: 2
   test:
     jobs:
-      # - test-php-71-wp-latest
-      # - test-php-72-wp-latest
-      # - test-php-73-wp-5dot0
-      # - test-php-73-wp-5dot1
-      # - test-php-73-wp-5dot2
-      # - test-php-73-wp-nightly
-      # - test-php-73-wp-latest
-      - test-e2e
+      - test-php-71-wp-latest
+      - test-php-72-wp-latest
+      - test-php-73-wp-latest
+      - test-php-74-wp-latest
+      - test-php-74-wp-5dot0
+      - test-php-74-wp-5dot1
+      - test-php-74-wp-5dot2
+      - test-php-74-wp-nightly
+      # - test-e2e
