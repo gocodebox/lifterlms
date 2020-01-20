@@ -1,20 +1,23 @@
 <?php
 /**
  * Tests for LLMS_Post_Instructors model & functions
- * @group   post_relationships
- * @since   3.16.12
- * @version 3.16.12
+ *
+ * @group post_relationships
+ *
+ * @since 3.16.12
+ * @since [version] Add tests to remove quiz attempts upon quiz deletion.
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
 	/**
 	 * When deleting lessons
+	 *
 	 * 		A) Any lesson which has this lesson as a prereq should have that prereq removed
 	 * 		   And the has_prereq metavalue should be unset returning "no"
 	 * 		B) Any quiz attached to this lesson should be detached (making it an orphan)
-	 * @return   [type]
-	 * @since    3.16.12
+	 *
 	 * @version  3.16.12
+	 * @return void
 	 */
 	private function delete_lesson() {
 
@@ -64,35 +67,59 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	/**
 	 * When a quiz is deleted, all the child questions should be deleted too
 	 * Lesson should switch quiz_enabled to "no"
-	 * @return   void
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 *
+	 * All student attempts for the quiz should be deleted.
+	 *
+	 * @since 3.16.12
+	 * @since [version] Add tests to remove quiz attempts upon quiz deletion.
+	 *
+	 * @return void
 	 */
 	private function delete_quiz() {
 
 		$courses = $this->generate_mock_courses( 1, 1, 1, 1, 20 );
 		$lesson = llms_get_post( llms_get_post( $courses[0] )->get_lessons( 'ids' )[0] );
 		$quiz = $lesson->get_quiz();
+		$quiz_id = $quiz->get( 'id' );
+
+		$student_1 = $this->factory->student->create();
+		$attempt_1 = $this->take_quiz( $quiz_id, $student_1 );
+		$student_2 = $this->factory->student->create();
+		$attempt_2 = $this->take_quiz( $quiz_id, $student_2, 50 );
 
 		$questions = $quiz->get_questions( 'ids' );
 
 		wp_delete_post( $quiz->get( 'id' ), true );
 
+		// All question posts should be deleted.
 		foreach ( $questions as $question_id ) {
-
 			$this->assertNull( get_post( $question_id ) );
-
 		}
 
+		// The quiz will be disabled on the lesson because metadata is unset.
 		$this->assertFalse( $lesson->is_quiz_enabled() );
+
+		// Quiz attempts should be deleted.
+		$this->assertFalse( $attempt_1->exists() );
+		$this->assertFalse( $attempt_2->exists() );
+
+		// Query for quiz attempts should return nothing.
+		$query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'quiz_id'  => $quiz_id,
+				'per_page' => 1,
+			)
+		);
+		$this->assertEquals( 0, $query->found_results );
 
 	}
 
 	/**
 	 * Test all relationships based on post types
-	 * @return   void
+	 *
 	 * @since    3.16.12
-	 * @version  3.16.12
+	 *
+	 * @return   void
 	 */
 	public function test_maybe_update_relationships() {
 

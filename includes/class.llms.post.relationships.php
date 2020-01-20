@@ -1,11 +1,19 @@
 <?php
+/**
+ * Define post and record relationships to automate cleanup of information when posts are deleted from the DB.
+ *
+ * @since 3.16.12
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Hooks and actions related to post relationships
  *
- * @since    3.16.12
- * @version  3.24.0
+ * @since 3.16.12
+ * @since 3.24.0 Unknown
+ * @since [version] Delete student quiz attempts when a quiz is deleted.
  */
 class LLMS_Post_Relationships {
 
@@ -50,6 +58,11 @@ class LLMS_Post_Relationships {
 				'meta_keys_additional' => array( '_llms_quiz_enabled' ),
 				'post_type'            => 'lesson',
 			),
+			array(
+				'action'     => 'delete',
+				'table_name' => 'lifterlms_quiz_attempts',
+				'table_key'  => 'quiz_id',
+			),
 		),
 
 	);
@@ -63,22 +76,66 @@ class LLMS_Post_Relationships {
 	/**
 	 * Delete / Trash posts related to the deleted post
 	 *
+	 * @since 3.16.12
+	 * @since [version] Allow for deletion of related items outside the WP core posts table.
+	 *
 	 * @param    obj   $post  WP Post that's been deleted
 	 * @param    array $data  relationship data array
 	 * @return   void
-	 * @since    3.16.12
-	 * @version  3.16.12
 	 */
 	private function delete_relationships( $post, $data ) {
+
+		if ( isset( $data['post_type'] ) && isset( $data['meta_key'] ) ) {
+
+			$this->delete_wp_posts( $post, $data );
+
+		} elseif ( isset( $data['table_name'] ) && isset( $data['table_key'] ) ) {
+
+			$this->delete_table_records( $post, $data );
+
+		}
+
+	}
+
+	/**
+	 * Delete records from a table that are related to the deleted post.
+	 *
+	 * @since  [version]
+	 *
+	 * @param    obj   $post  WP Post that's been deleted.
+	 * @param    array $data  relationship data array.
+	 * @return   void
+	 */
+	private function delete_table_records( $post, $data ) {
+
+		global $wpdb;
+		$wpdb->delete(
+			$wpdb->prefix . $data['table_name'],
+			array(
+				$data['table_key'] => $post->ID,
+			),
+			'%d'
+		);
+
+	}
+
+	/**
+	 * Delete or trash WP Posts related to the deleted post.
+	 *
+	 * @since [version]
+	 *
+	 * @param    obj   $post  WP Post that's been deleted.
+	 * @param    array $data  relationship data array.
+	 * @return   void
+	 */
+	private function delete_wp_posts( $post, $data ) {
 
 		$relationships = $this->get_related_posts( $post->ID, $data['post_type'], $data['meta_key'] );
 
 		$force = ( 'delete' === $data['action'] );
 
 		foreach ( $relationships as $id ) {
-
 			wp_delete_post( $id, $force );
-
 		}
 
 	}
@@ -139,10 +196,11 @@ class LLMS_Post_Relationships {
 	 * Check relationships and delete / update related posts when a post is deleted
 	 * Called on `delete_post` hook (before a post is deleted)
 	 *
+	 * @since 3.16.12
+	 * @since 3.24.0
+	 *
 	 * @param    int $post_id  WP Post ID of the deleted post
 	 * @return   void
-	 * @since    3.16.12
-	 * @version  3.24.0
 	 */
 	public function maybe_update_relationships( $post_id ) {
 
