@@ -120,10 +120,12 @@ jobs:
           key: v1-dependencies-php-{{ checksum "composer.json" }}
 
       - run:
+          name: Update apt PPA
+          command: curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+
+      - run:
           name: Install Node
-          command: >
-            curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
-            sudo apt-get install -y nodejs
+          command: sudo apt-get install -y nodejs
 
       - restore_cache:
           keys:
