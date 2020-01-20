@@ -3,7 +3,7 @@
  * Quizzes Reporting Table.
  *
  * @since 3.16.0
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.0
  * @since 3.36.1 Fixed an issue that allow instructors, who can only see their own reports,
  *               to see all the quizzes when they had no courses or courses with no lessons.
+ * @since [version] Allow orphaned quizzes to be deleted.
+ *               Output quiz IDs as plain text (no link) when they cannot be edited and link to the quiz within the course builder when they can.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -84,20 +86,72 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	protected $orderby = 'title';
 
 	/**
+	 * Get HTML for buttons in the actions cell of the table
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Quiz $quiz Quiz object.
+	 * @return string
+	 */
+	private function get_actions_html( $quiz ) {
+
+		if ( ! $quiz->is_orphan() && $quiz->get_course() ) {
+			return '';
+		}
+
+		// If there are quiz attempts for the quiz let the admin know they're going to delete the attempts also.
+		$query = new LLMS_Query_Quiz_Attempt(
+			array(
+				'quiz_id'  => $quiz->get( 'id' ),
+				'per_page' => 1,
+			)
+		);
+
+		$msg  = $query->found_results ? __( 'Are you sure you want to delete this quiz and all associated student attempts?', 'lifterlms' ) : __( 'Are you sure you want to delete this quiz?', 'lifterlms' );
+		$msg .= ' ' . __( 'This action cannot be undone!', 'lifterlms' );
+
+		ob_start();
+		?>
+		<form action="" method="POST" style="display:inline;">
+
+			<button type="submit" class="llms-button-danger small" id="llms-del-quiz-<?php echo $quiz->get( 'id' ); ?>" name="llms_del_quiz" value="<?php echo $quiz->get( 'id' ); ?>">
+				<?php _e( 'Delete', 'lifterlms' ); ?>
+				<i class="fa fa-trash" aria-hidden="true"></i>
+			</button>
+
+			<input type="hidden" name="_llms_quiz_actions_nonce" value="<?php wp_create_nonce( 'llms-quiz-actions' ); ?>">
+
+		</form>
+
+		<script>document.getElementById( 'llms-del-quiz-<?php echo $quiz->get( 'id' ); ?>' ).onclick = function( e ) {
+			return window.confirm( '<?php echo esc_attr( $msg ); ?>' );
+		};</script>
+		<?php
+		return ob_get_clean();
+
+	}
+
+	/**
 	 * Retrieve data for a cell
 	 *
 	 * @since 3.16.0
 	 * @since 3.24.0 Unknown.
+	 * @since [version] Add actions column that allows deletion of orphaned quizzes.
+	 *                ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
 	 *
-	 * @param    string $key   the column id / key
-	 * @param    mixed  $data  object / array of data that the function can use to extract the data
-	 * @return   mixed
+	 * @param string $key   The column id / key
+	 * @param mixed  $data  Object / array of data that the function can use to extract the data.
+	 * @return mixed
 	 */
 	protected function get_data( $key, $data ) {
 
 		$quiz = llms_get_post( $data );
 
 		switch ( $key ) {
+
+			case 'actions':
+				$value = $this->get_actions_html( $quiz );
+				break;
 
 			case 'attempts':
 				$query = new LLMS_Query_Quiz_Attempt(
@@ -158,7 +212,23 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				break;
 
 			case 'id':
-				$value = $this->get_post_link( $quiz->get( 'id' ) );
+				$id    = $quiz->get( 'id' );
+				$value = $id;
+
+				$course = $quiz->get_course();
+				if ( ! $quiz->is_orphan() && $course ) {
+
+					$url = add_query_arg(
+						array(
+							'page'      => 'llms-course-builder',
+							'course_id' => $course->get( 'id' ),
+						),
+						admin_url( 'admin.php' )
+					);
+
+					$url  .= sprintf( '#lesson:%d:quiz', $quiz->get( 'lesson_id' ) );
+					$value = '<a href="' . esc_url( $url ) . '">' . $id . '</a>';
+				}
 				break;
 
 			case 'lesson':
@@ -183,7 +253,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			default:
 				$value = $key;
 
-		}// End switch().
+		}
 
 		return $this->filter_get_data( $value, $key, $data );
 
@@ -201,7 +271,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		$query = get_users(
 			array(
 				'fields'   => array( 'ID', 'display_name' ),
-				'meta_key' => 'last_name',
+				'meta_key' => 'last_name', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'orderby'  => 'meta_value',
 				'role__in' => array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ),
 			)
@@ -281,7 +351,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				return;
 			}
 
-			$query_args['meta_query'] = array(
+			$query_args['meta_query'] = array(  // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'compare' => 'IN',
 					'key'     => '_llms_lesson_id',
@@ -311,10 +381,21 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *
 	 * @since 3.16.0
 	 *
-	 * @return   string
+	 * @return string
 	 */
 	public function get_table_search_form_placeholder() {
-		return apply_filters( 'llms_table_get_' . $this->id . '_search_placeholder', __( 'Search quizzes...', 'lifterlms' ) );
+
+		/**
+		 * Filter the placeholder used in the search input on the quizzes reporting table.
+		 *
+		 * The dynamic
+		 *
+		 * @since  3.16.0
+		 *
+		 * @param string $placeholder The placeholder string.
+		 */
+		return apply_filters( 'llms_table_get_quizzes_search_placeholder', __( 'Search quizzes...', 'lifterlms' ) );
+
 	}
 
 	/**
@@ -322,7 +403,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *
 	 * @since 3.16.0
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	public function set_args() {
 		return array();
@@ -334,7 +415,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since 3.16.0
 	 * @since 3.16.10 Unknown.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	protected function set_columns() {
 		return array(
@@ -365,6 +446,11 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			),
 			'average'  => array(
 				'exportable' => true,
+				'title'      => __( 'Average Grade', 'lifterlms' ),
+				'sortable'   => false,
+			),
+			'actions'  => array(
+				'exportable' => false,
 				'title'      => __( 'Average Grade', 'lifterlms' ),
 				'sortable'   => false,
 			),
