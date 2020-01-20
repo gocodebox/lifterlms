@@ -100,28 +100,10 @@ jobs:
 
   test-e2e:
     docker:
-      - image: circleci/node:lts
+      - image: circleci/php:latest
     working_directory: ~/repo
     steps:
       - checkout
-
-      - restore_cache:
-          keys:
-          - v1-dependencies-js-{{ checksum "package.json" }}
-          - v1-dependencies-js-
-
-      - run:
-          name: Update npm
-          command: 'sudo npm install -g npm@latest'
-
-      - run:
-          name: Install Dependencies
-          command: npm install
-
-      - save_cache:
-          paths:
-            - node_modules
-          key: v1-dependencies-js-{{ checksum "package.json" }}
 
       - restore_cache:
           keys:
@@ -137,13 +119,35 @@ jobs:
             - ./vendor
           key: v1-dependencies-php-{{ checksum "composer.json" }}
 
-      - run:
-          name: Install environment
-          command: npm run env install
+      # - run:
+      #     name: Install Node
+      #     command: sudo apt install node
 
-      - run:
-          name: Run tests
-          command: npm run tests
+      # - restore_cache:
+      #     keys:
+      #     - v1-dependencies-js-{{ checksum "package.json" }}
+      #     - v1-dependencies-js-
+
+      # - run:
+      #     name: Update npm
+      #     command: 'sudo npm install -g npm@latest'
+
+      # - run:
+      #     name: Install Dependencies
+      #     command: npm install
+
+      # - save_cache:
+      #     paths:
+      #       - node_modules
+      #     key: v1-dependencies-js-{{ checksum "package.json" }}
+
+      # - run:
+      #     name: Install environment
+      #     command: npm run env install
+
+      # - run:
+      #     name: Run tests
+      #     command: npm run tests
 
 workflows:
   version: 2
