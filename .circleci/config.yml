@@ -111,7 +111,7 @@ jobs:
           - v1-dependencies-php-
 
       - run:
-          name: Install Composer Dependencies
+          name: Build LifterLMS Source
           command: composer install -n --no-dev --no-scripts --prefer-dist
 
       - save_cache:
@@ -119,35 +119,37 @@ jobs:
             - ./vendor
           key: v1-dependencies-php-{{ checksum "composer.json" }}
 
-      # - run:
-      #     name: Install Node
-      #     command: sudo apt install node
+      - run:
+          name: Install Node
+          command: >
+            curl -sL https://deb.nodesource.com/setup_12.x | sudo -E bash -
+            sudo apt-get install -y nodejs
 
-      # - restore_cache:
-      #     keys:
-      #     - v1-dependencies-js-{{ checksum "package.json" }}
-      #     - v1-dependencies-js-
+      - restore_cache:
+          keys:
+          - v1-dependencies-js-{{ checksum "package.json" }}
+          - v1-dependencies-js-
 
-      # - run:
-      #     name: Update npm
-      #     command: 'sudo npm install -g npm@latest'
+      - run:
+          name: Update npm
+          command: sudo npm install -g npm@latest
 
-      # - run:
-      #     name: Install Dependencies
-      #     command: npm install
+      - run:
+          name: Install Node Dependencies
+          command: npm install
 
-      # - save_cache:
-      #     paths:
-      #       - node_modules
-      #     key: v1-dependencies-js-{{ checksum "package.json" }}
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-js-{{ checksum "package.json" }}
 
-      # - run:
-      #     name: Install environment
-      #     command: npm run env install
+      - run:
+          name: Install environment
+          command: npm run env install
 
-      # - run:
-      #     name: Run tests
-      #     command: npm run tests
+      - run:
+          name: Run tests
+          command: npm run tests
 
 workflows:
   version: 2
