@@ -119,7 +119,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 				<i class="fa fa-trash" aria-hidden="true"></i>
 			</button>
 
-			<input type="hidden" name="_llms_quiz_actions_nonce" value="<?php wp_create_nonce( 'llms-quiz-actions' ); ?>">
+			<input type="hidden" name="_llms_quiz_actions_nonce" value="<?php echo wp_create_nonce( 'llms-quiz-actions' ); ?>">
 
 		</form>
 
