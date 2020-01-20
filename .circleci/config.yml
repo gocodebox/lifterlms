@@ -73,7 +73,6 @@ jobs:
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  # Test Other WP Versions on PHP Latest Only.
   test-php-74-wp-nightly:
     docker:
       - image: thomasplevy/llms-testing-env:php74
@@ -82,25 +81,26 @@ jobs:
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-74-wp-5dot2:
+  # Test older core versions against 7.3: these versions suffer from PHP 7.4 deprecation warning notices.
+  test-php-73-wp-5dot2:
     docker:
-      - image: thomasplevy/llms-testing-env:php74
+      - image: thomasplevy/llms-testing-env:php73
         environment:
           WP_VERSION: "5.2"
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-w74-p-5dot1:
+  test-php-73-wp-5dot1:
     docker:
-      - image: thomasplevy/llms-testing-env:php74
+      - image: thomasplevy/llms-testing-env:php73
         environment:
           WP_VERSION: "5.1"
         <<: [ *common_env_vars ]
     <<: [ *common ]
 
-  test-php-74-wp-5dot0:
+  test-php-73-wp-5dot0:
     docker:
-      - image: thomasplevy/llms-testing-env:php74
+      - image: thomasplevy/llms-testing-env:php73
         environment:
           WP_VERSION: "5.0"
         <<: [ *common_env_vars ]
@@ -172,8 +172,8 @@ workflows:
       - test-php-72-wp-latest
       - test-php-73-wp-latest
       - test-php-74-wp-latest
-      - test-php-74-wp-5dot0
-      - test-php-74-wp-5dot1
-      - test-php-74-wp-5dot2
       - test-php-74-wp-nightly
+      - test-php-73-wp-5dot0
+      - test-php-73-wp-5dot1
+      - test-php-73-wp-5dot2
       # - test-e2e
