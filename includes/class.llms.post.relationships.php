@@ -158,7 +158,6 @@ class LLMS_Post_Relationships {
 	 *
 	 * @return array
 	 */
-	 */
 	private function get_relationships() {
 		return apply_filters( 'llms_get_post_relationships', $this->relationships );
 	}
