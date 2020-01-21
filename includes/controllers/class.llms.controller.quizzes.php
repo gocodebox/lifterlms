@@ -2,27 +2,71 @@
 /**
  * Quiz related con
  *
- * @since   3.9.0
- * @version 3.9.0
+ * @since 3.9.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Controller_Quizzes class
+ *
+ * @since 3.9.0
+ * @since [version] Add admin reporting actions handler.
+ */
 class LLMS_Controller_Quizzes {
 
+	/**
+	 * Constructor
+	 *
+	 * @since 3.9.0
+	 * @since [version] Add reporting actions handler action.
+	 *
+	 * @return void
+	 */
 	public function __construct() {
 
 		add_action( 'init', array( $this, 'take_quiz' ) );
+		add_action( 'admin_init', array( $this, 'maybe_handle_reporting_actions' ) );
+
+	}
+
+	/**
+	 * Handle quiz reporting screen actions buttons
+	 *
+	 * On the quiz reporting screen this allows orphaned quizzes to be deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @return null|false|WP_Post `null` if the form wasn't submitted or the nonce couldn't be verified.
+	 *                            `false` if an error was encountered.
+	 *                            `WP_Post` of the deleted quiz on success.
+	 */
+	public function maybe_handle_reporting_actions() {
+
+		if ( ! llms_verify_nonce( '_llms_quiz_actions_nonce', 'llms-quiz-actions' ) ) {
+			return null;
+		}
+
+		$id = llms_filter_input( INPUT_POST, 'llms_del_quiz', FILTER_SANITIZE_NUMBER_INT );
+		if ( $id && 'llms_quiz' === get_post_type( $id ) ) {
+			$quiz = llms_get_post( $id );
+			if ( $quiz && ( $quiz->is_orphan() || ! $quiz->get_course() ) ) {
+				return wp_delete_post( $id, true );
+			}
+		}
+
+		return false;
 
 	}
 
 	/**
 	 * Handle form submission of the "take quiz" button attached to lessons with quizzes
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.9.0
+	 * @since 1.0.0
+	 * @since 3.9.0 Unkown.
+	 *
+	 * @return void
 	 */
 	public function take_quiz() {
 
