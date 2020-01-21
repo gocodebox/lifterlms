@@ -3,7 +3,7 @@
  * Quiz related con
  *
  * @since 3.9.0
- * @version [version]
+ * @version 3.37.8
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Controller_Quizzes class
  *
  * @since 3.9.0
- * @since [version] Add admin reporting actions handler.
+ * @since 3.37.8 Add admin reporting actions handler.
  */
 class LLMS_Controller_Quizzes {
 
@@ -20,7 +20,7 @@ class LLMS_Controller_Quizzes {
 	 * Constructor
 	 *
 	 * @since 3.9.0
-	 * @since [version] Add reporting actions handler action.
+	 * @since 3.37.8 Add reporting actions handler action.
 	 *
 	 * @return void
 	 */
@@ -36,7 +36,7 @@ class LLMS_Controller_Quizzes {
 	 *
 	 * On the quiz reporting screen this allows orphaned quizzes to be deleted.
 	 *
-	 * @since [version]
+	 * @since 3.37.8
 	 *
 	 * @return null|false|WP_Post `null` if the form wasn't submitted or the nonce couldn't be verified.
 	 *                            `false` if an error was encountered.

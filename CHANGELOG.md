@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v3.37.8 - 2020-01-21
+--------------------
+
++ Fix: Student quiz attempts are now automatically deleted when a quiz is deleted.
++ Fix: "Orphaned" quizzes (those with no parent course and/or lesson) can be deleted from the Quiz reporting table.
++ Fix: Quiz IDs on the quiz reporting screen now link to the quiz within the course builder. If the quiz is an "orphan" there will be no link.
+
+
 v3.37.7 - 2020-01-08
 --------------------
 

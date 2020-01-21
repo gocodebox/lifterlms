@@ -11,7 +11,7 @@ const { clickAndWait } = require( './click-and-wait' );
 /**
  * Logout the current user.
  *
- * @since  [version]
+ * @since  3.37.8
  *
  * @return {void}
  */

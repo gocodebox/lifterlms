@@ -1,7 +1,7 @@
 /**
  * Click an element and wait for navigation.
  *
- * @since  [version]
+ * @since  3.37.8
  *
  * @param  {String} selector  Query selector for the DOM element to click.
  * @param  {String} waitUntil Network connection to wait for, defaults to 'networkidle2'.

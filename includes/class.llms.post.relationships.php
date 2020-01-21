@@ -3,7 +3,7 @@
  * Define post and record relationships to automate cleanup of information when posts are deleted from the DB.
  *
  * @since 3.16.12
- * @version [version]
+ * @version 3.37.8
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.16.12
  * @since 3.24.0 Unknown
- * @since [version] Delete student quiz attempts when a quiz is deleted.
+ * @since 3.37.8 Delete student quiz attempts when a quiz is deleted.
  */
 class LLMS_Post_Relationships {
 
@@ -77,7 +77,7 @@ class LLMS_Post_Relationships {
 	 * Delete / Trash posts related to the deleted post
 	 *
 	 * @since 3.16.12
-	 * @since [version] Allow for deletion of related items outside the WP core posts table.
+	 * @since 3.37.8 Allow for deletion of related items outside the WP core posts table.
 	 *
 	 * @param obj   $post WP Post that's been deleted.
 	 * @param array $data Relationship data array.
@@ -100,7 +100,7 @@ class LLMS_Post_Relationships {
 	/**
 	 * Delete records from a table that are related to the deleted post.
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @param obj   $post WP Post that's been deleted.
 	 * @param array $data Relationship data array.
@@ -122,7 +122,7 @@ class LLMS_Post_Relationships {
 	/**
 	 * Delete or trash WP Posts related to the deleted post.
 	 *
-	 * @since [version]
+	 * @since 3.37.8
 	 *
 	 * @param obj   $post WP Post that's been deleted.
 	 * @param array $data Relationship data array.

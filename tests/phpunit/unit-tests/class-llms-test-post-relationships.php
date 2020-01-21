@@ -5,7 +5,7 @@
  * @group post_relationships
  *
  * @since 3.16.12
- * @since [version] Add tests to remove quiz attempts upon quiz deletion.
+ * @since 3.37.8 Add tests to remove quiz attempts upon quiz deletion.
  */
 class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 
@@ -71,7 +71,7 @@ class LLMS_Test_Post_Relationships extends LLMS_UnitTestCase {
 	 * All student attempts for the quiz should be deleted.
 	 *
 	 * @since 3.16.12
-	 * @since [version] Add tests to remove quiz attempts upon quiz deletion.
+	 * @since 3.37.8 Add tests to remove quiz attempts upon quiz deletion.
 	 *
 	 * @return void
 	 */

@@ -6,7 +6,7 @@ const { createURL } = require( '@wordpress/e2e-test-utils' );
 /**
  * Visits a page on the WordPress site.
  *
- * @since  [version]
+ * @since  3.37.8
  *
  * @param  {String} path  URL path. Eg: "dashboard" to visit mysite.com/dashboard.
  * @param  {String} query Query string to be added to the url. Eg: "myvar=1&anothervar=2".

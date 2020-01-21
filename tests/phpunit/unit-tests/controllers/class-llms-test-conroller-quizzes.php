@@ -8,14 +8,14 @@
  * @group quizzes
  * @group controller_quizzes
  *
- * @since [version]
+ * @since 3.37.8
  */
 class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup the test case.
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): form not submitted
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */
@@ -42,7 +42,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): invalid nonce
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): there's no quiz id passed via to the button form element.
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): submitted WP Post ID isn't a quiz id.
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */
@@ -103,7 +103,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions(): the quiz isn't an orphan.
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */
@@ -125,7 +125,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions() success: the quiz is an orphan and can be deleted.
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */
@@ -145,7 +145,7 @@ class LLMS_Test_Controller_Quizzes extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle_reporting_actions() success: the quiz's parent course doesn't exist anymore and the quiz can be deleted.
 	 *
-	 * @since  [version]
+	 * @since  3.37.8
 	 *
 	 * @return void
 	 */

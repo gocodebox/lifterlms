@@ -8,7 +8,7 @@
  * @group admin_import
  *
  * @since 3.35.0
- * @since [version] Update path to assets directory.
+ * @since 3.37.8 Update path to assets directory.
  */
 class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 
@@ -178,7 +178,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Generator encountered an issues when setting the generator method.
 	 *
 	 * @since 3.35.0
-	 * @since [version] Update path to assets directory.
+	 * @since 3.37.8 Update path to assets directory.
 	 *
 	 * @return void
 	 */
@@ -202,7 +202,7 @@ class LLMS_Test_Admin_Import extends LLMS_UnitTestCase {
 	 * Error during generation (missing required data)
 	 *
 	 * @since 3.35.0
-	 * @since [version] Update path to assets directory.
+	 * @since 3.37.8 Update path to assets directory.
 	 *
 	 * @return void
 	 */

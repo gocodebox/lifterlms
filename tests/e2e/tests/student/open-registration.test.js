@@ -1,7 +1,7 @@
 /**
  * Test the Setup Wizard
  *
- * @since [version]
+ * @since 3.37.8
  */
 
 const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );
@@ -18,7 +18,7 @@ let openRegStatus = null;
 /**
  * Toggles the open registration setting on or off
  *
- * @since  [version]
+ * @since  3.37.8
  *
  * @param  {Boolean} status Whether to toggle on (`true`) or off (`false`).
  * @return {void}

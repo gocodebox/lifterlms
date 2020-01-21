@@ -6,7 +6,7 @@
  *
  * @since 3.3.1
  * @since 3.28.0 Unknown
- * @since [version] Added class variable to access the tests assets directory.
+ * @since 3.37.8 Added class variable to access the tests assets directory.
  */
 
 require_once './vendor/lifterlms/lifterlms-tests/bootstrap.php';
@@ -77,7 +77,7 @@ class LLMS_Unit_Tests_Bootstrap extends LLMS_Tests_Bootstrap {
 	 * Load the plugin
 	 *
 	 * @since 3.28.0
-	 * @since [version] Use $this->assets_dir.
+	 * @since 3.37.8 Use $this->assets_dir.
 	 *
 	 * @return void
 	 */

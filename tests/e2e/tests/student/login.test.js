@@ -1,7 +1,7 @@
 /**
  * Test the Setup Wizard
  *
- * @since [version]
+ * @since 3.37.8
  */
 
 const {

@@ -1,7 +1,7 @@
 /**
  * Test the Setup Wizard
  *
- * @since [version]
+ * @since 3.37.8
  */
 
 const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );
@@ -9,7 +9,7 @@ const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );
 /**
  * Retrieve the Setup Wizard Page Title.
  *
- * @since  [version]
+ * @since  3.37.8
  *
  * @return {String}
  */

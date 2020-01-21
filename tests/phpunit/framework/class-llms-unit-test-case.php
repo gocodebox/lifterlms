@@ -5,7 +5,7 @@
  * @since 3.3.1
  * @since 3.33.0 Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
  * @since 3.37.4 Add certificate template mock generation and earning methods.
- * @since [version] Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
+ * @since 3.37.8 Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -111,7 +111,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 * Take a quiz for a student and get a desired grade
 	 *
 	 * @since 3.24.0
-	 * @since [version] Change return from `void` to an `LLMS_Quiz_Attempt` object
+	 * @since 3.37.8 Change return from `void` to an `LLMS_Quiz_Attempt` object
 	 *
 	 * @param int $quiz_id    WP Post ID of the Quiz.
 	 * @param int $student_id WP Used ID of the student.

@@ -3,7 +3,7 @@
  * Quizzes Reporting Table.
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.37.8
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.0
  * @since 3.36.1 Fixed an issue that allow instructors, who can only see their own reports,
  *               to see all the quizzes when they had no courses or courses with no lessons.
- * @since [version] Allow orphaned quizzes to be deleted.
+ * @since 3.37.8 Allow orphaned quizzes to be deleted.
  *               Output quiz IDs as plain text (no link) when they cannot be edited and link to the quiz within the course builder when they can.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
@@ -88,7 +88,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	/**
 	 * Get HTML for buttons in the actions cell of the table
 	 *
-	 * @since [version]
+	 * @since 3.37.8
 	 *
 	 * @param LLMS_Quiz $quiz Quiz object.
 	 * @return string
@@ -136,7 +136,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *
 	 * @since 3.16.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Add actions column that allows deletion of orphaned quizzes.
+	 * @since 3.37.8 Add actions column that allows deletion of orphaned quizzes.
 	 *                ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
 	 *
 	 * @param string $key   The column id / key

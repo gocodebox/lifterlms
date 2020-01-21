@@ -4,7 +4,7 @@
  * 1. Enable LifterLMS
  * 2. Configure Permalinks.
  *
- * @since [version]
+ * @since 3.37.8
  */
 
 const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );

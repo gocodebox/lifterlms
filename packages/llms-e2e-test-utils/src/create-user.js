@@ -8,7 +8,7 @@ const { clickAndWait } = require( './click-and-wait' ),
 /**
  * Asynchronously loop through an Object
  *
- * @since  [version]
+ * @since  3.37.8
  *
  * @param  {Object}    obj      Object to loop through.
  * @param  {Function}  callback Callback function, will be passed to params `key` and `val`.
@@ -26,7 +26,7 @@ const forEach = async ( obj, callback ) => {
 /**
  * Create a new user.
  *
- * @since  [version]
+ * @since  3.37.8
  *
  * @param  {Object} opts Hash of user information used to create the new user.
  * @return {Object}
