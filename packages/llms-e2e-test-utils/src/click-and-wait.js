@@ -14,4 +14,5 @@ export async function clickAndWait( selector, waitUntil ) {
 		page.$eval( selector, el => el.click() ),
 		page.waitForNavigation( { waitUntil: waitUntil } ),
 	] );
+
 }
