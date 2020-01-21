@@ -1,11 +1,19 @@
 <?php
+/**
+ * Define post and record relationships to automate cleanup of information when posts are deleted from the DB.
+ *
+ * @since 3.16.12
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Hooks and actions related to post relationships
  *
- * @since    3.16.12
- * @version  3.24.0
+ * @since 3.16.12
+ * @since 3.24.0 Unknown
+ * @since [version] Delete student quiz attempts when a quiz is deleted.
  */
 class LLMS_Post_Relationships {
 
@@ -19,13 +27,13 @@ class LLMS_Post_Relationships {
 		'lesson'     => array(
 			array(
 				'action'               => 'unset',
-				'meta_key'             => '_llms_prerequisite',
+				'meta_key'             => '_llms_prerequisite', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'meta_keys_additional' => array( '_llms_has_prerequisite' ),
 				'post_type'            => 'lesson',
 			),
 			array(
 				'action'    => 'unset',
-				'meta_key'  => '_llms_lesson_id',
+				'meta_key'  => '_llms_lesson_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'post_type' => 'llms_quiz',
 			),
 		),
@@ -33,7 +41,7 @@ class LLMS_Post_Relationships {
 		'llms_order' => array(
 			array(
 				'action'    => 'delete',
-				'meta_key'  => '_llms_order_id',
+				'meta_key'  => '_llms_order_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'post_type' => 'llms_transaction',
 			),
 		),
@@ -41,14 +49,19 @@ class LLMS_Post_Relationships {
 		'llms_quiz'  => array(
 			array(
 				'action'    => 'delete', // delete = force delete; trash = move to trash
-				'meta_key'  => '_llms_parent_id',
+				'meta_key'  => '_llms_parent_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'post_type' => 'llms_question',
 			),
 			array(
 				'action'               => 'unset',
-				'meta_key'             => '_llms_quiz',
+				'meta_key'             => '_llms_quiz', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
 				'meta_keys_additional' => array( '_llms_quiz_enabled' ),
 				'post_type'            => 'lesson',
+			),
+			array(
+				'action'     => 'delete',
+				'table_name' => 'lifterlms_quiz_attempts',
+				'table_key'  => 'quiz_id',
 			),
 		),
 
@@ -63,22 +76,66 @@ class LLMS_Post_Relationships {
 	/**
 	 * Delete / Trash posts related to the deleted post
 	 *
-	 * @param    obj   $post  WP Post that's been deleted
-	 * @param    array $data  relationship data array
-	 * @return   void
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 * @since 3.16.12
+	 * @since [version] Allow for deletion of related items outside the WP core posts table.
+	 *
+	 * @param obj   $post WP Post that's been deleted.
+	 * @param array $data Relationship data array.
+	 * @return void
 	 */
 	private function delete_relationships( $post, $data ) {
+
+		if ( isset( $data['post_type'] ) && isset( $data['meta_key'] ) ) {
+
+			$this->delete_wp_posts( $post, $data );
+
+		} elseif ( isset( $data['table_name'] ) && isset( $data['table_key'] ) ) {
+
+			$this->delete_table_records( $post, $data );
+
+		}
+
+	}
+
+	/**
+	 * Delete records from a table that are related to the deleted post.
+	 *
+	 * @since  [version]
+	 *
+	 * @param obj   $post WP Post that's been deleted.
+	 * @param array $data Relationship data array.
+	 * @return void
+	 */
+	private function delete_table_records( $post, $data ) {
+
+		global $wpdb;
+		$wpdb->delete( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			$wpdb->prefix . $data['table_name'],
+			array(
+				$data['table_key'] => $post->ID,
+			),
+			'%d'
+		);
+
+	}
+
+	/**
+	 * Delete or trash WP Posts related to the deleted post.
+	 *
+	 * @since [version]
+	 *
+	 * @param obj   $post WP Post that's been deleted.
+	 * @param array $data Relationship data array.
+	 * @return void
+	 */
+	private function delete_wp_posts( $post, $data ) {
 
 		$relationships = $this->get_related_posts( $post->ID, $data['post_type'], $data['meta_key'] );
 
 		$force = ( 'delete' === $data['action'] );
 
 		foreach ( $relationships as $id ) {
-
 			wp_delete_post( $id, $force );
-
 		}
 
 	}
@@ -86,9 +143,9 @@ class LLMS_Post_Relationships {
 	/**
 	 * Get a list of post types with relationships that should be checked
 	 *
-	 * @return   array
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 * @since 3.16.12
+	 *
+	 * @return array
 	 */
 	private function get_post_types() {
 		return array_keys( $this->get_relationships() );
@@ -97,9 +154,9 @@ class LLMS_Post_Relationships {
 	/**
 	 * Retrieve filtered LifterLMS post relationships array
 	 *
-	 * @return   array
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 * @since 3.16.12
+	 *
+	 * @return array
 	 */
 	private function get_relationships() {
 		return apply_filters( 'llms_get_post_relationships', $this->relationships );
@@ -108,17 +165,17 @@ class LLMS_Post_Relationships {
 	/**
 	 * Retrieve an array of post ids related to the deleted post by post type and meta key
 	 *
-	 * @param    int    $post_id    WP Post ID of the deleted post
-	 * @param    string $post_type  WP Post type of the related post(s)
-	 * @param    string $meta_key   meta_key to check for relations by
-	 * @return   array
-	 * @since    3.16.12
-	 * @version  3.16.12
+	 * @since 3.16.12
+	 *
+	 * @param int    $post_id   WP Post ID of the deleted post.
+	 * @param string $post_type WP Post type of the related post(s).
+	 * @param string $meta_key  meta_key to check for relations by.
+	 * @return array
 	 */
 	private function get_related_posts( $post_id, $post_type, $meta_key ) {
 
 		global $wpdb;
-		return $wpdb->get_col(
+		return $wpdb->get_col(  // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT p.ID
 			 FROM {$wpdb->posts} AS p
@@ -139,15 +196,16 @@ class LLMS_Post_Relationships {
 	 * Check relationships and delete / update related posts when a post is deleted
 	 * Called on `delete_post` hook (before a post is deleted)
 	 *
-	 * @param    int $post_id  WP Post ID of the deleted post
-	 * @return   void
-	 * @since    3.16.12
-	 * @version  3.24.0
+	 * @since 3.16.12
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param int $post_id  WP Post ID of the deleted post.
+	 * @return void
 	 */
 	public function maybe_update_relationships( $post_id ) {
 
 		$post = get_post( $post_id );
-		if ( ! in_array( $post->post_type, $this->get_post_types() ) ) {
+		if ( ! in_array( $post->post_type, $this->get_post_types(), true ) ) {
 			return;
 		}
 
@@ -159,7 +217,7 @@ class LLMS_Post_Relationships {
 
 			foreach ( $relationships as $data ) {
 
-				if ( in_array( $data['action'], array( 'delete', 'trash' ) ) ) {
+				if ( in_array( $data['action'], array( 'delete', 'trash' ), true ) ) {
 
 					$this->delete_relationships( $post, $data );
 
@@ -176,11 +234,12 @@ class LLMS_Post_Relationships {
 	/**
 	 * Unsets relationship data from post_meta when a post is deleted
 	 *
-	 * @param    obj   $post  WP Post that's been deleted
-	 * @param    array $data  relationship data array
-	 * @return   void
-	 * @since    3.16.12
-	 * @version  3.24.0
+	 * @since 3.16.12
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param obj   $post WP Post that's been deleted.
+	 * @param array $data Relationship data array.
+	 * @return void
 	 */
 	private function unset_relationships( $post, $data ) {
 

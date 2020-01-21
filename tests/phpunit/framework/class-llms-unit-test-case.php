@@ -5,6 +5,7 @@
  * @since 3.3.1
  * @since 3.33.0 Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
  * @since 3.37.4 Add certificate template mock generation and earning methods.
+ * @since [version] Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -108,15 +109,16 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Take a quiz for a student and get a desired grade
-	 * @param    int        $quiz_id     WP Post ID of the Quiz
-	 * @param    int        $student_id  WP Used ID of the student
-	 * @param    int        $grade       desired grade
-	 *                                   do the math in the test, this can't make the grade happen if it's not possible
-	 *                                   EG: a quiz with 5 questions CANNOT get a 75%!
 	 *
-	 * @return   void
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 * @since [version] Change return from `void` to an `LLMS_Quiz_Attempt` object
+	 *
+	 * @param int $quiz_id    WP Post ID of the Quiz.
+	 * @param int $student_id WP Used ID of the student.
+	 * @param int $grade      Desired grade. Do the math in the test, this can't make the grade happen if it's not possible
+	 *                        for example a quiz with 5 questions CANNOT get a 75%!
+	 *
+	 * @return LLMS_Quiz_Attempt
 	 */
 	public function take_quiz( $quiz_id, $student_id, $grade = 100 ) {
 
@@ -164,6 +166,8 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		}
 
 		$attempt->end();
+
+		return $attempt;
 
 	}
 
