@@ -1,6 +1,14 @@
 == Changelog ==
 
 
+= v3.37.8 - 2020-01-21 =
+------------------------
+
++ Fix: Student quiz attempts are now automatically deleted when a quiz is deleted.
++ Fix: "Orphaned" quizzes (those with no parent course and/or lesson) can be deleted from the Quiz reporting table.
++ Fix: Quiz IDs on the quiz reporting screen now link to the quiz within the course builder. If the quiz is an "orphan" there will be no link.
+
+
 = v3.37.7 - 2020-01-08 =
 ------------------------
 
@@ -108,9 +116,3 @@
 ------------------------
 
 + Add filter: `llms_user_caps_edit_others_posts_post_types` to allow 3rd parties to utilize core methods for determining if a user can manage another users LMS content on the admin panel.
-
-
-= v3.36.4 - 2019-11-01 =
-------------------------
-
-+ Fixes a conflict with CartFlows introduced by a Divi theme compatibility fix added in 3.36.3. Is WordPress complicated or what?
