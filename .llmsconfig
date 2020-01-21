@@ -80,7 +80,7 @@
 				"!./packages/**",
 				"!./wordpress/**",
 				"!lerna.json",
-				"!babel.config.js"
+				"!babel.config.js",
 				"!docker-compose.override.yml.template"
 			]
 		}
