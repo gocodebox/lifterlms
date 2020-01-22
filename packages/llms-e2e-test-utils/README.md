@@ -11,8 +11,6 @@ Install the module
 npm install --save-dev llms-e2e-test-utils
 ```
 
-NOTE: This module is not yet published to NPM.
-
 ## API
 
 API Docs to be written.
