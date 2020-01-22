@@ -1,6 +1,6 @@
 {
   "name": "llms-e2e-test-utils",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "description": "E2E testing utilities for LifterLMS projects.",
   "author": "Team LifterLMS <dev@lifterlms.com>",
   "license": "GPL-3.0-or-later",
