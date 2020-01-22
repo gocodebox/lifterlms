@@ -8,7 +8,7 @@ End-To-End (E2E) test utilities for LifterLMS (and WordPress). This package exte
 Install the module
 
 ```
-npm install --save-dev llms-e2e-test-utils
+npm install --save-dev @lifterlms/llms-e2e-test-utils
 ```
 
 ## API
