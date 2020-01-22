@@ -1,25 +1,34 @@
 {
-    "name": "llms-e2e-test-utils",
-    "version": "1.0.1",
-    "description": "E2E testing utilities for LifterLMS projects.",
-    "author": "Team LifterLMS <dev@lifterlms.com>",
-    "license": "GPL-2.0-or-later",
-    "homepage": "https://github.com/gocodebox/lifterlms/tree/master/packages/llms-e2e-test-utils/README.md",
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/gocodebox/lifterlms.git"
-    },
-    "bugs": {
-        "url": "https://github.com/gocodebox/lifterlms/issues"
-    },
-    "main": "build/index.js",
-    "peerDependencies": {
-        "@wordpress/e2e-test-utils": ">=4.0.0",
-        "jest-puppeteer": ">=4.4.0",
-        "puppeteer": ">=2.0.0"
-    },
-    "publishConfig": {
-        "access": "public"
-    },
-    "gitHead": "bb45d280205bf03c800934e9fb0bd66b3f1d795b"
+  "name": "llms-e2e-test-utils",
+  "version": "1.0.1",
+  "description": "E2E testing utilities for LifterLMS projects.",
+  "author": "Team LifterLMS <dev@lifterlms.com>",
+  "license": "GPL-3.0-or-later",
+  "homepage": "https://github.com/gocodebox/lifterlms/tree/master/packages/llms-e2e-test-utils",
+  "keywords": [
+    "lifterlms",
+    "wordpress",
+    "e2e",
+    "utils"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/gocodebox/lifterlms.git",
+    "directory": "packages/llms-e2e-test-utils"
+  },
+  "bugs": {
+    "url": "https://github.com/gocodebox/lifterlms/labels/package%3A%20llms-e2e-test-utils"
+  },
+  "main": "build/index.js",
+  "dependencies": {
+    "@wordpress/e2e-test-utils": ">=4.1.0"
+  },
+  "peerDependencies": {
+    "jest-puppeteer": ">=4.4.0",
+    "puppeteer": ">=2.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "gitHead": "bb45d280205bf03c800934e9fb0bd66b3f1d795b"
 }
