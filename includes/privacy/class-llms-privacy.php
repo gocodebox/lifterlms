@@ -134,7 +134,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 				'<p class="privacy-policy-tutorial">' .
 					__( 'This sample language includes the basics around what personal data your learning platform may be collecting, storing and sharing, as well as who may have access to that data. Depending on what settings are enabled and which additional add-ons are used, the specific information shared by your site will vary. We recommend consulting with a lawyer when deciding what information to disclose on your privacy policy.', 'lifterlms' ) .
 				'</p>' .
-   			    '<p>' . __( 'We collect information about you during the registration, enrollment, and checkout processes on our site.', 'lifterlms' ) . '</p>' .
+				'<p>' . __( 'We collect information about you during the registration, enrollment, and checkout processes on our site.', 'lifterlms' ) . '</p>' .
 				'<h2>' . __( 'What we collect and store', 'lifterlms' ) . '</h2>' .
 				'<p>' . __( 'When you register an account with us, we’ll ask you to provide information including your name, billing address, email address, phone number, credit card/payment details and optional account information like username and password. We’ll use this information for purposes, such as, to:', 'lifterlms' ) . '</p>' .
 				'<ul>' .
