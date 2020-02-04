@@ -37,14 +37,16 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$achievements = self::get_student_achievements( $student );
 		if ( $achievements ) {
 
-			$group_label = __( 'Achievements', 'lifterlms' );
+			$group_label       = __( 'Achievements', 'lifterlms' );
+			$group_description = __( 'Student achievement data.', 'lifterlms' );
 			foreach ( $achievements as $achievement ) {
 
 				$data[] = array(
-					'group_id'    => 'lifterlms_achievements',
-					'group_label' => $group_label,
-					'item_id'     => sprintf( 'achievement-%d', $achievement->get( 'id' ) ),
-					'data'        => self::get_achievement_data( $achievement ),
+					'group_id'          => 'lifterlms_achievements',
+					'group_label'       => $group_label,
+					'group_description' => $group_description,
+					'item_id'           => sprintf( 'achievement-%d', $achievement->get( 'id' ) ),
+					'data'              => self::get_achievement_data( $achievement ),
 				);
 
 			}
@@ -75,14 +77,16 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$certs = self::get_student_certificates( $student );
 		if ( $certs ) {
 
-			$group_label = __( 'Certificates', 'lifterlms' );
+			$group_label       = __( 'Certificates', 'lifterlms' );
+			$group_description = __( 'Student certificate data.', 'lifterlms' );
 			foreach ( $certs as $cert ) {
 
 				$data[] = array(
-					'group_id'    => 'lifterlms_certificates',
-					'group_label' => $group_label,
-					'item_id'     => sprintf( 'certificate-%d', $cert->get( 'id' ) ),
-					'data'        => self::get_certificate_data( $cert ),
+					'group_id'          => 'lifterlms_certificates',
+					'group_label'       => $group_label,
+					'group_description' => $group_description,
+					'item_id'           => sprintf( 'certificate-%d', $cert->get( 'id' ) ),
+					'data'              => self::get_certificate_data( $cert ),
 				);
 
 			}
@@ -400,10 +404,12 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 			foreach ( $enrollments['results'] as $post_id ) {
 
 				$data[] = array(
-					'group_id'    => $group_id,
-					'group_label' => $post_type_obj->labels->name,
-					'item_id'     => sprintf( '%1$s-%2$d', $post_type, $post_id ),
-					'data'        => self::get_enrollment_data( $post_id, $student, $post_type_obj ),
+					'group_id'          => $group_id,
+					'group_label'       => $post_type_obj->labels->name,
+					/* translators: %s: The name of the enrollment post type. */
+					'group_description' => sprintf( __( 'Student %s enrollment data.', 'lifterlms' ), $post_type_obj->labels->name ),
+					'item_id'           => sprintf( '%1$s-%2$d', $post_type, $post_id ),
+					'data'              => self::get_enrollment_data( $post_id, $student, $post_type_obj ),
 				);
 
 			}
@@ -480,7 +486,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	}
 
 	/**
-	 * Export student certificate data by email address
+	 * Export student orders data by email address
 	 *
 	 * @param    string $email_address  email address of the user to retrieve data for
 	 * @param    int    $page           process page number
@@ -499,14 +505,16 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
 		$orders = self::get_student_orders( $student, $page );
 
-		$group_label = __( 'Orders', 'lifterlms' );
+		$group_label       = __( 'Orders', 'lifterlms' );
+		$group_description = __( 'Student orders data.', 'lifterlms' );
 		foreach ( $orders['orders'] as $order ) {
 
 			$data[] = array(
-				'group_id'    => 'lifterlms_orders',
-				'group_label' => $group_label,
-				'item_id'     => sprintf( 'order-%d', $order->get( 'id' ) ),
-				'data'        => self::get_order_data( $order ),
+				'group_id'          => 'lifterlms_orders',
+				'group_label'       => $group_label,
+				'group_description' => $group_description,
+				'item_id'           => sprintf( 'order-%d', $order->get( 'id' ) ),
+				'data'              => self::get_order_data( $order ),
 			);
 
 		}
@@ -534,10 +542,11 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		}
 
 		$data[] = array(
-			'group_id'    => 'lifterlms_student',
-			'group_label' => __( 'Personal Information', 'lifterlms' ),
-			'item_id'     => sprintf( 'student-%d', $student->get( 'id' ) ),
-			'data'        => self::get_student_data( $student ),
+			'group_id'          => 'lifterlms_student',
+			'group_label'       => __( 'Personal Information', 'lifterlms' ),
+			'group_description' => __( 'Student personal information data.', 'lifterlms' ),
+			'item_id'           => sprintf( 'student-%d', $student->get( 'id' ) ),
+			'data'              => self::get_student_data( $student ),
 		);
 
 		return self::get_return( $data );
@@ -566,14 +575,16 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$done  = true;
 		if ( $query->has_results() ) {
 
-			$group_label = __( 'Quiz Attempts', 'lifterlms' );
+			$group_label        = __( 'Quiz Attempts', 'lifterlms' );
+			$group_descriptions = __( 'Student quiz attempts data', 'lifterlms' );
 			foreach ( $query->get_attempts() as $attempt ) {
 
 				$data[] = array(
-					'group_id'    => 'lifterlms_quizzes',
-					'group_label' => $group_label,
-					'item_id'     => sprintf( 'order-%d', $attempt->get( 'id' ) ),
-					'data'        => self::get_quiz_attempt_data( $attempt ),
+					'group_id'          => 'lifterlms_quizzes',
+					'group_label'       => $group_label,
+					'group_description' => $group_description,
+					'item_id'           => sprintf( 'order-%d', $attempt->get( 'id' ) ),
+					'data'              => self::get_quiz_attempt_data( $attempt ),
 				);
 
 			}
