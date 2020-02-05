@@ -126,6 +126,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 *
 	 * @return   [type]
 	 * @since    3.18.0
+	 * @since    3.37.8 Replaced deprecated `.wp-policy-help` class with `.privacy-policy-tutorial`.
 	 * @version  3.18.0
 	 */
 	public function get_privacy_message() {
