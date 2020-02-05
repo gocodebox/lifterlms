@@ -22,7 +22,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string $email_address  email address of the user to retrieve data for
 	 * @param    int    $page           process page number
 	 * @return   array
-	 * @since    3.18.0
+	 * @since    3.37.8 Added `$group_description` to the group exporter.
 	 * @version  3.18.0
 	 */
 	public static function achievement_data( $email_address, $page ) {
@@ -63,6 +63,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    int    $page           process page number
 	 * @return   array
 	 * @since    3.18.0
+	 * @since    3.37.8 Added `$group_description` to the group exporter.
 	 * @version  3.18.0
 	 */
 	public static function certificate_data( $email_address, $page ) {
@@ -384,6 +385,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    string $post_type      name of the post type
 	 * @return   array
 	 * @since    3.18.0
+	 * @since    3.37.8 Added `$group_description` to the group exporter.
 	 * @version  3.18.0
 	 */
 	private static function enrollment_data( $email_address, $page, $post_type ) {
@@ -492,6 +494,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    int    $page           process page number
 	 * @return   array
 	 * @since    3.18.0
+	 * @since    3.37.8 Added `$group_description` to the group exporter.
 	 * @version  3.18.0
 	 */
 	public static function order_data( $email_address, $page ) {
@@ -530,6 +533,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    int    $page           process page number
 	 * @return   [type]
 	 * @since    3.18.0
+	 * @since    3.37.8 Added `$group_description` to the group exporter.
 	 * @version  3.18.0
 	 */
 	public static function student_data( $email_address, $page ) {
@@ -560,6 +564,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * @param    int    $page           process page number
 	 * @return   array
 	 * @since    3.18.0
+	 * @since    3.37.8 Added `$group_description` to the group exporter.
 	 * @version  3.18.0
 	 */
 	public static function quiz_data( $email_address, $page ) {
