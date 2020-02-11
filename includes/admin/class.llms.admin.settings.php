@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 3.35.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize input data.
  * @since 3.35.1 Fix saving issue.
  * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
+ * @since [version] Add option for fields to show an asterisk for required fields.
  */
 class LLMS_Admin_Settings {
 
@@ -206,6 +207,7 @@ class LLMS_Admin_Settings {
 	 * @since Unknown.
 	 * @since 3.29.0 Unknown.
 	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
+	 * @since [version] Add option for fields to show an asterisk for required fields.
 	 *
 	 * @param    array $field  array of field settings
 	 * @return   void
@@ -369,8 +371,9 @@ class LLMS_Admin_Settings {
 			case 'email':
 			case 'number':
 			case 'password':
-				$type  = $field['type'];
-				$class = '';
+				$type     = $field['type'];
+				$class    = '';
+				$required = ! empty( $field['required'] );
 
 				$secure_val   = isset( $field['secure_option'] ) ? llms_get_secure_option( $field['secure_option'], false ) : false;
 				$option_value = ( false !== $secure_val ) ? str_repeat( '*', strlen( $secure_val ) ) : $option_value;
@@ -378,7 +381,10 @@ class LLMS_Admin_Settings {
 				?>
 				<tr valign="top" class="<?php echo $disabled_class; ?>">
 					<th>
-						<label for="<?php echo esc_attr( $field['id'] ); ?>"><?php echo esc_html( $field['title'] ); ?></label>
+						<label for="<?php echo esc_attr( $field['id'] ); ?>">
+							<?php echo esc_html( $field['title'] ); ?>
+							<?php echo $required ? '<span class="llms-required">*</span>' : ''; ?>
+						</label>
 						<?php echo $tooltip; ?>
 					</th>
 					<td class="forminp forminp-<?php echo sanitize_title( $field['type'] ); ?>">
@@ -391,6 +397,7 @@ class LLMS_Admin_Settings {
 							class="<?php echo esc_attr( $field['class'] ); ?>"
 							<?php echo $secure_val ? 'disabled="disabled"' : ''; ?>
 							<?php echo implode( ' ', $custom_attributes ); ?>
+							<?php echo $required ? 'required="required"' : ''; ?>
 							/> <?php echo $description; ?> <?php echo isset( $field['after_html'] ) ? $field['after_html'] : ''; ?>
 					</td>
 				</tr>
