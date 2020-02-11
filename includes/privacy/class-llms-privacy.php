@@ -273,7 +273,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve student orders
 	 *
-	 * @since    3.18.0
+	 * @since 3.18.0
 	 *
 	 * @param LLMS_Student $student Student object.
 	 * @param int          $page    Page number.
@@ -292,7 +292,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		);
 		if ( $orders && $orders['pages'] ) {
 			$results = $orders['orders'];
-			$done    = ( $page == $orders['pages'] );
+			$done    = ( absint( $page ) === abinst( $orders['pages'] ) );
 		}
 
 		return array(
