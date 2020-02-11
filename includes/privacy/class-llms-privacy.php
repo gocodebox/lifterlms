@@ -292,7 +292,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		);
 		if ( $orders && $orders['pages'] ) {
 			$results = $orders['orders'];
-			$done    = ( absint( $page ) === abinst( $orders['pages'] ) );
+			$done    = ( absint( $page ) === absint( $orders['pages'] ) );
 		}
 
 		return array(
