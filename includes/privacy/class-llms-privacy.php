@@ -1,20 +1,29 @@
 <?php
+/**
+ * Main Privacy Class
+ *
+ * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data
+ *
+ * @since 3.18.0
+ * @version [version]
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Main Privacy Class
- * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data
+ * LLMS_Privacy class
  *
- * @since    3.18.0
- * @version  3.18.0
+ * @since 3.18.0
+ * @since [version] Update CSS classes used in privacy text suggestions.
  */
 class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -46,16 +55,16 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 		$this->add_eraser( 'lifterlms-achievement-data', __( 'Achievement Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'achievement_data' ) );
 		$this->add_eraser( 'lifterlms-certificate-data', __( 'Order Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'certificate_data' ) );
 		$this->add_eraser( 'lifterlms-notification-data', __( 'Notification Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'notification_data' ) );
-		// this eraser should always be last because some of the items above rely on postmeta data to function
+		// This eraser should always be last because some of the items above rely on postmeta data to function.
 		$this->add_eraser( 'lifterlms-postmeta-data', __( 'Postmeta Data', 'lifterlms' ), array( 'LLMS_Privacy_Erasers', 'postmeta_data' ) );
 
 		/**
 		 * Hooks
 		 */
-		// add individual cert HTML files to the export directory
+		// Add individual cert HTML files to the export directory.
 		add_action( 'wp_privacy_personal_data_export_file_created', array( 'LLMS_Privacy_Exporters', 'maybe_add_export_files' ), 100, 4 );
 
-		// anonymize erased order properties
+		// Anonymize erased order properties.
 		add_filter( 'llms_privacy_get_anon_prop_value', array( 'LLMS_Privacy_Erasers', 'anonymize_prop' ), 10, 3 );
 
 	}
@@ -63,11 +72,11 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Anonymize a property value
 	 *
-	 * @param    string $prop  property name
-	 * @param    obj    $obj   associated object (if any)
-	 * @return   string
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param string $prop Property name.
+	 * @param obj    $obj  Associated object (if any).
+	 * @return string
 	 */
 	public static function get_anon_prop_value( $prop, $obj = null ) {
 		return apply_filters( 'llms_privacy_get_anon_prop_value', '', $prop, $obj );
@@ -76,10 +85,10 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve an array of student data properties which should be exported & erased
 	 *
-	 * @param    string $type  request type [export|erasure]
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param string $type Request type [export|erasure].
+	 * @return array
 	 */
 	protected static function get_order_data_props( $type ) {
 
@@ -122,12 +131,13 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	/**
 	 * Get the privacy message sample content
-	 * This stub can be overloaded
 	 *
-	 * @return   [type]
-	 * @since    3.18.0
-	 * @since    3.37.8 Replaced deprecated `.wp-policy-help` class with `.privacy-policy-tutorial`.
-	 * @version  3.18.0
+	 * This stub can be overloaded.
+	 *
+	 * @since 3.18.0
+	 * @since [version] Replaced deprecated `.wp-policy-help` class with `.privacy-policy-tutorial`.
+	 *
+	 * @return string
 	 */
 	public function get_privacy_message() {
 		$content = '
@@ -170,6 +180,13 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 				'<p>' . __( 'We share information with third parties who help us provide our orders and store services to you; for example --', 'lifterlms' ) . '</p>' .
 			'</div>';
 
+		/**
+		 * Customize the default privacy policy content provided by LifterLMS.
+		 *
+		 * @since 3.18.0
+		 *
+		 * @param string $content Privacy policy content as an html string.
+		 */
 		return apply_filters( 'llms_privacy_policy_content', $content );
 
 	}
@@ -177,10 +194,10 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve student certificates
 	 *
-	 * @param    obj $student  LLMS_Student
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param LLMS_Student $student Student object.
+	 * @return array
 	 */
 	protected static function get_student_achievements( $student ) {
 		return $student->get_achievements( 'updated_date', 'DESC', 'achievements' );
@@ -189,10 +206,10 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve student certificates
 	 *
-	 * @param    obj $student  LLMS_Student
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param LLMS_Student $student Student object.
+	 * @return array
 	 */
 	protected static function get_student_certificates( $student ) {
 		return $student->get_certificates( 'updated_date', 'DESC', 'certificates' );
@@ -201,9 +218,9 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve an array of student data properties which should be exported & erased
 	 *
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @return array
 	 */
 	protected static function get_student_data_props() {
 
@@ -227,12 +244,12 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve student course & membership enrollment data
 	 *
-	 * @param    obj    $student    LLMS_Student
-	 * @param    int    $page       page number
-	 * @param    string $post_type  WP Post type (course/membership)
-	 * @return   array
 	 * @since    3.18.0
-	 * @version  3.18.0
+	 *
+	 * @param LLMS_Student $student    Student object.
+	 * @param int          $page       Page number.
+	 * @param string       $post_type  WP Post type (course/membership).
+	 * @return   array
 	 */
 	protected static function get_student_enrollments( $student, $page, $post_type ) {
 
@@ -256,11 +273,11 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	/**
 	 * Retrieve student orders
 	 *
-	 * @param    obj $student    LLMS_Student
-	 * @param    int $page       page number
-	 * @return   array
 	 * @since    3.18.0
-	 * @version  3.18.0
+	 *
+	 * @param LLMS_Student $student Student object.
+	 * @param int          $page    Page number.
+	 * @return array
 	 */
 	protected static function get_student_orders( $student, $page ) {
 
@@ -285,6 +302,15 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
 	}
 
+	/**
+	 * Retrieve student quizzes.
+	 *
+	 * @since  3.18.0
+	 *
+	 * @param  LLMS_Student $student Student object.
+	 * @param  int           $page   Page number.
+	 * @return LLMS_Quiz_Attempt[]
+	 */
 	protected static function get_student_quizzes( $student, $page ) {
 
 		return new LLMS_Query_Quiz_Attempt(

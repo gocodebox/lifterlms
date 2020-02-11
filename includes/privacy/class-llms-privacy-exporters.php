@@ -3,7 +3,7 @@
  * LifterLMS Privacy Exporter functions
  *
  * @since 3.18.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,17 +13,19 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.18.0
  * @since 3.30.3 Fixed spelling error.
+ * @since [version] Add export group descriptions.
  */
 class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
 	/**
 	 * Export student achievement data by email address
 	 *
-	 * @param    string $email_address  email address of the user to retrieve data for
-	 * @param    int    $page           process page number
+	 * @since 3.18.0
+	 * @since [version] Added `$group_description` to the group exporter.
+	 *
+	 * @param    string $email_address  Email address of the user to retrieve data for.
+	 * @param    int    $page           Process page number.
 	 * @return   array
-	 * @since    3.37.8 Added `$group_description` to the group exporter.
-	 * @version  3.18.0
 	 */
 	public static function achievement_data( $email_address, $page ) {
 
@@ -59,12 +61,12 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Export student certificate data by email address
 	 *
-	 * @param    string $email_address  email address of the user to retrieve data for
-	 * @param    int    $page           process page number
+	 * @since 3.18.0
+	 * @since [version] Added `$group_description` to the group exporter.
+	 *
+	 * @param    string $email_address Email address of the user to retrieve data for.
+	 * @param    int    $page          Process page number.
 	 * @return   array
-	 * @since    3.18.0
-	 * @since    3.37.8 Added `$group_description` to the group exporter.
-	 * @version  3.18.0
 	 */
 	public static function certificate_data( $email_address, $page ) {
 
@@ -100,10 +102,10 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Get data for a certificate
 	 *
-	 * @param    obj $achievement  LLMS_User_Certificate
-	 * @return   array
 	 * @since    3.18.0
-	 * @version  3.18.0
+	 *
+	 * @param    obj $achievement  LLMS_User_Certificate.
+	 * @return   array
 	 */
 	private static function get_achievement_data( $achievement ) {
 
@@ -138,10 +140,10 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Get data for a certificate
 	 *
-	 * @param    obj $cert  LLMS_User_Certificate
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param  LLMS_User_Certificate $cert Certificate object.
+	 * @return array
 	 */
 	private static function get_certificate_data( $cert ) {
 
@@ -184,7 +186,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 		$data = array();
 
 		$data[] = array(
-			/* translators: %s = post type singular name label (Course or Membership) */
+			// Translators: %s = post type singular name label (Course or Membership).
 			'name'  => sprintf( __( '%s Title', 'lifterlms' ), $post_type_object->labels->singular_name ),
 			'value' => get_the_title( $post_id ),
 		);
@@ -233,10 +235,10 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Retrieve export data for a single order
 	 *
-	 * @param    obj $order  LLMS_Order
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param  LLMS_Order $order Order object.
+	 * @return array
 	 */
 	private static function get_order_data( $order ) {
 
@@ -278,10 +280,10 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Get export data for a single quiz attempt
 	 *
-	 * @param    obj $attempt  LLMS_Quiz_Attempt
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param LLMS_Quiz_Attempt $attempt Quiz attempt object.
+	 * @return array
 	 */
 	private static function get_quiz_attempt_data( $attempt ) {
 
@@ -322,10 +324,10 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Return export data to an exporter
 	 *
-	 * @param    array $data  array of data
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param array $data Array of data.
+	 * @return array
 	 */
 	private static function get_return( $data = array(), $done = true ) {
 		return array(
@@ -337,10 +339,10 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Get student data to export for a user
 	 *
-	 * @param    LLMS_Student $student
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param  LLMS_Student $student Student object.
+	 * @return array
 	 */
 	private static function get_student_data( $student ) {
 
@@ -367,11 +369,11 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Export student course data by email address
 	 *
-	 * @param    string $email_address  email address of the user to retrieve data for
-	 * @param    int    $page           process page number
-	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 *
+	 * @param string $email_address Email address of the user to retrieve data for.
+	 * @param int    $page          Process page number.
+	 * @return array
 	 */
 	public static function course_data( $email_address, $page ) {
 		return self::enrollment_data( $email_address, $page, 'course' );
@@ -380,13 +382,13 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * General exporter for handling course and membership enrollment data
 	 *
+	 * @since 3.18.0
+	 * @since [version] Added `$group_description` to the group exporter.
+	 *
 	 * @param    string $email_address  Requested user's email address
 	 * @param    int    $page           process page number
 	 * @param    string $post_type      name of the post type
 	 * @return   array
-	 * @since    3.18.0
-	 * @since    3.37.8 Added `$group_description` to the group exporter.
-	 * @version  3.18.0
 	 */
 	private static function enrollment_data( $email_address, $page, $post_type ) {
 
@@ -425,13 +427,13 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Add files to the zip file for a data export request
 	 * Adds certificate files into the /certificates/ directory within the archive
 	 *
+	 * @since    3.18.0
+	 *
 	 * @param    string $archive_pathname      full path to the zip archive
 	 * @param    string $archive_url           full uri to the zip archive
 	 * @param    string $html_report_pathname  full path to the .html file within the archive
 	 * @param    int    $request_id            WP Post ID of the export request
 	 * @return   void
-	 * @since    3.18.0
-	 * @version  3.18.0
 	 */
 	public static function maybe_add_export_files( $archive_pathname, $archive_url, $html_report_pathname, $request_id ) {
 
@@ -477,11 +479,11 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Export student membership data by email address
 	 *
+	 * @since    3.18.0
+	 *
 	 * @param    string $email_address  email address of the user to retrieve data for
 	 * @param    int    $page           process page number
 	 * @return   array
-	 * @since    3.18.0
-	 * @version  3.18.0
 	 */
 	public static function membership_data( $email_address, $page ) {
 		return self::enrollment_data( $email_address, $page, 'llms_membership' );
@@ -490,12 +492,12 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Export student orders data by email address
 	 *
-	 * @param    string $email_address  email address of the user to retrieve data for
-	 * @param    int    $page           process page number
-	 * @return   array
-	 * @since    3.18.0
-	 * @since    3.37.8 Added `$group_description` to the group exporter.
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 * @since [version] Added `$group_description` to the group exporter.
+	 *
+	 * @param  string $email_address Email address of the user to retrieve data for.
+	 * @param  int    $page          Process page number.
+	 * @return array
 	 */
 	public static function order_data( $email_address, $page ) {
 
@@ -529,12 +531,12 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Export student data by email address
 	 *
-	 * @param    string $email_address  email address of the user to retrieve data for
-	 * @param    int    $page           process page number
-	 * @return   [type]
-	 * @since    3.18.0
-	 * @since    3.37.8 Added `$group_description` to the group exporter.
-	 * @version  3.18.0
+	 * @since 3.18.0
+	 * @since [version] Added `$group_description` to the group exporter.
+	 *
+	 * @param  string $email_address Email address of the user to retrieve data for.
+	 * @param  int    $page          Process page number.
+	 * @return array
 	 */
 	public static function student_data( $email_address, $page ) {
 
@@ -560,12 +562,12 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	/**
 	 * Export quiz attempt data by email address
 	 *
-	 * @param    string $email_address  email address of the user to retrieve data for
-	 * @param    int    $page           process page number
-	 * @return   array
 	 * @since    3.18.0
-	 * @since    3.37.8 Added `$group_description` to the group exporter.
-	 * @version  3.18.0
+	 * @since    [version] Added `$group_description` to the group exporter.
+	 *
+	 * @param    string $email_address Email address of the user to retrieve data for.
+	 * @param    int    $page          Process page number.
+	 * @return   array
 	 */
 	public static function quiz_data( $email_address, $page ) {
 
