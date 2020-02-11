@@ -308,7 +308,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * @since  3.18.0
 	 *
 	 * @param  LLMS_Student $student Student object.
-	 * @param  int           $page   Page number.
+	 * @param  int          $page   Page number.
 	 * @return LLMS_Quiz_Attempt[]
 	 */
 	protected static function get_student_quizzes( $student, $page ) {
