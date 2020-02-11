@@ -88,11 +88,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @see llms_enroll_student()
 	 *
-	 * @param  int     $product_id WP Post ID of the course or membership
-	 * @param  string  $trigger    String describing the reason for enrollment
+	 * @param  int    $product_id WP Post ID of the course or membership
+	 * @param  string $trigger    String describing the reason for enrollment
 	 * @return boolean
 	 */
-
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
 		/**
@@ -1621,7 +1620,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$update = true;
 
 			}
-
 		}
 
 		// Update if we can.
@@ -1675,7 +1673,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				return true;
 
 			}
-
 		}
 
 		// Update was prevented.
