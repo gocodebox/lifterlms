@@ -6,7 +6,7 @@
     "type": "git",
     "url": "https://github.com/gocodebox/lifterlms.git"
   },
-  "author": "LifterLMS",
+  "author": "Team LifterLMS <team@lifterlms.com>",
   "license": "GPL-3.0",
   "bugs": {
     "url": "https://github.com/gocodebox/lifterlms/issues"
@@ -18,7 +18,7 @@
     "@babel/preset-env": "^7.7.7",
     "@wordpress/e2e-test-utils": "^4.0.0",
     "@wordpress/scripts": "^6.2.0",
-    "all-contributors-cli": "^4.11.2",
+    "contributor-faces": "^1.0.3",
     "gulp": "^4.0.0",
     "gulp-cli": "^2.2.0",
     "gulp-header": "^2.0.5",
@@ -36,8 +36,7 @@
     "yargs": "^12.0.2"
   },
   "scripts": {
-    "contributors:add": "all-contributors add",
-    "contributors:generate": "all-contributors generate",
+    "contributors": "npx contributor-faces -e '*\\[bot\\]'",
     "env": "wp-scripts env",
     "pkgs:watch": "npx watch -p 'packages/**/src/*.js' -c 'npm run pkgs:build'",
     "pkgs:clean": "lerna exec --parallel -- rm -rf ./build/",
