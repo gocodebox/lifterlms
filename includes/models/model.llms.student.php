@@ -7,7 +7,7 @@
  * @package LifterLMS/Models
  *
  * @since 2.2.3
- * @version [version]
+ * @version 3.37.9
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
  * @since 3.35.0 Prepare all variables when querying for enrollment date.
  * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
- * @since [version] Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
+ * @since 3.37.9 Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -84,7 +84,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 2.2.3
 	 * @since 3.17.0 Unknown.
 	 * @since 3.34.0 Added new actions to differentiate between first-time enrollment and enrollment status updates.
-	 * @since [version] Added filter `llms_user_enrollment_allowed_post_types` to customize the post types a user can be enrolled into.
+	 * @since 3.37.9 Added filter `llms_user_enrollment_allowed_post_types` to customize the post types a user can be enrolled into.
 	 *
 	 * @see llms_enroll_student()
 	 *
@@ -110,7 +110,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * `llms_user_enrollment_status_allowed_post_types` allows checking of user enrollment based on
 		 * posts which are associated with a post type.
 		 *
-		 * @since [version]
+		 * @since 3.37.9
 		 *
 		 * @see llms_user_enrollment_status_allowed_post_types
 		 *
@@ -609,7 +609,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.0.0
 	 * @since 3.17.0 Unknown.
-	 * @since [version] Added filter `llms_user_enrollment_status_allowed_post_types`.
+	 * @since 3.37.9 Added filter `llms_user_enrollment_status_allowed_post_types`.
 	 *
 	 * @param  int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
 	 * @param  bool $use_cache   If true, returns cached data if available, if false will run a db query
@@ -630,7 +630,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 * When adding a new post type for custom enrollment functionality the post type should be registered with
 		 * both of these filters.
 		 *
-		 * @since [version]
+		 * @since 3.37.9
 		 *
 		 * @see llms_user_enrollment_allowed_post_types
 		 *
@@ -1567,7 +1567,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 *
 	 * @since 3.0.0
 	 * @since 3.26.0 Unknown.
-	 * @since [version] Update to accommodate custom post type enrollments added through new filters.
+	 * @since 3.37.9 Update to accommodate custom post type enrollments added through new filters.
 	 *               Marked action `llms_user_removed_from_membership_level` as deprecated, use `llms_user_removed_from_membership` instead.
 	 *
 	 * @see llms_unenroll_student()
@@ -1642,7 +1642,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				 * `$product_id`. Note that any post type prefixed with `llms_` is stripped. For example
 				 * when triggered by a memebership (`llms_membership`) the hook will be `llms_user_removed_from_membership`.
 				 *
-				 * @since [version]
+				 * @since 3.37.9
 				 *
 				 * @param int    $user_id    WP_User ID of the student
 				 * @param int    $product_id WP_Post ID of the product.
@@ -1661,7 +1661,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 					 * Execute the (deprecated) legacy action.
 					 *
 					 * @since      Unknown
-					 * @deprecated [version] Use `llms_user_removed_from_membership` instead for consistency with courses.
+					 * @deprecated 3.37.9 Use `llms_user_removed_from_membership` instead for consistency with courses.
 					 *
 					 * @param int    $user_id    WP_User ID of the student
 					 * @param int    $product_id WP_Post ID of the product.

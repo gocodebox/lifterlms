@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.9
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Sanitize input data.
  * @since 3.35.1 Fix saving issue.
  * @since 3.35.2 Don't strip tags on editor and textarea fields that allow HTML.
- * @since [version] Add option for fields to show an asterisk for required fields.
+ * @since 3.37.9 Add option for fields to show an asterisk for required fields.
  */
 class LLMS_Admin_Settings {
 
@@ -207,7 +207,7 @@ class LLMS_Admin_Settings {
 	 * @since Unknown.
 	 * @since 3.29.0 Unknown.
 	 * @since 3.34.4 Add "keyval" field for displaying custom html next to a setting key.
-	 * @since [version] Add option for fields to show an asterisk for required fields.
+	 * @since 3.37.9 Add option for fields to show an asterisk for required fields.
 	 *
 	 * @param    array $field  array of field settings
 	 * @return   void

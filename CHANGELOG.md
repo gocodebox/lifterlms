@@ -1,6 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v3.37.9 - 2020-02-11
+--------------------
+
++ Updated CSS classes used in privacy policy text suggestions per changes in WordPress core 5.3. Thanks [@garretthyder](https://github.com/garretthyder)!
++ Added privacy exported group descriptions. Thanks [@garretthyder](https://github.com/garretthyder)!
++ Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
++ Added option for admin settings fields to show an asterisk for required fields.
++ Added option for integration plugins can now add automatically generated "Settings" link to the plugins screen.
++ Bugfix: Fixed an IE compatibility issue related to usage of `Object.assign()`.
+
+
 v3.37.8 - 2020-01-21
 --------------------
 

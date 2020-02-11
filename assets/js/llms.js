@@ -1809,7 +1809,7 @@ var LLMS = window.LLMS || {};
 	 * @since 3.36.0
 	 * @since 3.36.2 Fix JS error when settings aren't loaded.
 	 * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
-	 * @since [version] Fix IE compatibility issue related to usage of `Object.assign()`.
+	 * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
 	 */
 	LLMS.Tracking = function( settings ) {
 	
@@ -1887,7 +1887,7 @@ var LLMS = window.LLMS || {};
 		 * Create an event object suitable to save as an event.
 		 *
 		 * @since 3.36.0
-		 * @since [version] Use `$.extend()` in favor of `Object.assign()`.
+		 * @since 3.37.9 Use `$.extend()` in favor of `Object.assign()`.
 		 *
 		 * @param obj event {
 		 *     Event hash

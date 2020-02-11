@@ -5,7 +5,7 @@
  * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data
  *
  * @since 3.18.0
- * @version [version]
+ * @version 3.37.9
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Privacy class
  *
  * @since 3.18.0
- * @since [version] Update CSS classes used in privacy text suggestions.
+ * @since 3.37.9 Update CSS classes used in privacy text suggestions.
  */
 class LLMS_Privacy extends LLMS_Abstract_Privacy {
 
@@ -135,7 +135,7 @@ class LLMS_Privacy extends LLMS_Abstract_Privacy {
 	 * This stub can be overloaded.
 	 *
 	 * @since 3.18.0
-	 * @since [version] Replaced deprecated `.wp-policy-help` class with `.privacy-policy-tutorial`.
+	 * @since 3.37.9 Replaced deprecated `.wp-policy-help` class with `.privacy-policy-tutorial`.
 	 *
 	 * @return string
 	 */

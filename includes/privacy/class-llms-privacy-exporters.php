@@ -3,7 +3,7 @@
  * LifterLMS Privacy Exporter functions
  *
  * @since 3.18.0
- * @version [version]
+ * @version 3.37.9
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.18.0
  * @since 3.30.3 Fixed spelling error.
- * @since [version] Add export group descriptions.
+ * @since 3.37.9 Add export group descriptions.
  */
 class LLMS_Privacy_Exporters extends LLMS_Privacy {
 
@@ -21,7 +21,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Export student achievement data by email address
 	 *
 	 * @since 3.18.0
-	 * @since [version] Added `$group_description` to the group exporter.
+	 * @since 3.37.9 Added `$group_description` to the group exporter.
 	 *
 	 * @param    string $email_address  Email address of the user to retrieve data for.
 	 * @param    int    $page           Process page number.
@@ -62,7 +62,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Export student certificate data by email address
 	 *
 	 * @since 3.18.0
-	 * @since [version] Added `$group_description` to the group exporter.
+	 * @since 3.37.9 Added `$group_description` to the group exporter.
 	 *
 	 * @param    string $email_address Email address of the user to retrieve data for.
 	 * @param    int    $page          Process page number.
@@ -383,7 +383,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * General exporter for handling course and membership enrollment data
 	 *
 	 * @since 3.18.0
-	 * @since [version] Added `$group_description` to the group exporter.
+	 * @since 3.37.9 Added `$group_description` to the group exporter.
 	 *
 	 * @param    string $email_address  Requested user's email address
 	 * @param    int    $page           process page number
@@ -493,7 +493,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Export student orders data by email address
 	 *
 	 * @since 3.18.0
-	 * @since [version] Added `$group_description` to the group exporter.
+	 * @since 3.37.9 Added `$group_description` to the group exporter.
 	 *
 	 * @param  string $email_address Email address of the user to retrieve data for.
 	 * @param  int    $page          Process page number.
@@ -532,7 +532,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Export student data by email address
 	 *
 	 * @since 3.18.0
-	 * @since [version] Added `$group_description` to the group exporter.
+	 * @since 3.37.9 Added `$group_description` to the group exporter.
 	 *
 	 * @param  string $email_address Email address of the user to retrieve data for.
 	 * @param  int    $page          Process page number.
@@ -563,7 +563,7 @@ class LLMS_Privacy_Exporters extends LLMS_Privacy {
 	 * Export quiz attempt data by email address
 	 *
 	 * @since    3.18.0
-	 * @since    [version] Added `$group_description` to the group exporter.
+	 * @since    3.37.9 Added `$group_description` to the group exporter.
 	 *
 	 * @param    string $email_address Email address of the user to retrieve data for.
 	 * @param    int    $page          Process page number.

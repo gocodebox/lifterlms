@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.9
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.21.1 Updated.
  * @since 3.33.1 Added `get_priority` method to allow reading of the protected priority property.
- * @since [version] Added automatically generated "Settings" link to plugins screen.
+ * @since 3.37.9 Added automatically generated "Settings" link to plugins screen.
  */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
@@ -231,7 +231,7 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Add plugin settings Action Links
 	 *
-	 * @since [version]
+	 * @since 3.37.9
 	 *
 	 * @param string[] $links Existing action links.
 	 * @param string   $file Path to the plugin file, relative to the plugin directory.
