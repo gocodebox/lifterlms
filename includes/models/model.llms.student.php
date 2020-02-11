@@ -1,11 +1,13 @@
 <?php
 /**
  * Student Class
+ *
  * Manages data and interactions with a LifterLMS Student
  *
  * @package LifterLMS/Models
+ *
  * @since 2.2.3
- * @version 3.36.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Added new filters for differentiating between enrollment update and creation; Added the ability to check enrollment from a section.
  * @since 3.35.0 Prepare all variables when querying for enrollment date.
  * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
+ * @since [version] Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -81,13 +84,15 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	 * @since 2.2.3
 	 * @since 3.17.0 Unknown.
 	 * @since 3.34.0 Added new actions to differentiate between first-time enrollment and enrollment status updates.
+	 * @since [version] Added filter `llms_user_enrollment_allowed_post_types` to customize the post types a user can be enrolled into.
 	 *
 	 * @see llms_enroll_student()
 	 *
-	 * @param  int    $product_id   WP Post ID of the course or membership
-	 * @param  string $trigger      String describing the reason for enrollment
+	 * @param  int     $product_id WP Post ID of the course or membership
+	 * @param  string  $trigger    String describing the reason for enrollment
 	 * @return boolean
 	 */
+
 	public function enroll( $product_id, $trigger = 'unspecified' ) {
 
 		/**
@@ -98,19 +103,33 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		 */
 		do_action( 'before_llms_user_enrollment', $this->get_id(), $product_id );
 
-		// can only be enrolled in the following post types
-		$product_type = get_post_type( $product_id );
-		if ( ! in_array( $product_type, array( 'course', 'llms_membership' ) ) ) {
+		/**
+		 * Customize the post types which users can be enrolled into.
+		 *
+		 * This filter differs slightly from `llms_user_enrollment_status_allowed_post_types`. This filter
+		 * determines which post types a user can be physically associated with through enrollment while
+		 * `llms_user_enrollment_status_allowed_post_types` allows checking of user enrollment based on
+		 * posts which are associated with a post type.
+		 *
+		 * @since [version]
+		 *
+		 * @see llms_user_enrollment_status_allowed_post_types
+		 *
+		 * @param string[] $post_types Array of post type names.
+		 */
+		$allowed_types = apply_filters( 'llms_user_enrollment_allowed_post_types', array( 'course', 'llms_membership' ) );
+
+		// Users can only be enrolled into the following post types.
+		if ( ! in_array( get_post_type( $product_id ), $allowed_types, true ) ) {
 			return false;
 		}
 
-		// check enrollment before enrolling
-		// this will prevent duplicate enrollments
+		// Check enrollment before enrolling to prevent duplicates.
 		if ( llms_is_user_enrolled( $this->get_id(), $product_id ) ) {
 			return false;
 		}
 
-		// if the student has been previously enrolled, simply update don't run a full enrollment
+		// If the student has been previously enrolled, simply update don't run a full enrollment.
 		if ( $this->get_enrollment_status( $product_id, false ) ) {
 			$insert      = $this->insert_status_postmeta( $product_id, 'enrolled', $trigger );
 			$action_type = 'updated';
@@ -119,10 +138,10 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$action_type = 'created';
 		}
 
-		// add the user postmeta for the enrollment
+		// Add the user postmeta for the enrollment.
 		if ( ! empty( $insert ) ) {
 
-			// update the cache
+			// Update the cache.
 			$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), 'enrolled' );
 			$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
 			$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
@@ -134,7 +153,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				/**
 				 * Fires after a user is enrolled in course
 				 *
-				 * @param int $user_id WP User ID.
+				 * @param int $user_id    WP User ID.
 				 * @param int $product_id WP Post ID of the course or membership.
 				 */
 				do_action( 'llms_user_enrolled_in_course', $this->get_id(), $product_id );
@@ -146,7 +165,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				/**
 				 * Fires after a user is enrolled in membership
 				 *
-				 * @param int $user_id WP User ID.
+				 * @param int $user_id    WP User ID.
 				 * @param int $product_id WP Post ID of the course or membership.
 				 */
 				do_action( 'llms_user_added_to_membership_level', $this->get_id(), $product_id );
@@ -166,7 +185,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			return true;
 
-		}// End if().
+		}
 
 		return false;
 
@@ -589,21 +608,39 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Get the current enrollment status of a student for a particular product
 	 *
-	 * @param    int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
-	 * @param    bool $use_cache   If true, returns cached data if available, if false will run a db query
-	 * @return   false|string
-	 * @since    3.0.0
-	 * @version  3.17.0
+	 * @since 3.0.0
+	 * @since 3.17.0 Unknown.
+	 * @since [version] Added filter `llms_user_enrollment_status_allowed_post_types`.
+	 *
+	 * @param  int  $product_id  WP Post ID of a Course, Section, Lesson, or Membership
+	 * @param  bool $use_cache   If true, returns cached data if available, if false will run a db query
+	 * @return false|string      When no enrollment status exists, returns `false`. Otherwise returns the
+	 *                           enrollment status as a string.
 	 */
 	public function get_enrollment_status( $product_id, $use_cache = true ) {
 
-		$status = false;
-
+		$status       = false;
 		$product_type = get_post_type( $product_id );
 
-		// only check the following post types
-		if ( ! in_array( $product_type, array( 'course', 'section', 'lesson', 'llms_membership' ), true ) ) {
-			return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
+		/**
+		 * Customize the post types that can be used to check a user's enrollment status.
+		 *
+		 * This filter differs slightly from `llms_user_enrollment_allowed_post_types`. The difference is that
+		 * a user can be enrolled into a course but we can check their course enrollment status using the ID of a child (section or lesson).
+		 *
+		 * When adding a new post type for custom enrollment functionality the post type should be registered with
+		 * both of these filters.
+		 *
+		 * @since [version]
+		 *
+		 * @see llms_user_enrollment_allowed_post_types
+		 *
+		 * @param string[] $post_types List of allowed post types.
+		 */
+		$allowed_types = apply_filters( 'llms_user_enrollment_status_allowed_post_types', array( 'course', 'section', 'lesson', 'llms_membership' ) );
+		if ( ! in_array( $product_type, $allowed_types, true ) ) {
+			/* This filter is documented at the end of this method. */
+			return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id, $use_cache );
 		}
 
 		// Get course ID if we're looking at a lesson or section.
@@ -619,15 +656,17 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			$status = $this->cache_get( sprintf( 'enrollment_status_%d', $product_id ) );
 		}
 
-		// status will be:
-		// + false if there was nothing in the cache -- run a query!
-		// + a string if there was a status          -- don't run query
-		// + null if there's no status               -- don't run query
+		/**
+		 * After checking the cache, $status will be:
+		 *     + `false` if there was nothing in the cache or the function was instructed to not use the cache: Query the database to get the status.
+		 *     + a string if there was a status: No need to query the database.
+		 *     + `null` if there's no status: No need to query the database.
+		 */
 		if ( false === $status ) {
 
 			global $wpdb;
 
-			// get the most recent recorded status
+			// Get the most recent recorded status.
 			$status = $wpdb->get_var(
 				$wpdb->prepare(
 					"SELECT meta_value FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE meta_key = '_status' AND user_id = %d AND post_id = %d ORDER BY updated_date DESC LIMIT 1",
@@ -635,14 +674,30 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				)
 			);
 
-			// null will be stored if the student has no status
+			// Cache the data: `null` will be stored if the student has no status.
 			$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), $status );
 
 		}
 
-		$status = ( $status ) ? $status : false;
+		// Don't return `null` values from the database.
+		$status = $status ? $status : false;
 
-		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id );
+		/**
+		 * Filter a user's enrollment status for a specific post.
+		 *
+		 * Note that if a value is modified by this filter the modified value is *not* cached. Therefore you should
+		 * consider implementing caching of your modified value which matches the caching implemented by this method
+		 * so that the modified value obeys the default caching behavior.
+		 *
+		 * @since Unknown
+		 *
+		 * @param false|string $status     When no enrollment status exists, returns `false`. Otherwise returns the
+		 *                                     enrollment status as a string.
+		 * @param int          $user_id    WP_User ID of the student
+		 * @param int          $product_id WP_Post ID of the post used to check the enrollment status.
+		 * @param boolean      $use_cache  Whether or not to use the local cache.
+		 */
+		return apply_filters( 'llms_get_enrollment_status', $status, $this->get_id(), $product_id, $use_cache );
 
 	}
 
@@ -1135,18 +1190,18 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Determine if the student is active in at least one course or membership
 	 *
-	 * @return   boolean
-	 * @since    3.14.0
-	 * @version  3.14.0
+	 * @since 3.14.0
+	 *
+	 * @return boolean
 	 */
 	public function is_active() {
 
-		// this is a simpler, faster query, check first
+		// Check memberships first, it's a faster query.
 		if ( $this->get_membership_levels() ) {
 			return true;
 		}
 
-		// check for at least one enrolled course
+		// Check for at least one enrolled course.
 		$courses = $this->get_courses(
 			array(
 				'limit'  => 1,
@@ -1158,7 +1213,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			return true;
 		}
 
-		// not active
+		// Not active.
 		return false;
 
 	}
@@ -1511,28 +1566,30 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 	/**
 	 * Remove a student from a LifterLMS course or membership
 	 *
-	 * @param  int    $product_id WordPress Post ID of the course or membership
-	 * @param  string $trigger    only remove the student if the original enrollment trigger matches the submitted value
-	 *                            "any" will remove regardless of enrollment trigger
-	 * @param  string $new_status the value to update the new status with after removal is complete
+	 * @since 3.0.0
+	 * @since 3.26.0 Unknown.
+	 * @since [version] Update to accommodate custom post type enrollments added through new filters.
+	 *               Marked action `llms_user_removed_from_membership_level` as deprecated, use `llms_user_removed_from_membership` instead.
+	 *
+	 * @see llms_unenroll_student()
+	 *
+	 * @param  int    $product_id WordPress Post ID of the course or membership.
+	 * @param  string $trigger    Only remove the student if the original enrollment trigger matches the submitted value.
+	 *                            Passing `any` will remove regardless of enrollment trigger.
+	 * @param  string $new_status the value to update the new status with after removal is complete.
 	 * @return boolean
-	 *
-	 * @see  llms_unenroll_student()  calls this function without having to instantiate the LLMS_Student class first
-	 *
-	 * @since    3.0.0
-	 * @version  3.26.0
 	 */
 	public function unenroll( $product_id, $trigger = 'any', $new_status = 'expired' ) {
 
-		// can only unenroll those are a currently enrolled
+		// Can only unenroll those that are a currently enrolled.
 		if ( ! $this->is_enrolled( $product_id, 'all', false ) ) {
 			return false;
 		}
 
-		// assume we can't unenroll
+		// Assume we can't unenroll.
 		$update = false;
 
-		// if trigger is "any" we'll just unenroll regardless of the trigger
+		// If trigger is "any" we'll unenroll regardless of the trigger.
 		if ( 'any' === $trigger ) {
 
 			$update = true;
@@ -1541,9 +1598,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			$enrollment_trigger = $this->get_enrollment_trigger( $product_id );
 
-			// no enrollment trigger exists b/c pre 3.0.0 enrollment, unenroll the user
+			// No enrollment trigger exists b/c pre 3.0.0 enrollment, unenroll the user as if it was an 'any' trigger.
 			if ( ! $enrollment_trigger ) {
 
+				/**
+				 * This filter allows customization of enrollments created prior to version 3.0.0
+				 *
+				 * Prior to 3.0.0 enrollments did not track an enrollment trigger so any unenrollments
+				 * performed on an enrollment in this state will automatically be unenrolled.
+				 *
+				 * Returning `false` will prevent unenrollments against enrollments which don't have
+				 * an enrollment trigger.
+				 *
+				 * @since 3.0.0
+				 *
+				 * @param bool $allow_unenrollment If true, allows unenrollment, otherwise prevents unenrollment.
+				 */
 				$update = apply_filters( 'lifterlms_legacy_unenrollment_action', true );
 
 			} elseif ( $enrollment_trigger == $trigger ) {
@@ -1551,41 +1621,64 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 				$update = true;
 
 			}
+
 		}
 
-		// update if we can
+		// Update if we can.
 		if ( $update ) {
 
-			// update enrollment for the product
+			// Update enrollment for the product.
 			if ( $this->insert_status_postmeta( $product_id, $new_status ) ) {
 
-				// update the cache
+				// Update the cache.
 				$this->cache_set( sprintf( 'enrollment_status_%d', $product_id ), $new_status );
 				$this->cache_delete( sprintf( 'date_enrolled_%d', $product_id ) );
 				$this->cache_delete( sprintf( 'date_updated_%d', $product_id ) );
 
-				// trigger actions based on product type
-				switch ( get_post_type( $product_id ) ) {
+				$post_type = str_replace( 'llms_', '', get_post_type( $product_id ) );
 
-					case 'course':
-						do_action( 'llms_user_removed_from_course', $this->get_id(), $product_id );
-						break;
+				/**
+				 * Trigger an action immediately following user unenrollment
+				 *
+				 * The dynamic portion of this hook, `{$post_type}` corresponds to the post type of the
+				 * `$product_id`. Note that any post type prefixed with `llms_` is stripped. For example
+				 * when triggered by a memebership (`llms_membership`) the hook will be `llms_user_removed_from_membership`.
+				 *
+				 * @since [version]
+				 *
+				 * @param int    $user_id    WP_User ID of the student
+				 * @param int    $product_id WP_Post ID of the product.
+				 * @param string $trigger    Enrollment trigger.
+				 * @param string $new_status New enrollment status of the student after the unenrollment has taken place.
+				 */
+				do_action( "llms_user_removed_from_{$post_type}", $this->get_id(), $product_id, $trigger, $new_status );
 
-					case 'llms_membership':
-						// also physically remove from the membership level & perform unenrollment
-						// on related products
-						$this->remove_membership_level( $product_id, $new_status );
-						do_action( 'llms_user_removed_from_membership_level', $this->get_id(), $product_id );
-						break;
+				// Run legacy action and trigger cascading unenrollments for membership relationships.
+				if ( 'membership' === $post_type ) {
+
+					// Users should be unenrolled from all courses they accessed through this membership.
+					$this->remove_membership_level( $product_id, $new_status );
+
+					/**
+					 * Execute the (deprecated) legacy action.
+					 *
+					 * @since      Unknown
+					 * @deprecated [version] Use `llms_user_removed_from_membership` instead for consistency with courses.
+					 *
+					 * @param int    $user_id    WP_User ID of the student
+					 * @param int    $product_id WP_Post ID of the product.
+					 */
+					do_action( 'llms_user_removed_from_membership_level', $this->get_id(), $product_id );
 
 				}
 
 				return true;
 
 			}
+
 		}
 
-		// return false if we didn't update
+		// Update was prevented.
 		return false;
 
 	}
