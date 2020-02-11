@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3.0
-Stable tag: 3.37.8
+Stable tag: 3.37.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,17 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.9 - 2020-02-11 =
+------------------------
+
++ Updated CSS classes used in privacy policy text suggestions per changes in WordPress core 5.3. Thanks [@garretthyder](https://github.com/garretthyder)!
++ Added privacy exported group descriptions. Thanks [@garretthyder](https://github.com/garretthyder)!
++ Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
++ Added option for admin settings fields to show an asterisk for required fields.
++ Added option for integration plugins can now add automatically generated "Settings" link to the plugins screen.
++ Bugfix: Fixed an IE compatibility issue related to usage of `Object.assign()`.
+
+
 = v3.37.8 - 2020-01-21 =
 ------------------------
 
@@ -624,11 +635,5 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Ensure that a course instructor is always set for courses.
 + Fixed `sales_page_url` not returned in `edit` context.
 + In `update_additional_object_fields()` method, use `WP_Error::$errors` in place of `WP_Error::has_errors()` to support WordPress version prior to 5.1.
-
-
-= v3.36.5 - 2019-11-05 =
-------------------------
-
-+ Add filter: `llms_user_caps_edit_others_posts_post_types` to allow 3rd parties to utilize core methods for determining if a user can manage another users LMS content on the admin panel.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
