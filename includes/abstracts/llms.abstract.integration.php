@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.21.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.21.1 Updated.
  * @since 3.33.1 Added `get_priority` method to allow reading of the protected priority property.
+ * @since [version] Added automatically generated "Settings" link to plugins screen.
  */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
@@ -54,6 +55,15 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	public $description_missing = '';
 
 	/**
+	 * Reference to the integration plugin's main plugin file basename
+	 *
+	 * In the configure() method call `plugin_basename()` on the main plugin file.
+	 *
+	 * @var string
+	 */
+	protected $plugin_basename = '';
+
+	/**
 	 * Integration Priority
 	 * Determines the order of the settings on the Integrations settings table
 	 * Don't be arrogant developers, your integration may not be the most important to the user
@@ -77,6 +87,10 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 		$this->configure();
 		add_filter( 'lifterlms_integrations_settings_' . $this->id, array( $this, 'add_settings' ), $this->priority, 1 );
 		do_action( 'llms_integration_' . $this->id . '_init', $this );
+
+		if ( ! empty( $this->plugin_basename ) ) {
+			add_action( "plugin_action_links_{$this->plugin_basename}", array( $this, 'plugin_action_links' ), 100, 4 );
+		}
 
 	}
 
@@ -212,6 +226,36 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 */
 	public function is_installed() {
 		return true;
+	}
+
+	/**
+	 * Add plugin settings Action Links
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $links Existing action links.
+	 * @param string $file Path to the plugin file, relative to the plugin directory.
+	 * @param array $data Plugin data
+	 * @param string $context Plugin's content (eg: active, invactive, etc...);
+	 * @return string[]
+	 */
+	public function plugin_action_links( $links, $file, $data, $context ) {
+
+		// Only add links if the plugin is active.
+		if ( in_array( $context, array( 'all', 'active' ), true ) ) {
+
+			$url = add_query_arg( array(
+				'page'    => 'llms-settings',
+				'tab'     => 'integrations',
+				'section' => $this->id,
+			), admin_url( 'admin.php' ) );
+
+			$links[] = '<a href="' . esc_url( $url ) . '">' . _x( 'Settings', 'Link text for integration plugin settings', 'lifterlms' ) . '</a>';
+
+		}
+
+
+		return $links;
 	}
 
 }
