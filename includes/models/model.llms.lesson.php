@@ -175,7 +175,7 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve an instance of LLMS_Course for the element's parent course
 	 *
-	 * @return   obj|null
+	 * @return   obj|null|LLMS_Course
 	 * @since    3.16.0
 	 * @version  3.16.0
 	 */
@@ -365,6 +365,33 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
+	 * Get the lesson prerequisite
+	 *
+	 * @return int [ID of the prerequisite post]
+	 */
+	public function get_prerequisite() {
+
+		$pre_req = false;
+
+		$course = $this->get_course();
+
+		// Check course level setting
+		if ( $course && $course->must_complete_sequentially() ){
+			// might be false so we are okay
+			$pre_req = $this->get_previous_lesson();
+		}
+
+		// Good ol' fashioned way
+		if ( ! $pre_req ){
+			if ( $this->has_prerequisite ) {
+				$pre_req = $this->prerequisite;
+			}
+		}
+
+		return apply_filters( 'llms_lesson_get_prerequisite', $pre_req, $this );
+	}
+
+	/**
 	 * Determine if lesson prereq is enabled and a prereq lesson is selected
 	 *
 	 * @return   boolean
@@ -373,7 +400,20 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function has_prerequisite() {
 
-		return ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
+		$has_pre_req = false;
+
+		$course = $this->get_course();
+
+		// check course level setting
+		if ( $course && $course->must_complete_sequentially() ){
+			$has_pre_req = true;
+		}
+
+		if ( ! $has_pre_req ){
+			$has_pre_req = ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
+		}
+
+		return apply_filters( 'llms_lesson_has_prerequisite', $has_pre_req, $this );
 
 	}
 
@@ -453,7 +493,6 @@ implements LLMS_Interface_Post_Audio
 
 	}
 
-
 	/**
 	 * Determine if a the lesson is marked as "free"
 	 *
@@ -522,16 +561,15 @@ implements LLMS_Interface_Post_Audio
 			}
 		}
 
+		// handling in the event of course level prerequisite settings
+		if ( $this->has_prerequisite() ){
+			$arr[ 'has_prerequisite' ] = 'yes';
+			$arr[ 'prerequisite' ] = $this->get_prerequisite();
+		}
+
 		return $arr;
 
 	}
-
-
-
-
-
-
-
 
 	public function update( $data ) {
 
@@ -604,21 +642,6 @@ implements LLMS_Interface_Post_Audio
 
 		return update_post_meta( $this->id, '_llms_parent_course', $course_id );
 
-	}
-
-	/**
-	 * Get the lesson prerequisite
-	 *
-	 * @return int [ID of the prerequisite post]
-	 */
-	public function get_prerequisite() {
-
-		if ( $this->has_prerequisite ) {
-
-			return $this->prerequisite;
-		} else {
-			return false;
-		}
 	}
 
 	public function has_content() {

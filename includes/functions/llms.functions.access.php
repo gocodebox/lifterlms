@@ -355,7 +355,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 
 	// otherwise return false
 	// no prereq
-	return false;
+	return apply_filters( 'llms_is_post_restricted_by_prerequisite', false, $post_id, $user_id );
 
 }
 

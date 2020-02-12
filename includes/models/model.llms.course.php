@@ -549,6 +549,15 @@ implements LLMS_Interface_Post_Audio
 	}
 
 	/**
+	 * Whether the course lessons must be completed sequentially
+	 *
+	 * @return bool
+	 */
+	public function must_complete_sequentially(){
+		return ( 'yes' === $this->get( 'complete_sequentially' ) );
+	}
+
+	/**
 	 * Determine if sales page redirection is enabled
 	 *
 	 * @return   string

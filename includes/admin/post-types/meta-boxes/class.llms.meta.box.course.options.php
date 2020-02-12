@@ -350,6 +350,17 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label'            => __( 'Capacity Reached Message', 'lifterlms' ),
 						'type'             => 'text',
 					),
+					// Require sequential completetion
+					array(
+						'is_controller' => true,
+						'type'          => 'checkbox',
+						'label'         => __( 'Enable Sequential Lesson Completion', 'lifterlms' ),
+						'desc'          => __( 'This will require that the lessons in the course be completed in order.', 'lifterlms' ),
+						'id'            => $this->prefix . 'complete_sequentially',
+						'class'         => '',
+						'value'         => 'yes',
+						'desc_class'    => 'd-3of4 t-3of4 m-1of2',
+					),
 				),
 			),
 		);
