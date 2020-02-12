@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.16.14
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -487,35 +487,48 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
 }
 
 /**
- * Determine if a post should bypass sitewide membership restrictions
- * If sitewide membership restriction is disabled, this will always return false
+ * Determine if a post should bypass sitewide membership restrictions.
+ * If sitewide membership restriction is disabled, this will always return false.
  *
- * This function replaces the now deprecated site_restricted_by_membership() (and has slightly different functionality)
+ * This function replaces the now deprecated site_restricted_by_membership() (and has slightly different functionality).
  *
- * @param    int $post_id  WP Post ID
- * @return   bool|int          if the post is not restricted (or there are not sitewide membership restrictions) returns false
- *                             if the post is restricted, returns the membership id required
- * @since    3.0.0
- * @version  3.0.0
+ * @since 3.0.0
+ * @since [version] Made sure to not apply the restriction on the WordPress page set as memebership's restriction redirection page.
+ *
+ * @param int $post_id WP Post ID.
+ * @return bool|int If the post is not restricted (or there are not sitewide membership restrictions) returns false.
+ *                  If the post is restricted, returns the membership id required.
  */
 function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = null ) {
 
 	$membership_id = absint( get_option( 'lifterlms_membership_required', '' ) );
 
-	// site is restricted to a membership
+	// site is restricted to a membership.
 	if ( ! empty( $membership_id ) ) {
 
+		$membership = new LLMS_Membership( $membership_id );
+
+		if ( ! $membership || ! is_a( $membership, 'LLMS_Membership' ) ) {
+			return false;
+		}
+
+		// Restricted contents redirection page id, if any.
+		$redirect_page_id = 'page' === $membership->get( 'restriction_redirect_type' ) ? $membership->get( 'redirect_page_id' ) : 0;
+
 		/**
-		 * Pages that can be bypassed when sitewide restrictions are enabled
+		 * Pages that can be bypassed when sitewide restrictions are enabled.
 		 */
 		$allowed = apply_filters(
 			'lifterlms_sitewide_restriction_bypass_ids',
-			array(
-				absint( $membership_id ), // the membership page the site is restricted to
-				absint( get_option( 'lifterlms_terms_page_id' ) ), // terms and conditions
-				llms_get_page_id( 'memberships' ), // membership archives
-				llms_get_page_id( 'myaccount' ), // lifterlms account page
-				llms_get_page_id( 'checkout' ), // lifterlms checkout page
+			array_filter(
+				array(
+					absint( $membership_id ), // the membership page the site is restricted to.
+					absint( get_option( 'lifterlms_terms_page_id' ) ), // terms and conditions.
+					llms_get_page_id( 'memberships' ), // membership archives.
+					llms_get_page_id( 'myaccount' ), // lifterlms account page.
+					llms_get_page_id( 'checkout' ), // lifterlms checkout page.
+					$redirect_page_id, // Restricted contents redirection page id.
+				)
 			)
 		);
 
