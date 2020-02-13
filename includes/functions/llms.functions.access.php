@@ -26,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @since [version] Made `$user_id` parameter optional for the function `llms_is_page_restricted`.
  *                Use strict comparison '===' in place of '=='.
  *                Call `in_array()` with strict comparison.
+ *                Excude the privacy policy from the sitewide membership restriction.
  */
 
 /**
@@ -586,6 +587,7 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since [version] Made sure to not apply the restriction on the WordPress page set as memebership's restriction redirection page.
+ *                  Excude the privacy policy from the restriction as well.
  *                  Call `in_array()` with strict comparison.
  *
  * @param int      $post_id WP Post ID.
@@ -621,6 +623,7 @@ function llms_is_post_restricted_by_sitewide_membership( $post_id, $user_id = nu
 					llms_get_page_id( 'memberships' ), // membership archives.
 					llms_get_page_id( 'myaccount' ), // lifterlms account page.
 					llms_get_page_id( 'checkout' ), // lifterlms checkout page.
+					absint( get_option( 'wp_page_for_privacy_policy' ) ), // wp privacy policy page.
 					$redirect_page_id, // Restricted contents redirection page id.
 				)
 			)
