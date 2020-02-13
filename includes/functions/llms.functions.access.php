@@ -353,8 +353,15 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 		}
 	}
 
-	// otherwise return false
-	// no prereq
+	/**
+	 * Allow external plugins to specify pre_requisite restrictions
+	 *
+	 * @since 3.37.1
+	 *
+	 * @param bool whether the post is already restricted
+	 * @param int the ID of the post
+	 * @param int the ID of the current user
+	 */
 	return apply_filters( 'llms_is_post_restricted_by_prerequisite', false, $post_id, $user_id );
 
 }

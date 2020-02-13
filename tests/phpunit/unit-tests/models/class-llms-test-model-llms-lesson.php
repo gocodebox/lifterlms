@@ -418,17 +418,39 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
-	 * Test the new functionality for the course level setting for prerequiesites
+	 * Test the has prerequisite method
+	 *
+	 * @return void
+	 *
+	 * @since 3.37.1
+	 * @version 3.37.1
 	 */
-	public function test_course_level_prerequisite()
+	public function test_has_prerequisite()
+	{
+
+		$lesson = new LLMS_Lesson( 'new', 'New Lesson' );
+
+		$this->assertFalse( $lesson->has_prerequisite() );
+
+		$lesson->set( 'has_prerequisite', 'yes' );
+		$this->assertTrue( $lesson->has_prerequisite() );
+	}
+
+	/**
+	 * Test has_prerequisite() when the course must be completed sequentially
+	 *
+	 * @return void
+	 *
+	 * @since 3.37.1
+	 * @version 3.37.1
+	 */
+	public function test_has_prerequisite_complete_sequentially_enabled()
 	{
 		/**
 		 * @var $course LLMS_Course
 		 */
 		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 3, 0, 0 )[0] );
 
-		// Set sequential completion
-		// @see $course->must_complete_sequentially();
 		$course->set( 'complete_sequentially', 'yes' );
 
 		/**
@@ -436,27 +458,119 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		 */
 		$lessons = $course->get_lessons();
 
-		foreach ( $lessons as $lesson ){
-
-			$prev_lesson_id = $lesson->get_previous_lesson();
-
-			if ( ! $prev_lesson_id ){
-
-				// Ensure has_prereq is false
-				$this->assertEquals( false, $lesson->has_prerequisite() );
-			}
-			else {
-
-				// Ensure pre_req is the same as the previous lesson ID
-				$this->assertEquals( $prev_lesson_id, $lesson->get_prerequisite() );
-
-				// test toArray
-				$array = $lesson->toArray();
-
-				$this->assertEquals( 'yes', $array[ 'has_prerequisite' ] );
-				$this->assertEquals( $prev_lesson_id, $array[ 'prerequisite' ] );
-			}
-		}
+		// First Lesson will not have a prerequisite because no lesson comes before it
+		$this->assertFalse( $lessons[0]->has_prerequisite() );
+		// Second & Third Lesson will have a prerequisite because a lesson comes before it
+		$this->assertTrue( $lessons[1]->has_prerequisite() );
+		$this->assertTrue( $lessons[2]->has_prerequisite() );
 	}
+
+	/**
+	 * Test has_prerequisite() when sequential completion is disabled
+	 *
+	 * @return void
+	 *
+	 * @since 3.37.1
+	 * @version 3.37.1
+	 */
+	public function test_has_prerequisite_complete_sequentially_disabled()
+	{
+		/**
+		 * @var $course LLMS_Course
+		 */
+		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 3, 0, 0 )[0] );
+
+		// Explicit
+		$course->set( 'complete_sequentially', 'no' );
+
+		/**
+		 * @var $lessons LLMS_Lesson[]
+		 */
+		$lessons = $course->get_lessons();
+
+		// No lessons will have prerequisites
+		$this->assertFalse( $lessons[0]->has_prerequisite() );
+		$this->assertFalse( $lessons[1]->has_prerequisite() );
+		$this->assertFalse( $lessons[2]->has_prerequisite() );
+	}
+
+	/**
+	 * Test the get_prerequisite() method
+	 *
+	 * @return void
+	 *
+	 * @since 3.37.1
+	 * @version 3.37.1
+	 */
+	public function test_get_prerequisite()
+	{
+		$lesson = new LLMS_Lesson( 'new', 'New Lesson' );
+
+		$this->assertFalse( $lesson->get_prerequisite() );
+
+		$lesson->set( 'has_prerequisite', 'yes' );
+		$lesson->set( 'prerequisite', 1234 );
+		$this->assertEquals( 1234, $lesson->get_prerequisite() );
+	}
+
+	/**
+	 * Test course_prerequisite() when the course must be completed sequentially
+	 *
+	 * @return void
+	 *
+	 * @since 3.37.1
+	 * @version 3.37.1
+	 */
+	public function test_get_prerequisite_complete_sequentially_enabled()
+	{
+		/**
+		 * @var $course LLMS_Course
+		 */
+		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 3, 0, 0 )[0] );
+
+		$course->set( 'complete_sequentially', 'yes' );
+
+		/**
+		 * @var $lessons LLMS_Lesson[]
+		 */
+		$lessons = $course->get_lessons();
+
+		// First Lesson will not have a prerequisite because no lesson comes before it
+		$this->assertFalse( $lessons[0]->get_prerequisite() );
+		// Second lesson will have first lesson as a prerequisite
+		$this->assertEquals( $lessons[0]->ID, $lessons[1]->get_prerequisite() );
+		// Third lesson will have second lesson as a prerequisite
+		$this->assertEquals( $lessons[1]->ID, $lessons[2]->get_prerequisite() );
+	}
+
+	/**
+	 * Test get_prerequisite() when sequential completion is disabled
+	 *
+	 * @return void
+	 *
+	 * @since 3.37.1
+	 * @version 3.37.1
+	 */
+	public function test_get_prerequisite_complete_sequentially_disabled()
+	{
+		/**
+		 * @var $course LLMS_Course
+		 */
+		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 3, 0, 0 )[0] );
+
+		// Explicit
+		$course->set( 'complete_sequentially', 'no' );
+
+		/**
+		 * @var $lessons LLMS_Lesson[]
+		 */
+		$lessons = $course->get_lessons();
+
+		// No lessons will have prerequisites
+		$this->assertFalse( $lessons[0]->get_prerequisite() );
+		$this->assertFalse( $lessons[1]->get_prerequisite() );
+		$this->assertFalse( $lessons[2]->get_prerequisite() );
+	}
+
 
 }

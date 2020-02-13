@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  * @since 3.36.0 Allow some fields to store values with quotes.
+ * @since 3.37.1 Added option to enable sequential completion
  */
 class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 
@@ -37,6 +38,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
+	 * @since 3.37.1 Added option to enable sequential completion
 	 *
 	 * @return array
 	 */
@@ -350,7 +352,6 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 						'label'            => __( 'Capacity Reached Message', 'lifterlms' ),
 						'type'             => 'text',
 					),
-					// Require sequential completetion
 					array(
 						'is_controller' => true,
 						'type'          => 'checkbox',

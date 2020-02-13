@@ -368,6 +368,8 @@ implements LLMS_Interface_Post_Audio
 	 * Get the lesson prerequisite
 	 *
 	 * @return int [ID of the prerequisite post]
+	 *
+	 * @since 3.37.1 added filter and compatibility for course level prerequisite setting
 	 */
 	public function get_prerequisite() {
 
@@ -379,15 +381,21 @@ implements LLMS_Interface_Post_Audio
 		if ( $course && $course->must_complete_sequentially() ){
 			// might be false so we are okay
 			$pre_req = $this->get_previous_lesson();
+
+		} else if( $this->has_prerequisite ){
+			// Good ol' fashioned way
+			$pre_req = $this->prerequisite;
+
 		}
 
-		// Good ol' fashioned way
-		if ( ! $pre_req ){
-			if ( $this->has_prerequisite ) {
-				$pre_req = $this->prerequisite;
-			}
-		}
-
+		/**
+		 * Allow plugins to modify the prerequisite property.
+		 *
+		 * @since 3.37.1
+		 *
+		 * @param $pre_req int|false the ID of the prerequisite or false if none is available
+		 * @param $this LLMS_Lesson the lesson object
+		 */
 		return apply_filters( 'llms_lesson_get_prerequisite', $pre_req, $this );
 	}
 
@@ -396,23 +404,32 @@ implements LLMS_Interface_Post_Audio
 	 *
 	 * @return   boolean
 	 * @since    3.0.0
+	 * @cince    3.37.1 Add filter and compatibility for course level prerequisite setting.
 	 * @version  3.0.0
 	 */
 	public function has_prerequisite() {
-
-		$has_pre_req = false;
 
 		$course = $this->get_course();
 
 		// check course level setting
 		if ( $course && $course->must_complete_sequentially() ){
+
 			$has_pre_req = true;
-		}
 
-		if ( ! $has_pre_req ){
+		} else {
+			// Good ol' fashioned way
 			$has_pre_req = ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
+
 		}
 
+		/**
+		 * Allow plugins to modify the has_prerequisite property.
+		 *
+		 * @since 3.37.1
+		 *
+		 * @param $has_pre_req bool whether the lesson has a prerequisite
+		 * @param $this LLMS_Lesson the lesson object
+		 */
 		return apply_filters( 'llms_lesson_has_prerequisite', $has_pre_req, $this );
 
 	}
@@ -549,6 +566,7 @@ implements LLMS_Interface_Post_Audio
 	 * @param    array $arr   data to be serialized
 	 * @return   array
 	 * @since    3.3.0
+	 * @since    3.37.1 Add additional context for the prerequisite
 	 * @version  3.16.0
 	 */
 	public function toArrayAfter( $arr ) {

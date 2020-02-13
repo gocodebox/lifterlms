@@ -43,6 +43,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since 3.37.1 Added must_complete_sequentially() method.
  */
 class LLMS_Course
 extends LLMS_Post_Model
@@ -552,6 +553,8 @@ implements LLMS_Interface_Post_Audio
 	 * Whether the course lessons must be completed sequentially
 	 *
 	 * @return bool
+	 * @since 3.37.1
+	 * @version 3.37.1
 	 */
 	public function must_complete_sequentially(){
 		return ( 'yes' === $this->get( 'complete_sequentially' ) );

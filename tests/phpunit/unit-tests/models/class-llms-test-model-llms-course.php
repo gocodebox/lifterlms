@@ -439,4 +439,72 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Tests the must_complete_sequentially method
+	 *
+	 * @return void
+	 * @since 3.37.1
+	 * @version 3.37.1
+	 */
+	public function test_must_complete_sequentially()
+	{
+
+		$course = new LLMS_Course( 'new', 'Course Name' );
+
+		$this->assertEquals( false, $course->must_complete_sequentially() );
+
+		$course->set( 'complete_sequentially', 'yes' );
+		$this->assertEquals( true, $course->must_complete_sequentially() );
+
+		$course->set( 'complete_sequentially', 'no' );
+		$this->assertEquals( false, $course->must_complete_sequentially() );
+	}
+
+	/**
+	 * Test the new functionality for the course level setting for prerequiesites
+	 *
+	 * @return void
+	 *
+	 * @since 3.37.1
+	 * @version 3.37.1
+	 */
+	public function test_course_level_prerequisite()
+	{
+		/**
+		 * @var $course LLMS_Course
+		 */
+		$course = llms_get_post( $this->generate_mock_courses( 1, 2, 3, 0, 0 )[0] );
+
+		// Set sequential completion
+		// @see $course->must_complete_sequentially();
+		$course->set( 'complete_sequentially', 'yes' );
+
+		/**
+		 * @var $lessons LLMS_Lesson[]
+		 */
+		$lessons = $course->get_lessons();
+
+		foreach ( $lessons as $lesson ){
+
+			$prev_lesson_id = $lesson->get_previous_lesson();
+
+			if ( ! $prev_lesson_id ){
+
+				// Ensure has_prereq is false
+				$this->assertEquals( false, $lesson->has_prerequisite() );
+			}
+			else {
+
+				// Ensure pre_req is the same as the previous lesson ID
+				$this->assertEquals( $prev_lesson_id, $lesson->get_prerequisite() );
+
+				// test toArray
+				$array = $lesson->toArray();
+
+				$this->assertEquals( 'yes', $array[ 'has_prerequisite' ] );
+				$this->assertEquals( $prev_lesson_id, $array[ 'prerequisite' ] );
+			}
+		}
+	}
+
 }
