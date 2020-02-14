@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Tests for LifterLMS Course Model
  * @group    LLMS_Course
@@ -23,80 +24,80 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
 	 * @since    3.4.0
 	 * @version  3.20.0
+	 * @return   array
 	 */
 	protected function get_properties() {
 		return array(
-			'audio_embed' => 'text',
-			'capacity' => 'absint',
-			'capacity_message' => 'text',
-			'course_closed_message' => 'text',
-			'course_opens_message' => 'text',
+			'audio_embed'                => 'text',
+			'capacity'                   => 'absint',
+			'capacity_message'           => 'text',
+			'course_closed_message'      => 'text',
+			'course_opens_message'       => 'text',
 			'content_restricted_message' => 'text',
-			'enable_capacity' => 'yesno',
-			'end_date' => 'text',
-			'enrollment_closed_message' => 'text',
-			'enrollment_end_date' => 'text',
-			'enrollment_opens_message' => 'text',
-			'enrollment_period' => 'yesno',
-			'enrollment_start_date' => 'text',
-			'has_prerequisite' => 'yesno',
-			'length' => 'text',
-			'prerequisite' => 'absint',
-			'prerequisite_track' => 'absint',
+			'enable_capacity'            => 'yesno',
+			'end_date'                   => 'text',
+			'enrollment_closed_message'  => 'text',
+			'enrollment_end_date'        => 'text',
+			'enrollment_opens_message'   => 'text',
+			'enrollment_period'          => 'yesno',
+			'enrollment_start_date'      => 'text',
+			'has_prerequisite'           => 'yesno',
+			'length'                     => 'text',
+			'prerequisite'               => 'absint',
+			'prerequisite_track'         => 'absint',
 			'sales_page_content_page_id' => 'absint',
-			'sales_page_content_type' => 'string',
-			'sales_page_content_url' => 'string',
-			'tile_featured_video' => 'yesno',
-			'time_period' => 'yesno',
-			'start_date' => 'text',
-			'video_embed' => 'text',
+			'sales_page_content_type'    => 'string',
+			'sales_page_content_url'     => 'string',
+			'tile_featured_video'        => 'yesno',
+			'time_period'                => 'yesno',
+			'start_date'                 => 'text',
+			'video_embed'                => 'text',
 		);
 	}
 
 	/**
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
-	 * @return   array
 	 * @since    3.4.0
 	 * @version  3.20.0
+	 * @return   array
 	 */
 	protected function get_data() {
 		return array(
-			'audio_embed' => 'http://example.tld/audio_embed',
-			'capacity' => 25,
-			'capacity_message' => 'Capacity Reached',
-			'course_closed_message' => 'Course has closed',
-			'course_opens_message' => 'Course is not yet open',
+			'audio_embed'                => 'http://example.tld/audio_embed',
+			'capacity'                   => 25,
+			'capacity_message'           => 'Capacity Reached',
+			'course_closed_message'      => 'Course has closed',
+			'course_opens_message'       => 'Course is not yet open',
 			'content_restricted_message' => 'You cannot access this content',
-			'enable_capacity' => 'yes',
-			'end_date' => '2017-05-05',
-			'enrollment_closed_message' => 'Enrollment is closed',
-			'enrollment_end_date' => '2017-05-05',
-			'enrollment_opens_message' => 'Enrollment opens later',
-			'enrollment_period' => 'yes',
-			'enrollment_start_date' => '2017-05-01',
-			'has_prerequisite' => 'no',
-			'length' => '1 year',
-			'prerequisite' => 0,
-			'prerequisite_track' => 0,
-			'tile_featured_video' => 'yes',
-			'time_period' => 'yes',
+			'enable_capacity'            => 'yes',
+			'end_date'                   => '2017-05-05',
+			'enrollment_closed_message'  => 'Enrollment is closed',
+			'enrollment_end_date'        => '2017-05-05',
+			'enrollment_opens_message'   => 'Enrollment opens later',
+			'enrollment_period'          => 'yes',
+			'enrollment_start_date'      => '2017-05-01',
+			'has_prerequisite'           => 'no',
+			'length'                     => '1 year',
+			'prerequisite'               => 0,
+			'prerequisite_track'         => 0,
+			'tile_featured_video'        => 'yes',
+			'time_period'                => 'yes',
 			'sales_page_content_page_id' => 0,
-			'sales_page_content_type' => 'none',
-			'sales_page_content_url' => 'https://lifterlms.com',
-			'start_date' => '2017-05-01',
-			'video_embed' => 'http://example.tld/video_embed',
+			'sales_page_content_type'    => 'none',
+			'sales_page_content_url'     => 'https://lifterlms.com',
+			'start_date'                 => '2017-05-01',
+			'video_embed'                => 'http://example.tld/video_embed',
 		);
 	}
 
 	/**
 	 * Test the get_available_points() method
-	 * @return   [type]
 	 * @since    3.24.0
 	 * @version  3.24.0
+	 * @return   [type]
 	 */
 	public function test_get_available_points() {
 
@@ -118,9 +119,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test Audio and Video Embeds
-	 * @return   void
 	 * @since    3.4.0
 	 * @version  3.4.0
+	 * @return   void
 	 */
 	public function test_get_embeds() {
 
@@ -157,13 +158,13 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test get percent complete from course
-	 * @return   void
 	 * @since    3.17.2
 	 * @version  3.17.2
+	 * @return   void
 	 */
 	public function test_get_percent_complete() {
 
-		$course = llms_get_post( $this->generate_mock_courses( 1, 4, 4, 0, 0 )[0] );
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 4, 4, 0, 0 )[0] );
 		$student = $this->get_mock_student();
 
 		$student->enroll( $course->get( 'id' ) );
@@ -194,15 +195,15 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test prerequisite functions related to courses
-	 * @return   void
 	 * @since    3.4.0
 	 * @version  3.7.3
+	 * @return   void
 	 */
 	public function test_get_prerequisites() {
 
-		$course = new LLMS_Course( 'new', 'Course Name' );
+		$course        = new LLMS_Course( 'new', 'Course Name' );
 		$prereq_course = new LLMS_Course( 'new', 'Course Prereq' );
-		$prereq_track = wp_create_term( 'test track', 'course_track' );
+		$prereq_track  = wp_create_term( 'test track', 'course_track' );
 
 		// no prereqs
 		$this->assertFalse( $course->has_prerequisite( 'any' ) );
@@ -245,9 +246,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the get lessons function
-	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.12.0
+	 * @return   void
 	 */
 	public function test_get_lessons() {
 
@@ -256,21 +257,21 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		// get just ids
 		$lessons = $course->get_lessons( 'ids' );
 		$this->assertEquals( 4, count( $lessons ) );
-		array_map( function( $id ) {
+		array_map( function ( $id ) {
 			$this->assertTrue( is_numeric( $id ) );
 		}, $lessons );
 
 		// wp post objects
 		$lessons = $course->get_lessons( 'posts' );
 		$this->assertEquals( 4, count( $lessons ) );
-		array_map( function( $post ) {
+		array_map( function ( $post ) {
 			$this->assertTrue( is_a( $post, 'WP_Post' ) );
 		}, $lessons );
 
 		// lesson objects
 		$lessons = $course->get_lessons( 'lessons' );
 		$this->assertEquals( 4, count( $lessons ) );
-		array_map( function( $lesson ) {
+		array_map( function ( $lesson ) {
 			$this->assertTrue( is_a( $lesson, 'LLMS_Lesson' ) );
 		}, $lessons );
 
@@ -278,9 +279,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the get quizzes function
-	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.12.0
+	 * @return   void
 	 */
 	public function test_get_quizzes() {
 
@@ -288,7 +289,7 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 		$quizzes = $course->get_quizzes();
 		$this->assertEquals( 3, count( $quizzes ) );
-		array_map( function( $id ) {
+		array_map( function ( $id ) {
 			$this->assertTrue( is_numeric( $id ) );
 		}, $quizzes );
 
@@ -296,9 +297,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test get_sales_page_url method
-	 * @return   void
 	 * @since    3.20.0
 	 * @version  3.20.0
+	 * @return   void
 	 */
 	public function test_get_sales_page_url() {
 
@@ -325,9 +326,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the get sections function
-	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.12.0
+	 * @return   void
 	 */
 	public function test_get_sections() {
 
@@ -336,21 +337,21 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		// get just ids
 		$sections = $course->get_sections( 'ids' );
 		$this->assertEquals( 4, count( $sections ) );
-		array_map( function( $id ) {
+		array_map( function ( $id ) {
 			$this->assertTrue( is_numeric( $id ) );
 		}, $sections );
 
 		// wp post objects
 		$sections = $course->get_sections( 'posts' );
 		$this->assertEquals( 4, count( $sections ) );
-		array_map( function( $post ) {
+		array_map( function ( $post ) {
 			$this->assertTrue( is_a( $post, 'WP_Post' ) );
 		}, $sections );
 
 		// section objects
 		$sections = $course->get_sections( 'sections' );
 		$this->assertEquals( 4, count( $sections ) );
-		array_map( function( $section ) {
+		array_map( function ( $section ) {
 			$this->assertTrue( is_a( $section, 'LLMS_Section' ) );
 		}, $sections );
 
@@ -358,9 +359,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the get students function
-	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.12.0
+	 * @return   void
 	 */
 	public function test_get_students() {
 
@@ -378,9 +379,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the has_capacity function
-	 * @return   void
 	 * @since    3.12.0
 	 * @version  3.12.0
+	 * @return   void
 	 */
 	public function test_has_capacity() {
 
@@ -415,9 +416,9 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test the has_sales_page_redirect method
-	 * @return   void
 	 * @since    3.20.0
 	 * @version  3.20.0
+	 * @return   void
 	 */
 	public function test_has_sales_page_redirect() {
 
@@ -442,12 +443,11 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Tests the must_complete_sequentially method
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_must_complete_sequentially()
-	{
+	public function test_must_complete_sequentially() {
 
 		$course = new LLMS_Course( 'new', 'Course Name' );
 
@@ -463,13 +463,12 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the new functionality for the course level setting for prerequiesites
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
 	 *
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_course_level_prerequisite()
-	{
+	public function test_course_level_prerequisite() {
 		/**
 		 * @var $course LLMS_Course
 		 */
@@ -484,16 +483,15 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 		 */
 		$lessons = $course->get_lessons();
 
-		foreach ( $lessons as $lesson ){
+		foreach ( $lessons as $lesson ) {
 
 			$prev_lesson_id = $lesson->get_previous_lesson();
 
-			if ( ! $prev_lesson_id ){
+			if ( ! $prev_lesson_id ) {
 
 				// Ensure has_prereq is false
 				$this->assertEquals( false, $lesson->has_prerequisite() );
-			}
-			else {
+			} else {
 
 				// Ensure pre_req is the same as the previous lesson ID
 				$this->assertEquals( $prev_lesson_id, $lesson->get_prerequisite() );
@@ -501,8 +499,8 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 				// test toArray
 				$array = $lesson->toArray();
 
-				$this->assertEquals( 'yes', $array[ 'has_prerequisite' ] );
-				$this->assertEquals( $prev_lesson_id, $array[ 'prerequisite' ] );
+				$this->assertEquals( 'yes', $array['has_prerequisite'] );
+				$this->assertEquals( $prev_lesson_id, $array['prerequisite'] );
 			}
 		}
 	}

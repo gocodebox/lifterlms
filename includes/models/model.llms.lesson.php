@@ -2,10 +2,10 @@
 /**
  * LifterLMS Lesson Model.
  *
+ * @since   1.0.0
+ * @version 3.36.2
  * @package LifterLMS/Models
  *
- * @since 1.0.0
- * @version 3.36.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,42 +17,42 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.29.0 Unknown.
  * @since 3.36.2 When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
  *
- * @property $audio_embed (string) Audio embed URL
- * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
- * @property $days_before_available (int) The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
- * @property $drip_method (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
- * @property $free_lesson (yesno) Yes if the lesson is free
- * @property $has_prerequisite (yesno) Yes if the lesson has a prereq lesson
- * @property $order (int) Lesson's order within its parent section
- * @property $points (absint) Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
- * @property $prerequisite (int) WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'
- * @property $parent_course (int) WP Post ID of the course the lesson belongs to
- * @property $parent_section (int) WP Post ID of the section the lesson belongs to
- * @property $quiz (int) WP Post ID of the llms_quiz
- * @property $quiz_enabled (yesno) Whether or not the attached quiz is enabled for students
- * @property $require_passing_grade (yesno) Whether of not students have to pass the quiz to advance to the next lesson
+ * @property $audio_embed                      (string) Audio embed URL
+ * @property $date_available                   (string/date) Date when lesson becomes available, applies when $drip_method is "date"
+ * @property $days_before_available            (int) The number of days before the lesson is available, applies when $drip_method is "enrollment" or "start"
+ * @property $drip_method                      (string) What sort of drip method to utilize [''(none)|date|enrollment|start|prerequisite]
+ * @property $free_lesson                      (yesno) Yes if the lesson is free
+ * @property $has_prerequisite                 (yesno) Yes if the lesson has a prereq lesson
+ * @property $order                            (int) Lesson's order within its parent section
+ * @property $points                           (absint) Number of points assigned to the lesson, used to calculate the weight of the lesson when grading courses
+ * @property $prerequisite                     (int) WP Post ID of the prerequisite lesson, only if $has_prerequisite is 'yes'
+ * @property $parent_course                    (int) WP Post ID of the course the lesson belongs to
+ * @property $parent_section                   (int) WP Post ID of the section the lesson belongs to
+ * @property $quiz                             (int) WP Post ID of the llms_quiz
+ * @property $quiz_enabled                     (yesno) Whether or not the attached quiz is enabled for students
+ * @property $require_passing_grade            (yesno) Whether of not students have to pass the quiz to advance to the next lesson
  * @property $require_assignment_passing_grade (yesno) Whether of not students have to pass the assignment to advance to the next lesson
- * @property $time_available (string) Optional time to make lesson available on $date_available when $drip_method is "date"
- * @property $video_embed (string) Video embed URL
+ * @property $time_available                   (string) Optional time to make lesson available on $date_available when $drip_method is "date"
+ * @property $video_embed                      (string) Video embed URL
  */
 class LLMS_Lesson
-extends LLMS_Post_Model
-implements LLMS_Interface_Post_Audio
-		 , LLMS_Interface_Post_Video {
+	extends LLMS_Post_Model
+	implements LLMS_Interface_Post_Audio
+	, LLMS_Interface_Post_Video {
 
 	protected $properties = array(
 
-		'order'                            => 'absint',
+		'order'                 => 'absint',
 
 		// drippable
-		'days_before_available'            => 'absint',
-		'date_available'                   => 'text',
-		'drip_method'                      => 'text',
-		'time_available'                   => 'text',
+		'days_before_available' => 'absint',
+		'date_available'        => 'text',
+		'drip_method'           => 'text',
+		'time_available'        => 'text',
 
 		// parent element
-		'parent_course'                    => 'absint',
-		'parent_section'                   => 'absint',
+		'parent_course'         => 'absint',
+		'parent_section'        => 'absint',
 
 		'audio_embed'                      => 'text',
 		'free_lesson'                      => 'yesno',
@@ -73,24 +73,24 @@ implements LLMS_Interface_Post_Audio
 	 * Array of default property values
 	 * key => default value
 	 *
-	 * @var  array
 	 * @since   3.24.0
 	 * @version 3.24.0
+	 * @var  array
 	 */
 	protected $property_defaults = array(
 		'points' => 1,
 	);
 
-	protected $db_post_type    = 'lesson';
+	protected $db_post_type = 'lesson';
 	protected $model_post_type = 'lesson';
 
 	/**
 	 * Attempt to get oEmbed for an audio provider
 	 * Falls back to the [audio] shortcode if the oEmbed fails
 	 *
-	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.17.0
+	 * @return   string
 	 */
 	public function get_audio() {
 		return $this->get_embed( 'audio' );
@@ -103,7 +103,8 @@ implements LLMS_Interface_Post_Audio
 	 * @since 3.16.0
 	 * @since 3.36.2 Add available number of days to the course start date only if there's a course start date.
 	 *
-	 * @param  string $format Date format (passed to date_i18n()) (defaults to WP Core date + time formats)
+	 * @param string $format Date format (passed to date_i18n()) (defaults to WP Core date + time formats)
+	 *
 	 * @return string
 	 */
 	public function get_available_date( $format = '' ) {
@@ -175,9 +176,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve an instance of LLMS_Course for the element's parent course
 	 *
-	 * @return   obj|null|LLMS_Course
 	 * @since    3.16.0
 	 * @version  3.16.0
+	 * @return   obj|null|LLMS_Course
 	 */
 	public function get_course() {
 
@@ -194,10 +195,12 @@ implements LLMS_Interface_Post_Audio
 	 * An array of default arguments to pass to $this->create()
 	 * when creating a new post
 	 *
-	 * @param    array $args   args of data to be passed to wp_insert_post
-	 * @return   array
 	 * @since    3.13.0
 	 * @version  3.13.0
+	 *
+	 * @param array $args args of data to be passed to wp_insert_post
+	 *
+	 * @return   array
 	 */
 	protected function get_creation_args( $args = null ) {
 
@@ -234,10 +237,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieves the lesson's order within its parent section
 	 *
-	 * @todo  this should be deprecated
-	 * @return int
-	 * @since  1.0.0
+	 * @since    1.0.0
 	 * @version  3.0.0
+	 * @return int
+	 * @todo     this should be deprecated
 	 */
 	public function get_order() {
 		return $this->get( 'order' );
@@ -246,9 +249,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get parent course id
 	 *
-	 * @return  int
 	 * @since   1.0.0
 	 * @version 3.0.0
+	 * @return  int
 	 */
 	public function get_parent_course() {
 		return absint( get_post_meta( $this->get( 'id' ), '_llms_parent_course', true ) );
@@ -257,9 +260,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get parent section id
 	 *
-	 * @return  int
 	 * @since   1.0.0
 	 * @version 3.0.0
+	 * @return  int
 	 */
 	public function get_parent_section() {
 		return absint( get_post_meta( $this->get( 'id' ), '_llms_parent_section', true ) );
@@ -268,9 +271,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get CSS classes to display on the course syllabus .llms-lesson-preview element
 	 *
-	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
+	 * @return   string
 	 */
 	public function get_preview_classes() {
 
@@ -292,9 +295,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get HTML of the icon to display in the .llms-lesson-preview element on the syllabus
 	 *
-	 * @return   string
 	 * @since    3.0.0
 	 * @version  3.0.0
+	 * @return   string
 	 */
 	public function get_preview_icon_html() {
 
@@ -320,9 +323,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve an instance of LLMS_Course for the elements's parent section
 	 *
-	 * @return   obj|null
 	 * @since    3.16.0
 	 * @version  3.16.0
+	 * @return   obj|null
 	 */
 	public function get_section() {
 
@@ -338,9 +341,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieve an object for the assigned quiz (if a quiz is assigned )
 	 *
-	 * @return   obj|false
 	 * @since    3.3.0
 	 * @version  3.16.0
+	 * @return   obj|false
 	 */
 	public function get_quiz() {
 		if ( $this->has_quiz() ) {
@@ -349,6 +352,7 @@ implements LLMS_Interface_Post_Audio
 				return $quiz;
 			}
 		}
+
 		return false;
 	}
 
@@ -356,9 +360,9 @@ implements LLMS_Interface_Post_Audio
 	 * Attempt to get oEmbed for a video provider
 	 * Falls back to the [video] shortcode if the oEmbed fails
 	 *
-	 * @return   string
 	 * @since    1.0.0
 	 * @version  3.17.0
+	 * @return   string
 	 */
 	public function get_video() {
 		return $this->get_embed( 'video' );
@@ -367,9 +371,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get the lesson prerequisite
 	 *
-	 * @return int [ID of the prerequisite post]
-	 *
 	 * @since 3.37.1 added filter and compatibility for course level prerequisite setting
+	 * @return int ID of the prerequisite post
+	 *
 	 */
 	public function get_prerequisite() {
 
@@ -378,12 +382,12 @@ implements LLMS_Interface_Post_Audio
 		$course = $this->get_course();
 
 		// Check course level setting.
-		if ( $course && $course->must_complete_sequentially() ){
-			// might be false so we are okay
+		if ( $course && $course->must_complete_sequentially() ) {
+			// Might be false so we are okay.
 			$pre_req = $this->get_previous_lesson();
 
-		} else if( $this->has_prerequisite ){
-			// Good ol' fashioned way
+		} else if ( $this->has_prerequisite ) {
+			// Good ol' fashioned way.
 			$pre_req = $this->prerequisite;
 
 		}
@@ -394,7 +398,7 @@ implements LLMS_Interface_Post_Audio
 		 * @since 3.37.1
 		 *
 		 * @param $pre_req int|false the ID of the prerequisite or false if none is available
-		 * @param $this LLMS_Lesson the lesson object
+		 * @param $this    LLMS_Lesson the lesson object
 		 */
 		return apply_filters( 'llms_lesson_get_prerequisite', $pre_req, $this );
 	}
@@ -402,22 +406,22 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if lesson prereq is enabled and a prereq lesson is selected
 	 *
-	 * @return   boolean
 	 * @since    3.0.0
-	 * @cince    3.37.1 Add filter and compatibility for course level prerequisite setting.
+	 * @since    3.37.1 Add filter and compatibility for course level prerequisite setting.
 	 * @version  3.0.0
+	 * @return   boolean
 	 */
 	public function has_prerequisite() {
 
 		$course = $this->get_course();
 
-		// check course level setting
-		if ( $course && $course->must_complete_sequentially() ){
+		// Check course level setting.
+		if ( $course && $course->must_complete_sequentially() ) {
 
 			$has_pre_req = true;
 
 		} else {
-			// Good ol' fashioned way
+			// Good ol' fashioned way.
 			$has_pre_req = ( 'yes' == $this->get( 'has_prerequisite' ) && $this->get( 'prerequisite' ) );
 
 		}
@@ -428,7 +432,7 @@ implements LLMS_Interface_Post_Audio
 		 * @since 3.37.1
 		 *
 		 * @param $has_pre_req bool whether the lesson has a prerequisite
-		 * @param $this LLMS_Lesson the lesson object
+		 * @param $this        LLMS_Lesson the lesson object
 		 */
 		return apply_filters( 'llms_lesson_has_prerequisite', $has_pre_req, $this );
 
@@ -439,13 +443,14 @@ implements LLMS_Interface_Post_Audio
 	 * Ensures that lessons created via the builder with "New Lesson" as the title (default slug "new-lesson-{$num}")
 	 * have their slug renamed when the title is renamed for the first time
 	 *
-	 * @return   bool
 	 * @since    3.14.8
 	 * @version  3.14.8
+	 * @return   bool
 	 */
 	public function has_modified_slug() {
 
 		$default = sanitize_title( __( 'New Lesson', 'lifterlms' ) );
+
 		return ( false === strpos( $this->get( 'name' ), $default ) );
 
 	}
@@ -453,9 +458,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if a quiz is assigned to this lesson
 	 *
-	 * @return   boolean
 	 * @since    3.3.0
 	 * @version  3.29.0
+	 * @return   boolean
 	 */
 	public function has_quiz() {
 		return $this->get( 'quiz' ) ? true : false;
@@ -466,9 +471,9 @@ implements LLMS_Interface_Post_Audio
 	 * If no settings, this will return true if the posts's published
 	 * date is in the past
 	 *
-	 * @return   boolean
 	 * @since    3.16.0
 	 * @version  3.16.0
+	 * @return   boolean
 	 */
 	public function is_available() {
 
@@ -489,11 +494,13 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if the lesson has been completed by a specific user
 	 *
-	 * @param   int $user_id  WP_User ID of a student
-	 * @return  bool
 	 * @since   1.0.0
 	 * @version 3.0.0  refactored to utilize LLMS_Student->is_complete()
 	 *                 added $user_id param
+	 *
+	 * @param int $user_id WP_User ID of a student
+	 *
+	 * @return  bool
 	 */
 	public function is_complete( $user_id = null ) {
 
@@ -513,9 +520,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if a the lesson is marked as "free"
 	 *
-	 * @return   boolean
 	 * @since    3.0.0
 	 * @version  3.0.0
+	 * @return   boolean
 	 */
 	public function is_free() {
 		return ( 'yes' === $this->get( 'free_lesson' ) );
@@ -524,9 +531,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Determine if the lesson is an orphan
 	 *
-	 * @return   bool
 	 * @since    3.14.8
 	 * @version  3.14.8
+	 * @return   bool
 	 */
 	public function is_orphan() {
 
@@ -551,9 +558,9 @@ implements LLMS_Interface_Post_Audio
 	 * Determines if a quiz is enabled for the lesson
 	 * Lesson must have a quiz and the quiz must be enabled
 	 *
-	 * @return   bool
 	 * @since    3.16.0
 	 * @version  3.18.0
+	 * @return   bool
 	 */
 	public function is_quiz_enabled() {
 		return ( $this->has_quiz() && llms_parse_bool( $this->get( 'quiz_enabled' ) ) && 'publish' === get_post_status( $this->get( 'quiz' ) ) );
@@ -563,11 +570,13 @@ implements LLMS_Interface_Post_Audio
 	 * Add data to the course model when converted to array
 	 * Called before data is sorted and returned by $this->jsonSerialize()
 	 *
-	 * @param    array $arr   data to be serialized
-	 * @return   array
 	 * @since    3.3.0
 	 * @since    3.37.1 Add additional context for the prerequisite
 	 * @version  3.16.0
+	 *
+	 * @param array $arr data to be serialized
+	 *
+	 * @return   array
 	 */
 	public function toArrayAfter( $arr ) {
 
@@ -580,9 +589,9 @@ implements LLMS_Interface_Post_Audio
 		}
 
 		// handling in the event of course level prerequisite settings
-		if ( $this->has_prerequisite() ){
-			$arr[ 'has_prerequisite' ] = 'yes';
-			$arr[ 'prerequisite' ] = $this->get_prerequisite();
+		if ( $this->has_prerequisite() ) {
+			$arr['has_prerequisite'] = 'yes';
+			$arr['prerequisite']     = $this->get_prerequisite();
 		}
 
 		return $arr;
@@ -624,7 +633,8 @@ implements LLMS_Interface_Post_Audio
 	 * Set parent section
 	 * Set's parent section in database
 	 *
-	 * @param [int] $meta [id section post]
+	 * @param  [int] $meta [id section post]
+	 *
 	 * @return [mixed] $meta [if mta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if section id is already parent
 	 */
@@ -638,8 +648,9 @@ implements LLMS_Interface_Post_Audio
 	 * Set parent section
 	 * Set's parent section in database
 	 *
-	 * @param [int] $meta [id section post]
-	 * @return [mixed] $meta [if mta didn't exist returns the meta_id else t/f if update success]
+	 * @param  [int] $meta [id section post]
+	 *
+	 * @return [mixed] $meta [if meta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if section id is already parent
 	 */
 	public function set_order( $order ) {
@@ -652,7 +663,8 @@ implements LLMS_Interface_Post_Audio
 	 * Set parent course
 	 * Set's parent course in database
 	 *
-	 * @param [int] $meta [id course post]
+	 * @param  [int] $meta [id course post]
+	 *
 	 * @return [mixed] $meta [if meta didn't exist returns the meta_id else t/f if update success]
 	 * Returns False if course id is already parent
 	 */
@@ -674,9 +686,9 @@ implements LLMS_Interface_Post_Audio
 	 * Get Next lesson
 	 * Finds and returns next lesson id
 	 *
-	 * @return   int [ID of next lesson]
 	 * @since    1.0.0
 	 * @version  3.24.0
+	 * @return   int [ID of next lesson]
 	 */
 	public function get_next_lesson() {
 
@@ -754,9 +766,9 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get previous lesson id
 	 *
-	 * @return   int [ID of previous lesson]
 	 * @since    1.0.0
 	 * @version  3.24.0
+	 * @return   int [ID of previous lesson]
 	 */
 	public function get_previous_lesson() {
 
@@ -830,6 +842,7 @@ implements LLMS_Interface_Post_Audio
 					if ( ! $lessons ) {
 						return false;
 					}
+
 					return $lessons[ count( $lessons ) - 1 ]->ID;
 				} else {
 					return false;
@@ -858,10 +871,10 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get the quiz associated with the lesson
 	 *
-	 * @return     false|int
-	 * @deprecated 3.0.2
 	 * @since      1.0.0
 	 * @version    3.16.0
+	 * @deprecated 3.0.2
+	 * @return     false|int
 	 */
 	public function get_assigned_quiz() {
 
@@ -879,8 +892,8 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Get the lesson drip days
 	 *
-	 * @return      int [ID of the prerequisite post]
 	 * @deprecated  3.16.0
+	 * @return      int [ID of the prerequisite post]
 	 */
 	public function get_drip_days() {
 
@@ -896,16 +909,21 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Marks the current lesson complete
 	 *
-	 * @param      int     $user_id              WP User ID of the user
-	 * @param      boolean $prevent_autoadvance  Deprecated
-	 * @return     boolean
-	 * @deprecated 3.3.1
 	 * @since      1.0.0
 	 * @version    3.3.1
+	 *
+	 * @deprecated 3.3.1
+	 *
+	 * @param boolean $prevent_autoadvance Deprecated
+	 *
+	 * @param int     $user_id             WP User ID of the user
+	 *
+	 * @return     boolean
 	 */
 	public function mark_complete( $user_id, $prevent_autoadvance = false ) {
 
 		llms_deprecated_function( 'LLMS_Lesson::mark_complete()', '3.3.1', 'llms_mark_complete()' );
+
 		return llms_mark_complete( $user_id, $this->get( 'id' ), 'lesson', 'lesson_' . $this->get( 'id' ) );
 
 	}

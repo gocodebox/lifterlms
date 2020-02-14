@@ -1,15 +1,16 @@
 <?php
+
 /**
  * Tests for LifterLMS Lesson Model
  * @group     post_models
  * @group     lessons
  *
- * @since  3.14.8
- * @since 3.29.0 Unknown.
- * @since 3.36.2 Added tests on lesson's availability with drip method set as 3 days after
+ * @since     3.14.8
+ * @since     3.29.0 Unknown.
+ * @since     3.36.2 Added tests on lesson's availability with drip method set as 3 days after
  *               the course start date and empty course start date.
  *               Also added `$date_delta` property to be used to test dates against current time.
- * @version 3.36.2
+ * @version   3.36.2
  */
 class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
@@ -31,38 +32,39 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @var integer
 	 */
 	private $date_delta = 60;
+
 	/**
 	 * Get properties, used by test_getters_setters
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
 	 * @since    3.14.8
 	 * @version  3.16.11
+	 * @return   array
 	 */
 	protected function get_properties() {
 		return array(
 
-			'order' => 'absint',
+			'order'                 => 'absint',
 
 			// drippable
 			'days_before_available' => 'absint',
-			'date_available' => 'text',
-			'drip_method' => 'text',
-			'time_available' => 'text',
+			'date_available'        => 'text',
+			'drip_method'           => 'text',
+			'time_available'        => 'text',
 
 			// parent element
-			'parent_course' => 'absint',
-			'parent_section' => 'absint',
+			'parent_course'         => 'absint',
+			'parent_section'        => 'absint',
 
-			'audio_embed' => 'text',
-			'free_lesson' => 'yesno',
-			'has_prerequisite' => 'yesno',
-			'prerequisite' => 'absint',
+			'audio_embed'           => 'text',
+			'free_lesson'           => 'yesno',
+			'has_prerequisite'      => 'yesno',
+			'prerequisite'          => 'absint',
 			'require_passing_grade' => 'yesno',
-			'video_embed' => 'text',
+			'video_embed'           => 'text',
 
 			// quizzes
-			'quiz' => 'absint',
-			'quiz_enabled' => 'yesno',
+			'quiz'                  => 'absint',
+			'quiz_enabled'          => 'yesno',
 
 		);
 	}
@@ -70,27 +72,27 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Get data to fill a create post with
 	 * This is used by test_getters_setters
-	 * @return   array
 	 * @since    3.14.8
 	 * @version  3.16.11
+	 * @return   array
 	 */
 	protected function get_data() {
 		return array(
-			'audio_embed' => 'http://example.tld/audio_embed',
-			'date_available' => '11/21/2018',
+			'audio_embed'           => 'http://example.tld/audio_embed',
+			'date_available'        => '11/21/2018',
 			'days_before_available' => '24',
-			'drip_method' => 'date',
-			'free_lesson' => 'no',
-			'has_prerequisite' => 'yes',
-			'order' => 1,
-			'parent_course' => 85,
-			'parent_section' => 32,
-			'prerequisite' => 344,
-			'quiz' => 123,
-			'quiz_enabled' => 'yes',
+			'drip_method'           => 'date',
+			'free_lesson'           => 'no',
+			'has_prerequisite'      => 'yes',
+			'order'                 => 1,
+			'parent_course'         => 85,
+			'parent_section'        => 32,
+			'prerequisite'          => 344,
+			'quiz'                  => 123,
+			'quiz_enabled'          => 'yes',
 			'require_passing_grade' => 'yes',
-			'time_available' => '12:34 PM',
-			'video_embed' => 'http://example.tld/video_embed',
+			'time_available'        => '12:34 PM',
+			'video_embed'           => 'http://example.tld/video_embed',
 		);
 	}
 
@@ -120,10 +122,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 		$format = 'Y-m-d';
 
 		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
-		$course = llms_get_post( $course_id );
-		$lesson = $course->get_lessons()[0];
+		$course    = llms_get_post( $course_id );
+		$lesson    = $course->get_lessons()[0];
 		$lesson_id = $lesson->get( 'id' );
-		$student = $this->get_mock_student();
+		$student   = $this->get_mock_student();
 		wp_set_current_user( $student->get_id() );
 		$student->enroll( $course_id );
 
@@ -181,9 +183,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test Audio and Video Embeds
-	 * @return   void
 	 * @since    3.14.8
 	 * @version  3.14.8
+	 * @return   void
 	 */
 	public function test_get_embeds() {
 
@@ -234,9 +236,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Test has_modified_slug function
-	 * @return   void
 	 * @since    3.14.8
 	 * @version  3.14.8
+	 * @return   void
 	 */
 	public function test_has_modified_slug() {
 
@@ -260,9 +262,9 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the has_quiz() method
 	 *
-	 * @return  void
 	 * @since   3.29.0
 	 * @version 3.29.0
+	 * @return  void
 	 */
 	public function test_has_quiz() {
 
@@ -277,10 +279,10 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	public function test_is_available() {
 
 		$course_id = $this->generate_mock_courses( 1, 1, 2, 0 )[0];
-		$course = llms_get_post( $course_id );
-		$lesson = $course->get_lessons()[0];
+		$course    = llms_get_post( $course_id );
+		$lesson    = $course->get_lessons()[0];
 		$lesson_id = $lesson->get( 'id' );
-		$student = $this->get_mock_student();
+		$student   = $this->get_mock_student();
 		wp_set_current_user( $student->get_id() );
 		$student->enroll( $course_id );
 
@@ -340,43 +342,50 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * test the is_orphan function
-	 * @return   [type]
 	 * @since    3.14.8
 	 * @version  3.14.8
+	 * @return   [type]
 	 */
 	public function test_is_orphan() {
 
-		$course = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
+		$course  = llms_get_post( $this->generate_mock_courses( 1, 1, 1, 0, 0 )[0] );
 		$section = llms_get_post( $course->get_sections( 'ids' )[0] );
-		$lesson = llms_get_post( $course->get_lessons( 'ids' )[0] );
+		$lesson  = llms_get_post( $course->get_lessons( 'ids' )[0] );
 
 		// not an orphan
 		$this->assertFalse( $lesson->is_orphan() );
 
- 		$test_statuses = get_post_stati( array( '_builtin' => true ) );
+		$test_statuses = get_post_stati( array( '_builtin' => true ) );
 		foreach ( array_keys( $test_statuses ) as $status ) {
 
-			$assert = in_array( $status, array( 'publish', 'future', 'draft', 'pending', 'private', 'auto-draft' ) ) ? 'assertFalse' : 'assertTrue';
+			$assert = in_array( $status, array(
+				'publish',
+				'future',
+				'draft',
+				'pending',
+				'private',
+				'auto-draft'
+			) ) ? 'assertFalse' : 'assertTrue';
 
 			// check parent course
 			wp_update_post( array(
-				'ID' => $course->get( 'id' ),
+				'ID'          => $course->get( 'id' ),
 				'post_status' => $status,
 			) );
 			$this->$assert( $lesson->is_orphan() );
 			wp_update_post( array(
-				'ID' => $course->get( 'id' ),
+				'ID'          => $course->get( 'id' ),
 				'post_status' => 'publish',
 			) );
 
 			// check parent section
 			wp_update_post( array(
-				'ID' => $section->get( 'id' ),
+				'ID'          => $section->get( 'id' ),
 				'post_status' => $status,
 			) );
 			$this->$assert( $lesson->is_orphan() );
 			wp_update_post( array(
-				'ID' => $section->get( 'id' ),
+				'ID'          => $section->get( 'id' ),
 				'post_status' => 'publish',
 			) );
 
@@ -420,13 +429,12 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the has prerequisite method
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
 	 *
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_has_prerequisite()
-	{
+	public function test_has_prerequisite() {
 
 		$lesson = new LLMS_Lesson( 'new', 'New Lesson' );
 
@@ -439,13 +447,12 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test has_prerequisite() when the course must be completed sequentially
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
 	 *
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_has_prerequisite_complete_sequentially_enabled()
-	{
+	public function test_has_prerequisite_complete_sequentially_enabled() {
 		/**
 		 * @var $course LLMS_Course
 		 */
@@ -468,13 +475,12 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test has_prerequisite() when sequential completion is disabled
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
 	 *
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_has_prerequisite_complete_sequentially_disabled()
-	{
+	public function test_has_prerequisite_complete_sequentially_disabled() {
 		/**
 		 * @var $course LLMS_Course
 		 */
@@ -497,13 +503,11 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the get_prerequisite() method
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
-	 *
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_get_prerequisite()
-	{
+	public function test_get_prerequisite() {
 		$lesson = new LLMS_Lesson( 'new', 'New Lesson' );
 
 		$this->assertFalse( $lesson->get_prerequisite() );
@@ -516,13 +520,11 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test course_prerequisite() when the course must be completed sequentially
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
-	 *
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_get_prerequisite_complete_sequentially_enabled()
-	{
+	public function test_get_prerequisite_complete_sequentially_enabled() {
 		/**
 		 * @var $course LLMS_Course
 		 */
@@ -546,13 +548,11 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_prerequisite() when sequential completion is disabled
 	 *
+	 * @since   [version]
+	 * @version [version]
 	 * @return void
-	 *
-	 * @since 3.37.1
-	 * @version 3.37.1
 	 */
-	public function test_get_prerequisite_complete_sequentially_disabled()
-	{
+	public function test_get_prerequisite_complete_sequentially_disabled() {
 		/**
 		 * @var $course LLMS_Course
 		 */
