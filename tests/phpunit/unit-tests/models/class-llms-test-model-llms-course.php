@@ -466,7 +466,6 @@ class LLMS_Test_LLMS_Course extends LLMS_PostModelUnitTestCase {
 	 * @since   [version]
 	 * @version [version]
 	 * @return void
-	 *
 	 */
 	public function test_course_level_prerequisite() {
 		/**

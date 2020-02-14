@@ -773,7 +773,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return WP_Post[]
 	 * @deprecated 3.0.0
-	 *
 	 */
 	public function get_children_sections() {
 		llms_deprecated_function( 'LLMS_Course::get_children_sections()', '3.0.0', "LLMS_Course::get_sections( 'posts' )" );
@@ -787,7 +786,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return WP_Post[]
 	 * @deprecated 3.0.0
-	 *
 	 */
 	public function get_children_lessons() {
 		llms_deprecated_function( 'LLMS_Course::get_children_lessons()', '3.0.0', "LLMS_Course::get_lessons( 'posts' )" );
@@ -801,7 +799,6 @@ class LLMS_Course
 	 * @since      3.0.0
 	 * @return WP_User instance of WP_User
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_author() {
 		llms_deprecated_function( 'LLMS_Course::get_author()', '[version]' );
@@ -815,7 +812,6 @@ class LLMS_Course
 	 * @since      3.0.0
 	 * @return int
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_author_id() {
 		llms_deprecated_function( 'LLMS_Course::get_author_id()', '[version]', 'LLMS_Course::get( "author" )' );
@@ -829,7 +825,6 @@ class LLMS_Course
 	 * @since      3.0.0
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_author_name() {
 		llms_deprecated_function( 'LLMS_Course::get_author_name()', '[version]' );
@@ -844,7 +839,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_sku() {
 		llms_deprecated_function( 'LLMS_Course::get_sku()', '[version]', 'LLMS_Course::get( "sku" )' );
@@ -858,7 +852,6 @@ class LLMS_Course
 	 * @since      3.0.0
 	 * @return int
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_id() {
 		llms_deprecated_function( 'LLMS_Course::get_id()', '[version]', 'LLMS_Course::get( "id" )' );
@@ -872,7 +865,6 @@ class LLMS_Course
 	 * @since      3.0.0
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_title() {
 		llms_deprecated_function( 'LLMS_Course::get_title()', '[version]', 'get_the_title()' );
@@ -886,7 +878,6 @@ class LLMS_Course
 	 * @since      3.0.0
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_permalink() {
 		llms_deprecated_function( 'LLMS_Course::get_permalink()', '[version]', 'get_permalink()' );
@@ -900,7 +891,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return array
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_user_postmeta_data( $post_id ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_postmeta_data()', '[version]' );
@@ -922,7 +912,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return  array
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_user_postmetas_by_key( $post_id, $meta_key ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_postmetas_by_key()', '[version]' );
@@ -943,7 +932,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_checkout_url() {
 		llms_deprecated_function( 'LLMS_Course::get_checkout_url()', '[version]' );
@@ -963,7 +951,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_start_date() {
 		llms_deprecated_function( 'LLMS_Course::get_start_date()', '[version]', 'LLMS_Course::get_date( "start_date" )' );
@@ -980,7 +967,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_end_date() {
 		llms_deprecated_function( 'LLMS_Course::get_end_date()', '[version]', 'LLMS_Course::get_date( "end_date" )' );
@@ -994,7 +980,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return int|false
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_next_uncompleted_lesson() {
 		llms_deprecated_function( 'LLMS_Course::get_next_uncompleted_lesson()', '[version]' );
@@ -1020,7 +1005,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return int[]
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_lesson_ids() {
 		llms_deprecated_function( 'LLMS_Course::get_lesson_ids()', '[version]', 'LLMS_Course::get_lessons( "ids" )' );
@@ -1057,7 +1041,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return array
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_syllabus_sections() {
 		llms_deprecated_function( 'LLMS_Course::get_syllabus_sections()', '[version]', 'LLMS_Course::get_sections()' );
@@ -1078,7 +1061,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_short_description() {
 		llms_deprecated_function( 'LLMS_Course::get_short_description()', '[version]', 'LLMS_Course::get( "excerpt" )' );
@@ -1093,7 +1075,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return array
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_syllabus() {
 		llms_deprecated_function( 'LLMS_Course::get_syllabus()', '[version]', 'LLMS_Course::get_sections()' );
@@ -1111,7 +1092,6 @@ class LLMS_Course
 	 *
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_user_enroll_date( $user_id = '' ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_enroll_date()', '[version]' );
@@ -1142,7 +1122,6 @@ class LLMS_Course
 	 *
 	 * @return mixed
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public static function get_user_post_data( $post_id, $user_id = '' ) {
 		llms_deprecated_function( 'LLMS_Course::get_user_post_data()', '[version]' );
@@ -1178,7 +1157,6 @@ class LLMS_Course
 	 *
 	 * @return mixed
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public static function check_enrollment( $course_id, $user_id = '' ) {
 		llms_deprecated_function( 'LLMS_Course::check_enrollment()', '[version]' );
@@ -1222,7 +1200,6 @@ class LLMS_Course
 	 *
 	 * @return bool
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function is_user_enrolled( $user_id = '' ) {
 		llms_deprecated_function( 'LLMS_Course::is_user_enrolled()', '[version]', 'llms_is_user_enrolled()' );
@@ -1248,7 +1225,6 @@ class LLMS_Course
 	 *
 	 * @return obj
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_student_progress( $user_id = '' ) {
 
@@ -1375,7 +1351,6 @@ class LLMS_Course
 	 * @since      Unknown
 	 * @return string
 	 * @deprecated 3.34.0
-	 *
 	 */
 	public function get_membership_link() {
 		llms_deprecated_function( 'LLMS_Course::get_membership_link()', '[version]' );

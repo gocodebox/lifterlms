@@ -432,7 +432,6 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @since   [version]
 	 * @version [version]
 	 * @return void
-	 *
 	 */
 	public function test_has_prerequisite() {
 
@@ -450,7 +449,6 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @since   [version]
 	 * @version [version]
 	 * @return void
-	 *
 	 */
 	public function test_has_prerequisite_complete_sequentially_enabled() {
 		/**
@@ -478,7 +476,6 @@ class LLMS_Test_LLMS_Lesson extends LLMS_PostModelUnitTestCase {
 	 * @since   [version]
 	 * @version [version]
 	 * @return void
-	 *
 	 */
 	public function test_has_prerequisite_complete_sequentially_disabled() {
 		/**

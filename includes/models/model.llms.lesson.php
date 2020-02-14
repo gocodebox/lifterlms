@@ -373,7 +373,6 @@ class LLMS_Lesson
 	 *
 	 * @since 3.37.1 added filter and compatibility for course level prerequisite setting
 	 * @return int ID of the prerequisite post
-	 *
 	 */
 	public function get_prerequisite() {
 
