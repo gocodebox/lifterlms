@@ -356,7 +356,7 @@ function llms_is_post_restricted_by_prerequisite( $post_id, $user_id = null ) {
 	/**
 	 * Allow external plugins to specify pre_requisite restrictions
 	 *
-	 * @since 3.37.1
+	 * @since [version]
 	 *
 	 * @param bool whether the post is already restricted
 	 * @param int the ID of the post
