@@ -377,7 +377,7 @@ implements LLMS_Interface_Post_Audio
 
 		$course = $this->get_course();
 
-		// Check course level setting
+		// Check course level setting.
 		if ( $course && $course->must_complete_sequentially() ){
 			// might be false so we are okay
 			$pre_req = $this->get_previous_lesson();
