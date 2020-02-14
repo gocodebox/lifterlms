@@ -38,7 +38,7 @@ class LLMS_Meta_Box_Course_Options extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.36.0 Allow some fields to store values with quotes.
-	 * @since 3.37.1 Added option to enable sequential completion
+	 * @since [version] Added option to enable sequential completion.
 	 *
 	 * @return array
 	 */
