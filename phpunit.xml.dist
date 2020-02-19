@@ -23,14 +23,15 @@
 		<whitelist addUncoveredFilesFromWhitelist="true">
 			<directory suffix=".php">.</directory>
 			<exclude>
-				<directory>./tests/</directory>
-				<directory suffix=".php">./templates/</directory>
-				<directory suffix=".php">./tmp/</directory>
-				<directory suffix=".php">./deploy/</directory>
+				<directory suffix="index.php">.</directory>
+				<directory suffix=".php">./admin/views/</directory>
 				<directory suffix=".php">./dist/</directory>
 				<directory suffix=".php">./node_modules/</directory>
+				<directory suffix=".php">./templates/</directory>
+				<directory suffix=".php">./tests/</directory>
+				<directory suffix=".php">./tmp/</directory>
 				<directory suffix=".php">./vendor/</directory>
-				<directory suffix=".php">./admin/views/</directory>
+				<directory suffix=".php">./wordpress/</directory>
 			</exclude>
 		</whitelist>
 	</filter>
