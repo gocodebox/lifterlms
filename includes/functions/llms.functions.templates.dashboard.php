@@ -104,7 +104,6 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		do_action( 'lifterlms_after_student_dashboard' );
 
 	}
-
 }
 
 /**
