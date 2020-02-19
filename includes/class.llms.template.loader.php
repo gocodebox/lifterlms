@@ -3,7 +3,7 @@
  * Template loader.
  *
  * @since 1.0.0
- * @version 3.37.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.20.0 Unknown.
  * @since 3.37.2 Made sure notices are printed on sales pages too.
+ * @since [version] Made sure notices are printed on a sitewide restricted by membership redirection page.
  */
 class LLMS_Template_Loader {
 
@@ -296,6 +297,7 @@ class LLMS_Template_Loader {
 	 * Parses and obeys Membership "Restriction Behavior" settings.
 	 *
 	 * @since 3.0.0
+	 * @since [version] Flag to print notices, if there are, when landing on the redirected page.
 	 *
 	 * @param array $info Array of restriction info from `llms_page_restricted()`.
 	 * @return void
@@ -313,6 +315,12 @@ class LLMS_Template_Loader {
 			$msg      = '';
 			$redirect = '';
 
+			if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
+
+				$msg = $membership->get( 'restriction_notice' );
+
+			}
+
 			// get the redirect based on the redirect type (if set).
 			switch ( $membership->get( 'restriction_redirect_type' ) ) {
 
@@ -326,13 +334,14 @@ class LLMS_Template_Loader {
 
 				case 'page':
 					$redirect = get_permalink( $membership->get( 'redirect_page_id' ) );
+					// Make sure to print notices in wp pages.
+					$redirect = empty( $msg ) ? $redirect : add_query_arg(
+						array(
+							'llms_print_notices' => 1,
+						),
+						$redirect
+					);
 					break;
-
-			}
-
-			if ( 'yes' === $membership->get( 'restriction_add_notice' ) ) {
-
-				$msg = $membership->get( 'restriction_notice' );
 
 			}
 
