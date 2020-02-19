@@ -11,25 +11,6 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Functions used for managing page / post access.
- *
- * @since 3.0.0 Added the following functions:
- *              `llms_is_page_restricted`, `llms_is_post_restricted_by_drip_settings`, `llms_is_post_restricted_by_prerequisite`,
- *              `llms_is_post_restricted_by_time_period`, `llms_is_post_restricted_by_memberhsip`, `llms_is_post_restricted_by_sitewide_membership`
- *
- * @since 3.1.6 Added `llms_is_quiz_accessible` function.
- * @since 3.2.4 Added `llms_get_restriction_message` function.
- * @since 3.16.1 Unknown.
- * @since 3.16.11 Unknown.
- * @since 3.16.12 Unknown.
- * @since 3.16.12 Unknown.
- * @since [version] Made `$user_id` parameter optional for the function `llms_is_page_restricted`.
- *                Use strict comparison '===' in place of '=='.
- *                Call `in_array()` with strict comparison.
- *                Excude the privacy policy from the sitewide membership restriction.
- */
-
-/**
  * Determine if content should be restricted.
  * Called during "template_include" to determine if redirects
  * or template overrides are in order.
@@ -99,7 +80,7 @@ function llms_page_restricted( $post_id, $user_id = null ) {
 		/**
 		 * Allow filtering of results before checking if the student has access.
 		 *
-		 * @since Unknown
+		 * @since Unknown.
 		 *
 		 * @param array $results Restriction check result data.
 		 * @param int   $post_id WordPress Post ID of the content.
