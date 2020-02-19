@@ -2,8 +2,8 @@
 /**
  * Template functions for the student dashboard
  *
- * @since    3.0.0
- * @version  3.26.3
+ * @since 3.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 *
 	 * @since 3.25.1
 	 * @since 3.35.0 unslash `$_GET` data.
+	 * @since [version] Add filter `llms_enable_open_registration`.
 	 *
 	 * @param   array $options  array of options.
 	 * @return  void
@@ -33,7 +34,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		 */
 		do_action( 'lifterlms_before_student_dashboard' );
 
-		// If user is not logged in
+		// If user is not logged in.
 		if ( ! is_user_logged_in() ) {
 
 			$message = apply_filters( 'lifterlms_my_account_message', '' );
@@ -65,8 +66,15 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 					apply_filters( 'llms_student_dashboard_login_redirect', $options['login_redirect'] )
 				);
 
-				// can be enabled / disabled on options page.
-				if ( get_option( 'lifterlms_enable_myaccount_registration' ) === 'yes' ) {
+				/**
+				 * Determine if Open Registration is enabled.
+				 *
+				 * @since [version]
+				 *
+				 * @param string $enabled Whether or not open registration is enabled. Accepts "yes" for enabled and "no" for disabled.
+				 */
+				$open_reg = apply_filters( 'llms_enable_open_registration', get_option( 'lifterlms_enable_myaccount_registration' ) );
+				if ( llms_parse_bool( $open_reg ) ) {
 
 					llms_get_template( 'global/form-registration.php' );
 
@@ -88,7 +96,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 				call_user_func( $tabs[ $current_tab ]['content'] );
 
 			}
-		}// End if().
+		}
 
 		/**
 		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
@@ -96,7 +104,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		do_action( 'lifterlms_after_student_dashboard' );
 
 	}
-}// End if().
+
+}
 
 /**
  * Get course tiles for a student's courses
