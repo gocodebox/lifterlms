@@ -567,8 +567,8 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
  * This function replaces the now deprecated site_restricted_by_membership() (and has slightly different functionality).
  *
  * @since 3.0.0
- * @since [version] Made sure to not apply the restriction on the WordPress page set as memebership's restriction redirection page.
- *                  Excude the privacy policy from the restriction as well.
+ * @since [version] Do not apply membership restrictions on the page set as membership's restriction redirect page.
+ *                  Exclude the privacy policy from the sitewide restriction.
  *                  Call `in_array()` with strict comparison.
  *
  * @param int      $post_id WP Post ID.
