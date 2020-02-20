@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.10
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -293,7 +293,7 @@ function llms_get_restriction_message( $restriction ) {
  * Get a boolean out of llms_page_restricted for easy if checks.
  *
  * @since 3.0.0
- * @since [version] Made `$user_id` parameter optional. Default is `null`.
+ * @since 3.37.10 Made `$user_id` parameter optional. Default is `null`.
  *
  * @param int      $post_id WordPress Post ID of the content.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -309,7 +309,7 @@ function llms_is_page_restricted( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.11 Unknown.
- * @since [version] Use strict comparison '===' in place of '=='.
+ * @since 3.37.10 Use strict comparison '===' in place of '=='.
  *
  * @param int      $post_id WP Post ID of a lesson or quiz.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -487,7 +487,7 @@ function llms_is_post_restricted_by_time_period( $post_id, $user_id = null ) {
  *
  * @since 3.0.0
  * @since 3.16.14 Unknown.
- * @since [version] Call `in_array()` with strict comparison.
+ * @since 3.37.10 Call `in_array()` with strict comparison.
  *
  * @param int      $post_id WP_Post ID.
  * @param int|null $user_id Optional. WP User ID (will use get_current_user_id() if none supplied). Default `null`.
@@ -567,7 +567,7 @@ function llms_is_post_restricted_by_membership( $post_id, $user_id = null ) {
  * This function replaces the now deprecated site_restricted_by_membership() (and has slightly different functionality).
  *
  * @since 3.0.0
- * @since [version] Do not apply membership restrictions on the page set as membership's restriction redirect page.
+ * @since 3.37.10 Do not apply membership restrictions on the page set as membership's restriction redirect page.
  *                  Exclude the privacy policy from the sitewide restriction.
  *                  Call `in_array()` with strict comparison.
  *

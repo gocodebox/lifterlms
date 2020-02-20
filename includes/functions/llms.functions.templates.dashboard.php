@@ -3,7 +3,7 @@
  * Template functions for the student dashboard
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.10
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 *
 	 * @since 3.25.1
 	 * @since 3.35.0 unslash `$_GET` data.
-	 * @since [version] Add filter `llms_enable_open_registration`.
+	 * @since 3.37.10 Add filter `llms_enable_open_registration`.
 	 *
 	 * @param   array $options  array of options.
 	 * @return  void
@@ -69,7 +69,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 				/**
 				 * Determine if Open Registration is enabled.
 				 *
-				 * @since [version]
+				 * @since 3.37.10
 				 *
 				 * @param string $enabled Whether or not open registration is enabled. Accepts "yes" for enabled and "no" for disabled.
 				 */

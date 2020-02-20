@@ -3,7 +3,7 @@
  * Template loader.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.10
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.20.0 Unknown.
  * @since 3.37.2 Notices are printed on sales pages too.
- * @since [version] Notices are printed on pages configured as a membership restriction redirect page.
+ * @since 3.37.10 Notices are printed on pages configured as a membership restriction redirect page.
  */
 class LLMS_Template_Loader {
 
@@ -297,7 +297,7 @@ class LLMS_Template_Loader {
 	 * Parses and obeys Membership "Restriction Behavior" settings.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Added Flag to print notices when landing on the redirected page.
+	 * @since 3.37.10 Added Flag to print notices when landing on the redirected page.
 	 *
 	 * @param array $info Array of restriction info from `llms_page_restricted()`.
 	 * @return void

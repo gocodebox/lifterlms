@@ -6,8 +6,8 @@
  *
  * @since 3.7.3
  * @since 3.16.0 Unknown.
- * @since [version] Added tests on sitewide membership restriction.
- * @version [version]
+ * @since 3.37.10 Added tests on sitewide membership restriction.
+ * @version 3.37.10
  */
 class LLMS_Test_Functions_Access extends LLMS_UnitTestCase {
 
