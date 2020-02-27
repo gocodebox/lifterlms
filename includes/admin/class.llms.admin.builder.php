@@ -3,7 +3,7 @@
  * LifterLMS Admin Course Builder
  *
  * @since 3.13.0
- * @version 3.30.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.30.0 Fixed issues related to custom field sanitization.
- * @version 3.30.0
+ * @since [version] Made method `get_existing_posts_where()` static.
  */
 class LLMS_Admin_Builder {
 
@@ -222,13 +222,15 @@ class LLMS_Admin_Builder {
 	/**
 	 * Search lessons by search term during existing lesson lookups
 	 *
-	 * @param    string $where      existing sql where clause
-	 * @param    obj    $wp_query   WP_Query
-	 * @return   string
-	 * @since    3.14.8
-	 * @version  3.16.12
+	 * @since 3.14.8
+	 * @since 3.16.12 Unknown.
+	 * @since [version] Made method static.
+	 *
+	 * @param string   $where    Existing sql where clause.
+	 * @param WP_QUery $wp_query Query object.
+	 * @return string
 	 */
-	public function get_existing_posts_where( $where, $wp_query ) {
+	public static function get_existing_posts_where( $where, $wp_query ) {
 
 		if ( self::$search_term ) {
 			global $wpdb;
