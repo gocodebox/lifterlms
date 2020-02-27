@@ -1,6 +1,16 @@
 LifterLMS Changelog
 ===================
 
+v3.37.10 - 2020-02-19
+---------------------
+
++ Update: Exclude the privacy policy page from the sitewide restriction.
++ Update: Added filter `llms_enable_open_registration`.
++ Fix: Notices are printed on pages configured as a membership restriction redirect page.
++ Fix: Do not apply membership restrictions on the page set as membership's restriction redirect page.
++ Fix: Added flag to print notices when landing on the redirected page.
+
+
 v3.37.9 - 2020-02-11
 --------------------
 
