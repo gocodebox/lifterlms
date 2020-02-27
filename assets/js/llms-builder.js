@@ -4441,6 +4441,7 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
  * Course Model
  *
  * @since 3.16.0
+ * @since 3.24.0 Added 	get_total_points()` method.
  * @since [version] Use lesson author ID instead of author object when adding existing lessons to a course.
  * @version [version]
  */
@@ -4461,9 +4462,9 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * New Course Defaults
 		 *
-		 * @return   obj
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Object}
 		 */
 		defaults: function() {
 			return {
@@ -4478,19 +4479,19 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * Init
 		 *
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Void}
 		 */
 		initialize: function() {
 
 			this.startTracking();
 			this.init_relationships();
 
-			// Sidebar "New Section" button broadcast
+			// Sidebar "New Section" button broadcast.
 			Backbone.pubSub.on( 'add-new-section', this.add_section, this );
 
-			// Sidebar "New Lesson" button broadcast
+			// Sidebar "New Lesson" button broadcast.
 			Backbone.pubSub.on( 'add-new-lesson', this.add_lesson, this );
 
 			Backbone.pubSub.on( 'lesson-search-select', this.add_existing_lesson, this );
@@ -4517,7 +4518,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 
 				delete data.id;
 
-				// If a quiz is attached, duplicate the quiz also
+				// If a quiz is attached, duplicate the quiz also.
 				if ( data.quiz ) {
 					data.quiz                   = _.prepareQuizObjectForCloning( data.quiz );
 					data.quiz._questions_loaded = true;
@@ -4545,10 +4546,10 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * Add a new lesson to the course
 		 *
-		 * @param    obj   data   lesson data
-		 * @return   obj          Backbone.Model of the lesson
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @param  {Object} data Lesson data.
+		 * @return {Object}      Backbone.Model of the lesson.
 		 */
 		add_lesson: function( data ) {
 
@@ -4582,10 +4583,10 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * Add a new section to the course
 		 *
-		 * @param    obj   data   section data
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @param  {Object} data Section data.
+		 * @return {Void}
 		 */
 		add_section: function( data ) {
 
@@ -4606,9 +4607,9 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * Retrieve the currently selected section in the course
 		 *
-		 * @return   obj|undefined
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 *
+		 * @return {Object|undefined}
 		 */
 		get_selected_section: function() {
 
@@ -4621,9 +4622,9 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		/**
 		 * Retrieve the total number of points in the course
 		 *
-		 * @return   int
-		 * @since    3.24.0
-		 * @version  3.24.0
+		 * @since 3.24.0
+		 *
+		 * @return {Integer}
 		 */
 		get_total_points: function() {
 
