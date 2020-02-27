@@ -19,5 +19,5 @@ Fixes #<!-- insert the related issue number here -->
 ## Checklist:
 - [ ] My code has been tested.
 - [ ] My code passes all existing automated tests. <!-- Check code: `composer run-script tests-run`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/tests/README.md -->
-- [ ] My code follows the LifterLMS Coding & Documentation Standards. <!-- Check code: `composer run-script phpcs`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md and https://github.com/gocodebox/lifterlms/blob/master/docs/documentation-standards.md -->
+- [ ] My code follows the LifterLMS Coding & Documentation Standards. <!-- Check code: `composer run-script check-cs-errors`, Guidelines: https://github.com/gocodebox/lifterlms/blob/master/docs/coding-standards.md and https://github.com/gocodebox/lifterlms/blob/master/docs/documentation-standards.md -->
 
