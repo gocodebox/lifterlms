@@ -1,8 +1,9 @@
 /**
  * Course Model
  *
- * @since    3.16.0
- * @version  3.24.0
+ * @since 3.16.0
+ * @since [version] Use lesson author ID instead of author object when adding existing lessons to a course.
+ * @version [version]
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -59,12 +60,15 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 		/**
 		 * Add an existing lesson to the course
+		 *
 		 * Duplicate a lesson from this or another course or attach an orphaned lesson
 		 *
-		 * @param    obj   lesson  lesson data obj
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.24.0
+		 * @since 3.16.0
+		 * @since 3.24.0 Unknown.
+		 * @since [version] Use the author id instead of the author object.
+		 *
+		 * @param {Object} lesson Lesson data obj.
+		 * @return {Void}
 		 */
 		add_existing_lesson: function( lesson ) {
 
@@ -74,7 +78,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 
 				delete data.id;
 
-				// if a quiz is attached, duplicate the quiz also
+				// If a quiz is attached, duplicate the quiz also
 				if ( data.quiz ) {
 					data.quiz                   = _.prepareQuizObjectForCloning( data.quiz );
 					data.quiz._questions_loaded = true;
@@ -89,6 +93,11 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 			delete data.order;
 			delete data.parent_course;
 			delete data.parent_section;
+
+			// Use author id instead of the lesson author object.
+			if ( data.author && _.isObject( data.author ) && data.author.id ) {
+				data.author = data.author.id;
+			}
 
 			this.add_lesson( data );
 
