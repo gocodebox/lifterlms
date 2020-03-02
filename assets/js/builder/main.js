@@ -2,7 +2,8 @@
  * LifterLMS JS Builder App Bootstrap
  *
  * @since 3.16.0
- * @version 3.30.1
+ * @since [version] Added `_.getEditor()` helper.
+ * @version [version]
  */
 require( [
 	'vendor/wp-hooks',
@@ -91,6 +92,39 @@ require( [
 				} );
 
 				return clone;
+
+			},
+
+			/**
+			 * Retrieve the wp.editor instance.
+			 *
+			 * Uses `wp.oldEditor` (when available) which was added in WordPress 5.0.
+			 *
+			 * Falls back to `wp.editor()` which will usually be the same as `wp.oldEditor` unless
+			 * the `@wordpress/editor` module has been loaded by another plugin or a theme.
+			 *
+			 * @since [version]
+			 *
+			 * @return {Object}
+			 */
+			getEditor: function() {
+
+				if ( undefined !== wp.oldEditor ) {
+
+					var ed = wp.oldEditor;
+
+					// Inline scripts added by WordPress are not ported to `wp.oldEditor`, see https://github.com/WordPress/WordPress/blob/641c632b0c9fde4e094b217f50749984ca43a2fa/wp-includes/class-wp-editor.php#L977.
+					if ( undefined !== wp.editor && undefined !== wp.editor.getDefaultSettings ) {
+						ed.getDefaultSettings = wp.editor.getDefaultSettings;
+					}
+
+					return ed;
+
+				} else if ( undefined !== wp.editor && undefined !== wp.editor.autop ){
+
+					return wp.editor;
+
+				}
 
 			},
 
@@ -230,6 +264,7 @@ require( [
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
+		 * @since [version] Use `_.getEditor()` helper when checking for the presence of `wp.editor`.
 		 */
 		if ( window.location.hash ) {
 
@@ -243,7 +278,7 @@ require( [
 			if ( $lesson.length ) {
 
 				LLMS.wait_for( function() {
-					return ( undefined !== wp.editor && undefined !== window.tinymce );
+					return ( undefined !== _.getEditor() && undefined !== window.tinymce );
                     }, function() {
 					$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
 					var subtab = parts[1] ? parts[1] : 'lesson';

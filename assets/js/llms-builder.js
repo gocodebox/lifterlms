@@ -4757,15 +4757,17 @@ define( 'Views/_Detachable',[], function() {
 
 /**
  * Handles UX and Events for inline editing of views
+ *
  * Use with a Model's View
  * Allows editing model.title field via .llms-editable-title elements
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.16.0
- * @version  3.25.4
+ * @since  3.16.0
+ * @since  3.25.4 Unknown
+ * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version [version]
  */
-
 define( 'Views/_Editable',[], function() {
 
 	return {
@@ -5301,19 +5303,22 @@ define( 'Views/_Editable',[], function() {
 		/**
 		 * Initializes a WP Editor on a textarea
 		 *
-		 * @param    string   id        CSS ID of the editor (don't include #)
-		 * @param    obj      settings  optional object of settings to pass to wp.editor.initialize()
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param  {String} id        CSS ID of the editor (don't include #).
+		 * @param  {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
+		 * @return {Void}
 		 */
 		init_editor: function( id, settings ) {
 
 			settings = settings || {};
 
-			wp.editor.remove( id );
+			var editor   = _.getEditor();
 
-			wp.editor.initialize( id, $.extend( true, wp.editor.getDefaultSettings(), {
+			editor.remove( id );
+
+			editor.initialize( id, $.extend( true, editor.getDefaultSettings(), {
 				mediaButtons: true,
 				tinymce: {
 					toolbar1: 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,wp_adv',
@@ -5362,13 +5367,17 @@ define( 'Views/_Editable',[], function() {
 
 		/**
 		 * Callback function called after initialization of an editor
-		 * Updates UI if a label is present
-		 * Binds a change event to ensure editor changes are saved to the model
 		 *
-		 * @param    obj   editor  wp.editor instance
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.17.1
+		 * Updates UI if a label is present.
+		 *
+		 * Binds a change event to ensure editor changes are saved to the model.
+		 *
+		 * @since 3.16.0
+		 * @since 3.17.1 Uknown
+		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param  {Object} editor TinyMCE Editor instance.
+		 * @return {Void}
 		 */
 		on_editor_ready: function( editor ) {
 
@@ -5384,7 +5393,7 @@ define( 'Views/_Editable',[], function() {
 
 			// save changes to the model via Visual ed
 			editor.on( 'change', function( event ) {
-				self.model.set( prop, wp.editor.getContent( editor.id ) );
+				self.model.set( prop, _.getEditor().getContent( editor.id ) );
 			} );
 
 			// save changes via Text ed
@@ -7711,8 +7720,10 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
 /**
  * Model settings fields view
  *
- * @since    3.17.0
- * @version  3.24.0
+ * @since 3.17.0
+ * @since 3.24.0 Unknown.
+ * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version [version]
  */
 define( 'Views/SettingsFields',[], function() {
 
@@ -7897,16 +7908,24 @@ define( 'Views/SettingsFields',[], function() {
 		/**
 		 * Renders an editor field
 		 *
-		 * @param    obj   field  field data object
-		 * @return   void
-		 * @since    3.17.1
-		 * @version  3.17.1
+		 * @since  3.17.1
+		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param  {Object} field Field data object.
+		 * @return {Void}
 		 */
 		render_editor: function( field ) {
 
-			var self = this;
+			var self     = this,
+				wpEditor = _.getEditor();
 
-			wp.editor.remove( field.id );
+			// Exit early if there's no editor to work with.
+			if ( undefined === wpEditor ) {
+				console.error( 'Unable to access `wp.oldEditor` or `wp.editor`.' );
+				return;
+			}
+
+			wpEditor.remove( field.id );
 			field.settings.tinymce.setup = function( editor ) {
 
 				var $ed     = $( '#' + editor.id ),
@@ -7920,7 +7939,7 @@ define( 'Views/SettingsFields',[], function() {
 
 				// save changes to the model via Visual ed
 				editor.on( 'change', function( event ) {
-					self.model.set( prop, wp.editor.getContent( editor.id ) );
+					self.model.set( prop, wpEditor.getContent( editor.id ) );
 				} );
 
 				// save changes via Text ed
@@ -7936,7 +7955,7 @@ define( 'Views/SettingsFields',[], function() {
 				} );
 			};
 
-			wp.editor.initialize( field.id, field.settings );
+			wpEditor.initialize( field.id, field.settings );
 
 		},
 
@@ -7985,11 +8004,13 @@ define( 'Views/SettingsFields',[], function() {
 		/**
 		 * Setup and fill fields with default data based on field type
 		 *
-		 * @param    obj   orig_field   original field as defined in the settings
-		 * @param    int   field_index  index of the field in the current row
-		 * @return   obj
-		 * @since    3.17.0
-		 * @version  3.24.0
+		 * @since 3.17.0
+		 * @since 3.24.0 Unknown.
+		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param  {Object}  orig_field  Original field as defined in the settings.
+		 * @param  {Integer} field_index Index of the field in the current row.
+		 * @return {Object}
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -8026,7 +8047,7 @@ define( 'Views/SettingsFields',[], function() {
 				case 'editor':
 				case 'switch-editor':
 					var orig_settings = orig_field.settings || {};
-					defaults.settings = $.extend( true, wp.editor.getDefaultSettings(), {
+					defaults.settings = $.extend( true, _.getEditor().getDefaultSettings(), {
 						mediaButtons: true,
 						tinymce: {
 							toolbar1: 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,wp_adv',
@@ -10913,7 +10934,8 @@ define( 'Views/Sidebar',[
  * LifterLMS JS Builder App Bootstrap
  *
  * @since 3.16.0
- * @version 3.30.1
+ * @since [version] Addid `_.getEditor()` helper.
+ * @version [version]
  */
 require( [
 	'vendor/wp-hooks',
@@ -11002,6 +11024,39 @@ require( [
 				} );
 
 				return clone;
+
+			},
+
+			/**
+			 * Retrieve the wp.editor instance.
+			 *
+			 * Uses `wp.oldEditor` (when available) which was added in WordPress 5.0.
+			 *
+			 * Falls back to `wp.editor()` which will usually be the same as `wp.oldEditor` unless
+			 * the `@wordpress/editor` module has been loaded by another plugin or a theme.
+			 *
+			 * @since  [version]
+			 *
+			 * @return {Object}
+			 */
+			getEditor: function() {
+
+				if ( undefined !== wp.oldEditor ) {
+
+					var ed = wp.oldEditor;
+
+					// Inline scripts added by WordPress are not ported to `wp.oldEditor`, see https://github.com/WordPress/WordPress/blob/641c632b0c9fde4e094b217f50749984ca43a2fa/wp-includes/class-wp-editor.php#L977.
+					if ( undefined !== wp.editor && undefined !== wp.editor.getDefaultSettings ) {
+						ed.getDefaultSettings = wp.editor.getDefaultSettings;
+					}
+
+					return ed;
+
+				} else if ( undefined !== wp.editor && undefined !== wp.editor.autop ){
+
+					return wp.editor;
+
+				}
 
 			},
 
@@ -11141,6 +11196,7 @@ require( [
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
+		 * @since [version] Use `_.getEditor()` helper when checking for the presence of `wp.editor`.
 		 */
 		if ( window.location.hash ) {
 
@@ -11154,7 +11210,7 @@ require( [
 			if ( $lesson.length ) {
 
 				LLMS.wait_for( function() {
-					return ( undefined !== wp.editor && undefined !== window.tinymce );
+					return ( undefined !== _.getEditor() && undefined !== window.tinymce );
                     }, function() {
 					$lesson.closest( '.llms-builder-item.llms-section' ).find( 'a.llms-action-icon.expand' ).trigger( 'click' );
 					var subtab = parts[1] ? parts[1] : 'lesson';

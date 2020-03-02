@@ -1,14 +1,16 @@
 /**
  * Handles UX and Events for inline editing of views
+ *
  * Use with a Model's View
  * Allows editing model.title field via .llms-editable-title elements
  *
  * @package LifterLMS/Scripts
  *
- * @since    3.16.0
- * @version  3.25.4
+ * @since 3.16.0
+ * @since 3.25.4 Unknown
+ * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version [version]
  */
-
 define( [], function() {
 
 	return {
@@ -544,19 +546,22 @@ define( [], function() {
 		/**
 		 * Initializes a WP Editor on a textarea
 		 *
-		 * @param    string   id        CSS ID of the editor (don't include #)
-		 * @param    obj      settings  optional object of settings to pass to wp.editor.initialize()
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.16.0
+		 * @since 3.16.0
+		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param {String} id        CSS ID of the editor (don't include #).
+		 * @param {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
+		 * @return {Void}
 		 */
 		init_editor: function( id, settings ) {
 
 			settings = settings || {};
 
-			wp.editor.remove( id );
+			var editor = _.getEditor();
 
-			wp.editor.initialize( id, $.extend( true, wp.editor.getDefaultSettings(), {
+			editor.remove( id );
+
+			editor.initialize( id, $.extend( true, editor.getDefaultSettings(), {
 				mediaButtons: true,
 				tinymce: {
 					toolbar1: 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,wp_adv',
@@ -605,13 +610,17 @@ define( [], function() {
 
 		/**
 		 * Callback function called after initialization of an editor
-		 * Updates UI if a label is present
-		 * Binds a change event to ensure editor changes are saved to the model
 		 *
-		 * @param    obj   editor  wp.editor instance
-		 * @return   void
-		 * @since    3.16.0
-		 * @version  3.17.1
+		 * Updates UI if a label is present.
+		 *
+		 * Binds a change event to ensure editor changes are saved to the model.
+		 *
+		 * @since 3.16.0
+		 * @since 3.17.1 Uknown.
+		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param {Object} editor TinyMCE Editor instance.
+		 * @return {Void}
 		 */
 		on_editor_ready: function( editor ) {
 
@@ -627,7 +636,7 @@ define( [], function() {
 
 			// save changes to the model via Visual ed
 			editor.on( 'change', function( event ) {
-				self.model.set( prop, wp.editor.getContent( editor.id ) );
+				self.model.set( prop, _.getEditor().getContent( editor.id ) );
 			} );
 
 			// save changes via Text ed
