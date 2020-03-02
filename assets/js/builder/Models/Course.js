@@ -146,7 +146,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 *
 		 * @since 3.16.0
 		 *
-		 * @param  {Object} data Section data.
+		 * @param {Object} data Section data.
 		 * @return {Void}
 		 */
 		add_section: function( data ) {
