@@ -549,8 +549,8 @@ define( [], function() {
 		 * @since 3.16.0
 		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 *
-		 * @param  {String} id        CSS ID of the editor (don't include #).
-		 * @param  {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
+		 * @param {String} id        CSS ID of the editor (don't include #).
+		 * @param {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
 		 * @return {Void}
 		 */
 		init_editor: function( id, settings ) {
