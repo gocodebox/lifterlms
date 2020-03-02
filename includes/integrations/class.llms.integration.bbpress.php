@@ -47,7 +47,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 		if ( $this->is_available() ) {
 
-			// custom engagements
+			// Custom engagements.
 			add_filter( 'lifterlms_engagement_triggers', array( $this, 'register_engagement_triggers' ) );
 
 			add_action( 'bbp_new_topic', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 4 );
@@ -55,17 +55,17 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 			add_filter( 'lifterlms_external_engagement_query_arguments', array( $this, 'engagement_query_args' ), 10, 3 );
 
-			// register shortcode
+			// Register shortcode.
 			add_filter( 'llms_load_shortcodes', array( $this, 'register_shortcodes' ) );
 
-			// add memberships restriction metabox
+			// Add memberships restriction metabox.
 			add_filter( 'llms_membership_restricted_post_types', array( $this, 'add_membership_restrictions' ) );
 
-			// check forum/bbp template restrictions
+			// Check forum/bbp template restrictions.
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks_memberships' ), 40, 1 );
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks_courses' ), 50, 1 );
 
-			// add and save custom fields
+			// Add and save custom fields.
 			add_filter( 'llms_metabox_fields_lifterlms_course_options', array( $this, 'course_settings_fields' ) );
 			add_action( 'llms_metabox_after_save_lifterlms-course-options', array( $this, 'save_course_settings' ) );
 			add_filter( 'llms_get_course_properties', array( $this, 'add_course_props' ), 10, 2 );
@@ -285,20 +285,19 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			$user_id = get_current_user_id();
 			$courses = $this->get_forum_course_restrictions( $results['content_id'] );
 
-			// no user and at least one course restriction, return the first
+			// No user and at least one course restriction, return the first.
 			if ( $courses && ! $user_id ) {
 
 				$post_id = $courses[0];
 
-				// courses and a user, find at least one enrollment
+				// Courses and a user, find at least one enrollment.
 			} elseif ( $courses && $user_id ) {
 
 				foreach ( $courses as $course_id ) {
-					// not enrolled, use this for the restriction
-					// but dont break because we may find an enrollment later
+					// Not enrolled, use this for the restriction but dont break because we may find an enrollment later.
 					if ( ! llms_is_user_enrolled( $user_id, $course_id ) ) {
 						$post_id = $course_id;
-						// enrolled in one, reset the post id and break
+						// Enrolled in one, reset the post id and break.
 					} else {
 						$post_id = null;
 						break;
@@ -335,7 +334,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 		$post_id = null;
 
-		// forum archive, grab the page (if set)
+		// Forum archive, grab the page (if set).
 		if ( bbp_is_forum_archive() ) {
 
 			$page    = bbp_get_page_by_path( bbp_get_root_slug() );
