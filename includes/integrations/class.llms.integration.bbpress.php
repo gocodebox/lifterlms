@@ -379,11 +379,18 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 3.12.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Don't update saved values during quick and bulk edits.
 	 *
-	 * @param    int $post_id  WP_Post ID of the course
-	 * @return   void
+	 * @param int $post_id WP_Post ID of the course.
+	 * @return void
 	 */
 	public function save_course_settings( $post_id ) {
+
+		// Return early on quick and bulk edits.
+		$action = llms_filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+		if ( 'inline-save' === $action ) {
+			return;
+		}
 
 		$ids = array();
 
