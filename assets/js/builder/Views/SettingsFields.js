@@ -189,7 +189,7 @@ define( [], function() {
 		/**
 		 * Renders an editor field
 		 *
-		 * @since  3.17.1
+		 * @since 3.17.1
 		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object} field Field data object.
