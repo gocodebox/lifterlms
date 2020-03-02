@@ -616,7 +616,7 @@ define( [], function() {
 		 * Binds a change event to ensure editor changes are saved to the model.
 		 *
 		 * @since 3.16.0
-		 * @since 3.17.1 Uknown
+		 * @since 3.17.1 Uknown.
 		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object} editor TinyMCE Editor instance.
