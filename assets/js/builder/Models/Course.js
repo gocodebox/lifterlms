@@ -109,8 +109,8 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 *
 		 * @since 3.16.0
 		 *
-		 * @param  {Object} data Lesson data.
-		 * @return {Object}      Backbone.Model of the lesson.
+		 * @param {Object} data Lesson data.
+		 * @return {Object} Backbone.Model of the lesson.
 		 */
 		add_lesson: function( data ) {
 
