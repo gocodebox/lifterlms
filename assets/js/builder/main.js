@@ -103,7 +103,7 @@ require( [
 			 * Falls back to `wp.editor()` which will usually be the same as `wp.oldEditor` unless
 			 * the `@wordpress/editor` module has been loaded by another plugin or a theme.
 			 *
-			 * @since  [version]
+			 * @since [version]
 			 *
 			 * @return {Object}
 			 */
