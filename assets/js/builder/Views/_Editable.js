@@ -557,7 +557,7 @@ define( [], function() {
 
 			settings = settings || {};
 
-			var editor   = _.getEditor();
+			var editor = _.getEditor();
 
 			editor.remove( id );
 
