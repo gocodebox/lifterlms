@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Scripts
  *
- * @since  3.16.0
- * @since  3.25.4 Unknown
+ * @since 3.16.0
+ * @since 3.25.4 Unknown
  * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
  * @version [version]
  */
