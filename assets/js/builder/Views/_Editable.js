@@ -619,7 +619,7 @@ define( [], function() {
 		 * @since 3.17.1 Uknown.
 		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
-		 * @param  {Object} editor TinyMCE Editor instance.
+		 * @param {Object} editor TinyMCE Editor instance.
 		 * @return {Void}
 		 */
 		on_editor_ready: function( editor ) {
