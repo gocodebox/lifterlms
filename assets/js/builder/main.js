@@ -2,7 +2,7 @@
  * LifterLMS JS Builder App Bootstrap
  *
  * @since 3.16.0
- * @since [version] Addid `_.getEditor()` helper.
+ * @since [version] Added `_.getEditor()` helper.
  * @version [version]
  */
 require( [
