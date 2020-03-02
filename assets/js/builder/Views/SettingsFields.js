@@ -1,8 +1,10 @@
 /**
  * Model settings fields view
  *
- * @since    3.17.0
- * @version  3.24.0
+ * @since 3.17.0
+ * @since 3.24.0 Unknown.
+ * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version [version]
  */
 define( [], function() {
 
@@ -187,16 +189,24 @@ define( [], function() {
 		/**
 		 * Renders an editor field
 		 *
-		 * @param    obj   field  field data object
-		 * @return   void
-		 * @since    3.17.1
-		 * @version  3.17.1
+		 * @since 3.17.1
+		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param  {Object} field Field data object.
+		 * @return {Void}
 		 */
 		render_editor: function( field ) {
 
-			var self = this;
+			var self     = this,
+				wpEditor = _.getEditor();
 
-			wp.editor.remove( field.id );
+			// Exit early if there's no editor to work with.
+			if ( undefined === wpEditor ) {
+				console.error( 'Unable to access `wp.oldEditor` or `wp.editor`.' );
+				return;
+			}
+
+			wpEditor.remove( field.id );
 			field.settings.tinymce.setup = function( editor ) {
 
 				var $ed     = $( '#' + editor.id ),
@@ -210,7 +220,7 @@ define( [], function() {
 
 				// save changes to the model via Visual ed
 				editor.on( 'change', function( event ) {
-					self.model.set( prop, wp.editor.getContent( editor.id ) );
+					self.model.set( prop, wpEditor.getContent( editor.id ) );
 				} );
 
 				// save changes via Text ed
@@ -226,7 +236,7 @@ define( [], function() {
 				} );
 			};
 
-			wp.editor.initialize( field.id, field.settings );
+			wpEditor.initialize( field.id, field.settings );
 
 		},
 
@@ -275,11 +285,13 @@ define( [], function() {
 		/**
 		 * Setup and fill fields with default data based on field type
 		 *
-		 * @param    obj   orig_field   original field as defined in the settings
-		 * @param    int   field_index  index of the field in the current row
-		 * @return   obj
-		 * @since    3.17.0
-		 * @version  3.24.0
+		 * @since 3.17.0
+		 * @since 3.24.0 Unknown.
+		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 *
+		 * @param  {Object}  orig_field  Original field as defined in the settings.
+		 * @param  {Integer} field_index Index of the field in the current row.
+		 * @return {Object}
 		 */
 		setup_field: function( orig_field, field_index ) {
 
@@ -316,7 +328,7 @@ define( [], function() {
 				case 'editor':
 				case 'switch-editor':
 					var orig_settings = orig_field.settings || {};
-					defaults.settings = $.extend( true, wp.editor.getDefaultSettings(), {
+					defaults.settings = $.extend( true, _.getEditor().getDefaultSettings(), {
 						mediaButtons: true,
 						tinymce: {
 							toolbar1: 'bold,italic,strikethrough,bullist,numlist,blockquote,hr,alignleft,aligncenter,alignright,link,unlink,wp_adv',
