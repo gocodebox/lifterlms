@@ -2,7 +2,7 @@
  * Course Model
  *
  * @since 3.16.0
- * @since 3.24.0 Added 	get_total_points()` method.
+ * @since 3.24.0 Added `get_total_points()` method.
  * @since [version] Use lesson author ID instead of author object when adding existing lessons to a course.
  * @version [version]
  */
