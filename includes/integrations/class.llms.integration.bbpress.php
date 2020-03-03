@@ -3,7 +3,7 @@
  * bbPress Integration
  *
  * @since 3.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,20 +14,21 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Don't update saved forum values during course quick edits.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Integration ID
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $id = 'bbpress';
 
 	/**
 	 * Display order on Integrations tab
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $priority = 5;
 
@@ -46,7 +47,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 		if ( $this->is_available() ) {
 
-			// custom engagements
+			// Custom engagements.
 			add_filter( 'lifterlms_engagement_triggers', array( $this, 'register_engagement_triggers' ) );
 
 			add_action( 'bbp_new_topic', array( LLMS()->engagements(), 'maybe_trigger_engagement' ), 10, 4 );
@@ -54,17 +55,17 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 			add_filter( 'lifterlms_external_engagement_query_arguments', array( $this, 'engagement_query_args' ), 10, 3 );
 
-			// register shortcode
+			// Register shortcode.
 			add_filter( 'llms_load_shortcodes', array( $this, 'register_shortcodes' ) );
 
-			// add memberships restriction metabox
+			// Add memberships restriction metabox.
 			add_filter( 'llms_membership_restricted_post_types', array( $this, 'add_membership_restrictions' ) );
 
-			// check forum/bbp template restrictions
+			// Check forum/bbp template restrictions.
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks_memberships' ), 40, 1 );
 			add_filter( 'llms_page_restricted_before_check_access', array( $this, 'restriction_checks_courses' ), 50, 1 );
 
-			// add and save custom fields
+			// Add and save custom fields.
 			add_filter( 'llms_metabox_fields_lifterlms_course_options', array( $this, 'course_settings_fields' ) );
 			add_action( 'llms_metabox_after_save_lifterlms-course-options', array( $this, 'save_course_settings' ) );
 			add_filter( 'llms_get_course_properties', array( $this, 'add_course_props' ), 10, 2 );
@@ -78,10 +79,11 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Register the custom course property with the LLMS_Course Model
 	 *
-	 * @param    array $props   default properties
-	 * @param    obj   $course  instance of the LLMS_Course
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param array       $props  Default properties.
+	 * @param LLMS_Course $course Course object.
+	 * @return array
 	 */
 	public function add_course_props( $props, $course ) {
 		$props['bbp_forum_ids'] = 'array';
@@ -91,9 +93,10 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Add the membership restrictions metabox to bbPress forums on admin panel
 	 *
-	 * @param    array $post_types    array of existing post types
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param string[] $post_types Array of existing post types.
+	 * @return string[]
 	 */
 	public function add_membership_restrictions( $post_types ) {
 		$post_types[] = bbp_get_forum_post_type();
@@ -103,10 +106,10 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Register custom bbPress tab with the LLMS Course metabox
 	 *
-	 * @param    array $fields  existing fields
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param array $fields Existing fields.
+	 * @return array
 	 */
 	public function course_settings_fields( $fields ) {
 
@@ -141,27 +144,28 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Parse action arguments for bbPress engagements and pass them back to the LLMS Engagements handler
 	 *
-	 * @param    array  $query_args  query args for handler
-	 * @param    string $action      triggering action name
-	 * @param    array  $orig_args   original arguments from the action (indexed array)
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 * @since [version] Use strict comparison for `in_array()`.
+	 *
+	 * @param array  $query_args Query args for handler.
+	 * @param string $action     Triggering action name.
+	 * @param array  $orig_args  Original arguments from the action (indexed array).
+	 * @return array
 	 */
 	public function engagement_query_args( $query_args, $action, $orig_args ) {
 
-		if ( in_array( $action, array( 'bbp_new_reply', 'bbp_new_topic' ) ) ) {
+		if ( in_array( $action, array( 'bbp_new_reply', 'bbp_new_topic' ), true ) ) {
 
 			$query_args['trigger_type']    = $action;
 			$query_args['related_post_id'] = '';
 
 			if ( 'bbp_new_reply' === $action ) {
 
-				$query_args['user_id'] = $orig_args[4]; // $reply_author
+				$query_args['user_id'] = $orig_args[4]; // Reply Author.
 
 			} elseif ( 'bbp_new_topic' === $action ) {
 
-				$query_args['user_id'] = $orig_args[3]; // $topic_author
+				$query_args['user_id'] = $orig_args[3]; // Topic Author.
 
 			}
 		}
@@ -172,27 +176,40 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
 	/**
 	 * Handle course forum restrictions
+	 *
 	 * Add a notice and redirect to the course
 	 *
-	 * @param    array $restriction  restriction results from llms_page_restricted()
-	 * @return   void
-	 * @since    3.12.0
-	 * @version  3.13.0
+	 * @since 3.12.0
+	 * @since 3.13.0 Unknown.
+	 * @since [version] Use `llms_redirect_and_exit()` in favor of `wp_redirect()`.
+	 *
+	 * @param array $restriction Restriction Results from `llms_page_restricted()`.
+	 * @return void
 	 */
 	public function handle_course_forum_restriction( $restriction ) {
-		llms_add_notice( apply_filters( 'llms_bbp_course_forum_restriction_msg', __( 'You must be enrolled in this course to access the course forum', 'lifterlms' ), $restriction ), 'error' );
-		wp_redirect( get_permalink( $restriction['restriction_id'] ) );
-		exit;
+
+		/**
+		 * Customize the restriction notice message displayed when a forum is restricted to a course.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $msg         Default message.
+		 * @param array  $restriction Results from `llms_page_restricted()`.
+		 */
+		$msg = apply_filters( 'llms_bbp_course_forum_restriction_msg', __( 'You must be enrolled in this course to access the course forum.', 'lifterlms' ), $restriction );
+
+		llms_add_notice( $msg, 'error' );
+		llms_redirect_and_exit( get_permalink( $restriction['restriction_id'] ) );
 
 	}
 
 	/**
 	 * Retrieve course ids restricted to a LifterLMS course
 	 *
-	 * @param    mixed $course  WP_Post, LLMS_Course, or WP_Post ID
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param mixed $course WP_Post, LLMS_Course, or WP_Post ID.
+	 * @return array
 	 */
 	public function get_course_forum_ids( $course ) {
 
@@ -206,6 +223,14 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			}
 		}
 
+		/**
+		 * Customize the bbPress forum IDs associated with a course.
+		 *
+		 * @since [version]
+		 *
+		 * @param int[]       $ids    Array of WP_Post IDs of the bbPress forums restricted to the course.
+		 * @param LLMS_Course $course LifterLMS course object.
+		 */
 		return apply_filters( 'llms_bbp_get_course_forum_ids', $ids, $course );
 
 	}
@@ -213,15 +238,15 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Check if a forum is restricted to a course(s)
 	 *
-	 * @param    int $forum_id  WP_Post ID of the forum
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param int $forum_id WP_Post ID of the forum.
+	 * @return int[]
 	 */
 	public function get_forum_course_restrictions( $forum_id ) {
 
 		global $wpdb;
-		$query = $wpdb->get_col(
+		$query = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT metas.post_id
 			 FROM {$wpdb->postmeta} AS metas
@@ -242,21 +267,21 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Determine if bbPress is installed and activated
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return boolean
 	 */
 	public function is_installed() {
-		return ( class_exists( 'bbPress' ) );
+		return class_exists( 'bbPress' );
 	}
 
 	/**
 	 * Register shortcodes via LifterLMS core registration methods
 	 *
-	 * @param    array $classes  existing shortcode classes
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param string[] $classes Existing shortcode classes.
+	 * @return array
 	 */
 	public function register_shortcodes( $classes ) {
 		$classes[] = 'LLMS_BBP_Shortcode_Course_Forums_List';
@@ -266,10 +291,11 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Check forum restrictions for course restrictions
 	 *
-	 * @param    array $results  array of restriction results
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.2
+	 * @since 3.12.0
+	 * @since 3.12.2 Unknown.
+	 *
+	 * @param array $results Array of restriction results.
+	 * @return array
 	 */
 	public function restriction_checks_courses( $results ) {
 
@@ -280,20 +306,19 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			$user_id = get_current_user_id();
 			$courses = $this->get_forum_course_restrictions( $results['content_id'] );
 
-			// no user and at least one course restriction, return the first
+			// No user and at least one course restriction, return the first.
 			if ( $courses && ! $user_id ) {
 
 				$post_id = $courses[0];
 
-				// courses and a user, find at least one enrollment
+				// Courses and a user, find at least one enrollment.
 			} elseif ( $courses && $user_id ) {
 
 				foreach ( $courses as $course_id ) {
-					// not enrolled, use this for the restriction
-					// but dont break because we may find an enrollment later
+					// Not enrolled, use this for the restriction but dont break because we may find an enrollment later.
 					if ( ! llms_is_user_enrolled( $user_id, $course_id ) ) {
 						$post_id = $course_id;
-						// enrolled in one, reset the post id and break
+						// Enrolled in one, reset the post id and break.
 					} else {
 						$post_id = null;
 						break;
@@ -321,16 +346,16 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Check membership restrictions for Topics and Forum Archive pages
 	 *
-	 * @param    array $results  array of restriction results
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param array $results Array of restriction results.
+	 * @return array
 	 */
 	public function restriction_checks_memberships( $results ) {
 
 		$post_id = null;
 
-		// forum archive, grab the page (if set)
+		// Forum archive, grab the page (if set).
 		if ( bbp_is_forum_archive() ) {
 
 			$page    = bbp_get_page_by_path( bbp_get_root_slug() );
@@ -363,10 +388,10 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	/**
 	 * Register engagement triggers
 	 *
-	 * @param    array $triggers  existing triggers
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @param string[] $triggers Existing triggers.
+	 * @return array
 	 */
 	public function register_engagement_triggers( $triggers ) {
 		$triggers['bbp_new_topic'] = __( 'Student creates a new forum topic', 'lifterlms' );
@@ -379,26 +404,30 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 3.12.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Don't update saved forum values during course quick edits & remove redundant sanitization.
 	 *
-	 * @param    int $post_id  WP_Post ID of the course
-	 * @return   void
+	 * @param int $post_id WP_Post ID of the course.
+	 * @return null|int[]
 	 */
 	public function save_course_settings( $post_id ) {
+
+		// Return early on quick edits.
+		$action = llms_filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+		if ( 'inline-save' === $action ) {
+			return null;
+		}
 
 		$ids = array();
 
 		if ( isset( $_POST['_llms_bbp_forum_ids'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			$ids = llms_filter_input( INPUT_POST, '_llms_bbp_forum_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
-			if ( ! is_array( $ids ) ) {
-				$ids = array( $ids );
-			}
-
-			$ids = array_map( 'absint', $ids );
 
 		}
 
 		update_post_meta( $post_id, '_llms_bbp_forum_ids', $ids );
+
+		return $ids;
 
 	}
 
