@@ -5,6 +5,9 @@ var    gulp = require( 'gulp' )
 	,    pump = require( 'pump' )
 	,  rename = require( 'gulp-rename' )
 	,  uglify = require( 'gulp-uglify' )
+	, gulpignore = require( 'gulp-ignore' )
+
+    ,         path = require( 'path' )
 ;
 
 gulp.task( 'js-additional', function( cb ) {
@@ -27,12 +30,17 @@ gulp.task( 'js-additional', function( cb ) {
 			maps.init(),
 			include(),
 			header( notice.join( '\n' ) ),
+			maps.write('../maps/js', { destPath: 'assets/js' } ),
 			gulp.dest( 'assets/js' ),
+
+	        // Don't pass maps any further.
+	        gulpignore.exclude( file => '.js' !== path.extname( file.basename ) ),
+
 			uglify(),
 			rename( {
 				suffix: '.min',
 			} ),
-			maps.write(),
+			maps.write('../maps/js', { destPath: 'assets/js' } ),
 			gulp.dest( 'assets/js' )
 		],
 		cb

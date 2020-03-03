@@ -35,7 +35,7 @@ gulp.task( 'js-builder', function( cb ) {
 			title: 'js-builder error'
 		} ) ) )
 		.pipe( rename( 'llms-builder.js' ) )
-		.pipe( sourcemaps.write('/') )
+		.pipe( sourcemaps.write( '../maps/js', { destPath: 'assets/js' } ) )
 		.pipe( gulp.dest( 'assets/js/' ) )
 
 		// minified
@@ -58,7 +58,7 @@ gulp.task( 'js-builder', function( cb ) {
 			title: 'js-builder error'
 		} ) ) )
 		.pipe( rename( 'llms-builder.min.js' ) )
-		.pipe( sourcemaps.write('/') )
+		.pipe( sourcemaps.write( '../maps/js', { destPath: 'assets/js' } ) )
 		.pipe( gulp.dest( 'assets/js/' ) );
 
 	cb();
