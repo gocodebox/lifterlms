@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.3
-Stable tag: 3.37.10
+Stable tag: 3.37.11
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,29 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.11 - 2020-03-03 =
+-------------------------
+
+##### Updates
+
++ Resolved a conflict with the "Starter Templates" plugin which made it impossible to edit quizzes while the plugin was enabled.
+
+##### Bugfixes
+
++ Fixed an issue causing lesson post authors to be "lost" when adding an existing lesson to a course.
++ Fixed an issue causing php notices to be generated during existing lesson addition on the course builder.
++ Fixed an issue causing course bbPress forums to be lost when editing that course using the "Quick Edit" function from the courses table.
+
+##### LifterLMS REST v1.0.0-beta.10
+
++ Added text domain to i18n functions that were missing the domain.
++ Added a "trigger" parameter to enrollment-related endpoints.
++ Added `llms_rest_enrollments_item_schema`, `llms_rest_prepare_enrollment_object_response`, `llms_rest_enrollment_links` filter hooks.
++ Fixed setting roles instead of appending them when updating user, thanks [@pondermatic](https://github.com/pondermatic)!
++ Fixed return when the enrollment to be deleted doesn't exist, returns `204` instead of `404`.
++ Fixed 'context' query parameter schema, thanks [@pondermatic](https://github.com/pondermatic)!
+
+
 = v3.37.10 - 2020-02-19 =
 -------------------------
 
@@ -611,12 +634,5 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 + Added filter `llms_quiz_is_open` to allow customization of whether or not a quiz is available to a student.
 + When adding an client-side tracking events to the always make sure the server-side verification nonce is always set on the storage object.
 + The Course/Membership filter on the main students reporting screen now correctly limits post results based on instructor access.
-
-
-= v3.37.1 - 2019-11-13 =
-------------------------
-
-+ TwentyTwenty Theme: Fixed course information block misalignment.
-+ Fixed conflict with WooCommerce resulting from the movement of the deprecated LiftreLMS function `is_filtered()`.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

@@ -4441,7 +4441,7 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
  * Course Model
  *
  * @since 3.16.0
- * @since 3.24.0 Added 	get_total_points()` method.
+ * @since 3.24.0 Added `get_total_points()` method.
  * @since 3.37.11 Use lesson author ID instead of author object when adding existing lessons to a course.
  * @version 3.37.11
  */
@@ -4548,8 +4548,8 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 *
 		 * @since 3.16.0
 		 *
-		 * @param  {Object} data Lesson data.
-		 * @return {Object}      Backbone.Model of the lesson.
+		 * @param {Object} data Lesson data.
+		 * @return {Object} Backbone.Model of the lesson.
 		 */
 		add_lesson: function( data ) {
 
@@ -4585,7 +4585,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 *
 		 * @since 3.16.0
 		 *
-		 * @param  {Object} data Section data.
+		 * @param {Object} data Section data.
 		 * @return {Void}
 		 */
 		add_section: function( data ) {
@@ -4763,8 +4763,8 @@ define( 'Views/_Detachable',[], function() {
  *
  * @package LifterLMS/Scripts
  *
- * @since  3.16.0
- * @since  3.25.4 Unknown
+ * @since 3.16.0
+ * @since 3.25.4 Unknown
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
  * @version 3.37.11
  */
@@ -5306,15 +5306,15 @@ define( 'Views/_Editable',[], function() {
 		 * @since 3.16.0
 		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 *
-		 * @param  {String} id        CSS ID of the editor (don't include #).
-		 * @param  {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
+		 * @param {String} id        CSS ID of the editor (don't include #).
+		 * @param {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
 		 * @return {Void}
 		 */
 		init_editor: function( id, settings ) {
 
 			settings = settings || {};
 
-			var editor   = _.getEditor();
+			var editor = _.getEditor();
 
 			editor.remove( id );
 
@@ -5373,10 +5373,10 @@ define( 'Views/_Editable',[], function() {
 		 * Binds a change event to ensure editor changes are saved to the model.
 		 *
 		 * @since 3.16.0
-		 * @since 3.17.1 Uknown
+		 * @since 3.17.1 Uknown.
 		 * @since 3.37.11 Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
-		 * @param  {Object} editor TinyMCE Editor instance.
+		 * @param {Object} editor TinyMCE Editor instance.
 		 * @return {Void}
 		 */
 		on_editor_ready: function( editor ) {
@@ -7908,7 +7908,7 @@ define( 'Views/SettingsFields',[], function() {
 		/**
 		 * Renders an editor field
 		 *
-		 * @since  3.17.1
+		 * @since 3.17.1
 		 * @since 3.37.11 Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object} field Field data object.
@@ -10934,7 +10934,7 @@ define( 'Views/Sidebar',[
  * LifterLMS JS Builder App Bootstrap
  *
  * @since 3.16.0
- * @since 3.37.11 Addid `_.getEditor()` helper.
+ * @since 3.37.11 Added `_.getEditor()` helper.
  * @version 3.37.11
  */
 require( [
@@ -11035,7 +11035,7 @@ require( [
 			 * Falls back to `wp.editor()` which will usually be the same as `wp.oldEditor` unless
 			 * the `@wordpress/editor` module has been loaded by another plugin or a theme.
 			 *
-			 * @since  3.37.11
+			 * @since 3.37.11
 			 *
 			 * @return {Object}
 			 */
