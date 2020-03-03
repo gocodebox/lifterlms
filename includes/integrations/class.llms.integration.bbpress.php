@@ -145,6 +145,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Parse action arguments for bbPress engagements and pass them back to the LLMS Engagements handler
 	 *
 	 * @since 3.12.0
+	 * @since [version] Use strict comparison for `in_array()`.
 	 *
 	 * @param array  $query_args Query args for handler.
 	 * @param string $action     Triggering action name.
@@ -153,7 +154,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 */
 	public function engagement_query_args( $query_args, $action, $orig_args ) {
 
-		if ( in_array( $action, array( 'bbp_new_reply', 'bbp_new_topic' ) ) ) {
+		if ( in_array( $action, array( 'bbp_new_reply', 'bbp_new_topic' ), true ) ) {
 
 			$query_args['trigger_type']    = $action;
 			$query_args['related_post_id'] = '';
@@ -180,14 +181,26 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 3.12.0
 	 * @since 3.13.0 Unknown.
+	 * @since [version] Use `llms_redirect_and_exit()` in favor of `wp_redirect()`.
 	 *
-	 * @param array $restriction Restriction results from `llms_page_restricted()`.
+	 * @param array $restriction Restriction Results from `llms_page_restricted()`.
 	 * @return void
 	 */
 	public function handle_course_forum_restriction( $restriction ) {
-		llms_add_notice( apply_filters( 'llms_bbp_course_forum_restriction_msg', __( 'You must be enrolled in this course to access the course forum', 'lifterlms' ), $restriction ), 'error' );
-		wp_redirect( get_permalink( $restriction['restriction_id'] ) );
-		exit;
+
+		/**
+		 * Customize the restriction notice message displayed when a forum is restricted to a course.
+		 *
+		 * @since [version]
+		 *
+		 * @param string $msg         Default message.
+		 * @param array  $restriction Results from `llms_page_restricted()`.
+		 */
+		$msg = apply_filters( 'llms_bbp_course_forum_restriction_msg', __( 'You must be enrolled in this course to access the course forum.', 'lifterlms' ), $restriction );
+
+		llms_add_notice( $msg, 'error' );
+		llms_redirect_and_exit( get_permalink( $restriction['restriction_id'] ) );
+
 	}
 
 	/**
@@ -210,6 +223,14 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			}
 		}
 
+		/**
+		 * Customize the bbPress forum IDs associated with a course.
+		 *
+		 * @since [version]
+		 *
+		 * @param int[]       $ids    Array of WP_Post IDs of the bbPress forums restricted to the course.
+		 * @param LLMS_Course $course LifterLMS course object.
+		 */
 		return apply_filters( 'llms_bbp_get_course_forum_ids', $ids, $course );
 
 	}
@@ -225,7 +246,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	public function get_forum_course_restrictions( $forum_id ) {
 
 		global $wpdb;
-		$query = $wpdb->get_col(
+		$query = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
 				"SELECT metas.post_id
 			 FROM {$wpdb->postmeta} AS metas
@@ -251,7 +272,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * @return boolean
 	 */
 	public function is_installed() {
-		return ( class_exists( 'bbPress' ) );
+		return class_exists( 'bbPress' );
 	}
 
 	/**
@@ -383,17 +404,17 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 3.12.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Don't update saved forum values during course quick edits.
+	 * @since [version] Don't update saved forum values during course quick edits & remove redundant sanitization.
 	 *
 	 * @param int $post_id WP_Post ID of the course.
-	 * @return void
+	 * @return null|int[]
 	 */
 	public function save_course_settings( $post_id ) {
 
 		// Return early on quick edits.
 		$action = llms_filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
 		if ( 'inline-save' === $action ) {
-			return;
+			return null;
 		}
 
 		$ids = array();
@@ -401,15 +422,12 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		if ( isset( $_POST['_llms_bbp_forum_ids'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			$ids = llms_filter_input( INPUT_POST, '_llms_bbp_forum_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
-			if ( ! is_array( $ids ) ) {
-				$ids = array( $ids );
-			}
-
-			$ids = array_map( 'absint', $ids );
 
 		}
 
 		update_post_meta( $post_id, '_llms_bbp_forum_ids', $ids );
+
+		return $ids;
 
 	}
 
