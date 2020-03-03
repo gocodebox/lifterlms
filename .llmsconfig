@@ -36,7 +36,7 @@
 		"src": [
 			"assets/js/**/*.js",
 			"!assets/js/**/*.min.js",
-			"!assets/js/**/*.js.map",
+			"!assets/js/llms-builder*.js",
 			"!assets/js/app/**/*.js",
 			"!assets/js/builder/**/*.js",
 			"!assets/js/partials/**/*.js",
