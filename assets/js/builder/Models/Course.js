@@ -3,8 +3,8 @@
  *
  * @since 3.16.0
  * @since 3.24.0 Added `get_total_points()` method.
- * @since [version] Use lesson author ID instead of author object when adding existing lessons to a course.
- * @version [version]
+ * @since 3.37.11 Use lesson author ID instead of author object when adding existing lessons to a course.
+ * @version 3.37.11
  */
 define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -66,7 +66,7 @@ define( [ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ]
 		 *
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
-		 * @since [version] Use the author id instead of the author object.
+		 * @since 3.37.11 Use the author id instead of the author object.
 		 *
 		 * @param {Object} lesson Lesson data obj.
 		 * @return {Void}

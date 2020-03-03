@@ -3,8 +3,8 @@
  *
  * @since 3.17.0
  * @since 3.24.0 Unknown.
- * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @version [version]
+ * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version 3.37.11
  */
 define( [], function() {
 
@@ -190,7 +190,7 @@ define( [], function() {
 		 * Renders an editor field
 		 *
 		 * @since 3.17.1
-		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object} field Field data object.
 		 * @return {Void}
@@ -287,7 +287,7 @@ define( [], function() {
 		 *
 		 * @since 3.17.0
 		 * @since 3.24.0 Unknown.
-		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object}  orig_field  Original field as defined in the settings.
 		 * @param  {Integer} field_index Index of the field in the current row.

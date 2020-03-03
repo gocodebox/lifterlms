@@ -7,7 +7,7 @@
  * @group integrations
  * @group integration_bbpress
  *
- * @since [version]
+ * @since 3.37.11
  */
 class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 
@@ -35,7 +35,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Add or remove hooks based on hooks defined in the $this->hooks array.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @param string $action Either "add" or "remove".
 	 * @return void
@@ -54,7 +54,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Run assertions for all hooks in the $this->hooks array.
 	 *
-	 * @since  [version]
+	 * @since  3.37.11
 	 *
 	 * @param  mixed $equals If `null`, asserts that the priority matches the configured priority. Otherwise all hooks equal this value.
 	 * @return void
@@ -73,7 +73,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup all the hooks defined in the configuration method.
 	 *
-	 * @since  [version]
+	 * @since  3.37.11
 	 *
 	 * @return void
 	 */
@@ -160,7 +160,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the mock bbPress class and functions.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -188,7 +188,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -212,7 +212,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test that attributes are setup properly.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -226,7 +226,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test configure()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -256,7 +256,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_course_props()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -269,7 +269,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_membership_restrictions()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -282,7 +282,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test course_settings_field()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -300,7 +300,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test engagement_query_args() for non bbPress hooks.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -318,7 +318,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test engagement_query_args() for a new reply hook.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -343,7 +343,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test engagement_query_args() for a new topic
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -368,7 +368,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test handle_course_forum_restriction()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -398,7 +398,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_course_forum_ids()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -429,7 +429,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_forum_course_restrictions()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -453,7 +453,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test is_installed()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -466,7 +466,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_shortcodes()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -483,7 +483,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test register_engagement_triggers()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -496,7 +496,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_course_settings() when a quick edit is performed on a course.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -515,7 +515,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_course_settings() when there's no new ids passed to the form.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -532,7 +532,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_course_settiongs()
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */
@@ -550,7 +550,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_course_settings() to delete existing courses.
 	 *
-	 * @since [version]
+	 * @since 3.37.11
 	 *
 	 * @return void
 	 */

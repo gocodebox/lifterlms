@@ -3,7 +3,7 @@
  * bbPress Integration
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.11
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.35.0 Sanitize input data.
- * @since [version] Don't update saved forum values during course quick edits.
+ * @since 3.37.11 Don't update saved forum values during course quick edits.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
@@ -145,7 +145,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Parse action arguments for bbPress engagements and pass them back to the LLMS Engagements handler
 	 *
 	 * @since 3.12.0
-	 * @since [version] Use strict comparison for `in_array()`.
+	 * @since 3.37.11 Use strict comparison for `in_array()`.
 	 *
 	 * @param array  $query_args Query args for handler.
 	 * @param string $action     Triggering action name.
@@ -181,7 +181,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 3.12.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Use `llms_redirect_and_exit()` in favor of `wp_redirect()`.
+	 * @since 3.37.11 Use `llms_redirect_and_exit()` in favor of `wp_redirect()`.
 	 *
 	 * @param array $restriction Restriction Results from `llms_page_restricted()`.
 	 * @return void
@@ -191,7 +191,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		/**
 		 * Customize the restriction notice message displayed when a forum is restricted to a course.
 		 *
-		 * @since [version]
+		 * @since 3.37.11
 		 *
 		 * @param string $msg         Default message.
 		 * @param array  $restriction Results from `llms_page_restricted()`.
@@ -226,7 +226,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		/**
 		 * Customize the bbPress forum IDs associated with a course.
 		 *
-		 * @since [version]
+		 * @since 3.37.11
 		 *
 		 * @param int[]       $ids    Array of WP_Post IDs of the bbPress forums restricted to the course.
 		 * @param LLMS_Course $course LifterLMS course object.
@@ -404,7 +404,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 3.12.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Don't update saved forum values during course quick edits & remove redundant sanitization.
+	 * @since 3.37.11 Don't update saved forum values during course quick edits & remove redundant sanitization.
 	 *
 	 * @param int $post_id WP_Post ID of the course.
 	 * @return null|int[]

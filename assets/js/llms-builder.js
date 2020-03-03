@@ -4442,8 +4442,8 @@ define( 'Models/Abstract',[ 'Models/_Relationships', 'Models/_Utilities' ], func
  *
  * @since 3.16.0
  * @since 3.24.0 Added 	get_total_points()` method.
- * @since [version] Use lesson author ID instead of author object when adding existing lessons to a course.
- * @version [version]
+ * @since 3.37.11 Use lesson author ID instead of author object when adding existing lessons to a course.
+ * @version 3.37.11
  */
 define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Models/_Utilities' ], function( Sections, Relationships, Utilities ) {
 
@@ -4505,7 +4505,7 @@ define( 'Models/Course',[ 'Collections/Sections', 'Models/_Relationships', 'Mode
 		 *
 		 * @since 3.16.0
 		 * @since 3.24.0 Unknown.
-		 * @since [version] Use the author id instead of the author object.
+		 * @since 3.37.11 Use the author id instead of the author object.
 		 *
 		 * @param {Object} lesson Lesson data obj.
 		 * @return {Void}
@@ -4765,8 +4765,8 @@ define( 'Views/_Detachable',[], function() {
  *
  * @since  3.16.0
  * @since  3.25.4 Unknown
- * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @version [version]
+ * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version 3.37.11
  */
 define( 'Views/_Editable',[], function() {
 
@@ -5304,7 +5304,7 @@ define( 'Views/_Editable',[], function() {
 		 * Initializes a WP Editor on a textarea
 		 *
 		 * @since 3.16.0
-		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {String} id        CSS ID of the editor (don't include #).
 		 * @param  {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
@@ -5374,7 +5374,7 @@ define( 'Views/_Editable',[], function() {
 		 *
 		 * @since 3.16.0
 		 * @since 3.17.1 Uknown
-		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object} editor TinyMCE Editor instance.
 		 * @return {Void}
@@ -7722,8 +7722,8 @@ define( 'Views/Course',[ 'Views/SectionList', 'Views/_Editable' ], function( Sec
  *
  * @since 3.17.0
  * @since 3.24.0 Unknown.
- * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @version [version]
+ * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version 3.37.11
  */
 define( 'Views/SettingsFields',[], function() {
 
@@ -7909,7 +7909,7 @@ define( 'Views/SettingsFields',[], function() {
 		 * Renders an editor field
 		 *
 		 * @since  3.17.1
-		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object} field Field data object.
 		 * @return {Void}
@@ -8006,7 +8006,7 @@ define( 'Views/SettingsFields',[], function() {
 		 *
 		 * @since 3.17.0
 		 * @since 3.24.0 Unknown.
-		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param  {Object}  orig_field  Original field as defined in the settings.
 		 * @param  {Integer} field_index Index of the field in the current row.
@@ -10934,8 +10934,8 @@ define( 'Views/Sidebar',[
  * LifterLMS JS Builder App Bootstrap
  *
  * @since 3.16.0
- * @since [version] Addid `_.getEditor()` helper.
- * @version [version]
+ * @since 3.37.11 Addid `_.getEditor()` helper.
+ * @version 3.37.11
  */
 require( [
 	'vendor/wp-hooks',
@@ -11035,7 +11035,7 @@ require( [
 			 * Falls back to `wp.editor()` which will usually be the same as `wp.oldEditor` unless
 			 * the `@wordpress/editor` module has been loaded by another plugin or a theme.
 			 *
-			 * @since  [version]
+			 * @since  3.37.11
 			 *
 			 * @return {Object}
 			 */
@@ -11196,7 +11196,7 @@ require( [
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
-		 * @since [version] Use `_.getEditor()` helper when checking for the presence of `wp.editor`.
+		 * @since 3.37.11 Use `_.getEditor()` helper when checking for the presence of `wp.editor`.
 		 */
 		if ( window.location.hash ) {
 

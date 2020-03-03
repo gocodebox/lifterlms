@@ -2,8 +2,8 @@
  * LifterLMS JS Builder App Bootstrap
  *
  * @since 3.16.0
- * @since [version] Added `_.getEditor()` helper.
- * @version [version]
+ * @since 3.37.11 Added `_.getEditor()` helper.
+ * @version 3.37.11
  */
 require( [
 	'vendor/wp-hooks',
@@ -103,7 +103,7 @@ require( [
 			 * Falls back to `wp.editor()` which will usually be the same as `wp.oldEditor` unless
 			 * the `@wordpress/editor` module has been loaded by another plugin or a theme.
 			 *
-			 * @since [version]
+			 * @since 3.37.11
 			 *
 			 * @return {Object}
 			 */
@@ -264,7 +264,7 @@ require( [
 		 *
 		 * @since 3.27.0
 		 * @since 3.30.1 Wait for wp.editor & window.tinymce to load before opening deep link tabs.
-		 * @since [version] Use `_.getEditor()` helper when checking for the presence of `wp.editor`.
+		 * @since 3.37.11 Use `_.getEditor()` helper when checking for the presence of `wp.editor`.
 		 */
 		if ( window.location.hash ) {
 

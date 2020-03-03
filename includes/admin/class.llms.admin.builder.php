@@ -3,7 +3,7 @@
  * LifterLMS Admin Course Builder
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.37.11
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.30.0 Fixed issues related to custom field sanitization.
- * @since [version] Made method `get_existing_posts_where()` static.
+ * @since 3.37.11 Made method `get_existing_posts_where()` static.
  */
 class LLMS_Admin_Builder {
 
@@ -224,7 +224,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.14.8
 	 * @since 3.16.12 Unknown.
-	 * @since [version] Made method static.
+	 * @since 3.37.11 Made method static.
 	 *
 	 * @param string   $where    Existing sql where clause.
 	 * @param WP_QUery $wp_query Query object.

@@ -8,8 +8,8 @@
  *
  * @since 3.16.0
  * @since 3.25.4 Unknown
- * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @version [version]
+ * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
+ * @version 3.37.11
  */
 define( [], function() {
 
@@ -547,7 +547,7 @@ define( [], function() {
 		 * Initializes a WP Editor on a textarea
 		 *
 		 * @since 3.16.0
-		 * @since [version] Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param {String} id        CSS ID of the editor (don't include #).
 		 * @param {Object} settings  Optional object of settings to pass to wp.oldEditor.initialize().
@@ -617,7 +617,7 @@ define( [], function() {
 		 *
 		 * @since 3.16.0
 		 * @since 3.17.1 Uknown.
-		 * @since [version] Replace references to `wp.editor` with `_.getEditor()` helper.
+		 * @since 3.37.11 Replace references to `wp.editor` with `_.getEditor()` helper.
 		 *
 		 * @param {Object} editor TinyMCE Editor instance.
 		 * @return {Void}
