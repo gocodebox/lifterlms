@@ -20,6 +20,8 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  * @since 3.35.0 Sanitize and verify nonce when saving metabox data.
  * @since 3.36.0 Allow quotes to be saved without being encoded for some special fields that store a shortcode.
  * @since 3.36.1 Improve `save()` method.
+ * @since [version] Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
+ *                Add field sanitize option "no_encode_quotes" which functions like previous "shortcode" but is more semantically accurate.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -34,6 +36,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Post Types this metabox should be added to
+	 *
 	 * Can be a string of a single post type or an indexed array of multiple post types
 	 * Define this in extending class's $this->configure() method
 	 *
@@ -114,6 +117,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 */
 	private $content = '';
+
 	/**
 	 * HTML for the Metabox Navigation
 	 * Content handled by $this->process_fields()
@@ -125,6 +129,7 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * The number of tabs registered to the metabox
+	 *
 	 * This will be calculated automatically
 	 * Navigation will not display unless there's 2 or more tabs
 	 *
@@ -200,15 +205,16 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Normalizes $this->screens to ensure it's an array
 	 *
+	 * @since 3.0.0
+	 * @since [version] Remove unnecessary `else` condition.
+	 *
 	 * @return array
-	 * @since  3.0.0
 	 */
 	private function get_screens() {
 		if ( is_string( $this->screens ) ) {
 			return array( $this->screens );
-		} else {
-			return $this->screens;
 		}
+		return $this->screens;
 	}
 
 	/**
@@ -229,7 +235,7 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	public function output() {
 
-		// setup html for nav and content
+		// etup html for nav and content
 		$this->process_fields();
 
 		// output the html
@@ -362,6 +368,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.36.1 Check metabox capability during saves.
 	 *               Return an `int` depending on return condition.
 	 *               Automatically add `FILTER_REQUIRE_ARRAY` flag when sanitizing a `multi` field.
+	 * @since [version] Move field sanitization and updates to the `save_field()` method.
 	 *
 	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return int `-1` When no user or user is missing required capabilities or when there's no or invalid nonce.
@@ -394,37 +401,55 @@ abstract class LLMS_Admin_Metabox {
 			// Find the fields in each tab.
 			if ( isset( $data['fields'] ) && is_array( $data['fields'] ) ) {
 
-				// loop through the fields.
+				// Loop through the fields.
 				foreach ( $data['fields'] as $field ) {
 
-					// don't save things that don't have an ID.
+					// Don't save things that don't have an ID.
 					if ( isset( $field['id'] ) ) {
-
-						$val = '';
-
-						// get the posted value & sanitize it.
-						if ( isset( $_POST[ $field['id'] ] ) ) {
-
-							if ( isset( $field['sanitize'] ) && 'shortcode' === $field['sanitize'] ) {
-								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_FLAG_NO_ENCODE_QUOTES );
-							} elseif ( isset( $field['multi'] ) && $field['multi'] ) {
-								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING, FILTER_REQUIRE_ARRAY );
-							} else {
-								$val = llms_filter_input( INPUT_POST, $field['id'], FILTER_SANITIZE_STRING );
-							}
-						}
-
-						update_post_meta( $post_id, $field['id'], $val );
-
+						$this->save_field( $post_id, $field );
 					}
 				}
 			}
+
 		}
 
 		return 1;
 
 	}
 
+	/**
+	 * Save a metabox field.
+	 *
+	 * @since [version]
+	 *
+	 * @param  int   $post_id WP_Post ID.
+	 * @param  array $field   Metabox field array.
+	 * @return boolean
+	 */
+	protected function save_field( $post_id, $field ) {
+
+		$val = '';
+
+		// Get the posted value & sanitize it.
+		if ( isset( $_POST[ $field['id'] ] ) ) {
+
+			$filters = array(
+				FILTER_SANITIZE_STRING,
+			);
+
+			if ( isset( $field['sanitize'] ) && in_array( $field['sanitize'], array( 'shortcode', 'no_encode_quotes' ), true ) ) {
+				$filters[] = FILTER_FLAG_NO_ENCODE_QUOTES;
+			} elseif ( ! empty( $field['multi'] ) ) {
+				$filters[] = FILTER_REQUIRE_ARRAY;
+			}
+
+			$val = call_user_func_array( 'llms_filter_input', array_merge( array( INPUT_POST, $field['id'] ), $filters ) );
+
+		}
+
+		return update_post_meta( $post_id, $field['id'], $val ) ? true : false;
+
+	}
 
 	/**
 	 * Allows extending classes to perform additional save methods before the default save
