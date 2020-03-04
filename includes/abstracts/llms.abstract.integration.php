@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts
  *
  * @since 3.0.0
- * @version 3.37.9
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.21.1 Updated.
  * @since 3.33.1 Added `get_priority` method to allow reading of the protected priority property.
  * @since 3.37.9 Added automatically generated "Settings" link to plugins screen.
+ * @since [version] Added `$always_on` to allow integrations to be automatically enabled without an option.
  */
 abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 
@@ -74,6 +75,17 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	 * @var integer
 	 */
 	protected $priority = 20;
+
+	/**
+	 * Signals the integration is always enabled
+	 *
+	 * If `false` the integration is enabled through an Enable/Disable option toggle.
+	 *
+	 * If `true` the integration does not require an option to be turned on.
+	 *
+	 * @var boolean
+	 */
+	protected $always_on = false;
 
 	/**
 	 * Constructor
@@ -144,9 +156,11 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Retrieve an array of integration related settings
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.21.1
+	 * @since 3.8.0
+	 * @since 3.21.1 Unknown.
+	 * @since [version] Only output the "Enable" option when `$always_on` is `false`.
+	 *
+	 * @return array
 	 */
 	protected function get_settings() {
 
@@ -161,13 +175,17 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 			'title' => $this->title,
 			'type'  => 'title',
 		);
-		$settings[] = array(
-			'desc'    => __( 'Check to enable this integration.', 'lifterlms' ),
-			'default' => 'no',
-			'id'      => $this->get_option_name( 'enabled' ),
-			'type'    => 'checkbox',
-			'title'   => __( 'Enable / Disable', 'lifterlms' ),
-		);
+		if ( false === $this->always_on ) {
+
+			$settings[] = array(
+				'desc'    => __( 'Check to enable this integration.', 'lifterlms' ),
+				'default' => 'no',
+				'id'      => $this->get_option_name( 'enabled' ),
+				'type'    => 'checkbox',
+				'title'   => __( 'Enable / Disable', 'lifterlms' ),
+			);
+
+		}
 		if ( ! $this->is_installed() && ! empty( $this->description_missing ) ) {
 			$settings[] = array(
 				'type'  => 'custom-html',
@@ -207,11 +225,16 @@ abstract class LLMS_Abstract_Integration extends LLMS_Abstract_Options_Data {
 	/**
 	 * Determine if the integration had been enabled via checkbox
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @since 3.0.0
+	 * @since 3.8.0 Unknown.
+	 * @since [version] If `$always_on` is true, return early and don't check the option.
+	 *
+	 * @return boolean
 	 */
 	public function is_enabled() {
+		if ( $this->always_on ) {
+			return true;
+		}
 		return ( 'yes' === $this->get_option( 'enabled', 'no' ) );
 	}
 
