@@ -114,8 +114,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @var string
 	 */
-	protected $error_opt_key = ''
-;
+	protected $error_opt_key = '';
 	/**
 	 * HTML for the Metabox Content
 	 * Content handled by $this->process_fields()
@@ -158,7 +157,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Configure the metabox and automatically add required actions.
 	 *
 	 * @since 3.0.0
- 	 * @since [version] Use `$this->error_opt_key()` in favor of hardcoded option name.
+	 * @since [version] Use `$this->error_opt_key()` in favor of hardcoded option name.
 	 *
 	 * @return void
 	 */
@@ -303,19 +302,31 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Process fields to setup navigation and content with minimal PHP loops
-	 * called by $this->output before actually outputting html
+	 *
+	 * Called by `$this->output()` before actually outputting html.
+	 *
+	 * @since 3.0.0
+	 * @since 3.16.14 Unknown.
 	 *
 	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.16.14
 	 */
 	private function process_fields() {
 
+		// Create a filter-safe ID that conforms to WordPress coding standards for hooks.
+		$id = str_replace( '-', '_', $this->id );
+
 		/**
-		 * Add a filter so extending classes don't have to
-		 * so we don't have too many filters running
+		 * Customize metabox fields prior to field processing.
+		 *
+		 * The dynamic portion of this filter, `$id`, corresponds to the classes `$id` property with
+		 * dashes (`-`) replaced with underscores (`_`). If the class id is "my-metabox" the filter would be
+		 * "llms_metabox_fields_my_metabox".
+		 *
+		 * @since Unknown
+		 *
+		 * @param array $fields Array of metabox fields.
 		 */
-		$fields = apply_filters( 'llms_metabox_fields_' . str_replace( '-', '_', $this->id ), $this->get_fields() );
+		$fields = apply_filters( "llms_metabox_fields_{$id}", $this->get_fields() );
 
 		$this->total_tabs = count( $fields );
 
@@ -435,7 +446,6 @@ abstract class LLMS_Admin_Metabox {
 					}
 				}
 			}
-
 		}
 
 		return 1;
@@ -456,7 +466,7 @@ abstract class LLMS_Admin_Metabox {
 		$val = '';
 
 		// Get the posted value & sanitize it.
-		if ( isset( $_POST[ $field['id'] ] ) ) {
+		if ( isset( $_POST[ $field['id'] ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Missing -- Nonce is verified in `$this->save()` which calls this method.
 
 			$filters = array(
 				FILTER_SANITIZE_STRING,
