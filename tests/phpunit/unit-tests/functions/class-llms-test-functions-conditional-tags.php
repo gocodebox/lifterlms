@@ -8,6 +8,7 @@
  * @group functions_conditional_tags
  *
  * @since 3.37.0
+ * @since [version] Fix tests failing due to incorrect post type (It's 'llms_membership' not 'membership').
  */
 class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 
@@ -38,10 +39,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.0
 	 *
-	 * @see {Reference}
-	 * @link {URL}
-	 *
-	 * @return [type]
+	 * @return void
 	 */
 	public function test_is_course_category() {
 
@@ -82,10 +80,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.0
 	 *
-	 * @see {Reference}
-	 * @link {URL}
-	 *
-	 * @return [type]
+	 * @return void
 	 */
 	public function test_is_course_tag() {
 
@@ -126,10 +121,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.37.0
 	 *
-	 * @see {Reference}
-	 * @link {URL}
-	 *
-	 * @return [type]
+	 * @return void
 	 */
 	public function test_is_course_taxonomy() {
 
@@ -307,6 +299,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test the is_membership() function.
 	 *
 	 * @since 3.37.0
+	 * @since [version] Fix tests failing due to incorrect post type.
 	 *
 	 * @return void
 	 */
@@ -329,9 +322,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test is_membership_category() function.
 	 *
 	 * @since 3.37.0
-	 *
-	 * @see {Reference}
-	 * @link {URL}
+	 * @since [version] Fix tests failing due to incorrect post type.
 	 *
 	 * @return [type]
 	 */
@@ -342,7 +333,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 		$this->go_to( home_url() );
 		$this->assertFalse( is_membership_category() );
 
-		$this->go_to( get_permalink( $this->factory->post->create( array( 'post_type' => 'membership' ) ) ) );
+		$this->go_to( get_permalink( $this->factory->post->create( array( 'post_type' => 'llms_membership' ) ) ) );
 		$this->assertFalse( is_membership_category() );
 
 		$term = wp_create_tag( 'mock-tag' );
@@ -373,9 +364,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test is_membership_tag() function.
 	 *
 	 * @since 3.37.0
-	 *
-	 * @see {Reference}
-	 * @link {URL}
+	 * @since [version] Fix tests failing due to incorrect post type.
 	 *
 	 * @return [type]
 	 */
@@ -386,7 +375,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 		$this->go_to( home_url() );
 		$this->assertFalse( is_membership_tag() );
 
-		$this->go_to( get_permalink( $this->factory->post->create( array( 'post_type' => 'membership' ) ) ) );
+		$this->go_to( get_permalink( $this->factory->post->create( array( 'post_type' => 'llms_membership' ) ) ) );
 		$this->assertFalse( is_membership_tag() );
 
 		$term = wp_create_tag( 'mock-tag' );
@@ -417,9 +406,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test is_membership_tag() function.
 	 *
 	 * @since 3.37.0
-	 *
-	 * @see {Reference}
-	 * @link {URL}
+	 * @since [version] Fix tests failing due to incorrect post type.
 	 *
 	 * @return [type]
 	 */
@@ -430,7 +417,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 		$this->go_to( home_url() );
 		$this->assertFalse( is_membership_taxonomy() );
 
-		$this->go_to( get_permalink( $this->factory->post->create( array( 'post_type' => 'membership' ) ) ) );
+		$this->go_to( get_permalink( $this->factory->post->create( array( 'post_type' => 'llms_membership' ) ) ) );
 		$this->assertFalse( is_membership_taxonomy() );
 
 		$term = wp_create_tag( 'mock-tag' );
