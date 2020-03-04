@@ -174,7 +174,7 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 			'referrer'             => isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : null,
 			'permalink'            => get_permalink(),
 			'comment_type'         => 'signup',
-			'comment_author'       => $this->get_name_from_data(),
+			'comment_author'       => $this->get_name_from_data( $data ),
 			'comment_author_email' => $data['email_address'],
 			'blog_lang'            => get_locale(),
 		);
@@ -235,7 +235,7 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 	 */
 	protected function should_verify( $screen ) {
 
-		return llms_parse_bool( $this->get_option( sprintf( 'verify_%s', $screen ) );
+		return llms_parse_bool( $this->get_option( sprintf( 'verify_%s', $screen ) ) );
 
 	}
 
