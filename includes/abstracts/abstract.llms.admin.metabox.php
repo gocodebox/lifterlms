@@ -3,7 +3,7 @@
  * Admin Metabox Class
  *
  * @since 3.0.0
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,10 +27,10 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Metabox ID
-	 * Define this in extending class's $this->configure() method
+	 *
+	 * Define this in extending class's $this->configure() method.
 	 *
 	 * @var string
-	 * @since 3.0.0
 	 */
 	public $id;
 
@@ -41,55 +41,51 @@ abstract class LLMS_Admin_Metabox {
 	 * Define this in extending class's $this->configure() method
 	 *
 	 * @var array
-	 * @since 3.0.0
 	 */
 	public $screens = array();
 
 	/**
 	 * Title of the metabox
-	 * This should be a translatable, use __()
-	 * Define this in extending class's $this->configure() method
+	 *
+	 * Define this in extending class's $this->configure() method.
 	 *
 	 * @var string
-	 * @since 3.0.0
 	 */
 	public $title;
 
 	/**
 	 * Capability to check in order to display the metabox to the user
 	 *
-	 * @var    string
-	 * @since  3.13.0
+	 * @var string
 	 */
 	public $capability = 'edit_post';
 
 	/**
 	 * Optional context to register the metabox with
-	 * Accepts anything that can be passed to WP core add_meta_box() function
-	 * Options are: 'normal', 'side', 'advanced'
+	 *
+	 * Accepts anything that can be passed to WP core add_meta_box() function: 'normal', 'side', 'advanced'.
+	 *
 	 * Define this in extending class's $this->configure() method
 	 *
 	 * @var string
-	 * @since 3.0.0
 	 */
 	public $context = 'normal';
 
 	/**
 	 * Optional priority for the metabox
-	 * Accepts anything that can be passed to WP core add_meta_box() function
-	 * Options are: 'default', 'high', 'low'
-	 * Define this in extending class's $this->configure() method
+	 *
+	 * Accepts anything that can be passed to WP core add_meta_box() function: 'default', 'high', 'low'.
+	 *
+	 * Define this in extending class's $this->configure() method.
 	 *
 	 * @var string
-	 * @since 3.0.0
 	 */
 	public $priority = 'default';
 
 	/**
 	 * Instance of WP_Post for the current post
 	 *
-	 * @var obj
-	 * @since  3.0.0
+	 * @var WP_Post
 	 */
 	public $post;
 
@@ -97,7 +93,6 @@ abstract class LLMS_Admin_Metabox {
 	 * Meta Key Prefix for all elements in the metabox
 	 *
 	 * @var string
-	 * @since 3.0.0
 	 */
 	public $prefix = '_llms_';
 
@@ -105,7 +100,6 @@ abstract class LLMS_Admin_Metabox {
 	 * Array of error message strings to be displayed after an update attempt
 	 *
 	 * @var array
-	 * @since 3.0.0
 	 */
 	private $errors = array();
 
@@ -115,39 +109,40 @@ abstract class LLMS_Admin_Metabox {
 	 * @var string
 	 */
 	protected $error_opt_key = '';
+
 	/**
 	 * HTML for the Metabox Content
-	 * Content handled by $this->process_fields()
+	 *
+	 * Content handled by $this->process_fields().
 	 *
 	 * @var string
-	 * @since 3.0.0
 	 */
 	private $content = '';
 
 	/**
 	 * HTML for the Metabox Navigation
-	 * Content handled by $this->process_fields()
+	 *
+	 * Content handled by $this->process_fields().
 	 *
 	 * @var string
-	 * @since 3.0.0
 	 */
 	private $navigation = '';
 
 	/**
 	 * The number of tabs registered to the metabox
 	 *
-	 * This will be calculated automatically
-	 * Navigation will not display unless there's 2 or more tabs
+	 * This will be calculated automatically.
+	 *
+	 * Navigation will not display unless there's 2 or more tabs.
 	 *
 	 * @var integer
-	 * @since  3.0.0
 	 */
 	private $total_tabs = 0;
 
 	/**
-	 * Metabox Version Numbers
+	 * Metabox Version Number
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	private $version = 1;
 
@@ -169,18 +164,18 @@ abstract class LLMS_Admin_Metabox {
 		// Set the error option key.
 		$this->error_opt_key = sprintf( 'lifterlms_metabox_errors%s', $this->id );
 
-		// register the metabox
+		// Register the metabox.
 		add_action( 'add_meta_boxes', array( $this, 'register' ) );
 
-		// register save actions for applicable screens (post types)
+		// Register save actions for applicable screens (post types).
 		foreach ( $this->get_screens() as $screen ) {
 			add_action( 'save_post_' . $screen, array( $this, 'save_actions' ), 10, 1 );
 		}
 
-		// display errors
+		// Display errors.
 		add_action( 'admin_notices', array( $this, 'output_errors' ) );
 
-		// save errors
+		// Save errors.
 		add_action( 'shutdown', array( $this, 'save_errors' ) );
 
 	}
@@ -200,7 +195,8 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * This function allows extending classes to configure required class properties
-	 * $this->id, $this->title, and $this->screens should be configured in this function
+	 *
+	 * Properties $id, $title, and $screens should be configured in this function.
 	 *
 	 * @return void
 	 * @since  3.0.0
@@ -220,7 +216,8 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * This function is where extending classes can configure all the fields within the metabox
-	 * The function must return an array which can be consumed by the "output" function
+	 *
+	 * The function must return an array which can be consumed by the "output" function.
 	 *
 	 * @return array
 	 */
@@ -281,8 +278,10 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Display the messages as a WP Admin Notice
 	 *
+	 * @since 3.0.0
+	 * @since [version] Load errors using `$this->get_errors()` instead of `get_option()`.
+	 *
 	 * @return  void
-	 * @since  3.0.0
 	 */
 	public function output_errors() {
 
@@ -308,7 +307,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.0.0
 	 * @since 3.16.14 Unknown.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	private function process_fields() {
 
@@ -371,12 +370,15 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Register the Metabox using WP Functions
+	 *
 	 * This is called automatically by constructor
+	 *
 	 * Utilizes class properties for registration
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.13.0
+	 * @since 3.0.0
+	 * @since 3.13.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function register() {
 
@@ -393,11 +395,13 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Save field data
-	 * Loops through fields and saves the data to postmeta
-	 * Called by $this->save_actions()
 	 *
-	 * This function is dumb. If the fields need to output error messages or do validation
-	 * Override this method and create a custom save method to accommodate the validations or conditions
+	 * Loops through fields and saves the data to postmeta.
+	 *
+	 * Called by $this->save_actions().
+	 *
+	 * This function is dumb. If the fields need to output error messages or do validation override
+	 * this method and create a custom save method to accommodate the validations or conditions.
 	 *
 	 * @since 3.0.0
 	 * @since 3.14.1 Unknown.
@@ -457,8 +461,8 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since [version]
 	 *
-	 * @param  int   $post_id WP_Post ID.
-	 * @param  array $field   Metabox field array.
+	 * @param int   $post_id WP_Post ID.
+	 * @param array $field   Metabox field array.
 	 * @return boolean
 	 */
 	protected function save_field( $post_id, $field ) {
