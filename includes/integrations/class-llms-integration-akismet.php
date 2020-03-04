@@ -40,8 +40,8 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 	 */
 	protected function configure() {
 
-		$this->title       = __( 'Akismet', 'lifterlms' );
-		$this->description = sprintf( __( 'Add Akismet\'s powerful spam protection to LifterLMS checkout and registration forms.', 'lifterlms' ), '<a href="" target="_blank">', '</a>' );
+		$this->title               = __( 'Akismet', 'lifterlms' );
+		$this->description         = sprintf( __( 'Add Akismet\'s powerful spam protection to LifterLMS checkout and registration forms.', 'lifterlms' ), '<a href="" target="_blank">', '</a>' );
 		$this->description_missing = sprintf( __( 'To use this integration, the %1$sAkismet%2$s plugin must be installed, activated, and have a valid API key.', 'lifterlms' ), '<a href="https://wordpress.org/plugins/akismet/" target="_blank">', '</a>' );
 
 		if ( $this->is_available() ) {
@@ -170,8 +170,8 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 		$body = array(
 			'blog'                 => get_option( 'home' ),
 			'user_ip'              => Akismet::get_ip_address(),
-			'user_agent'           => isset( $_SERVER['HTTP_USER_AGENT'] ) ? $_SERVER['HTTP_USER_AGENT'] : null,
-			'referrer'             => isset( $_SERVER['HTTP_REFERER'] ) ? $_SERVER['HTTP_REFERER'] : null,
+			'user_agent'           => isset( $_SERVER['HTTP_USER_AGENT'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_USER_AGENT'] ) ) : null,
+			'referrer'             => isset( $_SERVER['HTTP_REFERER'] ) ? sanitize_text_field( wp_unslash( $_SERVER['HTTP_REFERER'] ) ) : null,
 			'permalink'            => get_permalink(),
 			'comment_type'         => 'signup',
 			'comment_author'       => $this->get_name_from_data( $data ),
@@ -199,7 +199,7 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 		remove_filter( 'akismet_ua', array( $this, 'modify_user_agent' ) );
 
 		// Is spam.
-		if ( ! empty( $res ) && isset( $res[1] ) && 'true' == trim( $res[1] ) ) {
+		if ( ! empty( $res ) && isset( $res[1] ) && 'true' === trim( $res[1] ) ) {
 			return true;
 		}
 
