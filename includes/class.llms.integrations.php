@@ -3,7 +3,7 @@
  * LifterLMS Integrations
  *
  * @since 1.0.0
- * @version 3.33.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.18.2 Updated.
  * @since 3.33.1 Integrations are now loaded based on their defined priority.
  * @since 3.33.2 Integration priority checks are backwards compatible to handle deprecated legacy integrations.
+ * @since [version] Load the Akismet integration.
  */
 class LLMS_Integrations {
 
@@ -73,6 +74,7 @@ class LLMS_Integrations {
 	 * @since 3.18.0 Updated.
 	 * @since 3.33.1 Updated sort order to be based off the priority defined for the integration.
 	 * @since 3.33.2 Made sort order check backwards compatible with deprecated legacy integrations.
+	 * @since [version] Load the Akismet integration.
 	 *
 	 * @return void
 	 */
@@ -81,6 +83,7 @@ class LLMS_Integrations {
 		$integrations = apply_filters(
 			'lifterlms_integrations',
 			array(
+				'LLMS_Integration_Akismet',
 				'LLMS_Integration_BBPress',
 				'LLMS_Integration_Buddypress',
 			)
