@@ -110,6 +110,13 @@ abstract class LLMS_Admin_Metabox {
 	private $errors = array();
 
 	/**
+	 * Option keyname where error options are stored.
+	 *
+	 * @var string
+	 */
+	protected $error_opt_key = ''
+;
+	/**
 	 * HTML for the Metabox Content
 	 * Content handled by $this->process_fields()
 	 *
@@ -148,14 +155,20 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Constructor
 	 *
-	 * Configure the metabox and automatically add required actions
+	 * Configure the metabox and automatically add required actions.
 	 *
-	 * @since  3.0.0
+	 * @since 3.0.0
+ 	 * @since [version] Use `$this->error_opt_key()` in favor of hardcoded option name.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
-		// allow child classes to configure variables
+		// Allow child classes to configure variables.
 		$this->configure();
+
+		// Set the error option key.
+		$this->error_opt_key = sprintf( 'lifterlms_metabox_errors%s', $this->id );
 
 		// register the metabox
 		add_action( 'add_meta_boxes', array( $this, 'register' ) );
@@ -176,10 +189,11 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Add an Error Message
 	 *
-	 * @param string $text
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.8.0
+	 * @since 3.0.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @param string $text Error message text.
+	 * @return void
 	 */
 	public function add_error( $text ) {
 		$this->errors[] = $text;
@@ -193,6 +207,17 @@ abstract class LLMS_Admin_Metabox {
 	 * @since  3.0.0
 	 */
 	abstract public function configure();
+
+	/**
+	 * Retrieve stored metabox errors.
+	 *
+	 * @since [version]
+	 *
+	 * @return string[]
+	 */
+	public function get_errors() {
+		return get_option( $this->error_opt_key, array() );
+	}
 
 	/**
 	 * This function is where extending classes can configure all the fields within the metabox
@@ -218,12 +243,14 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Determine if any errors have been added
+	 * Determine if any errors have been added to the metabox.
+	 *
+	 * @since Unknown
 	 *
 	 * @return boolean
 	 */
 	public function has_errors() {
-		return ( count( $this->errors ) ) ? true : false;
+		return count( $this->errors ) ? true : false;
 	}
 
 	/**
@@ -260,7 +287,7 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	public function output_errors() {
 
-		$errors = get_option( 'lifterlms_metabox_errors' . $this->id );
+		$errors = $this->get_errors();
 
 		if ( empty( $errors ) ) {
 			return;
@@ -270,7 +297,7 @@ abstract class LLMS_Admin_Metabox {
 			echo '<div id="lifterlms_errors" class="error"><p>' . $error . '</p></div>';
 		}
 
-		delete_option( 'lifterlms_metabox_errors' . $this->id );
+		delete_option( $this->error_opt_key );
 
 	}
 
@@ -377,14 +404,12 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	protected function save( $post_id ) {
 
-		if ( ! current_user_can( $this->capability, $post_id ) || ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) ) {
+		if ( ! llms_verify_nonce( 'lifterlms_meta_nonce', 'lifterlms_save_data' ) || ! current_user_can( $this->capability, $post_id ) ) {
 			return -1;
 		}
 
 		// Return early during quick saves and ajax requests.
-		if ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) {
-			return 0;
-		} elseif ( llms_is_ajax() ) {
+		if ( ( isset( $_POST['action'] ) && 'inline-save' === $_POST['action'] ) || llms_is_ajax() ) {
 			return 0;
 		}
 
@@ -453,39 +478,43 @@ abstract class LLMS_Admin_Metabox {
 
 	/**
 	 * Allows extending classes to perform additional save methods before the default save
-	 * when the default save is not being overridden
-	 * Called before $this->save() during $this->save_actions()
 	 *
-	 * @param  int $post_id   WP Post ID of the post being saved
+	 * Called before `$this->save()` during `$this->save_actions()`.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return void
-	 * @since  3.0.0
 	 */
 	protected function save_before( $post_id ) {}
 
 	/**
 	 * Allows extending classes to perform additional save methods after the default save
-	 * when the default save is not being overridden
-	 * Called before $this->save() during $this->save_actions()
 	 *
-	 * @param  int $post_id   WP Post ID of the post being saved
+	 * Called after `$this->save()` during `$this->save_actions()`.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return void
-	 * @since  3.0.0
 	 */
 	protected function save_after( $post_id ) {}
 
 	/**
 	 * Perform Save Actions
-	 * Triggers actions for before and after save
-	 * And calls the save method which actually saves metadata
 	 *
-	 * This is called automatically on save_post_{$post_type} for screens the metabox is registered to
+	 * Triggers actions for before and after save and calls the save method which actually saves metadata.
 	 *
-	 * @param  int $post_id   WP Post ID of the post being saved
+	 * This is called automatically on save_post_{$post_type} for all screens defined in `$this->screens`.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return void
-	 * @since  3.0.0
 	 */
 	public function save_actions( $post_id ) {
-		// prevent save action from running multiple times on a single load
+
+		// Prevent save action from running multiple times on a single load.
 		if ( isset( $this->_saved ) ) {
 			return;
 		}
@@ -503,11 +532,16 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Save messages to the database
 	 *
-	 * @return  void
-	 * @since  3.0.0
+	 * @since 3.0.0
+	 * @since [version] Use `$this->error_opt_key()` in favor of hardcoded option name.
+	 *                Only save errors if errors have been added.
+	 *
+	 * @return void
 	 */
 	public function save_errors() {
-		update_option( 'lifterlms_metabox_errors' . $this->id, $this->errors );
+		if ( $this->has_errors() ) {
+			update_option( $this->error_opt_key, $this->errors );
+		}
 	}
 
 }
