@@ -5,7 +5,7 @@
  * @package  LifterLMS\Classes
  *
  * @since 1.0.0
- * @version 3.34.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Removed duplicate array keys when registering course_tag taxonomy.
  * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
  * @since 3.34.1 Add the custom property `show_in_llms_rest` set to true by default, to those taxonomies we want to be shown in LLMS REST api.
+ * @since [version] Added 'revisions' support to course, lesson, and llms_mebership post types.
  */
 class LLMS_Post_Types {
 
@@ -254,6 +255,7 @@ class LLMS_Post_Types {
 	 *
 	 * @since 1.0.0
 	 * @since 3.33.0 `llms_question` post type is not publicly queryable anymore.
+	 * @since [version] Added 'revisions' support to course, lesson, and llms_mebership post types.
 	 *
 	 * @return void
 	 */
@@ -295,7 +297,7 @@ class LLMS_Post_Types {
 					'feeds'      => true,
 				),
 				'query_var'           => true,
-				'supports'            => array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'llms-clone-post', 'llms-export-post' ),
+				'supports'            => array( 'title', 'author', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'llms-clone-post', 'llms-export-post' ),
 				'has_archive'         => ( $catalog_id && get_page( $catalog_id ) ) ? get_page_uri( $catalog_id ) : _x( 'courses', 'course archive url slug', 'lifterlms' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
@@ -373,7 +375,7 @@ class LLMS_Post_Types {
 				),
 				'show_in_nav_menus'   => false,
 				'query_var'           => true,
-				'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'author', 'llms-clone-post' ),
+				'supports'            => array( 'title', 'editor', 'excerpt', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions', 'author', 'llms-clone-post' ),
 			)
 		);
 
@@ -490,7 +492,7 @@ class LLMS_Post_Types {
 					'feeds'      => true,
 				),
 				'query_var'           => true,
-				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes' ),
+				'supports'            => array( 'title', 'editor', 'thumbnail', 'comments', 'custom-fields', 'page-attributes', 'revisions' ),
 				'has_archive'         => ( $membership_page_id && get_page( $membership_page_id ) ) ? get_page_uri( $membership_page_id ) : _x( 'memberships', 'membership archive url slug', 'lifterlms' ),
 				'show_in_nav_menus'   => true,
 				'menu_position'       => 52,
@@ -527,7 +529,6 @@ class LLMS_Post_Types {
 					'map_meta_cap'        => true,
 					'publicly_queryable'  => false,
 					'exclude_from_search' => true,
-					// 'show_in_menu' 			=> 'lifterlms',
 					'menu_position'       => 52,
 					'menu_icon'           => 'dashicons-awards',
 					'hierarchical'        => false,
@@ -1091,7 +1092,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'course-category', 'slug', 'lifterlms' ),
+					'slug'         => _x( 'r-category', 'slug', 'lifterlms' ),
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
