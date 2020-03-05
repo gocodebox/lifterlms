@@ -483,7 +483,7 @@ abstract class LLMS_Admin_Metabox {
 				$filters[] = FILTER_REQUIRE_ARRAY;
 			}
 
-			$val = call_user_func_array( 'llms_filter_input', array_merge( array( INPUT_POST, $field['id'] ), $filters ) );
+			$val = llms_filter_input( INPUT_POST, $field['id'], ...$filters );
 
 		}
 
