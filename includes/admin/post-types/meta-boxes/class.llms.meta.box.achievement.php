@@ -2,24 +2,31 @@
 /**
  * Achievements Metabox
  *
- * Generates main metabox and builds forms
+ * Generates main metabox and builds forms.
  *
- * @since  1.0.0
- * @version  3.0.0
+ * @since 1.0.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Achievements Metabox class.
+ *
+ * Generates main metabox and builds forms.
+ *
+ * @since 1.0.0
+ * @since 3.0.0 Unknown.
+ * @since [version] Allow some fields to store values with quotes.
+ */
 class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 
-
 	/**
-	 * Configure the metabox settings
+	 * Configure the metabox settings.
+	 *
+	 * @since 3.0.0
 	 *
 	 * @return void
-	 * @since  3.0.0
-	 * @version  3.0.0
 	 */
 	public function configure() {
 
@@ -34,13 +41,14 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 
 	/**
 	 * Builds array of metabox options.
+	 *
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
 	 *
-	 * @return array
+	 * @since 3.0.0
+	 * @since [version] Allow some fields to store values with quotes.
 	 *
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @return array
 	 */
 	public function get_fields() {
 
@@ -58,8 +66,9 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 						'desc_class' => 'd-all',
 						'group'      => '',
 						'value'      => '',
+						'sanitize'   => 'no_encode_quotes',
 					),
-					// Achievement content textarea
+					// Achievement content textarea.
 					array(
 						'label'      => __( 'Achievement Content', 'lifterlms' ),
 						'desc'       => __( 'Enter any information you would like to display on the achievement.', 'lifterlms' ),
@@ -70,8 +79,9 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 						'desc_class' => 'd-all',
 						'group'      => '',
 						'value'      => '',
+						'sanitize'   => 'no_encode_quotes',
 					),
-					// Achievement background image
+					// Achievement background image.
 					array(
 						'label'      => __( 'Background Image', 'lifterlms' ),
 						'desc'       => __( 'Select an Image to use for the achievement.', 'lifterlms' ),

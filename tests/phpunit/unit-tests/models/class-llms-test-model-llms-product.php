@@ -1,10 +1,12 @@
 <?php
 /**
  * Tests for LifterLMS Product Model
- * @group    LLMS_Product
- * @group    LLMS_Post_Model
- * @since    3.25.2
- * @version  3.25.2
+ *
+ * @group LLMS_Product
+ * @group LLMS_Post_Model
+ *
+ * @since 3.25.2
+ * @since [version] Create a stub for the test_create_method() since this class doesn't need to test that.
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
@@ -78,6 +80,21 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 		$product = new LLMS_Product( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
 		return $product;
 
+	}
+
+
+	/**
+	 * Overwrite parent class method that tests model creation.
+	 *
+	 * This model shouldn't be created, instead the `LLMS_Course` or `LLMS_Membership` classes are used to create products.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_create_model() {
+
+		$this->assertTrue( true );
 	}
 
 

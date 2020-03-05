@@ -1,22 +1,35 @@
 <?php
 /**
  * Meta Box Certificate Options
- * displays email settings metabox. only displays on email post
  *
- * @since  1.0.0
- * @version  3.1.0
+ * Displays email settings metabox. only displays on email post.
+ *
+ * @since 1.0.0
+ * @version [version]
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Meta Box Certificate Options class.
+ *
+ * Displays email settings metabox. only displays on email post.
+ *
+ * @since 1.0.0
+ * @since 3.1.0 Unknown.
+ * @since 3.1.4 Unknown.
+ * @since [version] Allow some fields to store values with quotes.
+ */
 class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 
 
 	/**
-	 * Configure the metabox settings
+	 * Configure the metabox settings.
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.1.4
+	 * @since 3.0.0
+	 * @since 3.1.4 Unknown.
+	 *
+	 * @return void
 	 */
 	public function configure() {
 
@@ -31,12 +44,15 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 
 	/**
 	 * Builds array of metabox options.
+	 *
 	 * Array is called in output method to display options.
 	 * Appropriate fields are generated based on type.
 	 *
-	 * @return array [md array of metabox fields]
-	 * @since  3.0.0
-	 * @version  3.1.0
+	 * @since 3.0.0
+	 * @since 3.1.0 Unknown.
+	 * @since [version] Allow some fields to store values with quotes.
+	 *
+	 * @return array Array of metabox fields.
 	 */
 	public function get_fields() {
 
@@ -58,6 +74,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'value'      => '',
 						'desc_class' => 'd-all',
 						'group'      => 'top',
+						'sanitize'   => 'no_encode_quotes',
 					),
 					array(
 						'type'       => 'text',
@@ -68,6 +85,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'value'      => '',
 						'desc_class' => 'd-all',
 						'group'      => 'bottom',
+						'sanitize'   => 'no_encode_quotes',
 					),
 					array(
 						'type'       => 'text',
