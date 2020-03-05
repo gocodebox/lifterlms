@@ -73,7 +73,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'value'      => '',
 						'desc_class' => 'd-all',
 						'group'      => 'top',
-						'sanitize'   => 'shortcode',
+						'sanitize'   => 'no_encode_quotes',
 					),
 					array(
 						'type'       => 'text',
@@ -84,7 +84,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 						'value'      => '',
 						'desc_class' => 'd-all',
 						'group'      => 'bottom',
-						'sanitize'   => 'shortcode',
+						'sanitize'   => 'no_encode_quotes',
 					),
 					array(
 						'type'       => 'text',
