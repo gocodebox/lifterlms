@@ -292,8 +292,23 @@ class LLMS_Post_Types {
 	public static function register_post_type( $name, $data ) {
 
 		if ( ! post_type_exists( $name ) ) {
-			$filter_name = str_replace( 'llms_', '', $name );
-			register_post_type( $name, apply_filters( 'lifterlms_register_post_type_' . $filter_name, $data ) );
+
+			$unprefixed_name = str_replace( 'llms_', '', $name );
+
+			/**
+			 * Modify post type registration arguments of a LifterLMS custom post type.
+			 *
+			 * The dynamic portion of this hook refers to the post type's name with the `llms_` prefix
+			 * removed (if it exist). For example, to modify the arguments for the membership post type
+			 * (`llms_membership`) the full hook would be "lifterlms_register_post_type_membership".
+			 *
+			 * @since 3.13.0
+			 *
+			 * @param array $data Post type registration arguments passed to `register_post_type()`.
+			 */
+			$data = apply_filters( "lifterlms_register_post_type_${unprefixed_name}", $data );
+			register_post_type( $name, $data );
+
 		}
 
 	}
