@@ -24,7 +24,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 
 		parent::setUpBeforeClass();
 
-		// manually include required files
+		// manually include required files.
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php';
 		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.metabox.php';
@@ -41,7 +41,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	 * @since 3.36.1
 	 *
 	 * @param array $data Data array.
-	 * @param bool $real If true, uses a real nonce. Otherwise uses a fake nonce (useful for testing negative cases).
+	 * @param bool  $real If true, uses a real nonce. Otherwise uses a fake nonce (useful for testing negative cases).
 	 * @return array
 	 */
 	protected function add_nonce_to_array( $data = array(), $real = true ) {

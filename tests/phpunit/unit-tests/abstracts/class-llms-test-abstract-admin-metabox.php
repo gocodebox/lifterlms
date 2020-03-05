@@ -15,7 +15,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Retrieve an mocked abstract.
 	 *
-	 * @since  [version]
+	 * @since [version]
 	 *
 	 * @return LLMS_Admin_Metabox
 	 */
@@ -95,7 +95,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test add_error(), get_errors(), has_errors(), and save_errors().
 	 *
-	 * @since  [version]
+	 * @since [version]
 	 *
 	 * @return void.
 	 */

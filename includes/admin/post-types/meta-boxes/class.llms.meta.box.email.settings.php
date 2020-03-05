@@ -10,7 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Meta Box Certificate Options class
+ * Meta Box Certificate Options class.
  *
  * Displays email settings metabox. only displays on email post.
  *

@@ -37,8 +37,8 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Post Types this metabox should be added to
 	 *
-	 * Can be a string of a single post type or an indexed array of multiple post types
-	 * Define this in extending class's $this->configure() method
+	 * Can be a string of a single post type or an indexed array of multiple post types.
+	 * Define this in extending class's $this->configure() method.
 	 *
 	 * @var array
 	 */
@@ -65,7 +65,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * Accepts anything that can be passed to WP core add_meta_box() function: 'normal', 'side', 'advanced'.
 	 *
-	 * Define this in extending class's $this->configure() method
+	 * Define this in extending class's $this->configure() method.
 	 *
 	 * @var string
 	 */
@@ -147,7 +147,7 @@ abstract class LLMS_Admin_Metabox {
 	private $version = 1;
 
 	/**
-	 * Constructor
+	 * Constructor.
 	 *
 	 * Configure the metabox and automatically add required actions.
 	 *
@@ -181,7 +181,7 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Add an Error Message
+	 * Add an Error Message.
 	 *
 	 * @since 3.0.0
 	 * @since 3.8.0 Unknown.
@@ -194,12 +194,13 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * This function allows extending classes to configure required class properties
+	 * This function allows extending classes to configure required class properties.
 	 *
 	 * Properties $id, $title, and $screens should be configured in this function.
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return void
-	 * @since  3.0.0
 	 */
 	abstract public function configure();
 
@@ -215,7 +216,7 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * This function is where extending classes can configure all the fields within the metabox
+	 * This function is where extending classes can configure all the fields within the metabox.
 	 *
 	 * The function must return an array which can be consumed by the "output" function.
 	 *
@@ -224,7 +225,7 @@ abstract class LLMS_Admin_Metabox {
 	abstract public function get_fields();
 
 	/**
-	 * Normalizes $this->screens to ensure it's an array
+	 * Normalizes $this->screens to ensure it's an array.
 	 *
 	 * @since 3.0.0
 	 * @since [version] Remove unnecessary `else` condition.
@@ -250,7 +251,7 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Generate and output the HTML for the metabox
+	 * Generate and output the HTML for the metabox.
 	 *
 	 * @since Unknown
 	 *
@@ -258,12 +259,12 @@ abstract class LLMS_Admin_Metabox {
 	 */
 	public function output() {
 
-		// etup html for nav and content
+		// etup html for nav and content.
 		$this->process_fields();
 
-		// output the html
+		// output the html.
 		echo '<div class="llms-mb-container">';
-		// only show tabbed navigation when there's more than 1 tab
+		// only show tabbed navigation when there's more than 1 tab.
 		if ( $this->total_tabs > 1 ) {
 			echo '<nav class="llms-nav-tab-wrapper"><ul class="tabs llms-nav-items">' . $this->navigation . '</ul></nav>';
 		}
@@ -276,12 +277,12 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Display the messages as a WP Admin Notice
+	 * Display the messages as a WP Admin Notice.
 	 *
 	 * @since 3.0.0
 	 * @since [version] Load errors using `$this->get_errors()` instead of `get_option()`.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public function output_errors() {
 
@@ -300,7 +301,7 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Process fields to setup navigation and content with minimal PHP loops
+	 * Process fields to setup navigation and content with minimal PHP loops.
 	 *
 	 * Called by `$this->output()` before actually outputting html.
 	 *
@@ -369,11 +370,11 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Register the Metabox using WP Functions
+	 * Register the Metabox using WP Functions.
 	 *
-	 * This is called automatically by constructor
+	 * This is called automatically by constructor.
 	 *
-	 * Utilizes class properties for registration
+	 * Utilizes class properties for registration.
 	 *
 	 * @since 3.0.0
 	 * @since 3.13.0 Unknown.
@@ -394,7 +395,7 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Save field data
+	 * Save field data.
 	 *
 	 * Loops through fields and saves the data to postmeta.
 	 *
@@ -491,7 +492,7 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Allows extending classes to perform additional save methods before the default save
+	 * Allows extending classes to perform additional save methods before the default save.
 	 *
 	 * Called before `$this->save()` during `$this->save_actions()`.
 	 *
@@ -503,7 +504,7 @@ abstract class LLMS_Admin_Metabox {
 	protected function save_before( $post_id ) {}
 
 	/**
-	 * Allows extending classes to perform additional save methods after the default save
+	 * Allows extending classes to perform additional save methods after the default save.
 	 *
 	 * Called after `$this->save()` during `$this->save_actions()`.
 	 *
@@ -515,7 +516,7 @@ abstract class LLMS_Admin_Metabox {
 	protected function save_after( $post_id ) {}
 
 	/**
-	 * Perform Save Actions
+	 * Perform Save Actions.
 	 *
 	 * Triggers actions for before and after save and calls the save method which actually saves metadata.
 	 *
@@ -544,7 +545,7 @@ abstract class LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * Save messages to the database
+	 * Save messages to the database.
 	 *
 	 * @since 3.0.0
 	 * @since [version] Use `$this->error_opt_key()` in favor of hardcoded option name.
