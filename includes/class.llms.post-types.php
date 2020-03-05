@@ -24,8 +24,10 @@ class LLMS_Post_Types {
 	/**
 	 * Constructor
 	 *
-	 * @since    1.0.0
-	 * @version  3.0.4
+	 * @since 1.0.0
+	 * @since 3.0.4 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function init() {
 
@@ -40,29 +42,46 @@ class LLMS_Post_Types {
 
 	/**
 	 * Add post type support for membership restrictions
+	 *
 	 * This enables the "Membership Access" metabox to display
 	 *
-	 * @since    3.0.0
-	 * @version  3.0.4
+	 * @since 3.0.0
+	 * @since 3.0.4 Unknown.
+	 *
+	 * @return  void
 	 */
 	public static function add_membership_restriction_support() {
+
+		/**
+		 * Add llms-membership-restrictions support for the following post types.
+		 *
+		 * Adding support for a post type enables the display of the Membership Restriction metabox
+		 * for each specified post type.
+		 *
+		 * These post types can then be "restricted" to enrollment in the selected memberships.
+		 *
+		 * @since Unknown
+		 *
+		 * @param string[] $post_types Array of post type names..
+		 */
 		$post_types = apply_filters( 'llms_membership_restricted_post_types', array( 'post', 'page' ) );
 		foreach ( $post_types as $post_type ) {
 			add_post_type_support( $post_type, 'llms-membership-restrictions' );
 		}
+
 	}
 
 	/**
 	 * Ensure LifterLMS Post Types have thumbnail support
 	 *
-	 * @return void
+	 * @since 2.4.1
+	 * @since 3.8.0 Unknown.
 	 *
-	 * @since    2.4.1
-	 * @version  3.8.0
+	 * @return void
 	 */
 	public static function add_thumbnail_support() {
 
-		// ensure theme support exists for LifterLMS post types
+		// Ensure theme support exists for LifterLMS post types.
 		if ( ! current_theme_supports( 'post-thumbnails' ) ) {
 			add_theme_support( 'post-thumbnails' );
 		}
@@ -86,21 +105,21 @@ class LLMS_Post_Types {
 	/**
 	 * Retrieve all registered order statuses
 	 *
-	 * @return   array
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 * @since 3.19.0
+	 *
+	 * @return array
 	 */
 	public static function get_order_statuses() {
 
 		$statuses = array(
 
-			// single payment only
+			// Single payment only.
 			'llms-completed'      => array(
 				'label'       => _x( 'Completed', 'Order status', 'lifterlms' ),
 				'label_count' => _n_noop( 'Completed <span class="count">(%s)</span>', 'Completed <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 
-			// recurring only
+			// Recurring only.
 			'llms-active'         => array(
 				'label'       => _x( 'Active', 'Order status', 'lifterlms' ),
 				'label_count' => _n_noop( 'Active <span class="count">(%s)</span>', 'Active <span class="count">(%s)</span>', 'lifterlms' ),
@@ -118,7 +137,7 @@ class LLMS_Post_Types {
 				'label_count' => _n_noop( 'Pending Cancellation <span class="count">(%s)</span>', 'Pending Cancellation <span class="count">(%s)</span>', 'lifterlms' ),
 			),
 
-			// shared
+			// Shared.
 			'llms-pending'        => array(
 				'label'       => _x( 'Pending Payment', 'Order status', 'lifterlms' ),
 				'label_count' => _n_noop( 'Pending Payment <span class="count">(%s)</span>', 'Pending Payment <span class="count">(%s)</span>', 'lifterlms' ),
@@ -149,6 +168,13 @@ class LLMS_Post_Types {
 			$status = array_merge( $status, $defaults );
 		}
 
+		/**
+		 * Filter the list of order statuses that will be registered with WordPress.
+		 *
+		 * @since 3.19.0
+		 *
+		 * @param array[] $statuses Array of post status arrays.
+		 */
 		return apply_filters( 'lifterlms_register_order_post_statuses', $statuses );
 
 	}
@@ -156,12 +182,13 @@ class LLMS_Post_Types {
 	/**
 	 * Get an array of capabilities for a custom post type
 	 *
-	 * @note     core bug does not allow us to use capability_type in post type registration
-	 *           https://core.trac.wordpress.org/ticket/30991
-	 * @param    [type] $post_type  [description]
-	 * @return   [type]                 [description]
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * Due to core bug does not allow us to use capability_type in post type registration.
+	 * See https://core.trac.wordpress.org/ticket/30991.
+	 *
+	 * @since 3.13.0
+	 *
+	 * @param string $post_type Post type name.
+	 * @return array
 	 */
 	public static function get_post_type_caps( $post_type ) {
 
@@ -173,8 +200,18 @@ class LLMS_Post_Types {
 			$plural   = $post_type[1];
 		}
 
+		/**
+		 * Filter the list of post type capabilities for the given post type.
+		 *
+		 * The dynamic portion of this hook, `$singular` refers to the post type's
+		 * name, for example "course" or "llms_membership".
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param array $caps Array of capabilities.
+		 */
 		return apply_filters(
-			'llms_get_' . $singular . '_post_type_caps',
+			"llms_get_${$singular}_post_type_caps",
 			array(
 
 				'read_post'              => sprintf( 'read_%s', $singular ),
@@ -204,10 +241,10 @@ class LLMS_Post_Types {
 	/**
 	 * Retrieve taxonomy capabilities for custom taxonomies
 	 *
-	 * @param    string|array $tax  tax name/names (pass array of singular, plural to customize plural spelling)
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string|array $tax Taxonomy name/names (pass array of singular, plural to customize plural spelling).
+	 * @return  array
 	 */
 	public static function get_tax_caps( $tax ) {
 
@@ -219,8 +256,18 @@ class LLMS_Post_Types {
 			$plural   = $tax[1];
 		}
 
+		/**
+		 * Customize the taxonomy capabilities for the given taxonomy.
+		 *
+		 * The dynamic portion of this hook, `$singular` refers to the taxonomy's
+		 * registered name.
+		 *
+		 * @since 3.13.0
+		 *
+		 * @param array $caps Array of capabilities.
+		 */
 		return apply_filters(
-			'llms_get_' . $singular . '_tax_caps',
+			"llms_get_{$singular}_tax_caps",
 			array(
 				'manage_terms' => sprintf( 'manage_%s', $plural ),
 				'edit_terms'   => sprintf( 'edit_%s', $plural ),
@@ -233,13 +280,14 @@ class LLMS_Post_Types {
 
 	/**
 	 * Register a custom post type
+	 *
 	 * Automatically checks for duplicates and filters data
 	 *
-	 * @param    string $name  post type name
-	 * @param    array  $data  post type data
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string $name Post type name.
+	 * @param array  $data Post type data.
+	 * @return void
 	 */
 	public static function register_post_type( $name, $data ) {
 
@@ -261,7 +309,7 @@ class LLMS_Post_Types {
 	 */
 	public static function register_post_types() {
 
-		// Course
+		// Course.
 		$catalog_id = llms_get_page_id( 'shop' );
 		self::register_post_type(
 			'course',
@@ -304,7 +352,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Section
+		// Section.
 		self::register_post_type(
 			'section',
 			array(
@@ -339,7 +387,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Lesson
+		// Lesson.
 		self::register_post_type(
 			'lesson',
 			array(
@@ -379,7 +427,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// quizzes
+		// Quizzes.
 		self::register_post_type(
 			'llms_quiz',
 			array(
@@ -419,7 +467,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Quiz Question
+		// Quiz Question.
 		self::register_post_type(
 			'llms_question',
 			array(
@@ -455,7 +503,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Memberships
+		// Memberships.
 		$membership_page_id = llms_get_page_id( 'memberships' );
 		self::register_post_type(
 			'llms_membership',
@@ -499,9 +547,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Engagement Post type
-		 */
+		// Engagement.
 		register_post_type(
 			'llms_engagement',
 			apply_filters(
@@ -541,9 +587,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Order post type
-		 */
+		// Order.
 		register_post_type(
 			'llms_order',
 			apply_filters(
@@ -586,9 +630,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Transaction Post Type
-		 */
+		// Transaction.
 		register_post_type(
 			'llms_transaction',
 			apply_filters(
@@ -630,9 +672,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Achievement Post type
-		 */
+		// Achievement.
 		register_post_type(
 			'llms_achievement',
 			apply_filters(
@@ -671,9 +711,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Certificate Post type
-		 */
+		// Certificate.
 		register_post_type(
 			'llms_certificate',
 			apply_filters(
@@ -715,9 +753,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * User specific certificate
-		 */
+		// Earned certificate.
 		register_post_type(
 			'llms_my_certificate',
 			apply_filters(
@@ -759,9 +795,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Email Post Type
-		 */
+		// Email.
 		register_post_type(
 			'llms_email',
 			apply_filters(
@@ -800,9 +834,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Coupon Post type
-		 */
+		// Coupon.
 		register_post_type(
 			'llms_coupon',
 			apply_filters(
@@ -841,9 +873,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Voucher Post type
-		 */
+		// Voucher.
 		register_post_type(
 			'llms_voucher',
 			apply_filters(
@@ -882,9 +912,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Review Post Type
-		 */
+		// Review.
 		register_post_type(
 			'llms_review',
 			apply_filters(
@@ -923,9 +951,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		/**
-		 * Access Plan Post Type
-		 */
+		// Access Plan.
 		register_post_type(
 			'llms_access_plan',
 			apply_filters(
@@ -978,9 +1004,10 @@ class LLMS_Post_Types {
 	/**
 	 * Register post statuses
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.19.0
+	 * @since 3.0.0
+	 * @since 3.19.0 Unknwn.
+	 *
+	 * @return void
 	 */
 	public static function register_post_statuses() {
 
@@ -1036,12 +1063,12 @@ class LLMS_Post_Types {
 	 * Register a custom post type taxonomy
 	 * Automatically checks for duplicates and filters data
 	 *
-	 * @param    string       $name    taxonomy name
-	 * @param    string|array $object  post type object(s) to associate the taxonomy with
-	 * @param    array        $data    taxonomy data
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param string       $name   Taxonomy name.
+	 * @param string|array $object Post type object(s) to associate the taxonomy with.
+	 * @param array        $data   Taxonomy data.
+	 * @return void
 	 */
 	public static function register_taxonomy( $name, $object, $data ) {
 
@@ -1067,7 +1094,7 @@ class LLMS_Post_Types {
 	 */
 	public static function register_taxonomies() {
 
-		// course cat
+		// Course cat.
 		self::register_taxonomy(
 			'course_cat',
 			array( 'course' ),
@@ -1100,7 +1127,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// course difficulty
+		// Course difficulty.
 		self::register_taxonomy(
 			'course_difficulty',
 			array( 'course' ),
@@ -1132,7 +1159,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// course tag
+		// Course tag.
 		self::register_taxonomy(
 			'course_tag',
 			array( 'course' ),
@@ -1164,7 +1191,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// course track
+		// Course track.
 		self::register_taxonomy(
 			'course_track',
 			array( 'course' ),
@@ -1197,7 +1224,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// membership cats
+		// Membership cats.
 		self::register_taxonomy(
 			'membership_cat',
 			array( 'llms_membership' ),
@@ -1231,7 +1258,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// membership tags
+		// Membership tags.
 		self::register_taxonomy(
 			'membership_tag',
 			array( 'llms_membership' ),
@@ -1264,7 +1291,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// course/membership visibility
+		// Course/membership visibility.
 		self::register_taxonomy(
 			'llms_product_visibility',
 			array( 'course', 'llms_membership' ),
@@ -1278,7 +1305,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// access plan visibility
+		// Access plan visibility.
 		self::register_taxonomy(
 			'llms_access_plan_visibility',
 			array( 'llms_access_plan' ),
