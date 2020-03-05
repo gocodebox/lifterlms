@@ -211,7 +211,7 @@ class LLMS_Post_Types {
 		 * @param array $caps Array of capabilities.
 		 */
 		return apply_filters(
-			"llms_get_${$singular}_post_type_caps",
+			"llms_get_{$singular}_post_type_caps",
 			array(
 
 				'read_post'              => sprintf( 'read_%s', $singular ),
