@@ -20,3 +20,5 @@ dist/
 tmp/
 wordpress/
 build/
+
+phpunit.xml
