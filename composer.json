@@ -67,6 +67,10 @@
       "composer config-cs"
     ],
     "tests-install": [
+      "composer run-script tests-install--no-integrations",
+      "\"vendor/bin/llms-tests\" plugin akismet"
+    ],
+    "tests-install--no-integrations": [
       "\"vendor/bin/llms-tests\" teardown llms_tests root password 127.0.0.1",
       "\"vendor/bin/llms-tests\" install llms_tests root password 127.0.0.1"
     ],
