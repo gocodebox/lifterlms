@@ -1134,7 +1134,7 @@ class LLMS_Post_Types {
 				'show_admin_column' => true,
 				'show_ui'           => true,
 				'rewrite'           => array(
-					'slug'         => _x( 'r-category', 'slug', 'lifterlms' ),
+					'slug'         => _x( 'course-category', 'slug', 'lifterlms' ),
 					'with_front'   => false,
 					'hierarchical' => true,
 				),
