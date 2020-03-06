@@ -61,7 +61,7 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 	public function add_user_row_actions( $actions, $user ) {
 
 		// if ( get_current_user_id() !== $user->ID && current_user_can( 'delete_user', $user->ID ) ) {
-		// 	$actions['llms-spam'] = '<a class="danger" href="#">' . __( 'Delete & Report Spam', 'lifterlms' ) . '</a></span';
+		// $actions['llms-spam'] = '<a class="danger" href="#">' . __( 'Delete & Report Spam', 'lifterlms' ) . '</a></span';
 		// }
 
 		// var_dump( $actions );
@@ -157,7 +157,7 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 				'block' => __( 'Block - Prevent account creation', 'lifterlms' ),
 				'allow' => __( 'Allow - Create account and notify an admin', 'lifterlms' ),
 			),
- 		);
+		);
 
 		return $settings;
 
@@ -250,11 +250,14 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 	protected function api_request( $body, $endpoint ) {
 
 		// Add defaults.
-		$body = wp_parse_args( $body, array(
-			'blog'         => get_option( 'home' ),
-			'blog_lang'    => get_locale(),
-			'comment_type' => 'signup',
-		) );
+		$body = wp_parse_args(
+			$body,
+			array(
+				'blog'         => get_option( 'home' ),
+				'blog_lang'    => get_locale(),
+				'comment_type' => 'signup',
+			)
+		);
 
 		/**
 		 * Modify the request body passed to the Akismet API.
@@ -319,10 +322,12 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 			$user = get_user_by( 'ID', $user_id );
 			$body = array(
 				'user_ip'              => get_user_meta( $user_id, 'llms_ip_address', true ),
-				'comment_author'       => $this->get_name_from_data( array(
-					'first_name' => $user->first_name,
-					'last_name'  => $user->last_name,
-				) ),
+				'comment_author'       => $this->get_name_from_data(
+					array(
+						'first_name' => $user->first_name,
+						'last_name'  => $user->last_name,
+					)
+				),
 				'comment_author_email' => $user->user_email,
 			);
 
