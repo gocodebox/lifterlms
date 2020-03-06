@@ -48,28 +48,109 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 		if ( $this->is_available() ) {
 
 			add_filter( 'lifterlms_user_registration_data', array( $this, 'verify_registration' ), 20, 3 );
-			// add_filter( 'user_row_actions', array( $this, 'add_user_row_actions' ), 20, 2 );
+			add_filter( 'user_row_actions', array( $this, 'add_user_row_actions' ), 20, 2 );
+
+			add_action( 'llms_akismet_spam_dectected', array( $this, 'on_spam_detected' ), 10, 3 );
 
 			add_action( 'delete_user_form', array( $this, 'mod_delete_user_form' ), 20, 2 );
-			add_action( 'llms_akismet_spam_dectected', array( $this, 'on_spam_detected' ), 10, 3 );
 			add_action( 'delete_user', array( $this, 'maybe_submit_spam' ) );
+
+			add_action( 'admin_menu', array( $this, 'add_menu_pages' ) );
+			add_action( 'admin_init', array( $this, 'handle_ham_status_change' ) );
 
 		}
 
 	}
 
+	/**
+	 * Add an invisible submenu page where users can submit false-positives (ham) to Akismet
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function add_menu_pages() {
+
+		add_submenu_page( 'users.php', __( 'Edit User Spam Status', 'lifterlms' ), __( 'Edit User Spam Status', 'lifterlms' ), 'manage_lifterlms', 'llms-akismet-ham', array( $this, 'output_manage_ham' ) );
+
+		// Remove the menu item from the submenu so it cannot be accessed directly.
+		global $submenu;
+		$users_sub = wp_list_pluck( $submenu['users.php'], 2 );
+		$index     = array_search( 'llms-akismet-ham', $users_sub, true );
+		unset( $submenu['users.php'][ $index ] );
+
+	}
+
+	/**
+	 * Add a "not spam" link to the user action row on the users list table.
+	 *
+	 * Adds the link to users who with the "manage_lifterlms" capability for any user that was
+	 * marked as spam by Akismet (but allowed to register due to the spam detected action option).
+	 *
+	 * The link directs users to the ham submission (spam removal) admin page.
+	 *
+	 * @since [version]
+	 *
+	 * @param array   $actions Array of existing action links.
+	 * @param WP_User $user    User object.
+	 * @return array
+	 */
 	public function add_user_row_actions( $actions, $user ) {
 
-		// if ( get_current_user_id() !== $user->ID && current_user_can( 'delete_user', $user->ID ) ) {
-		// $actions['llms-spam'] = '<a class="danger" href="#">' . __( 'Delete & Report Spam', 'lifterlms' ) . '</a></span';
-		// }
-
-		// var_dump( $actions );
+		if ( current_user_can( 'manage_lifterlms' ) && llms_parse_bool( get_user_meta( $user->ID, 'llms_akismet_spam', true ) ) ) {
+			$actions['llms-is-ham'] = '<a href="' . esc_url( $this->get_ham_submit_url( $user->ID ) ) . '">' . __( 'Not Spam', 'lifterlms' ) . '</a>';
+		}
 
 		return $actions;
 
 	}
 
+	/**
+	 * Perform a REST request to the Akismet API.
+	 *
+	 * @since  [version]
+	 *
+	 * @param array  $body     Request body.
+	 * @param string $endpoint Request endpoint.
+	 * @return array
+	 */
+	protected function api_request( $body, $endpoint ) {
+
+		// Add defaults.
+		$body = wp_parse_args(
+			$body,
+			array(
+				'blog'         => get_option( 'home' ),
+				'blog_lang'    => get_locale(),
+				'comment_type' => 'signup',
+			)
+		);
+
+		/**
+		 * Modify the request body passed to the Akismet API.
+		 *
+		 * @since [version]
+		 *
+		 * @param array $body     Associative array representing the request body.
+		 * @param array $endpoint Request endpoint
+		 */
+		$body = apply_filters( 'llms_akismet_request_body', $body, $endpoint );
+
+		// Store the initial request body so we can store it on the usermeta table later.
+		wp_cache_set( sprintf( 'llms-akismet-%s-req-body', $endpoint ), $body );
+
+		// Filter the Akismet User Agent string for this next request.
+		add_filter( 'akismet_ua', array( $this, 'modify_user_agent' ) );
+
+		// Make the request.
+		$res = Akismet::http_post( build_query( $body ), $endpoint );
+
+		// Remove the User Agent filter.
+		remove_filter( 'akismet_ua', array( $this, 'modify_user_agent' ) );
+
+		return $res;
+
+	}
 
 	/**
 	 * Retrieve the stored/default error message displayed to users when Spam is detected.
@@ -82,6 +163,24 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 
 		return $this->get_option( 'error_message', __( 'There was an error while creating your account. Please try again later.', 'lifterlms' ) );
 
+	}
+
+	/**
+	 * Get the URL to the ham submission page for a given user.
+	 *
+	 * @since  [version]
+	 *
+	 * @param int $user_id WP_User ID.
+	 * @return string
+	 */
+	protected function get_ham_submit_url( $user_id ) {
+		return add_query_arg(
+			array(
+				'user' => $user_id,
+				'page' => 'llms-akismet-ham',
+			),
+			admin_url( 'users.php' )
+		);
 	}
 
 	/**
@@ -160,6 +259,47 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 		);
 
 		return $settings;
+
+	}
+
+	/**
+	 * Handle the form submission for false-positives (ham)
+	 *
+	 * Validate user, nonce, and required form elements and, if original
+	 * request data is available, submit it to Akismet.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://akismet.com/development/api/#submit-ham
+	 *
+	 * @return null|false|void `null` when nonce cannot be verified or current user doesn't have necessary caps.
+	 *                         `false` when missing required form elements.
+	 *                         Void with a redirection on success.
+	 */
+	public function handle_ham_status_change() {
+
+		if ( ! llms_verify_nonce( '_wpnonce', 'llms-akismet-ham' ) ) {
+			return null;
+		} elseif ( ! current_user_can( 'manage_lifterlms' ) ) {
+			return null;
+		}
+
+		$user_id = llms_filter_input( INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT );
+		$action  = llms_filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+
+		if ( ! $user_id || 'llms-akismet-ham' !== $action ) {
+			return false;
+		}
+
+		delete_user_meta( $user_id, 'llms_akismet_spam' );
+
+		$body = get_user_meta( $user_id, 'llms_akismet_orig_req_body', true );
+		if ( $body ) {
+			$this->api_request( $body, 'submit-ham' );
+		}
+
+		LLMS_Admin_Notices::flash_notice( __( 'User spam status removed.', 'lifterlms' ), 'success' );
+		llms_redirect_and_exit( admin_url( 'users.php' ) );
 
 	}
 
@@ -247,41 +387,6 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 
 	}
 
-	protected function api_request( $body, $endpoint ) {
-
-		// Add defaults.
-		$body = wp_parse_args(
-			$body,
-			array(
-				'blog'         => get_option( 'home' ),
-				'blog_lang'    => get_locale(),
-				'comment_type' => 'signup',
-			)
-		);
-
-		/**
-		 * Modify the request body passed to the Akismet API.
-		 *
-		 * @since [version]
-		 *
-		 * @param array $body     Associative array representing the request body.
-		 * @param array $endpoint Request endpoint
-		 */
-		$body = apply_filters( 'llms_akismet_request_body', $body, $endpoint );
-
-		// Filter the Akismet User Agent string for this next request.
-		add_filter( 'akismet_ua', array( $this, 'modify_user_agent' ) );
-
-		// Make the request.
-		$res = Akismet::http_post( build_query( $body ), $endpoint );
-
-		// Remove the User Agent filter.
-		remove_filter( 'akismet_ua', array( $this, 'modify_user_agent' ) );
-
-		return $res;
-
-	}
-
 	/**
 	 * Add usermeta data to a user denoting that Akismet thinks it's spammy.
 	 *
@@ -309,30 +414,31 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 	/**
 	 * When a user is being deleted, report the signup as spam if the user selected to report during deletion.
 	 *
-	 * @since  [version]
+	 * This will report spam only if the user had previously been checked via /comment-check.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://akismet.com/development/api/#submit-spam
 	 *
 	 * @param  int $user_id WP_User ID.
-	 * @return array|false Array containing the Akismet API response or `false` if reporting wasn't requested.
+	 * @return array|false Array containing the Akismet API response  or
+	 *                     `false` if reporting wasn't requested or the signup couldn't be submitted because it wasn't previously checked.
 	 */
 	public function maybe_submit_spam( $user_id ) {
+
+		check_admin_referer( 'delete-users' );
+
+		if ( get_current_user_id() === $user_id || ! current_user_can( 'delete_user', $user_id ) ) {
+			wp_die( __( 'Sorry, you are not allowed to submit a spam report for this user.' ), 403 );
+		}
 
 		$submit = llms_filter_input( INPUT_POST, 'llms_akismet_submit', FILTER_SANITIZE_STRING );
 		if ( llms_parse_bool( $submit ) ) {
 
-			$user = get_user_by( 'ID', $user_id );
-			$body = array(
-				'user_ip'              => get_user_meta( $user_id, 'llms_ip_address', true ),
-				'comment_author'       => $this->get_name_from_data(
-					array(
-						'first_name' => $user->first_name,
-						'last_name'  => $user->last_name,
-					)
-				),
-				'comment_author_email' => $user->user_email,
-			);
-
-			return $this->api_request( $body, 'submit-spam' );
-
+			$body = get_user_meta( $user_id, 'llms_akismet_orig_req_body', true );
+			if ( $body ) {
+				return $this->api_request( $body, 'submit-spam' );
+			}
 		}
 
 		return false;
@@ -399,6 +505,14 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 
 	}
 
+	/**
+	 * Notify admin when Akismet finds a spam signup that's not blocked due to integration options.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id WP_User ID
+	 * @return void
+	 */
 	public function notify_admin( $user_id ) {
 
 		$user   = get_user_by( 'ID', $user_id );
@@ -417,9 +531,16 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 		$subject = sprintf( esc_html__( '[%1$s] Please moderate user: "%2$s"' ), get_bloginfo( 'name' ), $user->user_email );
 		$mailer->set_subject( $subject );
 
-		$message = __( 'A new user account registration has been flagged as potential spam.', 'lifterlms' );
+		$message = __( 'A new user account registration has been flagged by Akismet as potential spam.', 'lifterlms' ) . "\r\n\r\n";
 
-		$mailer->set_body( $message );
+		$message .= esc_html__( 'User information:', 'lifterlms' ) . "\r\n";
+		$message .= sprintf( esc_html__( 'Name: %s', 'lifterlms' ), $user->display_name ) . "\r\n";
+		$message .= sprintf( esc_html__( 'Email: %s', 'lifterlms' ), $user->user_email ) . "\r\n\r\n";
+
+		$message .= sprintf( esc_html__( 'Delete spam account: %s', 'lifterlms' ), admin_url( 'users.php?s=' . $user->user_login ) ) . "\r\n";
+		$message .= sprintf( esc_html__( 'Mark not spam: %s', 'lifterlms' ), $this->get_ham_submit_url( $user->ID ) ) . "\r\n";
+
+		$mailer->set_body( make_clickable( $message ) );
 
 		// Log when wp_mail fails.
 		if ( ! $mailer->send() ) {
@@ -459,6 +580,68 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 	}
 
 	/**
+	 * Output the HTML for the spam removal (ham submission) admin page.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function output_manage_ham() {
+
+		if ( ! current_user_can( 'manage_lifterlms' ) ) {
+			wp_die( __( 'You are not allowed to perform the requested action.', 'lifterlms' ) );
+		}
+
+		$uid  = llms_filter_input( INPUT_GET, 'user', FILTER_SANITIZE_NUMBER_INT );
+		$user = $uid ? get_user_by( 'ID', $uid ) : false;
+		if ( ! $user ) {
+			wp_die( __( 'Invalid user ID.', 'lifterlms' ) );
+		}
+
+		?>
+
+		<form method="POST" name="llms-akismet-ham" id="llms-akismet-ham">
+			<div class="wrap">
+				<h1 class="wp-heading-inline"><?php esc_html_e( 'Edit User Spam Status', 'lifterlms' ); ?></h1>
+				<a href="<?php echo admin_url( 'users.php' ); ?>" class="page-title-action"><?php esc_html_e( 'Cancel', 'lifterlms' ); ?></a>
+
+				<p><?php esc_html_e( "The following user's spam status will be removed:", 'lifterlms' ); ?></p>
+				<p><?php printf( esc_html__( 'ID #%1$d: %2$s <%3$s>', 'lifterlms' ), $user->ID, $user->display_name, $user->user_email ); ?></p>
+
+				<input type="hidden" name="action" value="llms-akismet-ham" />
+				<input type="hidden" name="user_id" value="<?php echo $user->ID; ?>" />
+				<?php wp_nonce_field( 'llms-akismet-ham' ); ?>
+				<?php submit_button( __( 'Confirm Update', 'lifterlms' ), 'primary' ); ?>
+			</div>
+		</form>
+		<?php
+
+	}
+
+	/**
+	 * Record the initial Akismet /comment-check request body on the user meta table
+	 *
+	 * When submitting spam/ham later Akismet requests we use the original request
+	 * when it is available.
+	 *
+	 * @since [version]
+	 *
+	 * @param int $user_id WP_User ID.
+	 * @return void
+	 */
+	public function record_request_body( $user_id ) {
+
+		$key      = 'llms-akismet-comment-check-req-body';
+		$req_body = wp_cache_get( $key );
+		if ( $req_body ) {
+			wp_cache_delete( $key );
+			$res = update_user_meta( $user_id, 'llms_akismet_orig_req_body', $req_body );
+		}
+
+		remove_action( 'lifterlms_user_registered', array( $this, 'record_request_body' ) );
+
+	}
+	/**
 	 * Determine if verification should be attempted.
 	 *
 	 * Checks if verification options are r for the given screen.
@@ -496,12 +679,10 @@ class LLMS_Integration_Akismet extends LLMS_Abstract_Integration {
 		} elseif ( ! $this->should_verify( $screen ) ) {
 			return $valid;
 
-			// Not spam.
-		} elseif ( ! $this->is_spam( $data ) ) {
-			return $valid;
-		}
+			// Not spam or is spam and we're allowing spam to register.
+		} elseif ( ! $this->is_spam( $data ) || 'allow' === $this->get_option( 'spam_action' ) ) {
 
-		if ( 'allow' === $this->get_option( 'spam_action' ) ) {
+			add_action( 'lifterlms_user_registered', array( $this, 'record_request_body' ) );
 			return $valid;
 		}
 

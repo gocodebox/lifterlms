@@ -505,15 +505,172 @@ class LLMS_Test_Integration_Akismet extends LLMS_Unit_Test_Case {
 
 	}
 
-	public function mark_user_as_spam() {
+	/**
+	 * Test the mark_user_as_spam() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_mark_user_as_spam() {
 
 		add_action( 'lifterlms_user_registered', array( $this->main, 'mark_user_as_spam' ) );
 
 		$user = $this->factory->student->create();
 		$this->main->mark_user_as_spam( $user );
 
-		$this->assertTrue( llms_parse_bool( get_user_meta( $user, 'llms_akismet_spam' ) ) );
-		$this->assertFalse( add_action( 'lifterlms_user_registered', array( $this->main, 'mark_user_as_spam' ) ) );
+		$this->assertTrue( llms_parse_bool( get_user_meta( $user, 'llms_akismet_spam', true ) ) );
+		$this->assertFalse( has_action( 'lifterlms_user_registered', array( $this->main, 'mark_user_as_spam' ) ) );
+
+		$this->markTestIncomplete( 'test the email' );
+
+	}
+
+	/**
+	 * Test maybe_submit_spam() with invalid nonce and referrer
+	 *
+	 * @since [version]
+	 *
+	 * @expectedException WPDieException
+	 *
+	 * @return void
+	 */
+	public function test_maybe_submit_spam_invalid_nonce() {
+
+		$this->main->maybe_submit_spam( $this->factory->student->create() );
+
+	}
+
+	/**
+	 * Test maybe_submit_spam() cannot report yourself.
+	 *
+	 * @since [version]
+	 *
+	 * @expectedException WPDieException
+	 *
+	 * @return void
+	 */
+	public function test_maybe_submit_spam_self() {
+
+		$this->mockPostRequest( array(
+			'_wp_http_referer' => admin_url(),
+			'_wpnonce' => wp_create_nonce( 'delete-users' ),
+		) );
+
+		$user = $this->factory->student->create();
+		wp_set_current_user( $user );
+
+		$this->main->maybe_submit_spam( $user );
+
+	}
+
+	/**
+	 * Test maybe_submit_spam() user missing required capabilities.
+	 *
+	 * @since [version]
+	 *
+	 * @expectedException WPDieException
+	 *
+	 * @return void
+	 */
+	public function test_maybe_submit_spam_no_caps() {
+
+		$this->mockPostRequest( array(
+			'_wp_http_referer' => admin_url(),
+			'_wpnonce' => wp_create_nonce( 'delete-users' ),
+		) );
+
+		wp_set_current_user( $this->factory->student->create() );
+
+		$this->main->maybe_submit_spam( $this->factory->student->create() );
+
+	}
+
+	/**
+	 * Test maybe_submit_spam() with invalid nonce
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_submit_spam_but_dont() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// No submission value set.
+		$this->mockPostRequest( array(
+			'_wp_http_referer' => admin_url(),
+			'_wpnonce' => wp_create_nonce( 'delete-users' ),
+		) );
+
+		$this->assertFalse( $this->main->maybe_submit_spam( $this->factory->student->create() ) );
+
+		// Explicit no.
+		$this->mockPostRequest( array(
+			'_wp_http_referer' => admin_url(),
+			'_wpnonce' => wp_create_nonce( 'delete-users' ),
+			'llms_akismet_submit' => 'no',
+		) );
+
+		$this->assertFalse( $this->main->maybe_submit_spam( $this->factory->student->create() ) );
+
+	}
+
+	/**
+	 * Test maybe_submit_spam() on a user that hadn't been previously checked.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_submit_spam_cannot_submit() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->mockPostRequest( array(
+			'_wp_http_referer' => admin_url(),
+			'_wpnonce' => wp_create_nonce( 'delete-users' ),
+			'llms_akismet_submit' => 'yes',
+		) );
+
+		$this->assertFalse( $this->main->maybe_submit_spam( $this->factory->student->create() ) );
+
+	}
+
+	/**
+	 * Test maybe_submit_spam()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_submit_spam_success() {
+
+		if ( ! $this->set_api_key( true ) ) {
+			$this->markTestSkipped( 'This test requires an Akismet developer API Key.' );
+		}
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		$this->mockPostRequest( array(
+			'_wp_http_referer' => admin_url(),
+			'_wpnonce' => wp_create_nonce( 'delete-users' ),
+			'llms_akismet_submit' => 'yes',
+		) );
+
+		$user = $this->factory->student->create_and_get();
+
+		// Submit the user so it can be submitted later.
+		$this->is_ham_request = true;
+		LLMS_Unit_Test_Util::call_method( $this->main, 'is_spam', array( array(
+			'email_address' => $user->user_email,
+		) ) );
+		$this->is_ham_request = false;
+		$this->main->record_request_body( $user->get( 'id' ) );
+
+		$res = $this->main->maybe_submit_spam( $user->get( 'id' ) );
+		$this->assertTrue( is_array( $res ) );
+		$this->assertEquals( 'Thanks for making the web a better place.', $res[1] );
 
 	}
 
@@ -594,6 +751,50 @@ class LLMS_Test_Integration_Akismet extends LLMS_Unit_Test_Case {
 	}
 
 	/**
+	 * Test record_request_body() when no request body is cached
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_record_request_body_no_cache() {
+
+		add_action( 'lifterlms_user_registered', array( $this->main, 'record_request_body' ) );
+
+		$user = $this->factory->student->create();
+
+		$this->main->record_request_body( $user );
+		$this->assertEmpty( get_user_meta( $user, 'llms_akismet_orig_req_body' ) );
+
+		$this->assertFalse( has_action( 'lifterlms_user_registered', array( $this->main, 'record_request_body' ) ) );
+
+	}
+
+	/**
+	 * Test record_request_body() when request body is cached
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_record_request_body_with_cache() {
+
+		add_action( 'lifterlms_user_registered', array( $this->main, 'record_request_body' ) );
+
+		$user   = $this->factory->student->create();
+		$expect = array( 'mock_data' => 'whatever' );
+
+		wp_cache_set( 'llms-akismet-comment-check-req-body', $expect );
+
+		$this->main->record_request_body( $user );
+		$this->assertEquals( $expect, get_user_meta( $user, 'llms_akismet_orig_req_body', true ) );
+		$this->assertFalse( wp_cache_get( 'llms-akismet-comment-check-req-body' ) );
+
+		$this->assertFalse( has_action( 'lifterlms_user_registered', array( $this->main, 'record_request_body' ) ) );
+
+	}
+
+	/**
 	 * Test should_verify()
 	 *
 	 * @since [version]
@@ -662,12 +863,25 @@ class LLMS_Test_Integration_Akismet extends LLMS_Unit_Test_Case {
 			$this->markTestSkipped( 'This test requires an Akismet developer API Key.' );
 		}
 
+		$this->main->set_option( 'verify_registration', 'yes' );
+
 		$data = array(
 			'email_address' => 'ham@example.com',
 		);
 
 		$this->is_ham_request = true;
-		$this->assertTrue( $this->main->verify_registration( true, $data, 'fakescreen' ) );
+
+		// Registration is valid.
+		$this->assertTrue( $this->main->verify_registration( true, $data, 'registration' ) );
+
+		// Test cache mechanism is working properly.
+		$cached_req = wp_cache_get( 'llms-akismet-comment-check-req-body' );
+
+		$this->assertEquals( $data['email_address'], $cached_req['comment_author_email'] );
+		$this->assertArrayHasKey( 'blog', $cached_req );
+		$this->assertArrayHasKey( 'blog_lang', $cached_req );
+		$this->assertArrayHasKey( 'comment_type', $cached_req );
+
 		$this->is_ham_request = false;
 
 	}
@@ -679,17 +893,44 @@ class LLMS_Test_Integration_Akismet extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function test_verify_registration_is_spam() {
+	public function test_verify_registration_is_spam_allow() {
 
 		if ( ! $this->set_api_key( true ) ) {
 			$this->markTestSkipped( 'This test requires an Akismet developer API Key.' );
 		}
 
+		$this->main->set_option( 'verify_registration', 'yes' );
+		$this->main->set_option( 'spam_action', 'allow' );
+
 		$data = array(
 			'email_address' => 'akismet-guaranteed-spam@example.com',
 		);
 
+		// Registration is valid.
+		$this->assertTrue( $this->main->verify_registration( true, $data, 'registration' ) );
+
+	}
+
+	/**
+	 * Test verify_registration(): verify and is spam
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_verify_registration_is_spam_block() {
+
+		if ( ! $this->set_api_key( true ) ) {
+			$this->markTestSkipped( 'This test requires an Akismet developer API Key.' );
+		}
+
 		$this->main->set_option( 'verify_registration', 'yes' );
+		$this->main->set_option( 'spam_action', 'block' );
+
+		$data = array(
+			'email_address' => 'akismet-guaranteed-spam@example.com',
+		);
+
 		$res = $this->main->verify_registration( true, $data, 'registration' );
 
 		$this->assertIsWPError( $res );
