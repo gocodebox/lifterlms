@@ -227,7 +227,7 @@ Functions and class methods should be formatted as follows:
 
 ```
 /**
- * Summary.
+ * Summary
  *
  * Description.
  *
@@ -255,7 +255,7 @@ Class DocBlocks should be formatted as follows:
 
 ```
 /**
- * Summary.
+ * Summary
  *
  * Description.
  *
@@ -277,7 +277,7 @@ Class properties and constants should be formatted as follows:
 
 ```
 /**
- * Summary.
+ * Summary
  *
  * @since x.x.x
  * @since x.x.x Description of member changes.
@@ -299,7 +299,7 @@ Note that `@return` is not used for hook documentation, because action hooks ret
 
 ```
 /**
- * Summary.
+ * Summary
  *
  * Description.
  *
