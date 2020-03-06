@@ -244,7 +244,7 @@ class LLMS_Post_Types {
 	 * @since 3.13.0
 	 *
 	 * @param string|array $tax Taxonomy name/names (pass array of singular, plural to customize plural spelling).
-	 * @return  array
+	 * @return array
 	 */
 	public static function get_tax_caps( $tax ) {
 
@@ -442,7 +442,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Quizzes.
+		// Quiz.
 		self::register_post_type(
 			'llms_quiz',
 			array(
@@ -518,7 +518,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Memberships.
+		// Membership.
 		$membership_page_id = llms_get_page_id( 'memberships' );
 		self::register_post_type(
 			'llms_membership',
@@ -1239,7 +1239,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Membership cats.
+		// Membership cat.
 		self::register_taxonomy(
 			'membership_cat',
 			array( 'llms_membership' ),
@@ -1273,7 +1273,7 @@ class LLMS_Post_Types {
 			)
 		);
 
-		// Membership tags.
+		// Membership tag.
 		self::register_taxonomy(
 			'membership_tag',
 			array( 'llms_membership' ),
