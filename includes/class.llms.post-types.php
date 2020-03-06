@@ -62,7 +62,7 @@ class LLMS_Post_Types {
 		 *
 		 * @since Unknown
 		 *
-		 * @param string[] $post_types Array of post type names..
+		 * @param string[] $post_types Array of post type names.
 		 */
 		$post_types = apply_filters( 'llms_membership_restricted_post_types', array( 'post', 'page' ) );
 		foreach ( $post_types as $post_type ) {
