@@ -5,6 +5,7 @@
  * @since 3.14.7
  * @version [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -154,10 +155,11 @@ class LLMS_Nav_Menus {
 	/**
 	 * Retrieve a filtered array of custom LifterLMS nav menu items.
 	 *
-	 * @return array
 	 * @since 3.14.7
 	 * @since [version] Fixed possible access to undefined index.
 	 *                Excluded endpoints with an empty url.
+	 *
+	 * @return array
 	 */
 	private function get_nav_items() {
 
@@ -209,7 +211,7 @@ class LLMS_Nav_Menus {
 	 *
 	 * @since 3.22.0
 	 * @since [version] Use strict comparisons.
-	 *                  Cast `page_for_posts` option to int in order to use strict comparisons.
+	 *                Cast `page_for_posts` option to int in order to use strict comparisons.
 	 *
 	 * @param array $menu_items Menu items.
 	 * @return array
