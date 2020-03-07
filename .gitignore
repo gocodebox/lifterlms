@@ -20,3 +20,6 @@ dist/
 tmp/
 wordpress/
 build/
+
+# Exclude non-distributable configs
+phpunit.xml
