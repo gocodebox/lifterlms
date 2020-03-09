@@ -20,6 +20,11 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Admin_Builder {
 
+	/**
+	 * Search term string used by `get_existing_posts_where()` when querying for existing posts to clone/add to a course.
+	 *
+	 * @var string
+	 */
 	private static $search_term = '';
 
 	/**
@@ -208,8 +213,8 @@ class LLMS_Admin_Builder {
 					'text'    => sprintf( '%1$s (#%2$d)', $post->get( 'title' ), $post->get( 'id' ) ),
 				);
 
-			}// End foreach().
-		}// End if().
+			}
+		}
 
 		$ret = array(
 			'results'    => $posts,
@@ -330,7 +335,7 @@ class LLMS_Admin_Builder {
 				wp_send_json( self::get_existing_posts( absint( $request['course_id'] ), $post_type, $term, $page ) );
 				break;
 
-		}// End switch().
+		}
 
 		return array();
 
@@ -388,7 +393,6 @@ class LLMS_Admin_Builder {
 		$data = $data['llms_builder'];
 
 		// Escape slashes.
-		// $data = json_decode( str_replace( '\\', '\\\\', $data ), true );
 		$data = json_decode( $data, true );
 
 		// setup our return
@@ -912,7 +916,7 @@ class LLMS_Admin_Builder {
 					}
 				}
 			}
-		}// End foreach().
+		}
 
 	}
 
@@ -1013,14 +1017,14 @@ class LLMS_Admin_Builder {
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
-			}// End if().
+			}
 
 			// allow 3rd parties to update custom data
 			$res = apply_filters( 'llms_builder_update_lesson', $res, $lesson_data, $lesson, $created );
 
 			array_push( $ret, $res );
 
-		}// End foreach().
+		}
 
 		return $ret;
 
@@ -1108,11 +1112,11 @@ class LLMS_Admin_Builder {
 					$ret['questions'] = self::update_questions( $questions, $question );
 
 				}
-			}// End if().
+			}
 
 			array_push( $res, $ret );
 
-		}// End foreach().
+		}
 
 		return $res;
 
@@ -1190,7 +1194,7 @@ class LLMS_Admin_Builder {
 			// update all custom fields
 			self::update_custom_schemas( 'quiz', $quiz, $quiz_data );
 
-		}// End if().
+		}
 
 		return $res;
 
