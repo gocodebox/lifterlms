@@ -100,13 +100,13 @@ class LLMS_Admin_Builder {
 			}
 
 			$quiz_fields[ sprintf( '%s_backwards_theme_group', $theme->get_stylesheet() ) ] = array(
+				// Translators: %s = Theme name.
 				'title'      => sprintf( __( '%s Theme Settings', 'lifterlms' ), $theme->get( 'Name' ) ),
 				'toggleable' => true,
 				'fields'     => array( array( $field ) ),
 			);
 
 		}
-		// end backwards compat
 
 		return apply_filters(
 			'llms_builder_register_custom_fields',
@@ -198,9 +198,11 @@ class LLMS_Admin_Builder {
 					}
 
 					if ( $lesson_id ) {
+						// Translators: %1$s = Lesson title; %2$d = Lesson id.
 						$parents['lesson'] = sprintf( __( 'Lesson: %1$s (#%2$d)', 'lifterlms' ), '<em>' . get_the_title( $lesson_id ) . '</em>', $lesson_id );
 					}
 					if ( $course_id ) {
+						// Translators: %1$s = Course title; %2$d - Course id.
 						$parents['course'] = sprintf( __( 'Course: %1$s (#%2$d)', 'lifterlms' ), '<em>' . get_the_title( $course_id ) . '</em>', $course_id );
 					}
 				}
@@ -601,6 +603,7 @@ class LLMS_Admin_Builder {
 		foreach ( $data['detach'] as $id ) {
 
 			$res = array(
+				// Translators: %s = Item id.
 				'error' => sprintf( esc_html__( 'Unable to detach "%s". Invalid ID.', 'lifterlms' ), $id ),
 				'id'    => $id,
 			);
@@ -680,6 +683,7 @@ class LLMS_Admin_Builder {
 
 		// Default response.
 		$res = array(
+			// Translators: %s = Item id.
 			'error' => sprintf( esc_html__( 'Unable to delete "%s". Invalid ID.', 'lifterlms' ), $id ),
 			'id'    => $id,
 		);
@@ -761,7 +765,8 @@ class LLMS_Admin_Builder {
 
 		// Error.
 		if ( ! $question->delete_choice( $split[1] ) ) {
-			return new WP_Error( 'llms_builder_trash_custom_item', sprintf( esc_html__( 'Error deleting the question choice "%d"', 'lifterlms' ), $id ) );
+			// Translators: %s = Question choice ID.
+			return new WP_Error( 'llms_builder_trash_custom_item', sprintf( esc_html__( 'Error deleting the question choice "%s"', 'lifterlms' ), $id ) );
 		}
 
 		// Success.
@@ -798,6 +803,7 @@ class LLMS_Admin_Builder {
 		 */
 		$post_types = apply_filters( 'llms_builder_trashable_post_types', array( 'lesson', 'llms_quiz', 'llms_question', 'section' ) );
 		if ( ! in_array( $post_type, $post_types, true ) ) {
+			// Translators: %s = Post type name.
 			return new WP_Error( 'llms_builder_trash_unsupported_post_type', sprintf( esc_html__( '%s cannot be deleted via the Course Builder.', 'lifterlms' ), $obj->labels->name ) );
 		}
 
@@ -821,6 +827,7 @@ class LLMS_Admin_Builder {
 		// Delete or trash the post.
 		$res = $force ? wp_delete_post( $id, true ) : wp_trash_post( $id );
 		if ( ! $res ) {
+			// Translators: %1$s = Post type singular name; %2$d = Post id.
 			return new WP_Error( 'llms_builder_trash_post_type', sprintf( esc_html__( 'Error deleting the %1$s "%2$d".', 'lifterlms' ), $obj->labels->singular_name, $id ) );
 		}
 
@@ -973,6 +980,7 @@ class LLMS_Admin_Builder {
 
 			if ( empty( $lesson ) || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
+				// Translators: %s = Lesson post id.
 				$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
 
 			} else {
@@ -1069,6 +1077,7 @@ class LLMS_Admin_Builder {
 
 			if ( ! $question_id ) {
 
+				// Translators: %s = Question post id.
 				$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
 
 			} else {
@@ -1099,6 +1108,7 @@ class LLMS_Admin_Builder {
 
 						$choice_id = $question->update_choice( $c_data );
 						if ( ! $choice_id ) {
+							// Translators: %s = Question choice ID.
 							$choice_res['error'] = sprintf( esc_html__( 'Unable to update choice "%s". Invalid choice ID.', 'lifterlms' ), $c_data['id'] );
 						} else {
 							$choice_res['id'] = $choice_id;
@@ -1158,6 +1168,7 @@ class LLMS_Admin_Builder {
 		// we don't have a proper quiz to work with...
 		if ( empty( $quiz ) || ! is_a( $quiz, 'LLMS_Quiz' ) ) {
 
+			// Translators: %s = Quiz post id.
 			$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
 
 		} else {
@@ -1233,6 +1244,7 @@ class LLMS_Admin_Builder {
 
 		// we don't have a proper section to work with...
 		if ( empty( $section ) || ! is_a( $section, 'LLMS_Section' ) ) {
+			// Translators: %s = Section post id.
 			$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
 		} else {
 
