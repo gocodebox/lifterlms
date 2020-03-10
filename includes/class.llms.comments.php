@@ -139,67 +139,68 @@ class LLMS_Comments {
 	 */
 	public static function wp_count_comments( $stats, $post_id ) {
 
-		if ( 0 === $post_id ) {
+		if ( 0 !== $post_id ) {
+			return $stats;
+		}
 
-			$stats = get_transient( 'llms_count_comments' );
+		$stats = get_transient( 'llms_count_comments' );
+		if ( $stats ) {
+			return $stats;
+		}
 
-			if ( ! $stats ) {
+		$stats = array(
+			'total_comments' => 0,
+			'all'            => 0,
+		);
 
-				$stats = array(
-					'total_comments' => 0,
-					'all'            => 0,
-				);
+		global $wpdb;
+		$count = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+			"
+			SELECT comment_approved, COUNT( * ) AS num_comments
+			  FROM {$wpdb->comments}
+			 WHERE comment_type != 'llms_order_note'
+		  GROUP BY comment_approved;
+			",
+			ARRAY_A
+		);
 
-				global $wpdb;
-				$count = $wpdb->get_results( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-					"
-					SELECT comment_approved, COUNT( * ) AS num_comments
-					  FROM {$wpdb->comments}
-					 WHERE comment_type != 'llms_order_note'
-				  GROUP BY comment_approved;
-					",
-					ARRAY_A
-				);
+		$approved = array(
+			'0'            => 'moderated',
+			'1'            => 'approved',
+			'spam'         => 'spam',
+			'trash'        => 'trash',
+			'post-trashed' => 'post-trashed',
+		);
 
-				$approved = array(
-					'0'            => 'moderated',
-					'1'            => 'approved',
-					'spam'         => 'spam',
-					'trash'        => 'trash',
-					'post-trashed' => 'post-trashed',
-				);
+		foreach ( (array) $count as $row ) {
 
-				foreach ( (array) $count as $row ) {
+			if ( ! in_array( $row['comment_approved'], array( 'post-trashed', 'trash', 'spam' ), true ) ) {
+				$stats['all']            += $row['num_comments'];
+				$stats['total_comments'] += $row['num_comments'];
+			} elseif ( ! in_array( $row['comment_approved'], array( 'post-trashed', 'trash' ), true ) ) {
+				$stats['total_comments'] += $row['num_comments'];
+			}
 
-					if ( ! in_array( $row['comment_approved'], array( 'post-trashed', 'trash', 'spam' ), true ) ) {
-						$stats['all']            += $row['num_comments'];
-						$stats['total_comments'] += $row['num_comments'];
-					} elseif ( ! in_array( $row['comment_approved'], array( 'post-trashed', 'trash' ), true ) ) {
-						$stats['total_comments'] += $row['num_comments'];
-					}
-					if ( isset( $approved[ $row['comment_approved'] ] ) ) {
-						$stats[ $approved[ $row['comment_approved'] ] ] = $row['num_comments'];
-					}
-
-				}
-
-				// Fill in remaining items with 0.
-				foreach ( $approved as $key ) {
-					if ( empty( $stats[ $key ] ) ) {
-						$stats[ $key ] = 0;
-					}
-				}
-
-				// Cast to an object the way WP expects.
-				$stats = (object) $stats;
-
-				set_transient( 'llms_count_comments', $stats );
-
+			if ( isset( $approved[ $row['comment_approved'] ] ) ) {
+				$stats[ $approved[ $row['comment_approved'] ] ] = $row['num_comments'];
 			}
 
 		}
 
+		// Fill in remaining items with 0.
+		foreach ( $approved as $key ) {
+			if ( empty( $stats[ $key ] ) ) {
+				$stats[ $key ] = 0;
+			}
+		}
+
+		// Cast to an object the way WP expects.
+		$stats = (object) $stats;
+
+		set_transient( 'llms_count_comments', $stats );
+
 		return $stats;
+
 	}
 
 }
