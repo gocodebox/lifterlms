@@ -4,7 +4,7 @@
  *
  * @since 3.33.0
  * @since 3.36.1 Unknown.
- * @since [version] Call parent method in setUpBeforeClass().
+ * @since 3.37.12 Call parent method in setUpBeforeClass().
  */
 
 require_once 'class-llms-unit-test-case.php';
@@ -16,7 +16,7 @@ class LLMS_PostTypeMetaboxTestCase extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.33.0
 	 * @since 3.36.1 Conditionally require LLMS_Admin_Meta_Boxes.
-	 * @since [version] Call parent method.
+	 * @since 3.37.12 Call parent method.
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * Displays email settings metabox. only displays on email post.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.1.0 Unknown.
  * @since 3.1.4 Unknown.
- * @since [version] Allow some fields to store values with quotes.
+ * @since 3.37.12 Allow some fields to store values with quotes.
  */
 class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 
@@ -50,7 +50,7 @@ class LLMS_Meta_Box_Email_Settings extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.1.0 Unknown.
-	 * @since [version] Allow some fields to store values with quotes.
+	 * @since 3.37.12 Allow some fields to store values with quotes.
 	 *
 	 * @return array Array of metabox fields.
 	 */

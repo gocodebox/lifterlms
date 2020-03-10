@@ -3,7 +3,7 @@
  * LifterLMS Navigation Menus
  *
  * @since 3.14.7
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.14.7
  * @since 3.24.0 Unknown.
- * @since [version] Fixed possible access to undefined index.
+ * @since 3.37.12 Fixed possible access to undefined index.
  *                Excluded endpoints with an empty url.
  *                Made sure to use strict comparisons.
  */
@@ -117,7 +117,7 @@ class LLMS_Nav_Menus {
 	 * Also hides URLs that should only be available to logged in users.
 	 *
 	 * @since 3.14.7
-	 * @since [version] Use `in_array` with strict types comparison.
+	 * @since 3.37.12 Use `in_array` with strict types comparison.
 	 *
 	 * @param array $items Nav menu items.
 	 * @return array
@@ -156,7 +156,7 @@ class LLMS_Nav_Menus {
 	 * Retrieve a filtered array of custom LifterLMS nav menu items.
 	 *
 	 * @since 3.14.7
-	 * @since [version] Fixed possible access to undefined index.
+	 * @since 3.37.12 Fixed possible access to undefined index.
 	 *                Excluded endpoints with an empty url.
 	 *
 	 * @return array
@@ -210,7 +210,7 @@ class LLMS_Nav_Menus {
 	 * Add "active" classes to menu items for LLMS catalog pages.
 	 *
 	 * @since 3.22.0
-	 * @since [version] Use strict comparisons.
+	 * @since 3.37.12 Use strict comparisons.
 	 *                Cast `page_for_posts` option to int in order to use strict comparisons.
 	 *
 	 * @param array $menu_items Menu items.

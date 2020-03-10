@@ -5,7 +5,7 @@
  * Generates main metabox and builds forms.
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.0.0 Unknown.
- * @since [version] Allow some fields to store values with quotes.
+ * @since 3.37.12 Allow some fields to store values with quotes.
  */
 class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 
@@ -46,7 +46,7 @@ class LLMS_Meta_Box_Achievement extends LLMS_Admin_Metabox {
 	 * Appropriate fields are generated based on type.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Allow some fields to store values with quotes.
+	 * @since 3.37.12 Allow some fields to store values with quotes.
 	 *
 	 * @return array
 	 */

@@ -3,7 +3,7 @@
  * LifterLMS Admin Course Builder
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.13.0
  * @since 3.30.0 Fixed issues related to custom field sanitization.
  * @since 3.37.11 Made method `get_existing_posts_where()` static.
- * @since [version] Refactored the `process_trash()` method.
+ * @since 3.37.12 Refactored the `process_trash()` method.
  *                Added new filter, `llms_builder_{$post_type}_force_delete` to allow control of how post type deletion is handled
  *                when deleted via the builder.
  */
@@ -652,7 +652,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.16.0
 	 * @since 3.17.1 Unknown.
-	 * @since [version] Refactored method to reduce method complexity.
+	 * @since 3.37.12 Refactored method to reduce method complexity.
 	 *
 	 * @param array $data Array of ids to trash/delete.
 	 * @return array[] Array of arrays containing information about the deleted items.
@@ -672,7 +672,7 @@ class LLMS_Admin_Builder {
 	/**
 	 * Trash (or delete) a single item
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @param mixed $id Item id. Usually a WP_Post ID but can also be custom ID strings.
 	 * @return array Associative array containing information about the trashed item.
@@ -739,7 +739,7 @@ class LLMS_Admin_Builder {
 	 * Currently handles deletion of question choices. In the future additional non-post type elements
 	 * may be handled by this method.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @param  string $id Custom item ID. This should be a question choice id in the format of "${question_id}:{$choice_id}".
 	 * @return null|true|WP_Error `null` when the $id cannot be parsed into a question choice id.
@@ -775,7 +775,7 @@ class LLMS_Admin_Builder {
 	/**
 	 * Delete / Trash a post type
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @param int    $id        WP_Post ID.
 	 * @param string $post_type Post type name.
@@ -795,7 +795,7 @@ class LLMS_Admin_Builder {
 		 * determine if the element is sent to the trash or deleted immediately.
 		 *
 		 * @since Unknown
-		 * @since [version] The "question_choice" item was removed from the default list and is being handled as a "custom item".
+		 * @since 3.37.12 The "question_choice" item was removed from the default list and is being handled as a "custom item".
 		 *
 		 * @param string[] $post_types Array of post type names.
 		 */
@@ -815,7 +815,7 @@ class LLMS_Admin_Builder {
 		 *
 		 * By default all post types are moved to trash except for `section`, `llms_question`, and `llms_quiz` post types.
 		 *
-		 * @since [version]
+		 * @since 3.37.12
 		 *
 		 * @param boolean $force If `true` the post is deleted, if `false` it will be moved to the trash.
 		 * @param int     $id    WP_Post ID of the post being trashed.

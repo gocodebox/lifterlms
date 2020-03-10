@@ -3,7 +3,7 @@
  * Admin Metabox Class
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  * @since 3.35.0 Sanitize and verify nonce when saving metabox data.
  * @since 3.36.0 Allow quotes to be saved without being encoded for some special fields that store a shortcode.
  * @since 3.36.1 Improve `save()` method.
- * @since [version] Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
+ * @since 3.37.12 Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
  *                Add field sanitize option "no_encode_quotes" which functions like previous "shortcode" but is more semantically accurate.
  */
 abstract class LLMS_Admin_Metabox {
@@ -152,7 +152,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Configure the metabox and automatically add required actions.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use `$this->error_opt_key()` in favor of hardcoded option name.
+	 * @since 3.37.12 Use `$this->error_opt_key()` in favor of hardcoded option name.
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Retrieve stored metabox errors.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return string[]
 	 */
@@ -228,7 +228,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Normalizes $this->screens to ensure it's an array.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Remove unnecessary `else` condition.
+	 * @since 3.37.12 Remove unnecessary `else` condition.
 	 *
 	 * @return array
 	 */
@@ -280,7 +280,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Display the messages as a WP Admin Notice.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Load errors using `$this->get_errors()` instead of `get_option()`.
+	 * @since 3.37.12 Load errors using `$this->get_errors()` instead of `get_option()`.
 	 *
 	 * @return void
 	 */
@@ -411,7 +411,7 @@ abstract class LLMS_Admin_Metabox {
 	 * @since 3.36.1 Check metabox capability during saves.
 	 *               Return an `int` depending on return condition.
 	 *               Automatically add `FILTER_REQUIRE_ARRAY` flag when sanitizing a `multi` field.
-	 * @since [version] Move field sanitization and updates to the `save_field()` method.
+	 * @since 3.37.12 Move field sanitization and updates to the `save_field()` method.
 	 *
 	 * @param int $post_id WP Post ID of the post being saved.
 	 * @return int `-1` When no user or user is missing required capabilities or when there's no or invalid nonce.
@@ -460,7 +460,7 @@ abstract class LLMS_Admin_Metabox {
 	/**
 	 * Save a metabox field.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @param int   $post_id WP_Post ID.
 	 * @param array $field   Metabox field array.
@@ -548,7 +548,7 @@ abstract class LLMS_Admin_Metabox {
 	 * Save messages to the database.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use `$this->error_opt_key()` in favor of hardcoded option name.
+	 * @since 3.37.12 Use `$this->error_opt_key()` in favor of hardcoded option name.
 	 *                Only save errors if errors have been added.
 	 *
 	 * @return void

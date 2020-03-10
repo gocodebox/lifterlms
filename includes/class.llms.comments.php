@@ -5,7 +5,7 @@
  * This class owes a great debt to WooCommerce.
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Comments class
  *
  * @since 3.0.0
- * @since [version] Use strict comparisons.
+ * @since 3.37.12 Use strict comparisons.
  *                Handle empty array from `wp_count_comments` filter.
  *                Properly exclude "llms_order_note" comment types from comment counts..
  */
@@ -23,7 +23,7 @@ class LLMS_Comments {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Comments {
 	 * Exclude order comments from queries and RSS.
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use strict comparison for `in_array()`.
+	 * @since 3.37.12 Use strict comparison for `in_array()`.
 	 *
 	 * @param array $clauses Array of SQL clauses.
 	 * @return array
@@ -129,7 +129,7 @@ class LLMS_Comments {
 	 * Remove order notes from the count when counting comments
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use strict comparisons.
+	 * @since 3.37.12 Use strict comparisons.
 	 *                Fix issue encountered when $stats is an empty array.
 	 *                Properly exclude "llms_order_note" comment types.
 	 *

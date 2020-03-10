@@ -8,7 +8,7 @@
  * @group functions_conditional_tags
  *
  * @since 3.37.0
- * @since [version] Fix tests failing due to incorrect post type (It's 'llms_membership' not 'membership').
+ * @since 3.37.12 Fix tests failing due to incorrect post type (It's 'llms_membership' not 'membership').
  */
 class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 
@@ -299,7 +299,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test the is_membership() function.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Fix tests failing due to incorrect post type.
+	 * @since 3.37.12 Fix tests failing due to incorrect post type.
 	 *
 	 * @return void
 	 */
@@ -322,7 +322,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test is_membership_category() function.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Fix tests failing due to incorrect post type.
+	 * @since 3.37.12 Fix tests failing due to incorrect post type.
 	 *
 	 * @return [type]
 	 */
@@ -364,7 +364,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test is_membership_tag() function.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Fix tests failing due to incorrect post type.
+	 * @since 3.37.12 Fix tests failing due to incorrect post type.
 	 *
 	 * @return [type]
 	 */
@@ -406,7 +406,7 @@ class LLMS_Test_Functions_Conditional_Tags extends LLMS_UnitTestCase {
 	 * Test is_membership_tag() function.
 	 *
 	 * @since 3.37.0
-	 * @since [version] Fix tests failing due to incorrect post type.
+	 * @since 3.37.12 Fix tests failing due to incorrect post type.
 	 *
 	 * @return [type]
 	 */

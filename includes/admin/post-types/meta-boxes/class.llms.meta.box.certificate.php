@@ -3,7 +3,7 @@
  * Certificates metabox
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.17.4 Unknown.
- * @since [version] Allow the certificate title field to store text with quotes.
+ * @since 3.37.12 Allow the certificate title field to store text with quotes.
  */
 class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 
@@ -43,7 +43,7 @@ class LLMS_Meta_Box_Certificate extends LLMS_Admin_Metabox {
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.4 Unknown.
-	 * @since [version] Allow the certificate title field to store text with quotes.
+	 * @since 3.37.12 Allow the certificate title field to store text with quotes.
 	 *
 	 * @return array Array of metabox fields.
 	 */

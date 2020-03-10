@@ -6,14 +6,14 @@
  *
  * @group comments
  *
- * @since [version]
+ * @since 3.37.12
  */
 class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test wp_count_comments() when passing in a specific post id.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -27,7 +27,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	/**
 	 * Test wp_count_comments() when the transient already exists.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_Comments extends LLMS_Unit_Test_Case {
 	/**
 	 * Test wp_count_comments()
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */

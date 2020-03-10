@@ -6,7 +6,7 @@
  * @group LLMS_Post_Model
  *
  * @since 3.25.2
- * @since [version] Create a stub for the test_create_method() since this class doesn't need to test that.
+ * @since 3.37.12 Create a stub for the test_create_method() since this class doesn't need to test that.
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
@@ -88,7 +88,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 *
 	 * This model shouldn't be created, instead the `LLMS_Course` or `LLMS_Membership` classes are used to create products.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */

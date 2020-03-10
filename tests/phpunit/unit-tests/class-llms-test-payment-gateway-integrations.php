@@ -5,7 +5,7 @@
  * @group payments
  *
  * @since 3.37.6
- * @since [version] Added additional assertion message information to assist in debug chaos-related failures.
+ * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
@@ -139,7 +139,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * "Chaos" will run the recurring payment randomly between $chaos_hours before and $chaos_hours after the scheduled payment time.
 	 *
 	 * @since 3.37.6
-	 * @since [version] Added additional assertion message information to assist in debug chaos-related failures.
+	 * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.

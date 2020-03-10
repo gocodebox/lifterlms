@@ -7,14 +7,14 @@
  * @group admin
  * @group builder
  *
- * @since [version]
+ * @since 3.37.12
  */
 class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Filter callback for `llms_builder_trash_custom_item` used to mock a custom item deletion.
 	 *
-	 * @since  [version]
+	 * @since  3.37.12
 	 *
 	 * @param null|array $trash_response Denotes the trash response. See description above for details.
 	 * @param array      $res            The initial default error response which can be modified for your needs and then returned.
@@ -42,7 +42,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test process_trash() for an invalid post id (one that doesn't exist).
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test process_trash() for a custom / 3rd party item.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -85,7 +85,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test process_trash() for an invalid post type.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -105,7 +105,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test process_trash() for success when the post is force-deleted.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -135,7 +135,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test process_trash() when an error is encountered deleting the post.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -162,7 +162,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test process_trash() success when moving an item to the trash.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -187,7 +187,7 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 	/**
 	 * Test process_trash() when deleting a question choice.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */

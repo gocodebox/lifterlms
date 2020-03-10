@@ -8,14 +8,14 @@
  * @group metaboxes
  * @group metabox_abstract
  *
- * @since [version]
+ * @since 3.37.12
  */
 class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 
 	/**
 	 * Retrieve an mocked abstract.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return LLMS_Admin_Metabox
 	 */
@@ -33,7 +33,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Mock the get_fields() method for an LLMS_Admin_Metabox stub.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @param LLMS_Admin_Metabox $stub Metabox stub.
 	 * @return array Array of metabox field data.
@@ -95,7 +95,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test add_error(), get_errors(), has_errors(), and save_errors().
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void.
 	 */
@@ -124,7 +124,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test get_screens() method.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save(): no nonce supplied.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -165,7 +165,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save(): invalid nonce supplied.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -183,7 +183,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save(): missing required capabilites.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -206,7 +206,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save(): during a quick edit (inline save).
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -227,7 +227,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save(): for a metabox with no fields.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -246,7 +246,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save(): when it all works.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -293,7 +293,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save_field() for a standard field (text)
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -322,7 +322,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save_field() for "shortcode" sanitization.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */
@@ -350,7 +350,7 @@ class LLMS_Test_Admin_Metabox extends LLMS_PostTypeMetaboxTestCase {
 	/**
 	 * Test save_field() for a multi-select
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.37.12
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *               to see all the quizzes when they had no courses or courses with no lessons.
  * @since 3.37.8 Allow orphaned quizzes to be deleted.
  *               Output quiz IDs as plain text (no link) when they cannot be edited and link to the quiz within the course builder when they can.
- * @since [version] Fixed the 'actions' column name.
+ * @since 3.37.12 Fixed the 'actions' column name.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
@@ -417,7 +417,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since 3.16.0
 	 * @since 3.16.10 Unknown.
 	 * @since 3.37.8 Added the 'actions' column.
-	 * @since [version] Fixed the 'actions' column name.
+	 * @since 3.37.12 Fixed the 'actions' column name.
 	 *
 	 * @return array
 	 */

@@ -8,7 +8,7 @@
  * @since 3.3.1
  * @since 3.35.0 Test ipv6 addresses.
  * @since 3.36.1 Use exception from lifterlms-tests lib.
- * @since [version] Fix errors thrown due to usage of `llms_section` instead of `section`.
+ * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -329,7 +329,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.3.1
 	 * @since 3.16.11 Unknown.
-	 * @since [version] Fix errors thrown due to usage of `llms_section` instead of `section`.
+	 * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
 	 *
 	 * @return   void
 	 */
