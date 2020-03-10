@@ -206,7 +206,6 @@ class LLMS_Comments {
 				$var          = $map[ $row['comment_approved'] ];
 				$stats->$var -= $row['num_comments'];
 			}
-
 		}
 
 		set_transient( self::$count_transient_key, $stats );
