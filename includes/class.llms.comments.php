@@ -184,7 +184,6 @@ class LLMS_Comments {
 			if ( isset( $approved[ $row['comment_approved'] ] ) ) {
 				$stats[ $approved[ $row['comment_approved'] ] ] = $row['num_comments'];
 			}
-
 		}
 
 		// Fill in remaining items with 0.
