@@ -716,7 +716,7 @@ class LLMS_Admin_Builder {
 		if ( $type ) {
 			$status = self::process_trash_item_post_type( $id, $type );
 		} else {
-			$status = self::process_trash_item_custom( $id );
+			$status = self::process_trash_item_non_post_type( $id );
 		}
 
 		// Error deleting.
@@ -734,12 +734,10 @@ class LLMS_Admin_Builder {
 	}
 
 	/**
-	 * Delete a question choice
+	 * Delete non-post type elements
 	 *
-	 * This method is called via the `llms_builder_trash_custom_item` filter. The filter
-	 * is applied and removed in the `LLMS_Admin_Builder::process_trash()`.
-	 *
-	 * Note that while this is a public method, it's not intended to be used outside of the
+	 * Currently handles deletion of question choices. In the future additional non-post type elements
+	 * may be handled by this method.
 	 *
 	 * @since [version]
 	 *
@@ -748,7 +746,7 @@ class LLMS_Admin_Builder {
 	 *                            `true` on success.
 	 *                            `WP_Error` when an error is encountered.
 	 */
-	private static function process_trash_item_custom( $id ) {
+	private static function process_trash_item_non_post_type( $id ) {
 
 		// Can't process.
 		if ( false === strpos( $id, ':' ) ) {
