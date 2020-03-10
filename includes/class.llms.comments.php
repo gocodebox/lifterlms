@@ -15,7 +15,8 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since [version] Use strict comparisons.
- *                Fix issue encountered when when `wp_comment_counts()` returns an empty array.
+ *                Handle empty array from `wp_count_comments` filter.
+ *                Properly exclude "llms_order_note" comment types from comment counts..
  */
 class LLMS_Comments {
 
@@ -130,6 +131,7 @@ class LLMS_Comments {
 	 * @since 3.0.0
 	 * @since [version] Use strict comparisons.
 	 *                Fix issue encountered when $stats is an empty array.
+	 *                Properly exclude "llms_order_note" comment types.
 	 *
 	 * @param obj $stats   Original comment stats.
 	 * @param int $post_id WP Post ID
@@ -153,7 +155,7 @@ class LLMS_Comments {
 					"
 					SELECT comment_approved, COUNT( * ) AS num_comments
 					  FROM {$wpdb->comments}
-					 WHERE comment_type = 'llms_order_note'
+					 WHERE comment_type != 'llms_order_note'
 				  GROUP BY comment_approved;
 					",
 					ARRAY_A
