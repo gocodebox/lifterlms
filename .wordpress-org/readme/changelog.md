@@ -1,6 +1,28 @@
 == Changelog ==
 
 
+= v3.37.12 - 2020-03-10 =
+-------------------------
+
+##### Updates
+
++ Tested up to WordPress Core version 5.4.
++ Added support for post revisions for course, lesson, and mebership post types.
+
+##### Developer updates
+
++ Added strict comparisons for various condition checks.
++ Added a new filter, `llms_builder_{$post_type}_force_delete` which allows control over whether a post is moved to the trash or immediately deleted when trashed via the course builder.
+
+##### Bugfixes
+
++ Fixed the name of the "actions" column on the quiz reporting screen.
++ Fixed PHP warnings resulting from functions used to exclude order notes from comment counts.
++ Fixed issue causing order notes to be included in the count displayed on the admin comments list despite their exclusion from the table itself.
++ Fixed PHP notice thrown on the WordPress menu editor interface encountered when student dashboard endpoints have been deleted or removed.
++ Fixed issue causing quotes to be encoded in various email, achievement, and certificate fields.
+
+
 = v3.37.11 - 2020-03-03 =
 -------------------------
 
@@ -109,14 +131,3 @@
 + Renamed setting field IDs to be unique for open/close wrapper fields on the engagements and account settings pages.
 + Removed redundant functions defined in the `LLMS_Settings_Page` class to reduce code redundancy in account and engagement setting page classes.
 + The `LLMS_Settings_Page` base class now automatically defines actions to save and output settings content.
-
-
-= v3.37.2 - 2019-11-22 =
-------------------------
-
-+ LifterLMS notices will now be displayed on pages defined as a Course or Membership sales page.
-+ TwentyTwenty Theme: Updated to use `background-color` property instead of `background` shorthand when adding custom elements to style.
-+ Added filter `llms_sessions_end_idle_cron_recurrence` to allow customization of the recurrence of the idle session cleanup cronjob.
-+ Added filter `llms_quiz_is_open` to allow customization of whether or not a quiz is available to a student.
-+ When adding an client-side tracking events to the always make sure the server-side verification nonce is always set on the storage object.
-+ The Course/Membership filter on the main students reporting screen now correctly limits post results based on instructor access.
