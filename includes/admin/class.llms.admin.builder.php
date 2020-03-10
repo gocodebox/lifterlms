@@ -662,7 +662,7 @@ class LLMS_Admin_Builder {
 		$ret = array();
 
 		foreach ( $data['trash'] as $id ) {
-			array_push( $ret, self::process_trash_item( $id ) );
+			$ret[] = self::process_trash_item( $id );
 		}
 
 		return $ret;
