@@ -5,6 +5,7 @@
  * @group payments
  *
  * @since 3.37.6
+ * @since [version] Added additional assertion message information to assist in debug chaos-related failures.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
@@ -138,6 +139,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * "Chaos" will run the recurring payment randomly between $chaos_hours before and $chaos_hours after the scheduled payment time.
 	 *
 	 * @since 3.37.6
+	 * @since [version] Added additional assertion message information to assist in debug chaos-related failures.
 	 *
 	 * @param LLMS_Order $order Initialized order to run charges against.
 	 * @param int $num Number of charges to run.
@@ -181,7 +183,15 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 			$next_payment_time = $order->get_date( 'date_next_payment', 'U' );
 
 			$expect = strtotime( "+{$frequency} {$period}", $last_txn_time );
-			$msg = sprintf( '%s Payment #%d: Got %s and expected %s', ucfirst( $period ), $i, date( 'Y-m-d H:i:s', $next_payment_time ), date( 'Y-m-d H:i:s', $expect ) );
+			$msg = sprintf(
+				'%1$s Payment #%2$d: Got %3$s and expected %4$s ( $chaos_hours = %5$d | $chaos = %6$s )',
+				ucfirst( $period ),
+				$i,
+				date( 'Y-m-d H:i:s', $next_payment_time ),
+				date( 'Y-m-d H:i:s', $expect ),
+				$chaos_hours,
+				$chaos
+			);
 
 			// Ensure that the calculated next payment time is 1 period +/- 23:59:59 from the previous transaction.
 			$this->assertEquals( $expect, $next_payment_time, $msg, $delta_hours ? $delta_hours * HOUR_IN_SECONDS - 1 : 0 );
