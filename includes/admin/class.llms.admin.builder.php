@@ -3,7 +3,7 @@
  * LifterLMS Admin Course Builder
  *
  * @since 3.13.0
- * @version 3.37.11
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,9 +14,17 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.13.0
  * @since 3.30.0 Fixed issues related to custom field sanitization.
  * @since 3.37.11 Made method `get_existing_posts_where()` static.
+ * @since [version] Refactored the `process_trash()` method.
+ *                Added new filter, `llms_builder_{$post_type}_force_delete` to allow control of how post type deletion is handled
+ *                when deleted via the builder.
  */
 class LLMS_Admin_Builder {
 
+	/**
+	 * Search term string used by `get_existing_posts_where()` when querying for existing posts to clone/add to a course.
+	 *
+	 * @var string
+	 */
 	private static $search_term = '';
 
 	/**
@@ -92,13 +100,13 @@ class LLMS_Admin_Builder {
 			}
 
 			$quiz_fields[ sprintf( '%s_backwards_theme_group', $theme->get_stylesheet() ) ] = array(
+				// Translators: %s = Theme name.
 				'title'      => sprintf( __( '%s Theme Settings', 'lifterlms' ), $theme->get( 'Name' ) ),
 				'toggleable' => true,
 				'fields'     => array( array( $field ) ),
 			);
 
 		}
-		// end backwards compat
 
 		return apply_filters(
 			'llms_builder_register_custom_fields',
@@ -190,9 +198,11 @@ class LLMS_Admin_Builder {
 					}
 
 					if ( $lesson_id ) {
+						// Translators: %1$s = Lesson title; %2$d = Lesson id.
 						$parents['lesson'] = sprintf( __( 'Lesson: %1$s (#%2$d)', 'lifterlms' ), '<em>' . get_the_title( $lesson_id ) . '</em>', $lesson_id );
 					}
 					if ( $course_id ) {
+						// Translators: %1$s = Course title; %2$d - Course id.
 						$parents['course'] = sprintf( __( 'Course: %1$s (#%2$d)', 'lifterlms' ), '<em>' . get_the_title( $course_id ) . '</em>', $course_id );
 					}
 				}
@@ -205,8 +215,8 @@ class LLMS_Admin_Builder {
 					'text'    => sprintf( '%1$s (#%2$d)', $post->get( 'title' ), $post->get( 'id' ) ),
 				);
 
-			}// End foreach().
-		}// End if().
+			}
+		}
 
 		$ret = array(
 			'results'    => $posts,
@@ -327,7 +337,7 @@ class LLMS_Admin_Builder {
 				wp_send_json( self::get_existing_posts( absint( $request['course_id'] ), $post_type, $term, $page ) );
 				break;
 
-		}// End switch().
+		}
 
 		return array();
 
@@ -385,7 +395,6 @@ class LLMS_Admin_Builder {
 		$data = $data['llms_builder'];
 
 		// Escape slashes.
-		// $data = json_decode( str_replace( '\\', '\\\\', $data ), true );
 		$data = json_decode( $data, true );
 
 		// setup our return
@@ -594,6 +603,7 @@ class LLMS_Admin_Builder {
 		foreach ( $data['detach'] as $id ) {
 
 			$res = array(
+				// Translators: %s = Item id.
 				'error' => sprintf( esc_html__( 'Unable to detach "%s". Invalid ID.', 'lifterlms' ), $id ),
 				'id'    => $id,
 			);
@@ -640,76 +650,186 @@ class LLMS_Admin_Builder {
 	/**
 	 * Delete/trash elements from heartbeat data
 	 *
-	 * @param    array $data  array of ids to trash/delete
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.17.1
+	 * @since 3.16.0
+	 * @since 3.17.1 Unknown.
+	 * @since [version] Refactored method to reduce method complexity.
+	 *
+	 * @param array $data Array of ids to trash/delete.
+	 * @return array[] Array of arrays containing information about the deleted items.
 	 */
 	private static function process_trash( $data ) {
 
 		$ret = array();
 
 		foreach ( $data['trash'] as $id ) {
-
-			$res = array(
-				'error' => sprintf( esc_html__( 'Unable to delete "%s". Invalid ID.', 'lifterlms' ), $id ),
-				'id'    => $id,
-			);
-
-			$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
-			if ( $custom ) {
-				array_push( $ret, $custom );
-				continue;
-			}
-
-			if ( is_numeric( $id ) ) {
-
-				$type = get_post_type( $id );
-
-			} else {
-
-				$type = 'question_choice';
-
-			}
-
-			$post_types = apply_filters( 'llms_builder_trashable_post_types', array( 'lesson', 'llms_quiz', 'llms_question', 'question_choice', 'section' ) );
-			if ( ! in_array( $type, $post_types ) ) {
-				array_push( $ret, $res );
-				continue;
-			}
-
-			// lessons, sections, & questions passed as numeric WP Post IDs
-			if ( is_numeric( $id ) ) {
-
-				// delete sections
-				if ( in_array( $type, array( 'section', 'llms_question', 'llms_quiz' ) ) ) {
-					$stat = wp_delete_post( $id, true );
-				} else {
-					$stat = wp_trash_post( $id );
-				}
-			} else {
-
-				$split    = explode( ':', $id );
-				$question = llms_get_post( $split[0] );
-				if ( $question && is_a( $question, 'LLMS_Question' ) ) {
-					$stat = $question->delete_choice( $split[1] );
-				} else {
-					$stat = false;
-				}
-			}
-
-			// both functions return false on failure
-			if ( ! $stat ) {
-				$res['error'] = sprintf( esc_html__( 'Error deleting %1$s "%2$s".', 'lifterlms' ), $type, $id );
-			} else {
-				unset( $res['error'] );
-			}
-
-			array_push( $ret, $res );
-
+			$ret[] = self::process_trash_item( $id );
 		}
 
 		return $ret;
+
+	}
+
+	/**
+	 * Trash (or delete) a single item
+	 *
+	 * @since [version]
+	 *
+	 * @param mixed $id Item id. Usually a WP_Post ID but can also be custom ID strings.
+	 * @return array Associative array containing information about the trashed item.
+	 *               On success returns an array with an `id` key corresponding to the item's id.
+	 *               On failure returns the `id` as well as an `error` key which is a string describing the error.
+	 */
+	private static function process_trash_item( $id ) {
+
+		// Default response.
+		$res = array(
+			// Translators: %s = Item id.
+			'error' => sprintf( esc_html__( 'Unable to delete "%s". Invalid ID.', 'lifterlms' ), $id ),
+			'id'    => $id,
+		);
+
+		/**
+		 * Custom or 3rd party items can perform custom deletion actions using this filter.
+		 *
+		 * Return an associative array containing at least the `$id` to cease execution and have
+		 * the custom item returned via the `process_trash()` method.
+		 *
+		 * A successful deletion return should be: `array( 'id' => $id )`.
+		 *
+		 * A failure should contain an error message in a second array member:
+		 * `array( 'id' => $id, 'error' => esc_html__( 'My error message', 'my-domain' ) )`.
+		 *
+		 * @since Unknown.
+		 *
+		 * @param null|array $trash_response Denotes the trash response. See description above for details.
+		 * @param array      $res            The initial default error response which can be modified for your needs and then returned.
+		 * @param mixed      $id             The ID of the course element. Usually a WP_Post id.
+		 */
+		$custom = apply_filters( 'llms_builder_trash_custom_item', null, $res, $id );
+		if ( $custom ) {
+			return $custom;
+		}
+
+		// Determine the element's post type.
+		$type = is_numeric( $id ) ? get_post_type( $id ) : false;
+
+		if ( $type ) {
+			$status = self::process_trash_item_post_type( $id, $type );
+		} else {
+			$status = self::process_trash_item_non_post_type( $id );
+		}
+
+		// Error deleting.
+		if ( is_wp_error( $status ) ) {
+			$res['error'] = $status->get_error_message();
+
+		} elseif ( true === $status ) {
+			// Success.
+			unset( $res['error'] );
+
+		}
+
+		return $res;
+
+	}
+
+	/**
+	 * Delete non-post type elements
+	 *
+	 * Currently handles deletion of question choices. In the future additional non-post type elements
+	 * may be handled by this method.
+	 *
+	 * @since [version]
+	 *
+	 * @param  string $id Custom item ID. This should be a question choice id in the format of "${question_id}:{$choice_id}".
+	 * @return null|true|WP_Error `null` when the $id cannot be parsed into a question choice id.
+	 *                            `true` on success.
+	 *                            `WP_Error` when an error is encountered.
+	 */
+	private static function process_trash_item_non_post_type( $id ) {
+
+		// Can't process.
+		if ( false === strpos( $id, ':' ) ) {
+			return null;
+		}
+
+		$split    = explode( ':', $id );
+		$question = llms_get_post( $split[0] );
+
+		// Not a question choice.
+		if ( ! $question || ! is_a( $question, 'LLMS_Question' ) ) {
+			return null;
+		}
+
+		// Error.
+		if ( ! $question->delete_choice( $split[1] ) ) {
+			// Translators: %s = Question choice ID.
+			return new WP_Error( 'llms_builder_trash_custom_item', sprintf( esc_html__( 'Error deleting the question choice "%s"', 'lifterlms' ), $id ) );
+		}
+
+		// Success.
+		return true;
+
+	}
+
+	/**
+	 * Delete / Trash a post type
+	 *
+	 * @since [version]
+	 *
+	 * @param int    $id        WP_Post ID.
+	 * @param string $post_type Post type name.
+	 * @return boolean|WP_Error `true` when successfully deleted or trashed.
+	 *                          `WP_Error` for unsupported post types or when a deletion error is encountered.
+	 */
+	private static function process_trash_item_post_type( $id, $post_type ) {
+
+		// Used for errors.
+		$obj = get_post_type_object( $post_type );
+
+		/**
+		 * Filter course elements that can be deleted or trashed via the course builder.
+		 *
+		 * Note that the use of "trash" in the filter name is not semantically correct as this filter does not guarantee
+		 * that the element will be sent to the trash. Use the filter `llms_builder_trash_{$post_type}_force_delete` to
+		 * determine if the element is sent to the trash or deleted immediately.
+		 *
+		 * @since Unknown
+		 * @since [version] The "question_choice" item was removed from the default list and is being handled as a "custom item".
+		 *
+		 * @param string[] $post_types Array of post type names.
+		 */
+		$post_types = apply_filters( 'llms_builder_trashable_post_types', array( 'lesson', 'llms_quiz', 'llms_question', 'section' ) );
+		if ( ! in_array( $post_type, $post_types, true ) ) {
+			// Translators: %s = Post type name.
+			return new WP_Error( 'llms_builder_trash_unsupported_post_type', sprintf( esc_html__( '%s cannot be deleted via the Course Builder.', 'lifterlms' ), $obj->labels->name ) );
+		}
+
+		// Default force value: these post types are force deleted and others are moved to the trash.
+		$force = in_array( $post_type, array( 'section', 'llms_question', 'llms_quiz' ), true );
+
+		/**
+		 * Determine whether or not a post type should be moved to the trash or deleted when trashed via the Course Builder.
+		 *
+		 * The dynamic portion of this hook, `$post_type`, refers to the post type name of the post that's being trashed.
+		 *
+		 * By default all post types are moved to trash except for `section`, `llms_question`, and `llms_quiz` post types.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $force If `true` the post is deleted, if `false` it will be moved to the trash.
+		 * @param int     $id    WP_Post ID of the post being trashed.
+		 */
+		$force = apply_filters( "llms_builder_{$post_type}_force_delete", $force, $id );
+
+		// Delete or trash the post.
+		$res = $force ? wp_delete_post( $id, true ) : wp_trash_post( $id );
+		if ( ! $res ) {
+			// Translators: %1$s = Post type singular name; %2$d = Post id.
+			return new WP_Error( 'llms_builder_trash_post_type', sprintf( esc_html__( 'Error deleting the %1$s "%2$d".', 'lifterlms' ), $obj->labels->singular_name, $id ) );
+		}
+
+		return true;
 
 	}
 
@@ -801,7 +921,7 @@ class LLMS_Admin_Builder {
 					}
 				}
 			}
-		}// End foreach().
+		}
 
 	}
 
@@ -858,6 +978,7 @@ class LLMS_Admin_Builder {
 
 			if ( empty( $lesson ) || ! is_a( $lesson, 'LLMS_Lesson' ) ) {
 
+				// Translators: %s = Lesson post id.
 				$res['error'] = sprintf( esc_html__( 'Unable to update lesson "%s". Invalid lesson ID.', 'lifterlms' ), $lesson_data['id'] );
 
 			} else {
@@ -902,14 +1023,14 @@ class LLMS_Admin_Builder {
 				if ( ! empty( $lesson_data['quiz'] ) && is_array( $lesson_data['quiz'] ) ) {
 					$res['quiz'] = self::update_quiz( $lesson_data['quiz'], $lesson );
 				}
-			}// End if().
+			}
 
 			// allow 3rd parties to update custom data
 			$res = apply_filters( 'llms_builder_update_lesson', $res, $lesson_data, $lesson, $created );
 
 			array_push( $ret, $res );
 
-		}// End foreach().
+		}
 
 		return $ret;
 
@@ -954,6 +1075,7 @@ class LLMS_Admin_Builder {
 
 			if ( ! $question_id ) {
 
+				// Translators: %s = Question post id.
 				$ret['error'] = sprintf( esc_html__( 'Unable to update question "%s". Invalid question ID.', 'lifterlms' ), $q_data['id'] );
 
 			} else {
@@ -984,6 +1106,7 @@ class LLMS_Admin_Builder {
 
 						$choice_id = $question->update_choice( $c_data );
 						if ( ! $choice_id ) {
+							// Translators: %s = Question choice ID.
 							$choice_res['error'] = sprintf( esc_html__( 'Unable to update choice "%s". Invalid choice ID.', 'lifterlms' ), $c_data['id'] );
 						} else {
 							$choice_res['id'] = $choice_id;
@@ -997,11 +1120,11 @@ class LLMS_Admin_Builder {
 					$ret['questions'] = self::update_questions( $questions, $question );
 
 				}
-			}// End if().
+			}
 
 			array_push( $res, $ret );
 
-		}// End foreach().
+		}
 
 		return $res;
 
@@ -1043,6 +1166,7 @@ class LLMS_Admin_Builder {
 		// we don't have a proper quiz to work with...
 		if ( empty( $quiz ) || ! is_a( $quiz, 'LLMS_Quiz' ) ) {
 
+			// Translators: %s = Quiz post id.
 			$res['error'] = sprintf( esc_html__( 'Unable to update quiz "%s". Invalid quiz ID.', 'lifterlms' ), $quiz_data['id'] );
 
 		} else {
@@ -1079,7 +1203,7 @@ class LLMS_Admin_Builder {
 			// update all custom fields
 			self::update_custom_schemas( 'quiz', $quiz, $quiz_data );
 
-		}// End if().
+		}
 
 		return $res;
 
@@ -1118,6 +1242,7 @@ class LLMS_Admin_Builder {
 
 		// we don't have a proper section to work with...
 		if ( empty( $section ) || ! is_a( $section, 'LLMS_Section' ) ) {
+			// Translators: %s = Section post id.
 			$res['error'] = sprintf( esc_html__( 'Unable to update section "%s". Invalid section ID.', 'lifterlms' ), $section_data['id'] );
 		} else {
 
