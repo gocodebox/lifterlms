@@ -59,7 +59,6 @@ class LLMS_Test_Admin_Builder extends LLMS_Unit_Test_Case {
 
 	}
 
-
 	/**
 	 * Test process_trash() for a custom / 3rd party item.
 	 *
