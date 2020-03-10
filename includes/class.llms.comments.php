@@ -223,15 +223,12 @@ class LLMS_Comments {
 	 * It handles two potential scenarios:
 	 *
 	 * 1) No other plugins have run the filter and the incoming $stats is an empty array.
-	 * In this scenario we'll build an entire stats object from scratch including all comments except
-	 * our "hidden" order notes comment type.
+	 * In this scenario we'll utilize `get_comment_count()` to create a new $stats object
 	 *
 	 * 2) Another plugin has already generated a stats object and then incoming $stats is a stdClass.
-	 * In this scenario we'll query the number of order notes and subtract this number from the existing
-	 * comment counts.
 	 *
-	 * Ideally we would be able to modify the stats object after it has already been generated but no filter
-	 * or hook is available for this so we must include scenario 1.
+	 * In either scenario we query the number of order notes and subtract this number from the existing
+	 * comment counts.
 	 *
 	 * @since 3.0.0
 	 * @since 3.37.12 Use strict comparisons.
