@@ -2,8 +2,10 @@
 /**
  * Quizzes Reporting Table.
  *
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
  * @since 3.16.0
- * @version 3.37.8
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,13 +18,14 @@ defined( 'ABSPATH' ) || exit;
  *               to see all the quizzes when they had no courses or courses with no lessons.
  * @since 3.37.8 Allow orphaned quizzes to be deleted.
  *               Output quiz IDs as plain text (no link) when they cannot be edited and link to the quiz within the course builder when they can.
+ * @since [version] Fixed the 'actions' column name.
  */
 class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 
 	/**
 	 * Unique ID for the Table
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'quizzes';
 
@@ -30,58 +33,58 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * Value of the field being filtered by
 	 * Only applicable if $filterby is set
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $filter = 'any';
 
 	/**
 	 * Field results are filtered by
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $filterby = 'instructor';
 
 	/**
 	 * Is the Table Exportable?
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_exportable = true;
 
 	/**
 	 * Determine if the table is filterable
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_filterable = true;
 
 	/**
 	 * If true, tfoot will add ajax pagination links
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_paginated = true;
 
 	/**
 	 * Determine of the table is searchable
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	protected $is_searchable = true;
 
 	/**
 	 * Results sort order
-	 * 'ASC' or 'DESC'
-	 * Only applicable of $orderby is not set
+	 * 'ASC' or 'DESC'.
+	 * Only applicable of $orderby is not set.
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $order = 'ASC';
 
 	/**
 	 * Field results are sorted by
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $orderby = 'title';
 
@@ -137,10 +140,10 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 * @since 3.16.0
 	 * @since 3.24.0 Unknown.
 	 * @since 3.37.8 Add actions column that allows deletion of orphaned quizzes.
-	 *                ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
+	 *               ID column displays as plain text if the quiz is not editable and directs to the quiz within the course builder when it is.
 	 *
-	 * @param string $key   The column id / key
-	 * @param mixed  $data  Object / array of data that the function can use to extract the data.
+	 * @param string $key  The column id / key.
+	 * @param mixed  $data Object / array of data that the function can use to extract the data.
 	 * @return mixed
 	 */
 	protected function get_data( $key, $data ) {
@@ -284,11 +287,11 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	}
 
 	/**
-	 * Execute a query to retrieve results from the table.
+	 * Execute a query to retrieve results from the table
 	 *
 	 * @since 3.16.0
 	 * @since 3.36.1 Fixed an issue that allow instructors, who can only see their own reports,
-	 *                to see all the quizzes when they had no courses or courses with no lessons.
+	 *               to see all the quizzes when they had no courses or courses with no lessons.
 	 *
 	 * @param array $args Array of query args.
 	 * @return void
@@ -324,12 +327,12 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			$query_args['s'] = sanitize_text_field( $args['search'] );
 		}
 
-		// if you can view others reports, make a regular query
+		// if you can view others reports, make a regular query.
 		if ( current_user_can( 'view_others_lifterlms_reports' ) ) {
 
 			$query = new WP_Query( $query_args );
 
-			// user can only see their own reports, get a list of their students
+			// user can only see their own reports, get a list of their students.
 		} elseif ( current_user_can( 'view_lifterlms_reports' ) ) {
 
 			$instructor = llms_get_instructor();
@@ -358,7 +361,8 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 					'value'   => $lessons,
 				),
 			);
-			$query                    = new WP_Query( $query_args );
+
+			$query = new WP_Query( $query_args );
 
 		} else {
 
@@ -388,9 +392,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 		/**
 		 * Filter the placeholder used in the search input on the quizzes reporting table.
 		 *
-		 * The dynamic
-		 *
-		 * @since  3.16.0
+		 * @since 3.16.0
 		 *
 		 * @param string $placeholder The placeholder string.
 		 */
@@ -414,6 +416,8 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.10 Unknown.
+	 * @since 3.37.8 Added the 'actions' column.
+	 * @since [version] Fixed the 'actions' column name.
 	 *
 	 * @return array
 	 */
@@ -451,7 +455,7 @@ class LLMS_Table_Quizzes extends LLMS_Admin_Table {
 			),
 			'actions'  => array(
 				'exportable' => false,
-				'title'      => __( 'Average Grade', 'lifterlms' ),
+				'title'      => __( 'Actions', 'lifterlms' ),
 				'sortable'   => false,
 			),
 		);
