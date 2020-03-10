@@ -12,7 +12,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Builder class.
  *
  * @since 3.13.0
- * @since 3.30.0  Fixed issues related to custom field sanitization.
+ * @since 3.30.0 Fixed issues related to custom field sanitization.
  * @since 3.37.11 Made method `get_existing_posts_where()` static.
  * @since [version] Refactored the `process_trash()` method.
  *                Added new filter, `llms_builder_{$post_type}_force_delete` to allow control of how post type deletion is handled
@@ -655,7 +655,7 @@ class LLMS_Admin_Builder {
 	 * @since [version] Refactored method to reduce method complexity.
 	 *
 	 * @param array $data Array of ids to trash/delete.
-	 * @return array[]    Array of arrays containing information about the deleted items.
+	 * @return array[] Array of arrays containing information about the deleted items.
 	 */
 	private static function process_trash( $data ) {
 
@@ -674,10 +674,10 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since [version]
 	 *
-	 * @param  mixed $id Item id. Usually a WP_Post ID but can also be custom ID strings.
-	 * @return array     Associative array containing information about the trashed item.
-	 *                   On success returns an array with an `id` key corresponding to the item's id.
-	 *                   On failure returns the `id` as well as an `error` key which is a string describing the error.
+	 * @param mixed $id Item id. Usually a WP_Post ID but can also be custom ID strings.
+	 * @return array Associative array containing information about the trashed item.
+	 *               On success returns an array with an `id` key corresponding to the item's id.
+	 *               On failure returns the `id` as well as an `error` key which is a string describing the error.
 	 */
 	private static function process_trash_item( $id ) {
 
@@ -741,7 +741,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * Note that while this is a public method, it's not intended to be used outside of the
 	 *
-	 * @since  [version]
+	 * @since [version]
 	 *
 	 * @param  string $id Custom item ID. This should be a question choice id in the format of "${question_id}:{$choice_id}".
 	 * @return null|true|WP_Error `null` when the $id cannot be parsed into a question choice id.
@@ -777,12 +777,12 @@ class LLMS_Admin_Builder {
 	/**
 	 * Delete / Trash a post type
 	 *
-	 * @since  [version]
+	 * @since [version]
 	 *
-	 * @param  int    $id        WP_Post ID.
-	 * @param  string $post_type Post type name.
-	 * @return boolean|WP_Error  `true` when successfully deleted or trashed.
-	 *                           `WP_Error` for unsupported post types or when a deletion error is encountered.
+	 * @param int    $id        WP_Post ID.
+	 * @param string $post_type Post type name.
+	 * @return boolean|WP_Error `true` when successfully deleted or trashed.
+	 *                          `WP_Error` for unsupported post types or when a deletion error is encountered.
 	 */
 	private static function process_trash_item_post_type( $id, $post_type ) {
 
