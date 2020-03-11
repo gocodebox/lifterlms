@@ -337,6 +337,7 @@ The file header DocBlock is used to give an overview of what is contained in the
  * @link URL
  *
  * @package LifterLMS/SecondaryPackage/TertiaryPackage
+ *
  * @since x.x.x
  * @since x.x.x Description of file changes.
  * @version x.x.x
