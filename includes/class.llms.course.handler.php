@@ -16,15 +16,15 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Course_Handler
  *
  * @since 1.0.0
- * @deprecated [version]
+ * @deprecated 3.37.12
  */
 class LLMS_Course_Handler {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
-	 * @deprecated [version]
+	 * @since 3.37.12
+	 * @deprecated 3.37.12
 	 *
 	 * @param mixed $lesson Lesson.
 	 * @return void
@@ -35,7 +35,7 @@ class LLMS_Course_Handler {
 	 * Get users not enrolled
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.37.12
 	 *
 	 * @param int   $post_id           Post ID.
 	 * @param int[] $enrolled_students Array of WP_User IDs.
@@ -43,7 +43,7 @@ class LLMS_Course_Handler {
 	 */
 	public static function get_users_not_enrolled( $post_id, $enrolled_students = array() ) {
 
-		llms_deprecated_function( 'LLMS_Course_Handler::get_users_not_enrolled', '[version]', $replacement );
+		llms_deprecated_function( 'LLMS_Course_Handler::get_users_not_enrolled', '3.37.12', $replacement );
 
 		if ( empty( $post_id ) ) {
 			return false;

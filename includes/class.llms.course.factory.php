@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Course_Factory
  *
  * @since 1.0.0
- * @deprecated [version]
+ * @deprecated 3.37.12
  */
 class LLMS_Course_Factory {
 
@@ -24,7 +24,7 @@ class LLMS_Course_Factory {
 	 * Get Course
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.37.12
 	 *
 	 * @param mixed $the_course Course object.
 	 * @param array $args       Arguments.
@@ -46,7 +46,7 @@ class LLMS_Course_Factory {
 	 * Get Lesson
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.37.12
 	 *
 	 * @param mixed $the_lesson Lesson object.
 	 * @param array $args       Arguments.
@@ -66,7 +66,7 @@ class LLMS_Course_Factory {
 	 * Get Product
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.37.12
 	 *
 	 * @param mixed $the_lesson Product object.
 	 * @param array $args       Arguments.
@@ -86,7 +86,7 @@ class LLMS_Course_Factory {
 	 * Get Quiz
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.37.12
 	 *
 	 * @param mixed $the_quiz Quiz object.
 	 * @param array $args     Arguments.
@@ -106,7 +106,7 @@ class LLMS_Course_Factory {
 	 * Get Question
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.37.12
 	 *
 	 * @param mixed $the_question Question object.
 	 * @param array $args         Arguments.
