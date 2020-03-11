@@ -2,8 +2,9 @@
 /**
  * LifterLMS Template Actions
  *
+ * @package LifterLMS/Hooks
+ *
  * @since 1.0.0
- * @since 3.31.0 Explicitly declare priority 10 for lifterlms_sidebar action.
  * @version 3.31.0
  */
 

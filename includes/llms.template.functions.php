@@ -2,6 +2,8 @@
 /**
  * Front end template functions
  *
+ * @package LifterLMS/Functions/Templates
+ *
  * @since 1.0.0
  * @version 3.37.1
  */
