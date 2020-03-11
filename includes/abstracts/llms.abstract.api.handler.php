@@ -1,6 +1,8 @@
 <?php
 /**
- * 3rd Party API request handler abstract.
+ * 3rd Party API request handler abstract
+ *
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.11.2
  * @version 3.30.1
@@ -9,11 +11,10 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * 3rd Party API request handler abstract.
+ * 3rd Party API request handler abstract class
  *
  * @since 3.11.2
- * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`
- * @version 3.29.0
+ * @since 3.30.1 self::set_request_body() may respond with `null` in order to send a request with no `body`.
  */
 abstract class LLMS_Abstract_API_Handler {
 

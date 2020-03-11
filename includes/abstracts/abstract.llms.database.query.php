@@ -1,8 +1,8 @@
 <?php
 /**
- * Abstract Database Query
+ * Database Query Abstract
  *
- * @package LifterLMS/Classes/Abstracts
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
  * @version 3.34.0
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Abstract Database Query Class
+ * Database Query abstract class
  *
  * @since 3.8.0
  * @since 3.30.3 `is_last_page()` method returns `true` when no results are found.

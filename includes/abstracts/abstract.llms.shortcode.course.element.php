@@ -2,13 +2,19 @@
 /**
  * Common Shortcode for course element templates
  *
- * @since    3.6.0
- * @version  3.6.0
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.6.0
+ * @version 3.6.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Common Shortcode for course element templates abstract class
+ *
+ * @since 3.6.0
+ */
 abstract class LLMS_Shortcode_Course_Element extends LLMS_Shortcode {
 
 	/**

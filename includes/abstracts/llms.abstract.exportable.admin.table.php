@@ -2,6 +2,8 @@
 /**
  * Admin Table Export Functions
  *
+ * @package LifterLMS/Abstracts/Classes
+ *
  * @since 3.28.0
  * @version 3.30.3
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Table abstract.
+ * Exportable admin table abstract class
  *
  * @since 3.28.0
  * @since 3.30.3 Explicitly define undefined properties.

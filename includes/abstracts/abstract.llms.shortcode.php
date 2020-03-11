@@ -1,14 +1,21 @@
 <?php
 /**
- * Base Shortcode Class
+ * Base Shortcode
  *
- * @since    3.4.3
- * @version  3.4.3
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.4.3
+ * @version 3.5.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Base Shortcode abstract class
+ *
+ * @since 3.4.3
+ * @since 3.5.1 Unknown.
+ */
 abstract class LLMS_Shortcode {
 
 	/**

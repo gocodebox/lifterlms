@@ -2,7 +2,7 @@
 /**
  * Defines base methods and properties for programmatically interfacing with LifterLMS Custom Post Types
  *
- * @package LifterLMS/Abstracts
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
  * @version 3.36.1
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Post_Model abstract
+ * LLMS_Post_Model abstract class
  *
  * @property      string  $author           ID of post author.
  * @property      string  $content          The post's content.

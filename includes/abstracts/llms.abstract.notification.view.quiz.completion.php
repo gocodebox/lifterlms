@@ -1,11 +1,19 @@
 <?php
+/**
+ * Shared Notification View for quiz completions abstract
+ *
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.24.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Shared Notification View for quiz completions
+ * Shared Notification View for quiz completions abstract class
  *
- * @since    3.24.0
- * @version  3.24.0
+ * @since 3.24.0
  */
 abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abstract_Notification_View {
 

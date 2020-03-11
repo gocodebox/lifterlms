@@ -1,12 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Background Processor abstract
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.15.0
+ * @version 3.15.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Background Processor abstract class
+ *
+ * @since 3.15.0
  */
 abstract class LLMS_Abstract_Processor extends WP_Background_Process {
 

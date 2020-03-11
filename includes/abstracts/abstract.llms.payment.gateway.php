@@ -2,14 +2,16 @@
 /**
  * LifterLMS Payment Gateways Abstract
  *
- * @since    3.0.0
- * @version  3.34.3
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.0.0
+ * @version 3.34.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Payment Gateways Abstract
+ * LifterLMS Payment Gateways abstract class
  *
  * @since 3.0.0
  * @since 3.30.0 Added access plan and query string checkout redirect settings.

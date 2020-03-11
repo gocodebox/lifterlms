@@ -1,12 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * LifterLMS Options Table Data Store Abstract
  *
- * @since   3.8.0
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.8.0
  * @version 3.17.8
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LifterLMS Options Table Data Store abstract class
+ *
+ * @since 3.8.0
+ * @since 3.17.8 Added `set_option()` method.
  */
 abstract class LLMS_Abstract_Options_Data {
 

@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Integration Abstract
+ * LifterLMS Integration abstract class
  *
  * @since 3.0.0
  * @since 3.21.1 Updated.

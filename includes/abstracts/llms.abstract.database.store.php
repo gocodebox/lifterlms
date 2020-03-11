@@ -2,6 +2,8 @@
 /**
  * WPDB database interactions
  *
+ * @package LifterLMS/Abstracts/Classes
+ *
  * @since 3.14.0
  * @version 3.36.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * WPDB database interactions
+ * WPDB database interactions abstract class
  *
  * @since 3.14.0
  * @since 3.33.0 setup() method returns self instead of void.

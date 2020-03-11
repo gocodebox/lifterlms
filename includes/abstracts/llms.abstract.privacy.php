@@ -1,12 +1,21 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Privacy Export / Eraser Abstract
  *
- * @thanks   WooCommerce <3
- * @since    3.18.0
- * @version  3.18.0
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.18.0
+ * @version 3.18.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LifterLMS Privacy Export / Eraser abstract class
+ *
+ * Thanks WooCommerce.
+ *
+ * @since 3.18.0
  */
 abstract class LLMS_Abstract_Privacy {
 

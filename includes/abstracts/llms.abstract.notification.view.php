@@ -2,6 +2,8 @@
 /**
  * Notification View Abstract
  *
+ * @package LifterLMS/Abstracts/Classes
+ *
  * @since 3.8.0
  * @version 3.31.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Abstract_Notification_View abstract.
+ * LLMS_Abstract_Notification_View class
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties.

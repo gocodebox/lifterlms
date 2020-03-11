@@ -1,19 +1,21 @@
 <?php
 /**
- * Admin Tables
+ * Admin Table Abstract
  *
- * @since   3.2.0
- * @version {version}
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.2.0
+ * @version 3.37.7
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Table abstract.
+ * LLMS_Admin_Table abstract class
  *
  * @since 3.2.0
  * @since 3.34.0 Added get_table_classes().
- * @since 3.37.7 Fix PHP 7.4 deprecation notice..
+ * @since 3.37.7 Fix PHP 7.4 deprecation notice.
  */
 abstract class LLMS_Admin_Table extends LLMS_Abstract_Exportable_Admin_Table {
 
