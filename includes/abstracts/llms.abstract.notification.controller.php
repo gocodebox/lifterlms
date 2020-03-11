@@ -2,6 +2,8 @@
 /**
  * Notification Controller Abstract
  *
+ * @package LifterLMS/Abstracts/Classes
+ *
  * @since 3.8.0
  * @version 3.30.3
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Notification Controller Abstract
+ * Notification Controller abstract class
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties & fixed typo in output string.

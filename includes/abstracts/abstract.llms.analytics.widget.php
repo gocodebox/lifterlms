@@ -1,6 +1,8 @@
 <?php
 /**
- * Analytics Widget Abstract.
+ * Analytics Widget Abstract
+ *
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
  * @version 3.36.3
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Analytics Widget Abstract.
+ * Analytics Widget abstract class
  *
  * @since 3.0.0
  * @since 3.30.3 Define undefined properties.

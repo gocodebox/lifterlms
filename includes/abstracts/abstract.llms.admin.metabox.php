@@ -1,6 +1,8 @@
 <?php
 /**
- * Admin Metabox Class
+ * Admin Metabox Abstract
+ *
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
  * @version 3.37.12
@@ -14,7 +16,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
 }
 
 /**
- * Admin metabox abstract class.
+ * Admin metabox abstract class
  *
  * @since 3.0.0
  * @since 3.35.0 Sanitize and verify nonce when saving metabox data.

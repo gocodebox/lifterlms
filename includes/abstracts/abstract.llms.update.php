@@ -2,6 +2,8 @@
 /**
  * Handle background database updates
  *
+ * @package LifterLMS/Abstracts/Classes
+ *
  * @since 3.0.0
  * @version 3.32.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Database background update abstract
+ * Database background update abstract class
  *
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.

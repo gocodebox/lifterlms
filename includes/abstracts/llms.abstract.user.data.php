@@ -2,16 +2,19 @@
 /**
  * LifterLMS User Data Abstract
  *
- * @since   3.9.0
+ * @package LifterLMS/Abstracts/Classes
+ *
+ * @since 3.9.0
  * @version 3.17.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS User Data Abstract
+ * LifterLMS User Data Abstract class
  *
  * @since 3.9.0
+ * @since 3.17.0 Unknown.
  * @since 3.34.0 Allow `user_url` to be retrieved by `get()`.
  */
 abstract class LLMS_Abstract_User_Data {

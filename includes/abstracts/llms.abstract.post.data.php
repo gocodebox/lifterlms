@@ -1,17 +1,17 @@
 <?php
 /**
- * Defines base methods and properties for querying data about LifterLMS Custom Post Types.
+ * Defines base methods and properties for querying data about LifterLMS Custom Post Types
  *
- * @package LifterLMS/Abstracts
+ * @package LifterLMS/Abstracts/Classes
  *
- * @since   3.31.0
+ * @since 3.31.0
  * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Post_Data abstract.
+ * LLMS Post Data abstract class
  *
  * @since 3.31.0
  */
