@@ -1,16 +1,20 @@
 <?php
 /**
- * LifterLMS * LifterLMS bbPress forms list widget
+ * LifterLMS bbPress forms list widget
  *
- * @package  LifterLMS/Classes/bbPress
- * @since    3.12.0
- * @version  3.24.0
+ * @package LifterLMS/Integrations/bbPress
+ *
+ * @since 3.12.0
+ * @version 3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS bbPress forms list widget
+ *
+ * @since 3.12.0
+ * @since 3.24.0 Unknown.
  */
 class LLMS_BBP_Widget_Course_Forums_List extends WP_Widget {
 

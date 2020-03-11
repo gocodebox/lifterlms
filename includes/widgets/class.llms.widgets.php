@@ -1,18 +1,31 @@
 <?php
 /**
  * Base Widgets Class
+ *
  * Calls WP register widgets for each widget in filter lifterlms_widgets
  *
- * @since    1.0.0
- * @version  3.12.0
+ * @package LifterLMS/Widgets/Classes
+ *
+ * @since 1.0.0
+ * @version 3.12.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Widgets
+ *
+ * @since 1.0.0
+ * @since 3.12.0 Unknown.
  */
 class LLMS_Widgets {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    1.0.0
-	 * @version  1.0.0
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -23,9 +36,10 @@ class LLMS_Widgets {
 	/**
 	 * Registers all lifterlms_widgets
 	 *
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.12.0
+	 * @since 1.0.0
+	 * @since 3.12.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function register_widgets() {
 

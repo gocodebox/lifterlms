@@ -1,11 +1,20 @@
 <?php
+/**
+ * Base LifterLMS Widget Class
+ *
+ * @package LifterLMS/Widgets/Classes
+ *
+ * @since 1.0.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Base LifterLMS Widget Class
  *
- * @since    1.0.0
- * @version  3.24.0
+ * @since 1.0.0
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Widget extends WP_Widget {
 
