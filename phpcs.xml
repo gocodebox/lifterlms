@@ -34,19 +34,6 @@
 		<exclude name="Generic.Commenting.DocComment.LongNotCapital" />
 		<exclude name="Generic.Commenting.DocComment.ShortNotCapital" />
 
-		<exclude name="LifterLMS.Commenting.FileComment.PackageTagOrder" />
-		<exclude name="LifterLMS.Commenting.FileComment.SinceTagOrder" />
-		<exclude name="LifterLMS.Commenting.FileComment.MissingSinceTag" />
-		<exclude name="LifterLMS.Commenting.FileComment.MissingVersionTag" />
-		<exclude name="LifterLMS.Commenting.FileComment.VersionTagOrder" />
-		<exclude name="LifterLMS.Commenting.FileComment.MissingPackageTag" />
-		<exclude name="LifterLMS.Commenting.FileComment.DuplicateSinceTag" />
-		<exclude name="Squiz.Commenting.FileComment.Missing" />
-		<exclude name="Squiz.Commenting.FileComment.MissingSinceTag" />
-		<exclude name="Squiz.Commenting.FileComment.MissingPackageTag" />
-		<exclude name="Squiz.Commenting.FileComment.SpacingAfterComment" />
-
-		<exclude name="Squiz.Commenting.ClassComment.Missing" />
 		<exclude name="Squiz.Commenting.FunctionComment.Missing" />
 		<exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
 		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
@@ -72,6 +59,84 @@
 		<exclude name="WordPress.Files.FileName.NotHyphenatedLowercase">
 			<exclude-pattern>templates/taxonomy-*.php</exclude-pattern>
 		</exclude>
+
+	</rule>
+
+	<!--
+		@todo The following 3 rule sets are disabled for the following files/directories
+			  We are in the process of gradually fixing these in bulk.
+			  See https://github.com/gocodebox/lifterlms/issues/946
+	-->
+	<rule ref="LifterLMS.Commenting.FileComment">
+
+		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
+
+		<exclude-pattern>includes/certificates/*.php</exclude-pattern>
+		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
+		<exclude-pattern>includes/emails/*.php</exclude-pattern>
+		<exclude-pattern>includes/forms/*.php</exclude-pattern>
+		<exclude-pattern>includes/functions/*.php</exclude-pattern>
+		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
+		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
+		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
+		<exclude-pattern>includes/models/*.php</exclude-pattern>
+		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
+		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
+		<exclude-pattern>includes/processors/*.php</exclude-pattern>
+		<exclude-pattern>includes/shortcodes/*.php</exclude-pattern>
+		<exclude-pattern>includes/theme-support/*.php</exclude-pattern>
+		<exclude-pattern>includes/Users/*.php</exclude-pattern>
+
+		<exclude-pattern>templates/*.php</exclude-pattern>
+		<exclude-pattern>templates/**/*.php</exclude-pattern>
+
+	</rule>
+	<rule ref="Squiz.Commenting.FileComment">
+
+		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
+
+		<exclude-pattern>includes/certificates/*.php</exclude-pattern>
+		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
+		<exclude-pattern>includes/emails/*.php</exclude-pattern>
+		<exclude-pattern>includes/forms/*.php</exclude-pattern>
+		<exclude-pattern>includes/functions/*.php</exclude-pattern>
+		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
+		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
+		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
+		<exclude-pattern>includes/models/*.php</exclude-pattern>
+		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
+		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
+		<exclude-pattern>includes/processors/*.php</exclude-pattern>
+		<exclude-pattern>includes/shortcodes/*.php</exclude-pattern>
+		<exclude-pattern>includes/theme-support/*.php</exclude-pattern>
+		<exclude-pattern>includes/Users/*.php</exclude-pattern>
+
+		<exclude-pattern>templates/*.php</exclude-pattern>
+		<exclude-pattern>templates/**/*.php</exclude-pattern>
+
+	</rule>
+	<rule ref="Squiz.Commenting.ClassComment.Missing">
+
+		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
+
+		<exclude-pattern>includes/certificates/*.php</exclude-pattern>
+		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
+		<exclude-pattern>includes/emails/*.php</exclude-pattern>
+		<exclude-pattern>includes/forms/*.php</exclude-pattern>
+		<exclude-pattern>includes/functions/*.php</exclude-pattern>
+		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
+		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
+		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
+		<exclude-pattern>includes/models/*.php</exclude-pattern>
+		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
+		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
+		<exclude-pattern>includes/processors/*.php</exclude-pattern>
+		<exclude-pattern>includes/shortcodes/*.php</exclude-pattern>
+		<exclude-pattern>includes/theme-support/*.php</exclude-pattern>
+		<exclude-pattern>includes/Users/*.php</exclude-pattern>
+
+		<exclude-pattern>templates/*.php</exclude-pattern>
+		<exclude-pattern>templates/**/*.php</exclude-pattern>
 
 	</rule>
 
