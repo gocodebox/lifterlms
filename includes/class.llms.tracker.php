@@ -2,6 +2,8 @@
 /**
  * Handle sending data to LifterLMS when tracking is enabled
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.0.0
  * @version 3.0.0
  */
@@ -10,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS telemetry tracking data.
+ *
+ * @since 3.0.0
  */
 class LLMS_Tracker {
 

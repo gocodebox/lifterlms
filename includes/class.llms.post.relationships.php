@@ -2,6 +2,8 @@
 /**
  * Define post and record relationships to automate cleanup of information when posts are deleted from the DB.
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.16.12
  * @version 3.37.8
  */

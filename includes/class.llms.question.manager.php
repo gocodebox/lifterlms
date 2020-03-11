@@ -1,8 +1,11 @@
 <?php
 /**
  * LifterLMS Quiz Question Manager
+ *
  * Don't instantiate this directly, instead use the wrapper functions
  * found in the LLMS_Quiz and LLMS_Question classes
+ *
+ * @package LifterLMS/Classes
  *
  * @since 3.16.0
  * @version 3.27.0

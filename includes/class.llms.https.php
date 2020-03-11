@@ -2,6 +2,8 @@
 /**
  * Handle HTTPS related redirects
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.0.0
  * @version 3.35.1
  */

@@ -2,6 +2,8 @@
 /**
  * Query data about a course
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.15.0
  * @version 3.31.0
  */

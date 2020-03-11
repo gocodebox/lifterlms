@@ -2,6 +2,8 @@
 /**
  * Filters and actions related to user permissions
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.13.0
  * @version 3.36.5
  */

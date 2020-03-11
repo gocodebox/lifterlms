@@ -2,6 +2,8 @@
 /**
  * LifterLMS Question Types
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.16.0
  * @version 3.30.3
  */

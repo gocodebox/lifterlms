@@ -2,8 +2,10 @@
 /**
  * Retrieve data sets used by various other classes and functions
  *
- * @since    3.0.0
- * @version  3.24.0
+ * @package LifterLMS/Classes
+ *
+ * @since 3.0.0
+ * @version 3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;

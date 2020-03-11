@@ -2,13 +2,19 @@
 /**
  * Voucher Class
  *
- * @since    2.0.0
- * @version  3.27.0
+ * @package LifterLMS/Classes
+ *
+ * @since 2.0.0
+ * @version 3.27.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Voucher class,
+ * LLMS_Voucher class
+ *
+ * @since 2.0.0
+ * @since 3.27.0 Unknown.
  */
 class LLMS_Voucher {
 

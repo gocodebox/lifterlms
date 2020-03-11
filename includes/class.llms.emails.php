@@ -2,15 +2,22 @@
 /**
  * LifterLMS Emails Class
  *
- * Manages finding the appropriate email
+ * Manages finding the appropriate email.
  *
- * @since    1.0.0
- * @version  3.8.0
+ * @package LifterLMS/Classes
+ *
+ * @since 1.0.0
+ * @version 3.8.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Emails
+ *
+ * @since 1.0.0
+ * @since 3.8.0 Unknown.
+ */
 class LLMS_Emails {
 
 	/**

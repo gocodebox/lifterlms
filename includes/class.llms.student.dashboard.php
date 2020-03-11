@@ -2,14 +2,19 @@
 /**
  * Retrieve data sets used by various other classes and functions
  *
- * @since    3.0.0
- * @version  3.28.2
+ * @package LifterLMS/Classes
+ *
+ * @since 3.0.0
+ * @version 3.28.2
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Student_Dashboard class.
+ *
+ * @since 3.0.0
+ * @since 3.28.2 Unknown.
  */
 class LLMS_Student_Dashboard {
 

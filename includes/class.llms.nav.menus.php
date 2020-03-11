@@ -2,6 +2,8 @@
 /**
  * LifterLMS Navigation Menus
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.14.7
  * @version 3.37.12
  */

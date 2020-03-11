@@ -2,6 +2,8 @@
 /**
  * LifterLMS Custom Roles and Capabilities
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.13.0
  * @version 3.34.0
  */

@@ -1,7 +1,10 @@
 <?php
 /**
  * Base Achievement Class
+ *
  * Handles generating Achievement
+ *
+ * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
  * @version 3.24.0

@@ -1,15 +1,21 @@
 <?php
 /**
- * Payment Gateway class
+ * Access and manage payment gateways
  *
- * Class for managing payment gateways
+ * @package LifterLMS/Classes
  *
- * @version  3.0.0
+ * @since 1.0.0
+ * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Payment_Gateways class
+ *
+ * @since 1.0.0
+ * @since 3.0.0 Unknown.
+ */
 class LLMS_Payment_Gateways {
 
 	/**

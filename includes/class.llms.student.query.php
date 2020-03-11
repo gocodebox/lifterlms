@@ -2,12 +2,20 @@
 /**
  * Query LifterLMS Students for a given course / membership
  *
+ * @package LifterLMS/Classes
+ *
  * @since    3.4.0
  * @version  3.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Student_Query
+ *
+ * @since 3.4.0
+ * @since 3.13.0 Unknown.
+ */
 class LLMS_Student_Query extends LLMS_Database_Query {
 
 	/**

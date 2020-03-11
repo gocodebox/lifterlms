@@ -1,13 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Post Handler Class
  *
  * Main Handler for post management in LifterLMS
  *
- * @author codeBOX
+ * @package LifterLMS/Classes
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Post_Handler
+ *
+ * @since 1.0.0
  */
 class LLMS_Post_Handler {
 
@@ -224,4 +232,4 @@ class LLMS_Post_Handler {
 		}
 	}
 
-} //end LLMS_POST_Handler
+}

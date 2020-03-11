@@ -1,12 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * Query LifterLMS Students for a given course / membership
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 3.16.0
+ * @version 3.35.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Query LifterLMS Students for a given course / membership
  *
- * @since    3.16.0
- * @version  3.35.0
+ * @since 3.16.0
+ * @since 3.35.0
  *
  * @arg  $attempt     (int)        Query by attempt number
  * @arg  $quiz_id     (int|array)  Query by Quiz WP post ID (locate multiple quizzes with an array of ids)

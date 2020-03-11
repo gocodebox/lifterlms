@@ -1,14 +1,22 @@
 <?php
+/**
+ * LifterLMS User Postmeta Query
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 3.15.0
+ * @version 3.15.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LifterLMS User Postmeta Query
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @since 3.15.0
+ * @version 3.15.0
  */
 class LLMS_Query_User_Postmeta extends LLMS_Database_Query {
-
 
 	/**
 	 * Identify the extending query

@@ -2,7 +2,7 @@
 /**
  * LifterLMS Event management.
  *
- * @package  LifterLMS/Classes
+ * @package LifterLMS/Classes
  *
  * @since 3.36.0
  * @version 3.36.1

@@ -1,9 +1,12 @@
 <?php
 /**
- * Allow admins to view as various user types
- * to make easier testing and editing of LLMS Content
+ * View Manager
  *
- * @since    3.7.0
+ * Allows qualifying user roles to view as various user types to make easier testing and editing of LLMS Content
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 3.7.0
  * @version 3.35.0
  */
 

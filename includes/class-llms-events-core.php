@@ -2,7 +2,7 @@
 /**
  * Record events triggered by core/wp actions.
  *
- * @package  LifterLMS/Classes
+ * @package LifterLMS/Classes
  *
  * @since 3.36.0
  * @version 3.36.0
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Events_Core class..
+ * LLMS_Events_Core class
  *
  * @since 3.36.0
  */

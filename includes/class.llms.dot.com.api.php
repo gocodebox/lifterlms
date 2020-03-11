@@ -1,11 +1,19 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Interact with the LifterLMS.com API
  *
- * @since    3.22.0
- * @version  3.22.0
+ * @package LifterLMS/Classes
+ *
+ * @since 3.22.0
+ * @version 3.22.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Dot_Com_API
+ *
+ * @since 3.22.0
  */
 class LLMS_Dot_Com_API extends LLMS_Abstract_API_Handler {
 

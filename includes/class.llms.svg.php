@@ -1,23 +1,25 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * LLMS_Svg class
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Dates Class
+ * LLMS_Svg class
  *
- * Manages formatting dates for I/O and display
+ * @since 1.0.0
  */
 class LLMS_Svg {
 
 	/**
-	 * Constructor
-	 */
-	public function __construct() {
-
-	}
-
-	/**
 	 * Get SVG
+	 *
 	 * Returns svg icon from svg sprite file
 	 *
 	 * @param  string $id    [svg id value]

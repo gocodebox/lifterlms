@@ -1,20 +1,28 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * Handle custom oEmbed Providers
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 1.4.6
+ * @version 1.4.6
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Handle custom oEmbed Providers
  *
- * @author codeBOX
- * @project lifterLMS
- *
- * @since  1.4.6
+ * @since 1.4.6
  */
 class LLMS_OEmbed {
 
-
 	/**
 	 * Constructor
+	 *
+	 * @since 1.4.6
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -28,4 +36,5 @@ class LLMS_OEmbed {
 	}
 
 }
+
 return new LLMS_OEmbed();

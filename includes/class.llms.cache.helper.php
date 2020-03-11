@@ -1,20 +1,28 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * LifterLMS Caching Helper
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @package LifterLMS/Classes
+ *
+ * @since 3.15.0
+ * @version 3.15.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Cache_Helper
+ *
+ * @since 3.15.0]
  */
 class LLMS_Cache_Helper {
 
 	/**
 	 * Constructor
 	 *
-	 * @since    3.15.0
-	 * @version  3.15.0
+	 * @since 3.15.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -24,11 +32,12 @@ class LLMS_Cache_Helper {
 
 	/**
 	 * Define nocache constants and set nocache headers on specified pages
-	 * Checkout & Student Dashboard
+	 *
+	 * This prevents caching for the Checkout & Student Dashboard pages.
+	 *
+	 * @since 3.15.0
 	 *
 	 * @return   void
-	 * @since    3.15.0
-	 * @version  3.15.0
 	 */
 	public function maybe_no_cache() {
 
@@ -36,6 +45,13 @@ class LLMS_Cache_Helper {
 			return;
 		}
 
+		/**
+		 * Filter the list of pages that LifterLMS will send nocache headers for
+		 *
+		 * @since 3.15..0
+		 *
+		 * @param int[] $ids List of WP_Post IDs.
+		 */
 		$ids = apply_filters(
 			'llms_no_cache_page_ids',
 			array(

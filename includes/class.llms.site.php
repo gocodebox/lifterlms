@@ -1,9 +1,13 @@
 <?php
 /**
+ * LifterLMS Site Information.
+ *
  * Handle Site switching to prevent recurring payment duplicates
  * when using stating sites
  *
- * Heavily inspired by WC Subscriptions, thanks <3
+ * Heavily inspired by WC Subscriptions. Thank you!
+ *
+ * @package LifterLMS/Classes
  *
  * @since 3.0.0
  * @version 3.7.4
@@ -15,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Site class.
  *
  * @since 3.0.0
+ * @since 3.7.4 Unknown.
  */
 class LLMS_Site {
 

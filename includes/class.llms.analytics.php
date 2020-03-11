@@ -1,25 +1,22 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Analytics Class
  *
  * Manages large queries of grouped data
  *
+ * @since 1.0.0
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Analytics
+ *
+ * @since 1.0.0
  * @deprecated 3.35.0
  */
 class LLMS_Analytics {
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-
-	}
-
-	// sales data
-	// get all product orders
 
 	// get orders
 	public static function get_orders( $values ) {

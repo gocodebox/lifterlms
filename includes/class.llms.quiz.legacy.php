@@ -1,13 +1,23 @@
 <?php
+/**
+ * Legacy Quizzes
+ *
+ * This class is deprecated.
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 1.0.0
+ * @version 3.30.3
+ */
 
 use LLMS\Users\User;
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Base Question Class
  *
+ * @since 1.0.0
  * @deprecated 3.30.3
  */
 class LLMS_Quiz_Legacy {

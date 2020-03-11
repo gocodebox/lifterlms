@@ -2,6 +2,8 @@
 /**
  * LifterLMS Sidebars
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.0.0
  * @version 3.0.1
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS SIdebars
+ * LifterLMS Sidebars
  *
  * @since 3.0.0
  */
@@ -18,7 +20,7 @@ class LLMS_Sidebars {
 	/**
 	 * Static Constructor
 	 *
-	 * @since    3.0.0
+	 * @since 3.0.0
 	 */
 	public static function init() {
 

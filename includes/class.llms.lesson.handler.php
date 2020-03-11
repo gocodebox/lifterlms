@@ -1,13 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Lesson Handler Class
  *
  * Main Handler for lesson management in LifterLMS
  *
- * @author codeBOX
+ * @package LifterLMS/Classes
+ *
+ * @since 1.0.0
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Lesson_Handler
+ *
+ * @since 1.0.0
  */
 class LLMS_Lesson_Handler {
 

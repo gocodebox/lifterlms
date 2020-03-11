@@ -2,16 +2,21 @@
 /**
  * Achievements Base Class
  *
- * @package  LifterLMS/Classes/Achievements
- * @since    1.0.0
- * @version  3.24.0
+ * @package LifterLMS/Classes/Achievements
+ *
+ * @since 1.0.0
+ * @version 3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Main Achievements singleton
- * Accessible via LLMS()->achievements()
+ *
+ * @see LLMS()->achievements()
+ *
+ * @since 1.0.0
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Achievements {
 
