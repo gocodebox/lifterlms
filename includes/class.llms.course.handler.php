@@ -1,29 +1,54 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Course Handler Class
  *
  * Main Handler for course management in LifterLMS
  *
- * @author codeBOX
+ * @since 1.0.0
+ * @version  1.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Course_Handler
+ *
+ * @since 1.0.0
+ * @deprecated [version]
  */
 class LLMS_Course_Handler {
 
+	/**
+	 * Constructor
+	 *
+	 * @since [version]
+	 * @deprecated [version]
+	 *
+	 * @param mixed $lesson Lesson.
+	 * @return void
+	 */
 	public function __construct( $lesson ) {}
 
-
+	/**
+	 * Get users not enrolled
+	 *
+	 * @since 1.0.0
+	 * @deprecated [version]
+	 *
+	 * @param  int   $post_id           Post ID.
+	 * @param  int[] $enrolled_students Array of WP_User IDs.
+	 * @return array
+	 */
 	public static function get_users_not_enrolled( $post_id, $enrolled_students = array() ) {
 
-		// no post id no deal!
+		llms_deprecated_function( 'get_users_not_enrolled', '[version]', $replacement );
+
 		if ( empty( $post_id ) ) {
 			return false;
 		}
 
 		$enrolled_student_ids = array();
 
-		// if no enrolled users are supplied query them and generate array of user ids
 		if ( empty( $enrolled_students ) ) {
 
 			$user_args = array(
@@ -52,7 +77,6 @@ class LLMS_Course_Handler {
 			}
 		}
 
-		// query users not enrolled
 		$user_args = array(
 			'blog_id'     => $GLOBALS['blog_id'],
 			'include'     => array(),
