@@ -4,8 +4,10 @@
  *
  * Main Handler for course management in LifterLMS
  *
+ * @package LifterLMS/Classes
+ *
  * @since 1.0.0
- * @version  1.0.0
+ * @version 1.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -35,13 +37,13 @@ class LLMS_Course_Handler {
 	 * @since 1.0.0
 	 * @deprecated [version]
 	 *
-	 * @param  int   $post_id           Post ID.
-	 * @param  int[] $enrolled_students Array of WP_User IDs.
+	 * @param int   $post_id           Post ID.
+	 * @param int[] $enrolled_students Array of WP_User IDs.
 	 * @return array
 	 */
 	public static function get_users_not_enrolled( $post_id, $enrolled_students = array() ) {
 
-		llms_deprecated_function( 'get_users_not_enrolled', '[version]', $replacement );
+		llms_deprecated_function( 'LLMS_Course_Handler::get_users_not_enrolled', '[version]', $replacement );
 
 		if ( empty( $post_id ) ) {
 			return false;
