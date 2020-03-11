@@ -4,16 +4,20 @@
  *
  * Generates achievements for users.
  *
+ * @package LifterLMS/Achievements/Classes
+ *
  * @since 1.0.0
- * @version 3.24.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Achievement_User class.
+ * LLMS_Achievement_User class
  *
  * @since 1.0.0
+ * @since 3.17.4 Unknown.
+ * @since 3.24.0 Unknown.
  * @since 3.30.3 Explicitly define undefined properties.
  */
 class LLMS_Achievement_User extends LLMS_Achievement {

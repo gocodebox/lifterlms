@@ -1,13 +1,24 @@
 <?php
 /**
+ * Admin Reviews
+ *
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since Unknown
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Admin Reviews class
+ *
  * This class handles the admin side of the reviews.
  * It is responsible for creating the meta box on the course
  * page (and in the future the membership page).
+ *
+ * @since Unknown
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 class LLMS_Admin_Reviews {
 
 	public static $prefix = '_';

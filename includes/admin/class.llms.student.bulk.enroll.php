@@ -1,6 +1,8 @@
 <?php
 /**
- * Bulk Enrollment Class
+ * Bulk Enrollment
+ *
+ * @package LifterLMS/Admin/Classes
  *
  * @since 3.20.0
  * @version 3.21.0
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Bulk Enrollment Class
+ * Bulk Enrollment class
  *
  * @since 3.20.0
  * @since 3.30.3 Explicitly define class properties.

@@ -1,14 +1,22 @@
 <?php
 /**
- * Admin System Report Class
+ * Admin System Report
  *
- * @since    2.1.0
- * @version  3.11.2
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 2.1.0
+ * @version 3.11.2.
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Admin System Report Class
+ *
+ * @since 2.1.0
+ * @since 3.0.0 Unknown.
+ * @since 3.11.2 Unknown.
+ */
 class LLMS_Admin_System_Report {
 
 	/**

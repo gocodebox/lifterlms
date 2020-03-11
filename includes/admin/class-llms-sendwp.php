@@ -1,8 +1,8 @@
 <?php
 /**
- * SendWP Connect.
+ * SendWP Connect
  *
- * @package  LifterLMS/Admin/Classes
+ * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
  * @version 3.37.0
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_SendWP class.
+ * LLMS_SendWP class
  *
  * @since 3.36.1
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.

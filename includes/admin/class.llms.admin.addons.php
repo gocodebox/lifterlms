@@ -1,7 +1,10 @@
 <?php
 /**
  * LifterLMS Add-On browser
+ *
  * This is where the adds are, if you don't like it that's okay but i don't want to hear your complaints!
+ *
+ * @package LifterLMS/Admin/Classes
  *
  * @since 3.5.0
  * @version 3.35.0
@@ -10,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_AddOns class.
+ * LLMS_Admin_AddOns class
  *
  * @since 3.5.0
  * @since 3.30.3 Explicitly define undefined properties.

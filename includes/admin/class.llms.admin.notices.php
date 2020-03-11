@@ -2,16 +2,18 @@
 /**
  * LifterLMS Admin Notices
  *
- * @since    3.0.0
- * @version  3.35.0
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 3.0.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Notices
+ * LLMS_Admin_Notices class
  *
- * @since  3.0.0
+ * @since 3.0.0
  * @since 3.35.0 Unslash input data.
  */
 class LLMS_Admin_Notices {

@@ -1,15 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * Admin analytics
+ *
+ * Analytics field factory.
+ *
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since Unknown
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin analytics Class
+ * Admin analytics class
  *
- * analytics field Factory
- *
- * @author codeBOX
- * @project lifterLMS
- *
+ * @since Unknown.
  * @deprecated 3.35.0
  */
 class LLMS_Admin_Analytics {

@@ -2,8 +2,10 @@
 /**
  * Core functions used exclusively on the admin panel
  *
- * @since    3.0.0
- * @version  3.30.0
+ * @package LifterLMS/Admin/Functions
+ *
+ * @since 3.0.0
+ * @version 3.30.0
  */
 
 defined( 'ABSPATH' ) || exit;

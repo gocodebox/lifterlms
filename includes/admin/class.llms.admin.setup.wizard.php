@@ -2,6 +2,8 @@
 /**
  * Display a Setup Wizard
  *
+ * @package LifterLMS/Admin/Classes
+ *
  * @since 3.0.0
  * @version 3.35.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Display a Setup Wizard
+ * Display a Setup Wizard class
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling error.
