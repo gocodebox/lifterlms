@@ -2,6 +2,8 @@
 /**
  * User Handling for login and registration (mostly)
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.0.0
  * @version 3.35.0
  */

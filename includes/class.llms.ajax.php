@@ -1,11 +1,20 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * AJAX Event Handler
  *
+ * @package LifterLMS/Classes
+ *
  * @since 1.0.0
  * @version 3.35.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_AJAX
+ *
+ * @since 1.0.0
+ * @since 3.35.0 Unknown.
  */
 class LLMS_AJAX {
 

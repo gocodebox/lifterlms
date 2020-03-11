@@ -1,11 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Number Class
  *
  * Manages formatting numbers for I/O and display
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Number Class
+ *
+ * @since 1.0.0
  */
 class LLMS_Number {
 
@@ -45,9 +55,7 @@ class LLMS_Number {
 	 * @return [int]        [whole number representation of decimal value]
 	 */
 	public static function whole_number( $decimal ) {
-
-			return round( $decimal * 100 );
-
+		return round( $decimal * 100 );
 	}
 
 }

@@ -1,12 +1,23 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
+ * LifterLMS Course reviews
+ *
  * This class handles the front end of the reviews. It is responsible
  * for outputting the HTML on the course page (if reviews are activated)
  *
- * @since    ??
- * @version  3.24.0
+ * @package LifterLMS/Classes
+ *
+ * @since Unknown
+ * @version 3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Reviews class
+ *
+ * @since Unknown
+ * @since 3.24.0
  */
 class LLMS_Reviews {
 	/**
@@ -30,8 +41,8 @@ class LLMS_Reviews {
 	 * if not, nothing will happen. This function also checks to
 	 * see if a user is allowed to review more than once.
 	 *
-	 * @since    ??
-	 * @version  3.24.0
+	 * @since Unknown
+	 * @since 3.24.0 Unknown.
 	 */
 	public static function output() {
 

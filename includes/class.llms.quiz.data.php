@@ -2,6 +2,8 @@
 /**
  * Query data about a quiz
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.16.0
  * @version 3.31.0
  */

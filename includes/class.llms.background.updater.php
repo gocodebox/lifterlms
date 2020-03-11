@@ -1,18 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * LifterLMS Background Updater
+ *
+ * Process db updates in the background
+ *
+ * Replaces abstract updater and update classes from 3.4.2 and lower
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 3.4.3
+ * @version 3.16.10
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-async-request.php';
 require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-background-process.php';
 
 /**
- * LifterLMS Background Updater
- * Process db updates in the background
+ * LLMS_Background_Updater
  *
- * Replaces abstract updater and update classes from 3.4.2 and lower
- *
- * @since    3.4.3
- * @version  3.16.10
+ * @since 3.4.3
+ * @since 3.16.10 Unknown.
  */
 class LLMS_Background_Updater extends WP_Background_Process {
 

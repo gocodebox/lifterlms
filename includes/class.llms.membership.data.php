@@ -2,6 +2,8 @@
 /**
  * Query data about a membership.
  *
+ * @package LifterLMS/Classes
+ *
  * @since 3.32.0
  * @version 3.35.0
  */

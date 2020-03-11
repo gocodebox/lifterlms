@@ -1,7 +1,10 @@
 <?php
 /**
  * Engagements Class
+ *
  * Finds and triggers the appropriate engagement
+ *
+ * @package LifterLMS/Classes
  *
  * @since 2.3.0
  * @version 3.30.3

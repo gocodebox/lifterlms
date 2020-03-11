@@ -1,12 +1,22 @@
 <?php
+/**
+ * Dates Class
+ *
+ * Manages formatting dates for I/O and display
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since Unknown
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Dates Class
- * Manages formatting dates for I/O and display
+ * LLMS_Date class
  *
- * @since    ??
- * @version  3.24.0
+ * @since Unknown
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Date {
 

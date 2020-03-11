@@ -1,10 +1,21 @@
 <?php
 /**
  * Course syllabus widget
+ *
  * Displays all lessons in the course
  *
- * @author codeBOX
- * @project lifterLMS
+ * @package LifterLMS/Widgets/Classes
+ *
+ * @since 1.0.0
+ * @version Unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Widget_Course_Syllabus
+ *
+ * @since 1.0.0
  */
 class LLMS_Widget_Course_Syllabus extends LLMS_Widget {
 

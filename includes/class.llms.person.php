@@ -1,11 +1,19 @@
 <?php
+/**
+ * Person base class.
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since Unknown
+ * @version Unknown
+ */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Person base class.
  *
- * Class used for instantiating course object
+ * @since Unknown
  */
 class LLMS_Person {
 

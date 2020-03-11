@@ -1,12 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Basic lesson class
  *
  * Basic lesson is the standard, single lesson.
  *
+ * @package LifterLMS/Classes
+ *
+ * @since 1.0.0
+ * @version 1.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Lesson_Basic
+ *
+ * @since 1.0.0
  * @deprecated 3.30.3
  */
 class LLMS_Lesson_Basic extends LLMS_Lesson {
@@ -19,8 +28,9 @@ class LLMS_Lesson_Basic extends LLMS_Lesson {
 	public $id;
 
 	/**
+	 * Lesson Type
+	 *
 	 * @var string
-	 * @since 1.0.0
 	 */
 	public $lesson_type;
 
@@ -32,11 +42,18 @@ class LLMS_Lesson_Basic extends LLMS_Lesson {
 	public $post;
 
 	/**
-	 * [__construct description]
+	 * Constructor
 	 *
-	 * @param int $lesson [ID of lesson post]
+	 * @since 1.0.0
+	 * @deprecated 3.30.3
+	 *
+	 * @param int $lesson ID of lesson post.
+	 *
+	 * @return void
 	 */
 	public function __construct( $lesson ) {
+
+		llms_deprecated_function( 'LLMS_Lesson_Basic::__construct', '3.30.3' );
 
 		$this->lesson_type = 'basic';
 		parent::__construct( $lesson );

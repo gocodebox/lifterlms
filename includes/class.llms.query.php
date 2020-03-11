@@ -1,7 +1,10 @@
 <?php
 /**
  * Query base class
+ *
  * Handles queries and endpoints.
+ *
+ * @package LifterLMS/Classes
  *
  * @since 1.0.0
  * @version 3.36.4

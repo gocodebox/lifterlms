@@ -1,11 +1,19 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Get & Set grades for gradable post types
  *
- * @since    3.24.0
- * @version  3.24.0
+ * @package LifterLMS/Classes
+ *
+ * @since 3.24.0
+ * @version 3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Grades
+ *
+ * @since 3.24.0
  */
 class LLMS_Grades {
 

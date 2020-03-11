@@ -1,15 +1,26 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS hash ID encrypt/decrypt
  *
- * Based on PseudoCrypt by KevBurns (http://blog.kevburnsjr.com/php-unique-hash)
- * Reference/source: http://stackoverflow.com/a/1464155/933782
- * Modified from original source to remove reliance on bcmath functions
+ * Based on PseudoCrypt by KevBurns (http://blog.kevburnsjr.com/php-unique-hash).
  *
- * @since    3.16.7
- * @version  3.24.0
+ * Modified from original source to remove reliance on bcmath functions.
+ *
+ * @package LifterLMS/Classes
+ *
+ * @since 3.16.7
+ * @version 3.24.0
+ *
+ * @link http://stackoverflow.com/a/1464155/933782
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Hasher
+ *
+ * @since 3.16.7
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Hasher {
 
