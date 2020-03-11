@@ -22,6 +22,17 @@
 + Fixed PHP notice thrown on the WordPress menu editor interface encountered when student dashboard endpoints have been deleted or removed.
 + Fixed issue causing quotes to be encoded in various email, achievement, and certificate fields.
 
+##### Deprecations
+
+The following have been deprecated with no replacements and will be removed in the next major update:
+
++ `LLMS_Course_Factory::get_course()`
++ `LLMS_Course_Factory::get_lesson()`
++ `LLMS_Course_Factory::get_product()`
++ `LLMS_Course_Factory::get_quiz()`
++ `LLMS_Course_Factory::get_question()`
++ `LLMS_Course_Handler::get_users_not_enrolled()`
+
 
 = v3.37.11 - 2020-03-03 =
 -------------------------
