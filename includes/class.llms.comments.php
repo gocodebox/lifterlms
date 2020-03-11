@@ -58,7 +58,7 @@ class LLMS_Comments {
 	 * Next time wp_count_comments is called it'll be automatically regenerated
 	 *
 	 * @since 3.0.0
-	 * @since [version] Use class variable to access the transient key name.
+	 * @since 3.37.12 Use class variable to access the transient key name.
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_Comments {
 	 *
 	 * The array values are the equivalent value as expected by the return of the `wp_count_comments()` function.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return array
 	 */
@@ -161,7 +161,7 @@ class LLMS_Comments {
 	/**
 	 * Retrieve order note comment counts.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @return array[]
 	 */
@@ -187,7 +187,7 @@ class LLMS_Comments {
 	 * from `get_comment_counts()` and then subtracts LifterLMS order note comments from the existing comment counts
 	 * which would have included order notes in the counts.
 	 *
-	 * @since [version]
+	 * @since 3.37.12
 	 *
 	 * @param  stdClass $stats Comment stats object. See the return of LLMS_Comments::wp_comment_counts() for object details.
 	 * @return stdClass See LLMS_Comments::wp_comment_counts() for return object details.
