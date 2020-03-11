@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Import Screen and form submission handling
+ * Admin Import Screen and form submission handling class
  *
  * @since 3.3.0
  * @since 3.30.1 Explicitly include template functions during imports.

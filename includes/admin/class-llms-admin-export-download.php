@@ -2,13 +2,18 @@
 /**
  * Serves Export CSVs on the admin panel
  *
- * @since   3.28.1
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 3.28.1
  * @version 3.28.1
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Export_Download class.
+ * LLMS_Admin_Export_Download class
+ *
+ * @since 3.28.1
  */
 class LLMS_Admin_Export_Download {
 

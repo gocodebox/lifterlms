@@ -2,6 +2,8 @@
 /**
  * LifterLMS Admin Course Builder
  *
+ * @package LifterLMS/Admin/Classes
+ *
  * @since 3.13.0
  * @version 3.37.12
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Builder class.
+ * LLMS_Admin_Builder class
  *
  * @since 3.13.0
  * @since 3.30.0 Fixed issues related to custom field sanitization.

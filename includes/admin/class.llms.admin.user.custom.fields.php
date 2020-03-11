@@ -1,16 +1,19 @@
 <?php
 /**
  * Add Custom User Fields to user admin panel screens
- * Applies to edit-user.php, user-new.php, & profile.php
  *
- * @since    2.7.0
- * @version  3.35.0
+ * Applies to edit-user.php, user-new.php, & profile.php.
+ *
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 2.7.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_User_Custom_Fields
+ * LLMS_Admin_User_Custom_Fields class.
  *
  * @since 2.7.0
  * @since 3.35.0 Sanitize input data.

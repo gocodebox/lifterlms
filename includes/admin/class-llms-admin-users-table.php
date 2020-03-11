@@ -1,8 +1,8 @@
 <?php
 /**
- * Manage WP Admin users table.
+ * Manage WP Admin users table
  *
- * @package  LifterLMS/Admin/Classes
+ * @package LifterLMS/Admin/Classes
  *
  * @since 3.34.0
  * @version 3.34.0
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Users_Table class.
+ * LLMS_Admin_Users_Table class
  *
  * @since 3.34.0
  */

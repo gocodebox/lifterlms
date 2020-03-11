@@ -2,17 +2,19 @@
 /**
  * Admin Menu Items
  *
- * @since   1.0.0
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 1.0.0
  * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Menus class.
+ * LLMS_Admin_Menus class
  *
- * @since  1.0.0
- * @since  3.35.0 Sanitize input data.
+ * @since 1.0.0
+ * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Menus {
 

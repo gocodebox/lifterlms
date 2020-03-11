@@ -2,6 +2,8 @@
 /**
  * Admin Status Pages
  *
+ * @package LifterLMS/Admin/Classes
+ *
  * @since 3.11.2
  * @version 3.35.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Page_Status class.
+ * LLMS_Admin_Page_Status class
  *
  * @since 3.11.2
  * @since 3.32.0 Add "Scheduled Actions" tab.

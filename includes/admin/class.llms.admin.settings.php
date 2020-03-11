@@ -1,6 +1,6 @@
 <?php
 /**
- * Admin Settings Class
+ * Admin Settings and fields
  *
  * @package LifterLMS/Admin/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin settings and fields.
+ * Admin settings and fields class
  *
  * @since 1.0.0
  * @since 3.29.0 Unknown.

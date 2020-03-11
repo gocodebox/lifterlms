@@ -1,8 +1,10 @@
 <?php
 /**
- * Admin Post Types Class
+ * Admin Post Types
  *
- * Sets up post type custom messages and includes base metabox class
+ * Sets up post type custom messages and includes base metabox class.
+ *
+ * @package LifterLMS/Admin/Classes
  *
  * @since Unknown
  * @version 3.35.0
@@ -11,7 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Post_Types
+ * LLMS_Admin_Post_Types class
  *
  * @since Unknown
  * @version 3.35.0 Fix l10n calls.

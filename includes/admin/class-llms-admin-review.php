@@ -1,11 +1,21 @@
 <?php
+/**
+ * Admin Review
+ *
+ * Please say nice things about us.
+ *
+ * @package LifterLMS/Admin/Classes
+ *
+ * @since 3.24.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Please say nice things about us
+ * Admin Review class
  *
- * @since    3.24.0
- * @version  3.24.0
+ * @since 3.24.0
  */
 class LLMS_Admin_Review {
 

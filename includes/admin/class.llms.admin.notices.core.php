@@ -2,6 +2,8 @@
 /**
  * Manage core admin notices
  *
+ * @package LifterLMS/Admin/Classes
+ *
  * @since 3.0.0
  * @version 3.32.0
  */
@@ -9,10 +11,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Manage core admin notices
+ * Manage core admin notices class
  *
  * @since 3.0.0
- * @since 3.32.0 Moved staging notice logic to LLMS_Staging::handle_staging_notice_actions().
+ * @since 3.13.0 Unknown.
+ * @since 3.14.8 Unknown.
+ * @since 3.16.14 Unknown.
+ * @since 3.32.0 Moved staging notice logic to `LLMS_Staging::handle_staging_notice_actions()`.
  */
 class LLMS_Admin_Notices_Core {
 

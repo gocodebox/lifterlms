@@ -1,16 +1,26 @@
 <?php
 /**
- * Admin Assets Class
+ * Admin Assets
+ *
+ * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
  * @version 3.35.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Assets class.
+ * LLMS_Admin_Assets class
  *
  * @since 1.0.0
+ * @since 3.7.5 Unknown.
+ * @since 3.16.0 Added static method `register_quill()`.
+ * @since 3.17.5 Unknown.
+ * @since 3.17.8 Unknown.
+ * @since 3.19.4 Unknown.
+ * @since 3.22.0 Unknown.
+ * @since 3.29.0 Unknown.
  * @since 3.35.0 Explicitly set asset versions.
  * @since 3.35.1 Don't reference external scripts & styles.
  */

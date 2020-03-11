@@ -1,7 +1,8 @@
 <?php
 /**
- * Certificate Class
- * Generates certificate post for user, triggered from engagement.
+ * Certificate
+ *
+ * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
  * @version 3.30.3
@@ -10,7 +11,8 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificate Class
+ * Certificate class
+ *
  * Generates certificate post for user, triggered from engagement.
  *
  * @since 1.0.0
