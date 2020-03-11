@@ -188,7 +188,7 @@ class LLMS_Comments {
 	 * @since [version]
 	 *
 	 * @param  stdClass $stats Comment stats object. See the return of LLMS_Comments::wp_comment_counts() for object details.
-	 * @return stdClass        See LLMS_Comments::wp_comment_counts() for return object details.
+	 * @return stdClass See LLMS_Comments::wp_comment_counts() for return object details.
 	 */
 	protected static function modify_comment_stats( $stats ) {
 
