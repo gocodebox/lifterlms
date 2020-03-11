@@ -71,7 +71,6 @@
 
 		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/certificates/*.php</exclude-pattern>
 		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/emails/*.php</exclude-pattern>
 		<exclude-pattern>includes/forms/*.php</exclude-pattern>
@@ -95,7 +94,6 @@
 
 		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/certificates/*.php</exclude-pattern>
 		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/emails/*.php</exclude-pattern>
 		<exclude-pattern>includes/forms/*.php</exclude-pattern>
@@ -119,7 +117,6 @@
 
 		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/certificates/*.php</exclude-pattern>
 		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/emails/*.php</exclude-pattern>
 		<exclude-pattern>includes/forms/*.php</exclude-pattern>
