@@ -1,36 +1,53 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
 /**
- * Course Functions
+ * LifterLMS Course Functions
  *
- * Misc functions used for user interactions with courses and lessons
- * TODO: refactor and re-organize
+ * @package LifterLMS/Functions
  *
- * @author codeBOX
- * @project lifterLMS
+ * @since Unknown
+ * @version [version]
  */
 
+defined( 'ABSPATH' ) || exit;
+
 /**
- * Get page object
+ * Get course object
  *
- * @param string $the_course = false, $args = array()
+ * @since Unknown
+ * @since [version] Use `LLMS_Course` in favor of the deprecated `LLMS_Course_Factory::get_course()` method.
+ *
+ * @param WP_Post|int|false $the_course Course post object or id. If `false` uses the global `$post` object.
+ * @param array             $args       Arguments to pass to the LLMS_Course Constructor.
  * @return array
  */
 function get_course( $the_course = false, $args = array() ) {
 
-	return LLMS()->course_factory->get_course( $the_course, $args );
+	if ( ! $the_course ) {
+		global $post;
+		$the_course = $post;
+	}
+
+	return new LLMS_Course( $the_course, $args );
 
 }
 
 /**
- * get lesson object
+ * Get Product
  *
- * @param mixed $the_lesson = false, $args = array()
- * @return marray
+ * @since Unknown
+ * @since [version] Use `LLMS_Lesson` in favor of the deprecated `LLMS_Course_Factory::get_lesson()` method.
+ *
+ * @param WP_Post|int|false $the_product Lesson post object or id. If `false` uses the global `$post` object.
+ * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
+ * @return LLMS_Product
  */
 function get_lesson( $the_lesson = false, $args = array() ) {
 
-	return LLMS()->course_factory->get_lesson( $the_lesson, $args );
+	if ( ! $the_lesson ) {
+		global $post;
+		$the_lesson = $post;
+	}
+
+	return new LLMS_Lesson( $the_lesson, $args );
 
 }

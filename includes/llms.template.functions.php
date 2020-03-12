@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 3.37.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -1055,14 +1055,21 @@ function get_available_payment_options() {
 }
 
 /**
- * Get Product
+ * Get Product Object
  *
- * @param  boolean $the_product [Is product class init?]
- * @param  array   $args        [class init args]
- * @return new instance of class
+ * @since Unknown
+ * @since [version] Use `LLMS_Product` in favor of the deprecated `LLMS_Course_Factory::get_product()` method.
+ *
+ * @param WP_Post|int|false $the_product Course or membership post object or id. If `false` uses the global `$post` object.
+ * @param array             $args        Arguments to pass to the LLMS_Product Constructor.
+ * @return LLMS_Proudct
  */
 function llms_get_product( $the_product = false, $args = array() ) {
-	return LLMS()->course_factory->get_product( $the_product, $args );
+	if ( ! $the_product ) {
+		global $post;
+		$the_product = $post;
+	}
+	return new LLMS_Product( $the_product, $args );
 }
 
 /**
