@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.37.13 - 2020-03-10 =
+-------------------------
+
++ Remove usage of internal functions marked as deprecated.
+
+
 = v3.37.12 - 2020-03-10 =
 -------------------------
 
@@ -131,14 +137,3 @@ The following have been deprecated with no replacements and will be removed in t
 + Bug fix: Automatically store course/membership instructor with `post_author` data when the post is created.
 + Bug fix: Pass style rules as camelCase.
 + Bug fix: Fixed an issue causing "No HTML Returned" to be displayed in place of the Lesson Progression block on free lessons when viewed by a logged-out user.
-
-
-= v3.37.3 - 2019-12-03 =
-------------------------
-
-+ Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
-+ Don't unslash uploaded file `tmp_name`, thanks [@pondermatic](https://github.com/pondermatic)!
-+ TwentyTwenty Theme Support: Hide site header and footer, and set a white body background in single certificates.
-+ Renamed setting field IDs to be unique for open/close wrapper fields on the engagements and account settings pages.
-+ Removed redundant functions defined in the `LLMS_Settings_Page` class to reduce code redundancy in account and engagement setting page classes.
-+ The `LLMS_Settings_Page` base class now automatically defines actions to save and output settings content.
