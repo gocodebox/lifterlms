@@ -32,7 +32,7 @@ class LLMS_Course_Factory {
 	 */
 	public function get_course( $the_course = false, $args = array() ) {
 
-		llms_deprecated_function( 'LLMS_Course_Factory::get_course()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course_Factory::get_course()', '3.37.12' );
 
 		global $post;
 		if ( empty( $the_course->post_type ) ) {
@@ -54,7 +54,7 @@ class LLMS_Course_Factory {
 	 */
 	public function get_lesson( $the_lesson = false, $args = array() ) {
 
-		llms_deprecated_function( 'LLMS_Course_Factory::get_lesson()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course_Factory::get_lesson()', '3.37.12' );
 
 		global $post;
 		$the_lesson = $post;
@@ -74,7 +74,7 @@ class LLMS_Course_Factory {
 	 */
 	public function get_product( $the_product = false, $args = array() ) {
 
-		llms_deprecated_function( 'LLMS_Course_Factory::get_product()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course_Factory::get_product()', '3.37.12' );
 
 		global $post;
 		$the_product = $post;
@@ -94,7 +94,7 @@ class LLMS_Course_Factory {
 	 */
 	public function get_quiz( $the_quiz = false, $args = array() ) {
 
-		llms_deprecated_function( 'LLMS_Course_Factory::get_quiz()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course_Factory::get_quiz()', '3.37.12' );
 
 		global $post;
 		$the_quiz = $post;
@@ -114,7 +114,7 @@ class LLMS_Course_Factory {
 	 */
 	public function get_question( $the_question = false, $args = array() ) {
 
-		llms_deprecated_function( 'LLMS_Course_Factory::get_question()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course_Factory::get_question()', '3.37.12' );
 
 		global $post;
 		$the_question = $post;
