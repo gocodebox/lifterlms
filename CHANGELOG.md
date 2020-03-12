@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.37.13 - 2020-03-10
+---------------------
+
++ Remove usage of internal functions marked as deprecated.
+
+
 v3.37.12 - 2020-03-10
 ---------------------
 
