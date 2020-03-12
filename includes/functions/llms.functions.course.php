@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since Unknown
- * @version [version]
+ * @version 3.37.13
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Get course object
  *
  * @since Unknown
- * @since [version] Use `LLMS_Course` in favor of the deprecated `LLMS_Course_Factory::get_course()` method.
+ * @since 3.37.13 Use `LLMS_Course` in favor of the deprecated `LLMS_Course_Factory::get_course()` method.
  *
  * @param WP_Post|int|false $the_course Course post object or id. If `false` uses the global `$post` object.
  * @param array             $args       Arguments to pass to the LLMS_Course Constructor.
@@ -35,7 +35,7 @@ function get_course( $the_course = false, $args = array() ) {
  * Get Product
  *
  * @since Unknown
- * @since [version] Use `LLMS_Lesson` in favor of the deprecated `LLMS_Course_Factory::get_lesson()` method.
+ * @since 3.37.13 Use `LLMS_Lesson` in favor of the deprecated `LLMS_Course_Factory::get_lesson()` method.
  *
  * @param WP_Post|int|false $the_product Lesson post object or id. If `false` uses the global `$post` object.
  * @param array             $args        Arguments to pass to the LLMS_Lesson Constructor.
