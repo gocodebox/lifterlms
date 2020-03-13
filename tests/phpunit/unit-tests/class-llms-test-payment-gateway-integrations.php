@@ -6,6 +6,7 @@
  *
  * @since 3.37.6
  * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
+ * @since [version] Reduce number of tests run for monthly and yearly chaotic simulations.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
@@ -450,6 +451,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a monthly plan_with_chaos
 	 *
 	 * @since 3.37.6
+	 * @since [version] Reduce number of tests run.
 	 *
 	 * @medium
 	 *
@@ -466,7 +468,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		$this->do_order_setup_tests( $order );
 
 		// Run recurring charges for the order.
-		$this->do_n_charges_for_order( $order, 99, 12, 24 );
+		$this->do_n_charges_for_order( $order, 50, 12, 24 );
 
 	}
 
@@ -542,6 +544,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a yearly plan_with_chaos
 	 *
 	 * @since 3.37.6
+	 * @since [version] Reduce number of tests run.
 	 *
 	 * @medium
 	 *
@@ -558,7 +561,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 		$this->do_order_setup_tests( $order );
 
 		// Run recurring charges for the order.
-		$this->do_n_charges_for_order( $order, 99, 12, 24 );
+		$this->do_n_charges_for_order( $order, 50, 12, 24 );
 
 	}
 
