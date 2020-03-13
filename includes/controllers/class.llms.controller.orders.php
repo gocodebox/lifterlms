@@ -208,9 +208,15 @@ class LLMS_Controller_Orders {
 		@set_time_limit( 0 );
 
 		/**
-		 * Allow gateways, extensions, etc to do their own validation prior to standard validation
+		 * Allow 3rd parties to perform their own validation prior to standard validation.
+		 *
 		 * If this returns a truthy, we'll stop processing
-		 * The extension should add a notice in addition to returning the truthy
+		 *
+		 * The extension should add a notice in addition to returning the truthy.
+		 *
+		 * @since Unknown
+		 *
+		 * @param boolean $valid Validation status. If `true` ceases checkout execution. If `false` checkout proceeds.
 		 */
 		if ( apply_filters( 'llms_before_checkout_validation', false ) ) {
 			return;
