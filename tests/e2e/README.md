@@ -27,10 +27,10 @@ Note that a directory `/wordpress` will be installed in the root of the reposito
 
 To run tests:
 
-+ `npm run tests`: Runs all tests in a headless browser.
-+ `npm run tests:dev`: Runs tests in an interactive browser with "slow" motion enabled. This mode is helpful when writing tests so you can see what's going on.
-+ `npm run tests -- -t SuiteName`: Run a single test suite by name. "SuiteName" will be the name of a test file `describe()`. For  example "SetupWizard".
-+ `npm run tests -- -t "test expect description"`: Run a single test by it's "should" description block. For example "should load and run the entire setup wizard.".
++ `npm run test`: Runs all tests in a headless browser.
++ `npm run test:dev`: Runs tests in an interactive browser with "slow" motion enabled. This mode is helpful when writing tests so you can see what's going on.
++ `npm run test -- -t SuiteName`: Run a single test suite by name. "SuiteName" will be the name of a test file `describe()`. For  example "SetupWizard".
++ `npm run test -- -t "test expect description"`: Run a single test by its "should" description block. For example "should load and run the entire setup wizard.".
 
 
 ## Managing Docker Containers
