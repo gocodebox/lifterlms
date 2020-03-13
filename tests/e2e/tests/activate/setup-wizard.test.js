@@ -2,9 +2,10 @@
  * Test the Setup Wizard
  *
  * @since 3.37.8
+ * @since [version] Fix package references.
  */
 
-const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 /**
  * Retrieve the Setup Wizard Page Title.

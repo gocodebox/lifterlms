@@ -5,12 +5,11 @@
  * 2. Configure Permalinks.
  *
  * @since 3.37.8
+ * @since [version] Fix package references.
  */
 
-const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );
-
-const { clickAndWait } = require( 'llms-e2e-test-utils' );
-
+import { clickAndWait } from '@lifterlms/llms-e2e-test-utils';
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 describe( 'ConfigureWP', () => {
 

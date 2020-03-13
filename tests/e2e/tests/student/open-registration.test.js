@@ -2,16 +2,17 @@
  * Test the Setup Wizard
  *
  * @since 3.37.8
+ * @since [version] Fix package references.
  */
 
-const { visitAdminPage } = require( '@wordpress/e2e-test-utils' );
-
-const {
+import {
 	clickAndWait,
 	fillField,
 	logoutUser,
 	visitPage,
-} = require( 'llms-e2e-test-utils' );
+} from '@lifterlms/llms-e2e-test-utils';
+
+import { visitAdminPage } from '@wordpress/e2e-test-utils';
 
 let openRegStatus = null;
 

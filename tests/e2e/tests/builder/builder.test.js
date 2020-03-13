@@ -2,18 +2,19 @@
  * Test the Setup Wizard
  *
  * @since 3.37.8
+ * @since [version] Fix package references.
  */
 
-const {
-	pressKeyWithModifier,
-	visitAdminPage,
-} = require( '@wordpress/e2e-test-utils' );
-
-const {
+import {
 	clickAndWait,
 	clickElementByText,
 	fillField,
-} = require( 'llms-e2e-test-utils' );
+} from '@lifterlms/llms-e2e-test-utils';
+
+import {
+	pressKeyWithModifier,
+	visitAdminPage,
+} from '@wordpress/e2e-test-utils';
 
 const addSection = async function( title ) {
 
