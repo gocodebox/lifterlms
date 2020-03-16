@@ -409,7 +409,7 @@ class LLMS_Events {
 	 */
 	public function store_cookie() {
 
-		if ( wp_doing_ajax() && ! empty( $_POST['llms-tracking'] ) ) {// phpcs:ignore: WordPress.Security.NonceVerification.Missing -- We don't process any data here.
+		if ( wp_doing_ajax() && ! empty( $_POST['llms-tracking'] ) ) {// phpcs:ignore: WordPress.Security.NonceVerification.Missing -- Nonce verified in `$this->store_tracking_events()` method.
 			return;
 		}
 
