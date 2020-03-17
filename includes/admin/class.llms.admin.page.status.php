@@ -27,6 +27,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 *
 	 * @return void
 	 */
@@ -39,7 +40,11 @@ class LLMS_Admin_Page_Status {
 		$tool = llms_filter_input( INPUT_POST, 'llms_tool', FILTER_SANITIZE_STRING );
 
 		/**
-		 * Custom Tools can hook into this action to do the tool action
+		 * Custom and 3rd party tools can use this action to perform the tool's action
+		 *
+		 * @since Unknown
+		 *
+		 * @param string $tool Tool name or ID.
 		 */
 		do_action( 'llms_status_tool', $tool );
 
@@ -52,7 +57,7 @@ class LLMS_Admin_Page_Status {
 
 			case 'clear-cache':
 				global $wpdb;
-				$wpdb->query(
+				$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 					$wpdb->prepare(
 						"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s;",
 						'llms_overall_progress',
@@ -71,9 +76,8 @@ class LLMS_Admin_Page_Status {
 				break;
 
 			case 'setup-wizard':
-				wp_safe_redirect( esc_url_raw( admin_url( '?page=llms-setup' ) ) );
-				exit;
-			break;
+				llms_redirect_and_exit( esc_url_raw( admin_url( '?page=llms-setup' ) ) );
+				break;
 
 		}
 	}
@@ -81,15 +85,15 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Handle form / link actions on the status pages
 	 *
-	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @return void
 	 */
 	public static function handle_actions() {
 
-		if ( ! empty( $_REQUEST['llms_delete_log'] ) ) {
+		if ( ! empty( $_REQUEST['llms_delete_log'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonces are verified elsewhere.
 			self::remove_log_file();
-		} elseif ( ! empty( $_REQUEST['llms_tool'] ) ) {
+		} elseif ( ! empty( $_REQUEST['llms_tool'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonces are verified elsewhere.
 			self::do_tool();
 		}
 
@@ -98,10 +102,10 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Retrieve the URL to the status page
 	 *
-	 * @param    string $tab  optionally add a tab
-	 * @return   string
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @param string $tab Cptionally add a tab.
+	 * @return string
 	 */
 	public static function get_url( $tab = null ) {
 		$args = array(
@@ -126,7 +130,7 @@ class LLMS_Admin_Page_Status {
 		$result = array();
 
 		// Retrieve all the files in logs in our log directory.
-		$files  = @scandir( LLMS_LOG_DIR );
+		$files = @scandir( LLMS_LOG_DIR ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- It's okay though.
 		if ( ! empty( $files ) ) {
 			foreach ( $files as $key => $value ) {
 
@@ -158,6 +162,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 2.1.0
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Use strict comparators.
 	 *
 	 * @return void
 	 */
@@ -173,7 +178,7 @@ class LLMS_Admin_Page_Status {
 			)
 		);
 
-		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
+		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
 		?>
 
 		<div class="wrap lifterlms llms-status llms-status--<?php echo $current_tab; ?>">
@@ -182,7 +187,7 @@ class LLMS_Admin_Page_Status {
 				<ul class="llms-nav-items">
 				<?php
 				foreach ( $tabs as $name => $label ) :
-					$active = ( $current_tab == $name ) ? ' llms-active' : '';
+					$active = ( $current_tab === $name ) ? ' llms-active' : '';
 					?>
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( self::get_url( $name ) ); ?>"><?php echo $label; ?></a></li>
 				<?php endforeach; ?>
@@ -285,9 +290,9 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Output the HTML for the tools tab
 	 *
-	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @return void
 	 */
 	private static function output_tools_content() {
 
