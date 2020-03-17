@@ -2,25 +2,28 @@
 /**
  * Tests for LifterLMS Core Functions
  *
- * @group    functions
- * @group    functions_core
+ * @group functions
+ * @group functions_core
  *
  * @since 3.3.1
  * @since 3.35.0 Test ipv6 addresses.
  * @since 3.36.1 Use exception from lifterlms-tests lib.
  * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
+ * @since [version] When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
+ * @version [version]
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
-	 * test the llms_assoc_array_insert
-	 * @return   void
-	 * @since    3.21.0
-	 * @version  3.21.0
+	 * Test the llms_assoc_array_insert
+	 *
+	 * @since 3.21.0
+	 *
+	 * @return void
 	 */
 	public function test_llms_assoc_array_insert() {
 
-		// base array
+		// base array.
 		$array = array(
 			'test' => 'asrt',
 			'tester' => 'asrtarst',
@@ -28,7 +31,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			'another' => 'arst',
 		);
 
-		// after first item
+		// after first item.
 		$expect = array(
 			'test' => 'asrt',
 			'new_key' => 'item',
@@ -38,33 +41,33 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 		);
 		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'test', 'new_key', 'item' ) );
 
-		// add in the middle
+		// add in the middle.
 		$expect = array(
-			'test' => 'asrt',
-			'tester' => 'asrtarst',
-			'new_key' => 'item',
+			'test'         => 'asrt',
+			'tester'       => 'asrtarst',
+			'new_key'      => 'item',
 			'moretest_key' => 'arst',
-			'another' => 'arst',
+			'another'      => 'arst',
 		);
 		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'tester', 'new_key', 'item' ) );
 
-		// requested key doesn't exist so it'll be added to the end
+		// requested key doesn't exist so it'll be added to the end.
 		$expect = array(
-			'test' => 'asrt',
-			'tester' => 'asrtarst',
+			'test'         => 'asrt',
+			'tester'       => 'asrtarst',
 			'moretest_key' => 'arst',
-			'another' => 'arst',
-			'new_key' => 'item',
+			'another'      => 'arst',
+			'new_key'      => 'item',
 		);
 		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'noexist', 'new_key', 'item' ) );
 
-		// after last item
+		// after last item.
 		$expect = array(
-			'test' => 'asrt',
-			'new_key' => 'item',
-			'tester' => 'asrtarst',
+			'test'         => 'asrt',
+			'new_key'      => 'item',
+			'tester'       => 'asrtarst',
 			'moretest_key' => 'arst',
-			'another' => 'arst',
+			'another'      => 'arst',
 		);
 		$this->assertEquals( $expect, llms_assoc_array_insert( $array, 'another', 'new_key', 'item' ) );
 
@@ -72,9 +75,10 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_core_supported_themes()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_core_supported_themes() {
 
@@ -84,10 +88,11 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test llms_get_date_diff()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Test llms_get_date_diff()
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_date_diff() {
 
@@ -108,10 +113,11 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test llms_get_engagement_triggers()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Test llms_get_engagement_triggers()
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_engagement_triggers() {
 		$this->assertFalse( empty( llms_get_engagement_triggers() ) );
@@ -119,10 +125,11 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test llms_get_engagement_types()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Test llms_get_engagement_types()
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_engagement_types() {
 		$this->assertFalse( empty( llms_get_engagement_types() ) );
@@ -131,43 +138,42 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the llms_get_option_page_anchor() function
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_option_page_anchor() {
 
 		$id = $this->factory->post->create( array(
 			'post_title' => 'The Page Title',
-			'post_type' => 'page',
+			'post_type'  => 'page',
 		) );
 
 		$option_name = 'llms_test_page_anchor';
 
-		// returns empty if option isn't set
+		// returns empty if option isn't set.
 		$this->assertEmpty( llms_get_option_page_anchor( $option_name ) );
 
 		update_option( $option_name, $id );
 
-		// title found in string
+		// title found in string.
 		$this->assertTrue( false !== strpos( llms_get_option_page_anchor( $option_name ), get_the_title( $id ) ) );
 
-		// URL found
+		// URL found.
 		$this->assertTrue( false !== strpos( llms_get_option_page_anchor( $option_name ), get_the_permalink( $id ) ) );
 
-		// target found
-		$this->assertTrue( false !== strpos( llms_get_option_page_anchor( $option_name ), 'target="_blank"' ) );
-
-		// no target found
+		// no target found.
 		$this->assertTrue( false === strpos( llms_get_option_page_anchor( $option_name, false ), 'target="_blank"' ) );
 
 	}
 
 	/**
 	 * Test llms_get_product_visibility_options()
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 *
+	 * @since 3.6.0
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_product_visibility_options() {
 		$this->assertFalse( empty( llms_get_product_visibility_options() ) );
@@ -176,30 +182,31 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_find_coupon()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_find_coupon() {
 
-		// create a coupon
+		// create a coupon.
 		$id = $this->factory->post->create( array(
 			'post_title' => 'coopond',
-			'post_type' => 'llms_coupon',
+			'post_type'  => 'llms_coupon',
 		) );
 		$this->assertEquals( $id, llms_find_coupon( 'coopond' ) );
 
-		// create a dup
+		// create a dup.
 		$dup = $this->factory->post->create( array(
 			'post_title' => 'coopond',
-			'post_type' => 'llms_coupon',
+			'post_type'  => 'llms_coupon',
 		) );
 		$this->assertEquals( $dup, llms_find_coupon( 'coopond' ) );
 
-		// test dupcheck
+		// test dupcheck.
 		$this->assertEquals( $id, llms_find_coupon( 'coopond', $dup ) );
 
-		// delete the coupon
+		// delete the coupon.
 		wp_delete_post( $id );
 		wp_delete_post( $dup );
 		$this->assertEmpty( llms_find_coupon( 'coopond' ) );
@@ -208,9 +215,9 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_enrolled_students()
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 *
+	 * @since 3.6.0
+	 * @return void
 	 */
 	function test_llms_get_enrolled_students() {
 
@@ -225,20 +232,20 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			$student->enroll( $course_id );
 		}
 
-		// test basic enrollment query passing in a string
+		// test basic enrollment query passing in a string.
 		$this->assertEquals( $students, llms_get_enrolled_students( $course_id, 'enrolled', 50, 0 ) );
-		// test basic enrollment query passing in an array
+		// test basic enrollment query passing in an array.
 		$this->assertEquals( $students, llms_get_enrolled_students( $course_id, array( 'enrolled' ), 50, 0 ) );
 
-		// test pagination
+		// test pagination.
 		$this->assertEquals( array_splice( $students, 0, 10 ), llms_get_enrolled_students( $course_id, 'enrolled', 10, 0 ) );
 		$this->assertEquals( array_splice( $students, 0, 10 ), llms_get_enrolled_students( $course_id, 'enrolled', 10, 10 ) );
 		$this->assertEquals( $students, llms_get_enrolled_students( $course_id, 'enrolled', 10, 20 ) );
 
-		// should be no one expired
+		// should be no one expired.
 		$this->assertEquals( array(), llms_get_enrolled_students( $course_id, 'expired', 10, 0 ) );
 
-		// sleeping makes unenrollment tests work
+		// sleeping makes unenrollment tests work.
 		sleep( 1 );
 
 		$i = 0;
@@ -250,19 +257,20 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 			$i++;
 		}
 
-		// test expired alone
+		// test expired alone.
 		$this->assertEquals( $expired, llms_get_enrolled_students( $course_id, 'expired', 10, 0 ) );
 
-		// test multiple statuses
+		// test multiple statuses.
 		$this->assertEquals( $students_copy, llms_get_enrolled_students( $course_id, array( 'enrolled', 'expired' ), 50, 0 ) );
 
 	}
 
 	/**
-	 * test llms_get_enrollment_statuses()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Test llms_get_enrollment_statuses()
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_enrollment_statuses() {
 		$this->assertFalse( empty( llms_get_enrollment_statuses() ) );
@@ -271,9 +279,10 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_get_enrollment_status_name()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_enrollment_status_name() {
 		$this->assertNotEquals( 'asrt', llms_get_enrollment_status_name( 'cancelled' ) );
@@ -331,7 +340,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * @since 3.16.11 Unknown.
 	 * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function test_llms_get_post() {
 
@@ -364,10 +373,12 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test llms_get_post_parent_course()
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 * Test `llms_get_post_parent_course()`
+	 *
+	 * @since 3.6.0
+	 * @since [version] Added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_post_parent_course() {
 
@@ -390,26 +401,35 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 			$post = get_post( $obj->get( 'id' ) );
 
-			// pass in post id
+			// pass in post id.
 			$this->assertEquals( $course, llms_get_post_parent_course( $post->ID ) );
 
-			// pass in an object
+			// pass in an object.
 			$this->assertEquals( $course, llms_get_post_parent_course( $post ) );
 
 		}
 
-		// other post types don't have a parent course
+		// other non lms post types don't have a parent course.
 		$reg_post = $this->factory->post->create();
 		$this->assertNull( llms_get_post_parent_course( $reg_post ) );
 
+		// make sure an LLMS post type, which is not an istance of `LLMS_Post_Model` doesn't have a parent course.
+		// and no fatals are produced.
+		$certificate_post = $this->factory->post->create(
+			array(
+				'post_type' => 'llms_certificate',
+			)
+		);
+		$this->assertNull( llms_get_post_parent_course( $certificate_post ) );
 	}
 
 
 	/**
-	 * test llms_get_transaction_statuses()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Test llms_get_transaction_statuses()
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_get_transaction_statuses() {
 		$this->assertFalse( empty( llms_get_transaction_statuses() ) );
@@ -418,9 +438,10 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_is_site_https()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_is_site_https() {
 		update_option( 'home', 'https://is.ssl' );
@@ -432,9 +453,10 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the llms_parse_bool function
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 *
+	 * @return void
 	 */
 	public function test_llms_parse_bool() {
 
@@ -500,9 +522,11 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
 	/**
 	 * Test llms_trim_string()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.6.0
+	 *
+	 * @since 3.3.1
+	 * @since 3.6.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function test_llms_trim_string() {
 
