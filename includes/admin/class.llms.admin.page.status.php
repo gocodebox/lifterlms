@@ -27,13 +27,14 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
+	 * @since [version] Verify user capabilities when doing a tool action.
+	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 *
 	 * @return void
 	 */
 	private static function do_tool() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'llms_tool' ) ) {
+		if ( ! llms_verify_nonce( '_wpnonce', 'llms_tool' ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
@@ -58,11 +59,7 @@ class LLMS_Admin_Page_Status {
 			case 'clear-cache':
 				global $wpdb;
 				$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-					$wpdb->prepare(
-						"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s;",
-						'llms_overall_progress',
-						'llms_overall_grade'
-					)
+					"DELETE FROM {$wpdb->usermeta} WHERE meta_key = 'llms_overall_progress' or meta_key = 'llms_overall_grade';"
 				);
 
 				break;
