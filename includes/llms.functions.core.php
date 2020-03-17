@@ -796,16 +796,31 @@ function llms_get_post( $post, $error = false ) {
 /**
  * Retrieve the parent course for a section, lesson, or quiz
  *
- * @param    WP_Post|int $post WP Post ID or instance of WP_Post
- * @return   LLMS_Course|null Instance of the LLMS_Course or null
- * @since    3.6.0
- * @version  3.17.7
+ * @since 3.6.0
+ * @since 3.17.7 Unknown.
+ * @since [version] Bail if `$post` is not an istance of `LLMS_Post_Model`.
+ *                Use strict comparison.
+ *
+ * @param WP_Post|int $post WP Post ID or instance of WP_Post.
+ * @return LLMS_Course|null Instance of the LLMS_Course or null.
  */
 function llms_get_post_parent_course( $post ) {
 
-	$post       = llms_get_post( $post );
+	$post = llms_get_post( $post );
+
+	if ( ! $post || ! is_a( $post, 'LLMS_Post_Model' ) ) {
+		return null;
+	}
+
+	/**
+	 * Filter the course children post types
+	 *
+	 * @since Unknown
+	 *
+	 * @param $post_type string[] Names of the post types that can be children of a course.
+	 */
 	$post_types = apply_filters( 'llms_course_children_post_types', array( 'section', 'lesson', 'llms_quiz' ) );
-	if ( ! $post || ! in_array( $post->get( 'type' ), $post_types ) ) {
+	if ( ! in_array( $post->get( 'type' ), $post_types, true ) ) {
 		return null;
 	}
 

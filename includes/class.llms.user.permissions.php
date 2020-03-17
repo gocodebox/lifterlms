@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 3.36.5
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Added methods and logic for managing user management of other users.
  *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
  * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter to allow 3rd parties to utilize core methods for modifying other users posts.
+ * @since [version] Use strict comparisons where needed.
  */
 class LLMS_User_Permissions {
 
@@ -26,6 +27,8 @@ class LLMS_User_Permissions {
 	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Always add the `editable_roles` filter.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -35,13 +38,14 @@ class LLMS_User_Permissions {
 	}
 
 	/**
-	 * Determines what other user roles can be managed by a user role.
+	 * Determines what other user roles can be managed by a user role
 	 *
 	 * Allows LMS Managers to create instructors and other managers.
 	 * Allows instructors to create & manage assistants.
 	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Moved the `llms_editable_roles` filter to the class method get_editable_roles().
+	 * @since [version] Use strict comparison.
 	 *
 	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/editable_roles
 	 *
@@ -56,10 +60,10 @@ class LLMS_User_Permissions {
 
 		foreach ( $lms_roles as $role => $allowed_roles ) {
 
-			if ( in_array( $role, $user->roles ) ) {
+			if ( in_array( $role, $user->roles, true ) ) {
 
 				foreach ( $all_roles as $the_role => $caps ) {
-					if ( ! in_array( $the_role, $allowed_roles ) ) {
+					if ( ! in_array( $the_role, $allowed_roles, true ) ) {
 						unset( $all_roles[ $the_role ] );
 					}
 				}
@@ -75,19 +79,26 @@ class LLMS_User_Permissions {
 	 *
 	 * @since 3.13.0
 	 *
-	 * @param array $allcaps  All the capabilities of the user
-	 * @param array $cap      [0] Required capability
-	 * @param array $args     [0] Requested capability
-	 *                        [1] User ID
-	 *                        [2] Associated object ID
+	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
+	 *                          represent whether the user has that capability.
+	 * @param string[] $caps    Required primitive capabilities for the requested capability.
+	 * @param array    $args {
+	 *     Arguments that accompany the requested capability check.
+	 *
+	 *     @type string    $0 Requested capability.
+	 *     @type int       $1 Concerned user ID.
+	 *     @type mixed  ...$2 Optional second and further parameters, typically object ID.
+	 * }
 	 * @return array
 	 */
 	public function edit_others_lms_content( $allcaps, $cap, $args ) {
 
-		// this might be a problem
-		// this happens when in wp-admin/includes/post.php
-		// when actually creating/updating a course
-		// and no post_id is passed in $args[2]
+		/**
+		 * this might be a problem
+		 * this happens when in wp-admin/includes/post.php
+		 * when actually creating/updating a course
+		 * and no post_id is passed in $args[2].
+		 */
 		if ( empty( $args[2] ) ) {
 			$allcaps[ $cap[0] ] = true;
 			return $allcaps;
@@ -135,14 +146,20 @@ class LLMS_User_Permissions {
 	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Add logic for `edit_users` and `delete_users` capabilities with regards to LifterLMS user roles.
-	 *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
+	 *               Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter.
+	 * @since [version] Use strict comparison.
 	 *
-	 * @param array $allcaps  All the capabilities of the user
-	 * @param array $cap      [0] Required capability
-	 * @param array $args     [0] Requested capability
-	 *                        [1] User ID
-	 *                        [2] Associated object ID
+	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
+	 *                          represent whether the user has that capability.
+	 * @param string[] $caps    Required primitive capabilities for the requested capability.
+	 * @param array    $args {
+	 *     Arguments that accompany the requested capability check.
+	 *
+	 *     @type string    $0 Requested capability.
+	 *     @type int       $1 Concerned user ID.
+	 *     @type mixed  ...$2 Optional second and further parameters, typically object ID.
+	 * }
 	 * @return array
 	 */
 	public function handle_caps( $allcaps, $cap, $args ) {
@@ -156,9 +173,8 @@ class LLMS_User_Permissions {
 		 */
 		$post_types = apply_filters( 'llms_user_caps_edit_others_posts_post_types', array( 'courses', 'lessons', 'sections', 'quizzes', 'questions', 'memberships' ) );
 		foreach ( $post_types as $cpt ) {
-			// allow any instructor to edit courses
-			// they're attached to
-			if ( in_array( sprintf( 'edit_others_%s', $cpt ), $cap ) ) {
+			// allow any instructor to edit courses they're attached to.
+			if ( in_array( sprintf( 'edit_others_%s', $cpt ), $cap, true ) ) {
 				$allcaps = $this->edit_others_lms_content( $allcaps, $cap, $args );
 			}
 		}
