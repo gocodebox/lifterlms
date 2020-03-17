@@ -8,7 +8,8 @@
  *
  * @since 3.32.0
  * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
- * @version 3.32.0
+ * @since [version] Added tests on persisting tracking events.
+ * @version [version]
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
@@ -28,7 +29,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 * @since 3.32.0
 	 *
 	 * @param string $function Method name.
-	 * @param array $args $_REQUEST args.
+	 * @param array  $args     $_REQUEST args.
 	 * @return array
 	 */
 	protected function do_ajax( $function, $args = array() ) {
@@ -72,14 +73,14 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertTrue( $res['success'] );
 		$this->assertTrue( $res['more'] );
 
-		// Second page
+		// Second page.
 		$args['page'] = 1;
 		$res = $this->do_ajax( 'select2_query_posts', $args );
 		$this->assertSame( 20, count( $res['items'] ) );
 		$this->assertTrue( $res['success'] );
 		$this->assertFalse( $res['more'] );
 
-		// Term not found
+		// Term not found.
 		unset( $args['page'] );
 		$args['term'] = 'arstarstarst';
 		$res = $this->do_ajax( 'select2_query_posts', $args );
@@ -98,7 +99,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'post_title' => 'search title',
 		) );
 
-		// multiple post types
+		// multiple post types.
 		$args['post_type'] .= ',post';
 		$args['term'] = 'search title';
 		$res = $this->do_ajax( 'select2_query_posts', $args );
@@ -109,7 +110,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertSame( 'Courses', $res['items']['course']['label'] );
 		$this->assertTrue( array_key_exists( 'items', $res['items']['course'] ) );
 
-		// No results, when querying for 'future' posts
+		// No results, when querying for 'future' posts.
 		$args = array(
 			'post_type'     => 'course',
 			'post_statuses' => 'future',
@@ -119,7 +120,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertTrue( $res['success'] );
 		$this->assertFalse( $res['more'] );
 
-		// create 4 courses in draft
+		// create 4 courses in draft.
 		$this->factory->post->create_many( 4, array(
 			'post_type'   => 'course',
 			'post_status' => 'draft',
@@ -132,14 +133,14 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertTrue( $res['success'] );
 		$this->assertFalse( $res['more'] );
 
-		// Full result list querying for 'draft' and 'publish' Course statuses
+		// Full result list querying for 'draft' and 'publish' Course statuses.
 		$args['post_statuses'] .= ',publish';
 		$res = $this->do_ajax( 'select2_query_posts', $args );
 		$this->assertSame( 30, count( $res['items'] ) );
 		$this->assertTrue( $res['success'] );
 		$this->assertTrue( $res['more'] );
 
-		// Second page querying for 'draft' and 'publish' Course statuses
+		// Second page querying for 'draft' and 'publish' Course statuses.
 		$args['page'] = 1;
 		$res = $this->do_ajax( 'select2_query_posts', $args );
 		$this->assertSame( 29, count( $res['items'] ) );
@@ -227,7 +228,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'post_id' => 1,
 			'status'  => 'add',
 		);
-		// Missing student_id
+		// Missing student_id.
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( '400', $res );
@@ -237,7 +238,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'student_id' => 1,
 			'status'     => 'add',
 		);
-		// Missing post_id
+		// Missing post_id.
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( '400', $res );
@@ -247,7 +248,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'student_id' => 1,
 			'post_id'    => 1,
 		);
-		// Missing status
+		// Missing status.
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( '400', $res );
@@ -258,7 +259,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'student_id' => 1,
 			'post_id'    => '',
 		);
-		// Empty post_id ( or student_id, or status) value
+		// Empty post_id ( or student_id, or status) value.
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( '400', $res );
@@ -269,17 +270,17 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'student_id' => 1,
 			'post_id'    => 2,
 		);
-		// status not in ('add', 'remove', 'delete')
+		// status not in ('add', 'remove', 'delete').
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( '400', $res );
 		$this->assertSame( 'Invalid status', $res->get_error_message() );
 
-		//create a student
+		// create a student.
 		$student    = $this->get_mock_student();
 		$student_id = $student->get( 'id' );
 
-		//create a course
+		// create a course.
 		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
 
 		$request = array(
@@ -287,13 +288,13 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			'student_id' => $student_id,
 			'post_id'    => $course_id + 1,
 		);
-		// 'add' failure: no course
+		// 'add' failure: no course.
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
 		$this->assertWPErrorCodeEquals( '400', $res );
 		$this->assertSame( 'Action "add" failed. Please try again', $res->get_error_message() );
 
-		// 'remove' failure: student not enrolled in a Course with ID as $course_id
+		// 'remove' failure: student not enrolled in a Course with ID as $course_id.
 		$request['status']  = 'remove';
 		$request['post_id'] = $course_id;
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
@@ -301,7 +302,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$this->assertWPErrorCodeEquals( '400', $res );
 		$this->assertSame( 'Action "remove" failed. Please try again', $res->get_error_message() );
 
-		// 'delete' failure: student not enrolled in a Course with ID as $course_id
+		// 'delete' failure: student not enrolled in a Course with ID as $course_id.
 		$request['status']  = 'delete';
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertWPError( $res );
@@ -319,11 +320,11 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_update_student_enrollment_enroll() {
 
-		//create a student
+		// create a student.
 		$student    = $this->get_mock_student();
 		$student_id = $student->get( 'id' );
 
-		//create a course
+		// create a course.
 		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
 
 		$request = array(
@@ -347,14 +348,14 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_update_student_enrollment_unenroll() {
 
-		// create a student
+		// create a student.
 		$student    = $this->get_mock_student();
 		$student_id = $student->get( 'id' );
 
-		// create a course
+		// create a course.
 		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
 
-		// enroll the student in the course
+		// enroll the student in the course.
 		$student->enroll( $course_id );
 
 		$request = array(
@@ -378,14 +379,14 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	 */
 	public function test_update_student_enrollment_delete() {
 
-		// create a student
+		// create a student.
 		$student    = $this->get_mock_student();
 		$student_id = $student->get( 'id' );
 
-		// create a course
+		// create a course.
 		$course_id  = $this->generate_mock_courses( 1, 1, 3 )[0];
 
-		// enroll the student in the course
+		// enroll the student in the course.
 		$student->enroll( $course_id );
 
 		$request = array(
@@ -397,6 +398,90 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 		$res = LLMS_AJAX_Handler::update_student_enrollment( $request );
 		$this->assertTrue( $res['success'] );
 		$this->assertEquals( array(), llms_get_user_postmeta( $student_id, $course_id ) );
+
+	}
+
+	/**
+	 * Test `persist_tracking_events()` ajax callback.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_persist_tracking_events() {
+
+		$request = array(
+			'something' => 'what'
+		);
+
+		// missing tracking data.
+		$res = LLMS_AJAX_Handler::persist_tracking_events( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'error', $res );
+		$this->assertSame( 'Missing tracking data.', $res->get_error_message() );
+
+
+		// unauthorized, missing tracking nonce or user not logged in.
+
+		// create nonce.
+		// check user not logged in.
+		$request = array(
+			'llms-tracking' => json_encode(
+				array(
+					'events' => array(),
+					'nonce'  => wp_create_nonce( 'llms-tracking' ),
+				)
+			),
+		);
+
+		$res = LLMS_AJAX_Handler::persist_tracking_events( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_events_tracking_unauthorized', $res );
+		$this->assertSame( 'You\'re not allowed to store tracking events', $res->get_error_message() );
+
+		// log-in. check missing nonce.
+		wp_set_current_user(1);
+		$request = array(
+			'llms-tracking' => json_encode(
+				array(
+					'events' => array(),
+				)
+			),
+		);
+
+		$res = LLMS_AJAX_Handler::persist_tracking_events( $request );
+		$this->assertWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_events_tracking_unauthorized', $res );
+		$this->assertSame( 'You\'re not allowed to store tracking events', $res->get_error_message() );
+
+		// persist events.
+		$request = array(
+			'llms-tracking' => json_encode(
+				array(
+					'events' => array(
+						array(
+							'object_type' => 'user',
+							'object_id' => 1,
+							'event' => 'account.signon',
+						),
+						array(
+							'object_type' => 'user',
+							'object_id' => 1,
+							'event' => 'account.signoff',
+						),
+					),
+					'nonce'  => wp_create_nonce( 'llms-tracking' ),
+				)
+			),
+		);
+
+		$res = LLMS_AJAX_Handler::persist_tracking_events( $request );
+		$this->assertTrue( $res['success'] );
+		$events = ( new LLMS_Events_Query( array(
+			'actor' => array(1)
+		) ) )->get_events();
+
+		$this->assertEquals( 2, count( $events ) );
 
 	}
 

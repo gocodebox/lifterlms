@@ -1414,7 +1414,7 @@ class LLMS_AJAX_Handler {
 	 * @since [version]
 	 *
 	 * @param array $request $_POST data.
-	 * @return void|WP_Error
+	 * @return array|WP_Error
 	 */
 	public static function persist_tracking_events( $request ) {
 
@@ -1422,9 +1422,18 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 'error', __( 'Missing tracking data.', 'lifterlms' ) );
 		}
 
-		return LLMS()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
+		$success = LLMS()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
+
+		if ( ! is_wp_error( $success ) ) {
+			$success = array(
+				'success' => true,
+			);
+		}
+
+		return $success;
 
 	}
+
 }
 
 new LLMS_AJAX_Handler();

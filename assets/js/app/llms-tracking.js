@@ -61,6 +61,9 @@ LLMS.Tracking = function( settings ) {
 			return;
 		}
 
+		// Make sure the nonce is set for server-side verification.
+		store.set( 'nonce', settings.nonce );
+
 		event = self.makeEventObj( args );
 
 		var all = store.get( 'events', [] );
@@ -75,7 +78,7 @@ LLMS.Tracking = function( settings ) {
 			// Clear the events from the cookie.
 			store.clear('events');
 
-			// Add the latest event to temporary variable
+			// Add the latest event to the temporary variable.
 			_temp['events'].push( event );
 
 			// Send the temporary variable as string via ajax.
@@ -101,9 +104,6 @@ LLMS.Tracking = function( settings ) {
 			} );
 
 		}
-
-		// Make sure the nonce is set for server-side verification.
-		store.set( 'nonce', settings.nonce );
 
 	}
 
