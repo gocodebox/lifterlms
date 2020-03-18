@@ -126,7 +126,7 @@ class LLMS_Admin_Page_Status {
 
 		$result = array();
 
-		// Retrieve all the files in logs in our log directory.
+		// Retrieve all the files in our log directory.
 		$files = @scandir( LLMS_LOG_DIR ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- It's okay though.
 		if ( ! empty( $files ) ) {
 			foreach ( $files as $key => $value ) {
@@ -141,12 +141,10 @@ class LLMS_Admin_Page_Status {
 			}
 		}
 
-		// Add the site's debug.log file if it exists.
-		if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-			$path = ini_get( 'error_log' );
-			if ( $path ) {
-				$result['debug-log'] = $path;
-			}
+		// Add the site's debug.log or native error log file if it exists.
+		$err_path = ini_get( 'error_log' );
+		if ( $err_path ) {
+			$result['debug-log'] = $err_path;
 		}
 
 		return $result;
