@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.0
  * @since 3.36.1 Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
  *               Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
+ * @since [version] Added `store_tracking_events()` method.
+ *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
  */
 class LLMS_Events {
 
@@ -403,32 +405,58 @@ class LLMS_Events {
 	 * Store event data saved in the tracking cookie.
 	 *
 	 * @since 3.36.0
-	 *
+	 * @since [version] Moved most of the logic into `store_tracking_events()` method.
+	 *                Bail if we're sending the tracking events via ajax.
 	 * @return void
 	 */
 	public function store_cookie() {
 
-		$cookie = ! empty( $_COOKIE['llms-tracking'] ) ? json_decode( wp_unslash( $_COOKIE['llms-tracking'] ), true ) : false; // phpcs:ignore: WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via $this->sanitize_raw_event().
-		if ( ! $cookie ) {
+		if ( wp_doing_ajax() && ! empty( $_POST['llms-tracking'] ) ) {// phpcs:ignore: WordPress.Security.NonceVerification.Missing -- Nonce verified in `$this->store_tracking_events()` method.
 			return;
 		}
 
-		if ( ! empty( $cookie['nonce'] ) && wp_verify_nonce( $cookie['nonce'], 'llms-tracking' ) && get_current_user_id() ) {
+		// Bail if no `llms-tracking` cookie.
+		if ( empty( $_COOKIE['llms-tracking'] ) ) {
+			return;
+		}
 
-			if ( ! empty( $cookie['events'] ) && is_array( $cookie['events'] ) ) {
+		$this->store_tracking_events( wp_unslash( $_COOKIE['llms-tracking'] ) ); // phpcs:ignore: WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- Sanitized via $this->sanitize_raw_event().
 
-				foreach ( $cookie['events'] as $event ) {
+		// Cookie reset.
+		setcookie( 'llms-tracking', '', time() - 60, '/' );
+
+	}
+
+	/**
+	 * Store event data saved in the tracking cookie.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $tracking The `llms-tracking` data in JSON format.
+	 * @return (boolean|WP_Error) Returns WP_Error when nonce verification fails or unauthenticated user, `true` otherwise.
+	 */
+	public function store_tracking_events( $tracking ) {
+
+		$tracking = json_decode( $tracking, true );
+
+		if ( ! empty( $tracking['nonce'] ) && wp_verify_nonce( $tracking['nonce'], 'llms-tracking' ) && get_current_user_id() ) {
+
+			if ( ! empty( $tracking['events'] ) && is_array( $tracking['events'] ) ) {
+
+				foreach ( $tracking['events'] as $event ) {
 
 					$event = $this->prepare_event( $event );
+
 					if ( ! is_wp_error( $event ) ) {
 						$this->record( $event );
 					}
 				}
 			}
+		} else {
+			return new WP_Error( 'llms_events_tracking_unauthorized', __( 'You\'re not allowed to store tracking events', 'lifterlms' ) );
 		}
 
-		setcookie( 'llms-tracking', '', time() - 60, '/' );
-
+		return true;
 	}
 
 }

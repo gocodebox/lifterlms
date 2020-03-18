@@ -1,37 +1,46 @@
 <?php
 /**
- * LifterLMS AJAX Event Handler.
+ * LifterLMS AJAX Event Handler
  *
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.37.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_AJAX_Handler class.
+ * LLMS_AJAX_Handler class
  *
  * @since 1.0.0
+ * @since 3.0.0 Added `bulk_enroll_students()` handler.
+ * @since 3.2.0 Added `get_admin_table_data()` handler.
+ * @since 3.4.0 Unknown.
+ * @since 3.13.0 Added `instructors_mb_store()` handler.
+ * @since 3.15.0 Added `export_admin_table()` handler, and other unknown changes.
+ * @since 3.28.1 Unknown.
  * @since 3.30.0 Added `llms_save_membership_autoenroll_courses` method.
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.32.0 Update `select2_query_posts` to use llms_filter_input() and allows for querying posts by post status(es).
  * @since 3.33.0 Update `update_student_enrollment` to handle enrollment deletion requests, make sure the input array param 'post_id' field is not empty.
- *                  Also always return either a WP_Error on failure or a "success" array on requested action performed.
+ *               Also always return either a WP_Error on failure or a "success" array on requested action performed.
  * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
  * @since 3.37.2 Update `select2_query_posts` to allow filtering posts by instructor.
+ * @since [version] Added `persist_tracking_events()` handler.
+ *                 Used strict comparison where needed.
  */
 class LLMS_AJAX_Handler {
-
 	/**
 	 * Queue all members of a membership to be enrolled into a specific course
-	 * Triggered from the auto-enrollment tab of a membership
 	 *
-	 * @param    array $request  array of request data
-	 * @return   array
-	 * @since    3.4.0
-	 * @version  3.15.0
+	 * Triggered from the auto-enrollment tab of a membership.
+	 *
+	 * @since 3.4.0
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @param array $request Array of request data.
+	 * @return array
 	 */
 	public static function bulk_enroll_membership_into_course( $request ) {
 
@@ -50,8 +59,11 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Add or remove a student from a course or membership
 	 *
-	 * @since    3.0.0
-	 * @version  3.4.0
+	 * @since 3.0.0
+	 * @since 3.4.0 Unknown.
+	 *
+	 * @param array $request $_REQUEST object.
+	 * @return (void|WP_Error)
 	 */
 	public static function bulk_enroll_students( $request ) {
 
@@ -70,14 +82,14 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Move a Product Access Plan to the trash
 	 *
-	 * @since  3.0.0
-	 * @version  3.0.0
-	 * @param  array $request $_REQUEST object
-	 * @return mixed      WP_Error on error, true if successful
+	 * @since 3.0.0
+	 *
+	 * @param array $request $_REQUEST object.
+	 * @return bool|WP_Error WP_Error on error, true if successful.
 	 */
 	public static function delete_access_plan( $request ) {
 
-		// shouldn't be possible
+		// shouldn't be possible.
 		if ( empty( $request['plan_id'] ) ) {
 			die();
 		}
@@ -97,10 +109,11 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Queue a table export event
 	 *
-	 * @param    array $request  post data ($_REQUEST)
-	 * @return   array
-	 * @since    3.15.0
-	 * @version  3.28.1
+	 * @since 3.15.0
+	 * @since 3.28.1 Unknown.
+	 *
+	 * @param array $request Post data ($_REQUEST).
+	 * @return array
 	 */
 	public static function export_admin_table( $request ) {
 
@@ -126,10 +139,10 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Reload admin tables
 	 *
-	 * @param    array $request  post data ($_REQUEST)
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @param array $request Post data ($_REQUEST).
+	 * @return array
 	 */
 	public static function get_admin_table_data( $request ) {
 
@@ -169,7 +182,7 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function instructors_mb_store( $request ) {
 
-		// validate required params
+		// validate required params.
 		if ( ! isset( $request['store_action'] ) || ! isset( $request['post_id'] ) ) {
 
 			return array(
@@ -239,10 +252,11 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Handle notification display & dismissal
 	 *
-	 * @param    array $request  $_POST
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Use strict comparison.
+	 *
+	 * @param array $request $_POST data.
+	 * @return array
 	 */
 	public static function notifications_heartbeart( $request ) {
 
@@ -253,7 +267,7 @@ class LLMS_AJAX_Handler {
 		if ( ! empty( $request['dismissals'] ) ) {
 			foreach ( $request['dismissals'] as $nid ) {
 				$noti = new LLMS_Notification( $nid );
-				if ( get_current_user_id() == $noti->get( 'subscriber' ) ) {
+				if ( get_current_user_id() === absint( $noti->get( 'subscriber' ) ) ) {
 					$noti->set( 'status', 'read' );
 				}
 			}
@@ -276,10 +290,13 @@ class LLMS_AJAX_Handler {
 
 	/**
 	 * Remove a course from the list of membership auto enrollment courses
-	 * called from "Auto Enrollment" tab of LLMS Membership Metaboxes
 	 *
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * Called from "Auto Enrollment" tab of LLMS Membership Metaboxes.
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param array $request $_POST data.
+	 * @return (void|WP_Error)
 	 */
 	public static function membership_remove_auto_enroll_course( $request ) {
 
@@ -298,19 +315,20 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Retrieve Students
 	 *
-	 * Used by Select2 AJAX functions to load paginated student results
+	 * Used by Select2 AJAX functions to load paginated student results.
 	 * Also allows querying by:
 	 *      first name
 	 *      last name
-	 *      email
+	 *      email.
 	 *
-	 * @return   void
-	 * @since    ??
-	 * @version  3.14.2
+	 * @since Unknown
+	 * @since 3.14.2 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function query_students() {
 
-		// grab the search term if it exists
+		// grab the search term if it exists.
 		$term = array_key_exists( 'term', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'term', FILTER_SANITIZE_STRING ) : '';
 
 		$page = array_key_exists( 'page', $_REQUEST ) ? llms_filter_input( INPUT_POST, 'page', FILTER_SANITIZE_NUMBER_INT ) : 0;
@@ -347,10 +365,10 @@ class LLMS_AJAX_Handler {
 						";
 		}
 
-		// there was a search query
+		// there was a search query.
 		if ( $term ) {
 
-			// email only
+			// email only.
 			if ( false !== strpos( $term, '@' ) ) {
 
 				$query = "SELECT
@@ -392,14 +410,14 @@ class LLMS_AJAX_Handler {
 				$vars = array_merge(
 					$vars,
 					array(
-						'%' . $term[0] . '%', // first name
-						'%' . $term[1] . '%', // last name
+						'%' . $term[0] . '%', // first name.
+						'%' . $term[1] . '%', // last name.
 						$start,
 						$limit,
 					)
 				);
 
-				// search for login, display name, or email
+				// search for login, display name, or email.
 			} else {
 
 				$query = "SELECT
@@ -426,7 +444,7 @@ class LLMS_AJAX_Handler {
 					)
 				);
 
-			}// End if().
+			}
 		} else {
 
 			$query = "SELECT
@@ -446,7 +464,7 @@ class LLMS_AJAX_Handler {
 				)
 			);
 
-		}// End if().
+		}
 
 		$res = $wpdb->get_results( $wpdb->prepare( $query, $vars ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
 
@@ -455,13 +473,13 @@ class LLMS_AJAX_Handler {
 			$checks = explode( ',', $enrolled_in );
 			$checks = array_map( 'trim', $checks );
 
-			// loop through each user
+			// Loop through each user.
 			foreach ( $res as $key => $user ) {
 
-				// loop through each check -- this is an OR relationship situation
+				// Loop through each check -- this is an OR relationship situation.
 				foreach ( $checks as $id ) {
 
-					// if the user is enrolled break to the next user, they can stay
+					// If the user is enrolled break to the next user, they can stay.
 					if ( llms_is_user_enrolled( $user->id, $id ) ) {
 
 						continue 2;
@@ -469,8 +487,7 @@ class LLMS_AJAX_Handler {
 					}
 				}
 
-				// if we get here that means the user isn't enrolled in any of the check posts
-				// remove them from the results
+				// If we get here that means the user isn't enrolled in any of the check posts remove them from the results.
 				unset( $res[ $key ] );
 			}
 		}
@@ -480,14 +497,14 @@ class LLMS_AJAX_Handler {
 			$checks = explode( ',', $enrolled_in );
 			$checks = array_map( 'trim', $checks );
 
-			// loop through each user
+			// Loop through each user.
 			foreach ( $res as $key => $user ) {
 
-				// loop through each check -- this is an OR relationship situation
-				// if the user is enrolled in any of the courses they need to be filtered out
+				// Loop through each check -- this is an OR relationship situation.
+				// If the user is enrolled in any of the courses they need to be filtered out.
 				foreach ( $checks as $id ) {
 
-					// if the user is enrolled break remove them and break to the next user
+					// If the user is enrolled break remove them and break to the next user.
 					if ( llms_is_user_enrolled( $user->id, $id ) ) {
 
 						unset( $res[ $key ] );
@@ -513,16 +530,17 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Start a Quiz Attempt
 	 *
-	 * @param    array $request  $_POST data
-	 *                           required:
-	 *                              (string) attempt_key
-	 *                           or
-	 *                              (int) quiz_id
-	 *                              (int) lesson_id
+	 * @since 3.9.0
+	 * @since 3.16.4 Unknown.
 	 *
-	 * @return   obj|array           WP_Error on error or array containing html template of the first question
-	 * @since    3.9.0
-	 * @version  3.16.4
+	 * @param array $request $_POST data.
+	 *                       required:
+	 *                           (string) attempt_key
+	 *                           or
+	 *                           (int) quiz_id
+	 *                           (int) lesson_id.
+	 *
+	 * @return WP_Error|array WP_Error on error or array containing html template of the first question.
 	 */
 	public static function quiz_start( $request ) {
 
@@ -581,10 +599,11 @@ class LLMS_AJAX_Handler {
 	/**
 	 * AJAX Quiz answer question
 	 *
-	 * @param    [type] $request  [description]
-	 * @return   [type]               [description]
-	 * @since    3.9.0
-	 * @version  3.27.0
+	 * @since 3.9.0
+	 * @since 3.27.0 Unknown.
+	 *
+	 * @param array $request $_POST data.
+	 * @return WP_Error|string
 	 */
 	public static function quiz_answer_question( $request ) {
 
@@ -604,7 +623,6 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
-		// $quiz_id = absint( $request['quiz_id'] );
 		$attempt_key = sanitize_text_field( $request['attempt_key'] );
 		$question_id = absint( $request['question_id'] );
 		$answer      = array_map( 'stripslashes_deep', isset( $request['answer'] ) ? $request['answer'] : array() );
@@ -615,13 +633,13 @@ class LLMS_AJAX_Handler {
 			return $err;
 		}
 
-		// record the answer
+		// record the answer.
 		$attempt->answer_question( $question_id, $answer );
 
-		// get the next question
+		// get the next question.
 		$question_id = $attempt->get_next_question( $question_id );
 
-		// return html for the next question
+		// return html for the next question.
 		if ( $question_id ) {
 
 			$html = llms_get_template_ajax(
@@ -648,11 +666,12 @@ class LLMS_AJAX_Handler {
 	/**
 	 * End a quiz attempt
 	 *
-	 * @param    [type] $request  [description]
-	 * @param    [type] $attempt  [description]
-	 * @return   array
-	 * @since    3.9.0
-	 * @version  3.16.0
+	 * @since 3.9.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @param array                  $request $_POST data.
+	 * @param LLMS_Quiz_Attempt|null $attempt Optional. The quiz attempt. Default `null`.
+	 * @return array
 	 */
 	public static function quiz_end( $request, $attempt = null ) {
 
@@ -675,10 +694,10 @@ class LLMS_AJAX_Handler {
 
 		}
 
-		// record the attempt's completion
+		// record the attempt's completion.
 		$attempt->end();
 
-		// setup a redirect
+		// setup a redirect.
 		$url = add_query_arg(
 			array(
 				'attempt_key' => $attempt->get_key(),
@@ -687,6 +706,22 @@ class LLMS_AJAX_Handler {
 		);
 
 		return array(
+			/**
+			 * Filter the quiz redirect URL on completion
+			 *
+			 * Return an associative array containing at least the `$id` to cease execution and have
+			 * the custom item returned via the `process_trash()` method.
+			 *
+			 * A successful deletion return should be: `array( 'id' => $id )`.
+			 *
+			 * A failure should contain an error message in a second array member:
+			 * `array( 'id' => $id, 'error' => esc_html__( 'My error message', 'my-domain' ) )`.
+			 *
+			 * @since Unknown
+			 *
+			 * @param string            $url     The quiz redirect URL on completion.
+			 * @param LLMS_Quiz_Attempt $attempt The quiz attempt.
+			 */
 			'redirect' => apply_filters( 'llms_quiz_complete_redirect', $url, $attempt ),
 		);
 
@@ -695,9 +730,10 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Remove a coupon from an order during checkout
 	 *
-	 * @return  string/json
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param array $request $_POST data.
+	 * @return string/json
 	 */
 	public static function remove_coupon_code( $request ) {
 
@@ -748,6 +784,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.32.0 Posts can be queried by post status(es) via the `$_POST['post_statuses']`.
 	 *               By default only the published posts will be queried.
 	 * @since 3.37.2 Posts can be 'filtered' by instructor via the `$_POST['instructor_id']`.
+	 *
 	 * @return void
 	 */
 	public static function select2_query_posts() {
@@ -836,7 +873,7 @@ class LLMS_AJAX_Handler {
 
 			if ( $grouping ) {
 
-				// setup an object for the optgroup if it's not already set up
+				// setup an object for the optgroup if it's not already set up.
 				if ( ! isset( $items[ $post->post_type ] ) ) {
 					$obj                       = get_post_type_object( $post->post_type );
 					$items[ $post->post_type ] = array(
@@ -870,10 +907,11 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.0.0
 	 * @since 3.33.0 Handle the delete enrollment request and make sure the $request['post_id'] is not empty.
-	 *                  Also always return either a WP_Error on failure or a "success" array on action performed.
+	 *               Also always return either a WP_Error on failure or a "success" array on action performed.
+	 * @since [version] Use strict comparison.
 	 *
-	 * @param $request array
-	 * @return WP_Error|array
+	 * @param array $request $_POST data.
+	 * @return (WP_Error|array)
 	 */
 	public static function update_student_enrollment( $request ) {
 
@@ -881,7 +919,7 @@ class LLMS_AJAX_Handler {
 			return new WP_Error( 400, __( 'Missing required parameters', 'lifterlms' ) );
 		}
 
-		if ( ! in_array( $request['status'], array( 'add', 'remove', 'delete' ) ) ) {
+		if ( ! in_array( $request['status'], array( 'add', 'remove', 'delete' ), true ) ) {
 			return new WP_Error( 400, __( 'Invalid status', 'lifterlms' ) );
 		}
 
@@ -903,6 +941,7 @@ class LLMS_AJAX_Handler {
 		}
 
 		if ( ! $res ) {
+			// Translators: %s = action add|remove|delete.
 			return new WP_Error( 400, sprintf( __( 'Action "%1$s" failed. Please try again', 'lifterlms' ), $request['status'] ) );
 		}
 
@@ -915,15 +954,16 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Validate a Coupon via the Checkout Form
 	 *
-	 * @return  string/json
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since [version]
+	 *
+	 * @param array $request $_POST data.
+	 * @return string/json
 	 */
 	public static function validate_coupon_code( $request ) {
 
 		$error = new WP_Error();
 
-		// validate for required fields
+		// validate for required fields.
 		if ( empty( $request['code'] ) ) {
 
 			$error->add( 'error', __( 'Please enter a coupon code.', 'lifterlms' ) );
@@ -938,7 +978,7 @@ class LLMS_AJAX_Handler {
 			$cid = llms_find_coupon( $request['code'] );
 
 			if ( ! $cid ) {
-
+				// Translators: %s = coupon code.
 				$error->add( 'error', sprintf( __( 'Coupon code "%s" not found.', 'lifterlms' ), $request['code'] ) );
 
 			} else {
@@ -1002,11 +1042,11 @@ class LLMS_AJAX_Handler {
 						'summary_html'  => $summary_html,
 					);
 
-				}// End if().
-			}// End if().
+				}
+			}
 		}
 
-		// if there are errors, return them
+		// if there are errors, return them.
 		if ( $error->get_error_messages() ) {
 
 			return $error;
@@ -1019,21 +1059,13 @@ class LLMS_AJAX_Handler {
 
 	}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 	/**
-	 * @todo organize and docblock remaining class functions
+	 * Create course's section.
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return string
 	 */
 	public static function create_section( $request ) {
 
@@ -1045,6 +1077,14 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Get course's sections
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return LLMS_Section[]
+	 */
 	public static function get_course_sections( $request ) {
 
 		$course   = new LLMS_Course( $request['post_id'] );
@@ -1053,6 +1093,44 @@ class LLMS_AJAX_Handler {
 		return $sections;
 	}
 
+	/**
+	 * Get a course's section
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return LLMS_Section
+	 */
+	public static function get_course_section( $request ) {
+
+		return new LLMS_Section( $request['section_id'] );
+	}
+
+	/**
+	 * Update a course's section
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return (array|void) If section updated returns an array of the type:
+	 *                      id    => {post id}
+	 *                      title => {new title}
+	 */
+	public static function update_course_section( $request ) {
+
+		$section = new LLMS_Section( $request['section_id'] );
+		return $section->set_title( $request['title'] );
+
+	}
+
+	/**
+	 * Create course's lesson.
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return string
+	 */
 	public static function create_lesson( $request ) {
 
 		$lesson_id = LLMS_Post_Handler::create_lesson(
@@ -1068,12 +1146,28 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Get the list of options for the lesson's select
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return array
+	 */
 	public static function get_lesson_options_for_select( $request ) {
 
 		return LLMS_Post_Handler::get_lesson_options_for_select_list();
 
 	}
 
+	/**
+	 * Add a lesson to a course
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return string
+	 */
 	public static function add_lesson_to_course( $request ) {
 
 		$lesson_id = LLMS_Lesson_Handler::assign_to_course( $request['post_id'], $request['section_id'], $request['lesson_id'] );
@@ -1084,18 +1178,14 @@ class LLMS_AJAX_Handler {
 
 	}
 
-	public static function get_course_section( $request ) {
-
-		return new LLMS_Section( $request['section_id'] );
-	}
-
-	public static function update_course_section( $request ) {
-
-		$section = new LLMS_Section( $request['section_id'] );
-		return $section->set_title( $request['title'] );
-
-	}
-
+	/**
+	 * Get a course's lesson
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return array
+	 */
 	public static function get_course_lesson( $request ) {
 
 		$l = new LLMS_Lesson( $request['lesson_id'] );
@@ -1108,6 +1198,14 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Update course's lesson
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return array
+	 */
 	public static function update_course_lesson( $request ) {
 
 		$post_data = array(
@@ -1121,6 +1219,14 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Remove a lesson from a course
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return array
+	 */
 	public static function remove_course_lesson( $request ) {
 
 		$post_data = array(
@@ -1135,12 +1241,28 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Delete a course's section
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return (WP_Post|false|null) Post data on success, false or null on failure.
+	 */
 	public static function delete_course_section( $request ) {
 
 		$section = new LLMS_Section( $request['section_id'] );
 		return $section->delete();
 	}
 
+	/**
+	 * Update course's sections order
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return (array|null)
+	 */
 	public static function update_section_order( $request ) {
 
 		$updated_data;
@@ -1160,6 +1282,14 @@ class LLMS_AJAX_Handler {
 
 	}
 
+	/**
+	 * Update section's lessons order
+	 *
+	 * @since Unknown
+	 *
+	 * @param array $request $_POST data.
+	 * @return (array|null)
+	 */
 	public static function update_lesson_order( $request ) {
 
 		$updated_data;
@@ -1183,10 +1313,10 @@ class LLMS_AJAX_Handler {
 	/**
 	 * "API" for the Admin Builder
 	 *
-	 * @param    [type] $request  [description]
-	 * @return   [type]               [description]
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param array $request $_POST data.
+	 * @return mixed
 	 */
 	public static function llms_builder( $request ) {
 
@@ -1199,7 +1329,6 @@ class LLMS_AJAX_Handler {
 	 * Save autoenroll courses list for a Membership
 	 *
 	 * @since 3.30.0
-	 * @version 3.30.0
 	 *
 	 * @param array $request $_POST data.
 	 * @return null|true
@@ -1276,6 +1405,32 @@ class LLMS_AJAX_Handler {
 			'errors' => $errors,
 			'html'   => $metabox->get_html(),
 		);
+
+	}
+
+	/**
+	 * AJAX handler for persisting tracking events.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $request $_POST data.
+	 * @return array|WP_Error
+	 */
+	public static function persist_tracking_events( $request ) {
+
+		if ( empty( $request['llms-tracking'] ) ) {
+			return new WP_Error( 'error', __( 'Missing tracking data.', 'lifterlms' ) );
+		}
+
+		$success = LLMS()->events()->store_tracking_events( wp_unslash( $request['llms-tracking'] ) );
+
+		if ( ! is_wp_error( $success ) ) {
+			$success = array(
+				'success' => true,
+			);
+		}
+
+		return $success;
 
 	}
 
