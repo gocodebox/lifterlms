@@ -277,7 +277,20 @@ class LLMS_Admin_Page_Status {
 		}
 
 		if ( $logs ) {
+
+			// Nonce URL to delete a log file.
+			$delete_url = 'debug-log' === $current ? '' : wp_nonce_url(
+				add_query_arg(
+					array(
+						'llms_delete_log' => $current,
+					),
+					self::get_url( 'logs' )
+				),
+				'delete_log'
+			);
+
 			include_once 'views/status/view-log.php';
+
 		} else {
 			echo '<div class="llms-log-viewer">' . __( 'There are currently no logs to view.', 'lifterlms' ) . '</div>';
 		}
