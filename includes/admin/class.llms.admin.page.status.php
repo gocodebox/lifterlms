@@ -101,7 +101,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 *
-	 * @param string $tab Cptionally add a tab.
+	 * @param string $tab Optionally add a tab.
 	 * @return string
 	 */
 	public static function get_url( $tab = null ) {
@@ -145,7 +145,7 @@ class LLMS_Admin_Page_Status {
 		if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
 			$path = ini_get( 'error_log' );
 			if ( $path ) {
-				$result['debug-log'] = ini_get( 'error_log' );
+				$result['debug-log'] = $path;
 			}
 		}
 
