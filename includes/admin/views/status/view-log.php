@@ -9,22 +9,13 @@
  * @since [version]
  * @version [version]
  *
- * @property array[] $logs    Associative array of log files. The array key is the file "slug" and the value is the file's absolute path.
- * @property string  $current Slug of the current log file.
+ * @property array[] $logs       Associative array of log files. The array key is the file "slug" and the value is the file's absolute path.
+ * @property string  $current    Slug of the current log file.
+ * @property string  $delete_url Nonce url to delete the log file (if the log is deletable).
  */
 
 defined( 'ABSPATH' ) || exit;
 
-// Nonce URL to delete a log file.
-$delete_url = 'debug-log' === $current ? '' : wp_nonce_url(
-	add_query_arg(
-		array(
-			'llms_delete_log' => $current,
-		),
-		admin_url( 'admin.php?page=llms-status&tab=logs' )
-	),
-	'delete_log'
-);
 ?>
 
 <form action="<?php echo esc_url( LLMS_Admin_Page_Status::get_url( 'logs' ) ); ?>" method="POST">
@@ -40,7 +31,11 @@ $delete_url = 'debug-log' === $current ? '' : wp_nonce_url(
 </form>
 
 <h2>
-	<?php printf( esc_html__( 'Viewing: %s', 'lifterlms' ), basename( $logs[ $current ] ) ); ?>
+	<?php printf(
+		// Translators: %s = File name of the log.
+		esc_html__( 'Viewing: %s', 'lifterlms' ), basename( $logs[ $current ]
+		)
+	); ?>
 	<?php if ( $delete_url ) : ?>
 		<a class="llms-button-danger small" href="<?php echo esc_url( $delete_url ); ?>"><?php _e( 'Delete', 'lifterlms' ); ?></a>
 	<?php endif; ?>
