@@ -6,8 +6,8 @@
  *
  * @package LifterLMS/Admin/Views
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.14
+ * @version 3.37.14
  *
  * @property array[] $logs       Associative array of log files. The array key is the file "slug" and the value is the file's absolute path.
  * @property string  $current    Slug of the current log file.

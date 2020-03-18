@@ -798,7 +798,7 @@ function llms_get_post( $post, $error = false ) {
  *
  * @since 3.6.0
  * @since 3.17.7 Unknown.
- * @since [version] Bail if `$post` is not an istance of `LLMS_Post_Model`.
+ * @since 3.37.14 Bail if `$post` is not an istance of `LLMS_Post_Model`.
  *                Use strict comparison.
  *
  * @param WP_Post|int $post WP Post ID or instance of WP_Post.

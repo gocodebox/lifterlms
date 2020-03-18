@@ -7,7 +7,7 @@
  * @since 3.36.2 Fix JS error when settings aren't loaded.
  * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
  * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
- * @since [version] Persist the tracking events via ajax when reaching the cookie size limit.
+ * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
  */
 LLMS.Tracking = function( settings ) {
 
@@ -43,7 +43,7 @@ LLMS.Tracking = function( settings ) {
 	 * @since 3.36.0
 	 * @since 3.36.2 Fix error when settings aren't loaded.
 	 * @since 3.37.2 Always make sure the nonce is set for server-side verification.
-	 * @since [version] Persist the tracking events via ajax when reaching the cookie size limit.
+	 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
 	 *
 	 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 	 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.

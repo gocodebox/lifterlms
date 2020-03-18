@@ -5,7 +5,7 @@
  * 2. Configure Permalinks.
  *
  * @since 3.37.8
- * @since [version] Fix package references.
+ * @since 3.37.14 Fix package references.
  */
 
 import { clickAndWait } from '@lifterlms/llms-e2e-test-utils';

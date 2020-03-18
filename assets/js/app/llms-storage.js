@@ -13,7 +13,7 @@ LLMS.CookieStore = Cookies.noConflict();
  * Store information in Local Storage by group.
  *
  * @since 3.36.0
- * @since [version] Use persistent reference to JS Cookies.
+ * @since 3.37.14 Use persistent reference to JS Cookies.
  *
  * @param string group Storage group id/name.
  */

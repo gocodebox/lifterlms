@@ -2,7 +2,7 @@
  * Test the Setup Wizard
  *
  * @since 3.37.8
- * @since [version] Fix package references.
+ * @since 3.37.14 Fix package references.
  */
 
 import {

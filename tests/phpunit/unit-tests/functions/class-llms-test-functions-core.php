@@ -9,8 +9,8 @@
  * @since 3.35.0 Test ipv6 addresses.
  * @since 3.36.1 Use exception from lifterlms-tests lib.
  * @since 3.37.12 Fix errors thrown due to usage of `llms_section` instead of `section`.
- * @since [version] When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
- * @version [version]
+ * @since 3.37.14 When testing `llms_get_post_parent_course()` added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
+ * @version 3.37.14
  */
 class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 
@@ -376,7 +376,7 @@ class LLMS_Test_Functions_Core extends LLMS_UnitTestCase {
 	 * Test `llms_get_post_parent_course()`
 	 *
 	 * @since 3.6.0
-	 * @since [version] Added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
+	 * @since 3.37.14 Added tests on other LLMS post types which are not instance of `LLMS_Post_Model`.
 	 *
 	 * @return void
 	 */

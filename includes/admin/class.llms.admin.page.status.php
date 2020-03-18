@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version [version]
+ * @version 3.37.14
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.1 Read log files using `llms_filter_input`.
  * @since 3.33.2 Fix undefined index when viewing log files.
  * @since 3.35.0 Sanitize input data.
- * @since [version] Added the WP Core `debug.log` file as log that's viewable via the log viewer.
+ * @since 3.37.14 Added the WP Core `debug.log` file as log that's viewable via the log viewer.
  */
 class LLMS_Admin_Page_Status {
 
@@ -27,7 +27,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Verify user capabilities when doing a tool action.
+	 * @since 3.37.14 Verify user capabilities when doing a tool action.
 	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 *
 	 * @return void
@@ -118,7 +118,7 @@ class LLMS_Admin_Page_Status {
 	 * Retrieve an array of log files
 	 *
 	 * @since 3.11.2
-	 * @since [version] Add the WP debug.log file to the array if `WP_DEBUG_LOG` is enabled.
+	 * @since 3.37.14 Add the WP debug.log file to the array if `WP_DEBUG_LOG` is enabled.
 	 *
 	 * @return array[] Associative array of log files. The array key is the file "slug" and the value is the file's absolute path.
 	 */
@@ -157,7 +157,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 2.1.0
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Use strict comparators.
+	 * @since 3.37.14 Use strict comparators.
 	 *
 	 * @return void
 	 */
@@ -228,7 +228,7 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Added user capability check.
+	 * @since 3.37.14 Added user capability check.
 	 *
 	 * @return void
 	 */
@@ -258,7 +258,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.11.2
 	 * @since 3.33.1 Use `llms_filter_input` to read current log file.
 	 * @since 3.33.2 Fix undefined variable notice.
-	 * @since [version] Moved HTML output to the view file located at includes/admin/views/status/view-log.php.
+	 * @since 3.37.14 Moved HTML output to the view file located at includes/admin/views/status/view-log.php.
 	 *
 	 * @return void
 	 */

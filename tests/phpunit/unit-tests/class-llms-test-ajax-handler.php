@@ -8,8 +8,8 @@
  *
  * @since 3.32.0
  * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
- * @since [version] Added tests on persisting tracking events.
- * @version [version]
+ * @since 3.37.14 Added tests on persisting tracking events.
+ * @version 3.37.14
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
@@ -404,7 +404,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test `persist_tracking_events()` ajax callback.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */

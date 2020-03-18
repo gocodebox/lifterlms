@@ -1,6 +1,17 @@
 LifterLMS Changelog
 ===================
 
+v3.37.14 - 2020-03-18
+---------------------
+
++ Update: Added the ability to view the PHP error log file (as defined by `ini_get( 'error_log' )` ) on the LifterLMS -> Status -> Logs page.
++ Update: Added strict comparisons for various condition checks.
++ Bugfix: Fixed an issue where users might be redirected to the wrong course following a course import at the conclusion of the setup wizard.
++ Bugfix: Fixed issue with tracking event data being lost due to cookie size limitations.
++ Bugfix: Fixed issue potentially encountered when checking user capabilities for certificates and achievements.
++ Bugfix: Fixed an issue preventing additional instances of the JS `LLMS.Storage` class from being instantiated.
+
+
 v3.37.13 - 2020-03-10
 ---------------------
 

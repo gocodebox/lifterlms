@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 3.37.14
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.0
  * @since 3.36.1 Improve performances when checking if an event is valid in `LLMS_Events->is_event_valid()`.
  *               Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
- * @since [version] Added `store_tracking_events()` method.
+ * @since 3.37.14 Added `store_tracking_events()` method.
  *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
  */
 class LLMS_Events {
@@ -405,7 +405,7 @@ class LLMS_Events {
 	 * Store event data saved in the tracking cookie.
 	 *
 	 * @since 3.36.0
-	 * @since [version] Moved most of the logic into `store_tracking_events()` method.
+	 * @since 3.37.14 Moved most of the logic into `store_tracking_events()` method.
 	 *                Bail if we're sending the tracking events via ajax.
 	 * @return void
 	 */
@@ -430,7 +430,7 @@ class LLMS_Events {
 	/**
 	 * Store event data saved in the tracking cookie.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @param string $tracking The `llms-tracking` data in JSON format.
 	 * @return (boolean|WP_Error) Returns WP_Error when nonce verification fails or unauthenticated user, `true` otherwise.

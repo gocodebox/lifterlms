@@ -6,7 +6,7 @@
  *
  * @since 3.37.6
  * @since 3.37.12 Added additional assertion message information to assist in debug chaos-related failures.
- * @since [version] Reduce number of tests run for monthly and yearly chaotic simulations.
+ * @since 3.37.14 Reduce number of tests run for monthly and yearly chaotic simulations.
  */
 class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 
@@ -451,7 +451,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a monthly plan_with_chaos
 	 *
 	 * @since 3.37.6
-	 * @since [version] Reduce number of tests run.
+	 * @since 3.37.14 Reduce number of tests run.
 	 *
 	 * @medium
 	 *
@@ -544,7 +544,7 @@ class LLMS_Test_Payment_Gateway_Integrations extends LLMS_UnitTestCase {
 	 * Run tests for a for a yearly plan_with_chaos
 	 *
 	 * @since 3.37.6
-	 * @since [version] Reduce number of tests run.
+	 * @since 3.37.14 Reduce number of tests run.
 	 *
 	 * @medium
 	 *

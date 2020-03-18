@@ -7,7 +7,7 @@
  * @group admin
  * @group status
  *
- * @since [version]
+ * @since 3.37.14
  */
 class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 
@@ -20,7 +20,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */
@@ -34,7 +34,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_tool() when no nonce is submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @expectedException WPDieException
 	 *
@@ -50,7 +50,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_tool() when invalid nonce is submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @expectedException WPDieException
 	 *
@@ -68,7 +68,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_tool() when no user permissions
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @expectedException WPDieException
 	 *
@@ -86,7 +86,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_tool() valid.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the automatic payments reset tool.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */
@@ -139,7 +139,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the overall progress cache clear tool.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */
@@ -169,7 +169,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the session data clear tool.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */
@@ -196,7 +196,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the tracking reset tool.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */
@@ -219,7 +219,7 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the setup wizard redirect tool.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @return void
 	 */

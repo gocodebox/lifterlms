@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.14
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *               Also always return either a WP_Error on failure or a "success" array on requested action performed.
  * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
  * @since 3.37.2 Update `select2_query_posts` to allow filtering posts by instructor.
- * @since [version] Added `persist_tracking_events()` handler.
+ * @since 3.37.14 Added `persist_tracking_events()` handler.
  *                 Used strict comparison where needed.
  */
 class LLMS_AJAX_Handler {
@@ -253,7 +253,7 @@ class LLMS_AJAX_Handler {
 	 * Handle notification display & dismissal
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use strict comparison.
+	 * @since 3.37.14 Use strict comparison.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array
@@ -908,7 +908,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.0.0
 	 * @since 3.33.0 Handle the delete enrollment request and make sure the $request['post_id'] is not empty.
 	 *               Also always return either a WP_Error on failure or a "success" array on action performed.
-	 * @since [version] Use strict comparison.
+	 * @since 3.37.14 Use strict comparison.
 	 *
 	 * @param array $request $_POST data.
 	 * @return (WP_Error|array)
@@ -954,7 +954,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Validate a Coupon via the Checkout Form
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @param array $request $_POST data.
 	 * @return string/json
@@ -1411,7 +1411,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * AJAX handler for persisting tracking events.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @param array $request $_POST data.
 	 * @return array|WP_Error

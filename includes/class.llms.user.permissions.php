@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.37.14
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Added methods and logic for managing user management of other users.
  *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
  * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter to allow 3rd parties to utilize core methods for modifying other users posts.
- * @since [version] Use strict comparisons where needed.
+ * @since 3.37.14 Use strict comparisons where needed.
  */
 class LLMS_User_Permissions {
 
@@ -45,7 +45,7 @@ class LLMS_User_Permissions {
 	 *
 	 * @since 3.13.0
 	 * @since 3.34.0 Moved the `llms_editable_roles` filter to the class method get_editable_roles().
-	 * @since [version] Use strict comparison.
+	 * @since 3.37.14 Use strict comparison.
 	 *
 	 * @link https://codex.wordpress.org/Plugin_API/Filter_Reference/editable_roles
 	 *
@@ -148,7 +148,7 @@ class LLMS_User_Permissions {
 	 * @since 3.34.0 Add logic for `edit_users` and `delete_users` capabilities with regards to LifterLMS user roles.
 	 *               Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
 	 * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter.
-	 * @since [version] Use strict comparison.
+	 * @since 3.37.14 Use strict comparison.
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.

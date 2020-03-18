@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.14
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling error.
  * @since 3.35.0 Sanitize input data.
- * @since [version] Ensure redirect to the imported course when a course is imported at setup completion.
+ * @since 3.37.14 Ensure redirect to the imported course when a course is imported at setup completion.
  */
 class LLMS_Admin_Setup_Wizard {
 
@@ -435,7 +435,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @since 3.0.0
 	 * @since 3.3.0 Unknown.
 	 * @since 3.35.0 Sanitize input data; load sample data from `sample-data` directory.
-	 * @since [version] Ensure redirect to proper course when a course is imported at the end of setup.
+	 * @since 3.37.14 Ensure redirect to proper course when a course is imported at the end of setup.
 	 *
 	 * @return void
 	 */
@@ -543,7 +543,7 @@ class LLMS_Admin_Setup_Wizard {
 	 *
 	 * Uses this to handle redirect after import and generation is completed.
 	 *
-	 * @since [version]
+	 * @since 3.37.14
 	 *
 	 * @param LLMS_Course $course Course object.
 	 * @return void
