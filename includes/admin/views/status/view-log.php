@@ -31,16 +31,20 @@ defined( 'ABSPATH' ) || exit;
 </form>
 
 <h2>
-	<?php printf(
+	<?php
+	printf(
 		// Translators: %s = File name of the log.
-		esc_html__( 'Viewing: %s', 'lifterlms' ), basename( $logs[ $current ]
+		esc_html__( 'Viewing: %s', 'lifterlms' ),
+		basename(
+			$logs[ $current ]
 		)
-	); ?>
+	);
+	?>
 	<?php if ( $delete_url ) : ?>
 		<a class="llms-button-danger small" href="<?php echo esc_url( $delete_url ); ?>"><?php _e( 'Delete', 'lifterlms' ); ?></a>
 	<?php endif; ?>
 </h2>
 
 <div class="llms-log-viewer">
-	<pre><?php echo esc_html( file_get_contents( $logs[ $current ] ) ); ?></pre>
+	<pre><?php echo esc_html( file_get_contents( $logs[ $current ] ) ); // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents -- Not a remote URL. ?></pre>
 </div>
