@@ -46,6 +46,37 @@
     "lifterlms/lifterlms-tests": "dev-master",
     "lifterlms/lifterlms-cs": "dev-master"
   },
+  "archive": {
+    "exclude": [
+      ".*",
+      "*.lock",
+      "*.xml",
+      "*.xml.dist",
+      "*.config.js",
+
+      "CHANGELOG.md",
+      "composer.json",
+      "docker-compose.override.yml.template",
+      "lerna.json",
+      "package.json",
+      "package-lock.json",
+      "README.md",
+
+      "/assets/scss",
+
+      "_private",
+      "dist",
+      "docs",
+      "gulpfile.js",
+      "node_modules",
+      "packages",
+      "tests",
+      "tmp",
+      "wordpress",
+
+      "!/vendor"
+    ]
+  },
   "scripts": {
     "config-cs": [
       "\"vendor/bin/phpcs\" --config-set installed_paths ../../../vendor/wp-coding-standards/wpcs,../../../vendor/lifterlms/lifterlms-cs,../../../vendor/phpcompatibility/php-compatibility,../../../vendor/phpcompatibility/phpcompatibility-paragonie,../../../vendor/phpcompatibility/phpcompatibility-wp",
