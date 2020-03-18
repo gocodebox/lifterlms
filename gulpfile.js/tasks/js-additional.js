@@ -27,8 +27,8 @@ gulp.task( 'js-additional', function( cb ) {
 
 	pump( [
 		gulp.src( 'assets/js/private/**/*.js' ),
-			maps.init(),
 			include(),
+			maps.init(),
 			header( notice.join( '\n' ) ),
 			maps.write('../maps/js', { destPath: 'assets/js' } ),
 			gulp.dest( 'assets/js' ),
