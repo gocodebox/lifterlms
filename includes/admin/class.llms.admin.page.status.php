@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.1 Read log files using `llms_filter_input`.
  * @since 3.33.2 Fix undefined index when viewing log files.
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Added the WP Core `debug.log` file as log that's viewable via the log viewer.
  */
 class LLMS_Admin_Page_Status {
 
@@ -26,19 +27,25 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Verify user capabilities when doing a tool action.
+	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
 	 *
 	 * @return void
 	 */
 	private static function do_tool() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'llms_tool' ) ) {
+		if ( ! llms_verify_nonce( '_wpnonce', 'llms_tool' ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
 		$tool = llms_filter_input( INPUT_POST, 'llms_tool', FILTER_SANITIZE_STRING );
 
 		/**
-		 * Custom Tools can hook into this action to do the tool action
+		 * Custom and 3rd party tools can use this action to perform the tool's action
+		 *
+		 * @since Unknown
+		 *
+		 * @param string $tool Tool name or ID.
 		 */
 		do_action( 'llms_status_tool', $tool );
 
@@ -51,12 +58,8 @@ class LLMS_Admin_Page_Status {
 
 			case 'clear-cache':
 				global $wpdb;
-				$wpdb->query(
-					$wpdb->prepare(
-						"DELETE FROM {$wpdb->prefix}usermeta WHERE meta_key = %s or meta_key = %s;",
-						'llms_overall_progress',
-						'llms_overall_grade'
-					)
+				$wpdb->query( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+					"DELETE FROM {$wpdb->usermeta} WHERE meta_key = 'llms_overall_progress' or meta_key = 'llms_overall_grade';"
 				);
 
 				break;
@@ -70,9 +73,8 @@ class LLMS_Admin_Page_Status {
 				break;
 
 			case 'setup-wizard':
-				wp_safe_redirect( esc_url_raw( admin_url( '?page=llms-setup' ) ) );
-				exit;
-			break;
+				llms_redirect_and_exit( esc_url_raw( admin_url( '?page=llms-setup' ) ) );
+				break;
 
 		}
 	}
@@ -80,15 +82,15 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Handle form / link actions on the status pages
 	 *
-	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @return void
 	 */
 	public static function handle_actions() {
 
-		if ( ! empty( $_REQUEST['llms_delete_log'] ) ) {
+		if ( ! empty( $_REQUEST['llms_delete_log'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonces are verified elsewhere.
 			self::remove_log_file();
-		} elseif ( ! empty( $_REQUEST['llms_tool'] ) ) {
+		} elseif ( ! empty( $_REQUEST['llms_tool'] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Nonces are verified elsewhere.
 			self::do_tool();
 		}
 
@@ -97,10 +99,10 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Retrieve the URL to the status page
 	 *
-	 * @param    string $tab  optionally add a tab
-	 * @return   string
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @param string $tab Optionally add a tab.
+	 * @return string
 	 */
 	public static function get_url( $tab = null ) {
 		$args = array(
@@ -115,23 +117,36 @@ class LLMS_Admin_Page_Status {
 	/**
 	 * Retrieve an array of log files
 	 *
-	 * @return   array         log key => log file name
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 * @since [version] Add the WP debug.log file to the array if `WP_DEBUG_LOG` is enabled.
+	 *
+	 * @return array[] Associative array of log files. The array key is the file "slug" and the value is the file's absolute path.
 	 */
 	private static function get_logs() {
 
-		$files  = @scandir( LLMS_LOG_DIR );
 		$result = array();
+
+		// Retrieve all the files in our log directory.
+		$files = @scandir( LLMS_LOG_DIR ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- It's okay though.
 		if ( ! empty( $files ) ) {
 			foreach ( $files as $key => $value ) {
-				if ( ! in_array( $value, array( '.', '..' ) ) ) {
-					if ( ! is_dir( $value ) && strstr( $value, '.log' ) ) {
-						$result[ sanitize_title( $value ) ] = $value;
-					}
+
+				// Ignore directory dots, directories, and non .log files.
+				if ( in_array( $value, array( '.', '..' ), true ) || is_dir( $value ) || ! strstr( $value, '.log' ) ) {
+					continue;
 				}
+
+				$result[ sanitize_title( $value ) ] = LLMS_LOG_DIR . $value;
+
 			}
 		}
+
+		// Add the site's debug.log or native error log file if it exists.
+		$err_path = ini_get( 'error_log' );
+		if ( $err_path ) {
+			$result['debug-log'] = $err_path;
+		}
+
 		return $result;
 
 	}
@@ -142,6 +157,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 2.1.0
 	 * @since 3.32.0 Add "Scheduled Actions" tab output.
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Use strict comparators.
 	 *
 	 * @return void
 	 */
@@ -157,7 +173,7 @@ class LLMS_Admin_Page_Status {
 			)
 		);
 
-		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING );
+		$current_tab = empty( $_GET['tab'] ) ? 'report' : llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended -- We're not processing the form data.
 		?>
 
 		<div class="wrap lifterlms llms-status llms-status--<?php echo $current_tab; ?>">
@@ -166,7 +182,7 @@ class LLMS_Admin_Page_Status {
 				<ul class="llms-nav-items">
 				<?php
 				foreach ( $tabs as $name => $label ) :
-					$active = ( $current_tab == $name ) ? ' llms-active' : '';
+					$active = ( $current_tab === $name ) ? ' llms-active' : '';
 					?>
 					<li class="llms-nav-item<?php echo $active; ?>"><a class="llms-nav-link" href="<?php echo esc_url( self::get_url( $name ) ); ?>"><?php echo $label; ?></a></li>
 				<?php endforeach; ?>
@@ -212,12 +228,13 @@ class LLMS_Admin_Page_Status {
 	 *
 	 * @since 3.11.2
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Added user capability check.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	private static function remove_log_file() {
 
-		if ( ! llms_verify_nonce( '_wpnonce', 'delete_log', 'GET' ) ) {
+		if ( ! llms_verify_nonce( '_wpnonce', 'delete_log', 'GET' ) || ! current_user_can( 'manage_lifterlms' ) ) {
 			wp_die( __( 'Action failed. Please refresh the page and retry.', 'lifterlms' ) );
 		}
 
@@ -225,18 +242,11 @@ class LLMS_Admin_Page_Status {
 
 			$logs   = self::get_logs();
 			$handle = sanitize_title( wp_unslash( $_REQUEST['llms_delete_log'] ) );
+			$log    = isset( $logs[ $handle ] ) ? $logs[ $handle ] : false;
 
-			$log = isset( $logs[ $handle ] ) ? $logs[ $handle ] : false;
-			if ( ! $log ) {
-				return;
-			}
-
-			$file = LLMS_LOG_DIR . $log;
-
-			if ( is_file( $file ) && is_writable( $file ) ) {
-				unlink( $file );
-				wp_safe_redirect( esc_url_raw( self::get_url( 'logs' ) ) );
-				exit();
+			if ( $log && is_file( $log ) && is_writable( $log ) ) {
+				unlink( $log );
+				llms_redirect_and_exit( esc_url_raw( self::get_url( 'logs' ) ) );
 			}
 		}
 
@@ -248,72 +258,49 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.11.2
 	 * @since 3.33.1 Use `llms_filter_input` to read current log file.
 	 * @since 3.33.2 Fix undefined variable notice.
+	 * @since [version] Moved HTML output to the view file located at includes/admin/views/status/view-log.php.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	private static function output_logs_content() {
 
 		$logs        = self::get_logs();
 		$date_format = get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 
-		$current = llms_filter_input( INPUT_POST, 'llms_log_file', FILTER_SANITIZE_STRING );
+		$current = sanitize_title( llms_filter_input( INPUT_POST, 'llms_log_file', FILTER_SANITIZE_STRING ) );
 
 		if ( $logs && ! $current ) {
 			$log_keys = array_keys( $logs );
 			$current  = array_shift( $log_keys );
 		}
 
-		if ( $logs ) :
-			?>
+		if ( $logs ) {
 
-			<form action="<?php echo esc_url( self::get_url( 'logs' ) ); ?>" method="POST">
-				<select name="llms_log_file">
-					<?php foreach ( $logs as $name => $file ) : ?>
-						<option value="<?php echo esc_attr( $name ); ?>" <?php selected( sanitize_title( $current ), $name ); ?>>
-							<?php echo esc_html( $file ); ?>
-							(<?php echo date_i18n( $date_format, filemtime( LLMS_LOG_DIR . $file ) ); ?>)
-						</option>
-					<?php endforeach; ?>
-				</select>
-				<button class="llms-button-secondary small" type="submit"><?php _e( 'View Log', 'lifterlms' ); ?></button>
-			</form>
+			// Nonce URL to delete a log file.
+			$delete_url = 'debug-log' === $current ? '' : wp_nonce_url(
+				add_query_arg(
+					array(
+						'llms_delete_log' => $current,
+					),
+					self::get_url( 'logs' )
+				),
+				'delete_log'
+			);
 
-			<h2>
-				<?php printf( esc_html__( 'Viewing: %s', 'lifterlms' ), $logs[ $current ] ); ?>
-				<a class="llms-button-danger small" href="
-				<?php
-				echo esc_url(
-					wp_nonce_url(
-						add_query_arg(
-							array(
-								'llms_delete_log' => $current,
-							),
-							admin_url( 'admin.php?page=llms-status&tab=logs' )
-						),
-						'delete_log'
-					)
-				);
-				?>
-				""><?php _e( 'Delete Log', 'lifterlms' ); ?></a>
-			</h2>
+			include_once 'views/status/view-log.php';
 
-			<div class="llms-log-viewer">
-				<pre><?php echo esc_html( file_get_contents( LLMS_LOG_DIR . $logs[ $current ] ) ); ?></pre>
-			</div>
-
-		<?php else : ?>
-			<div class="updated"><p><?php _e( 'There are currently no logs to view.', 'lifterlms' ); ?></p></div>
-			<?php
-		endif;
+		} else {
+			echo '<div class="llms-log-viewer">' . __( 'There are currently no logs to view.', 'lifterlms' ) . '</div>';
+		}
 
 	}
 
 	/**
 	 * Output the HTML for the tools tab
 	 *
-	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 *
+	 * @return void
 	 */
 	private static function output_tools_content() {
 
