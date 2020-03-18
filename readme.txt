@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 3.37.13
+Stable tag: 3.37.14
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,17 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.14 - 2020-03-18 =
+-------------------------
+
++ Update: Added the ability to view the PHP error log file (as defined by `ini_get( 'error_log' )` ) on the LifterLMS -> Status -> Logs page.
++ Update: Added strict comparisons for various condition checks.
++ Bugfix: Fixed an issue where users might be redirected to the wrong course following a course import at the conclusion of the setup wizard.
++ Bugfix: Fixed issue with tracking event data being lost due to cookie size limitations.
++ Bugfix: Fixed issue potentially encountered when checking user capabilities for certificates and achievements.
++ Bugfix: Fixed an issue preventing additional instances of the JS `LLMS.Storage` class from being instantiated.
+
+
 = v3.37.13 - 2020-03-10 =
 -------------------------
 
@@ -625,31 +636,5 @@ The following have been deprecated with no replacements and will be removed in t
 ------------------------
 
 + Update LifterLMS Blocks to v1.7.2: fixes a bug causing the block editor to encounter a fatal error when accessing custom post types that don't support custom fields.
-
-
-= v3.37.4 - 2019-12-06 =
-------------------------
-
-##### Bug Fixes
-
-+ Fixed a bug causing certificate _template_ exports to export the site's homepage instead of the certificate preview.
-+ When exporting a certificate template, use the `post_author` to determine what user to use for merge code data.
-+ Revert Accounts settings tab page id to "account".
-
-##### LifterLMS Blocks v1.7.1
-
-+ Feature: Add logic for `logged_in` and `logged_out` block visibility options.
-+ Update: Added `isDisabled` property to Search component.
-+ Update: Adjusted priority of `render_block` filter to 20.
-+ Update: Added filter, `llms_block_supports_visibility` to allow modification of the return of the check.
-+ Update: Disabled block visibility on registration & account forms to prevent a potentially confusing form creation experience.
-+ Update: Added block editor rendering for password type fields.
-+ Update: Perform post migrations on `current_screen` instead of `admin_enqueue_scripts`.
-+ Update: Update various dependencies to use updated gutenberg packages.
-+ Bug fix: Fixed a WordPress 5.3 issues with JSON data affecting the ability to save course/membership instructors.
-+ Bug fix: Import `InspectorControls` from `wp.blockEditor` in favor of deprecated `wp.editor`
-+ Bug fix: Automatically store course/membership instructor with `post_author` data when the post is created.
-+ Bug fix: Pass style rules as camelCase.
-+ Bug fix: Fixed an issue causing "No HTML Returned" to be displayed in place of the Lesson Progression block on free lessons when viewed by a logged-out user.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

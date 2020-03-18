@@ -1517,16 +1517,24 @@ var LLMS = window.LLMS || {};
 	}));
 	
 	/**
+	 * Create a no conflict reference to JS Cookies.
+	 *
+	 * @type {Object}
+	 */
+	LLMS.CookieStore = Cookies.noConflict();
+	
+	/**
 	 * Store information in Local Storage by group.
 	 *
 	 * @since 3.36.0
+	 * @since 3.37.14 Use persistent reference to JS Cookies.
 	 *
 	 * @param string group Storage group id/name.
 	 */
 	LLMS.Storage = function( group ) {
 	
 		var self = this,
-			store = Cookies.noConflict();
+			store = LLMS.CookieStore;
 	
 		/**
 		 * Clear all data for the group.
@@ -1810,6 +1818,7 @@ var LLMS = window.LLMS || {};
 	 * @since 3.36.2 Fix JS error when settings aren't loaded.
 	 * @since 3.37.2 When adding an event to the storae also make sure the nonce is set for server-side verification.
 	 * @since 3.37.9 Fix IE compatibility issue related to usage of `Object.assign()`.
+	 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
 	 */
 	LLMS.Tracking = function( settings ) {
 	
@@ -1845,6 +1854,7 @@ var LLMS = window.LLMS || {};
 		 * @since 3.36.0
 		 * @since 3.36.2 Fix error when settings aren't loaded.
 		 * @since 3.37.2 Always make sure the nonce is set for server-side verification.
+		 * @since 3.37.14 Persist the tracking events via ajax when reaching the cookie size limit.
 		 *
 		 * @param string|obj event Event Id (type.event) or a full event object from `this.makeEventObj()`.
 		 * @param int args Optional additional arguments to pass to `this.makeEventObj()`.
@@ -1862,13 +1872,49 @@ var LLMS = window.LLMS || {};
 				return;
 			}
 	
+			// Make sure the nonce is set for server-side verification.
+			store.set( 'nonce', settings.nonce );
+	
 			event = self.makeEventObj( args );
 	
 			var all = store.get( 'events', [] );
 			all.push( event );
 			store.set( 'events', all );
-			// Make sure the nonce is set for server-side verification.
-			store.set( 'nonce', settings.nonce );
+	
+			// If couldn't store the latest event because of size limits.
+			if ( all.length > store.get( 'events', [] ).length ) {
+	
+				// Copy the cookie in a temporary variable.
+				var _temp = store.getAll();
+				// Clear the events from the cookie.
+				store.clear('events');
+	
+				// Add the latest event to the temporary variable.
+				_temp['events'].push( event );
+	
+				// Send the temporary variable as string via ajax.
+				LLMS.Ajax.call( {
+					data: {
+						action: 'persist_tracking_events',
+						'llms-tracking': JSON.stringify(_temp)
+					},
+	
+					error: function( xhr, status, error ) {
+	
+						console.log( xhr, status, error );
+	
+					},
+					success: function( r ) {
+	
+						if ( 'error' === r.code ) {
+							console.log(r.code, r.message);
+						}
+	
+					}
+	
+				} );
+	
+			}
 	
 		}
 	
