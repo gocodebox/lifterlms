@@ -3,16 +3,24 @@
 // = include ../vendor/js.cookie.js
 
 /**
+ * Create a no conflict reference to JS Cookies.
+ *
+ * @type {Object}
+ */
+LLMS.CookieStore = Cookies.noConflict();
+
+/**
  * Store information in Local Storage by group.
  *
  * @since 3.36.0
+ * @since [version] Use persistent reference to JS Cookies.
  *
  * @param string group Storage group id/name.
  */
 LLMS.Storage = function( group ) {
 
 	var self = this,
-		store = Cookies.noConflict();
+		store = LLMS.CookieStore;
 
 	/**
 	 * Clear all data for the group.
