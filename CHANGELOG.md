@@ -1545,6 +1545,7 @@ v3.17.6 - 2018-04-26
 + [templates/myaccount/my-orders.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/my-orders.php)
 + [templates/myaccount/view-order.php](https://github.com/gocodebox/lifterlms/blob/master/templates/myaccount/view-order.php)
 
+
 v3.17.5 - 2018-04-23
 --------------------
 
@@ -2166,7 +2167,6 @@ v3.13.0 - 2017-10-02
 
 + More details and a full list of new LifterLMS capabilities are available [here](https://lifterlms.com/docs/roles-and-capabilities/).
 
-
 ##### Updates & Fixes
 
 + Tested up to WordPress 4.8.2
@@ -2724,7 +2724,6 @@ v3.5.0 - 2017-03-13
 + Added 3 new widgets to enrollments reporting tab: courses completed, lessons completed, and user registrations
 
 
-
 v3.4.8 - 2017-03-07
 -------------------
 
@@ -3172,7 +3171,6 @@ These post types currently include:
   + _Description_ -- Record internal notes for a coupon visible only by admins on the admin panel
 + The "Coupon Code" field has been removed in favor of the WordPress Coupon Post Title being utilized as the code. After upgrading, an automated database migration will move all coupon code fields to the title. The title previously functioned as the coupon description. During the migration the existing title will be moved to the new description field.
 
-
 ##### Orders
 
 + Added Order Statuses
@@ -3202,11 +3200,10 @@ These post types currently include:
 + __Unified "Lesson Preview"__ at "templates/course/lesson-preview.php" displays "buttons" in course syllabus (on course page) and in course navigation (on lesson pages)
 + Various template hook priority changes in order to make adding content between default LifterLMS areas easier
 
-
 ##### Deleted Templates
+
 + templates/checkout/form-checkout-cc.php
 + templates/checkout/form-pricing.php
-
 
 ##### New & Updated Admin Interfaces & Templates
 
@@ -3217,6 +3214,7 @@ These post types currently include:
   + templates/admin/post-types/product.php
 
 ##### New Functions
+
 + `llms_confirm_payment_url()` - Retrieve the URL used for confirming LifterLMS Payments
 + `llms_cancel_payment_url()`  - Retrieve the URL users are directed to when cancelling a payment
 
@@ -3318,7 +3316,6 @@ Now utilizing a forked version of Select2 to prevent 3.5.x conflicts we've been 
 + class `LLMS_Checkout`
 + function `LLMS()->checkout()`
 
-
 ##### Auto Enrollment
 
 + Course auto enrollment for Memberships has been restored
@@ -3364,8 +3361,6 @@ Now utilizing a forked version of Select2 to prevent 3.5.x conflicts we've been 
 + Pagination on Courses endpoint (view only a preview on the main dashboard)
 + Orders history & view orders screens!
 
-
-
 Deprecated options (and related functions where applicable) for the following course & membership options:
 
   + `lifterlms_button_purchase_membership_custom_text`
@@ -3410,9 +3405,6 @@ v3.0.0-beta.4 - 2016-09-01
 
 + handles purchase of access plans marked ar FREE & orders that are discounted to 100% via coupons
 
-
-
-
 ##### Open Enrollment
 
 + Open Enrollment allows users to register on the account dashboard without purchasing a course
@@ -3424,7 +3416,6 @@ v3.0.0-beta.4 - 2016-09-01
 + `llms_get_coupon()`
 + `get_section_id()`
 + `check_course_capacity()`
-
 
 ##### Quizzes
 
@@ -3461,6 +3452,7 @@ v2.7.10 - 2016-07-19
 
 + Fix undefined noticed related to LifterLMS custom post type archive filtering
 + Fix filter which was supposed to allow custom engagement types to be queried & triggered by engagements automatically but was passing data incorrectly
+
 
 v2.7.9 - 2016-07-11
 -------------------
@@ -3836,6 +3828,7 @@ Notable exceptions are related to file names because Thomas Levy didn't have the
 + Added a css class to LifterLMS Next Lesson buttons, `llms-next-lesson`
 + Updated the scheduled event name for cleaning up LifterLMS session data from the WP database. It had a conflicting name with the scheduled event for expiring LifterLMS memberships.
 
+
 v2.2.1 - 2016-03-07
 -------------------
 
@@ -3966,6 +3959,7 @@ v2.0.1 - 2016-02-11
 + Updated CSS to provide better course syllabus layout on smaller screens
 + Added validation to prevent against duplicate voucher code creation
 
+
 v2.0.0 - 2016-02-04
 -------------------
 
@@ -4028,7 +4022,6 @@ We've added a "deprecated" file which holds a few stubs for classes and function
 + `is_account_page()` replaced by `is_llms_account_page()`
 + `is_checkout()` replaced by `is_llms_checkot()`
 
-
 ##### Deprecated Templates
 
 + templates/course/section_syllabus.php
@@ -4060,10 +4053,6 @@ We've added a "deprecated" file which holds a few stubs for classes and function
 + `lifterlms_product_purchase_checkout_redirect`
 + `lifterlms_product_purchase_membership_redirect`
 + `lifterlms_lesson_complete_icon`
-
-
-
-
 
 
 v1.5.0 - 2016-01-22
@@ -4100,6 +4089,7 @@ __NOTE: The following enhancements only apply when the WooCommerce Integration i
 + Setup the `is_account_page()` function to be replaced by `is_llms_account_page()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_account_page()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of the function.
 + Setup the `is_checkout()` function to be replaced by `is_llms_checkout()` function. The original causes conflicts when WooCommerce is installed as WooCommerce includes a core function by the same name. All references to `is_checkout()` in LifterLMS have been removed and the original has been left to prevent issues with developers currently relying on the LifterLMS version of the function.
 
+
 v1.4.5 - 2016-01-13
 -------------------
 
@@ -4113,6 +4103,7 @@ v1.4.5 - 2016-01-13
 + Added two new actions that developers can hook into:
   + `llms_user_enrolled_in_course`, called when users are enrolled in a course. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_enrolled_in_course).
   + `llms_user_added_to_membership_level`, called when users are added to a membership level. Usage details available [here](https://lifterlms.readme.io/docs/actions-user#llms_user_added_to_membership_level).
+
 
 v1.4.4 - 2015-12-21
 -------------------
@@ -4145,10 +4136,12 @@ v1.4.4 - 2015-12-21
 + Added link to CourseClinic on settings intro screen
 + Added link to LifterLMS documentation on the settings intro screen
 
+
 v1.4.3 - 2015-12-11
 -------------------
 
 + Fixed an issue that could prevent some older servers from being able to run LifterLMS
+
 
 v1.4.2 - 2015-12-10
 -------------------
@@ -4156,6 +4149,7 @@ v1.4.2 - 2015-12-10
 + Tested and compatible with WordPress version 4.4
 + BugFixes: fixed issue in `llms_featured_img()` that was preventing the `$size` variable from being passed to the WP core function being utilized.
 + BugFixes: correctly handling conflicts with Plugin Update library
+
 
 v1.4.1 - 2015-12-02
 -------------------
@@ -4171,6 +4165,7 @@ v1.4.1 - 2015-12-02
 + BugFixes: Lesson prerequisite now alert the user and provide a link to redirect the user to the next required lesson in the course.
 + BugFixes: Paypal errors now return error message instead of white screen when Paypal API fails.
 + BugFixes: Corrected JavaScript error with modals on course edit page in Internet Explorer 11.
+
 
 v1.4.0 - 2015-10-29
 -------------------
@@ -4193,12 +4188,14 @@ v1.4.0 - 2015-10-29
 + BugFixes: Resolved error with WooCommerce integration where courses would not always register the user
 + BugFixes: Corrected CSS conflict with Bridge theme settings page
 
+
 v1.3.10 - 2015-10-15
 --------------------
 + Updates: Clarifies some prerequisite text
 + Updates: Quiz questions are now randomized!
 + Updates: Fixes small CSS issue
 + BugFixes: Resolves fatal errors with a small subset of premium themes
+
 
 v1.3.9 - 2015-10-5
 ------------------
@@ -4208,10 +4205,12 @@ v1.3.9 - 2015-10-5
 + Feature: Clear User Session Tool. You can now clear all LifterLMS user session data from your site in LifterLMS->Settings->General
 + Updates: Backend code cleanup
 
+
 v1.3.8 - 2015-10-02
 -------------------
 + BugFixes: Fixes Random error notices
 + Updates: Updates email template handler
+
 
 v1.3.7 - 2015-09-25
 -------------------
@@ -4221,6 +4220,7 @@ v1.3.7 - 2015-09-25
 + BugFixes: Resolved security issue with WordPress searches and lessons
 + BugFixes: Fixes analytics bug that potentially arises after a course is deleted
 
+
 v1.3.6 - 2015-09-18
 -------------------
 + BugFixes: Fixes pesky Zend Error that plagued some unfortunate victims
@@ -4229,15 +4229,18 @@ v1.3.6 - 2015-09-18
 + Updates: Adds new filter 'lifterlms_quiz_passed' to customize 'Passed' text after quiz
 + Updates: Adds new filter 'lifterlms_quiz_failed' to customize 'Failed' text after quiz
 
+
 v1.3.5 - 2015-09-11
 -------------------
 + Revisions: Fixes typos
 + Updates: Adds sidebar functionality to various themes
 
+
 v1.3.4 - 2015-09-04
 -------------------
 + BugFixes: Fixes bug with featured image on course page
 + BugFixes: Fixes issue with lesson completed percentage on analytics page
+
 
 v1.3.3 - 2015-09-01
 -------------------
@@ -4247,14 +4250,17 @@ v1.3.3 - 2015-09-01
 + BugFixes: Fixes lesson name on prerequisite notification
 + BugFixes: Fixes critical error with WordPress customizer
 
+
 v1.3.2 - 2015-08-30
 -------------------
 + Hotfix: resolves issues with sidebar shortcodes
 + Updates: Text clarifications
 
+
 v1.3.1 - 2015-08-28
 -------------------
 + Hotfix: resolves issue with ajax url
+
 
 v1.3.0 - 2015-08-28
 -------------------
@@ -4272,6 +4278,7 @@ v1.3.0 - 2015-08-28
 + Cleans up jQuery console messages
 + Adds in course tracks
 
+
 v1.2.8 - 2015-07-17
 -------------------
 + Updated Portuguese translation file
@@ -4287,6 +4294,7 @@ v1.2.8 - 2015-07-17
 + New Shortcode: [lifterlms_hide_content]: Use to restrict content on a page, course or lesson to a specific membership. Pass the post id of the membership you want to restrict the content to. Example: [lifterlms_hide_content membership="5"]
 + New updates to gulp build process
 + Class autoloading and LLMS namespace introduced for more efficient coding.
+
 
 v1.2.7 - 2015-06-05
 -------------------
@@ -4309,17 +4317,20 @@ v1.2.7 - 2015-06-05
 + Woocommerce conflict correction to archive templates
 + Style updates to allow themes better control on design
 
+
 v1.2.6 - 2015-04-28
 -------------------
 + Corrected issue with lesson re-order on save
 + corrected html formatting issue on purchase page
 + corrected html formatting issue on course page
 
+
 v1.2.5 - 2015-04-23
 -------------------
 + Corrected excerpt to not pull in lesson navigation
 + Modified metabox api for better extension integration
 + Corrected issue with order not displaying all information if coupon was not applied to order
+
 
 v1.2.4 - 2015-04-22
 -------------------
@@ -4354,6 +4365,7 @@ v1.2.4 - 2015-04-22
 + Refactored Course syllabus to reduce query size for larger, complex courses
 + Added Handler classes for Lessons, Sections, Courses and Posts
 + Refactored Course get / set methods to reduce database queries
+
 
 v1.2.3 - 2015-03-12
 -------------------
@@ -4416,9 +4428,11 @@ v1.2.0 - 2015-02-17
 + Better third party payment gateway support. Third party gateway plugins are now easier to develop and integrate.
 + User Registration: Phone Number Registration field option now available in Accounts settings page.
 
+
 v1.1.2 - 2014-12-18
 -------------------
 + Moved Sidebar registration from plugin install to init
+
 
 v1.1.1 - 2014-12-16
 -------------------
@@ -4429,6 +4443,7 @@ v1.1.1 - 2014-12-16
 + Fixed bug with course capacity option
 + Fixed bug with endpoint rewrite
 + Added localization POT file and us_EN.po translation file
+
 
 v1.1.0 - 2014-12-08
 -------------------
@@ -4484,6 +4499,7 @@ v1.0.5 - 2014-11-12
 + Updated template overriding to check child & parent themes
 + Updated template overriding to apply filters to directories to check for overrides to allow themes and plugins to add their own directories
 
+
 v1.0.4 - 2014-11-04
 -------------------
 
@@ -4518,3 +4534,9 @@ v1.0.1 - 2014-10-30
 -------------------
 
 + Updated activation endpoint url to point towards live server rather than dev
+
+
+v1.0.0 - 2014-10-30
+-------------------
+
++ Initial public release.
