@@ -2,8 +2,10 @@
 /**
  * Template functions for the student dashboard
  *
+ * @package LifterLMS/Functions/Dashboard
+ *
  * @since 3.0.0
- * @version 3.37.10
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,8 +19,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	 * @since 3.35.0 unslash `$_GET` data.
 	 * @since 3.37.10 Add filter `llms_enable_open_registration`.
 	 *
-	 * @param   array $options  array of options.
-	 * @return  void
+	 * @param array $options Optinal. Array of options. Default empty array.
+	 * @return void
 	 */
 	function lifterlms_student_dashboard( $options = array() ) {
 
@@ -30,6 +32,10 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		);
 
 		/**
+		 * Fires before the student dashboard output.
+		 *
+		 * @since unknown
+		 *
 		 * @hooked lifterlms_template_student_dashboard_wrapper_open - 10
 		 */
 		do_action( 'lifterlms_before_student_dashboard' );
@@ -37,6 +43,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		// If user is not logged in.
 		if ( ! is_user_logged_in() ) {
 
+			/**
+			 * Allow adding a notice message to be displayed in the student dashboard where `llms_print_notices()` will be invoked.
+			 *
+			 * @since unknown
+			 *
+			 * @param string $message The notice message to be displayed in the student dashboard. Default empty string.
+			 */
 			$message = apply_filters( 'lifterlms_my_account_message', '' );
 			if ( ! empty( $message ) ) {
 				llms_add_notice( $message );
@@ -63,11 +76,18 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 
 				llms_get_login_form(
 					null,
+					/**
+					 * Filter login form redirect URL
+					 *
+					 * @since unknown
+					 *
+					 * @param string $login_redirect The login redirect URL.
+					 */
 					apply_filters( 'llms_student_dashboard_login_redirect', $options['login_redirect'] )
 				);
 
 				/**
-				 * Determine if Open Registration is enabled.
+				 * Determine if Open Registration is enabled
 				 *
 				 * @since 3.37.10
 				 *
@@ -87,6 +107,10 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 			$current_tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 
 			/**
+			 * Fires before the student dashboard content output.
+			 *
+			 * @since unknown
+			 *
 			 * @hooked lifterlms_template_student_dashboard_header - 10
 			 */
 			do_action( 'lifterlms_before_student_dashboard_content' );
@@ -99,6 +123,10 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 		}
 
 		/**
+		 * Fires after the student dashboard output.
+		 *
+		 * @since unknown
+		 *
 		 * @hooked lifterlms_template_student_dashboard_wrapper_close - 10
 		 */
 		do_action( 'lifterlms_after_student_dashboard' );
@@ -106,16 +134,20 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard' ) ) {
 	}
 }
 
-/**
- * Get course tiles for a student's courses
- *
- * @param    obj        $student  LLMS_Student (current student if none supplied)
- * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
- * @return   void
- * @since    3.14.0
- * @version  3.26.3
- */
+
 if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
+
+	/**
+	 * Get course tiles for a student's courses
+	 *
+	 * @since 3.14.0
+	 * @since 3.26.3 Unknown.
+	 * @since [version] Added secondary sorting by `post_title` when the primary sort is `menu_order`.
+	 *
+	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
+	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @return void
+	 */
 	function lifterlms_template_my_courses_loop( $student = null, $preview = false ) {
 
 		$student = llms_get_student( $student );
@@ -124,6 +156,13 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 		}
 
 		$courses = $student->get_courses(
+			/**
+			 * Filter the query args to retrieve the courses ids to be used for the "my_courses" loop.
+			 *
+			 * @since unknown
+			 *
+			 * @param array $args The query args.
+			 */
 			apply_filters(
 				'llms_my_courses_loop_courses_query_args',
 				array(
@@ -142,25 +181,47 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
 			add_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
 
-			// get sorting option
+			// get sorting option.
 			$option = get_option( 'lifterlms_myaccount_courses_in_progress_sorting', 'date,DESC' );
-			// parse to order & orderby
+			// parse to order & orderby.
 			$option  = explode( ',', $option );
 			$orderby = ! empty( $option[0] ) ? $option[0] : 'date';
 			$order   = ! empty( $option[1] ) ? $option[1] : 'DESC';
 
-			// enrollment date will obey the results order
+			// enrollment date will obey the results order.
 			if ( 'date' === $orderby ) {
 				$orderby = 'post__in';
 			} elseif ( 'order' === $orderby ) {
-				$orderby = 'menu_order';
+				// add secondary sorting by `post_title` when the primary sort is `menu_order`.
+				$orderby = 'menu_order post_title';
 			}
 
+			/**
+			 * Filter the number of courses per page to be displayed in the dashboard.
+			 *
+			 * @since unknown
+			 *
+			 * @param int $per_page The number or courses per page to be displayed. Defaults to the 'Courses per page' course catalog's setting.
+			 */
 			$per_page = apply_filters( 'llms_dashboard_courses_per_page', get_option( 'lifterlms_shop_courses_per_page', 9 ) );
 			if ( $preview ) {
+				/**
+				 * Filter the number of courses per page to be displayed in the dashboard, when outputting a short list of courses.
+				 *
+				 * @since unknown
+				 *
+				 * @param int $per_page The number or courses per page to be displayed. Default is `3`.
+				 */
 				$per_page = apply_filters( 'llms_dashboard_recent_courses_count', llms_get_loop_columns() );
 			}
 
+			/**
+			 * Filter the wp query args to retrieve the courses for the "my_courses" loop.
+			 *
+			 * @since unknown
+			 *
+			 * @param array $args The query args.
+			 */
 			$query_args = apply_filters(
 				'llms_dashboard_courses_wp_query_args',
 				array(
@@ -176,7 +237,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 
 			$query = new WP_Query( $query_args );
 
-			// prevent pagination on the preview
+			// prevent pagination on the preview.
 			if ( $preview ) {
 				$query->max_num_pages = 1;
 			}
@@ -190,21 +251,23 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_status', 25 );
 			remove_action( 'lifterlms_after_loop_item_title', 'lifterlms_template_loop_enroll_date', 30 );
 
-		}// End if().
+		}
 
 	}
-}// End if().
+}
 
-/**
- * Get course tiles for a student's courses
- *
- * @param    obj        $student  LLMS_Student (current student if none supplied)
- * @param    boolean    $preview  if true, outputs a short list of courses (based on dashboard_recent_courses filter)
- * @return   void
- * @since    3.14.0
- * @version  3.14.8
- */
+
 if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
+
+	/**
+	 * Get course tiles for a student's memberships
+	 *
+	 * @since 3.14.0
+	 * @since 3.14.8 Unknown.
+	 *
+	 * @param LLMS_Student $student Optinoal. LLMS_Student (current student if none supplied). Default `null`.
+	 * @return void
+	 */
 	function lifterlms_template_my_memberships_loop( $student = null ) {
 
 		$student = llms_get_student( $student );
@@ -234,7 +297,7 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 				)
 			);
 
-			$query->max_num_pages = 1; // prevent pagination here
+			$query->max_num_pages = 1; // prevent pagination here.
 
 			lifterlms_loop( $query );
 
@@ -244,43 +307,47 @@ if ( ! function_exists( 'lifterlms_template_my_memberships_loop' ) ) {
 		}
 
 	}
-}// End if().
+}
 
-
-/**
- * Main dashboard homepage template
- *
- * @return void
- * @since    3.14.0
- * @version  3.14.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_home' ) ) {
+
+	/**
+	 * Main dashboard homepage template
+	 *
+	 * @since 3.14.0
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_home() {
 		llms_get_template( 'myaccount/dashboard.php' );
 	}
 }
 
-/**
- * Dashboard header template
- *
- * @return void
- * @since    3.0.0
- * @version  3.0.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_header' ) ) {
+
+	/**
+	 * Dashboard header template
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_header() {
 		llms_get_template( 'myaccount/header.php' );
 	}
 }
 
-/**
- * Template for My Achievements on dashboard
- *
- * @return   void
- * @since    3.14.0
- * @version  3.19.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' ) ) {
+
+	/**
+	 * Template for My Achievements on dashboard
+	 *
+	 * @since 3.14.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_my_achievements( $preview = false ) {
 
 		$student = llms_get_student();
@@ -315,14 +382,17 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_achievements' )
 	}
 }
 
-/**
- * Template for My Certificates on dashboard
- *
- * @return   void
- * @since    3.14.0
- * @version  3.19.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' ) ) {
+
+	/**
+	 * Template for My Certificates on dashboard
+	 *
+	 * @since 3.14.0
+	 * @since 3.19.0 Unknown
+	 *
+	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_my_certificates( $preview = false ) {
 
 		$student = llms_get_student();
@@ -355,14 +425,17 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_certificates' )
 	}
 }
 
-/**
- * Template for My Courses section on dashboard index
- *
- * @return   void
- * @since    3.14.0
- * @version  3.19.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
+
+	/**
+	 * Template for My Courses section on dashboard index
+	 *
+	 * @since 3.14.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_my_courses( $preview = false ) {
 
 		$student = llms_get_student();
@@ -395,14 +468,17 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_courses' ) ) {
 	}
 }
 
-/**
- * Output the "My Grades" template screen on the student dashboard
- *
- * @return   void
- * @since    3.24.0
- * @version  3.26.3
- */
+
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
+
+	/**
+	 * Output the "My Grades" template screen on the student dashboard
+	 *
+	 * @since 3.24.0
+	 * @since 3.26.3 Unknown.
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_my_grades() {
 
 		$student = llms_get_student();
@@ -413,9 +489,16 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 		global $wp_query, $wp_rewrite;
 		$slug = $wp_query->query['my-grades'];
 
-		// list courses
+		// list courses.
 		if ( empty( $slug ) || false !== strpos( $slug, $wp_rewrite->pagination_base . '/' ) ) {
 
+			/**
+			 * Filter the number of courses per pages to be displayed in my grades
+			 *
+			 * @since unknown
+			 *
+			 * @param int $per_page The number of courses per pages to be displayed. Default is `10`.
+			 */
 			$per_page = apply_filters( 'llms_sd_grades_courses_per_page', 10 );
 			$page     = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 
@@ -449,7 +532,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 			);
 			remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 
-			// show single
+			// show single.
 		} else {
 
 			$course = get_posts(
@@ -464,11 +547,11 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				$course = llms_get_post( $course );
 			}
 
-			// get the latest achievement for the course
+			// get the latest achievement for the course.
 			$achievements       = LLMS()->achievements()->get_achievements_by_post( $course->get( 'id' ) );
 			$latest_achievement = false;
 			foreach ( $student->get_achievements( 'updated_date', 'DESC', 'achievements' ) as $achievement ) {
-				if ( in_array( $achievement->get( 'achievement_template' ), $achievements ) ) {
+				if ( in_array( $achievement->get( 'achievement_template' ), $achievements, true ) ) {
 					$latest_achievement = $achievement;
 					break;
 				}
@@ -491,23 +574,30 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades' ) ) {
 				)
 			);
 
-		}// End if().
+		}
 
 	}
-}// End if().
+}
 
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' ) ) {
+
 	/**
 	 * Output the template for a single grades table on the student dashboard
 	 *
-	 * @param   obj $course  LLMS_Course.
-	 * @param   obj $student LLMS_Student.
-	 * @return  void
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 *
+	 * @param LLMS_Course  $course  LLMS_Course.
+	 * @param LLMS_Student $student LLMS_Student.
+	 * @return void
 	 */
 	function lifterlms_template_student_dashboard_my_grades_table( $course, $student ) {
-
+		/**
+		 * Filter the student dashboard "my grades" table headings
+		 *
+		 * @since unknown
+		 *
+		 * @param array $section_headings "My Grades" table headings.
+		 */
 		$section_headings = apply_filters(
 			'llms_student_dashboard_my_grades_table_headings',
 			array(
@@ -529,14 +619,17 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_grades_table' )
 	}
 }
 
-/**
- * Template for My Memberships section on dashboard index
- *
- * @return   void
- * @since    3.14.0
- * @version  3.19.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_my_memberships' ) ) {
+
+	/**
+	 * Template for My Memberships section on dashboard index
+	 *
+	 * @since 3.14.0
+	 * @since 3.19.0 Unknown.
+	 *
+	 * @param bool $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_my_memberships( $preview = false ) {
 
 		$student = llms_get_student();
@@ -576,6 +669,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 *
 	 * @since 3.26.3
 	 * @since 3.35.0 Sanitize `$_GET` data.
+	 * @since [version] Use `in_array()`'s strict comparison.
 	 *
 	 * @return void
 	 */
@@ -596,13 +690,20 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 
 		$view = isset( $_GET['sdview'] ) ? llms_filter_input( INPUT_GET, 'sdview', FILTER_SANITIZE_STRING ) : 'view';
 
-		if ( 'view' === $view ) {
+		if ( 'views' === $view ) {
 
 			$page = get_query_var( 'paged' ) ? get_query_var( 'paged' ) : 1;
 
 			$notifications = new LLMS_Notifications_Query(
 				array(
 					'page'       => $page,
+					/**
+					 * Filter the number of notifications per page to be displayed in the dashboard's "my_notifications" tab.
+					 *
+					 * @since unknown
+					 *
+					 * @param int $per_page The number of notifications per page to be displayed. Default `25`.
+					 */
 					'per_page'   => apply_filters( 'llms_sd_my_notifications_per_page', 25 ),
 					'subscriber' => get_current_user_id(),
 					'sort'       => array(
@@ -626,6 +727,13 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 
 		} else {
 
+			/**
+			 * Filter the types of subscriber notification which can be managed
+			 *
+			 * @since unknown
+			 *
+			 * @param array $types The array of manageable types. Default is `array( 'email' )`.
+			 */
 			$types = apply_filters( 'llms_notification_subscriber_manageable_types', array( 'email' ) );
 
 			$settings = array();
@@ -636,7 +744,8 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 				foreach ( $types as $type ) {
 
 					$configs = $controller->get_subscribers_settings( $type );
-					if ( in_array( 'student', array_keys( $configs ) ) && 'yes' === $configs['student'] ) {
+
+					if ( in_array( 'student', array_keys( $configs ), true ) && 'yes' === $configs['student'] ) {
 
 						if ( ! isset( $settings[ $type ] ) ) {
 							$settings[ $type ] = array();
@@ -655,7 +764,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 				'settings' => $settings,
 			);
 
-		}// End if().
+		}
 
 		add_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 
@@ -664,58 +773,68 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 		remove_filter( 'paginate_links', 'llms_modify_dashboard_pagination_links' );
 
 	}
-}// End if().
+}
 
-
-/**
- * Dashboard Navigation template
- *
- * @return void
- * @since    3.0.0
- * @version  3.0.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_navigation' ) ) {
+
+	/**
+	 * Dashboard Navigation template
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_navigation() {
 		llms_get_template( 'myaccount/navigation.php' );
 	}
 }
 
-/**
- * Dashboard title template
- *
- * @return void
- * @since    3.0.0
- * @version  3.14.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_title' ) ) {
+	/**
+	 * Dashboard title template
+	 *
+	 * @since 3.0.0
+	 * @since 3.14.0 Unknown.
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_title() {
 		$data  = LLMS_Student_Dashboard::get_current_tab();
 		$title = isset( $data['title'] ) ? $data['title'] : '';
+
+		/**
+		 * Filter the student dasbhoard title for the current tab
+		 *
+		 * @since unknown
+		 *
+		 * @param string $title The student dashboard title.
+		 */
 		echo apply_filters( 'lifterlms_student_dashboard_title', '<h2 class="llms-sd-title">' . $title . '</h2>', $data );
 	}
 }
 
-/**
- * output the student dashboard wrapper opening tags
- *
- * @return   void
- * @since    3.0.0
- * @version  3.0.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_close' ) ) :
+	/**
+	 * Output the student dashboard wrapper closing tags
+	 *
+	 * @since 3.0.0
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_wrapper_close() {
 		echo '</div><!-- .llms-student-dashboard -->';
 	}
 endif;
 
-/**
- * output the student dashboard wrapper opening tags
- *
- * @return   void
- * @since    3.0.0
- * @version  3.10.0
- */
 if ( ! function_exists( 'lifterlms_template_student_dashboard_wrapper_open' ) ) :
+	/**
+	 * Output the student dashboard wrapper opening tags
+	 *
+	 * @since 3.0.0
+	 * @since 3.10.0 Unknown.
+	 *
+	 * @return void
+	 */
 	function lifterlms_template_student_dashboard_wrapper_open() {
 		$current = LLMS_Student_Dashboard::get_current_tab( 'slug' );
 		echo '<div class="llms-student-dashboard ' . $current . '" data-current="' . $current . '">';
@@ -724,17 +843,24 @@ endif;
 
 /**
  * Modify the pagination links displayed on endpoints using the default LLMS loop
+
+ * @since 3.24.0
+ * @since 3.26.3 Unknown.
  *
- * @param    string $link  default link.
- * @return   string
- * @since    3.24.0
- * @version  3.26.3
+ * @param string $link Default link.
+ * @return string
  */
 function llms_modify_dashboard_pagination_links( $link ) {
 
 	/**
-	 * Allow 3rd parties to disable dashboard pagination link rewriting.
+	 * Allow 3rd parties to disable dashboard pagination link rewriting
+	 *
 	 * Resolves compatibility issues with LifterLMS WooCommerce.
+	 *
+	 * @since unknown
+	 *
+	 * @param bool   $disable Whether or not the dashboard pagination links should be disabled. Default `false`.
+	 * @param string $link    The default link.
 	 */
 	if ( apply_filters( 'llms_modify_dashboard_pagination_links_disable', false, $link ) ) {
 		return $link;
@@ -762,16 +888,27 @@ function llms_modify_dashboard_pagination_links( $link ) {
 /**
  * Output content for a single cell on the student single course grades table
  *
- * @param   string $id           key of the table cell.
- * @param   obj    $lesson       LLMS_Lesson.
- * @param   obj    $student      LLMS_Student.
- * @param   array  $restrictions restriction data from `llms_page_restricted()`.
- * @return  void
- * @since   3.24.0
- * @version 3.24.0
+ * @since 3.24.0
+ *
+ * @param string       $id           Key of the table cell.
+ * @param LLMS_Lesson  $lesson       LLMS_Lesson.
+ * @param LLMS_Student $student      LLMS_Student.
+ * @param array        $restrictions Restriction data from `llms_page_restricted()`.
+ * @return void
  */
 function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions ) {
 
+	/**
+	 * Fires before the student dashboard my grades table cell content output
+	 *
+	 * The dynamic portion of the hook name, `$id`, refers to the key of the table cell.
+	 *
+	 * @since unknown
+	 *
+	 * @param LLMS_Lesson  $lesson       LLMS_Lesson instance.
+	 * @param LLMS_Student $student      LLMS_Student instance.
+	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
+	 */
 	do_action( 'llms_sd_my_grades_table_content_' . $id . '_before', $lesson, $student, $restrictions );
 
 	switch ( $id ) {
@@ -807,6 +944,20 @@ function llms_sd_my_grades_table_content( $id, $lesson, $student, $restrictions 
 
 	}
 
+	/**
+	 * Fires after the student dashboard my grades default table cell content output
+	 *
+	 * If id id one oare `completion_date`, `associated_quiz`, `overall_grade`.
+	 * Can be used to display custom table cells.
+	 *
+	 * The dynamic portion of the hook name, `$id`, refers to the key of the table cell.
+	 *
+	 * @since unknown
+	 *
+	 * @param LLMS_Lesson  $lesson       LLMS_Lesson instance.
+	 * @param LLMS_Student $student      LLMS_Student instance.
+	 * @param array        $restrictions Restriction data from `llms_page_restricted()`.
+	 */
 	do_action( 'llms_sd_my_grades_table_content_' . $id, $lesson, $student, $restrictions );
 
 }
