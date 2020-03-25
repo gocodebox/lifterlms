@@ -515,7 +515,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
-= v3.37.14 - 2020-03-18 =
+= v3.37.14 - 2020-03-25 =
 -------------------------
 
 + Update: Added the ability to view the PHP error log file (as defined by `ini_get( 'error_log' )` ) on the LifterLMS -> Status -> Logs page.
