@@ -75,6 +75,16 @@
       "wordpress",
 
       "!/vendor",
+
+      "/vendor/bin",
+      "/vendor/prospress/action-scheduler/codecov.yml",
+      "/vendor/prospress/action-scheduler/docs",
+      "/vendor/prospress/action-scheduler/tests",
+      "/vendor/**/**/composer.*",
+      "/vendor/**/**/*.md",
+      "/vendor/**/**/.*",
+
+      "!/assets/maps/js/vendor",
       "!/assets/vendor",
       "!/assets/js/vendor",
       "!/assets/js/builder/vendor"
