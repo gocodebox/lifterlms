@@ -73,7 +73,7 @@ class LLMS_Admin_User_Custom_Fields {
 			$errors->add( '', $error, '' );
 
 			if ( $update ) {
-				$this->save();
+				$this->save( $user );
 			}
 
 			// don't save
