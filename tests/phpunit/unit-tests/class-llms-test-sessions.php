@@ -7,7 +7,7 @@
  * @group sessions
  *
  * @since 3.36.0
- * @version 3.36.0
+ * @version [version]
  */
 class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
@@ -248,10 +248,14 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	 * Test get_session_events()
 	 *
 	 * @since 3.36.0
+	 * @since [version] Updated to take into account the page.* events removal.
 	 *
 	 * @return void
 	 */
 	public function test_get_session_events() {
+
+		add_filter( 'llms_get_registered_events', array( $this, 'allow_page_events_for_testing' ) );
+		LLMS()->events()->register_events();
 
 		$start_time = time() - HOUR_IN_SECONDS;
 		llms_tests_mock_current_time( $start_time );
@@ -312,6 +316,8 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		// Original session should still only return 2 events.
 		$sessions = $this->sessions->get_session_events( $start );
 		$this->assertEquals( 2, count( $sessions ) );
+
+		remove_filter( 'llms_get_registered_events', array( $this, 'allow_page_events_for_testing' ) );
 
 	}
 
@@ -382,10 +388,14 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	 * and has at least one active event that's less than 30 minutes old
 	 *
 	 * @since 3.36.0
+	 * @since [version] Updated to take into account the page.* events removal.
 	 *
 	 * @return void
 	 */
 	public function test_is_session_idle_old_with_events_within_window() {
+
+		add_filter( 'llms_get_registered_events', array( $this, 'allow_page_events_for_testing' ) );
+		LLMS()->events()->register_events();
 
 		$user = $this->factory->user->create();
 		wp_set_current_user( $user );
@@ -407,6 +417,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 		llms_tests_mock_current_time( time() + ( 31 * MINUTE_IN_SECONDS ) );
 		$this->assertFalse( $this->sessions->is_session_idle( $start ) );
 
+		remove_filter( 'llms_get_registered_events', array( $this, 'allow_page_events_for_testing' ) );
 	}
 
 
@@ -497,4 +508,25 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Allow page events for testing purposes.
+	 *
+	 * @since [version]
+	 *
+	 * @param array $allowed_events Array of allowed events
+	 * @return array
+	 */
+	public function allow_page_events_for_testing( $allowed_events ) {
+
+		return array_merge(
+			$allowed_events,
+			array(
+				'page.load'  => true,
+				'page.exit'  => true,
+				'page.focus' => true,
+				'page.blur'  => true,
+			)
+		);
+
+	}
 }
