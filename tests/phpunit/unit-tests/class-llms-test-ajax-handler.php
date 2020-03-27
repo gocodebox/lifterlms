@@ -9,7 +9,7 @@
  * @since 3.32.0
  * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
  * @since 3.37.14 Added tests on persisting tracking events.
- * @version 3.37.14
+ * @since [version] Added tests for admin table methods.
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
@@ -40,6 +40,119 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 			call_user_func( array( 'LLMS_AJAX_Handler', $function ) );
 		} catch ( WPAjaxDieContinueException $e ) {}
 		return json_decode( $this->last_response, true );
+
+	}
+
+	/**
+	 * Test export_admin_table()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_export_admin_table() {
+
+		$expected_keys = array( 'filename', 'progress', 'url' );
+		foreach( array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ) as $role ) {
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$res = LLMS_AJAX_Handler::export_admin_table( array( 'handler' => 'Students' ) );
+			$this->assertEquals( $expected_keys, array_keys( $res ) );
+		}
+
+	}
+
+	/**
+	 * Test export_admin_table() with invalid handlers
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_export_admin_table_invalid_handler() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// No handler.
+		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array() ) );
+
+		// Invalid handler.
+		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array( 'handler' => 'fake' ) ) );
+
+	}
+
+	/**
+	 * Test export_admin_table() ensuring only users with proper permissions can access.
+	 *
+	 * @since  [version]
+	 *
+	 * @return void
+	 */
+	public function test_export_admin_table_invalid_permissions() {
+
+		// No user.
+		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array( 'handler' => 'Students' ) ) );
+
+		// Student.
+		wp_set_current_user( $this->factory->student->create() );
+		$this->assertFalse( LLMS_AJAX_Handler::export_admin_table( array( 'handler' => 'Students' ) ) );
+
+	}
+
+	/**
+	 * Test get_admin_table_data()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_admin_table_data() {
+
+		$expected_keys = array( 'args', 'thead', 'tbody', 'tfoot' );
+
+		foreach( array( 'administrator', 'lms_manager', 'instructor', 'instructors_assistant' ) as $role ) {
+
+			wp_set_current_user( $this->factory->user->create( array( 'role' => $role ) ) );
+			$res = LLMS_AJAX_Handler::get_admin_table_data( array( 'handler' => 'Students' ) );
+			$this->assertEquals( $expected_keys, array_keys( $res ) );
+
+		}
+
+	}
+
+	/**
+	 * Test get_admin_table_data() when invalid handlers are submitted.
+	 *
+	 * @since  [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_admin_table_data_invalid_handler() {
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// No handler.
+		$this->assertFalse( LLMS_AJAX_Handler::get_admin_table_data( array() ) );
+
+		// Invalid handler.
+		$this->assertFalse( LLMS_AJAX_Handler::get_admin_table_data( array( 'handler' => 'fake' ) ) );
+
+	}
+
+	/**
+	 * Test get_admin_table_data() ensuring only users with proper permissions can access.
+	 *
+	 * @since  [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_admin_table_data_invalid_permissions() {
+
+		// No user.
+		$this->assertFalse( LLMS_AJAX_Handler::get_admin_table_data( array( 'handler' => 'Students' ) ) );
+
+		// Student.
+		wp_set_current_user( $this->factory->student->create() );
+		$this->assertFalse( LLMS_AJAX_Handler::get_admin_table_data( array( 'handler' => 'Students' ) ) );
 
 	}
 

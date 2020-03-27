@@ -2,11 +2,13 @@
 /**
  * Test the students reporting table.
  *
- * @package  LifterLMS/Tests/Tables
- * @group    reporting_tables
+ * @package LifterLMS/Tests/Tables
+ *
+ * @group reporting_tables
  *
  * @since 3.28.0
  * @since 3.36.0 Add "last_seen" col.
+ * @since [version] Add additional tests for new conditions in `generate_export_file()` method.
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
@@ -80,6 +82,26 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
 		$file = $table->generate_export_file( array(), $file['filename'] );
 		$this->assertEquals( 100, $file['progress'] );
+
+	}
+
+	/**
+	 * Test generate_export_file(): prevent invalid filetypes.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_generate_export_file_invalid_file_type() {
+
+		$table = new LLMS_Table_Students();
+
+		// No.
+		$this->assertFalse( $table->generate_export_file( array(), 'f.php' ) );
+
+		// Okay.
+		$this->assertTrue( is_array( $table->generate_export_file( array(), 'ok.csv' ) ) );
+		$this->assertTrue( is_array( $table->generate_export_file( ) ) );
 
 	}
 
