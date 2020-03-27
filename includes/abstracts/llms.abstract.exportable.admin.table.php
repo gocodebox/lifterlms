@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version 3.30.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.28.0
  * @since 3.30.3 Explicitly define undefined properties.
+ * @since [version] Ensure filenames of generated export files are for supported filetypes.
  */
 abstract class LLMS_Abstract_Exportable_Admin_Table {
 

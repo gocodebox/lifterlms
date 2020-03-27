@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.37.14
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -28,7 +28,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.1 Update `llms_update_access_plans` to use `wp_unslash()` before inserting access plan data.
  * @since 3.37.2 Update `select2_query_posts` to allow filtering posts by instructor.
  * @since 3.37.14 Added `persist_tracking_events()` handler.
- *                 Used strict comparison where needed.
+ *                Used strict comparison where needed.
+ * @since [version] Update `get_admin_table_data()` and `export_admin_table()` to verify user permissions before processing data.
  */
 class LLMS_AJAX_Handler {
 	/**
@@ -107,6 +108,28 @@ class LLMS_AJAX_Handler {
 	}
 
 	/**
+	 * Retrieve a new instance of admin table class from a handler string.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $handler Unprefixed handler class string. For example "Students" or "Course_Students".
+	 * @return object|false Instance of the admin table class or false if the class can't be found.
+	 */
+	protected static function get_admin_table_instance( $handler ) {
+
+		require_once 'admin/reporting/class.llms.admin.reporting.php';
+		LLMS_Admin_Reporting::includes();
+
+		$handler = 'LLMS_Table_' . $handler;
+		if ( class_exists( $handler ) ) {
+			return new $handler();
+		}
+
+		return false;
+
+	}
+
+	/**
 	 * Queue a table export event
 	 *
 	 * @since 3.15.0
@@ -118,24 +141,17 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function export_admin_table( $request ) {
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) ) {
+		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
 			return false;
 		}
 
-		require_once 'admin/reporting/class.llms.admin.reporting.php';
-		LLMS_Admin_Reporting::includes();
-
-		$handler = 'LLMS_Table_' . $request['handler'];
-
-		if ( class_exists( $handler ) ) {
-
-			$table = new $handler();
-			$file  = isset( $request['filename'] ) ? $request['filename'] : null;
-			return $table->generate_export_file( $request, $file );
-
+		$table = self::get_admin_table_instance( $request['handler'] );
+		if ( ! $table ) {
+			return false;
 		}
 
-		return false;
+		$file  = isset( $request['filename'] ) ? $request['filename'] : null;
+		return $table->generate_export_file( $request, $file );
 
 	}
 
@@ -150,30 +166,22 @@ class LLMS_AJAX_Handler {
 	 */
 	public static function get_admin_table_data( $request ) {
 
-		if ( ! current_user_can( 'view_lifterlms_reports' ) ) {
+		if ( ! current_user_can( 'view_lifterlms_reports' ) || empty( $request['handler'] ) ) {
 			return false;
 		}
 
-		require_once 'admin/reporting/class.llms.admin.reporting.php';
-
-		$handler = 'LLMS_Table_' . $request['handler'];
-
-		LLMS_Admin_Reporting::includes();
-
-		if ( class_exists( $handler ) ) {
-
-			$table = new $handler();
-			$table->get_results( $request );
-			return array(
-				'args'  => json_encode( $table->get_args() ),
-				'thead' => trim( $table->get_thead_html() ),
-				'tbody' => trim( $table->get_tbody_html() ),
-				'tfoot' => trim( $table->get_tfoot_html() ),
-			);
-
+		$table = self::get_admin_table_instance( $request['handler'] );
+		if ( ! $table ) {
+			return false;
 		}
 
-		return false;
+		$table->get_results( $request );
+		return array(
+			'args'  => json_encode( $table->get_args() ),
+			'thead' => trim( $table->get_thead_html() ),
+			'tbody' => trim( $table->get_tbody_html() ),
+			'tfoot' => trim( $table->get_tfoot_html() ),
+		);
 
 	}
 
