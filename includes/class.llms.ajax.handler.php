@@ -143,11 +143,16 @@ class LLMS_AJAX_Handler {
 	 * Reload admin tables
 	 *
 	 * @since 3.2.0
+	 * @since [version] Verify user permissions before processing request data.
 	 *
 	 * @param array $request Post data ($_REQUEST).
 	 * @return array
 	 */
 	public static function get_admin_table_data( $request ) {
+
+		if ( ! current_user_can( 'view_lifterlms_reports' ) ) {
+			return false;
+		}
 
 		require_once 'admin/reporting/class.llms.admin.reporting.php';
 
@@ -166,11 +171,9 @@ class LLMS_AJAX_Handler {
 				'tfoot' => trim( $table->get_tfoot_html() ),
 			);
 
-		} else {
-
-			return false;
-
 		}
+
+		return false;
 
 	}
 
