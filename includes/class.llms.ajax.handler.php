@@ -150,7 +150,7 @@ class LLMS_AJAX_Handler {
 			return false;
 		}
 
-		$file  = isset( $request['filename'] ) ? $request['filename'] : null;
+		$file = isset( $request['filename'] ) ? $request['filename'] : null;
 		return $table->generate_export_file( $request, $file );
 
 	}
@@ -160,6 +160,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.2.0
 	 * @since [version] Verify user permissions before processing request data.
+	 *                Use `wp_json_encode()` in favor of `json_encode()`.
 	 *
 	 * @param array $request Post data ($_REQUEST).
 	 * @return array
@@ -177,7 +178,7 @@ class LLMS_AJAX_Handler {
 
 		$table->get_results( $request );
 		return array(
-			'args'  => json_encode( $table->get_args() ),
+			'args'  => wp_json_encode( $table->get_args() ),
 			'thead' => trim( $table->get_thead_html() ),
 			'tbody' => trim( $table->get_tbody_html() ),
 			'tfoot' => trim( $table->get_tfoot_html() ),

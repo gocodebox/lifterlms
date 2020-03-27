@@ -57,7 +57,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	public function generate_export_file( $args = array(), $filename = null, $type = 'csv' ) {
 
 		// We only support CSVs and don't allow fakers.
-		if ( ! empty( $filename ) && $type !== pathinfo( $filename, PATHINFO_EXTENSION ) ) {
+		if ( ! empty( $filename ) && pathinfo( $filename, PATHINFO_EXTENSION ) !== $type ) {
 			return false;
 		}
 
@@ -78,7 +78,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 		$option_name = 'llms_gen_export_' . basename( $filename, '.' . $type );
 		$args        = get_option( $option_name, $args );
 
-		$handle = @fopen( $file_path, 'a+' );
+		$handle = @fopen( $file_path, 'a+' ); // phpcs:ignore WordPress.PHP.NoSilencedErrors.Discouraged -- Yea but we handle the error alright I think.
 		if ( ! $handle ) {
 			return new WP_Error( 'file_error', __( 'Unable to generate export file, could not open file for writing.', 'lifterlms' ) );
 		}
