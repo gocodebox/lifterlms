@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.7.0
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Fix error encountered when errors encountered validating custom fields.
  */
 class LLMS_Admin_User_Custom_Fields {
 
@@ -25,12 +26,14 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Constructor
 	 *
-	 * @since    2.7.0
-	 * @version  3.13.0
+	 * @since 2.7.0
+	 * @since 3.13.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
-		// output custom fields on edit screens
+		// Output custom fields on edit screens.
 		$field_actions = array(
 			'show_user_profile',
 			'edit_user_profile',
@@ -41,8 +44,8 @@ class LLMS_Admin_User_Custom_Fields {
 			add_action( $action, array( $this, 'output_instructors_assistant_fields' ), 10, 1 );
 		}
 
-		// allow errors to be output before saving field data
-		// save the data if no errors are encountered
+		// Allow errors to be output before saving field data
+		// Save the data if no errors are encountered
 		add_action( 'user_profile_update_errors', array( $this, 'add_errors' ), 10, 3 );
 
 		// save data when a new user is created
@@ -52,15 +55,17 @@ class LLMS_Admin_User_Custom_Fields {
 
 	/**
 	 * Validate custom fields
-	 * During updates will save data
-	 * Creation is saved during a different action
 	 *
-	 * @param    obj  &$errors  Instance of WP_Error
-	 * @param    bool $update   true if updating a profile, false if a new user
-	 * @param    obj  $user     Instance of WP_User for the user being updated
-	 * @return   void
-	 * @since    2.7.0
-	 * @version  3.13.0
+	 * During updates will save data, creation is saved during a different action.
+	 *
+	 * @since 2.7.0
+	 * @since 3.13.0 Unknown.
+	 * @since [version] Pass `$user` to $this->save()`
+	 *
+	 * @param obj     &$errors Instance of WP_Error, passed by reference.
+	 * @param bool    $update  `true` if updating a profile, `false` if a new user.
+	 * @param WP_User $user    Instance of WP_User for the user being updated.
+	 * @return void
 	 */
 	public function add_errors( &$errors, $update, $user ) {
 
@@ -76,14 +81,14 @@ class LLMS_Admin_User_Custom_Fields {
 				$this->save( $user );
 			}
 
-			// don't save
+			// Don't save.
 			remove_action( 'edit_user_created_user', array( $this, 'save' ) );
 
 			return;
 
 		}
 
-		// if updating, save here since there's no other save specific admin action (that I could find)
+		// If updating, save here since there's no other save specific admin action (that I could find).
 		if ( $update ) {
 			$this->save( $user );
 		}
@@ -93,9 +98,10 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Retrieve an associative array of custom fields and custom field data
 	 *
-	 * @return   array
-	 * @since    2.7.0
-	 * @version  3.13.0
+	 * @since 2.7.0
+	 * @since 3.13.0 Unknown.
+	 *
+	 * @return array
 	 */
 	public function get_fields() {
 
@@ -170,13 +176,15 @@ class LLMS_Admin_User_Custom_Fields {
 
 	/**
 	 * Load usermeta data into the array of fields retrieved from $this->get_fields
-	 * meta data is added to the array under the key "value" for each field
-	 * if no data is found for a particular field the value is still added as an empty string
 	 *
-	 * @param    mixed $user   Instance of WP_User or WP User ID
-	 * @return   array
-	 * @since    2.7.0
-	 * @version  2.7.0
+	 * Meta data is added to the array under the key "value" for each field.
+	 *
+	 * If no data is found for a particular field the value is still added as an empty string.
+	 *
+	 * @since 2.7.0
+	 *
+	 * @param WP_User|int $user Instance of WP_User or WP User ID
+	 * @return array
 	 */
 	public function get_fields_with_data( $user ) {
 
@@ -199,10 +207,11 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Output custom field data fields as HTML inputs
 	 *
-	 * @param    mixed $user   Instance of WP_User or WP User ID
-	 * @return   void
-	 * @since    2.7.0
-	 * @version  3.24.0
+	 * @since 2.7.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param WP_User|int $user Instance of WP_User or WP User ID.
+	 * @return void
 	 */
 	public function output_custom_fields( $user ) {
 
@@ -225,10 +234,12 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Add instructor parent fields for use when creating instructor's assistants
 	 *
-	 * @param    mixed $user   Instance of WP_User or WP User ID
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.23.0
+	 * @since 3.13.0
+	 * @since 3.23.0 Unknown.
+	 * @since [version] Use strict comparisons.
+	 *
+	 * @param WP_User|int $user Instance of WP_User or WP User ID
+	 * @return void
 	 */
 	public function output_instructors_assistant_fields( $user ) {
 
@@ -242,7 +253,9 @@ class LLMS_Admin_User_Custom_Fields {
 			$selected = array( get_current_user_id() );
 		}
 
-		// only let admins & lms managers select the parent for an instructor's assistant
+		$selected = array_map( 'absint', $selected );
+
+		// Only let admins & lms managers select the parent for an instructor's assistant.
 		if ( current_user_can( 'manage_lifterlms' ) ) {
 
 			$users = get_users(
@@ -257,7 +270,7 @@ class LLMS_Admin_User_Custom_Fields {
 					<td>
 						<select class="regular-text" id="llms-parent-instructors" name="llms_parent_instructors[]" multiple="multiple">
 							<?php foreach ( $users as $user ) : ?>
-								<option value="<?php echo $user->ID; ?>"<?php selected( in_array( $user->ID, $selected ) ); ?>>
+								<option value="<?php echo $user->ID; ?>"<?php selected( in_array( $user->ID, $selected, true ) ); ?>>
 									<?php echo $user->display_name; ?>
 								</option>
 							<?php endforeach; ?>
@@ -269,10 +282,14 @@ class LLMS_Admin_User_Custom_Fields {
 
 			add_action( 'admin_print_footer_scripts', array( $this, 'output_instructors_assistant_scripts' ) );
 
-			// this will be the case for Instructors only
-			// show a hidden field with the current user's info
-			// when saving it will only save if the created user's role is instructor's assistant
 		} elseif ( 'add-new-user' === $user ) {
+			/**
+			 * This will be the case for Instructors only:
+			 *
+			 * Show a hidden field with the current user's info
+			 *
+			 * When saving it will only save if the created user's role is instructor's assistant.
+			 */
 			echo '<input type="hidden" name="llms_parent_instructors[]" value="' . get_current_user_id() . '">';
 		}
 
@@ -280,11 +297,12 @@ class LLMS_Admin_User_Custom_Fields {
 
 	/**
 	 * Output JS to handle user interaction with the instructor's parent field
-	 * Display custom field ONLY when creating/editing an instructor's assistant
 	 *
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * Display custom field ONLY when creating/editing an instructor's assistant.
+	 *
+	 * @return void
 	 */
 	public function output_instructors_assistant_scripts() {
 		?>
@@ -308,24 +326,23 @@ class LLMS_Admin_User_Custom_Fields {
 	/**
 	 * Save custom field data for a user
 	 *
-	 * @since    3.13.0
+	 * @since 3.13.0
 	 * @since 3.35.0 Sanitize input data.
+	 * @since [version] Use strict comparisons.
 	 *
-	 * @param    mixed $user  WP_User or WP_User ID
-	 * @return   void
+	 * @param WP_User|int|obj $user User object or id.
+	 * @return void
 	 */
 	public function save( $user ) {
 
-		// phpcs:disable WordPress.Security.NonceVerification.Missing
-
 		if ( is_numeric( $user ) ) {
 			$user = new WP_User( $user );
-			// an object that's not a WP_User gets passed in during updates
 		} elseif ( isset( $user->ID ) ) {
+			// An object that's not a WP_User gets passed in during updates.
 			$user = new WP_User( $user->ID );
 		}
 
-		// saves custom fields
+		// Saves custom fields.
 		foreach ( $this->fields as $field => $data ) {
 
 			$value = apply_filters( 'lifterlms_save_custom_user_field_' . $field, llms_filter_input( INPUT_POST, $field, FILTER_SANITIZE_STRING ), $user, $field );
@@ -333,28 +350,28 @@ class LLMS_Admin_User_Custom_Fields {
 
 		}
 
-		// save instructor assistant's parent instructor
-		if ( in_array( 'instructors_assistant', $user->roles ) && ! empty( $_POST['llms_parent_instructors'] ) ) {
+		// Save instructor assistant's parent instructor.
+		if ( in_array( 'instructors_assistant', $user->roles, true ) && ! empty( $_POST['llms_parent_instructors'] ) ) { // phpcs:disable WordPress.Security.NonceVerification.Missing
 
 			$instructor = llms_get_instructor( $user );
 			$instructor->add_parent( llms_filter_input( INPUT_POST, 'llms_parent_instructors', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY ) );
 
 		}
 
-		// phpcs:enable WordPress.Security.NonceVerification.Missing
-
 	}
 
 	/**
 	 * Validate custom fields
-	 * By default only checks for valid as core fields don't have any special validation
+	 *
+	 * By default only checks for valid as core fields don't have any special validation.
+	 *
 	 * If adding custom fields, hook into the action run after required validation
-	 * to add special validation rules for your field
+	 * to add special validation rules for your field.
 	 *
-	 * @since    2.7.0
+	 * @since 2.7.0
 	 *
-	 * @param    mixed $user   Instance of WP_User or WP User ID
-	 * @return   mixed          false if no validation errors, string (the error message) if validation errors occurred
+	 * @param WP_User|int $user Instance of WP_User or WP User ID.
+	 * @return string|bool `false` if no validation errors or the error message (as a sttring) if validation errors occurred.
 	 */
 	public function validate_fields( $user ) {
 
@@ -370,13 +387,19 @@ class LLMS_Admin_User_Custom_Fields {
 
 				/**
 				 * Run custom validation against the field
-				 * If filter function returns a truthy, validation will stop, fields will not be saved,
-				 * and an error message will be displayed on screen
-				 * This should return false or a string which will be used as the error message
 				 *
-				 * @since  2.7.0
+				 * If filter function returns a truthy, validation will stop, fields will not be saved,
+				 * and an error message will be displayed on screen.
+				 *
+				 * This should return `false` or a string which will be used as the error message.
+				 *
+				 * @since 2.7.0
+				 *
+				 * @param boolean     $error_message The error message when validation issues are encountered. Return `false` when no validation issues.
+				 * @param string      $field         Field id.
+				 * @param WP_User|int $user          Instance of WP_User or WP User ID.
 				 */
-				$error_msg = apply_filters( 'lifterlms_validate_custom_user_field_' . $field, false, $field, $user );
+				$error_msg = apply_filters( "lifterlms_validate_custom_user_field_${field}", false, $field, $user );
 
 				if ( $error_msg ) {
 
