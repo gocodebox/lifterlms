@@ -56,7 +56,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	public function generate_export_file( $args = array(), $filename = null, $type = 'csv' ) {
 
 		// We only support CSVs and don't allow fakers.
-		if ( $type !==  pathinfo( $filename, PATHINFO_EXTENSION ) ) {
+		if ( ! empty( $filename ) && $type !== pathinfo( $filename, PATHINFO_EXTENSION ) ) {
 			return false;
 		}
 
