@@ -44,22 +44,32 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	/**
 	 * Generate an export file for the current table.
 	 *
-	 * @param   array  $args      arguments to pass get_results().
-	 * @param   string $filename  filename of the existing file, if omitted creates a new file, if passed, will continue adding to existing file.
-	 * @param   string $type      export file type for forward compatibility. Currently only accepts 'csv'.
-	 * @return  WP_Error|array
-	 * @since   3.28.0
-	 * @version 3.28.1
+	 * @since 3.28.0
+	 * @since 3.28.1 Unknown.
+	 * @since [version] "Sanitize" submitted filename.
+	 *
+	 * @param array  $args     Arguments to pass get_results().
+	 * @param string $filename Filename of the existing file, if omitted creates a new file, if passed, will continue adding to existing file.
+	 * @param string $type     Export file type for forward compatibility. Currently only accepts 'csv'.
+	 * @return WP_Error|array
 	 */
 	public function generate_export_file( $args = array(), $filename = null, $type = 'csv' ) {
 
-		if ( 'csv' !== $type ) {
+		// We only support CSVs and don't allow fakers.
+		if ( $type !==  pathinfo( $filename, PATHINFO_EXTENSION ) ) {
 			return false;
 		}
 
-		// always force page 1 regardless of what is requested. Pagination is handled below.
+		// Always force page 1 regardless of what is requested. Pagination is handled below.
 		$args['page'] = 1;
-		// Boost records / page to speed up generation.
+
+		/**
+		 * Customize the number of records per page when generating an export file.
+		 *
+		 * @since 3.28.0
+		 *
+		 * @param int $per_page Number of records per page.
+		 */
 		$args['per_page'] = apply_filters( 'llms_table_generate_export_file_per_page_boost', 250 );
 
 		$filename    = $filename ? $filename : $this->get_export_file_name() . '.' . $type;
@@ -72,6 +82,15 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 			return new WP_Error( 'file_error', __( 'Unable to generate export file, could not open file for writing.', 'lifterlms' ) );
 		}
 
+		/**
+		 * Customize the delimiter used when generating CSV export files.
+		 *
+		 * @since 3.28.0
+		 *
+		 * @param int                                  $delim Delimiter.
+		 * @param LLMS_Abstract_Exportable_Admin_Table $table Instance of the table.
+		 * @param array                                $args  Array of arguments.
+		 */
 		$delim = apply_filters( 'llms_table_generate_export_file_delimiter', ',', $this, $args );
 
 		foreach ( $this->get_export( $args ) as $row ) {

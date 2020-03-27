@@ -111,11 +111,16 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.15.0
 	 * @since 3.28.1 Unknown.
+	 * @since [version] Verify user permissions before processing request data.
 	 *
 	 * @param array $request Post data ($_REQUEST).
 	 * @return array
 	 */
 	public static function export_admin_table( $request ) {
+
+		if ( ! current_user_can( 'view_lifterlms_reports' ) ) {
+			return false;
+		}
 
 		require_once 'admin/reporting/class.llms.admin.reporting.php';
 		LLMS_Admin_Reporting::includes();
@@ -128,11 +133,9 @@ class LLMS_AJAX_Handler {
 			$file  = isset( $request['filename'] ) ? $request['filename'] : null;
 			return $table->generate_export_file( $request, $file );
 
-		} else {
-
-			return false;
-
 		}
+
+		return false;
 
 	}
 
