@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version [version]
+ * @version 3.37.15
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.28.0
  * @since 3.30.3 Explicitly define undefined properties.
- * @since [version] Ensure filenames of generated export files are for supported filetypes.
+ * @since 3.37.15 Ensure filenames of generated export files are for supported filetypes.
  */
 abstract class LLMS_Abstract_Exportable_Admin_Table {
 
@@ -45,7 +45,7 @@ abstract class LLMS_Abstract_Exportable_Admin_Table {
 	 *
 	 * @since 3.28.0
 	 * @since 3.28.1 Unknown.
-	 * @since [version] "Sanitize" submitted filename.
+	 * @since 3.37.15 "Sanitize" submitted filename.
 	 *
 	 * @param array  $args     Arguments to pass get_results().
 	 * @param string $filename Filename of the existing file, if omitted creates a new file, if passed, will continue adding to existing file.

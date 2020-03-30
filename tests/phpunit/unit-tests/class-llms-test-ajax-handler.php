@@ -9,7 +9,7 @@
  * @since 3.32.0
  * @since 3.37.2 Added tests on querying courses/memberships filtererd by instructors.
  * @since 3.37.14 Added tests on persisting tracking events.
- * @since [version] Added tests for admin table methods.
+ * @since 3.37.15 Added tests for admin table methods.
  */
 class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 
@@ -46,7 +46,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test export_admin_table()
 	 *
-	 * @since [version]
+	 * @since 3.37.15
 	 *
 	 * @return void
 	 */
@@ -64,7 +64,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test export_admin_table() with invalid handlers
 	 *
-	 * @since [version]
+	 * @since 3.37.15
 	 *
 	 * @return void
 	 */
@@ -83,7 +83,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test export_admin_table() ensuring only users with proper permissions can access.
 	 *
-	 * @since  [version]
+	 * @since  3.37.15
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_admin_table_data()
 	 *
-	 * @since [version]
+	 * @since 3.37.15
 	 *
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_admin_table_data() when invalid handlers are submitted.
 	 *
-	 * @since  [version]
+	 * @since  3.37.15
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_Test_AJAX_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test get_admin_table_data() ensuring only users with proper permissions can access.
 	 *
-	 * @since  [version]
+	 * @since  3.37.15
 	 *
 	 * @return void
 	 */

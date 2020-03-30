@@ -7,7 +7,7 @@
  * @group sessions
  *
  * @since 3.36.0
- * @version [version]
+ * @version 3.37.15
  */
 class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 
@@ -248,7 +248,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	 * Test get_session_events()
 	 *
 	 * @since 3.36.0
-	 * @since [version] Updated to take into account the page.* events removal.
+	 * @since 3.37.15 Updated to take into account the page.* events removal.
 	 *
 	 * @return void
 	 */
@@ -388,7 +388,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	 * and has at least one active event that's less than 30 minutes old
 	 *
 	 * @since 3.36.0
-	 * @since [version] Updated to take into account the page.* events removal.
+	 * @since 3.37.15 Updated to take into account the page.* events removal.
 	 *
 	 * @return void
 	 */
@@ -511,7 +511,7 @@ class LLMS_Test_Sessions extends LLMS_Unit_Test_Case {
 	/**
 	 * Allow page events for testing purposes.
 	 *
-	 * @since [version]
+	 * @since 3.37.15
 	 *
 	 * @param array $allowed_events Array of allowed events
 	 * @return array

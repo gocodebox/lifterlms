@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.15
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.2 Update `select2_query_posts` to allow filtering posts by instructor.
  * @since 3.37.14 Added `persist_tracking_events()` handler.
  *                Used strict comparison where needed.
- * @since [version] Update `get_admin_table_data()` and `export_admin_table()` to verify user permissions before processing data.
+ * @since 3.37.15 Update `get_admin_table_data()` and `export_admin_table()` to verify user permissions before processing data.
  */
 class LLMS_AJAX_Handler {
 	/**
@@ -110,7 +110,7 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Retrieve a new instance of admin table class from a handler string.
 	 *
-	 * @since [version]
+	 * @since 3.37.15
 	 *
 	 * @param string $handler Unprefixed handler class string. For example "Students" or "Course_Students".
 	 * @return object|false Instance of the admin table class or false if the class can't be found.
@@ -134,7 +134,7 @@ class LLMS_AJAX_Handler {
 	 *
 	 * @since 3.15.0
 	 * @since 3.28.1 Unknown.
-	 * @since [version] Verify user permissions before processing request data.
+	 * @since 3.37.15 Verify user permissions before processing request data.
 	 *
 	 * @param array $request Post data ($_REQUEST).
 	 * @return array
@@ -159,7 +159,7 @@ class LLMS_AJAX_Handler {
 	 * Reload admin tables
 	 *
 	 * @since 3.2.0
-	 * @since [version] Verify user permissions before processing request data.
+	 * @since 3.37.15 Verify user permissions before processing request data.
 	 *                Use `wp_json_encode()` in favor of `json_encode()`.
 	 *
 	 * @param array $request Post data ($_REQUEST).

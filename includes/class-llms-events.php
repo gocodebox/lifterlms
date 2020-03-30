@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.36.0
- * @version [version]
+ * @version 3.37.15
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *               Remove redundant check on `is_singular()` and `is_post_type_archive()` in `LLMS_Events->should_track_client_events()`.
  * @since 3.37.14 Added `store_tracking_events()` method.
  *                Moved most of the `store_cookie()` method's logic into `store_tracking_events()`.
- * @since [version] Excluded `page.*` events in order to keep the events table small.
+ * @since 3.37.15 Excluded `page.*` events in order to keep the events table small.
  */
 class LLMS_Events {
 
@@ -279,7 +279,7 @@ class LLMS_Events {
 	 * Register event types
 	 *
 	 * @since 3.36.0
-	 * @since [version] Excluded `page.*` events in order to keep the events table small.
+	 * @since 3.37.15 Excluded `page.*` events in order to keep the events table small.
 	 *
 	 * @return void
 	 */

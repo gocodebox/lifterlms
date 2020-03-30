@@ -7,7 +7,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 2.7.0
- * @version [version]
+ * @version 3.37.15
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.7.0
  * @since 3.35.0 Sanitize input data.
- * @since [version] Fix error encountered when errors encountered validating custom fields.
+ * @since 3.37.15 Fix error encountered when errors encountered validating custom fields.
  */
 class LLMS_Admin_User_Custom_Fields {
 
@@ -60,7 +60,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 2.7.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Correctly pass `$user` to `$this->save()`.
+	 * @since 3.37.15 Correctly pass `$user` to `$this->save()`.
 	 *
 	 * @param obj     &$errors Instance of WP_Error, passed by reference.
 	 * @param bool    $update  `true` if updating a profile, `false` if a new user.
@@ -236,7 +236,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 3.13.0
 	 * @since 3.23.0 Unknown.
-	 * @since [version] Use strict comparisons.
+	 * @since 3.37.15 Use strict comparisons.
 	 *
 	 * @param WP_User|int $user Instance of WP_User or WP User ID
 	 * @return void
@@ -328,7 +328,7 @@ class LLMS_Admin_User_Custom_Fields {
 	 *
 	 * @since 3.13.0
 	 * @since 3.35.0 Sanitize input data.
-	 * @since [version] Use strict comparisons.
+	 * @since 3.37.15 Use strict comparisons.
 	 *
 	 * @param WP_User|int|obj $user User object or id.
 	 * @return void

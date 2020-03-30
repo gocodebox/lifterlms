@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Dashboard
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.15
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -142,7 +142,7 @@ if ( ! function_exists( 'lifterlms_template_my_courses_loop' ) ) {
 	 *
 	 * @since 3.14.0
 	 * @since 3.26.3 Unknown.
-	 * @since [version] Added secondary sorting by `post_title` when the primary sort is `menu_order`.
+	 * @since 3.37.15 Added secondary sorting by `post_title` when the primary sort is `menu_order`.
 	 *
 	 * @param LLMS_Student $student Optional. LLMS_Student (current student if none supplied). Default `null`.
 	 * @param bool         $preview Optional. If true, outputs a short list of courses (based on dashboard_recent_courses filter). Default `false`.
@@ -669,7 +669,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 *
 	 * @since 3.26.3
 	 * @since 3.35.0 Sanitize `$_GET` data.
-	 * @since [version] Use `in_array()`'s strict comparison.
+	 * @since 3.37.15 Use `in_array()`'s strict comparison.
 	 *
 	 * @return void
 	 */

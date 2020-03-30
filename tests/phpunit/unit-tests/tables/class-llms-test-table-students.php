@@ -8,7 +8,7 @@
  *
  * @since 3.28.0
  * @since 3.36.0 Add "last_seen" col.
- * @since [version] Add additional tests for new conditions in `generate_export_file()` method.
+ * @since 3.37.15 Add additional tests for new conditions in `generate_export_file()` method.
  */
 class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 
@@ -88,7 +88,7 @@ class LLMS_Test_Table_Students extends LLMS_UnitTestCase {
 	/**
 	 * Test generate_export_file(): prevent invalid filetypes.
 	 *
-	 * @since [version]
+	 * @since 3.37.15
 	 *
 	 * @return void
 	 */
