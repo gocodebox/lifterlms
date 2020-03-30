@@ -1,0 +1,142 @@
+[
+    {
+        "name": "ericmann/wp-session-manager",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/ericmann/wp-session-manager.git",
+            "reference": "8a4aacd25e4a89429e93a85df70a068052853cae"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/ericmann/wp-session-manager/zipball/8a4aacd25e4a89429e93a85df70a068052853cae",
+            "reference": "8a4aacd25e4a89429e93a85df70a068052853cae",
+            "shasum": ""
+        },
+        "time": "2017-04-26T13:27:37+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "source",
+        "license": [
+            "GPLv2.0+"
+        ],
+        "authors": [
+            {
+                "name": "Eric Mann",
+                "email": "eric@eamann.com",
+                "homepage": "https://eamann.com",
+                "role": "Developer"
+            }
+        ],
+        "description": "Prototype session management for WordPress.",
+        "homepage": "https://github.com/ericmann/wp-session-manager",
+        "keywords": [
+            "session"
+        ],
+        "support": {
+            "source": "https://github.com/ericmann/wp-session-manager/tree/1.2.2",
+            "issues": "https://github.com/ericmann/wp-session-manager/issues"
+        }
+    },
+    {
+        "name": "lifterlms/lifterlms-blocks",
+        "version": "1.7.2",
+        "version_normalized": "1.7.2.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/lifterlms-blocks.git",
+            "reference": "ab683a6fdf639c20f7703752cb3727f14c4b5485"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/ab683a6fdf639c20f7703752cb3727f14c4b5485",
+            "reference": "ab683a6fdf639c20f7703752cb3727f14c4b5485",
+            "shasum": ""
+        },
+        "require-dev": {
+            "lifterlms/lifterlms-cs": "dev-master",
+            "lifterlms/lifterlms-tests": "dev-master",
+            "phpcompatibility/php-compatibility": "^9.0",
+            "roave/security-advisories": "dev-master"
+        },
+        "time": "2019-12-10T00:27:29+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Team LifterLMS",
+                "email": "team@lifterlms.com"
+            }
+        ],
+        "description": "WordPress Editor (Gutenberg) blocks for LifterLMS."
+    },
+    {
+        "name": "lifterlms/lifterlms-rest",
+        "version": "1.0.0-beta.11",
+        "version_normalized": "1.0.0.0-beta11",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/gocodebox/lifterlms-rest.git",
+            "reference": "f2e42cc325244a8ea32333c5e63c75d9d46ae6ab"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/f2e42cc325244a8ea32333c5e63c75d9d46ae6ab",
+            "reference": "f2e42cc325244a8ea32333c5e63c75d9d46ae6ab",
+            "shasum": ""
+        },
+        "require-dev": {
+            "lifterlms/lifterlms-cs": "dev-master",
+            "lifterlms/lifterlms-tests": "dev-master"
+        },
+        "time": "2020-03-30T18:55:51+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "dist",
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "GPL-3.0"
+        ],
+        "authors": [
+            {
+                "name": "Team LifterLMS",
+                "email": "team@lifterlms.com"
+            }
+        ],
+        "description": "REST API feature plugin for the LifterLMS Core."
+    },
+    {
+        "name": "prospress/action-scheduler",
+        "version": "dev-master",
+        "version_normalized": "9999999-dev",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/woocommerce/action-scheduler.git",
+            "reference": "c9a9e8c95aca616046820e9a53f76190d2f7700c"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/woocommerce/action-scheduler/zipball/c9a9e8c95aca616046820e9a53f76190d2f7700c",
+            "reference": "c9a9e8c95aca616046820e9a53f76190d2f7700c",
+            "shasum": ""
+        },
+        "require-dev": {
+            "wp-cli/wp-cli": "1.5.1"
+        },
+        "time": "2019-05-07T21:36:13+00:00",
+        "type": "wordpress-plugin",
+        "installation-source": "source",
+        "license": [
+            "GPL-3.0"
+        ],
+        "description": "Action Scheduler for WordPress and WooCommerce",
+        "support": {
+            "source": "https://github.com/Prospress/action-scheduler/tree/master",
+            "issues": "https://github.com/Prospress/action-scheduler/issues"
+        },
+        "abandoned": "woocommerce/action-scheduler"
+    }
+]
