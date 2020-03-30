@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v3.37.15 - 2020-03-27
+---------------------
+
+##### Security Notice
+
+**This releases fixes a security issue. Please upgrade immediately!**
+
+Props to [Omri Herscovici and Sagi Tzadik from Check Point Research](https://www.checkpoint.com/) who found and disclosed the vulnerability resolved in this release.
+
+##### Updates & Bug Fixes
+
++ Excluded `page.*` events in order to keep the events table small.
++ Fixed error encountered when errors encountered validating custom fields. Thanks to [@wenchen](https://github.com/wenchen)!
++ Fixed issue causing course pagination issues in certain scenarios.
+
+##### LifterLMS REST API Version 1.0.0-beta.11
+
++ Bugfix: Correctly store user `billing_postcode` meta data.
++ Bugfix: Fixed issue preventing course.created (and other post.created) webhooks from firing.
+
+
 v3.37.14 - 2020-03-25
 ---------------------
 
