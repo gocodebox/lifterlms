@@ -1,6 +1,27 @@
 == Changelog ==
 
 
+= v3.37.15 - 2020-03-27 =
+-------------------------
+
+##### Security Notice
+
+**This releases fixes a security issue. Please upgrade immediately!**
+
+Props to [Omri Herscovici and Sagi Tzadik from Check Point Research](https://www.checkpoint.com/) who found and disclosed the vulnerability resolved in this release.
+
+##### Updates & Bug Fixes
+
++ Excluded `page.*` events in order to keep the events table small.
++ Fixed error encountered when errors encountered validating custom fields. Thanks to [@wenchen](https://github.com/wenchen)!
++ Fixed issue causing course pagination issues in certain scenarios.
+
+##### LifterLMS REST API Version 1.0.0-beta.11
+
++ Bugfix: Correctly store user `billing_postcode` meta data.
++ Bugfix: Fixed issue preventing course.created (and other post.created) webhooks from firing.
+
+
 = v3.37.14 - 2020-03-25 =
 -------------------------
 
@@ -116,9 +137,3 @@ The following have been deprecated with no replacements and will be removed in t
 + New transaction creation date is now specified using `llms_current_time()`.
 + Use the last successful transaction time to calculate from when the previously stored next payment date is in the future.
 + Fixed an issue causing transaction post titles to be recorded with missing data due to invalid `strftime()` placeholders.
-
-
-= v3.37.5 - 2019-12-09 =
-------------------------
-
-+ Update LifterLMS Blocks to v1.7.2: fixes a bug causing the block editor to encounter a fatal error when accessing custom post types that don't support custom fields.

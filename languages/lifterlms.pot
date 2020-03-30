@@ -21,34 +21,34 @@ msgid "Settings"
 msgstr ""
 
 #. translators: %s = Event field key.
-#: includes/class-llms-events.php:137
+#: includes/class-llms-events.php:138
 msgid "The event is missing the \"%s\" field."
 msgstr ""
 
 #. translators: %s = URL.
-#: includes/class-llms-events.php:157
+#: includes/class-llms-events.php:158
 msgid "The URL \"%s\" cannot be mapped to a valid post object."
 msgstr ""
 
 #. translators: %s = key name of the missing field.
-#: includes/class-llms-events.php:193
+#: includes/class-llms-events.php:194
 msgid "Missing required field: \"%s\"."
 msgstr ""
 
 #. translators: %s = Submitted event string.
-#: includes/class-llms-events.php:204
+#: includes/class-llms-events.php:205
 msgid "The event \"%s\" is invalid."
 msgstr ""
 
-#: includes/class-llms-events.php:222
+#: includes/class-llms-events.php:223
 msgid "An unknown error occurred during event creation."
 msgstr ""
 
-#: includes/class-llms-events.php:268
+#: includes/class-llms-events.php:269
 msgid "There was one or more errors encountered while recording the events."
 msgstr ""
 
-#: includes/class-llms-events.php:456
+#: includes/class-llms-events.php:461
 msgid "You're not allowed to store tracking events"
 msgstr ""
 
@@ -68,77 +68,77 @@ msgstr ""
 msgid "Staging"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:48, includes/class.llms.ajax.handler.php:71, includes/class.llms.ajax.handler.php:190, includes/class.llms.ajax.handler.php:919
+#: includes/class.llms.ajax.handler.php:49, includes/class.llms.ajax.handler.php:72, includes/class.llms.ajax.handler.php:205, includes/class.llms.ajax.handler.php:934
 msgid "Missing required parameters"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:54
+#: includes/class.llms.ajax.handler.php:55
 msgid "Members are being enrolled in the background. You may leave this page."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:100
+#: includes/class.llms.ajax.handler.php:101
 msgid "There was a problem deleting your access plan, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:304
+#: includes/class.llms.ajax.handler.php:319
 msgid "Missing required parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:310
+#: includes/class.llms.ajax.handler.php:325
 msgid "There was an error removing the course, please try again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:551, includes/class.llms.ajax.handler.php:614, includes/class.llms.ajax.handler.php:684, includes/class.llms.template.loader.php:386
+#: includes/class.llms.ajax.handler.php:566, includes/class.llms.ajax.handler.php:629, includes/class.llms.ajax.handler.php:699, includes/class.llms.template.loader.php:386
 msgid "You must be logged in to take quizzes."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:563
+#: includes/class.llms.ajax.handler.php:578
 msgid "There was an error starting the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:573
+#: includes/class.llms.ajax.handler.php:588
 msgid "Unable to start quiz because the quiz does not contain any questions."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:621, includes/class.llms.ajax.handler.php:689
+#: includes/class.llms.ajax.handler.php:636, includes/class.llms.ajax.handler.php:704
 msgid "Missing required parameters. Could not proceed."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:632
+#: includes/class.llms.ajax.handler.php:647
 msgid "There was an error recording your answer the quiz. Please return to the lesson and begin again."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:871, includes/llms.functions.core.php:901, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:59, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:65
+#: includes/class.llms.ajax.handler.php:886, includes/llms.functions.core.php:901, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:59, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:65
 msgid "ID#"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:923
+#: includes/class.llms.ajax.handler.php:938
 msgid "Invalid status"
 msgstr ""
 
 #. translators: %s = action add|remove|delete.
-#: includes/class.llms.ajax.handler.php:945
+#: includes/class.llms.ajax.handler.php:960
 msgid "Action \"%1$s\" failed. Please try again"
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:969
+#: includes/class.llms.ajax.handler.php:984
 msgid "Please enter a coupon code."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:974
+#: includes/class.llms.ajax.handler.php:989
 msgid "Please enter a plan ID."
 msgstr ""
 
 #. translators: %s = coupon code.
-#: includes/class.llms.ajax.handler.php:982, includes/functions/llms.functions.order.php:241
+#: includes/class.llms.ajax.handler.php:997, includes/functions/llms.functions.order.php:241
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1368
+#: includes/class.llms.ajax.handler.php:1383
 msgid "Missing Required Parameters."
 msgstr ""
 
-#: includes/class.llms.ajax.handler.php:1422
+#: includes/class.llms.ajax.handler.php:1437
 msgid "Missing tracking data."
 msgstr ""
 
@@ -1255,7 +1255,7 @@ msgstr ""
 msgid "Quizzes"
 msgstr ""
 
-#: includes/class.llms.post-types.php:451, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:61, includes/functions/llms.functions.templates.dashboard.php:515, includes/notifications/views/class.llms.notification.view.quiz.graded.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:197, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:175, includes/admin/reporting/tables/llms.table.student.course.php:263, includes/admin/views/builder/editor.php:28
+#: includes/class.llms.post-types.php:451, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:61, includes/functions/llms.functions.templates.dashboard.php:605, includes/notifications/views/class.llms.notification.view.quiz.graded.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.builder.php:197, includes/admin/post-types/meta-boxes/class.llms.meta.box.lesson.php:175, includes/admin/reporting/tables/llms.table.student.course.php:263, includes/admin/views/builder/editor.php:28
 msgid "Quiz"
 msgstr ""
 
@@ -1686,7 +1686,7 @@ msgctxt "slug"
 msgid "certificate"
 msgstr ""
 
-#: includes/class.llms.post-types.php:778, includes/class.llms.student.dashboard.php:185, includes/functions/llms.functions.templates.dashboard.php:349
+#: includes/class.llms.post-types.php:778, includes/class.llms.student.dashboard.php:185, includes/functions/llms.functions.templates.dashboard.php:419
 msgid "My Certificates"
 msgstr ""
 
@@ -1903,7 +1903,7 @@ msgstr ""
 msgid "Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:938, includes/functions/llms.functions.templates.dashboard.php:793
+#: includes/class.llms.post-types.php:938, includes/functions/llms.functions.templates.dashboard.php:930
 msgid "Review"
 msgstr ""
 
@@ -2480,7 +2480,7 @@ msgstr ""
 msgid "Lesson Sidebar"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:160, includes/functions/llms.functions.templates.dashboard.php:389
+#: includes/class.llms.student.dashboard.php:160, includes/functions/llms.functions.templates.dashboard.php:462
 msgid "My Courses"
 msgstr ""
 
@@ -2488,11 +2488,11 @@ msgstr ""
 msgid "My Grades"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:173, includes/functions/llms.functions.templates.dashboard.php:563
+#: includes/class.llms.student.dashboard.php:173, includes/functions/llms.functions.templates.dashboard.php:656
 msgid "My Memberships"
 msgstr ""
 
-#: includes/class.llms.student.dashboard.php:179, includes/functions/llms.functions.templates.dashboard.php:309
+#: includes/class.llms.student.dashboard.php:179, includes/functions/llms.functions.templates.dashboard.php:376
 msgid "My Achievements"
 msgstr ""
 
@@ -2839,7 +2839,7 @@ msgstr ""
 msgid "Empty Response."
 msgstr ""
 
-#: includes/abstracts/llms.abstract.exportable.admin.table.php:72
+#: includes/abstracts/llms.abstract.exportable.admin.table.php:81
 msgid "Unable to generate export file, could not open file for writing."
 msgstr ""
 
@@ -2905,7 +2905,7 @@ msgstr ""
 msgid "Divider Line"
 msgstr ""
 
-#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:64, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:106, includes/functions/llms.functions.templates.dashboard.php:516, includes/privacy/class-llms-privacy-exporters.php:225, includes/privacy/class-llms-privacy-exporters.php:317, templates/myaccount/my-grades-single.php:27, templates/myaccount/my-grades.php:22, includes/notifications/views/class.llms.notification.view.quiz.graded.php:82, includes/notifications/views/class.llms.notification.view.quiz.graded.php:145, includes/admin/post-types/tables/class.llms.table.student.management.php:399, includes/admin/reporting/tables/llms.table.course.students.php:434, includes/admin/reporting/tables/llms.table.quiz.attempts.php:284, includes/admin/reporting/tables/llms.table.student.course.php:266, includes/admin/reporting/tables/llms.table.student.courses.php:230, includes/admin/reporting/tables/llms.table.students.php:620, templates/admin/reporting/tabs/quizzes/attempt.php:48, templates/admin/reporting/tabs/students/courses-course.php:121
+#: includes/abstracts/llms.abstract.notification.view.quiz.completion.php:64, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:106, includes/functions/llms.functions.templates.dashboard.php:606, includes/privacy/class-llms-privacy-exporters.php:225, includes/privacy/class-llms-privacy-exporters.php:317, templates/myaccount/my-grades-single.php:27, templates/myaccount/my-grades.php:22, includes/notifications/views/class.llms.notification.view.quiz.graded.php:82, includes/notifications/views/class.llms.notification.view.quiz.graded.php:145, includes/admin/post-types/tables/class.llms.table.student.management.php:399, includes/admin/reporting/tables/llms.table.course.students.php:434, includes/admin/reporting/tables/llms.table.quiz.attempts.php:284, includes/admin/reporting/tables/llms.table.student.course.php:266, includes/admin/reporting/tables/llms.table.student.courses.php:230, includes/admin/reporting/tables/llms.table.students.php:620, templates/admin/reporting/tabs/quizzes/attempt.php:48, templates/admin/reporting/tabs/students/courses-course.php:121
 msgid "Grade"
 msgstr ""
 
@@ -3606,43 +3606,43 @@ msgstr ""
 msgid "Get Help"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:108, includes/privacy/class-llms-privacy.php:117, includes/privacy/class-llms-privacy.php:230, includes/admin/reporting/tables/llms.table.students.php:645
+#: includes/admin/class.llms.admin.user.custom.fields.php:114, includes/privacy/class-llms-privacy.php:117, includes/privacy/class-llms-privacy.php:230, includes/admin/reporting/tables/llms.table.students.php:645
 msgid "Billing Address 1"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:116, includes/privacy/class-llms-privacy.php:118, includes/privacy/class-llms-privacy.php:231, includes/admin/reporting/tables/llms.table.students.php:650
+#: includes/admin/class.llms.admin.user.custom.fields.php:122, includes/privacy/class-llms-privacy.php:118, includes/privacy/class-llms-privacy.php:231, includes/admin/reporting/tables/llms.table.students.php:650
 msgid "Billing Address 2"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:124, includes/privacy/class-llms-privacy.php:119, includes/privacy/class-llms-privacy.php:232, includes/admin/reporting/tables/llms.table.students.php:655
+#: includes/admin/class.llms.admin.user.custom.fields.php:130, includes/privacy/class-llms-privacy.php:119, includes/privacy/class-llms-privacy.php:232, includes/admin/reporting/tables/llms.table.students.php:655
 msgid "Billing City"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:132, includes/privacy/class-llms-privacy.php:120, includes/privacy/class-llms-privacy.php:233, includes/admin/reporting/tables/llms.table.students.php:660
+#: includes/admin/class.llms.admin.user.custom.fields.php:138, includes/privacy/class-llms-privacy.php:120, includes/privacy/class-llms-privacy.php:233, includes/admin/reporting/tables/llms.table.students.php:660
 msgid "Billing State"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:140, includes/privacy/class-llms-privacy.php:121, includes/privacy/class-llms-privacy.php:234
+#: includes/admin/class.llms.admin.user.custom.fields.php:146, includes/privacy/class-llms-privacy.php:121, includes/privacy/class-llms-privacy.php:234
 msgid "Billing Zip Code"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:148, includes/privacy/class-llms-privacy.php:122, includes/privacy/class-llms-privacy.php:235, includes/admin/reporting/tables/llms.table.students.php:670
+#: includes/admin/class.llms.admin.user.custom.fields.php:154, includes/privacy/class-llms-privacy.php:122, includes/privacy/class-llms-privacy.php:235, includes/admin/reporting/tables/llms.table.students.php:670
 msgid "Billing Country"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:156, includes/privacy/class-llms-privacy.php:123, includes/privacy/class-llms-privacy.php:236, includes/admin/reporting/tables/llms.table.students.php:675
+#: includes/admin/class.llms.admin.user.custom.fields.php:162, includes/privacy/class-llms-privacy.php:123, includes/privacy/class-llms-privacy.php:236, includes/admin/reporting/tables/llms.table.students.php:675
 msgid "Phone"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:218
+#: includes/admin/class.llms.admin.user.custom.fields.php:227
 msgid "LifterLMS Profile"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:256
+#: includes/admin/class.llms.admin.user.custom.fields.php:269
 msgid "Parent Instructor(s)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.user.custom.fields.php:367
+#: includes/admin/class.llms.admin.user.custom.fields.php:384
 msgid "Required field \"%s\" is missing."
 msgstr ""
 
@@ -5661,43 +5661,43 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:138
+#: includes/functions/llms.functions.templates.dashboard.php:177
 msgid "You are not enrolled in any courses."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:219
+#: includes/functions/llms.functions.templates.dashboard.php:282
 msgid "You are not enrolled in any memberships."
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:295
+#: includes/functions/llms.functions.templates.dashboard.php:362
 msgid "View All My Achievements"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:337
+#: includes/functions/llms.functions.templates.dashboard.php:407
 msgid "View All My Certificates"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:377
+#: includes/functions/llms.functions.templates.dashboard.php:450
 msgid "View All My Courses"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:514
+#: includes/functions/llms.functions.templates.dashboard.php:604
 msgid "Completion Date"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:551
+#: includes/functions/llms.functions.templates.dashboard.php:644
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:589
+#: includes/functions/llms.functions.templates.dashboard.php:683
 msgid "View Notifications"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:593
+#: includes/functions/llms.functions.templates.dashboard.php:687
 msgid "Manage Preferences"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:793
+#: includes/functions/llms.functions.templates.dashboard.php:930
 msgid "Start"
 msgstr ""
 
@@ -5867,7 +5867,7 @@ msgstr ""
 msgid "Could not deactivate %s."
 msgstr ""
 
-#: includes/models/model.llms.add-on.php:218, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:164
+#: includes/models/model.llms.add-on.php:218, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:165
 msgid "Active"
 msgstr ""
 
@@ -7755,7 +7755,7 @@ msgstr ""
 msgid "Automatic Recurring Payments: <strong>%s</strong>"
 msgstr ""
 
-#: includes/admin/settings/class.llms.settings.general.php:94, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:166
+#: includes/admin/settings/class.llms.settings.general.php:94, vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:167
 msgid "Disabled"
 msgstr ""
 
@@ -10489,188 +10489,188 @@ msgid "LifterLMS REST API"
 msgstr ""
 
 #. translators: %s = created date.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:124
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:125
 msgid "Webhook created on %s"
 msgstr ""
 
 #. translators: Date format.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:126
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:127
 msgctxt "Webhook created on date parsed by strftime"
 msgid "%b %d, %Y @ %I:%M %p"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:142
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:143
 msgid "Webhook"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:165
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:166
 msgid "Paused"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:192
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:193
 msgid "Course created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:193
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:194
 msgid "Course updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:194
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:195
 msgid "Course deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:195
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:196
 msgid "Course restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:196
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:197
 msgid "Section created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:197
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:198
 msgid "Section updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:198
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:199
 msgid "Section deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:199
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:200
 msgid "Lesson created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:200
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:201
 msgid "Lesson updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:201
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:202
 msgid "Lesson deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:202
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:203
 msgid "Lesson restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:203
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:204
 msgid "Membership created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:204
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:205
 msgid "Membership updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:205
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:206
 msgid "Membership deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:206
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:207
 msgid "Membership restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:207
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:208
 msgid "Access Plan created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:208
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:209
 msgid "Access Plan updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:209
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:210
 msgid "Access Plan deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:210
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:211
 msgid "Access Plan restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:211
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:212
 msgid "Order created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:212
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:213
 msgid "Order updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:213
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:214
 msgid "Order deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:214
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:215
 msgid "Order restored"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:215
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:216
 msgid "Transaction created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:216
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:217
 msgid "Transaction updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:217
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:218
 msgid "Transaction deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:218
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:219
 msgid "Student created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:219
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:220
 msgid "Student updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:220
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:221
 msgid "Student deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:221
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:222
 msgid "Enrollment created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:222
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:223
 msgid "Enrollment updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:223
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:224
 msgid "Enrollment deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:224
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:225
 msgid "Progress updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:225
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:226
 msgid "Progress deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:226
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:227
 msgid "Instructor created"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:227
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:228
 msgid "Instructor updated"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:228
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:229
 msgid "Instructor deleted"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:229, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:92
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:230, vendor/lifterlms/lifterlms-rest/includes/admin/class-llms-rest-admin-settings-webhooks.php:92
 msgid "Action"
 msgstr ""
 
 #. translators: %s = Invalid permission string.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:432
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:434
 msgid "\"%s\" is not a valid status."
 msgstr ""
 
 #. translators: %s = Invalid permission string.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:438
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:440
 msgid "\"%s\" is not a valid topic."
 msgstr ""
 
 #. translators: %s = field name.
-#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:445
+#: vendor/lifterlms/lifterlms-rest/includes/class-llms-rest-webhooks.php:447
 msgid "\"%s\" is required."
 msgstr ""
 
@@ -10903,290 +10903,290 @@ msgstr ""
 msgid "The requested %s could not be located."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:82
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:84
 msgid "Bypass the trash and force course deletion."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:104
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:106
 msgid "Post password. Required if the post is password protected."
 msgstr ""
 
 #. translators: The post type singular name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:185
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:187
 msgid "Cannot create existing %s."
 msgstr ""
 
 #. translators: The post type singular name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:190
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:192
 msgid "Sorry, you are not allowed to create a %s as this user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:194, vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:424
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:196, vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:426
 msgid "Sorry, you are not allowed to assign the provided terms."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:332
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:334
 msgid "Incorrect password."
 msgstr ""
 
 #. translators: The post type singular name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:420
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:422
 msgid "Sorry, you are not allowed to update a %s as this user."
 msgstr ""
 
 #. translators: %1$s: post type name, %2$s: force=true
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:612
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:616
 msgid "The %1$s does not support trashing. Set '%2$s' to delete."
 msgstr ""
 
 #. translators: %s: post type name
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:636
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:640
 msgid "The %s cannot be deleted."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1016
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1020
 msgid "Unique Identifier. The WordPress Post ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1022, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:226, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:182
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1026, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:226, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:182
 msgid "Creation date. Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1027, vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1044
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1031, vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1048
 msgid "Creation date (in GMT). Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1032, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:235, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:189
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1036, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-students-progress-controller.php:235, vendor/lifterlms/lifterlms-rest/includes/server/class-llms-rest-webhooks-controller.php:189
 msgid "Date last modified. Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1038
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1042
 msgid "Date last modified (in GMT). Format: Y-m-d H:i:s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1053
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1057
 msgid "Post title."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1063
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1067
 msgid "Raw title. Useful when displaying title in the WP Block Editor. Only returned in edit context."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1068
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1072
 msgid "Rendered title."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1077
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1081
 msgid "The HTML content of the post."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1086
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1090
 msgid "Rendered HTML content."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1092
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1096
 msgid "Raw HTML content. Useful when displaying title in the WP Block Editor. Only returned in edit context."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1097
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1101
 msgid "Whether the content is protected with a password."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1106
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1110
 msgid "The HTML excerpt of the post."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1114
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1118
 msgid "Rendered HTML excerpt."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1120
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1124
 msgid "Raw HTML excerpt. Useful when displaying title in the WP Block Editor. Only returned in edit context."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1125
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1129
 msgid "Whether the excerpt is protected with a password."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1133
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1137
 msgid "Post URL."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1140
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1144
 msgid "Post URL slug."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1148
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1152
 msgid "LifterLMS custom post type"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1154
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1158
 msgid "The publication status of the post."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1161
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1165
 msgid "Password used to protect access to the content."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1166
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1170
 msgid "Featured image ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1171
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1175
 msgid "Post comment status. Default comment status dependent upon general WordPress post discussion settings."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1178
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1182
 msgid "Post ping status. Default ping status dependent upon general WordPress post discussion settings."
 msgstr ""
 
 #. translators: %s: post type
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1210
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1214
 msgid "The %s cannot be retrieved."
 msgstr ""
 
 #. translators: %s: post type
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1236
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1240
 msgid "The %s cannot be created."
 msgstr ""
 
 #. translators: The post type singular name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1415
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1419
 msgid "Sorry, you are not allowed to create a private %s."
 msgstr ""
 
 #. translators: The post type singular name.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1422
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1426
 msgid "Sorry, you are not allowed to publish a %s."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1453
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-posts-controller.php:1457
 msgid "Invalid featured media ID."
 msgstr ""
 
 #. translators: %s = role key.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:67
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:68
 msgid "The role %s does not exist."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:81, vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:91
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:82, vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:92
 msgid "You are not allowed to give users this role."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:140
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:141
 msgid "Invalid user ID for reassignment."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:150
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:151
 msgid "The user could not be deleted."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:181
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:182
 msgid "Include only users keys matching matching a specific role. Accepts a single role or a comma separated list of roles."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:204
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:205
 msgid "Reassign the deleted user's posts and links to this user ID."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:240
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:241
 msgid "Unique identifier for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:246
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:247
 msgid "Login name for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:254
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:255
 msgid "Display name for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:262
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:263
 msgid "First name for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:270
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:271
 msgid "Last name for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:278
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:279
 msgid "The email address for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:285
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:286
 msgid "URL of the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:291
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:292
 msgid "Description of the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:296
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:297
 msgid "The nickname for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:304
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:305
 msgid "Registration date for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:311
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:312
 msgid "Roles assigned to the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:321
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:322
 msgid "Password for the user (never included)."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:329
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:330
 msgid "User address line 1."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:337
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:338
 msgid "User address line 2."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:345
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:346
 msgid "User address city name."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:353
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:354
 msgid "User address ISO code for the state, province, or district."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:361
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:362
 msgid "User address postal code."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:369
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:370
 msgid "User address ISO code for the country."
 msgstr ""
 
 #. translators: %d = avatar image size in pixels.
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:385
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:386
 msgid "Avatar URL with image size of %d pixels."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:393
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:394
 msgid "Avatar URLs for the user."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:593
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:596
 msgid "Passwords cannot contain the \"\" character."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:617
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:620
 msgid "Username contains invalid characters."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:629
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:632
 msgid "Username is not allowed."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:701
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:707
 msgid "Invalid email address."
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:706
+#: vendor/lifterlms/lifterlms-rest/includes/abstracts/class-llms-rest-users-controller.php:712
 msgid "Username is not editable."
 msgstr ""
 
@@ -11343,17 +11343,17 @@ msgstr ""
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:123
+#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:126
 msgid "M j, Y @ H:i"
 msgstr ""
 
 #. translators: %s = Error message.
-#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:376
+#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:398
 msgid "Could not reach the delivery url: \"%s\"."
 msgstr ""
 
 #. translators: %d = Response code.
-#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:381
+#: vendor/lifterlms/lifterlms-rest/includes/models/class-llms-rest-webhook.php:403
 msgid "The delivery url returned the response code \"%d\"."
 msgstr ""
 
