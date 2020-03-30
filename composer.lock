@@ -79,16 +79,16 @@
         },
         {
             "name": "lifterlms/lifterlms-rest",
-            "version": "1.0.0-beta.10",
+            "version": "1.0.0-beta.11",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-rest.git",
-                "reference": "6b3e95c3d83d53e6b60d040e54088d8259431705"
+                "reference": "f2e42cc325244a8ea32333c5e63c75d9d46ae6ab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/6b3e95c3d83d53e6b60d040e54088d8259431705",
-                "reference": "6b3e95c3d83d53e6b60d040e54088d8259431705",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-rest/zipball/f2e42cc325244a8ea32333c5e63c75d9d46ae6ab",
+                "reference": "f2e42cc325244a8ea32333c5e63c75d9d46ae6ab",
                 "shasum": ""
             },
             "require-dev": {
@@ -107,7 +107,7 @@
                 }
             ],
             "description": "REST API feature plugin for the LifterLMS Core.",
-            "time": "2020-02-28T00:40:23+00:00"
+            "time": "2020-03-30T18:55:51+00:00"
         },
         {
             "name": "prospress/action-scheduler",
@@ -2405,5 +2405,6 @@
     "prefer-stable": false,
     "prefer-lowest": false,
     "platform": [],
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "1.1.0"
 }
