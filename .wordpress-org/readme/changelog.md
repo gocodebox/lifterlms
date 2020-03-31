@@ -1,6 +1,12 @@
 == Changelog ==
 
 
+= v3.37.16 - 2020-03-31 =
+-------------------------
+
++ Bugfix: Fix issue causing student dashboard notification view to work incorrectly.
+
+
 = v3.37.15 - 2020-03-27 =
 -------------------------
 
@@ -129,11 +135,3 @@ The following have been deprecated with no replacements and will be removed in t
 
 + Fix error resulting from undefined default value.
 + Fix PHP 7.4 deprecation notice.
-
-
-= v3.37.6 - 2019-12-12 =
-------------------------
-
-+ New transaction creation date is now specified using `llms_current_time()`.
-+ Use the last successful transaction time to calculate from when the previously stored next payment date is in the future.
-+ Fixed an issue causing transaction post titles to be recorded with missing data due to invalid `strftime()` placeholders.

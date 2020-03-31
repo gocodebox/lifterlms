@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 3.37.15
+Stable tag: 3.37.16
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,12 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.16 - 2020-03-31 =
+-------------------------
+
++ Bugfix: Fix issue causing student dashboard notification view to work incorrectly.
+
+
 = v3.37.15 - 2020-03-27 =
 -------------------------
 
@@ -643,13 +649,5 @@ The following have been deprecated with no replacements and will be removed in t
 
 + Fix error resulting from undefined default value.
 + Fix PHP 7.4 deprecation notice.
-
-
-= v3.37.6 - 2019-12-12 =
-------------------------
-
-+ New transaction creation date is now specified using `llms_current_time()`.
-+ Use the last successful transaction time to calculate from when the previously stored next payment date is in the future.
-+ Fixed an issue causing transaction post titles to be recorded with missing data due to invalid `strftime()` placeholders.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

@@ -1903,7 +1903,7 @@ msgstr ""
 msgid "Reviews"
 msgstr ""
 
-#: includes/class.llms.post-types.php:938, includes/functions/llms.functions.templates.dashboard.php:930
+#: includes/class.llms.post-types.php:938, includes/functions/llms.functions.templates.dashboard.php:931
 msgid "Review"
 msgstr ""
 
@@ -5689,15 +5689,15 @@ msgstr ""
 msgid "View All My Memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:683
+#: includes/functions/llms.functions.templates.dashboard.php:684
 msgid "View Notifications"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:687
+#: includes/functions/llms.functions.templates.dashboard.php:688
 msgid "Manage Preferences"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.php:930
+#: includes/functions/llms.functions.templates.dashboard.php:931
 msgid "Start"
 msgstr ""
 
