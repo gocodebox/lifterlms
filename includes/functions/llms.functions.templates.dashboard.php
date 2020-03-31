@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Dashboard
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.16
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -670,7 +670,7 @@ if ( ! function_exists( 'lifterlms_template_student_dashboard_my_notifications' 
 	 * @since 3.26.3
 	 * @since 3.35.0 Sanitize `$_GET` data.
 	 * @since 3.37.15 Use `in_array()`'s strict comparison.
-	 * @since [version] Fixed typo when comparing the current view.
+	 * @since 3.37.16 Fixed typo when comparing the current view.
 	 *
 	 * @return void
 	 */

@@ -1,6 +1,12 @@
 LifterLMS Changelog
 ===================
 
+v3.37.16 - 2020-03-31
+---------------------
+
++ Bugfix: Fix issue causing student dashboard notification view to work incorrectly.
+
+
 v3.37.15 - 2020-03-27
 ---------------------
 
