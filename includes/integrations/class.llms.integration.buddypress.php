@@ -305,7 +305,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function restriction_checks( $results ) {
 
-		// only check directories.
+		// Only check directories.
 		if ( ! bp_is_directory() ) {
 			return $results;
 		}
