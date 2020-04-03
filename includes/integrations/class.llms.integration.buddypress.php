@@ -175,7 +175,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 */
 	public function courses_screen() {
 
-		// Prevent paginate links alteration performed in includes/functions/llms.functions.templates.dashboard.php
+		// Prevent paginate links alteration performed in includes/functions/llms.functions.templates.dashboard.php.
 		add_filter( 'llms_modify_dashboard_pagination_links_disable', '__return_true', 999 );
 
 		// Add specific paginate links filter.
