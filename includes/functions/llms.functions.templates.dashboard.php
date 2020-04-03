@@ -844,7 +844,7 @@ endif;
 
 /**
  * Modify the pagination links displayed on endpoints using the default LLMS loop
-
+ *
  * @since 3.24.0
  * @since 3.26.3 Unknown.
  *
