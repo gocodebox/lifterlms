@@ -312,7 +312,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
 		$post_id = null;
 
-		// activity.
+		// Activity.
 		if ( bp_is_activity_component() ) {
 
 			$post_id = bp_core_get_directory_page_id( 'activity' );
