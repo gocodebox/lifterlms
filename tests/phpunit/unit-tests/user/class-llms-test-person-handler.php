@@ -1,10 +1,13 @@
 <?php
 /**
  * Tests for LifterLMS Core Functions
- * @group    LLMS_Student
- * @group    LLMS_Person_Handler
- * @since    3.19.4
- * @version  3.29.4
+ *
+ * @group LLMS_Student
+ * @group LLMS_Person_Handler
+ *
+ * @since 3.19.4
+ * @since 3.29.4 Unknown.
+ * @since [version] Add voucher-related tests.
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -318,6 +321,103 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
 	}
 
+	/**
+	 * Test validate_fields() when a non-existent voucher is submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_fields_with_voucher_not_found() {
 
+		$data = $this->get_mock_registration_data( array(
+			'email_address' => 'mock@test.tld',
+			'llms_voucher'  => 'fake',
+		) );
+
+		$res = LLMS_Person_Handler::validate_fields( $data, 'registration' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_voucher', $res );
+		$this->assertWPErrorDataEquals( 'voucher-not-found', $res );
+
+	}
+
+	/**
+	 * Test validate_fields() when a voucher code has been deleted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_fields_with_voucher_code_deleted() {
+
+		$voucher = $this->create_voucher( 1, 1 );
+		$code    = $voucher->get_voucher_codes()[0];
+
+		$voucher->delete_voucher_code( $code->id );
+
+		$data = $this->get_mock_registration_data( array(
+			'email_address' => sprintf( 'mock+%d@test.tld', rand() ),
+			'llms_voucher'  => $code->code,
+		) );
+
+		$res = LLMS_Person_Handler::validate_fields( $data, 'registration' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_voucher', $res );
+		$this->assertWPErrorDataEquals( 'voucher-not-found', $res );
+
+	}
+
+	/**
+	 * Test validate_fields() when a voucher code's parent post is deleted (or not published).
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_fields_with_voucher_post_deleted() {
+
+		$voucher = $this->create_voucher( 1, 1 );
+		$code    = $voucher->get_voucher_codes()[0];
+
+		wp_delete_post( $code->voucher_id, true );
+
+		$data = $this->get_mock_registration_data( array(
+			'email_address' => sprintf( 'mock+%d@test.tld', rand() ),
+			'llms_voucher'  => $code->code,
+		) );
+
+		$res = LLMS_Person_Handler::validate_fields( $data, 'registration' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_voucher', $res );
+		$this->assertWPErrorDataEquals( 'voucher-deleted', $res );
+
+	}
+
+	/**
+	 * Test validate_fields() when a voucher code has been redeemed the maximum number of times allowed.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_validate_fields_with_voucher_redemptions_maxed() {
+
+		$voucher = $this->create_voucher( 1, 1 );
+		$code    = $voucher->get_voucher_codes()[0];
+
+		$voucher->use_voucher( $code->code, $this->factory->user->create() );
+
+		$data = $this->get_mock_registration_data( array(
+			'email_address' => sprintf( 'mock+%d@test.tld', rand() ),
+			'llms_voucher'  => $code->code,
+		) );
+
+		$res = LLMS_Person_Handler::validate_fields( $data, 'registration' );
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_voucher', $res );
+		$this->assertWPErrorDataEquals( 'voucher-max', $res );
+
+	}
 
 }

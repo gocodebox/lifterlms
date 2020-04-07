@@ -51,7 +51,6 @@ class LLMS_Voucher {
 	 */
 	protected $redemptions_table = 'lifterlms_voucher_code_redemptions';
 
-
 	/**
 	 * Constructor
 	 *
@@ -63,7 +62,6 @@ class LLMS_Voucher {
 	public function __construct( $id = null ) {
 		$this->id = $id;
 	}
-
 
 	/**
 	 * Retrieve the prefixed database table name for the table where voucher codes are stored
@@ -108,7 +106,6 @@ class LLMS_Voucher {
 
 	}
 
-
 	/**
 	 * Get voucher title
 	 *
@@ -118,12 +115,8 @@ class LLMS_Voucher {
 	 * @return string
 	 */
 	public function get_voucher_title() {
-
 		return get_the_title( $this->id );
-
 	}
-
-
 
 	/**
 	 * Get a single voucher code by id
@@ -276,6 +269,7 @@ class LLMS_Voucher {
 	 *
 	 * @since 2.0.0
 	 * @since 3.0.0 Unknown.
+	 * @since [version] Ensure the code's parent post is published.
 	 *
 	 * @param string $code Voucher code.
 	 * @return WP_Error|object WP_Error if invalid or not redeemable OR a voucher data object.
@@ -292,7 +286,7 @@ class LLMS_Voucher {
 
 			return new WP_Error( 'max', sprintf( __( 'Voucher code "%s" has already been redeemed the maximum number of times.', 'lifterlms' ), $code ) );
 
-		} elseif ( '1' === $voucher->is_deleted ) {
+		} elseif ( '1' === $voucher->is_deleted || 'publish' !== get_post_status( $voucher->voucher_id ) ) { // @todo because get_voucher_code() adds `is_deleted=0` we should never get here, I think.
 
 			return new WP_Error( 'deleted', sprintf( __( 'Voucher code "%s" is no longer valid.', 'lifterlms' ), $code ) );
 
