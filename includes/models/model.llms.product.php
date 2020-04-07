@@ -1,17 +1,25 @@
 <?php
 /**
  * LifterLMS Product Model
+ *
  * Both Courses and Memberships are sellable and can be instantiated as a product.
  *
- * @package  LifterLMS/Models
- * @since    1.0.0
- * @version  3.25.2
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 1.0.0
+ * @version [version]
+ * @since 3.25.2 Unknown.
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Product model.
+ * LLMS_Product model class
+ *
+ * @since 1.0.0
+ * @since 3.25.2 Unknown.
+ * @since [version] Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
+ *                 Use `in_array` with strict comparison where possible.
  */
 class LLMS_Product extends LLMS_Post_Model {
 
@@ -39,12 +47,11 @@ class LLMS_Product extends LLMS_Post_Model {
 	protected $model_post_type = 'product';
 
 	/**
-	 * Retrieve the max number of access plans that can be created
-	 * for this product
+	 * Retrieve the max number of access plans that can be created for this product
+	 *
+	 * @since 3.0.0
 	 *
 	 * @return int
-	 * @since 3.0.0
-	 * @version 3.0.0
 	 */
 	public function get_access_plan_limit() {
 		return apply_filters( 'llms_get_product_access_plan_limit', 6, $this );
@@ -53,11 +60,13 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Get all access plans for the product
 	 *
-	 * @param    boolean $free_only     only include free access plans if true
-	 * @param    boolean $visible_only  excludes hidden access plans from results
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.25.2
+	 * @since 3.0.0
+	 * @since 3.25.2 Unknown.
+	 * @since [version] Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
+	 *
+	 * @param bool $free_only    Optional. Only include free access plans if `true`. Defalt `false`
+	 * @param bool $visible_only Optional. Excludes hidden access plans from results. Default `true`.
+	 * @return array
 	 */
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
@@ -68,10 +77,10 @@ class LLMS_Product extends LLMS_Post_Model {
 			'orderby'        => 'menu_order',
 			'posts_per_page' => $this->get_access_plan_limit(),
 			'post_type'      => 'llms_access_plan',
-			'status'         => 'publish',
+			'post_status'    => 'publish',
 		);
 
-		// filter results to only free access plans
+		// Filter results to only free access plans.
 		if ( $free_only ) {
 			$args['meta_query'] = array(
 				array(
@@ -81,7 +90,7 @@ class LLMS_Product extends LLMS_Post_Model {
 			);
 		}
 
-		// exclude hidden access plans from the results
+		// Exclude hidden access plans from the results.
 		if ( $visible_only ) {
 			$args['tax_query'] = array(
 				array(
@@ -93,18 +102,33 @@ class LLMS_Product extends LLMS_Post_Model {
 			);
 		}
 
+		/**
+		 * Filter the product's access plan query args
+		 *
+		 * @param array        $args         Query args.
+		 * @param LLMS_Product $product      The LLMS_Product instance.
+		 * @param bool         $free_only    Whether or not to include the free access plans only.
+		 * @param bool         $visbile_only Whether or not to exclude the hidden access plans.
+		 */
 		$query = new WP_Query( apply_filters( 'llms_get_product_access_plans_args', $args, $this, $free_only, $visible_only ) );
 
-		// retup return
 		$plans = array();
 
-		// if we have plans, setup access plan instances
+		// If we have plans, setup access plan instances.
 		if ( $query->have_posts() ) {
 			foreach ( $query->posts as $post ) {
 				$plans[] = new LLMS_Access_Plan( $post );
 			}
 		}
 
+		/**
+		 * Filter the product's access plans
+		 *
+		 * @param array        $plans        An array of LLMS_Access_Plan instances related to the product `$product`.
+		 * @param LLMS_Product $product      The LLMS_Product instance.
+		 * @param bool         $free_only    Whether or not to include the free access plans only.
+		 * @param bool         $visbile_only Whether or not to exclude the hidden access plans.
+		 */
 		return apply_filters( 'llms_get_product_access_plans', $plans, $this, $free_only, $visible_only );
 
 	}
@@ -112,9 +136,9 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Retrieve the product's catalog visibility term
 	 *
-	 * @return   string
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @since 3.6.0
+	 *
+	 * @return string
 	 */
 	public function get_catalog_visibility() {
 
@@ -133,9 +157,9 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Retrieve the product's catalog visibility name for display
 	 *
-	 * @return   string
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @since 3.6.0
+	 *
+	 * @return string
 	 */
 	public function get_catalog_visibility_name() {
 
@@ -152,10 +176,10 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Get the number of columns for the pricing table
 	 *
-	 * @param    boolean $free_only  only include free access plans if true
-	 * @return   int
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @param bool $free_only Optional. Only include free access plans if true. Default `false`.
+	 * @return int
 	 */
 	public function get_pricing_table_columns_count( $free_only = false ) {
 
@@ -174,62 +198,90 @@ class LLMS_Product extends LLMS_Post_Model {
 			default:
 				$cols = $count;
 		}
+
+		/**
+		 * Filter the number of columns of the product's pricing table
+		 *
+		 * @param int          $cols      The number of columns of the pricing table for the `$product`.
+		 * @param LLMS_Product $product   The LLMS_Product instance.
+		 * @param int          $count     The number of access plans related to the product `$product`.
+		 * @param bool         $free_only Whether or not to include the free access plans only.
+		 */
 		return apply_filters( 'llms_get_product_pricing_table_columns_count', $cols, $this, $count, $free_only );
 	}
 
 	/**
 	 * Determine if the product has at least one free access plan
 	 *
-	 * @return   boolean
-	 * @since    3.0.0
-	 * @version  3.25.2
+	 * @since 3.0.0
+	 * @since 3.25.2 Unknown.
+	 *
+	 * @return bool
 	 */
 	public function has_free_access_plan() {
-		return apply_filters( 'llms_product_has_free_access_plan', ( 0 !== count( $this->get_access_plans( true ) ) ) );
+
+		/**
+		 * Filter whether the product has free access plans
+		 *
+		 * @since [version] Added the `$product` param.
+		 *
+		 * @param bool         $has_free_access_plan Whether the product `$product` has free access plans.
+		 * @param LLMS_Product $product              The LLMS_Product instance.
+		 */
+		return apply_filters( 'llms_product_has_free_access_plan', ( 0 !== count( $this->get_access_plans( true ) ) ), $this );
 	}
 
 	/**
 	 * Determine if the product is purchasable
-	 * At least one gateway must be enabled and at least one access plan must exist
-	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity
 	 *
-	 * @return  boolean
-	 * @since   3.0.0
-	 * @version 3.25.2
+	 * At least one gateway must be enabled and at least one access plan must exist.
+	 * If the product is a course, additionally checks to ensure course enrollment is open and has capacity.
+	 *
+	 * @since 3.0.0
+	 * @since 3.25.2 Unknown.
+	 *
+	 * @return bool
 	 */
 	public function is_purchasable() {
 
 		// Default to true.
-		$ret = true;
+		$purchasable = true;
 
 		// Courses must have open enrollment & available capacity.
 		if ( 'course' === $this->get( 'type' ) ) {
 
-			$course = new LLMS_Course( $this->get( 'id' ) );
-			$ret    = ( $course->is_enrollment_open() && $course->has_capacity() );
+			$course      = new LLMS_Course( $this->get( 'id' ) );
+			$purchasable = ( $course->is_enrollment_open() && $course->has_capacity() );
 
 		}
 
-		// if we're still true, make sure we have a purchasable plan & active gateways.
-		if ( $ret ) {
-			$gateways = LLMS()->payment_gateways();
-			$ret      = ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
+		// If we're still true, make sure we have a purchasable plan & active gateways.
+		if ( $purchasable ) {
+			$gateways    = LLMS()->payment_gateways();
+			$purchasable = ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
 		}
 
-		return apply_filters( 'llms_product_is_purchasable', $ret, $this );
+		/**
+		 * Filter whether the product is purchasable
+		 *
+		 * @param bool         $purchasable Whether the product `$product` is purchasable.
+		 * @param LLMS_Product $product     The LLMS_Product instance.
+		 */
+		return apply_filters( 'llms_product_is_purchasable', $purchasable, $this );
 
 	}
 
 	/**
 	 * Update the product's catalog visibility setting
 	 *
-	 * @param    string $visibility  visibility term name
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @since 3.6.0
+	 * @since [version] Use `in_array` with strict comparison.
+	 *
+	 * @param string $visibility Visibility term name.
+	 * @return void
 	 */
 	public function set_catalog_visibility( $visibility ) {
-		if ( ! in_array( $visibility, array_keys( llms_get_product_visibility_options() ) ) ) {
+		if ( ! in_array( $visibility, array_keys( llms_get_product_visibility_options() ), true ) ) {
 			return;
 		}
 		wp_set_object_terms( $this->get( 'id' ), $visibility, 'llms_product_visibility', false );
