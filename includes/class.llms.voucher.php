@@ -25,7 +25,7 @@ class LLMS_Voucher {
 	 * ID of the voucher
 	 * This will be a LifterLMS Voucher custom post type Post ID
 	 *
-	 * @var      int
+	 * @var int
 	 */
 	protected $id;
 
@@ -55,9 +55,10 @@ class LLMS_Voucher {
 	/**
 	 * Constructor
 	 *
-	 * @param id
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param int $id WP_Post ID of the voucher.
+	 * @return void
 	 */
 	public function __construct( $id = null ) {
 		$this->id = $id;
@@ -67,9 +68,9 @@ class LLMS_Voucher {
 	/**
 	 * Retrieve the prefixed database table name for the table where voucher codes are stored
 	 *
+	 * @since 2.0.0
+	 *
 	 * @return string
-	 * @since    2.0.0
-	 * @version  2.0.0
 	 */
 	protected function get_codes_table_name() {
 
@@ -82,14 +83,13 @@ class LLMS_Voucher {
 	/**
 	 * Retrieve the prefixed database table name where voucher to product relationships are stored
 	 *
-	 * @return [type] [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @return string
 	 */
 	protected function get_product_to_voucher_table_name() {
 
 		global $wpdb;
-
 		return $wpdb->prefix . $this->product_to_voucher_table;
 
 	}
@@ -97,14 +97,13 @@ class LLMS_Voucher {
 	/**
 	 * Retrieve the prefixed database table name where voucher redemptions are stored
 	 *
+	 * @since 2.0.0
+	 *
 	 * @return string
-	 * @since    2.0.0
-	 * @version  2.0.0
 	 */
 	protected function get_redemptions_table_name() {
 
 		global $wpdb;
-
 		return $wpdb->prefix . $this->redemptions_table;
 
 	}
@@ -113,9 +112,10 @@ class LLMS_Voucher {
 	/**
 	 * Get voucher title
 	 *
-	 * @return   string
-	 * @since    2.0.0
-	 * @version  3.6.2
+	 * @since 2.0.0
+	 * @since 3.6.2 Unknown.
+	 *
+	 * @return string
 	 */
 	public function get_voucher_title() {
 
@@ -128,9 +128,9 @@ class LLMS_Voucher {
 	/**
 	 * Get a single voucher code by id
 	 *
-	 * @return   obj
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @return obj
 	 */
 	public function get_voucher_by_voucher_id() {
 
@@ -145,10 +145,10 @@ class LLMS_Voucher {
 	/**
 	 * Get a single voucher code by string
 	 *
-	 * @param    string $code  voucher code string
-	 * @return   obj
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param string $code Voucher code string.
+	 * @return obj
 	 */
 	public function get_voucher_by_code( $code ) {
 
@@ -170,10 +170,10 @@ class LLMS_Voucher {
 	/**
 	 * Get a list of voucher codes
 	 *
-	 * @param    string $format  [description]
-	 * @return   [type]              [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param string $format Return format.
+	 * @return array
 	 */
 	public function get_voucher_codes( $format = 'OBJECT' ) {
 
@@ -192,12 +192,12 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [get_voucher_code_by_code_id description]
+	 * Retrieve a voucher by ID.
 	 *
-	 * @param    [type] $code_id  [description]
-	 * @return   [type]               [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param int $code_id Voucher code ID.
+	 * @return object
 	 */
 	public function get_voucher_code_by_code_id( $code_id ) {
 
@@ -210,12 +210,12 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [save_voucher_code description]
+	 * Save a voucher code
 	 *
-	 * @param    [type] $data  [description]
-	 * @return   [type]            [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param array $data Voucher data.
+	 * @return int|false The number of rows inserted, or false on error.
 	 */
 	public function save_voucher_code( $data ) {
 
@@ -229,12 +229,12 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [update_voucher_code description]
+	 * Update a voucher code.
 	 *
-	 * @param    [type] $data  [description]
-	 * @return   [type]            [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param array $data Array of voucher data.
+	 * @return int|bool The number of rows updated, or false on error.
 	 */
 	public function update_voucher_code( $data ) {
 
@@ -250,12 +250,12 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [delete_voucher_code description]
+	 * Delete a voucher code.
 	 *
-	 * @param    [type] $id  [description]
-	 * @return   [type]          [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param int $id Voucher code id.
+	 * @return int}bool The number of rows updated, or false on error.
 	 */
 	public function delete_voucher_code( $id ) {
 
@@ -274,10 +274,11 @@ class LLMS_Voucher {
 	/**
 	 * Determine if a voucher is valid
 	 *
-	 * @param    string $code  voucher code
-	 * @return   WP_Error|object     WP_Error if invalid or not redeemable OR a voucher data object
-	 * @since    2.0.0
-	 * @version  3.0.0
+	 * @since 2.0.0
+	 * @since 3.0.0 Unknown.
+	 *
+	 * @param string $code Voucher code.
+	 * @return WP_Error|object WP_Error if invalid or not redeemable OR a voucher data object.
 	 */
 	public function check_voucher( $code ) {
 
@@ -303,11 +304,12 @@ class LLMS_Voucher {
 	/**
 	 * Attempt to redeem a voucher for a user with a code
 	 *
-	 * @param  string $code     voucher code of the voucher being redeemed
-	 * @param  int    $user_id  user id of the redeeming user
-	 * @return bool|WP_Error     true on success or WP_Error on failure
-	 * @since    2.0.0
-	 * @version  3.27.0
+	 * @since 2.0.0
+	 * @since 3.27.0 Unknown.
+	 *
+	 * @param string $code    Voucher code of the voucher being redeemed.
+	 * @param int    $user_id WP_User ID of the user redeeming the voucher.
+	 * @return bool|WP_Error Error object on failure, `true` when successful.
 	 */
 	public function use_voucher( $code, $user_id ) {
 
@@ -319,19 +321,19 @@ class LLMS_Voucher {
 
 			$this->id = $voucher->voucher_id;
 
-			// ensure the user hasn't already redeemed this voucher
+			// Ensure the user hasn't already redeemed this voucher.
 			if ( $this->get_redemptions_for_code_by_user( $voucher->id, $user_id ) ) {
 
 				return new WP_Error( 'error', __( 'You have already redeemed this voucher.', 'lifterlms' ) );
 
 			}
 
-			// get products linked to the voucher
+			// Get products linked to the voucher.
 			$products = $this->get_products();
 
 			if ( ! empty( $products ) ) {
 
-				// loop through all of them and attempt enrollment
+				// Loop through all of them and attempt enrollment.
 				foreach ( $products as $product ) {
 
 					llms_enroll_student( $user_id, $product, 'voucher' );
@@ -354,15 +356,16 @@ class LLMS_Voucher {
 
 			return $voucher;
 
-		}// End if().
+		}
 
 	}
 
 	/**
 	 * Redeemed Codes
 	 *
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @return array
 	 */
 	public function get_redeemed_codes( $format = 'OBJECT' ) {
 
@@ -385,13 +388,14 @@ class LLMS_Voucher {
 
 	/**
 	 * Retrieve the number of times a voucher was redeemed by a specific user
+	 *
 	 * Hint, it should always be 1 or 0
 	 *
-	 * @param  int $code_id Voucher Code ID from wp_lifterlms_vouchers_codes table
-	 * @param  int $user_id User ID from wp_users tables
+	 * @since 2.0.0
+	 *
+	 * @param int $code_id Voucher Code ID from wp_lifterlms_vouchers_codes table.
+	 * @param int $user_id User ID from wp_users tables.
 	 * @return int
-	 * @since    2.0.0
-	 * @version  2.0.0
 	 */
 	public function get_redemptions_for_code_by_user( $code_id, $user_id ) {
 
@@ -407,12 +411,12 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [save_redeemed_code description]
+	 * Save redeemed code
 	 *
-	 * @param    [type] $data  [description]
-	 * @return   [type]            [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param array $data Voucher data
+	 * @return int|false The number of rows updated, or false on error.
 	 */
 	public function save_redeemed_code( $data ) {
 
@@ -426,10 +430,11 @@ class LLMS_Voucher {
 	/**
 	 * Get an  array of IDs for products associated with this voucher
 	 *
-	 * @param  string $post_type  allows filtering of products by post type
+	 * @since 2.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $post_type Allows filtering of products by post type.
 	 * @return array
-	 * @since   2.0.0
-	 * @version 3.24.0
 	 */
 	public function get_products( $post_type = 'any' ) {
 
@@ -441,7 +446,7 @@ class LLMS_Voucher {
 
 		if ( ! empty( $products ) ) {
 
-			// filter any products that don't match the supplied post type
+			// Filter any products that don't match the supplied post type.
 			if ( 'any' !== $post_type ) {
 				foreach ( $products as $i => $id ) {
 					if ( get_post_type( $id ) !== $post_type ) {
@@ -450,7 +455,7 @@ class LLMS_Voucher {
 				}
 			}
 
-			// convert all elements to ints
+			// Convert all elements to ints.
 			$products = array_map( 'intval', $products );
 
 		}
@@ -459,13 +464,13 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [is_product_to_voucher_link_valid description]
+	 * Determine if the product is linked to a voucher by code
 	 *
-	 * @param    [type] $code        [description]
-	 * @param    [type] $product_id  [description]
-	 * @return   boolean                 [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param string $code       Voucher code string.
+	 * @param int    $product_id WP_Post ID of the product (course or membership).
+	 * @return boolean
 	 */
 	public function is_product_to_voucher_link_valid( $code, $product_id ) {
 
@@ -485,13 +490,13 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [is_code_duplicate description]
+	 * Dupcheck generated voucher codes.
 	 *
 	 * @since 2.0.0
 	 * @since 3.35.0 Prepare SQL.
 	 *
-	 * @param    [type] $codes  [description]
-	 * @return   boolean            [description]
+	 * @param array[] $codes Array of voucher code strings.
+	 * @return boolean
 	 */
 	public function is_code_duplicate( $codes ) {
 
@@ -518,12 +523,12 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [save_product description]
+	 * Save products to a voucher
 	 *
-	 * @param    [type] $product_id  [description]
-	 * @return   [type]                  [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 *
+	 * @param int $product_id WP_Post ID of the product (course or membership).
+	 * @return int|false The number of rows updated, or false on error.
 	 */
 	public function save_product( $product_id ) {
 
@@ -536,11 +541,10 @@ class LLMS_Voucher {
 	}
 
 	/**
-	 * [delete_products description]
+	 * Delete products from a voucher
 	 *
-	 * @return   [type]     [description]
-	 * @since    2.0.0
-	 * @version  2.0.0
+	 * @since 2.0.0
+	 * @return int
 	 */
 	public function delete_products() {
 
