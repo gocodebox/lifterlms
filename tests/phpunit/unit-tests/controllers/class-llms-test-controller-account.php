@@ -60,22 +60,24 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 	/**
 	 * Test order completion actions
-	 * @return   void
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 *
+	 * @since 3.19.0
+	 * @since [version] Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
+	 *
+	 * @return void
 	 */
 	public function test_cancel_subscription() {
 
 		// form not submitted
 		$this->setup_post( array() );
-		do_action( 'init' );
+		$this->main->cancel_subscription();
 		$this->assertEquals( 0, did_action( 'llms_subscription_cancelled_by_student' ) );
 
 		// form submitted but missing required fields
 		$this->setup_post( array(
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 		) );
-		do_action( 'init' );
+		$this->main->cancel_subscription();
 		$this->assertEquals( 0, did_action( 'llms_subscription_cancelled_by_student' ) );
 		$this->assertEquals( 1, llms_notice_count( 'error' ) );
 
@@ -86,7 +88,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 			'order_id' => 123,
 		) );
-		do_action( 'init' );
+		$this->main->cancel_subscription();
 		$this->assertEquals( 0, did_action( 'llms_subscription_cancelled_by_student' ) );
 		$this->assertEquals( 1, llms_notice_count( 'error' ) );
 
@@ -100,7 +102,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 			'order_id' => $order->get( 'id' ),
 		) );
-		do_action( 'init' );
+		$this->main->cancel_subscription();
 		$this->assertEquals( 0, did_action( 'llms_subscription_cancelled_by_student' ) );
 		$this->assertEquals( 1, llms_notice_count( 'error' ) );
 
@@ -116,7 +118,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 				'_cancel_sub_nonce' => wp_create_nonce( 'llms_cancel_subscription' ),
 				'order_id' => $order->get( 'id' ),
 			) );
-			do_action( 'init' );
+			$this->main->cancel_subscription();
 
 			$expected = 'llms-active' === $status ? 'llms-pending-cancel' : 'llms-cancelled';
 			$this->assertEquals( $expected, get_post_status( $order->get( 'id' ) ) );
@@ -349,8 +351,9 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from test lib.
+ 	 * @since [version] Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function test_update() {
 
@@ -358,13 +361,13 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		// form not submitted
 		$this->setup_post( array() );
-		do_action( 'init' );
+		$this->main->update();
 		$this->assertEquals( 0, did_action( 'llms_before_user_account_update_submit' ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_updated' ) );
 
 		// also not submitted
 		$this->setup_get( array() );
-		do_action( 'init' );
+		$this->main->update();
 		$this->assertEquals( 0, did_action( 'llms_before_user_account_update_submit' ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_updated' ) );
 
@@ -372,7 +375,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$this->setup_post( array(
 			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
 		) );
-		do_action( 'init' );
+		$this->main->update();
 		$this->assertEquals( 1, did_action( 'llms_before_user_account_update_submit' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_updated' ) );
@@ -387,7 +390,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$this->setup_post( array(
 			'_llms_update_person_nonce' => wp_create_nonce( 'llms_update_person' ),
 		) );
-		do_action( 'init' );
+		$this->main->update();
 		$this->assertEquals( 2, did_action( 'llms_before_user_account_update_submit' ) );
 		$this->assertTrue( ( llms_notice_count( 'error' ) >= 1 ) );
 		$this->assertEquals( 0, did_action( 'lifterlms_user_updated' ) );
@@ -422,7 +425,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			$this->assertEquals( 1, did_action( 'lifterlms_user_updated' ) );
 		} );
 
-		do_action( 'init' );
+		$this->main->update();
 
 	}
 
