@@ -1,6 +1,8 @@
 <?php
 /**
- * Engagements Metabox
+ * Engagements meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.35.0
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Engagements Metabox
+ * Engagements meta box class
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonce and access $_POST data via `llms_filter_input()`.

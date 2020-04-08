@@ -2,6 +2,8 @@
 /**
  * Memberships Tab on Reporting Screen
  *
+ * @package LifterLMS/Admin/Reporting/Tabs/Classes
+ *
  * @since 3.32.0
  * @version 3.32.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Memberships Tab on Reporting Screen class.
+ * Memberships Tab on Reporting Screen class
  *
  * @since 3.32.0
  * @since 3.35.0 Sanitize input data.

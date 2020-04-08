@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox: Membership Access Restrictions
+ * Membership Access Restrictions meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.36.1
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Access class.
+ * LLMS_Meta_Box_Access class
  *
  * @since 1.0.0
  * @since 3.0.0 Updated for 3.0.0 compatibility.

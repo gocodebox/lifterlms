@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox for Student Enrollment Information via the Order interface
+ * Meta box for Student Enrollment Information via the Order interface
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
  * @version 3.33.0
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metabox for Student Enrollment Information via the Order interface
+ * LLMS_Meta_Box_Order_Enrollment class
  *
  * @since 3.0.0
  * @since 3.33.0 Added the logic to handle the Enrollment 'deleted' status on save.

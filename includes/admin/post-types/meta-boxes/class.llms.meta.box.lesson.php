@@ -1,6 +1,8 @@
 <?php
 /**
- * Lesson Settings Metabox
+ * Lesson Settings meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.36.2
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Lesson Settings Metabox
+ * Lesson Settings meta box class
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.

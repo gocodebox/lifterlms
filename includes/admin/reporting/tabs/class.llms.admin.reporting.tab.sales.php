@@ -1,11 +1,20 @@
 <?php
 /**
- * Students Tab on Reporting Screen
+ * Sales Tab on Reporting Screen
+ *
+ * @package LifterLMS/Admin/Reporting/Tabs/Classes
+ *
+ * @since 3.2.0
+ * @version 3.2.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Reporting_Tab_Sales class
+ *
+ * @since 3.2.0
+ */
 class LLMS_Admin_Reporting_Tab_Sales {
 
 	/**

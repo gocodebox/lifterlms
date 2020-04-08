@@ -2,6 +2,8 @@
 /**
  * Memberships Reporting Table
  *
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
  * @since 3.32.0
  * @version 3.32.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Memberships Reporting Table class.
+ * Memberships Reporting Table class
  *
  * @since 3.32.0
  */

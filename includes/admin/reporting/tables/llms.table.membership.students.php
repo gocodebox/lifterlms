@@ -1,16 +1,19 @@
 <?php
 /**
- * Display students enrolled in a given membership on the membership students subtab.
+ * Display students enrolled in a given membership on the membership students subtab
  *
- * @since   3.32.0
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.32.0
  * @version 3.32.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Display students enrolled in a given membership on the membership students subtab class.
+ * LLMS_Table_Membership_Students class
  *
- * @since   3.32.0
+ * @since 3.32.0
  */
 class LLMS_Table_Membership_Students extends LLMS_Admin_Table {
 

@@ -2,12 +2,19 @@
 /**
  * Admin Settings Page "Memberships" Tab
  *
- * @since   3.5.0
+ * @package LifterLMS/Admin/Settings/Classes
+ *
+ * @since 3.5.0
  * @version 3.5.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Admin Settings Page "Memberships" Tab class
+ *
+ * @since 3.5.0
+ */
 class LLMS_Settings_Memberships extends LLMS_Settings_Page {
 
 	/**

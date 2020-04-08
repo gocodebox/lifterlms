@@ -1,12 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * Meta box field: Image meta box field
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
+ *
+ * @since ??
+ * @version 3.24.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Image metabox field
+ * Image meta box field class
  *
- * @since    ??
- * @version  3.24.0
+ * @since ??
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Metabox_Image_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 

@@ -1,8 +1,8 @@
 <?php
 /**
- * Meta Box Certificate Options
+ * Certificate Options meta box
  *
- * Displays email settings metabox. only displays on email post.
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.37.12
@@ -11,9 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Meta Box Certificate Options class.
+ * Meta box Certificate Options class.
  *
- * Displays email settings metabox. only displays on email post.
+ * Displays email settings meta box. Only displays on email post.
  *
  * @since 1.0.0
  * @since 3.1.0 Unknown.

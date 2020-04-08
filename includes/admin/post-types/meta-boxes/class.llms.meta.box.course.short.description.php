@@ -1,11 +1,21 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+/**
+ * Course Short Description meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
+ *
+ * @since unknown
+ * @version unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Meta Box Short Description
+ * Course Short Description meta box class
  *
- * Overrides WP short description
+ * Overrides WP short description.
+ *
+ * @since unknown
  */
 class LLMS_Meta_Box_Course_Short_Description {
 

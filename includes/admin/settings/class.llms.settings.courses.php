@@ -2,12 +2,19 @@
 /**
  * Admin Settings Page "Courses" Tab
  *
- * @since   3.5.0
+ * @package LifterLMS/Admin/Settings/Classes
+ *
+ * @since 3.5.0
  * @version 3.5.0
  */
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
 
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Admin Settings Page "Courses" Tab class
+ *
+ * @since 3.5.0
+ */
 class LLMS_Settings_Courses extends LLMS_Settings_Page {
 
 	/**

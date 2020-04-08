@@ -2,13 +2,20 @@
 /**
  * Add, Customize, and Manage LifterLMS Engagement Post Table Columns
  *
- * @since    3.1.0
- * @version  3.7.0
+ * @package LifterLMS/Admin/PostTypes/PostTables/Classes
+ *
+ * @since 3.1.0
+ * @version 3.7.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Post_Table_Engagements class
+ *
+ * @since 3.1.0
+ * @since 3.7.0 Unknown.
+ */
 class LLMS_Admin_Post_Table_Engagements {
 
 	/**

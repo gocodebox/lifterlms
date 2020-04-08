@@ -1,17 +1,20 @@
 <?php
 /**
- * Individual Student's Courses Table
+ * Individual Student's Course Table
  *
- * @since   3.2.0
- * @version 3.21.0
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.2.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Table_Student_Course class.
+ * LLMS_Table_Student_Course class
  *
- * @since  3.2.0
+ * @since 3.2.0
+ * @since 3.21.0 Unknown.
  * @since 3.35.0 Get student ID more reliably.
  */
 class LLMS_Table_Student_Course extends LLMS_Admin_Table {

@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Post Excerpt
+ * Meta box Field: Post Excerpt
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version Unknown
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Post_Excerpt_Field
+ * LLMS_Metabox_Post_Excerpt_Field class
  *
  * @since Unknown
  */

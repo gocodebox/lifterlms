@@ -2,16 +2,18 @@
 /**
  * Register WordPress AJAX methods for Analytics Widgets
  *
- * @since  3.0.0
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
+ *
+ * @since 3.0.0
  * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Analytics_Widget_Ajax
+ * LLMS_Analytics_Widget_Ajax class
  *
- * @since  3.0.0
+ * @since 3.0.0
  * @since 3.35.0 Sanitize `$_REQUEST` data.
  */
 class LLMS_Analytics_Widget_Ajax {

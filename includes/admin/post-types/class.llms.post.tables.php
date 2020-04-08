@@ -2,7 +2,7 @@
 /**
  * Post Table management for LifterLMS custom post types
  *
- * @package LifterLMS/Admin/Classes
+ * @package LifterLMS/Admin/PostTypes/Classes
  *
  * @since 3.0.0
  * @version 3.33.1

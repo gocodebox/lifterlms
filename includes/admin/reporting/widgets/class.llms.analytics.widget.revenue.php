@@ -2,16 +2,22 @@
 /**
  * Revenue widget
  *
- * Retrieves the total amount of all succeeded transactions
- * according to active filters
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
- * @since  3.0.0
+ * @since 3.0.0
  * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Analytics_Revenue_Widget class
+ *
+ * Retrieves the total amount of all succeeded transactions
+ * according to active filters.
+ *
+ * @since 3.0.0
+ */
 class LLMS_Analytics_Revenue_Widget extends LLMS_Analytics_Widget {
 
 	public function set_query() {

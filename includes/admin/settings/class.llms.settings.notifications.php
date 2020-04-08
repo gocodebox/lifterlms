@@ -2,13 +2,18 @@
 /**
  * Admin Settings: Notifications Tab
  *
+ * @package LifterLMS/Admin/Settings/Classes
+ *
  * @since 3.8.0
  * @version 3.35.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Settings: Notifications Tab
+ * LLMS_Settings_Notifications class
+ *
+ * Admin Settings: Notifications Tab.
  *
  * @since 3.8.0
  * @since 3.30.3 Explicitly define class properties; fix typo in title element id.

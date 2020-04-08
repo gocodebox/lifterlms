@@ -1,6 +1,8 @@
 <?php
 /**
- * Courses Tab on Reporting Screen
+ * Quizzes Tab on Reporting Screen
+ *
+ * @package LifterLMS/Admin/Reporting/Tabs/Classes
  *
  * @since 3.16.0
  * @version 3.35.0

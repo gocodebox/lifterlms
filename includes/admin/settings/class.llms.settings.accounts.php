@@ -2,6 +2,8 @@
 /**
  * Admin Settings Page, Accounts Tab
  *
+ * @package LifterLMS/Admin/Settings/Classes
+ *
  * @since 1.0.0
  * @version 3.37.3
  */
@@ -9,13 +11,13 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Settings Page, Accounts Tab
+ * Admin Settings Page, Accounts Tab class
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.37.3 Renamed setting field IDs to be unique.
- *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
- *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
+ *               Removed redundant functions defined in the `LLMS_Settings_Page` class.
+ *               Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
  * @since 3.37.4 Revert $id to "account".
  */
 class LLMS_Settings_Accounts extends LLMS_Settings_Page {

@@ -1,6 +1,6 @@
 <?php
 /**
- * Quizzes Reporting Table.
+ * Quizzes Reporting Table
  *
  * @package LifterLMS/Admin/Reporting/Tables/Classes
  *
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Quizzes Reporting Table class.
+ * Quizzes Reporting Table class
  *
  * @since 3.16.0
  * @since 3.36.1 Fixed an issue that allow instructors, who can only see their own reports,

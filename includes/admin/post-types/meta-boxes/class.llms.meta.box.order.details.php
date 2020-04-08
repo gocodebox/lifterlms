@@ -1,6 +1,8 @@
 <?php
 /**
- * Order Details Metabox
+ * Order Details meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
  * @version 3.35.0

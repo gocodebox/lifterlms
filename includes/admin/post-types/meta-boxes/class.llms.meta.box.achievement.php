@@ -1,8 +1,8 @@
 <?php
 /**
- * Achievements Metabox
+ * Achievements meta box
  *
- * Generates main metabox and builds forms.
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.37.12
@@ -11,9 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Achievements Metabox class.
+ * Achievements meta box class
  *
- * Generates main metabox and builds forms.
+ * Generates main meta box and builds forms.
  *
  * @since 1.0.0
  * @since 3.0.0 Unknown.

@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Search
+ * Meta box Field: Search
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version Unknown

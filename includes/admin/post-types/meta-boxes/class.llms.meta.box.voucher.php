@@ -1,6 +1,8 @@
 <?php
 /**
- * Vouchers Metabox
+ * Vouchers meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since Unknown
  * @version 3.36.0
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Vouchers Metabox class
+ * Vouchers Meta box class
  *
  * @since Unknown
  * @since 3.32.0 Vouchers can now be restricted also to a draft or scheduled Course/Membership.

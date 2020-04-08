@@ -1,14 +1,21 @@
 <?php
 /**
- * Admin GradeBook Tables
+ * Questions Reporting Table
  *
- * @since   3.2.0
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.2.0
  * @version 3.7.7
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Questions Table class
+ *
+ * @since 3.2.0
+ * @since 3.7.7 Unknown.
+ */
 class LLMS_Table_Questions extends LLMS_Admin_Table {
 
 	/**

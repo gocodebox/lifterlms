@@ -1,17 +1,18 @@
 <?php
 /**
- * Post table stuff for courses and memberships who have custom "instructor" stuff
- * which replaces "Author"
+ * Post table stuff for courses and memberships who have custom "instructor" stuff * which replaces "Author"
  *
- * @since    3.13.0
- * @version  3.24.0
+ * @package LifterLMS/Admin/PostTypes/PostTables/Classes
+ *
+ * @since 3.13.0
+ * @version 3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
 /**
- * LLMS_Admin_Post_Table_Instructors
+ * LLMS_Admin_Post_Table_Instructors class
  *
- * @since    3.13.0
+ * @since 3.13.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Admin_Post_Table_Instructors {

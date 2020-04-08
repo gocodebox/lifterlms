@@ -1,9 +1,8 @@
 <?php
 /**
- * Sold Amount Widget.
+ * Sold Amount Widget
  *
- * Retrieves the total amount of all successful transactions
- * according to active filters.
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
  * @since 3.0.0
  * @version 3.36.3
@@ -12,7 +11,10 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Sold Amount Widget.
+ * Sold Amount Widget class
+ *
+ * Retrieves the total amount of all successful transactions
+ * according to active filters.
  *
  * @since 3.0.0
  * @since 3.30.3 Explicitly define class properties.

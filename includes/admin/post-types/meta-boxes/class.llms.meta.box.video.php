@@ -1,11 +1,21 @@
 <?php
+/**
+ * Meta box Video
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
+ *
+ * @since ??
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Meta Box Video
- * displays text input for oembed video
+ * Meta box Video class
  *
- * @since    ??
+ * Displays text input for oembed video.
+ *
+ * @since ??
  * @version  3.24.0
  * @deprecated 3.35.0
  */

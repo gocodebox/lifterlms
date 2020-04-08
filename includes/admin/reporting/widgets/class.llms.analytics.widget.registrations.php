@@ -2,13 +2,19 @@
 /**
  * Registrations analytics widget
  *
- * @since   3.5.0
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
+ *
+ * @since 3.5.0
  * @version 3.5.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Registrations analytics widget class
+ *
+ * @since 3.5.0
+ */
 class LLMS_Analytics_Registrations_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;

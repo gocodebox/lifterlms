@@ -1,17 +1,26 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
 /**
  * Add, Customize, and Manage LifterLMS Coupon Post Table Columns
  *
- * @since  3.0.0
+ * @package LifterLMS/Admin/PostTypes/PostTables/Classes
+ *
+ * @since 3.0.0
+ * @version 3.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Admin_Post_Table_Coupons class
+ *
+ * @since 3.0.0
  */
 class LLMS_Admin_Post_Table_Coupons {
 
 	/**
 	 * Constructor
 	 *
-	 * @return  void
+	 * @return void
 	 *
 	 * @since 3.0.0
 	 */

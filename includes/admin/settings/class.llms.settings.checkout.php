@@ -2,13 +2,16 @@
 /**
  * Admin Settings Page, Checkout Tab
  *
+ * @package LifterLMS/Admin/Settings/Classes
+ *
  * @since 3.0.0
  * @version 3.35.1
  */
 
 defined( 'ABSPATH' ) || exit;
+
 /**
- * Admin Settings Page, Checkout Tab
+ * Admin Settings Page, Checkout Tab class
  *
  * @since 3.0.0
  * @since 3.30.3 Fixed spelling errors.

@@ -2,15 +2,21 @@
 /**
  * Total amount of coupon discount savings
  *
- * Totals all coupon discounts applied to orders in the given filters
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
- * @since  3.0.0
+ * @since 3.0.0
  * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Analytics_Discounts_Widget class
+ *
+ * Totals all coupon discounts applied to orders in the given filters.
+ *
+ * @since 3.0.0
+ */
 class LLMS_Analytics_Discounts_Widget extends LLMS_Analytics_Widget {
 
 	public function set_query() {

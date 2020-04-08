@@ -1,17 +1,19 @@
 <?php
 /**
- * Metaboxes for Orders
+ * Meta boxes for order notes
  *
- * @since  3.0.0
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
+ *
+ * @since 3.0.0
  * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metaboxes for Orders
+ * Meta boxes for orders notes class
  *
- * @since  3.0.0
+ * @since 3.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
  */
 class LLMS_Meta_Box_Order_Notes extends LLMS_Admin_Metabox {

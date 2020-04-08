@@ -2,6 +2,8 @@
 /**
  * Admin Reporting Base Class
  *
+ * @package LifterLMS/Admin/Reporting/Classes
+ *
  * @since 3.2.0
  * @version 3.36.3
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Reporting Base Class
+ * Admin Reporting Base class
  *
  * @since 3.2.0
  * @since 3.31.0 Fix redundant `if` statement in the `output_widget` method.

@@ -1,6 +1,8 @@
 <?php
 /**
- * Access Plan metabox
+ * Access Plan meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.30.3
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Product class.
+ * LLMS_Meta_Box_Product class
  *
  * @since 1.0.0
  * @since 3.30.0 Added checkout redirect settings

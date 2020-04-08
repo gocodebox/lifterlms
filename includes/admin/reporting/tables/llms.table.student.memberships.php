@@ -2,7 +2,9 @@
 /**
  * Individual Student's Memberships Table
  *
- * @since   3.2.0
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.2.0
  * @version 3.7.5
  */
 
@@ -11,7 +13,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Table_Student_Memberships
  *
- * @since   3.2.0
+ * @since 3.2.0
+ * @since 3.7.5 Unknown.
  * @since 3.35.0 Get student ID more reliably.
  */
 class LLMS_Table_Student_Memberships extends LLMS_Admin_Table {

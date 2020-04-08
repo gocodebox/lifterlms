@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Color picker
+ * Meta box Field: Color picker
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version Unknown
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Color_Field
+ * LLMS_Metabox_Color_Field class
  *
  * @since Unknown
  */

@@ -2,7 +2,7 @@
 /**
  * Admin Settings Page: Engagements
  *
- * @package LifterLMS/Admin/Classes
+ * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
  * @version 3.37.3
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Settings_Engagements class.
+ * LLMS_Settings_Engagements class
  *
  * @since 1.0.0
  * @since 3.8.0 Unknown.

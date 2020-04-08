@@ -1,6 +1,8 @@
 <?php
 /**
- * Meta Box Voucher Export
+ * Meta box Voucher Export
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since Unknown
  * @version 3.30.3
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Meta Box Voucher Export
+ * Meta box Voucher Export class
  *
  * @since Unknown
  * @since 3.30.3 Fixed typo in export content-disposition header.

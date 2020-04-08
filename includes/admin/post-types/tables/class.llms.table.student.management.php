@@ -2,6 +2,8 @@
 /**
  * Student Management table on Courses and Memberships
  *
+ * @package LifterLMS/Admin/PostTypes/Tables/Classes
+ *
  * @since 3.4.0
  * @version 3.33.0
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Student Management table on Courses and Memberships class.
+ * Student Management table on Courses and Memberships class
  *
  * @since 3.4.0
  * @since 3.33.0 Added table action button to delete a cancelled enrollment.

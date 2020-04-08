@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Content editor
+ * Meta box Field: Content editor
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version Unknown
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Post_Content_Field
+ * LLMS_Metabox_Post_Content_Field class
  *
  * @since Unknown
  */
