@@ -6,6 +6,7 @@
  * @since 3.33.0 Marked `setup_get()` and `setup_post()` as deprecated and removed private `setup_request()`. Use methods from lifterlms/lifterlms_tests.
  * @since 3.37.4 Add certificate template mock generation and earning methods.
  * @since 3.37.8 Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
+ * @since [version] Added voucher creation method.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -104,6 +105,46 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 			}
 
 		}
+
+	}
+
+	/**
+	 * Create a voucher.
+	 *
+	 * @since [version]
+	 *
+	 * @param int   $codes    Number of codes to generate for the voucher.
+	 * @param int   $uses     Number of uses per code.
+	 * @param int[] $products List of course/membership ids.
+	 * @return LLMS_Voucher
+	 */
+	protected function create_voucher( $codes = 5, $uses = 5, $products = array() ) {
+
+		// Create the Voucher Post.
+		$post_id = $this->factory->post->create( array( 'post_type' => 'llms_voucher' ) );
+		$voucher = new LLMS_Voucher( $post_id );
+
+		// Generate voucher codes.
+		$i = 0;
+		while( $i < $codes ) {
+			$voucher->save_voucher_code( array(
+				'code'             => substr( bin2hex( random_bytes( 12 ) ), 0, 12 ),
+				'redemption_count' => $uses,
+			) );
+			++$i;
+		}
+
+		// Add a mock course if no products are specified.
+		if ( ! $products ) {
+			$products[] = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		}
+
+		// Save the products.
+		foreach ( $products as $product ) {
+			$voucher->save_product( $product );
+		}
+
+		return $voucher;
 
 	}
 
