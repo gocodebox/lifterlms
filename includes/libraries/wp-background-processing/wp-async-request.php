@@ -3,9 +3,14 @@
  * WP Async Request
  *
  * @package WP-Background-Processing
- * @version  2017-02-10
- * @source  https://github.com/A5hleyRich/wp-background-processing
+ *
+ * @since Unknown
+ * @version 2017-02-10
+ *
+ * @source https://github.com/A5hleyRich/wp-background-processing
  */
+
+defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'WP_Async_Request' ) ) {
 
@@ -162,4 +167,4 @@ if ( ! class_exists( 'WP_Async_Request' ) ) {
 		abstract protected function handle();
 
 	}
-}// End if().
+}

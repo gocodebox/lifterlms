@@ -1,11 +1,21 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Shortcodes
  *
- * @since    1.0.0
- * @version  3.23.0
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 1.0.0
+ * @version 3.23.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Shortcodes
+ *
+ * @since 1.0.0
+ * @since 3.11.1 Unknown.
+ * @since 3.23.0 Unknown.
  */
 class LLMS_Shortcodes {
 

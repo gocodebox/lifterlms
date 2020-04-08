@@ -3,9 +3,14 @@
  * WP Background Process
  *
  * @package WP-Background-Processing
+ *
+ * @since Unknown
  * @version 2018-02-12
- * @source  https://github.com/A5hleyRich/wp-background-processing
+ *
+ * @source https://github.com/A5hleyRich/wp-background-processing
  */
+
+defined( 'ABSPATH' ) || exit;
 
 if ( ! class_exists( 'WP_Background_Process' ) ) {
 	/**
@@ -432,4 +437,4 @@ if ( ! class_exists( 'WP_Background_Process' ) ) {
 		abstract protected function task( $item );
 	}
 
-}// End if().
+}

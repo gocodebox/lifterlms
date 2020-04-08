@@ -58,7 +58,7 @@ class LLMS_Course_Factory {
 
 		global $post;
 		$the_lesson = $post;
-		$classname = 'LLMS_Lesson_Basic';
+		$classname  = 'LLMS_Lesson_Basic';
 		return new LLMS_Lesson_Basic( $the_lesson, $args );
 	}
 
@@ -78,7 +78,7 @@ class LLMS_Course_Factory {
 
 		global $post;
 		$the_product = $post;
-		$classname = 'LLMS_Product';
+		$classname   = 'LLMS_Product';
 		return new LLMS_Product( $the_product, $args );
 	}
 
@@ -97,7 +97,7 @@ class LLMS_Course_Factory {
 		llms_deprecated_function( 'LLMS_Course_Factory::get_quiz()', '3.37.12' );
 
 		global $post;
-		$the_quiz = $post;
+		$the_quiz  = $post;
 		$classname = 'LLMS_Quiz';
 		return new LLMS_Quiz_Legacy( $the_quiz, $args );
 	}
@@ -118,7 +118,7 @@ class LLMS_Course_Factory {
 
 		global $post;
 		$the_question = $post;
-		$classname = 'LLMS_Question';
+		$classname    = 'LLMS_Question';
 		return new LLMS_Question( $the_question, $args );
 	}
 

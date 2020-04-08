@@ -2,15 +2,21 @@
 /**
  * Convert LifterLMS Tables to CSVs as a background process
  *
- * @since    3.15.0
- * @version  3.17.8
- * @deprecated  3.28.0
+ * @package LifterLMS/Classes/Processors
+ *
+ * @since 3.15.0
+ * @version 3.17.8
+ * @deprecated 3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Processor_Table_To_Csv class.
+ *
+ * @since 3.15.0
+ * @since 3.17.8 Unknown.
+ * @deprecated 3.28.0
  */
 class LLMS_Processor_Table_To_Csv extends LLMS_Abstract_Processor {
 

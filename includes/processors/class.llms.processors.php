@@ -2,13 +2,19 @@
 /**
  * Load, access, and manage LifterLMS Processors
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @package LifterLMS/Classes/Processors
+ *
+ * @since 3.15.0
+ * @version 3.15.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Processors class
+ *
+ * @since 3.15.0
+ */
 class LLMS_Processors {
 
 	/**

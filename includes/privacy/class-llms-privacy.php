@@ -4,6 +4,8 @@
  *
  * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data
  *
+ * @package LifterLMS/Classes/Privacy
+ *
  * @since 3.18.0
  * @version 3.37.9
  */

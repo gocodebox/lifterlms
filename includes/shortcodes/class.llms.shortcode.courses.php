@@ -4,6 +4,8 @@
  *
  * [lifterlms_courses]
  *
+ * @package LifterLMS/Classes/Shortcodes
+ *
  * @since 3.14.0
  * @version 3.31.0
  */
@@ -16,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.14.0
  * @since 3.30.2 Output a message instead of the entire course catalog when "mine" is used and and current student is not enrolled in any courses.
  * @since 3.31.0 Adjusted several private methods to be protected.
+ * @since [version] Use strict comparisons for `in_array()`.
  */
 class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
@@ -27,6 +30,8 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	public $tag = 'lifterlms_courses';
 
 	/**
+	 * Get shortcode attributes
+	 *
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
@@ -38,7 +43,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 		return array(
 			'category'       => '',
 			'hidden'         => 'yes',
-			'id'             => '', // allow comma-separated list of course ids
+			'id'             => '', // Allow comma-separated list of course ids.
 			'mine'           => 'no',
 			'post_status'    => 'publish',
 			'posts_per_page' => -1,
@@ -52,22 +57,23 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 *
 	 * @since 3.14.0
 	 * @since 3.31.0 Changed access from private to protected.
+	 * @since [version] Use strict comparisons for `in_array()`.
 	 *
-	 * @return   array
+	 * @return array
 	 */
 	protected function get_post__in() {
 
 		$ids     = array();
 		$post_id = $this->get_attribute( 'id' );
 		if ( $post_id ) {
-			$ids = explode( ',', $post_id ); // allow multiple ids to be passed
+			$ids = explode( ',', $post_id ); // Allow multiple ids to be passed.
 			$ids = array_map( 'trim', $ids );
 		}
 
 		$student = llms_get_student();
 
 		$mine = $this->get_attribute( 'mine' );
-		if ( in_array( $mine, array( 'any', 'cancelled', 'enrolled', 'expired' ) ) ) {
+		if ( in_array( $mine, array( 'any', 'cancelled', 'enrolled', 'expired' ), true ) ) {
 
 			$courses = $student->get_courses(
 				array(
@@ -89,7 +95,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * @since 3.14.0
 	 * @since 3.31.0 Changed access from private to protected.
 	 *
-	 * @return   array|string
+	 * @return array|string
 	 */
 	protected function get_tax_query() {
 
@@ -142,7 +148,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 	 * @since 3.14.0
 	 * @since 3.31.0 Changed access from private to protected.
 	 *
-	 * @return mixed WP_Query
+	 * @return WP_Query
 	 */
 	protected function get_wp_query() {
 
@@ -151,7 +157,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 			'post__in'       => $this->get_post__in(),
 			'post_type'      => 'course',
 			'post_status'    => $this->get_attribute( 'post_status' ),
-			'tax_query'      => $this->get_tax_query(),
+			'tax_query'      => $this->get_tax_query(), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 			'posts_per_page' => $this->get_attribute( 'posts_per_page' ),
 			'order'          => $this->get_attribute( 'order' ),
 			'orderby'        => $this->get_attribute( 'orderby' ),
@@ -178,7 +184,7 @@ class LLMS_Shortcode_Courses extends LLMS_Shortcode {
 
 		ob_start();
 
-		// if we're outputting a "My Courses" list and we don't have a student output login info
+		// If we're outputting a "My Courses" list and we don't have a student output login info.
 		if ( 'no' !== $this->get_attribute( 'mine' ) && ! llms_get_student() ) {
 
 			printf(

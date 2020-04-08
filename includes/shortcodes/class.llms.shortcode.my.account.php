@@ -1,28 +1,33 @@
 <?php
 /**
- * My Account Shortcode [lifterlms_my_account]
+ * My Account Shortcode
  *
- * @since    1.0.0
- * @version  3.25.1
+ * [lifterlms_my_account]
+ *
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 1.0.0
+ * @version 3.25.1
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Shortcode_My_Account class.
+ *
+ * @since 1.0.0
+ * @since 3.25.1
  */
 class LLMS_Shortcode_My_Account {
 
 	/**
 	 * Get shortcode content
 	 *
-	 * @param array $atts
+	 * @param array $atts Shortcode attributes array.
 	 * @return array $messages
 	 */
 	public static function get( $atts ) {
-
 		return LLMS_Shortcodes::shortcode_wrapper( array( __CLASS__, 'output' ), $atts );
-
 	}
 
 	/**
@@ -54,10 +59,11 @@ class LLMS_Shortcode_My_Account {
 	/**
 	 * Determines what content to output to user based on status
 	 *
-	 * @param    array $atts  array of user submitted shortcode attributes.
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.25.1
+	 * @since 1.0.0
+	 * @since 3.25.1
+	 *
+	 * @param array $atts Array of user submitted shortcode attributes.
+	 * @return void
 	 */
 	public static function output( $atts ) {
 
