@@ -4,7 +4,7 @@
  *
  * Generates achievements for users.
  *
- * @package LifterLMS/Achievements/Classes
+ * @package LifterLMS/Classes/Achievements
  *
  * @since 1.0.0
  * @version 3.30.3
