@@ -80,7 +80,6 @@
 		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
 
 		<exclude-pattern>templates/*.php</exclude-pattern>
@@ -100,7 +99,6 @@
 		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
 
 		<exclude-pattern>templates/*.php</exclude-pattern>
@@ -120,7 +118,6 @@
 		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
 
 		<exclude-pattern>templates/*.php</exclude-pattern>

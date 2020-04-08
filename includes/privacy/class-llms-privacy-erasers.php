@@ -2,6 +2,8 @@
 /**
  * LifterLMS Privacy Eraser functions
  *
+ * @package LifterLMS/Classes/Privacy
+ *
  * @since 3.18.0
  * @version 3.18.0
  */
