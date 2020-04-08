@@ -70,8 +70,8 @@
 			  See https://github.com/gocodebox/lifterlms/issues/946
 	-->
 	<rule ref="LifterLMS.Commenting.FileComment">
-
-		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
+		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
+		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
 		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/emails/*.php</exclude-pattern>
@@ -87,8 +87,8 @@
 
 	</rule>
 	<rule ref="Squiz.Commenting.FileComment">
-
-		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
+		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
+		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
 		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/emails/*.php</exclude-pattern>
@@ -104,8 +104,8 @@
 
 	</rule>
 	<rule ref="Squiz.Commenting.ClassComment.Missing">
-
-		<exclude-pattern>includes/admin/**/*.php</exclude-pattern>
+		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
+		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
 		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/emails/*.php</exclude-pattern>
