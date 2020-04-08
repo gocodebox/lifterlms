@@ -2,6 +2,8 @@
 /**
  * Courses Tab on Reporting Screen
  *
+ * @package LifterLMS/Admin/Reporting/Tabs/Classes
+ *
  * @since 3.15.0
  * @version 3.35.0
  */

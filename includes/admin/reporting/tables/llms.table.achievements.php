@@ -2,16 +2,18 @@
 /**
  * Admin Achievements Table
  *
- * @since   3.2.0
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.2.0
  * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Table_Achievements
+ * LLMS_Table_Achievements class
  *
- * @since   3.2.0
+ * @since 3.2.0
  * @since 3.35.0 Get student ID more reliably.
  */
 class LLMS_Table_Achievements extends LLMS_Admin_Table {

@@ -2,16 +2,24 @@
 /**
  * Sales analytics widget
  *
- * Locates number of active / completed orders from a given date range
- * by a given group of students
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
- * @since  3.0.0
+ * @since 3.0.0
  * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Analytics_Sales_Widget class
+ *
+ * Locates number of active / completed orders from a given date range
+ * by a given group of students.
+ *
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
+ *
+ * @since 3.0.0
+ */
 class LLMS_Analytics_Sales_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;

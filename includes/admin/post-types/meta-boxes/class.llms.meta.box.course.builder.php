@@ -1,8 +1,8 @@
 <?php
 /**
- * Course Builder Metabox
+ * Course Builder meta box
  *
- * @package LifterLMS/Admin/Metaboxes
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.13.0
  * @version 3.30.1
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metabox for the "Course Builder" launcher/browser
+ * Meta box for the "Course Builder" launcher/browser
  *
  * @since 3.13.0
  * @since 3.30.1 Add `llms-mb-container` CSS class to container element in the `output()` method.

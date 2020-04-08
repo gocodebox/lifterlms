@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Textarea with Tags
+ * Meta box Field: Textarea with Tags
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version Unknown
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Textarea_W_Tags_Field
+ * LLMS_Metabox_Textarea_W_Tags_Field class
  *
  * @since Unknown
  */

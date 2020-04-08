@@ -1,13 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Meta box Field: Repeater
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
+ *
+ * @since 3.11.0
+ * @version 3.17.3
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
- * Metabox Repeater Field
+ * Meta box Repeater Field class
  *
- * @since    3.11.0
- * @version  3.17.3
+ * @since 3.11.0
+ * @version 3.17.3
  */
 class LLMS_Metabox_Repeater_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 

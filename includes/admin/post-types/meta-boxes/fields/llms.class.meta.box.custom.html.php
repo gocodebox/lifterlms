@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Custom HTML
+ * Meta box Field: Custom HTML
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version Unknown
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Custom_Html_Field
+ * LLMS_Metabox_Custom_Html_Field class
  *
  * @since Unknown
  */

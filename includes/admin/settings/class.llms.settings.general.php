@@ -1,11 +1,20 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Admin Settings Page, General Tab
  *
- * @since    1.0.0
- * @version  3.22.0
+ * @package LifterLMS/Admin/Settings/Classes
+ *
+ * @since 1.0.0
+ * @version 3.22.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Admin Settings Page, General Tab class
+ *
+ * @since 1.0.0
+ * @since 3.22.0 Unknown.
  */
 class LLMS_Settings_General extends LLMS_Settings_Page {
 

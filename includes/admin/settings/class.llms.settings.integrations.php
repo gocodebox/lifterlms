@@ -1,11 +1,22 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * Admin Settings Page, Integrations Tab
  *
- * @since    1.0.0
- * @version  3.18.2
+ * @package LifterLMS/Admin/Settings/Classes
+ *
+ * @since 1.0.0
+ * @version 3.18.2
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Admin Settings Page, Integrations Tab class
+ *
+ * @package LifterLMS/Admin/Settings/Classes
+ *
+ * @since 1.0.0
+ * @since 3.18.2 Unknown.
  */
 class LLMS_Settings_Integrations extends LLMS_Settings_Page {
 

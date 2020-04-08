@@ -1,6 +1,8 @@
 <?php
 /**
- * Order transactions metabox.
+ * Order transactions metabox
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.0.0
  * @version 3.35.0
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Order_Transactions
+ * LLMS_Meta_Box_Order_Transactions class
  *
  * @since 3.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.

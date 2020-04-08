@@ -2,15 +2,18 @@
 /**
  * Students Tab on Reporting Screen
  *
- * @since  3.2.0
+ * @package LifterLMS/Admin/Reporting/Tabs/Classes
+ *
+ * @since 3.2.0
  * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * LLMS_Admin_Reporting_Tab_Students class
  *
- * @since  3.2.0
+ * @since 3.2.0
  * @since 3.35.0 Sanitize input data.
  */
 class LLMS_Admin_Reporting_Tab_Students {

@@ -1,11 +1,20 @@
 <?php
+/**
+ * Add, Customize, and Manage LifterLMS Course Post Table Columns
+ *
+ * @package LifterLMS/Admin/PostTypes/PostTables/Classes
+ *
+ * @since 3.3.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Add, Customize, and Manage LifterLMS Course
+ * LLMS_Admin_Post_Table_Courses class
  *
- * @since    3.3.0
- * @version  3.24.0
+ * @since 3.3.0
+ * @since 3.24.0 Unknown.
  */
 class LLMS_Admin_Post_Table_Courses {
 

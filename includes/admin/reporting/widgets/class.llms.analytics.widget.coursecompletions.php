@@ -2,13 +2,20 @@
 /**
  * Course Completions analytics widget
  *
- * @since   3.5.0
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
+ *
+ * @since 3.5.0
  * @version 3.5.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Course Completions analytics widget class
+ *
+ * @since 3.5.0
+ * @version 3.5.3
+ */
 class LLMS_Analytics_Coursecompletions_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;

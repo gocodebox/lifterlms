@@ -2,13 +2,22 @@
 /**
  * Student Management table on Courses and Memberships
  *
- * @since   3.8.0
+ * @package LifterLMS/Admin/Settings/Tables/Classes
+ *
+ * @since 3.8.0
  * @version 3.10.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Table_NotificationSettings class
+ *
+ * Student Management table on Courses and Memberships.
+ *
+ * @since 3.8.0
+ * @since 3.10.0 Unknown.
+ */
 class LLMS_Table_NotificationSettings extends LLMS_Admin_Table {
 
 	/**

@@ -1,21 +1,23 @@
 <?php
 /**
  * Meta Box Expiration
- * Displays expiration fields for membership post. Displays only on membership post.
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since Unknown
  * @version 3.24.0
- *
- * @deprecated 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Expiration
+ * LLMS_Meta_Box_Expiration class
+ *
+ * Displays expiration fields for membership post. Displays only on membership post.
  *
  * @since Unknown
  * @since 3.35.0 Verify nonce before processing data; sanitize $_POST data with `llms_filter_input()`.
+ * @deprecated 3.35.0
  */
 class LLMS_Meta_Box_Expiration {
 

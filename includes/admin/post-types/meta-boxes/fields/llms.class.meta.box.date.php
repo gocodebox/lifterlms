@@ -1,8 +1,8 @@
 <?php
 /**
- * Date Picker Field
+ * Meta box Field: Date Picker Field
  *
- * Pass in 'llms-datepicker' for the class for the field to automatically use jQuery datepicker.
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since  Unknown
  * @version  3.11.0
@@ -11,7 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Date_Field
+ * LLMS_Metabox_Date_Field class
+ *
+ * Pass in 'llms-datepicker' for the class for the field to automatically use jQuery datepicker.
  *
  * @since Unknown
  */

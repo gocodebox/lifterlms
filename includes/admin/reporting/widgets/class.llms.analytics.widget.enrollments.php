@@ -2,13 +2,21 @@
 /**
  * Enrollments analytics widget
  *
- * @since  3.0.0
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
+ *
+ * @since 3.0.0
  * @version 3.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Analytics_Enrollments_Widget class
+ *
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
+ *
+ * @since 3.0.0
+ */
 class LLMS_Analytics_Enrollments_Widget extends LLMS_Analytics_Widget {
 
 

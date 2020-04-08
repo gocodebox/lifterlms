@@ -2,6 +2,8 @@
 /**
  * Students Reporting Table
  *
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
  * @since 3.2.0
  * @version 3.37.2
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Table_Students class.
+ * LLMS_Table_Students class
  *
  * @since 3.2.0
  * @since 3.28.0 Unknown.

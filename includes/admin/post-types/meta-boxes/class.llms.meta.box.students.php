@@ -1,16 +1,23 @@
 <?php
 /**
- * Students Metabox for Courses & Memberships
+ * Students meta box for Courses & Memberships
  *
- * Add & remove students
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
- * @since    3.0.0
- * @version  3.13.0
+ * @since 3.0.0
+ * @version 3.13.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Meta_Box_Students class
+ *
+ * Add & remove students.
+ *
+ * @since 3.0.0
+ * @version 3.13.0
+ */
 class LLMS_Meta_Box_Students extends LLMS_Admin_Metabox {
 
 	/**

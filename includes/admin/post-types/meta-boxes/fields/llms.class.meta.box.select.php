@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Select
+ * Meta box field: Select
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version Unknown
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Select_Field
+ * LLMS_Metabox_Select_Field class
  *
  * @since Unknown
  */

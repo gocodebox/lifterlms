@@ -1,6 +1,8 @@
 <?php
 /**
- * Order update/submit box.
+ * Order update/submit box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.36.0
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Meta_Box_Order_Submit
+ * LLMS_Meta_Box_Order_Submit class
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.

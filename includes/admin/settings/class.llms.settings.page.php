@@ -1,6 +1,8 @@
 <?php
 /**
- * Admin Settings Page Base Class
+ * Admin Settings Page Base
+ *
+ * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
  * @version 3.37.3
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Admin Settings Page Base Class
+ * Admin Settings Page Base class
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.

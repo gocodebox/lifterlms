@@ -2,13 +2,20 @@
 /**
  * Courses Reporting Table
  *
- * @since    3.15.0
- * @version  3.16.14
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.15.0
+ * @version 3.16.14
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * Courses Reporting Table class
+ *
+ * @since 3.15.0
+ * @version 3.16.14
+ */
 class LLMS_Table_Courses extends LLMS_Admin_Table {
 
 	/**

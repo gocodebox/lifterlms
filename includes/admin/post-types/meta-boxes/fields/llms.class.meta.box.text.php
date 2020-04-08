@@ -1,6 +1,8 @@
 <?php
 /**
- * Metabox Field: Text
+ * Meta box Field: Text
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version 3.36.0
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Metabox_Text_Field
+ * LLMS_Metabox_Text_Field class
  *
  * @since Unknown
  * @since 3.36.0 When outputting the field's value convert quotes (double and single) HTML entities back to characters.

@@ -1,7 +1,8 @@
 <?php
 /**
- * Product Visibility Settings
- * Adds radios to the publishing misc. actions box for courses and memberships
+ * Product Visibility Settings meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 3.6.0
  * @version 3.35.0
@@ -11,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Meta_Box_Visibility class
+ *
+ * Adds radios to the publishing misc. actions box for courses and memberships.
  *
  * @since 3.6.0
  * @since 3.35.0 Sanitize `$_POST` data and add nonce verification.

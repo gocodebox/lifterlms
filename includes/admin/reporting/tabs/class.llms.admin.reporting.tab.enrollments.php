@@ -1,11 +1,21 @@
 <?php
 /**
- * Students Tab on Reporting Screen
+ * Enrollments Tab on Reporting Screen
+ *
+ * @package LifterLMS/Admin/Reporting/Tabs/Classes
+ *
+ * @since 3.2.0
+ * @version 3.5.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Reporting_Tab_Enrollments class
+ *
+ * @since 3.2.0
+ * @since 3.5.0 Unknown.
+ */
 class LLMS_Admin_Reporting_Tab_Enrollments {
 
 	/**

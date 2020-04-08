@@ -2,13 +2,20 @@
 /**
  * Customize display of the "Page" post tables
  *
- * @since    3.0.0
- * @version  3.7.5
+ * @package LifterLMS/Admin/PostTypes/PostTables/Classes
+ *
+ * @since 3.0.0
+ * @version 3.7.5
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Admin_Post_Table_Pages class
+ *
+ * @since 3.0.0
+ * @since 3.7.5 Unknown.
+ */
 class LLMS_Admin_Post_Table_Pages {
 
 	public $pages = array();

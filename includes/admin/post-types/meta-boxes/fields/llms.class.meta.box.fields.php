@@ -1,12 +1,22 @@
 <?php
+/**
+ * Abstract Metabox_Field
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
+ *
+ * @since ??
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Metabox_Field Parent Class
- * Contains base code for each of the Metabox Fields
+ * Metabox_Field parent class
  *
- * @since    ??
- * @version  3.24.0
+ * Contains base code for each of the Metabox Fields.
+ *
+ * @since ??
+ * @since 3.24.0 Unknown.
  */
 abstract class LLMS_Metabox_Field {
 
@@ -69,7 +79,7 @@ abstract class LLMS_Metabox_Field {
 				if ( isset( $this->field['required'] ) && $this->field['required'] ) :
 					?>
 					<em>(required)</em><?php endif; ?>
-			</div> 
+			</div>
 			<?php
 	}
 

@@ -1,6 +1,8 @@
 <?php
 /**
- * WP Editor metabox field
+ * WP Editor meta box field
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
  * @version 3.30.3
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * WP Editor metabox field
+ * WP Editor meta box field class
  *
  * @since Unknown
  * @since 3.30.3 Explicitly define class properties.

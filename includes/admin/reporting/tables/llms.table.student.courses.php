@@ -2,12 +2,20 @@
 /**
  * Individual Student's Courses Table
  *
- * @since   3.2.0
+ * @package LifterLMS/Admin/Reporting/Tables/Classes
+ *
+ * @since 3.2.0
  * @version 3.13.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Table_Student_Courses class
+ *
+ * @since 3.2.0
+ * @since 3.13.0 Unknown.
+ */
 class LLMS_Table_Student_Courses extends LLMS_Admin_Table {
 
 	/**

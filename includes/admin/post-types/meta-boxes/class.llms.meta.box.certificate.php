@@ -1,6 +1,8 @@
 <?php
 /**
- * Certificates metabox
+ * Certificates meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.37.12
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Certificates metabox class.
+ * Certificates meta box class
  *
  * @since 1.0.0
  * @since 3.17.4 Unknown.

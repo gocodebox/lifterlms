@@ -1,8 +1,10 @@
 <?php
 /**
- * Course / Membership Instructors Metabox
+ * Course / Membership Instructors meta box
  *
- * @since   3.13.0
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
+ *
+ * @since 3.13.0
  * @version 3.25.0
  */
 
@@ -10,6 +12,9 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Metabox_Instructors class
+ *
+ * @since 3.13.0
+ * @since 3.25.0 Unknown.
  */
 class LLMS_Metabox_Instructors extends LLMS_Admin_Metabox {
 

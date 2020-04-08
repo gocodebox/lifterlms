@@ -1,6 +1,8 @@
 <?php
 /**
- * Membership Settings Metabox
+ * Membership Settings meta box
+ *
+ * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
  * @version 3.36.3
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Membership Settings Metabox
+ * Membership Settings meta box class
  *
  * @since 1.0.0
  * @since 3.30.3 Fixed spelling errors; removed duplicate array keys.

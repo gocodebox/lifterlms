@@ -2,18 +2,27 @@
 /**
  * Refunds analytics widget
  *
- * Locates number of refunded orders from a given date range
- * by a given group of students
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
- * Uses "post_modified" rather than "post_date" for date query
+ * @since 3.0.0
+ * @version 3.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * Refunds analytics widget class
+ *
+ * Locates number of refunded orders from a given date range
+ * by a given group of students.
+ *
+ * Uses "post_modified" rather than "post_date" for date query.
+ *
+ * @package LifterLMS/Admin/Reporting/Widgets/Classes
  *
  * @since  3.0.0
  * @version 3.0.0
  */
-
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 class LLMS_Analytics_Refunds_Widget extends LLMS_Analytics_Widget {
 
 	public $charts = true;

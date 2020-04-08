@@ -1,17 +1,19 @@
 <?php
 /**
- * Admin base Metabox Class
+ * Admin base Metabox
  *
- * sets up base metabox functionality and global save.
+ * @package LifterLMS/Admin/PostTypes/Classes
  *
- * @since   1.0.0
+ * @since 1.0.0
  * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Meta_Boxes
+ * LLMS_Admin_Meta_Boxes class
+ *
+ * Sets up base metabox functionality and global save.
  *
  * @since 1.0.0
  * @since 3.35.0 Verify nonces and sanitize `$_POST` data.
