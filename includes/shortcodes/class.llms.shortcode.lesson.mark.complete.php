@@ -4,19 +4,25 @@
  *
  * [lifterlms_lesson_mark_complete]
  *
- * @since    3.11.1
- * @version  3.11.1
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.11.1
+ * @version 3.11.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_Lesson_Mark_Complete
+ *
+ * @since 3.11.1
+ */
 class LLMS_Shortcode_Lesson_Mark_Complete extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $tag = 'lifterlms_lesson_mark_complete';
 
@@ -26,9 +32,9 @@ class LLMS_Shortcode_Lesson_Mark_Complete extends LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
-	 * @return   string
-	 * @since    3.11.1
-	 * @version  3.11.1
+	 * @since 3.11.1
+	 *
+	 * @return string
 	 */
 	protected function get_output() {
 

@@ -4,19 +4,25 @@
  *
  * [lifterlms_course_continue_button]
  *
- * @since    3.11.1
- * @version  3.11.1
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.11.1
+ * @version 3.11.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_Course_Element
+ *
+ * @since 3.11.1
+ */
 class LLMS_Shortcode_Course_Continue_Button extends LLMS_Shortcode_Course_Element {
 
 	/**
 	 * Shortcode tag
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $tag = 'lifterlms_course_continue_button';
 
@@ -24,9 +30,9 @@ class LLMS_Shortcode_Course_Continue_Button extends LLMS_Shortcode_Course_Elemen
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
-	 * @return   array
-	 * @since    3.11.1
-	 * @version  3.11.1
+	 * @since 3.11.1
+	 *
+	 * @return array
 	 */
 	protected function get_default_attributes() {
 		return array(
@@ -37,9 +43,9 @@ class LLMS_Shortcode_Course_Continue_Button extends LLMS_Shortcode_Course_Elemen
 	/**
 	 * Call the template function for the course element
 	 *
-	 * @return   void
-	 * @since    3.11.1
-	 * @version  3.11.1
+	 * @since 3.11.1
+	 *
+	 * @return void
 	 */
 	protected function template_function() {
 

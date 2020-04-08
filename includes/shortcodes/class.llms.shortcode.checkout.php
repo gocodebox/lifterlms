@@ -13,11 +13,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LifterLMS Checkout Page Shortcode
- *
- * Controls functionality associated with shortcode [llms_checkout].
- *
- * @package LifterLMS/Shortcodes
+ * LLMS_Shortcode_Checkout
  *
  * @since 1.0.0
  * @since 3.30.1 Added check via llms_locate_order_for_user_and_plan() to automatically resume an existing pending order for logged in users if one exists.

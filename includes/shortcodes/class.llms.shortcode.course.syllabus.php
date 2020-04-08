@@ -4,28 +4,34 @@
  *
  * [lifterlms_course_syllabus]
  *
- * @since    3.6.0
- * @version  3.6.0
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.6.0
+ * @version 3.6.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_Course_Syllabus
+ *
+ * @since 3.6.0
+ */
 class LLMS_Shortcode_Course_Syllabus extends LLMS_Shortcode_Course_Element {
 
 	/**
 	 * Shortcode tag
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $tag = 'lifterlms_course_syllabus';
 
 	/**
 	 * Call the template function for the course element
 	 *
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @since 3.6.0
+	 *
+	 * @return void
 	 */
 	protected function template_function() {
 

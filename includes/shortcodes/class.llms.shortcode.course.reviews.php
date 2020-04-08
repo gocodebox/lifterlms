@@ -4,19 +4,25 @@
  *
  * [lifterlms_course_reviews]
  *
- * @since    3.6.0
- * @version  3.6.0
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.6.0
+ * @version 3.6.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_Course_Reviews
+ *
+ * @since 3.6.0
+ */
 class LLMS_Shortcode_Course_Reviews extends LLMS_Shortcode_Course_Element {
 
 	/**
 	 * Shortcode tag
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $tag = 'lifterlms_course_reviews';
 

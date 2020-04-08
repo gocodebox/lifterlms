@@ -6,13 +6,20 @@
  *
  * [lifterlms_membership_link]
  *
- * @since    3.0.0
- * @version  3.4.3
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.0.0
+ * @version 3.4.3
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_Membership_Link
+ *
+ * @since 3.0.0
+ * @since 3.4.3 Unknown.
+ */
 class LLMS_Shortcode_Membership_Link extends LLMS_Shortcode {
 
 	/**

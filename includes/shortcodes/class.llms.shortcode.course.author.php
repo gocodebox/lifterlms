@@ -4,29 +4,38 @@
  *
  * [lifterlms_course_author]
  *
- * @since    3.6.0
- * @version  3.11.1
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.6.0
+ * @version 3.11.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_Course_Author
+ *
+ * @since 3.6.0
+ * @since 3.11.1 Unknown.
+ */
 class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 
 	/**
 	 * Shortcode tag
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $tag = 'lifterlms_course_author';
 
 	/**
+	 * Get default shortcode attributes.
+	 *
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
-	 * @return   array
-	 * @since    3.6.0
-	 * @version  3.6.0
+	 * @since 3.6.0
+	 *
+	 * @return array
 	 */
 	protected function get_default_attributes() {
 		return array(
@@ -37,12 +46,13 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 	}
 
 	/**
-	 * Retrieve the author ID of th course
+	 * Retrieve the author ID of the course
+	 *
 	 * Lessons and Quizzes cascade up
 	 *
-	 * @return   int|null
-	 * @since    3.11.1
-	 * @version  3.11.1
+	 * @since 3.11.1
+	 *
+	 * @return int|null
 	 */
 	private function get_author_id() {
 
@@ -63,9 +73,10 @@ class LLMS_Shortcode_Course_Author extends LLMS_Shortcode_Course_Element {
 	/**
 	 * Call the template function for the course element
 	 *
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.11.1
+	 * @since 3.6.0
+	 * @since 3.11.1
+	 *
+	 * @return void
 	 */
 	protected function template_function() {
 

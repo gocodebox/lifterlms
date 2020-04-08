@@ -4,6 +4,8 @@
  *
  * [lifterlms_courses]
  *
+ * @package LifterLMS/Classes/Shortcodes
+ *
  * @since 3.14.0
  * @version 3.31.0
  */

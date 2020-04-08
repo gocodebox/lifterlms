@@ -1,21 +1,28 @@
 <?php
 /**
  * LifterLMS My Achievements
+ *
  * [lifterlms_my_achievements]
  *
- * @since    3.14.1
- * @version  3.14.1
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.14.1
+ * @version 3.14.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Shortcode_My_Achievements
+ *
+ * @since 3.14.1
+ */
 class LLMS_Shortcode_My_Achievements extends LLMS_Shortcode {
 
 	/**
 	 * Shortcode tag
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $tag = 'lifterlms_my_achievements';
 
@@ -23,9 +30,8 @@ class LLMS_Shortcode_My_Achievements extends LLMS_Shortcode {
 	 * Retrieves an array of default attributes which are automatically merged
 	 * with the user submitted attributes and passed to $this->get_output()
 	 *
-	 * @return   array
-	 * @since    3.14.1
-	 * @version  3.14.1
+	 * @since 3.14.1
+	 * @return array
 	 */
 	protected function get_default_attributes() {
 		return array(
@@ -41,9 +47,9 @@ class LLMS_Shortcode_My_Achievements extends LLMS_Shortcode {
 	 * $atts & $content are both filtered before being passed to get_output()
 	 * output is filtered so the return of get_output() doesn't need its own filter
 	 *
-	 * @return   string
-	 * @since    3.14.1
-	 * @version  3.14.1
+	 * @since 3.14.1
+	 *
+	 * @return string
 	 */
 	protected function get_output() {
 

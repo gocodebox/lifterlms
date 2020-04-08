@@ -1,13 +1,22 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Course Outline Shortcode
  *
  * [lifterlms_course_outline]
  *
- * @since    3.5.1
- * @version  3.19.2
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.5.1
+ * @version 3.19.2
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Shortcode_Course_Outline
+ *
+ * @since 3.5.1
+ * @since 3.19.2 Unknown.
  */
 class LLMS_Shortcode_Course_Outline extends LLMS_Shortcode {
 

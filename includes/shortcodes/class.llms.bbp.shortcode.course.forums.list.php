@@ -4,13 +4,20 @@
  *
  * [lifterlms_bbp_course_forums]
  *
- * @since    3.12.0
- * @version  3.12.1
+ * @package LifterLMS/Classes/Shortcodes
+ *
+ * @since 3.12.0
+ * @version 3.12.1
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_BBP_Shortcode_Course_Forums_List
+ *
+ * @since 3.12.0
+ * @since 3.12.1 Unknown.
+ */
 class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Element {
 
 	/**
@@ -23,9 +30,10 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 	/**
 	 * Retrieve the forum ids associated with the course
 	 *
-	 * @return   array
-	 * @since    3.12.0
-	 * @version  3.12.1
+	 * @since 3.12.0
+	 * @since 3.12.1 Unknown.
+	 *
+	 * @return array
 	 */
 	private function get_forums() {
 
@@ -43,9 +51,9 @@ class LLMS_BBP_Shortcode_Course_Forums_List extends LLMS_Shortcode_Course_Elemen
 	/**
 	 * Call the template function for the course element
 	 *
-	 * @return   void
-	 * @since    3.12.0
-	 * @version  3.12.0
+	 * @since 3.12.0
+	 *
+	 * @return void
 	 */
 	protected function template_function() {
 
