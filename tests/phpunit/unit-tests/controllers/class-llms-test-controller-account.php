@@ -6,11 +6,57 @@
  *
  * @since 3.19.0
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
+ * @since [version] Added tests for the `lost_password()` method.
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
-	// consider dates equal within 60 seconds
+	// Consider dates equal within 60 seconds.
 	private $date_delta = 60;
+
+	/**
+	 * setup the test case.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function setUp() {
+
+		parent::setUp();
+		$this->main = new LLMS_Controller_Account();
+
+	}
+
+	/**
+	 * Teardown the test case.
+	 *
+	 * Clears LifterLMS Notices.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function tearDown() {
+
+		parent::tearDown();
+		llms_clear_notices();
+
+	}
+
+	/**
+	 * Mock wp_mail() arguments to ensure we fail when we want to test a wp_mail() failure.
+	 *
+	 * @since [version]
+	 *
+	 * @param  array $args Associative array of arguments passed to wp_mail()
+	 * @return array
+	 */
+	public function fail_wp_mail( $args ) {
+
+		$args['to'] = 'fail';
+		return $args;
+
+	}
 
 	/**
 	 * Test order completion actions
@@ -76,6 +122,225 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 			$this->assertEquals( $expected, get_post_status( $order->get( 'id' ) ) );
 
 		}
+
+	}
+
+	/**
+	 * Test lost_password() when form not submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_not_submitted() {
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->assertNull( $this->main->lost_password() );
+		$this->assertEquals( $actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+	}
+
+	/**
+	 * Test lost_password() when an invalid nonce is submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_invalid_nonce() {
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->mockPostRequest( array(
+			'_lost_password_nonce' => 'fake',
+		) );
+
+		$this->assertNull( $this->main->lost_password() );
+		$this->assertEquals( $actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+	}
+
+
+	/**
+	 * Test lost_password() error: login not submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_missing_login() {
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->mockPostRequest( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+		) );
+
+		$res = $this->main->lost_password();
+		$this->assertEquals( ++$actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_pass_reset_missing_login', $res );
+
+		$this->assertHasNotice( 'Enter a username or e-mail address.', 'error' );
+
+	}
+
+	/**
+	 * Test lost_password() error: user not found.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_user_not_found() {
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->mockPostRequest( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => 'fake',
+		) );
+
+		$res = $this->main->lost_password();
+
+		$this->assertEquals( ++$actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_pass_reset_invalid_login', $res );
+
+		$this->assertHasNotice( 'Invalid username or e-mail address.', 'error' );
+
+	}
+
+	/**
+	 * Test lost_password() when password reset is disabled by the `allow_password_reset` WP core filter.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_reset_disabled() {
+
+		$user = $this->factory->user->create_and_get();
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->mockPostRequest( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => $user->user_email,
+		) );
+
+		add_filter( 'allow_password_reset', '__return_false' );
+
+		$res = $this->main->lost_password();
+
+		$this->assertEquals( ++$actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_pass_reset_disabled', $res );
+
+		$this->assertHasNotice( 'Password reset is not allowed for this user.', 'error' );
+
+		remove_filter( 'allow_password_reset', '__return_false' );
+
+	}
+
+	/**
+	 * Test lost_password() when a wp_mail() error is encountered.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_email_error() {
+
+		$user = $this->factory->user->create_and_get();
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->mockPostRequest( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => $user->user_email,
+		) );
+
+		add_filter( 'wp_mail', array( $this, 'fail_wp_mail' ) );
+
+		$res = $this->main->lost_password();
+
+		$this->assertEquals( ++$actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'llms_pass_reset_email_failure', $res );
+
+		$this->assertHasNotice( 'Unable to reset password due to an unknown error. Please try again.', 'error' );
+
+		remove_filter( 'wp_mail', array( $this, 'fail_wp_mail' ) );
+
+	}
+
+	/**
+	 * Test lost_password() success with an email address.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_with_email_success() {
+
+		$user = $this->factory->user->create_and_get();
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->mockPostRequest( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => $user->user_email,
+		) );
+
+		$res = $this->main->lost_password();
+
+		$this->assertEquals( ++$actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+		$this->assertTrue( $res );
+
+		$this->assertHasNotice( 'Check your e-mail for the confirmation link.', 'success' );
+
+	}
+
+	/**
+	 * Test lost_password() success with username.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_lost_password_with_login_success() {
+
+		$user = $this->factory->user->create_and_get();
+
+		// Baseline actions count.
+		$actions = did_action( 'llms_before_lost_password_form_submit' );
+
+		$this->mockPostRequest( array(
+			'_lost_password_nonce' => wp_create_nonce( 'llms_lost_password' ),
+			'llms_login'           => $user->user_login,
+		) );
+
+		$res = $this->main->lost_password();
+
+		$this->assertEquals( ++$actions, did_action( 'llms_before_lost_password_form_submit' ) );
+
+		$this->assertTrue( $res );
+
+		$this->assertHasNotice( 'Check your e-mail for the confirmation link.', 'success' );
 
 	}
 
