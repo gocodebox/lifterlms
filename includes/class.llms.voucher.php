@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.0.0
- * @version 3.27.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.0.0
  * @since 3.27.0 Unknown.
+ * @since [version] Only allow vouchers to be used if the voucher post is "published".
  */
 class LLMS_Voucher {
 
