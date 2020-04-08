@@ -78,7 +78,6 @@
 		<exclude-pattern>includes/forms/*.php</exclude-pattern>
 		<exclude-pattern>includes/functions/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
@@ -96,7 +95,6 @@
 		<exclude-pattern>includes/forms/*.php</exclude-pattern>
 		<exclude-pattern>includes/functions/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
@@ -114,7 +112,6 @@
 		<exclude-pattern>includes/forms/*.php</exclude-pattern>
 		<exclude-pattern>includes/functions/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>

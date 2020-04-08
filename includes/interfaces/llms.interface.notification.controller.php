@@ -2,22 +2,29 @@
 /**
  * LifterLMS Notification Controller Interface
  *
- * @since    ??
- * @version  ??
+ * @package LifterLMS/Interfaces
+ *
+ * @since Unknown
+ * @version Unknown
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Interface_Notification_Controller
+ *
+ * @since Unknown
+ */
 interface LLMS_Interface_Notification_Controller {
 
 	/**
 	 * Callback function for sending notifications
+	 *
 	 * Depending on the action that triggers this callback there will be a variable number of parameters
 	 *
-	 * @return   void
-	 * @since    ??
-	 * @version  ??
+	 * @since Unknown
+	 *
+	 * @return void
 	 */
 	public function action_callback();
 

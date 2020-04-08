@@ -2,40 +2,47 @@
 /**
  * LifterLMS Post Instructors Interface
  *
- * @since    3.13.0
- * @version  3.13.0
+ * @package LifterLMS/Interfaces
+ *
+ * @since 3.13.0
+ * @version 3.13.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LLMS_Interface_Post_Instructors interface
+ *
+ * @since 3.13.0
+ */
 interface LLMS_Interface_Post_Instructors {
 
 	/**
 	 * Retrieve an instance of the Post Instructors model
 	 *
-	 * @return   obj
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @return obj
 	 */
 	public function instructors();
 
 	/**
 	 * Retrieve course instructor information
 	 *
-	 * @param    boolean $exclude_hidden  if true, excludes hidden instructors from the return array
-	 * @return   array
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param boolean $exclude_hidden If true, excludes hidden instructors from the return array.
+	 * @return array
 	 */
 	public function get_instructors( $exclude_hidden = false );
 
 	/**
 	 * Save instructor information
 	 *
-	 * @param    array $instructors  array of course instructor information
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * @since 3.13.0
+	 *
+	 * @param array $instructors Array of course instructor information.
+	 * @return array
 	 */
 	public function set_instructors( $instructors = array() );
 
