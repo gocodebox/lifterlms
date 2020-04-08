@@ -35,6 +35,8 @@ class LLMS_Frontend_Forms {
 	 * @since Unknown
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
+	 * @todo It appears this function is not called from anywhere and can be deprecated.
+	 *
 	 * @return void
 	 */
 	public function reset_password() {
