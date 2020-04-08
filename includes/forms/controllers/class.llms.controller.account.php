@@ -22,8 +22,10 @@ class LLMS_Controller_Account {
 	/**
 	 * Constructor
 	 *
-	 * @since    3.7.0
-	 * @version  3.10.0
+	 * @since 3.7.0
+	 * @since 3.10.0 Added `cancel_subscription()` handler.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -41,11 +43,11 @@ class LLMS_Controller_Account {
 	 * @since 3.19.0 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function cancel_subscription() {
 
-		// invalid nonce or the form wasn't submitted
+		// Invalid nonce or the form wasn't submitted.
 		if ( ! llms_verify_nonce( '_cancel_sub_nonce', 'llms_cancel_subscription', 'POST' ) ) {
 			return;
 		} elseif ( empty( $_POST['order_id'] ) ) {
@@ -61,8 +63,8 @@ class LLMS_Controller_Account {
 
 		$note = __( 'Subscription cancelled by student from account page.', 'lifterlms' );
 
-		// active subscriptions move to pending-cancel
-		// all other statuses are cancelled immediately
+		// Active subscriptions move to pending-cancel.
+		// All other statuses are cancelled immediately.
 		if ( 'llms-active' === $order->get( 'status' ) ) {
 			$new_status = 'pending-cancel';
 			$note      .= ' ' . __( 'Enrollment will be cancelled at the end of the prepaid period.', 'lifterlms' );
@@ -80,9 +82,10 @@ class LLMS_Controller_Account {
 	/**
 	 * Handle submission of user account edit form
 	 *
-	 * @return   void
-	 * @since    3.7.0
-	 * @version  3.24.0
+	 * @since 3.7.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function update() {
 
@@ -92,14 +95,15 @@ class LLMS_Controller_Account {
 
 		do_action( 'llms_before_user_account_update_submit' );
 
-		// no user logged in, can't update!
-		// this shouldn't happen but let's check anyway
+		// No user logged in, can't update!
+		// This shouldn't happen but let's check anyway.
 		if ( ! get_current_user_id() ) {
 			return llms_add_notice( __( 'Please log in and try again.', 'lifterlms' ), 'error' );
 		}
 
 		$person_id = llms_update_user( $_POST, 'account' );
-		// validation or update issues
+
+		// Validation or update issues.
 		if ( is_wp_error( $person_id ) ) {
 
 			foreach ( $person_id->get_error_messages() as $msg ) {
@@ -115,7 +119,7 @@ class LLMS_Controller_Account {
 
 			llms_add_notice( __( 'Your account information has been saved.', 'lifterlms' ), 'success' );
 
-			// handle redirect
+			// Handle redirect.
 			llms_redirect_and_exit( apply_filters( 'lifterlms_update_account_redirect', llms_get_endpoint_url( 'edit-account', '', llms_get_page_url( 'myaccount' ) ) ) );
 
 		}
@@ -138,7 +142,7 @@ class LLMS_Controller_Account {
 	 */
 	public function lost_password() {
 
-		// invalid nonce or the form wasn't submitted.
+		// Invalid nonce or the form wasn't submitted.
 		if ( ! llms_verify_nonce( '_lost_password_nonce', 'llms_lost_password', 'POST' ) ) {
 			return null;
 		}
@@ -191,9 +195,7 @@ class LLMS_Controller_Account {
 				} elseif ( is_wp_error( $allow ) ) {
 					$err = $allow;
 				}
-
 			}
-
 		}
 
 		/**
@@ -247,28 +249,28 @@ class LLMS_Controller_Account {
 		llms_add_notice( __( 'Check your e-mail for the confirmation link.', 'lifterlms' ) );
 		return true;
 
-
 	}
 
 	/**
 	 * Handle form submission of the Reset Password form
-	 * This is the form that actually updates a users password
+	 *
+	 * This is the form that actually updates a users password.
 	 *
 	 * @since 3.8.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function reset_password() {
 
-		// invalid nonce or the form wasn't submitted
+		// Invalid nonce or the form wasn't submitted.
 		if ( ! llms_verify_nonce( '_reset_password_nonce', 'llms_reset_password', 'POST' ) ) {
 			return;
 		}
 
 		$valid = LLMS_Person_Handler::validate_fields( $_POST, 'reset_password' );
 
-		// validation or registration issues
+		// Validation or registration issues.
 		if ( is_wp_error( $valid ) ) {
 			foreach ( $valid->get_error_messages() as $msg ) {
 				llms_add_notice( $msg, 'error' );
