@@ -409,7 +409,7 @@ class LLMS_Voucher {
 	 *
 	 * @since 2.0.0
 	 *
-	 * @param array $data Voucher data
+	 * @param array $data Voucher data.
 	 * @return int|false The number of rows updated, or false on error.
 	 */
 	public function save_redeemed_code( $data ) {
@@ -489,7 +489,7 @@ class LLMS_Voucher {
 	 * @since 2.0.0
 	 * @since 3.35.0 Prepare SQL.
 	 *
-	 * @param array[] $codes Array of voucher code strings.
+	 * @param string[] $codes Array of voucher code strings.
 	 * @return boolean
 	 */
 	public function is_code_duplicate( $codes ) {
@@ -538,6 +538,7 @@ class LLMS_Voucher {
 	 * Delete products from a voucher
 	 *
 	 * @since 2.0.0
+	 *
 	 * @return int
 	 */
 	public function delete_products() {
