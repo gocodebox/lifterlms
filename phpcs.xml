@@ -18,8 +18,10 @@
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
     <exclude-pattern>includes/admin/class.llms.admin.analytics.php</exclude-pattern>
 
-    <!-- Exclude libs -->
-	<exclude-pattern>includes/libraries/*.php</exclude-pattern>
+	<!-- Don't throw errors for this 3rd party library file -->
+	<rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
+		<exclude-pattern>includes/libraries/wp-background-processing/wp-background-process.php</exclude-pattern>
+	</rule>
 
 	<rule ref="LifterLMS">
 
@@ -77,7 +79,6 @@
 		<exclude-pattern>includes/functions/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
 		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
-		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
@@ -96,7 +97,6 @@
 		<exclude-pattern>includes/functions/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
 		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
-		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
@@ -115,7 +115,6 @@
 		<exclude-pattern>includes/functions/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
 		<exclude-pattern>includes/interfaces/*.php</exclude-pattern>
-		<exclude-pattern>includes/libraries/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
