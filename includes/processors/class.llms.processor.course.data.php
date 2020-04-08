@@ -1,9 +1,7 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
-
 /**
  * Handle background processing of average progress & average grade for LifterLMS Courses
+ *
  * This triggers a bg process which gets the current progress
  * of all students in a course
  *
@@ -12,22 +10,32 @@ if ( ! defined( 'ABSPATH' ) ) {
  *      students unenroll
  *      students complete lessons
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @package LifterLMS/Classes/Processors
+ *
+ * @since 3.15.0
+ * @version 3.15.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Processor_Course_Data
+ *
+ * @since 3.15.0
  */
 class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 
 	/**
 	 * Unique identifier for the processor
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	protected $id = 'course_data';
 
 	/**
 	 * WP Cron Hook for scheduling the bg process
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	private $schedule_hook = 'llms_calculate_course_data';
 
@@ -36,7 +44,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * when enrollment is higher than this number
 	 * throttling the calculations will be delayed
 	 *
-	 * @var  int
+	 * @var int
 	 */
 	private $throttle_max_students;
 
@@ -46,7 +54,7 @@ class LLMS_Processor_Course_Data extends LLMS_Abstract_Processor {
 	 * Should be time in seconds
 	 * default is HOUR_IN_SECONDS * 4
 	 *
-	 * @var  int
+	 * @var int
 	 */
 	private $throttle_frequency;
 

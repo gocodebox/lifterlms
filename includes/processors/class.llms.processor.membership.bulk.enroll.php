@@ -9,14 +9,19 @@
  *      students unenroll
  *      students complete lessons
  *
- * @since    3.15.0
- * @version  3.26.1
+ * @package LifterLMS/Classes/Processors
+ *
+ * @since 3.15.0
+ * @version 3.26.1
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Processor_Membership_Bulk_Enroll class
+ *
+ * @since 3.15.0
+ * @since 3.26.1 Unknown.
  */
 class LLMS_Processor_Membership_Bulk_Enroll extends LLMS_Abstract_Processor {
 
