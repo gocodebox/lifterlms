@@ -83,7 +83,6 @@
 		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
 		<exclude-pattern>includes/processors/*.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/*.php</exclude-pattern>
-		<exclude-pattern>includes/theme-support/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
 
 		<exclude-pattern>templates/*.php</exclude-pattern>
@@ -106,7 +105,6 @@
 		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
 		<exclude-pattern>includes/processors/*.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/*.php</exclude-pattern>
-		<exclude-pattern>includes/theme-support/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
 
 		<exclude-pattern>templates/*.php</exclude-pattern>
@@ -129,7 +127,6 @@
 		<exclude-pattern>includes/privacy/*.php</exclude-pattern>
 		<exclude-pattern>includes/processors/*.php</exclude-pattern>
 		<exclude-pattern>includes/shortcodes/*.php</exclude-pattern>
-		<exclude-pattern>includes/theme-support/*.php</exclude-pattern>
 		<exclude-pattern>includes/Users/*.php</exclude-pattern>
 
 		<exclude-pattern>templates/*.php</exclude-pattern>
