@@ -218,8 +218,8 @@ class LLMS_Controller_Account {
 
 			$err->add( 'llms_pass_reset_email_failure', __( 'Unable to reset password due to an unknown error. Please try again.', 'lifterlms' ) );
 			llms_add_notice( $err->get_error_message(), 'error' );
-
 			return $err;
+
 		}
 
 		// Success.
