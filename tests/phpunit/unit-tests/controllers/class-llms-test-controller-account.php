@@ -434,7 +434,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		$this->assertIsWPError( $res );
 		$this->assertWPErrorCodeEquals( 'invalid_key', $res );
-		$this->assertHasNotice( 'Invalid key.' );
+		$this->assertStringContains( 'Invalid key', llms_get_notices() );
 
 		// Real user fake key.
 		$user = $this->factory->user->create_and_get();
@@ -445,7 +445,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
 		$this->assertIsWPError( $res );
 		$this->assertWPErrorCodeEquals( 'invalid_key', $res );
-		$this->assertHasNotice( 'Invalid key.' );
+		$this->assertStringContains( 'Invalid key', llms_get_notices() );
 
 	}
 
