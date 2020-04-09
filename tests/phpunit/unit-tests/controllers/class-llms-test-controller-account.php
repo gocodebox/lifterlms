@@ -6,7 +6,7 @@
  *
  * @since 3.19.0
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
- * @since [version] Added tests for the `lost_password()` method.
+ * @since [version] Added tests for the `lost_password()` and `reset_password()` methods.
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -246,9 +246,9 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$this->assertEquals( ++$actions, did_action( 'llms_before_lost_password_form_submit' ) );
 
 		$this->assertIsWPError( $res );
-		$this->assertWPErrorCodeEquals( 'llms_pass_reset_disabled', $res );
+		$this->assertWPErrorCodeEquals( 'no_password_reset', $res );
 
-		$this->assertHasNotice( 'Password reset is not allowed for this user.', 'error' );
+		$this->assertHasNotice( 'Password reset is not allowed for this user', 'error' );
 
 		remove_filter( 'allow_password_reset', '__return_false' );
 
@@ -343,6 +343,142 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 		$this->assertTrue( $res );
 
 		$this->assertHasNotice( 'Check your e-mail for the confirmation link.', 'success' );
+
+	}
+
+	/**
+	 * Test reset_password(): form not submitted.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_not_submitted() {
+
+		$this->assertNull( $this->main->reset_password() );
+
+	}
+
+	/**
+	 * Test reset_password(): invalid nonce
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_invalid_nonce() {
+
+		$this->mockPostRequest( array(
+			'_reset_password_nonce' => 'fake',
+		) );
+
+		$this->assertNull( $this->main->reset_password() );
+
+	}
+
+	/**
+	 * Test reset_password(): form validation errors (missing required fields)
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_form_validation_error() {
+
+		$this->mockPostRequest( array(
+			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+		) );
+
+		$res = $this->main->reset_password();
+
+		$this->assertIsWPError( $res );
+		$this->assertEquals( 4, count( $res->errors ) );
+
+		$errors = array(
+			'Password is a required field',
+			'Confirm Password is a required field',
+			'llms_reset_key is a required field',
+			'llms_reset_login is a required field',
+		);
+
+		$notices = llms_get_notices();
+
+		foreach ( $errors as $error ) {
+			$this->assertStringContains( $error, $notices );
+		}
+
+	}
+
+	/**
+	 * Test reset_password(): password reset key errors
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_reset_key_errors() {
+
+		$pass = wp_generate_password( 12 );
+
+		// Fake user and key.
+		$post = array(
+			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+			'password'         => $pass,
+			'password_confirm' => $pass,
+			'llms_reset_key'   => 'fake',
+			'llms_reset_login' => 'fake',
+		);
+		$this->mockPostRequest( $post );
+
+		$res = $this->main->reset_password();
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'invalid_key', $res );
+		$this->assertHasNotice( 'Invalid key.' );
+
+		// Real user fake key.
+		$user = $this->factory->user->create_and_get();
+		$data['llms_reset_login'] = $user->user_login;
+		$this->mockPostRequest( $post );
+
+		$res = $this->main->reset_password();
+
+		$this->assertIsWPError( $res );
+		$this->assertWPErrorCodeEquals( 'invalid_key', $res );
+		$this->assertHasNotice( 'Invalid key.' );
+
+	}
+
+	/**
+	 * Test reset_password(): success
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_reset_password_success() {
+
+		$user = $this->factory->user->create_and_get();
+		$pass = wp_generate_password( 12 );
+
+		// Fake user and key.
+		$post = array(
+			'_reset_password_nonce' => wp_create_nonce( 'llms_reset_password' ),
+			'password'         => $pass,
+			'password_confirm' => $pass,
+			'llms_reset_key'   => get_password_reset_key( $user ),
+			'llms_reset_login' => $user->user_login,
+		);
+
+		$this->mockPostRequest( $post );
+
+		$this->assertTrue( $this->main->reset_password() );
+
+		$user = get_user_by( 'id', $user->ID );
+		$this->assertTrue( wp_check_password( $pass, $user->user_pass ) );
+
+		$this->assertHasNotices( 'success' );
+		$this->assertStringContains( 'Your password has been updated.', llms_get_notices() );
 
 	}
 
