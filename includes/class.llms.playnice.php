@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.1.3
  * @since 3.31.0 Resolve dashboard endpoint 404s resulting from changes in WC 3.6.
  * @since [version] Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
+ *                 Deprecated `LLMS_PlayNice::wc_is_account_page()`.
  */
 class LLMS_PlayNice {
 
@@ -51,6 +52,28 @@ class LLMS_PlayNice {
 		if ( function_exists( 'WC' ) ) {
 			add_filter( 'woocommerce_account_endpoint_page_not_found', array( $this, 'wc_account_endpoint_page_not_found' ) );
 		}
+	}
+
+	/**
+	 * Allow our dashboard endpoints sharing a query var with WC to function
+	 *
+	 * Lie to WC and tell it we're on a WC account page when accessing endpoints which
+	 * share a query var with WC. See https://github.com/gocodebox/lifterlms/issues/849.
+	 *
+	 * @since 3.31.0
+	 * @deprecated [version]
+	 *
+	 * @param bool $is_acct_page False from `woocommerce_is_account_page` filter.
+	 * @return bool
+	 */
+	public function wc_is_account_page( $is_acct_page ) {
+
+		if ( ! $is_acct_page && is_llms_account_page() && is_wc_endpoint_url() ) {
+			$is_acct_page = true;
+		}
+
+		return $is_acct_page;
+
 	}
 
 	/**
