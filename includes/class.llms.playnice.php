@@ -30,12 +30,13 @@ class LLMS_PlayNice {
 	 */
 	public function __construct() {
 
-		// optimize press live editor initialization.
+		// Optimize press live editor initialization.
 		add_action( 'op_liveeditor_init', array( $this, 'wp_optimizepress_live_editor' ) );
 
-		// wpe heartbeat fix.
+		// WPEngine heartbeat fix.
 		add_filter( 'wpe_heartbeat_allowed_pages', array( $this, 'wpe_heartbeat_allowed_pages' ) );
 
+		// Load other playnice things based on the presence of other plugins.
 		add_action( 'init', array( $this, 'plugins_loaded' ), 11 );
 
 	}
@@ -44,7 +45,7 @@ class LLMS_PlayNice {
 	 * Conditionally add hooks after the other plugin is loaded.
 	 *
 	 * @since 3.31.0
-	 * @since [version] Changed the way we handle endpoints conflict, using a different wc filter hook.
+	 * @since [version] Changed the way we handle endpoints conflict, using a different WC filter hook.
 	 *
 	 * @return void
 	 */
@@ -58,15 +59,19 @@ class LLMS_PlayNice {
 	 * Allow our dashboard endpoints sharing a query var with WC to function
 	 *
 	 * Lie to WC and tell it we're on a WC account page when accessing endpoints which
-	 * share a query var with WC. See https://github.com/gocodebox/lifterlms/issues/849.
+	 * share a query var with WC.
 	 *
 	 * @since 3.31.0
-	 * @deprecated [version]
+	 * @deprecated [version] No longer required based on the usage of `wc_account_endpoint_page_not_found()`.
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/849
 	 *
 	 * @param bool $is_acct_page False from `woocommerce_is_account_page` filter.
 	 * @return bool
 	 */
 	public function wc_is_account_page( $is_acct_page ) {
+
+		llms_deprecated_function( 'LLMS_PlayNice::wc_is_account_page()', '3.37.17' );
 
 		if ( ! $is_acct_page && is_llms_account_page() && is_wc_endpoint_url() ) {
 			$is_acct_page = true;
@@ -80,9 +85,10 @@ class LLMS_PlayNice {
 	 * Allow our dashboard endpoints sharing a query var with WC to function
 	 *
 	 * Inform WC that it should not force a 404 because we're on a valid endpoint.
-	 * See https://github.com/gocodebox/lifterlms/issues/849.
 	 *
 	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/849
 	 *
 	 * @param bool $is_page_not_found True from `woocommerce_account_endpoint_page_not_found` filter.
 	 * @return bool
@@ -105,9 +111,10 @@ class LLMS_PlayNice {
 	 *
 	 * This function loads all frontend files when the optimizepress live editor is initialized.
 	 *
-	 * @return   void
-	 * @since    3.2.2
-	 * @version  3.19.6
+	 * @since 3.2.2
+	 * @since 3.19.6 Unknown.
+	 *
+	 * @return void
 	 */
 	public function wp_optimizepress_live_editor() {
 
