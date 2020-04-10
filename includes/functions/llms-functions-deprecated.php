@@ -204,7 +204,7 @@ function llms_set_user_password_rest_key( $user_id ) {
  */
 function llms_verify_password_reset_key( $key = '', $login = '' ) {
 
-	llms_deprecated_function( 'llms_verifyr_password_reset_key()', '3.37.17', 'check_password_reset_key()' );
+	llms_deprecated_function( 'llms_verify_password_reset_key()', '3.37.17', 'check_password_reset_key()' );
 
 	$check = check_password_reset_key( $key, $login );
 
