@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @param  string $lastname          [user last name]
  * @param  string $password          [user password]
  * @param  string $password2         [user verify password]
- * @param  string $billing_address_1 [user billinrg address 1]
+ * @param  string $billing_address_1 [user billing address 1]
  * @param  string $billing_address_2 [user billing address 2]
  * @param  string $billing_city      [user billing city]
  * @param  string $billing_state     [user billing state]

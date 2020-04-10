@@ -14,7 +14,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	private $date_delta = 60;
 
 	/**
-	 * setup the test case.
+	 * Setup the test case.
 	 *
 	 * @since [version]
 	 *
