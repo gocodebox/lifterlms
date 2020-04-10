@@ -6,7 +6,7 @@
  * @package  LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version[version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -359,45 +359,6 @@ function llms_set_person_auth_cookie( $user_id, $remember = false ) {
 	wp_set_current_user( $user_id );
 	wp_set_auth_cookie( $user_id, $remember );
 	update_user_meta( $user_id, 'llms_last_login', current_time( 'mysql' ) );
-}
-
-/**
- * Generate a user password reset key, hash it, and store it in the database
- *
- * @param    int $user_id  WP_User ID
- * @return   string
- * @since    3.8.0
- * @version  3.8.0
- */
-function llms_set_user_password_rest_key( $user_id ) {
-
-	$user = get_user_by( 'ID', $user_id );
-
-	// generate an activation key
-	$key = wp_generate_password( 20, false );
-
-	do_action( 'retrieve_password_key', $user->user_login, $key ); // wp core hook
-
-	// insert the hashed key into the db
-	if ( empty( $wp_hasher ) ) {
-		require_once ABSPATH . 'wp-includes/class-phpass.php';
-		$wp_hasher = new PasswordHash( 8, true );
-	}
-	$hashed = $wp_hasher->HashPassword( $key );
-
-	global $wpdb;
-	$wpdb->update(
-		$wpdb->users,
-		array(
-			'user_activation_key' => $hashed,
-		),
-		array(
-			'user_login' => $user->user_login,
-		)
-	);
-
-	return $key;
-
 }
 
 /**
