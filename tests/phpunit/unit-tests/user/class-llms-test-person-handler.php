@@ -7,7 +7,7 @@
  *
  * @since 3.19.4
  * @since 3.29.4 Unknown.
- * @since [version] Add voucher-related tests.
+ * @since 3.37.17 Add voucher-related tests.
  */
 class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 
@@ -324,7 +324,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_fields() when a non-existent voucher is submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -345,7 +345,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_fields() when a voucher code has been deleted.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -371,7 +371,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_fields() when a voucher code's parent post is deleted (or not published).
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -397,7 +397,7 @@ class LLMS_Test_Person_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_fields() when a voucher code has been redeemed the maximum number of times allowed.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */

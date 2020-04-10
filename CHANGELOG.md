@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v3.37.17 - 2020-04-10
+---------------------
+
+##### Updates
+
++ Updated the lost password and password reset form handlers for improved error handling and extendability by other plugins.
+
+##### Bug Fixes
+
++ Fixed a conflict with WooCommerce resulting in password reset issues on the WooCommerce account dashboard.
++ Fixed an issue allowing voucher codes from deleted vouchers to still be redeemed.
++ Fixed an issue with pagination on the courses tab of a users BuddyPress profile.
++ Fixed a typo in the `post_status` query arg when retrieving access plans for a course or membership.
+
+##### Deprecations
+
++ `LLMS_PlayNice::wc_is_account_page()` is no longer required and is deprecated with no replacement
++ WP core `get_password_reset_key()` should be used in favor of `llms_set_user_password_rest_key()`.
++ WP core `check_password_reset_key()` should be used in favor of `llms_verify_password_reset_key()`.
+
+
 v3.37.16 - 2020-03-31
 ---------------------
 

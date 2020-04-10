@@ -5,7 +5,7 @@
  * @param LifterLMS/Classes/Forms/Controllers
  *
  * @since 3.7.0
- * @version [version]
+ * @version 3.37.17
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.7.0
  * @since 3.35.0 Sanitize `$_POST` data.
- * @since [version] Refactored `lost_password()` and `reset_password()` methods.
+ * @since 3.37.17 Refactored `lost_password()` and `reset_password()` methods.
  */
 class LLMS_Controller_Account {
 
@@ -134,7 +134,7 @@ class LLMS_Controller_Account {
 	 * @since 3.8.0
 	 * @since 3.9.5 Unknown.
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Refactored for readability and added new hooks.
+	 * @since 3.37.17 Refactored for readability and added new hooks.
 	 *
 	 * @return null|WP_Error|true `null` when nonce cannot be verified.
 	 *                            `WP_Error` when an error is encountered.
@@ -150,7 +150,7 @@ class LLMS_Controller_Account {
 		/**
 		 * Fire an action immediately prior to the lost password form submission processing.
 		 *
-		 * @since [version]
+		 * @since 3.37.17
 		 */
 		do_action( 'llms_before_lost_password_form_submit' );
 
@@ -179,7 +179,7 @@ class LLMS_Controller_Account {
 		 * Mimics WordPress core behavior so 3rd parties don't need to add special handlers for LifterLMS
 		 * password reset flows.
 		 *
-		 * @since [version]
+		 * @since 3.37.17
 		 *
 		 * @link https://developer.wordpress.org/reference/hooks/lostpassword_post/
 		 *
@@ -235,7 +235,7 @@ class LLMS_Controller_Account {
 	 *
 	 * @since 3.8.0
 	 * @since 3.35.0 Sanitize `$_POST` data.
-	 * @since [version] Use WP core functions in favor of their (deprecated) LifterLMS clones.
+	 * @since 3.37.17 Use WP core functions in favor of their (deprecated) LifterLMS clones.
 	 *
 	 * @return null|WP_Error|true `null` for nonce errors or when the form hasn't been submitted.
 	 *                            Error object when errors are encounterd.
@@ -273,7 +273,7 @@ class LLMS_Controller_Account {
 		/**
 		 * Send the WP Core admin notification when a user's password is changed via the password reset form.
 		 *
-		 * @since [version]
+		 * @since 3.37.17
 		 *
 		 * @param bool    $notify_admin If `true`, the admin will be notified.
 		 * @param WP_User $user         User object.

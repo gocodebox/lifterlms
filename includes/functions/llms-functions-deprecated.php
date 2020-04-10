@@ -11,7 +11,7 @@
  * @package LifterLMS/Functions/Deprecated
  *
  * @since 3.29.0
- * @version [version]
+ * @version 3.37.17
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -173,7 +173,7 @@ add_action( 'llms_check_for_expired_memberships', 'llms_expire_membership' );
  * Generate a user password reset key, hash it, and store it in the database
  *
  * @since 3.8.0
- * @deprecated [version] Use WP core `get_password_reset_key()` instead.
+ * @deprecated 3.37.17 Use WP core `get_password_reset_key()` instead.
  *
  * @param int $user_id WP_User ID.
  * @return string
@@ -196,7 +196,7 @@ function llms_set_user_password_rest_key( $user_id ) {
  * Verifies a plain text password key for a user (by login) against the hashed key in the database
  *
  * @since 3.8.0
- * @deprecated [version] Use wp core `check_password_reset_key()` instead.
+ * @deprecated 3.37.17 Use wp core `check_password_reset_key()` instead.
  *
  * @param string $key   Plain text activation key.
  * @param string $login User login (username).

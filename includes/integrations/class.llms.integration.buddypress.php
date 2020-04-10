@@ -5,7 +5,7 @@
  * @package LifterLMS/Integrations/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.17
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.12.2 Unknown.
  * @since 3.14.4 Unknown.
- * @since [version] Fixed `courses` pagination.
+ * @since 3.37.17 Fixed `courses` pagination.
  */
 class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 
@@ -169,7 +169,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	 *
 	 * @since 1.0.0
 	 * @since 3.14.4 Unknown.
-	 * @since [version] Added action and filters to fix handling pagination links mofication.
+	 * @since 3.37.17 Added action and filters to fix handling pagination links mofication.
 	 *
 	 * @return void
 	 */
@@ -193,7 +193,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Remove specific paginate links filter after the template has been rendered
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 */
 	public function remove_courses_paginate_links_filter() {
 		remove_filter( 'paginate_links', array( $this, 'modify_courses_paginate_links' ) );
@@ -202,7 +202,7 @@ class LLMS_Integration_Buddypress extends LLMS_Abstract_Integration {
 	/**
 	 * Modify the pagination links displayed on the courses endpoint in the bp member profile
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @param string $link Default link.
 	 * @return string

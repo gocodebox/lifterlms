@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version [version]
+ * @version 3.37.17
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.1.3
  * @since 3.31.0 Resolve dashboard endpoint 404s resulting from changes in WC 3.6.
- * @since [version] Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
+ * @since 3.37.17 Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
  *                 Deprecated `LLMS_PlayNice::wc_is_account_page()`.
  */
 class LLMS_PlayNice {
@@ -45,7 +45,7 @@ class LLMS_PlayNice {
 	 * Conditionally add hooks after the other plugin is loaded.
 	 *
 	 * @since 3.31.0
-	 * @since [version] Changed the way we handle endpoints conflict, using a different WC filter hook.
+	 * @since 3.37.17 Changed the way we handle endpoints conflict, using a different WC filter hook.
 	 *
 	 * @return void
 	 */
@@ -62,7 +62,7 @@ class LLMS_PlayNice {
 	 * share a query var with WC.
 	 *
 	 * @since 3.31.0
-	 * @deprecated [version] No longer required based on the usage of `wc_account_endpoint_page_not_found()`.
+	 * @deprecated 3.37.17 No longer required based on the usage of `wc_account_endpoint_page_not_found()`.
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/849
 	 *
@@ -86,7 +86,7 @@ class LLMS_PlayNice {
 	 *
 	 * Inform WC that it should not force a 404 because we're on a valid endpoint.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/849
 	 *

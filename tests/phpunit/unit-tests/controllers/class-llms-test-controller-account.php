@@ -6,7 +6,7 @@
  *
  * @since 3.19.0
  * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from tests lib.
- * @since [version] Added tests for the `lost_password()` and `reset_password()` methods.
+ * @since 3.37.17 Added tests for the `lost_password()` and `reset_password()` methods.
  */
 class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 
@@ -16,7 +16,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 *
 	 * Clears LifterLMS Notices.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Mock wp_mail() arguments to ensure we fail when we want to test a wp_mail() failure.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @param  array $args Associative array of arguments passed to wp_mail()
 	 * @return array
@@ -62,7 +62,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 * Test order completion actions
 	 *
 	 * @since 3.19.0
-	 * @since [version] Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
+	 * @since 3.37.17 Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() when form not submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -147,7 +147,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() when an invalid nonce is submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -169,7 +169,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() error: login not submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -195,7 +195,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() error: user not found.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -223,7 +223,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() when password reset is disabled by the `allow_password_reset` WP core filter.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -257,7 +257,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() when a wp_mail() error is encountered.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -291,7 +291,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() success with an email address.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -320,7 +320,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test lost_password() success with username.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -349,7 +349,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password(): form not submitted.
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -362,7 +362,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password(): invalid nonce
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -379,7 +379,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password(): form validation errors (missing required fields)
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -412,7 +412,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password(): password reset key errors
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -452,7 +452,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	/**
 	 * Test reset_password(): success
 	 *
-	 * @since [version]
+	 * @since 3.37.17
 	 *
 	 * @return void
 	 */
@@ -487,7 +487,7 @@ class LLMS_Test_Controller_Account extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.19.4
 	 * @since 3.34.0 Use `LLMS_Unit_Test_Exception_Exit` from test lib.
- 	 * @since [version] Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
+ 	 * @since 3.37.17 Use `$this->main->cancel_subscription()` instead of `do_action( 'init' )`.
 	 *
 	 * @return void
 	 */

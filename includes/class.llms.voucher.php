@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.0.0
- * @version [version]
+ * @version 3.37.17
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.0.0
  * @since 3.27.0 Unknown.
- * @since [version] Only allow vouchers to be used if the voucher post is "published".
+ * @since 3.37.17 Only allow vouchers to be used if the voucher post is "published".
  */
 class LLMS_Voucher {
 
@@ -270,7 +270,7 @@ class LLMS_Voucher {
 	 *
 	 * @since 2.0.0
 	 * @since 3.0.0 Unknown.
-	 * @since [version] Ensure the code's parent post is published.
+	 * @since 3.37.17 Ensure the code's parent post is published.
 	 *
 	 * @param string $code Voucher code.
 	 * @return WP_Error|object WP_Error if invalid or not redeemable OR a voucher data object.

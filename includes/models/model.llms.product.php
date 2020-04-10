@@ -7,7 +7,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.17
  * @since 3.25.2 Unknown.
  */
 
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.25.2 Unknown.
- * @since [version] Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
+ * @since 3.37.17 Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
  *                 Use `in_array` with strict comparison where possible.
  */
 class LLMS_Product extends LLMS_Post_Model {
@@ -62,7 +62,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.25.2 Unknown.
-	 * @since [version] Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
+	 * @since 3.37.17 Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
 	 *
 	 * @param bool $free_only    Optional. Only include free access plans if `true`. Defalt `false`
 	 * @param bool $visible_only Optional. Excludes hidden access plans from results. Default `true`.
@@ -223,7 +223,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		/**
 		 * Filter whether the product has free access plans
 		 *
-		 * @since [version] Added the `$product` param.
+		 * @since 3.37.17 Added the `$product` param.
 		 *
 		 * @param bool         $has_free_access_plan Whether the product `$product` has free access plans.
 		 * @param LLMS_Product $product              The LLMS_Product instance.
@@ -275,7 +275,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * Update the product's catalog visibility setting
 	 *
 	 * @since 3.6.0
-	 * @since [version] Use `in_array` with strict comparison.
+	 * @since 3.37.17 Use `in_array` with strict comparison.
 	 *
 	 * @param string $visibility Visibility term name.
 	 * @return void
