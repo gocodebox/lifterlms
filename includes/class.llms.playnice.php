@@ -72,7 +72,7 @@ class LLMS_PlayNice {
 			add_filter( 'woocommerce_account_endpoint_page_not_found', array( $this, 'wc_account_endpoint_page_not_found' ) );
 		}
 
-		if (  $wc_exists && 'divi' === strtolower( get_template() ) ) {
+		if ( $wc_exists && 'divi' === strtolower( get_template() ) ) {
 			add_action( 'et_fb_enqueue_assets', array( $this, 'divi_fb_wc_product_tabs_before' ), 1 );
 		}
 
