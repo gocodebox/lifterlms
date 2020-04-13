@@ -15,7 +15,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// create a "step" attribute for price fields
+// create a "step" attribute for price fields according to LLMS settings.
 $price_step = number_format( 0.01, get_lifterlms_decimals() );
 
 if ( ! isset( $plan ) ) {
