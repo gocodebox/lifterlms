@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 3.34.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -156,9 +156,9 @@ abstract class LLMS_Payment_Gateway {
 	 * @since 3.30.0 Unknown.
 	 * @since 3.34.3 Use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
 	 *
-	 * @param    obj    $order       Instance of an LLMS_Order object
-	 * @param    string $deprecated  (deprecated) optional message to display on the redirect screen
-	 * @return   void
+	 * @param obj    $order      Instance of an LLMS_Order object
+	 * @param string $deprecated (Deprecated) Optional message to display on the redirect screen.
+	 * @return void
 	 */
 	public function complete_transaction( $order, $deprecated = '' ) {
 
@@ -166,7 +166,7 @@ abstract class LLMS_Payment_Gateway {
 
 		$redirect = $this->get_complete_transaction_redirect_url( $order );
 
-		// deprecated msg if supplied, will be removed in a future release
+		// Deprecated msg if supplied, will be removed in a future release.
 		if ( $deprecated ) {
 
 			llms_deprecated_function( 'LLMS_Payment_Gateway::complete_transaction() with message', '3.8.0', 'LifterLMS enrollment notices' );
@@ -179,8 +179,13 @@ abstract class LLMS_Payment_Gateway {
 		// ensure notification processors get dispatched since shutdown wont be called.
 		do_action( 'llms_dispatch_notification_processors' );
 
-		// execute a redirect
-		llms_redirect_and_exit( $redirect );
+		// Execute a redirect.
+		llms_redirect_and_exit(
+			$redirect,
+			array(
+				'safe' => false,
+			)
+		);
 
 	}
 
