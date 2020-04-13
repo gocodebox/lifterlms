@@ -16,7 +16,7 @@
 defined( 'ABSPATH' ) || exit;
 
 // create a "step" attribute for price fields
-$price_step = '0.01';
+$price_step = number_format( 0.01, get_lifterlms_decimals() );
 
 if ( ! isset( $plan ) ) {
 
