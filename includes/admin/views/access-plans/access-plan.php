@@ -2,11 +2,12 @@
 /**
  * Individual Access Plan as displayed within the "Product Options" metabox.
  *
- * @package  LifterLMS/Admin/Views
+ * @package LifterLMS/Admin/Views
  *
  * @since 3.0.0
  * @since 3.30.0 Added checkout redirect settings.
  * @since 3.31.0 Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
+ * @since [version] Don't localize the price "step" html attribute.
  *
  * @var obj $course LLMS_Course.
  * @var array $checkout_redirection_types checkout redirect setting options.
@@ -15,7 +16,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-// create a "step" attribute for price fields according to LLMS settings.
+// Create a "step" attribute for price fields according to LLMS settings.
 $price_step = number_format( 0.01, get_lifterlms_decimals() );
 
 if ( ! isset( $plan ) ) {
