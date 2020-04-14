@@ -2,10 +2,16 @@
 /**
  * Make LifterLMS play nicely with other plugins, themes, & webhosts
  *
+ * * * * * * * * * * * * * * * * * *
+ * True, there is no joy           *
+ * in software conflicts (or war)  *
+ * Here we are, trying             *
+ * * * * * * * * * * * * * * * * * *
+ *
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version 3.37.17
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,9 +22,17 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.1.3
  * @since 3.31.0 Resolve dashboard endpoint 404s resulting from changes in WC 3.6.
  * @since 3.37.17 Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
- *                 Deprecated `LLMS_PlayNice::wc_is_account_page()`.
+ *                Deprecated `LLMS_PlayNice::wc_is_account_page()`.
+ * @since [version] Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
  */
 class LLMS_PlayNice {
+
+	/**
+	 * Hold temporary variables used by methods in this class.
+	 *
+	 * @var array
+	 */
+	private $temp_vars = array();
 
 	/**
 	 * Constructor
@@ -46,13 +60,75 @@ class LLMS_PlayNice {
 	 *
 	 * @since 3.31.0
 	 * @since 3.37.17 Changed the way we handle endpoints conflict, using a different WC filter hook.
+	 * @since [version] Add fix for Divi Frontend-Builder WC conflict.
 	 *
 	 * @return void
 	 */
 	public function plugins_loaded() {
-		if ( function_exists( 'WC' ) ) {
+
+		$wc_exists = function_exists( 'WC' );
+
+		if ( $wc_exists ) {
 			add_filter( 'woocommerce_account_endpoint_page_not_found', array( $this, 'wc_account_endpoint_page_not_found' ) );
 		}
+
+		if ( $wc_exists && 'divi' === strtolower( get_template() ) ) {
+			add_action( 'et_fb_enqueue_assets', array( $this, 'divi_fb_wc_product_tabs_before' ), 1 );
+		}
+
+	}
+
+	/**
+	 * After Divi processes WC metabox tabs restore our global variables (just in case).
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1079
+	 *
+	 * @param array[] $tabs Array of WC product metabox tabs.
+	 * @return array[]
+	 */
+	public function divi_fb_wc_product_tabs_after( $tabs ) {
+
+		if ( ! empty( $this->temp_vars['product'] ) ) {
+			$GLOBALS['product'] = $this->temp_vars['product'];
+		}
+
+		return $tabs;
+
+	}
+
+	/**
+	 * Temporarily remove global LLMS_Product data when the Divi Frontend Page builder is loading.
+	 *
+	 * Resolves an issue encountered when running Divi, WooCommerce, and LifterLMS which
+	 * prevents the frontend builder from loading on courses and memberships because LifterLMS
+	 * (stupidly?) and WC both use the global `$product` variable to store data about our respective
+	 * products and Divi assumes (understandably?) that `$product` is always a `WC_Product` causing
+	 * fatal errors.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://github.com/gocodebox/lifterlms/issues/1079
+	 *
+	 * @return void
+	 */
+	public function divi_fb_wc_product_tabs_before() {
+
+		global $product;
+		if ( isset( $_GET['et_fb'] ) && isset( $product ) && is_a( $product, 'LLMS_Product' ) ) {
+
+			// Store the product temporarily.
+			$this->temp_vars['product'] = $product;
+
+			// Unset it.
+			unset( $GLOBALS['product'] );
+
+			// Restore it when Divi's done with the var.
+			add_filter( 'woocommerce_product_tabs', array( $this, 'divi_fb_wc_product_tabs_after' ), 999 );
+
+		}
+
 	}
 
 	/**
