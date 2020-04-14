@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.31.0 Resolve dashboard endpoint 404s resulting from changes in WC 3.6.
  * @since 3.37.17 Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
  *                Deprecated `LLMS_PlayNice::wc_is_account_page()`.
- * @since [version] Resolve Divi/WC conflicte encountered using the frontend pagebuilder on courses and memberships.
+ * @since [version] Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
  */
 class LLMS_PlayNice {
 
@@ -125,7 +125,7 @@ class LLMS_PlayNice {
 			unset( $product, $GLOBALS['product'] );
 
 			// Restore it when Divi's done with the var.
-			add_filter( 'woocommerce_product_tabs', array( $this, 'divi_wc_product_tabs_after' ), 999 );
+			add_filter( 'woocommerce_product_tabs', array( $this, 'divi_fb_wc_product_tabs_after' ), 999 );
 
 		}
 
