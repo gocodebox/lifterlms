@@ -156,8 +156,8 @@ abstract class LLMS_Payment_Gateway {
 	 * @since 3.30.0 Unknown.
 	 * @since 3.34.3 Use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
 	 *
-	 * @param obj    $order      Instance of an LLMS_Order object
-	 * @param string $deprecated (Deprecated) Optional message to display on the redirect screen.
+	 * @param LLMS_Order $order      Instance of an LLMS_Order object.
+	 * @param string     $deprecated (Deprecated) Optional message to display on the redirect screen.
 	 * @return void
 	 */
 	public function complete_transaction( $order, $deprecated = '' ) {
