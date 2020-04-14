@@ -122,7 +122,7 @@ class LLMS_PlayNice {
 			$this->temp_vars['product'] = $product;
 
 			// Unset it.
-			unset( $product, $GLOBALS['product'] );
+			unset( $GLOBALS['product'] );
 
 			// Restore it when Divi's done with the var.
 			add_filter( 'woocommerce_product_tabs', array( $this, 'divi_fb_wc_product_tabs_after' ), 999 );
