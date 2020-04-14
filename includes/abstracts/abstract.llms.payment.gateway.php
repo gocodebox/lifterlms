@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.0.0
  * @since 3.30.0 Added access plan and query string checkout redirect settings.
  * @since 3.34.3 During order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
+ * @since [version] Allow redirection to external domains by disabling "safe" redirects.
  */
 abstract class LLMS_Payment_Gateway {
 
@@ -155,6 +156,7 @@ abstract class LLMS_Payment_Gateway {
 	 * @since 3.0.0
 	 * @since 3.30.0 Unknown.
 	 * @since 3.34.3 Use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
+	 * @since [version] Allow redirection to external domains by disabling "safe" redirects.
 	 *
 	 * @param LLMS_Order $order      Instance of an LLMS_Order object.
 	 * @param string     $deprecated (Deprecated) Optional message to display on the redirect screen.
