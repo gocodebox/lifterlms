@@ -1,6 +1,14 @@
 LifterLMS Changelog
 ===================
 
+v3.37.18 - 2020-04-14
+---------------------
+
++ Fix regression introduced in version 3.34.0 which prevented checkout success redirection to external domains.
++ Resolved a conflict with LifterLMS, Divi, and WooCommerce encountered when using the Divi frontend pagebuilder on courses and memberships.
++ Fixed issue causing localization issues when creating access plans, thanks [@mcguffin](https://github.com/mcguffin)!
+
+
 v3.37.17 - 2020-04-10
 ---------------------
 

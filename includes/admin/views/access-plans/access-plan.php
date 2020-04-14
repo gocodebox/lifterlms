@@ -7,7 +7,7 @@
  * @since 3.0.0
  * @since 3.30.0 Added checkout redirect settings.
  * @since 3.31.0 Change sale_price input from text to number to ensure min value validation is properly enforced by browsers.
- * @since [version] Don't localize the price "step" html attribute.
+ * @since 3.37.18 Don't localize the price "step" html attribute.
  *
  * @var obj $course LLMS_Course.
  * @var array $checkout_redirection_types checkout redirect setting options.

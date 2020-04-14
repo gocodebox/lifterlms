@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version [version]
+ * @version 3.37.18
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -23,7 +23,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.31.0 Resolve dashboard endpoint 404s resulting from changes in WC 3.6.
  * @since 3.37.17 Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
  *                Deprecated `LLMS_PlayNice::wc_is_account_page()`.
- * @since [version] Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
+ * @since 3.37.18 Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
  */
 class LLMS_PlayNice {
 
@@ -60,7 +60,7 @@ class LLMS_PlayNice {
 	 *
 	 * @since 3.31.0
 	 * @since 3.37.17 Changed the way we handle endpoints conflict, using a different WC filter hook.
-	 * @since [version] Add fix for Divi Frontend-Builder WC conflict.
+	 * @since 3.37.18 Add fix for Divi Frontend-Builder WC conflict.
 	 *
 	 * @return void
 	 */
@@ -81,7 +81,7 @@ class LLMS_PlayNice {
 	/**
 	 * After Divi processes WC metabox tabs restore our global variables (just in case).
 	 *
-	 * @since [version]
+	 * @since 3.37.18
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1079
 	 *
@@ -107,7 +107,7 @@ class LLMS_PlayNice {
 	 * products and Divi assumes (understandably?) that `$product` is always a `WC_Product` causing
 	 * fatal errors.
 	 *
-	 * @since [version]
+	 * @since 3.37.18
 	 *
 	 * @link https://github.com/gocodebox/lifterlms/issues/1079
 	 *

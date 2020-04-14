@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 3.37.17
+Stable tag: 3.37.18
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,14 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.18 - 2020-04-14 =
+-------------------------
+
++ Fix regression introduced in version 3.34.0 which prevented checkout success redirection to external domains.
++ Resolved a conflict with LifterLMS, Divi, and WooCommerce encountered when using the Divi frontend pagebuilder on courses and memberships.
++ Fixed issue causing localization issues when creating access plans, thanks [@mcguffin](https://github.com/mcguffin)!
+
+
 = v3.37.17 - 2020-04-10 =
 -------------------------
 
@@ -655,13 +663,5 @@ The following have been deprecated with no replacements and will be removed in t
 + Added option for admin settings fields to show an asterisk for required fields.
 + Added option for integration plugins can now add automatically generated "Settings" link to the plugins screen.
 + Bugfix: Fixed an IE compatibility issue related to usage of `Object.assign()`.
-
-
-= v3.37.8 - 2020-01-21 =
-------------------------
-
-+ Fix: Student quiz attempts are now automatically deleted when a quiz is deleted.
-+ Fix: "Orphaned" quizzes (those with no parent course and/or lesson) can be deleted from the Quiz reporting table.
-+ Fix: Quiz IDs on the quiz reporting screen now link to the quiz within the course builder. If the quiz is an "orphan" there will be no link.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
