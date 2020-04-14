@@ -1,8 +1,9 @@
 <h1 align="center">
   <img src=".github/lifterlms-logo.png" alt="LifterLMS logo" width="300">
 </h1>
+
 <p align="center">
-  [LifterLMS][site-llms] is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
+  <a href="https://lifterlms.com" title="LifterLMS website external link">LifterLMS</a> is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
 </p>
 
 <hr />
@@ -17,8 +18,6 @@
 [![Test Coverage](https://codeclimate.com/github/gocodebox/lifterlms/badges/coverage.svg)](https://codeclimate.com/github/gocodebox/lifterlms/coverage)
 [![Slack](https://img.shields.io/badge/chat-on%20slack-blue.svg)](https://lifterlms.com/slack)
 [![All Contributors](https://img.shields.io/badge/all_contributors-29-orange.svg?style=flat-square)](#contributors)
-
-[LifterLMS](https://lifterlms.com), a WordPress LMS Solution: Easily create, sell, and protect engaging online courses.
 
 <hr />
 
@@ -154,5 +153,4 @@ Endless thanks to all our incredible contributors!
 </table>
 
 <!-- References: Links -->
-
 [site-llms]:https://lifterlms.com "LifterLMS main website external link"
