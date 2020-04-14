@@ -107,6 +107,7 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/yojance"><img src="https://avatars0.githubusercontent.com/u/1916064?v=4" title="yojance" width="80" height="80"></a>
 <a href="https://github.com/tpkemme"><img src="https://avatars3.githubusercontent.com/u/3424234?v=4" title="tpkemme" width="80" height="80"></a>
 <a href="https://github.com/dineshchouhan"><img src="https://avatars3.githubusercontent.com/u/15683967?v=4" title="dineshchouhan" width="80" height="80"></a>
+<a href="https://github.com/mcguffin"><img src="https://avatars3.githubusercontent.com/u/402988?v=4" title="mcguffin" width="80" height="80"></a>
 <a href="https://github.com/wenchen"><img src="https://avatars1.githubusercontent.com/u/959457?v=4" title="wenchen" width="80" height="80"></a>
 <a href="https://github.com/tnorthcutt"><img src="https://avatars3.githubusercontent.com/u/796639?v=4" title="tnorthcutt" width="80" height="80"></a>
 <a href="https://github.com/yumashev"><img src="https://avatars0.githubusercontent.com/u/37841388?v=4" title="yumashev" width="80" height="80"></a>
@@ -117,6 +118,11 @@ Endless thanks to all our incredible contributors!
 <a href="https://github.com/andrewvaughan"><img src="https://avatars2.githubusercontent.com/u/1119590?v=4" title="andrewvaughan" width="80" height="80"></a>
 <a href="https://github.com/unt01d"><img src="https://avatars3.githubusercontent.com/u/11303423?v=4" title="unt01d" width="80" height="80"></a>
 <a href="https://github.com/iTechsTR"><img src="https://avatars1.githubusercontent.com/u/33372714?v=4" title="iTechsTR" width="80" height="80"></a>
+<a href="https://github.com/moorscode"><img src="https://avatars0.githubusercontent.com/u/2005352?v=4" title="moorscode" width="80" height="80"></a>
+<a href="https://github.com/Nikschavan"><img src="https://avatars3.githubusercontent.com/u/2931091?v=4" title="Nikschavan" width="80" height="80"></a>
+<a href="https://github.com/edent"><img src="https://avatars1.githubusercontent.com/u/837136?v=4" title="edent" width="80" height="80"></a>
+<a href="https://github.com/nrherron92"><img src="https://avatars0.githubusercontent.com/u/47434271?v=4" title="nrherron92" width="80" height="80"></a>
+<a href="https://github.com/sujaypawar"><img src="https://avatars2.githubusercontent.com/u/2222249?v=4" title="sujaypawar" width="80" height="80"></a>
 
 [//]: contributor-faces
 
