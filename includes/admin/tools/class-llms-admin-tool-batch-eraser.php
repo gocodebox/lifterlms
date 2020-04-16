@@ -14,6 +14,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Admin_Tool_Batch_Eraser
+ *
+ * @since [version]
  */
 class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 
@@ -23,25 +25,6 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	 * @var string
 	 */
 	protected $id = 'batch-eraser';
-
-	/**
-	 * Process the tool.
-	 *
-	 * This method should do whatever the tool actually does.
-	 *
-	 * By the time this tool is called a nonce and the user's capabilities have already been checked.
-	 *
-	 * @since [version]
-	 *
-	 * @return mixed
-	 */
-	protected function handle() {
-
-		global $wpdb;
-		$res = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%llms_%_batch_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
-		return $res > 0;
-
-	}
 
 	/**
 	 * Retrieve a description of the tool
@@ -83,7 +66,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	 * @return string
 	 */
 	protected function get_label() {
-		return __( 'Clear processor batches', 'lifterlms' );
+		return __( 'Delete processor batches', 'lifterlms' );
 	}
 
 	/**
@@ -94,7 +77,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	 * @return string
 	 */
 	protected function get_text() {
-		return __( 'Clear batches', 'lifterlms' );
+		return __( 'Delete batches', 'lifterlms' );
 	}
 
 	/**
@@ -117,6 +100,25 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 		}
 
 		return $count;
+
+	}
+
+	/**
+	 * Process the tool.
+	 *
+	 * This method should do whatever the tool actually does.
+	 *
+	 * By the time this tool is called a nonce and the user's capabilities have already been checked.
+	 *
+	 * @since [version]
+	 *
+	 * @return mixed
+	 */
+	protected function handle() {
+
+		global $wpdb;
+		$res = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%llms_%_batch_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		return $res > 0;
 
 	}
 
