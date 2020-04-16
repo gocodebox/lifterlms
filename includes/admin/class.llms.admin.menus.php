@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Load tools on the status page.
  */
 class LLMS_Admin_Menus {
 
@@ -273,28 +274,52 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
+	 * Include files used on the Status page.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function status_page_includes() {
+
+		// Main Statu Page.
+		require_once 'class.llms.admin.page.status.php';
+
+		// Tools.
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
+		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-*.php' ) as $tool_path ) {
+			require_once $tool_path;
+		}
+
+	}
+
+	/**
 	 * Handle form submission actions on the status pages
 	 *
-	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 * @since [version] Load tools-related files.
+	 *
+	 * @return void
 	 */
 	public function status_page_actions() {
-		require_once 'class.llms.admin.page.status.php';
+		$this->status_page_includes();
 		LLMS_Admin_Page_Status::handle_actions();
 	}
 
 	/**
 	 * Output the HTML for the Status Pages
 	 *
-	 * @return   void
-	 * @since    ??
-	 * @version  3.11.2
+	 * @since Unknown
+	 * @since 3.11.2 Unknown.
+	 * @since [version] Load tools-related files.
+	 *
+	 * @return void
 	 */
 	public function status_page_init() {
-		require_once 'class.llms.admin.page.status.php';
+		$this->status_page_includes();
 		LLMS_Admin_Page_Status::output();
 	}
+
 }
 
 return new LLMS_Admin_Menus();
