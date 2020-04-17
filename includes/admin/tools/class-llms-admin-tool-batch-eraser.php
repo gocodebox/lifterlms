@@ -4,7 +4,7 @@
  *
  * File description.
  *
- * @package LifterLMS/Admin/Tools
+ * @package LifterLMS/Admin/Tools/Classes
  *
  * @since [version]
  * @version [version]
