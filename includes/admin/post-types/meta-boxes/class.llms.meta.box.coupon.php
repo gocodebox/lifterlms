@@ -249,13 +249,13 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
 		$coupon = new LLMS_Coupon( $post_id );
 
-		// dupcheck the title
+		// Dupcheck the title.
 		$exists = llms_find_coupon( $coupon->get( 'title' ), $post_id );
 		if ( $exists ) {
 			$this->add_error( __( 'Coupon code already exists. Customers will use the most recently created coupon with this code.', 'lifterlms' ) );
 		}
 
-		// trial validation
+		// Trial validation.
 		$trial_discount = llms_filter_input( INPUT_POST, $this->prefix . 'enable_trial_discount', FILTER_SANITIZE_STRING );
 		$trial_amount   = llms_filter_input( INPUT_POST, $this->prefix . 'trial_amount', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! $trial_discount ) {
@@ -282,7 +282,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
 		$coupon->set( 'coupon_membership', $memberships );
 
-		// save all the fields
+		// Save all the fields.
 		$fields = array(
 			'coupon_amount',
 			'usage_limit',
