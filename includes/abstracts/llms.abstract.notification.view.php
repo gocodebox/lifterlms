@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.31.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,22 +16,25 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties.
  * @since 3.31.0 Add filter on `$basic_options` class property.
+ * @since [version] Introduced the method `get_object()`. It'll allow extending classes
+ *                 defining the way the object associated to the notification should be retrieved.
+ *                 Use `in_array` with strict comparison where possible.
  */
 abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Data {
 
 	/**
 	 * Settings for basic notifications
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $basic_options = array(
 		/**
 		 * Time in milliseconds to show a notification
-		 * before automatically dismissing it
+		 * before automatically dismissing it.
 		 */
 		'auto_dismiss' => 0,
 		/**
-		 * Enables manual dismissal of notifications
+		 * Enables manual dismissal of notifications.
 		 */
 		'dismissible'  => false,
 	);
@@ -45,107 +48,108 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Instance of the LLMS_Post_Model for the triggering post
 	 *
-	 * @var  LLMS_Post_Model
+	 * @var LLMS_Post_Model
 	 */
 	protected $post;
 
 	/**
 	 * Supported fields for notification types
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $supported_fields = array();
 
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var int
 	 */
 	public $trigger_id;
 
 	/**
 	 * Instance of the current LLMS_Notification
 	 *
-	 * @var  LLMS_Notification
+	 * @var LLMS_Notification
 	 */
 	protected $notification;
 
 	/**
 	 * Instance of LLMS_Student for the subscriber
 	 *
-	 * @var  LLMS_Student
+	 * @var LLMS_Student
 	 */
 	protected $subscriber;
 
 	/**
 	 * Instance of an LLMS_Student for the triggering user
 	 *
-	 * @var  LLMS_Student
+	 * @var LLMS_Student
 	 */
 	protected $user;
 
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $code The merge code to ge merged data for.
+	 * @return string
 	 */
 	abstract protected function set_merge_data( $code );
 
 	/**
 	 * Setup body content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	abstract protected function set_body();
 
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	abstract protected function set_footer();
 
 	/**
 	 * Setup notification icon for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	abstract protected function set_icon();
 
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	abstract protected function set_merge_codes();
 
 	/**
 	 * Setup notification subject line for output
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	abstract protected function set_subject();
 
 	/**
 	 * Setup notification title for output
-	 * On an email the title acts as the "heading" element
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * On an email the title acts as the "heading" element.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	abstract protected function set_title();
 
@@ -154,6 +158,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 * @since 3.31.0 Add filter on `$basic_options` class class property.
+	 * @since [version] Moved the retrieval of the associated llms post into a protected method.
 	 *
 	 * @param mixed $notification Notification id, instance of LLMS_Notification
 	 *                            or an object containing at least an 'id'.
@@ -174,27 +179,38 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 		$this->subscriber = new LLMS_Student( $this->notification->get( 'subscriber' ) );
 		$this->user       = new LLMS_Student( $this->notification->get( 'user_id' ) );
-		$this->post       = llms_get_post( $this->notification->get( 'post_id' ), 'post' );
+		$this->post       = $this->get_object();
 
 		$this->basic_options = apply_filters( $this->get_filter( 'basic_options' ), $this->basic_options, $this );
 
 	}
 
 	/**
+	 * Get the object associated to the notification
+	 *
+	 * @since [version]
+	 *
+	 * @return object
+	 */
+	protected function get_object() {
+		return llms_get_post( $this->notification->get( 'post_id' ), 'post' );
+	}
+
+	/**
 	 * Get the html for a basic notification
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	private function get_basic_html() {
 
-		// setup html classes
+		// Setup html classes.
 		$classes = array(
 			'llms-notification',
 		);
 
-		// setup html attributes
+		// Setup html attributes.
 		$attributes = array(
 			'id'      => $this->id,
 			'trigger' => $this->trigger_id,
@@ -214,7 +230,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 			$atts .= sprintf( ' data-%1$s="%2$s"', $att, $val );
 		}
 
-		// get variables
+		// Get variables.
 		$title  = $this->get_title();
 		$icon   = ( 'yes' === $this->get_option( 'icon_hide', 'no' ) ) ? '' : $this->get_icon_src();
 		$body   = $this->get_body();
@@ -245,9 +261,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the body for the notification
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	public function get_body( $merge = true ) {
 		$body = $this->get_option( 'body', apply_filters( $this->get_filter( 'set_body' ), $this->set_body(), $this ) );
@@ -260,11 +276,11 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve a formatted date
 	 *
-	 * @param    string $date    created or updated
-	 * @param    string $format  valid PHP date format, defaults to WP date format options
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $date   Created or updated.
+	 * @param string $format Valid PHP date format, defaults to WP date format options.
+	 * @return string
 	 */
 	public function get_date( $date = 'created', $format = null ) {
 
@@ -278,13 +294,14 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Get relative or absolute date
-	 * Returns relative if relative date is less than $max_days
-	 * otherwise returns the absolute date
 	 *
-	 * @param    integer $max_days  max age of notification to display relative date for
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Returns relative if relative date is less than $max_days
+	 * otherwise returns the absolute date.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param int $max_days Max age of notification to display relative date for.
+	 * @return string
 	 */
 	public function get_date_display( $max_days = 5 ) {
 
@@ -304,10 +321,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve a date relative to the current time
 	 *
-	 * @param    string $date  created or updated
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $date Created or updated.
+	 * @return string
 	 */
 	public function get_date_relative( $date = 'created' ) {
 		return llms_get_date_diff( current_time( 'timestamp' ), $this->get_date( $date, 'U' ), 1 );
@@ -316,9 +333,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get the html for an email notification
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.28.2
+	 * @since 3.28.2 Unknown.
+	 *
+	 * @return string
+	 * @since 3.8.0
 	 */
 	private function get_email_html() {
 		return apply_filters( $this->get_filter( 'get_email_html' ), $this->get_body(), $this );
@@ -327,10 +345,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get a filter hook string prefixed for the current view
 	 *
-	 * @param    string $hook   hook name
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $hook Hook name.
+	 * @return string
 	 */
 	protected function get_filter( $hook ) {
 		return 'llms_notification_view' . $this->trigger_id . '_' . $hook;
@@ -339,10 +357,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get an array of field-related options to be add to the notifications view config page on the admin panel
 	 *
-	 * @param    [type] $type  [description]
-	 * @return   [type]            [description]
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type Type of the field.
+	 * @return array
 	 */
 	public function get_field_options( $type ) {
 
@@ -403,9 +421,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the footer for the notification
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	public function get_footer() {
 		return apply_filters( $this->get_filter( 'get_footer' ), $this->set_footer(), $this );
@@ -414,9 +432,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the full HTML to be output for the notification type
 	 *
-	 * @return   string|WP_Error        if the notification type is not supported, returns an error
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string|WP_Error If the notification type is not supported, returns an error.
 	 */
 	public function get_html() {
 
@@ -432,7 +450,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 				$html = $this->get_basic_html();
 				break;
 
-			// 3rd party/custom types
+			// 3rd party/custom types.
 			default:
 				$html = apply_filters( $this->get_filter( 'get_' . $type . '_html' ), $html, $this );
 
@@ -444,11 +462,12 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Retrieve the icon id for the notification
-	 * Returns an attachment id for the image
 	 *
-	 * @return   mixed
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Returns an attachment id for the image.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return mixed
 	 */
 	public function get_icon() {
 		$icon = $this->get_option( 'icon', apply_filters( $this->get_filter( 'set_icon' ), $this->set_icon(), $this ) );
@@ -458,13 +477,15 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve a default icon for the notification based on the notification type
 	 *
-	 * @param    string $type  type of icon [positive|negative]
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.10.0
+	 * @since 3.8.0
+	 * @since 3.10.0 Unknown.
+	 * @since [version] Use `in_array` with strict comparison.
+	 *
+	 * @param string $type Type of icon [positive|negative].
+	 * @return string
 	 */
 	public function get_icon_default( $type ) {
-		if ( ! in_array( $type, array( 'negative', 'positive', 'warning' ) ) ) {
+		if ( ! in_array( $type, array( 'negative', 'positive', 'warning' ), true ) ) {
 			$ret = '';
 		} else {
 			$ret = LLMS()->plugin_url() . '/assets/images/notifications/icon-' . $type . '.png';
@@ -475,9 +496,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the icon src for the notification
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	public function get_icon_src() {
 		$src = '';
@@ -496,9 +517,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get available merge codes for the current notification
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.11.0
+	 * @since 3.8.0
+	 * @since 3.11.0 Unknown.
+	 *
+	 * @return array
 	 */
 	public function get_merge_codes() {
 		$codes = array_merge( $this->get_merge_code_defaults(), $this->set_merge_codes() );
@@ -509,9 +531,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get default merge codes available to all notifications of a given type
 	 *
-	 * @return   array
-	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @since 3.11.0
+	 *
+	 * @return array
 	 */
 	protected function get_merge_code_defaults() {
 
@@ -534,24 +556,25 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Merge a string
 	 *
-	 * @param    string $string  an unmerged string
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Use `in_array` with strict comparison.
+	 *
+	 * @param string $string An unmerged string.
+	 * @return string
 	 */
 	private function get_merged_string( $string ) {
 
-		// only merge if there's codes in the string
+		// only merge if there's codes in the string.
 		if ( false !== strpos( $string, '{{' ) ) {
 
 			foreach ( array_keys( $this->get_merge_codes() ) as $code ) {
 
-				// set defaults
-				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ) ) ) {
+				// set defaults.
+				if ( in_array( $code, array_keys( $this->get_merge_code_defaults() ), true ) ) {
 
 					$func = 'set_merge_data_default';
 
-					// set customs with extended class func
+					// set customs with extended class func.
 				} else {
 
 					$func = 'set_merge_data';
@@ -570,9 +593,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Access the protected notification object
 	 *
-	 * @return   LLMS_Notification
-	 * @since    3.18.2
-	 * @version  3.18.2
+	 * @since 3.18.2
+	 *
+	 * @return LLMS_Notification
 	 */
 	public function get_notification() {
 		return $this->notification;
@@ -580,11 +603,12 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Retrieve a prefix for options related to the notification
-	 * This overrides the LLMS_Abstract_Options_Data method
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * This overrides the LLMS_Abstract_Options_Data method.
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	protected function get_option_prefix() {
 		return sprintf( '%1$snotification_%2$s_%3$s_', $this->option_prefix, $this->trigger_id, $this->notification->get( 'type' ) );
@@ -593,9 +617,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the subject for the notification (if supported)
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	public function get_subject( $merge = true ) {
 		$subject = $this->get_option( 'subject', apply_filters( $this->get_filter( 'set_subject' ), $this->set_subject(), $this ) );
@@ -608,9 +632,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get supported fields and allow filtering for 3rd parties
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	public function get_supported_fields() {
 		return apply_filters( $this->get_filter( 'get_supported_fields' ), $this->set_supported_fields(), $this );
@@ -619,9 +643,9 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Retrieve the title for the notification
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	public function get_title( $merge = true ) {
 		$title = $this->get_option( 'title', apply_filters( $this->get_filter( 'set_title' ), $this->set_title(), $this ) );
@@ -634,11 +658,11 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Determine if the current view supports a field by ID
 	 *
-	 * @param    string $type   notification type [email|basic]
-	 * @param    string $field  field id
-	 * @return   boolean
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type  Notification type [email|basic].
+	 * @param string $field Field id.
+	 * @return bool
 	 */
 	protected function has_field_support( $type, $field ) {
 		$fields = $this->get_supported_fields();
@@ -655,22 +679,24 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Determine if the notification subscriber is the user who triggered the notification
 	 *
-	 * @return   boolean
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return bool
 	 */
 	protected function is_for_self() {
 		return ( $this->subscriber->get_id() === $this->user->get_id() );
 	}
 
 	/**
-	 * Convert a string to sentence case.
-	 * Useful for handling lowercased merged data like "you" which may appear at the beginning or middle of a sentence
+	 * Convert a string to sentence case
 	 *
-	 * @param    string $string  a string
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * Useful for handling lowercased merged data like "you" which may appear at the beginning or middle of a sentence.
+	 *
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $string A string.
+	 * @return string
 	 */
 	private function sentence_case( $string ) {
 
@@ -687,10 +713,10 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Replace default merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.11.0
-	 * @version  3.11.0
+	 * @since 3.11.0
+	 *
+	 * @param string $code The merge code to ge merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data_default( $code ) {
 
@@ -710,12 +736,13 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 
 	/**
 	 * Define field support for the view
-	 * Extending classes can override this
-	 * 3rd parties should filter $this->get_supported_fields()
 	 *
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Extending classes can override this
+	 * 3rd parties should filter $this->get_supported_fields().
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return array
 	 */
 	protected function set_supported_fields() {
 		return array(
