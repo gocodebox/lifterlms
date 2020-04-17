@@ -86,12 +86,8 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 */
 	public function __construct() {
 
-		if ( $this->should_load() ) {
-
-			add_filter( 'llms_status_tools', array( $this, 'register' ), $this->priority );
-			add_action( 'llms_status_tool', array( $this, 'maybe_handle' ) );
-
-		}
+		add_action( 'llms_status_tool', array( $this, 'maybe_handle' ) );
+		add_filter( 'llms_status_tools', array( $this, 'register' ), $this->priority );
 
 	}
 
@@ -124,6 +120,10 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 * @return array[]
 	 */
 	public function register( $tools ) {
+
+		if ( ! $this->should_load() ) {
+			return $tools;
+		}
 
 		$tools[ $this->id ] = array(
 			'description' => $this->get_description(),

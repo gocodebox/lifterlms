@@ -100,22 +100,6 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test the constructor when the tool should not load.
-	 *
-	 * @since [version]
-	 *
-	 * @return void
-	 */
-	public function test_constructor_shouldnt_load() {
-
-		$tool = $this->get_concrete_mock( false );
-
-		$this->assertFalse( has_filter( 'llms_status_tools', array( $tool, 'register' ) ) );
-		$this->assertFalse( has_action( 'llms_status_tool', array( $tool, 'maybe_handle' ) ) );
-
-	}
-
-	/**
 	 * Test maybe_handle()
 	 *
 	 * @since [version]
@@ -132,7 +116,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test register()
+	 * Test register() when the tool should load.
 	 *
 	 * @since [version]
 	 *
@@ -148,6 +132,21 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 				'text'        => 'Text',
 			),
 		), $tool->register( array() ) );
+
+	}
+
+	/**
+	 * Test register() when the tool should not load.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_register_no_load() {
+
+		$tool = $this->get_concrete_mock( false );
+
+		$this->assertEquals( array(), $tool->register( array() ) );
 
 	}
 
