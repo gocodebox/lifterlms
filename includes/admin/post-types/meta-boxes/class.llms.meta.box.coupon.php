@@ -138,7 +138,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					array(
 						'type'       => 'checkbox',
 						'label'      => __( 'Enable Trial Pricing Discount', 'lifterlms' ),
-						'desc'       => 'When checked, the coupon can apply a discount to an access plan\'s "Trial Price"',
+						'desc'       => __( 'When checked, the coupon can apply a discount to the "Trial Price" of an access plan.', 'lifterlms' ),
 						'id'         => $this->prefix . 'enable_trial_discount',
 						'value'      => 'yes',
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
