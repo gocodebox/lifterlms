@@ -76,7 +76,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 		return array(
 
 			array(
-				'title'  => 'General',
+				'title'  => __( 'General', 'lifterlms' ),
 				'fields' => array(
 					array(
 						'allow_null'      => false,
