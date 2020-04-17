@@ -11,7 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Admin_Tool_Batch_Eraser
+ * LLMS_Abstract_Admin_Tool
+ *
+ * @since [version]
  */
 abstract class LLMS_Abstract_Admin_Tool {
 

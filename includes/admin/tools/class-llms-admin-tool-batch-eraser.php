@@ -1,8 +1,6 @@
 <?php
 /**
- * File Summary
- *
- * File description.
+ * Admin tool to delete pending batches created by a background processor
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
@@ -118,6 +116,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 
 		global $wpdb;
 		$res = $wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%llms_%_batch_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
+		wp_cache_delete( $this->id, 'llms_tool_data' );
 		return $res > 0;
 
 	}
