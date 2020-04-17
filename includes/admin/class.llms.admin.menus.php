@@ -247,7 +247,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * Posts will need to be submitted for review as the instructors only actually have
 	 * the capability of a contributor with regards to posts
-	 * but this hack will allow instructors to publish new lessons, quizzes, & questions
+	 * but this hack will allow instructors to publish new lessons, quizzes, & questions.
 	 *
 	 * @since 3.13.0
 	 *
