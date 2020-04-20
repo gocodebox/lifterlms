@@ -100,13 +100,30 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test maybe_handle()
+	 * Test maybe_handle() should_load() condition
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_maybe_handle() {
+	public function test_maybe_handle_check_should_load() {
+
+		$tool = $this->get_concrete_mock( true );
+		$this->assertTrue( $tool->maybe_handle( 'mock' ) );
+
+		$tool = $this->get_concrete_mock( false );
+		$this->assertFalse( $tool->maybe_handle( 'mock' ) );
+
+	}
+
+	/**
+	 * Test maybe_handle() ensure the id matches.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_maybe_handle_check_ids() {
 
 		$tool = $this->get_concrete_mock();
 

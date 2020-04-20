@@ -101,7 +101,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 */
 	public function maybe_handle( $tool_id ) {
 
-		if ( $this->id === $tool_id ) {
+		if ( $this->should_load() && $this->id === $tool_id ) {
 			return $this->handle();
 		}
 
