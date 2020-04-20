@@ -2,15 +2,13 @@
 /**
  * LifterLMS Quiz Functions
  *
- * @author    LifterLMS
- * @category  Core
  * @package   LifterLMS/Functions
- * @since     3.16.0
- * @version   3.16.12
+ *
+ * @since 3.16.0
+ * @version [version]
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieve the number of columns needed for a picture choice question
@@ -110,14 +108,27 @@ function llms_get_quiz_attempt_statuses() {
 /**
  * Get quiz settings defined by supporting themes
  *
- * @param    string $setting  name of setting, if omitted returns all settings
- * @param    string $default  default fallback if setting not set
- * @return   array
- * @since    3.16.8
- * @version  3.16.8
+ * @since 3.16.8
+ * @since [version] Moved deprecation notice from `LLMS_Admin_Builder::get_custom_schemas()`.
+ * @deprecated [version] See https://lifterlms.com/docs/course-builder-custom-fields-for-developers for more information.
+ *
+ * @param string $setting Name of setting, if omitted returns all settings.
+ * @param string $default Default fallback if setting not set.
+ * @return array
  */
 function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 
+	// Deprecation notice for filter (and function).
+	llms_log( 'Filter `llms_get_quiz_theme_settings` deprecated since 3.17.6. For more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/' );
+
+	/**
+	 * Deprecated.
+	 *
+	 * @since 3.17.0
+	 * @deprecated 3.17.6 Deprecated. See https://lifterlms.com/docs/course-builder-custom-fields-for-developers for more information.
+	 *
+	 * @param array[] $settings Array of quiz theme settings.
+	 */
 	$settings = apply_filters(
 		'llms_get_quiz_theme_settings',
 		array(
@@ -125,7 +136,7 @@ function llms_get_quiz_theme_setting( $setting = '', $default = '' ) {
 				'id'      => '',
 				'name'    => __( 'Layout', 'lifterlms' ),
 				'options' => array(),
-				'type'    => 'select', // select, image_select
+				'type'    => 'select', // Either: select or image_select.
 			),
 		)
 	);
