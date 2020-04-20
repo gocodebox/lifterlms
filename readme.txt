@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 3.37.18
+Stable tag: 3.37.19
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,20 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.37.19 - 2020-04-20 =
+-------------------------
+
+##### Updates
+
++ Added a new debugging tool to clear pending batches created by background processors.
++ Added a new method `LLMS_Abstract_Notification_View::get_object()` which can be used by notification views to override the loading of the post (or object) which triggered the notification.
+
+# Bug Fixes
+
++ Added localization to strings on the coupon admin screen. Thanks [parfilov](https://github.com/parfilov)!
++ Fixed issue encountered in metaboxes when the `$post` global variable is not set.
+
+
 = v3.37.18 - 2020-04-14 =
 -------------------------
 
@@ -652,16 +666,5 @@ The following have been deprecated with no replacements and will be removed in t
 + Fix: Notices are printed on pages configured as a membership restriction redirect page.
 + Fix: Do not apply membership restrictions on the page set as membership's restriction redirect page.
 + Fix: Added flag to print notices when landing on the redirected page.
-
-
-= v3.37.9 - 2020-02-11 =
-------------------------
-
-+ Updated CSS classes used in privacy policy text suggestions per changes in WordPress core 5.3. Thanks [@garretthyder](https://github.com/garretthyder)!
-+ Added privacy exported group descriptions. Thanks [@garretthyder](https://github.com/garretthyder)!
-+ Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
-+ Added option for admin settings fields to show an asterisk for required fields.
-+ Added option for integration plugins can now add automatically generated "Settings" link to the plugins screen.
-+ Bugfix: Fixed an IE compatibility issue related to usage of `Object.assign()`.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
