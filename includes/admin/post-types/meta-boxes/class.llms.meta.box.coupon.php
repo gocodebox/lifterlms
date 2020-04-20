@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership.
  * @since 3.35.0 Sanitize `$_POST` data and verify nonce.
+ * @since [version] Localize strings that were missing translation functions.
  */
 class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
@@ -42,7 +43,8 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.32.0 Coupons can now be restricted also to a draft or scheduled Course/Membership
-	 *                  via the `<select />` data attribute 'post-statuses' (data-post-status).
+	 *               via the `<select />` data attribute 'post-statuses' (data-post-status).
+	 * @since [version] Localize strings that were missing translation functions.
 	 *
 	 * @return array
 	 */
@@ -76,7 +78,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 		return array(
 
 			array(
-				'title'  => 'General',
+				'title'  => __( 'General', 'lifterlms' ),
 				'fields' => array(
 					array(
 						'allow_null'      => false,
@@ -138,7 +140,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 					array(
 						'type'       => 'checkbox',
 						'label'      => __( 'Enable Trial Pricing Discount', 'lifterlms' ),
-						'desc'       => 'When checked, the coupon can apply a discount to an access plan\'s "Trial Price"',
+						'desc'       => __( 'When checked, the coupon can apply a discount to the "Trial Price" of an access plan.', 'lifterlms' ),
 						'id'         => $this->prefix . 'enable_trial_discount',
 						'value'      => 'yes',
 						'desc_class' => 'd-3of4 t-3of4 m-1of2',
@@ -247,13 +249,13 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
 		$coupon = new LLMS_Coupon( $post_id );
 
-		// dupcheck the title
+		// Dupcheck the title.
 		$exists = llms_find_coupon( $coupon->get( 'title' ), $post_id );
 		if ( $exists ) {
 			$this->add_error( __( 'Coupon code already exists. Customers will use the most recently created coupon with this code.', 'lifterlms' ) );
 		}
 
-		// trial validation
+		// Trial validation.
 		$trial_discount = llms_filter_input( INPUT_POST, $this->prefix . 'enable_trial_discount', FILTER_SANITIZE_STRING );
 		$trial_amount   = llms_filter_input( INPUT_POST, $this->prefix . 'trial_amount', FILTER_SANITIZE_NUMBER_INT );
 		if ( ! $trial_discount ) {
@@ -280,7 +282,7 @@ class LLMS_Meta_Box_Coupon extends LLMS_Admin_Metabox {
 
 		$coupon->set( 'coupon_membership', $memberships );
 
-		// save all the fields
+		// Save all the fields.
 		$fields = array(
 			'coupon_amount',
 			'usage_limit',
