@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,15 +14,19 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Menus class
  *
  * @since 1.0.0
+ * @since 3.19.0 Added action scheduler posts table.
  * @since 3.35.0 Sanitize input data.
+ * @since [version] Load tools on the status page.
  */
 class LLMS_Admin_Menus {
 
 	/**
 	 * Constructor
 	 *
-	 * @since   1.0.0
-	 * @version 3.19.0
+	 * @since 1.0.0
+	 * @since 3.19.0 Add action scheduler posts table.
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 
@@ -34,7 +38,7 @@ class LLMS_Admin_Menus {
 		add_action( 'admin_menu', array( $this, 'display_admin_menu' ) );
 		add_action( 'admin_menu', array( $this, 'display_admin_menu_late' ), 7777 );
 
-		// shame shame shame
+		// Shame shame shame.
 		add_action( 'admin_menu', array( $this, 'instructor_menu_hack' ) );
 
 		add_filter( 'action_scheduler_post_type_args', array( $this, 'action_scheduler_menu' ) );
@@ -43,21 +47,22 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * If WP_DEBUG is not enabled, expose the schedule-action post type management via direct link
+	 *
 	 * EG: site.com/wp-admin/edit.php?post_type=scheduled-action
 	 *
-	 * @param    array $args  default custom post type arguments
-	 * @return   array
-	 * @since    3.19.0
-	 * @version  3.19.0
+	 * @since 3.19.0
+	 *
+	 * @param array $args Default custom post type arguments.
+	 * @return array
 	 */
 	public function action_scheduler_menu( $args ) {
 
-		// if WP_DEBUG is enabled the menu item will already be displayed under "tools.php"
+		// If WP_DEBUG is enabled the menu item will already be displayed under "tools.php".
 		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 			return $args;
 		}
 
-		// otherwise we'll add a hidden menu accessible via direct link only
+		// Otherwise we'll add a hidden menu accessible via direct link only.
 		return array_merge(
 			$args,
 			array(
@@ -72,30 +77,35 @@ class LLMS_Admin_Menus {
 	/**
 	 * Remove the default menu page from the submenu
 	 *
-	 * @param  array
-	 * @return array
-	 * @since   1.0.0
-	 * @version 3.2.0
+	 * @since 1.0.0
+	 * @since 3.2.0 Unknown.
+	 *
+	 * @param boolean $custom Whether custom menu order is enabled or not.
+	 * @return boolean
 	 */
-	public function submenu_order( $menu_ord ) {
+	public function submenu_order( $custom ) {
+
 		global $submenu;
 
 		if ( isset( $submenu['lifterlms'] ) ) {
 			unset( $submenu['lifterlms'][0] );
 		}
 
-		return $menu_ord;
+		return $custom;
+
 	}
 
 
 	/**
 	 * Handle init actions on the course builder page
-	 * Used for post-locking redirects when taking over from another user
-	 * on the course builder page
 	 *
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.16.7
+	 * Used for post-locking redirects when taking over from another user
+	 * on the course builder page.
+	 *
+	 * @since 3.13.0
+	 * @since 3.16.7 Unknown.
+	 *
+	 * @return void
 	 */
 	public function builder_page_actions() {
 
@@ -126,11 +136,12 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Set the global $title variable for the builder
-	 * Prevents the <title> in the admin head being partially empty on builder screen
 	 *
-	 * @return   void
-	 * @since    3.14.9
-	 * @version  3.14.9
+	 * Prevents the <title> in the admin head being partially empty on builder screen.
+	 *
+	 * @since 3.14.9
+	 *
+	 * @return void
 	 */
 	public function builder_title() {
 		global $title;
@@ -140,9 +151,10 @@ class LLMS_Admin_Menus {
 	/**
 	 * Admin Menu
 	 *
+	 * @since 1.0.0
+	 * @since 3.13.0 Unknown.
+	 *
 	 * @return void
-	 * @since   1.0.0
-	 * @version 3.13.0
 	 */
 	public function display_admin_menu() {
 
@@ -167,14 +179,19 @@ class LLMS_Admin_Menus {
 	/**
 	 * Add items to the admin menu with a later priority
 	 *
-	 * @return   void
-	 * @since    3.5.0
-	 * @version  3.22.0
+	 * @since 3.5.0
+	 * @since 3.22.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function display_admin_menu_late() {
 
 		/**
-		 * Do you not want your clients buying addons or fiddling with this screen?
+		 * Disable the display and output of LifterLMS Add-ons screen.
+		 *
+		 * @since Unknown
+		 *
+		 * @param boolean $display Whether or not to display the screen. Defaults to `false` which shows the screen.
 		 */
 		if ( apply_filters( 'lifterlms_disable_addons_screen', false ) ) {
 			return;
@@ -185,10 +202,12 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
-	 * Output the addons screen
+	 * Output the add-ons screen
 	 *
-	 * @since    3.5.0
-	 * @version  3.22.0
+	 * @since 3.5.0
+	 * @since 3.22.0
+	 *
+	 * @return void
 	 */
 	public function add_ons_page_init() {
 		require_once 'class.llms.admin.addons.php';
@@ -200,9 +219,10 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the HTML for the Course Builder
 	 *
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.16.0
+	 * @since 3.13.0
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public function builder_init() {
 		require_once 'class.llms.admin.builder.php';
@@ -212,9 +232,9 @@ class LLMS_Admin_Menus {
 	/**
 	 * Outputs the LifterLMS Importer Screen HTML
 	 *
-	 * @return   void
-	 * @since    3.3.0
-	 * @version  3.3.0
+	 * @since 3.3.0
+	 *
+	 * @return void
 	 */
 	public function import_page_init() {
 		LLMS_Admin_Import::output();
@@ -222,19 +242,21 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Removes edit.php from the admin menu for instructors/asst instructors
-	 * note that the post screen is still technically accessible...
-	 * posts will need to be submitted for review as the instructors only actually have
-	 * the capability of a contributor with regards to posts
-	 * but this hack will allow instructors to publish new lessons, quizzes, & questions
 	 *
-	 * @see      WP Core Issue(s): https://core.trac.wordpress.org/ticket/22895
-	 *                             https://core.trac.wordpress.org/ticket/16808
-	 * @return   void
-	 * @since    3.13.0
-	 * @version  3.13.0
+	 * Note: The post screen is still technically accessible.
+	 *
+	 * Posts will need to be submitted for review as the instructors only actually have
+	 * the capability of a contributor with regards to posts
+	 * but this hack will allow instructors to publish new lessons, quizzes, & questions.
+	 *
+	 * @since 3.13.0
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/22895
+	 * @link https://core.trac.wordpress.org/ticket/16808
+	 *
+	 * @return void
 	 */
 	public function instructor_menu_hack() {
-
 		$user = wp_get_current_user();
 		if ( array_intersect( array( 'instructor', 'instructors_assistant' ), $user->roles ) ) {
 			remove_menu_page( 'edit.php' );
@@ -243,6 +265,8 @@ class LLMS_Admin_Menus {
 
 	/**
 	 * Output the HTML for admin settings screens
+	 *
+	 * @since Unknown
 	 *
 	 * @return void
 	 */
@@ -254,11 +278,11 @@ class LLMS_Admin_Menus {
 	/**
 	 * Output the HTML for the reporting screens
 	 *
-	 * @since    3.2.0
-	 * @since  3.13.0 Unknown.
-	 * @since  3.35.0 Sanitize input data.
+	 * @since 3.2.0
+	 * @since 3.13.0 Unknown.
+	 * @since 3.35.0 Sanitize input data.
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function reporting_page_init() {
 
@@ -273,28 +297,52 @@ class LLMS_Admin_Menus {
 	}
 
 	/**
+	 * Include files used on the Status page.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	protected function status_page_includes() {
+
+		// Main Status Page.
+		require_once 'class.llms.admin.page.status.php';
+
+		// Tools.
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-admin-tool.php';
+		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/admin/tools/class-llms-admin-tool-*.php' ) as $tool_path ) {
+			require_once $tool_path;
+		}
+
+	}
+
+	/**
 	 * Handle form submission actions on the status pages
 	 *
-	 * @return   void
-	 * @since    3.11.2
-	 * @version  3.11.2
+	 * @since 3.11.2
+	 * @since [version] Load tools-related files.
+	 *
+	 * @return void
 	 */
 	public function status_page_actions() {
-		require_once 'class.llms.admin.page.status.php';
+		$this->status_page_includes();
 		LLMS_Admin_Page_Status::handle_actions();
 	}
 
 	/**
 	 * Output the HTML for the Status Pages
 	 *
-	 * @return   void
-	 * @since    ??
-	 * @version  3.11.2
+	 * @since Unknown
+	 * @since 3.11.2 Unknown.
+	 * @since [version] Load tools-related files.
+	 *
+	 * @return void
 	 */
 	public function status_page_init() {
-		require_once 'class.llms.admin.page.status.php';
+		$this->status_page_includes();
 		LLMS_Admin_Page_Status::output();
 	}
+
 }
 
 return new LLMS_Admin_Menus();
