@@ -8,7 +8,7 @@
  * @group admin
  * @group admin_tools
  *
- * @since [version]
+ * @since 3.37.19
  */
 class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	 *
 	 * Include abstract class.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a mock for the abstract class.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return LLMS_Abstract_Admin_Tool
 	 */
@@ -51,7 +51,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Retrieve a "concrete" mock with the abstract methods defined.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @param boolean $load The mock return of `should_load()`.
 	 * @return LLMS_Abstract_Admin_Tool
@@ -85,7 +85,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Test the constructor when the tool should load.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -102,7 +102,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle() should_load() condition
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -119,7 +119,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Test maybe_handle() ensure the id matches.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -135,7 +135,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Test register() when the tool should load.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -155,7 +155,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Test register() when the tool should not load.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -170,7 +170,7 @@ class LLMS_Test_Abstract_Admin_Tool extends LLMS_UnitTestCase {
 	/**
 	 * Test should_load() stub.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */

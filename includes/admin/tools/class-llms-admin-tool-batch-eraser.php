@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Tools/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.19
+ * @version 3.37.19
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Admin_Tool_Batch_Eraser
  *
- * @since [version]
+ * @since 3.37.19
  */
 class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 
@@ -29,7 +29,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return string
 	 */
@@ -59,7 +59,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return string
 	 */
@@ -70,7 +70,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	/**
 	 * Retrieve the tool's button text
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return string
 	 */
@@ -81,7 +81,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	/**
 	 * Retrieve the number of pending batches.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return int
 	 */
@@ -108,7 +108,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * By the time this tool is called a nonce and the user's capabilities have already been checked.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return mixed
 	 */
@@ -126,7 +126,7 @@ class LLMS_Admin_Tool_Batch_Eraser extends LLMS_Abstract_Admin_Tool {
 	 *
 	 * This tool should only load if there's batches in the database.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */

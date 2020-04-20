@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.37.19
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.8.0
  * @since 3.30.3 Explicitly define undefined properties.
  * @since 3.31.0 Add filter on `$basic_options` class property.
- * @since [version] Introduced the method `get_object()`. It'll allow extending classes
+ * @since 3.37.19 Introduced the method `get_object()`. It'll allow extending classes
  *                 defining the way the object associated to the notification should be retrieved.
  *                 Use `in_array` with strict comparison where possible.
  */
@@ -158,7 +158,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 * @since 3.31.0 Add filter on `$basic_options` class class property.
-	 * @since [version] Moved the retrieval of the associated llms post into a protected method.
+	 * @since 3.37.19 Moved the retrieval of the associated llms post into a protected method.
 	 *
 	 * @param mixed $notification Notification id, instance of LLMS_Notification
 	 *                            or an object containing at least an 'id'.
@@ -188,7 +188,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	/**
 	 * Get the object associated to the notification
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return object
 	 */
@@ -479,7 +479,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 *
 	 * @since 3.8.0
 	 * @since 3.10.0 Unknown.
-	 * @since [version] Use `in_array` with strict comparison.
+	 * @since 3.37.19 Use `in_array` with strict comparison.
 	 *
 	 * @param string $type Type of icon [positive|negative].
 	 * @return string
@@ -557,7 +557,7 @@ abstract class LLMS_Abstract_Notification_View extends LLMS_Abstract_Options_Dat
 	 * Merge a string
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use `in_array` with strict comparison.
+	 * @since 3.37.19 Use `in_array` with strict comparison.
 	 *
 	 * @param string $string An unmerged string.
 	 * @return string

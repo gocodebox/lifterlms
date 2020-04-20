@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.37.19
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ foreach ( glob( LLMS_PLUGIN_DIR . '/includes/admin/post-types/meta-boxes/fields/
  * @since 3.36.1 Improve `save()` method.
  * @since 3.37.12 Simplify `save()` by moving logic to sanitize and update posted data to `save_field()`.
  *                Add field sanitize option "no_encode_quotes" which functions like previous "shortcode" but is more semantically accurate.
- * @since [version] Bail if the global `$post` is empty, before registering our meta boxes.
+ * @since 3.37.19 Bail if the global `$post` is empty, before registering our meta boxes.
  */
 abstract class LLMS_Admin_Metabox {
 
@@ -381,7 +381,7 @@ abstract class LLMS_Admin_Metabox {
 	 *
 	 * @since 3.0.0
 	 * @since 3.13.0 Unknown.
-	 * @since [version] Early bail if the global `$post` is empty.
+	 * @since 3.37.19 Early bail if the global `$post` is empty.
 	 *
 	 * @return void
 	 */

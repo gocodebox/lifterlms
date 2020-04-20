@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.37.19
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.19.0 Added action scheduler posts table.
  * @since 3.35.0 Sanitize input data.
- * @since [version] Load tools on the status page.
+ * @since 3.37.19 Load tools on the status page.
  */
 class LLMS_Admin_Menus {
 
@@ -299,7 +299,7 @@ class LLMS_Admin_Menus {
 	/**
 	 * Include files used on the Status page.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -320,7 +320,7 @@ class LLMS_Admin_Menus {
 	 * Handle form submission actions on the status pages
 	 *
 	 * @since 3.11.2
-	 * @since [version] Load tools-related files.
+	 * @since 3.37.19 Load tools-related files.
 	 *
 	 * @return void
 	 */
@@ -334,7 +334,7 @@ class LLMS_Admin_Menus {
 	 *
 	 * @since Unknown
 	 * @since 3.11.2 Unknown.
-	 * @since [version] Load tools-related files.
+	 * @since 3.37.19 Load tools-related files.
 	 *
 	 * @return void
 	 */

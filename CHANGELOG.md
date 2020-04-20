@@ -1,6 +1,20 @@
 LifterLMS Changelog
 ===================
 
+v3.37.19 - 2020-04-20
+---------------------
+
+##### Updates
+
++ Added a new debugging tool to clear pending batches created by background processors.
++ Added a new method `LLMS_Abstract_Notification_View::get_object()` which can be used by notification views to override the loading of the post (or object) which triggered the notification.
+
+# Bug Fixes
+
++ Added localization to strings on the coupon admin screen. Thanks [parfilov](https://github.com/parfilov)!
++ Fixed issue encountered in metaboxes when the `$post` global variable is not set.
+
+
 v3.37.18 - 2020-04-14
 ---------------------
 

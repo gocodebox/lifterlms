@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.37.19
+ * @version 3.37.19
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Abstract_Admin_Tool
  *
- * @since [version]
+ * @since 3.37.19
  */
 abstract class LLMS_Abstract_Admin_Tool {
 
@@ -40,7 +40,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 *
 	 * By the time this tool is called a nonce and the user's capabilities have already been checked.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return mixed
 	 */
@@ -51,7 +51,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 *
 	 * This is displayed on the right side of the tool's list before the button.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return string
 	 */
@@ -62,7 +62,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 *
 	 * The label is the tool's title. It's displayed in the left column on the tool's list.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return string
 	 */
@@ -71,7 +71,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	/**
 	 * Retrieve the tool's button text
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return string
 	 */
@@ -80,7 +80,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	/**
 	 * Static constructor.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	/**
 	 * Processes the tool if the submitted tool matches the tool's ID.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @param string tool_id ID of the submitted tool.
 	 * @return mixed|false
@@ -112,7 +112,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	/**
 	 * Register the tool.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @see llms_status_tools (filter)
 	 *
@@ -141,7 +141,7 @@ abstract class LLMS_Abstract_Admin_Tool {
 	 * This stub can be overridden by the tool to provide custom logic to determine
 	 * whether or not the tool should be loaded and registered.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return boolean Return `true` to load the tool and `false` to not load it.
 	 */

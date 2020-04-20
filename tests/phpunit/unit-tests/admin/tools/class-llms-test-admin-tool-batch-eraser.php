@@ -7,7 +7,7 @@
  * @group admin
  * @group admin_tools
  *
- * @since [version]
+ * @since 3.37.19
  */
 class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 
@@ -16,7 +16,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	 *
 	 * Include abstract class.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Teardown the test case.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Clear cached batch count data.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -57,7 +57,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -71,7 +71,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test get_description()
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -86,7 +86,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test get_label()
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -101,7 +101,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test get_text()
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -116,7 +116,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test get_pending_batches()
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -135,7 +135,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test get_pending_batches(): no batches found.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -146,7 +146,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test get_pending_batches(): when there's a cache hit.
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -160,7 +160,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test handle()
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
@@ -182,7 +182,7 @@ class LLMS_Test_Admin_Tool_Batch_Eraser extends LLMS_UnitTestCase {
 	/**
 	 * Test should_load()
 	 *
-	 * @since [version]
+	 * @since 3.37.19
 	 *
 	 * @return void
 	 */
