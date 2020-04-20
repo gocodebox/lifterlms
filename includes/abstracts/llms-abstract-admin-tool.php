@@ -2,7 +2,7 @@
 /**
  * Base for tools listed on the LifterLMS -> Status -> Tools & Utilities screen
  *
- * @package LifterLMS/Abstracts
+ * @package LifterLMS/Abstracts/Classes
  *
  * @since [version]
  * @version [version]
