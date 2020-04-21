@@ -2,9 +2,10 @@
 /**
  * Model Field Settings Template
  *
- * @since   3.17.0
- * @version 3.24.0
+ * @since 3.17.0
+ * @version [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 ?>
 <script type="text/html" id="tmpl-llms-settings-fields-template">
@@ -80,6 +81,12 @@ defined( 'ABSPATH' ) || exit;
 									{{{ label }}}
 								</label>
 							<# } ); #>
+						</div>
+
+					<# } else if ('textarea' === field.type ) { #>
+
+						<div class="llms-editable-textarea{{{ field.classes }}}">
+							<textarea data-attribute="{{{ field.attribute }}}" id="{{{ field.id }}}" rows="{{{ field.rows }}}">{{{ data.model.get( field.attribute ) }}}</textarea>
 						</div>
 
 					<# } else if ( data.is_editor_field( field.type ) ) { #>

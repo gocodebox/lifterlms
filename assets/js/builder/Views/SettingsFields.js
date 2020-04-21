@@ -4,7 +4,8 @@
  * @since 3.17.0
  * @since 3.24.0 Unknown.
  * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
- * @version 3.37.11
+ * @since [version] Added rows default for textarea field.
+ * @version [version]
  */
 define( [], function() {
 
@@ -288,6 +289,7 @@ define( [], function() {
 		 * @since 3.17.0
 		 * @since 3.24.0 Unknown.
 		 * @since 3.37.11 Replace reference to `wp.editor` with `_.getEditor()` helper.
+		 * @since [version] Added rows default for textarea field.
 		 *
 		 * @param  {Object}  orig_field  Original field as defined in the settings.
 		 * @param  {Integer} field_index Index of the field in the current row.
@@ -343,6 +345,10 @@ define( [], function() {
 
 				case 'permalink':
 					defaults.label = LLMS.l10n.translate( 'Permalink' );
+				break;
+
+				case 'textarea':
+					defaults.rows = 2;
 				break;
 
 				case 'video_embed':

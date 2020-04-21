@@ -474,6 +474,13 @@ body.admin_page_llms-course-builder {
 		}
 	}
 
+	.llms-editable-textarea {
+		textarea {
+			display: block;
+			width: 100%;
+		}
+	}
+
 	.llms-editable-image {
 		button.llms-add-image {
 			width: 130px;
