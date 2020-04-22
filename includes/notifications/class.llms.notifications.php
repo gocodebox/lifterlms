@@ -167,6 +167,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.22.0
 	 * @since 3.36.1 Don't automatically mark notifications as read.
+	 * @since [version] Use `wp_json_decode()` in favor of `json_decode()`.
 	 *
 	 * @return void
 	 */
@@ -177,7 +178,7 @@ class LLMS_Notifications {
 			return;
 		}
 
-		// get 5 most recent new notifications for the current user
+		// Get 5 most recent new notifications for the current user.
 		$query = new LLMS_Notifications_Query(
 			array(
 				'per_page'   => 5,
@@ -189,10 +190,10 @@ class LLMS_Notifications {
 
 		$this->displayed = $query->get_notifications();
 
-		// push to JS
+		// Push to JS.
 		LLMS_Frontend_Assets::enqueue_inline_script(
 			'llms-queued-notifications',
-			'window.llms = window.llms || {};window.llms.queued_notifications = ' . json_encode( $this->displayed ) . ';'
+			'window.llms = window.llms || {};window.llms.queued_notifications = ' . wp_json_encode( $this->displayed ) . ';'
 		);
 
 	}
@@ -282,16 +283,18 @@ class LLMS_Notifications {
 	/**
 	 * Retrieve a view instance of a notification
 	 *
-	 * @param    LLMS_Notification $notification  instance of an LLMS_Notification
-	 * @return   LLMS_Abstract_Notification_View|false
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Use strict comparison.
+	 *
+	 * @param LLMS_Notification $notification Notification instance.
+	 * @return LLMS_Abstract_Notification_View|false
 	 */
 	public function get_view( $notification ) {
 
 		$trigger = $notification->get( 'trigger_id' );
 
-		if ( in_array( $trigger, $this->views ) ) {
+		if ( in_array( $trigger, $this->views, true ) ) {
 			$views = array_flip( $this->views );
 			$class = $views[ $trigger ];
 			$view  = new $class( $notification );
@@ -555,7 +558,6 @@ class LLMS_Notifications {
 					sprintf( __( 'There was an error dispatching the "%s" processor.', 'lifterlms' ), $id )
 				);
 			}
-
 		}
 
 		return $timestamp;
