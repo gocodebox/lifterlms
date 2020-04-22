@@ -25,14 +25,14 @@ class LLMS_Notifications {
 	/**
 	 * Singleton instance
 	 *
-	 * @var  LLMS_Notifications
+	 * @var LLMS_Notifications
 	 */
 	protected static $_instance = null;
 
 	/**
 	 * Controller instances
 	 *
-	 * @var  LLMS_Abstract_Notification_Controller[]
+	 * @var LLMS_Abstract_Notification_Controller[]
 	 */
 	private $controllers = array();
 
@@ -46,30 +46,30 @@ class LLMS_Notifications {
 	/**
 	 * Background processor instances
 	 *
-	 * @var  LLMS_Abstract_Notification_Processor[]
+	 * @var LLMS_Abstract_Notification_Processor[]
 	 */
 	private $processors = array();
 
 	/**
 	 * Array of processors needing to be dispatched on shutdown
 	 *
-	 * @var  string[]
+	 * @var string[]
 	 */
 	private $processors_to_dispatch = array();
 
 	/**
 	 * [string $view_classname => string $trigger ]
 	 *
-	 * @var  string[]
+	 * @var string[]
 	 */
 	private $views = array();
 
 	/**
 	 * Main Instance
 	 *
-	 * @return    LLMS_Notifications
-	 * @since     3.8.0
-	 * @version   3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return LLMS_Notifications
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -220,9 +220,9 @@ class LLMS_Notifications {
 	/**
 	 * Get the directory path for core notification classes
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	private function get_directory() {
 		return LLMS_PLUGIN_DIR . 'includes/notifications/';
@@ -231,10 +231,10 @@ class LLMS_Notifications {
 	/**
 	 * Get a single controller instance
 	 *
-	 * @param    string $controller  trigger id (eg: lesson_complete)
-	 * @return   LLMS_Abstract_Notification_Controller|false
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $controller Trigger id (eg: lesson_complete)/
+	 * @return LLMS_Abstract_Notification_Controller|false
 	 */
 	public function get_controller( $controller ) {
 		if ( isset( $this->controllers[ $controller ] ) ) {
@@ -246,9 +246,9 @@ class LLMS_Notifications {
 	/**
 	 * Get loaded controllers
 	 *
-	 * @return   LLMS_Abstract_Notification_Controller[]
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return LLMS_Abstract_Notification_Controller[]
 	 */
 	public function get_controllers() {
 		return $this->controllers;
@@ -257,10 +257,10 @@ class LLMS_Notifications {
 	/**
 	 * Retrieve a single processor instance
 	 *
-	 * @param    string $processor  name of the processor (eg: email)
-	 * @return   LLMS_Abstract_Notification_Processor|false
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $processor Name of the processor (eg: email).
+	 * @return LLMS_Abstract_Notification_Processor|false
 	 */
 	public function get_processor( $processor ) {
 		if ( isset( $this->processors[ $processor ] ) ) {
@@ -272,9 +272,9 @@ class LLMS_Notifications {
 	/**
 	 * Get loaded processors
 	 *
-	 * @return   LLMS_Abstract_Notification_Processor[]
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return LLMS_Abstract_Notification_Processor[]
 	 */
 	public function get_processors() {
 		return $this->processors;
@@ -308,11 +308,12 @@ class LLMS_Notifications {
 	/**
 	 * Get the classname for the view of a given notification based off it's trigger
 	 *
-	 * @param    string $trigger  trigger id (eg: lesson_complete).
-	 * @param    string $prefix   default = 'LLMS'
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param string $trigger Trigger id (eg: lesson_complete).
+	 * @param string $prefix  Default = 'LLMS'.
+	 * @return string
 	 */
 	private function get_view_classname( $trigger, $prefix = null ) {
 
@@ -325,9 +326,10 @@ class LLMS_Notifications {
 	/**
 	 * Load all notifications
 	 *
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return void
 	 */
 	private function load() {
 
@@ -365,9 +367,15 @@ class LLMS_Notifications {
 		}
 
 		/**
+		 * Run an action after all core notification classes are loaded.
+		 *
 		 * Third party notifications can hook into this action
-		 * Use $this->load_view(), $this->load_controller(), & $this->load_processor()
-		 * to load notifications into the class and be auto-called by the APIs herein
+		 * Use `load_view()`, `load_controller()`, and `load_processor()` methods
+		 * to load notifications into the class and be auto-called by the core APIs.
+		 *
+		 * @since Unknown
+		 *
+		 * @param LLMS_Notifications $this Instance of the notifications singleton.
 		 */
 		do_action( 'llms_notifications_loaded', $this );
 
@@ -376,15 +384,15 @@ class LLMS_Notifications {
 	/**
 	 * Load and initialize a single controller
 	 *
-	 * @param    string $trigger  trigger id (eg: lesson_complete)
-	 * @param    string $path     full path to the controller file, allows third parties to load external controllers
-	 * @return   boolean              true if the controller is added and loaded, false otherwise
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $trigger Trigger id (eg: lesson_complete).
+	 * @param string $path    Full path to the controller file, allows third parties to load external controllers.
+	 * @return boolean ` true` if the controller is added and loaded, `false` otherwise.
 	 */
 	public function load_controller( $trigger, $path = null ) {
 
-		// default path for core views
+		// Default path for core views.
 		if ( ! $path ) {
 			$path = $this->get_directory() . 'controllers/class.llms.notification.controller.' . $this->name_to_file( $trigger ) . '.php';
 		}
@@ -403,15 +411,15 @@ class LLMS_Notifications {
 	/**
 	 * Load a single processor
 	 *
-	 * @param    string $type   processor type id
-	 * @param    string $path   optional path (for allowing 3rd party processor loading)
-	 * @return   boolean
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type Processor type id.
+	 * @param string $path Optional path (for allowing 3rd party processor loading).
+	 * @return boolean
 	 */
 	public function load_processor( $type, $path = null ) {
 
-		// default path for core processors
+		// Default path for core processors.
 		if ( ! $path ) {
 			$path = $this->get_directory() . 'processors/class.llms.notification.processor.' . $type . '.php';
 		}
@@ -429,17 +437,18 @@ class LLMS_Notifications {
 	/**
 	 * Load a single view
 	 *
-	 * @param    string $trigger  trigger id (eg: lesson_complete)
-	 * @param    string $path     full path to the view file, allows third parties to load external views
-	 * @param    string $prefix   Classname prefix. Defaults to "LLMS". Can be used by 3rd parties to adjust
-	 *                            the prefix in accordance with the projects standards.
-	 * @return   boolean              true if the view is added and loaded, false otherwise
-	 * @since    3.8.0
-	 * @version  3.24.0
+	 * @since 3.8.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @param  string $trigger Trigger id (eg: lesson_complete).
+	 * @param  string $path    Full path to the view file, allows third parties to load external views.
+	 * @param  string $prefix  Classname prefix. Defaults to "LLMS". Can be used by 3rd parties to adjust
+	 *                         the prefix in accordance with the projects standards.
+	 * @return boolean `true` if the view is added and loaded, `false` otherwise.
 	 */
 	public function load_view( $trigger, $path = null, $prefix = null ) {
 
-		// default path for core views
+		// Default path for core views.
 		if ( ! $path ) {
 			$path = $this->get_directory() . 'views/class.llms.notification.view.' . $this->name_to_file( $trigger ) . '.php';
 		}
@@ -458,12 +467,13 @@ class LLMS_Notifications {
 
 	/**
 	 * Convert a trigger name to a filename string
-	 * Eg lesson_complete to lesson.complete
 	 *
-	 * @param    string $name  trigger name
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * EG: "lesson_complete" to "lesson.complete".
+	 *
+	 * @since 3.8.0
+	 *
+	 * @param string $name Trigger name.
+	 * @return string
 	 */
 	private function name_to_file( $name ) {
 		return str_replace( '_', '.', $name );
