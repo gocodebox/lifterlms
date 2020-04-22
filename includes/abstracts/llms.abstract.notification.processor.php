@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version 3.8.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,13 +17,14 @@ require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-b
  * LifterLMS Notification Background Processor abstract class
  *
  * @since 3.8.0
+ * @since [version] Modified return of `dispatch()` override to return the return value of the parent method.
  */
 abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Process {
 
 	/**
 	 * Enables event logging
 	 *
-	 * @var  boolean
+	 * @var boolean
 	 */
 	private $enable_logging = true;
 
@@ -62,9 +63,10 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	/**
 	 * Starts the queue
 	 *
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Added return from parent method.
+	 *
+	 * @return array|WP_Error Response from `wp_remote_post()`.
 	 */
 	public function dispatch() {
 
@@ -75,6 +77,8 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 		if ( is_wp_error( $dispatched ) ) {
 			$this->log( sprintf( 'Unable to dispatch %1$s: %2$s' ), $this->action, $dispatched->get_error_message() );
 		}
+
+		return $dispatched;
 
 	}
 

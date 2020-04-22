@@ -6,7 +6,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version 3.36.1
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.8.0
  * @since 3.24.0 Unknown.
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
+ * @since [version] Updated processor scheduling for increased performance and reliability.
  */
 class LLMS_Notifications {
 
@@ -83,36 +84,81 @@ class LLMS_Notifications {
 	 * @since 3.8.0
 	 * @since 3.22.0 Unknown.
 	 * @since 3.36.1 Record basic notifications as read during `wp_print_footer_scripts`.
+	 * @since [version] Schedule processors using an async scheduled action.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
 
 		$this->load();
+
 		add_action( 'wp', array( $this, 'enqueue_basic' ) );
 		add_action( 'wp_print_footer_scripts', array( $this, 'mark_displayed_basics_as_read' ) );
-		add_action( 'shutdown', array( $this, 'dispatch_processors' ) );
+
+		/**
+		 * Customize whether or not async notification dispatching should be used.
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $use_async Whether or not to use async processor dispatching.
+		 */
+		$use_async = apply_filters( 'llms_processors_async_dispatching', true );
+		if ( $use_async ) {
+			add_action( 'shutdown', array( $this, 'schedule_processors_dispatch' ) );
+			add_action( 'llms_dispatch_notification_processor_async', array( $this, 'dispatch_processor_async' ) );
+		} else {
+			add_action( 'shutdown', array( $this, 'dispatch_processors' ) );
+		}
 
 	}
 
 	/**
 	 * On shutdown, check for processors that have items in the queue that need to be saved
-	 * save & dispatch the background process
 	 *
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Saves & dispatches those processors.
+	 *
+	 * @since 3.8.0
+	 * @deprecated [version] Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_prcosesors_dispatch()`.
+	 *
+	 * @return void
 	 */
 	public function dispatch_processors() {
 
-		foreach ( $this->processors_to_dispatch as $key => $name ) {
+		llms_log( 'LLMS_Notifications::dispatch_processors() is deprecated. Use LLMS_Notifications::schedule_prcosesors_dispatch() instead.' );
 
+		foreach ( $this->processors_to_dispatch as $key => $name ) {
 			$processor = $this->get_processor( $name );
 			if ( $processor ) {
 				unset( $this->processors_to_dispatch[ $key ] );
 				$processor->save()->dispatch();
 			}
 		}
+
+	}
+
+	/**
+	 * Async callback to dispatch processors
+	 *
+	 * Locates the processor by ID and dispatches it for processing.
+	 *
+	 * The trigger hook `llms_dispatch_notification_processor_async` is called by the action scheduler library
+	 *
+	 * @since [version]
+	 *
+	 * @see llms_dispatch_notification_processor_async
+	 *
+	 * @param string $id Processor ID.
+	 * @return array|WP_Error
+	 */
+	public function dispatch_processor_async( $id ) {
+
+		$processor = $this->get_processor( $id );
+		if ( $processor ) {
+			return $processor->dispatch();
+		}
+
+		// Translators: %s = Processor ID.
+		return new WP_Error( 'invalid-processor', sprintf( __( 'The processor "%s" does not exist.', 'lifterlms' ), $id ) );
 
 	}
 
@@ -423,18 +469,96 @@ class LLMS_Notifications {
 	/**
 	 * Schedule a processor to dispatch its queue on shutdown
 	 *
-	 * @param    string $type  processor name/type (eg: email)
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 * @since [version] Use strict comparisons.
+	 *
+	 * @param string $id Processor ID (eg: email).
+	 * @return void
 	 */
-	public function schedule_processing( $type ) {
+	public function schedule_processing( $id ) {
 
-		if ( ! in_array( $type, $this->processors_to_dispatch ) ) {
+		if ( ! in_array( $id, $this->processors_to_dispatch, true ) ) {
 
-			$this->processors_to_dispatch[] = $type;
+			$this->processors_to_dispatch[] = $id;
 
 		}
+
+	}
+
+	/**
+	 * Check for processors that have items in the queue
+	 *
+	 * For any found processors, saves their queue and schedules them to be processes via a scheduled event.
+	 *
+	 * @since [version]
+	 *
+	 * @return array Array containing information about the scheduled processors.
+	 *               The array keys will be the processor ID and the values will be the timestamp of the event or a WP_Error object.
+	 */
+	public function schedule_processors_dispatch() {
+
+		$scheduled = array();
+
+		if ( $this->processors_to_dispatch ) {
+
+			foreach ( $this->processors_to_dispatch as $key => $id ) {
+
+				// Retrieve the processor.
+				$processor = $this->get_processor( $id );
+
+				// Remove it from the list of processors to dispatch.
+				unset( $this->processors_to_dispatch[ $key ] );
+
+				$scheduled[ $id ] = $processor ? $this->schedule_single_processor( $processor, $id ) : new WP_Error(
+					'invalid-processor',
+					// Translators: %s = Processor ID.
+					sprintf( __( 'The processor "%s" does not exist.', 'lifterlms' ), $id )
+				);
+
+			}
+		}
+
+		return $scheduled;
+
+	}
+
+	/**
+	 * Save pending batches and schedule the async dispatching of a processor.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Abstract_Notification_Processor $processor Notification processor object.
+	 * @param string                               $id        Processor ID.
+	 * @return int|WP_Error Timestamp of the scheduled event or an error object.
+	 */
+	protected function schedule_single_processor( $processor, $id ) {
+
+		$hook = 'llms_dispatch_notification_processor_async';
+		$args = array( $id );
+
+		// Save items in the queue.
+		$processor->save();
+
+		// Check if there's already a scheduled event.
+		$timestamp = as_next_scheduled_action( $hook, $args );
+
+		// If there's no event scheduled already, schedule one.
+		if ( ! $timestamp ) {
+
+			$timestamp = llms_current_time( 'timestamp' );
+
+			// Error encountered scheduling the event.
+			if ( ! as_schedule_single_action( $timestamp, $hook, $args ) ) {
+				$timestamp = new WP_Error(
+					'schedule-error',
+					// Translators: %s = Processor ID.
+					sprintf( __( 'There was an error dispatching the "%s" processor.', 'lifterlms' ), $id )
+				);
+			}
+
+		}
+
+		return $timestamp;
 
 	}
 
