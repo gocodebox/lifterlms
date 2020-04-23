@@ -118,13 +118,13 @@ class LLMS_Notifications {
 	 * Saves & dispatches those processors.
 	 *
 	 * @since 3.8.0
-	 * @deprecated [version] Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_prcosesors_dispatch()`.
+	 * @deprecated [version] Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
 	 *
 	 * @return void
 	 */
 	public function dispatch_processors() {
 
-		llms_log( 'LLMS_Notifications::dispatch_processors() is deprecated. Use LLMS_Notifications::schedule_prcosesors_dispatch() instead.' );
+		llms_log( 'LLMS_Notifications::dispatch_processors() is deprecated. Use LLMS_Notifications::schedule_processors_dispatch() instead.' );
 
 		foreach ( $this->processors_to_dispatch as $key => $name ) {
 			$processor = $this->get_processor( $name );
@@ -141,7 +141,7 @@ class LLMS_Notifications {
 	 *
 	 * Locates the processor by ID and dispatches it for processing.
 	 *
-	 * The trigger hook `llms_dispatch_notification_processor_async` is called by the action scheduler library
+	 * The trigger hook `llms_dispatch_notification_processor_async` is called by the action scheduler library.
 	 *
 	 * @since [version]
 	 *
@@ -233,7 +233,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.8.0
 	 *
-	 * @param string $controller Trigger id (eg: lesson_complete)/
+	 * @param string $controller Trigger id (eg: lesson_complete).
 	 * @return LLMS_Abstract_Notification_Controller|false
 	 */
 	public function get_controller( $controller ) {
@@ -388,7 +388,7 @@ class LLMS_Notifications {
 	 *
 	 * @param string $trigger Trigger id (eg: lesson_complete).
 	 * @param string $path    Full path to the controller file, allows third parties to load external controllers.
-	 * @return boolean ` true` if the controller is added and loaded, `false` otherwise.
+	 * @return boolean `true` if the controller is added and loaded, `false` otherwise.
 	 */
 	public function load_controller( $trigger, $path = null ) {
 
