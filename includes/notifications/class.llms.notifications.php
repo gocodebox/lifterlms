@@ -558,7 +558,7 @@ class LLMS_Notifications {
 		// If there's no event scheduled already, schedule one.
 		if ( ! $timestamp ) {
 
-			$timestamp = llms_current_time( 'timestamp' );
+			$timestamp = llms_current_time( 'timestamp', 1 );
 
 			// Error encountered scheduling the event.
 			if ( ! as_schedule_single_action( $timestamp, $hook, $args ) ) {
