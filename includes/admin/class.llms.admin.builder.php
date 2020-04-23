@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 3.37.12
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.12 Refactored the `process_trash()` method.
  *                Added new filter, `llms_builder_{$post_type}_force_delete` to allow control of how post type deletion is handled
  *                when deleted via the builder.
+ * @since [version] Improve backwards compatibility handling for the `llms_get_quiz_theme_settings` filter.
  */
 class LLMS_Admin_Builder {
 
@@ -69,21 +70,21 @@ class LLMS_Admin_Builder {
 	/**
 	 * Retrieve custom field schemas
 	 *
-	 * @return   array
-	 * @since    3.17.0
-	 * @version  3.17.6
+	 * @since 3.17.0
+	 * @since 3.17.6 Add backwards compatibility for the deprecated `llms_get_quiz_theme_settings` filter.
+	 * @since [version] Only run backwards compatibility for `llms_get_quiz_theme_settings` when the filter is being used.
+	 *
+	 * @return array
 	 */
 	private static function get_custom_schemas() {
 
 		$quiz_fields = array();
 
 		/**
-		 * Handle old quiz layout compatibility API
-		 * translate the old filter into the new one for quizzes
+		 * Handle old quiz layout compatibility API:
+		 * Translate the old filter into the new one for quizzes.
 		 */
-		if ( get_theme_support( 'lifterlms-quizzes' ) ) {
-
-			llms_log( 'Filter `llms_get_quiz_theme_settings` deprecated since 3.17.6, for more information see new methods at https://lifterlms.com/docs/course-builder-custom-fields-for-developers/' );
+		if ( get_theme_support( 'lifterlms-quizzes' ) && has_filter( 'llms_get_quiz_theme_settings' ) ) {
 
 			$theme = wp_get_theme();
 
@@ -110,6 +111,15 @@ class LLMS_Admin_Builder {
 
 		}
 
+		/**
+		 * Add custom fields to the LifterLMS Builder.
+		 *
+		 * @since 3.17.0
+		 *
+		 * @link https://lifterlms.com/docs/course-builder-custom-fields-for-developers
+		 *
+		 * @param array[] $fields Array of post types containing arrays of custom field data.
+		 */
 		return apply_filters(
 			'llms_builder_register_custom_fields',
 			array(

@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.3.0
- * @version 3.19.2
+ * @version [version]
  *
  * @property  $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
  * @property  $passing_percent (float) Grade required for a student to "pass" the quiz.
@@ -26,6 +26,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.3.0
  * @since 3.19.2 Unkwnown.
  * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
+ * @since [version] Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -210,6 +211,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	 *
 	 * @since 3.3.0
 	 * @since 3.19.2 Unknown.
+	 * @since [version] Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
 	 *
 	 * @param array $arr Array of data to be serialized.
 	 * @return array
@@ -218,7 +220,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 		$arr['questions'] = array();
 
-		// builder lazy loads questions via ajax.
+		// Builder lazy loads questions via ajax.
 		global $llms_builder_lazy_load;
 		if ( ! $llms_builder_lazy_load ) {
 			foreach ( $this->get_questions() as $question ) {
@@ -226,8 +228,8 @@ class LLMS_Quiz extends LLMS_Post_Model {
 			}
 		}
 
-		// if theme support quizzes, add theme metadata to the array.
-		if ( get_theme_support( 'lifterlms-quizzes' ) ) {
+		// If theme has legacy support quiz layouts, add theme metadata to the array.
+		if ( get_theme_support( 'lifterlms-quizzes' ) && has_filter( 'llms_get_quiz_theme_settings' ) ) {
 			$layout = llms_get_quiz_theme_setting( 'layout' );
 			if ( $layout ) {
 				$arr[ $layout['id'] ] = get_post_meta( $this->get( 'id' ), $layout['id'], true );
