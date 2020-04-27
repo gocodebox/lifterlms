@@ -2,7 +2,7 @@
 /**
  * Product (Course & Membership) Pricing Table Template
  *
- * @package LifterLMS/Templates
+ * @package LifterLMS/Templates/Product
  *
  * @since 3.0.0
  * @version 3.23.0
