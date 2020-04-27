@@ -1,19 +1,19 @@
 <?php
 /**
+ * @since 3.23.0
+ *
  * Template functions for pricing tables
  *
- * @since    3.23.0
- * @version  3.23.0
  */
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieve a list of CSS classes for a single access plan element
  *
- * @param    obj $plan  Instance of an LLMS_Access_Plan
- * @return   string
- * @since    3.23.0
- * @version  3.23.0
+ * @since 3.23.0
+ *
+ * @param LLMS_Access_Plan $plan Access plan object.
+ * @return string
  */
 function llms_get_access_plan_classes( $plan ) {
 	$classes = array(
@@ -29,15 +29,15 @@ function llms_get_access_plan_classes( $plan ) {
 	return implode( ' ', apply_filters( 'llms_access_plan_classes', $classes, $plan ) );
 }
 
-/**
- * Include single access plan template within the pricing table
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan' ) ) {
+	/**
+	 * Include single access plan template within the pricing table
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan( $plan ) {
 		llms_get_template(
 			'product/access-plan.php',
@@ -46,15 +46,15 @@ if ( ! function_exists( 'llms_template_access_plan' ) ) {
 	}
 }
 
-/**
- * Include Single Access Plan Button Template
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan_button' ) ) {
+	/**
+	 * Include Single Access Plan Button Template
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan_button( $plan ) {
 		llms_get_template(
 			'product/access-plan-button.php',
@@ -63,15 +63,15 @@ if ( ! function_exists( 'llms_template_access_plan_button' ) ) {
 	}
 }
 
-/**
- * Include Single Access Plan Description Template
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan_description' ) ) {
+	/**
+	 * Include Single Access Plan Description Template
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan_description( $plan ) {
 		llms_get_template(
 			'product/access-plan-description.php',
@@ -80,15 +80,15 @@ if ( ! function_exists( 'llms_template_access_plan_description' ) ) {
 	}
 }
 
-/**
- * Include Single Access Plan Featured Template
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan_feature' ) ) {
+	/**
+	 * Include Single Access Plan Featured Template
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan_feature( $plan ) {
 		llms_get_template(
 			'product/access-plan-feature.php',
@@ -97,15 +97,15 @@ if ( ! function_exists( 'llms_template_access_plan_feature' ) ) {
 	}
 }
 
-/**
- * Include Single Access Plan pricing Template
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan_pricing' ) ) {
+	/**
+	 * Include Single Access Plan pricing Template
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan_pricing( $plan ) {
 		llms_get_template(
 			'product/access-plan-pricing.php',
@@ -114,15 +114,15 @@ if ( ! function_exists( 'llms_template_access_plan_pricing' ) ) {
 	}
 }
 
-/**
- * Include Single Access Plan restrictions Template
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan_restrictions' ) ) {
+	/**
+	 * Include Single Access Plan restrictions Template
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan_restrictions( $plan ) {
 		llms_get_template(
 			'product/access-plan-restrictions.php',
@@ -131,15 +131,15 @@ if ( ! function_exists( 'llms_template_access_plan_restrictions' ) ) {
 	}
 }
 
-/**
- * Include Single Access Plan title Template
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan_title' ) ) {
+	/**
+	 * Include Single Access Plan title Template
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan_title( $plan ) {
 		llms_get_template(
 			'product/access-plan-title.php',
@@ -148,15 +148,15 @@ if ( ! function_exists( 'llms_template_access_plan_title' ) ) {
 	}
 }
 
-/**
- * Include Single Access Plan trial Template
- *
- * @param    obj     $plan   Instance of an LLMS_Access_Plan
- * @return   void
- * @since    3.23.0
- * @version  3.23.0
- */
 if ( ! function_exists( 'llms_template_access_plan_trial' ) ) {
+	/**
+	 * Include Single Access Plan trial Template
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param LLMS_Access_Plan $plan Access plan object.
+	 * @return void
+	 */
 	function llms_template_access_plan_trial( $plan ) {
 		llms_get_template(
 			'product/access-plan-trial.php',
@@ -165,16 +165,15 @@ if ( ! function_exists( 'llms_template_access_plan_trial' ) ) {
 	}
 }
 
-/**
- * Include pricing table for a LifterLMS Product (course or membership)
- *
- * @param    int     $post_id   WP Post ID of the product
- * @return   void
- * @since    3.0.0
- * @version  3.0.0
- */
 if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
-
+	/**
+	 * Include pricing table for a LifterLMS Product (course or membership)
+	 *
+	 * @since 3.0.0
+	 *
+	 * @param int $post_id WP Post ID of the product.
+	 * @return void
+	 */
 	function lifterlms_template_pricing_table( $post_id = null ) {
 
 		$post_id = $post_id ? $post_id : get_the_ID();
