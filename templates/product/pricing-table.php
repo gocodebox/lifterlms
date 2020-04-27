@@ -104,7 +104,7 @@ $free_only = ( $has_free && ! $purchaseable );
 		?>
 		<?php if ( 'yes' === $course->get( 'enrollment_period' ) ) : ?>
 			<?php if ( $course->get( 'enrollment_start_date' ) && ! $course->has_date_passed( 'enrollment_start_date' ) ) : ?>
-				<?php llms_print_notice( $course->get( 'enrollment_opens_message' ), 'notice' ); ?>
+				<?php llms_print_notice( $course->get( 'enrollment_opens_message' ), 'error' ); ?>
 			<?php elseif ( $course->has_date_passed( 'enrollment_end_date' ) ) : ?>
 				<?php llms_print_notice( $course->get( 'enrollment_closed_message' ), 'error' ); ?>
 			<?php endif; ?>
