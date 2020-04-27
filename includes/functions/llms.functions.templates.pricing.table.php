@@ -177,10 +177,19 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 	function lifterlms_template_pricing_table( $post_id = null ) {
 
 		$post_id = $post_id ? $post_id : get_the_ID();
-
 		$product = new LLMS_Product( $post_id );
 
-		$is_enrolled  = llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) );
+		/**
+		 * Filter current user's enrollment status
+		 *
+		 * This filter is used to customize the output behavior of the pricing table.
+		 * It does not modify the user's enrollment status.
+		 *
+		 * @since Unknown.
+		 *
+		 * @param boolean $is_enrolled User's current enrollment status.
+		 */
+		$is_enrolled  = apply_filters( 'llms_product_pricing_table_enrollment_status', llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) ) );
 		$purchaseable = $product->is_purchasable();
 		$has_free     = $product->has_free_access_plan();
 
