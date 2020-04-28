@@ -1,10 +1,13 @@
 <?php
 /**
- * @since 3.23.0
- *
  * Template functions for pricing tables
  *
+ * @package LifterLMS/Functions/Templates
+ *
+ * @since 3.23.0
+ * @version [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -165,6 +168,29 @@ if ( ! function_exists( 'llms_template_access_plan_trial' ) ) {
 	}
 }
 
+if ( ! function_exists( 'llms_template_product_not_purchasable' ) ) {
+	/**
+	 * Include template for products that aren't purchasable
+	 *
+	 * @since [version]
+	 *
+	 * @param int $post_id WP Post ID of the product.
+	 * @return void
+	 */
+	function llms_template_product_not_purchasable( $post_id = null ) {
+
+		$post_id = $post_id ? $post_id : get_the_ID();
+		$product = new LLMS_Product( $post_id );
+
+		llms_get_template(
+			'product/not-purchasable.php',
+			compact( 'product' )
+		);
+
+	}
+}
+
+
 if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 	/**
 	 * Include pricing table for a LifterLMS Product (course or membership)
@@ -185,17 +211,22 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 		 * This filter is used to customize the output behavior of the pricing table.
 		 * It does not modify the user's enrollment status.
 		 *
-		 * @since Unknown.
+		 * @since Unknown
 		 *
 		 * @param boolean $is_enrolled User's current enrollment status.
 		 */
-		$is_enrolled  = apply_filters( 'llms_product_pricing_table_enrollment_status', llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) ) );
-		$purchaseable = $product->is_purchasable();
-		$has_free     = $product->has_free_access_plan();
+		$is_enrolled = apply_filters(
+			'llms_product_pricing_table_enrollment_status',
+			llms_is_user_enrolled( get_current_user_id(), $product->get( 'id' ) )
+		);
+
+		$purchaseable     = $product->is_purchasable();
+		$has_free         = $product->has_free_access_plan();
+		$has_restrictions = $product->has_restrictions();
 
 		llms_get_template(
 			'product/pricing-table.php',
-			compact( 'product', 'is_enrolled', 'purchaseable', 'has_free' )
+			compact( 'product', 'is_enrolled', 'purchaseable', 'has_free', 'has_restrictions' )
 		);
 
 	}

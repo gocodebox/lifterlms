@@ -2,11 +2,14 @@
 /**
  * Tests for LifterLMS Product Model
  *
+ * @package LifterLMS/Tests/Models
+ *
  * @group LLMS_Product
  * @group LLMS_Post_Model
  *
  * @since 3.25.2
  * @since 3.37.12 Create a stub for the test_create_method() since this class doesn't need to test that.
+ * @since [version] Add tests for the get_restrictions() and has_restrictions() methods.
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
@@ -41,7 +44,9 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 * @version  3.24.0
 	 */
 	protected function get_data() {
-		return array();
+		return array(
+			'title' => 'Mock product',
+		);
 	}
 
 	private function add_plan( $product, $data = array() ) {
@@ -80,6 +85,20 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 		$product = new LLMS_Product( $this->factory->post->create( array( 'post_type' => 'course' ) ) );
 		return $product;
 
+	}
+
+	/**
+	 * Override parent test
+	 *
+	 * This model has no properties of it's own so we can safely skip this test
+	 * without outputting a warning.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_getters_setters() {
+		$this->assertTrue( true );
 	}
 
 
@@ -152,6 +171,87 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_restrictions(): no restrictions on product
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_restrictions_none() {
+
+		$product = $this->get_product();
+		$course = llms_get_post( $product->get( 'id' ) );
+
+		$this->assertEquals( array(), $product->get_restrictions() );
+
+	}
+
+	/**
+	 * Test get_restrictions(): enrollment period
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_restrictions_period() {
+
+		$product = $this->get_product();
+		$course = llms_get_post( $product->get( 'id' ) );
+
+		$course->set( 'enrollment_period', 'yes' );
+		$course->set( 'enrollment_start_date', date( 'Y-m-d h:i:s', strtotime( '+1 day' ) ) );
+		$this->assertEquals( array( 'enrollment_period' ), $product->get_restrictions() );
+
+	}
+
+	/**
+	 * Test get_restrictions(): max capacity
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_restrictions_capacity() {
+
+		$product = $this->get_product();
+		$course = llms_get_post( $product->get( 'id' ) );
+
+		$student = $this->get_mock_student();
+		$student->enroll( $course->get( 'id' ) );
+		$course->set( 'enable_capacity', 'yes' );
+		$course->set( 'capacity', 1 );
+
+		$this->assertEquals( array( 'student_capacity' ), $product->get_restrictions() );
+
+	}
+
+	/**
+	 * Test get_restrictions(): multiple restrictions
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_restriction_multiple() {
+
+		$product = $this->get_product();
+		$course = llms_get_post( $product->get( 'id' ) );
+
+		// Enrollment period.
+		$course->set( 'enrollment_period', 'yes' );
+		$course->set( 'enrollment_start_date', date( 'Y-m-d h:i:s', strtotime( '+1 day' ) ) );
+		$this->assertEquals( array( 'enrollment_period' ), $product->get_restrictions() );
+
+		// No capacity.
+		$student = $this->get_mock_student();
+		$student->enroll( $course->get( 'id' ) );
+		$course->set( 'enable_capacity', 'yes' );
+		$course->set( 'capacity', 1 );
+
+		$this->assertEquals( array( 'enrollment_period', 'student_capacity' ), $product->get_restrictions() );
+	}
+
+	/**
 	 * test has_free_access_plan() method
 	 * @return  void
 	 * @since   3.25.2
@@ -170,6 +270,30 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
 		$this->add_plan( $product, array( 'is_free' => 'yes' ) );
 		$this->assertTrue( $product->has_free_access_plan() );
+
+	}
+
+	/**
+	 * Test the has_restrictions() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_has_restrictions() {
+
+		$product = $this->get_product();
+		$course = llms_get_post( $product->get( 'id' ) );
+
+		// No restrictions.
+		$this->assertFalse( $product->has_restrictions() );
+
+		// Add enrollment period restrictions.
+		$course->set( 'enrollment_period', 'yes' );
+		$course->set( 'enrollment_start_date', date( 'Y-m-d h:i:s', strtotime( '+1 day' ) ) );
+		$this->assertEquals( array( 'enrollment_period' ), $product->get_restrictions() );
+
+		$this->assertTrue( $product->has_restrictions() );
 
 	}
 

@@ -5,12 +5,13 @@
  * @package LifterLMS/Templates/Product
  *
  * @since 3.0.0
- * @version 3.23.0
+ * @version [version]
  *
- * @property LLMS_Product $product      Product object of the course or membership.
- * @property bool         $is_enrolled  Determines if current viewer is enrolled in $product.
- * @property bool         $purchaseable Determines if current product is purchasable.
- * @property bool         $has_free     Determines if any free access plans are available for the product.
+ * @property LLMS_Product $product          Product object of the course or membership.
+ * @property bool         $is_enrolled      Determines if current viewer is enrolled in $product.
+ * @property bool         $purchaseable     Determines if current product is purchasable.
+ * @property bool         $has_free         Determines if any free access plans are available for the product.
+ * @property bool         $has_restrictions Determines if any free access plans are available for the product.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
 $free_only = ( $has_free && ! $purchaseable );
 ?>
 
-<?php if ( ! $is_enrolled && ( $purchaseable || $has_free ) ) : ?>
+<?php if ( ! $is_enrolled && ! $has_restrictions && ( $purchaseable || $has_free ) ) : ?>
 
 	<?php
 		/**
@@ -91,27 +92,13 @@ $free_only = ( $has_free && ! $purchaseable );
 		/**
 		 * Pricing table output when the user is not enrolled but the product is not purchaseable.
 		 *
+		 * Hooked: llms_template_product_not_purchaseable - 10
+		 *
 		 * @since Unknown
 		 *
 		 * @param int $id WP_Post ID of the course or membership.
 		 */
 		do_action( 'lifterlms_product_not_purchasable', $product->get( 'id' ) );
 	?>
-
-	<?php
-	if ( 'course' === $product->get( 'type' ) ) :
-		$course = new LLMS_Course( $product->post );
-		?>
-		<?php if ( 'yes' === $course->get( 'enrollment_period' ) ) : ?>
-			<?php if ( $course->get( 'enrollment_start_date' ) && ! $course->has_date_passed( 'enrollment_start_date' ) ) : ?>
-				<?php llms_print_notice( $course->get( 'enrollment_opens_message' ), 'error' ); ?>
-			<?php elseif ( $course->has_date_passed( 'enrollment_end_date' ) ) : ?>
-				<?php llms_print_notice( $course->get( 'enrollment_closed_message' ), 'error' ); ?>
-			<?php endif; ?>
-		<?php endif; ?>
-		<?php if ( ! $course->has_capacity() ) : ?>
-			<?php llms_print_notice( $course->get( 'capacity_message' ), 'error' ); ?>
-		<?php endif; ?>
-	<?php endif; ?>
 
 <?php endif; ?>
