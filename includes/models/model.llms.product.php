@@ -97,8 +97,8 @@ class LLMS_Product extends LLMS_Post_Model {
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
 		$args = array(
-			'meta_key'       => '_llms_product_id',
-			'meta_value'     => $this->get( 'id' ),
+			'meta_key'       => '_llms_product_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'meta_value'     => $this->get( 'id' ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			'order'          => 'ASC',
 			'orderby'        => 'menu_order',
 			'posts_per_page' => $this->get_access_plan_limit(),
@@ -108,7 +108,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		// Filter results to only free access plans.
 		if ( $free_only ) {
-			$args['meta_query'] = array(
+			$args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'   => '_llms_is_free',
 					'value' => 'yes',
@@ -118,7 +118,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		// Exclude hidden access plans from the results.
 		if ( $visible_only ) {
-			$args['tax_query'] = array(
+			$args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				array(
 					'field'    => 'name',
 					'operator' => 'NOT IN',
