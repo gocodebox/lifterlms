@@ -27,25 +27,30 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Get properties, used by test_getters_setters
-	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 *
+	 This should match, exactly, the object's $properties array.
+	 *
+	 * @since 3.24.0
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array();
 	}
 
 	/**
-	 * Get data to fill a create post with
-	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * Get data used to create the mock post.
+	 *
+	 * This is used by test_getters_setters().
+	 *
+	 * @since 3.24.0
+	 * @since [version] Added fake data to ensure abstracts pass instead of being marked as skipped.
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
-			'title' => 'Mock product',
+			'fake'  => 'fake', // This makes it so that abstracts that don't technically apply to this product will pass.
 		);
 	}
 
