@@ -2,9 +2,10 @@
 /**
  * Page functions
  *
- * @since    1.0.0
- * @version  3.26.3
+ * @since 1.0.0
+ * @version [version]
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -23,15 +24,37 @@ function llms_cancel_payment_url() {
 /**
  * Get url for redirect when user confirms payment
  *
- * @return string [url to redirect user to on form post]
+ * @since 1.0.0
+ * @since [version] Added redirect query string parameter.
+ *
+ * @return string
  */
 function llms_confirm_payment_url( $order_key = null ) {
 
-	$confirm_payment_url = llms_get_endpoint_url( 'confirm-payment', '', get_permalink( llms_get_page_id( 'checkout' ) ) );
+	$args = array();
 
-	$confirm_payment_url = add_query_arg( 'order', $order_key, $confirm_payment_url );
+	if ( $order_key ) {
+		$args['order'] = $order_key;
+	}
 
-	return apply_filters( 'lifterlms_checkout_confirm_payment_url', $confirm_payment_url );
+	$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
+	if ( $redirect ) {
+		$args['redirect'] = urlencode( $redirect );
+	}
+
+	$url = llms_get_endpoint_url( 'confirm-payment', '', get_permalink( llms_get_page_id( 'checkout' ) ) );
+	if ( $args ) {
+		$url = add_query_arg( $args, $url );
+	}
+
+	/**
+	 * Filter the checkout confirmation URL
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param $string $url URL to the payment confirmation screen.
+	 */
+	return apply_filters( 'lifterlms_checkout_confirm_payment_url', $url );
 
 }
 
