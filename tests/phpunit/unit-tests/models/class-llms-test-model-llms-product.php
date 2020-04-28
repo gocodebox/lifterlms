@@ -10,6 +10,7 @@
  * @since 3.25.2
  * @since 3.37.12 Create a stub for the test_create_method() since this class doesn't need to test that.
  * @since [version] Add tests for the get_restrictions() and has_restrictions() methods.
+ *                Override unnecessary parent tests so they're not marked as skipped.
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 
@@ -44,14 +45,11 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 * This is used by test_getters_setters().
 	 *
 	 * @since 3.24.0
-	 * @since [version] Added fake data to ensure abstracts pass instead of being marked as skipped.
 	 *
 	 * @return array
 	 */
 	protected function get_data() {
-		return array(
-			'fake'  => 'fake', // This makes it so that abstracts that don't technically apply to this product will pass.
-		);
+		return array();
 	}
 
 	private function add_plan( $product, $data = array() ) {
@@ -117,7 +115,51 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 * @return void
 	 */
 	public function test_create_model() {
+		$this->assertTrue( true );
+	}
 
+
+	/**
+	 * Overwrite unnecessary parent test.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_date_status_relationship_update() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Overwrite unnecessary parent test.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_edit_date() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Overwrite unnecessary parent test.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk() {
+		$this->assertTrue( true );
+	}
+
+	/**
+	 * Overwrite unnecessary parent test.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_set_bulk_wp_error() {
 		$this->assertTrue( true );
 	}
 
