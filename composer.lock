@@ -45,23 +45,24 @@
         },
         {
             "name": "lifterlms/lifterlms-blocks",
-            "version": "1.7.2",
+            "version": "1.8.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-blocks.git",
-                "reference": "ab683a6fdf639c20f7703752cb3727f14c4b5485"
+                "reference": "a2441990afc2b5604568debe2985e19188c32fc7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/ab683a6fdf639c20f7703752cb3727f14c4b5485",
-                "reference": "ab683a6fdf639c20f7703752cb3727f14c4b5485",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-blocks/zipball/a2441990afc2b5604568debe2985e19188c32fc7",
+                "reference": "a2441990afc2b5604568debe2985e19188c32fc7",
                 "shasum": ""
+            },
+            "require": {
+                "php": "^7.1"
             },
             "require-dev": {
                 "lifterlms/lifterlms-cs": "dev-master",
-                "lifterlms/lifterlms-tests": "dev-master",
-                "phpcompatibility/php-compatibility": "^9.0",
-                "roave/security-advisories": "dev-master"
+                "lifterlms/lifterlms-tests": "dev-master"
             },
             "type": "wordpress-plugin",
             "notification-url": "https://packagist.org/downloads/",
@@ -75,7 +76,7 @@
                 }
             ],
             "description": "WordPress Editor (Gutenberg) blocks for LifterLMS.",
-            "time": "2019-12-10T00:27:29+00:00"
+            "time": "2020-04-28T22:48:52+00:00"
         },
         {
             "name": "lifterlms/lifterlms-rest",
