@@ -40,7 +40,7 @@ function llms_confirm_payment_url( $order_key = null ) {
 
 	$redirect = urldecode( llms_filter_input( INPUT_GET, 'redirect', FILTER_VALIDATE_URL ) );
 	if ( $redirect ) {
-		$args['redirect'] = urlencode( $redirect );
+		$args['redirect'] = rawurlencode( $redirect );
 	}
 
 	$url = llms_get_endpoint_url( 'confirm-payment', '', get_permalink( llms_get_page_id( 'checkout' ) ) );
