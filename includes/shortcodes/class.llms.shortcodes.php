@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 3.23.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,20 +16,30 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.11.1 Unknown.
  * @since 3.23.0 Unknown.
+ * @since [version] Course progress bar shortcode now can display the bar only to enrolled user.
+ *                Use strict comparisons where possible/needed.
  */
 class LLMS_Shortcodes {
 
 	/**
-	 * init shortcodes array
+	 * Init shortcodes array
+	 *
+	 * @since 1.0.0
+	 * @since 3.11.1 Unknown.
 	 *
 	 * @return void
-	 * @since    1.0.0
-	 * @version  3.11.1
 	 */
 	public static function init() {
 
-		// new method
+		// New method.
 		$scs = apply_filters(
+			/**
+			 * Filters the shortcodes to initialize
+			 *
+			 * @since unknown
+			 *
+			 * @param string[] $shortcodes Array of shortcodes class names to initialize.
+			 */
 			'llms_load_shortcodes',
 			array(
 				'LLMS_Shortcode_Course_Author',
@@ -49,14 +59,22 @@ class LLMS_Shortcodes {
 			)
 		);
 
-		// include abstracts
+		// Include abstracts.
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.shortcode.course.element.php';
 
 		foreach ( $scs as $class ) {
 
 			$filename = strtolower( str_replace( '_', '.', $class ) );
-			$path     = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . 'includes/shortcodes/class.' . $filename . '.php', $class );
+			/**
+			 * Filters the path of the shortcode class file
+			 *
+			 * @since unknown
+			 *
+			 * @param string $file The shortcode class file name.
+			 * @param string $class The shortcode class name.
+			 */
+			$path = apply_filters( 'llms_load_shortcode_path', LLMS_PLUGIN_DIR . 'includes/shortcodes/class.' . $filename . '.php', $class );
 
 			if ( file_exists( $path ) ) {
 				require_once $path;
@@ -64,12 +82,12 @@ class LLMS_Shortcodes {
 		}
 
 		/**
-		 * @deprecated  2.0.0
-		 * @todo        deprecate
+		 * @deprecated 2.0.0
+		 * @todo deprecate
 		 */
 		add_shortcode( 'courses', array( LLMS_Shortcode_Courses::instance(), 'output' ) );
 
-		// old method
+		// Old method.
 		$shortcodes = array(
 			'lifterlms_access_plan_button' => __CLASS__ . '::access_plan_button',
 			'lifterlms_my_account'         => __CLASS__ . '::my_account',
@@ -87,7 +105,19 @@ class LLMS_Shortcodes {
 
 		foreach ( $shortcodes as $shortcode => $function ) {
 
-			add_shortcode( apply_filters( "{$shortcode}_shortcode_tag", $shortcode ), $function );
+			add_shortcode(
+				/**
+				 * Filters the shortcode tag
+				 *
+				 * The dynamic portion fo the hook name, `$shortcode` refers to the shortcode tag itself.
+				 *
+				 * @since unknown
+				 *
+				 * @param string $shortcode The shortcode tag.
+				 */
+				apply_filters( "{$shortcode}_shortcode_tag", $shortcode ),
+				$function
+			);
 
 		}
 
@@ -95,13 +125,14 @@ class LLMS_Shortcodes {
 
 	/**
 	 * Allows shortcodes to enqueue a script by handle
-	 * Ensures the handle is registered and that it hasn't already been enqueued
 	 *
-	 * @param    [type] $handle  script handle used to register the script
-	 *                           the script should be registered in `LLMS_Frontend_Assets`
-	 * @return   void
-	 * @since    3.0.2
-	 * @version  3.0.2
+	 * Ensures the handle is registered and that it hasn't already been enqueued.
+	 *
+	 * @since 3.0.2
+	 *
+	 * @param string $handle Script handle used to register the script.
+	 *                       The script should be registered in `LLMS_Frontend_Assets`.
+	 * @return void
 	 */
 	private static function enqueue_script( $handle ) {
 
@@ -116,9 +147,10 @@ class LLMS_Shortcodes {
 	/**
 	 * Retrieve the course ID from within a course, lesson, or quiz
 	 *
-	 * @return   int
-	 * @since    2.7.9
-	 * @version  3.16.0
+	 * @since 2.7.9
+	 * @since 3.16.0 Unknown.
+	 *
+	 * @return int
 	 */
 	private static function get_course_id() {
 
@@ -139,7 +171,7 @@ class LLMS_Shortcodes {
 	/**
 	 * Creates a wrapper for shortcode.
 	 *
-	 * @return void
+	 * @return string
 	 */
 	public static function shortcode_wrapper(
 		$function,
@@ -165,11 +197,12 @@ class LLMS_Shortcodes {
 	/**
 	 * Create a button for an Access Plan
 	 *
-	 * @param    array  $atts      array of shortcode attributes
-	 * @param    string $content  optional shortcode content, enables custom text / html in the button
-	 * @return   string
-	 * @since    3.2.5
-	 * @version  3.4.1
+	 * @since 3.2.5
+	 * @since 3.4.1 Unknown.
+	 *
+	 * @param array  $atts    Associative array of shortcode attributes.
+	 * @param string $content Optional. Shortcode content, enables custom text/html in the button. Default empty string.
+	 * @return string
 	 */
 	public static function access_plan_button( $atts, $content = '' ) {
 
@@ -177,8 +210,8 @@ class LLMS_Shortcodes {
 			array(
 				'classes' => '',
 				'id'      => null,
-				'size'    => '', // small, large
-				'type'    => 'primary', // primary, secondary, action, danger
+				'size'    => '', // Can be: small, large.
+				'type'    => 'primary', // Can be: primary, secondary, action, danger.
 			),
 			$atts,
 			'lifterlms_access_plan_button'
@@ -198,6 +231,15 @@ class LLMS_Shortcodes {
 			$ret = '<a class="' . esc_attr( $classes ) . '" href="' . esc_url( $plan->get_checkout_url() ) . '" title="' . esc_attr( $plan->get( 'title' ) ) . '">' . $text . '</a>';
 		}
 
+		/**
+		 * Filters the access plan button shortcode output
+		 *
+		 * @since unknown
+		 *
+		 * @param string $ret     The shortcode output.
+		 * @param array  $atts    Associative array of shortcode attributes.
+		 * @param string $content Shortcode content, enables custom text/html in the button. Default empty string.
+		 */
 		return apply_filters( 'llms_shortcode_access_plan_button', $ret, $atts, $content );
 
 	}
@@ -205,10 +247,11 @@ class LLMS_Shortcodes {
 	/**
 	 * Add a login form
 	 *
-	 * @param    array $atts  shortcode attributes
-	 * @return   string
-	 * @since    3.0.4
-	 * @version  3.19.4
+	 * @since 3.0.4
+	 * @since 3.19.4 Unknown.
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
+	 * @return string
 	 */
 	public static function login( $atts ) {
 
@@ -231,11 +274,13 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * My account shortcode.
+	 * My account shortcode
 	 *
 	 * Used for displaying account.
 	 *
-	 * @return self::shortcode_wrappers
+	 * @see self::shortcode_wrapper()
+	 *
+	 * @return string
 	 */
 	public static function my_account( $atts ) {
 
@@ -247,17 +292,18 @@ class LLMS_Shortcodes {
 
 	/**
 	 * Memberships Shortcode
-	 * Used for shortcode [lifterlms_memberships]
 	 *
-	 * @param array $atts   associative array of shortcode attributes
+	 * Used for shortcode [lifterlms_memberships].
+	 *
+	 * @since 1.4.4
+	 * @since 3.0.2
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
-	 *
-	 * @since    1.4.4
-	 * @version  3.0.2
 	 */
 	public static function memberships( $atts ) {
 
-		// enqueue match height so the loop isn't all messed up visually
+		// Enqueue match height so the loop isn't all messed up visually.
 		self::enqueue_script( 'llms-jquery-matchheight' );
 
 		if ( isset( $atts['category'] ) ) {
@@ -341,11 +387,14 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * Checkout shortcode.
+	 * Checkout shortcode
 	 *
-	 * Used for displaying checkout form
+	 * Used for displaying checkout form.
 	 *
-	 * @return self::shortcode_wrapper
+	 * @see self::shortcode_wrapper
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
+	 * @return string
 	 */
 	public static function checkout( $atts ) {
 
@@ -356,19 +405,20 @@ class LLMS_Shortcodes {
 	/**
 	 * Output various pieces of metadata about a course
 	 *
-	 * @param    array $atts  array of user-submitted shortcode attributes
-	 * @return   string
-	 * @since    3.0.0
-	 * @version  3.4.1
+	 * @since 3.0.0
+	 * @since 3.4.1 Unknown.
+	 *
+	 * @param array $atts Array of user-submitted shortcode attributes.
+	 * @return string
 	 */
 	public static function course_info( $atts ) {
 		extract(
 			shortcode_atts(
 				array(
-					'date_format' => 'F j, Y', // if $type is date, a custom date format can be supplied
+					'date_format' => 'F j, Y', // If $type is date, a custom date format can be supplied.
 					'id'          => get_the_ID(),
 					'key'         => '',
-					'type'        => '', // date, price
+					'type'        => '', // Can either be: date, price or empty string.
 				),
 				$atts,
 				'lifterlms_course_info'
@@ -397,19 +447,34 @@ class LLMS_Shortcodes {
 			}
 		}
 
+		/**
+		 * Filters the course info shortcode output
+		 *
+		 * @since unknown
+		 *
+		 * @param string $ret  The shortcode output.
+		 * @param array  $atts Associative array of shortcode attributes.
+		 */
 		return apply_filters( 'llms_shortcode_course_info', $ret, $atts );
 	}
 
 	/**
 	 * Course Progress Bar Shortcode
 	 *
-	 * @param  [type] $atts [description]
-	 * @return [type]       [description]
+	 * @since unknown
+	 * @since [version] Added logic to display the bar only to enrolled user.
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
+	 * @return string
 	 */
 	public static function course_progress( $atts ) {
 
 		$course_id = self::get_course_id();
 		if ( ! $course_id ) {
+			return '';
+		}
+
+		if ( ! empty( $atts['check_enrollment'] ) && ! llms_is_user_enrolled( get_current_user_id(), $course_id ) ) {
 			return '';
 		}
 
@@ -423,9 +488,11 @@ class LLMS_Shortcodes {
 	/**
 	 * Retrieve the Course Title
 	 *
-	 * @param  array $atts  accepts no arguments
+	 * @since unknown
+	 * @since 2.7.9 Unknown
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
-	 * @version  2.7.9
 	 */
 	public static function course_title( $atts ) {
 		$course_id = self::get_course_id();
@@ -436,10 +503,13 @@ class LLMS_Shortcodes {
 	}
 
 	/**
-	 * courses shortcode
+	 * Courses shortcode
 	 *
-	 * Used for [lifterlms_related_courses]
+	 * Used for [lifterlms_related_courses].
 	 *
+	 * @since unknown
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
 	 * @return array
 	 */
 	public static function related_courses( $atts ) {
@@ -490,21 +560,24 @@ class LLMS_Shortcodes {
 	/**
 	 * Output user statistics related to courses enrolled, completed, etc...
 	 *
-	 * @param  [array] $atts / array of user input attributes
-	 * @return string / html content
+	 * @since unknown
+	 * @since [version] Use strict comparisons.
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
+	 * @return string
 	 */
 	public static function user_statistics( $atts ) {
 		extract(
 			shortcode_atts(
 				array(
-					'type' => 'course', // course, lesson, section
-					'stat' => 'completed', // completed, enrolled
+					'type' => 'course', // course, lesson, section.
+					'stat' => 'completed', // completed, enrolled.
 				),
 				$atts
 			)
 		);
 
-		// setup the meta key to search on
+		// setup the meta key to search on.
 		switch ( $stat ) {
 			case 'completed':
 				$key = '_is_complete';
@@ -517,28 +590,28 @@ class LLMS_Shortcodes {
 				break;
 		}
 
-		// get user id of logged in user
+		// get user id of logged in user.
 		$uid = wp_get_current_user()->ID;
 
-		// init person class
+		// init person class.
 		$person = new LLMS_Person();
-		// get results
+		// get results.
 		$results = $person->get_user_postmetas_by_key( $uid, $key );
 
 		if ( $results ) {
-			// unset all items that are not courses
+			// unset all items that are not courses.
 			foreach ( $results as $key => $obj ) {
-				if ( get_post_type( $obj->post_id ) != $type ) {
+				if ( get_post_type( $obj->post_id ) !== $type ) {
 					unset( $results[ $key ] );
 				}
 			}
 		}
 
-		// filter by value if set
+		// filter by value if set.
 		if ( is_array( $results ) && $val ) {
 			foreach ( $results as $key => $obj ) {
-				// remove from the results array if $val doesn't match
-				if ( $obj->meta_value != $val ) {
+				// remove from the results array if $val doesn't match.
+				if ( $obj->meta_value !== $val ) {
 					unset( $results[ $key ] );
 				}
 			}
@@ -546,7 +619,7 @@ class LLMS_Shortcodes {
 
 		$count = ( is_array( $results ) ) ? count( $results ) : 0;
 
-		if ( 1 == $count ) {
+		if ( 1 === $count ) {
 			return $count . ' ' . $type;
 		}
 
@@ -557,10 +630,12 @@ class LLMS_Shortcodes {
 	/**
 	 * Output a Pricing Table anywhere a shortcode can be output
 	 *
-	 * @param    array $atts  array of shortcode attributes
-	 * @return   string
-	 * @since    3.2.5
-	 * @version  3.23.0
+	 * @since 3.2.5
+	 * @since 3.23.0 Unknown
+	 * @since [version] Use `in_array()` with strict comparison.
+	 *
+	 * @param array $atts Associative array of shortcode attributes.
+	 * @return string
 	 */
 	public static function pricing_table( $atts ) {
 
@@ -574,17 +649,17 @@ class LLMS_Shortcodes {
 
 		$ret = '';
 
-		// get product id from loop if used from within a course or membership
+		// get product id from loop if used from within a course or membership.
 		if ( ! $atts['product'] ) {
 			$id = get_the_ID();
-			if ( in_array( get_post_type( $id ), array( 'course', 'llms_membership' ) ) ) {
+			if ( in_array( get_post_type( $id ), array( 'course', 'llms_membership' ), true ) ) {
 				$atts['product'] = get_the_ID();
 			}
 		}
 
 		if ( ! empty( $atts['product'] ) && is_numeric( $atts['product'] ) ) {
 
-			// enqueue match height for height alignments
+			// enqueue match height for height alignments.
 			self::enqueue_script( 'llms-jquery-matchheight' );
 
 			ob_start();
@@ -592,6 +667,14 @@ class LLMS_Shortcodes {
 			$ret = ob_get_clean();
 		}
 
+		/**
+		 * Filters the pricing table shortcode output
+		 *
+		 * @since unknown
+		 *
+		 * @param string $ret  The shortcode output.
+		 * @param array  $atts Associative array of shortcode attributes.
+		 */
 		return apply_filters( 'llms_shortcode_pricing_table', $ret, $atts );
 
 	}
