@@ -8,7 +8,6 @@
  *
  * @since 1.0.0
  * @version [version]
- *
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -80,7 +79,6 @@ class LLMS_Product extends LLMS_Post_Model {
 		 *
 		 * @param int          $limit Number of plans.
 		 * @param LLMS_Proudct $this  Product object.
-		 *
 		 */
 		return apply_filters( 'llms_get_product_access_plan_limit', 6, $this );
 	}

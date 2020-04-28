@@ -29,4 +29,5 @@ if ( 'course' === $product->get( 'type' ) ) :
 		<?php llms_print_notice( $course->get( 'capacity_message' ), 'error' ); ?>
 	<?php endif; ?>
 
-<?php endif; ?>
+	<?php
+endif;
