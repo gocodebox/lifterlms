@@ -57,6 +57,11 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 			'memberships' => 'memberships',
 		);
 
+		// Clear options maybe installed by other tests.
+		foreach ( array_values( $pages ) as $option ) {
+			delete_option( 'lifterlms_' . $option . '_page_id' );
+		}
+
 		// Options don't exist.
 
 		// Backwards compat.
