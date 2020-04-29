@@ -25,76 +25,63 @@
 
 <hr />
 
-### [Changelog](./CHANGELOG.md)
+Welcome to the LifterLMS GitHub repository. This repository serves as the core project's central location for issue tracking and feature development.
 
-
-### Documentation
-
-+ [https://lifterlms.com/docs/](https://lifterlms.com/docs/)
+If you're not a developer or contributor, please use [LifterLMS plugin page][link-wp-repo] at WordPress.org.
 
 
 ### Getting Help and Support Support
 
-GitHub is for bug reports and contributions only! If you have a support question or a request for a customization this is not the right place to post it. Please refer to [LifterLMS Support](https://lifterlms.com/my-account/my-tickets) or the [community forums](https://wordpress.org/support/plugin/lifterlms). If you're looking for help customizing LifterLMS, please consider hiring a [LifterLMS Expert](https://lifterlms.com/docs/do-you-have-any-recommended-developers-who-can-modifycustomize-lifterlms/).
+GitHub is for bug reports and contributions only! If you have a support question or a request for a customization this is not the right place to post it. Please refer to [LifterLMS Support][link-support] or the [community forums][link-support-forums]. If you're looking for help customizing LifterLMS, please consider hiring a [LifterLMS Expert][link-experts].
+
+
+### Resources and Documentation
+
++ [Changelog](./CHANGELOG.md)
++ User documentation and knowledge base: https://lifterlms.com/docs/
++ Contributor's blog: https://make.lifterlms.com/docs/
++ Developer portal: https://developer.lifterlms.com/docs/
+
+
+### Included Core Packages
+
+The LifterLMS core includes several additional packages which are included in releases through composer. These core projects are installable as standalone plugins for development and testing purposes. The stable versions are automatically included in LifterLMS core releases.
+
+These packages have their own GitHub repositories:
+
++ [LifterLMS Blocks](https://github.com/gocodebox/lifterlms-blocks)
++ [LifterLMS REST API](https://github.com/gocodebox/lifterlms-rest)
 
 
 ### Reporting a Bug
 
-Bugs can be reported at [https://github.com/gocodebox/lifterlms/issues/new](https://github.com/gocodebox/lifterlms/issues/new).
-
-Security issues and vulnerabilities should be responsibly disclodes. Please see our [Security Policy](.github/SECURITY.md) for details on disclosing a security vulnerability to us.
+Bugs can be reported at https://github.com/gocodebox/lifterlms/issues/new.
 
 Before reporting a bug, [search existing issues](https://github.com/gocodebox/lifterlms/issues) and ensure you're not creating a duplicate. If the issue already exists you can add your information to the existing report.
 
 Also check our [known issues and conflicts](https://lifterlms.com/doc-category/lifterlms/known-conflicts/) for possible resolutions.
 
-### Installing for Production Usage
 
-If you clone or download this repo directly it will not run as a plugin inside WordPress! Installable production releases are available in on the [Releases tab](https://github.com/gocodebox/lifterlms/releases). You can get the latest stable release from [WordPress.org](https://downloads.wordpress.org/plugin/lifterlms.zip)
+### Reporting a Security Vulnerability
 
-### Installing for Development
-
-1. Composer
-  + `curl -sS https://getcomposer.org/installer | php`
-  + `php composer.phar install`
-
-2. Node
-  + Install node
-  + Install npm
-  + `npm install --global gulp`
-  + `npm install`
-
-### Running phpcs
-
-Use the shorthand composer script to run phpcs against all PHP files.
-
-+ `composer run-script phpcs`
-
-Alternatively access the executable:
-
-+ `./vendor/bin/phpcs path/to/file.php`
-
-To see errors only (no warnings):
-
-+ `./vendor/bin/phpcs -n path/to/file.php`
-
-To see all options:
-
-+ `./vendor/bin/phpcs -h`
+Security issues and vulnerabilities should be responsibly disclosed directly to the LifterLMS core developers via email. Please see our [Security Policy](.github/SECURITY.md) for details on disclosing a security vulnerability.
 
 
-### Running phpcbf
+### Installing
 
-+ `./vendor/bin/phpcbf` to run on all php files
-+ `./vendor/bin/phpcbf path/to/file.php` to run on a specific file
+If you clone or download this repo directly it will not run as a plugin inside WordPress!
+
+Installable production releases are available in on the [Releases tab](https://github.com/gocodebox/lifterlms/releases). You can get the latest stable release from [WordPress.org](https://downloads.wordpress.org/plugin/lifterlms.zip)
+
+If you're interested in installing development versions, see [Installing for Development](docs/installing.md)
 
 
-### Contributing [![contributions welcome](https://img.shields.io/badge/contributions-welcome-brightgreen.svg?style=flat)](.github/CONTRIBUTING.md)
+### Contributing [![Contributions Welcome][img-contributions-welcome]](.github/CONTRIBUTING.md)
 
 Interested in contributing to LifterLMS? We'd love to have your contributions. Read our contributor's guidelines [here](.github/CONTRIBUTING.md).
 
 
-### Contributors
+### Contributors [![Contributors][img-contributors]](#contributors)
 
 Endless thanks to all our incredible contributors!
 
@@ -139,7 +126,7 @@ Endless thanks to all our incredible contributors!
 [//]: contributor-faces
 
 
-### Partners
+### Partners and Sponsors
 
 <table>
   <tr>
@@ -160,7 +147,10 @@ Endless thanks to all our incredible contributors!
 <!-- References: Links -->
 [link-cc]: https://codeclimate.com/github/gocodebox/lifterlms "LifterLMS on Code Climate"
 [link-cc-coverage]: https://codeclimate.com/github/gocodebox/lifterlms/coverage "Code coverage reports on Code Climate"
+[link-experts]: https://lifterlms.com/docs/do-you-have-any-recommended-developers-who-can-modifycustomize-lifterlms/ "Hire a LifterLMS Expert"
 [link-slack]: https://lifterlms.com/slack "Chat with the community on Slack"
+[link-support]: https://lifterlms.com/my-account/my-tickets "LifterLMS customer support"
+[link-support-forums]: https://wordpress.org/support/plugin/lifterlms "LifterLMS user support forums"
 [link-travis]: https://travis-ci.com/github/gocodebox/lifterlms "LifterLMS on Travis CI"
 [link-wp-advanced]:https://wordpress.org/plugins/lifterlms/advanced/ "Advanced plugin details on the WordPress plugin repository"
 [link-wp-repo]:https://wordpress.org/plugins/lifterlms/ "LifterLMS on the WordPress plugin repository"
@@ -169,6 +159,7 @@ Endless thanks to all our incredible contributors!
 [img-cc-coverage]:https://img.shields.io/codeclimate/coverage/gocodebox/lifterlms?style=for-the-badge&logo=code-climate
 [img-cc-maintainability]:https://img.shields.io/codeclimate/maintainability/gocodebox/lifterlms?logo=code-climate&style=for-the-badge
 [img-contributors]: https://img.shields.io/github/contributors/gocodebox/lifterlms?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJzdmcyIiB3aWR0aD0iNjQ1IiBoZWlnaHQ9IjU4NSIgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPiA8ZyBpZD0ibGF5ZXIxIj4gIDxwYXRoIGlkPSJwYXRoMjQxNyIgZD0ibTI5Ny4zIDU1MC44N2MtMTMuNzc1LTE1LjQzNi00OC4xNzEtNDUuNTMtNzYuNDM1LTY2Ljg3NC04My43NDQtNjMuMjQyLTk1LjE0Mi03Mi4zOTQtMTI5LjE0LTEwMy43LTYyLjY4NS01Ny43Mi04OS4zMDYtMTE1LjcxLTg5LjIxNC0xOTQuMzQgMC4wNDQ1MTItMzguMzg0IDIuNjYwOC01My4xNzIgMTMuNDEtNzUuNzk3IDE4LjIzNy0zOC4zODYgNDUuMS02Ni45MDkgNzkuNDQ1LTg0LjM1NSAyNC4zMjUtMTIuMzU2IDM2LjMyMy0xNy44NDUgNzYuOTQ0LTE4LjA3IDQyLjQ5My0wLjIzNDgzIDUxLjQzOSA0LjcxOTcgNzYuNDM1IDE4LjQ1MiAzMC40MjUgMTYuNzE0IDYxLjc0IDUyLjQzNiA2OC4yMTMgNzcuODExbDMuOTk4MSAxNS42NzIgOS44NTk2LTIxLjU4NWM1NS43MTYtMTIxLjk3IDIzMy42LTEyMC4xNSAyOTUuNSAzLjAzMTYgMTkuNjM4IDM5LjA3NiAyMS43OTQgMTIyLjUxIDQuMzgwMSAxNjkuNTEtMjIuNzE1IDYxLjMwOS02NS4zOCAxMDguMDUtMTY0LjAxIDE3OS42OC02NC42ODEgNDYuOTc0LTEzNy44OCAxMTguMDUtMTQyLjk4IDEyOC4wMy01LjkxNTUgMTEuNTg4LTAuMjgyMTYgMS44MTU5LTI2LjQwOC0yNy40NjF6IiBmaWxsPSIjZGQ1MDRmIi8%2BIDwvZz48L3N2Zz4%3D
+[img-contributions-welcome]: https://img.shields.io/badge/contributions-welcome-blue.svg?style=for-the-badge&logo=data:image/svg%2bxml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz4KPHN2ZyB3aWR0aD0iMTc5MiIgaGVpZ2h0PSIxNzkyIiB2aWV3Qm94PSIwIDAgMTc5MiAxNzkyIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik02NzIgMTQ3MnEwLTQwLTI4LTY4dC02OC0yOC02OCAyOC0yOCA2OCAyOCA2OCA2OCAyOCA2OC0yOCAyOC02OHptMC0xMTUycTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em02NDAgMTI4cTAtNDAtMjgtNjh0LTY4LTI4LTY4IDI4LTI4IDY4IDI4IDY4IDY4IDI4IDY4LTI4IDI4LTY4em05NiAwcTAgNTItMjYgOTYuNXQtNzAgNjkuNXEtMiAyODctMjI2IDQxNC02NyAzOC0yMDMgODEtMTI4IDQwLTE2OS41IDcxdC00MS41IDEwMHYyNnE0NCAyNSA3MCA2OS41dDI2IDk2LjVxMCA4MC01NiAxMzZ0LTEzNiA1Ni0xMzYtNTYtNTYtMTM2cTAtNTIgMjYtOTYuNXQ3MC02OS41di04MjBxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZxMCA1Mi0yNiA5Ni41dC03MCA2OS41djQ5N3E1NC0yNiAxNTQtNTcgNTUtMTcgODcuNS0yOS41dDcwLjUtMzEgNTktMzkuNSA0MC41LTUxIDI4LTY5LjUgOC41LTkxLjVxLTQ0LTI1LTcwLTY5LjV0LTI2LTk2LjVxMC04MCA1Ni0xMzZ0MTM2LTU2IDEzNiA1NiA1NiAxMzZ6IiBmaWxsPSIjZmZmIi8+PC9zdmc+
 [img-slack]: https://img.shields.io/badge/chat-on%20slack-blueviolet?style=for-the-badge&logo=slack
 [img-travis]: https://img.shields.io/travis/com/gocodebox/lifterlms?logo=travis-ci&logoColor=white&style=for-the-badge
 [img-wp-downloads]: https://img.shields.io/wordpress/plugin/dt/lifterlms.svg?style=for-the-badge&logo=wordpress
