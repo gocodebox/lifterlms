@@ -9,17 +9,33 @@
  *
  * @property LLMS_Product $product          Product object of the course or membership.
  * @property bool         $is_enrolled      Determines if current viewer is enrolled in $product.
- * @property bool         $purchaseable     Determines if current product is purchasable.
+ * @property bool         $purchasable      Determines if current product is purchasable.
  * @property bool         $has_free         Determines if any free access plans are available for the product.
  * @property bool         $has_restrictions Determines if any free access plans are available for the product.
  */
 
 defined( 'ABSPATH' ) || exit;
 
-$free_only = ( $has_free && ! $purchaseable );
+/**
+ * Fix variable spelling in a backwards compatible way
+ *
+ * If the function `lifterlms_template_pricing_table()` is plugged or this template is loaded
+ * some other way, and the misspelled variable is still passed in this will ensure that the
+ * template continues to function as expected.
+ *
+ * @link https://github.com/gocodebox/lifterlms/issues/1128
+ *
+ * @deprecated [version]
+ */
+if ( isset( $purchaseable ) && ! isset( $purchasable ) ) {
+	llms_deprecated_function( 'Passing variable `$purchaseable` to template "product/pricing-table.php"', '[version]', '`$purchasable`' );
+	$purchasable = $purchaseable;
+}
+
+$free_only = ( $has_free && ! $purchasable );
 ?>
 
-<?php if ( ! $is_enrolled && ! $has_restrictions && ( $purchaseable || $has_free ) ) : ?>
+<?php if ( ! $is_enrolled && ! $has_restrictions && ( $purchasable || $has_free ) ) : ?>
 
 	<?php
 		/**
