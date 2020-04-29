@@ -751,7 +751,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return WP_User instance of WP_User
 	 */
 	public function get_author() {
-		llms_deprecated_function( 'LLMS_Course::get_author()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_author()', '3.34.0' );
 		return new WP_User( $this->get_author_id() );
 	}
 
@@ -764,7 +764,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return int
 	 */
 	public function get_author_id() {
-		llms_deprecated_function( 'LLMS_Course::get_author_id()', '[version]', 'LLMS_Course::get( "author" )' );
+		llms_deprecated_function( 'LLMS_Course::get_author_id()', '3.34.0', 'LLMS_Course::get( "author" )' );
 		return $this->post->post_author;
 	}
 
@@ -777,7 +777,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_author_name() {
-		llms_deprecated_function( 'LLMS_Course::get_author_name()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_author_name()', '3.34.0' );
 		$author = $this->get_author();
 		return $author->display_name;
 	}
@@ -791,7 +791,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_sku() {
-		llms_deprecated_function( 'LLMS_Course::get_sku()', '[version]', 'LLMS_Course::get( "sku" )' );
+		llms_deprecated_function( 'LLMS_Course::get_sku()', '3.34.0', 'LLMS_Course::get( "sku" )' );
 		return $this->sku;
 	}
 
@@ -804,7 +804,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return int
 	 */
 	public function get_id() {
-		llms_deprecated_function( 'LLMS_Course::get_id()', '[version]', 'LLMS_Course::get( "id" )' );
+		llms_deprecated_function( 'LLMS_Course::get_id()', '3.34.0', 'LLMS_Course::get( "id" )' );
 		return $this->id;
 	}
 
@@ -817,7 +817,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_title() {
-		llms_deprecated_function( 'LLMS_Course::get_title()', '[version]', 'get_the_title()' );
+		llms_deprecated_function( 'LLMS_Course::get_title()', '3.34.0', 'get_the_title()' );
 		return get_the_title( $this->get_id() );
 	}
 
@@ -830,7 +830,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_permalink() {
-		llms_deprecated_function( 'LLMS_Course::get_permalink()', '[version]', 'get_permalink()' );
+		llms_deprecated_function( 'LLMS_Course::get_permalink()', '3.34.0', 'get_permalink()' );
 		return get_permalink( $this->get_id() );
 	}
 
@@ -843,7 +843,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return array
 	 */
 	public function get_user_postmeta_data( $post_id ) {
-		llms_deprecated_function( 'LLMS_Course::get_user_postmeta_data()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_user_postmeta_data()', '3.34.0' );
 		global $wpdb;
 		$user_id     = get_current_user_id();
 		$results     = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE post_id = %d", $user_id, $post_id ) );
@@ -864,7 +864,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return  array
 	 */
 	public function get_user_postmetas_by_key( $post_id, $meta_key ) {
-		llms_deprecated_function( 'LLMS_Course::get_user_postmetas_by_key()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_user_postmetas_by_key()', '3.34.0' );
 		global $wpdb;
 		$results     = $wpdb->get_results( $wpdb->prepare( "SELECT * FROM {$wpdb->prefix}lifterlms_user_postmeta WHERE post_id = %s and meta_key = %s ORDER BY updated_date DESC", $post_id, $meta_key ) );
 		$num_results = count( $results );
@@ -884,7 +884,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_checkout_url() {
-		llms_deprecated_function( 'LLMS_Course::get_checkout_url()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_checkout_url()', '3.34.0' );
 		if ( llms_is_alternative_checkout_enabled() || is_user_logged_in() ) {
 			$checkout_page_id = llms_get_page_id( 'checkout' );
 		} else {
@@ -903,7 +903,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_start_date() {
-		llms_deprecated_function( 'LLMS_Course::get_start_date()', '[version]', 'LLMS_Course::get_date( "start_date" )' );
+		llms_deprecated_function( 'LLMS_Course::get_start_date()', '3.34.0', 'LLMS_Course::get_date( "start_date" )' );
 		if ( $this->start_date ) {
 			return $this->start_date;
 		} else {
@@ -920,7 +920,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_end_date() {
-		llms_deprecated_function( 'LLMS_Course::get_end_date()', '[version]', 'LLMS_Course::get_date( "end_date" )' );
+		llms_deprecated_function( 'LLMS_Course::get_end_date()', '3.34.0', 'LLMS_Course::get_date( "end_date" )' );
 		return $this->end_date;
 	}
 
@@ -933,7 +933,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return int|false
 	 */
 	public function get_next_uncompleted_lesson() {
-		llms_deprecated_function( 'LLMS_Course::get_next_uncompleted_lesson()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_next_uncompleted_lesson()', '3.34.0' );
 		$lessons_not_completed = array();
 		$lessons               = $this->get_lessons( 'posts' );
 		$user                  = new LLMS_Person();
@@ -959,7 +959,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return int[]
 	 */
 	public function get_lesson_ids() {
-		llms_deprecated_function( 'LLMS_Course::get_lesson_ids()', '[version]', 'LLMS_Course::get_lessons( "ids" )' );
+		llms_deprecated_function( 'LLMS_Course::get_lesson_ids()', '3.34.0', 'LLMS_Course::get_lessons( "ids" )' );
 		$lessons  = array();
 		$args     = array(
 			'post_type'      => 'section',
@@ -995,7 +995,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return array
 	 */
 	public function get_syllabus_sections() {
-		llms_deprecated_function( 'LLMS_Course::get_syllabus_sections()', '[version]', 'LLMS_Course::get_sections()' );
+		llms_deprecated_function( 'LLMS_Course::get_syllabus_sections()', '3.34.0', 'LLMS_Course::get_sections()' );
 		$syllabus = $this->get_syllabus();
 		$sections = array();
 		if ( $syllabus ) {
@@ -1015,7 +1015,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_short_description() {
-		llms_deprecated_function( 'LLMS_Course::get_short_description()', '[version]', 'LLMS_Course::get( "excerpt" )' );
+		llms_deprecated_function( 'LLMS_Course::get_short_description()', '3.34.0', 'LLMS_Course::get( "excerpt" )' );
 		$short_description = wpautop( $this->post->post_excerpt );
 		return $short_description;
 	}
@@ -1029,7 +1029,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return array
 	 */
 	public function get_syllabus() {
-		llms_deprecated_function( 'LLMS_Course::get_syllabus()', '[version]', 'LLMS_Course::get_sections()' );
+		llms_deprecated_function( 'LLMS_Course::get_syllabus()', '3.34.0', 'LLMS_Course::get_sections()' );
 		$syllabus = $this->sections;
 		return $syllabus;
 	}
@@ -1044,7 +1044,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_user_enroll_date( $user_id = '' ) {
-		llms_deprecated_function( 'LLMS_Course::get_user_enroll_date()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_user_enroll_date()', '3.34.0' );
 		$enrolled_date = '';
 		// if no user get current user
 		if ( empty( $user_id ) ) {
@@ -1072,7 +1072,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return mixed
 	 */
 	public static function get_user_post_data( $post_id, $user_id = '' ) {
-		llms_deprecated_function( 'LLMS_Course::get_user_post_data()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_user_post_data()', '3.34.0' );
 		global $wpdb;
 		$results = false;
 		if ( ! empty( $post_id ) ) {
@@ -1105,7 +1105,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return mixed
 	 */
 	public static function check_enrollment( $course_id, $user_id = '' ) {
-		llms_deprecated_function( 'LLMS_Course::check_enrollment()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::check_enrollment()', '3.34.0' );
 		global $wpdb;
 		// set enrollment to false
 		$enrolled = false;
@@ -1146,7 +1146,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return bool
 	 */
 	public function is_user_enrolled( $user_id = '' ) {
-		llms_deprecated_function( 'LLMS_Course::is_user_enrolled()', '[version]', 'llms_is_user_enrolled()' );
+		llms_deprecated_function( 'LLMS_Course::is_user_enrolled()', '3.34.0', 'llms_is_user_enrolled()' );
 		$enrolled       = false;
 		$user_post_data = self::get_user_post_data( $this->id, $user_id );
 		if ( $user_post_data ) {
@@ -1170,7 +1170,7 @@ implements LLMS_Interface_Post_Audio
 	 */
 	public function get_student_progress( $user_id = '' ) {
 
-		llms_deprecated_function( 'LLMS_Course::get_student_progress()', '[version]', 'LLMS_Student::get_progress()' );
+		llms_deprecated_function( 'LLMS_Course::get_student_progress()', '3.34.0', 'LLMS_Student::get_progress()' );
 
 		// if user_id is empty get current user id
 		if ( empty( $user_id ) ) {
@@ -1296,7 +1296,7 @@ implements LLMS_Interface_Post_Audio
 	 * @return string
 	 */
 	public function get_membership_link() {
-		llms_deprecated_function( 'LLMS_Course::get_membership_link()', '[version]' );
+		llms_deprecated_function( 'LLMS_Course::get_membership_link()', '3.34.0' );
 		$memberships_required = get_post_meta( $this->id, '_llms_restricted_levels', true );
 		if ( count( $memberships_required ) > 1 ) {
 			$membership_url = get_permalink( llms_get_page_id( 'memberships' ) );

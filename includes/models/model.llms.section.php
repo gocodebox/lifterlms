@@ -428,14 +428,14 @@ class LLMS_Section extends LLMS_Post_Model {
 	/**
 	 * Get All child lessons
 	 *
-	 * @return      WP_Post[] [array of post objects of all child lessons]
-	 * @since       1.0.0
-	 * @version     3.24.0
-	 * @deprecated  3.24.0
+	 * @since 1.0.0
+	 * @deprecated 3.24.0
+	 *
+	 * @return WP_Post[] Array of lesson post objects.
 	 */
 	public function get_children_lessons() {
 
-		llms_deprecated_function( 'LLMS_Section->get_children_lessons()', '[version]', 'LLMS_Section->get_lessons( "posts" )' );
+		llms_deprecated_function( 'LLMS_Section->get_children_lessons()', '3.24.0', 'LLMS_Section->get_lessons( "posts" )' );
 		return $this->get_lessons( 'posts' );
 
 	}
