@@ -46,10 +46,8 @@ v3.39.0 - 2020-04-29
 + Bug fix: Stop outputting editor CSS on the frontend.
 + Bug fix: Dynamic blocks with no content to render will now only output their empty render messages inside the block editor, not on the frontend.
 + Changes to the Classic Editor Block:
-
   + The classic editor block will no longer show block visibility settings because it is impossible to use those settings to filter the block on the frontend.
   + In order to apply visibility settings to the classic editor block, place the Classic Editor within a "Group" block and apply visibility settings to the Group.
-
 
 
 v3.37.19 - 2020-04-20
