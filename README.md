@@ -14,9 +14,9 @@
 [![WordPress Plugin Downloads][img-wp-downloads]][link-wp-advanced]
 [![WordPress Plugin Active Installs][img-wp-installs]][link-wp-advanced]
 
+[![Travis Build Status][img-travis]][link-travis]
 [![Code Climate maintainability][img-cc-maintainability]][link-cc]
 [![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
-[![CircleCI Build Status][img-circleci]][link-circleci]
 
 [![Contributors][img-contributors]](#contributors)
 [![Slack community][img-slack]][link-slack]
@@ -160,17 +160,17 @@ Endless thanks to all our incredible contributors!
 <!-- References: Links -->
 [link-cc]: https://codeclimate.com/github/gocodebox/lifterlms "LifterLMS on Code Climate"
 [link-cc-coverage]: https://codeclimate.com/github/gocodebox/lifterlms/coverage "Code coverage reports on Code Climate"
-[link-circleci]: https://circleci.com/gh/gocodebox/lifterlms/tree/master "LifterLMS on CircleCI"
 [link-slack]: https://lifterlms.com/slack "Chat with the community on Slack"
+[link-travis]: https://travis-ci.com/github/gocodebox/lifterlms "LifterLMS on Travis CI"
 [link-wp-advanced]:https://wordpress.org/plugins/lifterlms/advanced/ "Advanced plugin details on the WordPress plugin repository"
 [link-wp-repo]:https://wordpress.org/plugins/lifterlms/ "LifterLMS on the WordPress plugin repository"
 [link-wp-reviews]:https://wordpress.org/support/plugin/lifterlms/reviews/ "Leave a review on the WordPress plugin repository"
 
 [img-cc-coverage]:https://img.shields.io/codeclimate/coverage/gocodebox/lifterlms?style=for-the-badge&logo=code-climate
 [img-cc-maintainability]:https://img.shields.io/codeclimate/maintainability/gocodebox/lifterlms?logo=code-climate&style=for-the-badge
-[img-circleci]:https://img.shields.io/circleci/build/gh/gocodebox/lifterlms?logo=circleci&style=for-the-badge
 [img-contributors]: https://img.shields.io/github/contributors/gocodebox/lifterlms?style=for-the-badge&logo=data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIGlkPSJzdmcyIiB3aWR0aD0iNjQ1IiBoZWlnaHQ9IjU4NSIgdmVyc2lvbj0iMS4wIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPiA8ZyBpZD0ibGF5ZXIxIj4gIDxwYXRoIGlkPSJwYXRoMjQxNyIgZD0ibTI5Ny4zIDU1MC44N2MtMTMuNzc1LTE1LjQzNi00OC4xNzEtNDUuNTMtNzYuNDM1LTY2Ljg3NC04My43NDQtNjMuMjQyLTk1LjE0Mi03Mi4zOTQtMTI5LjE0LTEwMy43LTYyLjY4NS01Ny43Mi04OS4zMDYtMTE1LjcxLTg5LjIxNC0xOTQuMzQgMC4wNDQ1MTItMzguMzg0IDIuNjYwOC01My4xNzIgMTMuNDEtNzUuNzk3IDE4LjIzNy0zOC4zODYgNDUuMS02Ni45MDkgNzkuNDQ1LTg0LjM1NSAyNC4zMjUtMTIuMzU2IDM2LjMyMy0xNy44NDUgNzYuOTQ0LTE4LjA3IDQyLjQ5My0wLjIzNDgzIDUxLjQzOSA0LjcxOTcgNzYuNDM1IDE4LjQ1MiAzMC40MjUgMTYuNzE0IDYxLjc0IDUyLjQzNiA2OC4yMTMgNzcuODExbDMuOTk4MSAxNS42NzIgOS44NTk2LTIxLjU4NWM1NS43MTYtMTIxLjk3IDIzMy42LTEyMC4xNSAyOTUuNSAzLjAzMTYgMTkuNjM4IDM5LjA3NiAyMS43OTQgMTIyLjUxIDQuMzgwMSAxNjkuNTEtMjIuNzE1IDYxLjMwOS02NS4zOCAxMDguMDUtMTY0LjAxIDE3OS42OC02NC42ODEgNDYuOTc0LTEzNy44OCAxMTguMDUtMTQyLjk4IDEyOC4wMy01LjkxNTUgMTEuNTg4LTAuMjgyMTYgMS44MTU5LTI2LjQwOC0yNy40NjF6IiBmaWxsPSIjZGQ1MDRmIi8%2BIDwvZz48L3N2Zz4%3D
 [img-slack]: https://img.shields.io/badge/chat-on%20slack-blueviolet?style=for-the-badge&logo=slack
+[img-travis]: https://img.shields.io/travis/com/gocodebox/lifterlms?logo=travis-ci&logoColor=white&style=for-the-badge
 [img-wp-downloads]: https://img.shields.io/wordpress/plugin/dt/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-installs]: https://img.shields.io/wordpress/plugin/installs/lifterlms.svg?style=for-the-badge&logo=wordpress
 [img-wp-plugin]:https://img.shields.io/wordpress/plugin/v/lifterlms.svg?style=for-the-badge&logo=wordpress
