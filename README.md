@@ -18,6 +18,7 @@
 [![Code Climate maintainability][img-cc-maintainability]][link-cc]
 [![Code Climate test coverage][img-cc-coverage]][link-cc-coverage]
 
+[![Contributions Welcome][img-contributions-welcome]](.github/CONTRIBUTING.md)
 [![Contributors][img-contributors]](#contributors)
 [![Slack community][img-slack]][link-slack]
 
