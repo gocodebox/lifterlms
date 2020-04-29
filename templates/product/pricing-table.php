@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @deprecated [version]
  */
-if ( $purchaseable && ! $purchasable ) {
+if ( isset( $purchaseable ) && ! isset( $purchasable ) ) {
 	llms_deprecated_function( 'Passing variable `$purchaseable` to template "product/pricing-table.php"', '[version]', '`$purchasable`' );
 	$purchasable = $purchaseable;
 }
