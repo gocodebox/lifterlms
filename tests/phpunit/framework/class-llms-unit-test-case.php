@@ -7,6 +7,7 @@
  * @since 3.37.4 Add certificate template mock generation and earning methods.
  * @since 3.37.8 Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
  * @since 3.37.17 Added voucher creation method.
+ * @since [version] Added `setManualGatewayStatus()` method.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -365,6 +366,20 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Retrieve a mock access plan
+	 *
+	 * Automatically generates a course associated with the plan.
+	 *
+	 * @since [version]
+	 *
+	 * @param float   $price      Plan price.
+	 * @param integer $frequency  Recurring frequency.
+	 * @param string  $expiration Plan expiration.
+	 * @param boolean $on_sale    Whether or not the plan is on sale.
+	 * @param boolean $trial      whether or not the plan has a trial.
+	 * @return LLMS_Access_Plan
+	 */
 	protected function get_mock_plan( $price = 25.99, $frequency = 1, $expiration = 'lifetime', $on_sale = false, $trial = false ) {
 
 		$course = $this->generate_mock_courses( 1, 0 );
@@ -377,7 +392,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 			'access_length' => '1',
 			'access_period' => 'year',
 			'frequency' => $frequency,
-			'is_free' => 'no',
+			'is_free' => $price > 0 ? 'no' : 'yes',
 			'length' => 0,
 			'on_sale' => $on_sale ? 'yes' : 'no',
 			'period' => 'day',
@@ -461,6 +476,20 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 		LLMS()->certificates()->trigger_engagement( $user, $template, $related );
 
 		return array_shift( $llms_user_earned_certs );
+
+	}
+
+	/**
+	 * Toggle the status of the manual payment gateway.
+	 *
+	 * @since [version]
+	 *
+	 * @param string $enabled Status of the gateway, "yes" for enabled and "no" for disabled.
+	 */
+	protected function setManualGatewayStatus( $enabled = 'yes' ) {
+
+		$manual = LLMS()->payment_gateways()->get_gateway_by_id( 'manual' );
+		update_option( $manual->get_option_name( 'enabled' ), $enabled );
 
 	}
 

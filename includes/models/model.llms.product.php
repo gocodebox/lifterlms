@@ -7,8 +7,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version 3.37.17
- * @since 3.25.2 Unknown.
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.25.2 Unknown.
  * @since 3.37.17 Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
- *                 Use `in_array` with strict comparison where possible.
+ *                Use `in_array` with strict comparison where possible.
+ * @since [version] Add `get_restrictions()` and `has_restrictions()` methods.
  */
 class LLMS_Product extends LLMS_Post_Model {
 
@@ -54,6 +54,32 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * @return int
 	 */
 	public function get_access_plan_limit() {
+
+		/**
+		 * Determine the number of access plans allowed on the product
+		 *
+		 * This is a (somewhat) arbitrary limit chosen mostly based on the following 2 factors:
+		 *
+		 * 1) It looks visually unappealing to have a pricing table with 7+ items on it.
+		 * 2) Having 7+ pricing plans creates a lot of decision fatigue for users.
+		 *
+		 * If you disagree with either of these two factors you can quite easily change the
+		 * limit using this filter.
+		 *
+		 * Keep in mind that increasing the limit will likely require you to add CSS to accommodate
+		 * 7+ plans on the automatically generated pricing tables.
+		 *
+		 * Also, since plans are limited by the core to 6, we have no pagination built in for any queries that
+		 * lookup or list access plans. This means that if you greatly increase the limit (say 200) you
+		 * could very quickly run into issues where the default queries "do not scale" well. In which
+		 * case you should first consider if you really need 200 plans and then start investigating other
+		 * filters to add pagination (and probably caching) to these (now slow) queries.
+		 *
+		 * @since 3.0.0
+		 *
+		 * @param int          $limit Number of plans.
+		 * @param LLMS_Proudct $this  Product object.
+		 */
 		return apply_filters( 'llms_get_product_access_plan_limit', 6, $this );
 	}
 
@@ -71,8 +97,8 @@ class LLMS_Product extends LLMS_Post_Model {
 	public function get_access_plans( $free_only = false, $visible_only = true ) {
 
 		$args = array(
-			'meta_key'       => '_llms_product_id',
-			'meta_value'     => $this->get( 'id' ),
+			'meta_key'       => '_llms_product_id', // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_key
+			'meta_value'     => $this->get( 'id' ), // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_value
 			'order'          => 'ASC',
 			'orderby'        => 'menu_order',
 			'posts_per_page' => $this->get_access_plan_limit(),
@@ -82,7 +108,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		// Filter results to only free access plans.
 		if ( $free_only ) {
-			$args['meta_query'] = array(
+			$args['meta_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_meta_query
 				array(
 					'key'   => '_llms_is_free',
 					'value' => 'yes',
@@ -92,7 +118,7 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		// Exclude hidden access plans from the results.
 		if ( $visible_only ) {
-			$args['tax_query'] = array(
+			$args['tax_query'] = array( // phpcs:ignore WordPress.DB.SlowDBQuery.slow_db_query_tax_query
 				array(
 					'field'    => 'name',
 					'operator' => 'NOT IN',
@@ -104,6 +130,8 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		/**
 		 * Filter the product's access plan query args
+		 *
+		 * @since Unknown
 		 *
 		 * @param array        $args         Query args.
 		 * @param LLMS_Product $product      The LLMS_Product instance.
@@ -123,6 +151,8 @@ class LLMS_Product extends LLMS_Post_Model {
 
 		/**
 		 * Filter the product's access plans
+		 *
+		 * @since Unknown
 		 *
 		 * @param array        $plans        An array of LLMS_Access_Plan instances related to the product `$product`.
 		 * @param LLMS_Product $product      The LLMS_Product instance.
@@ -202,6 +232,8 @@ class LLMS_Product extends LLMS_Post_Model {
 		/**
 		 * Filter the number of columns of the product's pricing table
 		 *
+		 * @since 3.0.0
+		 *
 		 * @param int          $cols      The number of columns of the pricing table for the `$product`.
 		 * @param LLMS_Product $product   The LLMS_Product instance.
 		 * @param int          $count     The number of access plans related to the product `$product`.
@@ -209,6 +241,52 @@ class LLMS_Product extends LLMS_Post_Model {
 		 */
 		return apply_filters( 'llms_get_product_pricing_table_columns_count', $cols, $this, $count, $free_only );
 	}
+
+	/**
+	 * Retrieve a list of restrictions on the product
+	 *
+	 * Restrictions are used to in conjunction with "is_purchasable()" to
+	 * determine if purchase/enrollment should be allowed for a given product.
+	 *
+	 * Restrictions in the core currently only exist on courses:
+	 * + Enrollment time period
+	 * + Student capacity
+	 *
+	 * @since [version]
+	 *
+	 * @return string[] An array of strings describing the restrictions placed on the product.
+	 */
+	public function get_restrictions() {
+
+		$restrictions = array();
+
+		if ( 'course' === $this->get( 'type' ) ) {
+
+			$course = new LLMS_Course( $this->get( 'id' ) );
+
+			// Is the course enrollment period open?
+			if ( ! $course->is_enrollment_open() ) {
+				$restrictions[] = 'enrollment_period';
+			}
+
+			// Does the course have capacity?
+			if ( ! $course->has_capacity() ) {
+				$restrictions[] = 'student_capacity';
+			}
+		}
+
+		/**
+		 * Filter whether the product has any purchase restrictions
+		 *
+		 * @since [version]
+		 *
+		 * @param string[]     $restrictions An array of strings describing the restrictions placed on the product.
+		 * @param LLMS_Product $product      The LLMS_Product object.
+		 */
+		return apply_filters( 'llms_product_has_restrictions', $restrictions, $this );
+
+	}
+
 
 	/**
 	 * Determine if the product has at least one free access plan
@@ -223,12 +301,41 @@ class LLMS_Product extends LLMS_Post_Model {
 		/**
 		 * Filter whether the product has free access plans
 		 *
+		 * @since Unknown
 		 * @since 3.37.17 Added the `$product` param.
 		 *
 		 * @param bool         $has_free_access_plan Whether the product `$product` has free access plans.
 		 * @param LLMS_Product $product              The LLMS_Product instance.
 		 */
 		return apply_filters( 'llms_product_has_free_access_plan', ( 0 !== count( $this->get_access_plans( true ) ) ), $this );
+
+	}
+
+	/**
+	 * Determine if any restrictions exist on the product.
+	 *
+	 * @since [version]
+	 *
+	 * @see LLMS_Proudct::get_restrictions()
+	 *
+	 * @return boolean `true` if there is at least one restriction on the product, `false` otherwise.
+	 */
+	public function has_restrictions() {
+
+		$restrictions     = $this->get_restrictions();
+		$has_restrictions = count( $restrictions ) > 0;
+
+		/**
+		 * Filter whether the product has any purchase restrictions
+		 *
+		 * @since [version]
+		 *
+		 * @param bool         $has_restrictions Whether the product `$product` has restrictions.
+		 * @param string[]     $restrictions     Array of restrictions placed on the product.
+		 * @param LLMS_Product $product          The LLMS_Product object.
+		 */
+		return apply_filters( 'llms_product_has_restrictions', $has_restrictions, $restrictions, $this );
+
 	}
 
 	/**
@@ -244,25 +351,19 @@ class LLMS_Product extends LLMS_Post_Model {
 	 */
 	public function is_purchasable() {
 
-		// Default to true.
-		$purchasable = true;
+		// Default to false.
+		$purchasable = false;
 
-		// Courses must have open enrollment & available capacity.
-		if ( 'course' === $this->get( 'type' ) ) {
-
-			$course      = new LLMS_Course( $this->get( 'id' ) );
-			$purchasable = ( $course->is_enrollment_open() && $course->has_capacity() );
-
-		}
-
-		// If we're still true, make sure we have a purchasable plan & active gateways.
-		if ( $purchasable ) {
+		// If the product doesn't have any purchase restrictions, make sure we have a purchasable plan & active gateways.
+		if ( ! $this->has_restrictions() ) {
 			$gateways    = LLMS()->payment_gateways();
 			$purchasable = ( $this->get_access_plans( false, false ) && $gateways->has_gateways( true ) );
 		}
 
 		/**
 		 * Filter whether the product is purchasable
+		 *
+		 * @since Unknown
 		 *
 		 * @param bool         $purchasable Whether the product `$product` is purchasable.
 		 * @param LLMS_Product $product     The LLMS_Product instance.
