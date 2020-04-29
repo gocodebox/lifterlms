@@ -245,7 +245,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Retrieve a list of restrictions on the product
 	 *
-	 * Restrictions are used to in conjunction with "is_purchaseable()" to
+	 * Restrictions are used to in conjunction with "is_purchasable()" to
 	 * determine if purchase/enrollment should be allowed for a given product.
 	 *
 	 * Restrictions in the core currently only exist on courses:
