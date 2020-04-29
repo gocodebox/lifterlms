@@ -90,9 +90,9 @@ $free_only = ( $has_free && ! $purchaseable );
 
 	<?php
 		/**
-		 * Pricing table output when the user is not enrolled but the product is not purchaseable.
+		 * Pricing table output when the user is not enrolled but the product is not purchasable.
 		 *
-		 * Hooked: llms_template_product_not_purchaseable - 10
+		 * Hooked: llms_template_product_not_purchasable - 10
 		 *
 		 * @since Unknown
 		 *

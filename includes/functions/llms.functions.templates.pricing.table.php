@@ -174,7 +174,7 @@ if ( ! function_exists( 'llms_template_product_not_purchasable' ) ) {
 	 *
 	 * @since [version]
 	 *
-	 * @param int $post_id WP Post ID of the product.
+	 * @param int $post_id Optional. WP Post ID of the product. Default is ID of the global $post.
 	 * @return void
 	 */
 	function llms_template_product_not_purchasable( $post_id = null ) {
@@ -197,7 +197,7 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 	 *
 	 * @since 3.0.0
 	 *
-	 * @param int $post_id WP Post ID of the product.
+	 * @param int $post_id Optional. WP Post ID of the product. Default is ID of the global $post.
 	 * @return void
 	 */
 	function lifterlms_template_pricing_table( $post_id = null ) {
