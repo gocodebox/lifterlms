@@ -133,17 +133,9 @@ Endless thanks to all our incredible contributors!
 
 ### Partners and Sponsors
 
-<table>
-  <tr>
-    <td>
-
-[<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png" height="80" alt="BrowserStack">](https://www.browserstack.com/)
+[<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png" height="60" alt="BrowserStack">](https://www.browserstack.com/)
 
 [BrowserStack](https://www.browserstack.com/) helps us ensure LifterLMS looks great and works on every imaginable browser and device.
-
-    </td>
-  </tr>
-</table>
 
 <!-- References: Links -->
 [link-cc]: https://codeclimate.com/github/gocodebox/lifterlms "LifterLMS on Code Climate"
