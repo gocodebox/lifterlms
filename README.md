@@ -140,11 +140,7 @@ Endless thanks to all our incredible contributors!
 [<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/browserstack-logo.png" height="80" alt="BrowserStack">](https://www.browserstack.com/)
 
 [BrowserStack](https://www.browserstack.com/) helps us ensure LifterLMS looks great and works on every imaginable browser and device.
-    </td>
-    <td>
-[<img src="https://raw.githubusercontent.com/gocodebox/lifterlms/master/.github/sponsors/stagingpilot-logo.png" height="80" alt="StagingPilot">](https://stagingpilot.com/)
 
-[StagingPilot](https://stagingpilot.com/) helps us automate acceptance testing to ensure LifterLMS remains compatible with popular WordPress themes and plugins.
     </td>
   </tr>
 </table>
