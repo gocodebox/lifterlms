@@ -59,7 +59,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	 *
 	 * @return void
 	 */
-	public function test_lifterlms_template_pricing_table_purchaseable() {
+	public function test_lifterlms_template_pricing_table_purchasable() {
 
 		$this->setManualGatewayStatus( 'yes' );
 
