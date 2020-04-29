@@ -2,7 +2,7 @@
 /**
  * Course progress widget
  *
- * Displays course progress
+ * Displays course progress.
  *
  * @package LifterLMS/Widgets/Classes
  *
@@ -65,6 +65,37 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 		<?php
 	}
 
+	/**
+	 * Front-end display of widget
+	 *
+	 * @since [version]
+	 *
+	 * @see WP_Widget::widget()
+	 *
+	 * @param array $args     Widget arguments.
+	 * @param array $instance Saved values from database.
+	 * @return void
+	 */
+	public function widget( $args, $instance ) {
+
+		$check_enrollment = ( ! isset( $instance['check_enrollment'] ) ) ? 1 : $instance['check_enrollment'];
+		$course_progress  = do_shortcode( '[lifterlms_course_progress check_enrollment=' . $check_enrollment . ']' );
+
+		// Do not show the widget title if no progress bar is displayed.
+		if ( empty( $course_progress ) ) {
+			return;
+		}
+
+		echo $args['before_widget'];
+
+		if ( ! empty( $instance['title'] ) ) {
+			echo $args['before_title'] . apply_filters( 'widget_title', $instance['title'] ) . $args['after_title'];
+		}
+
+		echo $course_progress;
+
+		echo $args['after_widget'];
+	}
 
 	/**
 	 * Widget Content
@@ -72,8 +103,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	 * Overrides parent class
 	 *
 	 * @since 1.0.0
-	 * @since [version] Added the logic to display/hide the course progress widget to enrolled students only, according to the new option.
-	 *                Hidden to not enrolled students by default.
+	 * @deprecated [version]
 	 *
 	 * @see LLMS_Widget::widget_contents()
 	 *
@@ -82,8 +112,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	 * @return void
 	 */
 	public function widget_contents( $args, $instance ) {
-		$check_enrollment = ( ! isset( $instance['check_enrollment'] ) ) ? 1 : $instance['check_enrollment'];
-		echo do_shortcode( '[lifterlms_course_progress check_enrollment=' . $check_enrollment . ']' );
+		llms_deprecated_function( 'LLMS_Widget_Course_Progress::widget_contents()', '[version]', 'LLMS_Widget_Course_Progress::widget' );
 	}
 
 	/**
