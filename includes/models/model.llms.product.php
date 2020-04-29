@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Product model class
  *
  * @since 1.0.0
- * @since 3.25.2 Unknown.
+ * @since 3.25.2  Unknown.
  * @since 3.37.17 Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
  *                Use `in_array` with strict comparison where possible.
  * @since [version] Add `get_restrictions()` and `has_restrictions()` methods.
@@ -245,7 +245,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Retrieve a list of restrictions on the product
 	 *
-	 * Restrictions are used to in conjunction with "is_purchasable()" to
+	 * Restrictions are used to in conjunction with "is_purchaseable()" to
 	 * determine if purchase/enrollment should be allowed for a given product.
 	 *
 	 * Restrictions in the core currently only exist on courses:
@@ -346,6 +346,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.25.2 Unknown.
+	 * @since [version] Use `has_restrictions()` to determine if the product has additional restrictions.
 	 *
 	 * @return bool
 	 */
