@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 3.23.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -172,7 +172,7 @@ if ( ! function_exists( 'llms_template_product_not_purchasable' ) ) {
 	/**
 	 * Include template for products that aren't purchasable
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @param int $post_id Optional. WP Post ID of the product. Default is ID of the global $post.
 	 * @return void
@@ -196,7 +196,7 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 	 * Include pricing table for a LifterLMS Product (course or membership)
 	 *
 	 * @since 3.0.0
-	 * @since [version] Fixed spelling error in variable passed to template.
+	 * @since 3.38.0 Fixed spelling error in variable passed to template.
 	 *
 	 * @param int $post_id Optional. WP Post ID of the product. Default is ID of the global $post.
 	 * @return void
@@ -234,7 +234,7 @@ if ( ! function_exists( 'lifterlms_template_pricing_table' ) ) {
 		 *
 		 * @link https://github.com/gocodebox/lifterlms/issues/1128
 		 *
-		 * @deprecated [version]
+		 * @deprecated 3.38.0
 		 */
 		$purchaseable = $purchasable;
 

@@ -7,7 +7,7 @@
  * @package LifterLMS/Widgets/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Widget_Course_Progress
  *
  * @since 1.0.0
- * @since [version] Introduced a new option to display/hide the course progress widget to enrolled students only.
+ * @since 3.38.0 Introduced a new option to display/hide the course progress widget to enrolled students only.
  *                Hidden to not enrolled students by default.
  */
 class LLMS_Widget_Course_Progress extends LLMS_Widget {
@@ -43,7 +43,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	/**
 	 * Back-end widget form.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @see WP_Widget::form()
 	 *
@@ -68,7 +68,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	/**
 	 * Front-end display of widget
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @see WP_Widget::widget()
 	 *
@@ -103,7 +103,7 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	 * Overrides parent class
 	 *
 	 * @since 1.0.0
-	 * @deprecated [version]
+	 * @deprecated 3.38.0
 	 *
 	 * @see LLMS_Widget::widget_contents()
 	 *
@@ -112,13 +112,13 @@ class LLMS_Widget_Course_Progress extends LLMS_Widget {
 	 * @return void
 	 */
 	public function widget_contents( $args, $instance ) {
-		llms_deprecated_function( 'LLMS_Widget_Course_Progress::widget_contents()', '[version]', 'LLMS_Widget_Course_Progress::widget' );
+		llms_deprecated_function( 'LLMS_Widget_Course_Progress::widget_contents()', '3.38.0', 'LLMS_Widget_Course_Progress::widget' );
 	}
 
 	/**
 	 * Sanitize widget form values as they are saved.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @see WP_Widget::update()
 	 *

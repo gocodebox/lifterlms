@@ -9,7 +9,7 @@
  *
  * @since 3.25.2
  * @since 3.37.12 Create a stub for the test_create_method() since this class doesn't need to test that.
- * @since [version] Add tests for the get_restrictions() and has_restrictions() methods.
+ * @since 3.38.0 Add tests for the get_restrictions() and has_restrictions() methods.
  *                Override unnecessary parent tests so they're not marked as skipped.
  */
 class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
@@ -96,7 +96,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	 * This model has no properties of it's own so we can safely skip this test
 	 * without outputting a warning.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -122,7 +122,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Overwrite unnecessary parent test.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -133,7 +133,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Overwrite unnecessary parent test.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -144,7 +144,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Overwrite unnecessary parent test.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -155,7 +155,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Overwrite unnecessary parent test.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -220,7 +220,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_restrictions(): no restrictions on product
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -236,7 +236,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_restrictions(): enrollment period
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -254,7 +254,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_restrictions(): max capacity
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -275,7 +275,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_restrictions(): multiple restrictions
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -323,7 +323,7 @@ class LLMS_Test_LLMS_Product extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test the has_restrictions() method.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */

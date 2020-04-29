@@ -3,7 +3,7 @@
  * Page functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -26,7 +26,7 @@ function llms_cancel_payment_url() {
  * Get url for redirect when user confirms payment
  *
  * @since 1.0.0
- * @since [version] Added redirect query string parameter.
+ * @since 3.38.0 Added redirect query string parameter.
  *
  * @return string
  */

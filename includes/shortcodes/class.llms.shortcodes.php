@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.11.1 Unknown.
  * @since 3.23.0 Unknown.
- * @since [version] Course progress bar shortcode now can display the bar only to enrolled user.
+ * @since 3.38.0 Course progress bar shortcode now can display the bar only to enrolled user.
  *                Use strict comparisons where possible/needed.
  */
 class LLMS_Shortcodes {
@@ -462,7 +462,7 @@ class LLMS_Shortcodes {
 	 * Course Progress Bar Shortcode
 	 *
 	 * @since unknown
-	 * @since [version] Added logic to display the bar only to enrolled user.
+	 * @since 3.38.0 Added logic to display the bar only to enrolled user.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
@@ -561,7 +561,7 @@ class LLMS_Shortcodes {
 	 * Output user statistics related to courses enrolled, completed, etc...
 	 *
 	 * @since unknown
-	 * @since [version] Use strict comparisons.
+	 * @since 3.38.0 Use strict comparisons.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string
@@ -632,7 +632,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 3.2.5
 	 * @since 3.23.0 Unknown
-	 * @since [version] Use `in_array()` with strict comparison.
+	 * @since 3.38.0 Use `in_array()` with strict comparison.
 	 *
 	 * @param array $atts Associative array of shortcode attributes.
 	 * @return string

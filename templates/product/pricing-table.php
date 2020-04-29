@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates/Product
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.38.0
  *
  * @property LLMS_Product $product          Product object of the course or membership.
  * @property bool         $is_enrolled      Determines if current viewer is enrolled in $product.
@@ -25,10 +25,10 @@ defined( 'ABSPATH' ) || exit;
  *
  * @link https://github.com/gocodebox/lifterlms/issues/1128
  *
- * @deprecated [version]
+ * @deprecated 3.38.0
  */
 if ( isset( $purchaseable ) && ! isset( $purchasable ) ) {
-	llms_deprecated_function( 'Passing variable `$purchaseable` to template "product/pricing-table.php"', '[version]', '`$purchasable`' );
+	llms_deprecated_function( 'Passing variable `$purchaseable` to template "product/pricing-table.php"', '3.38.0', '`$purchasable`' );
 	$purchasable = $purchaseable;
 }
 

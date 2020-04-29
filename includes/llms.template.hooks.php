@@ -7,7 +7,7 @@
  * @package LifterLMS/Hooks
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -101,7 +101,7 @@ add_action( 'lifterlms_email_footer', 'llms_email_footer', 10 );
  * Pricing Tables
  *
  * @since Unknown
- * @since [version] Added `lifterlms_product_not_purchasable`.
+ * @since 3.38.0 Added `lifterlms_product_not_purchasable`.
  */
 add_action( 'llms_access_plan', 'llms_template_access_plan', 10 );
 

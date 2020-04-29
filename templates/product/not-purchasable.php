@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates/Product
  *
- * @since [version]
- * @version [version]
+ * @since 3.38.0
+ * @version 3.38.0
  *
  * @property LLMS_Product $product Product object of the course or membership.
  */

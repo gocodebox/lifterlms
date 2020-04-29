@@ -4,15 +4,15 @@
  *
  * @group shortcodes
  *
- * @since [version]
- * @version [version]
+ * @since 3.38.0
+ * @version 3.38.0
  */
 class LLMS_Test_Shortcode_Course_Progress extends LLMS_ShortcodeTestCase {
 
 	/**
 	 * Test shortcode registration
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -23,7 +23,7 @@ class LLMS_Test_Shortcode_Course_Progress extends LLMS_ShortcodeTestCase {
 	/**
 	 * Test shortcode output
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */

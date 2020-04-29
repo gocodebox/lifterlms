@@ -5,7 +5,7 @@
  * @package   LifterLMS/Functions
  *
  * @since 3.16.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -109,8 +109,8 @@ function llms_get_quiz_attempt_statuses() {
  * Get quiz settings defined by supporting themes
  *
  * @since 3.16.8
- * @since [version] Moved deprecation notice from `LLMS_Admin_Builder::get_custom_schemas()`.
- * @deprecated [version] See https://lifterlms.com/docs/course-builder-custom-fields-for-developers for more information.
+ * @since 3.38.0 Moved deprecation notice from `LLMS_Admin_Builder::get_custom_schemas()`.
+ * @deprecated 3.38.0 See https://lifterlms.com/docs/course-builder-custom-fields-for-developers for more information.
  *
  * @param string $setting Name of setting, if omitted returns all settings.
  * @param string $default Default fallback if setting not set.

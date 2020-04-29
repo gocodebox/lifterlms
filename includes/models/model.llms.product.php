@@ -7,7 +7,7 @@
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.25.2  Unknown.
  * @since 3.37.17 Fixed a typo in the `post_status` query arg when retrieving access plans for this product.
  *                Use `in_array` with strict comparison where possible.
- * @since [version] Add `get_restrictions()` and `has_restrictions()` methods.
+ * @since 3.38.0 Add `get_restrictions()` and `has_restrictions()` methods.
  */
 class LLMS_Product extends LLMS_Post_Model {
 
@@ -252,7 +252,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 * + Enrollment time period
 	 * + Student capacity
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return string[] An array of strings describing the restrictions placed on the product.
 	 */
@@ -278,7 +278,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		/**
 		 * Filter whether the product has any purchase restrictions
 		 *
-		 * @since [version]
+		 * @since 3.38.0
 		 *
 		 * @param string[]     $restrictions An array of strings describing the restrictions placed on the product.
 		 * @param LLMS_Product $product      The LLMS_Product object.
@@ -314,7 +314,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	/**
 	 * Determine if any restrictions exist on the product.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @see LLMS_Proudct::get_restrictions()
 	 *
@@ -328,7 +328,7 @@ class LLMS_Product extends LLMS_Post_Model {
 		/**
 		 * Filter whether the product has any purchase restrictions
 		 *
-		 * @since [version]
+		 * @since 3.38.0
 		 *
 		 * @param bool         $has_restrictions Whether the product `$product` has restrictions.
 		 * @param string[]     $restrictions     Array of restrictions placed on the product.
@@ -346,7 +346,7 @@ class LLMS_Product extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.25.2 Unknown.
-	 * @since [version] Use `has_restrictions()` to determine if the product has additional restrictions.
+	 * @since 3.38.0 Use `has_restrictions()` to determine if the product has additional restrictions.
 	 *
 	 * @return bool
 	 */

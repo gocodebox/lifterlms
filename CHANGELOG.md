@@ -1,6 +1,57 @@
 LifterLMS Changelog
 ===================
 
+v3.39.0 - 2020-04-29
+--------------------
+
+##### Updates
+
++ The output of course restriction errors which may prevent enrollment is now displayed in it's own template in favor of the logic being included in the `product/pricing-table.php` template.
++ The course progress bar shortcode will now only display the progress bar to enrolled users. An additional option has been added to the shortcode to allow showing a 0% progress bar to non-enrolled users. [Read more](https://lifterlms.com/docs/shortcodes/#lifterlms_course_progress).
++ The "Course Progress" widget now has an option to optionally display the progress bar to non-enrolled users. By default it will display only to enrolled students.
++ Updates LifterLMS Blocks to version 1.9.0
+
+##### Bug fixes
+
++ Fixed an issue causing free access plans to bypass course enrollment restrictions like capacity and enrollment time periods.
++ Fixed an issue causing custom checkout success redirects to fail when using gateways that require a payment confirmation step. This fixes an issue in the LifterLMS PayPal payment gateway.
++ Fixed an issue causing deprecation theme-compatibility related deprecation notices to be incorrectly thrown.
++ Fixed spelling error in variable passed to the `product/pricing-table.php` template. The misspelled variable is still being passed to the variable for backwards compatibility.
++ Updated the way notification background processors are dispatched. This fixes an issue in the LifterLMS Twilio add-on.
+
+##### Deprecations
+
++ `LLMS_Notifications::dispatch_processors()` is deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
+
+##### Templates Updated
+
++ templates/product/pricing-table.php
+
+##### LifterLMS Blocks
+
++ Update: Improved script dependencies definitions.
++ Update: Updated asset paths for consistency with other LifterLMS projects.
++ Update: Updated various WP Core references that have been deprecated (maintains backwards compatibility).
++ Update: The Lesson Progression block is no longer rendered server-side in the block editor (minor performance improvement).
++ Update: Converted the course progress block into a dynamic block. Fixes an issue allowing the progress block to be visible to non-enrolled students.
++ Update: Added a filter on the output of the Pricing Table block: `llms_blocks_render_pricing_table_block`.
++ Bug fix: Fixed an issue encountered when using the WP Core "Table" block.
++ Bug fix: Fixed a few areas where `class` was being used instead of `className` to define CSS classes on elements in the block editor.
++ Bug fix: Fixed a user-experience issues encountered on the Course Information block when all possible information is disabled.
++ Bug fix: Fixed an issue causing visibility attributes to render on blocks that don't support them.
++ Bug fix: Fixed an issue preventing 3rd party blocks from modifying default block visibility settings.
++ Bug fix: Fixed a spelling error visible inside the block editor.
++ Bug fix: Fixed an issue causing the "Course Progress" block to be shown to non-enrolled students and visitors.
++ Bug fix: Removed redundant CSS from frontend.
++ Bug fix: Stop outputting editor CSS on the frontend.
++ Bug fix: Dynamic blocks with no content to render will now only output their empty render messages inside the block editor, not on the frontend.
++ Changes to the Classic Editor Block:
+
+  + The classic editor block will no longer show block visibility settings because it is impossible to use those settings to filter the block on the frontend.
+  + In order to apply visibility settings to the classic editor block, place the Classic Editor within a "Group" block and apply visibility settings to the Group.
+
+
+
 v3.37.19 - 2020-04-20
 ---------------------
 
@@ -9,7 +60,7 @@ v3.37.19 - 2020-04-20
 + Added a new debugging tool to clear pending batches created by background processors.
 + Added a new method `LLMS_Abstract_Notification_View::get_object()` which can be used by notification views to override the loading of the post (or object) which triggered the notification.
 
-# Bug Fixes
+##### Bug Fixes
 
 + Added localization to strings on the coupon admin screen. Thanks [parfilov](https://github.com/parfilov)!
 + Fixed issue encountered in metaboxes when the `$post` global variable is not set.

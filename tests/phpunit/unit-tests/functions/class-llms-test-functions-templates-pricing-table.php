@@ -8,7 +8,7 @@
  * @group functions_template
  * @group functions_template_product
  *
- * @since [version]
+ * @since 3.38.0
  */
 class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 
@@ -28,7 +28,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): gateways disabled so we should show only free plans.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -55,7 +55,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): paid plan with gateways enabled.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -84,7 +84,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): paid plan with no enabled gateways.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -109,7 +109,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): course enrollment start is in future.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -145,7 +145,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): course enrollment start is in past.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -181,7 +181,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): course capacity maxed error
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -218,7 +218,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): user already enrolled in course
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -246,7 +246,7 @@ class LLMS_Test_Functions_Templates_Pricing_Table extends LLMS_UnitTestCase {
 	/**
 	 * Test lifterlms_template_pricing_table(): user already enrolled in membership
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */

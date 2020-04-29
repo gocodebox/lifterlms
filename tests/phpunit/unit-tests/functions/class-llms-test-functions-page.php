@@ -7,14 +7,14 @@
  * @group functions
  * @group functions_page
  *
- * @since [version]
+ * @since 3.38.0
  */
 class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the llms_confirm_payment_url() function.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Functions_Fage extends LLMS_UnitTestCase {
 	/**
 	 * Test the llms_get_page_id() function.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */

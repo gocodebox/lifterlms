@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.12 Refactored the `process_trash()` method.
  *                Added new filter, `llms_builder_{$post_type}_force_delete` to allow control of how post type deletion is handled
  *                when deleted via the builder.
- * @since [version] Improve backwards compatibility handling for the `llms_get_quiz_theme_settings` filter.
+ * @since 3.38.0 Improve backwards compatibility handling for the `llms_get_quiz_theme_settings` filter.
  */
 class LLMS_Admin_Builder {
 
@@ -72,7 +72,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.17.0
 	 * @since 3.17.6 Add backwards compatibility for the deprecated `llms_get_quiz_theme_settings` filter.
-	 * @since [version] Only run backwards compatibility for `llms_get_quiz_theme_settings` when the filter is being used.
+	 * @since 3.38.0 Only run backwards compatibility for `llms_get_quiz_theme_settings` when the filter is being used.
 	 *
 	 * @return array
 	 */

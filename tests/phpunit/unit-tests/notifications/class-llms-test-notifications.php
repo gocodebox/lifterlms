@@ -5,7 +5,7 @@
  * @package LifterLMS/Tests/Notifications
  *
  * @since 3.8.0
- * @since [version] "DRY"ed existing tests and added tests for processor scheduling related functions.
+ * @since 3.38.0 "DRY"ed existing tests and added tests for processor scheduling related functions.
  *
  * @group notifications
  */
@@ -14,7 +14,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -28,7 +28,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Tear down the test case
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -44,7 +44,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test dispatch_processor_async() for a fake processor.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -59,7 +59,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test dispatch_processor_async() for a fake processor.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test the get_controller() method
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use $this->main for code DRYness.
+	 * @since 3.38.0 Use $this->main for code DRYness.
 	 *
 	 * @return void
 	 */
@@ -92,7 +92,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test get_controllers() method
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use $this->main for code DRYness.
+	 * @since 3.38.0 Use $this->main for code DRYness.
 	 *
 	 * @return void
 	 */
@@ -112,7 +112,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * Test get_processor() method
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use $this->main for code DRYness.
+	 * @since 3.38.0 Use $this->main for code DRYness.
 	 *
 	 * @return void
 	 */
@@ -130,7 +130,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	 * test get_processors() method
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use $this->main for code DRYness.
+	 * @since 3.38.0 Use $this->main for code DRYness.
 	 *
 	 * @return void
 	 */
@@ -149,7 +149,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_processing()
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -170,7 +170,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_processors_dispatch()
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -197,7 +197,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_processors_dispatch() when none are scheduled
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -210,7 +210,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_single_processor() when an event is already scheduled
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */
@@ -235,7 +235,7 @@ class LLMS_Test_Notifications extends LLMS_UnitTestCase {
 	/**
 	 * Test schedule_single_processor() when an existing event does not already exist.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return void
 	 */

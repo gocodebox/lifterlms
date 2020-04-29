@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ require_once LLMS_PLUGIN_DIR . 'includes/libraries/wp-background-processing/wp-b
  * LifterLMS Notification Background Processor abstract class
  *
  * @since 3.8.0
- * @since [version] Modified return of `dispatch()` override to return the return value of the parent method.
+ * @since 3.38.0 Modified return of `dispatch()` override to return the return value of the parent method.
  */
 abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Process {
 
@@ -64,7 +64,7 @@ abstract class LLMS_Abstract_Notification_Processor extends WP_Background_Proces
 	 * Starts the queue
 	 *
 	 * @since 3.8.0
-	 * @since [version] Added return from parent method.
+	 * @since 3.38.0 Added return from parent method.
 	 *
 	 * @return array|WP_Error Response from `wp_remote_post()`.
 	 */

@@ -7,7 +7,7 @@
  * @since 3.37.4 Add certificate template mock generation and earning methods.
  * @since 3.37.8 Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
  * @since 3.37.17 Added voucher creation method.
- * @since [version] Added `setManualGatewayStatus()` method.
+ * @since 3.38.0 Added `setManualGatewayStatus()` method.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -371,7 +371,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	 *
 	 * Automatically generates a course associated with the plan.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @param float   $price      Plan price.
 	 * @param integer $frequency  Recurring frequency.
@@ -482,7 +482,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Toggle the status of the manual payment gateway.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @param string $enabled Status of the gateway, "yes" for enabled and "no" for disabled.
 	 */

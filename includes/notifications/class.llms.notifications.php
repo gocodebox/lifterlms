@@ -6,7 +6,7 @@
  * @package LifterLMS/Notifications/Classes
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.38.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.8.0
  * @since 3.24.0 Unknown.
  * @since 3.36.1 Record notifications as read during the `wp_print_footer_scripts` hook.
- * @since [version] Updated processor scheduling for increased performance and reliability.
+ * @since 3.38.0 Updated processor scheduling for increased performance and reliability.
  */
 class LLMS_Notifications {
 
@@ -84,7 +84,7 @@ class LLMS_Notifications {
 	 * @since 3.8.0
 	 * @since 3.22.0 Unknown.
 	 * @since 3.36.1 Record basic notifications as read during `wp_print_footer_scripts`.
-	 * @since [version] Schedule processors using an async scheduled action.
+	 * @since 3.38.0 Schedule processors using an async scheduled action.
 	 *
 	 * @return void
 	 */
@@ -98,7 +98,7 @@ class LLMS_Notifications {
 		/**
 		 * Customize whether or not async notification dispatching should be used.
 		 *
-		 * @since [version]
+		 * @since 3.38.0
 		 *
 		 * @param boolean $use_async Whether or not to use async processor dispatching.
 		 */
@@ -118,7 +118,7 @@ class LLMS_Notifications {
 	 * Saves & dispatches those processors.
 	 *
 	 * @since 3.8.0
-	 * @deprecated [version] Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
+	 * @deprecated 3.38.0 Deprecated in favor of async dispatching via `LLMS_Notifications::schedule_processors_dispatch()`.
 	 *
 	 * @return void
 	 */
@@ -143,7 +143,7 @@ class LLMS_Notifications {
 	 *
 	 * The trigger hook `llms_dispatch_notification_processor_async` is called by the action scheduler library.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @see llms_dispatch_notification_processor_async
 	 *
@@ -167,7 +167,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.22.0
 	 * @since 3.36.1 Don't automatically mark notifications as read.
-	 * @since [version] Use `wp_json_decode()` in favor of `json_decode()`.
+	 * @since 3.38.0 Use `wp_json_decode()` in favor of `json_decode()`.
 	 *
 	 * @return void
 	 */
@@ -285,7 +285,7 @@ class LLMS_Notifications {
 	 *
 	 * @since 3.8.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Use strict comparison.
+	 * @since 3.38.0 Use strict comparison.
 	 *
 	 * @param LLMS_Notification $notification Notification instance.
 	 * @return LLMS_Abstract_Notification_View|false
@@ -483,7 +483,7 @@ class LLMS_Notifications {
 	 * Schedule a processor to dispatch its queue on shutdown
 	 *
 	 * @since 3.8.0
-	 * @since [version] Use strict comparisons.
+	 * @since 3.38.0 Use strict comparisons.
 	 *
 	 * @param string $id Processor ID (eg: email).
 	 * @return void
@@ -503,7 +503,7 @@ class LLMS_Notifications {
 	 *
 	 * For any found processors, saves their queue and schedules them to be processes via a scheduled event.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @return array Array containing information about the scheduled processors.
 	 *               The array keys will be the processor ID and the values will be the timestamp of the event or a WP_Error object.
@@ -538,7 +538,7 @@ class LLMS_Notifications {
 	/**
 	 * Save pending batches and schedule the async dispatching of a processor.
 	 *
-	 * @since [version]
+	 * @since 3.38.0
 	 *
 	 * @param LLMS_Abstract_Notification_Processor $processor Notification processor object.
 	 * @param string                               $id        Processor ID.
