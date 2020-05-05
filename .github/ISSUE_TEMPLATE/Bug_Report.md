@@ -33,9 +33,10 @@ about: Report a bug or issue
 
 <details>
 <summary>System Report</summary>
-  
+
+<!-- Paste your System Report between the three backticks below this line -->
 ```
-<!-- Paste your System Report below this line -->
+
 
 ```
 
