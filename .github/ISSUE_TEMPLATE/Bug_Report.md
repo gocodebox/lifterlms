@@ -29,7 +29,7 @@ about: Report a bug or issue
 
 ```
 
-### System Information
+### System and Environment Information
 
 <details>
 <summary>System Report</summary>
@@ -40,6 +40,13 @@ about: Report a bug or issue
 ```
 
 </details>
+
+
+This issue has be recreated:
++ [ ] Locally
++ [ ] On a staging site
++ [ ] On a production website
++ [ ] With only LifterLMS and a default theme
 
 ### Browser, Device, and Operating System Information
 
