@@ -8,6 +8,7 @@
  * @group integration_bbpress
  *
  * @since 3.37.11
+ * @since [version] Added test on forum values saved as array of strings.
  */
 class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 
@@ -430,6 +431,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	 * Test get_forum_course_restrictions()
 	 *
 	 * @since 3.37.11
+	 * @since [version] Made sure it's able to match forum ids either saved as strings or integers.
 	 *
 	 * @return void
 	 */
@@ -448,6 +450,64 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 		update_post_meta( $id2, '_llms_bbp_forum_ids', array( 9239 ) );
 		$this->assertEquals( array( $id, $id2 ), $this->main->get_forum_course_restrictions( 9239 ) );
 
+		// Restricted to two courses, second course forum ids saved as strings.
+		update_post_meta( $id, '_llms_bbp_forum_ids', array( 9239, 1008 ) );
+		update_post_meta( $id2, '_llms_bbp_forum_ids', array( '9239', '1008', '1007' ) );
+
+		// Make sure we don't match a forum id which is part of one of the saved values.
+		$this->assertNotEquals( array( $id, $id2 ), $this->main->get_forum_course_restrictions( 923 ) );
+
+		$this->assertEquals( array( $id, $id2 ), $this->main->get_forum_course_restrictions( 9239 ) );
+		$this->assertEquals( array( $id, $id2 ), $this->main->get_forum_course_restrictions( 1008 ) );
+		$this->assertEquals( array( $id2 ), $this->main->get_forum_course_restrictions( 1007 ) );
+
+		update_post_meta( $id2, '_llms_bbp_forum_ids', array( '1' ) );
+		$this->assertEquals( array( $id2 ), $this->main->get_forum_course_restrictions( 1 ) );
+
+		/**
+		 * Edge case check:
+		 * We save the values as a serialized array, and before 3.37.11 we used to save them as integers.
+		 * Our SQL query to retrieve the courses linked to a certain forum uses a REGEXP to match the forum id in it.
+		 * This REGEXP is able to match either ids saved as strings or integers.
+		 * We want also to be sure that if we have a value of the type
+		 * a:3:{i:0;i:2299;i:1;i:3333;i:2:i:7777;}
+		 * and a forum id to check against equal to 1, that value above doesn't match.
+		 * This would mean that our query is able differentiate between serialized array item values and indexes.
+		 */
+		// Case saved as integers.
+		update_post_meta( $id, '_llms_bbp_forum_ids', array( 2299, 3333, 7777, 9999, 29999, 109999 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 2299 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 3333 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 7777 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 9999 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 29999 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 109999 ) );
+
+
+		// Make sure we don't match the array indexes.
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 0 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 1 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 2 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 3 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 4 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 5 ) );
+
+		// Case saved as strings.
+		update_post_meta( $id, '_llms_bbp_forum_ids', array( '12299', '13333', '17777', '19999', '129999', '1109999' ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 12299 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 13333 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 17777 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 19999 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 129999 ) );
+		$this->assertEquals( array( $id ), $this->main->get_forum_course_restrictions( 1109999 ) );
+
+		// Make sure we don't match the array indexes
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 0 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 1 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 2 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 3 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 4 ) );
+		$this->assertNotEquals( array( $id ), $this->main->get_forum_course_restrictions( 5 ) );
 	}
 
 	/**
@@ -508,7 +568,27 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 
 		$this->mockPostRequest( array( 'action' => 'inline-save' ) );
 		$this->assertNull( $this->main->save_course_settings( $id ) );
+
 		$this->assertEquals( $expect, get_post_meta( $id, '_llms_bbp_forum_ids', true ) );
+
+	}
+
+	/**
+	 * Test save_course_settings() correctly saving strings
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_save_course_settings_save_strings() {
+
+		$id = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$expect = array( 1, 2, 3 );
+
+		$this->mockPostRequest( array( 'action' => '', '_llms_bbp_forum_ids' => $expect ) );
+		$this->main->save_course_settings( $id );
+
+		$this->assertEquals( $expect, array_filter( get_post_meta( $id, '_llms_bbp_forum_ids', true ), 'is_string' ) );
 
 	}
 
