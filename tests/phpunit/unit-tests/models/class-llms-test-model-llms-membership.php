@@ -69,6 +69,73 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	}
 
 	/**
+	 * Test get_associated_posts() when none exist for the membership.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_associated_posts_none_found() {
+
+		$membership = $this->factory->membership->create_and_get();
+
+		$expected = array(
+			'post'   => array(),
+			'page'   => array(),
+			'course' => array(),
+		);
+		$this->assertEquals( $expected, $membership->get_associated_posts() );
+
+		$this->assertEquals( array(), $membership->get_associated_posts( 'course' ) );
+		$this->assertEquals( array(), $membership->get_associated_posts( 'page' ) );
+		$this->assertEquals( array(), $membership->get_associated_posts( 'post' ) );
+		$this->assertEquals( array(), $membership->get_associated_posts( 'fake' ) );
+
+	}
+
+	/**
+	 * Test get_associated_posts() when associations do exist.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_associated_posts_has_associations() {
+
+		$membership = $this->factory->membership->create_and_get();
+
+		// Add a post.
+		$post = $this->factory->post->create();
+		update_post_meta( $post, '_llms_is_restricted', 'yes' );
+		update_post_meta( $post, '_llms_restricted_levels', array( $membership->get( 'id' ), 1, 1008, '183' ) );
+
+		// Add pages.
+		$page1 = $this->factory->post->create( array( 'post_type' => 'page' ) );
+		update_post_meta( $page1, '_llms_is_restricted', 'yes' );
+		update_post_meta( $page1, '_llms_restricted_levels', array( (string) $membership->get( 'id' ) . '00', $membership->get( 'id' ), 1234, 2 ) );
+
+		$page2 = $this->factory->post->create( array( 'post_type' => 'page' ) );
+		update_post_meta( $page2, '_llms_is_restricted', 'yes' );
+		update_post_meta( $page2, '_llms_restricted_levels', array( $membership->get( 'id' ) ) );
+
+		// Add a course with a plan.
+		$plan = $this->get_mock_plan();
+		$plan->set( 'availability', 'members' );
+		$plan->set( 'availability_restrictions', array( 1, $membership->get( 'id' ) ) );
+
+		// Add an autoenrollment course.
+		$course = $this->factory->post->create( array( 'post_type' => 'course' ) );
+		$membership->set( 'auto_enroll', array( $course, $plan->get( 'product_id' ) ) );
+
+		$res = $membership->get_associated_posts();
+
+		$this->assertEquals( array( $post ), $res['post'] );
+		$this->assertEquals( array( $page1, $page2 ), $res['page'] );
+		$this->assertEquals( array( $plan->get( 'product_id' ), $course ), $res['course'] );
+
+	}
+
+	/**
 	 * Test LLMS_Membership->get_categories() method.
 	 *
 	 * @since 3.36.3

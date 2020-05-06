@@ -2,9 +2,10 @@
 /**
  * LifterLMS Membership Model
  *
- * @package  LifterLMS/Models
- * @since    3.0.0
- * @version  3.36.3
+ * @package LifterLMS/Models
+ *
+ * @since 3.0.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
  * @since 3.32.0 Added `get_student_count()` method.
  * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
+ * @since [version] Added methods for retrieving posts associated with the membership.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -89,6 +91,65 @@ implements LLMS_Interface_Post_Instructors
 		}
 
 		return $this->set( 'auto_enroll', array_unique( $course_ids ) );
+
+	}
+
+	/**
+	 * Retrieve a list of posts associated with the membership
+	 *
+	 * An associated post is:
+	 * + A post, page, or custom post type which supports `llms-membership-restrictions` and has restrictions enabled to this membership
+	 * + A course that exists in the memberships list of auto-enroll courses
+	 * + A course that has at least one access plan with members-only availability linked to this membership
+	 *
+	 * @since [version]
+	 *
+	 * @param string $post_type If supplied, returns only associations of this post type, otherwise returns an associative array of all associations.
+	 * @return array[]|int[] An array of arrays of post IDs. The array keys are the post type and the array values are arrays of integers.
+	 *                       If `$post_type` is supplied returns an array of associated post ids as integers.
+	 */
+	public function get_associated_posts( $post_type = null ) {
+
+		$posts = array();
+
+		// Retrieve all posts that are restricted to a membership via a LifterLMS Membership Restriction setting.
+		foreach ( get_post_types_by_support( 'llms-membership-restrictions' ) as $type ) {
+
+			// Skip if it's not the requested post type.
+			if ( $post_type && $type !== $post_type ) {
+				continue;
+			}
+
+			$posts[ $type ] = $this->query_associated_posts( $type, '_llms_is_restricted', 'yes', '_llms_restricted_levels' );
+
+		}
+
+		// Include courses if courses were requested or if no specific post type was requested.
+		if ( ! $post_type || 'course' === $post_type ) {
+
+			$posts['course'] = $this->query_associated_courses();
+
+		}
+
+		/**
+		 * Filter the list of posts associated with the membership.
+		 *
+		 * @since [version]
+		 *
+		 * @param array[]         $posts     An array of arrays of post IDs. The array keys are the post type and the array values are arrays of integers.
+		 * @param string          $post_type The requested post type if only a specific post type was requested, otherwise `null` to indicate all associated post types.
+		 * @param LLMS_Membership $this      Membership object.
+		 */
+		$posts = apply_filters( 'llms_membership_get_associated_posts', $posts, $post_type, $this );
+
+		// If a single post type was requested, return only that.
+		if ( $post_type ) {
+			// Return the request post type array and fallback to an empty array if that post type doesn't exist.
+			return isset( $posts[ $post_type ] ) ? $posts[ $post_type ] : array();
+		}
+
+		// Otherwise return everything.
+		return $posts;
 
 	}
 
@@ -252,6 +313,92 @@ implements LLMS_Interface_Post_Instructors
 	}
 
 	/**
+	 * Retrieve courses associated with the membership
+	 *
+	 * @since [version]
+	 *
+	 * @see LLMS_Membership::get_associated_posts()
+	 *
+	 * @return int[]
+	 */
+	protected function query_associated_courses() {
+
+		$courses = array();
+
+		// Retrieve all access plans with a members-only availability restriction for this membership.
+		foreach ( $this->query_associated_posts( 'llms_access_plan', '_llms_availability', 'members', '_llms_availability_restrictions' ) as $plan_id ) {
+			$plan = llms_get_post( $plan_id );
+			if ( $plan ) {
+				$courses[] = $plan->get( 'product_id' );
+			}
+		}
+
+		// Merge in all the autoenrollment courses from the membership and remove duplicates.
+		$courses = array_unique( array_merge( $courses, $this->get_auto_enroll_courses() ) );
+
+		return $courses;
+
+	}
+
+	/**
+	 * Performs a WPDB query to retrieve posts associated with the membership
+	 *
+	 * @since [version]
+	 *
+	 * @see LLMS_Membesrhip::get_associated_posts()
+	 *
+	 * @param string $post_type     Post type to query for an association with.
+	 * @param string $enabled_key   A meta key name, used to check if the association is enabled for the associated post. For example: "_llms_is_restricted"
+	 * @param string $enabled_value The meta value of the `$enabled_key` when the association is enabled. For example "yes" when checking "_llms_is_restricted"..
+	 * @param string $list_key      The meta key name where associations are stored as a serialized array of WP_Post IDs. For example "_llms_restricted_levels".
+	 * @return int[]
+	 */
+	protected function query_associated_posts( $post_type, $enabled_key, $enabled_value, $list_key ) {
+
+		global $wpdb;
+
+		// See if we have a cached result first.
+		$cache = sprintf( 'membership_%1$d_associated_%2$s', $this->get( 'id' ), $post_type );
+		$found = null;
+		$ids   = wp_cache_get( $cache, '', false, $found );
+
+		// We don't, perform a query.
+		if ( ! $found ) {
+
+			$ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery
+				$wpdb->prepare(
+					"SELECT metas.post_id
+				 FROM {$wpdb->postmeta} AS metas
+				 JOIN {$wpdb->postmeta} AS metas2 ON metas2.post_id = metas.post_id
+				 JOIN {$wpdb->posts} AS posts ON posts.ID = metas.post_id
+				 WHERE 1
+				   AND posts.post_status = 'publish'
+				   AND posts.post_type = %s
+				   AND metas2.meta_key = %s
+				   AND metas2.meta_value = %s
+				   AND metas.meta_key = %s
+				   AND metas.meta_value REGEXP %s;",
+					$post_type,
+				    $enabled_key,
+				    $enabled_value,
+				    $list_key,
+					'a:[0-9][0-9]*:{(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . $this->get( 'id' ) . '"?;)'
+				)
+			);
+
+			// Only return ints.
+			$ids = array_map( 'absint', $ids );
+
+			// Cache the result.
+			wp_cache_set( $cache, $ids );
+
+		}
+
+		return $ids;
+
+	}
+
+	/**
 	 * Remove a course from auto enrollment
 	 *
 	 * @since 3.0.0
@@ -302,4 +449,5 @@ implements LLMS_Interface_Post_Instructors
 
 		return $arr;
 	}
+
 }
