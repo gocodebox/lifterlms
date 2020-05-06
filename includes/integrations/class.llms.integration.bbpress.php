@@ -258,7 +258,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			 WHERE metas.meta_key = '_llms_bbp_forum_ids'
 			   AND metas.meta_value REGEXP %s
 			   AND posts.post_status = 'publish';",
-				'(?<!;)(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . sprintf( '%d', absint( $forum_id ) ) . '"?;)'
+				'a:[0-9][0-9]*:{(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . sprintf( '%d', absint( $forum_id ) ) . '"?;)'
 			)
 		);
 
