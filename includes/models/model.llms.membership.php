@@ -32,8 +32,7 @@ defined( 'ABSPATH' ) || exit;
  */
 class LLMS_Membership
 extends LLMS_Post_Model
-implements LLMS_Interface_Post_Instructors
-		 , LLMS_Interface_Post_Sales_Page {
+implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 
 	/**
 	 * Membership post meta.
@@ -293,12 +292,13 @@ implements LLMS_Interface_Post_Instructors
 	 * Determine if sales page redirection is enabled
 	 *
 	 * @since 3.20.0
+	 * @since [version] Use strict array comparison.
 	 *
 	 * @return string
 	 */
 	public function has_sales_page_redirect() {
 		$type = $this->get( 'sales_page_content_type' );
-		return apply_filters( 'llms_membership_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ) ), $this, $type );
+		return apply_filters( 'llms_membership_has_sales_page_redirect', in_array( $type, array( 'page', 'url' ), true ), $this, $type );
 	}
 
 	/**
@@ -379,9 +379,9 @@ implements LLMS_Interface_Post_Instructors
 				   AND metas.meta_key = %s
 				   AND metas.meta_value REGEXP %s;",
 					$post_type,
-				    $enabled_key,
-				    $enabled_value,
-				    $list_key,
+					$enabled_key,
+					$enabled_value,
+					$list_key,
 					'a:[0-9][0-9]*:{(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . $this->get( 'id' ) . '"?;)'
 				)
 			);
