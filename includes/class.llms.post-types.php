@@ -48,7 +48,7 @@ class LLMS_Post_Types {
 	 * @since 3.0.0
 	 * @since 3.0.4 Unknown.
 	 *
-	 * @return  void
+	 * @return void
 	 */
 	public static function add_membership_restriction_support() {
 
