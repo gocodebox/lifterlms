@@ -3,7 +3,7 @@
  * bbPress Integration
  *
  * @since 3.0.0
- * @version 3.37.11
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.11 Don't update saved forum values during course quick edits.
+ * @since [version] When looking for forum course restrictions make sure to run a more generic query
+ *               so that it matches forum ids whether they've been save as integers or strings.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 
@@ -239,6 +241,8 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Check if a forum is restricted to a course(s)
 	 *
 	 * @since 3.12.0
+	 * @since [version] Make the query more generic so that it matches forum ids whether they've been saved
+	 *               as integers or strings.
 	 *
 	 * @param int $forum_id WP_Post ID of the forum.
 	 * @return int[]
@@ -252,9 +256,9 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 			 FROM {$wpdb->postmeta} AS metas
 			 JOIN {$wpdb->posts} AS posts on posts.ID = metas.post_id
 			 WHERE metas.meta_key = '_llms_bbp_forum_ids'
-			   AND metas.meta_value LIKE %s
+			   AND metas.meta_value REGEXP %s
 			   AND posts.post_status = 'publish';",
-				'%' . sprintf( 'i:%d;', absint( $forum_id ) ) . '%'
+				'(?<!;)(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?[0-9][0-9]*"?;)*(i:[0-9][0-9]*;(i|s:[0-9][0-9]*):"?' . sprintf( '%d', absint( $forum_id ) ) . '"?;)'
 			)
 		);
 
@@ -422,7 +426,6 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 		if ( isset( $_POST['_llms_bbp_forum_ids'] ) ) {  // phpcs:ignore WordPress.Security.NonceVerification.Missing
 
 			$ids = llms_filter_input( INPUT_POST, '_llms_bbp_forum_ids', FILTER_SANITIZE_NUMBER_INT, FILTER_REQUIRE_ARRAY );
-
 		}
 
 		update_post_meta( $post_id, '_llms_bbp_forum_ids', $ids );
