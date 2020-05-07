@@ -2,7 +2,7 @@
 /**
  * LifterLMS Membership Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
  * @version [version]
