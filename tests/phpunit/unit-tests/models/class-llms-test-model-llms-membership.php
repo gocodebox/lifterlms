@@ -79,12 +79,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 
 		$membership = $this->factory->membership->create_and_get();
 
-		$expected = array(
-			'post'   => array(),
-			'page'   => array(),
-			'course' => array(),
-		);
-		$this->assertEquals( $expected, $membership->get_associated_posts() );
+		$this->assertEquals( array(), $membership->get_associated_posts() );
 
 		$this->assertEquals( array(), $membership->get_associated_posts( 'course' ) );
 		$this->assertEquals( array(), $membership->get_associated_posts( 'page' ) );

@@ -147,8 +147,8 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 			return isset( $posts[ $post_type ] ) ? $posts[ $post_type ] : array();
 		}
 
-		// Otherwise return everything.
-		return $posts;
+		// Remove empty arrays and return the rest.
+		return array_filter( $posts );
 
 	}
 
