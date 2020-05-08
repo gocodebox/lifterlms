@@ -22,6 +22,7 @@ class LLMS_Test_Mime_Type_Extractor extends LLMS_UnitTestCase {
 	);
 
 	/**
+	 * Test from_file_path() for a file with a mime-type that exists
 	 *
 	 * @since [version]
 	 *
@@ -38,6 +39,7 @@ class LLMS_Test_Mime_Type_Extractor extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test from_file_path() for a mime-type not found in our list
 	 *
 	 * @since [version]
 	 *
@@ -69,12 +71,13 @@ class LLMS_Test_Mime_Type_Extractor extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test from_file_path() for a file that does not exist
 	 *
 	 * @since [version]
 	 *
 	 * @return void
 	 */
-	public function test_mime_type_not_exitent() {
+	public function test_mime_type_not_existent() {
 
 		global $lifterlms_tests;
 		$this->assertEquals(
@@ -85,6 +88,7 @@ class LLMS_Test_Mime_Type_Extractor extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test from_file_path() when checking a directory
 	 *
 	 * @since [version]
 	 *
