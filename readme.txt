@@ -519,6 +519,7 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 ------------------------
 
 + Update: Added methods for retrieving a list of posts associated with a membership.
++ Bug fix: Fixed an issue causing certificate backgrounds to be cropped or cut in certain circumstances.
 + Bug fix: Fixed an issue generating certificate downloads on servers where `mime_content_type()` does not exist.
 + Bug fix: Fixed an issue which caused bbPress course forum restrictions to stop working.
 
