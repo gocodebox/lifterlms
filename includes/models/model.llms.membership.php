@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.38.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
  * @since 3.32.0 Added `get_student_count()` method.
  * @since 3.36.3 Added `get_categories()`, `get_tags()` and `toArrayAfter()` methods.
- * @since [version] Added methods for retrieving posts associated with the membership.
+ * @since 3.38.1 Added methods for retrieving posts associated with the membership.
  *
  * @property $auto_enroll (array) Array of course IDs users will be autoenrolled in upon successful enrollment in this membership
  * @property $instructors (array) Course instructor user information
@@ -101,7 +101,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * + A course that exists in the memberships list of auto-enroll courses
 	 * + A course that has at least one access plan with members-only availability linked to this membership
 	 *
-	 * @since [version]
+	 * @since 3.38.1
 	 *
 	 * @param string $post_type If supplied, returns only associations of this post type, otherwise returns an associative array of all associations.
 	 * @return array[]|int[] An array of arrays of post IDs. The array keys are the post type and the array values are arrays of integers.
@@ -133,7 +133,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 		/**
 		 * Filter the list of posts associated with the membership.
 		 *
-		 * @since [version]
+		 * @since 3.38.1
 		 *
 		 * @param array[]         $posts     An array of arrays of post IDs. The array keys are the post type and the array values are arrays of integers.
 		 * @param string          $post_type The requested post type if only a specific post type was requested, otherwise `null` to indicate all associated post types.
@@ -292,7 +292,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	 * Determine if sales page redirection is enabled
 	 *
 	 * @since 3.20.0
-	 * @since [version] Use strict array comparison.
+	 * @since 3.38.1 Use strict array comparison.
 	 *
 	 * @return string
 	 */
@@ -315,7 +315,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	/**
 	 * Retrieve courses associated with the membership
 	 *
-	 * @since [version]
+	 * @since 3.38.1
 	 *
 	 * @see LLMS_Membership::get_associated_posts()
 	 *
@@ -343,7 +343,7 @@ implements LLMS_Interface_Post_Instructors, LLMS_Interface_Post_Sales_Page {
 	/**
 	 * Performs a WPDB query to retrieve posts associated with the membership
 	 *
-	 * @since [version]
+	 * @since 3.38.1
 	 *
 	 * @see LLMS_Membesrhip::get_associated_posts()
 	 *

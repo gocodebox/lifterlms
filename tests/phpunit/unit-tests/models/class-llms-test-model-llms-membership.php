@@ -71,7 +71,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_associated_posts() when none exist for the membership.
 	 *
-	 * @since [version]
+	 * @since 3.38.1
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ class LLMS_Test_LLMS_Membership extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test get_associated_posts() when associations do exist.
 	 *
-	 * @since [version]
+	 * @since 3.38.1
 	 *
 	 * @return void
 	 */

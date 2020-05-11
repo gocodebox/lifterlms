@@ -16,7 +16,7 @@ msgstr ""
 "X-Poedit-SourceCharset: UTF-8\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
-#: lifterlms.php:648, includes/admin/class.llms.admin.menus.php:167
+#: lifterlms.php:651, includes/admin/class.llms.admin.menus.php:167
 msgid "Settings"
 msgstr ""
 
@@ -146,16 +146,16 @@ msgstr ""
 msgid "unassigned"
 msgstr ""
 
-#: includes/class.llms.certificates.php:122
+#: includes/class.llms.certificates.php:123
 msgid "Unable to open export file (HTML certificate) for writing."
 msgstr ""
 
-#: includes/class.llms.certificates.php:126
+#: includes/class.llms.certificates.php:127
 msgid "Unable to write to export file (HTML certificate)."
 msgstr ""
 
 #. translators: %1$s = url-safe certificate title, %2$s = random alpha-numeric characters for filename obscurity.
-#: includes/class.llms.certificates.php:156
+#: includes/class.llms.certificates.php:157
 msgctxt "certificate download filename"
 msgid "certificate-%1$s-%2$s"
 msgstr ""
@@ -5745,35 +5745,35 @@ msgstr ""
 msgid "Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under \"Courses\" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s."
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:45, includes/integrations/class.llms.integration.bbpress.php:121
+#: includes/integrations/class.llms.integration.bbpress.php:47, includes/integrations/class.llms.integration.bbpress.php:123
 msgid "bbPress"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:46
+#: includes/integrations/class.llms.integration.bbpress.php:48
 msgid "Restrict forums and topics to memberships, add forums to courses, and %1$smore%2$s."
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:128
+#: includes/integrations/class.llms.integration.bbpress.php:130
 msgid "Select forums"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:130
+#: includes/integrations/class.llms.integration.bbpress.php:132
 msgid "Add forums which will only be available to students currently enrolled in this course."
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:134
+#: includes/integrations/class.llms.integration.bbpress.php:136
 msgid "Private Course Forums"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:199
+#: includes/integrations/class.llms.integration.bbpress.php:201
 msgid "You must be enrolled in this course to access the course forum."
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:397
+#: includes/integrations/class.llms.integration.bbpress.php:401
 msgid "Student creates a new forum topic"
 msgstr ""
 
-#: includes/integrations/class.llms.integration.bbpress.php:398
+#: includes/integrations/class.llms.integration.bbpress.php:402
 msgid "Student creates a new forum reply"
 msgstr ""
 

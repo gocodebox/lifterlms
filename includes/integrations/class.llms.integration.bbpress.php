@@ -3,7 +3,7 @@
  * bbPress Integration
  *
  * @since 3.0.0
- * @version [version]
+ * @version 3.38.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Fixed spelling errors.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.11 Don't update saved forum values during course quick edits.
- * @since [version] When looking for forum course restrictions make sure to run a more generic query
+ * @since 3.38.1 When looking for forum course restrictions make sure to run a more generic query
  *               so that it matches forum ids whether they've been save as integers or strings.
  */
 class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
@@ -241,7 +241,7 @@ class LLMS_Integration_BBPress extends LLMS_Abstract_Integration {
 	 * Check if a forum is restricted to a course(s)
 	 *
 	 * @since 3.12.0
-	 * @since [version] Make the query more generic so that it matches forum ids whether they've been saved
+	 * @since 3.38.1 Make the query more generic so that it matches forum ids whether they've been saved
 	 *               as integers or strings.
 	 *
 	 * @param int $forum_id WP_Post ID of the forum.
