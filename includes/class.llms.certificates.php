@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.37.3 Refactored `get_export_html()` method.
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
- * @since [version] Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
+ * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
  */
 class LLMS_Certificates {
 
@@ -214,7 +214,7 @@ class LLMS_Certificates {
 	 *     6. Removes the WP Admin Bar.
 	 *
 	 * @since 3.37.3
-	 * @since [version] Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
+	 * @since 3.38.1 Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
 	 *
 	 * @param string $html Certificate HTML.
 	 * @return string

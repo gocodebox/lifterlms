@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.38.1
+ * @version 3.38.1
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Mime_Type_Extractor class
  *
- * @since [version]
+ * @since 3.38.1
  */
 class LLMS_Mime_Type_Extractor {
 

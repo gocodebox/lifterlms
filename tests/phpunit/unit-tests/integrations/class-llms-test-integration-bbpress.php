@@ -8,7 +8,7 @@
  * @group integration_bbpress
  *
  * @since 3.37.11
- * @since [version] Added test on forum values saved as array of strings.
+ * @since 3.38.1 Added test on forum values saved as array of strings.
  */
 class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 
@@ -431,7 +431,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	 * Test get_forum_course_restrictions()
 	 *
 	 * @since 3.37.11
-	 * @since [version] Made sure it's able to match forum ids either saved as strings or integers.
+	 * @since 3.38.1 Made sure it's able to match forum ids either saved as strings or integers.
 	 *
 	 * @return void
 	 */
@@ -576,7 +576,7 @@ class LLMS_Test_Integration_BBPress extends LLMS_Unit_Test_Case {
 	/**
 	 * Test save_course_settings() correctly saving strings
 	 *
-	 * @since [version]
+	 * @since 3.38.1
 	 *
 	 * @return void
 	 */
