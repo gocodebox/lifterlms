@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.37.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,13 +19,14 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.37.3 Refactored `get_export_html()` method.
  *               Added an action `llms_certificate_generate_export` to allow modification of certificate exports before being stored on the server.
+ * @since [version] Use `LLMS_Mime_Type_Extractor::from_file_path()` when retrieving the certificate's imgs mime types during html export.
  */
 class LLMS_Certificates {
 
 	/**
 	 * Instance
 	 *
-	 * @var  LLMS_Certificates
+	 * @var LLMS_Certificates
 	 */
 	protected static $_instance = null;
 
@@ -213,6 +214,7 @@ class LLMS_Certificates {
 	 *     6. Removes the WP Admin Bar.
 	 *
 	 * @since 3.37.3
+	 * @since [version] Use `LLMS_Mime_Type_Extractor::from_file_path()` in place of `mime_content_type()` to avoid issues with PHP installs that do not support it.
 	 *
 	 * @param string $html Certificate HTML.
 	 * @return string
@@ -295,7 +297,7 @@ class LLMS_Certificates {
 
 			$imgpath = strtok( str_replace( get_site_url(), untrailingslashit( ABSPATH ), $src ), '?' );
 			$data    = base64_encode( file_get_contents( $imgpath ) ); // phpcs:ignore WordPress.PHP.DiscouragedPHPFunctions.obfuscation_base64_encode
-			$img->setAttribute( 'src', 'data:' . mime_content_type( $imgpath ) . ';base64,' . $data );
+			$img->setAttribute( 'src', 'data:' . LLMS_Mime_Type_Extractor::from_file_path( $imgpath ) . ';base64,' . $data );
 
 		}
 

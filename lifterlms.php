@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.37.0
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -47,6 +47,7 @@ require_once 'vendor/autoload.php';
  * @since 3.36.0 Added events classes and methods.
  * @since 3.36.1 Include SendWP Connector.
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
+ * @since [version] Include LLMS_Mime_Type_Extractor class.
  */
 final class LifterLMS {
 
@@ -279,6 +280,7 @@ final class LifterLMS {
 	 * @since 3.36.0 Include events classes.
 	 * @since 3.36.1 Include SendWP Connector.
 	 * @since 3.37.0 Include LLMS_Theme_Support class.
+	 * @since [version] Include LLMS_Mime_Type_Extractor class.
 	 *
 	 * @return void
 	 */
@@ -462,6 +464,7 @@ final class LifterLMS {
 		require_once 'includes/class-llms-events.php';
 		require_once 'includes/class-llms-events-core.php';
 		require_once 'includes/class-llms-sessions.php';
+		require_once 'includes/class-llms-mime-type-extractor.php';
 		require_once 'includes/class.llms.playnice.php';
 		require_once 'includes/theme-support/class-llms-theme-support.php';
 
