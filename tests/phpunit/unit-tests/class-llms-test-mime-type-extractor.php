@@ -17,8 +17,8 @@ class LLMS_Test_Mime_Type_Extractor extends LLMS_UnitTestCase {
 	 * @var array
 	 */
 	protected $files = array(
-		'json' => 'import-error.json',
-		'jpg'  => 'christian-fregnan-unsplash.jpg',
+		'po'  => 'lifterlms-en_US.po',
+		'jpg' => 'christian-fregnan-unsplash.jpg',
 	);
 
 	/**
@@ -49,21 +49,19 @@ class LLMS_Test_Mime_Type_Extractor extends LLMS_UnitTestCase {
 
 		global $lifterlms_tests;
 
-		// I expect json to be recognized either by one of the fallback functions as 'text/plain'.
-		if ( function_exists( 'finfo_file' ) ) {
-			$this->assertEquals(
-				'text/plain',
-				LLMS_Mime_Type_Extractor::from_file_path( $lifterlms_tests->assets_dir . $this->files['json'] )
-			);
-		} elseif ( function_exists( 'mime_content_type' ) ) {
-			$this->assertEquals(
-				'application/json',
-				LLMS_Mime_Type_Extractor::from_file_path( $lifterlms_tests->assets_dir . $this->files['json'] )
+		// I expect po files to be recognized by one of the fallback functions as 'text/plain' or 'text/x-po'.
+		if ( function_exists( 'finfo_file' ) || function_exists( 'mime_content_type' ) ) {
+			$this->assertContains(
+				LLMS_Mime_Type_Extractor::from_file_path( $lifterlms_tests->assets_dir . $this->files['po'] ),
+				array( 
+					'text/plain', 
+					'text/x-po' 
+				)
 			);
 		} else {
 			$this->assertEquals(
 				LLMS_Mime_Type_Extractor::DEFAULT_MIME_TYPE,
-				LLMS_Mime_Type_Extractor::from_file_path( $lifterlms_tests->assets_dir . $this->files['json'] )
+				LLMS_Mime_Type_Extractor::from_file_path( $lifterlms_tests->assets_dir . $this->files['po'] )
 			);
 		}
 
