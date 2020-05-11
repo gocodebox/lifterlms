@@ -25,7 +25,8 @@ body {
   .llms-certificate-container .certificate-background {
     position: relative;
     z-index: 1;
-    width: 100%; }
+    width: 100%;
+    display: block; }
   .llms-certificate-container .llms_certificate,
   .llms-certificate-container .llms_my_certificate {
     margin: 80px;

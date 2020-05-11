@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 3.38.0
+Stable tag: 3.38.1
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,14 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.38.1 - 2020-05-11 =
+------------------------
+
++ Update: Added methods for retrieving a list of posts associated with a membership.
++ Bug fix: Fixed an issue generating certificate downloads on servers where `mime_content_type()` does not exist.
++ Bug fix: Fixed an issue which caused bbPress course forum restrictions to stop working.
+
+
 = v3.38.0 - 2020-04-29 =
 ------------------------
 
@@ -682,28 +690,5 @@ The following have been deprecated with no replacements and will be removed in t
 + `LLMS_Course_Factory::get_quiz()`
 + `LLMS_Course_Factory::get_question()`
 + `LLMS_Course_Handler::get_users_not_enrolled()`
-
-
-= v3.37.11 - 2020-03-03 =
--------------------------
-
-##### Updates
-
-+ Resolved a conflict with the "Starter Templates" plugin which made it impossible to edit quizzes while the plugin was enabled.
-
-##### Bugfixes
-
-+ Fixed an issue causing lesson post authors to be "lost" when adding an existing lesson to a course.
-+ Fixed an issue causing php notices to be generated during existing lesson addition on the course builder.
-+ Fixed an issue causing course bbPress forums to be lost when editing that course using the "Quick Edit" function from the courses table.
-
-##### LifterLMS REST v1.0.0-beta.10
-
-+ Added text domain to i18n functions that were missing the domain.
-+ Added a "trigger" parameter to enrollment-related endpoints.
-+ Added `llms_rest_enrollments_item_schema`, `llms_rest_prepare_enrollment_object_response`, `llms_rest_enrollment_links` filter hooks.
-+ Fixed setting roles instead of appending them when updating user, thanks [@pondermatic](https://github.com/pondermatic)!
-+ Fixed return when the enrollment to be deleted doesn't exist, returns `204` instead of `404`.
-+ Fixed 'context' query parameter schema, thanks [@pondermatic](https://github.com/pondermatic)!
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)
