@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.28.0 Unknown.
  * @since 3.34.0 Added filter to the return of the get_schema() method.
  * @since 3.36.0 Add `wp_lifterlms_events` table.
+ * @since [version] Add `wp_lifterlms_sessions` table.
  */
 class LLMS_Install {
 
@@ -385,6 +386,7 @@ class LLMS_Install {
 	 * @since 3.16.9 Unknown
 	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
 	 * @since 3.36.0 Add `wp_lifterlms_events` table.
+	 * @since [version] Add `wp_lifterlms_sessions` table.
 	 *
 	 * @return string
 	 */
@@ -486,6 +488,14 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
   PRIMARY KEY (`id`),
   KEY actor_id (`actor_id`),
   KEY object_id (`object_id`)
+) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `user_id` char(32) NOT NULL,
+  `data` longtext NOT NULL,
+  `expires` BIGINT unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `user_id` (`user_id`)
 ) $collate;
 ";
 
