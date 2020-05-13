@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since Unknown
- * @version Unknown
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,72 +14,45 @@ defined( 'ABSPATH' ) || exit;
  * Person base class.
  *
  * @since Unknown
+ * @since [version] Removed unused private class properties.
+ *               Deprecated `save_data()` method.
  */
 class LLMS_Person {
 
 	/**
-	 * person data array
-	 *
-	 * @access private
-	 * @var array
-	 */
-	protected $_data;
-
-	/**
-	 * Has data been changed?
-	 *
-	 * @access private
-	 * @var bool
-	 */
-	private $_changed = false;
-
-	/**
 	 * Constructor
 	 *
-	 * Initializes person data
-	 */
-	public function __construct() {
-
-		if ( empty( LLMS()->session->person ) ) {
-
-			$this->_data = LLMS()->session->person;
-		}
-
-		// When leaving or ending page load, store data
-		add_action( 'shutdown', array( $this, 'save_data' ), 10 );
-		add_action( 'wp_login', array( $this, 'set_user_login_timestamp' ), 10, 2 );
-	}
-
-	/**
-	 * save_data function.
+	 * @since Unknown
+	 * @since [version] Removed session initialization and related hooks.
 	 *
 	 * @return void
 	 */
-	public function save_data() {
-		if ( $this->_changed ) {
-			$GLOBALS['lifterlms']->session->person = $this->_data;
-		}
+	public function __construct() {
+
+		add_action( 'wp_login', array( $this, 'set_user_login_timestamp' ), 10, 2 );
+
 	}
 
 	/**
 	 * Set user login timestamp on login
+	 *
 	 * Update login timestamp on user login
 	 *
-	 * @param string $user_login [User login id]
-	 * @param object $user       [User data object]
+	 * @param string  $user_login WP_User ID.
+	 * @param WP_User $user       User object.
 	 */
 	public function set_user_login_timestamp( $user_login, $user ) {
 		$now = current_time( 'timestamp' );
 		update_user_meta( $user->ID, 'llms_last_login', $now );
 	}
 
-
-
 	/**
 	 * Get user postmeta achievements
 	 *
-	 * @param  int $user_id    user id
-	 * @return array              associative array of users achievement data
+	 * @since Unknown
+	 *
+	 * @param int $user_id WP_User ID.
+	 * @return array Associative array of users achievement data.
 	 */
 	public function get_user_achievements( $count = 1000, $user_id = 0 ) {
 		global $wpdb;
@@ -124,9 +97,10 @@ class LLMS_Person {
 	/**
 	 * Get data about a specific users memberships
 	 *
-	 * @param  int $user_id user id
+	 * @since Unknown
 	 *
-	 * @return array / array of objects containing details about users memberships
+	 * @param int $user_id WP_User ID.
+	 * @return array Array of objects containing details about users memberships.
 	 */
 	public function get_user_memberships_data( $user_id ) {
 
@@ -154,7 +128,11 @@ class LLMS_Person {
 	/**
 	 * Return array of objects containing user meta data for a single post.
 	 *
-	 * @return  array
+	 * @since Unknown
+	 *
+	 * @param int $user_id WP_User ID.
+	 * @param int $post_id WP_Post ID.
+	 * @return array
 	 */
 	public function get_user_postmeta_data( $user_id, $post_id ) {
 		global $wpdb;
@@ -187,7 +165,11 @@ class LLMS_Person {
 	/**
 	 * Return array of objects containing user meta data for a single post.
 	 *
-	 * @return  array
+	 * @since Unknown
+	 *
+	 * @param int $user_id  WP_User ID.
+	 * @param int $meta_key Key name.
+	 * @return array
 	 */
 	public function get_user_postmetas_by_key( $user_id, $meta_key ) {
 		global $wpdb;
@@ -217,5 +199,17 @@ class LLMS_Person {
 		return $results;
 	}
 
+
+	/**
+	 * Deprecated
+	 *
+	 * @since Unknown
+	 * @deprecated [version]
+	 *
+	 * @return void
+	 */
+	public function save_data() {
+		llms_deprecated_function( 'LLMS_Persion::save_data()', '[version]' );
+	}
 
 }
