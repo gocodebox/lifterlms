@@ -8,7 +8,7 @@
  * black all new things come   *
  * * * * * * * * * * * * * * * *
  *
- * @package LifterLMS/Functions/Deprecated
+ * @package LifterLMS/Functions
  *
  * @since 3.29.0
  * @version 3.37.17

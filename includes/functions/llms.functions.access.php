@@ -1,6 +1,6 @@
 <?php
 /**
- * Functions used for managing page / post access.
+ * Functions used for managing page / post access
  *
  * @package LifterLMS/Functions
  *

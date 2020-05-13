@@ -1,9 +1,10 @@
 <?php
 /**
- * CRUD LifterLMS User Postmeta Data.
+ * CRUD LifterLMS User Postmeta Data
+ *
  * All functions are pluggable.
  *
- * @package LifterLMS/Functions/UsersPostmeta
+ * @package LifterLMS/Functions
  *
  * @since 3.21.0
  * @version 3.36.3

@@ -1,11 +1,16 @@
 <?php
 /**
  * Notice Functions
- * Functions for managing front end notices (alert messages)
+ *
+ * Functions for managing front end notices (alert messages).
+ *
+ * @package LifterLMS/Functions
+ *
+ * @since unknown
+ * @version 3.14.7
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Stores notice in llms_notices session
@@ -54,6 +59,8 @@ function llms_get_notice_types() {
 
 /**
  * Gets messages and errors which are stored in the session, then clears them.
+ *
+ * @package LifterLMS/Functions
  *
  * @return   string
  * @since    3.0.0

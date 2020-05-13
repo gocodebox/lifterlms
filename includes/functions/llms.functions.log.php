@@ -2,10 +2,13 @@
 /**
  * Logging & Related Functions
  *
+ * @package LifterLMS/Functions
+ *
  * @since   3.0.0
  * @version 3.0.0
  */
 
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieve the full path to the log file for a given log handle

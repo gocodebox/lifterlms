@@ -2,7 +2,7 @@
 /**
  * Quiz Attempt Forms on the admin panel
  *
- * @package LifterLMS/Classes/Controllers
+ * @package LifterLMS/Controllers/Classes
  *
  * @since 3.16.0
  * @version 3.35.0
