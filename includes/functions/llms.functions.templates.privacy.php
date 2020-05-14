@@ -2,8 +2,10 @@
 /**
  * Privacy related template functions
  *
- * @since    3.18.0
- * @version  3.18.1
+ * @package LifterLMS/Functions
+ *
+ * @since 3.18.0
+ * @version 3.18.1
  */
 
 defined( 'ABSPATH' ) || exit;

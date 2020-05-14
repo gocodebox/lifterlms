@@ -2,7 +2,7 @@
 /**
  * Template functions for pricing tables
  *
- * @package LifterLMS/Functions/Templates
+ * @package LifterLMS/Functions
  *
  * @since 3.23.0
  * @version 3.38.0

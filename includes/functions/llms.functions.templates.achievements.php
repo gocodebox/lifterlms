@@ -2,13 +2,13 @@
 /**
  * Achievements & Related template functions
  *
- * @since    3.14.0
- * @version  3.14.1
+ * @package LifterLMS/Functions
+ *
+ * @since 3.14.0
+ * @version 3.14.1
  */
 
-// Restrict direct access
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Get the content of a single achievement

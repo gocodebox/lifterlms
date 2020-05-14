@@ -2,9 +2,12 @@
 /**
  * Template functions for the student dashboard
  *
- * @since    1.0.0
- * @version  3.19.0
+ * @package LifterLMS/Functions
+ *
+ * @since 1.0.0
+ * @version 3.19.0
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**

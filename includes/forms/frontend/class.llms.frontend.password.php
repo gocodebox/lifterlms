@@ -2,16 +2,18 @@
 /**
  * Front End Password handler
  *
- * Class used managing front end password functionality
+ * @package LifterLMS/Forms/Frontend/Classes
  *
  * @since 1.0.0
- * @version 1.0.0
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Frontend_Password
+ * LLMS_Frontend_Password class
+ *
+ * Class used managing front end password functionality
  *
  * @since 1.0.0
  * @since 3.35.0 Sanitize `$_POST` data.

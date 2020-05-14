@@ -2,7 +2,7 @@
 /**
  * LifterLMS Quiz Functions
  *
- * @package   LifterLMS/Functions
+ * @package LifterLMS/Functions
  *
  * @since 3.16.0
  * @version 3.38.0

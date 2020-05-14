@@ -2,10 +2,9 @@
 /**
  * Functions for LifterLMS Orders
  *
- * @package LifterLMS/Functions/Orders
+ * @package LifterLMS/Functions
  *
  * @since 3.29.0
- * @since 3.30.1 Moved order related functions from core file.
  * @version 3.30.1
  */
 
@@ -65,10 +64,9 @@ function llms_can_gateway_be_used_for_plan( $gateway_id, $plan ) {
  * @since 3.0.0
  * @since 3.30.1 Return `null` instead of `false` when requesting an `LLMS_Order` return and no order could be found.
  * @since 3.30.1 Return a real `int` (instead of a numeric string).
- * @version 3.30.1
  *
- * @param string $key the order key.
- * @param string $return type of return, "order" for an instance of the LLMS_Order or "id" to return only the order ID.
+ * @param string $key    The order key.
+ * @param string $return Type of return, "order" for an instance of the LLMS_Order or "id" to return only the order ID.
  * @return mixed `null` when no order found, LLMS_Order when `$return` = 'order', or the WP_Post ID as an `int`.
  */
 function llms_get_order_by_key( $key, $return = 'order' ) {

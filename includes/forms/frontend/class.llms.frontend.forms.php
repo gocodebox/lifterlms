@@ -1,9 +1,11 @@
 <?php
 /**
- * Front End Forms Class
+ * Front End Forms
+ *
+ * @package LifterLMS/Forms/Frontend/Classes
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version 3.35.0
  */
 
 defined( 'ABSPATH' ) || exit;

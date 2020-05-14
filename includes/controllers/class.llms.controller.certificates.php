@@ -2,12 +2,17 @@
 /**
  * Certificate Forms
  *
+ * @package LifterLMS/Controllers/Classes
+ *
  * @since 3.18.0
  * @version 3.37.4
  */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
+ * LLMS_Controller_Certificates class
+ *
  * @since 3.18.0
  * @since 3.35.0 Sanitize `$_POST` data.
  * @since 3.37.4 Modify `llms_certificate` post type registration to allow certificate templates to be exported.

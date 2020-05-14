@@ -2,8 +2,10 @@
 /**
  * Template functions for quizzes & questions
  *
- * @since    1.0.0
- * @version  3.16.0
+ * @package LifterLMS/Functions
+ *
+ * @since 1.0.0
+ * @version 3.16.0
  */
 
 if ( ! defined( 'ABSPATH' ) ) {

@@ -1,12 +1,13 @@
 <?php
 /**
  * Person Functions
+ *
  * Functions for managing users in the LifterLMS system.
  *
- * @package  LifterLMS/Functions
+ * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version[version]
+ * @version 3.36.0
  */
 
 defined( 'ABSPATH' ) || exit;

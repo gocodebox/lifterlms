@@ -2,6 +2,8 @@
 /**
  * Currency and Price related functions for LifterLMS Products
  *
+ * @package LifterLMS/Functions
+ *
  * @since 1.0.0
  * @version 3.30.3
  */
@@ -20,24 +22,24 @@ defined( 'ABSPATH' ) || exit;
  * @todo     maybe deprecate
  */
 function llms_format_decimal( $number, $dp = false, $trim_zeros = false ) {
-	  // Remove locale from string
+	// Remove locale from string.
 	if ( ! is_float( $number ) ) {
-		  $locale   = localeconv();
-		  $decimals = array( get_option( 'lifterlms_price_decimal_sep' ), $locale['decimal_point'], $locale['mon_decimal_point'] );
-		  $number   = llms_clean( str_replace( $decimals, '.', $number ) );
+		$locale   = localeconv();
+		$decimals = array( get_option( 'lifterlms_price_decimal_sep' ), $locale['decimal_point'], $locale['mon_decimal_point'] );
+		$number   = llms_clean( str_replace( $decimals, '.', $number ) );
 	}
 
-	  // DP is false - don't use number format, just return a string in our format
+	// DP is false - don't use number format, just return a string in our format
 	if ( false !== $dp ) {
-		  $dp     = 2;     // = intval( $dp == "" ? get_option( 'lifterlms_price_num_decimals' ) : $dp );
-		  $number = number_format( floatval( $number ), $dp, '.', ',' );
+		$dp     = 2;     // = intval( $dp == "" ? get_option( 'lifterlms_price_num_decimals' ) : $dp );
+		$number = number_format( floatval( $number ), $dp, '.', ',' );
 	}
 
 	if ( $trim_zeros && strstr( $number, '.' ) ) {
-		  $number = rtrim( rtrim( $number, '0' ), '.' );
+		$number = rtrim( rtrim( $number, '0' ), '.' );
 	}
 
-	  return $number;
+	return $number;
 }
 
 /**
@@ -846,9 +848,7 @@ function llms_price( $price, $args = array() ) {
  * @version  3.0.0
  */
 function llms_price_raw( $price, $args = array() ) {
-
 	return html_entity_decode( strip_tags( llms_price( $price, $args ) ) );
-
 }
 
 /**

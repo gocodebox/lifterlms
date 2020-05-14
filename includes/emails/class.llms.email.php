@@ -1,8 +1,8 @@
 <?php
 /**
- * Email Base Class
+ * Email Base
  *
- * @package  LifterLMS/Email
+ * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
  * @version 3.30.3

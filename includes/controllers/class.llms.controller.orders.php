@@ -2,6 +2,8 @@
 /**
  * Order processing and related actions controller
  *
+ * @package LifterLMS/Controllers/Classes
+ *
  * @since 3.0.0
  * @version 3.36.1
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Controller_Orders class.
+ * LLMS_Controller_Orders class
  *
  * @since 3.0.0
  * @since 3.33.0 Added logic to delete any enrollment records linked to an LLMS_Order on its permanent deletion.
