@@ -73,10 +73,7 @@
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/emails/*.php</exclude-pattern>
-		<exclude-pattern>includes/forms/*.php</exclude-pattern>
-		<exclude-pattern>includes/functions/*.php</exclude-pattern>
+		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
@@ -90,10 +87,7 @@
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/emails/*.php</exclude-pattern>
-		<exclude-pattern>includes/forms/*.php</exclude-pattern>
-		<exclude-pattern>includes/functions/*.php</exclude-pattern>
+		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
@@ -107,10 +101,7 @@
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/emails/*.php</exclude-pattern>
-		<exclude-pattern>includes/forms/*.php</exclude-pattern>
-		<exclude-pattern>includes/functions/*.php</exclude-pattern>
+		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
 		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
 		<exclude-pattern>includes/models/*.php</exclude-pattern>
 		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
