@@ -21,6 +21,6 @@ jobs:
           GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
           FROM_BRANCH: "master"
           TO_BRANCH: "dev"
-          PULL_REQUEST_TITLE: "Sync: {FROM_BRANCH} to {TO_BRANCH}"
+          PULL_REQUEST_TITLE: "Sync: master to dev"
           sync: "{FROM_BRANCH} to {TO_BRANCH}"
-          PULL_REQUEST_BODY: "This is an automatically created pull request designed to keep {TO_BRANCH} in sync with {FROM_BRANCH}"
+          PULL_REQUEST_BODY: "This is an automatically created pull request designed to keep [dev](https://github.com/gocodebox/lifterlms/tree/dev) in sync with [master](https://github.com/gocodebox/lifterlms/tree/master)"
