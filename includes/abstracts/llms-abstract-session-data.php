@@ -72,7 +72,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * Retrieve session ID.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Automatically generate and ID if it doesn't exist.
+	 * @since [version] Moved from `LLMS_Sessions`, automatically generates an ID if it doesn't exist.
 	 *
 	 * @return string Session ID.
 	 */
