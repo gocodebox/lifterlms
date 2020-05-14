@@ -35,7 +35,7 @@ class LLMS_Cache_Helper {
 	 * Retrieve a cache prefix that can be used with WP_Object_Cache methods
 	 *
 	 * Using a cache prefix allows simple invalidation of all items with the same
-	 * prefix simply by updating the the prefix.
+	 * prefix simply by updating the prefix.
 	 *
 	 * The "prefix" is microtime(), if we wish to invalidate all items in the prefix group
 	 * we call the method again with `$invalidate=true` which updates the prefix to the current
@@ -45,14 +45,13 @@ class LLMS_Cache_Helper {
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/4476#comment:10
 	 *
-	 * @param strin   $group      Cache group name.
-	 * @param boolean $invalidate Whether or not to invalidate the current prefix.
+	 * @param string $group Cache group name.
 	 * @return string
 	 */
-	public static function get_prefix( $group, $invalidate = false ) {
+	public static function get_prefix( $group ) {
 
 		$key    = sprintf( 'llms_%s_cache_prefix', $group );
-		$prefix = $invalidate ? false : wp_cache_get( $key, $group );
+		$prefix = wp_cache_get( $key, $group );
 
 		if ( false === $prefix ) {
 			$prefix = microtime();
@@ -63,6 +62,19 @@ class LLMS_Cache_Helper {
 
 	}
 
+	/**
+	 * Invalidate a cache group prefix.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/4476#comment:10
+	 *
+	 * @param string $group Cache group name.
+	 * @return void
+	 */
+	public static function invalidate_group( $group ) {
+		wp_cache_set( sprintf( 'llms_%s_cache_prefix', $group ), microtime(), $group );
+	}
 
 	/**
 	 * Define nocache constants and set nocache headers on specified pages

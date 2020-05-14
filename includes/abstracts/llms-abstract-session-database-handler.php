@@ -42,7 +42,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	 */
 	public function clean() {
 
-		LLMS_Cache_Helper::get_prefix( $this->cache_group, true );
+		LLMS_Cache_Helper::invalidate_group( $this->cache_group );
 
 		global $wpdb;
 		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$this->get_table_name()} WHERE expires < %s", time() ) );
