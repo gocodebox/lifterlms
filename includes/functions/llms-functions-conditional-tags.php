@@ -2,7 +2,7 @@
 /**
  * LifterLMS Conditional Tag Functions
  *
- * @package LifterLMS/Functions/Tags
+ * @package LifterLMS/Functions
  *
  * @since 3.37.0
  * @version 3.37.0

@@ -1,8 +1,10 @@
 <?php
 /**
- * Achievement Forms
+ * Achievement controller
  *
- * @since   3.18.0
+ * @package LifterLMS/Controllers/Classes
+ *
+ * @since 3.18.0
  * @version 3.35.0
  */
 

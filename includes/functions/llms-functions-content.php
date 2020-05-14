@@ -2,9 +2,10 @@
 /**
  * (Post) Content functions
  *
- * @package   LifterLMS/Functions/Content
- * @since     3.25.1
- * @version   3.25.2
+ * @package LifterLMS/Functions
+ *
+ * @since 3.25.1
+ * @version 3.25.2
  */
 
 defined( 'ABSPATH' ) || exit;

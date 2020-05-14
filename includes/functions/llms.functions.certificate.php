@@ -1,12 +1,14 @@
 <?php
-defined( 'ABSPATH' ) || exit;
-
 /**
  * LifterLMS Certificate Functions
  *
- * @since    2.2.0
- * @version  2.2.0
+ * @package LifterLMS/Functions
+ *
+ * @since 2.2.0
+ * @version 2.2.0
  */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Retrieve the content of a certificate

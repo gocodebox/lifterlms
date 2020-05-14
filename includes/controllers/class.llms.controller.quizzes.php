@@ -1,6 +1,8 @@
 <?php
 /**
- * Quiz related con
+ * Quiz related controller
+ *
+ * @package LifterLMS/Controllers/Classes
  *
  * @since 3.9.0
  * @version 3.37.8

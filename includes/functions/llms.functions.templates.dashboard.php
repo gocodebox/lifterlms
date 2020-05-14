@@ -2,7 +2,7 @@
 /**
  * Template functions for the student dashboard
  *
- * @package LifterLMS/Functions/Dashboard
+ * @package LifterLMS/Functions
  *
  * @since 3.0.0
  * @version 3.37.16

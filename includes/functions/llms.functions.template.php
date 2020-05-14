@@ -1,5 +1,16 @@
 <?php
 /**
+ * LifterLMS Template functions
+ *
+ * @package LifterLMS/Functions
+ *
+ * @since unknown
+ * @version unknown
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
  * Get template part
  *
  * @param  string $slug [url slug of template]

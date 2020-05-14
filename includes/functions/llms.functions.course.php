@@ -4,7 +4,7 @@
  *
  * @package LifterLMS/Functions
  *
- * @since Unknown
+ * @since unknown
  * @version 3.37.13
  */
 

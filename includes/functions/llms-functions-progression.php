@@ -2,9 +2,10 @@
 /**
  * Course / Lesson progression functions
  *
- * @param  LifterLMS/Functions/Progression
- * @since  3.29.0
- * @version  3.29.0
+ * @package LifterLMS/Functions
+ *
+ * @since 3.29.0
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;

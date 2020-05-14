@@ -2,8 +2,10 @@
 /**
  * Option/Settings related functions
  *
- * @since    3.29.0
- * @version  3.29.0
+ * @package LifterLMS/Functions
+ *
+ * @since 3.29.0
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
