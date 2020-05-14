@@ -14,10 +14,20 @@ defined( 'ABSPATH' ) || exit;
  * Person base class.
  *
  * @since Unknown
- * @since [version] Removed unused private class properties.
+ * @since [version] Removed unused private class var `$_changed`.
+ *               Deprecated `$_data` protected class var.
  *               Deprecated `save_data()` method.
  */
 class LLMS_Person {
+
+	/**
+	 * This var is no longer used but is preserved for backwards compatibility.
+	 *
+	 * @deprecated [version]
+	 *
+	 * @var [type]
+	 */
+	protected $_data;
 
 	/**
 	 * Constructor
