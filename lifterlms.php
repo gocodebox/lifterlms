@@ -127,35 +127,47 @@ final class LifterLMS {
 
 		spl_autoload_register( array( $this, 'autoload' ) );
 
-		// Define constants
+		// Define constants.
 		$this->define_constants();
 
-		// localize as early as possible
-		// since 4.6 the "just_in_time" l10n will load the default (not custom) file first
-		// so we must localize before any l10n functions (like `__()`) are used
-		// so that our custom "safe" location will always load first
+		/**
+		 * Localize as early as possible.
+		 *
+		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
+		 * so we must localize before any l10n functions (like `__()`) are used
+		 * so that our custom "safe" location will always load firsti
+		 */
 		$this->localize();
 
-		// Include required files
+		// Include required files.
 		$this->includes();
 
-		// Hooks
+		// Hooks.
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
-		add_action( 'plugins_loaded', array( $this, 'init_session' ), 5 );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
+
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
-		// tracking
+		// Initialize sessions on the frontend.
+		if ( ! is_admin() ) {
+			add_action( 'plugins_loaded', array( $this, 'init_session' ), 5 );
+		}
+
+		// Tracking.
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {
 			LLMS_Tracker::init();
 		}
 
-		// Loaded action
+		/**
+		 * Action fired after LifterLMS is fully loaded.
+		 *
+		 * @since Unknown
+		 */
 		do_action( 'lifterlms_loaded' );
 
 	}
@@ -517,10 +529,6 @@ final class LifterLMS {
 	 * @return LLMS_Session
 	 */
 	public function init_session() {
-
-		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-			return null;
-		}
 
 		if ( is_null( $this->session ) ) {
 			$this->session = new LLMS_Session();

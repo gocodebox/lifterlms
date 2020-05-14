@@ -67,17 +67,21 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 */
 		$this->cookie = apply_filters( 'llms_session_cookie_name', sprintf( 'wp_llms_session_%s', COOKIEHASH ) );
 
-		$this->init_cookie();
-
-		add_action( 'wp_logout', array( $this, 'destroy' ) );
-		add_action( 'shutdown', array( $this, 'maybe_save_data' ), 20 );
-
 		/**
 		 * Trigger cleanup via action.
 		 *
 		 * This is hooked to an hourly scheduled task.
 		 */
 		add_action( 'llms_delete_expired_session_data', array( $this, 'clean' ) );
+
+		if ( ! defined( 'DOING_CRON' ) || ! DOING_CRON ) {
+
+			$this->init_cookie();
+
+			add_action( 'wp_logout', array( $this, 'destroy' ) );
+			add_action( 'shutdown', array( $this, 'maybe_save_data' ), 20 );
+
+		}
 
 	}
 

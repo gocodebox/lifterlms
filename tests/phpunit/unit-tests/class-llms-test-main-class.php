@@ -97,22 +97,6 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test the init_session() method during a cron job.
-	 *
-	 * @since [version]
-	 *
-	 * @runInSeparateProcess
-	 *
-	 * @return void
-	 */
-	public function test_init_session_during_cron() {
-
-		define( 'DOING_CRON', true );
-		$this->assertNull( LLMS()->init_session() );
-
-	}
-
-	/**
 	 * Test plugin localization
 	 *
 	 * @since 3.21.1
