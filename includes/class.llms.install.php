@@ -138,9 +138,9 @@ class LLMS_Install {
 		}
 
 		/**
-		 * Filter the recurrence interval at which expired session are removed from the database.
+		 * Filter the recurrence interval at which tracking data is gathered and sent.
 		 *
-		 * @since [version]
+		 * @since Unknown
 		 *
 		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
 		 *
@@ -518,11 +518,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
 ) $collate;
 CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
   `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
-  `user_id` char(32) NOT NULL,
+  `session_key` char(32) NOT NULL,
   `data` longtext NOT NULL,
   `expires` BIGINT unsigned NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE KEY `user_id` (`user_id`)
+  UNIQUE KEY `session_key` (`session_key`)
 ) $collate;
 ";
 

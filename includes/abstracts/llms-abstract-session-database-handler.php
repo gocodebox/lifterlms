@@ -65,7 +65,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		return (bool) $wpdb->delete(
 			$this->get_table_name(),
 			array(
-				'user_id' => $id,
+				'session_key' => $id,
 			)
 		);
 
@@ -115,7 +115,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		global $wpdb;
 		$save = $wpdb->query(
 			$wpdb->prepare(
-				"INSERT INTO {$this->get_table_name()} ( `user_id`, `data`, `expires` ) VALUES ( %s, %s, %d )
+				"INSERT INTO {$this->get_table_name()} ( `session_key`, `data`, `expires` ) VALUES ( %s, %s, %d )
 				ON DUPLICATE KEY UPDATE `data` = VALUES ( `data` ), `expires` = VALUES ( `expires` )",
 				$this->get_id(),
 				maybe_serialize( $this->data ),
@@ -148,7 +148,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 
 			global $wpdb;
 
-			$data = $wpdb->get_var( $wpdb->prepare( "SELECT `data` FROM {$this->get_table_name()} WHERE `user_id` = %s", $key ) );
+			$data = $wpdb->get_var( $wpdb->prepare( "SELECT `data` FROM {$this->get_table_name()} WHERE `session_key` = %s", $key ) );
 
 			if ( is_null( $data ) ) {
 				$data = $default;
