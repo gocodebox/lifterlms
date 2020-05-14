@@ -1,15 +1,23 @@
 <?php
 /**
  * Tests for LifterLMS Main Class
- * @since   3.3.1
- * @version 3.21.1
+ *
+ * @package LifterLMS/Tests
+ *
+ * @group main_class
+ *
+ * @since 3.3.1
+ * @since 3.21.1 Add localization tests.
+ * @since [version] Add tests for `init_session()` method.
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup function
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function setUp() {
 		parent::setUp();
@@ -18,9 +26,10 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
 	/**
 	 * test the _instance variable
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_llms_instance() {
 
@@ -30,9 +39,10 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
 	/**
 	 * Test class constants
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_constants() {
 
@@ -46,10 +56,11 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * Test main instants
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Test main instances
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public function test_instances() {
 
@@ -63,10 +74,50 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	}
 
 	/**
+	 * Test the init_session() method
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_init_session() {
+
+		// Clear the session.
+		LLMS()->session = null;
+
+		// Initializes a new session.
+		$session = LLMS()->init_session();
+		$this->assertTrue( is_a( $session, 'LLMS_Session' ) );
+		$session->set( 'test', 'mock' );
+
+		// Call it again, should respond with the same session as before.
+		$this->assertEquals( $session->get_id(), LLMS()->init_session()->get_id() );
+		$this->assertEquals( 'mock', LLMS()->init_session()->get( 'test' ) );
+
+	}
+
+	/**
+	 * Test the init_session() method during a cron job.
+	 *
+	 * @since [version]
+	 *
+	 * @runInSeparateProcess
+	 *
+	 * @return void
+	 */
+	public function test_init_session_during_cron() {
+
+		define( 'DOING_CRON', true );
+		$this->assertNull( LLMS()->init_session() );
+
+	}
+
+	/**
 	 * Test plugin localization
-	 * @return   void
-	 * @since    3.21.1
-	 * @version  3.21.1
+	 *
+	 * @since 3.21.1
+	 *
+	 * @return void
 	 */
 	public function test_localize() {
 
