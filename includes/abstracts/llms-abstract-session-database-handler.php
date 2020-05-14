@@ -32,20 +32,30 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	protected $table = 'lifterlms_sessions';
 
 	/**
-	 * Delete all expired sessions from the database
+	 * Delete all sessions from the database
 	 *
-	 * This method is the callback function for the `llms_delete_expired_session_data` cron event.
+	 * This method is the callback function for the `llms_delete_expired_session_data` cron event, which
+	 * deletes expired sessions hourly.
+	 *
+	 * This method is also used by the admin tool to remove *all* sessions on demand.
 	 *
 	 * @since [version]
 	 *
+	 * @param boolean $expired_only If `true`, only delete expired sessions, otherwise deletes all events.
 	 * @return int
 	 */
-	public function clean() {
+	public function clean( $expired_only = true ) {
+
+		global $wpdb;
+
+		$query = "DELETE FROM {$this->get_table_name()}";
+		if ( $expired_only ) {
+			$query .= $wpdb->prepare( "WHERE expires < %d", time() );
+		}
 
 		LLMS_Cache_Helper::invalidate_group( $this->cache_group );
 
-		global $wpdb;
-		return $wpdb->query( $wpdb->prepare( "DELETE FROM {$this->get_table_name()} WHERE expires < %s", time() ) );
+		return $wpdb->query( $query );
 
 	}
 
