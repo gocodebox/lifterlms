@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6a067753cfca5d9198146edf571edcc0",
+    "content-hash": "245f35bb797363b8e243f2e3ced03117",
     "packages": [
         {
             "name": "lifterlms/lifterlms-blocks",
@@ -204,12 +204,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/gocodebox/lifterlms-tests.git",
-                "reference": "bc1527bf67733b205d21dcb4583e561a89db935a"
+                "reference": "a961f059d017ab38229464ddf01c8e8179766c69"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/bc1527bf67733b205d21dcb4583e561a89db935a",
-                "reference": "bc1527bf67733b205d21dcb4583e561a89db935a",
+                "url": "https://api.github.com/repos/gocodebox/lifterlms-tests/zipball/a961f059d017ab38229464ddf01c8e8179766c69",
+                "reference": "a961f059d017ab38229464ddf01c8e8179766c69",
                 "shasum": ""
             },
             "require": {
@@ -232,7 +232,7 @@
                 }
             ],
             "description": "Testing framework for LifterLMS projects",
-            "time": "2020-04-22T20:52:27+00:00"
+            "time": "2020-05-14T00:02:42+00:00"
         },
         {
             "name": "myclabs/deep-copy",
