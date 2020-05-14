@@ -8,7 +8,7 @@
  *
  * @since 3.3.1
  * @since 3.37.8 Fix directory path to uninstall.php
- * @since [version] Test creation of all tables; fix caching issue when testing full install.
+ * @since [version] Test creation of all tables; fix caching issue when testing full install; add new cron test.
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -36,19 +36,33 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for create_cron_jobs()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.28.0
+	 *
+	 * @since 3.3.1
+	 * @since 3.28.0 Unknown.
+	 * @since [version] Test session cleanup cron.
+	 *
+	 * @return void
 	 */
 	public function test_create_cron_jobs() {
 
-		// clear crons
-		wp_clear_scheduled_hook( 'llms_cleanup_tmp' );
-		wp_clear_scheduled_hook( 'llms_send_tracking_data' );
+		$crons = array(
+			'llms_cleanup_tmp',
+			'llms_send_tracking_data',
+			'llms_delete_expired_session_data',
+		);
+
+		// Clear.
+		foreach ( $crons as $cron ) {
+			wp_clear_scheduled_hook( $cron );
+			$this->assertFalse( wp_next_scheduled( $cron ) );
+		}
 
 		LLMS_Install::create_cron_jobs();
-		$this->assertTrue( is_numeric( wp_next_scheduled( 'llms_cleanup_tmp' ) ) );
-		$this->assertTrue( is_numeric( wp_next_scheduled( 'llms_send_tracking_data' ) ) );
+
+		// Scheduled.
+		foreach ( $crons as $cron ) {
+			$this->assertTrue( is_numeric( wp_next_scheduled( $cron ) ) );
+		}
 
 	}
 

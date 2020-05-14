@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Added filter to the return of the get_schema() method.
  * @since 3.36.0 Add `wp_lifterlms_events` table.
  * @since [version] Add `wp_lifterlms_sessions` table.
+ *               Add session cleanup cron.
  */
 class LLMS_Install {
 
@@ -124,9 +125,11 @@ class LLMS_Install {
 	/**
 	 * Create LifterLMS cron jobs
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.28.0
+	 * @since 1.0.0
+	 * @since 3.28.0 Remove unused cronjob `lifterlms_cleanup_sessions`.
+	 * @since [version] Add expired session cleanup.
+	 *
+	 * @return void
 	 */
 	public static function create_cron_jobs() {
 
@@ -134,8 +137,32 @@ class LLMS_Install {
 			wp_schedule_event( time(), 'daily', 'llms_cleanup_tmp' );
 		}
 
+		/**
+		 * Filter the recurrence interval at which expired session are removed from the database.
+		 *
+		 * @since [version]
+		 *
+		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+		 *
+		 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+		 */
+		$tracking_recurrence = apply_filters( 'llms_tracker_schedule_interval', 'daily' );
 		if ( ! wp_next_scheduled( 'llms_send_tracking_data' ) ) {
-			wp_schedule_event( time(), apply_filters( 'llms_tracker_schedule_interval', 'daily' ), 'llms_send_tracking_data' );
+			wp_schedule_event( time(), $tracking_recurrence, 'llms_send_tracking_data' );
+		}
+
+		/**
+		 * Filter the recurrence interval at which expired session are removed from the database.
+		 *
+		 * @since [version]
+		 *
+		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+		 *
+		 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "hourly".
+		 */
+		$session_recurrence = apply_filters( 'llms_delete_expired_session_data_recurrence', 'hourly' );
+		if ( ! wp_next_scheduled( 'llms_delete_expired_session_data' ) ) {
+			wp_schedule_event( time(), $session_recurrence, 'llms_delete_expired_session_data' );
 		}
 
 	}
