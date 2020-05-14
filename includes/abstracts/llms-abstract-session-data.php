@@ -78,7 +78,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 */
 	public function get_id() {
 		if ( empty( $this->id ) ) {
-			$this->id =  $this->generate_id();
+			$this->id = $this->generate_id();
 		}
 		return $this->id;
 	}
@@ -116,7 +116,7 @@ abstract class LLMS_Abstract_Session_Data {
 
 		if ( $value !== $this->get( $key ) ) {
 			$this->data[ sanitize_key( $key ) ] = maybe_serialize( $value );
-			$this->is_clean = false;
+			$this->is_clean                     = false;
 		}
 
 	}

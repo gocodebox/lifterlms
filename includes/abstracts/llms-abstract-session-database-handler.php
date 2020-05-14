@@ -158,7 +158,6 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 			if ( 0 < $duration ) {
 				wp_cache_set( $cache_key, $data, $this->cache_group, $duration );
 			}
-
 		}
 
 		return maybe_unserialize( $data );
