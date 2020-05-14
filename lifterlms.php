@@ -518,6 +518,10 @@ final class LifterLMS {
 	 */
 	public function init_session() {
 
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+			return null;
+		}
+
 		if ( is_null( $this->session ) ) {
 			$this->session = new LLMS_Session();
 		}
