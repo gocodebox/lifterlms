@@ -1,15 +1,14 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
-
 /**
  * Functions related to privacy policy and terms & conditions
  *
- * @since    3.18.0
- * @version  3.18.0
+ * @package LifterLMS/Functions
+ *
+ * @since 3.18.0
+ * @version 3.18.0
  */
 
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Determine if Terms & Conditions agreement is required during registration

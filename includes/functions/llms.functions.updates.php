@@ -2,10 +2,12 @@
 /**
  * LifterLMS Update Functions
  *
- * Functions here are used by the background updater during db updates
+ * Functions here are used by the background updater during db updates.
  *
- * @since    3.4.3
- * @version  3.28.0
+ * @package LifterLMS/Functions
+ *
+ * @since 3.4.3
+ * @version 3.28.0
  */
 
 defined( 'ABSPATH' ) || exit;

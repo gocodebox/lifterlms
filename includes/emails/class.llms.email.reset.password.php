@@ -2,13 +2,20 @@
 /**
  * LifterLMS Password Reset Email
  *
- * @since    1.0.0
- * @version  3.8.0
+ * @package LifterLMS/Emails/Classes
+ *
+ * @since 1.0.0
+ * @version 3.8.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
+/**
+ * LifterLMS Password Reset Email class
+ *
+ * @since 1.0.0
+ * @version 3.8.0
+ */
 class LLMS_Email_Reset_Password extends LLMS_Email {
 
 	protected $id = 'reset_password';

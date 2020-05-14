@@ -1,7 +1,8 @@
 <?php
 /**
- * Engagement Email Class
- * Generates emails and sends to user. Triggered from an engagement.
+ * Engagement Email
+ *
+ * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
  * @version 3.30.3
@@ -11,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * Engagement Email Class
+ *
+ * Generates emails and sends to user. Triggered from an engagement.
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.

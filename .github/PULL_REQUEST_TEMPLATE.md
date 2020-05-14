@@ -1,3 +1,8 @@
+<!-- 
+Contributors:
+Prior to opening a pull request, please review our contributing guidelines at https://github.com/gocodebox/lifterlms/blob/master/.github/CONTRIBUTING.md
+-->
+
 ## Description
 <!-- Please describe what you have changed or added -->
 

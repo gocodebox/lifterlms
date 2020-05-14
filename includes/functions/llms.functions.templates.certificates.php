@@ -1,10 +1,14 @@
 <?php
 /**
  * Certificates & Related template functions
+ *
+ * @package LifterLMS/Functions
+ *
+ * @since unknown
+ * @version unknown
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; }
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Get the content of a single certificates

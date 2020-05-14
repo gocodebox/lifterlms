@@ -2,7 +2,8 @@
 /**
  * Lesson Progression Actions
  *
- * @package LifterLMS/Controllers
+ * @package LifterLMS/Controllers/Classes
+ *
  * @since 3.17.1
  * @version  3.29.0
  */

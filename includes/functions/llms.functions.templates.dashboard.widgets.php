@@ -2,8 +2,10 @@
 /**
  * Template functions for displaying stat widgets on the student dashboard
  *
- * @since    3.24.0
- * @version  3.24.0
+ * @package LifterLMS/Functions
+ *
+ * @since 3.24.0
+ * @version 3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;

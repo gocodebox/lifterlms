@@ -43,7 +43,7 @@ LifterLMS is a project that services a great many users. A feature which is attr
 + Ensure new code doesn't break existing tests and add new code should aim to have 100% code coverage. See the [testing guide](https://github.com/gocodebox/lifterlms/blob/master/tests/README.md) to get started with testing and let us know if you want help writing tests, we're happy to help!
 + When committing, reference your issue (if present) and include a note about the fix. Use [GitHub auto-references](https://help.github.com/en/articles/autolinked-references-and-urls).
 + Push the changes to your fork
-+ Submit a pull request to the 'master' branch of the LifterLMS repo.
++ Submit a pull request to the 'dev' branch of the LifterLMS repo.
 + We'll review all pull requests, and make suggestions and changes if necessary. We're newly open source and supporting users and customers and our own internal pull requests and releases will take priority over pull requests from the community. Please be patient!
 
 

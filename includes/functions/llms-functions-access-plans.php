@@ -2,7 +2,7 @@
 /**
  * Functions for LifterLMS Access Plans
  *
- * @package LifterLMS/Functions/Access_Plans
+ * @package LifterLMS/Functions
  *
  * @since 3.29.0
  * @version 3.30.3
