@@ -48,9 +48,9 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 
 		global $wpdb;
 
-		$query = "DELETE FROM {$this->get_table_name()}";
+		$query = "DELETE FROM {$wpdb->prefix}{$this->table}";
 		if ( $expired_only ) {
-			$query .= $wpdb->prepare( "WHERE expires < %d", time() );
+			$query .= $wpdb->prepare( " WHERE expires < %d", time() );
 		}
 
 		LLMS_Cache_Helper::invalidate_group( $this->cache_group );
@@ -73,7 +73,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 
 		global $wpdb;
 		return (bool) $wpdb->delete(
-			$this->get_table_name(),
+			$wpdb->prefix . $this->table,
 			array(
 				'session_key' => $id,
 			)
@@ -94,20 +94,6 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	}
 
 	/**
-	 * Retrieve the prefixed database table name
-	 *
-	 * @since [version]
-	 *
-	 * @return string
-	 */
-	protected function get_table_name() {
-
-		global $wpdb;
-		return "{$wpdb->prefix}{$this->table}";
-
-	}
-
-	/**
 	 * Save the session to the database
 	 *
 	 * @since [version]
@@ -125,7 +111,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		global $wpdb;
 		$save = $wpdb->query(
 			$wpdb->prepare(
-				"INSERT INTO {$this->get_table_name()} ( `session_key`, `data`, `expires` ) VALUES ( %s, %s, %d )
+				"INSERT INTO {$wpdb->prefix}{$this->table} ( `session_key`, `data`, `expires` ) VALUES ( %s, %s, %d )
 				ON DUPLICATE KEY UPDATE `data` = VALUES ( `data` ), `expires` = VALUES ( `expires` )",
 				$this->get_id(),
 				maybe_serialize( $this->data ),
@@ -158,7 +144,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 
 			global $wpdb;
 
-			$data = $wpdb->get_var( $wpdb->prepare( "SELECT `data` FROM {$this->get_table_name()} WHERE `session_key` = %s", $key ) );
+			$data = $wpdb->get_var( $wpdb->prepare( "SELECT `data` FROM {$wpdb->prefix}{$this->table} WHERE `session_key` = %s", $key ) );
 
 			if ( is_null( $data ) ) {
 				$data = $default;
