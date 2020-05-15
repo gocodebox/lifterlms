@@ -166,6 +166,8 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
 		$cookie = $this->get_cookie();
 
+		$set_cookie = false;
+
 		if ( $cookie ) {
 
 			$this->id       = $cookie[0];
@@ -174,18 +176,26 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 			$this->data     = $this->read( $this->id );
 
 			// If the user has logged in, update the session data.
-			$this->maybe_update_id();
+			$update_id = $this->maybe_update_id();
 
 			// If the session is nearing expiration, update the session.
-			$this->maybe_extend_expiration();
+			$extend_expiration = $this->maybe_extend_expiration();
+
+			// If either of these two items are true, the cookie needs to be updated..
+			$set_cookie = $update_id || $extend_expiration;
 
 		} else {
 
-			$this->id   = $this->generate_id();
-			$this->data = array();
+			$this->id       = $this->generate_id();
+			$this->data     = array();
+			$this->is_clean = false;
+			$set_cookie     = true;
 			$this->set_expiration();
-			$this->set_cookie();
 
+		}
+
+		if ( $set_cookie ) {
+			$this->set_cookie();
 		}
 
 	}
@@ -198,15 +208,17 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return boolean `true` if the expiration was extended, otherwise `false`.
 	 */
 	protected function maybe_extend_expiration() {
 
 		if ( time() > $this->expiring ) {
 			$this->set_expiration();
 			$this->is_clean = false;
-			$this->save( $this->expires );
+			return true;
 		}
+
+		return false;
 
 	}
 
@@ -234,7 +246,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 *
 	 * @since [version]
 	 *
-	 * @return void
+	 * @return boolean `true` if the id was updated, otherwise `false`.
 	 */
 	protected function maybe_update_id() {
 
@@ -244,9 +256,10 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 			$this->id       = $uid;
 			$this->is_clean = false;
 			$this->delete( $old_id );
-			$this->save( $this->expires );
-			$this->set_cookie();
+			return true;
 		}
+
+		return false;
 
 	}
 
