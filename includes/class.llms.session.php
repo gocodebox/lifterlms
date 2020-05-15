@@ -119,7 +119,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 */
 	protected function get_cookie() {
 
-		$value = isset( $_COOKIE[ $this->cookie ] ) ? wp_unslash( $_COOKIE[ $this->cookie ] ) : false;
+		$value = isset( $_COOKIE[ $this->cookie ] ) ? sanitize_text_field( wp_unslash( $_COOKIE[ $this->cookie ] ) ) : false;
 
 		if ( empty( $value ) || ! is_string( $value ) ) {
 			return false;

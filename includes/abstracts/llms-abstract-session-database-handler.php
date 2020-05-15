@@ -25,13 +25,6 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	protected $cache_group = 'llms_session_id';
 
 	/**
-	 * Unprefixed database table name
-	 *
-	 * @var string
-	 */
-	protected $table = 'lifterlms_sessions';
-
-	/**
 	 * Delete all sessions from the database
 	 *
 	 * This method is the callback function for the `llms_delete_expired_session_data` cron event, which
@@ -48,14 +41,14 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 
 		global $wpdb;
 
-		$query = "DELETE FROM {$wpdb->prefix}{$this->table}";
+		$query = "DELETE FROM {$wpdb->prefix}lifterlms_sessions";
 		if ( $expired_only ) {
-			$query .= $wpdb->prepare( " WHERE expires < %d", time() );
+			$query .= $wpdb->prepare( ' WHERE expires < %d', time() );
 		}
 
 		LLMS_Cache_Helper::invalidate_group( $this->cache_group );
 
-		return $wpdb->query( $query );
+		return $wpdb->query( $query ); // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 
 	}
 
@@ -72,8 +65,8 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		wp_cache_delete( $this->get_cache_key( $id ), $this->cache_group );
 
 		global $wpdb;
-		return (bool) $wpdb->delete(
-			$wpdb->prefix . $this->table,
+		return (bool) $wpdb->delete(  // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery
+			$wpdb->prefix . 'lifterlms_sessions',
 			array(
 				'session_key' => $id,
 			)
@@ -109,9 +102,9 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 		}
 
 		global $wpdb;
-		$save = $wpdb->query(
+		$save = $wpdb->query(  // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching
 			$wpdb->prepare(
-				"INSERT INTO {$wpdb->prefix}{$this->table} ( `session_key`, `data`, `expires` ) VALUES ( %s, %s, %d )
+				"INSERT INTO {$wpdb->prefix}lifterlms_sessions ( `session_key`, `data`, `expires` ) VALUES ( %s, %s, %d )
 				ON DUPLICATE KEY UPDATE `data` = VALUES ( `data` ), `expires` = VALUES ( `expires` )",
 				$this->get_id(),
 				maybe_serialize( $this->data ),
@@ -144,7 +137,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 
 			global $wpdb;
 
-			$data = $wpdb->get_var( $wpdb->prepare( "SELECT `data` FROM {$wpdb->prefix}{$this->table} WHERE `session_key` = %s", $key ) );
+			$data = $wpdb->get_var( $wpdb->prepare( "SELECT `data` FROM {$wpdb->prefix}lifterlms_sessions WHERE `session_key` = %s", $key ) );  // phpcs:ignore: WordPress.DB.DirectDatabaseQuery.DirectQuery
 
 			if ( is_null( $data ) ) {
 				$data = $default;
