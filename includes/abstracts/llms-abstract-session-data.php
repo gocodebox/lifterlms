@@ -110,14 +110,21 @@ abstract class LLMS_Abstract_Session_Data {
 	 *
 	 * @param string $key   The key of the session variable.
 	 * @param mixed  $value The value of the session variable.
-	 * @return void
+	 * @return mixed
 	 */
 	public function set( $key, $value ) {
 
-		if ( $value !== $this->get( $key ) ) {
+		/**
+		 * Using `isset()` allows us to explicitly save a value of `false`
+		 * since the `get()` method will return the default value `false` making it look
+		 * as if the value hasn't changed (when it actually has).
+		 */
+		if ( ! isset( $this->$key ) || $value !== $this->get( $key ) ) {
 			$this->data[ sanitize_key( $key ) ] = maybe_serialize( $value );
 			$this->is_clean                     = false;
 		}
+
+		return $this->get( $key );
 
 	}
 
