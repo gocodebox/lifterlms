@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version 3.38.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,6 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *                Added new filter, `llms_builder_{$post_type}_force_delete` to allow control of how post type deletion is handled
  *                when deleted via the builder.
  * @since 3.38.0 Improve backwards compatibility handling for the `llms_get_quiz_theme_settings` filter.
+ * @since [version] On quiz saving, made sure that a question as a type set, otherwise set it by default to `'choice'`.
  */
 class LLMS_Admin_Builder {
 
@@ -1051,11 +1052,13 @@ class LLMS_Admin_Builder {
 	/**
 	 * Update quiz questions from heartbeat data
 	 *
-	 * @param    array $questions  question data array
-	 * @param    obj   $parent    instance of an LLMS_Quiz or LLMS_Question (group)
-	 * @return   array
-	 * @since    3.16.0
-	 * @version  3.16.11
+	 * @since 3.16.0
+	 * @since 3.16.11 Unknown.
+	 * @since [version] Make sure that a question as a type set, otherwise set it by default to `'choice'`.
+	 *
+	 * @param array $questions Question data array.
+	 * @param obj   $parent    Instance of an LLMS_Quiz or LLMS_Question (group).
+	 * @return array
 	 */
 	private static function update_questions( $questions, $parent ) {
 
@@ -1070,16 +1073,16 @@ class LLMS_Admin_Builder {
 				)
 			);
 
-			// remove temp id if we have one so we'll create a new question
+			// Remove temp id if we have one so we'll create a new question.
 			if ( self::is_temp_id( $q_data['id'] ) ) {
 				unset( $q_data['id'] );
 			}
 
-			// remove choices because we'll add them individually after creation
+			// Remove choices because we'll add them individually after creation.
 			$choices = ( isset( $q_data['choices'] ) && is_array( $q_data['choices'] ) ) ? $q_data['choices'] : false;
 			unset( $q_data['choices'] );
 
-			// remove child questions if it's a question group
+			// Remove child questions if it's a question group.
 			$questions = ( isset( $q_data['questions'] ) && is_array( $q_data['questions'] ) ) ? $q_data['questions'] : false;
 			unset( $q_data['questions'] );
 
@@ -1096,6 +1099,14 @@ class LLMS_Admin_Builder {
 
 				$question = $parent->questions()->get_question( $question_id );
 
+				/**
+				 * When saving a question, make sure that it has a question type set
+				 * otherwise set it by default to `'choice'`.
+				 */
+				if ( ! $question->get( 'question_type', true ) ) {
+					$question->set( 'question_type', 'choice' );
+				}
+
 				if ( $choices ) {
 
 					$ret['choices'] = array();
@@ -1111,7 +1122,7 @@ class LLMS_Admin_Builder {
 
 						unset( $c_data['question_id'] );
 
-						// remove the temp ID so that we create it if it's new
+						// Remove the temp ID so that we create it if it's new.
 						if ( self::is_temp_id( $c_data['id'] ) ) {
 							unset( $c_data['id'] );
 						}
