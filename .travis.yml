@@ -43,28 +43,27 @@ jobs:
   - php: 7.4
     env: WP_VERSION="5.0"
   include:
-  # - name: "E2E Tests"
-  #   php: 7.4
-  #   env: DOCKER_COMPOSE_VERSION=1.25.0 WP_VERSION=latest
-  #   install:
-  #     # Upgrade docker-compose.
-  #     - sudo rm /usr/local/bin/docker-compose
-  #     - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
-  #     - chmod +x docker-compose
-  #     - sudo mv docker-compose /usr/local/bin
-  #     # Setup and Install Node.
-  #     - nvm install --lts
-  #     - node -v
-  #     - npm -v
-  #     - npm install
-  #     # Start the Environment.
-  #     - composer run env up
-  #     # Setup Environment.
-  #     - composer run env:setup
-  #   script:
-  #     - npm run test
-  #   after_script:
-  #     - ./vendor/bin/llms-env down
+  - name: "E2E Tests"
+    php: 7.4
+    env: DOCKER_COMPOSE_VERSION=1.25.0 WP_VERSION=latest
+    install:
+      # Upgrade docker-compose.
+      - sudo rm /usr/local/bin/docker-compose
+      - curl -L https://github.com/docker/compose/releases/download/${DOCKER_COMPOSE_VERSION}/docker-compose-`uname -s`-`uname -m` > docker-compose
+      - chmod +x docker-compose
+      - sudo mv docker-compose /usr/local/bin
+      # Setup and Install Node.
+      - nvm install --lts
+      # Install dependencies.
+      - npm ci
+      # Start the Environment.
+      - composer run env up
+      # Setup Environment.
+      - composer run env:setup
+    script:
+      - npm run test
+    after_script:
+      - ./vendor/bin/llms-env down
   - name: "PHP Unit Test Coverage"
     php: 7.4
     env: WP_VERSION=latest RUN_CODE_COVERAGE=1
