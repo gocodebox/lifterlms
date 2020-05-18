@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.37.15
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,6 +30,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Added `persist_tracking_events()` handler.
  *                Used strict comparison where needed.
  * @since 3.37.15 Update `get_admin_table_data()` and `export_admin_table()` to verify user permissions before processing data.
+ * @since [version] Minor code readability updates to the `validate_coupon_code()` method.
  */
 class LLMS_AJAX_Handler {
 	/**
@@ -748,7 +749,7 @@ class LLMS_AJAX_Handler {
 	 * @since 3.0.0
 	 *
 	 * @param array $request $_POST data.
-	 * @return string/json
+	 * @return array
 	 */
 	public static function remove_coupon_code( $request ) {
 
@@ -969,21 +970,21 @@ class LLMS_AJAX_Handler {
 	/**
 	 * Validate a Coupon via the Checkout Form
 	 *
-	 * @since 3.37.14
+	 * @since 3.0.0
+	 * @since [version] Minor changes to code for readability with no changes to function behavior.
 	 *
 	 * @param array $request $_POST data.
-	 * @return string/json
+	 * @return array|WP_Error On success, returns an array containing HTML parts used to update the interface of the checkout screen.
+	 *                        On error, returns an error object with details of the encountered error.
 	 */
 	public static function validate_coupon_code( $request ) {
 
 		$error = new WP_Error();
 
-		// validate for required fields.
 		if ( empty( $request['code'] ) ) {
 
 			$error->add( 'error', __( 'Please enter a coupon code.', 'lifterlms' ) );
 
-			// this shouldn't be possible...
 		} elseif ( empty( $request['plan_id'] ) ) {
 
 			$error->add( 'error', __( 'Please enter a plan ID.', 'lifterlms' ) );
@@ -993,14 +994,14 @@ class LLMS_AJAX_Handler {
 			$cid = llms_find_coupon( $request['code'] );
 
 			if ( ! $cid ) {
+
 				// Translators: %s = coupon code.
 				$error->add( 'error', sprintf( __( 'Coupon code "%s" not found.', 'lifterlms' ), $request['code'] ) );
 
 			} else {
 
-				$c = new LLMS_Coupon( $cid );
-
-				$valid = $c->is_valid( $request['plan_id'] );
+				$coupon = new LLMS_Coupon( $cid );
+				$valid  = $coupon->is_valid( $request['plan_id'] );
 
 				if ( is_wp_error( $valid ) ) {
 
@@ -1012,7 +1013,7 @@ class LLMS_AJAX_Handler {
 						'llms_coupon',
 						array(
 							'plan_id'   => $request['plan_id'],
-							'coupon_id' => $c->get( 'id' ),
+							'coupon_id' => $coupon->get( 'id' ),
 						)
 					);
 
@@ -1022,7 +1023,7 @@ class LLMS_AJAX_Handler {
 					llms_get_template(
 						'checkout/form-coupon.php',
 						array(
-							'coupon' => $c,
+							'coupon' => $coupon,
 						)
 					);
 					$coupon_html = ob_get_clean();
@@ -1031,7 +1032,7 @@ class LLMS_AJAX_Handler {
 					llms_get_template(
 						'checkout/form-gateways.php',
 						array(
-							'coupon'           => $c,
+							'coupon'           => $coupon,
 							'gateways'         => LLMS()->payment_gateways()->get_enabled_payment_gateways(),
 							'selected_gateway' => LLMS()->payment_gateways()->get_default_gateway(),
 							'plan'             => $plan,
@@ -1043,15 +1044,15 @@ class LLMS_AJAX_Handler {
 					llms_get_template(
 						'checkout/form-summary.php',
 						array(
-							'coupon'  => $c,
+							'coupon'  => $coupon,
 							'plan'    => $plan,
 							'product' => $plan->get_product(),
 						)
 					);
 					$summary_html = ob_get_clean();
 
-					$success = array(
-						'code'          => $c->get( 'title' ),
+					return array(
+						'code'          => $coupon->get( 'title' ),
 						'coupon_html'   => $coupon_html,
 						'gateways_html' => $gateways_html,
 						'summary_html'  => $summary_html,
@@ -1061,16 +1062,7 @@ class LLMS_AJAX_Handler {
 			}
 		}
 
-		// if there are errors, return them.
-		if ( $error->get_error_messages() ) {
-
-			return $error;
-
-		} else {
-
-			return $success;
-
-		}
+		return $error;
 
 	}
 
