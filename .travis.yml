@@ -2,6 +2,11 @@ os: linux
 dist: bionic
 language: php
 
+addons:
+  artifacts:
+    paths:
+      - ./tmp/e2e-screenshots
+
 services:
   - xvfb
   - mysql
