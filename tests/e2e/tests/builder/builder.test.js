@@ -12,6 +12,8 @@ import {
 } from '@lifterlms/llms-e2e-test-utils';
 
 import {
+	createNewPost,
+	publishPost,
 	pressKeyWithModifier,
 	visitAdminPage,
 } from '@wordpress/e2e-test-utils';
@@ -54,38 +56,41 @@ const waitForSave = async function(){
 
 }
 
-let course_id = null;
+let courseId = null;
+
+async function getCourseId() {
+
+	if ( ! courseId ) {
+
+		page.on( 'dialog', dialog => dialog.accept() );
+
+		await createNewPost( {
+			title: 'Test Course Builder',
+			postType: 'course',
+		} );
+
+		await publishPost();
+
+		courseId = await page.evaluate( () => wp.data.select( 'core/editor' ).getCurrentPostId() );
+
+	}
+
+	return courseId;
+
+}
 
 describe( 'Builder', () => {
 
-	it ( 'should create a new course, title it, publish it, and load the course builder.', async () => {
+	beforeEach( async () => {
+		await getCourseId();
+	} );
 
-		const title = 'Test the Course Builder';
-
-		// Launch the Setup Wizard.
-		await visitAdminPage( 'post-new.php', 'post_type=course' );
-
-		// Give it a Title.
-		await fillField( 'textarea.editor-post-title__input', title );
-
-		// Publish and post publish.
-		await page.click( '.editor-post-publish-panel__toggle' );
-		await page.waitForSelector( '.editor-post-publish-button' );
-		await page.click( '.editor-post-publish-button' );
-
-		// Close the post publish panel.
-		await page.waitForSelector( '.editor-post-publish-panel__header-published' );
-		await page.click( '.editor-post-publish-panel__header > button' );
+	it ( 'should load the course builder from the WP editor metabox.', async () => {
 
 		// Launch the builder.
 		await clickAndWait( '.llms-builder-launcher .llms-button-primary' );
 
-		expect( await page.$eval( '.llms-course-header h1.llms-headline .llms-input', el => el.textContent ) ).toBe( title );
-
-		// Store course ID for future tests.
-		course_id = await page.evaluate( () => {
-			return window.llms_builder.course.id;
-		} );
+		expect( await page.$eval( '.llms-course-header h1.llms-headline .llms-input', el => el.textContent ) ).toBe( 'Test Course Builder' );
 
 	} );
 
@@ -93,7 +98,7 @@ describe( 'Builder', () => {
 
 		const title = 'Test Section One';
 
-		await visitAdminPage( 'admin.php', 'page=llms-course-builder&course_id=' + course_id );
+		await visitAdminPage( 'admin.php', 'page=llms-course-builder&course_id=' + courseId );
 
 		await addSection( title );
 
@@ -109,7 +114,7 @@ describe( 'Builder', () => {
 
 	// 	const title = 'Test New Lesson One';
 
-	// 	await visitAdminPage( 'admin.php', 'page=llms-course-builder&course_id=' + course_id );
+	// 	await visitAdminPage( 'admin.php', 'page=llms-course-builder&courseId=' + courseId );
 
 	// 	await addLesson( title, 'Test Section One' );
 
