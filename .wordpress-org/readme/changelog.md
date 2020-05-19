@@ -1,6 +1,13 @@
 == Changelog ==
 
 
+= v3.38.2 - 2020-05-19 =
+------------------------
+
++ Added a default question type ("choice") to prevent malformed questions from being inadvertently stored in the database.
++ When retrieving question data from the database, automatically fall back to the default question type value if no question type is saved.
+
+
 = v3.38.1 - 2020-05-11 =
 ------------------------
 
@@ -144,36 +151,3 @@ Props to [Omri Herscovici and Sagi Tzadik from Check Point Research](https://www
 -------------------------
 
 + Remove usage of internal functions marked as deprecated.
-
-
-= v3.37.12 - 2020-03-10 =
--------------------------
-
-##### Updates
-
-+ Tested up to WordPress Core version 5.4.
-+ Added support for post revisions for course, lesson, and mebership post types.
-
-##### Developer updates
-
-+ Added strict comparisons for various condition checks.
-+ Added a new filter, `llms_builder_{$post_type}_force_delete` which allows control over whether a post is moved to the trash or immediately deleted when trashed via the course builder.
-
-##### Bugfixes
-
-+ Fixed the name of the "actions" column on the quiz reporting screen.
-+ Fixed PHP warnings resulting from functions used to exclude order notes from comment counts.
-+ Fixed issue causing order notes to be included in the count displayed on the admin comments list despite their exclusion from the table itself.
-+ Fixed PHP notice thrown on the WordPress menu editor interface encountered when student dashboard endpoints have been deleted or removed.
-+ Fixed issue causing quotes to be encoded in various email, achievement, and certificate fields.
-
-##### Deprecations
-
-The following have been deprecated with no replacements and will be removed in the next major update:
-
-+ `LLMS_Course_Factory::get_course()`
-+ `LLMS_Course_Factory::get_lesson()`
-+ `LLMS_Course_Factory::get_product()`
-+ `LLMS_Course_Factory::get_quiz()`
-+ `LLMS_Course_Factory::get_question()`
-+ `LLMS_Course_Handler::get_users_not_enrolled()`

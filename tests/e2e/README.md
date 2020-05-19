@@ -16,11 +16,10 @@ To install the test suite:
 
 + `npm install`: Install Node dependencies.
 + `composer install`: Install all required PHP dependencies.
-+ `npm run env install`: Build and install the local environment.
++ `composer run env up`: Build and install the local environment.
++ `composer run env:setup`: Setup the local environment.
 
-After installation a WordPress site should be accessible at [http://localhost:8889](http://localhost:8889) using the username `admin` and password `password`.
-
-Note that a directory `/wordpress` will be installed in the root of the repository. This directory will house the WordPress core information which mounted to the Docker environment.
+After installation a WordPress site should be accessible at [http://localhost:8080](http://localhost:8080) using the username `admin` and password `password`.
 
 
 ## Running Tests
@@ -37,14 +36,22 @@ To run tests:
 
 The local environment is powered by docker containers which can be managed with the following commands:
 
-+ `npm run env install`: Download, build, and install WordPress locally. Automatically links the working directory (the LifterLMS plugin code) and starts the local environment.
-+ `npm run env start`: Start the containers.
-+ `npm run env stop`: Stop the containers.
-+ `npm run env reinstall`: Reset the database and local copy of WordPress (useful to clear test data after running tests).
-+ `npm run env update`: Update the local copy of WordPress.
-+ `npm run env cli`: Run a `wp-cli` command against the local copy of WordPress.
+```
+config:  Creates configuration override files
+down:    Stop and remove containers and volumes
+up:      Start containers
+ps:      List containers
+reset:   Destroy and recreate containers and volumes
+restart: Restart containers
+rm:      Remove containers and volumes
+ssh:     Open an interactive bash session with the PHP service container
+stop:    Stop containers without removing them
+wp:      Execute a wp-cli command inside the PHP service container
+```
 
-For advanced commands and more information see [@wordpress/scripts docs](https://github.com/WordPress/gutenberg/tree/master/packages/scripts#available-sub-scripts).
+To run these commands, run `composer run env <command>` where `<command>` is the name of the command you wish to run.
+
+For additionally information and options for each command run, the command with the `-h` or `--help` flag to view usage information.
 
 
 ## Test Organization
@@ -69,4 +76,4 @@ The following utility packages are used to help facilitate e2e tests in WordPres
 + [@wordpress/e2e-test-utils](https://github.com/WordPress/gutenberg/tree/master/packages/e2e-test-utils): End-To-End (E2E) test utils for WordPress.
 + [llms-e2e-test-utils](https://github.com/gocodebox/lifterlms/tree/master/packages/llms-e2e-test-utils): End-To-End (E2E) test utils for LifterLMS.
 
-a collection of reusable scripts tailored for WordPress development
+A debt of gratitude is owed to [WP React Starter by devowl.io](https://github.com/devowlio/wp-react-starter), without the open-source code found in this repository our lead developer would surely have descended into eventual madness trying to figure out how to mount a working directory into a Docker container. I know you're saying it sounds simple and in retrospect he agrees with you but you know how things go sometimes...
