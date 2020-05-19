@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.38.2
  *
  * @property  $question_type  (string)  type of question
  */
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.30.1 Fixed choice sorting issues.
  * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
- * @since [version] When getting the 'not raw' question_type, made sure to always return a valid value.
+ * @since 3.38.2 When getting the 'not raw' question_type, made sure to always return a valid value.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -180,7 +180,7 @@ class LLMS_Question extends LLMS_Post_Model {
 	/**
 	 * Getter
 	 *
-	 * @since [version]
+	 * @since 3.38.2
 	 *
 	 * @param string  $key The property key.
 	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.

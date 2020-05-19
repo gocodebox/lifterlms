@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.38.2
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  *                Added new filter, `llms_builder_{$post_type}_force_delete` to allow control of how post type deletion is handled
  *                when deleted via the builder.
  * @since 3.38.0 Improve backwards compatibility handling for the `llms_get_quiz_theme_settings` filter.
- * @since [version] On quiz saving, made sure that a question as a type set, otherwise set it by default to `'choice'`.
+ * @since 3.38.2 On quiz saving, made sure that a question as a type set, otherwise set it by default to `'choice'`.
  */
 class LLMS_Admin_Builder {
 
@@ -1054,7 +1054,7 @@ class LLMS_Admin_Builder {
 	 *
 	 * @since 3.16.0
 	 * @since 3.16.11 Unknown.
-	 * @since [version] Make sure that a question as a type set, otherwise set it by default to `'choice'`.
+	 * @since 3.38.2 Make sure that a question as a type set, otherwise set it by default to `'choice'`.
 	 *
 	 * @param array $questions Question data array.
 	 * @param obj   $parent    Instance of an LLMS_Quiz or LLMS_Question (group).
