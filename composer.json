@@ -56,7 +56,7 @@
 
       "CHANGELOG.md",
       "composer.json",
-      "docker-compose.override.yml.template",
+      "docker-compose.yml",
       "lerna.json",
       "package.json",
       "package-lock.json",
