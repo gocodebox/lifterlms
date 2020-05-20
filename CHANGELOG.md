@@ -1,6 +1,13 @@
 LifterLMS Changelog
 ===================
 
+v3.38.2 - 2020-05-19
+--------------------
+
++ Added a default question type ("choice") to prevent malformed questions from being inadvertently stored in the database.
++ When retrieving question data from the database, automatically fall back to the default question type value if no question type is saved.
+
+
 v3.38.1 - 2020-05-11
 --------------------
 

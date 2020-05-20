@@ -1,11 +1,11 @@
 <?php
 /**
- * LifterLMS Quiz Question Model.
+ * LifterLMS Quiz Question Model
  *
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version 3.35.0
+ * @version 3.38.2
  *
  * @property  $question_type  (string)  type of question
  */
@@ -13,11 +13,12 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS Quiz Question Model.
+ * LLMS Quiz Question Model class
  *
  * @since 1.0.0
  * @since 3.30.1 Fixed choice sorting issues.
  * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
+ * @since 3.38.2 When getting the 'not raw' question_type, made sure to always return a valid value.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -172,6 +173,29 @@ class LLMS_Question extends LLMS_Post_Model {
 		);
 
 		return apply_filters( 'llms_' . $this->model_post_type . '_get_creation_args', $args, $this );
+
+	}
+
+
+	/**
+	 * Getter
+	 *
+	 * @since 3.38.2
+	 *
+	 * @param string  $key The property key.
+	 * @param boolean $raw Optional. Whether or not we need to get the raw value. Default false.
+	 * @return mixed
+	 */
+	public function get( $key, $raw = false ) {
+
+		$value = parent::get( $key, $raw );
+
+		// When getting the 'not raw' value, make sure we always return a valid question type.
+		if ( ! $raw && ! $value && 'question_type' === $key ) {
+			$value = 'choice';
+		}
+
+		return $value;
 
 	}
 

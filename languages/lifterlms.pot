@@ -130,7 +130,7 @@ msgid "Please enter a plan ID."
 msgstr ""
 
 #. translators: %s = coupon code.
-#: includes/class.llms.ajax.handler.php:997, includes/functions/llms.functions.order.php:241
+#: includes/class.llms.ajax.handler.php:997, includes/functions/llms.functions.order.php:239
 msgid "Coupon code \"%s\" not found."
 msgstr ""
 
@@ -217,7 +217,7 @@ msgstr ""
 msgid "Payment method switched from \"%1$s\" to \"%2$s\""
 msgstr ""
 
-#: includes/class.llms.gateway.manual.php:183, includes/functions/llms.functions.updates.php:225
+#: includes/class.llms.gateway.manual.php:183, includes/functions/llms.functions.updates.php:227
 msgid "Free"
 msgstr ""
 
@@ -281,7 +281,7 @@ msgstr ""
 msgid "Purchase"
 msgstr ""
 
-#: includes/class.llms.install.php:264, includes/class.llms.student.dashboard.php:152, includes/admin/class.llms.admin.builder.php:50
+#: includes/class.llms.install.php:264, includes/class.llms.student.dashboard.php:152, includes/admin/class.llms.admin.builder.php:51
 msgid "Dashboard"
 msgstr ""
 
@@ -348,7 +348,7 @@ msgstr ""
 msgid "Are you sure you want to cancel your subscription?"
 msgstr ""
 
-#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:359, includes/class.llms.post-types.php:416, includes/admin/class.llms.admin.builder.php:972, includes/models/model.llms.lesson.php:391, includes/admin/views/builder/elements.php:22
+#: includes/class.llms.l10n.js.php:94, includes/class.llms.l10n.js.php:359, includes/class.llms.post-types.php:416, includes/admin/class.llms.admin.builder.php:973, includes/models/model.llms.lesson.php:391, includes/admin/views/builder/elements.php:22
 msgid "New Lesson"
 msgstr ""
 
@@ -1081,7 +1081,7 @@ msgid_plural "Failed <span class=\"count\">(%s)</span>"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class.llms.post-types.php:333, includes/admin/class.llms.admin.builder.php:59, includes/admin/class.llms.admin.import.php:55, includes/integrations/class.llms.integration.buddypress.php:71, includes/integrations/class.llms.integration.buddypress.php:86, includes/admin/analytics/class.llms.analytics.courses.php:23, includes/admin/analytics/class.llms.analytics.sales.php:106, includes/admin/reporting/class.llms.admin.reporting.php:291, includes/admin/settings/class.llms.settings.courses.php:28, templates/admin/analytics/analytics.php:97, templates/admin/reporting/nav-filters.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:167, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:67, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:70, includes/admin/reporting/tables/llms.table.courses.php:181, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:108, templates/admin/reporting/tabs/courses/course.php:21
+#: includes/class.llms.post-types.php:333, includes/admin/class.llms.admin.builder.php:60, includes/admin/class.llms.admin.import.php:55, includes/integrations/class.llms.integration.buddypress.php:71, includes/integrations/class.llms.integration.buddypress.php:86, includes/admin/analytics/class.llms.analytics.courses.php:23, includes/admin/analytics/class.llms.analytics.sales.php:106, includes/admin/reporting/class.llms.admin.reporting.php:291, includes/admin/settings/class.llms.settings.courses.php:28, templates/admin/analytics/analytics.php:97, templates/admin/reporting/nav-filters.php:79, includes/admin/post-types/meta-boxes/class.llms.meta.box.coupon.php:167, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:67, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:70, includes/admin/reporting/tables/llms.table.courses.php:181, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:108, templates/admin/reporting/tabs/courses/course.php:21
 msgid "Courses"
 msgstr ""
 
@@ -1358,7 +1358,7 @@ msgstr ""
 msgid "This is where you can view all of the Quiz Questions."
 msgstr ""
 
-#: includes/class.llms.post-types.php:527, includes/functions/llms.functions.person.php:446, includes/integrations/class.llms.integration.buddypress.php:97, includes/admin/analytics/class.llms.analytics.memberships.php:22, includes/admin/analytics/class.llms.analytics.sales.php:117, includes/admin/reporting/class.llms.admin.reporting.php:292, includes/admin/settings/class.llms.settings.memberships.php:28, templates/admin/analytics/analytics.php:109, templates/admin/reporting/nav-filters.php:91, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:75, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:81, includes/admin/reporting/tables/llms.table.memberships.php:189, includes/admin/reporting/tables/llms.table.students.php:642, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:109, includes/admin/views/access-plans/access-plan.php:242, templates/admin/reporting/tabs/memberships/membership.php:19
+#: includes/class.llms.post-types.php:527, includes/functions/llms.functions.person.php:447, includes/integrations/class.llms.integration.buddypress.php:97, includes/admin/analytics/class.llms.analytics.memberships.php:22, includes/admin/analytics/class.llms.analytics.sales.php:117, includes/admin/reporting/class.llms.admin.reporting.php:292, includes/admin/settings/class.llms.settings.memberships.php:28, templates/admin/analytics/analytics.php:109, templates/admin/reporting/nav-filters.php:91, includes/admin/post-types/meta-boxes/class.llms.meta.box.access.php:75, includes/admin/post-types/meta-boxes/class.llms.meta.box.voucher.php:81, includes/admin/reporting/tables/llms.table.memberships.php:189, includes/admin/reporting/tables/llms.table.students.php:642, includes/admin/reporting/tabs/class.llms.admin.reporting.tab.students.php:109, includes/admin/views/access-plans/access-plan.php:242, templates/admin/reporting/tabs/memberships/membership.php:19
 msgid "Memberships"
 msgstr ""
 
@@ -2456,7 +2456,7 @@ msgstr ""
 msgid "Instructor's Assistant"
 msgstr ""
 
-#: includes/class.llms.roles.php:321, includes/class.llms.view.manager.php:210, includes/abstracts/llms.abstract.notification.controller.php:312, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:60, includes/functions/llms.functions.updates.php:734, includes/admin/reporting/tables/llms.table.quiz.attempts.php:278
+#: includes/class.llms.roles.php:321, includes/class.llms.view.manager.php:210, includes/abstracts/llms.abstract.notification.controller.php:312, includes/abstracts/llms.abstract.notification.view.quiz.completion.php:60, includes/functions/llms.functions.updates.php:736, includes/admin/reporting/tables/llms.table.quiz.attempts.php:278
 msgid "Student"
 msgstr ""
 
@@ -3054,87 +3054,87 @@ msgid "You must enter a start and end date."
 msgstr ""
 
 #. translators: %s = Theme name.
-#: includes/admin/class.llms.admin.builder.php:107
+#: includes/admin/class.llms.admin.builder.php:108
 msgid "%s Theme Settings"
 msgstr ""
 
 #. translators: %1$s = Lesson title; %2$d = Lesson id.
-#: includes/admin/class.llms.admin.builder.php:214
+#: includes/admin/class.llms.admin.builder.php:215
 msgid "Lesson: %1$s (#%2$d)"
 msgstr ""
 
 #. translators: %1$s = Course title; %2$d - Course id.
-#: includes/admin/class.llms.admin.builder.php:218
+#: includes/admin/class.llms.admin.builder.php:219
 msgid "Course: %1$s (#%2$d)"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:415
+#: includes/admin/class.llms.admin.builder.php:416
 msgid "Success"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:422
+#: includes/admin/class.llms.admin.builder.php:423
 msgid "Error: Invalid or missing course ID."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:427
+#: includes/admin/class.llms.admin.builder.php:428
 msgid "Error: You do not have permission to edit this course."
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:514
+#: includes/admin/class.llms.admin.builder.php:515
 msgid "Invalid course ID"
 msgstr ""
 
-#: includes/admin/class.llms.admin.builder.php:523
+#: includes/admin/class.llms.admin.builder.php:524
 msgid "You cannot edit this course!"
 msgstr ""
 
 #. translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:619
+#: includes/admin/class.llms.admin.builder.php:620
 msgid "Unable to detach \"%s\". Invalid ID."
 msgstr ""
 
 #. translators: %s = Item id.
-#: includes/admin/class.llms.admin.builder.php:699
+#: includes/admin/class.llms.admin.builder.php:700
 msgid "Unable to delete \"%s\". Invalid ID."
 msgstr ""
 
 #. translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:779
+#: includes/admin/class.llms.admin.builder.php:780
 msgid "Error deleting the question choice \"%s\""
 msgstr ""
 
 #. translators: %s = Post type name.
-#: includes/admin/class.llms.admin.builder.php:817
+#: includes/admin/class.llms.admin.builder.php:818
 msgid "%s cannot be deleted via the Course Builder."
 msgstr ""
 
 #. translators: %1$s = Post type singular name; %2$d = Post id.
-#: includes/admin/class.llms.admin.builder.php:841
+#: includes/admin/class.llms.admin.builder.php:842
 msgid "Error deleting the %1$s \"%2$d\"."
 msgstr ""
 
 #. translators: %s = Lesson post id.
-#: includes/admin/class.llms.admin.builder.php:994
+#: includes/admin/class.llms.admin.builder.php:995
 msgid "Unable to update lesson \"%s\". Invalid lesson ID."
 msgstr ""
 
 #. translators: %s = Question post id.
-#: includes/admin/class.llms.admin.builder.php:1091
+#: includes/admin/class.llms.admin.builder.php:1094
 msgid "Unable to update question \"%s\". Invalid question ID."
 msgstr ""
 
 #. translators: %s = Question choice ID.
-#: includes/admin/class.llms.admin.builder.php:1122
+#: includes/admin/class.llms.admin.builder.php:1133
 msgid "Unable to update choice \"%s\". Invalid choice ID."
 msgstr ""
 
 #. translators: %s = Quiz post id.
-#: includes/admin/class.llms.admin.builder.php:1182
+#: includes/admin/class.llms.admin.builder.php:1193
 msgid "Unable to update quiz \"%s\". Invalid quiz ID."
 msgstr ""
 
 #. translators: %s = Section post id.
-#: includes/admin/class.llms.admin.builder.php:1258
+#: includes/admin/class.llms.admin.builder.php:1269
 msgid "Unable to update section \"%s\". Invalid section ID."
 msgstr ""
 
@@ -3650,7 +3650,7 @@ msgstr ""
 msgid "Choose Course/Membership"
 msgstr ""
 
-#: includes/admin/class.llms.student.bulk.enroll.php:86, includes/functions/llms.functions.updates.php:116, includes/models/model.llms.access.plan.php:567
+#: includes/admin/class.llms.student.bulk.enroll.php:86, includes/functions/llms.functions.updates.php:118, includes/models/model.llms.access.plan.php:567
 msgid "Enroll"
 msgstr ""
 
@@ -3762,94 +3762,94 @@ msgstr ""
 msgid "No merge codes found."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.lesson.progression.php:64
+#: includes/controllers/class.llms.controller.lesson.progression.php:65
 msgid "An error occurred, please try again."
 msgstr ""
 
 #. translators: %s is the title of the lesson.
-#: includes/controllers/class.llms.controller.lesson.progression.php:159
+#: includes/controllers/class.llms.controller.lesson.progression.php:160
 msgid "The lesson %s is now marked as incomplete."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:107, includes/controllers/class.llms.controller.orders.php:113, includes/shortcodes/class.llms.shortcode.checkout.php:224
+#: includes/controllers/class.llms.controller.orders.php:109, includes/controllers/class.llms.controller.orders.php:115, includes/shortcodes/class.llms.shortcode.checkout.php:224
 msgid "Could not locate an order to confirm."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:126
+#: includes/controllers/class.llms.controller.orders.php:128
 msgid "Only pending orders can be confirmed."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:295
+#: includes/controllers/class.llms.controller.orders.php:297
 msgid "There was an error creating your order, please try again."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:379
+#: includes/controllers/class.llms.controller.orders.php:381
 msgid "Student unenrolled at the end of access period due to subscription cancellation."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:386
+#: includes/controllers/class.llms.controller.orders.php:388
 msgid "Student unenrolled due to automatic access plan expiration"
 msgstr ""
 
 #. translators: %d = The deleted user's ID.
-#: includes/controllers/class.llms.controller.orders.php:450
+#: includes/controllers/class.llms.controller.orders.php:452
 msgid "Recurring charge skipped. The user (#%d) no longer exists."
 msgstr ""
 
 #. translators: %s = error message encountered while loading the gateway.
-#: includes/controllers/class.llms.controller.orders.php:474
+#: includes/controllers/class.llms.controller.orders.php:476
 msgid "Recurring charge was not processed due to an error encountered while loading the payment gateway: %s."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:487
+#: includes/controllers/class.llms.controller.orders.php:489
 msgid "Recurring charge skipped because recurring payments are disabled for the payment gateway."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:496
+#: includes/controllers/class.llms.controller.orders.php:498
 msgid "Recurring charge skipped because recurring payments are disabled in staging mode."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:523
+#: includes/controllers/class.llms.controller.orders.php:525
 msgid "Missing order information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:528, templates/myaccount/view-order.php:16
+#: includes/controllers/class.llms.controller.orders.php:530, templates/myaccount/view-order.php:16
 msgid "Invalid Order."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:530
+#: includes/controllers/class.llms.controller.orders.php:532
 msgid "Missing gateway information."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:653
+#: includes/controllers/class.llms.controller.orders.php:655
 msgid "Order status changed from %1$s to %2$s"
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:685, includes/functions/llms.functions.order.php:35
+#: includes/controllers/class.llms.controller.orders.php:687, includes/functions/llms.functions.order.php:34
 msgid "The selected payment gateway is not currently enabled."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:690, includes/functions/llms.functions.order.php:41
+#: includes/controllers/class.llms.controller.orders.php:692, includes/functions/llms.functions.order.php:40
 msgid "%s does not support recurring payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:695, includes/functions/llms.functions.order.php:47
+#: includes/controllers/class.llms.controller.orders.php:697, includes/functions/llms.functions.order.php:46
 msgid "%s does not support single payments and cannot process this transaction."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.orders.php:700, includes/functions/llms.functions.order.php:53
+#: includes/controllers/class.llms.controller.orders.php:702, includes/functions/llms.functions.order.php:52
 msgid "An invalid payment method was selected."
 msgstr ""
 
-#: includes/controllers/class.llms.controller.quizzes.php:80
+#: includes/controllers/class.llms.controller.quizzes.php:82
 msgid "Could not proceed to the quiz because required information was missing."
 msgstr ""
 
-#: includes/emails/class.llms.email.reset.password.php:29
+#: includes/emails/class.llms.email.reset.password.php:36
 msgid "Password Reset for {site_title}"
 msgstr ""
 
-#: includes/emails/class.llms.email.reset.password.php:30
+#: includes/emails/class.llms.email.reset.password.php:37
 msgid "Reset Your Password"
 msgstr ""
 
@@ -3940,1704 +3940,1704 @@ msgctxt "lesson restricted by prerequisite message"
 msgid "The lesson \"%1$s\" cannot be accessed until the required prerequisite \"%2$s\" is completed."
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:55
+#: includes/functions/llms.functions.currency.php:57
 msgid "Afghanistan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:56
+#: includes/functions/llms.functions.currency.php:58
 msgid "&#197;land Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:57
+#: includes/functions/llms.functions.currency.php:59
 msgid "Albania"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:58
+#: includes/functions/llms.functions.currency.php:60
 msgid "Algeria"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:59
+#: includes/functions/llms.functions.currency.php:61
 msgid "American Samoa"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:60
+#: includes/functions/llms.functions.currency.php:62
 msgid "Andorra"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:61
+#: includes/functions/llms.functions.currency.php:63
 msgid "Angola"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:62
+#: includes/functions/llms.functions.currency.php:64
 msgid "Anguilla"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:63
+#: includes/functions/llms.functions.currency.php:65
 msgid "Antarctica"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:64
+#: includes/functions/llms.functions.currency.php:66
 msgid "Antigua and Barbuda"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:65
+#: includes/functions/llms.functions.currency.php:67
 msgid "Argentina"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:66
+#: includes/functions/llms.functions.currency.php:68
 msgid "Armenia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:67
+#: includes/functions/llms.functions.currency.php:69
 msgid "Aruba"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:68
+#: includes/functions/llms.functions.currency.php:70
 msgid "Australia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:69
+#: includes/functions/llms.functions.currency.php:71
 msgid "Austria"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:70
+#: includes/functions/llms.functions.currency.php:72
 msgid "Azerbaijan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:71
+#: includes/functions/llms.functions.currency.php:73
 msgid "Bahamas"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:72
+#: includes/functions/llms.functions.currency.php:74
 msgid "Bahrain"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:73
+#: includes/functions/llms.functions.currency.php:75
 msgid "Bangladesh"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:74
+#: includes/functions/llms.functions.currency.php:76
 msgid "Barbados"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:75
+#: includes/functions/llms.functions.currency.php:77
 msgid "Belarus"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:76
+#: includes/functions/llms.functions.currency.php:78
 msgid "Belgium"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:77
+#: includes/functions/llms.functions.currency.php:79
 msgid "Belau"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:78
+#: includes/functions/llms.functions.currency.php:80
 msgid "Belize"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:79
+#: includes/functions/llms.functions.currency.php:81
 msgid "Benin"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:80
+#: includes/functions/llms.functions.currency.php:82
 msgid "Bermuda"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:81
+#: includes/functions/llms.functions.currency.php:83
 msgid "Bhutan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:82
+#: includes/functions/llms.functions.currency.php:84
 msgid "Bolivia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:83
+#: includes/functions/llms.functions.currency.php:85
 msgid "Bonaire, Saint Eustatius and Saba"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:84
+#: includes/functions/llms.functions.currency.php:86
 msgid "Bosnia and Herzegovina"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:85
+#: includes/functions/llms.functions.currency.php:87
 msgid "Botswana"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:86
+#: includes/functions/llms.functions.currency.php:88
 msgid "Bouvet Island"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:87
+#: includes/functions/llms.functions.currency.php:89
 msgid "Brazil"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:88
+#: includes/functions/llms.functions.currency.php:90
 msgid "British Indian Ocean Territory"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:89
+#: includes/functions/llms.functions.currency.php:91
 msgid "Brunei"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:90
+#: includes/functions/llms.functions.currency.php:92
 msgid "Bulgaria"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:91
+#: includes/functions/llms.functions.currency.php:93
 msgid "Burkina Faso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:92
+#: includes/functions/llms.functions.currency.php:94
 msgid "Burundi"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:93
+#: includes/functions/llms.functions.currency.php:95
 msgid "Cambodia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:94
+#: includes/functions/llms.functions.currency.php:96
 msgid "Cameroon"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:95
+#: includes/functions/llms.functions.currency.php:97
 msgid "Canada"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:96
+#: includes/functions/llms.functions.currency.php:98
 msgid "Cape Verde"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:97
+#: includes/functions/llms.functions.currency.php:99
 msgid "Cayman Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:98
+#: includes/functions/llms.functions.currency.php:100
 msgid "Central African Republic"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:99
+#: includes/functions/llms.functions.currency.php:101
 msgid "Chad"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:100
+#: includes/functions/llms.functions.currency.php:102
 msgid "Chile"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:101
+#: includes/functions/llms.functions.currency.php:103
 msgid "China"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:102
+#: includes/functions/llms.functions.currency.php:104
 msgid "Christmas Island"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:103
+#: includes/functions/llms.functions.currency.php:105
 msgid "Cocos (Keeling) Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:104
+#: includes/functions/llms.functions.currency.php:106
 msgid "Colombia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:105
+#: includes/functions/llms.functions.currency.php:107
 msgid "Comoros"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:106
+#: includes/functions/llms.functions.currency.php:108
 msgid "Congo (Brazzaville)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:107
+#: includes/functions/llms.functions.currency.php:109
 msgid "Congo (Kinshasa)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:108
+#: includes/functions/llms.functions.currency.php:110
 msgid "Cook Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:109
+#: includes/functions/llms.functions.currency.php:111
 msgid "Costa Rica"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:110
+#: includes/functions/llms.functions.currency.php:112
 msgid "Croatia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:111
+#: includes/functions/llms.functions.currency.php:113
 msgid "Cuba"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:112
+#: includes/functions/llms.functions.currency.php:114
 msgid "Cura&ccedil;ao"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:113
+#: includes/functions/llms.functions.currency.php:115
 msgid "Cyprus"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:114
+#: includes/functions/llms.functions.currency.php:116
 msgid "Czech Republic"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:115
+#: includes/functions/llms.functions.currency.php:117
 msgid "Denmark"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:116
+#: includes/functions/llms.functions.currency.php:118
 msgid "Djibouti"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:117
+#: includes/functions/llms.functions.currency.php:119
 msgid "Dominica"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:118
+#: includes/functions/llms.functions.currency.php:120
 msgid "Dominican Republic"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:119
+#: includes/functions/llms.functions.currency.php:121
 msgid "Ecuador"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:120
+#: includes/functions/llms.functions.currency.php:122
 msgid "Egypt"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:121
+#: includes/functions/llms.functions.currency.php:123
 msgid "El Salvador"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:122
+#: includes/functions/llms.functions.currency.php:124
 msgid "Equatorial Guinea"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:123
+#: includes/functions/llms.functions.currency.php:125
 msgid "Eritrea"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:124
+#: includes/functions/llms.functions.currency.php:126
 msgid "Estonia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:125
+#: includes/functions/llms.functions.currency.php:127
 msgid "Ethiopia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:126
+#: includes/functions/llms.functions.currency.php:128
 msgid "Falkland Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:127
+#: includes/functions/llms.functions.currency.php:129
 msgid "Faroe Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:128
+#: includes/functions/llms.functions.currency.php:130
 msgid "Fiji"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:129
+#: includes/functions/llms.functions.currency.php:131
 msgid "Finland"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:130
+#: includes/functions/llms.functions.currency.php:132
 msgid "France"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:131
+#: includes/functions/llms.functions.currency.php:133
 msgid "French Guiana"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:132
+#: includes/functions/llms.functions.currency.php:134
 msgid "French Polynesia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:133
+#: includes/functions/llms.functions.currency.php:135
 msgid "French Southern Territories"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:134
+#: includes/functions/llms.functions.currency.php:136
 msgid "Gabon"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:135
+#: includes/functions/llms.functions.currency.php:137
 msgid "Gambia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:136
+#: includes/functions/llms.functions.currency.php:138
 msgid "Georgia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:137
+#: includes/functions/llms.functions.currency.php:139
 msgid "Germany"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:138
+#: includes/functions/llms.functions.currency.php:140
 msgid "Ghana"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:139
+#: includes/functions/llms.functions.currency.php:141
 msgid "Gibraltar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:140
+#: includes/functions/llms.functions.currency.php:142
 msgid "Greece"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:141
+#: includes/functions/llms.functions.currency.php:143
 msgid "Greenland"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:142
+#: includes/functions/llms.functions.currency.php:144
 msgid "Grenada"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:143
+#: includes/functions/llms.functions.currency.php:145
 msgid "Guadeloupe"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:144
+#: includes/functions/llms.functions.currency.php:146
 msgid "Guam"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:145
+#: includes/functions/llms.functions.currency.php:147
 msgid "Guatemala"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:146
+#: includes/functions/llms.functions.currency.php:148
 msgid "Guernsey"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:147
+#: includes/functions/llms.functions.currency.php:149
 msgid "Guinea"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:148
+#: includes/functions/llms.functions.currency.php:150
 msgid "Guinea-Bissau"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:149
+#: includes/functions/llms.functions.currency.php:151
 msgid "Guyana"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:150
+#: includes/functions/llms.functions.currency.php:152
 msgid "Haiti"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:151
+#: includes/functions/llms.functions.currency.php:153
 msgid "Heard Island and McDonald Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:152
+#: includes/functions/llms.functions.currency.php:154
 msgid "Honduras"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:153
+#: includes/functions/llms.functions.currency.php:155
 msgid "Hong Kong"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:154
+#: includes/functions/llms.functions.currency.php:156
 msgid "Hungary"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:155
+#: includes/functions/llms.functions.currency.php:157
 msgid "Iceland"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:156
+#: includes/functions/llms.functions.currency.php:158
 msgid "India"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:157
+#: includes/functions/llms.functions.currency.php:159
 msgid "Indonesia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:158
+#: includes/functions/llms.functions.currency.php:160
 msgid "Iran"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:159
+#: includes/functions/llms.functions.currency.php:161
 msgid "Iraq"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:160
+#: includes/functions/llms.functions.currency.php:162
 msgid "Ireland"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:161
+#: includes/functions/llms.functions.currency.php:163
 msgid "Isle of Man"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:162
+#: includes/functions/llms.functions.currency.php:164
 msgid "Israel"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:163
+#: includes/functions/llms.functions.currency.php:165
 msgid "Italy"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:164
+#: includes/functions/llms.functions.currency.php:166
 msgid "Ivory Coast"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:165
+#: includes/functions/llms.functions.currency.php:167
 msgid "Jamaica"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:166
+#: includes/functions/llms.functions.currency.php:168
 msgid "Japan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:167
+#: includes/functions/llms.functions.currency.php:169
 msgid "Jersey"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:168
+#: includes/functions/llms.functions.currency.php:170
 msgid "Jordan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:169
+#: includes/functions/llms.functions.currency.php:171
 msgid "Kazakhstan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:170
+#: includes/functions/llms.functions.currency.php:172
 msgid "Kenya"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:171
+#: includes/functions/llms.functions.currency.php:173
 msgid "Kiribati"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:172
+#: includes/functions/llms.functions.currency.php:174
 msgid "Kuwait"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:173
+#: includes/functions/llms.functions.currency.php:175
 msgid "Kyrgyzstan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:174
+#: includes/functions/llms.functions.currency.php:176
 msgid "Laos"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:175
+#: includes/functions/llms.functions.currency.php:177
 msgid "Latvia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:176
+#: includes/functions/llms.functions.currency.php:178
 msgid "Lebanon"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:177
+#: includes/functions/llms.functions.currency.php:179
 msgid "Lesotho"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:178
+#: includes/functions/llms.functions.currency.php:180
 msgid "Liberia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:179
+#: includes/functions/llms.functions.currency.php:181
 msgid "Libya"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:180
+#: includes/functions/llms.functions.currency.php:182
 msgid "Liechtenstein"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:181
+#: includes/functions/llms.functions.currency.php:183
 msgid "Lithuania"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:182
+#: includes/functions/llms.functions.currency.php:184
 msgid "Luxembourg"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:183
+#: includes/functions/llms.functions.currency.php:185
 msgid "Macao S.A.R., China"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:184
+#: includes/functions/llms.functions.currency.php:186
 msgid "Macedonia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:185
+#: includes/functions/llms.functions.currency.php:187
 msgid "Madagascar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:186
+#: includes/functions/llms.functions.currency.php:188
 msgid "Malawi"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:187
+#: includes/functions/llms.functions.currency.php:189
 msgid "Malaysia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:188
+#: includes/functions/llms.functions.currency.php:190
 msgid "Maldives"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:189
+#: includes/functions/llms.functions.currency.php:191
 msgid "Mali"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:190
+#: includes/functions/llms.functions.currency.php:192
 msgid "Malta"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:191
+#: includes/functions/llms.functions.currency.php:193
 msgid "Marshall Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:192
+#: includes/functions/llms.functions.currency.php:194
 msgid "Martinique"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:193
+#: includes/functions/llms.functions.currency.php:195
 msgid "Mauritania"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:194
+#: includes/functions/llms.functions.currency.php:196
 msgid "Mauritius"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:195
+#: includes/functions/llms.functions.currency.php:197
 msgid "Mayotte"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:196
+#: includes/functions/llms.functions.currency.php:198
 msgid "Mexico"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:197
+#: includes/functions/llms.functions.currency.php:199
 msgid "Micronesia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:198
+#: includes/functions/llms.functions.currency.php:200
 msgid "Moldova"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:199
+#: includes/functions/llms.functions.currency.php:201
 msgid "Monaco"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:200
+#: includes/functions/llms.functions.currency.php:202
 msgid "Mongolia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:201
+#: includes/functions/llms.functions.currency.php:203
 msgid "Montenegro"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:202
+#: includes/functions/llms.functions.currency.php:204
 msgid "Montserrat"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:203
+#: includes/functions/llms.functions.currency.php:205
 msgid "Morocco"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:204
+#: includes/functions/llms.functions.currency.php:206
 msgid "Mozambique"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:205
+#: includes/functions/llms.functions.currency.php:207
 msgid "Myanmar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:206
+#: includes/functions/llms.functions.currency.php:208
 msgid "Namibia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:207
+#: includes/functions/llms.functions.currency.php:209
 msgid "Nauru"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:208
+#: includes/functions/llms.functions.currency.php:210
 msgid "Nepal"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:209
+#: includes/functions/llms.functions.currency.php:211
 msgid "Netherlands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:210
+#: includes/functions/llms.functions.currency.php:212
 msgid "New Caledonia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:211
+#: includes/functions/llms.functions.currency.php:213
 msgid "New Zealand"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:212
+#: includes/functions/llms.functions.currency.php:214
 msgid "Nicaragua"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:213
+#: includes/functions/llms.functions.currency.php:215
 msgid "Niger"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:214
+#: includes/functions/llms.functions.currency.php:216
 msgid "Nigeria"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:215
+#: includes/functions/llms.functions.currency.php:217
 msgid "Niue"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:216
+#: includes/functions/llms.functions.currency.php:218
 msgid "Norfolk Island"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:217
+#: includes/functions/llms.functions.currency.php:219
 msgid "Northern Mariana Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:218
+#: includes/functions/llms.functions.currency.php:220
 msgid "North Korea"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:219
+#: includes/functions/llms.functions.currency.php:221
 msgid "Norway"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:220
+#: includes/functions/llms.functions.currency.php:222
 msgid "Oman"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:221
+#: includes/functions/llms.functions.currency.php:223
 msgid "Pakistan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:222
+#: includes/functions/llms.functions.currency.php:224
 msgid "Palestinian Territory"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:223
+#: includes/functions/llms.functions.currency.php:225
 msgid "Panama"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:224
+#: includes/functions/llms.functions.currency.php:226
 msgid "Papua New Guinea"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:225
+#: includes/functions/llms.functions.currency.php:227
 msgid "Paraguay"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:226
+#: includes/functions/llms.functions.currency.php:228
 msgid "Peru"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:227
+#: includes/functions/llms.functions.currency.php:229
 msgid "Philippines"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:228
+#: includes/functions/llms.functions.currency.php:230
 msgid "Pitcairn"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:229
+#: includes/functions/llms.functions.currency.php:231
 msgid "Poland"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:230
+#: includes/functions/llms.functions.currency.php:232
 msgid "Portugal"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:231
+#: includes/functions/llms.functions.currency.php:233
 msgid "Puerto Rico"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:232
+#: includes/functions/llms.functions.currency.php:234
 msgid "Qatar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:233
+#: includes/functions/llms.functions.currency.php:235
 msgid "Reunion"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:234
+#: includes/functions/llms.functions.currency.php:236
 msgid "Romania"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:235
+#: includes/functions/llms.functions.currency.php:237
 msgid "Russia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:236
+#: includes/functions/llms.functions.currency.php:238
 msgid "Rwanda"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:237
+#: includes/functions/llms.functions.currency.php:239
 msgid "Saint Barth&eacute;lemy"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:238
+#: includes/functions/llms.functions.currency.php:240
 msgid "Saint Helena"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:239
+#: includes/functions/llms.functions.currency.php:241
 msgid "Saint Kitts and Nevis"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:240
+#: includes/functions/llms.functions.currency.php:242
 msgid "Saint Lucia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:241
+#: includes/functions/llms.functions.currency.php:243
 msgid "Saint Martin (French part)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:242
+#: includes/functions/llms.functions.currency.php:244
 msgid "Saint Martin (Dutch part)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:243
+#: includes/functions/llms.functions.currency.php:245
 msgid "Saint Pierre and Miquelon"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:244
+#: includes/functions/llms.functions.currency.php:246
 msgid "Saint Vincent and the Grenadines"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:245
+#: includes/functions/llms.functions.currency.php:247
 msgid "San Marino"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:246
+#: includes/functions/llms.functions.currency.php:248
 msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:247
+#: includes/functions/llms.functions.currency.php:249
 msgid "Saudi Arabia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:248
+#: includes/functions/llms.functions.currency.php:250
 msgid "Senegal"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:249
+#: includes/functions/llms.functions.currency.php:251
 msgid "Serbia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:250
+#: includes/functions/llms.functions.currency.php:252
 msgid "Seychelles"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:251
+#: includes/functions/llms.functions.currency.php:253
 msgid "Sierra Leone"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:252
+#: includes/functions/llms.functions.currency.php:254
 msgid "Singapore"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:253
+#: includes/functions/llms.functions.currency.php:255
 msgid "Slovakia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:254
+#: includes/functions/llms.functions.currency.php:256
 msgid "Slovenia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:255
+#: includes/functions/llms.functions.currency.php:257
 msgid "Solomon Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:256
+#: includes/functions/llms.functions.currency.php:258
 msgid "Somalia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:257
+#: includes/functions/llms.functions.currency.php:259
 msgid "South Africa"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:258
+#: includes/functions/llms.functions.currency.php:260
 msgid "South Georgia/Sandwich Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:259
+#: includes/functions/llms.functions.currency.php:261
 msgid "South Korea"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:260
+#: includes/functions/llms.functions.currency.php:262
 msgid "South Sudan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:261
+#: includes/functions/llms.functions.currency.php:263
 msgid "Spain"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:262
+#: includes/functions/llms.functions.currency.php:264
 msgid "Sri Lanka"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:263
+#: includes/functions/llms.functions.currency.php:265
 msgid "Sudan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:264
+#: includes/functions/llms.functions.currency.php:266
 msgid "Suriname"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:265
+#: includes/functions/llms.functions.currency.php:267
 msgid "Svalbard and Jan Mayen"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:266
+#: includes/functions/llms.functions.currency.php:268
 msgid "Swaziland"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:267
+#: includes/functions/llms.functions.currency.php:269
 msgid "Sweden"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:268
+#: includes/functions/llms.functions.currency.php:270
 msgid "Switzerland"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:269
+#: includes/functions/llms.functions.currency.php:271
 msgid "Syria"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:270
+#: includes/functions/llms.functions.currency.php:272
 msgid "Taiwan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:271
+#: includes/functions/llms.functions.currency.php:273
 msgid "Tajikistan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:272
+#: includes/functions/llms.functions.currency.php:274
 msgid "Tanzania"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:273
+#: includes/functions/llms.functions.currency.php:275
 msgid "Thailand"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:274
+#: includes/functions/llms.functions.currency.php:276
 msgid "Timor-Leste"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:275
+#: includes/functions/llms.functions.currency.php:277
 msgid "Togo"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:276
+#: includes/functions/llms.functions.currency.php:278
 msgid "Tokelau"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:277
+#: includes/functions/llms.functions.currency.php:279
 msgid "Tonga"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:278
+#: includes/functions/llms.functions.currency.php:280
 msgid "Trinidad and Tobago"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:279
+#: includes/functions/llms.functions.currency.php:281
 msgid "Tunisia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:280
+#: includes/functions/llms.functions.currency.php:282
 msgid "Turkey"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:281
+#: includes/functions/llms.functions.currency.php:283
 msgid "Turkmenistan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:282
+#: includes/functions/llms.functions.currency.php:284
 msgid "Turks and Caicos Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:283
+#: includes/functions/llms.functions.currency.php:285
 msgid "Tuvalu"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:284
+#: includes/functions/llms.functions.currency.php:286
 msgid "Uganda"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:285
+#: includes/functions/llms.functions.currency.php:287
 msgid "Ukraine"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:286
+#: includes/functions/llms.functions.currency.php:288
 msgid "United Arab Emirates"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:287
+#: includes/functions/llms.functions.currency.php:289
 msgid "United Kingdom (UK)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:288
+#: includes/functions/llms.functions.currency.php:290
 msgid "United States (US)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:289
+#: includes/functions/llms.functions.currency.php:291
 msgid "United States (US) Minor Outlying Islands"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:290
+#: includes/functions/llms.functions.currency.php:292
 msgid "Uruguay"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:291
+#: includes/functions/llms.functions.currency.php:293
 msgid "Uzbekistan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:292
+#: includes/functions/llms.functions.currency.php:294
 msgid "Vanuatu"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:293
+#: includes/functions/llms.functions.currency.php:295
 msgid "Vatican"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:294
+#: includes/functions/llms.functions.currency.php:296
 msgid "Venezuela"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:295
+#: includes/functions/llms.functions.currency.php:297
 msgid "Vietnam"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:296
+#: includes/functions/llms.functions.currency.php:298
 msgid "Virgin Islands (British)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:297
+#: includes/functions/llms.functions.currency.php:299
 msgid "Virgin Islands (US)"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:298
+#: includes/functions/llms.functions.currency.php:300
 msgid "Wallis and Futuna"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:299
+#: includes/functions/llms.functions.currency.php:301
 msgid "Western Sahara"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:300
+#: includes/functions/llms.functions.currency.php:302
 msgid "Samoa"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:301
+#: includes/functions/llms.functions.currency.php:303
 msgid "Yemen"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:302
+#: includes/functions/llms.functions.currency.php:304
 msgid "Zambia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:303
+#: includes/functions/llms.functions.currency.php:305
 msgid "Zimbabwe"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:367
+#: includes/functions/llms.functions.currency.php:369
 msgid "United Arab Emirates dirham"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:368
+#: includes/functions/llms.functions.currency.php:370
 msgid "Afghan afghani"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:369
+#: includes/functions/llms.functions.currency.php:371
 msgid "Albanian lek"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:370
+#: includes/functions/llms.functions.currency.php:372
 msgid "Armenian dram"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:371
+#: includes/functions/llms.functions.currency.php:373
 msgid "Netherlands Antillean guilder"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:372
+#: includes/functions/llms.functions.currency.php:374
 msgid "Angolan kwanza"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:373
+#: includes/functions/llms.functions.currency.php:375
 msgid "Argentine peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:374
+#: includes/functions/llms.functions.currency.php:376
 msgid "Australian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:375
+#: includes/functions/llms.functions.currency.php:377
 msgid "Aruban florin"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:376
+#: includes/functions/llms.functions.currency.php:378
 msgid "Azerbaijani manat"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:377
+#: includes/functions/llms.functions.currency.php:379
 msgid "Bosnia and Herzegovina convertible mark"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:378
+#: includes/functions/llms.functions.currency.php:380
 msgid "Barbadian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:379
+#: includes/functions/llms.functions.currency.php:381
 msgid "Bangladeshi taka"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:380
+#: includes/functions/llms.functions.currency.php:382
 msgid "Bulgarian lev"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:381
+#: includes/functions/llms.functions.currency.php:383
 msgid "Bahraini dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:382
+#: includes/functions/llms.functions.currency.php:384
 msgid "Burundian franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:383
+#: includes/functions/llms.functions.currency.php:385
 msgid "Bermudian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:384
+#: includes/functions/llms.functions.currency.php:386
 msgid "Brunei dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:385
+#: includes/functions/llms.functions.currency.php:387
 msgid "Bolivian boliviano"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:386
+#: includes/functions/llms.functions.currency.php:388
 msgid "Brazilian real"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:387
+#: includes/functions/llms.functions.currency.php:389
 msgid "Bahamian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:388
+#: includes/functions/llms.functions.currency.php:390
 msgid "Bitcoin"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:389
+#: includes/functions/llms.functions.currency.php:391
 msgid "Bhutanese ngultrum"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:390
+#: includes/functions/llms.functions.currency.php:392
 msgid "Botswana pula"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:391
+#: includes/functions/llms.functions.currency.php:393
 msgid "Belarusian ruble"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:392
+#: includes/functions/llms.functions.currency.php:394
 msgid "Belize dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:393
+#: includes/functions/llms.functions.currency.php:395
 msgid "Canadian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:394
+#: includes/functions/llms.functions.currency.php:396
 msgid "Congolese franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:395
+#: includes/functions/llms.functions.currency.php:397
 msgid "Swiss franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:396
+#: includes/functions/llms.functions.currency.php:398
 msgid "Chilean peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:397
+#: includes/functions/llms.functions.currency.php:399
 msgid "Chinese yuan"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:398
+#: includes/functions/llms.functions.currency.php:400
 msgid "Colombian peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:399
+#: includes/functions/llms.functions.currency.php:401
 msgid "Costa Rican col&oacute;n"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:400
+#: includes/functions/llms.functions.currency.php:402
 msgid "Cuban convertible peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:401
+#: includes/functions/llms.functions.currency.php:403
 msgid "Cuban peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:402
+#: includes/functions/llms.functions.currency.php:404
 msgid "Cape Verdean escudo"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:403
+#: includes/functions/llms.functions.currency.php:405
 msgid "Czech koruna"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:404
+#: includes/functions/llms.functions.currency.php:406
 msgid "Djiboutian franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:405
+#: includes/functions/llms.functions.currency.php:407
 msgid "Danish krone"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:406
+#: includes/functions/llms.functions.currency.php:408
 msgid "Dominican peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:407
+#: includes/functions/llms.functions.currency.php:409
 msgid "Algerian dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:408
+#: includes/functions/llms.functions.currency.php:410
 msgid "Egyptian pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:409
+#: includes/functions/llms.functions.currency.php:411
 msgid "Eritrean nakfa"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:410
+#: includes/functions/llms.functions.currency.php:412
 msgid "Ethiopian birr"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:411
+#: includes/functions/llms.functions.currency.php:413
 msgid "Euro"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:412
+#: includes/functions/llms.functions.currency.php:414
 msgid "Fijian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:413
+#: includes/functions/llms.functions.currency.php:415
 msgid "Falkland Islands pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:414
+#: includes/functions/llms.functions.currency.php:416
 msgid "Pound sterling"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:415
+#: includes/functions/llms.functions.currency.php:417
 msgid "Georgian lari"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:416
+#: includes/functions/llms.functions.currency.php:418
 msgid "Guernsey pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:417
+#: includes/functions/llms.functions.currency.php:419
 msgid "Ghana cedi"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:418
+#: includes/functions/llms.functions.currency.php:420
 msgid "Gibraltar pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:419
+#: includes/functions/llms.functions.currency.php:421
 msgid "Gambian dalasi"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:420
+#: includes/functions/llms.functions.currency.php:422
 msgid "Guinean franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:421
+#: includes/functions/llms.functions.currency.php:423
 msgid "Guatemalan quetzal"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:422
+#: includes/functions/llms.functions.currency.php:424
 msgid "Guyanese dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:423
+#: includes/functions/llms.functions.currency.php:425
 msgid "Hong Kong dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:424
+#: includes/functions/llms.functions.currency.php:426
 msgid "Honduran lempira"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:425
+#: includes/functions/llms.functions.currency.php:427
 msgid "Croatian kuna"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:426
+#: includes/functions/llms.functions.currency.php:428
 msgid "Haitian gourde"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:427
+#: includes/functions/llms.functions.currency.php:429
 msgid "Hungarian forint"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:428
+#: includes/functions/llms.functions.currency.php:430
 msgid "Indonesian rupiah"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:429
+#: includes/functions/llms.functions.currency.php:431
 msgid "Israeli new shekel"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:430
+#: includes/functions/llms.functions.currency.php:432
 msgid "Manx pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:431
+#: includes/functions/llms.functions.currency.php:433
 msgid "Indian rupee"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:432
+#: includes/functions/llms.functions.currency.php:434
 msgid "Iraqi dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:433
+#: includes/functions/llms.functions.currency.php:435
 msgid "Iranian rial"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:434
+#: includes/functions/llms.functions.currency.php:436
 msgid "Icelandic kr&oacute;na"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:435
+#: includes/functions/llms.functions.currency.php:437
 msgid "Jersey pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:436
+#: includes/functions/llms.functions.currency.php:438
 msgid "Jamaican dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:437
+#: includes/functions/llms.functions.currency.php:439
 msgid "Jordanian dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:438
+#: includes/functions/llms.functions.currency.php:440
 msgid "Japanese yen"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:439
+#: includes/functions/llms.functions.currency.php:441
 msgid "Kenyan shilling"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:440
+#: includes/functions/llms.functions.currency.php:442
 msgid "Kyrgyzstani som"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:441
+#: includes/functions/llms.functions.currency.php:443
 msgid "Cambodian riel"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:442
+#: includes/functions/llms.functions.currency.php:444
 msgid "Comorian franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:443
+#: includes/functions/llms.functions.currency.php:445
 msgid "North Korean won"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:444
+#: includes/functions/llms.functions.currency.php:446
 msgid "South Korean won"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:445
+#: includes/functions/llms.functions.currency.php:447
 msgid "Kuwaiti dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:446
+#: includes/functions/llms.functions.currency.php:448
 msgid "Cayman Islands dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:447
+#: includes/functions/llms.functions.currency.php:449
 msgid "Kazakhstani tenge"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:448
+#: includes/functions/llms.functions.currency.php:450
 msgid "Lao kip"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:449
+#: includes/functions/llms.functions.currency.php:451
 msgid "Lebanese pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:450
+#: includes/functions/llms.functions.currency.php:452
 msgid "Sri Lankan rupee"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:451
+#: includes/functions/llms.functions.currency.php:453
 msgid "Liberian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:452
+#: includes/functions/llms.functions.currency.php:454
 msgid "Lesotho loti"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:453
+#: includes/functions/llms.functions.currency.php:455
 msgid "Libyan dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:454
+#: includes/functions/llms.functions.currency.php:456
 msgid "Moroccan dirham"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:455
+#: includes/functions/llms.functions.currency.php:457
 msgid "Moldovan leu"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:456
+#: includes/functions/llms.functions.currency.php:458
 msgid "Malagasy ariary"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:457
+#: includes/functions/llms.functions.currency.php:459
 msgid "Macedonian denar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:458
+#: includes/functions/llms.functions.currency.php:460
 msgid "Burmese kyat"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:459
+#: includes/functions/llms.functions.currency.php:461
 msgid "Mongolian t&ouml;gr&ouml;g"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:460
+#: includes/functions/llms.functions.currency.php:462
 msgid "Macanese pataca"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:461
+#: includes/functions/llms.functions.currency.php:463
 msgid "Mauritanian ouguiya"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:462
+#: includes/functions/llms.functions.currency.php:464
 msgid "Mauritian rupee"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:463
+#: includes/functions/llms.functions.currency.php:465
 msgid "Maldivian rufiyaa"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:464
+#: includes/functions/llms.functions.currency.php:466
 msgid "Malawian kwacha"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:465
+#: includes/functions/llms.functions.currency.php:467
 msgid "Mexican peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:466
+#: includes/functions/llms.functions.currency.php:468
 msgid "Malaysian ringgit"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:467
+#: includes/functions/llms.functions.currency.php:469
 msgid "Mozambican metical"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:468
+#: includes/functions/llms.functions.currency.php:470
 msgid "Namibian dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:469
+#: includes/functions/llms.functions.currency.php:471
 msgid "Nigerian naira"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:470
+#: includes/functions/llms.functions.currency.php:472
 msgid "Nicaraguan c&oacute;rdoba"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:471
+#: includes/functions/llms.functions.currency.php:473
 msgid "Norwegian krone"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:472
+#: includes/functions/llms.functions.currency.php:474
 msgid "Nepalese rupee"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:473
+#: includes/functions/llms.functions.currency.php:475
 msgid "New Zealand dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:474
+#: includes/functions/llms.functions.currency.php:476
 msgid "Omani rial"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:475
+#: includes/functions/llms.functions.currency.php:477
 msgid "Panamanian balboa"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:476
+#: includes/functions/llms.functions.currency.php:478
 msgid "Peruvian nuevo sol"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:477
+#: includes/functions/llms.functions.currency.php:479
 msgid "Papua New Guinean kina"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:478
+#: includes/functions/llms.functions.currency.php:480
 msgid "Philippine peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:479
+#: includes/functions/llms.functions.currency.php:481
 msgid "Pakistani rupee"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:480
+#: includes/functions/llms.functions.currency.php:482
 msgid "Polish z&#x142;oty"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:481
+#: includes/functions/llms.functions.currency.php:483
 msgid "Transnistrian ruble"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:482
+#: includes/functions/llms.functions.currency.php:484
 msgid "Paraguayan guaran&iacute;"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:483
+#: includes/functions/llms.functions.currency.php:485
 msgid "Qatari riyal"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:484
+#: includes/functions/llms.functions.currency.php:486
 msgid "Romanian leu"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:485
+#: includes/functions/llms.functions.currency.php:487
 msgid "Serbian dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:486
+#: includes/functions/llms.functions.currency.php:488
 msgid "Russian ruble"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:487
+#: includes/functions/llms.functions.currency.php:489
 msgid "Rwandan franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:488
+#: includes/functions/llms.functions.currency.php:490
 msgid "Saudi riyal"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:489
+#: includes/functions/llms.functions.currency.php:491
 msgid "Solomon Islands dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:490
+#: includes/functions/llms.functions.currency.php:492
 msgid "Seychellois rupee"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:491
+#: includes/functions/llms.functions.currency.php:493
 msgid "Sudanese pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:492
+#: includes/functions/llms.functions.currency.php:494
 msgid "Swedish krona"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:493
+#: includes/functions/llms.functions.currency.php:495
 msgid "Singapore dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:494
+#: includes/functions/llms.functions.currency.php:496
 msgid "Saint Helena pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:495
+#: includes/functions/llms.functions.currency.php:497
 msgid "Sierra Leonean leone"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:496
+#: includes/functions/llms.functions.currency.php:498
 msgid "Somali shilling"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:497
+#: includes/functions/llms.functions.currency.php:499
 msgid "Surinamese dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:498
+#: includes/functions/llms.functions.currency.php:500
 msgid "South Sudanese pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:499
+#: includes/functions/llms.functions.currency.php:501
 msgid "S&atilde;o Tom&eacute; and Pr&iacute;ncipe dobra"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:500
+#: includes/functions/llms.functions.currency.php:502
 msgid "Syrian pound"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:501
+#: includes/functions/llms.functions.currency.php:503
 msgid "Swazi lilangeni"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:502
+#: includes/functions/llms.functions.currency.php:504
 msgid "Thai baht"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:503
+#: includes/functions/llms.functions.currency.php:505
 msgid "Tajikistani somoni"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:504
+#: includes/functions/llms.functions.currency.php:506
 msgid "Turkmenistan manat"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:505
+#: includes/functions/llms.functions.currency.php:507
 msgid "Tunisian dinar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:506
+#: includes/functions/llms.functions.currency.php:508
 msgid "Tongan pa&#x2bb;anga"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:507
+#: includes/functions/llms.functions.currency.php:509
 msgid "Turkish lira"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:508
+#: includes/functions/llms.functions.currency.php:510
 msgid "Trinidad and Tobago dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:509
+#: includes/functions/llms.functions.currency.php:511
 msgid "New Taiwan dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:510
+#: includes/functions/llms.functions.currency.php:512
 msgid "Tanzanian shilling"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:511
+#: includes/functions/llms.functions.currency.php:513
 msgid "Ukrainian hryvnia"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:512
+#: includes/functions/llms.functions.currency.php:514
 msgid "Ugandan shilling"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:513
+#: includes/functions/llms.functions.currency.php:515
 msgid "United States dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:514
+#: includes/functions/llms.functions.currency.php:516
 msgid "Uruguayan peso"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:515
+#: includes/functions/llms.functions.currency.php:517
 msgid "Uzbekistani som"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:516
+#: includes/functions/llms.functions.currency.php:518
 msgid "Venezuelan bol&iacute;var"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:517
+#: includes/functions/llms.functions.currency.php:519
 msgid "Vietnamese &#x111;&#x1ed3;ng"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:518
+#: includes/functions/llms.functions.currency.php:520
 msgid "Vanuatu vatu"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:519
+#: includes/functions/llms.functions.currency.php:521
 msgid "Samoan t&#x101;l&#x101;"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:520
+#: includes/functions/llms.functions.currency.php:522
 msgid "Central African CFA franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:521
+#: includes/functions/llms.functions.currency.php:523
 msgid "East Caribbean dollar"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:522
+#: includes/functions/llms.functions.currency.php:524
 msgid "West African CFA franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:523
+#: includes/functions/llms.functions.currency.php:525
 msgid "CFP franc"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:524
+#: includes/functions/llms.functions.currency.php:526
 msgid "Yemeni rial"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:525
+#: includes/functions/llms.functions.currency.php:527
 msgid "South African rand"
 msgstr ""
 
-#: includes/functions/llms.functions.currency.php:526
+#: includes/functions/llms.functions.currency.php:528
 msgid "Zambian kwacha"
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:212
+#: includes/functions/llms.functions.order.php:210
 msgid "You must agree to the %s to continue."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:219
+#: includes/functions/llms.functions.order.php:217
 msgid "Missing an Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:226
+#: includes/functions/llms.functions.order.php:224
 msgid "Invalid Access Plan ID."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:258
+#: includes/functions/llms.functions.order.php:256
 msgid "No payment method selected."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:269
+#: includes/functions/llms.functions.order.php:267
 msgid "Missing customer information."
 msgstr ""
 
-#: includes/functions/llms.functions.order.php:288, includes/forms/controllers/class.llms.controller.account.php:116, includes/forms/controllers/class.llms.controller.registration.php:86
+#: includes/functions/llms.functions.order.php:286, includes/forms/controllers/class.llms.controller.account.php:116, includes/forms/controllers/class.llms.controller.registration.php:86
 msgid "An unknown error occurred when attempting to create an account, please try again."
 msgstr ""
 
 #. translators: 2$s = The product type (course/membership); %1$s = product permalink.
-#: includes/functions/llms.functions.order.php:300, includes/shortcodes/class.llms.shortcode.checkout.php:70
+#: includes/functions/llms.functions.order.php:298, includes/shortcodes/class.llms.shortcode.checkout.php:70
 msgid "You already have access to this %2$s! Visit your dashboard <a href=\"%1$s\">here.</a>"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:218
+#: includes/functions/llms.functions.person.php:219
 msgid "strong"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:222
+#: includes/functions/llms.functions.person.php:223
 msgid "medium"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:226
+#: includes/functions/llms.functions.person.php:227
 msgid "weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:230
+#: includes/functions/llms.functions.person.php:231
 msgid "very weak"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:445
+#: includes/functions/llms.functions.person.php:446
 msgid "Last Login"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:473
+#: includes/functions/llms.functions.person.php:474
 msgid "Never"
 msgstr ""
 
-#: includes/functions/llms.functions.person.php:512
+#: includes/functions/llms.functions.person.php:513
 msgid "No memberships"
 msgstr ""
 
-#: includes/functions/llms.functions.privacy.php:42
+#: includes/functions/llms.functions.privacy.php:41
 msgid "Your personal data will be used to process your enrollment, support your experience on this website, and for other purposes described in our {{policy}}."
 msgstr ""
 
-#: includes/functions/llms.functions.privacy.php:93
+#: includes/functions/llms.functions.privacy.php:92
 msgid "I have read and agree to the {{terms}}."
 msgstr ""
 
@@ -5701,47 +5701,47 @@ msgstr ""
 msgid "Start"
 msgstr ""
 
-#: includes/functions/llms.functions.templates.dashboard.widgets.php:54
+#: includes/functions/llms.functions.templates.dashboard.widgets.php:56
 msgid "%s ago"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:116, includes/models/model.llms.access.plan.php:571
+#: includes/functions/llms.functions.updates.php:118, includes/models/model.llms.access.plan.php:571
 msgid "Join"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:183
+#: includes/functions/llms.functions.updates.php:185
 msgid "Members Only"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:208
+#: includes/functions/llms.functions.updates.php:210
 msgid "One-Time Payment"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:252
+#: includes/functions/llms.functions.updates.php:254
 msgid "Subscription"
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:473, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:270
+#: includes/functions/llms.functions.updates.php:475, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:270
 msgid "This course opens on [lifterlms_course_info id=\"%d\" key=\"start_date\"]."
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:474, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:281
+#: includes/functions/llms.functions.updates.php:476, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:281
 msgid "This course closed on [lifterlms_course_info id=\"%d\" key=\"end_date\"]."
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:487, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:349
+#: includes/functions/llms.functions.updates.php:489, includes/admin/post-types/meta-boxes/class.llms.meta.box.course.options.php:349
 msgid "Enrollment has closed because the maximum number of allowed students has been reached."
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:688
+#: includes/functions/llms.functions.updates.php:690
 msgid "This order was migrated to the LifterLMS 3.0 data structure. %1$sLearn more%2$s."
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:1009
+#: includes/functions/llms.functions.updates.php:1011
 msgid "Welcome to LifterLMS 3.13.0! We've packed a ton of features into this release: Take a moment to get familiar with the all new %1$scourse builder%3$s and our new %2$suser roles%3$s."
 msgstr ""
 
-#: includes/functions/llms.functions.updates.php:1679
+#: includes/functions/llms.functions.updates.php:1681
 msgid "Welcome to LifterLMS 3.16.0! This update adds significant improvements to the quiz-building experience. Notice quizzes and questions are no longer found under \"Courses\" on the sidebar? Your quizzes have not been deleted but they have been moved! Read more about the all new %1$squiz builder%2$s."
 msgstr ""
 
@@ -7961,7 +7961,7 @@ msgstr ""
 msgid "Your account information has been saved."
 msgstr ""
 
-#: includes/forms/controllers/class.llms.controller.account.php:163, includes/forms/frontend/class.llms.frontend.password.php:37
+#: includes/forms/controllers/class.llms.controller.account.php:163, includes/forms/frontend/class.llms.frontend.password.php:39
 msgid "Enter a username or e-mail address."
 msgstr ""
 
@@ -7986,35 +7986,35 @@ msgstr ""
 msgid "Already logged in! Please log out and try again."
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.forms.php:85
+#: includes/forms/frontend/class.llms.frontend.forms.php:87
 msgid "Please enter your password."
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.forms.php:92
+#: includes/forms/frontend/class.llms.frontend.forms.php:94
 msgid "Passwords do not match."
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.forms.php:149
+#: includes/forms/frontend/class.llms.frontend.forms.php:151
 msgid "Voucher redeemed successfully!"
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.password.php:45
+#: includes/forms/frontend/class.llms.frontend.password.php:47
 msgid "The email address entered is not associated with an account."
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.password.php:60
+#: includes/forms/frontend/class.llms.frontend.password.php:62
 msgid "Invalid username or e-mail."
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.password.php:74
+#: includes/forms/frontend/class.llms.frontend.password.php:76
 msgid "Could not reset password."
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.password.php:110
+#: includes/forms/frontend/class.llms.frontend.password.php:112
 msgid "Check your e-mail for the account confirmation link."
 msgstr ""
 
-#: includes/forms/frontend/class.llms.frontend.password.php:126, includes/forms/frontend/class.llms.frontend.password.php:133, includes/forms/frontend/class.llms.frontend.password.php:142
+#: includes/forms/frontend/class.llms.frontend.password.php:128, includes/forms/frontend/class.llms.frontend.password.php:135, includes/forms/frontend/class.llms.frontend.password.php:144
 msgid "Invalid key"
 msgstr ""
 

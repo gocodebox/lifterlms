@@ -1,6 +1,6 @@
 {
   "name": "lifterlms",
-  "version": "3.38.1",
+  "version": "3.38.2",
   "description": "LifterLMS by codeBOX",
   "repository": {
     "type": "git",
@@ -16,9 +16,10 @@
     "@babel/cli": "^7.8.4",
     "@babel/core": "^7.8.7",
     "@babel/preset-env": "^7.8.7",
+    "@lifterlms/scripts": "file:packages/scripts",
     "@lifterlms/llms-e2e-test-utils": "file:packages/llms-e2e-test-utils",
     "@wordpress/e2e-test-utils": "^4.3.1",
-    "@wordpress/scripts": "^7.1.3",
+    "@wordpress/scripts": "^9.0.0",
     "contributor-faces": "^1.0.3",
     "gulp": "^4.0.2",
     "gulp-cli": "^2.2.0",
@@ -42,19 +43,7 @@
     "pkgs:watch": "npx watch -p 'packages/**/src/*.js' -c 'npm run pkgs:build'",
     "pkgs:clean": "lerna exec --parallel -- rm -rf ./build/",
     "pkgs:build": "lerna exec --parallel -- npx babel --config-file ../../babel.config.js src --out-dir build",
-    "test": "wp-scripts test-e2e --config tests/e2e/jest.config.js",
+    "test": "wp-scripts test-e2e --config packages/scripts/e2e/jest.config.js",
     "test:dev": "npm run test -- --puppeteer-interactive"
-  },
-  "wp-env": {
-    "plugin-dir": "lifterlms",
-    "plugin-name": "LifterLMS",
-    "docker-template": "./docker-compose.override.yml.template",
-    "welcome-logo": [
-      " _    _  __ _           _    __  __ ___ ",
-      "| |  (_)/ _| |_ ___ _ _| |  |  /  / __|",
-      "| |__| |  _|  _/ -_) '_| |__| |/| \\__ \\",
-      "|____|_|_|  \\__\\___|_| |____|_|  |_|___/"
-    ],
-    "welcome-build-command": "gulp build"
   }
 }
