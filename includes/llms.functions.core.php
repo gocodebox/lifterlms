@@ -852,12 +852,13 @@ function llms_get_transaction_statuses() {
 /**
  * Determine is request is an ajax request
  *
- * @return   bool
- * @since    3.0.1
- * @version  3.0.1
+ * @since 3.0.1
+ * @since [version] Use WP core `wp_doing_ajax()`.
+ *
+ * @return bool
  */
 function llms_is_ajax() {
-	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+	return wp_doing_ajax();
 }
 
 /**
