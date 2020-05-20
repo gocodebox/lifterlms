@@ -150,13 +150,9 @@ final class LifterLMS {
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
+		add_action( 'init', array( $this, 'init_session' ), 6 ); // After table installation which happens at init 5.
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
-
-		// Initialize sessions on the frontend.
-		if ( ! is_admin() ) {
-			add_action( 'plugins_loaded', array( $this, 'init_session' ), 5 );
-		}
 
 		// Tracking.
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {

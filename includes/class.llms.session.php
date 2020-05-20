@@ -74,7 +74,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 */
 		add_action( 'llms_delete_expired_session_data', array( $this, 'clean' ) );
 
-		if ( ! defined( 'DOING_CRON' ) || ! DOING_CRON ) {
+		if ( $this->should_init() ) {
 
 			$this->init_cookie();
 
@@ -181,7 +181,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 			// If the session is nearing expiration, update the session.
 			$extend_expiration = $this->maybe_extend_expiration();
 
-			// If either of these two items are true, the cookie needs to be updated..
+			// If either of these two items are true, the cookie needs to be updated.
 			$set_cookie = $update_id || $extend_expiration;
 
 		} else {
@@ -260,6 +260,39 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		}
 
 		return false;
+
+	}
+
+	/**
+	 * Determines if the cookie and related save/destroy handler actions should be initialized
+	 *
+	 * When doing CRON or when on the admin panel we don't want to load, otherwise we do.
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	protected function should_init() {
+
+		// Load by default in most places.
+		$init = true;
+
+		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
+			// Don't init during crons.
+			$init = false;
+		} elseif ( is_admin() && ! wp_doing_ajax() ) {
+			// Don't init on the admin panel unless it's an ajax request.
+			$init = false;
+		}
+
+		/**
+		 * Filter whether or not session cookies and related hooks are initialized
+		 *
+		 * @since [version]
+		 *
+		 * @param boolean $init Whether or not initialization should take place.
+		 */
+		return apply_filters( 'llms_session_should_init', $init );
 
 	}
 
