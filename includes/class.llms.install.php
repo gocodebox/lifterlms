@@ -19,14 +19,17 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.0 Add `wp_lifterlms_events` table.
  * @since [version] Add `wp_lifterlms_sessions` table.
  *               Add session cleanup cron.
+ *               Add db update functions for session manage library cleanup.
  */
 class LLMS_Install {
 
 	public static $background_updater;
 
 	/**
-	 * Array of database updates versions
-	 * and an array of callback functions for the update
+	 * Database update functions
+	 *
+	 * Array key is the database version and array values are
+	 * arrays of callback functions for the update.
 	 *
 	 * @var  array
 	 */
@@ -84,6 +87,10 @@ class LLMS_Install {
 		'3.28.0' => array(
 			'llms_update_3280_clear_session_cleanup_cron',
 			'llms_update_3280_update_db_version',
+		),
+		'3.39.0' => array(
+			'llms_update_3390_clear_wp_session_manager_data',
+			'llms_update_3390_update_db_version',
 		),
 	);
 
