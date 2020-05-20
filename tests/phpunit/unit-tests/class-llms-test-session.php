@@ -38,7 +38,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	 *
 	 * @return void
 	 */
-	public function test_construct() {
+	public function test_construct_should_init() {
 
 		remove_action( 'llms_delete_expired_session_data', array( $this->main, 'clean' ) );
 		remove_action( 'wp_logout', array( $this->main, 'destroy' ) );
@@ -55,23 +55,21 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	}
 
 	/**
-	 * Test constructor during a cron
+	 * Test constructor when we should not initialize.
 	 *
 	 * @since [version]
 	 *
-	 * @runInSeparateProcess
-	 *
 	 * @return void
 	 */
-	public function test_construct_during_cron() {
+	public function test_construct_should_not_init() {
 
 		remove_action( 'llms_delete_expired_session_data', array( $this->main, 'clean' ) );
 		remove_action( 'wp_logout', array( $this->main, 'destroy' ) );
 		remove_action( 'shutdown', array( $this->main, 'maybe_save_data' ), 20 );
 
-		define( 'DOING_CRON', true );
-
+		add_filter( 'llms_session_should_init', '__return_false' );
 		$this->main = new LLMS_Session();
+		remove_filter( 'llms_session_should_init', '__return_false' );
 
 		$this->assertEquals( 10, has_action( 'llms_delete_expired_session_data', array( $this->main, 'clean' ) ) );
 		$this->assertFalse( has_action( 'wp_logout', array( $this->main, 'destroy' ) ) );
