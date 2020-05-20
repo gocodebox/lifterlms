@@ -46,7 +46,7 @@ function llms_update_3120_update_order_end_dates() {
 
 /**
  * Rename options for bbPress and BuddyPress to follow the abstract integration options structure
-*
+ *
  * @since 3.12.0
  *
  * @return void
@@ -78,7 +78,7 @@ function llms_update_3120_update_integration_options() {
 
 /**
  * Update db version at conclusion of 3.12.0 updates
-*
+ *
  * @since 3.12.0
  *
  * @return void
