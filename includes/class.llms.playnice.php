@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version 3.37.18
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.17 Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
  *                Deprecated `LLMS_PlayNice::wc_is_account_page()`.
  * @since 3.37.18 Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
+ * @since [version] Removed previously deprecated method `LLMS_PlayNice::wc_is_account_page()`.
  */
 class LLMS_PlayNice {
 
@@ -128,32 +129,6 @@ class LLMS_PlayNice {
 			add_filter( 'woocommerce_product_tabs', array( $this, 'divi_fb_wc_product_tabs_after' ), 999 );
 
 		}
-
-	}
-
-	/**
-	 * Allow our dashboard endpoints sharing a query var with WC to function
-	 *
-	 * Lie to WC and tell it we're on a WC account page when accessing endpoints which
-	 * share a query var with WC.
-	 *
-	 * @since 3.31.0
-	 * @deprecated 3.37.17 No longer required based on the usage of `wc_account_endpoint_page_not_found()`.
-	 *
-	 * @link https://github.com/gocodebox/lifterlms/issues/849
-	 *
-	 * @param bool $is_acct_page False from `woocommerce_is_account_page` filter.
-	 * @return bool
-	 */
-	public function wc_is_account_page( $is_acct_page ) {
-
-		llms_deprecated_function( 'LLMS_PlayNice::wc_is_account_page()', '3.37.17' );
-
-		if ( ! $is_acct_page && is_llms_account_page() && is_wc_endpoint_url() ) {
-			$is_acct_page = true;
-		}
-
-		return $is_acct_page;
 
 	}
 
