@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 3.37.13
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -459,33 +459,6 @@ function llms_setup_course_data( $post ) {
 
 }
 add_action( 'the_post', 'llms_setup_course_data' );
-
-/**
- * When the_post is called, put question data into a global.
- *
- * @param mixed $post
- * @return LLMS_Question
- */
-function llms_setup_question_data( $post ) {
-	if ( ! is_admin() ) {
-
-		if ( 'llms_question' == $post->post_type ) {
-			unset( $GLOBALS['question'] );
-
-			if ( is_int( $post ) ) {
-				$post = get_post( $post ); }
-
-			if ( empty( $post->post_type ) ) {
-				return; }
-
-				$GLOBALS['question'] = llms_get_question( $post );
-
-				return $GLOBALS['question'];
-		}
-	}
-
-}
-add_action( 'the_post', 'llms_setup_question_data' );
 
 /**
  * When the_post is called, put course data into a global.
