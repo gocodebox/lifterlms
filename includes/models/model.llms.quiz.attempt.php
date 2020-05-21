@@ -3,14 +3,21 @@
  * Quiz Attempt Model
  *
  * @package LifterLMS/Models
- * @since   3.9.0
- * @version 3.29.0
+ *
+ * @since 3.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Quiz_Attempt model.
+ *
+ * @since 3.9.0
+ * @since 3.16.0 Unknown.
+ * @since 3.24.0 Unknown.
+ * @since 3.29.0 Unknown.
+ * @since [version] Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -116,9 +123,11 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Calculate and the grade for a completed quiz
 	 *
-	 * @return   $this      for chaining
-	 * @since    3.9.0
-	 * @version  3.24.0
+	 * @since 3.9.0
+	 * @since 3.24.0 Unknown.
+	 * @since [version] Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
+	 *
+	 * @return LLMS_Quiz Instance of the current quiz object.
 	 */
 	public function calculate_grade() {
 
@@ -129,7 +138,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			$grade = LLMS()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
 
 			$quiz      = $this->get_quiz();
-			$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
+			$min_grade = $quiz ? $quiz->get( 'passing_percent' ) : 100;
 
 			$this->set( 'grade', $grade );
 			$status = ( $min_grade <= $grade ) ? 'pass' : 'fail';
