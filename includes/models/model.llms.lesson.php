@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version 3.36.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.29.0 Unknown.
  * @since 3.36.2 When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
+ * @since [version] Remove deprecated methods.
  *
  * @property $audio_embed (string) Audio embed URL
  * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
