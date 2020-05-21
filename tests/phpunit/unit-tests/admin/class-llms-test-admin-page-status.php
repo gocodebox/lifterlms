@@ -8,6 +8,7 @@
  * @group status
  *
  * @since 3.37.14
+ * @since [version] Removed clear sessions tests in favor of tests in the `LLMS_Test_Admin_Tool_Clear_Sessions` test class.
  */
 class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 
@@ -161,33 +162,6 @@ class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 
 		global $wpdb;
 		$res = $wpdb->get_results( "SELECT * FROM {$wpdb->usermeta} WHERE meta_key = 'llms_overall_progress' OR meta_key = 'llms_overall_grade';" );
-
-		$this->assertEquals( array(), $res );
-
-	}
-
-	/**
-	 * Test the session data clear tool.
-	 *
-	 * @since 3.37.14
-	 *
-	 * @return void
-	 */
-	public function test_do_tool_clear_sessions() {
-
-		// Create mock data.
-		WP_Session_Utils::create_dummy_session();
-
-		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
-
-		$this->mockPostRequest( array(
-			'_wpnonce'  => wp_create_nonce( 'llms_tool' ),
-			'llms_tool' => 'clear-sessions',
-		) );
-		LLMS_Unit_Test_Util::call_method( $this->main, 'do_tool' );
-
-		global $wpdb;
-		$res = $wpdb->get_results( "SELECT * FROM {$wpdb->options} WHERE option_name LIKE '_wp_session_%';" );
 
 		$this->assertEquals( array(), $res );
 

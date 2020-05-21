@@ -2,9 +2,13 @@
 /**
  * Tests for the LLMS_Install Class
  *
+ * @package LifterLMS/Tests
+ *
+ * @group install
+ *
  * @since 3.3.1
  * @since 3.37.8 Fix directory path to uninstall.php
- * @version  3.28.0
+ * @since [version] Test creation of all tables; fix caching issue when testing full install; add new cron test.
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -32,19 +36,33 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for create_cron_jobs()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.28.0
+	 *
+	 * @since 3.3.1
+	 * @since 3.28.0 Unknown.
+	 * @since [version] Test session cleanup cron.
+	 *
+	 * @return void
 	 */
 	public function test_create_cron_jobs() {
 
-		// clear crons
-		wp_clear_scheduled_hook( 'llms_cleanup_tmp' );
-		wp_clear_scheduled_hook( 'llms_send_tracking_data' );
+		$crons = array(
+			'llms_cleanup_tmp',
+			'llms_send_tracking_data',
+			'llms_delete_expired_session_data',
+		);
+
+		// Clear.
+		foreach ( $crons as $cron ) {
+			wp_clear_scheduled_hook( $cron );
+			$this->assertFalse( wp_next_scheduled( $cron ) );
+		}
 
 		LLMS_Install::create_cron_jobs();
-		$this->assertTrue( is_numeric( wp_next_scheduled( 'llms_cleanup_tmp' ) ) );
-		$this->assertTrue( is_numeric( wp_next_scheduled( 'llms_send_tracking_data' ) ) );
+
+		// Scheduled.
+		foreach ( $crons as $cron ) {
+			$this->assertTrue( is_numeric( wp_next_scheduled( $cron ) ) );
+		}
 
 	}
 
@@ -168,32 +186,37 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 	/**
 	 * Tests for create_tables()
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 *
+	 * @since 3.3.1
+	 * @since [version] Add missing tables.
+	 *
+	 * @return void
 	 */
 	public function test_create_tables() {
 
 		global $wpdb;
 
-		// clear tables
-		$wpdb->query(
-			"DROP TABLE IF EXISTS
-				{$wpdb->prefix}lifterlms_user_postmeta,
-				{$wpdb->prefix}lifterlms_product_to_voucher,
-				{$wpdb->prefix}lifterlms_voucher_code_redemptions,
-				{$wpdb->prefix}lifterlms_vouchers_codes
-			;"
+		$tables = array(
+			"{$wpdb->prefix}lifterlms_user_postmeta",
+			"{$wpdb->prefix}lifterlms_quiz_attempts",
+			"{$wpdb->prefix}lifterlms_product_to_voucher",
+			"{$wpdb->prefix}lifterlms_voucher_code_redemptions",
+			"{$wpdb->prefix}lifterlms_vouchers_codes",
+			"{$wpdb->prefix}lifterlms_notifications",
+			"{$wpdb->prefix}lifterlms_events",
+			"{$wpdb->prefix}lifterlms_sessions",
 		);
 
-		// install tables
+		// Clear tables.
+		// $list = implode( ', ', $tables );
+		// $wpdb->query( "DROP TABLE IF EXISTS $list;" );
+
+		// Install tables.
 		LLMS_Install::create_tables();
 
-		// ensure they exist
-		$this->assertEquals( "{$wpdb->prefix}lifterlms_user_postmeta", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_user_postmeta'" ) );
-		$this->assertEquals( "{$wpdb->prefix}lifterlms_product_to_voucher", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_product_to_voucher'" ) );
-		$this->assertEquals( "{$wpdb->prefix}lifterlms_voucher_code_redemptions", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_voucher_code_redemptions'" ) );
-		$this->assertEquals( "{$wpdb->prefix}lifterlms_vouchers_codes", $wpdb->get_var( "SHOW TABLES LIKE '{$wpdb->prefix}lifterlms_vouchers_codes'" ) );
+		foreach ( $tables as $table ) {
+			$this->assertEquals( $table, $wpdb->get_var( "SHOW TABLES LIKE '{$table}'" ) );
+		}
 
 	}
 
@@ -269,12 +292,13 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.3.1
 	 * @since 3.37.8 Fix directory path to uninstall.php
+	 * @since [version] Flush cache after uninstall is run.
 	 *
 	 * @return void
 	 */
 	public function test_install() {
 
-		// clean existing install first
+		// Clean existing install first.
 		if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 			define( 'WP_UNINSTALL_PLUGIN', true );
 			define( 'LLMS_REMOVE_ALL_DATA', true );
@@ -282,8 +306,10 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 
 		include( dirname( __FILE__, 4 ) . '/uninstall.php' );
 
+		wp_cache_flush();
+
 		LLMS_Install::install();
-		$this->assertTrue( get_option( 'lifterlms_current_version' ) === LLMS()->version );
+		$this->assertEquals( LLMS()->version, get_option( 'lifterlms_current_version' ) );
 
 	}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.37.17
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -852,12 +852,13 @@ function llms_get_transaction_statuses() {
 /**
  * Determine is request is an ajax request
  *
- * @return   bool
- * @since    3.0.1
- * @version  3.0.1
+ * @since 3.0.1
+ * @since [version] Use WP core `wp_doing_ajax()`.
+ *
+ * @return bool
  */
 function llms_is_ajax() {
-	return ( defined( 'DOING_AJAX' ) && DOING_AJAX );
+	return wp_doing_ajax();
 }
 
 /**
@@ -1008,6 +1009,35 @@ if ( ! function_exists( 'llms_redirect_and_exit' ) ) {
 		call_user_func( $func, $location, $options['status'] );
 		exit();
 
+	}
+}
+
+if ( ! function_exists( 'llms_setcookie' ) ) {
+	/**
+	 * Set a cookie.
+	 *
+	 * A pluggable wrapper for the native PHP function `set_cookie()`.
+	 *
+	 * The lifterlms-tests library plugs this function during unit testing so we can mock
+	 * the returns of methods that set cookies and write tests for those functions.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://www.php.net/manual/en/function.setcookie.php
+	 *
+	 * @param string $name     The name of the cookie.
+	 * @param string $value    The value of the cookie.
+	 * @param int    $expires  The time wehn the cookie expires as a Unix timestamp.
+	 * @param string $path     The path on the server where the cookie will be available.
+	 * @param string $domain   The (sub)domain that the cookie is available to.
+	 * @param bool   $secure   Indicates the cookie should only be transmitted over a secure HTTPS connection.
+	 * @param bool   $httponly When `true` the cookie will only be made accessible through the HTTP protocol,
+	 *                         preventing it from being accessed by scripting languages (such as Javascript).
+	 *
+	 * @return boolean
+	 */
+	function llms_setcookie( $name, $value = '', $expires = 0, $path = '', $domain = '', $secure = false, $httponly = false ) {
+		return setcookie( $name, $value, $expires, $path, $domain, $secure, $httponly );
 	}
 }
 

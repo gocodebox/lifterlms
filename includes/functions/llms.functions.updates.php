@@ -21,6 +21,7 @@ require_once 'updates/llms-functions-updates-380.php';
 require_once 'updates/llms-functions-updates-3130.php';
 require_once 'updates/llms-functions-updates-3160.php';
 require_once 'updates/llms-functions-updates-3280.php';
+require_once 'updates/llms-functions-updates-3390.php';
 
 /**
  * Duplicate a WP Post & all relate metadata
