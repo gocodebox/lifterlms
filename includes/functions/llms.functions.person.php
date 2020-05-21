@@ -7,57 +7,10 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
-
-/**
- * Creates new user
- *
- * @deprecated 3.0.0, use 'llms_register_user' instead
- *
- * @param  string $email             [user email]
- * @param  string $email2            [user verify email]
- * @param  string $username          [username]
- * @param  string $firstname         [user first name]
- * @param  string $lastname          [user last name]
- * @param  string $password          [user password]
- * @param  string $password2         [user verify password]
- * @param  string $billing_address_1 [user billing address 1]
- * @param  string $billing_address_2 [user billing address 2]
- * @param  string $billing_city      [user billing city]
- * @param  string $billing_state     [user billing state]
- * @param  string $billing_zip       [user billing zip]
- * @param  string $billing_country   [user billing country]
- * @param  string $agree_to_terms    [agree to terms checkbox bool]
- *
- * @return int $person_id            [ID of the user created]
- *
- * @version 3.0.0
- */
-function llms_create_new_person( $email, $email2, $username = '', $firstname = '', $lastname = '', $password = '', $password2 = '', $billing_address_1 = '', $billing_address_2 = '', $billing_city = '', $billing_state = '', $billing_zip = '', $billing_country = '', $agree_to_terms = '', $phone = '' ) {
-	llms_deprecated_function( 'llms_create_new_person', '3.0.0', 'llms_register_user' );
-	return llms_register_user(
-		array(
-			'email_address'          => $email,
-			'email_address_confirm'  => $email2,
-			'user_login'             => $username,
-			'first_name'             => $firstname,
-			'last_name'              => $lastname,
-			'password'               => $password,
-			'password_confirm'       => $password2,
-			'llms_billing_address_1' => $billing_address_1,
-			'llms_billing_address_2' => $billing_address_2,
-			'llms_billing_city'      => $billing_city,
-			'llms_billing_state'     => $billing_state,
-			'llms_billing_zip'       => $billing_zip,
-			'llms_billing_country'   => $billing_country,
-			'llms_phone'             => $phone,
-			'terms'                  => $agree_to_terms,
-		)
-	);
-}
 
 /**
  * Checks LifterLMS user capabilities against an object
