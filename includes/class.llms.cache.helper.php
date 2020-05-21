@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 3.15.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,8 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Cache_Helper
  *
- * @since 3.15.0]
+ * @since 3.15.0
+ * @since [version] Add WP_Object_Cache API helper.
  */
 class LLMS_Cache_Helper {
 
@@ -31,13 +32,58 @@ class LLMS_Cache_Helper {
 	}
 
 	/**
+	 * Retrieve a cache prefix that can be used with WP_Object_Cache methods
+	 *
+	 * Using a cache prefix allows simple invalidation of all items with the same
+	 * prefix simply by updating the prefix.
+	 *
+	 * The "prefix" is microtime(), if we wish to invalidate all items in the prefix group
+	 * we call the method again with `$invalidate=true` which updates the prefix to the current
+	 * microtime(), thereby invalidating the entire cache group.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/4476#comment:10
+	 *
+	 * @param string $group Cache group name.
+	 * @return string
+	 */
+	public static function get_prefix( $group ) {
+
+		$key    = sprintf( 'llms_%s_cache_prefix', $group );
+		$prefix = wp_cache_get( $key, $group );
+
+		if ( false === $prefix ) {
+			$prefix = microtime();
+			wp_cache_set( $key, $prefix, $group );
+		}
+
+		return sprintf( 'llms_cache_%s_', $prefix );
+
+	}
+
+	/**
+	 * Invalidate a cache group prefix.
+	 *
+	 * @since [version]
+	 *
+	 * @link https://core.trac.wordpress.org/ticket/4476#comment:10
+	 *
+	 * @param string $group Cache group name.
+	 * @return void
+	 */
+	public static function invalidate_group( $group ) {
+		wp_cache_set( sprintf( 'llms_%s_cache_prefix', $group ), microtime(), $group );
+	}
+
+	/**
 	 * Define nocache constants and set nocache headers on specified pages
 	 *
 	 * This prevents caching for the Checkout & Student Dashboard pages.
 	 *
 	 * @since 3.15.0
 	 *
-	 * @return   void
+	 * @return void
 	 */
 	public function maybe_no_cache() {
 

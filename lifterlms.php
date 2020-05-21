@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.38.1
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -48,6 +48,7 @@ require_once 'vendor/autoload.php';
  * @since 3.36.1 Include SendWP Connector.
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
  * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
+ * @since [version] Update session management.
  */
 final class LifterLMS {
 
@@ -112,9 +113,11 @@ final class LifterLMS {
 	/**
 	 * LifterLMS Constructor.
 	 *
-	 * @return   LifterLMS
-	 * @since    1.0.0
-	 * @version  3.21.1
+	 * @since 1.0.0
+	 * @since 3.21.1 Unknown
+	 * @since [version] Load `$this->session` at `plugins_loaded` in favor of during class construction.
+	 *
+	 * @return void
 	 */
 	private function __construct() {
 
@@ -124,37 +127,43 @@ final class LifterLMS {
 
 		spl_autoload_register( array( $this, 'autoload' ) );
 
-		// Define constants
+		// Define constants.
 		$this->define_constants();
 
-		// localize as early as possible
-		// since 4.6 the "just_in_time" l10n will load the default (not custom) file first
-		// so we must localize before any l10n functions (like `__()`) are used
-		// so that our custom "safe" location will always load first
+		/**
+		 * Localize as early as possible.
+		 *
+		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
+		 * so we must localize before any l10n functions (like `__()`) are used
+		 * so that our custom "safe" location will always load firsti
+		 */
 		$this->localize();
 
-		// Include required files
+		// Include required files.
 		$this->includes();
 
-		// setup session stuff
-		$this->session = new LLMS_Session();
-
-		// Hooks
+		// Hooks.
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
+		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
+
 		add_action( 'init', array( $this, 'init' ), 0 );
 		add_action( 'init', array( $this, 'integrations' ), 1 );
 		add_action( 'init', array( $this, 'processors' ), 5 );
 		add_action( 'init', array( $this, 'events' ), 5 );
+		add_action( 'init', array( $this, 'init_session' ), 6 ); // After table installation which happens at init 5.
 		add_action( 'init', array( $this, 'include_template_functions' ) );
 		add_action( 'init', array( 'LLMS_Shortcodes', 'init' ) );
-		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( $this, 'add_action_links' ), 10, 1 );
 
-		// tracking
+		// Tracking.
 		if ( defined( 'DOING_CRON' ) && DOING_CRON && 'yes' === get_option( 'llms_allow_tracking', 'no' ) ) {
 			LLMS_Tracker::init();
 		}
 
-		// Loaded action
+		/**
+		 * Action fired after LifterLMS is fully loaded.
+		 *
+		 * @since Unknown
+		 */
 		do_action( 'lifterlms_loaded' );
 
 	}
@@ -281,6 +290,7 @@ final class LifterLMS {
 	 * @since 3.36.1 Include SendWP Connector.
 	 * @since 3.37.0 Include LLMS_Theme_Support class.
 	 * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
+	 * @since [version] Require session abstracts.
 	 *
 	 * @return void
 	 */
@@ -294,6 +304,10 @@ final class LifterLMS {
 		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
 			require_once 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
 		}
+
+		// Abstracts.
+		require_once 'includes/abstracts/llms-abstract-session-data.php';
+		require_once 'includes/abstracts/llms-abstract-session-database-handler.php';
 
 		require_once 'includes/llms.functions.core.php';
 		require_once 'includes/class.llms.install.php';
@@ -500,6 +514,23 @@ final class LifterLMS {
 		$this->notifications();
 
 		do_action( 'lifterlms_init' );
+
+	}
+
+	/**
+	 * Initializes an LLMS_Session() into the $session variable
+	 *
+	 * @since [version]
+	 *
+	 * @return LLMS_Session
+	 */
+	public function init_session() {
+
+		if ( is_null( $this->session ) ) {
+			$this->session = new LLMS_Session();
+		}
+
+		return $this->session;
 
 	}
 

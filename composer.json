@@ -30,15 +30,10 @@
     {
       "type": "vcs",
       "url": "https://github.com/Prospress/action-scheduler"
-    },
-    {
-      "type": "vcs",
-      "url": "https://github.com/ericmann/wp-session-manager"
     }
   ],
   "require": {
     "prospress/action-scheduler": "dev-master",
-    "ericmann/wp-session-manager": "dev-master",
     "lifterlms/lifterlms-blocks": "^1.1",
     "lifterlms/lifterlms-rest": "^1.0.0-beta.3"
   },

@@ -4,45 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "11c69e748f9d80d50cb284bcdf54a9d5",
+    "content-hash": "245f35bb797363b8e243f2e3ced03117",
     "packages": [
-        {
-            "name": "ericmann/wp-session-manager",
-            "version": "dev-master",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ericmann/wp-session-manager.git",
-                "reference": "8a4aacd25e4a89429e93a85df70a068052853cae"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ericmann/wp-session-manager/zipball/8a4aacd25e4a89429e93a85df70a068052853cae",
-                "reference": "8a4aacd25e4a89429e93a85df70a068052853cae",
-                "shasum": ""
-            },
-            "type": "wordpress-plugin",
-            "license": [
-                "GPLv2.0+"
-            ],
-            "authors": [
-                {
-                    "name": "Eric Mann",
-                    "email": "eric@eamann.com",
-                    "homepage": "https://eamann.com",
-                    "role": "Developer"
-                }
-            ],
-            "description": "Prototype session management for WordPress.",
-            "homepage": "https://github.com/ericmann/wp-session-manager",
-            "keywords": [
-                "session"
-            ],
-            "support": {
-                "source": "https://github.com/ericmann/wp-session-manager/tree/1.2.2",
-                "issues": "https://github.com/ericmann/wp-session-manager/issues"
-            },
-            "time": "2017-04-26T13:27:37+00:00"
-        },
         {
             "name": "lifterlms/lifterlms-blocks",
             "version": "1.9.1",
@@ -2400,7 +2363,6 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "prospress/action-scheduler": 20,
-        "ericmann/wp-session-manager": 20,
         "lifterlms/lifterlms-tests": 20,
         "lifterlms/lifterlms-cs": 20
     },

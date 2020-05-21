@@ -8,6 +8,7 @@
  * @since 3.37.8 Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
  * @since 3.37.17 Added voucher creation method.
  * @since 3.38.0 Added `setManualGatewayStatus()` method.
+ * @since [version] Added create_mock_session-data() class.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -21,6 +22,38 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	public function setUp() {
 		parent::setUp();
 		llms_reset_current_time();
+	}
+
+	/**
+	 * Create mock user session data.
+	 *
+	 * @since [version]
+	 *
+	 * @param integer $count   Number of session to create.
+	 * @param boolean $expired Whether or not the sessions are expired.
+	 * @return int[]
+	 */
+	protected function create_mock_session_data( $count = 5, $expired = false ) {
+
+		$sessions = array();
+
+		global $wpdb;
+		$i = 1;
+		while ( $i <= $count ) {
+			$wpdb->insert( $wpdb->prefix . 'lifterlms_sessions', array(
+				'session_key' => LLMS_Unit_Test_Util::call_method( LLMS()->session, 'generate_id' ),
+				'data'        => serialize( array( microtime() ) ),
+				'expires'     => $expired ? time() - DAY_IN_SECONDS : time() + DAY_IN_SECONDS,
+			), array( '%s', '%s', '%d' ) );
+
+			$sessions[] = $wpdb->insert_id;
+
+			++$i;
+
+		}
+
+		return $sessions;
+
 	}
 
 	/**

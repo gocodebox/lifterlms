@@ -12,6 +12,8 @@
 
 defined( 'ABSPATH' ) || exit;
 
+require_once 'updates/llms-functions-updates-3390.php';
+
 /**
  * Duplicate a WP Post & all relate metadata
  *

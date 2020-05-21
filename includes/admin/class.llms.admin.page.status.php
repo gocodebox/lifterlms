@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version 3.37.14
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.2 Fix undefined index when viewing log files.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.14 Added the WP Core `debug.log` file as log that's viewable via the log viewer.
+ * @since [version] The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
  */
 class LLMS_Admin_Page_Status {
 
@@ -29,6 +30,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.14 Verify user capabilities when doing a tool action.
 	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
+	 * @since [version] The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
 	 *
 	 * @return void
 	 */
@@ -62,10 +64,6 @@ class LLMS_Admin_Page_Status {
 					"DELETE FROM {$wpdb->usermeta} WHERE meta_key = 'llms_overall_progress' or meta_key = 'llms_overall_grade';"
 				);
 
-				break;
-
-			case 'clear-sessions':
-				WP_Session_Utils::delete_all_sessions();
 				break;
 
 			case 'reset-tracking':
@@ -299,6 +297,7 @@ class LLMS_Admin_Page_Status {
 	 * Output the HTML for the tools tab
 	 *
 	 * @since 3.11.2
+	 * @since [version] The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
 	 *
 	 * @return void
 	 */
@@ -312,12 +311,6 @@ class LLMS_Admin_Page_Status {
 					'description' => __( 'Allows you to choose to enable or disable automatic recurring payments which may be disabled on a staging site.', 'lifterlms' ),
 					'label'       => __( 'Automatic Payments', 'lifterlms' ),
 					'text'        => __( 'Reset Automatic Payments', 'lifterlms' ),
-				),
-
-				'clear-sessions'     => array(
-					'description' => __( 'Manage User Sessions. LifterLMS creates custom user sessions to manage, payment processing, quizzes and user registration. If you are experiencing issues or incorrect error messages are displaying. Clearing out all of the user session data may help.', 'lifterlms' ),
-					'label'       => __( 'User Sessions', 'lifterlms' ),
-					'text'        => __( 'Clear All Session Data', 'lifterlms' ),
 				),
 
 				'reset-tracking'     => array(
