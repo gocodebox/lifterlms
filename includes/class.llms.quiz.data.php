@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.16.0
- * @version 3.31.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,28 +16,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.31.0 Extends LLMS_Abstract_Post_Data.
+ * @since [version] Removed deprecated properties `$quiz` and `$quiz_id`.
  */
 class LLMS_Quiz_Data extends LLMS_Abstract_Post_Data {
-
-	/**
-	 * Quiz object.
-	 *
-	 * @since 3.16.0
-	 * @deprecated 3.31.0 Use $this->post instead.
-	 *
-	 * @var LLMS_Quiz
-	 */
-	public $quiz;
-
-	/**
-	 * WP Post ID of the quiz
-	 *
-	 * @since 3.16.0
-	 * @deprecated 3.31.0 Use $this->post_id instead.
-	 *
-	 * @var int
-	 */
-	public $quiz_id;
 
 	/**
 	 * Constructor
