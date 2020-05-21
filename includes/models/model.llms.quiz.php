@@ -313,33 +313,4 @@ class LLMS_Quiz extends LLMS_Post_Model {
 
 	}
 
-
-
-	/**
-	 * Get passing percent.
-	 *
-	 * @since ??
-	 * @deprecated ??
-	 *
-	 * @return float
-	 */
-	public function get_passing_percent() {
-		// deprecate.
-		return $this->get( 'passing_percent' );
-
-	}
-
-	/**
-	 * Get associated lesson id.
-	 *
-	 * @since ??
-	 * @deprecated ??
-	 *
-	 * @return int
-	 */
-	public function get_assoc_lesson() {
-		// deprecate.
-		return $this->get( 'lesson_id' );
-	}
-
 }
