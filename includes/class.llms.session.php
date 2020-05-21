@@ -274,16 +274,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 */
 	protected function should_init() {
 
-		// Load by default in most places.
-		$init = true;
-
-		if ( defined( 'DOING_CRON' ) && DOING_CRON ) {
-			// Don't init during crons.
-			$init = false;
-		} elseif ( is_admin() && ! wp_doing_ajax() ) {
-			// Don't init on the admin panel unless it's an ajax request.
-			$init = false;
-		}
+		$init = ( defined( 'DOING_CRON' ) && DOING_CRON ) || ( is_admin() && ! wp_doing_ajax() ) ? false : true;
 
 		/**
 		 * Filter whether or not session cookies and related hooks are initialized
