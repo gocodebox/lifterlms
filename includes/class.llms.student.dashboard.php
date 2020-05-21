@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version 3.28.2
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,6 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.28.2 Unknown.
+ * @since [version] Removed deprecated methods.
  */
 class LLMS_Student_Dashboard {
 
@@ -408,63 +409,6 @@ class LLMS_Student_Dashboard {
 			)
 		);
 
-	}
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Callback to output View Courses endpoint content
-	 *
-	 * @return      void
-	 * @since       3.0.0
-	 * @version     3.14.0
-	 * @deprecated  3.14.0
-	 */
-	public static function output_courses_content() {
-
-		llms_deprecated_function( 'LLMS_Student_Dashboard::output_courses_content()', '3.14.0', 'lifterlms_template_student_dashboard_my_courses( false )' );
-		lifterlms_template_student_dashboard_my_courses( false );
-
-	}
-
-	/**
-	 * Callback to output main dashboard content
-	 *
-	 * @return      void
-	 * @since       3.0.0
-	 * @version     3.14.0
-	 * @deprecated  3.14.0
-	 */
-	public static function output_dashboard_content() {
-
-		llms_deprecated_function( 'LLMS_Student_Dashboard::output_dashboard_content()', '3.14.0', 'lifterlms_template_student_dashboard_home()' );
-		lifterlms_template_student_dashboard_home();
-
-	}
-
-	/**
-	 * Callback to output the notifications content
-	 *
-	 * @return     void
-	 * @since      3.8.0
-	 * @version    3.26.3
-	 * @deprecated 3.26.3
-	 */
-	public static function output_notifications_content() {
-		llms_deprecated_function( 'LLMS_Student_Dashboard::output_notifications_content()', '3.26.3', 'lifterlms_template_student_dashboard_my_notifications()' );
-		lifterlms_template_student_dashboard_my_notifications();
 	}
 
 }
