@@ -235,7 +235,6 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieves the lesson's order within its parent section
 	 *
-	 * @todo  this should be deprecated
 	 * @return int
 	 * @since  1.0.0
 	 * @version  3.0.0
