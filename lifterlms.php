@@ -68,13 +68,6 @@ final class LifterLMS {
 	protected static $_instance = null;
 
 	/**
-	 * LifterLMS Course Factory
-	 *
-	 * @var LLMS_Course_Factory
-	 */
-	public $course_factory = null;
-
-	/**
 	 * LLMS_Person instance
 	 *
 	 * @var LLMS_Person
@@ -292,7 +285,7 @@ final class LifterLMS {
 	 * @since 3.37.0 Include LLMS_Theme_Support class.
 	 * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
 	 * @since [version] Require session abstracts.
-	 *              Remove depreacted class files.
+	 *              Remove deprecated class files.
 	 *
 	 * @return void
 	 */
@@ -416,7 +409,6 @@ final class LifterLMS {
 
 		// Classes
 		include_once 'includes/class.llms.lesson.handler.php';
-		include_once 'includes/class.llms.course.factory.php';
 		include_once 'includes/class.llms.question.types.php';
 		include_once 'includes/class.llms.post.relationships.php';
 		include_once 'includes/class.llms.review.php';
@@ -455,8 +447,6 @@ final class LifterLMS {
 		require_once 'includes/shortcodes/class.llms.shortcode.checkout.php';
 
 		$this->query = new LLMS_Query();
-
-		$this->course_factory = new LLMS_Course_Factory();
 
 		if ( ! is_admin() ) {
 
