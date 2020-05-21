@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.0 Unknown.
  * @since 3.24.0 Unknown.
  * @since 3.29.0 Unknown.
- * @since [version] Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
+ * @since [version] Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -685,35 +685,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function to_array() {
 		return $this->data;
-	}
-
-
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Get the attempts status based on start and end dates
-	 *
-	 * @return   string
-	 * @since      3.9.0
-	 * @version    3.16.0
-	 * @deprecated 3.16.0
-	 */
-	public function get_status() {
-		llms_deprecated_function( 'LLMS_Quiz_Attempt::get_status()', '3.16.0', "LLMS_Quiz_Attempt::get( 'status' )" );
-		return $this->get( 'status' );
 	}
 
 }
