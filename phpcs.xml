@@ -13,10 +13,7 @@
     <exclude-pattern>packages/</exclude-pattern>
 
     <!-- Exclude deprecated/legacy files -->
-    <exclude-pattern>includes/admin/analytics/*.php</exclude-pattern>
-    <exclude-pattern>includes/class.llms.analytics.php</exclude-pattern>
     <exclude-pattern>includes/functions/llms-functions-deprecated.php</exclude-pattern>
-    <exclude-pattern>includes/admin/class.llms.admin.analytics.php</exclude-pattern>
 
 	<!-- Don't throw errors for this 3rd party library file -->
 	<rule ref="WordPress.DB.PreparedSQL.InterpolatedNotPrepared">
