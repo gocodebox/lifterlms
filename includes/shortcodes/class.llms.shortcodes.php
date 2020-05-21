@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.23.0 Unknown.
  * @since 3.38.0 Course progress bar shortcode now can display the bar only to enrolled user.
  *               Use strict comparisons where possible/needed.
- * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy`.
+ * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]`.
  */
 class LLMS_Shortcodes {
 
@@ -27,6 +27,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
+	 * @since [version] Stop registering previously deprecated shortcode `[courses]`.
 	 *
 	 * @return void
 	 */
@@ -81,12 +82,6 @@ class LLMS_Shortcodes {
 				require_once $path;
 			}
 		}
-
-		/**
-		 * @deprecated 2.0.0
-		 * @todo deprecate
-		 */
-		add_shortcode( 'courses', array( LLMS_Shortcode_Courses::instance(), 'output' ) );
 
 		// Old method.
 		$shortcodes = array(
