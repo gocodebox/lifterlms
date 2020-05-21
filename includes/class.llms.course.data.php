@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version 3.31.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,28 +16,9 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.15.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.31.0 Extends LLMS_Abstract_Post_Data.
+ * @since [version] Remove previously deprecated class properties `$course` and `$course_id`.
  */
 class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
-
-	/**
-	 * Course object.
-	 *
-	 * @since 3.15.0
-	 * @deprecated 3.31.0 Use $this->post instead.
-	 *
-	 * @var LLMS_Course
-	 */
-	public $course;
-
-	/**
-	 * WP Post ID of the course
-	 *
-	 * @var int
-	 *
-	 * @since 3.15.0
-	 * @deprecated 3.31.0 Use $this->post_id instead.
-	 */
-	public $course_id;
 
 	/**
 	 * Constructor
