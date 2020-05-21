@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  */
 function llms_update_3390_remove_session_options() {
 	global $wpdb;
-	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_wp_session_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, (WordPress.DB.DirectDatabaseQuery.NoCaching.
+	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_wp_session_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching.
 }
 
 /**
