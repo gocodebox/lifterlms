@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 3.36.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.1 In `set_order_data_query()` always set $order_clause variable to avoid PHP notices.
  * @since 3.35.0 Sanitize input data from reporting filters.
  * @since 3.36.3 Avoid warnings on using wpdb::prepare without placeholders.
+ * @since [version] Remove previously deprecated class properties: `$date_end`, `$date_start`, & `$date_end`.
  */
 abstract class LLMS_Analytics_Widget {
 
@@ -36,29 +37,8 @@ abstract class LLMS_Analytics_Widget {
 	/**
 	 * @var string
 	 * @since 3.0.0
-	 * @deprecated 3.0.0
-	 */
-	protected $date_end;
-
-	/**
-	 * @var string
-	 * @since 3.0.0
-	 * @deprecated 3.0.0
-	 */
-	protected $date_start;
-
-	/**
-	 * @var string
-	 * @since 3.0.0
 	 */
 	public $message = '';
-
-	/**
-	 * @var string
-	 * @since 3.0.0
-	 * @deprecated 3.0.0
-	 */
-	protected $output;
 
 	/**
 	 * One of the wpdb constants: OBJECT, OBJECT_K, ARRAY_A, or ARRAY_N
