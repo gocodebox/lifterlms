@@ -1056,17 +1056,6 @@ function llms_get_quiz( $the_quiz = false, $args = array() ) {
 	return LLMS()->course_factory->get_quiz( $the_quiz, $args );
 }
 
-/**
- * Get Question
- *
- * @param  boolean $the_question [Is question class init?]
- * @param  array   $args        [class init args]
- * @return new instance of class
- */
-function llms_get_question( $the_question = false, $args = array() ) {
-	return LLMS()->course_factory->get_question( $the_question, $args );
-}
-
 
 /**
  * Retrieve an excerpt
