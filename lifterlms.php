@@ -49,6 +49,7 @@ require_once 'vendor/autoload.php';
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
  * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
  * @since [version] Update session management.
+ *              Remove deprecated class files.
  */
 final class LifterLMS {
 
@@ -291,6 +292,7 @@ final class LifterLMS {
 	 * @since 3.37.0 Include LLMS_Theme_Support class.
 	 * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
 	 * @since [version] Require session abstracts.
+	 *              Remove depreacted class files.
 	 *
 	 * @return void
 	 */
@@ -365,9 +367,6 @@ final class LifterLMS {
 			require_once 'includes/admin/class-llms-sendwp.php';
 
 		}
-
-		// legacy
-		include_once 'includes/class.llms.quiz.legacy.php';
 
 		// nav menus
 		require_once 'includes/class.llms.nav.menus.php';
