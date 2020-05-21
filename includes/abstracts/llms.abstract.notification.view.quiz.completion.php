@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.24.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Shared Notification View for quiz completions abstract class
  *
  * @since 3.24.0
+ * @since [version] Remove usage of deprecated class `LLMS_Quiz_Legacy`.
  */
 abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abstract_Notification_View {
 
@@ -37,9 +38,9 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup body for email notification
 	 *
-	 * @return  string
-	 * @since   3.24.0
-	 * @version 3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return string
 	 */
 	protected function set_body_email() {
 
@@ -84,9 +85,9 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup footer content for output
 	 *
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return string
 	 */
 	protected function set_footer() {
 		return '';
@@ -95,9 +96,9 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Setup merge codes that can be used with the notification
 	 *
-	 * @return   array
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 *
+	 * @return array
 	 */
 	protected function set_merge_codes() {
 		return array(
@@ -116,15 +117,16 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	/**
 	 * Replace merge codes with actual values
 	 *
-	 * @param    string $code  the merge code to ge merged data for
-	 * @return   string
-	 * @since    3.24.0
-	 * @version  3.24.0
+	 * @since 3.24.0
+	 * @since [version] Remove usage of deprecated class `LLMS_Quiz_Legacy`.
+	 *
+	 * @param string $code The merge code to get merged data for.
+	 * @return string
 	 */
 	protected function set_merge_data( $code ) {
 
-		$quiz    = new LLMS_Quiz_Legacy( $this->notification->get( 'post_id' ) );
-		$attempt = $this->user->quizzes()->get_last_completed_attempt( $this->notification->get( 'post_id' ) );
+		$quiz_id = $this->notification->get( 'post_id' );
+		$attempt = $this->user->quizzes()->get_last_completed_attempt( $quiz_id );
 		if ( ! $attempt ) {
 			return '';
 		}
@@ -157,7 +159,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 				break;
 
 			case '{{QUIZ_TITLE}}':
-				$code = get_the_title( $quiz->get_id() );
+				$code = get_the_title( $quiz_id );
 				break;
 
 			case '{{REVIEW_URL}}':
@@ -180,7 +182,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 				$code = $this->is_for_self() ? __( 'you', 'lifterlms' ) : $this->user->get_name();
 				break;
 
-		}// End switch().
+		}
 
 		return $code;
 
