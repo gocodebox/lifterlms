@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.36.4
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.4 Don't remove `pre_get_posts` callback from within the callback itself.
  *               Rather use a static variable to make sure the business logic of the callback
  *               is executed only once.
+ * @since [version] Remove previously deprecated methods.
  */
 class LLMS_Query {
 
@@ -276,47 +277,6 @@ class LLMS_Query {
 		}
 
 		return $vars;
-
-	}
-
-	/**
-	 * Handles setting the "paged" variable on Student Dashboard endpoints
-	 * which utilize page/{n} style pagination
-	 *
-	 * @since 3.14.0
-	 * @deprecated 3.28.2 $paged automatically set via add_rewrite_rule() in $this->add_endpoints() method.
-	 *
-	 * @return void
-	 */
-	public function set_dashboard_pagination() {
-
-		llms_deprecated_function( 'LLMS_Query::set_dashboard_pagination()', '3.28.2' );
-		$tab = LLMS_Student_Dashboard::get_current_tab( 'slug' );
-		$var = get_query_var( $tab );
-		if ( $var ) {
-			global $wp_rewrite;
-			$paged = explode( '/', $var );
-			// this should work on localized sites
-			if ( $wp_rewrite->pagination_base === $paged[0] ) {
-				set_query_var( 'paged', $paged[1] );
-			}
-		}
-
-	}
-
-	/**
-	 * Add query variables
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.31.0 Use LLMS_Query::set_query_vars() instead.
-	 *
-	 * @param array $vars WP query variables available for query.
-	 * @return array
-	 */
-	public function add_query_vars( $vars ) {
-
-		llms_deprecated_function( 'LLMS_Query::add_query_vars()', '3.31.0', 'LLMS_Query::set_query_vars()' );
-		return $this->set_query_vars( $vars );
 
 	}
 
