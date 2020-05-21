@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version 3.38.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.11.1 Unknown.
  * @since 3.23.0 Unknown.
  * @since 3.38.0 Course progress bar shortcode now can display the bar only to enrolled user.
- *                Use strict comparisons where possible/needed.
+ *               Use strict comparisons where possible/needed.
+ * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy`.
  */
 class LLMS_Shortcodes {
 
@@ -149,20 +150,21 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 2.7.9
 	 * @since 3.16.0 Unknown.
+	 * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy`.
 	 *
 	 * @return int
 	 */
 	private static function get_course_id() {
 
+		$id = get_the_ID();
+
 		if ( is_course() ) {
-			return get_the_ID();
-		} elseif ( is_lesson() ) {
-			$lesson = new LLMS_Lesson( get_the_ID() );
-			return $lesson->get_parent_course();
-		} elseif ( is_quiz() ) {
-			$quiz   = new LLMS_Quiz_Legacy( get_the_ID() );
-			$lesson = new LLMS_Lesson( $quiz->assoc_lesson );
-			return $lesson->get_parent_course();
+			return $id;
+		}
+
+		$course = llms_get_post_parent_course( $id );
+		if ( $course ) {
+			return $course->get( 'id' );
 		}
 
 		return 0;
