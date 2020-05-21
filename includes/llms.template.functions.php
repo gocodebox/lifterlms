@@ -1046,18 +1046,6 @@ function llms_get_product( $the_product = false, $args = array() ) {
 }
 
 /**
- * Get Quiz
- *
- * @param  boolean $the_quiz [Is Quiz class init?]
- * @param  array   $args        [class init args]
- * @return new instance of class
- */
-function llms_get_quiz( $the_quiz = false, $args = array() ) {
-	return LLMS()->course_factory->get_quiz( $the_quiz, $args );
-}
-
-
-/**
  * Retrieve an excerpt
  *
  * @todo  deprecate this, I have no idea why this is being done this way...
