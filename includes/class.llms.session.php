@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  *               + Added new methods to support built-in DB session management.
  *               + Deprecated legacy methods
  *               + Removed the ability to utilize PHP sessions.
+ *               + Removed unused methods.
  */
 class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 
@@ -368,72 +369,6 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 */
 		return apply_filters( 'llms_session_use_secure_cookie', $secure );
 
-	}
-
-	/**
-	 * Setup the WP_Session instance.
-	 *
-	 * @since Unknown
-	 * @deprecated [version]
-	 *
-	 * @return array
-	 */
-	public function init() {
-		llms_deprecated_function( 'LLMS_Session::init', '[version]' );
-		return $this->data;
-	}
-
-	/**
-	 * Starts a new session if one hasn't started yet.
-	 *
-	 * @since Unknown
-	 * @deprecated [version]
-	 *
-	 * @return void
-	 */
-	public function maybe_start_session() {
-		llms_deprecated_function( 'LLMS_Session::maybe_start_session', '[version]' );
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since Unknown
-	 * @deprecated [version]
-	 *
-	 * @param int $exp Default expiration time in seconds.
-	 * @return int
-	 */
-	public function set_expiration_variant_time( $exp ) {
-		llms_deprecated_function( 'LLMS_Session::set_expiration_variant_time', '[version]' );
-		return $exp;
-	}
-
-	/**
-	 * Deprecated.
-	 *
-	 * @since Unknown
-	 * @deprecated [version]
-	 *
-	 * @param int $exp Default expiration (1 hour).
-	 * @return int
-	 */
-	public function set_expiration_time( $exp ) {
-		llms_deprecated_function( 'LLMS_Session::set_expiration_time', '[version]' );
-		return $exp;
-	}
-
-	/**
-	 * Determine should we use php session or wp.
-	 *
-	 * @since Unknown
-	 * @deprecated [version]
-	 *
-	 * @return bool
-	 */
-	public function use_php_sessions() {
-		llms_deprecated_function( 'LLMS_Session::use_php_sessions', '[version]' );
-		return false;
 	}
 
 }
