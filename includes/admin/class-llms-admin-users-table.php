@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.34.0
- * @version 3.34.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,20 +14,145 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Users_Table class
  *
  * @since 3.34.0
+ * @since [version] Add custom user table columns and action links.
  */
 class LLMS_Admin_Users_Table {
+
+	/**
+	 * Date/time format used to format last login timestamps
+	 *
+	 * This "caches" the data on the instance so that multiple requests
+	 * to get_option() / wp_cache_get() don't need to be made when outputting
+	 * a user table view.
+	 *
+	 * @var string
+	 */
+	protected $login_date_format = '';
 
 	/**
 	 * Constructor.
 	 *
 	 * @since 3.34.0
+	 * @since [version] Add custom user table columns and action links.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
 
+		add_action( 'current_screen', array( $this, 'load_dependencies' ) );
+
+		add_filter( 'manage_users_columns', array( $this, 'add_cols' ) );
+		add_filter( 'manage_users_custom_column', array( $this, 'output_col' ), 10, 3 );
+
 		add_filter( 'users_list_table_query_args', array( $this, 'modify_query_args' ) );
 		add_filter( 'views_users', array( $this, 'modify_views' ) );
+
+		add_filter( 'user_row_actions', array( $this, 'add_actions' ), 20, 2 );
+
+	}
+
+	/**
+	 * Add custom actions links
+	 *
+	 * Outputs a "Reports" action link seen when hovering over a user in the table.
+	 *
+	 * @since [version]
+	 *
+	 * @param string[] $actions Array of existing action links.
+	 * @param WP_User  $user    User object.
+	 * @return string[]
+	 */
+	public function add_actions( $actions, $user ) {
+		$url                       = LLMS_Admin_Reporting::get_current_tab_url(
+			array(
+				'student_id' => $user->ID,
+			)
+		);
+		$actions['llms-reporting'] = '<a href="' . esc_url( $url ) . '">' . __( 'Reports', 'lifterlms' ) . '</a>';
+		return $actions;
+
+	}
+
+	/**
+	 * Add Custom Columns to the Admin Users Table Screen
+	 *
+	 * @param  array $columns key=>val array of existing columns
+	 *
+	 * @return array $columns updated columns
+	 */
+	public function add_cols( $columns ) {
+		$columns['llms-last-login']  = __( 'Last Login', 'lifterlms' );
+		$columns['llms-enrollments'] = __( 'Enrollments', 'lifterlms' );
+		return $columns;
+	}
+
+	/**
+	 * Retrieve the date/time format used to display a user's last login.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_login_column_date_format() {
+
+		if ( ! $this->login_date_format ) {
+			$this->login_date_format = get_option( 'date_format', 'Y-m-d' ) . ' ' . get_option( 'time_format', ' h:i:s a' );
+		}
+
+		return $this->login_date_format;
+
+	}
+
+	/**
+	 * Retrieves the output for the "enrollments" column.
+	 *
+	 * @since [version]
+	 *
+	 * @param LLMS_Student $student Student object.
+	 * @return string
+	 */
+	protected function get_enrollments_column_output( $student ) {
+
+		$info = array();
+
+		$types = array(
+			'courses'     => __( 'Courses', 'lifterlms' ),
+			'memberships' => __( 'Memberships', 'lifterlms' ),
+		);
+
+		foreach ( $types as $type => $name ) {
+
+			$url = LLMS_Admin_Reporting::get_current_tab_url(
+				array(
+					'stab'       => $type,
+					'student_id' => $student->get_id(),
+				)
+			);
+
+			$query = call_user_func( array( $student, 'get_' . $type ), array( 'limit' => 1 ) );
+
+			$info[] = sprintf( '%1$s: <a href="%2$s">%3$d</a>', $name, esc_url( $url ), $query['found'] );
+
+		}
+
+		return implode( '<br>', $info );
+
+	}
+
+	/**
+	 * Load dependencies used by the class.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function load_dependencies() {
+
+		$screen = get_current_screen();
+
+		if ( $screen && 'users' === $screen->id ) {
+			require_once LLMS_PLUGIN_DIR . 'includes/admin/reporting/class.llms.admin.reporting.php';
+		}
 
 	}
 
@@ -92,6 +217,39 @@ class LLMS_Admin_Users_Table {
 		}
 
 		return $views;
+	}
+
+	/**
+	 * Register custom columns
+	 *
+	 * @since [version]
+	 *
+	 * @param string $output   Column output value to display (defaults to empty).
+	 * @param string $col_name Column name/id.
+	 * @param int    $user_id  WP_User ID.
+	 * @return string
+	 */
+	public function output_col( $output, $col_name, $user_id ) {
+
+		switch ( $col_name ) {
+
+			case 'llms-enrollments':
+				$student = llms_get_student( $user_id );
+				if ( $student ) {
+					$output = $this->get_enrollments_column_output( $student );
+				}
+				break;
+
+			case 'llms-last-login':
+				$last   = get_user_meta( $user_id, 'llms_last_login', true );
+				$last   = is_numeric( $last ) ? $last : strtotime( $last );
+				$output = $last ? date_i18n( $this->get_login_column_date_format(), $last ) : __( 'Never', 'lifterlms' );
+				break;
+
+		}
+
+		return $output;
+
 	}
 
 }
