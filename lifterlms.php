@@ -1,5 +1,12 @@
 <?php
 /**
+ * Main LifterLMS plugin file
+ *
+ * @package LifterLMS/Main
+ *
+ * @since 1.0.0
+ * @version [version]
+ *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
