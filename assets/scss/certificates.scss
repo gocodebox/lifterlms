@@ -1,7 +1,7 @@
 body {
-  background-color: #fff;
-  background-image: none;
-  margin: 0 auto;
+	background-color: #fff;
+	background-image: none;
+	margin: 0 auto;
 }
 
 // .header {
@@ -32,7 +32,7 @@ body {
 .wrap-header, .wrap-footer,
 .site-header, .site-footer,
 .nav-primary, .primary-nav {
-  display: none;
+	display: none;
 }
 
 // .llms-certificate-container {
@@ -98,27 +98,32 @@ body {
 	}
 
 	/* Make everything on the page invisible */
-    body * {
-        visibility: hidden !important;
+	body * {
+		visibility: hidden !important;
 		background: #fff none;
-    }
+	}
 
 	.site, .site-content {
 		overflow: visible;
 	}
 
 	/* remove all headers, menus and footers */
-    header, aside, nav, footer {
-        display: none !important;
-    }
+	header, aside, nav, footer {
+		display: none !important;
+	}
+
+	/* make sure a .container parent doesn't shif the certificate see: https://github.com/gocodebox/lifterlms/issues/1163 */
+	.single-llms_certificate .container {
+		width: 100%;
+	}
 
 	/* make only the certificate container and its children visible */
-    .llms-certificate-container, .llms-certificate-container * {
+	.llms-certificate-container, .llms-certificate-container * {
 		visibility: visible !important;
-    }
+	}
 
-    /* position certificate absolutely and center horizontally */
-    .llms-certificate-container {
+	/* position certificate absolutely and center horizontally */
+	.llms-certificate-container {
 		position: absolute;
 		top: 0;
 		left: 0;
