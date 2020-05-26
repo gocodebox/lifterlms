@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.23.0 Unknown.
  * @since 3.38.0 Course progress bar shortcode now can display the bar only to enrolled user.
  *               Use strict comparisons where possible/needed.
- * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]`.
+ * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
  */
 class LLMS_Shortcodes {
 
@@ -27,7 +27,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
-	 * @since [version] Stop registering previously deprecated shortcode `[courses]`.
+	 * @since [version] Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,6 @@ class LLMS_Shortcodes {
 			'lifterlms_course_info'        => __CLASS__ . '::course_info',
 			'lifterlms_course_progress'    => __CLASS__ . '::course_progress',
 			'lifterlms_course_title'       => __CLASS__ . '::course_title',
-			'lifterlms_user_statistics'    => __CLASS__ . '::user_statistics',
 			'lifterlms_related_courses'    => __CLASS__ . '::related_courses',
 			'lifterlms_login'              => __CLASS__ . '::login',
 			'lifterlms_pricing_table'      => __CLASS__ . '::pricing_table',
@@ -551,76 +550,6 @@ class LLMS_Shortcodes {
 			wp_reset_postdata();
 			return $courses;
 		}
-
-	}
-
-	/**
-	 * Output user statistics related to courses enrolled, completed, etc...
-	 *
-	 * @since unknown
-	 * @since 3.38.0 Use strict comparisons.
-	 *
-	 * @param array $atts Associative array of shortcode attributes.
-	 * @return string
-	 */
-	public static function user_statistics( $atts ) {
-		extract(
-			shortcode_atts(
-				array(
-					'type' => 'course', // course, lesson, section.
-					'stat' => 'completed', // completed, enrolled.
-				),
-				$atts
-			)
-		);
-
-		// setup the meta key to search on.
-		switch ( $stat ) {
-			case 'completed':
-				$key = '_is_complete';
-				$val = false;
-				break;
-
-			case 'enrolled':
-				$key = '_status';
-				$val = 'Enrolled';
-				break;
-		}
-
-		// get user id of logged in user.
-		$uid = wp_get_current_user()->ID;
-
-		// init person class.
-		$person = new LLMS_Person();
-		// get results.
-		$results = $person->get_user_postmetas_by_key( $uid, $key );
-
-		if ( $results ) {
-			// unset all items that are not courses.
-			foreach ( $results as $key => $obj ) {
-				if ( get_post_type( $obj->post_id ) !== $type ) {
-					unset( $results[ $key ] );
-				}
-			}
-		}
-
-		// filter by value if set.
-		if ( is_array( $results ) && $val ) {
-			foreach ( $results as $key => $obj ) {
-				// remove from the results array if $val doesn't match.
-				if ( $obj->meta_value !== $val ) {
-					unset( $results[ $key ] );
-				}
-			}
-		}
-
-		$count = ( is_array( $results ) ) ? count( $results ) : 0;
-
-		if ( 1 === $count ) {
-			return $count . ' ' . $type;
-		}
-
-		return $count . ' ' . $type . 's';
 
 	}
 
