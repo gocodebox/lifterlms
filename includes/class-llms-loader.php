@@ -89,7 +89,7 @@ class LLMS_Loader {
 	 *
 	 * @return void
 	 */
-	protected function includes() {
+	public function includes() {
 
 		// Abstract classes that are not caught by the autoloader.
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.database.query.php';
@@ -224,7 +224,6 @@ class LLMS_Loader {
 		// Abstracts.
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.metabox.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
-
 
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/llms.functions.admin.php';
