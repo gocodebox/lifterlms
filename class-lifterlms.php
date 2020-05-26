@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
  * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
  * @since [version] Update session management.
- *              Remove deprecated class files.
+ *              Remove deprecated class files and variables.
  */
 final class LifterLMS {
 
@@ -38,13 +38,6 @@ final class LifterLMS {
 	 * @var LifterLMS
 	 */
 	protected static $_instance = null;
-
-	/**
-	 * LLMS_Person instance
-	 *
-	 * @var LLMS_Person
-	 */
-	public $person = null;
 
 	/**
 	 * LLMS_Query instance
@@ -409,8 +402,6 @@ final class LifterLMS {
 			include_once 'includes/forms/frontend/class.llms.frontend.forms.php';
 			include_once 'includes/forms/frontend/class.llms.frontend.password.php';
 
-			include_once 'includes/class.llms.person.php';
-
 		}
 
 		require_once 'includes/class-llms-grades.php';
@@ -437,17 +428,15 @@ final class LifterLMS {
 	/**
 	 * Init LifterLMS when WordPress Initialises.
 	 *
-	 * @return    void [<description>]
-	 * @since     1.0.0
-	 * @version   3.21.1
+	 * @since 1.0.0
+	 * @since 3.21.1 Unknown.
+	 * @since [version] Don't initialize removed `LLMS_Person()` class.
+	 *
+	 * @return void
 	 */
 	public function init() {
 
 		do_action( 'before_lifterlms_init' );
-
-		if ( ! is_admin() ) {
-			$this->person = new LLMS_Person();
-		}
 
 		$this->engagements();
 		$this->notifications();
