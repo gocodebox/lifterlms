@@ -242,13 +242,16 @@ class LLMS_Install {
 	/**
 	 * Store all default options in the DB
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.8.0
+	 * @since 1.0.0
+	 * @since 3.8.0 Unknown.
+	 * @since [version] Include abstract table file.
+	 *
+	 * @return void
 	 */
 	public static function create_options() {
 
-		include_once 'admin/class.llms.admin.settings.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.settings.php';
 
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
