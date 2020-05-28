@@ -179,7 +179,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/controllers/class.llms.controller.login.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/forms/controllers/class.llms.controller.registration.php';
 
-		// Hooks
+		// Hooks.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.template.hooks.php';
 
 		// Notifications.
