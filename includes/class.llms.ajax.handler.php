@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.39.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -30,7 +30,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.14 Added `persist_tracking_events()` handler.
  *                Used strict comparison where needed.
  * @since 3.37.15 Update `get_admin_table_data()` and `export_admin_table()` to verify user permissions before processing data.
- * @since [version] Minor code readability updates to the `validate_coupon_code()` method.
+ * @since 3.39.0 Minor code readability updates to the `validate_coupon_code()` method.
  */
 class LLMS_AJAX_Handler {
 	/**
@@ -971,7 +971,7 @@ class LLMS_AJAX_Handler {
 	 * Validate a Coupon via the Checkout Form
 	 *
 	 * @since 3.0.0
-	 * @since [version] Minor changes to code for readability with no changes to function behavior.
+	 * @since 3.39.0 Minor changes to code for readability with no changes to function behavior.
 	 *
 	 * @param array $request $_POST data.
 	 * @return array|WP_Error On success, returns an array containing HTML parts used to update the interface of the checkout screen.

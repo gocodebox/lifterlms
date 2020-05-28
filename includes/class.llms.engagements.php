@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version [version]
+ * @version 3.39.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
- * @since [version] Added `llms_rest_student_registered` as action hook.
+ * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
  */
 class LLMS_Engagements {
 
@@ -71,7 +71,7 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 * @since 3.11.0 Unknown.
-	 * @since [version] Added `llms_rest_student_registered` as action hook.
+	 * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
 	 *
 	 * @return void
 	 */
@@ -280,7 +280,7 @@ class LLMS_Engagements {
 	 *
 	 * @since 2.3.0
 	 * @since 3.11.0 Unknown.
-	 * @since [version] Treat also `llms_rest_student_registered` action.
+	 * @since 3.39.0 Treat also `llms_rest_student_registered` action.
 	 */
 	public function maybe_trigger_engagement() {
 

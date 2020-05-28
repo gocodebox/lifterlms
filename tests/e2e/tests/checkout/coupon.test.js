@@ -1,7 +1,7 @@
 /**
  * Test coupon-related actions on the checkout screen
  *
- * @since [version]
+ * @since 3.39.0
  */
 
 import {
@@ -20,7 +20,7 @@ let courseId = null,
 /**
  * Setup the test
  *
- * @since [version]
+ * @since 3.39.0
  *
  * @return {Void}
  */
@@ -49,7 +49,7 @@ async function setupTest() {
 /**
  * Apply a coupon
  *
- * @since [version]
+ * @since 3.39.0
  *
  * @param {String} code Coupon code.
  * @return {Void}

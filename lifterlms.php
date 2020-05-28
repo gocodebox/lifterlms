@@ -10,7 +10,7 @@
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
- * Version: 3.38.2
+ * Version: 3.39.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -56,7 +56,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '3.38.2';
+	public $version = '3.39.0';
 
 	/**
 	 * Singleton instance of LifterLMS.

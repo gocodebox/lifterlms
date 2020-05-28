@@ -3,7 +3,7 @@
  * Notification Controller: Student Welcome
  *
  * @since 3.8.0
- * @version [version]
+ * @version 3.39.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.33.2 Add test send functionality.
- * @since [version] Added `llms_rest_student_registered` as action hook.
+ * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
  */
 class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notification_Controller {
 

@@ -1,7 +1,7 @@
 /**
  * Click an elements by selector
  *
- * @since [version]
+ * @since 3.39.0
  *
  * @param {String} selector Element selector string.
  * @return {Void}
