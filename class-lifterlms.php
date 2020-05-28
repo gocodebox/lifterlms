@@ -82,19 +82,19 @@ final class LifterLMS {
 	 */
 	private function __construct() {
 
-		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
-
-		// Define constants.
-		$this->define_constants();
-
 		/**
 		 * Localize as early as possible.
 		 *
 		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
 		 * so we must localize before any l10n functions (like `__()`) are used
-		 * so that our custom "safe" location will always load firsti
+		 * so that our custom "safe" location will always load first.
 		 */
 		$this->localize();
+
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
+
+		// Define constants.
+		$this->define_constants();
 
 		$this->query = new LLMS_Query();
 
