@@ -124,7 +124,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/models/model.llms.user.certificate.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/models/model.llms.user.postmeta.php';
 
-		// Functions
+		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/llms.functions.core.php';
 
 		// Classes.
