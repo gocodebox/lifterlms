@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 2.3.0
- * @version 3.30.3
+ * @version 3.39.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,19 +17,20 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 2.3.0
  * @since 3.30.3 Fixed spelling errors.
+ * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
  */
 class LLMS_Engagements {
 
 	/**
 	 * Enable debug logging
 	 *
-	 * @var  boolean
-	 * @since  2.7.9
+	 * @since 2.7.9
+	 * @var boolean
 	 */
 	private $debug = false;
 
 	/**
-	 * protected instance of class
+	 * Protected instance of class
 	 *
 	 * @var LLMS_Engagements
 	 */
@@ -38,7 +39,7 @@ class LLMS_Engagements {
 	/**
 	 * Create instance of class
 	 *
-	 * @return LLMS_Engagements [Instance of engagements class]
+	 * @return LLMS_Engagements Instance of engagements class.
 	 */
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
@@ -49,7 +50,10 @@ class LLMS_Engagements {
 
 	/**
 	 * Constructor
-	 * Adds actions to events that trigger engagements
+	 *
+	 * Adds actions to events that trigger engagements.
+	 *
+	 * @return void
 	 */
 	private function __construct() {
 
@@ -65,10 +69,11 @@ class LLMS_Engagements {
 	/**
 	 * Register all actions that trigger engagements
 	 *
-	 * @return  void
+	 * @since 2.3.0
+	 * @since 3.11.0 Unknown.
+	 * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
 	 *
-	 * @since    2.3.0
-	 * @version  3.11.0
+	 * @return void
 	 */
 	private function add_actions() {
 
@@ -80,6 +85,7 @@ class LLMS_Engagements {
 				'lifterlms_course_completed',
 				'lifterlms_course_track_completed',
 				'lifterlms_created_person',
+				'llms_rest_student_registered',
 				'lifterlms_lesson_completed',
 				'lifterlms_product_purchased',
 				'lifterlms_quiz_completed',
@@ -122,16 +128,16 @@ class LLMS_Engagements {
 	/**
 	 * Award an achievement
 	 *
-	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class
-	 *
-	 * @param array $args  indexed array of args
-	 *                     0 => WP User ID
-	 *                     1 => WP Post ID of the email post
-	 *                     2 => WP Post ID of the related post that triggered the award
-	 *
-	 * @return void
+	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class.
 	 *
 	 * @since 2.3.0
+	 *
+	 * @param array $args Indexed array of args.
+	 *                    0 => WP User ID
+	 *                    1 => WP Post ID of the email post
+	 *                    2 => WP Post ID of the related post that triggered the award
+	 *
+	 * @return void
 	 */
 	public function handle_achievement( $args ) {
 		$this->log( '======== handle_achievement() =======' );
@@ -144,16 +150,15 @@ class LLMS_Engagements {
 	/**
 	 * Award a certificate
 	 *
-	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class
+	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class.
 	 *
-	 * @param array $args  indexed array of args
+	 * @since 2.3.0
+	 *
+	 * @param array $args  Indexed array of args.
 	 *                     0 => WP User ID
 	 *                     1 => WP Post ID of the email post
 	 *                     2 => WP Post ID of the related post that triggered the award
-	 *
 	 * @return void
-	 *
-	 * @since 2.3.0
 	 */
 	public function handle_certificate( $args ) {
 		$this->log( '======== handle_certificate() =======' );
@@ -166,16 +171,16 @@ class LLMS_Engagements {
 	/**
 	 * Send an email engagement
 	 *
-	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class
+	 * This is called via do_action() by the 'maybe_trigger_engagement' function in this class.
 	 *
-	 * @param array $args  indexed array of args
+	 * @since 2.3.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @param array $args  Indexed array of args.
 	 *                     0 => WP User ID
 	 *                     1 => WP Post ID of the email post
 	 *                     2 => WP Post ID of the triggering post
 	 * @return void
-	 *
-	 * @since    2.3.0
-	 * @version  3.8.0
 	 */
 	public function handle_email( $args ) {
 
@@ -212,7 +217,7 @@ class LLMS_Engagements {
 			return;
 		}
 
-		// setup the email
+		// Setup the email.
 		$email = LLMS()->mailer()->get_email(
 			'engagement',
 			array(
@@ -250,10 +255,11 @@ class LLMS_Engagements {
 	/**
 	 * Log debug data to the WordPress debug.log file
 	 *
-	 * @param    mixed $log  data to write to the log
-	 * @return   void
-	 * @since    2.7.9
-	 * @version  3.12.0
+	 * @since 2.7.9
+	 * @since 3.12.0 Unknown.
+	 *
+	 * @param mixed $log Data to write to the log.
+	 * @return void
 	 */
 	public function log( $log ) {
 
@@ -268,12 +274,13 @@ class LLMS_Engagements {
 	/**
 	 * Handles all actions that could potentially trigger an engagement
 	 *
-	 * It will fire or schedule the actions after gathering all necessary data
+	 * It will fire or schedule the actions after gathering all necessary data.
 	 *
-	 * @return   void
+	 * @return void
 	 *
-	 * @since    2.3.0
-	 * @version  3.11.0
+	 * @since 2.3.0
+	 * @since 3.11.0 Unknown.
+	 * @since 3.39.0 Treat also `llms_rest_student_registered` action.
 	 */
 	public function maybe_trigger_engagement() {
 
@@ -284,9 +291,9 @@ class LLMS_Engagements {
 		$this->log( '$action: ' . $action );
 		$this->log( '$args: ' . json_encode( $args ) );
 
-		// setup variables used in queries and triggers based on the action
+		// Setup variables used in queries and triggers based on the action.
 		switch ( $action ) {
-
+			case 'llms_rest_student_registered':
 			case 'lifterlms_created_person':
 				$user_id         = intval( $args[0] );
 				$trigger_type    = 'user_registration';
@@ -324,7 +331,7 @@ class LLMS_Engagements {
 				$trigger_type    = str_replace( 'llms_', '', get_post_type( $related_post_id ) ) . '_purchased';
 				break;
 
-			// allow extensions to hook into our engagements
+			// Allow extensions to hook into our engagements.
 			default:
 				extract(
 					apply_filters(
@@ -339,28 +346,28 @@ class LLMS_Engagements {
 					)
 				);
 
-		}// End switch().
+		}
 
-		// we need a user and a trigger to proceed, related_post is optional though
+		// We need a user and a trigger to proceed, related_post is optional though.
 		if ( ! $user_id || ! $trigger_type ) {
 			return;
 		}
 
-		// gather triggerable engagements matching the supplied criteria
+		// Gather triggerable engagements matching the supplied criteria.
 		$engagements = apply_filters( 'lifterlms_get_engagements', $this->get_engagements( $trigger_type, $related_post_id ), $trigger_type, $related_post_id );
 
 		$this->log( '$engagements: ' . json_encode( $engagements ) );
 
-		// only trigger engagements if there are engagements
+		// Only trigger engagements if there are engagements.
 		if ( $engagements ) {
 
-			// loop through the engagements
+			// Loop through the engagements.
 			foreach ( $engagements as $e ) {
 
 				$handler_action = null;
 				$handler_args   = null;
 
-				// do actions based on the event type
+				// Do actions based on the event type.
 				switch ( $e->event_type ) {
 
 					case 'achievement':
@@ -371,7 +378,7 @@ class LLMS_Engagements {
 
 					case 'certificate':
 						/**
-						 * @todo  fix this
+						 * @todo Fix this
 						 * if there's no related post id we have to send one anyway for certs to work
 						 * this would only be for registration events @ version 2.3.0
 						 * we'll just send the engagement_id twice until we find a better solution
@@ -389,7 +396,7 @@ class LLMS_Engagements {
 
 						break;
 
-					// allow extensions to hook into our engagements
+					// Allow extensions to hook into our engagements.
 					default:
 						extract(
 							apply_filters(
@@ -405,14 +412,14 @@ class LLMS_Engagements {
 							)
 						);
 
-				}// End switch().
+				}
 
-				// can't proceed without an action and a handler
+				// Can't proceed without an action and a handler.
 				if ( ! $handler_action && ! $handler_args ) {
 					continue;
 				}
 
-				// if we have a delay, schedule the engagement handler
+				// If we have a delay, schedule the engagement handler.
 				$delay = intval( $e->delay );
 				$this->log( '$delay: ' . $delay );
 				$this->log( '$handler_action: ' . $handler_action );
@@ -426,8 +433,8 @@ class LLMS_Engagements {
 					do_action( $handler_action, $handler_args );
 
 				}
-			}// End foreach().
-		}// End if().
+			}
+		}
 
 		$this->log( '======= end maybe_trigger_engagement ========' );
 
@@ -439,11 +446,14 @@ class LLMS_Engagements {
 	/**
 	 * Retrieve engagements based on the trigger type
 	 *
-	 * Joins rather than nested loops and sub queries ftw
+	 * Joins rather than nested loops and sub queries ftw.
 	 *
-	 * @param  string $trigger_type  name of the trigger to look for
-	 * @return array of objects
-	 *              Array(
+	 * @since 2.3.0
+	 * @since 3.13.1 Unknown.
+	 *
+	 * @param string $trigger_type  Name of the trigger to look for.
+	 * @return array Array of objects.
+	 *               Array(
 	 *                  [0] => stdClass Object (
 	 *                      [engagement_id] => 123, // WordPress Post ID of the event post (email, certificate, achievement, etc...)
 	 *                      [trigger_id]    => 123, // this is the Post ID of the llms_engagement post
@@ -451,10 +461,7 @@ class LLMS_Engagements {
 	 *                      [event_type]    => 'certificate', // engagement event action
 	 *                      [delay]         => 0, // time in days to delay the engagement
 	 *                   )
-	 *              )
-	 *
-	 * @since    2.3.0
-	 * @version  3.13.1
+	 *               )
 	 */
 	private function get_engagements( $trigger_type, $related_post_id = '' ) {
 
@@ -478,7 +485,7 @@ class LLMS_Engagements {
 
 		$r = $wpdb->get_results(
 			$wpdb->prepare(
-				// the query
+				// The query.
 				"SELECT
 				  DISTINCT triggers.ID AS trigger_id
 				, triggers_meta.meta_value AS engagement_id
@@ -511,7 +518,7 @@ class LLMS_Engagements {
 
 				$related_where
 			",
-				// prepare variables
+				// Prepare variables.
 				$trigger_type
 			),
 			OBJECT

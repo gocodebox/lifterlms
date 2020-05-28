@@ -11,7 +11,7 @@ import {
 /**
  * Create and publish a new course
  *
- * @since [version]
+ * @since 3.39.0
  *
  * @param {Object} args {
  *     Creation arguments.
