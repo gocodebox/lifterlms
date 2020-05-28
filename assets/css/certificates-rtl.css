@@ -47,6 +47,9 @@ body {
   /* remove all headers, menus and footers */
   header, aside, nav, footer {
     display: none !important; }
+  /* make sure a .container parent doesn't shif the certificate see: https://github.com/gocodebox/lifterlms/issues/1163 */
+  .single-llms_certificate .container {
+    width: 100%; }
   /* make only the certificate container and its children visible */
   .llms-certificate-container, .llms-certificate-container * {
     visibility: visible !important; }

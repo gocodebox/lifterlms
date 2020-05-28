@@ -8,14 +8,14 @@
  * @group ajax
  * @group coupons
  *
- * @since [version]
+ * @since 3.39.0
  */
 class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 
 	/**
 	 * Test remove_coupon_code()
 	 *
-	 * @since [version]
+	 * @since 3.39.0
 	 *
 	 * @return void
 	 */
@@ -37,7 +37,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon_code(): no coupon data supplied
 	 *
-	 * @since [version]
+	 * @since 3.39.0
 	 *
 	 * @return void
 	 */
@@ -54,7 +54,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon_code(): no access plan supplied
 	 *
-	 * @since [version]
+	 * @since 3.39.0
 	 *
 	 * @return void
 	 */
@@ -73,7 +73,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon_code(): coupon not found
 	 *
-	 * @since [version]
+	 * @since 3.39.0
 	 *
 	 * @return void
 	 */
@@ -93,7 +93,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon_code(): coupon invalid for the given plan
 	 *
-	 * @since [version]
+	 * @since 3.39.0
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class LLMS_Test_AJAX_Handler_Coupons extends LLMS_UnitTestCase {
 	/**
 	 * Test validate_coupon_code(): coupon code is valid
 	 *
-	 * @since [version]
+	 * @since 3.39.0
 	 *
 	 * @return void
 	 */

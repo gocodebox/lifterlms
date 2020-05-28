@@ -3,7 +3,7 @@
  * Notification Controller: Student Welcome
  *
  * @since 3.8.0
- * @version 3.33.2
+ * @version 3.39.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,6 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.8.0
  * @since 3.33.2 Add test send functionality.
+ * @since 3.39.0 Added `llms_rest_student_registered` as action hook.
  */
 class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notification_Controller {
 
@@ -26,23 +27,24 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	/**
 	 * Number of accepted arguments passed to the callback function
 	 *
-	 * @var  integer
+	 * @var integer
 	 */
 	protected $action_accepted_args = 1;
 
 	/**
 	 * Action hooks used to trigger sending of the notification
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $action_hooks = array(
 		'lifterlms_user_registered',
+		'llms_rest_student_registered',
 	);
 
 	/**
 	 * Determines if test notifications can be sent
 	 *
-	 * @var  bool
+	 * @var bool
 	 */
 	protected $testable = array(
 		'basic' => false,
@@ -52,10 +54,10 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	/**
 	 * Callback function called when a lesson is completed by a student
 	 *
-	 * @param    int $transaction   Instance of a LLMS_Transaction
-	 * @return   void
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param int $transaction Instance of a LLMS_Transaction
+	 * @return void
 	 */
 	public function action_callback( $user_id = null ) {
 
@@ -69,10 +71,10 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	/**
 	 * Takes a subscriber type (student, author, etc) and retrieves a User ID
 	 *
-	 * @param    string $subscriber  subscriber type string
-	 * @return   int|false
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $subscriber Subscriber type string.
+	 * @return int|false
 	 */
 	protected function get_subscriber( $subscriber ) {
 
@@ -93,12 +95,13 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 	/**
 	 * Determine what types are supported
-	 * Extending classes can override this function in order to add or remove support
-	 * 3rd parties should add support via filter on $this->get_supported_types()
 	 *
-	 * @return   array        associative array, keys are the ID/db type, values should be translated display types
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * Extending classes can override this function in order to add or remove support
+	 * 3rd parties should add support via filter on $this->get_supported_types().
+	 *
+	 * @since 3.8.0
+	 *
+	 * @return array Associative array, keys are the ID/db type, values should be translated display types.
 	 */
 	protected function set_supported_types() {
 		return array(
@@ -151,12 +154,11 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	}
 
 	/**
-	 * Get the translatable title for the notification
-	 * used on settings screens
+	 * Get the translatable title for the notification used on settings screens
 	 *
-	 * @return   string
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @return string
 	 */
 	public function get_title() {
 		return __( 'Student Welcome', 'lifterlms' );
@@ -164,7 +166,8 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 
 	/**
 	 * Send a test notification to the currently logged in users
-	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data
+	 *
+	 * Extending classes should redefine this in order to properly setup the controller with post_id and user_id data.
 	 *
 	 * @since 3.33.2
 	 *
@@ -189,10 +192,10 @@ class LLMS_Notification_Controller_Student_Welcome extends LLMS_Abstract_Notific
 	/**
 	 * Setup the subscriber options for the notification
 	 *
-	 * @param    string $type  notification type id
-	 * @return   array
-	 * @since    3.8.0
-	 * @version  3.8.0
+	 * @since 3.8.0
+	 *
+	 * @param string $type Notification type id.
+	 * @return array
 	 */
 	protected function set_subscriber_options( $type ) {
 

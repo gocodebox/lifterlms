@@ -1,6 +1,19 @@
 LifterLMS Changelog
 ===================
 
+v3.39.0 - 2020-05-28
+--------------------
+
++ Student Welcome notifications and user registered engagements now fire when users are created via the REST POST requests to the `/students` endpoint.
++ Bugfix: Error encountered when printing full-page certificates on certain themes.
+
+##### LifterLMS REST 1.0.0-beta.12
+
++ Feature: Added the ability to filter student and instructor collection list requests by various user information fields.
++ Fix: Prevent infinite loops encountered when invalid API keys are utilized.
++ Fix: Add an action used to fire LifterLMS core engagement and notification emails
+
+
 v3.38.2 - 2020-05-19
 --------------------
 
