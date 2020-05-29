@@ -286,7 +286,7 @@ class LLMS_Loader {
 		}
 
 		// Action Scheduler.
-		require_once LLMS_PLUGIN_DIR . 'vendor/prospress/action-scheduler/action-scheduler.php';
+		require_once LLMS_PLUGIN_DIR . 'vendor/woocommerce/action-scheduler/action-scheduler.php';
 
 	}
 
