@@ -138,8 +138,6 @@ final class LifterLMS {
 
 		llms_maybe_define_constant( 'LLMS_VERSION', $this->version );
 		llms_maybe_define_constant( 'LLMS_TEMPLATE_PATH', $this->template_path() );
-		llms_maybe_define_constant( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
-
 		llms_maybe_define_constant( 'LLMS_PLUGIN_URL', plugin_dir_url( LLMS_PLUGIN_FILE ) );
 
 		$upload_dir = wp_upload_dir();
