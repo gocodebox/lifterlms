@@ -5,7 +5,7 @@
  * @package LifterLMS/Templates
  *
  * @since 3.0.0
- * @version 3.19.4
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ if ( get_current_user_id() ) {
 
 <?php do_action( 'lifterlms_before_person_register_form' ); ?>
 
-<div class="col-2 llms-new-person-form-wrapper">
+<div class="llms-new-person-form-wrapper">
 
 	<h4 class="llms-form-heading"><?php _e( 'Register', 'lifterlms' ); ?></h4>
 
