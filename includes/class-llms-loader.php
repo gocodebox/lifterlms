@@ -163,7 +163,6 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.sidebars.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.student.dashboard.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.student.query.php';
-		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.svg.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.user.permissions.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/class.llms.view.manager.php';
 

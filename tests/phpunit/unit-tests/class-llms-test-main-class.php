@@ -9,6 +9,7 @@
  * @since 3.3.1
  * @since 3.21.1 Add localization tests.
  * @since [version] Add tests for `init_session()` method.
+ *               Remove tests against removed LLMS_SVG_DIR constant.
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
@@ -41,6 +42,7 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Test class constants
 	 *
 	 * @since 3.3.1
+	 * @since [version] Remove tests against removed LLMS_SVG_DIR constant.
 	 *
 	 * @return void
 	 */
@@ -48,7 +50,6 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 
 		$this->assertEquals( $this->llms->version, LLMS_VERSION );
 		$this->assertNotEquals( LLMS_LOG_DIR, '' );
-		$this->assertNotEquals( LLMS_SVG_DIR, '' );
 		$this->assertNotEquals( LLMS_PLUGIN_DIR, '' );
 		$this->assertNotEquals( LLMS_PLUGIN_FILE, '' );
 		$this->assertNotEquals( LLMS_TEMPLATE_PATH, '' );
