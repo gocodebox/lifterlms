@@ -164,6 +164,7 @@ class LLMS_PlayNice {
 	 *
 	 * @since 3.2.2
 	 * @since 3.19.6 Unknown.
+	 * @since [version] Removed inclusion of removed 'class.llms.person.php' file.
 	 *
 	 * @return void
 	 */
@@ -181,7 +182,6 @@ class LLMS_PlayNice {
 		include_once 'class.llms.frontend.assets.php';
 		include_once 'forms/frontend/class.llms.frontend.forms.php';
 		include_once 'forms/frontend/class.llms.frontend.password.php';
-		include_once 'class.llms.person.php';
 		include_once 'shortcodes/class.llms.shortcodes.php';
 
 		include_once 'shortcodes/class.llms.shortcode.my.account.php';

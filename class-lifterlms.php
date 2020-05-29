@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
  * @since [version] Update session management.
  *              Remove deprecated class files and variables.
+ *              Move includes (file loading) into the LLMS_Loader class.
  */
 final class LifterLMS {
 
@@ -75,31 +76,27 @@ final class LifterLMS {
 	 * @since 1.0.0
 	 * @since 3.21.1 Unknown
 	 * @since [version] Load `$this->session` at `plugins_loaded` in favor of during class construction.
+	 *               Remove deprecated `__autoload()` & initialize new file loader class.
 	 *
 	 * @return void
 	 */
 	private function __construct() {
-
-		if ( function_exists( '__autoload' ) ) {
-			spl_autoload_register( '__autoload' );
-		}
-
-		spl_autoload_register( array( $this, 'autoload' ) );
-
-		// Define constants.
-		$this->define_constants();
 
 		/**
 		 * Localize as early as possible.
 		 *
 		 * Since 4.6 the "just_in_time" l10n will load the default (not custom) file first
 		 * so we must localize before any l10n functions (like `__()`) are used
-		 * so that our custom "safe" location will always load firsti
+		 * so that our custom "safe" location will always load first.
 		 */
 		$this->localize();
 
-		// Include required files.
-		$this->includes();
+		require_once LLMS_PLUGIN_DIR . 'includes/class-llms-loader.php';
+
+		// Define constants.
+		$this->define_constants();
+
+		$this->query = new LLMS_Query();
 
 		// Hooks.
 		register_activation_hook( __FILE__, array( 'LLMS_Install', 'install' ) );
@@ -128,81 +125,26 @@ final class LifterLMS {
 	}
 
 	/**
-	 * Auto-load LLMS classes.
-	 *
-	 * @since 1.0.0
-	 * @since 3.15.0 Unknown.
-	 *
-	 * @param string $class Class name being called.
-	 * @return void
-	 */
-	public function autoload( $class ) {
-
-		$class = strtolower( $class );
-
-		$path    = null;
-		$fileize = str_replace( '_', '.', $class );
-		$file    = 'class.' . $fileize . '.php';
-
-		if ( strpos( $class, 'llms_meta_box' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/admin/post-types/meta-boxes/';
-		} elseif ( strpos( $class, 'llms_widget_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/widgets/';
-		} elseif ( strpos( $class, 'llms_integration_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/integrations/';
-		} elseif ( strpos( $class, 'llms_controller_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/controllers/';
-		} elseif ( 0 === strpos( $class, 'llms_abstract' ) ) {
-			$path = $this->plugin_path() . '/includes/abstracts/';
-			$file = $fileize . '.php';
-		} elseif ( 0 === strpos( $class, 'llms_interface' ) ) {
-			$path = $this->plugin_path() . '/includes/interfaces/';
-			$file = $fileize . '.php';
-		} elseif ( strpos( $class, 'llms_' ) === 0 ) {
-			$path = $this->plugin_path() . '/includes/';
-		}
-
-		if ( $path && is_readable( $path . $file ) ) {
-			include_once $path . $file;
-			return;
-		}
-	}
-
-	/**
 	 * Define LifterLMS Constants
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.8 Added `LLMS_PLUGIN_URL` && `LLMS_ASSETS_SUFFIX`.
 	 * @since [version] Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
+	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
 	 *
 	 * @return void
 	 */
 	private function define_constants() {
 
-		if ( ! defined( 'LLMS_VERSION' ) ) {
-			define( 'LLMS_VERSION', $this->version );
-		}
+		llms_maybe_define_constant( 'LLMS_VERSION', $this->version );
+		llms_maybe_define_constant( 'LLMS_TEMPLATE_PATH', $this->template_path() );
+		llms_maybe_define_constant( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
 
-		if ( ! defined( 'LLMS_TEMPLATE_PATH' ) ) {
-			define( 'LLMS_TEMPLATE_PATH', $this->template_path() );
-		}
-
-		if ( ! defined( 'LLMS_SVG_DIR' ) ) {
-			define( 'LLMS_SVG_DIR', plugins_url( '/assets/svg/svg.svg', LLMS_PLUGIN_FILE ) );
-		}
+		llms_maybe_define_constant( 'LLMS_PLUGIN_URL', plugin_dir_url( LLMS_PLUGIN_FILE ) );
 
 		$upload_dir = wp_upload_dir();
-		if ( ! defined( 'LLMS_LOG_DIR' ) ) {
-			define( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
-		}
-
-		if ( ! defined( 'LLMS_TMP_DIR' ) ) {
-			define( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
-		}
-
-		if ( ! defined( 'LLMS_PLUGIN_URL' ) ) {
-			define( 'LLMS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
-		}
+		llms_maybe_define_constant( 'LLMS_LOG_DIR', $upload_dir['basedir'] . '/llms-logs/' );
+		llms_maybe_define_constant( 'LLMS_TMP_DIR', $upload_dir['basedir'] . '/llms-tmp/' );
 
 		if ( ! defined( 'LLMS_ASSETS_SUFFIX' ) ) {
 
@@ -213,204 +155,8 @@ final class LifterLMS {
 			$min = ( $debug ) ? '' : '.min';
 
 			define( 'LLMS_ASSETS_SUFFIX', $min );
-		}
-
-	}
-
-	/**
-	 * Include required core classes
-	 *
-	 * @since 1.0.0
-	 * @since 3.31.0 Add theme support includes.
-	 * @since 3.32.0-beta.2 Update action-scheduler to latest version; load staging class on the admin panel.
-	 * @since 3.34.0 Include LLMS_Admin_Users Table class.
-	 * @since 3.35.0 Access $_GET variable via `llms_filter_input()`.
-	 * @since 3.36.0 Include events classes.
-	 * @since 3.36.1 Include SendWP Connector.
-	 * @since 3.37.0 Include LLMS_Theme_Support class.
-	 * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
-	 * @since [version] Require session abstracts.
-	 *              Remove deprecated class files.
-	 *
-	 * @return void
-	 */
-	private function includes() {
-
-		if ( function_exists( 'has_blocks' ) && ! defined( 'LLMS_BLOCKS_VERSION' ) ) {
-			require_once 'vendor/lifterlms/lifterlms-blocks/lifterlms-blocks.php';
-		}
-
-		// Only load bundled REST API if the plugin version doesn't exist.
-		if ( ! class_exists( 'LifterLMS_REST_API' ) ) {
-			require_once 'vendor/lifterlms/lifterlms-rest/lifterlms-rest.php';
-		}
-
-		// Abstracts.
-		require_once 'includes/abstracts/llms-abstract-session-data.php';
-		require_once 'includes/abstracts/llms-abstract-session-database-handler.php';
-
-		require_once 'includes/llms.functions.core.php';
-		require_once 'includes/class.llms.install.php';
-		require_once 'includes/class.llms.session.php';
-		require_once 'includes/class.llms.cache.helper.php';
-
-		require_once 'vendor/prospress/action-scheduler/action-scheduler.php';
-
-		require_once 'includes/class.llms.hasher.php';
-
-		require_once 'includes/processors/class.llms.processors.php';
-		include_once 'includes/abstracts/abstract.llms.admin.table.php';
-
-		include_once 'includes/admin/class.llms.admin.assets.php';
-
-		// privacy components
-		require_once 'includes/privacy/class-llms-privacy.php';
-
-		if ( is_admin() ) {
-
-			include_once 'includes/admin/class-llms-admin-users-table.php';
-
-			include_once 'includes/class-llms-staging.php';
-			include_once 'includes/class.llms.dot.com.api.php';
-
-			include_once 'includes/class.llms.generator.php';
-			include_once 'includes/admin/class.llms.admin.import.php';
-
-			include_once 'includes/controllers/class.llms.controller.admin.quiz.attempts.php';
-
-			include_once 'includes/admin/post-types/tables/class.llms.table.student.management.php';
-
-			require_once 'includes/admin/llms.functions.admin.php';
-			include_once 'includes/admin/class.llms.admin.menus.php';
-			include_once 'includes/admin/class.llms.admin.notices.php';
-			include_once 'includes/admin/class.llms.admin.notices.core.php';
-			include_once 'includes/admin/class.llms.admin.post-types.php';
-			include_once 'includes/admin/post-types/class.llms.post.tables.php';
-
-			if ( 'llms-setup' === llms_filter_input( INPUT_GET, 'page', FILTER_SANITIZE_STRING ) ) {
-				require_once 'includes/admin/class.llms.admin.setup.wizard.php';
-			}
-
-			include_once 'includes/admin/reporting/widgets/class.llms.analytics.widget.ajax.php';
-			include_once 'includes/admin/post-types/meta-boxes/fields/llms.class.meta.box.fields.php';
-			include_once 'includes/admin/post-types/meta-boxes/fields/llms.interface.meta.box.field.php';
-			include_once 'includes/admin/class.llms.admin.reviews.php';
-			require 'includes/abstracts/abstract.llms.admin.metabox.php';
-			include_once 'includes/admin/class.llms.admin.user.custom.fields.php';
-			include_once 'includes/admin/class.llms.student.bulk.enroll.php';
-
-			require_once 'includes/admin/class-llms-admin-review.php';
-			require_once 'includes/admin/class-llms-admin-export-download.php';
-			require_once 'includes/admin/class-llms-sendwp.php';
 
 		}
-
-		// nav menus
-		require_once 'includes/class.llms.nav.menus.php';
-
-		include 'includes/notifications/class.llms.notifications.php';
-
-		// Date, Number and language formatting
-		include_once 'includes/class.llms.date.php';
-
-		// oembed
-		include_once 'includes/class.llms.oembed.php';
-
-		// svg management
-		include_once 'includes/class.llms.svg.php';
-
-		// Post types
-		include_once 'includes/class.llms.post-types.php';
-
-		// sidebars
-		require_once 'includes/class.llms.sidebars.php';
-
-		// Payment Gateway
-		require_once 'includes/abstracts/abstract.llms.payment.gateway.php';
-		require_once 'includes/class.llms.gateway.manual.php';
-
-		// Ajax
-		include_once 'includes/class.llms.ajax.php';
-		include_once 'includes/class.llms.ajax.handler.php';
-
-		// Hooks
-		include_once 'includes/llms.template.hooks.php';
-
-		// Models
-		require_once 'includes/abstracts/abstract.llms.post.model.php';
-		foreach ( glob( LLMS_PLUGIN_DIR . 'includes/models/*.php', GLOB_NOSORT ) as $model ) {
-			require_once $model;
-		}
-
-		// queries
-		include_once 'includes/abstracts/abstract.llms.database.query.php';
-		include_once 'includes/class.llms.query.quiz.attempt.php';
-		include_once 'includes/class.llms.query.user.postmeta.php';
-		include_once 'includes/class.llms.student.query.php';
-		include_once 'includes/class-llms-events-query.php';
-		include_once 'includes/notifications/class.llms.notifications.query.php';
-
-		// Classes
-		include_once 'includes/class.llms.lesson.handler.php';
-		include_once 'includes/class.llms.question.types.php';
-		include_once 'includes/class.llms.post.relationships.php';
-		include_once 'includes/class.llms.review.php';
-		include_once 'includes/class.llms.student.dashboard.php';
-		include_once 'includes/class.llms.user.permissions.php';
-		include_once 'includes/class.llms.view.manager.php';
-		include_once 'includes/class.llms.l10n.js.php';
-
-		// handler classes
-		require_once 'includes/class.llms.person.handler.php';
-		require_once 'includes/class.llms.post.handler.php';
-
-		include_once 'includes/widgets/class.llms.widgets.php';
-		include_once 'includes/widgets/class.llms.widget.php';
-
-		include_once 'includes/class.llms.query.php';
-
-		// controllers
-		include_once 'includes/controllers/class.llms.controller.achievements.php';
-		include_once 'includes/controllers/class.llms.controller.certificates.php';
-		include_once 'includes/controllers/class.llms.controller.lesson.progression.php';
-		include_once 'includes/controllers/class.llms.controller.orders.php';
-		include_once 'includes/controllers/class.llms.controller.quizzes.php';
-
-		// form controllers
-		include_once 'includes/forms/controllers/class.llms.controller.account.php';
-		include_once 'includes/forms/controllers/class.llms.controller.login.php';
-		include_once 'includes/forms/controllers/class.llms.controller.registration.php';
-
-		// comments
-		include_once 'includes/class.llms.comments.php';
-
-		// shortcodes
-		require_once 'includes/shortcodes/class.llms.shortcodes.php';
-		require_once 'includes/shortcodes/class.llms.shortcode.my.account.php';
-		require_once 'includes/shortcodes/class.llms.shortcode.checkout.php';
-
-		$this->query = new LLMS_Query();
-
-		if ( ! is_admin() ) {
-
-			require_once 'includes/class.llms.https.php';
-
-			include_once 'includes/class.llms.template.loader.php';
-			include_once 'includes/class.llms.frontend.assets.php';
-
-			// form classes
-			include_once 'includes/forms/frontend/class.llms.frontend.forms.php';
-			include_once 'includes/forms/frontend/class.llms.frontend.password.php';
-
-		}
-
-		require_once 'includes/class-llms-grades.php';
-		require_once 'includes/class-llms-events.php';
-		require_once 'includes/class-llms-events-core.php';
-		require_once 'includes/class-llms-sessions.php';
-		require_once 'includes/class-llms-mime-type-extractor.php';
-		require_once 'includes/class.llms.playnice.php';
-		require_once 'includes/theme-support/class-llms-theme-support.php';
 
 	}
 
