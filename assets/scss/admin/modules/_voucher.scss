@@ -1,17 +1,13 @@
 a.llms-voucher-delete {
+	background: $color-danger;
+	color: $color-white;
 	display: block;
-	padding: 5px;
-	background: #e26049;
-	float: right;
-	color: $color-white !important;
+	padding: 4px 2px;
+	text-decoration: none;
 	transition: ease .3s all;
 
 	&:hover {
 		background: #af3a26;
-	}
-
-	.icon.button-icon {
-		fill: $color-white;
 	}
 }
 
