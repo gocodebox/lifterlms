@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version 3.37.18
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,6 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.17 Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
  *                Deprecated `LLMS_PlayNice::wc_is_account_page()`.
  * @since 3.37.18 Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
+ * @since 4.0.0 Removed previously deprecated method `LLMS_PlayNice::wc_is_account_page()`.
  */
 class LLMS_PlayNice {
 
@@ -134,32 +135,6 @@ class LLMS_PlayNice {
 	/**
 	 * Allow our dashboard endpoints sharing a query var with WC to function
 	 *
-	 * Lie to WC and tell it we're on a WC account page when accessing endpoints which
-	 * share a query var with WC.
-	 *
-	 * @since 3.31.0
-	 * @deprecated 3.37.17 No longer required based on the usage of `wc_account_endpoint_page_not_found()`.
-	 *
-	 * @link https://github.com/gocodebox/lifterlms/issues/849
-	 *
-	 * @param bool $is_acct_page False from `woocommerce_is_account_page` filter.
-	 * @return bool
-	 */
-	public function wc_is_account_page( $is_acct_page ) {
-
-		llms_deprecated_function( 'LLMS_PlayNice::wc_is_account_page()', '3.37.17' );
-
-		if ( ! $is_acct_page && is_llms_account_page() && is_wc_endpoint_url() ) {
-			$is_acct_page = true;
-		}
-
-		return $is_acct_page;
-
-	}
-
-	/**
-	 * Allow our dashboard endpoints sharing a query var with WC to function
-	 *
 	 * Inform WC that it should not force a 404 because we're on a valid endpoint.
 	 *
 	 * @since 3.37.17
@@ -189,6 +164,7 @@ class LLMS_PlayNice {
 	 *
 	 * @since 3.2.2
 	 * @since 3.19.6 Unknown.
+	 * @since 4.0.0 Removed inclusion of removed 'class.llms.person.php' file.
 	 *
 	 * @return void
 	 */
@@ -206,7 +182,6 @@ class LLMS_PlayNice {
 		include_once 'class.llms.frontend.assets.php';
 		include_once 'forms/frontend/class.llms.frontend.forms.php';
 		include_once 'forms/frontend/class.llms.frontend.password.php';
-		include_once 'class.llms.person.php';
 		include_once 'shortcodes/class.llms.shortcodes.php';
 
 		include_once 'shortcodes/class.llms.shortcode.my.account.php';

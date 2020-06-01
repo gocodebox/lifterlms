@@ -3,14 +3,21 @@
  * Quiz Attempt Model
  *
  * @package LifterLMS/Models
- * @since   3.9.0
- * @version 3.29.0
+ *
+ * @since 3.9.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Quiz_Attempt model.
+ *
+ * @since 3.9.0
+ * @since 3.16.0 Unknown.
+ * @since 3.24.0 Unknown.
+ * @since 3.29.0 Unknown.
+ * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -116,9 +123,11 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	/**
 	 * Calculate and the grade for a completed quiz
 	 *
-	 * @return   $this      for chaining
-	 * @since    3.9.0
-	 * @version  3.24.0
+	 * @since 3.9.0
+	 * @since 3.24.0 Unknown.
+	 * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
+	 *
+	 * @return LLMS_Quiz Instance of the current quiz object.
 	 */
 	public function calculate_grade() {
 
@@ -129,7 +138,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 			$grade = LLMS()->grades()->round( $this->get_count( 'earned' ) * $this->calculate_point_weight() );
 
 			$quiz      = $this->get_quiz();
-			$min_grade = $quiz ? $quiz->get_passing_percent() : 100;
+			$min_grade = $quiz ? $quiz->get( 'passing_percent' ) : 100;
 
 			$this->set( 'grade', $grade );
 			$status = ( $min_grade <= $grade ) ? 'pass' : 'fail';
@@ -676,35 +685,6 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 */
 	public function to_array() {
 		return $this->data;
-	}
-
-
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Get the attempts status based on start and end dates
-	 *
-	 * @return   string
-	 * @since      3.9.0
-	 * @version    3.16.0
-	 * @deprecated 3.16.0
-	 */
-	public function get_status() {
-		llms_deprecated_function( 'LLMS_Quiz_Attempt::get_status()', '3.16.0', "LLMS_Quiz_Attempt::get( 'status' )" );
-		return $this->get( 'status' );
 	}
 
 }

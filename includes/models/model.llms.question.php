@@ -5,9 +5,9 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version 3.38.2
+ * @version 4.0.0
  *
- * @property  $question_type  (string)  type of question
+ * @property string $question_type Type of question.
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.1 Fixed choice sorting issues.
  * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
  * @since 3.38.2 When getting the 'not raw' question_type, made sure to always return a valid value.
+ * @since 4.0.0 Remove deprecated class method `get_options()`.
  */
 class LLMS_Question extends LLMS_Post_Model {
 
@@ -784,35 +785,6 @@ class LLMS_Question extends LLMS_Post_Model {
 	 */
 	protected function toArrayCustom( $arr ) {
 		return $arr;
-	}
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Get the options for the question
-	 *
-	 * @return     array
-	 * @since      1.0.0
-	 * @version    3.16.0
-	 * @deprecated 3.16.0
-	 */
-	public function get_options() {
-
-		llms_deprecated_function( 'LLMS_Question::get_options()', '3.16.0', 'LLMS_Question::get_choices()' );
-		return $this->get_choices();
-
 	}
 
 }

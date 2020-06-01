@@ -7,7 +7,7 @@
  * @package LifterLMS/Models
  *
  * @since 2.2.3
- * @version 3.37.9
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,6 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Prepare all variables when querying for enrollment date.
  * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
  * @since 3.37.9 Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
+ * @since 4.0.0 Remove previously deprecated methods.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 
@@ -1876,94 +1877,6 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 		}// End if().
 
 		return $update;
-
-	}
-
-
-
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Remove Student Quiz attempts
-	 *
-	 * @param    int $quiz_id    WP Post ID of a Quiz
-	 * @param    int $lesson_id  WP Post ID of a lesson
-	 * @param    int $attempt    optional attempt number, if omitted all attempts for quiz & lesson will be deleted
-	 * @return   array               updated array quiz data for the student
-	 * @since    3.4.4
-	 * @version  3.9.0
-	 */
-	public function delete_quiz_attempt( $quiz_id, $lesson_id, $attempt = null ) {
-		llms_deprecated_function( 'LLMS_Student->delete_quiz_attempt()', '3.9.0', 'LLMS_Student->quizzes()->delete_attempt()' );
-		return $this->quizzes()->delete_attempt( $quiz_id, $lesson_id, $attempt );
-	}
-
-	/**
-	 * Get the quiz attempt with the highest grade for a given quiz and lesson combination
-	 *
-	 * @param    int $quiz_id    WP Post ID of a Quiz
-	 * @param    int $lesson_id  WP Post ID of a lesson
-	 * @return   array
-	 * @since    3.9.0
-	 * @version  3.9.0
-	 */
-	public function get_best_quiz_attempt( $quiz = null, $lesson = null ) {
-		llms_deprecated_function( 'LLMS_Student->get_best_quiz_attempt()', '3.9.0', 'LLMS_Student->quizzes()->get_best_attempt()' );
-		return $this->quizzes()->get_best_attempt( $quiz, $lesson );
-	}
-
-	/**
-	 * Retrieve quiz data for a student for a lesson / quiz combination
-	 *
-	 * @param    int $quiz    WP Post ID of a Quiz
-	 * @param    int $lesson  WP Post ID of a lesson
-	 * @return   array
-	 * @since    3.2.0
-	 * @version  3.9.0
-	 */
-	public function get_quiz_data( $quiz = null, $lesson = null ) {
-		llms_deprecated_function( 'LLMS_Student->get_quiz_data()', '3.9.0', 'LLMS_Student->quizzes()->get_all()' );
-		return $this->quizzes()->get_all( $quiz, $lesson );
-	}
-
-	/**
-	 * Determine if a student has access to a product's content
-	 *
-	 * @param      int $product_id    WP Post ID of a course or membership
-	 * @return     boolean
-	 * @since      3.0.0
-	 * @version    3.12.2
-	 * @deprecated 3.12.2   This function previously differed from $this->is_enrolled() by
-	 *                      checking the status of an order and only returning true when
-	 *                      the order status and enrollment status were both true
-	 *                      this causes issues when a student is expired from a limited-access product
-	 *                      and is then manually re-enrolled by an admin
-	 *                      there is no way to change the access expiration information
-	 *                      and the enrollment status says "Enrolled" but the student still cannot
-	 *                      access the content
-	 *
-	 *                      Additionally redundant due to the fact that access is expired automatically
-	 *                      via action scheduler `do_action( 'llms_access_plan_expiration', $order_id );`
-	 *                      This action changes the enrollment status thereby rendering this additional
-	 *                      access check redundant, confusing, unnecessary
-	 */
-	public function has_access( $product_id ) {
-
-		llms_deprecated_function( 'LLMS_Student::has_access()', '3.12.2', 'LLMS_Student::is_enrolled()' );
-		return $this->is_enrolled( $product_id );
 
 	}
 

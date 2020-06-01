@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.30.3
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since 4.0.0 Remove previously deprecated class property `$enabled`.
  */
 class LLMS_Certificate {
 
@@ -45,15 +46,6 @@ class LLMS_Certificate {
 	 * @since 1.0.0
 	 */
 	public $email_type;
-
-	/**
-	 * Certificate Enabled
-	 *
-	 * @var bool
-	 * @since 1.0.0
-	 * @deprecated 2.2.0
-	 */
-	public $enabled;
 
 	/**
 	 * @var array
@@ -118,21 +110,20 @@ class LLMS_Certificate {
 	 */
 	public function __construct() {
 
-			// Settings TODO Refactor: theses can come from the email post now
-			$this->email_type = 'html';
-			// $this->enabled        = get_option( 'enabled' );
+		// Settings TODO Refactor: theses can come from the email post now
+		$this->email_type = 'html';
 
-			$this->find    = array( '{blogname}', '{site_title}' );
-			$this->replace = array( $this->get_blogname(), $this->get_blogname() );
+		$this->find    = array( '{blogname}', '{site_title}' );
+		$this->replace = array( $this->get_blogname(), $this->get_blogname() );
+
 	}
 
 	/**
 	 * Is Enabled
 	 *
-	 * @return boolean [certificate enabled]
+	 * @return boolean
 	 */
 	public function is_enabled() {
-		// $enabled = $this->enabled == "yes" ? true : false;
 		return true;
 	}
 

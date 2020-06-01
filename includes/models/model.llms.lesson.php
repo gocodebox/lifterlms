@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version 3.36.2
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.29.0 Unknown.
  * @since 3.36.2 When getting the lesson's available date: add available number of days to the course start date only if there's a course start date.
+ * @since 4.0.0 Remove deprecated methods.
  *
  * @property $audio_embed (string) Audio embed URL
  * @property $date_available (string/date) Date when lesson becomes available, applies when $drip_method is "date"
@@ -234,7 +235,6 @@ implements LLMS_Interface_Post_Audio
 	/**
 	 * Retrieves the lesson's order within its parent section
 	 *
-	 * @todo  this should be deprecated
 	 * @return int
 	 * @since  1.0.0
 	 * @version  3.0.0
@@ -795,78 +795,6 @@ implements LLMS_Interface_Post_Audio
 				}
 			}
 		}// End if().
-	}
-
-
-
-
-	/*
-		 /$$$$$$$                                                                /$$                     /$$
-		| $$__  $$                                                              | $$                    | $$
-		| $$  \ $$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		| $$  | $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		| $$$$$$$/|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		|_______/  \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Get the quiz associated with the lesson
-	 *
-	 * @return     false|int
-	 * @deprecated 3.0.2
-	 * @since      1.0.0
-	 * @version    3.16.0
-	 */
-	public function get_assigned_quiz() {
-
-		llms_deprecated_function( 'LLMS_Lesson::get_assigned_quiz()', '3.0.2', "LLMS_Lesson::get( 'quiz' )" );
-
-		$id = $this->get( 'quiz' );
-		if ( $id ) {
-			return $id;
-		} else {
-			return false;
-		}
-
-	}
-
-	/**
-	 * Get the lesson drip days
-	 *
-	 * @return      int [ID of the prerequisite post]
-	 * @deprecated  3.16.0
-	 */
-	public function get_drip_days() {
-
-		llms_deprecated_function( 'LLMS_Lesson::get_drip_days()', '3.16.0', "LLMS_Lesson::get( 'days_before_available' )" );
-
-		if ( $this->days_before_avalailable ) {
-			return $this->days_before_avalailable;
-		} else {
-			return 0;
-		}
-	}
-
-	/**
-	 * Marks the current lesson complete
-	 *
-	 * @param      int     $user_id              WP User ID of the user
-	 * @param      boolean $prevent_autoadvance  Deprecated
-	 * @return     boolean
-	 * @deprecated 3.3.1
-	 * @since      1.0.0
-	 * @version    3.3.1
-	 */
-	public function mark_complete( $user_id, $prevent_autoadvance = false ) {
-
-		llms_deprecated_function( 'LLMS_Lesson::mark_complete()', '3.3.1', 'llms_mark_complete()' );
-		return llms_mark_complete( $user_id, $this->get( 'id' ), 'lesson', 'lesson_' . $this->get( 'id' ) );
-
 	}
 
 }

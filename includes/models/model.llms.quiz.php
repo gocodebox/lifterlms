@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.3.0
- * @version 3.38.0
+ * @version 4.0.0
  *
  * @property  $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
  * @property  $passing_percent (float) Grade required for a student to "pass" the quiz.
@@ -27,6 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.19.2 Unkwnown.
  * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
  * @since 3.38.0 Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
+ * @since 4.0.0 Remove deprecated methods.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 
@@ -310,119 +311,6 @@ class LLMS_Quiz extends LLMS_Post_Model {
 		$q = get_post_meta( $this->get( 'id' ), $this->meta_prefix . 'questions', true );
 		return $q ? $q : array();
 
-	}
-
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Get remaining quiz attempts.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.16.0
-	 *
-	 * @param int $user_id Optional. WP_User ID, if not supplied uses current user. Default `null`.
-	 * @return int
-	 */
-	public function get_remaining_attempts_by_user( $user_id = null ) {
-
-		llms_deprecated_function( 'LLMS_Quiz::get_remaining_attempts_by_user()', '3.16.0', 'LLMS_Student::quizzes()->get_attempts_remaining_for_quiz( $quiz_id )' );
-
-		$student = llms_get_student( $user_id );
-		if ( $student ) {
-			return $student->quizzes()->get_attempts_remaining_for_quiz( $this->get( 'id' ) );
-		}
-
-		return 0;
-
-	}
-
-
-	/**
-	 * Retrieve the configured time limit.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.16.0
-	 *
-	 * @return int
-	 */
-	public function get_time_limit() {
-		llms_deprecated_function( 'LLMS_Quiz::get_time_limit()', '3.16.0', 'LLMS_Quiz::get( "time_limit" )' );
-		return $this->get( 'time_limit' );
-	}
-
-	/**
-	 * Retrieve the configured time limit.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.16.0
-	 *
-	 * @return int
-	 */
-	public function get_total_allowed_attempts() {
-		llms_deprecated_function( 'LLMS_Quiz::get_total_allowed_attempts()', '3.16.0', 'LLMS_Quiz::get( "allowed_attempts" )' );
-		return $this->get( 'allowed_attempts' );
-	}
-
-	/**
-	 * Get total attempts by user.
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.16.0
-	 *
-	 * @param int $user_id Optional. A WP_User ID, if not supplied uses current user. Default `null`.
-	 * @return int
-	 */
-	public function get_total_attempts_by_user( $user_id = null ) {
-
-		llms_deprecated_function( 'LLMS_Quiz::get_total_attempts_by_user()', '3.16.0', 'LLMS_Student::quizzes()->count_attempts_by_quiz( $quiz_id )' );
-
-		$student = llms_get_student( $user_id );
-		if ( ! $student ) {
-			return 0;
-		}
-
-		return $student->quizzes()->count_attempts_by_quiz( $this->get( 'id' ) );
-
-	}
-
-	/**
-	 * Get passing percent.
-	 *
-	 * @since ??
-	 * @deprecated ??
-	 *
-	 * @return float
-	 */
-	public function get_passing_percent() {
-		// deprecate.
-		return $this->get( 'passing_percent' );
-
-	}
-
-	/**
-	 * Get associated lesson id.
-	 *
-	 * @since ??
-	 * @deprecated ??
-	 *
-	 * @return int
-	 */
-	public function get_assoc_lesson() {
-		// deprecate.
-		return $this->get( 'lesson_id' );
 	}
 
 }
