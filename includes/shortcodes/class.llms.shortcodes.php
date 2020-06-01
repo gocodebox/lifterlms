@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.23.0 Unknown.
  * @since 3.38.0 Course progress bar shortcode now can display the bar only to enrolled user.
  *               Use strict comparisons where possible/needed.
- * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
+ * @since 4.0.0 Remove reliance on deprecated class `LLMS_Quiz_Legacy` & stop registering deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
  */
 class LLMS_Shortcodes {
 
@@ -27,7 +27,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 1.0.0
 	 * @since 3.11.1 Unknown.
-	 * @since [version] Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
+	 * @since 4.0.0 Stop registering previously deprecated shortcode `[courses]` and `[lifterlms_user_statistics]`.
 	 *
 	 * @return void
 	 */
@@ -144,7 +144,7 @@ class LLMS_Shortcodes {
 	 *
 	 * @since 2.7.9
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Remove reliance on deprecated class `LLMS_Quiz_Legacy`.
+	 * @since 4.0.0 Remove reliance on deprecated class `LLMS_Quiz_Legacy`.
 	 *
 	 * @return int
 	 */

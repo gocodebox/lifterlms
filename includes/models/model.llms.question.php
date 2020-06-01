@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  *
  * @property string $question_type Type of question.
  */
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.1 Fixed choice sorting issues.
  * @since 3.35.0 Escape `LIKE` clause when retrieving choices.
  * @since 3.38.2 When getting the 'not raw' question_type, made sure to always return a valid value.
- * @since [version] Remove deprecated class method `get_options()`.
+ * @since 4.0.0 Remove deprecated class method `get_options()`.
  */
 class LLMS_Question extends LLMS_Post_Model {
 

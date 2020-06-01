@@ -8,7 +8,7 @@
  *
  * @since 3.3.1
  * @since 3.37.8 Fix directory path to uninstall.php
- * @since [version] Test creation of all tables; fix caching issue when testing full install; add new cron test.
+ * @since 4.0.0 Test creation of all tables; fix caching issue when testing full install; add new cron test.
  */
 class LLMS_Test_Install extends LLMS_UnitTestCase {
 
@@ -39,7 +39,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.3.1
 	 * @since 3.28.0 Unknown.
-	 * @since [version] Test session cleanup cron.
+	 * @since 4.0.0 Test session cleanup cron.
 	 *
 	 * @return void
 	 */
@@ -188,7 +188,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 * Tests for create_tables()
 	 *
 	 * @since 3.3.1
-	 * @since [version] Add missing tables.
+	 * @since 4.0.0 Add missing tables.
 	 *
 	 * @return void
 	 */
@@ -292,7 +292,7 @@ class LLMS_Test_Install extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.3.1
 	 * @since 3.37.8 Fix directory path to uninstall.php
-	 * @since [version] Flush cache after uninstall is run.
+	 * @since 4.0.0 Flush cache after uninstall is run.
 	 *
 	 * @return void
 	 */

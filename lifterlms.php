@@ -5,12 +5,12 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
  * Description: LifterLMS is a powerful WordPress learning management system plugin that makes it easy to create, sell, and protect engaging online courses and training based membership websites.
- * Version: 3.39.0
+ * Version: 4.0.0
  * Author: LifterLMS
  * Author URI: https://lifterlms.com/
  * Text Domain: lifterlms
@@ -53,14 +53,14 @@ if ( ! class_exists( 'LifterLMS' ) ) {
 /**
  * Allow usage of the deprecated `LLMS()` function.
  *
- * @deprecated [version] Function `LLMS()` is deprecated in favor of `llms()`.
+ * @deprecated 4.0.0 Function `LLMS()` is deprecated in favor of `llms()`.
  */
 use function LLMS as llms;
 
 /**
  * Returns the main instance of LifterLMS
  *
- * @since [version]
+ * @since 4.0.0
  *
  * @return LifterLMS
  */

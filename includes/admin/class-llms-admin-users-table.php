@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.34.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Admin_Users_Table class
  *
  * @since 3.34.0
- * @since [version] Add custom user table columns and action links.
+ * @since 4.0.0 Add custom user table columns and action links.
  */
 class LLMS_Admin_Users_Table {
 
@@ -33,7 +33,7 @@ class LLMS_Admin_Users_Table {
 	 * Constructor.
 	 *
 	 * @since 3.34.0
-	 * @since [version] Add custom user table columns and action links.
+	 * @since 4.0.0 Add custom user table columns and action links.
 	 *
 	 * @return void
 	 */
@@ -56,7 +56,7 @@ class LLMS_Admin_Users_Table {
 	 *
 	 * Outputs a "Reports" action link seen when hovering over a user in the table.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param string[] $actions Array of existing action links.
 	 * @param WP_User  $user    User object.
@@ -89,7 +89,7 @@ class LLMS_Admin_Users_Table {
 	/**
 	 * Retrieve the date/time format used to display a user's last login.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return string
 	 */
@@ -106,7 +106,7 @@ class LLMS_Admin_Users_Table {
 	/**
 	 * Retrieves the output for the "enrollments" column.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param LLMS_Student $student Student object.
 	 * @return string
@@ -142,7 +142,7 @@ class LLMS_Admin_Users_Table {
 	/**
 	 * Load dependencies used by the class.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -222,7 +222,7 @@ class LLMS_Admin_Users_Table {
 	/**
 	 * Register custom columns
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param string $output   Column output value to display (defaults to empty).
 	 * @param string $col_name Column name/id.

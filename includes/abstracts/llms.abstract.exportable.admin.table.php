@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.28.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.28.0
  * @since 3.30.3 Explicitly define undefined properties.
  * @since 3.37.15 Ensure filenames of generated export files are for supported filetypes.
- * @since [version] Removed previously deprecated method `LLMS_Admin_Table::queue_export()`.
+ * @since 4.0.0 Removed previously deprecated method `LLMS_Admin_Table::queue_export()`.
  */
 abstract class LLMS_Abstract_Exportable_Admin_Table {
 

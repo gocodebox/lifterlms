@@ -7,14 +7,14 @@
  * @group admin
  * @group users_table
  *
- * @since [version]
+ * @since 4.0.0
  */
 class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -26,7 +26,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -41,7 +41,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_actions() method
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_Admin_Users_table extends LLMS_Unit_Test_Case {
 	/**
 	 * Test add_cols()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

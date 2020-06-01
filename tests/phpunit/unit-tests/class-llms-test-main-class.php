@@ -8,7 +8,7 @@
  *
  * @since 3.3.1
  * @since 3.21.1 Add localization tests.
- * @since [version] Add tests for `init_session()` method.
+ * @since 4.0.0 Add tests for `init_session()` method.
  *               Remove tests against removed LLMS_SVG_DIR constant.
  */
 class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
@@ -42,7 +42,7 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	 * Test class constants
 	 *
 	 * @since 3.3.1
-	 * @since [version] Remove tests against removed LLMS_SVG_DIR constant.
+	 * @since 4.0.0 Remove tests against removed LLMS_SVG_DIR constant.
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Test_Main_Class extends LLMS_UnitTestCase {
 	/**
 	 * Test the init_session() method
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

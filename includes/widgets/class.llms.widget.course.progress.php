@@ -7,7 +7,7 @@
  * @package LifterLMS/Widgets/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.38.0 Introduced a new option to display/hide the course progress widget to enrolled students only.
  *               Hidden to not enrolled students by default.
- * @since [version] Remove previously deprecated method `LLMS_Widget_Course_Progress::widget_contents()`.
+ * @since 4.0.0 Remove previously deprecated method `LLMS_Widget_Course_Progress::widget_contents()`.
  */
 class LLMS_Widget_Course_Progress extends LLMS_Widget {
 

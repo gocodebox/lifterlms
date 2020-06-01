@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.0.0
  * @since 3.28.2 Unknown.
- * @since [version] Removed deprecated methods.
+ * @since 4.0.0 Removed deprecated methods.
  */
 class LLMS_Student_Dashboard {
 

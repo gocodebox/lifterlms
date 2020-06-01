@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.9.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.16.0 Unknown.
  * @since 3.24.0 Unknown.
  * @since 3.29.0 Unknown.
- * @since [version] Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
+ * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()` & remove deprecated class method `get_status()`.
  */
 class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 
@@ -125,7 +125,7 @@ class LLMS_Quiz_Attempt extends LLMS_Abstract_Database_Store {
 	 *
 	 * @since 3.9.0
 	 * @since 3.24.0 Unknown.
-	 * @since [version] Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
+	 * @since 4.0.0 Remove reliance on deprecated method `LLMS_Quiz::get_passing_percent()`.
 	 *
 	 * @return LLMS_Quiz Instance of the current quiz object.
 	 */

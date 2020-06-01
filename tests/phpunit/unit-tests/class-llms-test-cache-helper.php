@@ -7,15 +7,15 @@
  * @group cache
  * @group cache_helper
  *
- * @since [version]
- * @version [version]
+ * @since 4.0.0
+ * @version 4.0.0
  */
 class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Test get_prefix() method.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -39,7 +39,7 @@ class LLMS_Test_Cache_Helper extends LLMS_Unit_Test_Case {
 	/**
 	 * Test invalidate_group() method.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

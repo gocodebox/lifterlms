@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.0 Added access plan and query string checkout redirect settings.
  * @since 3.34.3 During order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
  * @since 3.37.18 Allow redirection to external domains by disabling "safe" redirects.
- * @since [version] Removed deprecated completed transaction message parameter output.
+ * @since 4.0.0 Removed deprecated completed transaction message parameter output.
  */
 abstract class LLMS_Payment_Gateway {
 

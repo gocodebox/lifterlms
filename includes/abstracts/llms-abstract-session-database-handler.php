@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.0.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Abstract_Session
  *
- * @since [version]
+ * @since 4.0.0
  */
 abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Session_Data {
 
@@ -32,7 +32,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	 *
 	 * This method is also used by the admin tool to remove *all* sessions on demand.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param boolean $expired_only If `true`, only delete expired sessions, otherwise deletes all events.
 	 * @return int
@@ -55,7 +55,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	/**
 	 * Delete a session from the database
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param string $id Session key.
 	 * @return boolean
@@ -77,7 +77,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	/**
 	 * Retrieve a prefixed cache key
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param string $key Unprefixed cache key.
 	 * @return string
@@ -89,7 +89,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	/**
 	 * Save the session to the database
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param int $expires Timestamp of the session expiration.
 	 * @return boolean
@@ -122,7 +122,7 @@ abstract class LLMS_Abstract_Session_Database_Handler extends LLMS_Abstract_Sess
 	/**
 	 * Retrieve session data from the database
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param string $key     Session key.
 	 * @param array  $default Default value used when no data exists.

@@ -8,14 +8,14 @@
  *
  * @since 3.4.3
  * @since 3.24.1 Unknown.
- * @since [version] Add tests for `get_course_id()` method.
+ * @since 4.0.0 Add tests for `get_course_id()` method.
  */
 class LLMS_Test_Shortcodes extends LLMS_UnitTestCase {
 
 	/**
 	 * Test the private get_course_id() method used by various legacy shortcodes.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.0.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,14 +13,14 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Loader
  *
- * @since [version]
+ * @since 4.0.0
  */
 class LLMS_Loader {
 
 	/**
 	 * Constructor
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -45,7 +45,7 @@ class LLMS_Loader {
 	 *
 	 * @since 1.0.0
 	 * @since 3.15.0 Unknown.
-	 * @since [version] Moved from `LifterLMS` class.
+	 * @since 4.0.0 Moved from `LifterLMS` class.
 	 *
 	 * @param string $class Class name being called.
 	 * @return void
@@ -85,7 +85,7 @@ class LLMS_Loader {
 	/**
 	 * Includes that are included everywhere
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -208,7 +208,7 @@ class LLMS_Loader {
 	/**
 	 * Includes that are required only on the admin panel
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -268,7 +268,7 @@ class LLMS_Loader {
 	/**
 	 * Include libraries
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -292,7 +292,7 @@ class LLMS_Loader {
 	/**
 	 * Includes that are required only on the frontend
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

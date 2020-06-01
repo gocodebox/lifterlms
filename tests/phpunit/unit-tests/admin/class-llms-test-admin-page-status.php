@@ -8,7 +8,7 @@
  * @group status
  *
  * @since 3.37.14
- * @since [version] Removed clear sessions tests in favor of tests in the `LLMS_Test_Admin_Tool_Clear_Sessions` test class.
+ * @since 4.0.0 Removed clear sessions tests in favor of tests in the `LLMS_Test_Admin_Tool_Clear_Sessions` test class.
  */
 class LLMS_Test_Admin_Page_Status extends LLMS_Unit_Test_Case {
 

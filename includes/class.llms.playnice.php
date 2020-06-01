@@ -11,7 +11,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.1.3
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.17 Changed the way we handle the dashboard endpoints conflict, using a different wc filter hook.
  *                Deprecated `LLMS_PlayNice::wc_is_account_page()`.
  * @since 3.37.18 Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
- * @since [version] Removed previously deprecated method `LLMS_PlayNice::wc_is_account_page()`.
+ * @since 4.0.0 Removed previously deprecated method `LLMS_PlayNice::wc_is_account_page()`.
  */
 class LLMS_PlayNice {
 
@@ -164,7 +164,7 @@ class LLMS_PlayNice {
 	 *
 	 * @since 3.2.2
 	 * @since 3.19.6 Unknown.
-	 * @since [version] Removed inclusion of removed 'class.llms.person.php' file.
+	 * @since 4.0.0 Removed inclusion of removed 'class.llms.person.php' file.
 	 *
 	 * @return void
 	 */

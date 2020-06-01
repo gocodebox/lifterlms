@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.24.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Shared Notification View for quiz completions abstract class
  *
  * @since 3.24.0
- * @since [version] Remove usage of deprecated class `LLMS_Quiz_Legacy`.
+ * @since 4.0.0 Remove usage of deprecated class `LLMS_Quiz_Legacy`.
  */
 abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abstract_Notification_View {
 
@@ -118,7 +118,7 @@ abstract class LLMS_Abstract_Notification_View_Quiz_Completion extends LLMS_Abst
 	 * Replace merge codes with actual values
 	 *
 	 * @since 3.24.0
-	 * @since [version] Remove usage of deprecated class `LLMS_Quiz_Legacy`.
+	 * @since 4.0.0 Remove usage of deprecated class `LLMS_Quiz_Legacy`.
 	 *
 	 * @param string $code The merge code to get merged data for.
 	 * @return string

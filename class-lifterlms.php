@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -20,7 +20,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1 Include SendWP Connector.
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
  * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
- * @since [version] Update session management.
+ * @since 4.0.0 Update session management.
  *              Remove deprecated class files and variables.
  *              Move includes (file loading) into the LLMS_Loader class.
  */
@@ -31,7 +31,7 @@ final class LifterLMS {
 	 *
 	 * @var string
 	 */
-	public $version = '3.38.2';
+	public $version = '4.0.0';
 
 	/**
 	 * Singleton instance of LifterLMS.
@@ -75,7 +75,7 @@ final class LifterLMS {
 	 *
 	 * @since 1.0.0
 	 * @since 3.21.1 Unknown
-	 * @since [version] Load `$this->session` at `plugins_loaded` in favor of during class construction.
+	 * @since 4.0.0 Load `$this->session` at `plugins_loaded` in favor of during class construction.
 	 *               Remove deprecated `__autoload()` & initialize new file loader class.
 	 *
 	 * @return void
@@ -129,7 +129,7 @@ final class LifterLMS {
 	 *
 	 * @since 1.0.0
 	 * @since 3.17.8 Added `LLMS_PLUGIN_URL` && `LLMS_ASSETS_SUFFIX`.
-	 * @since [version] Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
+	 * @since 4.0.0 Moved definitions of `LLMS_PLUGIN_FILE` and `LLMS_PLUGIN_DIR` to the main `lifterlms.php` file.
 	 *              Use `llms_maybe_define_constant()` to reduce code complexity.
 	 *
 	 * @return void
@@ -174,7 +174,7 @@ final class LifterLMS {
 	 *
 	 * @since 1.0.0
 	 * @since 3.21.1 Unknown.
-	 * @since [version] Don't initialize removed `LLMS_Person()` class.
+	 * @since 4.0.0 Don't initialize removed `LLMS_Person()` class.
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ final class LifterLMS {
 	/**
 	 * Initializes an LLMS_Session() into the $session variable
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return LLMS_Session
 	 */

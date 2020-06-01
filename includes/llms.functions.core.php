@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -853,7 +853,7 @@ function llms_get_transaction_statuses() {
  * Determine is request is an ajax request
  *
  * @since 3.0.1
- * @since [version] Use WP core `wp_doing_ajax()`.
+ * @since 4.0.0 Use WP core `wp_doing_ajax()`.
  *
  * @return bool
  */
@@ -1021,7 +1021,7 @@ if ( ! function_exists( 'llms_setcookie' ) ) {
 	 * The lifterlms-tests library plugs this function during unit testing so we can mock
 	 * the returns of methods that set cookies and write tests for those functions.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @link https://www.php.net/manual/en/function.setcookie.php
 	 *

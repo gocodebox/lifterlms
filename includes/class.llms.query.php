@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -24,7 +24,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.4 Don't remove `pre_get_posts` callback from within the callback itself.
  *               Rather use a static variable to make sure the business logic of the callback
  *               is executed only once.
- * @since [version] Remove previously deprecated methods.
+ * @since 4.0.0 Remove previously deprecated methods.
  */
 class LLMS_Query {
 

@@ -7,7 +7,7 @@
  * @group admin
  * @group admin_tools
  *
- * @since [version]
+ * @since 4.0.0
  */
 class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
 
@@ -16,7 +16,7 @@ class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
 	 *
 	 * Include abstract class.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
 	/**
 	 * Setup the test case
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -46,7 +46,7 @@ class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
 	/**
 	 * Test get_description()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -61,7 +61,7 @@ class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
 	/**
 	 * Test get_label()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -76,7 +76,7 @@ class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
 	/**
 	 * Test get_text()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -91,7 +91,7 @@ class LLMS_Test_Admin_Tool_Clear_Sessions extends LLMS_UnitTestCase {
 	/**
 	 * Test handle()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

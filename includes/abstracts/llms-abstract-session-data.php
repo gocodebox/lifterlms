@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 4.0.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Abstract_Session
  *
- * @since [version]
+ * @since 4.0.0
  */
 abstract class LLMS_Abstract_Session_Data {
 
@@ -50,7 +50,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * A logged-in user will use their WP_User ID while logged-out
 	 * users will be assigned a random string.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return string
 	 */
@@ -72,7 +72,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * Retrieve session ID.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Moved from `LLMS_Sessions`, automatically generates an ID if it doesn't exist.
+	 * @since 4.0.0 Moved from `LLMS_Sessions`, automatically generates an ID if it doesn't exist.
 	 *
 	 * @return string Session ID.
 	 */
@@ -89,7 +89,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * @since 1.0.0
 	 * @since 3.37.7 Added the `$default` parameter that represents the default value
 	 *               to return if the session variable requested doesn't exist.
-	 * @since [version] Moved from `LLMS_Session`.
+	 * @since 4.0.0 Moved from `LLMS_Session`.
 	 *
 	 * @param string $key     The key of the session variable.
 	 * @param mixed  $default Optional. The default value to return if no session variable is found with the provided key. Default `false`.
@@ -106,7 +106,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * Set a session variable.
 	 *
 	 * @since 1.0.0
-	 * @since [version] Moved from `LLMS_Session`.
+	 * @since 4.0.0 Moved from `LLMS_Session`.
 	 *
 	 * @param string $key   The key of the session variable.
 	 * @param mixed  $value The value of the session variable.
@@ -132,7 +132,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * Magic get
 	 *
 	 * @since 1.0.0
-	 * @since [version] Moved from `LLMS_Session`.
+	 * @since 4.0.0 Moved from `LLMS_Session`.
 	 *
 	 * @param string $key The key of the session variable.
 	 * @return mixed
@@ -145,7 +145,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * Magic set
 	 *
 	 * @since 1.0.0
-	 * @since [version] Moved from `LLMS_Session`.
+	 * @since 4.0.0 Moved from `LLMS_Session`.
 	 *
 	 * @param string $key   The key of the session variable.
 	 * @param string $value The value of the session variable.
@@ -159,7 +159,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * Magic isset
 	 *
 	 * @since 1.0.0
-	 * @since [version] Use `sanitize_key()` (like other methods in this class) instead of `sanitize_title()`.
+	 * @since 4.0.0 Use `sanitize_key()` (like other methods in this class) instead of `sanitize_title()`.
 	 *
 	 * @param string $key The key of the session variable.
 	 * @return bool
@@ -172,7 +172,7 @@ abstract class LLMS_Abstract_Session_Data {
 	 * Magic unset
 	 *
 	 * @since 1.0.0
-	 * @since [version] Use `sanitize_key()` when removing session var.
+	 * @since 4.0.0 Use `sanitize_key()` when removing session var.
 	 *
 	 * @param string $key The key of the session variable.
 	 * @return void

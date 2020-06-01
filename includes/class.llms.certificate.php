@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Remove previously deprecated class property `$enabled`.
+ * @since 4.0.0 Remove previously deprecated class property `$enabled`.
  */
 class LLMS_Certificate {
 

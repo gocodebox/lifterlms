@@ -8,7 +8,7 @@
  * @since 3.37.8 Changed return of `take_quiz` method from `void` to an `LLMS_Quiz_Attempt` object
  * @since 3.37.17 Added voucher creation method.
  * @since 3.38.0 Added `setManualGatewayStatus()` method.
- * @since [version] Added create_mock_session-data() class.
+ * @since 4.0.0 Added create_mock_session-data() class.
  */
 class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 
@@ -27,7 +27,7 @@ class LLMS_UnitTestCase extends LLMS_Unit_Test_Case {
 	/**
 	 * Create mock user session data.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @param integer $count   Number of session to create.
 	 * @param boolean $expired Whether or not the sessions are expired.

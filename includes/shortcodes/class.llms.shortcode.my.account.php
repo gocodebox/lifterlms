@@ -7,7 +7,7 @@
  * @package LifterLMS/Classes/Shortcodes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.25.1 Deprecated method `LLMS_Shortcode_My_Account::lost_password()`.
- * @since [version] Removed previously deprecated method `LLMS_Shortcode_My_Account::lost_password()`.
+ * @since 4.0.0 Removed previously deprecated method `LLMS_Shortcode_My_Account::lost_password()`.
  */
 class LLMS_Shortcode_My_Account {
 

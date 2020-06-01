@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * Remove session data stored on the options table by removed the WP Session Manager library
  *
- * @since [version]
+ * @since 4.0.0
  *
  * @return void
  */
@@ -25,7 +25,7 @@ function llms_update_3390_remove_session_options() {
 /**
  * Clear cron hook used by the WP Session Manager library to cleanup expired sessions
  *
- * @since [version]
+ * @since 4.0.0
  *
  * @return void
  */
@@ -36,7 +36,7 @@ function llms_update_3390_clear_session_cron() {
 /**
  * Update db version to 3.39.0
  *
- * @since [version]
+ * @since 4.0.0
  *
  * @return void
  */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since Unknown
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.32.0 Vouchers can now be restricted also to a draft or scheduled Course/Membership.
  * @since 3.35.0 Sanitize `$_POST` data; add placeholder text.
  * @since 3.36.0 Remove superfluous code.
- * @since [version] Remove usage of `LLMS_Svg`.
+ * @since 4.0.0 Remove usage of `LLMS_Svg`.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
@@ -119,7 +119,7 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	 * Retrieve the HTML for the codes area.
 	 *
 	 * @since Unknown
-	 * @since [version] Replace SVG delete icon with a dashicon.
+	 * @since 4.0.0 Replace SVG delete icon with a dashicon.
 	 *
 	 * @return string
 	 */

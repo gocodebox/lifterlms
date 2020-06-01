@@ -8,14 +8,14 @@
  * @group sessions
  * @group session_data
  *
- * @since [version]
+ * @since 4.0.0
  */
 class LLMS_Test_Abstract_Session_Data extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Abstract_Session_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test get, set, and magic methods.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -96,7 +96,7 @@ class LLMS_Test_Abstract_Session_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test get_id()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -117,7 +117,7 @@ class LLMS_Test_Abstract_Session_Data extends LLMS_UnitTestCase {
 	/**
 	 * Test get_id() for logged in users.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 1.0.0
  * @since 3.35.0 Explicitly define asset versions.
  * @since 3.36.0 Localize tracking with client-side settings.
- * @since [version] Remove JS dependencies "collapse" and "transition".
+ * @since 4.0.0 Remove JS dependencies "collapse" and "transition".
  */
 class LLMS_Frontend_Assets {
 
@@ -156,7 +156,7 @@ class LLMS_Frontend_Assets {
 	 * @since 3.22.0 Unknown.
 	 * @since 3.35.0 Explicitly define asset versions.
 	 * @since 3.36.0 Localize tracking with client-side settings.
-	 * @since [version] Remove dependencies "collapse" and "transition".
+	 * @since 4.0.0 Remove dependencies "collapse" and "transition".
 	 *
 	 * @return void
 	 */

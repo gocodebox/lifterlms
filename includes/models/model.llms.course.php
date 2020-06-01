@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
  * @property $average_grade  (float)  Calculated value of the overall average grade of all *enrolled* students in the course.
@@ -43,7 +43,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Remove previously deprecated class methods.
+ * @since 4.0.0 Remove previously deprecated class methods.
  */
 class LLMS_Course
 extends LLMS_Post_Model

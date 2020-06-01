@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Cache_Helper
  *
  * @since 3.15.0
- * @since [version] Add WP_Object_Cache API helper.
+ * @since 4.0.0 Add WP_Object_Cache API helper.
  */
 class LLMS_Cache_Helper {
 
@@ -41,7 +41,7 @@ class LLMS_Cache_Helper {
 	 * we call the method again with `$invalidate=true` which updates the prefix to the current
 	 * microtime(), thereby invalidating the entire cache group.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/4476#comment:10
 	 *
@@ -65,7 +65,7 @@ class LLMS_Cache_Helper {
 	/**
 	 * Invalidate a cache group prefix.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @link https://core.trac.wordpress.org/ticket/4476#comment:10
 	 *

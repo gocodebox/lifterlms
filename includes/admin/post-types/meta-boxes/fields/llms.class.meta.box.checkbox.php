@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Fields/Classes
  *
  * @since Unknown
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * LLMS_Metabox_Checkbox_Field class
  *
  * @since Unknown
- * @since [version] Remove reliance on `LLMS_Svg` class.
+ * @since 4.0.0 Remove reliance on `LLMS_Svg` class.
  */
 class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box_Field_Interface {
 
@@ -34,7 +34,7 @@ class LLMS_Metabox_Checkbox_Field extends LLMS_Metabox_Field implements Meta_Box
 	 * outputs the Html for the given field
 	 *
 	 * @since Unknown
-	 * @since [version] Remove reliance on `LLMS_Svg` class, refactor to closely match appearance of WP core block editor toggles.
+	 * @since 4.0.0 Remove reliance on `LLMS_Svg` class, refactor to closely match appearance of WP core block editor toggles.
 	 *
 	 * @return void
 	 */

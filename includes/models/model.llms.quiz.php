@@ -5,7 +5,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.3.0
- * @version [version]
+ * @version 4.0.0
  *
  * @property  $allowed_attempts (int) Number of times a student is allowed to take the quiz before being locked out of it.
  * @property  $passing_percent (float) Grade required for a student to "pass" the quiz.
@@ -27,7 +27,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.19.2 Unkwnown.
  * @since 3.37.2 Added `llms_quiz_is_open` filter hook.
  * @since 3.38.0 Only add theme metadata to the quiz array when the `llms_get_quiz_theme_settings` filter is being used.
- * @since [version] Remove deprecated methods.
+ * @since 4.0.0 Remove deprecated methods.
  */
 class LLMS_Quiz extends LLMS_Post_Model {
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.7.7 Unknown.
  * @since 3.37.7 Added a second parameter to the `get()` method, that represents the default value
  *               to return if the session variable requested doesn't exist.
- * @since [version] Major refactor to remove reliance on the wp-session-manager library:
+ * @since 4.0.0 Major refactor to remove reliance on the wp-session-manager library:
  *               + Moved getters & setter methods into LLMS_Abstract_Session_Data
  *               + Added new methods to support built-in DB session management.
  *               + Deprecated legacy methods
@@ -52,7 +52,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 *
 	 * @since 1.0.0
 	 * @since 3.7.5 Unknown.
-	 * @since [version] Removed PHP sessions.
+	 * @since 4.0.0 Removed PHP sessions.
 	 *               Added session auto-destroy on `wp_logout`.
 	 *
 	 * @return void
@@ -62,7 +62,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		/**
 		 * Customize the name of the LifterLMS User Session Cookie
 		 *
-		 * @since [version]
+		 * @since 4.0.0
 		 *
 		 * @param string $name Default session cookie name.
 		 */
@@ -92,7 +92,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * Removes session data from the database, expires the cookie,
 	 * and resets class variables.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return boolean
 	 */
@@ -114,7 +114,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	/**
 	 * Retrieve an validate the session cookie
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return false|mixed[]
 	 */
@@ -159,7 +159,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * with data from the cookie. Otherwise it sets up and saves
 	 * a new session and cookie.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -207,7 +207,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 * If the user is still active on the site and the cookie is older than the
 	 * "expiring" time but not yet expired, renew the session.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return boolean `true` if the expiration was extended, otherwise `false`.
 	 */
@@ -228,7 +228,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 *
 	 * Callback for `shutdown` action hook.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return boolean
 	 */
@@ -245,7 +245,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	/**
 	 * Updates the session id when an anonymous visitor logs in.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return boolean `true` if the id was updated, otherwise `false`.
 	 */
@@ -269,7 +269,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	 *
 	 * When doing CRON or when on the admin panel we don't want to load, otherwise we do.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return boolean
 	 */
@@ -280,7 +280,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		/**
 		 * Filter whether or not session cookies and related hooks are initialized
 		 *
-		 * @since [version]
+		 * @since 4.0.0
 		 *
 		 * @param boolean $init Whether or not initialization should take place.
 		 */
@@ -291,7 +291,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	/**
 	 * Set the cookie
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return boolean
 	 */
@@ -315,7 +315,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	/**
 	 * Set cookie expiration and expiring timestamps
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -324,7 +324,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		/**
 		 * Filter the lifespan of user session data
 		 *
-		 * @since [version]
+		 * @since 4.0.0
 		 *
 		 * @param int $duration Lifespan of session data, in seconds.
 		 */
@@ -338,7 +338,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		 * When an active session passes it's expiring timestamp but has not yet passed it's expiration timestamp
 		 * the session data will be extended and the data session will not be destroyed.
 		 *
-		 * @since [version]
+		 * @since 4.0.0
 		 *
 		 * @param int $duration Lifespan of session data, in seconds.
 		 */
@@ -352,7 +352,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 	/**
 	 * Determine if a secure cookie should be used.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return boolean
 	 */
@@ -363,7 +363,7 @@ class LLMS_Session extends LLMS_Abstract_Session_Database_Handler {
 		/**
 		 * Determine whether or not a secure cookie should be used for user session data
 		 *
-		 * @since [version]
+		 * @since 4.0.0
 		 *
 		 * @param boolean $secure Whether or not a secure cookie should be used.
 		 */

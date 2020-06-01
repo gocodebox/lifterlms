@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.35.0 Unknown.
- * @since [version] Removed previously deprecated ajax actions and related methods.
+ * @since 4.0.0 Removed previously deprecated ajax actions and related methods.
  */
 class LLMS_AJAX {
 
@@ -31,7 +31,7 @@ class LLMS_AJAX {
 	 *
 	 * @since 1.0.0
 	 * @since 3.16.0 Unknown.
-	 * @since [version] Stop registering previously deprecated actions.
+	 * @since 4.0.0 Stop registering previously deprecated actions.
 	 *
 	 * @return void
 	 */

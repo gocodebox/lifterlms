@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.28.0 Unknown.
  * @since 3.34.0 Added filter to the return of the get_schema() method.
  * @since 3.36.0 Add `wp_lifterlms_events` table.
- * @since [version] Add `wp_lifterlms_sessions` table.
+ * @since 4.0.0 Add `wp_lifterlms_sessions` table.
  *               Add session cleanup cron.
  *               Add db update functions for session manage library cleanup.
  */
@@ -134,7 +134,7 @@ class LLMS_Install {
 	 *
 	 * @since 1.0.0
 	 * @since 3.28.0 Remove unused cronjob `lifterlms_cleanup_sessions`.
-	 * @since [version] Add expired session cleanup.
+	 * @since 4.0.0 Add expired session cleanup.
 	 *
 	 * @return void
 	 */
@@ -161,7 +161,7 @@ class LLMS_Install {
 		/**
 		 * Filter the recurrence interval at which expired session are removed from the database.
 		 *
-		 * @since [version]
+		 * @since 4.0.0
 		 *
 		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
 		 *
@@ -244,7 +244,7 @@ class LLMS_Install {
 	 *
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
-	 * @since [version] Include abstract table file.
+	 * @since 4.0.0 Include abstract table file.
 	 *
 	 * @return void
 	 */
@@ -423,7 +423,7 @@ class LLMS_Install {
 	 * @since 3.16.9 Unknown
 	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
 	 * @since 3.36.0 Add `wp_lifterlms_events` table.
-	 * @since [version] Add `wp_lifterlms_sessions` table.
+	 * @since 4.0.0 Add `wp_lifterlms_sessions` table.
 	 *
 	 * @return string
 	 */

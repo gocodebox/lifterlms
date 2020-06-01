@@ -7,7 +7,7 @@
  * @package LifterLMS/Models
  *
  * @since 2.2.3
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -22,7 +22,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.35.0 Prepare all variables when querying for enrollment date.
  * @since 3.36.2 Added logic to physically remove from the membership level and remove enrollments data on related products, when deleting a membership enrollment.
  * @since 3.37.9 Added filters `llms_user_enrollment_allowed_post_types` & `llms_user_enrollment_status_allowed_post_types` which allow 3rd parties to enroll users into additional post types via core enrollment methods.
- * @since [version] Remove previously deprecated methods.
+ * @since 4.0.0 Remove previously deprecated methods.
  */
 class LLMS_Student extends LLMS_Abstract_User_Data {
 

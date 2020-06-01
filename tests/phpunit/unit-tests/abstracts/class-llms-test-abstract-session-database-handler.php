@@ -8,14 +8,14 @@
  * @group sessions
  * @group session_database_handler
  *
- * @since [version]
+ * @since 4.0.0
  */
 class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup test case
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -33,7 +33,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test clean() when deleting only expired sessions.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test clean() when deleting all sessions.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test delete()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -107,7 +107,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test save() when there's not data to be saved
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -121,7 +121,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test save()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test read() when there's no saved data so it returns a default value
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -154,7 +154,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test read() when there's a cache hit
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -169,7 +169,7 @@ class LLMS_Test_Abstract_Session_Database_Handler extends LLMS_UnitTestCase {
 	/**
 	 * Test read() when there's a cache miss
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

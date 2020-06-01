@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.15.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.15.0
  * @since 3.30.3 Explicitly define class properties.
  * @since 3.31.0 Extends LLMS_Abstract_Post_Data.
- * @since [version] Remove previously deprecated class properties `$course` and `$course_id`.
+ * @since 4.0.0 Remove previously deprecated class properties `$course` and `$course_id`.
  */
 class LLMS_Course_Data extends LLMS_Abstract_Post_Data {
 

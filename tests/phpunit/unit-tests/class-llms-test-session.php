@@ -7,8 +7,8 @@
  * @group session
  * @group sessions
  *
- * @since [version]
- * @version [version]
+ * @since 4.0.0
+ * @version 4.0.0
  */
 class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 
@@ -34,7 +34,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test constructor
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -57,7 +57,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test constructor when we should not initialize.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -82,7 +82,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test destroy()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -110,7 +110,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_cookie() when there's no cookie set.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -124,7 +124,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_cookie() when it returns something unexpected
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -138,7 +138,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_cookie() when it's missing required parts.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -155,7 +155,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_cookie() when the hash is invalid
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -169,7 +169,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_cookie() for a success return
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -187,7 +187,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init_cookie() when the cookie exists
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -217,7 +217,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init_cookie() when the cookie is expiring
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -238,7 +238,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init_cookie() when the user id is to change
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -260,7 +260,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test init_cookie() when a new cookie is created
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -278,7 +278,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -292,7 +292,7 @@ class LLMS_Test_Session extends LLMS_Unit_Test_Case {
 	/**
 	 * Test
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */

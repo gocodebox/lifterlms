@@ -5,7 +5,7 @@
  * @package LifterLMS/Emails/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -15,7 +15,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Always supply a from address even if the option is empty.
+ * @since 4.0.0 Always supply a from address even if the option is empty.
  */
 class LLMS_Email {
 
@@ -354,7 +354,7 @@ class LLMS_Email {
 	 * Get from email option data
 	 *
 	 * @since 1.0.0
-	 * @since [version] Use the address provided by `wp_mail_from` as the default if no option is stored.
+	 * @since 4.0.0 Use the address provided by `wp_mail_from` as the default if no option is stored.
 	 *
 	 * @return string
 	 */

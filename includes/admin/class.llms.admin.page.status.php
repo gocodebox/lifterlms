@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.11.2
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.33.2 Fix undefined index when viewing log files.
  * @since 3.35.0 Sanitize input data.
  * @since 3.37.14 Added the WP Core `debug.log` file as log that's viewable via the log viewer.
- * @since [version] The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
+ * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
  */
 class LLMS_Admin_Page_Status {
 
@@ -30,7 +30,7 @@ class LLMS_Admin_Page_Status {
 	 * @since 3.35.0 Sanitize input data.
 	 * @since 3.37.14 Verify user capabilities when doing a tool action.
 	 *                Use `llms_redirect_and_exit()` in favor of `wp_safe_redirect()`.
-	 * @since [version] The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
+	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
 	 *
 	 * @return void
 	 */
@@ -297,7 +297,7 @@ class LLMS_Admin_Page_Status {
 	 * Output the HTML for the tools tab
 	 *
 	 * @since 3.11.2
-	 * @since [version] The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
+	 * @since 4.0.0 The `clear-sessions` tool has been moved to `LLMS_Admin_Tool_Clear_Sessions`.
 	 *
 	 * @return void
 	 */

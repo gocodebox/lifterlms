@@ -11,7 +11,7 @@
  * @package LifterLMS/Models
  *
  * @since 3.13.0
- * @version [version]
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -21,7 +21,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 3.13.0
  * @since 3.30.3 Explicitly define class properties.
- * @since [version] Remove deprecated method `get_defaults()`.
+ * @since 4.0.0 Remove deprecated method `get_defaults()`.
  */
 class LLMS_Post_Instructors {
 

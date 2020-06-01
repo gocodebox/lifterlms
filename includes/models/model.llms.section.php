@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @since 1.0.0
  * @since 3.24.0 Unknown.
- * @since [version] Remove deprecated class methods.
+ * @since 4.0.0 Remove deprecated class methods.
  */
 class LLMS_Section extends LLMS_Post_Model {
 

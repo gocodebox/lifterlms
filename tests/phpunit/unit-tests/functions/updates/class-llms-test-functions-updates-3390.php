@@ -8,7 +8,7 @@
  * @group updates
  * @group updates_3390
  *
- * @since [version]
+ * @since 4.0.0
  */
 class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 
@@ -17,7 +17,7 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 	 *
 	 * Include update functions file.
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_3390_remove_session_options()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -57,7 +57,7 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_3390_clear_session_cron()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
@@ -74,7 +74,7 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 	/**
 	 * Test llms_update_3390_update_db_version()
 	 *
-	 * @since [version]
+	 * @since 4.0.0
 	 *
 	 * @return void
 	 */
