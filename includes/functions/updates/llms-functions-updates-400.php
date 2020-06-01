@@ -1,11 +1,11 @@
 <?php
 /**
- * Update functions for version 3.39.0
+ * Update functions for version 4.0.0
  *
  * @package LifterLMS/Functions/Updates
  *
- * @since 3.39.0
- * @version 3.39.0
+ * @since 4.0.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,7 +17,7 @@ defined( 'ABSPATH' ) || exit;
  *
  * @return void
  */
-function llms_update_3390_remove_session_options() {
+function llms_update_400_remove_session_options() {
 	global $wpdb;
 	$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '_wp_session_%';" ); // phpcs:ignore WordPress.DB.DirectDatabaseQuery.DirectQuery, WordPress.DB.DirectDatabaseQuery.NoCaching.
 }
@@ -29,17 +29,17 @@ function llms_update_3390_remove_session_options() {
  *
  * @return void
  */
-function llms_update_3390_clear_session_cron() {
+function llms_update_400_clear_session_cron() {
 	wp_clear_scheduled_hook( 'wp_session_garbage_collection' );
 }
 
 /**
- * Update db version to 3.39.0
+ * Update db version to 4.0.0
  *
  * @since 4.0.0
  *
  * @return void
  */
-function llms_update_3390_update_db_version() {
-	LLMS_Install::update_db_version( '3.39.0' );
+function llms_update_400_update_db_version() {
+	LLMS_Install::update_db_version( '4.0.0' );
 }

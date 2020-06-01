@@ -88,9 +88,9 @@ class LLMS_Install {
 			'llms_update_3280_clear_session_cleanup_cron',
 			'llms_update_3280_update_db_version',
 		),
-		'3.39.0' => array(
-			'llms_update_3390_clear_wp_session_manager_data',
-			'llms_update_3390_update_db_version',
+		'4.0.0-beta.1' => array(
+			'llms_update_400_clear_wp_session_manager_data',
+			'llms_update_400_update_db_version',
 		),
 	);
 

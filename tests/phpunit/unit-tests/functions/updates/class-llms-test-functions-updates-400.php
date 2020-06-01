@@ -6,11 +6,11 @@
  *
  * @group functions
  * @group updates
- * @group updates_3390
+ * @group updates_400
  *
  * @since 4.0.0
  */
-class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
+class LLMS_Test_Functions_Updates_400 extends LLMS_UnitTestCase {
 
 	/**
 	 * Setup before class
@@ -23,11 +23,11 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 	 */
 	public static function setupBeforeClass() {
 		parent::setupBeforeClass();
-		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-3390.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/functions/updates/llms-functions-updates-400.php';
 	}
 
 	/**
-	 * Test llms_update_3390_remove_session_options()
+	 * Test llms_update_400_remove_session_options()
 	 *
 	 * @since 4.0.0
 	 *
@@ -48,14 +48,14 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 
 		$this->assertEquals( 40, $wpdb->get_var( $sql ) );
 
-		llms_update_3390_remove_session_options();
+		llms_update_400_remove_session_options();
 
 		$this->assertEquals( 0, $wpdb->get_var( $sql ) );
 
 	}
 
 	/**
-	 * Test llms_update_3390_clear_session_cron()
+	 * Test llms_update_400_clear_session_cron()
 	 *
 	 * @since 4.0.0
 	 *
@@ -65,14 +65,14 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 
 		wp_schedule_event( time(), 'daily', 'wp_session_garbage_collection' );
 
-		llms_update_3390_clear_session_cron();
+		llms_update_400_clear_session_cron();
 
 		$this->assertFalse( wp_next_scheduled( 'wp_session_garbage_collection' ) );
 
 	}
 
 	/**
-	 * Test llms_update_3390_update_db_version()
+	 * Test llms_update_400_update_db_version()
 	 *
 	 * @since 4.0.0
 	 *
@@ -82,9 +82,9 @@ class LLMS_Test_Functions_Updates_3390 extends LLMS_UnitTestCase {
 
 		$orig = get_option( 'lifterlms_db_version' );
 
-		llms_update_3390_update_db_version();
+		llms_update_400_update_db_version();
 
-		$this->assertEquals( '3.39.0', get_option( 'lifterlms_db_version' ) );
+		$this->assertEquals( '4.0.0', get_option( 'lifterlms_db_version' ) );
 
 		update_option( 'lifterlms_db_version', $orig );
 
