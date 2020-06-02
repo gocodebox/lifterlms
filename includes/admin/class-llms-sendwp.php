@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version 3.37.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,6 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
+ * @since [version] Minor updates to accommodate UI with multiple delivery services.
  */
 class LLMS_SendWP {
 
@@ -23,10 +24,24 @@ class LLMS_SendWP {
 	 * Constructor.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Initialize on `admin_init` instead of on `plugins_loaded`.
 	 *
 	 * @return void
 	 */
 	public function __construct() {
+
+		add_action( 'admin_init', array( $this, 'init' ) );
+
+	}
+
+	/**
+	 * Initialize SendWP Connector.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function init() {
 
 		/**
 		 * Disable the SendWP Connector class and settings
@@ -39,7 +54,12 @@ class LLMS_SendWP {
 			return;
 		}
 
-		add_filter( 'lifterlms_engagements_settings', array( $this, 'add_settings' ) );
+		// Disable other email delivery services if SendWP is already connected.
+		if ( $this->is_connected() ) {
+			add_filter( 'llms_disable_mailhawk', '__return_true' );
+		}
+
+		add_filter( 'llms_email_delivery_services', array( $this, 'add_settings' ), 30 );
 		add_action( 'admin_print_styles', array( $this, 'output_css' ) );
 		add_action( 'admin_print_footer_scripts', array( $this, 'output_js' ) );
 		add_action( 'wp_ajax_llms_sendwp_remote_install', array( $this, 'ajax_callback_remote_install' ) );
@@ -50,6 +70,7 @@ class LLMS_SendWP {
 	 * Add Settings.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Update settings to reduce redundancy.
 	 *
 	 * @param array $settings Existing settings.
 	 * @return array
@@ -63,13 +84,9 @@ class LLMS_SendWP {
 
 		$new_settings = array(
 			array(
-				'id'   => 'sendwp_connect_start',
-				'type' => 'sectionstart',
-			),
-			array(
 				'id'    => 'sendwp_title',
 				'title' => __( 'SendWP Email', 'lifterlms' ),
-				'type'  => 'title',
+				'type'  => 'subtitle',
 				'desc'  => sprintf(
 					// Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
 					__( '%1$sSendWP%2$s makes WordPress email delivery as simple as a few clicks so you can relax, knowing your important emails are being delivered on time.', 'lifterlms' ),
@@ -82,15 +99,9 @@ class LLMS_SendWP {
 				'type'  => 'custom-html',
 				'value' => $this->get_connect_setting(),
 			),
-			array(
-				'id'   => 'sendwp_connect_end',
-				'type' => 'sectionend',
-			),
 		);
 
-		array_splice( $settings, $this->get_splice_index( $settings ), 0, $new_settings );
-
-		return $settings;
+		return array_merge( $settings, $new_settings );
 
 	}
 
@@ -217,33 +228,29 @@ class LLMS_SendWP {
 	}
 
 	/**
-	 * Find the end of the "email_options" section to splice in new settings.
+	 * Determine if SendWP is installed and connected for sending.
 	 *
-	 * @since 3.36.1
-	 * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
+	 * @since [version]
 	 *
-	 * @param array $settings Default engagement settings.
-	 * @return int
+	 * @return boolean
 	 */
-	private function get_splice_index( $settings ) {
-		foreach ( $settings as $i => $setting ) {
-			if ( 'email_options_end' === $setting['id'] ) {
-				return $i + 1;
-			}
-		}
-		return $i;
+	protected function is_connected() {
+
+		return ( function_exists( 'sendwp_client_connected' ) && sendwp_client_connected() );
+
 	}
 
 	/**
 	 * Get the "Connect" Setting field html.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Abstract methods used to determine if SendWP is connected.
 	 *
 	 * @return string
 	 */
 	private function get_connect_setting() {
 
-		if ( function_exists( 'sendwp_client_connected' ) && sendwp_client_connected() ) {
+		if ( $this->is_connected() ) {
 
 			$ret = array(
 				__( 'Your site is connected to SendWP.', 'lifterlms' ),
@@ -277,6 +284,7 @@ class LLMS_SendWP {
 	 * Determine if inline scripts and styles should be output.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Don't output inline CSS & JS when connected.
 	 *
 	 * @return bool
 	 */
@@ -288,7 +296,7 @@ class LLMS_SendWP {
 		}
 
 		$screen = get_current_screen();
-		return ( 'lifterlms_page_llms-settings' === $screen->id && 'engagements' === llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) );
+		return ( 'lifterlms_page_llms-settings' === $screen->id && 'engagements' === llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) && ! $this->is_connected() );
 
 	}
 

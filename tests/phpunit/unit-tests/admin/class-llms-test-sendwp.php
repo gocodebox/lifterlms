@@ -8,6 +8,7 @@
  *
  * @since 3.36.1
  * @since 3.37.0 Add testing for nonce verifications.
+ * @since [version] Added additional coverage.
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
@@ -37,6 +38,25 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 		parent::tearDown();
 		delete_plugins( array( 'sendwp/sendwp.php' ) );
+
+	}
+
+	/**
+	 * Test the add_settings() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_add_settings() {
+
+		// No settings for anyone without the `install_plugins` cap.
+		$this->assertEquals( array(), $this->sendwp->add_settings( array() ) );
+
+		// Admin can see the settings.
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+		$res = $this->sendwp->add_settings( array() );
+		$this->assertEquals( array( 'sendwp_title', 'sendwp_connect' ), wp_list_pluck( $res, 'id' ) );
 
 	}
 
@@ -134,5 +154,62 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 	}
 
+	/**
+	 * Test get_connect_setting()
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_connect_setting() {
+
+		// Not connected.
+		$this->assertStringContains( 'id="llms-sendwp-connect"', LLMS_Unit_Test_Util::call_method( $this->sendwp, 'get_connect_setting' ) );
+
+		// Connected and forwarding.
+		update_option( 'sendwp_client_connected', '1' );
+		$this->assertStringContains( 'Manage your account', LLMS_Unit_Test_Util::call_method( $this->sendwp, 'get_connect_setting' ) );
+
+		// Connected and not forwarding.
+		update_option( 'sendwp_forwarding_enabled', '0' );
+		$this->assertStringContains( 'Email sending is currently disabled', LLMS_Unit_Test_Util::call_method( $this->sendwp, 'get_connect_setting' ) );
+
+	}
+
+	/**
+	 * Test should_output_inline() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_should_output_inline() {
+
+		// No user.
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->sendwp, 'should_output_inline' ) );
+
+		wp_set_current_user( $this->factory->user->create( array( 'role' => 'administrator' ) ) );
+
+		// Wrong screen.
+		set_current_screen( 'admin' );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->sendwp, 'should_output_inline' ) );
+
+		// Mock screen.
+		set_current_screen( 'lifterlms_page_llms-settings' );
+
+		// Right screen, wrong tab.
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->sendwp, 'should_output_inline' ) );
+
+		// Right screen, right tab, is connected.
+		update_option( 'sendwp_client_connected', '1' );
+		$this->mockGetRequest( array( 'tab' => 'engagements' ) );
+		$this->assertFalse( LLMS_Unit_Test_Util::call_method( $this->sendwp, 'should_output_inline' ) );
+
+		// Right screen, right tab, not connected.
+		update_option( 'sendwp_client_connected', '0' );
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->sendwp, 'should_output_inline' ) );
+
+		set_current_screen( 'front' );
+	}
 
 }
