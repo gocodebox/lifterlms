@@ -5,7 +5,7 @@
  * @package LifterLMS/Main
  *
  * @since 1.0.0
- * @version 3.38.1
+ * @version [version]
  *
  * Plugin Name: LifterLMS
  * Plugin URI: https://lifterlms.com/
@@ -48,6 +48,7 @@ require_once 'vendor/autoload.php';
  * @since 3.36.1 Include SendWP Connector.
  * @since 3.37.0 Move theme support methods to LLMS_Theme_Support.
  * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
+ * @since [version] Include LLMS_MailHawk connector.
  */
 final class LifterLMS {
 
@@ -281,6 +282,7 @@ final class LifterLMS {
 	 * @since 3.36.1 Include SendWP Connector.
 	 * @since 3.37.0 Include LLMS_Theme_Support class.
 	 * @since 3.38.1 Include LLMS_Mime_Type_Extractor class.
+	 * @since [version] Include LLMS_MailHawk class.
 	 *
 	 * @return void
 	 */
@@ -348,6 +350,7 @@ final class LifterLMS {
 
 			require_once 'includes/admin/class-llms-admin-review.php';
 			require_once 'includes/admin/class-llms-admin-export-download.php';
+			require_once 'includes/admin/class-llms-mailhawk.php';
 			require_once 'includes/admin/class-llms-sendwp.php';
 
 		}
