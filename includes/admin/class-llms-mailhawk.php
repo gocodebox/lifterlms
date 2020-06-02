@@ -277,7 +277,7 @@ class LLMS_MailHawk {
 			}
 
 			// Use the AJAX upgrader skin to quietly install the plugin.
-			$upgrader = new \Plugin_Upgrader( new \WP_Ajax_Upgrader_Skin() );
+			$upgrader = new Plugin_Upgrader( new WP_Ajax_Upgrader_Skin() );
 			$install  = $upgrader->install( $api->download_link );
 			if ( is_wp_error( $install ) ) {
 				return $install;
@@ -291,7 +291,7 @@ class LLMS_MailHawk {
 
 		// Final check to see if MailHawk is available.
 		if ( ! defined( 'MAILHAWK_VERSION' ) ) {
-			return new \WP_Error( 'llms_mailhawk_not_found', __( 'MailHawk plugin not found. Please try again.', 'lifterlms' ), $install );
+			return new WP_Error( 'llms_mailhawk_not_found', __( 'MailHawk plugin not found. Please try again.', 'lifterlms' ), $install );
 		}
 
 		return true;
