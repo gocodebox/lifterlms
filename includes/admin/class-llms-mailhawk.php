@@ -99,13 +99,12 @@ class LLMS_MailHawk {
 			return $settings;
 		}
 
-
 		$new_settings = array(
 			array(
-				'id' => 'mailhawk_title',
-				'type' => 'subtitle',
+				'id'    => 'mailhawk_title',
+				'type'  => 'subtitle',
 				'title' => __( 'MailHawk', 'lifterlms' ),
-				'desc' => $this->get_desc_text(),
+				'desc'  => $this->get_desc_text(),
 			),
 			array(
 				'id'    => 'mailhawk_connect',
@@ -184,8 +183,8 @@ class LLMS_MailHawk {
 			return '';
 		}
 
-		$link  = '<a href="https://lifterlikes.com/mailhawk" target="_blank">MailHawk</a>';
-		$desc  = '<em>' .__( 'A better way to send email.', 'lifterlms' ) . '</em><br>';
+		$link = '<a href="https://lifterlikes.com/mailhawk" target="_blank">MailHawk</a>';
+		$desc = '<em>' . __( 'A better way to send email.', 'lifterlms' ) . '</em><br>';
 
 		// Translators: %s = Anchor tag html linking to MailHawk.io.
 		$desc .= sprintf( __( 'Never worry about sending email again. %s takes care of everything for you starting at <strong>$14.97 per month</strong>.', 'lifterlms' ), $link );
