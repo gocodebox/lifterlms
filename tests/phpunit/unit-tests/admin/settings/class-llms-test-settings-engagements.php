@@ -9,7 +9,7 @@
  * @group settings_page_engagements
  *
  * @since 3.37.3
- * @version 3.37.3
+ * @since [version] Add tests for `get_settings_group_email_delivery()`.
  */
 class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 
@@ -70,6 +70,59 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 				'yes',
 			),
 		);
+
+	}
+
+	/**
+	 * Retrieve mock email provider settings used to test the get_settings_group_email_delivery() method.
+	 *
+	 * @since [version]
+	 *
+	 * @return array[]
+	 */
+	public function get_mock_email_provider_settings() {
+
+		return array(
+			array(
+				'id' => 'mock_email_provider_title',
+				'type' => 'subtitle',
+				'title' => 'Email sender',
+			),
+		);
+
+	}
+
+	/**
+	 * Return an array of mock settings and possible values.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_settings_group_email_delivery_no_providers() {
+
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->page, 'get_settings_group_email_delivery' ) );
+
+	}
+
+	/**
+	 * Return an array of mock settings and possible values.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_get_settings_group_email_delivery_with_providers() {
+
+		$this->assertEquals( array(), LLMS_Unit_Test_Util::call_method( $this->page, 'get_settings_group_email_delivery' ) );
+
+		add_filter( 'llms_email_delivery_services', array( $this, 'get_mock_email_provider_settings' ) );
+
+		$res = LLMS_Unit_Test_Util::call_method( $this->page, 'get_settings_group_email_delivery' );
+
+		$this->assertEquals( array( 'email_delivery', 'email_delivery_title', 'mock_email_provider_title', 'email_delivery_end' ), wp_list_pluck( $res, 'id' ) );
+
+		remove_filter( 'llms_email_delivery_services', array( $this, 'get_mock_email_provider' ) );
 
 	}
 

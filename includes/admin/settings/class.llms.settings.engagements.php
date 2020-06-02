@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version 3.37.3
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,6 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.3 Renamed setting field IDs to be unique.
  *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
  *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
+ * @since [version] Add a section that displays conditionally for email delivery provider connections.
  */
 class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
@@ -45,6 +46,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
 	 * @since 3.37.3 Refactor to pull each settings group from its own method.
+	 * @since [version] Include an email delivery section.
 	 *
 	 * @return array
 	 */
@@ -61,6 +63,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 			'lifterlms_engagements_settings',
 			array_merge(
 				$this->get_settings_group_email(),
+				$this->get_settings_group_email_delivery(),
 				$this->get_settings_group_certs()
 			)
 		);
@@ -160,6 +163,39 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 					'default' => '',
 				),
 			)
+		);
+
+	}
+
+	/**
+	 * Retrieve email delivery partner settings groups.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function get_settings_group_email_delivery() {
+
+		/**
+		 * Filter settings for available email delivery services.
+		 *
+		 * @since [version]
+		 *
+		 * @param array[] $settings Array of settings arrays.
+		 */
+		$services = apply_filters( 'llms_email_delivery_services', array() );
+
+		// If there's no services respond with an empty array so we don't output the whole section.
+		if ( ! $services ) {
+			return array();
+		}
+
+		// Output the a section.
+		return $this->generate_settings_group(
+			'email_delivery',
+			__( 'Email Delivery', 'lifterlms' ),
+			'',
+			$services,
 		);
 
 	}
