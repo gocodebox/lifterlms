@@ -290,7 +290,7 @@ abstract class LLMS_Abstract_Email_Provider {
 		// Final check to ensure the connector is installed and activated.
 		if ( true === $ret && ! $this->is_installed() ) {
 			// Translators: %s = title of the email delivery plugin.
-			return new WP_Error( 'llms_'. $this->id . '_not_found', sprtinf( __( '%s plugin not found. Please try again.', 'lifterlms' ), $this->get_title() ), $install );
+			return new WP_Error( 'llms_' . $this->id . '_not_found', sprtinf( __( '%s plugin not found. Please try again.', 'lifterlms' ), $this->get_title() ), $install );
 		}
 
 		return $ret;

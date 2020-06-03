@@ -42,11 +42,11 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
-	 * @since [version] Use	parent method.
+	 * @since [version] Use parent method.
 	 *
 	 * @return array
 	 */
-	public function do_remote_install() {
+	public function do_remote_install() { // phpcs:ignore Generic.CodeAnalysis.UselessOverridingMethod.Found -- Intentional for backwards compat.
 
 		return parent::do_remote_install();
 
@@ -81,7 +81,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 		return sprintf(
 			// Translators: %s = Anchor tag html linking to SendWP.com.
 			__( '%s makes WordPress email delivery as simple as a few clicks so you can relax, knowing your important emails are being delivered on time.', 'lifterlms' ),
-			'<a href="https://lifterlikes.com/sendwp" target="_blank" rel="noopener noreferrer">' . $this->get_title() . '</a>',
+			'<a href="https://lifterlikes.com/sendwp" target="_blank" rel="noopener noreferrer">' . $this->get_title() . '</a>'
 		);
 
 	}
