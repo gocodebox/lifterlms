@@ -2,10 +2,11 @@
 name: Watch Dependencies 
 
 on:
+  push:
+    branches: [ master ]
   schedule:
     # Nightly at midnight.
     - cron: '0 0 * * *'
-    branches: [ master ]
 
 jobs:
   watch:
