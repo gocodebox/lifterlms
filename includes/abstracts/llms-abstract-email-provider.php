@@ -25,6 +25,16 @@ abstract class LLMS_Abstract_Email_Provider {
 	protected $id = '';
 
 	/**
+	 * Array of supported providers.
+	 *
+	 * @var array
+	 */
+	protected $providers = array(
+		'mailhawk',
+		'sendwp',
+	);
+
+	/**
 	 * Configures the response returned when `do_remote_install()` is successful.
 	 *
 	 * @since [version]
@@ -32,7 +42,6 @@ abstract class LLMS_Abstract_Email_Provider {
 	 * @return array
 	 */
 	abstract protected function do_remote_install_success();
-
 
 	/**
 	 * Retrieve the settings area HTML for the connect button
@@ -88,12 +97,32 @@ abstract class LLMS_Abstract_Email_Provider {
 	 */
 	public function __construct() {
 
-		add_action( 'admin_init', array( $this, 'init' ) );
+		/**
+		 * Filter the available email providers
+		 *
+		 * @since [version]
+		 *
+		 * @param string[] $this->providers List of email provider ids.
+		 */
+		$this->providers = apply_filters( 'llms_email_delivery_providers', $this->providers );
+
+		/**
+		 * Dynamically adjust the priority.
+		 *
+		 * A "connected" provider will always load first, ensuring
+		 * that it can disable the other providers.
+		 *
+		 * When no providers are connected, they'll all load at 10
+		 * and display in alphabetical order as a result of the order
+		 * the files are included.
+		 */
+		$priority = $this->is_connected() ? 5 : 10;
+		add_action( 'admin_init', array( $this, 'init' ), $priority );
 
 	}
 
 	/**
-	 * Initialize the MailHawk Connector
+	 * Initialize the Connector
 	 *
 	 * @since [version]
 	 *
@@ -101,14 +130,16 @@ abstract class LLMS_Abstract_Email_Provider {
 	 */
 	public function init() {
 
+		// Disable other email delivery services if the current connector is already connected.
+		if ( $this->is_connected() ) {
+			$this->disable_other_providers();
+		}
+
 		/**
 		 * Disable the Connector class and settings
 		 *
 		 * The dynamic portion of this filter, `{$this->id}`, refers
-		 * to the id of the email provider. Available providers are:
-		 *
-		 * + mailhawk
-		 * + sendwp
+		 * to the id of the email provider. See `$this->providers` for a list of supported providers.
 		 *
 		 * @since [version]
 		 *
@@ -116,11 +147,6 @@ abstract class LLMS_Abstract_Email_Provider {
 		 */
 		if ( apply_filters( "llms_disable_{$this->id}", false ) ) {
 			return;
-		}
-
-		// Disable other email delivery services if MailHawk is already connected.
-		if ( $this->is_connected() ) {
-			$this->disable_other_providers();
 		}
 
 		add_filter( 'llms_email_delivery_services', array( $this, 'add_settings' ) );
@@ -233,9 +259,16 @@ abstract class LLMS_Abstract_Email_Provider {
 
 	}
 
+	/**
+	 * Automatically disables other providers when the current provider is connected.
+	 *
+	 * @since [version]
+	 *
+	 * @return void.
+	 */
 	protected function disable_other_providers() {
 
-		$disable = array_diff( array( $this->id ), array( 'mailhawk', 'sendwp' ) );
+		$disable = array_diff( $this->providers, array( $this->id ) );
 		foreach ( $disable as $id ) {
 			add_filter( 'llms_disable_' . $id, '__return_true' );
 		}
