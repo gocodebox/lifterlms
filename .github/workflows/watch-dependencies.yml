@@ -12,7 +12,6 @@ jobs:
   watch:
     runs-on: ubuntu-latest
     steps:
-    - name: Watch Tag
     - uses: actions-hub/watch-tag@master
       with:
         repository: woocommerce/action-scheduler
