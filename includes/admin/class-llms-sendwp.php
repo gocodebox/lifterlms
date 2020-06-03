@@ -160,26 +160,6 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	}
 
 	/**
-	 * Determine if inline scripts and styles should be output.
-	 *
-	 * @since 3.36.1
-	 * @since [version] Don't output inline CSS & JS when connected.
-	 *
-	 * @return bool
-	 */
-	protected function should_output_inline() {
-
-		// Short circuit if missing unauthorized.
-		if ( ! current_user_can( 'install_plugins' ) ) {
-			return false;
-		}
-
-		$screen = get_current_screen();
-		return ( 'lifterlms_page_llms-settings' === $screen->id && 'engagements' === llms_filter_input( INPUT_GET, 'tab', FILTER_SANITIZE_STRING ) && ! $this->is_connected() );
-
-	}
-
-	/**
 	 * Output some quick and dirty inline JS.
 	 *
 	 * @since 3.36.1
