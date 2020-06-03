@@ -16,215 +16,85 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
- * @since [version] Minor updates to accommodate UI with multiple delivery services.
+ * @since [version] Refactor to utiize `LLMS_Abstract_Email_Provider`.
  */
-class LLMS_SendWP {
+class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
 	/**
-	 * Constructor.
+	 * LifterLMS MailHawk Partner ID.
 	 *
-	 * @since 3.36.1
-	 * @since [version] Initialize on `admin_init` instead of on `plugins_loaded`.
-	 *
-	 * @return void
+	 * @var int
 	 */
-	public function __construct() {
-
-		add_action( 'admin_init', array( $this, 'init' ) );
-
-	}
+	const PARTNER_ID = 2007;
 
 	/**
-	 * Initialize SendWP Connector.
+	 * Connector's ID.
 	 *
-	 * @since [version]
-	 *
-	 * @return void
+	 * @var string
 	 */
-	public function init() {
-
-		/**
-		 * Disable the SendWP Connector class and settings
-		 *
-		 * @since 3.36.1
-		 *
-		 * @param bool $disabled Whether or not this class is disabled.
-		 */
-		if ( apply_filters( 'llms_disable_sendwp', false ) ) {
-			return;
-		}
-
-		// Disable other email delivery services if SendWP is already connected.
-		if ( $this->is_connected() ) {
-			add_filter( 'llms_disable_mailhawk', '__return_true' );
-		}
-
-		add_filter( 'llms_email_delivery_services', array( $this, 'add_settings' ), 30 );
-		add_action( 'admin_print_styles', array( $this, 'output_css' ) );
-		add_action( 'admin_print_footer_scripts', array( $this, 'output_js' ) );
-		add_action( 'wp_ajax_llms_sendwp_remote_install', array( $this, 'ajax_callback_remote_install' ) );
-
-	}
+	protected $id = 'sendwp';
 
 	/**
-	 * Add Settings.
+	 * Validate installation request and perform the plugin install or return errors.
 	 *
-	 * @since 3.36.1
-	 * @since [version] Update settings to reduce redundancy.
-	 *
-	 * @param array $settings Existing settings.
-	 * @return array
-	 */
-	public function add_settings( $settings ) {
-
-		// Short circuit if missing unauthorized.
-		if ( ! current_user_can( 'install_plugins' ) ) {
-			return $settings;
-		}
-
-		$new_settings = array(
-			array(
-				'id'    => 'sendwp_title',
-				'title' => __( 'SendWP Email', 'lifterlms' ),
-				'type'  => 'subtitle',
-				'desc'  => sprintf(
-					// Translators: %1$s = Opening anchor tag; %2$s = Closing anchor tag.
-					__( '%1$sSendWP%2$s makes WordPress email delivery as simple as a few clicks so you can relax, knowing your important emails are being delivered on time.', 'lifterlms' ),
-					'<a href="https://lifterlikes.com/sendwp" target="_blank" rel="noopener noreferrer">',
-					'</a>'
-				),
-			),
-			array(
-				'id'    => 'sendwp_connect',
-				'type'  => 'custom-html',
-				'value' => $this->get_connect_setting(),
-			),
-		);
-
-		return array_merge( $settings, $new_settings );
-
-	}
-
-	/**
-	 * Ajax callback for installing SendWP Plugin.
-	 *
-	 * @since 3.36.1
-	 *
-	 * @hook wp_ajax_llms_sendwp_remote_install
-	 *
-	 * @return void
-	 */
-	public function ajax_callback_remote_install() {
-
-		$ret = $this->do_remote_install();
-		ob_clean();
-		wp_send_json( $ret, ! empty( $ret['status'] ) ? $ret['status'] : 200 );
-
-	}
-
-	/**
-	 * Remote installation method.
+	 * This method overrides the parent in order to keep the method public to maintain
+	 * backwards compatibility.
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
+	 * @since [version] Use	parent method.
 	 *
 	 * @return array
 	 */
 	public function do_remote_install() {
 
-		if ( ! llms_verify_nonce( '_llms_sendwp_nonce', 'llms-sendwp-install' ) ) {
-			return array(
-				'code'    => 'llms_sendwp_install_nonce_failure',
-				'message' => esc_html__( 'Security check failed.', 'lifterlms' ),
-				'status'  => 401,
-			);
-		} elseif ( ! current_user_can( 'install_plugins' ) ) {
-			return array(
-				'code'    => 'llms_sendwp_install_unauthorized',
-				'message' => esc_html__( 'You do not have permission to perform this action.', 'lifterlms' ),
-				'status'  => 403,
-			);
-		}
+		return parent::do_remote_install();
 
-		$install = $this->install();
-		if ( is_wp_error( $install ) ) {
-			return array(
-				'code'    => $install->get_error_code(),
-				'message' => $install->get_error_message(),
-				'status'  => 400,
-			);
-		}
+	}
 
+	/**
+	 * Configures the response returned when `do_remote_install()` is successful.
+	 *
+	 * @since [version]
+	 *
+	 * @return array
+	 */
+	protected function do_remote_install_success() {
 		return array(
-			'partner_id'      => 2007,
+			'partner_id'      => self::PARTNER_ID,
 			'register_url'    => esc_url( sendwp_get_server_url() . '_/signup' ),
 			'client_name'     => esc_url( sendwp_get_client_name() ),
 			'client_secret'   => esc_url( sendwp_get_client_secret() ),
 			'client_redirect' => esc_url( sendwp_get_client_redirect() ),
 		);
+	}
+
+	/**
+	 * Retrieve description text to be used in the settings area.
+	 *
+	 * @since [version]
+	 *
+	 * @return string
+	 */
+	protected function get_description() {
+
+		return sprintf(
+			// Translators: %s = Anchor tag html linking to SendWP.com.
+			__( '%s makes WordPress email delivery as simple as a few clicks so you can relax, knowing your important emails are being delivered on time.', 'lifterlms' ),
+			'<a href="https://lifterlikes.com/sendwp" target="_blank" rel="noopener noreferrer">' . $this->get_title() . '</a>',
+		);
 
 	}
 
 	/**
-	 * Install / Activate SendWP plugin.
+	 * Retrieve the connector's name / title.
 	 *
-	 * @since 3.36.1
+	 * @since [version]
 	 *
-	 * @return WP_Error|true
+	 * @return string
 	 */
-	private function install() {
-
-		$is_sendwp_installed = false;
-		foreach ( get_plugins() as $path => $details ) {
-			if ( false === strpos( $path, '/sendwp.php' ) ) {
-				continue;
-			}
-			$is_sendwp_installed = true;
-			$activate            = activate_plugin( $path );
-			if ( is_wp_error( $activate ) ) {
-				return $activate;
-			}
-			break;
-		}
-
-		$install = null;
-		if ( ! $is_sendwp_installed ) {
-
-			include_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-			include_once ABSPATH . 'wp-admin/includes/file.php';
-			include_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-
-			// Use the WordPress Plugins API to get the plugin download link.
-			$api = plugins_api(
-				'plugin_information',
-				array(
-					'slug' => 'sendwp',
-				)
-			);
-			if ( is_wp_error( $api ) ) {
-				return $api;
-			}
-
-			// Use the AJAX upgrader skin to quietly install the plugin.
-			$upgrader = new Plugin_Upgrader( new WP_Ajax_Upgrader_Skin() );
-			$install  = $upgrader->install( $api->download_link );
-			if ( is_wp_error( $install ) ) {
-				return $install;
-			}
-
-			$activate = activate_plugin( $upgrader->plugin_info() );
-			if ( is_wp_error( $activate ) ) {
-				return $activate;
-			}
-		}
-
-		// Final check to see if SendWP is available.
-		if ( ! function_exists( 'sendwp_get_server_url' ) ) {
-			return new WP_Error( 'llms_sendwp_not_found', __( 'SendWP Plugin not found. Please try again.', 'lifterlms' ), $install );
-		}
-
-		return true;
-
+	protected function get_title() {
+		return __( 'SendWP', 'lifterlms' );
 	}
 
 	/**
@@ -235,9 +105,18 @@ class LLMS_SendWP {
 	 * @return boolean
 	 */
 	protected function is_connected() {
-
 		return ( function_exists( 'sendwp_client_connected' ) && sendwp_client_connected() );
+	}
 
+	/**
+	 * Determines if connector plugin is installed
+	 *
+	 * @since [version]
+	 *
+	 * @return boolean
+	 */
+	protected function is_installed() {
+		return function_exists( 'sendwp_get_server_url' );
 	}
 
 	/**
@@ -248,7 +127,7 @@ class LLMS_SendWP {
 	 *
 	 * @return string
 	 */
-	private function get_connect_setting() {
+	protected function get_connect_setting() {
 
 		if ( $this->is_connected() ) {
 
@@ -301,40 +180,11 @@ class LLMS_SendWP {
 	}
 
 	/**
-	 * Output some quick and dirty inline CSS.
-	 *
-	 * @since 3.36.1
-	 *
-	 * @return void
-	 */
-	public function output_css() {
-
-		if ( ! $this->should_output_inline() ) {
-			return;
-		}
-
-		?>
-		<style type="text/css">
-			#llms-sendwp-connect {
-				font-size: 16px;
-				height: auto;
-				margin: 0 0 6px;
-				padding: 8px 14px;
-				position: relative;
-			}
-			#llms-sendwp-connect .fa {
-				margin-right: 4px;
-			}
-		</style>
-		<?php
-	}
-
-
-	/**
 	 * Output some quick and dirty inline JS.
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add nonce and replace references to `$` with `jQuery`.
+	 * @since [version] Refactored to utilize `window.llms.emailConnectors`.
 	 *
 	 * @return void
 	 */
@@ -346,76 +196,29 @@ class LLMS_SendWP {
 
 		?>
 		<script>
-			var btn  = document.getElementById( 'llms-sendwp-connect' ),
-				$btn = jQuery( btn );
-			btn.addEventListener( 'click', function( e ) {
-				e.preventDefault();
-				LLMS.Spinner.start( $btn, 'small' );
-				llms_sendwp_remote_install();
-			} );
+			jQuery( '#llms-sendwp-connect' ).on( 'click', function( e ) {
 
-			/**
-			 * Perform AJAX request to install SendWP plugin.
-			 *
-			 * @since 3.36.1
-			 * @since 3.37.0 Add nonce.
-			 *                Replace references to `$` with `jQuery`.
-			 *                Add loading feedback on button click.
-			 *
-			 * @return void
-			 */
-			function llms_sendwp_remote_install() {
+				e.preventDefault();
+
+				LLMS.Spinner.start( jQuery( this ), 'small' );
+
 				var data = {
 					action: 'llms_sendwp_remote_install',
 					_llms_sendwp_nonce: '<?php echo wp_create_nonce( 'llms-sendwp-install' ); ?>',
 				};
-				jQuery.post( ajaxurl, data, function( res ) {
-					llms_sendwp_register_client( res.register_url, res.client_name, res.client_secret, res.client_redirect, res.partner_id );
-				} ).fail( function( jqxhr ) {
-					LLMS.Spinner.stop( $btn );
-					$btn.parent().find( '.llms-error' ).remove();
-					if ( jqxhr.responseJSON && jqxhr.responseJSON.message ) {
-						jQuery( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': jqxhr.responseJSON.message } ) + '</p>' ).insertAfter( $btn );
-						console.log( jqxhr );
-					}
+
+				window.llms.emailConnectors.remoteInstall( jQuery( this ), data, function( res ) {
+
+					window.llms.emailConnectors.registerClient( res.register_url, {
+						client_name: res.client_name,
+						client_secret: res.client_secret,
+						client_redirect: res.client_redirect,
+						partner_id: res.partner_id,
+					} );
+
 				} );
-			}
 
-			/**
-			 * Register client with SendWP.
-			 *
-			 * @since 3.36.1
-			 *
-			 * @param {string} register_url Registration URL.
-			 * @param {string} client_name Client name.
-			 * @param {string} client_secret Client secret.
-			 * @param {string} client_redirect Client redirect URL.
-			 * @param {int} partner_id SendWP partner ID.
-			 * @return {void}
-			 */
-			function llms_sendwp_register_client( register_url, client_name, client_secret, client_redirect, partner_id ) {
-
-				var form = document.createElement( 'form' );
-				form.setAttribute( 'method', 'POST' );
-				form.setAttribute( 'action', register_url );
-
-				function llms_sendwp_append_form_input( name, value ) {
-					var input = document.createElement( 'input' );
-					input.setAttribute( 'type', 'hidden' );
-					input.setAttribute( 'name', name );
-					input.setAttribute( 'value', value );
-					form.appendChild( input );
-				}
-
-				llms_sendwp_append_form_input( 'client_name', client_name );
-				llms_sendwp_append_form_input( 'client_secret', client_secret );
-				llms_sendwp_append_form_input( 'client_redirect', client_redirect );
-				llms_sendwp_append_form_input( 'partner_id', partner_id );
-
-				document.body.appendChild( form );
-				form.submit();
-
-			}
+			} );
 		</script>
 		<?php
 

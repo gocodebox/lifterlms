@@ -11,6 +11,22 @@
 class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 
 	/**
+	 * Setup before class
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function setUpBeforeClass() {
+
+		parent::setUpBeforeClass();
+
+		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-email-provider.php';
+		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
+
+	}
+
+	/**
 	 * Setup the test case.
 	 *
 	 * @since [version]
@@ -20,7 +36,6 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	public function setUp() {
 
 		parent::setUp();
-		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		$this->mailhawk = new LLMS_MailHawk();
 
 	}

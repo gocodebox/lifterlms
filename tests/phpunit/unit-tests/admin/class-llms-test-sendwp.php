@@ -13,16 +13,32 @@
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 	/**
+	 * Setup before class
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public static function setUpBeforeClass() {
+
+		parent::setUpBeforeClass();
+
+		include_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-email-provider.php';
+		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
+
+	}
+
+	/**
 	 * Setup the test case.
 	 *
 	 * @since 3.36.1
+	 * @since [version] Include class file via `setUpBeforeClass()`.
 	 *
 	 * @return void
 	 */
 	public function setUp() {
 
 		parent::setUp();
-		include_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 		$this->sendwp = new LLMS_SendWP();
 
 	}

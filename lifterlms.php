@@ -350,6 +350,8 @@ final class LifterLMS {
 
 			require_once 'includes/admin/class-llms-admin-review.php';
 			require_once 'includes/admin/class-llms-admin-export-download.php';
+
+			require_once 'includes/abstracts/llms-abstract-email-provider.php';
 			require_once 'includes/admin/class-llms-mailhawk.php';
 			require_once 'includes/admin/class-llms-sendwp.php';
 
