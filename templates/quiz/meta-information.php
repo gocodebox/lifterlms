@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Templates
  *
- * @since    3.9.0
- * @version  3.16.14
+ * @since 3.9.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 global $post;
 
 $quiz            = llms_get_post( $post );
-$passing_percent = $quiz->get_passing_percent();
+$passing_percent = $quiz->get( 'passing_percent' );
 $student         = llms_get_student();
 ?>
 
