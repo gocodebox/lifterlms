@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions/Templates
  *
  * @since 1.0.0
- * @version 3.37.13
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -459,33 +459,6 @@ function llms_setup_course_data( $post ) {
 
 }
 add_action( 'the_post', 'llms_setup_course_data' );
-
-/**
- * When the_post is called, put question data into a global.
- *
- * @param mixed $post
- * @return LLMS_Question
- */
-function llms_setup_question_data( $post ) {
-	if ( ! is_admin() ) {
-
-		if ( 'llms_question' == $post->post_type ) {
-			unset( $GLOBALS['question'] );
-
-			if ( is_int( $post ) ) {
-				$post = get_post( $post ); }
-
-			if ( empty( $post->post_type ) ) {
-				return; }
-
-				$GLOBALS['question'] = llms_get_question( $post );
-
-				return $GLOBALS['question'];
-		}
-	}
-
-}
-add_action( 'the_post', 'llms_setup_question_data' );
 
 /**
  * When the_post is called, put course data into a global.
@@ -1073,29 +1046,6 @@ function llms_get_product( $the_product = false, $args = array() ) {
 }
 
 /**
- * Get Quiz
- *
- * @param  boolean $the_quiz [Is Quiz class init?]
- * @param  array   $args        [class init args]
- * @return new instance of class
- */
-function llms_get_quiz( $the_quiz = false, $args = array() ) {
-	return LLMS()->course_factory->get_quiz( $the_quiz, $args );
-}
-
-/**
- * Get Question
- *
- * @param  boolean $the_question [Is question class init?]
- * @param  array   $args        [class init args]
- * @return new instance of class
- */
-function llms_get_question( $the_question = false, $args = array() ) {
-	return LLMS()->course_factory->get_question( $the_question, $args );
-}
-
-
-/**
  * Retrieve an excerpt
  *
  * @todo  deprecate this, I have no idea why this is being done this way...
@@ -1245,35 +1195,5 @@ function llms_post_classes( $classes, $class = array(), $post_id = '' ) {
 if ( ! function_exists( 'lifterlms_template_single_reviews' ) ) {
 	function lifterlms_template_single_reviews() {
 		LLMS_Reviews::output();
-	}
-}
-
-// Deprecated Functions.
-if ( ! function_exists( 'is_filtered' ) ) {
-
-	/**
-	 * Is template filtered.
-	 *
-	 * @since Unknown.
-	 * @deprecated 3.37.0
-	 *
-	 * @return boolean
-	 */
-	function is_filtered() {
-
-		llms_deprecated_function( 'is_filtered', '3.37.0' );
-
-		global $_chosen_attributes;
-
-		/**
-		 * Deprecated.
-		 *
-		 * @since Unknown
-		 * @deprecated 3.37.0
-		 *
-		 * @param bool $is_filtered Deprecated.
-		 */
-		return apply_filters( 'lifterlms_is_filtered', ( count( $_chosen_attributes ) > 0 || ( isset( $_GET['max_price'] ) && isset( $_GET['min_price'] ) ) ) );
-
 	}
 }

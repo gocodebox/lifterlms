@@ -2,14 +2,18 @@
 /**
  * LLMS Section Model
  *
- * @since    1.0.0
- * @version  3.24.0
+ * @since 1.0.0
+ * @version 3.24.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Section model.
+ *
+ * @since 1.0.0
+ * @since 3.24.0 Unknown.
+ * @since 4.0.0 Remove deprecated class methods.
  */
 class LLMS_Section extends LLMS_Post_Model {
 
@@ -408,35 +412,6 @@ class LLMS_Section extends LLMS_Post_Model {
 
 		$meta = update_post_meta( $this->id, '_llms_parent_course', $course_id );
 		return $meta;
-
-	}
-
-	/*
-			   /$$                                                               /$$                     /$$
-			  | $$                                                              | $$                    | $$
-		  /$$$$$$$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$  /$$$$$$  /$$$$$$    /$$$$$$   /$$$$$$$
-		 /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$__  $$ /$$_____/ |____  $$|_  $$_/   /$$__  $$ /$$__  $$
-		| $$  | $$| $$$$$$$$| $$  \ $$| $$  \__/| $$$$$$$$| $$        /$$$$$$$  | $$    | $$$$$$$$| $$  | $$
-		| $$  | $$| $$_____/| $$  | $$| $$      | $$_____/| $$       /$$__  $$  | $$ /$$| $$_____/| $$  | $$
-		|  $$$$$$$|  $$$$$$$| $$$$$$$/| $$      |  $$$$$$$|  $$$$$$$|  $$$$$$$  |  $$$$/|  $$$$$$$|  $$$$$$$
-		 \_______/ \_______/| $$____/ |__/       \_______/ \_______/ \_______/   \___/   \_______/ \_______/
-							| $$
-							| $$
-							|__/
-	*/
-
-	/**
-	 * Get All child lessons
-	 *
-	 * @since 1.0.0
-	 * @deprecated 3.24.0
-	 *
-	 * @return WP_Post[] Array of lesson post objects.
-	 */
-	public function get_children_lessons() {
-
-		llms_deprecated_function( 'LLMS_Section->get_children_lessons()', '3.24.0', 'LLMS_Section->get_lessons( "posts" )' );
-		return $this->get_lessons( 'posts' );
 
 	}
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Abstracts/Classes
  *
  * @since 3.0.0
- * @version 3.37.18
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,6 +17,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.30.0 Added access plan and query string checkout redirect settings.
  * @since 3.34.3 During order completion, use `llms_redirect_and_exit()` instead of `wp_redirect()` and `exit()`.
  * @since 3.37.18 Allow redirection to external domains by disabling "safe" redirects.
+ * @since 4.0.0 Removed deprecated completed transaction message parameter output.
  */
 abstract class LLMS_Payment_Gateway {
 
@@ -159,22 +160,14 @@ abstract class LLMS_Payment_Gateway {
 	 * @since 3.37.18 Allow redirection to external domains by disabling "safe" redirects.
 	 *
 	 * @param LLMS_Order $order      Instance of an LLMS_Order object.
-	 * @param string     $deprecated (Deprecated) Optional message to display on the redirect screen.
+	 * @param null       $deprecated Deprecated.
 	 * @return void
 	 */
-	public function complete_transaction( $order, $deprecated = '' ) {
+	public function complete_transaction( $order, $deprecated = null ) {
 
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` started', $order );
 
 		$redirect = $this->get_complete_transaction_redirect_url( $order );
-
-		// Deprecated msg if supplied, will be removed in a future release.
-		if ( $deprecated ) {
-
-			llms_deprecated_function( 'LLMS_Payment_Gateway::complete_transaction() with message', '3.8.0', 'LifterLMS enrollment notices' );
-			llms_add_notice( apply_filters( 'lifterlms_completed_transaction_message', $deprecated, $order ), 'success' );
-
-		}
 
 		$this->log( $this->get_admin_title() . ' `complete_transaction()` finished', $redirect, $order );
 
