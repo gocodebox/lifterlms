@@ -515,6 +515,18 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+v4.0.0-beta.2 - 2020-06-04
+------------------------------
+
+##### Bug fixes
+
++ Fixed issue preventing quizzes from being accessed.
+
+##### Templates Updated
+
++ templates/quiz/meta-information.php
+
+
 v4.0.0-beta.1 - 2020-06-01
 ------------------------------
 
