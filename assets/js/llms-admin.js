@@ -292,11 +292,12 @@
 		 */
 		remoteInstall: function( $btn, data, callback ) {
 
+			$btn.parent().find( '.llms-error' ).remove();
 			$.post( ajaxurl, data, callback ).fail( function( jqxhr ) {
 				LLMS.Spinner.stop( $btn );
-				$btn.parent().find( '.llms-error' ).remove();
-				if ( jqxhr.responseJSON && jqxhr.responseJSON.message ) {
-					$( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': jqxhr.responseJSON.message } ) + '</p>' ).insertAfter( $btn );
+				var msg = jqxhr.responseJSON && jqxhr.responseJSON.message ? jqxhr.responseJSON.message : jqxhr.responseText;
+				if ( msg ) {
+					$( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': msg } ) + '</p>' ).insertAfter( $btn );
 				}
 			} );
 
