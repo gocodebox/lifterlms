@@ -42,7 +42,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
-	 * @since [version] Use parent method.
+	 * @deprecated [version] Method to be made protected and should not be called publicly.
 	 *
 	 * @return array
 	 */
