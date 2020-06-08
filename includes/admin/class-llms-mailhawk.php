@@ -22,7 +22,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @var int
 	 */
-	const PARTNER_ID = 1;
+	const PARTNER_ID = 3;
 
 	/**
 	 * Connector's ID.

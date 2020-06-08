@@ -156,12 +156,12 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 		// Install.
 		$res = LLMS_Unit_Test_Util::call_method( $this->mailhawk, 'do_remote_install' );
 		$this->assertEquals( array( 'partner_id', 'register_url', 'client_state', 'redirect_uri', ), array_keys( $res ) );
-		$this->assertEquals( 1, $res['partner_id'] );
+		$this->assertEquals( 3, $res['partner_id'] );
 
 		// Already installed, activate.
 		$res = LLMS_Unit_Test_Util::call_method( $this->mailhawk, 'do_remote_install' );
 		$this->assertEquals( array( 'partner_id', 'register_url', 'client_state', 'redirect_uri', ), array_keys( $res ) );
-		$this->assertEquals( 1, $res['partner_id'] );
+		$this->assertEquals( 3, $res['partner_id'] );
 
 	}
 
