@@ -25,6 +25,7 @@ defined( 'ABSPATH' ) || exit;
  *                Deprecated `LLMS_PlayNice::wc_is_account_page()`.
  * @since 3.37.18 Resolve Divi/WC conflict encountered using the frontend pagebuilder on courses and memberships.
  * @since 4.0.0 Removed previously deprecated method `LLMS_PlayNice::wc_is_account_page()`.
+ *              Remove Divi Frontend Builder WC conflict code.
  */
 class LLMS_PlayNice {
 
@@ -62,6 +63,7 @@ class LLMS_PlayNice {
 	 * @since 3.31.0
 	 * @since 3.37.17 Changed the way we handle endpoints conflict, using a different WC filter hook.
 	 * @since 3.37.18 Add fix for Divi Frontend-Builder WC conflict.
+	 * @since 4.0.0 Remove Divi Frontend Builder WC conflict code.
 	 *
 	 * @return void
 	 */
@@ -71,10 +73,6 @@ class LLMS_PlayNice {
 
 		if ( $wc_exists ) {
 			add_filter( 'woocommerce_account_endpoint_page_not_found', array( $this, 'wc_account_endpoint_page_not_found' ) );
-		}
-
-		if ( $wc_exists && 'divi' === strtolower( get_template() ) ) {
-			add_action( 'et_fb_enqueue_assets', array( $this, 'divi_fb_wc_product_tabs_before' ), 1 );
 		}
 
 	}
@@ -96,39 +94,6 @@ class LLMS_PlayNice {
 		}
 
 		return $tabs;
-
-	}
-
-	/**
-	 * Temporarily remove global LLMS_Product data when the Divi Frontend Page builder is loading.
-	 *
-	 * Resolves an issue encountered when running Divi, WooCommerce, and LifterLMS which
-	 * prevents the frontend builder from loading on courses and memberships because LifterLMS
-	 * (stupidly?) and WC both use the global `$product` variable to store data about our respective
-	 * products and Divi assumes (understandably?) that `$product` is always a `WC_Product` causing
-	 * fatal errors.
-	 *
-	 * @since 3.37.18
-	 *
-	 * @link https://github.com/gocodebox/lifterlms/issues/1079
-	 *
-	 * @return void
-	 */
-	public function divi_fb_wc_product_tabs_before() {
-
-		global $product;
-		if ( isset( $_GET['et_fb'] ) && isset( $product ) && is_a( $product, 'LLMS_Product' ) ) {
-
-			// Store the product temporarily.
-			$this->temp_vars['product'] = $product;
-
-			// Unset it.
-			unset( $GLOBALS['product'] );
-
-			// Restore it when Divi's done with the var.
-			add_filter( 'woocommerce_product_tabs', array( $this, 'divi_fb_wc_product_tabs_after' ), 999 );
-
-		}
 
 	}
 

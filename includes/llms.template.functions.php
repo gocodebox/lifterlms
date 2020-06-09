@@ -461,34 +461,6 @@ function llms_setup_course_data( $post ) {
 add_action( 'the_post', 'llms_setup_course_data' );
 
 /**
- * When the_post is called, put course data into a global.
- *
- * @param mixed $post
- * @return LLMS_Course
- */
-function llms_setup_product_data( $post ) {
-
-	if ( ! is_admin() ) {
-
-		if ( 'course' == $post->post_type || 'llms_membership' == $post->post_type ) {
-			unset( $GLOBALS['product'] );
-
-			if ( is_int( $post ) ) {
-				$post = get_post( $post ); }
-
-			if ( empty( $post->post_type ) ) {
-				return; }
-
-				$GLOBALS['product'] = llms_get_product( $post );
-
-				return $GLOBALS['product'];
-		}
-	}
-
-}
-add_action( 'the_post', 'llms_setup_product_data' );
-
-/**
  * When the_post is called, put lesson data into a global.
  *
  * @param mixed $post
@@ -499,7 +471,6 @@ function llms_setup_lesson_data( $post ) {
 
 		if ( 'lesson' == $post->post_type ) {
 			unset( $GLOBALS['lesson'] );
-			// unset( $GLOBALS['course'] );
 
 			if ( is_int( $post ) ) {
 				$post = get_post( $post ); }
@@ -516,7 +487,6 @@ function llms_setup_lesson_data( $post ) {
 			$GLOBALS['lesson'] = get_lesson( $post );
 
 			llms_setup_course_data( $parent_course );
-			// $GLOBALS['course'] = get_course( $parent_course );
 
 			return $GLOBALS['lesson'];
 		}
