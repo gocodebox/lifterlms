@@ -1,5 +1,0 @@
-version: '3.1'
-services:
-  wordpress:
-    volumes:
-      - ./:/var/www/html/wp-content/plugins/lifterlms:rw
