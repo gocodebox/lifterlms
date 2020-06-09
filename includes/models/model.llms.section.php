@@ -227,192 +227,54 @@ class LLMS_Section extends LLMS_Post_Model {
 
 	}
 
-	/*
-		 /$$
-		| $$
-		| $$  /$$$$$$   /$$$$$$   /$$$$$$   /$$$$$$$ /$$   /$$
-		| $$ /$$__  $$ /$$__  $$ |____  $$ /$$_____/| $$  | $$
-		| $$| $$$$$$$$| $$  \ $$  /$$$$$$$| $$      | $$  | $$
-		| $$| $$_____/| $$  | $$ /$$__  $$| $$      | $$  | $$
-		| $$|  $$$$$$$|  $$$$$$$|  $$$$$$$|  $$$$$$$|  $$$$$$$
-		|__/ \_______/ \____  $$ \_______/ \_______/ \____  $$
-					   /$$  \ $$                     /$$  | $$
-					  |  $$$$$$/                    |  $$$$$$/
-					   \______/                      \______/
-	 *
-	 * Legacy functions below here will be deprecated in future versions
-	 * Currently not being used by the LifterLMS core and are scheduled for cleanup and removal
-	 * @todo    cleanup
-	 */
-
 	/**
 	 * Retrieve the order of the section within the course
 	 *
-	 * @todo     deprecate
-	 * @return   int
-	 * @since    1.0.0
-	 * @version  3.3.0
+	 * @since 1.0.0
+	 * @deprecated 3.3.0 Use `LLMS_Section->get( 'order' )` instead.
+	 *
+	 * @return int
 	 */
 	public function get_order() {
 		return $this->get( 'order' );
 	}
 
 	/**
+	 * Get the next lesson order for assigning a lesson to a section
+	 *
+	 * @since Unknown
+	 * @deprecated Unknown
+	 *
+	 * @return int
+	 */
+	public function get_next_available_lesson_order() {
+		return $this->count_children_lessons() + 1;
+	}
+
+	/**
 	 * Retrieve the post ID of the section's parent course
 	 *
-	 * @todo     deprecate
-	 * @return   int
-	 * @since    1.0.0
-	 * @version  3.3.0
+	 * @since 1.0.0
+	 * @deprecated 3.3.0 Use `LLMS_Section->get( 'parent_course' )` instead.
+	 *
+	 * @return int
 	 */
 	public function get_parent_course() {
 		return $this->get( 'parent_course' );
 	}
 
 	/**
-	 * @todo     deprecate
-	 */
-	public function update( $data ) {
-
-		$updated_values = array();
-
-		foreach ( $data as $key => $value ) {
-			$method = 'set_' . $key;
-
-			if ( method_exists( $this, $method ) ) {
-				$updated_value = $this->$method( $value );
-
-				$updated_values[ $key ] = $updated_value;
-			}
-		}
-
-		return $updated_values;
-
-	}
-
-	/**
-	 * Set parent section
-	 * Set's parent section in database
-	 *
-	 * @param [int] $meta [id section post]
-	 * @return int|bool if meta didn't exist returns the meta_id else t/f if update success
-	 * Returns False if section id is already parent
-	 * @todo     deprecate
-	 */
-	public function set_order( $order ) {
-
-		return update_post_meta( $this->id, '_llms_order', $order );
-
-	}
-
-	public function set_title( $title ) {
-
-		return LLMS_Post_Handler::update_title( $this->id, $title );
-
-	}
-
-	/**
-	 * Remove all associated lessons and delete section
-	 *
-	 * @return WP_Post|false|null
-	 * @todo     deprecate
-	 */
-	public function delete() {
-
-		// remove any child lessons
-		$this->remove_all_child_lessons();
-
-		// hard delete post
-		return wp_delete_post( $this->id, true );
-
-	}
-
-	/**
-	 * Remove ALL child lessons
-	 *
-	 * @return void
-	 * @todo     deprecate
-	 */
-	public function remove_all_child_lessons() {
-
-		// find all child lessons
-		$lessons = $this->get_children_lessons();
-
-		// if any lessons are found remove metadata that associates them with the section and course
-		// remove the order as well
-		if ( $lessons ) {
-			foreach ( $lessons as $lesson ) {
-
-				$this->remove_child_lesson( $lesson->ID );
-
-			}
-		}
-
-	}
-
-	/**
-	 * Remove individual child lesson
-	 *
-	 * @param  int $lesson_id  lesson post id
-	 * @return [bool]            [if lesson was deleted]
-	 * @todo     deprecate
-	 */
-	public function remove_child_lesson( $lesson_id ) {
-
-		$post_data = array(
-			'parent_course'  => '',
-			'parent_section' => '',
-			'order'          => '',
-		);
-
-		$lesson = new LLMS_Lesson( $lesson_id );
-
-		return $lesson->update( $post_data );
-
-	}
-
-
-
-	/**
-	 * Count child lessons
-	 *
-	 * @return int number of child lessons in section
-	 * @todo     deprecate
-	 */
-	public function count_children_lessons() {
-
-		$lessons = $this->get_children_lessons();
-		return count( $lessons );
-	}
-
-	/**
-	 * Get the next lesson order for assigning a lesson to a section
-	 *
-	 * @return int number of child lesson plus 1
-	 * @todo     deprecate
-	 */
-	public function get_next_available_lesson_order() {
-
-		return $this->count_children_lessons() + 1;
-
-	}
-
-
-
-	/**
 	 * Set parent course
-	 * Set's parent course in database
 	 *
-	 * @param int $course_id id of course post
-	 * @return int|bool if meta didn't exist returns the meta_id else t/f if update success
-	 * Returns False if course id is already parent
-	 * @todo     deprecate
+	 * @since Unknown
+	 * @deprecated Unknown
+	 *
+	 * @param int $course_id ID of course post.
+	 * @return int|bool
 	 */
 	public function set_parent_course( $course_id ) {
-
 		$meta = update_post_meta( $this->id, '_llms_parent_course', $course_id );
 		return $meta;
-
 	}
 
 }
