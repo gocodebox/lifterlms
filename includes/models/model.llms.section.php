@@ -3,7 +3,7 @@
  * LLMS Section Model
  *
  * @since 1.0.0
- * @version 3.24.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
