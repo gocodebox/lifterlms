@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Classes
  *
  * @since 3.36.1
- * @version [version]
+ * @version 3.40.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,7 +16,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.36.1
  * @since 3.37.0 Sanitize URLs, clean up jQuery references, add loading feedback when connector button is clicked.
  * @since 3.37.3 Modify the ID used to determine where to splice in SendWP Options.
- * @since [version] Refactor to utiize `LLMS_Abstract_Email_Provider`.
+ * @since 3.40.0 Refactor to utiize `LLMS_Abstract_Email_Provider`.
  */
 class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 
@@ -42,7 +42,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Sanitize URLS returned by SendWP functions and add nonce verification.
-	 * @deprecated [version] Method to be made protected and should not be called publicly.
+	 * @deprecated 3.40.0 Method to be made protected and should not be called publicly.
 	 *
 	 * @return array
 	 */
@@ -55,7 +55,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Configures the response returned when `do_remote_install()` is successful.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return array
 	 */
@@ -72,7 +72,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve description text to be used in the settings area.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -89,7 +89,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve the connector's name / title.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -100,7 +100,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Determine if SendWP is installed and connected for sending.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean
 	 */
@@ -111,7 +111,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Determines if connector plugin is installed
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean
 	 */
@@ -123,7 +123,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 * Get the "Connect" Setting field html.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Abstract methods used to determine if SendWP is connected.
+	 * @since 3.40.0 Abstract methods used to determine if SendWP is connected.
 	 *
 	 * @return string
 	 */
@@ -164,7 +164,7 @@ class LLMS_SendWP extends LLMS_Abstract_Email_Provider {
 	 *
 	 * @since 3.36.1
 	 * @since 3.37.0 Add nonce and replace references to `$` with `jQuery`.
-	 * @since [version] Refactored to utilize `window.llms.emailConnectors`.
+	 * @since 3.40.0 Refactored to utilize `window.llms.emailConnectors`.
 	 *
 	 * @return void
 	 */

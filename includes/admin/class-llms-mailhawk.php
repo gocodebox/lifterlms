@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Admin/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.40.0
+ * @version 3.40.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_MailHawk class
  *
- * @since [version]
+ * @since 3.40.0
  */
 class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 
@@ -34,7 +34,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Configures the response returned when `do_remote_install()` is successful.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return array
 	 */
@@ -50,7 +50,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve the settings area HTML for the connect button
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -92,7 +92,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve description text to be used in the settings area.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -109,7 +109,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve the connector's name / title.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -120,7 +120,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Determines if MailHawk is installed and connected for sending.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean
 	 */
@@ -131,7 +131,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Determines if connector plugin is installed
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean
 	 */
@@ -142,7 +142,7 @@ class LLMS_MailHawk extends LLMS_Abstract_Email_Provider {
 	/**
 	 * Output some quick and dirty inline JS.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */

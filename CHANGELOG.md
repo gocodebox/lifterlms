@@ -1,6 +1,27 @@
 LifterLMS Changelog
 ===================
 
+v3.40.0 - 2020-06-09
+--------------------
+
+##### Updates
+
++ Adds a 1-click installation connector for the MailHawk email delivery plugin.
+
+##### Bugfixes
+
++ Fixed an issue encountered during checkout when using a coupon against an access plan with a free trial.
+
+##### Deprecations
+
++ `LLMS_SendWP::do_remote_install()` will be converted to a protected method and should no longer be called directly.
++ `LLMS_Abstract_Email_Provider::output_css()`
+
+##### Templates updated
+
++ templates/checkout/form-gateways.php
+
+
 v3.39.0 - 2020-05-28
 --------------------
 

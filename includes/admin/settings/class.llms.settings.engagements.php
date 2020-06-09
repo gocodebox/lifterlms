@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/Settings/Classes
  *
  * @since 1.0.0
- * @version [version]
+ * @version 3.40.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.37.3 Renamed setting field IDs to be unique.
  *              Removed redundant functions defined in the `LLMS_Settings_Page` class.
  *              Removed constructor and added `get_label()` method to be compatible with changes in `LLMS_Settings_Page`.
- * @since [version] Add a section that displays conditionally for email delivery provider connections.
+ * @since 3.40.0 Add a section that displays conditionally for email delivery provider connections.
  */
 class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 
@@ -46,7 +46,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	 * @since 1.0.0
 	 * @since 3.8.0 Unknown.
 	 * @since 3.37.3 Refactor to pull each settings group from its own method.
-	 * @since [version] Include an email delivery section.
+	 * @since 3.40.0 Include an email delivery section.
 	 *
 	 * @return array
 	 */
@@ -170,7 +170,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 	/**
 	 * Retrieve email delivery partner settings groups.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return array
 	 */
@@ -179,7 +179,7 @@ class LLMS_Settings_Engagements extends LLMS_Settings_Page {
 		/**
 		 * Filter settings for available email delivery services.
 		 *
-		 * @since [version]
+		 * @since 3.40.0
 		 *
 		 * @param array[] $settings Array of settings arrays.
 		 */

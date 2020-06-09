@@ -2,7 +2,7 @@
  * LifterLMS Admin Panel Javascript
  *
  * @since Unknown
- * @version [version]
+ * @version 3.40.0
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -239,7 +239,7 @@
 	/**
 	 * Scripts for use on the engagements settings tab for email provider connector plugins
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 */
 	window.llms.emailConnectors = {
 
@@ -249,7 +249,7 @@
 		 * Builds and submits a form used to direct the user to the connector's oAuth
 		 * authorization endpoint.
 		 *
-		 * @since [version]
+		 * @since 3.40.0
 		 *
 		 * @param {String} url    Redirect URL.
 		 * @param {Object} fields Hash of fields where the key is the field name and the value if the field value.
@@ -283,7 +283,7 @@
 		 *
 		 * The callback will more than likely use `registerClient()` on success.
 		 *
-		 * @since [version]
+		 * @since 3.40.0
 		 *
 		 * @param {Object}   $btn     jQuery object for the connector button.
 		 * @param {Object}   data     Hash of data used for the ajax request.

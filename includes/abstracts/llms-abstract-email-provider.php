@@ -4,8 +4,8 @@
  *
  * @package LifterLMS/Abstracts/Classes
  *
- * @since [version]
- * @version [version]
+ * @since 3.40.0
+ * @version 3.40.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -13,7 +13,7 @@ defined( 'ABSPATH' ) || exit;
 /**
  * LLMS_Abstract_Email_Provider
  *
- * @since [version]
+ * @since 3.40.0
  */
 abstract class LLMS_Abstract_Email_Provider {
 
@@ -37,7 +37,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Configures the response returned when `do_remote_install()` is successful.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return array
 	 */
@@ -46,7 +46,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve the settings area HTML for the connect button
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -55,7 +55,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve description text to be used in the settings area.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -64,7 +64,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Retrieve the connector's name / title.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return string
 	 */
@@ -73,7 +73,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Determines if connector plugin is connected for sending.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean
 	 */
@@ -82,7 +82,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Determines if connector plugin is installed
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean
 	 */
@@ -91,7 +91,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Constructor.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -100,7 +100,7 @@ abstract class LLMS_Abstract_Email_Provider {
 		/**
 		 * Filter the available email providers
 		 *
-		 * @since [version]
+		 * @since 3.40.0
 		 *
 		 * @param string[] $this->providers List of email provider ids.
 		 */
@@ -124,7 +124,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Initialize the Connector
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -141,7 +141,7 @@ abstract class LLMS_Abstract_Email_Provider {
 		 * The dynamic portion of this filter, `{$this->id}`, refers
 		 * to the id of the email provider. See `$this->providers` for a list of supported providers.
 		 *
-		 * @since [version]
+		 * @since 3.40.0
 		 *
 		 * @param bool $disabled Whether or not this class is disabled.
 		 */
@@ -158,7 +158,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Determines if the plugin is already installed and activates it if it is
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean|WP_Error `true` when plugin is installed and successfully activated.
 	 *                           `WP_Error` when plugin is installed and there was an error activating it.
@@ -187,7 +187,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Add Settings.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @param array $settings Existing settings.
 	 * @return array
@@ -220,7 +220,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Ajax callback for installing the connector's plugin.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -235,7 +235,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Determines if the current user can perform the remote installation.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return true|array
 	 */
@@ -262,7 +262,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Automatically disables other providers when the current provider is connected.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void.
 	 */
@@ -278,7 +278,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Validate installation request and perform the plugin install or return errors.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return array
 	 */
@@ -306,7 +306,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Install the plugin via the WP plugin installer.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean|WP_Error Error object or `true` when successful.
 	 */
@@ -333,7 +333,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Install the plugin via the WP Plugin Repo.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return boolean|WP_Error `true` on success, error object otherwise.
 	 */
@@ -373,7 +373,7 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Determine if inline scripts and styles should be output.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return bool
 	 */
@@ -392,13 +392,13 @@ abstract class LLMS_Abstract_Email_Provider {
 	/**
 	 * Deprecated.
 	 *
-	 * @since [version]
-	 * @deprecated [version]
+	 * @since 3.40.0
+	 * @deprecated 3.40.0
 	 *
 	 * @return void
 	 */
 	public function output_css() {
-		llms_deprecated_function( 'LLMS_Abstract_Email_Provider::output_css()', '[version]' );
+		llms_deprecated_function( 'LLMS_Abstract_Email_Provider::output_css()', '3.40.0' );
 	}
 
 }
