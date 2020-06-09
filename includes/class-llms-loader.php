@@ -223,6 +223,7 @@ class LLMS_Loader {
 		// Abstracts.
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.metabox.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/llms-abstract-email-provider.php';
 
 		// Functions.
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/llms.functions.admin.php';
@@ -231,6 +232,7 @@ class LLMS_Loader {
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-export-download.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-review.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-users-table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-mailhawk.php';
 		require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-sendwp.php';
 
 		// Admin classes (files to be renamed).
