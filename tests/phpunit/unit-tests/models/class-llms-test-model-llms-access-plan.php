@@ -1,30 +1,39 @@
 <?php
 /**
  * Tests for LifterLMS Coupon Model
+ *
+ * @package  LifterLMS_Tests/Models
+ *
  * @group access_plan
+ *
  * @since 3.23.0
  * @since 3.30.1 Add tests for get_initial_price() method.
+ * @since [version] Improved tests for the `requires_payment()` method.
  */
 class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	/**
-	 * class name for the model being tested by the class
-	 * @var  string
+	 * Class name for the model being tested by the class
+	 *
+	 * @var string
 	 */
 	protected $class_name = 'LLMS_Access_Plan';
 
 	/**
-	 * db post type of the model being tested
-	 * @var  string
+	 * DB post type of the model being tested
+	 *
+	 * @var string
 	 */
 	protected $post_type = 'llms_access_plan';
 
 	/**
 	 * Get properties, used by test_getters_setters
+	 *
 	 * This should match, exactly, the object's $properties array
-	 * @return   array
-	 * @since    3.23.0
-	 * @version  3.23.0
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return array
 	 */
 	protected function get_properties() {
 		return array(
@@ -57,10 +66,12 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	/**
 	 * Get data to fill a create post with
+	 *
 	 * This is used by test_getters_setters
-	 * @return   array
-	 * @since    3.23.0
-	 * @version  3.23.0
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return array
 	 */
 	protected function get_data() {
 		return array(
@@ -93,29 +104,40 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 		);
 	}
 
+	/**
+	 * Setup plan product association.
+	 *
+	 * @since 3.23.0
+	 *
+	 * @param string $type Associated post type.
+	 *
+	 * @return void
+	 */
 	protected function set_obj_product( $type = 'course' ) {
 		$this->obj->set( 'product_id', $this->factory->post->create( array(
 			'post_type' => $type,
 		) ) );
 	}
 
+	/**
+	 * Setup the test case
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function setUp() {
 		parent::setUp();
 		$this->create();
 	}
 
-
-	/*
-		   /$$                           /$$
-		  | $$                          | $$
-		 /$$$$$$    /$$$$$$   /$$$$$$$ /$$$$$$   /$$$$$$$
-		|_  $$_/   /$$__  $$ /$$_____/|_  $$_/  /$$_____/
-		  | $$    | $$$$$$$$|  $$$$$$   | $$   |  $$$$$$
-		  | $$ /$$| $$_____/ \____  $$  | $$ /$$\____  $$
-		  |  $$$$/|  $$$$$$$ /$$$$$$$/  |  $$$$//$$$$$$$/
-		   \___/   \_______/|_______/    \___/ |_______/
-	*/
-
+	/**
+	 * Test can_expire()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_can_expire() {
 
 		$opts = array(
@@ -135,6 +157,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_access_period_name() {}
 
+	/**
+	 * Test get_checkout_url()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_checkout_url() {
 
 		$this->set_obj_product();
@@ -161,6 +190,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_free_pricing_text()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_free_pricing_text() {
 
 		$text = '<span class="lifterlms-price">FREE</span>';
@@ -267,6 +303,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_price()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_price() {
 
 		$prices = array(
@@ -291,6 +334,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	// public function test_get_price_with_coupon() {}
 
+	/**
+	 * Test get_product()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_product() {
 
 		$this->set_obj_product();
@@ -298,6 +348,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_product_type()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_product_type() {
 
 		$this->set_obj_product();
@@ -308,6 +365,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_enroll_text()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_enroll_text() {
 
 		// course
@@ -324,6 +388,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_expiration_details()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_expiration_details() {
 
 		$this->assertEquals( '', $this->obj->get_expiration_details() );
@@ -336,6 +407,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_schedule_details()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_schedule_details() {
 
 		$this->assertEquals( '', $this->obj->get_schedule_details() );
@@ -356,6 +434,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test get_trial_details()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_get_trial_details() {
 
 		$this->assertEquals( '', $this->obj->get_trial_details() );
@@ -369,6 +454,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test visibility getters / setters
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_visibility() {
 
 		$this->assertEquals( 'visible', $this->obj->get_visibility() );
@@ -398,6 +490,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test has_availability_restrictions()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_has_availability_restrictions() {
 
 		$this->set_obj_product( 'llms_membership' );
@@ -414,6 +513,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test has_free_checkout()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_has_free_checkout() {
 
 		$this->assertFalse( $this->obj->has_free_checkout() );
@@ -432,6 +538,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test has_trial()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_has_trial() {
 
 		$this->assertFalse( $this->obj->has_trial() );
@@ -453,6 +566,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test is_available_to_user()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_is_available_to_user() {
 
 		$this->set_obj_product();
@@ -472,6 +592,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test is_free()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_is_free() {
 
 		$this->assertFalse( $this->obj->is_free() );
@@ -490,6 +617,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test is_on_sale()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_is_on_sale() {
 
 		// no vals, not on sale
@@ -548,6 +682,13 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
+	/**
+	 * Test is_recurring()
+	 *
+	 * @since 3.23.0
+	 *
+	 * @return void
+	 */
 	public function test_is_recurring() {
 
 		$this->assertFalse( $this->obj->is_recurring() );
@@ -563,74 +704,477 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
 	}
 
-	public function test_requires_payment() {
+	/**
+	 * Test requires_payment(): free plan
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_free() {
 
-		// trial
-		$this->obj->set( 'frequency', 1 );
-		$this->obj->set( 'trial_offer', 'yes' );
-		$this->assertFalse( $this->obj->requires_payment() );
-
-		$this->obj->set( 'trial_price', 0 );
-		$this->assertFalse( $this->obj->requires_payment() );
-
-		$this->obj->set( 'trial_price', 1 );
-		$this->assertTrue( $this->obj->requires_payment() );
-
-		$this->obj->set( 'trial_offer', 'no' );
-
-		// sale
-		$this->obj->set( 'on_sale', 'yes' );
-		$this->assertFalse( $this->obj->requires_payment() );
-
-		$this->obj->set( 'sale_price', 0 );
-		$this->assertFalse( $this->obj->requires_payment() );
-
-		$this->obj->set( 'sale_price', 1 );
-		$this->assertTrue( $this->obj->requires_payment() );
-
-		$this->obj->set( 'on_sale', 'no' );
-
-		// price
-		$this->obj->set( 'price', 0 );
-		$this->assertFalse( $this->obj->requires_payment() );
-
-		$this->obj->set( 'price', 1 );
-		$this->assertTrue( $this->obj->requires_payment() );
-
-		// do it with a coupon
-		$coupon_id = $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) );
-		$coupon = llms_get_post( $coupon_id );
-		$coupon_props = array(
-			'coupon_amount' => 100,
-			'discount_type' => 'percent',
-			'enable_trial_discount' => 'yes',
-			'trial_amount' => 100,
-		);
-		foreach ( $coupon_props as $key => $val ) {
-			$coupon->set( $key, $val );
-		}
-
-		// trial
-		$this->obj->set( 'frequency', 1 );
-		$this->obj->set( 'trial_offer', 'yes' );
-		$this->assertFalse( $this->obj->requires_payment( $coupon_id ) );
-
-		$this->obj->set( 'trial_price', 1 );
-		$this->assertFalse( $this->obj->requires_payment( $coupon_id ) );
-
-		$coupon->set( 'trial_amount', 50 );
-		$this->assertTrue( $this->obj->requires_payment( $coupon_id ) );
-
-		$this->obj->set( 'trial_offer', 'no' );
-
-		$this->obj->set( 'price', 1 );
-		$this->assertFalse( $this->obj->requires_payment( $coupon_id ) );
-
-		$coupon->set( 'coupon_amount', 50 );
-		$this->assertTrue( $this->obj->requires_payment( $coupon_id ) );
-
-		// free
 		$this->obj->set( 'is_free', 'yes' );
+		$this->assertFalse( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): one-time payment
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_one_time() {
+
+		$this->obj->set( 'price', 1 );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): one-time payment with a paid sale
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_one_time_sale() {
+
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 1 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): one-time payment with a free sale
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_one_time_sale_free() {
+
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 0 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertFalse( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): one-time payment with a sale and a coupon
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_one_time_sale_coupon() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 50 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 1 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): one-time payment with a sale and a coupon that discounts price to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_one_time_sale_coupon_free() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 1 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertFalse( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): one-time payment with a coupon
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_one_time_coupon() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 50 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'price', 2 );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): one-time payment with a coupon that discounts the price to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_one_time_coupon_free() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'price', 2 );
+
+		$this->assertFalse( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 1 );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with sale
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_sale() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 1 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with sale reducing price to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_sale_free() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 0 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertFalse( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with sale and coupon
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_sale_coupon() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 50 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 1 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with sale and coupon reducing price to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_sale_coupon_free() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 1 );
+		$this->obj->set( 'on_sale', 'yes' );
+
+		$this->assertFalse( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with paid trial
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_free() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 0 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial and a coupon
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_coupon() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 50 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial and a coupon discounting recurring price to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_coupon_free() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_coupon_trial_coupon_discount() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 50 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'enable_trial_discount', 'yes' );
+		$coupon->set( 'trial_amount', 50 );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_coupon_free_trial_coupon_discount() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'enable_trial_discount', 'yes' );
+		$coupon->set( 'trial_amount', 50 );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_coupon_trial_coupon_free() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 50 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'enable_trial_discount', 'yes' );
+		$coupon->set( 'trial_amount', 100 );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_coupon_free_trial_coupon_free() {
+
+		$coupon = llms_get_post( $this->factory->post->create( array( 'post_type' => 'llms_coupon' ) ) );
+		$coupon->set( 'coupon_amount', 100 );
+		$coupon->set( 'discount_type', 'percent' );
+		$coupon->set( 'enable_trial_discount', 'yes' );
+		$coupon->set( 'trial_amount', 100 );
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertFalse( $this->obj->requires_payment( $coupon ) );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with paid trial and sale
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_sale() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 1 );
+		$this->obj->set( 'on_sale', 'yes' );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with paid trial and sale reducing recurring payment to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_sale_free() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 0 );
+		$this->obj->set( 'on_sale', 'yes' );
+		$this->obj->set( 'trial_price', 1 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
+		$this->assertTrue( $this->obj->requires_payment() );
+
+	}
+
+	/**
+	 * Test requires_payment(): recurring payment with free trial and sale reducing recurring payment to free
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_requires_payment_recurring_trial_free_sale_free() {
+
+		$this->obj->set( 'frequency', 1 );
+		$this->obj->set( 'price', 2 );
+		$this->obj->set( 'sale_price', 0 );
+		$this->obj->set( 'on_sale', 'yes' );
+		$this->obj->set( 'trial_price', 0 );
+		$this->obj->set( 'trial_offer', 'yes' );
+
 		$this->assertFalse( $this->obj->requires_payment() );
 
 	}
