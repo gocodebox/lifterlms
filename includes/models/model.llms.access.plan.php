@@ -438,19 +438,32 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		}
 
+		/**
+		 * Filter the access plan's price.
+		 *
+		 * @since [version]
+		 *
+		 * @param mixed            $ret        Returned price.
+		 * @param string           $key        The key of the price property.
+		 * @param array            $price_args Price arguments.
+		 * @param string           $format     Price format string.
+		 * @param LLMS_Access_Plan $this       Instance of the access plan.
+		 */
 		return apply_filters( 'llms_plan_get_price', $ret, $key, $price_args, $format, $this );
 	}
 
 	/**
 	 * Apply a coupon to a price
 	 *
-	 * @param   string $key        price to retrieve, "price", "sale_price", or "trial_price"
-	 * @param   int    $coupon_id  LifterLMS Coupon Post ID
-	 * @param   array  $price_args optional arguments to be passed to llms_price()
-	 * @param   string $format     optional return format as passed to llms_price()
-	 * @return  mixed
-	 * @since   3.0.0
-	 * @version 3.7.0
+	 * @since 3.0.0
+	 * @since 3.7.0 Unknown.
+	 * @since [version] Use `wp_strip_all_tags()` in favor of `strip_tags()`.
+	 *
+	 * @param string          $key        Price to retrieve, "price", "sale_price", or "trial_price".
+	 * @param LLMS_Coupon|int $coupon_id  Coupon object or post id.
+	 * @param array           $price_args Optional arguments to be passed to `llms_price()`.
+	 * @param string          $format     Optional return format as passed to `llms_price()`.
+	 * @return mixed
 	 */
 	public function get_price_with_coupon( $key, $coupon_id, $price_args = array(), $format = 'html' ) {
 
@@ -502,10 +515,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		} else {
 
-			if ( 'html' == $format || 'raw' === $format ) {
+			if ( 'html' === $format || 'raw' === $format ) {
 				$price = llms_price( $price, $price_args );
 				if ( 'raw' === $format ) {
-					$price = strip_tags( $price );
+					$price = wp_strip_all_tags( $price );
 				}
 			} elseif ( 'float' === $format ) {
 				$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
@@ -856,7 +869,6 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 				$price_key = $this->is_on_sale() ? 'sale_price' : 'price';
 				$ret       = ( $this->get_price( $price_key, array(), 'float', $coupon_id ) > 0 );
 			}
-
 		}
 
 		return apply_filters( 'llms_plan_requires_payment', $ret, $coupon_id, $this );
