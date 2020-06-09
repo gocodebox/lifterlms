@@ -78,26 +78,6 @@ class LLMS_PlayNice {
 	}
 
 	/**
-	 * After Divi processes WC metabox tabs restore our global variables (just in case).
-	 *
-	 * @since 3.37.18
-	 *
-	 * @link https://github.com/gocodebox/lifterlms/issues/1079
-	 *
-	 * @param array[] $tabs Array of WC product metabox tabs.
-	 * @return array[]
-	 */
-	public function divi_fb_wc_product_tabs_after( $tabs ) {
-
-		if ( ! empty( $this->temp_vars['product'] ) ) {
-			$GLOBALS['product'] = $this->temp_vars['product'];
-		}
-
-		return $tabs;
-
-	}
-
-	/**
 	 * Allow our dashboard endpoints sharing a query var with WC to function
 	 *
 	 * Inform WC that it should not force a 404 because we're on a valid endpoint.
