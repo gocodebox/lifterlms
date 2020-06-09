@@ -2624,6 +2624,9 @@ a.llms-view-as {
   .wrap.llms-reporting .llms-setting-group .form-table,
   .wrap.lifterlms-settings .llms-setting-group .form-table {
     margin: 0; }
+    .wrap.llms-reporting .llms-setting-group .form-table tr:first-child .llms-subtitle,
+    .wrap.lifterlms-settings .llms-setting-group .form-table tr:first-child .llms-subtitle {
+      margin-top: 0; }
   .wrap.llms-reporting .llms-setting-group td[colspan="2"],
   .wrap.lifterlms-settings .llms-setting-group td[colspan="2"] {
     padding-top: 0;
@@ -2771,6 +2774,29 @@ a.llms-view-as {
   .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item .llms-nav-link:hover,
   .wrap.lifterlms-settings .llms-nav-tab-wrapper.llms-nav-secondary .llms-nav-item.llms-active .llms-nav-link {
     background: #fff; } }
+
+.wrap.llms-reporting #llms-mailhawk-connect,
+.wrap.lifterlms-settings #llms-mailhawk-connect {
+  font-size: 16px;
+  height: auto;
+  margin: 0 0 6px;
+  padding: 8px 14px;
+  position: relative; }
+  .wrap.llms-reporting #llms-mailhawk-connect .dashicons,
+  .wrap.lifterlms-settings #llms-mailhawk-connect .dashicons {
+    margin: -4px 4px 0 0;
+    vertical-align: middle; }
+
+.wrap.llms-reporting #llms-sendwp-connect,
+.wrap.lifterlms-settings #llms-sendwp-connect {
+  font-size: 16px;
+  height: auto;
+  margin: 0 0 6px;
+  padding: 8px 14px;
+  position: relative; }
+  .wrap.llms-reporting #llms-sendwp-connect .fa,
+  .wrap.lifterlms-settings #llms-sendwp-connect .fa {
+    margin-right: 4px; }
 
 @media only screen and (min-width: 782px) {
   .wrap.lifterlms-settings .llms-header {
