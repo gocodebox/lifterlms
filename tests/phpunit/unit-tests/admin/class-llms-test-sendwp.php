@@ -8,14 +8,14 @@
  *
  * @since 3.36.1
  * @since 3.37.0 Add testing for nonce verifications.
- * @since [version] Added additional coverage.
+ * @since 3.40.0 Added additional coverage.
  */
 class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -32,7 +32,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	 * Setup the test case.
 	 *
 	 * @since 3.36.1
-	 * @since [version] Include class file via `setUpBeforeClass()`.
+	 * @since 3.40.0 Include class file via `setUpBeforeClass()`.
 	 *
 	 * @return void
 	 */
@@ -60,7 +60,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the add_settings() method.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -173,7 +173,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_connect_setting()
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -195,7 +195,7 @@ class LLMS_Test_SendWP extends LLMS_Unit_Test_Case {
 	/**
 	 * Test should_output_inline() method.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */

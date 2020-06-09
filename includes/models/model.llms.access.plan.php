@@ -334,7 +334,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Automatically accounts for Trials, sales, and coupon discounts.
 	 *
 	 * @since 3.30.1
-	 * @since [version] Simplify logic by using new 4th argument ($coupon) of the `get_price()` method.
+	 * @since 3.40.0 Simplify logic by using new 4th argument ($coupon) of the `get_price()` method.
 	 *
 	 * @param array                $price_args Arguments passed to the price getter function to generate the price.
 	 * @param LLMS_Coupon|int|null $coupon     Coupon ID, object, or `null` if no coupon is being used.
@@ -412,7 +412,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.23.0 Unknown.
-	 * @since [version] Added `$coupon` parameter.
+	 * @since 3.40.0 Added `$coupon` parameter.
 	 *
 	 * @param string               $key        Property key.
 	 * @param array                $price_args Optional array of arguments that can be passed to `llms_price()`.
@@ -441,7 +441,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		/**
 		 * Filter the access plan's price.
 		 *
-		 * @since [version]
+		 * @since 3.40.0
 		 *
 		 * @param mixed            $ret        Returned price.
 		 * @param string           $key        The key of the price property.
@@ -457,7 +457,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 *
 	 * @since 3.0.0
 	 * @since 3.7.0 Unknown.
-	 * @since [version] Use `wp_strip_all_tags()` in favor of `strip_tags()`.
+	 * @since 3.40.0 Use `wp_strip_all_tags()` in favor of `strip_tags()`.
 	 *
 	 * @param string          $key        Price to retrieve, "price", "sale_price", or "trial_price".
 	 * @param LLMS_Coupon|int $coupon_id  Coupon object or post id.

@@ -8,7 +8,7 @@
  *
  * @since 3.23.0
  * @since 3.30.1 Add tests for get_initial_price() method.
- * @since [version] Improved tests for the `requires_payment()` method.
+ * @since 3.40.0 Improved tests for the `requires_payment()` method.
  */
 class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 
@@ -707,7 +707,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): free plan
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -721,7 +721,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): one-time payment
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -736,7 +736,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): one-time payment with a paid sale
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -753,7 +753,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): one-time payment with a free sale
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -770,7 +770,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): one-time payment with a sale and a coupon
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -791,7 +791,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): one-time payment with a sale and a coupon that discounts price to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -812,7 +812,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): one-time payment with a coupon
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -831,7 +831,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): one-time payment with a coupon that discounts the price to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -850,7 +850,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -866,7 +866,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with sale
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -884,7 +884,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with sale reducing price to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -902,7 +902,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with sale and coupon
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -924,7 +924,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with sale and coupon reducing price to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -946,7 +946,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with paid trial
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -964,7 +964,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -982,7 +982,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial and a coupon
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1004,7 +1004,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial and a coupon discounting recurring price to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1026,7 +1026,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1050,7 +1050,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1074,7 +1074,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1098,7 +1098,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial and a coupon that discounts both recurring and trial payments to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1122,7 +1122,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with paid trial and sale
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1142,7 +1142,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with paid trial and sale reducing recurring payment to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -1162,7 +1162,7 @@ class LLMS_Test_LLMS_Access_Plan extends LLMS_PostModelUnitTestCase {
 	/**
 	 * Test requires_payment(): recurring payment with free trial and sale reducing recurring payment to free
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */

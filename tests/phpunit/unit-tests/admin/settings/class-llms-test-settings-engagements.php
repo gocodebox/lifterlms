@@ -9,7 +9,7 @@
  * @group settings_page_engagements
  *
  * @since 3.37.3
- * @since [version] Add tests for `get_settings_group_email_delivery()`.
+ * @since 3.40.0 Add tests for `get_settings_group_email_delivery()`.
  */
 class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 
@@ -76,7 +76,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	/**
 	 * Retrieve mock email provider settings used to test the get_settings_group_email_delivery() method.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return array[]
 	 */
@@ -95,7 +95,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	/**
 	 * Return an array of mock settings and possible values.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -108,7 +108,7 @@ class LLMS_Test_Settings_Engagements extends LLMS_Settings_Page_Test_Case {
 	/**
 	 * Return an array of mock settings and possible values.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */

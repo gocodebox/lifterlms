@@ -6,14 +6,14 @@
  *
  * @group mailhawk
  *
- * @since [version]
+ * @since 3.40.0
  */
 class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 
 	/**
 	 * Setup before class
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -29,7 +29,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Setup the test case.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -43,7 +43,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Tear down the testcase.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -58,7 +58,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Test the add_settings() method.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -77,7 +77,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_remote_install() error with no nonce submitted.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -94,7 +94,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_remote_install() error for no user.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -115,7 +115,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do_remote_install() error with plugins api.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -142,7 +142,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Test do remote install success.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -168,7 +168,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Test get_connect_setting()
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
@@ -192,7 +192,7 @@ class LLMS_Test_MailHawk extends LLMS_Unit_Test_Case {
 	/**
 	 * Test should_output_inline() method.
 	 *
-	 * @since [version]
+	 * @since 3.40.0
 	 *
 	 * @return void
 	 */
