@@ -334,14 +334,14 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 * Automatically accounts for Trials, sales, and coupon discounts.
 	 *
 	 * @since 3.30.1
-	 * @since [version] Simplify logic by using new 4th argument ($coupon) of the `get_price()` method.
+	 * @version 3.30.1
 	 *
-	 * @param array                $price_args Arguments passed to the price getter function to generate the price.
-	 * @param LLMS_Coupon|int|null $coupon     Coupon ID, object, or `null` if no coupon is being used.
-	 * @param string               $format     Format the price to be returned. Options: html, raw, float (default).
+	 * @param array    $price_args Arguments passed to the price getter function to generate the price.
+	 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
+	 * @param string   $format Format the price to be returned. Options: html, raw, float (default).
 	 * @return mixed
 	 */
-	public function get_initial_price( $price_args = array(), $coupon = null, $format = 'float' ) {
+	public function get_initial_price( $price_args = array(), $coupon_id = null, $format = 'float' ) {
 
 		// If it's free it's a bit simpler.
 		if ( $this->is_free() ) {
@@ -350,16 +350,28 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		} else {
 
-			$price_key = 'price';
+			// pricing function to use based on presence of coupon
+			$func = $coupon_id ? 'get_price_with_coupon' : 'get_price';
 
-			// Setup the price key name based on the presence of a trial or sale.
-			if ( $this->has_trial() ) {
-				$price_key = 'trial_price';
-			} elseif ( $this->is_on_sale() ) {
-				$price_key = 'sale_price';
+			// build args to pass to the function
+			$args = array( $price_args, $format );
+
+			// coupons have an extra arg (coupon id)
+			if ( $coupon_id ) {
+				array_unshift( $args, $coupon_id );
 			}
 
-			$ret = $this->get_price( $price_key, $price_args, $format, $coupon );
+			// setup the price key name based on the presence of a trial or sale
+			if ( $this->has_trial() ) {
+				array_unshift( $args, 'trial_price' );
+			} elseif ( $this->is_on_sale() ) {
+				array_unshift( $args, 'sale_price' );
+			} else {
+				array_unshift( $args, 'price' );
+			}
+
+			// retrieve the price.
+			$ret = call_user_func_array( array( $this, $func ), $args );
 
 		}
 
@@ -368,13 +380,13 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 		 *
 		 * @since 3.30.1
 		 *
-		 * @param mixed                $ret        Price due on checkout.
-		 * @param array                $price_args Arguments passed to the price getter function to generate the price.
-		 * @param LLMS_Coupon|int|null $coupon     Coupon ID, object, or `null` if no coupon is being used.
-		 * @param string               $format     Format the price to be returned. Options: html, raw, float (default).
-		 * @param LLMS_Access_Plan     $this       Access Plan object.
+		 * @param mixed $ret Price due on checkout.
+		 * @param array $price_args Arguments passed to the price getter function to generate the price.
+		 * @param int|null $coupond_id LLMS_Coupon ID or `null` if no coupon is being used.
+		 * @param string $format Format the price to be returned. Options: html, raw, float (default).
+		 * @param LLMS_Access_Plan $this Access Plan object.
 		 */
-		return apply_filters( 'llms_access_plan_get_initial_price', $ret, $price_args, $coupon, $format, $this );
+		return apply_filters( 'llms_access_plan_get_initial_price', $ret, $price_args, $coupon_id, $format, $this );
 
 	}
 
@@ -410,21 +422,14 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	/**
 	 * Getter for price strings with optional formatting options
 	 *
-	 * @since 3.0.0
-	 * @since 3.23.0 Unknown.
-	 * @since [version] Added `$coupon` parameter.
-	 *
-	 * @param string               $key        Property key.
-	 * @param array                $price_args Optional array of arguments that can be passed to `llms_price()`.
-	 * @param string               $format     Optional format conversion method [html|raw|float].
-	 * @param LLMS_Coupon|int|null $coupon     Coupon ID, object, or `null` if no coupon is being used.
-	 * @return mixed
+	 * @param    string $key         property key
+	 * @param    array  $price_args  optional array of arguments that can be passed to llms_price()
+	 * @param    string $format      optional format conversion method [html|raw|float]
+	 * @return   mixed
+	 * @since    3.0.0
+	 * @version  3.23.0
 	 */
-	public function get_price( $key, $price_args = array(), $format = 'html', $coupon = null ) {
-
-		if ( $coupon ) {
-			return $this->get_price_with_coupon( $key, $coupon, $price_args, $format );
-		}
+	public function get_price( $key, $price_args = array(), $format = 'html' ) {
 
 		$price = $this->get( $key );
 
@@ -438,32 +443,19 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		}
 
-		/**
-		 * Filter the access plan's price.
-		 *
-		 * @since [version]
-		 *
-		 * @param mixed            $ret        Returned price.
-		 * @param string           $key        The key of the price property.
-		 * @param array            $price_args Price arguments.
-		 * @param string           $format     Price format string.
-		 * @param LLMS_Access_Plan $this       Instance of the access plan.
-		 */
 		return apply_filters( 'llms_plan_get_price', $ret, $key, $price_args, $format, $this );
 	}
 
 	/**
 	 * Apply a coupon to a price
 	 *
-	 * @since 3.0.0
-	 * @since 3.7.0 Unknown.
-	 * @since [version] Use `wp_strip_all_tags()` in favor of `strip_tags()`.
-	 *
-	 * @param string          $key        Price to retrieve, "price", "sale_price", or "trial_price".
-	 * @param LLMS_Coupon|int $coupon_id  Coupon object or post id.
-	 * @param array           $price_args Optional arguments to be passed to `llms_price()`.
-	 * @param string          $format     Optional return format as passed to `llms_price()`.
-	 * @return mixed
+	 * @param   string $key        price to retrieve, "price", "sale_price", or "trial_price"
+	 * @param   int    $coupon_id  LifterLMS Coupon Post ID
+	 * @param   array  $price_args optional arguments to be passed to llms_price()
+	 * @param   string $format     optional return format as passed to llms_price()
+	 * @return  mixed
+	 * @since   3.0.0
+	 * @version 3.7.0
 	 */
 	public function get_price_with_coupon( $key, $coupon_id, $price_args = array(), $format = 'html' ) {
 
@@ -515,10 +507,10 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 
 		} else {
 
-			if ( 'html' === $format || 'raw' === $format ) {
+			if ( 'html' == $format || 'raw' === $format ) {
 				$price = llms_price( $price, $price_args );
 				if ( 'raw' === $format ) {
-					$price = wp_strip_all_tags( $price );
+					$price = strip_tags( $price );
 				}
 			} elseif ( 'float' === $format ) {
 				$price = floatval( number_format( $price, get_lifterlms_decimals(), '.', '' ) );
@@ -858,18 +850,7 @@ class LLMS_Access_Plan extends LLMS_Post_Model {
 	 */
 	public function requires_payment( $coupon_id = null ) {
 
-		$ret = false;
-
-		if ( ! $this->is_free() ) {
-
-			$ret = ( $this->get_initial_price( array(), $coupon_id, 'float' ) > 0 );
-
-			// Ensure that we still collect payment details if a free trial is used.
-			if ( false === $ret ) {
-				$price_key = $this->is_on_sale() ? 'sale_price' : 'price';
-				$ret       = ( $this->get_price( $price_key, array(), 'float', $coupon_id ) > 0 );
-			}
-		}
+		$ret = ( $this->get_initial_price( array(), $coupon_id, 'float' ) > 0 );
 
 		return apply_filters( 'llms_plan_requires_payment', $ret, $coupon_id, $this );
 

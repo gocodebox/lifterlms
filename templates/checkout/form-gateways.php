@@ -1,18 +1,22 @@
 <?php
 /**
- * Coupon area of the checkout form
+ * Payment Gateway selection area of the checkout form
  *
- * @package LifterLMS/Templates/Checkout
- *
- * @since Unknown
- * @version [version]
+ * @author      LifterLMS
+ * @package     LifterLMS/Templates
  */
+
 defined( 'ABSPATH' ) || exit;
 
 $show_gateways = true;
 
-// Don't display for free plans or plans which do not require any payment.
-if ( isset( $plan ) && $plan->is_free() || ! $plan->requires_payment( $coupon ) ) {
+// don't display if the plan is marked as free
+if ( isset( $plan ) && $plan->is_free() ) {
+	$show_gateways = false;
+}
+
+// if the plan doesn't require payment due to coupon application
+if ( ! empty( $coupon ) && ! $plan->requires_payment( $coupon->get( 'id' ) ) ) {
 	$show_gateways = false;
 }
 
