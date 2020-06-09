@@ -1,10 +1,8 @@
 /**
  * LifterLMS Admin Panel Javascript
  *
- * @since ??
- * @since 3.32.0 `llmsPostsSelect2` function allows posts fecthing based on post statuses.
- * @since 3.37.2 `llmsPostsSelect2` function allows posts (llms posts) fetching filtered by their instructor id.
- * @version 3.37.2
+ * @since Unknown
+ * @version 3.40.0
  *
  * @param obj $ Traditional jQuery reference.
  * @return void
@@ -160,7 +158,7 @@
 
 	};
 
-	// automatically setup any select with the `llms-posts-select2` class
+	// Automatically setup any select with the `llms-posts-select2` class.
 	$( 'select.llms-posts-select2' ).llmsPostsSelect2();
 
 	/**
@@ -238,4 +236,74 @@
 
 	};
 
+	/**
+	 * Scripts for use on the engagements settings tab for email provider connector plugins
+	 *
+	 * @since 3.40.0
+	 */
+	window.llms.emailConnectors = {
+
+		/**
+		 * Register a client
+		 *
+		 * Builds and submits a form used to direct the user to the connector's oAuth
+		 * authorization endpoint.
+		 *
+		 * @since 3.40.0
+		 *
+		 * @param {String} url    Redirect URL.
+		 * @param {Object} fields Hash of fields where the key is the field name and the value if the field value.
+		 * @return {Void}
+		 */
+		registerClient: function( url, fields ) {
+
+			var form = document.createElement( 'form' );
+			form.setAttribute( 'method', 'POST' );
+			form.setAttribute( 'action', url );
+
+			function appendInput( name, value ) {
+				var input = document.createElement( 'input' );
+				input.setAttribute( 'type', 'hidden' );
+				input.setAttribute( 'name', name );
+				input.setAttribute( 'value', value );
+				form.appendChild( input );
+			}
+
+			$.each( fields, function( key, val ) {
+				appendInput( key, val );
+			} );
+
+			document.body.appendChild( form );
+			form.submit();
+
+		},
+
+		/**
+		 * Performs an AJAX request to perform remote installation of the connector plugin
+		 *
+		 * The callback will more than likely use `registerClient()` on success.
+		 *
+		 * @since 3.40.0
+		 *
+		 * @param {Object}   $btn     jQuery object for the connector button.
+		 * @param {Object}   data     Hash of data used for the ajax request.
+		 * @param {Function} callback Success callback function.
+		 * @return {Void}
+		 */
+		remoteInstall: function( $btn, data, callback ) {
+
+			$btn.parent().find( '.llms-error' ).remove();
+			$.post( ajaxurl, data, callback ).fail( function( jqxhr ) {
+				LLMS.Spinner.stop( $btn );
+				var msg = jqxhr.responseJSON && jqxhr.responseJSON.message ? jqxhr.responseJSON.message : jqxhr.responseText;
+				if ( msg ) {
+					$( '<p class="llms-error">' + LLMS.l10n.replace( 'Error: %s', { '%s': msg } ) + '</p>' ).insertAfter( $btn );
+				}
+			} );
+
+		}
+
+	};
+
 } )( jQuery );
+

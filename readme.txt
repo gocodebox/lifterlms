@@ -5,7 +5,7 @@ Tags: learning management system, LMS, membership, elearning, online courses, qu
 Requires at least: 4.8
 Requires PHP: 7.2
 Tested up to: 5.4
-Stable tag: 3.39.0
+Stable tag: 3.40.0
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -515,6 +515,27 @@ You can review our full security policy at [https://lifterlms.com/security-polic
 == Changelog ==
 
 
+= v3.40.0 - 2020-06-09 =
+------------------------
+
+##### Updates
+
++ Adds a 1-click installation connector for the MailHawk email delivery plugin.
+
+##### Bugfixes
+
++ Fixed an issue encountered during checkout when using a coupon against an access plan with a free trial.
+
+##### Deprecations
+
++ `LLMS_SendWP::do_remote_install()` will be converted to a protected method and should no longer be called directly.
++ `LLMS_Abstract_Email_Provider::output_css()`
+
+##### Templates updated
+
++ templates/checkout/form-gateways.php
+
+
 = v3.39.0 - 2020-05-28 =
 ------------------------
 
@@ -661,16 +682,5 @@ Props to [Omri Herscovici and Sagi Tzadik from Check Point Research](https://www
 
 + Bugfix: Correctly store user `billing_postcode` meta data.
 + Bugfix: Fixed issue preventing course.created (and other post.created) webhooks from firing.
-
-
-= v3.37.14 - 2020-03-25 =
--------------------------
-
-+ Update: Added the ability to view the PHP error log file (as defined by `ini_get( 'error_log' )` ) on the LifterLMS -> Status -> Logs page.
-+ Update: Added strict comparisons for various condition checks.
-+ Bugfix: Fixed an issue where users might be redirected to the wrong course following a course import at the conclusion of the setup wizard.
-+ Bugfix: Fixed issue with tracking event data being lost due to cookie size limitations.
-+ Bugfix: Fixed issue potentially encountered when checking user capabilities for certificates and achievements.
-+ Bugfix: Fixed an issue preventing additional instances of the JS `LLMS.Storage` class from being instantiated.
 
 [View the full changelog](https://github.com/gocodebox/lifterlms/blob/master/CHANGELOG.md#lifterlms-changelog)

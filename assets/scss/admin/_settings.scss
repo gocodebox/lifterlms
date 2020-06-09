@@ -69,9 +69,11 @@
 			margin: -20px -20px 20px;
 		}
 
-		// form elements
 		.form-table {
 			margin: 0;
+			tr:first-child .llms-subtitle {
+				margin-top: 0;
+			}
 		}
 
 		td[colspan="2"] {
@@ -116,6 +118,31 @@
 					background: #fff;
 				}
 			}
+		}
+	}
+
+	// Email Delivery providers.
+	#llms-mailhawk-connect {
+		font-size: 16px;
+		height: auto;
+		margin: 0 0 6px;
+		padding: 8px 14px;
+		position: relative;
+
+		.dashicons {
+			margin: -4px 4px 0 0;
+			vertical-align: middle;
+		}
+	}
+	#llms-sendwp-connect {
+		font-size: 16px;
+		height: auto;
+		margin: 0 0 6px;
+		padding: 8px 14px;
+		position: relative;
+
+		.fa {
+			margin-right: 4px;
 		}
 	}
 
