@@ -36,9 +36,10 @@
 		<exclude name="Squiz.Commenting.FunctionComment.MissingParamComment" />
 		<exclude name="Squiz.Commenting.FunctionComment.MissingParamTag" />
 		<exclude name="Squiz.Commenting.FunctionComment.MissingParamName" />
+		<exclude name="Squiz.Commenting.VariableComment.Missing" />
 
 		<exclude name="Squiz.Commenting.FunctionComment.ParamNameNoMatch" />
-		<!-- <exclude name="Squiz.Commenting.FunctionComment.InvalidReturnVoid" /> -->
+		<exclude name="Squiz.Commenting.FunctionComment.InvalidReturnVoid" />
 
 		<!-- @todo: Update these to use a prefix, see https://github.com/WordPress/WordPress-Coding-Standards/wiki/Customizable-sniff-properties#naming-conventions-prefix-everything-in-the-global-namespace -->
 		<exclude name="WordPress.WP.GlobalVariablesOverride.Prohibited" />
