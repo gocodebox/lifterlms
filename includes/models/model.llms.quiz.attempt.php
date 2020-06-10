@@ -2,7 +2,7 @@
 /**
  * Quiz Attempt Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 3.9.0
  * @version 4.0.0
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Quiz_Attempt model.
+ * LLMS_Quiz_Attempt model class
  *
  * @since 3.9.0
  * @since 3.16.0 Unknown.

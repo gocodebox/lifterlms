@@ -1,8 +1,8 @@
 <?php
 /**
- * Twenty Nineteen Theme Support.
+ * Theme Support: Twenty Nineteen
  *
- * @package  LifterLMS/Classes/ThemeSupport
+ * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.31.0
  * @version 3.31.0
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * Twenty Nineteen Theme Support.
+ * Twenty Nineteen Theme Support
  *
  * @since 3.31.0
  */

@@ -1,11 +1,19 @@
 <?php
+/**
+ * Notification Controller: Quiz Graded
+ *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
+ * @since 3.24.0
+ * @version 3.24.0
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Quiz Graded
  *
- * @since    3.24.0
- * @version  3.24.0
+ * @since 3.24.0
  */
 class LLMS_Notification_Controller_Quiz_Graded extends LLMS_Abstract_Notification_Controller {
 

@@ -2,11 +2,10 @@
 /**
  * LifterLMS Access Plan Model
  *
- * @author   LifterLMS
- * @package  LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
- * @since    3.0.0
- * @version  3.31.0
+ * @since 3.0.0
+ * @version 3.31.0
  */
 
 defined( 'ABSPATH' ) || exit;

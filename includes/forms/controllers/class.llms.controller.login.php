@@ -2,6 +2,8 @@
 /**
  * User Login Form Controller
  *
+ * @package LifterLMS/Forms/Controllers/Classes
+ *
  * @since 3.19.4
  * @version 3.35.0
  */

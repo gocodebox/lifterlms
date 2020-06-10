@@ -1,13 +1,19 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification Controller: Certificate Earned
+ *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
+ * @since 3.8.0
+ * @version 3.8.0
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification Controller: Certificate Earned
  *
- * @since    3.8.0
- * @version  3.8.0
+ * @since 3.8.0
  */
 class LLMS_Notification_Controller_Certificate_Earned extends LLMS_Abstract_Notification_Controller {
 

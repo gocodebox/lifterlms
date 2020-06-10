@@ -2,10 +2,10 @@
 /**
  * Notification Background Processor: Emails
  *
- * @package LifterLMS/Notifications/Processors
+ * @package LifterLMS/Notifications/Processors/Classes
  *
  * @since 3.8.0
- * @version 3.10.1
+ * @version 3.33.2
  */
 
 defined( 'ABSPATH' ) || exit;

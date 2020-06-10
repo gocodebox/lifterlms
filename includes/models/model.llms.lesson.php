@@ -1,8 +1,8 @@
 <?php
 /**
- * LifterLMS Lesson Model.
+ * LifterLMS Lesson Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
  * @version 4.0.0
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Lesson model class.
+ * LLMS_Lesson model class
  *
  * @since 1.0.0
  * @since 3.29.0 Unknown.

@@ -2,10 +2,16 @@
 /**
  * LifterLMS Course Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
  * @version 4.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Course model class
  *
  * @property $audio_embed  (string)  URL to an oEmbed enable audio URL
  * @property $average_grade  (float)  Calculated value of the overall average grade of all *enrolled* students in the course.
@@ -34,12 +40,6 @@
  * @property $tile_featured_video (string)  Displays the featured video instead of the featured image on course tiles [yes|no]
  * @property $time_period  (string)  Whether or not a course time period restriction is enabled [yes|no] (all checks should check for 'yes' as an empty string might be returned)
  * @property $video_embed  (string)  URL to an oEmbed enable video URL
- */
-
-defined( 'ABSPATH' ) || exit;
-
-/**
- * LLMS_Course model.
  *
  * @since 1.0.0
  * @since 3.30.3 Explicitly define class properties.

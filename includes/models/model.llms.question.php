@@ -2,18 +2,18 @@
 /**
  * LifterLMS Quiz Question Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
  * @version 4.0.0
- *
- * @property string $question_type Type of question.
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS Quiz Question Model class
+ *
+ * @property string $question_type Type of question.
  *
  * @since 1.0.0
  * @since 3.30.1 Fixed choice sorting issues.

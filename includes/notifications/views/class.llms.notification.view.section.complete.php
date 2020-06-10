@@ -1,13 +1,20 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification View: Section Complete
+ *
+ * @package LifterLMS/Notifications/Views/Classes
+ *
+ * @since 3.8.0
+ * @version 3.10.1
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification View: Section Complete
  *
- * @since    3.8.0
- * @version  3.10.1
+ * @since 3.8.0
+ * @since 3.10.1 Unknown.
  */
 class LLMS_Notification_View_Section_Complete extends LLMS_Abstract_Notification_View {
 

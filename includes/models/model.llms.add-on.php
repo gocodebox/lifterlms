@@ -2,9 +2,10 @@
 /**
  * LifterLMS Add-On Model
  *
- * @package  LifterLMS/Models
- * @since    3.22.0
- * @version  3.25.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.22.0
+ * @version 3.25.0
  */
 
 defined( 'ABSPATH' ) || exit;

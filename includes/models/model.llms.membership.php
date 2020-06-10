@@ -2,7 +2,7 @@
 /**
  * LifterLMS Membership Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
  * @version 3.38.1
@@ -11,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Membership model.
+ * LLMS_Membership model class
  *
  * @since 3.0.0
  * @since 3.30.0 Added optional argument to `add_auto_enroll_courses()` method.
