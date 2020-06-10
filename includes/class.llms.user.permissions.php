@@ -270,8 +270,11 @@ class LLMS_User_Permissions {
 			return null;
 		}
 
+		$edit_id = absint( $edit_id );
+		$user_id = absint( $user_id );
+
 		// User's can edit themselves.
-		if ( absint( $user_id ) === absint( $edit_id ) ) {
+		if ( $user_id === $edit_id ) {
 			return true;
 		}
 
@@ -284,7 +287,7 @@ class LLMS_User_Permissions {
 
 			if ( 'instructor' === $role && in_array( 'instructors_assistant', $edit_roles, true ) ) {
 				$instructor = llms_get_instructor( $user );
-				if ( in_array( $edit_id, $instructor->get_assistants(), false ) ) {
+				if ( in_array( $edit_id, array_map( 'absint', $instructor->get_assistants() ), true ) ) {
 					return true;
 				}
 			} elseif ( ! empty( $editable_roles[ $role ] ) && array_intersect( $edit_roles, $editable_roles[ $role ] ) ) {
