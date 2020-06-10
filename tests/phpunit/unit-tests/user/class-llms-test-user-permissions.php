@@ -7,7 +7,7 @@
  * @group user_permissions
  *
  * @since 3.34.0
- * @version 3.34.0
+ * @since [version] Add new tests to better handle users with multiple roles.
  */
 class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
@@ -28,6 +28,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 		return array(
 			'student' => $this->factory->student->create(),
 			'admin' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
+			'admin2' => $this->factory->user->create( array( 'role' => 'administrator' ) ),
 			'editor' => $this->factory->user->create( array( 'role' => 'editor' ) ),
 			'subscriber' => $this->factory->user->create( array( 'role' => 'subscriber' ) ),
 			'lms_manager' => $this->factory->user->create( array( 'role' => 'lms_manager' ) ),
@@ -42,7 +43,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.34.0
 	 *
-	 * @return [type]
+	 * @return void
 	 */
 	public function test_get_editable_roles() {
 
@@ -57,7 +58,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 *
 	 * @since 3.34.0
 	 *
-	 * @return [type]
+	 * @return void
 	 */
 	public function test_is_current_user_instructor() {
 
@@ -83,8 +84,9 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 * Test the user_can_manage_user method.
 	 *
 	 * @since 3.34.0
+	 * @since [version] Add tests to ensure admins can still manage other admins.
 	 *
-	 * @return [type]
+	 * @return void
 	 */
 	public function test_user_can_manage_user() {
 
@@ -92,6 +94,9 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
 		// WP Core roles are skipped.
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $student ) ) );
+		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $admin2 ) ) );
+		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $editor ) ) );
+		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $editor ) ) );
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $editor, $student ) ) );
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $subscriber, $student ) ) );
 
@@ -133,6 +138,30 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 		foreach( array( $lms_manager, $instructor, $assistant ) as $uid ) {
 			$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $uid, $uid ) ) );
 		}
+
+	}
+
+	/**
+	 * Test the user_can_manage_user() for users with multiple roles.
+	 *
+	 * @since [version]
+	 *
+	 * @return void
+	 */
+	public function test_user_can_manage_user_multiple_roles() {
+
+		$users = extract( $this->create_mock_users() );
+
+		$admin = new WP_User( $admin );
+		$admin->add_role( 'student' );
+
+		// Admin with student role.
+		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin->ID, $student ) ) );
+
+		$lms_manager = new WP_User( $lms_manager );
+		$lms_manager->add_role( 'student' );
+
+		$this->assertTrue( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $lms_manager->ID, $student ) ) );
 
 	}
 
