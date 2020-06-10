@@ -2,6 +2,8 @@
 /**
  * LLMS Section Model
  *
+ * @package LifterLMS/Models/Classes
+ *
  * @since 1.0.0
  * @version [version]
  */
@@ -9,7 +11,7 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Section model.
+ * LLMS_Section model class
  *
  * @since 1.0.0
  * @since 3.24.0 Unknown.

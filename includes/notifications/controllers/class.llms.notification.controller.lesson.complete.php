@@ -2,8 +2,10 @@
 /**
  * Notification Controller: Lesson Complete
  *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
  * @since 3.8.0
- * @version 3.8.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;

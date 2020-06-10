@@ -13,8 +13,6 @@ defined( 'ABSPATH' ) || exit;
 /**
  * BuddyPress Integration
  *
- * @package LifterLMS/Integrations/Classes
- *
  * @since 1.0.0
  * @since 3.12.2 Unknown.
  * @since 3.14.4 Unknown.

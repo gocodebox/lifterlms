@@ -1,10 +1,8 @@
 <?php
 /**
- * Student Class
+ * Student Model
  *
- * Manages data and interactions with a LifterLMS Student
- *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 2.2.3
  * @version 4.0.0
@@ -13,7 +11,9 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Student model class.
+ * LLMS_Student model class
+ *
+ * Manages data and interactions with a LifterLMS Student.
  *
  * @since 2.2.3
  * @since 3.33.0 Added the `delete_student_enrollment` public method that allows student's enrollment unrollment and deletion.

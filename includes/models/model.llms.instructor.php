@@ -1,9 +1,8 @@
 <?php
 /**
- * LifterLMS Instructor class
- * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant.
+ * LifterLMS Instructor
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 3.13.0
  * @version 3.34.0
@@ -12,13 +11,15 @@
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Instructor model.
+ * LLMS_Instructor model class
+ *
+ * Manages data and interactions with a LifterLMS Instructor or Instructor's Assistant.
  *
  * @since 3.13.0
  * @since 3.30.3 Fixed typo in "description" key of the the toArray() method.
  * @since 3.32.0 Add validation to data passed into the `get_students()` method.
  * @since 3.34.0 Fix issue causing `get_assistants()` to return assistants to the currently logged in user instead of using the user id of the current object.
- *                  Add `has_student()` method.
+ *               Add `has_student()` method.
  */
 class LLMS_Instructor extends LLMS_Abstract_User_Data {
 

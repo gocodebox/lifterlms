@@ -1,22 +1,27 @@
 <?php
 /**
- * Shared Notification View for quiz completions
+ * Notification View: Quiz Graded
  *
- * @since    3.24.0
- * @version  3.29.0
+ * @package LifterLMS/Notifications/Views/Classes
+ *
+ * @since 3.24.0
+ * @version 3.29.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Notification_View_Quiz_Graded class.
+ * LLMS_Notification_View_Quiz_Graded class
+ *
+ * @since 3.24.0
+ * @since 3.29.0 Unknown.
  */
 class LLMS_Notification_View_Quiz_Graded extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  string
+	 * @var string
 	 */
 	public $trigger_id = 'quiz_graded';
 

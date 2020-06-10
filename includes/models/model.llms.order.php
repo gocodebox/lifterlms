@@ -2,10 +2,16 @@
 /**
  * LifterLMS Order Model
  *
- * @package LifterLMS/Models
+ * @package LifterLMS/Models/Classes
  *
  * @since 3.0.0
  * @version 3.37.6
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Order model class
  *
  * @property   $access_expiration  (string)  Expiration type [lifetime|limited-period|limited-date]
  * @property   $access_expires  (string)  Date access expires in m/d/Y format. Only applicable when $access_expiration is "limited-date"
@@ -68,12 +74,6 @@
  * @property   $trial_total  (float)  Total price of the trial after applicable coupon adjustments
  * @property   $user_id   (int)  customer WP User ID
  * @property   $user_ip_address  (string)  customer's IP address at time of purchase
- */
-
-defined( 'ABSPATH' ) || exit;
-
-/**
- * LLMS_Order model.
  *
  * @since 3.0.0
  * @since 3.32.0 Update to use latest action-scheduler functions.

@@ -2,6 +2,8 @@
 /**
  * LifterLMS Event Model
  *
+ * @package LifterLMS/Models/Classes
+ *
  * @since 3.36.0
  * @version 3.36.0
  */

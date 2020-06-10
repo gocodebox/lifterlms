@@ -2,14 +2,18 @@
 /**
  * LifterLMS Quiz Question Model
  *
- * @since    3.16.0
- * @version  3.16.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.16.0
+ * @version 3.16.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Question_Choice model.
+ * LLMS_Question_Choice model class
+ *
+ * @since 3.16.0
  */
 class LLMS_Question_Choice {
 

@@ -2,7 +2,7 @@
 /**
  * WP Background Process
  *
- * @package WP-Background-Processing
+ * @package LifterLMS/Libraries/WPBackgroundProcessing/Classes
  *
  * @since Unknown
  * @version 2018-02-12

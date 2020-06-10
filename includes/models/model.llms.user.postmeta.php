@@ -2,14 +2,18 @@
 /**
  * LLMS_User_Postmeta data model
  *
- * @since    3.15.0
- * @version  3.15.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.15.0
+ * @version 3.15.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_User_Postmeta model.
+ * LLMS_User_Postmeta model class
+ *
+ * @since 3.15.0
  */
 class LLMS_User_Postmeta extends LLMS_Abstract_Database_Store {
 

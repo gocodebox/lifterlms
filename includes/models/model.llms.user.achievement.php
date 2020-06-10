@@ -2,15 +2,19 @@
 /**
  * LifterLMS User Achievement
  *
- * @package  LifterLMS/Models
- * @since    3.8.0
- * @version  3.18.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.8.0
+ * @version 3.18.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_User_Achievement model.
+ *
+ * @since 3.8.0
+ * @since 3.18.0 Unknown.
  */
 class LLMS_User_Achievement extends LLMS_Post_Model {
 

@@ -2,8 +2,10 @@
 /**
  * Notification View: Achievement Earned
  *
+ * @package LifterLMS/Notifications/Views/Classes
+ *
  * @since 3.8.0
- * @version 3.17.6
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Notification View: Achievement Earned
  *
  * @since 3.8.0
+ * @since 3.17.6 Unknown.
  * @since 3.30.3 Fixed spelling errors.
  */
 class LLMS_Notification_View_Achievement_Earned extends LLMS_Abstract_Notification_View {

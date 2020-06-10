@@ -1,18 +1,27 @@
 <?php
+/**
+ * Notification View: Student Welcome
+ *
+ * @package LifterLMS/Notifications/Views/Classes
+ *
+ * @since 3.17.8
+ * @version 3.18.2
+ */
+
 defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification View: Purchase Receipt
  *
- * @since    3.17.8
- * @version  3.18.2
+ * @since 3.17.8
+ * @since 3.18.2 Unknown.
  */
 class LLMS_Notification_View_Subscription_Cancelled extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var [type]
 	 */
 	public $trigger_id = 'subscription_cancelled';
 
