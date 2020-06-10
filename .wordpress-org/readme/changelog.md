@@ -1,7 +1,68 @@
 == Changelog ==
 
 
-<<<<<<< HEAD
+v4.0.0-beta.3 - 2020-06-10
+------------------------------
+
+##### Removed classes
+
++ `LLMS_Table_Questions`: `includes/admin/reporting/tables/llms.table.questions.php`
+
+##### Removed class methods
+
++ `LLMS_Question::get_correct_option()`
++ `LLMS_Question::get_correct_option_key()`
++ `LLMS_Section::count_children_lessons()`
++ `LLMS_Section::delete()`
++ `LLMS_Section::get_children_lessons()`
++ `LLMS_Section::remove_all_child_lessons()`
++ `LLMS_Section::remove_child_lesson()`
++ `LLMS_Section::set_order()`
++ `LLMS_Section::set_title()`
++ `LLMS_Section::update()`
+
+##### Removed classes
+
++ `LLMS_PlayNice::divi_fb_wc_product_tabs_after()`
++ `LLMS_PlayNice::divi_fb_wc_product_tabs_before()`
+
+##### Removed functions
+
++ `lifterlms_template_loop_view_link()`
++ `llms_setup_product_data()`
+
+##### Removed hooks
+
++ Action: `lifterlms_before_memberships_loop_item_title`
++ Action: `lifterlms_after_memberships_loop_item_title`
++ Action: `lifterlms_after_memberships_loop_item_title`
+
+##### Removed templates
+
++ `templates/loop/view-link.php`
+
+
+= v3.40.0 - 2020-06-09 =
+------------------------
+
+##### Updates
+
++ Adds a 1-click installation connector for the MailHawk email delivery plugin.
+
+##### Bugfixes
+
++ Fixed an issue encountered during checkout when using a coupon against an access plan with a free trial.
+
+##### Deprecations
+
++ `LLMS_SendWP::do_remote_install()` will be converted to a protected method and should no longer be called directly.
++ `LLMS_Abstract_Email_Provider::output_css()`
+
+##### Templates updated
+
++ templates/checkout/form-gateways.php
+
+
 v4.0.0-beta.2 - 2020-06-04
 ------------------------------
 
@@ -205,27 +266,6 @@ These classes are not used by the LifterLMS core or add-ons and are a legacy cla
 ##### Removed global variables
 
 + `$question`
-=======
-= v3.40.0 - 2020-06-09 =
-------------------------
-
-##### Updates
-
-+ Adds a 1-click installation connector for the MailHawk email delivery plugin.
-
-##### Bugfixes
-
-+ Fixed an issue encountered during checkout when using a coupon against an access plan with a free trial.
-
-##### Deprecations
-
-+ `LLMS_SendWP::do_remote_install()` will be converted to a protected method and should no longer be called directly.
-+ `LLMS_Abstract_Email_Provider::output_css()`
-
-##### Templates updated
-
-+ templates/checkout/form-gateways.php
->>>>>>> 4c091fd5c71ef30b117fb606aa92b377b1b26fb2
 
 
 = v3.39.0 - 2020-05-28 =
