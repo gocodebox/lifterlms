@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 1.0.0
- * @version 3.36.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -17,19 +17,24 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.28.0 Unknown.
  * @since 3.34.0 Added filter to the return of the get_schema() method.
  * @since 3.36.0 Add `wp_lifterlms_events` table.
+ * @since 4.0.0 Add `wp_lifterlms_sessions` table.
+ *               Add session cleanup cron.
+ *               Add db update functions for session manage library cleanup.
  */
 class LLMS_Install {
 
 	public static $background_updater;
 
 	/**
-	 * Array of database updates versions
-	 * and an array of callback functions for the update
+	 * Database update functions
+	 *
+	 * Array key is the database version and array values are
+	 * arrays of callback functions for the update.
 	 *
 	 * @var  array
 	 */
 	private static $db_updates = array(
-		'3.0.0'  => array(
+		'3.0.0'        => array(
 			'llms_update_300_create_access_plans',
 			'llms_update_300_del_deprecated_options',
 			'llms_update_300_migrate_account_field_options',
@@ -41,33 +46,33 @@ class LLMS_Install {
 			'llms_update_300_update_orders',
 			'llms_update_300_update_db_version',
 		),
-		'3.0.3'  => array(
+		'3.0.3'        => array(
 			'llms_update_303_update_students_role',
 			'llms_update_303_update_db_version',
 		),
-		'3.4.3'  => array(
+		'3.4.3'        => array(
 			'llms_update_343_update_relationships',
 			'llms_update_343_update_db_version',
 		),
-		'3.6.0'  => array(
+		'3.6.0'        => array(
 			'llms_update_360_set_product_visibility',
 			'llms_update_360_update_db_version',
 		),
-		'3.8.0'  => array(
+		'3.8.0'        => array(
 			'llms_update_380_set_access_plan_visibility',
 			'llms_update_380_update_db_version',
 		),
-		'3.12.0' => array(
+		'3.12.0'       => array(
 			'llms_update_3120_update_order_end_dates',
 			'llms_update_3120_update_integration_options',
 			'llms_update_3120_update_db_version',
 		),
-		'3.13.0' => array(
+		'3.13.0'       => array(
 			'llms_update_3130_create_default_instructors',
 			'llms_update_3130_builder_notice',
 			'llms_update_3130_update_db_version',
 		),
-		'3.16.0' => array(
+		'3.16.0'       => array(
 			'llms_update_3160_update_quiz_settings',
 			'llms_update_3160_lesson_to_quiz_relationships_migration',
 			'llms_update_3160_attempt_migration',
@@ -79,9 +84,13 @@ class LLMS_Install {
 			'llms_update_3160_builder_notice',
 			'llms_update_3160_update_db_version',
 		),
-		'3.28.0' => array(
+		'3.28.0'       => array(
 			'llms_update_3280_clear_session_cleanup_cron',
 			'llms_update_3280_update_db_version',
+		),
+		'4.0.0-beta.3' => array(
+			'llms_update_400_clear_wp_session_manager_data',
+			'llms_update_400_update_db_version',
 		),
 	);
 
@@ -123,9 +132,11 @@ class LLMS_Install {
 	/**
 	 * Create LifterLMS cron jobs
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.28.0
+	 * @since 1.0.0
+	 * @since 3.28.0 Remove unused cronjob `lifterlms_cleanup_sessions`.
+	 * @since 4.0.0 Add expired session cleanup.
+	 *
+	 * @return void
 	 */
 	public static function create_cron_jobs() {
 
@@ -133,8 +144,32 @@ class LLMS_Install {
 			wp_schedule_event( time(), 'daily', 'llms_cleanup_tmp' );
 		}
 
+		/**
+		 * Filter the recurrence interval at which tracking data is gathered and sent.
+		 *
+		 * @since Unknown
+		 *
+		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+		 *
+		 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "daily".
+		 */
+		$tracking_recurrence = apply_filters( 'llms_tracker_schedule_interval', 'daily' );
 		if ( ! wp_next_scheduled( 'llms_send_tracking_data' ) ) {
-			wp_schedule_event( time(), apply_filters( 'llms_tracker_schedule_interval', 'daily' ), 'llms_send_tracking_data' );
+			wp_schedule_event( time(), $tracking_recurrence, 'llms_send_tracking_data' );
+		}
+
+		/**
+		 * Filter the recurrence interval at which expired session are removed from the database.
+		 *
+		 * @since 4.0.0
+		 *
+		 * @link https://developer.wordpress.org/reference/functions/wp_get_schedules/
+		 *
+		 * @param string $recurrence Cron job recurrence interval. Must be valid interval as retrieved from `wp_get_schedules()`. Default is "hourly".
+		 */
+		$session_recurrence = apply_filters( 'llms_delete_expired_session_data_recurrence', 'hourly' );
+		if ( ! wp_next_scheduled( 'llms_delete_expired_session_data' ) ) {
+			wp_schedule_event( time(), $session_recurrence, 'llms_delete_expired_session_data' );
 		}
 
 	}
@@ -207,13 +242,16 @@ class LLMS_Install {
 	/**
 	 * Store all default options in the DB
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.8.0
+	 * @since 1.0.0
+	 * @since 3.8.0 Unknown.
+	 * @since 4.0.0 Include abstract table file.
+	 *
+	 * @return void
 	 */
 	public static function create_options() {
 
-		include_once 'admin/class.llms.admin.settings.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/abstracts/abstract.llms.admin.table.php';
+		require_once LLMS_PLUGIN_DIR . 'includes/admin/class.llms.admin.settings.php';
 
 		$settings = LLMS_Admin_Settings::get_settings_tabs();
 
@@ -385,6 +423,7 @@ class LLMS_Install {
 	 * @since 3.16.9 Unknown
 	 * @since 3.34.0 Added `llms_install_get_schema` filter to method return.
 	 * @since 3.36.0 Add `wp_lifterlms_events` table.
+	 * @since 4.0.0 Add `wp_lifterlms_sessions` table.
 	 *
 	 * @return string
 	 */
@@ -486,6 +525,14 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_events` (
   PRIMARY KEY (`id`),
   KEY actor_id (`actor_id`),
   KEY object_id (`object_id`)
+) $collate;
+CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
+  `id` bigint(20) unsigned NOT NULL AUTO_INCREMENT,
+  `session_key` char(32) NOT NULL,
+  `data` longtext NOT NULL,
+  `expires` BIGINT unsigned NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `session_key` (`session_key`)
 ) $collate;
 ";
 

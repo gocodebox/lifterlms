@@ -1,8 +1,8 @@
 <?php
 /**
- * Twenty Twenty Theme Support.
+ * Theme Support: Twenty Twenty
  *
- * @package LifterLMS/Classes/ThemeSupport
+ * @package LifterLMS/ThemeSupport/Classes
  *
  * @since 3.37.0
  * @version 3.37.3

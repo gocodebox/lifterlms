@@ -2,9 +2,7 @@
 /**
  * Main Privacy Class
  *
- * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data
- *
- * @package LifterLMS/Classes/Privacy
+ * @package LifterLMS/Privacy/Classes
  *
  * @since 3.18.0
  * @version 3.37.9
@@ -14,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Privacy class
+ *
+ * Hooks into WP Core data exporters and erasers to export / erase LifterLMS data.
  *
  * @since 3.18.0
  * @since 3.37.9 Update CSS classes used in privacy text suggestions.

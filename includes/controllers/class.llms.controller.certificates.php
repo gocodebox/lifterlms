@@ -67,7 +67,7 @@ class LLMS_Controller_Certificates {
 	/**
 	 * Allow cURL requests to view a certificate to be authenticated via a nonce.
 	 *
-	 * cURL request is used to scrape the HTML and this will authenticate the scrape
+	 * A cURL request is used to scrape the HTML and this will authenticate the scrape.
 	 *
 	 * @since 3.18.0
 	 * @since 3.24.0 Unknown.

@@ -2,15 +2,19 @@
 /**
  * LifterLMS User Certificate
  *
- * @package  LifterLMS/Models
- * @since    3.8.0
- * @version  3.18.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.8.0
+ * @version 3.18.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_User_Certificate model.
+ * LLMS_User_Certificate model class
+ *
+ * @since 3.8.0
+ * @since 3.18.0 Unknown.
  */
 class LLMS_User_Certificate extends LLMS_Post_Model {
 

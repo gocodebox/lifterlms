@@ -5,12 +5,12 @@
  * @package LifterLMS/Templates
  *
  * @since Unknown
- * @version Unknown
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
-global $post, $product;
+global $post;
 
 ?>
 <div class="llms-full-description">

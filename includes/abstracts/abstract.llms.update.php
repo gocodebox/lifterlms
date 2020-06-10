@@ -22,11 +22,11 @@ abstract class LLMS_Update {
 	 * Array of callable function names (within the class)
 	 * that need to be called to complete the update
 	 *
-	 * if functions are dependent on each other
+	 * If functions are dependent on each other
 	 * the functions themselves should schedule additional actions
-	 * via $this->schedule_function() upon completion
+	 * via $this->schedule_function() upon completion.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	protected $functions = array();
 

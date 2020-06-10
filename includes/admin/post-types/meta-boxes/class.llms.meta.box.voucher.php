@@ -5,7 +5,7 @@
  * @package LifterLMS/Admin/PostTypes/MetaBoxes/Classes
  *
  * @since Unknown
- * @version 3.36.0
+ * @version 4.0.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -16,15 +16,17 @@ defined( 'ABSPATH' ) || exit;
  * @since Unknown
  * @since 3.32.0 Vouchers can now be restricted also to a draft or scheduled Course/Membership.
  * @since 3.35.0 Sanitize `$_POST` data; add placeholder text.
- * @version 3.36.0 Remove superfluous code.
+ * @since 3.36.0 Remove superfluous code.
+ * @since 4.0.0 Remove usage of `LLMS_Svg`.
  */
 class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 	/**
 	 * Configure the metabox settings
 	 *
+	 * @since 3.0.0
+	 *
 	 * @return void
-	 * @since  3.0.0
 	 */
 	public function configure() {
 
@@ -113,11 +115,20 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 
 	}
 
+	/**
+	 * Retrieve the HTML for the codes area.
+	 *
+	 * @since Unknown
+	 * @since 4.0.0 Replace SVG delete icon with a dashicon.
+	 *
+	 * @return string
+	 */
 	private function codes_section_html() {
 
 		global $post;
-		$voucher = new LLMS_Voucher( $post->ID );
-		$codes   = $voucher->get_voucher_codes();
+		$voucher     = new LLMS_Voucher( $post->ID );
+		$codes       = $voucher->get_voucher_codes();
+		$delete_icon = '<span class="dashicons dashicons-no"></span><span class="screen-reader-text">' . __( 'Delete', 'lifterlms' ) . '</span>';
 
 		ob_start(); ?>
 		<div class="llms-voucher-codes-wrapper" id="llms-form-wrapper">
@@ -132,7 +143,6 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 				</tr>
 				</thead>
 
-				<?php $delete_icon = LLMS_Svg::get_icon( 'llms-icon-close', 'Delete Section', 'Delete Section', 'button-icon' ); ?>
 				<script>var delete_icon = '<?php echo $delete_icon; ?>';</script>
 
 				<tbody id="llms_voucher_tbody">
@@ -178,6 +188,13 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 		return ob_get_clean();
 	}
 
+	/**
+	 * Retrieve the HTML for the redemption area.
+	 *
+	 * @since Unknown
+	 *
+	 * @return string
+	 */
 	private function redemption_section_html() {
 
 		global $post;
@@ -227,9 +244,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * save method
+	 * Save method
 	 *
-	 * cleans variables and saves using update_post_meta
+	 * Cleans variables and saves using `update_post_meta()`.
 	 *
 	 * @version 3.0.0
 	 * @version 3.35.0 Sanitize `$_POST` data with `llms_filter_input()`.

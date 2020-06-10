@@ -1,20 +1,27 @@
 <?php
-if ( ! defined( 'ABSPATH' ) ) {
-	exit;
-}
+/**
+ * Notification View: Student Welcome
+ *
+ * @package LifterLMS/Notifications/Views/Classes
+ *
+ * @since 3.8.0
+ * @version 3.10.1
+ */
+
+defined( 'ABSPATH' ) || exit;
 
 /**
  * Notification View: Student Welcome
  *
- * @since    3.8.0
- * @version  3.8.2
+ * @since 3.8.0
+ * @version 3.10.1
  */
 class LLMS_Notification_View_Student_Welcome extends LLMS_Abstract_Notification_View {
 
 	/**
 	 * Notification Trigger ID
 	 *
-	 * @var  [type]
+	 * @var [type]
 	 */
 	public $trigger_id = 'student_welcome';
 

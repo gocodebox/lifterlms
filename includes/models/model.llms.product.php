@@ -2,8 +2,6 @@
 /**
  * LifterLMS Product Model
  *
- * Both Courses and Memberships are sellable and can be instantiated as a product.
- *
  * @package LifterLMS/Models/Classes
  *
  * @since 1.0.0
@@ -14,6 +12,8 @@ defined( 'ABSPATH' ) || exit;
 
 /**
  * LLMS_Product model class
+ *
+ * Both Courses and Memberships are sellable and can be instantiated as a product.
  *
  * @since 1.0.0
  * @since 3.25.2  Unknown.

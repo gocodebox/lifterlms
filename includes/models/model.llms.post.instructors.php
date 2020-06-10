@@ -2,25 +2,26 @@
 /**
  * LLMS Post Instructors
  *
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.13.0
+ * @version 4.0.0
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+/**
+ * LLMS_Post_Instructors class
+ *
  * Allow interactions with the custom multi-author functionality
  * currently enabled for Courses and Memberships only.
  *
  * Rather than instantiating this class directly
  * you should use LLMS_Course->instructors() or LLMS_Membership()->instructors()
  *
- * @package LifterLMS/Models
- *
- * @since 3.13.0
- * @version 3.28.0
- */
-
-defined( 'ABSPATH' ) || exit;
-
-/**
- * LLMS_Post_Instructors class.
- *
  * @since 3.13.0
  * @since 3.30.3 Explicitly define class properties.
+ * @since 4.0.0 Remove deprecated method `get_defaults()`.
  */
 class LLMS_Post_Instructors {
 
@@ -64,19 +65,6 @@ class LLMS_Post_Instructors {
 
 		}
 
-	}
-
-	/**
-	 * Retrieve the default attributes for a new post instructor
-	 *
-	 * @return     array
-	 * @since      3.13.0
-	 * @version    3.28.0
-	 * @deprecated 3.25.0
-	 */
-	public function get_defaults() {
-		llms_deprecated_function( 'LLMS_Post_Instructors::get_defaults()', '3.25.0', 'llms_get_instructors_defaults()' );
-		return llms_get_instructors_defaults();
 	}
 
 	/**

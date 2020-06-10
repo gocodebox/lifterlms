@@ -1,17 +1,21 @@
 <?php
 /**
  * LifterLMS Notification Model
- * Used for notification CRUD and Display
  *
- * @package  LifterLMS/Models
- * @since   3.8.0
+ * @package LifterLMS/Models/Classes
+ *
+ * @since 3.8.0
  * @version 3.8.0
  */
 
 defined( 'ABSPATH' ) || exit;
 
 /**
- * LLMS_Notification model.
+ * LLMS_Notification model class
+ *
+ * Used for notification CRUD and Display.
+ *
+ * @since 3.8.0
  */
 class LLMS_Notification implements JsonSerializable {
 

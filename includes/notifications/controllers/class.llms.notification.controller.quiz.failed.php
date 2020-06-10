@@ -2,8 +2,10 @@
 /**
  * Notification Controller: Quiz Failed
  *
+ * @package LifterLMS/Notifications/Controllers/Classes
+ *
  * @since 3.8.0
- * @version 3.24.0
+ * @version 3.30.3
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -12,6 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * Notification Controller: Quiz Failed
  *
  * @since 3.8.0
+ * @since 3.24.0 Unknown.
  * @since 3.30.3 Explicitly define class properties.
  */
 class LLMS_Notification_Controller_Quiz_Failed extends LLMS_Abstract_Notification_Controller {
