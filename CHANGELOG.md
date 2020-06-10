@@ -14,6 +14,10 @@ For full details on the release, information on beta testing, and more, see our 
 
 ##### Deprecations
 
+The WP Session Manager plugin / library that is bundled into the LifterLMS core code base is deprecated from our code base and is being fully removed in favor of an internal session manager.
+
+The bundled Javascript Boostrap 3 modules, "collapse" and "transition" are deprecated from our codebase and are being removed.
+
 The following CSS classes are deprecated and will be removed:
 
 + `templates/global/form-login.php`: The `col-1` class from the `div.llms-person-login-form-wrapper` element will be removed.
