@@ -14,7 +14,7 @@ defined( 'ABSPATH' ) || exit;
  * User Registration Forms (excludes checkout registration)
  *
  * @since 3.0.0
- * @version [version]
+ * @version 4.0.0
  */
 class LLMS_Controller_Registration {
 

@@ -1,6 +1,47 @@
 LifterLMS Changelog
 ===================
 
+v4.0.0-beta.3 - 2020-06-10
+--------------------------
+
+##### Removed classes
+
++ `LLMS_Table_Questions`: `includes/admin/reporting/tables/llms.table.questions.php`
+
+##### Removed class methods
+
++ `LLMS_Question::get_correct_option()`
++ `LLMS_Question::get_correct_option_key()`
++ `LLMS_Section::count_children_lessons()`
++ `LLMS_Section::delete()`
++ `LLMS_Section::get_children_lessons()`
++ `LLMS_Section::remove_all_child_lessons()`
++ `LLMS_Section::remove_child_lesson()`
++ `LLMS_Section::set_order()`
++ `LLMS_Section::set_title()`
++ `LLMS_Section::update()`
+
+##### Removed classes
+
++ `LLMS_PlayNice::divi_fb_wc_product_tabs_after()`
++ `LLMS_PlayNice::divi_fb_wc_product_tabs_before()`
+
+##### Removed functions
+
++ `lifterlms_template_loop_view_link()`
++ `llms_setup_product_data()`
+
+##### Removed hooks
+
++ Action: `lifterlms_before_memberships_loop_item_title`
++ Action: `lifterlms_after_memberships_loop_item_title`
++ Action: `lifterlms_after_memberships_loop_item_title`
+
+##### Removed templates
+
++ `templates/loop/view-link.php`
+
+
 v3.40.0 - 2020-06-09
 --------------------
 
