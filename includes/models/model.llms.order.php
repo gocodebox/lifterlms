@@ -323,7 +323,7 @@ class LLMS_Order extends LLMS_Post_Model {
 			/**
 			 * Make sure the next payment is more than 2 hours in the future
 			 *
-			 * this ensures changes to the site's timezone because of daylight savings
+			 * This ensures changes to the site's timezone because of daylight savings
 			 * will never cause a 2nd renewal payment to be processed on the same day.
 			 */
 			$i = 1;

@@ -21,7 +21,11 @@ class LLMS_Settings_General extends LLMS_Settings_Page {
 	/**
 	 * Constructor
 	 *
-	 * executes settings tab actions
+	 * Executes settings tab actions.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return void
 	 */
 	public function __construct() {
 

@@ -244,9 +244,9 @@ class LLMS_Meta_Box_Voucher extends LLMS_Admin_Metabox {
 	}
 
 	/**
-	 * save method
+	 * Save method
 	 *
-	 * cleans variables and saves using update_post_meta
+	 * Cleans variables and saves using `update_post_meta()`.
 	 *
 	 * @version 3.0.0
 	 * @version 3.35.0 Sanitize `$_POST` data with `llms_filter_input()`.

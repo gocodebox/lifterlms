@@ -48,7 +48,7 @@ class LLMS_Quiz extends LLMS_Post_Model {
 	/**
 	 * Post type meta properties
 	 *
-	 * meta_key => property type.
+	 * Array key is the meta_key and array values is property's type.
 	 *
 	 * @var string[]
 	 */

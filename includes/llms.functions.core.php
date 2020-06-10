@@ -528,7 +528,7 @@ function llms_find_coupon( $code = '', $dupcheck_id = 0 ) {
 /**
  * Generate the HTML for a form field
  *
- * this function is used during AJAX calls so needs to be in a core file
+ * This function is used during AJAX calls so needs to be in a core file
  * loaded during AJAX calls!
  *
  * @param    array   $field  field data

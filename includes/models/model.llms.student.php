@@ -826,21 +826,22 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 	/**
 	 * Retrieve the student's overall grade
+	 *
 	 * Grade = sum of grades for all courses divided by number of enrolled courses
-	 * if a course has no quizzes in it, it cannot be graded and is therefore excluded from the calculation
+	 * if a course has no quizzes in it, it cannot be graded and is therefore excluded from the calculation.
 	 *
-	 * cached data is automatically cleared when a student completes a quiz
+	 * Cached data is automatically cleared when a student completes a quiz.
 	 *
-	 * @param    boolean $use_cache   if false, calculates the grade, otherwise utilizes cached data (if available)
-	 * @return   float|string              grade as float or "N/A"
-	 * @since    3.2.0
-	 * @version  3.2.0
+	 * @since 3.2.0
+	 *
+	 * @param boolean $use_cache If `false`, calculates the grade, otherwise utilizes cached data (if available)
+	 * @return float|string Grade as float or "N/A"
 	 */
 	public function get_overall_grade( $use_cache = true ) {
 
 		$grade = null;
 
-		// attempt to pull from the cache first
+		// Attempt to pull from the cache first.
 		if ( $use_cache ) {
 
 			$grade = $this->get( $this->meta_prefix . 'overall_grade' );
@@ -850,31 +851,31 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 			}
 		}
 
-		// cache disabled or no cached data available
+		// Cache disabled or no cached data available.
 		if ( ! $use_cache || null === $grade || '' === $grade ) {
 
 			$grades = array();
 
-			// get courses
+			// Get courses.
 			$courses = $this->get_courses(
 				array(
 					'limit' => 9999,
 				)
 			);
 
-			// loop through courses
+			// Loop through courses.
 			foreach ( $courses['results'] as $course_id ) {
 
-				// get course grade
+				// Get course grade.
 				$g = $this->get_grade( $course_id );
 
-				// if an actual grade (not N/A) is returned
+				// If an actual grade (not N/A) is returned.
 				if ( is_numeric( $g ) ) {
 					array_push( $grades, $g );
 				}
 			}
 
-			// if we have at least one grade
+			// If we have at least one grade.
 			$count = count( $grades );
 			if ( $count ) {
 
@@ -886,7 +887,7 @@ class LLMS_Student extends LLMS_Abstract_User_Data {
 
 			}
 
-			// cache the grade
+			// Cache the grade.
 			$this->set( 'overall_grade', $grade );
 
 		}// End if().

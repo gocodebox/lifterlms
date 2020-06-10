@@ -1108,9 +1108,9 @@ if ( ! function_exists( 'llms_get_login_form' ) ) {
 
 
 /**
- * Add various css classes to LifterLMS post types when "post_class()" is called
+ * Add various css classes to LifterLMS post types when `post_class()` is called
  *
- * succeeds now deprecated llms_lesson_complete_classes()
+ * Succeeds now deprecated `llms_lesson_complete_classes()`.
  *
  * @param    array $classes  array of classes to be applied to the post element
  * @param    array $class    array of additional classes
