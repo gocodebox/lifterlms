@@ -5,7 +5,7 @@
  * @package LifterLMS/Functions
  *
  * @since 1.0.0
- * @version 3.19.0
+ * @version [version]
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -314,19 +314,5 @@ if ( ! function_exists( 'lifterlms_template_loop_thumbnail' ) ) {
 
 	function lifterlms_template_loop_thumbnail() {
 		llms_get_template( 'loop/featured-image.php' );
-	}
-}
-
-/**
- * product View Template Include
- *
- * @return void
- * @since   1.0.0
- * @version 1.0.0
- */
-if ( ! function_exists( 'lifterlms_template_loop_view_link' ) ) {
-
-	function lifterlms_template_loop_view_link() {
-		llms_get_template( 'loop/view-link.php' );
 	}
 }
