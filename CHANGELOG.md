@@ -4,6 +4,14 @@ LifterLMS Changelog
 v3.41.0 - 2020-??-??
 --------------------
 
+##### LifterLMS 4.0.0 Release Preparation
+
+LifterLMS 4.0.0, our first major release in several years, is nearing the end of it's beta testing cycle. Many unused legacy functions, classes, and files are being removed in version 4.0.0 and well as many functions, classes, and files that were previously deprecated.
+
+The following is a list of items that have not been previously deprecated but will be removed from LifterLMS 4.0.0.
+
+For full details on the release, information on beta testing, and more, see our [blog post on the release](https://make.lifterlms.com/2020/06/01/preparing-for-lifterlms-4-0-0/).
+
 ##### Deprecations
 
 The following CSS classes are deprecated and will be removed:
