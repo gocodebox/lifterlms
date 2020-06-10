@@ -70,43 +70,22 @@
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/models/*.php</exclude-pattern>
-		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/Users/*.php</exclude-pattern>
-
 		<exclude-pattern>templates/*.php</exclude-pattern>
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
-
 	</rule>
 	<rule ref="Squiz.Commenting.FileComment">
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/models/*.php</exclude-pattern>
-		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/Users/*.php</exclude-pattern>
-
 		<exclude-pattern>templates/*.php</exclude-pattern>
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
-
 	</rule>
 	<rule ref="Squiz.Commenting.ClassComment.Missing">
 		<exclude-pattern>includes/admin/views/*.php</exclude-pattern>
 		<exclude-pattern>includes/admin/views/**/*.php</exclude-pattern>
 
-		<exclude-pattern>includes/forms/controllers/*.php</exclude-pattern>
-		<exclude-pattern>includes/integrations/*.php</exclude-pattern>
-		<exclude-pattern>includes/models/*.php</exclude-pattern>
-		<exclude-pattern>includes/notifications/*.php</exclude-pattern>
-		<exclude-pattern>includes/Users/*.php</exclude-pattern>
-
 		<exclude-pattern>templates/*.php</exclude-pattern>
 		<exclude-pattern>templates/**/*.php</exclude-pattern>
-
 	</rule>
 
 	<rule ref="WordPress.WP.I18n">
