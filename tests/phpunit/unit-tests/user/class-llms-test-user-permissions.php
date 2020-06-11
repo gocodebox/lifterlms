@@ -90,12 +90,11 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 */
 	public function test_user_can_manage_user() {
 
-		$users = extract( $this->create_mock_users() );
+		extract( $this->create_mock_users() );
 
 		// WP Core roles are skipped.
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $student ) ) );
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $admin2 ) ) );
-		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $editor ) ) );
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $admin, $editor ) ) );
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $editor, $student ) ) );
 		$this->assertNull( LLMS_Unit_Test_Util::call_method( $this->obj, 'user_can_manage_user', array( $subscriber, $student ) ) );
@@ -150,7 +149,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 */
 	public function test_user_can_manage_user_multiple_roles() {
 
-		$users = extract( $this->create_mock_users() );
+		extract( $this->create_mock_users() );
 
 		$admin = new WP_User( $admin );
 		$admin->add_role( 'student' );

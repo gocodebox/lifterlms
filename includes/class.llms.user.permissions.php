@@ -233,7 +233,7 @@ class LLMS_User_Permissions {
 	 *
 	 * @param int $user_id WP User ID of the user requesting to perform the action.
 	 * @param int $edit_id WP User ID of the user the action will be performed on.
-	 * @return bool|null Returns true if the user preform the action, false if it can't, and null for core user roles which are skipped.
+	 * @return bool|null Returns true if the user performs the action, false if it can't, and null for core user roles which are skipped.
 	 */
 	protected function user_can_manage_user( $user_id, $edit_id ) {
 
@@ -273,7 +273,7 @@ class LLMS_User_Permissions {
 		$edit_id = absint( $edit_id );
 		$user_id = absint( $user_id );
 
-		// User's can edit themselves.
+		// Users can edit themselves.
 		if ( $user_id === $edit_id ) {
 			return true;
 		}
