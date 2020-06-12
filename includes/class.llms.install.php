@@ -18,8 +18,8 @@ defined( 'ABSPATH' ) || exit;
  * @since 3.34.0 Added filter to the return of the get_schema() method.
  * @since 3.36.0 Add `wp_lifterlms_events` table.
  * @since 4.0.0 Add `wp_lifterlms_sessions` table.
- *               Add session cleanup cron.
- *               Add db update functions for session manage library cleanup.
+ *              Add session cleanup cron.
+ *              Add db update functions for session manage library cleanup.
  */
 class LLMS_Install {
 
@@ -31,7 +31,7 @@ class LLMS_Install {
 	 * Array key is the database version and array values are
 	 * arrays of callback functions for the update.
 	 *
-	 * @var  array
+	 * @var array
 	 */
 	private static $db_updates = array(
 		'3.0.0'        => array(
@@ -89,18 +89,21 @@ class LLMS_Install {
 			'llms_update_3280_update_db_version',
 		),
 		'4.0.0-beta.3' => array(
-			'llms_update_400_clear_wp_session_manager_data',
+			'llms_update_400_remove_session_options',
+			'llms_update_400_clear_session_cron',
 			'llms_update_400_update_db_version',
 		),
 	);
 
 	/**
 	 * Initialize the install class
-	 * Hooks all actions
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.4.3
+	 * Hooks all actions.
+	 *
+	 * @since 3.0.0
+	 * @since 3.4.3 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function init() {
 
@@ -117,9 +120,9 @@ class LLMS_Install {
 	/**
 	 * Checks the current LLMS version and runs installer if required
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.0.0
+	 * @since 3.0.0
+	 *
+	 * @return void
 	 */
 	public static function check_version() {
 		if ( ! defined( 'IFRAME_REQUEST' ) && get_option( 'lifterlms_current_version' ) !== LLMS()->version ) {
@@ -177,15 +180,15 @@ class LLMS_Install {
 	/**
 	 * Create basic course difficulties on installation
 	 *
-	 * @return   void
-	 * @since    3.0.4
-	 * @version  3.0.4
+	 * @since 3.0.4
+	 *
+	 * @return void
 	 */
 	public static function create_difficulties() {
 
 		foreach ( self::get_difficulties() as $name ) {
 
-			// only create if it doesn't already exist
+			// Only create if it doesn't already exist.
 			if ( ! get_term_by( 'name', $name, 'course_difficulty' ) ) {
 
 				wp_insert_term( $name, 'course_difficulty' );
@@ -198,9 +201,10 @@ class LLMS_Install {
 	/**
 	 * Create files needed by LifterLMS
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.15.0
+	 * @since 3.0.0
+	 * @since 3.15.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function create_files() {
 		$upload_dir = wp_upload_dir();
@@ -269,9 +273,10 @@ class LLMS_Install {
 	/**
 	 * Create essential starter pages
 	 *
-	 * @return   boolean    false on error, true on success
-	 * @since    1.0.0
-	 * @version  3.24.0
+	 * @since 1.0.0
+	 * @since 3.24.0 Unknown.
+	 *
+	 * @return boolean False on error, true on success.
 	 */
 	public static function create_pages() {
 		$pages = apply_filters(
@@ -314,9 +319,10 @@ class LLMS_Install {
 	/**
 	 * Create LifterLMS DB tables
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.3.1
+	 * @since 1.0.0
+	 * @since 3.3.1 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function create_tables() {
 
@@ -333,9 +339,10 @@ class LLMS_Install {
 	/**
 	 * Create default LifterLMS Product & Access Plan Visibility Options
 	 *
-	 * @return   void
-	 * @since    3.6.0
-	 * @version  3.8.0
+	 * @since 3.6.0
+	 * @since 3.8.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function create_visibilities() {
 		foreach ( array_keys( llms_get_access_plan_visibility_options() ) as $term ) {
@@ -353,9 +360,10 @@ class LLMS_Install {
 	/**
 	 * Queue all required db updates into the bg update queue
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.4.3
+	 * @since 3.0.0
+	 * @since 3.4.3 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function db_updates() {
 
@@ -384,14 +392,15 @@ class LLMS_Install {
 
 	/**
 	 * Dispatches the bg updater
-	 * Prevents small database updates from displaying the "updating" admin notice
-	 * instead of the "completed" notice
-	 * These small updates would finish on a second thread faster than the main
-	 * thread and the wrong notice would be displayed
 	 *
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * Prevents small database updates from displaying the "updating" admin notice
+	 * instead of the "completed" notice.
+	 * These small updates would finish on a second thread faster than the main
+	 * thread and the wrong notice would be displayed.
+	 *
+	 * @since 3.4.3
+	 *
+	 * @return void
 	 */
 	public static function dispatch_db_updates() {
 		self::$background_updater->save()->dispatch();
@@ -400,9 +409,9 @@ class LLMS_Install {
 	/**
 	 * Retrieve the default difficulty terms that should be created on a fresh install
 	 *
-	 * @return   array
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * @since 3.3.1
+	 *
+	 * @return array
 	 */
 	public static function get_difficulties() {
 		return apply_filters(
@@ -541,8 +550,8 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		 *
 		 * @since 3.34.0
 		 *
-		 * @param string $tables A semi-colon (`;`) separated list of database table creating commands.
-		 * @param strind $collate Database collation statement.
+		 * @param string $tables  A semi-colon (`;`) separated list of database table creating commands.
+		 * @param string $collate Database collation statement.
 		 */
 		return apply_filters( 'llms_install_get_schema', $tables, $collate );
 
@@ -551,9 +560,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Initializes the bg updater class
 	 *
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.6.0
+	 * @since 3.4.3
+	 * @since 3.6.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function init_background_updater() {
 
@@ -565,9 +575,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Core install function
 	 *
-	 * @return  void
-	 * @since   1.0.0
-	 * @version 3.13.0
+	 * @since 1.0.0
+	 * @since 3.13.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function install() {
 
@@ -596,14 +607,14 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 		$version    = get_option( 'lifterlms_current_version', null );
 		$db_version = get_option( 'lifterlms_db_version', $version );
 
-		// trigger first time run redirect
+		// Trigger first time run redirect.
 		if ( ( is_null( $version ) || is_null( $db_version ) ) || 'no' === get_option( 'lifterlms_first_time_setup', 'no' ) ) {
 
 			set_transient( '_llms_first_time_setup_redirect', 'yes', 30 );
 
 		}
 
-		// show the update notice since there are db updates to run
+		// Show the update notice since there are db updates to run.
 		$versions = array_keys( self::$db_updates );
 		if ( ! is_null( $db_version ) && version_compare( $db_version, end( $versions ), '<' ) ) {
 
@@ -624,12 +635,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	}
 
 	/**
-	 * Remove the difficulties created by the create_difficulties() function
-	 * Used during uninstall when "remove_all_data" is set
+	 * Remove the difficulties created by the `create_difficulties()` function
 	 *
-	 * @return   void
-	 * @since    3.3.1
-	 * @version  3.3.1
+	 * Used during uninstall when "remove_all_data" is set.
+	 *
+	 * @since 3.3.1
+	 *
+	 * @return void
 	 */
 	public static function remove_difficulties() {
 
@@ -648,13 +660,13 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Handle form submission of update related actions
 	 *
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @return void
 	 */
 	public static function update_actions() {
 
-		// start the updater if the run button was clicked
+		// Start the updater if the run button was clicked.
 		if ( ! empty( $_GET['llms-db-update'] ) ) {
 
 			if ( ! llms_verify_nonce( 'llms-db-update', 'do_db_updates', 'GET' ) ) {
@@ -665,7 +677,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 				wp_die( __( 'Cheatin&#8217; huh?', 'lifterlms' ) );
 			}
 
-			// prevent page refreshes from triggering a second queue / batch
+			// Prevent page refreshes from triggering a second queue / batch.
 			if ( ! self::$background_updater->is_updating() ) {
 				self::db_updates();
 			}
@@ -674,7 +686,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 
 		}
 
-		// force update triggered
+		// Force update triggered.
 		if ( ! empty( $_GET['llms-force-db-update'] ) ) {
 
 			if ( ! llms_verify_nonce( 'llms-force-db-update', 'force_db_updates', 'GET' ) ) {
@@ -698,9 +710,9 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Stores an admin notice for the current state of the background updater
 	 *
-	 * @return   void
-	 * @since    3.4.3
-	 * @version  3.4.3
+	 * @since 3.4.3
+	 *
+	 * @return void
 	 */
 	public static function update_notice() {
 
@@ -716,7 +728,7 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 				self::init_background_updater();
 			}
 
-			// update is running or button was just pressed
+			// Update is running or button was just pressed.
 			if ( self::$background_updater->is_updating() || ! empty( $_GET['llms-db-update'] ) ) {
 
 				LLMS_Admin_Notices::add_notice(
@@ -756,10 +768,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Update the LifterLMS DB record to the latest version
 	 *
-	 * @param  string $version version number
+	 * @since 3.0.0
+	 * @since 3.4.3 Unknown.
+	 *
+	 * @param string $version Version number.
 	 * @return void
-	 * @since    3.0.0
-	 * @version  3.4.3
 	 */
 	public static function update_db_version( $version = null ) {
 		delete_option( 'lifterlms_db_version' );
@@ -769,10 +782,11 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Update the LifterLMS version record to the latest version
 	 *
-	 * @param  string $version version number
+	 * @since 3.0.0
+	 * @since 3.4.3 Unknown.
+	 *
+	 * @param string $version Version number.
 	 * @return void
-	 * @since    3.0.0
-	 * @version  3.4.3
 	 */
 	public static function update_llms_version( $version = null ) {
 		delete_option( 'lifterlms_current_version' );
@@ -782,9 +796,10 @@ CREATE TABLE `{$wpdb->prefix}lifterlms_sessions` (
 	/**
 	 * Redirects users to the setup wizard
 	 *
-	 * @return   void
-	 * @since    1.0.0
-	 * @version  3.0.0
+	 * @since 1.0.0
+	 * @since 3.0.0 Unknown.
+	 *
+	 * @return void
 	 */
 	public static function wizard_redirect() {
 
