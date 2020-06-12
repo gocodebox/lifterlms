@@ -7,7 +7,7 @@
  * @group user_permissions
  *
  * @since 3.34.0
- * @since [version] Add new tests to better handle users with multiple roles.
+ * @since 3.41.0 Add new tests to better handle users with multiple roles.
  */
 class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 
@@ -84,7 +84,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	 * Test the user_can_manage_user method.
 	 *
 	 * @since 3.34.0
-	 * @since [version] Add tests to ensure admins can still manage other admins.
+	 * @since 3.41.0 Add tests to ensure admins can still manage other admins.
 	 *
 	 * @return void
 	 */
@@ -143,7 +143,7 @@ class LLMS_Test_User_Permissions extends LLMS_UnitTestCase {
 	/**
 	 * Test the user_can_manage_user() for users with multiple roles.
 	 *
-	 * @since [version]
+	 * @since 3.41.0
 	 *
 	 * @return void
 	 */

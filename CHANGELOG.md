@@ -1,8 +1,12 @@
 LifterLMS Changelog
 ===================
 
-v3.41.0 - 2020-??-??
+v3.41.0 - 2020-06-12
 --------------------
+
+##### Bug Fixes
+
++ Fix issues encountered when a user role with the `edit_users` capability has multiple LifterLMS roles (like Student).
 
 ##### LifterLMS 4.0.0 Release Preparation
 

@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version [version]
+ * @version 3.41.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,7 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
  * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter to allow 3rd parties to utilize core methods for modifying other users posts.
  * @since 3.37.14 Use strict comparisons where needed.
- * @since [version] Improve user management of other users when the managing user has multiple roles.
+ * @since 3.41.0 Improve user management of other users when the managing user has multiple roles.
  */
 class LLMS_User_Permissions {
 
@@ -229,7 +229,7 @@ class LLMS_User_Permissions {
 	 * Run on `user_has_cap` filters for the `edit_users` and `delete_users` capabilities.
 	 *
 	 * @since 3.34.0
-	 * @since [version] Better handling of users with multiple roles.
+	 * @since 3.41.0 Better handling of users with multiple roles.
 	 *
 	 * @param int $user_id WP User ID of the user requesting to perform the action.
 	 * @param int $edit_id WP User ID of the user the action will be performed on.
@@ -247,7 +247,7 @@ class LLMS_User_Permissions {
 		 * and will instead allow the WordPress core (or another plugin)
 		 * to determine if they have the required permissions.
 		 *
-		 * @since [version]
+		 * @since 3.41.0
 		 *
 		 * @param string[] $ignored Array of user roles.
 		 */
