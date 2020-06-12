@@ -5,7 +5,7 @@
  * @package LifterLMS/Classes
  *
  * @since 3.13.0
- * @version 3.37.14
+ * @version 3.41.0
  */
 
 defined( 'ABSPATH' ) || exit;
@@ -19,6 +19,7 @@ defined( 'ABSPATH' ) || exit;
  *                  Add logic for `view_students`, `edit_students`, and `delete_students` capabilities.
  * @since 3.36.5 Add `llms_user_caps_edit_others_posts_post_types` filter to allow 3rd parties to utilize core methods for modifying other users posts.
  * @since 3.37.14 Use strict comparisons where needed.
+ * @since 3.41.0 Improve user management of other users when the managing user has multiple roles.
  */
 class LLMS_User_Permissions {
 
@@ -152,7 +153,7 @@ class LLMS_User_Permissions {
 	 *
 	 * @param bool[]   $allcaps Array of key/value pairs where keys represent a capability name and boolean values
 	 *                          represent whether the user has that capability.
-	 * @param string[] $caps    Required primitive capabilities for the requested capability.
+	 * @param string[] $cap     Required primitive capabilities for the requested capability.
 	 * @param array    $args {
 	 *     Arguments that accompany the requested capability check.
 	 *
@@ -228,25 +229,52 @@ class LLMS_User_Permissions {
 	 * Run on `user_has_cap` filters for the `edit_users` and `delete_users` capabilities.
 	 *
 	 * @since 3.34.0
+	 * @since 3.41.0 Better handling of users with multiple roles.
 	 *
 	 * @param int $user_id WP User ID of the user requesting to perform the action.
 	 * @param int $edit_id WP User ID of the user the action will be performed on.
-	 * @return bool|null Returns true if the user preform the action, false if it can't, and null for core user roles which are skipped.
+	 * @return bool|null Returns true if the user performs the action, false if it can't, and null for core user roles which are skipped.
 	 */
 	protected function user_can_manage_user( $user_id, $edit_id ) {
 
+		$user = get_user_by( 'id', $user_id );
+
+		/**
+		 * Filter the list of "ignored" user roles
+		 *
+		 * If a user has one of the roles specified in this list, LifterLMS
+		 * will not attempt to determine if the user can manage other users
+		 * and will instead allow the WordPress core (or another plugin)
+		 * to determine if they have the required permissions.
+		 *
+		 * @since 3.41.0
+		 *
+		 * @param string[] $ignored Array of user roles.
+		 */
+		$ignored   = apply_filters( 'llms_user_can_manage_user_ignored_roles', array( 'administrator' ) );
 		$lms_roles = array_keys( LLMS_Roles::get_roles() );
 
-		$user       = get_user_by( 'id', $user_id );
-		$user_roles = array_intersect( $user->roles, $lms_roles );
+		$user_roles         = array_intersect( $user->roles, $lms_roles );
+		$user_ignored_roles = array_intersect( $user->roles, $ignored );
 
-		// Core roles return are skipped, ie null means "I don't know".
-		if ( ! $user_roles ) {
+		/**
+		 * Skip the user because:
+		 *
+		 * + User has no LMS roles, eg: Administrator, Editor, or Subscriber.
+		 * + User has an LMS role and a "protected" role, eg: Administrator and student.
+		 *
+		 * In both scenarios we will return `null` which signals that the WordPress core (or another plugin)
+		 * should take care of determining if the user can manage the user.
+		 */
+		if ( ! $user_roles || ! empty( $user_ignored_roles ) ) {
 			return null;
 		}
 
-		// User's can edit themselves.
-		if ( absint( $user_id ) === absint( $edit_id ) ) {
+		$edit_id = absint( $edit_id );
+		$user_id = absint( $user_id );
+
+		// Users can edit themselves.
+		if ( $user_id === $edit_id ) {
 			return true;
 		}
 
@@ -259,7 +287,7 @@ class LLMS_User_Permissions {
 
 			if ( 'instructor' === $role && in_array( 'instructors_assistant', $edit_roles, true ) ) {
 				$instructor = llms_get_instructor( $user );
-				if ( in_array( $edit_id, $instructor->get_assistants(), false ) ) {
+				if ( in_array( $edit_id, array_map( 'absint', $instructor->get_assistants() ), true ) ) {
 					return true;
 				}
 			} elseif ( ! empty( $editable_roles[ $role ] ) && array_intersect( $edit_roles, $editable_roles[ $role ] ) ) {
