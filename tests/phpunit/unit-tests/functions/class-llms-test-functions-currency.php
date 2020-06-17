@@ -32,59 +32,6 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 	}
 
 	/**
-	 * test the get_lifterlms_countries() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
-	 */
-	public function test_get_lifterlms_countries() {
-
-		// test unique and lifterlms_countries filters are applied
-		add_filter( 'lifterlms_countries', function() {
-			return array(
-				'AF' => 'Afghanistan',
-				'AL' => 'Albania',
-				'DZ' => 'Algeria',
-				'AS' => 'American Samoa',
-				'AD' => 'Andorra',
-				'AN' => 'Andorra',
-			);
-		} );
-
-		$test = array(
-			'AF' => 'Afghanistan',
-			'AL' => 'Albania',
-			'DZ' => 'Algeria',
-			'AS' => 'American Samoa',
-			'AD' => 'Andorra',
-		);
-
-		$this->assertEquals( $test, get_lifterlms_countries() );
-	}
-
-	/**
-	 * test the get_lifterlms_country() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.24.1
-	 */
-	public function test_get_lifterlms_country() {
-
-		// test default
-		$this->assertEquals( 'US', get_lifterlms_country() );
-
-		// test lifterlms_country option
-		update_option( 'lifterlms_country', 'GB' );
-		$this->assertEquals( 'GB', get_lifterlms_country() );
-
-		// test that the lifterlms_country filter is applied
-		add_filter( 'lifterlms_country', function() {
-			return 'FR';
-		} );
-		$this->assertEquals( 'FR', get_lifterlms_country() );
-	}
-
-	/**
 	 * test the get_lifterlms_currency() function
 	 * @return   void
 	 * @since    3.24.1
@@ -295,21 +242,6 @@ class LLMS_Test_Functions_Currency extends LLMS_UnitTestCase {
 			return ':';
 		} );
 		$this->assertEquals( ':', get_lifterlms_thousand_separator() );
-	}
-
-	/**
-	 * test the llms_get_country_name() function
-	 * @return   void
-	 * @since    3.24.1
-	 * @version  3.28.2
-	 */
-	public function test_llms_get_country_name() {
-
-		// test existing country definition
-		$this->assertEquals( 'United States (US)', llms_get_country_name( 'US' ) );
-
-		// test non-existing country definition
-		$this->assertEquals( 'XX', llms_get_country_name( 'XX' ) );
 	}
 
 	/**
