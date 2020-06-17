@@ -10,6 +10,7 @@ require( './tasks/js-additional' );
 require( './tasks/js-builder' );
 require( './tasks/readme' );
 require( './tasks/versioner-readme' );
+require( './tasks/gen-loc-files' );
 
 // all tasks from lib-tasks
 require( 'lifterlms-lib-tasks' )( gulp );

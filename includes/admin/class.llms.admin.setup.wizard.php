@@ -44,12 +44,24 @@ class LLMS_Admin_Setup_Wizard {
 
 		if ( apply_filters( 'llms_enable_setup_wizard', true ) ) {
 
+			require_once LLMS_PLUGIN_DIR . 'includes/admin/class-llms-admin-setup-wizard-steps.php';
+
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 			add_action( 'admin_menu', array( $this, 'admin_menu' ) );
 			add_action( 'admin_init', array( $this, 'save' ) );
-			add_action( 'admin_print_footer_scripts', array( $this, 'scripts' ) );
+
+			add_action( 'wp_ajax_llms_setup', array( $this, 'handle_ajax' ) );
+			// add_action( 'admin_print_footer_scripts', array( $this, 'scripts' ) );
 
 		}
+
+	}
+
+	public function handle_ajax() {
+
+		check_ajax_referrer();
+
+
 
 	}
 
@@ -62,7 +74,7 @@ class LLMS_Admin_Setup_Wizard {
 	 */
 	public function admin_menu() {
 
-		add_dashboard_page( '', '', apply_filters( 'llms_setup_wizard_access', 'install_plugins' ), 'llms-setup', array( $this, 'output' ) );
+		add_dashboard_page( __( 'LifterLMS Setup', 'lifterlms' ), '', apply_filters( 'llms_setup_wizard_access', 'install_plugins' ), 'llms-setup', array( $this, 'output' ) );
 
 		update_option( 'lifterlms_first_time_setup', 'yes' );
 
@@ -71,15 +83,26 @@ class LLMS_Admin_Setup_Wizard {
 	/**
 	 * Enqueue static assets for the setup wizard screens
 	 *
-	 * @return   void
-	 * @since    3.0.0
-	 * @version  3.17.8
+	 * @since 3.0.0
+	 * @since 3.17.8 Added RTL styles
+	 * @since [version] Added Javascript
+	 *
+	 * @return void
 	 */
 	public function enqueue() {
-		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_ASSETS_SUFFIX . '.css', array(), LLMS()->version, 'all' );
+
+		wp_register_style( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/css/admin-setup' . LLMS_ASSETS_SUFFIX . '.css', array(), llms()->version, 'all' );
 		wp_enqueue_style( 'llms-admin-setup' );
 		wp_style_add_data( 'llms-admin-setup', 'rtl', 'replace' );
 		wp_style_add_data( 'llms-admin-setup', 'suffix', LLMS_ASSETS_SUFFIX );
+
+		wp_register_script( 'llms-admin-setup', LLMS_PLUGIN_URL . '/assets/js/llms-admin-setup' . LLMS_ASSETS_SUFFIX . '.js', array( 'jquery' ), llms()->version, true );
+		wp_enqueue_script( 'llms-admin-setup' );
+
+	}
+
+	public static function get_data( $defaults = array() ) {
+		return wp_parse_args( get_option( 'llms_setup_data', array() ), $defaults );
 	}
 
 	/**
@@ -103,7 +126,7 @@ class LLMS_Admin_Setup_Wizard {
 	 * @return   string
 	 */
 	public function get_current_step() {
-		return empty( $_GET['step'] ) ? 'intro' : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING );
+		return empty( $_GET['step'] ) ? array_keys( LLMS_Admin_Setup_Wizard_Steps::get() )[0] : llms_filter_input( INPUT_GET, 'step', FILTER_SANITIZE_STRING );
 	}
 
 	/**
@@ -118,7 +141,7 @@ class LLMS_Admin_Setup_Wizard {
 		if ( ! $step ) {
 			$step = $this->get_current_step();
 		}
-		$steps = $this->get_steps();
+		$steps = LLMS_Admin_Setup_Wizard_Steps::get();
 		$keys  = array_keys( $steps );
 		$i     = array_search( $step, $keys );
 		if ( false === $i ) {
@@ -142,7 +165,7 @@ class LLMS_Admin_Setup_Wizard {
 		if ( ! $step ) {
 			$step = $this->get_current_step();
 		}
-		$steps = $this->get_steps();
+		$steps = LLMS_Admin_Setup_Wizard_Steps::get();
 		$keys  = array_keys( $steps );
 		$i     = array_search( $step, $keys );
 		if ( false === $i ) {
@@ -207,27 +230,6 @@ class LLMS_Admin_Setup_Wizard {
 	}
 
 	/**
-	 * Get an array of step slugs => titles
-	 *
-	 * @return   array
-	 * @since    3.0.0
-	 * @version  3.0.0
-	 */
-	public function get_steps() {
-
-		return array(
-
-			'intro'    => __( 'Welcome!', 'lifterlms' ),
-			'pages'    => __( 'Page Setup', 'lifterlms' ),
-			'payments' => __( 'Payments', 'lifterlms' ),
-			'coupon'   => __( 'Coupon', 'lifterlms' ),
-			'finish'   => __( 'Finish!', 'lifterlms' ),
-
-		);
-
-	}
-
-	/**
 	 * Output the HTML content of the setup page
 	 *
 	 * @return   void
@@ -237,68 +239,39 @@ class LLMS_Admin_Setup_Wizard {
 	public function output() {
 
 		$current = $this->get_current_step();
-		$steps   = $this->get_steps();
+		$steps   = LLMS_Admin_Setup_Wizard_Steps::get();
 		?>
 
 		<div id="llms-setup-wizard">
 
 			<div class="llms-setup-wrapper">
 
-				<h1 id="llms-logo">
-					<a href="https://lifterlms.com/" target="_blank">
-						<img src="<?php echo LLMS()->plugin_url(); ?>/assets/images/lifterlms-logo.png" alt="LifterLMS">
-					</a>
-				</h1>
-
 				<ul class="llms-setup-progress">
 					<?php foreach ( $steps as $slug => $name ) : ?>
-						<li<?php echo ( $slug === $current ) ? ' class="current"' : ''; ?>><?php echo $name; ?></li>
+						<li<?php echo ( $slug === $current ) ? ' class="current"' : ''; ?>>
+							<a href="<?php echo $this->get_step_url( $slug ); ?>"><?php echo $name; ?></a>
+						</li>
 					<?php endforeach; ?>
 				</ul>
 
 				<div class="llms-setup-content">
 					<form action="" method="POST">
 
-						<?php echo $this->output_step_html( $current ); ?>
+						<?php echo LLMS_Admin_Setup_Wizard_Steps::output( $current ); ?>
 
 						<?php if ( is_wp_error( $this->error ) ) : ?>
 							<p class="error"><?php echo $this->error->get_error_message(); ?></p>
 						<?php endif; ?>
 
 						<p class="llms-setup-actions">
-							<?php if ( 'intro' === $current ) : ?>
-								<a href="<?php echo esc_url( admin_url() ); ?>" class="llms-button-secondary large"><?php _e( 'Skip setup', 'lifterlms' ); ?></a>
-								<a href="<?php echo esc_url( admin_url() . '?page=llms-setup&step=' . $this->get_next_step() ); ?>" class="llms-button-primary large"><?php _e( 'Get Started Now', 'lifterlms' ); ?></a>
-							<?php else : ?>
-								<?php
-								$prev = $this->get_prev_step();
-								if ( $prev ) :
-									?>
-									<a class="back-link" href="<?php echo $this->get_step_url( $prev ); ?>"><?php _e( 'Go back', 'lifterlms' ); ?></a>
-								<?php endif; ?>
-								<?php
-								$next = $this->get_next_step();
-								if ( $next ) :
-									?>
-									<a href="<?php echo $this->get_step_url( $next ); ?>" class="llms-button-secondary large"><?php echo $this->get_skip_text( $current ); ?></a>
-								<?php endif; ?>
-
-								<?php if ( 'finish' === $current ) : ?>
-									<a href="<?php echo esc_url( admin_url( 'post-new.php?post_type=course' ) ); ?>" class="llms-button-secondary large"><?php _e( 'Start from Scratch', 'lifterlms' ); ?></a>
-								<?php endif; ?>
-
-								<button class="llms-button-primary large" type="submit"><?php echo $this->get_save_text( $current ); ?></button>
-								<input type="hidden" name="llms_setup_save" value="<?php echo $current; ?>">
-								<?php wp_nonce_field( 'llms_setup_save', 'llms_setup_nonce' ); ?>
-							<?php endif; ?>
+							<button class="llms-button-primary full" type="submit"><?php echo _e( 'Continue', 'lifterlms' ); ?></button>
+							<input type="hidden" name="llms_setup_save" value="<?php echo $current; ?>">
+							<?php wp_nonce_field( 'llms_setup_save', 'llms_setup_nonce' ); ?>
 						</p>
-
 					</form>
 				</div>
 
-				<?php if ( 'finish' === $current ) : ?>
-					<a class="dashboard-return" href="<?php echo admin_url(); ?>"><?php _e( 'Return to the WordPress Dashboard', 'lifterlms' ); ?></a>
-				<?php endif; ?>
+				<a class="dashboard-return" href="<?php echo admin_url(); ?>"><?php _e( 'Return to the WordPress Dashboard', 'lifterlms' ); ?></a>
 
 			</div>
 
@@ -449,6 +422,24 @@ class LLMS_Admin_Setup_Wizard {
 			return;
 		}
 
+		$step = llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING );
+
+		$data = ! empty( $_POST['llms_setup_data'] ) ? wp_unslash( $_POST['llms_setup_data'] ) : array();
+
+		$data = array_map( 'sanitize_text_field', $data );
+
+		$data = wp_parse_args( $data, get_option( 'llms_setup_data' ) );
+
+		update_option( 'llms_setup_data', $data );
+
+		if ( ! empty( $data['location'] ) && in_array( $data['location'], get_lifterlms_countries(), true ) ) {
+			update_option( 'lifterlms_country', $data['location'] );
+		}
+
+		llms_redirect_and_exit( $this->get_step_url( $this->get_next_step() ) );
+
+		return;
+
 		switch ( llms_filter_input( INPUT_POST, 'llms_setup_save', FILTER_SANITIZE_STRING ) ) {
 
 			case 'coupon':
@@ -554,6 +545,19 @@ class LLMS_Admin_Setup_Wizard {
 			$this->generated_course_id = $course->get( 'id' );
 		}
 
+	}
+
+	/**
+	 * Get an array of step slugs => titles
+	 *
+	 * @since 3.0.0
+	 * @deprecated [version] Use `LLMS_Admin_Setup_Wizard_Steps::get()` instead.
+	 *
+	 * @return array
+	 */
+	public function get_steps() {
+		llms_deprecated_function( 'LLMS_Admin_Setup_Wizard::get_steps()', '[version]', 'LLMS_Admin_Setup_Wizard_Steps::get()' );
+		return LLMS_Admin_Setup_Wizard_Steps::get();
 	}
 
 }
